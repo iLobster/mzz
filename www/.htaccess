@@ -1,0 +1,7 @@
+RewriteEngine on
+Options +FollowSymlinks -Indexes -Includes -MultiViews
+# +MultiViews
+RewriteBase /
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule (.*)? index.php?path=/$1&%{QUERY_STRING} [L]

@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Docs For Class HttpFileRequest</title>
+	<link rel="stylesheet" type="text/css" href="../media/style.css">
+	<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+	<td class="header-top-left"><img src="../media/logo.png" border="0" alt="phpDocumentor " /></td>
+    <td class="header-top-right">default<br /><div class="header-top-right-subpackage"></div></td>
+  </tr>
+  <tr><td colspan="2" class="header-line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td colspan="2" class="header-menu">
+  		  [ <a href="../classtrees_default.html" class="menu">class tree: default</a> ]
+		  [ <a href="../elementindex_default.html" class="menu">index: default</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td colspan="2" class="header-line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="195" class="menu">
+		<div class="package-title">default</div>
+      <b>Packages:</b><br />
+  <div class="package">
+              <a href="../li_default.html">default</a><br />
+      	</div>
+      <br />
+                        <b>Files:</b><br />
+        <div class="package">
+				<span style="padding-left: 1em;"><a href="../default/_filerequest_php.html">filerequest.php</a></span><br />
+	  </div>
+            <br />
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../default/FileException.html">FileException</a>    	 <br />
+	    		<a href="../default/HttpFileRequest.html">HttpFileRequest</a>    	 <br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: HttpFileRequest</h1>
+Source Location: /filerequest.php<br /><br />
+
+<h2 class="class-name">Class HttpFileRequest</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Class Overview</div>
+	<div class="nav-bar">
+					<span class="disabled">Class Overview</span> |
+																	<a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
+											</div>
+	<div class="info-box-body">
+		<table width="100%" border="0">
+		<tr><td valign="top" width="60%" class="class-overview">
+
+		<p align="center" class="short-description"><strong>HttpFileRequest class for suitable access to uploaded files. Contains all information  about uploaded files
+</strong></p>
+
+		<p class="notes">
+			Located in <a class="field" href="_filerequest_php.html">/filerequest.php</a> [<span class="field">line 33</span>]
+		</p>
+
+		
+		<pre></pre>
+
+		
+				<strong>Author(s):</strong>
+		<ul>
+		  			 		  			 		  		</ul>
+		
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+<strong>Information Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+			<tr><td><strong>Version:</strong>&nbsp;&nbsp;</td><td>0.1</td></tr>
+	</table>
+		</td>
+
+		
+				<td valign="top" width="20%" class="class-overview">
+		<p align="center" class="short-description"><strong><a href="#sec_methods">Methods</a></strong></p>
+		<ul>
+		  		  <li><a href="../default/HttpFileRequest.html#methodgetFileError">getFileError</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodgetFileName">getFileName</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodgetFileNames">getFileNames</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodgetFileNumError">getFileNumError</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodgetFilePath">getFilePath</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodgetFileSize">getFileSize</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodgetFileType">getFileType</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodgetInstance">getInstance</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodhasError">hasError</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodhasErrors">hasErrors</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodhasFile">hasFile</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodhasFiles">hasFiles</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodmove">move</a></li>
+		  		  <li><a href="../default/HttpFileRequest.html#methodtotal">total</a></li>
+		  		</ul>
+		</td>
+		
+		</tr></table>
+		<div class="top">[ <a href="#top">Top</a> ]</div>
+	</div>
+</div>
+
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Class Overview</a> |
+									    					<span class="disabled">Method Summary</span> | <a href="#sec-methods">Methods Detail</a>
+		</div>
+		<div class="info-box-body">
+			<div class="method-summary">
+				<table border="0" cellspacing="0" cellpadding="0" class="method-summary">
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string|false</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#getFileError" title="details" class="method-name">getFileError</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return error text of uploaded file</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string|false</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#getFileName" title="details" class="method-name">getFileName</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return primary name of uploaded file</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">array|false</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#getFileNames" title="details" class="method-name">getFileNames</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return all indexes of files-array</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string|false</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#getFileNumError" title="details" class="method-name">getFileNumError</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return error number of uploaded file</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string|false</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#getFilePath" title="details" class="method-name">getFilePath</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return path of uploaded file</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string|false</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#getFileSize" title="details" class="method-name">getFileSize</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return size of uploaded file (bytes)</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string|false</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#getFileType" title="details" class="method-name">getFileType</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return type of uploaded file</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">object</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#getInstance" title="details" class="method-name">getInstance</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">The singleton method</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">bolean</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#hasError" title="details" class="method-name">hasError</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return true if uploaded file has error, else return false</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">bolean</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#hasErrors" title="details" class="method-name">hasErrors</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return true if some files has error, else return false</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">bolean</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#hasFile" title="details" class="method-name">hasFile</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return true if there is file with name $name, else return false</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">boolean</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#hasFiles" title="details" class="method-name">hasFiles</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Return true if there is files, else return false</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">bolean</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#move" title="details" class="method-name">move</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Move uploaded file to some path</td></tr>
+				</div>
+								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">integer</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#total" title="details" class="method-name">total</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Total uploaded files</td></tr>
+				</div>
+								</table>
+			</div>
+			<br /><div class="top">[ <a href="#top">Top</a> ]</div>
+		</div>
+	</div>
+
+
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Class Overview</a> |
+																			| <a href="#sec-method-summary">Method Summary</a> | <span class="disabled">Methods Detail</span>
+					</div>
+		<div class="info-box-body">
+			<a name='method_detail'></a>
+<a name="methodgetFileError" id="getFileError"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">getFileError</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 240]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string|false getFileError(
+string
+$name&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return error text of uploaded file
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$name:&nbsp;</span></td>
+				<td>
+							</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodgetFileName" id="getFileName"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">getFileName</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 127]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string|false getFileName(
+string
+$name&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return primary name of uploaded file
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$name:&nbsp;</span></td>
+				<td>
+							</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodgetFileNames" id="getFileNames"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">getFileNames</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 111]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>array|false getFileNames(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return all indexes of files-array
+</strong></p>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodgetFileNumError" id="getFileNumError"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">getFileNumError</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 191]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string|false getFileNumError(
+string
+$name&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return error number of uploaded file
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$name:&nbsp;</span></td>
+				<td>
+							</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodgetFilePath" id="getFilePath"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">getFilePath</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 159]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string|false getFilePath(
+string
+$name&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return path of uploaded file
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$name:&nbsp;</span></td>
+				<td>
+							</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodgetFileSize" id="getFileSize"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">getFileSize</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 175]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string|false getFileSize(
+string
+$name&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return size of uploaded file (bytes)
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$name:&nbsp;</span></td>
+				<td>
+							</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodgetFileType" id="getFileType"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">getFileType</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 143]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string|false getFileType(
+string
+$name&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return type of uploaded file
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$name:&nbsp;</span></td>
+				<td>
+							</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodgetInstance" id="getInstance"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">getInstance</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 56]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>object getInstance(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>The singleton method
+</strong></p>
+
+	<br />
+	
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodhasError" id="hasError"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">hasError</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 207]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>bolean hasError(
+string
+$name&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return true if uploaded file has error, else return false
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$name:&nbsp;</span></td>
+				<td>
+							</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodhasErrors" id="hasErrors"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">hasErrors</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 224]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>bolean hasErrors(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return true if some files has error, else return false
+</strong></p>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodhasFile" id="hasFile"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">hasFile</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 101]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>bolean hasFile(
+string
+$name&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return true if there is file with name $name, else return false
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$name:&nbsp;</span></td>
+				<td>
+							</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodhasFiles" id="hasFiles"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">hasFiles</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 90]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>boolean hasFiles(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Return true if there is files, else return false
+</strong></p>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodmove" id="move"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">move</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 273]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>bolean move(
+string
+$name, string
+$file, [integer
+$fileMode = 0644], [bolean
+$newDir = true], [integer
+$dirMode = 0777]&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Move uploaded file to some path
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$name:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> name of uploaded file</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$file:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> path to save uploaded file</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">integer</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$fileMode:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> permisson of the saved file</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">bolean</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$newDir:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> true if is required create new directory for file</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">integer</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$dirMode:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> permisson of new directory</span>			</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodtotal" id="total"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">total</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 80]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>integer total(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Total uploaded files
+</strong></p>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+		</div>
+	</div>
+
+
+        <div class="credit">
+		    <hr class="separator" />
+		    Documentation generated on Thu,  6 Oct 2005 21:16:16 +0400 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
