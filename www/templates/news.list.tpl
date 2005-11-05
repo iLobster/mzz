@@ -1,1 +1,2 @@
-{* main='main.tpl' placeholder=title *}7ш
+{* main='main.tpl' placeholder=title *}
+аб

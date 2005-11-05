@@ -15,7 +15,7 @@ class mzzSmarty extends Smarty
         if(preg_match($regexp, $template, $params)) {
             $this->assign($params[5],$result);
             $result = self::fetch($params[2]);
-            print_r($params);
+            //print_r($params);
         }
         ///print_r($params);echo $template;
         return $result;
@@ -26,8 +26,8 @@ class mzzSmarty extends Smarty
         if(!is_object(self::$smarty)) {
             $classname = __CLASS__;
             $smarty = new $classname;
-            $smarty->template_dir      = "c:/www/mzz/www/templates";
-            $smarty->compile_dir       =  "c:/www/mzz/www/templates";
+            $smarty->template_dir      = APPLICATION . '/templates';
+            $smarty->compile_dir       =  APPLICATION . '/templates';
             self::$smarty = $smarty;
         }
         return self::$smarty;
