@@ -58,8 +58,8 @@ class mzzSmarty extends Smarty
     /**
      * Singleton
      *
-     * @return object
      * @static
+     * @return object
      */
     public static function getInstance() {
         if(!is_object(self::$smarty)) {
@@ -76,8 +76,8 @@ class mzzSmarty extends Smarty
      * –азбор первой строки вложенных шаблонов
      *
      * @access private
-     * @param string $str
      * @static
+     * @param string $str
      * @return array
      */
     private static function parse($str) {
