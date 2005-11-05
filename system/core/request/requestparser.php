@@ -28,12 +28,12 @@ class requestParser
         // Отделяем названия модуля
         self::setData('section', array_shift($params[0]));
         self::setData('params', $params[0]);
-/*
+        /*
         // Дополнительные GET параметры
         $get_position = strpos( $path, '/?' );
         if($get_position !== false) {
-            $get = substr($path, $get_position+1);
-            self::setData('get', $get);
+        $get = substr($path, $get_position+1);
+        self::setData('get', $get);
         }
         */
 

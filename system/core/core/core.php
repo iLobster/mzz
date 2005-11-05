@@ -3,6 +3,7 @@
 
 fileResolver::includer('config', 'configFactory');
 fileResolver::includer('request', 'requestParser');
+fileResolver::includer('frontcontroller', 'frontcontroller');
 fileResolver::includer('errors', 'error');
 
 class core
@@ -15,17 +16,13 @@ class core
 
 		$application = $requestParser->get('section');
 		$action = $requestParser->get('action');
+		
+		$action = 'list';
 
-		// переложить выбор приложения на вспомогательный класс
-		// сделал как быстрее - тут важна не реализация а принцип
-		/*
-		$path = $_GET['path'];
-		preg_match('/^([^\/]*)(\/)?/',$path,$matches);
-		$application = $matches[1];
-		$path = preg_replace('/^([^\/]*)(\/)?/','',$path);
-		preg_match('/\/?([^\/]+)$/U',$path,$matches);
-		$action = $matches[1];*/
-
+        $frontcontroller = new frontController($application, $action);
+        $template = $frontcontroller->getTemplate();
+        echo $template.'<br>';
+		
 		fileResolver::includer($application, $application . 'Factory');
 		$factoryname = $application . 'Factory';
 		$factory = new $factoryname();
