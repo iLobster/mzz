@@ -23,7 +23,7 @@ class mzzSmarty extends Smarty
 {
     /**
      * @access private
-     * @var object
+     * @staticvar object
      */
     private static $smarty;
 
@@ -59,8 +59,9 @@ class mzzSmarty extends Smarty
      * Singleton
      *
      * @return object
+     * @static
      */
-    static function getInstance() {
+    public static function getInstance() {
         if(!is_object(self::$smarty)) {
             $classname = __CLASS__;
             $smarty = new $classname;
@@ -76,9 +77,10 @@ class mzzSmarty extends Smarty
      *
      * @access private
      * @param string $str
+     * @static
      * @return array
      */
-    private function parse($str) {
+    private static function parse($str) {
         if (preg_match("/\{\*\s*(.*?)\s*\*\}/", $str, $clean_str)) {
             $clean_str = preg_split("/\s+/", $clean_str[1]);
             $params = array();
