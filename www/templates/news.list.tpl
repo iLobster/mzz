@@ -1,2 +1,2 @@
-{* main='main.tpl' placeholder=title *}
+{* main="news.tpl" placeholder="title" *}
 аб
