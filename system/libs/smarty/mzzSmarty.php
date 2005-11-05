@@ -24,7 +24,7 @@ class mzzSmarty extends Smarty
             $classname = __CLASS__;
             $smarty = new $classname;
             $smarty->template_dir      = APPLICATION . '/templates';
-            $smarty->compile_dir       =  APPLICATION . '/templates';
+            $smarty->compile_dir       = APPLICATION . '/templates';
             self::$smarty = $smarty;
         }
         return self::$smarty;
