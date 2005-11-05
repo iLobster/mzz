@@ -36,7 +36,7 @@ class mzzSmarty extends Smarty
      * @param string $compile_id
      * @param boolean $display
      */
-    function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
+    public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         // {{{ TODO: Изменить использование стандартных функций на ООП-методы
         $file = fopen($this->template_dir.'/'.$resource_name, "rb");
