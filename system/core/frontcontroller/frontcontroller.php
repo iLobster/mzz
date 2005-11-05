@@ -6,25 +6,37 @@
 // MZZ Content Management System (c) 2005
 // Website : http://www.mzz.ru
 //
-// This program is free software and released under 
+// This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
-// 
+//
 
 /* фронтконтроллер проекта */
 
 class frontController
 {
-    // переменная для хранения имени модуля
+    /**#@+
+    * @access private
+    * @var string
+    */
+
+    /**
+    * переменная для хранения имени модуля
+    */
     private $module = null;
 
-    // переменная для хранения имени экшна
+    /**
+    * переменная для хранения имени экшна
+    */
     private $action = null;
+    /**#@-*/
 
 
     /**
-     * Private constructor
+     * конструктор класса
      *
      * @access public
+     * @param string $module имя модуля
+     * @param string $action имя экшна
      */
     public function __construct($module, $action)
     {
@@ -33,9 +45,10 @@ class frontController
     }
 
     /**
-     * Установка модуля
+     * установка модуля
      *
      * @access private
+     * @param string $module имя модуля
      */
     private function setModule($module)
     {
@@ -43,9 +56,10 @@ class frontController
     }
 
     /**
-     * Получение модуля
+     * получение модуля
      *
      * @access private
+     * @return string имя модуля
      */
     private function getModule()
     {
@@ -53,9 +67,10 @@ class frontController
     }
 
     /**
-     * Установка экшна
+     * установка экшна
      *
      * @access private
+     * @param $action имя экшна
      */
     private function setAction($action)
     {
@@ -63,9 +78,10 @@ class frontController
     }
 
     /**
-     * Получение экшна
+     * получение экшна
      *
      * @access private
+     * @return string имя экшна
      */
     private function getAction()
     {
@@ -73,9 +89,10 @@ class frontController
     }
 
     /**
-     * Получение имени шаблона
+     * получение имени шаблона
      *
      * @access public
+     * @return string имя шаблона в соответствии с выбранными модулем и экшном
      */
     public function getTemplate()
     {
@@ -83,9 +100,10 @@ class frontController
     }
 
     /**
-     * Поиск имени шаблона по имени модуля и экшну
+     * поиск имени шаблона по имени модуля и экшну
      *
      * @access private
+     * @return string имя шаблона в соответствии с выбранными модулем и экшном
      */
     private function search()
     {
