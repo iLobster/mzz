@@ -5,7 +5,7 @@ fileResolver::includer('config', 'configFactory');
 fileResolver::includer('request', 'requestParser');
 fileResolver::includer('frontcontroller', 'frontcontroller');
 fileResolver::includer('errors', 'error');
-fileResolver::includer('../libs/smarty', 'mzzSmarty');
+fileResolver::includer('template', 'mzzSmarty');
 class core
 {
 	// запуск приложения
