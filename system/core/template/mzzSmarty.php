@@ -39,7 +39,7 @@ class mzzSmarty extends Smarty
     function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         // {{{ TODO: Изменить использование стандартных функций на ООП-методы
-        $file = fopen($this->template_dir.'/'.$resource_name,"rb");
+        $file = fopen($this->template_dir.'/'.$resource_name, "rb");
         $template = fread($file, 100);
         fclose($file);
         // }}}
@@ -47,9 +47,9 @@ class mzzSmarty extends Smarty
         $result = parent::fetch($resource_name);
 
         // Если шаблон вложен, обработать получателя
-        if(preg_match("/\{\*\s*main=/i", $template)) {
+        if (preg_match("/\{\*\s*main=/i", $template)) {
             $params = self::parse($template);
-            $this->assign($params['placeholder'],$result);
+            $this->assign($params['placeholder'], $result);
             $result = self::fetch($params['main']);
         }
         return $result;
@@ -79,12 +79,12 @@ class mzzSmarty extends Smarty
      * @return array
      */
     private function parse($str) {
-        if(preg_match("/\{\*\s*(.*?)\s*\*\}/",$str, $clean_str)) {
-            $clean_str = preg_split("/\s+/",$clean_str[1]);
+        if (preg_match("/\{\*\s*(.*?)\s*\*\}/", $str, $clean_str)) {
+            $clean_str = preg_split("/\s+/", $clean_str[1]);
             $params = array();
             foreach ($clean_str as $str) {
-                $temp_str = explode("=",$str);
-                $params[$temp_str[0]] = str_replace(array("'","\""),"",$temp_str[1]);
+                $temp_str = explode("=", $str);
+                $params[$temp_str[0]] = str_replace(array("'", "\""), "", $temp_str[1]);
             }
         }
         return $params;
