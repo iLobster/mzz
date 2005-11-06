@@ -6,6 +6,7 @@ fileResolver::includer('request', 'requestParser');
 fileResolver::includer('frontcontroller', 'frontcontroller');
 fileResolver::includer('errors', 'error');
 fileResolver::includer('template', 'mzzSmarty');
+fileResolver::includer('core', 'File');
 class core
 {
 	// запуск приложения
@@ -19,12 +20,12 @@ class core
 		
 		$action = 'list';
 
-        $frontcontroller = new frontController($application, $action);
-        $template = $frontcontroller->getTemplate();
-        echo $template.'<br>';
+        	$frontcontroller = new frontController($application, $action);
+        	$template = $frontcontroller->getTemplate();
+        	echo $template.'<br>';
 		$smarty = mzzSmarty::getInstance();
 
-echo $smarty->fetch($template);
+		echo $smarty->fetch($template);
 
 		fileResolver::includer($application, $application . 'Factory');
 		$factoryname = $application . 'Factory';
