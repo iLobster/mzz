@@ -3,6 +3,10 @@ CHANGELOG
 
  Version 0.0.1-dev:
 ============================================
+- Добавлен HttpRequest [zerkms]
+- Добавлен HttpFileRequest [ml]
+- Добавлен HttpFileRequest::move() [ml]
+- Добавлен frontcontroller [zerkms]
 - Интеграция Smarty 
 - Ядро из system/core/core перенесено в system/core. Остальное из system/core перенесено  в system/.
 ============================================
