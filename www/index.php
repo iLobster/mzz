@@ -1,7 +1,7 @@
 <?php
 require_once './config.php';
 require_once SYSTEM . 'index.php';
-require_once SYSTEM . 'request/httprequest.php';
+//require_once SYSTEM . '/core/request/httprequest.php';
 
 
 /*
