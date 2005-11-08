@@ -15,6 +15,7 @@ class File
 {
     private $handle;
     private $file;
+    private $path;
     private $mode;
 
     private $errors = array(
@@ -26,16 +27,18 @@ class File
                             "unknown_mode" => "File: '%s' cann't be open (unknown mode '%s').",
                             "unknown_error" => "File: '%s' cann't be open in '%s' mode (unknown error).");
 
-	public function __construct($file, $mode = 'r', $path = "", $use_include_path = false) {
+	public function __construct($file, $mode = 'r', $use_include_path = false) {
 
 	    // Allowed modes to use
 	    $modes = array('r', 'r+', 'w', 'w+', 'a', 'a+', 'x', 'x+');
-	    // Add path to file
-	    $this->file = $path.$file;
-	    $path = (empty($path))?'./':$path;
 
+	    // Add path to file
+	    $this->file = $file;
+	    $this->path = dirname($this->file);
         $this->mode = $mode;
-        $mode = str_replace(array("b", "t"), "", $mode);
+
+        // Опускаем опциональные режимы
+        $mode = str_replace(array("b", "t"), "", $this->mode);
 
 	    if (in_array($mode, $modes) == false) {
 	    	$error = sprintf($this->errors['unknown_mode'], $this->file, $mode);
@@ -69,45 +72,41 @@ class File
 	}
 
 	public function read($length) {
-	    echo fread($this->handle, $length);
+	    return fread($this->handle, $length);
 	}
+	public function readc() {
+	    return fgetc($this->handle);
+	}
+
 	public function write($str) {
-	    if(!@fwrite($this->handle, $str)) {
-	        return false;
-	    }
-	    return true;
+	    return fwrite($this->handle, $str);
 	}
 
-	public function seek($offset, $whence = "SEEK_SET") {
-	    if(!@fseek($this->handle, $offset, $whence)) {
-	        return false;
-	    }
-	    return true;
+	public function seek($offset, $whence = SEEK_SET) {
+	    return (bool)fseek($this->handle, $offset, $whence);
 	}
+
+	public function ftell() {
+	    return ftell($this->handle);
+	}
+
 	public function content() {
-	    return fread($this->handle, $this->size());
-	}
-	public function isReadable() {
-	    echo is_readable($this->file);
-	    return is_readable($this->file);
+	    return fread($this->handle, filesize($this->file));
 	}
 
-	public function isWritable() {
-
-	    return is_writable($this->file);
-	}
-
-	public function size() {
-	    return filesize($this->file);
-	}
-	public function isFile() {
-	    return is_file($this->file);
-	}
 	public function feof() {
 	    return feof($this->handle);
 	}
+	public function rewind() {
+	    return rewind($this->handle);
+	}
+
+	public function lock($operation) {
+	    return flock($this->handle, $operation);
+	}
+
 	public function __destruct() {
-	    @fclose($this->handle);
+	    fclose($this->handle);
 	}
 
 }
