@@ -11,7 +11,7 @@
 //
 
 // Модификация Smarty для работы с шаблонами
-fileResolver::includer('../libs/smarty', 'Smarty.class');
+fileResolver::includer('./libs/smarty', 'Smarty.class');
 
 /**
  * mzzSmarty

@@ -1,6 +1,6 @@
 <?php
 
-require_once SYSTEM . 'core/resolver/fileResolver.php';
+require_once SYSTEM . 'resolver/fileResolver.php';
 
 class fileResolverFactory
 {

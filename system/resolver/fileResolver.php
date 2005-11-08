@@ -12,7 +12,7 @@ class fileResolver
 			$ext = '.php';
 		}
 		// тут нужно пофильтровать имена на запрещённые символы
-		$postname = 'core/' . $application . '/' . $file . $ext;
+		$postname = '' . $application . '/' . $file . $ext;
 		if ( is_file( SYSTEM . $postname ) ) {
 			return SYSTEM . $postname;
 		} elseif ( is_file( APPLICATION . $postname ) ) {
