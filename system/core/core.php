@@ -22,16 +22,17 @@ class core
 
         	$frontcontroller = new frontController($application, $action);
         	$template = $frontcontroller->getTemplate();
-        	echo $template.'<br>';
+        	//echo $template.'<br>';
 		$smarty = mzzSmarty::getInstance();
 
 		echo $smarty->fetch($template);
 
+		/*
 		fileResolver::includer($application, $application . 'Factory');
 		$factoryname = $application . 'Factory';
 		$factory = new $factoryname();
 		$app = $factory->get($action);
-		$app->run();
+		$app->run(); */
 	}
 }
 
