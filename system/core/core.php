@@ -10,31 +10,22 @@ fileResolver::includer('core', 'File');
 fileResolver::includer('request', 'httprequest');
 class core
 {
-	// запуск приложения
-	function run()
-	{
-		//$config = configFactory::get();
-		$requestParser = requestParser::getInstance();
+    // запуск приложения
+    function run()
+    {
+        $requestParser = requestParser::getInstance();
 
-		$application = $requestParser->get('section');
-		$action = $requestParser->get('action');
-		
-		$action = 'list';
+        $application = $requestParser->get('section');
+        $action = $requestParser->get('action');
 
-        	$frontcontroller = new frontController($application, $action);
-        	$template = $frontcontroller->getTemplate();
-        	//echo $template.'<br>';
-		$smarty = mzzSmarty::getInstance();
+        //$action = 'list';
 
-		echo $smarty->fetch($template);
+        $frontcontroller = new frontController($application, $action);
+        $template = $frontcontroller->getTemplate();
 
-		/*
-		fileResolver::includer($application, $application . 'Factory');
-		$factoryname = $application . 'Factory';
-		$factory = new $factoryname();
-		$app = $factory->get($action);
-		$app->run(); */
-	}
+        $smarty = mzzSmarty::getInstance();
+        echo $smarty->fetch($template);
+    }
 }
 
 ?>
