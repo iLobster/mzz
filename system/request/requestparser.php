@@ -24,10 +24,14 @@ class requestParser
         preg_match_all("#\/?([-_a-zA-Z0-9]+)\/?#", $path, $params);
 
         // ־עהוכÿול
-        $action = array(array_pop($params[1]));
         self::setData('section', array_shift($params[1]));
+        $action = array_pop($params[1]);
         self::setData('action', $action);
-        self::setData('params', array_merge($params[1], $action));
+        if(!empty($action)) {
+            $params[1] = array_merge($params[1], array($action));
+        }
+        self::setData('params', $params[1]);
+        print_r($this->data);
 
     }
 
@@ -47,9 +51,4 @@ class requestParser
     }
 }
 
-/***********************************
-// for debuging:
-$b = requestParser::getInstance();
-echo $b->debug();
-***********************************/
 ?>
