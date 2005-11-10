@@ -34,20 +34,24 @@ class HttpRequest
     public function get($name, $scope = SC_REQUEST)
     {
         $result = null;
-
-        if ($scope & SC_GET) {
+        $get = self::getGet($name);
+        $post = self::getPost($name);
+        $cookie = self::getCookie($name);
+        $server = self::getServer($name);
+        
+        if ($scope & SC_GET && isset($get)) {
             $result = self::getGet($name);
         }
-
-        if ($scope & SC_POST) {
+        
+        if ($scope & SC_POST && isset($post)) {
             $result = self::getPost($name);
         }
-
-        if ($scope & SC_COOKIE) {
+        
+        if ($scope & SC_COOKIE && isset($cookie)) {
             $result = self::getCookie($name);
         }
 
-        if ($scope & SC_SERVER) {
+        if ($scope & SC_SERVER && isset($server)) {
             $result = self::getServer($name);
         }
 
