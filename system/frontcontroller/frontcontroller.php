@@ -10,7 +10,12 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-/* фронтконтроллер проекта */
+/**
+ * frontController: фронтконтроллер проекта
+ * 
+ * @package system
+ * @version 0.1
+ */
 
 class frontController
 {
@@ -20,9 +25,9 @@ class frontController
     */
 
     /**
-    * переменная для хранения имени модуля
+    * переменная для хранения имени секции
     */
-    private $module = null;
+    private $section = null;
 
     /**
     * переменная для хранения имени экшна
@@ -35,35 +40,35 @@ class frontController
      * конструктор класса
      *
      * @access public
-     * @param string $module имя модуля
+     * @param string $section имя секции
      * @param string $action имя экшна
      */
-    public function __construct($module, $action)
+    public function __construct($section, $action)
     {
-        $this->setModule($module);
+        $this->setSection($section);
         $this->setAction($action);
     }
 
     /**
-     * установка модуля
+     * установка секции
      *
      * @access private
-     * @param string $module имя модуля
+     * @param string $section имя секции
      */
-    private function setModule($module)
+    private function setSection($section)
     {
-        $this->module = $module;
+        $this->section = $section;
     }
 
     /**
-     * получение модуля
+     * получение секции
      *
      * @access private
-     * @return string имя модуля
+     * @return string имя секции
      */
-    private function getModule()
+    private function getSection()
     {
-        return $this->module;
+        return $this->section;
     }
 
     /**
@@ -92,7 +97,7 @@ class frontController
      * получение имени шаблона
      *
      * @access public
-     * @return string имя шаблона в соответствии с выбранными модулем и экшном
+     * @return string имя шаблона в соответствии с выбранными секцией и экшном
      */
     public function getTemplate()
     {
@@ -100,18 +105,18 @@ class frontController
     }
 
     /**
-     * поиск имени шаблона по имени модуля и экшну
+     * поиск имени шаблона по имени секции и экшну
      *
      * @access private
-     * @return string имя шаблона в соответствии с выбранными модулем и экшном
+     * @return string имя шаблона в соответствии с выбранными секцией и экшном
      */
     private function search()
     {
-        $module = $this->getModule();
+        $section = $this->getSection();
         $action = $this->getAction();
 
-        if (empty($module)) {
-            die('Модуль не выбран');
+        if (empty($section)) {
+            die('Секция не выбрана');
         }
 
         if (empty($action)) {
@@ -127,11 +132,11 @@ class frontController
         )
         );
 
-        if (!isset($arr[$module][$action])) {
-            die('У модуля ' . $module . ' нет экшна ' . $action);
+        if (!isset($arr[$section][$action])) {
+            die('У секции ' . $section . ' нет экшна ' . $action);
         }
 
-        return $arr[$module][$action];
+        return $arr[$section][$action];
     }
 }
 

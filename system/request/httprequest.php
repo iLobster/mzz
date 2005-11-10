@@ -1,10 +1,21 @@
 <?php
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2005
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
 /**
  * HttpRequest: класс для работы с суперглобальными массивами
  *
  * @example httprequest::get('var', SC_GET | SC_COOKIE)
  * @example httprequest::get('var2')
- * @version 0.2
+ * @package system
+ * @version 0.2.1
  */
 
 define('SC_GET', 1);
@@ -29,6 +40,8 @@ class HttpRequest
      * Метод получения переменной из суперглобального массива
      *
      * @access public
+     * @param string $name имя переменной
+     * @param boolean $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
     public function get($name, $scope = SC_REQUEST)
@@ -85,6 +98,7 @@ class HttpRequest
      * Метод получения переменной из суперглобального массива _GET
      *
      * @access private
+     * @param string $name имя переменной
      * @return string|null
      */
     private static function getGet($name)
@@ -96,6 +110,7 @@ class HttpRequest
      * Метод получения переменной из суперглобального массива _POST
      *
      * @access private
+     * @param string $name имя переменной
      * @return string|null
      */
     private static function getPost($name)
@@ -107,6 +122,7 @@ class HttpRequest
      * Метод получения переменной из суперглобального массива _COOKIE
      *
      * @access private
+     * @param string $name имя переменной
      * @return string|null
      */
     private static function getCookie($name)
@@ -119,12 +135,13 @@ class HttpRequest
      * Метод получения переменной из суперглобального массива _SERVER
      *
      * @access private
+     * @param string $name имя переменной
      * @return string|null
      */
     private static function getServer($name)
     {
         return ( isset($_SERVER[$name]) ) ? $_SERVER[$name] : null;
     }
-
 }
+
 ?>
