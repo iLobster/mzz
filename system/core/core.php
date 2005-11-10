@@ -7,6 +7,7 @@ fileResolver::includer('frontcontroller', 'frontcontroller');
 fileResolver::includer('errors', 'error');
 fileResolver::includer('template', 'mzzSmarty');
 fileResolver::includer('core', 'File');
+fileResolver::includer('request', 'httprequest');
 class core
 {
 	// запуск приложения
