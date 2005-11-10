@@ -72,9 +72,10 @@ class requestParser
     {
         $path = httprequest::get('path');
 
-        $path = preg_replace('/\/{2,}/','/',$path);
+        $path = preg_replace('/\/{2,}/', '/', $path);
+
         // Преобразовываем /path/to/document/ в path/to/document
-        $path = substr($path, 1, (strlen($path)-1)-(strrpos($path,'/') == strlen($path)-1));
+        $path = substr($path, 1, (strlen($path) - 1) - (strrpos($path, '/') == strlen($path) - 1));
 
         $params = explode('/', $path);
 
