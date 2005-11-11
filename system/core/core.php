@@ -18,7 +18,7 @@ class core
         $application = $requestParser->get('section');
         $action = $requestParser->get('action');
 
-        //$action = 'list';
+        $action = 'list';
 
         $frontcontroller = new frontController($application, $action);
         $template = $frontcontroller->getTemplate();

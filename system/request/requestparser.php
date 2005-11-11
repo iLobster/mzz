@@ -35,7 +35,7 @@ class requestParser
     private static $instance;
 
     /**
-     * Синглетон
+     * Синглтон
      *
      * @static
      * @access public

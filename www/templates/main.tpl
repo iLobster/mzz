@@ -1,1 +1,1 @@
-{$title2}
+{$title}

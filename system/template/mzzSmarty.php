@@ -67,6 +67,8 @@ class mzzSmarty extends Smarty
             $smarty = new $classname;
             $smarty->template_dir      = APPLICATION . '/templates';
             $smarty->compile_dir       = APPLICATION . '/templates';
+            $smarty->debugging = true;
+            $smarty->plugins_dir[] = SYSTEM . '/template/plugins';
             self::$smarty = $smarty;
         }
         return self::$smarty;

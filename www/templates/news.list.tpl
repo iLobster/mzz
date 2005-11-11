@@ -1,1 +1,2 @@
-{* main="news.tpl" placeholder="title" *}
+{* main="main.tpl" placeholder="title" *}
+{load module="news" action="list"}
