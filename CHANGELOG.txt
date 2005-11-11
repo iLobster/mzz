@@ -9,4 +9,8 @@ CHANGELOG
 - Добавлен frontcontroller [zerkms]
 - Интеграция Smarty 
 - Ядро из system/core/core перенесено в system/core. Остальное из system/core перенесено  в system/.
+- Написаны первые "Новости" в MVC
+- Внедрение mysqli для работы с БД MySQL
+- Новости работают с базой данных MySQL
+- Переписан File.php
 ============================================
