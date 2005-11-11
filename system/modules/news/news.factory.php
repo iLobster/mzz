@@ -30,7 +30,7 @@ class newsFactory
 	// конструктор для фабрики
 	function __construct($action)
 	{
-		$this->setDefaultAction('table');
+		$this->setDefaultAction('list');
 		$this->setAction($action);
 	}
 	
@@ -72,7 +72,7 @@ class newsFactory
 	// метод получения списка действий
 	private function getActions()
 	{
-	    // возиожно, даже почти наверняка список действий будет выглядеть немного
+	    // возможно, даже почти наверняка список действий будет выглядеть немного
 	    // по другому, изменим когда будет нужно и будет получаться из хранилища
 	    // какого нить - типа xml, который будет идти к каждому модулю
 		$actions = array(
