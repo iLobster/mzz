@@ -119,9 +119,10 @@ class frontController
             die('Секция не выбрана');
         }
 
+        /*
         if (empty($action)) {
             die('Экшн не выбран');
-        }
+        }*/
 
         // в будущем данный массив заменится каким-нибудь хранилищем
         // например БД
@@ -131,9 +132,12 @@ class frontController
         'view' => 'act.news.view.tpl'
         )
         );
+        
+        $default = $arr['news']['list'];
 
         if (!isset($arr[$section][$action])) {
-            die('У секции ' . $section . ' нет экшна ' . $action);
+            return $default;
+            //die('У секции ' . $section . ' нет экшна ' . $action);
         }
 
         return $arr[$section][$action];
