@@ -20,21 +20,22 @@ class newsListModel
 {
     public function __construct()
     {
-        
+
     }
-    
+
     public function getNewsList()
     {
-        return array(
-            array(
-                'title' => 'новость 1',
-                'text' => 'текст 1',
-                ),
-            array(
-                'title' => 'новость 2',
-                'text' => 'текст 2',
-                ),
-        );
+        $query = "SELECT * FROM `news`";
+        $db = DB::getInstance();
+
+        $news = array();
+        if ($result = $db->query($query)) {
+            while ($item = $result->fetch_assoc()) {
+                $news[] = $item;
+            }
+        }
+
+        return $news;
     }
 }
 

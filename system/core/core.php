@@ -8,6 +8,7 @@ fileResolver::includer('errors', 'error');
 fileResolver::includer('template', 'mzzSmarty');
 fileResolver::includer('core', 'File');
 fileResolver::includer('request', 'httprequest');
+fileResolver::includer('db', 'dbFactory');
 class core
 {
     // запуск приложения
