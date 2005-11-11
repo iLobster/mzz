@@ -127,8 +127,8 @@ class frontController
         // например БД
         $arr = array(
         'news' => array(
-        'list' => 'news.list.tpl',
-        'view' => 'news.view.tpl'
+        'list' => 'act.news.list.tpl',
+        'view' => 'act.news.view.tpl'
         )
         );
 

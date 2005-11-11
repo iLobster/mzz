@@ -31,7 +31,7 @@ class newsListView
     {
         $data = $this->model->getNewsList();
         $this->smarty->assign('news', $data);
-        return $this->smarty->fetch('simple_news.tpl');
+        return $this->smarty->fetch('news.list.tpl');
     }
     
     private function setModel($model)
