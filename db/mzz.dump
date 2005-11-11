@@ -1,0 +1,33 @@
+-- phpMyAdmin SQL Dump
+-- version 2.6.4-pl3
+-- http://www.phpmyadmin.net
+-- 
+-- Хост: localhost
+-- Время создания: Ноя 11 2005 г., 20:04
+-- Версия сервера: 5.0.15
+-- Версия PHP: 5.1.0RC5-dev
+-- 
+-- БД: `mzz`
+-- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Структура таблицы `news`
+-- 
+
+DROP TABLE IF EXISTS `news`;
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `text` text NOT NULL,
+  KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=5 ;
+
+-- 
+-- Дамп данных таблицы `news`
+-- 
+
+INSERT INTO `news` VALUES (1, 'новость 1', 'текст 1');
+INSERT INTO `news` VALUES (2, 'новость 2', 'текст 2');
+INSERT INTO `news` VALUES (4, 'новость 3', 'текст 3');
