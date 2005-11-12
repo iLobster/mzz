@@ -20,30 +20,31 @@
 class filterChain
 {
     private $filters = array();
-    private $counter = 0;
+    private $counter = -1;
     private $response;
 
-    function __construct($response)
+    public function __construct($response)
     {
         $this->response = $response;
     }
 
-    function registerFilter($filter)
+    public function registerFilter($filter)
     {
         $this->filters[] = $filter;
     }
 
-    function next()
+    public function next()
     {
+        $this->counter++;
+        
         if(isset($this->filters[$this->counter])) {
             $this->filters[$this->counter]->run($this, $this->response);
         }
-
-        $this->counter++;
     }
 
-    function process()
+    public function process()
     {
+        $this->counter = -1;
         $this->next();
     }
 }

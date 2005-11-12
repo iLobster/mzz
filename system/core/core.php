@@ -23,6 +23,7 @@ class core
         $filter_chain = new filterChain($response);
         
         $filter_chain->registerFilter(new timingFilter());
+        $filter_chain->registerFilter(new contentFilter());
         
         $filter_chain->process();
         //$filter_chain->registerFilter(new );
