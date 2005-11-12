@@ -44,7 +44,6 @@ class filterChain
 
     public function process()
     {
-        $this->counter = -1;
         $this->next();
     }
 }
