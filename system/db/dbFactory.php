@@ -18,15 +18,6 @@
 class DB
 {
     /**
-     * Singleton
-     *
-     * @var object
-     * @access private
-     * @staticvar
-     */
-    private static $instance;
-
-    /**
      * The factory method
      *
      * @access public
@@ -35,16 +26,13 @@ class DB
      */
     public static function getInstance()
     {
-        if (!isset(self::$instance)) {
-            if (file_exists(SYSTEM . 'db/driver_' . DB_DRIVER . '.php')) {
-                include_once(SYSTEM . 'db/driver_' . DB_DRIVER . '.php');
-                $classname = 'Mzz' . ucfirst(DB_DRIVER);
-                self::$instance = new $classname(DB_HOST, DB_USER, DB_PASSWORD, DB_BASE);
-            } else {
-                throw new Exception ('Driver "'.DB_DRIVER.'" not found');
-            }
+        if (file_exists(SYSTEM . 'db/driver_' . DB_DRIVER . '.php')) {
+            include_once(SYSTEM . 'db/driver_' . DB_DRIVER . '.php');
+            $classname = 'Mzz' . ucfirst(DB_DRIVER);
+            return call_user_func(array($classname, 'getInstance'));
+        } else {
+            throw new Exception ('Driver "'.DB_DRIVER.'" not found');
         }
-        return self::$instance;
    }
 
 }

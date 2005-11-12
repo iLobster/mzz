@@ -17,6 +17,15 @@
  */
 class MzzMysqli extends mysqli {
     /**
+     * Singleton
+     *
+     * @var object
+     * @access private
+     * @staticvar
+     */
+    private static $instance;
+
+    /**
      * Переопределенный конструктор mysqli, добавлена установка кодировки
      *
      * @param string $host
@@ -37,5 +46,21 @@ class MzzMysqli extends mysqli {
         $this->query("SET NAMES `".DB_CHARSET."`");
 
     }
+
+    /**
+     * The singleton method
+     *
+     * @access public
+     * @static
+     * @return object
+     */
+    public static function getInstance()
+    {
+        if (!isset(self::$instance)) {
+                $classname = __CLASS__;
+                self::$instance = new $classname(DB_HOST, DB_USER, DB_PASSWORD, DB_BASE);
+        }
+        return self::$instance;
+   }
 }
 ?>
