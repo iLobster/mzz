@@ -24,7 +24,7 @@ class DB
      * @static
      * @return object
      */
-    public static function getInstance()
+    public static function factory()
     {
         $config = configFactory::getInstance();
         $config->load('common');

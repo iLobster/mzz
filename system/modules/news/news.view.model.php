@@ -27,7 +27,7 @@ class newsViewModel
     {
 	$params = requestParser::getInstance()->get('params');
         $query = "SELECT * FROM `news` WHERE `id`=".($params[0]);
-        $db = DB::getInstance();
+        $db = DB::factory();
         $news = array();
         if ($result = $db->query($query)) {
             $news = $result->fetch_assoc();
