@@ -22,8 +22,8 @@ class resolvingFilter
     /**
      * запуск фильтра на исполнение
      *
-     * @param object $filter_chain объект, содержащий цепочку фильтров
-     * @param object $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param filterChain $filter_chain объект, содержащий цепочку фильтров
+     * @param response $response объект, содержащий информацию, выводимую клиенту в браузер
      */
     public function run($filter_chain, $response)
     {

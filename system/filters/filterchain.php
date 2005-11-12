@@ -39,7 +39,7 @@ class filterChain
      * объект, содержащий информацию, выводимой клиенту в браузер
      *
      * @access private
-     * @var object
+     * @var response
      */
     private $response;
 
@@ -47,7 +47,7 @@ class filterChain
      * конструктор класса
      *
      * @access public
-     * @param object $response
+     * @param response $response
      */
     public function __construct($response)
     {
