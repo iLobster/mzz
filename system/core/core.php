@@ -7,25 +7,27 @@ fileResolver::includer('frontcontroller', 'frontcontroller');
 fileResolver::includer('errors', 'error');
 fileResolver::includer('template', 'mzzSmarty');
 fileResolver::includer('core', 'File');
+fileResolver::includer('core', 'response');
 fileResolver::includer('request', 'httprequest');
 fileResolver::includer('db', 'dbFactory');
+fileResolver::includer('filters', 'filterchain');
+fileResolver::includer('filters', 'timingfilter');
+fileResolver::includer('filters', 'contentfilter');
 class core
 {
     // запуск приложения
     function run()
     {
-        $requestParser = requestParser::getInstance();
-
-        $application = $requestParser->get('section');
-        $action = $requestParser->get('action');
-
-        //$action = 'list';
-
-        $frontcontroller = new frontController($application, $action);
-        $template = $frontcontroller->getTemplate();
-
-        $smarty = mzzSmarty::getInstance();
-        echo $smarty->fetch($template);
+        $response = new response();
+        
+        $filter_chain = new filterChain($response);
+        
+        $filter_chain->registerFilter(new timingFilter());
+        
+        $filter_chain->process();
+        //$filter_chain->registerFilter(new );
+        
+        $response->send();
     }
 }
 
