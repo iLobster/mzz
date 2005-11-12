@@ -26,13 +26,11 @@ class contentFilter
         $application = $requestParser->get('section');
         $action = $requestParser->get('action');
 
-        //$action = 'list';
-
         $frontcontroller = new frontController($application, $action);
         $template = $frontcontroller->getTemplate();
 
         $smarty = mzzSmarty::getInstance();
-        echo $smarty->fetch($template);
+        $response->append($smarty->fetch($template));
         
         $filter_chain->next();
     }

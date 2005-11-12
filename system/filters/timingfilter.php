@@ -25,7 +25,8 @@ class timingFilter
 
         $filter_chain->next();
         
-        $response->append(microtime(true)-$start_time);
+        $response->append('<br><hr size=1><font size=-2>' . (microtime(true)-$start_time) . '</font>');
+        
     }
 }
 
