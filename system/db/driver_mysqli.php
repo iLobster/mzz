@@ -21,7 +21,7 @@ class MzzMysqli extends mysqli {
      *
      * @var object
      * @access private
-     * @staticvar
+     * @static
      */
     private static $instance;
 

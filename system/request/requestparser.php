@@ -30,7 +30,7 @@ class requestParser
      *
      * @var object
      * @access private
-     * @staticvar
+     * @static
      */
     private static $instance;
 

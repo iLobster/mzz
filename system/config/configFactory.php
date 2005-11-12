@@ -20,7 +20,7 @@ class configFactory
     /**
      * Singleton
      *
-     * @staticvar
+     * @static
      * @var object
      * @access private
      */
