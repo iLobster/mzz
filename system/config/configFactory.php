@@ -29,9 +29,10 @@ class configFactory
     /**
      *
      * @access public
+     * @static
      * @return object
      */
-	public function getInstance()
+	public static function getInstance()
 	{
 		if ( !isset( $instance ) ) {
 		    fileResolver::includer('config');
