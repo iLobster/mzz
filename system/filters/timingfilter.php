@@ -30,9 +30,9 @@ class timingFilter
         $start_time = microtime(true);
 
         $filter_chain->next();
-        
-        // сделать чтобы читал из шаблона формат
-        $response->append('<br><hr size=1><font size=-2>' . (microtime(true)-$start_time) . '</font>');
+        $smarty = mzzSmarty::getInstance();
+        $smarty->assign('time', (microtime(true) - $start_time));
+        $response->append($smarty->fetch('filter.time.tpl'));
         
     }
 }

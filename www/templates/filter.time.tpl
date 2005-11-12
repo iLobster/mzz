@@ -1,0 +1,1 @@
+<br><hr size=1 color=#333333><font size=-2 face=tahoma color=#111111>Generation time: {$time|round:7}</font>
