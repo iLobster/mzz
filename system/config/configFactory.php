@@ -5,9 +5,11 @@ fileResolver::includer('config');
 
 class configFactory
 {
-	function get()
+    public static $instance;
+
+	public function getInstance()
 	{
-		static $instance;
+
 		if ( !isset( $instance ) ) {
 			$instance = new config();
 		}

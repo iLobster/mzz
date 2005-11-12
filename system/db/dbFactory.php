@@ -26,12 +26,15 @@ class DB
      */
     public static function getInstance()
     {
-        if (file_exists(SYSTEM . 'db/driver_' . DB_DRIVER . '.php')) {
-            include_once(SYSTEM . 'db/driver_' . DB_DRIVER . '.php');
-            $classname = 'Mzz' . ucfirst(DB_DRIVER);
+        $config = configFactory::getInstance();
+        $config->load('common');
+        $driver = $config->getOption('db','driver');
+        if (file_exists(SYSTEM . 'db/driver_' . $driver . '.php')) {
+            include_once(SYSTEM . 'db/driver_' . $driver . '.php');
+            $classname = 'Mzz' . ucfirst($driver);
             return call_user_func(array($classname, 'getInstance'));
         } else {
-            throw new Exception ('Driver "'.DB_DRIVER.'" not found');
+            throw new Exception ('Driver "'.$driver.'" not found');
         }
    }
 

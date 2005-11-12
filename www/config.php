@@ -26,11 +26,14 @@ define('SYSTEM', $_path.'/system/');
 // WWW directory (e.g., "c:/mzz/www/" for Windows  or "/home/mzz/www/" for Unix).
 define('APPLICATION', $_path.'/www/');
 
+define('CONFIG_DIR', $_path.'/www/configs/');
+/*
 define('DB_DRIVER','mysqli');
 define('DB_HOST','localhost');
 define('DB_USER','root');
 define('DB_PASSWORD','');
 define('DB_BASE','mzz');
-define('DB_CHARSET','latin1');
+define('DB_CHARSET','cp1251');
+*/
 
 ?>

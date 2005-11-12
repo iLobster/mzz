@@ -39,11 +39,12 @@ class MzzMysqli extends mysqli {
      */
     public function __construct($host=null, $username=null, $passwd=null, $dbname=null, $port=0, $socket=null) {
         parent::__construct($host, $username, $passwd, $dbname, $port, $socket);
-
+        $config = configFactory::getInstance();
+        $config->load('common');
         /* Правильнее устанавливать кодировку через метод set_charset, он добавлен в PHP>=5.1.0RC1,
          * но у меня PHP 5.1.0 RC5 и ругается 'Call to undefined method' */
-        //$this->set_charset(DB_CHARSET);
-        $this->query("SET NAMES `".DB_CHARSET."`");
+        //$this->set_charset($config->getOption('db','charset'));
+        $this->query("SET NAMES `".$config->getOption('db','charset')."`");
 
     }
 
@@ -58,7 +59,13 @@ class MzzMysqli extends mysqli {
     {
         if (!isset(self::$instance)) {
                 $classname = __CLASS__;
-                self::$instance = new $classname(DB_HOST, DB_USER, DB_PASSWORD, DB_BASE);
+                $config = configFactory::getInstance();
+                $config->load('common');
+                $host = $config->getOption('db','host');
+                $user = $config->getOption('db','user');
+                $passwd = $config->getOption('db','password');
+                $base = $config->getOption('db','base');
+                self::$instance = new $classname($host, $user, $passwd, $base);
         }
         return self::$instance;
    }
