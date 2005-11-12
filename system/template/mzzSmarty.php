@@ -10,11 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-// Модификация Smarty для работы с шаблонами
 fileResolver::includer('./libs/smarty', 'Smarty.class');
 
 /**
- * mzzSmarty
+ * mzzSmarty: модификация Smarty для работы с шаблонами
  *
  * @version 0.1
  * @access public

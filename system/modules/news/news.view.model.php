@@ -25,7 +25,7 @@ class newsViewModel
 
     public function getNews()
     {
-	$params = requestParser::getInstance()->get('params');
+        $params = requestParser::getInstance()->get('params');
         $query = "SELECT * FROM `news` WHERE `id`=".($params[0]);
         $db = DB::factory();
         $news = array();

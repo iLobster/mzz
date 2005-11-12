@@ -10,10 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * DB - класс для работы с конфигурацией
+ * config: класс для работы с конфигурацией
  *
  * @package system
- * @version 0.1
+ * @version 0.2
 */
 class config
 {

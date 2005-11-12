@@ -10,10 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * Фабрика конфигурации
+ * configFactory: фабрика конфигурации
  *
  * @package system
- * @version 0.1
+ * @version 0.2
  */
 class configFactory
 {
@@ -32,14 +32,14 @@ class configFactory
      * @static
      * @return object
      */
-	public static function getInstance()
-	{
-		if ( !isset( $instance ) ) {
-		    fileResolver::includer('config');
-			$instance = new config();
-		}
-		return $instance;
-	}
+    public static function getInstance()
+    {
+        if ( !isset( $instance ) ) {
+            fileResolver::includer('config');
+            $instance = new config();
+        }
+        return $instance;
+    }
 }
 
 ?>

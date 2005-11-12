@@ -11,11 +11,14 @@
 //
 /**
  * HttpRequest: класс для работы с суперглобальными массивами
+ * Examples:
+ * <code>
+ * httprequest::get('var', SC_GET | SC_COOKIE);
+ * httprequest::get('var2');
+ * </code>
  *
- * @example httprequest::get('var', SC_GET | SC_COOKIE)
- * @example httprequest::get('var2')
  * @package system
- * @version 0.2.1
+ * @version 0.3
  */
 
 define('SC_GET', 1);

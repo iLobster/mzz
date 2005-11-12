@@ -1,33 +1,20 @@
 <?php
-/**
- * HTTP Upload File class
- * @since 0.1
- * @version $Id$
-*/
-
-// взято из мануала , после нужно будет перенести в соответствующую папку :)
-class FileException extends Exception {
-
-   // Redefine the exception so message isn't optional
-   public function __construct($message, $code = 0) {
-       // some code
-
-       // make sure everything is assigned properly
-       parent::__construct($message, $code);
-   }
-
-   // custom string representation of object */
-   public function __toString() {
-       return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
-   }
-
-}
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2005
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
 
 /**
- * HttpFileRequest class for suitable access to uploaded files. Contains all information
+ * HttpFileRequest: class for suitable access to uploaded files. Contains all information
  * about uploaded files
  *
- * @version 0.1
+ * @version 0.2
  * @access public
  */
 class HttpFileRequest {
@@ -313,7 +300,7 @@ class HttpFileRequest {
 }
 
 
-/// TESTS :-) ///
+/// TESTS ///
 
 $bg = HttpFileRequest::getInstance();
 

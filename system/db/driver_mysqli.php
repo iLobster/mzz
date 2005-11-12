@@ -10,10 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * MzzMysqli - драйвер для работы с базой данных MySQL версии 4.1 и выше
+ * MzzMysqli: драйвер для работы с базой данных MySQL версии 4.1 и выше
  *
  * @package system
- * @version 0.1
+ * @version 0.2
  */
 class MzzMysqli extends mysqli {
     /**

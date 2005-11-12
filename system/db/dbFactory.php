@@ -10,10 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * DB - класс, обеспечивающий доступ к драйверам баз данных
+ * DB: класс, обеспечивающий доступ к драйверам баз данных
  *
  * @package system
- * @version 0.1
+ * @version 0.2
 */
 class DB
 {
