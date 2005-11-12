@@ -11,7 +11,7 @@
 //
 
 /**
- * contentFilter: фильтр получения и отображения контента
+ * resolvingFilter: фильтр для подключения необходимых системе файлов
  * 
  * @package system
  * @version 0.1
@@ -19,12 +19,23 @@
 
 class resolvingFilter
 {
+    /**
+     * запуск фильтра на исполнение
+     *
+     * @param object $filter_chain объект, содержащий цепочку фильтров
+     * @param object $response объект, содержащий информацию, выводимую клиенту в браузер
+     */
     public function run($filter_chain, $response)
     {
         $this->resolve();
         $filter_chain->next();
     }
 
+    /**
+     * подключение необходимых файлов
+     *
+     * @access private
+     */
     private function resolve()
     {
         fileResolver::includer('config', 'configFactory');

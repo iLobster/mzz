@@ -19,20 +19,58 @@
 
 class filterChain
 {
+    /**
+     * массив с фильтрами
+     *
+     * @access private
+     * @var array
+     */
     private $filters = array();
+    
+    /**
+     * счётчик фильтра
+     *
+     * @access private
+     * @var int
+     */
     private $counter = -1;
+    
+    /**
+     * объект, содержащий информацию, выводимой клиенту в браузер
+     *
+     * @access private
+     * @var object
+     */
     private $response;
 
+    /**
+     * конструктор класса
+     *
+     * @access public
+     * @param object $response
+     */
     public function __construct($response)
     {
         $this->response = $response;
     }
 
+    
+    /**
+     * регистрация нового фильтра
+     *
+     * @access public
+     * @param object $filter фильтр для добавления в цепочку
+     */
     public function registerFilter($filter)
     {
         $this->filters[] = $filter;
     }
 
+    /**
+     * переход к следующему фильтру в цепочке
+     *
+     * @access public
+     */
     public function next()
     {
         $this->counter++;
@@ -42,6 +80,11 @@ class filterChain
         }
     }
 
+    /**
+     * запуск цепочки фильтров на выполнение
+     *
+     * @access public
+     */
     public function process()
     {
         $this->next();

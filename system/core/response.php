@@ -11,7 +11,7 @@
 //
 
 /**
- * response
+ * response: объект для работы с информацией, выводимой клиенту в браузер
  * 
  * @package system
  * @version 0.1
@@ -19,28 +19,55 @@
 
 class response
 {
+    /**
+     * содержимое ответа
+     *
+     * @access private
+     * @var string
+     */
     private $response = '';
-    
+
+    /**
+     * конструктор класса
+     *
+     * @access public
+     */
     public function __construct()
     {
-        
+
     }
-    
+
+    /**
+     * отправка содержимого клиенту
+     *
+     * @access public
+     */
     public function send()
     {
         $this->sendText();
     }
-    
+
+    /**
+     * добавление информации к ответу
+     *
+     * @access public
+     * @param string $string строка для добавления
+     */
     public function append($string)
     {
         $this->response .= $string;
     }
-    
+
+    /**
+     * отправление текста
+     *
+     * @access private
+     */
     private function sendText()
     {
         echo $this->response;
     }
-    
+
 }
 
 ?>

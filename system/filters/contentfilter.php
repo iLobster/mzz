@@ -19,6 +19,12 @@
 
 class contentFilter
 {
+    /**
+     * запуск фильтра на исполнение
+     *
+     * @param object $filter_chain объект, содержащий цепочку фильтров
+     * @param object $response объект, содержащий информацию, выводимую клиенту в браузер
+     */
     public function run($filter_chain, $response)
     {
         $requestParser = requestParser::getInstance();
@@ -31,7 +37,7 @@ class contentFilter
 
         $smarty = mzzSmarty::getInstance();
         $response->append($smarty->fetch($template));
-        
+
         $filter_chain->next();
     }
 }
