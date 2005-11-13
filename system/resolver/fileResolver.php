@@ -3,7 +3,7 @@
 
 class fileResolver
 {
-    function resolve( $application, $file = false, $ext = false )
+    public static function resolve( $application, $file = false, $ext = false )
     {
         if ( $file === false ) {
             $file = $application;
@@ -24,7 +24,7 @@ class fileResolver
             die('файл не найден: ' . $postname);
         }
     }
-    function includer( $application, $file = false )
+    public static function includer( $application, $file = false )
     {
         // тут заюзать self из 5
         $file = fileResolver::resolve( $application, $file );

@@ -16,13 +16,11 @@
  * @package system
  * @version 0.1
  */
-
 fileResolver::includer('core', 'response');
 fileResolver::includer('filters', 'filterchain');
 fileResolver::includer('filters', 'timingfilter');
 fileResolver::includer('filters', 'contentfilter');
 fileResolver::includer('filters', 'resolvingfilter');
-
 class core
 {
     /**

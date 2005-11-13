@@ -41,7 +41,6 @@ class resolvingFilter
         fileResolver::includer('config', 'configFactory');
         fileResolver::includer('request', 'requestParser');
         fileResolver::includer('frontcontroller', 'frontcontroller');
-        fileResolver::includer('errors', 'error');
         fileResolver::includer('template', 'mzzSmarty');
         fileResolver::includer('core', 'File');
         fileResolver::includer('request', 'httprequest');
