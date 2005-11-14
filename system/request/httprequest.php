@@ -18,7 +18,7 @@
  * </code>
  *
  * @package system
- * @version 0.3
+ * @version 0.4
  */
 
 define('SC_GET', 1);
@@ -30,24 +30,26 @@ define('SC_SERVER', 8);
 class HttpRequest
 {
     /**
-     * Private constructor
+     * Конструктор.
      *
-     * @access private
+     * @access public
      */
-    private function __construct()
+    public function __construct()
     {
-        // todo
+        // Класс статичный. Создание объекта класса запрещено.
+        trigger_error('Cann\'t create object. ' . __CLASS__ . ' is static. Use "::"', E_USER_ERROR);
     }
 
     /**
      * Метод получения переменной из суперглобального массива
      *
+     * @static
      * @access public
      * @param string $name имя переменной
      * @param boolean $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
-    public function get($name, $scope = SC_REQUEST)
+    public static function get($name, $scope = SC_REQUEST)
     {
         $result = null;
 
@@ -78,28 +80,30 @@ class HttpRequest
     /**
      * Возвращает true если используется защищенный протокол HTTPS
      *
+     * @static
      * @access public
      * @return boolean
      */
-    public function isSecure() {
+    public static function isSecure() {
         $temp = self::getServer('HTTPS');
         return !empty($temp);
     }
 
     /**
      * Метод возвращает протокол, который был использован для передачи данных.
-     * Возможные варианты: GET, HEAD, POST, PUT.
      *
+     * @static
      * @access public
-     * @return boolean
+     * @return string|null возможные варианты: GET, HEAD, POST, PUT
      */
-    public function getMethod() {
+    public static function getMethod() {
         return self::getServer('REQUEST_METHOD');
     }
 
     /**
      * Метод получения переменной из суперглобального массива _GET
      *
+     * @static
      * @access private
      * @param string $name имя переменной
      * @return string|null
@@ -112,6 +116,7 @@ class HttpRequest
     /**
      * Метод получения переменной из суперглобального массива _POST
      *
+     * @static
      * @access private
      * @param string $name имя переменной
      * @return string|null
@@ -124,6 +129,7 @@ class HttpRequest
     /**
      * Метод получения переменной из суперглобального массива _COOKIE
      *
+     * @static
      * @access private
      * @param string $name имя переменной
      * @return string|null
@@ -137,6 +143,7 @@ class HttpRequest
     /**
      * Метод получения переменной из суперглобального массива _SERVER
      *
+     * @static
      * @access private
      * @param string $name имя переменной
      * @return string|null
@@ -146,5 +153,4 @@ class HttpRequest
         return ( isset($_SERVER[$name]) ) ? $_SERVER[$name] : null;
     }
 }
-
 ?>
