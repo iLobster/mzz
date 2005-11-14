@@ -12,7 +12,7 @@
 
 /**
  * resolvingFilter: фильтр для подключения необходимых системе файлов
- * 
+ *
  * @package system
  * @version 0.1
  */
@@ -41,7 +41,7 @@ class resolvingFilter
         fileResolver::includer('config', 'configFactory');
         fileResolver::includer('request', 'requestParser');
         fileResolver::includer('frontcontroller', 'frontcontroller');
-        fileResolver::includer('template', 'mzzSmarty');
+        //fileResolver::includer('template', 'mzzSmarty');
         fileResolver::includer('core', 'File');
         fileResolver::includer('request', 'httprequest');
         fileResolver::includer('db', 'dbFactory');

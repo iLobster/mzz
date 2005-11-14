@@ -12,7 +12,7 @@
 
 /**
  * frontController: фронтконтроллер проекта
- * 
+ *
  * @package system
  * @version 0.1
  */
@@ -132,7 +132,7 @@ class frontController
         'view' => 'act.news.view.tpl'
         )
         );
-        
+
         $default = $arr['news']['list'];
 
         if (!isset($arr[$section][$action])) {

@@ -1,44 +1,59 @@
 <?php
-function _error($msg) {
-    $error = "<div style='border: 1px solid black; padding: 3px; background-color: #F0F0F0'><b>".$msg."</b>";
-    $error .= "<br>".print_r(debug_backtrace(),1)."</div>";
-}
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2005
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
 
-function ErrorHandler($errno, $errstr, $errfile, $errline, $vars)
+/**
+ * Общий обработчик ошибок, генерируемых PHP. Для вывода используют шаблон "php_error.tpl".
+ *
+ * @package system
+ * @version 0.2
+ * @param integer $errno номер ошибки
+ * @param string $errstr текст ошибки
+ * @param string $errfile имя файла, в котором обнаружена ошибка
+ * @param integer $errline номер строки, в которой обнаружена ошибка
+ * @return void
+ */
+function ErrorHandler($errno, $errstr, $errfile, $errline)
 {
-     $errortype = array (
-               E_ERROR          => "Error",
-               E_WARNING        => "Warning",
-               E_PARSE          => "Parsing Error",
+
+    // Типы ошибок
+    $errortype = array (
+               E_ERROR           => "Error",
+               E_WARNING         => "Warning",
+               E_PARSE           => "Parsing Error",
                E_NOTICE          => "Notice",
                E_CORE_ERROR      => "Core Error",
                E_CORE_WARNING    => "Core Warning",
-               E_COMPILE_ERROR  => "Compile Error",
+               E_COMPILE_ERROR   => "Compile Error",
                E_COMPILE_WARNING => "Compile Warning",
                E_USER_ERROR      => "User Error",
                E_USER_WARNING    => "User Warning",
-               E_USER_NOTICE    => "User Notice",
+               E_USER_NOTICE     => "User Notice",
                E_STRICT          => "Runtime Notice"
                );
 
-    if($errno == '2048') return false;
+    // Вывод E_STRICT ошибок отключен.
+    if($errno == '2048') {
+        return false;
+    }
 
-    echo '<table border="0" cellpadding="0" cellspacing="0" width="700" style="border: 1px solid #D1D8DC; background-color: #FBFBFB;">
-  <tr>
-   <td width="100%" class="error_title">'.$errortype[$errno].'</td>
-   <td align="right" class="error_title"><img src="/templates/images/error.gif" width="29" height="36" border="0" alt=""></td>
-  </tr>
-  <tr>
-   <td colspan="2" class="error_content"><b>Обнаружена ошибка при выполнении.</b><br><br>
-<b>Debug-mode включен</b>:<br>
-File <b>'.$errfile.'</b> [line '.$errline.']: <i>'.$errstr.'</i><br><br>
-<b>Конфигурация</b><br>
-SAPI: <b>'.php_sapi_name().'</b><br>
-Software: <b>'.(!empty($_SERVER["SERVER_SOFTWARE"])?$_SERVER["SERVER_SOFTWARE"]:"unknown").'</b><br>
-PHP: <b>'.phpversion().' ('.PHP_OS.', ZendEngine '.zend_version().')</b><br>
-Версия CMS: <b>0.0.1-dev</b><br>
- </tr>
-</table>';
+    $smarty = mzzSmarty::getInstance();
+    $params = array('software' => (!empty($_SERVER["SERVER_SOFTWARE"]) ? $_SERVER["SERVER_SOFTWARE"] : "unknown"),
+                    'errortype' => $errortype, 'errstr' => $errstr, 'errfile' => $errfile, 'errline' => $errline,
+                    'errno' => $errno, 'sapi' => php_sapi_name());
+
+    $smarty->assign($params);
+    echo $smarty->fetch('php_error.tpl');
+
 }
+
 set_error_handler("ErrorHandler");
 ?>
