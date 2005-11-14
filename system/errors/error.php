@@ -19,7 +19,7 @@
  * @param string $errstr текст ошибки
  * @param string $errfile имя файла, в котором обнаружена ошибка
  * @param integer $errline номер строки, в которой обнаружена ошибка
- * @return void
+ * @return void|false Возвращает false если тип ошибки E_STRICT
  */
 function ErrorHandler($errno, $errstr, $errfile, $errline)
 {
