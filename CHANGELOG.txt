@@ -7,7 +7,7 @@ CHANGELOG
 - Добавлен HttpFileRequest [ml]
 - Добавлен HttpFileRequest::move() [ml]
 - Добавлен frontcontroller [zerkms]
-- Интеграция Smarty 
+- Интеграция Smarty
 - Ядро из system/core/core перенесено в system/core. Остальное из system/core перенесено  в system/.
 - Написаны первые "Новости" в MVC
 - Внедрение mysqli для работы с БД MySQL
@@ -17,4 +17,8 @@ CHANGELOG
 - Компилированые шаблоны перенесены в templates/compiled
 - Добавлен класс для работы с конфигами
 - Добавлены фильтры
+- Добавлена система версий
+- Добавлен отловщик php-ошибок
+- Небольшие исправления в HttpRequest и mzzSmarty
+- File.php переименован в Fs.php, класс File в Fs
 ============================================
