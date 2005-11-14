@@ -26,11 +26,11 @@ define('MZZ_VERSION_MINOR', 0 );
 define('MZZ_VERSION_MICRO', 1 );
 
 // Status
-define('MZZ_STATUS', '-dev' );
+define('MZZ_VERSION_STATUS', '-dev' );
 
 // Full version
 define('MZZ_VERSION', MZZ_VERSION_MAJOR . '.' . MZZ_VERSION_MINOR . '.' .
-                      MZZ_VERSION_MICRO . MZZ_STATUS);
+                      MZZ_VERSION_MICRO . MZZ_VERSION_STATUS);
 
 // Revision
 define('MZZ_REVISION', '$Rev$');
