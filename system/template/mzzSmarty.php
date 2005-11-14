@@ -9,26 +9,28 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-
-fileResolver::includer('./libs/smarty', 'Smarty.class');
-
 /**
  * mzzSmarty: модификация Smarty для работы с шаблонами
  *
  * @version 0.1
  * @access public
  */
+
+fileResolver::includer('./libs/smarty', 'Smarty.class');
+
 class mzzSmarty extends Smarty
 {
     /**
+     * Hold an instance of the class
+     *
      * @access private
-     * @staticvar object
+     * @static object
      */
     private static $smarty;
 
     /**
-     * Модифицированный Smarty::fetch(). Используется для
-     * реализации вложенных шаблонов.
+     * Выполняет шаблон и возвращает результат
+     * Модифицирован для реализации вложенных шаблонов.
      *
      * @param string $resource_name
      * @param string $cache_id
@@ -37,21 +39,30 @@ class mzzSmarty extends Smarty
      */
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
-        // {{{ TODO: Изменить использование стандартных функций на ООП-методы
-        $file = fopen($this->template_dir.'/'.$resource_name, "rb");
-        $template = fread($file, 100);
-        fclose($file);
-        // }}}
+        $template = new Fs($this->template_dir . '/' . $resource_name, "r");
+        $template = $template->read();
 
-        $result = parent::fetch($resource_name);
+        $result = parent::fetch($resource_name, $cache_id, $compile_id, $display);
 
         // Если шаблон вложен, обработать получателя
         if (preg_match("/\{\*\s*main=/i", $template)) {
             $params = self::parse($template);
             $this->assign($params['placeholder'], $result);
-            $result = self::fetch($params['main']);
+            $result = self::fetch($params['main'], $cache_id, $compile_id, $display);
         }
         return $result;
+    }
+
+    /**
+     * Выполняет шаблон и отображает результат.
+     *
+     * @param string $resource_name
+     * @param string $cache_id
+     * @param string $compile_id
+     */
+    public function display($resource_name, $cache_id = null, $compile_id = null)
+    {
+        $this->fetch($resource_name, $cache_id, $compile_id, true);
     }
 
     /**
@@ -66,8 +77,8 @@ class mzzSmarty extends Smarty
             $smarty = new $classname;
             $smarty->template_dir      = APPLICATION . 'templates';
             $smarty->compile_dir       = APPLICATION . 'templates/compiled';
-            $smarty->debugging = true;
             $smarty->plugins_dir[] = SYSTEM . 'template/plugins';
+            $smarty->debugging = true;
             self::$smarty = $smarty;
         }
         return self::$smarty;

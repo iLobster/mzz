@@ -12,12 +12,12 @@
 fileResolver::includer('exceptions', 'FileException');
 
 /**
- * File: êëàññ äëÿ ğàáîòû ñ ôàéëàìè
+ * Fs: êëàññ äëÿ ğàáîòû ñ ôàéëàìè
  *
  * @package system
  * @version 0.3
  */
-class File
+class Fs
 {
     /**
      * Óêàçàòåëü íà îòêğûòûé ğåñóğñ
@@ -44,12 +44,19 @@ class File
     private $path;
 
     /**
-     * Ğåæèì, â êîòîğîì îòêğûò ôàéë
+     * Ğåæèì, â êîòîğîì áûë îòêğûò ôàéë, î÷èùåííûé îò îïöèîíàëüíûõ ğåæèìàõ "b" è "t"
      *
      * @var integer
      * @access public
      */
     private $mode;
+
+    /**
+     * Ğåæèì, â êîòîğîì îòêğûò ôàéë.
+     *
+     * @var unknown_type
+     */
+    private $real_mode;
 
     /**
      * Îïèñàíèå îñíîâíûõ îøèáîê
@@ -79,20 +86,20 @@ class File
         // Add path to file
         $this->file = $file;
         $this->path = dirname($this->file);
-        $this->mode = $mode;
+        $this->real_mode = $mode;
 
         // Îïóñêàåì îïöèîíàëüíûå ğåæèìû
-        $mode = str_replace(array("b", "t"), "", $this->mode);
+        $this->mode = str_replace(array("b", "t"), "", $mode);
 
         if (in_array($mode, $modes) == false) {
             $error = sprintf($this->errors['unknown_mode'], $this->file, $mode);
             throw new FileException($error);
         }
 
-        $this->handle = fopen($this->file, $this->mode, $use_include_path);
+        $this->handle = fopen($this->file, $this->real_mode, $use_include_path);
 
         if(!is_resource($this->handle)) {
-           $error = sprintf($this->errors['unknown_error'], $this->file, $mode);
+           $error = sprintf($this->errors['unknown_error'], $this->file, $this->real_mode);
            throw new FileException($error);
         }
 
@@ -136,7 +143,7 @@ class File
      * @return integer|boolean
      */
     public function write($str) {
-        if($this->mode != "r") {
+        if(strpos($this->mode, "r") === false) {
             return fwrite($this->handle, $str);
         } else {
             $error = sprintf($this->errors['cannot_write'], $this->file, $this->mode);
@@ -222,7 +229,7 @@ class File
 
 }
 /***********  EXAMPLE  ************
-$f = new file("C:/tes3t.txt","a+");
+$f = new Fs("C:/tes3t.txt","a+");
 $f->write('test?');
 $f->rewind();
 echo $f->read();

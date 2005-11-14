@@ -42,7 +42,7 @@ class resolvingFilter
         fileResolver::includer('request', 'requestParser');
         fileResolver::includer('frontcontroller', 'frontcontroller');
         //fileResolver::includer('template', 'mzzSmarty');
-        fileResolver::includer('core', 'File');
+        fileResolver::includer('core', 'Fs');
         fileResolver::includer('request', 'httprequest');
         fileResolver::includer('db', 'dbFactory');
     }

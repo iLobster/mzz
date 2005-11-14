@@ -51,7 +51,7 @@ function ErrorHandler($errno, $errstr, $errfile, $errline)
                     'errno' => $errno, 'sapi' => php_sapi_name());
 
     $smarty->assign($params);
-    echo $smarty->fetch('php_error.tpl');
+    $smarty->display('php_error.tpl');
 
 }
 
