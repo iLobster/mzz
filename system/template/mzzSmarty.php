@@ -40,7 +40,7 @@ class mzzSmarty extends Smarty
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         $template = new Fs($this->template_dir . '/' . $resource_name, "r");
-        $template = $template->read();
+        $template = $template->read(512);
 
         $result = parent::fetch($resource_name, $cache_id, $compile_id, $display);
 
