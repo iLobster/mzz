@@ -93,9 +93,9 @@ class mzzSmarty extends Smarty
      * @return array
      */
     private static function parse($str) {
+        $params = array();
         if (preg_match("/\{\*\s*(.*?)\s*\*\}/", $str, $clean_str)) {
             $clean_str = preg_split("/\s+/", $clean_str[1]);
-            $params = array();
             foreach ($clean_str as $str) {
                 $temp_str = explode("=", $str);
                 $params[$temp_str[0]] = str_replace(array("'", "\""), "", $temp_str[1]);
