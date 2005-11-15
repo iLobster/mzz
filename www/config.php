@@ -21,10 +21,10 @@ if(strpos(PHP_OS,"WIN") !== false && strpos($_path,"\\") !== false) {
 $_path = substr($_path, 0, strrpos($_path,'/'));
 
 // System directory (e.g., "c:/mzz/system/" for Windows or "/home/mzz/system/" for Unix).
-define('SYSTEM', $_path.'/system/');
+define('SYSTEM_DIR', $_path.'/system/');
 
 // WWW directory (e.g., "c:/mzz/www/" for Windows  or "/home/mzz/www/" for Unix).
-define('APPLICATION', $_path.'/www/');
+define('APPLICATION_DIR', $_path.'/www/');
 
 define('CONFIG_DIR', $_path.'/www/configs/');
 /*

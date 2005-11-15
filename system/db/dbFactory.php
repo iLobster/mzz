@@ -29,13 +29,12 @@ class DB
         $config = configFactory::getInstance();
         $config->load('common');
         $driver = $config->getOption('db','driver');
-        if (file_exists(SYSTEM . 'db/driver_' . $driver . '.php')) {
-            include_once(SYSTEM . 'db/driver_' . $driver . '.php');
+       fileResolver::includer("db", 'driver_' . $driver);
             $classname = 'Mzz' . ucfirst($driver);
-            return call_user_func(array($classname, 'getInstance'));
-        } else {
-            throw new Exception ('Driver "'.$driver.'" not found');
-        }
+           return call_user_func(array($classname, 'getInstance'));
+       // } else {
+       //     throw new Exception ('Driver "'.$driver.'" not found');
+       // }
    }
 
 }

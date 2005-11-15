@@ -21,4 +21,5 @@ CHANGELOG
 - Добавлен отловщик php-ошибок
 - Небольшие исправления в HttpRequest и mzzSmarty
 - File.php переименован в Fs.php, класс File в Fs
+- SYSTEM и APPLICATION переименованы в SYSTEM_DIR и APPLICATION_DIR
 ============================================

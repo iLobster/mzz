@@ -1,6 +1,6 @@
 <?php
-require_once SYSTEM . 'version.php';
-require_once SYSTEM . 'resolver/fileResolver.php';
+require_once SYSTEM_DIR . 'version.php';
+require_once SYSTEM_DIR . 'resolver/fileResolver.php';
 
 fileResolver::includer('errors', 'error');
 fileResolver::includer('template', 'mzzSmarty');

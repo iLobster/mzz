@@ -5,7 +5,7 @@
 $_GET['path'] = '/news/';
 
 require_once './config.php';
-require_once SYSTEM . 'index.php';
+require_once SYSTEM_DIR . 'index.php';
 
 // как будто загрузчик модулей (код которого будет в активном шаблоне типа {mod->run ... }
 

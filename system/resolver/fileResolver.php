@@ -14,12 +14,12 @@ class fileResolver
         // тут нужно пофильтровать имена на запрещённые символы
         $postname = '' . $application . '/' . $file . $ext;
         //echo $postname.'<br>';
-        if (is_file(SYSTEM . '/modules/' . $postname)) {
-            return SYSTEM . '/modules/' . $postname;
-        } elseif ( is_file( SYSTEM . $postname ) ) {
-            return SYSTEM . $postname;
-        } elseif ( is_file( APPLICATION . $postname ) ) {
-            return APPLICATION . $postname;
+        if (is_file(SYSTEM_DIR . '/modules/' . $postname)) {
+            return SYSTEM_DIR . '/modules/' . $postname;
+        } elseif ( is_file( SYSTEM_DIR . $postname ) ) {
+            return SYSTEM_DIR . $postname;
+        } elseif ( is_file( APPLICATION_DIR . $postname ) ) {
+            return APPLICATION_DIR . $postname;
         } else {
             die('файл не найден: ' . $postname);
         }
