@@ -12,6 +12,8 @@
 
 /* Configuration file */
 
+define('DEBUG_MODE', true);
+
 // $_path = $_SERVER["DOCUMENT_ROOT"];
 $_path = dirname(__FILE__);
 

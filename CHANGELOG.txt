@@ -22,4 +22,6 @@ CHANGELOG
 - Небольшие исправления в HttpRequest и mzzSmarty
 - File.php переименован в Fs.php, класс File в Fs
 - SYSTEM и APPLICATION переименованы в SYSTEM_DIR и APPLICATION_DIR
+- Добавлены первые тесты
+- HttpRequest теперь не статический класс
 ============================================
