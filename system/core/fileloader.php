@@ -8,12 +8,12 @@ class fileLoader
         self::$resolver = $resolver;
     }
     
-    public function resolve($request)
+    public static function resolve($request)
     {
         return self::$resolver->resolve($request);
     }
     
-    public function load($classname)
+    public static function load($classname)
     {
         $realname = (strpos($classname, '/') === false ) ? $classname : substr(strrchr($classname, '/'), 1);
         if (class_exists($realname)) {
