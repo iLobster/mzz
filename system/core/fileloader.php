@@ -2,15 +2,15 @@
 
 class fileLoader
 {
-    private $resolver;
+    private static $resolver;
     public function setResolver($resolver)
     {
-        $this->resolver = $resolver;
+        self::$resolver = $resolver;
     }
     
     public function resolve($request)
     {
-        return $this->resolver->resolve($request);
+        return self::$resolver->resolve($request);
     }
     
     public function load($classname)

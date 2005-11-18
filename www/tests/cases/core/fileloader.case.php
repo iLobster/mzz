@@ -1,7 +1,6 @@
 <?php
 
 require_once '../../system/core/fileloader.php';
-//require_once '../../system/resolver/fileresolvert.php';
 require_once './cases/resolver/testcasefileresolver.php';
 
 mock::generate('testCaseFileResolver');
