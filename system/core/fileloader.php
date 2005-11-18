@@ -7,6 +7,11 @@ class fileLoader
     {
         $this->resolver = $resolver;
     }
+    
+    public function resolve($request)
+    {
+        return $this->resolver->resolve($request);
+    }
 }
 
 ?>

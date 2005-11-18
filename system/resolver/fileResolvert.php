@@ -13,7 +13,6 @@ class fileResolver
     }
     public function resolve($request)
     {
-        //reset($this->patterns);
         foreach ($this->patterns as $filename) {
             $filename = str_replace('*', $request, $filename);
             if (is_file($filename)) {

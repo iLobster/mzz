@@ -14,11 +14,16 @@ class fileLoaderTest extends unitTestCase
         $this->resolver = new mockTestCaseFileResolver();
         fileLoader::setResolver($this->resolver);
     }
-    public function testFileLoaderResolving()
+    public function testResolving()
     {
-        $this->resolver->expectOnce('resolve', 'core/fileloader.case.php');
+        $this->resolver->expectOnce('resolve', array('core/fileloader'));
         $this->resolver->setReturnValue('resolve', './cases/core/fileloader.case.php');
-        $this->resolver->resolve();
+        $this->assertEqual(realpath(fileLoader::resolve('core/fileloader')), realpath('./cases/core/fileloader.case.php'));
+    }
+    
+    public function testLoading()
+    {
+        
     }
 }
 
