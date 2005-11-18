@@ -10,7 +10,7 @@ require_once 'cases/core/fileloader.case.php';
 $test = new GroupTest('All file tests');
 $test->addTestCase(new fileResolverTest());
 $test->addTestCase(new fileLoaderTest());
-$test->run(new HtmlReporter());
+$test->run(new HtmlReporter('windows-1251'));
 
 /*
 $test = new fileResolverTest();

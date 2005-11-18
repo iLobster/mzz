@@ -12,12 +12,12 @@ class fileLoaderTest extends unitTestCase
     public function setUp()
     {
         $this->resolver = new mockTestCaseFileResolver();
+        $this->resolver->expectOnce('resolve', array('core/someclassStub'));
+        $this->resolver->setReturnValue('resolve', './cases/core/someclassStub.php');
         fileLoader::setResolver($this->resolver);
     }
     public function testResolving()
     {
-        $this->resolver->expectOnce('resolve', array('core/someclassStub'));
-        $this->resolver->setReturnValue('resolve', './cases/core/someclassStub.php');
         $this->assertEqual(realpath(fileLoader::resolve('core/someclassStub')), realpath('./cases/core/someclassStub.php'));
     }
 
@@ -27,9 +27,15 @@ class fileLoaderTest extends unitTestCase
         class_exists('someclassStub'),
         'класс someclassStub не должен быть загружен'
         );
+        
         $this->assertTrue(
-        fileLoader::load('someclassStub'),
+        fileLoader::load('core/someclassStub'),
         'класс someclassStub не загружен'
+        );
+
+        $this->assertTrue(
+        fileLoader::load('core/someclassStub'),
+        'второй раз тоже должно быть всё хорошо'
         );
     }
 }
