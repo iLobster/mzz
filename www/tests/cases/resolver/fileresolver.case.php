@@ -1,8 +1,10 @@
 <?php
 
+require_once '../../system/resolver/fileresolvert.php';
+
 class fileResolverTest extends unitTestCase
 {
-    protected $resolver;
+    public $resolver;
     function setUp()
     {
         $this->resolver = new fileResolver('./cases/resolver/*');

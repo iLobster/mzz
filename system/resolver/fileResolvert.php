@@ -1,6 +1,6 @@
 <?php
 
-class fileresolver
+class fileResolver
 {
     private $patterns = array();
     public function __construct($pattern)
