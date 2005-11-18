@@ -7,11 +7,13 @@ require_once '../../system/libs/simpletest/reporter.php';
 require_once 'cases/resolver/fileresolver.case.php';
 require_once 'cases/resolver/compositeresolver.case.php';
 require_once 'cases/core/fileloader.case.php';
+require_once 'cases/request/requestparser.case.php';
 
 $test = new GroupTest('All file tests');
 $test->addTestCase(new fileResolverTest());
 $test->addTestCase(new compositeResolverTest());
 $test->addTestCase(new fileLoaderTest());
+$test->addTestCase(new RequestParserTest());
 $test->run(new HtmlReporter('windows-1251'));
 
 /*

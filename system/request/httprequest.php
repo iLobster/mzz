@@ -29,6 +29,36 @@ define('SC_SERVER', 8);
 
 class HttpRequest
 {
+
+
+    /**#@+
+    * @access protected
+    * @var array
+    */
+    /**
+     * POST-данные
+     */
+    protected $post_vars;
+
+    /**
+     * GET-данные
+     */
+    protected $get_vars;
+
+    /**
+     * Cookie
+     */
+    protected $cookie_vars;
+    /**#@-*/
+
+    /**
+     * Singleton
+     *
+     * @var object
+     * @access private
+     */
+    private static $instance;
+
     /**
      * Конструктор.
      *
@@ -36,20 +66,34 @@ class HttpRequest
      */
     public function __construct()
     {
-        // Класс статичный. Создание объекта класса запрещено.
-        trigger_error('Cann\'t create object. ' . __CLASS__ . ' is static. Use "::"', E_USER_ERROR);
+        $this->post_vars = $_POST;
+        $this->get_vars = $_GET;
+        $this->cookie_vars = $_COOKIE;
+    }
+
+    /**
+     * Singleton method
+     *
+     * @access public
+     * @return object
+     */
+    public function getInstance() {
+        $classname = __CLASS__;
+        if(!(self::$instance instanceof $classname)) {
+            self::$instance = new $classname;
+        }
+        return self::$instance;
     }
 
     /**
      * Метод получения переменной из суперглобального массива
      *
-     * @static
      * @access public
      * @param string $name имя переменной
      * @param boolean $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
-    public static function get($name, $scope = SC_REQUEST)
+    public function get($name, $scope = SC_REQUEST)
     {
         $result = null;
 
@@ -80,11 +124,10 @@ class HttpRequest
     /**
      * Возвращает true если используется защищенный протокол HTTPS
      *
-     * @static
      * @access public
      * @return boolean
      */
-    public static function isSecure() {
+    public function isSecure() {
         $temp = self::getServer('HTTPS');
         return !empty($temp);
     }
@@ -92,65 +135,61 @@ class HttpRequest
     /**
      * Метод возвращает протокол, который был использован для передачи данных.
      *
-     * @static
      * @access public
      * @return string|null возможные варианты: GET, HEAD, POST, PUT
      */
-    public static function getMethod() {
+    public function getMethod() {
         return self::getServer('REQUEST_METHOD');
     }
 
     /**
      * Метод получения переменной из суперглобального массива _GET
      *
-     * @static
      * @access private
      * @param string $name имя переменной
      * @return string|null
      */
-    private static function getGet($name)
+    private function getGet($name)
     {
-        return ( isset($_GET[$name]) ) ? $_GET[$name] : null;
+        return ( isset($this->get_vars[$name]) ) ? $this->get_vars[$name] : null;
     }
 
     /**
      * Метод получения переменной из суперглобального массива _POST
      *
-     * @static
      * @access private
      * @param string $name имя переменной
      * @return string|null
      */
-    private static function getPost($name)
+    private function getPost($name)
     {
-        return ( isset($_POST[$name]) ) ? $_POST[$name] : null;
+        return ( isset($this->post_vars[$name]) ) ? $this->post_vars[$name] : null;
     }
 
     /**
      * Метод получения переменной из суперглобального массива _COOKIE
      *
-     * @static
      * @access private
      * @param string $name имя переменной
      * @return string|null
      */
-    private static function getCookie($name)
+    private function getCookie($name)
     {
-        return ( isset($_COOKIE[$name]) ) ? $_COOKIE[$name] : null;
+        return ( isset($this->cookie_vars[$name]) ) ? $this->cookie_vars[$name] : null;
     }
 
 
     /**
      * Метод получения переменной из суперглобального массива _SERVER
      *
-     * @static
      * @access private
      * @param string $name имя переменной
      * @return string|null
      */
-    private static function getServer($name)
+    private function getServer($name)
     {
         return ( isset($_SERVER[$name]) ) ? $_SERVER[$name] : null;
     }
 }
+
 ?>

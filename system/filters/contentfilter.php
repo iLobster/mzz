@@ -12,7 +12,7 @@
 
 /**
  * contentFilter: фильтр получения и отображения контента
- * 
+ *
  * @package system
  * @version 0.1
  */
@@ -27,7 +27,8 @@ class contentFilter
      */
     public function run($filter_chain, $response)
     {
-        $requestParser = requestParser::getInstance();
+        $httprequest = HttpRequest::getInstance();
+        $requestParser = requestParser::getInstance($httprequest);
 
         $application = $requestParser->get('section');
         $action = $requestParser->get('action');

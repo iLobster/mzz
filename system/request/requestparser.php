@@ -35,17 +35,25 @@ class requestParser
     private static $instance;
 
     /**
+     * HttpRequest object
+     *
+     * @var object
+     * @access private
+     */
+    private $httprequest;
+
+    /**
      * Синглтон
      *
      * @static
      * @access public
      * @return object
      */
-    public static function getInstance()
+    public static function getInstance($httprequest)
     {
         if ( !isset( self::$instance ) ) {
             $c = __CLASS__;
-            self::$instance = new $c;
+            self::$instance = new $c($httprequest);
         }
         return self::$instance;
     }
@@ -57,8 +65,9 @@ class requestParser
      * @access private
      * @return void
      */
-    private function __construct()
+    private function __construct($httprequest)
     {
+        $this->httprequest = $httprequest;
         self::parse();
     }
 
@@ -70,25 +79,23 @@ class requestParser
      */
     private function parse()
     {
-        $path = httprequest::get('path');
-
-        $path = preg_replace('/\/{2,}/', '/', $path);
+        $path = preg_replace('/\/{2,}/', '/', $this->httprequest->get('path'));
 
         // Преобразовываем /path/to/document/ в path/to/document
         $path = substr($path, 1, (strlen($path) - 1) - (strrpos($path, '/') == strlen($path) - 1));
 
         $params = explode('/', $path);
 
-        self::setData('section', array_shift($params));
+        self::set('section', array_shift($params));
         $action = array_pop($params);
-        self::setData('action', $action);
+        self::set('action', $action);
         // Если action задан, то заносим его так же и в params,
         // который будет использован как параметр,
         // если указанный action не существует
         if (!empty($action)) {
             $params = array_merge($params, array($action));
         }
-        self::setData('params', $params);
+        self::set('params', $params);
     }
 
     /**
@@ -98,7 +105,7 @@ class requestParser
      * @param string|array $value
      * @access public
      */
-    public function setData($field, $value)
+    public function set($field, $value)
     {
         $this->data[$field] = $value;
     }
