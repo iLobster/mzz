@@ -12,6 +12,11 @@ class fileLoader
     {
         return $this->resolver->resolve($request);
     }
+    
+    public function load($request)
+    {
+        
+    }
 }
 
 ?>
