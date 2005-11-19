@@ -4,12 +4,14 @@ final class cachingResolver extends decoratingResolver
     private $cache = array();
     private $cache_file;
     private $cached = true;
+
     public function __construct($resolver)
     {
-        if(file_exists(TEMP_DIR . 'resolver.cache')) {
-            $this->cache = unserialize(file_get_contents(TEMP_DIR . 'resolver.cache'));
+        $filename = TEMP_DIR . 'resolver.cache';
+        if(file_exists($filename)) {
+            $this->cache = unserialize(file_get_contents($filename));
         }
-        $this->cache_file = new Fs(TEMP_DIR . 'resolver.cache','w');
+        $this->cache_file = new Fs($filename, 'w');
         parent::__construct($resolver);
     }
 
