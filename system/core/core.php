@@ -16,17 +16,8 @@
  * @package system
  * @version 0.1
  */
-/*
-fileResolver::includer('core', 'response');
-fileResolver::includer('filters', 'filterchain');
-fileResolver::includer('filters', 'timingfilter');
-fileResolver::includer('filters', 'contentfilter');
-fileResolver::includer('filters', 'resolvingfilter');*/
-require_once SYSTEM_DIR . 'core/response.php';
-require_once SYSTEM_DIR . 'filters/filterchain.php';
-require_once SYSTEM_DIR . 'filters/timingfilter.php';
-require_once SYSTEM_DIR . 'filters/contentfilter.php';
-require_once SYSTEM_DIR . 'filters/resolvingfilter.php';
+
+
 require_once SYSTEM_DIR . 'resolver/fileresolver.php';
 require_once SYSTEM_DIR . 'resolver/compositeResolver.php';
 require_once SYSTEM_DIR . 'resolver/sysFileResolver.php';
@@ -52,7 +43,13 @@ class core
         $resolver->addResolver(new moduleResolver($baseresolver));
         
         fileLoader::setResolver($resolver);
-        
+        fileLoader::load('core/response');
+        fileLoader::load('filters/filterchain');
+        fileLoader::load('filters/timingfilter');
+        fileLoader::load('filters/contentfilter');
+        fileLoader::load('filters/resolvingfilter');
+
+
         $response = new response();
 
         $filter_chain = new filterChain($response);
