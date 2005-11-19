@@ -11,7 +11,7 @@ class libResolver extends partialFileResolver
 
     protected function partialResolve($request)
     {
-        return '/libs/'.$request. '.php';
+        return 'libs/' . $request . '.php';
     }
 }
 
