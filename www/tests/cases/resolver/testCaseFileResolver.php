@@ -7,6 +7,8 @@ class testCaseFileResolver extends fileResolver
     {
         parent::__construct('./cases/*.case.php');
     }
+    public function foo() {
+    }
 }
 
 ?>

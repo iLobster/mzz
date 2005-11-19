@@ -10,7 +10,6 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /*fileResolver::includer('exceptions', 'FileException');*/
-fileLoader::load('exceptions/FileException');
 
 /**
  * Fs: êëàññ äëÿ ğàáîòû ñ ôàéëàìè
@@ -144,7 +143,7 @@ class Fs
      * @return integer|boolean
      */
     public function write($str) {
-        if(strpos($this->mode, "r") === false) {
+        if(strpos($this->mode, "r") === false || strpos($this->mode, "+") !== false) {
             return fwrite($this->handle, $str);
         } else {
             $error = sprintf($this->errors['cannot_write'], $this->file, $this->mode);
@@ -230,7 +229,7 @@ class Fs
 
 }
 /***********  EXAMPLE  ************
-$f = new Fs("C:/tes3t.txt","a+");
+$f = new Fs("C:/tes3t.txt","r+");
 $f->write('test?');
 $f->rewind();
 echo $f->read();

@@ -12,7 +12,7 @@
 
 /**
  * core: ядро mzz
- * 
+ *
  * @package system
  * @version 0.1
  */
@@ -23,12 +23,14 @@ require_once SYSTEM_DIR . 'resolver/classFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/moduleResolver.php';
 require_once SYSTEM_DIR . 'resolver/libResolver.php';
 require_once SYSTEM_DIR . 'core/fileLoader.php';
-
+require_once SYSTEM_DIR . 'core/Fs.php';
+require_once SYSTEM_DIR . 'resolver/decoratingResolver.php';
+require_once SYSTEM_DIR . 'resolver/cachingResolver.php';
 class core
 {
     /**
      * запуск приложения
-     * 
+     *
      * @access public
      *
      */
@@ -36,13 +38,14 @@ class core
     {
         $baseresolver = new compositeResolver();
         $baseresolver->addResolver(new sysFileResolver());
-        
+
         $resolver = new compositeResolver();
         $resolver->addResolver(new classFileResolver($baseresolver));
         $resolver->addResolver(new moduleResolver($baseresolver));
         $resolver->addResolver(new libResolver($baseresolver));
+        $cachingResolver = new cachingResolver($resolver);
 
-        fileLoader::setResolver($resolver);
+        fileLoader::setResolver($cachingResolver);
         fileLoader::load('errors/error');
         fileLoader::load('template/mzzSmarty');
         fileLoader::load('core/response');
@@ -50,7 +53,7 @@ class core
         fileLoader::load('filters/timingfilter');
         fileLoader::load('filters/contentfilter');
         fileLoader::load('filters/resolvingfilter');
-
+        fileLoader::load('exceptions/FileException');
 
         $response = new response();
 

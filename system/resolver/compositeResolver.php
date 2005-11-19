@@ -13,6 +13,7 @@ class compositeResolver
             if (null !== ($filename = $resolver->resolve($request))) {
                 return $filename;
             }
+
         }
         return null;
     }

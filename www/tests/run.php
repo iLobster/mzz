@@ -12,6 +12,8 @@ require_once 'cases/resolver/sysFileResolver.case.php';
 require_once 'cases/resolver/classFileResolver.case.php';
 require_once 'cases/resolver/moduleResolver.case.php';
 require_once 'cases/resolver/libResolver.case.php';
+require_once 'cases/resolver/decoratingResolver.case.php';
+require_once 'cases/resolver/cachingResolver.case.php';
 require_once 'cases/core/fileloader.case.php';
 require_once 'cases/request/requestparser.case.php';
 
@@ -24,6 +26,8 @@ $test->addTestCase(new classFileResolverTest());
 $test->addTestCase(new moduleResolverTest());
 $test->addTestCase(new libResolverTest());
 $test->addTestCase(new fileLoaderTest());
+$test->addTestCase(new decoratingResolverTest());
+$test->addTestCase(new cachingResolverTest());
 $test->addTestCase(new RequestParserTest());
 $test->run(new HtmlReporter('windows-1251'));
 
