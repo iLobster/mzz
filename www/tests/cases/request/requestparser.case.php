@@ -19,17 +19,6 @@ class RequestParserTest extends unitTestCase
         unset($this->mock);
     }
     
-    public function testRequestPathParser()
-    {
-        $this->httprequest->setReturnValue('get', '/news/archive/18/10/2005/list');
-        $this->requestparser = RequestParser::getInstance($this->httprequest);
-
-        $this->assertEqual($this->requestparser->get('action'), 'list');
-        $this->assertEqual($this->requestparser->get('section'), 'news');
-        
-        $this->assertEqual($this->requestparser->get('params'), array('archive', 18, 10, 2005, 'list'));
-	
-    }   
 
     public function testRequestDirtyPathParser()
     {
@@ -42,6 +31,19 @@ class RequestParserTest extends unitTestCase
         $this->assertEqual($this->requestparser->get('params'), array('archive', 18, 10, 2005, 'list'));
 	
     }
+
+    public function testRequestPathParser()
+    {
+        $this->httprequest->setReturnValue('get', '/news/archive/18/10/2005/list');
+        $this->requestparser = RequestParser::getInstance($this->httprequest);
+
+        $this->assertEqual($this->requestparser->get('action'), 'list');
+        $this->assertEqual($this->requestparser->get('section'), 'news');
+        
+        $this->assertEqual($this->requestparser->get('params'), array('archive', 18, 10, 2005, 'list'));
+	
+    }   
+
 }
 
 ?>

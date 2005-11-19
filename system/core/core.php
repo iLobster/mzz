@@ -16,13 +16,12 @@
  * @package system
  * @version 0.1
  */
-
-
 require_once SYSTEM_DIR . 'resolver/fileresolver.php';
 require_once SYSTEM_DIR . 'resolver/compositeResolver.php';
 require_once SYSTEM_DIR . 'resolver/sysFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/classFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/moduleResolver.php';
+require_once SYSTEM_DIR . 'resolver/libResolver.php';
 require_once SYSTEM_DIR . 'core/fileLoader.php';
 
 class core
@@ -41,8 +40,11 @@ class core
         $resolver = new compositeResolver();
         $resolver->addResolver(new classFileResolver($baseresolver));
         $resolver->addResolver(new moduleResolver($baseresolver));
-        
+        $resolver->addResolver(new libResolver($baseresolver));
+
         fileLoader::setResolver($resolver);
+        fileLoader::load('errors/error');
+        fileLoader::load('template/mzzSmarty');
         fileLoader::load('core/response');
         fileLoader::load('filters/filterchain');
         fileLoader::load('filters/timingfilter');
