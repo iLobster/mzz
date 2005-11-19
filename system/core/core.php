@@ -27,7 +27,7 @@ require_once SYSTEM_DIR . 'filters/filterchain.php';
 require_once SYSTEM_DIR . 'filters/timingfilter.php';
 require_once SYSTEM_DIR . 'filters/contentfilter.php';
 require_once SYSTEM_DIR . 'filters/resolvingfilter.php';
-require_once SYSTEM_DIR . 'resolver/fileresolvert.php';
+require_once SYSTEM_DIR . 'resolver/fileresolver.php';
 require_once SYSTEM_DIR . 'resolver/compositeResolver.php';
 require_once SYSTEM_DIR . 'resolver/sysFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/classFileResolver.php';
