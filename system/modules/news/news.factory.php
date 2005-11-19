@@ -39,7 +39,8 @@ class newsFactory
 	{
 		$action = $this->getAction();
 		//require_once $this->getRoot() . 'includes/' . strtolower($action['controller']) . '.controller.php';
-		fileResolver::includer('news','news.' . $action['controller'] . '.controller');
+		//fileResolver::includer('news','news.' . $action['controller'] . '.controller');
+		fileLoader::load('news.' . $action['controller'] . '.controller');
 		// тут возможно заменим константы news на метод $this->getName
 		$classname = 'news' . $action['controller'] . 'Controller';
 		return new $classname();

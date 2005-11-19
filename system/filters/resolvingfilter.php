@@ -38,13 +38,19 @@ class resolvingFilter
      */
     private function resolve()
     {
-        fileResolver::includer('config', 'configFactory');
+        /*fileResolver::includer('config', 'configFactory');
         fileResolver::includer('request', 'requestParser');
         fileResolver::includer('frontcontroller', 'frontcontroller');
         //fileResolver::includer('template', 'mzzSmarty');
         fileResolver::includer('core', 'Fs');
         fileResolver::includer('request', 'httprequest');
-        fileResolver::includer('db', 'dbFactory');
+        fileResolver::includer('db', 'dbFactory');*/
+        fileLoader::load('config/configFactory');
+        fileLoader::load('request/httprequest');
+        fileLoader::load('request/requestParser');
+        fileLoader::load('frontController');
+        fileLoader::load('core/Fs');
+        fileLoader::load('db/dbFactory');
     }
 }
 

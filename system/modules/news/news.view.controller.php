@@ -20,8 +20,11 @@ class newsViewController
 {
     public function __construct()
     {
+        /*
         fileResolver::includer('news','news.view.model');
-        fileResolver::includer('news','news.view.view');
+        fileResolver::includer('news','news.view.view');*/
+        fileLoader::load('news.view.model');
+        fileLoader::load('news.view.view');
     }
     
     public function getView()

@@ -15,6 +15,7 @@ class fileResolver
     {
         foreach ($this->patterns as $filename) {
             $filename = str_replace('*', $request, $filename);
+            //echo $filename . '<br>';
             if (is_file($filename)) {
                 return $filename;
             }

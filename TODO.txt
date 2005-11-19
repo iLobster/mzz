@@ -5,6 +5,14 @@
 "*" в процессе (с указанием ника)
 ----------------------------------
 
+- продокумментировать все резолверы
+
+- убрать из комментариев все fileResolver::
+
+- сделать кеширующий резолвер
+
++ сделать factoryResolver
+
 - Registry. Синглетон не позволяет удалить существующий объект, за подробностями в тест testRequestDirtyPathParser (файл www/tests/cases/request/requestparser.case.php)
 
 - actionMapper

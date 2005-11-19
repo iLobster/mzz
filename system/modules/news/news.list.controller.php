@@ -20,8 +20,11 @@ class newsListController
 {
     public function __construct()
     {
+        /*
         fileResolver::includer('news','news.list.model');
-        fileResolver::includer('news','news.list.view');
+        fileResolver::includer('news','news.list.view');*/
+        fileLoader::load('news.list.model');
+        fileLoader::load('news.list.view');
     }
     
     public function getView()

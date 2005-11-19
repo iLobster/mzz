@@ -9,7 +9,8 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-fileResolver::includer('exceptions', 'FileException');
+/*fileResolver::includer('exceptions', 'FileException');*/
+fileLoader::load('exceptions/FileException');
 
 /**
  * Fs: класс для работы с файлами

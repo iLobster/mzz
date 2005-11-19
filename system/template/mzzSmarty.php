@@ -16,7 +16,8 @@
  * @access public
  */
 
-fileResolver::includer('./libs/smarty', 'Smarty.class');
+/* fileResolver::includer('./libs/smarty', 'Smarty.class'); */
+require_once SYSTEM_DIR . 'libs/smarty/Smarty.class.php';
 
 class mzzSmarty extends Smarty
 {
