@@ -27,7 +27,6 @@ function smarty_function_load($params, $smarty) {
     $module = $params['module'];
     $action = $params['action'];
     
-    /*fileResolver::includer($module, $module . '.factory');*/
     fileLoader::load($module . '.factory');
     $factory = new newsFactory($action);
     $controller = $factory->getController();

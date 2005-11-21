@@ -29,7 +29,6 @@ class DB
         $config = configFactory::getInstance();
         $config->load('common');
         $driver = $config->getOption('db','driver');
-        //fileResolver::includer("db", 'driver_' . $driver);
         fileLoader::load('db/driver_' . $driver);
         $classname = 'Mzz' . ucfirst($driver);
         return call_user_func(array($classname, 'getInstance'));
