@@ -16,6 +16,7 @@ require_once 'cases/resolver/decoratingResolver.case.php';
 require_once 'cases/resolver/cachingResolver.case.php';
 require_once 'cases/core/fileloader.case.php';
 require_once 'cases/request/requestparser.case.php';
+require_once 'cases/request/rewrite.case.php';
 
 $test = new GroupTest('All file tests');
 $test->addTestCase(new fileResolverTest());
@@ -29,6 +30,7 @@ $test->addTestCase(new fileLoaderTest());
 $test->addTestCase(new decoratingResolverTest());
 $test->addTestCase(new cachingResolverTest());
 $test->addTestCase(new RequestParserTest());
+$test->addTestCase(new RewriteTest());
 $test->run(new HtmlReporter('windows-1251'));
 
 /*
