@@ -50,14 +50,14 @@ class Rewrite
     {
     }
 
-    public function createRule($pattern, $replacement)
+    public static function createRule($pattern, $replacement)
     {
         return array('pattern' => $pattern, 'replacement' => $replacement);
     }
 
     public function addRule($pattern, $replacement)
     {
-        $this->rules[] = $this->createRule($pattern, $replacement);
+        $this->rules[] = self::createRule($pattern, $replacement);
     }
 
     public function addGroupRule(Array $rules)
