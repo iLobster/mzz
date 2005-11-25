@@ -39,7 +39,7 @@ class RewriteTest extends unitTestCase
       $this->assertEqual($this->rewrite->process('/one/test'), "/my/test/list");
     }
 
-    public function testRewritemMix()
+    public function testRewriteMix()
     {
       $this->rewrite->addRule('#/foo/([a-z]+)/?#i', '/foo/$1/view');
 
