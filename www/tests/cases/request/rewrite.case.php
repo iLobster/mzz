@@ -58,6 +58,7 @@ class RewriteTest extends unitTestCase
     public function testGetRules()
     {
         $this->rewrite->getRules('test');
+        $this->assertEqual($this->rewrite->process('/'), '/foo');
         $this->assertEqual($this->rewrite->process('baz'), 'bar');
         $this->assertEqual($this->rewrite->process('test_pattern'), 'result');
     }
