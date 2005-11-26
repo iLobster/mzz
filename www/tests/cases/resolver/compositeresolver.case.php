@@ -1,7 +1,7 @@
 <?php
 
-require_once '../../system/resolver/compositeResolver.php';
-require_once './cases/resolver/testcasefileresolver.php';
+fileLoader::load('resolver/testcasefileresolver');
+fileLoader::load('resolver/compositeResolver');
 
 mock::generate('testCaseFileResolver');
 

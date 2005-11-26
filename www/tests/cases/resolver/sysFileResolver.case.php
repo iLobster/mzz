@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../system/resolver/sysFileResolver.php';
+fileLoader::load('resolver/sysFileResolver');
 
 class sysFileResolverTest extends UnitTestCase
 {

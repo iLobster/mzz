@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../system/resolver/partialFileResolver.php';
+fileLoader::load('resolver/partialFileResolver');
 
 mock::generate('testCaseFileResolver');
 

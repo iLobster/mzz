@@ -1,9 +1,6 @@
 <?php
 
 require_once '../config.php';
-require_once SYSTEM_DIR . 'libs/simpletest/unit_tester.php';
-require_once SYSTEM_DIR . 'libs/simpletest/mock_objects.php';
-require_once SYSTEM_DIR . 'libs/simpletest/reporter.php';
 require_once SYSTEM_DIR . 'core/fileloader.php';
 require_once SYSTEM_DIR . 'resolver/compositeResolver.php';
 require_once SYSTEM_DIR . 'resolver/fileResolver.php';
@@ -11,6 +8,7 @@ require_once SYSTEM_DIR . 'resolver/sysFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/classFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/casesFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/testFileResolver.php';
+require_once SYSTEM_DIR . 'resolver/libResolver.php';
 
 $baseresolver = new compositeResolver();
 $baseresolver->addResolver(new sysFileResolver());
@@ -18,7 +16,12 @@ $baseresolver->addResolver(new testFileResolver());
 $resolver = new compositeResolver();
 $resolver->addResolver(new classFileResolver($baseresolver));
 $resolver->addResolver(new casesFileResolver($baseresolver));
+$resolver->addResolver(new libResolver($baseresolver));
 fileLoader::setResolver($resolver);
+
+fileLoader::load('simpletest/unit_tester');
+fileLoader::load('simpletest/mock_objects');
+fileLoader::load('simpletest/reporter');
 
 fileLoader::load('resolver/fileresolver.case');
 fileLoader::load('resolver/compositeresolver.case');

@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../system/resolver/moduleResolver.php';
+fileLoader::load('resolver/moduleResolver.php');
 
 mock::generate('sysFileResolver');
 

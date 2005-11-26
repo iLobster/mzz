@@ -1,9 +1,11 @@
 <?php
 
-require_once '../../system/core/fileloader.php';
-require_once '../../system/core/Fs.php';
-require_once '../../system/resolver/decoratingResolver.php';
-require_once '../../system/resolver/cachingResolver.php';
+//require_once '../../system/core/fileloader.php';
+
+fileLoader::load('core/Fs');
+fileLoader::load('resolver/decoratingResolver');
+fileLoader::load('resolver/cachingResolver');
+
 
 mock::generate('testCaseFileResolver');
 

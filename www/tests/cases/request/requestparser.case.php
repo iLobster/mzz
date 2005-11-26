@@ -1,6 +1,7 @@
 <?php
-require_once 'cases/request/httprequest.class.php';
-require_once '../../system/request/requestparser.php';
+
+fileLoader::load('cases/request/httprequest.class');
+fileLoader::load('request/requestparser');
 
 Mock::generate('httprequest');
 

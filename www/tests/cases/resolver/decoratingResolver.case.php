@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../system/resolver/decoratingResolver.php';
+fileLoader::load('resolver/decoratingResolver');
 
 mock::generate('testCaseFileResolver');
 

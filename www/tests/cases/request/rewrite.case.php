@@ -1,5 +1,6 @@
 <?php
-require_once '../../system/request/rewrite.php';
+
+fileLoader::load('request/rewrite');
 
 class RewriteTest extends unitTestCase
 {
