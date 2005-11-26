@@ -15,6 +15,12 @@ class fileLoaderTest extends unitTestCase
         $this->resolver->setReturnValue('resolve', './cases/core/someclassStub.php');
         fileLoader::setResolver($this->resolver);
     }
+    
+    public function tearDown()
+    {
+        fileLoader::restoreResolver();
+    }
+    
     public function testResolving()
     {
         $this->assertEqual(realpath(fileLoader::resolve('core/someclassStub')), realpath('./cases/core/someclassStub.php'));

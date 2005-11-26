@@ -31,7 +31,7 @@ class Rewrite
     private static $instance;
 
     /**
-     * Синглетон
+     * Синглтон
      *
      * @static
      * @access public
@@ -101,6 +101,26 @@ class Rewrite
     {
         $this->rewrited = false;
         $this->rules = array();
+    }
+    
+    private function XMLread($section)
+    {
+        //путь как-то нужно получать из резолвера. нужно написать какой то резолвер, но я как то не могу сообразить ;(
+        //var_dump(fileLoader::resolve('core/someclassStuba'));
+        $xml = simplexml_load_file(APPLICATION_DIR . 'tests/cases/request/test.xml');
+        foreach ($xml->common->rule as $rules) {
+            $this->addRule((string) $rules['pattern'], (string) $rules);
+        }
+        if (!empty($xml->$section)) {
+            foreach ($xml->$section->rule as $rules) {
+                $this->addRule((string) $rules['pattern'], (string) $rules);
+            }
+        }
+    }
+    
+    public function getRules($section)
+    {
+        $this->XMLread($section);
     }
 }
 

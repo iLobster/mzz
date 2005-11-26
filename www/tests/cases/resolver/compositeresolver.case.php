@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../system/resolver/compositeresolver.php';
+require_once '../../system/resolver/compositeResolver.php';
 require_once './cases/resolver/testcasefileresolver.php';
 
 mock::generate('testCaseFileResolver');

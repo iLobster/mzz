@@ -2,10 +2,17 @@
 
 class fileLoader
 {
+    private static $stack = array();
     private static $resolver;
     public function setResolver($resolver)
     {
+        array_push(self::$stack, self::$resolver);
         self::$resolver = $resolver;
+    }
+    
+    public function restoreResolver()
+    {
+        self::$resolver = array_pop(self::$stack);
     }
     
     public static function resolve($request)

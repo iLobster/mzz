@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../system/resolver/fileresolver.php';
+require_once '../../system/resolver/fileResolver.php';
 
 class fileResolverTest extends unitTestCase
 {
