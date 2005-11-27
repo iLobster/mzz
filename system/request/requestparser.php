@@ -25,7 +25,6 @@ class requestParser
      */
     public function parse($path)
     {
-        echo $path;
         $path = preg_replace('/\/{2,}/', '/', $path);
 
         // Преобразовываем /path/to/document/ в path/to/document
