@@ -32,6 +32,10 @@ class timingFilter
         $filter_chain->next();
         $smarty = mzzSmarty::getInstance();
         $smarty->assign('time', (microtime(true) - $start_time));
+        
+        $db = DB::factory();
+        $smarty->assign('queries_num', $db->getQueriesNum());
+        
         $response->append($smarty->fetch('filter.time.tpl'));
         
     }

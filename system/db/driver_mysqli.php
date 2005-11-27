@@ -24,6 +24,8 @@ class MzzMysqli extends mysqli {
      * @static
      */
     private static $instance;
+    
+    private $queries_num = 0;
 
     /**
      * Переопределенный конструктор mysqli, добавлена установка кодировки
@@ -68,6 +70,17 @@ class MzzMysqli extends mysqli {
                 self::$instance = new $classname($host, $user, $passwd, $base);
         }
         return self::$instance;
+   }
+   
+   public function query($query, $resultmode = MYSQLI_STORE_RESULT)
+   {
+       $this->queries_num++;
+       return parent::query($query, $resultmode);
+   }
+   
+   public function getQueriesNum()
+   {
+       return $this->queries_num;
    }
 }
 ?>
