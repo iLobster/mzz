@@ -13,41 +13,25 @@ class RequestParserTest extends unitTestCase
 
     function setUp()
     {
-        $_GET['path'] = "/news/archive/18/10/2005/list";
+        // Тестируется так же очистка от лишних "/"
+        $_GET['path'] = "/news/archive/18/10//2005/list";
         $this->httprequest = new HttpRequest();
     }
 
     public function tearDown()
     {
-        unset($this->mock);
+        unset($_GET['path']);
     }
 
 
     public function testRequestPathParser()
     {
-        //$this->httprequest->setReturnValue('get', '/news/archive/18/10/2005/list');
-
         $this->assertEqual($this->httprequest->getAction(), 'list');
         $this->assertEqual($this->httprequest->getSection(), 'news');
 
         $this->assertEqual($this->httprequest->getParams(), array('archive', 18, 10, 2005, 'list'));
 
     }
-
-/*
-    public function testRequestDirtyPathParser()
-    {
-        $this->httprequest->setReturnValue('get', '////news/archive///10//////10//2005///////list////');
-        $this->requestparser = RequestParser::getInstance($this->httprequest);
-
-        $this->assertEqual($this->requestparser->get('action'), 'list');
-        $this->assertEqual($this->requestparser->get('section'), 'news');
-
-        $this->assertEqual($this->requestparser->get('params'), array('archive', 18, 10, 2005, 'list'));
-
-    }*/
-
-
 }
 
 ?>

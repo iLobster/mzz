@@ -50,8 +50,10 @@ class HttpRequest
      */
     protected $cookie_vars;
 
-    protected $section;
-    protected $action;
+    /**
+     * Params
+     *
+     */
     protected $params = array();
     /**#@-*/
 
@@ -62,6 +64,24 @@ class HttpRequest
      * @access private
      */
     private static $instance;
+
+    /**
+     * Section
+     *
+     * @var string
+     * @access protected
+     */
+    protected $section;
+
+    /**
+     * Action
+     *
+     * @var string
+     * @access protected
+     */
+    protected $action;
+
+
 
     /**
      * Конструктор.
@@ -200,48 +220,83 @@ class HttpRequest
         return ( isset($_SERVER[$name]) ) ? $_SERVER[$name] : null;
     }
 
+    /**
+     * Установка section
+     *
+     * @param string $value
+     */
     public function setSection($value)
     {
         $this->section = $value;
     }
 
+    /**
+     * Установка action
+     *
+     * @param string $value
+     */
     public function setAction($value)
     {
         $this->action = $value;
     }
 
+    /**
+     * Установка определенного параметра
+     *
+     * @param string $name
+     * @param string $value
+     */
     public function setParam($name, $value)
     {
         $this->params[$name] = $value;
     }
 
+    /**
+     * Установка массива параметров
+     *
+     * @param array $params
+     */
     public function setParams($params)
     {
         $this->params = $params;
     }
 
     /**
-     * Получение значения из результата разборки
+     * Возвращает section
      *
-     * @param string $field
-     * @return string|array|null
-     * @access public
+     * @return string
      */
     public function getSection()
     {
         return $this->section;
     }
 
+    /**
+     * Возвращает action
+     *
+     * @return string
+     */
     public function getAction()
     {
         return $this->action;
     }
 
+    /**
+     * Возвращает все параметры
+     *
+     * @return array
+     */
     public function getParams()
     {
         return $this->params;
     }
 
+    /**
+     * Возвращает определенный параметра
+     *
+     * @param string $name
+     * @return string
+     */
     public function getParam($name)
     {
         return $this->params[$name];
