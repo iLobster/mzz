@@ -25,6 +25,12 @@ class MzzMysqli extends mysqli {
      */
     private static $instance;
     
+    /**
+     * число запросов к БД
+     *
+     * @var int
+     * @access private
+     */
     private $queries_num = 0;
 
     /**
@@ -72,12 +78,25 @@ class MzzMysqli extends mysqli {
         return self::$instance;
    }
    
+   /**
+    * переопределённый метод query. декорирует оригинальный метод
+    * для того чтобы подсчитывать число запросов
+    *
+    * @param string $query запрос к БД
+    * @param int $resultmode тип, в котором выдаётся результат
+    * @return object
+    */
    public function query($query, $resultmode = MYSQLI_STORE_RESULT)
    {
        $this->queries_num++;
        return parent::query($query, $resultmode);
    }
    
+   /**
+    * метод для получения числа запросов
+    *
+    * @return int число запросов
+    */
    public function getQueriesNum()
    {
        return $this->queries_num;
