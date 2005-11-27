@@ -60,7 +60,7 @@ class Rewrite
         return array('pattern' => self::patternDecorate($pattern), 'replacement' => $replacement);
     }
     
-    private static  function patternDecorate($pattern)
+    private static function patternDecorate($pattern)
     {
         return self::PRE . $pattern . self::POST;
     }

@@ -19,8 +19,10 @@
 require_once SYSTEM_DIR . 'resolver/fileresolver.php';
 require_once SYSTEM_DIR . 'resolver/compositeResolver.php';
 require_once SYSTEM_DIR . 'resolver/sysFileResolver.php';
+require_once SYSTEM_DIR . 'resolver/appFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/classFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/moduleResolver.php';
+require_once SYSTEM_DIR . 'resolver/configFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/libResolver.php';
 require_once SYSTEM_DIR . 'core/fileLoader.php';
 require_once SYSTEM_DIR . 'core/Fs.php';
@@ -38,10 +40,12 @@ class core
     {
         $baseresolver = new compositeResolver();
         $baseresolver->addResolver(new sysFileResolver());
+        $baseresolver->addResolver(new appFileResolver());
 
         $resolver = new compositeResolver();
         $resolver->addResolver(new classFileResolver($baseresolver));
         $resolver->addResolver(new moduleResolver($baseresolver));
+        $resolver->addResolver(new configFileResolver($baseresolver));
         $resolver->addResolver(new libResolver($baseresolver));
         $cachingResolver = new cachingResolver($resolver);
 
