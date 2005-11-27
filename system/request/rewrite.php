@@ -19,9 +19,12 @@ class Rewrite
 {
     protected $rules = array();
 
-    const DELIMITER = "#";
+    //const DELIMITER = "#";
 
     protected $rewrited = false;
+    
+    const PRE = '#^';
+    const POST = '$#i';
 
     /**
      * Hold an instance of the class
@@ -54,7 +57,12 @@ class Rewrite
 
     public static function createRule($pattern, $replacement)
     {
-        return array('pattern' => self::DELIMITER . '^' . $pattern . '$' . self::DELIMITER . 'i', 'replacement' => $replacement);
+        return array('pattern' => self::patternDecorate($pattern), 'replacement' => $replacement);
+    }
+    
+    private static  function patternDecorate($pattern)
+    {
+        return self::PRE . $pattern . self::POST;
     }
 
     public function addRule($pattern, $replacement)
