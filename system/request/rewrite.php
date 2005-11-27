@@ -19,7 +19,7 @@ class Rewrite
 {
     protected $rules = array();
 
-    protected $delimiter = "#";
+    const DELIMITER = "#";
 
     protected $rewrited = false;
 
@@ -54,7 +54,7 @@ class Rewrite
 
     public static function createRule($pattern, $replacement)
     {
-        return array('pattern' => $delimiter . '^' . $pattern . '$' . $delimiter . 'i', 'replacement' => $replacement);
+        return array('pattern' => self::DELIMITER . '^' . $pattern . '$' . self::DELIMITER . 'i', 'replacement' => $replacement);
     }
 
     public function addRule($pattern, $replacement)
