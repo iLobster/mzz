@@ -29,7 +29,6 @@ class RewriteTest extends unitTestCase
         $this->assertEqual($this->rewrite->process('/news/12/01/2005/'), "/news/2005/01/12/view");
     }
 
-
     public function testRewriteGroup()
     {
         $rule[] = Rewrite::createRule("/one/([a-z]+)", '/one/two/$1/');
@@ -52,6 +51,15 @@ class RewriteTest extends unitTestCase
         $this->assertEqual($this->rewrite->process('/one/two/test'), "/my/test/list");
         $this->assertEqual($this->rewrite->process('/bar/test'), "/bar/test/list");
         $this->assertEqual($this->rewrite->process('/foo/test'), "/foo/test/view");
+    }
+
+    public function testRewriteNotRewrited()
+    {
+        $this->rewrite->addRule('/foo/([a-z]+)/?', '/foo/$1/view');
+        $rule[] = Rewrite::createRule("/one/two/([a-z]+)", '/my/$1/list');
+        $this->rewrite->addGroupRule($rule);
+
+        $this->assertEqual($this->rewrite->process('/maybe/work'), "/maybe/work");
     }
 
     public function testGetRules()
