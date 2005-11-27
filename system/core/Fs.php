@@ -104,6 +104,16 @@ class Fs
         }
 
     }
+
+    /**
+     * Возвращает указатель на открытый файл
+     *
+     * @return resource
+     */
+    public function getHandle() {
+        return $this->handle;
+    }
+
     /**
      * Бинарно-безопасное чтение файла
      *
@@ -152,28 +162,6 @@ class Fs
     }
 
     /**
-     * Устанавливает смещение в файловом указателе
-     *
-     * @access public
-     * @param integer $offset смещение (байт)
-     * @param integer $whence
-     * @return boolean
-     */
-    public function seek($offset, $whence = SEEK_SET) {
-        return (bool)fseek($this->handle, $offset, $whence);
-    }
-
-    /**
-     * Сообщает текущее смещение чтения/записи файла
-     *
-     * @access public
-     * @return integer
-     */
-    public function ftell() {
-        return ftell($this->handle);
-    }
-
-    /**
      * Получение содержимого всего файла. Если $reset равен true, то перед чтением
      * смещение устанавливается в 0.
      *
@@ -188,35 +176,6 @@ class Fs
         return $this->read(filesize($this->file));
     }
 
-    /**
-     * Возвращает true, если достигнут конец файла, иначе false.
-     *
-     * @access public
-     * @return boolean
-     */
-    public function feof() {
-        return feof($this->handle);
-    }
-
-    /**
-     * Сбрасывает курсор у файлового указателя
-     *
-     * @access public
-     * @return boolean
-     */
-    public function rewind() {
-        return rewind($this->handle);
-    }
-
-    /**
-     * Портируемое рекомендательное запирание файлов
-     *
-     * @param integer $operation действие
-     * @return boolean
-     */
-    public function lock($operation) {
-        return flock($this->handle, $operation);
-    }
 
     /**
      * Закрытие дескриптора файла
