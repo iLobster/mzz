@@ -18,109 +18,34 @@
 class requestParser
 {
     /**
-     * Хранение результата разборки URL
-     *
-     * @var string
-     * @access private
-     */
-    private $data;
-
-    /**
-     * Hold an instance of the class
-     *
-     * @var object
-     * @access private
-     * @static
-     */
-    private static $instance;
-
-    /**
-     * HttpRequest object
-     *
-     * @var object
-     * @access private
-     */
-    private $httprequest;
-
-    /**
-     * Синглтон
-     *
-     * @static
-     * @access public
-     * @return object
-     */
-    public static function getInstance($httprequest)
-    {
-        if ( !isset( self::$instance ) ) {
-            $c = __CLASS__;
-            self::$instance = new $c($httprequest);
-        }
-        return self::$instance;
-    }
-
-    /**
-     * Конструктор, при создании объекта вызывает функцию
-     * разбора URL
-     *
-     * @access private
-     * @return void
-     */
-    private function __construct($httprequest)
-    {
-        $this->httprequest = $httprequest;
-        self::parse();
-    }
-
-    /**
      * Разборка URL на section, action, params.
      *
      * @access private
      * @return void
      */
-    private function parse()
+    public function parse($path)
     {
-        $path = preg_replace('/\/{2,}/', '/', $this->httprequest->get('path'));
+        echo $path;
+        $path = preg_replace('/\/{2,}/', '/', $path);
 
         // Преобразовываем /path/to/document/ в path/to/document
         $path = substr($path, 1, (strlen($path) - 1) - (strrpos($path, '/') == strlen($path) - 1));
 
         $params = explode('/', $path);
 
-        self::set('section', array_shift($params));
+        HttpRequest::setSection(array_shift($params));
         $action = array_pop($params);
-        self::set('action', $action);
+        HttpRequest::setAction($action);
+
         // Если action задан, то заносим его так же и в params,
         // который будет использован как параметр,
         // если указанный action не существует
         if (!empty($action)) {
             $params = array_merge($params, array($action));
         }
-        self::set('params', $params);
+        HttpRequest::setParams($params);
     }
 
-    /**
-     * Сохранение результата разборки
-     *
-     * @param string $field
-     * @param string|array $value
-     * @access public
-     */
-    public function set($field, $value)
-    {
-        $this->data[$field] = $value;
-    }
-
-    /**
-     * Получение значения из результата разборки
-     *
-     * @param string $field
-     * @return string|array|null
-     * @access public
-     */
-    public function get($field)
-    {
-        return isset($this->data[$field]) ? $this->data[$field] : null;
-    }
 }
 
 ?>

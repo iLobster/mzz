@@ -9,17 +9,17 @@ class fileLoader
         array_push(self::$stack, self::$resolver);
         self::$resolver = $resolver;
     }
-    
+
     public function restoreResolver()
     {
         self::$resolver = array_pop(self::$stack);
     }
-    
+
     public static function resolve($request)
     {
         return self::$resolver->resolve($request);
     }
-    
+
     public static function load($classname)
     {
         $realname = (strpos($classname, '/') === false ) ? $classname : substr(strrchr($classname, '/'), 1);

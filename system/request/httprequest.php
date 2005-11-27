@@ -49,6 +49,10 @@ class HttpRequest
      * Cookie
      */
     protected $cookie_vars;
+
+    protected $section;
+    protected $action;
+    protected $params = array();
     /**#@-*/
 
     /**
@@ -66,9 +70,14 @@ class HttpRequest
      */
     public function __construct()
     {
+        $rewrite = Rewrite::getInstance();
         $this->post_vars = $_POST;
         $this->get_vars = $_GET;
         $this->cookie_vars = $_COOKIE;
+        requestParser::parse($this->get('path'));
+
+        $rewrite->getRules($this->getSection());
+        requestParser::parse($rewrite->process($this->get('path')));
     }
 
     /**
@@ -189,6 +198,53 @@ class HttpRequest
     private function getServer($name)
     {
         return ( isset($_SERVER[$name]) ) ? $_SERVER[$name] : null;
+    }
+
+    public function setSection($value)
+    {
+        $this->section = $value;
+    }
+
+    public function setAction($value)
+    {
+        $this->action = $value;
+    }
+
+    public function setParam($name, $value)
+    {
+        $this->params[$name] = $value;
+    }
+
+    public function setParams($params)
+    {
+        $this->params = array_merge($this->params, $params);
+    }
+
+    /**
+     * Получение значения из результата разборки
+     *
+     * @param string $field
+     * @return string|array|null
+     * @access public
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    public function getParam($name)
+    {
+        return $this->params[$name];
     }
 }
 

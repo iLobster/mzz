@@ -40,6 +40,7 @@ class resolvingFilter
     {
         //fileResolver::includer('template', 'mzzSmarty');
         fileLoader::load('config/configFactory');
+        fileLoader::load('request/rewrite');
         fileLoader::load('request/httprequest');
         fileLoader::load('request/requestParser');
         fileLoader::load('frontController');

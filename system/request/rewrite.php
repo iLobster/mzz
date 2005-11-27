@@ -22,7 +22,7 @@ class Rewrite
     //const DELIMITER = "#";
 
     protected $rewrited = false;
-    
+
     const PRE = '#^';
     const POST = '$#i';
 
@@ -59,7 +59,7 @@ class Rewrite
     {
         return array('pattern' => self::patternDecorate($pattern), 'replacement' => $replacement);
     }
-    
+
     private static function patternDecorate($pattern)
     {
         return self::PRE . $pattern . self::POST;
@@ -96,14 +96,11 @@ class Rewrite
                     $rpath = $path;
                     if(($rpath = $this->rewrite($rule_element['pattern'], $rule_element['replacement'], $rpath)) !== false) {
                         return $rpath;
-                    } 
+                    }
                 }
-                /*if($this->rewrited) {
-                    $this->rewrited = false;
-                    return $rpath;
-                }*/
             }
         }
+        return $path;
     }
 
     public function clear()
@@ -111,17 +108,13 @@ class Rewrite
         $this->rewrited = false;
         $this->rules = array();
     }
-    
+
     private function XMLread($section)
     {
         //путь как-то нужно получать из резолвера. нужно написать какой то резолвер, но я как то не могу сообразить ;(
         //var_dump(fileLoader::resolve('core/someclassStuba'));
         $xml = simplexml_load_file(APPLICATION_DIR . 'tests/cases/request/test.xml');
         $rules = array();
-        foreach ($xml->common->rule as $rule) {
-            $rules[] = self::createRule((string) $rule['pattern'], (string) $rule);
-        }
-        $this->addGroupRule($rules);
 
         if (!empty($xml->$section)) {
             $rules = array();
@@ -129,9 +122,11 @@ class Rewrite
                 $rules[] = self::createRule((string) $rule['pattern'], (string) $rule);
             }
             $this->addGroupRule($rules);
+        } else {
+            return false;
         }
     }
-    
+
     public function getRules($section)
     {
         $this->XMLread($section);

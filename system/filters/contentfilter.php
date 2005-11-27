@@ -28,10 +28,9 @@ class contentFilter
     public function run($filter_chain, $response)
     {
         $httprequest = HttpRequest::getInstance();
-        $requestParser = requestParser::getInstance($httprequest);
 
-        $application = $requestParser->get('section');
-        $action = $requestParser->get('action');
+        $application = $httprequest->getSection();
+        $action = $httprequest->getAction();
 
         $frontcontroller = new frontController($application, $action);
         $template = $frontcontroller->getTemplate();
