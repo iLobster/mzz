@@ -38,11 +38,13 @@ fileLoader::load('resolver/cachingResolver.case');
 fileLoader::load('resolver/casesFileResolver.case');
 fileLoader::load('resolver/testFileResolver.case');
 fileLoader::load('core/fileloader.case');
+fileLoader::load('core/registry.case');
 fileLoader::load('request/requestparser.case');
 fileLoader::load('request/rewrite.case');
 
 $test = new GroupTest('All file tests');
 $test->addTestCase(new fileResolverTest());
+$test->addTestCase(new registryTest());
 $test->addTestCase(new compositeResolverTest());
 $test->addTestCase(new partialFileResolverTest());
 $test->addTestCase(new sysFileResolverTest());
