@@ -67,7 +67,6 @@ class Rewrite
 
     public function rewrite($pattern, $replacement, $path)
     {
-
         if(preg_match($pattern, $path)) {
             return preg_replace($pattern, $replacement, $path);
         } else {
@@ -83,16 +82,16 @@ class Rewrite
                     return $rpath;
                 }
             } else {
-                $rpath = $path;
                 foreach ($rule as $rule_element) {
+                    $rpath = $path;
                     if(($rpath = $this->rewrite($rule_element['pattern'], $rule_element['replacement'], $rpath)) !== false) {
-                        $this->rewrited = true;
-                    }
+                        return $rpath;
+                    } 
                 }
-                if($this->rewrited) {
+                /*if($this->rewrited) {
                     $this->rewrited = false;
                     return $rpath;
-                }
+                }*/
             }
         }
     }
