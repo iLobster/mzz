@@ -1,10 +1,10 @@
 <?xml version='1.0' standalone='yes'?>
 <rules>
 	<common>
-		<rule pattern="#/#">/foo</rule>
-		<rule pattern="#baz#">bar</rule>
+		<rule pattern="/">/foo</rule>
+		<rule pattern="baz">bar</rule>
 	</common>
 	<test>
-		<rule pattern="#test_pattern#">result</rule>
+		<rule pattern="test_pattern">result</rule>
 	</test>
 </rules>

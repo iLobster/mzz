@@ -52,7 +52,7 @@ class Rewrite
 
     public static function createRule($pattern, $replacement)
     {
-        return array('pattern' => $pattern, 'replacement' => $replacement);
+        return array('pattern' => '#^' . $pattern . '$#i', 'replacement' => $replacement);
     }
 
     public function addRule($pattern, $replacement)
