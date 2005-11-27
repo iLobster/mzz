@@ -256,7 +256,7 @@ class HttpRequest
      *
      * @param array $params
      */
-    public function setParams($params)
+    public function setParams(Array $params)
     {
         $this->params = $params;
     }

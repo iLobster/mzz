@@ -17,13 +17,25 @@
  */
 class Rewrite
 {
+
+    /**
+     * Правила
+     *
+     * @var array
+     * @access protected
+     */
     protected $rules = array();
 
-    //const DELIMITER = "#";
-
-    protected $rewrited = false;
-
+    /**
+     * Левый разделитель
+     *
+     */
     const PRE = '#^';
+
+    /**
+     * Правый разделитель
+     *
+     */
     const POST = '$#i';
 
     /**
@@ -51,31 +63,68 @@ class Rewrite
         return self::$instance;
     }
 
+    /**
+     * Construct
+     *
+     * @access private
+     */
     private function __construct()
     {
     }
 
+    /**
+     * Создание правила.
+     *
+     * @param string $pattern шаблон для регулярного выражения
+     * @param string $replacement замена
+     * @return array
+     */
     public static function createRule($pattern, $replacement)
     {
         return array('pattern' => self::patternDecorate($pattern), 'replacement' => $replacement);
     }
 
+    /**
+     * Decorate pattern
+     *
+     * @param string $pattern
+     * @return string
+     */
     private static function patternDecorate($pattern)
     {
         return self::PRE . $pattern . self::POST;
     }
 
+    /**
+     * Добавляет правило
+     *
+     * @param string $pattern
+     * @param string $replacement
+     */
     public function addRule($pattern, $replacement)
     {
         $this->rules[] = self::createRule($pattern, $replacement);
     }
 
+    /**
+     * Добавляет группу правил
+     *
+     * @param array $rules массив из правил, созданых createRule
+     */
     public function addGroupRule(Array $rules)
     {
         $this->rules[] = $rules;
     }
 
-    public function rewrite($pattern, $replacement, $path)
+    /**
+     * Возвращает rewrited-path если path совпал с шаблоном, иначе возвращает false
+     *
+     * @param string $pattern
+     * @param string $replacement
+     * @param string $path
+     * @return string|false
+     */
+    protected function rewrite($pattern, $replacement, $path)
     {
         if(preg_match($pattern, $path)) {
             return preg_replace($pattern, $replacement, $path);
@@ -84,6 +133,14 @@ class Rewrite
         }
     }
 
+    /**
+     * Запуск rewrite. Выполнение правил останавливается после первого
+     * совпадения с шаблоном правила или шаблоном правила из группы.
+     * Группа правил выполняется до первого совпадения с шаблоном.
+     *
+     * @param string $path
+     * @return string
+     */
     public function process($path)
     {
         foreach ($this->rules as $rule) {
@@ -103,12 +160,21 @@ class Rewrite
         return $path;
     }
 
+    /**
+     * Удаляет установленные правила
+     *
+     */
     public function clear()
     {
-        $this->rewrited = false;
         $this->rules = array();
     }
 
+    /**
+     * Чтение XML-конфига с правилами для Rewrite.
+     *
+     * @param string $section
+     * @return array|false
+     */
     private function XMLread($section)
     {
         //путь как-то нужно получать из резолвера. нужно написать какой то резолвер, но я как то не могу сообразить ;(
@@ -127,6 +193,11 @@ class Rewrite
         }
     }
 
+    /**
+     * Получение всех правил
+     *
+     * @param string $section
+     */
     public function getRules($section)
     {
         $this->XMLread($section);

@@ -13,7 +13,7 @@ class RequestParserTest extends unitTestCase
 
     function setUp()
     {
-        // Тестируется так же очистка от лишних "/"
+        // Тестируется также очистка от лишних "/"
         $_GET['path'] = "/news/archive/18/10//2005/list";
         $this->httprequest = new HttpRequest();
     }
