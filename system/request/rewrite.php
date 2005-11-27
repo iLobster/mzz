@@ -107,13 +107,18 @@ class Rewrite
         //путь как-то нужно получать из резолвера. нужно написать какой то резолвер, но я как то не могу сообразить ;(
         //var_dump(fileLoader::resolve('core/someclassStuba'));
         $xml = simplexml_load_file(APPLICATION_DIR . 'tests/cases/request/test.xml');
-        foreach ($xml->common->rule as $rules) {
-            $this->addRule((string) $rules['pattern'], (string) $rules);
+        $rules = array();
+        foreach ($xml->common->rule as $rule) {
+            $rules[] = self::createRule((string) $rule['pattern'], (string) $rule);
         }
+        $this->addGroupRule($rules);
+
         if (!empty($xml->$section)) {
-            foreach ($xml->$section->rule as $rules) {
-                $this->addRule((string) $rules['pattern'], (string) $rules);
+            $rules = array();
+            foreach ($xml->$section->rule as $rule) {
+                $rules[] = self::createRule((string) $rule['pattern'], (string) $rule);
             }
+            $this->addGroupRule($rules);
         }
     }
     
