@@ -217,7 +217,7 @@ class HttpRequest
 
     public function setParams($params)
     {
-        $this->params = array_merge($this->params, $params);
+        $this->params = $params;
     }
 
     /**

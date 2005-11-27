@@ -1,6 +1,6 @@
 <?php
 
-class httprequest {
+class HttpRequestStub extends HttpRequest {
     function get() {
     }
 }
