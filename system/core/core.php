@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -51,6 +51,7 @@ class core
 
         fileLoader::setResolver($cachingResolver);
         fileLoader::load('errors/error');
+        fileLoader::load('core/Registry');
         fileLoader::load('template/mzzSmarty');
         fileLoader::load('core/response');
         fileLoader::load('filters/filterchain');
@@ -58,6 +59,18 @@ class core
         fileLoader::load('filters/contentfilter');
         fileLoader::load('filters/resolvingfilter');
         fileLoader::load('exceptions/FileException');
+
+        $smarty = new mzzSmarty();
+        $smarty->template_dir      = APPLICATION_DIR . 'templates';
+        $smarty->compile_dir       = APPLICATION_DIR . 'templates/compiled';
+        $smarty->plugins_dir[] = SYSTEM_DIR . 'template/plugins';
+        $smarty->debugging = true;
+
+        $registry = Registry::instance();
+        $registry->setEntry('rewrite', 'Rewrite');
+        $registry->setEntry('httprequest', 'HttpRequest');
+        $registry->setEntry('config', 'config');
+        $registry->setEntry('smarty', $smarty);
 
         $response = new response();
 

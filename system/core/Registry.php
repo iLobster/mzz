@@ -1,49 +1,133 @@
 <?php
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2006
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
+
+/**
+ * Registry: реализация класса для хранения объектов
+ *
+ * @package system
+ * @version 0.1
+ */
 
 class Registry {
-    protected $registry_stack;
+    /**
+     * Registry Stack
+     *
+     * @var array
+     */
+    protected $stack;
+
+    /**
+     * Registry
+     *
+     * @var Registry
+     * @static
+     */
     static $registry = false;
 
-    private function __construct() {
-        $this->registry_stack = array(array());
+    /**
+     * Construct
+     *
+     * @access private
+     */
+    private function __construct()
+    {
+        $this->stack = array(array());
     }
 
-    public function setEntry($key, $item) {
-            $this->registry_stack[0][$key] = $item;
+    /**
+     * Сохранение объекта или имени класса
+     *
+     * @param string $key имя в registry
+     * @param object|string $item объект или имя класса
+     * @access public
+     */
+    public function setEntry($key, $item)
+    {
+        $this->stack[0][$key] = $item;
     }
 
-    public function getEntry($key) {
-        if(isset($this->registry_stack[0][$key])) {
-            if(!is_object($this->registry_stack[0][$key])) {
-                $this->registry_stack[0][$key] = new $this->registry_stack[0][$key];
+    /**
+     * Получение объекта сохраненного ранее под определенным именем.
+     * Если была сохранена строка и существует класс таким именем, то будет возвращен
+     * объект и объект перезапишет строку.
+     *
+     * @param string $key
+     * @return object|false
+     */
+    public function getEntry($key)
+    {
+        if(isset($this->stack[0][$key])) {
+            if(!is_object($this->stack[0][$key])) {
+                $classname = $this->stack[0][$key];
+                if(!class_exists($classname)) {
+                    // throw exception: registry create object error: class $classname not found.
+                    return false;
+                } else {
+                    $this->stack[0][$key] = new $classname;
+                }
             }
-            return $this->registry_stack[0][$key];
+            return $this->stack[0][$key];
         } else {
             return false;
         }
     }
 
-    public function isEntry($key) {
+    /**
+     * Проверяет существует ли объект сохраненный под именем '$key'
+     *
+     * @param string $key
+     * @return boolean
+     */
+    public function isEntry($key)
+    {
         return ($this->getEntry($key) !== false);
     }
 
-    public function instance() {
+    /**
+     * Создание объекта Registry, если объект уже создан, то
+     * вернуть созданный ранее.
+     *
+     * @return object
+     */
+    public function instance()
+    {
         if (self::$registry === false) {
             self::$registry = new Registry();
         }
         return self::$registry;
     }
 
-    public function save() {
-        array_unshift($this->registry_stack, array());
-        if (!count($this->registry_stack)) {
+    /**
+     * Сохранение текущего и создание нового стека для хранения
+     * объектов.
+     *
+     * @return false если стек потерян
+     */
+    public function save()
+    {
+        array_unshift($this->stack, array());
+        if (!count($this->stack)) {
             // Exception: registry lost
             return false;
         }
     }
 
-    public function restore() {
-        array_shift($this->registry_stack);
+    /**
+     * Удаляет текущий и восстанавливает ранее сохраненный стек.
+     *
+     */
+    public function restore()
+    {
+        array_shift($this->stack);
     }
 }
 ?>

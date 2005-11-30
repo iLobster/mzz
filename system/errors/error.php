@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -45,7 +45,8 @@ function ErrorHandler($errno, $errstr, $errfile, $errline)
         return false;
     }
 
-    $smarty = mzzSmarty::getInstance();
+    $registry = Registry::instance();
+    $smarty = $registry->getEntry('smarty');
     $params = array('software' => (!empty($_SERVER["SERVER_SOFTWARE"]) ? $_SERVER["SERVER_SOFTWARE"] : "unknown"),
                     'errortype' => $errortype, 'errstr' => $errstr, 'errfile' => $errfile, 'errline' => $errline,
                     'errno' => $errno, 'sapi' => php_sapi_name());

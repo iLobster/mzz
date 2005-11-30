@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -21,16 +21,8 @@ fileLoader::load('Smarty/Smarty.class');
 class mzzSmarty extends Smarty
 {
     /**
-     * Hold an instance of the class
-     *
-     * @access private
-     * @static object
-     */
-    private static $smarty;
-
-    /**
      * Выполняет шаблон и возвращает результат
-     * Модифицирован для реализации вложенных шаблонов.
+     * Декорирован для реализации вложенных шаблонов.
      *
      * @param string $resource_name
      * @param string $cache_id
@@ -63,25 +55,6 @@ class mzzSmarty extends Smarty
     public function display($resource_name, $cache_id = null, $compile_id = null)
     {
         $this->fetch($resource_name, $cache_id, $compile_id, true);
-    }
-
-    /**
-     * Singleton
-     *
-     * @static
-     * @return object
-     */
-    public static function getInstance() {
-        if(!is_object(self::$smarty)) {
-            $classname = __CLASS__;
-            $smarty = new $classname;
-            $smarty->template_dir      = APPLICATION_DIR . 'templates';
-            $smarty->compile_dir       = APPLICATION_DIR . 'templates/compiled';
-            $smarty->plugins_dir[] = SYSTEM_DIR . 'template/plugins';
-            $smarty->debugging = true;
-            self::$smarty = $smarty;
-        }
-        return self::$smarty;
     }
 
     /**

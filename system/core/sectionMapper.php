@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -27,6 +27,15 @@ class sectionMapper
     protected $template_name;
 
     /**
+     * Префикс имени
+     */
+    const TPL_PRE = "act.";
+
+    /**
+     * Расширение шаблона
+     */
+    const TPL_EXT = ".tpl";
+    /**
      * Construct
      *
      * @access public
@@ -47,7 +56,7 @@ class sectionMapper
      */
     private function xmlRead($section, $action)
     {
-        $xml = simplexml_load_file(fileLoader::resolve('configs/mapper.xml'));
+        $xml = simplexml_load_file(fileLoader::resolve('configs/map.xml'));
         if (!empty($xml->$section)) {
             foreach ($xml->$section->action as $_action) {
                 if($_action['name'] == $action) {
@@ -62,13 +71,28 @@ class sectionMapper
     }
 
     /**
-     * Получение имя шаблона (*.tpl)
+     * Decorate pattern
+     *
+     * @param string $template_name
+     * @return string
+     */
+    protected function templateNameDecorate($template_name)
+    {
+        return self::TPL_PRE . $template_name . self::TPL_EXT;
+    }
+
+    /**
+     * Получение имени шаблона
      *
      * @return string
      */
     public function getTemplateName()
     {
-        return $this->template_name;
+        if($this->template_name === false) {
+            return false;
+        } else {
+            return self::templateNameDecorate($this->template_name);
+        }
     }
 }
 

@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -26,7 +26,8 @@ class DB
      */
     public static function factory()
     {
-        $config = configFactory::getInstance();
+        $registry = Registry::instance();
+        $config = $registry->getEntry('config');
         $config->load('common');
         $driver = $config->getOption('db','driver');
         fileLoader::load('db/driver_' . $driver);

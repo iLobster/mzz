@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -39,36 +39,11 @@ class Rewrite
     const POST = '$#i';
 
     /**
-     * Hold an instance of the class
-     *
-     * @var object
-     * @access private
-     * @static
-     */
-    private static $instance;
-
-    /**
-     * Синглтон
-     *
-     * @static
-     * @access public
-     * @return object
-     */
-    public static function getInstance()
-    {
-        if ( !isset( self::$instance ) ) {
-            $c = __CLASS__;
-            self::$instance = new $c();
-        }
-        return self::$instance;
-    }
-
-    /**
      * Construct
      *
      * @access private
      */
-    private function __construct()
+    public function __construct()
     {
     }
 

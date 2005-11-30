@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -24,7 +24,7 @@ class MzzMysqli extends mysqli {
      * @static
      */
     private static $instance;
-    
+
     /**
      * число запросов к БД
      *
@@ -47,7 +47,8 @@ class MzzMysqli extends mysqli {
      */
     public function __construct($host=null, $username=null, $passwd=null, $dbname=null, $port=0, $socket=null) {
         parent::__construct($host, $username, $passwd, $dbname, $port, $socket);
-        $config = configFactory::getInstance();
+        $registry = Registry::instance();
+        $config = $registry->getEntry('config');
         $config->load('common');
         /* Правильнее устанавливать кодировку через метод set_charset, он добавлен в PHP>=5.1.0RC1,
          * но у меня PHP 5.1.0 RC5 и ругается 'Call to undefined method' */
@@ -67,7 +68,8 @@ class MzzMysqli extends mysqli {
     {
         if (!isset(self::$instance)) {
                 $classname = __CLASS__;
-                $config = configFactory::getInstance();
+                $registry = Registry::instance();
+                $config = $registry->getEntry('config');
                 $config->load('common');
                 $host = $config->getOption('db','host');
                 $user = $config->getOption('db','user');
@@ -77,7 +79,7 @@ class MzzMysqli extends mysqli {
         }
         return self::$instance;
    }
-   
+
    /**
     * переопределённый метод query. декорирует оригинальный метод
     * для того чтобы подсчитывать число запросов
@@ -91,7 +93,7 @@ class MzzMysqli extends mysqli {
        $this->queries_num++;
        return parent::query($query, $resultmode);
    }
-   
+
    /**
     * метод для получения числа запросов
     *

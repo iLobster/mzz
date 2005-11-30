@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -27,7 +27,8 @@ class contentFilter
      */
     public function run($filter_chain, $response)
     {
-        $httprequest = HttpRequest::getInstance();
+        $registry = Registry::instance();
+        $httprequest = $registry->getEntry('httprequest');
 
         $application = $httprequest->getSection();
         $action = $httprequest->getAction();
@@ -35,7 +36,7 @@ class contentFilter
         $frontcontroller = new frontController($application, $action);
         $template = $frontcontroller->getTemplate();
 
-        $smarty = mzzSmarty::getInstance();
+        $smarty = $registry->getEntry('smarty');
         $response->append($smarty->fetch($template));
 
         $filter_chain->next();

@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -38,12 +38,6 @@ final class cachingResolver extends decoratingResolver
      */
     private $cache_file;
 
-    /**
-     * ????
-     *
-     * @var boolean
-     */
-    private $cached = true;
     /**#@-*/
 
     /**

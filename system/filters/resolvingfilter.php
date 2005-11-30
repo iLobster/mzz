@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -38,8 +38,7 @@ class resolvingFilter
      */
     private function resolve()
     {
-        //fileResolver::includer('template', 'mzzSmarty');
-        fileLoader::load('config/configFactory');
+        fileLoader::load('config/config');
         fileLoader::load('request/rewrite');
         fileLoader::load('request/httprequest');
         fileLoader::load('request/requestParser');

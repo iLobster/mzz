@@ -7,7 +7,8 @@ class RewriteTest extends unitTestCase
     private $rewrite;
     function setUp()
     {
-        $this->rewrite = Rewrite::getInstance();
+        $registry = Registry::instance();
+        $this->rewrite = $registry->getEntry('rewrite');
     }
 
     public function tearDown()

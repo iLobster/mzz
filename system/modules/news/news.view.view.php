@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -20,28 +20,29 @@ class newsViewView
 {
     private $model;
     private $smarty;
-    
+
     public function __construct($model)
     {
         $this->setModel($model);
         $this->smarty = self::getSmarty();
     }
-    
+
     public function toString()
     {
         $data = $this->model->getNews();
         $this->smarty->assign('news', $data);
         return $this->smarty->fetch('news.view.tpl');
     }
-    
+
     private function setModel($model)
     {
         $this->model = $model;
     }
-    
+
     private function getSmarty()
     {
-        return mzzSmarty::getInstance();
+        $registry = Registry::instance();
+        return $registry->getEntry('smarty');
     }
 }
 

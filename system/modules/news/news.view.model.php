@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -25,7 +25,8 @@ class newsViewModel
 
     public function getNews()
     {
-        $httprequest = HttpRequest::getInstance();
+        $registry = Registry::instance();
+        $httprequest = $registry->getEntry('httprequest');
         $params = $httprequest->getParams();
         $query = "SELECT * FROM `news` WHERE `id`=".($params[0]);
         $db = DB::factory();

@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -12,7 +12,7 @@
 
 /**
  * timingFilter: фильтр для тайминга
- * 
+ *
  * @package system
  * @version 0.1
  */
@@ -30,14 +30,16 @@ class timingFilter
         $start_time = microtime(true);
 
         $filter_chain->next();
-        $smarty = mzzSmarty::getInstance();
+
+        $registry = Registry::instance();
+        $smarty = $registry->getEntry('smarty');
         $smarty->assign('time', (microtime(true) - $start_time));
-        
+
         $db = DB::factory();
         $smarty->assign('queries_num', $db->getQueriesNum());
-        
+
         $response->append($smarty->fetch('filter.time.tpl'));
-        
+
     }
 }
 

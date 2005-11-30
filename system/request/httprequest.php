@@ -3,7 +3,7 @@
 // $Id$
 // $URL$
 //
-// MZZ Content Management System (c) 2005
+// MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
 //
 // This program is free software and released under
@@ -58,14 +58,6 @@ class HttpRequest
     /**#@-*/
 
     /**
-     * Singleton
-     *
-     * @var object
-     * @access private
-     */
-    private static $instance;
-
-    /**
      * Section
      *
      * @var string
@@ -90,7 +82,8 @@ class HttpRequest
      */
     public function __construct()
     {
-        $rewrite = Rewrite::getInstance();
+        $registry = Registry::instance();
+        $rewrite = $registry->getEntry('rewrite');
         $this->post_vars = $_POST;
         $this->get_vars = $_GET;
         $this->cookie_vars = $_COOKIE;
@@ -98,20 +91,6 @@ class HttpRequest
 
         $rewrite->getRules($this->getSection());
         requestParser::parse($rewrite->process($this->get('path')));
-    }
-
-    /**
-     * Singleton method
-     *
-     * @access public
-     * @return object
-     */
-    public function getInstance() {
-        $classname = __CLASS__;
-        if(!(self::$instance instanceof $classname)) {
-            self::$instance = new $classname;
-        }
-        return self::$instance;
     }
 
     /**

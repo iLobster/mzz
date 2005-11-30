@@ -46,6 +46,9 @@ fileLoader::load('core/sectionMapper.case');
 fileLoader::load('request/requestparser.case');
 fileLoader::load('request/rewrite.case');
 
+$registry = Registry::instance();
+$registry->setEntry('rewrite', 'Rewrite');
+
 $test = new GroupTest('All file tests');
 $test->addTestCase(new fileResolverTest());
 $test->addTestCase(new registryTest());
