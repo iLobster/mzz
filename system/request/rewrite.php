@@ -154,7 +154,7 @@ class Rewrite
     {
         //путь как-то нужно получать из резолвера. нужно написать какой то резолвер, но я как то не могу сообразить ;(
         //var_dump(fileLoader::resolve('core/someclassStuba'));
-        $xml = simplexml_load_file(APPLICATION_DIR . 'tests/cases/request/test.xml');
+        $xml = simplexml_load_file(fileLoader::resolve('configs/rewrite.xml'));
         $rules = array();
 
         if (!empty($xml->$section)) {

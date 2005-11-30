@@ -49,7 +49,7 @@ final class cachingResolver extends decoratingResolver
     public function __construct($resolver)
     {
         // задаём имя файла, в котором будет хранится кэш
-        $filename = TEMP_DIR . 'resolver.cache';
+        $filename = systemConfig::$pathToTemp . 'resolver.cache';
         // если файл существует - читаем его содержимое и десериализуем его в массив
         if (file_exists($filename)) {
             $this->cache = unserialize(file_get_contents($filename));

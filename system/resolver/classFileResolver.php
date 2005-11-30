@@ -21,7 +21,7 @@
  * @version 0.1
  */
 
-require_once SYSTEM_DIR . 'resolver/partialFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/partialFileResolver.php';
 
 class classFileResolver extends partialFileResolver
 {

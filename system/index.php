@@ -1,6 +1,6 @@
 <?php
-require_once SYSTEM_DIR . 'version.php';
-require_once SYSTEM_DIR . 'core/core.php';
+require_once systemConfig::$pathToSystem  . 'version.php';
+require_once systemConfig::$pathToSystem  . 'core/core.php';
 
 $application = new core();
 $application->run();

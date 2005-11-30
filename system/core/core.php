@@ -16,18 +16,18 @@
  * @package system
  * @version 0.1
  */
-require_once SYSTEM_DIR . 'resolver/fileresolver.php';
-require_once SYSTEM_DIR . 'resolver/compositeResolver.php';
-require_once SYSTEM_DIR . 'resolver/sysFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/appFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/classFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/moduleResolver.php';
-require_once SYSTEM_DIR . 'resolver/configFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/libResolver.php';
-require_once SYSTEM_DIR . 'core/fileLoader.php';
-require_once SYSTEM_DIR . 'core/Fs.php';
-require_once SYSTEM_DIR . 'resolver/decoratingResolver.php';
-require_once SYSTEM_DIR . 'resolver/cachingResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/fileresolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/compositeResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/sysFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/appFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/classFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/moduleResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/configFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/libResolver.php';
+require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
+require_once systemConfig::$pathToSystem . 'core/Fs.php';
+require_once systemConfig::$pathToSystem . 'resolver/decoratingResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/cachingResolver.php';
 class core
 {
     /**
@@ -61,9 +61,9 @@ class core
         fileLoader::load('exceptions/FileException');
 
         $smarty = new mzzSmarty();
-        $smarty->template_dir      = APPLICATION_DIR . 'templates';
-        $smarty->compile_dir       = APPLICATION_DIR . 'templates/compiled';
-        $smarty->plugins_dir[] = SYSTEM_DIR . 'template/plugins';
+        $smarty->template_dir      = systemConfig::$pathToApplication . 'templates';
+        $smarty->compile_dir       = systemConfig::$pathToApplication . 'templates/compiled';
+        $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
         $smarty->debugging = true;
 
         $registry = Registry::instance();

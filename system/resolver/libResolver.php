@@ -1,6 +1,6 @@
 <?php
 
-require_once SYSTEM_DIR . 'resolver/partialFileResolver.php';
+require_once systemConfig::$pathToSystem  . 'resolver/partialFileResolver.php';
 
 class libResolver extends partialFileResolver
 {

@@ -26,7 +26,7 @@ class appFileResolver extends fileResolver
      */
     public function __construct()
     {
-        parent::__construct(APPLICATION_DIR . '*');
+        parent::__construct(systemConfig::$pathToApplication . '*');
     }
 }
 
