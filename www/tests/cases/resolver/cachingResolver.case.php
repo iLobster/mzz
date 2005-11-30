@@ -17,7 +17,7 @@ class cachingResolverTest extends unitTestCase
     function setUp()
     {
         $this->mock = new mocktestCaseFileResolver();
-        @unlink(TEMP_DIR . 'resolver.cache');
+        @unlink(systemConfig::$pathToTemp . 'resolver.cache');
         $this->resolver = new cachingResolver($this->mock);
     }
 
@@ -29,7 +29,7 @@ class cachingResolverTest extends unitTestCase
         $this->assertEqual('/respond', $this->resolver->resolve('/request'));
         $this->assertEqual('/respond', $this->resolver->resolve('/request'));
         unset($this->resolver);
-        $this->assertEqual(file_get_contents(TEMP_DIR . 'resolver.cache'), 'a:1:{s:8:"/request";s:8:"/respond";}');
+        $this->assertEqual(file_get_contents(systemConfig::$pathToTemp . 'resolver.cache'), 'a:1:{s:8:"/request";s:8:"/respond";}');
         @unlink(TEMP_DIR . 'resolver.cache');
     }
 }

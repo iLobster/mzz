@@ -13,7 +13,7 @@ class sysFileResolverTest extends UnitTestCase
     
     function testResolve()
     {
-        $this->assertEqual(realpath(SYSTEM_DIR . 'core/core.php'), realpath($this->resolver->resolve('core/core.php')));
+        $this->assertEqual(realpath(systemConfig::$pathToSystem . 'core/core.php'), realpath($this->resolver->resolve('core/core.php')));
     }
 }
 

@@ -18,17 +18,17 @@ class classFileResolverTest extends UnitTestCase
     public function testResolveShort()
     {
         $this->mock->expectOnce('resolve', array('core/core.php'));
-        $this->mock->setReturnValue('resolve', SYSTEM_DIR . 'core/core.php');
+        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . 'core/core.php');
         
-        $this->assertEqual(realpath(SYSTEM_DIR . 'core/core.php'), realpath($this->resolver->resolve('core')));
+        $this->assertEqual(realpath(systemConfig::$pathToSystem . 'core/core.php'), realpath($this->resolver->resolve('core')));
     }
     
     public function testResolve()
     {
         $this->mock->expectOnce('resolve', array('core/core.php'));
-        $this->mock->setReturnValue('resolve', SYSTEM_DIR . 'core/core.php');
+        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . 'core/core.php');
         
-        $this->assertEqual(realpath(SYSTEM_DIR . 'core/core.php'), realpath($this->resolver->resolve('core/core')));        
+        $this->assertEqual(realpath(systemConfig::$pathToSystem . 'core/core.php'), realpath($this->resolver->resolve('core/core')));        
     }
 }
 

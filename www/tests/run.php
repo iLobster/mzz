@@ -1,16 +1,16 @@
 <?php
 
-require_once '../config.php';
-require_once SYSTEM_DIR . 'core/fileloader.php';
-require_once SYSTEM_DIR . 'resolver/compositeResolver.php';
-require_once SYSTEM_DIR . 'resolver/fileResolver.php';
-require_once SYSTEM_DIR . 'resolver/sysFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/appFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/classFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/casesFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/testFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/configFileResolver.php';
-require_once SYSTEM_DIR . 'resolver/libResolver.php';
+require_once 'config.php';
+require_once systemConfig::$pathToSystem . 'core/fileloader.php';
+require_once systemConfig::$pathToSystem . 'resolver/compositeResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/fileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/sysFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/appFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/classFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/casesFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/testFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/configFileResolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/libResolver.php';
 
 $baseresolver = new compositeResolver();
 $baseresolver->addResolver(new sysFileResolver());

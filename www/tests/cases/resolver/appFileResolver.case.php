@@ -13,7 +13,7 @@ class appFileResolverTest extends UnitTestCase
     
     function testResolve()
     {
-        $this->assertEqual(realpath(APPLICATION_DIR . 'config.php'), realpath($this->resolver->resolve('config.php')));
+        $this->assertEqual(realpath(systemConfig::$pathToApplication . 'config.php'), realpath($this->resolver->resolve('config.php')));
     }
 }
 
