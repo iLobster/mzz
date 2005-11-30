@@ -1,0 +1,7 @@
+<?xml version='1.0' standalone='yes'?>
+<mapps>
+	<test>
+		<action name="bar">test.bar</action>
+		<action name="foo">test.foo</action>
+	</test>
+</mapps>
