@@ -1,8 +1,7 @@
 <?xml version='1.0' standalone='yes'?>
 <rules>
-	<test>
-		<rule pattern="/">/foo</rule>
-		<rule pattern="baz">bar</rule>
-		<rule pattern="test_pattern">result</rule>
-	</test>
+	<news>
+		<rule pattern="/">/news/list</rule>
+		<rule pattern="/news/([0-9]+)/?">/news/$1/view</rule>
+	</news>
 </rules>
