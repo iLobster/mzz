@@ -11,7 +11,7 @@
 //
 
 /**
- * timingFilter: фильтр для тайминга
+ * timingFilter: фильтр для подсчета времени выполнения скрипта
  *
  * @package system
  * @version 0.1

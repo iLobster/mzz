@@ -9,7 +9,7 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-/*fileResolver::includer('exceptions', 'FileException');*/
+
 
 /**
  * Fs: класс для работы с файлами
@@ -187,11 +187,4 @@ class Fs
 
 
 }
-/***********  EXAMPLE  ************
-$f = new Fs("C:/tes3t.txt","r+");
-$f->write('test?');
-$f->rewind();
-echo $f->read();
-unset($f);
-***********************************/
 ?>

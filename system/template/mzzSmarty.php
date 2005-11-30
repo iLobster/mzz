@@ -31,8 +31,8 @@ class mzzSmarty extends Smarty
      */
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
-        $template = new Fs($this->template_dir . '/' . $resource_name, "r");
-        $template = $template->read(512);
+        $template = new Fs($this->template_dir . '/' . $resource_name, 'r');
+        $template = $template->read(256);
 
         $result = parent::fetch($resource_name, $cache_id, $compile_id, $display);
 
@@ -58,7 +58,7 @@ class mzzSmarty extends Smarty
     }
 
     /**
-     * –азбор первой строки вложенных шаблонов
+     * –азбор первой строки вложенных (активных) шаблонов
      *
      * @access private
      * @static
@@ -67,11 +67,11 @@ class mzzSmarty extends Smarty
      */
     private static function parse($str) {
         $params = array();
-        if (preg_match("/\{\*\s*(.*?)\s*\*\}/", $str, $clean_str)) {
-            $clean_str = preg_split("/\s+/", $clean_str[1]);
+        if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $clean_str)) {
+            $clean_str = preg_split('/\s+/', $clean_str[1]);
             foreach ($clean_str as $str) {
-                $temp_str = explode("=", $str);
-                $params[$temp_str[0]] = str_replace(array("'", "\""), "", $temp_str[1]);
+                $temp_str = explode('=', $str);
+                $params[$temp_str[0]] = str_replace(array('\'', '"'), '', $temp_str[1]);
             }
         }
         return $params;

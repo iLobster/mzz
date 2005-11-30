@@ -14,30 +14,23 @@
 
 define('DEBUG_MODE', true);
 
-// $_path = $_SERVER["DOCUMENT_ROOT"];
 $_path = dirname(__FILE__);
 
-if(strpos(PHP_OS, "WIN") !== false && strpos($_path, "\\") !== false) {
+if(strpos(PHP_OS, 'WIN') !== false) {
     $_path = str_replace('\\', '/', $_path);
 }
 $_path = substr($_path, 0, strrpos($_path, '/'));
 
+define('ROOT_PATH', $_path);
+
 // System directory (e.g., "c:/mzz/system/" for Windows or "/home/mzz/system/" for Unix).
-define('SYSTEM_DIR', $_path . '/system/');
+define('SYSTEM_DIR', ROOT_PATH . '/system/');
 
 // WWW directory (e.g., "c:/mzz/www/" for Windows  or "/home/mzz/www/" for Unix).
-define('APPLICATION_DIR', $_path . '/www/');
+define('APPLICATION_DIR', ROOT_PATH . '/www/');
 
-define('CONFIG_DIR', $_path . '/www/configs/');
+define('CONFIG_DIR', ROOT_PATH . '/www/configs/');
 
-define('TEMP_DIR', $_path . '/tmp/')
-/*
-define('DB_DRIVER','mysqli');
-define('DB_HOST','localhost');
-define('DB_USER','root');
-define('DB_PASSWORD','');
-define('DB_BASE','mzz');
-define('DB_CHARSET','cp1251');
-*/
+define('TEMP_DIR', ROOT_PATH . '/tmp/');
 
 ?>
