@@ -25,10 +25,11 @@
 
 function smarty_function_load($params, $smarty) {
     $module = $params['module'];
+    $modulename = $module . 'Factory';
     $action = $params['action'];
     
     fileLoader::load($module . '.factory');
-    $factory = new newsFactory($action);
+    $factory = new $modulename($action);
     $controller = $factory->getController();
     $view = $controller->getView();
     $result = $view->toString();
