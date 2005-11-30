@@ -45,6 +45,7 @@ class resolvingFilter
         fileLoader::load('request/requestParser');
         fileLoader::load('frontController');
         fileLoader::load('core/Fs');
+        fileLoader::load('core/sectionMapper');
         fileLoader::load('db/dbFactory');
     }
 }

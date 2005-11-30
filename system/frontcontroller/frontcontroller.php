@@ -115,32 +115,17 @@ class frontController
         $section = $this->getSection();
         $action = $this->getAction();
 
-        if (empty($section)) {
-            die('Секция не выбрана');
+        $mapper = new sectionMapper($section, $action);
+
+        $default = array("news", "list");
+
+        if (($template = $mapper->getTemplateName()) === false) {
+
+            $mapper = new sectionMapper($default[0], $default[1]);
+            return $mapper->getTemplateName();
         }
 
-        /*
-        if (empty($action)) {
-            die('Экшн не выбран');
-        }*/
-
-        // в будущем данный массив заменится каким-нибудь хранилищем
-        // например БД
-        $arr = array(
-        'news' => array(
-        'list' => 'act.news.list.tpl',
-        'view' => 'act.news.view.tpl'
-        )
-        );
-
-        $default = $arr['news']['list'];
-
-        if (!isset($arr[$section][$action])) {
-            return $default;
-            //die('У секции ' . $section . ' нет экшна ' . $action);
-        }
-
-        return $arr[$section][$action];
+        return $template;
     }
 }
 

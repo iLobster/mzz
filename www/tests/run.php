@@ -9,15 +9,18 @@ require_once SYSTEM_DIR . 'resolver/appFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/classFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/casesFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/testFileResolver.php';
+require_once SYSTEM_DIR . 'resolver/configFileResolver.php';
 require_once SYSTEM_DIR . 'resolver/libResolver.php';
 
 $baseresolver = new compositeResolver();
 $baseresolver->addResolver(new sysFileResolver());
 $baseresolver->addResolver(new testFileResolver());
+$baseresolver->addResolver(new appFileResolver());
 $resolver = new compositeResolver();
 $resolver->addResolver(new classFileResolver($baseresolver));
 $resolver->addResolver(new casesFileResolver($baseresolver));
 $resolver->addResolver(new libResolver($baseresolver));
+$resolver->addResolver(new configFileResolver($baseresolver));
 fileLoader::setResolver($resolver);
 
 fileLoader::load('simpletest/unit_tester');
@@ -39,6 +42,7 @@ fileLoader::load('resolver/casesFileResolver.case');
 fileLoader::load('resolver/testFileResolver.case');
 fileLoader::load('core/fileloader.case');
 fileLoader::load('core/registry.case');
+fileLoader::load('core/sectionMapper.case');
 fileLoader::load('request/requestparser.case');
 fileLoader::load('request/rewrite.case');
 
@@ -60,6 +64,7 @@ $test->addTestCase(new casesFileResolverTest());
 $test->addTestCase(new testFileResolverTest());
 $test->addTestCase(new RequestParserTest());
 $test->addTestCase(new RewriteTest());
+$test->addTestCase(new sectionMapperTest());
 $test->run(new HtmlReporter('windows-1251'));
 
 ?>
