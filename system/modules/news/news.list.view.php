@@ -16,33 +16,13 @@
  * @version 0.1
  */
 
-class newsListView
+class newsListView extends simpleView
 {
-    private $model;
-    private $smarty;
-
-    public function __construct($model)
-    {
-        $this->setModel($model);
-        $this->smarty = self::getSmarty();
-    }
-
     public function toString()
     {
         $data = $this->model->getNewsList();
         $this->smarty->assign('news', $data);
         return $this->smarty->fetch('news.list.tpl');
-    }
-
-    private function setModel($model)
-    {
-        $this->model = $model;
-    }
-
-    private function getSmarty()
-    {
-        $registry = Registry::instance();
-        return $registry->getEntry('smarty');
     }
 }
 

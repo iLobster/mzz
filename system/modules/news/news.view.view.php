@@ -16,16 +16,8 @@
  * @version 0.1
  */
 
-class newsViewView
+class newsViewView extends simpleView
 {
-    private $model;
-    private $smarty;
-
-    public function __construct($model)
-    {
-        $this->setModel($model);
-        $this->smarty = self::getSmarty();
-    }
 
     public function toString()
     {
@@ -34,16 +26,6 @@ class newsViewView
         return $this->smarty->fetch('news.view.tpl');
     }
 
-    private function setModel($model)
-    {
-        $this->model = $model;
-    }
-
-    private function getSmarty()
-    {
-        $registry = Registry::instance();
-        return $registry->getEntry('smarty');
-    }
 }
 
 ?>
