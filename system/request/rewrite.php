@@ -99,7 +99,7 @@ class Rewrite
      * @param string $path
      * @return string|false
      */
-    protected function rewrite($pattern, $replacement, $path)
+    protected function rewriter($pattern, $replacement, $path)
     {
         if(preg_match($pattern, $path)) {
             return preg_replace($pattern, $replacement, $path);
@@ -120,13 +120,13 @@ class Rewrite
     {
         foreach ($this->rules as $rule) {
             if(isset($rule['pattern'])) {
-                if(($rpath = $this->rewrite($rule['pattern'], $rule['replacement'], $path)) !== false) {
+                if(($rpath = $this->rewriter($rule['pattern'], $rule['replacement'], $path)) !== false) {
                     return $rpath;
                 }
             } else {
                 foreach ($rule as $rule_element) {
                     $rpath = $path;
-                    if(($rpath = $this->rewrite($rule_element['pattern'], $rule_element['replacement'], $rpath)) !== false) {
+                    if(($rpath = $this->rewriter($rule_element['pattern'], $rule_element['replacement'], $rpath)) !== false) {
                         return $rpath;
                     }
                 }

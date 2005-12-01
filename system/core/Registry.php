@@ -98,7 +98,7 @@ class Registry {
      *
      * @return object
      */
-    public function instance()
+    public static function instance()
     {
         if (self::$registry === false) {
             self::$registry = new Registry();
