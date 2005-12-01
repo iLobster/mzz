@@ -10,9 +10,9 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * NewsListModel: вид для метода list модуля news
+ * simpleView: реализация общих методов у видов
  *
- * @package news
+ * @package simple
  * @version 0.1
  */
 
