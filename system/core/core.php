@@ -50,6 +50,9 @@ class core
         $cachingResolver = new cachingResolver($resolver);
 
         fileLoader::setResolver($cachingResolver);
+        fileLoader::load('exceptions/mzzException');
+        fileLoader::load('exceptions/FileResolverException');
+        fileLoader::load('exceptions/FileException');
         fileLoader::load('errors/error');
         fileLoader::load('core/Registry');
         fileLoader::load('template/mzzSmarty');
@@ -58,7 +61,6 @@ class core
         fileLoader::load('filters/timingfilter');
         fileLoader::load('filters/contentfilter');
         fileLoader::load('filters/resolvingfilter');
-        fileLoader::load('exceptions/FileException');
 
         $smarty = new mzzSmarty();
         $smarty->template_dir      = systemConfig::$pathToApplication . 'templates';

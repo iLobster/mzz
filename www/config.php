@@ -11,7 +11,7 @@
 //
 
 define('SYSTEM_PATH',  '../system/');
-
+define('DEBUG_MODE', 1);
 require_once(SYSTEM_PATH . 'systemConfig.php');
 
 systemConfig::$pathToApplication = dirname(__FILE__) . '/';

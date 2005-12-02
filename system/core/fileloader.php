@@ -25,10 +25,17 @@ class fileLoader
         $realname = (strpos($classname, '/') === false ) ? $classname : substr(strrchr($classname, '/'), 1);
         if (class_exists($realname)) {
             return true;
-        } elseif($filename = self::resolve($classname)) {
-            require_once $filename;
-            return true;
         } else {
+            try {
+                if(!($filename = self::resolve($classname))) {
+                    throw new FileResolverException("Can't find file for class '" . $classname . "'");
+                    return false;
+                }
+                require_once $filename;
+                return true;
+            } catch (FileResolverException $e) {
+                $e->printHtml();
+            }
             // тут бросать эксепшн как у сида
             return false;
         }

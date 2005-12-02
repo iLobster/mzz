@@ -12,6 +12,7 @@
 /* Configuration file */
 
 
+define('DEBUG_MODE', 1);
 
 
 define('SYSTEM_PATH',  '../../system/');

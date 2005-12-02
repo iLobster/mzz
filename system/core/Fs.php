@@ -171,7 +171,7 @@ class Fs
      */
     public function content($reset = true) {
         if($reset === true) {
-            $this->seek(0);
+            fseek($this->getHandle(), 0);
         }
         return $this->read(filesize($this->file));
     }

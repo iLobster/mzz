@@ -11,7 +11,6 @@ require_once systemConfig::$pathToSystem . 'resolver/casesFileResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/testFileResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/configFileResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/libResolver.php';
-
 $baseresolver = new compositeResolver();
 $baseresolver->addResolver(new sysFileResolver());
 $baseresolver->addResolver(new testFileResolver());
@@ -26,6 +25,10 @@ fileLoader::setResolver($resolver);
 fileLoader::load('simpletest/unit_tester');
 fileLoader::load('simpletest/mock_objects');
 fileLoader::load('simpletest/reporter');
+
+fileLoader::load('exceptions/MzzException');
+fileLoader::load('exceptions/FileResolverException');
+
 
 fileLoader::load('resolver/fileresolver.case');
 fileLoader::load('resolver/compositeresolver.case');
