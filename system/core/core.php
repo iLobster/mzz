@@ -53,6 +53,7 @@ class core
         fileLoader::load('exceptions/mzzException');
         fileLoader::load('exceptions/FileResolverException');
         fileLoader::load('exceptions/FileException');
+        fileLoader::load('exceptions/DbException');
         fileLoader::load('errors/error');
         fileLoader::load('core/Registry');
         fileLoader::load('template/mzzSmarty');

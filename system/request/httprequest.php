@@ -135,7 +135,8 @@ class HttpRequest
      * @access public
      * @return boolean
      */
-    public function isSecure() {
+    public function isSecure()
+    {
         $temp = self::getServer('HTTPS');
         return !empty($temp);
     }
@@ -146,7 +147,8 @@ class HttpRequest
      * @access public
      * @return string|null возможные варианты: GET, HEAD, POST, PUT
      */
-    public function getMethod() {
+    public function getMethod()
+    {
         return self::getServer('REQUEST_METHOD');
     }
 

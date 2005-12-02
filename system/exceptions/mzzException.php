@@ -2,23 +2,26 @@
 class MzzException extends Exception
 {
     private $name = 'System Exception';
-    public function __construct($message, $code = 0) {
+
+    public function __construct($message, $code = 0)
+    {
         parent::__construct($message, $code);
     }
 
 
    protected function setName($name)
    {
-       $this->name = $name;
+        $this->name = $name;
    }
 
    public function getName()
    {
-       return $this->name;
+        return $this->name;
    }
 
    // custom string representation of object */
-   public function printHtml() {
+   public function printHtml()
+   {
 
         $html = $this->getHtmlHeader();
 
@@ -31,11 +34,30 @@ class MzzException extends Exception
             $traces = $this->getTrace();
             $count = count($traces);
             foreach ($traces as $trace) {
-                $padding += 10;
+                $padding += 5;
                 $count--;
-                $trace_msg .= "<div style='padding: 5px; padding-left: " . $padding . "px; background-color: #F1F1F1; '>";
+                $trace_msg .= "<div style='padding: 3px; padding-left: " . $padding . "px; font-size: 10px; background-color: #F1F1F1; '>";
                 $trace_msg .= $count . '. <b>File:</b> ' . $trace['file'] . ' <i>(Line: ' . $trace['line'] . ')</i>, ';
-                $args = (!empty($trace['args'])) ? "'" . implode("', '", $trace['args']) . "'" : '';
+
+                $args = '';
+                foreach ($trace['args'] as $arg) {
+                    switch (true) {
+                        case is_object($arg):
+                            $args .= 'object \'' . get_class($arg) . '\', ';
+                        break;
+                        case is_array($arg):
+                            $args .= 'array(' . count($arg) . '), ';
+                        break;
+                        case is_resource($arg):
+                            $args .= 'resource ' . get_resource_type($arg) . ', ';
+                        break;
+                        default:
+                            $args .= '\'' . $arg . '\', ';
+                        break;
+                    }
+                }
+                $args = substr($args, 0, strlen($args) - 2);
+
                 if(isset($trace['class']) && isset($trace['type'])) {
                     $trace_msg .= '<b>In:</b> ' . $trace['class'] . $trace['type'] . $trace['function'] . '(' . $args . ')<br>';
                 } else {
@@ -57,10 +79,11 @@ class MzzException extends Exception
         exit;
     }
 
-    protected function getHtmlHeader() {
+    protected function getHtmlHeader()
+    {
         $header = '<html>
              <head>
-                <title>PageName</title>
+                <title>Exception "' . $this->getName() . '"</title>
                 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
                 <style type="text/css">
                     #error_table { border: 1px solid #D1D8DC; background-color: #FBFBFB; }
@@ -82,7 +105,8 @@ class MzzException extends Exception
         return $header;
     }
 
-    protected function getHtmlFooter() {
+    protected function getHtmlFooter()
+    {
         $footer = '</tr>
         </table>
         <br>

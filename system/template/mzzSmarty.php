@@ -65,7 +65,8 @@ class mzzSmarty extends Smarty
      * @param string $str
      * @return array
      */
-    private static function parse($str) {
+    private static function parse($str)
+    {
         $params = array();
         if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $clean_str)) {
             $clean_str = preg_split('/\s+/', $clean_str[1]);

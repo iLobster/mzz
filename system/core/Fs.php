@@ -78,8 +78,8 @@ class Fs
      * @param boolean $use_include_path
      * @return void
      */
-    public function __construct($file, $mode = 'r', $use_include_path = false) {
-
+    public function __construct($file, $mode = 'r', $use_include_path = false)
+    {
         // Allowed modes to use
         $modes = array('r', 'r+', 'w', 'w+', 'a', 'a+', 'x', 'x+');
 
@@ -102,7 +102,6 @@ class Fs
            $error = sprintf($this->errors['unknown_error'], $this->file, $this->real_mode);
            throw new FileException($error);
         }
-
     }
 
     /**
@@ -110,7 +109,8 @@ class Fs
      *
      * @return resource
      */
-    public function getHandle() {
+    public function getHandle()
+    {
         return $this->handle;
     }
 
@@ -120,7 +120,8 @@ class Fs
      * @param integer $length количество байт
      * @return string
      */
-    public function read($length = 1024) {
+    public function read($length = 1024)
+    {
         if($this->mode == "r" || strpos($this->mode, "+") !== false) {
             return fread($this->handle, $length);
         } else {
@@ -135,14 +136,14 @@ class Fs
      * @access public
      * @return string
      */
-    public function readc() {
+    public function readc()
+    {
         if($this->mode == "r" || strpos($this->mode, "+") !== false) {
             return fgetc($this->handle);
         } else {
             $error = sprintf($this->errors['cannot_read'], $this->file, $this->mode);
             throw new FileException($error);
         }
-
     }
 
     /**
@@ -152,7 +153,8 @@ class Fs
      * @param string $str строка для записи
      * @return integer|boolean
      */
-    public function write($str) {
+    public function write($str)
+    {
         if(strpos($this->mode, "r") === false || strpos($this->mode, "+") !== false) {
             return fwrite($this->handle, $str);
         } else {
@@ -169,22 +171,22 @@ class Fs
      * @param boolean $reset
      * @return string
      */
-    public function content($reset = true) {
+    public function content($reset = true)
+    {
         if($reset === true) {
             fseek($this->getHandle(), 0);
         }
         return $this->read(filesize($this->file));
     }
 
-
     /**
-     * Закрытие дескриптора файла
+     * Закрытие дескриптора файла при уничтожении объекта
      *
      */
-    public function __destruct() {
+    public function __destruct()
+    {
         fclose($this->handle);
     }
-
 
 }
 ?>

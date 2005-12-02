@@ -29,13 +29,20 @@ class DB
         $registry = Registry::instance();
         $config = $registry->getEntry('config');
         $config->load('common');
-        $driver = $config->getOption('db','driver');
+        $driver = $config->getOption('db', 'driver');
         fileLoader::load('db/driver_' . $driver);
         $classname = 'Mzz' . ucfirst($driver);
-        return call_user_func(array($classname, 'getInstance'));
-        // } else {
-        //     throw new Exception ('Driver "'.$driver.'" not found');
-        // }
+
+        try {
+            if(!is_callable(array($classname, 'getInstance'))) {
+                throw new DbException('Driver "' . $driver . '" cann\'t be called.');
+                return false;
+            } else {
+                return call_user_func(array($classname, 'getInstance'));
+            }
+        } catch (DbException $e) {
+            $e->printHtml();
+        }
     }
 
 }

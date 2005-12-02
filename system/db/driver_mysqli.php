@@ -13,7 +13,7 @@
  * MzzMysqli: драйвер дл€ работы с базой данных MySQL версии 4.1 и выше
  *
  * @package system
- * @version 0.2
+ * @version 0.3
  */
 class MzzMysqli extends mysqli {
     /**
@@ -34,7 +34,7 @@ class MzzMysqli extends mysqli {
     private $queries_num = 0;
 
     /**
-     * ѕереопределенный конструктор mysqli, добавлена установка кодировки
+     * ƒекорируем конструктор mysqli: при соединении с Ѕƒ устанавливаетс€ кодировка SQL-базы.
      *
      * @param string $host
      * @param string $username
@@ -45,16 +45,17 @@ class MzzMysqli extends mysqli {
      * @access public
      * @return void
      */
-    public function __construct($host=null, $username=null, $passwd=null, $dbname=null, $port=0, $socket=null) {
+    public function __construct($host=null, $username=null, $passwd=null, $dbname=null, $port=0, $socket=null)
+    {
         parent::__construct($host, $username, $passwd, $dbname, $port, $socket);
         $registry = Registry::instance();
         $config = $registry->getEntry('config');
         $config->load('common');
         /* ѕравильнее устанавливать кодировку через метод set_charset, он добавлен в PHP>=5.1.0RC1,
-         * но у мен€ PHP 5.1.0 RC5 и ругаетс€ 'Call to undefined method' */
-        //$this->set_charset($config->getOption('db','charset'));
-        $this->query("SET NAMES `".$config->getOption('db','charset')."`");
-
+         * но у мен€ PHP 5.1.0 RC5 и ругаетс€ 'Call to undefined method'. ”далось узнать что
+         * –аботать будет только если PHP собиралс€ с MySQL > 4.1.х/5.х.х.
+         * ƒл€ нормальной совместимости используетс€ пр€мой запрос на установку кодировки. */
+        $this->query("SET NAMES `" . $config->getOption('db', 'charset') . "`");
     }
 
     /**
@@ -71,10 +72,10 @@ class MzzMysqli extends mysqli {
                 $registry = Registry::instance();
                 $config = $registry->getEntry('config');
                 $config->load('common');
-                $host = $config->getOption('db','host');
-                $user = $config->getOption('db','user');
-                $passwd = $config->getOption('db','password');
-                $base = $config->getOption('db','base');
+                $host = $config->getOption('db', 'host');
+                $user = $config->getOption('db', 'user');
+                $passwd = $config->getOption('db', 'password');
+                $base = $config->getOption('db', 'base');
                 self::$instance = new $classname($host, $user, $passwd, $base);
         }
         return self::$instance;
