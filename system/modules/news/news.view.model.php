@@ -36,6 +36,7 @@ class newsViewModel
         }
         return $news;
     }
+
 }
 
 ?>

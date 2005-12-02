@@ -18,11 +18,11 @@
 
 class newsViewView extends simpleView
 {
-
     public function toString()
     {
         $data = $this->model->getNews();
         $this->smarty->assign('news', $data);
+        $this->smarty->assign('title', 'Новости -> Просмотр -> ' . $data['title']);
         return $this->smarty->fetch('news.view.tpl');
     }
 
