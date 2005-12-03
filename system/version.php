@@ -33,7 +33,7 @@ define('MZZ_VERSION', MZZ_VERSION_MAJOR . '.' . MZZ_VERSION_MINOR . '.' .
                       MZZ_VERSION_MICRO . MZZ_VERSION_STATUS);
 
 // Revision
-define('MZZ_REVISION', '$WCREV$');
+define('MZZ_REVISION', '$Rev$');
 
 // Revision number
 define('MZZ_VERSION_REVISION',  (int)(substr(MZZ_REVISION, 6, strrpos(MZZ_REVISION, ' ') - strpos(MZZ_REVISION, ' ') - 1)));
