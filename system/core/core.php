@@ -50,7 +50,7 @@ class core
         $cachingResolver = new cachingResolver($resolver);
 
         fileLoader::setResolver($cachingResolver);
-        fileLoader::load('exceptions/mzzException');
+        fileLoader::load('exceptions/MzzException');
         fileLoader::load('exceptions/FileResolverException');
         fileLoader::load('exceptions/FileException');
         fileLoader::load('exceptions/DbException');

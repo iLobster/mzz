@@ -38,7 +38,7 @@ class resolvingFilter
      */
     private function resolve()
     {
-        fileLoader::load('config/config');
+        fileLoader::load('config/Config');
         fileLoader::load('request/rewrite');
         fileLoader::load('request/httprequest');
         fileLoader::load('request/requestParser');

@@ -1,5 +1,5 @@
 <?php
-fileLoader::load('config/config');
+fileLoader::load('config/Config');
 
 class configTest extends unitTestCase
 {
