@@ -48,10 +48,10 @@ fileLoader::load('core/fileloader.case');
 fileLoader::load('core/sectionMapper.case');
 fileLoader::load('request/requestparser.case');
 fileLoader::load('request/rewrite.case');*/
-
+/*
 fileLoader::load('core/registry.case');
 $registry = Registry::instance();
-$registry->setEntry('rewrite', 'Rewrite');
+$registry->setEntry('rewrite', 'Rewrite');*/
 
 /*
 $test = new GroupTest('All file tests');

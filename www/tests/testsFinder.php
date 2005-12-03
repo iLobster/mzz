@@ -5,12 +5,13 @@ class testsFinder
     public function find($dir)
     {
         $cases = array();
-        
         $dirs = self::getDirsList($dir);
 
         foreach ($dirs as $val) {
             $cases = array_merge($cases, self::getCasesList($val));
         }
+        
+        $cases = array_merge($cases, self::getCasesList($dir));
         
         return $cases;
     }
