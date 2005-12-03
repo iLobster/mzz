@@ -1,6 +1,6 @@
 <?php
 
-require_once 'run.php';
+require_once 'init.php';
 require_once 'testsFinder.php';
 
 $test = new GroupTest("All tests");
