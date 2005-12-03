@@ -98,7 +98,7 @@
             $reporter->paintCaseEnd($this->getLabel());
             return $reporter->getStatus();
         }
-        
+
         /**
          *    Announces the start of the test.
          *    @param string $method    Test method just started.
@@ -125,7 +125,7 @@
          */
         function tearDown() {
         }
-        
+
         /**
          *    Announces the end of the test. Includes private clean up.
          *    @param string $method    Test method just finished.
@@ -220,7 +220,7 @@
                     $expectation->test($compare),
                     sprintf($message, $expectation->overlayMessage($compare)));
         }
-        
+
         /**
          *	  @deprecated
          */
@@ -365,8 +365,8 @@
          *                                      runnable test interface.
          *    @access public
          */
-        function addTestCase(&$test_case) {
-            $this->_test_cases[] = &$test_case;
+        function addTestCase($test_case) {
+            $this->_test_cases[] = $test_case;
         }
 
         /**
@@ -510,7 +510,7 @@
             }
             return false;
         }
-        
+
         /**
          *    Delegates to a visiting collector to add test
          *    files.
