@@ -28,5 +28,6 @@ fileLoader::load('simpletest/reporter');
 
 fileLoader::load('exceptions/MzzException');
 fileLoader::load('exceptions/FileResolverException');
+fileLoader::load('exceptions/RegistryException');
 
 ?>
