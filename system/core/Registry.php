@@ -68,11 +68,15 @@ class Registry {
         if(isset($this->stack[0][$key])) {
             if(!is_object($this->stack[0][$key])) {
                 $classname = $this->stack[0][$key];
-                if(!class_exists($classname)) {
-                    // throw exception: registry create object error: class $classname not found.
-                    return false;
-                } else {
-                    $this->stack[0][$key] = new $classname;
+                try {
+                    if(!class_exists($classname)) {
+                        throw new RegistryException("Create object error: class " . $classname . "not found.");
+                        return false;
+                    } else {
+                        $this->stack[0][$key] = new $classname;
+                    }
+                } catch (RegistryException $e) {
+                    $e->printHtml();
                 }
             }
             return $this->stack[0][$key];
@@ -115,10 +119,6 @@ class Registry {
     public function save()
     {
         array_unshift($this->stack, array());
-        if (!count($this->stack)) {
-            // Exception: registry lost
-            return false;
-        }
     }
 
     /**
@@ -128,6 +128,15 @@ class Registry {
     public function restore()
     {
         array_shift($this->stack);
+
+        try {
+            if (!count($this->stack)) {
+                throw new RegistryException("Registry lost.");
+                return false;
+            }
+        } catch (RegistryException $e) {
+            $e->printHtml();
+        }
     }
 }
 ?>

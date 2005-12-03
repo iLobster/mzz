@@ -54,20 +54,21 @@ class core
         fileLoader::load('exceptions/FileResolverException');
         fileLoader::load('exceptions/FileException');
         fileLoader::load('exceptions/DbException');
-        fileLoader::load('errors/error');
+        fileLoader::load('exceptions/RegistryException');
+        fileLoader::load('core/ErrorHandler');
         fileLoader::load('core/Registry');
-        fileLoader::load('template/mzzSmarty');
         fileLoader::load('core/response');
+        fileLoader::load('template/mzzSmarty');
         fileLoader::load('filters/filterchain');
         fileLoader::load('filters/timingfilter');
         fileLoader::load('filters/contentfilter');
         fileLoader::load('filters/resolvingfilter');
 
         $smarty = new mzzSmarty();
-        $smarty->template_dir      = systemConfig::$pathToApplication . 'templates';
-        $smarty->compile_dir       = systemConfig::$pathToApplication . 'templates/compiled';
+        $smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
+        $smarty->compile_dir   = systemConfig::$pathToApplication . 'templates/compiled';
         $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
-        $smarty->debugging = true;
+        $smarty->debugging = DEBUG_MODE;
 
         $registry = Registry::instance();
         $registry->setEntry('rewrite', 'Rewrite');
