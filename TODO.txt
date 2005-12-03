@@ -15,7 +15,7 @@
  9 (*) Разобраться с подключением файлов или создать среду кмс в тестах [zerkms]
 
 
-15 ( ) Сделать SmartyReporter для simpletest
+15 (?) Сделать SmartyReporter для simpletest
 
 14 ( ) Вынос общих методов у MVC модулей в simple-класс (начат View)
 
