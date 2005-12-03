@@ -55,10 +55,10 @@ class core
         fileLoader::load('exceptions/FileException');
         fileLoader::load('exceptions/DbException');
         fileLoader::load('exceptions/RegistryException');
+        fileLoader::load('template/mzzSmarty');
         fileLoader::load('core/ErrorHandler');
         fileLoader::load('core/Registry');
         fileLoader::load('core/response');
-        fileLoader::load('template/mzzSmarty');
         fileLoader::load('filters/filterchain');
         fileLoader::load('filters/timingfilter');
         fileLoader::load('filters/contentfilter');

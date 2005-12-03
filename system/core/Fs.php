@@ -16,6 +16,7 @@
  *
  * @package system
  * @version 0.3
+ * @deprecated Use SplFileObject.
  */
 class Fs
 {

@@ -54,7 +54,7 @@ final class cachingResolver extends decoratingResolver
         if (file_exists($filename)) {
             $this->cache = unserialize(file_get_contents($filename));
         }
-        $this->cache_file = new Fs($filename, 'w');
+        $this->cache_file = new SplFileObject($filename, 'w');
         parent::__construct($resolver);
     }
 
@@ -81,7 +81,7 @@ final class cachingResolver extends decoratingResolver
      */
     public function __destruct()
     {
-        $this->cache_file->write(serialize($this->cache));
+        $this->cache_file->fwrite(serialize($this->cache));
     }
 
 }
