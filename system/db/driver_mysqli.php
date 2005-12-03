@@ -34,6 +34,14 @@ class MzzMysqli extends mysqli {
     private $queries_num = 0;
 
     /**
+     * общее время запросов к БД
+     *
+     * @var float
+     * @access private
+     */
+    private $queries_time = 0;
+
+    /**
      * Декорируем конструктор mysqli: при соединении с БД устанавливается кодировка SQL-базы.
      *
      * @param string $host
@@ -91,7 +99,10 @@ class MzzMysqli extends mysqli {
    public function query($query, $resultmode = MYSQLI_STORE_RESULT)
    {
        $this->queries_num++;
-       return parent::query($query, $resultmode);
+       $start_time = microtime(1);
+       $result = parent::query($query, $resultmode);
+       $this->queries_time += (microtime(1) - $start_time);
+       return $result;
    }
 
    /**
@@ -102,6 +113,16 @@ class MzzMysqli extends mysqli {
    public function getQueriesNum()
    {
        return $this->queries_num;
+   }
+
+   /**
+    * метод для получения общего времени выполнения запроса
+    *
+    * @return float время в секундах
+    */
+   public function getQueriesTime()
+   {
+       return $this->queries_time;
    }
 }
 ?>

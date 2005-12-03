@@ -37,7 +37,7 @@ class timingFilter
 
         $db = DB::factory();
         $smarty->assign('queries_num', $db->getQueriesNum());
-
+        $smarty->assign('queries_time', $db->getQueriesTime());
         $response->append($smarty->fetch('filter.time.tpl'));
 
     }
