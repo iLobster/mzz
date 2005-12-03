@@ -29,7 +29,7 @@ fileLoader::load('simpletest/reporter');
 fileLoader::load('exceptions/MzzException');
 fileLoader::load('exceptions/FileResolverException');
 
-
+/*
 fileLoader::load('resolver/fileresolver.case');
 fileLoader::load('resolver/compositeresolver.case');
 fileLoader::load('resolver/partialFileResolver.case');
@@ -45,14 +45,15 @@ fileLoader::load('resolver/casesFileResolver.case');
 fileLoader::load('resolver/testFileResolver.case');
 fileLoader::load('config/config.case');
 fileLoader::load('core/fileloader.case');
-fileLoader::load('core/registry.case');
 fileLoader::load('core/sectionMapper.case');
 fileLoader::load('request/requestparser.case');
-fileLoader::load('request/rewrite.case');
+fileLoader::load('request/rewrite.case');*/
 
+fileLoader::load('core/registry.case');
 $registry = Registry::instance();
 $registry->setEntry('rewrite', 'Rewrite');
 
+/*
 $test = new GroupTest('All file tests');
 $test->addTestCase(new fileResolverTest());
 $test->addTestCase(new registryTest());
@@ -73,6 +74,6 @@ $test->addTestCase(new testFileResolverTest());
 $test->addTestCase(new RequestParserTest());
 $test->addTestCase(new RewriteTest());
 $test->addTestCase(new sectionMapperTest());
-$test->run(new HtmlReporter('windows-1251'));
+$test->run(new HtmlReporter('windows-1251'));*/
 
 ?>
