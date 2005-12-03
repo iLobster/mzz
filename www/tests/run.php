@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL | E_STRICT);
 
 require_once 'init.php';
 require_once 'testsFinder.php';
@@ -42,5 +43,5 @@ foreach (testsFinder::getDirsList($casesBasedir) as $dirlist) {
     }
     echo '</a>';
 }
-
+echo '<br><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest Error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
 ?>

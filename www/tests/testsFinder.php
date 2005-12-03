@@ -2,7 +2,7 @@
 
 class testsFinder
 {
-    public function find($dir)
+    static public function find($dir)
     {
         $cases = array();
         $dirs = self::getDirsList($dir);

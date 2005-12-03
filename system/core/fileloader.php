@@ -4,7 +4,7 @@ class fileLoader
 {
     private static $stack = array();
     private static $resolver;
-    public function setResolver($resolver)
+    public static function setResolver($resolver)
     {
         array_push(self::$stack, self::$resolver);
         self::$resolver = $resolver;
