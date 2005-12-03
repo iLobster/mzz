@@ -1,6 +1,10 @@
 <?php
 
 fileLoader::load('request/rewrite');
+fileLoader::load('core/registry');
+
+$registry = Registry::instance();
+$registry->setEntry('rewrite', 'Rewrite');
 
 class RewriteTest extends unitTestCase
 {

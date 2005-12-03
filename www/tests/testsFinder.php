@@ -27,14 +27,14 @@ class testsFinder
         return $caseslist;
     }
     
-    static private function getDirsList($dir)
+    static public function getDirsList($dir)
     {
         $dirs = array();
         if (is_dir($dir)) {
             $list = scandir($dir);
             foreach($list as $val) {
                 $subdir = $dir . '/' . $val;
-                if (is_dir($subdir) && $val != '.' && $val != '..') {
+                if (is_dir($subdir) && $val != '.' && $val != '..' && $val != '.svn') {
                     $dirs[] = $subdir;
                 }
             }
