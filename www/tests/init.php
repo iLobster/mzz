@@ -48,6 +48,7 @@ fileLoader::load('core/fileloader.case');
 fileLoader::load('core/sectionMapper.case');
 fileLoader::load('request/requestparser.case');
 fileLoader::load('request/rewrite.case');*/
+fileLoader::load('core/registry');
 /*
 fileLoader::load('core/registry.case');
 $registry = Registry::instance();
