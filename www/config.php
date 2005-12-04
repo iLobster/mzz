@@ -18,4 +18,5 @@ systemConfig::$pathToApplication = dirname(__FILE__) . '/';
 systemConfig::$pathToTemp = dirname(__FILE__) . '/../tmp/';
 systemConfig::$pathToConf = dirname(__FILE__) . '/configs/';
 systemConfig::init();
+
 ?>
