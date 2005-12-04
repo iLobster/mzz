@@ -57,4 +57,5 @@ function ErrorHandler($errno, $errstr, $errfile, $errline)
 }
 
 set_error_handler("ErrorHandler");
+
 ?>
