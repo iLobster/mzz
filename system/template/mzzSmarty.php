@@ -77,8 +77,6 @@ class mzzSmarty extends Smarty
         }
         return $params;
     }
-
 }
-
 
 ?>

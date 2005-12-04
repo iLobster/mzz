@@ -9,11 +9,10 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-
 /**
  * smarty_function_load: функция для смарти, загрузчик модулей
  * 
- * Примеры использования:<br>
+ * Примеры использования:<br />
  * {load module="some_module_name" action="some_action"}
  * 
  * @param array $params входные аргументы функции
@@ -22,7 +21,6 @@
  * @package system
  * @version 0.1
  */
-
 function smarty_function_load($params, $smarty) {
     $module = $params['module'];
     $modulename = $module . 'Factory';
