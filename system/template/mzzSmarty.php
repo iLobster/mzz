@@ -16,7 +16,7 @@
  * @access public
  */
 
-fileLoader::load('Smarty/Smarty.class');
+fileLoader::load('libs/Smarty/Smarty.class');
 
 class mzzSmarty extends Smarty
 {

@@ -35,9 +35,6 @@ class libResolver extends partialFileResolver
     /**
      * проверка на соответствие запроса некоторому шаблону
      * определ€ем что файл действительно тот, который требуетс€
-     * ????? этот резолвер написан Ќ≈¬≈–Ќќ
-     * 1. если делать: fileLoader::load('Smarty/Smarty.class');, тогда отнаследовать этот резолвер от fileResolver (типа appFileResolver/sysFileResolver)
-     * 2. либо сделать его полноценным партиал–езолвером и запрашивать fileLoader::load('libs/Smarty/Smarty.class');
      *
      * @access protected
      * @param string $request строка запроса
@@ -45,7 +42,11 @@ class libResolver extends partialFileResolver
      */
     protected function partialResolve($request)
     {
-        return 'libs/' . $request . '.php';
+    	if (strpos($request, 'libs/') === 0) {
+        	return $request . '.php';
+        } else {
+        	return null;
+        }
     }
 }
 

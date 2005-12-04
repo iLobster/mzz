@@ -1,1 +1,1 @@
-<br><hr size="1" color="#333333"><font style="font-size: 60%; font-family: Verdana; color: #555555; letter-spacing: -1px;">Generation time: <b>{$time|round:5}</b> sec. Queries to DB: <b>{$queries_num} ({$queries_time|round:5} sec.)</b></font>
+<br><hr size="1" color="#333333"><font style="font-size: 60%; font-family: Verdana; color: #555555; letter-spacing: -1px;">Generation time: <b>{$time|round:5}</b> sec. Queries to DB: <b>{$queries_num}</b> (<b>{$queries_time|round:5}</b> sec.)</font>

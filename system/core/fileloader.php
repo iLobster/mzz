@@ -44,7 +44,7 @@ class fileLoader
      * @access public
      * @param object $resolver
      */
-    public function setResolver($resolver)
+    public static function setResolver($resolver)
     {
         array_push(self::$stack, self::$resolver);
         self::$resolver = $resolver;
