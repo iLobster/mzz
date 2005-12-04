@@ -26,7 +26,7 @@ class newsListModel
     public function getNewsList()
     {
         $query = "SELECT * FROM `news`";
-        $db = DB::factory();
+        $db = Db::factory();
 
         $news = array();
         if ($result = $db->query($query)) {

@@ -10,12 +10,12 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * DB: класс, обеспечивающий доступ к драйверам баз данных
+ * Db: класс, обеспечивающий доступ к драйверам баз данных
  *
  * @package system
  * @version 0.2
 */
-class DB
+class Db
 {
     /**
      * The factory method
@@ -31,7 +31,7 @@ class DB
         $config->load('common');
         $driver = $config->getOption('db', 'driver');
         fileLoader::load('db/drivers/' . $driver);
-        $classname = 'Mzz' . ucfirst($driver);
+        $classname = 'mzz' . ucfirst($driver);
 
         try {
             if(!is_callable(array($classname, 'getInstance'))) {

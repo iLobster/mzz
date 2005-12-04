@@ -15,7 +15,7 @@
  * @package system
  * @version 0.3
  */
-class MzzMysqli extends mysqli {
+class mzzMysqli extends mysqli {
     /**
      * Singleton
      *
@@ -31,7 +31,7 @@ class MzzMysqli extends mysqli {
      * @var int
      * @access private
      */
-    private $queries_num = 0;
+    private $queriesNum = 0;
 
     /**
      * общее время запросов к БД
@@ -39,7 +39,7 @@ class MzzMysqli extends mysqli {
      * @var float
      * @access private
      */
-    private $queries_time = 0;
+    private $queriesTime = 0;
 
     /**
      * Декорируем конструктор mysqli: при соединении с БД устанавливается кодировка SQL-базы.
@@ -98,10 +98,10 @@ class MzzMysqli extends mysqli {
     */
    public function query($query, $resultmode = MYSQLI_STORE_RESULT)
    {
-       $this->queries_num++;
+       $this->queriesNum++;
        $start_time = microtime(1);
        $result = parent::query($query, $resultmode);
-       $this->queries_time += (microtime(1) - $start_time);
+       $this->queriesTime += (microtime(1) - $start_time);
        return $result;
    }
 
@@ -112,7 +112,7 @@ class MzzMysqli extends mysqli {
     */
    public function getQueriesNum()
    {
-       return $this->queries_num;
+       return $this->queriesNum;
    }
 
    /**
@@ -122,7 +122,7 @@ class MzzMysqli extends mysqli {
     */
    public function getQueriesTime()
    {
-       return $this->queries_time;
+       return $this->queriesTime;
    }
 }
 ?>

@@ -29,7 +29,7 @@ class newsViewModel
         $httprequest = $registry->getEntry('httprequest');
         $params = $httprequest->getParams();
         $query = "SELECT * FROM `news` WHERE `id`=".($params[0]);
-        $db = DB::factory();
+        $db = Db::factory();
         $news = array();
         if ($result = $db->query($query)) {
             $news = $result->fetch_assoc();
