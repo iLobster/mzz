@@ -56,7 +56,7 @@ class Config
      */
     public function load($file, $process_sections = true)
     {
-        $file = fileLoader::resolve('configs/' . $file . '.ini');
+        $file = FileLoader::resolve('configs/' . $file . '.ini');
         if(!isset($this->_ini_file) || $this->_ini_file != $file) {
             if(is_file($file) && ($this->_ini = parse_ini_file($file, $process_sections)) !== false) {
                 $this->_ini_file = $file;
