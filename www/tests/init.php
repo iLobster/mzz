@@ -28,9 +28,9 @@ $resolver->addResolver(new configFileResolver($baseresolver));
 fileLoader::setResolver($resolver);
 
 set_error_handler('simpletest_error_handler');
-fileLoader::load('simpletest/unit_tester');
-fileLoader::load('simpletest/mock_objects');
-fileLoader::load('simpletest/reporter');
+fileLoader::load('libs/simpletest/unit_tester');
+fileLoader::load('libs/simpletest/mock_objects');
+fileLoader::load('libs/simpletest/reporter');
 restore_error_handler();
 
 fileLoader::load('exceptions/MzzException');
