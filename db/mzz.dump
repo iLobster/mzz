@@ -1,0 +1,40 @@
+# EMS MySQL Manager Pro 3.3.0.2
+# ---------------------------------------
+# Host     : localhost
+# Port     : 3306
+# Database : mzz
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP DATABASE IF EXISTS `mzz`;
+
+CREATE DATABASE `mzz`
+    CHARACTER SET 'cp1251'
+    COLLATE 'cp1251_general_ci';
+
+USE `mzz`;
+
+#
+# Structure for the `news` table : 
+#
+
+DROP TABLE IF EXISTS `news`;
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL default '',
+  `text` text NOT NULL,
+  KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `news` table  (LIMIT 0,500)
+#
+
+INSERT INTO `news` (`id`, `title`, `text`) VALUES 
+  (1,'новость 1','текст 1'),
+  (2,'новость 2','текст 2'),
+  (4,'новость 3','текст 3');
+
+COMMIT;
