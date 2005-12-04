@@ -26,7 +26,7 @@ class filterChain
      * @var array
      */
     private $filters = array();
-    
+
     /**
      * счётчик фильтра
      *
@@ -34,7 +34,7 @@ class filterChain
      * @var int
      */
     private $counter = -1;
-    
+
     /**
      * объект, содержащий информацию, выводимой клиенту в браузер
      *
@@ -54,7 +54,7 @@ class filterChain
         $this->response = $response;
     }
 
-    
+
     /**
      * регистрация нового фильтра
      *
@@ -74,7 +74,7 @@ class filterChain
     public function next()
     {
         $this->counter++;
-        
+
         if(isset($this->filters[$this->counter])) {
             $this->filters[$this->counter]->run($this, $this->response);
         }

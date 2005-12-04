@@ -17,6 +17,7 @@ class systemConfig {
     /**
      * Путь до приложения
      *
+     * @static 
      * @var string
      */
     public static $pathToApplication;
@@ -24,6 +25,7 @@ class systemConfig {
     /**
      * Путь до ядра
      *
+     * @static 
      * @var string
      */
     public static $pathToSystem;
@@ -31,6 +33,7 @@ class systemConfig {
     /**
      * Путь до временной папки
      *
+     * @static 
      * @var string
      */
     public static $pathToTemp;
@@ -38,6 +41,7 @@ class systemConfig {
     /**
      * Путь до файлов с конфигурацией
      *
+     * @static 
      * @var string
      */
     public static $pathToConf;
@@ -45,10 +49,13 @@ class systemConfig {
     /**
      * При вызове определяет и устанавливает путь до ядра
      *
+     * @access public
+     * @static 
      */
     public static function init()
     {
         self::$pathToSystem = dirname(__FILE__) . '/';
     }
 }
+
 ?>
