@@ -30,7 +30,7 @@ class DB
         $config = $registry->getEntry('config');
         $config->load('common');
         $driver = $config->getOption('db', 'driver');
-        fileLoader::load('db/driver_' . $driver);
+        fileLoader::load('db/drivers/' . $driver);
         $classname = 'Mzz' . ucfirst($driver);
 
         try {

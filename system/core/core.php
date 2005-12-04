@@ -16,7 +16,7 @@
  * @package system
  * @version 0.1
  */
-require_once systemConfig::$pathToSystem . 'resolver/fileresolver.php';
+require_once systemConfig::$pathToSystem . 'resolver/fileResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/compositeResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/sysFileResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/appFileResolver.php';
@@ -25,7 +25,7 @@ require_once systemConfig::$pathToSystem . 'resolver/moduleResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/configFileResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/libResolver.php';
 require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
-require_once systemConfig::$pathToSystem . 'core/Fs.php';
+require_once systemConfig::$pathToSystem . 'core/Fs.php'; // Deprecated
 require_once systemConfig::$pathToSystem . 'resolver/decoratingResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/cachingResolver.php';
 class core
@@ -49,19 +49,19 @@ class core
         $cachingResolver = new cachingResolver($resolver);
 
         fileLoader::setResolver($cachingResolver);
-        fileLoader::load('exceptions/MzzException');
-        fileLoader::load('exceptions/FileResolverException');
-        fileLoader::load('exceptions/FileException');
-        fileLoader::load('exceptions/DbException');
-        fileLoader::load('exceptions/RegistryException');
+        fileLoader::load('exceptions/mzzException');
+        fileLoader::load('exceptions/fileResolverException');
+        fileLoader::load('exceptions/fileException');
+        fileLoader::load('exceptions/dbException');
+        fileLoader::load('exceptions/registryException');
         fileLoader::load('template/mzzSmarty');
         fileLoader::load('core/ErrorHandler');
         fileLoader::load('core/Registry');
         fileLoader::load('core/response');
-        fileLoader::load('filters/filterchain');
-        fileLoader::load('filters/timingfilter');
-        fileLoader::load('filters/contentfilter');
-        fileLoader::load('filters/resolvingfilter');
+        fileLoader::load('filters/filterChain');
+        fileLoader::load('filters/timingFilter');
+        fileLoader::load('filters/contentFilter');
+        fileLoader::load('filters/resolvingFilter');
 
         $smarty = new mzzSmarty();
         $smarty->template_dir  = systemConfig::$pathToApplication . 'templates';

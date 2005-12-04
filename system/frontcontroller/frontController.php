@@ -1,0 +1,132 @@
+<?php
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2006
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
+
+/**
+ * frontController: фронтконтроллер проекта
+ *
+ * @package system
+ * @version 0.1
+ */
+
+class frontController
+{
+    /**#@+
+    * @access private
+    * @var string
+    */
+
+    /**
+    * переменная для хранения имени секции
+    */
+    private $section = null;
+
+    /**
+    * переменная для хранения имени экшна
+    */
+    private $action = null;
+    /**#@-*/
+
+
+    /**
+     * конструктор класса
+     *
+     * @access public
+     * @param string $section имя секции
+     * @param string $action имя экшна
+     */
+    public function __construct($section, $action)
+    {
+        $this->setSection($section);
+        $this->setAction($action);
+    }
+
+    /**
+     * установка секции
+     *
+     * @access private
+     * @param string $section имя секции
+     */
+    private function setSection($section)
+    {
+        $this->section = $section;
+    }
+
+    /**
+     * получение секции
+     *
+     * @access private
+     * @return string имя секции
+     */
+    private function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * установка экшна
+     *
+     * @access private
+     * @param $action имя экшна
+     */
+    private function setAction($action)
+    {
+        $this->action = $action;
+    }
+
+    /**
+     * получение экшна
+     *
+     * @access private
+     * @return string имя экшна
+     */
+    private function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * получение имени шаблона
+     *
+     * @access public
+     * @return string имя шаблона в соответствии с выбранными секцией и экшном
+     */
+    public function getTemplate()
+    {
+        return $this->search();
+    }
+
+    /**
+     * поиск имени шаблона по имени секции и экшну
+     *
+     * @access private
+     * @return string имя шаблона в соответствии с выбранными секцией и экшном
+     */
+    private function search()
+    {
+        $section = $this->getSection();
+        $action = $this->getAction();
+
+        $mapper = new sectionMapper($section, $action);
+
+        $default = array("news", "list");
+
+        if (($template = $mapper->getTemplateName()) === false) {
+
+            $mapper = new sectionMapper($default[0], $default[1]);
+            return $mapper->getTemplateName();
+        }
+
+        return $template;
+    }
+}
+
+?>
