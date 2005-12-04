@@ -38,6 +38,13 @@ class fileLoader
     private static $resolver;
     
     /**
+     * список уже загруженных файлов
+     *
+     * @var array
+     */
+    private static $files = array();
+    
+    /**
      * установка нового резолвера в качестве текущего
      * предыдущий переносится в стэк
      *
@@ -78,20 +85,20 @@ class fileLoader
      *
      * @access public
      * @static
-     * @param string $classname имя искомого класса/запрос
+     * @param string $file путь до подключаемого файла
      * @return boolean true - если файл загружен; false - в противном случае
      */
-    public static function load($classname)
+    public static function load($file)
     {
-        $realname = (strpos($classname, '/') === false ) ? $classname : substr(strrchr($classname, '/'), 1);
-        if (class_exists($realname)) {
+        if (in_array($file, self::$files)) {
             return true;
         } else {
             try {
-                if(!($filename = self::resolve($classname))) {
-                    throw new FileResolverException("Can't find file for class '" . $classname . "'");
+                if(!($filename = self::resolve($file))) {
+                    throw new FileResolverException("Can't find file '" . $file . "'");
                     return false;
                 }
+                self::$files[] = $file;
                 require_once $filename;
                 return true;
             } catch (FileResolverException $e) {
