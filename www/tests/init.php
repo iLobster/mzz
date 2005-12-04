@@ -27,14 +27,14 @@ $resolver->addResolver(new libResolver($baseresolver));
 $resolver->addResolver(new configFileResolver($baseresolver));
 fileLoader::setResolver($resolver);
 
+fileLoader::load('exceptions/MzzException');
+fileLoader::load('exceptions/FileResolverException');
+fileLoader::load('exceptions/RegistryException');
+
 set_error_handler('simpletest_error_handler');
 fileLoader::load('libs/simpletest/unit_tester');
 fileLoader::load('libs/simpletest/mock_objects');
 fileLoader::load('libs/simpletest/reporter');
 restore_error_handler();
-
-fileLoader::load('exceptions/MzzException');
-fileLoader::load('exceptions/FileResolverException');
-fileLoader::load('exceptions/RegistryException');
 
 ?>
