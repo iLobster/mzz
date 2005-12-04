@@ -13,6 +13,7 @@
  * RequestParser: класс для получения секции, действия и других параметров
  *
  * @package system
+ * @subpackage request
  * @version 0.1
  */
 class requestParser
