@@ -1,8 +1,0 @@
-<?xml version='1.0' standalone='yes'?>
-<rules>
-	<test>
-		<rule pattern="/">/foo</rule>
-		<rule pattern="baz">bar</rule>
-		<rule pattern="test_pattern">result</rule>
-	</test>
-</rules>

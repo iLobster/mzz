@@ -1,7 +1,0 @@
-<?xml version='1.0' standalone='yes'?>
-<rules>
-	<news>
-		<rule pattern="/">/news/list</rule>
-		<rule pattern="/news/([0-9]+)/?">/news/$1/view</rule>
-	</news>
-</rules>
