@@ -154,7 +154,7 @@ class Fs
      * @param string $str строка для записи
      * @return integer|boolean
      */
-    public function write($str)
+    public function fwrite($str)
     {
         if(strpos($this->mode, "r") === false || strpos($this->mode, "+") !== false) {
             return fwrite($this->handle, $str);

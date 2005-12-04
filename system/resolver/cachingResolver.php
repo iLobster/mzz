@@ -54,7 +54,12 @@ final class cachingResolver extends decoratingResolver
         if (file_exists($filename)) {
             $this->cache = unserialize(file_get_contents($filename));
         }
-        $this->cache_file = new SplFileObject($filename, 'w');
+        // path for php 5.1.0
+        if(class_exists('SplFileObject')) {
+            $this->cache_file = new SplFileObject($filename, 'w');
+        } else {
+            $this->cache_file = new Fs($filename, 'w');
+        }
         parent::__construct($resolver);
     }
 
