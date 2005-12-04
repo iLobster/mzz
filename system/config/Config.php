@@ -15,7 +15,7 @@
  * @package system
  * @version 0.2
 */
-class config
+class Config
 {
     /**
      * Свойство для хранения результата обработки конфиг-файла
