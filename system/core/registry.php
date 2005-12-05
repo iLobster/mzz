@@ -70,12 +70,12 @@ class Registry {
                 $classname = $this->stack[0][$key];
                 try {
                     if(!class_exists($classname)) {
-                        throw new RegistryException("Create object error: class " . $classname . "not found.");
+                        throw new registryException("Create object error: class " . $classname . "not found.");
                         return false;
                     } else {
                         $this->stack[0][$key] = new $classname;
                     }
-                } catch (RegistryException $e) {
+                } catch (registryException $e) {
                     $e->printHtml();
                 }
             }
@@ -131,10 +131,10 @@ class Registry {
 
         try {
             if (!count($this->stack)) {
-                throw new RegistryException("Registry lost.");
+                throw new registryException("Registry lost.");
                 return false;
             }
-        } catch (RegistryException $e) {
+        } catch (registryException $e) {
             $e->printHtml();
         }
     }

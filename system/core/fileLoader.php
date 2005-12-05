@@ -95,13 +95,13 @@ class fileLoader
         } else {
             try {
                 if(!($filename = self::resolve($file))) {
-                    throw new FileResolverException("Can't find file '" . $file . "'");
+                    throw new fileResolverException("Can't find file '" . $file . "'");
                     return false;
                 }
                 self::$files[] = $file;
                 require_once $filename;
                 return true;
-            } catch (FileResolverException $e) {
+            } catch (fileResolverException $e) {
                 $e->printHtml();
             }
             return false;

@@ -35,12 +35,12 @@ class Db
 
         try {
             if(!is_callable(array($classname, 'getInstance'))) {
-                throw new DbException('Driver "' . $driver . '" cann\'t be called.');
+                throw new dbException('Driver "' . $driver . '" cann\'t be called.');
                 return false;
             } else {
                 return call_user_func(array($classname, 'getInstance'));
             }
-        } catch (DbException $e) {
+        } catch (dbException $e) {
             $e->printHtml();
         }
     }
