@@ -117,11 +117,14 @@ class frontController
 
         $mapper = new sectionMapper($section, $action);
 
-        $default = array("news", "list");
+        $registry = Registry::instance();
+        $config = $registry->getEntry('config');
+        $config->load('common');
 
         if (($template = $mapper->getTemplateName()) === false) {
-
-            $mapper = new sectionMapper($default[0], $default[1]);
+            $section = $config->getOption('main', 'default_section');
+            $action = $config->getOption('main', 'default_action');
+            $mapper = new sectionMapper($section, $action);
             return $mapper->getTemplateName();
         }
 
