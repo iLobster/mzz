@@ -1,12 +1,15 @@
 <?php
-
+/**
+ * Обработчик ошибок simpltest, нужен чтобы отделить мух от котлет :)
+ *
+ */
 function simpletest_error_handler($errno, $errstr, $errfile, $errline) {
     static $count = 0;
     return $count++;
 }
 
 require_once 'config.php';
-require_once systemConfig::$pathToSystem . 'core/fileloader.php';
+require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
 require_once systemConfig::$pathToSystem . 'resolver/compositeResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/fileResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/sysFileResolver.php';
@@ -27,9 +30,7 @@ $resolver->addResolver(new libResolver($baseresolver));
 $resolver->addResolver(new configFileResolver($baseresolver));
 fileLoader::setResolver($resolver);
 
-fileLoader::load('exceptions/MzzException');
-fileLoader::load('exceptions/ResolverException');
-fileLoader::load('exceptions/systemException');
+fileLoader::load('exceptions/init');
 
 set_error_handler('simpletest_error_handler');
 fileLoader::load('libs/simpletest/unit_tester');

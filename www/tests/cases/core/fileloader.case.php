@@ -1,6 +1,5 @@
 <?php
 
-fileLoader::load('core/fileloader');
 fileLoader::load('cases/resolver/testcasefileresolver');
 
 mock::generate('testCaseFileResolver');
@@ -15,12 +14,12 @@ class fileLoaderTest extends unitTestCase
         $this->resolver->setReturnValue('resolve', './cases/core/someclassStub.php');
         fileLoader::setResolver($this->resolver);
     }
-    
+
     public function tearDown()
     {
         fileLoader::restoreResolver();
     }
-    
+
     public function testResolving()
     {
         $this->assertEqual(realpath(fileLoader::resolve('core/someclassStub')), realpath('./cases/core/someclassStub.php'));
@@ -32,7 +31,7 @@ class fileLoaderTest extends unitTestCase
         class_exists('someclassStub'),
         'класс someclassStub не должен быть загружен'
         );
-        
+
         $this->assertTrue(
         fileLoader::load('core/someclassStub'),
         'класс someclassStub не загружен'

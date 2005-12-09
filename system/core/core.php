@@ -51,11 +51,7 @@ class core
             $cachingResolver = new cachingResolver($resolver);
 
             fileLoader::setResolver($cachingResolver);
-            fileLoader::load('exceptions/mzzException');
-            fileLoader::load('exceptions/ResolverException');
-            fileLoader::load('exceptions/fileException');
-            fileLoader::load('exceptions/dbException');
-            fileLoader::load('exceptions/systemException');
+            fileLoader::load('exceptions/init');
             fileLoader::load('template/mzzSmarty');
             fileLoader::load('core/ErrorHandler');
             fileLoader::load('core/registry');
