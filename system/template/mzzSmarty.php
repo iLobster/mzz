@@ -31,8 +31,10 @@ class mzzSmarty extends Smarty
      */
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
-        $template = new Fs($this->template_dir . '/' . $resource_name, 'r');
-        $template = $template->read(256);
+        $resource_name = $this->getResourceFileName($resource_name);
+
+        $template = new SplFileObject($this->template_dir . '/' . $resource_name, 'r');
+        $template = $template->fgets(256);
 
         $result = parent::fetch($resource_name, $cache_id, $compile_id, $display);
 
@@ -43,8 +45,18 @@ class mzzSmarty extends Smarty
             $result = self::fetch($params['main'], $cache_id, $compile_id, $display);
         }
         return $result;
+
     }
 
+
+    public function getResourceFileName($name)
+    {
+        if(strpos($name, ':') !== false && substr($name, 0, 4) != 'file' || !is_file($this->getTemplateDir() . '/' . $name)) {
+            $subdir = substr($name, 0, strpos($name, '.'));
+            return $subdir . '/' . $name;
+        }
+        return $name;
+    }
     /**
      * Выполняет шаблон и отображает результат.
      *
@@ -76,6 +88,11 @@ class mzzSmarty extends Smarty
             }
         }
         return $params;
+    }
+
+    protected function getTemplateDir()
+    {
+        return $this->template_dir;
     }
 }
 
