@@ -16,18 +16,6 @@
  * @package system
  * @version 0.1
  */
-require_once systemConfig::$pathToSystem . 'resolver/fileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/compositeResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/sysFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/appFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/classFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/moduleResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/configFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/libResolver.php';
-require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
-require_once systemConfig::$pathToSystem . 'core/Fs.php'; // Deprecated
-require_once systemConfig::$pathToSystem . 'resolver/decoratingResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/cachingResolver.php';
 class core
 {
     /**
@@ -37,55 +25,75 @@ class core
      */
     public function run()
     {
-        $baseresolver = new compositeResolver();
-        $baseresolver->addResolver(new sysFileResolver());
-        $baseresolver->addResolver(new appFileResolver());
+        try {
+            require_once systemConfig::$pathToSystem . 'resolver/fileResolver.php';
+            require_once systemConfig::$pathToSystem . 'resolver/compositeResolver.php';
+            require_once systemConfig::$pathToSystem . 'resolver/sysFileResolver.php';
+            require_once systemConfig::$pathToSystem . 'resolver/appFileResolver.php';
+            require_once systemConfig::$pathToSystem . 'resolver/classFileResolver.php';
+            require_once systemConfig::$pathToSystem . 'resolver/moduleResolver.php';
+            require_once systemConfig::$pathToSystem . 'resolver/configFileResolver.php';
+            require_once systemConfig::$pathToSystem . 'resolver/libResolver.php';
 
-        $resolver = new compositeResolver();
-        $resolver->addResolver(new classFileResolver($baseresolver));
-        $resolver->addResolver(new moduleResolver($baseresolver));
-        $resolver->addResolver(new configFileResolver($baseresolver));
-        $resolver->addResolver(new libResolver($baseresolver));
-        $cachingResolver = new cachingResolver($resolver);
+            require_once systemConfig::$pathToSystem . 'resolver/decoratingResolver.php';
+            require_once systemConfig::$pathToSystem . 'resolver/cachingResolver.php';
+            require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
 
-        fileLoader::setResolver($cachingResolver);
-        fileLoader::load('exceptions/mzzException');
-        fileLoader::load('exceptions/fileResolverException');
-        fileLoader::load('exceptions/fileException');
-        fileLoader::load('exceptions/dbException');
-        fileLoader::load('exceptions/registryException');
-        fileLoader::load('template/mzzSmarty');
-        fileLoader::load('core/ErrorHandler');
-        fileLoader::load('core/Registry');
-        fileLoader::load('core/response');
-        fileLoader::load('filters/filterChain');
-        fileLoader::load('filters/timingFilter');
-        fileLoader::load('filters/contentFilter');
-        fileLoader::load('filters/resolvingFilter');
+            $baseresolver = new compositeResolver();
+            $baseresolver->addResolver(new sysFileResolver());
+            $baseresolver->addResolver(new appFileResolver());
 
-        $smarty = new mzzSmarty();
-        $smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
-        $smarty->compile_dir   = systemConfig::$pathToApplication . 'templates/compiled';
-        $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
-        $smarty->debugging = DEBUG_MODE;
+            $resolver = new compositeResolver();
+            $resolver->addResolver(new classFileResolver($baseresolver));
+            $resolver->addResolver(new moduleResolver($baseresolver));
+            $resolver->addResolver(new configFileResolver($baseresolver));
+            $resolver->addResolver(new libResolver($baseresolver));
+            $cachingResolver = new cachingResolver($resolver);
 
-        $registry = Registry::instance();
-        $registry->setEntry('rewrite', 'Rewrite');
-        $registry->setEntry('httprequest', 'HttpRequest');
-        $registry->setEntry('config', 'config');
-        $registry->setEntry('smarty', $smarty);
+            fileLoader::setResolver($cachingResolver);
+            fileLoader::load('exceptions/mzzException');
+            fileLoader::load('exceptions/ResolverException');
+            fileLoader::load('exceptions/fileException');
+            fileLoader::load('exceptions/dbException');
+            fileLoader::load('exceptions/systemException');
+            fileLoader::load('template/mzzSmarty');
+            fileLoader::load('core/ErrorHandler');
+            fileLoader::load('core/registry');
+            fileLoader::load('core/response');
+            fileLoader::load('filters/filterChain');
+            fileLoader::load('filters/timingFilter');
+            fileLoader::load('filters/contentFilter');
+            fileLoader::load('filters/resolvingFilter');
 
-        $response = new response();
+            $smarty = new mzzSmarty();
+            $smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
+            $smarty->compile_dir   = systemConfig::$pathToApplication . 'templates/compiled';
+            $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
+            $smarty->debugging = DEBUG_MODE;
 
-        $filter_chain = new filterChain($response);
+            $registry = Registry::instance();
+            $registry->setEntry('rewrite', 'Rewrite');
+            $registry->setEntry('httprequest', 'HttpRequest');
+            $registry->setEntry('config', 'config');
+            $registry->setEntry('smarty', $smarty);
 
-        $filter_chain->registerFilter(new timingFilter());
-        $filter_chain->registerFilter(new resolvingFilter());
-        $filter_chain->registerFilter(new contentFilter());
+            $response = new response();
 
-        $filter_chain->process();
+            $filter_chain = new filterChain($response);
 
-        $response->send();
+            $filter_chain->registerFilter(new timingFilter());
+            $filter_chain->registerFilter(new resolvingFilter());
+            $filter_chain->registerFilter(new contentFilter());
+
+            $filter_chain->process();
+
+            $response->send();
+        } catch (MzzException $e) {
+            $e->printHtml();
+        } catch (Exception $e) {
+            $e = new MzzException($e->getMessage(), $e->getCode());
+            $e->printHtml();
+        }
     }
 }
 

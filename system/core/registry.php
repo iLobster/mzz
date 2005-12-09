@@ -52,6 +52,10 @@ class Registry {
      */
     public function setEntry($key, $item)
     {
+        if($this->isEntry($key)) {
+            throw new systemException("Registry: '" . $key . "' already registered.");
+            return false;
+        }
         $this->stack[0][$key] = $item;
     }
 
@@ -68,15 +72,12 @@ class Registry {
         if(isset($this->stack[0][$key])) {
             if(!is_object($this->stack[0][$key])) {
                 $classname = $this->stack[0][$key];
-                try {
-                    if(!class_exists($classname)) {
-                        throw new registryException("Create object error: class " . $classname . "not found.");
-                        return false;
-                    } else {
-                        $this->stack[0][$key] = new $classname;
-                    }
-                } catch (registryException $e) {
-                    $e->printHtml();
+
+                if(!class_exists($classname)) {
+                    throw new systemException("Registry: create object error: class '" . $classname ."' not found for entry '" . $key . "'.");
+                    return false;
+                } else {
+                    $this->stack[0][$key] = new $classname;
                 }
             }
             return $this->stack[0][$key];
@@ -93,7 +94,7 @@ class Registry {
      */
     public function isEntry($key)
     {
-        return ($this->getEntry($key) !== false);
+        return isset($this->stack[0][$key]);
     }
 
     /**
@@ -114,7 +115,7 @@ class Registry {
      * Сохранение текущего и создание нового стека для хранения
      * объектов.
      *
-     * @return false если стек потерян
+
      */
     public function save()
     {
@@ -124,18 +125,15 @@ class Registry {
     /**
      * Удаляет текущий и восстанавливает ранее сохраненный стек.
      *
+     * @return false если стек потерян
      */
     public function restore()
     {
         array_shift($this->stack);
 
-        try {
-            if (!count($this->stack)) {
-                throw new registryException("Registry lost.");
-                return false;
-            }
-        } catch (registryException $e) {
-            $e->printHtml();
+        if (!count($this->stack)) {
+            throw new systemException("Registry lost.");
+            return false;
         }
     }
 }

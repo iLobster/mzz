@@ -1,11 +1,12 @@
 <?php
 class MzzException extends Exception
 {
-    private $name = 'System Exception';
+    private $name;
 
     public function __construct($message, $code = 0)
     {
         parent::__construct($message, $code);
+        $this->setName('System Exception');
     }
 
 

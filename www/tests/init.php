@@ -28,8 +28,8 @@ $resolver->addResolver(new configFileResolver($baseresolver));
 fileLoader::setResolver($resolver);
 
 fileLoader::load('exceptions/MzzException');
-fileLoader::load('exceptions/FileResolverException');
-fileLoader::load('exceptions/RegistryException');
+fileLoader::load('exceptions/ResolverException');
+fileLoader::load('exceptions/systemException');
 
 set_error_handler('simpletest_error_handler');
 fileLoader::load('libs/simpletest/unit_tester');

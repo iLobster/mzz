@@ -23,27 +23,27 @@ class fileLoader
      * стэк резолверов
      *
      * @access private
-     * @static 
+     * @static
      * @var array
      */
     private static $stack = array();
-    
+
     /**
      * текущий резолвер
      *
      * @access private
-     * @static 
+     * @static
      * @var object
      */
     private static $resolver;
-    
+
     /**
      * список уже загруженных файлов
      *
      * @var array
      */
     private static $files = array();
-    
+
     /**
      * установка нового резолвера в качестве текущего
      * предыдущий переносится в стэк
@@ -71,7 +71,7 @@ class fileLoader
      * резолвинг запроса
      *
      * @access public
-     * @static 
+     * @static
      * @param string $request строка запроса (файл/имя класса)
      * @return string|null путь до запрашиваемого файла/класса, либо null если не найден
      */
@@ -93,18 +93,13 @@ class fileLoader
         if (in_array($file, self::$files)) {
             return true;
         } else {
-            try {
-                if(!($filename = self::resolve($file))) {
-                    throw new fileResolverException("Can't find file '" . $file . "'");
-                    return false;
-                }
-                self::$files[] = $file;
-                require_once $filename;
-                return true;
-            } catch (fileResolverException $e) {
-                $e->printHtml();
+            if(!($filename = self::resolve($file))) {
+                throw new ResolverException("Can't find file '" . $file . "'");
+                return false;
             }
-            return false;
+            self::$files[] = $file;
+            require_once $filename;
+            return true;
         }
     }
 }
