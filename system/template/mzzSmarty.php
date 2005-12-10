@@ -12,7 +12,7 @@
 /**
  * mzzSmarty: модификация Smarty для работы с шаблонами
  *
- * @version 0.1
+ * @version 0.2
  * @access public
  */
 
@@ -31,6 +31,9 @@ class mzzSmarty extends Smarty
      */
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
+        if(strpos($resource_name, ':')) {
+            throw new systemException('Поддержка ресурсов у Smarty не реализована. ');
+        }
         $resource_name = $this->getResourceFileName($resource_name);
 
         $template = new SplFileObject($this->template_dir . '/' . $resource_name, 'r');
@@ -48,15 +51,33 @@ class mzzSmarty extends Smarty
 
     }
 
-
-    public function getResourceFileName($name)
+    /**
+     * Получает и возвращает относительный путь к исходнику шаблонов.
+     * Если нужный шаблон находится в корне папки с шаблонами, то изменений нет,
+     * если в корне нет, то к относительному путю прибавляется первая часть имени до точки.
+     *
+     * Пример:
+     * <code>
+     * news.view.tpl -> news/news.view.tpl
+     * main.tpl -> main.tpl
+     * </code>
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function getResourceFileName($name)
     {
-        if(strpos($name, ':') !== false && substr($name, 0, 4) != 'file' || !is_file($this->getTemplateDir() . '/' . $name)) {
+        //$with_resource = strpos($name, ':');
+        // $this->template_exists($name)
+        //if(!is_file($this->getTemplateDir() . '/' . $name) && ($with_resource === false || substr($name, 0, 4) == 'file')) {
+
+        if(!is_file($this->getTemplateDir() . '/' . $name)) {
             $subdir = substr($name, 0, strpos($name, '.'));
             return $subdir . '/' . $name;
         }
         return $name;
     }
+
     /**
      * Выполняет шаблон и отображает результат.
      *
@@ -90,6 +111,11 @@ class mzzSmarty extends Smarty
         return $params;
     }
 
+    /**
+     * Возвращает директорию с исходниками шаблонов
+     *
+     * @return string абсолютный путь
+     */
     protected function getTemplateDir()
     {
         return $this->template_dir;
