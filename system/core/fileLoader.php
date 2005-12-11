@@ -95,8 +95,8 @@ class fileLoader
         } else {
             if(!($filename = self::resolve($file))) {
                 throw new mzzIoException($file);
-                return false;
             }
+            //return false;
             self::$files[] = $file;
             require_once $filename;
             return true;

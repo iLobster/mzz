@@ -33,11 +33,14 @@ class Db
         fileLoader::load('db/drivers/' . $driver);
         $classname = 'mzz' . ucfirst($driver);
 
-        if(!is_callable(array($classname, 'getInstance'))) {
-            throw new dbException('Driver "' . $driver . '" cann\'t be called.');
-            return false;
+        $callback = array($classname, 'getInstance');
+        
+        if(!is_callable($callback)) {
+            //throw new dbException('Driver "' . $driver . '" cann\'t be called.');
+            //return false;
+            throw new mzzCallbackException($callback);
         } else {
-            return call_user_func(array($classname, 'getInstance'));
+            return call_user_func($callback);
         }
     }
 

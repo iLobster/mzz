@@ -61,8 +61,6 @@ class core
             fileLoader::load('filters/contentFilter');
             fileLoader::load('filters/resolvingFilter');
             
-            fileLoader::load('filters/resolvingFilterasd');
-
             $smarty = new mzzSmarty();
             $smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
             $smarty->compile_dir   = systemConfig::$pathToApplication . 'templates/compiled';

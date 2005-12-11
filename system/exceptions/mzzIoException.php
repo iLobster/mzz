@@ -6,6 +6,7 @@ class mzzIoException extends MzzException
     {
         $message = 'Файл не найден: <i>' . $filename . '</i>';
         parent::__construct($message);
+        $this->setName('IO Exception');
     }
 }
 
