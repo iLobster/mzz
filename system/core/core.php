@@ -56,10 +56,7 @@ class core
             fileLoader::load('core/ErrorHandler');
             fileLoader::load('core/registry');
             fileLoader::load('core/response');
-            fileLoader::load('filters/filterChain');
-            fileLoader::load('filters/timingFilter');
-            fileLoader::load('filters/contentFilter');
-            fileLoader::load('filters/resolvingFilter');
+            fileLoader::load('filters/init');
             
             $smarty = new mzzSmarty();
             $smarty->template_dir  = systemConfig::$pathToApplication . 'templates';

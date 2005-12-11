@@ -20,8 +20,6 @@
 
 16 ( ) session_start() сделать фильтром (в будущем) 
 
-15 (?) Сделать SmartyReporter для simpletest
-
 14 ( ) Вынос общих методов у MVC модулей в simple-класс (начат View)
 
 13 ( ) Обновить SimpleTest до 1.0.1alpha3
