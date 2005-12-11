@@ -1,0 +1,12 @@
+<?php
+
+class mzzIoException extends MzzException
+{
+    public function __construct($filename)
+    {
+        $message = 'Файл не найден: <i>' . $filename . '</i>';
+        parent::__construct($message);
+    }
+}
+
+?>

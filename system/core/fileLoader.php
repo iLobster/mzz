@@ -94,7 +94,7 @@ class fileLoader
             return true;
         } else {
             if(!($filename = self::resolve($file))) {
-                throw new ResolverException("Can't find file '" . $file . "'");
+                throw new mzzIoException($file);
                 return false;
             }
             self::$files[] = $file;

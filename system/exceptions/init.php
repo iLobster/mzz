@@ -5,5 +5,6 @@ fileLoader::load('exceptions/ResolverException');
 fileLoader::load('exceptions/fileException');
 fileLoader::load('exceptions/dbException');
 fileLoader::load('exceptions/systemException');
+fileLoader::load('exceptions/mzzIoException');
 
 ?>
