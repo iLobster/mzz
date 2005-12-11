@@ -18,18 +18,25 @@
 
 class newsListModel
 {
+    private $httprequest;
+    private $params;
+    private $db;
+
+
     public function __construct()
     {
-
+        $registry = Registry::instance();
+        $this->httprequest = $registry->getEntry('httprequest');
+        $this->params = $this->httprequest->getParams();
+        $this->db = Db::factory();
     }
 
     public function getNewsList()
     {
         $query = "SELECT * FROM `news`";
-        $db = Db::factory();
 
         $news = array();
-        if ($result = $db->query($query)) {
+        if ($result = $this->db->query($query)) {
             while ($item = $result->fetch_assoc()) {
                 $news[] = $item;
             }
@@ -37,6 +44,12 @@ class newsListModel
 
         return $news;
     }
+
+    public function getParam($index) {
+        $params = $this->httprequest->getParams();
+        return (isset($params[$index])) ? $params[$index] : false;
+    }
+
 }
 
 ?>

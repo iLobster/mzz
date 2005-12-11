@@ -69,6 +69,7 @@ class core
             $registry->setEntry('httprequest', 'HttpRequest');
             $registry->setEntry('config', 'config');
             $registry->setEntry('smarty', $smarty);
+            $registry->setEntry('htmlquickform', 'HTML_QuickForm');
 
             $response = new response();
 

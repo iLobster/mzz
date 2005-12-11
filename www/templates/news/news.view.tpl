@@ -5,6 +5,6 @@
 			<td>{$news.text}</td>
 		</tr>
 		<tr>
-			<td colspan=3><a href="/news/list">назад</a></td>
+			<td colspan=3><a href="/news/list">назад</a> / <a href="/news/{$news.id}/edit">редактировать</a></td>
 		</tr>
 </table>

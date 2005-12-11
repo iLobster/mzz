@@ -81,6 +81,9 @@ class newsFactory
 			'view' => array(
 				'controller' => 'view',
 			),
+			'edit' => array(
+				'controller' => 'edit',
+			),
 		);
 		return $actions;
 	}

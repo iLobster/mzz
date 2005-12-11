@@ -18,23 +18,32 @@
 
 class newsViewModel
 {
+    private $httprequest;
+    private $params;
+    private $db;
+
+
     public function __construct()
     {
-
+        $registry = Registry::instance();
+        $this->httprequest = $registry->getEntry('httprequest');
+        $this->params = $this->httprequest->getParams();
+        $this->db = Db::factory();
     }
 
     public function getNews()
     {
-        $registry = Registry::instance();
-        $httprequest = $registry->getEntry('httprequest');
-        $params = $httprequest->getParams();
-        $query = "SELECT * FROM `news` WHERE `id`=".($params[0]);
-        $db = Db::factory();
+        $query = "SELECT * FROM `news` WHERE `id`=".($this->getParam(0));
         $news = array();
-        if ($result = $db->query($query)) {
+        if ($result = $this->db->query($query)) {
             $news = $result->fetch_assoc();
         }
         return $news;
+    }
+
+    public function getParam($index) {
+        $params = $this->httprequest->getParams();
+        return (isset($params[$index])) ? $params[$index] : false;
     }
 
 }
