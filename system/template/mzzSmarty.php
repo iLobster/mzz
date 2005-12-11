@@ -32,7 +32,7 @@ class mzzSmarty extends Smarty
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         if(strpos($resource_name, ':')) {
-            throw new systemException('Поддержка ресурсов у Smarty не реализована. ');
+            throw new systemException('Поддержка других ресурсов Smarty не реализована. Не используйте "file:" в именах шаблонах.');
         }
         $resource_name = $this->getResourceFileName($resource_name);
 
