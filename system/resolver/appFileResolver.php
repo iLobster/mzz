@@ -22,7 +22,6 @@ class appFileResolver extends fileResolver
     /**
      * конструктор
      *
-     * @access public
      */
     public function __construct()
     {

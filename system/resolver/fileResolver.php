@@ -22,7 +22,6 @@ class fileResolver
     /**
      * список паттернов (шаблонов имён файлов, имён файлов) для поиска
      *
-     * @access private
      * @var array
      */
     private $patterns = array();
@@ -30,7 +29,6 @@ class fileResolver
     /**
      * конструктор
      *
-     * @access public
      * @param string $pattern паттерн для поиска
      */
     public function __construct($pattern)
@@ -41,7 +39,6 @@ class fileResolver
     /**
      * метод добавления паттернов в список
      *
-     * @access public
      * @param string $pattern паттерн для поиска
      */
     public function addPattern($pattern)
@@ -52,7 +49,6 @@ class fileResolver
     /**
      * запуск процесса поиска файла по паттернам
      *
-     * @access public
      * @param string $request поисковый запрос
      * @return string|null путь до файла, если найден и null в противном случае
      */

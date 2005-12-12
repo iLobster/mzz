@@ -23,7 +23,6 @@ class Rewrite
      * Правила
      *
      * @var array
-     * @access protected
      */
     protected $rules = array();
 
@@ -42,7 +41,6 @@ class Rewrite
     /**
      * Construct
      *
-     * @access private
      */
     public function __construct()
     {

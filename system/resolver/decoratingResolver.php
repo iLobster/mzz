@@ -23,7 +23,6 @@ abstract class decoratingResolver
     /**
      * резолвер, который будет декорироваться
      *
-     * @access protected
      * @var object
      */
     protected $resolver = null;
@@ -31,7 +30,6 @@ abstract class decoratingResolver
     /**
      * конструктор
      *
-     * @access public
      * @param object $resolver резолвер, который будет декорироваться
      */
     public function __construct($resolver)

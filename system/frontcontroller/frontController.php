@@ -20,7 +20,6 @@
 class frontController
 {
     /**#@+
-    * @access private
     * @var string
     */
 
@@ -39,7 +38,6 @@ class frontController
     /**
      * конструктор класса
      *
-     * @access public
      * @param string $section имя секции
      * @param string $action имя экшна
      */
@@ -52,7 +50,6 @@ class frontController
     /**
      * установка секции
      *
-     * @access private
      * @param string $section имя секции
      */
     private function setSection($section)
@@ -63,7 +60,6 @@ class frontController
     /**
      * получение секции
      *
-     * @access private
      * @return string имя секции
      */
     private function getSection()
@@ -74,7 +70,6 @@ class frontController
     /**
      * установка экшна
      *
-     * @access private
      * @param $action имя экшна
      */
     private function setAction($action)
@@ -85,7 +80,6 @@ class frontController
     /**
      * получение экшна
      *
-     * @access private
      * @return string имя экшна
      */
     private function getAction()
@@ -96,7 +90,6 @@ class frontController
     /**
      * получение имени шаблона
      *
-     * @access public
      * @return string имя шаблона в соответствии с выбранными секцией и экшном
      */
     public function getTemplate()
@@ -107,7 +100,6 @@ class frontController
     /**
      * поиск имени шаблона по имени секции и экшну
      *
-     * @access private
      * @return string имя шаблона в соответствии с выбранными секцией и экшном
      */
     private function search()

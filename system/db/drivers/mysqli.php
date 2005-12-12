@@ -20,8 +20,6 @@ class mzzMysqli extends mysqli {
      * Singleton
      *
      * @var object
-     * @access private
-     * @static
      */
     private static $instance;
 
@@ -29,7 +27,6 @@ class mzzMysqli extends mysqli {
      * число запросов к БД
      *
      * @var int
-     * @access private
      */
     private $queriesNum = 0;
 
@@ -37,7 +34,6 @@ class mzzMysqli extends mysqli {
      * общее время запросов к БД
      *
      * @var float
-     * @access private
      */
     private $queriesTime = 0;
 
@@ -50,7 +46,6 @@ class mzzMysqli extends mysqli {
      * @param string $dbname
      * @param integer $port
      * @param string $socket
-     * @access public
      * @return void
      */
     public function __construct($host=null, $username=null, $passwd=null, $dbname=null, $port=0, $socket=null)
@@ -69,8 +64,6 @@ class mzzMysqli extends mysqli {
     /**
      * The singleton method
      *
-     * @access public
-     * @static
      * @return object
      */
     public static function getInstance()

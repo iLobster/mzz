@@ -21,8 +21,6 @@ class requestParser
     /**
      * Разборка URL на section, action, params.
      *
-     * @access private
-     * @return void
      */
     public function parse($path)
     {

@@ -21,7 +21,6 @@ class core
     /**
      * запуск приложения
      *
-     * @access public
      */
     public function run()
     {

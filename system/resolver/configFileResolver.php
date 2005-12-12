@@ -28,7 +28,6 @@ class configFileResolver extends partialFileResolver
     /**
      * конструктор
      *
-     * @access public
      * @param object $resolver базовый резолвер
      */
     public function __construct($resolver)
@@ -40,7 +39,6 @@ class configFileResolver extends partialFileResolver
      * проверка на соответствие запроса некоторому шаблону
      * определяем что файл действительно тот, который требуется
      *
-     * @access protected
      * @param string $request строка запроса
      * @return string|null переписанный запрос, если запрос совпадает с шаблоном, либо null
      */

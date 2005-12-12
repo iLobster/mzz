@@ -22,23 +22,23 @@ class sectionMapper
      * Имя шаблона
      *
      * @var array
-     * @access protected
      */
     protected $template_name;
 
     /**
      * Префикс имени
+     *
      */
     const TPL_PRE = "act.";
 
     /**
      * Расширение шаблона
+     *
      */
     const TPL_EXT = ".tpl";
     /**
      * Construct
      *
-     * @access public
      * @param string $section
      * @param string $action
      */

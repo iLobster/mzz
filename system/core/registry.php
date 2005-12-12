@@ -29,14 +29,12 @@ class Registry {
      * Registry
      *
      * @var Registry
-     * @static
      */
     static $registry = false;
 
     /**
      * Construct
      *
-     * @access private
      */
     private function __construct()
     {
@@ -48,7 +46,6 @@ class Registry {
      *
      * @param string $key имя в registry
      * @param object|string $item объект или имя класса
-     * @access public
      */
     public function setEntry($key, $item)
     {
@@ -115,7 +112,6 @@ class Registry {
      * Сохранение текущего и создание нового стека для хранения
      * объектов.
      *
-
      */
     public function save()
     {

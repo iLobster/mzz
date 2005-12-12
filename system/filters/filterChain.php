@@ -22,7 +22,6 @@ class filterChain
     /**
      * массив с фильтрами
      *
-     * @access private
      * @var array
      */
     private $filters = array();
@@ -30,7 +29,6 @@ class filterChain
     /**
      * счётчик фильтра
      *
-     * @access private
      * @var int
      */
     private $counter = -1;
@@ -38,7 +36,6 @@ class filterChain
     /**
      * объект, содержащий информацию, выводимой клиенту в браузер
      *
-     * @access private
      * @var response
      */
     private $response;
@@ -46,7 +43,6 @@ class filterChain
     /**
      * конструктор класса
      *
-     * @access public
      * @param response $response
      */
     public function __construct($response)
@@ -58,7 +54,6 @@ class filterChain
     /**
      * регистрация нового фильтра
      *
-     * @access public
      * @param object $filter фильтр для добавления в цепочку
      */
     public function registerFilter($filter)
@@ -69,7 +64,6 @@ class filterChain
     /**
      * переход к следующему фильтру в цепочке
      *
-     * @access public
      */
     public function next()
     {
@@ -83,7 +77,6 @@ class filterChain
     /**
      * запуск цепочки фильтров на выполнение
      *
-     * @access public
      */
     public function process()
     {

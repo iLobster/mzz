@@ -22,7 +22,6 @@ class response
     /**
      * содержимое ответа
      *
-     * @access private
      * @var string
      */
     private $response = '';
@@ -30,7 +29,6 @@ class response
     /**
      * конструктор класса
      *
-     * @access public
      */
     public function __construct()
     {
@@ -40,7 +38,6 @@ class response
     /**
      * отправка содержимого клиенту
      *
-     * @access public
      */
     public function send()
     {
@@ -50,7 +47,6 @@ class response
     /**
      * добавление информации к ответу
      *
-     * @access public
      * @param string $string строка для добавления
      */
     public function append($string)
@@ -61,7 +57,6 @@ class response
     /**
      * отправление текста
      *
-     * @access private
      */
     private function sendText()
     {

@@ -24,7 +24,6 @@ class Fs
      * Указатель на открытый ресурс
      *
      * @var resource
-     * @access private
      */
     private $handle;
 
@@ -32,7 +31,6 @@ class Fs
      * Путь до открытого файла
      *
      * @var string
-     * @access public
      */
     private $file;
 
@@ -40,7 +38,6 @@ class Fs
      * Путь до папки, в которой находится открытый файл
      *
      * @var string
-     * @access public
      */
     private $path;
 
@@ -48,7 +45,6 @@ class Fs
      * Режим, в котором был открыт файл, очищенный от опциональных режимах "b" и "t"
      *
      * @var integer
-     * @access public
      */
     private $mode;
 
@@ -63,7 +59,6 @@ class Fs
      * Описание основных ошибок
      *
      * @var array
-     * @access public
      */
     private $errors = array("cannot_write" => "Файл '%s' открыт в режиме 'только чтение'.",
                             "cannot_read" => "Файл '%s' открыт в режиме 'только запись'.",
@@ -73,7 +68,6 @@ class Fs
     /**
      * Открытие файла и сохранение указателя
      *
-     * @access public
      * @param string $file путь до файла
      * @param string $mode режим, в котором будет открыт файл
      * @param boolean $use_include_path
@@ -134,7 +128,6 @@ class Fs
     /**
      * Считывание символа из файла
      *
-     * @access public
      * @return string
      */
     public function readc()
@@ -150,7 +143,6 @@ class Fs
     /**
      * Бинарно-безопасная запись в файл
      *
-     * @access public
      * @param string $str строка для записи
      * @return integer|boolean
      */
@@ -168,7 +160,6 @@ class Fs
      * Получение содержимого всего файла. Если $reset равен true, то перед чтением
      * смещение устанавливается в 0.
      *
-     * @access public
      * @param boolean $reset
      * @return string
      */

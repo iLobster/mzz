@@ -33,7 +33,6 @@ class HttpRequest
 
 
     /**#@+
-    * @access protected
     * @var array
     */
     /**
@@ -62,7 +61,6 @@ class HttpRequest
      * Section
      *
      * @var string
-     * @access protected
      */
     protected $section;
 
@@ -70,7 +68,6 @@ class HttpRequest
      * Action
      *
      * @var string
-     * @access protected
      */
     protected $action;
 
@@ -79,7 +76,6 @@ class HttpRequest
     /**
      * Конструктор.
      *
-     * @access public
      */
     public function __construct()
     {
@@ -97,7 +93,6 @@ class HttpRequest
     /**
      * Метод получения переменной из суперглобального массива
      *
-     * @access public
      * @param string $name имя переменной
      * @param boolean $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
@@ -133,7 +128,6 @@ class HttpRequest
     /**
      * Возвращает true если используется защищенный протокол HTTPS
      *
-     * @access public
      * @return boolean
      */
     public function isSecure()
@@ -145,7 +139,6 @@ class HttpRequest
     /**
      * Метод возвращает протокол, который был использован для передачи данных.
      *
-     * @access public
      * @return string|null возможные варианты: GET, HEAD, POST, PUT
      */
     public function getMethod()
@@ -156,7 +149,6 @@ class HttpRequest
     /**
      * Метод получения переменной из суперглобального массива _GET
      *
-     * @access private
      * @param string $name имя переменной
      * @return string|null
      */
@@ -168,7 +160,6 @@ class HttpRequest
     /**
      * Метод получения переменной из суперглобального массива _POST
      *
-     * @access private
      * @param string $name имя переменной
      * @return string|null
      */
@@ -180,7 +171,6 @@ class HttpRequest
     /**
      * Метод получения переменной из суперглобального массива _COOKIE
      *
-     * @access private
      * @param string $name имя переменной
      * @return string|null
      */
@@ -193,7 +183,6 @@ class HttpRequest
     /**
      * Метод получения переменной из суперглобального массива _SERVER
      *
-     * @access private
      * @param string $name имя переменной
      * @return string|null
      */

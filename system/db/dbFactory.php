@@ -20,8 +20,6 @@ class Db
     /**
      * The factory method
      *
-     * @access public
-     * @static
      * @return object
      */
     public static function factory()

@@ -23,7 +23,6 @@ class compositeResolver
     /**
      * массив для хранения резолверов
      *
-     * @access private
      * @var array
      */
     private $resolvers = array();

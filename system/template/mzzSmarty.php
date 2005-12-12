@@ -13,6 +13,7 @@
  * mzzSmarty: модификаци€ Smarty дл€ работы с шаблонами
  *
  * @version 0.2
+ * @package system
  * @access public
  */
 
@@ -93,8 +94,6 @@ class mzzSmarty extends Smarty
     /**
      * –азбор первой строки вложенных (активных) шаблонов
      *
-     * @access private
-     * @static
      * @param string $str
      * @return array
      */

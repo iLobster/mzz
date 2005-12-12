@@ -21,9 +21,6 @@
 
 final class cachingResolver extends decoratingResolver
 {
-    /**#@+
-    * @access private
-    */
     /**
      * массив с содержимым кеша
      *
@@ -38,12 +35,10 @@ final class cachingResolver extends decoratingResolver
      */
     private $cache_file;
 
-    /**#@-*/
 
     /**
      * конструктор
      *
-     * @access public
      * @param object $resolver резолвер, который декорируется кэширующим резолвером
      */
     public function __construct($resolver)
@@ -62,7 +57,6 @@ final class cachingResolver extends decoratingResolver
     /**
      * резолвинг запроса
      *
-     * @access public
      * @param string $request строка запроса (файл/имя класса)
      * @return string|null путь до запрашиваемого файла/класса, либо null если не найден
      */
@@ -76,9 +70,8 @@ final class cachingResolver extends decoratingResolver
 
     /**
      * деструктор
-     * по уничтожении класса записываем содержимое кэша в файл
+     * по уничтожении объекта класса записывает содержимое кэша в файл
      *
-     * @access public
      */
     public function __destruct()
     {

@@ -22,7 +22,6 @@ class partialFileResolver
     /**
      * базовый резолвер
      *
-     * @access private
      * @var object
      */
     private $resolver;
@@ -30,7 +29,6 @@ class partialFileResolver
     /**
      * конструктор
      *
-     * @access public
      * @param object $resolver базовый резолвер
      */
     public function __construct($resolver)
@@ -41,7 +39,6 @@ class partialFileResolver
     /**
      * запуск процесса резолвинга
      *
-     * @access public
      * @param string $request строка запроса
      * @return string|null путь до файла, если файл найден, null в противном случае
      */
@@ -54,7 +51,6 @@ class partialFileResolver
      * модификация запроса
      * замещается в наследниках
      *
-     * @access protected
      * @param string $request строка запроса
      * @return string переписанный запрос
      */

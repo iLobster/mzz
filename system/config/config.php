@@ -21,7 +21,6 @@ class config
      * Свойство для хранения результата обработки конфиг-файла
      *
      * @var array
-     * @access protected
      */
     protected $_ini;
 
@@ -29,14 +28,12 @@ class config
      * Имя обработанного конфиг-файла
      *
      * @var string
-     * @access protected
      */
     protected $_ini_file;
 
     /**
      * Constructor
      *
-     * @access public
      * @return void
      */
     public function __construct()
@@ -49,7 +46,6 @@ class config
      * повторном вызове метода load с тем же именем конфиг-файла будет возвращен
      * сохраненный результат. Для обновления результата используется метод update.
      *
-     * @access public
      * @param string $file имя файла (без '.ini' в конце)
      * @param boolean $process_sections
      * @return bolean
@@ -73,7 +69,6 @@ class config
     /**
      * Получение значения опции
      *
-     * @access public
      * @param string $section имя секции
      * @param string $name имя опции
      * @return string|false
@@ -91,7 +86,6 @@ class config
     /**
      * Получение всей секции
      *
-     * @access public
      * @param string $section имя секции
      * @return array|false
      */
@@ -107,7 +101,6 @@ class config
     /**
      * Обновление результата обработки
      *
-     * @access public
      * @return void
      */
     public function update()
