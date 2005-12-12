@@ -94,6 +94,9 @@ class mzzMysqli extends mysqli {
        $this->queriesNum++;
        $start_time = microtime(1);
        $result = parent::query($query, $resultmode);
+       if(($error = mysqli_error($this)) != null) {
+           throw new mzzRuntimeException("SQL-Query error: " . $error, mysqli_errno($this));
+       }
        $this->queriesTime += (microtime(1) - $start_time);
        return $result;
    }

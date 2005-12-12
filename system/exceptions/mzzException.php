@@ -28,8 +28,11 @@ class MzzException extends Exception
 
         if(DEBUG_MODE) {
             $msg = "Thrown in file " . $this->getFile() . ' (Line: ' . $this->getLine() . ') ';
-            $msg .= "with message: <b>" . $this->getMessage()  . "</b><br>";
-
+            $msg .= "with message: <b>";
+            if($this->getCode() != 0) {
+                $msg .= "[Code: " . $this->getCode() . "] ";
+            }
+            $msg .= $this->getMessage() . "</b><br>";
             $trace_msg = $msg . '<br><b>Trace:</b>';
             $padding = 5;
             $traces = $this->getTrace();
