@@ -6,7 +6,7 @@ class newsActiveRecord
     private $data = array();
     public function __construct($stmt, $tm)
     {
-$this->stmt = $stmt;
+        $this->stmt = $stmt;
     }
 
     public function get($name)
@@ -14,7 +14,7 @@ $this->stmt = $stmt;
         if (sizeof($this->data) === 0) {
             $this->process();
         }
-        
+
         return (isset($this->data[$name])) ? $this->data[$name] : null;
     }
 
