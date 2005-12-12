@@ -4,9 +4,12 @@ class newsActiveRecord
 {
     private $stmt;
     private $data = array();
+    private $tm;
+
     public function __construct($stmt, $tm)
     {
         $this->stmt = $stmt;
+        $this->tm = $tm;
     }
 
     public function get($name)
@@ -26,6 +29,11 @@ class newsActiveRecord
         $this->data['id'] = $id;
         $this->data['title'] = $title;
         $this->data['text'] = $text;
+        $this->stmt->close();
+    }
+
+    public function delete() {
+        return $this->tm->delete($this->get('id'));
     }
 }
 
