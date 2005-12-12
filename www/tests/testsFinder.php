@@ -11,20 +11,25 @@ class testsFinder
             $cases = array_merge($cases, self::getCasesList($val));
         }
 
-        $cases = array_merge($cases, self::getCasesList($dir));
+        if(count($dirs) == 0) {
+            $cases = self::getCasesList($dir);
+        }
 
         return $cases;
     }
 
-    static private function getCasesList($dir)
+    static private function getCasesList($dir,  $caseslist = array())
     {
-        $caseslist = array();
+        $list = new RecursiveDirectoryIterator($dir);
+        for( ; $list->valid(); $list->next()) {
+            if(!$list->isDir() && preg_match('/case.php/i', $list->current())) {
+                $caseslist[] = $dir . '/' . $list->current();
+            } elseif($list->isDir() && !$list->isDot() && strpos($list->current(), '.svn') === false) {
+                $caseslist = self::getCasesList($dir . '/' . $list->current(), $caseslist);
+            }
+	    }
 
-        if (is_dir($dir)) {
-            $caseslist = glob($dir . '/*case.php');
-        }
-
-        return $caseslist;
+	   return $caseslist;
     }
 
 
