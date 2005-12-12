@@ -1,0 +1,16 @@
+# EMS MySQL Manager Pro 3.3.0.2
+# ---------------------------------------
+# Host     : localhost
+# Port     : 3306
+# Database : mzz_test
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP DATABASE IF EXISTS `mzz_test`;
+
+CREATE DATABASE `mzz_test`
+    CHARACTER SET 'cp1251'
+    COLLATE 'cp1251_general_ci';
+
+USE `mzz_test`;
