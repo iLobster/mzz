@@ -14,3 +14,16 @@ CREATE DATABASE `mzz_test`
     COLLATE 'cp1251_general_ci';
 
 USE `mzz_test`;
+
+#
+# Structure for the `news` table : 
+#
+
+DROP TABLE IF EXISTS `news`;
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL default '',
+  `text` text NOT NULL,
+  KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
