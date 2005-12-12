@@ -33,6 +33,7 @@ $resolver->addResolver(new configFileResolver($baseresolver));
 fileLoader::setResolver($resolver);
 
 fileLoader::load('exceptions/init');
+fileLoader::load('config/config');
 
 set_error_handler('simpletest_error_handler');
 fileLoader::load('libs/simpletest/unit_tester');
