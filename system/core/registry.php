@@ -53,7 +53,7 @@ class Registry {
     public function setEntry($key, $item)
     {
         if($this->isEntry($key)) {
-            throw new systemException("Registry: '" . $key . "' already registered.");
+            throw new mzzRuntimeException("Registry: '" . $key . "' already registered.");
             return false;
         }
         $this->stack[0][$key] = $item;
@@ -74,7 +74,7 @@ class Registry {
                 $classname = $this->stack[0][$key];
 
                 if(!class_exists($classname)) {
-                    throw new systemException("Registry: create object error: class '" . $classname ."' not found for entry '" . $key . "'.");
+                    throw new mzzRuntimeException("Registry: create object error: class '" . $classname ."' not found for entry '" . $key . "'.");
                     return false;
                 } else {
                     $this->stack[0][$key] = new $classname;
@@ -132,7 +132,7 @@ class Registry {
         array_shift($this->stack);
 
         if (!count($this->stack)) {
-            throw new systemException("Registry lost.");
+            throw new mzzRuntimeException("Registry lost.");
             return false;
         }
     }

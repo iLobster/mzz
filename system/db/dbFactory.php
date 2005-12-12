@@ -36,9 +36,8 @@ class Db
         $callback = array($classname, 'getInstance');
         
         if(!is_callable($callback)) {
-            //throw new dbException('Driver "' . $driver . '" cann\'t be called.');
-            //return false;
             throw new mzzCallbackException($callback);
+            return false;
         } else {
             return call_user_func($callback);
         }

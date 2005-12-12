@@ -14,7 +14,12 @@ class configTest extends unitTestCase
     public function TestConfig()
     {
         $config = new config();
-        $this->assertFalse($config->load("__false_config_file__"));
+        try {
+            $config->load("__false_config_file__");
+            $this->assertFalse(true, 'no exception thrown?');
+        } catch (mzzRuntimeException $e) {
+            $this->assertFalse(false);
+        }
         $this->assertTrue($config->load("simpleconfig"));
 
         $this->assertEqual($config->getOption("section_1", "option_1_1"), "value_1_1");

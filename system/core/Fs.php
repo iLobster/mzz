@@ -94,14 +94,14 @@ class Fs
 
         if (in_array($mode, $modes) == false) {
             $error = sprintf($this->errors['unknown_mode'], $this->file, $mode);
-            throw new fileException($error);
+            throw new mzzRuntimeException($error);
         }
 
         $this->handle = fopen($this->file, $this->real_mode, $use_include_path);
 
         if(!is_resource($this->handle)) {
            $error = sprintf($this->errors['unknown_error'], $this->file, $this->real_mode);
-           throw new fileException($error);
+           throw new mzzRuntimeException($error);
         }
     }
 
@@ -127,7 +127,7 @@ class Fs
             return fread($this->handle, $length);
         } else {
             $error = sprintf($this->errors['cannot_read'], $this->file, $this->mode);
-            throw new fileException($error);
+            throw new mzzRuntimeException($error);
         }
     }
 
@@ -143,7 +143,7 @@ class Fs
             return fgetc($this->handle);
         } else {
             $error = sprintf($this->errors['cannot_read'], $this->file, $this->mode);
-            throw new fileException($error);
+            throw new mzzRuntimeException($error);
         }
     }
 
@@ -160,7 +160,7 @@ class Fs
             return fwrite($this->handle, $str);
         } else {
             $error = sprintf($this->errors['cannot_write'], $this->file, $this->mode);
-            throw new fileException($error);
+            throw new mzzRuntimeException($error);
         }
     }
 

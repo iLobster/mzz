@@ -62,7 +62,7 @@ class config
                 $this->_ini_file = $file;
                 return true;
             } else {
-                return false;
+                throw new mzzRuntimeException("Unable parse config-file '" . $file . "'");
             }
         } else {
             return true;

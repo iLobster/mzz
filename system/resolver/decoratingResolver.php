@@ -60,11 +60,15 @@ abstract class decoratingResolver
      */
     public function __call($callname, $args)
     {
-        if (method_exists($this->resolver, $callname)) {
-            return call_user_func_array(array($this->resolver, $callname), $args);
-        } else {
-            echo "Exception 'method not found'";
+
+        $callback = array($this->resolver, $callname);
+        
+        if(!is_callable($callback)) {
+            throw new mzzCallbackException($callback);
         }
+
+        return call_user_func_array($callback, $args);
+
     }
 }
 
