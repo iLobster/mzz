@@ -11,7 +11,6 @@ mock::generate('newsTableModule');
 
 class newsActiveRecordTest extends unitTestCase
 {
-    //protected $newsAR;
     protected $db;
     public function setUp()
     {
@@ -57,8 +56,8 @@ class newsActiveRecordTest extends unitTestCase
         $TM->setReturnValue('getNews', $newsAR);
 
         $newsAR = $TM->getNews(1);
-        $newsAR->delete();
         $this->assertIsA($newsAR, 'newsActiveRecord');
+        $newsAR->delete();
     }
 
 }
