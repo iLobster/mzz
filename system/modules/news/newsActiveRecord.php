@@ -35,20 +35,6 @@ class newsActiveRecord
         $this->data = $data;
     }
 
-    function fetch_array() {
-        $data = mysqli_stmt_result_metadata($this->stmt);
-        $count = 1;
-        $fieldnames[0] = $this->stmt;
-        while ($field = mysqli_fetch_field($data)) {
-            $fieldnames[$count] = &$array[$field->name];
-            $count++;
-        }
-        call_user_func_array('mysqli_stmt_bind_result', $fieldnames);
-        mysqli_stmt_fetch($this->stmt);
-        return $array;
-
-    }
-
     private function process()
     {
         $this->stmt->execute();

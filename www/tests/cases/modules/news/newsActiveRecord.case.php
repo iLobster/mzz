@@ -48,8 +48,6 @@ class newsActiveRecordTest extends unitTestCase
         $this->assertEqual($newsAR->get('id'), 1);
     }
 
-    // ÏÅÐÅÏÈÑÀÒÜ
-    // åñëè êîìåíòèòü ñòðîêó 62, 64 ÍÈ×ÅÃÎ ÍÅ ÌÅÍßÅÒÑß
     public function testDeleteNews()
     {
         $id = 1;
@@ -57,7 +55,6 @@ class newsActiveRecordTest extends unitTestCase
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $newsAR = new newsActiveRecord($stmt, $this->TM);
         $this->TM->expectOnce('delete', array('1'));
-        $this->TM->setReturnValue('getNews', $newsAR);
 
         $this->assertIsA($newsAR, 'newsActiveRecord');
         $newsAR->delete();
