@@ -1,8 +1,7 @@
 <?php
 
-fileLoader::load('request/httprequest');
-//fileLoader::load('cases/request/httprequest.class');
-fileLoader::load('request/requestparser');
+fileLoader::load('request/httpRequest');
+fileLoader::load('request/requestParser');
 
 //Mock::generate('httprequeststub');
 
