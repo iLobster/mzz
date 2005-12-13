@@ -9,8 +9,7 @@ class newsTableModule
     }
 
     public function getNews($id) {
-        //$id = 0;
-        $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
+        $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `id` = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
         return new newsActiveRecord($stmt, $this);
@@ -18,12 +17,14 @@ class newsTableModule
 
     public function getList()
     {
-//$stmt = $this->db->prepare();
+        $stmt = $this->db->prepare('SELECT * FROM `news`');
     }
 
     public function delete($id)
     {
-        return $this->db->query('DELETE FROM news WHERE id = ' . $id);
+        $stmt = $this->db->prepare('DELETE FROM `news` WHERE `id` = ?');
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }
 

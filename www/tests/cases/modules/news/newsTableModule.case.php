@@ -37,9 +37,16 @@ class newsTableModuleTest extends unitTestCase
 
     public function testGetNews()
     {
-$id = 1;
-$newsAR = $this->newsTM->getNews($id);
+        $id = 1;
+        $newsAR = $this->newsTM->getNews($id);
+        $this->assertEqual($newsAR->get('id'), $id);
+    }
 
+    public function testGetNewsNotExist()
+    {
+        $id = 0;
+        $newsAR = $this->newsTM->getNews($id);
+        $this->assertNull($newsAR->get('id'));
     }
 
     public function testDeleteNews()
