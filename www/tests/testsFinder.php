@@ -20,25 +20,17 @@ class testsFinder
 
     static private function getCasesList($dir,  $caseslist = array())
     {
-        for($list = new RecursiveDirectoryIterator($dir); $list->valid(); $list->next()) {
-            if(!$list->isDir() && strpos($list->current(), 'case.php')) {
-                $caseslist[] = $dir . '/' . $list->current();
-            } elseif($list->isDir() && !$list->isDot() && strpos($list->current(), '.svn') === false) {
-                $caseslist = self::getCasesList($dir . '/' . $list->current(), $caseslist);
-            }
-	    }
-
-	   return $caseslist;
+        if (is_dir($dir)) {
+            $caseslist = glob($dir . '/*case.php');
+            $caseslist = array_merge($caseslist, glob($dir . '/*/*case.php'));
+        }
+	return $caseslist;
     }
 
 
     static public function getDirsList($dir)
     {
-        for($list = new RecursiveDirectoryIterator($dir), $dirs = array(); $list->valid(); $list->next()) {
-            if($list->isDir() && !$list->isDot() && ($item = (string) $list->current()) != ".svn") {
-                $dirs[] = $dir . '/' . $item;
-            }
-	    }
+        $dirs = glob($dir . "/*", GLOB_ONLYDIR);
         return $dirs;
    }
 }
