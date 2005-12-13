@@ -25,17 +25,8 @@ class core
     public function run()
     {
         try {
-            require_once systemConfig::$pathToSystem . 'resolver/fileResolver.php';
-            require_once systemConfig::$pathToSystem . 'resolver/compositeResolver.php';
-            require_once systemConfig::$pathToSystem . 'resolver/sysFileResolver.php';
-            require_once systemConfig::$pathToSystem . 'resolver/appFileResolver.php';
-            require_once systemConfig::$pathToSystem . 'resolver/classFileResolver.php';
-            require_once systemConfig::$pathToSystem . 'resolver/moduleResolver.php';
-            require_once systemConfig::$pathToSystem . 'resolver/configFileResolver.php';
-            require_once systemConfig::$pathToSystem . 'resolver/libResolver.php';
 
-            require_once systemConfig::$pathToSystem . 'resolver/decoratingResolver.php';
-            require_once systemConfig::$pathToSystem . 'resolver/cachingResolver.php';
+            require_once systemConfig::$pathToSystem . 'resolver/init.php';
             require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
 
             $baseresolver = new compositeResolver();
