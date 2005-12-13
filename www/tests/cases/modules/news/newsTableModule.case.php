@@ -69,8 +69,7 @@ class newsTableModuleTest extends unitTestCase
         $result = $this->db->query($query);
         $i = 0;
         while ($data = $result->fetch()) {
-            //$this->assertEqual($newsARarray[$i]->extract(), $data);
-            $this->assertEqual($newsARarray[$i]->get('id'), $data['id']);
+            $this->assertEqual($newsARarray[$i]->extract(), $data);
             $i++;
         }
     }
