@@ -36,7 +36,7 @@ class newsActiveRecordTest extends unitTestCase
         $this->db->query('DELETE FROM news');
     }
 
-    public function testFirst()
+    public function testGetOne()
     {
         $TM = new mocknewsTableModule();
         $id = 1;
@@ -60,6 +60,16 @@ class newsActiveRecordTest extends unitTestCase
         $newsAR = $TM->getNews(1);
         $this->assertIsA($newsAR, 'newsActiveRecord');
         $newsAR->delete();
+    }
+
+    public function testExtract()
+    {
+        $TM = new mocknewsTableModule();
+        $id = 1;
+        $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $newsAR = new newsActiveRecord($stmt, $TM);
+        $this->assertEqual($newsAR->extract(), array('id' => '1', 'title' => 'test_title_1', 'text' => 'test_text_1'));
     }
 
 }

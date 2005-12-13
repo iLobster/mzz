@@ -3,7 +3,7 @@
 error_reporting(E_ALL | E_STRICT);
 
 try {
-    
+
     require_once 'init.php';
     require_once 'testsFinder.php';
 
@@ -47,7 +47,7 @@ try {
         echo '</a>';
     }
     echo '<br><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest Error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
-    
+
 } catch (MzzException $e) {
     $e->printHtml();
 }

@@ -24,7 +24,7 @@ class testsFinder
             $caseslist = glob($dir . '/*case.php');
             $caseslist = array_merge($caseslist, glob($dir . '/*/*case.php'));
         }
-	return $caseslist;
+        return $caseslist;
     }
 
 
@@ -32,7 +32,7 @@ class testsFinder
     {
         $dirs = glob($dir . "/*", GLOB_ONLYDIR);
         return $dirs;
-   }
+    }
 }
 
 ?>

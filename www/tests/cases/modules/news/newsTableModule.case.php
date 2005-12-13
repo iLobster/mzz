@@ -21,6 +21,8 @@ class newsTableModuleTest extends unitTestCase
         $stmt->bindParam(3, $text, PDO::PARAM_STR);
         $id = '1'; $title = 'test_title_1'; $text = 'test_text_1';
         $stmt->execute();
+        $id = '2'; $title = 'test_title_2'; $text = 'test_text_2';
+        $stmt->execute();
     }
 
     public function tearDown()
@@ -30,19 +32,39 @@ class newsTableModuleTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('DELETE FROM news');
+        $this->db->query('DELETE FROM `news`');
     }
 
     public function testGetNews()
     {
+$id = 1;
+$newsAR = $this->newsTM->getNews($id);
+
+    }
+
+    public function testDeleteNews()
+    {
         $id = 1;
-        $query = 'SELECT COUNT(*) as total FROM news WHERE id = ' . $id;
+        $query = 'SELECT COUNT(*) AS `total` FROM `news` WHERE `id` = ' . $id;
         $result = $this->db->query($query);
         $this->assertEqual($result->fetch(PDO::FETCH_OBJ)->total, 1);
         $result->closeCursor();
         $this->newsTM->delete($id);
         $result = $this->db->query($query);
         $this->assertEqual($result->fetch(PDO::FETCH_OBJ)->total, 0);
+    }
+
+    public function testGetList()
+    {
+        //$newsARarray = $this->newsTM->getList();
+
+        $query = 'SELECT * FROM `news`';
+        $result = $this->db->query($query);
+        $i = 0;
+        while ($data = $result->fetch()) {
+            //$this->assertEqual($newsARarray[0]->extract(), $data);
+            $i++;
+        }
     }
 
 }
