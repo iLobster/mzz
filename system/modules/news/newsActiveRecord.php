@@ -30,6 +30,11 @@ class newsActiveRecord
         return $this->data;
     }
 
+    public function replaceData($data)
+    {
+        $this->data = $data;
+    }
+
     function fetch_array() {
         $data = mysqli_stmt_result_metadata($this->stmt);
         $count = 1;

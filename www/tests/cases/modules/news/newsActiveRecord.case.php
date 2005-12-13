@@ -12,6 +12,7 @@ mock::generate('newsTableModule');
 class newsActiveRecordTest extends unitTestCase
 {
     protected $db;
+    protected $TM;
     public function setUp()
     {
         $this->db = Db::factory();
@@ -24,6 +25,8 @@ class newsActiveRecordTest extends unitTestCase
         $stmt->bindParam(3, $text, PDO::PARAM_STR);
         $id = '1'; $title = 'test_title_1'; $text = 'test_text_1';
         $stmt->execute();
+
+        $this->TM = new mocknewsTableModule();
     }
 
     public function tearDown()
@@ -38,38 +41,47 @@ class newsActiveRecordTest extends unitTestCase
 
     public function testGetOne()
     {
-        $TM = new mocknewsTableModule();
         $id = 1;
         $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        $newsAR = new newsActiveRecord($stmt, $TM);
+        $newsAR = new newsActiveRecord($stmt, $this->TM);
         $this->assertEqual($newsAR->get('id'), 1);
     }
 
+    // ÏÅĞÅÏÈÑÀÒÜ
+    // åñëè êîìåíòèòü ñòğîêó 62, 64 ÍÈ×ÅÃÎ ÍÅ ÌÅÍßÅÒÑß
     public function testDeleteNews()
     {
-        $TM = new mocknewsTableModule();
-
         $id = 1;
         $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        $newsAR = new newsActiveRecord($stmt, $TM);
-        $TM->expectOnce('delete', array('1'));
-        $TM->setReturnValue('getNews', $newsAR);
+        $newsAR = new newsActiveRecord($stmt, $this->TM);
+        $this->TM->expectOnce('delete', array('1'));
+        $this->TM->setReturnValue('getNews', $newsAR);
 
-        $newsAR = $TM->getNews(1);
+        $newsAR = $this->TM->getNews(1);
         $this->assertIsA($newsAR, 'newsActiveRecord');
         $newsAR->delete();
     }
 
     public function testExtract()
     {
-        $TM = new mocknewsTableModule();
         $id = 1;
         $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        $newsAR = new newsActiveRecord($stmt, $TM);
-        $this->assertEqual($newsAR->extract(), array('id' => '1', 'title' => 'test_title_1', 'text' => 'test_text_1'));
+        $newsAR = new newsActiveRecord($stmt, $this->TM);
+        $this->assertEqual($newsAR->extract(), array('id' => 1, 'title' => 'test_title_1', 'text' => 'test_text_1'));
+    }
+
+    public function testReplaceData()
+    {
+        $stmt = $this->db->prepare('SELECT * FROM news');
+        $data = array('id' => 5, 'title' => 'test_title_5', 'text' => 'test_text_5');
+        $newsAR = new newsActiveRecord($stmt, $this->TM);
+        $newsAR->replaceData($data);
+
+        $this->assertEqual($newsAR->get('id'), 5);
+        $this->assertEqual($newsAR->get('title'), 'test_title_5');
     }
 
 }

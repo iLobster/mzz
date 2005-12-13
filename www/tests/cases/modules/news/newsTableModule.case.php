@@ -63,13 +63,13 @@ class newsTableModuleTest extends unitTestCase
 
     public function testGetList()
     {
-        //$newsARarray = $this->newsTM->getList();
+        $newsARarray = $this->newsTM->getList();
 
         $query = 'SELECT * FROM `news`';
         $result = $this->db->query($query);
         $i = 0;
         while ($data = $result->fetch()) {
-            //$this->assertEqual($newsARarray[0]->extract(), $data);
+            $this->assertEqual($newsARarray[$i]->extract(), $data);
             $i++;
         }
     }
