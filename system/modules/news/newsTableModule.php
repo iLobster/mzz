@@ -4,7 +4,8 @@ class newsTableModule
 {
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = DB::factory();
     }
 
@@ -25,9 +26,9 @@ class newsTableModule
         while ($data = $stmt->fetch()) {
             //$result[$i] = new newsActiveRecord($stmt, $this);
             //$result[$i]->replaceData($data);
-            $i++;
             $result[$i] = $this->getNews($data['id']);
             $result[$i]->get('id');
+            $i++;
         }
         return $result;
     }
