@@ -84,11 +84,11 @@ class mzzPdo extends PDO {
     * @param int $resultmode тип, в котором выдаётся результат
     * @return object
     */
-   public function query($query, $resultmode = MYSQLI_STORE_RESULT)
+   public function query($query)
    {
        $this->queriesNum++;
        $start_time = microtime(1);
-       $result = parent::query($query, $resultmode);
+       $result = parent::query($query);
        if($this->errorCode() != 0) {
            $code = $this->errorInfo();
            $info = $this->errorInfo();
