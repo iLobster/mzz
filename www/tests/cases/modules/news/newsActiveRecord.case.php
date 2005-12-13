@@ -42,7 +42,7 @@ class newsActiveRecordTest extends unitTestCase
     public function testGetOne()
     {
         $id = 1;
-        $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
+        $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `id` = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $newsAR = new newsActiveRecord($stmt, $this->TM);
         $this->assertEqual($newsAR->get('id'), 1);
@@ -53,13 +53,12 @@ class newsActiveRecordTest extends unitTestCase
     public function testDeleteNews()
     {
         $id = 1;
-        $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
+        $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `id` = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $newsAR = new newsActiveRecord($stmt, $this->TM);
         $this->TM->expectOnce('delete', array('1'));
         $this->TM->setReturnValue('getNews', $newsAR);
 
-        $newsAR = $this->TM->getNews(1);
         $this->assertIsA($newsAR, 'newsActiveRecord');
         $newsAR->delete();
     }
@@ -67,7 +66,7 @@ class newsActiveRecordTest extends unitTestCase
     public function testExtract()
     {
         $id = 1;
-        $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
+        $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `id` = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $newsAR = new newsActiveRecord($stmt, $this->TM);
         $this->assertEqual($newsAR->extract(), array('id' => 1, 'title' => 'test_title_1', 'text' => 'test_text_1'));
@@ -75,7 +74,7 @@ class newsActiveRecordTest extends unitTestCase
 
     public function testReplaceData()
     {
-        $stmt = $this->db->prepare('SELECT * FROM news');
+        $stmt = $this->db->prepare('SELECT * FROM `news`');
         $data = array('id' => 5, 'title' => 'test_title_5', 'text' => 'test_text_5');
         $newsAR = new newsActiveRecord($stmt, $this->TM);
         $newsAR->replaceData($data);
