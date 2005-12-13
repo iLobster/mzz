@@ -68,10 +68,6 @@ class mzzSmarty extends Smarty
      */
     protected function getResourceFileName($name)
     {
-        //$with_resource = strpos($name, ':');
-        // $this->template_exists($name)
-        //if(!is_file($this->getTemplateDir() . '/' . $name) && ($with_resource === false || substr($name, 0, 4) == 'file')) {
-
         if(!is_file($this->getTemplateDir() . '/' . $name)) {
             $subdir = substr($name, 0, strpos($name, '.'));
             return $subdir . '/' . $name;

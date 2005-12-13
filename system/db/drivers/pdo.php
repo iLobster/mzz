@@ -10,10 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * MzzMysqli: драйвер для работы с базой данных MySQL версии 4.1 и выше
+ * mzzPdo: драйвер для работы с базой данных через PDO
  *
  * @package system
- * @version 0.3
+ * @version 0.1
  */
 class mzzPdo extends PDO {
     /**
@@ -38,7 +38,7 @@ class mzzPdo extends PDO {
     private $queriesTime = 0;
 
     /**
-     * Декорируем конструктор mysqli: при соединении с БД устанавливается кодировка SQL-базы.
+     * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
      *
      * @param string $host
      * @param string $username
@@ -71,7 +71,7 @@ class mzzPdo extends PDO {
                 $password = $config->getOption('db', 'password');
                 $charset = $config->getOption('db', 'charset');
                 // We add options-support later...
-                //$options = $config->getOption('db', 'options');
+                // $options = $config->getOption('db', 'options');
                 self::$instance = new $classname($dsn, $username, $password, $charset);
         }
         return self::$instance;

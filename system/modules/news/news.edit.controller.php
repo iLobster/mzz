@@ -22,12 +22,17 @@ class newsEditController
     {
         fileLoader::load('news.edit.model');
         fileLoader::load('news.edit.view');
+        fileLoader::load("news/newsActiveRecord");
+        fileLoader::load("news/newsTableModule");
     }
 
     public function getView()
     {
+        $registry = Registry::instance();
+        $this->httprequest = $registry->getEntry('httprequest');
+        $params = $this->httprequest->getParams();
         // тут будет как нибудь похитрее - но пока не надо
-        return new newsEditView(new newsEditModel());
+        return new newsEditView(new newsTableModule(), $params);
     }
 }
 

@@ -21,13 +21,13 @@ class newsEditView extends simpleView
     public function toString()
     {
 
-        if($this->model->getParam(0) !==false && $this->model->getParam(1) == 'save') {
-            $this->model->saveNews();
-            header('Location: /news/' . $this->model->getParam(0) . '/view');
+        if($this->params[0] !==false && $this->params[1] == 'save') {
+            $this->tableModule->saveNews();
+            header('Location: /news/' . $this->params[0] . '/view');
             exit;
         } else {
-            $data = $this->model->getNews();
-            $form = $this->model->getForm($data);
+            $data = $this->tableModule->getNews($this->params[0]);
+            $form = $this->tableModule->getForm($data);
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
 

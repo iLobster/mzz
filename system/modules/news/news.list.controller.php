@@ -20,14 +20,16 @@ class newsListController
 {
     public function __construct()
     {
-        fileLoader::load('news.list.model');
+        //fileLoader::load('news.list.model');
         fileLoader::load('news.list.view');
+        fileLoader::load("news/newsActiveRecord");
+        fileLoader::load("news/newsTableModule");
     }
-    
+
     public function getView()
     {
         // тут будет как нибудь похитрее - но пока не надо
-        return new newsListView(new newsListModel());
+        return new newsListView(new newsTableModule());
     }
 }
 

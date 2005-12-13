@@ -56,10 +56,10 @@ class core
             fileLoader::load('core/registry');
             fileLoader::load('core/response');
             fileLoader::load('filters/init');
-            
+
             $smarty = new mzzSmarty();
             $smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
-            $smarty->compile_dir   = systemConfig::$pathToApplication . 'templates/compiled';
+            $smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
             $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
             $smarty->debugging = DEBUG_MODE;
 

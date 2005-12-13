@@ -20,7 +20,8 @@ class newsTableModule
     {
         $result = array();
         $stmt = $this->db->prepare('SELECT * FROM `news`');
-        $stmt->execute(); $i = 0;
+        $stmt->execute();
+        $i = 0;
         while ($data = $stmt->fetch()) {
             $result[$i] = new newsActiveRecord($stmt, $this);
             $result[$i]->replaceData($data);

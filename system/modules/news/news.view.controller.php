@@ -20,14 +20,16 @@ class newsViewController
 {
     public function __construct()
     {
-        fileLoader::load('news.view.model');
+        //fileLoader::load('news.view.model');
         fileLoader::load('news.view.view');
+        fileLoader::load("news/newsActiveRecord");
+        fileLoader::load("news/newsTableModule");
     }
-    
+
     public function getView()
     {
         // тут будет как нибудь похитрее - но пока не надо
-        return new newsViewView(new newsViewModel());
+        return new newsViewView(new newsTableModule());
     }
 }
 

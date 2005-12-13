@@ -20,7 +20,7 @@ class newsListView extends simpleView
 {
     public function toString()
     {
-        $data = $this->model->getNewsList();
+        $data = $this->tableModule->getList();
         $this->smarty->assign('news', $data);
         $this->smarty->assign('title', 'Новости -> Список');
         return $this->smarty->fetch('news.list.tpl');

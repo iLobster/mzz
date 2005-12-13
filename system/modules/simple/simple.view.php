@@ -18,13 +18,15 @@
 
 class simpleView
 {
-    protected $model;
+    protected $tableModule;
     protected $smarty;
+    protected $params;
 
-    public function __construct($model)
+    public function __construct($tableModule, $params = array())
     {
-        $this->setModel($model);
+        $this->setModel($tableModule);
         $this->smarty = self::getSmarty();
+        $this->params = $params;
     }
 
     public function toString()
@@ -32,9 +34,9 @@ class simpleView
         return false;
     }
 
-    private function setModel($model)
+    private function setModel($tableModule)
     {
-        $this->model = $model;
+        $this->tableModule = $tableModule;
     }
 
     private function getSmarty()
