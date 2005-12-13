@@ -8,7 +8,8 @@ class newsTableModule
         $this->db = DB::factory();
     }
 
-    public function getNews($id) {
+    public function getNews($id)
+    {
         $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `id` = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
