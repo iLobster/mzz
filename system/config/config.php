@@ -58,7 +58,8 @@ class config
                 $this->_ini_file = $file;
                 return true;
             } else {
-                throw new mzzRuntimeException("Unable parse config-file '" . $file . "'");
+                $error = sprintf("Unable parse config-file '%s'", $file);
+                throw new mzzRuntimeException($error);
             }
         } else {
             return true;
@@ -78,7 +79,8 @@ class config
         if(isset($this->_ini[$section][$name])) {
             return $this->_ini[$section][$name];
         } else {
-            return false;
+            $error = sprintf("Can't find config-option '%s/%s' in '%s'", $section, $name, $this->_ini_file);
+            throw new mzzRuntimeException($error);
         }
 
     }
@@ -94,7 +96,8 @@ class config
         if(isset($this->_ini[$section])) {
             return $this->_ini[$section];
         } else {
-            return false;
+            $error = sprintf("Can't find config-section '%s' in '%s'", $section, $this->_ini_file);
+            throw new mzzRuntimeException($error);
         }
     }
 
@@ -105,9 +108,14 @@ class config
      */
     public function update()
     {
-        $file = $this->_ini_file;
-        unset($this->_ini_file);
-        $this->load($file);
+        if(isset($this->ini_file)) {
+            $file = $this->_ini_file;
+            unset($this->_ini_file);
+            $this->load($file);
+        } else {
+            throw new mzzRuntimeException("No found config for update.");
+        }
+
     }
 }
 

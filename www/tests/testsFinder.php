@@ -18,8 +18,9 @@ class testsFinder
         return $cases;
     }
 
-    static private function getCasesList($dir,  $caseslist = array())
+    static private function getCasesList($dir)
     {
+        $caseslist = array()
         if (is_dir($dir)) {
             $caseslist = glob($dir . '/*case.php');
             $caseslist = array_merge($caseslist, glob($dir . '/*/*case.php'));
