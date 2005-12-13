@@ -19,12 +19,15 @@ class newsTableModule
     public function getList()
     {
         $result = array();
-        $stmt = $this->db->prepare('SELECT * FROM `news`');
+        //$stmt = $this->db->prepare('SELECT * FROM `news`');
+        $stmt = $this->db->prepare('SELECT `id` FROM `news`');
         $stmt->execute(); $i = 0;
         while ($data = $stmt->fetch()) {
-            $result[$i] = new newsActiveRecord($stmt, $this);
-            $result[$i]->replaceData($data);
+            //$result[$i] = new newsActiveRecord($stmt, $this);
+            //$result[$i]->replaceData($data);
             $i++;
+            $result[$i] = $this->getNews($data['id']);
+            $result[$i]->get('id');
         }
         return $result;
     }
