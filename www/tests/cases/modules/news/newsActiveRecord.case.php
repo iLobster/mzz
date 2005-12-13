@@ -19,7 +19,9 @@ class newsActiveRecordTest extends unitTestCase
         $this->cleardb();
 
         $stmt = $this->db->prepare('INSERT INTO `news` (`id`, `title`, `text`) VALUES (?, ?, ?)');
-        $stmt->bind_param('iss', $id, $title, $text);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $title, PDO::PARAM_STR);
+        $stmt->bindParam(3, $text, PDO::PARAM_STR);
         $id = '1'; $title = 'test_title_1'; $text = 'test_text_1';
         $stmt->execute();
     }
@@ -39,7 +41,7 @@ class newsActiveRecordTest extends unitTestCase
         $TM = new mocknewsTableModule();
         $id = 1;
         $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
-        $stmt->bind_param('i', $id);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $newsAR = new newsActiveRecord($stmt, $TM);
         $this->assertEqual($newsAR->get('id'), 1);
     }
@@ -50,9 +52,9 @@ class newsActiveRecordTest extends unitTestCase
 
         $id = 1;
         $stmt = $this->db->prepare('SELECT * FROM news WHERE id = ?');
-        $stmt->bind_param('i', $id);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $newsAR = new newsActiveRecord($stmt, $TM);
-        $TM->expectOnce('delete', array(1));
+        $TM->expectOnce('delete', array('1'));
         $TM->setReturnValue('getNews', $newsAR);
 
         $newsAR = $TM->getNews(1);

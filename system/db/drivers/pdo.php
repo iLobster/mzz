@@ -15,7 +15,7 @@
  * @package system
  * @version 0.3
  */
-class mzzMysqli extends mysqli {
+class mzzPdo extends PDO {
     /**
      * Singleton
      *
@@ -48,17 +48,10 @@ class mzzMysqli extends mysqli {
      * @param string $socket
      * @return void
      */
-    public function __construct($host=null, $username=null, $passwd=null, $dbname=null, $port=0, $socket=null)
+    public function __construct($dsn, $username='', $password='', $charset = '', $options=array())
     {
-        parent::__construct($host, $username, $passwd, $dbname, $port, $socket);
-        $registry = Registry::instance();
-        $config = $registry->getEntry('config');
-        $config->load('common');
-        /* ѕравильнее устанавливать кодировку через метод set_charset, он добавлен в PHP>=5.1.0RC1,
-         * но у мен€ PHP 5.1.0 RC5 и ругаетс€ 'Call to undefined method'. ”далось узнать что
-         * –аботать будет только если PHP собиралс€ с MySQL > 4.1.х/5.х.х.
-         * ƒл€ нормальной совместимости используетс€ пр€мой запрос на установку кодировки. */
-        $this->query("SET NAMES `" . $config->getOption('db', 'charset') . "`");
+        parent::__construct($dsn, $username, $password, $options);
+        $this->query("SET NAMES `" . $charset . "`");
     }
 
     /**
@@ -73,11 +66,13 @@ class mzzMysqli extends mysqli {
                 $registry = Registry::instance();
                 $config = $registry->getEntry('config');
                 $config->load('common');
-                $host = $config->getOption('db', 'host');
-                $user = $config->getOption('db', 'user');
-                $passwd = $config->getOption('db', 'password');
-                $base = $config->getOption('db', 'base');
-                self::$instance = new $classname($host, $user, $passwd, $base);
+                $dsn = $config->getOption('db', 'dsn');
+                $username = $config->getOption('db', 'user');
+                $password = $config->getOption('db', 'password');
+                $charset = $config->getOption('db', 'charset');
+                // We add options-support later...
+                //$options = $config->getOption('db', 'options');
+                self::$instance = new $classname($dsn, $username, $password, $charset);
         }
         return self::$instance;
    }
@@ -94,8 +89,10 @@ class mzzMysqli extends mysqli {
        $this->queriesNum++;
        $start_time = microtime(1);
        $result = parent::query($query, $resultmode);
-       if(($error = mysqli_error($this)) != null) {
-           throw new mzzRuntimeException("SQL-Query error: " . $error, mysqli_errno($this));
+       if($this->errorCode() != 0) {
+           $code = $this->errorInfo();
+           $info = $this->errorInfo();
+           throw new mzzRuntimeException("SQL-Query error: " . implode(', ', $info), implode(', ', $code));
        }
        $this->queriesTime += (microtime(1) - $start_time);
        return $result;

@@ -36,7 +36,7 @@ class newsEditModel
         $query = "SELECT * FROM `news` WHERE `id`=".($this->getParam(0));
         $news = array();
         if ($result = $this->db->query($query)) {
-            $news = $result->fetch_assoc();
+            $news = $result->fetch(PDO::FETCH_ASSOC);
         }
         return $news;
     }

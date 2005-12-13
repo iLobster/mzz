@@ -37,7 +37,7 @@ class newsListModel
 
         $news = array();
         if ($result = $this->db->query($query)) {
-            while ($item = $result->fetch_assoc()) {
+            while ($item = $result->fetch(PDO::FETCH_ASSOC)) {
                 $news[] = $item;
             }
         }

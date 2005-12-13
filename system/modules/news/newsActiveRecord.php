@@ -22,7 +22,7 @@ class newsActiveRecord
     }
  function fetch_array() {
        $data = mysqli_stmt_result_metadata($this->stmt);
-       $count = 1; 
+       $count = 1;
        $fieldnames[0] = $this->stmt;
        while ($field = mysqli_fetch_field($data)) {
            $fieldnames[$count] = &$array[$field->name];
@@ -41,13 +41,13 @@ class newsActiveRecord
        // $this->stmt->bind_result($id, $title, $text);
 
      //   $this->stmt->fetch();
-$this->data = $this->fetch_array();
+$this->data = $this->stmt->fetch(PDO::FETCH_ASSOC);
 
        /* $this->data['id'] = $id;
         $this->data['title'] = $title;
         $this->data['text'] = $text;*/
 
-        $this->stmt->close();
+        $this->stmt->closeCursor();
     }
 
     public function delete() {
