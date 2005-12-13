@@ -2,7 +2,6 @@
 
 fileLoader::load('exceptions/mzzException');
 fileLoader::load('exceptions/mzzRuntimeException');
-fileLoader::load('exceptions/dbException');
 fileLoader::load('exceptions/mzzSystemException');
 fileLoader::load('exceptions/mzzIoException');
 fileLoader::load('exceptions/mzzCallbackException');
