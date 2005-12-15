@@ -43,7 +43,6 @@ class resolvingFilter
         fileLoader::load('request/httpRequest');
         fileLoader::load('request/requestParser');
         fileLoader::load('frontController');
-        fileLoader::load('core/Fs');
         fileLoader::load('core/sectionMapper');
         fileLoader::load('db/dbFactory');
         fileLoader::load('simple/simple.view');
