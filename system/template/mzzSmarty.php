@@ -18,9 +18,15 @@
  */
 
 fileLoader::load('libs/smarty/Smarty.class');
+fileLoader::load('template/IMzzSmarty');
 
 class mzzSmarty extends Smarty
 {
+    /**
+     * Хранение объекта для работы с ресурсом
+     */
+    protected $mzzResource;
+
     /**
      * Выполняет шаблон и возвращает результат
      * Декорирован для реализации вложенных шаблонов.
@@ -35,45 +41,33 @@ class mzzSmarty extends Smarty
         if(strpos($resource_name, ':')) {
             throw new mzzSystemException('Поддержка других ресурсов Smarty не реализована. Не используйте "file:" в именах шаблонах.');
         }
-        $resource_name = $this->getResourceFileName($resource_name);
-
-        $template = new SplFileObject($this->template_dir . '/' . $resource_name, 'r');
-        $template = $template->fgets(256);
-
-        $result = parent::fetch($resource_name, $cache_id, $compile_id, $display);
-
-        // Если шаблон вложен, обработать получателя
-        if (preg_match("/\{\*\s*main=/i", $template)) {
-            $params = self::parse($template);
-            $this->assign($params['placeholder'], $result);
-            $result = self::fetch($params['main'], $cache_id, $compile_id, $display);
+        $resource = explode(':', $resource_name, 2);
+        if(count($resource) === 1) {
+            $resource[0] = $this->default_resource_type;
         }
+        $mzzname = 'mzz' . ucfirst($resource[0]) . 'Smarty';
+
+        fileLoader::load('template/' . $mzzname);
+        if(!class_exists($mzzname)) {
+            $error = sprintf("Can't find class '%s' for template engine", $mzzname);
+            throw new mzzRuntimeException($error);
+            return false;
+        }
+
+        $this->mzzResource = new $mzzname;
+
+        $result = $this->mzzResource->fetch($resource_name, $cache_id, $compile_id, $display, $this);
+
         return $result;
 
     }
 
-    /**
-     * Получает и возвращает относительный путь к исходнику шаблонов.
-     * Если нужный шаблон находится в корне папки с шаблонами, то изменений нет,
-     * если в корне нет, то к относительному путю прибавляется первая часть имени до точки.
-     *
-     * Пример:
-     * <code>
-     * news.view.tpl -> news/news.view.tpl
-     * main.tpl -> main.tpl
-     * </code>
-     *
-     * @param string $name
-     * @return string
-     */
-    protected function getResourceFileName($name)
+    public function _fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
-        if(!is_file($this->getTemplateDir() . '/' . $name)) {
-            $subdir = substr($name, 0, strpos($name, '.'));
-            return $subdir . '/' . $name;
-        }
-        return $name;
+        $result = parent::fetch($resource_name, $cache_id, $compile_id, $display, $this);
+        return $result;
     }
+
 
     /**
      * Выполняет шаблон и отображает результат.
@@ -93,7 +87,7 @@ class mzzSmarty extends Smarty
      * @param string $str
      * @return array
      */
-    private static function parse($str)
+    public static function parse($str)
     {
         $params = array();
         if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $clean_str)) {
@@ -111,7 +105,7 @@ class mzzSmarty extends Smarty
      *
      * @return string абсолютный путь
      */
-    protected function getTemplateDir()
+    public function getTemplateDir()
     {
         return $this->template_dir;
     }

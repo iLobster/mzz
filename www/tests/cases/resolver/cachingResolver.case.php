@@ -1,8 +1,5 @@
 <?php
 
-//require_once '../../system/core/fileloader.php';
-
-fileLoader::load('core/Fs');
 fileLoader::load('resolver/decoratingResolver');
 fileLoader::load('resolver/cachingResolver');
 
