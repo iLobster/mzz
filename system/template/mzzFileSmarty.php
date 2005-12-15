@@ -12,9 +12,8 @@
 /**
  * mzzFileSmarty: модификация Smarty для работы с файлами-шаблонами
  *
- * @version 0.2
+ * @version 0.3
  * @package system
- * @access public
  */
 
 class mzzFileSmarty implements IMzzSmarty

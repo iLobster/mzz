@@ -10,11 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * mzzSmarty: модификация Smarty для работы с шаблонами
+ * IMzzSmarty: модификация Smarty для работы с шаблонами
  *
- * @version 0.2
+ * @version 0.3
  * @package system
- * @access public
  */
 
 

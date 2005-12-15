@@ -12,9 +12,8 @@
 /**
  * mzzSmarty: модификация Smarty для работы с шаблонами
  *
- * @version 0.2
+ * @version 0.3
  * @package system
- * @access public
  */
 
 fileLoader::load('libs/smarty/Smarty.class');
