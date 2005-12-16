@@ -18,6 +18,14 @@
 
 class mzzFileSmarty implements IMzzSmarty
 {
+
+    /**
+     * Smarty object
+     *
+     * @var object
+     */
+    private $smarty;
+
     /**
      * Выполняет шаблон и возвращает результат
      * Декорирован для реализации вложенных шаблонов.
@@ -29,18 +37,19 @@ class mzzFileSmarty implements IMzzSmarty
      */
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false, mzzSmarty $smarty)
     {
-        $resource_name = $this->getResourceFileName($resource_name, $smarty);
+        $this->smarty = $smarty;
+        $resource_name = $this->getResourceFileName($resource_name, $this->smarty);
 
-        $template = new SplFileObject($smarty->template_dir . '/' . $resource_name, 'r');
+        $template = new SplFileObject($this->smarty->template_dir . '/' . $resource_name, 'r');
         $template = $template->fgets(256);
 
-        $result = $smarty->_fetch($resource_name, $cache_id, $compile_id, $display);
+        $result = $this->smarty->_fetch($resource_name, $cache_id, $compile_id, $display);
 
         // Если шаблон вложен, обработать получателя
         if (preg_match("/\{\*\s*main=/i", $template)) {
-            $params = $smarty->parse($template);
+            $params = $this->smarty->parse($template);
             $smarty->assign($params['placeholder'], $result);
-            $result = $this->fetch($params['main'], $cache_id, $compile_id, $display, $smarty);
+            $result = $this->fetch($params['main'], $cache_id, $compile_id, $display, $this->smarty);
         }
         return $result;
 
@@ -60,13 +69,23 @@ class mzzFileSmarty implements IMzzSmarty
      * @param string $name
      * @return string
      */
-    public function getResourceFileName($name, mzzSmarty $smarty)
+    public function getResourceFileName($name)
     {
-        if(!is_file($smarty->getTemplateDir() . '/' . $name)) {
+        if(!is_file($this->getTemplateDir() . '/' . $name)) {
             $subdir = substr($name, 0, strpos($name, '.'));
             return $subdir . '/' . $name;
         }
         return $name;
+    }
+
+    /**
+     * Возвращает директорию с исходниками шаблонов
+     *
+     * @return string абсолютный путь
+     */
+    public function getTemplateDir()
+    {
+        return $this->smarty->template_dir;
     }
 
 }

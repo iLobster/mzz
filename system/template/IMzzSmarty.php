@@ -46,8 +46,14 @@ interface IMzzSmarty
      * @param object $smarty
      * @return string
      */
-    function getResourceFileName($name, mzzSmarty $smarty);
+    function getResourceFileName($name);
 
+    /**
+     * Возвращает директорию с исходниками шаблонов
+     *
+     * @return string абсолютный путь
+     */
+    public function getTemplateDir();
 
 }
 

@@ -99,15 +99,6 @@ class mzzSmarty extends Smarty
         return $params;
     }
 
-    /**
-     * Возвращает директорию с исходниками шаблонов
-     *
-     * @return string абсолютный путь
-     */
-    public function getTemplateDir()
-    {
-        return $this->template_dir;
-    }
 }
 
 ?>
