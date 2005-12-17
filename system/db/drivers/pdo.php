@@ -15,6 +15,9 @@
  * @package system
  * @version 0.1
  */
+
+fileLoader::load('db/drivres/mzzPdoStatement');
+
 class mzzPdo extends PDO {
     /**
      * Singleton
@@ -149,8 +152,4 @@ class mzzPdo extends PDO {
    }
 }
 
-class mzzPdoStatement extends PDOStatement
-{
-
-}
 ?>
