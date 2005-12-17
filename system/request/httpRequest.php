@@ -27,6 +27,7 @@ define('SC_POST', 2);
 define('SC_REQUEST', SC_GET | SC_POST);
 define('SC_COOKIE', 4);
 define('SC_SERVER', 8);
+define('SC_PATH', 16);
 
 class HttpRequest
 {
@@ -111,7 +112,6 @@ class HttpRequest
             return $result;
         }
 
-
         if ($scope & SC_POST) {
             if ( ($result = self::getPost($name)) != null )
             return $result;
@@ -119,6 +119,11 @@ class HttpRequest
 
         if ($scope & SC_GET) {
             if ( ($result = self::getGet($name)) != null )
+            return $result;
+        }
+
+        if ($scope & SC_PATH) {
+            if ( ($result = self::getParam($name)) != null )
             return $result;
         }
 
@@ -227,7 +232,7 @@ class HttpRequest
      *
      * @param array $params
      */
-    public function setParams(Array $params)
+    public function setParams(array $params)
     {
         $this->params = $params;
     }
@@ -253,25 +258,16 @@ class HttpRequest
     }
 
     /**
-     * Возвращает все параметры
-     *
-     * @return array
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
-
-    /**
      * Возвращает определенный параметра
      *
      * @param string $name
      * @return string
      */
-    public function getParam($name)
+    private function getParam($name)
     {
-        return $this->params[$name];
+        return (isset($this->params[$name])) ? $this->params[$name] : null;
     }
+    public function getParams( ) {return $this->params;}
 }
 
 ?>
