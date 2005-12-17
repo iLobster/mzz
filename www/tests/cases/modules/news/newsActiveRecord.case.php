@@ -80,6 +80,12 @@ class newsActiveRecordTest extends unitTestCase
         $this->assertEqual($newsAR->get('title'), 'test_title_5');
     }
 
+    public function testUpdateNews()
+    {
+        $data =array(':id' => 1, ':title' => 'new_test_title', ':text' => 'new_test_text');
+        $stmt = $this->db->prepare('UPDATE `news` SET `title` = :title, `text` = :text WHERE id = :id');
+        //$stmt->execute();
+    }
 }
 
 ?>

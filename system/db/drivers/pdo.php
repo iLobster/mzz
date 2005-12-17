@@ -73,6 +73,7 @@ class mzzPdo extends PDO {
                 // We add options-support later...
                 // $options = $config->getOption('db', 'options');
                 self::$instance = new $classname($dsn, $username, $password, $charset);
+                self::$instance->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
         }
         return self::$instance;
    }
@@ -146,5 +147,10 @@ class mzzPdo extends PDO {
    {
        return $this->queriesTime;
    }
+}
+
+class mzzPdoStatement extends PDOStatement
+{
+
 }
 ?>

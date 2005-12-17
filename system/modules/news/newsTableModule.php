@@ -27,6 +27,7 @@ class newsTableModule
             $result[$i]->replaceData($data);
             $i++;
         }
+        $stmt->closeCursor();
         return $result;
     }
 
