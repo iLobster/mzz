@@ -114,6 +114,20 @@ class mzzPdo extends PDO {
    }
 
    /**
+    * ƒекорирует оригинальный метод дл€ подсчета числа запросов
+    *
+    * @param string $query запрос к Ѕƒ
+    * @return integer
+    */
+   public function exec($query)
+   {
+       $this->queriesNum++;
+       $count = parent::exec($query);
+       $this->queriesTime += (microtime(1) - $start_time);
+       return $count;
+   }
+
+   /**
     * метод дл€ получени€ числа запросов
     *
     * @return int число запросов
