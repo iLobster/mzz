@@ -86,6 +86,16 @@ class newsTableModuleTest extends unitTestCase
         $result = $stmt->fetch();
 
         $this->assertEqual($result['count'], 1);
+
+        $arr = array('var' => '1st');
+        $query = 'SELECT :var AS `a`';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindArray($arr);
+        $stmt->execute();
+        print_r($stmt->fetch());
+        $arr = array('var' => '2nd');
+        $stmt->execute();
+        print_r($stmt->fetch());
     }
 }
 
