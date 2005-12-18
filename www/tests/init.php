@@ -42,4 +42,13 @@ fileLoader::load('libs/simpletest/mock_objects');
 fileLoader::load('libs/simpletest/reporter');
 restore_error_handler();
 
+
+fileLoader::load('db/dbFactory');
+fileLoader::load('filters/init');
+fileLoader::load('core/response');
+fileLoader::load('template/mzzSmarty');
+fileLoader::load('core/registry');
+$registry = Registry::instance();
+$registry->setEntry('config', 'config');
+
 ?>

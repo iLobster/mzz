@@ -1,54 +1,91 @@
 <?php
 
-error_reporting(E_ALL | E_STRICT);
+//error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL);
 
 try {
 
     require_once 'init.php';
     require_once 'testsFinder.php';
 
-    $casesBasedir = 'cases';
-    $casesDir = $casesBasedir;
-    $casesName = 'all';
+    $smarty = new mzzSmarty();
+    $smarty->template_dir  = '../templates';
+    $smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
+    $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
+    $smarty->debugging = DEBUG_MODE;
 
-    if (isset($_GET['group'])) {
-        $group = $_GET['group'];
-        $group = preg_replace('/[^a-z]/i', '', $group);
-        if (is_dir($casesDir . '/' . $group)) {
-            $casesDir .= '/' . $group;
-            $casesName = $group;
-        }
-    }
+    $registry = Registry::instance();
+    $registry->setEntry('smarty', $smarty);
 
-    $test = new GroupTest($casesName . ' tests');
 
-    foreach (testsFinder::find($casesDir) as $case) {
-        $test->addTestFile($case);
-    }
+    $response = new response();
 
-    $test->run(new HtmlReporter('windows-1251'));
+    $filter_chain = new filterChain($response);
+    $filter_chain->registerFilter(new timingFilter());
+    $filter_chain->registerFilter(new testsRunner());
+    $filter_chain->process();
 
-    echo '<br /><a href="/tests/run.php"  style="color: black; font: 11px arial,verdana,tahoma;">';
-    if(isset($group)) {
-        echo 'All tests';
-    } else {
-        echo '<b>All tests</b>';
-    }
-    echo '</a>';
+    $response->send();
 
-    foreach (testsFinder::getDirsList($casesBasedir) as $dirlist) {
-        $name = substr(strrchr($dirlist, '/'), 1);
-        echo ' - <a href="/tests/run.php?group=' . $name . '" style="color: black; font: 11px tahoma,verdana,arial;">';
-        if(isset($group) && $name == $group) {
-            echo '<b>' . ucfirst($name) . ' tests</b>';
-        } else {
-            echo ucfirst($name) . ' tests';
-        }
-        echo '</a>';
-    }
-    echo '<br><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest Error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
+    //$a = new testsRunner();
+    //$a->run();
+
 
 } catch (MzzException $e) {
     $e->printHtml();
 }
+
+class testsRunner
+{
+    public function run($filter_chain, $response)
+    {
+        ob_start();
+        $casesBasedir = 'cases';
+        $casesDir = $casesBasedir;
+        $casesName = 'all';
+
+        if (isset($_GET['group'])) {
+            $group = $_GET['group'];
+            $group = preg_replace('/[^a-z]/i', '', $group);
+            if (is_dir($casesDir . '/' . $group)) {
+                $casesDir .= '/' . $group;
+                $casesName = $group;
+            }
+        }
+
+        $test = new GroupTest($casesName . ' tests');
+
+        foreach (testsFinder::find($casesDir) as $case) {
+            $test->addTestFile($case);
+        }
+
+        $test->run(new HtmlReporter('windows-1251'));
+
+        echo '<br /><a href="/tests/run.php"  style="color: black; font: 11px arial,verdana,tahoma;">';
+        if(isset($group)) {
+            echo 'All tests';
+        } else {
+            echo '<b>All tests</b>';
+        }
+        echo '</a>';
+
+        foreach (testsFinder::getDirsList($casesBasedir) as $dirlist) {
+            $name = substr(strrchr($dirlist, '/'), 1);
+            echo ' - <a href="/tests/run.php?group=' . $name . '" style="color: black; font: 11px tahoma,verdana,arial;">';
+            if(isset($group) && $name == $group) {
+                echo '<b>' . ucfirst($name) . ' tests</b>';
+            } else {
+                echo ucfirst($name) . ' tests';
+            }
+            echo '</a>';
+        }
+        echo '<br><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest Error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
+        $result = ob_get_contents();
+        ob_end_clean();
+        $response->append($result);
+
+        $filter_chain->next();
+    }
+}
+
 ?>

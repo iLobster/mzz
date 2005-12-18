@@ -37,6 +37,13 @@ class newsTableModule
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function update($data)
+    {
+        $stmt = $this->db->prepare('UPDATE `news` SET `title` = :title, `text` = :text WHERE `id` = :id');
+        $stmt->bindArray($data);
+        return $stmt->execute();
+    }
 }
 
 ?>

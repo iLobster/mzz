@@ -16,7 +16,7 @@
  * @version 0.1
  */
 
-fileLoader::load('db/drivres/mzzPdoStatement');
+fileLoader::load('db/drivers/mzzPdoStatement');
 
 class mzzPdo extends PDO {
     /**
@@ -39,6 +39,13 @@ class mzzPdo extends PDO {
      * @var float
      */
     private $queriesTime = 0;
+
+    /**
+     * число "приготовленных" запросов (prepared)
+     *
+     * @var int
+     */
+    private $queriesPrepared = 0;
 
     /**
      * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
@@ -110,7 +117,7 @@ class mzzPdo extends PDO {
     */
    public function prepare($query)
    {
-       $this->queriesNum++;
+       $this->queriesPrepared++;
        $start_time = microtime(1);
        $stmt = parent::prepare($query);
        $this->queriesTime += (microtime(1) - $start_time);
@@ -126,6 +133,7 @@ class mzzPdo extends PDO {
    public function exec($query)
    {
        $this->queriesNum++;
+       $start_time = microtime(1);
        $count = parent::exec($query);
        $this->queriesTime += (microtime(1) - $start_time);
        return $count;
@@ -149,6 +157,16 @@ class mzzPdo extends PDO {
    public function getQueriesTime()
    {
        return $this->queriesTime;
+   }
+
+   /**
+    * метод получения числа prepared запросов
+    *
+    * @return int число запросов
+    */
+   public function getPreparedNum()
+   {
+       return $this->queriesPrepared;
    }
 }
 

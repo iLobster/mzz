@@ -48,6 +48,11 @@ class newsActiveRecord
     {
         return $this->tm->delete($this->get('id'));
     }
+
+    public function update($data)
+    {
+        return $this->tm->update($data);
+    }
 }
 
 ?>

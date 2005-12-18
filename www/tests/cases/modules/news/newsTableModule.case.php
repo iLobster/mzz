@@ -54,11 +54,11 @@ class newsTableModuleTest extends unitTestCase
         $id = 1;
         $query = 'SELECT COUNT(*) AS `total` FROM `news` WHERE `id` = ' . $id;
         $result = $this->db->query($query);
-        $this->assertEqual($result->fetch(PDO::FETCH_OBJ)->total, 1);
+        $total = $result->fetch(PDO::FETCH_OBJ)->total;
         $result->closeCursor();
         $this->newsTM->delete($id);
         $result = $this->db->query($query);
-        $this->assertEqual($result->fetch(PDO::FETCH_OBJ)->total, 0);
+        $this->assertEqual($total - 1, 0);
     }
 
     public function testGetList()
@@ -74,6 +74,19 @@ class newsTableModuleTest extends unitTestCase
         }
     }
 
+    public function testUpdateNews()
+    {
+        $data =array('id' => 1, 'title' => 'new_test_title', 'text' => 'new_test_text');
+        $this->newsTM->update($data);
+
+        $query = 'SELECT COUNT(*) AS `count` FROM `news` WHERE `id` = :id AND `title` = :title AND `text`= :text';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindArray($data);
+        $stmt->execute();
+        $result = $stmt->fetch();
+
+        $this->assertEqual($result['count'], 1);
+    }
 }
 
 ?>

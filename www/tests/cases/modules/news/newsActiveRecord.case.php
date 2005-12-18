@@ -2,10 +2,6 @@
 
 fileLoader::load('news/newsActiveRecord');
 fileLoader::load('news/newsTableModule');
-fileLoader::load('db/dbFactory');
-fileLoader::load('core/registry');
-$registry = Registry::instance();
-$registry->setEntry('config', 'config');
 
 mock::generate('newsTableModule');
 
@@ -54,7 +50,7 @@ class newsActiveRecordTest extends unitTestCase
         $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `id` = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $newsAR = new newsActiveRecord($stmt, $this->TM);
-        $this->TM->expectOnce('delete', array('1'));
+        $this->TM->expectOnce('delete', array((string)$id));
 
         $this->assertIsA($newsAR, 'newsActiveRecord');
         $newsAR->delete();
@@ -82,9 +78,12 @@ class newsActiveRecordTest extends unitTestCase
 
     public function testUpdateNews()
     {
-        $data =array(':id' => 1, ':title' => 'new_test_title', ':text' => 'new_test_text');
-        $stmt = $this->db->prepare('UPDATE `news` SET `title` = :title, `text` = :text WHERE id = :id');
-        //$stmt->execute();
+        $data =array('id' => 1, 'title' => 'new_test_title', 'text' => 'new_test_text');
+        $this->TM->expectOnce('update', array($data));
+
+        $stmtStub = new PDOStatement();
+        $newsAR = new newsActiveRecord($stmtStub, $this->TM);
+        $newsAR->update($data);
     }
 }
 
