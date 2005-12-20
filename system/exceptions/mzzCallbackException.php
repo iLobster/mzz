@@ -1,6 +1,6 @@
 <?php
 
-class mzzCallbackException extends MzzException
+class mzzCallbackException extends mzzException
 {
     public function __construct($callback)
     {

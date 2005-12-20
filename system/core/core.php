@@ -72,10 +72,12 @@ class core
             $filter_chain->process();
 
             $response->send();
-        } catch (MzzException $e) {
+        } catch (mzzException $e) {
             $e->printHtml();
         } catch (Exception $e) {
-            $e = new MzzException($e->getMessage(), $e->getCode());
+            $name = get_class($e);
+            $e = new mzzException($e->getMessage(), $e->getCode());
+            $e->setName($name); 
             $e->printHtml();
         }
     }

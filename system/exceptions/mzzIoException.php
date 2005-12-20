@@ -1,6 +1,6 @@
 <?php
 
-class mzzIoException extends MzzException
+class mzzIoException extends mzzException
 {
     public function __construct($filename)
     {

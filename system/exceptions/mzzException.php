@@ -1,5 +1,5 @@
 <?php
-class MzzException extends Exception
+class mzzException extends Exception
 {
     private $name;
 
@@ -10,7 +10,7 @@ class MzzException extends Exception
     }
 
 
-   protected function setName($name)
+   public function setName($name)
    {
         $this->name = $name;
    }

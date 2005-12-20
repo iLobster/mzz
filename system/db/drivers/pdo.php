@@ -84,6 +84,7 @@ class mzzPdo extends PDO {
                 // $options = $config->getOption('db', 'options');
                 self::$instance = new $classname($dsn, $username, $password, $charset);
                 self::$instance->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
+                self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         return self::$instance;
    }
@@ -100,11 +101,6 @@ class mzzPdo extends PDO {
        $this->queriesNum++;
        $start_time = microtime(1);
        $result = parent::query($query);
-       if($this->errorCode() != 0) {
-           $code = $this->errorInfo();
-           $info = $this->errorInfo();
-           throw new mzzRuntimeException("SQL-Query error: " . implode(', ', $info), implode(', ', $code));
-       }
        $this->queriesTime += (microtime(1) - $start_time);
        return $result;
    }
