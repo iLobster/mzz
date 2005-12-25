@@ -66,12 +66,13 @@ class Registry {
      */
     public function getEntry($key)
     {
-        if(isset($this->stack[0][$key])) {
+        if($this->isEntry($key)) {
             if(!is_object($this->stack[0][$key])) {
                 $classname = $this->stack[0][$key];
 
                 if(!class_exists($classname)) {
-                    throw new mzzRuntimeException("Registry: create object error: class '" . $classname ."' not found for entry '" . $key . "'.");
+                    $error = sprintf("Registry: class '%s' not found for entry '%s'.", $classname, $key);
+                    throw new mzzRuntimeException($error);
                     return false;
                 } else {
                     $this->stack[0][$key] = new $classname;
