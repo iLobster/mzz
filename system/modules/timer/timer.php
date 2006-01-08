@@ -40,6 +40,7 @@ class timer
         $this->queries_start = $this->db->getQueriesNum() - 1;
         $this->queries_time_start = $this->db->getQueriesTime();
         $this->prepared_start = $this->db->getPreparedNum();
+        echo $this->queries_time_start;
     }
     public function finish()
     {

@@ -36,8 +36,6 @@ class timingFilter
         $registry->setEntry('sysTimer', $timer);
 
         $filter_chain->next();
-
-        $timer->finish();
     }
 }
 
