@@ -31,19 +31,25 @@ class timingFilter
     {
         $timer = new timer();
         $timer->start();
-        $start_time = microtime(true);
+
+        $registry = Registry::instance();
+        $registry->setEntry('sysTimer', $timer);
+
+
+        //$start_time = microtime(true);
 
         $filter_chain->next();
 
-        $registry = Registry::instance();
-        $smarty = $registry->getEntry('smarty');
-        $smarty->assign('time', (microtime(true) - $start_time));
+        //$registry = Registry::instance();
+        //$smarty = $registry->getEntry('smarty');
+        //$smarty->assign('time', (microtime(true) - $start_time));
 
+        /*
         $db = Db::factory();
         $smarty->assign('queries_num', $db->getQueriesNum());
         $smarty->assign('prepared_num', $db->getPreparedNum());
         $smarty->assign('queries_time', $db->getQueriesTime());
-        $response->append($smarty->fetch('filter.time.tpl'));
+        $response->append($smarty->fetch('filter.time.tpl'));*/
         $timer->finish();
     }
 }
