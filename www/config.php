@@ -12,11 +12,13 @@
 
 define('SYSTEM_PATH',  '../system/');
 define('DEBUG_MODE', 1);
+
 require_once(SYSTEM_PATH . 'systemConfig.php');
 
 systemConfig::$pathToApplication = dirname(__FILE__) . '/';
 systemConfig::$pathToTemp = dirname(__FILE__) . '/../tmp/';
 systemConfig::$pathToConf = dirname(__FILE__) . '/configs/';
+systemConfig::$pdoOptions = array();
 systemConfig::init();
 
 // в будущем перенести надо куда нить?

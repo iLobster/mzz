@@ -22,11 +22,10 @@ class simpleView
     protected $smarty;
     protected $params;
 
-    public function __construct($tableModule, $params = array())
+    public function __construct($tableModule)
     {
         $this->setModel($tableModule);
         $this->smarty = self::getSmarty();
-        $this->params = $params;
     }
 
     public function toString()

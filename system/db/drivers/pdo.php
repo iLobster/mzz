@@ -58,9 +58,9 @@ class mzzPdo extends PDO {
      * @param string $socket
      * @return void
      */
-    public function __construct($dsn, $username='', $password='', $charset = '', $options=array())
+    public function __construct($dsn, $username='', $password='', $charset = '')
     {
-        parent::__construct($dsn, $username, $password, $options);
+        parent::__construct($dsn, $username, $password, systemConfig::$pdoOptions);
         $this->query("SET NAMES `" . $charset . "`");
     }
 
@@ -99,9 +99,9 @@ class mzzPdo extends PDO {
    public function query($query)
    {
        $this->queriesNum++;
-       $start_time = microtime(1);
+       $start_time = microtime(true);
        $result = parent::query($query);
-       $this->queriesTime += (microtime(1) - $start_time);
+       $this->queriesTime += (microtime(true) - $start_time);
        return $result;
    }
 
@@ -114,9 +114,9 @@ class mzzPdo extends PDO {
    public function prepare($query)
    {
        $this->queriesPrepared++;
-       $start_time = microtime(1);
+       $start_time = microtime(true);
        $stmt = parent::prepare($query);
-       $this->queriesTime += (microtime(1) - $start_time);
+       $this->queriesTime += (microtime(true) - $start_time);
        return $stmt;
    }
 
@@ -129,9 +129,9 @@ class mzzPdo extends PDO {
    public function exec($query)
    {
        $this->queriesNum++;
-       $start_time = microtime(1);
+       $start_time = microtime(true);
        $count = parent::exec($query);
-       $this->queriesTime += (microtime(1) - $start_time);
+       $this->queriesTime += (microtime(true) - $start_time);
        return $count;
    }
 

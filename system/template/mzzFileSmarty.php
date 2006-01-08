@@ -46,7 +46,7 @@ class mzzFileSmarty implements IMzzSmarty
         $result = $this->smarty->_fetch($resource_name, $cache_id, $compile_id, $display);
 
         // ≈сли шаблон вложен, обработать получател€
-        if (preg_match("/\{\*\s*main=/i", $template)) {
+        if (strpos($template, "{* main=") !== false) {
             $params = $this->smarty->parse($template);
             $smarty->assign($params['placeholder'], $result);
             $result = $this->fetch($params['main'], $cache_id, $compile_id, $display, $this->smarty);

@@ -25,7 +25,7 @@ class newsEditController
         fileLoader::load('news.edit.form');
         fileLoader::load("news/newsActiveRecord");
         fileLoader::load("news/newsTableModule");
-        fileLoader::load("news.success.edit.view");
+        fileLoader::load("news.edit.success.view");
     }
 
     public function getView()
@@ -34,11 +34,14 @@ class newsEditController
         $this->httprequest = $registry->getEntry('httprequest');
         $params = $this->httprequest->getParams();
         $table_module = new newsTableModule();
-        $form = newsEditForm::getForm($table_module, $params);
+
+        $news = $table_module->getNews($params[0]);
+        $form = newsEditForm::getForm($news);
+
         if($form->validate() == false) {
-            $view = new newsEditView($table_module, $form, $params);
+            $view = new newsEditView($news, $form);
         } else {
-            $view = new newsSuccessEditView($table_module, $form);
+            $view = new newsEditSuccessView($news, $form);
         }
         // тут будет как нибудь похитрее - но пока не надо
         return $view;

@@ -43,6 +43,13 @@ class systemConfig {
     public static $pathToConf;
 
     /**
+     * Опции соединения с базой данных для PDO
+     *
+     * @var string
+     */
+    public static $pdoOptions;
+
+    /**
      * При вызове определяет и устанавливает путь до ядра
      *
      */

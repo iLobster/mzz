@@ -18,26 +18,33 @@
 class Db
 {
     /**
+     * Callback information
+     */
+    protected static $callback = false;
+
+    /**
      * The factory method
      *
      * @return object
      */
     public static function factory()
     {
-        $registry = Registry::instance();
-        $config = $registry->getEntry('config');
-        $config->load('common');
-        $driver = $config->getOption('db', 'driver');
-        fileLoader::load('db/drivers/' . $driver);
-        $classname = 'mzz' . ucfirst($driver);
+        if(self::$callback == false) {
+            $registry = Registry::instance();
+            $config = $registry->getEntry('config');
+            $config->load('common');
+            $driver = $config->getOption('db', 'driver');
+            fileLoader::load('db/drivers/' . $driver);
+            $classname = 'mzz' . ucfirst($driver);
+            self::$callback = array($classname, 'getInstance');
+        }
 
-        $callback = array($classname, 'getInstance');
-        
-        if(!is_callable($callback)) {
-            throw new mzzCallbackException($callback);
+        if(!is_callable(self::$callback)) {
+            self::$callback = false;
+            throw new mzzCallbackException(self::$callback);
             return false;
         } else {
-            return call_user_func($callback);
+            return call_user_func(self::$callback);
         }
     }
 
