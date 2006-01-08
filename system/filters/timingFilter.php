@@ -17,6 +17,8 @@
  * @version 0.1
  */
 
+fileLoader::load('timer/timer');
+
 class timingFilter
 {
     /**
@@ -27,6 +29,8 @@ class timingFilter
      */
     public function run($filter_chain, $response)
     {
+        $timer = new timer();
+        $timer->start();
         $start_time = microtime(true);
 
         $filter_chain->next();
@@ -40,7 +44,7 @@ class timingFilter
         $smarty->assign('prepared_num', $db->getPreparedNum());
         $smarty->assign('queries_time', $db->getQueriesTime());
         $response->append($smarty->fetch('filter.time.tpl'));
-
+        $timer->finish();
     }
 }
 

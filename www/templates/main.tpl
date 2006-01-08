@@ -9,4 +9,5 @@
 <hr size="1" style="color: #333333;">
 {$content}
 </body>
+{load module="timer" action="view"}
 </html>

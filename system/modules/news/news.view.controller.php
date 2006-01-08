@@ -10,7 +10,7 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * NewsListController: контроллер для метода list модуля news
+ * NewsViewController: контроллер для метода list модуля news
  *
  * @package news
  * @version 0.1
