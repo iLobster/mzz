@@ -1,3 +1,4 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>{$title}</title>
@@ -5,7 +6,7 @@
 </head>
 <body bgcolor="#ffffff">
 <font size='+1' face=tahoma color=#111111>{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION})</font>
-<hr size="1" color="#333333">
+<hr size="1" style="color: #333333;">
 {$content}
 </body>
 </html>

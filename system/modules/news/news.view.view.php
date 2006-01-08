@@ -20,12 +20,16 @@ class newsViewView extends simpleView
 {
     public function toString()
     {
+        /* Перенесено в newsViewController
         $registry = Registry::instance();
         $httprequest = $registry->getEntry('httprequest');
         $params = $httprequest->getParams();
         $data = $this->tableModule->getNews($params[0]);
-        $this->smarty->assign('news', $data);
-        $this->smarty->assign('title', 'Новости -> Просмотр -> ' . $data->get('title'));
+        */
+        // $this->tableModule - такое название потому что в simpleview - так что нужно переименовать там
+        // но пока оставил так
+        $this->smarty->assign('news', $this->tableModule);
+        $this->smarty->assign('title', 'Новости -> Просмотр -> ' . $this->tableModule->get('title'));
         return $this->smarty->fetch('news.view.tpl');
     }
 

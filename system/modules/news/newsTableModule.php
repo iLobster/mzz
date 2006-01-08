@@ -4,7 +4,8 @@ class newsTableModule
 {
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = DB::factory();
     }
 

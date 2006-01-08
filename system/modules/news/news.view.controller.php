@@ -29,7 +29,12 @@ class newsViewController
     public function getView()
     {
         // тут будет как нибудь похитрее - но пока не надо
-        return new newsViewView(new newsTableModule());
+        $registry = Registry::instance();
+        $httprequest = $registry->getEntry('httprequest');
+        $params = $httprequest->getParams();
+        $tableModule = new newsTableModule();
+        $news = $tableModule->getNews($params[0]);
+        return new newsViewView($news);
     }
 }
 

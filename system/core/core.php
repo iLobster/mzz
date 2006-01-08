@@ -77,7 +77,7 @@ class core
         } catch (Exception $e) {
             $name = get_class($e);
             $e = new mzzException($e->getMessage(), $e->getCode());
-            $e->setName($name); 
+            $e->setName($name);
             $e->printHtml();
         }
     }
