@@ -20,11 +20,8 @@ class timerViewView extends simpleView
 {
     public function toString()
     {
-        /*
-        $this->smarty->assign('news', $this->tableModule);
-        $this->smarty->assign('title', 'Новости -> Просмотр -> ' . $this->tableModule->get('title'));
-        return $this->smarty->fetch('news.view.tpl');*/
-        return 'timerrrrrrrr1111111';
+        $this->smarty->assign('timer', $this->tableModule);
+        return $this->smarty->fetch('filter.time.tpl');
     }
 
 }

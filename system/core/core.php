@@ -14,7 +14,7 @@
  * core: ядро mzz
  *
  * @package system
- * @version 0.1
+ * @version 0.1.1
  */
 class core
 {

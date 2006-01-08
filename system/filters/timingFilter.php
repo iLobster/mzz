@@ -14,7 +14,7 @@
  * timingFilter: фильтр для подсчета времени выполнения скрипта
  *
  * @package system
- * @version 0.1
+ * @version 0.1.1
  */
 
 fileLoader::load('timer/timer');
@@ -31,30 +31,13 @@ class timingFilter
     {
         $timer = new timer();
         $timer->start();
-        var_dump($timer);
 
         $registry = Registry::instance();
         $registry->setEntry('sysTimer', $timer);
 
-
-        //$start_time = microtime(true);
-
         $filter_chain->next();
 
-        //$registry = Registry::instance();
-        //$smarty = $registry->getEntry('smarty');
-        //$smarty->assign('time', (microtime(true) - $start_time));
-
-        /*
-        $db = Db::factory();
-        $smarty->assign('queries_num', $db->getQueriesNum());
-        $smarty->assign('prepared_num', $db->getPreparedNum());
-        $smarty->assign('queries_time', $db->getQueriesTime());
-        $response->append($smarty->fetch('filter.time.tpl'));*/
         $timer->finish();
-        echo '<br>--<br>';
-        var_dump($timer);
-        echo '<br>--<br>';
     }
 }
 

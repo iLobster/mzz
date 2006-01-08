@@ -29,8 +29,7 @@ class timerViewController
         $registry = Registry::instance();
         $timer = $registry->getEntry('sysTimer');
         $timer->finish();
-        var_dump($timer);
-        return new timerViewView(null);
+        return new timerViewView($timer);
     }
 }
 
