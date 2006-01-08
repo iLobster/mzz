@@ -3,7 +3,7 @@
 {$form.hidden}
 <table border="1" width="50%">
 		<tr>
-			<td>{$news.id}</td>
+			<td>{$news->get('id')}</td>
 			<td>{$form.title.label} {$form.title.html}</td>
 		</tr>
 		<tr>

@@ -20,10 +20,12 @@ class newsEditController
 {
     public function __construct()
     {
-        fileLoader::load('news.edit.model');
+        //fileLoader::load('news.edit.model'); отцепляем?
         fileLoader::load('news.edit.view');
+        fileLoader::load('news.edit.form');
         fileLoader::load("news/newsActiveRecord");
         fileLoader::load("news/newsTableModule");
+        fileLoader::load("news.success.edit.view");
     }
 
     public function getView()
@@ -31,8 +33,15 @@ class newsEditController
         $registry = Registry::instance();
         $this->httprequest = $registry->getEntry('httprequest');
         $params = $this->httprequest->getParams();
+        $table_module = new newsTableModule();
+        $form = newsEditForm::getForm($table_module, $params);
+        if($form->validate() == false) {
+            $view = new newsEditView($table_module, $form, $params);
+        } else {
+            $view = new newsSuccessEditView($table_module, $form);
+        }
         // тут будет как нибудь похитрее - но пока не надо
-        return new newsEditView(new newsTableModule(), $params);
+        return $view;
     }
 }
 

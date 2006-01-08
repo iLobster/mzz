@@ -18,24 +18,21 @@
 
 class newsEditView extends simpleView
 {
+    public function __construct($tableModule, $form, $params = array())
+    {
+        $this->form = $form;
+        parent::__construct($tableModule, $params);
+    }
     public function toString()
     {
+        $data = $this->tableModule->getNews($this->params[0]);
+        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+        $this->form->accept($renderer);
 
-        if($this->params[0] !==false && $this->params[1] == 'save') {
-            $this->tableModule->saveNews();
-            header('Location: /news/' . $this->params[0] . '/view');
-            exit;
-        } else {
-            $data = $this->tableModule->getNews($this->params[0]);
-            $form = $this->tableModule->getForm($data);
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $form->accept($renderer);
-
-            $this->smarty->assign('form', $renderer->toArray());
-            $this->smarty->assign('news', $data);
-            $this->smarty->assign('title', 'Новости -> Редактирование -> ' . $data['title']);
-            return $this->smarty->fetch('news.edit.tpl');
-        }
+        $this->smarty->assign('form', $renderer->toArray());
+        $this->smarty->assign('news', $data);
+        $this->smarty->assign('title', 'Новости -> Редактирование -> ' . $data->get('title'));
+        return $this->smarty->fetch('news.edit.tpl');
     }
 
 }
