@@ -15,10 +15,11 @@ class timer
     private $prepared_finish;
     public function __construct()
     {
-        $this->db = Db::factory();
+
     }
     public function start()
     {
+        $this->db = Db::factory();
         $this->start = microtime(true);
         $this->queries_start = $this->db->getQueriesNum();
         $this->queries_time_start = $this->db->getQueriesTime();
@@ -26,6 +27,7 @@ class timer
     }
     public function finish()
     {
+        $this->db = Db::factory();
         $this->finish = microtime(true);
         $this->queries_finish = $this->db->getQueriesNum();
         $this->queries_time_finish = $this->db->getQueriesTime();

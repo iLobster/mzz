@@ -31,6 +31,7 @@ class timingFilter
     {
         $timer = new timer();
         $timer->start();
+        var_dump($timer);
 
         $registry = Registry::instance();
         $registry->setEntry('sysTimer', $timer);
@@ -51,6 +52,9 @@ class timingFilter
         $smarty->assign('queries_time', $db->getQueriesTime());
         $response->append($smarty->fetch('filter.time.tpl'));*/
         $timer->finish();
+        echo '<br>--<br>';
+        var_dump($timer);
+        echo '<br>--<br>';
     }
 }
 
