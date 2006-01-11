@@ -49,6 +49,7 @@ fileLoader::load('core/response');
 fileLoader::load('template/mzzSmarty');
 fileLoader::load('core/registry');
 $registry = Registry::instance();
-$registry->setEntry('config', 'config');
+$config = new config(systemConfig::$pathToConf . 'common.ini');
+$registry->setEntry('config', $config);
 
 ?>

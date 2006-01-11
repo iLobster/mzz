@@ -48,6 +48,16 @@ class core
             fileLoader::load('core/response');
             fileLoader::load('filters/init');
 
+            fileLoader::load('config/config');
+            fileLoader::load('request/rewrite');
+            fileLoader::load('request/httpRequest');
+            fileLoader::load('request/requestParser');
+            fileLoader::load('frontController');
+            fileLoader::load('core/sectionMapper');
+            fileLoader::load('db/dbFactory');
+            fileLoader::load('simple/simple.view');
+
+
             $smarty = new mzzSmarty();
             $smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
             $smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
@@ -55,9 +65,11 @@ class core
             $smarty->debugging = DEBUG_MODE;
 
             $registry = Registry::instance();
+            $config = new config(systemConfig::$pathToConf . 'common.ini');
+
             $registry->setEntry('rewrite', 'Rewrite');
             $registry->setEntry('httprequest', 'HttpRequest');
-            $registry->setEntry('config', 'config');
+            $registry->setEntry('config', $config);
             $registry->setEntry('smarty', $smarty);
             $registry->setEntry('htmlquickform', 'HTML_QuickForm');
 
@@ -65,7 +77,6 @@ class core
 
             $filter_chain = new filterChain($response);
 
-            $filter_chain->registerFilter(new resolvingFilter());
             $filter_chain->registerFilter(new timingFilter());
             $filter_chain->registerFilter(new contentFilter());
 

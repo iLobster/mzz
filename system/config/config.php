@@ -13,7 +13,7 @@
  * config: класс для работы с конфигурацией
  *
  * @package system
- * @version 0.2
+ * @version 0.3
 */
 class config
 {
@@ -22,64 +22,52 @@ class config
      *
      * @var array
      */
-    protected $_ini;
+    protected $iniResult;
 
     /**
-     * Имя обработанного конфиг-файла
+     * Путь до config-файла
      *
      * @var string
      */
-    protected $_ini_file;
+    protected $iniFile;
 
     /**
      * Constructor
      *
-     * @return void
+     * @param string $configFileName имя файла (без '.ini' в конце)
      */
-    public function __construct()
+    public function __construct($configFileName)
     {
-
+        $this->iniFile = $configFileName;
+        $this->load();
     }
 
     /**
-     * Загрузка и обработка конфиг-файла. Результат обработки сохраняется и при
-     * повторном вызове метода load с тем же именем конфиг-файла будет возвращен
-     * сохраненный результат. Для обновления результата используется метод update.
+     * Загрузка и обработка конфиг-файла.
      *
-     * @param string $file имя файла (без '.ini' в конце)
-     * @param boolean $process_sections
-     * @return bolean
      */
-    public function load($file, $process_sections = true)
+    public function load()
     {
-        $file = fileLoader::resolve('configs/' . $file . '.ini');
-        if(!isset($this->_ini_file) || $this->_ini_file != $file) {
-            if(is_file($file) && ($this->_ini = parse_ini_file($file, $process_sections)) !== false) {
-                $this->_ini_file = $file;
-                return true;
-            } else {
-                $error = sprintf("Unable parse config-file '%s'", $file);
-                throw new mzzRuntimeException($error);
-            }
-        } else {
-            return true;
+        if(!is_file($this->iniFile) || ($this->iniResult = parse_ini_file($this->iniFile, true)) === false) {
+            $error = sprintf("Unable parse config-file '%s'", $this->iniFile);
+            throw new mzzRuntimeException($error);
         }
-
     }
 
     /**
      * Получение значения опции
      *
-     * @param string $section имя секции
+     * @param string $sectionName имя секции
      * @param string $name имя опции
-     * @return string|false
+     * @return string
      */
-    public function getOption($section, $name)
+    public function getOption($sectionName, $name)
     {
-        if(isset($this->_ini[$section][$name])) {
-            return $this->_ini[$section][$name];
+        $section = $this->getSection($sectionName);
+        if(isset($section[$name])) {
+            return $section[$name];
         } else {
-            $error = sprintf("Can't find config-option '%s/%s' in '%s'", $section, $name, $this->_ini_file);
+            $error = sprintf("Can't find config-option '%s/%s' in '%s'", $sectionName, $name, $this->iniFile);
             throw new mzzRuntimeException($error);
         }
 
@@ -88,35 +76,19 @@ class config
     /**
      * Получение всей секции
      *
-     * @param string $section имя секции
+     * @param string $sectionName имя секции
      * @return array|false
      */
-    public function getSection($section)
+    public function getSection($sectionName)
     {
-        if(isset($this->_ini[$section])) {
-            return $this->_ini[$section];
+        if(isset($this->iniResult[$sectionName])) {
+            return $this->iniResult[$sectionName];
         } else {
-            $error = sprintf("Can't find config-section '%s' in '%s'", $section, $this->_ini_file);
+            $error = sprintf("Can't find config-section '%s' in '%s'", $sectionName, $this->iniFile);
             throw new mzzRuntimeException($error);
         }
     }
 
-    /**
-     * Обновление результата обработки
-     *
-     * @return void
-     */
-    public function update()
-    {
-        if(isset($this->ini_file)) {
-            $file = $this->_ini_file;
-            unset($this->_ini_file);
-            $this->load($file);
-        } else {
-            throw new mzzRuntimeException("No found config for update.");
-        }
-
-    }
 }
 
 ?>
