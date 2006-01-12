@@ -17,14 +17,6 @@
  */
 class sectionMapper
 {
-
-    /**
-     * Имя шаблона
-     *
-     * @var array
-     */
-    protected $template_name;
-
     /**
      * Префикс имени
      *
@@ -36,15 +28,25 @@ class sectionMapper
      *
      */
     const TPL_EXT = ".tpl";
+
+    /**
+     * XML Result
+     *
+     * @var object
+     */
+    protected $xml;
+
     /**
      * Construct
      *
-     * @param string $section
-     * @param string $action
+     * @param string $mapFileName путь до файла конфигурации
      */
-    public function __construct($section, $action)
+    public function __construct($mapFileName)
     {
-        $this->xmlRead($section, $action);
+        if (!is_file($mapFileName)) {
+            throw new mzzIoException($mapFileName);
+        }
+        $this->xml = simplexml_load_file($mapFileName);
     }
 
     /**
@@ -56,17 +58,15 @@ class sectionMapper
      */
     private function xmlRead($section, $action)
     {
-        $xml = simplexml_load_file(fileLoader::resolve('configs/map.xml'));
-        if (!empty($xml->$section)) {
-            foreach ($xml->$section->action as $_action) {
+        if (!empty($this->xml->$section)) {
+            foreach ($this->xml->$section->action as $_action) {
                 if($_action['name'] == $action) {
-                    $this->template_name = (string) $_action;
-                    return true;
+                    return (string) $_action;
                 }
             }
-            $this->template_name = false;
+            return false;
         } else {
-            $this->template_name = false;
+            return false;
         }
     }
 
@@ -76,22 +76,25 @@ class sectionMapper
      * @param string $template_name
      * @return string
      */
-    protected function templateNameDecorate($template_name)
+    protected function templateNameDecorate($templateName)
     {
-        return self::TPL_PRE . $template_name . self::TPL_EXT;
+        return self::TPL_PRE . $templateName . self::TPL_EXT;
     }
 
     /**
      * Получение имени шаблона
      *
-     * @return string
+     * @param string $section
+     * @param string $action
+     * @return string|false
      */
-    public function getTemplateName()
+    public function getTemplateName($section, $action)
     {
-        if($this->template_name === false) {
+        $template_name = $this->xmlRead($section, $action);
+        if($template_name === false) {
             return false;
         } else {
-            return self::templateNameDecorate($this->template_name);
+            return self::templateNameDecorate($template_name);
         }
     }
 }

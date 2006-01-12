@@ -3,8 +3,10 @@ fileLoader::load('core/sectionMapper');
 
 class sectionMapperTest extends unitTestCase
 {
+    private $mapper;
     public function setUp()
     {
+        $this->mapper = new sectionMapper(fileLoader::resolve('configs/map.xml'));
     }
 
     public function tearDown()
@@ -13,22 +15,14 @@ class sectionMapperTest extends unitTestCase
 
     public function TestSectionMapper()
     {
-        $mapper = new sectionMapper("test","foo");
-        $this->assertEqual($mapper->getTemplateName(), "act.test.foo.tpl");
-        $mapper = new sectionMapper("test","bar");
-        $this->assertEqual($mapper->getTemplateName(), "act.test.bar.tpl");
+        $this->assertEqual($this->mapper->getTemplateName("test", "foo"), "act.test.foo.tpl");
+        $this->assertEqual($this->mapper->getTemplateName("test", "bar"), "act.test.bar.tpl");
     }
 
     public function TestSectionMapperFalse()
     {
-        $mapper = new sectionMapper(null,null);
-        $this->assertFalse($mapper->getTemplateName());
-
-        $mapper = new sectionMapper('test', null);
-        $this->assertFalse($mapper->getTemplateName());
-
-        $mapper = new sectionMapper('test', '__not_exists__');
-        $this->assertFalse($mapper->getTemplateName());
+        $this->assertFalse($this->mapper->getTemplateName(null, null));
+        $this->assertFalse($this->mapper->getTemplateName('test', '__not_exists__'));
     }
 
 }
