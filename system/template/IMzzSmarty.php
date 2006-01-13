@@ -23,13 +23,13 @@ interface IMzzSmarty
      * Выполняет шаблон и возвращает результат
      * Декорирован для реализации вложенных шаблонов.
      *
-     * @param string $resource_name
+     * @param string $resource
      * @param string $cache_id
      * @param string $compile_id
      * @param boolean $display
      * @param object $smarty
      */
-    function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false, mzzSmarty $smarty);
+    function fetch($resource, $cache_id = null, $compile_id = null, $display = false, mzzSmarty $smarty);
 
     /**
      * Получает и возвращает относительный путь к исходнику шаблонов.

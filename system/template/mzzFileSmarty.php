@@ -30,15 +30,15 @@ class mzzFileSmarty implements IMzzSmarty
      * Выполняет шаблон и возвращает результат
      * Декорирован для реализации вложенных шаблонов.
      *
-     * @param string $resource_name
+     * @param string $resource
      * @param string $cache_id
      * @param string $compile_id
      * @param boolean $display
      */
-    public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false, mzzSmarty $smarty)
+    public function fetch($resource, $cache_id = null, $compile_id = null, $display = false, mzzSmarty $smarty)
     {
         $this->smarty = $smarty;
-        $resource_name = $this->getResourceFileName($resource_name, $this->smarty);
+        $resource_name = $this->getResourceFileName($resource[1], $this->smarty);
 
         $template = new SplFileObject($this->smarty->template_dir . '/' . $resource_name, 'r');
         $template = $template->fgets(256);
@@ -49,7 +49,7 @@ class mzzFileSmarty implements IMzzSmarty
         if (strpos($template, "{* main=") !== false) {
             $params = $this->smarty->parse($template);
             $smarty->assign($params['placeholder'], $result);
-            $result = $this->fetch($params['main'], $cache_id, $compile_id, $display, $this->smarty);
+            $result = $this->smarty->fetch($params['main'], $cache_id, $compile_id, $display, $this->smarty);
         }
         return $result;
 

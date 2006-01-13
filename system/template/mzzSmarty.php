@@ -23,8 +23,10 @@ class mzzSmarty extends Smarty
 {
     /**
      * Хранение объекта для работы с ресурсом
+     *
+     * @var array
      */
-    protected $mzzResource;
+    protected $mzzResources = array();
 
     /**
      * Выполняет шаблон и возвращает результат
@@ -37,13 +39,15 @@ class mzzSmarty extends Smarty
      */
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
-        if(strpos($resource_name, ':')) {
-            throw new mzzSystemException('Поддержка других ресурсов Smarty не реализована. Не используйте "file:" в именах шаблонах.');
-        }
+        /*if(strpos($resource_name, ':')) {
+        throw new mzzSystemException('Поддержка других ресурсов Smarty не реализована. Не используйте "file:" в именах шаблонах.');
+        }*/
         $resource = explode(':', $resource_name, 2);
+
         if(count($resource) === 1) {
-            $resource[0] = $this->default_resource_type;
+            $resource = array($this->default_resource_type, $resource_name);
         }
+
         $mzzname = 'mzz' . ucfirst($resource[0]) . 'Smarty';
 
         fileLoader::load('template/' . $mzzname);
@@ -53,9 +57,10 @@ class mzzSmarty extends Smarty
             return false;
         }
 
-        $this->mzzResource = new $mzzname;
-
-        $result = $this->mzzResource->fetch($resource_name, $cache_id, $compile_id, $display, $this);
+        if(!isset($this->mzzResources[$mzzname])) {
+            $this->mzzResources[$mzzname] = new $mzzname;
+        }
+        $result = $this->mzzResources[$mzzname]->fetch($resource, $cache_id, $compile_id, $display, $this);
 
         return $result;
 
