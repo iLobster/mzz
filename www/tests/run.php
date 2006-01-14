@@ -59,6 +59,8 @@ class testsRunner
             $test->addTestFile($case);
         }
 
+        echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+        
         $test->run(new HtmlReporter('windows-1251'));
 
         echo '<br /><a href="/tests/run.php"  style="color: black; font: 11px arial,verdana,tahoma;">';
@@ -79,7 +81,8 @@ class testsRunner
             }
             echo '</a>';
         }
-        echo '<br><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest Error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
+        echo '<br /><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest Error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
+        echo '</body></html>';
         $result = ob_get_contents();
         ob_end_clean();
         $response->append($result);
