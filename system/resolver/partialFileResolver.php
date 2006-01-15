@@ -31,7 +31,7 @@ class partialFileResolver implements iResolver
      *
      * @param object $resolver базовый резолвер
      */
-    public function __construct($resolver)
+    public function __construct(iResolver $resolver)
     {
         $this->resolver = $resolver;
     }
