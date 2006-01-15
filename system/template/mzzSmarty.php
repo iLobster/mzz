@@ -27,6 +27,7 @@ class mzzSmarty extends Smarty
      * @var array
      */
     protected $mzzResources = array();
+    protected $fetchedTemplates = array();
 
     /**
      * Выполняет шаблон и возвращает результат
@@ -68,6 +69,11 @@ class mzzSmarty extends Smarty
 
     public function _fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
+        if(in_array($resource_name, $this->fetchedTemplates)) {
+            $error = "Detected recursion. Recursion template: %s. <br> All: <pre>%s</pre>";
+            throw new mzzRuntimeException(sprintf($error, $resource_name, print_r($this->fetchedTemplates, true)));
+        }
+        $this->fetchedTemplates[] = $resource_name;
         $result = parent::fetch($resource_name, $cache_id, $compile_id, $display, $this);
         return $result;
     }

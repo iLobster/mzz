@@ -44,6 +44,9 @@ class mzzException extends Exception
                 $trace_msg .= $count . '. <b>File:</b> ' . $trace['file'] . ' <i>(Line: ' . $trace['line'] . ')</i>, ';
 
                 $args = '';
+                if (!isset($trace['args'])) {
+                    $trace['args'] = $trace;
+                }
                 foreach ($trace['args'] as $arg) {
                     switch (true) {
                         case is_object($arg):

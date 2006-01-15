@@ -41,7 +41,7 @@ class newsActiveRecord
 
         $this->data = $this->stmt->fetch(PDO::FETCH_ASSOC);
 
-        //$this->stmt->closeCursor();
+        $this->stmt->closeCursor();
     }
 
     public function delete()
