@@ -67,8 +67,9 @@ class core
             $registry = Registry::instance();
             $config = new config(systemConfig::$pathToConf . 'common.ini');
             $sectionMapper = new sectionMapper(fileLoader::resolve('configs/map.xml'));
+            $rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
 
-            $registry->setEntry('rewrite', 'Rewrite');
+            $registry->setEntry('rewrite', $rewrite);
             $registry->setEntry('httprequest', 'HttpRequest');
             $registry->setEntry('config', $config);
             $registry->setEntry('smarty', $smarty);

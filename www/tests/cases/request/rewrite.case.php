@@ -1,18 +1,11 @@
 <?php
 
-fileLoader::load('request/rewrite');
-fileLoader::load('core/registry');
-
-$registry = Registry::instance();
-$registry->setEntry('rewrite', 'Rewrite');
-
 class RewriteTest extends unitTestCase
 {
     private $rewrite;
     function setUp()
     {
-        $registry = Registry::instance();
-        $this->rewrite = $registry->getEntry('rewrite');
+        $this->rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
     }
 
     public function tearDown()

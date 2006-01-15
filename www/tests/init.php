@@ -49,6 +49,13 @@ fileLoader::load('filters/init');
 fileLoader::load('core/response');
 fileLoader::load('template/mzzSmarty');
 fileLoader::load('core/registry');
+fileLoader::load('request/rewrite');
+
+$rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
+$registry = Registry::instance();
+$registry->setEntry('rewrite', $rewrite);
+
+
 $registry = Registry::instance();
 $config = new config(systemConfig::$pathToConf . 'common.ini');
 $registry->setEntry('config', $config);

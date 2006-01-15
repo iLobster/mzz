@@ -14,7 +14,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1
+ * @version 0.2
  */
 class Rewrite
 {
@@ -25,6 +25,13 @@ class Rewrite
      * @var array
      */
     protected $rules = array();
+
+    /**
+     * Результат обработки XML
+     *
+     * @var object
+     */
+    protected $xml;
 
     /**
      * Левый разделитель
@@ -41,9 +48,15 @@ class Rewrite
     /**
      * Construct
      *
+     * @param string $rewriteConfigFile путь
      */
-    public function __construct()
+    public function __construct($rewriteConfigFile)
     {
+        if(!file_exists($rewriteConfigFile)) {
+            throw new mzzIoException($rewriteConfigFile);
+        }
+
+        $this->xml = simplexml_load_file($rewriteConfigFile);
     }
 
     /**
@@ -151,12 +164,11 @@ class Rewrite
      */
     private function XMLread($section)
     {
-        $xml = simplexml_load_file(fileLoader::resolve('configs/rewrite.xml'));
         $rules = array();
 
-        if (!empty($xml->$section)) {
+        if (!empty($this->xml->$section)) {
             $rules = array();
-            foreach ($xml->$section->rule as $rule) {
+            foreach ($this->xml->$section->rule as $rule) {
                 $rules[] = self::createRule((string) $rule['pattern'], (string) $rule);
             }
             $this->addGroupRule($rules);
