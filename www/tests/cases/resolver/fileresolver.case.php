@@ -13,8 +13,6 @@ class fileResolverTest extends unitTestCase
     function testResolveExist()
     {
         $this->assertEqual(realpath(dirname(__FILE__) . '/' . basename(__FILE__)), realpath($this->resolver->resolve(basename(__FILE__))));
-        $this->resolver->addPattern('./*');
-        $this->assertEqual(realpath('./run.php'), realpath($this->resolver->resolve('run.php')));
     }
     
     function testResolveNotExist()

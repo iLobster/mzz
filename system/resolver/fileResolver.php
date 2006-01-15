@@ -14,55 +14,43 @@
  *
  * @package system
  * @subpackage resolver
- * @version 0.1
+ * @version 0.1.1
  */
 
-class fileResolver
+class fileResolver implements iResolver
 {
-    /**
+	/**
      * список паттернов (шаблонов имён файлов, имён файлов) для поиска
      *
      * @var array
      */
-    private $patterns = array();
-    
-    /**
+	private $pattern = '';
+
+	/**
      * конструктор
      *
      * @param string $pattern паттерн для поиска
      */
-    public function __construct($pattern)
-    {
-        $this->addPattern($pattern);
-    }
-    
-    /**
-     * метод добавления паттернов в список
-     *
-     * @param string $pattern паттерн для поиска
-     */
-    public function addPattern($pattern)
-    {
-        $this->patterns[] = $pattern;
-    }
-    
-    /**
+	public function __construct($pattern)
+	{
+		$this->pattern = $pattern;
+	}
+
+
+	/**
      * запуск процесса поиска файла по паттернам
      *
      * @param string $request поисковый запрос
      * @return string|null путь до файла, если найден и null в противном случае
      */
-    public function resolve($request)
-    {
-        foreach ($this->patterns as $filename) {
-            $filename = str_replace('*', $request, $filename);
-            //echo $filename . '<br>';
-            if (is_file($filename)) {
-                return $filename;
-            }
-        }
-        return null;
-    }
+	public function resolve($request)
+	{
+		$filename = str_replace('*', $request, $this->pattern);
+		if (is_file($filename)) {
+			return $filename;
+		}
+		return null;
+	}
 }
 
 ?>

@@ -11,6 +11,7 @@ function simpletest_error_handler($errno, $errstr, $errfile, $errline) {
 require_once 'config.php';
 require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
 require_once systemConfig::$pathToSystem . 'version.php';
+require_once systemConfig::$pathToSystem . 'resolver/iResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/compositeResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/fileResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/sysFileResolver.php';

@@ -18,7 +18,7 @@
  * @version 0.1
  */
 
-class compositeResolver
+class compositeResolver implements iResolver
 {
     /**
      * массив для хранения резолверов

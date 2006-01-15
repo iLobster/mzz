@@ -17,7 +17,7 @@
  * @version 0.1
  */
 
-class partialFileResolver
+class partialFileResolver implements iResolver
 {
     /**
      * базовый резолвер

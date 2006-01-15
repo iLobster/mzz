@@ -18,7 +18,7 @@
  * @version 0.1
  */
 
-abstract class decoratingResolver
+abstract class decoratingResolver implements iResolver
 {
     /**
      * резолвер, который будет декорироваться
