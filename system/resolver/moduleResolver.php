@@ -11,7 +11,7 @@
 //
 /**
  * moduleResolver: резолвит файлы модулей
- * 
+ *
  * @package system
  * @subpackage resolver
  * @version 0.1
@@ -26,7 +26,7 @@ class moduleResolver extends partialFileResolver
      *
      * @param object $resolver базовый резолвер
      */
-    public function __construct($resolver)
+    public function __construct(iResolver $resolver)
     {
         parent::__construct($resolver);
     }

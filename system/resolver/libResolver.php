@@ -11,7 +11,7 @@
 //
 /**
  * libResolver: резолвит файлы сторонних библиотек
- * 
+ *
  * @package system
  * @subpackage resolver
  * @version 0.1
@@ -26,7 +26,7 @@ class libResolver extends partialFileResolver
      *
      * @param object $resolver базовый резолвер
      */
-    public function __construct($resolver)
+    public function __construct(iResolver $resolver)
     {
         parent::__construct($resolver);
     }

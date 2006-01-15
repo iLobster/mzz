@@ -26,13 +26,13 @@ abstract class decoratingResolver implements iResolver
      * @var object
      */
     protected $resolver = null;
-    
+
     /**
      * конструктор
      *
      * @param object $resolver резолвер, который будет декорироваться
      */
-    public function __construct($resolver)
+    public function __construct(iResolver $resolver)
     {
         $this->resolver = $resolver;
     }
@@ -60,7 +60,7 @@ abstract class decoratingResolver implements iResolver
     {
 
         $callback = array($this->resolver, $callname);
-        
+
         if(!is_callable($callback)) {
             throw new mzzCallbackException($callback);
         }

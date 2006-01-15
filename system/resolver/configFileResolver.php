@@ -15,7 +15,7 @@
  * (запрос -> результат)
  * configs/someconfig.ext   -> configs/someconfig.ext
  * notconfig/somefile       -> null
- * 
+ *
  * @package system
  * @subpackage resolver
  * @version 0.1
@@ -30,7 +30,7 @@ class configFileResolver extends partialFileResolver
      *
      * @param object $resolver базовый резолвер
      */
-    public function __construct($resolver)
+    public function __construct(iResolver $resolver)
     {
         parent::__construct($resolver);
     }

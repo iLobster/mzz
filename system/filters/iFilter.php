@@ -11,15 +11,13 @@
 //
 
 /**
- * timingFilter: фильтр для подсчета времени выполнения скрипта
+ * iFilter: интерфейс фильтра
  *
  * @package system
- * @version 0.1.1
+ * @version 0.1
  */
 
-fileLoader::load('timer/timer');
-
-class timingFilter implements iFilter
+interface iFilter
 {
     /**
      * запуск фильтра на исполнение
@@ -27,16 +25,7 @@ class timingFilter implements iFilter
      * @param filterChain $filter_chain объект, содержащий цепочку фильтров
      * @param response $response объект, содержащий информацию, выводимую клиенту в браузер
      */
-    public function run(filterChain $filter_chain, $response)
-    {
-        $timer = new timer();
-        $timer->start();
-
-        $registry = Registry::instance();
-        $registry->setEntry('sysTimer', $timer);
-
-        $filter_chain->next();
-    }
+    public function run(filterChain $filter_chain, $response);
 }
 
 ?>

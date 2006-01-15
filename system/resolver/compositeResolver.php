@@ -26,17 +26,17 @@ class compositeResolver implements iResolver
      * @var array
      */
     private $resolvers = array();
-    
+
     /**
      * метод для добавления резолверов
      *
      * @param object $resolver
      */
-    public function addResolver($resolver)
+    public function addResolver(iResolver $resolver)
     {
         $this->resolvers[] = $resolver;
     }
-    
+
     /**
      * подача запроса, запуск поочерёдно резолверов
      * продолжается до тех пор, пока один из резолверов не вернёт строку с результатом

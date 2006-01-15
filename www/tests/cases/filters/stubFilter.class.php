@@ -1,10 +1,10 @@
 <?php
 
-class stubFilter
+class stubFilter implements iFilter
 {
     private $text;
 
-    public function run($filter_chain, $response)
+    public function run(filterChain $filter_chain, $response)
     {
         echo '<'.$this->getText('test') . '>';
         $filter_chain->next();

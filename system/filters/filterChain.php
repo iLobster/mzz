@@ -12,7 +12,7 @@
 
 /**
  * filterChain: реализация цепочки обязанностей для фильтров
- * 
+ *
  * @package system
  * @version 0.1
  */
@@ -56,7 +56,7 @@ class filterChain
      *
      * @param object $filter фильтр для добавления в цепочку
      */
-    public function registerFilter($filter)
+    public function registerFilter(iFilter $filter)
     {
         $this->filters[] = $filter;
     }

@@ -17,7 +17,7 @@
  * @version 0.1
  */
 
-class contentFilter
+class contentFilter implements iFilter
 {
     /**
      * запуск фильтра на исполнение
@@ -25,7 +25,7 @@ class contentFilter
      * @param filterChain $filter_chain объект, содержащий цепочку фильтров
      * @param response $response объект, содержащий информацию, выводимую клиенту в браузер
      */
-    public function run($filter_chain, $response)
+    public function run(filterChain $filter_chain, $response)
     {
         $registry = Registry::instance();
         $httprequest = $registry->getEntry('httprequest');

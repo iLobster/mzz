@@ -3,41 +3,12 @@
 //error_reporting(E_ALL | E_STRICT);
 error_reporting(E_ALL);
 
-try {
+require_once 'init.php';
+require_once 'testsFinder.php';
 
-    require_once 'init.php';
-    require_once 'testsFinder.php';
-
-    $smarty = new mzzSmarty();
-    $smarty->template_dir  = '../templates';
-    $smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
-    $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
-    $smarty->debugging = DEBUG_MODE;
-
-    $registry = Registry::instance();
-    $registry->setEntry('smarty', $smarty);
-
-
-    $response = new response();
-
-    $filter_chain = new filterChain($response);
-    $filter_chain->registerFilter(new timingFilter());
-    $filter_chain->registerFilter(new testsRunner());
-    $filter_chain->process();
-
-    $response->send();
-
-    //$a = new testsRunner();
-    //$a->run();
-
-
-} catch (MzzException $e) {
-    $e->printHtml();
-}
-
-class testsRunner
+class testsRunner implements iFilter
 {
-    public function run($filter_chain, $response)
+    public function run(filterChain $filter_chain, $response)
     {
         ob_start();
         $casesBasedir = 'cases';
@@ -60,7 +31,7 @@ class testsRunner
         }
 
         echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-        
+
         $test->run(new HtmlReporter('windows-1251'));
 
         echo '<br /><a href="/tests/run.php"  style="color: black; font: 11px arial,verdana,tahoma;">';
@@ -90,5 +61,38 @@ class testsRunner
         $filter_chain->next();
     }
 }
+
+
+try {
+
+
+    $smarty = new mzzSmarty();
+    $smarty->template_dir  = '../templates';
+    $smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
+    $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
+    $smarty->debugging = DEBUG_MODE;
+
+    $registry = Registry::instance();
+    $registry->setEntry('smarty', $smarty);
+
+
+    $response = new response();
+
+    $filter_chain = new filterChain($response);
+    $filter_chain->registerFilter(new timingFilter());
+    $filter_chain->registerFilter(new testsRunner());
+    $filter_chain->process();
+
+    $response->send();
+
+    //$a = new testsRunner();
+    //$a->run();
+
+
+} catch (MzzException $e) {
+    $e->printHtml();
+}
+
+
 
 ?>

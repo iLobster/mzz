@@ -1,4 +1,5 @@
 <?php
+fileLoader::load('filters/iFilter');
 fileLoader::load('filters/filterChain');
 fileLoader::load('cases/filters/stubFilter.class');
 fileLoader::load('core/response');

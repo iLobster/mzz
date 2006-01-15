@@ -41,7 +41,7 @@ final class cachingResolver extends decoratingResolver
      *
      * @param object $resolver резолвер, который декорируется кэширующим резолвером
      */
-    public function __construct($resolver)
+    public function __construct(iResolver $resolver)
     {
         // задаём имя файла, в котором будет хранится кэш
         $filename = systemConfig::$pathToTemp . 'resolver.cache';
