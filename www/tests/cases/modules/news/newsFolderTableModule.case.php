@@ -4,7 +4,7 @@ fileLoader::load('news/newsFolderTableModule');
 
 class newsFolderTableModuleTest extends unitTestCase
 {
-    protected $tm;
+    private $newsFolder;
 
     public function setUp()
     {
@@ -24,8 +24,6 @@ class newsFolderTableModuleTest extends unitTestCase
         $data = array('id' => 3, 'name' => 'blabla');
         $stmt->bindArray($data);
         $stmt->execute();
-
-        $this->tm = new newsFolderTableModule();
     }
 
     public function cleardb()
@@ -33,10 +31,17 @@ class newsFolderTableModuleTest extends unitTestCase
         $this->db->query('DELETE FROM `news_tree`');
     }
 
-    public function testSelectFolder()
+    public function testSelectFolderExists()
     {
-        $this->assertTrue($this->tm->select('somefolder'));
+        $this->newsFolder = new newsFolderTableModule('somefolder');
+        $this->assertTrue($this->newsFolder->exists());
     }
+    
+    public function testSelectFolderNotExists()
+    {
+        $this->newsFolder = new newsFolderTableModule('not_exists_folder');
+        $this->assertFalse($this->newsFolder->exists());
+    }    
 
 }
 

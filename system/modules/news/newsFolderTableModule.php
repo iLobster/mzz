@@ -3,10 +3,12 @@
 class newsFolderTableModule
 {
     private $db;
+    private $path;
     private $data;
     
-    public function __construct()
+    public function __construct($path)
     {
+        $this->path = $path;
         $this->db = DB::factory();
     }
     
@@ -20,10 +22,10 @@ class newsFolderTableModule
         $this->data[$key] = $value;
     }
     
-    public function select($name)
+    public function exists()
     {
         $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':name', $this->path, PDO::PARAM_STR);
         $stmt->execute();
         
         if ($result = $stmt->fetch()) {
