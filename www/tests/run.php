@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 require_once 'init.php';
 require_once 'testsFinder.php';
 
+
 class testsRunner implements iFilter
 {
     public function run(filterChain $filter_chain, $response)
@@ -64,8 +65,6 @@ class testsRunner implements iFilter
 
 
 try {
-
-
     $smarty = new mzzSmarty();
     $smarty->template_dir  = '../templates';
     $smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
@@ -91,8 +90,11 @@ try {
 
 } catch (MzzException $e) {
     $e->printHtml();
+} catch (Exception $e) {
+    $name = get_class($e);
+    $e = new mzzException($e->getMessage(), $e->getCode());
+    $e->setName($name);
+    $e->printHtml();
 }
-
-
 
 ?>
