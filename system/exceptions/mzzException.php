@@ -32,8 +32,8 @@ class mzzException extends Exception
             if($this->getCode() != 0) {
                 $msg .= "[Code: " . $this->getCode() . "] ";
             }
-            $msg .= $this->getMessage() . "</b><br>";
-            $trace_msg = $msg . '<br><b>Trace:</b>';
+            $msg .= $this->getMessage() . "</b><br />";
+            $trace_msg = $msg . '<br /><b>Trace:</b>';
             $padding = 5;
             $traces = $this->getTrace();
             $count = count($traces);
@@ -66,18 +66,18 @@ class mzzException extends Exception
                 $args = substr($args, 0, strlen($args) - 2);
 
                 if(isset($trace['class']) && isset($trace['type'])) {
-                    $trace_msg .= '<b>In:</b> ' . $trace['class'] . $trace['type'] . $trace['function'] . '(' . $args . ')<br>';
+                    $trace_msg .= '<b>In:</b> ' . $trace['class'] . $trace['type'] . $trace['function'] . '(' . $args . ')<br />';
                 } else {
-                    $trace_msg .= '<b>In:</b> ' . $trace['function'] . '(' . $args . ')<br>';
+                    $trace_msg .= '<b>In:</b> ' . $trace['function'] . '(' . $args . ')<br />';
                 }
                 $trace_msg .= '</div>';
             }
-            $html .= '<b>Debug-mode включен</b>:<br>' . $trace_msg . '<br><br>';
-            $html .= '<b>Конфигурация</b><br>';
-            $html .= 'SAPI: <b>' . php_sapi_name() . '</b><br>';
-            $html .= 'Software: <b>' . (!empty($_SERVER["SERVER_SOFTWARE"]) ? $_SERVER["SERVER_SOFTWARE"] : "unknown") . '</b><br>';
-            $html .= 'PHP: <b>' . PHP_VERSION . ' on ' . PHP_OS . '</b><br>';
-            $html .= 'Версия CMS: <b>' . MZZ_VERSION . ' (Rev. ' . MZZ_VERSION_REVISION . ')</b><br>';
+            $html .= '<b>Debug-mode включен</b>:<br />' . $trace_msg . '<br /><br />';
+            $html .= '<b>Конфигурация</b><br />';
+            $html .= 'SAPI: <b>' . php_sapi_name() . '</b><br />';
+            $html .= 'Software: <b>' . (!empty($_SERVER["SERVER_SOFTWARE"]) ? $_SERVER["SERVER_SOFTWARE"] : "unknown") . '</b><br />';
+            $html .= 'PHP: <b>' . PHP_VERSION . ' on ' . PHP_OS . '</b><br />';
+            $html .= 'Версия CMS: <b>' . MZZ_VERSION . ' (Rev. ' . MZZ_VERSION_REVISION . ')</b><br />';
         } else {
             $html .= '<b>Debug-mode выключен</b>.';
         }
@@ -88,10 +88,11 @@ class mzzException extends Exception
 
     protected function getHtmlHeader()
     {
-        $header = '<html>
+        $header = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
              <head>
                 <title>Exception "' . $this->getName() . '"</title>
-                <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+                <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
                 <style type="text/css">
                     #error_table { border: 1px solid #D1D8DC; background-color: #FBFBFB; }
                     #error_content { font-family: tahoma, verdana, arial; font-size: 12px; color: #393939; padding: 8px; }
@@ -105,10 +106,10 @@ class mzzException extends Exception
             <table border="0" cellpadding="0" cellspacing="0" width="800" id="error_table">
                 <tr>
                     <td width="100%" id="error_header_left">'.$this->getName().'</td>
-                    <td align="right" id="error_header_right"><img src="/templates/images/error.gif" width="29" height="36" border="0" alt=""></td>
+                    <td align="right" id="error_header_right"><img src="/templates/images/error.gif" width="29" height="36" border="0" alt="" /></td>
                 </tr>
                 <tr>
-                <td colspan="2" id="error_content"><b>Система прерывает выполнение из-за ошибки при выполнении операции.</b><br><br>';
+                <td colspan="2" id="error_content"><b>Система прерывает выполнение из-за ошибки при выполнении операции.</b><br /><br />';
         return $header;
     }
 
@@ -116,7 +117,7 @@ class mzzException extends Exception
     {
         $footer = '</tr>
         </table>
-        <br>
+        <br />
         </body>
         </html>';
         return $footer;

@@ -27,3 +27,14 @@ CREATE TABLE `news` (
   `text` text NOT NULL,
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `news_tree` table : 
+#
+
+DROP TABLE IF EXISTS `news_tree`;
+
+CREATE TABLE `news_tree` (
+  `id` int(11) default NULL,
+  `name` char(255) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
