@@ -36,5 +36,6 @@ DROP TABLE IF EXISTS `news_tree`;
 
 CREATE TABLE `news_tree` (
   `id` int(11) default NULL,
-  `name` char(255) default NULL
+  `name` char(255) default NULL,
+  `parent` int(11) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
