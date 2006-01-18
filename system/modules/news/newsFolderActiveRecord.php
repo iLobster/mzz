@@ -4,7 +4,8 @@ class newsFolderActiveRecord
 {
     private $stmt;
     private $tm;
-    private $data;
+    private $data = false;
+
 
     function __construct($stmt, $tm)
     {
@@ -14,25 +15,30 @@ class newsFolderActiveRecord
 
     public function get($name)
     {
-        if (sizeof($this->data) === 0) {
+        if ($this->data == false) {
             $this->process();
         }
 
-        return (isset($this->data[$name])) ? $this->data[$name] : null;
+        return $this->data->get($name);
     }
 
     private function process()
     {
         $this->stmt->execute();
 
-        $this->data = $this->stmt->fetch();
+        $this->data = new arrayDataspace((array) $this->stmt->fetch());
 
         $this->stmt->closeCursor();
     }
 
     public function exists()
     {
-        return ($this->get('id') === null) ? false : true;
+
+        if ($this->data == false) {
+            $this->process();
+        }
+        //return ($this->get('id') === null) ? false : true;
+        return $this->data->exists('id');
     }
 
     public function getFolders()

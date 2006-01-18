@@ -56,6 +56,7 @@ class core
             fileLoader::load('core/sectionMapper');
             fileLoader::load('db/dbFactory');
             fileLoader::load('simple/simple.view');
+            fileLoader::load('dataspace/arrayDataspace');
 
 
             $smarty = new mzzSmarty();

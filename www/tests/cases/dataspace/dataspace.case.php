@@ -6,7 +6,7 @@ class arrayDataspaceTest extends unitTestCase
     private $dataspace;
     public function setUp()
     {
-        $this->dataspace = new arrayDataspace();
+        $this->dataspace = new arrayDataspace(array());
     }
 
 
@@ -25,6 +25,22 @@ class arrayDataspaceTest extends unitTestCase
     public function testArrayDataspaceExists()
     {
         $this->assertFalse($this->dataspace->exists('_not_exists_'));
+    }
+
+    public function testArrayDataspaceImport()
+    {
+        $items = array('foo' => 'foo', 'bar' => 'bar', 'test' => 'test');
+        $this->dataspace->import($items);
+        $this->assertEqual($this->dataspace->get('foo'), 'foo');
+        $this->assertEqual($this->dataspace->get('bar'), 'bar');
+        $this->assertEqual($this->dataspace->get('test'), 'test');
+    }
+
+    public function testArrayDataspaceExport()
+    {
+        $items = array('foo' => 'foo', 'bar' => 'bar', 'test' => 'test');
+        $this->dataspace->import($items);
+        $this->assertEqual($this->dataspace->export(), $items);
     }
 
     public function testArrayDataspaceDelete()

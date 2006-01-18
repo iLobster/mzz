@@ -3,7 +3,7 @@
 class newsActiveRecord
 {
     private $stmt;
-    private $data = array();
+    private $data = false;
     private $tm;
 
     public function __construct($stmt, $tm)
@@ -14,32 +14,32 @@ class newsActiveRecord
 
     public function get($name)
     {
-        if (sizeof($this->data) === 0) {
+        if ($this->data == false) {
             $this->process();
         }
 
-        return (isset($this->data[$name])) ? $this->data[$name] : null;
+        return $this->data->get($name);
     }
 
     public function extract()
     {
-        if (sizeof($this->data) === 0) {
+        if ($this->data == false) {
             $this->process();
         }
 
-        return $this->data;
+        return $this->data->export();
     }
 
     public function replaceData($data)
     {
-        $this->data = $data;
+        $this->data = new arrayDataspace($data);
     }
 
     private function process()
     {
         $this->stmt->execute();
 
-        $this->data = $this->stmt->fetch(PDO::FETCH_ASSOC);
+        $this->data = new arrayDataspace((array) $this->stmt->fetch(PDO::FETCH_ASSOC));
 
         $this->stmt->closeCursor();
     }

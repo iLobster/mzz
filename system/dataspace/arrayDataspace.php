@@ -5,6 +5,11 @@ class arrayDataspace implements iDataspace
 {
     protected $data;
 
+    public function __construct($data)
+    {
+        $this->import($data);
+    }
+
     public function set($key, $value)
     {
         if(!is_scalar($key)) {
@@ -36,6 +41,16 @@ class arrayDataspace implements iDataspace
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
         return isset($this->data[$key]);
+    }
+
+    public function import(Array $data)
+    {
+        $this->data = $data;
+    }
+
+    public function export()
+    {
+        return $this->data;
     }
 }
 ?>
