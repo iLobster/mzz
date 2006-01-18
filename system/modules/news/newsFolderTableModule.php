@@ -49,7 +49,8 @@ class newsFolderTableModule
 
     public function getItems($id)
     {
-
+        $newsTM = new newsTableModule();
+        return $newsTM->getList($id);
     }
 }
 

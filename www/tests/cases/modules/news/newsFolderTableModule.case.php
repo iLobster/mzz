@@ -41,7 +41,7 @@ class newsFolderTableModuleTest extends unitTestCase
         $this->db->query('DELETE FROM `news_tree`');
     }
 
-    public function testSelectFolderExists()
+    public function testSearchByName()
     {
         $path = 'somefolder';
         $newsFolder = $this->newsFolderTM->searchByName($path);
@@ -49,16 +49,6 @@ class newsFolderTableModuleTest extends unitTestCase
         $this->assertIsA($newsFolder, 'newsFolderActiveRecord');
         $this->assertTrue($newsFolder->exists());
         $this->assertTrue($newsFolder->get('name'), $path);
-    }
-
-    public function testSelectFolderNotExists()
-    {
-        $path = 'not_exists_folder';
-        $newsFolder = $this->newsFolderTM->searchByName($path);
-
-        $this->assertIsA($newsFolder, 'newsFolderActiveRecord');
-        $this->assertFalse($newsFolder->exists());
-        $this->assertIdentical($newsFolder->get('name'), null);
     }
 
     public function testGetSubfolders()
@@ -81,7 +71,12 @@ class newsFolderTableModuleTest extends unitTestCase
 
     public function testGetItems()
     {
+        $path = '';
+        $newsFolder = $this->newsFolderTM->searchByName($path);
+        $this->assertTrue($newsFolder->exists());
 
+        $items = $newsFolder->getItems();
+        var_dump($items);
     }
 }
 
