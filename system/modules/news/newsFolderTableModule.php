@@ -3,21 +3,17 @@
 class newsFolderTableModule
 {
     private $db;
-    private $path;
     private $data;
+    private $processed = false;
 
-    public function __construct($path)
+    public function __construct()
     {
-        $this->path = $path;
         $this->db = DB::factory();
     }
 
     public function get($key)
     {
-        if ($key == 'id') {
-            $this->exists();
-        }
-        if (sizeof($this->data) <= 1 && $key != 'id') {
+        if (!isset($this->data[$key]) && !$this->processed) {
             $this->process();
         }
         return isset($this->data[$key]) ? $this->data[$key] : null;
@@ -30,14 +26,17 @@ class newsFolderTableModule
 
     public function process()
     {
-        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `id` = :id');
-        $stmt->bindParam(':id', $this->get('id'), PDO::PARAM_INT);
-        $stmt->execute();
+        if ($this->exists()) {
+            $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `id` = :id');
+            $stmt->bindParam(':id', $this->get('id'), PDO::PARAM_INT);
+            $stmt->execute();
 
-        $data = $stmt->fetch();
-        foreach ($data as $key => $val) {
-            $this->set($key, $val);
+            $data = $stmt->fetch();
+            foreach ($data as $key => $val) {
+                $this->set($key, $val);
+            }
         }
+        $this->processed = true;
     }
 
     public function exists()
