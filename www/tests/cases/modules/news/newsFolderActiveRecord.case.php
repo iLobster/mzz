@@ -75,11 +75,19 @@ class newsFolderActiveRecordTest extends unitTestCase
         $this->assertEqual($newsFolderAR->get('name'), $name);
         $this->assertTrue($newsFolderAR->exists());
 
-        $this->TM->expectOnce('getFolders', array());
+        $this->TM->expectOnce('getFolders', array((string)1));
         $return = array('subfolder1', 'subfolder2');
         $this->TM->setReturnValue('getFolders', $return);
 
         $this->assertIdentical($newsFolderAR->getFolders(), $return);
+    }
+
+    public function testGetItems()
+    {
+        $name = '';
+        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
     }
 }
 
