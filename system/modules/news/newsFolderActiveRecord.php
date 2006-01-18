@@ -39,6 +39,11 @@ class newsFolderActiveRecord
     {
         return $this->tm->getFolders($this->get('id'));
     }
+
+    public function getItems()
+    {
+        return $this->tm->getItems($this->get('id'));
+    }
 }
 
 ?>

@@ -9,6 +9,8 @@ class newsFolderActiveRecordTest extends unitTestCase
 {
     protected $db;
     protected $TM;
+    protected $newsFolderAR;
+    protected $name;
 
     public function setUp()
     {
@@ -31,6 +33,10 @@ class newsFolderActiveRecordTest extends unitTestCase
         $stmt->execute();
 
         $this->TM = new mocknewsFolderTableModule();
+
+        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
+        $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
+        $this->newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
     }
 
     public function tearDown()
@@ -45,49 +51,43 @@ class newsFolderActiveRecordTest extends unitTestCase
 
     public function testGetFolder()
     {
-        $name = 'somefolder';
-        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
+        $this->name = 'somefolder';
 
-        $this->assertEqual($newsFolderAR->get('name'), $name);
-        $this->assertTrue($newsFolderAR->exists());
+        $this->assertEqual($this->newsFolderAR->get('name'), $this->name);
+        $this->assertTrue($this->newsFolderAR->exists());
     }
 
     public function testGetFolderNoExists()
     {
-        $name = 'not_exists_folder';
-        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
+        $this->name = 'not_exists_folder';
 
-        $this->assertNull($newsFolderAR->get('name'));
-        $this->assertFalse($newsFolderAR->exists());
+        $this->assertNull($this->newsFolderAR->get('name'));
+        $this->assertFalse($this->newsFolderAR->exists());
     }
 
     public function testGetSubfolders()
     {
-        $name = '';
-        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
+        $this->name = '';
 
-        $this->assertEqual($newsFolderAR->get('name'), $name);
-        $this->assertTrue($newsFolderAR->exists());
+        $this->assertEqual($this->newsFolderAR->get('name'), $this->name);
+        $this->assertTrue($this->newsFolderAR->exists());
 
         $this->TM->expectOnce('getFolders', array((string)1));
         $return = array('subfolder1', 'subfolder2');
         $this->TM->setReturnValue('getFolders', $return);
 
-        $this->assertIdentical($newsFolderAR->getFolders(), $return);
+        $this->assertIdentical($this->newsFolderAR->getFolders(), $return);
     }
 
     public function testGetItems()
     {
-        $name = '';
-        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
+        $this->name = '';
+
+        $this->TM->expectOnce('getItems', array((string)1));
+        $return = array('item1', 'item2');
+        $this->TM->setReturnValue('getItems', $return);
+
+        $this->assertIdentical($this->newsFolderAR->getItems(), $return);
     }
 }
 

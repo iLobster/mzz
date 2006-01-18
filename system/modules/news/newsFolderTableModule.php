@@ -72,6 +72,11 @@ class newsFolderTableModule
         }
         return null;
     }
+
+    public function getItems()
+    {
+
+    }
 }
 
 ?>
