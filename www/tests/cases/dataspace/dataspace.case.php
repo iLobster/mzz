@@ -40,6 +40,19 @@ class arrayDataspaceTest extends unitTestCase
         $this->assertFalse($this->dataspace->exists('foo'));
     }
 
+    public function testArrayDataspaceExceptions()
+    {
+        $methods = array("set", "get", "exists");
+        foreach ($methods as $method) {
+            try {
+                $this->dataspace->$method(array(), false);
+                $this->assertTrue(false, 'no exception thrown?');
+            } catch (Exception $e) {
+                $this->assertTrue(true);
+            }
+        }
+    }
+
 }
 
 ?>
