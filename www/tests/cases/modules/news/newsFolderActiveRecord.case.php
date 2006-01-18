@@ -50,6 +50,18 @@ class newsFolderActiveRecordTest extends unitTestCase
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
         $this->assertEqual($newsFolderAR->get('name'), $name);
+        $this->assertTrue($newsFolderAR->exists());
+    }
+
+    public function testGetFolderNoExists()
+    {
+        $name = 'not_exists_folder';
+        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
+
+        $this->assertNull($newsFolderAR->get('name'));
+        $this->assertFalse($newsFolderAR->exists());
     }
 }
 

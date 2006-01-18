@@ -29,6 +29,11 @@ class newsFolderActiveRecord
 
         $this->stmt->closeCursor();
     }
+
+    public  function exists()
+    {
+        return ($this->get('id') === null) ? false : true;
+    }
 }
 
 ?>
