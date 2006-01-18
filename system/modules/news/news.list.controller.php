@@ -24,12 +24,26 @@ class newsListController
         fileLoader::load('news.list.view');
         fileLoader::load("news/newsActiveRecord");
         fileLoader::load("news/newsTableModule");
+        fileLoader::load("news/newsFolderActiveRecord");
+        fileLoader::load("news/newsFolderTableModule");
+
     }
 
     public function getView()
     {
         // тут будет как нибудь похитрее - но пока не надо
-        return new newsListView(new newsTableModule());
+
+        $registry = Registry::instance();
+        $newsFolders = new newsFolderTableModule();
+
+        $httprequest = $registry->getEntry('httprequest');
+        $params = $httprequest->getParams();
+        if(!isset($params[0]) || !is_numeric($params[0])) {
+            $params[0] = 1; //???????
+        }
+        $folder = $newsFolders->searchByName($params[0]);
+        $data = $folder->getItems();
+        return new newsListView($data);
     }
 }
 
