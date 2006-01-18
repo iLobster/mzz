@@ -30,9 +30,14 @@ class newsFolderActiveRecord
         $this->stmt->closeCursor();
     }
 
-    public  function exists()
+    public function exists()
     {
         return ($this->get('id') === null) ? false : true;
+    }
+
+    public function getFolders()
+    {
+        return $this->tm->getFolders();
     }
 }
 

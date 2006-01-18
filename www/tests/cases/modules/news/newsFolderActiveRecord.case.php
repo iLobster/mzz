@@ -49,6 +49,7 @@ class newsFolderActiveRecordTest extends unitTestCase
         $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
+
         $this->assertEqual($newsFolderAR->get('name'), $name);
         $this->assertTrue($newsFolderAR->exists());
     }
@@ -62,6 +63,23 @@ class newsFolderActiveRecordTest extends unitTestCase
 
         $this->assertNull($newsFolderAR->get('name'));
         $this->assertFalse($newsFolderAR->exists());
+    }
+
+    public function testGetSubfolders()
+    {
+        $name = '';
+        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
+
+        $this->assertEqual($newsFolderAR->get('name'), $name);
+        $this->assertTrue($newsFolderAR->exists());
+
+        $this->TM->expectOnce('getFolders', array());
+        $return = array('subfolder1', 'subfolder2');
+        $this->TM->setReturnValue('getFolders', $return);
+
+        $this->assertIdentical($newsFolderAR->getFolders(), $return);
     }
 }
 
