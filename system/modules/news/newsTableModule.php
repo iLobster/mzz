@@ -11,8 +11,8 @@ class newsTableModule
 
     public function searchById($id)
     {
-        $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `id` = ?');
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `id` = :id');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         return new newsActiveRecord($stmt, $this);
     }

@@ -13,10 +13,11 @@ class newsFolderTableModule
 
     public function get($key)
     {
-        if (!isset($this->data[$key]) && !$this->processed) {
+        if (sizeof($this->data) === 0) {
             $this->process();
         }
-        return isset($this->data[$key]) ? $this->data[$key] : null;
+
+        return (isset($this->data[$name])) ? $this->data[$name] : null;
     }
 
     private function set($key, $value)
@@ -24,56 +25,29 @@ class newsFolderTableModule
         $this->data[$key] = $value;
     }
 
-    public function process()
+    public function searchByName($name)
     {
-        if ($this->exists()) {
-            $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `id` = :id');
-            $stmt->bindParam(':id', $this->get('id'), PDO::PARAM_INT);
-            $stmt->execute();
+        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
 
-            $data = $stmt->fetch();
-            foreach ($data as $key => $val) {
-                $this->set($key, $val);
-            }
-        }
-        $this->processed = true;
+        return new newsFolderActiveRecord($stmt, $this);
     }
 
-    public function exists()
+    public function getFolders($id)
     {
-        $stmt = $this->db->prepare('SELECT id FROM `news_tree` WHERE `name` = :name');
-        $stmt->bindParam(':name', $this->path, PDO::PARAM_STR);
+        $stmt = $this->db->prepare('SELECT `name` FROM `news_tree` WHERE `parent` = :id');
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
 
-        if ($result = $stmt->fetch()) {
-            $this->set('id', $result['id']);
-            return true;
+        $folders = array();
+        while ($data = $stmt->fetch()) {
+            $folders[] = $this->searchByName($data['name']);
         }
-        return false;
+
+        return $folders;
     }
 
-    public function getFolders()
-    {
-        if ($this->exists()) {
-            $id = $this->get('id');
-            $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `parent` = :id');
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-
-            $c = __CLASS__;
-
-            $result = array();
-
-            while ($folder = $stmt->fetch()) {
-                $result[] = new $c($folder['name']);
-            }
-
-            return $result;
-        }
-        return null;
-    }
-
-    public function getItems()
+    public function getItems($id)
     {
 
     }

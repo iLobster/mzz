@@ -4,7 +4,7 @@ fileLoader::load('news/newsFolderTableModule');
 
 class newsFolderTableModuleTest extends unitTestCase
 {
-    private $newsFolder;
+    private $newsFolderTM;
     private $data = array();
 
     public function setUp()
@@ -27,6 +27,8 @@ class newsFolderTableModuleTest extends unitTestCase
         $stmt->execute();
 
         $this->data = $data;
+
+        $this->newsFolderTM = new newsFolderTableModule();
     }
 
     public function tearDown()
@@ -42,34 +44,45 @@ class newsFolderTableModuleTest extends unitTestCase
     public function testSelectFolderExists()
     {
         $path = 'somefolder';
-        $newsFolderTM = new newsFolderTableModule();
-        //$this->assertEqual($newsFolderTM->exists());
+        $newsFolder = $this->newsFolderTM->searchByName($path);
+
+        $this->assertIsA($newsFolder, 'newsFolderActiveRecord');
+        $this->assertTrue($newsFolder->exists());
+        $this->assertTrue($newsFolder->get('name'), $path);
     }
 
-    /*
     public function testSelectFolderNotExists()
     {
-        $this->newsFolder = new newsFolderTableModule('not_exists_folder');
-        $this->assertFalse($this->newsFolder->exists());
+        $path = 'not_exists_folder';
+        $newsFolder = $this->newsFolderTM->searchByName($path);
+
+        $this->assertIsA($newsFolder, 'newsFolderActiveRecord');
+        $this->assertFalse($newsFolder->exists());
+        $this->assertIdentical($newsFolder->get('name'), null);
     }
 
-    public function testSelectSubfolders()
+    public function testGetSubfolders()
     {
-        $this->newsFolder = new newsFolderTableModule('');
-        $this->assertTrue($this->newsFolder->exists());
-        $subfolders = $this->newsFolder->getFolders();
+        $path = '';
+        $newsFolder = $this->newsFolderTM->searchByName($path);
+        $this->assertTrue($newsFolder->exists());
 
-        $this->assertTrue(is_array($subfolders), 'Должен возвращаться массив папок');
-        $this->assertEqual(sizeof($subfolders), 2);
+        $folders = $newsFolder->getFolders();
+        $this->assertTrue(is_array($folders), 'Должен возвращаться массив папок');
+        $this->assertEqual(sizeof($folders), 2);
 
-        $folders = '';
-        foreach ($subfolders as $key => $folder) {
-            $this->assertIsA($folder, 'newsFolderTableModule');
-            $this->assertEqual($this->data[$key + 2]['name'], $folder->get('name'));
+        foreach ($folders as $key => $folder) {
+            $id = $key + 2;
+            $this->assertIsA($folder, 'newsFolderActiveRecord');
+            $this->assertEqual($folder->get('name'), $this->data[$id]['name']);
         }
-    }
-    */
 
+    }
+
+    public function testGetItems()
+    {
+
+    }
 }
 
 ?>
