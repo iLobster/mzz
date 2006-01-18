@@ -61,11 +61,13 @@ class newsTableModuleTest extends unitTestCase
         $this->assertEqual($total - 1, 0);
     }
 
-    public function testGetList()
+    public function testSearchByFolder()
     {
-        $newsARarray = $this->newsTM->getList();
+        $folder_id = 1;
 
-        $query = 'SELECT * FROM `news`';
+        $newsARarray = $this->newsTM->searchByFolder($folder_id);
+
+        $query = 'SELECT * FROM `news` WHERE `folder_id` = ' . $folder_id;
         $result = $this->db->query($query);
         $i = 0;
         while ($data = $result->fetch()) {

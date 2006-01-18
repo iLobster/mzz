@@ -25,6 +25,7 @@ CREATE TABLE `news` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `text` text NOT NULL,
+  `folder_id` int(11) default NULL,
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -32,9 +33,9 @@ CREATE TABLE `news` (
 # Data for the `news` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news` (`id`, `title`, `text`) VALUES 
-  (1,'новость 1','текст 1'),
-  (2,'новость 2','текст 2'),
-  (4,'новость 3','текст 3');
+INSERT INTO `news` (`id`, `title`, `text`, `folder_id`) VALUES 
+  (1,'новость 1','текст 1',1),
+  (2,'новость 2','текст 2',1),
+  (4,'новость 3','текст 3',1);
 
 COMMIT;

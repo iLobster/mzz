@@ -17,13 +17,14 @@ class newsTableModule
         return new newsActiveRecord($stmt, $this);
     }
 
-    public function getList()
+    public function searchByFolder($id)
     {
         $result = array();
-        $stmt = $this->db->prepare('SELECT * FROM `news`');
+        $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `folder_id` = :id');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $i = 0;
-        while ($data = $stmt->fetch()) {
+        while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $result[$i] = new newsActiveRecord($stmt, $this);
             $result[$i]->replaceData($data);
             $i++;
@@ -34,8 +35,8 @@ class newsTableModule
 
     public function delete($id)
     {
-        $stmt = $this->db->prepare('DELETE FROM `news` WHERE `id` = ?');
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt = $this->db->prepare('DELETE FROM `news` WHERE `id` = :id');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
 

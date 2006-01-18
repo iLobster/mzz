@@ -25,6 +25,7 @@ CREATE TABLE `news` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `text` text NOT NULL,
+  `folder_id` int(11) default NULL,
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 

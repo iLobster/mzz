@@ -20,7 +20,8 @@ class newsListView extends simpleView
 {
     public function toString()
     {
-        $data = $this->tableModule->getList();
+        // в будущем список новостей будет получаться из newsFolderTableModule
+        $data = $this->tableModule->searchByFolder(1);
         $this->smarty->assign('news', $data);
         $this->smarty->assign('title', 'Новости -> Список');
         return $this->smarty->fetch('news.list.tpl');

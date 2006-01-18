@@ -15,11 +15,12 @@ class newsActiveRecordTest extends unitTestCase
 
         $this->cleardb();
 
-        $stmt = $this->db->prepare('INSERT INTO `news` (`id`, `title`, `text`) VALUES (?, ?, ?)');
+        $stmt = $this->db->prepare('INSERT INTO `news` (`id`, `title`, `text`, `folder_id`) VALUES (?, ?, ?, ?)');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->bindParam(2, $title, PDO::PARAM_STR);
         $stmt->bindParam(3, $text, PDO::PARAM_STR);
-        $id = '1'; $title = 'test_title_1'; $text = 'test_text_1';
+        $stmt->bindParam(4, $folder_id, PDO::PARAM_INT);
+        $id = '1'; $title = 'test_title_1'; $text = 'test_text_1'; $folder_id = 1;
         $stmt->execute();
 
         $this->TM = new mocknewsTableModule();
@@ -62,7 +63,7 @@ class newsActiveRecordTest extends unitTestCase
         $stmt = $this->db->prepare('SELECT * FROM `news` WHERE `id` = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $newsAR = new newsActiveRecord($stmt, $this->TM);
-        $this->assertEqual($newsAR->extract(), array('id' => 1, 'title' => 'test_title_1', 'text' => 'test_text_1'));
+        $this->assertEqual($newsAR->extract(), array('id' => 1, 'title' => 'test_title_1', 'text' => 'test_text_1', 'folder_id' => '1'));
     }
 
     public function testReplaceData()
