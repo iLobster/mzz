@@ -17,7 +17,7 @@ class cachingResolverTest extends unitTestCase
         @unlink(systemConfig::$pathToTemp . 'resolver.cache');
         $this->resolver = new cachingResolver($this->mock);
     }
-    
+
     function tearDown()
     {
         @unlink(systemConfig::$pathToTemp . 'resolver.cache');

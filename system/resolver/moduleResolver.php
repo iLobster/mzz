@@ -51,7 +51,11 @@ class moduleResolver extends partialFileResolver
         }
 
         if (preg_match('/^[a-z]+\/[a-z\.]+$/i', $request) == true) {
-            $result = 'modules/' . $request . '.php';
+            $result = 'modules/' . $request;
+        }
+        $ext = substr(strrchr($request, '.'), 1);
+        if ($ext != 'php' && $ext != 'ini') {
+            $result .= '.php';
         }
         return $result;
     }
