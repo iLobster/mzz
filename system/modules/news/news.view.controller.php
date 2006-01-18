@@ -33,7 +33,7 @@ class newsViewController
         $httprequest = $registry->getEntry('httprequest');
         $params = $httprequest->getParams();
         $tableModule = new newsTableModule();
-        $news = $tableModule->getNews($params[0]);
+        $news = $tableModule->searchById($params[0]);
         return new newsViewView($news);
     }
 }

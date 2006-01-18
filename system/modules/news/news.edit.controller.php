@@ -35,7 +35,7 @@ class newsEditController
         $params = $this->httprequest->getParams();
         $table_module = new newsTableModule();
 
-        $news = $table_module->getNews($params[0]);
+        $news = $table_module->searchById($params[0]);
         $form = newsEditForm::getForm($news);
 
         if($form->validate() == false) {
