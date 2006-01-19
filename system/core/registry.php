@@ -66,7 +66,8 @@ class Registry {
      */
     public function getEntry($key)
     {
-       // IF(strtolower($key) == 'smarty' ||  strtolower($key) == 'httprequest') die('IDIOT?');
+        debug_print_backtrace();
+        die;
         if($this->isEntry($key)) {
             if(!is_object($this->stack[0][$key])) {
                 $classname = $this->stack[0][$key];
@@ -81,8 +82,6 @@ class Registry {
             }
             return $this->stack[0][$key];
         } else {
-            debug_print_backtrace();
-            die('idiot....');
             return false;
         }
     }
