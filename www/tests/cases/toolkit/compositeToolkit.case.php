@@ -1,26 +1,8 @@
 <?php
-fileLoader::load('toolkit/iToolkit');
 fileLoader::load('toolkit/compositeToolkit');
 fileLoader::load('toolkit');
-
-class firstToolkitStub extends toolkit {
-    private $param = "foo";
-    function getFoo() {
-        return $this->param;
-    }
-    function setFoo($param) {
-        $this->param = $param;
-    }
-}
-class secondToolkitStub extends toolkit {
-    private $param = "bar";
-    function getBar() {
-        return $this->param;
-    }
-    function setBar($param) {
-        $this->param = $param;
-    }
-}
+fileLoader::load('cases/toolkit/firstToolkitStub.class');
+fileLoader::load('cases/toolkit/secondToolkitStub.class');
 
 class compositeToolkitTest extends unitTestCase
 {
@@ -37,14 +19,9 @@ class compositeToolkitTest extends unitTestCase
     public function testCompositeToolkit()
     {
         $toolkit = new compositeToolkit(new firstToolkitStub(), new secondToolkitStub());
-        $this->assertEqual($toolkit->getFoo(), "foo");
-        $this->assertEqual($toolkit->getBar(), "bar");
-        $foo = "foo2";
-        $bar = "bar2";
-        $toolkit->setFoo($foo);
-        $toolkit->setBar($bar);
-        $this->assertEqual($toolkit->getFoo(), $foo);
-        $this->assertEqual($toolkit->getBar(), $bar);
+        $this->assertIsA($toolkit->getToolkit("getFoo"), "firstToolkitStub");
+        $this->assertIsA($toolkit->getToolkit("getBar"), "secondToolkitStub");
+        $this->assertFalse($toolkit->getToolkit("getNonExists"));
     }
 
 

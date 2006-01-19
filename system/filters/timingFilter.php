@@ -29,11 +29,8 @@ class timingFilter implements iFilter
      */
     public function run(filterChain $filter_chain, $response)
     {
-        $timer = new timer();
-        $timer->start();
-
-        $registry = Registry::instance();
-        $registry->setEntry('sysTimer', $timer);
+        $toolkit = systemToolkit::getInstance();
+        $toolkit->getTimer();
 
         $filter_chain->next();
     }

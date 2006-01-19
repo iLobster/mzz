@@ -106,13 +106,12 @@ class frontController
     {
         $section = $this->getSection();
         $action = $this->getAction();
-        $registry = Registry::instance();
-        $sectionMapper = $registry->getEntry('sectionMapper');
-
+        $toolkit = systemToolkit::getInstance();
+        $sectionMapper = $toolkit->getSectionMapper();
 		// хм..... мне казалось мы тогда решили что этот единственный реврайт / -> /news/list будет делать .htaccess??
         if (($template = $sectionMapper->getTemplateName($section, $action)) === false) {
-            $registry = Registry::instance();
-            $config = $registry->getEntry('config');
+            $config = $toolkit->getConfig();
+
             $config->load('common');
 
             $section = $config->getOption('main', 'default_section');

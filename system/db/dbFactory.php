@@ -30,8 +30,8 @@ class Db
     public static function factory()
     {
         if(self::$callback == false) {
-            $registry = Registry::instance();
-            $config = $registry->getEntry('config');
+            $toolkit = systemToolkit::getInstance();
+            $config = $toolkit->getConfig();
             $config->load('common');
             $driver = $config->getOption('db', 'driver');
             fileLoader::load('db/drivers/' . $driver);

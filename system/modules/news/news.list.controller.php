@@ -32,11 +32,11 @@ class newsListController
     public function getView()
     {
         // тут будет как нибудь похитрее - но пока не надо
-
-        $registry = Registry::instance();
         $newsFolders = new newsFolderTableModule();
 
-        $httprequest = $registry->getEntry('httprequest');
+        $toolkit = systemToolkit::getInstance();
+        $httprequest = $toolkit->getRequest();
+
         $params = $httprequest->getParams();
         if(!isset($params[0])) {
             $params[0] = "/";

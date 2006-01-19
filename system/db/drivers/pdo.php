@@ -73,8 +73,8 @@ class mzzPdo extends PDO {
     {
         if (!isset(self::$instance)) {
                 $classname = __CLASS__;
-                $registry = Registry::instance();
-                $config = $registry->getEntry('config');
+                $toolkit = systemToolkit::getInstance();
+                $config = $toolkit->getConfig();
                 $config->load('common');
                 $dsn = $config->getOption('db', 'dsn');
                 $username = $config->getOption('db', 'user');

@@ -29,9 +29,10 @@ class newsViewController
     public function getView()
     {
         // тут будет как нибудь похитрее - но пока не надо
-        $registry = Registry::instance();
-        $httprequest = $registry->getEntry('httprequest');
+        $toolkit = systemToolkit::getInstance();
+        $httprequest = $toolkit->getRequest();
         $params = $httprequest->getParams();
+
         $tableModule = new newsTableModule();
         $news = $tableModule->searchById($params[0]);
         return new newsViewView($news);

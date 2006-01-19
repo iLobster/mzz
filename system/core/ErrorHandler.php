@@ -45,8 +45,8 @@ function ErrorHandler($errno, $errstr, $errfile, $errline)
         return false;
     }
 
-    $registry = Registry::instance();
-    $smarty = $registry->getEntry('smarty');
+    $toolkit = systemToolkit::getInstance();
+    $smarty = $toolkit->getSmarty();
     $params = array('software' => (!empty($_SERVER["SERVER_SOFTWARE"]) ? $_SERVER["SERVER_SOFTWARE"] : "unknown"),
                     'errortype' => $errortype, 'errstr' => $errstr, 'errfile' => $errfile, 'errline' => $errline,
                     'errno' => $errno, 'sapi' => php_sapi_name());

@@ -80,8 +80,8 @@ class HttpRequest
      */
     public function __construct()
     {
-        $registry = Registry::instance();
-        $rewrite = $registry->getEntry('rewrite');
+        $toolkit = systemToolkit::getInstance();
+        $rewrite = $toolkit->getRewrite();
         $this->post_vars = $_POST;
         $this->get_vars = $_GET;
         $this->cookie_vars = $_COOKIE;

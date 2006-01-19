@@ -65,15 +65,6 @@ class testsRunner implements iFilter
 
 
 try {
-    $smarty = new mzzSmarty();
-    $smarty->template_dir  = '../templates';
-    $smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
-    $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
-    $smarty->debugging = DEBUG_MODE;
-
-    $registry = Registry::instance();
-    $registry->setEntry('smarty', $smarty);
-
 
     $response = new response();
 

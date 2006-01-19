@@ -44,9 +44,10 @@ class core
             fileLoader::load('exceptions/init');
             fileLoader::load('template/mzzSmarty');
             fileLoader::load('core/ErrorHandler');
-            fileLoader::load('core/registry');
+            // fileLoader::load('core/registry'); // ѕока или скорее навсегда забиваем на него
             fileLoader::load('core/response');
             fileLoader::load('filters/init');
+
 
             fileLoader::load('config/config');
             fileLoader::load('request/rewrite');
@@ -54,28 +55,18 @@ class core
             fileLoader::load('request/requestParser');
             fileLoader::load('frontController');
             fileLoader::load('core/sectionMapper');
+
             fileLoader::load('db/dbFactory');
             fileLoader::load('simple/simple.view');
             fileLoader::load('dataspace/arrayDataspace');
 
+            fileLoader::load('toolkit');
+            fileLoader::load('toolkit/stdToolkit');
+            fileLoader::load('toolkit/systemToolkit');
 
-            $smarty = new mzzSmarty();
-            $smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
-            $smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
-            $smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
-            $smarty->debugging = DEBUG_MODE;
+            $toolkit = systemToolkit::getInstance();
+            $toolkit->getToolkit()->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
 
-            $registry = Registry::instance();
-            $config = new config(systemConfig::$pathToConf . 'common.ini');
-            $sectionMapper = new sectionMapper(fileLoader::resolve('configs/map.xml'));
-            $rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
-
-            $registry->setEntry('rewrite', $rewrite);
-            $registry->setEntry('httprequest', 'HttpRequest');
-            $registry->setEntry('config', $config);
-            $registry->setEntry('smarty', $smarty);
-            $registry->setEntry('sectionMapper', $sectionMapper);
-            $registry->setEntry('htmlquickform', 'HTML_QuickForm');
 
             $response = new response();
 

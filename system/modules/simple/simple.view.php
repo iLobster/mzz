@@ -40,8 +40,8 @@ class simpleView
 
     private function getSmarty()
     {
-        $registry = Registry::instance();
-        return $registry->getEntry('smarty');
+        $toolkit = systemToolkit::getInstance();
+        return $toolkit->getSmarty();
     }
 }
 

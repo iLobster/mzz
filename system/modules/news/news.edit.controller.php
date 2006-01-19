@@ -30,8 +30,8 @@ class newsEditController
 
     public function getView()
     {
-        $registry = Registry::instance();
-        $this->httprequest = $registry->getEntry('httprequest');
+        $toolkit = systemToolkit::getInstance();
+        $this->httprequest = $toolkit->getRequest();
         $params = $this->httprequest->getParams();
         $table_module = new newsTableModule();
 

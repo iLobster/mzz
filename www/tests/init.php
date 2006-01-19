@@ -48,16 +48,21 @@ fileLoader::load('db/dbFactory');
 fileLoader::load('filters/init');
 fileLoader::load('core/response');
 fileLoader::load('template/mzzSmarty');
-fileLoader::load('core/registry');
 fileLoader::load('request/rewrite');
 
+/*
+fileLoader::load('core/registry');
 $rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
 $registry = Registry::instance();
 $registry->setEntry('rewrite', $rewrite);
-
-
 $registry = Registry::instance();
 $config = new config(systemConfig::$pathToConf . 'common.ini');
-$registry->setEntry('config', $config);
+$registry->setEntry('config', $config);*/
+fileLoader::load('toolkit');
+fileLoader::load('toolkit/stdToolkit');
+fileLoader::load('toolkit/systemToolkit');
+
+$toolkit = systemToolkit::getInstance();
+$toolkit->getToolkit()->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
 
 ?>

@@ -27,8 +27,8 @@ class contentFilter implements iFilter
      */
     public function run(filterChain $filter_chain, $response)
     {
-        $registry = Registry::instance();
-        $httprequest = $registry->getEntry('httprequest');
+        $toolkit = systemToolkit::getInstance();
+        $httprequest = $toolkit->getRequest();
 
         $application = $httprequest->getSection();
         $action = $httprequest->getAction();
@@ -36,7 +36,7 @@ class contentFilter implements iFilter
         $frontcontroller = new frontController($application, $action);
         $template = $frontcontroller->getTemplate();
 
-        $smarty = $registry->getEntry('smarty');
+        $smarty = $toolkit->getSmarty();
         $response->append($smarty->fetch($template));
 
         $filter_chain->next();

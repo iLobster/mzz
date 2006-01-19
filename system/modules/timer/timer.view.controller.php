@@ -26,8 +26,8 @@ class timerViewController
 
     public function getView()
     {
-        $registry = Registry::instance();
-        $timer = $registry->getEntry('sysTimer');
+        $toolkit = systemToolkit::getInstance();
+        $timer = $toolkit->getTimer();
         $timer->finish();
         return new timerViewView($timer);
     }

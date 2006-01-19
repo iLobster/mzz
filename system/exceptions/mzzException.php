@@ -38,6 +38,12 @@ class mzzException extends Exception
             $traces = $this->getTrace();
             $count = count($traces);
             foreach ($traces as $trace) {
+                if(!isset($trace['file'])) {
+                    $trace['file'] = 'unknown';
+                }
+                if(!isset($trace['line'])) {
+                    $trace['line'] = 'unknown';
+                }
                 $padding += 5;
                 $count--;
                 $trace_msg .= "<div style='padding: 3px; padding-left: " . $padding . "px; font-size: 10px; background-color: #F1F1F1; '>";
