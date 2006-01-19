@@ -59,4 +59,5 @@ CHANGELOG
 - Добавлены новые интерфейсы: iResolver и iFilter
 - Добавлен ArrayDataspace
 - Toolkit вместо Registry
+- Обновление Smarty 2.6.11 до версии 2.6.12
 ============================================
