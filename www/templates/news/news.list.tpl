@@ -8,4 +8,4 @@
 	{/foreach}
 </table>
 
-<a href="/news/1/list"> Папка 1 </a> / <a href="/news/2/list"> Папка 2</a>
+<a href="/news/list"> Папка 1 </a> / <a href="/news/folder2/list"> Папка 2</a>

@@ -55,8 +55,7 @@ CREATE TABLE `news_tree` (
 # Data for the `news_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_tree` VALUES (1, '1', NULL);
-INSERT INTO `news_tree` VALUES (2, '2', NULL);
-INSERT INTO `news_tree` VALUES (3, '3', NULL);
+INSERT INTO `news_tree` VALUES (1, '/', NULL);
+INSERT INTO `news_tree` VALUES (2, '/folder2', NULL);
 
 COMMIT;

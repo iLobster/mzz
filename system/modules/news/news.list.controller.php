@@ -38,8 +38,8 @@ class newsListController
 
         $httprequest = $registry->getEntry('httprequest');
         $params = $httprequest->getParams();
-        if(!isset($params[0]) || !is_numeric($params[0])) {
-            $params[0] = 1; //???????
+        if(!isset($params[0])) {
+            $params[0] = "/";
         }
         $folder = $newsFolders->searchByName($params[0]);
         $data = $folder->getItems();
