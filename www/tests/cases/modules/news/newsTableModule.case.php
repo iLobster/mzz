@@ -58,7 +58,8 @@ class newsTableModuleTest extends unitTestCase
         $result->closeCursor();
         $this->newsTM->delete($id);
         $result = $this->db->query($query);
-        $this->assertEqual($total - 1, 0);
+        $total2 = $result->fetch(PDO::FETCH_OBJ)->total;
+        $this->assertEqual($total - $total2, 1);
     }
 
     public function testSearchByFolder()

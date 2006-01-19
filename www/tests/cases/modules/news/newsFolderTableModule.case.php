@@ -54,11 +54,7 @@ class newsFolderTableModuleTest extends unitTestCase
 
     public function testGetSubfolders()
     {
-        $path = '';
-        $newsFolder = $this->newsFolderTM->searchByName($path);
-        $this->assertTrue($newsFolder->exists());
-
-        $folders = $newsFolder->getFolders();
+        $folders = $this->newsFolderTM->getFolders(1);
         $this->assertTrue(is_array($folders), 'Должен возвращаться массив папок');
         $this->assertEqual(sizeof($folders), 2);
 
@@ -85,11 +81,7 @@ class newsFolderTableModuleTest extends unitTestCase
         $stmt->bindArray($data[3]);
         $stmt->execute();
 
-        $path = '';
-        $newsFolder = $this->newsFolderTM->searchByName($path);
-        $this->assertTrue($newsFolder->exists());
-
-        $items = $newsFolder->getItems();
+        $items = $this->newsFolderTM->getItems(1);
 
         $this->assertEqual(sizeof($items), 2);
 
@@ -101,8 +93,32 @@ class newsFolderTableModuleTest extends unitTestCase
 
     public function testDeleteFolder()
     {
-        $path = 'somefolder';
-        $newsFolder = $this->newsFolderTM->searchByName($path);
+        $id = 2;
+
+        $query = 'SELECT COUNT(*) AS `total` FROM `news_news_tree` WHERE `id` = ' . $id;
+        $result = $this->db->query($query);
+        $total = $result->fetch(PDO::FETCH_OBJ)->total;
+        $result->closeCursor();
+
+        $this->assertTrue($this->newsFolderTM->delete($id));
+
+        $result = $this->db->query($query);
+        $total2 = $result->fetch(PDO::FETCH_OBJ)->total;
+        $this->assertEqual($total - $total2, 1);
+    }
+
+    public function testUpdateFolder()
+    {
+        $data = array('id' => 2, 'name' => 'new_folder_name', 'parent' => 3);
+        $this->assertTrue($this->newsFolderTM->update($data));
+
+        $query = 'SELECT COUNT(*) AS `count` FROM `news_news_tree` WHERE `id` = :id AND `name` = :name AND `parent`= :parent';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindArray($data);
+        $stmt->execute();
+        $result = $stmt->fetch();
+
+        $this->assertEqual($result['count'], 1);
     }
 }
 

@@ -16,12 +16,12 @@ CREATE DATABASE `mzz_test`
 USE `mzz_test`;
 
 #
-# Structure for the `news` table : 
+# Structure for the `news_news` table : 
 #
 
-DROP TABLE IF EXISTS `news`;
+DROP TABLE IF EXISTS `news_news`;
 
-CREATE TABLE `news` (
+CREATE TABLE `news_news` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `text` text NOT NULL,
@@ -30,12 +30,12 @@ CREATE TABLE `news` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `news_tree` table : 
+# Structure for the `news_news_tree` table : 
 #
 
-DROP TABLE IF EXISTS `news_tree`;
+DROP TABLE IF EXISTS `news_news_tree`;
 
-CREATE TABLE `news_tree` (
+CREATE TABLE `news_news_tree` (
   `id` int(11) default NULL,
   `name` char(255) default NULL,
   `parent` int(11) default NULL
