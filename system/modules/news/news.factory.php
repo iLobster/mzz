@@ -13,119 +13,187 @@
  * NewsFactory: фабрика дл€ получени€ контроллеров новостей
  *
  * @package news
- * @version 0.1
+ * @version 0.3
  */
 
 class newsFactory
 {
-	// действие
-	private $action;
-
-	// действи€
-	private $actions = array();
-
-	// действие по умолчанию
-	private $defaultAction;
-
-	// инстанци€ фабрики
-	private static $instance;
-
-	// конструктор дл€ фабрики
-	function __construct($action)
-	{
-		$this->setDefaultAction('list');
-		$this->setAction($action);
-	}
-
-	// метод получени€ необходимого контроллера
-	public function getController()
-	{
-		$action = $this->getAction();
-		fileLoader::load('news.' . $action['controller'] . '.controller');
-		// тут возможно заменим константы news на метод $this->getName
-		$classname = 'news' . $action['controller'] . 'Controller';
-		return new $classname();
-	}
-
-	// синглтон дл€ фабрики
-	public static function getInstance()
-	{
-		if ( !isset(self::$instance) ) {
-			$c = __CLASS__;
-			self::$instance = new $c;
-		}
-		return self::$instance;
-	}
-
-	// метод установки действи€
-	public function setAction($action)
-	{
-		$this->action = $this->checkAction( $action );
-	}
-
-	// метод получени€ действи€
-	public function getAction()
-	{
-		$actions = $this->getActions();
-		$this->action = $this->checkAction( $this->action );
-		return $actions[$this->action];
-	}
-
-	// метод получени€ списка действий
-	private function getActions()
-	{
-	    // возможно, даже почти наверн€ка список действий будет выгл€деть немного
-	    // по другому, изменим когда будет нужно
-		return $this->getActionsConfig("news");
-	}
-
-	 /**
-     * „тение XML-конфига
+    /**
+     * Module action
      *
-     * @param string $section
-     * @param string $action
-     * @return false если требуемой секции нет
+     * @var string
      */
-    private function xmlRead($section)
+    protected $action;
+
+    /**
+     * Module actions
+     *
+     * @var array
+     */
+    protected $actions = array();
+
+    /**
+     * действие по умолчанию
+     *
+     * @var string
+     */
+    protected $defaultAction;
+
+    /**
+     * Factory Instance
+     *
+     * @var object
+     * @deprecated ??????
+    private static $instance;
+    */
+
+    /**
+     * »м€ модул€
+     *
+     * @var string
+     */
+    protected $name = "news"; // оставить его здесь или брать из “ћ? »ли тм должен брать отсюда?
+
+    /**
+     * Constructor
+     *
+     * @param string $action
+     */
+    public function __construct($action)
     {
-        $xml = simplexml_load_file(fileLoader::resolve('configs/actions.xml'));
-        if (empty($this->actions) && !empty($xml->$section)) {
-            foreach ($xml->$section->action as $action) {
-                $this->actions[(string)$action['controller']] = array('controller' => (string)$action);
-            }
+        $this->setDefaultAction('list');
+        $this->setAction($action);
+    }
+
+    /**
+     * «агрузка и создание необходимого контроллера
+     *
+     * @return object
+     */
+    public function getController()
+    {
+        $action = $this->getAction();
+        fileLoader::load($this->name . '.' . $action['controller'] . '.controller');
+        // тут возможно заменим константы news на метод $this->getName
+        $classname = $this->name . $action['controller'] . 'Controller';
+        return new $classname();
+    }
+
+    /**
+     * Singleton
+     * @deprecated ????
+     * @return object
+
+    public static function getInstance()
+    {
+        if ( !isset(self::$instance) ) {
+            $c = __CLASS__;
+            self::$instance = new $c;
+        }
+        return self::$instance;
+    }
+    */
+
+    /**
+     * ”становка действи€
+     * ≈сли такое действие не найдено у модул€, то устанавливаетс€
+     * действие по умолчанию.
+     *
+     * @param string $action
+     */
+    public function setAction($action)
+    {
+        $this->action = $this->checkAction( $action );
+    }
+
+    /**
+     * ¬озвращает действие
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        $actions = $this->getActions();
+        $this->action = $this->checkAction($this->action);
+        return $actions[$this->action];
+    }
+
+    /**
+     * ¬озвращает все допустимые действи€
+     *
+     * @return string
+     */
+    private function getActions()
+    {
+        // возможно, даже почти наверн€ка список действий будет выгл€деть немного
+        // по другому, изменим когда будет нужно
+        return $this->getActionsConfig($this->name);
+    }
+
+    /**
+     * „тение INI-конфига
+     *
+     * @param string $filename путь до INI-файла
+     * @return string
+     */
+    private function iniRead($filename)
+    {
+        if(!file_exists($filename)) {
+            throw new mzzRuntimeException("Cann't find file '" . $filename . "'");
+        }
+        $ini = parse_ini_file($filename);
+        foreach ($ini as $key => $value) {
+            $this->actions[$key] = array('controller' => $value);
         }
         return $this->actions;
     }
 
     /**
-     * ѕолучение всех правил
+     * ѕолучение всех допустимых действий дл€ модул€
      *
-     * @param string $section
+     * @param string $name им€ млжуд€
      */
-    public function getActionsConfig($section)
+    public function getActionsConfig($name)
     {
-        return $this->XMLread($section);
+        if(empty($this->actions)) {
+            $this->iniRead(fileLoader::resolve($name . '/actions.ini'));
+        }
+        return $this->actions;
     }
 
-	// установка действи€ по умолчанию
-	public function setDefaultAction($action)
-	{
-		$this->defaultAction = $this->checkAction($action);
-	}
+    /**
+     * ”станавливает действие по умолчанию
+     *
+     * @param string $action
+     */
+    public function setDefaultAction($action)
+    {
+        $this->defaultAction = $this->checkAction($action);
+    }
 
-	// получение действи€ по умолчанию
-	public function getDefaultAction()
-	{
-		return $this->defaultAction;
-	}
+    /**
+     * ¬озвращает действие по умолчанию
+     *
+     * @return string
+     */
+    public function getDefaultAction()
+    {
+        return $this->defaultAction;
+    }
 
-	// проверка действи€
-	private function checkAction($action)
-	{
-		$actions = $this->getActions();
-		if ( !isset( $actions[$action] ) ) {
-			$action = $this->getDefaultAction();
-		}
-		return $action;
-	}
+    /**
+     * ѕровер€ет существует ли действие у модул€.
+     * ≈сли действие не существует, возвращаетс€ действие по умолчанию
+     *
+     * @param string $action действие
+     * @return string
+     */
+    private function checkAction($action)
+    {
+        $actions = $this->getActions();
+        if (!isset($actions[$action])) {
+            $action = $this->getDefaultAction();
+        }
+        return $action;
+    }
 }

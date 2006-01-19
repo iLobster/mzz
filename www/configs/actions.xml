@@ -1,8 +1,0 @@
-<?xml version='1.0' standalone='yes'?>
-<actions>
-    <news>
-	   <action controller="list">list</action>
-	   <action controller="view">view</action>
-	   <action controller="edit">edit</action>
-	</news>
-</actions>
