@@ -18,7 +18,7 @@ class newsFolderActiveRecordTest extends unitTestCase
 
         $this->cleardb();
 
-        $stmt = $this->db->prepare('INSERT INTO `news_tree` (`id`, `name`, `parent`) VALUES (:id, :name, :parent)');
+        $stmt = $this->db->prepare('INSERT INTO `news_news_tree` (`id`, `name`, `parent`) VALUES (:id, :name, :parent)');
 
         $data[1] = array('id' => 1, 'name' => '', 'parent' => 0);
         $stmt->bindArray($data[1]);
@@ -34,7 +34,7 @@ class newsFolderActiveRecordTest extends unitTestCase
 
         $this->TM = new mocknewsFolderTableModule();
 
-        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
+        $stmt = $this->db->prepare('SELECT * FROM `news_news_tree` WHERE `name` = :name');
         $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
         $this->newsFolderAR = new newsFolderActiveRecord($stmt, $this->TM);
     }
@@ -46,7 +46,7 @@ class newsFolderActiveRecordTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('DELETE FROM `news_tree`');
+        $this->db->query('DELETE FROM `news_news_tree`');
     }
 
     public function testGetFolder()
@@ -83,11 +83,32 @@ class newsFolderActiveRecordTest extends unitTestCase
     {
         $this->name = '';
 
-        $this->TM->expectOnce('getItems', array((string)1));
+        $this->TM->expectOnce('getItems', array('1'));
         $return = array('item1', 'item2');
         $this->TM->setReturnValue('getItems', $return);
 
         $this->assertIdentical($this->newsFolderAR->getItems(), $return);
+    }
+
+    public function testDeleteFolder()
+    {
+        $this->name = 'somefolder';
+
+        $this->TM->expectOnce('delete', array('2'));
+        $this->TM->setReturnValue('delete', true);
+
+        $this->assertTrue($this->newsFolderAR->delete());
+    }
+
+    public function testUpdateFolder()
+    {
+        $this->name = 'somefolder';
+
+        $data = array('id' => 2, 'name' => 'new_folder_name', 'parent' => 3);
+        $this->TM->expectOnce('update', array($data));
+        $this->TM->setReturnValue('update', true);
+
+        $this->assertTrue($this->newsFolderAR->update($data));
     }
 }
 

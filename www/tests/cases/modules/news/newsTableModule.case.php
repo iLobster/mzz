@@ -14,7 +14,7 @@ class newsTableModuleTest extends unitTestCase
 
         $this->newsTM = new newsTableModule();
 
-        $stmt = $this->db->prepare('INSERT INTO `news` (`id`, `title`, `text`) VALUES (?, ?, ?)');
+        $stmt = $this->db->prepare('INSERT INTO `news_news` (`id`, `title`, `text`) VALUES (?, ?, ?)');
 
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->bindParam(2, $title, PDO::PARAM_STR);
@@ -32,7 +32,7 @@ class newsTableModuleTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('DELETE FROM `news`');
+        $this->db->query('DELETE FROM `news_news`');
     }
 
     public function testGetNews()
@@ -52,7 +52,7 @@ class newsTableModuleTest extends unitTestCase
     public function testDeleteNews()
     {
         $id = 1;
-        $query = 'SELECT COUNT(*) AS `total` FROM `news` WHERE `id` = ' . $id;
+        $query = 'SELECT COUNT(*) AS `total` FROM `news_news` WHERE `id` = ' . $id;
         $result = $this->db->query($query);
         $total = $result->fetch(PDO::FETCH_OBJ)->total;
         $result->closeCursor();
@@ -67,7 +67,7 @@ class newsTableModuleTest extends unitTestCase
 
         $newsARarray = $this->newsTM->searchByFolder($folder_id);
 
-        $query = 'SELECT * FROM `news` WHERE `folder_id` = ' . $folder_id;
+        $query = 'SELECT * FROM `news_news` WHERE `folder_id` = ' . $folder_id;
         $result = $this->db->query($query);
         $i = 0;
         while ($data = $result->fetch()) {
@@ -81,7 +81,7 @@ class newsTableModuleTest extends unitTestCase
         $data =array('id' => 1, 'title' => 'new_test_title', 'text' => 'new_test_text');
         $this->newsTM->update($data);
 
-        $query = 'SELECT COUNT(*) AS `count` FROM `news` WHERE `id` = :id AND `title` = :title AND `text`= :text';
+        $query = 'SELECT COUNT(*) AS `count` FROM `news_news` WHERE `id` = :id AND `title` = :title AND `text`= :text';
         $stmt = $this->db->prepare($query);
         $stmt->bindArray($data);
         $stmt->execute();

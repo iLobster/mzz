@@ -4,11 +4,23 @@ class newsFolderTableModule
 {
     private $db;
     private $data;
-    private $processed = false;
+    private $table;
 
     public function __construct()
     {
         $this->db = DB::factory();
+        $this->table = $this->getName() . '_' .$this->getSection() . '_tree';
+    }
+
+    protected function getName()
+    {
+        return 'news';
+    }
+
+    private function getSection()
+    {
+        // будет как то браться из реквеста
+        return 'news';
     }
 
     public function get($key)
@@ -27,7 +39,7 @@ class newsFolderTableModule
 
     public function searchByName($name)
     {
-        $stmt = $this->db->prepare('SELECT * FROM `news_tree` WHERE `name` = :name');
+        $stmt = $this->db->prepare('SELECT * FROM `' . $this->table . '` WHERE `name` = :name');
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
 
         return new newsFolderActiveRecord($stmt, $this);
@@ -35,7 +47,7 @@ class newsFolderTableModule
 
     public function getFolders($id)
     {
-        $stmt = $this->db->prepare('SELECT `name` FROM `news_tree` WHERE `parent` = :id');
+        $stmt = $this->db->prepare('SELECT `name` FROM `' . $this->table . '` WHERE `parent` = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
 
@@ -51,6 +63,16 @@ class newsFolderTableModule
     {
         $newsTM = new newsTableModule();
         return $newsTM->searchByFolder($id);
+    }
+
+    public function delete($id)
+    {
+
+    }
+
+    public function update()
+    {
+
     }
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+fileLoader::load('dataspace/arrayDataspace');
+
 class newsFolderActiveRecord
 {
     private $stmt;
@@ -49,6 +51,16 @@ class newsFolderActiveRecord
     public function getItems()
     {
         return $this->tm->getItems($this->get('id'));
+    }
+
+    public function delete()
+    {
+        return $this->tm->delete($this->get('id'));
+    }
+
+    public function update($data)
+    {
+        return $this->tm->update($data);
     }
 }
 

@@ -12,7 +12,7 @@ class newsFolderTableModuleTest extends unitTestCase
         $this->db = DB::factory();
         $this->cleardb();
 
-        $stmt = $this->db->prepare('INSERT INTO `news_tree` (`id`, `name`, `parent`) VALUES (:id, :name, :parent)');
+        $stmt = $this->db->prepare('INSERT INTO `news_news_tree` (`id`, `name`, `parent`) VALUES (:id, :name, :parent)');
 
         $data[1] = array('id' => 1, 'name' => '', 'parent' => 0);
         $stmt->bindArray($data[1]);
@@ -38,8 +38,8 @@ class newsFolderTableModuleTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('DELETE FROM `news_tree`');
-        $this->db->query('DELETE FROM `news`');
+        $this->db->query('DELETE FROM `news_news_tree`');
+        $this->db->query('DELETE FROM `news_news`');
     }
 
     public function testSearchByName()
@@ -72,7 +72,7 @@ class newsFolderTableModuleTest extends unitTestCase
 
     public function testGetItems()
     {
-        $stmt = $this->db->prepare('INSERT INTO `news` (`id`, `title`, `text`, `folder_id`) VALUES (:id, :title, :text, :folder_id)');
+        $stmt = $this->db->prepare('INSERT INTO `news_news` (`id`, `title`, `text`, `folder_id`) VALUES (:id, :title, :text, :folder_id)');
         $data[1] = array('id' => 1, 'title' => 'test_title_1', 'text' => 'test_text_1', 'folder_id' => 1);
         $stmt->bindArray($data[1]);
         $stmt->execute();
@@ -97,6 +97,12 @@ class newsFolderTableModuleTest extends unitTestCase
             $this->assertIsA($item, 'newsActiveRecord');
             $this->assertEqual($item->extract(), $data[$key + 1]);
         }
+    }
+
+    public function testDeleteFolder()
+    {
+        $path = 'somefolder';
+        $newsFolder = $this->newsFolderTM->searchByName($path);
     }
 }
 
