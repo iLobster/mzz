@@ -31,11 +31,10 @@ class newsListController
 
     public function getView()
     {
-        // тут будет как нибудь похитрее - но пока не надо
-        $newsFolders = new newsFolderTableModule();
-
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
+
+        $newsFolders = new newsFolderTableModule($httprequest->getSection());
 
         $params = $httprequest->getParams();
         if(!isset($params[0])) {

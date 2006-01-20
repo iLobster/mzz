@@ -31,9 +31,10 @@ class newsEditController
     public function getView()
     {
         $toolkit = systemToolkit::getInstance();
-        $this->httprequest = $toolkit->getRequest();
-        $params = $this->httprequest->getParams();
-        $table_module = new newsTableModule();
+        $httprequest = $toolkit->getRequest();
+        $params = $httprequest->getParams();
+
+        $table_module = new newsTableModule($httprequest->getSection());
 
         $news = $table_module->searchById($params[0]);
         $form = newsEditForm::getForm($news);

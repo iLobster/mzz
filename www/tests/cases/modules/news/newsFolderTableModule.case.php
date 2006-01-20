@@ -2,8 +2,6 @@
 
 fileLoader::load('news/newsFolderTableModule');
 
-mock::generate('httpRequest');
-
 class newsFolderTableModuleTest extends unitTestCase
 {
     private $newsFolderTM;
@@ -30,9 +28,7 @@ class newsFolderTableModuleTest extends unitTestCase
 
         $this->data = $data;
 
-        $request = new mockhttpRequest();
-        $request->expectOnce('getSection', array());
-        $this->newsFolderTM = new newsFolderTableModule($request);
+        $this->newsFolderTM = new newsFolderTableModule('news');
     }
 
     public function tearDown()

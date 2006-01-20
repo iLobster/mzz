@@ -12,7 +12,7 @@ class newsTableModuleTest extends unitTestCase
         $this->db = DB::factory();
         $this->cleardb();
 
-        $this->newsTM = new newsTableModule();
+        $this->newsTM = new newsTableModule('news');
 
         $stmt = $this->db->prepare('INSERT INTO `news_news` (`id`, `title`, `text`) VALUES (?, ?, ?)');
 

@@ -28,12 +28,11 @@ class newsViewController
 
     public function getView()
     {
-        // тут будет как нибудь похитрее - но пока не надо
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
         $params = $httprequest->getParams();
 
-        $tableModule = new newsTableModule();
+        $tableModule = new newsTableModule($httprequest->getSection());
         $news = $tableModule->searchById($params[0]);
         return new newsViewView($news);
     }

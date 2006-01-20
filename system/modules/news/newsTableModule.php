@@ -4,10 +4,12 @@ class newsTableModule
 {
     private $db;
     private $table;
+    private $section;
 
-    public function __construct()
+    public function __construct($section)
     {
         $this->db = DB::factory();
+        $this->section = $section;
         $this->table = $this->getName() . '_' .$this->getSection();
     }
 
@@ -18,8 +20,7 @@ class newsTableModule
 
     private function getSection()
     {
-        // будет как то браться из реквеста
-        return 'news';
+        return $this->section;
     }
 
     public function searchById($id)

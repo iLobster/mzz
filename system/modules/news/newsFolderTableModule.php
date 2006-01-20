@@ -5,13 +5,13 @@ class newsFolderTableModule
     private $db;
     private $data;
     private $table;
-    private $request;
+    private $section;
 
-    public function __construct(HttpRequest $request)
+    public function __construct($section)
     {
         $this->db = DB::factory();
+        $this->section = $section;
         $this->table = $this->getName() . '_' .$this->getSection() . '_tree';
-        $this->request = $request;
     }
 
     protected function getName()
@@ -21,12 +21,7 @@ class newsFolderTableModule
 
     private function getSection()
     {
-        /*
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
-        return $httprequest->getSection();*/
-        //return 'news';
-        return $this->request->getSection();
+        return $this->section;
     }
 
     public function get($key)
@@ -68,7 +63,7 @@ class newsFolderTableModule
 
     public function getItems($id)
     {
-        $newsTM = new newsTableModule();
+        $newsTM = new newsTableModule($this->getSection());
         return $newsTM->searchByFolder($id);
     }
 
