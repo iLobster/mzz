@@ -53,6 +53,10 @@ class newsActiveRecord
     {
         return $this->tm->update($data);
     }
+    public function create($data)
+    {
+        return $this->tm->create($data);
+    }
 }
 
 ?>

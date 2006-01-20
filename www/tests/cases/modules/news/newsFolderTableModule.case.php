@@ -120,6 +120,21 @@ class newsFolderTableModuleTest extends unitTestCase
 
         $this->assertEqual($result['count'], 1);
     }
+
+    public function testCreateFolder()
+    {
+        $data = array('name' => 'new_folder_name', 'parent' => 3);
+        $this->assertTrue($lastId = $this->newsFolderTM->create($data));
+        $data['id'] = $lastId;
+
+        $query = 'SELECT COUNT(*) AS `count` FROM `news_news_tree` WHERE `id` = :id AND `name` = :name AND `parent`= :parent';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindArray($data);
+        $stmt->execute();
+        $result = $stmt->fetch();
+
+        $this->assertEqual($result['count'], 1);
+    }
 }
 
 ?>

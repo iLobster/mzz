@@ -110,6 +110,16 @@ class newsFolderActiveRecordTest extends unitTestCase
 
         $this->assertTrue($this->newsFolderAR->update($data));
     }
+
+    public function testCreateFolder()
+    {
+        //$this->name = 'somefolder';
+
+        $data = array('name' => 'new_folder_name', 'parent' => 1);
+        $this->TM->expectOnce('create', array($data));
+        $this->TM->setReturnValue('create', true);
+        $this->assertTrue($this->newsFolderAR->create($data));
+    }
 }
 
 ?>

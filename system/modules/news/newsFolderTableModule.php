@@ -80,6 +80,16 @@ class newsFolderTableModule
         $stmt->bindArray($data);
         return $stmt->execute();
     }
+
+    public function create($data)
+    {
+        $stmt = $this->db->prepare("INSERT INTO  `" . $this->table . "` VALUES (0, :name, :parent)");
+        $stmt->bindArray($data);
+        if($stmt->execute()) {
+            return $this->db->lastInsertID();
+        }
+        return false;
+    }
 }
 
 ?>

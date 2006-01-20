@@ -86,6 +86,16 @@ class newsActiveRecordTest extends unitTestCase
         $newsAR = new newsActiveRecord($stmtStub, $this->TM);
         $newsAR->update($data);
     }
+    public function testCreateNews()
+    {
+        $data =array('title' => 'new_test_title', 'text' => 'new_test_text', 'folder_id' => 'folder_id');
+        $this->TM->expectOnce('create', array($data));
+        $this->TM->setReturnValue('create', true);
+
+        $stmtStub = new PDOStatement();
+        $newsAR = new newsActiveRecord($stmtStub, $this->TM);
+        $this->assertTrue($newsAR->create($data));
+    }
 }
 
 ?>

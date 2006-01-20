@@ -90,6 +90,20 @@ class newsTableModuleTest extends unitTestCase
 
         $this->assertEqual($result['count'], 1);
     }
+
+    public function testCreateNews()
+    {
+        $data =array('title' => 'new_test_title', 'text' => 'new_test_text', 'folder_id' => 1);
+        $this->assertTrue($insertId = $this->newsTM->create($data));
+        $data['id'] = $insertId;
+        $query = 'SELECT COUNT(*) AS `count` FROM `news_news` WHERE `id` = :id AND `title` = :title AND `text`= :text AND `folder_id` = :folder_id';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindArray($data);
+        $stmt->execute();
+        $result = $stmt->fetch();
+
+        $this->assertEqual($result['count'], 1);
+    }
 }
 
 ?>
