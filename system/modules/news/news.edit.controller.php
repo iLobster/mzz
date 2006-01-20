@@ -44,7 +44,6 @@ class newsEditController
         } else {
             $view = new newsEditSuccessView($news, $form);
         }
-        // тут будет как нибудь похитрее - но пока не надо
         return $view;
     }
 }
