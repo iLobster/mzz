@@ -111,11 +111,16 @@ class frontController
 		// хм..... мне казалось мы тогда решили что этот единственный реврайт / -> /news/list будет делать .htaccess??
         if (($template = $sectionMapper->getTemplateName($section, $action)) === false) {
             $config = $toolkit->getConfig();
+            $request = $toolkit->getRequest();
 
             $config->load('common');
 
             $section = $config->getOption('main', 'default_section');
             $action = $config->getOption('main', 'default_action');
+            
+            $request->setAction($action);
+            $request->setSection($section);
+            
             return $sectionMapper->getTemplateName($section, $action);
         }
 
