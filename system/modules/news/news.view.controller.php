@@ -30,10 +30,10 @@ class newsViewController
     {
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
-        $params = $httprequest->getParams();
+        //$params = $httprequest->getParams();
 
         $tableModule = new newsTableModule($httprequest->getSection());
-        $news = $tableModule->searchById($params[0]);
+        $news = $tableModule->searchById($httprequest->getParam(0));
         return new newsViewView($news);
     }
 }

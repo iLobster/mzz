@@ -22,6 +22,11 @@ class systemToolkit
         $this->toolkit = $toolkit;
     }
 
+    public function addToolkit(iToolkit $toolkit)
+    {
+        $this->toolkit->addToolkit($toolkit);
+    }
+
     public function getToolkit()
     {
         return $this->toolkit;

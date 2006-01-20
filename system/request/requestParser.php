@@ -14,35 +14,66 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1
+ * @version 0.2
  */
 class requestParser
 {
     /**
+     * URL-Rewriter
+     *
+     * @var object Rewrite
+     */
+    protected $rewrite;
+
+    /**
+     * Constructor
+     */
+    public function __construct(Rewrite $rewrite)
+    {
+        $this->rewrite = $rewrite;
+    }
+
+    /**
      * Разборка URL на section, action, params.
      *
+     * @param object $request
      */
-    public function parse($path)
+    public function parse($request)
     {
-        $path = preg_replace('/\/{2,}/', '/', $path);
+        $params = $this->extractParams($request->get('path'));
+        $section = array_shift($params);
 
-        // Преобразовываем /path/to/document/ в path/to/document
-        $path = substr($path, 1, (strlen($path) - 1) - (strrpos($path, '/') == strlen($path) - 1));
+        $this->rewrite->getRules($section);
+        $path = $this->rewrite->process($request->get('path'));
+        $params = $this->extractParams($path);
 
-        $params = explode('/', $path);
+        $section = array_shift($params);
+        $request->setSection($section);
 
-        HttpRequest::setSection(array_shift($params));
         $action = array_pop($params);
-        HttpRequest::setAction($action);
+        $request->setAction($action);
 
+        /* DEPRECATED
         // Если action задан, то заносим его так же и в params,
         // который будет использован как параметр,
         // если указанный action не существует
-        /*
         if (!empty($action)) {
             $params = array_merge($params, array($action));
-        }*/
-        HttpRequest::setParams($params);
+        }
+        */
+        $request->setParams($params);
+    }
+
+    /**
+     * Очищает строку запроса от лишних "/" и возвращает
+     * разобранный запрос на массив
+     *
+     * @param string $path
+     * @return array
+     */
+    protected function extractParams($path) {
+        $path = preg_replace('/\/{2,}/', '/', $path);
+        return explode('/', substr($path, 1, (strlen($path) - 1) - (strrpos($path, '/') == strlen($path) - 1)));
     }
 
 }

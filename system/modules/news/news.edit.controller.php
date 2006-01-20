@@ -32,11 +32,11 @@ class newsEditController
     {
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
-        $params = $httprequest->getParams();
+        //$params = $httprequest->getParams();
 
         $table_module = new newsTableModule($httprequest->getSection());
 
-        $news = $table_module->searchById($params[0]);
+        $news = $table_module->searchById($httprequest->getParam(0));
         $form = newsEditForm::getForm($news);
 
         if($form->validate() == false) {

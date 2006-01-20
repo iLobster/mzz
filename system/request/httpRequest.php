@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.4
+ * @version 0.5
  */
 
 define('SC_GET', 1);
@@ -78,17 +78,13 @@ class httpRequest
      * Конструктор.
      *
      */
-    public function __construct()
+    public function __construct($requestParser)
     {
-        $toolkit = systemToolkit::getInstance();
-        $rewrite = $toolkit->getRewrite();
         $this->post_vars = $_POST;
         $this->get_vars = $_GET;
         $this->cookie_vars = $_COOKIE;
-        requestParser::parse($this->get('path'));
 
-        $rewrite->getRules($this->getSection());
-        requestParser::parse($rewrite->process($this->get('path')));
+        $requestParser->parse($this);
     }
 
     /**
@@ -263,11 +259,21 @@ class httpRequest
      * @param string $name
      * @return string
      */
-    private function getParam($name)
+    public function getParam($name)
     {
         return (isset($this->params[$name])) ? $this->params[$name] : null;
     }
-    public function getParams( ) {return $this->params;}
+
+    /**
+     * Get all params from url
+     *
+     * @deprecated use getParam
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
 }
 
 ?>

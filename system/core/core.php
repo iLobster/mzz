@@ -65,7 +65,7 @@ class core
             fileLoader::load('toolkit/systemToolkit');
 
             $toolkit = systemToolkit::getInstance();
-            $toolkit->getToolkit()->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
+            $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
 
 
             $response = new response();
