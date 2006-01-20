@@ -5,11 +5,13 @@ class newsFolderTableModule
     private $db;
     private $data;
     private $table;
+    private $request;
 
-    public function __construct()
+    public function __construct(HttpRequest $request)
     {
         $this->db = DB::factory();
         $this->table = $this->getName() . '_' .$this->getSection() . '_tree';
+        $this->request = $request;
     }
 
     protected function getName()
@@ -19,9 +21,12 @@ class newsFolderTableModule
 
     private function getSection()
     {
+        /*
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
-        return $httprequest->getSection();;
+        return $httprequest->getSection();*/
+        //return 'news';
+        return $this->request->getSection();
     }
 
     public function get($key)
@@ -38,8 +43,9 @@ class newsFolderTableModule
         $this->data[$key] = $value;
     }
 
-    public function searchByName($name)
+    public function searchByName($name = "")
     {
+        //$name = '/' . $name;
         $stmt = $this->db->prepare('SELECT * FROM `' . $this->table . '` WHERE `name` = :name');
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
 

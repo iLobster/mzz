@@ -38,9 +38,10 @@ class requestParser
         // Если action задан, то заносим его так же и в params,
         // который будет использован как параметр,
         // если указанный action не существует
+        /*
         if (!empty($action)) {
             $params = array_merge($params, array($action));
-        }
+        }*/
         HttpRequest::setParams($params);
     }
 

@@ -49,6 +49,7 @@ fileLoader::load('filters/init');
 fileLoader::load('core/response');
 fileLoader::load('template/mzzSmarty');
 fileLoader::load('request/rewrite');
+fileLoader::load('request/httpRequest');
 
 /*
 fileLoader::load('core/registry');

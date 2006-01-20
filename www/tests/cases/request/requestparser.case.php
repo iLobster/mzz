@@ -27,8 +27,7 @@ class RequestParserTest extends unitTestCase
     {
         $this->assertEqual($this->httprequest->getAction(), 'list');
         $this->assertEqual($this->httprequest->getSection(), 'news');
-
-        $this->assertEqual($this->httprequest->getParams(), array('archive', 18, 10, 2005, 'list'));
+        $this->assertEqual($this->httprequest->getParams(), array('archive', 18, 10, 2005));
 
     }
 }

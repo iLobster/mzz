@@ -29,7 +29,7 @@ define('SC_COOKIE', 4);
 define('SC_SERVER', 8);
 define('SC_PATH', 16);
 
-class HttpRequest
+class httpRequest
 {
 
 
