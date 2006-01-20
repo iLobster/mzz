@@ -26,7 +26,7 @@ final class cachingResolver extends decoratingResolver
      *
      * @var array
      */
-    private $cache = array();
+    private $cache;
 
     /**
      * объект для работы с файлом, в который записывается кэщ
@@ -45,12 +45,16 @@ final class cachingResolver extends decoratingResolver
     {
         // задаём имя файла, в котором будет хранится кэш
         $filename = systemConfig::$pathToTemp . 'resolver.cache';
+        $mode = file_exists($filename) ? "r+" : "w";
+        $this->cache_file = new SplFileObject($filename, $mode);
         // если файл существует - читаем его содержимое и десериализуем его в массив
-        if (file_exists($filename)) {
-            $this->cache = unserialize(file_get_contents($filename));
+        if ($mode == "r+") {
+            while ($this->cache_file->eof() == false) {
+            	$this->cache .= $this->cache_file->fgets();
+            }
+            $this->cache = unserialize($this->cache);
         }
 
-        $this->cache_file = new SplFileObject($filename, 'w');
         parent::__construct($resolver);
     }
 
@@ -75,6 +79,7 @@ final class cachingResolver extends decoratingResolver
      */
     public function __destruct()
     {
+        $this->cache_file->fseek(0);
         $this->cache_file->fwrite(serialize($this->cache));
     }
 
