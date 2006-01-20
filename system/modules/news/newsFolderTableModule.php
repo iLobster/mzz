@@ -19,8 +19,9 @@ class newsFolderTableModule
 
     private function getSection()
     {
-        // будет как то браться из реквеста
-        return 'news';
+        $toolkit = systemToolkit::getInstance();
+        $httprequest = $toolkit->getRequest();
+        return $httprequest->getSection();;
     }
 
     public function get($key)
