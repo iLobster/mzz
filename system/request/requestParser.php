@@ -28,7 +28,7 @@ class requestParser
     /**
      * Constructor
      */
-    public function __construct(Rewrite $rewrite)
+    public function __construct($rewrite)
     {
         $this->rewrite = $rewrite;
     }
