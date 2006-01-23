@@ -48,17 +48,17 @@ COMMIT;
 DROP TABLE IF EXISTS `news_news_tree`;
 
 CREATE TABLE `news_news_tree` (
-  `id` int(11) default NULL,
+  `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
-  `parent` int(11) default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
+  `parent` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=0;
 #
 # Data for the `news_news_tree` table  (LIMIT 0,500)
 #
 
 INSERT INTO `news_news_tree` (`id`, `name`, `parent`) VALUES 
-  (1,'/',0),
-  (2,'folder2',0);
+  (0,'/',0),
+  (0,'folder2',0);
 
 COMMIT;
