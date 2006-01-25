@@ -36,11 +36,11 @@ class newsListController
 
         $newsFolders = new newsFolderTableModule($httprequest->getSection());
 
-        $params = $httprequest->getParams();
-        if(!isset($params[0])) {
-            $params[0] = "/";
+        //$params = $httprequest->getParams();
+        if(($path = $httprequest->getParam(0)) == false) {
+            $path = "/";
         }
-        $folder = $newsFolders->searchByName($params[0]);
+        $folder = $newsFolders->searchByName($path);
         $data = $folder->getItems();
         return new newsListView($data);
     }
