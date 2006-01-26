@@ -1,8 +1,26 @@
 <?php
 fileLoader::load('core/sectionMapper');
 
+fileLoader::load('request/httpRequest');
+//fileLoader::load('request/requestParser');
+//fileLoader::load('request/rewrite');
+
 mock::generate('httpRequest');
-class testToolkit extends toolkit { public function getRequest() { return new mockhttpRequest(); } }
+
+class testToolkit extends toolkit
+{
+    public function getRequest()
+    {
+        $request = new mockhttpRequest();
+        $request->expectOnce('getSection', array());
+        $request->setReturnValue('getSection', 'test');
+        $request->expectOnce('getAction', array());
+        $request->setReturnValue('getAction', 'foo');
+        return $request;
+    }
+}
+
+
 
 class sectionMapperTest extends unitTestCase
 {
@@ -32,7 +50,7 @@ class sectionMapperTest extends unitTestCase
     {
         $toolkit = systemToolkit::getInstance();
         $toolkit->setToolkit(new testToolkit());
-        var_dump($toolkit);
+        //var_dump($toolkit);
         $this->assertEqual($this->mapper->getTemplateName(), "act.test.foo.tpl");
     }
 

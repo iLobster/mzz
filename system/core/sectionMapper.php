@@ -95,7 +95,9 @@ class sectionMapper
     public function getTemplateName()
     {
         $httprequest = $this->toolkit->getRequest();
-        //$section =
+        $section = $httprequest->getSection();
+        $action = $httprequest->getAction();
+
         $template_name = $this->xmlRead($section, $action);
         if($template_name === false) {
             return false;
