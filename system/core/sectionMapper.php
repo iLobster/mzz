@@ -36,6 +36,8 @@ class sectionMapper
      */
     protected $xml;
 
+    private $toolkit;
+
     /**
      * Construct
      *
@@ -47,6 +49,7 @@ class sectionMapper
             throw new mzzIoException($mapFileName);
         }
         $this->xml = simplexml_load_file($mapFileName);
+        $this->toolkit = systemToolkit::getInstance();
     }
 
     /**
@@ -88,8 +91,11 @@ class sectionMapper
      * @param string $action
      * @return string|false
      */
-    public function getTemplateName($section, $action)
+    //public function getTemplateName($section, $action)
+    public function getTemplateName()
     {
+        $httprequest = $this->toolkit->getRequest();
+        //$section =
         $template_name = $this->xmlRead($section, $action);
         if($template_name === false) {
             return false;
