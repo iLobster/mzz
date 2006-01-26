@@ -25,13 +25,18 @@ class testToolkit extends toolkit
 class sectionMapperTest extends unitTestCase
 {
     private $mapper;
+    private $oldToolkit;
+    private $toolkit;
     public function setUp()
     {
         $this->mapper = new sectionMapper(fileLoader::resolve('configs/map.xml'));
+        $this->toolkit = systemToolkit::getInstance();
+        $this->oldToolkit = $this->toolkit->setToolkit(new testToolkit());
     }
 
     public function tearDown()
     {
+        $this->toolkit->setToolkit($this->oldToolkit);
     }
 
     /*public function TestSectionMapper()
@@ -48,8 +53,6 @@ class sectionMapperTest extends unitTestCase
 
     public function testNew()
     {
-        $toolkit = systemToolkit::getInstance();
-        $toolkit->setToolkit(new testToolkit());
         //var_dump($toolkit);
         $this->assertEqual($this->mapper->getTemplateName(), "act.test.foo.tpl");
     }
