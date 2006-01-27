@@ -106,8 +106,7 @@ class sectionMapper
             if ($template_name === false) {
                 return false;
             }
-            //return $path;
-        };
+        }
         return self::templateNameDecorate($template_name);
     }
 }
