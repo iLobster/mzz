@@ -35,19 +35,35 @@ class frontController
      */
     public function getTemplate()
     {
-        return $this->search();
+        $toolkit = systemToolkit::getInstance();
+
+        $httprequest = $toolkit->getRequest();
+        $sectionMapper = $toolkit->getSectionMapper();
+
+        $section = $httprequest->getSection();
+        $action = $httprequest->getAction();
+
+        $template_name = $sectionMapper->getTemplateName($section, $action);
+        if ($template_name === false) {
+            // если шаблон не найден - пытаемся реврайтить path и искать заново
+            $rewrite = $toolkit->getRewrite();
+            $rewrite->loadRules($section);
+
+            $rewrited_path = $rewrite->process($httprequest->get('path'));
+
+            $httprequest->parse($rewrited_path);
+
+            $section = $httprequest->getSection();
+            $action = $httprequest->getAction();
+
+            $template_name = $sectionMapper->getTemplateName($section, $action);
+            if ($template_name === false) {
+                return false;
+            }
+        }
+        return $sectionMapper->templateNameDecorate($template_name);
     }
 
-    /**
-     * поиск имени шаблона по имени секции и экшну
-     *
-     * @return string имя шаблона в соответствии с выбранными секцией и экшном
-     */
-    private function search()
-    {
-        $toolkit = systemToolkit::getInstance();
-        return $toolkit->getSectionMapper()->getTemplateName();
-    }
 }
 
 ?>

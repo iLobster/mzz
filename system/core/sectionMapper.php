@@ -79,7 +79,7 @@ class sectionMapper
      * @param string $template_name
      * @return string
      */
-    protected function templateNameDecorate($templateName)
+    public function templateNameDecorate($templateName)
     {
         return self::TPL_PRE . $templateName . self::TPL_EXT;
     }
@@ -87,35 +87,11 @@ class sectionMapper
     /**
      * Получение имени шаблона
      *
-     * @param string $section
-     * @param string $action
      * @return string|false
      */
-    public function getTemplateName()
+    public function getTemplateName($section, $action)
     {
-        $httprequest = $this->toolkit->getRequest();
-        $section = $httprequest->getSection();
-        $action = $httprequest->getAction();
-
-        $template_name = $this->xmlRead($section, $action);
-        if ($template_name === false) {
-            // если шаблон не найден - пытаемся реврайтить path и искать заново
-            $rewrite = $this->toolkit->getRewrite();
-            $rewrite->loadRules($section);
-
-            $rewrited_path = $rewrite->process($httprequest->get('path'));
-
-            $httprequest->parse($rewrited_path);
-
-            $section = $httprequest->getSection();
-            $action = $httprequest->getAction();
-
-            $template_name = $this->xmlRead($section, $action);
-            if ($template_name === false) {
-                return false;
-            }
-        }
-        return self::templateNameDecorate($template_name);
+        return $this->xmlRead($section, $action);
     }
 }
 
