@@ -1,13 +1,5 @@
 <?php
-
 fileLoader::load('core/sectionMapper');
-
-fileLoader::load('request/httpRequest');
-fileLoader::load('request/rewrite');
-
-mock::generate('httpRequest');
-mock::generate('rewrite');
-
 
 class sectionMapperTest extends unitTestCase
 {

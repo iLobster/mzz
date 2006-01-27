@@ -6,7 +6,7 @@ fileLoader::load('request/httpRequest');
 fileLoader::load('request/rewrite');
 
 mock::generate('httpRequest');
-mock::generate('rewrite');
+mock::generate('Rewrite');
 
 
 class frontControllerTest extends unitTestCase
