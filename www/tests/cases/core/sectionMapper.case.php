@@ -26,11 +26,11 @@ class sectionMapperTest extends unitTestCase
     {
         $section = "test";
         $action = "foo";
-        $this->assertEqual($this->mapper->getTemplateName($section, $action), "test.foo");
+        $this->assertEqual($this->mapper->getTemplateName($section, $action), "act.test.foo.tpl");
 
         $section = "test";
         $action = "bar";
-        $this->assertEqual($this->mapper->getTemplateName($section, $action), "test.bar");
+        $this->assertEqual($this->mapper->getTemplateName($section, $action), "act.test.bar.tpl");
 
     }
 

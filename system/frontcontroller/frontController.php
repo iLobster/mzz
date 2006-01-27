@@ -61,7 +61,7 @@ class frontController
                 return false;
             }
         }
-        return $sectionMapper->templateNameDecorate($template_name);
+        return $template_name;
     }
 
 }

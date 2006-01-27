@@ -91,7 +91,10 @@ class sectionMapper
      */
     public function getTemplateName($section, $action)
     {
-        return $this->xmlRead($section, $action);
+        if(($template_name = $this->xmlRead($section, $action)) !== false) {
+            return $this->templateNameDecorate($template_name);
+        }
+        return false;
     }
 }
 
