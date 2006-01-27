@@ -3,26 +3,35 @@ class mzzException extends Exception
 {
     private $name;
 
-    public function __construct($message, $code = 0)
+    protected $line;
+    protected $file;
+
+    public function __construct($message, $code = 0, $line = false, $file = false)
     {
         parent::__construct($message, (int)$code);
         $this->setName('System Exception');
+
+        if ($line) {
+            $this->line = $line;
+        }
+        if ($file) {
+            $this->file = $file;
+        }
     }
 
-
-   public function setName($name)
-   {
+    public function setName($name)
+    {
         $this->name = $name;
-   }
+    }
 
-   public function getName()
-   {
+    public function getName()
+    {
         return $this->name;
-   }
+    }
 
-   // custom string representation of object */
-   public function printHtml()
-   {
+    // custom string representation of object */
+    public function printHtml()
+    {
 
         $html = $this->getHtmlHeader();
 
@@ -56,16 +65,16 @@ class mzzException extends Exception
                 foreach ($trace['args'] as $arg) {
                     switch (true) {
                         case is_object($arg):
-                            $args .= 'object \'' . get_class($arg) . '\', ';
+                        $args .= 'object \'' . get_class($arg) . '\', ';
                         break;
                         case is_array($arg):
-                            $args .= 'array(' . count($arg) . '), ';
+                        $args .= 'array(' . count($arg) . '), ';
                         break;
                         case is_resource($arg):
-                            $args .= 'resource ' . get_resource_type($arg) . ', ';
+                        $args .= 'resource ' . get_resource_type($arg) . ', ';
                         break;
                         default:
-                            $args .= '\'' . $arg . '\', ';
+                        $args .= '\'' . $arg . '\', ';
                         break;
                     }
                 }
