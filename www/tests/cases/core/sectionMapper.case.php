@@ -56,11 +56,11 @@ class sectionMapperTest extends unitTestCase
 
     }
 
-    public function testMappingFalse()
+    public function testMappingFalseRewriteTrue()
     {// ÊÀÊ ÏÎÄÌÅÍÈÒÜ ÒÓËÊÈÒ ÍÀ ÍÎÂÛÉ???
-     // $this->toolkit->setRequest($mockrequest) && $this->toolkit->setRewrite($mockrewrite)
+        // $this->toolkit->setRequest($mockrequest) && $this->toolkit->setRewrite($mockrewrite)
 
-     //   $this->oldToolkit = $this->toolkit->setToolkit(new testToolkitNotExist());
+        //   $this->oldToolkit = $this->toolkit->setToolkit(new testToolkitNotExist());
 
         $request = new mockhttpRequest();
         $request->expectOnce('getSection', array());
@@ -68,7 +68,7 @@ class sectionMapperTest extends unitTestCase
         $request->expectOnce('getAction', array());
         $request->setReturnValue('getAction', 'abc');
         $request->expectOnce('get', array('path'));
-        $request->setReturnValue('get', 'test.foo');
+        $request->setReturnValue('get', 'test.abc');
         $old_request = $this->toolkit->setRequest($request);
 
         $rewrite = new mockrewrite();
@@ -76,11 +76,32 @@ class sectionMapperTest extends unitTestCase
         $rewrite->setReturnValue('process', 'test.foo');
         $old_rewrite = $this->toolkit->setRewrite($rewrite);
 
-
-        $this->assertTrue($this->mapper->getTemplateName(), "act.test.foo.tpl");
+        $this->assertEqual($this->mapper->getTemplateName(), "act.test.foo.tpl");
 
         $this->toolkit->setRequest($old_request);
-        $this->toolkit->setRequest($old_rewrite);
+        $this->toolkit->setRewrite($old_rewrite);
+    }
+
+    public function testMappingFalseRewriteFalse()
+    {
+        $request = new mockhttpRequest();
+        $request->expectOnce('getSection', array());
+        $request->setReturnValue('getSection', 'test');
+        $request->expectOnce('getAction', array());
+        $request->setReturnValue('getAction', 'abc');
+        $request->expectOnce('get', array('path'));
+        $request->setReturnValue('get', 'test.abc');
+        $old_request = $this->toolkit->setRequest($request);
+
+        $rewrite = new mockrewrite();
+        $rewrite->expectOnce('process', array('test.abc'));
+        $rewrite->setReturnValue('process', false);
+        $old_rewrite = $this->toolkit->setRewrite($rewrite);
+
+        $this->assertFalse($this->mapper->getTemplateName());
+
+        $this->toolkit->setRequest($old_request);
+        $this->toolkit->setRewrite($old_rewrite);
     }
 
 }
