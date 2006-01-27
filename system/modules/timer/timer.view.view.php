@@ -16,6 +16,8 @@
  * @version 0.1
  */
 
+fileLoader::load('simple/simple.view');
+
 class timerViewView extends simpleView
 {
     public function toString()
