@@ -44,6 +44,7 @@ class frontController
         $action = $httprequest->getAction();
 
         $template_name = $sectionMapper->getTemplateName($section, $action);
+
         if ($template_name === false) {
             // если шаблон не найден - пытаемся реврайтить path и искать заново
             $rewrite = $toolkit->getRewrite();
@@ -57,10 +58,8 @@ class frontController
             $action = $httprequest->getAction();
 
             $template_name = $sectionMapper->getTemplateName($section, $action);
-            if ($template_name === false) {
-                return false;
-            }
         }
+
         return $template_name;
     }
 
