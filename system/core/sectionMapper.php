@@ -13,7 +13,7 @@
  * sectionMapper: класс для определения имени шаблона по XML-файлу
  *
  * @package system
- * @version 0.1
+ * @version 0.2
  */
 class sectionMapper
 {
@@ -91,7 +91,6 @@ class sectionMapper
      * @param string $action
      * @return string|false
      */
-    //public function getTemplateName($section, $action)
     public function getTemplateName()
     {
         $httprequest = $this->toolkit->getRequest();
