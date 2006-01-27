@@ -14,7 +14,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.2
+ * @version 0.2.1
  */
 class requestParser
 {
@@ -33,11 +33,6 @@ class requestParser
      */
     public function parse($request, $path)
     {
-        //$params = $this->extractParams($request->get('path'));
-        //$section = array_shift($params);
-
-       // $this->rewrite->getRules($section);
-        //$path = $this->rewrite->process($request->get('path'));
         $params = $this->extractParams($path);
 
         $section = array_shift($params);
@@ -51,7 +46,7 @@ class requestParser
         // который будет использован как параметр,
         // если указанный action не существует
         if (!empty($action)) {
-            $params = array_merge($params, array($action));
+        $params = array_merge($params, array($action));
         }
         */
         $request->setParams($params);
@@ -64,11 +59,11 @@ class requestParser
      * @param string $path
      * @return array
      */
-    protected function extractParams($path) {
+    protected function extractParams($path)
+    {
         $path = preg_replace('/\/{2,}/', '/', $path);
         return explode('/', substr($path, 1, (strlen($path) - 1) - (strrpos($path, '/') == strlen($path) - 1)));
     }
-
 }
 
 ?>
