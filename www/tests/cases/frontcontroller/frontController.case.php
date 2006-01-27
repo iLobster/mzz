@@ -12,90 +12,75 @@ mock::generate('rewrite');
 class frontControllerTest extends unitTestCase
 {
     private $frontController;
-    private $oldToolkit;
+    private $oldRequest;
     private $toolkit;
+    private $request;
+    private $rewrite;
+
     public function setUp()
     {
         $this->frontController = new frontController();
         $this->toolkit = systemToolkit::getInstance();
-
+        $this->request = new mockhttpRequest();
+        $this->rewrite = new mockrewrite();
+        $this->oldRequest = $this->toolkit->setRequest($this->request);
+        $this->oldRewrite = $this->toolkit->setRewrite($this->rewrite);
     }
 
     public function tearDown()
     {
-
+        $this->toolkit->setRequest($this->oldRequest);
+        $this->toolkit->setRewrite($this->oldRewrite);
     }
 
     public function testFrontController()
     {
+        $this->request->expectOnce('getSection', array());
+        $this->request->setReturnValue('getSection', 'test');
+        $this->request->expectOnce('getAction', array());
+        $this->request->setReturnValue('getAction', 'bar');
 
-        $request = new mockhttpRequest();
-        $request->expectOnce('getSection', array());
-        $request->setReturnValue('getSection', 'test');
-        $request->expectOnce('getAction', array());
-        $request->setReturnValue('getAction', 'foo');
-        $old_request = $this->toolkit->setRequest($request);
-
-        $this->assertEqual($this->frontController->getTemplate(), "act.test.foo.tpl");
-
-        $this->toolkit->setRequest($old_request);
-
+        $this->assertEqual($this->frontController->getTemplate(), "act.test.bar.tpl");
     }
 
     public function testFrontControllerFalseRewriteTrue()
     {
-        $request = new mockhttpRequest();
-        $request->expectCallCount('getSection', 2);
-        $request->setReturnValue('getSection', 'test');
-        $request->expectCallCount('getAction', 2);
-        $request->setReturnValueAt(0, 'getAction', 'abc');
-        $request->setReturnValueAt(1, 'getAction', 'foo');
-        $request->expectOnce('get', array('path'));
-        $request->setReturnValue('get', 'test.abc');
-        $request->expectOnce('parse', array('test.foo'));
+        $this->request->expectCallCount('getSection', 2);
+        $this->request->setReturnValue('getSection', 'test');
+        $this->request->expectCallCount('getAction', 2);
+        $this->request->setReturnValueAt(0, 'getAction', 'abc');
+        $this->request->setReturnValueAt(1, 'getAction', 'foo');
+        $this->request->expectOnce('get', array('path'));
+        $this->request->setReturnValue('get', 'test.abc');
+        $this->request->expectOnce('parse', array('test.foo'));
 
-        $old_request = $this->toolkit->setRequest($request);
-
-        $rewrite = new mockrewrite();
-        $rewrite->expectOnce('loadRules', array('test'));
-        $rewrite->expectOnce('process', array('test.abc'));
-        $rewrite->setReturnValue('process', 'test.foo');
-        $old_rewrite = $this->toolkit->setRewrite($rewrite);
+        $this->rewrite->expectOnce('loadRules', array('test'));
+        $this->rewrite->expectOnce('process', array('test.abc'));
+        $this->rewrite->setReturnValue('process', 'test.foo');
 
         $this->assertEqual($this->frontController->getTemplate(), "act.test.foo.tpl");
 
-        $request->tally();
-
-        $this->toolkit->setRequest($old_request);
-        $this->toolkit->setRewrite($old_rewrite);
+        $this->request->tally();
     }
 
     public function testFrontControllerFalseRewriteFalse()
     {
-        $request = new mockhttpRequest();
-        $request->expectCallCount('getSection', 2);
-        $request->setReturnValueAt(0, 'getSection', 'test');
-        $request->setReturnValueAt(1, 'getSection', false);
-        $request->expectCallCount('getAction', 2);
-        $request->setReturnValueAt(0, 'getAction', 'abc');
-        $request->setReturnValueAt(1, 'getAction', false);
-        $request->expectOnce('get', array('path'));
-        $request->setReturnValue('get', 'test.abc');
-        $request->expectOnce('parse', array(false));
+        $this->request->expectCallCount('getSection', 2);
+        $this->request->setReturnValueAt(0, 'getSection', 'test');
+        $this->request->setReturnValueAt(1, 'getSection', false);
+        $this->request->expectCallCount('getAction', 2);
+        $this->request->setReturnValueAt(0, 'getAction', 'abc');
+        $this->request->setReturnValueAt(1, 'getAction', false);
+        $this->request->expectOnce('get', array('path'));
+        $this->request->setReturnValue('get', 'test.abc');
+        $this->request->expectOnce('parse', array(false));
 
-        $old_request = $this->toolkit->setRequest($request);
-
-        $rewrite = new mockrewrite();
-        $rewrite->expectOnce('process', array('test.abc'));
-        $rewrite->setReturnValue('process', false);
-        $old_rewrite = $this->toolkit->setRewrite($rewrite);
+        $this->rewrite->expectOnce('process', array('test.abc'));
+        $this->rewrite->setReturnValue('process', false);
 
         $this->assertFalse($this->frontController->getTemplate());
 
-        $request->tally();
-
-        $this->toolkit->setRequest($old_request);
-        $this->toolkit->setRewrite($old_rewrite);
+        $this->request->tally();
     }
 }
 
