@@ -104,11 +104,11 @@ class frontController
      */
     private function search()
     {
-        $section = $this->getSection();
-        $action = $this->getAction();
+       // $section = $this->getSection();
+      //  $action = $this->getAction();
         $toolkit = systemToolkit::getInstance();
-        $sectionMapper = $toolkit->getSectionMapper();
-		// хм..... мне казалось мы тогда решили что этот единственный реврайт / -> /news/list будет делать .htaccess??
+       $sectionMapper = $toolkit->getSectionMapper();
+		/* // хм..... мне казалось мы тогда решили что этот единственный реврайт / -> /news/list будет делать .htaccess??
         if (($template = $sectionMapper->getTemplateName($section, $action)) === false) {
             $config = $toolkit->getConfig();
             $request = $toolkit->getRequest();
@@ -117,14 +117,15 @@ class frontController
 
             $section = $config->getOption('main', 'default_section');
             $action = $config->getOption('main', 'default_action');
-            
+
             $request->setAction($action);
             $request->setSection($section);
-            
-            return $sectionMapper->getTemplateName($section, $action);
-        }
+            */
+           // return $sectionMapper->getTemplateName($section, $action);
+           return $sectionMapper->getTemplateName($section, $action);
+       /* }
 
-        return $template;
+        return $template;*/
     }
 }
 

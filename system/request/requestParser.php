@@ -43,9 +43,9 @@ class requestParser
         $params = $this->extractParams($request->get('path'));
         $section = array_shift($params);
 
-        $this->rewrite->getRules($section);
-        $path = $this->rewrite->process($request->get('path'));
-        $params = $this->extractParams($path);
+       // $this->rewrite->getRules($section);
+        //$path = $this->rewrite->process($request->get('path'));
+        $params = $this->extractParams($request->get('path'));
 
         $section = array_shift($params);
         $request->setSection($section);

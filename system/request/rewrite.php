@@ -184,6 +184,9 @@ class Rewrite
      */
     public function loadRules($section)
     {
+        if(empty($section)) {
+            $section = 'default';
+        }
         $this->XMLread($section);
     }
 }
