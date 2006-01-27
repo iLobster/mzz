@@ -100,7 +100,11 @@ class sectionMapper
 
         $template_name = $this->xmlRead($section, $action);
         if($template_name === false) {
-            return false;
+            // если шаблон не найден - пытаемся реврайтить path и искать заново
+            //return false;
+            $rewrite = $this->toolkit->getRewrite();
+            $path = $rewrite->process($httprequest->get('path'));
+            return $path;
         } else {
             return self::templateNameDecorate($template_name);
         }

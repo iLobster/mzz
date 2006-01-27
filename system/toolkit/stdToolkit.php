@@ -37,6 +37,7 @@ class stdToolkit extends toolkit
 
     public function getRewrite()
     {
+        // может тут передавать путь/аргумент для резолвера аргументом??
         if(empty($this->rewrite)) {
             $this->rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
         }
