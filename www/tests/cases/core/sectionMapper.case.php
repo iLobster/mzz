@@ -8,43 +8,6 @@ fileLoader::load('request/rewrite');
 mock::generate('httpRequest');
 mock::generate('rewrite');
 
-class testToolkit extends toolkit
-{
-    public function getRequest()
-    {
-        $request = new mockhttpRequest();
-        $request->expectOnce('getSection', array());
-        $request->setReturnValue('getSection', 'test');
-        $request->expectOnce('getAction', array());
-        $request->setReturnValue('getAction', 'foo');
-        return $request;
-    }
-}
-
-
-class testToolkitNotExist extends toolkit
-{
-    public function getRequest()
-    {
-        $request = new mockhttpRequest();
-        $request->expectOnce('getSection', array());
-        $request->setReturnValue('getSection', 'test');
-        $request->expectOnce('getAction', array());
-        $request->setReturnValue('getAction', 'abc');
-        $request->expectOnce('get', array('path'));
-        $request->setReturnValue('get', 'test.foo');
-        return $request;
-    }
-    public function getRewrite()
-    {
-        $rewrite = new mockrewrite();
-        $rewrite->expectOnce('process', array('test.abc'));
-        $rewrite->setReturnValue('process', 'test.foo');
-        return $rewrite;
-    }
-}
-
-
 
 class sectionMapperTest extends unitTestCase
 {
@@ -60,7 +23,7 @@ class sectionMapperTest extends unitTestCase
 
     public function tearDown()
     {
-        $this->toolkit->setToolkit($this->oldToolkit);
+        //$this->toolkit->setToolkit($this->oldToolkit);
     }
 
     /*public function TestSectionMapper()
@@ -77,9 +40,19 @@ class sectionMapperTest extends unitTestCase
 
     public function testSectionMapper()
     {
+
+        $request = new mockhttpRequest();
+        $request->expectOnce('getSection', array());
+        $request->setReturnValue('getSection', 'test');
+        $request->expectOnce('getAction', array());
+        $request->setReturnValue('getAction', 'foo');
+        $old_request = $this->toolkit->setRequest($request);
+
         //var_dump($toolkit);
-        $this->oldToolkit = $this->toolkit->setToolkit(new testToolkit());
+        //$this->oldToolkit = $this->toolkit->setToolkit(new testToolkit());
         $this->assertEqual($this->mapper->getTemplateName(), "act.test.foo.tpl");
+
+        $this->toolkit->setRequest($old_request);
 
     }
 
@@ -87,8 +60,27 @@ class sectionMapperTest extends unitTestCase
     {// ÊÀÊ ÏÎÄÌÅÍÈÒÜ ÒÓËÊÈÒ ÍÀ ÍÎÂÛÉ???
      // $this->toolkit->setRequest($mockrequest) && $this->toolkit->setRewrite($mockrewrite)
 
-        $this->oldToolkit = $this->toolkit->setToolkit(new testToolkitNotExist());
+     //   $this->oldToolkit = $this->toolkit->setToolkit(new testToolkitNotExist());
+
+        $request = new mockhttpRequest();
+        $request->expectOnce('getSection', array());
+        $request->setReturnValue('getSection', 'test');
+        $request->expectOnce('getAction', array());
+        $request->setReturnValue('getAction', 'abc');
+        $request->expectOnce('get', array('path'));
+        $request->setReturnValue('get', 'test.foo');
+        $old_request = $this->toolkit->setRequest($request);
+
+        $rewrite = new mockrewrite();
+        $rewrite->expectOnce('process', array('test.abc'));
+        $rewrite->setReturnValue('process', 'test.foo');
+        $old_rewrite = $this->toolkit->setRewrite($rewrite);
+
+
         $this->assertTrue($this->mapper->getTemplateName(), "act.test.foo.tpl");
+
+        $this->toolkit->setRequest($old_request);
+        $this->toolkit->setRequest($old_rewrite);
     }
 
 }
