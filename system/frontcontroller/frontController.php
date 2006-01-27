@@ -19,72 +19,13 @@
 
 class frontController
 {
-    /**#@+
-    * @var string
-    */
-
-    /**
-    * переменная для хранения имени секции
-    */
-    private $section = null;
-
-    /**
-    * переменная для хранения имени экшна
-    */
-    private $action = null;
-    /**#@-*/
-
 
     /**
      * конструктор класса
      *
-     * @param string $section имя секции
-     * @param string $action имя экшна
      */
-    public function __construct($section, $action)
+    public function __construct()
     {
-        $this->setSection($section);
-        $this->setAction($action);
-    }
-
-    /**
-     * установка секции
-     *
-     * @param string $section имя секции
-     */
-    private function setSection($section)
-    {
-        $this->section = $section;
-    }
-
-    /**
-     * получение секции
-     *
-     * @return string имя секции
-     */
-    private function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
-     * установка экшна
-     *
-     * @param $action имя экшна
-     */
-    private function setAction($action)
-    {
-        $this->action = $action;
-    }
-
-    /**
-     * получение экшна
-     *
-     * @return string имя экшна
-     */
-    private function getAction()
-    {
-        return $this->action;
     }
 
     /**
@@ -104,28 +45,8 @@ class frontController
      */
     private function search()
     {
-       // $section = $this->getSection();
-      //  $action = $this->getAction();
         $toolkit = systemToolkit::getInstance();
-       $sectionMapper = $toolkit->getSectionMapper();
-		/* // хм..... мне казалось мы тогда решили что этот единственный реврайт / -> /news/list будет делать .htaccess??
-        if (($template = $sectionMapper->getTemplateName($section, $action)) === false) {
-            $config = $toolkit->getConfig();
-            $request = $toolkit->getRequest();
-
-            $config->load('common');
-
-            $section = $config->getOption('main', 'default_section');
-            $action = $config->getOption('main', 'default_action');
-
-            $request->setAction($action);
-            $request->setSection($section);
-            */
-           // return $sectionMapper->getTemplateName($section, $action);
-           return $sectionMapper->getTemplateName();
-       /* }
-
-        return $template;*/
+        return $toolkit->getSectionMapper()->getTemplateName();
     }
 }
 

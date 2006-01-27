@@ -14,7 +14,7 @@
  * contentFilter: фильтр получения и отображения контента
  *
  * @package system
- * @version 0.1
+ * @version 0.2
  */
 
 class contentFilter implements iFilter
@@ -28,12 +28,8 @@ class contentFilter implements iFilter
     public function run(filterChain $filter_chain, $response)
     {
         $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
 
-        $application = $httprequest->getSection();
-        $action = $httprequest->getAction();
-
-        $frontcontroller = new frontController($application, $action);
+        $frontcontroller = new frontController();
         $template = $frontcontroller->getTemplate();
 
         $smarty = $toolkit->getSmarty();
