@@ -1,15 +1,49 @@
 <?php
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2006
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
+
 fileLoader::load('dataspace/iDataspace');
 
+/**
+ * arrayDataspace: êëàññ äëÿ ñîõğàíåíèå è äîñòóïà ê äàííûì ÷åğåç ìàññèâ
+ *
+ * @package system
+ * @version 0.1
+ */
 class arrayDataspace implements iDataspace
 {
+    /**
+     * Ìàññèâ äëÿ õğàíåíèÿ äàííûõ
+     *
+     * @var array
+     */
     protected $data;
 
+    /**
+     * Êîíñòğóêòîğ. Ïğèíèìàåò ìàññèâ $data ñ äàííûìè
+     *
+     * @param array $data
+     */
     public function __construct($data)
     {
         $this->import($data);
     }
 
+    /**
+     * Ñîõğàíåíèå çíà÷åíèÿ
+     *
+     * @param string|integer $key êëş÷ äëÿ äîñòóïà ê çíà÷åíèş
+     * @param mixed $value çíà÷åíèå
+     * @return true
+     */
     public function set($key, $value)
     {
         if(!is_scalar($key)) {
@@ -20,6 +54,12 @@ class arrayDataspace implements iDataspace
         return true;
     }
 
+    /**
+     * Âîçâğàùàåò çíà÷åíèå ïî êëş÷ó
+     *
+     * @param string|intger $key êëş÷
+     * @return mixed
+     */
     public function get($key)
     {
         if(!is_scalar($key)) {
@@ -29,12 +69,24 @@ class arrayDataspace implements iDataspace
         return ($this->exists($key)) ? $this->data[$key] : null;
     }
 
+    /**
+     * Óäàëÿåò çíà÷åíèå ñ êëş÷îì $key
+     *
+     * @param string|integer $key êëş÷
+     * @return true
+     */
     public function delete($key)
     {
         unset($this->data[$key]);
         return true;
     }
 
+    /**
+     * Ïğîâåğÿåò ñóùåñòâóåò ëè çíà÷åíèå ñ êëş÷îì $key
+     *
+     * @param string|integer $key êëş÷
+     * @return boolean
+     */
     public function exists($key)
     {
         if(!is_scalar($key)) {
@@ -43,11 +95,21 @@ class arrayDataspace implements iDataspace
         return isset($this->data[$key]);
     }
 
+    /**
+     * Èìïîğò ìàññèâà â Dataspace
+     *
+     * @param array $data
+     */
     public function import(Array $data)
     {
         $this->data = $data;
     }
 
+    /**
+     * İêñïîğò ìàññèâà èç Dataspace
+     *
+     * @return array
+     */
     public function export()
     {
         return $this->data;

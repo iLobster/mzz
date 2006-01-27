@@ -1,10 +1,36 @@
 <?php
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2006
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
+
 fileLoader::load('toolkit/iToolkit');
 
+/**
+ * toolkit: абстрактный класс
+ *
+ * @package system
+ * @version 0.1
+ */
 abstract class toolkit implements iToolkit
 {
+    /**
+     * Методы Toolkit-ов
+     *
+     * @var array
+     */
     private $tools = array();
 
+    /**
+     * Конструктор. Сохраняет методы Toolkit-а
+     *
+     */
     public function __construct()
     {
         $selfMethods = get_class_methods('toolkit');
@@ -16,6 +42,12 @@ abstract class toolkit implements iToolkit
         }
     }
 
+    /**
+     * Возвращает данный toolkit если в нем содержится метод $toolName
+     *
+     * @param string $toolName
+     * @return object|false
+     */
     final public function getToolkit($toolName)
     {
         return in_array(strtolower($toolName), $this->tools) ? $this : false;

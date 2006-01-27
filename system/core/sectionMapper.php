@@ -36,8 +36,6 @@ class sectionMapper
      */
     protected $xml;
 
-    private $toolkit;
-
     /**
      * Construct
      *
@@ -49,7 +47,6 @@ class sectionMapper
             throw new mzzIoException($mapFileName);
         }
         $this->xml = simplexml_load_file($mapFileName);
-        $this->toolkit = systemToolkit::getInstance();
     }
 
     /**
@@ -76,7 +73,7 @@ class sectionMapper
     /**
      * Decorate pattern
      *
-     * @param string $template_name
+     * @param string $templateName
      * @return string
      */
     public function templateNameDecorate($templateName)

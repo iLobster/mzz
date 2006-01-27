@@ -1,11 +1,52 @@
 <?php
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2006
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
+
+/**
+ * mzzException
+ *
+ * @package system
+ * @version 0.1
+*/
 class mzzException extends Exception
 {
+    /**
+     * Имя исключения
+     *
+     * @var string
+     */
     private $name;
 
+    /**
+     * Строка, на которой брошено исключение
+     *
+     * @var string
+     */
     protected $line;
+
+    /**
+     * Файл, в котором брошено исключение
+     *
+     * @var string
+     */
     protected $file;
 
+    /**
+     * Конструктор
+     *
+     * @param string $message сообщение исключения
+     * @param integer $code код исключения
+     * @param string $line строка исключения
+     * @param string $file файл исключения
+     */
     public function __construct($message, $code = 0, $line = false, $file = false)
     {
         parent::__construct($message, (int)$code);
@@ -19,17 +60,31 @@ class mzzException extends Exception
         }
     }
 
+    /**
+     * Устанавливает имя исключения
+     *
+     * @param string $name
+     */
     public function setName($name)
     {
         $this->name = $name;
     }
 
+    /**
+     * Возвращает имя исключения
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
-    // custom string representation of object */
+    /**
+     * Полный вывод информации об исключении в виде HTML.
+     * Если DEBUG_MODE = false, то часть системной информации скрывается.
+     *
+     */
     public function printHtml()
     {
 
@@ -101,6 +156,11 @@ class mzzException extends Exception
         exit;
     }
 
+    /**
+     * Верх HTML кода
+     *
+     * @return string
+     */
     protected function getHtmlHeader()
     {
         $header = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -128,6 +188,11 @@ class mzzException extends Exception
         return $header;
     }
 
+    /**
+     * Низ HTML кода
+     *
+     * @return string
+     */
     protected function getHtmlFooter()
     {
         $footer = '</tr>
