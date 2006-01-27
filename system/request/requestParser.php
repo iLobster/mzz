@@ -18,19 +18,12 @@
  */
 class requestParser
 {
-    /**
-     * URL-Rewriter
-     *
-     * @var object Rewrite
-     */
-    protected $rewrite;
 
     /**
      * Constructor
      */
-    public function __construct($rewrite)
+    public function __construct()
     {
-        $this->rewrite = $rewrite;
     }
 
     /**
@@ -38,14 +31,14 @@ class requestParser
      *
      * @param object $request
      */
-    public function parse($request)
+    public function parse($request, $path)
     {
-        $params = $this->extractParams($request->get('path'));
-        $section = array_shift($params);
+        //$params = $this->extractParams($request->get('path'));
+        //$section = array_shift($params);
 
        // $this->rewrite->getRules($section);
         //$path = $this->rewrite->process($request->get('path'));
-        $params = $this->extractParams($request->get('path'));
+        $params = $this->extractParams($path);
 
         $section = array_shift($params);
         $request->setSection($section);

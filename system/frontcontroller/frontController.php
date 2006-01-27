@@ -122,7 +122,7 @@ class frontController
             $request->setSection($section);
             */
            // return $sectionMapper->getTemplateName($section, $action);
-           return $sectionMapper->getTemplateName($section, $action);
+           return $sectionMapper->getTemplateName();
        /* }
 
         return $template;*/

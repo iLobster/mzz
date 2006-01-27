@@ -103,7 +103,14 @@ class sectionMapper
             // если шаблон не найден - пытаемся реврайтить path и искать заново
             $rewrite = $this->toolkit->getRewrite();
             $rewrite->loadRules($section);
-            $template_name = $rewrite->process($httprequest->get('path'));
+            $rewrited_path = $rewrite->process($httprequest->get('path'));
+            $httprequest->parse($rewrited_path);
+
+            $section = $httprequest->getSection();
+            $action = $httprequest->getAction();
+
+            $template_name = $this->xmlRead($section, $action);
+
             if ($template_name === false) {
                 return false;
             }

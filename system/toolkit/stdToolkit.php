@@ -18,7 +18,7 @@ class stdToolkit extends toolkit
     public function getRequest()
     {
         if(empty($this->request)) {
-            $this->request = new HttpRequest(new requestParser($this->getRewrite()));
+            $this->request = new HttpRequest(new requestParser());
         }
         return $this->request;
     }

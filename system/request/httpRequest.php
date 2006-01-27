@@ -83,8 +83,8 @@ class httpRequest
         $this->post_vars = $_POST;
         $this->get_vars = $_GET;
         $this->cookie_vars = $_COOKIE;
-
-        $requestParser->parse($this);
+        $this->requestParser = $requestParser;
+        $this->parse($this->get('path'));
     }
 
     /**
@@ -126,6 +126,10 @@ class httpRequest
         return $result;
     }
 
+    public function parse($path)
+    {
+        $this->requestParser->parse($this, $path);
+    }
     /**
      * Возвращает true если используется защищенный протокол HTTPS
      *
