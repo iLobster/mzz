@@ -182,7 +182,7 @@ class Rewrite
      *
      * @param string $section
      */
-    public function getRules($section)
+    public function loadRules($section)
     {
         $this->XMLread($section);
     }

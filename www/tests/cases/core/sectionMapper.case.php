@@ -53,6 +53,7 @@ class sectionMapperTest extends unitTestCase
         $old_request = $this->toolkit->setRequest($request);
 
         $rewrite = new mockrewrite();
+        $rewrite->expectOnce('loadRules', array('test'));
         $rewrite->expectOnce('process', array('test.abc'));
         $rewrite->setReturnValue('process', 'test.foo');
         $old_rewrite = $this->toolkit->setRewrite($rewrite);

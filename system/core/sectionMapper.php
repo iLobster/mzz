@@ -102,6 +102,7 @@ class sectionMapper
         if ($template_name === false) {
             // если шаблон не найден - пытаемся реврайтить path и искать заново
             $rewrite = $this->toolkit->getRewrite();
+            $rewrite->loadRules($section);
             $template_name = $rewrite->process($httprequest->get('path'));
             if ($template_name === false) {
                 return false;
