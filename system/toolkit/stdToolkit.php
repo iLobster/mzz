@@ -23,6 +23,13 @@ class stdToolkit extends toolkit
         return $this->request;
     }
 
+    public function setRequest($request)
+    {
+        $old_request = $this->request;
+        $this->request = $request;
+        return $old_request;
+    }
+
     public function getSmarty()
     {
         if(empty($this->smarty)) {
@@ -35,6 +42,13 @@ class stdToolkit extends toolkit
         return $this->smarty;
     }
 
+    public function setSmarty($smarty)
+    {
+        $old_smarty = $this->smarty;
+        $this->smarty = $smarty;
+        return $old_smarty;
+    }
+
     public function getRewrite()
     {
         // может тут передавать путь/аргумент для резолвера аргументом??
@@ -42,6 +56,13 @@ class stdToolkit extends toolkit
             $this->rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
         }
         return $this->rewrite;
+    }
+
+    public function setRewrite($rewrite)
+    {
+        $old_rewrite = $this->rewrite;
+        $this->rewrite = $rewrite;
+        return $old_rewrite;
     }
 
     public function getConfig()
@@ -55,6 +76,13 @@ class stdToolkit extends toolkit
             $this->sectionMapper = new sectionMapper(fileLoader::resolve('configs/map.xml'));
         }
         return $this->sectionMapper;
+    }
+
+    public function setSectionMapper($sectionMapper)
+    {
+        $old_sectionMapper = $this->sectionMapper;
+        $this->sectionMapper = $sectionMapper;
+        return $old_sectionMapper;
     }
 
     public function getTimer()

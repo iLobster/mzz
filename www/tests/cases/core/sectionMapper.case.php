@@ -85,6 +85,8 @@ class sectionMapperTest extends unitTestCase
 
     public function testMappingFalse()
     {// ÊÀÊ ÏÎÄÌÅÍÈÒÜ ÒÓËÊÈÒ ÍÀ ÍÎÂÛÉ???
+     // $this->toolkit->setRequest($mockrequest) && $this->toolkit->setRewrite($mockrewrite)
+
         $this->oldToolkit = $this->toolkit->setToolkit(new testToolkitNotExist());
         $this->assertTrue($this->mapper->getTemplateName(), "act.test.foo.tpl");
     }
