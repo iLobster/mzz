@@ -48,6 +48,7 @@ class stdToolkit extends toolkit
     public function getRequest()
     {
         if(empty($this->request)) {
+            fileLoader::load('request/httpRequest');
             $this->request = new HttpRequest(new requestParser());
         }
         return $this->request;
@@ -61,6 +62,7 @@ class stdToolkit extends toolkit
     public function getSmarty()
     {
         if(empty($this->smarty)) {
+            fileLoader::load('template/mzzSmarty');
             $this->smarty = new mzzSmarty();
             $this->smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
             $this->smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
@@ -79,6 +81,7 @@ class stdToolkit extends toolkit
     {
         // может тут передавать путь/аргумент для резолвера аргументом??
         if(empty($this->rewrite)) {
+            fileLoader::load('request/rewrite');
             $this->rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
         }
         return $this->rewrite;
@@ -102,6 +105,7 @@ class stdToolkit extends toolkit
     public function getSectionMapper()
     {
         if(empty($this->sectionMapper)) {
+            fileLoader::load('core/sectionMapper');
             $this->sectionMapper = new sectionMapper(fileLoader::resolve('configs/map.xml'));
         }
         return $this->sectionMapper;

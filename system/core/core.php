@@ -42,19 +42,13 @@ class core
 
             fileLoader::setResolver($cachingResolver);
             fileLoader::load('exceptions/init');
-            fileLoader::load('template/mzzSmarty');
             fileLoader::load('core/ErrorHandler');
-            // fileLoader::load('core/registry'); // ѕока или скорее навсегда забиваем на него
             fileLoader::load('core/response');
             fileLoader::load('filters/init');
 
-
             fileLoader::load('config/config');
-            fileLoader::load('request/rewrite');
-            fileLoader::load('request/httpRequest');
             fileLoader::load('request/requestParser');
-            fileLoader::load('frontController');
-            fileLoader::load('core/sectionMapper');
+            fileLoader::load('frontcontroller/frontController');
 
             fileLoader::load('db/dbFactory');
             fileLoader::load('simple/simple.view');
@@ -66,7 +60,6 @@ class core
 
             $toolkit = systemToolkit::getInstance();
             $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
-
 
             $response = new response();
 
