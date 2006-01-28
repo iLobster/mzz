@@ -17,7 +17,7 @@
 <a href="#1">Отступы</a><br>
 <a href="#2">Управляющие структуры</a><br>
 <a href="#3">Вызовы функций</a><br>
-<a href="#4">Определения функций</a><br>
+<a href="#4">Определения функций/классов/методов</a><br>
 <a href="#5">Комментарии</a><br>
 <a href="#6">Подключение кода (including)</a><br>
 <a href="#7">Тэги PHP-кода</a><br>
@@ -128,7 +128,7 @@ $long_variable = foo($baz);
 </div>
 
 
-<hr><h2><a name="4">Определения функций</a></h2>
+<hr><h2><a name="4">Определения функций/классов/методов</a></h2>
 
 Определения функций следуют такому cоглашению:
 <div class="example">
@@ -142,7 +142,21 @@ function fooFunction($arg1, $arg2 = '')
 }
 </pre>
 </div>
-
+Определения классов и методов следуют такому же cоглашению:
+<div class="example">
+<pre>
+class foo
+{
+    public function fooFunction($arg1, $arg2 = '')
+    {
+        if (condition) {
+            statement;
+        }
+        return $val;
+    }
+}
+</pre>
+</div>
 Аргументы функций со значениями по умолчанию должны находиться в конце списка аргументов. Функции всегда должны возвращать значение, если это возможно в принципе. Чуть более подробный пример:
 <div class="example">
 <pre>
@@ -256,7 +270,7 @@ function connect($dsn, $persistent = false)
 <br><br>
 <hr>
 <div align="right">
-<i>Редакция от 13 января 2006, оригинал <a href="http://pear.php.net/manual/">http://pear.php.net/manual/</a></i>
+<i>Редакция от 28 января 2006, оригинал <a href="http://pear.php.net/manual/">http://pear.php.net/manual/</a></i>
 </div>
 </body>
 </html>
