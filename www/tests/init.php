@@ -11,17 +11,11 @@ function simpletest_error_handler($errno, $errstr, $errfile, $errline) {
 require_once 'config.php';
 require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
 require_once systemConfig::$pathToSystem . 'version.php';
-require_once systemConfig::$pathToSystem . 'resolver/iResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/compositeResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/fileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/sysFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/appFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/classFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/moduleResolver.php';
+
+require_once systemConfig::$pathToSystem . 'resolver/init.php';
 require_once systemConfig::$pathToSystem . 'resolver/casesFileResolver.php';
 require_once systemConfig::$pathToSystem . 'resolver/testFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/configFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/libResolver.php';
+
 $baseresolver = new compositeResolver();
 $baseresolver->addResolver(new sysFileResolver());
 $baseresolver->addResolver(new testFileResolver());
@@ -43,21 +37,12 @@ fileLoader::load('libs/simpletest/mock_objects');
 fileLoader::load('libs/simpletest/reporter');
 restore_error_handler();
 
-
 fileLoader::load('db/dbFactory');
 fileLoader::load('filters/init');
-fileLoader::load('core/response');
+fileLoader::load('request/response');
 fileLoader::load('template/mzzSmarty');
 fileLoader::load('request/rewrite');
 
-/*
-fileLoader::load('core/registry');
-$rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
-$registry = Registry::instance();
-$registry->setEntry('rewrite', $rewrite);
-$registry = Registry::instance();
-$config = new config(systemConfig::$pathToConf . 'common.ini');
-$registry->setEntry('config', $config);*/
 fileLoader::load('toolkit');
 fileLoader::load('toolkit/stdToolkit');
 fileLoader::load('toolkit/systemToolkit');
@@ -65,7 +50,7 @@ fileLoader::load('toolkit/systemToolkit');
 fileLoader::load('timer.factory');
 
 $toolkit = systemToolkit::getInstance();
-$toolkit->getToolkit()->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
+$toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
 
 $toolkit->getTimer();
 

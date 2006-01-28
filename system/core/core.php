@@ -42,8 +42,7 @@ class core
 
             fileLoader::setResolver($cachingResolver);
             fileLoader::load('exceptions/init');
-            fileLoader::load('core/ErrorHandler');
-            fileLoader::load('core/response');
+            fileLoader::load('request/response');
             fileLoader::load('filters/init');
 
             fileLoader::load('config/config');

@@ -1,5 +1,6 @@
 <?php
 
+fileLoader::load('exceptions/ErrorHandler');
 fileLoader::load('exceptions/mzzException');
 fileLoader::load('exceptions/mzzRuntimeException');
 fileLoader::load('exceptions/mzzSystemException');

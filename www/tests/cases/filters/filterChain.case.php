@@ -2,7 +2,7 @@
 fileLoader::load('filters/iFilter');
 fileLoader::load('filters/filterChain');
 fileLoader::load('cases/filters/stubFilter.class');
-fileLoader::load('core/response');
+fileLoader::load('request/response');
 
 class filterChainTest extends UnitTestCase
 {
