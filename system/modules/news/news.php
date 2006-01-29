@@ -9,28 +9,29 @@ class news
 
     public function setId($id)
     {
-        if (!$this->id) {
+        if (empty($this->id)) {
             $this->id = $id;
         }
     }
 
-    public function __call($name, $args) {
-        if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match)
-        && $attribute = $this->validateAttribute($match[2])) {
+    public function __call($name, $args)
+    {
+        if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($match[2])) {
             if ('get' == $match[1]) {
                 return $this->$attribute;
             } else {
                 $this->$attribute = $args[0];
             }
         } else {
-            throw new Exception('Вызов неопределённого метода ' . get_class($this) . '::' . $name . '()');
+            throw new Exception('Вызов неопределённого метода ' . __CLASS__ . '::' . $name . '()');
         }
     }
 
-    private  function validateAttribute($name) {
-        if (in_array(strtolower($name),
-        array_keys(get_class_vars(get_class($this))))) {
-            return strtolower($name);
+    private  function validateAttribute($name)
+    {
+        $name = strtolower($name);
+        if (in_array($name, array_keys(get_class_vars(__CLASS__)))) {
+            return $name;
         }
     }
 }

@@ -13,7 +13,7 @@
  * mzzPdoStatement: класс, замен€ющий стандартный Statement в PDO
  *
  * @package system
- * @version 0.1
+ * @version 0.2
  */
 class mzzPdoStatement extends PDOStatement
 {
@@ -27,8 +27,38 @@ class mzzPdoStatement extends PDOStatement
     public function bindArray($data)
     {
         foreach($data as $key => $val) {
-            $this->bindParam(':' . $key, $data[$key]);
+            switch (strtolower(gettype($val))) {
+                case "boolean":
+                    $type = PDO::PARAM_BOOL;
+                    break;
+                case "integer":
+                    $type = PDO::PARAM_INT;
+                    break;
+                case "string":
+                    $type = PDO::PARAM_STR;
+                    break;
+                case "null":
+                    $type = PDO::PARAM_NULL;
+                    break;
+                default:
+                    $type = PDO::PARAM_STR;
+                    break;
+            }
+            $this->bindParam(':' . $key, $data[$key], $type);
         }
+    }
+
+    /**
+     * ћетод fetch, измен€ющий вид результата на ассоциативный массив
+     *
+     * @param integer $how
+     * @param integer $orientation
+     * @param integer $offset
+     * @return array
+     */
+    public function fetch($how = PDO::FETCH_ASSOC, $orientation = PDO::FETCH_ORI_NEXT, $offset = PDO::FETCH_ORI_ABS)
+    {
+        return parent::fetch($how, $orientation, $offset);
     }
 }
 

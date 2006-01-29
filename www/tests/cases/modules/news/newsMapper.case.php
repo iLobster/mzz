@@ -99,9 +99,7 @@ class newsMapperTest extends unitTestCase
     private function countNews()
     {
         $query = 'SELECT COUNT(*) AS `total` FROM `news_news`';
-        $result = $this->db->query($query);
-        $total = $result->fetch(PDO::FETCH_OBJ)->total;
-        $result->closeCursor();
+        $total = $this->db->getOne($query);
         return $total;
     }
 
