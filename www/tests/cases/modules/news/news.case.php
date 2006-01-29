@@ -26,6 +26,25 @@ class newsTest extends unitTestCase
             $this->assertNotEqual($val, $news->$getprop());
         }
     }
+
+    public function testException()
+    {
+        $news = new news();
+
+        try {
+            $news->getFoo();
+            $this->fail('Должен быть брошен EXCEPTION!');
+        } catch (Exception $e) {
+            $this->assertWantedPattern('/news::getfoo/i', $e->getMessage());
+        }
+
+        try {
+            $news->setFoo();
+            $this->fail('Должен быть брошен EXCEPTION!');
+        } catch (Exception $e) {
+            $this->assertWantedPattern('/news::setfoo/i', $e->getMessage());
+        }
+    }
 }
 
 ?>

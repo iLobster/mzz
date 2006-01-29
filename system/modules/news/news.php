@@ -14,6 +14,8 @@ class news
             } else {
                 $this->$attribute = $args[0];
             }
+        }else {
+            throw new Exception('Вызов неопределённого метода ' . get_class($this) . '::' . $name . '()');
         }
     }
     protected function validateAttribute($name) {
