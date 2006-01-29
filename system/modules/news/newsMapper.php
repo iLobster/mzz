@@ -12,12 +12,6 @@ class newsMapper
         $this->db = DB::factory();
         $this->section = $section;
         $this->table = $this->getName() . '_' .$this->getSection();
-        /*
-        $mapFileName = fileLoader::resolve($this->getName() . '/map.xml');
-        if (!is_file($mapFileName)) {
-        throw new mzzIoException($mapFileName);
-        }
-        $this->xml = simplexml_load_file($mapFileName);*/
     }
 
     public function save($news)
@@ -35,6 +29,38 @@ class newsMapper
         }
     }
 
+    public function add($title, $text, $folder_id)
+    {
+        $news = new news();
+        $news->setTitle($title);
+        $news->setText($text);
+        $news->setFolderId($folder_id);
+        $this->save($news);
+        return $news;
+    }
+
+    public function searchById($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $row = $stmt->fetch();
+
+        if ($row) {
+            $news = new news($this);
+            foreach($this->getMap() as $field) {
+                $setprop = (string)$field->mutator;
+                $value = $row[(string)$field->name];
+                if ($setprop && $value) {
+                    call_user_func(array($news, $setprop), $value);
+                }
+            }
+            return $news;
+        } else {
+            return false;
+        }
+    }
 
     private function getName()
     {
@@ -44,6 +70,20 @@ class newsMapper
     private function getSection()
     {
         return $this->section;
+    }
+
+    private function getMap()
+    {
+        if (!$this->map) {
+            $mapFileName = fileLoader::resolve($this->getName() . '/map.xml');
+            if (!is_file($mapFileName)) {
+                throw new mzzIoException($mapFileName);
+            }
+            foreach(simplexml_load_file($mapFileName) as $field) {
+                $this->map[(string)$field->name] = $field;
+            }
+        }
+        return $this->map;
     }
 }
 
