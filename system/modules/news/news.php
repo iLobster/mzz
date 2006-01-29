@@ -7,6 +7,13 @@ class news
     private $text;
     private $folderid;
 
+    public function setId($id)
+    {
+        if (!$this->id) {
+            $this->id = $id;
+        }
+    }
+
     public function __call($name, $args) {
         if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match)
         && $attribute = $this->validateAttribute($match[2])) {
@@ -15,15 +22,8 @@ class news
             } else {
                 $this->$attribute = $args[0];
             }
-        }else {
+        } else {
             throw new Exception('Âûçîâ íåîïğåäåë¸ííîãî ìåòîäà ' . get_class($this) . '::' . $name . '()');
-        }
-    }
-
-    public function setId($id)
-    {
-        if (!$this->id) {
-            $this->id = $id;
         }
     }
 
