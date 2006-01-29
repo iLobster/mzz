@@ -1,0 +1,18 @@
+<?xml version='1.0' standalone='yes'?>
+<newsFolder>
+    <field>
+    	<name>id</name>
+    	<accessor>getId</accessor>
+        <mutator>setId</mutator>
+    </field>
+    <field>
+        <name>name</name>
+        <accessor>getName</accessor>
+        <mutator>setName</mutator>
+    </field>
+    <field>
+        <name>parent</name>
+        <accessor>getParent</accessor>
+        <mutator>setParent</mutator>
+    </field>
+</newsFolder>

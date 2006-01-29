@@ -8,6 +8,8 @@
 ----------------------------------
 
 51 (*) DM на newsFolder [mz]
+       ’м.. Ќе смог разобратьс€ с getFolders и с getItems в newsFolderMapper. 
+        ак там делать? newsMapper создавать, и тогда жестка€ прив€зка $section? ўас кака€-то каша получилась...
 
 50 (+) в mzzPdoStatement::bindArray() определ€ть тип переменной и выставл€ть при bindParam
 
