@@ -1,9 +1,9 @@
 <?php
 
-fileLoader::load('news/newsTableModule');
+//fileLoader::load('news/newsTableModule');
 
 class newsTableModuleTest extends unitTestCase
-{
+{/*
     protected $newsTM;
     protected $db;
 
@@ -103,7 +103,7 @@ class newsTableModuleTest extends unitTestCase
         $result = $stmt->fetch();
 
         $this->assertEqual($result['count'], 1);
-    }
+    }*/
 }
 
 ?>

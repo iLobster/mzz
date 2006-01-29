@@ -1,12 +1,12 @@
 <?php
-
+/*
 fileLoader::load('news/newsActiveRecord');
 fileLoader::load('news/newsTableModule');
 
-mock::generate('newsTableModule');
+mock::generate('newsTableModule');*/
 
 class newsActiveRecordTest extends unitTestCase
-{
+{/*
     protected $db;
     protected $TM;
     public function setUp()
@@ -95,7 +95,7 @@ class newsActiveRecordTest extends unitTestCase
         $stmtStub = new PDOStatement();
         $newsAR = new newsActiveRecord($stmtStub, $this->TM);
         $this->assertTrue($newsAR->create($data));
-    }
+    }*/
 }
 
 ?>
