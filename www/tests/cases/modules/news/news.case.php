@@ -4,47 +4,71 @@ fileLoader::load('news');
 
 class newsTest extends unitTestCase
 {
+    private $news;
+
+    public function setUp()
+    {
+        $this->news = new news();
+    }
+
     public function testAccessorsAndMutators()
     {
-        $news = new news();
         $props = array('Title', 'Text', 'FolderId');
         foreach ($props as $prop) {
             $getprop = 'get' . $prop;
             $setprop = 'set' . $prop;
 
-            $this->assertNull($news->$getprop());
+            $this->assertNull($this->news->$getprop());
 
             $val = 'foo';
-            $news->$setprop($val);
+            $this->news->$setprop($val);
 
-            $this->assertEqual($val, $news->$getprop());
+            $this->assertEqual($val, $this->news->$getprop());
 
             $val2 = 'bar';
-            $news->$setprop($val2);
+            $this->news->$setprop($val2);
 
-            $this->assertEqual($val2, $news->$getprop());
-            $this->assertNotEqual($val, $news->$getprop());
+            $this->assertEqual($val2, $this->news->$getprop());
+            $this->assertNotEqual($val, $this->news->$getprop());
         }
     }
 
     public function testException()
     {
-        $news = new news();
-
         try {
-            $news->getFoo();
+            $this->news->getFoo();
             $this->fail('Должен быть брошен EXCEPTION!');
         } catch (Exception $e) {
             $this->assertWantedPattern('/news::getfoo/i', $e->getMessage());
         }
 
         try {
-            $news->setFoo();
+            $this->news->setFoo();
             $this->fail('Должен быть брошен EXCEPTION!');
         } catch (Exception $e) {
             $this->assertWantedPattern('/news::setfoo/i', $e->getMessage());
         }
     }
+
+    public function testIdNull()
+    {
+        $this->assertNull($this->news->getId());
+    }
+
+    public function testIdOneTime()
+    {
+        $id = 2;
+        $this->news->setId($id);
+
+        $this->assertEqual($this->news->getId(), $id);
+
+        $id2 = 5;
+        $this->assertNotEqual($id, $id2);
+
+        $this->news->setId($id2);
+        $this->assertEqual($this->news->getId(), $id);
+    }
 }
+
 
 ?>

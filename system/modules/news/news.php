@@ -2,6 +2,7 @@
 
 class news
 {
+    private $id;
     private $title;
     private $text;
     private $folderid;
@@ -18,7 +19,15 @@ class news
             throw new Exception('Вызов неопределённого метода ' . get_class($this) . '::' . $name . '()');
         }
     }
-    protected function validateAttribute($name) {
+
+    public function setId($id)
+    {
+        if (!$this->id) {
+            $this->id = $id;
+        }
+    }
+
+    private  function validateAttribute($name) {
         if (in_array(strtolower($name),
         array_keys(get_class_vars(get_class($this))))) {
             return strtolower($name);
