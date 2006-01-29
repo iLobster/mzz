@@ -47,6 +47,18 @@ class newsMapperTest extends unitTestCase
         $this->assertEqual($news->getId(), 1);
     }
 
+    public function testAdd()
+    {
+        $news = $this->mapper->add('title', 'text', 2);
+
+        $query = 'SELECT COUNT(*) AS `total` FROM `news_news`';
+        $result = $this->db->query($query);
+        $total = $result->fetch(PDO::FETCH_OBJ)->total;
+        $result->closeCursor();
+
+
+    }
+
     public function fixture($mapper)
     {
         $mapper->add('tit1e1', 'text1', 11);

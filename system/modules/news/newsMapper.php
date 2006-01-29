@@ -48,6 +48,14 @@ class newsMapper
         $row = $stmt->fetch();
 
         if ($row) {
+            return $this->createNewsFromRow($row);
+        } else {
+            return false;
+        }
+    }
+
+    private function createNewsFromRow($row)
+    {
             $news = new news($this);
             foreach($this->getMap() as $field) {
                 $setprop = (string)$field->mutator;
@@ -57,9 +65,6 @@ class newsMapper
                 }
             }
             return $news;
-        } else {
-            return false;
-        }
     }
 
     private function getName()

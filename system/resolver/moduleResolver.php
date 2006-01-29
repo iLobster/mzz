@@ -59,7 +59,7 @@ class moduleResolver extends partialFileResolver
         }
 
         $ext = substr(strrchr($request, '.'), 1);
-        if ($ext != 'php' && $ext != 'ini') {
+        if ($ext != 'php' && $ext != 'ini' && $ext != 'xml') {
             $result .= '.php';
         }
         return $result;
