@@ -68,8 +68,11 @@ class fileLoader
      * @return string|null путь до запрашиваемого файла/класса, либо null если не найден
      */
     public static function resolve($request)
-    {
-        return self::$resolver->resolve($request);
+    {            
+        if(!($filename = self::$resolver->resolve($request))) {
+            throw new mzzIoException($request);
+        }
+        return $filename;
     }
 
     /**
@@ -83,9 +86,7 @@ class fileLoader
         if (in_array($file, self::$files)) {
             return true;
         } else {
-            if(!($filename = self::resolve($file))) {
-                throw new mzzIoException($file);
-            }
+            $filename = self::resolve($file);
             self::$files[] = $file;
             require_once $filename;
             return true;
