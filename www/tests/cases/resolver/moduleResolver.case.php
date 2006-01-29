@@ -23,6 +23,14 @@ class moduleResolverTest extends UnitTestCase
         $this->assertEqual('resolved_path', $this->resolver->resolve('news/news.list.controller'));
     }
 
+    public function testResolveName()
+    {
+        $this->mock->expectOnce('resolve', array('modules/news/news.php'));
+        $this->mock->setReturnValue('resolve', 'resolved_path');
+
+        $this->assertEqual('resolved_path', $this->resolver->resolve('news'));
+    }
+
     public function testShortResolve()
     {
         $this->mock->expectOnce('resolve', array('modules/news/news.list.controller.php'));
