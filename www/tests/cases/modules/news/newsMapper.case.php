@@ -49,22 +49,35 @@ class newsMapperTest extends unitTestCase
 
     public function testAdd()
     {
-        $news = $this->mapper->add('title', 'text', 2);
+        $title = 'title'; $text = 'text'; $folder_id = 2;
+        $news = $this->mapper->add($title, $text, $folder_id);
 
         $query = 'SELECT COUNT(*) AS `total` FROM `news_news`';
         $result = $this->db->query($query);
         $total = $result->fetch(PDO::FETCH_OBJ)->total;
         $result->closeCursor();
 
+        $this->assertEqual($total, 1);
+        $this->assertEqual($news->getId(), 1);
+        $this->assertEqual($news->getTitle(), $title);
+        $this->assertEqual($news->getText(), $text);
+        $this->assertEqual($news->getFolderId(), $folder_id);
+    }
 
+    public function testSearchByFolderId()
+    {
+        $this->fixture($this->mapper);
+
+        $this->assertIsA($news_list = $this->mapper->searchByFolder(11), 'array');
+        $this->assertEqual(2, sizeof($news_list));
     }
 
     public function fixture($mapper)
     {
         $mapper->add('tit1e1', 'text1', 11);
-        $mapper->add('tit1e2', 'text2', 12);
+        $mapper->add('tit1e2', 'text2', 11);
         $mapper->add('tit1e3', 'text3', 13);
-        $mapper->add('tit1e4', 'text4', 14);
+        $mapper->add('tit1e4', 'text4', 13);
     }
 }
 

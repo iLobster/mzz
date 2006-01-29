@@ -14,6 +14,16 @@ class newsMapper
         $this->table = $this->getName() . '_' .$this->getSection();
     }
 
+    private function getName()
+    {
+        return 'news';
+    }
+
+    private function getSection()
+    {
+        return $this->section;
+    }
+
     public function save($news)
     {
         $stmt = $this->db->prepare("INSERT INTO  `" . $this->table . "` (`title`, `text`, `folder_id`) VALUES (:title, :text, :folder_id)");
@@ -42,7 +52,7 @@ class newsMapper
     public function searchById($id)
     {
         $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         $row = $stmt->fetch();
@@ -54,27 +64,32 @@ class newsMapper
         }
     }
 
+    public function searchByFolder($folder_id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE folder_id = :folder_id");
+        $stmt->bindParam(':folder_id', $folder_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = array();
+
+        while ($row = $stmt->fetch()) {
+            $result[] = $this->createNewsFromRow($row);
+        }
+
+        return $result;
+    }
+
     private function createNewsFromRow($row)
     {
-            $news = new news($this);
-            foreach($this->getMap() as $field) {
-                $setprop = (string)$field->mutator;
-                $value = $row[(string)$field->name];
-                if ($setprop && $value) {
-                    call_user_func(array($news, $setprop), $value);
-                }
+        $news = new news($this);
+        foreach($this->getMap() as $field) {
+            $setprop = (string)$field->mutator;
+            $value = $row[(string)$field->name];
+            if ($setprop && $value) {
+                call_user_func(array($news, $setprop), $value);
             }
-            return $news;
-    }
-
-    private function getName()
-    {
-        return 'news';
-    }
-
-    private function getSection()
-    {
-        return $this->section;
+        }
+        return $news;
     }
 
     private function getMap()
