@@ -72,12 +72,28 @@ class newsMapperTest extends unitTestCase
         $this->assertEqual(2, sizeof($news_list));
     }
 
-    public function fixture($mapper)
+    public function testUpdate()
     {
-        $mapper->add('tit1e1', 'text1', 11);
-        $mapper->add('tit1e2', 'text2', 11);
-        $mapper->add('tit1e3', 'text3', 13);
-        $mapper->add('tit1e4', 'text4', 13);
+        $this->fixture($this->mapper);
+        $news = $this->mapper->searchById(1);
+
+        $this->assertEqual($news->getTitle(), 'title1');
+
+        $title = 'new_title';
+        $news->setTitle($title);
+        $this->mapper->update($news);
+
+        $news2 = $this->mapper->searchById(1);
+        $this->assertEqual($news2->getTitle(), $title);
+
+    }
+
+    private function fixture($mapper)
+    {
+        $mapper->add('title1', 'text1', 11);
+        $mapper->add('title2', 'text2', 11);
+        $mapper->add('title3', 'text3', 13);
+        $mapper->add('title4', 'text4', 13);
     }
 }
 

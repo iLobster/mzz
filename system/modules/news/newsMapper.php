@@ -24,7 +24,7 @@ class newsMapper
         return $this->section;
     }
 
-    public function save($news)
+    public function insert($news)
     {
         $stmt = $this->db->prepare("INSERT INTO  `" . $this->table . "` (`title`, `text`, `folder_id`) VALUES (:title, :text, :folder_id)");
         $data = array(
@@ -36,6 +36,32 @@ class newsMapper
         if($stmt->execute()) {
             $id = $this->db->lastInsertID();
             $news->setId($id);
+        }
+    }
+
+    public function update($news)
+    {
+        $stmt = $this->db->prepare('UPDATE `' . $this->table . '` SET `title` = :title, `text` = :text WHERE `id` = :id');
+        // 2 варианта - или мапить в конструкторе, или выделить метод как сейчас
+        // если в конструкторе - то можем почитать файл лишний раз когда он не требуется
+        // если отдельным методом (юзается например в self::createNewsFromRow() то следующая строчка - для того чтобы прочитать и записать в $this->map мапу..
+        // так что нужно подумать
+        $this->getMap();
+        foreach (array('id', 'title', 'text', 'folder_id') as $fieldname) {
+            $field = $this->map[$fieldname];
+            $getprop = (string)$field->accessor;
+            // а тут нужно определять тип?
+            $stmt->bindParam(':' . $fieldname, $news->$getprop());
+        }
+        $stmt->execute();
+
+    }
+
+    public function save($news) {
+        if ($news->getId()) {
+            $this->update($news);
+        } else {
+            $this->insert($news);
         }
     }
 
@@ -81,7 +107,7 @@ class newsMapper
 
     private function createNewsFromRow($row)
     {
-        $news = new news($this);
+        $news = new news();
         foreach($this->getMap() as $field) {
             $setprop = (string)$field->mutator;
             $value = $row[(string)$field->name];
