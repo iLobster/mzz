@@ -52,10 +52,7 @@ class newsMapperTest extends unitTestCase
         $title = 'title'; $text = 'text'; $folder_id = 2;
         $news = $this->mapper->add($title, $text, $folder_id);
 
-        $query = 'SELECT COUNT(*) AS `total` FROM `news_news`';
-        $result = $this->db->query($query);
-        $total = $result->fetch(PDO::FETCH_OBJ)->total;
-        $result->closeCursor();
+        $total = $this->countNews();
 
         $this->assertEqual($total, 1);
         $this->assertEqual($news->getId(), 1);
@@ -85,7 +82,27 @@ class newsMapperTest extends unitTestCase
 
         $news2 = $this->mapper->searchById(1);
         $this->assertEqual($news2->getTitle(), $title);
+    }
 
+    public function testDelete()
+    {
+        $this->fixture($this->mapper);
+
+        $this->assertEqual(4, $this->countNews());
+
+        $news = $this->mapper->searchById(1);
+        $this->mapper->delete($news);
+
+        $this->assertEqual(3, $this->countNews());
+    }
+
+    private function countNews()
+    {
+        $query = 'SELECT COUNT(*) AS `total` FROM `news_news`';
+        $result = $this->db->query($query);
+        $total = $result->fetch(PDO::FETCH_OBJ)->total;
+        $result->closeCursor();
+        return $total;
     }
 
     private function fixture($mapper)

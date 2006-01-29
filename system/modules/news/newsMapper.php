@@ -57,6 +57,13 @@ class newsMapper
 
     }
 
+    public function delete($news)
+    {
+        $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `id` = :id');
+        $stmt->bindParam(':id', $news->getId(), PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
     public function save($news) {
         if ($news->getId()) {
             $this->update($news);
