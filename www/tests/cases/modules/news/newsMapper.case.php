@@ -22,8 +22,8 @@ class newsMapperTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('DELETE FROM `news_news`');
-        $this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
+        $this->db->query('TRUNCATE TABLE `news_news`');
+        //$this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
     }
 
     public function testSave()
