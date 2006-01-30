@@ -40,7 +40,7 @@ class newsFolderMapper
 
     public function getItems($newsFolder)
     {
-        $news = new newsMapper('news');
+        $news = new newsMapper($this->getSection());
         return $news->searchByFolder($newsFolder->getId());
     }
 
