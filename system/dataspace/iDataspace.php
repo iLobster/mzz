@@ -18,9 +18,37 @@
  */
 interface iDataspace
 {
+    /**
+     * Сохранение значения
+     *
+     * @param string|integer $key ключ для доступа к значению
+     * @param mixed $value значение
+     * @return true
+     */
     public function set($key, $value);
+
+    /**
+     * Возвращает значение по ключу
+     *
+     * @param string|intger $key ключ
+     * @return mixed
+     */
     public function get($key);
+
+    /**
+     * Удаляет значение с ключом $key
+     *
+     * @param string|integer $key ключ
+     * @return true
+     */
     public function delete($key);
+
+    /**
+     * Проверяет существует ли значение с ключом $key
+     *
+     * @param string|integer $key ключ
+     * @return boolean
+     */
     public function exists($key);
 }
 ?>
