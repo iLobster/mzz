@@ -24,27 +24,6 @@ class newsFolderMapper
         return $this->section;
     }
 
-    public function getFolders($newsFolder)
-    {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `parent` = :parent");
-        $stmt->bindParam(':parent', $newsFolder->getId(), PDO::PARAM_INT);
-        $stmt->execute();
-        $folders = array();
-
-        while ($row = $stmt->fetch()) {
-            $folders[] = $this->createNewsFolderFromRow($row);
-        }
-
-        return $folders;
-    }
-
-    public function getItems($newsFolder)
-    {
-        $news = new newsMapper($this->getSection());
-        return $news->searchByFolder($newsFolder->getId());
-    }
-
-
     public function insert($newsFolder)
     {
         $stmt = $this->db->prepare("INSERT INTO  `" . $this->table . "` (`name`, `parent`) VALUES (:name, :parent)");
@@ -95,7 +74,7 @@ class newsFolderMapper
 
     public function add($name, $parent)
     {
-        $newsFolder = new newsFolder();
+        $newsFolder = new newsFolder($this);
         $newsFolder->setName($name);
         $newsFolder->setParent($parent);
         $this->save($newsFolder);
@@ -121,7 +100,7 @@ class newsFolderMapper
 
     private function createNewsFolderFromRow($row)
     {
-        $newsFolder = new newsFolder();
+        $newsFolder = new newsFolder($this);
         foreach($this->getMap() as $field) {
             $setprop = (string)$field->mutator;
             $value = $row[(string)$field->name];
@@ -144,6 +123,26 @@ class newsFolderMapper
             }
         }
         return $this->map;
+    }
+
+    public function getFolders($newsFolder)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `parent` = :parent");
+        $stmt->bindParam(':parent', $newsFolder->getId(), PDO::PARAM_INT);
+        $stmt->execute();
+        $folders = array();
+
+        while ($row = $stmt->fetch()) {
+            $folders[] = $this->createNewsFolderFromRow($row);
+        }
+
+        $newsFolder->setFolders($folders);
+    }
+
+    public function getItems($newsFolder)
+    {
+        $news = new newsMapper($this->getSection());
+        $newsFolder->setItems($news->searchByFolder($newsFolder->getId()));
     }
 }
 

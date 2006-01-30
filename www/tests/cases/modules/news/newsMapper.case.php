@@ -51,6 +51,7 @@ class newsMapperTest extends unitTestCase
         $this->assertEqual($news->getId(), 1);
     }
 
+
     public function testAdd()
     {
         $title = 'title'; $text = 'text'; $folder_id = 2;

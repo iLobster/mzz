@@ -5,6 +5,14 @@ class newsFolder
     private $id;
     private $name;
     private $parent;
+    private $mapper;
+    private $folders;
+    private $items;
+
+    public function __construct($mapper)
+    {
+        $this->mapper = $mapper;
+    }
 
     public function setId($id)
     {
@@ -32,6 +40,28 @@ class newsFolder
         if (in_array($name, array_keys(get_class_vars(__CLASS__)))) {
             return $name;
         }
+    }
+
+    public function getFolders()
+    {
+        $this->mapper->getFolders($this);
+        return $this->folders;
+    }
+
+    public function getItems()
+    {
+        $this->mapper->getItems($this);
+        return $this->items;
+    }
+
+    public function setItems($items)
+    {
+        $this->items = $items;
+    }
+
+    public function setFolders($folders)
+    {
+        $this->folders = $folders;
     }
 }
 

@@ -8,7 +8,8 @@ class newsFolderTest extends unitTestCase
 
     public function setUp()
     {
-        $this->newsFolder = new newsFolder();
+        $mapper = new newsFolderMapper('news');
+        $this->newsFolder = new newsFolder($mapper);
     }
 
     public function testAccessorsAndMutators()
@@ -48,6 +49,41 @@ class newsFolderTest extends unitTestCase
         } catch (Exception $e) {
             $this->assertWantedPattern('/newsFolder::setfoo/i', $e->getMessage());
         }
+    }
+
+
+    public function testGetFolders()
+    {
+
+        $newsSubFolders = $this->newsFolder->getFolders();
+
+        /*
+        Нужен мок
+        $this->assertEqual(count($newsSubFolders), 2);
+
+        foreach ($newsSubFolders as $item) {
+            $this->assertIsA($item, 'newsFolder');
+            $this->assertEqual($item->getParent(), '1');
+        }
+        */
+
+    }
+
+    public function testGetItems()
+    {
+
+        $newsSubFolders = $this->newsFolder->getFolders();
+
+        /*
+        тоже нужен мок
+        $this->assertEqual(count($newsSubFolders), 2);
+
+        foreach ($newsSubFolders as $item) {
+            $this->assertIsA($item, 'newsFolder');
+            $this->assertEqual($item->getParent(), '1');
+        }
+        */
+
     }
 
     public function testIdNull()

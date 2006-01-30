@@ -22,10 +22,16 @@ class newsListController
     {
         //fileLoader::load('news.list.model');
         fileLoader::load('news.list.view');
-        fileLoader::load("news/newsActiveRecord");
-        fileLoader::load("news/newsTableModule");
-        fileLoader::load("news/newsFolderActiveRecord");
-        fileLoader::load("news/newsFolderTableModule");
+        //fileLoader::load("news/newsActiveRecord");
+        //fileLoader::load("news/newsTableModule");
+        //fileLoader::load("news/newsFolderActiveRecord");
+        //fileLoader::load("news/newsFolderTableModule");
+
+        fileLoader::load("news");
+        fileLoader::load("news/newsFolder");
+        fileLoader::load("news/newsMapper");
+        fileLoader::load("news/newsFolderMapper");
+
 
     }
 
@@ -34,14 +40,14 @@ class newsListController
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
 
-        $newsFolders = new newsFolderTableModule($httprequest->getSection());
+        $newsFolder = new newsFolderMapper($httprequest->getSection());
 
         //$params = $httprequest->getParams();
         if(($path = $httprequest->getParam(0)) == false) {
             $path = "/";
         }
-        $folder = $newsFolders->searchByName($path);
-        $data = $folder->getItems();
+        $folder = $newsFolder->searchByName($path);
+        $data = $folder->getItems($newsFolder);
         return new newsListView($data);
     }
 }

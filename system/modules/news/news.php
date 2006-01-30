@@ -7,6 +7,10 @@ class news
     private $text;
     private $folderid;
 
+    public function __construct()
+    {
+    }
+
     public function setId($id)
     {
         if (empty($this->id)) {

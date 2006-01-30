@@ -32,7 +32,7 @@ class newsFolderMapperTest extends unitTestCase
 
     public function testSave()
     {
-        $newsFolder = new newsFolder();
+        $newsFolder = new newsFolder($this->mapper);
         $newsFolder->setName('somename');
         $newsFolder->setParent(2);
 
@@ -57,7 +57,7 @@ class newsFolderMapperTest extends unitTestCase
 
 
         $newsFolder = $this->mapper->searchByName('name1');
-        $news = $this->mapper->getItems($newsFolder);
+        $news = $newsFolder->getItems($this->mapper);
 
         $this->assertEqual(count($news), 2);
 
@@ -76,7 +76,7 @@ class newsFolderMapperTest extends unitTestCase
 
 
         $newsFolder = $this->mapper->searchByName('name1');
-        $newsSubFolders = $this->mapper->getFolders($newsFolder);
+        $newsSubFolders = $newsFolder->getFolders();
 
         $this->assertEqual(count($newsSubFolders), 2);
 
