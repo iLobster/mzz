@@ -50,7 +50,7 @@ final class cachingResolver extends decoratingResolver
         // если файл существует - читаем его содержимое и десериализуем его в массив
         if ($mode == "r+") {
             while ($this->cache_file->eof() == false) {
-            	$this->cache .= $this->cache_file->fgets();
+                $this->cache .= $this->cache_file->fgets();
             }
             $this->cache = unserialize($this->cache);
         }

@@ -9,13 +9,13 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
  * mzzFileSmarty: модификация Smarty для работы с файлами-шаблонами
  *
  * @version 0.3
  * @package system
  */
-
 class mzzFileSmarty implements IMzzSmarty
 {
 
@@ -46,7 +46,7 @@ class mzzFileSmarty implements IMzzSmarty
         $result = $this->smarty->_fetch($resource_name, $cache_id, $compile_id, $display);
 
         // Если шаблон вложен, обработать получателя
-        if (strpos($template, "{* main=") !== false) {
+        if ($this->smarty->isActive($template)) {
             $params = $this->smarty->parse($template);
             $smarty->assign($params['placeholder'], $result);
             $result = $this->smarty->fetch($params['main'], $cache_id, $compile_id, $display, $this->smarty);

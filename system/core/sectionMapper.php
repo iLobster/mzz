@@ -43,9 +43,6 @@ class sectionMapper
      */
     public function __construct($mapFileName)
     {
-        if (!is_file($mapFileName)) {
-            throw new mzzIoException($mapFileName);
-        }
         $this->xml = simplexml_load_file($mapFileName);
     }
 

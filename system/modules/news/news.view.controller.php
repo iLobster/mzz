@@ -33,7 +33,7 @@ class newsViewController
         //$params = $httprequest->getParams();
 
         $tableModule = new newsTableModule($httprequest->getSection());
-        $news = $tableModule->searchById($httprequest->getParam(0));
+        $news = $tableModule->searchById($httprequest->get(0, SC_PATH));
         return new newsViewView($news);
     }
 }

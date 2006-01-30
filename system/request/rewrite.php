@@ -52,10 +52,6 @@ class Rewrite
      */
     public function __construct($rewriteConfigFile)
     {
-        if(!file_exists($rewriteConfigFile)) {
-            throw new mzzIoException($rewriteConfigFile);
-        }
-
         $this->xml = simplexml_load_file($rewriteConfigFile);
     }
 

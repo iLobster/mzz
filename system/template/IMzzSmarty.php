@@ -9,14 +9,13 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
  * IMzzSmarty: модификация Smarty для работы с шаблонами
  *
  * @version 0.3
  * @package system
  */
-
-
 interface IMzzSmarty
 {
     /**

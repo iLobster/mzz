@@ -129,9 +129,6 @@ class newsMapper
     {
         if (!$this->map) {
             $mapFileName = fileLoader::resolve($this->getName() . '/map.xml');
-            if (!is_file($mapFileName)) {
-                throw new mzzIoException($mapFileName);
-            }
             foreach(simplexml_load_file($mapFileName) as $field) {
                 $this->map[(string)$field->name] = $field;
             }

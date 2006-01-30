@@ -19,7 +19,7 @@
 
 interface iResolver
 {
-	public function resolve($request);
+    public function resolve($request);
 }
 
 ?>

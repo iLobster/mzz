@@ -9,6 +9,7 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
  * HttpRequest: класс дл€ работы с суперглобальными массивами
  * Examples:
@@ -19,7 +20,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.5
+ * @version 0.6
  */
 
 define('SC_GET', 1);
@@ -31,25 +32,23 @@ define('SC_PATH', 16);
 
 class httpRequest
 {
-
-
     /**#@+
     * @var array
     */
     /**
      * POST-данные
      */
-    protected $post_vars;
+    protected $postVars;
 
     /**
      * GET-данные
      */
-    protected $get_vars;
+    protected $getVars;
 
     /**
      * Cookie
      */
-    protected $cookie_vars;
+    protected $cookieVars;
 
     /**
      * Params
@@ -73,16 +72,16 @@ class httpRequest
     protected $action;
 
 
-
     /**
      *  онструктор.
      *
+     * @param object $requestParser
      */
     public function __construct($requestParser)
     {
-        $this->post_vars = $_POST;
-        $this->get_vars = $_GET;
-        $this->cookie_vars = $_COOKIE;
+        $this->postVars = new arrayDataspace($_POST);
+        $this->getVars = new arrayDataspace($_GET);
+        $this->cookieVars = new arrayDataspace($_COOKIE);
         $this->requestParser = $requestParser;
         $this->parse($this->get('path'));
     }
@@ -98,38 +97,39 @@ class httpRequest
     {
         $result = null;
 
-        if ($scope & SC_SERVER) {
-            if ( ($result = self::getServer($name)) != null )
+        if ($scope & SC_SERVER && !is_null($result = $this->getServer($name))) {
             return $result;
         }
 
-        if ($scope & SC_COOKIE) {
-            if ( ($result = self::getCookie($name)) != null )
+        if ($scope & SC_COOKIE && !is_null($result = $this->cookieVars->get($name))) {
             return $result;
         }
 
-        if ($scope & SC_POST) {
-            if ( ($result = self::getPost($name)) != null )
+        if ($scope & SC_POST && !is_null($result = $this->postVars->get($name))) {
             return $result;
         }
 
-        if ($scope & SC_GET) {
-            if ( ($result = self::getGet($name)) != null )
+        if ($scope & SC_GET && !is_null($result = $this->getVars->get($name))) {
             return $result;
         }
 
-        if ($scope & SC_PATH) {
-            if ( ($result = self::getParam($name)) != null )
+        if ($scope & SC_PATH && !is_null($result = $this->params->get($name))) {
             return $result;
         }
 
         return $result;
     }
 
+    /**
+     * ѕроизводит разборку URL на section, action и параметры
+     *
+     * @param string $path
+     */
     public function parse($path)
     {
         $this->requestParser->parse($this, $path);
     }
+
     /**
      * ¬озвращает true если используетс€ защищенный протокол HTTPS
      *
@@ -137,7 +137,7 @@ class httpRequest
      */
     public function isSecure()
     {
-        $temp = self::getServer('HTTPS');
+        $temp = $this->getServer('HTTPS');
         return !empty($temp);
     }
 
@@ -148,42 +148,8 @@ class httpRequest
      */
     public function getMethod()
     {
-        return self::getServer('REQUEST_METHOD');
+        return $this->getServer('REQUEST_METHOD');
     }
-
-    /**
-     * ћетод получени€ переменной из суперглобального массива _GET
-     *
-     * @param string $name им€ переменной
-     * @return string|null
-     */
-    private function getGet($name)
-    {
-        return ( isset($this->get_vars[$name]) ) ? $this->get_vars[$name] : null;
-    }
-
-    /**
-     * ћетод получени€ переменной из суперглобального массива _POST
-     *
-     * @param string $name им€ переменной
-     * @return string|null
-     */
-    private function getPost($name)
-    {
-        return ( isset($this->post_vars[$name]) ) ? $this->post_vars[$name] : null;
-    }
-
-    /**
-     * ћетод получени€ переменной из суперглобального массива _COOKIE
-     *
-     * @param string $name им€ переменной
-     * @return string|null
-     */
-    private function getCookie($name)
-    {
-        return ( isset($this->cookie_vars[$name]) ) ? $this->cookie_vars[$name] : null;
-    }
-
 
     /**
      * ћетод получени€ переменной из суперглобального массива _SERVER
@@ -194,6 +160,26 @@ class httpRequest
     private function getServer($name)
     {
         return ( isset($_SERVER[$name]) ) ? $_SERVER[$name] : null;
+    }
+
+    /**
+     * ¬озвращает section
+     *
+     * @return string
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * ¬озвращает action
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->action;
     }
 
     /**
@@ -224,7 +210,10 @@ class httpRequest
      */
     public function setParam($name, $value)
     {
-        $this->params[$name] = $value;
+        if(($this->params instanceof iDataspace) == false) {
+            $this->setParams(array());
+        }
+        $this->params->set($name, $value);
     }
 
     /**
@@ -232,52 +221,11 @@ class httpRequest
      *
      * @param array $params
      */
-    public function setParams(array $params)
+    public function setParams(Array $params)
     {
-        $this->params = $params;
+        $this->params = new arrayDataspace($params);
     }
 
-    /**
-     * ¬озвращает section
-     *
-     * @return string
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
-     * ¬озвращает action
-     *
-     * @return string
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    /**
-     * ¬озвращает определенный параметра
-     *
-     * @param string $name
-     * @return string
-     */
-    public function getParam($name)
-    {
-        return (isset($this->params[$name])) ? $this->params[$name] : null;
-    }
-
-    /**
-     * Get all params from url
-     *
-     * @deprecated use getParam
-     * @return array
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
 }
 
 ?>

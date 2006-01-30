@@ -13,7 +13,7 @@
 
 
 define('DEBUG_MODE', 1);
-
+define('CATCH_TPL_RECURSION', true);
 
 define('SYSTEM_PATH',  '../../system/');
 
