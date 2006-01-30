@@ -8,10 +8,14 @@ class newsMapperTest extends unitTestCase
     private $mapper;
     private $db;
 
-    public function setUp()
+    public function __construct()
     {
         $this->db = DB::factory();
         $this->cleardb();
+    }
+
+    public function setUp()
+    {
         $this->mapper = new newsMapper('news');
     }
 
