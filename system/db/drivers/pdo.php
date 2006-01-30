@@ -103,7 +103,6 @@ class mzzPdo extends PDO
         $start_time = microtime(true);
         $result = parent::query($query);
         $this->queriesTime += (microtime(true) - $start_time);
-echo $query . " " . (microtime(true) - $start_time) . '<br>';
         return $result;
     }
 
@@ -134,7 +133,6 @@ echo $query . " " . (microtime(true) - $start_time) . '<br>';
         $start_time = microtime(true);
         $count = parent::exec($query);
         $this->queriesTime += (microtime(true) - $start_time);
-echo $query . " " . (microtime(true) - $start_time) . '<br>';
         return $count;
     }
 
