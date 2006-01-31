@@ -1,15 +1,19 @@
 <?php
 
 fileLoader::load('news/newsFolder');
+fileLoader::load('news/newsFolderMapper');
+
+mock::generate('newsFolderMapper');
 
 class newsFolderTest extends unitTestCase
 {
     private $newsFolder;
+    private $mapper;
 
     public function setUp()
     {
-        $mapper = new newsFolderMapper('news');
-        $this->newsFolder = new newsFolder($mapper);
+        $this->mapper = new mocknewsFolderMapper('news');
+        $this->newsFolder = new newsFolder($this->mapper);
     }
 
     public function testAccessorsAndMutators()
@@ -55,35 +59,21 @@ class newsFolderTest extends unitTestCase
     public function testGetFolders()
     {
 
-        $newsSubFolders = $this->newsFolder->getFolders();
+        $this->mapper->expectOnce('getFolders', array($this->newsFolder));
+        $this->mapper->setReturnValue('getFolders', array('foo', 'bar'));
 
-        /*
-        Нужен мок
-        $this->assertEqual(count($newsSubFolders), 2);
-
-        foreach ($newsSubFolders as $item) {
-            $this->assertIsA($item, 'newsFolder');
-            $this->assertEqual($item->getParent(), '1');
-        }
-        */
+        $this->newsFolder->setFolders(array('foo', 'bar'));
+        $this->assertEqual($this->newsFolder->getFolders(), array('foo', 'bar'));
 
     }
 
     public function testGetItems()
     {
+        $this->mapper->expectOnce('getItems', array($this->newsFolder));
+        $this->mapper->setReturnValue('getItems', array('foo', 'bar'));
 
-        $newsSubFolders = $this->newsFolder->getFolders();
-
-        /*
-        тоже нужен мок
-        $this->assertEqual(count($newsSubFolders), 2);
-
-        foreach ($newsSubFolders as $item) {
-            $this->assertIsA($item, 'newsFolder');
-            $this->assertEqual($item->getParent(), '1');
-        }
-        */
-
+        $this->newsFolder->setItems(array('foo', 'bar'));
+        $this->assertEqual($this->newsFolder->getItems(), array('foo', 'bar'));
     }
 
     public function testIdNull()
