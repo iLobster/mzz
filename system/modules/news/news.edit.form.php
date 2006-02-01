@@ -27,14 +27,14 @@ class newsEditForm {
 
         $form = new HTML_QuickForm('form', 'POST');
         $defaultValues = array();
-        $defaultValues['title']  = $news->get('title');
-        $defaultValues['text']  = $news->get('text');
+        $defaultValues['title']  = $news->getTitle();
+        $defaultValues['text']  = $news->getText();
         $form->setDefaults($defaultValues);
 
         $form->addElement('text', 'title', 'Имя:', 'size=30');
         $form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');
         $form->addElement('hidden', 'path', '/news/edit');
-        $form->addElement('hidden', 'id', $news->get('id'));
+        $form->addElement('hidden', 'id', $news->getId());
         $form->addElement('reset', 'reset', 'Сброс');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;

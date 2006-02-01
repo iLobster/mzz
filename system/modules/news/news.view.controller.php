@@ -22,8 +22,8 @@ class newsViewController
     {
         //fileLoader::load('news.view.model');
         fileLoader::load('news.view.view');
-        fileLoader::load("news/newsActiveRecord");
-        fileLoader::load("news/newsTableModule");
+        fileLoader::load("news");
+        fileLoader::load("news/newsMapper");
     }
 
     public function getView()
@@ -32,8 +32,12 @@ class newsViewController
         $httprequest = $toolkit->getRequest();
         //$params = $httprequest->getParams();
 
-        $tableModule = new newsTableModule($httprequest->getSection());
-        $news = $tableModule->searchById($httprequest->get(0, SC_PATH));
+        $newsMapper = new newsMapper($httprequest->getSection());
+
+        if(($id = $httprequest->get(0, SC_PATH)) == false) {
+            $id = 0;
+        }
+        $news = $newsMapper->searchById($id);
         return new newsViewView($news);
     }
 }

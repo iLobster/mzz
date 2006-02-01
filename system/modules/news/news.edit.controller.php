@@ -22,27 +22,36 @@ class newsEditController
     {
         //fileLoader::load('news.edit.model'); отцепляем?
         fileLoader::load('news.edit.view');
+        fileLoader::load('news.edit.success.view');
         fileLoader::load('news.edit.form');
-        fileLoader::load("news/newsActiveRecord");
-        fileLoader::load("news/newsTableModule");
-        fileLoader::load("news.edit.success.view");
+        fileLoader::load('news.view.view');
+        fileLoader::load("news");
+        fileLoader::load("news/newsMapper");
     }
 
     public function getView()
     {
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
-        //$params = $httprequest->getParams();
 
-        $table_module = new newsTableModule($httprequest->getSection());
+        $newsMapper = new newsMapper($httprequest->getSection());
 
-        $news = $table_module->searchById($httprequest->get(0, SC_PATH));
+        if(($id = $httprequest->get(0, SC_PATH)) == false) {
+            $id = $httprequest->get('id', SC_POST);
+        }
+        $news = $newsMapper->searchById($id);
+
         $form = newsEditForm::getForm($news);
 
         if($form->validate() == false) {
             $view = new newsEditView($news, $form);
         } else {
+            $values = $form->exportValues();
+            $news->setTitle($values['title']);
+            $news->setText($values['text']);
+            $newsMapper->update($news);
             $view = new newsEditSuccessView($news, $form);
+            header('Location: /news/' . $values['id'] . '/view'); // TODO: перенести этот редирект в newsEditSuccessView когда будет URL-генератор
         }
         return $view;
     }

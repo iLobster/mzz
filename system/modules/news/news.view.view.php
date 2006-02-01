@@ -29,7 +29,7 @@ class newsViewView extends simpleView
         // $this->tableModule - такое название потому что в simpleview - так что нужно переименовать там
         // но пока оставил так
         $this->smarty->assign('news', $this->tableModule);
-        $this->smarty->assign('title', 'Новости -> Просмотр -> ' . $this->tableModule->get('title'));
+        $this->smarty->assign('title', 'Новости -> Просмотр -> ' . $this->tableModule->getTitle());
         return $this->smarty->fetch('news.view.tpl');
     }
 
