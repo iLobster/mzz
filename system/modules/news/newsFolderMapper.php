@@ -48,8 +48,7 @@ class newsFolderMapper
         // так что нужно подумать
         $this->getMap();
         foreach (array('id', 'name', 'parent') as $fieldname) {
-            $field = $this->map[$fieldname];
-            $getprop = (string)$field->accessor;
+            $getprop = $this->map[$fieldname]['accessor'];
             // а тут нужно определять тип?
             $stmt->bindParam(':' . $fieldname, $newsFolder->$getprop());
         }
@@ -97,13 +96,12 @@ class newsFolderMapper
     }
 
 
-
     private function createNewsFolderFromRow($row)
     {
         $newsFolder = new newsFolder($this);
         foreach($this->getMap() as $field) {
-            $setprop = (string)$field->mutator;
-            $value = $row[(string)$field->name];
+            $setprop = $field['mutator'];
+            $value = $row[$field['name']];
             if ($setprop && $value) {
                 call_user_func(array($newsFolder, $setprop), $value);
             }
@@ -114,10 +112,8 @@ class newsFolderMapper
     private function getMap()
     {
         if (!$this->map) {
-            $mapFileName = fileLoader::resolve($this->getName() . '/newsFolder.map.xml');
-            foreach(simplexml_load_file($mapFileName) as $field) {
-                $this->map[(string)$field->name] = $field;
-            }
+            $mapFileName = fileLoader::resolve($this->getName() . '/newsFolder.map.ini');
+            $this->map = parse_ini_file($mapFileName, true);
         }
         return $this->map;
     }

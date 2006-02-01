@@ -47,9 +47,8 @@ class newsMapper
         // если отдельным методом (юзается например в self::createNewsFromRow() то следующая строчка - для того чтобы прочитать и записать в $this->map мапу..
         // так что нужно подумать
         $this->getMap();
-        foreach (array('id', 'title', 'text', 'folder_id') as $fieldname) { 
-            $field = $this->map[$fieldname];
-            $getprop = (string)$field->accessor;
+        foreach (array('id', 'title', 'text', 'folder_id') as $fieldname) {
+            $getprop = $this->map[$fieldname]['accessor'];
             // а тут нужно определять тип?
             $stmt->bindParam(':' . $fieldname, $news->$getprop());
         }
@@ -116,8 +115,8 @@ class newsMapper
     {
         $news = new news();
         foreach($this->getMap() as $field) {
-            $setprop = (string)$field->mutator;
-            $value = $row[(string)$field->name];
+            $setprop = $field['mutator'];
+            $value = $row[$field['name']];
             if ($setprop && $value) {
                 call_user_func(array($news, $setprop), $value);
             }
@@ -128,10 +127,8 @@ class newsMapper
     private function getMap()
     {
         if (!$this->map) {
-            $mapFileName = fileLoader::resolve($this->getName() . '/map.xml');
-            foreach(simplexml_load_file($mapFileName) as $field) {
-                $this->map[(string)$field->name] = $field;
-            }
+            $mapFileName = fileLoader::resolve($this->getName() . '/news.map.ini');
+            $this->map = parse_ini_file($mapFileName, true);
         }
         return $this->map;
     }
