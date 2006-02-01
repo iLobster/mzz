@@ -80,13 +80,22 @@ class newsMapperTest extends unitTestCase
         $news = $this->mapper->searchById(1);
 
         $this->assertEqual($news->getTitle(), 'title1');
+        $this->assertEqual($news->getText(), 'text1');
+        $this->assertEqual($news->getFolderId(), 11);
 
         $title = 'new_title';
+        $text = 'new_text';
+        $folder_id = 44;
+
         $news->setTitle($title);
+        $news->setText($text);
+        $news->setFolderId($folder_id);
         $this->mapper->update($news);
 
         $news2 = $this->mapper->searchById(1);
         $this->assertEqual($news2->getTitle(), $title);
+        $this->assertEqual($news2->getText(), $text);
+        $this->assertEqual($news2->getFolderId(), $folder_id);
     }
 
     public function testDelete()
