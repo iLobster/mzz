@@ -41,13 +41,13 @@ class newsMapper
 
     public function update($news)
     {
-        $stmt = $this->db->prepare('UPDATE `' . $this->table . '` SET `title` = :title, `text` = :text WHERE `id` = :id');
+        $stmt = $this->db->prepare('UPDATE `' . $this->table . '` SET `title` = :title, `text` = :text, `folder_id` = :folder_id WHERE `id` = :id');
         // 2 варианта - или мапить в конструкторе, или выделить метод как сейчас
         // если в конструкторе - то можем почитать файл лишний раз когда он не требуется
         // если отдельным методом (юзается например в self::createNewsFromRow() то следующая строчка - для того чтобы прочитать и записать в $this->map мапу..
         // так что нужно подумать
         $this->getMap();
-        foreach (array('id', 'title', 'text', 'folder_id') as $fieldname) {
+        foreach (array('id', 'title', 'text', 'folder_id') as $fieldname) { 
             $field = $this->map[$fieldname];
             $getprop = (string)$field->accessor;
             // а тут нужно определять тип?

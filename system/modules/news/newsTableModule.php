@@ -56,7 +56,7 @@ class newsTableModule
 
     public function update($data)
     {
-        $stmt = $this->db->prepare('UPDATE `' . $this->table . '` SET `title` = :title, `text` = :text WHERE `id` = :id');
+        $stmt = $this->db->prepare('UPDATE `' . $this->table . '` SET `title` = :title, `text` = :text, `folder_id` = :folder_id WHERE `id` = :id');
         $stmt->bindArray($data);
         return $stmt->execute();
     }
