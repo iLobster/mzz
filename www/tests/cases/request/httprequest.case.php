@@ -20,8 +20,7 @@ class httpRequestTest extends unitTestCase
         $_POST['_TEST_FOO'] = "post_foo";
         $_COOKIE['_TEST_BAR'] = "cookie_bar";
         $requestparser = new mockrequestParser();
-        $requestparser->expectOnce('parse', array('*', $_GET['path']));
-        $this->httprequest = new httpRequest($requestparser);
+        $requestparser->expectOnce('parse', array($this->httprequest = new httpRequest($requestparser), $_GET['path']));
         $this->oldServer = $_SERVER;
     }
 
