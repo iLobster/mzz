@@ -29,8 +29,8 @@ class newsEditView extends simpleView
         $this->form->accept($renderer);
 
         $this->smarty->assign('form', $renderer->toArray());
-        $this->smarty->assign('news', $this->tableModule);
-        $this->smarty->assign('title', 'Новости -> Редактирование -> ' . $this->tableModule->getTitle());
+        $this->smarty->assign('news', $this->DAO);
+        $this->smarty->assign('title', 'Новости -> Редактирование -> ' . $this->DAO->getTitle());
         return $this->smarty->fetch('news.edit.tpl');
     }
 

@@ -8,9 +8,9 @@
 54 next
 ----------------------------------
 
-55 ( ) В SimpleView переименовать $tableModule в $DAO
+55 (+) В SimpleView переименовать $tableModule в $DAO
 
-54 ( ) Посносить TM/AR
+54 (+) Посносить TM/AR
 
 51 (*) DM на newsFolder [mz]
        - getFolders - всё нормально - по newsFolderDataMapper::getFolders() должен возвращаться массив newsFolder (итератор - что ты уже сделал) угу, но только получается что нужно таки в newsFolder сделать newsFolder::getFolders(), newsFolder::getItems() и передавать ссылку на newsFolderMapper и чтобы уже у него спрашивать то что надо (получается немного похоже на прошлые АР/ТМ)

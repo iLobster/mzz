@@ -18,13 +18,13 @@
 
 class simpleView
 {
-    protected $tableModule;
+    protected $DAO;
     protected $smarty;
     protected $params;
 
-    public function __construct($tableModule)
+    public function __construct($DAO)
     {
-        $this->setModel($tableModule);
+        $this->DAO = $DAO;
         $this->smarty = self::getSmarty();
     }
 
@@ -33,10 +33,12 @@ class simpleView
         return false;
     }
 
-    private function setModel($tableModule)
+    /** а нужен ли этот метод?
+    private function setDao($DAO)
     {
-        $this->tableModule = $tableModule;
+        $this->DAO = $DAO;
     }
+    */
 
     private function getSmarty()
     {

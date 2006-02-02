@@ -28,7 +28,7 @@ class newsEditSuccessView extends simpleView
 
     public function toString()
     {
-        header('Location: /news/' . $this->tableModule->getId() . '/view');
+        header('Location: /news/' . $this->DAO->getId() . '/view');
         exit;
 
     }
