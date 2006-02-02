@@ -5,12 +5,8 @@
 (+) выполнено, но в стадии тестировани€/утверждени€
 (?) иде€ на обсуждение/уточнение
 (-) deprecated
-54 next
+56 next
 ----------------------------------
-
-55 (+) ¬ SimpleView переименовать $tableModule в $DAO
-
-54 (+) ѕосносить TM/AR
 
 51 (*) DM на newsFolder [mz]
        - getFolders - всЄ нормально - по newsFolderDataMapper::getFolders() должен возвращатьс€ массив newsFolder (итератор - что ты уже сделал) угу, но только получаетс€ что нужно таки в newsFolder сделать newsFolder::getFolders(), newsFolder::getItems() и передавать ссылку на newsFolderMapper и чтобы уже у него спрашивать то что надо (получаетс€ немного похоже на прошлые ј–/“ћ)

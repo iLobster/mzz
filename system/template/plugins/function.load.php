@@ -11,21 +11,25 @@
 //
 /**
  * smarty_function_load: функция для смарти, загрузчик модулей
- * 
+ *
  * Примеры использования:<br />
  * {load module="some_module_name" action="some_action"}
- * 
+ *
  * @param array $params входные аргументы функции
  * @param object $smarty объект смарти
  * @return string результат работы модуля
  * @package system
- * @version 0.1
+ * @version 0.3
  */
 function smarty_function_load($params, $smarty) {
+    if(!isset($params['module'])) {
+        $error = "Template error. Module is not specified.";
+        throw new mzzRuntimeException($error);
+    }
     $module = $params['module'];
     $modulename = $module . 'Factory';
     $action = $params['action'];
-    
+
     fileLoader::load($module . '.factory');
     $factory = new $modulename($action);
     $controller = $factory->getController();

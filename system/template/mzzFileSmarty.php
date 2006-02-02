@@ -13,12 +13,11 @@
 /**
  * mzzFileSmarty: модификация Smarty для работы с файлами-шаблонами
  *
- * @version 0.3
+ * @version 0.5
  * @package system
  */
 class mzzFileSmarty implements IMzzSmarty
 {
-
     /**
      * Smarty object
      *
@@ -34,22 +33,21 @@ class mzzFileSmarty implements IMzzSmarty
      * @param string $cache_id
      * @param string $compile_id
      * @param boolean $display
+     * @param mzzSmarty $smarty
      */
     public function fetch($resource, $cache_id = null, $compile_id = null, $display = false, mzzSmarty $smarty)
     {
         $this->smarty = $smarty;
         $resource_name = $this->getResourceFileName($resource[1], $this->smarty);
 
-        $template = new SplFileObject($this->smarty->template_dir . '/' . $resource_name, 'r');
+        $template = new SplFileObject($this->getTemplateDir() . '/' . $resource_name, 'r');
         $template = $template->fgets(256);
 
-        $result = $this->smarty->_fetch($resource_name, $cache_id, $compile_id, $display);
+        $result = $this->smarty->fetchPassive($resource_name, $cache_id, $compile_id, $display);
 
         // Если шаблон вложен, обработать получателя
         if ($this->smarty->isActive($template)) {
-            $params = $this->smarty->parse($template);
-            $smarty->assign($params['placeholder'], $result);
-            $result = $this->smarty->fetch($params['main'], $cache_id, $compile_id, $display, $this->smarty);
+            $result = $this->smarty->fetchActive($template, $cache_id, $compile_id, $display, $result);
         }
         return $result;
 

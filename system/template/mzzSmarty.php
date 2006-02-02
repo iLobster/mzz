@@ -16,7 +16,7 @@ fileLoader::load('template/IMzzSmarty');
 /**
  * mzzSmarty: модификация Smarty для работы с шаблонами
  *
- * @version 0.4
+ * @version 0.5
  * @package system
  */
 class mzzSmarty extends Smarty
@@ -67,17 +67,48 @@ class mzzSmarty extends Smarty
 
     }
 
-    public function _fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
+    /**
+     * Выполняет пассивный шаблон и возвращает результат
+     *
+     * @param string $resource_name
+     * @param string $cache_id
+     * @param string $compile_id
+     * @param boolean $display
+     */
+    public function fetchPassive($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
-        if(CATCH_TPL_RECURSION == true && in_array($resource_name, $this->fetchedTemplates)) {
-            $error = "Detected recursion. Recursion template: %s. <br> All: <pre>%s</pre>";
-            throw new mzzRuntimeException(sprintf($error, $resource_name, print_r($this->fetchedTemplates, true)));
-        }
-        $this->fetchedTemplates[] = $resource_name;
-        $result = parent::fetch($resource_name, $cache_id, $compile_id, $display, $this);
+        $result = parent::fetch($resource_name, $cache_id, $compile_id, $display);
         return $result;
     }
 
+    /**
+     * Выполняет активный шаблон, заменяет placeholder и возвращает результат
+     *
+     * @param string $resource_name
+     * @param string $cache_id
+     * @param string $compile_id
+     * @param boolean $display
+     * @param string $result начальный результат обработки активного шаблона как пассивного
+     */
+    public function fetchActive($template, $cache_id = null, $compile_id = null, $display = false, $result = null)
+    {
+        $params = $this->parse($template);
+
+        if(CATCH_TPL_RECURSION == true && in_array($params['main'], $this->fetchedTemplates)) {
+            $error = "Detected recursion. Recursion template: %s. <br> All: <pre>%s</pre>";
+            throw new mzzRuntimeException(sprintf($error, $params['main'], print_r($this->fetchedTemplates, true)));
+        }
+
+        if(!isset($params['placeholder'])) {
+            $error = "Template error. Placeholder is not specified.";
+            throw new mzzRuntimeException($error);
+        }
+        $this->fetchedTemplates[] = $params['main'];
+
+        $this->assign($params['placeholder'], $result);
+        $result = $this->fetch($params['main'], $cache_id, $compile_id, $display);
+        return $result;
+    }
 
     /**
      * Выполняет шаблон и отображает результат.
@@ -103,8 +134,8 @@ class mzzSmarty extends Smarty
         if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $clean_str)) {
             $clean_str = preg_split('/\s+/', $clean_str[1]);
             foreach ($clean_str as $str) {
-                $temp_str = explode('=', $str);
-                $params[$temp_str[0]] = str_replace(array('\'', '"'), '', $temp_str[1]);
+                $param = explode('=', $str, 2);
+                $params[$param[0]] = str_replace(array("'", '"'), '', $param[1]);
             }
         }
         return $params;
@@ -122,5 +153,4 @@ class mzzSmarty extends Smarty
     }
 
 }
-
 ?>
