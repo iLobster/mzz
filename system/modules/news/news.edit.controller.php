@@ -50,7 +50,6 @@ class newsEditController
             $news->setText($values['text']);
             $newsMapper->update($news);
             $view = new newsEditSuccessView($news, $form);
-            header('Location: /news/' . $values['id'] . '/view'); // TODO: перенести этот редирект в newsEditSuccessView когда будет URL-генератор
         }
         return $view;
     }

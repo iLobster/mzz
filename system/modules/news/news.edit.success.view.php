@@ -28,10 +28,7 @@ class newsEditSuccessView extends simpleView
 
     public function toString()
     {
-
-        $values = $this->form->exportValues();
-        $this->tableModule->update($values);
-        header('Location: /news/' . $values['id'] . '/view');
+        header('Location: /news/' . $this->tableModule->getId() . '/view');
         exit;
 
     }
