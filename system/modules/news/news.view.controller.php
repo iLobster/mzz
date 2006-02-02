@@ -20,7 +20,6 @@ class newsViewController
 {
     public function __construct()
     {
-        //fileLoader::load('news.view.model');
         fileLoader::load('news.view.view');
         fileLoader::load("news");
         fileLoader::load("news/newsMapper");
@@ -30,7 +29,6 @@ class newsViewController
     {
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
-        //$params = $httprequest->getParams();
 
         $newsMapper = new newsMapper($httprequest->getSection());
 

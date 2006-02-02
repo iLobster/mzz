@@ -25,7 +25,6 @@ class newsEditView extends simpleView
     }
     public function toString()
     {
-        //$data = $this->tableModule->getNews($this->params[0]);
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
         $this->form->accept($renderer);
 

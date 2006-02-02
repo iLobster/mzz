@@ -20,13 +20,7 @@ class newsListController
 {
     public function __construct()
     {
-        //fileLoader::load('news.list.model');
         fileLoader::load('news.list.view');
-        //fileLoader::load("news/newsActiveRecord");
-        //fileLoader::load("news/newsTableModule");
-        //fileLoader::load("news/newsFolderActiveRecord");
-        //fileLoader::load("news/newsFolderTableModule");
-
         fileLoader::load("news");
         fileLoader::load("news/newsFolder");
         fileLoader::load("news/newsMapper");
@@ -42,7 +36,6 @@ class newsListController
 
         $newsFolder = new newsFolderMapper($httprequest->getSection());
 
-        //$params = $httprequest->getParams();
         if(($path = $httprequest->get(0, SC_PATH)) == false) {
             $path = "/";
         }

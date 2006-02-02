@@ -20,7 +20,6 @@ class newsEditController
 {
     public function __construct()
     {
-        //fileLoader::load('news.edit.model'); отцепляем?
         fileLoader::load('news.edit.view');
         fileLoader::load('news.edit.success.view');
         fileLoader::load('news.edit.form');
