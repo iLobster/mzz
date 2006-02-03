@@ -28,7 +28,11 @@ class newsEditSuccessView extends simpleView
 
     public function toString()
     {
-        header('Location: /news/' . $this->DAO->getId() . '/view');
+        $url = new url();
+        $url->addParam($this->DAO->getId());
+        $url->setAction('view');
+
+        header('Location: ' . $url->get());
         exit;
 
     }
