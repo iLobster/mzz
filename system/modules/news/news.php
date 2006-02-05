@@ -1,11 +1,9 @@
 <?php
 
+fileLoader::load('dataspace/arrayDataspace');
+
 class news
 {
-    /*private $id;
-    private $title;
-    private $text;
-    private $folderid;*/
     protected $fields = array();
     protected $map;
 
@@ -18,7 +16,6 @@ class news
     public function setId($id)
     {
         if ($this->fields->exists('id') == false) {
-            //$this->id = $id;
             $this->fields->set('id', $id);
         }
     }
@@ -38,16 +35,11 @@ class news
 
     private  function validateAttribute($name)
     {
-        //print_r($this->map);
         foreach ($this->map as $key => $val) {
             if (($val['accessor'] == $name) || ($val['mutator'] == $name)) {
                 return $key;
             }
         }
-        /*
-        if (isset($this->map[strtolower($name)])) {
-        return $name;
-        }*/
     }
 }
 

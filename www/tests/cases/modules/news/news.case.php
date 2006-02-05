@@ -11,10 +11,12 @@ class newsTest extends unitTestCase
 
     public function setUp()
     {
-        $map = array( 'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        $map = array(
+        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
-        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'));
+        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId')
+        );
 
         $this->news = new news($map);
     }
