@@ -25,7 +25,7 @@ class news
 
     public function __call($name, $args)
     {
-        if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($match[2])) {
+        if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($name)) {
             if ('get' == $match[1]) {
                 return $this->fields->get($attribute);
             } else {
@@ -38,10 +38,16 @@ class news
 
     private  function validateAttribute($name)
     {
-        print_r($this->map);
-        if (isset($this->map[strtolower($name)])) {
-            return $name;
+        //print_r($this->map);
+        foreach ($this->map as $key => $val) {
+            if (($val['accessor'] == $name) || ($val['mutator'] == $name)) {
+                return $key;
+            }
         }
+        /*
+        if (isset($this->map[strtolower($name)])) {
+        return $name;
+        }*/
     }
 }
 
