@@ -73,7 +73,7 @@ class newsMapper
 
     public function add($title, $text, $folder_id)
     {
-        $news = new news();
+        $news = new news($this->getMap());
         $news->setTitle($title);
         $news->setText($text);
         $news->setFolderId($folder_id);
@@ -113,7 +113,7 @@ class newsMapper
 
     private function createNewsFromRow($row)
     {
-        $news = new news();
+        $news = new news($this->getMap());
         foreach($this->getMap() as $field) {
             $setprop = $field['mutator'];
             $value = $row[$field['name']];

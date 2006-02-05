@@ -1,6 +1,9 @@
 <?php
 
 fileLoader::load('news');
+fileLoader::load('news/newsMapper');
+
+Mock::generate('newsMapper');
 
 class newsTest extends unitTestCase
 {
@@ -8,7 +11,12 @@ class newsTest extends unitTestCase
 
     public function setUp()
     {
-        $this->news = new news();
+        $map = array( 'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
+        'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
+        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'));
+
+        $this->news = new news($map);
     }
 
     public function testAccessorsAndMutators()
@@ -43,7 +51,7 @@ class newsTest extends unitTestCase
         }
 
         try {
-            $this->news->setFoo();
+            $this->news->setFoo('foo');
             $this->fail('Должен быть брошен EXCEPTION!');
         } catch (Exception $e) {
             $this->assertWantedPattern('/news::setfoo/i', $e->getMessage());

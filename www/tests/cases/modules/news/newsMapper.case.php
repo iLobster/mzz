@@ -7,9 +7,15 @@ class newsMapperTest extends unitTestCase
 {
     private $mapper;
     private $db;
+    private $map;
 
     public function __construct()
     {
+        $this->map = array( 'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
+        'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
+        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'));
+
         $this->db = DB::factory();
         $this->cleardb();
     }
@@ -32,7 +38,7 @@ class newsMapperTest extends unitTestCase
 
     public function testSave()
     {
-        $news = new news();
+        $news = new news($this->map);
         $news->setTitle('sometitle');
         $news->setText('sometext');
         $news->setFolderId(10);
