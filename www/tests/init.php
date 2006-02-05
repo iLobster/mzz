@@ -47,6 +47,8 @@ fileLoader::load('toolkit');
 fileLoader::load('toolkit/stdToolkit');
 fileLoader::load('toolkit/systemToolkit');
 
+fileLoader::load('dataspace/arrayDataspace');
+
 fileLoader::load('timer.factory');
 
 $toolkit = systemToolkit::getInstance();
