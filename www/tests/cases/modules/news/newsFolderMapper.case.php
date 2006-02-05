@@ -8,7 +8,7 @@ class newsFolderMapperTest extends unitTestCase
 {
     private $mapper;
     private $db;
-
+    private $map;
     public function __construct()
     {
         $this->db = DB::factory();
@@ -17,6 +17,16 @@ class newsFolderMapperTest extends unitTestCase
 
     public function setUp()
     {
+        $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId'),
+        'name' => array ('name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
+        'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent')
+        );
+
+        $this->mapNews = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
+        'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
+        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId')
+        );
         $this->mapper = new newsFolderMapper('news');
     }
 
@@ -32,7 +42,7 @@ class newsFolderMapperTest extends unitTestCase
 
     public function testSave()
     {
-        $newsFolder = new newsFolder($this->mapper);
+        $newsFolder = new newsFolder($this->mapper, $this->map);
         $newsFolder->setName('somename');
         $newsFolder->setParent(2);
 
@@ -45,14 +55,18 @@ class newsFolderMapperTest extends unitTestCase
 
     public function testGetItems()
     {
-        $this->fixture($this->mapper);
+        $this->fixture($this->mapper, $this->map);
         $newsMapper = new newsMapper('news');
 
         $data[] = array('title', 'text', 1);
         $data[] = array('title2', 'text2', 1);
         $data[] = array('title3', 'text3', 2);
         foreach ($data as $record) {
-            $newsMapper->add($record[0], $record[1], $record[2]);
+            $news = new news($this->mapNews);
+            $news->setTitle($record[0]);
+            $news->setText($record[1]);
+            $news->setFolderId($record[2]);
+            $newsMapper->save($news);
         }
 
 
@@ -71,7 +85,7 @@ class newsFolderMapperTest extends unitTestCase
 
     public function testGetFolders()
     {
-        $this->fixture($this->mapper);
+        $this->fixture($this->mapper, $this->map);
         $newsMapper = new newsMapper('news');
 
 
@@ -89,27 +103,14 @@ class newsFolderMapperTest extends unitTestCase
 
     public function testSearchByName()
     {
-        $this->fixture($this->mapper);
+        $this->fixture($this->mapper, $this->map);
         $this->assertIsA($newsFolder = $this->mapper->searchByName('name1'), 'newsFolder');
         $this->assertEqual($newsFolder->getId(), 1);
     }
 
-    public function testAdd()
-    {
-        $name = 'name'; $parent = 3;
-        $newsFolder = $this->mapper->add($name, $parent);
-
-        $total = $this->countNewsFolder();
-
-        $this->assertEqual($total, 1);
-        $this->assertEqual($newsFolder->getId(), 1);
-        $this->assertEqual($newsFolder->getName(), $name);
-        $this->assertEqual($newsFolder->getParent(), $parent);
-    }
-
     public function testUpdate()
     {
-        $this->fixture($this->mapper);
+        $this->fixture($this->mapper, $this->map);
         $newsFolder = $this->mapper->searchByName('name1');
 
         $this->assertEqual($newsFolder->getName(), 'name1');
@@ -126,7 +127,7 @@ class newsFolderMapperTest extends unitTestCase
 
     public function testDelete()
     {
-        $this->fixture($this->mapper);
+        $this->fixture($this->mapper, $this->map);
 
         $this->assertEqual(4, $this->countNewsFolder());
 
@@ -143,12 +144,15 @@ class newsFolderMapperTest extends unitTestCase
         return $total;
     }
 
-    private function fixture($mapper)
+    private function fixture($mapper, $map)
     {
-        $mapper->add('name1', 0);
-        $mapper->add('name2', 1);
-        $mapper->add('name3', 1);
-        $mapper->add('name4', 2);
+        for($i = 0; $i < 4; $i++) {
+            $parents = array(0, 1, 1, 2);
+            $newsFolder = new newsFolder($mapper, $map);
+            $newsFolder->setName('name' . ($i + 1));
+            $newsFolder->setParent((string)$parents[$i]);
+            $mapper->save($newsFolder);
+        }
     }
 }
 

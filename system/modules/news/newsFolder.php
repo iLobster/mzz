@@ -2,32 +2,33 @@
 
 class newsFolder
 {
-    private $id;
-    private $name;
-    private $parent;
+    protected $fields = array();
+    protected $map;
     private $mapper;
     private $folders;
     private $items;
 
-    public function __construct($mapper)
+    public function __construct($mapper, $map)
     {
         $this->mapper = $mapper;
+        $this->map = $map;
+        $this->fields = new arrayDataspace($this->fields);
     }
 
     public function setId($id)
     {
-        if (empty($this->id)) {
-            $this->id = $id;
+        if ($this->fields->exists('id') == false) {
+            $this->fields->set('id', $id);
         }
     }
 
     public function __call($name, $args)
     {
-        if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($match[2])) {
+        if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($name)) {
             if ('get' == $match[1]) {
-                return $this->$attribute;
+                return $this->fields->get($attribute);
             } else {
-                $this->$attribute = $args[0];
+                $this->fields->set($attribute, $args[0]);
             }
         } else {
             throw new Exception('Вызов неопределённого метода ' . __CLASS__ . '::' . $name . '()');
@@ -36,9 +37,10 @@ class newsFolder
 
     private  function validateAttribute($name)
     {
-        $name = strtolower($name);
-        if (in_array($name, array_keys(get_class_vars(__CLASS__)))) {
-            return $name;
+        foreach ($this->map as $key => $val) {
+            if (($val['accessor'] == $name) || ($val['mutator'] == $name)) {
+                return $key;
+            }
         }
     }
 

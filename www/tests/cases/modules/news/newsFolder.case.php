@@ -12,8 +12,13 @@ class newsFolderTest extends unitTestCase
 
     public function setUp()
     {
+        $map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId'),
+        'name' => array ('name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
+        'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent')
+        );
+
         $this->mapper = new mocknewsFolderMapper('news');
-        $this->newsFolder = new newsFolder($this->mapper);
+        $this->newsFolder = new newsFolder($this->mapper, $map);
     }
 
     public function testAccessorsAndMutators()

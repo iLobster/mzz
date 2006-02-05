@@ -11,10 +11,11 @@ class newsMapperTest extends unitTestCase
 
     public function __construct()
     {
-        $this->map = array( 'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
-        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'));
+        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId')
+        );
 
         $this->db = DB::factory();
         $this->cleardb();
@@ -52,29 +53,14 @@ class newsMapperTest extends unitTestCase
 
     public function testSearchById()
     {
-        $this->fixture($this->mapper);
+        $this->fixture($this->mapper, $this->map);
         $this->assertIsA($news = $this->mapper->searchById(1), 'news');
         $this->assertEqual($news->getId(), 1);
     }
 
-
-    public function testAdd()
-    {
-        $title = 'title'; $text = 'text'; $folder_id = 2;
-        $news = $this->mapper->add($title, $text, $folder_id);
-
-        $total = $this->countNews();
-
-        $this->assertEqual($total, 1);
-        $this->assertEqual($news->getId(), 1);
-        $this->assertEqual($news->getTitle(), $title);
-        $this->assertEqual($news->getText(), $text);
-        $this->assertEqual($news->getFolderId(), $folder_id);
-    }
-
     public function testSearchByFolderId()
     {
-        $this->fixture($this->mapper);
+        $this->fixture($this->mapper, $this->map);
 
         $this->assertIsA($news_list = $this->mapper->searchByFolder(11), 'array');
         $this->assertEqual(2, sizeof($news_list));
@@ -82,7 +68,7 @@ class newsMapperTest extends unitTestCase
 
     public function testUpdate()
     {
-        $this->fixture($this->mapper);
+        $this->fixture($this->mapper, $this->map);
         $news = $this->mapper->searchById(1);
 
         $this->assertEqual($news->getTitle(), 'title1');
@@ -106,7 +92,7 @@ class newsMapperTest extends unitTestCase
 
     public function testDelete()
     {
-        $this->fixture($this->mapper);
+        $this->fixture($this->mapper, $this->map);
 
         $this->assertEqual(4, $this->countNews());
 
@@ -123,12 +109,16 @@ class newsMapperTest extends unitTestCase
         return $total;
     }
 
-    private function fixture($mapper)
+    private function fixture($mapper, $map)
     {
-        $mapper->add('title1', 'text1', 11);
-        $mapper->add('title2', 'text2', 11);
-        $mapper->add('title3', 'text3', 13);
-        $mapper->add('title4', 'text4', 13);
+        for($i = 0; $i < 4; $i++) {
+            $folders = array(11, 11, 13, 13);
+            $news = new news($map);
+            $news->setTitle('title' . ($i + 1));
+            $news->setText('text' . ($i + 1));
+            $news->setFolderId($folders[$i]);
+            $mapper->save($news);
+        }
     }
 }
 

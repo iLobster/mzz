@@ -15,6 +15,8 @@
  * @package system
  * @version 0.2
  */
+define('PDO_AUTOQUERY_INSERT', 0);
+define('PDO_AUTOQUERY_UPDATE', 1);
 
 fileLoader::load('db/drivers/mzzPdoStatement');
 
@@ -121,6 +123,58 @@ class mzzPdo extends PDO
         return $stmt;
     }
 
+    /**
+     * Автоматически генерирует insert или update запросы и передает его в prepare()
+     *
+     * @param string $table имя таблицы
+     * @param array $table_fields массив имен полей
+     * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
+     * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
+     * @return resource
+     */
+    public function autoPrepare($table, $fields, $mode = PDO_AUTOQUERY_INSERT, $where = false)
+    {
+        $query = $this->buildInsertUpdateQuery($table, $fields, $mode, $where);
+        return $this->prepare($query);
+    }
+
+     /**
+     * Возвращает запрос для autoPrepare()
+     *
+     * @param string $table имя таблицы
+     * @param array $table_fields массив имен полей
+     * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
+     * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
+     * @return string
+     */
+    protected function buildInsertUpdateQuery($table, $fields, $mode, $where = false)
+    {
+        switch ($mode) {
+            case PDO_AUTOQUERY_INSERT:
+                $values = array();
+                $names = array();
+                foreach ($fields as $value) {
+                    $names[] = '`' . $value . '`';
+                    $values[] = ':' . $value;
+                }
+                $names = implode(',', $names);
+                $values = implode(',', $values);
+                return 'INSERT INTO `' . $table . '` (' . $names . ') VALUES (' . $values . ')';
+            case PDO_AUTOQUERY_UPDATE:
+                $field = array();
+                foreach ($fields as $value) {
+                    $field[] = '`' . $value . '` = :' . $value;
+                }
+                $field = implode(',', $field);
+                $sql = 'UPDATE `' . $table . '` SET ' . $field;
+                if ($where == true) {
+                    $sql .= " WHERE " . $where;
+                }
+                return $sql;
+            default:
+                throw new mzzRuntimeException("Unknown PDO_AUTOQUERY mode: " . $mode);
+        }
+    }
     /**
      * Декорирует оригинальный метод для подсчета числа запросов
      *

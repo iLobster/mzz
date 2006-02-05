@@ -26,11 +26,13 @@ class newsFolderMapper
 
     public function insert($newsFolder)
     {
-        $stmt = $this->db->prepare("INSERT INTO  `" . $this->table . "` (`name`, `parent`) VALUES (:name, :parent)");
         $data = array(
         'name' => $newsFolder->getName(),
         'parent' => $newsFolder->getParent(),
         );
+
+        $stmt = $this->db->autoPrepare($this->table, array_keys($data));
+
         $stmt->bindArray($data);
         if($stmt->execute()) {
             $id = $this->db->lastInsertID();
@@ -41,13 +43,16 @@ class newsFolderMapper
 
     public function update($newsFolder)
     {
-        $stmt = $this->db->prepare('UPDATE `' . $this->table . '` SET `name` = :name, `parent` = :parent WHERE `id` = :id');
         // 2 варианта - или мапить в конструкторе, или выделить метод как сейчас
         // если в конструкторе - то можем почитать файл лишний раз когда он не требуется
         // если отдельным методом (юзается например в self::createNewsFromRow() то следующая строчка - для того чтобы прочитать и записать в $this->map мапу..
         // так что нужно подумать
         $this->getMap();
-        foreach (array('id', 'name', 'parent') as $fieldname) {
+        $field_names = array_keys($this->map);
+
+        $stmt = $this->db->autoPrepare($this->table, $field_names, PDO_AUTOQUERY_UPDATE, "`id` = :id");
+
+        foreach ($field_names as $fieldname) {
             $getprop = $this->map[$fieldname]['accessor'];
             // а тут нужно определять тип?
             $stmt->bindParam(':' . $fieldname, $newsFolder->$getprop());
@@ -71,15 +76,6 @@ class newsFolderMapper
         }
     }
 
-    public function add($name, $parent)
-    {
-        $newsFolder = new newsFolder($this);
-        $newsFolder->setName($name);
-        $newsFolder->setParent($parent);
-        $this->save($newsFolder);
-        return $newsFolder;
-    }
-
     public function searchByName($name)
     {
         $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `name` = :name");
@@ -98,10 +94,11 @@ class newsFolderMapper
 
     private function createNewsFolderFromRow($row)
     {
-        $newsFolder = new newsFolder($this);
-        foreach($this->getMap() as $field) {
+        $this->getMap();
+        $newsFolder = new newsFolder($this, $this->map);
+        foreach($this->map as $key => $field) {
             $setprop = $field['mutator'];
-            $value = $row[$field['name']];
+            $value = $row[$key];
             if ($setprop && $value) {
                 call_user_func(array($newsFolder, $setprop), $value);
             }
