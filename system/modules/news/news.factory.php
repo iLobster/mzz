@@ -71,7 +71,7 @@ class newsFactory
     public function getController()
     {
         $action = $this->getAction();
-        fileLoader::load('controllers/' . $this->name . '.' . $action['controller'] . '.controller');
+        fileLoader::load($this->name . '/controllers/' . $this->name . '.' . $action['controller'] . '.controller');
         // тут возможно заменим константы news на метод $this->getName
         $classname = $this->name . $action['controller'] . 'Controller';
         return new $classname();

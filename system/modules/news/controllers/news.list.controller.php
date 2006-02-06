@@ -20,11 +20,11 @@ class newsListController
 {
     public function __construct()
     {
-        fileLoader::load('news.list.view');
+        fileLoader::load('news/views/news.list.view');
         fileLoader::load("news");
         fileLoader::load("news/newsFolder");
-        fileLoader::load("news/newsMapper");
-        fileLoader::load("news/newsFolderMapper");
+        fileLoader::load("news/mappers/newsMapper");
+        fileLoader::load("news/mappers/newsFolderMapper");
 
 
     }

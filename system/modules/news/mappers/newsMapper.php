@@ -126,7 +126,7 @@ class newsMapper
     private function getMap()
     {
         if (!$this->map) {
-            $mapFileName = fileLoader::resolve($this->getName() . '/news.map.ini');
+            $mapFileName = fileLoader::resolve($this->getName() . '/maps/news.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
         }
         return $this->map;

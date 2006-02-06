@@ -109,7 +109,7 @@ class newsFolderMapper
     private function getMap()
     {
         if (!$this->map) {
-            $mapFileName = fileLoader::resolve($this->getName() . '/newsFolder.map.ini');
+            $mapFileName = fileLoader::resolve($this->getName() . '/maps/newsFolder.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
         }
         return $this->map;

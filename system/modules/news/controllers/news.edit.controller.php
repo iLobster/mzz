@@ -20,12 +20,11 @@ class newsEditController
 {
     public function __construct()
     {
-        fileLoader::load('news.edit.view');
-        fileLoader::load('news.edit.success.view');
-        fileLoader::load('news.edit.form');
-        fileLoader::load('news.view.view');
+        fileLoader::load('news/views/news.edit.view');
+        fileLoader::load('news/views/news.edit.success.view');
+        fileLoader::load('news/views/news.edit.form');
         fileLoader::load("news");
-        fileLoader::load("news/newsMapper");
+        fileLoader::load("news/mappers/newsMapper");
     }
 
     public function getView()

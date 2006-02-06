@@ -1,6 +1,6 @@
 <?php
 
-fileLoader::load('news/newsFolderMapper');
+fileLoader::load('news/mappers/newsFolderMapper');
 fileLoader::load('news/newsFolder');
 fileLoader::load('news');
 

@@ -20,9 +20,9 @@ class newsViewController
 {
     public function __construct()
     {
-        fileLoader::load('news.view.view');
+        fileLoader::load('news/views/news.view.view');
         fileLoader::load("news");
-        fileLoader::load("news/newsMapper");
+        fileLoader::load("news/mappers/newsMapper");
     }
 
     public function getView()

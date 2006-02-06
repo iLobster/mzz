@@ -1,7 +1,7 @@
 <?php
 
 fileLoader::load('news/newsFolder');
-fileLoader::load('news/newsFolderMapper');
+fileLoader::load('news/mappers/newsFolderMapper');
 
 mock::generate('newsFolderMapper');
 

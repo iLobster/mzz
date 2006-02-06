@@ -50,7 +50,7 @@ class moduleResolver extends partialFileResolver
             $request = $matches[1] . '/' . $request;
         }
 
-        if (preg_match('/^[a-z]+\/[a-z\.]+$/i', $request) == true) {
+        if (preg_match('/^[a-z]+(\/[a-z\.]+)+$/i', $request) == true) {
             $result = 'modules/' . $request;
         }
 
