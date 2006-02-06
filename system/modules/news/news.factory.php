@@ -71,7 +71,7 @@ class newsFactory
     public function getController()
     {
         $action = $this->getAction();
-        fileLoader::load($this->name . '.' . $action['controller'] . '.controller');
+        fileLoader::load('controllers/' . $this->name . '.' . $action['controller'] . '.controller');
         // тут возможно заменим константы news на метод $this->getName
         $classname = $this->name . $action['controller'] . 'Controller';
         return new $classname();
@@ -122,7 +122,7 @@ class newsFactory
     private function iniRead($filename)
     {
         if(!file_exists($filename)) {
-            throw new mzzRuntimeException("Cann't find file '" . $filename . "'");
+            throw new mzzIoException($filename);
         }
         return parse_ini_file($filename, true);
     }
