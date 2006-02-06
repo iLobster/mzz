@@ -73,7 +73,7 @@ class newsFolderMapperTest extends unitTestCase
 
 
         $newsFolder = $this->mapper->searchByName('name1');
-        $news = $newsFolder->getItems($this->mapper);
+        $news = $newsFolder->getItems();
 
         $this->assertEqual(count($news), 2);
 
