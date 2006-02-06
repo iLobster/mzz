@@ -46,14 +46,6 @@ class newsFactory
     protected $defaultAction;
 
     /**
-     * Factory Instance
-     *
-     * @var object
-     * @deprecated ??????
-    private static $instance;
-    */
-
-    /**
      * Имя модуля
      *
      * @var string
@@ -84,21 +76,6 @@ class newsFactory
         $classname = $this->name . $action['controller'] . 'Controller';
         return new $classname();
     }
-
-    /**
-     * Singleton
-     * @deprecated ????
-     * @return object
-
-    public static function getInstance()
-    {
-        if ( !isset(self::$instance) ) {
-            $c = __CLASS__;
-            self::$instance = new $c;
-        }
-        return self::$instance;
-    }
-    */
 
     /**
      * Установка действия
@@ -158,14 +135,18 @@ class newsFactory
     public function getActionsConfig()
     {
         if(empty($this->actions)) {
-            foreach(new mzzIniFilterIterator(new DirectoryIterator(dirname(__FILE__)  . '/actions/')) as $iterator) {
+            foreach(new mzzIniFilterIterator(new DirectoryIterator(dirname(__FILE__) . '/actions/')) as $iterator) {
                 $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
-                $this->actions = $this->iniRead($file);
+                $this->addActions($this->iniRead($file));
             }
         }
         return $this->actions;
     }
 
+    public function addActions(Array $actions)
+    {
+        $this->actions = array_merge($this->actions, $actions);
+    }
     /**
      * Устанавливает действие по умолчанию
      *
