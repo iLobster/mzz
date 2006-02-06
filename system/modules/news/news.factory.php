@@ -133,7 +133,7 @@ class newsFactory
     {
         // возможно, даже почти наверняка список действий будет выглядеть немного
         // по другому, изменим когда будет нужно
-        return $this->getActionsConfig($this->name);
+        return $this->getActionsConfig();
     }
 
     /**
@@ -151,7 +151,6 @@ class newsFactory
         foreach ($ini as $key => $value) {
             $this->actions[$key] = array('controller' => $value);
         }
-        return $this->actions;
     }
 
     /**
@@ -159,7 +158,7 @@ class newsFactory
      *
      * @param string $name имя млжудя
      */
-    public function getActionsConfig($name)
+    public function getActionsConfig()
     {
         if(empty($this->actions)) {
             foreach(new mzzIniFilterIterator(new DirectoryIterator(dirname(__FILE__)  . '/actions/')) as $iterator) {
