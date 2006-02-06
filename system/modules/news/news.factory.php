@@ -147,10 +147,7 @@ class newsFactory
         if(!file_exists($filename)) {
             throw new mzzRuntimeException("Cann't find file '" . $filename . "'");
         }
-        $ini = parse_ini_file($filename);
-        foreach ($ini as $key => $value) {
-            $this->actions[$key] = array('controller' => $value);
-        }
+        return parse_ini_file($filename, true);
     }
 
     /**
@@ -163,7 +160,7 @@ class newsFactory
         if(empty($this->actions)) {
             foreach(new mzzIniFilterIterator(new DirectoryIterator(dirname(__FILE__)  . '/actions/')) as $iterator) {
                 $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
-                $this->iniRead($file);
+                $this->actions = $this->iniRead($file);
             }
         }
         return $this->actions;
