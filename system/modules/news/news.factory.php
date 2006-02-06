@@ -156,6 +156,11 @@ class newsFactory
     public function getActionsConfig($name)
     {
         if(empty($this->actions)) {
+            for ($iterator = new DirectoryIterator(dirname(__FILE__)  . '/actions'); $iterator->valid(); $iterator->next()) {
+                if ($iterator->isFile()) {
+                    echo $iterator;
+                }
+            }
             $this->iniRead(fileLoader::resolve($name . '/actions.ini'));
         }
         return $this->actions;
