@@ -18,7 +18,7 @@
 // пока здесь будет
 class mzzIniFilterIterator extends FilterIterator {
     function accept() {
-        return $this->isFile() && (substr($tmp=$this->getFilename(), strrpos($tmp,'.') + 1) == 'ini');
+        return $this->isFile() && (substr($tmp = $this->getFilename(), -3) == 'ini');
     }
 }
 
@@ -163,9 +163,9 @@ class newsFactory
     {
         if(empty($this->actions)) {
             foreach(new mzzIniFilterIterator(new DirectoryIterator(dirname(__FILE__)  . '/actions/')) as $iterator) {
-                echo $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
+                $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
+                $this->iniRead($file);
             }
-            $this->iniRead(fileLoader::resolve($name . '/actions.ini'));
         }
         return $this->actions;
     }
