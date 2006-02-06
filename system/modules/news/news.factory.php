@@ -15,6 +15,12 @@
  * @package news
  * @version 0.3
  */
+// пока здесь будет
+class mzzIniFilterIterator extends FilterIterator {
+    function accept() {
+        return $this->isFile() && (substr($tmp=$this->getFilename(), strrpos($tmp,'.') + 1) == 'ini');
+    }
+}
 
 class newsFactory
 {
@@ -156,10 +162,8 @@ class newsFactory
     public function getActionsConfig($name)
     {
         if(empty($this->actions)) {
-            for ($iterator = new DirectoryIterator(dirname(__FILE__)  . '/actions'); $iterator->valid(); $iterator->next()) {
-                if ($iterator->isFile()) {
-                    echo $iterator;
-                }
+            foreach(new mzzIniFilterIterator(new DirectoryIterator(dirname(__FILE__)  . '/actions/')) as $iterator) {
+                echo $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
             }
             $this->iniRead(fileLoader::resolve($name . '/actions.ini'));
         }
