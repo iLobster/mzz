@@ -17,12 +17,14 @@ class newsFolderMapperTest extends unitTestCase
 
     public function setUp()
     {
-        $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId'),
+        $this->map = array(
+        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId'),
         'name' => array ('name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
         'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent')
         );
 
-        $this->mapNews = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        $this->mapNews = array(
+        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
         'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId')
@@ -86,8 +88,6 @@ class newsFolderMapperTest extends unitTestCase
     public function testGetFolders()
     {
         $this->fixture($this->mapper, $this->map);
-        $newsMapper = new newsMapper('news');
-
 
         $newsFolder = $this->mapper->searchByName('name1');
         $newsSubFolders = $newsFolder->getFolders();
