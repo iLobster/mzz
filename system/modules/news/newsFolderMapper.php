@@ -115,10 +115,10 @@ class newsFolderMapper
         return $this->map;
     }
 
-    public function getFolders($newsFolder)
+    public function getFolders($id)
     {
         $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `parent` = :parent");
-        $stmt->bindParam(':parent', $newsFolder->getId(), PDO::PARAM_INT);
+        $stmt->bindParam(':parent', $id, PDO::PARAM_INT);
         $stmt->execute();
         $folders = array();
 
@@ -126,13 +126,13 @@ class newsFolderMapper
             $folders[] = $this->createNewsFolderFromRow($row);
         }
 
-        $newsFolder->setFolders($folders);
+        return $folders;
     }
 
-    public function getItems($newsFolder)
+    public function getItems($id)
     {
         $news = new newsMapper($this->getSection());
-        $newsFolder->setItems($news->searchByFolder($newsFolder->getId()));
+        return $news->searchByFolder($id);
     }
 }
 

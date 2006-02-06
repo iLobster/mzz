@@ -47,28 +47,28 @@ class newsFolder
     public function getFolders()
     {
         // может тут как то сделать "кеширование" ? а то при запросе дважды ->getFolders() маппер будет опрошен тоже дважды.. появится трабла если папки будут изменены между первым и вторым запросом - но опять же, пока прецедента нет - может сделать кеширование?
-        // почему фолдеры и итемы не хранятся в датаспейсе??
         if (!$this->fields->exists('folders')) {
-            $this->mapper->getFolders($this);
+            $this->fields->set('folders', $this->mapper->getFolders($this->getId()));
         }
         return $this->fields->get('folders');
     }
 
     public function getItems()
     {
-        $this->mapper->getItems($this);
-        return $this->items;
+        if (!$this->fields->exists('items')) {
+            $this->fields->set('items', $this->mapper->getItems($this->getId()));
+        }
+        return $this->fields->get('items');
     }
 
-    public function setItems($items)
+    private function setItems($items)
     {
-        $this->items = $items;
+        $this->fields->set('items', $items);
     }
 
-    public function setFolders($folders)
+    private function setFolders($folders)
     {
         $this->fields->set('folders', $folders);
-        //$this->folders = $folders;
     }
 }
 

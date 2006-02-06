@@ -12,7 +12,8 @@ class newsFolderTest extends unitTestCase
 
     public function setUp()
     {
-        $map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId'),
+        $map = array(
+        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId'),
         'name' => array ('name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
         'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent')
         );
@@ -63,22 +64,23 @@ class newsFolderTest extends unitTestCase
 
     public function testGetFolders()
     {
+        $id = 666;
+        $this->newsFolder->setId($id);
 
-        $this->mapper->expectOnce('getFolders', array($this->newsFolder));
-
-        $this->newsFolder->getFolders();
-
-        $this->newsFolder->setFolders(array('foo', 'bar'));
+        $this->mapper->expectOnce('getFolders', array($id));
+        $this->mapper->setReturnValue('getFolders', array('foo', 'bar'));
 
         $this->assertEqual($this->newsFolder->getFolders(), array('foo', 'bar'));
     }
 
     public function testGetItems()
     {
-        $this->mapper->expectOnce('getItems', array($this->newsFolder));
+        $id = 666;
+        $this->newsFolder->setId($id);
+
+        $this->mapper->expectOnce('getItems', array($id));
         $this->mapper->setReturnValue('getItems', array('foo', 'bar'));
 
-        $this->newsFolder->setItems(array('foo', 'bar'));
         $this->assertEqual($this->newsFolder->getItems(), array('foo', 'bar'));
     }
 
