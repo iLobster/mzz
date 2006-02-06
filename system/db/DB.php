@@ -15,7 +15,7 @@
  * @package system
  * @version 0.2
 */
-class Db
+class DB
 {
     /**
      * Callback information
@@ -33,10 +33,9 @@ class Db
             $toolkit = systemToolkit::getInstance();
             $config = $toolkit->getConfig();
             $config->load('common');
-            $driver = $config->getOption('db', 'driver');
+            $driver = 'mzz' . ucfirst($config->getOption('db', 'driver'));
             fileLoader::load('db/drivers/' . $driver);
-            $classname = 'mzz' . ucfirst($driver);
-            self::$callback = array($classname, 'getInstance');
+            self::$callback = array($driver, 'getInstance');
         }
 
         if(!is_callable(self::$callback)) {

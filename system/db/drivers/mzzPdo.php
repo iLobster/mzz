@@ -127,7 +127,7 @@ class mzzPdo extends PDO
      * Автоматически генерирует insert или update запросы и передает его в prepare()
      *
      * @param string $table имя таблицы
-     * @param array $table_fields массив имен полей
+     * @param array $fields массив имен полей
      * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
      * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
      * @return resource
@@ -142,7 +142,7 @@ class mzzPdo extends PDO
      * Возвращает запрос для autoPrepare()
      *
      * @param string $table имя таблицы
-     * @param array $table_fields массив имен полей
+     * @param array $fields массив имен полей
      * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
      * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
      * @return string
@@ -175,6 +175,26 @@ class mzzPdo extends PDO
                 throw new mzzRuntimeException("Unknown PDO_AUTOQUERY mode: " . $mode);
         }
     }
+
+    /**
+     * Автоматически генерирует INSERT или UPDATE запрос,
+     * вызывает prepare() и execute()
+     *
+     * @param string $table имя таблицы
+     * @param array $values массив имен полей
+     * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
+     * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
+     * @return mixed
+     */
+    function autoExecute($table, $values, $mode = PDO_AUTOQUERY_INSERT, $where = false)
+    {
+        $stmt = $this->autoPrepare($table, array_keys($values), $mode, $where);
+        $stmt->bindArray($values);
+        $result = $stmt->execute();
+        $stmt->closeCursor();
+        return $result;
+    }
+
     /**
      * Декорирует оригинальный метод для подсчета числа запросов
      *

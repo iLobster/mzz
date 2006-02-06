@@ -37,7 +37,7 @@ fileLoader::load('libs/simpletest/mock_objects');
 fileLoader::load('libs/simpletest/reporter');
 restore_error_handler();
 
-fileLoader::load('db/dbFactory');
+fileLoader::load('db/DB');
 fileLoader::load('filters/init');
 fileLoader::load('request/response');
 fileLoader::load('template/mzzSmarty');

@@ -1,4 +1,14 @@
 <?php
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2006
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
 
 class newsFolderMapper
 {
@@ -31,10 +41,7 @@ class newsFolderMapper
         'parent' => $newsFolder->getParent(),
         );
 
-        $stmt = $this->db->autoPrepare($this->table, array_keys($data));
-
-        $stmt->bindArray($data);
-        if($stmt->execute()) {
+        if($this->db->autoExecute($this->table, $data)) {
             $id = $this->db->lastInsertID();
             $newsFolder->setId($id);
         }
@@ -45,15 +52,16 @@ class newsFolderMapper
     {
         // 2 варианта - или мапить в конструкторе, или выделить метод как сейчас
         // если в конструкторе - то можем почитать файл лишний раз когда он не требуется
-        // если отдельным методом (юзается например в self::createNewsFromRow() то следующая строчка - для того чтобы прочитать и записать в $this->map мапу..
+        // если отдельным методом (юзается например в self::createNewsFromRow()
+        // то следующая строчка - для того чтобы прочитать и записать в $this->map мапу..
         // так что нужно подумать
-        $this->getMap();
-        $field_names = array_keys($this->map);
+        $map = $this->getMap();
+        $field_names = array_keys($map);
 
         $stmt = $this->db->autoPrepare($this->table, $field_names, PDO_AUTOQUERY_UPDATE, "`id` = :id");
 
         foreach ($field_names as $fieldname) {
-            $getprop = $this->map[$fieldname]['accessor'];
+            $getprop = $map[$fieldname]['accessor'];
             // а тут нужно определять тип?
             $stmt->bindParam(':' . $fieldname, $newsFolder->$getprop());
         }
@@ -68,7 +76,8 @@ class newsFolderMapper
         return $stmt->execute();
     }
 
-    public function save($newsFolder) {
+    public function save($newsFolder)
+    {
         if ($newsFolder->getId()) {
             $this->update($newsFolder);
         } else {
@@ -94,9 +103,9 @@ class newsFolderMapper
 
     private function createNewsFolderFromRow($row)
     {
-        $this->getMap();
-        $newsFolder = new newsFolder($this, $this->map);
-        foreach($this->map as $key => $field) {
+        $map = $this->getMap();
+        $newsFolder = new newsFolder($this, $map);
+        foreach($map as $key => $field) {
             $setprop = $field['mutator'];
             $value = $row[$key];
             if ($setprop && $value) {
@@ -108,7 +117,7 @@ class newsFolderMapper
 
     private function getMap()
     {
-        if (!$this->map) {
+        if (empty($this->map)) {
             $mapFileName = fileLoader::resolve($this->getName() . '/maps/newsFolder.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
         }

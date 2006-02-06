@@ -1,11 +1,21 @@
 <?php
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2006
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
 
 class newsMapper
 {
     private $db;
     private $table;
     private $section;
-    private $map = array();
+    private $maps = array();
 
     public function __construct($section)
     {
@@ -33,10 +43,7 @@ class newsMapper
         'folder_id' => $news->getFolderId(),
         );
 
-        $stmt = $this->db->autoPrepare($this->table, array_keys($data));
-
-        $stmt->bindArray($data);
-        if($stmt->execute()) {
+        if($this->db->autoExecute($this->table, $data)) {
             $id = $this->db->lastInsertID();
             $news->setId($id);
         }
@@ -44,18 +51,18 @@ class newsMapper
 
     public function update($news)
     {
-        // $stmt = $this->db->prepare('UPDATE `' . $this->table . '` SET `title` = :title, `text` = :text, `folder_id` = :folder_id WHERE `id` = :id');
         // 2 варианта - или мапить в конструкторе, или выделить метод как сейчас
         // если в конструкторе - то можем почитать файл лишний раз когда он не требуется
-        // если отдельным методом (юзается например в self::createNewsFromRow() то следующая строчка - для того чтобы прочитать и записать в $this->map мапу..
+        // если отдельным методом (юзается например в self::createNewsFromRow()
+        // то следующая строчка - для того чтобы прочитать и записать в $this->map мапу..
         // так что нужно подумать
-        $this->getMap();
-        $field_names = array_keys($this->map);
+        $map = $this->getMap();
+        $field_names = array_keys($map);
 
         $stmt = $this->db->autoPrepare($this->table, $field_names, PDO_AUTOQUERY_UPDATE, "`id` = :id");
 
         foreach ($field_names as $fieldname) {
-            $getprop = $this->map[$fieldname]['accessor'];
+            $getprop = $map[$fieldname]['accessor'];
             // а тут нужно определять тип?
             $stmt->bindParam(':' . $fieldname, $news->$getprop());
         }
@@ -70,7 +77,8 @@ class newsMapper
         return $stmt->execute();
     }
 
-    public function save($news) {
+    public function save($news)
+    {
         if ($news->getId()) {
             $this->update($news);
         } else {
@@ -110,10 +118,10 @@ class newsMapper
 
     private function createNewsFromRow($row)
     {
-        $this->getMap();
-        $news = new news($this->map);
+        $map = $this->getMap();
+        $news = new news($map);
 
-        foreach($this->map as $key => $field) {
+        foreach($map as $key => $field) {
             $setprop = $field['mutator'];
             $value = $row[$key];
             if ($setprop && $value) {
@@ -125,11 +133,11 @@ class newsMapper
 
     private function getMap()
     {
-        if (!$this->map) {
+        if (empty($this->maps)) {
             $mapFileName = fileLoader::resolve($this->getName() . '/maps/news.map.ini');
-            $this->map = parse_ini_file($mapFileName, true);
+            $this->maps = parse_ini_file($mapFileName, true);
         }
-        return $this->map;
+        return $this->maps;
     }
 }
 

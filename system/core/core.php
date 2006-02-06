@@ -50,7 +50,7 @@ class core
             fileLoader::load('request/requestParser');
             fileLoader::load('frontcontroller/frontController');
 
-            fileLoader::load('db/dbFactory');
+            fileLoader::load('db/DB');
             fileLoader::load('simple/simple.view');
             fileLoader::load('dataspace/arrayDataspace');
 
