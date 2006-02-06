@@ -53,7 +53,7 @@ class testsRunner implements iFilter
             }
             echo '</a>';
         }
-        echo '<br /><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest Error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
+        echo '<br /><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest (' . SimpleTest::getVersion() . ') error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
 
         $timerFactory = new timerFactory('view');
         $timer = $timerFactory->getController();
