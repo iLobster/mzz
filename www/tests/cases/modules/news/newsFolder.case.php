@@ -65,11 +65,12 @@ class newsFolderTest extends unitTestCase
     {
 
         $this->mapper->expectOnce('getFolders', array($this->newsFolder));
-        $this->mapper->setReturnValue('getFolders', array('foo', 'bar'));
 
-        //$this->newsFolder->setFolders(array('foo', 'bar'));
+        $this->newsFolder->getFolders();
+
+        $this->newsFolder->setFolders(array('foo', 'bar'));
+
         $this->assertEqual($this->newsFolder->getFolders(), array('foo', 'bar'));
-
     }
 
     public function testGetItems()
