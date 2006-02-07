@@ -87,6 +87,7 @@ class newsFactory
     public function setAction($action)
     {
         $this->action = $this->checkAction( $action );
+        ///echo $this->action;
     }
 
     /**
@@ -98,7 +99,8 @@ class newsFactory
     {
         $actions = $this->getActions();
         $this->action = $this->checkAction($this->action);
-        return $actions[$this->action];
+
+        return $this->action;
     }
 
     /**
@@ -137,15 +139,20 @@ class newsFactory
         if(empty($this->actions)) {
             foreach(new mzzIniFilterIterator(new DirectoryIterator(dirname(__FILE__) . '/actions/')) as $iterator) {
                 $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
-                $this->addActions($this->iniRead($file));
+                $type = substr($iterator->getFilename(), 0, strlen($iterator->getFilename()) - 4);
+                $this->addActions($type, $this->iniRead($file));
             }
         }
         return $this->actions;
     }
 
-    public function addActions(Array $actions)
+    public function addActions($type, Array $actions)
     {
-        $this->actions = array_merge($this->actions, $actions);
+        if (isset($this->actions[$type])) {
+            $this->actions[$type] = array_merge($this->actions[$type], $actions);
+        } else {
+            $this->actions[$type] = $actions;
+        }
     }
     /**
      * Устанавливает действие по умолчанию
@@ -176,10 +183,14 @@ class newsFactory
      */
     private function checkAction($action)
     {
+       if(is_array($action)) { debug_print_backtrace(); }
         $actions = $this->getActions();
-        if (!isset($actions[$action])) {
-            $action = $this->getDefaultAction();
+        foreach ($actions as $type) {
+            if (isset($type[$action])) {
+                return $type[$action];
+            }
         }
-        return $action;
+        //return $type[$action];
+        return $this->getDefaultAction();
     }
 }
