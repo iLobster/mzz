@@ -86,8 +86,8 @@ class newsFactory
      */
     public function setAction($action)
     {
-        $this->action = $this->checkAction( $action );
-        ///echo $this->action;
+        $tmp = $this->checkAction( $action );
+        $this->action = $tmp['controller'];
     }
 
     /**
@@ -183,14 +183,12 @@ class newsFactory
      */
     private function checkAction($action)
     {
-       if(is_array($action)) { debug_print_backtrace(); }
         $actions = $this->getActions();
         foreach ($actions as $type) {
             if (isset($type[$action])) {
                 return $type[$action];
             }
         }
-        //return $type[$action];
         return $this->getDefaultAction();
     }
 }
