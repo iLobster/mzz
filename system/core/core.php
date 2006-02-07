@@ -54,6 +54,8 @@ class core
             fileLoader::load('simple/simple.view');
             fileLoader::load('dataspace/arrayDataspace');
 
+            fileLoader::load('iterators/mzzIniFilterIterator');
+
             fileLoader::load('toolkit');
             fileLoader::load('toolkit/stdToolkit');
             fileLoader::load('toolkit/systemToolkit');

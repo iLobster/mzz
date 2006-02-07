@@ -49,7 +49,11 @@ fileLoader::load('toolkit/systemToolkit');
 
 fileLoader::load('dataspace/arrayDataspace');
 
+fileLoader::load('iterators/mzzIniFilterIterator');
+
+fileLoader::load('action');
 fileLoader::load('timer.factory');
+
 
 $toolkit = systemToolkit::getInstance();
 $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));

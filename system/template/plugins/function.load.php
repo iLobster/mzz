@@ -31,7 +31,8 @@ function smarty_function_load($params, $smarty) {
     $action = $params['action'];
 
     fileLoader::load($module . '.factory');
-    $factory = new $modulename($action);
+    fileLoader::load('action');
+    $factory = new $modulename(new action($params['module'], $action));
     $controller = $factory->getController();
     $view = $controller->getView();
     $result = $view->toString();

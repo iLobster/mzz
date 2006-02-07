@@ -51,6 +51,10 @@ class news
             }
         }
     }
+
+    public function getJip() {
+
+    }
 }
 
 ?>
