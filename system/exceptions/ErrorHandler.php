@@ -24,6 +24,11 @@
 function ErrorHandler($errno, $errstr, $errfile, $errline)
 {
 
+    // Вывод E_STRICT ошибок отключен.
+    if($errno == E_STRICT) {
+        return false;
+    }
+
     // Типы ошибок
     $errortype = array (
                E_ERROR           => "Error",
@@ -40,10 +45,6 @@ function ErrorHandler($errno, $errstr, $errfile, $errline)
                E_STRICT          => "Runtime Notice"
                );
 
-    // Вывод E_STRICT ошибок отключен.
-    if($errno == '2048') {
-        return false;
-    }
 
     $toolkit = systemToolkit::getInstance();
     $smarty = $toolkit->getSmarty();

@@ -12,7 +12,7 @@
 
 class mzzIniFilterIterator extends FilterIterator {
     public function accept() {
-        return $this->isFile() && (substr($tmp = $this->getFilename(), -3) == 'ini');
+        return $this->isFile() && (substr($this->getFilename(), -4) == '.ini');
     }
 }
 
