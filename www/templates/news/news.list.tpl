@@ -4,6 +4,7 @@
 			<td><a href="/news/{$current_news->getId()}">{$current_news->getId()}</a></td>
 			<td>{$current_news->getTitle()}</td>
 			<td>{$current_news->getText()}</td>
+			<td>{$current_news->getJip()}</td>
 		</tr>
 	{/foreach}
 </table>

@@ -53,7 +53,10 @@ class news
     }
 
     public function getJip() {
+        $toolkit = systemToolkit::getInstance();
+        $action = $toolkit->getAction('news');
 
+        print_r($action->getJipActions());
     }
 }
 

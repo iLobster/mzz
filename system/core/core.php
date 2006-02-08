@@ -60,6 +60,8 @@ class core
             fileLoader::load('toolkit/stdToolkit');
             fileLoader::load('toolkit/systemToolkit');
 
+            fileLoader::load('action');
+
             $toolkit = systemToolkit::getInstance();
             $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
 

@@ -116,11 +116,11 @@ class action
         return $this->actions;
     }
 
-    public function getJipActions($type)
+    public function getJipActions()
     {
         $jip_actions = array();
         $actions = $this->getActions();
-        foreach ($actions[$type] as $action) {
+        foreach ($actions[$this->module] as $action) {
             if(isset($action['jip']) && $action['jip'] == true) {
                 $jip_actions[] = $action['controller'];
             }

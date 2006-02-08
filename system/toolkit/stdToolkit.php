@@ -27,7 +27,13 @@ class stdToolkit extends toolkit
     private $config;
     private $sectionMapper;
     private $timer;
+    private $actions;
     /**#@-*/
+
+    /**
+     * @var array
+     */
+    private $actionNames = array();
 
     /**
      * Конструктор
@@ -38,6 +44,7 @@ class stdToolkit extends toolkit
     {
         parent::__construct();
         $this->config = $config;
+        $this->actionNames = new arrayDataspace($this->actionNames);
     }
 
     /**
@@ -125,6 +132,13 @@ class stdToolkit extends toolkit
         return $this->timer;
     }
 
+    public function getAction($module, $action = null)
+    {
+        if($this->actionNames->exists($module) == false) {
+            $this->actionNames->set($module, new action($module, $action));
+        }
+        return $this->actionNames->get($module);
+    }
     /**
      * Устанавливает объект Request
      *
