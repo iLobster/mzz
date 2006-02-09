@@ -26,18 +26,25 @@ function smarty_function_load($params, $smarty) {
         $error = "Template error. Module is not specified.";
         throw new mzzRuntimeException($error);
     }
+
     $module = $params['module'];
     $modulename = $module . 'Factory';
     $action_name = $params['action'];
 
     fileLoader::load($module . '.factory');
     $toolkit = systemToolkit::getInstance();
+
     $action = $toolkit->getAction($params['module']);
     $action->setAction($action_name);
+
     $factory = new $modulename($action);
+
     $controller = $factory->getController();
+
     $view = $controller->getView();
+
     $result = $view->toString();
+
     return $result;
 }
 

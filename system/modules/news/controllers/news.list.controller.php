@@ -25,8 +25,6 @@ class newsListController
         fileLoader::load("news/newsFolder");
         fileLoader::load("news/mappers/newsMapper");
         fileLoader::load("news/mappers/newsFolderMapper");
-
-
     }
 
     public function getView()
