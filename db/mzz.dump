@@ -58,7 +58,7 @@ CREATE TABLE `news_news_tree` (
 #
 
 INSERT INTO `news_news_tree` (`id`, `name`, `parent`) VALUES 
-  (0,'/',0),
+  (0,'root',0),
   (0,'folder2',0);
 
 COMMIT;
