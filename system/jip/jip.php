@@ -29,7 +29,11 @@ class jip
 
     private function buildUrl($action)
     {
-        return $this->section . '/' . $this->id . '/' . $action;
+        $url = new url();
+        $url->setSection($this->section);
+        $url->setAction($action);
+        $url->addParam($this->id);
+        return $url->get();
     }
 
     private function generate()
