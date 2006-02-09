@@ -11,6 +11,8 @@
 //
 
 fileLoader::load('dataspace/arrayDataspace');
+// перенести!!
+fileLoader::load('jip/jip');
 
 class news
 {
@@ -56,7 +58,9 @@ class news
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getAction('news');
 
-        print_r($action->getJipActions());
+        $jip = new jip('news', 'news', $this->getId(), 'news', $action->getJipActions());
+
+        return $jip->draw();
     }
 }
 

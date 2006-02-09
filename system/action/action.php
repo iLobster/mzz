@@ -122,7 +122,7 @@ class action
         $actions = $this->getActions();
         foreach ($actions[$this->module] as $action) {
             if(isset($action['jip']) && $action['jip'] == true) {
-                $jip_actions[] = $action['controller'];
+                $jip_actions[] = array('controller' => $action['controller'], 'title' => $action['title']);
             }
         }
         return $jip_actions;
