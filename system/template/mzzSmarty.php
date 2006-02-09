@@ -94,7 +94,7 @@ class mzzSmarty extends Smarty
     {
         $params = $this->parse($template);
 
-        if(CATCH_TPL_RECURSION == true && in_array($params['main'], $this->fetchedTemplates)) {
+        if(CATCH_TPL_RECURSION == true && isset($this->fetchedTemplates[$params['main']])) {
             $error = "Detected recursion. Recursion template: %s. <br> All: <pre>%s</pre>";
             throw new mzzRuntimeException(sprintf($error, $params['main'], print_r($this->fetchedTemplates, true)));
         }
@@ -103,7 +103,7 @@ class mzzSmarty extends Smarty
             $error = "Template error. Placeholder is not specified.";
             throw new mzzRuntimeException($error);
         }
-        $this->fetchedTemplates[] = $params['main'];
+        $this->fetchedTemplates[$params['main']] = true;
 
         $this->assign($params['placeholder'], $result);
         $result = $this->fetch($params['main'], $cache_id, $compile_id, $display);
