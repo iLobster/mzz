@@ -36,12 +36,13 @@ class newsMapper
 
     public function insert($news)
     {
+        $map = $this->getMap();
+        $field_names = array_keys($map);
 
-        $data = array(
-        'title' => $news->getTitle(),
-        'text' => $news->getText(),
-        'folder_id' => $news->getFolderId(),
-        );
+        foreach ($field_names as $fieldname) {
+            $getprop = $map[$fieldname]['accessor'];
+            $data[$fieldname] = $news->$getprop();
+        }
 
         if($this->db->autoExecute($this->table, $data)) {
             $id = $this->db->lastInsertID();
@@ -51,22 +52,15 @@ class newsMapper
 
     public function update($news)
     {
-        // 2 варианта - или мапить в конструкторе, или выделить метод как сейчас
-        // если в конструкторе - то можем почитать файл лишний раз когда он не требуется
-        // если отдельным методом (юзается например в self::createNewsFromRow()
-        // то следующая строчка - для того чтобы прочитать и записать в $this->map мапу..
-        // так что нужно подумать
         $map = $this->getMap();
         $field_names = array_keys($map);
 
-        $stmt = $this->db->autoPrepare($this->table, $field_names, PDO_AUTOQUERY_UPDATE, "`id` = :id");
-
         foreach ($field_names as $fieldname) {
             $getprop = $map[$fieldname]['accessor'];
-            // а тут нужно определять тип?
-            $stmt->bindParam(':' . $fieldname, $news->$getprop());
+            $data[$fieldname] = $news->$getprop();
         }
-        $stmt->execute();
+
+        return $this->db->autoExecute($this->table, $data, PDO_AUTOQUERY_UPDATE, "`id` = :id");
 
     }
 

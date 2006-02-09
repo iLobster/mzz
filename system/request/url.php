@@ -63,6 +63,28 @@ class url
     }
 
     /**
+     * Возвращает сгенерированный полный URL
+     *
+     * @return string
+     */
+    public function getFull()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+        $protocol = $request->isSecure() ? 'https' : 'http';
+        $address = $protocol . '://' . $request->get('HTTP_HOST', SC_SERVER);
+
+        if(empty($this->section)) {
+            $this->setSection($this->getCurrentSection());
+        }
+
+        $params = "/";
+        if(empty($this->params) == false) {
+            $params .= implode('/', $this->params) . '/';
+        }
+        return $address . '/' . $this->section . $params . $this->action;
+    }
+    /**
      * Установка section
      *
      * @param string $value

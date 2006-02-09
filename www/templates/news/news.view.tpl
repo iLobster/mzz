@@ -5,5 +5,7 @@
 			<td>{$news->getText()}</td>
 		</tr>
 		<tr>
-			<td colspan=3><a href="/news/list">назад</a> / <a href="/news/{$news->getId()}/edit">редактировать</a></td>		</tr>
+			<td colspan=3><a href="{url section=news action=list}">назад</a> /
+			<a href="{url section=news action=edit params=$news->getId()}">редактировать</a></td>
+	    </tr>
 </table>

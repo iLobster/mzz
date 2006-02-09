@@ -13,7 +13,7 @@
 		    <td>{$form.reset.html}</td>
 		</tr>
 		<tr>
-			<td colspan=3><a href="/news/list">назад</a></td>
+			<td colspan=3><a href="{url section=news action=view params=$news->getId()}">назад</a></td>
 		</tr>
 </table>
 </form>
