@@ -7,8 +7,8 @@
 <body bgcolor="#ffffff">
 <font size='+1' face=tahoma color=#111111>{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION})</font>
 <hr size="1" style="color: #333333;" />
-{dynamic}{$content}{/dynamic}
+{$content}
 <br />
-{dynamic}{load module="timer" action="view"}{/dynamic}
+{load module="timer" action="view"}
 </body>
 </html>
