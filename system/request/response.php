@@ -12,7 +12,7 @@
 
 /**
  * response: объект для работы с информацией, выводимой клиенту в браузер
- * 
+ *
  * @package system
  * @version 0.1
  */
@@ -27,12 +27,40 @@ class response
     private $response = '';
 
     /**
+     * Заголовки
+     *
+     * @var array
+     */
+    private $headers = array();
+
+    /**
      * конструктор класса
      *
      */
     public function __construct()
     {
 
+    }
+
+    /**
+     * Уставливает заголовки для клиента
+     *
+     * @param $name
+     * @param $value
+     */
+    public function sendHeader($name, $value)
+    {
+        $this->headers[$name] = $value;
+    }
+
+    /**
+     * Возвращает установленные заголовки для клиента
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
     }
 
     /**
@@ -55,11 +83,21 @@ class response
     }
 
     /**
-     * отправление текста
+     * отправление заголовков и текста
      *
      */
     private function sendText()
     {
+        $headers = $this->getHeaders();
+        if(!empty($headers)) {
+            if(headers_sent()) {
+                throw new mzzRuntimeException("Cannot modify header information - headers already sent");
+            }
+            foreach ($headers as $name => $value) {
+                header($name . ": " . $value);
+            }
+        }
+
         echo $this->response;
     }
 
