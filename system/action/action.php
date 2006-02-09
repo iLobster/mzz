@@ -37,6 +37,7 @@ class action
     /**
      * действие по умолчанию
      *
+     * @deprecated
      * @var string
      */
     private $defaultAction;
@@ -138,6 +139,7 @@ class action
     /**
      * Устанавливает действие по умолчанию
      *
+     * @deprecated
      * @param string $action
      */
     public function setDefaultAction($action)
@@ -148,6 +150,7 @@ class action
     /**
      * Возвращает действие по умолчанию
      *
+     * @deprecated
      * @return string
      */
     public function getDefaultAction()
@@ -170,6 +173,9 @@ class action
                 return $type[$action];
             }
         }
+
+        throw new mzzSystemException('Экшн ' . $action . ' не найден');
+
         return $this->getDefaultAction();
     }
 
