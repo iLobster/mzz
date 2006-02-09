@@ -10,6 +10,11 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+
+function smarty_block_dynamic($params, $content, &$smarty) {
+    return $content;
+}
+
 /**
  * stdToolkit: стандартный Toolkit
  *
@@ -19,8 +24,8 @@
 class stdToolkit extends toolkit
 {
     /**#@+
-     * @var object
-     */
+    * @var object
+    */
     private $request;
     private $smarty;
     private $rewrite;
@@ -71,10 +76,17 @@ class stdToolkit extends toolkit
         if(empty($this->smarty)) {
             fileLoader::load('template/mzzSmarty');
             $this->smarty = new mzzSmarty();
+            $this->smarty->caching = true;
+            //$this->smarty->caching = false;
+            //$this->smarty->cache_lifetime = 120;
+            $this->smarty->cache_dir = systemConfig::$pathToTemp . 'templates_c/cache';
             $this->smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
             $this->smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
             $this->smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
             $this->smarty->debugging = DEBUG_MODE;
+
+            $this->smarty->register_block('dynamic', 'smarty_block_dynamic', false);
+
         }
         return $this->smarty;
     }

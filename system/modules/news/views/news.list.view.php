@@ -20,8 +20,10 @@ class newsListView extends simpleView
 {
     public function toString()
     {
-        $this->smarty->assign('news', $this->DAO);
-        $this->smarty->assign('title', 'Новости -> Список');
+        if(!$this->smarty->is_cached('news.list.tpl')) {
+            $this->smarty->assign('news', $this->DAO);
+            $this->smarty->assign('title', 'Новости -> Список');
+        }
         return $this->smarty->fetch('news.list.tpl');
     }
 }
