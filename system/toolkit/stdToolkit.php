@@ -132,10 +132,10 @@ class stdToolkit extends toolkit
         return $this->timer;
     }
 
-    public function getAction($module, $action = null)
+    public function getAction($module)
     {
         if($this->actionNames->exists($module) == false) {
-            $this->actionNames->set($module, new action($module, $action));
+            $this->actionNames->set($module, new action($module));
         }
         return $this->actionNames->get($module);
     }

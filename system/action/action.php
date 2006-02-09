@@ -41,10 +41,9 @@ class action
      */
     private $defaultAction;
 
-    public function __construct($module, $action)
+    public function __construct($module)
     {
         $this->module = $module;
-        $this->setAction($action);
     }
     /**
      * Установка действия

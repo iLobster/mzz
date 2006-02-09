@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `news_news_tree`;
 CREATE TABLE `news_news_tree` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
-  `parent` int(11) default NULL,
+  `parent` int(11) default 0,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=0;
 #

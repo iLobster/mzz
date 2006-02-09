@@ -20,19 +20,19 @@ class newsFoldersController
 {
     public function __construct()
     {
-        fileLoader::load('news/view/news.folders.view');
+        fileLoader::load('news/views/news.folders.view');
         fileLoader::load("news/newsFolder");
         fileLoader::load("news/mappers/newsFolderMapper");
     }
 
-    public function getFolders()
+    public function getView()
     {
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
 
         $newsFolderMapper = new newsFolderMapper($httprequest->getSection());
 
-        $folders = $newsFolderMapper->getFolders('0');
+        $folders = $newsFolderMapper->getFolders('');
         return new newsFoldersView($folders);
     }
 }

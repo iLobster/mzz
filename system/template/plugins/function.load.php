@@ -28,12 +28,13 @@ function smarty_function_load($params, $smarty) {
     }
     $module = $params['module'];
     $modulename = $module . 'Factory';
-    $action = $params['action'];
+    $action_name = $params['action'];
 
     fileLoader::load($module . '.factory');
     $toolkit = systemToolkit::getInstance();
-
-    $factory = new $modulename($toolkit->getAction($params['module'], $action));
+    $action = $toolkit->getAction($params['module']);
+    $action->setAction($action_name);
+    $factory = new $modulename($action);
     $controller = $factory->getController();
     $view = $controller->getView();
     $result = $view->toString();
