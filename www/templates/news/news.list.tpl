@@ -9,4 +9,4 @@
 	{/foreach}
 </table>
 
-<a href="/news/list"> Папка 1 </a> / <a href="/news/folder2/list"> Папка 2</a>
+{load module="news" action="folders"}
