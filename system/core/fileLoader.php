@@ -72,7 +72,6 @@ class fileLoader
         if(!($filename = self::$resolver->resolve($request))) {
             throw new mzzIoException($request);
         }
-        self::$files[] = $filename;
         return $filename;
     }
 
@@ -84,14 +83,12 @@ class fileLoader
      */
     public static function load($file)
     {
-        if (in_array($file, self::$files)) {
-            return true;
-        } else {
+        if (!isset(self::$files[$file])) {
             $filename = self::resolve($file);
-            //self::$files[] = $file;
+            self::$files[$file] = 1;
             require_once $filename;
-            return true;
         }
+        return true;
     }
 }
 
