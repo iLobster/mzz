@@ -10,7 +10,7 @@ class cachingResolverTest extends unitTestCase
     private $resolver;
     private $mock;
     private $cacheFile;
-    private $mtime;
+    private $mtime = 1;
 
 
     public function __construct()
@@ -52,7 +52,6 @@ class cachingResolverTest extends unitTestCase
         unset($this->resolver);
 
         $this->assertEqual(file_get_contents($this->cacheFile), 'a:1:{s:8:"/request";s:8:"/respond";}');
-        $this->mtime = time() - 100;
         $this->assertTrue(touch($this->cacheFile, $this->mtime), 'Cannot change mtime for ' . $this->cacheFile);
 
         $this->createResolver();
