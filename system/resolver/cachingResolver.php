@@ -35,6 +35,12 @@ final class cachingResolver extends decoratingResolver
      */
     private $cache_file;
 
+    /**
+     * флаг, устанавливается в true, если кеш нужно обновить
+     *
+     * @var bool
+     */
+    private $changed = false;
 
     /**
      * конструктор
@@ -67,6 +73,7 @@ final class cachingResolver extends decoratingResolver
     public function resolve($request)
     {
         if (!isset($this->cache[$request])) {
+            $this->changed = true;
             $this->cache[$request] = $this->resolver->resolve($request);
         }
         return $this->cache[$request];
@@ -79,9 +86,12 @@ final class cachingResolver extends decoratingResolver
      */
     public function __destruct()
     {
-        $this->cache_file->fseek(0);
-        $this->cache_file->fwrite(serialize($this->cache));
+        if ($this->changed) {
+            $this->cache_file->fseek(0);
+            $this->cache_file->fwrite(serialize($this->cache));
+        }
+        unset($this->cache_file);
     }
-
 }
+
 ?>
