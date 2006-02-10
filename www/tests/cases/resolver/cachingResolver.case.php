@@ -3,7 +3,6 @@
 fileLoader::load('resolver/decoratingResolver');
 fileLoader::load('resolver/cachingResolver');
 
-
 mock::generate('testCaseFileResolver');
 
 class cachingResolverTest extends unitTestCase
@@ -13,9 +12,14 @@ class cachingResolverTest extends unitTestCase
     private $cacheFile;
     private $mtime;
 
-    public function setUp()
+
+    public function __construct()
     {
         $this->deleteCache();
+    }
+
+    public function setUp()
+    {
         $this->mock = new mocktestCaseFileResolver();
         $this->createResolver();
         $this->cacheFile = systemConfig::$pathToTemp . 'resolver.cache';
@@ -23,7 +27,7 @@ class cachingResolverTest extends unitTestCase
 
     public function tearDown()
     {
-        $this->deleteCache();;
+        $this->deleteCache();
     }
 
     public function createResolver()
@@ -33,7 +37,9 @@ class cachingResolverTest extends unitTestCase
 
     public function deleteCache()
     {
-        @unlink(systemConfig::$pathToTemp . 'resolver.cache');
+        if(file_exists($this->cacheFile)) {
+            unlink($this->cacheFile);
+        }
     }
 
     public function testCachingResolve()
@@ -54,8 +60,6 @@ class cachingResolverTest extends unitTestCase
         unset($this->resolver);
 
         $this->assertTrue(filemtime($this->cacheFile) == $this->mtime, 'Cache file updated');
-
-
     }
 
     public function testCachingResolveUpdated()
