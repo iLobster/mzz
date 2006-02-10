@@ -113,8 +113,18 @@ class newsFolderMapper
     {
         if (empty($this->map)) {
             $mapFileName = fileLoader::resolve($this->getName() . '/maps/newsFolder.map.ini');
-            $this->map = parse_ini_file($mapFileName, true);
+
+            $toolkit = systemToolkit::getInstance();
+            $cache = $toolkit->getCache();
+
+            if($cache->isCached($mapFileName)) {
+                $this->map = $cache->get($mapFileName);
+            } else {
+                $this->map = parse_ini_file($mapFileName, true);
+                $cache->save($this->map, $mapFileName);
+            }
         }
+
         return $this->map;
     }
 

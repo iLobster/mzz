@@ -92,10 +92,20 @@ class action
      */
     private function iniRead($filename)
     {
+        $toolkit = systemToolkit::getInstance();
+        $cache = $toolkit->getCache();
+
         if(!file_exists($filename)) {
             throw new mzzIoException($filename);
         }
-        return parse_ini_file($filename, true);
+
+        if($cache->isCached($filename)) {
+            return $cache->get($filename);
+        } else {
+            $result = parse_ini_file($filename, true);
+            $cache->save($result, $filename);
+            return $result;
+        }
     }
 
     /**

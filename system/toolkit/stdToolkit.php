@@ -28,6 +28,7 @@ class stdToolkit extends toolkit
     private $sectionMapper;
     private $timer;
     private $actions;
+    private $cache;
     /**#@-*/
 
     /**
@@ -139,6 +140,15 @@ class stdToolkit extends toolkit
         }
         return $this->actionNames->get($module);
     }
+
+    public function getCache()
+    {
+        if(empty($this->cache)) {
+            $this->cache = new Cache(systemConfig::$pathToTemp);
+        }
+        return $this->cache;
+    }
+
     /**
      * Устанавливает объект Request
      *
@@ -186,5 +196,7 @@ class stdToolkit extends toolkit
         $this->sectionMapper = $sectionMapper;
         return $old_sectionMapper;
     }
+
+
 }
 ?>

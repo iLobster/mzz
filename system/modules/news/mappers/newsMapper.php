@@ -15,7 +15,7 @@ class newsMapper
     private $db;
     private $table;
     private $section;
-    private $maps = array();
+    private $map = array();
 
     public function __construct($section)
     {
@@ -127,11 +127,20 @@ class newsMapper
 
     private function getMap()
     {
-        if (empty($this->maps)) {
+        if (empty($this->map)) {
             $mapFileName = fileLoader::resolve($this->getName() . '/maps/news.map.ini');
-            $this->maps = parse_ini_file($mapFileName, true);
+
+            $toolkit = systemToolkit::getInstance();
+            $cache = $toolkit->getCache();
+
+            if($cache->isCached($mapFileName)) {
+                $this->map = $cache->get($mapFileName);
+            } else {
+                $this->map = parse_ini_file($mapFileName, true);
+                $cache->save($this->map, $mapFileName);
+            }
         }
-        return $this->maps;
+        return $this->map;
     }
 }
 
