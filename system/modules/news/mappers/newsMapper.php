@@ -129,16 +129,7 @@ class newsMapper
     {
         if (empty($this->map)) {
             $mapFileName = fileLoader::resolve($this->getName() . '/maps/news.map.ini');
-
-            $toolkit = systemToolkit::getInstance();
-            $cache = $toolkit->getCache();
-
-            if($cache->isCached($mapFileName)) {
-                $this->map = $cache->get($mapFileName);
-            } else {
-                $this->map = parse_ini_file($mapFileName, true);
-                $cache->save($this->map, $mapFileName);
-            }
+            $this->map = parse_ini_file($mapFileName, true);
         }
         return $this->map;
     }
