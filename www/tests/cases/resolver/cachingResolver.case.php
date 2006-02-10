@@ -8,32 +8,35 @@ mock::generate('testCaseFileResolver');
 
 class cachingResolverTest extends unitTestCase
 {
-    public $resolver;
-    public $mock;
+    private $resolver;
+    private $mock;
+    private $cacheFile;
+    private $mtime;
 
-    function setUp()
+    public function setUp()
     {
         $this->deleteCache();
         $this->mock = new mocktestCaseFileResolver();
         $this->createResolver();
+        $this->cacheFile = systemConfig::$pathToTemp . 'resolver.cache';
     }
 
-    function tearDown()
+    public function tearDown()
     {
         $this->deleteCache();;
     }
 
-    function createResolver()
+    public function createResolver()
     {
         $this->resolver = new cachingResolver($this->mock);
     }
 
-    function deleteCache()
+    public function deleteCache()
     {
         @unlink(systemConfig::$pathToTemp . 'resolver.cache');
     }
 
-    function testCachingResolve()
+    public function testCachingResolve()
     {
         $this->mock->expectOnce('resolve', array('/request'));
         $this->mock->setReturnValue('resolve', '/respond');
@@ -41,16 +44,29 @@ class cachingResolverTest extends unitTestCase
         $this->assertEqual('/respond', $this->resolver->resolve('/request'));
         $this->assertEqual('/respond', $this->resolver->resolve('/request'));
         unset($this->resolver);
-        $this->assertEqual(file_get_contents(systemConfig::$pathToTemp . 'resolver.cache'), 'a:1:{s:8:"/request";s:8:"/respond";}');
+
+        $this->assertEqual(file_get_contents($this->cacheFile), 'a:1:{s:8:"/request";s:8:"/respond";}');
+        $this->mtime = time() - 100;
+        $this->assertTrue(touch($this->cacheFile, $this->mtime), 'Cannot change mtime for ' . $this->cacheFile);
 
         $this->createResolver();
         $this->resolver->resolve('/request');
-
-        $this->deleteCache();
-
         unset($this->resolver);
 
-        $this->assertFalse(file_exists(systemConfig::$pathToTemp . 'resolver.cache'));
+        $this->assertTrue(filemtime($this->cacheFile) == $this->mtime, 'Cache file updated');
+
+
+    }
+
+    public function testCachingResolveUpdated()
+    {
+        $this->mock->expectOnce('resolve', array('/foo'));
+        $this->mock->setReturnValue('resolve', '/bar');
+        $this->createResolver();
+        $this->resolver->resolve('/foo');
+        unset($this->resolver);
+
+        $this->assertFalse(filemtime($this->cacheFile) <= $this->mtime, 'Cache file not updated');
     }
 }
 
