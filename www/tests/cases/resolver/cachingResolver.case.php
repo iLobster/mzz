@@ -10,12 +10,13 @@ class cachingResolverTest extends unitTestCase
     private $resolver;
     private $mock;
     private $cacheFile;
-    private $mtime = 1;
+    private $mtime;
 
 
     public function __construct()
     {
         $this->deleteCache();
+        $this->mtime = time() - 10000;
     }
 
     public function setUp()
