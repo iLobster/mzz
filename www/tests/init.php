@@ -53,6 +53,7 @@ fileLoader::load('iterators/mzzIniFilterIterator');
 
 fileLoader::load('action');
 fileLoader::load('timer.factory');
+fileLoader::load('cache');
 
 
 $toolkit = systemToolkit::getInstance();
