@@ -4,5 +4,6 @@
 		<action name="list">news.list</action>
 		<action name="view">news.view</action>
 		<action name="edit">news.edit</action>
+		<action name="create">news.create</action>
 	</news>
 </mapps>
