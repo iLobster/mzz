@@ -47,7 +47,7 @@ class newsEditController
             $values = $form->exportValues();
             $news->setTitle($values['title']);
             $news->setText($values['text']);
-            $newsMapper->update($news);
+            $newsMapper->save($news);
             $view = new newsEditSuccessView($news, $form);
         }
         return $view;

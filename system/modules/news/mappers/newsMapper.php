@@ -34,7 +34,12 @@ class newsMapper
         return $this->section;
     }
 
-    public function insert($news)
+    public function create()
+    {
+        return new news($this->getMap());
+    }
+
+    protected function insert($news)
     {
         $map = $this->getMap();
         $field_names = array_keys($map);
@@ -50,7 +55,7 @@ class newsMapper
         }
     }
 
-    public function update($news)
+    protected function update($news)
     {
         $map = $this->getMap();
         $field_names = array_keys($map);

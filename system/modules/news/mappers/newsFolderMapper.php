@@ -34,7 +34,7 @@ class newsFolderMapper
         return $this->section;
     }
 
-    public function insert($newsFolder)
+    protected function insert($newsFolder)
     {
         $map = $this->getMap();
         $field_names = array_keys($map);
@@ -50,7 +50,7 @@ class newsFolderMapper
         }
     }
 
-    public function update($newsFolder)
+    protected function update($newsFolder)
     {
         $map = $this->getMap();
         $field_names = array_keys($map);

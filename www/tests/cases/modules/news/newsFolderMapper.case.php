@@ -113,7 +113,7 @@ class newsFolderMapperTest extends unitTestCase
 
         $name = 'new_name';
         $newsFolder->setName($name);
-        $this->mapper->update($newsFolder);
+        $this->mapper->save($newsFolder);
 
         $newsFolder2 = $this->mapper->searchByName('new_name');
         $this->assertEqual($newsFolder2->getName(), $name);

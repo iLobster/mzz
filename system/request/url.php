@@ -59,7 +59,13 @@ class url
         if(empty($this->section)) {
             $this->setSection($this->getCurrentSection());
         }
-        return '/' . $this->section . '/' . implode('/', $this->params) . '/' . $this->action;
+
+        $params = "/";
+        if(empty($this->params) == false) {
+            $params .= implode('/', $this->params) . '/';
+        }
+
+        return '/' . $this->section . $params . $this->action;
     }
 
     /**

@@ -10,7 +10,7 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * NewsEditController: контроллер для метода edit модуля news
+ * newsCreateController: контроллер для метода create модуля news
  *
  * @package news
  * @version 0.1
@@ -33,18 +33,19 @@ class newsCreateController
         $httprequest = $toolkit->getRequest();
 
         $newsMapper = new newsMapper($httprequest->getSection());
-
+        $news = $newsMapper->create();
 
         $form = newsCreateForm::getForm($news);
 
         if($form->validate() == false) {
-            $view = new newsEditView($news, $form);
+            $view = new newsCreateView($news, $form);
         } else {
             $values = $form->exportValues();
             $news->setTitle($values['title']);
             $news->setText($values['text']);
-            $newsMapper->update($news);
-            $view = new newsEditSuccessView($news, $form);
+            $news->setFolderId('1');
+            $newsMapper->save($news);
+            $view = new newsCreateSuccessView($news, $form);
         }
         return $view;
     }
