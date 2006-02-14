@@ -6,7 +6,10 @@
 			<td>{$current_news->getText()}</td>
 			<td>{$current_news->getJip()}</td>
 		</tr>
-	{/foreach}
+	{/foreach}		
+		<tr>
+			<td colspan=4><a href="{url section=news action=create}">Добавить новость</a></td>
+		</tr>
 </table>
 
 {load module="news" action="folders"}
