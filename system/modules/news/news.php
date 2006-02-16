@@ -39,6 +39,7 @@ class news
         if (empty($created)) {
             $this->fields->set('created', time());
         }
+        return $this->fields->get('created');
     }
 
     public function getUpdated()
@@ -47,6 +48,7 @@ class news
         if (empty($updated)) {
             $this->fields->set('updated', time());
         }
+        return $this->fields->get('updated');
     }
 
     public function __call($name, $args)
