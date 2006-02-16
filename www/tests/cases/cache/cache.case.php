@@ -33,7 +33,7 @@ class cacheTest extends unitTestCase
 
         $this->assertIdentical($this->cache->get($id), $result);
 
-        touch($id, time() + 1);
+        touch($id, time() + 10);
 
         try {
             $this->assertFalse($this->cache->get($id), $result);
