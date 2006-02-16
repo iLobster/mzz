@@ -81,6 +81,8 @@ class sectionMapper
     /**
      * Получение имени шаблона
      *
+     * @param string $section
+     * @param string $action
      * @return string|false
      */
     public function getTemplateName($section, $action)

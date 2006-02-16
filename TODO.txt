@@ -5,8 +5,13 @@
 (+) выполнено, но в стадии тестировани€/утверждени€
 (?) иде€ на обсуждение/уточнение
 (-) deprecated
-77 next
+79 next
 ----------------------------------
+
+78 ( ) ѕротестировать что измен€ютс€ created/updated пол€, а то return сделать забыл €, но тесты прошли.
+
+77 ( ) »справить ошибки "Warning: 1265 Data truncated for column 'created' at row 1". ќпределение метода getCreated не помогает, т.к. фильтр
+       переводит 0 в дату и empty уже не срабатывает.
 
 76 ( ) ѕолучение папок (внизу в /list) сделать не отдельным экшном, а получать данные пр€мо в шаблона из объека $newsFolder->getFolders() (как то так)
 
@@ -20,7 +25,7 @@
 
 71 (?) ѕодумать насчЄт кеша - € представл€л его совсем не так (а так - как в PEAR::Cache_Lite)
 
-70 ( ) Ќе работают 3 теста, св€занных с кешированием:
+70 (+) Ќе работают 3 теста, св€занных с кешированием:
                         Fail: cases/cache/cache.case.php -> cacheTest -> testCache -> Array at [s:\sites\mzz\www\tests\cases\cache\cache.case.php line 39]
                         Fail: cases/cache/cache.case.php -> cacheTest -> testCache -> no exception thrown? at [s:\sites\mzz\www\tests\cases\cache\cache.case.php line 40]
                         Fail: cases/resolver/cachingResolver.case.php -> cachingResolverTest -> testCachingResolve -> Cache file updated at [s:\sites\mzz\www\tests\cases\resolver\cachingResolver.case.php line 62] (по€вл€етс€ через раз??!! может сделать по обычному без SPL пока??)
