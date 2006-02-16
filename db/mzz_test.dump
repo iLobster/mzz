@@ -26,6 +26,8 @@ CREATE TABLE `news_news` (
   `title` varchar(255) NOT NULL default '',
   `text` text NOT NULL,
   `folder_id` int(11) default NULL,
+  `created` int(11) default NULL,
+  `updated` int(11) default NULL,
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -38,6 +40,6 @@ DROP TABLE IF EXISTS `news_news_tree`;
 CREATE TABLE `news_news_tree` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
-  `parent` int(11) default 0,
+  `parent` int(11) default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=0;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;

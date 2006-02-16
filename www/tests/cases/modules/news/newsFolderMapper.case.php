@@ -27,7 +27,9 @@ class newsFolderMapperTest extends unitTestCase
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
-        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId')
+        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'),
+        'created' => array ('name' => 'created', 'accessor' => 'getCreated', 'mutator' => 'setCreated'),
+        'updated' => array ('name' => 'updated', 'accessor' => 'getUpdated', 'mutator' => 'setUpdated'),
         );
         $this->mapper = new newsFolderMapper('news');
     }

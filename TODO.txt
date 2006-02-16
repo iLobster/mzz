@@ -1,14 +1,35 @@
               Global
 ----------------------------------
 ( ) новые TODO
-(*) в процессе (с указанием ника)
+(*) в процессе
 (+) выполнено, но в стадии тестирования/утверждения
 (?) идея на обсуждение/уточнение
 (-) deprecated
-68 next
+77 next
 ----------------------------------
 
-67 (*) create/delete для новостей - готово
+76 ( ) Получение папок (внизу в /list) сделать не отдельным экшном, а получать данные прямо в шаблона из объека $newsFolder->getFolders() (как то так)
+
+75 (*) Добавить 2 поля типа timestamp (created, modified) в таблу с папками новостей, вкрутить dateFormatDataspaceFilter (думаю что ключи для последнего аргумента можно брать из мапа, в ini в свою очередь дописать ещё один ключ - type)
+
+74 ( ) Начинать задумываться о class config (некоторые мысли есть)
+
+73 ( ) Начинать задумываться о мультиязычности контента и интерфейса
+
+72 ( ) В response предлагаю добавить setTitle() - чтобы выставлять титл страницы (возможно будут ещё setMeta() ... )
+
+71 (?) Подумать насчёт кеша - я представлял его совсем не так (а так - как в PEAR::Cache_Lite)
+
+70 ( ) Не работают 3 теста, связанных с кешированием:
+                        Fail: cases/cache/cache.case.php -> cacheTest -> testCache -> Array at [s:\sites\mzz\www\tests\cases\cache\cache.case.php line 39]
+                        Fail: cases/cache/cache.case.php -> cacheTest -> testCache -> no exception thrown? at [s:\sites\mzz\www\tests\cases\cache\cache.case.php line 40]
+                        Fail: cases/resolver/cachingResolver.case.php -> cachingResolverTest -> testCachingResolve -> Cache file updated at [s:\sites\mzz\www\tests\cases\resolver\cachingResolver.case.php line 62] (появляется через раз??!! может сделать по обычному без SPL пока??)
+
+69 ( ) Потихоньку документировать новые классы
+
+68 ( ) Перенести тесты в корень
+
+67 (*) create/delete для новостей - готово (сделать чтобы зависело от папки /news/folder/create) (может createItem?)
        create/delete для групп новостей
 
 52 (*) Мапу в ДМ наверное нужно кешировать, есть мнение что именно изза чтения-парсинга xml получаем такие тормоза

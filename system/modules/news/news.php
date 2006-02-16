@@ -11,6 +11,7 @@
 //
 
 fileLoader::load('dataspace/arrayDataspace');
+fileLoader::load('dataspace/dateFormatDataspaceFilter');
 // перенести!!
 fileLoader::load('jip/jip');
 
@@ -22,7 +23,7 @@ class news
     public function __construct($map)
     {
         $this->map = $map;
-        $this->fields = new arrayDataspace($this->fields);
+        $this->fields = new dateFormatDataspaceFilter(new arrayDataspace($this->fields), array('created', 'updated'), 'd M Y / H:i:s');
     }
 
     public function setId($id)
