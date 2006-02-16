@@ -33,6 +33,22 @@ class news
         }
     }
 
+    public function getCreated()
+    {
+        $created = $this->fields->get('created');
+        if (empty($created)) {
+            $this->fields->set('created', time());
+        }
+    }
+
+    public function getUpdated()
+    {
+        $updated = $this->fields->get('updated');
+        if (empty($updated)) {
+            $this->fields->set('updated', time());
+        }
+    }
+
     public function __call($name, $args)
     {
         if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($name)) {
