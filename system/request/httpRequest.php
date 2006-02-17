@@ -83,7 +83,7 @@ class httpRequest
         $this->getVars = new arrayDataspace($_GET);
         $this->cookieVars = new arrayDataspace($_COOKIE);
         $this->requestParser = $requestParser;
-        $this->parse($this->get('path'));
+        $this->import($this->get('path'));
     }
 
     /**
@@ -121,11 +121,11 @@ class httpRequest
     }
 
     /**
-     * Производит разборку URL на section, action и параметры
+     * Импорт строки с section, action и параметрами
      *
      * @param string $path
      */
-    public function parse($path)
+    public function import($path)
     {
         $this->requestParser->parse($this, $path);
     }

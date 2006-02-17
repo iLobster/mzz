@@ -9,7 +9,7 @@ require_once 'testsFinder.php';
 
 class testsRunner implements iFilter
 {
-    public function run(filterChain $filter_chain, $response)
+    public function run(filterChain $filter_chain, $response, $request)
     {
         ob_start();
         $casesBasedir = 'cases';
@@ -74,8 +74,10 @@ class testsRunner implements iFilter
 try {
 
     $response = new response();
+    $toolkit = systemToolkit::getInstance();
+    $request = $toolkit->getRequest();
 
-    $filter_chain = new filterChain($response);
+    $filter_chain = new filterChain($response, $request);
     $filter_chain->registerFilter(new timingFilter());
     $filter_chain->registerFilter(new testsRunner());
     $filter_chain->process();

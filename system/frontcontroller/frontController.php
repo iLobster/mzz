@@ -14,55 +14,66 @@
  * frontController: фронтконтроллер проекта
  *
  * @package system
- * @version 0.2
+ * @version 0.3
  */
-
 class frontController
 {
+     /**#@+
+     * @var object
+     */
+    protected $toolkit;
+    protected $request;
+    protected $sectionMapper;
+    /**#@-*/
 
     /**
      * конструктор класса
      *
      */
-    public function __construct()
+    public function __construct($request)
     {
+        $this->toolkit = systemToolkit::getInstance();
+        $this->request = $request;
+        $this->sectionMapper = $this->toolkit->getSectionMapper();
     }
 
     /**
-     * получение имени шаблона
+     * получение имени шаблона с пост-реврайтингом. Реврайтинг будет выполнен только
+     * если предоставленный путь клиентов не существует
      *
      * @return string имя шаблона в соответствии с выбранными секцией и экшном
      */
     public function getTemplate()
     {
-        $toolkit = systemToolkit::getInstance();
+        $section = $this->request->getSection();
+        $action = $this->request->getAction();
 
-        $httprequest = $toolkit->getRequest();
-        $sectionMapper = $toolkit->getSectionMapper();
-
-        $section = $httprequest->getSection();
-        $action = $httprequest->getAction();
-
-        $template_name = $sectionMapper->getTemplateName($section, $action);
+        $template_name = $this->sectionMapper->getTemplateName($section, $action);
 
         if ($template_name === false) {
-            // если шаблон не найден - пытаемся реврайтить path и искать заново
-            $rewrite = $toolkit->getRewrite();
-            $rewrite->loadRules($section);
-
-            $rewrited_path = $rewrite->process($httprequest->get('path'));
-
-            $httprequest->parse($rewrited_path);
-
-            $section = $httprequest->getSection();
-            $action = $httprequest->getAction();
-
-            $template_name = $sectionMapper->getTemplateName($section, $action);
+            $template_name = $this->getRewritedTemplate($section);
         }
 
         return $template_name;
     }
 
+    /**
+     * получение имени шаблона с пре-реврайтингом
+     *
+     * @return string имя шаблона в соответствии с выбранными секцией и экшном
+     */
+    protected function getRewritedTemplate($section)
+    {
+        $rewrite = $this->toolkit->getRewrite($section);
+
+        $rewrited_path = $rewrite->process($this->request->get('path'));
+
+        $this->request->import($rewrited_path);
+
+        $section = $this->request->getSection();
+        $action = $this->request->getAction();
+        return $this->sectionMapper->getTemplateName($section, $action);
+    }
 }
 
 ?>

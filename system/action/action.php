@@ -10,10 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * action: класс дл€ работы с actions
+ * action: класс дл€ работы с actions (действи€ми модул€)
  *
  * @package system
- * @version 0.1
+ * @version 0.2
 */
 class action
 {
@@ -31,6 +31,11 @@ class action
      */
     protected $actions = array();
 
+    /**
+     * »м€ модул€
+     *
+     * @var string
+     */
     protected $module;
 
 
@@ -42,14 +47,18 @@ class action
      */
     private $defaultAction;
 
+    /**
+     *  онструктор
+     *
+     * @param string $module им€ модул€
+     */
     public function __construct($module)
     {
         $this->module = $module;
     }
+
     /**
      * ”становка действи€
-     * ≈сли такое действие не найдено у модул€, то устанавливаетс€
-     * действие по умолчанию.
      *
      * @param string $action
      */
@@ -75,7 +84,7 @@ class action
     /**
      * ¬озвращает все допустимые действи€
      *
-     * @return string
+     * @return array
      */
     private function getActions()
     {
@@ -88,7 +97,7 @@ class action
      * „тение INI-конфига
      *
      * @param string $filename путь до INI-файла
-     * @return string
+     * @return array
      */
     private function iniRead($filename)
     {
@@ -101,7 +110,7 @@ class action
     /**
      * ѕолучение всех допустимых действий дл€ модул€
      *
-     * @param string $name им€ млжуд€
+     * @return array все доступные actions
      */
     protected function getActionsConfig()
     {
@@ -116,6 +125,11 @@ class action
         return $this->actions;
     }
 
+    /**
+     * ѕолучение всех actions дл€ JIP
+     *
+     * @return array
+     */
     public function getJipActions()
     {
         $jip_actions = array();
@@ -128,6 +142,13 @@ class action
         return $jip_actions;
     }
 
+    /**
+     * ƒобавл€ет actions к уже существующим. ≈сли action уже занесен в список
+     * (имеет такое же тип и им€), то он будет переписан новым значением
+     *
+     * @param string $type тип
+     * @param array $actions
+     */
     public function addActions($type, Array $actions)
     {
         if (isset($this->actions[$type])) {
@@ -160,7 +181,7 @@ class action
 
     /**
      * ѕровер€ет существует ли действие у модул€.
-     * ≈сли действие не существует, возвращаетс€ действие по умолчанию
+     * ≈сли действие не существует, выбрасываетс€ исключение mzzSystemException
      *
      * @param string $action действие
      * @return string
@@ -174,9 +195,11 @@ class action
             }
         }
 
-        throw new mzzSystemException('Ёкшн ' . $action . ' не найден');
+        throw new mzzSystemException('Action ' . $action . ' not found');
 
+        /** @deprecated
         return $this->getDefaultAction();
+        */
     }
 
 }

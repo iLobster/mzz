@@ -24,8 +24,9 @@ interface iFilter
      *
      * @param filterChain $filter_chain объект, содержащий цепочку фильтров
      * @param response $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param request $request
      */
-    public function run(filterChain $filter_chain, $response);
+    public function run(filterChain $filter_chain, $response, $request);
 }
 
 ?>

@@ -4,7 +4,7 @@ class stubFilter implements iFilter
 {
     private $text;
 
-    public function run(filterChain $filter_chain, $response)
+    public function run(filterChain $filter_chain, $response, $request)
     {
         echo '<'.$this->getText('test') . '>';
         $filter_chain->next();

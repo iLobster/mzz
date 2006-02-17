@@ -27,7 +27,7 @@ class timingFilter implements iFilter
      * @param filterChain $filter_chain объект, содержащий цепочку фильтров
      * @param response $response объект, содержащий информацию, выводимую клиенту в браузер
      */
-    public function run(filterChain $filter_chain, $response)
+    public function run(filterChain $filter_chain, $response, $request)
     {
         $toolkit = systemToolkit::getInstance();
         $toolkit->getTimer();

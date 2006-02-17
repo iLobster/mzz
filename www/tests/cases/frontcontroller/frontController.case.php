@@ -4,6 +4,7 @@ fileLoader::load('frontcontroller/frontController');
 
 fileLoader::load('request/httpRequest');
 fileLoader::load('request/rewrite');
+fileLoader::load('request/requestParser');
 
 mock::generate('httpRequest');
 mock::generate('Rewrite');
@@ -19,17 +20,15 @@ class frontControllerTest extends unitTestCase
 
     public function setUp()
     {
-        $this->frontController = new frontController();
-        $this->toolkit = systemToolkit::getInstance();
+        $this->toolkit = systemToolkit::getInstance();//
         $this->request = new mockhttpRequest();
         $this->rewrite = new mockrewrite();
-        $this->oldRequest = $this->toolkit->setRequest($this->request);
+        $this->frontController = new frontController($this->request);
         $this->oldRewrite = $this->toolkit->setRewrite($this->rewrite);
     }
 
     public function tearDown()
     {
-        $this->toolkit->setRequest($this->oldRequest);
         $this->toolkit->setRewrite($this->oldRewrite);
     }
 
@@ -52,7 +51,7 @@ class frontControllerTest extends unitTestCase
         $this->request->setReturnValueAt(1, 'getAction', 'foo');
         $this->request->expectOnce('get', array('path'));
         $this->request->setReturnValue('get', 'test.abc');
-        $this->request->expectOnce('parse', array('test.foo'));
+        $this->request->expectOnce('import', array('test.foo'));
 
         $this->rewrite->expectOnce('loadRules', array('test'));
         $this->rewrite->expectOnce('process', array('test.abc'));
@@ -73,7 +72,7 @@ class frontControllerTest extends unitTestCase
         $this->request->setReturnValueAt(1, 'getAction', false);
         $this->request->expectOnce('get', array('path'));
         $this->request->setReturnValue('get', 'test.abc');
-        $this->request->expectOnce('parse', array(false));
+        $this->request->expectOnce('import', array(false));
 
         $this->rewrite->expectOnce('process', array('test.abc'));
         $this->rewrite->setReturnValue('process', false);

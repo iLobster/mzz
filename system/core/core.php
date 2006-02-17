@@ -67,8 +67,9 @@ class core
             $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
 
             $response = new response();
+            $request = $toolkit->getRequest();
 
-            $filter_chain = new filterChain($response);
+            $filter_chain = new filterChain($response, $request);
 
             $filter_chain->registerFilter(new timingFilter());
             $filter_chain->registerFilter(new contentFilter());

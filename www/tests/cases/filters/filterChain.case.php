@@ -10,7 +10,11 @@ class filterChainTest extends UnitTestCase
 
     function setup()
     {
-        $this->filterChain = new filterChain(new response());
+        $response = new response();
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+
+        $this->filterChain = new filterChain(new response(), $request);
     }
 
     function teardown()

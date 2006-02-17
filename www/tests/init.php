@@ -42,6 +42,7 @@ fileLoader::load('filters/init');
 fileLoader::load('request/response');
 fileLoader::load('template/mzzSmarty');
 fileLoader::load('request/rewrite');
+fileLoader::load('request/requestParser');
 
 fileLoader::load('toolkit');
 fileLoader::load('toolkit/stdToolkit');

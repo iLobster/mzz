@@ -9,17 +9,18 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
+define('PDO_AUTOQUERY_INSERT', 0);
+define('PDO_AUTOQUERY_UPDATE', 1);
+
+fileLoader::load('db/drivers/mzzPdoStatement');
+
 /**
  * mzzPdo: драйвер для работы с базой данных через PDO
  *
  * @package system
  * @version 0.2
  */
-define('PDO_AUTOQUERY_INSERT', 0);
-define('PDO_AUTOQUERY_UPDATE', 1);
-
-fileLoader::load('db/drivers/mzzPdoStatement');
-
 class mzzPdo extends PDO
 {
     /**
@@ -53,12 +54,10 @@ class mzzPdo extends PDO
     /**
      * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
      *
-     * @param string $host
-     * @param string $username
-     * @param string $passwd
-     * @param string $dbname
-     * @param integer $port
-     * @param string $socket
+     * @param string $dsn DSN
+     * @param string $username логин к БД
+     * @param string $password пароль к БД
+     * @param string $charset кодировка
      * @return void
      */
     public function __construct($dsn, $username='', $password='', $charset = '')
@@ -83,8 +82,7 @@ class mzzPdo extends PDO
                 $username = $config->getOption('db', 'user');
                 $password = $config->getOption('db', 'password');
                 $charset = $config->getOption('db', 'charset');
-                // We add options-support later...
-                // $options = $config->getOption('db', 'options');
+
                 self::$instance = new $classname($dsn, $username, $password, $charset);
                 self::$instance->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
                 self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -96,7 +94,6 @@ class mzzPdo extends PDO
      * Декорирует оригинальный метод для подсчета числа запросов
      *
      * @param string $query запрос к БД
-     * @param int $resultmode тип, в котором выдаётся результат
      * @return object
      */
     public function query($query)
@@ -157,15 +154,15 @@ class mzzPdo extends PDO
                     $names[] = '`' . $value . '`';
                     $values[] = ':' . $value;
                 }
-                $names = implode(',', $names);
-                $values = implode(',', $values);
+                $names = implode(', ', $names);
+                $values = implode(', ', $values);
                 return 'INSERT INTO `' . $table . '` (' . $names . ') VALUES (' . $values . ')';
             case PDO_AUTOQUERY_UPDATE:
                 $field = array();
                 foreach ($fields as $value) {
                     $field[] = '`' . $value . '` = :' . $value;
                 }
-                $field = implode(',', $field);
+                $field = implode(', ', $field);
                 $sql = 'UPDATE `' . $table . '` SET ' . $field;
                 if ($where == true) {
                     $sql .= " WHERE " . $where;

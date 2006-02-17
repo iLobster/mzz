@@ -41,13 +41,22 @@ class filterChain
     private $response;
 
     /**
+     * Request
+     *
+     * @var object
+     */
+    private $request;
+
+    /**
      * конструктор класса
      *
      * @param response $response
+     * @param object $request
      */
-    public function __construct($response)
+    public function __construct($response, $request)
     {
         $this->response = $response;
+        $this->request = $request;
     }
 
 
@@ -70,7 +79,7 @@ class filterChain
         $this->counter++;
 
         if(isset($this->filters[$this->counter])) {
-            $this->filters[$this->counter]->run($this, $this->response);
+            $this->filters[$this->counter]->run($this, $this->response, $this->request);
         }
     }
 
