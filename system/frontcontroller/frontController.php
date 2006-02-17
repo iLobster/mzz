@@ -62,9 +62,9 @@ class frontController
      *
      * @return string имя шаблона в соответствии с выбранными секцией и экшном
      */
-    protected function getRewritedTemplate($section)
+    public function getRewritedTemplate()
     {
-        $rewrite = $this->toolkit->getRewrite($section);
+        $rewrite = $this->toolkit->getRewrite($this->request->getSection());
 
         $rewrited_path = $rewrite->process($this->request->get('path'));
 
