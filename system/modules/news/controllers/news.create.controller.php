@@ -24,7 +24,9 @@ class newsCreateController
         fileLoader::load('news/views/news.create.success.view');
         fileLoader::load('news/views/news.create.form');
         fileLoader::load("news");
+        fileLoader::load("news/newsFolder");
         fileLoader::load("news/mappers/newsMapper");
+        fileLoader::load("news/mappers/newsFolderMapper");
     }
 
     public function getView()
@@ -35,15 +37,18 @@ class newsCreateController
         $newsMapper = new newsMapper($httprequest->getSection());
         $news = $newsMapper->create();
 
-        $form = newsCreateForm::getForm($news);
 
+        $form = newsCreateForm::getForm($httprequest->get(0, SC_PATH));
         if($form->validate() == false) {
             $view = new newsCreateView($news, $form);
         } else {
+            $newsFolder = new newsFolderMapper($httprequest->getSection());
+            $folder = $newsFolder->searchByName($httprequest->get(0, SC_PATH));
+
             $values = $form->exportValues();
             $news->setTitle($values['title']);
             $news->setText($values['text']);
-            $news->setFolderId('1');
+            $news->setFolderId($folder->getId());
             $newsMapper->save($news);
             $view = new newsCreateSuccessView($news, $form);
         }

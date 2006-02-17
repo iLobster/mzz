@@ -60,7 +60,14 @@ class dateFormatDataspaceFilter extends dataspaceFilter
     {
         // может ещё проверять что запрашивается именно timestamp (is_int)
         // или форматировать при выводе.. хотя хз
-        return (in_array($key, $this->keys)) ? date($this->format, $this->dataspace->get($key)) : $this->dataspace->get($key);
+
+        // что делать если значение == 0?
+        if(in_array($key, $this->keys) && $this->dataspace->get($key) != 0) {
+            return date($this->format, $this->dataspace->get($key));
+        } else {
+            return $this->dataspace->get($key);
+        }
+
     }
 }
 

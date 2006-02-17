@@ -36,6 +36,7 @@ class news
     public function getCreated()
     {
         $created = $this->fields->get('created');
+        echo $created;
         if (empty($created)) {
             $this->fields->set('created', time());
         }

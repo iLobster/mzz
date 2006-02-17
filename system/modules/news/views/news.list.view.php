@@ -30,6 +30,12 @@ class newsListView extends simpleView
     {
         $this->smarty->assign('news', $this->DAO);
         $this->smarty->assign('newsFolder', $this->newsFolder);
+
+        // откуда получать текущую папку ???
+        $toolkit = systemToolkit::getInstance();
+        $httprequest = $toolkit->getRequest();
+        $this->smarty->assign('folderName', $httprequest->get(0, SC_PATH));
+
         $this->smarty->assign('title', 'Новости -> Список');
         return $this->smarty->fetch('news.list.tpl');
     }

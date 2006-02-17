@@ -17,7 +17,7 @@
  */
 
 class newsCreateForm {
-    static function getForm($news)
+    static function getForm($folder)
     {
         require_once 'HTML/QuickForm.php';
         require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
@@ -26,7 +26,12 @@ class newsCreateForm {
 
         $form->addElement('text', 'title', 'Имя:', 'size=30');
         $form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');
-        $form->addElement('hidden', 'path', '/news/create');
+
+        $url = new url();
+        $url->addParam($folder);
+        $url->setAction('createItem');
+
+        $form->addElement('hidden', 'path', $url->get());
         $form->addElement('reset', 'reset', 'Сброс');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
