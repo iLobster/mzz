@@ -18,9 +18,18 @@
 
 class newsListView extends simpleView
 {
+    protected $newsFolder;
+
+    public function __construct($news, $newsFolder)
+    {
+        $this->newsFolder = $newsFolder;
+        parent::__construct($news);
+    }
+
     public function toString()
     {
         $this->smarty->assign('news', $this->DAO);
+        $this->smarty->assign('newsFolder', $this->newsFolder);
         $this->smarty->assign('title', 'Новости -> Список');
         return $this->smarty->fetch('news.list.tpl');
     }

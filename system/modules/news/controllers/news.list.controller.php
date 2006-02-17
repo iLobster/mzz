@@ -39,7 +39,7 @@ class newsListController
         }
         $folder = $newsFolder->searchByName($path);
         $data = $folder->getItems($newsFolder);
-        return new newsListView($data);
+        return new newsListView($data, $newsFolder);
     }
 }
 

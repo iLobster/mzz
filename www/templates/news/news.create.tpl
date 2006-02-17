@@ -1,7 +1,6 @@
-
 <form {$form.attributes}>
 {$form.hidden}
-<table border="1" width="50%">
+<table border="0" cellpadding="0" cellspacing="1" width="50%">
     <tr>
         <td colspan="2">{$form.title.label} {$form.title.html}</td>
     </tr>
