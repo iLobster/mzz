@@ -5,10 +5,10 @@
 (+) выполнено, но в стадии тестирования/утверждения
 (?) идея на обсуждение/уточнение
 (-) deprecated
-79 next
+80 next
 ----------------------------------
 
-79 ( )
+79 (+)
         if($this->db->autoExecute($this->table, $data)) {
             $id = $this->db->lastInsertID();
         (из маппера) $id должен возвращать $this->db->autoExecute

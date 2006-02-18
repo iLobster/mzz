@@ -44,8 +44,7 @@ class newsFolderMapper
             $data[$fieldname] = $newsFolder->$getprop();
         }
 
-        if($this->db->autoExecute($this->table, $data)) {
-            $id = $this->db->lastInsertID();
+        if(($id = $this->db->autoExecute($this->table, $data))) {
             $newsFolder->setId($id);
         }
     }

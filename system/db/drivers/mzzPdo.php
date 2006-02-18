@@ -189,6 +189,11 @@ class mzzPdo extends PDO
         $stmt->bindArray($values);
         $result = $stmt->execute();
         $stmt->closeCursor();
+
+        if($mode == PDO_AUTOQUERY_INSERT) {
+            return $this->lastInsertID();
+        }
+
         return $result;
     }
 

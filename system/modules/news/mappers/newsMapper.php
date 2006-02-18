@@ -49,8 +49,7 @@ class newsMapper
             $data[$fieldname] = $news->$getprop();
         }
 
-        if($this->db->autoExecute($this->table, $data)) {
-            $id = $this->db->lastInsertID();
+        if(($id = $this->db->autoExecute($this->table, $data))) {
             $news->setId($id);
         }
     }
