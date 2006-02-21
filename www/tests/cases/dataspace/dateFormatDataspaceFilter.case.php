@@ -19,7 +19,7 @@ class dateFormatDataspaceFilterTest extends unitTestCase
     public function testFormatSuccesfull()
     {
         $time = time();
-        $this->mock->expectOnce('get', array('date'));
+        $this->mock->expectCallCount('get', 2);
         $this->mock->setReturnValue('get', $time);
         $dataspace = new dateFormatDataspaceFilter($this->mock, array('date'), $this->format);
 
@@ -41,7 +41,7 @@ class dateFormatDataspaceFilterTest extends unitTestCase
         $time1 = time();
         $time2 = time() - 1000;
         $value = 'somevalue';
-        $this->mock->expectCallCount('get', 3);
+        $this->mock->expectCallCount('get', 5);
         $this->mock->setReturnValue('get', $time1, array('date'));
         $this->mock->setReturnValue('get', $time2, array('date2'));
         $this->mock->setReturnValue('get', $value, array('somefield'));

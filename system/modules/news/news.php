@@ -12,6 +12,8 @@
 
 fileLoader::load('dataspace/arrayDataspace');
 fileLoader::load('dataspace/dateFormatDataspaceFilter');
+fileLoader::load('dataspace/dateFormatValueFilter');
+fileLoader::load('dataspace/changeableDataspaceFilter');
 // перенести!!
 fileLoader::load('jip/jip');
 
@@ -20,10 +22,14 @@ class news
     protected $fields = array();
     protected $map;
 
-    public function __construct($map)
+    public function __construct($map, iDataspace $fields = null)
     {
         $this->map = $map;
-        $this->fields = new dateFormatDataspaceFilter(new arrayDataspace($this->fields), array('created', 'updated'), 'd M Y / H:i:s');
+        if(empty($fields)) {
+            $this->fields = new arrayDataspace($this->fields);
+        } else {
+            $this->fields = $fields;
+        }
     }
 
     public function setId($id)
@@ -35,19 +41,19 @@ class news
 
     public function getCreated()
     {
-        $created = $this->fields->get('created');
+        /*$created = $this->fields->get('created');
         if (empty($created)) {
             $this->fields->set('created', time());
-        }
+        }*/
         return $this->fields->get('created');
     }
 
     public function getUpdated()
     {
-        $updated = $this->fields->get('updated');
+        /*$updated = $this->fields->get('updated');
         if (empty($updated)) {
             $this->fields->set('updated', time());
-        }
+        }*/
         return $this->fields->get('updated');
     }
 

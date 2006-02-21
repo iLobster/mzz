@@ -117,7 +117,13 @@ class newsMapper
     private function createNewsFromRow($row)
     {
         $map = $this->getMap();
-        $news = new news($map);
+
+        $dateFilter = new dateFormatValueFilter();
+        $fields = new changeableDataspaceFilter(new arrayDataspace(array()));
+        $fields->addReadFilter('created', $dateFilter);
+        $fields->addReadFilter('updated', $dateFilter);
+
+        $news = new news($map, $fields);
 
         foreach($map as $key => $field) {
             $setprop = $field['mutator'];
