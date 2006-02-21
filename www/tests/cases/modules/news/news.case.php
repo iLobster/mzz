@@ -67,16 +67,16 @@ class newsTest extends unitTestCase
 
     public function testIdOneTime()
     {
-        $id = 2;
+        $id = '2';
         $this->news->setId($id);
 
-        $this->assertEqual($this->news->getId(), $id);
+        $this->assertIdentical($this->news->getId(), $id);
 
-        $id2 = 5;
+        $id2 = '5';
         $this->assertNotEqual($id, $id2);
 
         $this->news->setId($id2);
-        $this->assertEqual($this->news->getId(), $id);
+        $this->assertIdentical($this->news->getId(), $id);
     }
 }
 

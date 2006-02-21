@@ -54,7 +54,7 @@ class newsFolderMapperTest extends unitTestCase
 
         $this->mapper->save($newsFolder);
 
-        $this->assertEqual($newsFolder->getId(), 1);
+        $this->assertIdentical($newsFolder->getId(), '1');
     }
 
     public function testGetItems()
@@ -62,9 +62,9 @@ class newsFolderMapperTest extends unitTestCase
         $this->fixture($this->mapper, $this->map);
         $newsMapper = new newsMapper('news');
 
-        $data[] = array('title', 'text', 1);
-        $data[] = array('title2', 'text2', 1);
-        $data[] = array('title3', 'text3', 2);
+        $data[] = array('title', 'text', '1');
+        $data[] = array('title2', 'text2', '1');
+        $data[] = array('title3', 'text3', '2');
         foreach ($data as $record) {
             $news = new news($this->mapNews);
             $news->setTitle($record[0]);
@@ -80,7 +80,7 @@ class newsFolderMapperTest extends unitTestCase
         foreach ($news as $key => $item) {
             $this->assertIsA($item, 'news');
             $this->assertEqual($item->getTitle(), $data[$key][0]);
-            $this->assertEqual($item->getFolderId(), $data[$key][2]);
+            $this->assertIdentical($item->getFolderId(), $data[$key][2]);
         }
     }
 
@@ -94,7 +94,7 @@ class newsFolderMapperTest extends unitTestCase
 
         foreach ($newsSubFolders as $item) {
             $this->assertIsA($item, 'newsFolder');
-            $this->assertEqual($item->getParent(), '1');
+            $this->assertIdentical($item->getParent(), '1');
         }
     }
 
@@ -102,7 +102,7 @@ class newsFolderMapperTest extends unitTestCase
     {
         $this->fixture($this->mapper, $this->map);
         $this->assertIsA($newsFolder = $this->mapper->searchByName('name1'), 'newsFolder');
-        $this->assertEqual($newsFolder->getId(), 1);
+        $this->assertIdentical($newsFolder->getId(), '1');
     }
 
     public function testUpdate()
@@ -111,7 +111,7 @@ class newsFolderMapperTest extends unitTestCase
         $newsFolder = $this->mapper->searchByName('name1');
 
         $this->assertEqual($newsFolder->getName(), 'name1');
-        $this->assertEqual($newsFolder->getId(), 1);
+        $this->assertIdentical($newsFolder->getId(), '1');
 
         $name = 'new_name';
         $newsFolder->setName($name);
@@ -119,7 +119,7 @@ class newsFolderMapperTest extends unitTestCase
 
         $newsFolder2 = $this->mapper->searchByName('new_name');
         $this->assertEqual($newsFolder2->getName(), $name);
-        $this->assertEqual($newsFolder2->getId(), 1);
+        $this->assertIdentical($newsFolder2->getId(), '1');
     }
 
     public function testDelete()

@@ -91,16 +91,16 @@ class newsFolderTest extends unitTestCase
 
     public function testIdOneTime()
     {
-        $id = 2;
+        $id = '2';
         $this->newsFolder->setId($id);
 
-        $this->assertEqual($this->newsFolder->getId(), $id);
+        $this->assertIdentical($this->newsFolder->getId(), $id);
 
-        $id2 = 5;
+        $id2 = '5';
         $this->assertNotEqual($id, $id2);
 
         $this->newsFolder->setId($id2);
-        $this->assertEqual($this->newsFolder->getId(), $id);
+        $this->assertIdentical($this->newsFolder->getId(), $id);
     }
 }
 

@@ -50,7 +50,7 @@ class newsMapperTest extends unitTestCase
 
         $this->mapper->save($news);
 
-        $this->assertEqual($news->getId(), 1);
+        $this->assertIdentical($news->getId(), '1');
     }
 
     public function testCreate()
@@ -66,7 +66,7 @@ class newsMapperTest extends unitTestCase
     {
         $this->fixture($this->mapper, $this->map);
         $this->assertIsA($news = $this->mapper->searchById(1), 'news');
-        $this->assertEqual($news->getId(), 1);
+        $this->assertIdentical($news->getId(), '1');
     }
 
     public function testSearchByFolderId()
@@ -84,11 +84,11 @@ class newsMapperTest extends unitTestCase
 
         $this->assertEqual($news->getTitle(), 'title1');
         $this->assertEqual($news->getText(), 'text1');
-        $this->assertEqual($news->getFolderId(), 11);
+        $this->assertIdentical($news->getFolderId(), '11');
 
         $title = 'new_title';
         $text = 'new_text';
-        $folder_id = 44;
+        $folder_id = '44';
 
         $news->setTitle($title);
         $news->setText($text);
@@ -98,7 +98,7 @@ class newsMapperTest extends unitTestCase
         $news2 = $this->mapper->searchById(1);
         $this->assertEqual($news2->getTitle(), $title);
         $this->assertEqual($news2->getText(), $text);
-        $this->assertEqual($news2->getFolderId(), $folder_id);
+        $this->assertIdentical($news2->getFolderId(), $folder_id);
     }
 
     public function testDelete()
