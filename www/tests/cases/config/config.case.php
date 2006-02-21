@@ -29,10 +29,10 @@ class configTest extends unitTestCase
     {
         try {
             $config = new config("__false_config_file__");
-            $this->assertFalse(true, 'no exception thrown?');
+            $this->fail('no exception thrown?');
         } catch (mzzRuntimeException $e) {
             $this->assertPattern("/unable parse/i", $e->getMessage());
-            $this->assertFalse(false);
+            $this->pass();
         }
     }
 
@@ -42,18 +42,18 @@ class configTest extends unitTestCase
         $config = new config(fileLoader::resolve('configs/simpleconfig.ini'));
         try {
             $config->getOption("section_1", "_invalid_option_");
-            $this->assertFalse(true, 'no exception thrown?');
+            $this->fail('no exception thrown?');
         } catch (mzzRuntimeException $e) {
             $this->assertPattern("/can't.*?config-option/i", $e->getMessage());
-            $this->assertFalse(false);
+            $this->pass();
         }
 
         try {
             $config->getSection("_invalid_section_");
-            $this->assertFalse(true, 'no exception thrown?');
+            $this->fail('no exception thrown?');
         } catch (mzzRuntimeException $e) {
             $this->assertPattern("/can't.*?config-section/i", $e->getMessage());
-            $this->assertFalse(false);
+            $this->pass();
         }
 
     }

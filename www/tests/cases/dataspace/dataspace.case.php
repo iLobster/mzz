@@ -62,9 +62,9 @@ class arrayDataspaceTest extends unitTestCase
         foreach ($methods as $method) {
             try {
                 $this->dataspace->$method(array(), false);
-                $this->assertTrue(false, 'no exception thrown?');
+                $this->fail('no exception thrown?');
             } catch (Exception $e) {
-                $this->assertTrue(true);
+                $this->pass();
             }
         }
     }

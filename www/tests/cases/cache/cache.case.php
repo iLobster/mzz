@@ -37,9 +37,10 @@ class cacheTest extends unitTestCase
 
         try {
             $this->assertFalse($this->cache->get($id), $result);
-            $this->assertFalse(true, 'no exception thrown?');
+            $this->fail('no exception thrown?');
         } catch (Exception $e) {
             $this->assertPattern("/cache.*?expired/i", $e->getMessage());
+            $this->pass();
         }
     }
 
