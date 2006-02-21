@@ -21,15 +21,13 @@ class news
 {
     protected $fields = array();
     protected $map;
+    protected $filtered = false;
 
-    public function __construct($map, iDataspace $fields = null)
+    public function __construct($map)
     {
         $this->map = $map;
-        if(empty($fields)) {
-            $this->fields = new arrayDataspace($this->fields);
-        } else {
-            $this->fields = $fields;
-        }
+        $this->fields = new arrayDataspace($this->fields);
+        $this->enableDataspaceFilter();
     }
 
     public function setId($id)
@@ -86,6 +84,25 @@ class news
         $jip = new jip('news', 'news', $this->getId(), 'news', $action->getJipActions());
 
         return $jip->draw();
+    }
+
+    public function enableDataspaceFilter()
+    {
+        if($this->filtered == false) {
+            $dateFilter = new dateFormatValueFilter();
+            $this->fields = new changeableDataspaceFilter($this->fields);
+            $this->fields->addReadFilter('created', $dateFilter);
+            $this->fields->addReadFilter('updated', $dateFilter);
+            $this->filtered = true;
+        }
+    }
+
+    public function disableDataspaceFilter()
+    {
+        if($this->filtered == true) {
+            $this->fields = new arrayDataspace($this->fields->export());
+            $this->filtered = false;
+        }
     }
 }
 

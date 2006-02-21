@@ -77,6 +77,7 @@ class newsMapper
 
     public function save($news)
     {
+        $news->disableDataspaceFilter();
         if ($news->getId()) {
             $this->update($news);
         } else {
@@ -118,12 +119,12 @@ class newsMapper
     {
         $map = $this->getMap();
 
-        $dateFilter = new dateFormatValueFilter();
+        /*$dateFilter = new dateFormatValueFilter();
         $fields = new changeableDataspaceFilter(new arrayDataspace(array()));
         $fields->addReadFilter('created', $dateFilter);
-        $fields->addReadFilter('updated', $dateFilter);
+        $fields->addReadFilter('updated', $dateFilter);*/
 
-        $news = new news($map, $fields);
+        $news = new news($map);
 
         foreach($map as $key => $field) {
             $setprop = $field['mutator'];

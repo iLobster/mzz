@@ -128,7 +128,7 @@ class changeableDataspaceFilter implements iDataspace
      */
     public function exists($key)
     {
-        $this->dataspace->exists($key);
+        return $this->dataspace->exists($key);
     }
 
     /**
