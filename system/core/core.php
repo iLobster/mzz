@@ -42,7 +42,7 @@ class core
 
             fileLoader::setResolver($cachingResolver);
             fileLoader::load('exceptions/init');
-            fileLoader::load('request/response');
+            fileLoader::load('request/httpResponse');
             fileLoader::load('request/url');
             fileLoader::load('filters/init');
 
@@ -66,7 +66,7 @@ class core
             $toolkit = systemToolkit::getInstance();
             $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
 
-            $response = new response();
+            $response = new httpResponse();
             $request = $toolkit->getRequest();
 
             $filter_chain = new filterChain($response, $request);

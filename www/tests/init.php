@@ -39,7 +39,7 @@ restore_error_handler();
 
 fileLoader::load('db/DB');
 fileLoader::load('filters/init');
-fileLoader::load('request/response');
+fileLoader::load('request/httpResponse');
 fileLoader::load('template/mzzSmarty');
 fileLoader::load('request/rewrite');
 fileLoader::load('request/requestParser');
