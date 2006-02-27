@@ -3,6 +3,22 @@ fileLoader::load('config/config');
 
 class configTest extends unitTestCase
 {
+    private $filepath;
+
+    public function __construct()
+    {
+        $xml = '[section_1]
+option_1_1 = value_1_1
+option_1_2 = value_1_2
+
+[section_2]
+option_2_1 = value_2_1
+option_2_2 = value_2_2
+';
+        $this->filepath = systemConfig::$pathToTemp . 'simple_config.xml';
+        file_put_contents($this->filepath, $xml);
+    }
+
     public function setUp()
     {
     }
@@ -13,7 +29,7 @@ class configTest extends unitTestCase
 
     public function TestConfig()
     {
-        $config = new config(fileLoader::resolve('configs/simpleconfig.ini'));
+        $config = new config($this->filepath);
         $this->assertEqual($config->getOption("section_1", "option_1_1"), "value_1_1");
         $this->assertEqual($config->getOption("section_1", "option_1_2"), "value_1_2");
         $this->assertEqual($config->getOption("section_2", "option_2_1"), "value_2_1");
@@ -39,7 +55,7 @@ class configTest extends unitTestCase
 
     public function TestConfigInvalidAgrs()
     {
-        $config = new config(fileLoader::resolve('configs/simpleconfig.ini'));
+        $config = new config($this->filepath);
         try {
             $config->getOption("section_1", "_invalid_option_");
             $this->fail('no exception thrown?');
@@ -58,6 +74,10 @@ class configTest extends unitTestCase
 
     }
 
+    public function __destruct()
+    {
+        unlink($this->filepath);
+    }
 
 }
 

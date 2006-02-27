@@ -3,9 +3,26 @@
 class RewriteTest extends unitTestCase
 {
     private $rewrite;
+    private $filepath;
+
+    public function __construct()
+    {
+        $xml = '<?xml version="1.0" standalone="yes"?>
+            <rules>
+            	<test>
+            		<rule pattern="/">/foo</rule>
+            		<rule pattern="baz">bar</rule>
+            		<rule pattern="test_pattern">result</rule>
+            	</test>
+            </rules>';
+
+        $this->filepath = systemConfig::$pathToTemp . 'simple_rewrite.xml';
+        file_put_contents($this->filepath, $xml);
+    }
+
     function setUp()
     {
-        $this->rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
+        $this->rewrite = new Rewrite($this->filepath);
     }
 
     public function tearDown()
@@ -66,6 +83,11 @@ class RewriteTest extends unitTestCase
         $this->assertEqual($this->rewrite->process('/'), '/foo');
         $this->assertEqual($this->rewrite->process('baz'), 'bar');
         $this->assertEqual($this->rewrite->process('test_pattern'), 'result');
+    }
+
+    public function __destruct()
+    {
+        unlink($this->filepath);
     }
 }
 ?>
