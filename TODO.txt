@@ -20,6 +20,8 @@
             $id = $this->db->lastInsertID();
         (из маппера) $id должен возвращать $this->db->autoExecute
 
+68 (+) ѕеренести тесты в корень
+
 78 (+) ѕротестировать что измен€ютс€ created/updated пол€, а то return сделать забыл €, но тесты прошли.
 
  6 (+) в шаблонах подправить стили. сделать css
@@ -30,6 +32,7 @@
 
 67 (*) createItem/delete дл€ новостей в зависимости от папки - готово (но интересует один момент в news.list.view.php)
        create/delete дл€ групп новостей
+
 
 74 ( ) Ќачинать задумыватьс€ о class config (некоторые мысли есть)
 
@@ -45,8 +48,6 @@
                         Fail: cases/resolver/cachingResolver.case.php -> cachingResolverTest -> testCachingResolve -> Cache file updated at [s:\sites\mzz\www\tests\cases\resolver\cachingResolver.case.php line 62] (по€вл€етс€ через раз??!! может сделать по обычному без SPL пока??)
 
 69 ( ) ѕотихоньку документировать новые классы
-
-68 ( ) ѕеренести тесты в корень
 
 52 (*) ћапу в ƒћ наверное нужно кешировать, есть мнение что именно изза чтени€-парсинга xml получаем такие тормоза
        и прочитай коменты на 45-48 в newsMapper (и аналогичные же в newsFolderMapper) - что думаешь?
