@@ -2,7 +2,7 @@
 fileLoader::load('filters/iFilter');
 fileLoader::load('filters/filterChain');
 fileLoader::load('cases/filters/stubFilter.class');
-fileLoader::load('request/response');
+fileLoader::load('request/httpResponse');
 
 class filterChainTest extends UnitTestCase
 {
@@ -10,11 +10,11 @@ class filterChainTest extends UnitTestCase
 
     function setup()
     {
-        $response = new response();
+        $response = new httpResponse();
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
 
-        $this->filterChain = new filterChain(new response(), $request);
+        $this->filterChain = new filterChain($response, $request);
     }
 
     function teardown()

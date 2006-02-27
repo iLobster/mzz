@@ -73,7 +73,7 @@ class testsRunner implements iFilter
 
 try {
 
-    $response = new response();
+    $response = new httpResponse();
     $toolkit = systemToolkit::getInstance();
     $request = $toolkit->getRequest();
 

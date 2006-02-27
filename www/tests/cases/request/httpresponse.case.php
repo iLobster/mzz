@@ -8,7 +8,7 @@ class httpResponseTest extends unitTestCase
 
     function setUp()
     {
-        $this->response = new Response();
+        $this->response = new httpResponse();
     }
 
     public function tearDown()
