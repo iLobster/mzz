@@ -21,6 +21,13 @@ a:active {
    text-decoration: none;
 }
 
+a:hover {
+   font-family: verdana, arial, tahoma;
+   font-size: 11px;
+   background: #ffc;
+   color: #222;
+}
+
 table {
     font-family: verdana, arial, tahoma;
     font-size: 11px;
