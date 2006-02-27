@@ -13,21 +13,22 @@ class testsRunner implements iFilter
     {
         ob_start();
         $casesBasedir = 'cases';
-        $casesDir = $casesBasedir;
+        $casesDir = systemConfig::$pathToSystem . '../tests/' . $casesBasedir;
         $casesName = 'all';
-
+        $casesDirGroup = $casesDir . '/';
+        
         if (isset($_GET['group'])) {
             $group = $_GET['group'];
             $group = preg_replace('/[^a-z]/i', '', $group);
             if (is_dir($casesDir . '/' . $group)) {
-                $casesDir .= '/' . $group;
+                $casesDirGroup = $casesDirGroup . $group;
                 $casesName = $group;
             }
         }
 
         $test = new GroupTest($casesName . ' tests');
 
-        foreach (testsFinder::find($casesDir) as $case) {
+        foreach (testsFinder::find($casesDirGroup) as $case) {
             $test->addTestFile($case);
         }
 
@@ -35,7 +36,7 @@ class testsRunner implements iFilter
 
         $test->run(new HtmlReporter('windows-1251'));
 
-        echo '<br /><a href="/tests/run.php"  style="color: black; font: 11px arial,verdana,tahoma;">';
+        echo '<br /><a href="run.php"  style="color: black; font: 11px arial,verdana,tahoma;">';
         if(isset($group)) {
             echo 'All tests';
         } else {
@@ -43,9 +44,9 @@ class testsRunner implements iFilter
         }
         echo '</a>';
 
-        foreach (testsFinder::getDirsList($casesBasedir) as $dirlist) {
+        foreach (testsFinder::getDirsList($casesDir) as $dirlist) {
             $name = substr(strrchr($dirlist, '/'), 1);
-            echo ' - <a href="/tests/run.php?group=' . $name . '" style="color: black; font: 11px tahoma,verdana,arial;">';
+            echo ' - <a href="run.php?group=' . $name . '" style="color: black; font: 11px tahoma,verdana,arial;">';
             if(isset($group) && $name == $group) {
                 echo '<b>' . ucfirst($name) . ' tests</b>';
             } else {

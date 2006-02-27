@@ -7,7 +7,7 @@ class fileResolverTest extends unitTestCase
     public $resolver;
     function setUp()
     {
-        $this->resolver = new fileResolver('./cases/resolver/*');
+        $this->resolver = new fileResolver(systemConfig::$pathToSystem . '../tests/cases/resolver/*');
     }
     
     function testResolveExist()

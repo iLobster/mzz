@@ -15,7 +15,7 @@
 define('DEBUG_MODE', 1);
 define('CATCH_TPL_RECURSION', true);
 
-define('SYSTEM_PATH',  '../../system/');
+define('SYSTEM_PATH',  dirname(__FILE__) . '/../system/');
 
 require_once(SYSTEM_PATH . 'systemConfig.php');
 
