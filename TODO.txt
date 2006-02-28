@@ -5,7 +5,7 @@
 (+) выполнено, но в стадии тестирования/утверждения
 (?) идея на обсуждение/уточнение
 (-) deprecated
-80 next
+81 next
 ----------------------------------
 
 80 ( ) Fatal error: Interface 'iValueFilter' not found in s:\sites\mzz\system\dataspace\dateFormatValueFilter.php on line 22
@@ -20,6 +20,8 @@
 		Debug-mode включен:
 		Thrown in file s:\sites\mzz\system\core\fileLoader.php (Line: 73) with message: Файл не найден: dataspace/otherDataspace.php
 	так что вообще хз ;(
+
+	ПЛЯТЬ ВЫКЛЮЧИ short_open_tags ;))))))) Я ПОЛЧАСА ИСКАЛ В ЧЁ М ТРАБЛА!!!!!
 
 77 ( ) Исправить ошибки "Warning: 1265 Data truncated for column 'created' at row 1". Определение метода getCreated не помогает, т.к. фильтр
        переводит 0 в дату и empty уже не срабатывает. Хм, кажется надо делать возможность получить исходный timestamp

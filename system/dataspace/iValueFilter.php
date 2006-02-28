@@ -1,4 +1,4 @@
-<?
+<?php
 //
 // $Id$
 // $URL$
@@ -10,9 +10,9 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-
 interface iValueFilter
 {
 	public function filter($value);
 }
+
 ?>
