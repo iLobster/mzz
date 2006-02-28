@@ -8,6 +8,11 @@
 80 next
 ----------------------------------
 
+80 ( ) Fatal error: Interface 'iValueFilter' not found in s:\sites\mzz\system\dataspace\dateFormatValueFilter.php on line 22
+	в fileLoader в строку 89 втыкал:
+	echo $file.'-'.$filename.'<br>';
+	выводит что всё окей, но не подключается почему то... хз... причину найти не смог ;(
+
 77 ( ) Исправить ошибки "Warning: 1265 Data truncated for column 'created' at row 1". Определение метода getCreated не помогает, т.к. фильтр
        переводит 0 в дату и empty уже не срабатывает. Хм, кажется надо делать возможность получить исходный timestamp
        (разговаривал с сидом - он озвучил и ту версию которую хотел я рассказать - и новые, хотя я мало чо понял) ;)
