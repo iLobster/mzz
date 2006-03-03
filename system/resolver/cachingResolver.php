@@ -88,7 +88,8 @@ final class cachingResolver extends decoratingResolver
     {
         if ($this->changed) {
             $this->cache_file->fseek(0);
-            $this->cache_file->fwrite(serialize($this->cache));
+            $serialized = serialize($this->cache);
+            $this->cache_file->fwrite($serialized, strlen($serialized));
         }
         unset($this->cache_file);
     }
