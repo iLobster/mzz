@@ -7,14 +7,12 @@ class configTest extends unitTestCase
 
     public function __construct()
     {
-        $xml = '[section_1]
-option_1_1 = value_1_1
-option_1_2 = value_1_2
-
-[section_2]
-option_2_1 = value_2_1
-option_2_2 = value_2_2
-';
+        $this->fixtureXmlConfig();
+    }
+  
+    public function fixtureXmlConfig()
+    {
+        $xml = "[section_1]\n option_1_1 = value_1_1 \n option_1_2 = value_1_2 \n [section_2] \n option_2_1 = value_2_1 \n option_2_2 = value_2_2";
         $this->filepath = systemConfig::$pathToTemp . 'simple_config.xml';
         file_put_contents($this->filepath, $xml);
     }

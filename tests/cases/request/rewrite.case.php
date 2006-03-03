@@ -7,6 +7,21 @@ class RewriteTest extends unitTestCase
 
     public function __construct()
     {
+        $this->fixtureRewriteXmlConfig();
+    }
+
+    function setUp()
+    {
+        $this->rewrite = new Rewrite($this->filepath);
+    }
+
+    public function tearDown()
+    {
+        $this->rewrite->clear();
+    }
+
+    public function fixtureRewriteXmlConfig()
+    {
         $xml = '<?xml version="1.0" standalone="yes"?>
             <rules>
             	<test>
@@ -18,16 +33,6 @@ class RewriteTest extends unitTestCase
 
         $this->filepath = systemConfig::$pathToTemp . 'simple_rewrite.xml';
         file_put_contents($this->filepath, $xml);
-    }
-
-    function setUp()
-    {
-        $this->rewrite = new Rewrite($this->filepath);
-    }
-
-    public function tearDown()
-    {
-        $this->rewrite->clear();
     }
 
     public function testRewriteRule()

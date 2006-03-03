@@ -8,15 +8,7 @@ class sectionMapperTest extends unitTestCase
 
     public function __construct()
     {
-        $xml = '<?xml version="1.0" standalone="yes"?>
-        <mapps>
-          <test>
-            <action name="bar">test.bar</action>
-            <action name="foo">test.foo</action>
-          </test>
-        </mapps>';
-        $this->filepath = systemConfig::$pathToTemp . 'map.xml';
-        file_put_contents($this->filepath, $xml);
+        $this->fixtureXmlConfig();
     }
 
     public function setUp()
@@ -49,6 +41,19 @@ class sectionMapperTest extends unitTestCase
         $section = "test";
         $action = "__not_exists__";
         $this->assertFalse($this->mapper->getTemplateName($section, $action));
+    }
+
+    public function fixtureXmlConfig()
+    {
+        $xml = '<?xml version="1.0" standalone="yes"?>
+        <mapps>
+          <test>
+            <action name="bar">test.bar</action>
+            <action name="foo">test.foo</action>
+          </test>
+        </mapps>';
+        $this->filepath = systemConfig::$pathToTemp . 'map.xml';
+        file_put_contents($this->filepath, $xml);
     }
 
     public function __destruct()
