@@ -8,36 +8,12 @@
 81 next
 ----------------------------------
 
-80 ( ) Fatal error: Interface 'iValueFilter' not found in s:\sites\mzz\system\dataspace\dateFormatValueFilter.php on line 22
-	в fileLoader в строку 89 втыкал:
-	echo $file.'-'.$filename.'<br>';
-	выводит что всё окей, но не подключается почему то... хз... причину найти не смог ;(
-	даже делал ручками require_once 's:/sites/mzz/system/dataspace/iValueFilter.php'; в dateFormatValueFilter
-	потом добавил новый файл:
-	в папку с датаспейсами
-	otherDataspace.php
-	попробовал его отрезолвить - и не получилось
-		Debug-mode включен:
-		Thrown in file s:\sites\mzz\system\core\fileLoader.php (Line: 73) with message: Файл не найден: dataspace/otherDataspace.php
-	так что вообще хз ;(
-
-	ПЛЯТЬ ВЫКЛЮЧИ short_open_tags ;))))))) Я ПОЛЧАСА ИСКАЛ В ЧЁ М ТРАБЛА!!!!!
-
 77 ( ) Исправить ошибки "Warning: 1265 Data truncated for column 'created' at row 1". Определение метода getCreated не помогает, т.к. фильтр
        переводит 0 в дату и empty уже не срабатывает. Хм, кажется надо делать возможность получить исходный timestamp
        (разговаривал с сидом - он озвучил и ту версию которую хотел я рассказать - и новые, хотя я мало чо понял) ;)
        Реализовал изменяемые фильтры и вынес фильтр в маппер, но проблемы новые всплыли. От сида в том логе прозвучило решение этой проблемы,
        не заполнять поле если оно не изменилось. Это уберет все проблемы, но вопрос - как узнать что изменилось, а что нет?
        еще раз перечитал твой лог с сидом и добавил enableDataspaceFilter/disableDataspaceFilter в news.php , как вариант решения проблемы :)
-
-79 (+)
-        if($this->db->autoExecute($this->table, $data)) {
-            $id = $this->db->lastInsertID();
-        (из маппера) $id должен возвращать $this->db->autoExecute
-
-68 (+) Перенести тесты в корень
-
-78 (+) Протестировать что изменяются created/updated поля, а то return сделать забыл я, но тесты прошли.
 
  6 (+) в шаблонах подправить стили. сделать css
 
@@ -48,7 +24,6 @@
 67 (*) createItem/delete для новостей в зависимости от папки - готово (но интересует один момент в news.list.view.php)
        create/delete для групп новостей
 
-
 74 ( ) Начинать задумываться о class config (некоторые мысли есть)
 
 73 ( ) Начинать задумываться о мультиязычности контента и интерфейса
@@ -56,11 +31,6 @@
 72 ( ) В response предлагаю добавить setTitle() - чтобы выставлять титл страницы (возможно будут ещё setMeta() ... )
 
 71 (?) Подумать насчёт кеша - я представлял его совсем не так (а так - как в PEAR::Cache_Lite)
-
-70 (+) Не работают 3 теста, связанных с кешированием:
-                        Fail: cases/cache/cache.case.php -> cacheTest -> testCache -> Array at [s:\sites\mzz\www\tests\cases\cache\cache.case.php line 39]
-                        Fail: cases/cache/cache.case.php -> cacheTest -> testCache -> no exception thrown? at [s:\sites\mzz\www\tests\cases\cache\cache.case.php line 40]
-                        Fail: cases/resolver/cachingResolver.case.php -> cachingResolverTest -> testCachingResolve -> Cache file updated at [s:\sites\mzz\www\tests\cases\resolver\cachingResolver.case.php line 62] (появляется через раз??!! может сделать по обычному без SPL пока??)
 
 69 ( ) Потихоньку документировать новые классы
 

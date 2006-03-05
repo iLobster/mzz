@@ -14,7 +14,7 @@
  * stdToolkit: стандартный Toolkit
  *
  * @package system
- * @version 0.1.1
+ * @version 0.2
  */
 class stdToolkit extends toolkit
 {
@@ -135,6 +135,12 @@ class stdToolkit extends toolkit
         return $this->timer;
     }
 
+    /**
+     * Возвращает объект Action для модуля $module
+     *
+     * @param string $module имя модуля
+     * @return object
+     */
     public function getAction($module)
     {
         if($this->actionNames->exists($module) == false) {
@@ -143,6 +149,11 @@ class stdToolkit extends toolkit
         return $this->actionNames->get($module);
     }
 
+    /**
+     * Возвращает объект Cache
+     *
+     * @return object
+     */
     public function getCache()
     {
         if(empty($this->cache)) {
@@ -154,6 +165,7 @@ class stdToolkit extends toolkit
     /**
      * Устанавливает объект Request
      *
+     * @param object $request
      * @return object
      */
     public function setRequest($request)
@@ -166,6 +178,7 @@ class stdToolkit extends toolkit
     /**
      * Устанавливает объект Smarty
      *
+     * @param object $smarty
      * @return object
      */
     public function setSmarty($smarty)
@@ -178,6 +191,7 @@ class stdToolkit extends toolkit
     /**
      * Устанавливает объект Rewrite
      *
+     * @param object $rewrite
      * @return object
      */
     public function setRewrite($rewrite)
@@ -190,6 +204,7 @@ class stdToolkit extends toolkit
     /**
      * Устанавливает объект SectionMapper
      *
+     * @param object $sectionMapper
      * @return object
      */
     public function setSectionMapper($sectionMapper)
