@@ -25,10 +25,11 @@ class mzzInvalidParameterException extends mzzException
      * @param string $message
      * @param mixed $param
      * @param integer $code
+     * @todo Add type-detect and echo value of $param
      */
     public function __construct($message, $param, $code = 0)
     {
-        $message = $message . ', param: ' . $param . ' [Type: ' .gettype($param) . ']';
+        $message = $message . '[Type: ' .gettype($param) . ']';
         parent::__construct($message, $code);
         $this->setName('Invalid Parameter');
     }
