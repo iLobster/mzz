@@ -27,7 +27,7 @@ class news
     {
         $this->map = $map;
         $this->fields = new arrayDataspace($this->fields);
-        $this->enableDataspaceFilter();
+        //$this->enableDataspaceFilter();
     }
 
     public function setId($id)
@@ -86,6 +86,8 @@ class news
         return $jip->draw();
     }
 
+    /**
+     * @deprecated moved in view?
     public function enableDataspaceFilter()
     {
         if($this->filtered == false) {
@@ -104,6 +106,7 @@ class news
             $this->filtered = false;
         }
     }
+    */
 }
 
 ?>

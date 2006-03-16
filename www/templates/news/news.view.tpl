@@ -2,8 +2,8 @@
     <tr>
         <td>{$news->getId()}</td>
         <td>{$news->getTitle()}</td>
-        <td><b>Создано</b>: {$news->getCreated()}</td>
-        <td><b>Изменено</b>: {$news->getUpdated()}</td>
+        <td><b>Создано</b>: {$news->getCreated()|date_format:"%e %B %Y / %H:%M:%S"}</td>
+        <td><b>Изменено</b>: {$news->getUpdated()|date_format:"%e %B %Y / %H:%M:%S"}</td>
     </tr>
     <tr>
         <td colspan="4">{$news->getText()}</td>

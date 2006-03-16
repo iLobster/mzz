@@ -31,8 +31,9 @@ class newsEditSuccessView extends simpleView
         $url = new url();
         $url->addParam($this->DAO->getId());
         $url->setAction('view');
-
-        header('Location: ' . $url->get());
+        echo "<script>window.opener.location.reload(); window.close();</script>";
+        // А что с этим делать?
+        //header('Location: ' . $url->get());
         exit;
 
     }

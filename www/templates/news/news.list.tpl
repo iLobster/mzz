@@ -20,10 +20,10 @@
     {foreach from=$news item=current_news}
         <tr>
             <td><a href="{url section=news action=view params=$current_news->getId()}">{$current_news->getId()}</a></td>
-            <td>{$current_news->getTitle()}</td>
+            <td><a href="{url section=news action=view params=$current_news->getId()}">{$current_news->getTitle()}</a></td>
             <td>{$current_news->getText()}</td>
-            <td>{$current_news->getCreated()}</td>
-            <td>{$current_news->getUpdated()}</td>
+            <td>{$current_news->getCreated()|date_format:"%e %B %Y / %H:%M:%S"}</td>
+            <td>{$current_news->getUpdated()|date_format:"%e %B %Y / %H:%M:%S"}</td>
             <td>{$current_news->getJip()}</td>
         </tr>
     {/foreach}

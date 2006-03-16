@@ -77,7 +77,7 @@ class newsMapper
 
     public function save($news)
     {
-        $news->disableDataspaceFilter();
+        //$news->disableDataspaceFilter();
         if ($news->getId()) {
             $this->update($news);
         } else {
