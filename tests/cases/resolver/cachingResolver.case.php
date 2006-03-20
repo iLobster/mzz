@@ -55,6 +55,8 @@ class cachingResolverTest extends unitTestCase
         $this->assertEqual(file_get_contents($this->cacheFile), 'a:1:{s:8:"/request";s:8:"/respond";}');
         $this->assertTrue(touch($this->cacheFile, $this->mtime), 'Cannot change mtime for ' . $this->cacheFile);
 
+        clearstatcache();
+
         $this->createResolver();
         $this->resolver->resolve('/request');
         unset($this->resolver);
