@@ -56,7 +56,16 @@ class newsMapper
 
     protected function update($news)
     {
-        $map = $this->getMap();
+        $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET `title`= :title, `text`= :text, `folder_id` = :folder_id, `created`= :created, `updated`= UNIX_TIMESTAMP() WHERE `id` = :id');
+        $stmt->bindParam(':id', $news->getId(), PDO::PARAM_INT);
+        $stmt->bindParam(':title', $news->getTitle());
+        $stmt->bindParam(':text', $news->getText());
+        $stmt->bindParam(':folder_id', $news->getFolderId());
+        $stmt->bindParam(':created', $news->getCreated(), PDO::PARAM_INT);
+
+        return $stmt->execute();
+
+        /**$map = $this->getMap();
         $field_names = array_keys($map);
 
         foreach ($field_names as $fieldname) {
@@ -64,7 +73,7 @@ class newsMapper
             $data[$fieldname] = $news->$getprop();
         }
 
-        return $this->db->autoExecute($this->table, $data, PDO_AUTOQUERY_UPDATE, "`id` = :id");
+        return $this->db->autoExecute($this->table, $data, PDO_AUTOQUERY_UPDATE, "`id` = :id");*/
 
     }
 
