@@ -2,7 +2,7 @@
 
 fileLoader::load('request/httpResponse');
 fileLoader::load('template/mzzSmarty');
-
+mock::generatePartial('mzzSmarty', 'mockmzzSmarty', array('assign'));
 
 class httpResponseTest extends unitTestCase
 {
@@ -11,7 +11,8 @@ class httpResponseTest extends unitTestCase
     function setUp()
     {
         // need smarty-mock here:
-        $this->response = new httpResponse();
+        $this->response = new httpResponse(new mockmzzSmarty);
+        Reflection::export(new ReflectionClass('mockmzzSmarty'));
     }
 
     public function tearDown()
