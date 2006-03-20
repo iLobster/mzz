@@ -51,6 +51,14 @@ class newsFolderMapper
 
     protected function update($newsFolder)
     {
+        $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET `name`= :name, `parent`= :parent WHERE `id` = :id');
+        $stmt->bindParam(':id', $newsFolder->getId(), PDO::PARAM_INT);
+        $stmt->bindParam(':name', $newsFolder->getName());
+        $stmt->bindParam(':parent', $newsFolder->getParent(), PDO::PARAM_INT);
+
+        return $stmt->execute();
+
+        /*
         $map = $this->getMap();
         $field_names = array_keys($map);
 
@@ -60,6 +68,7 @@ class newsFolderMapper
         }
 
         return $this->db->autoExecute($this->table, $data, PDO_AUTOQUERY_UPDATE, "`id` = :id");
+        */
     }
 
     public function delete($newsFolder)
