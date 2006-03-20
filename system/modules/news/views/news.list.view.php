@@ -36,7 +36,7 @@ class newsListView extends simpleView
         $httprequest = $toolkit->getRequest();
         $this->smarty->assign('folderName', $httprequest->get(0, SC_PATH));
 
-        $this->smarty->assign('title', 'Новости -> Список');
+        $this->response->setTitle('Новости -> Список');
         return $this->smarty->fetch('news.list.tpl');
     }
 }

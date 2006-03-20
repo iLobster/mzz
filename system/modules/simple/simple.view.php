@@ -24,8 +24,11 @@ class simpleView
 
     public function __construct($DAO)
     {
+        $toolkit = systemToolkit::getInstance();
         $this->DAO = $DAO;
-        $this->smarty = self::getSmarty();
+        $this->smarty = $toolkit->getSmarty();
+        $this->response = $toolkit->getResponse();
+
     }
 
     public function toString()
@@ -39,12 +42,6 @@ class simpleView
         $this->DAO = $DAO;
     }
     */
-
-    private function getSmarty()
-    {
-        $toolkit = systemToolkit::getInstance();
-        return $toolkit->getSmarty();
-    }
 }
 
 ?>

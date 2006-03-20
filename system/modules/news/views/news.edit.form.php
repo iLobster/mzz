@@ -35,7 +35,7 @@ class newsEditForm {
         $form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');
         $form->addElement('hidden', 'path', '/news/edit');
         $form->addElement('hidden', 'id', $news->getId());
-        $form->addElement('reset', 'reset', 'Сброс');
+        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: window.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }
