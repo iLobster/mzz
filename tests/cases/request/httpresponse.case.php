@@ -8,6 +8,7 @@ class httpResponseTest extends unitTestCase
 
     function setUp()
     {
+        // need smarty-mock here:
         $this->response = new httpResponse();
     }
 
@@ -40,6 +41,10 @@ class httpResponseTest extends unitTestCase
         }
 
         $this->assertEqual($this->response->getHeaders(), $headers);
+    }
+    public function testSetTitle()
+    {
+        //
     }
 
 }

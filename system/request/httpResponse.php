@@ -90,8 +90,8 @@ class httpResponse
     {
         $headers = $this->getHeaders();
         if(!empty($headers)) {
-            if(headers_sent()) {
-                throw new mzzRuntimeException("Cannot modify header information - headers already sent");
+            if(headers_sent($file, $line)) {
+                throw new mzzRuntimeException("Cannot modify header information - headers already sent in " . $file . " on line " . $line);
             }
             foreach ($headers as $name => $value) {
                 header($name . ": " . $value);

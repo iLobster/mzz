@@ -22,6 +22,7 @@ class stdToolkit extends toolkit
      * @var object
      */
     private $request;
+    private $response;
     private $smarty;
     private $rewrite;
     private $config;
@@ -60,6 +61,20 @@ class stdToolkit extends toolkit
             $this->request = new HttpRequest(new requestParser());
         }
         return $this->request;
+    }
+
+    /**
+     * Возвращает объект Response
+     *
+     * @return object
+     */
+    public function getResponse()
+    {
+        if(empty($this->response)) {
+            fileLoader::load('request/httpResponse');
+            $this->response = new httpResponse($this->getSmarty());
+        }
+        return $this->response;
     }
 
     /**
@@ -173,6 +188,19 @@ class stdToolkit extends toolkit
         $old_request = $this->request;
         $this->request = $request;
         return $old_request;
+    }
+
+    /**
+     * Устанавливает объект Response
+     *
+     * @param object $response
+     * @return object
+     */
+    public function setResponse($response)
+    {
+        $old_response = $this->response;
+        $this->response = $response;
+        return $old_response;
     }
 
     /**

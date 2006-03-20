@@ -66,7 +66,7 @@ class core
             $toolkit = systemToolkit::getInstance();
             $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
 
-            $response = new httpResponse();
+            $response = $toolkit->getResponse();
             $request = $toolkit->getRequest();
 
             $filter_chain = new filterChain($response, $request);
