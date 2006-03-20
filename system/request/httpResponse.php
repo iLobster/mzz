@@ -48,7 +48,7 @@ class httpResponse
      * @param $name
      * @param $value
      */
-    public function sendHeader($name, $value)
+    public function setHeader($name, $value)
     {
         $this->headers[$name] = $value;
     }
@@ -69,6 +69,7 @@ class httpResponse
      */
     public function send()
     {
+        $this->sendHeaders();
         $this->sendText();
     }
 
@@ -83,10 +84,19 @@ class httpResponse
     }
 
     /**
-     * отправление заголовков и текста
+     * отправление текста
      *
      */
     private function sendText()
+    {
+        echo $this->response;
+    }
+
+    /**
+     * отправление заголовков
+     *
+     */
+    private function sendHeaders()
     {
         $headers = $this->getHeaders();
         if(!empty($headers)) {
@@ -97,8 +107,6 @@ class httpResponse
                 header($name . ": " . $value);
             }
         }
-
-        echo $this->response;
     }
 
 }

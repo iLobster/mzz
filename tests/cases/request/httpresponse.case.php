@@ -1,6 +1,8 @@
 <?php
 
 fileLoader::load('request/httpResponse');
+fileLoader::load('template/mzzSmarty');
+
 
 class httpResponseTest extends unitTestCase
 {
@@ -37,7 +39,7 @@ class httpResponseTest extends unitTestCase
     {
         $headers = array('name1' => 'value_1', 'name2' => 'value_2', 'name3' => 'value_3');
         foreach ($headers as $name => $value) {
-            $this->response->sendHeader($name, $value);
+            $this->response->setHeader($name, $value);
         }
 
         $this->assertEqual($this->response->getHeaders(), $headers);
