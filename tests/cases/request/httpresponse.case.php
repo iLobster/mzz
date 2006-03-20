@@ -1,18 +1,21 @@
 <?php
-
 fileLoader::load('request/httpResponse');
-fileLoader::load('template/mzzSmarty');
-mock::generatePartial('mzzSmarty', 'mockmzzSmarty', array('assign'));
+
+class stubTemplateEngine
+{
+    function assign($name, $value) {}
+}
+mock::generate('stubTemplateEngine');
 
 class httpResponseTest extends unitTestCase
 {
     protected $response;
+    protected $smarty;
 
     function setUp()
     {
-        // need smarty-mock here:
-        $this->response = new httpResponse(new mockmzzSmarty);
-        Reflection::export(new ReflectionClass('mockmzzSmarty'));
+        $this->smarty = new mockstubTemplateEngine;
+        $this->response = new httpResponse($this->smarty);
     }
 
     public function tearDown()
@@ -45,9 +48,11 @@ class httpResponseTest extends unitTestCase
 
         $this->assertEqual($this->response->getHeaders(), $headers);
     }
+
     public function testSetTitle()
     {
-        //
+        $this->smarty->expectOnce('assign', array('title', 'test_title_value'));
+        $this->response->setTitle('test_title_value');
     }
 
 }

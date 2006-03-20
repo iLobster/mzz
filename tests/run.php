@@ -16,7 +16,7 @@ class testsRunner implements iFilter
         $casesDir = systemConfig::$pathToSystem . '../tests/' . $casesBasedir;
         $casesName = 'all';
         $casesDirGroup = $casesDir . '/';
-        
+
         if (isset($_GET['group'])) {
             $group = $_GET['group'];
             $group = preg_replace('/[^a-z]/i', '', $group);
@@ -74,9 +74,9 @@ class testsRunner implements iFilter
 
 try {
 
-    $response = new httpResponse();
     $toolkit = systemToolkit::getInstance();
     $request = $toolkit->getRequest();
+    $response = $toolkit->getResponse();
 
     $filter_chain = new filterChain($response, $request);
     $filter_chain->registerFilter(new timingFilter());

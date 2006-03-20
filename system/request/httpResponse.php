@@ -34,12 +34,19 @@ class httpResponse
     private $headers = array();
 
     /**
+     * Template Engine
+     *
+     * @var object
+     */
+    private $smarty;
+
+    /**
      * конструктор класса
      *
      */
-    public function __construct()
+    public function __construct($smarty)
     {
-
+        $this->smarty = $smarty;
     }
 
     /**
@@ -52,6 +59,17 @@ class httpResponse
     {
         $this->headers[$name] = $value;
     }
+
+     /**
+     * Уставливает заголовок страницы
+     *
+     * @param $value
+     */
+    public function setTitle($value)
+    {
+        $this->smarty->assign('title', $value);
+    }
+
 
     /**
      * Возвращает установленные заголовки для клиента
