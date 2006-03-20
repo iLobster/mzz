@@ -10,9 +10,9 @@ class filterChainTest extends UnitTestCase
 
     function setup()
     {
-        $response = new httpResponse();
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
+        $response = new httpResponse($toolkit->getSmarty());
 
         $this->filterChain = new filterChain($response, $request);
     }
