@@ -1,0 +1,1 @@
+- add static keyword in mock_objects.php: "function generate(..." -> "static function generate(..."

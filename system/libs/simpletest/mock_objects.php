@@ -946,7 +946,7 @@
          *    @static
          *    @access public
          */
-        function generate($class, $mock_class = false, $methods = false) {
+        static function generate($class, $mock_class = false, $methods = false) {
             $generator = new MockGenerator($class, $mock_class);
             return $generator->generate($methods);
         }
