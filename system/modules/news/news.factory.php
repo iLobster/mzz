@@ -40,8 +40,8 @@ class newsFactory
     public function __construct($action)
     {
         $this->action = $action;
-        $this->action->setDefaultAction('list');
-       // $this->action->setAction($action->getAction());
+        //$this->action->setDefaultAction('list');
+        //$this->action->setAction($action->getAction());
     }
 
     /**

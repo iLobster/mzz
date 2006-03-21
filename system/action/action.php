@@ -38,15 +38,6 @@ class action
      */
     protected $module;
 
-
-    /**
-     * действие по умолчанию
-     *
-     * @deprecated
-     * @var string
-     */
-    private $defaultAction;
-
     /**
      *  онструктор
      *
@@ -157,27 +148,6 @@ class action
             $this->actions[$type] = $actions;
         }
     }
-    /**
-     * ”станавливает действие по умолчанию
-     *
-     * @deprecated
-     * @param string $action
-     */
-    public function setDefaultAction($action)
-    {
-        $this->defaultAction = $this->checkAction($action);
-    }
-
-    /**
-     * ¬озвращает действие по умолчанию
-     *
-     * @deprecated
-     * @return string
-     */
-    public function getDefaultAction()
-    {
-        return $this->defaultAction;
-    }
 
     /**
      * ѕровер€ет существует ли действие у модул€.
@@ -196,10 +166,6 @@ class action
         }
 
         throw new mzzSystemException('Action ' . $action . ' not found');
-
-        /** @deprecated
-        return $this->getDefaultAction();
-        */
     }
 
 }

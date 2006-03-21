@@ -32,7 +32,7 @@ class timerFactory
     function __construct($action)
     {
         $this->action = $action;
-        $this->action->setDefaultAction('view');
+        //$this->action->setDefaultAction('view');
     }
 
     // метод получени€ необходимого контроллера
