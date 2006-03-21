@@ -3,6 +3,9 @@ fileLoader::load('filters/iFilter');
 fileLoader::load('filters/filterChain');
 fileLoader::load('cases/filters/stubFilter.class');
 fileLoader::load('request/httpResponse');
+fileLoader::load('request/httpRequest');
+
+mock::generate('httpRequest');
 
 class filterChainTest extends UnitTestCase
 {
@@ -10,9 +13,10 @@ class filterChainTest extends UnitTestCase
 
     function setup()
     {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-        $response = new httpResponse($toolkit->getSmarty());
+        $request = new mockhttpRequest;
+
+        // Smarty в этих тестах не нужен, заменяем пустым объектом
+        $response = new httpResponse(new stdClass());
 
         $this->filterChain = new filterChain($response, $request);
     }
