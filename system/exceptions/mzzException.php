@@ -118,20 +118,7 @@ class mzzException extends Exception
                     $trace['args'] = $trace;
                 }
                 foreach ($trace['args'] as $arg) {
-                    switch (true) {
-                        case is_object($arg):
-                        $args .= 'object \'' . get_class($arg) . '\', ';
-                        break;
-                        case is_array($arg):
-                        $args .= 'array(' . count($arg) . '), ';
-                        break;
-                        case is_resource($arg):
-                        $args .= 'resource ' . get_resource_type($arg) . ', ';
-                        break;
-                        default:
-                        $args .= '\'' . $arg . '\', ';
-                        break;
-                    }
+                    $args .= $this->convertToString($arg) . ', ';
                 }
                 $args = substr($args, 0, strlen($args) - 2);
 
@@ -188,6 +175,46 @@ class mzzException extends Exception
         return $header;
     }
 
+    /**
+     * Конвертирует параметр $arg в строку
+     *
+     * @param mixed $arg
+     */
+    protected function convertToString($arg)
+    {
+         switch (true) {
+            case is_object($arg):
+                $str = 'object \'' . get_class($arg) . '\'';
+                break;
+
+            case is_array($arg):
+                $str = 'array(' . count($arg) . ')';
+                break;
+
+            case is_resource($arg):
+                $str = 'resource ' . get_resource_type($arg) . '';
+                break;
+
+            case is_string($arg):
+                $str = '\'' . $arg . '\'';
+                break;
+
+            case is_scalar($arg):
+                if($arg === false) {
+                    $str = 'false';
+                } elseif ($arg === true) {
+                    $str = 'true';
+                } else {
+                    $str = $arg;
+                }
+                break;
+
+            default:
+                $str = '\'' . $arg . '\'';
+                break;
+        }
+        return $str;
+    }
     /**
      * Низ HTML кода
      *
