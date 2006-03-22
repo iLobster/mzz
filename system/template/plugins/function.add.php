@@ -3,6 +3,7 @@
 function smarty_function_add($params, $smarty)
 {
     $valid_resources = array('css', 'js');
+
     if (!empty($params['file'])) {
         // определяем тип ресурса
         $tmp = array_map('trim', explode(':', $params['file'], 2));
@@ -28,9 +29,16 @@ function smarty_function_add($params, $smarty)
         $tpl = (!empty($params['tpl'])) ? $params['tpl'] : $res . '.tpl';
         // проверить имя файла шаблона
 
+
         $vars = $smarty->get_template_vars($res);
+        // если массив ещё пустой - создаём
+        if ($vars === null) {
+            $smarty->assign($res, array());
+        }
+
         $added = false;
 
+        // ищем - подключали лы мы уже данный файл
         if (is_array($vars)) {
             foreach ($vars as $val) {
                 if ($val['file'] == $filename && $val['tpl'] == $tpl) {
@@ -43,8 +51,9 @@ function smarty_function_add($params, $smarty)
         if (!$added) {
             $smarty->append($res, array('file' => $filename, 'tpl' => $tpl));
         }
+    } else {
+        throw new mzzInvalidParameterException('Пустой аттрибут', 'file');
     }
-    // кидать эксепшн т.к. левый ресурс или как то ещё ругаться
 }
 
 ?>

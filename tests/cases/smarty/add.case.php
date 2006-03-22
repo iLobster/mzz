@@ -94,11 +94,28 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         }
     }
 
-    public function testNoFilenameWithTemplate()
+    public function testNoFilename()
+    {
+        $this->smarty->expectNever('append');
+        $params = array('tpl' => 'asd.tpl');
+        try {
+            smarty_function_add($params, $this->smarty);
+            $this->fail('no exception thrown?');
+        } catch (Exception $e) {
+            $this->pass();
+        }
+    }
+
+    public function testEmptyFilenameWithTemplate()
     {
         $this->smarty->expectNever('append');
         $params = array('file' => '', 'tpl' => 'some.tpl');
-        smarty_function_add($params, $this->smarty);
+        try {
+            smarty_function_add($params, $this->smarty);
+            $this->fail('no exception thrown?');
+        } catch (Exception $e) {
+            $this->pass();
+        }
     }
 
     public function testJSNoResourceNameNoTemplate()
