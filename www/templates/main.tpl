@@ -7,6 +7,13 @@
 {foreach from=$css item=cssfile}
 {include file=$cssfile.tpl filename=$cssfile.file}
 {/foreach}
+
+{if isset($js) }
+{foreach from=$js item=jsfile}
+{include file=$jsfile.tpl filename=$jsfile.file}
+{/foreach}
+{/if}
+
 </head>
 <body bgcolor="#ffffff">
 <font size='+1' face=tahoma color=#111111>{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION})</font>
