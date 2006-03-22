@@ -16,6 +16,15 @@ class mzzSmartyAddFunctionTest extends unitTestCase
     private function setUpExpectOnce($tpl)
     {
         $this->smarty->expectOnce('append', array('css', array('file' => 'style.css', 'tpl' => $tpl . '.tpl')));
+        $this->smarty->expectOnce('get_template_vars', array('css'));
+        $this->smarty->setReturnValue('get_template_vars', array());
+    }
+
+    private function setUpExpectOnceJS()
+    {
+        $this->smarty->expectOnce('append', array('js', array('file' => 'script.js', 'tpl' => 'js.tpl')));
+        $this->smarty->expectOnce('get_template_vars', array('js'));
+        $this->smarty->setReturnValue('get_template_vars', array());
     }
 
     public function testNoResourceNameNoTemplate()
@@ -43,6 +52,14 @@ class mzzSmartyAddFunctionTest extends unitTestCase
     {
         $this->setUpExpectOnce('some');
         $params = array('file' => 'css:style.css', 'tpl' => 'some.tpl');
+        smarty_function_add($params, $this->smarty);
+    }
+
+    public function testURLAsFilenameWithTemplate()
+    {
+        $this->smarty->expectOnce('append', array('css', array('file' => 'style.css?a&b=1', 'tpl' => 'some.tpl')));
+        $this->smarty->setReturnValue('get_template_vars', array());
+        $params = array('file' => 'css:style.css?a&b=1', 'tpl' => 'some.tpl');
         smarty_function_add($params, $this->smarty);
     }
 
@@ -81,6 +98,31 @@ class mzzSmartyAddFunctionTest extends unitTestCase
     {
         $this->smarty->expectNever('append');
         $params = array('file' => '', 'tpl' => 'some.tpl');
+        smarty_function_add($params, $this->smarty);
+    }
+
+    public function testJSNoResourceNameNoTemplate()
+    {
+        $this->setUpExpectOnceJS();
+        $params = array('file' => 'script.js');
+        smarty_function_add($params, $this->smarty);
+    }
+
+    public function testJSResourceNameNoTemplate()
+    {
+        $this->setUpExpectOnceJS();
+        $params = array('file' => 'js:script.js');
+        smarty_function_add($params, $this->smarty);
+    }
+
+    public function testAddOnce()
+    {
+        $this->smarty->expectOnce('append', array('css', array('file' => 'style.css', 'tpl' => 'css.tpl')));
+        $this->smarty->expectCallCount('get_template_vars', 2);
+        $this->smarty->setReturnValueAt(0, 'get_template_vars', array());
+        $this->smarty->setReturnValueAt(1, 'get_template_vars', array(array('file' => 'style.css', 'tpl' => 'css.tpl')));
+        $params = array('file' => 'style.css');
+        smarty_function_add($params, $this->smarty);
         smarty_function_add($params, $this->smarty);
     }
 }

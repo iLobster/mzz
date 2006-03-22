@@ -20,7 +20,7 @@ function smarty_function_add($params, $smarty)
             throw new mzzInvalidParameterException('Неверный тип ресурса', $res);
         }
 
-        if (!preg_match('/^[a-z0-9_\.?]+$/i', $filename)) {
+        if (!preg_match('/^[a-z0-9_\.?&=]+$/i', $filename)) {
             throw new mzzInvalidParameterException('Неверное имя файла', $filename);
         }
         // проверить имя файла?
@@ -28,7 +28,21 @@ function smarty_function_add($params, $smarty)
         $tpl = (!empty($params['tpl'])) ? $params['tpl'] : $res . '.tpl';
         // проверить имя файла шаблона
 
-        $smarty->append($res, array('file' => $filename, 'tpl' => $tpl));
+        $vars = $smarty->get_template_vars($res);
+        $added = false;
+
+        if (is_array($vars)) {
+            foreach ($vars as $val) {
+                if ($val['file'] == $filename && $val['tpl'] == $tpl) {
+                    $added = true;
+                    break;
+                }
+            }
+        }
+
+        if (!$added) {
+            $smarty->append($res, array('file' => $filename, 'tpl' => $tpl));
+        }
     }
     // кидать эксепшн т.к. левый ресурс или как то ещё ругаться
 }
