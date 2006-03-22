@@ -20,7 +20,7 @@
  *
  * @param array $params входные аргументы функции
  * @param object $smarty объект смарти
- * @return boolean null если файл дубликат
+ * @return null|void null если файл дубликат
  * @package system
  * @version 0.1
  */
