@@ -42,7 +42,7 @@
             $this->sendNoCacheHeaders();
             print "<html>\n<head>\n<title>$test_name</title>\n";
             print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" .
-                    $this->_character_set . "\">\n";
+                    $this->_character_set . "\" />\n";
             print "<style type=\"text/css\">\n";
             print $this->_getCss() . "\n";
             print "</style>\n";
@@ -94,7 +94,7 @@
             print "<strong>" . $this->getFailCount() . "</strong> fails and ";
             print "<strong>" . $this->getExceptionCount() . "</strong> exceptions.";
             print "</div>\n";
-            print "</body>\n</html>\n";
+            //print "</body>\n</html>\n";
         }
 
         /**
