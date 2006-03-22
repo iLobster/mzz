@@ -78,6 +78,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
             smarty_function_add($params, $this->smarty);
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
+            $this->assertPattern("/имя файла.*sty:le\.css.*$/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -90,6 +91,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
             smarty_function_add($params, $this->smarty);
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
+            $this->assertPattern("/тип ресурса.*wrong.*$/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -102,6 +104,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
             smarty_function_add($params, $this->smarty);
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
+            $this->assertPattern("/аттрибут.*file.*$/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -114,6 +117,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
             smarty_function_add($params, $this->smarty);
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
+            $this->assertPattern("/аттрибут.*file.*$/i", $e->getMessage());
             $this->pass();
         }
     }

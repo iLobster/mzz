@@ -30,7 +30,6 @@ class mzzRuntimeException extends mzzException
         parent::__construct($message, $code);
         $this->setName('Runtime Exception');
     }
-
 }
 
 ?>
