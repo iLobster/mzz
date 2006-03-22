@@ -18,6 +18,13 @@
  */
 interface iToolkit
 {
+
+    /**
+     * Возвращает toolkit
+     *
+     * @param string $toolName
+     * @return object|false
+     */
     public function getToolkit($toolName);
 }
 ?>

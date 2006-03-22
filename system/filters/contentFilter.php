@@ -16,16 +16,16 @@
  * @package system
  * @version 0.2
  */
-
 class contentFilter implements iFilter
 {
     /**
      * запуск фильтра на исполнение
      *
      * @param filterChain $filter_chain объект, содержащий цепочку фильтров
-     * @param response $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param httpResponse $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param iRequest $request
      */
-    public function run(filterChain $filter_chain, $response, $request)
+    public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
 

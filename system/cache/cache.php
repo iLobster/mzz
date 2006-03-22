@@ -14,6 +14,7 @@
  *
  * @package system
  * @version 0.1
+ * @deprecated Скорее всего этот класс будет полностью переписан
 */
 fileLoader::load('iterators/mzzCacheFilterIterator');
 

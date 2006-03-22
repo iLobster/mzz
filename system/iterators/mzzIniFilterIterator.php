@@ -10,10 +10,25 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-class mzzIniFilterIterator extends FilterIterator {
-    public function accept() {
+/**
+ * mzzIniFilterIterator: паттерн Iterator для "отборки" файлов с расширением 'ini'
+ *
+ * @package system
+ * @version 0.1
+ */
+class mzzIniFilterIterator extends FilterIterator
+{
+
+    /**
+     * Возвращает true если текущий элемент имеет расширение ini и он файл
+     *
+     * @return boolean
+     */
+    public function accept()
+    {
         return (substr($this->getFilename(), -4) == '.ini') && $this->isFile();
     }
+
 }
 
 ?>

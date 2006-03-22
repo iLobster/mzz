@@ -14,7 +14,7 @@
  * timingFilter: фильтр для подсчета времени выполнения скрипта
  *
  * @package system
- * @version 0.1.1
+ * @version 0.2
  */
 
 fileLoader::load('timer/timer');
@@ -25,9 +25,10 @@ class timingFilter implements iFilter
      * запуск фильтра на исполнение
      *
      * @param filterChain $filter_chain объект, содержащий цепочку фильтров
-     * @param response $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param httpResponse $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param iRequest $request
      */
-    public function run(filterChain $filter_chain, $response, $request)
+    public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
         $toolkit->getTimer();

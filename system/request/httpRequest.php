@@ -10,6 +10,8 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+fileLoader::load('request/iRequest');
+
 /**
  * HttpRequest: класс для работы с суперглобальными массивами
  * Examples:
@@ -30,7 +32,7 @@ define('SC_COOKIE', 4);
 define('SC_SERVER', 8);
 define('SC_PATH', 16);
 
-class httpRequest
+class httpRequest implements iRequest
 {
     /**#@+
     * @var array

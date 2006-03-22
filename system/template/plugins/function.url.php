@@ -13,7 +13,11 @@
  * smarty_function_url: функция для смарти, генератор URL
  *
  * Примеры использования:<br />
- * {load module="some_module_name" action="some_action"}
+ * <code>
+ * {url section="news"}
+ * {url section="guestbook" action="delete" param="41"}
+ * {url section="news" param="2006/08/12"}
+ * </code>
  *
  * @param array $params входные аргументы функции
  * @param object $smarty объект смарти
@@ -21,7 +25,8 @@
  * @package system
  * @version 0.1
  */
-function smarty_function_url($params, $smarty) {
+function smarty_function_url($params, $smarty)
+{
     $url = new url();
 
     if(isset($params['section'])) {

@@ -10,8 +10,20 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+/**
+ * iValueFilter: интерфейс ValueFilter
+ *
+ * @package system
+ * @version 0.1
+ */
 interface iValueFilter
 {
+    /**
+     * Применяет фильтр к значению и возвращает его
+     *
+     * @param mixed $value значение
+     * @return mixed
+     */
 	public function filter($value);
 }
 

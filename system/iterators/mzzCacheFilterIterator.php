@@ -10,10 +10,25 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-class mzzCacheFilterIterator extends FilterIterator {
-    public function accept() {
+/**
+ * mzzCacheFilterIterator: паттерн Iterator для "отборки" файлов с префиксом 'cache_'
+ *
+ * @package system
+ * @version 0.1
+ */
+class mzzCacheFilterIterator extends FilterIterator
+{
+
+    /**
+     * Возвращает true если текущий элемент файл и имеет префикс cache_
+     *
+     * @return boolean
+     */
+    public function accept()
+    {
         return $this->isFile() && (substr($this->getFilename(), 0, 6) == 'cache_');
     }
+
 }
 
 ?>

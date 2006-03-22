@@ -9,7 +9,7 @@ require_once 'testsFinder.php';
 
 class testsRunner implements iFilter
 {
-    public function run(filterChain $filter_chain, $response, $request)
+    public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         ob_start();
         $casesBasedir = 'cases';

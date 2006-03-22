@@ -16,9 +16,15 @@
  * @package system
  * @version 0.1
  */
-
 interface iResolver
 {
+
+    /**
+     * запуск процесса поиска файла по паттернам
+     *
+     * @param string $request поисковый запрос
+     * @return string|null путь до файла, если найден и null в противном случае
+     */
     public function resolve($request);
 }
 

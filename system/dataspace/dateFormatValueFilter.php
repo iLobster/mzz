@@ -41,10 +41,10 @@ class dateFormatValueFilter implements iValueFilter
     }
 
     /**
-     * Возвращает значение по ключу
+     * Применяет фильтр к значению и возвращает его
      *
-     * @param string|intger $key ключ
-     * @return mixed
+     * @param string|intger $value значение
+     * @return string
      */
     public function filter($value)
     {

@@ -23,10 +23,10 @@ interface iFilter
      * запуск фильтра на исполнение
      *
      * @param filterChain $filter_chain объект, содержащий цепочку фильтров
-     * @param response $response объект, содержащий информацию, выводимую клиенту в браузер
-     * @param request $request
+     * @param httpResponse $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param iRequest $request
      */
-    public function run(filterChain $filter_chain, $response, $request);
+    public function run(filterChain $filter_chain, $response, iRequest $request);
 }
 
 ?>

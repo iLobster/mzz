@@ -13,7 +13,9 @@
  * smarty_function_load: функция для смарти, загрузчик модулей
  *
  * Примеры использования:<br />
+ * <code>
  * {load module="some_module_name" action="some_action"}
+ * </code>
  *
  * @param array $params входные аргументы функции
  * @param object $smarty объект смарти
