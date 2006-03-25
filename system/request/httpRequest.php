@@ -140,7 +140,7 @@ class httpRequest implements iRequest
     public function isSecure()
     {
         $temp = $this->getServer('HTTPS');
-        return !empty($temp);
+        return ($temp === 'on');
     }
 
     /**
