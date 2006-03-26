@@ -38,7 +38,10 @@ class httpRequestTest extends unitTestCase
         unset($_SERVER['HTTPS']);
         $this->assertFalse($this->httprequest->isSecure());
 
-        $_SERVER['HTTPS'] = "1";
+        $_SERVER['HTTPS'] = "off";
+        $this->assertFalse($this->httprequest->isSecure());
+
+        $_SERVER['HTTPS'] = "on";
         $this->assertTrue($this->httprequest->isSecure());
     }
 
