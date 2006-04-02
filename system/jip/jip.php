@@ -90,12 +90,17 @@ class jip
      * Генерирует массив JIP из названия и ссылки для действия модуля
      *
      * @return array
+     * @todo использовать $this->type в идентификатор или вообще отказаться от него
      */
     private function generate()
     {
         $result = array();
         foreach ($this->actions as $item) {
-            $result[] = array('url' => $this->buildUrl($item['controller']), 'title' => $item['title']);
+            $result[] = array(
+            'url' => $this->buildUrl($item['controller']),
+            'title' => $item['title'],
+            'id' => $this->section . '_' . $this->module . '_' . $this->id . '_' . $item['controller']
+            );
         }
         return $result;
     }
