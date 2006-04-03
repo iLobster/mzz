@@ -99,7 +99,8 @@ class jip
             $result[] = array(
             'url' => $this->buildUrl($item['controller']),
             'title' => $item['title'],
-            'id' => $this->section . '_' . $this->module . '_' . $this->id . '_' . $item['controller']
+            'id' => $this->section . '_' . $this->module . '_' . $this->id . '_' . $item['controller'],
+            'confirm' => $item['confirm'],
             );
         }
         return $result;

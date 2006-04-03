@@ -22,7 +22,7 @@ class newsDeleteView extends simpleView
     {
         $url = new url();
         $url->setAction('list');
-        header('Location: ' . $url->get());
+        echo "<script>window.opener.location.reload(); window.close();</script>";
         exit;
     }
 }

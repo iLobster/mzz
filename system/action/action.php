@@ -127,7 +127,11 @@ class action
         $actions = $this->getActions();
         foreach ($actions[$this->module] as $action) {
             if(isset($action['jip']) && $action['jip'] == true) {
-                $jip_actions[] = array('controller' => $action['controller'], 'title' => $action['title']);
+                $jip_actions[] = array(
+                'controller' => $action['controller'],
+                'title' => $action['title'],
+                'confirm' => (isset($action['confirm']) ? $action['confirm'] : null),
+                );
             }
         }
         return $jip_actions;
