@@ -13,11 +13,13 @@
 fileLoader::load('request/iRequest');
 
 /**
- * HttpRequest: класс для работы с суперглобальными массивами
+ * httpRequest: класс для работы с суперглобальными массивами.
+ * Доступ к httpRequest можно получить через Toolkit.
+ *
  * Examples:
  * <code>
- * httprequest::get('var', SC_GET | SC_COOKIE);
- * httprequest::get('var2');
+ * $httprequest->get('var', SC_GET | SC_COOKIE);
+ * $httprequest->get('var2');
  * </code>
  *
  * @package system
