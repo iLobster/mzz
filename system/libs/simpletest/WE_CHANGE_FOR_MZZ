@@ -1,1 +1,11 @@
+- replace 
+	(! is_null($type) ? $type->getName() . ' ' : '') .
+  to 
+	(! is_null($type) ? $type->getName() . ' ' : ($parameter->isArray() ? 'Array ' : '')) .
+
+  in reflection_php5.php
+
 - add static keyword in mock_objects.php: "function generate(..." -> "static function generate(..."
+
+
+					

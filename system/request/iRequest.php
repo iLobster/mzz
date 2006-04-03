@@ -15,7 +15,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1
+ * @version 0.2
  */
 
 interface iRequest
@@ -28,6 +28,26 @@ interface iRequest
      * @return string|null
      */
     public function get($name, $scope = null);
+
+    /**
+     * Импорт строки с section, action и параметрами
+     *
+     * @param string $path
+     */
+    public function import($path);
+
+    /**
+     * Метод возвращает протокол, который был использован для передачи данных.
+     *
+     */
+    public function getMethod();
+
+    /**
+     * Возвращает true если используется защищенный протокол
+     *
+     * @return boolean
+     */
+    public function isSecure();
 
     /**
      * Возвращает section
@@ -65,6 +85,12 @@ interface iRequest
      */
     public function setParam($name, $value);
 
+    /**
+     * Установка массива параметров
+     *
+     * @param array $params
+     */
+    public function setParams(Array $params);
 }
 
 ?>

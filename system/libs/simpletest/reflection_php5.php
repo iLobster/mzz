@@ -124,7 +124,7 @@
             }
             return array_unique($methods);
         }
-        
+
         /**
          *    Checks to see if the method signature has to be tightly
          *    specified.
@@ -207,7 +207,7 @@
         	}
         	return "function $name()";
         }
-        
+
         /**
          *    For a signature specified in an interface, full
          *    details must be replicated to be a valid implementation.
@@ -238,7 +238,7 @@
             foreach ($method->getParameters() as $parameter) {
                 $type = $parameter->getClass();
             	$signatures[] =
-					(! is_null($type) ? $type->getName() . ' ' : '') .
+					(! is_null($type) ? $type->getName() . ' ' : ($parameter->isArray() ? 'Array ' : '')) .
             			($parameter->isPassedByReference() ? '&' : '') .
             			'$' . $this->_suppressSpurious($parameter->getName()) .
             			($this->_isOptional($parameter) ? ' = null' : '');
