@@ -28,7 +28,7 @@
         </tr>
     {/foreach}
     <tr>
-        <td colspan="6"><a href="{url section=news action=createItem params=$folderName}">Добавить новость</a></td>
+        <td colspan="6"><a href="{url section=news action=createItem params=$folderPath}">Добавить новость</a></td>
     </tr>
 </table>
 
