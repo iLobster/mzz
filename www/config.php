@@ -11,7 +11,7 @@
 //
 
 define('SYSTEM_PATH',  '../system/');
-define('SITE_PATH', 'http://mzz-dev.ru');
+define('SITE_PATH', '');
 define('DEBUG_MODE', 1);
 define('CATCH_TPL_RECURSION', true);
 
