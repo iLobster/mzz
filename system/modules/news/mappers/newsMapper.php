@@ -41,6 +41,14 @@ class newsMapper
 
     protected function insert($news)
     {
+        $stmt = $this->db->prepare('INSERT INTO `:table` (`title`, `text`, `folder_id`, `created`, `updated`) VALUES (:title, :text, :fodler_id, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())');
+        $stmt->bindParam(':table', $this->table);
+        $stmt->bindParam(':title', $news->getTitle());
+        $stmt->bindParam(':text', $news->getText());
+        $stmt->bindParam(':folder_id', $news->getFolderId(), PDO::PARAM_INT);
+
+        return $stmt->execute();
+        /*
         $map = $this->getMap();
         $field_names = array_keys($map);
 
@@ -51,12 +59,13 @@ class newsMapper
 
         if(($id = $this->db->autoExecute($this->table, $data))) {
             $news->setId($id);
-        }
+        }*/
     }
 
     protected function update($news)
     {
-        $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET `title`= :title, `text`= :text, `folder_id` = :folder_id, `created`= :created, `updated`= UNIX_TIMESTAMP() WHERE `id` = :id');
+        $stmt = $this->db->prepare('UPDATE  `:table` SET `title`= :title, `text`= :text, `folder_id` = :folder_id,  `updated`= UNIX_TIMESTAMP() WHERE `id` = :id');
+        $stmt->bindParam(':table', $this->table);
         $stmt->bindParam(':id', $news->getId(), PDO::PARAM_INT);
         $stmt->bindParam(':title', $news->getTitle());
         $stmt->bindParam(':text', $news->getText());
