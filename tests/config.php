@@ -15,9 +15,11 @@
 define('DEBUG_MODE', 1);
 define('CATCH_TPL_RECURSION', true);
 
-define('SYSTEM_PATH',  dirname(__FILE__) . '/../system/');
+define('SYSTEM_PATH',  realpath(dirname(__FILE__) . '/../system'));
 
-require_once(SYSTEM_PATH . 'systemConfig.php');
+define('TEST_PATH',  realpath(SYSTEM_PATH . '/../tests'));
+
+require_once(SYSTEM_PATH . '/systemConfig.php');
 
 systemConfig::$pathToApplication = dirname(__FILE__) . '/';
 systemConfig::$pathToTemp = systemConfig::$pathToApplication . 'tmp/';

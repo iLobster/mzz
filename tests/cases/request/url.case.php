@@ -7,6 +7,9 @@ class urlTest extends unitTestCase
 
     function setUp()
     {
+        if(!isset($_SERVER['HTTP_HOST'])) {
+            $_SERVER['HTTP_HOST'] = 'localhost';
+        }
     }
 
     public function tearDown()

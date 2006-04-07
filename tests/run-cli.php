@@ -1,5 +1,4 @@
 <?php
-
 //error_reporting(E_ALL | E_STRICT);
 error_reporting(E_ALL);
 
@@ -9,7 +8,7 @@ require_once 'testsFinder.php';
 
 class testsRunner implements iFilter
 {
-    public function run(filterChain $filter_chain, $response)
+    public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         global $argv;
         ob_start();
@@ -37,8 +36,6 @@ class testsRunner implements iFilter
 
         $test->run(new TextReporter());
 
-        $timerFactory = new timerFactory('view');
-        $timer = $timerFactory->getController();
 
         $result = ob_get_contents();
         ob_end_clean();
@@ -50,9 +47,11 @@ class testsRunner implements iFilter
 
 
 try {
-    $response = new response();
+    $toolkit = systemToolkit::getInstance();
+    $request = $toolkit->getRequest();
+    $response = $toolkit->getResponse();
 
-    $filter_chain = new filterChain($response);
+    $filter_chain = new filterChain($response, $request);
     $filter_chain->registerFilter(new timingFilter());
     $filter_chain->registerFilter(new testsRunner());
     $filter_chain->process();

@@ -13,15 +13,16 @@ class testsRunner implements iFilter
     {
         ob_start();
         $casesBasedir = 'cases';
-        $casesDir = systemConfig::$pathToSystem . '../tests/' . $casesBasedir;
+        $casesDir = TEST_PATH . '/' . $casesBasedir;
+
         $casesName = 'all';
-        $casesDirGroup = $casesDir . '/';
+        $casesDirGroup = $casesDir;
 
         if (isset($_GET['group'])) {
             $group = $_GET['group'];
             $group = preg_replace('/[^a-z]/i', '', $group);
             if (is_dir($casesDir . '/' . $group)) {
-                $casesDirGroup = $casesDirGroup . $group;
+                $casesDirGroup = $casesDirGroup . '/' . $group;
                 $casesName = $group;
             }
         }
