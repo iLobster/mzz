@@ -47,7 +47,7 @@ class compositeToolkit implements iToolkit
      */
     public function addToolkit(IToolkit $toolkit)
     {
-        $this->toolkits[] = $toolkit;
+        array_unshift($this->toolkits, $toolkit);
     }
 
     /**

@@ -1,37 +1,50 @@
 <?php
 fileLoader::load('toolkit/systemToolkit');
+fileLoader::load('toolkit/compositeToolkit');
 fileLoader::load('toolkit');
-class systemToolkitStub extends toolkit {
-    function stub($param, $param_two) {
-        return true;
-    }
-}
+fileLoader::load('cases/toolkit/testToolkit.class');
+
+Mock::generate('compositeToolkit');
+Mock::generate('testToolkit');
 
 class systemToolkitTest extends unitTestCase
 {
+    private $oldToolkit;
     private $toolkit;
-    private $stubtoolkit;
+    private $mockToolkit;
 
     public function setUp()
     {
-        $this->stubtoolkit = new SystemToolkitStub;
+        $this->mockToolkit = new mockcompositeToolkit();
         $this->toolkit = systemToolkit::getInstance();
-        $this->toolkit->getToolkit()->addToolkit($this->stubtoolkit);
-
+        $this->oldToolkit = $this->toolkit->setToolkit($this->mockToolkit);
     }
 
     public function tearDown()
     {
+        $this->toolkit->setToolkit($this->oldToolkit);
 
     }
 
-    public function testSystemToolkit()
+    public function testToolkit()
     {
-        $this->assertEqual($this->toolkit->stub(null, null), true);
-        //$this->assertIsA($toolkit->getToolkit("getBar"), "secondToolkitStub");
-        //$this->assertFalse($toolkit->getToolkit("getNonExists"));
+        $toolkit_mock = new mocktestToolkit();
+
+        $this->mockToolkit->setReturnValue('getToolkit', $toolkit_mock);
+        $this->mockToolkit->expectOnce('getToolkit', array('getFoo'));
+
+        $toolkit_mock->expectOnce('getFoo', array('request')); // ->
+        $toolkit_mock->setReturnValue('getFoo', 'response'); // <-
+
+        $this->assertEqual($this->toolkit->getFoo('request'), 'response');
     }
 
+    public function testAddToolkit()
+    {
+        $toolkit_mock = new mockCompositeToolkit();
+        $this->mockToolkit->expectOnce('addToolkit', array($toolkit_mock));
+        $this->toolkit->addToolkit($toolkit_mock);
+    }
 
 }
 
