@@ -190,7 +190,7 @@ class mzzPdo extends PDO
         $result = $stmt->execute();
         $stmt->closeCursor();
         if($mode == PDO_AUTOQUERY_INSERT) {
-            return $this->lastInsertID();
+            return $this->lastInsertId();
         }
 
         return $result;

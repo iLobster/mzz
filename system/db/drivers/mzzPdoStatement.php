@@ -29,20 +29,20 @@ class mzzPdoStatement extends PDOStatement
         foreach($data as $key => $val) {
             switch (strtolower(gettype($val))) {
                 case "boolean":
-                    $type = PDO::PARAM_BOOL;
-                    break;
+                $type = PDO::PARAM_BOOL;
+                break;
                 case "integer":
-                    $type = PDO::PARAM_INT;
-                    break;
+                $type = PDO::PARAM_INT;
+                break;
                 case "string":
-                    $type = PDO::PARAM_STR;
-                    break;
+                $type = PDO::PARAM_STR;
+                break;
                 case "null":
-                    $type = PDO::PARAM_NULL;
-                    break;
+                $type = PDO::PARAM_NULL;
+                break;
                 default:
-                    $type = PDO::PARAM_STR;
-                    break;
+                $type = PDO::PARAM_STR;
+                break;
             }
             $this->bindParam(':' . $key, $data[$key], $type);
         }
@@ -59,6 +59,26 @@ class mzzPdoStatement extends PDOStatement
     public function fetch($how = PDO::FETCH_ASSOC, $orientation = PDO::FETCH_ORI_NEXT, $offset = PDO::FETCH_ORI_ABS)
     {
         return parent::fetch($how, $orientation, $offset);
+    }
+
+    /**
+     * јльтернатива стандартному PDOStatement::execute
+     *
+     * ¬ случае удачного insert возвращает id последней вставленно записи
+     * ¬ противном случае - результат выполнени€ запроса
+     *
+     * @param array $parameters в мануале не продокументированные параметры ?!
+     * @return integer|boolean id последней записи или результат выполнени€ запроса
+     */
+    public function execute($parameters = array())
+    {
+        $result = parent::execute($parameters);
+
+        $db = DB::factory();
+
+        $lastInsertId = $db->lastInsertId();
+
+        return (!$result || !$lastInsertId) ? $result : $lastInsertId;
     }
 }
 

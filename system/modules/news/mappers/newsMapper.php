@@ -41,31 +41,31 @@ class newsMapper
 
     protected function insert($news)
     {
-        $stmt = $this->db->prepare('INSERT INTO `:table` (`title`, `text`, `folder_id`, `created`, `updated`) VALUES (:title, :text, :fodler_id, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())');
-        $stmt->bindParam(':table', $this->table);
+        $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (`title`, `text`, `folder_id`, `created`, `updated`) VALUES (:title, :text, :folder_id, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())');
         $stmt->bindParam(':title', $news->getTitle());
         $stmt->bindParam(':text', $news->getText());
         $stmt->bindParam(':folder_id', $news->getFolderId(), PDO::PARAM_INT);
 
-        return $stmt->execute();
+        $id = $stmt->execute();
+        $news->setId($id);
+
         /*
         $map = $this->getMap();
         $field_names = array_keys($map);
 
         foreach ($field_names as $fieldname) {
-            $getprop = $map[$fieldname]['accessor'];
-            $data[$fieldname] = $news->$getprop();
+        $getprop = $map[$fieldname]['accessor'];
+        $data[$fieldname] = $news->$getprop();
         }
 
         if(($id = $this->db->autoExecute($this->table, $data))) {
-            $news->setId($id);
+        $news->setId($id);
         }*/
     }
 
     protected function update($news)
     {
-        $stmt = $this->db->prepare('UPDATE  `:table` SET `title`= :title, `text`= :text, `folder_id` = :folder_id,  `updated`= UNIX_TIMESTAMP() WHERE `id` = :id');
-        $stmt->bindParam(':table', $this->table);
+        $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET `title`= :title, `text`= :text, `folder_id` = :folder_id,  `updated`= UNIX_TIMESTAMP() WHERE `id` = :id');
         $stmt->bindParam(':id', $news->getId(), PDO::PARAM_INT);
         $stmt->bindParam(':title', $news->getTitle());
         $stmt->bindParam(':text', $news->getText());
@@ -78,8 +78,8 @@ class newsMapper
         $field_names = array_keys($map);
 
         foreach ($field_names as $fieldname) {
-            $getprop = $map[$fieldname]['accessor'];
-            $data[$fieldname] = $news->$getprop();
+        $getprop = $map[$fieldname]['accessor'];
+        $data[$fieldname] = $news->$getprop();
         }
 
         return $this->db->autoExecute($this->table, $data, PDO_AUTOQUERY_UPDATE, "`id` = :id");*/
