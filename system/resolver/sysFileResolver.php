@@ -21,11 +21,11 @@ class sysFileResolver extends fileResolver
 {
     /**
      * конструктор
-     * 
+     *
      */
     public function __construct()
     {
-        parent::__construct(systemConfig::$pathToSystem . '*');
+        parent::__construct(systemConfig::$pathToSystem . '/*');
     }
 }
 

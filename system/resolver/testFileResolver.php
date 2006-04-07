@@ -25,7 +25,7 @@ class testFileResolver extends fileResolver
      */
     public function __construct()
     {
-        parent::__construct(systemConfig::$pathToApplication  . '*');
+        parent::__construct(systemConfig::$pathToApplication  . '/*');
     }
 }
 

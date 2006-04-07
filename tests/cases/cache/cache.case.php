@@ -17,7 +17,7 @@ class cacheTest extends unitTestCase
 
     public function testCache()
     {
-        $id = systemConfig::$pathToTemp . 'test_cache.ini';
+        $id = systemConfig::$pathToTemp . '/test_cache.ini';
         $content = "[section1]\r\noption1 = value1\r\noption2 = value2\r\n";
 
         $file = new SplFileObject($id, "w");

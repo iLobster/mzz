@@ -31,7 +31,7 @@ class RewriteTest extends unitTestCase
             	</test>
             </rules>';
 
-        $this->filepath = systemConfig::$pathToTemp . 'simple_rewrite.xml';
+        $this->filepath = systemConfig::$pathToTemp . '/simple_rewrite.xml';
         file_put_contents($this->filepath, $xml);
     }
 

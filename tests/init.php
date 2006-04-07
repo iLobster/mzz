@@ -9,12 +9,12 @@ function simpletest_error_handler($errno, $errstr, $errfile, $errline) {
 }
 
 require_once dirname(__FILE__)  . '/config.php';
-require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
-require_once systemConfig::$pathToSystem . 'version.php';
+require_once systemConfig::$pathToSystem . '/core/fileLoader.php';
+require_once systemConfig::$pathToSystem . '/version.php';
 
-require_once systemConfig::$pathToSystem . 'resolver/init.php';
-require_once systemConfig::$pathToSystem . 'resolver/casesFileResolver.php';
-require_once systemConfig::$pathToSystem . 'resolver/testFileResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/init.php';
+require_once systemConfig::$pathToSystem . '/resolver/casesFileResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/testFileResolver.php';
 
 $baseresolver = new compositeResolver();
 $baseresolver->addResolver(new sysFileResolver());
@@ -58,7 +58,7 @@ fileLoader::load('cache');
 
 
 $toolkit = systemToolkit::getInstance();
-$toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
+$toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . '/common.ini')));
 
 $toolkit->getTimer();
 

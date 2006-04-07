@@ -20,7 +20,7 @@
  * @version 0.1
  */
 
-require_once systemConfig::$pathToSystem  . 'resolver/partialFileResolver.php';
+require_once systemConfig::$pathToSystem  . '/resolver/partialFileResolver.php';
 
 class casesFileResolver extends partialFileResolver
 {

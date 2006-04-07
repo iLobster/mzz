@@ -52,7 +52,7 @@ class sectionMapperTest extends unitTestCase
             <action name="foo">test.foo</action>
           </test>
         </mapps>';
-        $this->filepath = systemConfig::$pathToTemp . 'map.xml';
+        $this->filepath = systemConfig::$pathToTemp . '/map.xml';
         file_put_contents($this->filepath, $xml);
     }
 

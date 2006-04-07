@@ -16,14 +16,14 @@ define('DEBUG_MODE', 1);
 
 require_once(SYSTEM_PATH . 'systemConfig.php');
 
-systemConfig::$pathToApplication = dirname(__FILE__) . '/';
-systemConfig::$pathToTemp = dirname(__FILE__) . '/../tmp/';
-systemConfig::$pathToConf = dirname(__FILE__) . '/configs/';
+systemConfig::$pathToApplication = dirname(__FILE__) . '';
+systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../tmp');
+systemConfig::$pathToConf = dirname(__FILE__) . '/configs';
 systemConfig::$pdoOptions = array();
 systemConfig::init();
 
 // в будущем перенести надо куда нить?
-$inc_path = ini_get('include_path') . PATH_SEPARATOR . systemConfig::$pathToSystem  . 'libs/PEAR/';
+$inc_path = ini_get('include_path') . PATH_SEPARATOR . systemConfig::$pathToSystem  . '/libs/PEAR/';
 ini_set('include_path', $inc_path);
 
 

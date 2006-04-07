@@ -50,7 +50,7 @@ final class cachingResolver extends decoratingResolver
     public function __construct(iResolver $resolver)
     {
         // задаём имя файла, в котором будет хранится кэш
-        $filename = systemConfig::$pathToTemp . 'resolver.cache';
+        $filename = systemConfig::$pathToTemp . '/resolver.cache';
         $mode = file_exists($filename) ? "r+" : "w";
         $this->cache_file = new SplFileObject($filename, $mode);
         // если файл существует - читаем его содержимое и десериализуем его в массив

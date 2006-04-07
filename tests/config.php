@@ -21,8 +21,8 @@ define('TEST_PATH',  realpath(SYSTEM_PATH . '/../tests'));
 
 require_once(SYSTEM_PATH . '/systemConfig.php');
 
-systemConfig::$pathToApplication = dirname(__FILE__) . '/';
-systemConfig::$pathToTemp = systemConfig::$pathToApplication . 'tmp/';
-systemConfig::$pathToConf = systemConfig::$pathToApplication . 'configs/';
+systemConfig::$pathToApplication = dirname(__FILE__);
+systemConfig::$pathToTemp = systemConfig::$pathToApplication . '/tmp';
+systemConfig::$pathToConf = systemConfig::$pathToApplication . '/configs';
 systemConfig::init();
 ?>

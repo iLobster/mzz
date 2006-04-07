@@ -55,7 +55,7 @@ class systemConfig {
      */
     public static function init()
     {
-        self::$pathToSystem = dirname(__FILE__) . '/';
+        self::$pathToSystem = dirname(__FILE__);
     }
 }
 

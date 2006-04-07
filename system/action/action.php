@@ -106,7 +106,7 @@ class action
     protected function getActionsConfig()
     {
         if(empty($this->actions)) {
-            $path = systemConfig::$pathToSystem . 'modules/' . $this->module . '/actions/';
+            $path = systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/';
             foreach(new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
                 $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
                 $type = substr($iterator->getFilename(), 0, strlen($iterator->getFilename()) - 4);

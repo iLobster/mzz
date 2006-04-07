@@ -25,7 +25,7 @@ class cache
 
     public function __construct($cache_path)
     {
-        $this->cachePath = $cache_path;
+        $this->cachePath = $cache_path . '/';
     }
 
     public function get($id)

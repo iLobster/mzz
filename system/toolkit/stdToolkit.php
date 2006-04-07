@@ -87,9 +87,9 @@ class stdToolkit extends toolkit
         if(empty($this->smarty)) {
             fileLoader::load('template/mzzSmarty');
             $this->smarty = new mzzSmarty();
-            $this->smarty->template_dir  = systemConfig::$pathToApplication . 'templates';
-            $this->smarty->compile_dir   = systemConfig::$pathToTemp . 'templates_c';
-            $this->smarty->plugins_dir[] = systemConfig::$pathToSystem . 'template/plugins';
+            $this->smarty->template_dir  = systemConfig::$pathToApplication . '/templates';
+            $this->smarty->compile_dir   = systemConfig::$pathToTemp . '/templates_c';
+            $this->smarty->plugins_dir[] = systemConfig::$pathToSystem . '/template/plugins';
             $this->smarty->debugging = DEBUG_MODE;
         }
         return $this->smarty;

@@ -26,8 +26,8 @@ class core
     {
         try {
 
-            require_once systemConfig::$pathToSystem . 'resolver/init.php';
-            require_once systemConfig::$pathToSystem . 'core/fileLoader.php';
+            require_once systemConfig::$pathToSystem . '/resolver/init.php';
+            require_once systemConfig::$pathToSystem . '/core/fileLoader.php';
 
             $baseresolver = new compositeResolver();
             $baseresolver->addResolver(new sysFileResolver());
@@ -64,7 +64,7 @@ class core
             fileLoader::load('cache');
 
             $toolkit = systemToolkit::getInstance();
-            $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . 'common.ini')));
+            $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . '/common.ini')));
 
             $response = $toolkit->getResponse();
             $request = $toolkit->getRequest();

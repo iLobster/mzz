@@ -23,7 +23,7 @@ class cachingResolverTest extends unitTestCase
     {
         $this->mock = new mocktestCaseFileResolver();
         $this->createResolver();
-        $this->cacheFile = systemConfig::$pathToTemp . 'resolver.cache';
+        $this->cacheFile = systemConfig::$pathToTemp . '/resolver.cache';
     }
 
     public function tearDown()
