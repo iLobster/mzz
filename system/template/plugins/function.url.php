@@ -41,7 +41,7 @@ function smarty_function_url($params, $smarty)
         $url->addParam($params['params']);
     }
 
-    return $url->getFull();
+    return $url->get();
 }
 
 ?>

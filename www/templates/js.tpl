@@ -1,1 +1,1 @@
-<script type="text/javascript" src="/templates/{$filename}"></script>
+<script type="text/javascript" src="{$smarty.const.SITE_PATH}/templates/{$filename}"></script>

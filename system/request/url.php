@@ -53,8 +53,9 @@ class url
      * Возвращает сгенерированный URL
      *
      * @return string
+     * @deprecated
      */
-    public function get()
+    public function old_get()
     {
         if(empty($this->section)) {
             $this->setSection($this->getCurrentSection());
@@ -73,12 +74,16 @@ class url
      *
      * @return string
      */
-    public function getFull()
+    public function get()
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
         $protocol = $request->isSecure() ? 'https' : 'http';
-        $address = $protocol . '://' . $request->get('HTTP_HOST', SC_SERVER);
+        if(defined('SITE_PATH')) {
+            $address = SITE_PATH;
+        } else {
+            $address = $protocol . '://' . $request->get('HTTP_HOST', SC_SERVER);
+        }
 
         if(empty($this->section)) {
             $this->setSection($this->getCurrentSection());

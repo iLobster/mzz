@@ -4,9 +4,12 @@
 <head>
 <title>{$title}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+
+{if isset($css) }
 {foreach from=$css item=cssfile}
 {include file=$cssfile.tpl filename=$cssfile.file}
 {/foreach}
+{/if}
 
 {if isset($js) }
 {foreach from=$js item=jsfile}
