@@ -79,11 +79,8 @@ class url
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
         $protocol = $request->isSecure() ? 'https' : 'http';
-        if(defined('SITE_PATH')) {
-            $address = SITE_PATH;
-        } else {
-            $address = $protocol . '://' . $request->get('HTTP_HOST', SC_SERVER);
-        }
+
+        $address = $protocol . '://' . $request->get('HTTP_HOST', SC_SERVER) . SITE_PATH;
 
         if(empty($this->section)) {
             $this->setSection($this->getCurrentSection());

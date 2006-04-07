@@ -37,6 +37,20 @@ class news
         }
     }
 
+    public function setCreated($created)
+    {
+        if ($this->fields->exists('created') == false) {
+            $this->fields->set('created', $created);
+        }
+    }
+
+    public function setUpdated($updated)
+    {
+        if ($this->fields->exists('updated') == false) {
+            $this->fields->set('updated', $updated);
+        }
+    }
+
     public function getCreated()
     {
         /*$created = $this->fields->get('created');

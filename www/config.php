@@ -11,7 +11,15 @@
 //
 
 define('SYSTEM_PATH',  '../system/');
+
+/**
+ * Additional adress
+ * True: /site1
+ * False: site1, site1/, /site1/
+ *
+ */
 define('SITE_PATH', '');
+
 define('DEBUG_MODE', 1);
 
 require_once(SYSTEM_PATH . 'systemConfig.php');
