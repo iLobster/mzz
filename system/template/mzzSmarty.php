@@ -94,7 +94,7 @@ class mzzSmarty extends Smarty
     {
         $params = $this->parse($template);
 
-        if(CATCH_TPL_RECURSION == true && isset($this->fetchedTemplates[$params['main']])) {
+        if(isset($this->fetchedTemplates[$params['main']])) {
             $error = "Detected recursion. Recursion template: %s. <br> All: <pre>%s</pre>";
             throw new mzzRuntimeException(sprintf($error, $params['main'], print_r($this->fetchedTemplates, true)));
         }

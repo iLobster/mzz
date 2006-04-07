@@ -92,7 +92,7 @@ class mzzException extends Exception
 
         if(DEBUG_MODE) {
             $msg = $this->getName() . ". Thrown in file " . $this->getFile() . ' (Line: ' . $this->getLine() . ') ';
-            $msg .= "with message: <b>";
+            $msg .= "with message: <br /><b>";
             if($this->getCode() != 0) {
                 $msg .= "[Code: " . $this->getCode() . "] ";
             }
@@ -130,7 +130,7 @@ class mzzException extends Exception
             }
             $trace_msg .= '</div>';
 
-            $html .= '<b>Debug-mode включен</b>:<br />' . $trace_msg . '<br /><br />';
+            $html .= 'Debug-mode включен:<br />' . $trace_msg . '<br /><br />';
 
             $html .= '<div style="float: left; margin-right: 15%; font-size: 90%;">';
             $html .= '<strong>SAPI:</strong> ' . php_sapi_name() . '<br />';
@@ -139,7 +139,7 @@ class mzzException extends Exception
             $html .= '<strong>PHP:</strong> ' . PHP_VERSION . ' on ' . PHP_OS . '<br />';
             $html .= '<strong>Версия CMS:</strong> ' . MZZ_VERSION . ' (Rev. ' . MZZ_VERSION_REVISION . ') </div>';
         } else {
-            $html .= '<b>Debug-mode выключен</b>.';
+            $html .= '<strong>Debug-mode выключен</strong>.';
         }
         $html .= $this->getHtmlFooter();
         echo $html;
