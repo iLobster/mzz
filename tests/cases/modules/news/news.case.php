@@ -12,10 +12,12 @@ class newsTest extends unitTestCase
     public function setUp()
     {
         $map = array(
-        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
-        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId')
+        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'),
+        'created' => array ('name' => 'created', 'accessor' => 'getCreated', 'mutator' => 'setCreated', 'once' => 'true' ),
+        'updated' => array ('name' => 'updated', 'accessor' => 'getUpdated', 'mutator' => 'setUpdated', 'once' => 'true' ),
         );
 
         $this->news = new news($map);
@@ -65,18 +67,25 @@ class newsTest extends unitTestCase
         $this->assertNull($this->news->getId());
     }
 
-    public function testIdOneTime()
+    public function testFieldsSetsOnce()
     {
-        $id = '2';
-        $this->news->setId($id);
+        foreach(array('Id', 'Created', 'Updated') as $val) {
+            $setter = 'set' . $val;
+            $getter = 'get' . $val;
 
-        $this->assertIdentical($this->news->getId(), $id);
 
-        $id2 = '5';
-        $this->assertNotEqual($id, $id2);
+            $first = '2';
 
-        $this->news->setId($id2);
-        $this->assertIdentical($this->news->getId(), $id);
+            $this->news->$setter($first);
+
+            $this->assertIdentical($this->news->$getter(), $first);
+
+            $second = '5';
+            $this->assertNotEqual($second, $first);
+
+            $this->news->$setter($second);
+            $this->assertIdentical($this->news->$getter(), $first);
+        }
     }
 }
 

@@ -29,33 +29,33 @@ class news
         $this->fields = new arrayDataspace($this->fields);
         //$this->enableDataspaceFilter();
     }
-
+    /*
     public function setId($id)
     {
-        if ($this->fields->exists('id') == false) {
-            $this->fields->set('id', $id);
-        }
+    if ($this->fields->exists('id') == false) {
+    $this->fields->set('id', $id);
     }
-
+    } */
+    /*
     public function setCreated($created)
     {
-        if ($this->fields->exists('created') == false) {
-            $this->fields->set('created', $created);
-        }
+    if ($this->fields->exists('created') == false) {
+    $this->fields->set('created', $created);
+    }
     }
 
     public function setUpdated($updated)
     {
-        if ($this->fields->exists('updated') == false) {
-            $this->fields->set('updated', $updated);
-        }
+    if ($this->fields->exists('updated') == false) {
+    $this->fields->set('updated', $updated);
     }
+    }*/
 
     public function getCreated()
     {
         /*$created = $this->fields->get('created');
         if (empty($created)) {
-            $this->fields->set('created', time());
+        $this->fields->set('created', time());
         }*/
         return $this->fields->get('created');
     }
@@ -64,7 +64,7 @@ class news
     {
         /*$updated = $this->fields->get('updated');
         if (empty($updated)) {
-            $this->fields->set('updated', time());
+        $this->fields->set('updated', time());
         }*/
         return $this->fields->get('updated');
     }
@@ -75,7 +75,9 @@ class news
             if ('get' == $match[1]) {
                 return $this->fields->get($attribute);
             } else {
-                $this->fields->set($attribute, $args[0]);
+                if ( (isset($this->map[$attribute]['once']) && $this->map[$attribute]['once'] && $this->fields->exists($attribute) == false) || (isset($this->map[$attribute]['once']) && !$this->map[$attribute]['once']) || (!isset($this->map[$attribute]['once'])) ) {
+                    $this->fields->set($attribute, $args[0]);
+                }
             }
         } else {
             throw new Exception('Вызов неопределённого метода ' . __CLASS__ . '::' . $name . '()');
