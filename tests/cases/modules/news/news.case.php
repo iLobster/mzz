@@ -73,7 +73,6 @@ class newsTest extends unitTestCase
             $setter = 'set' . $val;
             $getter = 'get' . $val;
 
-
             $first = '2';
 
             $this->news->$setter($first);
