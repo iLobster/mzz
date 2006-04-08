@@ -35,7 +35,7 @@ class news
             if ('get' == $match[1]) {
                 return $this->fields->get($attribute);
             } else {
-                if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute)) {
+                if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute) ) {
                     $this->fields->set($attribute, $args[0]);
                 }
             }
@@ -58,7 +58,8 @@ class news
         }
     }
 
-    public function getJip() {
+    public function getJip()
+    {
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getAction('news');
 
