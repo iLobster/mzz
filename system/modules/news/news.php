@@ -75,13 +75,18 @@ class news
             if ('get' == $match[1]) {
                 return $this->fields->get($attribute);
             } else {
-                if ( (isset($this->map[$attribute]['once']) && $this->map[$attribute]['once'] && $this->fields->exists($attribute) == false) || (isset($this->map[$attribute]['once']) && !$this->map[$attribute]['once']) || (!isset($this->map[$attribute]['once'])) ) {
+                if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute)) {
                     $this->fields->set($attribute, $args[0]);
                 }
             }
         } else {
             throw new Exception('Вызов неопределённого метода ' . __CLASS__ . '::' . $name . '()');
         }
+    }
+
+    protected function isOnce($attribute)
+    {
+        return isset($this->map[$attribute]['once']) && $this->map[$attribute]['once'];
     }
 
     private  function validateAttribute($name)
