@@ -17,7 +17,7 @@
  */
 
 class newsEditForm {
-    static function getForm($news)
+    static function getForm($news, $section)
     {
         require_once 'HTML/QuickForm.php';
         require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
@@ -25,7 +25,7 @@ class newsEditForm {
         // Следующая строка здесь не к месту ???
         //$data = $tableModule->getNews($params[0]);
 
-        $form = new HTML_QuickForm('form', 'POST');
+        $form = new HTML_QuickForm('form', 'POST', '/' . $section . '/' . $news->getId() . '/edit');
         $defaultValues = array();
         $defaultValues['title']  = $news->getTitle();
         $defaultValues['text']  = $news->getText();
@@ -33,8 +33,11 @@ class newsEditForm {
 
         $form->addElement('text', 'title', 'Имя:', 'size=30');
         $form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');
+
+        /*
         $form->addElement('hidden', 'path', '/news/edit');
-        $form->addElement('hidden', 'id', $news->getId());
+        $form->addElement('hidden', 'id', $news->getId());*/
+
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: window.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;

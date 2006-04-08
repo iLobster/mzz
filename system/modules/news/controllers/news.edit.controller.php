@@ -39,7 +39,7 @@ class newsEditController
         }
         $news = $newsMapper->searchById($id);
 
-        $form = newsEditForm::getForm($news);
+        $form = newsEditForm::getForm($news, $httprequest->getSection());
 
         if($form->validate() == false) {
             $view = new newsEditView($news, $form);
