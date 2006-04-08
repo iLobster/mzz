@@ -1,5 +1,4 @@
 <form {$form.attributes}>
-{* {$form.hidden} *}
 <table border="0" cellpadding="0" cellspacing="1" width="50%">
     <tr>
         <td><b>ID:</b> {$news->getId()}</td>

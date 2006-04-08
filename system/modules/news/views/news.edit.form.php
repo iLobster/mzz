@@ -16,14 +16,19 @@
  * @version 0.1
  */
 
-class newsEditForm {
+class newsEditForm
+{
+    /**
+     * метод получения формы
+     *
+     * @param object $news объект новостей
+     * @param string $section текущая секция
+     * @return object сгенерированная форма
+     */
     static function getForm($news, $section)
     {
         require_once 'HTML/QuickForm.php';
         require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
-
-        // Следующая строка здесь не к месту ???
-        //$data = $tableModule->getNews($params[0]);
 
         $form = new HTML_QuickForm('form', 'POST', '/' . $section . '/' . $news->getId() . '/edit');
         $defaultValues = array();
@@ -33,10 +38,6 @@ class newsEditForm {
 
         $form->addElement('text', 'title', 'Имя:', 'size=30');
         $form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');
-
-        /*
-        $form->addElement('hidden', 'path', '/news/edit');
-        $form->addElement('hidden', 'id', $news->getId());*/
 
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: window.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
