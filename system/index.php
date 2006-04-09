@@ -1,7 +1,7 @@
 <?php
 
 if(!file_exists(systemConfig::$pathToTemp . '/checked')) {
-    include(systemConfig::$pathToSystem  . 'check.php');
+    include(systemConfig::$pathToSystem  . '/check.php');
 }
 
 require_once systemConfig::$pathToSystem  . '/version.php';
