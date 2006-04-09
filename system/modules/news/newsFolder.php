@@ -34,9 +34,9 @@ class newsFolder
 
 
     /**
-     * __call метод. Если метод не определен в классе, проверяет существует $name
+     * __call метод. Если метод не определен в классе, проверяет существует ли $name
      * в информации о полях и возвращает значение поля, имя которого передано в
-     * аргументе и устанавливает значение для этого поля если метод имеет префикс 'set'
+     * аргументе. Устанавливает значение для этого поля если метод имеет префикс 'set'
      * и получает если 'get' иначе бросает исключение
      *
      *
@@ -102,16 +102,6 @@ class newsFolder
             $this->fields->set('items', $this->mapper->getItems($this->getId()));
         }
         return $this->fields->get('items');
-    }
-
-    private function setItems($items)
-    {
-        $this->fields->set('items', $items);
-    }
-
-    private function setFolders($folders)
-    {
-        $this->fields->set('folders', $folders);
     }
 }
 
