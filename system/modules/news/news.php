@@ -17,39 +17,86 @@ fileLoader::load('dataspace/changeableDataspaceFilter');
 // перенести!!
 fileLoader::load('jip/jip');
 
+/**
+ * news: news
+ *
+ * @package news
+ * @version 0.1
+ */
+
 class news
 {
+    /**
+     * Поля
+     *
+     * @var array
+     */
     protected $fields = array();
-    protected $map;
-    protected $filtered = false;
 
-    public function __construct($map)
+    /**
+     * Map. Содержит информацию о полях (метод изменения, метод получения...).
+     *
+     * @var array
+     */
+    protected $map;
+
+    /**
+     * Конструктор.
+     *
+     * @param array $map массив, содержащий информацию о полях
+     */
+    public function __construct(Array $map)
     {
         $this->map = $map;
         $this->fields = new arrayDataspace($this->fields);
     }
 
+    /**
+     * __call метод. Если метод не определен в классе, проверяет существует $name
+     * в информации о полях и возвращает значение поля, имя которого передано в
+     * аргументе и устанавливает значение для этого поля если метод имеет префикс 'set'
+     * и получает если 'get' иначе бросает исключение
+     *
+     *
+     * @param string $name имя метода
+     * @param array $args аргументы
+     * @return mixed
+     */
     public function __call($name, $args)
     {
         if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($name)) {
             if ('get' == $match[1]) {
                 return $this->fields->get($attribute);
             } else {
+                // Устанавливает значение только в том случае, если значение
+                // поля не установлено ранее или оно может изменяться более одного раза
                 if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute) ) {
                     $this->fields->set($attribute, $args[0]);
                 }
             }
         } else {
-            throw new Exception('Вызов неопределённого метода ' . __CLASS__ . '::' . $name . '()');
+            throw new mzzRuntimeException('Вызов неопределённого метода ' . __CLASS__ . '::' . $name . '()');
         }
     }
 
+    /**
+     * Проверяет может ли поле изменяться более одного раза
+     *
+     * @param string $attribute
+     * @return boolean false если может изменяться более одного раза, true только один раз
+     */
     protected function isOnce($attribute)
     {
         return isset($this->map[$attribute]['once']) && $this->map[$attribute]['once'];
     }
 
-    private  function validateAttribute($name)
+    /**
+     * Возвращает имя поля если существует метод $name в информации о полях
+     *
+     * @param string $name
+     * @return string
+     */
+    private function validateAttribute($name)
     {
         foreach ($this->map as $key => $val) {
             if (($val['accessor'] == $name) || ($val['mutator'] == $name)) {
@@ -58,6 +105,11 @@ class news
         }
     }
 
+    /**
+     * Получение объекта JIP
+     *
+     * @return jip
+     */
     public function getJip()
     {
         $toolkit = systemToolkit::getInstance();

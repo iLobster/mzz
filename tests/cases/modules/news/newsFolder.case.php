@@ -13,7 +13,7 @@ class newsFolderTest extends unitTestCase
     public function setUp()
     {
         $map = array(
-        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId'),
+        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'name' => array ('name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
         'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent')
         );
@@ -89,18 +89,24 @@ class newsFolderTest extends unitTestCase
         $this->assertNull($this->newsFolder->getId());
     }
 
-    public function testIdOneTime()
+    public function testFieldsSetsOnce()
     {
-        $id = '2';
-        $this->newsFolder->setId($id);
+        foreach(array('Id') as $val) {
+            $setter = 'set' . $val;
+            $getter = 'get' . $val;
 
-        $this->assertIdentical($this->newsFolder->getId(), $id);
+            $first = '2';
 
-        $id2 = '5';
-        $this->assertNotEqual($id, $id2);
+            $this->newsFolder->$setter($first);
 
-        $this->newsFolder->setId($id2);
-        $this->assertIdentical($this->newsFolder->getId(), $id);
+            $this->assertIdentical($this->newsFolder->$getter(), $first);
+
+            $second = '5';
+            $this->assertNotEqual($second, $first);
+
+            $this->newsFolder->$setter($second);
+            $this->assertIdentical($this->newsFolder->$getter(), $first);
+        }
     }
 }
 

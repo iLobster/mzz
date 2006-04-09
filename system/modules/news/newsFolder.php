@@ -10,6 +10,13 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+/**
+ * newsFolder: newsFolder
+ *
+ * @package news
+ * @version 0.1
+ */
+
 class newsFolder
 {
     protected $fields = array();
@@ -25,26 +32,52 @@ class newsFolder
         $this->fields = new arrayDataspace($this->fields);
     }
 
-    public function setId($id)
-    {
-        if ($this->fields->exists('id') == false) {
-            $this->fields->set('id', $id);
-        }
-    }
 
+    /**
+     * __call метод. ≈сли метод не определен в классе, провер€ет существует $name
+     * в информации о пол€х и возвращает значение пол€, им€ которого передано в
+     * аргументе и устанавливает значение дл€ этого пол€ если метод имеет префикс 'set'
+     * и получает если 'get' иначе бросает исключение
+     *
+     *
+     * @param string $name им€ метода
+     * @param array $args аргументы
+     * @return mixed
+     */
     public function __call($name, $args)
     {
         if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($name)) {
             if ('get' == $match[1]) {
                 return $this->fields->get($attribute);
             } else {
-                $this->fields->set($attribute, $args[0]);
+                // ”станавливает значение только в том случае, если значение
+                // пол€ не установлено ранее или оно может измен€тьс€ более одного раза
+                if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute) ) {
+                    $this->fields->set($attribute, $args[0]);
+                }
             }
         } else {
-            throw new Exception('¬ызов неопределЄнного метода ' . __CLASS__ . '::' . $name . '()');
+            throw new mzzRuntimeException('¬ызов неопределЄнного метода ' . __CLASS__ . '::' . $name . '()');
         }
     }
 
+    /**
+     * ѕровер€ет может ли поле измен€тьс€ более одного раза
+     *
+     * @param string $attribute
+     * @return boolean false если может измен€тьс€ более одного раза, true только один раз
+     */
+    protected function isOnce($attribute)
+    {
+        return isset($this->map[$attribute]['once']) && $this->map[$attribute]['once'];
+    }
+
+    /**
+     * ¬озвращает им€ пол€ если существует метод $name в информации о пол€х
+     *
+     * @param string $name
+     * @return string
+     */
     private  function validateAttribute($name)
     {
         foreach ($this->map as $key => $val) {
