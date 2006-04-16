@@ -7,4 +7,4 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 #Uncomment next line if you want no rewrite exists folders
 #RewriteCond %{SCRIPT_FILENAME} !-d
 
-RewriteRule (.*)? index.php?path=/$1&%{QUERY_STRING} [L]
+RewriteRule (.*) index.php?path=/$1&%{QUERY_STRING} [L]
