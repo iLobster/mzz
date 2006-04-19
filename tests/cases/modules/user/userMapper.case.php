@@ -32,7 +32,7 @@ class userMapperTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `user_users`');
+        $this->db->query('TRUNCATE TABLE `user_user`');
         //$this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
     }
 
@@ -89,7 +89,7 @@ class userMapperTest extends unitTestCase
 
         $user2 = $this->mapper->searchById(1);
         $this->assertEqual($user2->getLogin(), $login);
-        $this->assertEqual($user2->getPaaword(), $password);
+        $this->assertEqual($user2->getPassword(), $password);
     }
 
     public function testDelete()
@@ -106,7 +106,7 @@ class userMapperTest extends unitTestCase
 
     private function countUsers()
     {
-        $query = 'SELECT COUNT(*) AS `total` FROM `user_users`';
+        $query = 'SELECT COUNT(*) AS `total` FROM `user_user`';
         $total = $this->db->getOne($query);
         return $total;
     }

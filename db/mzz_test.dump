@@ -43,3 +43,16 @@ CREATE TABLE `news_news_tree` (
   `parent` int(11) default '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_user` table : 
+#
+
+DROP TABLE IF EXISTS `user_user`;
+
+CREATE TABLE `user_user` (
+  `id` int(11) NOT NULL auto_increment,
+  `login` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
