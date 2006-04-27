@@ -141,8 +141,10 @@ class userMapper
         $row = $stmt->fetch();
 
         if ($row) {
+            $_SESSION['user_id'] = $row['id'];
             return $this->createUserFromRow($row);
         } else {
+            $_SESSION['user_id'] = 0;
             return false;
         }
     }
