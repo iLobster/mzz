@@ -38,7 +38,7 @@ class userMapperTest extends unitTestCase
 
     public function testSave()
     {
-        $user = new user($this->map);
+        $user = new user($this->mapper, $this->map);
         $user->setLogin('somelogin');
         $user->setPassword('somepasswd');
 
@@ -78,7 +78,7 @@ class userMapperTest extends unitTestCase
         $user = $this->mapper->searchById(1);
 
         $this->assertEqual($user->getLogin(), 'login1');
-        $this->assertEqual($user->getPassword(), 'passwd1');
+        $this->assertEqual($user->getPassword(), md5('passwd1'));
 
         $login = 'newlogin';
         $password = 'newpassword';
@@ -104,6 +104,28 @@ class userMapperTest extends unitTestCase
         $this->assertEqual(3, $this->countUsers());
     }
 
+    public function testLogin()
+    {
+        $this->fixture($this->mapper, $this->map);
+
+        $user = $this->mapper->login('login1', 'passwd1');
+
+        $this->assertEqual($user->getId(), 1);
+        $this->assertEqual($user->getLogin(), 'login1');
+    }
+
+    public function testLoginFalse()
+    {
+        $this->fixture($this->mapper, $this->map);
+
+        $user = $this->mapper->login('not_exists_login', 'any_password');
+
+        $this->assertFalse($user);
+    }
+
+
+
+
     private function countUsers()
     {
         $query = 'SELECT COUNT(*) AS `total` FROM `user_user`';
@@ -114,9 +136,9 @@ class userMapperTest extends unitTestCase
     private function fixture($mapper, $map)
     {
         for($i = 1; $i <= 4; $i++) {
-            $user = new user($map);
+            $user = new user($this->mapper, $map);
             $user->setLogin('login' . $i);
-            $user->setPassword('passwd' . $i);
+            $user->setPassword(md5('passwd' . $i));
             $mapper->save($user);
         }
     }

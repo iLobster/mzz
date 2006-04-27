@@ -8,6 +8,7 @@ Mock::generate('userMapper');
 class userTest extends unitTestCase
 {
     private $user;
+    private $db;
 
     public function setUp()
     {
@@ -17,7 +18,8 @@ class userTest extends unitTestCase
         'password' => array ('name' => 'password', 'accessor' => 'getPassword', 'mutator' => 'setPassword'),
         );
 
-        $this->user = new user($map);
+        $mapper = new mockuserMapper('news');
+        $this->user = new user($mapper, $map);
     }
 
     public function testAccessorsAndMutators()

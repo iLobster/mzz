@@ -35,13 +35,16 @@ class user
      */
     protected $map;
 
+    protected $mapper;
+
     /**
      * Конструктор.
      *
      * @param array $map массив, содержащий информацию о полях
      */
-    public function __construct(Array $map)
+    public function __construct($mapper, Array $map)
     {
+        $this->mapper = $mapper;
         $this->map = $map;
         $this->fields = new arrayDataspace($this->fields);
     }

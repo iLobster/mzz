@@ -36,7 +36,7 @@ class userMapper
 
     public function create()
     {
-        return new user($this->getMap());
+        return new user($this, $this->getMap());
     }
 
     protected function insert($user)
@@ -103,7 +103,7 @@ class userMapper
 
     public function searchById($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE id = :id");
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `id` = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -118,8 +118,24 @@ class userMapper
 
     public function searchByLogin($login)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE login = :login");
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `login` = :login");
         $stmt->bindParam(':login', $login);
+        $stmt->execute();
+
+        $row = $stmt->fetch();
+
+        if ($row) {
+            return $this->createUserFromRow($row);
+        } else {
+            return false;
+        }
+    }
+
+    public function login($login, $password)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `login` = :login AND `password` = :password");
+        $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':password', md5($password));
         $stmt->execute();
 
         $row = $stmt->fetch();
@@ -140,7 +156,7 @@ class userMapper
         $fields->addReadFilter('created', $dateFilter);
         $fields->addReadFilter('updated', $dateFilter);*/
 
-        $user = new user($map);
+        $user = new user($this, $map);
 
         foreach($map as $key => $field) {
             $setprop = $field['mutator'];
