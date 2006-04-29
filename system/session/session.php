@@ -1,10 +1,11 @@
 <?php
-// выдохся :( доделай, если не лень :)
+
 class session
 {
 
     function get($name)
     {
+        return (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
     }
 
     function set($name, $value)
@@ -22,7 +23,6 @@ class session
     function destroy($name)
     {
     }
-
 }
 
 ?>

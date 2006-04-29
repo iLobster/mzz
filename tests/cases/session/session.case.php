@@ -12,7 +12,7 @@ class sessionTest extends unitTestCase
     {
         $this->session = new Session();
 
-	if(isset($_SESSION)) {
+        if(isset($_SESSION)) {
             $this->_old_session_data = $_SESSION;
         } else {
             $this->_old_session_data = array();
@@ -35,12 +35,9 @@ class sessionTest extends unitTestCase
     public function testGet()
     {
         $this->fixture();
-        $this->assertEqual($this->session->get('key_first'), "value_first");
-        $this->assertEqual($this->session->get('key_main'), "value_main");
+        $this->assertEqual($this->session->get('key_first'), 'value_first');
+        $this->assertEqual($this->session->get('key_main'), 'value_main');
     }
-
-  
-
 }
 
 ?>
