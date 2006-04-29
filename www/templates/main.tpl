@@ -23,6 +23,7 @@
 <br />
 {$content}
 <br />
+{load module="user" action="login"}
 {load module="timer" action="view"}
 </body>
 </html>

@@ -1,12 +1,9 @@
 <form {$form.attributes}>
-<table border="0" cellpadding="0" cellspacing="1" width="50%">
+<table border="0" cellpadding="0" cellspacing="1" width="70%">
     <tr>
         <td colspan="2">{$form.login.label} {$form.login.html}</td>
-    </tr>
-    <tr>
         <td colspan="2">{$form.password.label} {$form.password.html}</td>
-    </tr>
-    <tr>
+
         <td>{$form.submit.html}</td>
         <td>{$form.reset.html}</td>
     </tr>
@@ -16,3 +13,4 @@
     </tr>*}
 </table>
 </form>
+<br />
