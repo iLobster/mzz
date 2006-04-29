@@ -1,0 +1,41 @@
+<?php
+//
+// $Id: news.view.view.php 544 2006-03-20 19:24:02Z mz $
+// $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/news/views/news.view.view.php $
+//
+// MZZ Content Management System (c) 2006
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
+/**
+ * NewsListModel: вид для метода list модуля news
+ *
+ * @package news
+ * @version 0.1
+ */
+        require_once 'HTML/QuickForm.php';
+        require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
+class userViewView extends simpleView
+{
+    public function __construct($form)
+    {
+        $this->form = $form;
+        parent::__construct(null);
+    }
+    public function toString()
+    {
+        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+        $this->form->accept($renderer);
+        
+        $this->smarty->assign('form', $renderer->toArray());
+        $this->smarty->assign('user', $this->DAO);
+        $this->response->setTitle('Пользователь -> Авторизация');
+        
+        return $this->smarty->fetch('user.login.tpl');
+    }
+
+}
+
+?>

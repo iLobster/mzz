@@ -38,6 +38,17 @@ class sessionTest extends unitTestCase
         $this->assertEqual($this->session->get('key_first'), 'value_first');
         $this->assertEqual($this->session->get('key_main'), 'value_main');
     }
+
+    public function testGetNull()
+    {
+        $this->assertNull($this->session->get('foo'));
+    }
+
+    public function testSet()
+    {
+        $this->session->set($name = 'foo', $val = 'bar');
+        $this->assertEqual($_SESSION[$name], $val);
+    }
 }
 
 ?>

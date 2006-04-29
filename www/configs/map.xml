@@ -7,4 +7,7 @@
         <action name="createItem">news.create</action>
         <action name="delete">news.delete</action>
     </news>
+    <user>
+        <action name="login">user.login</action>
+    </user>
 </mapps>

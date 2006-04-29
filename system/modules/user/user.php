@@ -76,6 +76,12 @@ class user
             throw new mzzRuntimeException('Вызов неопределённого метода ' . __CLASS__ . '::' . $name . '()');
         }
     }
+/*
+    public function setPassword($password)
+    {
+        $this->__call('setPassword', array(md5($password)));
+        var_dump($password);
+    }*/
 
     /**
      * Проверяет может ли поле изменяться более одного раза

@@ -6,6 +6,7 @@
     </tr>
     <tr>
         <td colspan="2">{$form.text.html}</td>
+    </tr>
     <tr>
         <td>{$form.submit.html}</td>
         <td>{$form.reset.html}</td>

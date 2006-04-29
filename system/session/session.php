@@ -10,6 +10,7 @@ class session
 
     function set($name, $value)
     {
+        $_SESSION[$name] = $value;
     }
 
     function reset()
