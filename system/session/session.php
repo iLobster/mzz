@@ -2,7 +2,11 @@
 
 class session
 {
-
+    function start()
+    {
+        session_start();
+    }
+        
     function get($name)
     {
         return (isset($_SESSION[$name])) ? $_SESSION[$name] : null;

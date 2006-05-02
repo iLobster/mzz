@@ -15,8 +15,7 @@
  * @package news
  * @version 0.1
  */
-        require_once 'HTML/QuickForm.php';
-        require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
+
 class userViewView extends simpleView
 {
     public function __construct($form)
@@ -26,6 +25,10 @@ class userViewView extends simpleView
     }
     public function toString()
     {
+        // почему они не лоадером грузятся??
+        require_once 'HTML/QuickForm.php';
+        require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
+        
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
         $this->form->accept($renderer);
         

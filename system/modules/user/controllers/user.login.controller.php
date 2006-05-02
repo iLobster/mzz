@@ -32,16 +32,21 @@ class userLoginController
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
 
-        $login = $httprequest->get('login', SC_POST);
-        $password = $httprequest->get('password', SC_POST);
+        $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
         
-        $user = $userMapper->login($login, $password);
+        if ($user_id) {
+            $user = $userMapper->searchById($user_id);
+        } else {
+            $login = $httprequest->get('login', SC_POST);
+            $password = $httprequest->get('password', SC_POST);
+            $user = $userMapper->login($login, $password);
+        }
         if ($user === false) {
 
                 require_once 'HTML/QuickForm.php';
                 require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
-                $form = new HTML_QuickForm('form', 'POST', '/' . $httprequest->getSection() . '/login');
+                $form = new HTML_QuickForm('form', 'POST', '/');
                 $defaultValues = array();
                 $defaultValues['title']  = 'title';
                 $defaultValues['text']  = 'text';
@@ -56,7 +61,8 @@ class userLoginController
                 return new userViewView($form);
                 
         } else {
-            echo 'успешная авторизация. делаем чо нить';
+            fileLoader::load('user/views/user.login.success.view');
+            return new userLoginSuccessView($user);
         }
     }
 }
