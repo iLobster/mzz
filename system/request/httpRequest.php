@@ -229,6 +229,16 @@ class httpRequest implements iRequest
     {
         $this->params = new arrayDataspace($params);
     }
+    
+    /**
+    * Получение текущего урла
+    * пока возвращает лишь path, исключая QUERY_STRING
+    * @return string урл
+    */
+    public function getUrl()
+    {
+        return $this->getVars->get('path');
+    }
 
 }
 

@@ -80,7 +80,11 @@ class httpRequestTest extends unitTestCase
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->assertEqual($this->httprequest->get('REQUEST_METHOD', SC_SERVER), 'GET');
-
+    }
+    
+    public function testGetUrl()
+    {
+        $this->assertEqual($this->httprequest->getUrl(), $_GET['path']);
     }
 }
 

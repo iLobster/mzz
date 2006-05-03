@@ -10,18 +10,19 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * userLoginSuccessView: вид для успешного логина модуля user
+ * userLoginAlreadyView: вид для модуля news для уже авторизовавшихся пользователей
  *
  * @package news
  * @version 0.1
  */
 
-class userLoginSuccessView extends simpleView
+class userLoginAlreadyView extends simpleView
 {
     public function toString()
     {
-        header('Location: ' . $this->DAO);
-        exit;
+        $this->smarty->assign('user', $this->DAO);
+        
+        return $this->smarty->fetch('user.already.login.tpl');
     }
 
 }

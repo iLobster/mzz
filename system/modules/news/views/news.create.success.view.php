@@ -34,8 +34,7 @@ class newsCreateSuccessView extends simpleView
 
         header('Location: ' . $url->get());
         exit;
-
     }
-
 }
+
 ?>

@@ -1,4 +1,5 @@
 <form {$form.attributes}>
+{$form.hidden}
 <table border="0" cellpadding="0" cellspacing="1" width="70%">
     <tr>
         <td colspan="2">{$form.login.label} {$form.login.html}</td>

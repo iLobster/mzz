@@ -32,15 +32,19 @@ class userLoginController
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
 
+        // заменить на нормальную работу с сессией
         $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
+        $alreadyLoggedIn = false;
         
         if ($user_id) {
             $user = $userMapper->searchById($user_id);
+            $alreadyLoggedIn = true;
         } else {
             $login = $httprequest->get('login', SC_POST);
             $password = $httprequest->get('password', SC_POST);
             $user = $userMapper->login($login, $password);
         }
+        
         if ($user === false) {
 
                 require_once 'HTML/QuickForm.php';
@@ -54,6 +58,7 @@ class userLoginController
 
                 $form->addElement('text', 'login', 'Имя:', 'size=30');
                 $form->addElement('password', 'password', 'Пароль:', 'size=30');
+                $form->addElement('hidden', 'url', $httprequest->getUrl());
 
                 $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: window.close();\'');
                 $form->addElement('submit', 'submit', 'Отправить');
@@ -61,8 +66,13 @@ class userLoginController
                 return new userViewView($form);
                 
         } else {
-            fileLoader::load('user/views/user.login.success.view');
-            return new userLoginSuccessView($user);
+                if ($alreadyLoggedIn) {
+                    fileLoader::load('user/views/user.login.already.view');
+                    return new userLoginAlreadyView($user);
+                } else {
+                    fileLoader::load('user/views/user.login.success.view');
+                    return new userLoginSuccessView($httprequest->get('url', SC_POST));
+                }
         }
     }
 }

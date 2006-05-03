@@ -125,6 +125,7 @@ class url
     /**
      * Получает текущий section из Request
      *
+     * @return string
      */
     private function getCurrentSection()
     {

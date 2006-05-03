@@ -16,7 +16,6 @@ class urlTest extends unitTestCase
     {
     }
 
-
     public function testUrlFull()
     {
         $protocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
@@ -46,7 +45,6 @@ class urlTest extends unitTestCase
         $url->setAction($action);
         $this->assertEqual($url->get(), $address . '/foo/bar');
     }
-
 }
 
 ?>
