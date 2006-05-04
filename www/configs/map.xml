@@ -9,5 +9,6 @@
     </news>
     <user>
         <action name="login">user.login</action>
+        <action name="exit">user.exit</action>
     </user>
 </mapps>

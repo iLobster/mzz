@@ -23,6 +23,7 @@ class stdToolkit extends toolkit
      */
     private $request;
     private $response;
+    private $session;
     private $smarty;
     private $rewrite;
     private $config;
@@ -75,6 +76,20 @@ class stdToolkit extends toolkit
             $this->response = new httpResponse($this->getSmarty());
         }
         return $this->response;
+    }
+
+    /**
+     * Возвращает объект Session
+     *
+     * @return object
+     */
+    public function getSession()
+    {
+        if(empty($this->session)) {
+            fileLoader::load('session');
+            $this->session = new session();
+        }
+        return $this->session;
     }
 
     /**
@@ -201,6 +216,19 @@ class stdToolkit extends toolkit
         $old_response = $this->response;
         $this->response = $response;
         return $old_response;
+    }
+
+    /**
+     * Устанавливает объект Session
+     *
+     * @param object $session
+     * @return object
+     */
+    public function setSession($session)
+    {
+        $old_session = $this->session;
+        $this->session = $session;
+        return $old_session;
     }
 
     /**

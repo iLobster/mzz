@@ -9,10 +9,11 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
- * userLoginAlreadyView: вид для модуля news для уже авторизовавшихся пользователей
+ * userLoginAlreadyView: вид модуля user для уже авторизовавшихся пользователей
  *
- * @package news
+ * @package user
  * @version 0.1
  */
 
@@ -21,7 +22,7 @@ class userLoginAlreadyView extends simpleView
     public function toString()
     {
         $this->smarty->assign('user', $this->DAO);
-        
+
         return $this->smarty->fetch('user.already.login.tpl');
     }
 

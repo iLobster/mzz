@@ -9,6 +9,7 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
  * config: класс для работы с конфигурацией
  *

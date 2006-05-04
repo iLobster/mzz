@@ -140,11 +140,14 @@ class userMapper
 
         $row = $stmt->fetch();
 
+        $toolkit = systemToolkit::getInstance();
+        $session = $toolkit->getSession();
+
         if ($row) {
-            $_SESSION['user_id'] = $row['id'];
+            $session->set('user_id', $row['id']);
             return $this->createUserFromRow($row);
         } else {
-            $_SESSION['user_id'] = 0;
+            $session->set('user_id', 0);
             return false;
         }
     }

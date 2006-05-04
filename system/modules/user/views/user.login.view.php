@@ -9,10 +9,11 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
- * NewsListModel: вид для метода list модуля news
+ * userViewView: вид для метода view модуля user
  *
- * @package news
+ * @package user
  * @version 0.1
  */
 
@@ -28,14 +29,14 @@ class userViewView extends simpleView
         // почему они не лоадером грузятся??
         require_once 'HTML/QuickForm.php';
         require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
-        
+
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
         $this->form->accept($renderer);
-        
+
         $this->smarty->assign('form', $renderer->toArray());
         $this->smarty->assign('user', $this->DAO);
         $this->response->setTitle('Пользователь -> Авторизация');
-        
+
         return $this->smarty->fetch('user.login.tpl');
     }
 
