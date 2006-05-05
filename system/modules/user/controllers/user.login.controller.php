@@ -21,6 +21,7 @@ class userLoginController
     public function __construct()
     {
         fileLoader::load('user/views/user.login.view');
+        fileLoader::load('user/views/user.login.form');
         fileLoader::load("user");
         fileLoader::load("user/mappers/userMapper");
     }
@@ -47,25 +48,8 @@ class userLoginController
         }
 
         if ($user === false) {
-
-                require_once 'HTML/QuickForm.php';
-                require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
-
-                $form = new HTML_QuickForm('form', 'POST', '/');
-                $defaultValues = array();
-                $defaultValues['title']  = 'title';
-                $defaultValues['text']  = 'text';
-                $form->setDefaults($defaultValues);
-
-                $form->addElement('text', 'login', 'Имя:', 'size=30');
-                $form->addElement('password', 'password', 'Пароль:', 'size=30');
-                $form->addElement('hidden', 'url', $httprequest->getUrl());
-
-                $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: window.close();\'');
-                $form->addElement('submit', 'submit', 'Отправить');
-
+                $form = userLoginForm::getForm($httprequest->getUrl());
                 return new userViewView($form);
-
         } else {
                 if ($alreadyLoggedIn) {
                     fileLoader::load('user/views/user.login.already.view');
