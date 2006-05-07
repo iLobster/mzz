@@ -33,8 +33,6 @@ class userLoginController
 
         $user = $toolkit->getUser();
 
-        $alreadyLoggedIn = false;
-
         if ($user->getId() == 1) {
             if (strtoupper($httprequest->getMethod()) == 'POST') {
                 $login = $httprequest->get('login', SC_POST);
@@ -42,21 +40,19 @@ class userLoginController
 
                 $userMapper = new userMapper('user');
                 $user = $userMapper->login($login, $password);
-            }
-        }
 
-        if ($user->getId() == 1) {
+                if ($user->getId() != 1) {
+                    fileLoader::load('user/views/user.login.success.view');
+                    return new userLoginSuccessView($httprequest->get('url', SC_POST));
+                }
+            }
+
             $form = userLoginForm::getForm($httprequest->getUrl());
             return new userViewView($form);
-        } else {
-            if ($alreadyLoggedIn) {
-                fileLoader::load('user/views/user.login.already.view');
-                return new userLoginAlreadyView($user);
-            } else {
-                fileLoader::load('user/views/user.login.success.view');
-                return new userLoginSuccessView($httprequest->get('url', SC_POST));
-            }
         }
+
+        fileLoader::load('user/views/user.login.already.view');
+        return new userLoginAlreadyView($user);
     }
 }
 
