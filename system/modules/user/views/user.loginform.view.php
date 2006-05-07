@@ -17,7 +17,7 @@
  * @version 0.1
  */
 
-class userViewView extends simpleView
+class userLoginformView extends simpleView
 {
     public function __construct($form)
     {

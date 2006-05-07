@@ -45,11 +45,11 @@ class userLoginController
                 }
             }
 
-            fileLoader::load('user/views/user.login.view');
+            fileLoader::load('user/views/user.loginform.view');
             fileLoader::load('user/views/user.login.form');
 
             $form = userLoginForm::getForm($httprequest->getUrl());
-            return new userViewView($form);
+            return new userLoginformView($form);
         }
 
         fileLoader::load('user/views/user.login.already.view');
