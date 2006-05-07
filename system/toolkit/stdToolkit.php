@@ -19,8 +19,8 @@
 class stdToolkit extends toolkit
 {
     /**#@+
-     * @var object
-     */
+    * @var object
+    */
     private $request;
     private $response;
     private $session;
@@ -31,6 +31,7 @@ class stdToolkit extends toolkit
     private $timer;
     private $actions;
     private $cache;
+    private $user;
     /**#@-*/
 
     /**
@@ -193,6 +194,20 @@ class stdToolkit extends toolkit
     }
 
     /**
+     * Возвращает объект текущего пользователя
+     *
+     * @return user
+     */
+    public function getUser()
+    {
+        if(empty($this->user)) {
+            $userMapper = new userMapper('user');
+            $this->user = $userMapper->searchById(1);
+        }
+        return $this->user;
+    }
+
+    /**
      * Устанавливает объект Request
      *
      * @param object $request
@@ -270,6 +285,17 @@ class stdToolkit extends toolkit
         return $old_sectionMapper;
     }
 
-
+    /**
+     * Устанавливает объект пользователя
+     *
+     * @param user $user
+     * @return user
+     */
+    public function setUser($user)
+    {
+        $tmp = $this->user;
+        $this->user = $user;
+        return $tmp;
+    }
 }
 ?>

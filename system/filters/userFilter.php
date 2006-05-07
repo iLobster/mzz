@@ -39,7 +39,10 @@ class userFilter implements iFilter
 
         // хм... начинаем зависеть от таблы??
         $userMapper = new userMapper('user');
+
         $me = $userMapper->searchById($user_id);
+
+        $toolkit->setUser($me);
 
         $filter_chain->next();
     }

@@ -28,24 +28,18 @@ class userLoginController
 
     public function getView()
     {
-        $userMapper = new userMapper('user');
-
         $toolkit = systemToolkit::getInstance();
-
-        // отсюда
         $httprequest = $toolkit->getRequest();
-        $session = $toolkit->getSession();
 
-        $user_id = $session->get('user_id', 1);
-
-        $user = $userMapper->searchById($user_id);
-        // до сюда удаляем - вместо - получаем из тулкита помещённого в userFilter юзвера $me
+        $user = $toolkit->getUser();
 
         $alreadyLoggedIn = ($user->getId() == 1) ? false : true;
 
         if (strtoupper($httprequest->getMethod()) == 'POST') {
             $login = $httprequest->get('login', SC_POST);
             $password = $httprequest->get('password', SC_POST);
+
+            $userMapper = new userMapper('user');
             $user = $userMapper->login($login, $password);
         }
 
