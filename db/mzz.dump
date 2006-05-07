@@ -66,7 +66,6 @@ INSERT INTO `news_news_tree` (`id`, `name`, `parent`) VALUES
 
 COMMIT;
 
-
 #
 # Structure for the `user_user` table : 
 #
@@ -75,8 +74,8 @@ DROP TABLE IF EXISTS `user_user`;
 
 CREATE TABLE `user_user` (
   `id` int(11) NOT NULL auto_increment,
-  `login` varchar(255) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `login` varchar(255) NOT NULL default '',
+  `password` varchar(32) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -84,7 +83,8 @@ CREATE TABLE `user_user` (
 # Data for the `user_user` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_user` (`id`, `login`, `password`) VALUES
-  (NULL, 'admin', MD5('admin'));
+INSERT INTO `user_user` (`id`, `login`, `password`) VALUES 
+  (2,'admin','098f6bcd4621d373cade4e832627b4f6'),
+  (1,'guest','');
 
 COMMIT;
