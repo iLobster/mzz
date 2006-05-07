@@ -61,7 +61,7 @@ abstract class decoratingResolver implements iResolver
 
         $callback = array($this->resolver, $callname);
 
-        if(!is_callable($callback)) {
+        if (!is_callable($callback)) {
             throw new mzzCallbackException($callback);
         }
 

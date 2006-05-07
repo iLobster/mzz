@@ -30,8 +30,8 @@ class cache
 
     public function get($id)
     {
-        if($this->isCached($id) == true) {
-            if(isset($this->cacheResult[$id])) {
+        if ($this->isCached($id) == true) {
+            if (isset($this->cacheResult[$id])) {
                 return $this->cacheResult[$id];
             } else {
                 $cache_file = new SplFileObject($this->getCacheFile($id), "r");
@@ -77,7 +77,7 @@ class cache
 
     public function clearCache()
     {
-        foreach(new mzzCacheFilterIterator(new DirectoryIterator($this->cachePath)) as $iterator) {
+        foreach (new mzzCacheFilterIterator(new DirectoryIterator($this->cachePath)) as $iterator) {
             unlink($iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename());
         }
     }

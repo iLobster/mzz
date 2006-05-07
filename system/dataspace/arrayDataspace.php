@@ -46,7 +46,7 @@ class arrayDataspace implements iDataspace
      */
     public function set($key, $value)
     {
-        if(!is_scalar($key)) {
+        if (!is_scalar($key)) {
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
 
@@ -62,7 +62,7 @@ class arrayDataspace implements iDataspace
      */
     public function get($key)
     {
-        if(!is_scalar($key)) {
+        if (!is_scalar($key)) {
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
 
@@ -89,7 +89,7 @@ class arrayDataspace implements iDataspace
      */
     public function exists($key)
     {
-        if(!is_scalar($key)) {
+        if (!is_scalar($key)) {
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
         return isset($this->data[$key]);

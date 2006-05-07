@@ -44,7 +44,7 @@ class newsFolderMapper
             $data[$fieldname] = $newsFolder->$getprop();
         }
 
-        if(($id = $this->db->autoExecute($this->table, $data))) {
+        if (($id = $this->db->autoExecute($this->table, $data))) {
             $newsFolder->setId($id);
         }
     }
@@ -107,7 +107,7 @@ class newsFolderMapper
     {
         $map = $this->getMap();
         $newsFolder = new newsFolder($this, $map);
-        foreach($map as $key => $field) {
+        foreach ($map as $key => $field) {
             $setprop = $field['mutator'];
             $value = $row[$key];
             if ($setprop && $value) {

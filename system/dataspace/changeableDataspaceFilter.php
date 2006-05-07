@@ -56,7 +56,7 @@ class changeableDataspaceFilter implements iDataspace
      */
     public function addReadFilter($key, iValueFilter $filter)
     {
-        if(!is_string($key)) {
+        if (!is_string($key)) {
             throw new mzzInvalidParameterException('Must be string', $key);
         }
         $this->readFilters[$key] = $filter;
@@ -70,7 +70,7 @@ class changeableDataspaceFilter implements iDataspace
      */
     public function addWriteFilter($key, iValueFilter $filter)
     {
-        if(!is_string($key)) {
+        if (!is_string($key)) {
             throw new mzzInvalidParameterException('Must be string', $key);
         }
         $this->writeFilters[$key] = $filter;
@@ -85,7 +85,7 @@ class changeableDataspaceFilter implements iDataspace
      */
     public function set($key, $value)
     {
-        if(isset($this->writeFilters[$key])) {
+        if (isset($this->writeFilters[$key])) {
             $value = $this->writeFilters[$key]->filter($value);
         }
 
@@ -102,7 +102,7 @@ class changeableDataspaceFilter implements iDataspace
     {
         $value = $this->dataspace->get($key);
 
-        if(isset($this->readFilters[$key])) {
+        if (isset($this->readFilters[$key])) {
             return $this->readFilters[$key]->filter($value);
         } else {
             return $value;

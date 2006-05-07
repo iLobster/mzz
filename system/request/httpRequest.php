@@ -214,7 +214,7 @@ class httpRequest implements iRequest
      */
     public function setParam($name, $value)
     {
-        if(($this->params instanceof iDataspace) == false) {
+        if (($this->params instanceof iDataspace) == false) {
             $this->setParams(array());
         }
         $this->params->set($name, $value);
@@ -229,7 +229,7 @@ class httpRequest implements iRequest
     {
         $this->params = new arrayDataspace($params);
     }
-    
+
     /**
     * Получение текущего урла
     * пока возвращает лишь path, исключая QUERY_STRING

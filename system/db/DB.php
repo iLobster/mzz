@@ -29,7 +29,7 @@ class DB
      */
     public static function factory()
     {
-        if(self::$callback == false) {
+        if (self::$callback == false) {
             $toolkit = systemToolkit::getInstance();
             $config = $toolkit->getConfig();
             $config->load('common');
@@ -38,7 +38,7 @@ class DB
             self::$callback = array($driver, 'getInstance');
         }
 
-        if(!is_callable(self::$callback)) {
+        if (!is_callable(self::$callback)) {
             self::$callback = false;
             throw new mzzCallbackException(self::$callback);
             return false;

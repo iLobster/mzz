@@ -90,10 +90,10 @@ class mzzException extends Exception
 
         $html = $this->getHtmlHeader();
 
-        if(DEBUG_MODE) {
+        if (DEBUG_MODE) {
             $msg = $this->getName() . ". Thrown in file " . $this->getFile() . ' (Line: ' . $this->getLine() . ') ';
             $msg .= "with message: <br /><b>";
-            if($this->getCode() != 0) {
+            if ($this->getCode() != 0) {
                 $msg .= "[Code: " . $this->getCode() . "] ";
             }
             $msg .= $this->getMessage() . "</b><br />";
@@ -104,10 +104,10 @@ class mzzException extends Exception
 
             $trace_msg .= '<div style="font-size: 90%;">';
             foreach ($traces as $trace) {
-                if(!isset($trace['file'])) {
+                if (!isset($trace['file'])) {
                     $trace['file'] = 'unknown';
                 }
-                if(!isset($trace['line'])) {
+                if (!isset($trace['line'])) {
                     $trace['line'] = 'unknown';
                 }
                 $count--;
@@ -121,7 +121,7 @@ class mzzException extends Exception
                 }
                 $args = substr($args, 0, strlen($args) - 2);
 
-                if(isset($trace['class']) && isset($trace['type'])) {
+                if (isset($trace['class']) && isset($trace['type'])) {
                     $trace_msg .= 'In: ' . $trace['class'] . $trace['type'] . $trace['function'] . '(' . $args . ')<br />';
                 } else {
                     $trace_msg .= 'In: ' . $trace['function'] . '(' . $args . ')<br />';
@@ -187,7 +187,7 @@ class mzzException extends Exception
                 break;
 
             case is_scalar($arg):
-                if($arg === false) {
+                if ($arg === false) {
                     $str = 'false';
                 } elseif ($arg === true) {
                     $str = 'true';

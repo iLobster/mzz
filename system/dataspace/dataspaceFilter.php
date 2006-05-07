@@ -44,7 +44,7 @@ class dataspaceFilter implements iDataspace
      */
     public function set($key, $value)
     {
-        if(!is_scalar($key)) {
+        if (!is_scalar($key)) {
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
 

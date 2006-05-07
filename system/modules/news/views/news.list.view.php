@@ -34,7 +34,7 @@ class newsListView extends simpleView
         // откуда получать текущую папку ???
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
-        if(($path = $httprequest->get(0, SC_PATH)) == false) {
+        if (($path = $httprequest->get(0, SC_PATH)) == false) {
             $path = "root";
         }
         $this->smarty->assign('folderPath', $path);

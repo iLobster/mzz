@@ -69,7 +69,7 @@ class fileLoader
      */
     public static function resolve($request)
     {
-        if(!($filename = self::$resolver->resolve($request))) {
+        if (!($filename = self::$resolver->resolve($request))) {
             throw new mzzIoException($request);
         }
         return $filename;

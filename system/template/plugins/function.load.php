@@ -25,7 +25,7 @@
  */
 function smarty_function_load($params, $smarty)
 {
-    if(!isset($params['module'])) {
+    if (!isset($params['module'])) {
         $error = "Template error. Module is not specified.";
         throw new mzzRuntimeException($error);
     }

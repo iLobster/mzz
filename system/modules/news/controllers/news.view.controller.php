@@ -32,7 +32,7 @@ class newsViewController
 
         $newsMapper = new newsMapper($httprequest->getSection());
 
-        if(($id = $httprequest->get(0, SC_PATH)) == false) {
+        if (($id = $httprequest->get(0, SC_PATH)) == false) {
             $id = 0;
         }
         $news = $newsMapper->searchById($id);

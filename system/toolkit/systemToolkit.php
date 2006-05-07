@@ -39,7 +39,7 @@ class systemToolkit
      */
     public static function getInstance()
     {
-        if(self::$instance == false) {
+        if (self::$instance == false) {
 
             fileLoader::load('toolkit/compositeToolkit');
             self::$instance = new systemToolkit();

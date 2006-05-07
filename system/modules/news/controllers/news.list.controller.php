@@ -34,7 +34,7 @@ class newsListController
 
         $newsFolder = new newsFolderMapper($httprequest->getSection());
 
-        if(($path = $httprequest->get(0, SC_PATH)) == false) {
+        if (($path = $httprequest->get(0, SC_PATH)) == false) {
             $path = "root";
         }
         $folder = $newsFolder->searchByName($path);

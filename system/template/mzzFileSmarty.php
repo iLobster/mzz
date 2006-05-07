@@ -69,7 +69,7 @@ class mzzFileSmarty implements IMzzSmarty
      */
     public function getResourceFileName($name)
     {
-        if(!is_file($this->getTemplateDir() . '/' . $name)) {
+        if (!is_file($this->getTemplateDir() . '/' . $name)) {
             $subdir = substr($name, 0, strpos($name, '.'));
             return $subdir . '/' . $name;
         }

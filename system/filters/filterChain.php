@@ -78,7 +78,7 @@ class filterChain
     {
         $this->counter++;
 
-        if(isset($this->filters[$this->counter])) {
+        if (isset($this->filters[$this->counter])) {
             $this->filters[$this->counter]->run($this, $this->response, $this->request);
         }
     }

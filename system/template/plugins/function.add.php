@@ -67,7 +67,7 @@ function smarty_function_add($params, $smarty)
     // ищем - подключали ли мы уже данный файл
     if (is_array($vars)) {
         foreach ($vars as $val) {
-            if($val['file'] == $filename && $val['tpl'] == $tpl) {
+            if ($val['file'] == $filename && $val['tpl'] == $tpl) {
                 return null;
             }
         }

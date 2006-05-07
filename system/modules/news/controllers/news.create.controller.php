@@ -39,7 +39,7 @@ class newsCreateController
 
 
         $form = newsCreateForm::getForm($httprequest->get(0, SC_PATH));
-        if($form->validate() == false) {
+        if ($form->validate() == false) {
             $view = new newsCreateView($news, $form);
         } else {
             $newsFolder = new newsFolderMapper($httprequest->getSection());

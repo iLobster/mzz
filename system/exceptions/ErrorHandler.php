@@ -25,7 +25,7 @@ function ErrorHandler($errno, $errstr, $errfile, $errline)
 {
 
     // Вывод E_STRICT ошибок отключен.
-    if($errno == E_STRICT) {
+    if ($errno == E_STRICT) {
         return false;
     }
 

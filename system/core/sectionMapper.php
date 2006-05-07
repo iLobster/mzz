@@ -57,7 +57,7 @@ class sectionMapper
     {
         if (!empty($this->xml->$section)) {
             foreach ($this->xml->$section->action as $_action) {
-                if($_action['name'] == $action) {
+                if ($_action['name'] == $action) {
                     return (string) $_action;
                 }
             }
@@ -87,7 +87,7 @@ class sectionMapper
      */
     public function getTemplateName($section, $action)
     {
-        if(($template_name = $this->xmlRead($section, $action)) !== false) {
+        if (($template_name = $this->xmlRead($section, $action)) !== false) {
             return $this->templateNameDecorate($template_name);
         }
         return false;

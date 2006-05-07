@@ -92,7 +92,7 @@ class action
      */
     private function iniRead($filename)
     {
-        if(!file_exists($filename)) {
+        if (!file_exists($filename)) {
             throw new mzzIoException($filename);
         }
         return parse_ini_file($filename, true);
@@ -105,9 +105,9 @@ class action
      */
     protected function getActionsConfig()
     {
-        if(empty($this->actions)) {
+        if (empty($this->actions)) {
             $path = systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/';
-            foreach(new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
+            foreach (new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
                 $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
                 $type = substr($iterator->getFilename(), 0, strlen($iterator->getFilename()) - 4);
                 $this->addActions($type, $this->iniRead($file));
@@ -126,7 +126,7 @@ class action
         $jip_actions = array();
         $actions = $this->getActions();
         foreach ($actions[$this->module] as $action) {
-            if(isset($action['jip']) && $action['jip'] == true) {
+            if (isset($action['jip']) && $action['jip'] == true) {
                 $jip_actions[] = array(
                 'controller' => $action['controller'],
                 'title' => $action['title'],

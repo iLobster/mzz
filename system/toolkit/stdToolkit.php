@@ -58,7 +58,7 @@ class stdToolkit extends toolkit
      */
     public function getRequest()
     {
-        if(empty($this->request)) {
+        if (empty($this->request)) {
             fileLoader::load('request/httpRequest');
             $this->request = new HttpRequest(new requestParser());
         }
@@ -72,7 +72,7 @@ class stdToolkit extends toolkit
      */
     public function getResponse()
     {
-        if(empty($this->response)) {
+        if (empty($this->response)) {
             fileLoader::load('request/httpResponse');
             $this->response = new httpResponse($this->getSmarty());
         }
@@ -86,7 +86,7 @@ class stdToolkit extends toolkit
      */
     public function getSession()
     {
-        if(empty($this->session)) {
+        if (empty($this->session)) {
             fileLoader::load('session');
             $this->session = new session();
         }
@@ -100,7 +100,7 @@ class stdToolkit extends toolkit
      */
     public function getSmarty()
     {
-        if(empty($this->smarty)) {
+        if (empty($this->smarty)) {
             fileLoader::load('template/mzzSmarty');
             $this->smarty = new mzzSmarty();
             $this->smarty->template_dir  = systemConfig::$pathToApplication . '/templates';
@@ -120,7 +120,7 @@ class stdToolkit extends toolkit
     public function getRewrite($section)
     {
         // может тут передавать путь/аргумент для резолвера аргументом??
-        if(empty($this->rewrite)) {
+        if (empty($this->rewrite)) {
             fileLoader::load('request/rewrite');
             $this->rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
         }
@@ -145,7 +145,7 @@ class stdToolkit extends toolkit
      */
     public function getSectionMapper()
     {
-        if(empty($this->sectionMapper)) {
+        if (empty($this->sectionMapper)) {
             fileLoader::load('core/sectionMapper');
             $this->sectionMapper = new sectionMapper(fileLoader::resolve('configs/map.xml'));
         }
@@ -159,7 +159,7 @@ class stdToolkit extends toolkit
      */
     public function getTimer()
     {
-        if(empty($this->timer)) {
+        if (empty($this->timer)) {
             $this->timer = new timer();
             $this->timer->start();
         }
@@ -174,7 +174,7 @@ class stdToolkit extends toolkit
      */
     public function getAction($module)
     {
-        if($this->actionNames->exists($module) == false) {
+        if ($this->actionNames->exists($module) == false) {
             $this->actionNames->set($module, new action($module));
         }
         return $this->actionNames->get($module);
@@ -187,7 +187,7 @@ class stdToolkit extends toolkit
      */
     public function getCache()
     {
-        if(empty($this->cache)) {
+        if (empty($this->cache)) {
             $this->cache = new Cache(systemConfig::$pathToTemp);
         }
         return $this->cache;
@@ -200,7 +200,7 @@ class stdToolkit extends toolkit
      */
     public function getUser()
     {
-        if(empty($this->user)) {
+        if (empty($this->user)) {
             $userMapper = new userMapper('user');
             $this->user = $userMapper->searchById(1);
         }

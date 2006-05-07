@@ -42,23 +42,23 @@ class mzzSmarty extends Smarty
     {
         $resource = explode(':', $resource_name, 2);
 
-        if(count($resource) === 1) {
+        if (count($resource) === 1) {
             $resource = array($this->default_resource_type, $resource_name);
         }
 
         $mzzname = 'mzz' . ucfirst($resource[0]) . 'Smarty';
 
-        if(!class_exists($mzzname)) {
+        if (!class_exists($mzzname)) {
             fileLoader::load('template/' . $mzzname);
         }
 
-        if(!class_exists($mzzname)) {
+        if (!class_exists($mzzname)) {
             $error = sprintf("Can't find class '%s' for template engine", $mzzname);
             throw new mzzRuntimeException($error);
             return false;
         }
 
-        if(!isset($this->mzzResources[$mzzname])) {
+        if (!isset($this->mzzResources[$mzzname])) {
             $this->mzzResources[$mzzname] = new $mzzname;
         }
         $result = $this->mzzResources[$mzzname]->fetch($resource, $cache_id, $compile_id, $display, $this);
@@ -94,12 +94,12 @@ class mzzSmarty extends Smarty
     {
         $params = $this->parse($template);
 
-        if(isset($this->fetchedTemplates[$params['main']])) {
+        if (isset($this->fetchedTemplates[$params['main']])) {
             $error = "Detected recursion. Recursion template: %s. <br> All: <pre>%s</pre>";
             throw new mzzRuntimeException(sprintf($error, $params['main'], print_r($this->fetchedTemplates, true)));
         }
 
-        if(!isset($params['placeholder'])) {
+        if (!isset($params['placeholder'])) {
             $error = "Template error. Placeholder is not specified.";
             throw new mzzRuntimeException($error);
         }

@@ -31,22 +31,22 @@ function smarty_function_url($params, $smarty)
 
     $getUrl = true;
 
-    if(isset($params['section'])) {
+    if (isset($params['section'])) {
         $getUrl = false;
         $url->setSection($params['section']);
     }
 
-    if(isset($params['action'])) {
+    if (isset($params['action'])) {
         $getUrl = false;
         $url->setAction($params['action']);
     }
 
-    if(isset($params['params'])) {
+    if (isset($params['params'])) {
         $getUrl = false;
         $url->addParam($params['params']);
     }
 
-    if($getUrl == true) {
+    if ($getUrl == true) {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
         return $request->getUrl();

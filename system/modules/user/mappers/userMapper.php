@@ -57,7 +57,7 @@ class userMapper
         $data[$fieldname] = $news->$getprop();
         }
 
-        if(($id = $this->db->autoExecute($this->table, $data))) {
+        if (($id = $this->db->autoExecute($this->table, $data))) {
         $news->setId($id);
         }*/
     }
@@ -163,7 +163,7 @@ class userMapper
 
         $user = new user($this, $map);
 
-        foreach($map as $key => $field) {
+        foreach ($map as $key => $field) {
             $setprop = $field['mutator'];
             $value = $row[$key];
             if ($setprop && $value) {

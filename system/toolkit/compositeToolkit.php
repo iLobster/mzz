@@ -35,7 +35,7 @@ class compositeToolkit implements iToolkit
      */
     public function __construct()
     {
-        foreach(func_get_args() as $toolkit) {
+        foreach (func_get_args() as $toolkit) {
             $this->addToolkit($toolkit);
         }
     }
@@ -58,7 +58,7 @@ class compositeToolkit implements iToolkit
      */
     public function getToolkit($toolName)
     {
-        foreach($this->toolkits as $toolkit) {
+        foreach ($this->toolkits as $toolkit) {
             if  ($tool = $toolkit->getToolkit($toolName)) {
                 return $tool;
             }

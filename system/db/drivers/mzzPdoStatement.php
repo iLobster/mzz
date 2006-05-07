@@ -26,7 +26,7 @@ class mzzPdoStatement extends PDOStatement
      */
     public function bindArray($data)
     {
-        foreach($data as $key => $val) {
+        foreach ($data as $key => $val) {
             switch (strtolower(gettype($val))) {
                 case "boolean":
                 $type = PDO::PARAM_BOOL;

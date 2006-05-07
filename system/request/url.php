@@ -57,12 +57,12 @@ class url
      */
     public function old_get()
     {
-        if(empty($this->section)) {
+        if (empty($this->section)) {
             $this->setSection($this->getCurrentSection());
         }
 
         $params = "/";
-        if(empty($this->params) == false) {
+        if (empty($this->params) == false) {
             $params .= implode('/', $this->params) . '/';
         }
 
@@ -82,12 +82,12 @@ class url
 
         $address = $protocol . '://' . $request->get('HTTP_HOST', SC_SERVER) . SITE_PATH;
 
-        if(empty($this->section)) {
+        if (empty($this->section)) {
             $this->setSection($this->getCurrentSection());
         }
 
         $params = "/";
-        if(empty($this->params) == false) {
+        if (empty($this->params) == false) {
             $params .= implode('/', $this->params) . '/';
         }
         return $address . '/' . $this->section . $params . $this->action;

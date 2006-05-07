@@ -34,14 +34,14 @@ class newsEditController
 
         $newsMapper = new newsMapper($httprequest->getSection());
 
-        if(($id = $httprequest->get(0, SC_PATH)) == false) {
+        if (($id = $httprequest->get(0, SC_PATH)) == false) {
             $id = $httprequest->get('id', SC_POST);
         }
         $news = $newsMapper->searchById($id);
 
         $form = newsEditForm::getForm($news, $httprequest->getSection());
 
-        if($form->validate() == false) {
+        if ($form->validate() == false) {
             $view = new newsEditView($news, $form);
         } else {
             $values = $form->exportValues();
