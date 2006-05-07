@@ -11,8 +11,6 @@
 //
 /**
  * Содержит версию и имя релиза MZZ CMS
- *
- * @version $Revision$
  */
 class mzz {
     /**
