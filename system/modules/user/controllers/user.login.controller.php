@@ -31,33 +31,35 @@ class userLoginController
         $userMapper = new userMapper('user');
 
         $toolkit = systemToolkit::getInstance();
+
+        // отсюда
         $httprequest = $toolkit->getRequest();
         $session = $toolkit->getSession();
 
-        $user_id = $session->get('user_id', 0);
+        $user_id = $session->get('user_id', 1);
 
-        $alreadyLoggedIn = false;
+        $user = $userMapper->searchById($user_id);
+        // до сюда удаляем - вместо - получаем из тулкита помещённого в userFilter юзвера $me
 
-        if ($user_id) {
-            $user = $userMapper->searchById($user_id);
-            $alreadyLoggedIn = true;
-        } else {
+        $alreadyLoggedIn = ($user->getId() == 1) ? false : true;
+
+        if (strtoupper($httprequest->getMethod()) == 'POST') {
             $login = $httprequest->get('login', SC_POST);
             $password = $httprequest->get('password', SC_POST);
             $user = $userMapper->login($login, $password);
         }
 
-        if ($user === false) {
-                $form = userLoginForm::getForm($httprequest->getUrl());
-                return new userViewView($form);
+        if ($user->getId() == 1) {
+            $form = userLoginForm::getForm($httprequest->getUrl());
+            return new userViewView($form);
         } else {
-                if ($alreadyLoggedIn) {
-                    fileLoader::load('user/views/user.login.already.view');
-                    return new userLoginAlreadyView($user);
-                } else {
-                    fileLoader::load('user/views/user.login.success.view');
-                    return new userLoginSuccessView($httprequest->get('url', SC_POST));
-                }
+            if ($alreadyLoggedIn) {
+                fileLoader::load('user/views/user.login.already.view');
+                return new userLoginAlreadyView($user);
+            } else {
+                fileLoader::load('user/views/user.login.success.view');
+                return new userLoginSuccessView($httprequest->get('url', SC_POST));
+            }
         }
     }
 }
