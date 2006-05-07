@@ -1,7 +1,7 @@
 <?php
 //
-// $Id: news.view.controller.php 451 2006-02-06 18:29:50Z zerkms $
-// $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/news/controllers/news.view.controller.php $
+// $Id$
+// $URL$
 //
 // MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru

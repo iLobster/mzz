@@ -1,7 +1,7 @@
 <?php
 //
-// $Id: news.edit.success.view.php 534 2006-03-16 19:40:58Z mz $
-// $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/news/views/news.edit.success.view.php $
+// $Id$
+// $URL$
 //
 // MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru

@@ -1,7 +1,7 @@
 <?php
 //
-// $Id: timingFilter.php 556 2006-03-22 20:34:22Z mz $
-// $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/filters/timingFilter.php $
+// $Id$
+// $URL$
 //
 // MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru

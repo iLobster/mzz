@@ -1,7 +1,7 @@
 <?php
 //
-// $Id: function.load.php 549 2006-03-22 15:03:46Z zerkms $
-// $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/template/plugins/function.load.php $
+// $Id$
+// $URL$
 //
 // MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru
