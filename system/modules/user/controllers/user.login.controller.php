@@ -33,14 +33,16 @@ class userLoginController
 
         $user = $toolkit->getUser();
 
-        $alreadyLoggedIn = ($user->getId() == 1) ? false : true;
+        $alreadyLoggedIn = false;
 
-        if (strtoupper($httprequest->getMethod()) == 'POST') {
-            $login = $httprequest->get('login', SC_POST);
-            $password = $httprequest->get('password', SC_POST);
+        if ($user->getId() == 1) {
+            if (strtoupper($httprequest->getMethod()) == 'POST') {
+                $login = $httprequest->get('login', SC_POST);
+                $password = $httprequest->get('password', SC_POST);
 
-            $userMapper = new userMapper('user');
-            $user = $userMapper->login($login, $password);
+                $userMapper = new userMapper('user');
+                $user = $userMapper->login($login, $password);
+            }
         }
 
         if ($user->getId() == 1) {

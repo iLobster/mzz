@@ -121,8 +121,8 @@ class userMapperTest extends unitTestCase
 
         $user = $this->mapper->login('not_exists_login', 'any_password');
 
-        $this->assertFalse($user);
-        $this->assertEqual($_SESSION['user_id'], 0);
+        $this->assertEqual($user->getId(), 1);
+        $this->assertEqual($_SESSION['user_id'], 1);
     }
 
 

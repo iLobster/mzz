@@ -112,7 +112,7 @@ class userMapper
         if ($row) {
             return $this->createUserFromRow($row);
         } else {
-            return false;
+            return $this->getGuest();
         }
     }
 
@@ -127,7 +127,7 @@ class userMapper
         if ($row) {
             return $this->createUserFromRow($row);
         } else {
-            return false;
+            return $this->getGuest();
         }
     }
 
@@ -147,8 +147,8 @@ class userMapper
             $session->set('user_id', $row['id']);
             return $this->createUserFromRow($row);
         } else {
-            $session->set('user_id', 0);
-            return false;
+            $session->set('user_id', 1);
+            return $this->getGuest();
         }
     }
 
@@ -171,6 +171,11 @@ class userMapper
             }
         }
         return $user;
+    }
+
+    private function getGuest()
+    {
+        return $this->searchById(1);
     }
 
     private function getMap()
