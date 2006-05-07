@@ -26,6 +26,7 @@ class newsFolderMapperTest extends unitTestCase
         $this->mapNews = array(
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
+        'editor' => array ( 'name' => 'editor', 'accessor' => 'getEditor', 'mutator' => 'setEditor'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
         'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'),
         'created' => array ('name' => 'created', 'accessor' => 'getCreated', 'mutator' => 'setCreated'),
@@ -62,14 +63,15 @@ class newsFolderMapperTest extends unitTestCase
         $this->fixture($this->mapper, $this->map);
         $newsMapper = new newsMapper('news');
 
-        $data[] = array('title', 'text', '1');
-        $data[] = array('title2', 'text2', '1');
-        $data[] = array('title3', 'text3', '2');
+        $data[] = array('title', 'editor', 'text', '1');
+        $data[] = array('title2', 'editor2', 'text2', '1');
+        $data[] = array('title3', 'editor3', 'text3', '2');
         foreach ($data as $record) {
             $news = new news($this->mapNews);
             $news->setTitle($record[0]);
-            $news->setText($record[1]);
-            $news->setFolderId($record[2]);
+            $news->setEditor($record[1]);
+            $news->setText($record[2]);
+            $news->setFolderId($record[3]);
             $newsMapper->save($news);
         }
 
@@ -80,7 +82,7 @@ class newsFolderMapperTest extends unitTestCase
         foreach ($news as $key => $item) {
             $this->assertIsA($item, 'news');
             $this->assertEqual($item->getTitle(), $data[$key][0]);
-            $this->assertIdentical($item->getFolderId(), $data[$key][2]);
+            $this->assertIdentical($item->getFolderId(), $data[$key][3]);
         }
     }
 

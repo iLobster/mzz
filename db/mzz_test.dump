@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `news_news`;
 CREATE TABLE `news_news` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
+  `editor` varchar(255) NOT NULL,
   `text` text NOT NULL,
   `folder_id` int(11) default NULL,
   `created` int(11) default NULL,

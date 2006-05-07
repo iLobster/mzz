@@ -31,6 +31,7 @@ class newsEditController
     {
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
+        $user = $toolkit->getUser();
 
         $newsMapper = new newsMapper($httprequest->getSection());
 
@@ -46,6 +47,7 @@ class newsEditController
         } else {
             $values = $form->exportValues();
             $news->setTitle($values['title']);
+            $news->setEditor($user->getLogin());
             $news->setText($values['text']);
             $newsMapper->save($news);
             $view = new newsEditSuccessView($news, $form);

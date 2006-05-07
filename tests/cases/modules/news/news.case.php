@@ -14,6 +14,7 @@ class newsTest extends unitTestCase
         $map = array(
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
+        'editor' => array ( 'name' => 'editor', 'accessor' => 'getEditor', 'mutator' => 'setEditor'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
         'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'),
         'created' => array ('name' => 'created', 'accessor' => 'getCreated', 'mutator' => 'setCreated', 'once' => 'true' ),

@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `news_news`;
 CREATE TABLE `news_news` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
+  `editor` varchar(255) NOT NULL,
   `text` text NOT NULL,
   `folder_id` int(11) default NULL,
   `created` int(11) default NULL,
@@ -35,11 +36,11 @@ CREATE TABLE `news_news` (
 # Data for the `news_news` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_news` (`id`, `title`, `text`, `folder_id`, `created`, `updated`) VALUES 
-  (1,'новость 1','текст 1',1,1140071407,1140071417),
-  (2,'новость 2','текст 2',1,1140071307,1140071317),
-  (4,'новость 3','текст 3',1,1140071207,1140071217),
-  (5,'новость 4','текст 4',2,1140071107,1140071117);
+INSERT INTO `news_news` (`id`, `editor`, `title`, `text`, `folder_id`, `created`, `updated`) VALUES 
+  (1,'admin','новость 1','текст 1',1,1140071407,1140071417),
+  (2,'admin','новость 2','текст 2',1,1140071307,1140071317),
+  (4,'admin','новость 3','текст 3',1,1140071207,1140071217),
+  (5,'admin','новость 4','текст 4',2,1140071107,1140071117);
 
 COMMIT;
 

@@ -33,6 +33,7 @@ class newsCreateController
     {
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
+        $user = $toolkit->getUser();
 
         $newsMapper = new newsMapper($httprequest->getSection());
         $news = $newsMapper->create();
@@ -47,6 +48,7 @@ class newsCreateController
 
             $values = $form->exportValues();
             $news->setTitle($values['title']);
+            $news->setEditor($user->getLogin());
             $news->setText($values['text']);
             $news->setFolderId($folder->getId());
             $newsMapper->save($news);

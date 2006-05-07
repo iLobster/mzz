@@ -1,6 +1,6 @@
 <table border="0" width="70%" cellpadding="0" cellspacing="1">
     <tr>
-        <td colspan="6"><b>Папки:</b>
+        <td colspan="7"><b>Папки:</b>
         {foreach from=$newsFolder->getFolders('') item=current_folder name=folders}
             <a href="{url section=news action=list params=$current_folder->getName()}">{$current_folder->getName()}</a>
             {if !$smarty.foreach.folders.last}
@@ -12,6 +12,7 @@
     <tr>
         <td><b>ID</b></td>
         <td><b>Название</b></td>
+        <td><b>User</b></td>
         <td><b>Содержание</b></td>
         <td><b>Создано</b></td>
         <td><b>Изменено</b></td>
@@ -21,6 +22,7 @@
         <tr>
             <td><a href="{url section=news action=view params=$current_news->getId()}">{$current_news->getId()}</a></td>
             <td><a href="{url section=news action=view params=$current_news->getId()}">{$current_news->getTitle()}</a></td>
+            <td>{$current_news->getEditor()}</td>
             <td>{$current_news->getText()}</td>
             <td>{$current_news->getCreated()|date_format:"%e %B %Y / %H:%M:%S"}</td>
             <td>{$current_news->getUpdated()|date_format:"%e %B %Y / %H:%M:%S"}</td>
@@ -28,7 +30,7 @@
         </tr>
     {/foreach}
     <tr>
-        <td colspan="6"><a href="{url section=news action=createItem params=$folderPath}">Добавить новость</a></td>
+        <td colspan="7"><a href="{url section=news action=createItem params=$folderPath}">Добавить новость</a></td>
     </tr>
 </table>
 
