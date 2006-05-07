@@ -16,7 +16,7 @@ fileLoader::load('dataspace/arrayDataspace');
  * user: user
  *
  * @package user
- * @version 0.1
+ * @version 0.1.1
  */
 
 class user
@@ -75,6 +75,11 @@ class user
         } else {
             throw new mzzRuntimeException('Вызов неопределённого метода ' . __CLASS__ . '::' . $name . '()');
         }
+    }
+
+    public function isLoggedIn()
+    {
+        return $this->getId() != 1;
     }
 /*
     public function setPassword($password)

@@ -85,6 +85,18 @@ class userTest extends unitTestCase
             $this->assertIdentical($this->user->$getter(), $first);
         }
     }
+
+    public function testIsLoggedIn()
+    {
+        $this->user->setId(2);
+        $this->assertTrue($this->user->isLoggedIn());
+    }
+
+    public function testIsNotLoggedIn()
+    {
+        $this->user->setId(1);
+        $this->assertFalse($this->user->isLoggedIn());
+    }
 }
 
 

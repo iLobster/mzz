@@ -33,7 +33,7 @@ class userLoginController
 
         $user = $toolkit->getUser();
 
-        if ($user->getId() == 1) {
+        if (!$user->isLoggedIn()) {
             if (strtoupper($httprequest->getMethod()) == 'POST') {
                 $login = $httprequest->get('login', SC_POST);
                 $password = $httprequest->get('password', SC_POST);
@@ -41,7 +41,7 @@ class userLoginController
                 $userMapper = new userMapper('user');
                 $user = $userMapper->login($login, $password);
 
-                if ($user->getId() != 1) {
+                if ($user->isLoggedIn()) {
                     fileLoader::load('user/views/user.login.success.view');
                     return new userLoginSuccessView($httprequest->get('url', SC_POST));
                 }
