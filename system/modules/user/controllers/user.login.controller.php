@@ -13,15 +13,13 @@
  * userLoginController: контроллер для метода login модуля user
  *
  * @package user
- * @version 0.1
+ * @version 0.2.2
  */
 
 class userLoginController
 {
     public function __construct()
     {
-        fileLoader::load('user/views/user.login.view');
-        fileLoader::load('user/views/user.login.form');
         fileLoader::load("user");
         fileLoader::load("user/mappers/userMapper");
     }
@@ -46,6 +44,9 @@ class userLoginController
                     return new userLoginSuccessView($httprequest->get('url', SC_POST));
                 }
             }
+
+            fileLoader::load('user/views/user.login.view');
+            fileLoader::load('user/views/user.login.form');
 
             $form = userLoginForm::getForm($httprequest->getUrl());
             return new userViewView($form);
