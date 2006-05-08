@@ -1,4 +1,4 @@
-function openWin(name, w, h)
+function openWin(href, name, w, h)
 {
     if (w > screen.Width) {
         w = screen.Width;
@@ -10,6 +10,7 @@ function openWin(name, w, h)
     x = (screen.Width - w)/2;
  	y = (screen.Height - h)/2;
     
-    NewWindow = window.open("", name, "width="+w+",height="+h+",resizable=yes,scrollbars=yes,menubar=no,status=no,location=no,fullscreen=no,directories=no,screenX="+x+",screenY="+y+",left="+x+",top="+y);
-    NewWindow.focus();
+    NewWindow = window.open(href, name, "width="+w+",height="+h+",resizable=yes,scrollbars=yes,menubar=no,status=no,location=no,fullscreen=no,directories=no,screenX="+x+",screenY="+y+",left="+x+",top="+y);
+    NewWindow.focus(); 
+    return false;
 }
