@@ -1,17 +1,17 @@
 <form {$form.attributes}>
 {$form.hidden}
-<table border="0" cellpadding="0" cellspacing="1" width="70%">
+<table border="0" cellpadding="0" cellspacing="1" width="280">
     <tr>
-        <td colspan="2">{$form.login.label} {$form.login.html}</td>
-        <td colspan="2">{$form.password.label} {$form.password.html}</td>
-
-        <td>{$form.submit.html}</td>
-        <td>{$form.reset.html}</td>
+        <td align="center">{$form.login.label}</td>
+        <td align="center">{$form.login.html}</td>
     </tr>
-    {*
     <tr>
-        <td colspan=3><a href="{url section=user action=view params=$news->getId()}">назад</a></td>
-    </tr>*}
+        <td align="center">{$form.password.label}</td>
+        <td align="center">{$form.password.html}</td>
+    </tr>
+    <tr>
+        <td align="center" colspan="2">{$form.submit.html} {$form.reset.html}</td>
+    </tr>
 </table>
 </form>
-<br />
+<p />

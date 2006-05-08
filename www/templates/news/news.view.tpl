@@ -1,4 +1,4 @@
-<table border="0" cellpadding="0" cellspacing="1" width="65%">
+<table border="0" cellpadding="0" cellspacing="1" width="100%">
     <tr>
         <td>{$news->getId()}</td>
         <td>{$news->getTitle()}</td>

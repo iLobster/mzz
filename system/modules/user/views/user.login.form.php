@@ -28,8 +28,8 @@ class userLoginForm {
         $form->addElement('password', 'password', 'Пароль:', 'size=30');
         $form->addElement('hidden', 'url', $url);
 
-        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: window.close();\'');
-        $form->addElement('submit', 'submit', 'Отправить');
+        $form->addElement('reset', 'reset', 'Сброс');
+        $form->addElement('submit', 'submit', 'Вход');
 
         return $form;
     }
