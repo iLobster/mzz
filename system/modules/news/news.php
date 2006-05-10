@@ -21,7 +21,7 @@ fileLoader::load('jip/jip');
  * news: news
  *
  * @package news
- * @version 0.1
+ * @version 0.1.1
  */
 
 class news
@@ -29,9 +29,9 @@ class news
     /**
      * Поля
      *
-     * @var array
+     * @var arrayDataspace
      */
-    protected $fields = array();
+    protected $fields;
 
     /**
      * Map. Содержит информацию о полях (метод изменения, метод получения...).
@@ -48,7 +48,7 @@ class news
     public function __construct(Array $map)
     {
         $this->map = $map;
-        $this->fields = new arrayDataspace($this->fields);
+        $this->fields = new arrayDataspace();
     }
 
     /**

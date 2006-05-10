@@ -24,9 +24,16 @@ class user
     /**
      * ѕол€
      *
-     * @var array
+     * @var arrayDataspace
      */
-    protected $fields = array();
+    protected $fields;
+
+    /**
+     * »змененные пол€
+     *
+     * @var arrayDataspace
+     */
+    protected $changedFields; // сменить им€?
 
     /**
      * Map. —одержит информацию о пол€х (метод изменени€, метод получени€...).
@@ -46,7 +53,8 @@ class user
     {
         $this->mapper = $mapper;
         $this->map = $map;
-        $this->fields = new arrayDataspace($this->fields);
+        $this->fields = new arrayDataspace();
+        $this->changedFields = new arrayDataspace();
     }
 
     /**
@@ -69,7 +77,7 @@ class user
                 // ”станавливает значение только в том случае, если значение
                 // пол€ не установлено ранее или оно может измен€тьс€ более одного раза
                 if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute) ) {
-                    $this->fields->set($attribute, $args[0]);
+                    $this->changedFields->set($attribute, $args[0]);
                 }
             }
         } else {
@@ -87,6 +95,13 @@ class user
         $this->__call('setPassword', array(md5($password)));
         var_dump($password);
     }*/
+
+
+
+    public function extract()
+    {
+        return $this->changedFields->export();
+    }
 
     /**
      * ѕровер€ет может ли поле измен€тьс€ более одного раза

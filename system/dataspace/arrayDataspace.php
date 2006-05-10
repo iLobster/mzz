@@ -32,7 +32,7 @@ class arrayDataspace implements iDataspace
      *
      * @param array $data
      */
-    public function __construct($data)
+    public function __construct($data = array())
     {
         $this->import($data);
     }

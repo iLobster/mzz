@@ -41,9 +41,16 @@ class userMapper
 
     protected function insert($user)
     {
-        $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (`login`, `password`) VALUES (:login, :password)');
-        $stmt->bindParam(':login', $user->getLogin());
-        $stmt->bindParam(':password', $user->getPassword());
+        $fields = $user->extract();
+        $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
+        $markers  = ':' . implode(', :', array_keys($fields));
+
+        $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
+
+
+        //$stmt->bindParam(':login', $user->getLogin());
+        //$stmt->bindParam(':password', $user->getPassword());
+        $stmt->bindArray($fields);
 
         $id = $stmt->execute();
         $user->setId($id);
