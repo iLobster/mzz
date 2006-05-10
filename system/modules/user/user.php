@@ -35,6 +35,8 @@ class user
      */
     protected $changedFields; // сменить имя?
 
+    protected $new = true;
+
     /**
      * Map. Содержит информацию о полях (метод изменения, метод получения...).
      *
@@ -77,7 +79,11 @@ class user
                 // Устанавливает значение только в том случае, если значение
                 // поля не установлено ранее или оно может изменяться более одного раза
                 if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute) ) {
-                    $this->changedFields->set($attribute, $args[0]);
+                    if($this->new == true) {
+                        $this->fields->set($attribute, $args[0]);
+                    } else {
+                        $this->changedFields->set($attribute, $args[0]);
+                    }
                 }
             }
         } else {
@@ -89,18 +95,23 @@ class user
     {
         return $this->getId() != 1;
     }
-/*
+
     public function setPassword($password)
     {
         $this->__call('setPassword', array(md5($password)));
-        var_dump($password);
-    }*/
+    }
 
 
 
     public function extract()
     {
         return $this->changedFields->export();
+    }
+
+    public function save()
+    {
+        $this->new = false;
+        return $this->fields->merge($this->changedFields);
     }
 
     /**
