@@ -98,7 +98,9 @@ class user
         $this->changedFields->clear();
 
         foreach($data as $key => $val) {
-            $this->fields->set($key, $val);
+            //if($this->isOnce($key) == false) {
+                $this->fields->set($key, $val);
+            //}
         }
     }
 

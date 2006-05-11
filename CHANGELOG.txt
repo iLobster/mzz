@@ -7,10 +7,10 @@ CHANGELOG
 
  Version 0.0.2:
 ============================================
-- Добавлен HttpRequest [zerkms]
-- Добавлен HttpFileRequest [ml]
-- Добавлен HttpFileRequest::move() [ml]
-- Добавлен frontcontroller [zerkms]
+- Добавлен HttpRequest
+- Добавлен HttpFileRequest
+- Добавлен HttpFileRequest::move()
+- Добавлен frontcontroller
 - Интеграция Smarty
 - Ядро из system/core/core перенесено в system/core. Остальное из system/core перенесено  в system/.
 - Написаны первые "Новости" в MVC
