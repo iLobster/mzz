@@ -35,7 +35,7 @@ class mzz {
      * Micro version
      *
      */
-    const VERSION_MICRO = 2;
+    const VERSION_MICRO = 3;
 
     /**
      * Status
@@ -89,7 +89,7 @@ define('MZZ_VERSION_MAJOR', 0 );
 define('MZZ_VERSION_MINOR', 0 );
 
 // Micro version
-define('MZZ_VERSION_MICRO', 2 );
+define('MZZ_VERSION_MICRO', 3 );
 
 // Status
 define('MZZ_VERSION_STATUS', '-dev' );
