@@ -68,6 +68,18 @@ class arrayDataspaceTest extends unitTestCase
             }
         }
     }
+    
+    public function testClear()
+    {
+        $item_one = "foo";
+        $this->dataspace->set('foo', $item_one);
+        $this->assertEqual($this->dataspace->get('foo'), $item_one);
+        
+        $this->dataspace->clear();
+        
+        $this->assertFalse($this->dataspace->exists('foo'));
+        $this->assertNull($this->dataspace->get('foo'));
+    }
 
 }
 

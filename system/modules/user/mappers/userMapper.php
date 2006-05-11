@@ -42,53 +42,51 @@ class userMapper
     protected function insert($user)
     {
         $fields = $user->extract();
-        $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
-        $markers  = ':' . implode(', :', array_keys($fields));
+        if (sizeof($fields) > 0) {
+            if (isset($fields['password'])) {
+                $fields['password'] = md5($fields['password']);
+            }
+            
+            $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
+            $markers  = ':' . implode(', :', array_keys($fields));
 
-        $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
+            $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
 
+            $stmt->bindArray($fields);
 
-        //$stmt->bindParam(':login', $user->getLogin());
-        //$stmt->bindParam(':password', $user->getPassword());
-        $stmt->bindArray($fields);
-
-        $id = $stmt->execute();
-        $user->setId($id);
-
-        /*
-        $map = $this->getMap();
-        $field_names = array_keys($map);
-
-        foreach ($field_names as $fieldname) {
-        $getprop = $map[$fieldname]['accessor'];
-        $data[$fieldname] = $news->$getprop();
+            $id = $stmt->execute();
+            
+            $fields['id'] = $id;
+            
+            $user->uploadData($fields);
         }
-
-        if (($id = $this->db->autoExecute($this->table, $data))) {
-        $news->setId($id);
-        }*/
     }
 
     protected function update($user)
     {
-        $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET `login`= :login, `password`= :password WHERE `id` = :id');
+        $fields = $user->extract();
+        if (sizeof($fields) > 0) {
+            if (isset($fields['password'])) {
+                $fields['password'] = md5($fields['password']);
+            }
+            
+            $query = '';
+            foreach(array_keys($fields) as $val) {
+                $query .= '`' . $val . '` = :' . $val . ', ';
+            }
+            $query = substr($query, 0, -2);
+            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
 
-        $stmt->bindParam(':id', $user->getId(), PDO::PARAM_INT);
-        $stmt->bindParam(':login', $user->getLogin());
-        $stmt->bindParam(':password', $user->getPassword());
+            $stmt->bindArray($fields);
+            $stmt->bindParam(':id', $user->getId(), PDO::PARAM_INT);
+            
+            
+            $user->uploadData($fields);
 
-        return $stmt->execute();
-
-        /**$map = $this->getMap();
-        $field_names = array_keys($map);
-
-        foreach ($field_names as $fieldname) {
-        $getprop = $map[$fieldname]['accessor'];
-        $data[$fieldname] = $news->$getprop();
+            return $stmt->execute();
         }
-
-        return $this->db->autoExecute($this->table, $data, PDO_AUTOQUERY_UPDATE, "`id` = :id");*/
-
+        
+        return false;
     }
 
     public function delete($user)
@@ -100,7 +98,6 @@ class userMapper
 
     public function save($user)
     {
-        //$news->disableDataspaceFilter();
         if ($user->getId()) {
             $this->update($user);
         } else {
@@ -169,14 +166,15 @@ class userMapper
         $fields->addReadFilter('updated', $dateFilter);*/
 
         $user = new user($this, $map);
-
+/*
         foreach ($map as $key => $field) {
             $setprop = $field['mutator'];
             $value = $row[$key];
             if ($setprop && $value) {
                 call_user_func(array($user, $setprop), $value);
             }
-        }
+        }*/
+        $user->uploadData($row);
         return $user;
     }
 

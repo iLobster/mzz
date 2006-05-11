@@ -114,5 +114,14 @@ class arrayDataspace implements iDataspace
     {
         return $this->data;
     }
+    
+    /**
+    * Очистка Dataspace
+    *
+    */
+    public function clear()
+    {
+        $this->data = array();
+    }
 }
 ?>

@@ -79,11 +79,7 @@ class user
                 // Устанавливает значение только в том случае, если значение
                 // поля не установлено ранее или оно может изменяться более одного раза
                 if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute) ) {
-                    if($this->new == true) {
-                        $this->fields->set($attribute, $args[0]);
-                    } else {
-                        $this->changedFields->set($attribute, $args[0]);
-                    }
+                    $this->changedFields->set($attribute, $args[0]);
                 }
             }
         } else {
@@ -93,15 +89,18 @@ class user
 
     public function isLoggedIn()
     {
-        return $this->getId() != 1;
+        $id = $this->getId();
+        return ($id != 1 && !empty($id));
     }
 
-    public function setPassword($password)
+    public function uploadData($data)
     {
-        $this->__call('setPassword', array(md5($password)));
+        $this->changedFields->clear();
+
+        foreach($data as $key => $val) {
+            $this->fields->set($key, $val);
+        }
     }
-
-
 
     public function extract()
     {

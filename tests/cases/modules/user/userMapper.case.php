@@ -71,7 +71,6 @@ class userMapperTest extends unitTestCase
         $this->assertIdentical($user->getId(), '1');
     }
 
-
     public function testUpdate()
     {
         $this->fixture($this->mapper, $this->map);
@@ -80,16 +79,15 @@ class userMapperTest extends unitTestCase
         $this->assertEqual($user->getLogin(), 'login1');
         $this->assertEqual($user->getPassword(), md5('passwd1'));
 
-        $login = 'newlogin';
-        $password = 'newpassword';
-
-        $user->setLogin($login);
-        $user->setPassword($password);
+        $user->setLogin($login = 'newlogin');
+        $user->setPassword($password = 'newpassword');
+        
         $this->mapper->save($user);
 
         $user2 = $this->mapper->searchById(1);
+        
         $this->assertEqual($user2->getLogin(), $login);
-        $this->assertEqual($user2->getPassword(), $password);
+        $this->assertEqual($user2->getPassword(), md5($password));
     }
 
     public function testDelete()
@@ -127,7 +125,6 @@ class userMapperTest extends unitTestCase
 
 
 
-
     private function countUsers()
     {
         $query = 'SELECT COUNT(*) AS `total` FROM `user_user`';
@@ -140,7 +137,7 @@ class userMapperTest extends unitTestCase
         for($i = 1; $i <= 4; $i++) {
             $user = new user($this->mapper, $map);
             $user->setLogin('login' . $i);
-            $user->setPassword(md5('passwd' . $i));
+            $user->setPassword('passwd' . $i);
             $mapper->save($user);
         }
     }
