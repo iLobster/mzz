@@ -14,7 +14,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.2.1
+ * @version 0.2.2
  */
 class requestParser
 {
@@ -41,28 +41,25 @@ class requestParser
         $action = array_pop($params);
         $request->setAction($action);
 
-        /* DEPRECATED
-        // Если action задан, то заносим его так же и в params,
-        // который будет использован как параметр,
-        // если указанный action не существует
-        if (!empty($action)) {
-        $params = array_merge($params, array($action));
-        }
-        */
         $request->setParams($params);
     }
 
     /**
      * Очищает строку запроса от лишних "/" и возвращает
-     * разобранный запрос на массив
+     * разобранный на массив запрос
      *
      * @param string $path
      * @return array
      */
     protected function extractParams($path)
     {
+        // Очистка от нескольких слешей в запросе
         $path = preg_replace('/\/{2,}/', '/', $path);
-        return explode('/', substr($path, 1, (strlen($path) - 1) - (strrpos($path, '/') == strlen($path) - 1)));
+
+        // Очистка от слешей в начале и в конце запроса
+        $path = preg_replace('/^\/|\/$/', '', $path);
+
+        return explode('/', $path);
     }
 }
 
