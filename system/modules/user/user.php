@@ -79,6 +79,13 @@ class user
                 // Устанавливает значение только в том случае, если значение
                 // поля не установлено ранее или оно может изменяться более одного раза
                 if (!$this->fields->exists($attribute) || !$this->isOnce($attribute)) {
+
+                    if($service = $this->isDecorated($attribute)) {
+                        fileLoader::load('service/' . $service);
+                        $service = new $service;
+                        $args[0] = $service->apply($args[0]); 
+                    }
+
                     $this->changedFields->set($attribute, $args[0]);
                 }
             }
@@ -140,6 +147,38 @@ class user
             }
         }
     }
+
+    /**
+     * Возвращает имя decorate-класса, если он указан в decorateClass
+     *
+     * @return string|false
+     */
+    protected function isDecorated($name)
+    {
+        if (isset($this->map[$name]['decorateClass'])) {
+                return $this->map[$name]['decorateClass']; 
+        }        
+        return false;
+    }
+
+    /**
+     * Возвращает имена полей, у которых указан decorateClass
+     *
+     * @return array
+     
+    public function isDecorated($name)
+    {
+        foreach ($this->map as $key => $val) { 
+            if (isset($val['decorateClass']) && $val['decorateClass'] != false) {
+                if(isset($fields[$key])) { echo $key;
+                    fileLoader::load('service/' . $val['decorateClass']);
+                    $service = new $val['decorateClass'];
+                    $fields[$key] = $service->apply($fields[$key]); 
+                }
+            }
+        }
+        return $fields;
+    }*/
 
 }
 

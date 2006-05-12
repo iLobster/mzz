@@ -13,7 +13,7 @@ class userMapperTest extends unitTestCase
     {
         $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'login' => array ( 'name' => 'login', 'accessor' => 'getLogin', 'mutator' => 'setLogin'),
-        'password' => array ('name' => 'password', 'accessor' => 'getPassword', 'mutator' => 'setPassword'),
+        'password' => array ('name' => 'password', 'accessor' => 'getPassword', 'mutator' => 'setPassword', 'decorateClass' => 'md5PasswordHash'),
         );
 
         $this->db = DB::factory();

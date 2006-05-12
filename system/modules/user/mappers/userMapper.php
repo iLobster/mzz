@@ -43,9 +43,6 @@ class userMapper
     {
         $fields = $user->extract();
         if (sizeof($fields) > 0) {
-            if (isset($fields['password'])) {
-                $fields['password'] = md5($fields['password']);
-            }
             
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
             $markers  = ':' . implode(', :', array_keys($fields));
@@ -66,9 +63,6 @@ class userMapper
     {
         $fields = $user->extract();
         if (sizeof($fields) > 0) {
-            if (isset($fields['password'])) {
-                $fields['password'] = md5($fields['password']);
-            }
             
             $query = '';
             foreach(array_keys($fields) as $val) {
