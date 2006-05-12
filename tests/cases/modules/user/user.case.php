@@ -126,6 +126,31 @@ class userTest extends unitTestCase
         }
     }
 
+    public function testFieldsSetsNotOnce()
+    {
+        foreach(array('Login') as $val) {
+            $setter = 'set' . $val;
+            $getter = 'get' . $val;
+
+            $first = '2';
+
+            $this->user->$setter($first);
+            
+            $this->mapper->save($this->user);
+
+            $this->assertIdentical($this->user->$getter(), $first);
+
+            $second = '5';
+            $this->assertNotEqual($second, $first);
+
+            $this->user->$setter($second);
+            
+            $this->mapper->save($this->user);
+            
+            $this->assertIdentical($this->user->$getter(), $second);
+        }
+    }
+
     public function testIsLoggedIn()
     {
         $this->user->setId(2);
