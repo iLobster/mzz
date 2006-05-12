@@ -16,7 +16,7 @@ fileLoader::load('dataspace/arrayDataspace');
  * user: user
  *
  * @package user
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class user
@@ -78,7 +78,7 @@ class user
             } else {
                 // Устанавливает значение только в том случае, если значение
                 // поля не установлено ранее или оно может изменяться более одного раза
-                if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute) ) {
+                if (!$this->fields->exists($attribute) || !$this->isOnce($attribute)) {
                     $this->changedFields->set($attribute, $args[0]);
                 }
             }
