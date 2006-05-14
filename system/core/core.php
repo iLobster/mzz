@@ -78,10 +78,7 @@ class core
 
             $filter_chain->process();
 
-            $response->send(); 
-echo 'cachingresolver: ' . array_Sum(cachingResolver::$time) . ', запросов: ' . count(cachingResolver::$re); echo '<br>';
-echo 'fileloader: ' . array_Sum(fileLoader::$time) . ', запросов: ' .count(fileLoader::$re);
-
+            $response->send();
         } catch (mzzException $e) {
             $e->printHtml();
         } catch (Exception $e) {
