@@ -41,7 +41,7 @@ class userMapper
 
     protected function insert($user)
     {
-        $fields = $user->extract();
+        $fields = $user->export();
         if (sizeof($fields) > 0) {
             
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
@@ -55,13 +55,13 @@ class userMapper
             
             $fields['id'] = $id;
             
-            $user->uploadData($fields);
+            $user->import($fields);
         }
     }
 
     protected function update($user)
     {
-        $fields = $user->extract();
+        $fields = $user->export();
         if (sizeof($fields) > 0) {
             
             $query = '';
@@ -75,7 +75,7 @@ class userMapper
             $stmt->bindParam(':id', $user->getId(), PDO::PARAM_INT);
             
             
-            $user->uploadData($fields);
+            $user->import($fields);
 
             return $stmt->execute();
         }
@@ -168,7 +168,7 @@ class userMapper
                 call_user_func(array($user, $setprop), $value);
             }
         }*/
-        $user->uploadData($row);
+        $user->import($row);
         return $user;
     }
 

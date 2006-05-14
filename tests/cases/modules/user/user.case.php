@@ -124,6 +124,11 @@ class userTest extends unitTestCase
             
             $this->assertIdentical($this->user->$getter(), $first);
         }
+
+        $this->user->import(array('id' => $second));
+        $this->mapper->save($this->user);
+
+        $this->assertIdentical($this->user->$getter(), $first);
     }
 
     public function testFieldsSetsNotOnce()

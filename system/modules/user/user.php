@@ -100,18 +100,18 @@ class user
         return ($id != 1 && !empty($id));
     }
 
-    public function uploadData($data)
+    public function import($data)
     {
         $this->changedFields->clear();
 
-        foreach($data as $key => $val) {
-            //if($this->isOnce($key) == false) {
-                $this->fields->set($key, $val);
-            //}
+        foreach($data as $key => $value) {
+            if (!$this->fields->exists($key) || !$this->isOnce($key)) {
+                $this->fields->set($key, $value);
+            }
         }
     }
 
-    public function extract()
+    public function export()
     {
         return $this->changedFields->export();
     }
