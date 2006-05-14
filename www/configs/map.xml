@@ -10,5 +10,11 @@
     <user>
         <action name="login">user.login</action>
         <action name="exit">user.exit</action>
-    </user>
+    </user>    
+    <page>
+        <action name="view">page.view</action>
+        <action name="edit">page.edit</action>
+        <action name="delete">page.delete</action>
+        <action name="create">page.create</action>
+    </page>
 </mapps>

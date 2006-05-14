@@ -46,6 +46,20 @@ CREATE TABLE `news_news_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Structure for the `page_page` table : 
+#
+
+DROP TABLE IF EXISTS `page_page`;
+
+CREATE TABLE `page_page` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
 # Structure for the `user_user` table : 
 #
 

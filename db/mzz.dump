@@ -68,6 +68,30 @@ INSERT INTO `news_news_tree` (`id`, `name`, `parent`) VALUES
 COMMIT;
 
 #
+# Structure for the `page_page` table : 
+#
+
+DROP TABLE IF EXISTS `page_page`;
+
+CREATE TABLE `page_page` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `page_page` table  (LIMIT 0,500)
+#
+
+INSERT INTO `page_page` (`id`, `name`, `title`, `content`) VALUES  
+  (1, 'main', 'ѕерва€ страница', 'Ёто перва€, главна€ страница'),
+  (2, '404', '404 Not Found', '«апрашиваема€ страница не найдена');
+
+COMMIT;
+
+#
 # Structure for the `user_user` table : 
 #
 

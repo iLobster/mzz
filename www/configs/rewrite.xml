@@ -1,10 +1,13 @@
 <?xml version='1.0' standalone='yes'?>
 <rules>
-        <default>
+    <default>
         <rule pattern="/">/news/list</rule>
-        </default>
+    </default>
     <news>
         <rule pattern="/news/([0-9]+)/?">/news/$1/view</rule>
         <rule pattern="/news/([a-z][a-z0-9]+)/?">/news/$1/list</rule>
-    </news>
+    </news>   
+    <page>
+        <rule pattern="/page/(.*?)/?">/page/$1/view</rule>
+    </page>
 </rules>
