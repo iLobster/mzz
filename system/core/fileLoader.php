@@ -32,7 +32,8 @@ class fileLoader
      * @var object
      */
     private static $resolver;
-
+public static $time;
+public static $re;
     /**
      * список уже загруженных файлов
      *
@@ -68,10 +69,15 @@ class fileLoader
      * @return string|null путь до запрашиваемого файла/класса, либо null если не найден
      */
     public static function resolve($request)
-    {
+    { 
+$abc = microtime(1); self::$resolver->resolve($request);
+        self::$time[] = number_format(microtime(1) - $abc, 8);
+
         if (!($filename = self::$resolver->resolve($request))) {
+
             throw new mzzIoException($request);
         }
+self::$re[] = $request;;
         return $filename;
     }
 

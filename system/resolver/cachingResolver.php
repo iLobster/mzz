@@ -34,7 +34,7 @@ final class cachingResolver extends decoratingResolver
      * @var Fs
      */
     private $cache_file;
-
+public static $time;public static $re;
     /**
      * флаг, устанавливаетс€ в true, если кеш нужно обновить
      *
@@ -60,8 +60,8 @@ final class cachingResolver extends decoratingResolver
             }
             $this->cache = unserialize($this->cache);
         }
-
         parent::__construct($resolver);
+
     }
 
     /**
@@ -72,11 +72,20 @@ final class cachingResolver extends decoratingResolver
      */
     public function resolve($request)
     {
+$abc = microtime(1); 
+
         if (!isset($this->cache[$request])) {
             $this->changed = true;
             $this->cache[$request] = $this->resolver->resolve($request);
+
         }
-        return $this->cache[$request];
+
+        $z = $this->cache[$request];
+
+self::$time[] = number_format(microtime(1) - $abc, 8);
+self::$re[] = $request;;
+
+return $z;
     }
 
     /**
