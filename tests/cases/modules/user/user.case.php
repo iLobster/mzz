@@ -22,11 +22,11 @@ class userTest extends unitTestCase
         //$this->mapper = new mockuserMapper('news');
         $this->mapper = new userMapper('user');
         $this->user = new user($this->mapper, $map);
-        
+
         $this->db = DB::factory();
         $this->cleardb();
     }
-    
+
     public function tearDown()
     {
         $this->cleardb();
@@ -41,9 +41,9 @@ class userTest extends unitTestCase
     {
         $this->user->setId($id = 1);
         $this->mapper->save($this->user);
-        
+
         $this->assertEqual($id, $this->user->getId());
-        
+
         $props = array('Login', 'Password');
         foreach ($props as $prop) {
             $getprop = 'get' . $prop;
@@ -53,28 +53,28 @@ class userTest extends unitTestCase
 
             $val = 'foo';
             $this->user->$setprop($val);
-            
+
             if ($prop == 'Password') {
                 $val = md5($val);
             }
 
             $this->assertNull($this->user->$getprop());
-            
+
             $this->mapper->save($this->user);
-            
+
             $this->assertEqual($val, $this->user->$getprop());
 
             $val2 = 'bar';
             $this->user->$setprop($val2);
-            
+
             if ($prop == 'Password') {
                 $val2 = md5($val2);
             }
 
             $this->assertEqual($val, $this->user->$getprop());
-            
+
             $this->mapper->save($this->user);
-            
+
             $this->assertEqual($val2, $this->user->$getprop());
         }
     }
@@ -110,7 +110,7 @@ class userTest extends unitTestCase
             $first = '2';
 
             $this->user->$setter($first);
-            
+
             $this->mapper->save($this->user);
 
             $this->assertIdentical($this->user->$getter(), $first);
@@ -119,12 +119,13 @@ class userTest extends unitTestCase
             $this->assertNotEqual($second, $first);
 
             $this->user->$setter($second);
-            
+
             $this->mapper->save($this->user);
-            
+
             $this->assertIdentical($this->user->$getter(), $first);
         }
 
+        // For import
         $this->user->import(array('id' => $second));
         $this->mapper->save($this->user);
 
@@ -140,7 +141,7 @@ class userTest extends unitTestCase
             $first = '2';
 
             $this->user->$setter($first);
-            
+
             $this->mapper->save($this->user);
 
             $this->assertIdentical($this->user->$getter(), $first);
@@ -149,9 +150,9 @@ class userTest extends unitTestCase
             $this->assertNotEqual($second, $first);
 
             $this->user->$setter($second);
-            
+
             $this->mapper->save($this->user);
-            
+
             $this->assertIdentical($this->user->$getter(), $second);
         }
     }
@@ -159,18 +160,18 @@ class userTest extends unitTestCase
     public function testIsLoggedIn()
     {
         $this->user->setId(2);
-        
+
         $this->mapper->save($this->user);
-        
+
         $this->assertTrue($this->user->isLoggedIn());
     }
 
     public function testIsNotLoggedIn()
     {
         $this->user->setId(1);
-        
+
         $this->mapper->save($this->user);
-        
+
         $this->assertFalse($this->user->isLoggedIn());
     }
 }

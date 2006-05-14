@@ -41,51 +41,50 @@ class newsMapper
 
     protected function insert($news)
     {
-        $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (`title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES (:title, :editor, :text, :folder_id, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())');
-        $stmt->bindParam(':title', $news->getTitle());
-        $stmt->bindParam(':editor', $news->getEditor());
-        $stmt->bindParam(':text', $news->getText());
-        $stmt->bindParam(':folder_id', $news->getFolderId(), PDO::PARAM_INT);
+        $fields = $news->export();
+        if (sizeof($fields) > 0) {
 
-        $id = $stmt->execute();
-        $news->setId($id);
+            $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
+            $markers  = ':' . implode(', :', array_keys($fields));
 
-        /*
-        $map = $this->getMap();
-        $field_names = array_keys($map);
+            $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
 
-        foreach ($field_names as $fieldname) {
-        $getprop = $map[$fieldname]['accessor'];
-        $data[$fieldname] = $news->$getprop();
+            $stmt->bindArray($fields);
+
+            $id = $stmt->execute();
+
+            $fields['id'] = $id;
+
+            $news->import($fields);
         }
-
-        if (($id = $this->db->autoExecute($this->table, $data))) {
-        $news->setId($id);
-        }*/
     }
 
-    protected function update($news)
+    protected function update($page)
     {
-        $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET `title`= :title, `editor` = :editor, `text`= :text, `folder_id` = :folder_id,  `updated`= UNIX_TIMESTAMP() WHERE `id` = :id');
-        $stmt->bindParam(':id', $news->getId(), PDO::PARAM_INT);
-        $stmt->bindParam(':title', $news->getTitle());
-        $stmt->bindParam(':editor', $news->getEditor());
-        $stmt->bindParam(':text', $news->getText());
-        $stmt->bindParam(':folder_id', $news->getFolderId());
-        $stmt->bindParam(':created', $news->getCreated(), PDO::PARAM_INT);
+        $fields = $page->export();
+        if (sizeof($fields) > 0) {
 
-        return $stmt->execute();
+            $query = '';
+            foreach(array_keys($fields) as $val) {
+                if($val == 'updated') {
+                    $query .= '`' . $val . '` = : UNIX_TIMESTAMP(), ';
+                } else {
+                    $query .= '`' . $val . '` = :' . $val . ', ';
+                }
+            }
+            $query = substr($query, 0, -2);
+            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
 
-        /**$map = $this->getMap();
-        $field_names = array_keys($map);
+            $stmt->bindArray($fields);
+            $stmt->bindParam(':id', $page->getId(), PDO::PARAM_INT);
 
-        foreach ($field_names as $fieldname) {
-        $getprop = $map[$fieldname]['accessor'];
-        $data[$fieldname] = $news->$getprop();
+
+            $page->import($fields);
+
+            return $stmt->execute();
         }
 
-        return $this->db->autoExecute($this->table, $data, PDO_AUTOQUERY_UPDATE, "`id` = :id");*/
-
+        return false;
     }
 
     public function delete($news)
@@ -135,6 +134,7 @@ class newsMapper
         return $result;
     }
 
+
     private function createNewsFromRow($row)
     {
         $map = $this->getMap();
@@ -145,14 +145,16 @@ class newsMapper
         $fields->addReadFilter('updated', $dateFilter);*/
 
         $news = new news($map);
-
+        /*
         foreach ($map as $key => $field) {
             $setprop = $field['mutator'];
             $value = $row[$key];
             if ($setprop && $value) {
                 call_user_func(array($news, $setprop), $value);
             }
-        }
+        }*/
+
+        $news->import($row);
         return $news;
     }
 

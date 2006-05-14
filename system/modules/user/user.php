@@ -35,8 +35,6 @@ class user
      */
     protected $changedFields; // сменить им€?
 
-    protected $new = true;
-
     /**
      * Map. —одержит информацию о пол€х (метод изменени€, метод получени€...).
      *
@@ -49,6 +47,7 @@ class user
     /**
      *  онструктор.
      *
+     * @todo зачем здесь нужен $mapper?
      * @param array $map массив, содержащий информацию о пол€х
      */
     public function __construct($mapper, Array $map)
@@ -83,7 +82,7 @@ class user
                     if($service = $this->isDecorated($attribute)) {
                         fileLoader::load('service/' . $service);
                         $service = new $service;
-                        $args[0] = $service->apply($args[0]); 
+                        $args[0] = $service->apply($args[0]);
                     }
 
                     $this->changedFields->set($attribute, $args[0]);
@@ -116,11 +115,6 @@ class user
         return $this->changedFields->export();
     }
 
-    public function save()
-    {
-        $this->new = false;
-        return $this->fields->merge($this->changedFields);
-    }
 
     /**
      * ѕровер€ет может ли поле измен€тьс€ более одного раза
@@ -156,30 +150,10 @@ class user
     protected function isDecorated($name)
     {
         if (isset($this->map[$name]['decorateClass'])) {
-                return $this->map[$name]['decorateClass']; 
-        }        
+                return $this->map[$name]['decorateClass'];
+        }
         return false;
     }
-
-    /**
-     * ¬озвращает имена полей, у которых указан decorateClass
-     *
-     * @return array
-     
-    public function isDecorated($name)
-    {
-        foreach ($this->map as $key => $val) { 
-            if (isset($val['decorateClass']) && $val['decorateClass'] != false) {
-                if(isset($fields[$key])) { echo $key;
-                    fileLoader::load('service/' . $val['decorateClass']);
-                    $service = new $val['decorateClass'];
-                    $fields[$key] = $service->apply($fields[$key]); 
-                }
-            }
-        }
-        return $fields;
-    }*/
-
 }
 
 ?>

@@ -34,6 +34,13 @@ class news
     protected $fields;
 
     /**
+     * Измененные поля
+     *
+     * @var arrayDataspace
+     */
+    protected $changedFields; // сменить имя?
+
+    /**
      * Map. Содержит информацию о полях (метод изменения, метод получения...).
      *
      * @var array
@@ -49,6 +56,7 @@ class news
     {
         $this->map = $map;
         $this->fields = new arrayDataspace();
+        $this->changedFields = new arrayDataspace();
     }
 
     /**
@@ -70,13 +78,36 @@ class news
             } else {
                 // Устанавливает значение только в том случае, если значение
                 // поля не установлено ранее или оно может изменяться более одного раза
-                if ( ($this->isOnce($attribute) && $this->fields->exists($attribute) == false) || !$this->isOnce($attribute) ) {
-                    $this->fields->set($attribute, $args[0]);
+                if (!$this->fields->exists($attribute) || !$this->isOnce($attribute)) {
+
+                    if($service = $this->isDecorated($attribute)) {
+                        fileLoader::load('service/' . $service);
+                        $service = new $service;
+                        $args[0] = $service->apply($args[0]);
+                    }
+
+                    $this->changedFields->set($attribute, $args[0]);
                 }
             }
         } else {
             throw new mzzRuntimeException('Вызов неопределённого метода ' . __CLASS__ . '::' . $name . '()');
         }
+    }
+
+    public function import($data)
+    {
+        $this->changedFields->clear();
+
+        foreach($data as $key => $value) {
+            if (!$this->fields->exists($key) || !$this->isOnce($key)) {
+                $this->fields->set($key, $value);
+            }
+        }
+    }
+
+    public function export()
+    {
+        return $this->changedFields->export();
     }
 
     /**
@@ -103,6 +134,14 @@ class news
                 return $key;
             }
         }
+    }
+
+    protected function isDecorated($name)
+    {
+        if (isset($this->map[$name]['decorateClass'])) {
+                return $this->map[$name]['decorateClass'];
+        }
+        return false;
     }
 
     /**

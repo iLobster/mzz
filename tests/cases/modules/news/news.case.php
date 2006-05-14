@@ -22,11 +22,17 @@ class newsTest extends unitTestCase
         );
 
         $this->news = new news($map);
+        $this->mapper = new newsMapper('news');
     }
 
     public function testAccessorsAndMutators()
     {
-        $props = array('Title', 'Text', 'FolderId');
+        //$this->page->setId($id = 1);
+        //$this->page->setName(null);
+        //$this->mapper->save($this->page);
+
+        $props = array('Title', 'Editor', 'Text');
+
         foreach ($props as $prop) {
             $getprop = 'get' . $prop;
             $setprop = 'set' . $prop;
@@ -36,14 +42,24 @@ class newsTest extends unitTestCase
             $val = 'foo';
             $this->news->$setprop($val);
 
+
+            $this->assertNull($this->news->$getprop());
+
+            $this->mapper->save($this->news);
+
             $this->assertEqual($val, $this->news->$getprop());
 
             $val2 = 'bar';
             $this->news->$setprop($val2);
 
+
+            $this->assertEqual($val, $this->news->$getprop());
+
+            $this->mapper->save($this->news);
+
             $this->assertEqual($val2, $this->news->$getprop());
-            $this->assertNotEqual($val, $this->news->$getprop());
         }
+
     }
 
     public function testException()
@@ -70,7 +86,7 @@ class newsTest extends unitTestCase
 
     public function testFieldsSetsOnce()
     {
-        foreach(array('Id', 'Created', 'Updated') as $val) {
+        foreach(array('Id') as $val) {
             $setter = 'set' . $val;
             $getter = 'get' . $val;
 
@@ -78,15 +94,26 @@ class newsTest extends unitTestCase
 
             $this->news->$setter($first);
 
+            $this->mapper->save($this->news);
+
             $this->assertIdentical($this->news->$getter(), $first);
 
             $second = '5';
             $this->assertNotEqual($second, $first);
 
             $this->news->$setter($second);
+
+            $this->mapper->save($this->news);
+
             $this->assertIdentical($this->news->$getter(), $first);
         }
+        // For import
+        $this->news->import(array('id' => $second));
+        $this->mapper->save($this->news);
+
+        $this->assertIdentical($this->news->$getter(), $first);
     }
+
 }
 
 

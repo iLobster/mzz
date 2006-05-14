@@ -19,11 +19,19 @@ class pageTest extends unitTestCase
         );
 
         $this->page = new page($map);
+        $this->mapper = new pageMapper('page');
     }
 
     public function testAccessorsAndMutators()
     {
+        $this->page->setId($id = 1);
+        $this->page->setName(null);
+        $this->mapper->save($this->page);
+
+        $this->assertEqual($id, $this->page->getId());
+
         $props = array('Name', 'Title', 'Content');
+
         foreach ($props as $prop) {
             $getprop = 'get' . $prop;
             $setprop = 'set' . $prop;
@@ -33,14 +41,24 @@ class pageTest extends unitTestCase
             $val = 'foo';
             $this->page->$setprop($val);
 
+
+            $this->assertNull($this->page->$getprop());
+
+            $this->mapper->save($this->page);
+
             $this->assertEqual($val, $this->page->$getprop());
 
             $val2 = 'bar';
             $this->page->$setprop($val2);
 
+
+            $this->assertEqual($val, $this->page->$getprop());
+
+            $this->mapper->save($this->page);
+
             $this->assertEqual($val2, $this->page->$getprop());
-            $this->assertNotEqual($val, $this->page->$getprop());
         }
+
     }
 
     public function testException()
@@ -75,16 +93,50 @@ class pageTest extends unitTestCase
 
             $this->page->$setter($first);
 
+            $this->mapper->save($this->page);
+
             $this->assertIdentical($this->page->$getter(), $first);
 
             $second = '5';
             $this->assertNotEqual($second, $first);
 
             $this->page->$setter($second);
+
+            $this->mapper->save($this->page);
+
             $this->assertIdentical($this->page->$getter(), $first);
+        }
+        // For import
+        $this->page->import(array('id' => $second));
+        $this->mapper->save($this->page);
+
+        $this->assertIdentical($this->page->$getter(), $first);
+    }
+
+    public function testFieldsSetsNotOnce()
+    {
+        foreach(array('Name', 'Title', 'Content') as $val) {
+            $setter = 'set' . $val;
+            $getter = 'get' . $val;
+
+            $first = '2';
+
+            $this->page->$setter($first);
+
+            $this->mapper->save($this->page);
+
+            $this->assertIdentical($this->page->$getter(), $first);
+
+            $second = '5';
+            $this->assertNotEqual($second, $first);
+
+            $this->page->$setter($second);
+
+            $this->mapper->save($this->page);
+
+            $this->assertIdentical($this->page->$getter(), $second);
         }
     }
 }
-
 
 ?>

@@ -41,48 +41,46 @@ class pageMapper
 
     protected function insert($page)
     {
-        $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (`name`, `title`, `content`) VALUES (:name, :title, :content)');
-        $stmt->bindParam(':name', $page->getName());
-        $stmt->bindParam(':title', $page->getTitle());
-        $stmt->bindParam(':content', $page->getContent());
+        $fields = $page->export();
+        if (sizeof($fields) > 0) {
 
-        $id = $stmt->execute();
-        $page->setId($id);
+            $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
+            $markers  = ':' . implode(', :', array_keys($fields));
 
-        /*
-        $map = $this->getMap();
-        $field_names = array_keys($map);
+            $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
 
-        foreach ($field_names as $fieldname) {
-        $getprop = $map[$fieldname]['accessor'];
-        $data[$fieldname] = $news->$getprop();
+            $stmt->bindArray($fields);
+
+            $id = $stmt->execute();
+
+            $fields['id'] = $id;
+
+            $page->import($fields);
         }
-
-        if (($id = $this->db->autoExecute($this->table, $data))) {
-        $news->setId($id);
-        }*/
     }
 
     protected function update($page)
     {
-        $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET `name` = :name, `title` = :title, `content` = :content WHERE `id` = :id');
-        $stmt->bindParam(':id', $page->getId(), PDO::PARAM_INT);
-        $stmt->bindParam(':name', $page->getName());
-        $stmt->bindParam(':title', $page->getTitle());
-        $stmt->bindParam(':content', $page->getContent());
+        $fields = $page->export();
+        if (sizeof($fields) > 0) {
 
-        return $stmt->execute();
+            $query = '';
+            foreach(array_keys($fields) as $val) {
+                $query .= '`' . $val . '` = :' . $val . ', ';
+            }
+            $query = substr($query, 0, -2);
+            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
 
-        /**$map = $this->getMap();
-        $field_names = array_keys($map);
+            $stmt->bindArray($fields);
+            $stmt->bindParam(':id', $page->getId(), PDO::PARAM_INT);
 
-        foreach ($field_names as $fieldname) {
-        $getprop = $map[$fieldname]['accessor'];
-        $data[$fieldname] = $news->$getprop();
+
+            $page->import($fields);
+
+            return $stmt->execute();
         }
 
-        return $this->db->autoExecute($this->table, $data, PDO_AUTOQUERY_UPDATE, "`id` = :id");*/
-
+        return false;
     }
 
     public function delete($page)
@@ -143,14 +141,16 @@ class pageMapper
         $fields->addReadFilter('updated', $dateFilter);*/
 
         $page = new page($map);
-
+        /*
         foreach ($map as $key => $field) {
             $setprop = $field['mutator'];
             $value = $row[$key];
             if ($setprop && $value) {
                 call_user_func(array($page, $setprop), $value);
             }
-        }
+        }*/
+
+        $page->import($row);
         return $page;
     }
 
