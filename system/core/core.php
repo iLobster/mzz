@@ -63,6 +63,11 @@ class core
             fileLoader::load('action');
             fileLoader::load('cache');
 
+            fileLoader::load('simple');
+            fileLoader::load('simple/simple.mapper');
+            fileLoader::load('simple/simple.view');
+            fileLoader::load('simple/simple.controller');
+
             $toolkit = systemToolkit::getInstance();
             $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . '/common.ini')));
 
