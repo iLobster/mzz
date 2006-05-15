@@ -40,7 +40,7 @@ class userTest extends unitTestCase
     public function testAccessorsAndMutators()
     {
         $this->user->setId($id = 1);
-        $this->mapper->save($this->user);
+        $this->user->import($this->user->export());
 
         $this->assertEqual($id, $this->user->getId());
 
@@ -60,7 +60,7 @@ class userTest extends unitTestCase
 
             $this->assertNull($this->user->$getprop());
 
-            $this->mapper->save($this->user);
+            $this->user->import($this->user->export());
 
             $this->assertEqual($val, $this->user->$getprop());
 
@@ -73,7 +73,7 @@ class userTest extends unitTestCase
 
             $this->assertEqual($val, $this->user->$getprop());
 
-            $this->mapper->save($this->user);
+            $this->user->import($this->user->export());
 
             $this->assertEqual($val2, $this->user->$getprop());
         }

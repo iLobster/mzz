@@ -36,39 +36,51 @@ class newsFolderMapper
 
     protected function insert($newsFolder)
     {
-        $map = $this->getMap();
-        $field_names = array_keys($map);
+        $fields = $newsFolder->export();
 
-        foreach ($field_names as $fieldname) {
-            $getprop = $map[$fieldname]['accessor'];
-            $data[$fieldname] = $newsFolder->$getprop();
-        }
+        if (sizeof($fields) > 0) {
 
-        if (($id = $this->db->autoExecute($this->table, $data))) {
-            $newsFolder->setId($id);
+            $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
+            $markers  = ':' . implode(', :', array_keys($fields));
+
+            $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
+
+            $stmt->bindArray($fields);
+
+            $id = $stmt->execute();
+
+            $fields['id'] = $id;
+
+            $newsFolder->import($fields);
         }
     }
 
     protected function update($newsFolder)
     {
-        $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET `name`= :name, `parent`= :parent WHERE `id` = :id');
-        $stmt->bindParam(':id', $newsFolder->getId(), PDO::PARAM_INT);
-        $stmt->bindParam(':name', $newsFolder->getName());
-        $stmt->bindParam(':parent', $newsFolder->getParent(), PDO::PARAM_INT);
+        $fields = $newsFolder->export();
+        if (sizeof($fields) > 0) {
 
-        return $stmt->execute();
+            $query = '';
+            foreach(array_keys($fields) as $val) {
+                if($val == 'updated') {
+                    $query .= '`' . $val . '` = : UNIX_TIMESTAMP(), ';
+                } else {
+                    $query .= '`' . $val . '` = :' . $val . ', ';
+                }
+            }
+            $query = substr($query, 0, -2);
+            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
 
-        /*
-        $map = $this->getMap();
-        $field_names = array_keys($map);
+            $stmt->bindArray($fields);
+            $stmt->bindParam(':id', $newsFolder->getId(), PDO::PARAM_INT);
 
-        foreach ($field_names as $fieldname) {
-            $getprop = $map[$fieldname]['accessor'];
-            $data[$fieldname] = $newsFolder->$getprop();
+
+            $newsFolder->import($fields);
+
+            return $stmt->execute();
         }
 
-        return $this->db->autoExecute($this->table, $data, PDO_AUTOQUERY_UPDATE, "`id` = :id");
-        */
+        return false;
     }
 
     public function delete($newsFolder)
@@ -106,14 +118,18 @@ class newsFolderMapper
     private function createNewsFolderFromRow($row)
     {
         $map = $this->getMap();
+
         $newsFolder = new newsFolder($this, $map);
+        /*
         foreach ($map as $key => $field) {
             $setprop = $field['mutator'];
             $value = $row[$key];
             if ($setprop && $value) {
                 call_user_func(array($newsFolder, $setprop), $value);
             }
-        }
+        }*/
+
+        $newsFolder->import($row);
         return $newsFolder;
     }
 

@@ -25,8 +25,7 @@ class pageTest extends unitTestCase
     public function testAccessorsAndMutators()
     {
         $this->page->setId($id = 1);
-        $this->page->setName(null);
-        $this->mapper->save($this->page);
+        $this->page->import($this->page->export());
 
         $this->assertEqual($id, $this->page->getId());
 
@@ -44,7 +43,7 @@ class pageTest extends unitTestCase
 
             $this->assertNull($this->page->$getprop());
 
-            $this->mapper->save($this->page);
+            $this->page->import($this->page->export());
 
             $this->assertEqual($val, $this->page->$getprop());
 
@@ -54,7 +53,7 @@ class pageTest extends unitTestCase
 
             $this->assertEqual($val, $this->page->$getprop());
 
-            $this->mapper->save($this->page);
+            $this->page->import($this->page->export());
 
             $this->assertEqual($val2, $this->page->$getprop());
         }

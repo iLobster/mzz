@@ -8,6 +8,7 @@ Mock::generate('newsMapper');
 class newsTest extends unitTestCase
 {
     private $news;
+    private $db;
 
     public function setUp()
     {
@@ -21,18 +22,31 @@ class newsTest extends unitTestCase
         'updated' => array ('name' => 'updated', 'accessor' => 'getUpdated', 'mutator' => 'setUpdated', 'once' => 'true' ),
         );
 
+        $this->db = DB::factory();
         $this->news = new news($map);
         $this->mapper = new newsMapper('news');
+        $this->cleardb();
+    }
+
+    public function tearDown()
+    {
+        $this->cleardb();
+    }
+
+    public function cleardb()
+    {
+        $this->db->query('TRUNCATE TABLE `news_news`');
+        //$this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
     }
 
     public function testAccessorsAndMutators()
     {
-        //$this->page->setId($id = 1);
-        //$this->page->setName(null);
-        //$this->mapper->save($this->page);
+        $this->news->setId($id = 1);
+        $this->news->import($this->news->export());
+
+        $this->news->import($this->news->export());
 
         $props = array('Title', 'Editor', 'Text');
-
         foreach ($props as $prop) {
             $getprop = 'get' . $prop;
             $setprop = 'set' . $prop;
@@ -45,7 +59,7 @@ class newsTest extends unitTestCase
 
             $this->assertNull($this->news->$getprop());
 
-            $this->mapper->save($this->news);
+            $this->news->import($this->news->export());
 
             $this->assertEqual($val, $this->news->$getprop());
 
@@ -55,7 +69,7 @@ class newsTest extends unitTestCase
 
             $this->assertEqual($val, $this->news->$getprop());
 
-            $this->mapper->save($this->news);
+            $this->news->import($this->news->export());
 
             $this->assertEqual($val2, $this->news->$getprop());
         }

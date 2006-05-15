@@ -9,6 +9,7 @@ class newsFolderTest extends unitTestCase
 {
     private $newsFolder;
     private $mapper;
+    private $db;
 
     public function setUp()
     {
@@ -18,12 +19,31 @@ class newsFolderTest extends unitTestCase
         'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent')
         );
 
-        $this->mapper = new mocknewsFolderMapper('news');
-        $this->newsFolder = new newsFolder($this->mapper, $map);
+        $this->db = DB::factory();
+        $this->mappermock = new mocknewsFolderMapper('news');
+        $this->mapper = new newsFolderMapper('news');
+        $this->newsFolder = new newsFolder($this->mappermock, $map);
+        $this->cleardb();
+    }
+
+    public function cleardb()
+    {
+        $this->db->query('TRUNCATE TABLE `news_news`');
+        //$this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
+    }
+
+    public function tearDown()
+    {
+        $this->cleardb();
     }
 
     public function testAccessorsAndMutators()
     {
+        $this->newsFolder->setId($id = 1);
+        $this->newsFolder->import($this->newsFolder->export());
+
+        $this->newsFolder->import($this->newsFolder->export());
+
         $props = array('Name', 'Parent');
         foreach ($props as $prop) {
             $getprop = 'get' . $prop;
@@ -34,14 +54,24 @@ class newsFolderTest extends unitTestCase
             $val = 'foo';
             $this->newsFolder->$setprop($val);
 
+
+            $this->assertNull($this->newsFolder->$getprop());
+
+            $this->newsFolder->import($this->newsFolder->export());
+
             $this->assertEqual($val, $this->newsFolder->$getprop());
 
             $val2 = 'bar';
             $this->newsFolder->$setprop($val2);
 
+
+            $this->assertEqual($val, $this->newsFolder->$getprop());
+
+            $this->newsFolder->import($this->newsFolder->export());
+
             $this->assertEqual($val2, $this->newsFolder->$getprop());
-            $this->assertNotEqual($val, $this->newsFolder->$getprop());
         }
+
     }
 
     public function testException()
@@ -67,8 +97,9 @@ class newsFolderTest extends unitTestCase
         $id = 666;
         $this->newsFolder->setId($id);
 
-        $this->mapper->expectOnce('getFolders', array($id));
-        $this->mapper->setReturnValue('getFolders', array('foo', 'bar'));
+        $this->mappermock->expectOnce('getFolders', array($id));
+        $this->mappermock->setReturnValue('getFolders', array('foo', 'bar'));
+        $this->newsFolder->import($this->newsFolder->export());
 
         $this->assertEqual($this->newsFolder->getFolders(), array('foo', 'bar'));
     }
@@ -78,8 +109,9 @@ class newsFolderTest extends unitTestCase
         $id = 666;
         $this->newsFolder->setId($id);
 
-        $this->mapper->expectOnce('getItems', array($id));
-        $this->mapper->setReturnValue('getItems', array('foo', 'bar'));
+        $this->mappermock->expectOnce('getItems', array($id));
+        $this->mappermock->setReturnValue('getItems', array('foo', 'bar'));
+        $this->newsFolder->import($this->newsFolder->export());
 
         $this->assertEqual($this->newsFolder->getItems(), array('foo', 'bar'));
     }
@@ -99,13 +131,48 @@ class newsFolderTest extends unitTestCase
 
             $this->newsFolder->$setter($first);
 
+            $this->mapper->save($this->newsFolder);
+
             $this->assertIdentical($this->newsFolder->$getter(), $first);
 
             $second = '5';
             $this->assertNotEqual($second, $first);
 
             $this->newsFolder->$setter($second);
+
+            $this->mapper->save($this->newsFolder);
+
             $this->assertIdentical($this->newsFolder->$getter(), $first);
+        }
+        // For import
+        $this->newsFolder->import(array('id' => $second));
+        $this->mapper->save($this->newsFolder);
+
+        $this->assertIdentical($this->newsFolder->$getter(), $first);
+    }
+
+    public function testFieldsSetsNotOnce()
+    {
+        foreach(array('Name') as $val) {
+            $setter = 'set' . $val;
+            $getter = 'get' . $val;
+
+            $first = '2';
+
+            $this->newsFolder->$setter($first);
+
+            $this->mapper->save($this->newsFolder);
+
+            $this->assertIdentical($this->newsFolder->$getter(), $first);
+
+            $second = '5';
+            $this->assertNotEqual($second, $first);
+
+            $this->newsFolder->$setter($second);
+
+            $this->mapper->save($this->newsFolder);
+
+            $this->assertIdentical($this->newsFolder->$getter(), $second);
         }
     }
 }
