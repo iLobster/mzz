@@ -52,7 +52,7 @@ class sessionDbStorage implements iSessionStorage
     public function storageRead($sid)
     {
 
-        $stmt = $this->db->prepare("SELECT `data` FROM `sessions` WHERE `sid` = :sid AND `valid` = 'yes'");
+        $stmt = $this->db->prepare("SELECT `data` FROM `sys_sessions` WHERE `sid` = :sid AND `valid` = 'yes'");
         $stmt->bindParam(':sid', $sid, PDO::PARAM_STR);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_NUM);
@@ -74,8 +74,8 @@ class sessionDbStorage implements iSessionStorage
      */
     public function storageWrite($sid, $value)
     {
-        $this->db->exec(' INSERT INTO `sessions` (`sid`,`data`,`ts`)'.
-                        " VALUES('$sid','$value',NOW())");
+        $this->db->exec(' INSERT INTO `sys_sessions` (`sid`,`data`,`ts`)'.
+                        " VALUES('".$sid."','".$value."',UNIX_TIMESTAMP())");
 
         return true;
     }
@@ -88,9 +88,9 @@ class sessionDbStorage implements iSessionStorage
      */
     public function storageDestroy($sid)
     {
-        $this->db->exec(' UPDATE `sessions`'.
+        $this->db->exec(' UPDATE `sys_sessions`'.
                         " SET `valid` = 'no'".
-                        " WHERE `sid` = '$sid'");
+                        " WHERE `sid` = '".$sid."'");
         return true;
     }
 
@@ -102,10 +102,9 @@ class sessionDbStorage implements iSessionStorage
      */
     public function storageGc($maxLifeTime)
     {
-        $this->db->exec(' UPDATE `sessions`'.
+        $this->db->exec(' UPDATE `sys_sessions`'.
                         " SET  `valid`  = 'no'".
-                        " WHERE `valid` = 'yes'".
-                        " AND ts < DATE_ADD(now(), INTERVAL - $maxLifeTime SECOND)");
+                        " WHERE `ts` < UNIX_TIMESTAMP() - ".$maxLifeTime);
         return true;
     }
 

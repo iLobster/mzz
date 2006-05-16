@@ -73,23 +73,23 @@ CREATE TABLE `page_page` (
 
 
 #
-# Table structure for table sessions
+# Table structure for table sys_sessions
 #
 
-DROP TABLE IF EXISTS `sessions`;
-CREATE TABLE `sessions` (
-  `id` int(11) NOT NULL auto_increment,
+DROP TABLE IF EXISTS `sys_sessions`;
+CREATE TABLE `sys_sessions` (
+  `id` int(11) unsigned NOT NULL auto_increment,
   `sid` varchar(50) NOT NULL default '',
-  `ts` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `ts` int(11) unsigned NOT NULL default '0',
   `valid` enum('yes','no') NOT NULL default 'yes',
-  `data` blob,
+  `data` text,
   PRIMARY KEY  (`id`),
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Dumping data for table sessions
+# Dumping data for table sys_sessions
 #
 
 

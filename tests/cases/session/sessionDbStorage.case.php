@@ -19,7 +19,7 @@ class sessionDbStorageTest extends unitTestCase
 
     public function tearDown()
     {
-        $this->db->exec("DELETE FROM `sessions` WHERE `sid`='".$this->fixture['sid']."'");
+        $this->db->exec("DELETE FROM `sys_sessions` WHERE `sid`='".$this->fixture['sid']."'");
     }
 
     public function testStorageOpen()
@@ -76,11 +76,10 @@ class sessionDbStorageTest extends unitTestCase
 
     private function setSessionWithGc($gc = 0)
     {
-        $this->db->exec(' INSERT INTO `sessions` (`sid`,`data`,`ts`)'.
+        $this->db->exec(' INSERT INTO `sys_sessions` (`sid`,`data`,`ts`)'.
                         " VALUES('".$this->fixture['sid']."',".
                                 "'".$this->fixture['data']."',".
-                                "'".date("Y-m-d H-i-s",time() - $gc)."')");
-
+                                "'".(time() - $gc)."')");
     }
 
 }
