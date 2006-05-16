@@ -14,10 +14,10 @@ interface iSessionStorage
 {
     function storageOpen();
     function storageClose();
-    function storageRead($session_id);
-    function storageWrite($session_id, $value);
-    function storageDestroy($session_id);
-    function storageGc($max_life_time);
+    function storageRead($sid);
+    function storageWrite($sid, $value);
+    function storageDestroy($sid);
+    function storageGc($maxLifeTime);
 }
 
 

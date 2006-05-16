@@ -10,20 +10,45 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+
 /**
  * session: класс для работы с сессией
  *
  * @package system
  * @version 0.1
 */
+
+
 class session
 {
+    protected $storageDriver;
+
+    /**
+     * Запуск сессии
+     *
+     */
+    public function __construct($storageDriver = null)
+    {
+        if(!$storageDriver==null && $storageDriver instanceof iSessionStorage)
+        $this->storageDriver = $storageDriver;
+
+    }
+
     /**
      * Запуск сессии
      *
      */
     public function start()
     {
+        if($this->storageDriver)
+                session_set_save_handler(
+                array($this->storageDriver, 'storageOpen'),
+                array($this->storageDriver, 'storageClose'),
+                array($this->storageDriver, 'storageRead'),
+                array($this->storageDriver, 'storageWrite'),
+                array($this->storageDriver, 'storageDestroy'),
+                array($this->storageDriver, 'storageGc'));
+
         session_start();
     }
 

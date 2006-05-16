@@ -1,6 +1,6 @@
 <?php
-
 fileLoader::load('session');
+fileLoader::load('session/sessionDbStorage');
 
 
 class sessionTest extends unitTestCase
@@ -10,8 +10,7 @@ class sessionTest extends unitTestCase
 
     public function setUp()
     {
-        $this->session = new session();
-
+        $this->session = new session(new sessionDbStorage());
         if(isset($_SESSION)) {
             $this->_old_session_data = $_SESSION;
         } else {
@@ -21,8 +20,9 @@ class sessionTest extends unitTestCase
     }
 
     public function tearDown()
-    {
+    {   
         $_SESSION = $this->_old_session_data;
+
     }
 
     public function fixture()

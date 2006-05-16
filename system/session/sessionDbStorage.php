@@ -15,28 +15,45 @@ class sessionDbStorage implements iSessionStorage
 {
     protected $db;
 
-    function __construct()
+    public function __construct()
     {
 
         $this->db = DB::factory();
 
     }
 
-    function storageOpen()
+    /**
+     * Открытие хранилища сессий
+     *
+     * @return bool
+     */
+    public function storageOpen()
     {
         return true;
     }
 
-    function storageClose()
+    /**
+     * Закрытие хранилища сессий
+     *
+     * @return bool
+     */
+
+    public function storageClose()
     {
         return true;
     }
 
-    function storageRead($sid)
+    /**
+     * Чтение сессии из хранилища
+     *
+     * @param string $sid Идентификатор сессии
+     * @return string
+     */
+    public function storageRead($sid)
     {
 
-        $stmt = $this->db->prepare("SELECT `data` FROM `sessions` WHERE `id` = :id AND `valid` = 'yes'");
-        $stmt->bindParam(':id', $sid, PDO::PARAM_STR);
+        $stmt = $this->db->prepare("SELECT `data` FROM `sessions` WHERE `sid` = :sid AND `valid` = 'yes'");
+        $stmt->bindParam(':sid', $sid, PDO::PARAM_STR);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_NUM);
 
@@ -48,28 +65,47 @@ class sessionDbStorage implements iSessionStorage
         }
     }
 
-    function storageWrite($sid, $value)
+    /**
+     * Запись значения сессии в хранилище
+     *
+     * @param string $sid   Идентификатор сессии
+     * @param string $value Значение сессии
+     * @return string
+     */
+    public function storageWrite($sid, $value)
     {
-        $this->db->exec(' INSERT INTO `sessions` (`id`,`data`,`ts`)'.
+        $this->db->exec(' INSERT INTO `sessions` (`sid`,`data`,`ts`)'.
                         " VALUES('$sid','$value',NOW())");
 
         return true;
     }
 
-    function storageDestroy($sid)
+    /**
+     * Уничтожение сессии из хранилища
+     *
+     * @param string $sid Идентификатор сессии
+     * @return string
+     */
+    public function storageDestroy($sid)
     {
         $this->db->exec(' UPDATE `sessions`'.
                         " SET `valid` = 'no'".
-                        " WHERE `id` = '$sid'");
-        return true;                
+                        " WHERE `sid` = '$sid'");
+        return true;
     }
 
-    function storageGc($maxLifeTime)
+    /**
+     * Установка продолжительности жизни сессии
+     *
+     * @param string $maxLifeTime Время жизни сессии в секундах
+     * @return string
+     */
+    public function storageGc($maxLifeTime)
     {
         $this->db->exec(' UPDATE `sessions`'.
                         " SET  `valid`  = 'no'".
                         " WHERE `valid` = 'yes'".
-                          " AND ts < DATE_ADD(now(), INTERVAL - $maxLifeTime SECOND)");
+                        " AND ts < DATE_ADD(now(), INTERVAL - $maxLifeTime SECOND)");
         return true;
     }
 
