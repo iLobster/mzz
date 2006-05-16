@@ -1,22 +1,36 @@
-# MySQL-Front 3.2  (Build 12.3)
+# SQL Manager 2005 for MySQL 3.5.0.7
+# ---------------------------------------
+# Host     : localhost
+# Port     : 3306
+# Database : mzz_test
 
 
-# Host: localhost    Database: mzz_test
-# ------------------------------------------------------
-# Server version 5.0.18-nt
-
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES cp1251 */;
 
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP DATABASE IF EXISTS `mzz_test`;
+
+CREATE DATABASE `mzz_test`
+    CHARACTER SET 'cp1251'
+    COLLATE 'cp1251_general_ci';
+
+USE `mzz_test`;
+
 #
-# Table structure for table news_news
+# Structure for the `news_news` table : 
 #
 
 DROP TABLE IF EXISTS `news_news`;
+
 CREATE TABLE `news_news` (
   `id` int(11) NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL default '',
-  `editor` varchar(255) NOT NULL,
-  `text` text NOT NULL,
+  `title` varchar(255) default NULL,
+  `editor` varchar(255) default NULL,
+  `text` text,
   `folder_id` int(11) default NULL,
   `created` int(11) default NULL,
   `updated` int(11) default NULL,
@@ -24,15 +38,11 @@ CREATE TABLE `news_news` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Dumping data for table news_news
-#
-
-
-#
-# Table structure for table news_news_tree
+# Structure for the `news_news_tree` table : 
 #
 
 DROP TABLE IF EXISTS `news_news_tree`;
+
 CREATE TABLE `news_news_tree` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
@@ -41,33 +51,42 @@ CREATE TABLE `news_news_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Dumping data for table news_news_tree
-#
-
-
-#
-# Table structure for table page_page
+# Structure for the `page_page` table : 
 #
 
 DROP TABLE IF EXISTS `page_page`;
+
 CREATE TABLE `page_page` (
   `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `content` text NOT NULL,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) default NULL,
+  `content` text,
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Dumping data for table page_page
+# Structure for the `sessions` table : 
 #
 
+DROP TABLE IF EXISTS `sessions`;
+
+CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL auto_increment,
+  `sid` varchar(50) NOT NULL default '',
+  `ts` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `valid` enum('yes','no') NOT NULL default 'yes',
+  `data` blob,
+  PRIMARY KEY  (`id`),
+  KEY `valid` (`valid`),
+  KEY `sid` (`sid`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Table structure for table sys_sessions
+# Structure for the `sys_sessions` table : 
 #
 
 DROP TABLE IF EXISTS `sys_sessions`;
+
 CREATE TABLE `sys_sessions` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `sid` varchar(50) NOT NULL default '',
@@ -80,15 +99,11 @@ CREATE TABLE `sys_sessions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Dumping data for table sys_sessions
-#
-
-
-#
-# Table structure for table user_user
+# Structure for the `user_user` table : 
 #
 
 DROP TABLE IF EXISTS `user_user`;
+
 CREATE TABLE `user_user` (
   `id` int(11) NOT NULL auto_increment,
   `login` varchar(255) NOT NULL default '',
@@ -96,8 +111,8 @@ CREATE TABLE `user_user` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Dumping data for table user_user
-#
 
 
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -16,7 +16,7 @@
  * @version 0.1
  */
 
-class simpleView
+abstract class simpleView
 {
     protected $DAO;
     protected $smarty;

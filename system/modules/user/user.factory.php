@@ -13,51 +13,16 @@
  * userFactory: фабрика для получения контроллеров для user
  *
  * @package user
- * @version 0.1
+ * @version 0.5
  */
 
-class userFactory
+class userFactory extends simpleFactory
 {
-    /**
-     * Module action
-     *
-     * @var string
-     */
-    protected $action;
-
     /**
      * Имя модуля
      *
      * @var string
      */
     protected $name = "user"; // оставить его здесь или брать из ТМ? Или тм должен брать отсюда?
-
-    /**
-     * Constructor
-     *
-     * @param string $action
-     */
-    public function __construct($action)
-    {
-        $this->action = $action;
-        //$this->action->setDefaultAction('list');
-        //$this->action->setAction($action->getAction());
-    }
-
-    /**
-     * Загрузка и создание необходимого контроллера
-     *
-     * @return object
-     */
-    public function getController()
-    {
-        $action = $this->action->getAction();
-        fileLoader::load($this->name . '/controllers/' . $this->name . '.' . $action['controller'] . '.controller');
-        // тут возможно заменим константы news на метод $this->getName
-        $classname = $this->name . ucfirst($action['controller']) . 'Controller';
-        return new $classname();
-    }
-
-
 }
 ?>

@@ -52,6 +52,12 @@ fileLoader::load('dataspace/arrayDataspace');
 
 fileLoader::load('iterators/mzzIniFilterIterator');
 
+fileLoader::load('simple');
+fileLoader::load('simple/simple.mapper');
+fileLoader::load('simple/simple.view');
+fileLoader::load('simple/simple.controller');
+fileLoader::load('simple/simple.factory');
+
 fileLoader::load('action');
 fileLoader::load('timer.factory');
 fileLoader::load('cache');

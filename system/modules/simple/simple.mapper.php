@@ -16,7 +16,7 @@
  * @version 0.1
  */
 
-class simpleMapper
+abstract class simpleMapper
 {
 }
 

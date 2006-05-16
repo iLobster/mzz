@@ -13,37 +13,17 @@
  * TimerFactory: фабрика для получения контроллера таймера
  *
  * @package timer
- * @version 0.2
+ * @version 0.5
  */
 
-class timerFactory
+class timerFactory extends simpleFactory
 {
-    // действие
-    private $action;
-
     /**
      * Имя модуля
      *
      * @var string
      */
     protected $name = "timer";
-
-    // конструктор для фабрики
-    function __construct($action)
-    {
-        $this->action = $action;
-        //$this->action->setDefaultAction('view');
-    }
-
-    // метод получения необходимого контроллера
-    public function getController()
-    {
-        $action = $this->action->getAction();
-        fileLoader::load($this->name . '.' . $action['controller'] . '.controller');
-        // тут возможно заменим константы news на метод $this->getName
-        $classname = $this->name . $action['controller'] . 'Controller';
-        return new $classname();
-    }
 }
 
 ?>
