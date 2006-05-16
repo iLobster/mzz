@@ -2,28 +2,28 @@ body {
    font-family: verdana, arial, tahoma;
    font-size: 80%;
    color: #222;
-   background-color: red;
+   background-color: #ffffff;
 }
 
 
 a:link {
    font-family: verdana, arial, tahoma;
    font-size: 100%;
-   background: red;
+   background: #fff;
    color: #222;
 }
 
 a:visited {
    font-family: verdana, arial, tahoma;
    font-size: 100%;
-   background: red;
+   background: #fff;
    color: #222;
 }
 
 a:active {
    font-family: verdana, arial, tahoma;
    font-size: 100%;
-   background: red;
+   background: #ffc;
    color: #555;
    text-decoration: none;
 }
@@ -31,7 +31,7 @@ a:active {
 a:hover {
    font-family: verdana, arial, tahoma;
    font-size: 100%;
-   background: red;
+   background: #ffc;
    color: #222;
 }
 
@@ -56,17 +56,13 @@ a:hover {
 table {
     font-family: verdana, arial, tahoma;
     font-size: 90%;
-    background-color: darkred;
+    background-color: #E4E4E4;
     padding: 2px;
 }
 td {
-    background-color: red;
+    background-color: #fff;
     font-family: verdana, arial, tahoma;
     font-size: 100%;
     padding: 3px;
-}
-
-input, textarea {
-    background-color: red;
 }
 
