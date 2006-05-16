@@ -84,7 +84,7 @@
          *    @access public
          */
         function paintFooter($test_name) {
-            $colour = ($this->getFailCount() + $this->getExceptionCount() > 0 ? "red" : "green");
+            $colour = ($this->getFailCount() + $this->getExceptionCount() > 0 ? "red" : "red");
             print "<div style=\"";
             print "padding: 8px; margin-top: 1em; background-color: $colour; color: white;";
             print "\">";
