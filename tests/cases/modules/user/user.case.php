@@ -21,7 +21,7 @@ class userTest extends unitTestCase
 
         //$this->mapper = new mockuserMapper('news');
         $this->mapper = new userMapper('user');
-        $this->user = new user($this->mapper, $map);
+        $this->user = new user($map);
 
         $this->db = DB::factory();
         $this->cleardb();

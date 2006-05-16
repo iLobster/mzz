@@ -44,6 +44,13 @@ class core
             fileLoader::load('exceptions/init');
             fileLoader::load('request/httpResponse');
             fileLoader::load('request/url');
+
+            fileLoader::load('simple');
+            fileLoader::load('simple/simple.mapper');
+            fileLoader::load('simple/simple.view');
+            fileLoader::load('simple/simple.controller');
+            fileLoader::load('simple/simple.factory');
+
             fileLoader::load('filters/init');
 
             fileLoader::load('config/config');
@@ -51,7 +58,6 @@ class core
             fileLoader::load('frontcontroller/frontController');
 
             fileLoader::load('db/DB');
-            fileLoader::load('simple/simple.view');
             fileLoader::load('dataspace/arrayDataspace');
 
             fileLoader::load('iterators/mzzIniFilterIterator');
@@ -63,11 +69,6 @@ class core
             fileLoader::load('action');
             fileLoader::load('cache');
 
-            fileLoader::load('simple');
-            fileLoader::load('simple/simple.mapper');
-            fileLoader::load('simple/simple.view');
-            fileLoader::load('simple/simple.controller');
-            fileLoader::load('simple/simple.factory');
 
             $toolkit = systemToolkit::getInstance();
             $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . '/common.ini')));

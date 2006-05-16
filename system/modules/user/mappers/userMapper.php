@@ -10,40 +10,20 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-class userMapper
+class userMapper extends simpleMapper
 {
-    private $db;
-    private $table;
-    private $section;
-    private $map = array();
-
-    public function __construct($section)
-    {
-        $this->db = DB::factory();
-        $this->section = $section;
-        $this->table = $this->getName() . '_' .$this->getSection();
-    }
-
-    private function getName()
-    {
-        return 'user';
-    }
-
-    private function getSection()
-    {
-        return $this->section;
-    }
+    protected $name = 'user';
 
     public function create()
     {
-        return new user($this, $this->getMap());
+        return new user($this->getMap());
     }
 
     protected function insert($user)
     {
         $fields = $user->export();
         if (sizeof($fields) > 0) {
-            
+
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
             $markers  = ':' . implode(', :', array_keys($fields));
 
@@ -52,9 +32,9 @@ class userMapper
             $stmt->bindArray($fields);
 
             $id = $stmt->execute();
-            
+
             $fields['id'] = $id;
-            
+
             $user->import($fields);
         }
     }
@@ -63,7 +43,7 @@ class userMapper
     {
         $fields = $user->export();
         if (sizeof($fields) > 0) {
-            
+
             $query = '';
             foreach(array_keys($fields) as $val) {
                 $query .= '`' . $val . '` = :' . $val . ', ';
@@ -73,13 +53,13 @@ class userMapper
 
             $stmt->bindArray($fields);
             $stmt->bindParam(':id', $user->getId(), PDO::PARAM_INT);
-            
-            
+
+
             $user->import($fields);
 
             return $stmt->execute();
         }
-        
+
         return false;
     }
 
@@ -153,21 +133,7 @@ class userMapper
     private function createUserFromRow($row)
     {
         $map = $this->getMap();
-
-        /*$dateFilter = new dateFormatValueFilter();
-        $fields = new changeableDataspaceFilter(new arrayDataspace(array()));
-        $fields->addReadFilter('created', $dateFilter);
-        $fields->addReadFilter('updated', $dateFilter);*/
-
-        $user = new user($this, $map);
-/*
-        foreach ($map as $key => $field) {
-            $setprop = $field['mutator'];
-            $value = $row[$key];
-            if ($setprop && $value) {
-                call_user_func(array($user, $setprop), $value);
-            }
-        }*/
+        $user = new user($map);
         $user->import($row);
         return $user;
     }

@@ -18,6 +18,34 @@
 
 abstract class simpleMapper
 {
+    protected $db;
+    protected $table;
+    protected $section;
+    protected $name;
+
+    /**
+     * Постфикс для имени таблицы
+     *
+     * @var string
+     */
+    protected $tablePostfix = null;
+
+    public function __construct($section)
+    {
+        $this->db = DB::factory();
+        $this->section = $section;
+        $this->table = $this->getName() . '_' .$this->getSection() . $this->tablePostfix;
+    }
+
+    protected function getName()
+    {
+        return $this->name;
+    }
+
+    protected function getSection()
+    {
+        return $this->section;
+    }
 }
 
 ?>

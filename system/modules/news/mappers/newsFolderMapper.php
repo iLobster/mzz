@@ -10,29 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-class newsFolderMapper
+class newsFolderMapper extends simpleMapper
 {
-    private $db;
-    private $table;
-    private $section;
-    private $map = array();
-
-    public function __construct($section)
-    {
-        $this->db = DB::factory();
-        $this->section = $section;
-        $this->table = $this->getName() . '_' .$this->getSection() . '_tree';;
-    }
-
-    private function getName()
-    {
-        return 'news';
-    }
-
-    private function getSection()
-    {
-        return $this->section;
-    }
+    protected $tablePostfix = '_tree';
+    protected $name = 'news';
 
     protected function insert($newsFolder)
     {
@@ -118,17 +99,7 @@ class newsFolderMapper
     private function createNewsFolderFromRow($row)
     {
         $map = $this->getMap();
-
         $newsFolder = new newsFolder($this, $map);
-        /*
-        foreach ($map as $key => $field) {
-            $setprop = $field['mutator'];
-            $value = $row[$key];
-            if ($setprop && $value) {
-                call_user_func(array($newsFolder, $setprop), $value);
-            }
-        }*/
-
         $newsFolder->import($row);
         return $newsFolder;
     }

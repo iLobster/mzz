@@ -10,29 +10,9 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-class pageMapper
+class pageMapper extends simpleMapper
 {
-    private $db;
-    private $table;
-    private $section;
-    private $map = array();
-
-    public function __construct($section)
-    {
-        $this->db = DB::factory();
-        $this->section = $section;
-        $this->table = $this->getName() . '_' .$this->getSection();
-    }
-
-    private function getName()
-    {
-        return 'page';
-    }
-
-    private function getSection()
-    {
-        return $this->section;
-    }
+    protected $name = 'page';
 
     public function create()
     {
@@ -134,22 +114,7 @@ class pageMapper
     private function createPageFromRow($row)
     {
         $map = $this->getMap();
-
-        /*$dateFilter = new dateFormatValueFilter();
-        $fields = new changeableDataspaceFilter(new arrayDataspace(array()));
-        $fields->addReadFilter('created', $dateFilter);
-        $fields->addReadFilter('updated', $dateFilter);*/
-
         $page = new page($map);
-        /*
-        foreach ($map as $key => $field) {
-            $setprop = $field['mutator'];
-            $value = $row[$key];
-            if ($setprop && $value) {
-                call_user_func(array($page, $setprop), $value);
-            }
-        }*/
-
         $page->import($row);
         return $page;
     }

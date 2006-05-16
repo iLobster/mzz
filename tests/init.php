@@ -32,6 +32,14 @@ fileLoader::load('exceptions/init');
 fileLoader::load('config/config');
 
 set_error_handler('simpletest_error_handler');
+
+
+fileLoader::load('simple');
+fileLoader::load('simple/simple.mapper');
+fileLoader::load('simple/simple.view');
+fileLoader::load('simple/simple.controller');
+fileLoader::load('simple/simple.factory');
+
 fileLoader::load('libs/simpletest/unit_tester');
 fileLoader::load('libs/simpletest/mock_objects');
 fileLoader::load('libs/simpletest/reporter');
@@ -51,12 +59,6 @@ fileLoader::load('toolkit/systemToolkit');
 fileLoader::load('dataspace/arrayDataspace');
 
 fileLoader::load('iterators/mzzIniFilterIterator');
-
-fileLoader::load('simple');
-fileLoader::load('simple/simple.mapper');
-fileLoader::load('simple/simple.view');
-fileLoader::load('simple/simple.controller');
-fileLoader::load('simple/simple.factory');
 
 fileLoader::load('action');
 fileLoader::load('timer.factory');

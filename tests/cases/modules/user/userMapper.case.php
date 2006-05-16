@@ -38,7 +38,7 @@ class userMapperTest extends unitTestCase
 
     public function testSave()
     {
-        $user = new user($this->mapper, $this->map);
+        $user = new user($this->map);
         $user->setLogin('somelogin');
         $user->setPassword('somepasswd');
 
@@ -59,21 +59,21 @@ class userMapperTest extends unitTestCase
 
     public function testSearchById()
     {
-        $this->fixture($this->mapper, $this->map);
+        $this->fixture($this->map);
         $this->assertIsA($user = $this->mapper->searchById(1), 'user');
         $this->assertIdentical($user->getId(), '1');
     }
 
     public function testSearchByLogin()
     {
-        $this->fixture($this->mapper, $this->map);
+        $this->fixture($this->map);
         $this->assertIsA($user = $this->mapper->searchByLogin('login1'), 'user');
         $this->assertIdentical($user->getId(), '1');
     }
 
     public function testUpdate()
     {
-        $this->fixture($this->mapper, $this->map);
+        $this->fixture($this->map);
         $user = $this->mapper->searchById(1);
 
         $this->assertEqual($user->getLogin(), 'login1');
@@ -81,18 +81,18 @@ class userMapperTest extends unitTestCase
 
         $user->setLogin($login = 'newlogin');
         $user->setPassword($password = 'newpassword');
-        
+
         $this->mapper->save($user);
 
         $user2 = $this->mapper->searchById(1);
-        
+
         $this->assertEqual($user2->getLogin(), $login);
         $this->assertEqual($user2->getPassword(), md5($password));
     }
 
     public function testDelete()
     {
-        $this->fixture($this->mapper, $this->map);
+        $this->fixture($this->map);
 
         $this->assertEqual(4, $this->countUsers());
 
@@ -104,7 +104,7 @@ class userMapperTest extends unitTestCase
 
     public function testLogin()
     {
-        $this->fixture($this->mapper, $this->map);
+        $this->fixture($this->map);
 
         $user = $this->mapper->login('login1', 'passwd1');
 
@@ -115,7 +115,7 @@ class userMapperTest extends unitTestCase
 
     public function testLoginFalse()
     {
-        $this->fixture($this->mapper, $this->map);
+        $this->fixture($this->map);
 
         $user = $this->mapper->login('not_exists_login', 'any_password');
 
@@ -132,13 +132,13 @@ class userMapperTest extends unitTestCase
         return $total;
     }
 
-    private function fixture($mapper, $map)
+    private function fixture($map)
     {
         for($i = 1; $i <= 4; $i++) {
-            $user = new user($this->mapper, $map);
+            $user = new user($map);
             $user->setLogin('login' . $i);
             $user->setPassword('passwd' . $i);
-            $mapper->save($user);
+            $this->mapper->save($user);
         }
     }
 }
