@@ -13,71 +13,11 @@
 class pageMapper extends simpleMapper
 {
     protected $name = 'page';
+    protected $className = 'page';
 
     public function create()
     {
         return new page($this->getMap());
-    }
-
-    protected function insert($page)
-    {
-        $fields = $page->export();
-        if (sizeof($fields) > 0) {
-
-            $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
-            $markers  = ':' . implode(', :', array_keys($fields));
-
-            $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
-
-            $stmt->bindArray($fields);
-
-            $id = $stmt->execute();
-
-            $fields['id'] = $id;
-
-            $page->import($fields);
-        }
-    }
-
-    protected function update($page)
-    {
-        $fields = $page->export();
-        if (sizeof($fields) > 0) {
-
-            $query = '';
-            foreach(array_keys($fields) as $val) {
-                $query .= '`' . $val . '` = :' . $val . ', ';
-            }
-            $query = substr($query, 0, -2);
-            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
-
-            $stmt->bindArray($fields);
-            $stmt->bindParam(':id', $page->getId(), PDO::PARAM_INT);
-
-
-            $page->import($fields);
-
-            return $stmt->execute();
-        }
-
-        return false;
-    }
-
-    public function delete($page)
-    {
-        $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `name` = :name');
-        $stmt->bindParam(':name', $page->getName());
-        return $stmt->execute();
-    }
-
-    public function save($page)
-    {
-        //$news->disableDataspaceFilter();
-        if ($page->getId()) {
-            $this->update($page);
-        } else {
-            $this->insert($page);
-        }
     }
 
     public function searchById($id)
@@ -111,7 +51,7 @@ class pageMapper extends simpleMapper
     }
 
 
-    private function createPageFromRow($row)
+    protected function createPageFromRow($row)
     {
         $map = $this->getMap();
         $page = new page($map);
@@ -119,14 +59,6 @@ class pageMapper extends simpleMapper
         return $page;
     }
 
-    private function getMap()
-    {
-        if (empty($this->map)) {
-            $mapFileName = fileLoader::resolve($this->getName() . '/maps/page.map.ini');
-            $this->map = parse_ini_file($mapFileName, true);
-        }
-        return $this->map;
-    }
 }
 
 ?>

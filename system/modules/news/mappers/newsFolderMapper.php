@@ -14,71 +14,7 @@ class newsFolderMapper extends simpleMapper
 {
     protected $tablePostfix = '_tree';
     protected $name = 'news';
-
-    protected function insert($newsFolder)
-    {
-        $fields = $newsFolder->export();
-
-        if (sizeof($fields) > 0) {
-
-            $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
-            $markers  = ':' . implode(', :', array_keys($fields));
-
-            $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
-
-            $stmt->bindArray($fields);
-
-            $id = $stmt->execute();
-
-            $fields['id'] = $id;
-
-            $newsFolder->import($fields);
-        }
-    }
-
-    protected function update($newsFolder)
-    {
-        $fields = $newsFolder->export();
-        if (sizeof($fields) > 0) {
-
-            $query = '';
-            foreach(array_keys($fields) as $val) {
-                if($val == 'updated') {
-                    $query .= '`' . $val . '` = : UNIX_TIMESTAMP(), ';
-                } else {
-                    $query .= '`' . $val . '` = :' . $val . ', ';
-                }
-            }
-            $query = substr($query, 0, -2);
-            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
-
-            $stmt->bindArray($fields);
-            $stmt->bindParam(':id', $newsFolder->getId(), PDO::PARAM_INT);
-
-
-            $newsFolder->import($fields);
-
-            return $stmt->execute();
-        }
-
-        return false;
-    }
-
-    public function delete($newsFolder)
-    {
-        $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `id` = :id');
-        $stmt->bindParam(':id', $newsFolder->getId(), PDO::PARAM_INT);
-        return $stmt->execute();
-    }
-
-    public function save($newsFolder)
-    {
-        if ($newsFolder->getId()) {
-            $this->update($newsFolder);
-        } else {
-            $this->insert($newsFolder);
-        }
-    }
+    protected $className = 'newsFolder';
 
     public function searchByName($name)
     {
@@ -95,22 +31,12 @@ class newsFolderMapper extends simpleMapper
         }
     }
 
-
     private function createNewsFolderFromRow($row)
     {
         $map = $this->getMap();
         $newsFolder = new newsFolder($this, $map);
         $newsFolder->import($row);
         return $newsFolder;
-    }
-
-    private function getMap()
-    {
-        if (empty($this->map)) {
-            $mapFileName = fileLoader::resolve($this->getName() . '/maps/newsFolder.map.ini');
-            $this->map = parse_ini_file($mapFileName, true);
-        }
-        return $this->map;
     }
 
     public function getFolders($id)

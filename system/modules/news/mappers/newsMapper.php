@@ -13,75 +13,11 @@
 class newsMapper extends simpleMapper
 {
     protected $name = 'news';
+    protected $className = 'news';
 
     public function create()
     {
         return new news($this->getMap());
-    }
-
-    protected function insert($news)
-    {
-        $fields = $news->export();
-        if (sizeof($fields) > 0) {
-
-            $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
-            $markers  = ':' . implode(', :', array_keys($fields));
-
-            $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
-
-            $stmt->bindArray($fields);
-
-            $id = $stmt->execute();
-
-            $fields['id'] = $id;
-
-            $news->import($fields);
-        }
-    }
-
-    protected function update($page)
-    {
-        $fields = $page->export();
-        if (sizeof($fields) > 0) {
-
-            $query = '';
-            foreach(array_keys($fields) as $val) {
-                if($val == 'updated') {
-                    $query .= '`' . $val . '` = : UNIX_TIMESTAMP(), ';
-                } else {
-                    $query .= '`' . $val . '` = :' . $val . ', ';
-                }
-            }
-            $query = substr($query, 0, -2);
-            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
-
-            $stmt->bindArray($fields);
-            $stmt->bindParam(':id', $page->getId(), PDO::PARAM_INT);
-
-
-            $page->import($fields);
-
-            return $stmt->execute();
-        }
-
-        return false;
-    }
-
-    public function delete($news)
-    {
-        $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `id` = :id');
-        $stmt->bindParam(':id', $news->getId(), PDO::PARAM_INT);
-        return $stmt->execute();
-    }
-
-    public function save($news)
-    {
-        //$news->disableDataspaceFilter();
-        if ($news->getId()) {
-            $this->update($news);
-        } else {
-            $this->insert($news);
-        }
     }
 
     public function searchById($id)
@@ -114,8 +50,7 @@ class newsMapper extends simpleMapper
         return $result;
     }
 
-
-    private function createNewsFromRow($row)
+    protected function createNewsFromRow($row)
     {
         $map = $this->getMap();
         $news = new news($map);
@@ -123,14 +58,6 @@ class newsMapper extends simpleMapper
         return $news;
     }
 
-    private function getMap()
-    {
-        if (empty($this->map)) {
-            $mapFileName = fileLoader::resolve($this->getName() . '/maps/news.map.ini');
-            $this->map = parse_ini_file($mapFileName, true);
-        }
-        return $this->map;
-    }
 }
 
 ?>

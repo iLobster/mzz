@@ -13,70 +13,11 @@
 class userMapper extends simpleMapper
 {
     protected $name = 'user';
+    protected $className = 'user';
 
     public function create()
     {
         return new user($this->getMap());
-    }
-
-    protected function insert($user)
-    {
-        $fields = $user->export();
-        if (sizeof($fields) > 0) {
-
-            $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
-            $markers  = ':' . implode(', :', array_keys($fields));
-
-            $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
-
-            $stmt->bindArray($fields);
-
-            $id = $stmt->execute();
-
-            $fields['id'] = $id;
-
-            $user->import($fields);
-        }
-    }
-
-    protected function update($user)
-    {
-        $fields = $user->export();
-        if (sizeof($fields) > 0) {
-
-            $query = '';
-            foreach(array_keys($fields) as $val) {
-                $query .= '`' . $val . '` = :' . $val . ', ';
-            }
-            $query = substr($query, 0, -2);
-            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
-
-            $stmt->bindArray($fields);
-            $stmt->bindParam(':id', $user->getId(), PDO::PARAM_INT);
-
-
-            $user->import($fields);
-
-            return $stmt->execute();
-        }
-
-        return false;
-    }
-
-    public function delete($user)
-    {
-        $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `id` = :id');
-        $stmt->bindParam(':id', $user->getId(), PDO::PARAM_INT);
-        return $stmt->execute();
-    }
-
-    public function save($user)
-    {
-        if ($user->getId()) {
-            $this->update($user);
-        } else {
-            $this->insert($user);
-        }
     }
 
     public function searchById($id)
@@ -130,7 +71,7 @@ class userMapper extends simpleMapper
         }
     }
 
-    private function createUserFromRow($row)
+    protected function createUserFromRow($row)
     {
         $map = $this->getMap();
         $user = new user($map);
@@ -143,7 +84,7 @@ class userMapper extends simpleMapper
         return $this->searchById(1);
     }
 
-    private function getMap()
+    protected function getMap()
     {
         if (empty($this->map)) {
             $mapFileName = fileLoader::resolve($this->getName() . '/maps/user.map.ini');
