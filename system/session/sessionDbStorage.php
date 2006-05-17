@@ -17,9 +17,7 @@ class sessionDbStorage implements iSessionStorage
 
     public function __construct()
     {
-
-        $this->db = DB::factory();
-
+        $this->db = DB::factory(); 
     }
 
     /**

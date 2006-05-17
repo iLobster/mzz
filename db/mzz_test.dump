@@ -5,10 +5,6 @@
 # Database : mzz_test
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -64,22 +60,6 @@ CREATE TABLE `page_page` (
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `sessions` table : 
-#
-
-DROP TABLE IF EXISTS `sessions`;
-
-CREATE TABLE `sessions` (
-  `id` int(11) NOT NULL auto_increment,
-  `sid` varchar(50) NOT NULL default '',
-  `ts` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `valid` enum('yes','no') NOT NULL default 'yes',
-  `data` blob,
-  PRIMARY KEY  (`id`),
-  KEY `valid` (`valid`),
-  KEY `sid` (`sid`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `sys_sessions` table : 
@@ -111,8 +91,3 @@ CREATE TABLE `user_user` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

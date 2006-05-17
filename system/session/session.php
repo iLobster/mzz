@@ -27,10 +27,9 @@ class session
      * Запуск сессии
      *
      */
-    public function __construct($storageDriver = null)
+    public function __construct(iSessionStorage $storageDriver = null)
     {
-        if(!$storageDriver==null && $storageDriver instanceof iSessionStorage)
-        $this->storageDriver = $storageDriver;
+        if(!empty($storageDriver))  $this->storageDriver = $storageDriver;
 
     }
 
