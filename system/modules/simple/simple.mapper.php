@@ -38,12 +38,12 @@ abstract class simpleMapper
         $this->table = $this->getName() . '_' .$this->getSection() . $this->tablePostfix;
     }
 
-    protected function getName()
+    public function getName()
     {
         return $this->name;
     }
 
-    protected function getSection()
+    public function getSection()
     {
         return $this->section;
     }

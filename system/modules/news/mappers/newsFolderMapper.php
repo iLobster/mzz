@@ -10,6 +10,8 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+fileLoader::load('cache');
+
 class newsFolderMapper extends simpleMapper
 {
     protected $tablePostfix = '_tree';
@@ -55,8 +57,10 @@ class newsFolderMapper extends simpleMapper
 
     public function getItems($id)
     {
+        $cache = new cache(systemConfig::$pathToTemp . '/cache');
         $news = new newsMapper($this->getSection());
-        return $news->searchByFolder($id);
+        //return $news->searchByFolder($id);
+        return $cache->call(array($news, 'searchByFolder'), array($id));
     }
 }
 
