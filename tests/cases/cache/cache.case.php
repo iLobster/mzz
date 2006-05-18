@@ -1,6 +1,70 @@
 <?php
 fileLoader::load('cache');
 
+class cacheStub
+{
+    public function getSection()
+    {
+    }
+    public function getName()
+    {
+    }
+    public function method()
+    {
+    }
+}
+
+mock::generate('cacheStub');
+
+class cacheTest extends unitTestCase
+{
+    private $cache;
+    private $mock;
+
+    public function setUp()
+    {
+        $this->mock = new mockcacheStub();
+        $this->mock->setReturnValue('getSection', 'stubSection');
+        $this->mock->setReturnValue('getName', 'stubName');
+
+        $this->cache = new cache(systemConfig::$pathToTemp . '/cache');
+    }
+
+    public function tearDown()
+    {
+        $res = scandir($path = systemConfig::$pathToTemp . '/cache/stubSection/stubName/');
+        foreach ($res as $val) {
+            if (is_file($path . $val)) {
+                unlink($path . $val);
+            }
+        }
+    }
+
+    public function testObjectMethod()
+    {
+        $this->mock->expectOnce('method', array($arg = time()));
+        $this->mock->setReturnValue('method', $result = 'foo');
+
+        $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result);
+        $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result);
+    }
+
+    public function testSetInvalid()
+    {
+        $arg = time();
+        $this->mock->expectCallCount('method', 2);
+        $this->mock->setReturnValueAt(0, 'method', $result = 'foo');
+        $this->mock->setReturnValueAt(1, 'method', $result2 = 'bar');
+
+        $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result);
+
+        $this->assertTrue($this->cache->setInvalid($this->mock));
+
+        $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result2);
+    }
+}
+
+/*
 class cacheTest extends unitTestCase
 {
     private $cache;
@@ -47,5 +111,5 @@ class cacheTest extends unitTestCase
 
 
 }
-
+*/
 ?>
