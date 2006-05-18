@@ -29,7 +29,7 @@ class cache
 
     public function call($callback, $args = array())
     {
-        // тут нужно создавать целый путь если он не существует.
+        // тут нужно создавать целый путь если он не существует. (подробнее, чем плох текущий вариант)
         // возможно классом fs который давно давно удалили
         if (is_array($callback)) {
 
@@ -68,6 +68,7 @@ class cache
     private function isValid($callback, $filename)
     {
         // тут тоже юзать SPL ?
+        // всмысле?
         $path = $path = $this->getPathByCallback($callback);
         if (!file_exists($path . 'valid')) {
             $this->setInvalid($callback, 0);
@@ -79,6 +80,7 @@ class cache
     private function getCache($path, $filename)
     {
         // проверять что файл существует, кидать эксепшн
+        // экспшен бросает SplFileObject
         $cache_file = new SplFileObject($path . $filename , "r");
 
         $cache_file->flock(LOCK_EX);
