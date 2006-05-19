@@ -21,57 +21,59 @@ fileLoader::load('iterators/mzzCacheFilterIterator');
 class cache
 {
     private $cachePath;
+    private $object;
 
-    public function __construct($cachePath)
+    public function __construct($object, $cachePath)
     {
+        $this->object = $object;
         $this->cachePath = $cachePath;
     }
 
-    public function call($callback, $args = array())
+    public function __call($name, $args = array())
+    {
+        // проверяем что метод нужно кешировать
+        if (true) {
+            return $this->call($name, $args);
+        } else {
+            return call_user_func_array(array($this->object, $name), $args);
+        }
+    }
+
+    public function call($name, $args = array())
     {
         // тут нужно создавать целый путь если он не существует. (подробнее, чем плох текущий вариант)
         // возможно классом fs который давно давно удалили
-        if (is_array($callback)) {
 
-            if (!is_callable($callback)) {
-                throw new mzzCallbackException($callback);
-            }
+        $path = $this->getPath();
+        $filename = md5($name) . '_' . md5(serialize($args));
 
-            $path = $this->getPathByCallback($callback);
-            $filename = md5($callback[1]) . '_' . md5(serialize($args));
-
-            if ($this->isValid($callback, $filename)) {
-                $result = $this->getCache($path, $filename);
-            } else {
-                $result = call_user_func_array($callback, $args);
-                $this->writeCache($path, $filename, $result);
-            }
+        if ($this->isValid($filename)) {
+            $result = $this->getCache($path, $filename);
+        } else {
+            $result = call_user_func_array(array($this->object, $name), $args);
+            $this->writeCache($path, $filename, $result);
         }
 
         return $result;
     }
 
-    private function getPathByCallback($callback)
+    private function getPath()
     {
-        if (is_array($callback)) {
-            return $this->cachePath . '/' . $callback[0]->getSection() . '/' . $callback[0]->getName() . '/';
-        } elseif (is_object($callback)) {
-            return $this->cachePath . '/' . $callback->getSection() . '/' . $callback->getName() . '/';
-        }
+        return $this->cachePath . '/' . $this->object->getSection() . '/' . $this->object->getName() . '/';
     }
 
-    public function setInvalid($callback, $period = 2)
+    public function setInvalid($period = 2)
     {
-        return touch($this->getPathByCallback($callback) . 'valid', time() + $period);
+        return touch($this->getPath() . 'valid', time() + $period);
     }
 
-    private function isValid($callback, $filename)
+    private function isValid($filename)
     {
         // тут тоже юзать SPL ?
         // всмысле?
-        $path = $path = $this->getPathByCallback($callback);
+        $path = $this->getPath();
         if (!file_exists($path . 'valid')) {
-            $this->setInvalid($callback, 0);
+            $this->setInvalid(0);
         }
 
         return (file_exists($path . $filename)) ? filemtime($path . 'valid') <= filemtime($path . $filename) : false;

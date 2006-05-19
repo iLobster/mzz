@@ -15,35 +15,6 @@ class cacheStub
     }
 }
 
-class q
-{
-    public function getSection()
-    {
-        return 'stubSection';
-    }
-    public function getName()
-    {
-        return 'stubName';
-    }
-    public function methodToCache()
-    {
-        return new a(new cacheStub);
-    }
-}
-
-class a
-{
-    private $tst;
-    public function __construct($strategy)
-    {
-        $this->tst = $strategy;
-    }
-    public function z()
-    {
-        echo $this->tst->method();
-    }
-}
-
 mock::generate('cacheStub');
 
 class cacheTest extends unitTestCase
@@ -57,7 +28,7 @@ class cacheTest extends unitTestCase
         $this->mock->setReturnValue('getSection', 'stubSection');
         $this->mock->setReturnValue('getName', 'stubName');
 
-        $this->cache = new cache(systemConfig::$pathToTemp . '/cache');
+        $this->cache = new cache($this->mock, systemConfig::$pathToTemp . '/cache');
     }
 
     public function tearDown()
@@ -65,18 +36,19 @@ class cacheTest extends unitTestCase
         $res = scandir($path = systemConfig::$pathToTemp . '/cache/stubSection/stubName/');
         foreach ($res as $val) {
             if (is_file($path . $val)) {
-                //unlink($path . $val);
+                unlink($path . $val);
             }
         }
     }
 
-    public function atestObjectMethod()
+    public function testObjectMethod()
     {
-        $this->mock->expectOnce('method', array($arg = time()));
+        $this->mock->expectOnce('method', array());
         $this->mock->setReturnValue('method', $result = 'foo');
 
-        $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result);
-        $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result);
+
+        $this->assertEqual($this->cache->method(), $result);
+        $this->assertEqual($this->cache->method(), $result);
     }
 
     public function atestSetInvalid()
@@ -92,14 +64,14 @@ class cacheTest extends unitTestCase
 
         $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result2);
     }
-    
-    public function testCache()
+
+    public function atestCache()
     {
         $q = new q();
-        
+
         $a = $this->cache->call(array($q, 'methodToCache'));
         $a->z();
-        
+
         $b = $this->cache->call(array($q, 'methodToCache'));
         $b->z();
     }
