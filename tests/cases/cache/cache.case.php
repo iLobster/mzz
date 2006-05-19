@@ -3,6 +3,11 @@ fileLoader::load('cache');
 
 class cacheStub
 {
+    public function isCacheable($method)
+    {
+        $arr = array('method');
+        return in_array($method, $arr);
+    }
     public function getSection()
     {
     }
@@ -11,7 +16,9 @@ class cacheStub
     }
     public function method()
     {
-        return 'zzzzzzz';
+    }
+    public function notCache()
+    {
     }
 }
 
@@ -27,6 +34,8 @@ class cacheTest extends unitTestCase
         $this->mock = new mockcacheStub();
         $this->mock->setReturnValue('getSection', 'stubSection');
         $this->mock->setReturnValue('getName', 'stubName');
+        $this->mock->setReturnValue('isCacheable', true, array('method'));
+        $this->mock->setReturnValue('isCacheable', false, array('*'));
 
         $this->cache = new cache($this->mock, systemConfig::$pathToTemp . '/cache');
     }
@@ -51,78 +60,29 @@ class cacheTest extends unitTestCase
         $this->assertEqual($this->cache->method(), $result);
     }
 
-    public function atestSetInvalid()
+    public function testSetInvalid()
     {
-        $arg = time();
+        $arg = 'q';
         $this->mock->expectCallCount('method', 2);
-        $this->mock->setReturnValueAt(0, 'method', $result = 'foo');
-        $this->mock->setReturnValueAt(1, 'method', $result2 = 'bar');
+        $this->mock->setReturnValueAt(0, 'method', $result = 'result1');
+        $this->mock->setReturnValueAt(1, 'method', $result2 = 'result2');
 
-        $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result);
+        $this->assertEqual($this->cache->method($arg), $result);
 
-        $this->assertTrue($this->cache->setInvalid($this->mock));
+        $this->assertTrue($this->cache->setInvalid());
 
-        $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result2);
+        $this->assertEqual($this->cache->method($arg), $result2);
     }
 
-    public function atestCache()
+    public function testNotCacheable()
     {
-        $q = new q();
+        $this->mock->expectCallCount('notCache', 2);
+        $this->mock->setReturnValueAt(0, 'notCache', $result = 'result1');
+        $this->mock->setReturnValueAt(1, 'notCache', $result2 = 'result2');
 
-        $a = $this->cache->call(array($q, 'methodToCache'));
-        $a->z();
-
-        $b = $this->cache->call(array($q, 'methodToCache'));
-        $b->z();
+        $this->assertEqual($this->cache->notCache(), $result);
+        $this->assertEqual($this->cache->notCache(), $result2);
     }
 }
 
-/*
-class cacheTest extends unitTestCase
-{
-    private $cache;
-
-    public function setUp()
-    {
-        $this->cache = new Cache(systemConfig::$pathToTemp);
-    }
-
-    public function tearDown()
-    {
-        $this->cache->clearCache();
-    }
-
-    public function testCache()
-    {
-        $id = systemConfig::$pathToTemp . '/test_cache.ini';
-        $content = "[section1]\r\noption1 = value1\r\noption2 = value2\r\n";
-
-        $file = new SplFileObject($id, "w");
-        $file->fwrite($content);
-
-
-        $this->assertFalse($this->cache->isCached($id));
-        $result = parse_ini_file($id, 1);
-
-        $this->cache->save($result, $id);
-
-        $this->assertTrue($this->cache->isCached($id));
-
-        $this->assertIdentical($this->cache->get($id), $result);
-
-        touch($id, time() + 10);
-
-        try {
-            $this->assertFalse($this->cache->get($id), $result);
-            $this->fail('no exception thrown?');
-        } catch (Exception $e) {
-            $this->assertPattern("/cache.*?expired/i", $e->getMessage());
-            $this->pass();
-        }
-    }
-
-
-
-}
-*/
 ?>
