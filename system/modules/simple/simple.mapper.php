@@ -25,6 +25,11 @@ abstract class simpleMapper
     protected $className;
 
     /**
+     * Массив кешируемых методов
+     */
+    protected $cacheable = array();
+
+    /**
      * Постфикс для имени таблицы
      *
      * @var string
@@ -115,6 +120,17 @@ abstract class simpleMapper
             $this->map = parse_ini_file($mapFileName, true);
         }
         return $this->map;
+    }
+
+    /**
+     * возвращает возможность кеширования для запрашиваемого метода
+     *
+     * @param string $name имя метода
+     * @return boolean возможность кеширования
+     */
+    public function isCacheable($name)
+    {
+        return in_array($name, $this->cacheable);
     }
 }
 

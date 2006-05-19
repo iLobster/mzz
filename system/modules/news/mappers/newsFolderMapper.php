@@ -17,6 +17,7 @@ class newsFolderMapper extends simpleMapper
     protected $tablePostfix = '_tree';
     protected $name = 'news';
     protected $className = 'newsFolder';
+    protected $cacheable = array('searchByName');
 
     public function searchByName($name)
     {
@@ -61,6 +62,16 @@ class newsFolderMapper extends simpleMapper
         $news = new newsMapper($this->getSection());
         return $news->searchByFolder($id);
         //return $cache->call(array($news, 'searchByFolder'), array($id));
+    }
+
+    public function __sleep()
+    {
+        //$this->db = null;
+        return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
+    }
+    public function __wakeup()
+    {
+        //$this->db = DB::factory();
     }
 }
 

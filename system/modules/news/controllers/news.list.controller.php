@@ -16,6 +16,8 @@
  * @version 0.1
  */
 
+fileLoader::load('cache');
+
 class newsListController
 {
     public function __construct()
@@ -32,7 +34,7 @@ class newsListController
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
 
-        $newsFolder = new newsFolderMapper($httprequest->getSection());
+        $newsFolder = new cache(new newsFolderMapper($httprequest->getSection()), systemConfig::$pathToTemp . '/cache');
 
         if (($path = $httprequest->get(0, SC_PATH)) == false) {
             $path = "root";

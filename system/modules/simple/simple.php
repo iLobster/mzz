@@ -44,6 +44,11 @@ abstract class simple
     protected $map;
 
     /**
+     * Массив кешируемых методов
+     */
+    protected $cacheable = array();
+
+    /**
      * Конструктор.
      *
      * @param array $map массив, содержащий информацию о полях
@@ -173,6 +178,17 @@ abstract class simple
                 return $this->map[$name]['decorateClass'];
         }
         return false;
+    }
+
+    /**
+     * возвращает возможность кеширования для запрашиваемого метода
+     *
+     * @param string $name имя метода
+     * @return boolean возможность кеширования
+     */
+    public function isCacheable($name)
+    {
+        return in_array($name, $this->cacheable);
     }
 
 
