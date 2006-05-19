@@ -39,7 +39,8 @@ class newsListController
         if (($path = $httprequest->get(0, SC_PATH)) == false) {
             $path = "root";
         }
-        $folder = $newsFolder->searchByName($path);
+        //$folder = $newsFolder->searchByName($path);
+$folder = new cache($newsFolder->searchByName($path), systemConfig::$pathToTemp . '/cache');
         $data = $folder->getItems($newsFolder);
         return new newsListView($data, $newsFolder);
     }
