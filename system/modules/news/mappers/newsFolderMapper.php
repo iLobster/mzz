@@ -57,10 +57,10 @@ class newsFolderMapper extends simpleMapper
 
     public function getItems($id)
     {
-        $cache = new cache(systemConfig::$pathToTemp . '/cache');
+        //$cache = new cache(systemConfig::$pathToTemp . '/cache');
         $news = new newsMapper($this->getSection());
-        //return $news->searchByFolder($id);
-        return $cache->call(array($news, 'searchByFolder'), array($id));
+        return $news->searchByFolder($id);
+        //return $cache->call(array($news, 'searchByFolder'), array($id));
     }
 }
 

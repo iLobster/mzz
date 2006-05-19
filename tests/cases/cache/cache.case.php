@@ -11,6 +11,36 @@ class cacheStub
     }
     public function method()
     {
+        return 'zzzzzzz';
+    }
+}
+
+class q
+{
+    public function getSection()
+    {
+        return 'stubSection';
+    }
+    public function getName()
+    {
+        return 'stubName';
+    }
+    public function methodToCache()
+    {
+        return new a(new cacheStub);
+    }
+}
+
+class a
+{
+    private $tst;
+    public function __construct($strategy)
+    {
+        $this->tst = $strategy;
+    }
+    public function z()
+    {
+        echo $this->tst->method();
     }
 }
 
@@ -35,12 +65,12 @@ class cacheTest extends unitTestCase
         $res = scandir($path = systemConfig::$pathToTemp . '/cache/stubSection/stubName/');
         foreach ($res as $val) {
             if (is_file($path . $val)) {
-                unlink($path . $val);
+                //unlink($path . $val);
             }
         }
     }
 
-    public function testObjectMethod()
+    public function atestObjectMethod()
     {
         $this->mock->expectOnce('method', array($arg = time()));
         $this->mock->setReturnValue('method', $result = 'foo');
@@ -49,7 +79,7 @@ class cacheTest extends unitTestCase
         $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result);
     }
 
-    public function testSetInvalid()
+    public function atestSetInvalid()
     {
         $arg = time();
         $this->mock->expectCallCount('method', 2);
@@ -61,6 +91,17 @@ class cacheTest extends unitTestCase
         $this->assertTrue($this->cache->setInvalid($this->mock));
 
         $this->assertEqual($this->cache->call(array($this->mock, 'method'), array($arg)), $result2);
+    }
+    
+    public function testCache()
+    {
+        $q = new q();
+        
+        $a = $this->cache->call(array($q, 'methodToCache'));
+        $a->z();
+        
+        $b = $this->cache->call(array($q, 'methodToCache'));
+        $b->z();
     }
 }
 
