@@ -28,6 +28,17 @@ class page extends simple
     {
         return parent::getJip('page', 'page', $this->name(), 'page');
     }
+
+    public function section()
+    {
+        return $this->mapper->section();
+    }
+
+    public function name()
+    {
+        return $this->mapper->name();
+    }
+
 }
 
 ?>
