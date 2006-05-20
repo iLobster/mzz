@@ -19,8 +19,8 @@ class newsFolderMapper extends simpleMapper
     protected $className = 'newsFolder';
     protected $cacheable = array('searchByName', 'getFolders', 'getItems');
     protected $cache = null;
-    
-    public function setCache($cache)
+
+    public function injectCache($cache)
     {
         $this->cache = $cache;
     }
@@ -75,7 +75,7 @@ class newsFolderMapper extends simpleMapper
     public function __wakeup()
     {
     }
-    
+
     public function this()
     {
         return (!empty($this->cache)) ? $this->cache : $this;

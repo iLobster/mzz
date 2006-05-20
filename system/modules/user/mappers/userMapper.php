@@ -14,6 +14,13 @@ class userMapper extends simpleMapper
 {
     protected $name = 'user';
     protected $className = 'user';
+    protected $cacheable = array('searchById', 'searchByLogin');
+    protected $cache = null;
+
+    public function injectCache($cache)
+    {
+        $this->cache = $cache;
+    }
 
     public function create()
     {
@@ -91,6 +98,20 @@ class userMapper extends simpleMapper
             $this->map = parse_ini_file($mapFileName, true);
         }
         return $this->map;
+    }
+
+    public function __sleep()
+    {
+        return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
+    }
+
+    public function __wakeup()
+    {
+    }
+
+    public function this()
+    {
+        return (!empty($this->cache)) ? $this->cache : $this;
     }
 }
 

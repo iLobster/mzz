@@ -24,7 +24,7 @@ class pageMapper extends simpleMapper
     protected $cacheable = array('searchByName');
     protected $cache = null;
 
-    public function setCache($cache)
+    public function injectCache($cache)
     {
         $this->cache = $cache;
     }

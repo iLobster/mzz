@@ -59,6 +59,7 @@ class cacheTest extends unitTestCase
         $this->mock->setReturnValue('method', $result = 'foo');
 
 
+        $this->assertTrue($this->cache->setInvalid());
         $this->assertEqual($this->cache->method(), $result);
         $this->assertEqual($this->cache->method(), $result);
     }
@@ -81,7 +82,7 @@ class cacheTest extends unitTestCase
     {
         $this->mock->expectCallCount('notCache', 2);
         $this->mock->setReturnValueAt(0, 'notCache', $result = 'result1');
-        $this->mock->setReturnValueAt(1, 'notCache', $result2 = 'result2');
+        $this->mock->setReturnValueAt(1, 'notCache', $result2 = 'result2'); 
 
         $this->assertEqual($this->cache->notCache(), $result);
         $this->assertEqual($this->cache->notCache(), $result2);
