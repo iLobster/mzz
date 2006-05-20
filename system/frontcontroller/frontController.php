@@ -52,6 +52,11 @@ class frontController
 
         if ($template_name === false) {
             $template_name = $this->getRewritedTemplate($section);
+            if($template_name == false)
+            {
+                // нужно брать из sectionMapper
+                $template_name = 'act.404.view.tpl';
+            }
         }
 
         return $template_name;
