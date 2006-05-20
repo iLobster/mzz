@@ -28,7 +28,7 @@ class cache
         $this->object->setCache($this);
     }
 
-    public function __call($name, $args = array())
+    private function __call($name, $args = array())
     {
         return ($this->object->isCacheable($name)) ? $this->call($name, $args) : call_user_func_array(array($this->object, $name), $args);
     }
