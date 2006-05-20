@@ -21,7 +21,7 @@
  * @param object $smarty объект смарти
  * @return string результат работы модуля
  * @package system
- * @version 0.3
+ * @version 0.3.1
  */
 function smarty_function_load($params, $smarty)
 {
@@ -40,11 +40,13 @@ function smarty_function_load($params, $smarty)
     $action = $toolkit->getAction($params['module']);
     $action->setAction($action_name);
 
+    $section = (isset($params['section'])) ? $params['section'] : null;
+
     $factory = new $modulename($action);
 
     $controller = $factory->getController();
 
-    $view = $controller->getView();
+    $view = $controller->getView($section);
 
     $result = $view->toString();
 

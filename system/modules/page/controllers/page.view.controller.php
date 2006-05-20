@@ -13,8 +13,10 @@
  * pageViewController: контроллер для метода view модуля page
  *
  * @package page
- * @version 0.1
+ * @version 0.2
  */
+
+fileLoader::load('cache');
 
 class pageViewController
 {
@@ -25,12 +27,16 @@ class pageViewController
         fileLoader::load("page/mappers/pageMapper");
     }
 
-    public function getView()
+    public function getView($section = null)
     {
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
 
-        $pageMapper = new pageMapper($httprequest->getSection());
+        if (empty($section)) {
+            $section = $httprequest->getSection();
+        }
+
+        $pageMapper = new pageMapper($section);
 
         if (($name = $httprequest->get(0, SC_PATH)) == false) {
             $name = 'main';

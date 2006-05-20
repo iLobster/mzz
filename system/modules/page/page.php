@@ -14,11 +14,19 @@
  * page: page
  *
  * @package page
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class page extends simple
 {
+    private $mapper;
+
+    public function __construct($mapper, Array $map)
+    {
+        $this->mapper = $mapper;
+        parent::__construct($map);
+    }
+
     /**
      * Получение объекта JIP
      *

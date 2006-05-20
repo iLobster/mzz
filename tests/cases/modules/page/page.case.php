@@ -18,8 +18,8 @@ class pageTest extends unitTestCase
         'content' => array ('name' => 'content', 'accessor' => 'getContent', 'mutator' => 'setContent')
         );
 
-        $this->page = new page($map);
         $this->mapper = new pageMapper('page');
+        $this->page = new page($this->mapper, $map);
     }
 
     public function testAccessorsAndMutators()

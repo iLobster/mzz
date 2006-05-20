@@ -10,6 +10,13 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+/**
+ * page: маппер для страниц
+ *
+ * @package page
+ * @version 0.1.1
+ */
+
 class pageMapper extends simpleMapper
 {
     protected $name = 'page';
@@ -17,7 +24,7 @@ class pageMapper extends simpleMapper
 
     public function create()
     {
-        return new page($this->getMap());
+        return new page($this, $this->getMap());
     }
 
     public function searchById($id)
@@ -54,7 +61,7 @@ class pageMapper extends simpleMapper
     protected function createPageFromRow($row)
     {
         $map = $this->getMap();
-        $page = new page($map);
+        $page = new page($this, $map);
         $page->import($row);
         return $page;
     }
