@@ -36,7 +36,8 @@ class pageViewController
             $section = $httprequest->getSection();
         }
 
-        $pageMapper = new pageMapper($section);
+        $pageMapper = new cache(new pageMapper($section), systemConfig::$pathToTemp . '/cache');
+        //$pageMapper = new pageMapper($section);
 
         if (($name = $httprequest->get(0, SC_PATH)) == false) {
             $name = 'main';

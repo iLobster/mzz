@@ -21,6 +21,7 @@ class pageMapper extends simpleMapper
 {
     protected $name = 'page';
     protected $className = 'page';
+    protected $cacheable = array('searchByName');
 
     public function create()
     {
@@ -66,6 +67,13 @@ class pageMapper extends simpleMapper
         return $page;
     }
 
+    public function __sleep()
+    {
+        return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
+    }
+    public function __wakeup()
+    {
+    }
 }
 
 ?>
