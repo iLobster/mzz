@@ -34,15 +34,16 @@ class newsListController
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
 
-        $newsFolder = new cache(new newsFolderMapper($httprequest->getSection()), systemConfig::$pathToTemp . '/cache');
+        $newsFolderMapper = new cache(new newsFolderMapper($httprequest->getSection()), systemConfig::$pathToTemp . '/cache');
 
         if (($path = $httprequest->get(0, SC_PATH)) == false) {
             $path = "root";
         }
-        //$folder = $newsFolder->searchByName($path);
-        $folder = new cache($newsFolder->searchByName($path), systemConfig::$pathToTemp . '/cache');
-        $data = $folder->getItems($newsFolder);
-        return new newsListView($data, $newsFolder);
+        $newsFolder = $newsFolderMapper->searchByName($path);
+        //$newsFolder = new cache($newsFolder->searchByName($path), systemConfig::$pathToTemp . '/cache');
+        // так делать нельзя - потому что результаты для $newsFolder->getItems() зависят не от аргументов а от маппера
+        $data = $newsFolder->getItems();
+        return new newsListView($data, $newsFolderMapper);
     }
 }
 

@@ -17,7 +17,7 @@ class newsFolderMapper extends simpleMapper
     protected $tablePostfix = '_tree';
     protected $name = 'news';
     protected $className = 'newsFolder';
-    protected $cacheable = array('searchByName');
+    protected $cacheable = array('searchByName', 'getFolders');
 
     public function searchByName($name)
     {

@@ -29,6 +29,8 @@ class cache
 
     public function __call($name, $args = array())
     {
+        var_dump($name);
+        var_dump($this->object->isCacheable($name));
         return ($this->object->isCacheable($name)) ? $this->call($name, $args) : call_user_func_array(array($this->object, $name), $args);
     }
 
