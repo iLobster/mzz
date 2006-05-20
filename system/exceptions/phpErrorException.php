@@ -43,7 +43,8 @@ class phpErrorException extends mzzException
                E_STRICT          => "Runtime Notice"
                );
 
-        $message = $errortype[$errno] . ' in file <b>' . $errfile . ':' . $errline . '</b>: ' . $errstr;
+        $etype = (isset($errortype[$errno])) ? $errortype[$errno] : 'Unknown';
+        $message = $etype. ' in file <b>' . $errfile . ':' . $errline . '</b>: ' . $errstr;
         parent::__construct($message);
         $this->setName('PHP Error Exception');
     }
