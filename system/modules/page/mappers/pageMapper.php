@@ -22,6 +22,12 @@ class pageMapper extends simpleMapper
     protected $name = 'page';
     protected $className = 'page';
     protected $cacheable = array('searchByName');
+    protected $cache = null;
+
+    public function setCache($cache)
+    {
+        $this->cache = $cache;
+    }
 
     public function create()
     {
