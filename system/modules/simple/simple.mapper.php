@@ -16,13 +16,14 @@
  * @version 0.1
  */
 
-abstract class simpleMapper
+abstract class simpleMapper implements iCacheable
 {
     protected $db;
     protected $table;
     protected $section;
     protected $name;
     protected $className;
+    protected $cache;
 
     /**
      * Массив кешируемых методов
@@ -131,6 +132,16 @@ abstract class simpleMapper
     public function isCacheable($name)
     {
         return in_array($name, $this->cacheable);
+    }
+
+    /**
+     * Установка cache
+     *
+     * @package cache $cache
+     */
+    public function injectCache($cache)
+    {
+        $this->cache = $cache;
     }
 }
 

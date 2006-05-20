@@ -38,7 +38,7 @@ class userFilter implements iFilter
         $user_id = $session->get('user_id', 1);
 
         // хм... начинаем зависеть от таблы??
-        $userMapper = new cache(new userMapper('user'), systemConfig::$pathToTemp . '/cache');
+        $userMapper = $toolkit->getCache(new userMapper('user'));
 
         $me = $userMapper->searchById($user_id);
 

@@ -21,7 +21,7 @@ class cache
     private $cachePath;
     private $object;
 
-    public function __construct($object, $cachePath)
+    public function __construct(iCacheable $object, $cachePath)
     {
         $this->object = $object;
         $this->cachePath = $cachePath;

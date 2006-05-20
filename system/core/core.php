@@ -46,6 +46,8 @@ class core
             fileLoader::load('request/httpResponse');
             fileLoader::load('request/url');
 
+            fileLoader::load('cache/iCacheable');
+
             fileLoader::load('simple');
             fileLoader::load('simple/simple.mapper');
             fileLoader::load('simple/simple.view');
@@ -68,7 +70,7 @@ class core
             fileLoader::load('toolkit/systemToolkit');
 
             fileLoader::load('action');
-            fileLoader::load('cache');
+
 
 
             $toolkit = systemToolkit::getInstance();

@@ -183,14 +183,16 @@ class stdToolkit extends toolkit
     /**
      * Возвращает объект Cache
      *
+     * @param object объект для кэширования
      * @return object
      */
-    public function getCache()
+    public function getCache($object)
     {
         if (empty($this->cache)) {
-            $this->cache = new Cache(systemConfig::$pathToTemp);
+            fileLoader::load('cache');
+            $this->cache = true;
         }
-        return $this->cache;
+        return new cache($object, systemConfig::$pathToTemp . '/cache');
     }
 
     /**

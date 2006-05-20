@@ -10,7 +10,6 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-fileLoader::load('cache');
 
 class newsFolderMapper extends simpleMapper
 {
@@ -18,12 +17,6 @@ class newsFolderMapper extends simpleMapper
     protected $name = 'news';
     protected $className = 'newsFolder';
     protected $cacheable = array('searchByName', 'getFolders', 'getItems');
-    protected $cache = null;
-
-    public function injectCache($cache)
-    {
-        $this->cache = $cache;
-    }
 
     public function searchByName($name)
     {

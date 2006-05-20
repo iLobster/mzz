@@ -15,12 +15,6 @@ class userMapper extends simpleMapper
     protected $name = 'user';
     protected $className = 'user';
     protected $cacheable = array('searchById', 'searchByLogin');
-    protected $cache = null;
-
-    public function injectCache($cache)
-    {
-        $this->cache = $cache;
-    }
 
     public function create()
     {

@@ -16,8 +16,6 @@
  * @version 0.2
  */
 
-fileLoader::load('cache');
-
 class pageViewController
 {
     public function __construct()
@@ -36,7 +34,8 @@ class pageViewController
             $section = $httprequest->getSection();
         }
 
-        $pageMapper = new cache(new pageMapper($section), systemConfig::$pathToTemp . '/cache');
+        $pageMapper = $toolkit->getCache(new pageMapper($section));
+
         //$pageMapper = new pageMapper($section);
 
         if (($name = $httprequest->get(0, SC_PATH)) == false) {
