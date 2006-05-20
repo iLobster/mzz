@@ -42,6 +42,7 @@ class core
 
             fileLoader::setResolver($cachingResolver);
             fileLoader::load('exceptions/init');
+            $dispatcher = new errorDispatcher();
             fileLoader::load('request/httpResponse');
             fileLoader::load('request/url');
 
@@ -82,17 +83,13 @@ class core
             $filter_chain->registerFilter(new sessionFilter());
             $filter_chain->registerFilter(new userFilter());
             $filter_chain->registerFilter(new contentFilter());
-
             $filter_chain->process();
-
             $response->send();
-        } catch (mzzException $e) {
-            $e->printHtml();
         } catch (Exception $e) {
             $name = get_class($e);
             $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());
             $e->setName($name);
-            $e->printHtml();
+            throw $e;
         }
     }
 }
