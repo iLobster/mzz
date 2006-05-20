@@ -43,6 +43,7 @@ class cache
         if ($this->isValid($filename)) {
             $result = $this->getCache($path, $filename);
         } else {
+            //mkdir($path, 0777, 1);
             $result = call_user_func_array(array($this->object, $name), $args);
             $this->writeCache($path, $filename, $result);
         }
@@ -52,7 +53,7 @@ class cache
 
     private function getPath()
     {
-        return $this->cachePath . '/' . $this->object->getSection() . '/' . $this->object->getName() . '/';
+        return $this->cachePath . '/' . $this->object->section() . '/' . $this->object->name() . '/';
     }
 
     public function setInvalid($period = 2)

@@ -87,7 +87,7 @@ class userMapper extends simpleMapper
     protected function getMap()
     {
         if (empty($this->map)) {
-            $mapFileName = fileLoader::resolve($this->getName() . '/maps/user.map.ini');
+            $mapFileName = fileLoader::resolve($this->name() . '/maps/user.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
         }
         return $this->map;

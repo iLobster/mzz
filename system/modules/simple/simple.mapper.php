@@ -40,15 +40,15 @@ abstract class simpleMapper
     {
         $this->db = DB::factory();
         $this->section = $section;
-        $this->table = $this->getName() . '_' .$this->getSection() . $this->tablePostfix;
+        $this->table = $this->name() . '_' .$this->section() . $this->tablePostfix;
     }
 
-    public function getName()
+    public function name()
     {
         return $this->name;
     }
 
-    public function getSection()
+    public function section()
     {
         return $this->section;
     }
@@ -116,7 +116,7 @@ abstract class simpleMapper
     protected function getMap()
     {
         if (empty($this->map)) {
-            $mapFileName = fileLoader::resolve($this->getName() . '/maps/' . $this->className . '.map.ini');
+            $mapFileName = fileLoader::resolve($this->name() . '/maps/' . $this->className . '.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
         }
         return $this->map;

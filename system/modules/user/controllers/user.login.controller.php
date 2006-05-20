@@ -48,7 +48,12 @@ class userLoginController
             fileLoader::load('user/views/user.loginform.view');
             fileLoader::load('user/views/user.login.form');
 
+            $start = microtime(1);
+            echo __FILE__ . ' : <br>&lt;' . __LINE__ . '&gt;<br>';
             $form = userLoginForm::getForm($httprequest->getUrl());
+            echo microtime(1) - $start;
+            echo '<br>&lt;/' . __LINE__ . '&gt;<br>';
+
             return new userLoginformView($form);
         }
 

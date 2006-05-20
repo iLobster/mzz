@@ -20,12 +20,24 @@
 class newsFolder extends simple
 {
     private $mapper;
+    protected $cacheable = array('getItems', 'getFolders');
 
     public function __construct($mapper, Array $map)
     {
         $this->mapper = $mapper;
         parent::__construct($map);
     }
+
+    public function section()
+    {
+        return $this->mapper->section();
+    }
+
+    public function name()
+    {
+        return $this->mapper->name();
+    }
+
 
 
     public function getFolders()

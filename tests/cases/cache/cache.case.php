@@ -8,10 +8,10 @@ class cacheStub
         $arr = array('method');
         return in_array($method, $arr);
     }
-    public function getSection()
+    public function section()
     {
     }
-    public function getName()
+    public function name()
     {
     }
     public function method()
@@ -32,8 +32,8 @@ class cacheTest extends unitTestCase
     public function setUp()
     {
         $this->mock = new mockcacheStub();
-        $this->mock->setReturnValue('getSection', 'stubSection');
-        $this->mock->setReturnValue('getName', 'stubName');
+        $this->mock->setReturnValue('section', 'stubSection');
+        $this->mock->setReturnValue('name', 'stubName');
         $this->mock->setReturnValue('isCacheable', true, array('method'));
         $this->mock->setReturnValue('isCacheable', false, array('*'));
 

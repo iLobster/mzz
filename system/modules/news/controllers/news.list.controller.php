@@ -40,7 +40,7 @@ class newsListController
             $path = "root";
         }
         //$folder = $newsFolder->searchByName($path);
-$folder = new cache($newsFolder->searchByName($path), systemConfig::$pathToTemp . '/cache');
+        $folder = new cache($newsFolder->searchByName($path), systemConfig::$pathToTemp . '/cache');
         $data = $folder->getItems($newsFolder);
         return new newsListView($data, $newsFolder);
     }

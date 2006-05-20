@@ -17,7 +17,7 @@ class newsFolderMapper extends simpleMapper
     protected $tablePostfix = '_tree';
     protected $name = 'news';
     protected $className = 'newsFolder';
-    protected $cacheable = array('searchByName', 'searchByName');
+    protected $cacheable = array('searchByName');
 
     public function searchByName($name)
     {
@@ -59,7 +59,7 @@ class newsFolderMapper extends simpleMapper
     public function getItems($id)
     {
         //$cache = new cache(systemConfig::$pathToTemp . '/cache');
-        $news = new newsMapper($this->getSection());
+        $news = new newsMapper($this->section());
         return $news->searchByFolder($id);
         //return $cache->call(array($news, 'searchByFolder'), array($id));
     }
