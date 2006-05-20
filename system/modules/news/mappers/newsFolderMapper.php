@@ -17,7 +17,13 @@ class newsFolderMapper extends simpleMapper
     protected $tablePostfix = '_tree';
     protected $name = 'news';
     protected $className = 'newsFolder';
-    protected $cacheable = array('searchByName', 'getFolders');
+    protected $cacheable = array('searchByName', 'getFolders', 'getItems');
+    protected $cache = null;
+    
+    public function setCache($cache)
+    {
+        $this->cache = $cache;
+    }
 
     public function searchByName($name)
     {
@@ -37,7 +43,7 @@ class newsFolderMapper extends simpleMapper
     private function createNewsFolderFromRow($row)
     {
         $map = $this->getMap();
-        $newsFolder = new newsFolder($this, $map);
+        $newsFolder = new newsFolder($this->this(), $map);
         $newsFolder->import($row);
         return $newsFolder;
     }
@@ -68,6 +74,11 @@ class newsFolderMapper extends simpleMapper
     }
     public function __wakeup()
     {
+    }
+    
+    public function this()
+    {
+        return (!empty($this->cache)) ? $this->cache : $this;
     }
 }
 

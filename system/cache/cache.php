@@ -25,6 +25,7 @@ class cache
     {
         $this->object = $object;
         $this->cachePath = $cachePath;
+        $this->object->setCache($this);
     }
 
     public function __call($name, $args = array())

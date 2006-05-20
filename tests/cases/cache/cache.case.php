@@ -20,6 +20,9 @@ class cacheStub
     public function notCache()
     {
     }
+    public function setCache()
+    {
+    }
 }
 
 mock::generate('cacheStub');
