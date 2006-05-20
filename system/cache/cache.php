@@ -43,12 +43,19 @@ class cache
         $path = $this->getPath();
         $filename = md5($name) . '_' . md5(serialize($args));
 
-        if ($this->isValid($filename)) {
+        $toolkit = systemToolkit::getInstance();
+        $config = $toolkit->getConfig();
+        $config->load('common');
+        $cacheEnabled = $config->getOption('cache', 'cache');
+
+        if ($cacheEnabled && $this->isValid($filename)) {
             $result = $this->getCache($path, $filename);
         } else {
-            //mkdir($path, 0777, 1);
             $result = call_user_func_array(array($this->object, $name), $args);
-            $this->writeCache($path, $filename, $result);
+            if($cacheEnabled) {
+                //mkdir($path, 0777, 1);
+                $this->writeCache($path, $filename, $result);
+            }
         }
 
         return $result;

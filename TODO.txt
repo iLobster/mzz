@@ -15,7 +15,7 @@
 
 110 (*) закешировать страницы
 
-108 ( ) cache = true/false в common.ini
+108 (+) cache = true/false в common.ini
 
 107 (+) Сделать возможность установки section для {load}
 
