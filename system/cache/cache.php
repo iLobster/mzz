@@ -45,7 +45,6 @@ class cache
         $config = $toolkit->getConfig();
         $config->load('common');
         $cacheEnabled = $config->getOption('cache', 'cache');
-
         if ($cacheEnabled && $this->isValid($filename)) {
             $result = $this->getCache($path, $filename);
         } else {
@@ -77,6 +76,8 @@ class cache
         if (!file_exists($path . 'valid')) {
             $this->setInvalid(0);
         }
+var_dump(filemtime($path . 'valid')); echo '/';
+var_dump(filemtime($path . $filename));
 
         return (file_exists($path . $filename)) ? filemtime($path . 'valid') <= filemtime($path . $filename) : false;
     }

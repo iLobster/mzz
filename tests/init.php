@@ -31,6 +31,9 @@ fileLoader::setResolver($resolver);
 fileLoader::load('exceptions/init');
 fileLoader::load('config/config');
 
+fileLoader::load('cache');
+fileLoader::load('cache/iCacheable');
+
 set_error_handler('simpletest_error_handler');
 
 
@@ -62,8 +65,6 @@ fileLoader::load('iterators/mzzIniFilterIterator');
 
 fileLoader::load('action');
 fileLoader::load('timer.factory');
-fileLoader::load('cache');
-
 
 $toolkit = systemToolkit::getInstance();
 $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . '/common.ini')));

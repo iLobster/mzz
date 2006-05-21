@@ -1,7 +1,7 @@
 <?php
 fileLoader::load('cache');
 
-class cacheStub
+class cacheStub implements iCacheable
 {
     public function isCacheable($method)
     {
@@ -20,7 +20,7 @@ class cacheStub
     public function notCache()
     {
     }
-    public function setCache()
+    public function injectCache($cache)
     {
     }
 }

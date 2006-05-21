@@ -103,7 +103,7 @@ class frontControllerTest extends unitTestCase
         $this->rewrite->expectOnce('process', array('test.abc'));
         $this->rewrite->setReturnValue('process', false);
 
-        $this->assertFalse($this->frontController->getTemplate());
+        $this->assertEqual($this->frontController->getTemplate(), 'act.404.view.tpl');
 
         $this->request->tally();
     }
