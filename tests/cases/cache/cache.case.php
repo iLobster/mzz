@@ -58,8 +58,6 @@ class cacheTest extends unitTestCase
         $this->mock->expectOnce('method', array());
         $this->mock->setReturnValue('method', $result = 'foo');
 
-
-        $this->assertTrue($this->cache->setInvalid());
         $this->assertEqual($this->cache->method(), $result);
         $this->assertEqual($this->cache->method(), $result);
     }
