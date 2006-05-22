@@ -47,6 +47,9 @@ class sectionMapperTest extends unitTestCase
     {
         $xml = '<?xml version="1.0" standalone="yes"?>
         <mapps>
+          <notFound>
+              <action name="view">page.view</action>
+          </notFound>
           <test>
             <action name="bar">test.bar</action>
             <action name="foo">test.foo</action>

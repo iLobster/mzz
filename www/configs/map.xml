@@ -1,5 +1,8 @@
 <?xml version='1.0' standalone='yes'?>
 <mapps>
+    <notFound>
+        <action name="view">page.view</action>
+    </notFound>
     <news>
         <action name="list">news.list</action>
         <action name="view">news.view</action>

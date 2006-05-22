@@ -98,12 +98,12 @@ class frontControllerTest extends unitTestCase
 
         $this->sectionMapper->expectCallCount('getTemplateName', 2);
         $this->sectionMapper->setReturnValueAt(0, 'getTemplateName', false);
-        $this->sectionMapper->setReturnValueAt(1, 'getTemplateName', false);
+        $this->sectionMapper->setReturnValueAt(1, 'getTemplateName', 'act.notFound.view.tpl');
 
         $this->rewrite->expectOnce('process', array('test.abc'));
         $this->rewrite->setReturnValue('process', false);
 
-        $this->assertEqual($this->frontController->getTemplate(), 'act.404.view.tpl');
+        $this->assertEqual($this->frontController->getTemplate(), 'act.notFound.view.tpl');
 
         $this->request->tally();
     }
