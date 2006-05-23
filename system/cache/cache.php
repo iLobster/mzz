@@ -13,14 +13,30 @@
  * cache: класс для работы с кэшем
  *
  * @package system
- * @version 0.2
+ * @version 0.2.1
  */
-
 class cache
 {
+    /**
+     * Путь до кэш-директории
+     *
+     * @var string
+     */
     private $cachePath;
+
+    /**
+     * Кэшируемый объект
+     *
+     * @var object
+     */
     private $object;
 
+    /**
+     * Конструктор
+     *
+     * @param iCacheable $object
+     * @param string $cachePath путь до кэш-директории
+     */
     public function __construct(iCacheable $object, $cachePath)
     {
         $this->object = $object;
@@ -28,16 +44,27 @@ class cache
         $this->object->injectCache($this);
     }
 
+    /**
+     * Call
+     *
+     * @param string $name
+     * @param array $args
+     * @return mixed
+     */
     private function __call($name, $args = array())
     {
         return ($this->object->isCacheable($name)) ? $this->call($name, $args) : call_user_func_array(array($this->object, $name), $args);
     }
 
+    /**
+     * Вызов кэшируемого метода
+     *
+     * @param string $name
+     * @param array $args
+     * @return mixed
+     */
     public function call($name, $args = array())
     {
-        // тут нужно создавать целый путь если он не существует. (подробнее, чем плох текущий вариант)
-        // возможно классом fs который давно давно удалили
-
         $path = $this->getPath();
         $filename = md5($name) . '_' . md5(serialize($args));
 
@@ -45,12 +72,13 @@ class cache
         $config = $toolkit->getConfig();
         $config->load('common');
         $cacheEnabled = $config->getOption('cache', 'cache');
+
         if ($cacheEnabled && $this->isValid($filename)) {
             $result = $this->getCache($path, $filename);
         } else {
             $result = call_user_func_array(array($this->object, $name), $args);
             if($cacheEnabled) {
-                //mkdir($path, 0777, 1);
+                $this->checkPath($path);
                 $this->writeCache($path, $filename, $result);
             }
         }
@@ -58,32 +86,72 @@ class cache
         return $result;
     }
 
+    /**
+     * Возвращает путь до кэш-директории
+     *
+     * @return string
+     */
     private function getPath()
     {
         return $this->cachePath . '/' . $this->object->section() . '/' . $this->object->name() . '/';
     }
 
-    public function setInvalid($period = 2)
+    /**
+     * Проверяет путь $path на сущестование и если он не существует, то создает
+     * его рекурсивно
+     *
+     * @param string $path путь
+     */
+    private function checkPath($path)
     {
-        return touch($this->getPath() . 'valid', time() + $period);
+        if(!is_dir($path)) {
+            // Для правильной работы рекурсивного mkdir необходим путь с
+            // правильным разделителем, который зависит от операционной системы
+            if(DIRECTORY_SEPARATOR == '\\') {
+                $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
+            }
+            mkdir($path, 0777, true);
+        }
     }
 
+    /**
+     * Устанавливает невалидность кэш-директории
+     *
+     * @param integer $period
+     * @return boolean
+     */
+    public function setInvalid($period = 2)
+    {
+        return is_dir($this->getPath()) && touch($this->getPath() . 'valid', time() + $period);
+    }
+
+    /**
+     * Проверяет что кэш-файл с именем $filename валидный.
+     * Кэш-файл считается валидным если он существует и
+     * модифицирован позже, чем файл valid
+     *
+     * @param string $filename имя кэш-файла
+     * @return boolean
+     */
     private function isValid($filename)
     {
-        // тут тоже юзать SPL ?
-        // всмысле?
         $path = $this->getPath();
         if (!file_exists($path . 'valid')) {
             $this->setInvalid(0);
         }
 
-        return (file_exists($path . $filename)) ? filemtime($path . 'valid') <= filemtime($path . $filename) : false;
+        return file_exists($path . $filename) && filemtime($path . 'valid') <= filemtime($path . $filename);
     }
 
+    /**
+     * Получение кэша из файла
+     *
+     * @param string $path директория с кэш-файлами
+     * @param string $filename имя кэш-файла
+     * @return unknown
+     */
     private function getCache($path, $filename)
     {
-        // проверять что файл существует, кидать эксепшн
-        // экспшен бросает SplFileObject
         $cache_file = new SplFileObject($path . $filename , "r");
 
         $cache_file->flock(LOCK_EX);
@@ -101,6 +169,13 @@ class cache
         return unserialize($content);
     }
 
+    /**
+     * Запись кэша в файл
+     *
+     * @param string $path директория с кэш-файлами
+     * @param string $filename имя кэш-файла
+     * @param string $data
+     */
     private function writeCache($path, $filename, $data)
     {
         $cache_file = new SplFileObject($path . $filename , "w");
