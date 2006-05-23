@@ -30,7 +30,7 @@ class pageMapper extends simpleMapper
 
     public function searchById($id)
     {
-        $stmt = $this->searchByField('name', $name);
+        $stmt = $this->searchByField('id', $id);
         $row = $stmt->fetch();
 
         if ($row) {
