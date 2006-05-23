@@ -54,7 +54,8 @@ class frontController
             $template_name = $this->getRewritedTemplate($section);
             if($template_name == false)
             {
-                $section = $this->request->setSection('notFound');
+                $section = $this->request->setSection('page');
+                $this->request->setParam(0, '404');
                 $action = $this->request->setAction('view');
                 $template_name = $this->sectionMapper->getTemplateName('notFound', 'view');
 

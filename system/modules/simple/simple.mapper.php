@@ -57,7 +57,9 @@ abstract class simpleMapper implements iCacheable
     protected function insert($object)
     {
         $fields = $object->export();
+
         if (sizeof($fields) > 0) {
+            $this->insertDataModify($fields);
 
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
             $markers  = ':' . implode(', :', array_keys($fields));
@@ -77,7 +79,9 @@ abstract class simpleMapper implements iCacheable
     protected function update($object)
     {
         $fields = $object->export();
+
         if (sizeof($fields) > 0) {
+            $this->updateDataModify($fields);
 
             $query = '';
             foreach(array_keys($fields) as $val) {
@@ -114,6 +118,14 @@ abstract class simpleMapper implements iCacheable
         }
     }
 
+    public function searchByField($name, $value)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name);
+        $stmt->bindParam(':' . $name, $value);
+        $stmt->execute();
+        return $stmt;
+    }
+
     protected function getMap()
     {
         if (empty($this->map)) {
@@ -142,6 +154,16 @@ abstract class simpleMapper implements iCacheable
     public function injectCache($cache)
     {
         $this->cache = $cache;
+    }
+
+    protected function updateDataModify(&$fields)
+    {
+
+    }
+
+    protected function insertDataModify(&$fields)
+    {
+
     }
 }
 

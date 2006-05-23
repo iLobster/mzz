@@ -23,10 +23,7 @@ class userMapper extends simpleMapper
 
     public function searchById($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `id` = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
+        $stmt = $this->searchByField('id', $id);
         $row = $stmt->fetch();
 
         if ($row) {
@@ -38,10 +35,7 @@ class userMapper extends simpleMapper
 
     public function searchByLogin($login)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `login` = :login");
-        $stmt->bindParam(':login', $login);
-        $stmt->execute();
-
+        $stmt = $this->searchByField('login', $login);
         $row = $stmt->fetch();
 
         if ($row) {

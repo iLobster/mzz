@@ -30,10 +30,7 @@ class pageMapper extends simpleMapper
 
     public function searchById($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `id` = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
+        $stmt = $this->searchByField('name', $name);
         $row = $stmt->fetch();
 
         if ($row) {
@@ -45,10 +42,7 @@ class pageMapper extends simpleMapper
 
     public function searchByName($name)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `name` = :name");
-        $stmt->bindParam(':name', $name);
-        $stmt->execute();
-
+        $stmt = $this->searchByField('name', $name);
         $row = $stmt->fetch();
 
         if ($row) {

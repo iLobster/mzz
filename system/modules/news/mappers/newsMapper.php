@@ -22,10 +22,7 @@ class newsMapper extends simpleMapper
 
     public function searchById($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
+        $stmt = $this->searchByField('id', $id);
         $row = $stmt->fetch();
 
         if ($row) {
@@ -37,10 +34,7 @@ class newsMapper extends simpleMapper
 
     public function searchByFolder($folder_id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE folder_id = :folder_id");
-        $stmt->bindParam(':folder_id', $folder_id, PDO::PARAM_INT);
-        $stmt->execute();
-
+        $stmt = $this->searchByField('folder_id', $folder_id);
         $result = array();
 
         while ($row = $stmt->fetch()) {
@@ -58,6 +52,16 @@ class newsMapper extends simpleMapper
         return $news;
     }
 
+    protected function updateDataModify(&$fields)
+    {
+        $fields['updated'] = time();
+    }
+
+    protected function insertDataModify(&$fields)
+    {
+        $fields['created'] = time();
+        $fields['updated'] = $fields['created'];
+    }
 }
 
 ?>

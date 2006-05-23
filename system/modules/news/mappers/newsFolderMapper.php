@@ -20,10 +20,7 @@ class newsFolderMapper extends simpleMapper
 
     public function searchByName($name)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `name` = :name");
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->execute();
-
+        $stmt = $this->searchByField('name', $name);
         $row = $stmt->fetch();
 
         if ($row) {
