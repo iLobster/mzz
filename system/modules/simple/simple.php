@@ -118,7 +118,7 @@ abstract class simple
     /**
      * Экспортирует новые значения для измененных полей
      *
-     * @return unknown
+     * @return array
      */
     public function export()
     {
@@ -126,9 +126,13 @@ abstract class simple
     }
 
     /**
-     * Получение объекта JIP
+     * Получение объекта JIP.
      *
-     * @return jip
+     * @param string $section
+     * @param string $module
+     * @param string $id
+     * @param string $type
+     * @return string
      */
     protected function getJip($section, $module, $id, $type)
     {

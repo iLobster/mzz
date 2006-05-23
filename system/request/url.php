@@ -92,6 +92,7 @@ class url
         }
         return $address . '/' . $this->section . $params . $this->action;
     }
+
     /**
      * Установка section
      *

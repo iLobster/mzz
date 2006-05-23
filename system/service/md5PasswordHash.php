@@ -13,7 +13,7 @@
 fileLoader::load('service/passwordHash');
 
 /**
- * md5PasswordHash: класс для шифрования пароля в md5
+ * md5PasswordHash: класс для хэширования пароля в md5
  *
  * @package system
  * @version 0.1
@@ -21,10 +21,10 @@ fileLoader::load('service/passwordHash');
 class md5PasswordHash extends PasswordHash
 {
     /**
-     * Применение хэширования
+     * Применение md5-хэширования
      *
      * @param string $value значение пароля
-     * @return string результат применения хэширования к $value
+     * @return string результат применения md5-хэширования к $value
      */
     public function apply($value)
     {

@@ -9,15 +9,22 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 fileLoader::load('session/iSessionStorage');
 
+/**
+ * sessionDbStorage: интрефейс хранилища сессии в БД
+ *
+ * @package system
+ * @version 0.1
+*/
 class sessionDbStorage implements iSessionStorage
 {
     protected $db;
 
     public function __construct()
     {
-        $this->db = DB::factory(); 
+        $this->db = DB::factory();
     }
 
     /**
@@ -35,7 +42,6 @@ class sessionDbStorage implements iSessionStorage
      *
      * @return bool
      */
-
     public function storageClose()
     {
         return true;
@@ -49,7 +55,6 @@ class sessionDbStorage implements iSessionStorage
      */
     public function storageRead($sid)
     {
-
         $stmt = $this->db->prepare("SELECT `data` FROM `sys_sessions` WHERE `sid` = :sid AND `valid` = 'yes'");
         $stmt->bindParam(':sid', $sid, PDO::PARAM_STR);
         $stmt->execute();
@@ -59,7 +64,6 @@ class sessionDbStorage implements iSessionStorage
             return $row[0];
         } else {
             return null;
-
         }
     }
 
@@ -105,9 +109,6 @@ class sessionDbStorage implements iSessionStorage
                         " WHERE `ts` < UNIX_TIMESTAMP() - " . $maxLifeTime);
         return true;
     }
-
-
 }
-
 
 ?>
