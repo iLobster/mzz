@@ -54,7 +54,7 @@ abstract class simpleMapper implements iCacheable
         return $this->section;
     }
 
-    protected function insert($object)
+    protected function insert(simple $object)
     {
         $fields = $object->export();
 
@@ -76,7 +76,7 @@ abstract class simpleMapper implements iCacheable
         }
     }
 
-    protected function update($object)
+    protected function update(simple $object)
     {
         $fields = $object->export();
 
