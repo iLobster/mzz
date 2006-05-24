@@ -36,12 +36,6 @@ abstract class simpleView
         return false;
     }
 
-    /** а нужен ли этот метод?
-    private function setDao($DAO)
-    {
-        $this->DAO = $DAO;
-    }
-    */
 }
 
 ?>

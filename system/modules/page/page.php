@@ -14,19 +14,11 @@
  * page: page
  *
  * @package page
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class page extends simple
 {
-    private $mapper;
-
-    public function __construct($mapper, Array $map)
-    {
-        $this->mapper = $mapper;
-        parent::__construct($map);
-    }
-
     /**
      * Получение объекта JIP
      *
@@ -37,15 +29,6 @@ class page extends simple
         return parent::getJip('page', 'page', $this->getName(), 'page');
     }
 
-    public function section()
-    {
-        return $this->mapper->section();
-    }
-
-    public function name()
-    {
-        return $this->mapper->name();
-    }
 
 }
 

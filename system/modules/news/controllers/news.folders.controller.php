@@ -16,21 +16,19 @@
  * @version 0.1
  */
 
-class newsFoldersController
+class newsFoldersController extends simpleController
 {
     public function __construct()
     {
         fileLoader::load('news/views/news.folders.view');
         fileLoader::load("news/newsFolder");
         fileLoader::load("news/mappers/newsFolderMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
-
-        $newsFolderMapper = new newsFolderMapper($httprequest->getSection());
+        $newsFolderMapper = new newsFolderMapper($this->request->getSection());
 
         $folders = $newsFolderMapper->getFolders('');
         return new newsFoldersView($folders);

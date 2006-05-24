@@ -19,7 +19,7 @@ class pageTest extends unitTestCase
         );
 
         $this->mapper = new pageMapper('page');
-        $this->page = new page($this->mapper, $map);
+        $this->page = new page($map);
     }
 
     public function testAccessorsAndMutators()

@@ -16,17 +16,17 @@
  * @version 0.1
  */
 
-class timerViewController
+class timerViewController extends simpleController
 {
     public function __construct()
     {
         fileLoader::load('timer/views/timer.view.view');
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $timer = $toolkit->getTimer();
+        $timer = $this->toolkit->getTimer();
         $timer->finish();
         return new timerViewView($timer);
     }

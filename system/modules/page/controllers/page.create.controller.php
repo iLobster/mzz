@@ -16,7 +16,7 @@
  * @version 0.1
  */
 
-class pageCreateController
+class pageCreateController extends simpleController
 {
     public function __construct()
     {
@@ -25,16 +25,13 @@ class pageCreateController
         fileLoader::load('page/views/page.create.form');
         fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
-
-        $pageMapper = new pageMapper($httprequest->getSection());
+        $pageMapper = new pageMapper($this->request->getSection());
         $page = $pageMapper->create();
-
 
         $form = pageCreateForm::getForm();
         if ($form->validate() == false) {

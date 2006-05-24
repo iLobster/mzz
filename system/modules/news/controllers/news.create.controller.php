@@ -16,7 +16,7 @@
  * @version 0.1
  */
 
-class newsCreateController
+class newsCreateController extends simpleController
 {
     public function __construct()
     {
@@ -27,24 +27,23 @@ class newsCreateController
         fileLoader::load("news/newsFolder");
         fileLoader::load("news/mappers/newsMapper");
         fileLoader::load("news/mappers/newsFolderMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
-        $user = $toolkit->getUser();
+        $user = $this->toolkit->getUser();
 
-        $newsMapper = new newsMapper($httprequest->getSection());
+        $newsMapper = new newsMapper($this->request->getSection());
         $news = $newsMapper->create();
 
 
-        $form = newsCreateForm::getForm($httprequest->get(0, SC_PATH));
+        $form = newsCreateForm::getForm($this->request->get(0, SC_PATH));
         if ($form->validate() == false) {
             $view = new newsCreateView($news, $form);
         } else {
-            $newsFolder = new newsFolderMapper($httprequest->getSection());
-            $folder = $newsFolder->searchByName($httprequest->get(0, SC_PATH));
+            $newsFolder = new newsFolderMapper($this->request->getSection());
+            $folder = $newsFolder->searchByName($this->request->get(0, SC_PATH));
 
             $values = $form->exportValues();
             $news->setTitle($values['title']);

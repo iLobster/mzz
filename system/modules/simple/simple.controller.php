@@ -18,6 +18,16 @@
 
 abstract class simpleController
 {
+    protected $toolkit;
+    protected $request;
+
+    public function __construct()
+    {
+        $this->toolkit = systemToolkit::getInstance();
+        $this->request = $this->toolkit->getRequest();
+    }
+
+    abstract public function getView();
 }
 
 ?>

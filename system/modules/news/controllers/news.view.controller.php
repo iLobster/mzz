@@ -16,23 +16,21 @@
  * @version 0.1
  */
 
-class newsViewController
+class newsViewController extends simpleController
 {
     public function __construct()
     {
         fileLoader::load('news/views/news.view.view');
         fileLoader::load("news");
         fileLoader::load("news/mappers/newsMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
+        $newsMapper = new newsMapper($this->request->getSection());
 
-        $newsMapper = new newsMapper($httprequest->getSection());
-
-        if (($id = $httprequest->get(0, SC_PATH)) == false) {
+        if (($id = $this->request->get(0, SC_PATH)) == false) {
             $id = 0;
         }
         $news = $newsMapper->searchById($id);

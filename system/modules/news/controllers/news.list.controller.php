@@ -16,7 +16,7 @@
  * @version 0.1
  */
 
-class newsListController
+class newsListController extends simpleController
 {
     public function __construct()
     {
@@ -25,16 +25,14 @@ class newsListController
         fileLoader::load("news/newsFolder");
         fileLoader::load("news/mappers/newsMapper");
         fileLoader::load("news/mappers/newsFolderMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
+        $newsFolderMapper = $this->toolkit->getCache(new newsFolderMapper($this->request->getSection()));
 
-        $newsFolderMapper = $toolkit->getCache(new newsFolderMapper($httprequest->getSection()));
-
-        if (($path = $httprequest->get(0, SC_PATH)) == false) {
+        if (($path = $this->request->get(0, SC_PATH)) == false) {
             $path = "root";
         }
         $newsFolder = $newsFolderMapper->searchByName($path);

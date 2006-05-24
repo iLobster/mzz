@@ -16,39 +16,37 @@
  * @version 0.2.2
  */
 
-class userLoginController
+class userLoginController extends simpleController
 {
     public function __construct()
     {
         fileLoader::load("user");
         fileLoader::load("user/mappers/userMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
-
-        $user = $toolkit->getUser();
+        $user = $this->toolkit->getUser();
 
         if (!$user->isLoggedIn()) {
-            if (strtoupper($httprequest->getMethod()) == 'POST') {
-                $login = $httprequest->get('login', SC_POST);
-                $password = $httprequest->get('password', SC_POST);
+            if (strtoupper($this->request->getMethod()) == 'POST') {
+                $login = $this->request->get('login', SC_POST);
+                $password = $this->request->get('password', SC_POST);
 
                 $userMapper = new userMapper('user');
                 $user = $userMapper->login($login, $password);
 
                 if ($user->isLoggedIn()) {
                     fileLoader::load('user/views/user.login.success.view');
-                    return new userLoginSuccessView($httprequest->get('url', SC_POST));
+                    return new userLoginSuccessView($this->request->get('url', SC_POST));
                 }
             }
 
             fileLoader::load('user/views/user.loginform.view');
             fileLoader::load('user/views/user.login.form');
 
-            $form = userLoginForm::getForm($httprequest->getUrl());
+            $form = userLoginForm::getForm($this->request->getUrl());
 
             return new userLoginformView($form);
         }

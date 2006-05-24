@@ -16,23 +16,21 @@
  * @version 0.1
  */
 
-class pageDeleteController
+class pageDeleteController extends simpleController
 {
     public function __construct()
     {
         fileLoader::load('page/views/page.delete.view');
         fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
-
-        $pageMapper = new pageMapper($httprequest->getSection());
+        $pageMapper = new pageMapper($this->request->getSection());
         $page = $pageMapper->create();
-        $page->setName($httprequest->get(0, SC_PATH));
+        $page->setName($this->request->get(0, SC_PATH));
         $pageMapper->delete($page);
         $view = new pageDeleteView($page);
 

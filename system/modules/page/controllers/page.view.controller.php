@@ -16,29 +16,27 @@
  * @version 0.2
  */
 
-class pageViewController
+class pageViewController extends simpleController
 {
     public function __construct()
     {
         fileLoader::load('page/views/page.view.view');
         fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
+        parent::__construct();
     }
 
     public function getView($section = null)
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
-
         if (empty($section)) {
-            $section = $httprequest->getSection();
+            $section = $this->request->getSection();
         }
 
-        $pageMapper = $toolkit->getCache(new pageMapper($section));
+        $pageMapper = $this->toolkit->getCache(new pageMapper($section));
 
         //$pageMapper = new pageMapper($section);
 
-        if (($name = $httprequest->get(0, SC_PATH)) == false) {
+        if (($name = $this->request->get(0, SC_PATH)) == false) {
             $name = 'main';
         }
         $page = $pageMapper->searchByName($name);

@@ -16,7 +16,7 @@
  * @version 0.1
  */
 
-class pageEditController
+class pageEditController extends simpleController
 {
     public function __construct()
     {
@@ -25,21 +25,19 @@ class pageEditController
         fileLoader::load('page/views/page.edit.form');
         fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
+        $pageMapper = new pageMapper($this->request->getSection());
 
-        $pageMapper = new pageMapper($httprequest->getSection());
-
-        if (($name = $httprequest->get(0, SC_PATH)) == false) {
-            $name = $httprequest->get('name', SC_POST);
+        if (($name = $this->request->get(0, SC_PATH)) == false) {
+            $name = $this->request->get('name', SC_POST);
         }
         $page = $pageMapper->searchByName($name);
 
-        $form = pageEditForm::getForm($page, $httprequest->getSection());
+        $form = pageEditForm::getForm($page, $this->request->getSection());
 
         if ($form->validate() == false) {
             $view = new pageEditView($page, $form);

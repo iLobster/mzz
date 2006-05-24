@@ -25,7 +25,7 @@ class pageMapper extends simpleMapper
 
     public function create()
     {
-        return new page($this, $this->getMap());
+        return new page($this->getMap());
     }
 
     public function searchById($id)
@@ -56,7 +56,7 @@ class pageMapper extends simpleMapper
     protected function createPageFromRow($row)
     {
         $map = $this->getMap();
-        $page = new page($this, $map);
+        $page = new page($map);
         $page->import($row);
         return $page;
     }

@@ -16,7 +16,7 @@
  * @version 0.1
  */
 
-class newsEditController
+class newsEditController extends simpleController
 {
     public function __construct()
     {
@@ -25,22 +25,21 @@ class newsEditController
         fileLoader::load('news/views/news.edit.form');
         fileLoader::load("news");
         fileLoader::load("news/mappers/newsMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
-        $user = $toolkit->getUser();
+        $user = $this->toolkit->getUser();
 
-        $newsMapper = $toolkit->getCache(new newsMapper($httprequest->getSection()));
+        $newsMapper = $this->toolkit->getCache(new newsMapper($this->request->getSection()));
 
-        if (($id = $httprequest->get(0, SC_PATH)) == false) {
-            $id = $httprequest->get('id', SC_POST);
+        if (($id = $this->request->get(0, SC_PATH)) == false) {
+            $id = $this->request->get('id', SC_POST);
         }
         $news = $newsMapper->searchById($id);
 
-        $form = newsEditForm::getForm($news, $httprequest->getSection());
+        $form = newsEditForm::getForm($news, $this->request->getSection());
 
         if ($form->validate() == false) {
             $view = new newsEditView($news, $form);
@@ -50,9 +49,9 @@ class newsEditController
             $news->setEditor($user->getLogin());
             $news->setText($values['text']);
             $newsMapper->save($news);
-            
+
             $newsMapper->setInvalid();
-            
+
             $view = new newsEditSuccessView($news, $form);
         }
         return $view;

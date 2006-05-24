@@ -28,18 +28,6 @@ class newsFolder extends simple
         parent::__construct($map);
     }
 
-    public function section()
-    {
-        return $this->mapper->section();
-    }
-
-    public function name()
-    {
-        return $this->mapper->name();
-    }
-
-
-
     public function getFolders()
     {
         // может тут как то сделать "кеширование" ? а то при запросе дважды ->getFolders() маппер будет опрошен тоже дважды.. появится трабла если папки будут изменены между первым и вторым запросом - но опять же, пока прецедента нет - может сделать кеширование?

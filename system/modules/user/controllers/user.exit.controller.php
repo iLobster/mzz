@@ -16,23 +16,20 @@
  * @version 0.1
  */
 
-class userExitController
+class userExitController extends simpleController
 {
     public function __construct()
     {
         fileLoader::load('user/views/user.exit.view');
-        //fileLoader::load("user");
-        //fileLoader::load("user/mappers/userMapper");
+        parent::__construct();
     }
 
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
-        $session = $toolkit->getSession();
+        $session = $this->toolkit->getSession();
         $session->destroy('user_id');
 
-        return new userExitView($httprequest->get('url', SC_GET));
+        return new userExitView($this->request->get('url', SC_GET));
     }
 }
 
