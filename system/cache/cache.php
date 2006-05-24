@@ -13,7 +13,7 @@
  * cache: класс для работы с кэшем
  *
  * @package system
- * @version 0.2.1
+ * @version 0.2.2
  */
 class cache
 {
@@ -78,7 +78,6 @@ class cache
         } else {
             $result = call_user_func_array(array($this->object, $name), $args);
             if($cacheEnabled) {
-                $this->checkPath($path);
                 $this->writeCache($path, $filename, $result);
             }
         }
@@ -122,7 +121,7 @@ class cache
      */
     public function setInvalid($period = 2)
     {
-        return is_dir($this->getPath()) && touch($this->getPath() . 'valid', time() + $period);
+        return touch($this->getPath() . 'valid', time() + $period);
     }
 
     /**
@@ -137,6 +136,7 @@ class cache
     {
         $path = $this->getPath();
         if (!file_exists($path . 'valid')) {
+            $this->checkPath($path);
             $this->setInvalid(0);
         }
 
@@ -148,22 +148,17 @@ class cache
      *
      * @param string $path директория с кэш-файлами
      * @param string $filename имя кэш-файла
-     * @return unknown
+     * @return string
      */
     private function getCache($path, $filename)
     {
         $cache_file = new SplFileObject($path . $filename , "r");
-
         $cache_file->flock(LOCK_EX);
-
         $content = "";
-
         while ($cache_file->eof() == false) {
             $content .= $cache_file->fgets();
         }
-
         $cache_file->flock(LOCK_UN);
-
         unset($cache_file);
 
         return unserialize($content);
