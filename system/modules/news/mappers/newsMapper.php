@@ -14,6 +14,7 @@ class newsMapper extends simpleMapper
 {
     protected $name = 'news';
     protected $className = 'news';
+    protected $cacheable = array('searchById');
 
     public function create()
     {

@@ -33,7 +33,7 @@ class newsEditController
         $httprequest = $toolkit->getRequest();
         $user = $toolkit->getUser();
 
-        $newsMapper = new newsMapper($httprequest->getSection());
+        $newsMapper = $toolkit->getCache(new newsMapper($httprequest->getSection()));
 
         if (($id = $httprequest->get(0, SC_PATH)) == false) {
             $id = $httprequest->get('id', SC_POST);
@@ -50,6 +50,9 @@ class newsEditController
             $news->setEditor($user->getLogin());
             $news->setText($values['text']);
             $newsMapper->save($news);
+            
+            $newsMapper->setInvalid();
+            
             $view = new newsEditSuccessView($news, $form);
         }
         return $view;
