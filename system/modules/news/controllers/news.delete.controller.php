@@ -28,11 +28,10 @@ class newsDeleteController extends simpleController
 
     public function getView()
     {
-        $newsMapper = new newsMapper($this->request->getSection());
-        $news = $newsMapper->create();
-        $news->setId($this->request->get(0, SC_PATH));
-        $newsMapper->delete($news);
-        $view = new newsDeleteView($news);
+        $newsMapper = $this->toolkit->getCache(new newsMapper($this->request->getSection()));
+        $newsMapper->delete($this->request->get(0, SC_PATH));
+        $newsMapper->setInvalid();
+        $view = new newsDeleteView();
 
         return $view;
     }

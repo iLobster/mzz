@@ -14,15 +14,21 @@
  * user: user
  *
  * @package user
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class user extends simple
 {
+    /**
+     * Проверяет является ли пользователь авторизированным
+     * Пользователь считается вторизированным, если у него
+     * установлен id больше 1
+     *
+     * @return boolean
+     */
     public function isLoggedIn()
     {
-        $id = $this->getId();
-        return ($id != 1 && !empty($id));
+        return $this->getId() > 1;
     }
 }
 

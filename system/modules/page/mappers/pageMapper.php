@@ -9,25 +9,52 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-
 /**
- * page: маппер для страниц
+ * pageMapper: маппер для страниц
  *
  * @package page
- * @version 0.1.1
+ * @version 0.2
  */
 
 class pageMapper extends simpleMapper
 {
+    /**
+     * Имя модуля
+     *
+     * @var string
+     */
     protected $name = 'page';
+
+    /**
+     * Имя класса DataObject
+     *
+     * @var string
+     */
     protected $className = 'page';
+
+    /**
+     * Массив кешируемых методов
+     *
+     * @var array
+     */
     protected $cacheable = array('searchByName');
 
+    /**
+     * Создает пустой объект DO
+     *
+     * @return object
+     */
     public function create()
     {
         return new page($this->getMap());
     }
 
+    /**
+     * Выполняет поиск объекта по идентификатору
+     *
+     * @param integer $id идентификатор
+     * @return object|false
+     */
     public function searchById($id)
     {
         $stmt = $this->searchByField('id', $id);
@@ -40,6 +67,12 @@ class pageMapper extends simpleMapper
         }
     }
 
+    /**
+     * Выполняет поиск объекта по имени
+     *
+     * @param string $name имя
+     * @return object|false
+     */
     public function searchByName($name)
     {
         $stmt = $this->searchByField('name', $name);
@@ -52,7 +85,12 @@ class pageMapper extends simpleMapper
         }
     }
 
-
+    /**
+     * Создает объект page из массива
+     *
+     * @param array $row
+     * @return object
+     */
     protected function createPageFromRow($row)
     {
         $map = $this->getMap();
@@ -61,10 +99,21 @@ class pageMapper extends simpleMapper
         return $page;
     }
 
+    /**
+     * Magic method __sleep
+     *
+     * @return array
+     */
     public function __sleep()
     {
         return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
     }
+
+    /**
+     * Magic method __wakeup
+     *
+     * @return array
+     */
     public function __wakeup()
     {
     }

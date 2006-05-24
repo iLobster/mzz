@@ -9,18 +9,52 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+/**
+ * newsMapper: маппер для новостей
+ *
+ * @package news
+ * @version 0.2
+ */
 
 class newsMapper extends simpleMapper
 {
+    /**
+     * Имя модуля
+     *
+     * @var string
+     */
     protected $name = 'news';
+
+    /**
+     * Имя класса DataObject
+     *
+     * @var string
+     */
     protected $className = 'news';
+
+    /**
+     * Массив кешируемых методов
+     *
+     * @var array
+     */
     protected $cacheable = array('searchById');
 
+    /**
+     * Создает пустой объект DO
+     *
+     * @return object
+     */
     public function create()
     {
         return new news($this->getMap());
     }
 
+    /**
+     * Выполняет поиск объекта по идентификатору
+     *
+     * @param integer $id идентификатор
+     * @return object|false
+     */
     public function searchById($id)
     {
         $stmt = $this->searchByField('id', $id);
@@ -33,6 +67,12 @@ class newsMapper extends simpleMapper
         }
     }
 
+    /**
+     * Выполняет поиск объектов по идентификатору папки
+     *
+     * @param integer $id идентификатор папки
+     * @return object|false
+     */
     public function searchByFolder($folder_id)
     {
         $stmt = $this->searchByField('folder_id', $folder_id);
@@ -45,6 +85,12 @@ class newsMapper extends simpleMapper
         return $result;
     }
 
+    /**
+     * Создает объект news из массива
+     *
+     * @param array $row
+     * @return object
+     */
     protected function createNewsFromRow($row)
     {
         $map = $this->getMap();
@@ -53,11 +99,21 @@ class newsMapper extends simpleMapper
         return $news;
     }
 
+    /**
+     * Выполнение операций с массивом $fields перед обновлением в БД
+     *
+     * @param array $fields
+     */
     protected function updateDataModify(&$fields)
     {
         $fields['updated'] = time();
     }
 
+    /**
+     * Выполнение операций с массивом $fields перед вставкой в БД
+     *
+     * @param array $fields
+     */
     protected function insertDataModify(&$fields)
     {
         $fields['created'] = time();

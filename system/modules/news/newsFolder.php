@@ -19,15 +19,37 @@
 
 class newsFolder extends simple
 {
+    /**
+     * Mapper
+     *
+     * @var object
+     */
     private $mapper;
+
+    /**
+     * Кэшируемые методы
+     *
+     * @var array
+     */
     protected $cacheable = array('getItems', 'getFolders');
 
+    /**
+     * Конструктор
+     *
+     * @param object $mapper
+     * @param array $map
+     */
     public function __construct($mapper, Array $map)
     {
         $this->mapper = $mapper;
         parent::__construct($map);
     }
 
+    /**
+     * Возвращает children-папки
+     *
+     * @return array
+     */
     public function getFolders()
     {
         // может тут как то сделать "кеширование" ? а то при запросе дважды ->getFolders() маппер будет опрошен тоже дважды.. появится трабла если папки будут изменены между первым и вторым запросом - но опять же, пока прецедента нет - может сделать кеширование?
@@ -37,6 +59,11 @@ class newsFolder extends simple
         return $this->fields->get('folders');
     }
 
+    /**
+     * Возвращает объекты, находящиеся в данной папке
+     *
+     * @return array
+     */
     public function getItems()
     {
         if (!$this->fields->exists('items')) {

@@ -18,14 +18,16 @@
 
 abstract class simpleView
 {
-    protected $DAO;
+    protected $DAO = false;
     protected $smarty;
     protected $params;
 
-    public function __construct($DAO)
+    public function __construct($DAO = false)
     {
         $toolkit = systemToolkit::getInstance();
-        $this->DAO = $DAO;
+        if($DAO) {
+            $this->DAO = $DAO;
+        }
         $this->smarty = $toolkit->getSmarty();
         $this->response = $toolkit->getResponse();
 

@@ -13,30 +13,72 @@
  * simpleMapper: реализация общих методов у Mapper
  *
  * @package simple
- * @version 0.1
+ * @version 0.2
  */
 
 abstract class simpleMapper implements iCacheable
 {
+    /**
+     * Ссылка на объект Базы Данных
+     *
+     * @var object
+     */
     protected $db;
+
+    /**
+     * Имя таблицы модуля (собирается из имени, секции, постфикса)
+     *
+     * @var string
+     */
     protected $table;
+
+    /**
+     * Секция
+     *
+     * @var string
+     */
     protected $section;
+
+    /**
+     * Имя модуля
+     *
+     * @var string
+     */
     protected $name;
+
+    /**
+     * Имя класса DataObject
+     *
+     * @var string
+     */
     protected $className;
+
+    /**
+     * Ссылка на объект cache
+     *
+     * @var object
+     */
     protected $cache;
 
     /**
      * Массив кешируемых методов
+     *
+     * @var array
      */
     protected $cacheable = array();
 
     /**
-     * Постфикс для имени таблицы
+     * Постфикс имени таблицы
      *
      * @var string
      */
     protected $tablePostfix = null;
 
+    /**
+     * Конструктор
+     *
+     * @param string $section секция
+     */
     public function __construct($section)
     {
         $this->db = DB::factory();
@@ -44,16 +86,35 @@ abstract class simpleMapper implements iCacheable
         $this->table = $this->name() . '_' .$this->section() . $this->tablePostfix;
     }
 
+    /**
+     * Возвращает имя модуля
+     *
+     * @return string
+     */
     public function name()
     {
         return $this->name;
     }
 
+    /**
+     * Возвращает секцию
+     *
+     * @return string
+     */
     public function section()
     {
         return $this->section;
     }
 
+    /**
+     * Выполняет вставку объекта $object в таблицу.
+     * Данные экспортируются из объекта в массив, который передается
+     * в метод self::insertDataModify(), после генерируется и
+     * выполняется SQL-запрос для совершения операции вставки.
+     * В завершении возвращается переданный объект с новыми данными
+     *
+     * @param simple $object
+     */
     protected function insert(simple $object)
     {
         $fields = $object->export();
@@ -76,6 +137,15 @@ abstract class simpleMapper implements iCacheable
         }
     }
 
+    /**
+     * Выполняет обновление объекта $object в таблице.
+     * Данные экспортируются из объекта в массив, который передается
+     * в метод self::updateDataModify(), после генерируется и
+     * выполняется SQL-запрос для совершения операции обновления.
+     * В завершении возвращается переданный объект с новыми данными
+     *
+     * @param simple $object
+     */
     protected function update(simple $object)
     {
         $fields = $object->export();
@@ -102,13 +172,25 @@ abstract class simpleMapper implements iCacheable
         return false;
     }
 
-    public function delete($object)
+    /**
+     * Выполняет удаление объекта из БД
+     *
+     * @param integer $id
+     * @return mixed
+     */
+    public function delete($id)
     {
         $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `id` = :id');
-        $stmt->bindParam(':id', $object->getId(), PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
+    /**
+     * Если у объекта имеется идентификатор, то выполняется
+     * обновление объекта, иначе выполняется вставка объекта в БД
+     *
+     * @param object $object
+     */
     public function save($object)
     {
         if ($object->getId()) {
@@ -118,6 +200,14 @@ abstract class simpleMapper implements iCacheable
         }
     }
 
+    /**
+     * Ищет запись по полю $name со значением $value
+     * и возвращает результат поиска
+     *
+     * @param string $name имя поля
+     * @param string $value значения поля
+     * @return object
+     */
     public function searchByField($name, $value)
     {
         $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name);
@@ -126,6 +216,11 @@ abstract class simpleMapper implements iCacheable
         return $stmt;
     }
 
+    /**
+     * Возвращает Map
+     *
+     * @return array
+     */
     protected function getMap()
     {
         if (empty($this->map)) {
@@ -147,7 +242,7 @@ abstract class simpleMapper implements iCacheable
     }
 
     /**
-     * Установка cache
+     * Установка ссылки на объект cache
      *
      * @package cache $cache
      */
@@ -156,14 +251,22 @@ abstract class simpleMapper implements iCacheable
         $this->cache = $cache;
     }
 
+    /**
+     * Выполнение операций с массивом $fields перед обновлением в БД
+     *
+     * @param array $fields
+     */
     protected function updateDataModify(&$fields)
     {
-
     }
 
+    /**
+     * Выполнение операций с массивом $fields перед вставкой в БД
+     *
+     * @param array $fields
+     */
     protected function insertDataModify(&$fields)
     {
-
     }
 }
 

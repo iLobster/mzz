@@ -9,18 +9,52 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+/**
+ * userMapper: маппер для пользователей
+ *
+ * @package user
+ * @version 0.2
+ */
 
 class userMapper extends simpleMapper
 {
+    /**
+     * Имя модуля
+     *
+     * @var string
+     */
     protected $name = 'user';
+
+    /**
+     * Имя класса DataObject
+     *
+     * @var string
+     */
     protected $className = 'user';
+
+    /**
+     * Массив кешируемых методов
+     *
+     * @var array
+     */
     protected $cacheable = array('searchById', 'searchByLogin');
 
+    /**
+     * Создает пустой объект DO
+     *
+     * @return object
+     */
     public function create()
     {
         return new user($this->getMap());
     }
 
+    /**
+     * Выполняет поиск объекта по идентификатору
+     *
+     * @param integer $id идентификатор
+     * @return object
+     */
     public function searchById($id)
     {
         $stmt = $this->searchByField('id', $id);
@@ -33,6 +67,12 @@ class userMapper extends simpleMapper
         }
     }
 
+    /**
+     * Выполняет поиск объекта по логину
+     *
+     * @param string $login логин
+     * @return object
+     */
     public function searchByLogin($login)
     {
         $stmt = $this->searchByField('login', $login);
@@ -45,6 +85,15 @@ class userMapper extends simpleMapper
         }
     }
 
+    /**
+     * Идентифицирует пользователя по логину и паролю и
+     * в случае успеха устанавливает сессию
+     * идентифицированного пользователя
+     *
+     * @param string $login логин
+     * @param string $password пароль
+     * @return object
+     */
     public function login($login, $password)
     {
         $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `login` = :login AND `password` = :password");
@@ -66,6 +115,12 @@ class userMapper extends simpleMapper
         }
     }
 
+    /**
+     * Создает объект user из массива
+     *
+     * @param array $row
+     * @return object
+     */
     protected function createUserFromRow($row)
     {
         $map = $this->getMap();
@@ -74,32 +129,32 @@ class userMapper extends simpleMapper
         return $user;
     }
 
+    /**
+     * Возвращает объект для гостя (id = 1)
+     *
+     * @return object
+     */
     private function getGuest()
     {
         return $this->searchById(1);
     }
 
-    protected function getMap()
-    {
-        if (empty($this->map)) {
-            $mapFileName = fileLoader::resolve($this->name() . '/maps/user.map.ini');
-            $this->map = parse_ini_file($mapFileName, true);
-        }
-        return $this->map;
-    }
-
+    /**
+     * Magic method __sleep
+     *
+     * @return array
+     */
     public function __sleep()
     {
         return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
     }
 
+    /**
+     * Magic method __wakeup
+     *
+     */
     public function __wakeup()
     {
-    }
-
-    public function this()
-    {
-        return (!empty($this->cache)) ? $this->cache : $this;
     }
 }
 

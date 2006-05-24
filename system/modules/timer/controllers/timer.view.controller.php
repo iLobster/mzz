@@ -18,12 +18,21 @@
 
 class timerViewController extends simpleController
 {
+    /**
+     * Конструктор
+     *
+     */
     public function __construct()
     {
         fileLoader::load('timer/views/timer.view.view');
         parent::__construct();
     }
 
+    /**
+     * Возвращает объект отображения
+     *
+     * @return object
+     */
     public function getView()
     {
         $timer = $this->toolkit->getTimer();
