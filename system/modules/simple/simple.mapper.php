@@ -142,7 +142,8 @@ abstract class simpleMapper implements iCacheable
 
             $id = $stmt->execute();
 
-            $fields['id'] = $id;
+            $stmt = $this->searchByField('id', $id);
+            $fields = $stmt->fetch();
 
             $object->import($fields);
         }
@@ -178,10 +179,14 @@ abstract class simpleMapper implements iCacheable
 
             $stmt->bindArray($bindFields);
             $stmt->bindParam(':id', $object->getId(), PDO::PARAM_INT);
+            $result = $stmt->execute();
+
+            $stmt = $this->searchByField('id', $object->getId());
+            $fields = $stmt->fetch();
 
             $object->import($fields);
 
-            return $stmt->execute();
+            return $result;
         }
 
         return false;
