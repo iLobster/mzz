@@ -5,7 +5,8 @@ fileLoader::load('simple');
 fileLoader::load('cases/modules/simple/stubMapper.class');
 fileLoader::load('cases/modules/simple/stubSimple.class');
 
-class simple_Test extends unitTestCase
+// simpleTest есть класс
+class testSimple extends unitTestCase
 {
     private $simple;
     private $db;
@@ -13,19 +14,18 @@ class simple_Test extends unitTestCase
     public function __construct()
     {
         $this->map = array(
-        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId' ),
+        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId','once' => 'true'),
         'foo' => array ('name' => 'foo','accessor' => 'getFoo', 'mutator' => 'setFoo'),
         'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
         );
 
         $this->db = DB::factory();
-        $this->simple = new stubSimple($this->map);
         $this->mapper = new stubMapper('simple');
         $this->cleardb();
     }
     public function setUp()
     {
-
+     $this->simple = new stubSimple($this->map);
     }
     public function tearDown()
     {
@@ -70,6 +70,83 @@ class simple_Test extends unitTestCase
             $this->assertEqual($val2, $this->simple->$getprop());
         }
 
+    }
+
+    public function testException()
+    {
+        try {
+            $this->simple->getAny();
+            $this->fail('Должен быть брошен EXCEPTION!');
+        } catch (Exception $e) {
+            $this->assertWantedPattern('/simple::getany/i', $e->getMessage());
+        }
+
+        try {
+            $this->simple->setAny('any');
+            $this->fail('Должен быть брошен EXCEPTION!');
+        } catch (Exception $e) {
+            $this->assertWantedPattern('/simple::setany/i', $e->getMessage());
+        }
+    }
+
+    public function testIdNull()
+    {
+        $this->assertNull($this->simple->getId());
+    }
+
+    public function testFieldsSetsOnce()
+    {
+        foreach(array('Id') as $val) {
+            $setter = 'set' . $val;
+            $getter = 'get' . $val;
+
+            $first = '2';
+
+            $this->simple->$setter($first);
+
+            $this->mapper->save($this->simple);
+
+            $this->assertIdentical($this->simple->$getter(), $first);
+
+            $second = '5';
+            $this->assertNotEqual($second, $first);
+
+            $this->simple->$setter($second);
+
+            $this->mapper->save($this->simple);
+
+            $this->assertIdentical($this->simple->$getter(), $first);
+        }
+        // For import
+        $this->simple->import(array('id' => $second));
+        $this->mapper->save($this->simple);
+
+        $this->assertIdentical($this->simple->$getter(), $first);
+    }
+
+    public function testFieldsSetsNotOnce()
+    {
+        foreach(array('Foo','Bar') as $val) {
+            $setter = 'set' . $val;
+            $getter = 'get' . $val;
+
+            $first = '2';
+
+            $this->simple->$setter($first);
+
+            $this->mapper->save($this->simple);
+
+            $this->assertIdentical($this->simple->$getter(), $first);
+
+            $second = '5';
+            $this->assertNotEqual($second, $first);
+
+            $this->simple->$setter($second);
+
+            $this->mapper->save($this->simple);
+
+            $this->assertIdentical($this->simple->$getter(), $second);
+        }
     }
 
 }
