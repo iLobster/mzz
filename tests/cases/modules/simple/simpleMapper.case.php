@@ -1,8 +1,10 @@
 <?php
 
+fileLoader::load('db/sqlFunction');
 fileLoader::load('simple/simple.mapper');
 fileLoader::load('simple');
 fileLoader::load('cases/modules/simple/stubMapper.class');
+fileLoader::load('cases/modules/simple/stubMapperDataModify.class');
 fileLoader::load('cases/modules/simple/stubSimple.class');
 
 
@@ -22,8 +24,8 @@ class simpleMapperTest extends unitTestCase
         );
 
         $this->fixture = array(array('foo'=>'foo1','bar'=>'bar1'),
-                               array('foo'=>'foo2','bar'=>'bar2'),
-                               array('foo'=>'foo3','bar'=>'bar3'));
+        array('foo'=>'foo2','bar'=>'bar2'),
+        array('foo'=>'foo3','bar'=>'bar3'));
 
         $this->db = DB::factory();
         $this->cleardb();
@@ -74,7 +76,33 @@ class simpleMapperTest extends unitTestCase
 
     }
 
-   public function testUpdateSave()
+    public function testInsertSaveWithDataModify()
+    {
+        $this->mapper = new stubMapperDataModify('simple');
+        $simple = new stubSimple($this->map);
+        $simple->setFoo($this->fixture[0]['foo']);
+        $this->mapper->save($simple);
+
+        $this->assertEqual(1, $simple->getId());
+        $this->assertEqual($this->fixture[0]['foo'], $simple->getFoo());
+        $this->assertPattern('/^\d+$/', $simple->getBar());
+
+    }
+
+    public function testUpdateSaveWithDataModify()
+    {
+        $this->fixture();
+        $this->mapper = new stubMapperDataModify('simple');
+        $simple = new stubSimple($this->map);
+        $simple->import(array('id'=>1));
+        $simple->setFoo($this->fixture[0]['foo']);
+        $this->mapper->save($simple);
+
+        $this->assertPattern('/^\d+$/', $simple->getBar());
+
+    }
+
+    public function testUpdateSave()
     {
         $this->fixture();
 
@@ -88,14 +116,14 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual('newfoo1', $simple->getFoo());
     }
 
-   public function testSearchByField()
+    public function testSearchByField()
     {
         $this->fixture();
         $stmt = $this->mapper->searchByField('foo', $this->fixture[1]['foo']);
         $row = $stmt->fetch();
 
         $this->assertEqual($row['bar'], $this->fixture[1]['bar']);
-           
+
     }
 
 
@@ -111,8 +139,8 @@ class simpleMapperTest extends unitTestCase
     {
         for($i = 0; $i < count($this->fixture); $i++) {
             $this->db->exec(' INSERT INTO `simple_simple` (`foo`,`bar`)'.
-                            " VALUES('" . $this->fixture[$i]['foo'] . "',".
-                                    "'" . $this->fixture[$i]['bar'] . "')");
+            " VALUES('" . $this->fixture[$i]['foo'] . "',".
+            "'" . $this->fixture[$i]['bar'] . "')");
         }
     }
 }

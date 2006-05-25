@@ -121,14 +121,15 @@ abstract class simpleMapper implements iCacheable
         $fields = $object->export();
 
         if (sizeof($fields) > 0) {
+            $bindFields = $fields;
             $this->insertDataModify($fields);
 
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
             $markers = "";
             foreach(array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
-                    $markers .= $fields[$val]->toString() . ', ';
-                    unset($fields[$val]);
+                    $fields[$val] = $fields[$val]->toString();
+                    $markers .= $fields[$val] . ', ';
                 } else {
                     $markers .= ':' . $val . ', ';
                 }
@@ -137,7 +138,7 @@ abstract class simpleMapper implements iCacheable
 
             $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
 
-            $stmt->bindArray($fields);
+            $stmt->bindArray($bindFields);
 
             $id = $stmt->execute();
 
@@ -161,13 +162,13 @@ abstract class simpleMapper implements iCacheable
         $fields = $object->export();
 
         if (sizeof($fields) > 0) {
+            $bindFields = $fields;
             $this->updateDataModify($fields);
-
             $query = '';
             foreach(array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
-                    $query .= '`' . $val . '` = ' . $fields[$val]->toString() . ', ';
-                    unset($fields[$val]);
+                    $fields[$val] = $fields[$val]->toString();
+                    $query .= '`' . $val . '` = ' . $fields[$val] . ', ';
                 } else {
                     $query .= '`' . $val . '` = :' . $val . ', ';
                 }
@@ -175,9 +176,8 @@ abstract class simpleMapper implements iCacheable
             $query = substr($query, 0, -2);
             $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
 
-            $stmt->bindArray($fields);
+            $stmt->bindArray($bindFields);
             $stmt->bindParam(':id', $object->getId(), PDO::PARAM_INT);
-
 
             $object->import($fields);
 
