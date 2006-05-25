@@ -101,8 +101,7 @@ class pageMapperTest extends unitTestCase
 
         $this->assertEqual(4, $this->countPages());
 
-        $page = $this->mapper->searchById(1);
-        $this->mapper->delete($page);
+        $this->mapper->delete(1);
 
         $this->assertEqual(3, $this->countPages());
     }

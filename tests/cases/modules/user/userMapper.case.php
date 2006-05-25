@@ -96,8 +96,7 @@ class userMapperTest extends unitTestCase
 
         $this->assertEqual(4, $this->countUsers());
 
-        $user = $this->mapper->searchById(1);
-        $this->mapper->delete($user);
+        $this->mapper->delete(1);
 
         $this->assertEqual(3, $this->countUsers());
     }

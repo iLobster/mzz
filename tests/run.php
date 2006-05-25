@@ -90,13 +90,11 @@ try {
     //$a->run();
 
 
-} catch (MzzException $e) {
-    $e->printHtml();
 } catch (Exception $e) {
     $name = get_class($e);
     $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());
     $e->setName($name);
-    $e->printHtml();
+    throw $e;
 }
 
 ?>

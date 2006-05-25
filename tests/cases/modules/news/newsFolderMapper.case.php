@@ -130,8 +130,7 @@ class newsFolderMapperTest extends unitTestCase
 
         $this->assertEqual(4, $this->countNewsFolder());
 
-        $newsFolder = $this->mapper->searchByName('name1');
-        $this->mapper->delete($newsFolder);
+        $this->mapper->delete(1);
 
         $this->assertEqual(3, $this->countNewsFolder());
     }

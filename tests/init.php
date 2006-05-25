@@ -29,6 +29,8 @@ $resolver->addResolver(new configFileResolver($baseresolver));
 fileLoader::setResolver($resolver);
 
 fileLoader::load('exceptions/init');
+$dispatcher = new errorDispatcher();
+
 fileLoader::load('config/config');
 
 fileLoader::load('cache');
