@@ -9,6 +9,7 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+fileLoader::load('db/sqlFunction');
 /**
  * simpleMapper: реализация общих методов у Mapper
  *
@@ -123,7 +124,16 @@ abstract class simpleMapper implements iCacheable
             $this->insertDataModify($fields);
 
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
-            $markers  = ':' . implode(', :', array_keys($fields));
+            $markers = "";
+            foreach(array_keys($fields) as $val) {
+                if($fields[$val] instanceof sqlFunction) {
+                    $markers .= $fields[$val]->toString() . ', ';
+                    unset($fields[$val]);
+                } else {
+                    $markers .= ':' . $val . ', ';
+                }
+            }
+            $markers = substr($markers, 0, -2);
 
             $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
 
@@ -155,7 +165,12 @@ abstract class simpleMapper implements iCacheable
 
             $query = '';
             foreach(array_keys($fields) as $val) {
-                $query .= '`' . $val . '` = :' . $val . ', ';
+                if($fields[$val] instanceof sqlFunction) {
+                    $query .= '`' . $val . '` = ' . $fields[$val]->toString() . ', ';
+                    unset($fields[$val]);
+                } else {
+                    $query .= '`' . $val . '` = :' . $val . ', ';
+                }
             }
             $query = substr($query, 0, -2);
             $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
