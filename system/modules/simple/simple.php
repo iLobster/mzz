@@ -134,7 +134,7 @@ abstract class simple
      * @param string $type
      * @return string
      */
-    protected function getJip($section, $module, $id, $type)
+    protected function getJipView($section, $module, $id, $type)
     {
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getAction($module);

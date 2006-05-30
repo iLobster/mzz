@@ -26,7 +26,7 @@ class news extends simple
      */
     public function getJip()
     {
-        return parent::getJip('news', 'news', $this->getId(), 'news');
+        return parent::getJipView('news', 'news', $this->getId(), 'news');
     }
 }
 
