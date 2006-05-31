@@ -78,7 +78,7 @@ class mzzPdoStatement extends PDOStatement
 
         $lastInsertId = $db->lastInsertId();
 
-        return (!$result || !$lastInsertId) ? $result : $lastInsertId;
+        return ($result && $lastInsertId) ? $lastInsertId : $result;
     }
 }
 
