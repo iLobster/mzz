@@ -10,6 +10,32 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+class newConfig
+{
+    protected $section;
+    protected $module;
+    protected $values = array();
+    protected $db;
+
+    public function __construct($section, $module)
+    {
+        $this->section = $section;
+        $this->module = $module;
+        $this->db = db::factory();
+        $this->values = $this->getValues();
+    }
+
+    protected function getValues()
+    {
+        $stmt = $this->db->prepare("SELECT ...");
+        $stmt->bindParam(':section', $this->section);
+        $stmt->bindParam(':module', $this->module);
+        $stmt->execute();
+        $values = $stmt->fetchAll();
+    }
+}
+
+
 /**
  * config: класс для работы с конфигурацией
  *
@@ -91,5 +117,4 @@ class config
     }
 
 }
-
 ?>

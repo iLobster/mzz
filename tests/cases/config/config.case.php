@@ -3,6 +3,52 @@ fileLoader::load('config/config');
 
 class configTest extends unitTestCase
 {
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = db::factory();
+    }
+
+    public function setUp()
+    {
+        $this->clearDb();
+        $this->fixture();
+    }
+
+    public function tearDown()
+    {
+        $this->clearDb();
+    }
+
+    public function testConfigGet()
+    {
+        $config = new newConfig('someSection', 'someModule');
+        $this->assertEqual($config->getOption("someParam"), "someValueOfParam");
+        $this->assertEqual($config->getOption("someAnotherParam"), "someValueOfAnotherParam");
+    }
+
+    public function fixture()
+    {
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(1, 'someSection', 'someModule')");
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(2, 'someAnotherSection', 'someAnotherModule')");
+
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(1, 1, 'someParam', 'someValueOfParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(2, 1, 'someAnotherParam', 'someValueOfAnotherParam')");
+
+    }
+
+    private function clearDb()
+    {
+        $this->db->query('TRUNCATE TABLE `sys_cfg`');
+        $this->db->query('TRUNCATE TABLE `sys_cfg_values`');
+    }
+
+}
+
+/*
+class configTest extends unitTestCase
+{
     private $filepath;
 
     public function __construct()
@@ -78,5 +124,5 @@ class configTest extends unitTestCase
     }
 
 }
-
+*/
 ?>
