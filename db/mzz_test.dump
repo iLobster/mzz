@@ -60,23 +60,6 @@ CREATE TABLE `page_page` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `sessions` table : 
-#
-
-DROP TABLE IF EXISTS `sessions`;
-
-CREATE TABLE `sessions` (
-  `id` int(11) NOT NULL auto_increment,
-  `sid` varchar(50) NOT NULL default '',
-  `ts` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `valid` enum('yes','no') NOT NULL default 'yes',
-  `data` blob,
-  PRIMARY KEY  (`id`),
-  KEY `valid` (`valid`),
-  KEY `sid` (`sid`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
 # Structure for the `simple_simple` table : 
 #
 
