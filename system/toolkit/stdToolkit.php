@@ -42,12 +42,11 @@ class stdToolkit extends toolkit
     /**
      * Конструктор
      *
-     * @param object $config объект для работы с конфигурацией
      */
-    public function __construct($config)
+    public function __construct(/*$config*/)
     {
         parent::__construct();
-        $this->config = $config;
+        /*$this->config = $config;*/
         $this->actionNames = new arrayDataspace($this->actionNames);
     }
 
@@ -132,10 +131,11 @@ class stdToolkit extends toolkit
      * Возвращает объект Config
      *
      * @return object
+     * @todo сделать кэширование
      */
-    public function getConfig()
+    public function getConfig($section, $module)
     {
-        return $this->config;
+        return new config($section, $module);
     }
 
     /**

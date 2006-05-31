@@ -74,7 +74,7 @@ class core
 
 
             $toolkit = systemToolkit::getInstance();
-            $toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . '/common.ini')));
+            $toolkit->addToolkit(new stdToolkit(/*new config(systemConfig::$pathToConf . '/common.ini')*/));
 
             $response = $toolkit->getResponse();
             $request = $toolkit->getRequest();

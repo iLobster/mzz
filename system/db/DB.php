@@ -31,9 +31,8 @@ class DB
     {
         if (self::$callback == false) {
             $toolkit = systemToolkit::getInstance();
-            $config = $toolkit->getConfig();
-            $config->load('common');
-            $driver = 'mzz' . ucfirst($config->getOption('db', 'driver'));
+            $driverName = systemConfig::$dbDriver;
+            $driver = 'mzz' . ucfirst($driverName);
             fileLoader::load('db/drivers/' . $driver);
             self::$callback = array($driver, 'getInstance');
         }

@@ -30,7 +30,7 @@ class newsEditForm
         require_once 'HTML/QuickForm.php';
         require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
-        $form = new HTML_QuickForm('form', 'POST', '/' . $section . '/' . $news->getId() . '/edit');
+        $form = new HTML_QuickForm('newsEdit', 'POST', '/' . $section . '/' . $news->getId() . '/edit');
         $defaultValues = array();
         $defaultValues['title']  = $news->getTitle();
         $defaultValues['text']  = $news->getText();

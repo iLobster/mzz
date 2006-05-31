@@ -22,7 +22,7 @@ class userLoginForm {
         require_once 'HTML/QuickForm.php';
         require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
-        $form = new HTML_QuickForm('form', 'POST', $url);
+        $form = new HTML_QuickForm('userLogin', 'POST', $url);
 
         $form->addElement('text', 'login', 'Имя:', 'size=30');
         $form->addElement('password', 'password', 'Пароль:', 'size=30');

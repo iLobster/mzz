@@ -14,6 +14,42 @@
  *
  */
 class systemConfig {
+
+    /**
+     * Тип драйвера БД
+     *
+     * @var string
+     */
+    public static $dbDriver;
+
+    /**
+     * Data Source Name
+     *
+     * @var string
+     */
+    public static $dbDsn;
+
+    /**
+     * Имя пользователя для доступа к БД
+     *
+     * @var string
+     */
+    public static $dbUser;
+
+    /**
+     * Пароль для доступа к БД
+     *
+     * @var string
+     */
+    public static $dbPassword;
+
+    /**
+     * Кодировка БД
+     *
+     * @var string
+     */
+    public static $dbCharset;
+
     /**
      * Путь до приложения
      *
@@ -45,7 +81,7 @@ class systemConfig {
     /**
      * Опции соединения с базой данных для PDO
      *
-     * @var string
+     * @var array
      */
     public static $pdoOptions;
 

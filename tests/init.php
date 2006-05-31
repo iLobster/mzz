@@ -69,7 +69,7 @@ fileLoader::load('action');
 fileLoader::load('timer.factory');
 
 $toolkit = systemToolkit::getInstance();
-$toolkit->addToolkit(new stdToolkit(new config(systemConfig::$pathToConf . '/common.ini')));
+$toolkit->addToolkit(new stdToolkit(/*new config(systemConfig::$pathToConf . '/common.ini')*/));
 
 $toolkit->getTimer();
 

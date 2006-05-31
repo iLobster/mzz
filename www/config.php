@@ -24,6 +24,12 @@ define('DEBUG_MODE', 1);
 
 require_once(SYSTEM_PATH . 'systemConfig.php');
 
+systemConfig::$dbDriver = "pdo";
+systemConfig::$dbDsn  = "mysql:host=localhost;dbname=mzz";
+systemConfig::$dbUser = "root";
+systemConfig::$dbPassword = "";
+systemConfig::$dbCharset = "cp1251";
+
 systemConfig::$pathToApplication = dirname(__FILE__) . '';
 systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../tmp');
 systemConfig::$pathToConf = dirname(__FILE__) . '/configs';

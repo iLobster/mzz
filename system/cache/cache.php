@@ -61,6 +61,7 @@ class cache
      *
      * @param string $name
      * @param array $args
+     * @todo брать $cacheEnabled из конфига
      * @return mixed
      */
     public function call($name, $args = array())
@@ -69,9 +70,10 @@ class cache
         $filename = md5($name) . '_' . md5(serialize($args));
 
         $toolkit = systemToolkit::getInstance();
-        $config = $toolkit->getConfig();
-        $config->load('common');
-        $cacheEnabled = $config->getOption('cache', 'cache');
+        //$config = $toolkit->getConfig();
+        //$config->load('common');
+        //$cacheEnabled = $config->getOption('cache', 'cache');
+        $cacheEnabled = true;
 
         if ($cacheEnabled && $this->isValid($filename)) {
             $result = $this->getCache($path, $filename);

@@ -75,14 +75,10 @@ class mzzPdo extends PDO
     {
         if (!isset(self::$instance)) {
                 $classname = __CLASS__;
-                $toolkit = systemToolkit::getInstance();
-                $config = $toolkit->getConfig();
-                $config->load('common');
-                $dsn = $config->getOption('db', 'dsn');
-                $username = $config->getOption('db', 'user');
-                $password = $config->getOption('db', 'password');
-                $charset = $config->getOption('db', 'charset');
-
+                $dsn = systemConfig::$dbDsn;
+                $username = systemConfig::$dbUser;
+                $password = systemConfig::$dbPassword;
+                $charset = systemConfig::$dbCharset;
                 self::$instance = new $classname($dsn, $username, $password, $charset);
                 self::$instance->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
                 self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

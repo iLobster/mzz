@@ -1,6 +1,9 @@
 <?php
 fileLoader::load('config/config');
-
+/**
+ * @todo сменить создание класса на получение объекта конфига из тулкита ?
+ *
+ */
 class configTest extends unitTestCase
 {
     private $db;
@@ -23,19 +26,39 @@ class configTest extends unitTestCase
 
     public function testConfigGet()
     {
-        $config = new newConfig('someSection', 'someModule');
-        $this->assertEqual($config->getOption("someParam"), "someValueOfParam");
-        $this->assertEqual($config->getOption("someAnotherParam"), "someValueOfAnotherParam");
+        $config = new config('someSection', 'someModule');
+        $this->assertEqual($config->get("someParam"), "someValueOfParam");
+
+        $config = new config('someAnotherSection', 'someAnotherModule');
+        $this->assertEqual($config->get("someAnotherParam"), "someValueOfAnotherParam");
+    }
+
+    public function testConfigGetDefault()
+    {
+        $config = new config('someSection', 'someModule');
+        $this->assertEqual($config->get("someDefaultParam"), "someValueOfDefaultParam");
+    }
+
+    public function testConfigGetFalse()
+    {
+        $config = new config('someSection', 'someModule');
+        $this->assertFalse($config->get("non_exists"));
     }
 
     public function fixture()
     {
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(1, 'someSection', 'someModule')");
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(2, 'someAnotherSection', 'someAnotherModule')");
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(1, '', 'someModule')");
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(2, '', 'someAnotherModule')");
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(3, 'someSection', 'someModule')");
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(4, 'someAnotherSection', 'someAnotherModule')");
 
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(1, 1, 'someParam', 'someValueOfParam')");
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(2, 1, 'someAnotherParam', 'someValueOfAnotherParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 1, 'someParam', 'defaultValueOfParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 3, 'someParam', 'someValueOfParam')");
 
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 2, 'someAnotherParam', 'someDefaultValueOfAnotherParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 4, 'someAnotherParam', 'someValueOfAnotherParam')");
+
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 1, 'someDefaultParam', 'someValueOfDefaultParam')");
     }
 
     private function clearDb()

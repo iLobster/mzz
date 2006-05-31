@@ -10,7 +10,13 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-class newConfig
+/**
+ * config: класс для работы с конфигурацией
+ *
+ * @package system
+ * @version 0.4
+*/
+class config
 {
     protected $section;
     protected $module;
@@ -27,94 +33,24 @@ class newConfig
 
     protected function getValues()
     {
-        $stmt = $this->db->prepare("SELECT ...");
+        $stmt = $this->db->prepare("SELECT IFNULL(`val`.`name`, `val_def`.`name`) as `name`,
+IFNULL(`val`.`value`, `val_def`.`value`) as `value` FROM `sys_cfg` `cfg_def`
+INNER JOIN `sys_cfg_values` `val_def` ON `val_def`.`cfg_id` = `cfg_def`.`id` AND `cfg_def`.`section` = ''
+LEFT JOIN `sys_cfg` `cfg` ON `cfg`.`section` = :section AND `cfg`.`module` = :module
+LEFT JOIN `sys_cfg_values` `val` ON `val`.`cfg_id` = `cfg`.`id` AND `val`.`name` = `val_def`.`name`
+WHERE `cfg_def`.`module` = :module");
+
         $stmt->bindParam(':section', $this->section);
         $stmt->bindParam(':module', $this->module);
         $stmt->execute();
-        $values = $stmt->fetchAll();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
+    }
+
+    public function get($name)
+    {
+        return isset($this->values[$name][0]['value']) ? $this->values[$name][0]['value'] : false;
     }
 }
 
-
-/**
- * config: класс для работы с конфигурацией
- *
- * @package system
- * @version 0.3
-*/
-class config
-{
-    /**
-     * Свойство для хранения результата обработки конфиг-файла
-     *
-     * @var array
-     */
-    protected $iniResult;
-
-    /**
-     * Путь до config-файла
-     *
-     * @var string
-     */
-    protected $iniFile;
-
-    /**
-     * Constructor
-     *
-     * @param string $configFileName имя файла (без '.ini' в конце)
-     */
-    public function __construct($configFileName)
-    {
-        $this->iniFile = $configFileName;
-        $this->load();
-    }
-
-    /**
-     * Загрузка и обработка конфиг-файла.
-     *
-     */
-    public function load()
-    {
-        if (!is_file($this->iniFile) || ($this->iniResult = parse_ini_file($this->iniFile, true)) === false) {
-            $error = sprintf("Unable parse config-file '%s'", $this->iniFile);
-            throw new mzzRuntimeException($error);
-        }
-    }
-
-    /**
-     * Получение значения опции
-     *
-     * @param string $sectionName имя секции
-     * @param string $name имя опции
-     * @return string
-     */
-    public function getOption($sectionName, $name)
-    {
-        $section = $this->getSection($sectionName);
-        if (isset($section[$name])) {
-            return $section[$name];
-        } else {
-            $error = sprintf("Can't find config-option '%s/%s' in '%s'", $sectionName, $name, $this->iniFile);
-            throw new mzzRuntimeException($error);
-        }
-
-    }
-
-    /**
-     * Получение всей секции
-     *
-     * @param string $sectionName имя секции
-     * @return array|false
-     */
-    public function getSection($sectionName)
-    {
-        if (isset($this->iniResult[$sectionName])) {
-            return $this->iniResult[$sectionName];
-        } else {
-            $error = sprintf("Can't find config-section '%s' in '%s'", $sectionName, $this->iniFile);
-            throw new mzzRuntimeException($error);
-        }
-    }
-
-}
 ?>

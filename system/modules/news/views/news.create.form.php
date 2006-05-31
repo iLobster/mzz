@@ -26,7 +26,7 @@ class newsCreateForm {
         $url->addParam($folder);
         $url->setAction('createItem');
 
-        $form = new HTML_QuickForm('form', 'POST', $url->get());
+        $form = new HTML_QuickForm('createNews', 'POST', $url->get());
 
         $form->addElement('text', 'title', 'Имя:', 'size=30');
         $form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');
