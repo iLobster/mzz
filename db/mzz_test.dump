@@ -90,9 +90,10 @@ CREATE TABLE `simple_simple` (
 
 CREATE TABLE `sys_cfg` (
   `id` int(11) NOT NULL auto_increment,
-  `section` varchar(255) NOT NULL,
-  `module` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`)
+  `section` varchar(255) NOT NULL default '',
+  `module` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `section_module` (`section`,`module`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -101,10 +102,11 @@ CREATE TABLE `sys_cfg` (
 
 CREATE TABLE `sys_cfg_values` (
   `id` int(11) NOT NULL auto_increment,
-  `cfg_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `value` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`)
+  `cfg_id` int(11) NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `value` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `cfg_id` (`cfg_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
