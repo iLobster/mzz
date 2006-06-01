@@ -1,64 +1,26 @@
 <?php
 //error_reporting(E_ALL | E_STRICT);
 error_reporting(E_ALL);
-
-require_once 'init.php';
-require_once 'testsFinder.php';
-
-
-class testsRunner implements iFilter
-{
-    public function run(filterChain $filter_chain, $response, iRequest $request)
-    {
-        global $argv;
-        ob_start();
-        $casesBasedir = 'cases';
-        $casesDir = $casesBasedir;
-        $casesName = 'all';
-
-        echo "Mzz.Cms v" . MZZ_VERSION . " tests.\r\n";
-
-        if (isset($argv[1])) {
-            $group = $argv[1];
-            $group = preg_replace('/[^a-z]/i', '', $group);
-            if (is_dir($casesDir . '/' . $group)) {
-                $casesDir .= '/' . $group;
-                $casesName = $group;
-            }
-        }
-
-        $test = new GroupTest($casesName . ' tests');
-
-        foreach (testsFinder::find($casesDir) as $case) {
-            $test->addTestFile($case);
-        }
-
-
-        $test->run(new TextReporter());
-
-
-        $result = ob_get_contents();
-        ob_end_clean();
-        $response->append($result);
-
-        $filter_chain->next();
-    }
-}
-
-
+/**
+ *
+ * @todo txt-отображение исключения 
+ */
 try {
+    require_once 'init.php';
+    require_once 'testsFinder.php';
+    require_once 'testsCliRunner.php';
+
     $toolkit = systemToolkit::getInstance();
     $request = $toolkit->getRequest();
     $response = $toolkit->getResponse();
 
     $filter_chain = new filterChain($response, $request);
     $filter_chain->registerFilter(new timingFilter());
-    $filter_chain->registerFilter(new testsRunner());
+    $filter_chain->registerFilter(new testsCliRunner());
     $filter_chain->process();
 
     $response->send();
-
-
+/*
 } catch (MzzException $e) {
     $e->printHtml();
 } catch (Exception $e) {
@@ -67,5 +29,11 @@ try {
     $e->setName($name);
     $e->printHtml();
 }
-
+*/
+} catch (Exception $e) {
+    $name = get_class($e);
+    $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());
+    $e->setName($name);
+    throw $e;
+}
 ?>
