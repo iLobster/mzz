@@ -122,7 +122,16 @@ class userMapperTest extends unitTestCase
         $this->assertEqual($_SESSION['user_id'], 1);
     }
 
-
+    public function testLoginException()
+    {
+        try {
+            $user = $this->mapper->login('not_exists_login', 'any_password');
+            $this->fail('no exception thrown?');
+        } catch (mzzSystemException $e) {
+            $this->assertPattern("/ID: 1/i", $e->getMessage());
+            $this->pass();
+        }
+    }
 
     private function countUsers()
     {
