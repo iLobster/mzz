@@ -49,7 +49,7 @@ WHERE `cfg_def`.`module` = :module");
 
     public function get($name)
     {
-        return isset($this->values[$name][0]['value']) ? $this->values[$name][0]['value'] : false;
+        return isset($this->values[$name][0]['value']) ? $this->values[$name][0]['value'] : null;
     }
 }
 

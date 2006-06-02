@@ -299,5 +299,18 @@ class stdToolkit extends toolkit
         $this->user = $user;
         return $tmp;
     }
+
+    /**
+     * Устанавливает объект конфигурации
+     *
+     * @param object $config
+     * @return object
+     */
+    public function setConfig($config)
+    {
+        $tmp = $this->config;
+        $this->config = $config;
+        return $tmp;
+    }
 }
 ?>

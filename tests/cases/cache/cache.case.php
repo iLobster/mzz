@@ -31,6 +31,7 @@ class cacheTest extends unitTestCase
 {
     private $cache;
     private $mock;
+    private $db;
 
     public function setUp()
     {
@@ -39,6 +40,11 @@ class cacheTest extends unitTestCase
         $this->mock->setReturnValue('name', 'stubName');
         $this->mock->setReturnValue('isCacheable', true, array('method'));
         $this->mock->setReturnValue('isCacheable', false, array('*'));
+        $this->db = db::factory();
+
+        $this->clearDb();
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(1, '', 'common')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(1, 1, 'cache', 'true')");
 
         $this->cache = new cache($this->mock, systemConfig::$pathToTemp . '/cache');
     }
@@ -51,6 +57,7 @@ class cacheTest extends unitTestCase
                 unlink($path . $val);
             }
         }
+        $this->clearDb();
     }
 
     public function testObjectMethod()
@@ -84,6 +91,12 @@ class cacheTest extends unitTestCase
 
         $this->assertEqual($this->cache->notCache(), $result);
         $this->assertEqual($this->cache->notCache(), $result2);
+    }
+
+    private function clearDb()
+    {
+        $this->db->query('TRUNCATE TABLE `sys_cfg`');
+        $this->db->query('TRUNCATE TABLE `sys_cfg_values`');
     }
 }
 
