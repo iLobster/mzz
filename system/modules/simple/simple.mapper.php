@@ -34,6 +34,20 @@ abstract class simpleMapper implements iCacheable
     protected $table;
 
     /**
+     * Имя таблицы отношений (собирается из имени, секции, relation-постфикса)
+     *
+     * @var string
+     */
+    protected $relationTable;
+
+    /**
+     * Relation-постфикс
+     *
+     * @var string
+     */
+    protected $relationPostfix = 'rel';
+
+    /**
      * Секция
      *
      * @var string
@@ -85,6 +99,7 @@ abstract class simpleMapper implements iCacheable
         $this->db = DB::factory();
         $this->section = $section;
         $this->table = $this->name() . '_' .$this->section() . $this->tablePostfix;
+        $this->relationTable = $this->name() . '_' .$this->section() . '_' . $this->relationPostfix;
     }
 
     /**

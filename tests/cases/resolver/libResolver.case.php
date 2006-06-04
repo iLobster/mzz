@@ -17,7 +17,7 @@ class libResolverTest extends UnitTestCase
     
     public function testResolve()
     {
-        $this->mock->expectOnce('resolve', array('libs/Smarty/Smarty.class.php'));
+        $this->mock->expectOnce('resolve', array('../libs/Smarty/Smarty.class.php'));
         $this->mock->setReturnValue('resolve', 'resolved_path');
         
         $this->assertEqual('resolved_path', $this->resolver->resolve('libs/Smarty/Smarty.class'));

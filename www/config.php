@@ -37,7 +37,7 @@ systemConfig::$pdoOptions = array();
 systemConfig::init();
 
 // в будущем перенести надо куда нить?
-$inc_path = ini_get('include_path') . PATH_SEPARATOR . systemConfig::$pathToSystem  . '/libs/PEAR/';
+$inc_path = ini_get('include_path') . PATH_SEPARATOR . realpath(systemConfig::$pathToSystem  . '/../libs/PEAR/');
 ini_set('include_path', $inc_path);
 
 

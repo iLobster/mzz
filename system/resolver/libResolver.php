@@ -41,7 +41,7 @@ class libResolver extends partialFileResolver
     protected function partialResolve($request)
     {
         if (strpos($request, 'libs/') === 0) {
-            return $request . '.php';
+            return '../' . $request . '.php';
         } else {
             return null;
         }
