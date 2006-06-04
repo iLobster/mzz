@@ -1,5 +1,7 @@
 <?php
 
+fileLoader::load('user');
+fileLoader::load('user/mappers/userMapper');
 fileLoader::load('user/mappers/groupMapper');
 fileLoader::load('user/group');
 
@@ -33,6 +35,7 @@ class groupMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `user_user_group`');
+        $this->db->query('TRUNCATE TABLE `user_user_group_rel`');
         //$this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
     }
 
@@ -90,6 +93,40 @@ class groupMapperTest extends unitTestCase
         $this->assertEqual(3, $this->countGroups());
     }
 
+    public function testGetUsers()
+    {
+        $this->fixture($this->map);
+
+        $map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        'login' => array ( 'name' => 'login', 'accessor' => 'getLogin', 'mutator' => 'setLogin'),
+        'password' => array ('name' => 'password', 'accessor' => 'getPassword', 'mutator' => 'setPassword', 'decorateClass' => 'md5PasswordHash'),
+        );
+        $user_mapper = new userMapper('user');
+        for($i = 2; $i <= 4; $i++) {
+            $user = new user($map);
+            $user->setId($i);
+            $user->setLogin('login' . $i);
+            $user->setPassword('passwd' . $i);
+            $user_mapper->save($user);
+        }
+
+
+        $stmt = $this->db->prepare('INSERT INTO `user_user_group_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':group_id', $group_id, PDO::PARAM_INT);
+
+        $user_id = 2; $group_id = 1;
+        $stmt->execute();
+        $user_id = 3; $group_id = 1;
+        $stmt->execute();
+
+        $users = $this->mapper->getUsers(1);
+
+        foreach ($users as $key => $item) {
+            $this->assertIsA($item, 'user');
+            $this->assertEqual($item->getLogin(), 'login' . ($key + 2));
+        }
+    }
 
 
     private function countGroups()

@@ -16,6 +16,9 @@
  * @version 0.1
  */
 
+fileLoader::load('user');
+fileLoader::load('user/mappers/userMapper');
+
 class groupMapper extends simpleMapper
 {
     /**
@@ -37,7 +40,7 @@ class groupMapper extends simpleMapper
      *
      * @var string
      */
-    protected $tablePostfix = '_tree';
+    protected $tablePostfix = '_group';
 
     /**
      * Выполняет поиск объекта по идентификатору
@@ -76,6 +79,28 @@ class groupMapper extends simpleMapper
         } else {
             return false;
         }
+    }
+
+    public function getUsers($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` `gr` INNER JOIN `" . $this->table . "_rel` `rel` ON `gr`.`id` = `rel`.`group_id` WHERE `gr`.`id` = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $rows = array();
+        while ($row = $stmt->fetch()) {
+            $rows[] = $row;
+        }
+
+        $result = array();
+
+        $userMapper = new userMapper('user');
+
+        foreach ($rows as $row) {
+            $result[] = $userMapper->searchById($row['user_id']);
+        }
+
+        return $result;
     }
 
     /**
