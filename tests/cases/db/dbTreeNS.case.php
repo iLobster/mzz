@@ -187,6 +187,77 @@ class dbTreeNsTest extends unitTestCase
         $this->assertEqual($node, $fixtureNewNode);
     }
 
+    public function testRemoveNode()
+    {
+        $this->tree->removeNode(2);
+
+        $fixtureNewTree = array('1' => array('lkey'=>1 ,'rkey' =>10,'level'=>1),
+                       '3' => array('lkey'=>2 ,'rkey' =>7,'level'=>2),
+                       '4' => array('lkey'=>8,'rkey'=>9 ,'level'=>2),
+                       '7' => array('lkey'=>3 ,'rkey'=>4 ,'level'=>3),
+                       '8' => array('lkey'=>5,'rkey'=>6 ,'level'=>3)
+                       );
+        $newTree = $this->tree->getTree();
+        $this->assertEqual(count($fixtureNewTree), count($newTree));
+
+        foreach ($newTree as $id => $node) {
+            $this->assertEqual($fixtureNewTree[$id], $node);
+        }
+    }
+
+    public function testRemoveRootNode()
+    {
+        $this->tree->removeNode(1);
+        $newTree = $this->tree->getTree();
+
+        $this->assertNull($newTree);
+    }
+
+    public function testMoveNode()
+    {
+        $this->tree->moveNode(3, 4);
+        $fixtureNewTree = array('1' => array('lkey'=>1 ,'rkey' =>16,'level'=>1),
+                       '2' => array('lkey'=>2 ,'rkey' =>7 ,'level'=>2),
+                       '5' => array('lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+                       '6' => array('lkey'=>5 ,'rkey'=>6  ,'level'=>3),
+                       '4' => array('lkey'=>8 ,'rkey'=>15 ,'level'=>2),
+                       '3' => array('lkey'=>9 ,'rkey' =>14,'level'=>3),
+                       '7' => array('lkey'=>10,'rkey'=>11 ,'level'=>4),
+                       '8' => array('lkey'=>12,'rkey'=>13 ,'level'=>4)
+                       );
+
+        $newTree = $this->tree->getTree();
+        $this->assertEqual(count($fixtureNewTree), count($newTree));
+
+        foreach ($newTree as $id => $node) {
+            $this->assertEqual($fixtureNewTree[$id], $node);
+        }
+
+    }
+
+    public function test2MoveNode()
+    {
+        $this->tree->moveNode(4, 6);
+        $fixtureNewTree = array('1' => array('lkey'=>1 ,'rkey' =>16,'level'=>1),
+                       '2' => array('lkey'=>2 ,'rkey' =>9 ,'level'=>2),
+                       '5' => array('lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+                       '6' => array('lkey'=>5 ,'rkey'=>8  ,'level'=>3),
+                       '4' => array('lkey'=>6,'rkey'=>7 ,'level'=>4),
+
+                       '3' => array('lkey'=>10 ,'rkey' =>15,'level'=>2),
+                       '7' => array('lkey'=>11 ,'rkey'=>12 ,'level'=>3),
+                       '8' => array('lkey'=>13,'rkey'=>14 ,'level'=>3)
+                       );
+
+        $newTree = $this->tree->getTree();
+        $this->assertEqual(count($fixtureNewTree), count($newTree));
+
+        foreach ($newTree as $id => $node) {
+            $this->assertEqual($fixtureNewTree[$id], $node);
+        }
+
+    }
+
 
     #        Вот с таким деревом и будем экспериментировать
     #

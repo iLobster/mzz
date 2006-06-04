@@ -46,7 +46,12 @@ class dbTreeNS
                                       'rkey'  => $row['rkey'],
                                       'level' => $row['level']);
         }
-        return $tree;
+
+        if(isset($tree)) {
+            return $tree;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -86,8 +91,12 @@ class dbTreeNS
         }
 
         $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
-                                   ' WHERE lkey >' .$equalCond . $rootBranch['lkey'] .
-                                   ' AND rkey <' .$equalCond . $rootBranch['rkey'] . '  ORDER BY lkey');
+                                   ' WHERE lkey >' .$equalCond . ':lkey' .
+                                   ' AND rkey <' .$equalCond . ':rkey  ORDER BY lkey');
+
+        $stmt->bindParam(':lkey', $rootBranch['lkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':rkey', $rootBranch['rkey'], PDO::PARAM_INT);
+
         $stmt->execute();
 
         while($row = $stmt->fetch()) {
@@ -116,8 +125,11 @@ class dbTreeNS
         }
 
         $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
-                                   ' WHERE lkey <' .$equalCond . $lowerChild['lkey'] .
-                                   ' AND rkey >' .$equalCond . $lowerChild['rkey'] . '  ORDER BY lkey');
+                                   ' WHERE lkey <' .$equalCond . ':lkey' .
+                                   ' AND rkey >' .$equalCond . ':rkey' . '  ORDER BY lkey');
+
+        $stmt->bindParam(':lkey', $lowerChild['lkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':rkey', $lowerChild['rkey'], PDO::PARAM_INT);
         $stmt->execute();
 
         while($row = $stmt->fetch()){
@@ -140,9 +152,11 @@ class dbTreeNS
         $node = $this->getNodeInfo($id);
         if(!$node) return null;
 
-        $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
-                                   ' WHERE rkey >' . $node['lkey'] .
-                                   ' AND lkey <' . $node['rkey'] . '  ORDER BY lkey');
+        $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table .
+                                   ' WHERE rkey >:lkey ' .
+                                   ' AND lkey <:rkey ORDER BY lkey');
+        $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
         $stmt->execute();
 
         while($row = $stmt->fetch()) {
@@ -163,12 +177,17 @@ class dbTreeNS
     public function getParentNode($id)
     {
         $node = $this->getNodeInfo($id);
-        if(!$node) return null;
+        if(!$node){ return null; }
 
         $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
-                                   ' WHERE lkey <=' . $node['lkey'] .
-                                   ' AND rkey >=' . $node['rkey'] .
-                                   ' AND level = '.($node['level']-1) . '  ORDER BY lkey');
+                                   ' WHERE lkey <=:lkey' .
+                                   ' AND rkey >=:rkey' .
+                                   ' AND level = :level  ORDER BY lkey');
+
+        $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':level', $v = $node['level'] - 1, PDO::PARAM_INT);
+
         $stmt->execute();
         $row = $stmt->fetch();
 
@@ -191,13 +210,19 @@ class dbTreeNS
         $parentNode = $this->getNodeInfo($id);
 
         $stmt = $this->db->prepare(' UPDATE ' .$this->table.
-                                   ' SET rkey = rkey + 2, lkey = IF(lkey > ' . $parentNode['rkey'] . ', lkey + 2, lkey)' .
-                                   ' WHERE rkey >=' . $parentNode['rkey']);
+                                   ' SET rkey = rkey + 2, lkey = IF(lkey > :parent_rkey, lkey + 2, lkey)' .
+                                   ' WHERE rkey >= :parent_rkey');
+
+        $stmt->bindParam(':parent_rkey',  $parentNode['rkey'], PDO::PARAM_INT);
         $stmt->execute();
 
         $stmt = $this->db->prepare(' INSERT INTO ' .$this->table.
-                                   ' SET lkey = ' . $parentNode['rkey'] . ', rkey = ' . ($parentNode['rkey'] + 1) . ', level = ' . ($parentNode['level'] + 1));
+                                   ' SET lkey = :parent_rkey, rkey = :PN_RKey, level = :PN_Level');
+        $stmt->bindParam(':parent_rkey',  $parentNode['rkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':PN_RKey', $v = $parentNode['rkey']+1, PDO::PARAM_INT);
+        $stmt->bindParam(':PN_Level', $v = $parentNode['level']+1, PDO::PARAM_INT);
         $stmt->execute();
+
         $newNode = array('id'    => $this->db->lastInsertId(),
                          'lkey'  => $parentNode['rkey'],
                          'rkey'  => $parentNode['rkey'] + 1,
@@ -220,8 +245,10 @@ class dbTreeNS
                                    ' SET rkey = rkey + 1, lkey = lkey + 1, level = level + 1');
         $stmt->execute();
         $stmt = $this->db->prepare(' INSERT INTO ' .$this->table.
-                                   ' SET lkey = 1, rkey = ' . ($maxRightKey + 2) . ', level = 1');
+                                   ' SET lkey = 1, rkey = :mrk, level = 1');
+        $stmt->bindParam(':mrk', $v = $maxRightKey + 2, PDO::PARAM_INT);
         $stmt->execute();
+
         $newRootNode = array('id'    => $this->db->lastInsertId(),
                          'lkey'  => 1,
                          'rkey'  => $maxRightKey + 2,
@@ -231,13 +258,113 @@ class dbTreeNS
         return $newRootNode;
 
     }
+    /**
+     * Удаление узла вместе с потомками
+     *
+     * @param  int     $id           Идентификатор удаляемого узла
+     * @return void
+     */
+    public function removeNode($id)
+    {
+        $node = $this->getNodeInfo($id);
+        $stmt = $this->db->prepare(' DELETE FROM ' .$this->table.
+                                   ' WHERE lkey>= :lkey AND rkey<= :rkey');
+        $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
+        $stmt->execute();
+
+        $stmt = $this->db->prepare(' UPDATE ' .$this->table.
+                                   ' SET lkey = IF(lkey > :lkey, lkey - :val, lkey), rkey = rkey - :val'.
+                                   ' WHERE rkey >= :rkey');
+        $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':val', $v = $node['rkey'] - $node['lkey'] + 1, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    /**
+     * Перемещение узла вместе с потомками
+     *
+     * @param  int     $id           Идентификатор перемещаемого узла
+     * @param  int     $parentId     Идентификатор нового родительского узла
+     * @return void
+     */
+    public function moveNode($id, $parentId)
+    {
+        $node       = $this->getNodeInfo($id);
+        $parentNode = $this->getNodeInfo($parentId);
+
+        if ( $id == $parentId ) return false;
+        if ( !$node || !$parentNode ) return false;
+        if($parentNode['lkey'] >= $node['lkey'] && $parentNode['lkey'] <= $node['rkey']) return false;
+
+        $level_up = ($notRoot = $parentNode['level'] != 1 ) ? $parentNode['level'] : 0;
+
+        //echo'<pre>$parentId[level]=';print_r($parentId['level']); echo'</pre>';
+        //echo'<pre>$level_up=';print_r($level_up); echo'</pre>';
+
+        $query = ($notRoot) ?
+        "SELECT (rkey - 1) AS rkey FROM " . $this->table . " WHERE id = " . $parentId :
+        "SELECT MAX(rkey) as rkey FROM " . $this->table;
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        if ($row = $stmt->fetch() ) {
+            $rkey = $row['rkey'];
+            $right_key_near = $rkey;
+            $skew_level = $level_up - $node['level'] + 1;
+
+            //echo'<pre>$skew_level=';print_r($skew_level); echo'</pre>';
+
+            $skew_tree = $node['rkey'] - $node['lkey'] + 1;
+            $query = "SELECT id FROM " . $this->table . " WHERE lkey >= " . $node['lkey'] . " AND rkey <= " . $node['rkey'];
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $id_edit = '';
+            while ( $row = $stmt->fetch() ) {
+                $id_edit .= ( $id_edit != '' ) ? ', ' : '';
+                $id_edit .= $row['id'];
+            };
+
+            if ( $node['rkey'] > $right_key_near ) {
+                $skew_edit = $right_key_near - $node['lkey'] + 1;
+
+                $query = "UPDATE " . $this->table . " SET rkey = rkey + " . $skew_tree . " WHERE rkey < " . $node['lkey'] . " AND rkey > " . $right_key_near;
+                $stmt = $this->db->prepare($query);
+                $stmt->execute();
+
+                $query = "UPDATE " . $this->table . " SET lkey = lkey + " . $skew_tree . " WHERE lkey < " . $node['lkey'] . " AND lkey > " . $right_key_near;
+                $stmt = $this->db->prepare($query);
+                $stmt->execute();
+
+                $query = "UPDATE " . $this->table . " SET lkey = lkey + " . $skew_edit . ", rkey = rkey + " . $skew_edit . ", level = level + " . $skew_level . " WHERE id IN (" . $id_edit . ")";
+                $stmt = $this->db->prepare($query);
+                $stmt->execute();
+                /*
+                $query = 'UPDATE ' . $this->table .
+                         ' SET lkey = IF(rkey <=' . $node['rkey'] . ', lkey + ' . $skew_edit . ', IF(lkey > ' . $node['rkey'] . ', lkey - ' . $skew_tree . ', lkey)),'.
+                         ' level = IF(rkey <= ' . $node['rkey'] . ', level + ' . $skew_level . ', level),' .
+                         ' rkey = IF(rkey <= ' . $node['rkey'] . ', rkey + ' . $skew_edit . ', IF(rkey <= ' . $right_key_near . ', rkey - ' . $skew_tree . ' , rkey))' .
+                         ' WHERE rkey > ' . $node['lkey'] . ' AND lkey <= ' . $right_key_near ;
+
+                $stmt = $this->db->prepare($query);
+                echo'<pre>';print_r($stmt); echo'</pre>';
+                $stmt->execute(); */
+
+            } else {
+                //echo'<pre>';print_r($stmt); echo'</pre>';
+                $skew_edit = $right_key_near - $node['lkey'] + 1 - $skew_tree;
+                $query = "UPDATE " . $this->table . " SET lkey = IF(rkey <= " . $node['rkey'] . ", lkey + " . $skew_edit . ", IF(lkey > " . $node['rkey'] . ", lkey - " . $skew_tree . ", lkey)), level = IF(rkey <= " . $node['rkey'] . ", level + " . $skew_level . ", level), rkey = IF(rkey <= " . $node['rkey'] . ", rkey + " . $skew_edit . ", IF(rkey <= " . $right_key_near . ", rkey - " . $skew_tree . ", rkey)) WHERE rkey > " . $node['lkey'] . " AND lkey <= " . $right_key_near;
+                $stmt = $this->db->prepare($query);
+                //echo'<pre>';print_r($stmt); echo'</pre>';
+                $stmt->execute();
+            };
+        };
+
+    }
 
     public function getMaxRightKey()
     {
-        $stmt = $this->db->prepare(' SELECT MAX(`rkey`) FROM ' .$this->table);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_NUM);
-        return $row[0];
+        return $this->db->getOne(' SELECT MAX(rkey) FROM ' .$this->table);
     }
 
 }
