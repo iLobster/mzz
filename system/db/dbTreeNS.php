@@ -41,13 +41,14 @@ class dbTreeNS
         $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table. ' ORDER BY lkey');
         $stmt->execute();
         $i = 0;
+        $tree = array();
         while($row = $stmt->fetch()) {
             $tree[$row['id']] = array('lkey'  => $row['lkey'],
                                       'rkey'  => $row['rkey'],
                                       'level' => $row['level']);
         }
 
-        if(isset($tree)) {
+        if(count($tree)) {
             return $tree;
         } else {
             return null;
@@ -99,13 +100,18 @@ class dbTreeNS
 
         $stmt->execute();
 
+        $branch = array();
         while($row = $stmt->fetch()) {
             $branch[$row['id']] = array('lkey'  => $row['lkey'],
                                         'rkey'  => $row['rkey'],
                                         'level' => $row['level']);
         }
 
-        return $branch;
+        if(count($branch)) {
+            return $branch;
+        } else {
+            return null;
+        }
 
     }
 
@@ -132,13 +138,18 @@ class dbTreeNS
         $stmt->bindParam(':rkey', $lowerChild['rkey'], PDO::PARAM_INT);
         $stmt->execute();
 
+        $branch = array();
         while($row = $stmt->fetch()){
             $branch[$row['id']] = array('lkey'  => $row['lkey'],
                                         'rkey'  => $row['rkey'],
                                         'level' => $row['level']);
         }
 
-        return $branch;
+        if(count($branch)) {
+            return $branch;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -159,13 +170,18 @@ class dbTreeNS
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
         $stmt->execute();
 
+        $branch = array();
         while($row = $stmt->fetch()) {
             $branch[$row['id']] = array('lkey'  => $row['lkey'],
                                         'rkey'  => $row['rkey'],
                                         'level' => $row['level']);
         }
 
-        return $branch;
+        if(count($branch)) {
+            return $branch;
+        } else {
+            return null;
+        }
     }
     /**
      * Выборка информации о родительском узле
@@ -210,10 +226,10 @@ class dbTreeNS
         $parentNode = $this->getNodeInfo($id);
 
         $stmt = $this->db->prepare(' UPDATE ' .$this->table.
-                                   ' SET rkey = rkey + 2, lkey = IF(lkey > :parent_rkey, lkey + 2, lkey)' .
-                                   ' WHERE rkey >= :parent_rkey');
+                                   ' SET rkey = rkey + 2, lkey = IF(lkey > :PN_RKey, lkey + 2, lkey)' .
+                                   ' WHERE rkey >= :PN_RKey');
 
-        $stmt->bindParam(':parent_rkey',  $parentNode['rkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':PN_RKey',  $parentNode['rkey'], PDO::PARAM_INT);
         $stmt->execute();
 
         $stmt = $this->db->prepare(' INSERT INTO ' .$this->table.
@@ -340,6 +356,8 @@ class dbTreeNS
                 $stmt = $this->db->prepare($query);
                 $stmt->execute();
                 /*
+                @todo отладить запрос, он является суммой предыдущих трех. Навроде все правильно, но только навроде.
+
                 $query = 'UPDATE ' . $this->table .
                          ' SET lkey = IF(rkey <=' . $node['rkey'] . ', lkey + ' . $skew_edit . ', IF(lkey > ' . $node['rkey'] . ', lkey - ' . $skew_tree . ', lkey)),'.
                          ' level = IF(rkey <= ' . $node['rkey'] . ', level + ' . $skew_level . ', level),' .
