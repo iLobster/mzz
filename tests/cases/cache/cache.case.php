@@ -51,11 +51,15 @@ class cacheTest extends unitTestCase
 
     public function tearDown()
     {
-        $res = scandir($path = systemConfig::$pathToTemp . '/cache/stubSection/stubName/');
-        foreach ($res as $val) {
-            if (is_file($path . $val)) {
-                unlink($path . $val);
+        if(is_dir(systemConfig::$pathToTemp . '/cache/stubSection/stubName/')) {
+            $res = scandir($path = systemConfig::$pathToTemp . '/cache/stubSection/stubName/');
+            foreach ($res as $val) {
+                if (is_file($path . $val)) {
+                    unlink($path . $val);
+                }
             }
+            rmdir(systemConfig::$pathToTemp . '/cache/stubSection/stubName');
+            rmdir(systemConfig::$pathToTemp . '/cache/stubSection');
         }
         $this->clearDb();
     }
