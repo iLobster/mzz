@@ -41,11 +41,11 @@ class dbTreeNS
         $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table. ' ORDER BY lkey');
         $stmt->execute();
         $i = 0;
-        while($row = $stmt->fetch()){
+        while($row = $stmt->fetch()) {
             $tree[$row['id']] = array('lkey'  => $row['lkey'],
                                       'rkey'  => $row['rkey'],
                                       'level' => $row['level']);
-            }
+        }
         return $tree;
     }
 
@@ -58,18 +58,16 @@ class dbTreeNS
      */
     public function getNodeInfo($id, $withId = false)
     {
-        if($withId) $idStr = ' id, ';
-        else $idStr = '';
+        $idStr = $withId ? ' id, ' : '';
         $stmt = $this->db->prepare(' SELECT ' . $idStr . 'lkey, rkey, level FROM ' .$this->table. ' WHERE id = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        if($row = $stmt->fetch()){
+        if($row = $stmt->fetch()) {
             return $row;
-            }
-        else{
+        } else {
             return null;
-            }
+        }
     }
 
     /**
@@ -83,18 +81,20 @@ class dbTreeNS
     {
         $equalCond = $withParent ?  '=' :  ' ';
         $rootBranch = $this->getNodeInfo($id);
-        if(!$rootBranch) return null;
+        if(!$rootBranch) {
+            return null;
+        }
 
         $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
                                    ' WHERE lkey >' .$equalCond . $rootBranch['lkey'] .
                                    ' AND rkey <' .$equalCond . $rootBranch['rkey'] . '  ORDER BY lkey');
-
         $stmt->execute();
-        while($row = $stmt->fetch()){
+
+        while($row = $stmt->fetch()) {
             $branch[$row['id']] = array('lkey'  => $row['lkey'],
                                         'rkey'  => $row['rkey'],
                                         'level' => $row['level']);
-            }
+        }
 
         return $branch;
 
@@ -111,17 +111,20 @@ class dbTreeNS
     {
         $equalCond = $withParent ? '=' : ' ';
         $lowerChild = $this->getNodeInfo($id);
-        if(!$lowerChild) { return null; }
+        if(!$lowerChild) {
+             return null;
+        }
 
         $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
                                    ' WHERE lkey <' .$equalCond . $lowerChild['lkey'] .
                                    ' AND rkey >' .$equalCond . $lowerChild['rkey'] . '  ORDER BY lkey');
         $stmt->execute();
+
         while($row = $stmt->fetch()){
             $branch[$row['id']] = array('lkey'  => $row['lkey'],
                                         'rkey'  => $row['rkey'],
                                         'level' => $row['level']);
-            }
+        }
 
         return $branch;
     }
@@ -141,11 +144,12 @@ class dbTreeNS
                                    ' WHERE rkey >' . $node['lkey'] .
                                    ' AND lkey <' . $node['rkey'] . '  ORDER BY lkey');
         $stmt->execute();
-        while($row = $stmt->fetch()){
+
+        while($row = $stmt->fetch()) {
             $branch[$row['id']] = array('lkey'  => $row['lkey'],
                                         'rkey'  => $row['rkey'],
                                         'level' => $row['level']);
-            }
+        }
 
         return $branch;
     }
@@ -167,8 +171,12 @@ class dbTreeNS
                                    ' AND level = '.($node['level']-1) . '  ORDER BY lkey');
         $stmt->execute();
         $row = $stmt->fetch();
-        if($row) return $row;
-        else     return null;
+
+        if($row) {
+            return $row;
+        } else {
+            return null;
+        }
     }
     /**
      * Вставка узла ниже заданного
@@ -230,8 +238,6 @@ class dbTreeNS
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_NUM);
         return $row[0];
-
-
     }
 
 }

@@ -30,9 +30,9 @@ class dbTreeNsTest extends unitTestCase
 
     private function setFixture($idArray)
     {
-        foreach($idArray as $id){
+        foreach($idArray as $id) {
             $fixture[$id] = $this->fixture[$id];
-            }
+        }
 
         return $fixture;
     }
@@ -48,9 +48,13 @@ class dbTreeNsTest extends unitTestCase
                        '7' => array('lkey'=>9 ,'rkey'=>10 ,'level'=>3),
                        '8' => array('lkey'=>11,'rkey'=>12 ,'level'=>3)
                        );
+        $valString = '';
         foreach($this->fixture as $id => $data) {
-             $this->db->query(" INSERT INTO `tree` VALUES('" . $id . "','" . $data['lkey'] . "','" . $data['rkey'] . "','" . $data['level'] . "')");
-             }
+            $valString .= "('" . $id . "','" . $data['lkey'] . "','" . $data['rkey'] . "','" . $data['level'] . "'),";
+        }
+        $valString = substr($valString, 0,  strlen($valString)-1);
+        $stmt = $this->db->prepare(" INSERT INTO `tree` VALUES " . $valString);
+        $stmt->execute();
     }
 
     public function testGetTree()
@@ -59,7 +63,7 @@ class dbTreeNsTest extends unitTestCase
 
         foreach($tree as $id => $row) {
             $this->assertEqual($this->fixture[$id], $row);
-            }
+        }
 
     }
 
@@ -93,7 +97,7 @@ class dbTreeNsTest extends unitTestCase
         $this->assertEqual(count($fixtureBranch),count($branch));
         foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
-            }
+        }
 
 
     }
@@ -106,7 +110,7 @@ class dbTreeNsTest extends unitTestCase
         $this->assertEqual(count($fixtureBranch),count($branch));
         foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
-            }
+        }
 
     }
 
@@ -116,9 +120,9 @@ class dbTreeNsTest extends unitTestCase
 
         $fixtureBranch = $this->setFixture(array(8, 3, 1));
         $this->assertEqual(count($fixtureBranch),count($branch));
-        foreach ($branch as $id => $node){
+        foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
-            }
+        }
     }
 
     public function testGetParentBranchWithoutChild()
@@ -127,9 +131,9 @@ class dbTreeNsTest extends unitTestCase
 
         $fixtureBranch = $this->setFixture(array(3, 1));
         $this->assertEqual(count($fixtureBranch),count($branch));
-        foreach ($branch as $id => $node){
+        foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
-            }
+        }
     }
 
     public function testGetBranchContainingNode()
@@ -139,9 +143,9 @@ class dbTreeNsTest extends unitTestCase
         $fixtureBranch = $this->setFixture(array(1, 2, 5, 6));
         $this->assertEqual(count($fixtureBranch),count($branch));
 
-        foreach ($branch as $id => $node){
+        foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
-            }
+        }
     }
 
     public function testGetParentNode()
