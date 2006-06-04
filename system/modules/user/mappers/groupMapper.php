@@ -87,10 +87,7 @@ class groupMapper extends simpleMapper
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        $rows = array();
-        while ($row = $stmt->fetch()) {
-            $rows[] = $row;
-        }
+        $rows = $stmt->fetchAll();
 
         $result = array();
 

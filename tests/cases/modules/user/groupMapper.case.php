@@ -122,6 +122,8 @@ class groupMapperTest extends unitTestCase
 
         $users = $this->mapper->getUsers(1);
 
+        $this->assertEqual(sizeof($users), 2);
+
         foreach ($users as $key => $item) {
             $this->assertIsA($item, 'user');
             $this->assertEqual($item->getLogin(), 'login' . ($key + 2));
