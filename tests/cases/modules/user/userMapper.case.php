@@ -72,6 +72,41 @@ class userMapperTest extends unitTestCase
         $this->assertIdentical($user->getId(), '1');
     }
 
+    public function testGetGroups()
+    {
+        $this->fixture($this->map);
+
+        $map = array(
+        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
+        'name' => array ( 'name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
+        );
+
+        $group_mapper = new groupMapper('user');
+        for($i = 1; $i <= 2; $i++) {
+            $group = new group($map);
+            $group->setName('name' . $i);
+            $group_mapper->save($group);
+        }
+
+        $stmt = $this->db->prepare('INSERT INTO `user_user_group_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':group_id', $group_id, PDO::PARAM_INT);
+
+        $user_id = 1; $group_id = 1;
+        $stmt->execute();
+        $user_id = 1; $group_id = 2;
+        $stmt->execute();
+
+        $groups = $this->mapper->getGroups(1);
+
+        $this->assertEqual(sizeof($groups), 2);
+
+        foreach ($groups as $key => $item) {
+            $this->assertIsA($item, 'group');
+            $this->assertEqual($item->getName(), 'name' . ($key + 1));
+        }
+    }
+
     public function testUpdate()
     {
         $this->fixture($this->map);
