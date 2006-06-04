@@ -39,7 +39,7 @@ class userMapperTest extends unitTestCase
     public function testSave()
     {
         $user = new user($this->map);
-        $user->setLogin('somelogin');
+        $user->setLogin($login = 'somelogin');
         $user->setPassword('somepasswd');
 
         $this->assertNull($user->getId());
@@ -47,6 +47,7 @@ class userMapperTest extends unitTestCase
         $this->mapper->save($user);
 
         $this->assertIdentical($user->getId(), '1');
+        $this->assertIdentical($user->getLogin(), $login);
     }
 
     public function testCreate()

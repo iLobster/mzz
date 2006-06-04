@@ -3,7 +3,7 @@
 fileLoader::load('user');
 fileLoader::load('user/mappers/userMapper');
 
-Mock::generate('userMapper');
+//Mock::generate('userMapper');
 
 class userTest extends unitTestCase
 {

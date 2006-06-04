@@ -130,3 +130,29 @@ CREATE TABLE `user_user` (
   `password` varchar(32) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_user_group` table : 
+#
+
+DROP TABLE IF EXISTS `user_user_group`;
+
+CREATE TABLE `user_user_group` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_user_group_rel` table : 
+#
+
+DROP TABLE IF EXISTS `user_user_group_rel`;
+
+CREATE TABLE `user_user_group_rel` (
+  `id` int(11) NOT NULL auto_increment,
+  `group_id` int(11) default NULL,
+  `user_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
