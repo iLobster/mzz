@@ -48,18 +48,18 @@ class dbTreeNsTest extends unitTestCase
                        '7' => array('lkey'=>9 ,'rkey'=>10 ,'level'=>3),
                        '8' => array('lkey'=>11,'rkey'=>12 ,'level'=>3)
                        );
-        foreach($this->fixture as $id => $data){
+        foreach($this->fixture as $id => $data) {
              $this->db->query(" INSERT INTO `tree` VALUES('" . $id . "','" . $data['lkey'] . "','" . $data['rkey'] . "','" . $data['level'] . "')");
              }
-    }    
+    }
 
     public function testGetTree()
     {
         $tree = $this->tree->getTree();
 
-        foreach($tree as $id => $row){
+        foreach($tree as $id => $row) {
             $this->assertEqual($this->fixture[$id], $row);
-         }
+            }
 
     }
 
@@ -68,14 +68,13 @@ class dbTreeNsTest extends unitTestCase
         $node = $this->tree->getNodeInfo($id = 5);
 
         $this->assertEqual($node, $this->fixture[$id]);
-
     }
+
     public function testGetExistNodeInfoWithId()
     {
         $node = $this->tree->getNodeInfo($id = 5, true);
         $this->fixture[$id]['id'] = $id;
         $this->assertEqual($node, $this->fixture[$id]);
-
     }
 
     public function testGetNotExistNodeInfo()
@@ -92,7 +91,7 @@ class dbTreeNsTest extends unitTestCase
 
         $fixtureBranch = $this->setFixture(array(3,7,8));
         $this->assertEqual(count($fixtureBranch),count($branch));
-        foreach ($branch as $id => $node){
+        foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
             }
 
@@ -105,7 +104,7 @@ class dbTreeNsTest extends unitTestCase
 
         $fixtureBranch = $this->setFixture(array(5, 6));
         $this->assertEqual(count($fixtureBranch),count($branch));
-        foreach ($branch as $id => $node){
+        foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
             }
 
@@ -152,11 +151,13 @@ class dbTreeNsTest extends unitTestCase
         unset($parentNode['id']);
         $this->assertEqual($this->fixture['2'], $parentNode);
     }
+
     public function testGetNoHaveParentNode()
     {
         $parentNode = $this->tree->getParentNode($id = 1);
         $this->assertNull($parentNode);
     }
+
     public function testGetMaxRightKey()
     {
         $maxRKey = $this->tree->getMaxRightKey();

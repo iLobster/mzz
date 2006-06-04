@@ -13,7 +13,7 @@
 fileLoader::load('session/iSessionStorage');
 
 /**
- * sessionDbStorage: интрефейс хранилища сессии в БД
+ * sessionDbStorage: хранилище сессии в БД
  *
  * @package system
  * @version 0.1
