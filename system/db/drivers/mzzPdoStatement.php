@@ -13,7 +13,7 @@
  * mzzPdoStatement: класс, заменяющий стандартный Statement в PDO
  *
  * @package system
- * @version 0.2
+ * @version 0.2.1
  */
 class mzzPdoStatement extends PDOStatement
 {
@@ -72,9 +72,10 @@ class mzzPdoStatement extends PDOStatement
      */
     public function execute($parameters = array())
     {
-        $result = parent::execute($parameters);
-
         $db = DB::factory();
+        $start_time = microtime(true);
+        $result = parent::execute($parameters);
+        $db->addQueriesTime(microtime(true) - $start_time);
 
         $lastInsertId = $db->lastInsertId();
 

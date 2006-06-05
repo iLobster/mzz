@@ -19,7 +19,7 @@ fileLoader::load('db/drivers/mzzPdoStatement');
  * mzzPdo: драйвер для работы с базой данных через PDO
  *
  * @package system
- * @version 0.2
+ * @version 0.2.1
  */
 class mzzPdo extends PDO
 {
@@ -98,7 +98,7 @@ class mzzPdo extends PDO
         $this->queriesNum++;
         $start_time = microtime(true);
         $result = parent::query($query);
-        $this->queriesTime += (microtime(true) - $start_time);
+        $this->addQueriesTime(microtime(true) - $start_time);
         return $result;
     }
 
@@ -106,14 +106,13 @@ class mzzPdo extends PDO
      * Декорирует оригинальный метод для подсчета числа запросов
      *
      * @param string $query запрос к БД
+     * @param array $driver_options атрибуты для PDOStatement
      * @return object
      */
-    public function prepare($query)
+    public function prepare($query, $driver_options = array())
     {
         $this->queriesPrepared++;
-        $start_time = microtime(true);
-        $stmt = parent::prepare($query);
-        $this->queriesTime += (microtime(true) - $start_time);
+        $stmt = parent::prepare($query, $driver_options);
         return $stmt;
     }
 
@@ -204,7 +203,7 @@ class mzzPdo extends PDO
         $this->queriesNum++;
         $start_time = microtime(true);
         $count = parent::exec($query);
-        $this->queriesTime += (microtime(true) - $start_time);
+        $this->addQueriesTime(microtime(true) - $start_time);
         return $count;
     }
 
@@ -274,6 +273,16 @@ class mzzPdo extends PDO
     }
 
     /**
+     * метод для прибавления времени к общему времени выполнения запросов
+     *
+     * @param float $time время в микросекундах в виде действительного числа
+     */
+    public function addQueriesTime($time)
+    {
+        $this->queriesTime += $time;
+    }
+
+    /**
      * метод получения числа prepared запросов
      *
      * @return int число запросов
@@ -282,6 +291,7 @@ class mzzPdo extends PDO
     {
         return $this->queriesPrepared;
     }
+
 }
 
 ?>
