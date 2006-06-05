@@ -258,6 +258,27 @@ class dbTreeNsTest extends unitTestCase
 
     }
 
+    public function testSwapNotExistNode()
+    {
+        $this->assertFalse($this->tree->swapNode(2, 20));
+        $this->assertFalse($this->tree->swapNode(20, 2));
+        $this->assertFalse($this->tree->swapNode(20, 21));
+    }
+
+    public function testSwapNode()
+    {
+        $this->assertFalse($this->tree->swapNode(8, 8));
+
+        $this->tree->swapNode(2, 8);
+        $fixtureNewTreeSlice = array('8' => array('lkey'=>2  ,'rkey' =>7 ,'level'=>2),
+                                     '2' => array('lkey'=>11 ,'rkey' =>12,'level'=>3));
+
+
+        foreach ($fixtureNewTreeSlice as $id => $node) {
+            $this->assertEqual($this->tree->getNodeInfo($id), $node);
+        }
+    }
+
 
     #        Вот с таким деревом и будем экспериментировать
     #
