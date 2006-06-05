@@ -1,2 +1,2 @@
-{* main="main.tpl" placeholder="content" *}
+{* main="popup.tpl" placeholder="content" *}
 {load module="page" action="edit"}

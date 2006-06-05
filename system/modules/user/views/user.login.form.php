@@ -17,16 +17,20 @@
  */
 
 class userLoginForm {
-    static function getForm($url)
+    static function getForm($backUrl)
     {
         require_once 'HTML/QuickForm.php';
         require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
-        $form = new HTML_QuickForm('userLogin', 'POST', $url);
+        $url = new url();
+        $url->setSection('user');
+        $url->setAction('login');
+
+        $form = new HTML_QuickForm('userLogin', 'POST', $url->get());
 
         $form->addElement('text', 'login', '»м€:', 'size=30');
         $form->addElement('password', 'password', 'ѕароль:', 'size=30');
-        $form->addElement('hidden', 'url', $url);
+        $form->addElement('hidden', 'url', $backUrl);
 
         $form->addElement('reset', 'reset', '—брос');
         $form->addElement('submit', 'submit', '¬ход');
