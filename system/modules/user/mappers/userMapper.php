@@ -38,6 +38,17 @@ class userMapper extends simpleMapper
      * @var array
      */
     protected $cacheable = array('searchById', 'searchByLogin');
+    /**
+     * Конструктор
+     *
+     * @param string $section секция
+     */
+    public function __construct($section)
+    {
+        parent::__construct($section);
+        $this->relationTable = $this->table . '_group_rel';
+
+    }
 
     /**
      * Создает пустой объект DO
@@ -90,10 +101,9 @@ class userMapper extends simpleMapper
 
     public function getGroups($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "_rel` `rel` INNER JOIN `" . $this->table . "` `gr` ON `real`.`group_id` = `gr`.`id` WHERE `rel`.`user_id` = :id");
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->relationTable . "` `rel` INNER JOIN `" . $this->table . "` `gr` ON `rel`.`group_id` = `gr`.`id` WHERE `rel`.`user_id` = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-
         $rows = $stmt->fetchAll();
 
         $result = array();
