@@ -99,7 +99,7 @@ abstract class simpleMapper implements iCacheable
         $this->db = DB::factory();
         $this->section = $section;
         $this->table = $this->name() . '_' .$this->section() . $this->tablePostfix;
-        $this->relationTable = $this->name() . '_' .$this->section() . '_' . $this->relationPostfix;
+        $this->relationTables = new arrayDataspace();
     }
 
     /**
@@ -120,6 +120,27 @@ abstract class simpleMapper implements iCacheable
     public function section()
     {
         return $this->section;
+    }
+
+    /**
+     * ”станавливает св€зную таблицу
+     *
+     * @param  string $table им€ таблицы
+     */
+    public function setRelationTable($table)
+    {
+         $this->relationTables->set($table, $this->name() . '_' .$this->section(). '_' . $table . '_' . $this->relationPostfix);
+    }
+
+    /**
+     * ¬озвращает им€ св€зной таблицы
+     *
+     * @param string   $table им€ таблицы
+     * @return string
+     */
+    public function getRelationTable($table)
+    {
+         return $this->relationTables->get($table);
     }
 
     /**
@@ -145,6 +166,7 @@ abstract class simpleMapper implements iCacheable
                 if($fields[$val] instanceof sqlFunction) {
                     $fields[$val] = $fields[$val]->toString();
                     $markers .= $fields[$val] . ', ';
+                    $wasSqlFunction = true;
                 } else {
                     $markers .= ':' . $val . ', ';
                 }
@@ -152,7 +174,6 @@ abstract class simpleMapper implements iCacheable
             $markers = substr($markers, 0, -2);
 
             $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
-
             $stmt->bindArray($bindFields);
 
             $id = $stmt->execute();
