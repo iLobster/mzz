@@ -4,7 +4,7 @@ $success = true;
 
 $failed = "<font color='red'><b>failed</b></font>";
 
-define('REQUIRED_PHP_VERSION', '5.1.4');
+define('REQUIRED_PHP_VERSION', '5.1.2');
 
 if (!version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, ">=")) {
     echo "PHP Version: <b>" . PHP_VERSION . "</b>, required >= " . REQUIRED_PHP_VERSION . ", result: " . $failed . "<br>";
