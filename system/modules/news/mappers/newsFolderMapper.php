@@ -16,6 +16,8 @@
  * @version 0.2
  */
 
+fileLoader::load('db/dbTreeNS');
+
 class newsFolderMapper extends simpleMapper
 {
     /**
@@ -23,7 +25,7 @@ class newsFolderMapper extends simpleMapper
      *
      * @var string
      */
-    protected $tablePostfix = '_tree';
+    protected $tablePostfix = '_folder';
 
     /**
      * Имя модуля
@@ -45,6 +47,23 @@ class newsFolderMapper extends simpleMapper
      * @var array
      */
     protected $cacheable = array('searchByName', 'getFolders', 'getItems');
+
+
+    /**
+     * Конструктор
+     *
+     * @param string $section секция
+     */
+    public function __construct($section)
+    {
+        $this->relationPostfix = 'folder_tree';
+        parent::__construct($section);
+        $init = array ('data' => array('table' => $this->table, 'id' =>'parent'),
+                       'tree' => array('table' => $this->relationTable , 'id' =>'id'));
+
+        $this->tree = new dbTreeNS($init);
+        //echo'<pre>';print_r($this); echo'</pre>';
+    }
 
     /**
      * Выполняет поиск объекта по имени
@@ -85,12 +104,15 @@ class newsFolderMapper extends simpleMapper
      */
     public function getFolders($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `parent` = :parent");
+        $rawFolders = $this->tree->getBranch($id, 1);// выбирается только нижележащий уровень
+/*        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `parent` = :parent");
+
+
         $stmt->bindParam(':parent', $id, PDO::PARAM_INT);
         $stmt->execute();
-        $folders = array();
+        $folders = array();*/
 
-        while ($row = $stmt->fetch()) {
+        foreach($rawFolders as $row) {
             $folders[] = $this->createNewsFolderFromRow($row);
         }
 

@@ -108,13 +108,11 @@ class dbTreeNS
      * Выборка информации о узле
      *
      * @param  int     $id       Идентификатор узла
-     * @param  int     $withId   ДОлжен ли быть id в возвращаемом наборе
      * @return array
      */
-    public function getNodeInfo($id, $withId = true)
+    public function getNodeInfo($id)
     {
-        $idStr = $withId ? ' id, ' : '';
-        $stmt = $this->db->prepare(' SELECT ' . $idStr . 'lkey, rkey, level FROM ' .$this->table. ' WHERE id = :id');
+        $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table. ' WHERE id = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -154,7 +152,7 @@ class dbTreeNS
 
         $branch = array();
         while($row = $stmt->fetch()) {
-            $branch[$row['id']] = $row;
+            $branch[$row[$this->rowID]] = $row;
         }
 
         if(count($branch)) {
@@ -193,7 +191,7 @@ class dbTreeNS
 
         $branch = array();
         while($row = $stmt->fetch()){
-            $branch[$row['id']] = $row;
+            $branch[$row[$this->rowID]] = $row;
         }
         //echo'<pre>';print_r($branch); echo'</pre>';
         if(count($branch)) {
@@ -224,7 +222,7 @@ class dbTreeNS
 
         $branch = array();
         while($row = $stmt->fetch()) {
-            $branch[$row['id']] = $row;
+            $branch[$row[$this->rowID]] = $row;
         }
 
         if(count($branch)) {
@@ -238,7 +236,6 @@ class dbTreeNS
      *
      * @param  int     $id           Идентификатор узла
      * @return array with id
-     * @todo   упростить, без пробегания по всему дереву
      */
     public function getParentNode($id)
     {
@@ -247,9 +244,9 @@ class dbTreeNS
 
         $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
                                    ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
-                                   ' WHERE lkey <=:lkey' .
-                                   ' AND rkey >=:rkey' .
-                                   ' AND level = :level  ORDER BY lkey');
+                                   ' WHERE `tree`.lkey <= :lkey' .
+                                   ' AND `tree`.rkey >= :rkey' .
+                                   ' AND `tree`.level = :level  ORDER BY `tree`.lkey');
 
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
@@ -272,7 +269,7 @@ class dbTreeNS
      */
     public function insertNode($id)
     {
-        //if($id == 0) return $this->insertRootNode();
+        if($id == 0) return $this->insertRootNode();
 
         $parentNode = $this->getNodeInfo($id);
 
@@ -312,8 +309,8 @@ class dbTreeNS
                                    ' SET rkey = rkey + 1, lkey = lkey + 1, level = level + 1');
         $stmt->execute();
         $stmt = $this->db->prepare(' INSERT INTO ' .$this->table.
-                                   ' SET lkey = 1, rkey = :mrk, level = 1');
-        $stmt->bindParam(':mrk', $v = $maxRightKey + 2, PDO::PARAM_INT);
+                                   ' SET lkey = 1, rkey = :new_max_right_key, level = 1');
+        $stmt->bindParam(':new_max_right_key', $v = $maxRightKey + 2, PDO::PARAM_INT);
         $stmt->execute();
 
         $newRootNode = array('id'    => $this->db->lastInsertId(),
@@ -329,7 +326,7 @@ class dbTreeNS
      * Удаление узла вместе с потомками
      *
      * @param  int     $id           Идентификатор удаляемого узла
-     * @return void
+     * @return bool
      */
     public function removeNode($id)
     {
@@ -347,6 +344,12 @@ class dbTreeNS
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':val', $v = $node['rkey'] - $node['lkey'] + 1, PDO::PARAM_INT);
         $stmt->execute();
+
+        if(!$stmt->errorCode()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

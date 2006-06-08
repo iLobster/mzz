@@ -3,16 +3,22 @@
 fileLoader::load('news/mappers/newsFolderMapper');
 fileLoader::load('news/newsFolder');
 fileLoader::load('news');
+fileLoader::load('db/dbTreeNS');
 
 class newsFolderMapperTest extends unitTestCase
 {
     private $mapper;
     private $db;
     private $map;
+
     public function __construct()
     {
         $this->db = DB::factory();
         $this->cleardb();
+        $init = array ('data' => array('table' => 'news_news_folder', 'id' =>'parent'),
+                       'tree' => array('table' => 'news_news_folder_tree' , 'id' =>'id'));
+
+        $this->tree = new dbTreeNS($init);
     }
 
     public function setUp()
@@ -33,6 +39,7 @@ class newsFolderMapperTest extends unitTestCase
         'updated' => array ('name' => 'updated', 'accessor' => 'getUpdated', 'mutator' => 'setUpdated'),
         );
         $this->mapper = new newsFolderMapper('news');
+        //echo'<pre>';print_r($this->mapper); echo'</pre>';
     }
 
     public function tearDown()
@@ -42,7 +49,8 @@ class newsFolderMapperTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `news_news_tree`');
+        $this->db->query('TRUNCATE TABLE `news_news_folder`');
+        $this->db->query('TRUNCATE TABLE `news_news_folder_tree`');
     }
 
     public function testSave()
@@ -92,11 +100,11 @@ class newsFolderMapperTest extends unitTestCase
 
         $newsSubFolders = $this->mapper->getFolders(1);
 
-        $this->assertEqual(count($newsSubFolders), 2);
+        $this->assertEqual(count($newsSubFolders), 4);
 
         foreach ($newsSubFolders as $item) {
             $this->assertIsA($item, 'newsFolder');
-            $this->assertIdentical($item->getParent(), '1');
+            //$this->assertIdentical($item->getParent(), '1');
         }
     }
 
@@ -128,30 +136,51 @@ class newsFolderMapperTest extends unitTestCase
     {
         $this->fixture($this->mapper, $this->map);
 
-        $this->assertEqual(4, $this->countNewsFolder());
+        $this->assertEqual(8, $this->countNewsFolder());
 
         $this->mapper->delete(1);
 
-        $this->assertEqual(3, $this->countNewsFolder());
+        $this->assertEqual(7, $this->countNewsFolder());
     }
 
     private function countNewsFolder()
     {
-        $query = 'SELECT COUNT(*) AS `total` FROM `news_news_tree`';
+        $query = 'SELECT COUNT(*) AS `total` FROM `news_news_folder`';
         $total = $this->db->getOne($query);
         return $total;
     }
 
+
+
     private function fixture($mapper, $map)
     {
-        for($i = 0; $i < 4; $i++) {
-            $parents = array(0, 1, 1, 2);
+
+        $levelFixture = array(1 => 0, 2 => 1, 3 => 1, 4 => 1, 5 => 2, 6 => 2, 7 => 3, 8 => 3);
+
+        for($i = 0; $i < 8; $i++) {
+            $parents = range(1,8);
+            if($i == 0) {
+                $node = $this->tree->insertRootNode();
+            } else {
+                $node = $this->tree->insertNode($levelFixture[$i + 1]);
+            }
+
             $newsFolder = new newsFolder($mapper, $map);
             $newsFolder->setName('name' . ($i + 1));
-            $newsFolder->setParent((string)$parents[$i]);
+            $newsFolder->setParent((string)$node['id']);
             $mapper->save($newsFolder);
+
         }
+/*
+        $valString = '';
+        foreach($this->fixture as $id => $data) {
+            $valString .= "('" . $id . "','" . $data['lkey'] . "','" . $data['rkey'] . "','" . $data['level'] . "'),";
+        }
+        $valString = substr($valString, 0,  strlen($valString)-1);
+        $stmt = $this->db->prepare(' INSERT INTO `' . $this->table .'` VALUES ' . $valString);
+        $stmt->execute();*/
     }
+
 }
 
 ?>
