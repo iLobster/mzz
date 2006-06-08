@@ -14,38 +14,91 @@
  * dbTreeNS: работа с деревьями Nested Sets
  *
  * @package system
- * @version 0.1
+ * @version 0.4
 */
+
 class dbTreeNS
 {
     protected $db;
-    private   $table = 'tree';
+    /**
+     * Имя таблицы содержащей дерево
+     *
+     * @var string
+     */
+    private   $table;
 
-    public function __construct()
+    /**
+     * Имя таблицы содержащей данные
+     *
+     * @var string
+     */
+    private   $dataTable;
+
+    /**
+     * Конструктор
+     *
+     * @param array  $init  Данные о таблицах и связывающих полях
+     */
+    public function __construct($init = false)
     {
+        if(is_array($init)) {
+            $this->table = $init['tree']['table']; // as tree
+            $this->dataTable = isset($init['data']['table'])?$init['data']['table']:null; //as data
+            $this->treeID = $init['tree']['id'];
+            $this->dataID = isset($init['data']['id'])?$init['data']['id']:null;
+            }
+
+        if($this->dataTable) {
+            $this->selectPart = 'data.*';
+            $this->innerPart = 'INNER JOIN ' . $this->dataTable .' data ON `data`.id = `tree`.id ';
+        }
+        else {
+            $this->selectPart = '*';
+            $this->innerPart = '';
+        }
+
         $this->db = DB::factory();
+
     }
 
-    public function getTable()
+    public function setDataTable($table)
     {
-        return $this->table;
+        $this->dataTable = $table;
+    }
+
+    public function getDataTable()
+    {
+        return $this->dataTable;
     }
 
     /**
      * Выборка дерева по левому обходу
      *
+     * @param  int     $level   Уровень выборки дерева, по умолчанию все дерево
      * @return array
      */
-    public function getTree()
+    public function getTree($level = 0)
     {
-        $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table. ' ORDER BY lkey');
+        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
+                                   ' FROM ' . $this->table. ' tree ' . $this->innerPart .
+                                   ' WHERE 1 '.
+                                   ($level > 0 ? ' AND (tree.level BETWEEN 1 AND :level)' : '') .
+                                   ' ORDER BY tree.lkey');
+
+        $level > 0 ? $stmt->bindParam(':level', $level, PDO::PARAM_INT):'';
         $stmt->execute();
         $i = 0;
         $tree = array();
+        if(is_null($this->dataTable))
         while($row = $stmt->fetch()) {
             $tree[$row['id']] = array('lkey'  => $row['lkey'],
                                       'rkey'  => $row['rkey'],
                                       'level' => $row['level']);
+        }
+        else {
+            while($row = $stmt->fetch()) {
+                $tree[$row['id']] = $row;
+            }
         }
 
         if(count($tree)) {
@@ -79,25 +132,27 @@ class dbTreeNS
     /**
      * Выборка ветки начиная от заданного узла
      *
-     * @param  int     $id           Идентификатор узла
-     * @param  bool    $withParent   Выбирать ли исходный узел ветки
+     * @param  int     $id            Идентификатор узла
+     * @param  int     $level         Уровень глубины выборки
      * @return array
      */
-    public function getBranch($id, $withParent = true)
+    public function getBranch($id, $level = 0)
     {
-        $equalCond = $withParent ?  '=' :  ' ';
         $rootBranch = $this->getNodeInfo($id);
         if(!$rootBranch) {
             return null;
         }
 
         $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
-                                   ' WHERE lkey >' .$equalCond . ':lkey' .
-                                   ' AND rkey <' .$equalCond . ':rkey  ORDER BY lkey');
+                                   ' WHERE lkey >= :lkey AND rkey <= :rkey' .
+                                   ' AND (level BETWEEN :high_level AND :level)' .
+                                   ' ORDER BY lkey');
 
+        $level = $rootBranch['level'] + $level;
         $stmt->bindParam(':lkey', $rootBranch['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $rootBranch['rkey'], PDO::PARAM_INT);
-
+        $stmt->bindParam(':high_level', $rootBranch['level'], PDO::PARAM_INT);
+        $stmt->bindParam(':level', $level, PDO::PARAM_INT);
         $stmt->execute();
 
         $branch = array();
@@ -119,23 +174,25 @@ class dbTreeNS
      * Выборка родительской ветки начиная от заданного узла
      *
      * @param  int     $id           Идентификатор узла
-     * @param  bool    $withParent   Выбирать ли исходный корень ветки
+     * @param  int     $level        Уровень глубины выборки
      * @return array
      */
-    public function getParentBranch($id, $withParent = true)
+    public function getParentBranch($id, $level = 1)
     {
-        $equalCond = $withParent ? '=' : ' ';
         $lowerChild = $this->getNodeInfo($id);
         if(!$lowerChild) {
              return null;
         }
+        $highLevel = $lowerChild['level'] - $level;
 
         $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
-                                   ' WHERE lkey <' .$equalCond . ':lkey' .
-                                   ' AND rkey >' .$equalCond . ':rkey' . '  ORDER BY lkey');
+                                   ' WHERE lkey <= :lkey AND rkey >= :rkey' .
+                                   ' AND ( level BETWEEN :level AND :child_level )   ORDER BY lkey');
 
         $stmt->bindParam(':lkey', $lowerChild['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $lowerChild['rkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':child_level', $lowerChild['level'], PDO::PARAM_INT);
+        $stmt->bindParam(':level', $highLevel, PDO::PARAM_INT);
         $stmt->execute();
 
         $branch = array();
@@ -144,7 +201,7 @@ class dbTreeNS
                                         'rkey'  => $row['rkey'],
                                         'level' => $row['level']);
         }
-
+        //echo'<pre>';print_r($branch); echo'</pre>';
         if(count($branch)) {
             return $branch;
         } else {

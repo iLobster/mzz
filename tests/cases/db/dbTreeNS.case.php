@@ -1,17 +1,23 @@
 <?php
 fileLoader::load('db/dbTreeNS');
+fileLoader::load('modules/simple/simple.mapper');
+fileLoader::load('cases/modules/simple/stubMapper.class');
 
 class dbTreeNsTest extends unitTestCase
 {
     private $db;
     private $tree;
+    private $table;
 
     public function __construct()
     {
         $this->db = db::factory();
-        $this->tree = new dbTreeNS;
+        $this->table = 'simple_simple_tree';
+        $init = array ('tree' => array('table' => $this->table, 'id' => 'id'));
+        $this->tree = new dbTreeNS($init);
         $this->clearDb();
     }
+
     public function setUp()
     {
         //$this->clearDb();
@@ -22,9 +28,10 @@ class dbTreeNsTest extends unitTestCase
          $this->clearDb();
         //$this->fixture();
     }
+
     private function clearDb()
     {
-        $this->db->query('TRUNCATE TABLE `tree`');
+        $this->db->query('TRUNCATE TABLE `' . $this->table .'`');
 
     }
 
@@ -53,7 +60,7 @@ class dbTreeNsTest extends unitTestCase
             $valString .= "('" . $id . "','" . $data['lkey'] . "','" . $data['rkey'] . "','" . $data['level'] . "'),";
         }
         $valString = substr($valString, 0,  strlen($valString)-1);
-        $stmt = $this->db->prepare(" INSERT INTO `tree` VALUES " . $valString);
+        $stmt = $this->db->prepare(' INSERT INTO `' . $this->table .'` VALUES ' . $valString);
         $stmt->execute();
     }
 
@@ -89,31 +96,29 @@ class dbTreeNsTest extends unitTestCase
 
     }
 
-    public function testGetBranchWithParent()
+    public function testGetBranch()
     {
-        $branch = $this->tree->getBranch($id = 3);
+        $branch = $this->tree->getBranch($id = 1, $level = 1);
 
-        $fixtureBranch = $this->setFixture(array(3,7,8));
+        $fixtureBranch = $this->setFixture(array(1,2,3,4));
+        $this->assertEqual(count($fixtureBranch),count($branch));
+        foreach ($branch as $id => $node) {
+            $this->assertEqual($fixtureBranch[$id], $node);
+        }
+    }
+
+/*    public function testGetBranchWithoutParent()
+    {
+        $branch = $this->tree->getBranch($id = 3, false);
+
+        $fixtureBranch = $this->setFixture(array(7, 8));
         $this->assertEqual(count($fixtureBranch),count($branch));
         foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
         }
 
-
-    }
-
-    public function testGetBranchWithoutParent()
-    {
-        $branch = $this->tree->getBranch($id = 2, false);
-
-        $fixtureBranch = $this->setFixture(array(5, 6));
-        $this->assertEqual(count($fixtureBranch),count($branch));
-        foreach ($branch as $id => $node) {
-            $this->assertEqual($fixtureBranch[$id], $node);
-        }
-
-    }
-
+    }*/
+/*
     public function testGetParentBranchWithChild()
     {
         $branch = $this->tree->getParentBranch($id = 8);
@@ -123,13 +128,12 @@ class dbTreeNsTest extends unitTestCase
         foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
         }
-    }
+    }*/
 
-    public function testGetParentBranchWithoutChild()
+    public function testGetParentBranch()
     {
-        $branch = $this->tree->getParentBranch($id = 8, false);
-
-        $fixtureBranch = $this->setFixture(array(3, 1));
+        $branch = $this->tree->getParentBranch($id = 8, $level = 2);
+        $fixtureBranch = $this->setFixture(array(8, 3, 1));
         $this->assertEqual(count($fixtureBranch),count($branch));
         foreach ($branch as $id => $node) {
             $this->assertEqual($fixtureBranch[$id], $node);
