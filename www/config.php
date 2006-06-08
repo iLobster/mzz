@@ -27,7 +27,7 @@ require_once(SYSTEM_PATH . 'systemConfig.php');
 systemConfig::$dbDriver = "pdo";
 systemConfig::$dbDsn  = "mysql:host=localhost;dbname=mzz";
 systemConfig::$dbUser = "root";
-systemConfig::$dbPassword = "toor";
+systemConfig::$dbPassword = "";
 systemConfig::$dbCharset = "cp1251";
 
 systemConfig::$pathToApplication = dirname(__FILE__) . '';

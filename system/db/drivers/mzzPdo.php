@@ -68,7 +68,8 @@ class mzzPdo extends PDO
 
     /**
      * The singleton method
-     *
+     * 
+     * @todo перенести некоторые атрибуты в конфиг 
      * @return object
      */
     public static function getInstance()
@@ -82,7 +83,7 @@ class mzzPdo extends PDO
                 self::$instance = new $classname($dsn, $username, $password, $charset);
                 self::$instance->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
                 self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                //self::$instance->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+                self::$instance->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
         }
         return self::$instance;
     }
