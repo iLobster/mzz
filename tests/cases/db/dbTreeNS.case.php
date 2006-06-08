@@ -1,7 +1,6 @@
 <?php
 fileLoader::load('db/dbTreeNS');
-fileLoader::load('modules/simple/simple.mapper');
-fileLoader::load('cases/modules/simple/stubMapper.class');
+
 
 class dbTreeNsTest extends unitTestCase
 {
@@ -46,14 +45,14 @@ class dbTreeNsTest extends unitTestCase
 
     private function fixture()
     {
-        $this->fixture = array('1' => array('lkey'=>1 ,'rkey' =>16,'level'=>1),
-                       '2' => array('lkey'=>2 ,'rkey' =>7 ,'level'=>2),
-                       '3' => array('lkey'=>8 ,'rkey' =>13,'level'=>2),
-                       '4' => array('lkey'=>14,'rkey'=>15 ,'level'=>2),
-                       '5' => array('lkey'=>3 ,'rkey'=>4  ,'level'=>3),
-                       '6' => array('lkey'=>5 ,'rkey'=>6  ,'level'=>3),
-                       '7' => array('lkey'=>9 ,'rkey'=>10 ,'level'=>3),
-                       '8' => array('lkey'=>11,'rkey'=>12 ,'level'=>3)
+        $this->fixture = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
+                       '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>7 ,'level'=>2),
+                       '3' => array('id'=>3, 'lkey'=>8 ,'rkey' =>13,'level'=>2),
+                       '4' => array('id'=>4, 'lkey'=>14,'rkey'=>15 ,'level'=>2),
+                       '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+                       '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>6  ,'level'=>3),
+                       '7' => array('id'=>7, 'lkey'=>9 ,'rkey'=>10 ,'level'=>3),
+                       '8' => array('id'=>8, 'lkey'=>11,'rkey'=>12 ,'level'=>3)
                        );
         $valString = '';
         foreach($this->fixture as $id => $data) {
@@ -68,6 +67,7 @@ class dbTreeNsTest extends unitTestCase
     {
         $tree = $this->tree->getTree();
 
+        $this->assertEqual(count($tree),count($this->fixture));
         foreach($tree as $id => $row) {
             $this->assertEqual($this->fixture[$id], $row);
         }
@@ -156,7 +156,6 @@ class dbTreeNsTest extends unitTestCase
     {
         $parentNode = $this->tree->getParentNode($id = 6);
         $this->assertEqual('2', $parentNode['id']);
-        unset($parentNode['id']);
         $this->assertEqual($this->fixture['2'], $parentNode);
     }
 
@@ -195,11 +194,11 @@ class dbTreeNsTest extends unitTestCase
     {
         $this->tree->removeNode(2);
 
-        $fixtureNewTree = array('1' => array('lkey'=>1 ,'rkey' =>10,'level'=>1),
-                       '3' => array('lkey'=>2 ,'rkey' =>7,'level'=>2),
-                       '4' => array('lkey'=>8,'rkey'=>9 ,'level'=>2),
-                       '7' => array('lkey'=>3 ,'rkey'=>4 ,'level'=>3),
-                       '8' => array('lkey'=>5,'rkey'=>6 ,'level'=>3)
+        $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>10,'level'=>1),
+                       '3' => array('id'=>3, 'lkey'=>2 ,'rkey' =>7,'level'=>2),
+                       '4' => array('id'=>4, 'lkey'=>8,'rkey'=>9 ,'level'=>2),
+                       '7' => array('id'=>7, 'lkey'=>3 ,'rkey'=>4 ,'level'=>3),
+                       '8' => array('id'=>8, 'lkey'=>5,'rkey'=>6 ,'level'=>3)
                        );
         $newTree = $this->tree->getTree();
         $this->assertEqual(count($fixtureNewTree), count($newTree));
@@ -220,14 +219,14 @@ class dbTreeNsTest extends unitTestCase
     public function testMoveNode()
     {
         $this->tree->moveNode(3, 4);
-        $fixtureNewTree = array('1' => array('lkey'=>1 ,'rkey' =>16,'level'=>1),
-                       '2' => array('lkey'=>2 ,'rkey' =>7 ,'level'=>2),
-                       '5' => array('lkey'=>3 ,'rkey'=>4  ,'level'=>3),
-                       '6' => array('lkey'=>5 ,'rkey'=>6  ,'level'=>3),
-                       '4' => array('lkey'=>8 ,'rkey'=>15 ,'level'=>2),
-                       '3' => array('lkey'=>9 ,'rkey' =>14,'level'=>3),
-                       '7' => array('lkey'=>10,'rkey'=>11 ,'level'=>4),
-                       '8' => array('lkey'=>12,'rkey'=>13 ,'level'=>4)
+        $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
+                       '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>7 ,'level'=>2),
+                       '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+                       '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>6  ,'level'=>3),
+                       '4' => array('id'=>4, 'lkey'=>8 ,'rkey'=>15 ,'level'=>2),
+                       '3' => array('id'=>3, 'lkey'=>9 ,'rkey' =>14,'level'=>3),
+                       '7' => array('id'=>7, 'lkey'=>10,'rkey'=>11 ,'level'=>4),
+                       '8' => array('id'=>8, 'lkey'=>12,'rkey'=>13 ,'level'=>4)
                        );
 
         $newTree = $this->tree->getTree();
@@ -242,15 +241,15 @@ class dbTreeNsTest extends unitTestCase
     public function test2MoveNode()
     {
         $this->tree->moveNode(4, 6);
-        $fixtureNewTree = array('1' => array('lkey'=>1 ,'rkey' =>16,'level'=>1),
-                       '2' => array('lkey'=>2 ,'rkey' =>9 ,'level'=>2),
-                       '5' => array('lkey'=>3 ,'rkey'=>4  ,'level'=>3),
-                       '6' => array('lkey'=>5 ,'rkey'=>8  ,'level'=>3),
-                       '4' => array('lkey'=>6,'rkey'=>7 ,'level'=>4),
+        $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
+                       '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>9 ,'level'=>2),
+                       '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+                       '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>8  ,'level'=>3),
+                       '4' => array('id'=>4, 'lkey'=>6,'rkey'=>7 ,'level'=>4),
 
-                       '3' => array('lkey'=>10 ,'rkey' =>15,'level'=>2),
-                       '7' => array('lkey'=>11 ,'rkey'=>12 ,'level'=>3),
-                       '8' => array('lkey'=>13,'rkey'=>14 ,'level'=>3)
+                       '3' => array('id'=>3, 'lkey'=>10 ,'rkey' =>15,'level'=>2),
+                       '7' => array('id'=>7, 'lkey'=>11 ,'rkey'=>12 ,'level'=>3),
+                       '8' => array('id'=>8, 'lkey'=>13,'rkey'=>14 ,'level'=>3)
                        );
 
         $newTree = $this->tree->getTree();
@@ -274,8 +273,8 @@ class dbTreeNsTest extends unitTestCase
         $this->assertFalse($this->tree->swapNode(8, 8));
 
         $this->tree->swapNode(2, 8);
-        $fixtureNewTreeSlice = array('8' => array('lkey'=>2  ,'rkey' =>7 ,'level'=>2),
-                                     '2' => array('lkey'=>11 ,'rkey' =>12,'level'=>3));
+        $fixtureNewTreeSlice = array('8' => array('id'=>8, 'lkey'=>2  ,'rkey' =>7 ,'level'=>2),
+                                     '2' => array('id'=>2, 'lkey'=>11 ,'rkey' =>12,'level'=>3));
 
 
         foreach ($fixtureNewTreeSlice as $id => $node) {

@@ -1,18 +1,11 @@
 # MySQL-Front 3.2  (Build 12.3)
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES */;
-
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET TIME_ZONE='SYSTEM' */;
 
 # Host: localhost    Database: mzz_test
 # ------------------------------------------------------
 # Server version 5.0.18-nt
+
+USE `mzz_test`;
 
 /*!40101 SET NAMES cp1251 */;
 
@@ -46,6 +39,8 @@ CREATE TABLE `news_news_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 
+
+
 #
 # Table structure for table page_page
 #
@@ -70,6 +65,21 @@ CREATE TABLE `simple_simple` (
   `foo` varchar(10) default NULL,
   `bar` varchar(10) default NULL,
   PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+
+#
+# Table structure for table simple_simple_tree
+#
+
+DROP TABLE IF EXISTS `simple_simple_tree`;
+CREATE TABLE `simple_simple_tree` (
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `left_key` (`lkey`,`rkey`,`level`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 
@@ -119,21 +129,6 @@ CREATE TABLE `sys_sessions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 
-#
-# Table structure for table tree
-#
-
-DROP TABLE IF EXISTS `tree`;
-CREATE TABLE `tree` (
-  `id` int(10) NOT NULL auto_increment,
-  `lkey` int(10) NOT NULL default '0',
-  `rkey` int(10) NOT NULL default '0',
-  `level` int(10) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `left_key` (`lkey`,`rkey`,`level`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-
 
 #
 # Table structure for table user_user
@@ -172,12 +167,3 @@ CREATE TABLE `user_user_group_rel` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-
-/*!40101 SET NAMES utf8 */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

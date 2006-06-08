@@ -39,18 +39,21 @@ class dbTreeNS
      *
      * @param array  $init  ƒанные о таблицах и св€зывающих пол€х
      */
-    public function __construct($init = false)
+    public function __construct($init)
     {
-        if(is_array($init)) {
-            $this->table = $init['tree']['table']; // as tree
-            $this->dataTable = isset($init['data']['table'])?$init['data']['table']:null; //as data
-            $this->treeID = $init['tree']['id'];
-            $this->dataID = isset($init['data']['id'])?$init['data']['id']:null;
-            }
+        # данные о таблице с деревом
+        $this->table = $init['tree']['table']; // as tree
+        $this->treeID = $init['tree']['id'];
 
-        if($this->dataTable) {
-            $this->selectPart = 'data.*';
-            $this->innerPart = 'INNER JOIN ' . $this->dataTable .' data ON `data`.id = `tree`.id ';
+        # данные о таблице с данными
+        $this->dataTable = isset($init['data']['table'])?$init['data']['table']:null; //as data
+        $this->dataID = isset($init['data']['id'])?$init['data']['id']:null;
+
+        $this->rowID = is_null($this->dataID) ? $this->treeID : $this->dataID;
+
+        if(!is_null($this->dataTable)) {
+            $this->selectPart = '`data`.*';
+            $this->innerPart = 'INNER JOIN ' . $this->dataTable .' data ON `data`.' . $this->dataID . ' = `tree`.' . $this->treeID . ' ';
         }
         else {
             $this->selectPart = '*';
@@ -87,18 +90,11 @@ class dbTreeNS
 
         $level > 0 ? $stmt->bindParam(':level', $level, PDO::PARAM_INT):'';
         $stmt->execute();
+
         $i = 0;
         $tree = array();
-        if(is_null($this->dataTable))
         while($row = $stmt->fetch()) {
-            $tree[$row['id']] = array('lkey'  => $row['lkey'],
-                                      'rkey'  => $row['rkey'],
-                                      'level' => $row['level']);
-        }
-        else {
-            while($row = $stmt->fetch()) {
-                $tree[$row['id']] = $row;
-            }
+            $tree[$row[$this->rowID]] = $row;
         }
 
         if(count($tree)) {
@@ -115,7 +111,7 @@ class dbTreeNS
      * @param  int     $withId   ƒќлжен ли быть id в возвращаемом наборе
      * @return array
      */
-    public function getNodeInfo($id, $withId = false)
+    public function getNodeInfo($id, $withId = true)
     {
         $idStr = $withId ? ' id, ' : '';
         $stmt = $this->db->prepare(' SELECT ' . $idStr . 'lkey, rkey, level FROM ' .$this->table. ' WHERE id = :id');
@@ -143,7 +139,8 @@ class dbTreeNS
             return null;
         }
 
-        $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
+        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
+                                   ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
                                    ' WHERE lkey >= :lkey AND rkey <= :rkey' .
                                    ' AND (level BETWEEN :high_level AND :level)' .
                                    ' ORDER BY lkey');
@@ -157,9 +154,7 @@ class dbTreeNS
 
         $branch = array();
         while($row = $stmt->fetch()) {
-            $branch[$row['id']] = array('lkey'  => $row['lkey'],
-                                        'rkey'  => $row['rkey'],
-                                        'level' => $row['level']);
+            $branch[$row['id']] = $row;
         }
 
         if(count($branch)) {
@@ -185,7 +180,8 @@ class dbTreeNS
         }
         $highLevel = $lowerChild['level'] - $level;
 
-        $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
+        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
+                                   ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
                                    ' WHERE lkey <= :lkey AND rkey >= :rkey' .
                                    ' AND ( level BETWEEN :level AND :child_level )   ORDER BY lkey');
 
@@ -197,9 +193,7 @@ class dbTreeNS
 
         $branch = array();
         while($row = $stmt->fetch()){
-            $branch[$row['id']] = array('lkey'  => $row['lkey'],
-                                        'rkey'  => $row['rkey'],
-                                        'level' => $row['level']);
+            $branch[$row['id']] = $row;
         }
         //echo'<pre>';print_r($branch); echo'</pre>';
         if(count($branch)) {
@@ -220,7 +214,8 @@ class dbTreeNS
         $node = $this->getNodeInfo($id);
         if(!$node) return null;
 
-        $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table .
+        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
+                                   ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
                                    ' WHERE rkey >:lkey ' .
                                    ' AND lkey <:rkey ORDER BY lkey');
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
@@ -229,9 +224,7 @@ class dbTreeNS
 
         $branch = array();
         while($row = $stmt->fetch()) {
-            $branch[$row['id']] = array('lkey'  => $row['lkey'],
-                                        'rkey'  => $row['rkey'],
-                                        'level' => $row['level']);
+            $branch[$row['id']] = $row;
         }
 
         if(count($branch)) {
@@ -252,7 +245,8 @@ class dbTreeNS
         $node = $this->getNodeInfo($id);
         if(!$node){ return null; }
 
-        $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table.
+        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
+                                   ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
                                    ' WHERE lkey <=:lkey' .
                                    ' AND rkey >=:rkey' .
                                    ' AND level = :level  ORDER BY lkey');
