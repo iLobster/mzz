@@ -47,7 +47,7 @@ class userMapper extends simpleMapper
     public function __construct($section)
     {
         parent::__construct($section);
-        $this->setRelationTable('group');
+        $this->relationTable = $this->table . '_group_rel';
     }
 
     /**
@@ -101,7 +101,7 @@ class userMapper extends simpleMapper
 
     public function getGroups($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->getRelationTable('group') . "` `rel` INNER JOIN `" . $this->table . "` `gr` ON `rel`.`group_id` = `gr`.`id` WHERE `rel`.`user_id` = :id");
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->relationTable . "` `rel` INNER JOIN `" . $this->table . "` `gr` ON `rel`.`group_id` = `gr`.`id` WHERE `rel`.`user_id` = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $rows = $stmt->fetchAll();
