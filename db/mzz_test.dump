@@ -7,8 +7,6 @@
 
 USE `mzz_test`;
 
-/*!40101 SET NAMES cp1251 */;
-
 #
 # Table structure for table news_news
 #
