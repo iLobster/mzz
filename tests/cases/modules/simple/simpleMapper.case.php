@@ -137,11 +137,14 @@ class simpleMapperTest extends unitTestCase
 
     private function fixture()
     {
-        for($i = 0; $i < count($this->fixture); $i++) {
-            $this->db->exec(' INSERT INTO `simple_simple` (`foo`,`bar`)'.
-            " VALUES('" . $this->fixture[$i]['foo'] . "',".
-            "'" . $this->fixture[$i]['bar'] . "')");
+        $valString = '';
+        foreach($this->fixture as $id => $data) {
+            $valString .= "('" . $this->fixture[$id]['foo'] . "','" . $this->fixture[$id]['bar']. "'),";
         }
+        $valString = substr($valString, 0,  strlen($valString)-1);
+
+        $stmt = $this->db->prepare(' INSERT INTO `simple_simple` (`foo`,`bar`) VALUES ' . $valString);
+        $stmt->execute();
     }
 }
 

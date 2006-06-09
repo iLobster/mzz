@@ -55,6 +55,7 @@ class newsFolder extends simple
         // может тут как то сделать "кеширование" ? а то при запросе дважды ->getFolders() маппер будет опрошен тоже дважды.. появится трабла если папки будут изменены между первым и вторым запросом - но опять же, пока прецедента нет - может сделать кеширование?
         if (!$this->fields->exists('folders')) {
             $this->fields->set('folders', $this->mapper->getFolders($this->getId()));
+            //echo'<pre>';var_dump($this->getId()); echo'</pre>';
         }
         return $this->fields->get('folders');
     }

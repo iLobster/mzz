@@ -20,12 +20,6 @@ fileLoader::load('db/dbTreeNS');
 
 class newsFolderMapper extends simpleMapper
 {
-    /**
-     * Постфикс имени таблицы
-     *
-     * @var string
-     */
-    protected $tablePostfix = '_folder';
 
     /**
      * Имя модуля
@@ -48,6 +42,19 @@ class newsFolderMapper extends simpleMapper
      */
     protected $cacheable = array('searchByName', 'getFolders', 'getItems');
 
+    /**
+     * Постфикс имени таблицы
+     *
+     * @var string
+     */
+    protected $tablePostfix = '_folder';
+    /**
+     * Постфикс имени таблицы
+     *
+     * @var string
+     */
+    protected $relationPostfix = 'folder_tree';
+
 
     /**
      * Конструктор
@@ -56,7 +63,6 @@ class newsFolderMapper extends simpleMapper
      */
     public function __construct($section)
     {
-        $this->relationPostfix = 'folder_tree';
         parent::__construct($section);
         $init = array ('data' => array('table' => $this->table, 'id' =>'parent'),
                        'tree' => array('table' => $this->relationTable , 'id' =>'id'));
@@ -104,14 +110,9 @@ class newsFolderMapper extends simpleMapper
      */
     public function getFolders($id)
     {
-        $rawFolders = $this->tree->getBranch($id, 1);// выбирается только нижележащий уровень
-/*        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `parent` = :parent");
-
-
-        $stmt->bindParam(':parent', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $folders = array();*/
-
+        // выбирается только нижележащий уровень
+        $rawFolders = $this->tree->getBranch($id, 1);
+        //echo'<pre>';var_dump($id); echo'</pre>';
         foreach($rawFolders as $row) {
             $folders[] = $this->createNewsFolderFromRow($row);
         }
@@ -137,7 +138,7 @@ class newsFolderMapper extends simpleMapper
      */
     public function __sleep()
     {
-        return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
+        return array('name', 'section', 'tablePostfix', 'relationTable', 'cacheable', 'className', 'table');
     }
 
     /**

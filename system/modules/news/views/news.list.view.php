@@ -18,18 +18,19 @@
 
 class newsListView extends simpleView
 {
-    protected $newsFolder;
+    protected $newsFolderMapper;
 
-    public function __construct($news, $newsFolder)
+    public function __construct($news, $newsFolderMapper)
     {
-        $this->newsFolder = $newsFolder;
+        $this->newsFolderMapper = $newsFolderMapper;
         parent::__construct($news);
     }
 
     public function toString()
     {
         $this->smarty->assign('news', $this->DAO);
-        $this->smarty->assign('newsFolder', $this->newsFolder);
+        $this->smarty->assign('newsFolder', $this->newsFolderMapper);
+        //echo'<pre>';print_r($this->newsFolder->getFolders(1)); echo'</pre>';
 
         // откуда получать текущую папку ???
         $toolkit = systemToolkit::getInstance();

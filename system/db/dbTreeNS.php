@@ -13,7 +13,7 @@
 /**
  * dbTreeNS: работа с деревьями Nested Sets
  *
- * @package system
+ * @package db
  * @version 0.4
 */
 

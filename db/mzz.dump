@@ -1,31 +1,19 @@
-# SQL Manager 2005 for MySQL 3.6.5.8
-# ---------------------------------------
-# Host     : localhost
-# Port     : 3306
-# Database : mzz
+# MySQL-Front 3.2  (Build 12.3)
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
-
-SET FOREIGN_KEY_CHECKS=0;
-
-DROP DATABASE IF EXISTS `mzz`;
-
-CREATE DATABASE `mzz`
-    CHARACTER SET 'cp1251'
-    COLLATE 'cp1251_general_ci';
+# Host: localhost    Database: mzz
+# ------------------------------------------------------
+# Server version 5.0.18-nt
 
 USE `mzz`;
 
+/*!40101 SET NAMES cp1251 */;
+
 #
-# Structure for the `news_news` table : 
+# Table structure for table news_news
 #
 
 DROP TABLE IF EXISTS `news_news`;
-
 CREATE TABLE `news_news` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
@@ -37,25 +25,40 @@ CREATE TABLE `news_news` (
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
+
 #
-# Structure for the `news_news_tree` table : 
+# Table structure for table news_news_folder
 #
 
-DROP TABLE IF EXISTS `news_news_tree`;
-
-CREATE TABLE `news_news_tree` (
+DROP TABLE IF EXISTS `news_news_folder`;
+CREATE TABLE `news_news_folder` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   `parent` int(11) default '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
+
 #
-# Structure for the `page_page` table : 
+# Table structure for table news_news_folder_tree
+#
+
+DROP TABLE IF EXISTS `news_news_folder_tree`;
+CREATE TABLE `news_news_folder_tree` (
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `left_key` (`lkey`,`rkey`,`level`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+
+#
+# Table structure for table page_page
 #
 
 DROP TABLE IF EXISTS `page_page`;
-
 CREATE TABLE `page_page` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
@@ -64,12 +67,12 @@ CREATE TABLE `page_page` (
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
+
 #
-# Structure for the `sys_cfg` table : 
+# Table structure for table sys_cfg
 #
 
 DROP TABLE IF EXISTS `sys_cfg`;
-
 CREATE TABLE `sys_cfg` (
   `id` int(11) NOT NULL auto_increment,
   `section` varchar(255) NOT NULL default '',
@@ -78,12 +81,12 @@ CREATE TABLE `sys_cfg` (
   UNIQUE KEY `section_module` (`section`,`module`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
+
 #
-# Structure for the `sys_cfg_values` table : 
+# Table structure for table sys_cfg_values
 #
 
 DROP TABLE IF EXISTS `sys_cfg_values`;
-
 CREATE TABLE `sys_cfg_values` (
   `id` int(11) NOT NULL auto_increment,
   `cfg_id` int(11) NOT NULL default '0',
@@ -93,12 +96,12 @@ CREATE TABLE `sys_cfg_values` (
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
+
 #
-# Structure for the `user_user` table : 
+# Table structure for table user_user
 #
 
 DROP TABLE IF EXISTS `user_user`;
-
 CREATE TABLE `user_user` (
   `id` int(11) NOT NULL auto_increment,
   `login` varchar(255) NOT NULL default '',
@@ -106,70 +109,3 @@ CREATE TABLE `user_user` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Data for the `news_news` table  (LIMIT 0,500)
-#
-
-INSERT INTO `news_news` (`id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
-  (1,'новость 1','admin','текст 1',1,1140071407,1140071417),
-  (2,'новость 2','guest','текст 2',1,1140071307,1149103207),
-  (4,'новость 3','admin','текст 31',1,1140071207,1148561768),
-  (5,'новость 4','admin','текст 4',2,1140071107,1140071117),
-  (9,'`','guest','`',1,1149103108,1149103218);
-
-COMMIT;
-
-#
-# Data for the `news_news_tree` table  (LIMIT 0,500)
-#
-
-INSERT INTO `news_news_tree` (`id`, `name`, `parent`) VALUES 
-  (1,'root',0),
-  (2,'folder2',0);
-
-COMMIT;
-
-#
-# Data for the `page_page` table  (LIMIT 0,500)
-#
-
-INSERT INTO `page_page` (`id`, `name`, `title`, `content`) VALUES 
-  (1,'main','Первая страница','Это первая, главная страница'),
-  (2,'404','404 Not Found','Запрашиваемая страница не найдена!'),
-  (3,'test','test','test');
-
-COMMIT;
-
-#
-# Data for the `sys_cfg` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES 
-  (1,'','common');
-
-COMMIT;
-
-#
-# Data for the `sys_cfg_values` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `value`) VALUES 
-  (1,1,'cache','true');
-
-COMMIT;
-
-#
-# Data for the `user_user` table  (LIMIT 0,500)
-#
-
-INSERT INTO `user_user` (`id`, `login`, `password`) VALUES 
-  (2,'admin','098f6bcd4621d373cade4e832627b4f6'),
-  (1,'guest','');
-
-COMMIT;
-
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
