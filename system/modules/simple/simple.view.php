@@ -22,10 +22,10 @@ abstract class simpleView
     protected $smarty;
     protected $params;
 
-    public function __construct($DAO = false)
+    public function __construct($DAO = null)
     {
         $toolkit = systemToolkit::getInstance();
-        if($DAO) {
+        if(!is_null($DAO)) {
             $this->DAO = $DAO;
         }
         $this->smarty = $toolkit->getSmarty();
