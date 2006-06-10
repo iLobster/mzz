@@ -19,7 +19,6 @@ define('SYSTEM_PATH',  '../system/');
  *
  */
 define('SITE_PATH', '');
-
 define('DEBUG_MODE', 1);
 
 require_once(SYSTEM_PATH . 'systemConfig.php');
@@ -29,16 +28,19 @@ systemConfig::$dbDsn  = "mysql:host=localhost;dbname=mzz";
 systemConfig::$dbUser = "root";
 systemConfig::$dbPassword = "";
 systemConfig::$dbCharset = "cp1251";
+systemConfig::$pdoOptions = array();
 
 systemConfig::$pathToApplication = dirname(__FILE__) . '';
 systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../tmp');
 systemConfig::$pathToConf = dirname(__FILE__) . '/configs';
-systemConfig::$pdoOptions = array();
+
+// true - кэшировать, false - кэширование отключено
+systemConfig::$cache = true;
+
 systemConfig::init();
 
 // в будущем перенести надо куда нить?
 $inc_path = ini_get('include_path') . PATH_SEPARATOR . realpath(systemConfig::$pathToSystem  . '/../libs/PEAR/');
 ini_set('include_path', $inc_path);
-
 
 ?>

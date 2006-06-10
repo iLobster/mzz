@@ -69,18 +69,21 @@ class cache
         $filename = md5($name) . '_' . md5(serialize($args));
 
         $toolkit = systemToolkit::getInstance();
+        /*
         $config = $toolkit->getConfig($this->object->section(), $this->object->name());
         $cacheEnabled = $config->get('cache');
-        if(is_null($cacheEnabled)) {        
+
+        if(is_null($cacheEnabled)) {
             $config = $toolkit->getConfig('', 'common');
             $cacheEnabled = $config->get('cache');
         }
+        */
 
-        if ($cacheEnabled == 'true' && $this->isValid($filename)) {
+        if (systemConfig::$cache && $this->isValid($filename)) {
             $result = $this->getCache($path, $filename);
         } else {
             $result = call_user_func_array(array($this->object, $name), $args);
-            if($cacheEnabled == 'true') {
+            if(systemConfig::$cache) {
                 $this->writeCache($path, $filename, $result);
             }
         }

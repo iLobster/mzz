@@ -20,9 +20,7 @@ define('SYSTEM_PATH',  realpath(dirname(__FILE__) . '/../system'));
  *
  */
 define('SITE_PATH', '');
-
 define('DEBUG_MODE', 1);
-
 define('TEST_PATH',  realpath(SYSTEM_PATH . '/../tests'));
 
 require_once(SYSTEM_PATH . '/systemConfig.php');
@@ -32,10 +30,14 @@ systemConfig::$dbDsn  = "mysql:host=localhost;dbname=mzz_test";
 systemConfig::$dbUser = "root";
 systemConfig::$dbPassword = "";
 systemConfig::$dbCharset = "cp1251";
+systemConfig::$pdoOptions = array();
 
 systemConfig::$pathToApplication = dirname(__FILE__);
 systemConfig::$pathToTemp = systemConfig::$pathToApplication . '/tmp';
 systemConfig::$pathToConf = systemConfig::$pathToApplication . '/configs';
 systemConfig::init();
+
+// true - кэшировать, false - кэширование отключено
+systemConfig::$cache = true;
 
 ?>
