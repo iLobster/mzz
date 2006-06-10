@@ -68,8 +68,7 @@ class mzzPdo extends PDO
 
     /**
      * The singleton method
-     * 
-     * @todo перенести некоторые атрибуты в конфиг 
+     *
      * @return object
      */
     public static function getInstance()

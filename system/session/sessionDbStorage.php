@@ -77,7 +77,7 @@ class sessionDbStorage implements iSessionStorage
     public function storageWrite($sid, $value)
     {
         $this->db->exec(' INSERT INTO `sys_sessions` (`sid`,`data`,`ts`)'.
-                        " VALUES('". $sid ."','" . $value . "',UNIX_TIMESTAMP())");
+        " VALUES('". $sid ."','" . $value . "',UNIX_TIMESTAMP())");
 
         return true;
     }
@@ -91,8 +91,8 @@ class sessionDbStorage implements iSessionStorage
     public function storageDestroy($sid)
     {
         $this->db->exec(' UPDATE `sys_sessions`'.
-                        " SET `valid` = 'no'".
-                        " WHERE `sid` = '" . $sid . "'");
+        " SET `valid` = 'no'".
+        " WHERE `sid` = '" . $sid . "'");
         return true;
     }
 
@@ -105,8 +105,8 @@ class sessionDbStorage implements iSessionStorage
     public function storageGc($maxLifeTime)
     {
         $this->db->exec(' UPDATE `sys_sessions`'.
-                        " SET  `valid`  = 'no'".
-                        " WHERE `ts` < UNIX_TIMESTAMP() - " . $maxLifeTime);
+        " SET  `valid`  = 'no'".
+        " WHERE `ts` < UNIX_TIMESTAMP() - " . $maxLifeTime);
         return true;
     }
 }
