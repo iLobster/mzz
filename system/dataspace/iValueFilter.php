@@ -24,7 +24,7 @@ interface iValueFilter
      * @param mixed $value значение
      * @return mixed
      */
-	public function filter($value);
+     public function filter($value);
 }
 
 ?>

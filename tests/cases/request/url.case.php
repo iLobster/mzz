@@ -4,46 +4,71 @@ fileLoader::load('request/url');
 
 class urlTest extends unitTestCase
 {
+    private $server_vars;
+    private $url;
 
     function setUp()
     {
-        if(!isset($_SERVER['HTTP_HOST'])) {
-            $_SERVER['HTTP_HOST'] = 'localhost';
-        }
+        $this->server_vars = $_SERVER;
+        $_SERVER['HTTPS'] = false;
+        $_SERVER['SERVER_PORT'] = '80';
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        $this->url = new url;
     }
 
     public function tearDown()
     {
+        $_SERVER = $this->server_vars;
     }
 
     public function testUrlFull()
     {
-        $protocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
-        $address = $protocol . '://' . $_SERVER['HTTP_HOST'];
-
-        $url = new url;
         $section = 'foo';
         $action = 'bar';
         $param1 = 'val1';
         $param2 = 'val2';
-        $url->setSection($section);
-        $url->setAction($action);
-        $url->addParam($param1);
-        $url->addParam($param2);
-        $this->assertEqual($url->get(), $address . '/foo/val1/val2/bar');
+        $this->url->setSection($section);
+        $this->url->setAction($action);
+        $this->url->addParam($param1);
+        $this->url->addParam($param2);
+        $this->assertEqual($this->url->get(), 'http://localhost/foo/val1/val2/bar');
     }
 
-    public function testUrlFullWithoutParams()
+    public function testUrlHttpsWithoutParams()
     {
-        $protocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
-        $address = $protocol . '://' . $_SERVER['HTTP_HOST'];
+        $_SERVER['HTTPS'] = 'on';
 
-        $url = new url;
         $section = 'foo';
         $action = 'bar';
-        $url->setSection($section);
-        $url->setAction($action);
-        $this->assertEqual($url->get(), $address . '/foo/bar');
+        $this->url->setSection($section);
+        $this->url->setAction($action);
+        $this->assertEqual($this->url->get(), 'https://localhost/foo/bar');
+    }
+
+    public function testOnlyUrlWithPort()
+    {
+        $_SERVER['SERVER_PORT'] = '8080'; // != 80
+
+        $this->assertNotEqual($_SERVER['SERVER_PORT'], '80');
+        $this->assertEqual($this->url->get(), 'http://localhost:8080');
+    }
+
+    public function testUrlWithSection()
+    {
+        $section = 'foo';
+        $this->url->setSection($section);
+        $this->assertEqual($this->url->get(), 'http://localhost/foo');
+    }
+
+    public function testUrlWithoutAction()
+    {
+        $section = 'foo';
+        $param1 = 'val1';
+        $param2 = 'val2';
+        $this->url->setSection($section);
+        $this->url->addParam($param1);
+        $this->url->addParam($param2);
+        $this->assertEqual($this->url->get(), 'http://localhost/foo/val1/val2');
     }
 }
 

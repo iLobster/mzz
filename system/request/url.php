@@ -15,7 +15,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1
+ * @version 0.1.1
  */
 class url
 {
@@ -50,26 +50,6 @@ class url
     }
 
     /**
-     * Возвращает сгенерированный URL
-     *
-     * @return string
-     * @deprecated
-     */
-    public function old_get()
-    {
-        if (empty($this->section)) {
-            $this->setSection($this->getCurrentSection());
-        }
-
-        $params = "/";
-        if (empty($this->params) == false) {
-            $params .= implode('/', $this->params) . '/';
-        }
-
-        return '/' . $this->section . $params . $this->action;
-    }
-
-    /**
      * Возвращает сгенерированный полный URL
      *
      * @return string
@@ -79,18 +59,33 @@ class url
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
         $protocol = $request->isSecure() ? 'https' : 'http';
+        $port = $request->get('SERVER_PORT', SC_SERVER);
+        $port = ($port == '80') ? '' : ':' . $port;
 
-        $address = $protocol . '://' . $request->get('HTTP_HOST', SC_SERVER) . SITE_PATH;
+        $address = $protocol . '://' . $request->get('HTTP_HOST', SC_SERVER) . $port . SITE_PATH;
 
         if (empty($this->section)) {
             $this->setSection($this->getCurrentSection());
         }
 
-        $params = "/";
-        if (empty($this->params) == false) {
-            $params .= implode('/', $this->params) . '/';
+        $params = '';
+        if(!empty($this->params)) {
+            if(!empty($this->section)) {
+                $params = '/';
+            }
+
+            $params .= implode('/', $this->params);
+
+            if(!empty($this->action)) {
+                $params .= '/';
+            }
+        } else {
+            if (!empty($this->section) && !empty($this->action)) {
+                $params = '/';
+            }
         }
-        return $address . '/' . $this->section . $params . $this->action;
+        $request_uri = $this->section . $params . $this->action;
+        return $address . (!empty($request_uri) ? '/' . $request_uri : '');
     }
 
     /**
@@ -131,8 +126,7 @@ class url
     private function getCurrentSection()
     {
         $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-        return $request->getSection();
+        return $toolkit->getRequest()->getSection();
     }
 }
 
