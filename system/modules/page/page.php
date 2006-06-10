@@ -26,7 +26,7 @@ class page extends simple
      */
     public function getJip()
     {
-        return parent::getJipView('page', 'page', $this->getName(), 'page');
+        return parent::getJipView('page', $this->getName(), 'page');
     }
 
 

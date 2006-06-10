@@ -128,18 +128,17 @@ abstract class simple
     /**
      * Получение объекта JIP.
      *
-     * @param string $section
      * @param string $module
      * @param string $id
      * @param string $type
      * @return string
      */
-    protected function getJipView($section, $module, $id, $type)
+    protected function getJipView($module, $id, $type)
     {
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getAction($module);
-
-        $jip = new jip($section, $module, $id, $type, $action->getJipActions());
+        $request = $toolkit->getRequest();
+        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions());
         return $jip->draw();
     }
 

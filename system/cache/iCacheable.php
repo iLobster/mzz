@@ -13,12 +13,14 @@
  * iCacheable: интерфейс кэшируемого объекта
  *
  * @package system
- * @version 0.1
+ * @version 0.1.1
  */
 
 interface iCacheable
 {
     public function injectCache($cache);
+    public function section();
+    public function name();
 }
 
 ?>
