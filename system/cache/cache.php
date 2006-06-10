@@ -61,7 +61,6 @@ class cache
      *
      * @param string $name
      * @param array $args
-     * @todo брать $cacheEnabled из конфига
      * @return mixed
      */
     public function call($name, $args = array())
