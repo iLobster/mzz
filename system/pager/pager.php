@@ -24,12 +24,7 @@ class pager
         $url = $this->baseurl . (strpos($this->baseurl, '?') ? '&' : '?') . 'page=';
 
         if ($this->itemsCount > 0) {
-            $result[1] = array('page' => 1);
-            if ($this->page == 1) {
-                $result[1]['current'] = true;
-            } else {
-                $result[1]['url'] = $url . '1';
-            }
+            $result[1] = array('page' => 1, 'url' => $url . '1');
         }
 
         if ($this->page - $this->roundItems > 2) {
@@ -42,22 +37,15 @@ class pager
 
         for ($i = $left; $i <= $right; $i++) {
             $result[$i] = array('page' => $i, 'url' => $url . $i);
-            if ($this->page == $i) {
-                $result[$i]['current'] = true;
-            }
         }
-
-
 
         if ($this->page + $this->roundItems + 1 < $pagesTotal) {
             $result[] = array('skip' => true);
         }
 
         $result[$pagesTotal] = array('page' => $pagesTotal, 'url' => $url . $pagesTotal);
-
-        if ($this->page == $pagesTotal) {
-            $result[$pagesTotal]['current'] = true;
-        }
+        
+        $result[$this->page]['current'] = true;
 
         return $result;
     }
