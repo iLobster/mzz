@@ -84,8 +84,6 @@ class newsFolderMapper extends simpleMapper
 
         if ($row) {
             return $this->createNewsFolderFromRow($row);
-        } else {
-            return false;
         }
     }
 
@@ -100,6 +98,7 @@ class newsFolderMapper extends simpleMapper
         $map = $this->getMap();
         $newsFolder = new newsFolder($this->this(), $map);
         $newsFolder->import($row);
+        $newsFolder->count = $this->getCount();
         return $newsFolder;
     }
 
@@ -128,7 +127,11 @@ class newsFolderMapper extends simpleMapper
     public function getItems($id)
     {
         $news = new newsMapper($this->section());
-        return $news->searchByFolder($id);
+        $result = $news->searchByFolder($id);
+        
+        //$this->count = $news->getCount();
+        
+        return array($result, $news->getCount());
     }
 
     /**
@@ -138,7 +141,7 @@ class newsFolderMapper extends simpleMapper
      */
     public function __sleep()
     {
-        return array('name', 'section', 'tablePostfix', 'relationTable', 'cacheable', 'className', 'table');
+        return array('name', 'section', 'tablePostfix', 'relationTable', 'cacheable', 'className', 'table', 'count');
     }
 
     /**

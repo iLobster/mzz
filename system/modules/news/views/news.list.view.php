@@ -32,6 +32,8 @@ class newsListView extends simpleView
         $this->smarty->assign('newsFolder', $this->newsFolderMapper);
         //echo'<pre>';print_r($this->newsFolder->getFolders(1)); echo'</pre>';
 
+//var_dump($this->newsFolderMapper->getCount());
+
         // откуда получать текущую папку ???
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();

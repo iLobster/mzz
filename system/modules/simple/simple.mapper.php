@@ -88,6 +88,13 @@ abstract class simpleMapper implements iCacheable
      * @var string
      */
     protected $tablePostfix = null;
+    
+    /**
+    * Число записей, возвращённых за последний запрос (без учёта LIMIT)
+    *
+    * @var integer
+    */
+    protected $count;
 
     /**
      * Конструктор
@@ -245,10 +252,21 @@ abstract class simpleMapper implements iCacheable
      */
     public function searchByField($name, $value)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name);
+        $stmt = $this->db->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name);
         $stmt->bindParam(':' . $name, $value);
         $stmt->execute();
+        
+        $statement = $this->db->query('SELECT FOUND_ROWS() AS `count`');
+        $res = $statement->fetchAll();
+        $statement->closeCursor();
+        $this->count = $res[0]['count'];
+        
         return $stmt;
+    }
+    
+    public function getCount()
+    {
+        return $this->count;
     }
 
     /**
