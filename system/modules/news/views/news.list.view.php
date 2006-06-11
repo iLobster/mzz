@@ -40,6 +40,11 @@ class newsListView extends simpleView
         }
         $this->smarty->assign('folderPath', $path);
 
+        // просто чтобы посмотреть как оно выглядит ;)
+        fileLoader::load('pager');
+        $pager = new pager('/news/list', 7, 10, 95);
+        $this->smarty->assign('pager', $pager->toString());
+
         $this->response->setTitle('Новости -> Список');
         return $this->smarty->fetch('news.list.tpl');
     }

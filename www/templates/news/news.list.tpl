@@ -18,6 +18,9 @@
         <td><b>Изменено</b></td>
         <td><b>JIP</b></td>
     </tr>
+    <tr>
+        <td colspan="7">{$pager} ps: не рабочий - просто посмотреть как работает воткнул</td>
+    </tr>
     {foreach from=$news item=current_news}
         <tr>
             <td align="center"><a href="{url section=news action=view params=$current_news->getId()}">{$current_news->getId()}</a></td>
