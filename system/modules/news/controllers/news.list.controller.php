@@ -39,8 +39,9 @@ class newsListController extends simpleController
         //echo'<pre>';print_r($newsFolder); echo'</pre>';
         //$newsFolder = new cache($newsFolder->searchByName($path), systemConfig::$pathToTemp . '/cache');
         // так делать нельзя - потому что результаты для $newsFolder->getItems() зависят не от аргументов а от маппера
-        list($data, $count) = $newsFolder->getItems();
-        var_dump($data);
+        $data = $newsFolder->getItems();
+        var_dump($newsFolder->getCount());
+       // var_dump($data);
         //echo'<pre>';print_r($data); echo'</pre>';
         return new newsListView($data, $newsFolderMapper);
     }

@@ -260,11 +260,10 @@ abstract class simpleMapper implements iCacheable
         $res = $statement->fetchAll();
         $statement->closeCursor();
         $this->count = $res[0]['count'];
-        
         return $stmt;
     }
     
-    public function getCount()
+    public function getCount($id)
     {
         return $this->count;
     }
