@@ -32,6 +32,13 @@ class cache
     private $object;
 
     /**
+     * "Состояние" кэшируемого объекта
+     *
+     * @var string
+     */
+    private $cond;
+
+    /**
      * Конструктор
      *
      * @param iCacheable $object
@@ -65,8 +72,13 @@ class cache
      */
     public function call($name, $args = array())
     {
+        $cond = md5(serialize($this->object));
+        if($cond != $this->cond) {
+            $this->cond = $cond;
+        }
+
         $path = $this->getPath();
-        $filename = md5($name) . '_' . md5(serialize($args));
+        $filename = $cond . '_' . md5($name) . '_' . md5(serialize($args));
 
         $toolkit = systemToolkit::getInstance();
         /*
@@ -82,9 +94,10 @@ class cache
         if (systemConfig::$cache && $this->isValid($filename)) {
             $result = $this->getCache($path, $filename);
         } else {
+            //var_dump($name); echo '<br>';
             $result = call_user_func_array(array($this->object, $name), $args);
             if(systemConfig::$cache) {
-                $this->writeCache($path, $filename, $result);
+                $this->writeCache($path, $filename, array($result, $this->object));
             }
         }
 
@@ -167,7 +180,11 @@ class cache
         $cache_file->flock(LOCK_UN);
         unset($cache_file);
 
-        return unserialize($content);
+        $data = unserialize($content);
+
+        $this->object = $data[1];
+
+        return $data[0];
     }
 
     /**

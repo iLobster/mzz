@@ -25,13 +25,42 @@ class cacheStub implements iCacheable
     }
 }
 
+class cacheConditionStub implements iCacheable
+{
+    private $condition = null;
+    public function section()
+    {
+        return 'stubSection';
+    }
+    public function name()
+    {
+        return 'stubName';
+    }
+    public function injectCache($cache)
+    {
+    }
+    public function cacheableMethod()
+    {
+        return array(microtime(true), mt_rand(1, 1000));
+    }
+    public function condition($val)
+    {
+        $this->condition = $val;
+    }
+
+    public function isCacheable($method)
+    {
+        $arr = array('cacheableMethod');
+        return in_array($method, $arr);
+    }
+}
+
 mock::generate('cacheStub');
 
 class cacheTest extends unitTestCase
 {
     private $cache;
     private $mock;
-    private $db;
 
     public function setUp()
     {
@@ -40,11 +69,6 @@ class cacheTest extends unitTestCase
         $this->mock->setReturnValue('name', 'stubName');
         $this->mock->setReturnValue('isCacheable', true, array('method'));
         $this->mock->setReturnValue('isCacheable', false, array('*'));
-        $this->db = db::factory();
-
-        $this->clearDb();
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(1, '', 'common')");
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(1, 1, 'cache', 'true')");
 
         $this->cache = new cache($this->mock, systemConfig::$pathToTemp . '/cache');
     }
@@ -61,7 +85,6 @@ class cacheTest extends unitTestCase
             rmdir(systemConfig::$pathToTemp . '/cache/stubSection/stubName');
             rmdir(systemConfig::$pathToTemp . '/cache/stubSection');
         }
-        $this->clearDb();
     }
 
     public function testObjectMethod()
@@ -91,16 +114,20 @@ class cacheTest extends unitTestCase
     {
         $this->mock->expectCallCount('notCache', 2);
         $this->mock->setReturnValueAt(0, 'notCache', $result = 'result1');
-        $this->mock->setReturnValueAt(1, 'notCache', $result2 = 'result2'); 
+        $this->mock->setReturnValueAt(1, 'notCache', $result2 = 'result2');
 
         $this->assertEqual($this->cache->notCache(), $result);
         $this->assertEqual($this->cache->notCache(), $result2);
     }
 
-    private function clearDb()
+    public function testCacheWithCondition()
     {
-        $this->db->query('TRUNCATE TABLE `sys_cfg`');
-        $this->db->query('TRUNCATE TABLE `sys_cfg_values`');
+        $cache = new cache(new cacheConditionStub(), systemConfig::$pathToTemp . '/cache');
+        $res = $cache->cacheableMethod();
+        $this->assertEqual($res, $cache->cacheableMethod());
+        // меняем внутреннее состояние объекта
+        $cache->condition(5);
+        $this->assertNotEqual($res, $cache->cacheableMethod());
     }
 }
 

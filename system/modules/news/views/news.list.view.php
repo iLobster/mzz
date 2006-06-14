@@ -28,11 +28,11 @@ class newsListView extends simpleView
 
     public function toString()
     {
-        $this->smarty->assign('news', $this->DAO);
+        $this->smarty->assign('news', $this->DAO->getItems());
         $this->smarty->assign('newsFolder', $this->newsFolderMapper);
         //echo'<pre>';print_r($this->newsFolder->getFolders(1)); echo'</pre>';
 
-//var_dump($this->newsFolderMapper->getCount());
+        //var_dump($this->newsFolderMapper->getCount());
 
         // откуда получать текущую папку ???
         $toolkit = systemToolkit::getInstance();
@@ -42,9 +42,14 @@ class newsListView extends simpleView
         }
         $this->smarty->assign('folderPath', $path);
 
-        // просто чтобы посмотреть как оно выглядит ;)
+
+        $tmp = $httprequest->get('page', SC_GET);
+
+        $page = (!empty($tmp)) ? $tmp : 1;
+
         fileLoader::load('pager');
-        $pager = new pager('/news/list', 7, 10, 95);
+        // а может сделать модуль пейджер или например плагин для смарти?
+        $pager = new pager('/news/list', $page, 1, $this->DAO->getCount());
         $this->smarty->assign('pager', $pager->toString());
 
         $this->response->setTitle('Новости -> Список');

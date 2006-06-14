@@ -127,11 +127,11 @@ class newsFolderMapper extends simpleMapper
     public function getItems($id)
     {
         $news = new newsMapper($this->section());
-        
+
         $result = $news->searchByFolder($id);
-        
+
         $this->count = $news->getCount($id);
-        
+
         return $result;
     }
 
@@ -142,7 +142,7 @@ class newsFolderMapper extends simpleMapper
      */
     public function __sleep()
     {
-        return array('name', 'section', 'tablePostfix', 'relationTable', 'cacheable', 'className', 'table', 'count');
+        return array('name', 'section', 'tablePostfix', 'relationTable', 'cacheable', 'className', 'table', 'count', 'tree');
     }
 
     /**
