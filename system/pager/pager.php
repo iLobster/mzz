@@ -45,6 +45,12 @@ class pager
 
         $result[$pagesTotal] = array('page' => $pagesTotal, 'url' => $url . $pagesTotal);
         
+        if ($this->page > $pagesTotal) {
+            $this->page = $pagesTotal;
+        } elseif ($this->page < 1) {
+            $this->page = 1;
+        }
+        
         $result[$this->page]['current'] = true;
 
         return $result;
