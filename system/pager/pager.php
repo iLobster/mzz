@@ -11,10 +11,10 @@ class pager
     public function __construct($baseurl, $page, $perPage, $itemsCount, $roundItems = 2)
     {
         $this->baseurl = $baseurl;
-        $this->page = $page;
-        $this->perPage = $perPage;
-        $this->itemsCount = $itemsCount;
-        $this->roundItems = $roundItems;
+        $this->page = (int)$page;
+        $this->perPage = (int)$perPage;
+        $this->itemsCount = (int)$itemsCount;
+        $this->roundItems = (int)$roundItems;
     }
 
     public function toArray()
@@ -44,7 +44,7 @@ class pager
         }
 
         $result[$pagesTotal] = array('page' => $pagesTotal, 'url' => $url . $pagesTotal);
-        
+
         if ($this->page > $pagesTotal) {
             $this->page = $pagesTotal;
         } elseif ($this->page < 1) {
