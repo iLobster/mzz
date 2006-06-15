@@ -37,8 +37,14 @@ function smarty_function_load($params, $smarty)
     fileLoader::load($module . '.factory');
     $toolkit = systemToolkit::getInstance();
 
+    $oldRequest = clone $toolkit->getRequest();
+
     $action = $toolkit->getAction($params['module']);
     $action->setAction($action_name);
+
+    if(isset($params['args'])) {
+        $toolkit->getRequest()->setParams(explode('/', $params['args']));
+    }
 
     $section = (isset($params['section'])) ? $params['section'] : null;
 
@@ -50,6 +56,7 @@ function smarty_function_load($params, $smarty)
 
     $result = $view->toString();
 
+    $toolkit->setRequest($oldRequest);
     return $result;
 }
 
