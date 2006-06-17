@@ -78,7 +78,7 @@ class cache
         }
 
         $path = $this->getPath();
-        $filename = $cond . '_' . md5($name) . '_' . md5(serialize($args));
+        $filename = $this->cond . '_' . md5($name) . '_' . md5(serialize($args));
 
         $toolkit = systemToolkit::getInstance();
         /*
