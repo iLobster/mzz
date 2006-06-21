@@ -32,7 +32,8 @@ class pageViewController extends simpleController
             $section = $this->request->getSection();
         }
 
-        $pageMapper = $this->toolkit->getCache(new pageMapper($section));
+        //$pageMapper = $this->toolkit->getCache(new pageMapper($section));
+        $pageMapper = new pageMapper($section);
 
         //$pageMapper = new pageMapper($section);
 

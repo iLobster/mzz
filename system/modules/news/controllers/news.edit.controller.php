@@ -32,7 +32,8 @@ class newsEditController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
-        $newsMapper = $this->toolkit->getCache(new newsMapper($this->request->getSection()));
+        //$newsMapper = $this->toolkit->getCache(new newsMapper($this->request->getSection()));
+        $newsMapper = new newsMapper($this->request->getSection());
 
         if (($id = $this->request->get(0, SC_PATH)) == false) {
             $id = $this->request->get('id', SC_POST);

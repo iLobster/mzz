@@ -188,6 +188,7 @@ class stdToolkit extends toolkit
      */
     public function getCache($object)
     {
+        die('cache called');
         if (empty($this->cache)) {
             fileLoader::load('cache');
             $this->cache = true;

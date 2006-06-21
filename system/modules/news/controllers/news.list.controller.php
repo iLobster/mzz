@@ -30,7 +30,8 @@ class newsListController extends simpleController
 
     public function getView()
     {
-        $newsFolderMapper = $this->toolkit->getCache(new newsFolderMapper($this->request->getSection()));
+        //$newsFolderMapper = $this->toolkit->getCache(new newsFolderMapper($this->request->getSection()));
+        $newsFolderMapper = new newsFolderMapper($this->request->getSection());
 
         if (($path = $this->request->get(0, SC_PATH)) == false) {
             $path = "root";
