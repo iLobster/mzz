@@ -40,7 +40,7 @@ class newsFolderMapper extends simpleMapper
      *
      * @var array
      */
-    protected $cacheable = array('searchByName', 'getFolders', 'getItems', 'getCount');
+    protected $cacheable = array('searchByName', 'getFolders', 'getItems');
 
     /**
      * Постфикс имени таблицы
@@ -54,7 +54,6 @@ class newsFolderMapper extends simpleMapper
      * @var string
      */
     protected $relationPostfix = 'folder_tree';
-
 
     /**
      * Конструктор
@@ -128,9 +127,13 @@ class newsFolderMapper extends simpleMapper
     {
         $news = new newsMapper($this->section());
 
+        if (!empty($this->pager)) {
+            $news->setPager($this->pager);
+        }
+
         $result = $news->searchByFolder($id);
 
-        $this->count = $news->getCount($id);
+        //$this->count = $news->getCount($id);
 
         return $result;
     }

@@ -8,13 +8,28 @@ class pager
     private $itemsCount;
     private $roundItems;
 
-    public function __construct($baseurl, $page, $perPage, $itemsCount, $roundItems = 2)
+    public function __construct($baseurl, $page, $perPage, $itemsCount = 0, $roundItems = 2)
     {
         $this->baseurl = $baseurl;
         $this->page = (int)$page;
         $this->perPage = (int)$perPage;
         $this->itemsCount = (int)$itemsCount;
         $this->roundItems = (int)$roundItems;
+    }
+    
+    public function getPerPage()
+    {
+        return $this->perPage;
+    }
+    
+    public function getPage()
+    {
+        return $this->page;
+    }
+    
+    public function setCount($count)
+    {
+        $this->itemsCount = (int)$count;
     }
 
     public function toArray()

@@ -70,10 +70,15 @@ class newsFolder extends simple
         }
         return $this->fields->get('items');
     }
-    
+    /*
     public function getCount()
     {
         return $this->mapper->getCount($this->getId());
+    }*/
+    
+    public function setPager($pager)
+    {
+        $this->mapper->setPager($pager);
     }
 }
 

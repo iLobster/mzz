@@ -61,7 +61,7 @@ class cacheTest extends unitTestCase
 {
     private $cache;
     private $mock;
-
+/*
     public function setUp()
     {
         $this->mock = new mockcacheStub();
@@ -128,7 +128,7 @@ class cacheTest extends unitTestCase
         // меняем внутреннее состояние объекта
         $cache->condition(5);
         $this->assertNotEqual($res, $cache->cacheableMethod());
-    }
+    }*/
 }
 
 ?>

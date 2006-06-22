@@ -96,6 +96,8 @@ abstract class simpleMapper implements iCacheable
     */
     protected $count;
 
+    protected $pager;
+
     /**
      * Конструктор
      *
@@ -252,7 +254,12 @@ abstract class simpleMapper implements iCacheable
      */
     public function searchByField($name, $value)
     {
-        $stmt = $this->db->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name);
+        $qry = "SELECT SQL_CALC_FOUND_ROWS * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name;
+        if (!empty($this->pager)) {
+            $qry .= " LIMIT " . ($this->pager->getPage() - 1) * $this->pager->getPerPage() . ", " . $this->pager->getPerPage();
+        }
+        
+        $stmt = $this->db->prepare($qry);
         $stmt->bindParam(':' . $name, $value);
         $stmt->execute();
         
@@ -260,13 +267,18 @@ abstract class simpleMapper implements iCacheable
         $res = $statement->fetchAll();
         $statement->closeCursor();
         $this->count = $res[0]['count'];
+        
+        if (!empty($this->pager)) {
+            $this->pager->setCount($res[0]['count']);
+        }
+        
         return $stmt;
     }
-    
+    /*
     public function getCount($id)
     {
         return $this->count;
-    }
+    }*/
 
     /**
      * Возвращает Map
@@ -319,6 +331,11 @@ abstract class simpleMapper implements iCacheable
      */
     protected function insertDataModify(&$fields)
     {
+    }
+    
+    public function setPager($pager)
+    {
+        $this->pager = $pager;
     }
 }
 
