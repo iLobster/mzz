@@ -20,11 +20,15 @@ class newsViewView extends simpleView
 {
     public function toString()
     {
-        $this->smarty->assign('news', $this->DAO);
-        $this->response->setTitle('Новости -> Просмотр -> ' . $this->DAO->getTitle());
-        return $this->smarty->fetch('news.view.tpl');
+        if ($this->DAO) {
+            $this->smarty->assign('news', $this->DAO);
+            $this->response->setTitle('Новости -> Просмотр -> ' . $this->DAO->getTitle());
+            return $this->smarty->fetch('news.view.tpl');
+        } else {
+            $this->response->setTitle('Новость отсутствует');
+            return $this->smarty->fetch('news.notfound.tpl');
+        }
     }
-
 }
 
 ?>

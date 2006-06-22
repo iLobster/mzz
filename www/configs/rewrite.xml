@@ -6,7 +6,7 @@
     <news>
         <rule pattern="/([^/]+)/?">/$1/list</rule>
         <rule pattern="/news/([0-9]+)/?">/news/$1/view</rule>
-        <rule pattern="/news/([a-z][a-z0-9]+)/?">/news/$1/list</rule>
+        <rule pattern="/news/([a-z0-9]+)/?">/news/$1/list</rule>
     </news>   
     <page>
         <rule pattern="/([^/]+)/?">/$1/view</rule>

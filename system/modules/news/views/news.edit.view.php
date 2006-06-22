@@ -25,14 +25,19 @@ class newsEditView extends simpleView
     }
     public function toString()
     {
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $this->form->accept($renderer);
+        if ($this->DAO) {
+            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+            $this->form->accept($renderer);
 
-        $this->smarty->assign('form', $renderer->toArray());
-        $this->smarty->assign('news', $this->DAO);
+            $this->smarty->assign('form', $renderer->toArray());
+            $this->smarty->assign('news', $this->DAO);
 
-        $this->response->setTitle('Новости -> Редактирование -> ' . $this->DAO->getTitle());
-        return $this->smarty->fetch('news.edit.tpl');
+            $this->response->setTitle('Новости -> Редактирование -> ' . $this->DAO->getTitle());
+            return $this->smarty->fetch('news.edit.tpl');
+        } else {
+            $this->response->setTitle('Новость отсутствует');
+            return $this->smarty->fetch('news.notfound.tpl');
+        }
     }
 
 }
