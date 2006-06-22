@@ -36,18 +36,17 @@ class newsListView extends simpleView
 
         $page = ($this->getPageFromRequest() > 0) ? $this->getPageFromRequest() : 1;
 
+        // последний аргумент - число новостей на страницу - получить его из конфига
         $pager = new pager('/' . $this->httprequest->getSection() . '/' . $this->DAO->getName() . '/list', $page, 1);
 
         $this->DAO->setPager($pager);
 
         $this->smarty->assign('folderPath', $this->DAO->getName());
-
         $this->smarty->assign('pager', $pager);
+        $this->smarty->assign('news', $this->DAO->getItems());
+        $this->smarty->assign('newsFolderMapper', $this->newsFolderMapper);
 
         $this->response->setTitle('Новости -> Список');
-
-        $this->smarty->assign('news', $this->DAO->getItems());
-        $this->smarty->assign('newsFolder', $this->newsFolderMapper);
 
         return $this->smarty->fetch('news.list.tpl');
     }
