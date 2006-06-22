@@ -14,7 +14,7 @@ fileLoader::load('db/sqlFunction');
  * simpleMapper: реализация общих методов у Mapper
  *
  * @package simple
- * @version 0.2
+ * @version 0.2.1
  */
 
 abstract class simpleMapper implements iCacheable

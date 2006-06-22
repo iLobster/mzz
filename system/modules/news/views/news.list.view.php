@@ -13,7 +13,7 @@
  * NewsListModel: вид для метода list модуля news
  *
  * @package news
- * @version 0.1
+ * @version 0.2
  */
 
 class newsListView extends simpleView
@@ -37,7 +37,7 @@ class newsListView extends simpleView
         $page = ($this->getPageFromRequest() > 0) ? $this->getPageFromRequest() : 1;
 
         // последний аргумент - число новостей на страницу - получить его из конфига
-        $pager = new pager('/' . $this->httprequest->getSection() . '/' . $this->DAO->getName() . '/list', $page, 1);
+        $pager = new pager($this->httprequest->getUrl(), $page, 1);
 
         $this->DAO->setPager($pager);
 
