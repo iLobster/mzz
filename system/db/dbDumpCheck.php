@@ -21,20 +21,32 @@ class dbDumpCheck
 {
     public static function run()
     {
-        if (!file_exists(systemConfig::$pathToTemp . '/dump_checked')) {
-            file_put_contents(systemConfig::$pathToTemp . '/dump_checked', time());
+        $dumpCheckedFile = systemConfig::$pathToTemp . '/dump_checked';
+        $dumpFile = systemConfig::$pathToTemp . '/../db/mzz.dump';
+        
+        if (!file_exists($dumpCheckedFile)) {
+            file_put_contents($dumpCheckedFile, time());
             return false;
         } 
         
-        $timeDiff = filemtime(systemConfig::$pathToTemp . '/dump_checked') - 
-                    filemtime(systemConfig::$pathToTemp . '/../db/mzz.dump');
+        if (!defined('MYSQL_PATH')) {        
+            return false;
+        }
+        
+        if (!is_executable(MYSQL_PATH)) {
+            return false;
+        }
+        
+        $timeDiff = filemtime($dumpCheckedFile) - filemtime($dumpFile);
 		    
         if ($timeDiff) {
-           $cmd = 'mysql -u '.escapeshellarg(systemConfig::$dbUser).
-                  (empty(systemConfig::$dbPassword) ? '' : ' -p '.escapeshellarg(systemConfig::$dbPassword)).
-                  ' < '.escapeshellarg(systemConfig::$pathToTemp . '/../db/mzz.dump');
+           $cmd = MYSQL_PATH . ' -u '.escapeshellarg(systemConfig::$dbUser) .
+                  (empty(systemConfig::$dbPassword) 
+                  ? '' 
+                  : ' -p ' . escapeshellarg(systemConfig::$dbPassword)) .
+                  ' < ' . escapeshellarg($dumpFile);
            exec($cmd);
-           file_put_contents(systemConfig::$pathToTemp . '/dump_checked', time());
+           file_put_contents($dumpCheckedFile, time());
            return true;
         }      
         return false;
