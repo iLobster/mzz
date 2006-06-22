@@ -36,14 +36,11 @@ class newsListView extends simpleView
 
         $page = ($this->getPageFromRequest() > 0) ? $this->getPageFromRequest() : 1;
 
-        $pager = new pager('/news/list', $page, 1);
+        $pager = new pager('/' . $this->httprequest->getSection() . '/' . $this->DAO->getName() . '/list', $page, 1);
 
         $this->DAO->setPager($pager);
 
-        if (($path = $this->httprequest->get(0, SC_PATH)) == false) {
-            $path = "root";
-        }
-        $this->smarty->assign('folderPath', $path);
+        $this->smarty->assign('folderPath', $this->DAO->getName());
 
         $this->smarty->assign('pager', $pager);
 
