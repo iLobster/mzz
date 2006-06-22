@@ -19,7 +19,7 @@
         <td><b>JIP</b></td>
     </tr>
     <tr>
-        <td colspan="7">{$pager} ps: не рабочий - просто посмотреть как работает воткнул</td>
+        <td colspan="7">Страницы ({$pager->getPagesTotal()}): {$pager->toString()}</td>
     </tr>
     {foreach from=$news item=current_news}
         <tr>

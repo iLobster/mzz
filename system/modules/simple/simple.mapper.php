@@ -88,7 +88,7 @@ abstract class simpleMapper implements iCacheable
      * @var string
      */
     protected $tablePostfix = null;
-    
+
     /**
     * ×èñëî çàïèñåé, âîçâğàù¸ííûõ çà ïîñëåäíèé çàïğîñ (áåç ó÷¸òà LIMIT)
     *
@@ -96,6 +96,12 @@ abstract class simpleMapper implements iCacheable
     */
     protected $count;
 
+    /**
+     * îáúåêò, èñïîëüçóåìûé äëÿ ïîñòğàíè÷íîãî âûâîäà
+     * è õğàíåíèÿ íàñòğîåê ïîñòğàíè÷íîãî âûâîäà
+     *
+     * @var pager
+     */
     protected $pager;
 
     /**
@@ -258,20 +264,20 @@ abstract class simpleMapper implements iCacheable
         if (!empty($this->pager)) {
             $qry .= " LIMIT " . ($this->pager->getPage() - 1) * $this->pager->getPerPage() . ", " . $this->pager->getPerPage();
         }
-        
+
         $stmt = $this->db->prepare($qry);
         $stmt->bindParam(':' . $name, $value);
         $stmt->execute();
-        
+
         $statement = $this->db->query('SELECT FOUND_ROWS() AS `count`');
         $res = $statement->fetchAll();
         $statement->closeCursor();
         $this->count = $res[0]['count'];
-        
+
         if (!empty($this->pager)) {
             $this->pager->setCount($res[0]['count']);
         }
-        
+
         return $stmt;
     }
     /*
@@ -332,7 +338,12 @@ abstract class simpleMapper implements iCacheable
     protected function insertDataModify(&$fields)
     {
     }
-    
+
+    /**
+     * óñòàíîâêà îáúåêòà ïåéäæåğà
+     *
+     * @param pager $pager
+     */
     public function setPager($pager)
     {
         $this->pager = $pager;

@@ -7,6 +7,7 @@ class pager
     private $perPage;
     private $itemsCount;
     private $roundItems;
+    private $pagesTotal;
 
     public function __construct($baseurl, $page, $perPage, $itemsCount = 0, $roundItems = 2)
     {
@@ -16,20 +17,25 @@ class pager
         $this->itemsCount = (int)$itemsCount;
         $this->roundItems = (int)$roundItems;
     }
-    
+
     public function getPerPage()
     {
         return $this->perPage;
     }
-    
+
     public function getPage()
     {
         return $this->page;
     }
-    
+
     public function setCount($count)
     {
         $this->itemsCount = (int)$count;
+    }
+
+    public function getPagesTotal()
+    {
+        return ceil($this->itemsCount / $this->perPage);
     }
 
     public function toArray()
@@ -46,26 +52,26 @@ class pager
             $result[] = array('skip' => true);
         }
 
-        $pagesTotal = ceil($this->itemsCount / $this->perPage);
+        $this->pagesTotal = $this->getPagesTotal();
         $left = (($tmp = $this->page - $this->roundItems) > 1) ? $tmp : 1;
-        $right = (($tmp = $this->page + $this->roundItems) < $pagesTotal) ? $tmp : $pagesTotal;
+        $right = (($tmp = $this->page + $this->roundItems) < $this->pagesTotal) ? $tmp : $this->pagesTotal;
 
         for ($i = $left; $i <= $right; $i++) {
             $result[$i] = array('page' => $i, 'url' => $url . $i);
         }
 
-        if ($this->page + $this->roundItems + 1 < $pagesTotal) {
+        if ($this->page + $this->roundItems + 1 < $this->pagesTotal) {
             $result[] = array('skip' => true);
         }
 
-        $result[$pagesTotal] = array('page' => $pagesTotal, 'url' => $url . $pagesTotal);
+        $result[$this->pagesTotal] = array('page' => $this->pagesTotal, 'url' => $url . $this->pagesTotal);
 
-        if ($this->page > $pagesTotal) {
-            $this->page = $pagesTotal;
+        if ($this->page > $this->pagesTotal) {
+            $this->page = $this->pagesTotal;
         } elseif ($this->page < 1) {
             $this->page = 1;
         }
-        
+
         $result[$this->page]['current'] = true;
 
         return $result;

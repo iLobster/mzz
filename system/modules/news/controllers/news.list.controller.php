@@ -30,19 +30,13 @@ class newsListController extends simpleController
 
     public function getView()
     {
-        //$newsFolderMapper = $this->toolkit->getCache(new newsFolderMapper($this->request->getSection()));
         $newsFolderMapper = new newsFolderMapper($this->request->getSection());
 
         if (($path = $this->request->get(0, SC_PATH)) == false) {
             $path = "root";
         }
         $newsFolder = $newsFolderMapper->searchByName($path);
-        //echo'<pre>';print_r($newsFolder); echo'</pre>';
-        //$newsFolder = new cache($newsFolder->searchByName($path), systemConfig::$pathToTemp . '/cache');
-        // так делать нельзя - потому что результаты для $newsFolder->getItems() зависят не от аргументов а от маппера
-        //$data = $newsFolder->getItems();
-       // var_dump($data);
-        //echo'<pre>';print_r($data); echo'</pre>';
+
         return new newsListView($newsFolder, $newsFolderMapper);
     }
 }

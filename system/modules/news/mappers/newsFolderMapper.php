@@ -67,7 +67,6 @@ class newsFolderMapper extends simpleMapper
                        'tree' => array('table' => $this->relationTable , 'id' =>'id'));
 
         $this->tree = new dbTreeNS($init);
-        //echo'<pre>';print_r($this); echo'</pre>';
     }
 
     /**
@@ -95,9 +94,8 @@ class newsFolderMapper extends simpleMapper
     private function createNewsFolderFromRow($row)
     {
         $map = $this->getMap();
-        $newsFolder = new newsFolder($this->this(), $map);
+        $newsFolder = new newsFolder($this, $map);
         $newsFolder->import($row);
-//        $newsFolder->count = $this->getCount();
         return $newsFolder;
     }
 
@@ -110,7 +108,6 @@ class newsFolderMapper extends simpleMapper
     {
         // выбирается только нижележащий уровень
         $rawFolders = $this->tree->getBranch($id, 1);
-        //echo'<pre>';var_dump($id); echo'</pre>';
         foreach($rawFolders as $row) {
             $folders[] = $this->createNewsFolderFromRow($row);
         }
@@ -133,38 +130,22 @@ class newsFolderMapper extends simpleMapper
 
         $result = $news->searchByFolder($id);
 
-        //$this->count = $news->getCount($id);
-
         return $result;
     }
-
-    /**
-     * Magic method __sleep
-     *
-     * @return array
-     */
+/*
     public function __sleep()
     {
         return array('name', 'section', 'tablePostfix', 'relationTable', 'cacheable', 'className', 'table', 'count', 'tree');
     }
 
-    /**
-     * Magic method __wakeup
-     *
-     */
     public function __wakeup()
     {
     }
 
-    /**
-     * Возвращает ссылку на данный объект или на объект объект cache
-     *
-     * @return object
-     */
     public function this()
     {
         return (!empty($this->cache)) ? $this->cache : $this;
-    }
+    } */
 }
 
 ?>
