@@ -1,11 +1,10 @@
-- replace 
+- заменен
 	(! is_null($type) ? $type->getName() . ' ' : '') .
-  to 
+  на
 	(! is_null($type) ? $type->getName() . ' ' : ($parameter->isArray() ? 'Array ' : '')) .
 
-  in reflection_php5.php
+  в reflection_php5.php
 
-- add static keyword in mock_objects.php: "function generate(..." -> "static function generate(..."
+- добавлено ключевое слово static в mock_objects.php: "function generate(..." -> "static function generate(..."
 
-
-					
+- добавлен E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR' в static array $map метода getSeverityAsString(), файл errors.php, строка 154
