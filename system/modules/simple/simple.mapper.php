@@ -17,7 +17,7 @@ fileLoader::load('db/sqlFunction');
  * @version 0.2.1
  */
 
-abstract class simpleMapper implements iCacheable
+abstract class simpleMapper //implements iCacheable
 {
     /**
      * Ссылка на объект Базы Данных

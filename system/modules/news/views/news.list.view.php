@@ -20,6 +20,7 @@ class newsListView extends simpleView
 {
     protected $newsFolderMapper;
     private $httprequest;
+    private $config;
 
     public function __construct($news, $newsFolderMapper)
     {
@@ -28,6 +29,7 @@ class newsListView extends simpleView
 
         $toolkit = systemToolkit::getInstance();
         $this->httprequest = $toolkit->getRequest();
+        $this->config = $toolkit->getConfig($this->httprequest->getSection(), 'news');
     }
 
     public function toString()
@@ -36,8 +38,7 @@ class newsListView extends simpleView
 
         $page = ($this->getPageFromRequest() > 0) ? $this->getPageFromRequest() : 1;
 
-        // последний аргумент - число новостей на страницу - получить его из конфига
-        $pager = new pager($this->httprequest->getUrl(), $page, 1);
+        $pager = new pager($this->httprequest->getUrl(), $page, $this->config->get('items_per_page'));
 
         $this->DAO->setPager($pager);
 

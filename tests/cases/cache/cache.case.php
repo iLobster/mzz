@@ -1,7 +1,7 @@
 <?php
 fileLoader::load('cache');
 
-class cacheStub implements iCacheable
+class cacheStub //implements iCacheable
 {
     public function isCacheable($method)
     {
@@ -25,7 +25,7 @@ class cacheStub implements iCacheable
     }
 }
 
-class cacheConditionStub implements iCacheable
+class cacheConditionStub //implements iCacheable
 {
     private $condition = null;
     public function section()
