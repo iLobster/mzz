@@ -25,7 +25,7 @@
         <tr>
             <td align="center"><a href="{url section=news action=view params=$current_news->getId()}">{$current_news->getId()}</a></td>
             <td><a href="{url section=news action=view params=$current_news->getId()}">{$current_news->getTitle()}</a></td>
-            <td>{assign var="tmp" value=$current_news->getEditor()}{$tmp->getLogin()}</td>
+            <td>{$current_news->getEditor()->getLogin()}</td>
             <td>{$current_news->getText()}</td>
             <td>{$current_news->getCreated()|date_format:"%e %B %Y / %H:%M:%S"}</td>
             <td>{$current_news->getUpdated()|date_format:"%e %B %Y / %H:%M:%S"}</td>

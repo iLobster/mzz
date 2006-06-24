@@ -73,14 +73,14 @@ abstract class simpleMapper implements iCacheable
      *
      * @var object
      */
-    protected $cache;
+    //protected $cache;
 
     /**
      * Массив кешируемых методов
      *
      * @var array
      */
-    protected $cacheable = array();
+    //protected $cacheable = array();
 
     /**
      * Постфикс имени таблицы
