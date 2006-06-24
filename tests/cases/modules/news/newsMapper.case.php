@@ -22,6 +22,9 @@ class newsMapperTest extends unitTestCase
 
         $this->db = DB::factory();
         $this->cleardb();
+
+        $stmt = $this->db->prepare('INSERT INTO `user_user` (`id`, `login`) VALUES (1, \'guest\')');
+        $stmt->execute();
     }
 
     public function setUp()
@@ -42,9 +45,12 @@ class newsMapperTest extends unitTestCase
 
     public function testSave()
     {
+        $userMapper = new userMapper('user');
+        $user = $userMapper->searchById(1);
+
         $news = new news($this->map);
         $news->setTitle('sometitle');
-        $news->setEditor('someeditor');
+        $news->setEditor($user);
         $news->setText('sometext');
         $news->setFolderId(10);
 
@@ -90,8 +96,11 @@ class newsMapperTest extends unitTestCase
         $this->assertEqual($news->getText(), 'text1');
         $this->assertIdentical($news->getFolderId(), '11');
 
+        $userMapper = new userMapper('user');
+        $user = $userMapper->searchById(1);
+
         $title = 'new_title';
-        $editor = 'new_editor';
+        $editor = $user;
         $text = 'new_text';
         $folder_id = '44';
 

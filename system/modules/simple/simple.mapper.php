@@ -151,7 +151,7 @@ abstract class simpleMapper implements iCacheable
         $fields = $object->export();
 
         if (sizeof($fields) > 0) {
-            $bindFields = $fields;
+            //$bindFields = $fields; // зачем эта строка???
             $this->insertDataModify($fields);
 
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
@@ -168,7 +168,7 @@ abstract class simpleMapper implements iCacheable
 
             $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
 
-            $stmt->bindArray($bindFields);
+            $stmt->bindArray($fields);
 
             $id = $stmt->execute();
 

@@ -37,14 +37,13 @@ class news extends simple
     public function getEditor()
     {
         if ($this->fields->exists('editor')) {
+            // сделать проверку что объект нужной инстанции. в противном случае кинуть эксепшн.
             if (is_numeric($this->fields->get('editor'))) {
                 $userMapper = new userMapper('user');
                 $user = $userMapper->searchById($this->fields->get('editor'));
-                $this->fields->set('editor', $user->getLogin());
+                $this->fields->set('editor', $user);
             }
-
             return $this->fields->get('editor');
-
         } else {
             return null;
         }
