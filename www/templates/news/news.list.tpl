@@ -1,7 +1,7 @@
 <table border="0" width="100%" cellpadding="0" cellspacing="1">
     <tr>
         <td colspan="7"><b>Папки:</b>
-        {foreach from=$newsFolderMapper->getFolders('1') item=current_folder name=folders}
+        {foreach from=$newsFolderMapper->getFolders(1) item=current_folder name=folders}
             <a href="{url section=news action=list params=$current_folder->getName()}">{$current_folder->getName()}</a>
             {if !$smarty.foreach.folders.last}
                 /
