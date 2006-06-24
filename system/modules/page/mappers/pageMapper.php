@@ -85,24 +85,18 @@ class pageMapper extends simpleMapper
         return $page;
     }
 
-    /**
-     * Magic method __sleep
-     *
-     * @return array
-     */
+    /*
     public function __sleep()
     {
         return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
     }
 
-    /**
      * Magic method __wakeup
      *
      * @return array
-     */
     public function __wakeup()
     {
-    }
+    } */
 }
 
 ?>
