@@ -46,11 +46,11 @@ class moduleResolver extends partialFileResolver
         if (preg_match('/^([a-z]+)\.factory$/i', $request, $matches) == true) {
             $request = $matches[1] . '/' . $request;
             // короткий вид news.list.controller переписываем в news/news.list.controller
-        } elseif (preg_match('/^([a-z]+)(?:\.[a-z]+){2,}$/i', $request, $matches) == true) {
+        } elseif (preg_match('/^([a-z]+)(?:\.[a-z0-9]+){2,}$/i', $request, $matches) == true) {
             $request = $matches[1] . '/' . $request;
         }
 
-        if (preg_match('/^[a-z]+(\/[a-z\.]+)+$/i', $request) == true) {
+        if (preg_match('/^[a-z]+(\/[a-z0-9\.]+)+$/i', $request) == true) {
             $result = 'modules/' . $request;
         }
 

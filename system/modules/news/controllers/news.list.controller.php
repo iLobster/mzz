@@ -36,8 +36,12 @@ class newsListController extends simpleController
             $path = "root";
         }
         $newsFolder = $newsFolderMapper->searchByName($path);
-
-        return new newsListView($newsFolder, $newsFolderMapper);
+        if ($newsFolder) {
+            return new newsListView($newsFolder, $newsFolderMapper);
+        } else {
+            fileLoader::load('news/views/news.404.view');
+            return new news404View();
+        }
     }
 }
 
