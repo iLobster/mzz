@@ -41,7 +41,7 @@ class mzz {
      * Status
      *
      */
-    const STATUS = '-dev';
+    const STATUS = '';
 
     /**
      * Revision
@@ -92,7 +92,7 @@ define('MZZ_VERSION_MINOR', 0 );
 define('MZZ_VERSION_MICRO', 4 );
 
 // Status
-define('MZZ_VERSION_STATUS', '-dev' );
+define('MZZ_VERSION_STATUS', '' );
 
 // Full version
 define('MZZ_VERSION', MZZ_VERSION_MAJOR . '.' . MZZ_VERSION_MINOR . '.' .

@@ -30,10 +30,14 @@ class pageDeleteController extends simpleController
     {
         $pageMapper = new pageMapper($this->request->getSection());
         $page = $pageMapper->searchByName($this->request->get(0, SC_PATH));
-        $pageMapper->delete($page->getId());
-        $view = new pageDeleteView();
 
-        return $view;
+        if ($page) {
+            $pageMapper->delete($page->getId());
+            return new pageDeleteView();
+        } else {
+            fileLoader::load('page/views/page.404.view');
+            return new page404View();
+        }
     }
 }
 
