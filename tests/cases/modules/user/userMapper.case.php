@@ -23,6 +23,7 @@ class userMapperTest extends unitTestCase
     public function setUp()
     {
         $this->mapper = new userMapper('user');
+        $this->cleardb();
     }
 
     public function tearDown()

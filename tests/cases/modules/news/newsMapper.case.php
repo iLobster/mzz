@@ -22,14 +22,13 @@ class newsMapperTest extends unitTestCase
 
         $this->db = DB::factory();
         $this->cleardb();
-
-        $stmt = $this->db->prepare('INSERT INTO `user_user` (`id`, `login`) VALUES (1, \'guest\')');
-        $stmt->execute();
     }
 
     public function setUp()
     {
         $this->mapper = new newsMapper('news');
+        $this->cleardb();
+        $this->db->query('INSERT INTO `user_user` (`id`, `login`) VALUES (1, \'guest\')');
     }
 
     public function tearDown()
@@ -40,7 +39,7 @@ class newsMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `news_news`');
-        //$this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
+        $this->db->query('TRUNCATE TABLE `user_user`');
     }
 
     public function testSave()

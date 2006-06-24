@@ -25,6 +25,7 @@ class groupMapperTest extends unitTestCase
     public function setUp()
     {
         $this->mapper = new groupMapper('user');
+        $this->cleardb();
     }
 
     public function tearDown()

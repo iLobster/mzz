@@ -13,7 +13,7 @@
  * pageMapper: маппер для страниц
  *
  * @package page
- * @version 0.2
+ * @version 0.2.1
  */
 
 class pageMapper extends simpleMapper
@@ -53,36 +53,22 @@ class pageMapper extends simpleMapper
      * Выполняет поиск объекта по идентификатору
      *
      * @param integer $id идентификатор
-     * @return object|false
+     * @return object|null
      */
     public function searchById($id)
     {
-        $stmt = $this->searchByField('id', $id);
-        $row = $stmt->fetch();
-
-        if ($row) {
-            return $this->createPageFromRow($row);
-        } else {
-            return false;
-        }
+        return $this->searchOneByField('id', $id);
     }
 
     /**
      * Выполняет поиск объекта по имени
      *
      * @param string $name имя
-     * @return object|false
+     * @return object|null
      */
     public function searchByName($name)
     {
-        $stmt = $this->searchByField('name', $name);
-        $row = $stmt->fetch();
-
-        if ($row) {
-            return $this->createPageFromRow($row);
-        } else {
-            return false;
-        }
+        return $this->searchOneByField('name', $name);
     }
 
     /**
@@ -91,7 +77,7 @@ class pageMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createPageFromRow($row)
+    protected function createItemFromRow($row)
     {
         $map = $this->getMap();
         $page = new page($map);

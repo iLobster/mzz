@@ -281,6 +281,29 @@ abstract class simpleMapper //implements iCacheable
         return $stmt;
     }
 
+    public function searchOneByField($name, $value)
+    {
+        $stmt = $this->searchByField($name, $value);
+        $row = $stmt->fetch();
+
+        if ($row) {
+            return $this->createItemFromRow($row);
+        }
+        return null;
+    }
+
+    public function searchAllByField($name, $value)
+    {
+        $stmt = $this->searchByField($name, $value);
+        $result = array();
+
+        while ($row = $stmt->fetch()) {
+            $result[] = $this->createItemFromRow($row);
+        }
+
+        return $result;
+    }
+
     /**
      * Возвращает Map
      *

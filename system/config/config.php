@@ -14,7 +14,7 @@
  * config: класс для работы с конфигурацией
  *
  * @package system
- * @version 0.4
+ * @version 0.4.1
 */
 class config
 {
@@ -27,12 +27,11 @@ class config
     {
         $this->section = $section;
         $this->module = $module;
-        $this->db = db::factory();
-        $this->values = $this->getValues();
     }
 
     protected function getValues()
     {
+        $this->db = db::factory();
         $stmt = $this->db->prepare("SELECT IFNULL(`val`.`name`, `val_def`.`name`) as `name`,
 IFNULL(`val`.`value`, `val_def`.`value`) as `value` FROM `sys_cfg` `cfg_def`
 INNER JOIN `sys_cfg_values` `val_def` ON `val_def`.`cfg_id` = `cfg_def`.`id` AND `cfg_def`.`section` = ''
@@ -49,6 +48,9 @@ WHERE `cfg_def`.`module` = :module");
 
     public function get($name)
     {
+        if (empty($this->values)) {
+            $this->values = $this->getValues();
+        }
         return isset($this->values[$name][0]['value']) ? $this->values[$name][0]['value'] : null;
     }
 }

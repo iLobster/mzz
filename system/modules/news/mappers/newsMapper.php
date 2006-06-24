@@ -13,7 +13,7 @@
  * newsMapper: маппер для новостей
  *
  * @package news
- * @version 0.2
+ * @version 0.2.1
  */
 
 class newsMapper extends simpleMapper
@@ -53,36 +53,22 @@ class newsMapper extends simpleMapper
      * Выполняет поиск объекта по идентификатору
      *
      * @param integer $id идентификатор
-     * @return object|false
+     * @return object|null
      */
     public function searchById($id)
     {
-        $stmt = $this->searchByField('id', $id);
-        $row = $stmt->fetch();
-
-        if ($row) {
-            return $this->createNewsFromRow($row);
-        } else {
-            return false;
-        }
+        return $this->searchOneByField('id', $id);
     }
 
     /**
      * Выполняет поиск объектов по идентификатору папки
      *
      * @param integer $id идентификатор папки
-     * @return object|false
+     * @return array
      */
     public function searchByFolder($folder_id)
     {
-        $stmt = $this->searchByField('folder_id', $folder_id);
-        $result = array();
-
-        while ($row = $stmt->fetch()) {
-            $result[] = $this->createNewsFromRow($row);
-        }
-
-        return $result;
+        return $this->searchAllByField('folder_id', $folder_id);
     }
 
     /**
@@ -91,7 +77,7 @@ class newsMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createNewsFromRow($row)
+    protected function createItemFromRow($row)
     {
         $map = $this->getMap();
         $news = new news($map);

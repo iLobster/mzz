@@ -40,7 +40,7 @@ class newsFolderMapper extends simpleMapper
      *
      * @var array
      */
-   // protected $cacheable = array('searchByName', 'getFolders', 'getItems');
+    // protected $cacheable = array('searchByName', 'getFolders', 'getItems');
 
     /**
      * Постфикс имени таблицы
@@ -64,7 +64,7 @@ class newsFolderMapper extends simpleMapper
     {
         parent::__construct($section);
         $init = array ('data' => array('table' => $this->table, 'id' =>'parent'),
-                       'tree' => array('table' => $this->relationTable , 'id' =>'id'));
+        'tree' => array('table' => $this->relationTable , 'id' =>'id'));
 
         $this->tree = new dbTreeNS($init);
     }
@@ -73,16 +73,11 @@ class newsFolderMapper extends simpleMapper
      * Выполняет поиск объекта по имени
      *
      * @param string $name имя
-     * @return object|false
+     * @return object|null
      */
     public function searchByName($name)
     {
-        $stmt = $this->searchByField('name', $name);
-        $row = $stmt->fetch();
-
-        if ($row) {
-            return $this->createNewsFolderFromRow($row);
-        }
+        return $this->searchOneByField('name', $name);
     }
 
     /**
@@ -91,7 +86,7 @@ class newsFolderMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    private function createNewsFolderFromRow($row)
+    protected function createItemFromRow($row)
     {
         $map = $this->getMap();
         $newsFolder = new newsFolder($this, $map);
@@ -109,7 +104,7 @@ class newsFolderMapper extends simpleMapper
         // выбирается только нижележащий уровень
         $rawFolders = $this->tree->getBranch($id, 1);
         foreach($rawFolders as $row) {
-            $folders[] = $this->createNewsFolderFromRow($row);
+            $folders[] = $this->createItemFromRow($row);
         }
 
         return $folders;
@@ -132,10 +127,10 @@ class newsFolderMapper extends simpleMapper
 
         return $result;
     }
-/*
+    /*
     public function __sleep()
     {
-        return array('name', 'section', 'tablePostfix', 'relationTable', 'cacheable', 'className', 'table', 'count', 'tree');
+    return array('name', 'section', 'tablePostfix', 'relationTable', 'cacheable', 'className', 'table', 'count', 'tree');
     }
 
     public function __wakeup()
@@ -144,7 +139,7 @@ class newsFolderMapper extends simpleMapper
 
     public function this()
     {
-        return (!empty($this->cache)) ? $this->cache : $this;
+    return (!empty($this->cache)) ? $this->cache : $this;
     } */
 }
 
