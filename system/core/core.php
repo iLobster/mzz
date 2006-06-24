@@ -86,10 +86,14 @@ class core
             $filter_chain->process();
             $response->send();
         } catch (Exception $e) {
-            $name = get_class($e);
-            $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());
-            $e->setName($name);
-            throw $e;
+            if (!($e instanceof mzzException))  {
+                $name = get_class($e);
+                $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());
+                $e->setName($name);
+                throw $e;
+            } else {
+                throw $e;
+            }
         }
     }
 }
