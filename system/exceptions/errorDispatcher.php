@@ -98,7 +98,10 @@ class errorDispatcher
             $msg .= $this->exception->getMessage() . "</b><br />";
             $trace_msg = $msg . '<br /><b>Trace:</b>';
 
-            $traces = $this->exception->getTrace();
+            if(($traces = $this->exception->getPrevTrace()) === null) {
+                $traces = $this->exception->getTrace();
+            }
+
             $count = count($traces);
 
             $trace_msg .= '<div style="font-size: 90%;">';

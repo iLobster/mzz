@@ -40,14 +40,22 @@ class mzzException extends Exception
     protected $file;
 
     /**
+     * Trace от предыдущего исключения
+     *
+     * @var array
+     */
+    protected $prev_trace;
+
+    /**
      * Конструктор
      *
      * @param string $message сообщение исключения
      * @param integer $code код исключения
      * @param string $line строка исключения
      * @param string $file файл исключения
+     * @param array $prev_trace trace от предыдущего исключения
      */
-    public function __construct($message, $code = 0, $line = false, $file = false)
+    public function __construct($message, $code = 0, $line = false, $file = false, $prev_trace = null)
     {
         parent::__construct($message, (int)$code);
         $this->setName('System Exception');
@@ -58,6 +66,8 @@ class mzzException extends Exception
         if ($file) {
             $this->file = $file;
         }
+
+        $this->prev_trace = $prev_trace;
     }
 
     /**
@@ -78,6 +88,16 @@ class mzzException extends Exception
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Возвращает trace от предыдущего исключения
+     *
+     * @return array|null
+     */
+    public function getPrevTrace()
+    {
+        return $this->prev_trace;
     }
 
     /**
