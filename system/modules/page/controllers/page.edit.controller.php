@@ -36,20 +36,24 @@ class pageEditController extends simpleController
             $name = $this->request->get('name', SC_POST);
         }
         $page = $pageMapper->searchByName($name);
+        if ($page) {
+            $form = pageEditForm::getForm($page, $this->request->getSection());
 
-        $form = pageEditForm::getForm($page, $this->request->getSection());
-
-        if ($form->validate() == false) {
-            $view = new pageEditView($page, $form);
+            if ($form->validate() == false) {
+                $view = new pageEditView($page, $form);
+            } else {
+                $values = $form->exportValues();
+                $page->setName($values['name']);
+                $page->setTitle($values['title']);
+                $page->setContent($values['content']);
+                $pageMapper->save($page);
+                $view = new pageEditSuccessView($page, $form);
+            }
+            return $view;
         } else {
-            $values = $form->exportValues();
-            $page->setName($values['name']);
-            $page->setTitle($values['title']);
-            $page->setContent($values['content']);
-            $pageMapper->save($page);
-            $view = new pageEditSuccessView($page, $form);
+            fileLoader::load('page/views/page.404.view');
+            return new page404View();
         }
-        return $view;
     }
 }
 

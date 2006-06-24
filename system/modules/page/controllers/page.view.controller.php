@@ -41,7 +41,12 @@ class pageViewController extends simpleController
             $name = 'main';
         }
         $page = $pageMapper->searchByName($name);
-        return new pageViewView($page);
+        if ($page) {
+            return new pageViewView($page);
+        } else {
+            fileLoader::load('page/views/page.404.view');
+            return new page404View();
+        }
     }
 }
 

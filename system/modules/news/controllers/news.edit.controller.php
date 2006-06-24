@@ -40,22 +40,27 @@ class newsEditController extends simpleController
         }
         $news = $newsMapper->searchById($id);
 
-        $form = newsEditForm::getForm($news, $this->request->getSection());
+        if ($news) {
+            $form = newsEditForm::getForm($news, $this->request->getSection());
 
-        if ($form->validate() == false) {
-            $view = new newsEditView($news, $form);
+            if ($form->validate() == false) {
+                $view = new newsEditView($news, $form);
+            } else {
+                $values = $form->exportValues();
+                $news->setTitle($values['title']);
+                $news->setEditor($user);
+                $news->setText($values['text']);
+                $newsMapper->save($news);
+
+                //$newsMapper->setInvalid();
+
+                $view = new newsEditSuccessView($news, $form);
+            }
+            return $view;
         } else {
-            $values = $form->exportValues();
-            $news->setTitle($values['title']);
-            $news->setEditor($user);
-            $news->setText($values['text']);
-            $newsMapper->save($news);
-
-            //$newsMapper->setInvalid();
-
-            $view = new newsEditSuccessView($news, $form);
+            fileLoader::load('news/views/news.404.view');
+            return new news404View();
         }
-        return $view;
     }
 }
 

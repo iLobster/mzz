@@ -34,7 +34,7 @@ class newsCreateController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
-        $newsMapper = $this->toolkit->getCache(new newsMapper($this->request->getSection()));
+        $newsMapper = new newsMapper($this->request->getSection());
         $news = $newsMapper->create();
 
 
@@ -47,12 +47,10 @@ class newsCreateController extends simpleController
 
             $values = $form->exportValues();
             $news->setTitle($values['title']);
-            $news->setEditor($user->getLogin());
+            $news->setEditor($user->getId());
             $news->setText($values['text']);
             $news->setFolderId($folder->getId());
             $newsMapper->save($news);
-
-            $newsMapper->setInvalid();
 
             $view = new newsCreateSuccessView($news, $form);
         }

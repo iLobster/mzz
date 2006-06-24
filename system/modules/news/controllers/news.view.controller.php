@@ -34,7 +34,13 @@ class newsViewController extends simpleController
             $id = 0;
         }
         $news = $newsMapper->searchById($id);
-        return new newsViewView($news);
+
+        if ($news) {
+            return new newsViewView($news);
+        } else {
+            fileLoader::load('news/views/news.404.view');
+            return new news404View();
+        }
     }
 }
 
