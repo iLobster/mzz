@@ -481,14 +481,14 @@ class dbTreeNS
     {
         return $this->db->getOne(' SELECT MAX(rkey) FROM ' .$this->table);
     }
-    public function __sleep()
+  /*  public function __sleep()
     {
         return array('table', 'dataTable', 'selectPart', 'innerPart', 'rowID');
     }
     public function __wakeup()
     {
         $this->db = DB::factory();
-    }
+    }*/
 
 }
 

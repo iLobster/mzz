@@ -8,6 +8,7 @@ class pager
     private $itemsCount;
     private $roundItems;
     private $pagesTotal;
+    private $result;
 
     public function __construct($baseurl, $page, $perPage, $itemsCount = 0, $roundItems = 2)
     {
@@ -35,45 +36,52 @@ class pager
 
     public function getPagesTotal()
     {
-        return ceil($this->itemsCount / $this->perPage);
+        if (empty($this->pagesTotal)) {
+            $this->pagesTotal = ceil($this->itemsCount / $this->perPage);
+        }
+        return $this->pagesTotal;
     }
 
     public function toArray()
     {
-        $result = array();
+        if (empty($this->result)) {
 
-        $url = $this->baseurl . (strpos($this->baseurl, '?') ? '&' : '?') . 'page=';
+            $result = array();
 
-        if ($this->itemsCount > 0) {
-            $result[1] = array('page' => 1, 'url' => $url . '1');
+            $url = $this->baseurl . (strpos($this->baseurl, '?') ? '&' : '?') . 'page=';
+
+            if ($this->itemsCount > 0) {
+                $result[1] = array('page' => 1, 'url' => $url . '1');
+            }
+
+            if ($this->page - $this->roundItems > 2) {
+                $result[] = array('skip' => true);
+            }
+
+            $pagesTotal = $this->getPagesTotal();
+            $left = (($tmp = $this->page - $this->roundItems) > 1) ? $tmp : 1;
+            $right = (($tmp = $this->page + $this->roundItems) < $pagesTotal) ? $tmp : $pagesTotal;
+
+            for ($i = $left; $i <= $right; $i++) {
+                $result[$i] = array('page' => $i, 'url' => $url . $i);
+            }
+
+            if ($this->page + $this->roundItems + 1 < $pagesTotal) {
+                $result[] = array('skip' => true);
+            }
+
+            $result[$pagesTotal] = array('page' => $pagesTotal, 'url' => $url . $pagesTotal);
+
+            if ($this->page > $pagesTotal) {
+                $this->page = $pagesTotal;
+            } elseif ($this->page < 1) {
+                $this->page = 1;
+            }
+
+            $result[$this->page]['current'] = true;
+
+            $this->result = $result;
         }
-
-        if ($this->page - $this->roundItems > 2) {
-            $result[] = array('skip' => true);
-        }
-
-        $this->pagesTotal = $this->getPagesTotal();
-        $left = (($tmp = $this->page - $this->roundItems) > 1) ? $tmp : 1;
-        $right = (($tmp = $this->page + $this->roundItems) < $this->pagesTotal) ? $tmp : $this->pagesTotal;
-
-        for ($i = $left; $i <= $right; $i++) {
-            $result[$i] = array('page' => $i, 'url' => $url . $i);
-        }
-
-        if ($this->page + $this->roundItems + 1 < $this->pagesTotal) {
-            $result[] = array('skip' => true);
-        }
-
-        $result[$this->pagesTotal] = array('page' => $this->pagesTotal, 'url' => $url . $this->pagesTotal);
-
-        if ($this->page > $this->pagesTotal) {
-            $this->page = $this->pagesTotal;
-        } elseif ($this->page < 1) {
-            $this->page = 1;
-        }
-
-        $result[$this->page]['current'] = true;
-
         return $result;
     }
 

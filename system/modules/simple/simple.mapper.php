@@ -193,7 +193,7 @@ abstract class simpleMapper implements iCacheable
         $fields = $object->export();
 
         if (sizeof($fields) > 0) {
-            $bindFields = $fields;
+            //$bindFields = $fields; // зачем эта строка???
             $this->updateDataModify($fields);
             $query = '';
             foreach(array_keys($fields) as $val) {
@@ -207,7 +207,7 @@ abstract class simpleMapper implements iCacheable
             $query = substr($query, 0, -2);
             $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
 
-            $stmt->bindArray($bindFields);
+            $stmt->bindArray($fields);
             $stmt->bindParam(':id', $object->getId(), PDO::PARAM_INT);
             $result = $stmt->execute();
 
@@ -280,11 +280,6 @@ abstract class simpleMapper implements iCacheable
 
         return $stmt;
     }
-    /*
-    public function getCount($id)
-    {
-        return $this->count;
-    }*/
 
     /**
      * Возвращает Map

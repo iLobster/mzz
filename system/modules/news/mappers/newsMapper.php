@@ -37,7 +37,7 @@ class newsMapper extends simpleMapper
      *
      * @var array
      */
-    protected $cacheable = array('searchById');
+   // protected $cacheable = array('searchById');
 
     /**
      * Создает пустой объект DO
@@ -107,6 +107,14 @@ class newsMapper extends simpleMapper
     protected function updateDataModify(&$fields)
     {
         $fields['updated'] = new sqlFunction('UNIX_TIMESTAMP');
+
+        if ($fields['editor'] instanceof user) {
+            $id = $fields['editor']->getId();
+            unset($fields['editor']);
+            $fields['editor'] = $id;
+        }
+
+        // может тут проверить "если строка - то поискать юзверя по логину и вернуть ид" ?
     }
 
     /**
@@ -118,6 +126,9 @@ class newsMapper extends simpleMapper
     {
         $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
         $fields['updated'] = $fields['created'];
+        if ($fields['editor'] instanceof user) {
+            $fields['editor'] = $fields['editor']->getId();
+        }
     }
 }
 

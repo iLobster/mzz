@@ -47,7 +47,7 @@ class newsEditController extends simpleController
         } else {
             $values = $form->exportValues();
             $news->setTitle($values['title']);
-            $news->setEditor($user->getId());
+            $news->setEditor($user);
             $news->setText($values['text']);
             $newsMapper->save($news);
 

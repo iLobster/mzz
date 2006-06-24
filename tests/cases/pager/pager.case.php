@@ -31,6 +31,9 @@ class pagerTest extends unitTestCase
         $this->assertEqual(true, $result[5]['current']);
         $this->assertEqual(array('skip' => true), $result[8]);
         $this->assertEqual(array('page' => 10, 'url' => $url . '10'), $result[10]);
+        $this->assertEqual($pager->getPage(), $page);
+        $this->assertEqual($pager->getPagesTotal(), ceil($items_count / $items_per_page));
+        $this->assertEqual($pager->getPerPage(), $items_per_page);
     }
 
     function testPagerLeft()

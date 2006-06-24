@@ -40,7 +40,7 @@ class newsFolderMapper extends simpleMapper
      *
      * @var array
      */
-    protected $cacheable = array('searchByName', 'getFolders', 'getItems');
+   // protected $cacheable = array('searchByName', 'getFolders', 'getItems');
 
     /**
      * Постфикс имени таблицы

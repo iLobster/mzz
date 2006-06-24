@@ -46,7 +46,7 @@ abstract class simple
     /**
      * ћассив кешируемых методов
      */
-    protected $cacheable = array();
+  //  protected $cacheable = array();
 
     /**
      *  онструктор.
@@ -189,10 +189,10 @@ abstract class simple
      * @param string $name им€ метода
      * @return boolean возможность кешировани€
      */
-    public function isCacheable($name)
+  /*  public function isCacheable($name)
     {
         return in_array($name, $this->cacheable);
-    }
+    }*/
 
 
 }

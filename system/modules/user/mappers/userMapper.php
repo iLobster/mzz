@@ -37,7 +37,7 @@ class userMapper extends simpleMapper
      *
      * @var array
      */
-    protected $cacheable = array('searchById', 'searchByLogin');
+  //  protected $cacheable = array('searchById', 'searchByLogin');
 
     /**
      * Конструктор
@@ -74,7 +74,7 @@ class userMapper extends simpleMapper
         if ($row) {
             return $this->createUserFromRow($row);
         } else {
-            if($id == 1) {
+            if($id === 1) {
                 throw new mzzSystemException('Отсутствует запись с ID: 1 для гостя в таблице ' . $this->table);
             }
             return $this->getGuest();

@@ -28,6 +28,27 @@ class news extends simple
     {
         return parent::getJipView('news', $this->getId(), 'news');
     }
+
+    /**
+     * Получение имени последнего исправлявшего новость
+     *
+     * @return string
+     */
+    public function getEditor()
+    {
+        if ($this->fields->exists('editor')) {
+            if (is_numeric($this->fields->get('editor'))) {
+                $userMapper = new userMapper('user');
+                $user = $userMapper->searchById($this->fields->get('editor'));
+                $this->fields->set('editor', $user->getLogin());
+            }
+
+            return $this->fields->get('editor');
+
+        } else {
+            return null;
+        }
+    }
 }
 
 ?>
