@@ -13,7 +13,7 @@
  * pageDeleteController: контроллер для метода delete модуля page
  *
  * @package page
- * @version 0.1
+ * @version 0.1.1
  */
 
 class pageDeleteController extends simpleController
@@ -29,10 +29,9 @@ class pageDeleteController extends simpleController
     public function getView()
     {
         $pageMapper = new pageMapper($this->request->getSection());
-        $page = $pageMapper->create();
-        $page->setName($this->request->get(0, SC_PATH));
-        $pageMapper->delete($page);
-        $view = new pageDeleteView($page);
+        $page = $pageMapper->searchByName($this->request->get(0, SC_PATH));
+        $pageMapper->delete($page->getId());
+        $view = new pageDeleteView();
 
         return $view;
     }
