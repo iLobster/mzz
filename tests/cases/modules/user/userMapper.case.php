@@ -34,7 +34,8 @@ class userMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `user_user`');
-        //$this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
+        $this->db->query('TRUNCATE TABLE `user_user_group`');
+        $this->db->query('TRUNCATE TABLE `user_user_group_rel`');
     }
 
     public function testSave()

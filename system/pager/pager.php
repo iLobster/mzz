@@ -14,9 +14,18 @@ class pager
     {
         $this->baseurl = $baseurl;
         $this->page = (int)$page;
-        $this->perPage = (int)$perPage;
+        $this->setPerPage($perPage);;
         $this->itemsCount = (int)$itemsCount;
         $this->roundItems = (int)$roundItems;
+    }
+
+    private function setPerPage($value)
+    {
+        if ($value < 1) {
+            $value = 10;
+        }
+
+        $this->perPage = (int)$value;
     }
 
     public function getPerPage()
@@ -37,7 +46,7 @@ class pager
     public function getPagesTotal()
     {
         if (empty($this->pagesTotal)) {
-            $this->pagesTotal = ceil($this->itemsCount / $this->perPage);
+            $this->pagesTotal = ceil($this->itemsCount / $this->getPerPage());
         }
         return $this->pagesTotal;
     }
