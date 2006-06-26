@@ -176,18 +176,18 @@ class userMapper extends simpleMapper
      *
      * @return array
      */
-    public function __sleep()
+  /*  public function __sleep()
     {
         return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
-    }
+    }*/
 
     /**
      * Magic method __wakeup
      *
      */
-    public function __wakeup()
+    /*public function __wakeup()
     {
-    }
+    }*/
 }
 
 ?>

@@ -38,6 +38,11 @@ class pager
         return $this->page;
     }
 
+    public function getItemsCount()
+    {
+        return $this->itemsCount;
+    }
+
     public function setCount($count)
     {
         $this->itemsCount = (int)$count;
@@ -97,10 +102,9 @@ class pager
     public function toString()
     {
         $toolkit = systemToolkit::getInstance();
-        $smarty = $toolkit->getSmarty();
+        $smarty = clone $toolkit->getSmarty();
         $smarty->assign('pager', $this->toArray());
-        $str = $smarty->fetch('pager.tpl');
-        return $str;
+        return $smarty->fetch('pager.tpl');
     }
 }
 

@@ -106,11 +106,22 @@ class action
     protected function getActionsConfig()
     {
         if (empty($this->actions)) {
-            $path = systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/';
-            foreach (new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
-                $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
-                $type = substr($iterator->getFilename(), 0, strlen($iterator->getFilename()) - 4);
-                $this->addActions($type, $this->iniRead($file));
+            // сделать с помощью резолвера - чтобы можно было из www загружать
+            //$path = systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/';
+            $paths = array();
+
+            if (is_dir(systemConfig::$pathToApplication . '/modules/' . $this->module . '/actions/')) {
+                $paths[] = systemConfig::$pathToApplication . '/modules/' . $this->module . '/actions/';
+            }
+            if (is_dir(systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/')) {
+                $paths[] = systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/';
+            }
+            foreach ($paths as $path) {
+                foreach (new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
+                    $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
+                    $type = substr($iterator->getFilename(), 0, strlen($iterator->getFilename()) - 4);
+                    $this->addActions($type, $this->iniRead($file));
+                }
             }
         }
         return $this->actions;

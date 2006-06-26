@@ -30,8 +30,8 @@ class core
             require_once systemConfig::$pathToSystem . '/core/fileLoader.php';
 
             $baseresolver = new compositeResolver();
-            $baseresolver->addResolver(new sysFileResolver());
             $baseresolver->addResolver(new appFileResolver());
+            $baseresolver->addResolver(new sysFileResolver());
 
             $resolver = new compositeResolver();
             $resolver->addResolver(new classFileResolver($baseresolver));
