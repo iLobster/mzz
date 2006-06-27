@@ -9,13 +9,15 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-fileLoader::load('db/sqlFunction');
+
 /**
  * simpleMapper: реализация общих методов у Mapper
  *
  * @package simple
  * @version 0.2.1
  */
+
+fileLoader::load('db/sqlFunction');
 
 abstract class simpleMapper //implements iCacheable
 {
@@ -262,7 +264,7 @@ abstract class simpleMapper //implements iCacheable
     {
         $qry = "SELECT SQL_CALC_FOUND_ROWS * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name;
         if (!empty($this->pager)) {
-            $qry .= " LIMIT " . ($this->pager->getPage() - 1) * $this->pager->getPerPage() . ", " . $this->pager->getPerPage();
+            $qry .= $this->pager->getLimitQuery();
         }
 
         $stmt = $this->db->prepare($qry);

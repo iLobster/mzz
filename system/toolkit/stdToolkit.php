@@ -105,6 +105,9 @@ class stdToolkit extends toolkit
             $this->smarty->template_dir  = systemConfig::$pathToApplication . '/templates';
             $this->smarty->compile_dir   = systemConfig::$pathToTemp . '/templates_c';
             $this->smarty->plugins_dir[] = systemConfig::$pathToSystem . '/template/plugins';
+            if (is_dir($appdir = systemConfig::$pathToApplication . '/template/plugins')) {
+                $this->smarty->plugins_dir[] = $appdir;
+            }
             $this->smarty->debugging = DEBUG_MODE;
         }
         return $this->smarty;

@@ -56,6 +56,11 @@ class pager
         return $this->pagesTotal;
     }
 
+    public function getLimitQuery()
+    {
+        return ' LIMIT ' . ($this->page - 1) * $this->perPage . ', ' . $this->perPage;
+    }
+
     public function toArray()
     {
         if (empty($this->result)) {
