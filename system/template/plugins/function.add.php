@@ -51,7 +51,7 @@ function smarty_function_add($params, $smarty)
         throw new mzzInvalidParameterException('Неверный тип ресурса', $res);
     }
 
-    if (!preg_match('/^[a-z0-9_\.?&=]+$/i', $filename)) {
+    if (!preg_match('/^[a-z0-9_\.?&=\/]+$/i', $filename)) {
         throw new mzzInvalidParameterException('Неверное имя файла', $filename);
     }
 

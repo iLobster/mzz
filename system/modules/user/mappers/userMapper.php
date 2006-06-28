@@ -37,7 +37,7 @@ class userMapper extends simpleMapper
      *
      * @var array
      */
-  //  protected $cacheable = array('searchById', 'searchByLogin');
+    //  protected $cacheable = array('searchById', 'searchByLogin');
 
     /**
      * Конструктор
@@ -128,9 +128,18 @@ class userMapper extends simpleMapper
      */
     public function login($login, $password)
     {
+        $map = $this->getMap();
+
+        if (isset($this->map['password']['decorateClass'])) {
+            $service = $this->map['password']['decorateClass'];
+            fileLoader::load('service/' . $service);
+            $service = new $service;
+            $password = $service->apply($password);
+        }
+
         $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `login` = :login AND `password` = :password");
         $stmt->bindParam(':login', $login);
-        $stmt->bindParam(':password', md5($password));
+        $stmt->bindParam(':password', $password);
         $stmt->execute();
 
         $row = $stmt->fetch();
@@ -176,9 +185,9 @@ class userMapper extends simpleMapper
      *
      * @return array
      */
-  /*  public function __sleep()
+    /*  public function __sleep()
     {
-        return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
+    return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
     }*/
 
     /**
