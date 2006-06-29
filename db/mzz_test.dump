@@ -116,19 +116,6 @@ CREATE TABLE `simple_simple_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_simpleq` table : 
-#
-
-DROP TABLE IF EXISTS `simple_simpleq`;
-
-CREATE TABLE `simple_simpleq` (
-  `id` int(11) NOT NULL auto_increment,
-  `foo` varchar(10) default NULL,
-  `bar` varchar(10) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
 # Structure for the `sys_access` table : 
 #
 
