@@ -4,7 +4,7 @@
 
 135 ( ) Class Date
 
-134 ( ) Научить class action работать с резолверами для получения ini-файлов
+134 ( ) Научить class action работать с резолверами для получения ini-файлов (в resolver is_dir?)
 
 133 (+) Убрать md5() из userMapper
 
