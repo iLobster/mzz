@@ -64,14 +64,13 @@ class userTest extends unitTestCase
     {
         $mapper = new mockuserMapper('news');
 
-        $mapper->expectOnce('getGroupsList', array(2));
-        $mapper->setReturnValue('getGroupsList', 'ok');
-/*
+        $mapper->expectOnce('getGroupsList', array('2'));
+        $mapper->setReturnValue('getGroupsList', $val = 'ok');
+
         $user = new user($mapper, $this->map);
         $user->setId(2);
         $this->mapper->save($user);
-        $this->assertEqual($val, $user->getGroupsList());*/
-        //$this->assertEqual('1', 1);
+        $this->assertEqual($val, $user->getGroupsList());
     }
 }
 

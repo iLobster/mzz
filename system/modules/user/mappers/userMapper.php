@@ -117,6 +117,11 @@ class userMapper extends simpleMapper
         return $result;
     }
 
+    public function getGroupsList()
+    {
+
+    }
+
     /**
      * Идентифицирует пользователя по логину и паролю и
      * в случае успеха устанавливает сессию

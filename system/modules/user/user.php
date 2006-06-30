@@ -52,7 +52,7 @@ class user extends simple
 
     public function getGroupsList()
     {
-        return $this->mapper->getGroupsList();
+        return $this->mapper->getGroupsList($this->getId());
     }
 }
 
