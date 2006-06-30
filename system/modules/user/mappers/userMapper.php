@@ -101,20 +101,9 @@ class userMapper extends simpleMapper
 
     public function getGroups($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->relationTable . "` `rel` INNER JOIN `" . $this->table . "` `gr` ON `rel`.`group_id` = `gr`.`id` WHERE `rel`.`user_id` = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-
-        $result = array();
-
         $groupMapper = new groupMapper('user');
+        return $groupMapper->searchByUser($id);
 
-        foreach ($rows as $row) {
-            $result[] = $groupMapper->searchById($row['id']);
-        }
-
-        return $result;
     }
 
     public function getGroupsList()

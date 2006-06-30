@@ -43,6 +43,17 @@ class groupMapper extends simpleMapper
     protected $tablePostfix = '_group';
 
     /**
+     * Конструктор
+     *
+     * @param string $section секция
+     */
+    public function __construct($section)
+    {
+        parent::__construct($section);
+        $this->relationTable = $this->table . '_rel';
+    }
+
+    /**
      * Выполняет поиск объекта по идентификатору
      *
      * @param integer $id идентификатор
@@ -64,10 +75,10 @@ class groupMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объекта по логину
+     * Выполняет поиск объекта по имени
      *
-     * @param string $login логин
-     * @return object
+     * @param string $name имя
+     * @return object|false
      */
     public function searchByName($name)
     {
@@ -79,6 +90,29 @@ class groupMapper extends simpleMapper
         } else {
             return false;
         }
+    }
+
+    /**
+     * Выполняет поиск объекта (объектов) групп по принадлежности
+     * к нему (к ним) пользователю
+     *
+     * @param string $id идентификатор пользователя
+     * @return object|false
+     */
+    public function searchByUser($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->relationTable . "` `rel` INNER JOIN `" . $this->table . "` `gr` ON `rel`.`group_id` = `gr`.`id` WHERE `rel`.`user_id` = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+
+        $result = array();
+
+        foreach ($rows as $row) {
+            $result[] = $this->createGroupFromRow($row);
+        }
+
+        return $result;
     }
 
     public function getUsers($id)
