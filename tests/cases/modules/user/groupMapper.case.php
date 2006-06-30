@@ -104,7 +104,7 @@ class groupMapperTest extends unitTestCase
         );
         $user_mapper = new userMapper('user');
         for($i = 2; $i <= 4; $i++) {
-            $user = new user($map);
+            $user = new user($user_mapper, $map);
             $user->setId($i);
             $user->setLogin('login' . $i);
             $user->setPassword('passwd' . $i);

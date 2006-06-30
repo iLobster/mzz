@@ -20,6 +20,25 @@
 class user extends simple
 {
     /**
+     * Mapper
+     *
+     * @var object
+     */
+    private $mapper;
+
+    /**
+     *  онструктор
+     *
+     * @param object $mapper
+     * @param array $map
+     */
+    public function __construct($mapper, Array $map)
+    {
+        $this->mapper = $mapper;
+        parent::__construct($map);
+    }
+
+    /**
      * ѕровер€ет €вл€етс€ ли пользователь авторизированным
      * ѕользователь считаетс€ вторизированным, если у него
      * установлен id больше 1
@@ -29,6 +48,11 @@ class user extends simple
     public function isLoggedIn()
     {
         return $this->getId() > 1;
+    }
+
+    public function getGroupsList()
+    {
+        return $this->mapper->getGroupsList();
     }
 }
 

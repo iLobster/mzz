@@ -57,7 +57,7 @@ class userMapper extends simpleMapper
      */
     public function create()
     {
-        return new user($this->getMap());
+        return new user($this, $this->getMap());
     }
 
     /**
@@ -165,7 +165,7 @@ class userMapper extends simpleMapper
     protected function createUserFromRow($row)
     {
         $map = $this->getMap();
-        $user = new user($map);
+        $user = new user($this, $map);
         $user->import($row);
         return $user;
     }

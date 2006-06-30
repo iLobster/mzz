@@ -40,7 +40,7 @@ class userMapperTest extends unitTestCase
 
     public function testSave()
     {
-        $user = new user($this->map);
+        $user = new user($this->mapper, $this->map);
         $user->setLogin($login = 'somelogin');
         $user->setPassword('somepasswd');
 
@@ -171,6 +171,11 @@ class userMapperTest extends unitTestCase
         }
     }
 
+/*    public function testGetGroupsList()
+    {
+
+    }*/
+
     private function countUsers()
     {
         $query = 'SELECT COUNT(*) AS `total` FROM `user_user`';
@@ -181,7 +186,7 @@ class userMapperTest extends unitTestCase
     private function fixture($map)
     {
         for($i = 1; $i <= 4; $i++) {
-            $user = new user($map);
+            $user = new user($this->mapper, $map);
             $user->setLogin('login' . $i);
             $user->setPassword('passwd' . $i);
             $this->mapper->save($user);

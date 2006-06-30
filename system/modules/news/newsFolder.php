@@ -31,7 +31,7 @@ class newsFolder extends simple
      *
      * @var array
      */
-    protected $cacheable = array('getItems', 'getFolders');
+    //protected $cacheable = array('getItems', 'getFolders');
 
     /**
      * Конструктор
