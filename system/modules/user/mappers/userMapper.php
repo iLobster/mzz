@@ -9,6 +9,7 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
  * userMapper: маппер для пользователей
  *
@@ -74,8 +75,8 @@ class userMapper extends simpleMapper
         if ($row) {
             return $this->createUserFromRow($row);
         } else {
-            if($id === 1) {
-                throw new mzzSystemException('Отсутствует запись с ID: 1 для гостя в таблице ' . $this->table);
+            if($id === MZZ_USER_GUEST_ID) {
+                throw new mzzSystemException('Отсутствует запись с ID: ' . MZZ_USER_GUEST_ID . ' для гостя в таблице ' . $this->table);
             }
             return $this->getGuest();
         }
@@ -145,7 +146,7 @@ class userMapper extends simpleMapper
             $session->set('user_id', $row['id']);
             return $this->createUserFromRow($row);
         } else {
-            $session->set('user_id', 1);
+            $session->set('user_id', MZZ_USER_GUEST_ID);
             return $this->getGuest();
         }
     }
@@ -165,13 +166,13 @@ class userMapper extends simpleMapper
     }
 
     /**
-     * Возвращает объект для гостя (id = 1)
+     * Возвращает объект для гостя (id = MZZ_USER_GUEST_ID)
      *
      * @return object
      */
     private function getGuest()
     {
-        return $this->searchById(1);
+        return $this->searchById(MZZ_USER_GUEST_ID);
     }
 
     /**

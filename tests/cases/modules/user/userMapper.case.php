@@ -3,6 +3,10 @@
 fileLoader::load('user/mappers/userMapper');
 fileLoader::load('user');
 
+if (!defined('MZZ_USER_GUEST_ID')) {
+    define('MZZ_USER_GUEST_ID', 1);
+}
+
 class userMapperTest extends unitTestCase
 {
     private $mapper;
@@ -48,7 +52,7 @@ class userMapperTest extends unitTestCase
 
         $this->mapper->save($user);
 
-        $this->assertIdentical($user->getId(), '1');
+        $this->assertEqual($user->getId(), 1);
         $this->assertIdentical($user->getLogin(), $login);
     }
 
@@ -64,7 +68,7 @@ class userMapperTest extends unitTestCase
     {
         $this->fixture($this->map);
         $this->assertIsA($user = $this->mapper->searchById(1), 'user');
-        $this->assertIdentical($user->getId(), '1');
+        $this->assertEqual($user->getId(), 1);
     }
 
     public function testSearchByLogin()
@@ -156,8 +160,8 @@ class userMapperTest extends unitTestCase
 
         $user = $this->mapper->login('not_exists_login', 'any_password');
 
-        $this->assertEqual($user->getId(), 1);
-        $this->assertEqual($_SESSION['user_id'], 1);
+        $this->assertEqual($user->getId(), MZZ_USER_GUEST_ID);
+        $this->assertEqual($_SESSION['user_id'], MZZ_USER_GUEST_ID);
     }
 
     public function testLoginException()
@@ -166,7 +170,7 @@ class userMapperTest extends unitTestCase
             $user = $this->mapper->login('not_exists_login', 'any_password');
             $this->fail('no exception thrown?');
         } catch (mzzSystemException $e) {
-            $this->assertPattern("/ID: 1/i", $e->getMessage());
+            $this->assertPattern("/ID: " . MZZ_USER_GUEST_ID . "/i", $e->getMessage());
             $this->pass();
         }
     }

@@ -5,6 +5,10 @@ fileLoader::load('user/mappers/userMapper');
 
 Mock::generate('userMapper');
 
+if (!defined('MZZ_USER_GUEST_ID')) {
+    define('MZZ_USER_GUEST_ID', 1);
+}
+
 class userTest extends unitTestCase
 {
     private $mapper;
@@ -44,7 +48,10 @@ class userTest extends unitTestCase
 
     public function testIsLoggedIn()
     {
-        $this->user->setId(2);
+        $id = 2;
+
+        $this->assertNotEqual($id, MZZ_USER_GUEST_ID);
+        $this->user->setId($id);
 
         $this->mapper->save($this->user);
 
@@ -53,7 +60,7 @@ class userTest extends unitTestCase
 
     public function testIsNotLoggedIn()
     {
-        $this->user->setId(1);
+        $this->user->setId(MZZ_USER_GUEST_ID);
 
         $this->mapper->save($this->user);
 

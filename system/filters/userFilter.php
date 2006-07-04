@@ -35,7 +35,7 @@ class userFilter implements iFilter
         $httprequest = $toolkit->getRequest();
         $session = $toolkit->getSession();
 
-        $user_id = $session->get('user_id', 1);
+        $user_id = $session->get('user_id', MZZ_USER_GUEST_ID);
 
         // хм... начинаем зависеть от таблы??
         //$userMapper = $toolkit->getCache(new userMapper('user'));

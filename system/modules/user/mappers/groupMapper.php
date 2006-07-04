@@ -67,6 +67,7 @@ class groupMapper extends simpleMapper
         if ($row) {
             return $this->createGroupFromRow($row);
         } else {
+            // Что это?
             if($id == 1) {
                 throw new mzzSystemException('Отсутствует запись с ID: 1 для гостя в таблице ' . $this->table);
             }

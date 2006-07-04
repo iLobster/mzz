@@ -14,7 +14,7 @@
  * user: user
  *
  * @package user
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class user extends simple
@@ -40,14 +40,14 @@ class user extends simple
 
     /**
      * Проверяет является ли пользователь авторизированным
-     * Пользователь считается вторизированным, если у него
-     * установлен id больше 1
+     * Пользователь считается таковым, если у него установлен
+     * id больше 0 и он не равен значению константы MZZ_USER_GUEST_ID
      *
      * @return boolean
      */
     public function isLoggedIn()
     {
-        return $this->getId() > 1;
+        return $this->getId() > 0 && $this->getId() !=  MZZ_USER_GUEST_ID;
     }
 
     public function getGroupsList()

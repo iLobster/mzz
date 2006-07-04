@@ -21,6 +21,13 @@ define('SYSTEM_PATH',  '../system/');
 define('SITE_PATH', '');
 define('DEBUG_MODE', 1);
 
+/**
+ * Идентификатор записи в БД для гостя
+ *
+ */
+define('MZZ_USER_GUEST_ID', 1);
+
+
 require_once(SYSTEM_PATH . 'systemConfig.php');
 
 systemConfig::$dbDriver = "pdo";
