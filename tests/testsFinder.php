@@ -4,7 +4,7 @@ class testsFinder
 {
     static public function find($dir)
     {
-        $cases = array();
+        $cases = self::getCasesList($dir);
         $dirs = self::getDirsList($dir);
 
         foreach ($dirs as $val) {
@@ -21,9 +21,9 @@ class testsFinder
     static private function getCasesList($dir)
     {
         $caseslist = array();
-        if (is_dir($dir)) {
-            $caseslist = glob($dir . '/*case.php');
-            $caseslist = array_merge($caseslist, glob($dir . '/*/*case.php'));
+        if (is_dir($dir)) { 
+            $caseslist = glob($dir . '/*.case.php');
+            //$caseslist = array_merge($caseslist, glob($dir . '/*/*case.php'));
         }
         return $caseslist;
     }
