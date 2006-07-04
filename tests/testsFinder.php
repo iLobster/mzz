@@ -31,7 +31,7 @@ class testsFinder
 
     static public function getDirsList($dir)
     {
-        $dirs = glob($dir . "/*", GLOB_ONLYDIR);
+        $dirs = glob($dir . "{/*,/*/*}", GLOB_ONLYDIR | GLOB_BRACE);
         return $dirs;
     }
 }
