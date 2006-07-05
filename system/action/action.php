@@ -9,11 +9,14 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
+fileLoader::load('iterators/mzzIniFilterIterator');
+
 /**
  * action: класс дл€ работы с actions (действи€ми модул€)
  *
  * @package system
- * @version 0.2
+ * @version 0.3
 */
 class action
 {
@@ -23,6 +26,13 @@ class action
      * @var string
      */
     protected $action;
+
+    /**
+     * “ип, в котором есть установленный Action
+     *
+     * @var string
+     */
+    protected $type = null;
 
     /**
      * Module actions
@@ -39,6 +49,15 @@ class action
     protected $module;
 
     /**
+     * ћассив путей, по которым будут выполнен поиск
+     * ini-файлов с actions-конфигурацией
+     *
+     * @var array
+     * @see addPath
+     */
+    protected $paths = array();
+
+    /**
      *  онструктор
      *
      * @param string $module им€ модул€
@@ -46,6 +65,23 @@ class action
     public function __construct($module)
     {
         $this->module = $module;
+
+        $this->addPath(systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/');
+        $this->addPath(systemConfig::$pathToApplication . '/modules/' . $this->module . '/actions/');
+    }
+
+    /**
+     * ƒобавл€ет путь к массиву с пут€ми, по которым будут выполнен поиск
+     * ini-файлов с actions-конфигурацией
+     *
+     * @param string $path
+     */
+    public function addPath($path)
+    {
+        if (in_array($path, $this->paths)) {
+            throw new mzzRuntimeException('Path "' . $path . '" already in Action.');
+        }
+        $this->paths[] = $path;
     }
 
     /**
@@ -55,8 +91,9 @@ class action
      */
     public function setAction($action)
     {
-        $tmp = $this->checkAction( $action );
-        $this->action = $tmp['controller'];
+        if ($this->type = $this->findAction($action)) {
+            $this->action = $action;
+        }
     }
 
     /**
@@ -66,26 +103,96 @@ class action
      */
     public function getAction()
     {
-        $actions = $this->getActions();
-        $this->action = $this->checkAction($this->action);
-
-        return $this->action;
+        if (empty($this->actions) && empty($this->type)) {
+            throw new mzzSystemException('Action не установлен или у модул€ "' . $this->module . '" их нет.');
+        }
+        //echo $this->module . ' =========== ' . $this->action;
+        return $this->actions[$this->type][$this->action];
     }
 
     /**
-     * ¬озвращает все допустимые действи€
+     * ѕолучение всех actions дл€ JIP
+     * Actions дл€ JIP отличаютс€ от других наличием
+     * атрибута jip = true
+     *
+     * @return array
+     */
+    public function getJipActions()
+    {
+        $jip_actions = array();
+        $actions = $this->getActions();
+        foreach ($actions as $typeActions) {
+            foreach ($typeActions as $action) {
+                if (isset($action['jip']) && $action['jip'] == true) {
+                    $jip_actions[] = array(
+                    'controller' => $action['controller'],
+                    'title' => (isset($action['title']) ? $action['title'] : null),
+                    'confirm' => (isset($action['confirm']) ? $action['confirm'] : null),
+                    );
+                }
+            }
+        }
+        return $jip_actions;
+    }
+
+    /**
+     * ƒобавл€ет actions к уже существующим. ≈сли action уже занесен в список
+     * (имеет такое же тип и им€), то он будет переписан новым значением
+     *
+     * @param string $type тип
+     * @param array $actions
+     */
+    protected function addActions($type, array $actions)
+    {
+        if (isset($this->actions[$type])) {
+            $this->actions[$type] = array_merge($this->actions[$type], $actions);
+        } else {
+            $this->actions[$type] = $actions;
+        }
+    }
+
+    /**
+     * »щет действие у модул€. Ѕросает исключение если поиск не дал
+     * результатов
+     *
+     * @param string $action действие
+     * @return boolean
+     */
+    protected function findAction($action)
+    {
+        foreach ($this->getActions() as $type => $actions) {
+            if (isset($actions[$action])) {
+                return $type;
+            }
+        }
+        throw new mzzSystemException('Action "' . $action . '" not found for module "' . $this->module. '"');
+        return false;
+    }
+
+    /**
+     * ¬озвращает все допустимые действи€ модул€
      *
      * @return array
      */
     private function getActions()
     {
-        // возможно, даже почти наверн€ка список действий будет выгл€деть немного
-        // по другому, изменим когда будет нужно
-        return $this->getActionsConfig();
+        if (empty($this->actions)) {
+            foreach ($this->paths as $path) {
+                if (!is_dir($path)) {
+                    continue;
+                }
+                foreach (new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
+                    $fileName = $iterator->getFilename();
+                    $type = substr($fileName, 0, strlen($fileName) - 4);
+                    $this->addActions($type, $this->iniRead($iterator->getPath() . '/' . $fileName));
+                }
+            }
+        }
+        return $this->actions;
     }
 
     /**
-     * „тение INI-конфига
+     * „тение INI-конфига c Actions
      *
      * @param string $filename путь до INI-файла
      * @return array
@@ -97,26 +204,77 @@ class action
         }
         return parse_ini_file($filename, true);
     }
+}
 
-    /**
-     * ѕолучение всех допустимых действий дл€ модул€
-     *
-     * @return array все доступные actions
-     */
+
+
+/*
+
+
+class action
+{
+    protected $action;
+
+
+    protected $actions = array();
+
+    protected $module;
+
+    protected $paths = array();
+
+
+    public function __construct($module)
+    {
+        $this->module = $module;
+
+        $this->addPath(systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/');
+        $this->addPath(systemConfig::$pathToApplication . '/modules/' . $this->module . '/actions/');
+    }
+
+    public function addPath($path)
+    {
+        if (in_array($path, $this->paths)) {
+            throw new mzzRuntimeException('Path "' . $path . '" already in Action.');
+        }
+        $this->paths[] = $path;
+    }
+
+    public function setAction($action)
+    { debug_print_backtrace();
+        $tmp = $this->checkAction( $action );
+        $this->action = $tmp['controller'];
+    }
+
+    public function getAction()
+    {
+        $actions = $this->getActions();
+        $this->action = $this->checkAction($this->action);
+
+        return $this->action;
+    }
+
+    private function getActions()
+    {
+    // возможно, даже почти наверн€ка список действий будет выгл€деть немного
+    // по другому, изменим когда будет нужно
+    return $this->getActionsConfig();
+    }
+
+    private function iniRead($filename)
+    {
+        if (!file_exists($filename)) {
+            throw new mzzIoException($filename);
+        }
+        return parse_ini_file($filename, true);
+    }
+
     protected function getActionsConfig()
     {
         if (empty($this->actions)) {
-            // сделать с помощью резолвера - чтобы можно было из www загружать
-            //$path = systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/';
-            $paths = array();
-
-            if (is_dir(systemConfig::$pathToApplication . '/modules/' . $this->module . '/actions/')) {
-                $paths[] = systemConfig::$pathToApplication . '/modules/' . $this->module . '/actions/';
-            }
-            if (is_dir(systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/')) {
-                $paths[] = systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/';
-            }
-            foreach ($paths as $path) {
+            foreach ($this->paths as $path) {
+                if (!is_dir($path)) {
+                    continue;
+                }
                 foreach (new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
                     $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
                     $type = substr($iterator->getFilename(), 0, strlen($iterator->getFilename()) - 4);
@@ -127,11 +285,6 @@ class action
         return $this->actions;
     }
 
-    /**
-     * ѕолучение всех actions дл€ JIP
-     *
-     * @return array
-     */
     public function getJipActions()
     {
         $jip_actions = array();
@@ -148,13 +301,6 @@ class action
         return $jip_actions;
     }
 
-    /**
-     * ƒобавл€ет actions к уже существующим. ≈сли action уже занесен в список
-     * (имеет такое же тип и им€), то он будет переписан новым значением
-     *
-     * @param string $type тип
-     * @param array $actions
-     */
     public function addActions($type, Array $actions)
     {
         if (isset($this->actions[$type])) {
@@ -164,13 +310,6 @@ class action
         }
     }
 
-    /**
-     * ѕровер€ет существует ли действие у модул€.
-     * ≈сли действие не существует, выбрасываетс€ исключение mzzSystemException
-     *
-     * @param string $action действие
-     * @return string
-     */
     private function checkAction($action)
     {
         $actions = $this->getActions();
@@ -184,5 +323,5 @@ class action
     }
 
 }
-
+*/
 ?>
