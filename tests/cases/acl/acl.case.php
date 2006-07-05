@@ -4,10 +4,17 @@ fileLoader::load('acl');
 
 class userStub
 {
+    private $id;
+    function __construct($id = 1)
+    {
+        $this->id = $id;
+    }
+
     function getId()
     {
-        return 1;
+        return $this->id;
     }
+
 
     function getGroupsId()
     {
@@ -19,6 +26,7 @@ class aclTest extends unitTestCase
 {
     private $db;
     private $acl;
+    private $user;
 
     public function __construct()
     {
@@ -29,6 +37,7 @@ class aclTest extends unitTestCase
     {
         $this->clearDb();
         $this->db->query("INSERT INTO `sys_access` (`id`, `module_property`, `type`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES (1,1,'news',1,NULL,1,NULL,1), (2,2,'news',1,NULL,1,NULL,1), (3,1,'news',NULL,1,1,1,1)");
+        $this->db->query("INSERT INTO `sys_access` (`id`, `module_property`, `type`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES (4,1,'news',2,NULL,1,NULL,0)");
         $this->db->query("INSERT INTO `sys_access_modules` (`id`, `module_id`, `section`) VALUES (1,1,'news')");
         $this->db->query("INSERT INTO `sys_access_modules_list` (`id`, `name`) VALUES (1,'news')");
         $this->db->query("INSERT INTO `sys_access_modules_properties` (`id`, `module_id`, `property_id`) VALUES (1,1,1), (2,1,2)");
@@ -65,6 +74,15 @@ class aclTest extends unitTestCase
     public function testGetAccessPartialNotExists()
     {
         $this->assertEqual($this->acl->get('somenotexistparam'), 0);
+    }
+
+    public function testRegister()
+    {
+        $acl = new acl('news', 'news', 'news', new userStub(2), $obj_id = 10);
+        $acl->register($obj_id);
+
+        $this->assertEqual(0, $acl->get('delete'));
+        $this->assertEqual(1, $acl->get('edit'));
     }
 }
 
