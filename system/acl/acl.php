@@ -170,24 +170,7 @@ class acl
         INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0 AND (`a`.`uid` > 0 OR `a`.`gid` > 0)
         WHERE `m`.`section` = :section';
 
-        $stmt = $this->db->prepare($qry);
-
-        $this->bind($stmt);
-
-        $stmt->execute();
-
-        $qry = 'INSERT INTO `sys_access` (`module_property`, `type`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
-
-        $exists = false;
-        while($row = $stmt->fetch()) {
-            $qry .= "(" . $this->db->quote($row['module_property']) . ", " . $this->db->quote($row['type']) . ", " . $this->db->quote($row['uid']) . ", " . $this->db->quote($row['gid']) . ", " . $this->db->quote($row['allow']) . ", " . $this->db->quote($row['deny']) . ", " . $this->db->quote($obj_id) . "), ";
-            $exists = true;
-        }
-        $qry = substr($qry, 0, -2);
-
-        if ($exists) {
-            $this->db->query($qry);
-        }
+        $this->doRoutine($qry, $obj_id, false);
 
         // наследование прав для автора объекта
         $qry = 'SELECT `a`.* FROM `sys_access_modules` `m`
@@ -196,22 +179,27 @@ class acl
         INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0 AND `a`.`uid` = 0
         WHERE `m`.`section` = :section';
 
+        $this->doRoutine($qry, $obj_id, true);
+    }
+
+    private function doRoutine($qry, $obj_id, $uid)
+    {
         $stmt = $this->db->prepare($qry);
 
         $this->bind($stmt);
 
         $stmt->execute();
 
-        $this->doInsertQuery($stmt);
+        $this->doInsertQuery($stmt, $obj_id, $uid);
     }
 
-    private function doInsertQuery($stmt)
+    private function doInsertQuery($stmt, $obj_id, $uid = false)
     {
         $qry = 'INSERT INTO `sys_access` (`module_property`, `type`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
 
         $exists = false;
         while($row = $stmt->fetch()) {
-            $qry .= "(" . $this->db->quote($row['module_property']) . ", " . $this->db->quote($row['type']) . ", " . $this->uid . ", NULL, " . $this->db->quote($row['allow']) . ", " . $this->db->quote($row['deny']) . ", " . $this->db->quote($obj_id) . "), ";
+            $qry .= "(" . $this->db->quote($row['module_property']) . ", " . $this->db->quote($row['type']) . ", " . ($uid ? $this->uid : $this->db->quote($row['uid'])) . ", NULL, " . $this->db->quote($row['allow']) . ", " . $this->db->quote($row['deny']) . ", " . $this->db->quote($obj_id) . "), ";
             $exists = true;
         }
         $qry = substr($qry, 0, -2);
