@@ -197,9 +197,9 @@ class acl
             if (!$row['uid'] && !$row['gid']) {
                 $qry .= $this->db->quote($this->uid) . ', NULL';
             } else {
-                $qry .= $this->db->quote($row['uid']) . ", " . $this->db->quote($row['gid']);
+                $qry .= (int)$row['uid'] . ", " . (int)$row['gid'];
             }
-            $qry .= ", " . $this->db->quote($row['allow']) . ", " . $this->db->quote($row['deny']) . ", " . $this->db->quote($obj_id) . "), ";
+            $qry .= ", " . (int)$row['allow'] . ", " . (int)$row['deny'] . ", " . (int)$obj_id . "), ";
             $exists = true;
         }
         $qry = substr($qry, 0, -2);
