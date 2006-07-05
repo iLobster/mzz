@@ -1,14 +1,20 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage filters
+ * @version $Id$
+*/
+
+fileLoader::load('session');
 
 /**
  * sessionFilter: фильтр для старта сессии
@@ -17,9 +23,6 @@
  * @subpackage filters
  * @version 0.2
  */
-
-fileLoader::load('session');
-
 class sessionFilter implements iFilter
 {
     /**

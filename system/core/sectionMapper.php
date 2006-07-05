@@ -12,12 +12,15 @@
  *
  * @link http://www.mzz.ru
  * @package system
+ * @subpackage core
  * @version $Id$
 */
 
 /**
  * sectionMapper: класс для определения имени шаблона по XML-файлу
  *
+ * @package system
+ * @subpackage core
  */
 class sectionMapper
 {

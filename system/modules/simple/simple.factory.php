@@ -9,13 +9,13 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
  * simpleFactory: фабрика
  *
  * @package simple
  * @version 0.1
  */
-
 abstract class simpleFactory
 {
     /**

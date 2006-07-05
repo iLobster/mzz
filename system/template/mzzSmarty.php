@@ -1,14 +1,18 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage template
+ * @version $Id$
+*/
 
 fileLoader::load('libs/smarty/Smarty.class');
 fileLoader::load('template/IMzzSmarty');
@@ -18,6 +22,7 @@ fileLoader::load('template/IMzzSmarty');
  *
  * @version 0.5
  * @package system
+ * @subpackage template
  */
 class mzzSmarty extends Smarty
 {

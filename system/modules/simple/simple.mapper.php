@@ -1,14 +1,19 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package simple
+ * @version $Id$
+*/
+
+fileLoader::load('db/sqlFunction');
 
 /**
  * simpleMapper: реализаци€ общих методов у Mapper
@@ -16,9 +21,6 @@
  * @package simple
  * @version 0.2.1
  */
-
-fileLoader::load('db/sqlFunction');
-
 abstract class simpleMapper //implements iCacheable
 {
     /**
@@ -283,6 +285,14 @@ abstract class simpleMapper //implements iCacheable
         return $stmt;
     }
 
+    /**
+     * »щет и возвращает одну запись по заданому имени пол€
+     * и его значению
+     *
+     * @param string $name им€ пол€
+     * @param string $value значение пол€
+     * @return object
+     */
     public function searchOneByField($name, $value)
     {
         $stmt = $this->searchByField($name, $value);
@@ -294,6 +304,14 @@ abstract class simpleMapper //implements iCacheable
         return null;
     }
 
+    /**
+     * »щет и возвращает все записи по заданому имени пол€
+     * и его значению
+     *
+     * @param string $name им€ пол€
+     * @param string $value значение пол€
+     * @return array массив с объектами
+     */
     public function searchAllByField($name, $value)
     {
         $stmt = $this->searchByField($name, $value);

@@ -1,14 +1,21 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage filters
+ * @version $Id$
+*/
+
+fileLoader::load('user');
+fileLoader::load("user/mappers/userMapper");
 
 /**
  * userFilter: фильтр для инициализации текущего пользователя
@@ -17,10 +24,6 @@
  * @subpackage filters
  * @version 0.1
  */
-
-fileLoader::load('user');
-fileLoader::load("user/mappers/userMapper");
-
 class userFilter implements iFilter
 {
     /**

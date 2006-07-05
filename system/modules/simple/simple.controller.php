@@ -9,24 +9,43 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
  * simpleController: реализация общих методов у контроллеров
  *
  * @package simple
  * @version 0.1
  */
-
 abstract class simpleController
 {
+    /**
+     * Объект Toolkit
+     *
+     * @var object
+     */
     protected $toolkit;
+
+    /**
+     * Объект Request
+     *
+     * @var iRequest
+     */
     protected $request;
 
+    /**
+     * Конструктор
+     *
+     */
     public function __construct()
     {
         $this->toolkit = systemToolkit::getInstance();
         $this->request = $this->toolkit->getRequest();
     }
 
+    /**
+     * Возвращает объект отображения
+     *
+     */
     abstract public function getView();
 }
 

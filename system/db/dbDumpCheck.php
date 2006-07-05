@@ -1,22 +1,26 @@
 <?php
-//
-// $Id: timer.php 717 2006-05-24 22:47:36Z pento $
-// $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/db/dbDumpCheck.php $
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/core/sectionMapper.php $
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage db
+ * @version $Id: sectionMapper.php 851 2006-07-05 17:33:51Z mz $
+*/
 
 /**
  * Обновляет базу, если есть более новый дамп
  *
- * @package dbDumpCheck
+ * @package system
+ * @subpackage db
  * @version 0.1
  */
-
 class dbDumpCheck
 {
     /**

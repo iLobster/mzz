@@ -19,7 +19,6 @@ fileLoader::load('dataspace/arrayDataspace');
  * @package simple
  * @version 0.1
  */
-
 abstract class simple
 {
     /**
@@ -45,8 +44,10 @@ abstract class simple
 
     /**
      * ћассив кешируемых методов
+     *
+     * @deprecated
      */
-  //  protected $cacheable = array();
+    //protected $cacheable = array();
 
     /**
      *  онструктор.
@@ -189,10 +190,12 @@ abstract class simple
      * @param string $name им€ метода
      * @return boolean возможность кешировани€
      */
-  /*  public function isCacheable($name)
+    /*
+    public function isCacheable($name)
     {
         return in_array($name, $this->cacheable);
-    }*/
+    }
+    */
 
 
 }

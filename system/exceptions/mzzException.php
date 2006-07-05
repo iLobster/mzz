@@ -1,19 +1,24 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage exceptions
+ * @version $Id$
+*/
 
 /**
  * mzzException
  *
  * @package system
+ * @subpackage exceptions
  * @version 0.3
 */
 class mzzException extends Exception
@@ -54,6 +59,7 @@ class mzzException extends Exception
      * @param string $line строка исключения
      * @param string $file файл исключения
      * @param array $prev_trace trace от предыдущего исключения
+     * @internal
      */
     public function __construct($message, $code = 0, $line = false, $file = false, $prev_trace = null)
     {

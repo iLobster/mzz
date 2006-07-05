@@ -1,14 +1,18 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage db
+ * @version $Id$
+*/
 
 define('PDO_AUTOQUERY_INSERT', 0);
 define('PDO_AUTOQUERY_UPDATE', 1);
@@ -19,6 +23,7 @@ fileLoader::load('db/drivers/mzzPdoStatement');
  * mzzPdo: драйвер для работы с базой данных через PDO
  *
  * @package system
+ * @subpackage db
  * @version 0.2.1
  */
 class mzzPdo extends PDO

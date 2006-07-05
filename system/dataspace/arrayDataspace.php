@@ -1,14 +1,18 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage dataspace
+ * @version $Id$
+*/
 
 fileLoader::load('dataspace/iDataspace');
 
@@ -16,6 +20,7 @@ fileLoader::load('dataspace/iDataspace');
  * arrayDataspace: класс для сохранение и доступа к данным через массив
  *
  * @package system
+ * @subpackage dataspace
  * @version 0.1
  */
 class arrayDataspace implements iDataspace
@@ -114,7 +119,7 @@ class arrayDataspace implements iDataspace
     {
         return $this->data;
     }
-    
+
     /**
     * Очистка Dataspace
     *
