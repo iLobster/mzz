@@ -28,12 +28,25 @@ class actionTest extends unitTestCase
         $this->assertEqual($this->action->getAction(), array("controller" => "secondController"));
     }
 
+    public function testActionSetUnknownAction()
+    {
+        try {
+            $this->action->setAction('_unknown_action_');
+            $this->fail('no exception thrown?');
+        } catch (Exception $e) {
+            $this->assertPattern("/Action \"_unknown_action_\" not/i", $e->getMessage());
+            $this->pass();
+        }
+
+    }
+
     public function testActionGetWithoutSet()
     {
         try {
             $this->action->getAction();
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
+            $this->assertPattern("/Action íå óñòàíîâëåí/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -57,6 +70,7 @@ class actionTest extends unitTestCase
             $this->action->getJipActions('_unknown_type_');
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
+            $this->assertPattern("/Òèï \"_unknown_type_\" ó ìîäóëÿ/i", $e->getMessage());
             $this->pass();
         }
     }

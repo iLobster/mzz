@@ -29,7 +29,7 @@ function smarty_function_add($params, $smarty)
     $valid_resources = array('css', 'js');
 
     if (empty($params['file'])) {
-        throw new mzzInvalidParameterException('Пустой аттрибут', 'file');
+        throw new mzzInvalidParameterException('Пустой атрибут', 'file');
     }
 
     // определяем тип ресурса
