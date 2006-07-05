@@ -176,7 +176,13 @@ class acl
         $this->doRoutine($qry, $obj_id);
     }
 
-    private function getQuery($author = false)
+    /**
+     * метод получения запроса
+     *
+     * @return string
+     * @see register()
+     */
+    private function getQuery()
     {
         return 'SELECT `a`.* FROM `sys_access_modules` `m`
         INNER JOIN `sys_access_modules_list` `ml` ON `m`.`module_id` = `ml`.`id` AND `ml`.`name` = :module
@@ -185,6 +191,14 @@ class acl
         WHERE `m`.`section` = :section';
     }
 
+    /**
+     * метод по созданию стейтмента, передаче в него параметров и выполнения
+     * полученные данные передаются далее для выполнения запроса вставки прав в соответствующую таблицу
+     *
+     * @param string $qry строка запроса
+     * @param integer $obj_id уникальный id объекта
+     * @see register()
+     */
     private function doRoutine($qry, $obj_id)
     {
         $stmt = $this->db->prepare($qry);
@@ -196,6 +210,13 @@ class acl
         $this->doInsertQuery($stmt, $obj_id);
     }
 
+    /**
+     * метод, осуществляющий вставку в таблицу прав записей прав
+     *
+     * @param mzzStatement $stmt
+     * @param integer $obj_id уникальный id объекта
+     * @see doRoutine()
+     */
     private function doInsertQuery($stmt, $obj_id)
     {
         $qry = 'INSERT INTO `sys_access` (`module_property`, `type`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
@@ -222,6 +243,8 @@ class acl
      * метод инициализации объекта работы с базой данных
      * запускается при надобности
      *
+     * @see get()
+     * @see register()
      */
     private function initDb()
     {
@@ -230,6 +253,13 @@ class acl
         }
     }
 
+    /**
+     * бинд всех переменных в стейтмент
+     *
+     * @param mzzStatement $stmt
+     * @see get()
+     * @see doRoutine()
+     */
     private function bind($stmt)
     {
         $stmt->bindParam(':section', $this->section);
