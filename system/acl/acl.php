@@ -35,14 +35,14 @@ class acl
     /**
      * имя раздела
      *
-     * @var unknown_type
+     * @var string
      */
     private $section;
 
     /**
      * тип объекта
      *
-     * @var unknown_type
+     * @var string
      */
     private $type;
 
@@ -56,7 +56,7 @@ class acl
     /**
      * id пользователя, у которого будут проверяться права
      *
-     * @var unknown_type
+     * @var integer
      */
     private $uid;
 
@@ -84,7 +84,7 @@ class acl
      * @param user $user
      * @param integer $object_id
      */
-    public function __construct($module, $section, $type, $user, $object_id = 0)
+    public function __construct($module, $section, $type, $user = null, $object_id = 0)
     {
         $this->module = $module;
         $this->section = $section;
@@ -163,10 +163,11 @@ class acl
     {
         $this->initDb();
 
+        // наследование прав для пользователей и групп
         $qry = 'SELECT `a`.* FROM `sys_access_modules` `m`
         INNER JOIN `sys_access_modules_list` `ml` ON `m`.`module_id` = `ml`.`id` AND `ml`.`name` = :module
         INNER JOIN `sys_access_modules_properties` `mp` ON `mp`.`module_id` = `m`.`id`
-        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0
+        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0 AND (`a`.`uid` > 0 OR `a`.`gid` > 0)
         WHERE `m`.`section` = :section';
 
         $stmt = $this->db->prepare($qry);
@@ -180,6 +181,37 @@ class acl
         $exists = false;
         while($row = $stmt->fetch()) {
             $qry .= "(" . $this->db->quote($row['module_property']) . ", " . $this->db->quote($row['type']) . ", " . $this->db->quote($row['uid']) . ", " . $this->db->quote($row['gid']) . ", " . $this->db->quote($row['allow']) . ", " . $this->db->quote($row['deny']) . ", " . $this->db->quote($obj_id) . "), ";
+            $exists = true;
+        }
+        $qry = substr($qry, 0, -2);
+
+        if ($exists) {
+            $this->db->query($qry);
+        }
+
+        // наследование прав для автора объекта
+        $qry = 'SELECT `a`.* FROM `sys_access_modules` `m`
+        INNER JOIN `sys_access_modules_list` `ml` ON `m`.`module_id` = `ml`.`id` AND `ml`.`name` = :module
+        INNER JOIN `sys_access_modules_properties` `mp` ON `mp`.`module_id` = `m`.`id`
+        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0 AND `a`.`uid` = 0
+        WHERE `m`.`section` = :section';
+
+        $stmt = $this->db->prepare($qry);
+
+        $this->bind($stmt);
+
+        $stmt->execute();
+
+        $this->doInsertQuery($stmt);
+    }
+
+    private function doInsertQuery($stmt)
+    {
+        $qry = 'INSERT INTO `sys_access` (`module_property`, `type`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
+
+        $exists = false;
+        while($row = $stmt->fetch()) {
+            $qry .= "(" . $this->db->quote($row['module_property']) . ", " . $this->db->quote($row['type']) . ", " . $this->uid . ", NULL, " . $this->db->quote($row['allow']) . ", " . $this->db->quote($row['deny']) . ", " . $this->db->quote($obj_id) . "), ";
             $exists = true;
         }
         $qry = substr($qry, 0, -2);
