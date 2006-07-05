@@ -30,7 +30,7 @@ class DB
     public static function factory()
     {
         if (self::$callback == false) {
-            $toolkit = systemToolkit::getInstance();
+            //$toolkit = systemToolkit::getInstance();
             $driverName = systemConfig::$dbDriver;
             $driver = 'mzz' . ucfirst($driverName);
             fileLoader::load('db/drivers/' . $driver);
