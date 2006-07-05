@@ -9,7 +9,9 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-
+if (!defined("E_RECOVERABLE_ERROR")) {
+    define("E_RECOVERABLE_ERROR", 1<<12);
+}
 /**
  * phpErrorException
  *
