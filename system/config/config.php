@@ -18,17 +18,53 @@
 */
 class config
 {
+    /**
+     * Секция, для которой будет получена конфигурация
+     *
+     * @var string
+     * @see __construct()
+     */
     protected $section;
+
+    /**
+     * Модуль, для которого будет получена конфигурация
+     *
+     * @var string
+     * @see __construct()
+     */
     protected $module;
+
+    /**
+     * Значения конфигурации для заданной секции и модуля
+     *
+     * @var array
+     */
     protected $values = array();
+
+    /**
+     * Ссылка на объект БД
+     *
+     * @var object
+     */
     protected $db;
 
+    /**
+     * Конструктор
+     *
+     * @param string $section имя секции
+     * @param string $module имя модуля
+     */
     public function __construct($section, $module)
     {
         $this->section = $section;
         $this->module = $module;
     }
 
+    /**
+     * Запрос на получение всех значений конфигурации
+     *
+     * @return array
+     */
     protected function getValues()
     {
         $this->db = db::factory();
@@ -46,6 +82,13 @@ WHERE `cfg_def`.`module` = :module");
         return $stmt->fetchAll(PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
     }
 
+    /**
+     * Получает конкретное значение из конфигурации
+     *
+     * @param string $name имя значения
+     * @return string|null
+     * @see getValues()
+     */
     public function get($name)
     {
         if (empty($this->values)) {

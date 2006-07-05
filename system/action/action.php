@@ -53,7 +53,7 @@ class action
      * ini-файлов с actions-конфигурацией
      *
      * @var array
-     * @see addPath
+     * @see addPath()
      */
     protected $paths = array();
 

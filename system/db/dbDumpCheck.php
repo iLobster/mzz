@@ -19,48 +19,53 @@
 
 class dbDumpCheck
 {
+    /**
+     * Запуск проверки и загрузки дампов в MySQL если они обновились.
+     *
+     * @return boolean
+     */
     public static function run()
     {
         $dumpCheckedFile = systemConfig::$pathToTemp . '/dump_checked';
         $dumpFile        = systemConfig::$pathToTemp . '/../db/mzz.dump';
         $dumpFileTest    = systemConfig::$pathToTemp . '/../db/mzz_test.dump';
-        
+
         if (!file_exists($dumpCheckedFile)) {
             file_put_contents($dumpCheckedFile, time());
             return false;
-        } 
-           
-        if (!defined('MYSQL_PATH')) {        
+        }
+
+        if (!defined('MYSQL_PATH')) {
             return false;
         }
-    
+
         if (!is_executable(MYSQL_PATH)) {
             return false;
         }
-        
-        
+
+
         $timeDiff = filemtime($dumpFile) - filemtime($dumpCheckedFile);
-        
+
         if ($timeDiff > 0) {
-            
+
            $cmd = MYSQL_PATH . ' -u '.escapeshellarg(systemConfig::$dbUser) .
-                  (empty(systemConfig::$dbPassword) 
-                  ? '' 
+                  (empty(systemConfig::$dbPassword)
+                  ? ''
                   : ' -p ' . escapeshellarg(systemConfig::$dbPassword)) .
                   ' < ' . escapeshellarg($dumpFile);
            exec($cmd);
-           
+
            $cmd = MYSQL_PATH . ' -u '.escapeshellarg(systemConfig::$dbUser) .
-                  (empty(systemConfig::$dbPassword) 
-                  ? '' 
+                  (empty(systemConfig::$dbPassword)
+                  ? ''
                   : ' -p ' . escapeshellarg(systemConfig::$dbPassword)) .
                   ' < ' . escapeshellarg($dumpFileTest);
            exec($cmd);
-           
+
            file_put_contents($dumpCheckedFile, time());
-           
+
            return true;
-        }      
+        }
         return false;
     }
 }

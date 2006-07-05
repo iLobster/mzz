@@ -54,7 +54,7 @@ class frontController
             $template_name = $this->getRewritedTemplate($section);
             if($template_name == false)
             {
-                // redirect for 404
+                // redirect to 404 page
                 $this->request->setSection('page');
                 $this->request->setParam(0, '404');
                 $this->request->setAction('view');
