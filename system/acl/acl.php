@@ -180,7 +180,7 @@ class acl
      * метод получения запроса
      *
      * @return string
-     * @see register()
+     * @see acl::register()
      */
     private function getQuery()
     {
@@ -197,7 +197,7 @@ class acl
      *
      * @param string $qry строка запроса
      * @param integer $obj_id уникальный id объекта
-     * @see register()
+     * @see acl::register()
      */
     private function doRoutine($qry, $obj_id)
     {
@@ -215,7 +215,7 @@ class acl
      *
      * @param mzzStatement $stmt
      * @param integer $obj_id уникальный id объекта
-     * @see doRoutine()
+     * @see acl::doRoutine()
      */
     private function doInsertQuery($stmt, $obj_id)
     {
@@ -243,8 +243,8 @@ class acl
      * метод инициализации объекта работы с базой данных<br>
      * запускается при надобности
      *
-     * @see get()
-     * @see register()
+     * @see acl::get()
+     * @see acl::register()
      */
     private function initDb()
     {
@@ -257,8 +257,8 @@ class acl
      * бинд всех переменных в стейтмент
      *
      * @param mzzStatement $stmt
-     * @see get()
-     * @see doRoutine()
+     * @see acl::get()
+     * @see acl::doRoutine()
      */
     private function bind($stmt)
     {

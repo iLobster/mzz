@@ -2,13 +2,19 @@
 <head>
     <title>Стандарты кодирования MZZ.cms</title>
     <style type="text/css">
+        body { font-family: Arial, Verdana, Tahoma; font-size: 100%; color: black; line-height: 120%; background-color: white; }
         div.example { width: 95%; background-color: #EFEFEF; padding: 10px;
                       border: 5px #FFFFFF solid; }
         div.remark  { width: 80%;  padding: 5px;
                       padding-left: 25px; border: 10px #FFFFFF solid; }
+        hr { border: 1px solid #C4C4C4; margin-top: 25px; }
+        h3 { font-size: 90%; }
+        h2 { font-size: 120%; }
+        a { color: #0B5F9D; }
+        a:hover { color: #063D64; }
     </style>
 </head>
-<body bgcolor="#FFFFFF">
+<body>
 
 <h1>Стандарты кодирования</h1>
 <hr>
@@ -17,21 +23,22 @@
 <a href="#1">Отступы</a><br>
 <a href="#2">Управляющие структуры</a><br>
 <a href="#3">Вызовы функций</a><br>
-<a href="#4">Определения функций/классов/методов</a><br>
+<a href="#4">Определения функций/классов/методов/свойств</a><br>
 <a href="#5">Комментарии</a><br>
 <a href="#6">Подключение кода (including)</a><br>
 <a href="#7">Тэги PHP-кода</a><br>
 <a href="#8">Блок комментариев в заголовке</a><br>
 <a href="#9">Примеры URLов</a><br>
 <a href="#10">Соглашения об именах</a><br>
-<a href="#11">Шаблоны</a><br>
+<a href="#11">Формат файлов</a><br>
+<a href="#12">Шаблоны</a><br>
 <!-- End of menu -->
 <hr><h2><a name="main">Главное правило</a></h2>
-<h3><u>Сначала тест - потом класс.</u></h3>
+<h3><u>Сначала тест - потом код.</u></h3>
 
 
 <hr><h2><a name="0">О версии PHP</a></h2>
-Используйте только синтаксис PHP5. Его главное отличие от синтаксиса PHP4 - объекты передаются по-умолчанию по ссылке. Используйте для решения задач новые библиотеки PHP5 (SPL, SimpleXML, MySQLi и т.п.). Приложение
+Используйте только синтаксис PHP5. Его главное отличие от синтаксиса PHP4 - объекты передаются по-умолчанию по ссылке. Используйте для решения задач новые библиотеки PHP5 (SPL, SimpleXML, PDO и т.п.). Приложение
 должно работать без ошибок даже при 'error_reporting = E_ALL | E_STRICT'. Исключение - сторонние библиотеки (Smarty, PEAR, SimpleTest).
 
 <hr><h2><a name="1">Отступы</a></h2>
@@ -93,18 +100,15 @@ Cинтаксис оператора switch:
 <div class="example">
 <pre>
 switch (condition) {
-case 1:
-    action1;
-    break;
-
-case 2:
-    action2;
-    break;
-
-default:
-    defaultaction;
-    break;
-
+    case 1:
+        action1;
+        break;
+    case 2:
+        action2;
+        break;
+    default:
+        defaultaction;
+        break;
 }
 </pre>
 </div>
@@ -128,7 +132,7 @@ $long_variable = foo($baz);
 </div>
 
 
-<hr><h2><a name="4">Определения функций/классов/методов</a></h2>
+<hr><h2><a name="4">Определения функций/классов/методов/свойств</a></h2>
 
 Определения функций следуют такому cоглашению:
 <div class="example">
@@ -142,11 +146,15 @@ function fooFunction($arg1, $arg2 = '')
 }
 </pre>
 </div>
-Определения классов и методов следуют такому же cоглашению:
+Определения классов и методов следуют такому же cоглашению. Свойства класса и методы должны быть определены как public, private, или protected. Использование var, алиас public, для определения свойства класса не допускается.
 <div class="example">
 <pre>
 class foo
 {
+    public $foo;
+    protected $some;
+    private $bar = "Default value";
+
     public function fooFunction($arg1, $arg2 = '')
     {
         if (condition) {
@@ -183,7 +191,7 @@ function connect($dsn, $persistent = false)
 <br>
 Дополнительные комментарии, кроме тех, что предусмотрены PHPDoc, только приветствуются. Основное правило в данном случае - каждая часть кода повышенной сложности должна быть прокомментирована до того, как вы забыли как она работает.<br>
 <br>
-Подходят комментарии в стилях C (/* */) и C++ (//). Использование комментариев в стиле Perl/shell (#) не рекомендуется.
+Подходят комментарии в стилях C (/* */) и C++ (//). <u>Использование комментариев в стиле Perl/shell (#) не допускается. </u>
 
 <hr><h2><a name="6">Подключение кода (including)</a></h2>
 
@@ -201,18 +209,21 @@ function connect($dsn, $persistent = false)
 
 <div class="example">
 <pre>
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+*/
 </pre>
 </div>
+При необходимости в шапке можно использовать теги PHPDoc
 <hr><h2><a name="9">Примеры URLов</a></h2>
 Используйте "example.com" для примеров URLов, как описано в RFC 2606.
 
@@ -225,26 +236,31 @@ function connect($dsn, $persistent = false)
 
 Имена классов должны быть удобочитаемыми и понятными. Избегайте использования аббревиатур там, где это возможно. Имена классов должны начинаться с буквы в нижнем регистре. Иерархия классов также отражается на именах классов, каждый уровень отделяется заглавной буковй. Примеры хороших имен классов:
 <br><br>
-<table border="1" cellpadding="1" cellspacing="1">
-<tr>
-    <td>dbFactory</td>
-    <td>fileResolver</td>
-    <td>core</td>
-</tr>
-</table>
+
+<div class="example">
+<pre>
+class <b>core</b> { ..}
+class <b>fileResolver</b> {...}
+class <b>dbFactory</b> {...}
+</pre>
+</div>
+
 
 <h3>Функции и методы</h3>
 
 Функции и методы должны использовать "венгерскую нотацию" (в другом варианте - "верблюжачью" =)). Функции также должны иметь префикс в виде имени пакета для того, чтобы избежать проблем с аналогичными функциями из других пакетов. Первая буква в имени функции должна быть в нижнем регистре, каждая первая буква "слова" в имени функции - в верхнем. Несколько примеров:
 <br><br>
-<table border="1" cellpadding="1" cellspacing="1">
-<tr>
-    <td>connect()</td>
-    <td>parseData()</td>
-    <td>getNumbers()</td>
-    <td>xmlParser()</td>
-</tr>
-</table>
+<div class="example">
+<pre>
+class sample
+{
+    function <b>connect</b>() {...}
+    function <b>parseData</b>() {...}
+    function <b>getNumbers</b>() {...}
+    function <b>xmlParser</b>() {...}
+}
+</pre>
+</div>
 <br>
 
 <h3>Константы</h3>
@@ -256,13 +272,19 @@ function connect($dsn, $persistent = false)
 <h3>Встроенные переменные TRUE, FALSE, NULL</h3>
 Встроенные переменные PHP TRUE, FALSE and NULL должны быть написаны в нижнем регистре.
 <br>
-<hr><h2><a name="11">Шаблоны</a></h2>
+
+<hr><h2><a name="11">Формат файлов</a></h2>
+Все скрипты должны быть сохранены в файле с расширением ".php" как ASCII текст в кодировке Windows-1251.<br>
+Если PHP теги являются началом и/или концом файла, то старайтесь не делать переводов строк и пробелов перед и после них.
+<br>
+
+<hr><h2><a name="12">Шаблоны</a></h2>
 Существует два типа шаблонов: <br> <i>1. Активные </i> - которые отвечают за загрузку модуля.<br> <i>1. Пассивные</i> - которые получают и подготавливают информацию, полученную от модуля, к выводу.<br><br>
-Для разделения активных и пассивных шаблонов введен специальный префикс "act.". Так, имена активных шаблонов имеют вид: <i>'act.секция.действие.tpl'</i>, пассивных же: <i>'модуль.действие.tpl'</i>. <br>Активные шаблоны обычно содержат две строки:
+Для разделения активных и пассивных шаблонов введен специальный префикс "act.". Так, имена активных шаблонов имеют вид: <i>'act.секция.действие.tpl'</i>, пассивных же: <i>'модуль.действие.tpl'</i>. <br>Активные шаблоны обычно содержат две строки (квадратными скобками выделены необязательные аргументы):
 <div class="example">
 <pre>
 {* main="шаблон-получатель" placeholder="место, предназначенное для вставки результата работы пассивного шаблона" *}
-{load module="модуль" action="действие"}
+{load module="модуль" action="действие" [section="секция"] [args="аргументы"]}
 </pre>
 </div>
 Первая строка должна начинаться строго с открывающейся фигурной скобки "{", звездочки "*", одного пробела " " и описывает место и шаблон в которое будет вставлен результат. Вторая строка отвечает за получения результата выполнения модуля и имеет вид в соответствии с пассивным шаблоном.<br>
@@ -270,7 +292,7 @@ function connect($dsn, $persistent = false)
 <br><br>
 <hr>
 <div align="right">
-<i>Редакция от 28 января 2006, оригинал <a href="http://pear.php.net/manual/">http://pear.php.net/manual/</a></i>
+<i>Редакция от 6 июля 2006, основано на <a href="http://pear.php.net">"PEAR Coding Standards"</a></i>
 </div>
 </body>
 </html>
