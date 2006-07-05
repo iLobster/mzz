@@ -125,13 +125,13 @@ CREATE TABLE `sys_access` (
   `id` int(11) NOT NULL auto_increment,
   `module_property` int(11) default NULL,
   `type` char(255) default NULL,
+  `obj_id` int(11) default NULL,
   `uid` int(11) default NULL,
   `gid` int(11) default NULL,
   `allow` tinyint(1) default NULL,
   `deny` tinyint(1) default NULL,
-  `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `module_property_id` (`module_property`,`obj_id`,`type`)
+  KEY `module_property_id` (`module_property`,`obj_id`,`type`,`uid`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -145,7 +145,7 @@ CREATE TABLE `sys_access_modules` (
   `module_id` int(11) default NULL,
   `section` char(255) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `module_section` (`module_id`,`section`)
+  KEY `module_section` (`section`,`module_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
