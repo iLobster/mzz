@@ -14,7 +14,7 @@
  * phpErrorException
  *
  * @package system
- * @version 0.1
+ * @version 0.1.1
 */
 class phpErrorException extends mzzException
 {
@@ -40,7 +40,8 @@ class phpErrorException extends mzzException
                E_USER_ERROR      => "User Error",
                E_USER_WARNING    => "User Warning",
                E_USER_NOTICE     => "User Notice",
-               E_STRICT          => "Runtime Notice"
+               E_STRICT          => "Runtime Notice",
+               E_RECOVERABLE_ERROR => "Recoverable Error"
                );
 
         $etype = (isset($errortype[$errno])) ? $errortype[$errno] : 'Unknown';
