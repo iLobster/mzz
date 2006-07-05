@@ -11,6 +11,8 @@
 //
 /**
  * Содержит версию и имя релиза MZZ CMS
+ *
+ * @package system
  */
 class mzz {
     /**

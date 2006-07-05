@@ -14,6 +14,7 @@
  * userFilter: фильтр для инициализации текущего пользователя
  *
  * @package system
+ * @subpackage filters
  * @version 0.1
  */
 

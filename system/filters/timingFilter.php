@@ -14,6 +14,7 @@
  * timingFilter: фильтр для подсчета времени выполнения скрипта
  *
  * @package system
+ * @subpackage filters
  * @version 0.2
  */
 

@@ -14,6 +14,7 @@
  * filterChain: реализация цепочки обязанностей для фильтров
  *
  * @package system
+ * @subpackage filters
  * @version 0.1
  */
 

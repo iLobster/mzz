@@ -14,6 +14,7 @@
  * sessionFilter: фильтр для старта сессии
  *
  * @package system
+ * @subpackage filters
  * @version 0.2
  */
 
@@ -38,7 +39,7 @@ class sessionFilter implements iFilter
         $session->start();
 
         $filter_chain->next();
-        
+
         //$session->stop(); ??
     }
 }

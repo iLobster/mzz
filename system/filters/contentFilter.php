@@ -14,6 +14,7 @@
  * contentFilter: фильтр получения и отображения контента
  *
  * @package system
+ * @subpackage filters
  * @version 0.2
  */
 class contentFilter implements iFilter

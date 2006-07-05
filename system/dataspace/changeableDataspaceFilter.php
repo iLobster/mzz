@@ -14,6 +14,9 @@ fileLoader::load('dataspace/iValueFilter');
 /**
  * changeableDataspaceFilter: write/read фильтры
  *
+ * @package system
+ * @subpackage dataspace
+ *
  */
 class changeableDataspaceFilter implements iDataspace
 {

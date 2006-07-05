@@ -14,6 +14,7 @@
  * iFilter: интерфейс фильтра
  *
  * @package system
+ * @subpackage filters
  * @version 0.1
  */
 

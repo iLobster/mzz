@@ -12,6 +12,8 @@
 /**
  * systemConfig: статический класс для хранения путей
  *
+ * @package system
+ *
  */
 class systemConfig {
 
