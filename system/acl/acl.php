@@ -163,17 +163,8 @@ class acl
     {
         $this->initDb();
 
-        // наследование прав для пользователей и групп
-        $this->inherit($obj_id, false);
-
-        // наследование прав для автора объекта
-        $this->inherit($obj_id, true);
-    }
-
-    private function inherit($obj_id, $author)
-    {
-        $qry = $this->getQuery($author);
-        $this->doRoutine($qry, $obj_id, $author);
+        $qry = $this->getQuery();
+        $this->doRoutine($qry, $obj_id);
     }
 
     private function getQuery($author = false)
@@ -181,11 +172,11 @@ class acl
         return 'SELECT `a`.* FROM `sys_access_modules` `m`
         INNER JOIN `sys_access_modules_list` `ml` ON `m`.`module_id` = `ml`.`id` AND `ml`.`name` = :module
         INNER JOIN `sys_access_modules_properties` `mp` ON `mp`.`module_id` = `m`.`id`
-        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0 AND ' . ($author ? '`a`.`uid` = 0'  : '(`a`.`uid` > 0 OR `a`.`gid` > 0)') .
-        ' WHERE `m`.`section` = :section';
+        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0
+        WHERE `m`.`section` = :section';
     }
 
-    private function doRoutine($qry, $obj_id, $uid)
+    private function doRoutine($qry, $obj_id)
     {
         $stmt = $this->db->prepare($qry);
 
@@ -193,16 +184,22 @@ class acl
 
         $stmt->execute();
 
-        $this->doInsertQuery($stmt, $obj_id, $uid);
+        $this->doInsertQuery($stmt, $obj_id);
     }
 
-    private function doInsertQuery($stmt, $obj_id, $uid = false)
+    private function doInsertQuery($stmt, $obj_id)
     {
         $qry = 'INSERT INTO `sys_access` (`module_property`, `type`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
 
         $exists = false;
         while($row = $stmt->fetch()) {
-            $qry .= "(" . $this->db->quote($row['module_property']) . ", " . $this->db->quote($row['type']) . ", " . ($uid ? $this->uid : $this->db->quote($row['uid'])) . ", NULL, " . $this->db->quote($row['allow']) . ", " . $this->db->quote($row['deny']) . ", " . $this->db->quote($obj_id) . "), ";
+            $qry .= "(" . $this->db->quote($row['module_property']) . ", " . $this->db->quote($row['type']) . ", ";
+            if (!$row['uid'] && !$row['gid']) {
+                $qry .= $this->db->quote($this->uid) . ', NULL';
+            } else {
+                $qry .= $this->db->quote($row['uid']) . ", " . $this->db->quote($row['gid']);
+            }
+            $qry .= ", " . $this->db->quote($row['allow']) . ", " . $this->db->quote($row['deny']) . ", " . $this->db->quote($obj_id) . "), ";
             $exists = true;
         }
         $qry = substr($qry, 0, -2);
