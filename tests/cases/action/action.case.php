@@ -41,11 +41,24 @@ class actionTest extends unitTestCase
     public function testActionGetJipActions()
     {
         $jipActions = array(
-        array ('controller' => 'foo', 'title' => NULL, 'confirm' => NULL),
+        array ('controller' => 'foo', 'title' => NULL, 'confirm' => NULL)
+        );
+        $this->assertEqual($this->action->getJipActions('firstActions'), $jipActions);
+
+        $jipActions = array(
         array ('controller' => 'bar', 'title' => 'someTitle', 'confirm' => 'confirm message')
         );
+        $this->assertEqual($this->action->getJipActions('secondActions'), $jipActions);
+    }
 
-        $this->assertEqual($this->action->getJipActions(), $jipActions);
+    public function testActionGetJipActionsException()
+    {
+        try {
+            $this->action->getJipActions('_unknown_type_');
+            $this->fail('no exception thrown?');
+        } catch (Exception $e) {
+            $this->pass();
+        }
     }
 }
 ?>

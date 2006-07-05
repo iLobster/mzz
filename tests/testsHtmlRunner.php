@@ -38,7 +38,7 @@ class testsHtmlRunner implements iFilter
         }
         echo '</a>';
 
-        foreach (testsFinder::getDirsList($casesDir) as $dirlist) {
+        foreach (testsFinder::getCategoriesList($casesDir) as $dirlist) {
             $name = substr(strrchr($dirlist, '/'), 1);
             echo ' - <a href="run.php?group=' . $name . '" style="color: black; font: 11px tahoma,verdana,arial;">';
             if(isset($group) && $name == $group) {

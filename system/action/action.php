@@ -106,7 +106,6 @@ class action
         if (empty($this->actions) && empty($this->type)) {
             throw new mzzSystemException('Action не установлен или у модуля "' . $this->module . '" их нет.');
         }
-        //echo $this->module . ' =========== ' . $this->action;
         return $this->actions[$this->type][$this->action];
     }
 
@@ -115,21 +114,25 @@ class action
      * Actions для JIP отличаются от других наличием
      * атрибута jip = true
      *
+     * @param string $type тип
      * @return array
      */
-    public function getJipActions()
+    public function getJipActions($type)
     {
         $jip_actions = array();
         $actions = $this->getActions();
-        foreach ($actions as $typeActions) {
-            foreach ($typeActions as $action) {
-                if (isset($action['jip']) && $action['jip'] == true) {
-                    $jip_actions[] = array(
-                    'controller' => $action['controller'],
-                    'title' => (isset($action['title']) ? $action['title'] : null),
-                    'confirm' => (isset($action['confirm']) ? $action['confirm'] : null),
-                    );
-                }
+
+        if (!isset($actions[$type])) {
+            throw new mzzSystemException('Тип "' . $type . '" у модуля "' . $this->module . '" не существует.');
+        }
+
+        foreach ($actions[$type] as $action) {
+            if (isset($action['jip']) && $action['jip'] == true) {
+                $jip_actions[] = array(
+                'controller' => $action['controller'],
+                'title' => (isset($action['title']) ? $action['title'] : null),
+                'confirm' => (isset($action['confirm']) ? $action['confirm'] : null),
+                );
             }
         }
         return $jip_actions;
@@ -206,122 +209,4 @@ class action
     }
 }
 
-
-
-/*
-
-
-class action
-{
-    protected $action;
-
-
-    protected $actions = array();
-
-    protected $module;
-
-    protected $paths = array();
-
-
-    public function __construct($module)
-    {
-        $this->module = $module;
-
-        $this->addPath(systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/');
-        $this->addPath(systemConfig::$pathToApplication . '/modules/' . $this->module . '/actions/');
-    }
-
-    public function addPath($path)
-    {
-        if (in_array($path, $this->paths)) {
-            throw new mzzRuntimeException('Path "' . $path . '" already in Action.');
-        }
-        $this->paths[] = $path;
-    }
-
-    public function setAction($action)
-    { debug_print_backtrace();
-        $tmp = $this->checkAction( $action );
-        $this->action = $tmp['controller'];
-    }
-
-    public function getAction()
-    {
-        $actions = $this->getActions();
-        $this->action = $this->checkAction($this->action);
-
-        return $this->action;
-    }
-
-    private function getActions()
-    {
-    // возможно, даже почти наверняка список действий будет выглядеть немного
-    // по другому, изменим когда будет нужно
-    return $this->getActionsConfig();
-    }
-
-    private function iniRead($filename)
-    {
-        if (!file_exists($filename)) {
-            throw new mzzIoException($filename);
-        }
-        return parse_ini_file($filename, true);
-    }
-
-    protected function getActionsConfig()
-    {
-        if (empty($this->actions)) {
-            foreach ($this->paths as $path) {
-                if (!is_dir($path)) {
-                    continue;
-                }
-                foreach (new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
-                    $file = $iterator->getPath() . DIRECTORY_SEPARATOR . $iterator->getFilename();
-                    $type = substr($iterator->getFilename(), 0, strlen($iterator->getFilename()) - 4);
-                    $this->addActions($type, $this->iniRead($file));
-                }
-            }
-        }
-        return $this->actions;
-    }
-
-    public function getJipActions()
-    {
-        $jip_actions = array();
-        $actions = $this->getActions();
-        foreach ($actions[$this->module] as $action) {
-            if (isset($action['jip']) && $action['jip'] == true) {
-                $jip_actions[] = array(
-                'controller' => $action['controller'],
-                'title' => $action['title'],
-                'confirm' => (isset($action['confirm']) ? $action['confirm'] : null),
-                );
-            }
-        }
-        return $jip_actions;
-    }
-
-    public function addActions($type, Array $actions)
-    {
-        if (isset($this->actions[$type])) {
-            $this->actions[$type] = array_merge($this->actions[$type], $actions);
-        } else {
-            $this->actions[$type] = $actions;
-        }
-    }
-
-    private function checkAction($action)
-    {
-        $actions = $this->getActions();
-        foreach ($actions as $type) {
-            if (isset($type[$action])) {
-                return $type[$action];
-            }
-        }
-
-        throw new mzzSystemException('Action ' . $action . ' not found');
-    }
-
-}
-*/
 ?>

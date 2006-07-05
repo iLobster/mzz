@@ -34,6 +34,12 @@ class testsFinder
         $dirs = glob($dir . "{/*,/*/*}", GLOB_ONLYDIR | GLOB_BRACE);
         return $dirs;
     }
+
+    static public function getCategoriesList($dir)
+    {
+        $dirs = glob($dir . "/*", GLOB_ONLYDIR);
+        return $dirs;
+    }
 }
 
 ?>
