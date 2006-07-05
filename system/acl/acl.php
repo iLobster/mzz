@@ -164,22 +164,25 @@ class acl
         $this->initDb();
 
         // наследование прав для пользователей и групп
-        $qry = 'SELECT `a`.* FROM `sys_access_modules` `m`
-        INNER JOIN `sys_access_modules_list` `ml` ON `m`.`module_id` = `ml`.`id` AND `ml`.`name` = :module
-        INNER JOIN `sys_access_modules_properties` `mp` ON `mp`.`module_id` = `m`.`id`
-        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0 AND (`a`.`uid` > 0 OR `a`.`gid` > 0)
-        WHERE `m`.`section` = :section';
-
-        $this->doRoutine($qry, $obj_id, false);
+        $this->inherit($obj_id, false);
 
         // наследование прав для автора объекта
-        $qry = 'SELECT `a`.* FROM `sys_access_modules` `m`
+        $this->inherit($obj_id, true);
+    }
+
+    private function inherit($obj_id, $author)
+    {
+        $qry = $this->getQuery($author);
+        $this->doRoutine($qry, $obj_id, $author);
+    }
+
+    private function getQuery($author = false)
+    {
+        return 'SELECT `a`.* FROM `sys_access_modules` `m`
         INNER JOIN `sys_access_modules_list` `ml` ON `m`.`module_id` = `ml`.`id` AND `ml`.`name` = :module
         INNER JOIN `sys_access_modules_properties` `mp` ON `mp`.`module_id` = `m`.`id`
-        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0 AND `a`.`uid` = 0
-        WHERE `m`.`section` = :section';
-
-        $this->doRoutine($qry, $obj_id, true);
+        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0 AND ' . ($author ? '`a`.`uid` = 0'  : '(`a`.`uid` > 0 OR `a`.`gid` > 0)') .
+        ' WHERE `m`.`section` = :section';
     }
 
     private function doRoutine($qry, $obj_id, $uid)
