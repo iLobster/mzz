@@ -86,6 +86,15 @@ class acl
      */
     public function __construct($module, $section, $type, $user = null, $object_id = 0)
     {
+        if (empty($user)) {
+            $toolkit = systemToolkit::getInstance();
+            $user = $toolkit->getUser();
+        }
+
+        if (!($user instanceof user)) {
+            throw new mzzInvalidParameterException('Переменная $user не является инстанцией класса user', $user);
+        }
+
         $this->module = $module;
         $this->section = $section;
         $this->type = $type;

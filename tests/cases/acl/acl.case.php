@@ -2,7 +2,7 @@
 
 fileLoader::load('acl');
 
-class userStub
+class userStub extends user
 {
     private $id;
     function __construct($id = 1)
@@ -59,6 +59,7 @@ class aclTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `sys_access_modules_list`');
         $this->db->query('TRUNCATE TABLE `sys_access_modules_properties`');
         $this->db->query('TRUNCATE TABLE `sys_access_properties`');
+        $this->db->query('TRUNCATE TABLE `user_user`');
     }
 
     public function testGetAccessAll()
@@ -88,6 +89,19 @@ class aclTest extends unitTestCase
         $acl2 = new acl('news', 'news', 'news', new userStub(3), $obj_id = 10);
         $this->assertEqual(1, $acl2->get('delete'));
         $this->assertEqual(1, $acl2->get('edit'));
+    }
+
+    public function testExceptionOnNotUser()
+    {
+        $this->db->query("INSERT INTO `user_user` (`id`, `login`) VALUES (1, 'Guest')");
+        try {
+            $acl = new acl('news', 'news', 'news', 'foo');
+            $this->fail('Не было брошено исключение');
+        } catch (mzzInvalidParameterException $e) {
+            $this->assertPattern('/\$user не является инстанцией/', $e->getMessage());
+        } catch (Exception $e) {
+            $this->fail('Брошено не ожидаемое исключение');
+        }
     }
 }
 
