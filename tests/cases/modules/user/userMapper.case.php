@@ -111,6 +111,13 @@ class userMapperTest extends unitTestCase
             $this->assertIsA($item, 'group');
             $this->assertEqual($item->getName(), 'name' . ($key + 1));
         }
+
+        $groupsList = $this->mapper->getGroupsList(1);
+        $this->assertEqual(sizeof($groupsList), 2);
+
+        foreach ($groupsList as $key => $val) {
+            $this->assertEqual($val, $key + 1);
+        }
     }
 
     public function testUpdate()

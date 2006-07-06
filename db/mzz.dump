@@ -218,3 +218,49 @@ INSERT INTO `user_user` (`id`, `login`, `password`) VALUES
   (2,'admin','098f6bcd4621d373cade4e832627b4f6');
 
 COMMIT;
+
+#
+# Structure for the `user_user_group` table : 
+#
+
+DROP TABLE IF EXISTS `user_user_group`;
+
+CREATE TABLE `user_user_group` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `user_user_group` table  (LIMIT 0,500)
+#
+
+INSERT INTO `user_user_group` (`id`, `name`) VALUES 
+  (1,'unauth'),
+  (2,'auth');
+
+COMMIT;
+
+#
+# Structure for the `user_user_group_rel` table : 
+#
+
+DROP TABLE IF EXISTS `user_user_group_rel`;
+
+CREATE TABLE `user_user_group_rel` (
+  `id` int(11) NOT NULL auto_increment,
+  `group_id` int(11) default NULL,
+  `user_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `user_user_group_rel` table  (LIMIT 0,500)
+#
+
+INSERT INTO `user_user_group_rel` (`id`, `group_id`, `user_id`) VALUES 
+  (1,1,1),
+  (2,2,2);
+
+COMMIT;

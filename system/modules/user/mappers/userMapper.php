@@ -107,9 +107,14 @@ class userMapper extends simpleMapper
 
     }
 
-    public function getGroupsList()
+    public function getGroupsList($id)
     {
-
+        $groups = $this->getGroups($id);
+        $result = array();
+        foreach ($groups as $group) {
+            $result[] = $group->getId();
+        }
+        return $result;
     }
 
     /**
