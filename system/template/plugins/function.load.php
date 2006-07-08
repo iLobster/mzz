@@ -27,7 +27,7 @@
  * @return string результат работы модуля
  * @package system
  * @subpackage template
- * @version 0.3.1
+ * @version 0.3.2
  */
 function smarty_function_load($params, $smarty)
 {
@@ -43,13 +43,13 @@ function smarty_function_load($params, $smarty)
     fileLoader::load($module . '.factory');
     $toolkit = systemToolkit::getInstance();
 
-    $oldRequest = clone $toolkit->getRequest();
-
     $action = $toolkit->getAction($params['module']);
     $action->setAction($action_name);
 
     if(isset($params['args'])) {
-        $toolkit->getRequest()->setParams(explode('/', $params['args']));
+        $request = $toolkit->getRequest();
+        $request->save();
+        $request->setParams(explode('/', $params['args']));
     }
 
     $section = (isset($params['section'])) ? $params['section'] : null;
@@ -62,7 +62,10 @@ function smarty_function_load($params, $smarty)
 
     $result = $view->toString();
 
-    $toolkit->setRequest($oldRequest);
+    if(isset($request)) {
+        $request->restore();
+    }
+
     return $result;
 }
 

@@ -1,14 +1,18 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage request
+ * @version $Id$
+*/
 
 fileLoader::load('request/iRequest');
 
@@ -24,7 +28,7 @@ fileLoader::load('request/iRequest');
  *
  * @package system
  * @subpackage request
- * @version 0.6
+ * @version 0.6.1
  */
 
 define('SC_GET', 1);
@@ -53,6 +57,12 @@ class httpRequest implements iRequest
      * Cookie
      */
     protected $cookieVars;
+
+    /**
+     * свойство для временного хранения сохранённых параметров
+     *
+     */
+    protected $savedParams;
 
     /**
      * Params
@@ -240,6 +250,24 @@ class httpRequest implements iRequest
         return $this->getVars->get('path');
     }
 
+    /**
+     * сохранение текущего состояния параметров<br>
+     * (SC_PATH)
+     *
+     */
+    public function save()
+    {
+        $this->savedParams = clone $this->params;
+    }
+
+    /**
+     * восстановление сохранённого ранее состояния
+     *
+     */
+    public function restore()
+    {
+        $this->params = clone $this->savedParams;
+    }
 }
 
 ?>

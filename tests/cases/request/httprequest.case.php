@@ -81,10 +81,25 @@ class httpRequestTest extends unitTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->assertEqual($this->httprequest->get('REQUEST_METHOD', SC_SERVER), 'GET');
     }
-    
+
     public function testGetUrl()
     {
         $this->assertEqual($this->httprequest->getUrl(), $_GET['path']);
+    }
+
+    public function testSaveRestore()
+    {
+        $this->httprequest->setParam('param_foo', $val = 'foo');
+        $this->assertEqual($this->httprequest->get('param_foo', SC_PATH), $val);
+
+        $this->httprequest->save();
+
+        $this->httprequest->setParam('param_foo', $val2 = 'bar');
+        $this->assertEqual($this->httprequest->get('param_foo', SC_PATH), $val2);
+
+        $this->httprequest->restore();
+
+        $this->assertEqual($this->httprequest->get('param_foo', SC_PATH), $val);
     }
 }
 
