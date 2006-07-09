@@ -7,17 +7,17 @@ class criterion
 
     private $field;
     private $value;
-    private $comparasion;
+    private $comparsion;
     private $db;
     private $clauses;
     private $conjunctions = array();
 
-    public function __construct($field = null, $value = null, $comparasion = null)
+    public function __construct($field = null, $value = null, $comparsion = null)
     {
         $this->db = db::factory();
         $this->field = $field;
         $this->value = $value;
-        $this->comparasion = !empty($comparasion) ? $comparasion : criteria::EQUAL;
+        $this->comparsion = !empty($comparsion) ? $comparsion : criteria::EQUAL;
     }
 
     public function generate()
@@ -26,9 +26,9 @@ class criterion
 
         if (!is_null($this->field)) {
             // для конструкции `field` IN ('val1', 'val2')
-            if ($this->comparasion === criteria::IN) {
+            if ($this->comparsion === criteria::IN) {
 
-                $result .= '`' . $this->field . '` ' . $this->comparasion . ' (';
+                $result .= '`' . $this->field . '` ' . $this->comparsion . ' (';
                 // тут наверное нужно проверять ещё и sizeof($this->value)
                 foreach ($this->value as $val) {
                     $result .= $this->db->quote($val) . ', ';
@@ -36,10 +36,10 @@ class criterion
                 $result = substr($result, 0, -2);
                 $result .= ')';
 
-            } elseif ($this->comparasion === criteria::BETWEEN) {
-                $result .= '`' . $this->field . '` ' . $this->comparasion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
+            } elseif ($this->comparsion === criteria::BETWEEN) {
+                $result .= '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
             } else {
-                $result .= '`' . $this->field . '` ' . $this->comparasion . ' ' . $this->db->quote($this->value);
+                $result .= '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value);
             }
         }
 

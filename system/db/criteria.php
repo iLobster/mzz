@@ -40,7 +40,7 @@ class criteria
         return $this->table;
     }
 
-    public function add($field, $value = null, $comparasion = null)
+    public function add($field, $value = null, $comparsion = null)
     {
         if ($field instanceof criterion) {
             if (!is_null($field->getField())) {
@@ -49,7 +49,7 @@ class criteria
                 $this->map[] = $field;
             }
         } else {
-            $this->map[$field] = new criterion($field, $value, $comparasion);
+            $this->map[$field] = new criterion($field, $value, $comparsion);
         }
 
         return $this;
