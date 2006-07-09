@@ -11,10 +11,24 @@ class simpleSelectTest extends unitTestCase
         $this->select = new simpleSelect($this->criteria);
     }
 
+    public function testSelect()
+    {
+        $this->criteria->addSelectField('NOW()', 'now');
+        $this->assertEqual($this->select->toString(), 'SELECT NOW() AS `now`');
+    }
+
     public function testSelectAllNoConditions()
     {
         $this->criteria->setTable('table');
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
+    }
+
+    public function testSelectAllNoConditionsSelectFieldsAlias()
+    {
+        $this->criteria->setTable('table');
+        $this->criteria->addSelectField('field1');
+        $this->criteria->addSelectField('field2', 'alias');
+        $this->assertEqual($this->select->toString(), 'SELECT `field1`, `field2` AS `alias` FROM `table`');
     }
 
     public function testSelectAllEqualsCondition()
@@ -39,7 +53,7 @@ class simpleSelectTest extends unitTestCase
 
     public function testSelectWithCountFoundRows()
     {
-        $this->criteria->setTable('table')->clearSelectFields()->addSelectField('FOUND_ROWS()');
+        $this->criteria->setTable('table')->addSelectField('FOUND_ROWS()');
         $this->assertEqual($this->select->toString(), "SELECT FOUND_ROWS() FROM `table`");
     }
 }

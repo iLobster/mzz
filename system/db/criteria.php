@@ -17,9 +17,17 @@ class criteria
     private $map = array();
     private $orderBy = array();
     private $selectFields = array();
+    private $selectFieldsAliases = array();
     private $limit = 0;
     private $offset = 0;
     private $enableCount = false;
+
+    public function __construct($table = null)
+    {
+        if ($table) {
+            $this->setTable($table);
+        }
+    }
 
     public function setTable($table)
     {
@@ -116,14 +124,21 @@ class criteria
         return $this;
     }
 
-    public function addSelectField($field)
+    public function addSelectField($field, $alias = null)
     {
+        $this->selectFieldsAliases[$field] = $alias;
         $this->selectFields[] = $field;
+        return $this;
     }
 
     public function getSelectFields()
     {
         return $this->selectFields;
+    }
+
+    public function getSelectFieldAlias($field)
+    {
+        return isset($this->selectFieldsAliases[$field]) ? $this->selectFieldsAliases[$field] : null;
     }
 }
 

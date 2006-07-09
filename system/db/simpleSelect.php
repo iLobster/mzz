@@ -17,7 +17,11 @@ class simpleSelect
 
         foreach ($this->criteria->getSelectFields() as $select) {
             $isFunction = (bool)strpos($select, '(');
-            $selectClause[] = $isFunction ? $select : '`' . $select . '`';
+
+            $alias = $this->criteria->getSelectFieldAlias($select);
+            $field = $isFunction ? $select : '`' . $select . '`';
+            $field .= ($alias ? ' AS `' . $alias . '`' : '');
+            $selectClause[] = $field;
         }
 
         $enableCount = $this->criteria->getEnableCount();
@@ -29,21 +33,12 @@ class simpleSelect
 
         $orderByClause = $this->criteria->getOrderByFields();
 
-
-        /*
-        if (!empty($orderBy)) {
-        foreach($orderBy as $val) {
-        $orderByClause[] = $val;
-        }
-        }*/
-
         $qry = 'SELECT ' . ($enableCount ? 'SQL_CALC_FOUND_ROWS ' : '') .
-        ($selectClause ? implode(', ', $selectClause) : '*') .' FROM `' . $this->criteria->getTable() . '`' .
+        ($selectClause ? implode(', ', $selectClause) : '*') .
+        (($table = $this->criteria->getTable()) ? ' FROM `' . $table . '`' : '').
         ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '') .
         ($orderByClause ? ' ORDER BY ' . implode(', ', $orderByClause) : '') .
         (($limit = $this->criteria->getLimit()) ? ' LIMIT ' . (($offset = $this->criteria->getOffset()) ? $offset . ', ' : '') . $limit : '');
-
-
 
         return $qry;
     }

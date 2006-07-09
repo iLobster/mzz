@@ -62,8 +62,9 @@ class criteriaTest extends unitTestCase
     public function testSelectFields()
     {
         $this->assertEqual($this->criteria->getSelectFields(), array());
-        $this->criteria->addSelectField('field');
+        $this->criteria->addSelectField('field', 'alias');
         $this->assertEqual($this->criteria->getSelectFields(), array('field'));
+        $this->assertEqual($this->criteria->getSelectFieldAlias('field'), 'alias');
         $this->criteria->clearSelectFields();
         $this->assertEqual($this->criteria->getSelectFields(), array());
     }
