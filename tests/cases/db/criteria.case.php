@@ -19,19 +19,15 @@ class criteriaTest extends unitTestCase
 
     public function testAddAndKeys()
     {
-        $this->criteria->add('field', 'value');
-        $this->criteria->add('field2', 'value2');
+        $this->criteria->add('field', 'value')->add('field2', 'value2');
         $criterion = new criterion('field3', 'value3');
-        $this->criteria->add($criterion);
-        $this->criteria->add(new criterion());
-        $this->criteria->add(new criterion());
+        $this->criteria->add($criterion)->add(new criterion())->add(new criterion());
         $this->assertEqual($this->criteria->keys(), array('field', 'field2', 'field3', 0, 1));
     }
 
     public function testOverwriteKeys()
     {
-        $this->criteria->add('field', 'value');
-        $this->criteria->add('field', 'value2');
+        $this->criteria->add('field', 'value')->add('field', 'value2');
         $this->assertEqual($this->criteria->keys(), array('field'));
     }
 
@@ -39,6 +35,21 @@ class criteriaTest extends unitTestCase
     {
         $this->criteria->add('field', 'value');
         $this->assertEqual($this->criteria->getCriterion('field'), new criterion('field', 'value'));
+    }
+
+    public function testAddOrderBy()
+    {
+        $this->criteria->setOrderByFieldAsc('field')->setOrderByFieldDesc('field2');
+        $this->assertEqual($this->criteria->getOrderByFields(), array('`field` ASC', '`field2` DESC'));
+    }
+
+    public function testGetSetLimitAndOffset()
+    {
+        $this->criteria->setLimit($limit = 20);
+        $this->assertEqual($this->criteria->getLimit(), $limit);
+
+        $this->criteria->setOffset($offset = 40);
+        $this->assertEqual($this->criteria->getOffset(), $offset);
     }
 }
 

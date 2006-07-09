@@ -24,6 +24,12 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->add('field2', 'value2');
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `field` = 'value' AND `field2` = 'value2'");
     }
+
+    public function testSelectConditionOrderLimit()
+    {
+        $this->criteria->setTable('table')->add('field', 'value')->setLimit(10)->setOffset(15)->setOrderByFieldDesc('field');
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `field` = 'value' ORDER BY `field` DESC LIMIT 15, 10");
+    }
 }
 
 ?>
