@@ -51,6 +51,22 @@ class criteriaTest extends unitTestCase
         $this->criteria->setOffset($offset = 40);
         $this->assertEqual($this->criteria->getOffset(), $offset);
     }
+
+    public function testEnableCount()
+    {
+        $this->assertFalse($this->criteria->getEnableCount());
+        $this->criteria->enableCount();
+        $this->assertTrue($this->criteria->getEnableCount());
+    }
+
+    public function testSelectFields()
+    {
+        $this->assertEqual($this->criteria->getSelectFields(), array());
+        $this->criteria->addSelectField('field');
+        $this->assertEqual($this->criteria->getSelectFields(), array('field'));
+        $this->criteria->clearSelectFields();
+        $this->assertEqual($this->criteria->getSelectFields(), array());
+    }
 }
 
 ?>

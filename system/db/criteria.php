@@ -16,8 +16,10 @@ class criteria
     private $table;
     private $map = array();
     private $orderBy = array();
+    private $selectFields = array();
     private $limit = 0;
     private $offset = 0;
+    private $enableCount = false;
 
     public function setTable($table)
     {
@@ -95,6 +97,33 @@ class criteria
     {
         $this->offset = $offset;
         return $this;
+    }
+
+    public function enableCount()
+    {
+        $this->enableCount = true;
+        return $this;
+    }
+
+    public function getEnableCount()
+    {
+        return $this->enableCount;
+    }
+
+    public function clearSelectFields()
+    {
+        $this->selectFields = array();
+        return $this;
+    }
+
+    public function addSelectField($field)
+    {
+        $this->selectFields[] = $field;
+    }
+
+    public function getSelectFields()
+    {
+        return $this->selectFields;
     }
 }
 

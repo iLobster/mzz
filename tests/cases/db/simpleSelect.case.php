@@ -30,6 +30,18 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->setTable('table')->add('field', 'value')->setLimit(10)->setOffset(15)->setOrderByFieldDesc('field');
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `field` = 'value' ORDER BY `field` DESC LIMIT 15, 10");
     }
+
+    public function testSelectWithCount()
+    {
+        $this->criteria->setTable('table')->enableCount();
+        $this->assertEqual($this->select->toString(), "SELECT SQL_CALC_FOUND_ROWS * FROM `table`");
+    }
+
+    public function testSelectWithCountFoundRows()
+    {
+        $this->criteria->setTable('table')->clearSelectFields()->addSelectField('FOUND_ROWS()');
+        $this->assertEqual($this->select->toString(), "SELECT FOUND_ROWS() FROM `table`");
+    }
 }
 
 ?>
