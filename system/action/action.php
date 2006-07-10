@@ -110,6 +110,16 @@ class action
     }
 
     /**
+     * Возвращает имя текущего экшна
+     *
+     * @return string
+     */
+    public function getActionName()
+    {
+        return $this->action;
+    }
+
+    /**
      * Получение всех actions для JIP
      * Actions для JIP отличаются от других наличием
      * атрибута jip = true
@@ -206,6 +216,16 @@ class action
             throw new mzzIoException($filename);
         }
         return parse_ini_file($filename, true);
+    }
+
+    /**
+     * возвращает тип доменного объекта, который обрабатывает текущий action
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
 

@@ -44,7 +44,7 @@ class acl
      *
      * @var string
      */
-    private $type;
+    //private $type;
 
     /**
      * óíèêàëüíûé id îáúåêòà
@@ -80,11 +80,10 @@ class acl
      *
      * @param string $module
      * @param string $section
-     * @param string $type
      * @param user $user
      * @param integer $object_id
      */
-    public function __construct($module, $section, $type, $user = null, $object_id = 0)
+    public function __construct($module, $section, $user = null, $object_id = 0)
     {
         if (empty($user)) {
             $toolkit = systemToolkit::getInstance();
@@ -97,10 +96,13 @@ class acl
 
         $this->module = $module;
         $this->section = $section;
-        $this->type = $type;
+        //$this->type = $type;
+        if (!is_int($object_id)) {
+            throw new mzzInvalidParameterException('Ïåğåìåííàÿ object_id íå ÿâëÿåòñÿ ïåğåìåííîé öåëî÷èñëåííîãî òèïà', $object_id);
+        }
         $this->obj_id = $object_id;
         $this->uid = $user->getId();
-        $this->groups = $user->getGroupsId();
+        $this->groups = $user->getGroupsList();
     }
 
     /**
@@ -132,8 +134,8 @@ class acl
             INNER JOIN `sys_access_modules_list` `ml` ON `ml`.`id` = `m`.`module_id` AND `ml`.`name` = :module
             INNER JOIN `sys_access_modules_properties` `mp` ON `m`.`id` = `mp`.`module_id` AND `m`.`section` = :section
             INNER JOIN `sys_access_properties` `p` ON `mp`.`property_id` = `p`.`id`
-            INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id`  AND `a`.`obj_id` = :obj_id AND `a`.`type` = :type
-            WHERE `a`.`uid` = :uid ';
+            INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id`  AND `a`.`obj_id` = :obj_id ' . //  AND `a`.`type` = :type
+            ' WHERE `a`.`uid` = :uid ';
             if (sizeof($this->groups)) {
                 $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
             }
@@ -187,8 +189,8 @@ class acl
         return 'SELECT `a`.* FROM `sys_access_modules` `m`
         INNER JOIN `sys_access_modules_list` `ml` ON `m`.`module_id` = `ml`.`id` AND `ml`.`name` = :module
         INNER JOIN `sys_access_modules_properties` `mp` ON `mp`.`module_id` = `m`.`id`
-        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`type` = :type AND `a`.`obj_id` = 0
-        WHERE `m`.`section` = :section';
+        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`obj_id` = 0 ' . //AND `a`.`type` = :type
+        ' WHERE `m`.`section` = :section';
     }
 
     /**
@@ -219,11 +221,11 @@ class acl
      */
     private function doInsertQuery($stmt, $obj_id)
     {
-        $qry = 'INSERT INTO `sys_access` (`module_property`, `type`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
+        $qry = 'INSERT INTO `sys_access` (`module_property`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
 
         $exists = false;
         while($row = $stmt->fetch()) {
-            $qry .= "(" . $this->db->quote($row['module_property']) . ", " . $this->db->quote($row['type']) . ", ";
+            $qry .= "(" . $this->db->quote($row['module_property']) . ", "; // . $this->db->quote($row['type']) . ", ";
             if (!$row['uid'] && !$row['gid']) {
                 $qry .= $this->db->quote($this->uid) . ', NULL';
             } else {
@@ -264,7 +266,7 @@ class acl
     {
         $stmt->bindParam(':section', $this->section);
         $stmt->bindParam(':module', $this->module);
-        $stmt->bindParam(':type', $this->type);
+        //$stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':obj_id', $this->obj_id);
         $stmt->bindParam(':uid', $this->uid);
     }

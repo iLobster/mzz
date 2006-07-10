@@ -114,6 +114,11 @@ class newsMapper extends simpleMapper
             $fields['editor'] = $fields['editor']->getId();
         }
     }
+
+    public function convertArgsToId($args)
+    {
+        return 1;
+    }
 }
 
 ?>

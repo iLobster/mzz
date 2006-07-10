@@ -386,6 +386,11 @@ abstract class simpleMapper //implements iCacheable
     {
         $this->pager = $pager;
     }
+
+    public function convertArgsToId($args)
+    {
+        return (int)$args;
+    }
 }
 
 ?>

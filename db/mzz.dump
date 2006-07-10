@@ -67,7 +67,7 @@ CREATE TABLE `news_news_folder` (
 INSERT INTO `news_news_folder` (`id`, `name`, `parent`) VALUES 
   (1,'root',1),
   (2,'parent1',2),
-  (3,'parent2',3);
+  (3,'parent21',3);
 
 COMMIT;
 
@@ -144,6 +144,135 @@ INSERT INTO `page_page` (`id`, `name`, `title`, `content`) VALUES
   (1,'main','ѕерва€ страница','Ёто перва€, главна€ страница'),
   (2,'404','404 Not Found','«апрашиваема€ страница не найдена!'),
   (3,'test','test','test');
+
+COMMIT;
+
+#
+# Structure for the `sys_access` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access`;
+
+CREATE TABLE `sys_access` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_property` int(11) default NULL,
+  `type` char(255) default NULL,
+  `obj_id` int(11) default NULL,
+  `uid` int(11) default NULL,
+  `gid` int(11) default NULL,
+  `allow` tinyint(1) default NULL,
+  `deny` tinyint(1) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `module_property_id` (`module_property`,`obj_id`,`uid`,`gid`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access` (`id`, `module_property`, `type`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+  (1,1,NULL,1,0,1,1,NULL),
+  (3,2,NULL,1,0,1,1,NULL);
+
+COMMIT;
+
+#
+# Structure for the `sys_access_modules` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules`;
+
+CREATE TABLE `sys_access_modules` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_id` int(11) default NULL,
+  `section` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `module_section` (`section`,`module_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_modules` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules` (`id`, `module_id`, `section`) VALUES 
+  (1,1,'timer'),
+  (2,2,'user'),
+  (3,3,'news'),
+  (4,4,'page');
+
+COMMIT;
+
+#
+# Structure for the `sys_access_modules_list` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules_list`;
+
+CREATE TABLE `sys_access_modules_list` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_modules_list` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules_list` (`id`, `name`) VALUES 
+  (1,'timer'),
+  (2,'user'),
+  (3,'news'),
+  (4,'page');
+
+COMMIT;
+
+#
+# Structure for the `sys_access_modules_properties` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules_properties`;
+
+CREATE TABLE `sys_access_modules_properties` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_id` int(11) default NULL,
+  `property_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `module_poperty_unique` (`module_id`,`property_id`),
+  KEY `property_id` (`property_id`),
+  KEY `module_id` (`module_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_modules_properties` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules_properties` (`id`, `module_id`, `property_id`) VALUES 
+  (1,3,1),
+  (2,3,2);
+
+COMMIT;
+
+#
+# Structure for the `sys_access_properties` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_properties`;
+
+CREATE TABLE `sys_access_properties` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_properties` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_properties` (`id`, `name`) VALUES 
+  (1,'list'),
+  (2,'view');
 
 COMMIT;
 
@@ -236,8 +365,9 @@ CREATE TABLE `user_user_group` (
 #
 
 INSERT INTO `user_user_group` (`id`, `name`) VALUES 
-  (1,'unauth'),
-  (2,'auth');
+  (2,'unauth'),
+  (3,'auth'),
+  (1,'all');
 
 COMMIT;
 
@@ -260,7 +390,9 @@ CREATE TABLE `user_user_group_rel` (
 #
 
 INSERT INTO `user_user_group_rel` (`id`, `group_id`, `user_id`) VALUES 
-  (1,1,1),
-  (2,2,2);
+  (1,2,1),
+  (2,3,2),
+  (3,1,1),
+  (4,1,2);
 
 COMMIT;

@@ -16,7 +16,7 @@ class userStub extends user
     }
 
 
-    function getGroupsId()
+    function getGroupsList()
     {
         return array(1, 2);
     }
@@ -44,7 +44,7 @@ class aclTest extends unitTestCase
         $this->db->query("INSERT INTO `sys_access_modules_properties` (`id`, `module_id`, `property_id`) VALUES (1,1,1), (2,1,2)");
         $this->db->query("INSERT INTO `sys_access_properties` (`id`, `name`) VALUES (1,'edit'), (2,'delete')");
 
-        $this->acl = new acl('news', 'news', 'news', new userStub(), 1);
+        $this->acl = new acl('news', 'news', new userStub(), 1);
     }
 
     public function tearDown()
@@ -80,13 +80,13 @@ class aclTest extends unitTestCase
 
     public function testRegister()
     {
-        $acl = new acl('news', 'news', 'news', new userStub(2), $obj_id = 10);
+        $acl = new acl('news', 'news', new userStub(2), $obj_id = 10);
         $acl->register($obj_id);
 
         $this->assertEqual(1, $acl->get('delete'));
         $this->assertEqual(1, $acl->get('edit'));
 
-        $acl2 = new acl('news', 'news', 'news', new userStub(3), $obj_id = 10);
+        $acl2 = new acl('news', 'news', new userStub(3), $obj_id = 10);
         $this->assertEqual(1, $acl2->get('delete'));
         $this->assertEqual(1, $acl2->get('edit'));
     }
@@ -95,7 +95,7 @@ class aclTest extends unitTestCase
     {
         $this->db->query("INSERT INTO `user_user` (`id`, `login`) VALUES (1, 'Guest')");
         try {
-            $acl = new acl('news', 'news', 'news', 'foo');
+            $acl = new acl('news', 'news', 'foo');
             $this->fail('Не было брошено исключение');
         } catch (mzzInvalidParameterException $e) {
             $this->assertPattern('/\$user не является инстанцией/', $e->getMessage());

@@ -17,6 +17,7 @@
  */
 
 fileLoader::load('db/dbTreeNS');
+fileLoader::load('news/newsFolder');
 
 class newsFolderMapper extends simpleMapper
 {
@@ -77,6 +78,9 @@ class newsFolderMapper extends simpleMapper
      */
     public function searchByName($name)
     {
+        if (empty($name)) {
+            $name = 'root';
+        }
         return $this->searchOneByField('name', $name);
     }
 
@@ -141,6 +145,11 @@ class newsFolderMapper extends simpleMapper
     {
     return (!empty($this->cache)) ? $this->cache : $this;
     } */
+    public function convertArgsToId($args)
+    {
+        $newsFolder = $this->searchByName(implode('/', $args));
+        return (int)$newsFolder->getId();
+    }
 }
 
 ?>

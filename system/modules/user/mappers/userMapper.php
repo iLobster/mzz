@@ -10,6 +10,8 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+fileLoader::load('user/mappers/groupMapper');
+
 /**
  * userMapper: маппер для пользователей
  *

@@ -98,6 +98,7 @@ class httpRequest implements iRequest
         $this->cookieVars = new arrayDataspace($_COOKIE);
         $this->requestParser = $requestParser;
         $this->import($this->get('path'));
+        $this->savedParams = new arrayDataspace();
     }
 
     /**
@@ -238,6 +239,16 @@ class httpRequest implements iRequest
     public function setParams(Array $params)
     {
         $this->params = new arrayDataspace($params);
+    }
+
+    /**
+     * Возврат массива параметров
+     *
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->params->export();
     }
 
     /**

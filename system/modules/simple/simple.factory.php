@@ -30,7 +30,7 @@ abstract class simpleFactory
      *
      * @var string
      */
-    protected $name = "simple"; // оставить его здесь или брать из ТМ? Или тм должен брать отсюда?
+    protected $name = "simple";
 
     /**
      * Constructor
@@ -51,7 +51,6 @@ abstract class simpleFactory
     {
         $action = $this->action->getAction();
         fileLoader::load($this->name . '/controllers/' . $this->name . '.' . $action['controller'] . '.controller');
-        // тут возможно заменим константы news на метод $this->getName
         $classname = $this->name . ucfirst($action['controller']) . 'Controller';
         return new $classname();
     }

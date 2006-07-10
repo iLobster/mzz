@@ -14,6 +14,8 @@
  * @version $Id$
 */
 
+fileLoader::load('acl');
+
 /**
  * smarty_function_load: функция для смарти, загрузчик модулей
  *
@@ -46,13 +48,31 @@ function smarty_function_load($params, $smarty)
     $action = $toolkit->getAction($params['module']);
     $action->setAction($action_name);
 
+    $request = $toolkit->getRequest();
+    $request->save();
+
     if(isset($params['args'])) {
-        $request = $toolkit->getRequest();
-        $request->save();
         $request->setParams(explode('/', $params['args']));
     }
 
+    // хм, а почему null а не $request->getSection() например??
     $section = (isset($params['section'])) ? $params['section'] : null;
+
+    $mappername = $action->getType() . 'Mapper';
+
+    fileLoader::load($module . '/mappers/' . $mappername);
+
+    $mapper = new $mappername($request->getSection());
+    $object_id = $mapper->convertArgsToId($request->getParams());
+
+    $user = $toolkit->getUser();
+
+    $acl = new acl($module, $request->getSection(), $user, $object_id);
+    if ($acl->get($action->getActionName()))
+        echo 'есть доступ';
+    else
+        echo 'нет доступа';
+
 
     $factory = new $modulename($action);
 

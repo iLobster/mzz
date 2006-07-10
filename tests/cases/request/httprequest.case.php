@@ -87,6 +87,12 @@ class httpRequestTest extends unitTestCase
         $this->assertEqual($this->httprequest->getUrl(), $_GET['path']);
     }
 
+    public function testGetParams()
+    {
+        $this->httprequest->setParams($arr = array(1, 2, 3));
+        $this->assertEqual($this->httprequest->getParams(), $arr);
+    }
+
     public function testSaveRestore()
     {
         $this->httprequest->setParam('param_foo', $val = 'foo');
