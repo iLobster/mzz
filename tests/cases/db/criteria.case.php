@@ -34,7 +34,9 @@ class criteriaTest extends unitTestCase
     public function testGetCriterion()
     {
         $this->criteria->add('field', 'value');
-        $this->assertEqual($this->criteria->getCriterion('field'), new criterion('field', 'value'));
+        $criterion = new criterion('field', 'value');
+        $this->assertEqual($this->criteria->getCriterion('field')->getField(), $criterion->getField());
+        $this->assertEqual($this->criteria->getCriterion('field')->getValue(), $criterion->getValue());
     }
 
     public function testAddOrderBy()

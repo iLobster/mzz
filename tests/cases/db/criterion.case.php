@@ -53,6 +53,12 @@ class criterionTest extends unitTestCase
         $this->assertEqual($criterion->getField(), 'field');
     }
 
+    public function testGetValue()
+    {
+        $criterion = new criterion('field', 'value');
+        $this->assertEqual($criterion->getValue(), 'value');
+    }
+
     public function testGetFieldComposite()
     {
         $criterion = new criterion();

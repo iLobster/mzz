@@ -83,6 +83,11 @@ class criterion
     {
         return $this->field;
     }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
 }
 
 ?>

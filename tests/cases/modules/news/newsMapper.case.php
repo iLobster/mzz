@@ -111,7 +111,7 @@ class newsMapperTest extends unitTestCase
 
         $news2 = $this->mapper->searchById(1);
         $this->assertEqual($news2->getTitle(), $title);
-        $this->assertEqual($news2->getEditor(), $editor);
+        $this->assertEqual($news2->getEditor()->getId(), $editor->getId());
         $this->assertEqual($news2->getText(), $text);
         $this->assertIdentical($news2->getFolderId(), $folder_id);
     }

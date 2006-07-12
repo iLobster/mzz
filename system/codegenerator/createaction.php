@@ -24,7 +24,7 @@ Sample usage:
         define('MZZ', CODEGEN . '/../../');
         define('CUR', getcwd());
 
-        $module = substr(strrchr(CUR, "/"), 1);
+        $module = substr(strrchr(CUR, DIRECTORY_SEPARATOR), 1);
 
         require_once MZZ . 'libs/smarty/Smarty.class.php';
 
