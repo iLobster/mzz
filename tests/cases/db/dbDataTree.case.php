@@ -84,7 +84,7 @@ class dbTreeDataTest extends unitTestCase
             $this->dataFixture[$id] = array('id' => $id, 'foo' =>'foo' . $id , 'bar' => 'bar' . $id);
             $valString .= "('" . $id . "','" . $this->dataFixture[$id]['foo'] . "','" . $this->dataFixture[$id]['bar'] . "'),";
         }
-        $values[$this->dataTable] = substr($valString, 0,  strlen($valString)-1);
+        $values[$this->dataTable] = substr($valString, 0, -1);
 
         #запись фикстур в базу
         foreach($values as $table => $val) {
@@ -150,6 +150,24 @@ class dbTreeDataTest extends unitTestCase
     {
         $parentNode = $this->tree->getParentNode($id = 1);
         $this->assertNull($parentNode);
+    }
+
+    public function testGetOneLevelBranchByPath()
+    {
+        $path[] = '/foo1/foo3/';
+        $path[] = 'foo1/foo3/not_exist';
+        $path[] = '/foo1/foo3';
+        $path[] = 'foo1/foo3/not_exist/not_exist_too';
+        # В пути ищется узел находящийся на самом нижнем уровне и выбираются нижележащие узлы
+        $path[] = '/foo3/foo1';
+        $path[] = 'not_exist/not_exist_too/foo3';
+
+        $this->tree->setInnerField('foo');
+        $fixtureNodes = $this->setFixture(array(7,8));
+        foreach($path as $p) {
+            $nodes = $this->tree->getBranchByPath($p);
+            $this->assertEqual($nodes, $fixtureNodes);
+        }
     }
 
 

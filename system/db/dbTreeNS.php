@@ -29,39 +29,56 @@ class dbTreeNS
      *
      * @var string
      */
-    private   $table;
+    private $table;
 
     /**
      * Имя таблицы содержащей данные
      *
      * @var string
      */
-    private   $dataTable;
+    private $dataTable;
 
+    /**
+     * Select часть запроса
+     *
+     * @var string
+     */
     private $selectPart;
+
+    /**
+     * Inner часть запроса
+     *
+     * @var string
+     */
     private $innerPart;
+
+    /**
+     * Имя поля содержащего ключ таблицы
+     *
+     * @var string
+     */
     private $rowID;
 
     /**
      * Конструктор
      *
-     * @param array  $init  Данные о таблицах и связывающих полях
+     * @param array  $init  Данные о таблицах и связывающих полях array( tree => array(table,id), data => array(table,id) )
      */
     public function __construct($init)
     {
         # данные о таблице с деревом
         $this->table = $init['tree']['table']; // as tree
-        $this->treeID = $init['tree']['id'];
+        $treeID = $init['tree']['id'];
 
         # данные о таблице с данными
         $this->dataTable = isset($init['data']['table'])?$init['data']['table']:null; //as data
-        $this->dataID = isset($init['data']['id'])?$init['data']['id']:null;
+        $dataID = isset($init['data']['id'])?$init['data']['id']:null;
 
-        $this->rowID = is_null($this->dataID) ? $this->treeID : $this->dataID;
+        $this->rowID = is_null($dataID) ? $treeID : $dataID;
 
         if(!is_null($this->dataTable)) {
             $this->selectPart = '`data`.*';
-            $this->innerPart = 'INNER JOIN ' . $this->dataTable .' data ON `data`.' . $this->dataID . ' = `tree`.' . $this->treeID . ' ';
+            $this->innerPart = 'INNER JOIN ' . $this->dataTable . ' data ON `data`.' . $dataID . ' = `tree`.' . $treeID . ' ';
         }
         else {
             $this->selectPart = '*';
@@ -82,6 +99,31 @@ class dbTreeNS
         return $this->dataTable;
     }
 
+    public function setInnerField($tableField)
+    {   if(!(is_string($tableField) && strlen($tableField))) return false;
+        $this->innerField = $tableField;
+    }
+
+    /**
+     * Создание чистого массива из сырой выборки
+     *
+     * @param array $stmt   Выполненный стэйтмент
+     * @return array
+     */
+    protected function createBranchFromRow($stmt)
+    {
+        $branch = array();
+        while($row = $stmt->fetch()) {
+            $branch[$row[$this->rowID]] = $row;
+        }
+
+        if(count($branch)) {
+            return $branch;
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Выборка дерева по левому обходу
      *
@@ -99,17 +141,7 @@ class dbTreeNS
         $level > 0 ? $stmt->bindParam(':level', $level, PDO::PARAM_INT):'';
         $stmt->execute();
 
-        $i = 0;
-        $tree = array();
-        while($row = $stmt->fetch()) {
-            $tree[$row[$this->rowID]] = $row;
-        }
-
-        if(count($tree)) {
-            return $tree;
-        } else {
-            return null;
-        }
+        return $this->createBranchFromRow($stmt);
     }
 
     /**
@@ -145,12 +177,7 @@ class dbTreeNS
             return null;
         }
 
-        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
-        ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
-        ' WHERE lkey >= :lkey AND rkey <= :rkey' .
-        ' AND (level BETWEEN :high_level AND :level)' .
-        ' ORDER BY lkey');
-
+        $stmt = $this->getBranchStmt();
         $level = $rootBranch['level'] + $level;
         $stmt->bindParam(':lkey', $rootBranch['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $rootBranch['rkey'], PDO::PARAM_INT);
@@ -158,17 +185,34 @@ class dbTreeNS
         $stmt->bindParam(':level', $level, PDO::PARAM_INT);
         $stmt->execute();
 
-        $branch = array();
-        while($row = $stmt->fetch()) {
-            $branch[$row[$this->rowID]] = $row;
+        return $this->createBranchFromRow($stmt);
+
+    }
+
+    /**
+     * Подготовка запроса по выборке ветки
+     *
+     * @param  bool     $withRootNode Условие выборки с корнем ветки
+     * @return array
+     */
+    protected function getBranchStmt($withRootNode = true)
+    {
+        if($withRootNode) {
+            $less = '<=';
+            $more = '>=';
+        }
+        else {
+            $less = '<';
+            $more = '>';
         }
 
-        if(count($branch)) {
-            return $branch;
-        } else {
-            return null;
-        }
+        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
+        ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
+        ' WHERE lkey ' . $more . ' :lkey AND rkey ' . $less . ' :rkey' .
+        ' AND (level BETWEEN :high_level AND :level)' .
+        ' ORDER BY lkey');
 
+        return $stmt;
     }
 
     /**
@@ -197,16 +241,7 @@ class dbTreeNS
         $stmt->bindParam(':level', $highLevel, PDO::PARAM_INT);
         $stmt->execute();
 
-        $branch = array();
-        while($row = $stmt->fetch()){
-            $branch[$row[$this->rowID]] = $row;
-        }
-        //echo'<pre>';print_r($branch); echo'</pre>';
-        if(count($branch)) {
-            return $branch;
-        } else {
-            return null;
-        }
+        return $this->createBranchFromRow($stmt);
     }
 
     /**
@@ -228,17 +263,48 @@ class dbTreeNS
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
         $stmt->execute();
 
-        $branch = array();
-        while($row = $stmt->fetch()) {
-            $branch[$row[$this->rowID]] = $row;
-        }
-
-        if(count($branch)) {
-            return $branch;
-        } else {
-            return null;
-        }
+        return $this->createBranchFromRow($stmt);
     }
+
+
+    /**
+     * Выборка узлов по на основе пути
+     *
+     * @param  string     $path          Путь
+     * @param  string     $deep          Глубина выборки
+     * @return array with nodes
+     */
+    public function getBranchByPath($path, $deep = 1)
+    {
+        $path = explode('/', trim($path));
+        $pathParts = '';
+
+        // @todo при такой проверке пути, если его даже перемешать все равно найдется последний кусок
+        foreach($path as $pathPart) {
+            if(strlen($pathPart) == 0) continue;
+            $pathParts .=  '`' . $this->innerField . "` = '" . $pathPart . "' OR ";
+        }
+        $pathParts = substr($pathParts, 0, -3);
+
+        $stmt = $this->db->prepare(' SELECT * ' .
+        ' FROM ' . $this->table. ' tree ' . $this->innerPart .
+        ' WHERE 0 OR ' . $pathParts . ' ORDER BY tree.level');
+        $stmt->execute();
+
+        $lastNode = array_pop($stmt->fetchAll());
+        $lastNodeVal = $lastNode[0];
+        // выборка без исходного узла
+        $stmt = $this->getBranchStmt(false);
+
+        $stmt->bindParam(':lkey', $lastNode['lkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':rkey', $lastNode['rkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':high_level', $lastNode['level'], PDO::PARAM_INT);
+        $stmt->bindParam(':level', $level = $lastNode['level'] + $deep, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $this->createBranchFromRow($stmt);
+    }
+
     /**
      * Выборка информации о родительском узле
      *
@@ -481,14 +547,24 @@ class dbTreeNS
 
     }
 
+    /**
+     * Выборка максимального павого ключа
+     *
+     * @return int
+     */
     public function getMaxRightKey()
     {
-        return $this->db->getOne(' SELECT MAX(rkey) FROM ' .$this->table);
+        return (int)$this->db->getOne(' SELECT MAX(rkey) FROM ' .$this->table);
     }
+
+
+
   /*  public function __sleep()
+
     {
         return array('table', 'dataTable', 'selectPart', 'innerPart', 'rowID');
     }
+
     public function __wakeup()
     {
         $this->db = DB::factory();

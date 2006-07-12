@@ -108,6 +108,23 @@ class newsFolderMapperTest extends unitTestCase
         }
     }
 
+    public function testGetFoldersByPath()
+    {
+        $this->fixture($this->mapper, $this->map);
+        $fixturePath = '/name1/name2/blabla';
+
+        $newsSubFolders = $this->mapper->getFoldersByPath($fixturePath);
+
+        $this->assertEqual(count($newsSubFolders), 2);
+
+        foreach ($newsSubFolders as $item) {
+            $this->assertIsA($item, 'newsFolder');
+            $this->assertEqual($item->getId(), $this->fixtureNewsFolder[$item->getId()]->getId());
+            $this->assertEqual($item->getName(), $this->fixtureNewsFolder[$item->getId()]->getName());
+            $this->assertEqual($item->getParent(), $this->fixtureNewsFolder[$item->getId()]->getParent());
+        }
+    }
+
     public function testSearchByName()
     {
         $this->fixture($this->mapper, $this->map);
@@ -169,6 +186,9 @@ class newsFolderMapperTest extends unitTestCase
             $newsFolder->setName('name' . ($i + 1));
             $newsFolder->setParent((string)$node['id']);
             $mapper->save($newsFolder);
+
+            $this->fixtureNewsFolder[$node['id']] = $newsFolder;
+
 
         }
 /*

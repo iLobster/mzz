@@ -115,6 +115,25 @@ class newsFolderMapper extends simpleMapper
     }
 
     /**
+     * Выборка ветки(нижележащих узлов)  на основе пути
+     *
+     * @param  string     $path          Путь
+     * @param  string     $deep          Глубина выборки
+     * @return array with nodes
+     */
+    public function getFoldersByPath($path, $deep = 1)
+    {
+        // выбирается только нижележащий уровень
+        $this->tree->setInnerField('name');
+        $rawFolders = $this->tree->getBranchByPath($path, $deep);
+        foreach($rawFolders as $row) {
+            $folders[] = $this->createItemFromRow($row);
+        }
+
+        return $folders;
+    }
+
+    /**
      * Возвращает объекты, находящиеся в данной папке
      *
      * @return array
