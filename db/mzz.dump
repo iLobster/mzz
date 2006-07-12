@@ -155,7 +155,7 @@ DROP TABLE IF EXISTS `sys_access`;
 
 CREATE TABLE `sys_access` (
   `id` int(11) NOT NULL auto_increment,
-  `module_property` int(11) default NULL,
+  `module_section_property` int(11) default NULL,
   `type` char(255) default NULL,
   `obj_id` int(11) default NULL,
   `uid` int(11) default NULL,
@@ -163,14 +163,14 @@ CREATE TABLE `sys_access` (
   `allow` tinyint(1) default NULL,
   `deny` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `module_property_id` (`module_property`,`obj_id`,`uid`,`gid`)
+  KEY `module_property_id` (`module_section_property`,`obj_id`,`uid`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access` (`id`, `module_property`, `type`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+INSERT INTO `sys_access` (`id`, `module_section_property`, `type`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (1,1,NULL,1,0,1,1,NULL),
   (3,2,NULL,1,0,1,1,NULL);
 
@@ -184,72 +184,66 @@ DROP TABLE IF EXISTS `sys_access_modules`;
 
 CREATE TABLE `sys_access_modules` (
   `id` int(11) NOT NULL auto_increment,
-  `module_id` int(11) default NULL,
-  `section` char(255) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `module_section` (`section`,`module_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_access_modules` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_modules` (`id`, `module_id`, `section`) VALUES 
-  (1,1,'timer'),
-  (2,2,'user'),
-  (3,3,'news'),
-  (4,4,'page');
-
-COMMIT;
-
-#
-# Structure for the `sys_access_modules_list` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_modules_list`;
-
-CREATE TABLE `sys_access_modules_list` (
-  `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_access_modules_list` table  (LIMIT 0,500)
+# Data for the `sys_access_modules` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access_modules_list` (`id`, `name`) VALUES 
-  (1,'timer'),
-  (2,'user'),
-  (3,'news'),
-  (4,'page');
+INSERT INTO `sys_access_modules` (`id`, `name`) VALUES 
+  (1,'news');
 
 COMMIT;
 
 #
-# Structure for the `sys_access_modules_properties` table : 
+# Structure for the `sys_access_modules_sections` table : 
 #
 
-DROP TABLE IF EXISTS `sys_access_modules_properties`;
+DROP TABLE IF EXISTS `sys_access_modules_sections`;
 
-CREATE TABLE `sys_access_modules_properties` (
+CREATE TABLE `sys_access_modules_sections` (
   `id` int(11) NOT NULL auto_increment,
   `module_id` int(11) default NULL,
-  `property_id` int(11) default NULL,
+  `section_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `module_poperty_unique` (`module_id`,`property_id`),
-  KEY `property_id` (`property_id`),
-  KEY `module_id` (`module_id`)
+  KEY `module_section` (`section_id`,`module_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_access_modules_properties` table  (LIMIT 0,500)
+# Data for the `sys_access_modules_sections` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access_modules_properties` (`id`, `module_id`, `property_id`) VALUES 
-  (1,3,1),
-  (2,3,2);
+INSERT INTO `sys_access_modules_sections` (`id`, `module_id`, `section_id`) VALUES 
+  (1,1,1);
+
+COMMIT;
+
+#
+# Structure for the `sys_access_modules_sections_properties` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules_sections_properties`;
+
+CREATE TABLE `sys_access_modules_sections_properties` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_section_id` int(11) default NULL,
+  `property_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `module_poperty_unique` (`module_section_id`,`property_id`),
+  KEY `property_id` (`property_id`),
+  KEY `module_id` (`module_section_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_modules_sections_properties` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules_sections_properties` (`id`, `module_section_id`, `property_id`) VALUES 
+  (1,1,1),
+  (2,1,2);
 
 COMMIT;
 
@@ -273,6 +267,28 @@ CREATE TABLE `sys_access_properties` (
 INSERT INTO `sys_access_properties` (`id`, `name`) VALUES 
   (1,'list'),
   (2,'view');
+
+COMMIT;
+
+#
+# Structure for the `sys_access_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_sections`;
+
+CREATE TABLE `sys_access_sections` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_sections` (`id`, `name`) VALUES 
+  (1,'news');
 
 COMMIT;
 

@@ -123,15 +123,14 @@ DROP TABLE IF EXISTS `sys_access`;
 
 CREATE TABLE `sys_access` (
   `id` int(11) NOT NULL auto_increment,
-  `module_property` int(11) default NULL,
-  `type` char(255) default NULL,
+  `module_section_property` int(11) default NULL,
   `obj_id` int(11) default NULL,
   `uid` int(11) default NULL,
   `gid` int(11) default NULL,
   `allow` tinyint(1) default NULL,
   `deny` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `module_property_id` (`module_property`,`obj_id`,`type`,`uid`,`gid`)
+  KEY `module_property_id` (`module_section_property`,`obj_id`,`uid`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -142,39 +141,39 @@ DROP TABLE IF EXISTS `sys_access_modules`;
 
 CREATE TABLE `sys_access_modules` (
   `id` int(11) NOT NULL auto_increment,
-  `module_id` int(11) default NULL,
-  `section` char(255) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `module_section` (`section`,`module_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_access_modules_list` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_modules_list`;
-
-CREATE TABLE `sys_access_modules_list` (
-  `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `sys_access_modules_properties` table : 
+# Structure for the `sys_access_modules_sections` table : 
 #
 
-DROP TABLE IF EXISTS `sys_access_modules_properties`;
+DROP TABLE IF EXISTS `sys_access_modules_sections`;
 
-CREATE TABLE `sys_access_modules_properties` (
+CREATE TABLE `sys_access_modules_sections` (
   `id` int(11) NOT NULL auto_increment,
   `module_id` int(11) default NULL,
+  `section_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `module_section` (`section_id`,`module_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_access_modules_sections_properties` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules_sections_properties`;
+
+CREATE TABLE `sys_access_modules_sections_properties` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_section_id` int(11) default NULL,
   `property_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `module_poperty_unique` (`module_id`,`property_id`),
+  UNIQUE KEY `module_poperty_unique` (`module_section_id`,`property_id`),
   KEY `property_id` (`property_id`),
-  KEY `module_id` (`module_id`)
+  KEY `module_id` (`module_section_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -184,6 +183,19 @@ CREATE TABLE `sys_access_modules_properties` (
 DROP TABLE IF EXISTS `sys_access_properties`;
 
 CREATE TABLE `sys_access_properties` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_access_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_sections`;
+
+CREATE TABLE `sys_access_sections` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),

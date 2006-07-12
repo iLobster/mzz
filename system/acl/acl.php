@@ -130,16 +130,19 @@ class acl
             }
             $grp = substr($grp, 0, -2);
 
-            $qry = 'SELECT IF(MAX(`a`.`deny`), 0, MAX(`a`.`allow`)) AS `access`, `p`.`name` FROM `sys_access_modules` `m`
-            INNER JOIN `sys_access_modules_list` `ml` ON `ml`.`id` = `m`.`module_id` AND `ml`.`name` = :module
-            INNER JOIN `sys_access_modules_properties` `mp` ON `m`.`id` = `mp`.`module_id` AND `m`.`section` = :section
-            INNER JOIN `sys_access_properties` `p` ON `mp`.`property_id` = `p`.`id`
-            INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id`  AND `a`.`obj_id` = :obj_id ' . //  AND `a`.`type` = :type
-            ' WHERE `a`.`uid` = :uid ';
+            $qry = 'SELECT IF(MAX(`a`.`deny`), 0, MAX(`a`.`allow`)) AS `access`, `p`.`name` FROM `sys_access_modules_sections` `ms`
+                     INNER JOIN `sys_access_modules` `m` ON `ms`.`module_id` = `m`.`id` AND `m`.`name` = :module
+                      INNER JOIN `sys_access_sections` `s` ON `ms`.`section_id` = `s`.`id` AND `s`.`name` = :section
+                       INNER JOIN `sys_access_modules_sections_properties` `msp` ON `msp`.`module_section_id` = `ms`.`id`
+                        INNER JOIN `sys_access_properties` `p` ON `p`.`id` = `msp`.`property_id`
+                         INNER JOIN `sys_access` `a` ON `a`.`module_section_property` = `p`.`id` AND `a`.`obj_id` = :obj_id
+                          WHERE `a`.`uid` = :uid ';
+
             if (sizeof($this->groups)) {
                 $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
             }
-            $qry .= ' GROUP BY `a`.`module_property`';
+
+            $qry .= ' GROUP BY `a`.`module_section_property`';
 
             $stmt = $this->db->prepare($qry);
 
@@ -178,19 +181,42 @@ class acl
         $this->doRoutine($qry, $obj_id);
     }
 
+    public function delete()
+    {
+        $this->initDb();
+
+        $stmt = $this->db->prepare('DELETE `a`
+                                    FROM `sys_access` `a`,
+                                     `sys_access_sections` `s`,
+                                     `sys_access_modules` `m`,
+                                     `sys_access_modules_sections` `ms`,
+                                     `sys_access_modules_sections_properties` `msp`
+                                    WHERE
+                                     `m`.`name` = :module AND `ms`.`module_id` = `m`.`id` AND
+                                      `s`.`name` = :section AND `ms`.`section_id` = `s`.`id` AND
+                                       `msp`.`module_section_id` = `ms`.`id` AND `a`.`module_section_property` = `msp`.`id` AND
+                                        `a`.`obj_id` = :obj_id');
+
+        $this->bind($stmt);
+
+        $stmt->execute();
+    }
+
     /**
-     * метод получения запроса
+     * метод получения запроса для получения объектов с нулевым obj_id
+     * эти объекты используются для указания дефолтных значений прав
      *
      * @return string
      * @see acl::register()
      */
     private function getQuery()
     {
-        return 'SELECT `a`.* FROM `sys_access_modules` `m`
-        INNER JOIN `sys_access_modules_list` `ml` ON `m`.`module_id` = `ml`.`id` AND `ml`.`name` = :module
-        INNER JOIN `sys_access_modules_properties` `mp` ON `mp`.`module_id` = `m`.`id`
-        INNER JOIN `sys_access` `a` ON `a`.`module_property` = `mp`.`id` AND `a`.`obj_id` = 0 ' . //AND `a`.`type` = :type
-        ' WHERE `m`.`section` = :section';
+        return 'SELECT `a`.* FROM `sys_access_modules_sections` `ms`
+                 INNER JOIN `sys_access_modules` `m` ON `ms`.`module_id` = `m`.`id` AND `m`.`name` = :module
+                  INNER JOIN `sys_access_sections` `s` ON `ms`.`section_id` = `s`.`id` AND `s`.`name` = :section
+                   INNER JOIN `sys_access_modules_sections_properties` `msp` ON `msp`.`module_section_id` = `ms`.`id`
+                    INNER JOIN `sys_access_properties` `p` ON `p`.`id` = `msp`.`property_id`
+                     INNER JOIN `sys_access` `a` ON `a`.`module_section_property` = `p`.`id` AND `a`.`obj_id` = 0';
     }
 
     /**
@@ -221,11 +247,11 @@ class acl
      */
     private function doInsertQuery($stmt, $obj_id)
     {
-        $qry = 'INSERT INTO `sys_access` (`module_property`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
+        $qry = 'INSERT INTO `sys_access` (`module_section_property`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
 
         $exists = false;
         while($row = $stmt->fetch()) {
-            $qry .= "(" . $this->db->quote($row['module_property']) . ", "; // . $this->db->quote($row['type']) . ", ";
+            $qry .= "(" . $this->db->quote($row['module_section_property']) . ", "; // . $this->db->quote($row['type']) . ", ";
             if (!$row['uid'] && !$row['gid']) {
                 $qry .= $this->db->quote($this->uid) . ', NULL';
             } else {
