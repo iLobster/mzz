@@ -181,7 +181,13 @@ class acl
         $this->doRoutine($qry, $obj_id);
     }
 
-    public function delete()
+    /**
+     * метод удаления объекта из системы авторизации<br>
+     * в случае, если аргумент $obj_id не указан, удаляется текущий объект
+     *
+     * @param integer $obj_id идентификатор удаляемого объекта
+     */
+    public function delete($obj_id = 0)
     {
         $this->initDb();
 
@@ -197,7 +203,7 @@ class acl
                                        `msp`.`module_section_id` = `ms`.`id` AND `a`.`module_section_property` = `msp`.`id` AND
                                         `a`.`obj_id` = :obj_id');
 
-        $this->bind($stmt);
+        $this->bind($stmt, $obj_id);
 
         $stmt->execute();
     }
@@ -285,15 +291,23 @@ class acl
      * бинд всех переменных в стейтмент
      *
      * @param mzzStatement $stmt
+     * @param integer $obj_id
      * @see acl::get()
      * @see acl::doRoutine()
+     * @see acl::delete()
      */
-    private function bind($stmt)
+    private function bind($stmt, $obj_id = 0)
     {
         $stmt->bindParam(':section', $this->section);
         $stmt->bindParam(':module', $this->module);
-        //$stmt->bindParam(':type', $this->type);
-        $stmt->bindParam(':obj_id', $this->obj_id);
+        if (!empty($obj_id)) {
+            $stmt->bindParam(':obj_id', $obj_id);
+        } else {
+            if (empty($this->obj_id)) {
+                throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
+            }
+            $stmt->bindParam(':obj_id', $this->obj_id);
+        }
         $stmt->bindParam(':uid', $this->uid);
     }
 }

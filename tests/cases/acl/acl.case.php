@@ -114,6 +114,15 @@ class aclTest extends unitTestCase
         $this->assertEqual($row['cnt'], 0);
 
     }
+
+    public function testDeleteArg()
+    {
+        $acl = new acl('news', 'news', new userStub(2));
+        $acl->delete(1);
+        $stmt = $this->db->query('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `module_section_property` IN (1, 2) AND `obj_id` = 1');
+        $row = $stmt->fetch();
+        $this->assertEqual($row['cnt'], 0);
+    }
 }
 
 ?>
