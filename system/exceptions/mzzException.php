@@ -113,36 +113,9 @@ class mzzException extends Exception
      */
     public function convertToString($arg)
     {
-        switch (true) {
-            case is_object($arg):
-                $str = 'object \'' . get_class($arg) . '\'';
-                break;
-
-            case is_array($arg):
-                $str = 'array(' . count($arg) . ')';
-                break;
-
-            case is_resource($arg):
-                $str = 'resource ' . get_resource_type($arg) . '';
-                break;
-
-            case is_string($arg):
-                $str = '\'' . $arg . '\'';
-                break;
-
-            case is_scalar($arg):
-                if (is_bool($arg)) {
-                    $str = $arg ? 'true' : 'false';
-                } else {
-                    $str = $arg;
-                }
-                break;
-
-            default:
-                $str = '\'' . $arg . '\'';
-                break;
-        }
-        return $str;
+        ob_start();
+        var_dump($arg);
+        return ob_get_clean();
     }
 
 }
