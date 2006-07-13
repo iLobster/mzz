@@ -135,7 +135,7 @@ class acl
                       INNER JOIN `sys_access_sections` `s` ON `ms`.`section_id` = `s`.`id` AND `s`.`name` = :section
                        INNER JOIN `sys_access_modules_sections_properties` `msp` ON `msp`.`module_section_id` = `ms`.`id`
                         INNER JOIN `sys_access_properties` `p` ON `p`.`id` = `msp`.`property_id`
-                         INNER JOIN `sys_access` `a` ON `a`.`module_section_property` = `p`.`id` AND `a`.`obj_id` = :obj_id
+                         INNER JOIN `sys_access` `a` ON `a`.`module_section_property` = `msp`.`id` AND `a`.`obj_id` = :obj_id
                           WHERE `a`.`uid` = :uid ';
 
             if (sizeof($this->groups)) {

@@ -12,8 +12,8 @@
 <p />
 {$content}
 <p />
-{load module="user" action="login" args=""}
+{load module="user" action="login" args="" section="user"}
 <div class="separator">&nbsp;</div>
-{load module="timer" action="view" args=""}
+{load module="timer" action="view" args="" section="timer"}
 </body>
 </html>

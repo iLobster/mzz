@@ -1,1 +1,1 @@
-{load module="user" action="login"}
+{load module="user" action="login" args="" section="user"}

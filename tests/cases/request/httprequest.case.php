@@ -96,16 +96,23 @@ class httpRequestTest extends unitTestCase
     public function testSaveRestore()
     {
         $this->httprequest->setParam('param_foo', $val = 'foo');
+        $this->httprequest->setAction($action = 'someaction');
+
         $this->assertEqual($this->httprequest->get('param_foo', SC_PATH), $val);
+        $this->assertEqual($this->httprequest->getAction(), $action);
 
         $this->httprequest->save();
 
         $this->httprequest->setParam('param_foo', $val2 = 'bar');
+        $this->httprequest->setAction($action2 = 'someaction2');
+
         $this->assertEqual($this->httprequest->get('param_foo', SC_PATH), $val2);
+        $this->assertEqual($this->httprequest->getAction(), $action2);
 
         $this->httprequest->restore();
 
         $this->assertEqual($this->httprequest->get('param_foo', SC_PATH), $val);
+        $this->assertEqual($this->httprequest->getAction(), $action);
     }
 }
 

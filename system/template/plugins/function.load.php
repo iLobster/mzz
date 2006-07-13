@@ -51,6 +51,10 @@ function smarty_function_load($params, $smarty)
     $request = $toolkit->getRequest();
     $request->save();
 
+    if(isset($params['section'])) {
+        $request->setSection($params['section']);
+    }
+
     if(isset($params['args'])) {
         $request->setParams(explode('/', $params['args']));
     }
@@ -68,11 +72,11 @@ function smarty_function_load($params, $smarty)
     $user = $toolkit->getUser();
 
     $acl = new acl($module, $request->getSection(), $user, $object_id);
+
     if ($acl->get($action->getActionName()))
         echo 'есть доступ';
     else
         echo 'нет доступа';
-
 
     $factory = new $modulename($action);
 

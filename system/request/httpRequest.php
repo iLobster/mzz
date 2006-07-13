@@ -85,6 +85,12 @@ class httpRequest implements iRequest
      */
     protected $action;
 
+    /**
+     * массив для временного хранения section и action между save() и restore()
+     *
+     * @var array
+     */
+    protected $savedSectionAction = array();
 
     /**
      * Конструктор.
@@ -269,6 +275,8 @@ class httpRequest implements iRequest
     public function save()
     {
         $this->savedParams = clone $this->params;
+        $this->savedSectionAction['action'] = $this->action;
+        $this->savedSectionAction['section'] = $this->section;
     }
 
     /**
@@ -278,6 +286,8 @@ class httpRequest implements iRequest
     public function restore()
     {
         $this->params = clone $this->savedParams;
+        $this->section = $this->savedSectionAction['section'];
+        $this->action = $this->savedSectionAction['action'];
     }
 }
 

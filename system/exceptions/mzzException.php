@@ -113,7 +113,7 @@ class mzzException extends Exception
      */
     public function convertToString($arg)
     {
-         switch (true) {
+        switch (true) {
             case is_object($arg):
                 $str = 'object \'' . get_class($arg) . '\'';
                 break;
@@ -131,10 +131,8 @@ class mzzException extends Exception
                 break;
 
             case is_scalar($arg):
-                if ($arg === false) {
-                    $str = 'false';
-                } elseif ($arg === true) {
-                    $str = 'true';
+                if (is_bool($arg)) {
+                    $str = $arg ? 'true' : 'false';
                 } else {
                     $str = $arg;
                 }
