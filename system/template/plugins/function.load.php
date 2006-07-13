@@ -86,9 +86,7 @@ function smarty_function_load($params, $smarty)
 
     $result = $view->toString();
 
-    if(isset($request)) {
-        $request->restore();
-    }
+    $request->restore();
 
     return $result;
 }
