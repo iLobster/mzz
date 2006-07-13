@@ -26,11 +26,9 @@ class pageViewController extends simpleController
         parent::__construct();
     }
 
-    public function getView($section = null)
+    public function getView()
     {
-        if (empty($section)) {
-            $section = $this->request->getSection();
-        }
+        $section = $this->request->getSection();
 
         //$pageMapper = $this->toolkit->getCache(new pageMapper($section));
         $pageMapper = new pageMapper($section);

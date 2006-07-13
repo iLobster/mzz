@@ -29,7 +29,7 @@ fileLoader::load('acl');
  * @return string результат работы модуля
  * @package system
  * @subpackage template
- * @version 0.3.2
+ * @version 0.4
  */
 function smarty_function_load($params, $smarty)
 {
@@ -40,13 +40,12 @@ function smarty_function_load($params, $smarty)
 
     $module = $params['module'];
     $modulename = $module . 'Factory';
-    $action_name = $params['action'];
 
     fileLoader::load($module . '.factory');
     $toolkit = systemToolkit::getInstance();
 
     $action = $toolkit->getAction($params['module']);
-    $action->setAction($action_name);
+    $action->setAction($params['action']);
 
     $request = $toolkit->getRequest();
     $request->save();
@@ -59,11 +58,7 @@ function smarty_function_load($params, $smarty)
         $request->setParams(explode('/', $params['args']));
     }
 
-    // хм, а почему null а не $request->getSection() например??
-    $section = (isset($params['section'])) ? $params['section'] : null;
-
     $mappername = $action->getType() . 'Mapper';
-
     fileLoader::load($module . '/mappers/' . $mappername);
 
     $mapper = new $mappername($request->getSection());
@@ -72,18 +67,11 @@ function smarty_function_load($params, $smarty)
     $user = $toolkit->getUser();
 
     $acl = new acl($module, $request->getSection(), $user, $object_id);
-
-    if ($acl->get($action->getActionName()))
-        echo 'есть доступ';
-    else
-        echo 'нет доступа';
+    echo $acl->get($action->getActionName()) ? 'есть доступ' : 'нет доступа';
 
     $factory = new $modulename($action);
-
     $controller = $factory->getController();
-
-    $view = $controller->getView($section);
-
+    $view = $controller->getView();
     $result = $view->toString();
 
     $request->restore();
