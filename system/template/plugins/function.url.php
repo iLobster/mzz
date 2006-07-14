@@ -20,8 +20,8 @@
  * Примеры использования:<br />
  * <code>
  * {url section="news"}
- * {url section="guestbook" action="delete" param="41"}
- * {url section="news" param="2006/08/12"}
+ * {url section="guestbook" action="delete" params="41"}
+ * {url section="news" params="2006/08/12"}
  * </code>
  *
  * @param array $params входные аргументы функции
