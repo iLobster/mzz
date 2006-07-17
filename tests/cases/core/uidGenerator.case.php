@@ -49,6 +49,8 @@ class uidGeneratorTest extends unitTestCase
         $this->assertEqual($this->uidGenerator->generate(), 1000000);
 
         $this->assertEqual($this->getCount(), 1);
+
+        $this->assertEqual($this->uidGenerator->generate(), 1000001);
     }
 
     private function getCount()
