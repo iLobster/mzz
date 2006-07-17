@@ -249,6 +249,17 @@ CREATE TABLE `sys_sessions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Structure for the `sys_uid` table : 
+#
+
+DROP TABLE IF EXISTS `sys_uid`;
+
+CREATE TABLE `sys_uid` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
 # Structure for the `user_user` table : 
 #
 
