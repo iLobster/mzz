@@ -44,7 +44,8 @@ class UIDGenerator
 
     private function clean($id)
     {
-        $this->db->query('DELETE FROM `sys_uid` WHERE `id` != ' . $id);
+        $this->db->query('DELETE FROM `sys_uid`');
+        $this->db->query('INSERT INTO `sys_uid` (`id`) VALUES (' . $id . ')');
     }
 }
 
