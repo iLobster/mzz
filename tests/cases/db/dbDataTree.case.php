@@ -22,6 +22,8 @@ class dbTreeDataTest extends unitTestCase
         $this->tree = new dbTreeNS($init);
         $this->mapper = new stubMapper($section = 'simple');
         $this->fixtureType = 'dataFixture';
+        $this->tree->setInnerField('foo');
+
         //echo'<pre>';print_r($this->mapper); echo'</pre>';
         //echo'<pre>';print_r($this); echo'</pre>';
         $this->clearDb();
@@ -72,17 +74,34 @@ class dbTreeDataTest extends unitTestCase
                        '7' => array('id'=>7, 'lkey'=>9 ,'rkey'=>10 ,'level'=>3),
                        '8' => array('id'=>8, 'lkey'=>11,'rkey'=>12 ,'level'=>3)
                        );
+
+        $this->treePathFixture = array(1 => '1', 2 => '1/2',
+                                       3 => '1/3', 4 => '1/4',
+                                       5 => '1/2/5', 6 => '1/2/6',
+                                       7 => '1/3/7', 8 => '1/3/8');
+
         $valString = '';
         foreach($this->treeFixture as $id => $data) {
             $valString .= "('" . $id . "','" . $data['lkey'] . "','" . $data['rkey'] . "','" . $data['level'] . "'),";
         }
-        $values[$this->table] = substr($valString, 0,  strlen($valString)-1);
+        $values[$this->table] = substr($valString, 0, -1);
 
         #заполнение фикстуры таблицы данных
         $valString = '';
         foreach($this->treeFixture as $id => $row) {
-            $this->dataFixture[$id] = array('id' => $id, 'foo' =>'foo' . $id , 'bar' => 'bar' . $id);
-            $valString .= "('" . $id . "','" . $this->dataFixture[$id]['foo'] . "','" . $this->dataFixture[$id]['bar'] . "'),";
+            $path = '';
+            $pathParts = explode('/',$this->treePathFixture[$id]);
+            foreach($pathParts as $part) {
+                $path .= $this->tree->getInnerField() . $part . '/';
+            }
+            $path = substr($path, 0, -1);
+
+            $this->dataFixture[$id] = array('id' => $id ,
+                                            'foo' =>'foo' . $id ,
+                                            'bar' => 'bar' . $id ,
+                                            'path' => $path
+                                            );
+            $valString .= "('" . $id . "','" . $this->dataFixture[$id]['foo'] . "','" . $this->dataFixture[$id]['bar'] . "','" . $this->dataFixture[$id]['path'] . "'),";
         }
         $values[$this->dataTable] = substr($valString, 0, -1);
 
@@ -90,7 +109,6 @@ class dbTreeDataTest extends unitTestCase
         foreach($values as $table => $val) {
             $stmt = $this->db->prepare(' INSERT INTO `' .$table. '` VALUES ' . $val);
             $stmt->execute();
-
             }
     }
 
@@ -157,16 +175,25 @@ class dbTreeDataTest extends unitTestCase
         $path[] = '/foo1/foo3/';
         $path[] = 'foo1/foo3/not_exist';
         $path[] = '/foo1/foo3';
-        $path[] = 'foo1/foo3/not_exist/not_exist_too';
-        # В пути ищется узел находящийся на самом нижнем уровне и выбираются нижележащие узлы
-        $path[] = '/foo3/foo1';
-        $path[] = 'not_exist/not_exist_too/foo3';
+        $path[] = 'foo1/not_exist/not_exist_too/foo3';
 
-        $this->tree->setInnerField('foo');
+
+        $badPath[] = 'not_exist/foo3/foo1';
+        $badPath[] = '/foo3/foo1/';
+        $badPath[] = '/foo1/foo3/foo7';
+        $badPath[] = '/foo1/foo2/foo3/';
+
+
         $fixtureNodes = $this->setFixture(array(7,8));
+
         foreach($path as $p) {
             $nodes = $this->tree->getBranchByPath($p);
             $this->assertEqual($nodes, $fixtureNodes);
+        }
+
+        foreach($badPath as $p) {
+            $nodes = $this->tree->getBranchByPath($p);
+            $this->assertNotEqual($nodes, $fixtureNodes);
         }
     }
 

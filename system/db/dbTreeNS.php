@@ -78,7 +78,7 @@ class dbTreeNS
 
         if(!is_null($this->dataTable)) {
             $this->selectPart = '`data`.*';
-            $this->innerPart = 'INNER JOIN ' . $this->dataTable . ' data ON `data`.' . $dataID . ' = `tree`.' . $treeID . ' ';
+            $this->innerPart = 'INNER JOIN ' . $this->dataTable . ' `data` ON `data`.' . $dataID . ' = `tree`.' . $treeID . ' ';
         }
         else {
             $this->selectPart = '*';
@@ -102,6 +102,11 @@ class dbTreeNS
     public function setInnerField($tableField)
     {   if(!(is_string($tableField) && strlen($tableField))) return false;
         $this->innerField = $tableField;
+    }
+
+    public function getInnerField()
+    {
+        return $this->innerField ;
     }
 
     /**
@@ -266,9 +271,54 @@ class dbTreeNS
         return $this->createBranchFromRow($stmt);
     }
 
+    /**
+     * Проверка правильности пути
+     *
+     * @param  string     $path          Путь
+     * @return array with id
+     */
+    public function checkPath($path)
+    {
+        $path = explode('/', trim($path));
+
+        // @todo при такой проверке пути, если его даже перемешать все равно найдется последний кусок
+        # В пути ищется узел находящийся на самом нижнем уровне и выбираются нижележащие узлы
+        # то есть неважно как составлен путь, будет осуществлен поиск нижнего и от него уже пляски
+        $query = '';
+        $queryTemplate = ' SELECT *  FROM ' . $this->table . ' `tree` ' . $this->innerPart . ' WHERE ';
+
+        foreach($path as $pathPart) {
+            if(strlen($pathPart) == 0) continue;
+            $query .= $queryTemplate . '`' . $this->innerField . "` = '" . $pathPart . "' UNION ";
+
+        }
+
+
+        $query = substr($query, 0, -6);
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $existNodes = $stmt->fetchAll();
+
+        $rewritedPath = array();
+        foreach($existNodes as $i => $node) {
+            if($i == 0) {
+                $rewritedPath[$i] = $node[$this->innerField];
+
+            } else {
+                $rewritedPath[$i] = $rewritedPath[$i - 1] . '/' . $node[$this->innerField];
+            }
+        }
+
+       //echo"<pre>rewritedPath=";print_r($rewritedPath); echo"</pre>";
+       // echo"<pre>--- $path --- existNodes --> <br />";print_r($existNodes); echo'<br />---------------------------</pre>';
+
+        return $rewritedPath;
+
+    }
 
     /**
-     * Выборка узлов по на основе пути
+     * Выборка ветки(нижележащих узлов)на основе пути
      *
      * @param  string     $path          Путь
      * @param  string     $deep          Глубина выборки
@@ -276,23 +326,29 @@ class dbTreeNS
      */
     public function getBranchByPath($path, $deep = 1)
     {
-        $path = explode('/', trim($path));
-        $pathParts = '';
+        $rewritedPath = $this->checkPath($path);
+        $query = '';
+        $queryTemplate = ' SELECT *  FROM ' . $this->table . ' `tree` ' . $this->innerPart . ' WHERE ';
 
-        // @todo при такой проверке пути, если его даже перемешать все равно найдется последний кусок
-        foreach($path as $pathPart) {
-            if(strlen($pathPart) == 0) continue;
-            $pathParts .=  '`' . $this->innerField . "` = '" . $pathPart . "' OR ";
+        foreach($rewritedPath as $pathVariant) {
+            if(strlen($pathVariant) == 0) continue;
+            $query .= $queryTemplate . "`data`.`path` = '" . $pathVariant . "' UNION ";
+
         }
-        $pathParts = substr($pathParts, 0, -3);
 
-        $stmt = $this->db->prepare(' SELECT * ' .
-        ' FROM ' . $this->table. ' tree ' . $this->innerPart .
-        ' WHERE 0 OR ' . $pathParts . ' ORDER BY tree.level');
+        $query = substr($query, 0, -6);
+       // echo"<pre>";print_r($query); echo"</pre>";
+
+        $stmt = $this->db->prepare($query);
         $stmt->execute();
+        $existNodes = $stmt->fetchAll();
 
-        $lastNode = array_pop($stmt->fetchAll());
-        $lastNodeVal = $lastNode[0];
+        //echo"<pre>--- $path --- existNodes --> <br />";print_r($existNodes); echo'<br />---------------------------</pre>';
+
+
+        $lastNode = array_pop($existNodes);
+
+       //$lastNodeVal = $lastNode[0];
         // выборка без исходного узла
         $stmt = $this->getBranchStmt(false);
 
