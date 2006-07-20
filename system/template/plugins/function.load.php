@@ -57,7 +57,7 @@ function smarty_function_load($params, $smarty)
     if(isset($params['args'])) {
         $request->setParams(explode('/', $params['args']));
     }
-
+/*
     $mappername = $action->getType() . 'Mapper';
     fileLoader::load($module . '/mappers/' . $mappername);
 
@@ -67,7 +67,7 @@ function smarty_function_load($params, $smarty)
     $user = $toolkit->getUser();
 
     $acl = new acl($module, $request->getSection(), $user, $object_id);
-    echo $acl->get($action->getActionName()) ? 'есть доступ' : 'нет доступа';
+    echo $acl->get($action->getActionName()) ? 'есть доступ' : 'нет доступа'; */
 
     $factory = new $modulename($action);
     $controller = $factory->getController();
