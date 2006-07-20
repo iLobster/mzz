@@ -26,7 +26,6 @@ class aclTest extends unitTestCase
 {
     private $db;
     private $acl;
-    private $user;
 
     public function __construct()
     {
@@ -45,7 +44,7 @@ class aclTest extends unitTestCase
         $this->db->query("INSERT INTO `sys_access_modules_sections_properties` (`id`, `module_section_id`, `property_id`) VALUES (1,1,1), (2,1,2)");
         $this->db->query("INSERT INTO `sys_access_properties` (`id`, `name`) VALUES (1,'edit'), (2,'delete')");
 
-        $this->acl = new acl('news', 'news', new userStub(), 1);
+        $this->acl = new acl(new userStub(), 1);
     }
 
     public function tearDown()
@@ -82,13 +81,13 @@ class aclTest extends unitTestCase
 
     public function testRegister()
     {
-        $acl = new acl('news', 'news', new userStub(2), $obj_id = 10);
-        $acl->register($obj_id);
+        $acl = new acl(new userStub(2), 10);
+        $acl->register($obj_id = 10, $module = 'news', $section = 'news');
 
         $this->assertEqual(1, $acl->get('delete'));
         $this->assertEqual(1, $acl->get('edit'));
 
-        $acl2 = new acl('news', 'news', new userStub(3), $obj_id = 10);
+        $acl2 = new acl(new userStub(3), 10);
         $this->assertEqual(1, $acl2->get('delete'));
         $this->assertEqual(1, $acl2->get('edit'));
     }
@@ -112,12 +111,11 @@ class aclTest extends unitTestCase
         $stmt = $this->db->query('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `module_section_property` IN (1, 2) AND `obj_id` = 1');
         $row = $stmt->fetch();
         $this->assertEqual($row['cnt'], 0);
-
     }
 
     public function testDeleteArg()
     {
-        $acl = new acl('news', 'news', new userStub(2));
+        $acl = new acl(new userStub(2));
         $acl->delete(1);
         $stmt = $this->db->query('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `module_section_property` IN (1, 2) AND `obj_id` = 1');
         $row = $stmt->fetch();

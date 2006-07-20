@@ -78,12 +78,12 @@ class acl
     /**
      * конструктор
      *
-     * @param string $module
-     * @param string $section
      * @param user $user
      * @param integer $object_id
+     * @param string_type $module
+     * @param string $section
      */
-    public function __construct($module, $section, $user = null, $object_id = 0)
+    public function __construct($user = null, $object_id = 0, $module = null, $section = null)
     {
         if (empty($user)) {
             $toolkit = systemToolkit::getInstance();
@@ -130,17 +130,16 @@ class acl
             }
             $grp = substr($grp, 0, -2);
 
-            $qry = 'SELECT IF(MAX(`a`.`deny`), 0, MAX(`a`.`allow`)) AS `access`, `p`.`name` FROM `sys_access_modules_sections` `ms`
-                     INNER JOIN `sys_access_modules` `m` ON `ms`.`module_id` = `m`.`id` AND `m`.`name` = :module
-                      INNER JOIN `sys_access_sections` `s` ON `ms`.`section_id` = `s`.`id` AND `s`.`name` = :section
-                       INNER JOIN `sys_access_modules_sections_properties` `msp` ON `msp`.`module_section_id` = `ms`.`id`
-                        INNER JOIN `sys_access_properties` `p` ON `p`.`id` = `msp`.`property_id`
-                         INNER JOIN `sys_access` `a` ON `a`.`module_section_property` = `msp`.`id` AND `a`.`obj_id` = :obj_id
-                          WHERE `a`.`uid` = :uid ';
+            $qry = 'SELECT IF(MAX(`a`.`deny`), 0, MAX(`a`.`allow`)) AS `access`, `p`.`name` FROM `sys_access` `a`
+                     INNER JOIN `sys_access_modules_sections_properties` `msp` ON `a`.`module_section_property` = `msp`.`id`
+                      INNER JOIN `sys_access_properties` `p` ON `msp`.`property_id` = `p`.`id`
+                       WHERE `a`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
 
             if (sizeof($this->groups)) {
                 $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
             }
+
+            $qry .= ')';
 
             $qry .= ' GROUP BY `a`.`module_section_property`';
 
@@ -172,9 +171,33 @@ class acl
      *   с аналогичными значениями раздела, модуля, типа и имеющими значение uid = 0
      *
      * @param integer $obj_id уникальный id регистрируемого объекта
+     * @param string $module имя модуля
+     * @param string $section имя раздела
      */
-    public function register($obj_id)
+    public function register($obj_id, $module = null, $section = null)
     {
+        $this->obj_id = $obj_id;
+
+        if (!is_int($this->obj_id) || $this->obj_id <= 0) {
+            throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
+        }
+
+        if (!empty($module)) {
+            $this->module = $module;
+        }
+
+        if (!empty($section)) {
+            $this->section = $section;
+        }
+
+        if (empty($this->module) || !is_string($this->module)) {
+            throw new mzzInvalidParameterException('Свойство $module не установлено или имеет тип, отличный от string', $this->module);
+        }
+
+        if (empty($this->section) || !is_string($this->section)) {
+            throw new mzzInvalidParameterException('Свойство $section не установлено или имеет тип, отличный от string', $this->section);
+        }
+
         $this->initDb();
 
         $qry = $this->getQuery();
@@ -191,17 +214,7 @@ class acl
     {
         $this->initDb();
 
-        $stmt = $this->db->prepare('DELETE `a`
-                                    FROM `sys_access` `a`,
-                                     `sys_access_sections` `s`,
-                                     `sys_access_modules` `m`,
-                                     `sys_access_modules_sections` `ms`,
-                                     `sys_access_modules_sections_properties` `msp`
-                                    WHERE
-                                     `m`.`name` = :module AND `ms`.`module_id` = `m`.`id` AND
-                                      `s`.`name` = :section AND `ms`.`section_id` = `s`.`id` AND
-                                       `msp`.`module_section_id` = `ms`.`id` AND `a`.`module_section_property` = `msp`.`id` AND
-                                        `a`.`obj_id` = :obj_id');
+        $stmt = $this->db->prepare('DELETE FROM `sys_access` WHERE `obj_id` = :obj_id');
 
         $this->bind($stmt, $obj_id);
 
@@ -237,7 +250,7 @@ class acl
     {
         $stmt = $this->db->prepare($qry);
 
-        $this->bind($stmt);
+        $this->bind($stmt, $obj_id);
 
         $stmt->execute();
 
@@ -261,7 +274,7 @@ class acl
             if (!$row['uid'] && !$row['gid']) {
                 $qry .= $this->db->quote($this->uid) . ', NULL';
             } else {
-                $qry .= (int)$row['uid'] . ", " . (int)$row['gid'];
+                $qry .= (($tmp = (int)$row['uid']) > 0 ? $tmp : 'NULL' ). ", " . (($tmp = (int)$row['gid']) > 0 ? $tmp : 'NULL');
             }
             $qry .= ", " . (int)$row['allow'] . ", " . (int)$row['deny'] . ", " . (int)$obj_id . "), ";
             $exists = true;
@@ -300,12 +313,13 @@ class acl
     {
         $stmt->bindParam(':section', $this->section);
         $stmt->bindParam(':module', $this->module);
+
         if (!empty($obj_id)) {
-            $stmt->bindParam(':obj_id', $obj_id);
-        } else {
-            if (empty($this->obj_id)) {
+            if (!is_int($obj_id) || $obj_id <= 0) {
                 throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
             }
+            $stmt->bindParam(':obj_id', $obj_id);
+        } else {
             $stmt->bindParam(':obj_id', $this->obj_id);
         }
         $stmt->bindParam(':uid', $this->uid);
