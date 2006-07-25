@@ -170,10 +170,10 @@ class dbTreeDataTest extends unitTestCase
         $this->assertNull($parentNode);
     }
 
-    public function testGetOneLevelBranchByPath()
+    public function testGetOneLevelBranchByPath_WithPathCorrect()
     {
-        $path[] = '/foo1/foo3/';
-        $path[] = 'foo1/foo3/not_exist';
+        $path[] = '/foo1///foo3/';
+        $path[] = 'foo1//foo3/not_exist';
         $path[] = '/foo1/foo3';
         $path[] = 'foo1/not_exist/not_exist_too/foo3';
 
@@ -185,7 +185,7 @@ class dbTreeDataTest extends unitTestCase
 
 
         $fixtureNodes = $this->setFixture(array(7,8));
-
+        $this->tree->setCorrectPathMode(true);
         foreach($path as $p) {
             $nodes = $this->tree->getBranchByPath($p);
             $this->assertEqual($nodes, $fixtureNodes);
@@ -195,6 +195,51 @@ class dbTreeDataTest extends unitTestCase
             $nodes = $this->tree->getBranchByPath($p);
             $this->assertNotEqual($nodes, $fixtureNodes);
         }
+    }
+
+    public function testGetOneLevelBranchByPath()
+    {
+        $path[] = '/foo1/foo3/';
+        $path[] = 'foo1/foo3';
+        $path[] = '//foo1////foo3////';
+
+        $badPath[] = 'not_exist/foo3/foo1';
+        $badPath[] = '/foo1/foo3/not_exist';
+        $badPath[] = '/foo3/foo1/';
+        $badPath[] = '/foo1/foo3/foo2';
+        $badPath[] = '/foo1/foo2/foo3/';
+
+
+        $fixtureNodes = $this->setFixture(array(7,8));
+        $this->tree->setCorrectPathMode(false);
+        foreach($path as $p) {
+            $nodes = $this->tree->getBranchByPath($p);
+            $this->assertEqual($nodes, $fixtureNodes);
+        }
+
+        foreach($badPath as $p) {
+            $nodes = $this->tree->getBranchByPath($p);
+            $this->assertNotEqual($nodes, $fixtureNodes);
+        }
+    }
+
+    public function testCreateNewPathsAfterInsertNewNode()
+    {
+        // вставляем новую запись в таблицу с данными
+        $newDataRecord = array('foo' => 'newFoo', 'bar' => 'newBar');
+        $this->db->query(" INSERT INTO " . $this->dataTable . '(foo, bar)' .
+        " VALUES ('" . $newDataRecord['foo'] . "','" . $newDataRecord['bar'] . "')");
+        $newDataID = $this->db->lastInsertId();
+
+        // добавляем в структуру дерева новый узел
+        $newNode = $this->tree->insertNode(3, $newDataID);
+        $newID = $newNode['id'];
+
+
+        $pathFixture = 'foo1/foo3/newFoo';
+        $this->assertEqual($pathFixture, $this->tree->getPath($newID));
+
+
     }
 
 

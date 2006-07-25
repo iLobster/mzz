@@ -60,6 +60,14 @@ class dbTreeNS
     private $rowID;
 
     /**
+     * Если true, то используется режим корректировки  пути при выборки ветки на его основе
+     * Включение режима увеличивает количество запросов на 1
+     *
+     * @var bool
+     */
+    private $correctPathMode;
+
+    /**
      * Конструктор
      *
      * @param array  $init  Данные о таблицах и связывающих полях array( tree => array(table,id), data => array(table,id) )
@@ -89,24 +97,112 @@ class dbTreeNS
 
     }
 
+    /**
+     * Установка имени таблицы содержащей данные
+     *
+     * @return string
+     */
     public function setDataTable($table)
     {
         $this->dataTable = $table;
     }
 
+    /**
+     * Получение имени таблицы содержащей данные
+     *
+     * @return string
+     */
     public function getDataTable()
     {
         return $this->dataTable;
     }
 
+    /**
+     * Установка имени поля по которому идет связывание таблицы данных и таблицы структуры дерева
+     *
+     * @return string
+     */
     public function setInnerField($tableField)
     {   if(!(is_string($tableField) && strlen($tableField))) return false;
         $this->innerField = $tableField;
     }
 
+    /**
+     * Получение имени поля по которому идет связывание таблицы данных и таблицы структуры дерева
+     *
+     * @return string
+     */
     public function getInnerField()
     {
         return $this->innerField ;
+    }
+
+    /**
+     * Выборка пути хранящегося в таблице на основе id записи
+     *
+     * @param  int     $id       Идентификатор узла
+     * @return string
+     */
+    public function getPath($id)
+    {
+        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
+        ' FROM ' . $this->dataTable. ' `data` ' .
+        ' WHERE `data`.' . $this->rowID . ' = :id' );
+
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch();
+
+        return $row['path'];
+    }
+
+    /**
+     * Построение пути основе id записи
+     *
+     * @param  int     $id       Идентификатор узла в структуре дерева
+     * @return string
+     */
+    public function createPathFromTreeByID($id)
+    {
+        $parentBranch = $this->getParentBranch($id,99999999);
+        if(!is_array($parentBranch)) return null;
+
+        $path = '';
+        foreach($parentBranch as $node) {
+            $path .= $node[$this->innerField] . '/';
+        }
+        return substr($path, 0, -1);
+    }
+
+
+    public function  updatePath($dataID, $treeID)
+    {
+        $path = $this->createPathFromTreeByID($treeID);
+
+        if ($dataID == $treeID) {
+            $this->db->query(' UPDATE ' . $this->dataTable . ' SET `path` = "'  .$path . '"  WHERE ' . $this->rowID . ' = ' . $dataID);
+        } else {
+            $this->db->query(' UPDATE ' . $this->dataTable . ' SET `path` = "'  .$path . ', `' .$this->rowID . '` = "'  .$treeID . ', "  WHERE ' . $this->rowID . ' = ' . $dataID);
+        }
+
+
+    }
+    
+    /**
+     * Смена режима выборки узлов на основе пути
+     *
+     * @param  bool     $mode          Режим работы, с коррекцией пути или без
+     * @return void
+     */
+    public function setCorrectPathMode($mode = false)
+    {
+        if($mode) {
+            $this->correctPathMode = true;
+        } else {
+            $this->correctPathMode = false;
+        }
+
     }
 
     /**
@@ -272,27 +368,22 @@ class dbTreeNS
     }
 
     /**
-     * Проверка правильности пути
+     * Выборка массива содержащего возможные существующие варианты пути
      *
      * @param  string     $path          Путь
      * @return array with id
      */
-    public function checkPath($path)
+    public function getPathVariants($path)
     {
-        $path = explode('/', trim($path));
+        $pathParts = explode('/', trim($path));
 
-        // @todo при такой проверке пути, если его даже перемешать все равно найдется последний кусок
-        # В пути ищется узел находящийся на самом нижнем уровне и выбираются нижележащие узлы
-        # то есть неважно как составлен путь, будет осуществлен поиск нижнего и от него уже пляски
-        $query = '';
         $queryTemplate = ' SELECT *  FROM ' . $this->table . ' `tree` ' . $this->innerPart . ' WHERE ';
+        $query = '';
 
-        foreach($path as $pathPart) {
+        foreach($pathParts as $pathPart) {
             if(strlen($pathPart) == 0) continue;
             $query .= $queryTemplate . '`' . $this->innerField . "` = '" . $pathPart . "' UNION ";
-
         }
-
 
         $query = substr($query, 0, -6);
 
@@ -304,21 +395,18 @@ class dbTreeNS
         foreach($existNodes as $i => $node) {
             if($i == 0) {
                 $rewritedPath[$i] = $node[$this->innerField];
-
             } else {
                 $rewritedPath[$i] = $rewritedPath[$i - 1] . '/' . $node[$this->innerField];
             }
         }
-
        //echo"<pre>rewritedPath=";print_r($rewritedPath); echo"</pre>";
        // echo"<pre>--- $path --- existNodes --> <br />";print_r($existNodes); echo'<br />---------------------------</pre>';
-
         return $rewritedPath;
 
     }
 
     /**
-     * Выборка ветки(нижележащих узлов)на основе пути
+     * Выборка ветки(нижележащих узлов) на основе пути до верхнего узла ветки
      *
      * @param  string     $path          Путь
      * @param  string     $deep          Глубина выборки
@@ -326,18 +414,31 @@ class dbTreeNS
      */
     public function getBranchByPath($path, $deep = 1)
     {
-        $rewritedPath = $this->checkPath($path);
+        if($this->correctPathMode) {
+            // убираем части пути несуществующие в таблице
+            $rewritedPath = $this->getPathVariants($path);
+
+        } else {
+            // простая проверка на правильность пути, убираем лишние слэши
+            $pathParts = explode('/', trim($path));
+            foreach($pathParts as $key => $part) {
+                if(strlen($part) == 0 ) {
+                    unset($pathParts[$key]);
+                }
+            }
+            $rewritedPath[] = implode('/', $pathParts);
+        }
+
+        // Выбираем все существующие пути
         $query = '';
         $queryTemplate = ' SELECT *  FROM ' . $this->table . ' `tree` ' . $this->innerPart . ' WHERE ';
 
         foreach($rewritedPath as $pathVariant) {
             if(strlen($pathVariant) == 0) continue;
             $query .= $queryTemplate . "`data`.`path` = '" . $pathVariant . "' UNION ";
-
         }
-
+        //echo"<pre>query ";print_r($query); echo"</pre>";
         $query = substr($query, 0, -6);
-       // echo"<pre>";print_r($query); echo"</pre>";
 
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -345,10 +446,9 @@ class dbTreeNS
 
         //echo"<pre>--- $path --- existNodes --> <br />";print_r($existNodes); echo'<br />---------------------------</pre>';
 
-
+        // берем самый длинный существующий путь
         $lastNode = array_pop($existNodes);
 
-       //$lastNodeVal = $lastNode[0];
         // выборка без исходного узла
         $stmt = $this->getBranchStmt(false);
 
@@ -359,6 +459,7 @@ class dbTreeNS
         $stmt->execute();
 
         return $this->createBranchFromRow($stmt);
+
     }
 
     /**
@@ -395,9 +496,10 @@ class dbTreeNS
      * Вставка узла ниже заданного
      *
      * @param  int     $id           Идентификатор узла ниже которого размещать
+     * @param  int     $dataID           Идентификатор записи в таблице с данными
      * @return array
      */
-    public function insertNode($id)
+    public function insertNode($id, $dataID = 0)
     {
         if($id == 0) return $this->insertRootNode();
 
@@ -422,6 +524,14 @@ class dbTreeNS
         'rkey'  => $parentNode['rkey'] + 1,
         'level' => $parentNode['level'] + 1);
 
+        if(!isset($this->dataTable)) return $newNode;
+
+        // обновление путей в таблице данных
+        if($dataID == 0) {
+            $dataID = $newNode['id'];
+        }
+
+        $this->updatePath($dataID, $newNode['id']);
 
         return $newNode;
 
