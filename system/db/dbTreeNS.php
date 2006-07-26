@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.4
+ * @version 0.5
 */
 class dbTreeNS
 {
@@ -53,7 +53,7 @@ class dbTreeNS
     private $innerPart;
 
     /**
-     * Имя поля содержащего ключ таблицы
+     * Имя поля содержащего ключ (поле с идентификаторами) таблицы
      *
      * @var string
      */
@@ -70,16 +70,20 @@ class dbTreeNS
     /**
      * Конструктор
      *
-     * @param array  $init  Данные о таблицах и связывающих полях array( tree => array(table,id), data => array(table,id) )
+     * @param array  $init        Данные о таблицах и связывающих полях array( tree => array(table,id), data => array(table,id) )
+     * @param array  $innerField  Имя поля которое будет использоватся для построения дерева, листья дерева
      */
-    public function __construct($init)
+    public function __construct($init, $innerField = 'name')
     {
+        $this->db = DB::factory();
+        $this->setInnerField($innerField);
         # данные о таблице с деревом
         $this->table = $init['tree']['table']; // as tree
         $treeID = $init['tree']['id'];
 
         # данные о таблице с данными
         $this->dataTable = isset($init['data']['table'])?$init['data']['table']:null; //as data
+
         $dataID = isset($init['data']['id'])?$init['data']['id']:null;
 
         $this->rowID = is_null($dataID) ? $treeID : $dataID;
@@ -87,13 +91,13 @@ class dbTreeNS
         if(!is_null($this->dataTable)) {
             $this->selectPart = '`data`.*';
             $this->innerPart = 'INNER JOIN ' . $this->dataTable . ' `data` ON `data`.' . $dataID . ' = `tree`.' . $treeID . ' ';
+            //$this->createPathField();
+
         }
         else {
             $this->selectPart = '*';
             $this->innerPart = '';
         }
-
-        $this->db = DB::factory();
 
     }
 
@@ -165,7 +169,7 @@ class dbTreeNS
      */
     public function createPathFromTreeByID($id)
     {
-        $parentBranch = $this->getParentBranch($id,99999999);
+        $parentBranch = $this->getParentBranch($id, 99999999);
         if(!is_array($parentBranch)) return null;
 
         $path = '';
@@ -185,24 +189,6 @@ class dbTreeNS
         } else {
             $this->db->query(' UPDATE ' . $this->dataTable . ' SET `path` = "'  .$path . ', `' .$this->rowID . '` = "'  .$treeID . ', "  WHERE ' . $this->rowID . ' = ' . $dataID);
         }
-
-
-    }
-    
-    /**
-     * Смена режима выборки узлов на основе пути
-     *
-     * @param  bool     $mode          Режим работы, с коррекцией пути или без
-     * @return void
-     */
-    public function setCorrectPathMode($mode = false)
-    {
-        if($mode) {
-            $this->correctPathMode = true;
-        } else {
-            $this->correctPathMode = false;
-        }
-
     }
 
     /**
@@ -287,7 +273,6 @@ class dbTreeNS
         $stmt->execute();
 
         return $this->createBranchFromRow($stmt);
-
     }
 
     /**
@@ -368,6 +353,75 @@ class dbTreeNS
     }
 
     /**
+     * Смена режима выборки узлов на основе пути
+     *
+     * @param  bool     $mode          Режим работы, с коррекцией пути или без
+     * @return void
+     */
+    public function setCorrectPathMode($mode = false)
+    {
+        if($mode) {
+            $this->correctPathMode = true;
+        } else {
+            $this->correctPathMode = false;
+        }
+    }
+
+    /**
+     * Выборка ветки(нижележащих узлов) на основе пути до верхнего узла ветки
+     *
+     * @param  string     $path          Путь
+     * @param  string     $deep          Глубина выборки
+     * @return array with nodes
+     */
+    public function getBranchByPath($path, $deep = 1)
+    {
+        if($this->correctPathMode) {
+            // убираем части пути несуществующие в таблице
+            $rewritedPath = $this->getPathVariants($path);
+
+        } else {
+            // простая проверка на правильность пути, убираем лишние слэши
+            $pathParts = explode('/', trim($path));
+            foreach($pathParts as $key => $part) {
+                if(strlen($part) == 0 ) {
+                    unset($pathParts[$key]);
+                }
+            }
+            $rewritedPath[] = implode('/', $pathParts);
+        }
+
+        // Выбираем все существующие пути
+        $query = '';
+        $queryTemplate = ' SELECT *  FROM ' . $this->table . ' `tree` ' . $this->innerPart . ' WHERE ';
+
+        foreach($rewritedPath as $pathVariant) {
+            if(strlen($pathVariant) == 0) continue;
+            $query .= $queryTemplate . "`data`.`path` = '" . $pathVariant . "' UNION ";
+        }
+        $query = substr($query, 0, -6);
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $existNodes = $stmt->fetchAll();
+
+        // берем самый длинный существующий путь
+        $lastNode = array_pop($existNodes);
+
+        // выборка без исходного узла
+        $stmt = $this->getBranchStmt(false);
+
+        $stmt->bindParam(':lkey', $lastNode['lkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':rkey', $lastNode['rkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':high_level', $lastNode['level'], PDO::PARAM_INT);
+        $stmt->bindParam(':level', $level = $lastNode['level'] + $deep, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $this->createBranchFromRow($stmt);
+
+    }
+
+    /**
      * Выборка массива содержащего возможные существующие варианты пути
      *
      * @param  string     $path          Путь
@@ -406,63 +460,6 @@ class dbTreeNS
     }
 
     /**
-     * Выборка ветки(нижележащих узлов) на основе пути до верхнего узла ветки
-     *
-     * @param  string     $path          Путь
-     * @param  string     $deep          Глубина выборки
-     * @return array with nodes
-     */
-    public function getBranchByPath($path, $deep = 1)
-    {
-        if($this->correctPathMode) {
-            // убираем части пути несуществующие в таблице
-            $rewritedPath = $this->getPathVariants($path);
-
-        } else {
-            // простая проверка на правильность пути, убираем лишние слэши
-            $pathParts = explode('/', trim($path));
-            foreach($pathParts as $key => $part) {
-                if(strlen($part) == 0 ) {
-                    unset($pathParts[$key]);
-                }
-            }
-            $rewritedPath[] = implode('/', $pathParts);
-        }
-
-        // Выбираем все существующие пути
-        $query = '';
-        $queryTemplate = ' SELECT *  FROM ' . $this->table . ' `tree` ' . $this->innerPart . ' WHERE ';
-
-        foreach($rewritedPath as $pathVariant) {
-            if(strlen($pathVariant) == 0) continue;
-            $query .= $queryTemplate . "`data`.`path` = '" . $pathVariant . "' UNION ";
-        }
-        //echo"<pre>query ";print_r($query); echo"</pre>";
-        $query = substr($query, 0, -6);
-
-        $stmt = $this->db->prepare($query);
-        $stmt->execute();
-        $existNodes = $stmt->fetchAll();
-
-        //echo"<pre>--- $path --- existNodes --> <br />";print_r($existNodes); echo'<br />---------------------------</pre>';
-
-        // берем самый длинный существующий путь
-        $lastNode = array_pop($existNodes);
-
-        // выборка без исходного узла
-        $stmt = $this->getBranchStmt(false);
-
-        $stmt->bindParam(':lkey', $lastNode['lkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':rkey', $lastNode['rkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':high_level', $lastNode['level'], PDO::PARAM_INT);
-        $stmt->bindParam(':level', $level = $lastNode['level'] + $deep, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $this->createBranchFromRow($stmt);
-
-    }
-
-    /**
      * Выборка информации о родительском узле
      *
      * @param  int     $id           Идентификатор узла
@@ -496,7 +493,7 @@ class dbTreeNS
      * Вставка узла ниже заданного
      *
      * @param  int     $id           Идентификатор узла ниже которого размещать
-     * @param  int     $dataID           Идентификатор записи в таблице с данными
+     * @param  int     $dataID       Идентификатор записи в таблице с данными
      * @return array
      */
     public function insertNode($id, $dataID = 0)
@@ -557,7 +554,6 @@ class dbTreeNS
         'lkey'  => 1,
         'rkey'  => $maxRightKey + 2,
         'level' => 1);
-
 
         return $newRootNode;
 
@@ -723,7 +719,17 @@ class dbTreeNS
         return (int)$this->db->getOne(' SELECT MAX(rkey) FROM ' .$this->table);
     }
 
-
+    /**
+     * Создание поля для хранения путей
+     *
+     * @return int
+     */
+    public function createPathField()
+    {
+        if(strlen($this->dataTable)) {
+            $this->db->query('ALTER TABLE ' . $this->dataTable . ' ADD `path` char(255)');
+        }
+    }
 
   /*  public function __sleep()
 

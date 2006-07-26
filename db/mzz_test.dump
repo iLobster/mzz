@@ -1,26 +1,10 @@
-# EMS MySQL Manager Pro 3.3.0.2
-# ---------------------------------------
-# Host     : localhost
-# Port     : 3306
-# Database : mzz_test
-
-
-SET FOREIGN_KEY_CHECKS=0;
+# MySQL-Front 3.2  (Build 12.3)
 
 DROP DATABASE IF EXISTS `mzz_test`;
-
-CREATE DATABASE `mzz_test`
-    CHARACTER SET 'cp1251'
-    COLLATE 'cp1251_general_ci';
-
+CREATE DATABASE `mzz_test` /*!40100 DEFAULT CHARACTER SET cp1251 */;
 USE `mzz_test`;
 
-#
-# Structure for the `news_news` table : 
-#
-
-DROP TABLE IF EXISTS `news_news`;
-
+/*!40101 SET NAMES cp1251 */;
 CREATE TABLE `news_news` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
@@ -32,24 +16,13 @@ CREATE TABLE `news_news` (
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `news_news_folder` table : 
-#
-
-DROP TABLE IF EXISTS `news_news_folder`;
-
 CREATE TABLE `news_news_folder` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   `parent` int(11) default '0',
+  `path` char(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `news_news_folder_tree` table : 
-#
-
-DROP TABLE IF EXISTS `news_news_folder_tree`;
 
 CREATE TABLE `news_news_folder_tree` (
   `id` int(10) NOT NULL auto_increment,
@@ -60,25 +33,6 @@ CREATE TABLE `news_news_folder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `news_news_tree` table : 
-#
-
-DROP TABLE IF EXISTS `news_news_tree`;
-
-CREATE TABLE `news_news_tree` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `parent` int(11) default '0',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `page_page` table : 
-#
-
-DROP TABLE IF EXISTS `page_page`;
-
 CREATE TABLE `page_page` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
@@ -86,12 +40,6 @@ CREATE TABLE `page_page` (
   `content` text NOT NULL,
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `simple_simple` table : 
-#
-
-DROP TABLE IF EXISTS `simple_simple`;
 
 CREATE TABLE `simple_simple` (
   `id` int(11) NOT NULL auto_increment,
@@ -101,12 +49,6 @@ CREATE TABLE `simple_simple` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `simple_simple_tree` table : 
-#
-
-DROP TABLE IF EXISTS `simple_simple_tree`;
-
 CREATE TABLE `simple_simple_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
@@ -115,12 +57,6 @@ CREATE TABLE `simple_simple_tree` (
   PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_access` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access`;
 
 CREATE TABLE `sys_access` (
   `id` int(11) NOT NULL auto_increment,
@@ -134,12 +70,11 @@ CREATE TABLE `sys_access` (
   KEY `module_property_id` (`module_section_property`,`obj_id`,`uid`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `sys_access_modules` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_modules`;
-
+INSERT INTO `sys_access` VALUES (4,1,0,3,NULL,1,NULL);
+INSERT INTO `sys_access` VALUES (5,2,0,3,NULL,1,NULL);
+INSERT INTO `sys_access` VALUES (6,2,0,NULL,4,1,NULL);
+INSERT INTO `sys_access` VALUES (7,1,0,0,NULL,1,NULL);
+INSERT INTO `sys_access` VALUES (8,2,0,0,NULL,1,NULL);
 CREATE TABLE `sys_access_modules` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
@@ -147,12 +82,7 @@ CREATE TABLE `sys_access_modules` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `sys_access_modules_sections` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_modules_sections`;
-
+INSERT INTO `sys_access_modules` VALUES (1,'news');
 CREATE TABLE `sys_access_modules_sections` (
   `id` int(11) NOT NULL auto_increment,
   `module_id` int(11) default NULL,
@@ -161,12 +91,7 @@ CREATE TABLE `sys_access_modules_sections` (
   KEY `module_section` (`section_id`,`module_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `sys_access_modules_sections_properties` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_modules_sections_properties`;
-
+INSERT INTO `sys_access_modules_sections` VALUES (1,1,1);
 CREATE TABLE `sys_access_modules_sections_properties` (
   `id` int(11) NOT NULL auto_increment,
   `module_section_id` int(11) default NULL,
@@ -177,12 +102,8 @@ CREATE TABLE `sys_access_modules_sections_properties` (
   KEY `module_id` (`module_section_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `sys_access_properties` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_properties`;
-
+INSERT INTO `sys_access_modules_sections_properties` VALUES (1,1,1);
+INSERT INTO `sys_access_modules_sections_properties` VALUES (2,1,2);
 CREATE TABLE `sys_access_properties` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
@@ -190,12 +111,8 @@ CREATE TABLE `sys_access_properties` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `sys_access_sections` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_sections`;
-
+INSERT INTO `sys_access_properties` VALUES (1,'edit');
+INSERT INTO `sys_access_properties` VALUES (2,'delete');
 CREATE TABLE `sys_access_sections` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
@@ -203,12 +120,7 @@ CREATE TABLE `sys_access_sections` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `sys_cfg` table : 
-#
-
-DROP TABLE IF EXISTS `sys_cfg`;
-
+INSERT INTO `sys_access_sections` VALUES (1,'news');
 CREATE TABLE `sys_cfg` (
   `id` int(11) NOT NULL auto_increment,
   `section` varchar(255) NOT NULL default '',
@@ -216,12 +128,6 @@ CREATE TABLE `sys_cfg` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `section_module` (`section`,`module`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_cfg_values` table : 
-#
-
-DROP TABLE IF EXISTS `sys_cfg_values`;
 
 CREATE TABLE `sys_cfg_values` (
   `id` int(11) NOT NULL auto_increment,
@@ -231,12 +137,6 @@ CREATE TABLE `sys_cfg_values` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_sessions` table : 
-#
-
-DROP TABLE IF EXISTS `sys_sessions`;
 
 CREATE TABLE `sys_sessions` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -249,22 +149,10 @@ CREATE TABLE `sys_sessions` (
   KEY `sid` (`sid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `sys_uid` table : 
-#
-
-DROP TABLE IF EXISTS `sys_uid`;
-
 CREATE TABLE `sys_uid` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_user` table : 
-#
-
-DROP TABLE IF EXISTS `user_user`;
 
 CREATE TABLE `user_user` (
   `id` int(11) NOT NULL auto_increment,
@@ -273,23 +161,11 @@ CREATE TABLE `user_user` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `user_user_group` table : 
-#
-
-DROP TABLE IF EXISTS `user_user_group`;
-
 CREATE TABLE `user_user_group` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_user_group_rel` table : 
-#
-
-DROP TABLE IF EXISTS `user_user_group_rel`;
 
 CREATE TABLE `user_user_group_rel` (
   `id` int(11) NOT NULL auto_increment,
@@ -298,3 +174,5 @@ CREATE TABLE `user_user_group_rel` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+

@@ -19,10 +19,10 @@ class dbTreeDataTest extends unitTestCase
         $init = array ('data' => array('table' => $this->dataTable, 'id' =>'id'),
                        'tree' => array('table' => $this->table , 'id' =>'id'));
 
-        $this->tree = new dbTreeNS($init);
+        $this->tree = new dbTreeNS($init, 'foo');
         $this->mapper = new stubMapper($section = 'simple');
         $this->fixtureType = 'dataFixture';
-        $this->tree->setInnerField('foo');
+        // old variant $this->tree->setInnerField('foo');
 
         //echo'<pre>';print_r($this->mapper); echo'</pre>';
         //echo'<pre>';print_r($this); echo'</pre>';
@@ -217,8 +217,8 @@ class dbTreeDataTest extends unitTestCase
             $this->assertEqual($nodes, $fixtureNodes);
         }
 
-        foreach($badPath as $p) {
-            $nodes = $this->tree->getBranchByPath($p);
+        foreach($badPath as $bp) {
+            $nodes = $this->tree->getBranchByPath($bp);
             $this->assertNotEqual($nodes, $fixtureNodes);
         }
     }
@@ -238,9 +238,9 @@ class dbTreeDataTest extends unitTestCase
 
         $pathFixture = 'foo1/foo3/newFoo';
         $this->assertEqual($pathFixture, $this->tree->getPath($newID));
-
-
     }
+
+
 
 
 }

@@ -18,7 +18,8 @@ class newsFolderMapperTest extends unitTestCase
         $init = array ('data' => array('table' => 'news_news_folder', 'id' =>'parent'),
                        'tree' => array('table' => 'news_news_folder_tree' , 'id' =>'id'));
 
-        $this->tree = new dbTreeNS($init);
+        $this->tree = new dbTreeNS($init, 'name');
+
     }
 
     public function setUp()
@@ -26,7 +27,8 @@ class newsFolderMapperTest extends unitTestCase
         $this->map = array(
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId'),
         'name' => array ('name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
-        'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent')
+        'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent'),
+        'path' => array ('name' => 'path', 'accessor' => 'getPath', 'mutator' => 'setPath')
         );
 
         $this->mapNews = array(
@@ -111,9 +113,10 @@ class newsFolderMapperTest extends unitTestCase
     public function testGetFoldersByPath()
     {
         $this->fixture($this->mapper, $this->map);
-        $fixturePath = '/name1/name2/blabla';
+        $fixturePath = '/name1/name2/';
 
         $newsSubFolders = $this->mapper->getFoldersByPath($fixturePath);
+        //echo"<pre>";print_r($newsSubFolders); echo"</pre>";
 
         $this->assertEqual(count($newsSubFolders), 2);
 
@@ -172,33 +175,31 @@ class newsFolderMapperTest extends unitTestCase
     private function fixture($mapper, $map)
     {
 
-        $levelFixture = array(1 => 0, 2 => 1, 3 => 1, 4 => 1, 5 => 2, 6 => 2, 7 => 3, 8 => 3);
+        $nodeParentsFixture = array(1 => 0, 2 => 1, 3 => 1, 4 => 1, 5 => 2, 6 => 2, 7 => 3, 8 => 3);
 
-        for($i = 0; $i < 8; $i++) {
-            $parents = range(1,8);
-            if($i == 0) {
+        for($i = 1; $i <= 8; $i++) {
+            if($i == 1) {
                 $node = $this->tree->insertRootNode();
             } else {
-                $node = $this->tree->insertNode($levelFixture[$i + 1]);
+                $node = $this->tree->insertNode($nodeParentsFixture[$i]);
             }
 
             $newsFolder = new newsFolder($mapper, $map);
-            $newsFolder->setName('name' . ($i + 1));
-            $newsFolder->setParent((string)$node['id']);
+            $newsFolder->setName('name' . ($i));
+            $newsFolder->setParent($node['id']);
             $mapper->save($newsFolder);
 
+            //  можно так
+            $newsFolder->setPath($this->tree->createPathFromTreeByID($node['id']));
+            $mapper->save($newsFolder);
+            // или же так
+            //$this->tree->updatePath($newsFolder->getId(), $node['id']);
+
             $this->fixtureNewsFolder[$node['id']] = $newsFolder;
+            //echo"<pre>";print_r($this->fixtureNewsFolder); echo"</pre>";
 
 
         }
-/*
-        $valString = '';
-        foreach($this->fixture as $id => $data) {
-            $valString .= "('" . $id . "','" . $data['lkey'] . "','" . $data['rkey'] . "','" . $data['level'] . "'),";
-        }
-        $valString = substr($valString, 0,  strlen($valString)-1);
-        $stmt = $this->db->prepare(' INSERT INTO `' . $this->table .'` VALUES ' . $valString);
-        $stmt->execute();*/
     }
 
 }
