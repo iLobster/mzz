@@ -20,7 +20,7 @@ class dbTreeDataTest extends unitTestCase
                        'tree' => array('table' => $this->table , 'id' =>'id'));
 
         $this->tree = new dbTreeNS($init, 'foo');
-        $this->mapper = new stubMapper($section = 'simple');
+        //$this->mapper = new stubMapper($section = 'simple');
         $this->fixtureType = 'dataFixture';
         // old variant $this->tree->setInnerField('foo');
 
@@ -48,13 +48,17 @@ class dbTreeDataTest extends unitTestCase
 
     }
 
-    private function setFixture($idArray)
+    private function setFixture($idArray = null)
     {
         switch($this->fixtureType) {
             case 'treeFixture' : $fix =  $this->treeFixture; break;
             case 'dataFixture' : $fix =  $this->dataFixture; break;
 
         }
+        if(!is_array($idArray)) {
+            $idArray = range(1,8);
+        }
+
         foreach($idArray as $id) {
             $fixture[$id] = $fix[$id];
         }
@@ -75,10 +79,10 @@ class dbTreeDataTest extends unitTestCase
                        '8' => array('id'=>8, 'lkey'=>11,'rkey'=>12 ,'level'=>3)
                        );
 
-        $this->treePathFixture = array(1 => '1', 2 => '1/2',
-                                       3 => '1/3', 4 => '1/4',
-                                       5 => '1/2/5', 6 => '1/2/6',
-                                       7 => '1/3/7', 8 => '1/3/8');
+        $this->treePathFixture = array(1 => 'foo1', 2 => 'foo1/foo2',
+                                       3 => 'foo1/foo3', 4 => 'foo1/foo4',
+                                       5 => 'foo1/foo2/foo5', 6 => 'foo1/foo2/foo6',
+                                       7 => 'foo1/foo3/foo7', 8 => 'foo1/foo3/foo8');
 
         $valString = '';
         foreach($this->treeFixture as $id => $data) {
@@ -89,17 +93,11 @@ class dbTreeDataTest extends unitTestCase
         #заполнение фикстуры таблицы данных
         $valString = '';
         foreach($this->treeFixture as $id => $row) {
-            $path = '';
-            $pathParts = explode('/',$this->treePathFixture[$id]);
-            foreach($pathParts as $part) {
-                $path .= $this->tree->getInnerField() . $part . '/';
-            }
-            $path = substr($path, 0, -1);
 
             $this->dataFixture[$id] = array('id' => $id ,
                                             'foo' =>'foo' . $id ,
                                             'bar' => 'bar' . $id ,
-                                            'path' => $path
+                                            'path' => $this->treePathFixture[$id]
                                             );
             $valString .= "('" . $id . "','" . $this->dataFixture[$id]['foo'] . "','" . $this->dataFixture[$id]['bar'] . "','" . $this->dataFixture[$id]['path'] . "'),";
         }
@@ -223,7 +221,7 @@ class dbTreeDataTest extends unitTestCase
         }
     }
 
-    public function testCreateNewPathsAfterInsertNewNode()
+    public function testCreateNewPaths_AfterInsertNewNode()
     {
         // вставляем новую запись в таблицу с данными
         $newDataRecord = array('foo' => 'newFoo', 'bar' => 'newBar');
@@ -232,13 +230,66 @@ class dbTreeDataTest extends unitTestCase
         $newDataID = $this->db->lastInsertId();
 
         // добавляем в структуру дерева новый узел
-        $newNode = $this->tree->insertNode(3, $newDataID);
-        $newID = $newNode['id'];
-
+        $newNode = $this->tree->insertNode(3);
 
         $pathFixture = 'foo1/foo3/newFoo';
-        $this->assertEqual($pathFixture, $this->tree->getPath($newID));
+
+        $this->assertEqual($newDataID, $newNode['id']);
+        $this->assertEqual($pathFixture, $this->tree->getPath($newNode['id']));
     }
+
+    public function testCreateNewPaths_AfterInsertRootNode()
+    {
+        $newRootDataRecord = array('foo' => 'rootFoo', 'bar' => 'rootBar');
+        $this->db->query(" INSERT INTO " . $this->dataTable . '(foo, bar)' .
+        " VALUES ('" . $newRootDataRecord['foo'] . "','" . $newRootDataRecord['bar'] . "')");
+        $newRootID = $this->db->lastInsertId();
+
+        // добавляем в структуру дерева корневой узел
+        $newNode = $this->tree->insertRootNode();
+        $newTree = $this->tree->getTree();
+
+        $fixtureTree = $this->setFixture();
+
+        $this->assertEqual($newRootID, $newNode['id']);
+
+        foreach($fixtureTree as $i => $node) {
+            $fixtureTree[$i]['path'] = $newRootDataRecord['foo'] . '/' . $fixtureTree[$i]['path'];
+            $this->assertEqual($newTree[$i]['path'], $fixtureTree[$i]['path']);
+        }
+    }
+
+    public function testCreateNewPaths_AfterMoveNode()
+    {
+        $newTreePathFixture = array(1 => 'foo1', 2 => 'foo1/foo4/foo2',
+                                    3 => 'foo1/foo3', 4 => 'foo1/foo4',
+                                    5 => 'foo1/foo4/foo2/foo5', 6 => 'foo1/foo4/foo2/foo6',
+                                    7 => 'foo1/foo3/foo7', 8 => 'foo1/foo3/foo8');
+
+        $this->tree->moveNode(2,4);
+        $newTree = $this->tree->getTree();
+
+        foreach($newTreePathFixture as $i => $node) {
+            $this->assertEqual($newTree[$i]['path'], $newTreePathFixture[$i]);
+        }
+
+    }
+
+    public function testRemoveNodeAndRemoveRecordsInDataTable()
+    {
+        $fixtureTree = $this->setFixture(array(1, 3, 4, 7, 8));
+
+        $this->tree->removeNode(2);
+        $newTree = $this->tree->getTree();
+
+
+        foreach($fixtureTree as $i => $node) {
+            $this->assertEqual($node, $newTree[$i]);
+        }
+    }
+
+
+
 
 
 
