@@ -1,19 +1,19 @@
 <?php
 
-// createaction.php     type            action          
-// createaction.php     newsFolder      editFolder      
+// createaction.php     type            action
+// createaction.php     newsFolder      editFolder
 try {
         if (!isset($argv[1]) || $argv[1] == '-h') {
             throw new Exception('This tool is used for generating blank files for new module action
 
-createfunction.php type action
+createaction.php type action
 
 type            the type of object action created for
 action          the creating action\'s name
 
 Sample usage:
 
-    > createfunction.php news edit
+    > createaction.php news edit
     Creates action edit for news type object:
         - adds new section into actions/news.ini
         - creates controllers/news.edit.controller.php
@@ -34,6 +34,7 @@ Sample usage:
         $smarty->compile_dir = MZZ . 'tmp';
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
+        $log = "";
 
         if (!is_dir(CUR . '/actions')) {
             throw new Exception('Error: Actions directory not found');
@@ -111,18 +112,26 @@ Sample usage:
             throw new Exception('Error: view file already exists');
         }
 
+        $log .= "\nFile edited successfully: ";
         // записываем данные в actions файл
         file_put_contents($actionsfile, $actions_output);
+        $log .= "\n- " . $actionsfile;
 
+        $log .= "\n\nFile created successfully: ";
         // записываем данные в файл контроллера
         $smarty->assign('controller_data', $controller_data);
         $controller = $smarty->fetch('controller.tpl');
         file_put_contents($controller_filename, $controller);
+        $log .= "\n- " . $controller_filename;
 
         // записываем данные в файл вида
         $smarty->assign('view_data', $view_data);
         $view = $smarty->fetch('view.tpl');
         file_put_contents($view_filename, $view);
+
+        $log .= "\n- " . $view_filename;
+        file_put_contents('create_' . $type . '_' . $action .'_action_log.txt', $log);
+
 
         throw new Exception('All operations completed successfully');
 } catch (Exception $e) {

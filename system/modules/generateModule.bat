@@ -1,0 +1,1 @@
+C:\myserver\php5\php.exe ..\codegenerator\createmodule.php company
