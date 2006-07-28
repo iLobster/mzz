@@ -34,9 +34,9 @@ Sample usage:
         $smarty->compile_dir = MZZ . 'tmp';
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
-        $log = "";
+        chdir(getcwd());
 
-        if (!is_dir(CUR . '/actions')) {
+        if (!is_dir('/actions')) {
             throw new Exception('Error: Actions directory not found');
         }
 
@@ -50,7 +50,7 @@ Sample usage:
 
         $type = $argv[1];
         $action = $argv[2];
-        $actionsfile = CUR . '/actions/' . $type . '.ini';
+        $actionsfile = 'actions/' . $type . '.ini';
 
         if (!is_file($actionsfile)) {
             throw new Exception("Error: Actions file '" . $type . " .ini' not found");
@@ -73,7 +73,7 @@ Sample usage:
             }
         }
 
-        $controllers_dir = CUR . '/controllers';
+        $controllers_dir = 'controllers';
 
         if (!is_dir($controllers_dir)) {
             throw new Exception("Error: Controllers directory '" . $controllers_dir . "' not found");
@@ -93,7 +93,7 @@ Sample usage:
             throw new Exception('Error: controller file already exists');
         }
 
-        $views_dir = CUR . '/views';
+        $views_dir = 'views';
 
         if (!is_dir($views_dir)) {
             throw new Exception("Error: Views directory '" . $views_dir . "' not found");
@@ -112,7 +112,7 @@ Sample usage:
             throw new Exception('Error: view file already exists');
         }
 
-        $log .= "\nFile edited successfully: ";
+        $log = "File edited successfully: ";
         // записываем данные в actions файл
         file_put_contents($actionsfile, $actions_output);
         $log .= "\n- " . $actionsfile;

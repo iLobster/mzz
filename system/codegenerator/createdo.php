@@ -13,7 +13,7 @@ name         name of DO
 Sample usage:
 
     > createdo.php  news
-    Creates folders needed of news module :
+    Creates files needed of news module :
         - create file with DO class: news.php
         - create file with mapper class: newsMapper.php
         - create ini file with map : news.ini' );
@@ -40,12 +40,29 @@ Sample usage:
             $doName = $argv[1];
         }
 
-        // -------создаем ДО класс-----------
+
         $doNameFile = $doName . '.php';
         if (is_file($doNameFile)) {
             throw new Exception('Error: DO file[' . $doNameFile . '] already exists');
         }
 
+        $mapperName = $doName . 'Mapper';
+        $mapperNameFile = $mapperName . '.php';
+        if (is_file('mappers/' . $mapperNameFile)) {
+            throw new Exception('Error: mapper file['.$mapperNameFile.'] already exists');
+        }
+
+        $mapFileName = $doName . '.map.ini';
+        if (is_file('maps/' . $mapFileName)) {
+            throw new Exception('Error: map ini file['.$mapFileName.'] already exists');
+        }
+
+        $iniFileName = $doName . '.ini';
+        if (is_file('actions/' . $iniFileName)) {
+            throw new Exception('Error: actions ini file['.$iniFileName.'] already exists');
+        }
+
+        // -------создаем ДО класс-----------
         $doData = array(
                 'doname' => $doName,
                 'module' => $module,
@@ -58,11 +75,7 @@ Sample usage:
 
 
         // -------создаем маппер-----------
-        $mapperName = $doName . 'Mapper';
-        $mapperNameFile = $mapperName . '.php';
-        if (is_file('mappers/' . $mapperNameFile)) {
-            throw new Exception('Error: mapper file['.$mapperNameFile.'] already exists');
-        }
+
 
         $mapperData = array(
                 'doname' => $doName,
@@ -76,19 +89,12 @@ Sample usage:
         $log .= "\n- " .$module . '/mappers/' . $mapperNameFile;
 
         // -------создаем ini файл для экшинов-----------
-        $iniFileName = $doName . '.ini';
-        if (is_file('actions/' . $iniFileName)) {
-            throw new Exception('Error: actions ini file['.$iniFileName.'] already exists');
-        }
+
         $f = fopen('actions/' . $iniFileName, 'w');
         fclose($f);
         $log .= "\n- " .$module . '/actions/' . $iniFileName;
 
         // -------создаем map файл -----------
-        $mapFileName = $doName . '.map.ini';
-        if (is_file('maps/' . $mapFileName)) {
-            throw new Exception('Error: map ini file['.$mapFileName.'] already exists');
-        }
         $f = fopen('maps/' . $mapFileName, 'w');
         fclose($f);
         $log .= "\n- " .$module . '/maps/' . $mapFileName;

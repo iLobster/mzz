@@ -49,6 +49,13 @@ Sample usage:
         }
         chdir($module);
 
+        $factoryName = $module . 'Factory';
+        $factoryFilename = $module . '.' . 'factory' . '.php';
+
+        if (is_file($factoryFilename)) {
+            throw new Exception('Error: factory file already exists');
+        }        
+
         // создаем папку actions
         if (!is_dir('actions')) {
             mkdir('actions');
@@ -76,13 +83,6 @@ Sample usage:
             $log .= "\n- " . $module . "/views";
         }
 
-
-        $factoryName = $module . 'Factory';
-        $factoryFilename = $module . '.' . 'factory' . '.php';
-
-        if (is_file($factoryFilename)) {
-            throw new Exception('Error: factory file already exists');
-        }
 
         $factoryData = array(
                 'factory_name' => $factoryName,
