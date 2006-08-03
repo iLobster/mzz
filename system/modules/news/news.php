@@ -48,6 +48,24 @@ class news extends simple
             return null;
         }
     }
+
+    /**
+     * Получение имени папки, в которой находится новость
+     *
+     * @return string
+     */
+    public function getFolderName()
+    {
+        fileLoader::load("news/mappers/newsFolderMapper");
+        fileLoader::load('news/newsFolder');
+        $newsFolderMapper = new newsFolderMapper('news');
+        $folderName = $newsFolderMapper->searchOneByField('id', $this->fields->get('folder_id'));
+
+        return $folderName->getName();
+
+    }
+
+
 }
 
 ?>
