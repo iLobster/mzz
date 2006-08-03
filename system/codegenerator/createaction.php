@@ -36,7 +36,7 @@ Sample usage:
         $smarty->right_delimiter = '}}';
         chdir(getcwd());
 
-        if (!is_dir('/actions')) {
+        if (!is_dir('actions')) {
             throw new Exception('Error: Actions directory not found');
         }
 
