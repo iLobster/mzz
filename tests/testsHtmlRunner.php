@@ -13,7 +13,13 @@ class testsHtmlRunner implements iFilter
 
         if (isset($_GET['group'])) {
             $group = $_GET['group'];
-            $group = preg_replace('/[^a-z]/i', '', $group);
+
+            $path = explode('/', $_GET['group']);
+            $testGroup = $path[0];
+            if(count($path) > 1) {
+                $testSubGroup = $path[1];
+            }
+
             if (is_dir($casesDir . '/' . $group)) {
                 $casesDirGroup = $casesDirGroup . '/' . $group;
                 $casesName = $group;
@@ -41,13 +47,34 @@ class testsHtmlRunner implements iFilter
         foreach (testsFinder::getCategoriesList($casesDir) as $dirlist) {
             $name = substr(strrchr($dirlist, '/'), 1);
             echo ' - <a href="run.php?group=' . $name . '" style="color: black; font: 11px tahoma,verdana,arial;">';
-            if(isset($group) && $name == $group) {
-                echo '<b>' . ucfirst($name) . ' tests</b>';
+
+            if(isset($group) && $name == $testGroup) {
+                 echo '<b>' . ucfirst($name) . ' tests</b></a>';
+                 $curDir = $dirlist;
             } else {
-                echo ucfirst($name) . ' tests';
+                 echo ucfirst($name) . ' tests</a>';
             }
-            echo '</a>';
         }
+        echo "<br />";
+        if(isset($curDir)) {
+            $subDirList = '<br /><div style="color: black; font: 12px tahoma,verdana,arial;">' . ucfirst($testGroup) . ' tests &gt;&gt;&gt; ';
+            foreach(testsFinder::getDirsList($curDir) as $subDir) {
+                $subTest = explode('cases', $subDir);
+                $subTestDir = substr($subTest[1],1);
+                $subTestName = substr(strrchr($subTestDir, '/'), 1);
+
+                if($group == $subTestDir) {
+                    $subDirList .= '<a href="run.php?group=' . $subTestDir . '" style="color: black; font: 11px tahoma,verdana,arial;"><b>' . ucfirst($subTestName) . '</b></a> - ';
+                } else {
+                    $subDirList .= '<a href="run.php?group=' . $subTestDir . '" style="color: black; font: 11px tahoma,verdana,arial;">' . ucfirst($subTestName) . '</a> - ';
+                }
+                $isSubDir = true;
+            }
+            if(isset($isSubDir)) echo '' . substr($subDirList, 0 , -2) . '</div>';
+
+        }
+
+
         echo '<br /><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest (' . SimpleTest::getVersion() . ') error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
 
         $action = new action('timer');

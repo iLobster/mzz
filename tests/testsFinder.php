@@ -21,7 +21,7 @@ class testsFinder
     static private function getCasesList($dir)
     {
         $caseslist = array();
-        if (is_dir($dir)) { 
+        if (is_dir($dir)) {
             $caseslist = glob($dir . '/*.case.php');
             //$caseslist = array_merge($caseslist, glob($dir . '/*/*case.php'));
         }
@@ -31,7 +31,7 @@ class testsFinder
 
     static public function getDirsList($dir)
     {
-        $dirs = glob($dir . "{/*,/*/*}", GLOB_ONLYDIR | GLOB_BRACE);
+        $dirs = glob($dir . "{/*, /*/*}", GLOB_ONLYDIR | GLOB_BRACE);
         return $dirs;
     }
 
