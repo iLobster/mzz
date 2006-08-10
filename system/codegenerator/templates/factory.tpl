@@ -17,7 +17,7 @@
  * @version 0.1
  */
 
-class {{$factory_data.factory_name}} extends simpleMapper
+class {{$factory_data.factory_name}} extends simpleFactory
 {
     /**
      * Имя модуля

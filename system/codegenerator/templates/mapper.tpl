@@ -16,7 +16,7 @@
  * @version 0.1
  */
 
-class {{$mapper_data.doname}} extends simpleMapper
+class {{$mapper_data.mapper_name}} extends simpleMapper
 {
     /**
      * Имя модуля
@@ -47,6 +47,20 @@ class {{$mapper_data.doname}} extends simpleMapper
     public function __construct($section)
     {
         parent::__construct($section);
+    }
+
+    /**
+     * Создает объект {{$mapper_data.doname}} из массива
+     *
+     * @param array $row
+     * @return object
+     */
+    protected function createItemFromRow($row)
+    {
+        $map = $this->getMap();
+        ${{$mapper_data.doname}}= new {{$mapper_data.doname}}($map);
+        ${{$mapper_data.doname}}->import($row);
+        return ${{$mapper_data.doname}};
     }
 
     /**
