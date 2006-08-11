@@ -19,10 +19,10 @@ class testsHtmlRunner implements iFilter
             if(count($path) > 1) {
                 $testSubGroup = $path[1];
             }
-
             if (is_dir($casesDir . '/' . $group)) {
                 $casesDirGroup = $casesDirGroup . '/' . $group;
                 $casesName = $group;
+
             }
         }
 
@@ -31,6 +31,7 @@ class testsHtmlRunner implements iFilter
         foreach (testsFinder::find($casesDirGroup) as $case) {
             $test->addTestFile($case);
         }
+
 
         echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
 
@@ -55,6 +56,7 @@ class testsHtmlRunner implements iFilter
                  echo ucfirst($name) . ' tests</a>';
             }
         }
+
         echo "<br />";
         if(isset($curDir)) {
             $subDirList = '<br /><div style="color: black; font: 12px tahoma,verdana,arial;">' . ucfirst($testGroup) . ' tests &gt;&gt;&gt; ';

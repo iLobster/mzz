@@ -8,6 +8,14 @@ class testsFinder
         $dirs = self::getDirsList($dir);
 
         foreach ($dirs as $val) {
+            $subDirs = self::getDirsList($val);
+            
+            if(count($subDirs)) {
+                foreach($subDirs as $dir) {
+                    $cases = array_merge($cases, self::getCasesList($dir));
+                    }
+                }
+
             $cases = array_merge($cases, self::getCasesList($val));
         }
 
@@ -23,7 +31,7 @@ class testsFinder
         $caseslist = array();
         if (is_dir($dir)) {
             $caseslist = glob($dir . '/*.case.php');
-            //$caseslist = array_merge($caseslist, glob($dir . '/*/*case.php'));
+            //$caseslist = array_merge($caseslist, glob($dir . '/*/*.case.php'));
         }
         return $caseslist;
     }

@@ -70,7 +70,7 @@ class {{$mapper_data.mapper_name}} extends simpleMapper
      */
     public function create()
     {
-        return new {{$mapper_data.doname}}($this, $this->getMap());
+        return new {{$mapper_data.doname}}($this->getMap());
     }
 }
 
