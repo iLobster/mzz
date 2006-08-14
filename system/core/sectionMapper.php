@@ -68,10 +68,8 @@ class sectionMapper
                     return (string) $_action;
                 }
             }
-            return false;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
