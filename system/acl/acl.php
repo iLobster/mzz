@@ -131,8 +131,8 @@ class acl
             $grp = substr($grp, 0, -2);
 
             $qry = 'SELECT IF(MAX(`a`.`deny`), 0, MAX(`a`.`allow`)) AS `access`, `p`.`name` FROM `sys_access` `a`
-                     INNER JOIN `sys_access_modules_sections_properties` `msp` ON `a`.`module_section_property` = `msp`.`id`
-                      INNER JOIN `sys_access_properties` `p` ON `msp`.`property_id` = `p`.`id`
+                     INNER JOIN `sys_access_modules_sections_actions` `msp` ON `a`.`module_section_action` = `msp`.`id`
+                      INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
                        WHERE `a`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
 
             if (sizeof($this->groups)) {
@@ -141,7 +141,7 @@ class acl
 
             $qry .= ')';
 
-            $qry .= ' GROUP BY `a`.`module_section_property`';
+            $qry .= ' GROUP BY `a`.`module_section_action`';
 
             $stmt = $this->db->prepare($qry);
 
@@ -233,9 +233,9 @@ class acl
         return 'SELECT `a`.* FROM `sys_access_modules_sections` `ms`
                  INNER JOIN `sys_access_modules` `m` ON `ms`.`module_id` = `m`.`id` AND `m`.`name` = :module
                   INNER JOIN `sys_access_sections` `s` ON `ms`.`section_id` = `s`.`id` AND `s`.`name` = :section
-                   INNER JOIN `sys_access_modules_sections_properties` `msp` ON `msp`.`module_section_id` = `ms`.`id`
-                    INNER JOIN `sys_access_properties` `p` ON `p`.`id` = `msp`.`property_id`
-                     INNER JOIN `sys_access` `a` ON `a`.`module_section_property` = `p`.`id` AND `a`.`obj_id` = 0';
+                   INNER JOIN `sys_access_modules_sections_actions` `msp` ON `msp`.`module_section_id` = `ms`.`id`
+                    INNER JOIN `sys_access_actions` `p` ON `p`.`id` = `msp`.`action_id`
+                     INNER JOIN `sys_access` `a` ON `a`.`module_section_action` = `p`.`id` AND `a`.`obj_id` = 0';
     }
 
     /**
@@ -266,11 +266,11 @@ class acl
      */
     private function doInsertQuery($stmt, $obj_id)
     {
-        $qry = 'INSERT INTO `sys_access` (`module_section_property`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
+        $qry = 'INSERT INTO `sys_access` (`module_section_action`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES ';
 
         $exists = false;
         while($row = $stmt->fetch()) {
-            $qry .= "(" . $this->db->quote($row['module_section_property']) . ", "; // . $this->db->quote($row['type']) . ", ";
+            $qry .= "(" . $this->db->quote($row['module_section_action']) . ", "; // . $this->db->quote($row['type']) . ", ";
             if (!$row['uid'] && !$row['gid']) {
                 $qry .= $this->db->quote($this->uid) . ', NULL';
             } else {
