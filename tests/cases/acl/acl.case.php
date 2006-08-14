@@ -35,9 +35,9 @@ class aclTest extends unitTestCase
     public function setUp()
     {
         $this->clearDb();
-        $this->db->query("INSERT INTO `sys_access` (`id`, `module_section_action`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES (1,1,1,NULL,1,NULL,1), (2,2,1,NULL,1,NULL,1), (3,1,NULL,1,1,1,1)");
-        $this->db->query("INSERT INTO `sys_access` (`id`, `module_section_action`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES (4,1,3,NULL,1,NULL,0), (5,2,3,NULL,1,NULL,0), (6,2,NULL,4,1,NULL,0)");
-        $this->db->query("INSERT INTO `sys_access` (`id`, `module_section_action`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES (7,1,0,NULL,1,NULL,0), (8,2,0,NULL,1,NULL,0)");
+        $this->db->query("INSERT INTO `sys_access` (`id`, `module_section_action`, `uid`, `gid`, `allow`, `obj_id`) VALUES (1,1,1,NULL,1,1), (2,2,1,NULL,1,1), (3,1,NULL,1,0,1)");
+        $this->db->query("INSERT INTO `sys_access` (`id`, `module_section_action`, `uid`, `gid`, `allow`, `obj_id`) VALUES (4,1,3,NULL,1,0), (5,2,3,NULL,1,0), (6,2,NULL,4,1,0)");
+        $this->db->query("INSERT INTO `sys_access` (`id`, `module_section_action`, `uid`, `gid`, `allow`, `obj_id`) VALUES (7,1,0,NULL,1,0), (8,2,0,NULL,1,0)");
         $this->db->query("INSERT INTO `sys_access_modules` (`id`, `name`) VALUES (1,'news')");
         $this->db->query("INSERT INTO `sys_access_sections` (`id`, `name`) VALUES (1,'news')");
         $this->db->query("INSERT INTO `sys_access_modules_sections` (`id`, `module_id`, `section_id`) VALUES (1,1,1)");

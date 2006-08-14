@@ -76,7 +76,6 @@ CREATE TABLE `sys_access` (
   `uid` int(11) default NULL,
   `gid` int(11) default NULL,
   `allow` tinyint(1) default NULL,
-  `deny` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
   KEY `module_action_id` (`module_section_action`,`obj_id`,`uid`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
