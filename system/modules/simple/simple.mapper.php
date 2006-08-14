@@ -94,6 +94,13 @@ abstract class simpleMapper //implements iCacheable
     protected $tablePostfix = null;
 
     /**
+     * Название праймари ключа таблицы
+     *
+     * @var string
+     */
+    protected $tableKey = 'id';
+
+    /**
     * Число записей, возвращённых за последний запрос (без учёта LIMIT)
     *
     * @var integer
@@ -176,7 +183,7 @@ abstract class simpleMapper //implements iCacheable
 
             $id = $stmt->execute();
 
-            $stmt = $this->searchByField('id', $id);
+            $stmt = $this->searchByField($this->tableKey, $id);
             $fields = $stmt->fetch();
 
             $object->import($fields);
@@ -209,13 +216,13 @@ abstract class simpleMapper //implements iCacheable
                 }
             }
             $query = substr($query, 0, -2);
-            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `id` = :id');
+            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `' . $this->tableKey . '` = :id');
 
             $stmt->bindArray($fields);
             $stmt->bindParam(':id', $object->getId(), PDO::PARAM_INT);
             $result = $stmt->execute();
 
-            $stmt = $this->searchByField('id', $object->getId());
+            $stmt = $this->searchByField($this->tableKey, $object->getId());
             $fields = $stmt->fetch();
 
             $object->import($fields);
@@ -234,7 +241,7 @@ abstract class simpleMapper //implements iCacheable
      */
     public function delete($id)
     {
-        $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `id` = :id');
+        $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `' . $this->tableKey . '` = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
