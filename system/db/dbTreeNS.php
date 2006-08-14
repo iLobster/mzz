@@ -86,7 +86,7 @@ class dbTreeNS
         # данные о таблице с данными
         $this->dataTable = isset($init['data']['table'])?$init['data']['table']:null; //as data
 
-        $this->dataID = isset($init['data']['id'])?$init['data']['id']:null;
+        $this->dataID = isset($init['data']['id']) ? $init['data']['id'] : 'id';
 
         $this->rowID = is_null($this->dataID) ? $this->treeID : $this->dataID;
 

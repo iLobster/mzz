@@ -116,7 +116,6 @@ class newsFolderMapperTest extends unitTestCase
         $fixturePath = '/name1/name2/';
 
         $newsSubFolders = $this->mapper->getFoldersByPath($fixturePath);
-        //echo"<pre>";print_r($newsSubFolders); echo"</pre>";
 
         $this->assertEqual(count($newsSubFolders), 2);
 
@@ -196,9 +195,6 @@ class newsFolderMapperTest extends unitTestCase
             //$this->tree->updatePath($newsFolder->getId(), $node['id']);
 
             $this->fixtureNewsFolder[$node['id']] = $newsFolder;
-            //echo"<pre>";print_r($this->fixtureNewsFolder); echo"</pre>";
-
-
         }
     }
 

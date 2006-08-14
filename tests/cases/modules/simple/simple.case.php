@@ -14,7 +14,7 @@ class testSimple extends unitTestCase
     public function __construct()
     {
         $this->map = array(
-        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId','once' => 'true'),
+        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId', 'once' => 'true'),
         'foo' => array ('name' => 'foo','accessor' => 'getFoo', 'mutator' => 'setFoo'),
         'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
         );

@@ -72,6 +72,16 @@ class {{$mapper_data.mapper_name}} extends simpleMapper
     {
         return new {{$mapper_data.doname}}($this->getMap());
     }
+
+    /**
+     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
+     *
+     * @return object
+     */
+    public function convertArgsToId($args)
+    {
+
+    }
 }
 
 

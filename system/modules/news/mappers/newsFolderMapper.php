@@ -115,7 +115,20 @@ class newsFolderMapper extends simpleMapper
     }
 
     /**
-     * Выборка ветки(нижележащих узлов)  на основе пути
+     * Выборка папки  на основе пути
+     *
+     * @param  string     $path          Путь
+     * @param  string     $deep          Глубина выборки
+     * @return array with nodes
+     */
+    public function getFolderByPath($path)
+
+    {   return $this->searchOneByField('path', $path);
+
+    }
+
+    /**
+     * Выборка ветки(нижележащих папок)  на основе пути
      *
      * @param  string     $path          Путь
      * @param  string     $deep          Глубина выборки
@@ -163,10 +176,11 @@ class newsFolderMapper extends simpleMapper
     {
     return (!empty($this->cache)) ? $this->cache : $this;
     } */
+
     public function convertArgsToId($args)
     {
-        $newsFolder = $this->searchByName(implode('/', $args));
-        return (int)$newsFolder->getId();
+        $newsFolder = $this->getFolderByPath(implode('/', $args));
+        return (int)$newsFolder->getObjectId();
     }
 }
 

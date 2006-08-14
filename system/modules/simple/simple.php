@@ -57,6 +57,7 @@ abstract class simple
     public function __construct(Array $map)
     {
         $this->map = $map;
+        $this->map['obj_id'] = array('accessor' => 'getObjectId', 'mutator' => 'setObjectId', 'once' => 'true');
         $this->fields = new arrayDataspace();
         $this->changedFields = new arrayDataspace();
     }
@@ -125,6 +126,7 @@ abstract class simple
     {
         return $this->changedFields->export();
     }
+
 
     /**
      * Получение объекта JIP.

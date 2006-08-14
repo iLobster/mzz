@@ -110,7 +110,7 @@ class httpRequest implements iRequest
     /**
      * Метод получения переменной из суперглобального массива
      *
-     * @param string $name имя переменной
+     * @param string  $name  имя переменной
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */

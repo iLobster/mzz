@@ -69,12 +69,15 @@ class url
         }
 
         $params = '';
+        $this->params  = $this->getParams();
+        //echo"<pre><b>this->params</b> ";var_dump($this->params); echo"</pre>";
         if(!empty($this->params)) {
             if(!empty($this->section)) {
                 $params = '/';
             }
 
             $params .= implode('/', $this->params);
+
 
             if(!empty($this->action)) {
                 $params .= '/';
@@ -85,6 +88,7 @@ class url
             }
         }
         $request_uri = $this->section . $params . $this->action;
+        //echo"<pre>";print_r("$request_uri request_uri = $this->section . $params . $this->action;"); echo"</pre>";
         return $address . (!empty($request_uri) ? '/' . $request_uri : '');
     }
 
@@ -116,6 +120,20 @@ class url
     public function addParam($value)
     {
         $this->params[] = $value;
+    }
+
+    /**
+     * Выборка параметра
+     *
+     * @param string $value
+     */
+    public function getParams()
+    {
+
+        foreach($this->params as $key => $param) {
+            if(empty($this->params[$key])) unset($this->params[$key]);
+            }
+        return $this->params;
     }
 
     /**

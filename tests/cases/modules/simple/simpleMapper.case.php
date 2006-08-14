@@ -31,6 +31,18 @@ class simpleMapperTest extends unitTestCase
         $this->cleardb();
     }
 
+    private function fixture()
+    {
+        $valString = '';
+        foreach($this->fixture as $id => $data) {
+            $valString .= "('" . $this->fixture[$id]['foo'] . "','" . $this->fixture[$id]['bar']. "'),";
+        }
+        $valString = substr($valString, 0,  strlen($valString)-1);
+
+        $stmt = $this->db->prepare(' INSERT INTO `simple_simple` (`foo`,`bar`) VALUES ' . $valString);
+        $stmt->execute();
+    }
+
     public function setUp()
     {
         $this->mapper = new stubMapper('simple');
@@ -44,6 +56,7 @@ class simpleMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `simple_simple`');
+        $this->db->query('TRUNCATE TABLE `sys_obj_id`');
     }
 
     public function testDelete()
@@ -126,26 +139,26 @@ class simpleMapperTest extends unitTestCase
 
     }
 
+    public function testCreateUniqueObjectId()
+    {
+        $simple = new stubSimple($this->map);
+
+        $this->assertEqual(0, $this->countRecord());
+
+        $this->mapper->save($simple);
+
+        $this->assertEqual(1, $this->countRecord());
+        $this->assertEqual(1, $simple->getObjectId());
+    }
+
 
     private function countRecord()
     {
         $stmt = $this->db->query("SELECT count(*) FROM `simple_simple`");
         $count = $stmt->fetch(PDO::FETCH_NUM);
         return (int)$count[0];
-
     }
 
-    private function fixture()
-    {
-        $valString = '';
-        foreach($this->fixture as $id => $data) {
-            $valString .= "('" . $this->fixture[$id]['foo'] . "','" . $this->fixture[$id]['bar']. "'),";
-        }
-        $valString = substr($valString, 0,  strlen($valString)-1);
-
-        $stmt = $this->db->prepare(' INSERT INTO `simple_simple` (`foo`,`bar`) VALUES ' . $valString);
-        $stmt->execute();
-    }
 }
 
 

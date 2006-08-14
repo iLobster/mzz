@@ -37,6 +37,7 @@ class stdToolkit extends toolkit
     private $actions;
     private $cache;
     private $user;
+    private $objectIdGenerator;
     /**#@-*/
 
     /**
@@ -216,6 +217,20 @@ class stdToolkit extends toolkit
             $this->user = $userMapper->searchById(1);
         }
         return $this->user;
+    }
+
+    /**
+     * Возвращает генератор уникальных идентификаторов необходимый для идентификации DAO объектов
+     *
+     * @return user
+     */
+    public function getObjectIdGenerator()
+    {
+        if (empty($this->objectIdGenerator)) {
+            fileLoader::load('core/objectIdGenerator');
+            $this->objectIdGenerator = new objectIdGenerator;
+        }
+        return $this->objectIdGenerator;
     }
 
     /**

@@ -54,6 +54,7 @@ class user extends simple
     {
         return $this->mapper->getGroupsList($this->getId());
     }
+
 }
 
 ?>

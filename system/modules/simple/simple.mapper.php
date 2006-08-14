@@ -19,7 +19,7 @@ fileLoader::load('db/sqlFunction');
  * simpleMapper: реализация общих методов у Mapper
  *
  * @package simple
- * @version 0.2.1
+ * @version 0.2.2
  */
 abstract class simpleMapper //implements iCacheable
 {
@@ -159,14 +159,17 @@ abstract class simpleMapper //implements iCacheable
      */
     protected function insert(simple $object)
     {
+        $toolkit = systemToolkit::getInstance();
+        $object->setObjectId($toolkit->getObjectIdGenerator()->generate());
+
         $fields = $object->export();
 
         if (sizeof($fields) > 0) {
-            //$bindFields = $fields; // зачем эта строка???
             $this->insertDataModify($fields);
 
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
             $markers = "";
+
             foreach(array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
                     $fields[$val] = $fields[$val]->toString();

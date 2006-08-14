@@ -37,7 +37,6 @@ function smarty_function_load($params, $smarty)
         $error = "Template error. Module is not specified.";
         throw new mzzRuntimeException($error);
     }
-
     $module = $params['module'];
     $modulename = $module . 'Factory';
 
