@@ -115,20 +115,19 @@ class newsFolderMapper extends simpleMapper
     }
 
     /**
-     * Выборка папки  на основе пути
+     * Выборка папки на основе пути
      *
-     * @param  string     $path          Путь
-     * @param  string     $deep          Глубина выборки
+     * @param string $path Путь
+     * @param string $deep Глубина выборки
      * @return array with nodes
      */
     public function getFolderByPath($path)
-
-    {   return $this->searchOneByField('path', $path);
-
+    {
+        return $this->searchOneByField('path', $path);
     }
 
     /**
-     * Выборка ветки(нижележащих папок)  на основе пути
+     * Выборка ветки(нижележащих папок) на основе пути
      *
      * @param  string     $path          Путь
      * @param  string     $deep          Глубина выборки

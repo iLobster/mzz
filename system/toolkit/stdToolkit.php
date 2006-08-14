@@ -222,7 +222,7 @@ class stdToolkit extends toolkit
     /**
      * Возвращает генератор уникальных идентификаторов необходимый для идентификации DAO объектов
      *
-     * @return user
+     * @return objectIdGenerator
      */
     public function getObjectIdGenerator()
     {

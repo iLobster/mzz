@@ -125,14 +125,14 @@ class url
     /**
      * Выборка параметра
      *
-     * @param string $value
      */
     public function getParams()
     {
-
         foreach($this->params as $key => $param) {
-            if(empty($this->params[$key])) unset($this->params[$key]);
+            if(empty($this->params[$key])) {
+                unset($this->params[$key]);
             }
+        }
         return $this->params;
     }
 
