@@ -33,6 +33,10 @@ class requestParser
      */
     public function parse($request, $path)
     {
+        if (!is_scalar($path)) {
+            $path = (string)$path;
+        }
+
         $params = $this->extractParams($path);
 
         $section = array_shift($params);

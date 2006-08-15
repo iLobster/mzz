@@ -30,7 +30,7 @@ class userLoginForm {
 
         $form->addElement('text', 'login', '»м€:', 'size=30');
         $form->addElement('password', 'password', 'ѕароль:', 'size=30');
-        $form->addElement('hidden', 'url', $backUrl);
+        $form->addElement('hidden', 'url', (string)$backUrl);
 
         $form->addElement('reset', 'reset', '—брос');
         $form->addElement('submit', 'submit', '¬ход');
