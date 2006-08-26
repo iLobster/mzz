@@ -34,7 +34,7 @@ class objectIdGenerator
 
     public function generate()
     {
-        $this->db->query('INSERT INTO `sys_obj_id` (`id`) VALUES (0)');
+        $this->insert();
         $id = $this->db->lastInsertId();
         if ($id % $this->clearEvery == 0) {
             $this->clean($id);
@@ -45,6 +45,11 @@ class objectIdGenerator
     private function clean($id)
     {
         $this->db->query('DELETE FROM `sys_obj_id`');
+        $this->insert($id);
+    }
+
+    private function insert($id = 0)
+    {
         $this->db->query('INSERT INTO `sys_obj_id` (`id`) VALUES (' . $id . ')');
     }
 }
