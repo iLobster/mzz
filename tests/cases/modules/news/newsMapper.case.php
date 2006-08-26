@@ -12,6 +12,7 @@ class newsMapperTest extends unitTestCase
     public function __construct()
     {
         $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        'obj_id' => array ('name' => 'obj_id', 'accessor' => 'getObjectId', 'mutator' => 'setObjectId', 'once' => 'true' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'editor' => array ( 'name' => 'editor', 'accessor' => 'getEditor', 'mutator' => 'setEditor'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),

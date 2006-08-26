@@ -15,6 +15,7 @@ class groupMapperTest extends unitTestCase
     {
         $this->map = array(
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
+        'obj_id' => array ('name' => 'obj_id', 'accessor' => 'getObjectId', 'mutator' => 'setObjectId', 'once' => 'true' ),
         'name' => array ( 'name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
         );
 
@@ -99,6 +100,7 @@ class groupMapperTest extends unitTestCase
         $this->fixture($this->map);
 
         $map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        'obj_id' => array ('name' => 'obj_id', 'accessor' => 'getObjectId', 'mutator' => 'setObjectId', 'once' => 'true' ),
         'login' => array ( 'name' => 'login', 'accessor' => 'getLogin', 'mutator' => 'setLogin'),
         'password' => array ('name' => 'password', 'accessor' => 'getPassword', 'mutator' => 'setPassword', 'decorateClass' => 'md5PasswordHash'),
         );

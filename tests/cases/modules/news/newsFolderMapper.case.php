@@ -26,6 +26,7 @@ class newsFolderMapperTest extends unitTestCase
     {
         $this->map = array(
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId'),
+        'obj_id' => array ('name' => 'obj_id', 'accessor' => 'getObjectId', 'mutator' => 'setObjectId', 'once' => 'true' ),
         'name' => array ('name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
         'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent'),
         'path' => array ('name' => 'path', 'accessor' => 'getPath', 'mutator' => 'setPath')
@@ -33,6 +34,7 @@ class newsFolderMapperTest extends unitTestCase
 
         $this->mapNews = array(
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
+        'obj_id' => array ('name' => 'obj_id', 'accessor' => 'getObjectId', 'mutator' => 'setObjectId', 'once' => 'true' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'editor' => array ( 'name' => 'editor', 'accessor' => 'getEditor', 'mutator' => 'setEditor'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),

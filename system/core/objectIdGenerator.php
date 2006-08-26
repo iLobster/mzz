@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage core
- * @version 0.1
+ * @version 0.1.2
  */
 
 class objectIdGenerator
@@ -34,8 +34,7 @@ class objectIdGenerator
 
     public function generate()
     {
-        $this->insert();
-        $id = $this->db->lastInsertId();
+        $id = $this->insert();
         if ($id % $this->clearEvery == 0) {
             $this->clean($id);
         }
@@ -51,6 +50,9 @@ class objectIdGenerator
     private function insert($id = 0)
     {
         $this->db->query('INSERT INTO `sys_obj_id` (`id`) VALUES (' . $id . ')');
+        if ($id == 0) {
+            return $this->db->lastInsertId();
+        }
     }
 }
 

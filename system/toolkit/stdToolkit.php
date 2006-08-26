@@ -220,17 +220,17 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Âîçâğàùàåò ãåíåğàòîğ óíèêàëüíûõ èäåíòèôèêàòîğîâ íåîáõîäèìûé äëÿ èäåíòèôèêàöèè DAO îáúåêòîâ
+     * Âîçâğàùàåò óíèêàëüíûé èäåíòèôèêàòîğ íåîáõîäèìûé äëÿ èäåíòèôèêàöèè DAO îáúåêòîâ
      *
-     * @return objectIdGenerator
+     * @return integer
      */
-    public function getObjectIdGenerator()
+    public function getObjectId()
     {
         if (empty($this->objectIdGenerator)) {
             fileLoader::load('core/objectIdGenerator');
             $this->objectIdGenerator = new objectIdGenerator;
         }
-        return $this->objectIdGenerator;
+        return $this->objectIdGenerator->generate();
     }
 
     /**

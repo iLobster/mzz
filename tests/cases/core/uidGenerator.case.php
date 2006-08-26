@@ -3,15 +3,14 @@
 
 class objectIDGeneratorTest extends unitTestCase
 {
-    private $objectIDGenerator;
+    private $toolkit;
     private $db;
 
     public function setUp()
     {
         $this->db = DB::factory();
         $this->clearDB();
-        $toolkit = systemToolkit::getInstance();
-        $this->objectIDGenerator = $toolkit->getObjectIdGenerator();
+        $this->toolkit = systemToolkit::getInstance();
     }
 
     public function tearDown()
@@ -26,15 +25,15 @@ class objectIDGeneratorTest extends unitTestCase
 
     public function testGenerate()
     {
-        $this->assertEqual($this->objectIDGenerator->generate(), 1);
-        $this->assertEqual($this->objectIDGenerator->generate(), 2);
-        $this->assertEqual($this->objectIDGenerator->generate(), 3);
+        $this->assertEqual($this->toolkit->getObjectId(), 1);
+        $this->assertEqual($this->toolkit->getObjectId(), 2);
+        $this->assertEqual($this->toolkit->getObjectId(), 3);
         $this->assertEqual($this->getCount(), 3);
     }
 
     public function testCleanEveriMillionRows()
     {
-        $this->assertEqual($this->objectIDGenerator->generate(), 1);
+        $this->assertEqual($this->toolkit->getObjectId(), 1);
 
         $this->assertEqual($this->getCount(), 1);
 
@@ -42,15 +41,15 @@ class objectIDGeneratorTest extends unitTestCase
 
         $this->assertEqual($this->getCount(), 2);
 
-        $this->assertEqual($this->objectIDGenerator->generate(), 999999);
+        $this->assertEqual($this->toolkit->getObjectId(), 999999);
 
         $this->assertEqual($this->getCount(), 3);
 
-        $this->assertEqual($this->objectIDGenerator->generate(), 1000000);
+        $this->assertEqual($this->toolkit->getObjectId(), 1000000);
 
         $this->assertEqual($this->getCount(), 1);
 
-        $this->assertEqual($this->objectIDGenerator->generate(), 1000001);
+        $this->assertEqual($this->toolkit->getObjectId(), 1000001);
     }
 
     private function getCount()
