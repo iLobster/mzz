@@ -76,7 +76,7 @@ class mzzPdoStatement extends PDOStatement
      * @param array $parameters в мануале не продокументированные параметры ?!
      * @return integer|boolean id последней записи или результат выполнения запроса
      */
-    public function execute($parameters = array())
+    public function execute($parameters = null)
     {
         $db = DB::factory();
         $start_time = microtime(true);
