@@ -43,6 +43,14 @@ abstract class simple
     protected $map;
 
     /**
+     * Поле в таблице для хранения уникальношо идентификатора доменного объекта
+     * Если это поле используется в других целях переопределяйте его в наследуемом классе
+     *
+     * @var string
+     */
+    protected $obj_id_field = "obj_id";
+
+    /**
      * Массив кешируемых методов
      *
      * @deprecated
@@ -57,6 +65,7 @@ abstract class simple
     public function __construct(Array $map)
     {
         $this->map = $map;
+        $this->map[$this->obj_id_field] = array ('name' => $this->obj_id_field, 'accessor' => 'getObjectId', 'mutator' => 'setObjectId', 'once' => 'true' );
         $this->fields = new arrayDataspace();
         $this->changedFields = new arrayDataspace();
     }
