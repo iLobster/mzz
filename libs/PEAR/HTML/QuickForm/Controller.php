@@ -23,11 +23,11 @@ require_once 'HTML/QuickForm/Page.php';
 
 /**
  * The class representing a Controller of MVC design pattern.
- * 
+ *
  * This class keeps track of pages and (default) action handlers for the form,
- * it manages keeping the form values in session, setting defaults and 
+ * it manages keeping the form values in session, setting defaults and
  * constants for the form as a whole and getting its submit values.
- * 
+ *
  * Generally you don't need to subclass this.
  *
  * @author  Alexey Borzov <avb@php.net>
@@ -49,13 +49,13 @@ class HTML_QuickForm_Controller
     var $_actions = array();
 
    /**
-    * Name of the form, used to store the values in session 
+    * Name of the form, used to store the values in session
     * @var string
     */
     var $_name;
 
    /**
-    * Whether the form is modal  
+    * Whether the form is modal
     * @var bool
     */
     var $_modal = true;
@@ -68,9 +68,9 @@ class HTML_QuickForm_Controller
 
    /**
     * Class constructor.
-    * 
+    *
     * Sets the form name and modal/non-modal behaviuor. Different multipage
-    * forms should have different names, as they are used to store form 
+    * forms should have different names, as they are used to store form
     * values in session. Modal forms allow passing to the next page only when
     * all of the previous pages are valid.
     *
@@ -86,12 +86,12 @@ class HTML_QuickForm_Controller
 
 
    /**
-    * Returns a reference to a session variable containing the form-page 
+    * Returns a reference to a session variable containing the form-page
     * values and pages' validation status.
-    * 
+    *
     * This is a "low-level" method, use exportValues() if you want just to
     * get the form's values.
-    * 
+    *
     * @access public
     * @param  bool      If true, then reset the container: clear all default, constant and submitted values
     * @return array
@@ -124,6 +124,7 @@ class HTML_QuickForm_Controller
     * to the page's handle() method.
     *
     * @access public
+    * @throws PEAR_Error
     */
     function run()
     {
@@ -165,6 +166,7 @@ class HTML_QuickForm_Controller
     * @access public
     * @param  string    Name of a page
     * @return object    HTML_QuickForm_Page     A reference to the page
+    * @throws PEAR_Error
     */
     function &getPage($pageName)
     {
@@ -181,10 +183,11 @@ class HTML_QuickForm_Controller
     * This will be called if the page itself does not have a handler
     * to a specific action. The method also loads and uses default handlers
     * for common actions, if specific ones were not added.
-    * 
+    *
     * @access public
     * @param  object HTML_QuickForm_Page    The page that failed to handle the action
     * @param  string    Name of the action
+    * @throws PEAR_Error
     */
     function handle(&$page, $actionName)
     {
@@ -210,7 +213,7 @@ class HTML_QuickForm_Controller
 
    /**
     * Checks whether the form is modal.
-    * 
+    *
     * @access public
     * @return bool
     */
@@ -222,10 +225,11 @@ class HTML_QuickForm_Controller
 
    /**
     * Checks whether the pages of the controller are valid
-    * 
+    *
     * @access public
     * @param  string    If set, check only the pages before (not including) that page
     * @return bool
+    * @throws PEAR_Error
     */
     function isValid($pageName = null)
     {
@@ -245,7 +249,11 @@ class HTML_QuickForm_Controller
                     $data['values'][$key] = $page->exportValues();
                     $page->loadValues($data['values'][$key]);
                     // Is the page now valid?
-                    if (true === ($data['valid'][$key] = $page->validate())) {
+                    if (PEAR::isError($valid = $page->validate())) {
+                        return $valid;
+                    }
+                    $data['valid'][$key] = $valid;
+                    if (true === $valid) {
                         continue;
                     }
                 }
@@ -258,9 +266,9 @@ class HTML_QuickForm_Controller
 
    /**
     * Returns the name of the page before the given.
-    * 
+    *
     * @access public
-    * @param  string 
+    * @param  string
     * @return string
     */
     function getPrevName($pageName)
@@ -277,9 +285,9 @@ class HTML_QuickForm_Controller
 
    /**
     * Returns the name of the page after the given.
-    * 
+    *
     * @access public
-    * @param  string 
+    * @param  string
     * @return string
     */
     function getNextName($pageName)
@@ -297,7 +305,7 @@ class HTML_QuickForm_Controller
 
    /**
     * Finds the (first) invalid page
-    * 
+    *
     * @access public
     * @return string  Name of an invalid page
     */
@@ -315,7 +323,7 @@ class HTML_QuickForm_Controller
 
    /**
     * Extracts the names of the current page and the current action from
-    * HTTP request data. 
+    * HTTP request data.
     *
     * @access public
     * @return array     first element is page name, second is action name
@@ -410,7 +418,7 @@ class HTML_QuickForm_Controller
 
    /**
     * Recursively applies the callback function to the value
-    * 
+    *
     * @param    mixed   Callback function
     * @param    mixed   Value to process
     * @access   private
@@ -450,7 +458,7 @@ class HTML_QuickForm_Controller
 
    /**
     * Returns the form's values
-    * 
+    *
     * @access public
     * @param  string    name of the page, if not set then returns values for all pages
     * @return array
@@ -482,7 +490,7 @@ class HTML_QuickForm_Controller
 
    /**
     * Returns the element's value
-    * 
+    *
     * @access public
     * @param  string    name of the page
     * @param  string    name of the element in the page

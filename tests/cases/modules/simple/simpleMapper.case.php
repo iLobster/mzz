@@ -18,7 +18,7 @@ class simpleMapperTest extends unitTestCase
     public function __construct()
     {
         $this->map = array(
-        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId' ),        
+        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId' ),
         'foo' => array ('name' => 'foo','accessor' => 'getFoo', 'mutator' => 'setFoo'),
         'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
         );
@@ -148,7 +148,7 @@ class simpleMapperTest extends unitTestCase
         $this->mapper->save($simple);
 
         $this->assertEqual(1, $this->countRecord());
-        $this->assertEqual(1, $simple->getObjectId());
+        $this->assertEqual(1, $simple->getObjId());
     }
 
 

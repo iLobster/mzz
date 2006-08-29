@@ -21,8 +21,8 @@
 require_once 'HTML/QuickForm/Action.php';
 
 /**
- * The action for a 'next' button of wizard-type multipage form. 
- * 
+ * The action for a 'next' button of wizard-type multipage form.
+ *
  * @author  Alexey Borzov <avb@php.net>
  * @package HTML_QuickForm_Controller
  * @version $Revision$
@@ -36,7 +36,10 @@ class HTML_QuickForm_Action_Next extends HTML_QuickForm_Action
         $pageName =  $page->getAttribute('id');
         $data     =& $page->controller->container();
         $data['values'][$pageName] = $page->exportValues();
-        $data['valid'][$pageName]  = $page->validate();
+        if (PEAR::isError($valid = $page->validate())) {
+            return $valid;
+        }
+        $data['valid'][$pageName] = $valid;
 
         // Modal form and page is invalid: don't go further
         if ($page->controller->isModal() && !$data['valid'][$pageName]) {

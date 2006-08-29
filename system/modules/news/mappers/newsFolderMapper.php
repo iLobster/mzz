@@ -179,7 +179,7 @@ class newsFolderMapper extends simpleMapper
     public function convertArgsToId($args)
     {
         $newsFolder = $this->getFolderByPath(implode('/', $args));
-        return (int)$newsFolder->getObjectId();
+        return (int)$newsFolder->getObjId();
     }
 }
 

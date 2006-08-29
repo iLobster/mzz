@@ -22,7 +22,7 @@ require_once 'HTML/QuickForm/Action.php';
 
 /**
  * The action for a 'submit' button.
- * 
+ *
  * @author  Alexey Borzov <avb@php.net>
  * @package HTML_QuickForm_Controller
  * @version $Revision$
@@ -36,7 +36,10 @@ class HTML_QuickForm_Action_Submit extends HTML_QuickForm_Action
         $pageName =  $page->getAttribute('id');
         $data     =& $page->controller->container();
         $data['values'][$pageName] = $page->exportValues();
-        $data['valid'][$pageName]  = $page->validate();
+        if (PEAR::isError($valid = $page->validate())) {
+            return $valid;
+        }
+        $data['valid'][$pageName] = $valid;
 
         // All pages are valid, process
         if ($page->controller->isValid()) {

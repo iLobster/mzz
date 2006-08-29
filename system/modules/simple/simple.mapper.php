@@ -160,7 +160,7 @@ abstract class simpleMapper //implements iCacheable
     protected function insert(simple $object)
     {
         $toolkit = systemToolkit::getInstance();
-        $object->setObjectId($toolkit->getObjectId());
+        $object->setObjId($toolkit->getObjectId());
 
         $fields = $object->export();
 
