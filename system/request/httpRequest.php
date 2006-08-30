@@ -111,10 +111,11 @@ class httpRequest implements iRequest
      * Метод получения переменной из суперглобального массива
      *
      * @param string  $name  имя переменной
+     * @param string  $type  тип, значение переменной будет преобразовано в него
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
-    public function get($name, $scope = SC_REQUEST)
+    public function get($name, /*$type = null,*/ $scope = SC_REQUEST)
     {
         $result = null;
 
