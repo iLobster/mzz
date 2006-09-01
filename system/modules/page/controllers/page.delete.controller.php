@@ -29,7 +29,7 @@ class pageDeleteController extends simpleController
     public function getView()
     {
         $pageMapper = new pageMapper($this->request->getSection());
-        $page = $pageMapper->searchByName($this->request->get(0, SC_PATH));
+        $page = $pageMapper->searchByName($this->request->get(0, 'string', SC_PATH));
 
         if ($page) {
             $pageMapper->delete($page->getId());

@@ -54,7 +54,7 @@ class newsListView extends simpleView
 
     private function getPageFromRequest()
     {
-        return $this->httprequest->get('page', SC_GET);
+        return $this->httprequest->get('page', 'integer', SC_GET);
     }
 }
 

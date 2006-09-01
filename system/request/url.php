@@ -59,10 +59,10 @@ class url
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
         $protocol = $request->isSecure() ? 'https' : 'http';
-        $port = $request->get('SERVER_PORT', SC_SERVER);
+        $port = $request->get('SERVER_PORT', 'mixed', SC_SERVER);
         $port = ($port == '80') ? '' : ':' . $port;
 
-        $address = $protocol . '://' . $request->get('HTTP_HOST', SC_SERVER) . $port . SITE_PATH;
+        $address = $protocol . '://' . $request->get('HTTP_HOST', 'mixed', SC_SERVER) . $port . SITE_PATH;
 
         if (empty($this->section)) {
             $this->setSection($this->getCurrentSection());

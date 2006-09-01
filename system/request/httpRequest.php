@@ -103,6 +103,7 @@ class httpRequest implements iRequest
         $this->getVars = new arrayDataspace($_GET);
         $this->cookieVars = new arrayDataspace($_COOKIE);
         $this->requestParser = $requestParser;
+        $this->setParams(array());
         $this->import($this->get('path'));
         $this->savedParams = new arrayDataspace();
     }
@@ -111,34 +112,61 @@ class httpRequest implements iRequest
      * Метод получения переменной из суперглобального массива
      *
      * @param string  $name  имя переменной
-     * @param string  $type  тип, значение переменной будет преобразовано в него
+     * @param string  $type  тип, в который будет преобразовано значение
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
-    public function get($name, /*$type = null,*/ $scope = SC_REQUEST)
+    public function get($name, $type = null, $scope = SC_REQUEST)
     {
         $result = null;
 
-        if ($scope & SC_SERVER && !is_null($result = $this->getServer($name))) {
-            return $result;
+        $done = false;
+        if (!$done && $scope & SC_SERVER && !is_null($result = $this->getServer($name))) {
+            $done = true;
         }
 
-        if ($scope & SC_COOKIE && !is_null($result = $this->cookieVars->get($name))) {
-            return $result;
+        if (!$done && $scope & SC_COOKIE && !is_null($result = $this->cookieVars->get($name))) {
+            $done = true;
         }
 
-        if ($scope & SC_POST && !is_null($result = $this->postVars->get($name))) {
-            return $result;
+        if (!$done && $scope & SC_POST && !is_null($result = $this->postVars->get($name))) {
+            $done = true;
         }
 
-        if ($scope & SC_GET && !is_null($result = $this->getVars->get($name))) {
-            return $result;
+        if (!$done && $scope & SC_GET && !is_null($result = $this->getVars->get($name))) {
+            $done = true;
         }
 
-        if ($scope & SC_PATH && !is_null($result = $this->params->get($name))) {
-            return $result;
+        if (!$done && $scope & SC_PATH && !is_null($result = $this->params->get($name))) {
+            $done = true;
         }
 
+        if (is_null($result) || (empty($type) || $type == 'mixed')) {
+            return $result;
+        } else {
+            return $this->convertToType($result, $type);
+        }
+    }
+
+    /**
+     * Преобразователь значения переменной $result к типу $type
+     * Если $result массив, то из него извлекается первый элемент и
+     * дальнейшие преобразования происходят только с этим элементом
+     *
+     * @param mixed $result значение полученное из URI
+     * @param string $type тип, в который будет преобразовано значение
+     * @return mixed
+     */
+    public function convertToType($result, $type)
+    {
+        $validTypes = array('array' => 1, 'integer' => 1, 'boolean' => 1, 'string' => 1);
+        if (gettype($result) == 'array' && $type != 'array') {
+            $result = array_shift($result);
+        }
+
+        if (gettype($result) != $type && isset($validTypes[$type])) {
+            settype($result, $type);
+        }
         return $result;
     }
 
@@ -290,6 +318,7 @@ class httpRequest implements iRequest
         $this->section = $this->savedSectionAction['section'];
         $this->action = $this->savedSectionAction['action'];
     }
+
 }
 
 ?>

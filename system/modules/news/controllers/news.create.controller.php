@@ -38,12 +38,12 @@ class newsCreateController extends simpleController
         $news = $newsMapper->create();
 
 
-        $form = newsCreateForm::getForm($this->request->get(0, SC_PATH));
+        $form = newsCreateForm::getForm($this->request->get(0, 'string', SC_PATH));
         if ($form->validate() == false) {
             $view = new newsCreateView($news, $form);
         } else {
             $newsFolder = new newsFolderMapper($this->request->getSection());
-            $folder = $newsFolder->searchByName($this->request->get(0, SC_PATH));
+            $folder = $newsFolder->searchByName($this->request->get(0, 'string', SC_PATH));
 
             $values = $form->exportValues();
             $news->setTitle($values['title']);

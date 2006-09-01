@@ -32,7 +32,7 @@ class newsListController extends simpleController
     {
         $newsFolderMapper = new newsFolderMapper($this->request->getSection());
 
-        $path = $this->request->get(0, SC_PATH);
+        $path = $this->request->get(0, 'string', SC_PATH);
 
         $newsFolder = $newsFolderMapper->searchByName($path);
         if ($newsFolder) {

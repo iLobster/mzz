@@ -32,8 +32,8 @@ class pageEditController extends simpleController
     {
         $pageMapper = new pageMapper($this->request->getSection());
 
-        if (($name = $this->request->get(0, SC_PATH)) == false) {
-            $name = $this->request->get('name', SC_POST);
+        if (($name = $this->request->get(0, 'string', SC_PATH)) == null) {
+            $name = $this->request->get('name', 'string', SC_POST);
         }
         $page = $pageMapper->searchByName($name);
         if ($page) {

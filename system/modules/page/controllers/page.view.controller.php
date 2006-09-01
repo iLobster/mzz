@@ -35,7 +35,7 @@ class pageViewController extends simpleController
 
         //$pageMapper = new pageMapper($section);
 
-        if (($name = $this->request->get(0, SC_PATH)) == false) {
+        if (($name = $this->request->get(0, 'string', SC_PATH)) == false) {
             $name = 'main';
         }
         $page = $pageMapper->searchByName($name);

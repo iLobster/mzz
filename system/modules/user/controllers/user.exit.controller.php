@@ -29,7 +29,7 @@ class userExitController extends simpleController
         $session = $this->toolkit->getSession();
         $session->destroy('user_id');
 
-        return new userExitView($this->request->get('url', SC_GET));
+        return new userExitView($this->request->get('url', 'string', SC_GET));
     }
 }
 

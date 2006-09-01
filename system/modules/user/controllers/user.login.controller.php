@@ -31,15 +31,15 @@ class userLoginController extends simpleController
 
         if (!$user->isLoggedIn()) {
             if (strtoupper($this->request->getMethod()) == 'POST') {
-                $login = $this->request->get('login', SC_POST);
-                $password = $this->request->get('password', SC_POST);
+                $login = $this->request->get('login', 'string', SC_POST);
+                $password = $this->request->get('password', 'string', SC_POST);
 
                 $userMapper = new userMapper('user');
                 $user = $userMapper->login($login, $password);
 
                 if ($user->isLoggedIn()) {
                     fileLoader::load('user/views/user.login.success.view');
-                    return new userLoginSuccessView($this->request->get('url', SC_POST));
+                    return new userLoginSuccessView($this->request->get('url', 'string', SC_POST));
                 }
             }
 

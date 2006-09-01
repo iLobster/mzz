@@ -30,7 +30,7 @@ class newsViewController extends simpleController
     {
         $newsMapper = new newsMapper($this->request->getSection());
 
-        if (($id = $this->request->get(0, SC_PATH)) == false) {
+        if (($id = $this->request->get(0, 'integer', SC_PATH)) == null) {
             $id = 0;
         }
         $news = $newsMapper->searchById($id);
