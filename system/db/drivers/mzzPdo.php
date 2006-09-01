@@ -29,7 +29,7 @@ fileLoader::load('db/drivers/mzzPdoStatement');
 class mzzPdo extends PDO
 {
     /**
-     * Array of Different Singleton
+     * Array of Different Instances
      *
      * @var object
      */
@@ -86,16 +86,20 @@ class mzzPdo extends PDO
      * @return object
      */
     public static function getInstance($alias = 'default')
-    {        if(!isset(self::$instances[$alias])) {            $classname = __CLASS__;
+    {
+        if(!isset(self::$instances[$alias])) {
+            $classname = __CLASS__;
             $dsn      = isset(systemConfig::$db[$alias]['dsn']) ? systemConfig::$db[$alias]['dsn'] : systemConfig::$db['default']['dsn'];
             $username = isset(systemConfig::$db[$alias]['user']) ? systemConfig::$db[$alias]['user'] : systemConfig::$db['default']['user'];
             $password = isset(systemConfig::$db[$alias]['password']) ? systemConfig::$db[$alias]['password'] : systemConfig::$db['default']['password'];
             $charset  = isset(systemConfig::$db[$alias]['charset']) ? systemConfig::$db[$alias]['charset'] : systemConfig::$db['default']['charset'];
-            self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset);
+
+            self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset);
             self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
             self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             //self::$instance->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-            self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);        }
+            self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+        }
 
         return self::$instances[$alias];
     }

@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.2
+ * @version 0.3
 */
 class DB
 {
@@ -36,7 +36,8 @@ class DB
      * @return object
      */
     public static function factory($alias = 'default')
-    {        if(!isset(systemConfig::$db[$alias])) {
+    {
+        if(!isset(systemConfig::$db[$alias])) {
             $alias = 'default';
         }
 
