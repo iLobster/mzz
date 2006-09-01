@@ -101,6 +101,92 @@ CREATE TABLE `page_page` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Structure for the `sys_access` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access`;
+
+CREATE TABLE `sys_access` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `module_section_action` int(11) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  `uid` int(11) unsigned default NULL,
+  `gid` int(11) unsigned default NULL,
+  `allow` tinyint(1) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `module_action_id` (`module_section_action`,`obj_id`,`uid`,`gid`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_access_actions` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_actions`;
+
+CREATE TABLE `sys_access_actions` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_access_modules` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules`;
+
+CREATE TABLE `sys_access_modules` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_access_modules_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules_sections`;
+
+CREATE TABLE `sys_access_modules_sections` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `module_id` int(11) unsigned default NULL,
+  `section_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `module_section` (`section_id`,`module_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_access_modules_sections_actions` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules_sections_actions`;
+
+CREATE TABLE `sys_access_modules_sections_actions` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `module_section_id` int(11) unsigned default NULL,
+  `action_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `module_action_unique` (`module_section_id`,`action_id`),
+  KEY `action_id` (`action_id`),
+  KEY `module_id` (`module_section_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_access_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_sections`;
+
+CREATE TABLE `sys_access_sections` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
 # Structure for the `sys_cfg` table : 
 #
 
@@ -189,8 +275,7 @@ INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`,
   (1,1,'новость 1',1,'текст 1',1,1140071407,1151144817),
   (2,2,'новость 2',2,'текст 21',1,1140071307,1151124950),
   (4,3,'новость 3',2,'текст 31',3,1140071207,1151126312),
-  (5,4,'новость 4',2,'текст 4',2,1140071107,1140071117),
-  (9,5,'`',1,'`',3,1149103108,1149103218);
+  (5,4,'новость 4',2,'текст 4',2,1140071107,1140071117);
 
 COMMIT;
 
@@ -234,6 +319,63 @@ INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`) VALUES
   (1,9,'main','Первая страница','Это первая, главная страница'),
   (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!'),
   (3,11,'test','test','test');
+
+COMMIT;
+
+#
+# Data for the `sys_access` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access` (`id`, `module_section_action`, `obj_id`, `uid`, `gid`, `allow`) VALUES 
+  (1,1,NULL,NULL,NULL,1),
+  (2,2,NULL,NULL,NULL,1);
+
+COMMIT;
+
+#
+# Data for the `sys_access_actions` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_actions` (`id`, `name`) VALUES 
+  (1,'edit'),
+  (2,'delete');
+
+COMMIT;
+
+#
+# Data for the `sys_access_modules` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules` (`id`, `name`) VALUES 
+  (1,'news');
+
+COMMIT;
+
+#
+# Data for the `sys_access_modules_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules_sections` (`id`, `module_id`, `section_id`) VALUES 
+  (1,1,1);
+
+COMMIT;
+
+#
+# Data for the `sys_access_modules_sections_actions` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules_sections_actions` (`id`, `module_section_id`, `action_id`) VALUES 
+  (1,1,1),
+  (2,1,2);
+
+COMMIT;
+
+#
+# Data for the `sys_access_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_sections` (`id`, `name`) VALUES 
+  (1,'news');
 
 COMMIT;
 
