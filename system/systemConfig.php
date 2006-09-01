@@ -24,6 +24,8 @@ class systemConfig {
      */
     public static $dbDriver;
 
+
+    //Значения по умолчанию
     /**
      * Data Source Name
      *
@@ -53,6 +55,26 @@ class systemConfig {
     public static $dbCharset;
 
     /**
+     * Опции соединения с базой данных для PDO
+     *
+     * @var array
+     */
+    public static $pdoOptions;
+
+
+    // Дополнительные соединения
+    /**
+     * Двумерный массив для хранения данных для соединения с другими бд
+     * Ключем кеша является альяс соединения,
+     * значение - массив с данными соединения(ключи dbDsn, dbUser, dbPassword, dbCharset, pdoOptions).
+     * если не указано какое то значение берется дефолтное
+     *
+     * @var array
+     */
+    public static $dbMulti;
+
+
+    /**
      * Путь до приложения
      *
      * @var string
@@ -79,13 +101,6 @@ class systemConfig {
      * @var string
      */
     public static $pathToConf;
-
-    /**
-     * Опции соединения с базой данных для PDO
-     *
-     * @var array
-     */
-    public static $pdoOptions;
 
     /**
      * Включение/Отключение кэширования

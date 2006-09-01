@@ -29,16 +29,24 @@ class DB
     protected static $callback = false;
 
     /**
+     * Array of dsn
+     */
+    protected $dnsMass = array();
+
+    /**
      * The factory method
+     *
+     * @param string $alias ключ массива systemConfig::$dbMulti с данными о доп. соединении
      *
      * @return object
      */
-    public static function factory()
+    public static function factory($alias = null)
     {
         if (self::$callback == false) {
             //$toolkit = systemToolkit::getInstance();
             $driverName = systemConfig::$dbDriver;
             $driver = 'mzz' . ucfirst($driverName);
+
             fileLoader::load('db/drivers/' . $driver);
             self::$callback = array($driver, 'getInstance');
         }
@@ -48,9 +56,11 @@ class DB
             throw new mzzCallbackException(self::$callback);
             return false;
         } else {
-            return call_user_func(self::$callback);
+            return call_user_func(self::$callback, $alias);
         }
     }
+
+
 
 }
 ?>

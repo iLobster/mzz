@@ -29,11 +29,11 @@ fileLoader::load('db/drivers/mzzPdoStatement');
 class mzzPdo extends PDO
 {
     /**
-     * Singleton
+     * Array of Different Singleton
      *
      * @var object
      */
-    private static $instance;
+    private static $instances;
 
     /**
      * число запросов к БД
@@ -74,23 +74,29 @@ class mzzPdo extends PDO
     /**
      * The singleton method
      *
+     * @param string   $alias ключ массива systemConfig::$dbMulti с данными о доп. соединении
      * @return object
      */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-                $classname = __CLASS__;
-                $dsn = systemConfig::$dbDsn;
+    public static function getInstance($alias = 'default')
+    {        if(!isset(systemConfig::$dbMulti[$alias])) $alias = 'default';
+        if(!isset(self::$instances[$alias])) {            $classname = __CLASS__;
+            if(isset(systemConfig::$dbMulti[$alias])) {                $dsn = isset(systemConfig::$dbMulti[$alias]['dbDsn']) ? systemConfig::$dbMulti[$alias]['dbDsn']: systemConfig::$dbDsn;
+                $username = isset(systemConfig::$dbMulti[$alias]['dbUser']) ? systemConfig::$dbMulti[$alias]['dbUser']: systemConfig::$dbUser;
+                $password = isset(systemConfig::$dbMulti[$alias]['dbPassword']) ? systemConfig::$dbMulti[$alias]['dbPassword']: systemConfig::$dbPassword;
+                $charset = isset(systemConfig::$dbMulti[$alias]['dbCharset']) ? systemConfig::$dbMulti[$alias]['dbCharset']: systemConfig::$dbCharset;
+            } else {                $dsn = systemConfig::$dbDsn;
                 $username = systemConfig::$dbUser;
                 $password = systemConfig::$dbPassword;
-                $charset = systemConfig::$dbCharset;
-                self::$instance = new $classname($dsn, $username, $password, $charset);
-                self::$instance->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
-                self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                self::$instance->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-                self::$instance->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-        }
-        return self::$instance;
+                $charset = systemConfig::$dbCharset;            }
+
+            self::$instances[$alias] = new $classname($dsn, $username, $password, $charset);
+            self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
+            self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //self::$instance->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+            self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);        }
+
+
+        return self::$instances[$alias];
     }
 
     /**
