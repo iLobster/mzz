@@ -25,12 +25,12 @@ define('TEST_PATH',  realpath(SYSTEM_PATH . '/../tests'));
 
 require_once(SYSTEM_PATH . '/systemConfig.php');
 
-systemConfig::$dbDriver = "pdo";
-systemConfig::$dbDsn  = "mysql:host=localhost;dbname=mzz_test";
-systemConfig::$dbUser = "root";
-systemConfig::$dbPassword = "";
-systemConfig::$dbCharset = "cp1251";
-systemConfig::$pdoOptions = array();
+systemConfig::$db['default']['driver'] = 'pdo';
+systemConfig::$db['default']['dsn']  = "mysql:host=localhost;dbname=mzz_test";
+systemConfig::$db['default']['user'] = "login";
+systemConfig::$db['default']['password'] = "password";
+systemConfig::$db['default']['charset'] = "cp1251";
+systemConfig::$db['default']['pdoOptions'] = array();
 
 systemConfig::$pathToApplication = dirname(__FILE__);
 systemConfig::$pathToTemp = systemConfig::$pathToApplication . '/tmp';

@@ -29,22 +29,19 @@ class DB
     protected static $callback = false;
 
     /**
-     * Array of dsn
-     */
-    protected $dnsMass = array();
-
-    /**
      * The factory method
      *
-     * @param string $alias ключ массива systemConfig::$dbMulti с данными о доп. соединении
+     * @param string $alias ключ массива [systemConfig::$dbMulti] с данными о доп. соединении
      *
      * @return object
      */
-    public static function factory($alias = null)
-    {
+    public static function factory($alias = 'default')
+    {        if(!isset(systemConfig::$db[$alias])) {
+            $alias = 'default';
+        }
+
         if (self::$callback == false) {
-            //$toolkit = systemToolkit::getInstance();
-            $driverName = systemConfig::$dbDriver;
+            $driverName = systemConfig::$db[$alias]['driver'];
             $driver = 'mzz' . ucfirst($driverName);
 
             fileLoader::load('db/drivers/' . $driver);

@@ -57,44 +57,45 @@ class mzzPdo extends PDO
     private $queriesPrepared = 0;
 
     /**
+     * Название текущего соединения
+     *
+     * @var string
+     */
+    private $alias;
+
+    /**
      * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
      *
-     * @param string $dsn DSN
-     * @param string $username логин к БД
-     * @param string $password пароль к БД
-     * @param string $charset кодировка
+     * @param string $alias     имя набора с данными о соединении
+     * @param string $dsn       DSN
+     * @param string $username  логин к БД
+     * @param string $password  пароль к БД
+     * @param string $charset   кодировка
      * @return void
      */
-    public function __construct($dsn, $username='', $password='', $charset = '')
+    public function __construct($alias, $dsn, $username='', $password='', $charset = '')
     {
-        parent::__construct($dsn, $username, $password, systemConfig::$pdoOptions);
+        parent::__construct($dsn, $username, $password, systemConfig::$db[$alias]['pdoOptions']);
         $this->query("SET NAMES '" . $charset . "'");
     }
 
     /**
      * The singleton method
      *
-     * @param string   $alias ключ массива systemConfig::$dbMulti с данными о доп. соединении
+     * @param string $alias ключ массива [systemConfig::$db] с данными о соединении
      * @return object
      */
     public static function getInstance($alias = 'default')
-    {        if(!isset(systemConfig::$dbMulti[$alias])) $alias = 'default';
-        if(!isset(self::$instances[$alias])) {            $classname = __CLASS__;
-            if(isset(systemConfig::$dbMulti[$alias])) {                $dsn = isset(systemConfig::$dbMulti[$alias]['dbDsn']) ? systemConfig::$dbMulti[$alias]['dbDsn']: systemConfig::$dbDsn;
-                $username = isset(systemConfig::$dbMulti[$alias]['dbUser']) ? systemConfig::$dbMulti[$alias]['dbUser']: systemConfig::$dbUser;
-                $password = isset(systemConfig::$dbMulti[$alias]['dbPassword']) ? systemConfig::$dbMulti[$alias]['dbPassword']: systemConfig::$dbPassword;
-                $charset = isset(systemConfig::$dbMulti[$alias]['dbCharset']) ? systemConfig::$dbMulti[$alias]['dbCharset']: systemConfig::$dbCharset;
-            } else {                $dsn = systemConfig::$dbDsn;
-                $username = systemConfig::$dbUser;
-                $password = systemConfig::$dbPassword;
-                $charset = systemConfig::$dbCharset;            }
-
-            self::$instances[$alias] = new $classname($dsn, $username, $password, $charset);
+    {        if(!isset(self::$instances[$alias])) {            $classname = __CLASS__;
+            $dsn      = isset(systemConfig::$db[$alias]['dsn']) ? systemConfig::$db[$alias]['dsn'] : systemConfig::$db['default']['dsn'];
+            $username = isset(systemConfig::$db[$alias]['user']) ? systemConfig::$db[$alias]['user'] : systemConfig::$db['default']['user'];
+            $password = isset(systemConfig::$db[$alias]['password']) ? systemConfig::$db[$alias]['password'] : systemConfig::$db['default']['password'];
+            $charset  = isset(systemConfig::$db[$alias]['charset']) ? systemConfig::$db[$alias]['charset'] : systemConfig::$db['default']['charset'];
+            self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset);
             self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
             self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             //self::$instance->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
             self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);        }
-
 
         return self::$instances[$alias];
     }

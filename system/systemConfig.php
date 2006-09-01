@@ -18,60 +18,14 @@
 class systemConfig {
 
     /**
-     * Тип драйвера БД
-     *
-     * @var string
-     */
-    public static $dbDriver;
-
-
-    //Значения по умолчанию
-    /**
-     * Data Source Name
-     *
-     * @var string
-     */
-    public static $dbDsn;
-
-    /**
-     * Имя пользователя для доступа к БД
-     *
-     * @var string
-     */
-    public static $dbUser;
-
-    /**
-     * Пароль для доступа к БД
-     *
-     * @var string
-     */
-    public static $dbPassword;
-
-    /**
-     * Кодировка БД
-     *
-     * @var string
-     */
-    public static $dbCharset;
-
-    /**
-     * Опции соединения с базой данных для PDO
-     *
-     * @var array
-     */
-    public static $pdoOptions;
-
-
-    // Дополнительные соединения
-    /**
      * Двумерный массив для хранения данных для соединения с другими бд
      * Ключем кеша является альяс соединения,
-     * значение - массив с данными соединения(ключи dbDsn, dbUser, dbPassword, dbCharset, pdoOptions).
+     * значение - массив с данными соединения. ключи - (driver, dbDsn, dbUser, dbPassword, dbCharset, pdoOptions).
      * если не указано какое то значение берется дефолтное
      *
      * @var array
      */
-    public static $dbMulti;
+    public static $db;
 
 
     /**
