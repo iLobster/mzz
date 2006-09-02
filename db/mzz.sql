@@ -72,18 +72,6 @@ CREATE TABLE `news_news_folder_tree` (
   KEY `rkey` (`rkey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `news_news_tree` table : 
-#
-
-DROP TABLE IF EXISTS `news_news_tree`;
-
-CREATE TABLE `news_news_tree` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `parent` int(11) default '0',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `page_page` table : 
