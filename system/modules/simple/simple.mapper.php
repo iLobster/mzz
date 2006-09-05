@@ -14,6 +14,7 @@
 */
 
 fileLoader::load('db/sqlFunction');
+fileLoader::load('db/simpleSelect');
 
 /**
  * simpleMapper: реализация общих методов у Mapper
@@ -274,6 +275,14 @@ abstract class simpleMapper //implements iCacheable
      */
     public function searchByField($name, $value)
     {
+        $criteria = new criteria($this->table);
+        $criteria->enableCount();
+        $criteria->add($name, $value);
+
+        $select = new simpleSelect($criteria);
+        $stmt = $this->db->query($select->toString());
+
+        /*
         $qry = "SELECT SQL_CALC_FOUND_ROWS * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name;
         if (!empty($this->pager)) {
             $qry .= $this->pager->getLimitQuery();
@@ -281,15 +290,23 @@ abstract class simpleMapper //implements iCacheable
 
         $stmt = $this->db->prepare($qry);
         $stmt->bindParam(':' . $name, $value);
-        $stmt->execute();
+        $stmt->execute(); */
 
+
+        $criteria_count = new criteria();
+        $criteria_count->addSelectField('FOUND_ROWS()', 'count');
+        $select_count = new simpleSelect($criteria_count);
+
+        $this->count = $this->db->getOne($select_count->toString());
+
+        /*
         $statement = $this->db->query('SELECT FOUND_ROWS() AS `count`');
         $res = $statement->fetchAll();
         $statement->closeCursor();
-        $this->count = $res[0]['count'];
+        $this->count = $res[0]['count'];*/
 
         if (!empty($this->pager)) {
-            $this->pager->setCount($res[0]['count']);
+            $this->pager->setCount($this->count);
         }
 
         return $stmt;

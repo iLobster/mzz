@@ -46,8 +46,8 @@ class dbTreeDataTest extends unitTestCase
         switch($this->fixtureType) {
             case 'treeFixture' : $fix =  $this->treeFixture; break;
             case 'dataFixture' : $fix =  $this->dataFixture; break;
-
         }
+
         if(!is_array($idArray)) {
             $idArray = range(1,8);
         }
@@ -302,9 +302,8 @@ class dbTreeDataTest extends unitTestCase
         $this->tree->removeNode(2);
         $newTree = $this->tree->getTree();
 
-
         foreach($newTree as $i => $node) {
-            unset($node['obj_id']);
+            unset($node['obj_id'], $node['rel']);
             $this->assertEqual($node, $fixtureTree[$i]);
         }
     }

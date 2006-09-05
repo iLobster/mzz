@@ -13,19 +13,29 @@ class simpleMapperTest extends unitTestCase
     private $mapper;
     private $db;
     private $map;
+
+    private $map_rel;
+
     private $fixture;
 
     public function __construct()
     {
         $this->map = array(
-        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId' ),
+        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId'),
         'foo' => array ('name' => 'foo','accessor' => 'getFoo', 'mutator' => 'setFoo'),
         'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
+        'rel' => array ('name' => 'rel','accessor' => 'getRel', 'mutator' => 'setRel', 'owns' => 'stubSimple.setSomefield'),
         );
 
-        $this->fixture = array(array('foo'=>'foo1','bar'=>'bar1'),
-        array('foo'=>'foo2','bar'=>'bar2'),
-        array('foo'=>'foo3','bar'=>'bar3'));
+        $this->map_rel = array(
+        'somefield' => array ('name' => 'somefield', 'accessor' => 'getSomefield',  'mutator' => 'setSomefield'),
+        );
+
+        $this->fixture = array(
+        array('foo'=>'foo1', 'bar'=>'bar1', 'rel' => 2),
+        array('foo'=>'foo2', 'bar'=>'bar2', 'rel' => 4),
+        array('foo'=>'foo3', 'bar'=>'bar3', 'rel' => 6)
+        );
 
         $this->db = DB::factory();
         $this->cleardb();
@@ -35,11 +45,11 @@ class simpleMapperTest extends unitTestCase
     {
         $valString = '';
         foreach($this->fixture as $id => $data) {
-            $valString .= "('" . $this->fixture[$id]['foo'] . "','" . $this->fixture[$id]['bar']. "'),";
+            $valString .= "('" . $this->fixture[$id]['foo'] . "','" . $this->fixture[$id]['bar']. "', " . $this->fixture[$id]['rel'] . "),";
         }
         $valString = substr($valString, 0,  strlen($valString)-1);
 
-        $stmt = $this->db->prepare(' INSERT INTO `simple_simple` (`foo`,`bar`) VALUES ' . $valString);
+        $stmt = $this->db->prepare('INSERT INTO `simple_simple` (`foo`, `bar`, `rel`) VALUES ' . $valString);
         $stmt->execute();
     }
 
@@ -68,8 +78,6 @@ class simpleMapperTest extends unitTestCase
         $this->mapper->delete(1);
 
         $this->assertEqual(2, $this->countRecord());
-
-
     }
 
     public function testInsertSave()
@@ -86,7 +94,6 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual(1, $simple->getId());
         $this->assertEqual($this->fixture[0]['foo'], $simple->getFoo());
         $this->assertEqual($this->fixture[0]['bar'], $simple->getBar());
-
     }
 
     public function testInsertSaveWithDataModify()
@@ -136,7 +143,6 @@ class simpleMapperTest extends unitTestCase
         $row = $stmt->fetch();
 
         $this->assertEqual($row['bar'], $this->fixture[1]['bar']);
-
     }
 
     public function testCreateUniqueObjectId()
@@ -149,6 +155,19 @@ class simpleMapperTest extends unitTestCase
 
         $this->assertEqual(1, $this->countRecord());
         $this->assertEqual(1, $simple->getObjId());
+    }
+
+    /* разрулить траблу с одинаковыми полями в разных таблицах */
+    public function testOneToOneRelation()
+    {
+        $this->fixture();
+        $stmt = $this->mapper->searchByField('rel', $this->fixture[1]['rel']);
+        $row = $stmt->fetch();
+
+        $this->assertEqual($row['rel'], $this->fixture[1]['rel']);
+        //$res = $this->db->getAll("SELECT `simple_simple`.*, `simple_simple2`.* FROM `simple_simple` INNER JOIN `simple_simple` `simple_simple2`");
+        //var_dump($res);
+        //exit;
     }
 
 

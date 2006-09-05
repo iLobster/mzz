@@ -1,4 +1,5 @@
 <?php
+
 fileLoader::load('db/criterion');
 
 class criteria
@@ -12,6 +13,8 @@ class criteria
     const IN = 'IN';
     const LIKE = 'LIKE';
     const BETWEEN = 'BETWEEN';
+
+    private $joins = array();
 
     private $table;
     private $map = array();
@@ -140,8 +143,16 @@ class criteria
     {
         return isset($this->selectFieldsAliases[$field]) ? $this->selectFieldsAliases[$field] : null;
     }
+
+    public function getJoins()
+    {
+        return $this->joins;
+    }
+
+    public function addJoin($tablename, criterion $criterion)
+    {
+        $this->joins[] = array('table' => '`' . $tablename . '`', 'criterion' => $criterion);
+    }
 }
-
-
 
 ?>

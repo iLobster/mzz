@@ -260,12 +260,12 @@ class mzzPdo extends PDO
      */
     public function getAll($query)
     {
-        $result = $this->query($query);
+        $stmt = $this->query($query);
         $rows = array();
         while ($row = $stmt->fetch()) {
             $rows[] = $row;
         }
-        $result->closeCursor();
+        $stmt->closeCursor();
         return $rows;
     }
 

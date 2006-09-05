@@ -70,6 +70,13 @@ class criteriaTest extends unitTestCase
         $this->criteria->clearSelectFields();
         $this->assertEqual($this->criteria->getSelectFields(), array());
     }
+
+    public function testJoin()
+    {
+        $this->assertEqual($this->criteria->getJoins(), array());
+        $this->criteria->addJoin($table = 'foo', $criterion = new criterion());
+        $this->assertEqual($this->criteria->getJoins(), array(0 => array('table' => '`' . $table . '`', 'criterion' => $criterion)));
+    }
 }
 
 ?>

@@ -23,7 +23,7 @@ class simpleSelectTest extends unitTestCase
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
     }
 
-    public function testSelectAllNoConditionsSelectFieldsAlias()
+    public function testSelectConcreteFieldsNoConditionsSelectFieldsAlias()
     {
         $this->criteria->setTable('table');
         $this->criteria->addSelectField('field1');
@@ -55,6 +55,22 @@ class simpleSelectTest extends unitTestCase
     {
         $this->criteria->setTable('table')->addSelectField('FOUND_ROWS()');
         $this->assertEqual($this->select->toString(), "SELECT FOUND_ROWS() FROM `table`");
+    }
+
+    public function testSelectWithSimpleJoin()
+    {
+        $this->criteria->setTable('table');
+        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
+        $this->criteria->addJoin('foo', new criterion('foo.id', 'table.id', criteria::EQUAL, true));
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` INNER JOIN `foo` ON `foo`.`id` = `table`.`id`");
+    }
+
+    public function testSelectSomeFieldsWithSimpleJoin()
+    {
+        $this->criteria->setTable('table');
+        $this->criteria->addSelectField('table.*')->addSelectField('foo.id', 'foo_id');
+        $this->criteria->addJoin('foo', new criterion('foo.id', 'table.id', criteria::EQUAL, true));
+        $this->assertEqual($this->select->toString(), "SELECT `table`.*, `foo`.`id` AS `foo_id` FROM `table` INNER JOIN `foo` ON `foo`.`id` = `table`.`id`");
     }
 }
 

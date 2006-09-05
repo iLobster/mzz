@@ -5,6 +5,9 @@ class criterion
     const C_OR = 'OR';
     const C_AND = 'AND';
 
+    private $alias;
+    private $isField;
+
     private $field;
     private $value;
     private $comparsion;
@@ -12,10 +15,16 @@ class criterion
     private $clauses;
     private $conjunctions = array();
 
-    public function __construct($field = null, $value = null, $comparsion = null)
+    public function __construct($field = null, $value = null, $comparsion = null, $isField = null)
     {
         $this->db = db::factory();
-        $this->field = $field;
+        if (($dotpos = strpos($field, '.')) !== false) {
+            $this->alias = substr($field, 0, $dotpos);
+            $this->field = substr($field, $dotpos + 1);
+        } else {
+            $this->field = $field;
+        }
+        $this->isField = $isField;
         $this->value = $value;
         $this->comparsion = !empty($comparsion) ? $comparsion : criteria::EQUAL;
     }
@@ -28,7 +37,7 @@ class criterion
             // для конструкции `field` IN ('val1', 'val2')
             if ($this->comparsion === criteria::IN) {
 
-                $result .= '`' . $this->field . '` ' . $this->comparsion . ' (';
+                $result .= $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' (';
                 // тут наверное нужно проверять ещё и sizeof($this->value)
                 foreach ($this->value as $val) {
                     $result .= $this->db->quote($val) . ', ';
@@ -37,9 +46,9 @@ class criterion
                 $result .= ')';
 
             } elseif ($this->comparsion === criteria::BETWEEN) {
-                $result .= '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
+                $result .= $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
             } else {
-                $result .= '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value);
+                $result .= $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->getQuotedValue();
             }
         }
 
@@ -84,9 +93,37 @@ class criterion
         return $this->field;
     }
 
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
+    private function getQuoutedAlias()
+    {
+        if (!empty($this->alias)) {
+            return '`' . $this->alias . '`.';
+        }
+
+        return '';
+    }
+
     public function getValue()
     {
         return $this->value;
+    }
+
+    private function getQuotedValue()
+    {
+        if ($this->isField) {
+            if (($dotpos = strpos($this->value, '.')) !== false) {
+                $alias = substr($this->value, 0, $dotpos);
+                $field = substr($this->value, $dotpos + 1);
+                return '`' . $alias . '`.`' . $field . '`';
+            }
+            return '`' . $this->value . '`';
+        } else {
+            return  $this->db->quote($this->value);
+        }
     }
 }
 

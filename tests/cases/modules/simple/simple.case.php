@@ -25,7 +25,7 @@ class testSimple extends unitTestCase
     }
     public function setUp()
     {
-     $this->simple = new stubSimple($this->map);
+        $this->simple = new stubSimple($this->map);
     }
     public function tearDown()
     {
@@ -69,7 +69,6 @@ class testSimple extends unitTestCase
 
             $this->assertEqual($val2, $this->simple->$getprop());
         }
-
     }
 
     public function testException()

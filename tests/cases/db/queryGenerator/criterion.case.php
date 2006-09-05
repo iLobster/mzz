@@ -74,6 +74,31 @@ class criterionTest extends unitTestCase
         $this->assertEqual($criterion->generate(), "(`field` = 'value')");
     }
 
+    public function testFieldWithAlias()
+    {
+        $criterion = new criterion('foo.bar', 'value');
+        $this->assertEqual($criterion->getValue(), 'value');
+        $this->assertEqual($criterion->getField(), 'bar');
+        $this->assertEqual($criterion->getAlias(), 'foo');
+
+        $this->assertEqual($criterion->generate(), "`foo`.`bar` = 'value'");
+    }
+
+    public function testFieldAndFieldComparison()
+    {
+        $criterion = new criterion('field', 'field2', criteria::EQUAL, true);
+        $this->assertEqual($criterion->generate(), "`field` = `field2`");
+
+        $criterion = new criterion('field', 'field2', criteria::GREATER, true);
+        $this->assertEqual($criterion->generate(), "`field` > `field2`");
+    }
+
+    public function testFieldAndFieldWithAliasComparison()
+    {
+        $criterion = new criterion('foo.field', 'bar.field2', criteria::EQUAL, true);
+        $this->assertEqual($criterion->generate(), "`foo`.`field` = `bar`.`field2`");
+    }
+
     public function testCompositeConjunction()
     {
         $criterion = new criterion();
