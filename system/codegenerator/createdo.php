@@ -68,28 +68,28 @@ Sample usage:
         $mapperName = $doName . 'Mapper';
         $mapperNameFile = $mapperName . '.php';
         if (is_file('mappers/' . $mapperNameFile)) {
-            throw new Exception('Error: mapper file['.$mapperNameFile.'] already exists');
+            throw new Exception('Error: mapper file[' . $mapperNameFile . '] already exists');
         }
 
         $mapFileName = $doName . '.map.ini';
         if (is_file('maps/' . $mapFileName)) {
-            throw new Exception('Error: map ini file['.$mapFileName.'] already exists');
+            throw new Exception('Error: map ini file[' . $mapFileName . '] already exists');
         }
 
         $iniFileName = $doName . '.ini';
         if (is_file('actions/' . $iniFileName)) {
-            throw new Exception('Error: actions ini file['.$iniFileName.'] already exists');
+            throw new Exception('Error: actions ini file[' . $iniFileName . '] already exists');
         }
 
 
         $doCaseFileName = $doName . '.case.php';
         if (is_file(MODULE_TEST_PATH . $doCaseFileName)) {
-            throw new Exception('Error: do.case file file['.$doCaseFileName.'] already exists');
+            throw new Exception('Error: do.case file file[' . $doCaseFileName . '] already exists');
         }
 
         $doMapperCaseFileName = $doName . 'Mapper.case.php';
         if (is_file(MODULE_TEST_PATH . $doMapperCaseFileName)) {
-            throw new Exception('Error: mapper.case file['.$doMapperCaseFileName.'] already exists');
+            throw new Exception('Error: mapper.case file[' . $doMapperCaseFileName . '] already exists');
         }
 
         // -------создаем ДО класс-----------
@@ -102,7 +102,7 @@ Sample usage:
         $smarty->assign('do_data', $doData);
         $factory = $smarty->fetch('do.tpl');
         file_put_contents($doNameFile, $factory);
-        $log .= "File created successfully:\n- " .$module . '/' . $doNameFile;
+        $log .= "File created successfully:\n- " . $module . '/' . $doNameFile;
 
 
         // -------создаем маппер-----------
@@ -134,14 +134,14 @@ Sample usage:
 
         $smarty->assign('doCaseData', $doCaseData);
         $case = $smarty->fetch('do_case.tpl');
-        file_put_contents(MODULE_TEST_PATH. '/' . $doCaseFileName, $case);
+        file_put_contents(MODULE_TEST_PATH . '/' . $doCaseFileName, $case);
         $log .= "\n- " . MODULE_TEST_SHORT_PATH . '/' . $doCaseFileName;
 
 
         $smarty->assign('doCaseData', $doCaseData);
         $mapperCase = $smarty->fetch('domapper_case.tpl');
-        file_put_contents(MODULE_TEST_PATH  . $doMapperCaseFileName, $mapperCase);
-        $log .= "\n- " . MODULE_TEST_SHORT_PATH  . $doMapperCaseFileName;
+        file_put_contents(MODULE_TEST_PATH . $doMapperCaseFileName, $mapperCase);
+        $log .= "\n- " . MODULE_TEST_SHORT_PATH . $doMapperCaseFileName;
 
 
         // -------создаем ini файл для экшинов-----------
