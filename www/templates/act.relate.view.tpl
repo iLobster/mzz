@@ -1,0 +1,1 @@
+{load module="relate" action="view"}

@@ -94,6 +94,12 @@ class newsFolderMapper extends simpleMapper
     {
         $map = $this->getMap();
         $newsFolder = new newsFolder($this, $map);
+/*
+        $f = array();
+        foreach ($row as $key => $val) {
+            $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
+        }*/
+
         $newsFolder->import($row);
         return $newsFolder;
     }
@@ -151,13 +157,13 @@ class newsFolderMapper extends simpleMapper
      */
     public function getItems($id)
     {
-        $news = new newsMapper($this->section());
+        $newsMapper = new newsMapper($this->section());
 
         if (!empty($this->pager)) {
-            $news->setPager($this->pager);
+            $newsMapper->setPager($this->pager);
         }
 
-        $result = $news->searchByFolder($id);
+        $result = $newsMapper->searchByFolder($id);
 
         return $result;
     }

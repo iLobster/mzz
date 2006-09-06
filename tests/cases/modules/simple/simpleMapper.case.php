@@ -24,7 +24,7 @@ class simpleMapperTest extends unitTestCase
         'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId'),
         'foo' => array ('name' => 'foo','accessor' => 'getFoo', 'mutator' => 'setFoo'),
         'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
-        'rel' => array ('name' => 'rel','accessor' => 'getRel', 'mutator' => 'setRel', 'owns' => 'stubSimple.setSomefield'),
+        'rel' => array ('name' => 'rel','accessor' => 'getRel', 'mutator' => 'setRel', 'owns' => 'stub2.somefield'),
         );
 
         $this->map_rel = array(
@@ -51,6 +51,8 @@ class simpleMapperTest extends unitTestCase
 
         $stmt = $this->db->prepare('INSERT INTO `simple_simple` (`foo`, `bar`, `rel`) VALUES ' . $valString);
         $stmt->execute();
+
+        $this->db->query('INSERT INTO `simple_stub2` (`somefield`, `otherfield`) VALUES (2, 3), (4, 5), (6, 7)');
     }
 
     public function setUp()
@@ -66,6 +68,7 @@ class simpleMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `simple_simple`');
+        $this->db->query('TRUNCATE TABLE `simple_stub2`');
         $this->db->query('TRUNCATE TABLE `sys_obj_id`');
     }
 
@@ -157,19 +160,17 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual(1, $simple->getObjId());
     }
 
-    /* разрулить траблу с одинаковыми полями в разных таблицах */
     public function testOneToOneRelation()
     {
         $this->fixture();
-        $stmt = $this->mapper->searchByField('rel', $this->fixture[1]['rel']);
+        $this->mapper->setMap($this->map);
+        $stmt = $this->mapper->searchByField('foo', $this->fixture[1]['foo']);
         $row = $stmt->fetch();
 
-        $this->assertEqual($row['rel'], $this->fixture[1]['rel']);
-        //$res = $this->db->getAll("SELECT `simple_simple`.*, `simple_simple2`.* FROM `simple_simple` INNER JOIN `simple_simple` `simple_simple2`");
-        //var_dump($res);
-        //exit;
+        $this->assertEqual($row['simple_rel'], $this->fixture[1]['rel']);
+        $this->assertEqual($row['stub2_somefield'], $this->fixture[1]['rel']);
+        $this->assertEqual($row['stub2_otherfield'], $this->fixture[1]['rel'] + 1);
     }
-
 
     private function countRecord()
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/core/sectionMapper.php $
+ * $URL: http://svn.web/repository/mzz/system/db/dbDumpCheck.php $
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage db
- * @version $Id: sectionMapper.php 851 2006-07-05 17:33:51Z mz $
+ * @version $Id: dbDumpCheck.php 1 2006-09-05 21:03:12Z zerkms $
 */
 
 /**

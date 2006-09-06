@@ -62,7 +62,7 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->setTable('table');
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
         $this->criteria->addJoin('foo', new criterion('foo.id', 'table.id', criteria::EQUAL, true));
-        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` INNER JOIN `foo` ON `foo`.`id` = `table`.`id`");
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` LEFT JOIN `foo` ON `foo`.`id` = `table`.`id`");
     }
 
     public function testSelectSomeFieldsWithSimpleJoin()
@@ -70,7 +70,7 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->setTable('table');
         $this->criteria->addSelectField('table.*')->addSelectField('foo.id', 'foo_id');
         $this->criteria->addJoin('foo', new criterion('foo.id', 'table.id', criteria::EQUAL, true));
-        $this->assertEqual($this->select->toString(), "SELECT `table`.*, `foo`.`id` AS `foo_id` FROM `table` INNER JOIN `foo` ON `foo`.`id` = `table`.`id`");
+        $this->assertEqual($this->select->toString(), "SELECT `table`.*, `foo`.`id` AS `foo_id` FROM `table` LEFT JOIN `foo` ON `foo`.`id` = `table`.`id`");
     }
 }
 

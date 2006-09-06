@@ -147,9 +147,6 @@ class testSimple extends unitTestCase
             $this->assertIdentical($this->simple->$getter(), $second);
         }
     }
-
 }
-
-
 
 ?>

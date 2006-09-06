@@ -81,6 +81,12 @@ class newsMapper extends simpleMapper
     {
         $map = $this->getMap();
         $news = new news($map);
+/*
+        $f = array();
+        foreach ($row as $key => $val) {
+            $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
+        }
+*/
         $news->import($row);
         return $news;
     }

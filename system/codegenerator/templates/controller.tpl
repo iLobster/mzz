@@ -1,7 +1,7 @@
 <?php
 //
-// $Id$
-// $URL$
+// $Id: controller.tpl 1 2006-09-05 21:03:12Z zerkms $
+// $URL: http://svn.web/repository/mzz/system/codegenerator/templates/controller.tpl $
 //
 // MZZ Content Management System (c) 2006
 // Website : http://www.mzz.ru

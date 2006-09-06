@@ -71,11 +71,13 @@ class userMapper extends simpleMapper
      */
     public function searchById($id)
     {
-        $stmt = $this->searchByField('id', $id);
-        $row = $stmt->fetch();
+        /*$stmt = $this->searchByField('id', $id);
+        $row = $stmt->fetch();*/
+
+        $row = $this->searchOneByField('id', $id);
 
         if ($row) {
-            return $this->createUserFromRow($row);
+            return $row;
         } else {
             if($id === MZZ_USER_GUEST_ID) {
                 throw new mzzSystemException('Отсутствует запись с ID: ' . MZZ_USER_GUEST_ID . ' для гостя в таблице ' . $this->table);
@@ -92,11 +94,13 @@ class userMapper extends simpleMapper
      */
     public function searchByLogin($login)
     {
-        $stmt = $this->searchByField('login', $login);
-        $row = $stmt->fetch();
+        /*        $stmt = $this->searchByField('login', $login);
+        $row = $stmt->fetch();*/
+
+        $row = $this->searchOneByField('login', $login);
 
         if ($row) {
-            return $this->createUserFromRow($row);
+            return $row;
         } else {
             return $this->getGuest();
         }
@@ -151,7 +155,7 @@ class userMapper extends simpleMapper
 
         if ($row) {
             $session->set('user_id', $row['id']);
-            return $this->createUserFromRow($row);
+            return $this->createItemFromRow($row);
         } else {
             $session->set('user_id', MZZ_USER_GUEST_ID);
             return $this->getGuest();
@@ -164,11 +168,17 @@ class userMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createUserFromRow($row)
+    protected function createItemFromRow($row)
     {
         $map = $this->getMap();
         $user = new user($this, $map);
-        $user->import($row);
+
+        $f = array();
+        foreach ($row as $key => $val) {
+            $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
+        }
+
+        $user->import($f[$this->className]);
         return $user;
     }
 

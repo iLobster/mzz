@@ -190,7 +190,15 @@ abstract class simpleMapper //implements iCacheable
             $stmt = $this->searchByField($this->tableKey, $id);
             $fields = $stmt->fetch();
 
-            $object->import($fields);
+            $f = array();
+            foreach ($fields as $key => $val) {
+                $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
+            }
+            //var_dump($fields);
+            //var_dump($f);
+
+
+            $object->import($f[$this->className]);
         }
     }
 
@@ -229,7 +237,12 @@ abstract class simpleMapper //implements iCacheable
             $stmt = $this->searchByField($this->tableKey, $object->getId());
             $fields = $stmt->fetch();
 
-            $object->import($fields);
+            $f = array();
+            foreach ($fields as $key => $val) {
+                $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
+            }
+
+            $object->import($f[$this->className]);
 
             return $result;
         }
@@ -265,6 +278,29 @@ abstract class simpleMapper //implements iCacheable
         }
     }
 
+    public function generateJoins($criteria, $val, $key, $table, $section)
+    {
+        $owns = isset($val['owns']) ? $val['owns'] : $val['ownsMany'];
+
+        $tableName = substr($owns, 0, strpos($owns, '.'));
+        $foreignKeyName = substr(strrchr($owns, '.'), 1);
+        $className = $tableName . 'Mapper';
+
+        $criterion = new criterion($table . '.' . $key, $section . '_' . $tableName . '.' . $foreignKeyName, criteria::EQUAL, true);
+        $criteria->addJoin($section . '_' . $tableName, $criterion);
+
+        fileLoader::load($this->name . '/mappers/' . $className);
+
+        $mapper = new $className($section);
+        $submap = $mapper->getMap();
+        foreach ($submap as $key => $val) {
+            $criteria->addSelectField($section . '_' . $tableName . '.' . $key, $tableName . '_' . $key);
+            if (isset($val['owns']) || isset($val['ownsMany'])) {
+                $this->generateJoins($criteria, $val, $key, $this->table, $this->section);
+            }
+        }
+    }
+
     /**
      * »щет запись по полю $name со значением $value
      * и возвращает результат поиска
@@ -277,20 +313,21 @@ abstract class simpleMapper //implements iCacheable
     {
         $criteria = new criteria($this->table);
         $criteria->enableCount();
-        $criteria->add($name, $value);
 
-        $select = new simpleSelect($criteria);
-        $stmt = $this->db->query($select->toString());
+        $map = $this->getMap();
 
-        /*
-        $qry = "SELECT SQL_CALC_FOUND_ROWS * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name;
-        if (!empty($this->pager)) {
-            $qry .= $this->pager->getLimitQuery();
+        foreach ($map as $key => $val) {
+            $criteria->addSelectField($this->table . '.' . $key, $this->className . '_' . $key);
+            if (isset($val['owns']) || isset($val['ownsMany'])) {
+                $this->generateJoins($criteria, $val, $key, $this->table, $this->section);
+            }
         }
 
-        $stmt = $this->db->prepare($qry);
-        $stmt->bindParam(':' . $name, $value);
-        $stmt->execute(); */
+        $criteria->add($this->table . '.' . $name, $value);
+
+        $select = new simpleSelect($criteria);
+        //var_dump($select->toString());echo '<br>';
+        $stmt = $this->db->query($select->toString());
 
 
         $criteria_count = new criteria();
@@ -299,11 +336,6 @@ abstract class simpleMapper //implements iCacheable
 
         $this->count = $this->db->getOne($select_count->toString());
 
-        /*
-        $statement = $this->db->query('SELECT FOUND_ROWS() AS `count`');
-        $res = $statement->fetchAll();
-        $statement->closeCursor();
-        $this->count = $res[0]['count'];*/
 
         if (!empty($this->pager)) {
             $this->pager->setCount($this->count);
@@ -323,11 +355,28 @@ abstract class simpleMapper //implements iCacheable
     public function searchOneByField($name, $value)
     {
         $stmt = $this->searchByField($name, $value);
-        $row = $stmt->fetch();
 
-        if ($row) {
-            return $this->createItemFromRow($row);
+        //$prev_obj_id = 0;
+        while ($row = $stmt->fetch()) {
+            $f = array();
+            foreach ($row as $key => $val) {
+                $uscorePos = strpos($key, '_');
+                $className = substr($key, 0, $uscorePos);
+                $keyName = substr($key, $uscorePos + 1);
+
+                $f[$className][$keyName] = $val;
+            }
+
+            $f = $this->fill($f, $this->className);
+            //var_dump($f);
+            //echo '<br><br><br>';
+
         }
+
+        if (isset($f)) {
+            return $this->createItemFromRow($f[$this->className]);
+        }
+
         return null;
     }
 
@@ -345,10 +394,67 @@ abstract class simpleMapper //implements iCacheable
         $result = array();
 
         while ($row = $stmt->fetch()) {
-            $result[] = $this->createItemFromRow($row);
+            $f = array();
+            foreach ($row as $key => $val) {
+                $uscorePos = strpos($key, '_');
+                $className = substr($key, 0, $uscorePos);
+                $keyName = substr($key, $uscorePos + 1);
+
+                /*if ($className == $this->className) {
+                $f[$keyName] = $val;
+                }*/
+                $f[$className][$keyName] = $val;
+
+                //$f[$className][$keyName] = $val;
+            }
+            $f = $this->fill($f, $this->className);
+
+            $result[] = $this->createItemFromRow($f[$this->className]);
         }
 
         return $result;
+    }
+
+    /**
+     * метод поиска полей св€занных объектов и присваивание вложенного объекта свойству родительского объекта
+     *
+     * @param array $f
+     * @param string $parent
+     * @return array
+     */
+    public function fill($f, $parent)
+    {
+        foreach ($this->getMap() as $key => $val) {
+            if (isset($val['owns']) || isset($val['ownsMany'])) {
+                $uscorePos = strpos($key, '_');
+                $className = substr($key, 0, $uscorePos);
+                $keyName = substr($key, $uscorePos + 1);
+
+                $mapperName = $className . 'Mapper';
+
+                //fileLoader::load($this->name)
+
+                $mapper = new $mapperName($this->section);
+
+                $item = $mapper->createItemFromRow($f[$className]);
+
+                if (isset($val['owns'])) {
+                    $f[$parent][$key] = $item;
+                } else {
+                    if (!is_array($f[$parent][$key])) {
+                        unset($f[$parent][$key]);
+                    }
+                    $f[$parent][$key][] = $item;
+                }
+            }
+        }
+
+        return $f;
+    }
+
+    public function setMap($map)
+    {
+        $this->map = $map;
     }
 
     /**
@@ -361,6 +467,7 @@ abstract class simpleMapper //implements iCacheable
         if (empty($this->map)) {
             $mapFileName = fileLoader::resolve($this->name() . '/maps/' . $this->className . '.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
+            //$this->map['obj_id'] = array('accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
         }
         return $this->map;
     }

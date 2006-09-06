@@ -62,11 +62,13 @@ class groupMapper extends simpleMapper
      */
     public function searchById($id)
     {
-        $stmt = $this->searchByField('id', $id);
-        $row = $stmt->fetch();
+        $row = $this->searchOneByField('id', $id);
+        /*var_dump($stmt);
+        $row = $stmt->fetch();*/
 
         if ($row) {
-            return $this->createGroupFromRow($row);
+            //return $this->createItemFromRow($row);
+            return $row;
         } else {
             // Что это?
             if($id == 1) {
@@ -84,14 +86,15 @@ class groupMapper extends simpleMapper
      */
     public function searchByName($name)
     {
-        $stmt = $this->searchByField('name', $name);
+        return $this->searchOneByField('name', $name);
+        /*$stmt = $this->searchByField('name', $name);
         $row = $stmt->fetch();
 
         if ($row) {
             return $this->createGroupFromRow($row);
         } else {
             return false;
-        }
+        }*/
     }
 
     /**
@@ -111,7 +114,7 @@ class groupMapper extends simpleMapper
         $result = array();
 
         foreach ($rows as $row) {
-            $result[] = $this->createGroupFromRow($row);
+            $result[] = $this->createItemFromRow($row);
         }
 
         return $result;
@@ -142,11 +145,17 @@ class groupMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createGroupFromRow($row)
+    protected function createItemFromRow($row)
     {
         $map = $this->getMap();
         $group = new group($map);
-        $group->import($row);
+
+        $f = array();
+        foreach ($row as $key => $val) {
+            $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
+        }
+
+        $group->import($f[$this->className]);
         return $group;
     }
 

@@ -11,7 +11,7 @@ class newsMapperTest extends unitTestCase
 
     public function __construct()
     {
-        $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),        
+        $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'editor' => array ( 'name' => 'editor', 'accessor' => 'getEditor', 'mutator' => 'setEditor'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
@@ -89,6 +89,7 @@ class newsMapperTest extends unitTestCase
     {
         $this->fixture($this->mapper, $this->map);
         $news = $this->mapper->searchById(1);
+//var_dump($news);
 
         $this->assertEqual($news->getTitle(), 'title1');
         $this->assertEqual($news->getEditor(), 'editor1');

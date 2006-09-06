@@ -16,28 +16,21 @@
  * @version 0.2.1
  */
 
-class pageMapper extends simpleMapper
+class relateMapper extends simpleMapper
 {
     /**
      * Имя модуля
      *
      * @var string
      */
-    protected $name = 'page';
+    protected $name = 'relate';
 
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'page';
-
-    /**
-     * Массив кешируемых методов
-     *
-     * @var array
-     */
-    protected $cacheable = array('searchByName');
+    protected $className = 'relate';
 
     /**
      * Создает пустой объект DO
@@ -46,7 +39,7 @@ class pageMapper extends simpleMapper
      */
     public function create()
     {
-        return new page($this->getMap());
+        return new relate($this->getMap());
     }
 
     /**
@@ -61,17 +54,6 @@ class pageMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объекта по имени
-     *
-     * @param string $name имя
-     * @return object|null
-     */
-    public function searchByName($name)
-    {
-        return $this->searchOneByField('name', $name);
-    }
-
-    /**
      * Создает объект page из массива
      *
      * @param array $row
@@ -80,29 +62,10 @@ class pageMapper extends simpleMapper
     protected function createItemFromRow($row)
     {
         $map = $this->getMap();
-        $page = new page($map);
-/*
-        $f = array();
-        foreach ($row as $key => $val) {
-            $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
-        }
-var_dump($f);*/
-        $page->import($row);
-        return $page;
+        $relate = new relate($map);
+        $relate->import($row);
+        return $relate;
     }
-
-    /*
-    public function __sleep()
-    {
-    return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
-    }
-
-    * Magic method __wakeup
-    *
-    * @return array
-    public function __wakeup()
-    {
-    } */
 }
 
 ?>

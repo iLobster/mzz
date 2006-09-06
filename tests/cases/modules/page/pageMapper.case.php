@@ -12,7 +12,7 @@ class pageMapperTest extends unitTestCase
     public function __construct()
     {
         $this->map = array(
-        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),        
+        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'name' => array ( 'name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'content' => array ('name' => 'content', 'accessor' => 'getContent', 'mutator' => 'setContent')

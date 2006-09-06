@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/core/uidGenerator.php $
+ * $URL: http://svn.web/repository/mzz/system/core/objectIdGenerator.php $
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage core
- * @version $Id: uidGenerator.php 888 2006-07-17 14:12:33Z zerkms $
+ * @version $Id: objectIdGenerator.php 1 2006-09-05 21:03:12Z zerkms $
 */
 
 /**
