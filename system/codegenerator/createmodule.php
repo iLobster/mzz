@@ -8,7 +8,7 @@ try {
 
 createmodule.php name
 
-name          ame of module
+name          name of module
 
 Sample usage:
 
@@ -22,12 +22,22 @@ Sample usage:
             - maps
             - views' );
         }
+        
+        
+        if (!isset($argv[1])) {
+            throw new Exception('Error: parameter 1 \'name\' not specified. use -h for view help');
+        } else {
+            $module = $argv[1];
+        }        
 
         define('CODEGEN', dirname(__FILE__));
-        define('MZZ', CODEGEN . '/../../');
-        define('CUR', getcwd());
+        define('MZZ', realpath(CODEGEN . '/../../') . '/');
+        define('CUR', getcwd());      
+        define('MODULE_TEST_PATH', MZZ . 'tests/cases/modules/' . $module);  
+        
+        
 
-        require_once MZZ . 'libs/smarty/Smarty.class.php';
+        require_once MZZ . '/libs/smarty/Smarty.class.php';
 
         $smarty = new Smarty();
         $smarty->template_dir = CODEGEN . '/templates';
@@ -36,18 +46,19 @@ Sample usage:
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
 
-        if (!isset($argv[1])) {
-            throw new Exception('Error: parameter 1 \'name\' not specified. use -h for view help');
-        } else {
-            $module = $argv[1];
-        }
-
         // создаем корневую папку модуля
-        if (!is_dir(CUR . '/' . $module)) {
+        if (!is_dir( CUR . '/' . $module )) {
             mkdir($module, 0700);
             $log = "Module root folder created successfully:\n- " . $module;
         }
         chdir($module);
+        // создаем папку для тестов
+        
+        if (!is_dir( MODULE_TEST_PATH )) {
+            //echo "<pre>"; print_r(MODULE_TEST_PATH);echo "</pre>";
+            mkdir(MODULE_TEST_PATH, 0700);
+            $log .= "\nModule tests  folder created successfully:\n- " . str_replace(MZZ,'', MODULE_TEST_PATH);
+        }        
 
         $factoryName = $module . 'Factory';
         $factoryFilename = $module . '.' . 'factory' . '.php';
@@ -82,6 +93,12 @@ Sample usage:
             mkdir('views');
             $log .= "\n- " . $module . "/views";
         }
+        
+        // создаем папку для тестов модуля
+        if (!is_dir('views')) {
+            mkdir('views');
+            $log .= "\n- " . $module . "/views";
+        }        
 
 
         $factoryData = array(
@@ -95,10 +112,10 @@ Sample usage:
         file_put_contents($factoryFilename, $factory);
         $log .= "\n\nFile created successfully:\n- " .$module . '/' . $factoryFilename;
 
-         // создаем батники в модуле
+         // создаем bat файлы для генерации ДО и actions в корневой папке модуля
         $batSrc = explode(' ', file_get_contents('../generateModule.bat'));
         $genDoBat = $batSrc[0] . '  ..\..\codegenerator\createdo.php ' . $module;
-        $genActionBat = $batSrc[0] . '  ..\..\codegenerator\createaction.php ' . $module . ' action';
+        $genActionBat = $batSrc[0] . '  ..\..\codegenerator\createaction.php ' . $module . ' action';        
         file_put_contents('1_generateDO.bat', $genDoBat);
         file_put_contents('2_generateAction.bat', $genActionBat);
         $log .= "\n- 1_generateDO.bat";
