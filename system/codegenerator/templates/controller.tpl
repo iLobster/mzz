@@ -20,6 +20,7 @@
  * @version 0.1
  */
 
+
 class {{$controller_data.controllername}} extends simpleController
 {
     public function __construct()

@@ -19,6 +19,7 @@
  * @version 0.1
  */
 
+
 class {{$do_data.doname}} extends simple
 {
 

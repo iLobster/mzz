@@ -20,6 +20,7 @@
  * @version 0.1
  */
 
+
 class {{$view_data.viewname}} extends simpleView
 {
     public function toString()
