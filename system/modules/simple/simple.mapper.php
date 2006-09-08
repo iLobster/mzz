@@ -114,16 +114,16 @@ abstract class simpleMapper //implements iCacheable
      *
      * @var pager
      */
-    protected $pager;
+    protected $pager;  
 
     /**
      * Конструктор
      *
      * @param string $section секция
      */
-    public function __construct($section)
+    public function __construct($section, $alias = 'default')
     {
-        $this->db = DB::factory();
+        $this->db = DB::factory($alias);
         $this->section = $section;
         $this->table = $this->name() . '_' .$this->section() . $this->tablePostfix;
         $this->relationTable = $this->name() . '_' .$this->section() . '_' . $this->relationPostfix;
