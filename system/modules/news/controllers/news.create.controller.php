@@ -52,8 +52,8 @@ class newsCreateController extends simpleController
             $news->setFolderId($folder->getId());
             $newsMapper->save($news);
 
-            $acl = new acl($user, (int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
-            $acl->register((int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
+            //$acl = new acl($user, (int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
+            //$acl->register((int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
 
             $view = new newsCreateSuccessView($news, $form);
         }
