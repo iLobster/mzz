@@ -114,7 +114,7 @@ abstract class simpleMapper //implements iCacheable
      *
      * @var pager
      */
-    protected $pager;  
+    protected $pager;
 
     /**
      * Конструктор
@@ -182,10 +182,8 @@ abstract class simpleMapper //implements iCacheable
             $markers = substr($markers, 0, -2);
 
             $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
-
             $stmt->bindArray($fields);
-
-            $id = $stmt->execute();
+            $id = $stmt->execute($this->db->alias);
 
             $stmt = $this->searchByField($this->tableKey, $id);
             $fields = $stmt->fetch();
@@ -195,7 +193,9 @@ abstract class simpleMapper //implements iCacheable
                 $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
             }
             //var_dump($fields);
+
             //var_dump($f);
+            //echo "<pre>"; print_r($f); echo "</pre>";
 
 
             $object->import($f[$this->className]);
@@ -235,6 +235,7 @@ abstract class simpleMapper //implements iCacheable
             $result = $stmt->execute();
 
             $stmt = $this->searchByField($this->tableKey, $object->getId());
+
             $fields = $stmt->fetch();
 
             $f = array();
@@ -324,9 +325,10 @@ abstract class simpleMapper //implements iCacheable
         }
 
         $criteria->add($this->table . '.' . $name, $value);
+        //echo "<pre> criteria "; var_dump($criteria); echo "</pre>";
 
         $select = new simpleSelect($criteria);
-        //var_dump($select->toString());echo '<br>';
+        //var_dump($select->toString());echo '<= select->toString <br>';
         $stmt = $this->db->query($select->toString());
 
 

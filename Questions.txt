@@ -1,6 +1,0 @@
-2. ??? $user = $userMapper->searchById(1);$news->setEditor($user);
-3.   simple.mapper 193-200 Для чего это?
-          $f = array();
-            foreach ($fields as $key => $val) {
-                $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
-            }

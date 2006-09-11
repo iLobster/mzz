@@ -1,0 +1,49 @@
+<table width="100%" border="1">
+  <tr>
+    <th scope="col">Вопрос</th>
+    <th scope="col">zerkms</th>
+    <th scope="col">mz</th>
+    <th scope="col">tdd</th>
+  </tr>
+  <tr>
+    <td width="40%">Пока невозможно сделать ключевым полем отличное от id поле. Вследствии жесткого закрепления имени поля в simple.mapper.</td>
+    <td width="20%">&nbsp;</td>
+    <td width="20%">&nbsp;</td>
+    <td width="20%">Добавлено поле $tableKey в simple.mapper</td>
+  </tr>
+  <tr>
+    <td>??? $user = $userMapper->searchById(1);$news->setEditor($user);</td>
+    <td>смотреть в newsMapper методы updateDataModify и insertDataModify </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Как сделать генерацию мапы *.maps.ini?</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>Перенесено в toDo.txt. Основная идея - генерация с таблицы</td>
+  </tr>
+  <tr>
+    <td>simple.mapper 193-200 Что это?</td>
+    <td>начало 1:m</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>simple.mapper ~186 - 191 <br />    
+          $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');<br />
+         $stmt->bindArray($fields);<br />
+         $id = $stmt->execute();<br />
+
+Возвращает obj_id почему то, когда тестируется только один модуль. <br />
+То есть цифры выдает порядка 80, 81 ...<br />
+А когда запускаю тестирование всех модулей, почему то нормально, то есть после вставки выдает - 1.<br />
+Понятно, потому что инсерты в разные базы. Смена происходит изза вызова $object->setObjId($toolkit->getObjectId());<br />
+Итог, воcстановление предыдущего алиаса в objectIdGenerator (40 , 50) и при execute использование последнего алиаса в mzzPdoStatement (81) <br />
+^^^ ФИГНЯ<br />
+Проблема, в общем такова. mzzPdoStatement надо знать о том от какого PDO он получен, то есть какой алиас использован! </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>simple.mapper передача алиаса $id = $stmt->execute($this->db->alias);</td>
+  </tr>  
+</table>

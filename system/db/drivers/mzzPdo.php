@@ -61,7 +61,7 @@ class mzzPdo extends PDO
      *
      * @var string
      */
-    private $alias;
+    public $alias;
 
     /**
      * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
