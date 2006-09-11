@@ -61,7 +61,7 @@ class mzzPdo extends PDO
      *
      * @var string
      */
-    public $alias;
+    private $alias;
 
     /**
      * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
@@ -307,6 +307,16 @@ class mzzPdo extends PDO
     public function getPreparedNum()
     {
         return $this->queriesPrepared;
+    }
+
+    /**
+     * метод получения названия текущего соединения
+     *
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
     }
 
 }

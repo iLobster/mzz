@@ -183,7 +183,7 @@ abstract class simpleMapper //implements iCacheable
 
             $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
             $stmt->bindArray($fields);
-            $id = $stmt->execute($this->db->alias);
+            $id = $stmt->execute($this->db->getAlias());
 
             $stmt = $this->searchByField($this->tableKey, $id);
             $fields = $stmt->fetch();
