@@ -15,8 +15,8 @@ class newsFolderMapperTest extends unitTestCase
     {
         $this->db = DB::factory();
         $this->cleardb();
-        $init = array ('data' => array('table' => 'news_news_folder', 'id' =>'parent'),
-                       'tree' => array('table' => 'news_news_folder_tree' , 'id' =>'id'));
+        $init = array ('data' => array('table' => 'news_newsFolder', 'id' =>'parent'),
+                       'tree' => array('table' => 'news_newsFolder_tree' , 'id' =>'id'));
 
         $this->tree = new dbTreeNS($init, 'name');
 
@@ -51,8 +51,8 @@ class newsFolderMapperTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `news_news_folder`');
-        $this->db->query('TRUNCATE TABLE `news_news_folder_tree`');
+        $this->db->query('TRUNCATE TABLE `news_newsFolder`');
+        $this->db->query('TRUNCATE TABLE `news_newsFolder_tree`');
     }
 
     public function testSave()

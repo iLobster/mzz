@@ -76,20 +76,14 @@ class pageMapper extends simpleMapper
      *
      * @param array $row
      * @return object
-     */
+     *//*
     protected function createItemFromRow($row)
     {
         $map = $this->getMap();
         $page = new page($map);
-/*
-        $f = array();
-        foreach ($row as $key => $val) {
-            $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
-        }
-var_dump($f);*/
         $page->import($row);
         return $page;
-    }
+    }*/
 
     /*
     public function __sleep()

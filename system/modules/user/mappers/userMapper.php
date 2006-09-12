@@ -155,6 +155,7 @@ class userMapper extends simpleMapper
 
         if ($row) {
             $session->set('user_id', $row['id']);
+            $row = array(0 => array('user' => $row));
             return $this->createItemFromRow($row);
         } else {
             $session->set('user_id', MZZ_USER_GUEST_ID);
@@ -168,17 +169,14 @@ class userMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createItemFromRow($row)
+    protected function createItemFromRow($row, $user = null)
     {
-        $map = $this->getMap();
-        $user = new user($this, $map);
-
-        $f = array();
-        foreach ($row as $key => $val) {
-            $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
+        if (empty($user)) {
+            $map = $this->getMap();
+            $user = new user($this, $map);
         }
-
-        $user->import($f[$this->className]);
+        $row = $this->fill($row);
+        $user->import($row);
         return $user;
     }
 

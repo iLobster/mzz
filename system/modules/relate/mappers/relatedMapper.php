@@ -50,13 +50,13 @@ class relatedMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createItemFromRow($row)
+    /*protected function createItemFromRow($row)
     {
         $map = $this->getMap();
         $related = new related($map);
         $related->import($row);
         return $related;
-    }
+    }*/
 }
 
 ?>

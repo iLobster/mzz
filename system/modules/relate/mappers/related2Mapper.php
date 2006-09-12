@@ -16,7 +16,9 @@
  * @version 0.2.1
  */
 
-class relateMapper extends simpleMapper
+fileLoader::load('relate/related2');
+
+class related2Mapper extends simpleMapper
 {
     /**
      * Имя модуля
@@ -30,7 +32,7 @@ class relateMapper extends simpleMapper
      *
      * @var string
      */
-    protected $className = 'relate';
+    protected $className = 'related2';
 
     /**
      * Создает пустой объект DO
@@ -43,28 +45,17 @@ class relateMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объекта по идентификатору
-     *
-     * @param integer $id идентификатор
-     * @return object|null
-     */
-    public function searchById($id)
-    {
-        return $this->searchOneByField('id', $id);
-    }
-
-    /**
      * Создает объект page из массива
      *
      * @param array $row
      * @return object
      */
-   /* protected function createItemFromRow($row)
+    /*protected function createItemFromRow($row)
     {
         $map = $this->getMap();
-        $relate = new relate($map);
-        $relate->import($row);
-        return $relate;
+        $related = new related($map);
+        $related->import($row);
+        return $related;
     }*/
 }
 

@@ -34,12 +34,12 @@ CREATE TABLE `news_news` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `news_news_folder` table : 
+# Structure for the `news_newsfolder` table : 
 #
 
-DROP TABLE IF EXISTS `news_news_folder`;
+DROP TABLE IF EXISTS `news_newsfolder`;
 
-CREATE TABLE `news_news_folder` (
+CREATE TABLE `news_newsfolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) default NULL,
   `name` char(255) default NULL,
@@ -49,12 +49,28 @@ CREATE TABLE `news_news_folder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `news_news_folder_tree` table : 
+# Data for the `news_newsfolder` table  (LIMIT 0,500)
 #
 
-DROP TABLE IF EXISTS `news_news_folder_tree`;
+INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES 
+  (1,105,'name1',1,'name1'),
+  (2,106,'name2',2,'name1/name2'),
+  (3,107,'name3',3,'name1/name3'),
+  (4,108,'name4',4,'name1/name4'),
+  (5,109,'name5',5,'name1/name2/name5'),
+  (6,110,'name6',6,'name1/name2/name6'),
+  (7,111,'name7',7,'name1/name3/name7'),
+  (8,112,'name8',8,'name1/name3/name8');
 
-CREATE TABLE `news_news_folder_tree` (
+COMMIT;
+
+#
+# Structure for the `news_newsfolder_tree` table : 
+#
+
+DROP TABLE IF EXISTS `news_newsfolder_tree`;
+
+CREATE TABLE `news_newsfolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -62,6 +78,22 @@ CREATE TABLE `news_news_folder_tree` (
   PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `news_newsfolder_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `news_newsfolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+  (1,1,16,1),
+  (2,2,7,2),
+  (3,8,13,2),
+  (4,14,15,2),
+  (5,3,4,3),
+  (6,5,6,3),
+  (7,9,10,3),
+  (8,11,12,3);
+
+COMMIT;
 
 #
 # Structure for the `page_page` table : 
@@ -76,22 +108,6 @@ CREATE TABLE `page_page` (
   `content` text NOT NULL,
   `obj_id` int(11) default NULL,
   KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `simple_simple` table : 
-#
-
-DROP TABLE IF EXISTS `simple_simple`;
-
-CREATE TABLE `simple_simple` (
-  `id` int(11) NOT NULL auto_increment,
-  `foo` varchar(10) default NULL,
-  `bar` varchar(10) default NULL,
-  `path` varchar(255) default NULL,
-  `obj_id` int(11) default NULL,
-  `rel` int(11) default NULL,
-  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -110,14 +126,30 @@ CREATE TABLE `simple_simple_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stub2` table : 
+# Structure for the `simple_stub2simple` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stub2`;
+DROP TABLE IF EXISTS `simple_stub2simple`;
 
-CREATE TABLE `simple_stub2` (
+CREATE TABLE `simple_stub2simple` (
   `somefield` int(11) default NULL,
   `otherfield` int(11) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_stubsimple` table : 
+#
+
+DROP TABLE IF EXISTS `simple_stubsimple`;
+
+CREATE TABLE `simple_stubsimple` (
+  `id` int(11) NOT NULL auto_increment,
+  `foo` varchar(10) default NULL,
+  `bar` varchar(10) default NULL,
+  `path` varchar(255) default NULL,
+  `obj_id` int(11) default NULL,
+  `rel` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -308,165 +340,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (55),
   (56),
   (57),
-  (58),
-  (59),
-  (60),
-  (61),
-  (62),
-  (63),
-  (64),
-  (65),
-  (66),
-  (67),
-  (68),
-  (69),
-  (70),
-  (71),
-  (72),
-  (73),
-  (74),
-  (75),
-  (76),
-  (77),
-  (78),
-  (79),
-  (80),
-  (81),
-  (82),
-  (83),
-  (84),
-  (85),
-  (86),
-  (87),
-  (88),
-  (89),
-  (90),
-  (91),
-  (92),
-  (93),
-  (94),
-  (95),
-  (96),
-  (97),
-  (98),
-  (99),
-  (100),
-  (101),
-  (102),
-  (103),
-  (104),
-  (105),
-  (106),
-  (107),
-  (108),
-  (109),
-  (110),
-  (111),
-  (112),
-  (113),
-  (114),
-  (115),
-  (116),
-  (117),
-  (118),
-  (119),
-  (120),
-  (121),
-  (122),
-  (123),
-  (124),
-  (125),
-  (126),
-  (127),
-  (128),
-  (129),
-  (130),
-  (131),
-  (132),
-  (133),
-  (134),
-  (135),
-  (136),
-  (137),
-  (138),
-  (139),
-  (140),
-  (141),
-  (142),
-  (143),
-  (144),
-  (145),
-  (146),
-  (147),
-  (148),
-  (149),
-  (150),
-  (151),
-  (152),
-  (153),
-  (154),
-  (155),
-  (156),
-  (157),
-  (158),
-  (159),
-  (160),
-  (161),
-  (162),
-  (163),
-  (164),
-  (165),
-  (166),
-  (167),
-  (168),
-  (169),
-  (170),
-  (171),
-  (172),
-  (173),
-  (174),
-  (175),
-  (176),
-  (177),
-  (178),
-  (179),
-  (180),
-  (181),
-  (182),
-  (183),
-  (184),
-  (185),
-  (186),
-  (187),
-  (188),
-  (189),
-  (190),
-  (191),
-  (192),
-  (193),
-  (194),
-  (195),
-  (196),
-  (197),
-  (198),
-  (199),
-  (200),
-  (201),
-  (202),
-  (203),
-  (204),
-  (205),
-  (206),
-  (207),
-  (208),
-  (209),
-  (210),
-  (211),
-  (212),
-  (213),
-  (214),
-  (215),
-  (216);
+  (58);
 
 COMMIT;
 
@@ -488,6 +362,42 @@ CREATE TABLE `sys_sessions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `sys_sessions` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_sessions` (`id`, `sid`, `ts`, `valid`, `data`) VALUES 
+  (276,'c4f018f19e5a23a8b3e341226ea147e2',1158030058,'no','');
+
+COMMIT;
+
+#
+# Structure for the `user_group_group` table : 
+#
+
+DROP TABLE IF EXISTS `user_group_group`;
+
+CREATE TABLE `user_group_group` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_group_group_rel` table : 
+#
+
+DROP TABLE IF EXISTS `user_group_group_rel`;
+
+CREATE TABLE `user_group_group_rel` (
+  `id` int(11) NOT NULL auto_increment,
+  `group_id` int(11) default NULL,
+  `user_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
 # Structure for the `user_user` table : 
 #
 
@@ -501,29 +411,3 @@ CREATE TABLE `user_user` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `user_user_group` table : 
-#
-
-DROP TABLE IF EXISTS `user_user_group`;
-
-CREATE TABLE `user_user_group` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `obj_id` int(11) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_user_group_rel` table : 
-#
-
-DROP TABLE IF EXISTS `user_user_group_rel`;
-
-CREATE TABLE `user_user_group_rel` (
-  `id` int(11) NOT NULL auto_increment,
-  `group_id` int(11) default NULL,
-  `user_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `group_id` (`group_id`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;

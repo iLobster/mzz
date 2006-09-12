@@ -1,9 +1,9 @@
 <?php
-        
-class stub2Mapper extends simpleMapper
+
+class stub2SimpleMapper extends simpleMapper
 {
-    protected $className = 'simple';
-    protected $name = 'simple';
+    protected $className = 'stub2Simple';
+    protected $name = 'stub2Simple';
 
     protected function getMap()
     {

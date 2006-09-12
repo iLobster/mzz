@@ -48,7 +48,7 @@ class newsFolderMapper extends simpleMapper
      *
      * @var string
      */
-    protected $tablePostfix = '_folder';
+    //protected $tablePostfix = '_folder';
     /**
      * Постфикс имени таблицы
      *
@@ -90,16 +90,13 @@ class newsFolderMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createItemFromRow($row)
+    protected function createItemFromRow($row, $newsFolder)
     {
-        $map = $this->getMap();
-        $newsFolder = new newsFolder($this, $map);
-/*
-        $f = array();
-        foreach ($row as $key => $val) {
-            $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
-        }*/
-
+        if (empty($newsFolder)) {
+            $map = $this->getMap();
+            $newsFolder = new newsFolder($this, $map);
+        }
+        $row = $this->fill($row);
         $newsFolder->import($row);
         return $newsFolder;
     }

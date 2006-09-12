@@ -38,8 +38,8 @@ class userMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `user_user`');
-        $this->db->query('TRUNCATE TABLE `user_user_group`');
-        $this->db->query('TRUNCATE TABLE `user_user_group_rel`');
+        $this->db->query('TRUNCATE TABLE `user_group_group`');
+        $this->db->query('TRUNCATE TABLE `user_group_group_rel`');
     }
 
     public function testSave()
@@ -94,7 +94,7 @@ class userMapperTest extends unitTestCase
             $group_mapper->save($group);
         }
 
-        $stmt = $this->db->prepare('INSERT INTO `user_user_group_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
+        $stmt = $this->db->prepare('INSERT INTO `user_group_group_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->bindParam(':group_id', $group_id, PDO::PARAM_INT);
 
@@ -157,6 +157,7 @@ class userMapperTest extends unitTestCase
         $user = $this->mapper->login('login1', 'passwd1');
 
         $this->assertEqual($user->getId(), 1);
+
         $this->assertEqual($_SESSION['user_id'], 1);
         $this->assertEqual($user->getLogin(), 'login1');
     }

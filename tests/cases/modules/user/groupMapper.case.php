@@ -36,8 +36,8 @@ class groupMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `user_user`');
-        $this->db->query('TRUNCATE TABLE `user_user_group`');
-        $this->db->query('TRUNCATE TABLE `user_user_group_rel`');
+        $this->db->query('TRUNCATE TABLE `user_group_group`');
+        $this->db->query('TRUNCATE TABLE `user_group_group_rel`');
     }
 
     public function testSave()
@@ -112,7 +112,7 @@ class groupMapperTest extends unitTestCase
         }
 
 
-        $stmt = $this->db->prepare('INSERT INTO `user_user_group_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
+        $stmt = $this->db->prepare('INSERT INTO `user_group_group_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->bindParam(':group_id', $group_id, PDO::PARAM_INT);
 
@@ -134,7 +134,7 @@ class groupMapperTest extends unitTestCase
 
     private function countGroups()
     {
-        $query = 'SELECT COUNT(*) AS `total` FROM `user_user_group`';
+        $query = 'SELECT COUNT(*) AS `total` FROM `user_group_group`';
         $total = $this->db->getOne($query);
         return $total;
     }

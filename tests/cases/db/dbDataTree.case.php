@@ -14,7 +14,7 @@ class dbTreeDataTest extends unitTestCase
     {
         $this->db = db::factory();
         $this->table = 'simple_simple_tree';
-        $this->dataTable = 'simple_simple';
+        $this->dataTable = 'simple_stubsimple';
 
         $init = array ('data' => array('table' => $this->dataTable, 'id' =>'id'),
                        'tree' => array('table' => $this->table , 'id' =>'id'));
@@ -37,7 +37,7 @@ class dbTreeDataTest extends unitTestCase
     private function clearDb()
     {
         $this->db->query('TRUNCATE TABLE `simple_simple_tree`');
-        $this->db->query('TRUNCATE TABLE `simple_simple`');
+        $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
 
     }
 
@@ -97,12 +97,12 @@ class dbTreeDataTest extends unitTestCase
         $values[$this->dataTable] = substr($valString, 0, -1);
 
         $simple_simple_tree_fields = '(id, lkey, rkey, level)';
-        $simple_simple_fields = '(id, foo, bar, path)';
+        $simple_stubsimple_fields = '(id, foo, bar, path)';
 
         #запись фикстур в базу
         foreach($values as $table => $val) {
             $fields = $table . '_fields';
-            $stmt = $this->db->prepare(' INSERT INTO `' . $table . '` ' . $$fields  . ' VALUES ' . $val);
+            $stmt = $this->db->prepare('INSERT INTO `' . $table . '` ' . $$fields  . ' VALUES ' . $val);
             $stmt->execute();
             }
     }

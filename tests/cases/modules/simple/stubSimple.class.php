@@ -5,7 +5,7 @@ class stubSimple extends simple
 
 }
 
-class stubSimple2 extends simple
+class stub2Simple extends simple
 {
 
 }

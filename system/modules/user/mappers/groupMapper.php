@@ -114,6 +114,7 @@ class groupMapper extends simpleMapper
         $result = array();
 
         foreach ($rows as $row) {
+            $row = array(0 => array('group' => $row));
             $result[] = $this->createItemFromRow($row);
         }
 
@@ -144,7 +145,7 @@ class groupMapper extends simpleMapper
      *
      * @param array $row
      * @return object
-     */
+     *//*
     protected function createItemFromRow($row)
     {
         $map = $this->getMap();
@@ -154,10 +155,10 @@ class groupMapper extends simpleMapper
         foreach ($row as $key => $val) {
             $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
         }
-
+var_dump($row);
         $group->import($f[$this->className]);
         return $group;
-    }
+    }*/
 
 }
 

@@ -2,13 +2,13 @@
 
 class stubMapper extends simpleMapper
 {
-    protected $className = 'simple';
+    protected $className = 'stubSimple';
     protected $name = 'simple';
 
-    public function createItemFromRow($row)
+   /* public function createItemFromRow($row)
     {
 
-    }
+    }*/
 
 }
 

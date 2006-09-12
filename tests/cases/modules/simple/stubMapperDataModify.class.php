@@ -3,6 +3,7 @@
 class stubMapperDataModify extends simpleMapper
 {
     protected $name = 'simple';
+    protected $className = 'stubsimple';
 
 
     protected function insertDataModify(&$fields)
