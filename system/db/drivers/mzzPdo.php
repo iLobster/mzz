@@ -73,9 +73,9 @@ class mzzPdo extends PDO
      * @param string $charset   кодировка
      * @return void
      */
-    public function __construct($alias, $dsn, $username='', $password='', $charset = '')
+    public function __construct($alias, $dsn, $username='', $password='', $charset = '', $pdoOptions = array())
     {
-        parent::__construct($dsn, $username, $password, systemConfig::$db[$alias]['pdoOptions']);
+        parent::__construct($dsn, $username, $password, $pdoOptions);
         $this->query("SET NAMES '" . $charset . "'");
     }
 
@@ -93,8 +93,9 @@ class mzzPdo extends PDO
             $username = isset(systemConfig::$db[$alias]['user']) ? systemConfig::$db[$alias]['user'] : systemConfig::$db['default']['user'];
             $password = isset(systemConfig::$db[$alias]['password']) ? systemConfig::$db[$alias]['password'] : systemConfig::$db['default']['password'];
             $charset  = isset(systemConfig::$db[$alias]['charset']) ? systemConfig::$db[$alias]['charset'] : systemConfig::$db['default']['charset'];
+            $pdoOptions = isset(systemConfig::$db[$alias]['pdoOptions']) ? systemConfig::$db[$alias]['pdoOptions'] : systemConfig::$db['default']['pdoOptions'];
 
-            self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset);
+            self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset, $pdoOptions);
             self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
             self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             //self::$instance->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
