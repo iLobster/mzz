@@ -1,9 +1,14 @@
-# EMS MySQL Manager Pro 3.3.0.2
+# SQL Manager 2005 for MySQL 3.7.5.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -165,8 +170,9 @@ CREATE TABLE `relate2_related` (
 #
 
 INSERT INTO `relate2_related` (`id`, `data`, `obj_id`) VALUES 
-  (2,'foobar',10),
-  (3,'zzz',11);
+  (4,'foobar',10),
+  (3,'zzz',11),
+  (2,'baz',12);
 
 COMMIT;
 
@@ -189,8 +195,8 @@ CREATE TABLE `relate_relate` (
 #
 
 INSERT INTO `relate_relate` (`id`, `name`, `related_id`, `obj_id`) VALUES 
-  (1,'sad',2,7),
-  (2,'sada',3,NULL);
+  (1,'sada',2,7),
+  (2,'sada',3,12);
 
 COMMIT;
 
@@ -201,9 +207,8 @@ COMMIT;
 DROP TABLE IF EXISTS `relate_related2`;
 
 CREATE TABLE `relate_related2` (
-  `relate_id` int(11) unsigned NOT NULL auto_increment,
-  `foobar` char(255) default NULL,
-  PRIMARY KEY  (`relate_id`)
+  `relate_id` int(11) NOT NULL default '0',
+  `foobar` char(255) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -211,7 +216,8 @@ CREATE TABLE `relate_related2` (
 #
 
 INSERT INTO `relate_related2` (`relate_id`, `foobar`) VALUES 
-  (1,'qqqqq');
+  (2,'qqqqq'),
+  (2,'new_foobar');
 
 COMMIT;
 
@@ -334,3 +340,8 @@ INSERT INTO `user_user_group_rel` (`id`, `group_id`, `user_id`) VALUES
 
 COMMIT;
 
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

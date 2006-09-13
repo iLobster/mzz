@@ -32,10 +32,59 @@ class relateViewController extends simpleController
 
         $relateMapper = new relateMapper($section);
 
-        $relate = $relateMapper->searchById(1);
-        //var_dump($relate);
-        //$arr = $relateMapper->searchOneByField('name', 'sad');
-        //var_dump($arr); exit;
+
+        // hasMany
+        $relate = $relateMapper->searchAllByField('name', 'sada');
+        
+        //var_dump($relate);exit;
+        
+        foreach ($relate as $val) {
+                echo $val->getId();
+                echo '-';
+                echo $val->getRelated()->getId();
+                echo '-sub->';
+                foreach ($val->getRelated2() as $sub) {
+                        echo $sub->getRelateId();
+                        echo '-';
+                        echo $sub->getFoobar();
+                        //var_dump($sub);
+                }
+                echo '<br>-----<br>';
+        }
+        exit;
+        // owns
+        $relate = $relateMapper->searchAllByField('name', 'sada');
+        foreach ($relate as $val) {
+                echo $val->getId();
+                echo '-';
+                echo $val->getRelated2()->getFoobar();
+                echo '-';
+                echo $val->getRelated()->getId();
+                echo '-';
+                echo $val->getRelated()->getData();
+                echo '<br>-----<br>';
+        }
+        exit;
+        
+        
+        
+        // ownsMany
+        $relate = $relateMapper->searchAllByField('name', 'sada');
+        foreach ($relate as $val) {
+                echo $val->getId();
+                echo '-';
+                echo $val->getRelated2()->getFoobar();
+                echo '-sub->';
+                foreach ($val->getRelated() as $sub) {
+                        echo $sub->getId();
+                        echo '-';
+                        echo $sub->getData();
+                }
+                echo '<br>-----<br>';
+        }
+        
+        exit;
+
         if ($relate) {
             return new relateViewView($relate);
         }

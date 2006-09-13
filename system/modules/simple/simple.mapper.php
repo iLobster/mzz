@@ -81,6 +81,9 @@ abstract class simpleMapper //implements iCacheable
      */
     protected $owns;
 
+    protected $ownsMany;
+    protected $hasMany;
+
     /**
      * ћассив дл€ хранени€ данных об отношении 1:1
      * ѕол€ дл€ св€зывани€ в основной таблице нет
@@ -313,6 +316,32 @@ abstract class simpleMapper //implements iCacheable
 
             $mapper->addJoins($criteria, $val['table'], $section);
         }
+
+        $ownsMany = $this->getOwnsMany();
+
+        if (!empty($ownsMany)) {
+            $criterion = new criterion($table . '.' . $ownsMany['key'], $ownsMany['section'] . '_' . $ownsMany['table'] . '.' . $ownsMany['field'], criteria::EQUAL, true);
+            $criteria->addJoin($ownsMany['section'] . '_' . $ownsMany['table'], $criterion);
+
+            fileLoader::load($this->name . '/mappers/' . $ownsMany['mapper']);
+
+            $mapper = new $ownsMany['mapper']($ownsMany['section']);
+
+            $mapper->addJoins($criteria, $ownsMany['table'], $section);
+        }
+
+        $hasMany = $this->getHasMany();
+
+        if (!empty($hasMany)) {
+            $criterion = new criterion($table . '.' . $hasMany['relate'], $hasMany['section'] . '_' . $hasMany['table'] . '.' . $hasMany['field'], criteria::EQUAL, true);
+            $criteria->addJoin($hasMany['section'] . '_' . $hasMany['table'], $criterion);
+
+            fileLoader::load($this->name . '/mappers/' . $hasMany['mapper']);
+
+            $mapper = new $hasMany['mapper']($hasMany['section']);
+
+            $mapper->addJoins($criteria, $hasMany['table'], $section);
+        }
     }
 
     /**
@@ -332,7 +361,7 @@ abstract class simpleMapper //implements iCacheable
         $this->addJoins($criteria, $this->table, $this->section);
 
         $select = new simpleSelect($criteria);
-
+        //var_dump($select->toString());
         $stmt = $this->db->query($select->toString());
         $row = $stmt->fetchAll();
         $result = array();
@@ -372,7 +401,18 @@ abstract class simpleMapper //implements iCacheable
     public function searchOneByField($name, $value)
     {
         $row = $this->searchByField($name, $value);
+        //var_dump($row);
 
+        $ownsMany = $this->getOwnsMany();
+        if (!empty($ownsMany)) {
+            $tmp = array();
+            foreach ($row as $key => $val) {
+                $tmp[] = $val[$ownsMany['table']];
+            }
+            $row[0][$ownsMany['table']] = $tmp;
+            unset($row[1]);
+        }
+        //var_dump($row);
         if ($row) {
             return $this->createItemFromRow($row);
         }
@@ -392,8 +432,82 @@ abstract class simpleMapper //implements iCacheable
         $row = $this->searchByField($name, $value);
         $result = array();
 
+        $ownsMany = $this->getOwnsMany();
+
+        if (!empty($ownsMany)) {
+            $last_obj_id = 0;
+            $obj_ids = array();
+            foreach ($row as $key => $val) {
+                if ($last_obj_id != $val[$this->className]['obj_id']) {
+                    if ($last_obj_id != 0) {
+                        $row[$obj_ids[0]][$ownsMany['table']] = $tmp;
+                        foreach ($obj_ids as $subkey => $id) {
+                            if ($subkey > 0) {
+                                unset($row[$id]);
+                            }
+                        }
+                    }
+                    unset($tmp);
+                    $tmp = array();
+                    unset($obj_ids);
+                    $obj_ids = array();
+                    $last_obj_id = $val[$this->className]['obj_id'];
+                }
+                $tmp[] = $val[$ownsMany['table']];
+                $obj_ids[] = $key;
+            }
+
+            if ($last_obj_id != 0) {
+                $row[$obj_ids[0]][$ownsMany['table']] = $tmp;
+                foreach ($obj_ids as $subkey => $id) {
+                    if ($subkey > 0) {
+                        unset($row[$id]);
+                    }
+                }
+            }
+        }
+
+        $hasMany = $this->getHasMany();
+
+        if (!empty($hasMany)) {
+            $last_obj_id = 0;
+            $obj_ids = array();
+
+            foreach ($row as $key => $val) {
+                if ($last_obj_id != $val[$this->className]['obj_id']) {
+                    if ($last_obj_id != 0) {
+                        $row[$obj_ids[0]][$hasMany['table']] = $tmp;
+                        foreach ($obj_ids as $subkey => $id) {
+                            if ($subkey > 0) {
+                                unset($row[$id]);
+                            }
+                        }
+                    }
+                    unset($tmp);
+                    $tmp = array();
+                    unset($obj_ids);
+                    $obj_ids = array();
+                    $last_obj_id = $val[$this->className]['obj_id'];
+                }
+                $tmp[] = $val[$hasMany['table']];
+                $obj_ids[] = $key;
+            }
+
+            if ($last_obj_id != 0) {
+                $row[$obj_ids[0]][$hasMany['table']] = $tmp;
+                foreach ($obj_ids as $subkey => $id) {
+                    if ($subkey > 0) {
+                        unset($row[$id]);
+                    }
+                }
+            }
+        }
+
+
+
+        //var_dump($row);exit;
         foreach ($row as $val) {
-            $result[] = $this->createItemFromRow($val);
+            $result[] = $this->createItemFromRow(array(0 => $val));
         }
 
         return $result;
@@ -408,6 +522,7 @@ abstract class simpleMapper //implements iCacheable
      */
     public function fill($row)
     {
+
         $owns = $this->getOwns();
 
         foreach ($owns as $val) {
@@ -420,6 +535,26 @@ abstract class simpleMapper //implements iCacheable
         foreach ($has as $val) {
             $mapper = new $val['mapper']($this->section);
             $row[0][$this->className][$val['key']] = $mapper->createItemFromRow($row);
+        }
+
+        $ownsMany = $this->getOwnsMany();
+
+        if (!empty($ownsMany)) {
+            $mapper = new $ownsMany['mapper']($this->section);
+            //var_dump($mapper);
+            unset($row[0][$this->className][$ownsMany['key']]);
+            foreach ($row[0][$ownsMany['table']] as $key => $val) {
+                $row[0][$this->className][$ownsMany['key']][] = $mapper->createItemFromRow(array(0 => array($ownsMany['table'] => $val)));
+            }
+        }
+
+        $hasMany = $this->getHasMany();
+
+        if (!empty($hasMany)) {
+            $mapper = new $hasMany['mapper']($this->section);
+            foreach ($row[0][$hasMany['table']] as $key => $val) {
+                $row[0][$this->className][$hasMany['key']][] = $mapper->createItemFromRow(array(0 => array($hasMany['table'] => $val)));
+            }
         }
 
         $map = $this->getMap();
@@ -441,11 +576,14 @@ abstract class simpleMapper //implements iCacheable
      */
     protected function createItemFromRow($row, $domainObject = null)
     {
+        //var_dump($row);
         if (empty($domainObject)) {
             $map = $this->getMap();
             $domainObject = new $this->className($map);
         }
+        //var_dump($row);
         $row = $this->fill($row);
+        //var_dump($row);
         $domainObject->import($row);
         return $domainObject;
     }
@@ -543,7 +681,7 @@ abstract class simpleMapper //implements iCacheable
     {
         $map = $this->getMap();
         foreach ($map as $key => $val) {
-            if (!isset($val['has'])) {
+            if (!isset($val['has']) && !isset($val['hasMany'])) {
                 $criteria->addSelectField($this->table . '.' . $key, $this->className . '_' . $key);
             }
         }
@@ -607,6 +745,56 @@ abstract class simpleMapper //implements iCacheable
         }
 
         return $this->has;
+    }
+
+    private function getOwnsMany()
+    {
+        if (empty($this->ownsMany)) {
+            $map = $this->getMap();
+            foreach ($map as $key => $val) {
+                if (isset($val['ownsMany'])) {
+                    $tableName = substr($val['ownsMany'], 0, strpos($val['ownsMany'], '.'));
+                    $foreignKeyName = substr(strrchr($val['ownsMany'], '.'), 1);
+                    $className = $tableName . 'Mapper';
+
+                    $joinSection = isset($val['section']) ? $val['section'] : $this->section;
+
+                    $this->ownsMany = array('table' => $tableName, 'field' => $foreignKeyName, 'mapper' => $className, 'key' => $key, 'section' => $joinSection);
+
+                    break;
+                }
+            }
+        }
+
+        return $this->ownsMany;
+    }
+
+    private function getHasMany()
+    {
+        if (empty($this->hasMany)) {
+            $map = $this->getMap();
+            foreach ($map as $key => $val) {
+                if (isset($val['hasMany'])) {
+                    $parts = explode('->', $val['hasMany'], 2);
+
+                    $relationField = $parts[0];
+
+                    $parts = explode('.', $parts[1], 2);
+
+                    $tableName = $parts[0];
+                    $foreignKeyName = $parts[1];
+                    $className = $tableName . 'Mapper';
+
+                    $joinSection = isset($val['section']) ? $val['section'] : $this->section;
+
+                    $this->hasMany = array('table' => $tableName, 'field' => $foreignKeyName, 'mapper' => $className, 'key' => $key, 'relate' => $relationField, 'section' => $joinSection);
+
+                    break;
+                }
+            }
+        }
+
+        return $this->hasMany;
     }
 }
 
