@@ -27,6 +27,23 @@ USE `mzz_test`;
 DROP TABLE IF EXISTS `news_news`;
 
 CREATE TABLE `news_news` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `obj_id` int(11) unsigned default NULL,
+  `title` varchar(255) default NULL,
+  `text` text,
+  `editor` int(11) unsigned default NULL,
+  `created` int(11) unsigned default NULL,
+  `updated` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `news_news_old` table : 
+#
+
+DROP TABLE IF EXISTS `news_news_old`;
+
+CREATE TABLE `news_news_old` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) default NULL,
   `title` varchar(255) NOT NULL default '',
@@ -39,12 +56,12 @@ CREATE TABLE `news_news` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `news_newsfolder` table : 
+# Structure for the `news_newsfolder_old` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsfolder`;
+DROP TABLE IF EXISTS `news_newsfolder_old`;
 
-CREATE TABLE `news_newsfolder` (
+CREATE TABLE `news_newsfolder_old` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) default NULL,
   `name` char(255) default NULL,
@@ -54,10 +71,10 @@ CREATE TABLE `news_newsfolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `news_newsfolder` table  (LIMIT 0,500)
+# Data for the `news_newsfolder_old` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES 
+INSERT INTO `news_newsfolder_old` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES 
   (1,105,'name1',1,'name1'),
   (2,106,'name2',2,'name1/name2'),
   (3,107,'name3',3,'name1/name3'),
@@ -70,12 +87,12 @@ INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES
 COMMIT;
 
 #
-# Structure for the `news_newsfolder_tree` table : 
+# Structure for the `news_newsfolder_tree_old` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsfolder_tree`;
+DROP TABLE IF EXISTS `news_newsfolder_tree_old`;
 
-CREATE TABLE `news_newsfolder_tree` (
+CREATE TABLE `news_newsfolder_tree_old` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -85,10 +102,10 @@ CREATE TABLE `news_newsfolder_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `news_newsfolder_tree` table  (LIMIT 0,500)
+# Data for the `news_newsfolder_tree_old` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsfolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `news_newsfolder_tree_old` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,16,1),
   (2,2,7,2),
   (3,8,13,2),
@@ -345,7 +362,31 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (55),
   (56),
   (57),
-  (58);
+  (58),
+  (59),
+  (60),
+  (61),
+  (62),
+  (63),
+  (64),
+  (65),
+  (66),
+  (67),
+  (68),
+  (69),
+  (70),
+  (71),
+  (72),
+  (73),
+  (74),
+  (75),
+  (76),
+  (77),
+  (78),
+  (79),
+  (80),
+  (81),
+  (82);
 
 COMMIT;
 

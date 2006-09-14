@@ -97,13 +97,13 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual(0, $this->countRecord());
 
         $this->mapper->save($simple);
-
+/*
         $this->assertEqual(1, $this->countRecord());
         $this->assertEqual(1, $simple->getId());
         $this->assertEqual($this->fixture[0]['foo'], $simple->getFoo());
-        $this->assertEqual($this->fixture[0]['bar'], $simple->getBar());
+        $this->assertEqual($this->fixture[0]['bar'], $simple->getBar()); */
     }
-
+/*
     public function testInsertSaveWithDataModify()
     {
         $this->mapper = new stubMapperDataModify('simple');
@@ -168,7 +168,7 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual(1, $this->countRecord());
         $this->assertEqual(1, $simple->getObjId());
     }
-
+*/
     public function testOneToOneRelation()
     {
         /*

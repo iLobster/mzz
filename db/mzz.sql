@@ -208,16 +208,17 @@ DROP TABLE IF EXISTS `relate_related2`;
 
 CREATE TABLE `relate_related2` (
   `relate_id` int(11) NOT NULL default '0',
-  `foobar` char(255) default NULL
+  `foobar` char(255) default NULL,
+  `obj_id` int(11) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `relate_related2` table  (LIMIT 0,500)
 #
 
-INSERT INTO `relate_related2` (`relate_id`, `foobar`) VALUES 
-  (2,'qqqqq'),
-  (2,'new_foobar');
+INSERT INTO `relate_related2` (`relate_id`, `foobar`, `obj_id`) VALUES 
+  (3,'qqqqq',NULL),
+  (2,'new_foobar',NULL);
 
 COMMIT;
 

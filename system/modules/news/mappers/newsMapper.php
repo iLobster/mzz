@@ -80,10 +80,10 @@ class newsMapper extends simpleMapper
     /*
     protected function createItemFromRow($row)
     {
-        $map = $this->getMap();
-        $news = new news($map);
-        $news->import($row);
-        return $news;
+    $map = $this->getMap();
+    $news = new news($map);
+    $news->import($row);
+    return $news;
     }*/
 
     /**
@@ -95,9 +95,9 @@ class newsMapper extends simpleMapper
     {
         $fields['updated'] = new sqlFunction('UNIX_TIMESTAMP');
 
-        if ($fields['editor'] instanceof user) {
+        /*if ($fields['editor'] instanceof user) {
             $fields['editor'] = $fields['editor']->getId();
-        }
+        }*/
 
         // может тут проверить "если строка - то поискать юзверя по логину и вернуть ид" ?
     }
@@ -111,9 +111,11 @@ class newsMapper extends simpleMapper
     {
         $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
         $fields['updated'] = $fields['created'];
-        if ($fields['editor'] instanceof user) {
-            $fields['editor'] = $fields['editor']->getId();
-        }
+        /*if (isset($fields['editor'])) {
+            if ($fields['editor'] instanceof user) {
+                $fields['editor'] = $fields['editor']->getId();
+            }
+        }*/
     }
 
     public function convertArgsToId($args)

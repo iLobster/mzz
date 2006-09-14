@@ -32,57 +32,72 @@ class relateViewController extends simpleController
 
         $relateMapper = new relateMapper($section);
 
+        // hasMany, searchOne
+       /* $relate = $relateMapper->searchOneByField('id', '2');
+        $val = $relate;
+        echo $val->getId();
+        echo '-';
+        echo $val->getRelated()->getId();
+        echo '-sub->';
+        foreach ($val->getRelated2() as $sub) {
+            echo $sub->getRelateId();
+            echo '-';
+            echo $sub->getFoobar();
+            //var_dump($sub);
+        }
+        echo '<br>-----<br>';
+        exit;*/
 
         // hasMany
-        $relate = $relateMapper->searchAllByField('name', 'sada');
-        
-        //var_dump($relate);exit;
-        
+        /*$relate = $relateMapper->searchAllByField('name', 'sada');
         foreach ($relate as $val) {
-                echo $val->getId();
+            echo $val->getId();
+            echo '-';
+            echo $val->getRelated()->getId();
+            echo '-sub->';
+            foreach ($val->getRelated2() as $sub) {
+                echo $sub->getRelateId();
                 echo '-';
-                echo $val->getRelated()->getId();
-                echo '-sub->';
-                foreach ($val->getRelated2() as $sub) {
-                        echo $sub->getRelateId();
-                        echo '-';
-                        echo $sub->getFoobar();
-                        //var_dump($sub);
-                }
-                echo '<br>-----<br>';
+                echo $sub->getFoobar();
+                //var_dump($sub);
+            }
+            echo '<br>-----<br>';
         }
-        exit;
+        exit;*/
+
         // owns
-        $relate = $relateMapper->searchAllByField('name', 'sada');
+        /*$relate = $relateMapper->searchAllByField('name', 'sada');
         foreach ($relate as $val) {
-                echo $val->getId();
-                echo '-';
-                echo $val->getRelated2()->getFoobar();
-                echo '-';
-                echo $val->getRelated()->getId();
-                echo '-';
-                echo $val->getRelated()->getData();
-                echo '<br>-----<br>';
+            echo $val->getId();
+            echo '-';
+            echo $val->getRelated2()->getFoobar();
+            echo '-';
+            echo $val->getRelated()->getId();
+            echo '-';
+            echo $val->getRelated()->getData();
+            echo '<br>-----<br>';
         }
-        exit;
-        
-        
-        
+        exit;*/
+
+
+
         // ownsMany
         $relate = $relateMapper->searchAllByField('name', 'sada');
         foreach ($relate as $val) {
-                echo $val->getId();
+            echo $val->getId();
+            echo '-';
+            echo $val->getRelated2()->getFoobar();
+            echo '-sub->';
+            //var_dump($val->getRelated());
+            foreach ($val->getRelated() as $sub) {
+                echo $sub->getId();
                 echo '-';
-                echo $val->getRelated2()->getFoobar();
-                echo '-sub->';
-                foreach ($val->getRelated() as $sub) {
-                        echo $sub->getId();
-                        echo '-';
-                        echo $sub->getData();
-                }
-                echo '<br>-----<br>';
+                echo $sub->getData();
+                echo '<br>';
+            }
+            echo '<br>-----<br>';
         }
-        
+
         exit;
 
         if ($relate) {
