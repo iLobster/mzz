@@ -52,12 +52,16 @@ a {
 }
 
 code {
-  font-size: 110%;
+  font-size: 120%;
   font-weight: bold;
 }
 
-.code {
+div.code {
   background-color: #F5FBF4;
-  padding: 30px;
+  padding: 30px 15px; 
   border: 1px solid #D5EED0;
+}
+
+div.note {
+  margin: 10px;
 }

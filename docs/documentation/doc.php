@@ -40,8 +40,31 @@ function render($id) {
     if(!file_exists($path)) {
         exit;
     }
+
+    $note = '
+<div class="note">
+<table border="0" summary="note">
+<tr>
+<td rowspan="2" width="50"><img alt="примечание" src="note.png" width="40" height="49" /></td>
+<td><strong>Примечание</strong></td>
+</tr>
+<tr>
+<td valign="top">';
+
+
+    $note_end = '</td>
+</tr>
+</table>
+</div>
+';
+
+
+
     $content = file_get_contents($path);
     $content = preg_replace("/<!--\s*code\s*(\d+)\s*-->/ie", 'include_code("' . $id . '-$1");', $content);
+    $content = str_replace(array("<<code>>", "<</code>>"), array("<!-- code start here -->\n<div class=\"code\">\n<code>\n", "\n</code>\n</div>\n<!-- code end here -->\n"), $content);
+
+    $content = str_replace(array('<<note>>', '<</note>>'), array($note, $note_end), $content);
     return $content;
 }
 
@@ -275,8 +298,7 @@ if (!isset($_REQUEST['cat'])) {
 
 }
 ?>
-
-
 </div>
+<br />
 </body>
 </html>
