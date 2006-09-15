@@ -49,13 +49,8 @@ class simpleMapperTest extends unitTestCase
         }
         $valString = substr($valString, 0,  strlen($valString)-1);
 
-        /*$stmt = $this->db->prepare('INSERT INTO `simple_simple` (`foo`, `bar`, `rel`) VALUES ' . $valString);
-        $stmt->execute();*/
-
         $stmt = $this->db->prepare('INSERT INTO `simple_stubsimple` (`foo`, `bar`, `rel`) VALUES ' . $valString);
         $stmt->execute();
-
-        //$this->db->query('INSERT INTO `simple_stub2` (`somefield`, `otherfield`) VALUES (2, 3), (4, 5), (6, 7)');
     }
 
     public function setUp()
@@ -71,8 +66,6 @@ class simpleMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
-        //$this->db->query('TRUNCATE TABLE `simple_simple`');
-        //$this->db->query('TRUNCATE TABLE `simple_stub2`');
         $this->db->query('TRUNCATE TABLE `sys_obj_id`');
     }
 
@@ -97,13 +90,13 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual(0, $this->countRecord());
 
         $this->mapper->save($simple);
-/*
+
         $this->assertEqual(1, $this->countRecord());
         $this->assertEqual(1, $simple->getId());
         $this->assertEqual($this->fixture[0]['foo'], $simple->getFoo());
-        $this->assertEqual($this->fixture[0]['bar'], $simple->getBar()); */
+        $this->assertEqual($this->fixture[0]['bar'], $simple->getBar());
     }
-/*
+
     public function testInsertSaveWithDataModify()
     {
         $this->mapper = new stubMapperDataModify('simple');
@@ -168,7 +161,21 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual(1, $this->countRecord());
         $this->assertEqual(1, $simple->getObjId());
     }
-*/
+
+    public function testSearchByCriteria()
+    {
+        $this->db->query("INSERT INTO `simple_stubsimple` (`foo`, `bar`, `rel`) VALUES ('value', 'value_bar', 1)");
+
+        $this->mapper->setMap($this->map);
+
+        $criteria = new criteria();
+        $criteria->add('foo', 'value');
+
+        $expected = array(0 => array('stubSimple' => array('id' => '1', 'foo' => 'value', 'bar' => 'value_bar', 'rel' => '1'), 'stub2Simple' => array('somefield' => null, 'otherfield' => null)));
+
+        $this->assertEqual($this->mapper->searchByCriteria($criteria), $expected);
+    }
+
     public function testOneToOneRelation()
     {
         /*

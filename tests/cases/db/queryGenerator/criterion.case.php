@@ -124,6 +124,12 @@ class criterionTest extends unitTestCase
         $criterion->addOr($cr4);
         $this->assertEqual($criterion->generate(), "((`field1` = 'value1') AND ((`field2` = 'value2') OR (`field2` = 'value3'))) OR ((`field4` >= 'value4') AND (`field5` <= 'value5'))");
     }
+
+    public function testDefaultTableName()
+    {
+        $criterion = new criterion('field', 'value');
+        $this->assertEqual($criterion->generate($table = 'table'), "`table`.`field` = 'value'");
+    }
 }
 
 ?>

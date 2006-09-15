@@ -327,66 +327,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (20),
   (21),
   (22),
-  (23),
-  (24),
-  (25),
-  (26),
-  (27),
-  (28),
-  (29),
-  (30),
-  (31),
-  (32),
-  (33),
-  (34),
-  (35),
-  (36),
-  (37),
-  (38),
-  (39),
-  (40),
-  (41),
-  (42),
-  (43),
-  (44),
-  (45),
-  (46),
-  (47),
-  (48),
-  (49),
-  (50),
-  (51),
-  (52),
-  (53),
-  (54),
-  (55),
-  (56),
-  (57),
-  (58),
-  (59),
-  (60),
-  (61),
-  (62),
-  (63),
-  (64),
-  (65),
-  (66),
-  (67),
-  (68),
-  (69),
-  (70),
-  (71),
-  (72),
-  (73),
-  (74),
-  (75),
-  (76),
-  (77),
-  (78),
-  (79),
-  (80),
-  (81),
-  (82);
+  (23);
 
 COMMIT;
 
@@ -423,24 +364,10 @@ COMMIT;
 DROP TABLE IF EXISTS `user_group_group`;
 
 CREATE TABLE `user_group_group` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_group_group_rel` table : 
-#
-
-DROP TABLE IF EXISTS `user_group_group_rel`;
-
-CREATE TABLE `user_group_group_rel` (
-  `id` int(11) NOT NULL auto_increment,
-  `group_id` int(11) default NULL,
-  `user_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -450,11 +377,26 @@ CREATE TABLE `user_group_group_rel` (
 DROP TABLE IF EXISTS `user_user`;
 
 CREATE TABLE `user_user` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) unsigned NOT NULL auto_increment,
   `login` varchar(255) NOT NULL default '',
   `password` varchar(32) NOT NULL default '',
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_usergrouprel` table : 
+#
+
+DROP TABLE IF EXISTS `user_usergrouprel`;
+
+CREATE TABLE `user_usergrouprel` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `group_id` int(11) default NULL,
+  `user_id` int(11) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 

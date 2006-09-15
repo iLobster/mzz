@@ -150,6 +150,7 @@ abstract class simpleMapper //implements iCacheable
      * Конструктор
      *
      * @param string $section секция
+     * @param string $alias
      */
     public function __construct($section, $alias = 'default')
     {
@@ -423,19 +424,9 @@ abstract class simpleMapper //implements iCacheable
         }
     }
 
-    /**
-     * Ищет запись по полю $name со значением $value
-     * и возвращает результат поиска
-     *
-     * @param string $name имя поля
-     * @param string $value значения поля
-     * @return object
-     */
-    public function searchByField($name, $value)
+    public function searchByCriteria(criteria $criteria)
     {
-        $criteria = new criteria($this->table);
-        $criteria->enableCount();
-        $criteria->add($this->table . '.' . $name, $value);
+        $criteria->setTable($this->table);
 
         // добавляем в запрос нужные объединения
         $this->addJoins($criteria, $this->table, $this->section);
@@ -459,16 +450,34 @@ abstract class simpleMapper //implements iCacheable
             }
         }
 
+        return $result;
+    }
+
+    /**
+     * Ищет запись по полю $name со значением $value
+     * и возвращает результат поиска
+     *
+     * @param string $name имя поля
+     * @param string $value значения поля
+     * @return object
+     */
+    public function searchByField($name, $value)
+    {
+        $criteria = new criteria();
+        $criteria->add($name, $value);
+
+        $result = $this->searchByCriteria($criteria);
+
         // считаем число данных, если бы не было ограничения LIMIT в запросе (используется в пейджинге). Придётся заменить этот блок кода на обычный запрос без FOUND_ROWS
-        $criteria_count = new criteria();
+        /*$criteria_count = new criteria();
         $criteria_count->addSelectField('FOUND_ROWS()', 'count');
         $select_count = new simpleSelect($criteria_count);
 
         $this->count = $this->db->getOne($select_count->toString());
 
         if (!empty($this->pager)) {
-            $this->pager->setCount($this->count);
-        }
+        $this->pager->setCount($this->count);
+        } */
 
         return $result;
     }
@@ -483,7 +492,15 @@ abstract class simpleMapper //implements iCacheable
      */
     public function searchOneByField($name, $value)
     {
-        $row = $this->searchByField($name, $value);
+        $criteria = new criteria();
+        $criteria->add($name, $value);
+
+        return $this->searchOneByCriteria($criteria);
+    }
+
+    public function searchOneByCriteria($criteria)
+    {
+        $row = $this->searchByCriteria($criteria);
 
         $ownsMany = $this->getOwnsMany();
         $hasMany = $this->getHasMany();
@@ -515,7 +532,15 @@ abstract class simpleMapper //implements iCacheable
      */
     public function searchAllByField($name, $value)
     {
-        $row = $this->searchByField($name, $value);
+        $criteria = new criteria();
+        $criteria->add($name, $value);
+
+        return $this->searchAllByCriteria($criteria);
+    }
+
+    public function searchAllByCriteria($criteria)
+    {
+        $row = $this->searchByCriteria($criteria);
         $result = array();
 
         $ownsMany = $this->getOwnsMany();
@@ -582,6 +607,7 @@ abstract class simpleMapper //implements iCacheable
      */
     public function fill($row)
     {
+        //var_dump($row);
         foreach (array($this->getOwns(), $this->getHas()) as $item) {
             foreach ($item as $val) {
                 $mapper = new $val['mapper']($this->section);
@@ -599,6 +625,8 @@ abstract class simpleMapper //implements iCacheable
             if (isset($row[0][$this->className][$item['key']])) {
                 unset($row[0][$this->className][$item['key']]);
             }
+            //var_dump($item);
+            //var_dump($row[0]);
             foreach ($row[0][$item['table']] as $key => $val) {
                 $row[0][$this->className][$item['key']][] = $mapper->createItemFromRow(array(0 => array($item['table'] => $val)));
             }
@@ -651,7 +679,7 @@ abstract class simpleMapper //implements iCacheable
         if (empty($this->map)) {
             $mapFileName = fileLoader::resolve($this->name() . '/maps/' . $this->className . '.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
-            //$this->map['obj_id']  = array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId');
+            $this->map['obj_id']  = array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId');
         }
         return $this->map;
     }
@@ -850,6 +878,7 @@ abstract class simpleMapper //implements iCacheable
                     $joinSection = isset($val['section']) ? $val['section'] : $this->section;
 
                     $data = array('table' => $tableName, 'field' => $foreignKeyName, 'mapper' => $className, 'key' => $key, 'relate' => $relationField, 'section' => $joinSection);
+                    //var_dump($data);
 
                     if (isset($val['module'])) {
                         $data['module'] = $val['module'];

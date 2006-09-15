@@ -44,7 +44,7 @@ class simpleSelect
 
         foreach ($this->criteria->keys() as $key) {
             $criterion = $this->criteria->getCriterion($key);
-            $whereClause[]  = $criterion->generate();
+            $whereClause[]  = $criterion->generate($this->criteria->getTable());
         }
 
         $orderByClause = $this->criteria->getOrderByFields();

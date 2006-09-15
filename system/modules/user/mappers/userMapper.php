@@ -50,7 +50,6 @@ class userMapper extends simpleMapper
     public function __construct($section)
     {
         parent::__construct($section);
-        $this->relationTable = $this->table . '_group_rel';
     }
 
     /**
@@ -71,12 +70,7 @@ class userMapper extends simpleMapper
      */
     public function searchById($id)
     {
-        /*$stmt = $this->searchByField('id', $id);
-        $row = $stmt->fetch();*/
-
-        $row = $this->searchOneByField('id', $id);
-
-        if ($row) {
+        if ($row = $this->searchOneByField('id', $id)) {
             return $row;
         } else {
             if($id === MZZ_USER_GUEST_ID) {
@@ -94,23 +88,17 @@ class userMapper extends simpleMapper
      */
     public function searchByLogin($login)
     {
-        /*        $stmt = $this->searchByField('login', $login);
-        $row = $stmt->fetch();*/
-
-        $row = $this->searchOneByField('login', $login);
-
-        if ($row) {
+        if ($row = $this->searchOneByField('login', $login)) {
             return $row;
         } else {
             return $this->getGuest();
         }
     }
-
+/*
     public function getGroups($id)
     {
         $groupMapper = new groupMapper('user');
         return $groupMapper->searchByUser($id);
-
     }
 
     public function getGroupsList($id)
@@ -121,7 +109,7 @@ class userMapper extends simpleMapper
             $result[] = $group->getId();
         }
         return $result;
-    }
+    }*/
 
     /**
      * Идентифицирует пользователя по логину и паролю и
@@ -143,20 +131,15 @@ class userMapper extends simpleMapper
             $password = $service->apply($password);
         }
 
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `login` = :login AND `password` = :password");
-        $stmt->bindParam(':login', $login);
-        $stmt->bindParam(':password', $password);
-        $stmt->execute();
-
-        $row = $stmt->fetch();
+        $criteria = new criteria();
+        $criteria->add('login', $login)->add('password', $password);
 
         $toolkit = systemToolkit::getInstance();
         $session = $toolkit->getSession();
 
-        if ($row) {
-            $session->set('user_id', $row['id']);
-            $row = array(0 => array('user' => $row));
-            return $this->createItemFromRow($row);
+        if ($row = $this->searchOneByCriteria($criteria)) {
+            $session->set('user_id', $row->getId());
+            return $row;
         } else {
             $session->set('user_id', MZZ_USER_GUEST_ID);
             return $this->getGuest();

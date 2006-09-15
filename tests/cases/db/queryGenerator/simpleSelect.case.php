@@ -36,13 +36,13 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->setTable('table');
         $this->criteria->add('field', 'value');
         $this->criteria->add('field2', 'value2');
-        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `field` = 'value' AND `field2` = 'value2'");
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value' AND `table`.`field2` = 'value2'");
     }
 
     public function testSelectConditionOrderLimit()
     {
         $this->criteria->setTable('table')->add('field', 'value')->setLimit(10)->setOffset(15)->setOrderByFieldDesc('field');
-        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `field` = 'value' ORDER BY `field` DESC LIMIT 15, 10");
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value' ORDER BY `field` DESC LIMIT 15, 10");
     }
 
     public function testSelectWithCount()
@@ -71,6 +71,13 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->addSelectField('table.*')->addSelectField('foo.id', 'foo_id');
         $this->criteria->addJoin('foo', new criterion('foo.id', 'table.id', criteria::EQUAL, true));
         $this->assertEqual($this->select->toString(), "SELECT `table`.*, `foo`.`id` AS `foo_id` FROM `table` LEFT JOIN `foo` ON `foo`.`id` = `table`.`id`");
+    }
+
+    public function testAutoAddPrefixToCondition()
+    {
+        $this->criteria->setTable('table');
+        $this->criteria->add('field', 'value');
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value'");
     }
 }
 

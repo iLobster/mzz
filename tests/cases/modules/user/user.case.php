@@ -22,6 +22,7 @@ class userTest extends unitTestCase
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'login' => array ( 'name' => 'login', 'accessor' => 'getLogin', 'mutator' => 'setLogin'),
         'password' => array ('name' => 'password', 'accessor' => 'getPassword', 'mutator' => 'setPassword', 'decorateClass' => 'md5PasswordHash'),
+        'userGroup' => array ('name' => 'userGroup', 'accessor' => 'getUserGroup', 'mutator' => 'setUserGroup', 'hasMany' => 'id->userGroupRel.user_id' ),
         );
 
         $this->mapper = new userMapper('user');
@@ -29,9 +30,6 @@ class userTest extends unitTestCase
 
         $this->db = DB::factory();
         $this->cleardb();
-
-        $this->db->query("INSERT INTO `user_group_group` (`id`, `name`) VALUES (1, 'foo_group'), (2, 'foo_group2')");
-        $this->db->query("INSERT INTO `user_group_group_rel` (`group_id`, `user_id`) VALUES (1, 2), (2, 2)");
     }
 
     public function tearDown()
@@ -42,8 +40,19 @@ class userTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `user_user`');
-        $this->db->query('TRUNCATE TABLE `user_group_group`');
-        $this->db->query('TRUNCATE TABLE `user_group_group_rel`');
+        $this->db->query('TRUNCATE TABLE `user_userGroupRel`');
+    }
+
+    public function testRetrieve()
+    {
+        $this->db->query("INSERT INTO `user_user` (`id`, `login`, `password`, `obj_id`) VALUES (5, 'somelogin', 'somepass', 666)");
+
+        $user = $this->mapper->searchById(5);
+
+        $this->assertEqual($user->getId(), 5);
+        $this->assertEqual($user->getLogin(), 'somelogin');
+        $this->assertEqual($user->getPassword(), 'somepass');
+        $this->assertEqual($user->getObjId(), 666);
     }
 
     public function testIsLoggedIn()
@@ -66,7 +75,7 @@ class userTest extends unitTestCase
 
         $this->assertFalse($this->user->isLoggedIn());
     }
-
+/*
     public function testGetGroupsList()
     {
         $mapper = new mockuserMapper('news');
@@ -78,7 +87,7 @@ class userTest extends unitTestCase
         $user->setId(2);
         $this->mapper->save($user);
         $this->assertEqual($val, $user->getGroupsList());
-    }
+    }*/
 }
 
 

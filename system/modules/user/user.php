@@ -50,10 +50,10 @@ class user extends simple
         return $this->getId() > 0 && $this->getId() !=  MZZ_USER_GUEST_ID;
     }
 
-    public function getGroupsList()
+    /*public function getGroupsList()
     {
         return $this->mapper->getGroupsList($this->getId());
-    }
+    }*/
 
 }
 

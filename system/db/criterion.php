@@ -5,6 +5,8 @@ class criterion
     const C_OR = 'OR';
     const C_AND = 'AND';
 
+    private $defaultTable;
+
     private $alias;
     private $isField;
 
@@ -29,8 +31,10 @@ class criterion
         $this->comparsion = !empty($comparsion) ? $comparsion : criteria::EQUAL;
     }
 
-    public function generate()
+    public function generate($defaultTable = '')
     {
+        $this->defaultTable = $defaultTable;
+
         $result = '';
 
         if (!is_null($this->field)) {
@@ -102,6 +106,8 @@ class criterion
     {
         if (!empty($this->alias)) {
             return '`' . $this->alias . '`.';
+        } elseif (!empty($this->defaultTable)) {
+            return '`' . $this->defaultTable . '`.';
         }
 
         return '';
