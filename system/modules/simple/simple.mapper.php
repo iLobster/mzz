@@ -315,6 +315,18 @@ abstract class simpleMapper //implements iCacheable
         return $this->searchByCriteria($criteria);
     }
 
+    public function create()
+    {
+        return new $this->className($this->getMap());
+    }
+
+    protected function createItemFromRow($row)
+    {
+        $object = new $this->className($this->getMap());
+        $object->import($row);
+        return $object;
+    }
+
     /**
      * Поиск одной записи по заданному критерию
      *

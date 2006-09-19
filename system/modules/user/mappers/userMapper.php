@@ -75,7 +75,7 @@ class userMapper extends simpleMapper
         $row = $stmt->fetch();
 
         if ($row) {
-            return $this->createUserFromRow($row);
+            return $this->createItemFromRow($row);
         } else {
             if($id === MZZ_USER_GUEST_ID) {
                 throw new mzzSystemException('Отсутствует запись с ID: ' . MZZ_USER_GUEST_ID . ' для гостя в таблице ' . $this->table);
@@ -96,7 +96,7 @@ class userMapper extends simpleMapper
         $row = $stmt->fetch();
 
         if ($row) {
-            return $this->createUserFromRow($row);
+            return $this->createItemFromRow($row);
         } else {
             return $this->getGuest();
         }
@@ -151,7 +151,7 @@ class userMapper extends simpleMapper
 
         if ($row) {
             $session->set('user_id', $row['id']);
-            return $this->createUserFromRow($row);
+            return $this->createItemFromRow($row);
         } else {
             $session->set('user_id', MZZ_USER_GUEST_ID);
             return $this->getGuest();
@@ -164,10 +164,9 @@ class userMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createUserFromRow($row)
+    protected function createItemFromRow($row)
     {
-        $map = $this->getMap();
-        $user = new user($this, $map);
+        $user = new user($this, $this->getMap());
         $user->import($row);
         return $user;
     }

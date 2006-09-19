@@ -40,16 +40,6 @@ class pageMapper extends simpleMapper
     protected $cacheable = array('searchByName');
 
     /**
-     * Создает пустой объект DO
-     *
-     * @return object
-     */
-    public function create()
-    {
-        return new page($this->getMap());
-    }
-
-    /**
      * Выполняет поиск объекта по идентификатору
      *
      * @param integer $id идентификатор
@@ -70,33 +60,6 @@ class pageMapper extends simpleMapper
     {
         return $this->searchOneByField('name', $name);
     }
-
-    /**
-     * Создает объект page из массива
-     *
-     * @param array $row
-     * @return object
-     */
-    protected function createItemFromRow($row)
-    {
-        $map = $this->getMap();
-        $page = new page($map);
-        $page->import($row);
-        return $page;
-    }
-
-    /*
-    public function __sleep()
-    {
-        return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
-    }
-
-     * Magic method __wakeup
-     *
-     * @return array
-    public function __wakeup()
-    {
-    } */
 }
 
 ?>

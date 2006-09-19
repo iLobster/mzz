@@ -33,23 +33,6 @@ class newsMapper extends simpleMapper
     protected $className = 'news';
 
     /**
-     * Массив кешируемых методов
-     *
-     * @var array
-     */
-    // protected $cacheable = array('searchById');
-
-    /**
-     * Создает пустой объект DO
-     *
-     * @return object
-     */
-    public function create()
-    {
-        return new news($this->getMap());
-    }
-
-    /**
      * Выполняет поиск объекта по идентификатору
      *
      * @param integer $id идентификатор
@@ -69,20 +52,6 @@ class newsMapper extends simpleMapper
     public function searchByFolder($folder_id)
     {
         return $this->searchAllByField('folder_id', $folder_id);
-    }
-
-    /**
-     * Создает объект news из массива
-     *
-     * @param array $row
-     * @return object
-     */
-    protected function createItemFromRow($row)
-    {
-        $map = $this->getMap();
-        $news = new news($map);
-        $news->import($row);
-        return $news;
     }
 
     /**
