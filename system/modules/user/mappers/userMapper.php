@@ -50,6 +50,7 @@ class userMapper extends simpleMapper
     public function __construct($section)
     {
         parent::__construct($section);
+        $this->relationTable = $this->table . 'group_rel';
     }
 
     /**
@@ -70,8 +71,11 @@ class userMapper extends simpleMapper
      */
     public function searchById($id)
     {
-        if ($row = $this->searchOneByField('id', $id)) {
-            return $row;
+        $stmt = $this->searchByField('id', $id);
+        $row = $stmt->fetch();
+
+        if ($row) {
+            return $this->createUserFromRow($row);
         } else {
             if($id === MZZ_USER_GUEST_ID) {
                 throw new mzzSystemException('Отсутствует запись с ID: ' . MZZ_USER_GUEST_ID . ' для гостя в таблице ' . $this->table);
@@ -88,17 +92,21 @@ class userMapper extends simpleMapper
      */
     public function searchByLogin($login)
     {
-        if ($row = $this->searchOneByField('login', $login)) {
-            return $row;
+        $stmt = $this->searchByField('login', $login);
+        $row = $stmt->fetch();
+
+        if ($row) {
+            return $this->createUserFromRow($row);
         } else {
             return $this->getGuest();
         }
     }
-/*
+
     public function getGroups($id)
     {
         $groupMapper = new groupMapper('user');
         return $groupMapper->searchByUser($id);
+
     }
 
     public function getGroupsList($id)
@@ -109,7 +117,7 @@ class userMapper extends simpleMapper
             $result[] = $group->getId();
         }
         return $result;
-    }*/
+    }
 
     /**
      * Идентифицирует пользователя по логину и паролю и
@@ -131,15 +139,19 @@ class userMapper extends simpleMapper
             $password = $service->apply($password);
         }
 
-        $criteria = new criteria();
-        $criteria->add('login', $login)->add('password', $password);
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `login` = :login AND `password` = :password");
+        $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
+
+        $row = $stmt->fetch();
 
         $toolkit = systemToolkit::getInstance();
         $session = $toolkit->getSession();
 
-        if ($row = $this->searchOneByCriteria($criteria)) {
-            $session->set('user_id', $row->getId());
-            return $row;
+        if ($row) {
+            $session->set('user_id', $row['id']);
+            return $this->createUserFromRow($row);
         } else {
             $session->set('user_id', MZZ_USER_GUEST_ID);
             return $this->getGuest();
@@ -152,13 +164,10 @@ class userMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createItemFromRow($row, $user = null)
+    protected function createUserFromRow($row)
     {
-        if (empty($user)) {
-            $map = $this->getMap();
-            $user = new user($this, $map);
-        }
-        $row = $this->fill($row);
+        $map = $this->getMap();
+        $user = new user($this, $map);
         $user->import($row);
         return $user;
     }

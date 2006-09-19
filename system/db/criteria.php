@@ -149,9 +149,13 @@ class criteria
         return $this->joins;
     }
 
-    public function addJoin($tablename, criterion $criterion)
+    public function addJoin($tablename, criterion $criterion, $alias = '')
     {
-        $this->joins[] = array('table' => '`' . $tablename . '`', 'criterion' => $criterion);
+        $arr = array('table' => '`' . $tablename . '`', 'criterion' => $criterion);
+        if ($alias) {
+            $arr['alias'] = '`' . $alias . '`';
+        }
+        $this->joins[] = $arr;
     }
 }
 

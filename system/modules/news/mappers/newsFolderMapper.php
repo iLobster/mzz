@@ -54,7 +54,7 @@ class newsFolderMapper extends simpleMapper
      *
      * @var string
      */
-    protected $relationPostfix = 'folder_tree';
+    //protected $relationPostfix = 'folder_tree';
 
     /**
      * Конструктор
@@ -65,7 +65,7 @@ class newsFolderMapper extends simpleMapper
     {
         parent::__construct($section);
         $init = array ('data' => array('table' => $this->table, 'id' =>'parent'),
-        'tree' => array('table' => $this->relationTable , 'id' =>'id'));
+        'tree' => array('table' => $section . '_' . $this->className . '_tree' , 'id' =>'id'));
 
         $this->tree = new dbTreeNS($init, 'name');
     }
@@ -90,13 +90,10 @@ class newsFolderMapper extends simpleMapper
      * @param array $row
      * @return object
      */
-    protected function createItemFromRow($row, $newsFolder)
+    protected function createItemFromRow($row)
     {
-        if (empty($newsFolder)) {
-            $map = $this->getMap();
-            $newsFolder = new newsFolder($this, $map);
-        }
-        $row = $this->fill($row);
+        $map = $this->getMap();
+        $newsFolder = new newsFolder($this, $map);
         $newsFolder->import($row);
         return $newsFolder;
     }
@@ -154,13 +151,13 @@ class newsFolderMapper extends simpleMapper
      */
     public function getItems($id)
     {
-        $newsMapper = new newsMapper($this->section());
+        $news = new newsMapper($this->section());
 
         if (!empty($this->pager)) {
-            $newsMapper->setPager($this->pager);
+            $news->setPager($this->pager);
         }
 
-        $result = $newsMapper->searchByFolder($id);
+        $result = $news->searchByFolder($id);
 
         return $result;
     }

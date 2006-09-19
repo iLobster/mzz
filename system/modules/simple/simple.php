@@ -103,6 +103,7 @@ abstract class simple
                         $service = new $service;
                         $args[0] = $service->apply($args[0]);
                     }
+
                     $this->changedFields->set($attribute, $args[0]);
                 }
             }
@@ -198,11 +199,6 @@ abstract class simple
             return $this->map[$name]['decorateClass'];
         }
         return false;
-    }
-
-    public function map()
-    {
-        return $this->map;
     }
 
     /**

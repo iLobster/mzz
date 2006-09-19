@@ -34,7 +34,7 @@ class news extends simple
      *
      * @return string
      */
-    /*public function getEditor()
+    public function getEditor()
     {
         if ($this->fields->exists('editor')) {
             // сделать проверку что объект нужной инстанции. в противном случае кинуть эксепшн.
@@ -47,7 +47,7 @@ class news extends simple
         } else {
             return null;
         }
-    }*/
+    }
 
     /**
      * Получение имени папки, в которой находится новость

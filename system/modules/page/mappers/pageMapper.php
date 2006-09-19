@@ -76,24 +76,24 @@ class pageMapper extends simpleMapper
      *
      * @param array $row
      * @return object
-     *//*
+     */
     protected function createItemFromRow($row)
     {
         $map = $this->getMap();
         $page = new page($map);
         $page->import($row);
         return $page;
-    }*/
+    }
 
     /*
     public function __sleep()
     {
-    return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
+        return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
     }
 
-    * Magic method __wakeup
-    *
-    * @return array
+     * Magic method __wakeup
+     *
+     * @return array
     public function __wakeup()
     {
     } */

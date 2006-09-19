@@ -32,8 +32,8 @@ class newsCreateSuccessView extends simpleView
         $url->addParam($this->DAO->getId());
         $url->setAction('view');
 
-        header('Location: ' . $url->get());
-        exit;
+        //header('Location: ' . $url->get());
+        //exit;
     }
 }
 

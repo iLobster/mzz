@@ -20,7 +20,4 @@
         <action name="delete">page.delete</action>
         <action name="create">page.create</action>
     </page>
-    <relate>
-        <action name="view">relate.view</action>
-    </relate>
 </mapps>

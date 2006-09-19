@@ -39,7 +39,9 @@ class simpleSelect
         $enableCount = $this->criteria->getEnableCount();
 
         foreach ($this->criteria->getJoins() as $val) {
-            $joinClause[] = ' LEFT JOIN ' . $val['table'] . ' ON ' . $val['criterion']->generate();
+            $joinClause[] = ' LEFT JOIN ' . $val['table'] .
+            (isset($val['alias']) ? ' ' . $val['alias'] : '') .
+            ' ON ' . $val['criterion']->generate();
         }
 
         foreach ($this->criteria->keys() as $key) {

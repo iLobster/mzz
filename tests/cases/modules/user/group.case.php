@@ -33,7 +33,7 @@ class groupzzzTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `user_group_group`');
+        $this->db->query('TRUNCATE TABLE `user_user_group`');
     }
 
     // получается совсем без тестов чтоли? ;)

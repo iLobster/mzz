@@ -28,6 +28,7 @@ DROP TABLE IF EXISTS `news_news`;
 
 CREATE TABLE `news_news` (
   `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(10) unsigned NOT NULL default '0',
   `title` varchar(255) NOT NULL default '',
   `editor` int(11) NOT NULL default '0',
   `text` text NOT NULL,
@@ -42,22 +43,48 @@ CREATE TABLE `news_news` (
 # Data for the `news_news` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_news` (`id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
-  (1,'новость 1',1,'текст 1',1,1140071407,1151144817),
-  (2,'новость 2',2,'текст 21',1,1140071307,1151124950),
-  (4,'новость 3',2,'текст 31',3,1140071207,1151126312),
-  (5,'новость 4',2,'текст 4',2,1140071107,1140071117),
-  (9,'`',1,'`',3,1149103108,1149103218);
+INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
+  (1,1,'новость 1',2,'текст 1',1,1140071407,1158647424),
+  (2,2,'новость 2',2,'текст 21',1,1140071307,1158644194),
+  (4,3,'новость 3',2,'текст 31',3,1140071207,1151126312),
+  (5,4,'новость 4',2,'текст 4',2,1140071107,1140071117);
 
 COMMIT;
 
 #
-# Structure for the `news_news_folder_tree` table : 
+# Structure for the `news_newsfolder` table : 
 #
 
-DROP TABLE IF EXISTS `news_news_folder_tree`;
+DROP TABLE IF EXISTS `news_newsfolder`;
 
-CREATE TABLE `news_news_folder_tree` (
+CREATE TABLE `news_newsfolder` (
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) unsigned NOT NULL default '0',
+  `name` char(255) default NULL,
+  `parent` int(11) default '0',
+  `path` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `news_newsfolder` table  (LIMIT 0,500)
+#
+
+INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES 
+  (1,6,'root',1,NULL),
+  (2,7,'parent1',2,NULL),
+  (3,8,'parent2',3,NULL);
+
+COMMIT;
+
+#
+# Structure for the `news_newsfolder_tree` table : 
+#
+
+DROP TABLE IF EXISTS `news_newsfolder_tree`;
+
+CREATE TABLE `news_newsfolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -69,62 +96,13 @@ CREATE TABLE `news_news_folder_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `news_news_folder_tree` table  (LIMIT 0,500)
+# Data for the `news_newsfolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_news_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `news_newsfolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,6,1),
   (2,2,3,2),
   (3,4,5,2);
-
-COMMIT;
-
-#
-# Structure for the `news_news_tree` table : 
-#
-
-DROP TABLE IF EXISTS `news_news_tree`;
-
-CREATE TABLE `news_news_tree` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `parent` int(11) default '0',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `news_news_tree` table  (LIMIT 0,500)
-#
-
-INSERT INTO `news_news_tree` (`id`, `name`, `parent`) VALUES 
-  (1,'root',0),
-  (2,'folder2',0);
-
-COMMIT;
-
-#
-# Structure for the `news_newsfolder_folder` table : 
-#
-
-DROP TABLE IF EXISTS `news_newsfolder_folder`;
-
-CREATE TABLE `news_newsfolder_folder` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `parent` int(11) default '0',
-  `path` char(255) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `news_newsfolder_folder` table  (LIMIT 0,500)
-#
-
-INSERT INTO `news_newsfolder_folder` (`id`, `name`, `parent`, `path`) VALUES 
-  (1,'root',1,NULL),
-  (2,'parent1',2,NULL),
-  (3,'parent2',3,NULL);
 
 COMMIT;
 
@@ -136,6 +114,7 @@ DROP TABLE IF EXISTS `page_page`;
 
 CREATE TABLE `page_page` (
   `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(10) unsigned NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
   `title` varchar(255) NOT NULL default '',
   `content` text NOT NULL,
@@ -146,79 +125,153 @@ CREATE TABLE `page_page` (
 # Data for the `page_page` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_page` (`id`, `name`, `title`, `content`) VALUES 
-  (1,'main','Первая страница','Это первая, главная страница'),
-  (2,'404','404 Not Found','Запрашиваемая страница не найдена!'),
-  (3,'test','test','test');
+INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`) VALUES 
+  (1,9,'main','Первая страница','Это первая, главная страница'),
+  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!'),
+  (3,11,'test','test','test');
 
 COMMIT;
 
 #
-# Structure for the `relate2_related` table : 
+# Structure for the `sys_access` table : 
 #
 
-DROP TABLE IF EXISTS `relate2_related`;
+DROP TABLE IF EXISTS `sys_access`;
 
-CREATE TABLE `relate2_related` (
-  `id` int(11) NOT NULL default '0',
-  `data` char(255) default NULL,
-  `obj_id` int(11) default NULL
+CREATE TABLE `sys_access` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `module_section_action` int(11) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  `uid` int(11) unsigned default NULL,
+  `gid` int(11) unsigned default NULL,
+  `allow` tinyint(1) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `module_action_id` (`module_section_action`,`obj_id`,`uid`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `relate2_related` table  (LIMIT 0,500)
+# Data for the `sys_access` table  (LIMIT 0,500)
 #
 
-INSERT INTO `relate2_related` (`id`, `data`, `obj_id`) VALUES 
-  (4,'foobar',10),
-  (3,'zzz',11),
-  (2,'baz',12);
+INSERT INTO `sys_access` (`id`, `module_section_action`, `obj_id`, `uid`, `gid`, `allow`) VALUES 
+  (1,1,NULL,NULL,NULL,1),
+  (2,2,NULL,NULL,NULL,1);
 
 COMMIT;
 
 #
-# Structure for the `relate_relate` table : 
+# Structure for the `sys_access_actions` table : 
 #
 
-DROP TABLE IF EXISTS `relate_relate`;
+DROP TABLE IF EXISTS `sys_access_actions`;
 
-CREATE TABLE `relate_relate` (
+CREATE TABLE `sys_access_actions` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
-  `related_id` int(11) unsigned default NULL,
-  `obj_id` int(11) default NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `relate_relate` table  (LIMIT 0,500)
+# Data for the `sys_access_actions` table  (LIMIT 0,500)
 #
 
-INSERT INTO `relate_relate` (`id`, `name`, `related_id`, `obj_id`) VALUES 
-  (1,'sada',2,7),
-  (2,'sada',3,12);
+INSERT INTO `sys_access_actions` (`id`, `name`) VALUES 
+  (1,'edit'),
+  (2,'delete');
 
 COMMIT;
 
 #
-# Structure for the `relate_related2` table : 
+# Structure for the `sys_access_modules` table : 
 #
 
-DROP TABLE IF EXISTS `relate_related2`;
+DROP TABLE IF EXISTS `sys_access_modules`;
 
-CREATE TABLE `relate_related2` (
-  `relate_id` int(11) NOT NULL default '0',
-  `foobar` char(255) default NULL,
-  `obj_id` int(11) default NULL
+CREATE TABLE `sys_access_modules` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `relate_related2` table  (LIMIT 0,500)
+# Data for the `sys_access_modules` table  (LIMIT 0,500)
 #
 
-INSERT INTO `relate_related2` (`relate_id`, `foobar`, `obj_id`) VALUES 
-  (3,'qqqqq',NULL),
-  (2,'new_foobar',NULL);
+INSERT INTO `sys_access_modules` (`id`, `name`) VALUES 
+  (1,'news');
+
+COMMIT;
+
+#
+# Structure for the `sys_access_modules_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules_sections`;
+
+CREATE TABLE `sys_access_modules_sections` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `module_id` int(11) unsigned default NULL,
+  `section_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `module_section` (`section_id`,`module_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_modules_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules_sections` (`id`, `module_id`, `section_id`) VALUES 
+  (1,1,1);
+
+COMMIT;
+
+#
+# Structure for the `sys_access_modules_sections_actions` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules_sections_actions`;
+
+CREATE TABLE `sys_access_modules_sections_actions` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `module_section_id` int(11) unsigned default NULL,
+  `action_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `module_action_unique` (`module_section_id`,`action_id`),
+  KEY `action_id` (`action_id`),
+  KEY `module_id` (`module_section_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_modules_sections_actions` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules_sections_actions` (`id`, `module_section_id`, `action_id`) VALUES 
+  (1,1,1),
+  (2,1,2);
+
+COMMIT;
+
+#
+# Structure for the `sys_access_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_sections`;
+
+CREATE TABLE `sys_access_sections` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_sections` (`id`, `name`) VALUES 
+  (1,'news');
 
 COMMIT;
 
@@ -272,6 +325,49 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `value`) VALUES
 COMMIT;
 
 #
+# Structure for the `sys_obj_id` table : 
+#
+
+DROP TABLE IF EXISTS `sys_obj_id`;
+
+CREATE TABLE `sys_obj_id` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_obj_id` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_obj_id` (`id`) VALUES 
+  (15);
+
+COMMIT;
+
+#
+# Structure for the `user_group` table : 
+#
+
+DROP TABLE IF EXISTS `user_group`;
+
+CREATE TABLE `user_group` (
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(10) unsigned NOT NULL default '0',
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `user_group` table  (LIMIT 0,500)
+#
+
+INSERT INTO `user_group` (`id`, `obj_id`, `name`) VALUES 
+  (1,14,'unauth'),
+  (2,15,'auth');
+
+COMMIT;
+
+#
 # Structure for the `user_user` table : 
 #
 
@@ -279,9 +375,9 @@ DROP TABLE IF EXISTS `user_user`;
 
 CREATE TABLE `user_user` (
   `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(10) unsigned NOT NULL default '0',
   `login` varchar(255) NOT NULL default '',
   `password` varchar(32) NOT NULL default '',
-  `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -289,41 +385,19 @@ CREATE TABLE `user_user` (
 # Data for the `user_user` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_user` (`id`, `login`, `password`, `obj_id`) VALUES 
-  (1,'guest','',NULL),
-  (2,'admin','098f6bcd4621d373cade4e832627b4f6',NULL);
+INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`) VALUES 
+  (1,12,'guest',''),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6');
 
 COMMIT;
 
 #
-# Structure for the `user_user_group` table : 
+# Structure for the `user_usergroup_rel` table : 
 #
 
-DROP TABLE IF EXISTS `user_user_group`;
+DROP TABLE IF EXISTS `user_usergroup_rel`;
 
-CREATE TABLE `user_user_group` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `user_user_group` table  (LIMIT 0,500)
-#
-
-INSERT INTO `user_user_group` (`id`, `name`) VALUES 
-  (1,'unauth'),
-  (2,'auth');
-
-COMMIT;
-
-#
-# Structure for the `user_user_group_rel` table : 
-#
-
-DROP TABLE IF EXISTS `user_user_group_rel`;
-
-CREATE TABLE `user_user_group_rel` (
+CREATE TABLE `user_usergroup_rel` (
   `id` int(11) NOT NULL auto_increment,
   `group_id` int(11) default NULL,
   `user_id` int(11) default NULL,
@@ -332,10 +406,10 @@ CREATE TABLE `user_user_group_rel` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `user_user_group_rel` table  (LIMIT 0,500)
+# Data for the `user_usergroup_rel` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_user_group_rel` (`id`, `group_id`, `user_id`) VALUES 
+INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`) VALUES 
   (1,1,1),
   (2,2,2);
 

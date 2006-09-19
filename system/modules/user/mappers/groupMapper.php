@@ -41,18 +41,7 @@ class groupMapper extends simpleMapper
      *
      * @var string
      */
-    protected $tablePostfix = '_group';
-
-    /**
-     * Конструктор
-     *
-     * @param string $section секция
-     */
-    public function __construct($section)
-    {
-        parent::__construct($section);
-        $this->relationTable = $this->table . '_rel';
-    }
+    //protected $tablePostfix = '_group';
 
     /**
      * Выполняет поиск объекта по идентификатору
@@ -62,13 +51,11 @@ class groupMapper extends simpleMapper
      */
     public function searchById($id)
     {
-        $row = $this->searchOneByField('id', $id);
-        /*var_dump($stmt);
-        $row = $stmt->fetch();*/
+        $stmt = $this->searchByField('id', $id);
+        $row = $stmt->fetch();
 
         if ($row) {
-            //return $this->createItemFromRow($row);
-            return $row;
+            return $this->createGroupFromRow($row);
         } else {
             // Что это?
             if($id == 1) {
@@ -86,15 +73,14 @@ class groupMapper extends simpleMapper
      */
     public function searchByName($name)
     {
-        return $this->searchOneByField('name', $name);
-        /*$stmt = $this->searchByField('name', $name);
+        $stmt = $this->searchByField('name', $name);
         $row = $stmt->fetch();
 
         if ($row) {
             return $this->createGroupFromRow($row);
         } else {
             return false;
-        }*/
+        }
     }
 
     /**
@@ -106,7 +92,7 @@ class groupMapper extends simpleMapper
      */
     public function searchByUser($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->relationTable . "` `rel` INNER JOIN `" . $this->table . "` `gr` ON `rel`.`group_id` = `gr`.`id` WHERE `rel`.`user_id` = :id");
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->section() . "_usergroup_rel` `rel` INNER JOIN `" . $this->table . "` `gr` ON `rel`.`group_id` = `gr`.`id` WHERE `rel`.`user_id` = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $rows = $stmt->fetchAll();
@@ -114,8 +100,7 @@ class groupMapper extends simpleMapper
         $result = array();
 
         foreach ($rows as $row) {
-            $row = array(0 => array('group' => $row));
-            $result[] = $this->createItemFromRow($row);
+            $result[] = $this->createGroupFromRow($row);
         }
 
         return $result;
@@ -123,7 +108,8 @@ class groupMapper extends simpleMapper
 
     public function getUsers($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` `gr` INNER JOIN `" . $this->table . "_rel` `rel` ON `gr`.`id` = `rel`.`group_id` WHERE `gr`.`id` = :id");
+        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` `gr` INNER JOIN `" . $this->section() . "_usergroup_rel` `rel` ON `gr`.`id` = `rel`.`group_id` WHERE `gr`.`id` = :id");
+
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -145,20 +131,14 @@ class groupMapper extends simpleMapper
      *
      * @param array $row
      * @return object
-     *//*
-    protected function createItemFromRow($row)
+     */
+    protected function createGroupFromRow($row)
     {
         $map = $this->getMap();
         $group = new group($map);
-
-        $f = array();
-        foreach ($row as $key => $val) {
-            $f[$this->className][str_replace($this->className . '_', '', $key)] = $val;
-        }
-var_dump($row);
-        $group->import($f[$this->className]);
+        $group->import($row);
         return $group;
-    }*/
+    }
 
 }
 

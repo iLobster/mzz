@@ -21,13 +21,11 @@ class testSimple extends unitTestCase
 
         $this->db = DB::factory();
         $this->mapper = new stubMapper('simple');
-        $this->mapper->setMap($this->map);
         $this->cleardb();
     }
     public function setUp()
     {
-        $this->cleardb();
-        $this->simple = new stubSimple($this->map);
+     $this->simple = new stubSimple($this->map);
     }
     public function tearDown()
     {
@@ -36,8 +34,7 @@ class testSimple extends unitTestCase
 
     public function cleardb()
     {
-        //$this->db->query('TRUNCATE TABLE `simple_simple`');
-        $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
+        $this->db->query('TRUNCATE TABLE `simple_simple`');
     }
 
     public function testAccessorsAndMutators()
@@ -72,6 +69,7 @@ class testSimple extends unitTestCase
 
             $this->assertEqual($val2, $this->simple->$getprop());
         }
+
     }
 
     public function testException()
@@ -120,7 +118,6 @@ class testSimple extends unitTestCase
             $this->assertIdentical($this->simple->$getter(), $first);
         }
         // For import
-
         $this->simple->import(array('id' => $second));
         $this->mapper->save($this->simple);
 
@@ -151,6 +148,9 @@ class testSimple extends unitTestCase
             $this->assertIdentical($this->simple->$getter(), $second);
         }
     }
+
 }
+
+
 
 ?>
