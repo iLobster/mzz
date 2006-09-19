@@ -39,20 +39,6 @@ abstract class simpleMapper //implements iCacheable
     protected $table;
 
     /**
-     * Имя таблицы отношений (собирается из имени, секции, relation-постфикса)
-     *
-     * @var string
-     */
-    //protected $relationTable;
-
-    /**
-     * Relation-постфикс
-     *
-     * @var string
-     */
-    //protected $relationPostfix = 'rel';
-
-    /**
      * Секция
      *
      * @var string
@@ -72,27 +58,6 @@ abstract class simpleMapper //implements iCacheable
      * @var string
      */
     protected $className;
-
-    /**
-     * Ссылка на объект cache
-     *
-     * @var object
-     */
-    //protected $cache;
-
-    /**
-     * Массив кешируемых методов
-     *
-     * @var array
-     */
-    //protected $cacheable = array();
-
-    /**
-     * Постфикс имени таблицы
-     *
-     * @var string
-     */
-    //protected $tablePostfix = null;
 
     /**
      * Название праймари ключа таблицы
@@ -293,33 +258,25 @@ abstract class simpleMapper //implements iCacheable
     {
         $criteria = new criteria();
         $criteria->add($name, $value);
-        /*
-        $qry = "SELECT SQL_CALC_FOUND_ROWS * FROM `" . $this->table . "` WHERE `" . $name .  "` = :" . $name;
-        if (!empty($this->pager)) {
-        $qry .= $this->pager->getLimitQuery();
-        }
-
-        $stmt = $this->db->prepare($qry);
-        $stmt->bindParam(':' . $name, $value);
-        $stmt->execute();
-
-        $statement = $this->db->query('SELECT FOUND_ROWS() AS `count`');
-        $res = $statement->fetchAll();
-        $statement->closeCursor();
-        $this->count = $res[0]['count'];
-
-        if (!empty($this->pager)) {
-        $this->pager->setCount($res[0]['count']);
-        }
-        */
         return $this->searchByCriteria($criteria);
     }
 
+    /**
+     * Возвращает Доменный Объект, который обслуживает запрашиваемый маппер
+     *
+     * @return object
+     */
     public function create()
     {
         return new $this->className($this->getMap());
     }
 
+    /**
+     * Заполняет данными из массива доменный объект
+     *
+     * @param array $row массив с данными
+     * @return object
+     */
     protected function createItemFromRow($row)
     {
         $object = new $this->className($this->getMap());

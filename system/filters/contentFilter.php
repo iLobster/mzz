@@ -28,12 +28,6 @@ class contentFilter implements iFilter
      */
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
-        require_once '../../umi-stat/www/init.php';
-        require_once '../../umi-stat/www/classes/statistic.php';
-        $stat = new statistic();
-        //$stat->entry('sample_entry');
-        $stat->run();
-
         $toolkit = systemToolkit::getInstance();
 
         $frontcontroller = new frontController($request);
