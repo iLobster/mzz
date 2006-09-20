@@ -13,7 +13,8 @@
 /**
  * page: page
  *
- * @package page
+ * @package modules
+ * @subpackage page
  * @version 0.1.4
  */
 
@@ -28,8 +29,6 @@ class page extends simple
     {
         return parent::getJipView('page', $this->getName(), 'page');
     }
-
-
 }
 
 ?>

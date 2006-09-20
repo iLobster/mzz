@@ -13,7 +13,8 @@
 /**
  * userViewView: вид дл€ метода view модул€ user
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.1
  */
 
@@ -24,6 +25,7 @@ class userLoginformView extends simpleView
         $this->form = $form;
         parent::__construct(null);
     }
+
     public function toString()
     {
         // почему они не лоадером груз€тс€??
@@ -39,7 +41,6 @@ class userLoginformView extends simpleView
 
         return $this->smarty->fetch('user.login.tpl');
     }
-
 }
 
 ?>

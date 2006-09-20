@@ -12,7 +12,8 @@
 /**
  * newsMapper: маппер для новостей
  *
- * @package news
+ * @package modules
+ * @subpackage news
  * @version 0.2.1
  */
 

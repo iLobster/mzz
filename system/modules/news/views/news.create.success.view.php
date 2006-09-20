@@ -12,7 +12,8 @@
 /**
  * newsCreateSuccessView: вид для успешного метода create модуля news
  *
- * @package news
+ * @package modules
+ * @subpackage news
  * @version 0.1
  */
 
@@ -32,8 +33,8 @@ class newsCreateSuccessView extends simpleView
         $url->addParam($this->DAO->getId());
         $url->setAction('view');
 
-        //header('Location: ' . $url->get());
-        //exit;
+        header('Location: ' . $url->get());
+        exit;
     }
 }
 

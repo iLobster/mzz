@@ -19,9 +19,11 @@ fileLoader::load('db/simpleSelect');
 /**
  * simpleMapper: реализация общих методов у Mapper
  *
- * @package simple
+ * @package modules
+ * @subpackage simple
  * @version 0.3
  */
+
 abstract class simpleMapper //implements iCacheable
 {
     /**
@@ -240,7 +242,21 @@ abstract class simpleMapper //implements iCacheable
     {
         $criteria->setTable($this->table);
 
+        // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
+        if ($this->pager) {
+            $criteriaForCount = clone $criteria;
+            $criteriaForCount->addSelectField('COUNT(*)', 'cnt');
+            $selectForCount = new simpleSelect($criteriaForCount);
+            $stmt = $this->db->query($selectForCount->toString());
+            $count = $stmt->fetch();
+
+            $this->pager->setCount($count['cnt']);
+
+            $criteria->append($this->pager->getLimitQuery());
+        }
+
         $select = new simpleSelect($criteria);
+
         $stmt = $this->db->query($select->toString());
 
         return $stmt;

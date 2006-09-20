@@ -12,7 +12,8 @@
 /**
  * newsFolderMapper: маппер для папок новостей
  *
- * @package news
+ * @package modules
+ * @subpackage news
  * @version 0.2
  */
 

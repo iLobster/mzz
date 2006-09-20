@@ -15,7 +15,8 @@ fileLoader::load('user/mappers/groupMapper');
 /**
  * userMapper: маппер для пользователей
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.2
  */
 

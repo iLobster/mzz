@@ -13,7 +13,8 @@
 /**
  * news: news
  *
- * @package news
+ * @package modules
+ * @subpackage news
  * @version 0.1.1
  */
 
@@ -62,10 +63,7 @@ class news extends simple
         $folderName = $newsFolderMapper->searchOneByField('id', $this->fields->get('folder_id'));
 
         return $folderName->getName();
-
     }
-
-
 }
 
 ?>

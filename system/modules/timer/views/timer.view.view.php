@@ -12,7 +12,8 @@
 /**
  * timerViewView: вид для метода view модуля timer
  *
- * @package timer
+ * @package modules
+ * @subpackage timer
  * @version 0.1
  */
 

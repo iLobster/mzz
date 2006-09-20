@@ -12,7 +12,8 @@
 /**
  * TimerFactory: фабрика для получения контроллера таймера
  *
- * @package timer
+ * @package modules
+ * @subpackage timer
  * @version 0.5
  */
 

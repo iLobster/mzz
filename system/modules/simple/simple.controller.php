@@ -13,7 +13,8 @@
 /**
  * simpleController: реализация общих методов у контроллеров
  *
- * @package simple
+ * @package modules
+ * @subpackage simple
  * @version 0.1
  */
 abstract class simpleController

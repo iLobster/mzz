@@ -12,7 +12,8 @@
 /**
  * NewsEditController: контроллер для метода edit модуля news
  *
- * @package news
+ * @package modules
+ * @subpackage news
  * @version 0.1
  */
 

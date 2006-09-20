@@ -13,7 +13,8 @@
 /**
  * userLoginSuccessView: вид для успешного логина модуля user
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.1
  */
 
@@ -24,6 +25,6 @@ class userLoginSuccessView extends simpleView
         header('Location: ' . $this->DAO);
         exit;
     }
-
 }
+
 ?>

@@ -12,7 +12,8 @@
 /**
  * page404View: отображение ошибки 404
  *
- * @package page
+ * @package modules
+ * @subpackage page
  * @version 0.1
  */
 

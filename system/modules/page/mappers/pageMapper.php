@@ -12,7 +12,8 @@
 /**
  * pageMapper: маппер для страниц
  *
- * @package page
+ * @package modules
+ * @subpackage page
  * @version 0.2.1
  */
 

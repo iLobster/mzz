@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage core
- * @version $Id: objectIdGenerator.php 1 2006-09-05 21:03:12Z zerkms $
+ * @version $Id: objectIdGenerator.php 76 2006-09-20 04:13:16Z zerkms $
 */
 
 /**
@@ -24,14 +24,34 @@
 
 class objectIdGenerator
 {
+    /**
+     * Объект для работы с БД
+     *
+     * @var object
+     */
     private $db;
+
+    /**
+     * Число записей в таблице, после которого произойдёт её очистка
+     *
+     * @var unknown_type
+     */
     private $clearEvery = 1000000;
 
+    /**
+     * Конструктор
+     *
+     */
     public function __construct()
     {
         $this->db = DB::factory();
     }
 
+    /**
+     * Метод, возвращающий следующий номер
+     *
+     * @return integer
+     */
     public function generate()
     {
         $id = $this->insert();
@@ -41,12 +61,24 @@ class objectIdGenerator
         return $id;
     }
 
+    /**
+     * Метод, вызываемый 1 раз в $clearEvery записей
+     *
+     * @see objectIdGenerator::generate()
+     * @param integer $id id последней добавленной записи
+     */
     private function clean($id)
     {
         $this->db->query('DELETE FROM `sys_obj_id`');
         $this->insert($id);
     }
 
+    /**
+     * Добавление очередного id в таблицу
+     *
+     * @param integer $id конкретный номер, используется если нужно добавить запись не по порядку
+     * @return integer
+     */
     private function insert($id = 0)
     {
         $this->db->query('INSERT INTO `sys_obj_id` (`id`) VALUES (' . $id . ')');

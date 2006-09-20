@@ -12,7 +12,8 @@
 /**
  * pageViewController: контроллер для метода view модуля page
  *
- * @package page
+ * @package modules
+ * @subpackage page
  * @version 0.2
  */
 

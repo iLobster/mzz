@@ -13,7 +13,8 @@
 /**
  * userExitView: вид для метода exit модуля user
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.1
  */
 

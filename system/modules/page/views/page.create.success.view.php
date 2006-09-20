@@ -12,7 +12,8 @@
 /**
  * pageCreateSuccessView: вид для успешного метода create модуля page
  *
- * @package page
+ * @package modules
+ * @subpackage page
  * @version 0.1
  */
 

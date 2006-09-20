@@ -12,7 +12,8 @@
 /**
  * pageFactory: фабрика для получения контроллеров страниц
  *
- * @package page
+ * @package modules
+ * @subpackage page
  * @version 0.5
  */
 
@@ -25,4 +26,5 @@ class pageFactory extends simpleFactory
      */
     protected $name = "page"; // оставить его здесь или брать из ТМ? Или тм должен брать отсюда?
 }
+
 ?>

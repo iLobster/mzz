@@ -12,7 +12,8 @@
 /**
  * userFactory: фабрика для получения контроллеров для user
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.5
  */
 
@@ -25,4 +26,5 @@ class userFactory extends simpleFactory
      */
     protected $name = "user"; // оставить его здесь или брать из ТМ? Или тм должен брать отсюда?
 }
+
 ?>

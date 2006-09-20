@@ -14,6 +14,7 @@
  * pager: класс генерации списка страниц для постраничного вывода информации
  *
  * @package system
+ * @subpackage pager
  * @version 0.1
  */
 
@@ -162,11 +163,12 @@ class pager
     /**
      * метод получения части запроса, обеспечивающей выборку нужного числа объектов с нужным смещением
      *
-     * @return string
+     * @return object
      */
     public function getLimitQuery()
     {
-        return ' LIMIT ' . ($this->page - 1) * $this->perPage . ', ' . $this->perPage;
+        $criteria = new criteria();
+        return $criteria->setLimit($this->perPage)->setOffset(($this->page - 1) * $this->perPage);
     }
 
     /**

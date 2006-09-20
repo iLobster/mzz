@@ -13,7 +13,8 @@
 /**
  * userLoginAlreadyView: вид модуля user для уже авторизовавшихся пользователей
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.1
  */
 
@@ -25,6 +26,6 @@ class userLoginAlreadyView extends simpleView
 
         return $this->smarty->fetch('user.already.login.tpl');
     }
-
 }
+
 ?>

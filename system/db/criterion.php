@@ -1,22 +1,118 @@
 <?php
+//
+// $Id$
+// $URL$
+//
+// MZZ Content Management System (c) 2006
+// Website : http://www.mzz.ru
+//
+// This program is free software and released under
+// the GNU/GPL License (See /docs/GPL.txt).
+//
+
+/**
+ * criterion: класс, хранящий информацию о критерии непосредственно
+ * является "вложенным" по отношению к классу criteria
+ *
+ * @see criteria
+ * @package system
+ * @subpackage db
+ * @version 0.1.1
+ */
 
 class criterion
 {
+    /**
+     * Константа, определяющая логическую операцию "ИЛИ" в синтаксисе SQL
+     *
+     */
     const C_OR = 'OR';
+
+    /**
+     * Константа, определяющая логическую операцию "И" в синтаксисе SQL
+     *
+     */
     const C_AND = 'AND';
 
+    /**
+     * Имя таблицы, которое будет подставлено для текущей инстанции criterion'а. Используется в методе generate
+     *
+     * @see criterion::generate()
+     * @var string
+     */
     private $defaultTable;
 
+    /**
+     * Алиас<br>
+     * Извлекается автоматически из имени поля - как часть поля до первого знака "." (точка)
+     *
+     * @var string
+     */
     private $alias;
+
+    /**
+     * Флаг, обозначающий что второй аргумент конструктора $value является также полем, а не просто строковой константой<br>
+     * Установка флага в true в результате приведёт к тому, что второй операнд будет обрамлён в "`" (обратная кавычка, back tick) и к нему будет добавлен алиас, если таковой имеется
+     *
+     * @see criterion::__construct()
+     * @var boolean
+     */
     private $isField;
 
+    /**
+     * Имя поля
+     *
+     * @var string
+     */
     private $field;
+
+    /**
+     * Значение поля
+     *
+     * @var string
+     */
     private $value;
+
+    /**
+     * Тип сравнения<br>
+     * Все типы определены константами класса criteria
+     *
+     * @see criteria
+     * @var string
+     */
     private $comparsion;
+
+    /**
+     * Класс для хранения объекта работы с БД
+     *
+     * @var object
+     */
     private $db;
-    private $clauses;
+
+    /**
+     * Массив, хранящий дополнительные операции сравнения
+     *
+     * @var array
+     */
+    private $clauses = array();
+
+    /**
+     * Массив, хранящий типы логических объединений (И/ИЛИ) между дополнительными операциями сравнения
+     *
+     * @var array
+     */
     private $conjunctions = array();
 
+    /**
+     * Конструктор
+     *
+     * @see criteria
+     * @see criterion::getQuotedValue()
+     * @param string $field имя поля
+     * @param string $value значение
+     * @param string $comparsion тип сравнения
+     * @param boolean $isField флаг, обозначающий, что $value - это имя поля, а не строковая константа
+     */
     public function __construct($field = null, $value = null, $comparsion = null, $isField = null)
     {
         $this->db = db::factory();
@@ -31,6 +127,12 @@ class criterion
         $this->comparsion = !empty($comparsion) ? $comparsion : criteria::EQUAL;
     }
 
+    /**
+     * Метод, по вызову которого из данных генерируется часть запроса
+     *
+     * @param string $defaultTable имя таблицы, которое будет подставлено, если алиас не определён
+     * @return string
+     */
     public function generate($defaultTable = '')
     {
         $this->defaultTable = $defaultTable;
@@ -71,6 +173,12 @@ class criterion
         return $result;
     }
 
+    /**
+     * Метод для добавления к текущему объекту criterion дополнительных условий, связанных логическим оператором И
+     *
+     * @param object $criterion
+     * @return object текущий объект
+     */
     public function addAnd($criterion)
     {
         $this->clauses[] = $criterion;
@@ -78,6 +186,12 @@ class criterion
         return $this;
     }
 
+    /**
+     * Метод для добавления к текущему объекту criterion дополнительных условий, связанных логическим оператором ИЛИ
+     *
+     * @param object $criterion
+     * @return object текущий объект
+     */
     public function addOr($criterion)
     {
         $this->clauses[] = $criterion;
@@ -85,6 +199,12 @@ class criterion
         return $this;
     }
 
+    /**
+     * Метод для добавления к текущему объекту criterion дополнительных условий, не связанных никаким логическим оператором
+     *
+     * @param object $criterion
+     * @return object текущий объект
+     */
     public function add($criterion)
     {
         $this->clauses[] = $criterion;
@@ -92,16 +212,34 @@ class criterion
         return $this;
     }
 
+    /**
+     * Метод для получения имени поля
+     *
+     * @return string
+     */
     public function getField()
     {
         return $this->field;
     }
 
+    /**
+     * Метод для получения алиаса<br>
+     * Метод использовался исключительно для тестирования
+     *
+     * @deprecated
+     * @return string
+     */
     public function getAlias()
     {
+        throw new Exception('DEPRECATED');
         return $this->alias;
     }
 
+    /**
+     * Метод для получения экранированного алиаса
+     *
+     * @return string
+     */
     private function getQuoutedAlias()
     {
         if (!empty($this->alias)) {
@@ -113,11 +251,22 @@ class criterion
         return '';
     }
 
+    /**
+     * Метод для получения значения значения
+     *
+     * @return string
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * Метод для получения экранированного значения<br>
+     * Если установлен флаг isField - то возвращается соответствующее имя поля с добавленным алиасом
+     *
+     * @return string
+     */
     private function getQuotedValue()
     {
         if ($this->isField) {

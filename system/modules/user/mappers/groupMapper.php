@@ -12,7 +12,8 @@
 /**
  * groupMapper: маппер для групп пользователей
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.1
  */
 

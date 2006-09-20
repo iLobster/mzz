@@ -13,7 +13,8 @@
 /**
  * simpleFactory: фабрика
  *
- * @package simple
+ * @package modules
+ * @subpackage simple
  * @version 0.1
  */
 abstract class simpleFactory

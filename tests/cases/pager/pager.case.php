@@ -54,7 +54,6 @@ class pagerTest extends unitTestCase
         $this->assertEqual(array('page' => 10, 'url' => $url . '10'), $result[10]);
     }
 
-
     function testPagerRight()
     {
         $pager = new pager($baseurl = '/foo', $page = 9, $items_per_page = 10, $items_count = 98, 2);
@@ -70,6 +69,16 @@ class pagerTest extends unitTestCase
             $this->assertEqual($url . $i, $result[$i]['url']);
         }
         $this->assertEqual(true, $result[9]['current']);
+    }
+
+    public function testGetLimitQuery()
+    {
+        $pager = new pager($baseurl = '/foo', $page = 5, $items_per_page = 10, $items_count = 98, 2);
+        $criteria = $pager->getLimitQuery();
+
+        $this->assertIsA($criteria, 'criteria');
+        $this->assertEqual($criteria->getLimit(), 10);
+        $this->assertEqual($criteria->getOffset(), 40);
     }
 }
 

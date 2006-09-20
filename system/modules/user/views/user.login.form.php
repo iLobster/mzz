@@ -12,11 +12,13 @@
 /**
  * userLoginForm форма для метода login модуля user
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.1
  */
 
-class userLoginForm {
+class userLoginForm
+{
     static function getForm($backUrl)
     {
         require_once 'HTML/QuickForm.php';

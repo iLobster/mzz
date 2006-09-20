@@ -12,7 +12,8 @@
 /**
  * NewsFactory: фабрика для получения контроллеров новостей
  *
- * @package news
+ * @package modules
+ * @subpackage news
  * @version 0.5
  */
 
@@ -23,6 +24,6 @@ class newsFactory extends simpleFactory
      *
      * @var string
      */
-    protected $name = "news"; // оставить его здесь или брать из ТМ? Или тм должен брать отсюда?
+    protected $name = "news";
 }
 ?>

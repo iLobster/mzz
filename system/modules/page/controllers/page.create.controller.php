@@ -12,7 +12,8 @@
 /**
  * pageCreateController: контроллер для метода create модуля page
  *
- * @package page
+ * @package modules
+ * @subpackage page
  * @version 0.1
  */
 

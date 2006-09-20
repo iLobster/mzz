@@ -12,7 +12,8 @@
 /**
  * news404View: отображение ошибки 404
  *
- * @package news
+ * @package modules
+ * @subpackage news
  * @version 0.1
  */
 

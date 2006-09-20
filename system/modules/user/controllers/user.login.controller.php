@@ -12,7 +12,8 @@
 /**
  * userLoginController: контроллер для метода login модуля user
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.2.2
  */
 

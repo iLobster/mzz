@@ -77,6 +77,17 @@ class criteriaTest extends unitTestCase
         $this->criteria->addJoin($table = 'foo', $criterion = new criterion());
         $this->assertEqual($this->criteria->getJoins(), array(0 => array('table' => '`' . $table . '`', 'criterion' => $criterion)));
     }
+
+    public function testAppendData()
+    {
+        $newCriteria = new criteria();
+        $newCriteria->setLimit($limit = 5)->setOffset($offset = 17);
+
+        $this->criteria->append($newCriteria);
+
+        $this->assertEqual($this->criteria->getLimit(), $limit);
+        $this->assertEqual($this->criteria->getOffset(), $offset);
+    }
 }
 
 ?>

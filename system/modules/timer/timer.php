@@ -13,7 +13,8 @@
  * timer: таймер
  * засекает время, считает запросы к БД
  *
- * @package timer
+ * @package modules
+ * @subpackage timer
  * @version 0.1
  */
 

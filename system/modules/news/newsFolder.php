@@ -13,7 +13,8 @@
 /**
  * newsFolder: newsFolder
  *
- * @package news
+ * @package modules
+ * @subpackage news
  * @version 0.1
  */
 

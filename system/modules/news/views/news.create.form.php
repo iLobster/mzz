@@ -9,14 +9,17 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
  * newsCreateForm: форма для метода create модуля news
  *
- * @package news
+ * @package modules
+ * @subpackage news
  * @version 0.1
  */
 
-class newsCreateForm {
+class newsCreateForm
+{
     static function getForm($folder)
     {
         require_once 'HTML/QuickForm.php';

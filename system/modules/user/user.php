@@ -13,7 +13,8 @@
 /**
  * user: user
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.1.4
  */
 
@@ -50,11 +51,15 @@ class user extends simple
         return $this->getId() > 0 && $this->getId() !=  MZZ_USER_GUEST_ID;
     }
 
+    /**
+     * Получение списка групп, в которых состоит пользователь
+     *
+     * @return array
+     */
     public function getGroupsList()
     {
         return $this->mapper->getGroupsList($this->getId());
     }
-
 }
 
 ?>

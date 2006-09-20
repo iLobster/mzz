@@ -12,7 +12,8 @@
 /**
  * pageViewView: вид для метода view модуля page
  *
- * @package page
+ * @package modules
+ * @subpackage page
  * @version 0.1
  */
 
@@ -24,7 +25,6 @@ class pageViewView extends simpleView
         $this->response->setTitle('Страницы -> ' . $this->DAO->getTitle());
         return $this->smarty->fetch('page.view.tpl');
     }
-
 }
 
 ?>

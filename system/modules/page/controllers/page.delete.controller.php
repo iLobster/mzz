@@ -12,7 +12,8 @@
 /**
  * pageDeleteController: контроллер для метода delete модуля page
  *
- * @package page
+ * @package modules
+ * @subpackage page
  * @version 0.1.1
  */
 

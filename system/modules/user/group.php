@@ -13,7 +13,8 @@
 /**
  * group: класс для работы с группами пользователей
  *
- * @package user
+ * @package modules
+ * @subpackage user
  * @version 0.1
  */
 
