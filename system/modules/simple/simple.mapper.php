@@ -481,6 +481,8 @@ abstract class simpleMapper //implements iCacheable
                     fileLoader::load($moduleName . '/mappers/' . $mapperName);
                     $mapper = new $mapperName($sectionName);
                     $this->mappers[$mapperName][$sectionName] = $mapper;
+                } else {
+                    $mapper = $this->mappers[$mapperName][$sectionName];
                 }
 
                 // сохраняем связанный объект
