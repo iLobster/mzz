@@ -21,12 +21,15 @@ class testSimple extends unitTestCase
 
         $this->db = DB::factory();
         $this->mapper = new stubMapper('simple');
+        $this->mapper->setMap($this->map);
         $this->cleardb();
     }
+
     public function setUp()
     {
-     $this->simple = new stubSimple($this->map);
+        $this->simple = new stubSimple($this->map);
     }
+
     public function tearDown()
     {
         $this->cleardb();
@@ -148,9 +151,7 @@ class testSimple extends unitTestCase
             $this->assertIdentical($this->simple->$getter(), $second);
         }
     }
-
 }
-
 
 
 ?>

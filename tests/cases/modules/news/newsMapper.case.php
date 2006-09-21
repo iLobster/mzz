@@ -11,9 +11,9 @@ class newsMapperTest extends unitTestCase
 
     public function __construct()
     {
-        $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),        
+        $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
-        'editor' => array ( 'name' => 'editor', 'accessor' => 'getEditor', 'mutator' => 'setEditor'),
+        'editor' => array ( 'name' => 'editor', 'accessor' => 'getEditor', 'mutator' => 'setEditor', 'owns' => 'user.id', 'section' => 'user', 'module' => 'user'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
         'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'),
         'created' => array ('name' => 'created', 'accessor' => 'getCreated', 'mutator' => 'setCreated'),
@@ -27,6 +27,7 @@ class newsMapperTest extends unitTestCase
     public function setUp()
     {
         $this->mapper = new newsMapper('news');
+        $this->mapper->setMap($this->map);
         $this->cleardb();
         $this->db->query('INSERT INTO `user_user` (`id`, `login`) VALUES (1, \'guest\')');
     }
@@ -91,12 +92,13 @@ class newsMapperTest extends unitTestCase
         $news = $this->mapper->searchById(1);
 
         $this->assertEqual($news->getTitle(), 'title1');
-        $this->assertEqual($news->getEditor(), 'editor1');
+        $this->assertEqual($news->getEditor()->getId(), 1);
         $this->assertEqual($news->getText(), 'text1');
         $this->assertIdentical($news->getFolderId(), '11');
 
         $userMapper = new userMapper('user');
         $user = $userMapper->searchById(1);
+        $user->setLogin($newlogin = 'NEWLOGIN');
 
         $title = 'new_title';
         $editor = $user;
@@ -111,7 +113,9 @@ class newsMapperTest extends unitTestCase
 
         $news2 = $this->mapper->searchById(1);
         $this->assertEqual($news2->getTitle(), $title);
+        $this->assertIsA($news2->getEditor(), 'user');
         $this->assertEqual($news2->getEditor()->getId(), $editor->getId());
+        $this->assertEqual($news2->getEditor()->getLogin(), $newlogin);
         $this->assertEqual($news2->getText(), $text);
         $this->assertIdentical($news2->getFolderId(), $folder_id);
     }
@@ -144,7 +148,7 @@ class newsMapperTest extends unitTestCase
             $folders = array(11, 11, 13, 13);
             $news = new news($map);
             $news->setTitle('title' . ($i + 1));
-            $news->setEditor('editor' . ($i + 1));
+            $news->setEditor($i + 1);
             $news->setText('text' . ($i + 1));
             $news->setFolderId($folders[$i]);
             $mapper->save($news);

@@ -55,7 +55,6 @@ abstract class simpleFactory
         $classname = $this->name . ucfirst($action['controller']) . 'Controller';
         return new $classname();
     }
-
-
 }
+
 ?>

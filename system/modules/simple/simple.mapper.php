@@ -84,6 +84,21 @@ abstract class simpleMapper //implements iCacheable
     protected $pager;
 
     /**
+     * Map. Содержит информацию о полях (метод изменения, метод получения, отношения, ...).
+     *
+     * @var array
+     */
+    protected $map;
+
+    /**
+     * массив для хранения мапперов
+     *
+     * @todo подумать на тему того, что можно сделать глобальный регистри для этого
+     * @var array
+     */
+    protected $mappers;
+
+    /**
      * Конструктор
      *
      * @param string $section секция
@@ -176,7 +191,10 @@ abstract class simpleMapper //implements iCacheable
 
         if (sizeof($fields) > 0) {
             //$bindFields = $fields; // зачем эта строка???
+            $this->replaceRelated($fields);
+
             $this->updateDataModify($fields);
+
             $query = '';
             foreach(array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
@@ -284,7 +302,9 @@ abstract class simpleMapper //implements iCacheable
      */
     public function create()
     {
-        return new $this->className($this->getMap());
+        $object = new $this->className($this->getMap());
+        $object->section($this->section());
+        return $object;
     }
 
     /**
@@ -295,7 +315,7 @@ abstract class simpleMapper //implements iCacheable
      */
     protected function createItemFromRow($row)
     {
-        $object = new $this->className($this->getMap());
+        $object = $this->create();
         $object->import($row);
         return $object;
     }
@@ -426,6 +446,56 @@ abstract class simpleMapper //implements iCacheable
     public function setPager($pager)
     {
         $this->pager = $pager;
+    }
+
+    /**
+     * Метод установки map
+     *
+     * @param array $map
+     */
+    public function setMap($map)
+    {
+        $this->map = $map;
+    }
+
+    /**
+     * Метод, заменяющий связанные объекты на строки
+     *
+     * @param unknown_type $fields
+     */
+    private function replaceRelated(&$fields)
+    {
+        $map = $this->getMap();
+
+        foreach ($fields as $key => $val) {
+            // если по данному полю есть связь
+            if (!is_scalar($val) && isset($map[$key]['owns'])) {
+                $arr = explode('.', $map[$key]['owns'], 2);
+                $className = $arr[0];
+                $fieldName = $arr[1];
+                $sectionName = isset($map[$key]['section']) ? $map[$key]['section'] : $this->section();
+                $moduleName = isset($map[$key]['module']) ? $map[$key]['module'] : $this->name();
+                $mapperName = $className . 'Mapper';
+
+                if (!isset($this->mappers[$mapperName][$sectionName])) {
+                    fileLoader::load($moduleName . '/mappers/' . $mapperName);
+                    $mapper = new $mapperName($sectionName);
+                    $this->mappers[$mapperName][$sectionName] = $mapper;
+                }
+
+                // сохраняем связанный объект
+                $mapper->save($val);
+
+                // получаем схему связанного объекта
+                $relatedMap = $mapper->getMap();
+
+                // из полученной схемы получаем имя акцессора к методу, по которому получаем данные, по которым связыываем этот объект с главным
+                $accessor = $relatedMap[$fieldName]['accessor'];
+
+                // делаем вызов полученного акцессора и заменяем объект на строку
+                $fields[$key] = $val->$accessor();
+            }
+        }
     }
 
     public function convertArgsToId($args)

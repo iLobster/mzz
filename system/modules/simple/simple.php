@@ -24,6 +24,13 @@ fileLoader::load('dataspace/arrayDataspace');
 abstract class simple
 {
     /**
+     * Имя модуля
+     *
+     * @var string
+     */
+    protected $name = '';
+
+    /**
      * Поля
      *
      * @var arrayDataspace
@@ -38,7 +45,7 @@ abstract class simple
     protected $changedFields; // сменить имя?
 
     /**
-     * Map. Содержит информацию о полях (метод изменения, метод получения...).
+     * Map. Содержит информацию о полях (метод изменения, метод получения, отношения...).
      *
      * @var array
      */
@@ -51,6 +58,13 @@ abstract class simple
      * @var string
      */
     protected $obj_id_field = "obj_id";
+
+    /**
+     * Имя раздела, в контексте которого в данный момент работает данный модуль
+     *
+     * @var string
+     */
+    protected $section;
 
     /**
      * Массив кешируемых методов
@@ -94,6 +108,10 @@ abstract class simple
     {
         if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($name)) {
             if ('get' == $match[1]) {
+                // если свойство ещё является скаляром (строка, число) - то пробуем загрузить относящийся к нему объект
+                if (is_scalar($this->fields->get($attribute))) {
+                    $this->doLazyLoading($attribute);
+                }
                 return $this->fields->get($attribute);
             } else {
                 // Устанавливает значение только в том случае, если значение
@@ -189,6 +207,33 @@ abstract class simple
     }
 
     /**
+     * Метод для отложенной загрузки объекта
+     *
+     * @param string $name имя свойства
+     */
+    protected function doLazyLoading($name)
+    {
+        if (isset($this->map[$name]['owns'])) {
+            $arr = explode('.', $this->map[$name]['owns'], 2);
+            $className = $arr[0];
+            $fieldName = $arr[1];
+            $sectionName = isset($this->map[$name]['section']) ? $this->map[$name]['section'] : $this->section();
+            $moduleName = isset($this->map[$name]['module']) ? $this->map[$name]['module'] : $this->name;
+            $mapperName = $className . 'Mapper';
+
+            fileLoader::load($moduleName . '/mappers/' . $mapperName);
+            $mapper = new $mapperName($sectionName);
+
+            $criteria = new criteria();
+            $criteria->add($fieldName, $this->fields->get($name));
+            $object = $mapper->searchOneByCriteria($criteria);
+
+            $this->fields->set($name, $object);
+            //echo $moduleName;
+        }
+    }
+
+    /**
      * Возвращает имя класса, если оно указано в атрибуте 'decorateClass',
      * который декорирует значение для данного поля
      *
@@ -204,6 +249,20 @@ abstract class simple
     }
 
     /**
+     * Метод, устанавливающий и возвращающий секцию
+     *
+     * @param string $section
+     * @return string
+     */
+    public function section($section = null)
+    {
+        if (!is_null($section)) {
+            $this->section = $section;
+        }
+        return $this->section;
+    }
+
+    /**
      * возвращает возможность кеширования метода $name
      *
      * @param string $name имя метода
@@ -215,8 +274,6 @@ abstract class simple
     return in_array($name, $this->cacheable);
     }
     */
-
-
 }
 
 ?>

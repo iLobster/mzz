@@ -20,6 +20,7 @@
 
 class news extends simple
 {
+    protected $name = 'news';
     /**
      * Получение объекта JIP
      *
@@ -35,6 +36,7 @@ class news extends simple
      *
      * @return string
      */
+    /*
     public function getEditor()
     {
         if ($this->fields->exists('editor')) {
@@ -48,7 +50,7 @@ class news extends simple
         } else {
             return null;
         }
-    }
+    } */
 
     /**
      * Получение имени папки, в которой находится новость

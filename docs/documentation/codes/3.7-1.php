@@ -1,0 +1,5 @@
+<?php
+
+$DO->getRelated()->getId();
+
+?>

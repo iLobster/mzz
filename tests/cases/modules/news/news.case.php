@@ -38,9 +38,6 @@ class newsTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `news_news`');
         //$this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
     }
-
-
 }
-
 
 ?>

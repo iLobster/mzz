@@ -46,6 +46,7 @@ class simpleMapperTest extends unitTestCase
     public function setUp()
     {
         $this->mapper = new stubMapper('simple');
+        $this->mapper->setMap($this->map);
     }
 
     public function tearDown()
@@ -105,7 +106,10 @@ class simpleMapperTest extends unitTestCase
     public function testUpdateSaveWithDataModify()
     {
         $this->fixture();
+
         $this->mapper = new stubMapperDataModify('simple');
+        $this->mapper->setMap($this->map);
+
         $simple = new stubSimple($this->map);
         $simple->import(array('id'=>1));
         $simple->setFoo($this->fixture[0]['foo']);
@@ -158,7 +162,6 @@ class simpleMapperTest extends unitTestCase
         $count = $stmt->fetch(PDO::FETCH_NUM);
         return (int)$count[0];
     }
-
 }
 
 
