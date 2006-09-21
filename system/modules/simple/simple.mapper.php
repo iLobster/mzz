@@ -461,7 +461,7 @@ abstract class simpleMapper //implements iCacheable
     /**
      * ћетод, замен€ющий св€занные объекты на строки
      *
-     * @param unknown_type $fields
+     * @param array $fields
      */
     private function replaceRelated(&$fields)
     {
