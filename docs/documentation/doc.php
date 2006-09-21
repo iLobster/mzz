@@ -1,18 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-    <head>
-        <title>Документация</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
-        <link rel="stylesheet" type="text/css" href="basic.css" />
-    </head>
-<body>
-
-<div id="content">
-
-<div id="title">Документация mzz</div>
-<div id="version">версия 0.1.0</div>
-
-
 <?php
 function getPaths($array, $path = '') {
     $values = array();
@@ -74,7 +59,7 @@ function include_code($id) {
         echo "<font color=red>[code for '$id' doesn't exists]</font>";
         exit;
     }
-    return '<div class="code">' . highlight_file($path, 1) . '</div><br />';
+    return '<div class="code">' . highlight_file($path, 1) . '</div>';
 }
 
 
@@ -157,6 +142,7 @@ $menu = array("Предисловие" =>
 
 $_SELF = $_SERVER['PHP_SELF'];
 if (!isset($_REQUEST['cat'])) {
+    require_once('header.inc.php');
     echo "<strong>Содержание</strong><br />\n<dl>\n";
     $i = 1;
     // Все категории
@@ -222,6 +208,9 @@ if (!isset($_REQUEST['cat'])) {
             $prev = $path;
         }
     }
+    
+    $title = $paths[$_REQUEST['cat']];
+    require_once('header.inc.php');
 
     echo '<div class="navigation"><table width="99%" summary="Navigation">
     <tr>
@@ -231,7 +220,7 @@ if (!isset($_REQUEST['cat'])) {
     } else {
         echo 'Назад';
     }
-    echo ' | <a href="' . $_SELF . '">Индекс</a></td>
+    echo '</td>
        <td width="60%" align="center"><a href="' . $_SELF . '?cat=' . $cat[0] . '">' . $cat[0] . '. ' . $paths[$cat[0]] . '</a></td>
        <td width="20%" align="right">';
 
@@ -252,11 +241,26 @@ if (!isset($_REQUEST['cat'])) {
         $tmp = $paths[$_REQUEST['cat']];
 
 
-        echo '<p class="title">' . $_REQUEST['cat'] . ' ' . $paths[$_REQUEST['cat']] . '</p>';
+        echo '<p class="title"><a name="' . $_REQUEST['cat'] . '"></a>' . $_REQUEST['cat'] . ' ' . $paths[$_REQUEST['cat']] . '</p>';
+        if (isset($menu[$category][$tmp]) && is_array($menu[$category][$tmp])) {
+            $i = 1;
+            echo "<dl>";
+            foreach($menu[$category][$tmp] as $title => $value) {
+
+                $num = $_REQUEST['cat'];
+                echo '<dt><a href="' . $_SELF . '?cat=' . $num . '#' . $num . '.' . $i . '">' . $num . '. ';
+                echo (is_array($value)) ? $title : $value;
+                echo "</a></dt>\n";
+                $i++;
+            }
+            echo "</dl>";
+        }
+
+
         if(isset($menu[$category][$tmp]) && is_array($menu[$category][$tmp])) {
             foreach ($menu[$category][$tmp] as $key => $title) {
                 $id = $_REQUEST['cat'] . '.' . ($key + 1);
-                echo '<p class="subtitle">' . $id . ' ' . $title . '</p>';
+                echo '<div class="subtitle"><a name="' . $id . '"></a>' . $id . ' ' . $title . '</div>';
                 echo render($id);
             }
         } else {
@@ -270,7 +274,7 @@ if (!isset($_REQUEST['cat'])) {
         foreach($menu[$tmp] as $title => $value) {
 
             $num = $cat[0] . "." . $i;
-            echo '<dt><a href="' . $_SELF . '?cat=' . $num . '">' . $num . '. ';
+            echo '<dt><a href="' . $_SELF . '?cat=' . $num . '#' . $num . '">' . $num . '. ';
             echo (is_array($value)) ? $title : $value;
             echo "</a></dt>\n";
             $i++;
@@ -282,15 +286,15 @@ if (!isset($_REQUEST['cat'])) {
 
     echo '<div class="navigation_f"><table width="99%" summary="Navigation">
     <tr>
-     <td width="20%" align="left">';
+     <td width="20%" align="left" valign="top">';
     if($prev != $_REQUEST['cat']) {
         echo '<a href="' . $_SELF . '?cat=' . $prev . '">Назад</a>';
     } else {
         echo 'Назад';
     }
-    echo ' | <a href="' . $_SELF . '">Индекс</a></td>
-       <td width="60%" align="center"><a href="' . $_SELF . '?cat=' . $cat[0] . '">' . $cat[0] . '. ' . $paths[$cat[0]] . '</a></td>
-       <td width="20%" align="right">';
+    echo '</td>
+       <td width="60%" align="center"><a href="' . $_SELF . '?cat=' . $cat[0] . '">' . $cat[0] . '. ' . $paths[$cat[0]] . '</a><br /><a href="' . $_SELF . '">Индекс</a></td>
+       <td width="20%" align="right" valign="top">';
 
     if($path != $_REQUEST['cat']) {
         echo '<a href="' . $_SELF . '?cat=' . $path . '">Вперед</a>';

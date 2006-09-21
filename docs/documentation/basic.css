@@ -1,6 +1,5 @@
 html, body {
   margin:6px;
-  height: 100%;
   padding:6px;
   background-color: #EDEDED;
   color: #000000;
@@ -49,17 +48,21 @@ a {
 .subtitle {
  font-size: 100%;
  font-weight: bold;
+ margin-top: 25px;
+ margin-bottom: 2px;
 }
 
 code {
   font-size: 120%;
-  font-weight: bold;
 }
 
 div.code {
-  background-color: #F5FBF4;
-  padding: 30px 15px; 
-  border: 1px solid #D5EED0;
+  #background-color: #F5FBF4;
+  background-color: #F1F1F1;
+  padding: 14px 14px; 
+  #border: 1px solid #D5EED0;
+  overflow:auto;
+  margin: 10px 0px;
 }
 
 div.note {
