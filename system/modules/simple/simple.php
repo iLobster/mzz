@@ -224,12 +224,9 @@ abstract class simple
             fileLoader::load($moduleName . '/mappers/' . $mapperName);
             $mapper = new $mapperName($sectionName);
 
-            $criteria = new criteria();
-            $criteria->add($fieldName, $this->fields->get($name));
-            $object = $mapper->searchOneByCriteria($criteria);
+            $object = $mapper->searchOneByField($fieldName, $this->fields->get($name));
 
             $this->fields->set($name, $object);
-            //echo $moduleName;
         }
     }
 
