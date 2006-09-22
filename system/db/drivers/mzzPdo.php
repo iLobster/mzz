@@ -131,6 +131,7 @@ class mzzPdo extends PDO
     {
         $this->queriesPrepared++;
         $stmt = parent::prepare($query, $driver_options);
+        $stmt->setDbConnection($this);
         return $stmt;
     }
 

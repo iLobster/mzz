@@ -102,10 +102,11 @@ abstract class simpleMapper //implements iCacheable
      * Конструктор
      *
      * @param string $section секция
+     * @param string $alias название соединения с бд
      */
-    public function __construct($section)
+    public function __construct($section, $alias = 'default')
     {
-        $this->db = DB::factory();
+        $this->db = DB::factory($alias);
         $this->section = $section;
         $this->table = $this->name() . '_' .$this->className;
         //$this->relationTable = $this->name() . '_' .$this->section() . '_' . $this->relationPostfix;

@@ -78,14 +78,27 @@ class mzzPdoStatement extends PDOStatement
      */
     public function execute($parameters = null)
     {
-        $db = DB::factory();
         $start_time = microtime(true);
         $result = parent::execute($parameters);
-        $db->addQueriesTime(microtime(true) - $start_time);
+        $this->db->addQueriesTime(microtime(true) - $start_time);
 
-        $lastInsertId = $db->lastInsertId();
+        $lastInsertId = $this->db->lastInsertId();
 
         return ($result && $lastInsertId) ? $lastInsertId : $result;
+    }
+
+    /**
+     * јльтернатива стандартному PDOStatement::execute
+     *
+     * ¬ случае удачного insert возвращает id последней вставленно записи
+     * ¬ противном случае - результат выполнени€ запроса
+     *
+     * @param array $parameters в мануале не продокументированные параметры ?!
+     * @return integer|boolean id последней записи или результат выполнени€ запроса
+     */
+    public function setDbConnection(mzzPdo $db)
+    {
+        $this->db = $db;
     }
 }
 
