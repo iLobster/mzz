@@ -20,7 +20,6 @@
  * @version 0.1
  */
 
-
 class {{$factory_data.factory_name}} extends simpleFactory
 {
     /**
@@ -30,6 +29,5 @@ class {{$factory_data.factory_name}} extends simpleFactory
      */
     protected $name = "{{$factory_data.module}}";
 }
-
 
 ?>

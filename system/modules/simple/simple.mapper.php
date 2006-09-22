@@ -149,6 +149,8 @@ abstract class simpleMapper //implements iCacheable
         $fields = $object->export();
 
         if (sizeof($fields) > 0) {
+            $this->replaceRelated($fields);
+
             $this->insertDataModify($fields);
 
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';

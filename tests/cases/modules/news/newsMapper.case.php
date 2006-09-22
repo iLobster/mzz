@@ -47,6 +47,7 @@ class newsMapperTest extends unitTestCase
     {
         $userMapper = new userMapper('user');
         $user = $userMapper->searchById(1);
+        $user->setLogin($newlogin = 'NEWLOGIN');
 
         $news = new news($this->map);
         $news->setTitle('sometitle');
@@ -58,6 +59,7 @@ class newsMapperTest extends unitTestCase
 
         $this->mapper->save($news);
 
+        $this->assertEqual($news->getEditor()->getLogin(), $newlogin);
         $this->assertIdentical($news->getId(), '1');
     }
 
@@ -69,6 +71,23 @@ class newsMapperTest extends unitTestCase
         $this->assertNull($news->getEditor());
         $this->assertNull($news->getText());
         $this->assertNull($news->getFolderId());
+
+        $userMapper = new userMapper('user');
+        $user = $userMapper->searchById($id = 1);
+        $user->setLogin($newlogin = 'NEWLOGIN');
+
+        $news->setTitle($title = 'sometitle');
+        $news->setText($text = 'sometext');
+        $news->setEditor($user);
+
+        $this->assertEqual($user->getLogin(), 'guest');
+
+        $this->mapper->save($news);
+
+        $this->assertEqual($news->getTitle(), $title);
+        $this->assertEqual($news->getText(), $text);
+        $this->assertEqual($news->getEditor()->getId(), $id);
+        $this->assertEqual($news->getEditor()->getLogin(), $newlogin);
     }
 
     public function testSearchById()

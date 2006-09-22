@@ -17,12 +17,11 @@ class dbTreeDataTest extends unitTestCase
         $this->dataTable = 'simple_simple';
 
         $init = array ('data' => array('table' => $this->dataTable, 'id' =>'id'),
-                       'tree' => array('table' => $this->table , 'id' =>'id'));
+        'tree' => array('table' => $this->table , 'id' =>'id'));
 
         $this->tree = new dbTreeNS($init, 'foo');
         $this->fixtureType = 'dataFixture';
         $this->clearDb();
-
     }
 
     public function setUp()
@@ -31,7 +30,7 @@ class dbTreeDataTest extends unitTestCase
     }
     public function tearDown()
     {
-         $this->clearDb();
+        $this->clearDb();
     }
 
     private function clearDb()
@@ -63,19 +62,19 @@ class dbTreeDataTest extends unitTestCase
     {
         # заполнение фикстуры дерева
         $this->treeFixture = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
-                       '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>7 ,'level'=>2),
-                       '3' => array('id'=>3, 'lkey'=>8 ,'rkey' =>13,'level'=>2),
-                       '4' => array('id'=>4, 'lkey'=>14,'rkey'=>15 ,'level'=>2),
-                       '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
-                       '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>6  ,'level'=>3),
-                       '7' => array('id'=>7, 'lkey'=>9 ,'rkey'=>10 ,'level'=>3),
-                       '8' => array('id'=>8, 'lkey'=>11,'rkey'=>12 ,'level'=>3)
-                       );
+        '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>7 ,'level'=>2),
+        '3' => array('id'=>3, 'lkey'=>8 ,'rkey' =>13,'level'=>2),
+        '4' => array('id'=>4, 'lkey'=>14,'rkey'=>15 ,'level'=>2),
+        '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+        '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>6  ,'level'=>3),
+        '7' => array('id'=>7, 'lkey'=>9 ,'rkey'=>10 ,'level'=>3),
+        '8' => array('id'=>8, 'lkey'=>11,'rkey'=>12 ,'level'=>3)
+        );
 
         $this->treePathFixture = array(1 => 'foo1', 2 => 'foo1/foo2',
-                                       3 => 'foo1/foo3', 4 => 'foo1/foo4',
-                                       5 => 'foo1/foo2/foo5', 6 => 'foo1/foo2/foo6',
-                                       7 => 'foo1/foo3/foo7', 8 => 'foo1/foo3/foo8');
+        3 => 'foo1/foo3', 4 => 'foo1/foo4',
+        5 => 'foo1/foo2/foo5', 6 => 'foo1/foo2/foo6',
+        7 => 'foo1/foo3/foo7', 8 => 'foo1/foo3/foo8');
 
         $valString = '';
         foreach($this->treeFixture as $id => $data) {
@@ -88,10 +87,10 @@ class dbTreeDataTest extends unitTestCase
         foreach($this->treeFixture as $id => $row) {
 
             $this->dataFixture[$id] = array('id' => $id ,
-                                            'foo' =>'foo' . $id ,
-                                            'bar' => 'bar' . $id ,
-                                            'path' => $this->treePathFixture[$id]
-                                            );
+            'foo' =>'foo' . $id ,
+            'bar' => 'bar' . $id ,
+            'path' => $this->treePathFixture[$id]
+            );
             $valString .= "('" . $id . "','" . $this->dataFixture[$id]['foo'] . "','" . $this->dataFixture[$id]['bar'] . "','" . $this->dataFixture[$id]['path'] . "'),";
         }
         $values[$this->dataTable] = substr($valString, 0, -1);
@@ -104,7 +103,7 @@ class dbTreeDataTest extends unitTestCase
             $fields = $table . '_fields';
             $stmt = $this->db->prepare(' INSERT INTO `' . $table . '` ' . $$fields  . ' VALUES ' . $val);
             $stmt->execute();
-            }
+        }
     }
 
     private function assertEqualFixtureAndBranch($fixture, $branch)
@@ -188,7 +187,7 @@ class dbTreeDataTest extends unitTestCase
             foreach($nodes as $id => $node) {
                 $this->assertEqual($node['id'], $fixtureNodes[$id]['id']);
                 $this->assertEqual($node['path'], $fixtureNodes[$id]['path']);
-                }
+            }
         }
 
         foreach($badPaths as $path) {
@@ -225,7 +224,7 @@ class dbTreeDataTest extends unitTestCase
             foreach($nodes as $id => $node) {
                 $this->assertEqual($node['id'], $fixtureNodes[$id]['id']);
                 $this->assertEqual($node['path'], $fixtureNodes[$id]['path']);
-                }
+            }
         }
 
         foreach($badPaths as $path) {
@@ -282,9 +281,9 @@ class dbTreeDataTest extends unitTestCase
     public function testCreateNewPaths_AfterMoveNode()
     {
         $newTreePathFixture = array(1 => 'foo1', 2 => 'foo1/foo4/foo2',
-                                    3 => 'foo1/foo3', 4 => 'foo1/foo4',
-                                    5 => 'foo1/foo4/foo2/foo5', 6 => 'foo1/foo4/foo2/foo6',
-                                    7 => 'foo1/foo3/foo7', 8 => 'foo1/foo3/foo8');
+        3 => 'foo1/foo3', 4 => 'foo1/foo4',
+        5 => 'foo1/foo4/foo2/foo5', 6 => 'foo1/foo4/foo2/foo6',
+        7 => 'foo1/foo3/foo7', 8 => 'foo1/foo3/foo8');
 
         $this->tree->moveNode(2,4);
         $newTree = $this->tree->getTree();

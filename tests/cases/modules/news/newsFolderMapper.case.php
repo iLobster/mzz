@@ -15,8 +15,8 @@ class newsFolderMapperTest extends unitTestCase
     {
         $this->db = DB::factory();
         $this->cleardb();
-        $init = array ('data' => array('table' => 'news_news_folder', 'id' =>'parent'),
-                       'tree' => array('table' => 'news_news_folder_tree' , 'id' =>'id'));
+        $init = array ('data' => array('table' => 'news_newsfolder', 'id' =>'parent'),
+                       'tree' => array('table' => 'news_newsfolder_tree' , 'id' =>'id'));
 
         $this->tree = new dbTreeNS($init, 'name');
 
@@ -55,7 +55,7 @@ class newsFolderMapperTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `news_newsfolder_tree`');
     }
 
-  /*  public function testSave()
+    public function testSave()
     {
         $newsFolder = new newsFolder($this->mapper, $this->map);
         $newsFolder->setName('somename');
@@ -160,11 +160,11 @@ class newsFolderMapperTest extends unitTestCase
         $this->mapper->delete(1);
 
         $this->assertEqual(7, $this->countNewsFolder());
-    }*/
+    }
 
     private function countNewsFolder()
     {
-        $query = 'SELECT COUNT(*) AS `total` FROM `news_news_folder`';
+        $query = 'SELECT COUNT(*) AS `total` FROM `news_newsfolder`';
         $total = $this->db->getOne($query);
         return $total;
     }

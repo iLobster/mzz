@@ -15,14 +15,15 @@
 /**
  * {{$do_data.doname}}: класс для работы с ...
  *
- * @package {{$do_data.module}}
+ * @package modules
+ * @subpackage {{$do_data.module}}
  * @version 0.1
  */
 
 
 class {{$do_data.doname}} extends simple
 {
-
+        protected $name = '{{$do_data.doname}}';
 }
 
 ?>
