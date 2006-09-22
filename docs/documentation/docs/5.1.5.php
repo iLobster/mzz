@@ -1,5 +1,5 @@
-Пример типичного map-файла:<br />
-<div class="code"><code>
+<p>Пример типичного map-файла:</p>
+<<code>>
         [id]<br />
         accessor = "getId"<br />
         mutator = "setId"<br />
@@ -33,4 +33,4 @@
         accessor = "getUpdated"<br />
         mutator = "setUpdated"<br />
         once = true
-</code></div>
+<</code>>

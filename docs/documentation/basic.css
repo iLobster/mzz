@@ -12,6 +12,7 @@ html, body {
   border: 1px solid #D6D6D6;
   padding: 20px;
   line-height: 130%;
+  font-size: 100%;
 }
 
 #title {
@@ -48,19 +49,17 @@ a {
 .subtitle {
  font-size: 100%;
  font-weight: bold;
- margin-top: 25px;
- margin-bottom: 2px;
+ margin-top: 30px;
+ margin-bottom: -12px;
 }
 
 code {
-  font-size: 120%;
+  font-family: Courier New;
 }
 
 div.code {
-  #background-color: #F5FBF4;
   background-color: #F1F1F1;
   padding: 14px 14px; 
-  #border: 1px solid #D5EED0;
   overflow:auto;
   margin: 10px 0px;
 }
