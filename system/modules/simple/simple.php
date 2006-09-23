@@ -116,9 +116,13 @@ abstract class simple
             } else {
                 // Устанавливает значение только в том случае, если значение
                 // поля не установлено ранее или оно может изменяться более одного раза
+                if (sizeof($args) < 1) {
+                     throw new mzzRuntimeException('Вызов метода ' . get_class($this) . '::' . $name . '() без аргумента');
+                }
+
                 if (!$this->fields->exists($attribute) || !$this->isOnce($attribute)) {
 
-                    if($service = $this->isDecorated($attribute)) {
+                    if ($service = $this->isDecorated($attribute)) {
                         fileLoader::load('service/' . $service);
                         $service = new $service;
                         $args[0] = $service->apply($args[0]);

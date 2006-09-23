@@ -146,7 +146,7 @@ class simpleMapperTest extends unitTestCase
     {
         $simple = new stubSimple($this->map);
 
-        $simple->setId(1);
+        $simple->setFoo('value');
 
         $this->assertEqual(0, $this->countRecord());
 

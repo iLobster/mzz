@@ -75,7 +75,11 @@ class criteriaTest extends unitTestCase
     {
         $this->assertEqual($this->criteria->getJoins(), array());
         $this->criteria->addJoin($table = 'foo', $criterion = new criterion());
-        $this->assertEqual($this->criteria->getJoins(), array(0 => array('table' => '`' . $table . '`', 'criterion' => $criterion)));
+        $joins = $this->criteria->getJoins();
+        $this->assertEqual(count($joins), 1);
+
+        $this->assertEqual($joins[0]['table'], '`' . $table . '`');
+        $this->assertReference($joins[0]['criterion'], $criterion);
     }
 
     public function testAppendData()

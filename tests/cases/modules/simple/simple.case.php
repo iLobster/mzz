@@ -92,9 +92,19 @@ class testSimple extends unitTestCase
         }
     }
 
-    public function testIdNull()
+    public function testGetIdNull()
     {
         $this->assertNull($this->simple->getId());
+    }
+
+    public function testSetIdWithoutValue()
+    {
+        try {
+            $this->simple->setId();
+            $this->fail('Должен быть брошен EXCEPTION!');
+        } catch (Exception $e) {
+            $this->assertWantedPattern('/simple::setid/i', $e->getMessage());
+        }
     }
 
     public function testFieldsSetsOnce()
