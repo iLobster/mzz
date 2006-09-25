@@ -22,6 +22,7 @@ try {
 createdo.php name
 
 name         name of DO
+createTest   (optional)
 
 Sample usage:
 
@@ -49,7 +50,7 @@ Sample usage:
         $smarty = new Smarty();
         $smarty->template_dir = CODEGEN . '/templates';
         $smarty->force_compile = true;
-        $smarty->compile_dir = MZZ . '/tmp';
+        $smarty->compile_dir = MZZ . '/tmp/templates_c';
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
 
@@ -102,9 +103,9 @@ Sample usage:
         $smarty->assign('do_data', $doData);
         $factory = $smarty->fetch('do.tpl');
         file_put_contents($doNameFile, $factory);
-        
+
         $log = '';
-        
+
         $log .= "File created successfully:\n- " . $module . '/' . $doNameFile;
 
 
@@ -122,29 +123,31 @@ Sample usage:
         file_put_contents('mappers/' . $mapperNameFile, $mapper);
         $log .= "\n- " .$module . '/mappers/' . $mapperNameFile;
 
-        // -------создаем шаблоны тестов для ДО и маппера-----------
+        // -------(optional)создаем шаблоны тестов для ДО и маппера-----------
         // @toDo можно сделать довольно полную генерацию тестов
         // но для этого необходимо делать отдельный генератор, который создаст тест для ДО и маппера
         // на основе данных о полях из map.ini
-
-/*
-        $doCaseData = array(
+        if($argv[2]) {
+            if (!is_dir( MODULE_TEST_PATH )) {                //echo "<pre>"; print_r(MODULE_TEST_PATH);echo "</pre>";
+                mkdir(MODULE_TEST_PATH, 0700);
+                $log .= "\nModule tests  folder created successfully:\n- " . str_replace(MZZ,'', MODULE_TEST_PATH);
+            }
+            $doCaseData = array(
                 'doName' => $doName,
                 'module' => $module,
                 'tableName' => strtolower($module . '_' . $doName),
                 'mapperName' => $mapperName
                 );
+            $smarty->assign('doCaseData', $doCaseData);
+            $case = $smarty->fetch('do_case.tpl');
+            file_put_contents(MODULE_TEST_PATH . '/' . $doCaseFileName, $case);
+            $log .= "\n- " . MODULE_TEST_SHORT_PATH . '/' . $doCaseFileName;
 
-        $smarty->assign('doCaseData', $doCaseData);
-        $case = $smarty->fetch('do_case.tpl');
-        file_put_contents(MODULE_TEST_PATH . '/' . $doCaseFileName, $case);
-        $log .= "\n- " . MODULE_TEST_SHORT_PATH . '/' . $doCaseFileName;
-
-
-        $smarty->assign('doCaseData', $doCaseData);
-        $mapperCase = $smarty->fetch('domapper_case.tpl');
-        file_put_contents(MODULE_TEST_PATH . $doMapperCaseFileName, $mapperCase);
-        $log .= "\n- " . MODULE_TEST_SHORT_PATH . $doMapperCaseFileName; */
+            $smarty->assign('doCaseData', $doCaseData);
+            $mapperCase = $smarty->fetch('domapper_case.tpl');
+            file_put_contents(MODULE_TEST_PATH . $doMapperCaseFileName, $mapperCase);
+            $log .= "\n- " . MODULE_TEST_SHORT_PATH . $doMapperCaseFileName;
+        }
 
 
         // -------создаем ini файл для экшинов-----------
@@ -159,15 +162,10 @@ Sample usage:
         $log .= "\n- " .$module . '/maps/' . $mapFileName . "\n";
 
         //file_put_contents('create_' . $doName . '_do_for_' . $module . '_module_log.txt', $log);
-        
+
         echo $log;
 
-        // создаем bat файл для генерации тестов для ДО
-        //$batSrc = explode(' ', file_get_contents('../generateModule.bat'));
-        $genCaseBat = 'php ..\..\codegenerator\createcases.php ' . $module;
-
-
-        throw new Exception('All operations completed successfully');
+        throw new Exception("\n\nALL OPERATIONS COMPLETED SUCCESSFULLY\n");
 } catch (Exception $e) {
     die($e->getMessage());
 }

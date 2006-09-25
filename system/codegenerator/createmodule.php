@@ -34,27 +34,25 @@ Sample usage:
             - maps
             - views' );
         }
-        
-        
+
+
         if (!isset($argv[1])) {
             throw new Exception('Error: parameter 1 \'name\' not specified. use -h for view help');
         } else {
             $module = $argv[1];
-        }        
+        }
 
         define('CODEGEN', dirname(__FILE__));
         define('MZZ', realpath(CODEGEN . '/../../') . '/');
-        define('CUR', getcwd());      
-        define('MODULE_TEST_PATH', MZZ . 'tests/cases/modules/' . $module);  
-        
-        
+        define('CUR', getcwd());
+        define('MODULE_TEST_PATH', MZZ . 'tests/cases/modules/' . $module);
 
         require_once MZZ . '/libs/smarty/Smarty.class.php';
 
         $smarty = new Smarty();
         $smarty->template_dir = CODEGEN . '/templates';
         $smarty->force_compile = true;
-        $smarty->compile_dir = MZZ . 'tmp';
+        $smarty->compile_dir = MZZ . 'tmp/templates_c';
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
 
@@ -65,19 +63,13 @@ Sample usage:
         }
         chdir($module);
         // создаем папку для тестов
-        
-        if (!is_dir( MODULE_TEST_PATH )) {
-            //echo "<pre>"; print_r(MODULE_TEST_PATH);echo "</pre>";
-            mkdir(MODULE_TEST_PATH, 0700);
-            $log .= "\nModule tests  folder created successfully:\n- " . str_replace(MZZ,'', MODULE_TEST_PATH);
-        }        
 
         $factoryName = $module . 'Factory';
         $factoryFilename = $module . '.' . 'factory' . '.php';
 
         if (is_file($factoryFilename)) {
             throw new Exception('Error: factory file already exists');
-        }        
+        }
 
         // создаем папку actions
         if (!is_dir('actions')) {
@@ -105,12 +97,6 @@ Sample usage:
             mkdir('views');
             $log .= "\n- " . $module . "/views";
         }
-        
-        // создаем папку для тестов модуля
-        if (!is_dir('views')) {
-            mkdir('views');
-            $log .= "\n- " . $module . "/views";
-        }        
 
 
         $factoryData = array(
@@ -126,8 +112,18 @@ Sample usage:
 
          // создаем bat файлы для генерации ДО и actions в корневой папке модуля
         $batSrc = explode(' ', file_get_contents('../generateModule.bat'));
-        $genDoBat = $batSrc[0] . ' ..\..\codegenerator\createdo.php %1';
-        $genActionBat = $batSrc[0] . ' ..\..\codegenerator\createaction.php %1 %2';
+
+        // Если путь оносительный, то есть начинается  с точки, то предполагаем,
+        // что генерируем модуль внутри mzz, а не в appDir
+        $genDir = substr($batSrc[1],0, strrpos($batSrc[1], '\\'));
+        if($genDir[0] == '.') {            $genDir = '..\\' . $genDir;        }
+
+
+        $doGenerator = $genDir . '\createdo.php';
+        $actionGenerator = $genDir . '\createaction.php';
+
+        $genDoBat = $batSrc[0] . ' ' . $doGenerator . ' %1  %2';
+        $genActionBat = $batSrc[0] . ' ' .  $actionGenerator . ' %1 %2';
         file_put_contents('generateDO.bat', $genDoBat);
         file_put_contents('generateAction.bat', $genActionBat);
         $log .= "\n- generateDO.bat";
@@ -136,7 +132,7 @@ Sample usage:
         //file_put_contents('create_' . $module . '_module_log.txt', $log);
         echo $log;
 
-        throw new Exception('All operations completed successfully');
+        throw new Exception("\n\nALL OPERATIONS COMPLETED SUCCESSFULLY\n");
 } catch (Exception $e) {
     die($e->getMessage());
 }

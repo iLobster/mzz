@@ -43,7 +43,7 @@ Sample usage:
         $smarty = new Smarty();
         $smarty->template_dir = CODEGEN . '/templates';
         $smarty->force_compile = true;
-        $smarty->compile_dir = MZZ . 'tmp';
+        $smarty->compile_dir = MZZ . 'tmp/templates_c';
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
         chdir(getcwd());
@@ -143,10 +143,10 @@ Sample usage:
 
         $log .= "\n- " . $view_filename;
         //file_put_contents('create_' . $type . '_' . $action .'_action_log.txt', $log);
-        
+
         echo $log;
 
-        throw new Exception('All operations completed successfully');
+        throw new Exception("\n\nALL OPERATIONS COMPLETED SUCCESSFULLY\n");
 } catch (Exception $e) {
     die($e->getMessage());
 }
