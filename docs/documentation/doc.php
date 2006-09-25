@@ -248,7 +248,7 @@ if (!isset($_REQUEST['cat'])) {
             foreach($menu[$category][$tmp] as $title => $value) {
 
                 $num = $_REQUEST['cat'];
-                echo '<dt><a href="' . $_SELF . '?cat=' . $num . '#' . $num . '.' . $i . '">' . $num . '. ';
+                echo '<dt><a href="' . $_SELF . '?cat=' . $num . '#' . $num . '.' . $i . '">' . $num . '.' . $i . ' ';
                 echo (is_array($value)) ? $title : $value;
                 echo "</a></dt>\n";
                 $i++;
