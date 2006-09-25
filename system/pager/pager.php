@@ -87,7 +87,7 @@ class pager
     public function __construct($baseurl, $page, $perPage, $itemsCount = 0, $roundItems = 2)
     {
         $this->baseurl = $baseurl;
-        $this->page = (int)$page;
+        $this->page = ($page > 0) ? (int)$page : 1;
         $this->setPerPage($perPage);;
         $this->itemsCount = (int)$itemsCount;
         $this->roundItems = (int)$roundItems;

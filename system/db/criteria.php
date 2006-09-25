@@ -270,7 +270,19 @@ class criteria
      */
     public function getOrderByFields()
     {
-        return $this->orderBy;
+        $result = array();
+
+        $pre = '`' . $this->getTable() . '`.';
+
+        if ($pre != '``.') {
+            foreach ($this->orderBy as $val) {
+                $result[] = $pre . $val;
+            }
+        } else {
+            return $this->orderBy;
+        }
+
+        return $result;
     }
 
     /**

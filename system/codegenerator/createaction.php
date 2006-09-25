@@ -142,8 +142,9 @@ Sample usage:
         file_put_contents($view_filename, $view);
 
         $log .= "\n- " . $view_filename;
-        file_put_contents('create_' . $type . '_' . $action .'_action_log.txt', $log);
-
+        //file_put_contents('create_' . $type . '_' . $action .'_action_log.txt', $log);
+        
+        echo $log;
 
         throw new Exception('All operations completed successfully');
 } catch (Exception $e) {

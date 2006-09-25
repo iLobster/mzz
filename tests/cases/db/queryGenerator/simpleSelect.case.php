@@ -42,7 +42,7 @@ class simpleSelectTest extends unitTestCase
     public function testSelectConditionOrderLimit()
     {
         $this->criteria->setTable('table')->add('field', 'value')->setLimit(10)->setOffset(15)->setOrderByFieldDesc('field');
-        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value' ORDER BY `field` DESC LIMIT 15, 10");
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value' ORDER BY `table`.`field` DESC LIMIT 15, 10");
     }
 
     public function testSelectWithCount()

@@ -20,20 +20,16 @@
  * @version 0.1
  */
 
-
 class {{$controller_data.controllername}} extends simpleController
 {
     public function __construct()
     {
-        /* 
-        put your fileloader section here
-        */
+        fileLoader::load('{{$controller_data.module}}/views/{{$controller_data.viewname}}');
         parent::__construct();
     }
 
     public function getView()
     {
-        
         return new {{$controller_data.viewname}}();
     }
 }

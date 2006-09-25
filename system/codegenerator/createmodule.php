@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: createmodule.php 18 2006-09-11 21:29:39Z zerkms $
+ * @version $Id: createmodule.php 102 2006-09-24 23:30:32Z zerkms $
 */
 
 // createmodule.php     moduleName      name
@@ -122,21 +122,23 @@ Sample usage:
         $smarty->assign('factory_data', $factoryData);
         $factory = $smarty->fetch('factory.tpl');
         file_put_contents($factoryFilename, $factory);
-        $log .= "\n\nFile created successfully:\n- " .$module . '/' . $factoryFilename;
+        $log .= "\n\nFile created successfully:\n- " . $module . '/' . $factoryFilename;
 
          // создаем bat файлы для генерации ДО и actions в корневой папке модуля
         $batSrc = explode(' ', file_get_contents('../generateModule.bat'));
-        $genDoBat = $batSrc[0] . '  ..\..\codegenerator\createdo.php ' . $module;
-        $genActionBat = $batSrc[0] . '  ..\..\codegenerator\createaction.php ' . $module . ' action';        
-        file_put_contents('1_generateDO.bat', $genDoBat);
-        file_put_contents('2_generateAction.bat', $genActionBat);
-        $log .= "\n- 1_generateDO.bat";
-        $log .= "\n- 2_generateAction.bat";
+        $genDoBat = $batSrc[0] . ' ..\..\codegenerator\createdo.php %1';
+        $genActionBat = $batSrc[0] . ' ..\..\codegenerator\createaction.php %1 %2';
+        file_put_contents('generateDO.bat', $genDoBat);
+        file_put_contents('generateAction.bat', $genActionBat);
+        $log .= "\n- generateDO.bat";
+        $log .= "\n- generateAction.bat";
 
-        file_put_contents('create_' . $module . '_module_log.txt', $log);
+        //file_put_contents('create_' . $module . '_module_log.txt', $log);
+        echo $log;
 
         throw new Exception('All operations completed successfully');
 } catch (Exception $e) {
     die($e->getMessage());
 }
+
 ?>

@@ -38,6 +38,7 @@ class stdToolkit extends toolkit
     private $cache;
     private $user;
     private $objectIdGenerator;
+    private $mappers;
     /**#@-*/
 
     /**
@@ -335,6 +336,17 @@ class stdToolkit extends toolkit
         $tmp = $this->config;
         $this->config = $config;
         return $tmp;
+    }
+
+    public function getMapper($module, $do, $section)
+    {
+        if (!isset($this->mappers[$do][$section])) {
+            $mapperName = $do . 'Mapper';
+            fileLoader::load($module . '/mappers/' . $mapperName);
+            $this->mappers[$do][$section] = new $mapperName($section);
+        }
+
+        return $this->mappers[$do][$section];
     }
 }
 ?>

@@ -90,13 +90,7 @@ abstract class simpleMapper //implements iCacheable
      */
     protected $map;
 
-    /**
-     * массив для хранения мапперов
-     *
-     * @todo подумать на тему того, что можно сделать глобальный регистри для этого
-     * @var array
-     */
-    protected $mappers;
+    protected $relations;
 
     /**
      * Конструктор
@@ -108,7 +102,7 @@ abstract class simpleMapper //implements iCacheable
     {
         $this->db = DB::factory($alias);
         $this->section = $section;
-        $this->table = $this->name() . '_' .$this->className;
+        $this->table = $this->section . '_' .$this->className;
         //$this->relationTable = $this->name() . '_' .$this->section() . '_' . $this->relationPostfix;
     }
 
@@ -145,7 +139,7 @@ abstract class simpleMapper //implements iCacheable
     {
         $toolkit = systemToolkit::getInstance();
         $object->setObjId($toolkit->getObjectId());
-            
+
         $fields = $object->export();
 
         if (sizeof($fields) > 1) {
@@ -259,14 +253,14 @@ abstract class simpleMapper //implements iCacheable
      * @param criteria $criteria заданный критерий
      * @return object PDOStatement
      */
-    public function searchByCriteria(criteria $criteria)
+    protected function searchByCriteria(criteria $criteria)
     {
         $criteria->setTable($this->table);
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
         if ($this->pager) {
             $criteriaForCount = clone $criteria;
-            $criteriaForCount->addSelectField('COUNT(*)', 'cnt');
+            $criteriaForCount->clearSelectFields()->addSelectField('COUNT(*)', 'cnt');
             $selectForCount = new simpleSelect($criteriaForCount);
             $stmt = $this->db->query($selectForCount->toString());
             $count = $stmt->fetch();
@@ -363,14 +357,50 @@ abstract class simpleMapper //implements iCacheable
      */
     public function searchAllByCriteria(criteria $criteria)
     {
+        $toolkit = systemToolkit::getInstance();
+
+        $owns = $this->getOwns();
+
+        $this->addSelectFields($criteria, $this->getMap(), $this->table, $this->name);
+
+        foreach ($owns as $key => $val) {
+            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
+
+            $this->addSelectFields($criteria, $mapper->getMap(), $val['class'], $val['class']);
+
+            $joinCriterion = new criterion($key, $val['class'] . '.' . $val['key'], criteria::EQUAL, true);
+            $criteria->addJoin($val['table'], $joinCriterion, $val['class']);
+        }
+
         $stmt = $this->searchByCriteria($criteria);
+
         $result = array();
 
         while ($row = $stmt->fetch()) {
-            $result[] = $this->createItemFromRow($row);
+
+            $tmp = array();
+
+            foreach ($row as $key => $val) {
+                list($class, $field) = explode('_', $key, 2);
+                $tmp[$class][$field] = $val;
+            }
+
+            foreach ($owns as $key => $val) {
+                $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);;
+                $tmp[$this->name][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
+            }
+
+            $result[] = $this->createItemFromRow($tmp[$this->name]);
         }
 
         return $result;
+    }
+
+    private function addSelectFields(criteria $criteria, $map, $table, $alias)
+    {
+        foreach (array_keys($map) as $val) {
+            $criteria->addSelectField($table . '.' . $val, $alias . '_' . $val);
+        }
     }
 
     /**
@@ -461,6 +491,28 @@ abstract class simpleMapper //implements iCacheable
         $this->map = $map;
     }
 
+    private function getOwns()
+    {
+        if (!isset($this->relations['owns'])) {
+            $this->relations['owns'] = array();
+            foreach ($this->getMap() as $key => $val) {
+                if (isset($val['owns'])) {
+                    list($tableName, $fieldName) = explode('.', $val['owns'], 2);
+                    $className = $tableName;
+                    if (isset($val['do'])) {
+                        $className =  $val['do'];
+                    }
+                    $sectionName = isset($val['section']) ? $val['section'] : $this->section();
+                    $moduleName = isset($val['module']) ? $val['module'] : $this->name();
+
+                    $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className);
+                }
+            }
+        }
+
+        return $this->relations['owns'];
+    }
+
     /**
      * Метод, заменяющий связанные объекты на строки
      *
@@ -473,20 +525,16 @@ abstract class simpleMapper //implements iCacheable
         foreach ($fields as $key => $val) {
             // если по данному полю есть связь
             if (!is_scalar($val) && isset($map[$key]['owns'])) {
-                $arr = explode('.', $map[$key]['owns'], 2);
-                $className = $arr[0];
-                $fieldName = $arr[1];
+                list($className, $fieldName) = explode('.', $map[$key]['owns'], 2);
+                if (isset($map[$key]['do'])) {
+                    $className = $map[$key]['do'];
+                }
                 $sectionName = isset($map[$key]['section']) ? $map[$key]['section'] : $this->section();
                 $moduleName = isset($map[$key]['module']) ? $map[$key]['module'] : $this->name();
-                $mapperName = $className . 'Mapper';
 
-                if (!isset($this->mappers[$mapperName][$sectionName])) {
-                    fileLoader::load($moduleName . '/mappers/' . $mapperName);
-                    $mapper = new $mapperName($sectionName);
-                    $this->mappers[$mapperName][$sectionName] = $mapper;
-                } else {
-                    $mapper = $this->mappers[$mapperName][$sectionName];
-                }
+                // получаем нужный маппер
+                $toolkit = systemToolkit::getInstance();
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
 
                 // сохраняем связанный объект
                 $mapper->save($val);

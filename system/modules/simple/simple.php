@@ -117,7 +117,7 @@ abstract class simple
                 // ”станавливает значение только в том случае, если значение
                 // пол€ не установлено ранее или оно может измен€тьс€ более одного раза
                 if (sizeof($args) < 1) {
-                     throw new mzzRuntimeException('¬ызов метода ' . get_class($this) . '::' . $name . '() без аргумента');
+                    throw new mzzRuntimeException('¬ызов метода ' . get_class($this) . '::' . $name . '() без аргумента');
                 }
 
                 if (!$this->fields->exists($attribute) || !$this->isOnce($attribute)) {
@@ -218,15 +218,20 @@ abstract class simple
     protected function doLazyLoading($name)
     {
         if (isset($this->map[$name]['owns'])) {
-            $arr = explode('.', $this->map[$name]['owns'], 2);
-            $className = $arr[0];
-            $fieldName = $arr[1];
+            list($className, $fieldName) = explode('.', $this->map[$name]['owns'], 2);
+            if (isset($this->map[$name]['do'])) {
+                $className = $this->map[$name]['do'];
+            }
+
             $sectionName = isset($this->map[$name]['section']) ? $this->map[$name]['section'] : $this->section();
             $moduleName = isset($this->map[$name]['module']) ? $this->map[$name]['module'] : $this->name;
-            $mapperName = $className . 'Mapper';
+            //$mapperName = $className . 'Mapper';
 
-            fileLoader::load($moduleName . '/mappers/' . $mapperName);
-            $mapper = new $mapperName($sectionName);
+            $toolkit = systemToolkit::getInstance();
+            $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+
+            /*fileLoader::load($moduleName . '/mappers/' . $mapperName);
+            $mapper = new $mapperName($sectionName);*/
 
             $object = $mapper->searchOneByField($fieldName, $this->fields->get($name));
 
