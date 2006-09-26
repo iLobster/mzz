@@ -21,6 +21,7 @@ class simpleMapperTest extends unitTestCase
         'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId' ),
         'foo' => array ('name' => 'foo','accessor' => 'getFoo', 'mutator' => 'setFoo'),
         'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
+        'obj_id' => array ('name' => 'obj_id','accessor' => 'getObjId', 'mutator' => 'setObjId'),
         );
 
         $this->fixture = array(array('foo'=>'foo1','bar'=>'bar1'),
@@ -138,7 +139,7 @@ class simpleMapperTest extends unitTestCase
         $stmt = $this->mapper->searchByField('foo', $this->fixture[1]['foo']);
         $row = $stmt->fetch();
 
-        $this->assertEqual($row['bar'], $this->fixture[1]['bar']);
+        $this->assertEqual($row['simple_bar'], $this->fixture[1]['bar']);
 
     }
 
@@ -146,7 +147,7 @@ class simpleMapperTest extends unitTestCase
     {
         $simple = new stubSimple($this->map);
 
-        $simple->setFoo('value');
+        $simple->setFoo('valueeeeeee');
 
         $this->assertEqual(0, $this->countRecord());
 

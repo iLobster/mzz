@@ -115,7 +115,7 @@ class arrayDataspace implements iDataspace
      *
      * @return array
      */
-    public function export()
+    public function & export()
     {
         return $this->data;
     }

@@ -69,7 +69,7 @@ class url
         }
 
         $params = '';
-        $this->params  = $this->getParams();
+        $this->params  =& $this->getParams();
         //echo"<pre><b>this->params</b> ";var_dump($this->params); echo"</pre>";
         if(!empty($this->params)) {
             if(!empty($this->section)) {

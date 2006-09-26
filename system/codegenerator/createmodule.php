@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: createmodule.php 102 2006-09-24 23:30:32Z zerkms $
+ * @version $Id: createmodule.php 113 2006-09-25 20:44:56Z zerkms $
 */
 
 // createmodule.php     moduleName      name

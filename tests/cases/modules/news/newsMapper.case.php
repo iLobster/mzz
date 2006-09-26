@@ -18,6 +18,7 @@ class newsMapperTest extends unitTestCase
         'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'),
         'created' => array ('name' => 'created', 'accessor' => 'getCreated', 'mutator' => 'setCreated'),
         'updated' => array ('name' => 'updated', 'accessor' => 'getUpdated', 'mutator' => 'setUpdated'),
+        'obj_id' => array ('name' => 'obj_id','accessor' => 'getObjId', 'mutator' => 'setObjId'),
         );
 
         $this->db = DB::factory();

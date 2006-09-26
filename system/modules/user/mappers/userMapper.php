@@ -72,11 +72,13 @@ class userMapper extends simpleMapper
      */
     public function searchById($id)
     {
-        $stmt = $this->searchByField('id', $id);
+        $user = $this->searchOneByField('id', $id);
+        /*$stmt = $this->searchByField('id', $id);
         $row = $stmt->fetch();
-
-        if ($row) {
-            return $this->createItemFromRow($row);
+*/
+        if ($user) {
+            return $user;
+         //   return $this->createItemFromRow($this->fillArray($row));
         } else {
             if($id === MZZ_USER_GUEST_ID) {
                 throw new mzzSystemException('Отсутствует запись с ID: ' . MZZ_USER_GUEST_ID . ' для гостя в таблице ' . $this->table);
@@ -93,11 +95,10 @@ class userMapper extends simpleMapper
      */
     public function searchByLogin($login)
     {
-        $stmt = $this->searchByField('login', $login);
-        $row = $stmt->fetch();
+        $user = $this->searchOneByField('login', $login);
 
-        if ($row) {
-            return $this->createItemFromRow($row);
+        if ($user) {
+            return $user;
         } else {
             return $this->getGuest();
         }
@@ -125,6 +126,7 @@ class userMapper extends simpleMapper
      * в случае успеха устанавливает сессию
      * идентифицированного пользователя
      *
+     * @todo переписать запрос с генератором
      * @param string $login логин
      * @param string $password пароль
      * @return object

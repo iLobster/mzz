@@ -72,7 +72,6 @@ class newsFolderTest extends unitTestCase
 
             $this->assertEqual($val2, $this->newsFolder->$getprop());
         }
-
     }
 
     public function testException()
@@ -91,7 +90,6 @@ class newsFolderTest extends unitTestCase
             $this->assertWantedPattern('/newsFolder::setfoo/i', $e->getMessage());
         }
     }
-
 
     public function testGetFolders()
     {
@@ -163,7 +161,7 @@ class newsFolderTest extends unitTestCase
             $this->newsFolder->$setter($first);
 
             $this->mapper->save($this->newsFolder);
-/*
+
             $this->assertIdentical($this->newsFolder->$getter(), $first);
 
             $second = '5';
@@ -173,10 +171,9 @@ class newsFolderTest extends unitTestCase
 
             $this->mapper->save($this->newsFolder);
 
-            $this->assertIdentical($this->newsFolder->$getter(), $second);*/
+            $this->assertIdentical($this->newsFolder->$getter(), $second);
         }
     }
 }
-
 
 ?>

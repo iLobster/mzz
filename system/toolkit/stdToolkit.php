@@ -338,6 +338,14 @@ class stdToolkit extends toolkit
         return $tmp;
     }
 
+    /**
+     * Возвращает необходимый маппер
+     *
+     * @param string $module имя модуля
+     * @param string $do имя доменного объекта
+     * @param string $section имя раздела
+     * @return simpleMapper
+     */
     public function getMapper($module, $do, $section)
     {
         if (!isset($this->mappers[$do][$section])) {

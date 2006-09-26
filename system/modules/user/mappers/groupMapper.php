@@ -38,13 +38,6 @@ class groupMapper extends simpleMapper
     protected $className = 'group';
 
     /**
-     * Постфикс имени таблицы
-     *
-     * @var string
-     */
-    //protected $tablePostfix = '_group';
-
-    /**
      * Выполняет поиск объекта по идентификатору
      *
      * @param integer $id идентификатор
@@ -52,13 +45,11 @@ class groupMapper extends simpleMapper
      */
     public function searchById($id)
     {
-        $stmt = $this->searchByField('id', $id);
-        $row = $stmt->fetch();
+        $group = $this->searchOneByField('id', $id);
 
-        if ($row) {
-            return $this->createGroupFromRow($row);
+        if ($group) {
+            return $group;
         } else {
-            // Что это?
             if($id == 1) {
                 throw new mzzSystemException('Отсутствует запись с ID: 1 для гостя в таблице ' . $this->table);
             }
@@ -74,11 +65,10 @@ class groupMapper extends simpleMapper
      */
     public function searchByName($name)
     {
-        $stmt = $this->searchByField('name', $name);
-        $row = $stmt->fetch();
+        $group = $this->searchOneByField('name', $name);
 
-        if ($row) {
-            return $this->createGroupFromRow($row);
+        if ($group) {
+            return $group;
         } else {
             return false;
         }

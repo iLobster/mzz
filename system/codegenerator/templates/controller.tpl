@@ -24,7 +24,7 @@ class {{$controller_data.controllername}} extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('{{$controller_data.module}}/views/{{$controller_data.viewname}}');
+        // fileLoader::load('{{$controller_data.module}}/views/');
         parent::__construct();
     }
 

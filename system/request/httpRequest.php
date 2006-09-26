@@ -281,7 +281,7 @@ class httpRequest implements iRequest
      *
      * @return array
      */
-    public function getParams()
+    public function & getParams()
     {
         return $this->params->export();
     }

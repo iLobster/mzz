@@ -90,6 +90,11 @@ abstract class simpleMapper //implements iCacheable
      */
     protected $map;
 
+    /**
+     * Свойство для хранения информации об отношениях
+     *
+     * @var array
+     */
     protected $relations;
 
     /**
@@ -103,7 +108,6 @@ abstract class simpleMapper //implements iCacheable
         $this->db = DB::factory($alias);
         $this->section = $section;
         $this->table = $this->section . '_' .$this->className;
-        //$this->relationTable = $this->name() . '_' .$this->section() . '_' . $this->relationPostfix;
     }
 
     /**
@@ -140,10 +144,10 @@ abstract class simpleMapper //implements iCacheable
         $toolkit = systemToolkit::getInstance();
         $object->setObjId($toolkit->getObjectId());
 
-        $fields = $object->export();
+        $fields =& $object->export();
 
         if (sizeof($fields) > 1) {
-            $this->replaceRelated($fields);
+            $this->replaceRelated($fields, $object);
 
             $this->insertDataModify($fields);
 
@@ -169,7 +173,9 @@ abstract class simpleMapper //implements iCacheable
             $stmt = $this->searchByField($this->tableKey, $id);
             $fields = $stmt->fetch();
 
-            $object->import($fields);
+            $data = $this->fillArray($fields);
+
+            $object->import($data);
         }
     }
 
@@ -184,11 +190,13 @@ abstract class simpleMapper //implements iCacheable
      */
     protected function update(simple $object)
     {
-        $fields = $object->export();
+        $fields =& $object->export();
+
+        $this->replaceRelated($fields, $object);
 
         if (sizeof($fields) > 0) {
             //$bindFields = $fields; // зачем эта строка???
-            $this->replaceRelated($fields);
+            //$this->replaceRelated($fields, $object);
 
             $this->updateDataModify($fields);
 
@@ -202,21 +210,51 @@ abstract class simpleMapper //implements iCacheable
                 }
             }
             $query = substr($query, 0, -2);
-            $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `' . $this->tableKey . '` = :id');
 
-            $stmt->bindArray($fields);
-            $stmt->bindParam(':id', $object->getId(), PDO::PARAM_INT);
-            $result = $stmt->execute();
+            if ($query) {
+                $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `' . $this->tableKey . '` = :id');
+
+                $stmt->bindArray($fields);
+                $stmt->bindParam(':id', $object->getId(), PDO::PARAM_INT);
+                $result = $stmt->execute();
+            }
 
             $stmt = $this->searchByField($this->tableKey, $object->getId());
             $fields = $stmt->fetch();
 
-            $object->import($fields);
+            $data = $this->fillArray($fields);
 
-            return $result;
+            $object->import($data);
+
+            return true;
+            //return $result;
         }
 
         return false;
+    }
+
+    /**
+     * Метод для изменения формата массива в удобную для работы форму
+     *
+     * @param array $array
+     * @return array
+     */
+    public function fillArray(&$array)
+    {
+        $tmp = array();
+        foreach ($array as $key => $val) {
+            list($class, $field) = explode('_', $key, 2);
+            $tmp[$class][$field] = $val;
+        }
+
+        $toolkit = systemToolkit::getInstance();
+
+        foreach ($this->getOwns() as $key => $val) {
+            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
+            $tmp[$this->name][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
+        }
+
+        return $tmp[$this->name];
     }
 
     /**
@@ -248,6 +286,27 @@ abstract class simpleMapper //implements iCacheable
     }
 
     /**
+     * Метод для добавления в запрос присоединений
+     *
+     * @param criteria $criteria
+     */
+    protected function addJoins(criteria $criteria)
+    {
+        $toolkit = systemToolkit::getInstance();
+
+        $this->addSelectFields($criteria, $this->getMap(), $this->table, $this->name);
+
+        foreach ($this->getOwns() as $key => $val) {
+            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
+
+            $this->addSelectFields($criteria, $mapper->getMap(), $val['class'], $val['class']);
+
+            $joinCriterion = new criterion($key, $val['class'] . '.' . $val['key'], criteria::EQUAL, true);
+            $criteria->addJoin($val['table'], $joinCriterion, $val['class']);
+        }
+    }
+
+    /**
      * Поиск записей по критерию
      *
      * @param criteria $criteria заданный критерий
@@ -255,6 +314,8 @@ abstract class simpleMapper //implements iCacheable
      */
     protected function searchByCriteria(criteria $criteria)
     {
+        $this->addJoins($criteria);
+
         $criteria->setTable($this->table);
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
@@ -329,7 +390,9 @@ abstract class simpleMapper //implements iCacheable
         $row = $stmt->fetch();
 
         if ($row) {
-            return $this->createItemFromRow($row);
+            $data = $this->fillArray($row);
+
+            return $this->createItemFromRow($data);
         }
         return null;
     }
@@ -357,40 +420,12 @@ abstract class simpleMapper //implements iCacheable
      */
     public function searchAllByCriteria(criteria $criteria)
     {
-        $toolkit = systemToolkit::getInstance();
-
-        $owns = $this->getOwns();
-
-        $this->addSelectFields($criteria, $this->getMap(), $this->table, $this->name);
-
-        foreach ($owns as $key => $val) {
-            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
-
-            $this->addSelectFields($criteria, $mapper->getMap(), $val['class'], $val['class']);
-
-            $joinCriterion = new criterion($key, $val['class'] . '.' . $val['key'], criteria::EQUAL, true);
-            $criteria->addJoin($val['table'], $joinCriterion, $val['class']);
-        }
-
         $stmt = $this->searchByCriteria($criteria);
-
         $result = array();
 
         while ($row = $stmt->fetch()) {
-
-            $tmp = array();
-
-            foreach ($row as $key => $val) {
-                list($class, $field) = explode('_', $key, 2);
-                $tmp[$class][$field] = $val;
-            }
-
-            foreach ($owns as $key => $val) {
-                $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);;
-                $tmp[$this->name][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
-            }
-
-            $result[] = $this->createItemFromRow($tmp[$this->name]);
+            $data = $this->fillArray($row);
+            $result[] = $this->createItemFromRow($data);
         }
 
         return $result;
@@ -398,8 +433,10 @@ abstract class simpleMapper //implements iCacheable
 
     private function addSelectFields(criteria $criteria, $map, $table, $alias)
     {
-        foreach (array_keys($map) as $val) {
-            $criteria->addSelectField($table . '.' . $val, $alias . '_' . $val);
+        foreach ($map as $key => $val) {
+            if (!isset($val['hasMany'])) {
+                $criteria->addSelectField($table . '.' . $key, $alias . '_' . $key);
+            }
         }
     }
 
@@ -428,6 +465,7 @@ abstract class simpleMapper //implements iCacheable
         if (empty($this->map)) {
             $mapFileName = fileLoader::resolve($this->name() . '/maps/' . $this->className . '.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
+            $this->map['obj_id'] = array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
         }
         return $this->map;
     }
@@ -491,19 +529,26 @@ abstract class simpleMapper //implements iCacheable
         $this->map = $map;
     }
 
+    private function explodeRelateData($val)
+    {
+        list($tableName, $fieldName) = explode('.', $val['relate'], 2);
+        $className = $tableName;
+        if (isset($val['do'])) {
+            $className =  $val['do'];
+        }
+        $sectionName = isset($val['section']) ? $val['section'] : $this->section();
+        $moduleName = isset($val['module']) ? $val['module'] : $this->name();
+        return array($tableName, $fieldName, $className, $sectionName, $moduleName);
+    }
+
     private function getOwns()
     {
         if (!isset($this->relations['owns'])) {
             $this->relations['owns'] = array();
             foreach ($this->getMap() as $key => $val) {
                 if (isset($val['owns'])) {
-                    list($tableName, $fieldName) = explode('.', $val['owns'], 2);
-                    $className = $tableName;
-                    if (isset($val['do'])) {
-                        $className =  $val['do'];
-                    }
-                    $sectionName = isset($val['section']) ? $val['section'] : $this->section();
-                    $moduleName = isset($val['module']) ? $val['module'] : $this->name();
+                    $val['relate'] = $val['owns'];
+                    list($tableName, $fieldName, $className, $sectionName, $moduleName) = $this->explodeRelateData($val);
 
                     $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className);
                 }
@@ -513,24 +558,51 @@ abstract class simpleMapper //implements iCacheable
         return $this->relations['owns'];
     }
 
+    private function getHasMany()
+    {
+        if (!isset($this->relations['hasMany'])) {
+            $this->relations['hasMany'] = array();
+            foreach ($this->getMap() as $key => $val) {
+                if (isset($val['hasMany'])) {
+                    list($field, $tmp) = explode('->', $val['hasMany'], 2);
+                    $val['relate'] = $tmp;
+                    list($tableName, $fieldName, $className, $sectionName, $moduleName) = $this->explodeRelateData($val);
+
+                    $this->relations['hasMany'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'field' => $field);
+                }
+            }
+        }
+
+        return $this->relations['hasMany'];
+    }
+
+    private function getRelationInfo($key)
+    {
+        $this->getHasMany();
+        $this->getOwns();
+        return isset($this->relations['hasMany'][$key]) ? $this->relations['hasMany'][$key] : (isset($this->relations['owns'][$key]) ? $this->relations['owns'][$key] : false);
+    }
+
     /**
      * Метод, заменяющий связанные объекты на строки
      *
      * @param array $fields
      */
-    private function replaceRelated(&$fields)
+    private function replaceRelated(&$fields, $object)
     {
         $map = $this->getMap();
+        $saved = array();
 
+        // обновляем измененные поля
         foreach ($fields as $key => $val) {
+            $owns = $this->getOwns();
+            $hasMany = $this->getHasMany();
             // если по данному полю есть связь
-            if (!is_scalar($val) && isset($map[$key]['owns'])) {
-                list($className, $fieldName) = explode('.', $map[$key]['owns'], 2);
-                if (isset($map[$key]['do'])) {
-                    $className = $map[$key]['do'];
-                }
-                $sectionName = isset($map[$key]['section']) ? $map[$key]['section'] : $this->section();
-                $moduleName = isset($map[$key]['module']) ? $map[$key]['module'] : $this->name();
+            if (!is_scalar($val) && isset($owns[$key])) {
+                $sectionName = $owns[$key]['section'];
+                $className = $owns[$key]['class'];
+                $fieldName = $owns[$key]['key'];
+                $moduleName = $owns[$key]['module'];
 
                 // получаем нужный маппер
                 $toolkit = systemToolkit::getInstance();
@@ -547,6 +619,76 @@ abstract class simpleMapper //implements iCacheable
 
                 // делаем вызов полученного акцессора и заменяем объект на строку
                 $fields[$key] = $val->$accessor();
+
+                // отмечаем, что это поле уже было сохранено
+                $saved[$key] = true;
+            } elseif (isset($map[$key]['hasMany'])) {
+                $accessor = $map[$key]['accessor'];
+                $oldData = $object->$accessor();
+
+                $oldObjIds = array();
+                foreach ($oldData as $subval) {
+                    $oldObjIds[$subval->getObjId()] = $subval->getId();
+                }
+
+                // определяем записи, которых нет в новом массиве
+                foreach ($val as $subkey => $subval) {
+                    if (isset($oldObjIds[$subval->getObjId()])) {
+                        unset($oldObjIds[$subval->getObjId()]);
+                    }
+                }
+
+                $sectionName = $hasMany[$key]['section'];
+                $className = $hasMany[$key]['class'];
+                $fieldName = $hasMany[$key]['key'];
+                $moduleName = $hasMany[$key]['module'];
+
+                // получаем нужный маппер
+                $toolkit = systemToolkit::getInstance();
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+
+                // удаляем все записи которых нет в новом массиве
+                foreach ($oldObjIds as $subval) {
+                    $mapper->delete($subval);
+                }
+
+                // сохраняем все новые записи
+                foreach ($val as $subval) {
+                    $mapper->save($subval);
+                }
+
+                // удаляем данные
+                unset($fields[$key]);
+
+                // отмечаем, что это поле уже было сохранено
+                $saved[$key] = true;
+            }
+        }
+
+        $old =& $object->exportOld();
+
+        $toolkit = systemToolkit::getInstance();
+
+        // обновляем те поля, которые изменены не были
+        // обходим все поля, которые в объекте были до сохранения
+        foreach ($old as $key => $val) {
+            // если поле является объектом или массивом и ещё не было сохранено - то сохраняем его
+            if (!isset($saved[$key]) && !is_scalar($val) && !is_null($val)) {
+                $info = $this->getRelationInfo($key);
+                $sectionName = $info['section'];
+                $className = $info['class'];
+                $fieldName = $info['key'];
+                $moduleName = $info['module'];
+
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+
+                if (is_array($val)) {
+                    foreach ($val as $subval) {
+                        $mapper->save($subval);
+                    }
+                } else {
+                    $mapper->save($val);
+                }
             }
         }
     }

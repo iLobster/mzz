@@ -127,7 +127,7 @@ Sample usage:
         // @toDo можно сделать довольно полную генерацию тестов
         // но для этого необходимо делать отдельный генератор, который создаст тест для ДО и маппера
         // на основе данных о полях из map.ini
-        if($argv[2]) {
+        if(isset($argv[2])) {
             if (!is_dir( MODULE_TEST_PATH )) {                //echo "<pre>"; print_r(MODULE_TEST_PATH);echo "</pre>";
                 mkdir(MODULE_TEST_PATH, 0700);
                 $log .= "\nModule tests  folder created successfully:\n- " . str_replace(MZZ,'', MODULE_TEST_PATH);

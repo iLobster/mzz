@@ -109,7 +109,7 @@ abstract class simple
         if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($name)) {
             if ('get' == $match[1]) {
                 // если свойство ещё является скаляром (строка, число) - то пробуем загрузить относящийся к нему объект
-                if (is_scalar($this->fields->get($attribute))) {
+                if (is_scalar($this->fields->get($attribute)) || is_null($this->fields->get($attribute))) {
                     $this->doLazyLoading($attribute);
                 }
                 return $this->fields->get($attribute);
@@ -161,11 +161,15 @@ abstract class simple
      *
      * @return array
      */
-    public function export()
+    public function & export()
     {
         return $this->changedFields->export();
     }
 
+    public function exportOld()
+    {
+        return $this->fields->export();
+    }
 
     /**
      * Получение объекта JIP.
@@ -225,17 +229,31 @@ abstract class simple
 
             $sectionName = isset($this->map[$name]['section']) ? $this->map[$name]['section'] : $this->section();
             $moduleName = isset($this->map[$name]['module']) ? $this->map[$name]['module'] : $this->name;
-            //$mapperName = $className . 'Mapper';
 
             $toolkit = systemToolkit::getInstance();
             $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
 
-            /*fileLoader::load($moduleName . '/mappers/' . $mapperName);
-            $mapper = new $mapperName($sectionName);*/
-
             $object = $mapper->searchOneByField($fieldName, $this->fields->get($name));
 
             $this->fields->set($name, $object);
+        }
+
+        if (isset($this->map[$name]['hasMany'])) {
+            list($field, $tmp) = explode('->', $this->map[$name]['hasMany'], 2);
+            list($className, $fieldName) = explode('.', $tmp);
+            if (isset($this->map[$name]['do'])) {
+                $className = $this->map[$name]['do'];
+            }
+
+            $sectionName = isset($this->map[$name]['section']) ? $this->map[$name]['section'] : $this->section();
+            $moduleName = isset($this->map[$name]['module']) ? $this->map[$name]['module'] : $this->name;
+
+            $toolkit = systemToolkit::getInstance();
+            $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+
+            $accessor = $this->map[$field]['accessor'];
+
+            $this->fields->set($name, $mapper->searchAllByField($fieldName, $this->$accessor()));
         }
     }
 
@@ -266,6 +284,11 @@ abstract class simple
             $this->section = $section;
         }
         return $this->section;
+    }
+
+    public function getMap()
+    {
+        return $this->map;
     }
 
     /**
