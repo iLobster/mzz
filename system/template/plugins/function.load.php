@@ -27,6 +27,7 @@ fileLoader::load('acl');
  * @param array $params входные аргументы функции
  * @param object $smarty объект смарти
  * @return string результат работы модуля
+ *
  * @package system
  * @subpackage template
  * @version 0.4
