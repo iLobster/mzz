@@ -21,9 +21,9 @@ class pageEditController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('page/views/page.edit.view');
-        fileLoader::load('page/views/page.edit.success.view');
-        fileLoader::load('page/views/page.edit.form');
+        fileLoader::load('page/views/pageEditView');
+        fileLoader::load('page/views/pageEditSuccessView');
+        fileLoader::load('page/views/pageEditForm');
         fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
         parent::__construct();
@@ -52,7 +52,7 @@ class pageEditController extends simpleController
             }
             return $view;
         } else {
-            fileLoader::load('page/views/page.404.view');
+            fileLoader::load('page/views/page404View');
             return new page404View();
         }
     }

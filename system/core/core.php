@@ -54,10 +54,10 @@ class core
             fileLoader::load('cache/iCacheable');
 
             fileLoader::load('simple');
-            fileLoader::load('simple/simple.mapper');
-            fileLoader::load('simple/simple.view');
-            fileLoader::load('simple/simple.controller');
-            fileLoader::load('simple/simple.factory');
+            fileLoader::load('simple/simpleMapper');
+            fileLoader::load('simple/simpleView');
+            fileLoader::load('simple/simpleController');
+            fileLoader::load('simple/simpleFactory');
 
             fileLoader::load('filters/init');
 

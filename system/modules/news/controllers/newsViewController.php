@@ -21,7 +21,7 @@ class newsViewController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('news/views/news.view.view');
+        fileLoader::load('news/views/newsViewView');
         fileLoader::load("news");
         fileLoader::load("news/mappers/newsMapper");
         parent::__construct();

@@ -21,7 +21,7 @@ class pageDeleteController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('page/views/page.delete.view');
+        fileLoader::load('page/views/pageDeleteView');
         fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
         parent::__construct();
@@ -36,7 +36,7 @@ class pageDeleteController extends simpleController
             $pageMapper->delete($page->getId());
             return new pageDeleteView();
         } else {
-            fileLoader::load('page/views/page.404.view');
+            fileLoader::load('page/views/page404View');
             return new page404View();
         }
     }

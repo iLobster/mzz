@@ -10,20 +10,21 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * news404View: отображение ошибки 404
+ * timerViewView: вид для метода view модуля timer
  *
  * @package modules
- * @subpackage news
+ * @subpackage timer
  * @version 0.1
  */
 
-class news404View extends simpleView
-{
+fileLoader::load('simple/simpleView');
 
+class timerViewView extends simpleView
+{
     public function toString()
     {
-        $this->response->setTitle('Ошибка. Запрашиваемая новость или папка не найдена.');
-        return $this->smarty->fetch('news.notfound.tpl');
+        $this->smarty->assign('timer', $this->DAO);
+        return $this->smarty->fetch('filter.time.tpl');
     }
 
 }

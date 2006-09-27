@@ -43,7 +43,7 @@ class moduleResolver extends partialFileResolver
         $result = null;
 
         // короткий вид news.factory переписываем в news/news.factory
-        if (preg_match('/^([a-z]+)\.factory$/i', $request, $matches) == true) {
+        if (preg_match('/^([a-z]+)Factory$/i', $request, $matches) == true) {
             $request = $matches[1] . '/' . $request;
             // короткий вид news.list.controller переписываем в news/news.list.controller
         } elseif (preg_match('/^([a-z]+)(?:\.[a-z0-9]+){2,}$/i', $request, $matches) == true) {

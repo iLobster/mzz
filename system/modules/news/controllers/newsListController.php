@@ -21,7 +21,7 @@ class newsListController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('news/views/news.list.view');
+        fileLoader::load('news/views/newsListView');
         fileLoader::load("news");
         fileLoader::load("news/newsFolder");
         fileLoader::load("news/mappers/newsMapper");
@@ -39,7 +39,7 @@ class newsListController extends simpleController
         if ($newsFolder) {
             return new newsListView($newsFolder, $newsFolderMapper);
         } else {
-            fileLoader::load('news/views/news.404.view');
+            fileLoader::load('news/views/news404View');
             return new news404View();
         }
     }

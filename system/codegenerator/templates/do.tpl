@@ -23,7 +23,7 @@
 
 class {{$do_data.doname}} extends simple
 {
-        protected $name = '{{$do_data.doname}}';
+        protected $name = '{{$do_data.module}}';
 }
 
 ?>

@@ -40,7 +40,7 @@ function smarty_function_load($params, $smarty)
     $module = $params['module'];
     $modulename = $module . 'Factory';
 
-    fileLoader::load($module . '.factory');
+    fileLoader::load($module . 'Factory');
     $toolkit = systemToolkit::getInstance();
 
     $action = $toolkit->getAction($params['module']);

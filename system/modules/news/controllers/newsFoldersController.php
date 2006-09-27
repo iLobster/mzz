@@ -21,7 +21,7 @@ class newsFoldersController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('news/views/news.folders.view');
+        fileLoader::load('news/views/newsFolders.view');
         fileLoader::load("news/newsFolder");
         fileLoader::load("news/mappers/newsFolderMapper");
         parent::__construct();

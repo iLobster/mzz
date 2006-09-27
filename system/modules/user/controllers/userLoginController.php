@@ -39,20 +39,20 @@ class userLoginController extends simpleController
                 $user = $userMapper->login($login, $password);
 
                 if ($user->isLoggedIn()) {
-                    fileLoader::load('user/views/user.login.success.view');
+                    fileLoader::load('user/views/userLoginSuccessView');
                     return new userLoginSuccessView($this->request->get('url', 'string', SC_POST));
                 }
             }
 
-            fileLoader::load('user/views/user.loginform.view');
-            fileLoader::load('user/views/user.login.form');
+            fileLoader::load('user/views/userLoginformView');
+            fileLoader::load('user/views/userLoginForm');
 
             $form = userLoginForm::getForm($this->request->getUrl());
 
             return new userLoginformView($form);
         }
 
-        fileLoader::load('user/views/user.login.already.view');
+        fileLoader::load('user/views/userLoginAlreadyView');
         return new userLoginAlreadyView($user);
     }
 }

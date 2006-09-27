@@ -21,7 +21,7 @@ class userExitController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('user/views/user.exit.view');
+        fileLoader::load('user/views/userExitView');
         parent::__construct();
     }
 

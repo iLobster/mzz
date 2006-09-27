@@ -25,7 +25,7 @@ class timerViewController extends simpleController
      */
     public function __construct()
     {
-        fileLoader::load('timer/views/timer.view.view');
+        fileLoader::load('timer/views/timerViewView');
         parent::__construct();
     }
 

@@ -460,8 +460,11 @@ abstract class simpleMapper //implements iCacheable
      *
      * @return array
      */
-    protected function getMap()
+    protected function getMap($refresh = false)
     {
+        if ($refresh) {
+            unset($this->map);
+        }
         if (empty($this->map)) {
             $mapFileName = fileLoader::resolve($this->name() . '/maps/' . $this->className . '.map.ini');
             $this->map = parse_ini_file($mapFileName, true);

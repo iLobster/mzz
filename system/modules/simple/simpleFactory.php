@@ -51,8 +51,8 @@ abstract class simpleFactory
     public function getController()
     {
         $action = $this->action->getAction();
-        fileLoader::load($this->name . '/controllers/' . $this->name . '.' . $action['controller'] . '.controller');
         $classname = $this->name . ucfirst($action['controller']) . 'Controller';
+        fileLoader::load($this->name . '/controllers/' . $classname);
         return new $classname();
     }
 }
