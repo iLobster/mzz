@@ -24,7 +24,6 @@ class pageEditController extends simpleController
         fileLoader::load('page/views/pageEditView');
         fileLoader::load('page/views/pageEditSuccessView');
         fileLoader::load('page/views/pageEditForm');
-        fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
         parent::__construct();
     }

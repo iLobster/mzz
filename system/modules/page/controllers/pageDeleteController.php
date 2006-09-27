@@ -22,7 +22,6 @@ class pageDeleteController extends simpleController
     public function __construct()
     {
         fileLoader::load('page/views/pageDeleteView');
-        fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
         parent::__construct();
     }

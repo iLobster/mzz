@@ -14,7 +14,6 @@
  * @version $Id$
 */
 
-fileLoader::load('user');
 fileLoader::load("user/mappers/userMapper");
 
 /**

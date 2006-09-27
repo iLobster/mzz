@@ -22,7 +22,6 @@ class pageViewController extends simpleController
     public function __construct()
     {
         fileLoader::load('page/views/pageViewView');
-        fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
         parent::__construct();
     }

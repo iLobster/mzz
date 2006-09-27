@@ -17,7 +17,6 @@
  * @version 0.1
  */
 
-fileLoader::load('user');
 fileLoader::load('user/group');
 fileLoader::load('user/mappers/userMapper');
 

@@ -17,6 +17,8 @@
  * @version 0.2.1
  */
 
+fileLoader::load('page');
+
 class pageMapper extends simpleMapper
 {
     /**

@@ -24,7 +24,6 @@ class newsEditController extends simpleController
         fileLoader::load('news/views/newsEditView');
         fileLoader::load('news/views/newsEditSuccessView');
         fileLoader::load('news/views/newsEditForm');
-        fileLoader::load("news");
         fileLoader::load("news/mappers/newsMapper");
         parent::__construct();
     }

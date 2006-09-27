@@ -21,7 +21,6 @@ class userLoginController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load("user");
         fileLoader::load("user/mappers/userMapper");
         parent::__construct();
     }

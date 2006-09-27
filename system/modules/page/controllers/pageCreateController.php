@@ -24,7 +24,6 @@ class pageCreateController extends simpleController
         fileLoader::load('page/views/pageCreateView');
         fileLoader::load('page/views/pageCreateSuccessView');
         fileLoader::load('page/views/pageCreateForm');
-        fileLoader::load("page");
         fileLoader::load("page/mappers/pageMapper");
         parent::__construct();
     }

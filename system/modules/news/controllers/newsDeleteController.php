@@ -22,7 +22,6 @@ class newsDeleteController extends simpleController
     public function __construct()
     {
         fileLoader::load('news/views/newsDeleteView');
-        fileLoader::load("news");
         fileLoader::load("news/mappers/newsMapper");
         parent::__construct();
     }

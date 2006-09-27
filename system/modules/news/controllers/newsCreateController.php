@@ -24,8 +24,6 @@ class newsCreateController extends simpleController
         fileLoader::load('news/views/newsCreateView');
         fileLoader::load('news/views/newsCreateSuccessView');
         fileLoader::load('news/views/newsCreateForm');
-        fileLoader::load("news");
-        fileLoader::load("news/newsFolder");
         fileLoader::load("news/mappers/newsMapper");
         fileLoader::load("news/mappers/newsFolderMapper");
         parent::__construct();
