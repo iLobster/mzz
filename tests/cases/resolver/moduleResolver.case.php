@@ -41,10 +41,10 @@ class moduleResolverTest extends UnitTestCase
 
     public function testFactoryResolve()
     {
-        $this->mock->expectOnce('resolve', array('modules/news/news.factory.php'));
+        $this->mock->expectOnce('resolve', array('modules/news/newsFactory.php'));
         $this->mock->setReturnValue('resolve', 'resolved_path');
 
-        $this->assertEqual('resolved_path', $this->resolver->resolve('news.factory'));
+        $this->assertEqual('resolved_path', $this->resolver->resolve('newsFactory'));
     }
 
     public function testActionIniResolve()

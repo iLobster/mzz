@@ -40,10 +40,10 @@ set_error_handler('simpletest_error_handler');
 
 
 fileLoader::load('simple');
-fileLoader::load('simple/simple.mapper');
-fileLoader::load('simple/simple.view');
-fileLoader::load('simple/simple.controller');
-fileLoader::load('simple/simple.factory');
+fileLoader::load('simple/simpleMapper');
+fileLoader::load('simple/simpleView');
+fileLoader::load('simple/simpleController');
+fileLoader::load('simple/simpleFactory');
 
 fileLoader::load('libs/simpletest/unit_tester');
 fileLoader::load('libs/simpletest/mock_objects');
@@ -66,7 +66,7 @@ fileLoader::load('dataspace/arrayDataspace');
 fileLoader::load('iterators/mzzIniFilterIterator');
 
 fileLoader::load('action');
-fileLoader::load('timer.factory');
+fileLoader::load('timerFactory');
 
 $toolkit = systemToolkit::getInstance();
 $toolkit->addToolkit(new stdToolkit(/*new config(systemConfig::$pathToConf . '/common.ini')*/));

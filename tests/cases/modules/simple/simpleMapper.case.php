@@ -1,7 +1,7 @@
 <?php
 
 fileLoader::load('db/sqlFunction');
-fileLoader::load('simple/simple.mapper');
+fileLoader::load('simple/simpleMapper');
 fileLoader::load('simple');
 fileLoader::load('cases/modules/simple/stubMapper.class');
 fileLoader::load('cases/modules/simple/stubMapperDataModify.class');

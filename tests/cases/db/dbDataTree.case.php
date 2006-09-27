@@ -1,6 +1,6 @@
 <?php
 fileLoader::load('db/dbTreeNS');
-fileLoader::load('modules/simple/simple.mapper');
+fileLoader::load('modules/simple/simpleMapper');
 fileLoader::load('cases/modules/simple/stubMapper.class');
 fileLoader::load('cases/modules/simple/stubSimple.class');
 
