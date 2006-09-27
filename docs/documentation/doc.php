@@ -48,6 +48,7 @@ function render($id) {
     $content = file_get_contents($path);
     $content = preg_replace("/<!--\s*code\s*(\d+)\s*-->/ie", 'include_code("' . $id . '-$1");', $content);
     $content = str_replace(array("<<code>>", "<</code>>"), array("<!-- code start here -->\n<div class=\"code\">\n<code>\n", "\n</code>\n</div>\n<!-- code end here -->\n"), $content);
+    $content = str_replace(array("<<pre>>", "<</pre>>"), array("<!-- code start here -->\n<div class=\"code\">\n<pre>\n", "\n</pre>\n</div>\n<!-- code end here -->\n"), $content);
 
     $content = str_replace(array('<<note>>', '<</note>>'), array($note, $note_end), $content);
     return $content;
