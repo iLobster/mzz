@@ -74,9 +74,6 @@ class newsMapper extends simpleMapper
     {
         $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
         $fields['updated'] = $fields['created'];
-        /*if ($fields['editor'] instanceof user) {
-            $fields['editor'] = $fields['editor']->getId();
-        }*/
     }
 }
 
