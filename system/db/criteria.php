@@ -76,6 +76,8 @@ class criteria
      */
     const BETWEEN = 'BETWEEN';
 
+    const FULLTEXT = 'MATCH (%s) AGAINST (%s)';
+
     /**
      * Массив для хранения присоединяемых к основной таблиц
      *

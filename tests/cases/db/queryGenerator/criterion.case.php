@@ -40,6 +40,12 @@ class criterionTest extends unitTestCase
         $this->assertEqual($criterion->generate(), "`field` BETWEEN '1' AND '10'");
     }
 
+    public function testSimpleFulltextCondition()
+    {
+        $criterion = new criterion('field', 'foo', criteria::FULLTEXT);
+        $this->assertEqual($criterion->generate(), "MATCH (`field`) AGAINST ('foo')");
+    }
+
     public function testAddAndCondition()
     {
         $criterion = new criterion('field', 'value');

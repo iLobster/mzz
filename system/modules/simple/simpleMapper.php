@@ -332,7 +332,7 @@ abstract class simpleMapper //implements iCacheable
         }
 
         $select = new simpleSelect($criteria);
-
+        //var_dump($select->toString());
         $stmt = $this->db->query($select->toString());
 
         return $stmt;

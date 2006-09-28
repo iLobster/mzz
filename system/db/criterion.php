@@ -152,9 +152,11 @@ class criterion
                 $result .= ')';
 
             } elseif ($this->comparsion === criteria::BETWEEN) {
-                $result .= $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
+                $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
+            } elseif ($this->comparsion === criteria::FULLTEXT) {
+                $result = sprintf($this->comparsion, $this->getQuoutedAlias() . '`' . $this->field . '`', $this->db->quote($this->value));
             } else {
-                $result .= $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->getQuotedValue();
+                $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->getQuotedValue();
             }
         }
 
