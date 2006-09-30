@@ -38,7 +38,7 @@ class newsEditController extends simpleController
         if (($id = $this->request->get(0, 'integer', SC_PATH)) == null) {
             $id = $this->request->get('id', 'integer', SC_POST);
         }
-        var_dump($id);
+
         $news = $newsMapper->searchById($id);
 
         if ($news) {
@@ -52,8 +52,6 @@ class newsEditController extends simpleController
                 $news->setEditor($user);
                 $news->setText($values['text']);
                 $newsMapper->save($news);
-
-                //$newsMapper->setInvalid();
 
                 $view = new newsEditSuccessView($news, $form);
             }
