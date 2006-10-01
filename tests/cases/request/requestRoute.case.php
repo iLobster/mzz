@@ -3,18 +3,19 @@
 fileLoader::load('request/requestRoute');
 
 
-class routeTest extends unitTestCase
+class requestRouteTest extends unitTestCase
 {
     function setUp()
     {
     }
+
     public function tearDown()
     {
     }
 
     public function testSampleRoute()
     {
-        $route = new Route(':controller/:id/:action');
+        $route = new requestRoute(':controller/:id/:action');
         $this->assertEqual(
             $route->match('news/1/view'),
             array('action' => 'view', 'controller' => 'news', 'id' => '1')
@@ -23,7 +24,7 @@ class routeTest extends unitTestCase
 
     public function testRouteWithPath()
     {
-        $route = new Route('somepath/:controller/test/:id/:action');
+        $route = new requestRoute('somepath/:controller/test/:id/:action');
         $this->assertEqual(
             $route->match('somepath/news/test/1/view'),
             array('action' => 'view', 'controller' => 'news', 'id' => '1')
@@ -32,7 +33,7 @@ class routeTest extends unitTestCase
 
     public function testRouteWithPathAndAny()
     {
-        $route = new Route('somepath/:controller/test/:id/:action/*');
+        $route = new requestRoute('somepath/:controller/test/:id/:action/*');
         $this->assertEqual(
             $route->match('somepath/news/test/1/view/foo/bar/key/value'),
             array('action' => 'view', 'controller' => 'news', 'id' => '1', 'foo' => 'bar',
@@ -42,7 +43,7 @@ class routeTest extends unitTestCase
 
     public function testRouteWithPathAndDefault()
     {
-        $route = new Route('somepath/:controller/test/:id/:action', array('action' => 'view', 'id' => '1'));
+        $route = new requestRoute('somepath/:controller/test/:id/:action', array('action' => 'view', 'id' => '1'));
         $this->assertEqual(
             $route->match('somepath/news/test'),
             array('action' => 'view', 'controller' => 'news', 'id' => '1')
@@ -56,15 +57,9 @@ class routeTest extends unitTestCase
 
     public function testRouteWithPathAndRequirement()
     {
-        $route = new Route('somepath/:controller/test/:id/:action', array(), array('id' => '\d+', 'action' => '\w+'));
+        $route = new requestRoute('somepath/:controller/test/:id:action', array(), array('id' => '\d+', 'action' => '\w+'));
         $this->assertFalse(
             $route->match('somepath/news/test/string/'),
-            array('action' => 'view', 'controller' => 'news', 'id' => '1')
-        );
-
-        $route = new Route('somepath/:controller/test/:id:action', array(), array('id' => '\d+', 'action' => '\w+'));
-        $this->assertEqual(
-            $route->match('somepath/news/test/1view'),
             array('action' => 'view', 'controller' => 'news', 'id' => '1')
         );
     }
@@ -72,7 +67,7 @@ class routeTest extends unitTestCase
 
     public function testRouteWithoutSeparator()
     {
-        $route = new Route('somepath/:controller/{:id}-:action', array(), array('id' => '\d+', 'action' => '\w+'));
+        $route = new requestRoute('somepath/:controller/{:id}-:action', array(), array('id' => '\d+', 'action' => '\w+'));
         $this->assertEqual(
             $route->match('somepath/news/1-view'),
             array('action' => 'view', 'controller' => 'news', 'id' => '1')
