@@ -107,29 +107,6 @@ class dbTreeNsTest extends unitTestCase
         }
     }
 
-/*    public function testGetBranchWithoutParent()
-    {
-        $branch = $this->tree->getBranch($id = 3, false);
-
-        $fixtureBranch = $this->setFixture(array(7, 8));
-        $this->assertEqual(count($fixtureBranch),count($branch));
-        foreach ($branch as $id => $node) {
-            $this->assertEqual($fixtureBranch[$id], $node);
-        }
-
-    }*/
-/*
-    public function testGetParentBranchWithChild()
-    {
-        $branch = $this->tree->getParentBranch($id = 8);
-
-        $fixtureBranch = $this->setFixture(array(8, 3, 1));
-        $this->assertEqual(count($fixtureBranch),count($branch));
-        foreach ($branch as $id => $node) {
-            $this->assertEqual($fixtureBranch[$id], $node);
-        }
-    }*/
-
     public function testGetParentBranch()
     {
         $branch = $this->tree->getParentBranch($id = 8, $level = 2);
