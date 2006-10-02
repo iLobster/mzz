@@ -13,7 +13,7 @@
 */
 
 
-fileLoader::load('{{$doCaseData.doName}}');
+fileLoader::load('{{$doCaseData.module}}/{{$doCaseData.doName}}');
 fileLoader::load('{{$doCaseData.module}}/mappers/{{$doCaseData.mapperName}}');
 
 Mock::generate('{{$doCaseData.mapperName}}');

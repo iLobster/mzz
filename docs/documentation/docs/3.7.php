@@ -60,4 +60,14 @@ mutator = "им€ мутатора"
                 <!-- code 2 -->
                 <p>ѕример вернЄт им€ последнего исправл€вшего новость.</p>
         </li>
+        <li>
+                <em>decorateClass</em> - данное свойство устанавливает какой сервисный класс использовать дл€ декорировани€ свойства<br />
+	Ќапример, вам необходимо хешировать пароль:                
+                <<code>>
+	[password] <br />
+	accessor = "getPassword" <br />
+	mutator = "setPassword" <br />
+	decorateClass = "md5PasswordHash" <br />
+                <</code>>
+        </li>
 </ul>
