@@ -20,11 +20,11 @@
  * @version 0.1
  */
 
-{if $mapper_data.module ne $mapper_data.doname}
+{{if $mapper_data.module ne $mapper_data.doname}}
 fileLoader::load('{{$mapper_data.module}}/{{$mapper_data.doname}}');
-{else}
+{{else}}
 fileLoader::load('{{$mapper_data.module}}');
-{/if}
+{{/if}}
 
 class {{$mapper_data.mapper_name}} extends simpleMapper
 {
