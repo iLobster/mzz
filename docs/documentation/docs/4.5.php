@@ -7,13 +7,13 @@
 Для этого нажмите правой кнопкой на ярлыке "Мой компьютер", выберите вкладку "Дополнительно", а в ней "Переменные среды". 
 В нижнем списке найдите переменную PATH и нажмите "Изменить".
 Появится список путей которые Windows использует, для поиска исполняемых файлов.
-Туда добавьте путь до папки, где у вас установлен php, например - c:/server/php;
+Туда добавьте путь до папки, где у вас установлен php, например - c:\server\php;
 <</note>>
 С помощью этого файла у Вас очень просто получится создать модуль. 
 <<note>>
 Если у Вас есть необходимость создать модуль не внутри mzz/modules, а например внутри папки www/modules. Сделайте следующее, откройте файл 
-generateModule.bat в любом текстовом редакторе и измените относительный путь ../codegenerator/createmodule.php, на абсолютный, например
-c:/server/mzz/system/codegenerator/createmodule.php
+generateModule.bat в любом текстовом редакторе и измените относительный путь ..\codegenerator\createmodule.php, на абсолютный, например
+c:\server\mzz\system\codegenerator\createmodule.php
 <</note>>
 
 Необходимо просто ввести в ваш любимый файловый навигатор (например TotalCMD) строку следующего содержания.
@@ -22,7 +22,7 @@ generateModule.bat module
 <</code>>
 Это вызовет цепную реакцию в глубине вашего компьютера и он сам все сделает. Сначала запустит 
 <<code>>
-mzz/system/codegenerator/createmodule.php 
+mzz\system\codegenerator\createmodule.php 
 <</code>>
 потом передаст туда имя модуля, и как следствие создаст необходимую для модуля инфраструктуру, то есть файлы и необходимые файлы.
 
@@ -40,8 +40,8 @@ generateDO.bat superDO
 <<code>>
 generateAction.bat superDO action
 <</code>>
-Таким образом создастся контроллер - controllers/superDO.action.controller.php и вид для него - views/superDO.action.view.php.
-Также в actions/superDo.ini добавится новый action.
+Таким образом создастся контроллер - controllers\superDO.action.controller.php и вид для него - views\superDO.action.view.php.
+Также в actions\superDo.ini добавится новый action.
 
 
 

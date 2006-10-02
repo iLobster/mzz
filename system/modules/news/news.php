@@ -57,6 +57,7 @@ class news extends simple
      *
      * @return string
      */
+    /*
     public function getFolderName()
     {
         fileLoader::load("news/mappers/newsFolderMapper");
@@ -65,7 +66,7 @@ class news extends simple
         $folderName = $newsFolderMapper->searchOneByField('id', $this->fields->get('folder_id'));
 
         return $folderName->getName();
-    }
+    }*/
 }
 
 ?>

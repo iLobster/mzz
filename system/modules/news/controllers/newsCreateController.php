@@ -17,15 +17,16 @@
  * @version 0.1
  */
 
+fileLoader::load('news/views/newsCreateView');
+fileLoader::load('news/views/newsCreateSuccessView');
+fileLoader::load('news/views/newsCreateForm');
+fileLoader::load("news/mappers/newsMapper");
+fileLoader::load("news/mappers/newsFolderMapper");
+
 class newsCreateController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('news/views/newsCreateView');
-        fileLoader::load('news/views/newsCreateSuccessView');
-        fileLoader::load('news/views/newsCreateForm');
-        fileLoader::load("news/mappers/newsMapper");
-        fileLoader::load("news/mappers/newsFolderMapper");
         parent::__construct();
     }
 
@@ -33,15 +34,16 @@ class newsCreateController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
-        $newsMapper = new newsMapper($this->request->getSection());
+        $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
         $news = $newsMapper->create();
 
 
         $form = newsCreateForm::getForm($this->request->get(0, 'string', SC_PATH));
+        
         if ($form->validate() == false) {
             $view = new newsCreateView($news, $form);
         } else {
-            $newsFolder = new newsFolderMapper($this->request->getSection());
+            $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());
             $folder = $newsFolder->searchByName($this->request->get(0, 'string', SC_PATH));
 
             $values = $form->exportValues();
@@ -56,6 +58,7 @@ class newsCreateController extends simpleController
 
             $view = new newsCreateSuccessView($news, $form);
         }
+        
         return $view;
     }
 }

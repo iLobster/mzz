@@ -16,13 +16,14 @@
  * @subpackage page
  * @version 0.2
  */
-
+ 
+fileLoader::load('page/views/pageViewView');
+fileLoader::load("page/mappers/pageMapper");
+        
 class pageViewController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('page/views/pageViewView');
-        fileLoader::load("page/mappers/pageMapper");
         parent::__construct();
     }
 
@@ -30,15 +31,13 @@ class pageViewController extends simpleController
     {
         $section = $this->request->getSection();
 
-        //$pageMapper = $this->toolkit->getCache(new pageMapper($section));
-        $pageMapper = new pageMapper($section);
-
-        //$pageMapper = new pageMapper($section);
+        $pageMapper = $this->toolkit->getMapper('page', 'page', $this->request->getSection());
 
         if (($name = $this->request->get(0, 'string', SC_PATH)) == false) {
             $name = 'main';
         }
         $page = $pageMapper->searchByName($name);
+        
         if ($page) {
             return new pageViewView($page);
         } else {

@@ -93,10 +93,16 @@ class newsFolderMapper extends simpleMapper
      */
     protected function createItemFromRow($row)
     {
-        $map = $this->getMap();
-        $newsFolder = new newsFolder($this, $map);
+        //$map = $this->getMap();
+        $newsFolder = $this->create();//new newsFolder($this, $map);
         $newsFolder->import($row);
         return $newsFolder;
+    }
+
+    public function create()
+    {
+        $map = $this->getMap();
+        return new newsFolder($this, $map);
     }
 
     /**

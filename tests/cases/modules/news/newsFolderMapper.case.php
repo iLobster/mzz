@@ -36,7 +36,7 @@ class newsFolderMapperTest extends unitTestCase
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'editor' => array ( 'name' => 'editor', 'accessor' => 'getEditor', 'mutator' => 'setEditor'),
         'text' => array ('name' => 'text', 'accessor' => 'getText', 'mutator' => 'setText'),
-        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolderId', 'mutator' => 'setFolderId'),
+        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolder', 'mutator' => 'setFolder', 'owns' => 'newsFolder.id'),
         'created' => array ('name' => 'created', 'accessor' => 'getCreated', 'mutator' => 'setCreated'),
         'updated' => array ('name' => 'updated', 'accessor' => 'getUpdated', 'mutator' => 'setUpdated'),
         );
@@ -73,15 +73,19 @@ class newsFolderMapperTest extends unitTestCase
         $this->fixture($this->mapper, $this->map);
         $newsMapper = new newsMapper('news');
 
+        $newsFolderMapper = new newsFolderMapper('news');
+
         $data[] = array('title', 'editor', 'text', '1');
         $data[] = array('title2', 'editor2', 'text2', '1');
         $data[] = array('title3', 'editor3', 'text3', '2');
         foreach ($data as $record) {
+            $folder = $newsFolderMapper->searchOneByField('id', $record[3]);
+
             $news = new news($this->mapNews);
             $news->setTitle($record[0]);
             $news->setEditor($record[1]);
             $news->setText($record[2]);
-            $news->setFolderId($record[3]);
+            $news->setFolder($folder);
             $newsMapper->save($news);
         }
 
@@ -92,7 +96,7 @@ class newsFolderMapperTest extends unitTestCase
         foreach ($news as $key => $item) {
             $this->assertIsA($item, 'news');
             $this->assertEqual($item->getTitle(), $data[$key][0]);
-            $this->assertIdentical($item->getFolderId(), $data[$key][3]);
+            $this->assertIdentical($item->getFolder()->getId(), $data[$key][3]);
         }
     }
 

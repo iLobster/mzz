@@ -38,13 +38,6 @@ class userMapper extends simpleMapper
     protected $className = 'user';
 
     /**
-     * Массив кешируемых методов
-     *
-     * @var array
-     */
-    //  protected $cacheable = array('searchById', 'searchByLogin');
-
-    /**
      * Конструктор
      *
      * @param string $section секция
@@ -52,7 +45,6 @@ class userMapper extends simpleMapper
     public function __construct($section)
     {
         parent::__construct($section);
-        $this->relationTable = $this->table . 'group_rel';
     }
 
     /**
@@ -74,12 +66,9 @@ class userMapper extends simpleMapper
     public function searchById($id)
     {
         $user = $this->searchOneByField('id', $id);
-        /*$stmt = $this->searchByField('id', $id);
-        $row = $stmt->fetch();
-*/
+
         if ($user) {
             return $user;
-         //   return $this->createItemFromRow($this->fillArray($row));
         } else {
             if($id === MZZ_USER_GUEST_ID) {
                 throw new mzzSystemException('Отсутствует запись с ID: ' . MZZ_USER_GUEST_ID . ' для гостя в таблице ' . $this->table);
@@ -184,24 +173,6 @@ class userMapper extends simpleMapper
     {
         return $this->searchById(MZZ_USER_GUEST_ID);
     }
-
-    /**
-     * Magic method __sleep
-     *
-     * @return array
-     */
-    /*  public function __sleep()
-    {
-    return array('name', 'section', 'tablePostfix', 'cacheable', 'className', 'table');
-    }*/
-
-    /**
-     * Magic method __wakeup
-     *
-     */
-    /*public function __wakeup()
-    {
-    }*/
 }
 
 ?>

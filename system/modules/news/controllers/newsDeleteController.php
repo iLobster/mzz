@@ -17,18 +17,19 @@
  * @version 0.1
  */
 
+fileLoader::load('news/views/newsDeleteView');
+fileLoader::load("news/mappers/newsMapper");
+
 class newsDeleteController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('news/views/newsDeleteView');
-        fileLoader::load("news/mappers/newsMapper");
         parent::__construct();
     }
 
     public function getView()
     {
-        $newsMapper = new newsMapper($this->request->getSection());
+        $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
         $newsMapper->delete($this->request->get(0, 'integer', SC_PATH));
         $view = new newsDeleteView();
 

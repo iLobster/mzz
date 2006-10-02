@@ -49,7 +49,8 @@ INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`,
   (4,3,'новость 3',2,'текст 31',3,1140071207,1151126312),
   (5,4,'новость 4',2,'текст 4',2,1140071107,1140071117),
   (6,16,'тестовая новость',2,'... текст',1,1158725119,1158725119),
-  (7,17,'цйу',2,'йцу',1,1158725156,1158725156);
+  (7,17,'цйу',2,'йцу',1,1158725156,1158725156),
+  (8,18,'qwe',2,'asdqwe',1,1159144215,1159144215);
 
 COMMIT;
 
@@ -344,7 +345,8 @@ CREATE TABLE `sys_obj_id` (
 INSERT INTO `sys_obj_id` (`id`) VALUES 
   (15),
   (16),
-  (17);
+  (17),
+  (18);
 
 COMMIT;
 
@@ -405,6 +407,7 @@ CREATE TABLE `user_usergroup_rel` (
   `id` int(11) NOT NULL auto_increment,
   `group_id` int(11) default NULL,
   `user_id` int(11) default NULL,
+  `obj_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -413,9 +416,9 @@ CREATE TABLE `user_usergroup_rel` (
 # Data for the `user_usergroup_rel` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`) VALUES 
-  (1,1,1),
-  (2,2,2);
+INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
+  (1,1,1,NULL),
+  (2,2,2,NULL);
 
 COMMIT;
 

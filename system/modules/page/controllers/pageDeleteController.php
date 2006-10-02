@@ -16,19 +16,21 @@
  * @subpackage page
  * @version 0.1.1
  */
-
+ 
+fileLoader::load('page/views/pageDeleteView');
+fileLoader::load("page/mappers/pageMapper");
+        
 class pageDeleteController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('page/views/pageDeleteView');
-        fileLoader::load("page/mappers/pageMapper");
         parent::__construct();
     }
 
     public function getView()
     {
-        $pageMapper = new pageMapper($this->request->getSection());
+        $pageMapper = $this->toolkit->getMapper('page', 'page', $this->request->getSection());
+
         $page = $pageMapper->searchByName($this->request->get(0, 'string', SC_PATH));
 
         if ($page) {

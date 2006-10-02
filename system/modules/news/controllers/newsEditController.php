@@ -16,15 +16,16 @@
  * @subpackage news
  * @version 0.1
  */
-
+ 
+fileLoader::load('news/views/newsEditView');
+fileLoader::load('news/views/newsEditSuccessView');
+fileLoader::load('news/views/newsEditForm');
+fileLoader::load("news/mappers/newsMapper");
+        
 class newsEditController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('news/views/newsEditView');
-        fileLoader::load('news/views/newsEditSuccessView');
-        fileLoader::load('news/views/newsEditForm');
-        fileLoader::load("news/mappers/newsMapper");
         parent::__construct();
     }
 
@@ -32,8 +33,7 @@ class newsEditController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
-        //$newsMapper = $this->toolkit->getCache(new newsMapper($this->request->getSection()));
-        $newsMapper = new newsMapper($this->request->getSection());
+        $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
 
         if (($id = $this->request->get(0, 'integer', SC_PATH)) == null) {
             $id = $this->request->get('id', 'integer', SC_POST);
@@ -52,6 +52,8 @@ class newsEditController extends simpleController
                 $news->setEditor($user);
                 $news->setText($values['text']);
                 $newsMapper->save($news);
+
+                //$newsMapper->setInvalid();
 
                 $view = new newsEditSuccessView($news, $form);
             }

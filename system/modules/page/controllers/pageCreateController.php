@@ -17,20 +17,22 @@
  * @version 0.1
  */
 
+fileLoader::load('page/views/pageCreateView');
+fileLoader::load('page/views/pageCreateSuccessView');
+fileLoader::load('page/views/pageCreateForm');
+fileLoader::load("page/mappers/pageMapper");
+
 class pageCreateController extends simpleController
 {
     public function __construct()
     {
-        fileLoader::load('page/views/pageCreateView');
-        fileLoader::load('page/views/pageCreateSuccessView');
-        fileLoader::load('page/views/pageCreateForm');
-        fileLoader::load("page/mappers/pageMapper");
         parent::__construct();
     }
 
     public function getView()
     {
-        $pageMapper = new pageMapper($this->request->getSection());
+        $pageMapper = $this->toolkit->getMapper('page', 'page', $this->request->getSection());
+        //$pageMapper = new pageMapper($this->request->getSection());
         $page = $pageMapper->create();
 
         $form = pageCreateForm::getForm();
