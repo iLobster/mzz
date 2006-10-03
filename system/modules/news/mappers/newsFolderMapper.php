@@ -38,26 +38,6 @@ class newsFolderMapper extends simpleMapper
     protected $className = 'newsFolder';
 
     /**
-     * Массив кешируемых методов
-     *
-     * @var array
-     */
-    // protected $cacheable = array('searchByName', 'getFolders', 'getItems');
-
-    /**
-     * Постфикс имени таблицы
-     *
-     * @var string
-     */
-    //protected $tablePostfix = '_folder';
-    /**
-     * Постфикс имени таблицы
-     *
-     * @var string
-     */
-    //protected $relationPostfix = 'folder_tree';
-
-    /**
      * Конструктор
      *
      * @param string $section секция
@@ -86,19 +66,10 @@ class newsFolderMapper extends simpleMapper
     }
 
     /**
-     * Создает объект newsFolder из массива
+     * Возвращает Доменный Объект, который обслуживает запрашиваемый маппер
      *
-     * @param array $row
      * @return object
      */
-    protected function createItemFromRow($row)
-    {
-        //$map = $this->getMap();
-        $newsFolder = $this->create();//new newsFolder($this, $map);
-        $newsFolder->import($row);
-        return $newsFolder;
-    }
-
     public function create()
     {
         $map = $this->getMap();
@@ -168,20 +139,6 @@ class newsFolderMapper extends simpleMapper
 
         return $result;
     }
-    /*
-    public function __sleep()
-    {
-    return array('name', 'section', 'tablePostfix', 'relationTable', 'cacheable', 'className', 'table', 'count', 'tree');
-    }
-
-    public function __wakeup()
-    {
-    }
-
-    public function this()
-    {
-    return (!empty($this->cache)) ? $this->cache : $this;
-    } */
 
     public function convertArgsToId($args)
     {
