@@ -16,12 +16,12 @@
  * @subpackage news
  * @version 0.1
  */
- 
+
 fileLoader::load('news/views/newsEditView');
 fileLoader::load('news/views/newsEditSuccessView');
 fileLoader::load('news/views/newsEditForm');
 fileLoader::load("news/mappers/newsMapper");
-        
+
 class newsEditController extends simpleController
 {
     public function __construct()
@@ -35,7 +35,7 @@ class newsEditController extends simpleController
 
         $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
 
-        if (($id = $this->request->get(0, 'integer', SC_PATH)) == null) {
+        if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
             $id = $this->request->get('id', 'integer', SC_POST);
         }
 

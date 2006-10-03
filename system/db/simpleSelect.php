@@ -1,16 +1,52 @@
 <?php
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage db
+ * @version $Id$
+*/
 
 fileLoader::load('db/criteria');
 
+/**
+ * Класс для генерации простых SELECT SQL-запросов
+ *
+ * @package system
+ * @subpackage db
+ * @version 0.1
+ */
 class simpleSelect
 {
+    /**
+     * Критерии выборки
+     *
+     * @var criteria
+     */
     private $criteria;
 
+    /**
+     * Конструктор
+     *
+     * @param criteria $criteria
+     */
     public function __construct($criteria)
     {
         $this->criteria = $criteria;
     }
 
+    /**
+     * Возвращает SQL-запрос
+     *
+     * @return string
+     */
     public function toString()
     {
         $selectClause = array();

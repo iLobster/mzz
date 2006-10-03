@@ -234,8 +234,17 @@ class httpRequest implements iRequest
     }
 
     /**
-     * сохранение текущего состояния параметров<br>
-     * (SC_PATH)
+    * Получение текущего пути
+    *
+    * @return string PATH
+    */
+    public function getPath()
+    {
+        return trim(preg_replace('/\/{2,}/', '/', $this->get('path', 'mixed', SC_REQUEST)), '/');
+    }
+
+    /**
+     * сохранение текущего состояния параметров
      *
      */
     public function save()

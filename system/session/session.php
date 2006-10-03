@@ -23,6 +23,11 @@
 */
 class session
 {
+    /**
+     * Драйвер хранилища сессий
+     *
+     * @var iSessionStorage
+     */
     protected $storageDriver;
 
     /**
@@ -109,6 +114,11 @@ class session
         }
     }
 
+    /**
+     * Возвращает текущий идентификатор сессии
+     *
+     * @return string
+     */
     public function getId()
     {
         return session_id();

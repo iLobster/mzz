@@ -27,7 +27,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1
+ * @version 0.1.1
  */
 class requestRouter
 {
@@ -104,9 +104,7 @@ class requestRouter
      */
     public function route($path)
     {
-        /* @todo переместить куда нибудь */
-        $path = trim($path, '/');
-
+        /* @todo редирект на нормальную 404 */
         $params = array('section' => 'page', 'action' => 'view');
 
         foreach (array_reverse($this->routes) as $route) {

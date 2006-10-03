@@ -130,7 +130,7 @@ class groupMapper extends simpleMapper
         return $group;
     }
 
-        public function convertArgsToId($args)
+    public function convertArgsToId($args)
     {
         //var_dump($args);
         $newsFolder = $this->getFolderByPath(implode('/', $args));

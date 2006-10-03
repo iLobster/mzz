@@ -59,7 +59,7 @@ code, pre {
 
 div.code {
   background-color: #F1F1F1;
-  padding: 14px 14px; 
+  padding: 14px 14px;
   overflow:auto;
   margin: 10px 0px;
 }
@@ -67,3 +67,26 @@ div.code {
 div.note {
   margin: 10px;
 }
+
+div.options_name {
+  color: #2572B8;
+  width: 80%;
+  background-color: #F6F6F6;
+  text-align: left;
+  padding: 6px;
+  border-bottom: 1px solid #ECECEC;
+  font-weight: bold;
+}
+
+div.options_desc {
+  color: #000000;
+  width: 75%;
+  text-align: left;
+  margin: 10px;
+}
+
+span.options_value {
+  color: #B5B5B5;
+  font-weight: normal
+}
+

@@ -10,17 +10,17 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * pageDeleteController: контроллер для метода delete модуля page
+ * pageListController: контроллер для метода list модуля page
  *
  * @package modules
  * @subpackage page
- * @version 0.1.1
+ * @version 0.1
  */
 
-fileLoader::load('page/views/pageDeleteView');
+fileLoader::load('page/views/pageListView');
 fileLoader::load("page/mappers/pageMapper");
 
-class pageDeleteController extends simpleController
+class pageListController extends simpleController
 {
     public function __construct()
     {
@@ -31,13 +31,11 @@ class pageDeleteController extends simpleController
     {
         $pageMapper = $this->toolkit->getMapper('page', 'page', $this->request->getSection());
 
-        $page = $pageMapper->searchByName($this->request->get('name', 'string', SC_PATH));
-
-        if ($page) {
-            $pageMapper->delete($page->getId());
-            return new pageDeleteView();
+        $pages = $pageMapper->searchAll();
+        if ($pages) {
+            return new pageListView($pages);
         } else {
-            fileLoader::load('page/views/page404View');
+            fileLoader::load('news/views/page404View');
             return new page404View();
         }
     }

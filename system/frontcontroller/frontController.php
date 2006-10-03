@@ -1,14 +1,17 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @version $Id$
+*/
 
 /**
  * frontController: фронтконтроллер проекта
@@ -18,16 +21,24 @@
  */
 class frontController
 {
-     /**#@+
-     * @var object
+    /**
+     * iRequest
+     *
+     * @var iRequest
      */
     protected $request;
+
+    /**
+     * sectionMapper
+     *
+     * @var sectionMapper
+     */
     protected $sectionMapper;
-    /**#@-*/
 
     /**
      * конструктор класса
      *
+     * @param iRequest $request
      */
     public function __construct($request)
     {
@@ -37,8 +48,7 @@ class frontController
     }
 
     /**
-     * получение имени шаблона с пост-реврайтингом. Реврайтинг будет выполнен только
-     * если предоставленный путь клиентов не существует
+     * получение имени шаблона
      *
      * @return string имя шаблона в соответствии с выбранными секцией и экшном
      */
@@ -46,9 +56,7 @@ class frontController
     {
         $section = $this->request->getSection();
         $action = $this->request->get('action', 'mixed', SC_PATH);
-
-        $template_name = $this->sectionMapper->getTemplateName($section, $action);
-        return $template_name;
+        return $this->sectionMapper->getTemplateName($section, $action);
     }
 
 }

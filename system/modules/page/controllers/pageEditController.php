@@ -16,12 +16,12 @@
  * @subpackage page
  * @version 0.1
  */
- 
+
 fileLoader::load('page/views/pageEditView');
 fileLoader::load('page/views/pageEditSuccessView');
 fileLoader::load('page/views/pageEditForm');
 fileLoader::load("page/mappers/pageMapper");
-        
+
 class pageEditController extends simpleController
 {
     public function __construct()
@@ -33,7 +33,7 @@ class pageEditController extends simpleController
     {
         $pageMapper = $this->toolkit->getMapper('page', 'page', $this->request->getSection());
 
-        if (($name = $this->request->get(0, 'string', SC_PATH)) == null) {
+        if (($name = $this->request->get('name', 'string', SC_PATH)) == null) {
             $name = $this->request->get('name', 'string', SC_POST);
         }
         $page = $pageMapper->searchByName($name);

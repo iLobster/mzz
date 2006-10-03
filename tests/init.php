@@ -54,7 +54,6 @@ fileLoader::load('db/DB');
 fileLoader::load('filters/init');
 fileLoader::load('request/httpResponse');
 fileLoader::load('template/mzzSmarty');
-fileLoader::load('request/rewrite');
 
 fileLoader::load('toolkit');
 fileLoader::load('toolkit/stdToolkit');

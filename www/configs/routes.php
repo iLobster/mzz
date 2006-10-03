@@ -1,10 +1,9 @@
 <?php
-$toolkit = systemToolkit::getInstance();
 
-$router = $toolkit->getRouter($request);
 $router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list')));
-$router->addRoute('element', new requestRoute(':section/:id/:action'));
-$router->addRoute('list', new requestRoute(':section/:action'));
+$router->addRoute('withName', new requestRoute(':section/:name/:action', array('action' => 'view')));
+$router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
+$router->addRoute('pageName', new requestRoute('page/:name/:action', array('section' => 'page', 'action' => 'view')));
+$router->addRoute('withoutParams', new requestRoute(':section/:action', array('action' => 'list')));
 
-$router->route($request->get('path', 'mixed', SC_REQUEST));
 ?>

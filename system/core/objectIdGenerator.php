@@ -34,7 +34,7 @@ class objectIdGenerator
     /**
      * Число записей в таблице, после которого произойдёт её очистка
      *
-     * @var unknown_type
+     * @var integer
      */
     private $clearEvery = 1000000;
 
@@ -65,7 +65,7 @@ class objectIdGenerator
      * Метод, вызываемый 1 раз в $clearEvery записей
      *
      * @see objectIdGenerator::generate()
-     * @param integer $id id последней добавленной записи
+     * @param integer $id идентификатор последней добавленной записи
      */
     private function clean($id)
     {

@@ -50,57 +50,6 @@ class frontControllerTest extends unitTestCase
         $this->assertEqual($this->frontController->getTemplate(), "act.test.bar.tpl");
     }
 
-
-/*
-    public function testFrontControllerFalseRewriteTrue()
-    {
-        $this->request->expectCallCount('getSection', 3);
-        $this->request->setReturnValue('getSection', 'test');
-        $this->request->expectCallCount('getAction', 2);
-        $this->request->setReturnValueAt(0, 'getAction', 'abc');
-        $this->request->setReturnValueAt(1, 'getAction', 'foo');
-        $this->request->setReturnValueAt(2, 'getAction', 'foo');
-        $this->request->expectOnce('get', array('path'));
-        $this->request->setReturnValue('get', 'test.abc');
-        $this->request->expectOnce('import', array('test.foo'));
-
-        $this->rewrite->expectOnce('loadRules', array('test'));
-        $this->rewrite->expectOnce('process', array('test.abc'));
-        $this->rewrite->setReturnValue('process', 'test.foo');
-
-        $this->sectionMapper->expectCallCount('getTemplateName', 2);
-        $this->sectionMapper->setReturnValueAt(0, 'getTemplateName', false);
-        $this->sectionMapper->setReturnValueAt(1, 'getTemplateName', 'act.test.foo.tpl');
-
-        $this->assertEqual($this->frontController->getTemplate(), "act.test.foo.tpl");
-
-        $this->request->tally();
-    }
-
-    public function testFrontControllerFalseRewriteFalse()
-    {
-        $this->request->expectCallCount('getSection', 3);
-        $this->request->setReturnValueAt(0, 'getSection', 'test');
-        $this->request->setReturnValueAt(1, 'getSection', false);
-        $this->request->setReturnValueAt(2, 'getSection', false);
-        $this->request->expectCallCount('getAction', 2);
-        $this->request->setReturnValueAt(0, 'getAction', 'abc');
-        $this->request->setReturnValueAt(1, 'getAction', false);
-        $this->request->expectOnce('get', array('path'));
-        $this->request->setReturnValue('get', 'test.abc');
-        $this->request->expectOnce('import', array(false));
-
-        $this->sectionMapper->expectCallCount('getTemplateName', 2);
-        $this->sectionMapper->setReturnValueAt(0, 'getTemplateName', false);
-        $this->sectionMapper->setReturnValueAt(1, 'getTemplateName', 'act.notFound.view.tpl');
-
-        $this->rewrite->expectOnce('process', array('test.abc'));
-        $this->rewrite->setReturnValue('process', false);
-
-        $this->assertEqual($this->frontController->getTemplate(), 'act.notFound.view.tpl');
-
-        $this->request->tally();
-    }*/
 }
 
 ?>

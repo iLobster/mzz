@@ -32,7 +32,9 @@ class contentFilter implements iFilter
 
         $frontcontroller = new frontController($request);
 
+        $router = $toolkit->getRouter($request);
         require_once(fileLoader::resolve('configs/routes'));
+        $router->route($request->getPath());
 
         $template = $frontcontroller->getTemplate();
 

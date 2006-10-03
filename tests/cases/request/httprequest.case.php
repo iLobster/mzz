@@ -6,7 +6,6 @@ fileLoader::load('dataspace/arrayDataspace');
 class httpRequestTest extends unitTestCase
 {
     protected $httprequest;
-    protected $rewrite;
     // —уперглобальные переменные до запуска теста
     protected $SERVER = array();
     protected $GET = array();
@@ -100,6 +99,12 @@ class httpRequestTest extends unitTestCase
     {
         $_GET['path'] = "/news/archive/18/10//2005/list";
         $this->assertEqual($this->httprequest->getUrl(), $_GET['path']);
+    }
+
+    public function testGetPath()
+    {
+        $_GET['path'] = "/news///archive/18/10//2005/list";
+        $this->assertEqual($this->httprequest->getPath(), 'news/archive/18/10/2005/list');
     }
 
     public function testGetSection()

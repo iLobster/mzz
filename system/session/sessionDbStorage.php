@@ -25,8 +25,17 @@ fileLoader::load('session/iSessionStorage');
 */
 class sessionDbStorage implements iSessionStorage
 {
+    /**
+     * Ссылка на объект DB
+     *
+     * @var object
+     */
     protected $db;
 
+    /**
+     * Конструктор
+     *
+     */
     public function __construct()
     {
         $this->db = DB::factory();

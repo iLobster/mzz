@@ -8,8 +8,9 @@
 </head>
 <body>
 <p class="title">{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION})</p>
+
 <div class="separator">&nbsp;</div>
-<p />
+<a href="{url section=news}">Новости</a> | <a href="{url section=page}">Страницы</a><p />
 {$content}
 <p />
 {load module="user" action="login" args="1" section="user"}
