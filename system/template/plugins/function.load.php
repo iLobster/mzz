@@ -57,11 +57,12 @@ function smarty_function_load($params, $smarty)
     if(isset($params['args'])) {
         $request->setParams(explode('/', $params['args']));
     }
-/*
-    $mappername = $action->getType() . 'Mapper';
-    fileLoader::load($module . '/mappers/' . $mappername);
 
-    $mapper = new $mappername($request->getSection());
+    $mappername = $action->getType() . 'Mapper';
+    $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
+
+
+    /*
     $object_id = $mapper->convertArgsToId($request->getParams());
 
     $user = $toolkit->getUser();

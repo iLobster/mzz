@@ -159,12 +159,12 @@ class httpRequest implements iRequest
      */
     public function convertToType($result, $type)
     {
-        $validTypes = array('array' => 1, 'integer' => 1, 'boolean' => 1, 'string' => 1);
+        $validTypes = array('array', 'integer', 'boolean', 'string');
         if (gettype($result) == 'array' && $type != 'array') {
             $result = array_shift($result);
         }
 
-        if (gettype($result) != $type && isset($validTypes[$type])) {
+        if (gettype($result) != $type && in_array($type, $validTypes)) {
             settype($result, $type);
         }
         return $result;

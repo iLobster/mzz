@@ -20,7 +20,7 @@ class sessionTest extends unitTestCase
     }
 
     public function tearDown()
-    {   
+    {
         $_SESSION = $this->_old_session_data;
 
     }
@@ -87,11 +87,6 @@ class sessionTest extends unitTestCase
         $this->assertEqual(isset($_SESSION['key_first']), false); // destroyed
         $this->assertEqual(isset($_SESSION['key_third']), true); // exists
     }
-
-
-
-
-
 }
 
 ?>

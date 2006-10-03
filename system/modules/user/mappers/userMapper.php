@@ -173,6 +173,12 @@ class userMapper extends simpleMapper
     {
         return $this->searchById(MZZ_USER_GUEST_ID);
     }
+
+    public function convertArgsToId($args)
+    {
+        $user = $this->searchOneByField('id', $args[0]);
+        return (int)$user->getObjId();
+    }
 }
 
 ?>

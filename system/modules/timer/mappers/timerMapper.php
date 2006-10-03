@@ -19,6 +19,11 @@
 
 class timerMapper extends simpleMapper
 {
+    public function convertArgsToId($args)
+    {
+        // таймер один - даже хз какой сюда нумбер указать, взял просто следующий
+        return 19;
+    }
 }
 
 ?>

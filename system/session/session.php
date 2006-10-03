@@ -108,6 +108,11 @@ class session
             unset($_SESSION[$name]);
         }
     }
+
+    public function getId()
+    {
+        return session_id();
+    }
 }
 
 ?>

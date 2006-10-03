@@ -77,6 +77,12 @@ class newsMapper extends simpleMapper
         $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
         $fields['updated'] = $fields['created'];
     }
+
+    public function convertArgsToId($args)
+    {
+        $news = $this->searchOneByField('id', $args[0]);
+        return (int)$news->getObjId();
+    }
 }
 
 ?>

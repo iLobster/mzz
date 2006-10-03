@@ -14,6 +14,10 @@ class stubMapperDataModify extends simpleMapper
     {
         $fields['bar'] = new sqlFunction('UNIX_TIMESTAMP');
     }
+
+    public function convertArgsToId($args)
+    {
+    }
 }
 
 ?>

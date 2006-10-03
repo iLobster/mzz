@@ -75,9 +75,9 @@ CREATE TABLE `news_newsfolder` (
 #
 
 INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES 
-  (1,6,'root',1,NULL),
-  (2,7,'parent1',2,NULL),
-  (3,8,'parent2',3,NULL);
+  (1,6,'root',1,'root'),
+  (2,7,'parent1',2,'parent1'),
+  (3,8,'parent2',3,'parent2');
 
 COMMIT;
 
@@ -346,7 +346,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (15),
   (16),
   (17),
-  (18);
+  (18),
+  (19);
 
 COMMIT;
 
