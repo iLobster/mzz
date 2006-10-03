@@ -2,20 +2,23 @@
 
 fileLoader::load('request/requestRouter');
 fileLoader::load('request/iRoute');
+fileLoader::load('request/httpRequest');
 
 class stubRoute implements iRoute {
     public function match($path) {
     }
 }
 Mock::generate('stubRoute');
+Mock::generate('httpRequest');
 
 class requestRouterTest extends unitTestCase
 {
     private $router;
+    private $request;
 
     function setUp()
     {
-        $this->router = new requestRouter();
+        $this->router = new requestRouter($this->request = new mockhttpRequest);
     }
 
     public function tearDown()
@@ -50,11 +53,14 @@ class requestRouterTest extends unitTestCase
         $routeSecond->expectCallCount('match', 1);
 
         $routeFirst->setReturnValue('match', false);
-        $routeSecond->setReturnValue('match', array('controller' => 'news', 'action' => 'view'));
+
+        $result = array('controller' => 'news', 'action' => 'view');
+        $routeSecond->setReturnValue('match', $result);
 
         $this->router->addRoute('first', $routeFirst);
         $this->router->addRoute('second', $routeSecond);
 
+        $this->request->expectOnce('setParams', array($result));
         $this->router->route('path');
     }
 
@@ -67,11 +73,42 @@ class requestRouterTest extends unitTestCase
         $routeFirst->expectCallCount('match', 1);
         $routeSecond->expectCallCount('match', 1);
 
-        $routeFirst->setReturnValue('match', array('controller' => 'news', 'action' => 'view'));
+        $result = array('controller' => 'news', 'action' => 'list');
+        $routeFirst->setReturnValue('match', $result);
+
         $routeSecond->setReturnValue('match', false);
 
         $this->router->addRoute('first', $routeFirst);
         $this->router->addRoute('second', $routeSecond);
+
+        $this->request->expectOnce('setParams', array($result));
+        $this->router->route('path');
+    }
+
+    public function testGetCurrentRoute()
+    {
+        $routeFirst = new mockstubRoute;
+        $routeSecond = new mockstubRoute;
+
+        $result = array('controller' => 'news', 'action' => 'list');
+        $routeFirst->setReturnValue('match', $result);
+        $routeSecond->setReturnValue('match', false);
+
+        $this->router->addRoute('first', $routeFirst);
+        $this->router->addRoute('second', $routeSecond);
+        $this->router->route('path');
+
+        $this->assertEqual($this->router->getCurrentRoute(), $routeFirst);
+    }
+
+    public function testRouteNotFound()
+    {
+        $route = new mockstubRoute;
+        $route->expectCallCount('match', 1);
+        $route->setReturnValue('match', false);
+        $this->router->addRoute('notMatch', $route);
+
+        $this->request->expectOnce('setParams', array(array('section' => 'page', 'action' => 'view')));
 
         $this->router->route('path');
     }

@@ -15,7 +15,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1.1
+ * @version 0.1.2
  */
 class url
 {
@@ -144,7 +144,7 @@ class url
     private function getCurrentSection()
     {
         $toolkit = systemToolkit::getInstance();
-        return $toolkit->getRequest()->getSection();
+        return $toolkit->getRequest()->get('section', 'mixed', SC_PATH);
     }
 }
 

@@ -3,12 +3,9 @@
 fileLoader::load('frontcontroller/frontController');
 
 fileLoader::load('request/httpRequest');
-fileLoader::load('request/rewrite');
-fileLoader::load('request/requestParser');
 fileLoader::load('core/sectionMapper');
 
 mock::generate('httpRequest');
-mock::generate('Rewrite');
 mock::generate('sectionMapper');
 
 class frontControllerTest extends unitTestCase
@@ -17,7 +14,6 @@ class frontControllerTest extends unitTestCase
     private $oldRequest;
     private $toolkit;
     private $request;
-    private $rewrite;
     private $sectionMapper;
     private $oldsectionMapper;
 
@@ -25,13 +21,10 @@ class frontControllerTest extends unitTestCase
     {
 
         $this->toolkit = systemToolkit::getInstance();
-
         $this->request = new mockhttpRequest();
 
         // Create Request, SectionMapper and set in toolkit
-        $this->rewrite = new mockrewrite();
         $this->sectionMapper = new mocksectionMapper();
-        $this->oldRewrite = $this->toolkit->setRewrite($this->rewrite);
         $this->oldsectionMapper = $this->toolkit->setSectionMapper($this->sectionMapper);
 
         $this->frontController = new frontController($this->request);
@@ -39,8 +32,7 @@ class frontControllerTest extends unitTestCase
 
     public function tearDown()
     {
-        // Restore Rewrite, SectionMapper in toolkit
-        $this->toolkit->setRewrite($this->oldRewrite);
+        // Restore SectionMapper in toolkit
         $this->toolkit->setSectionMapper($this->oldsectionMapper);
     }
 
@@ -49,8 +41,8 @@ class frontControllerTest extends unitTestCase
         $this->request->expectOnce('getSection', array());
         $this->request->setReturnValue('getSection', 'test');
 
-        $this->request->expectOnce('getAction', array());
-        $this->request->setReturnValue('getAction', 'bar');
+        $this->request->expectOnce('get', array('action', '*', '*'));
+        $this->request->setReturnValue('get', 'bar', array('action', '*', '*'));
 
         $this->sectionMapper->expectOnce('getTemplateName', array('test', 'bar'));
         $this->sectionMapper->setReturnValue('getTemplateName', 'act.test.bar.tpl');
@@ -58,6 +50,8 @@ class frontControllerTest extends unitTestCase
         $this->assertEqual($this->frontController->getTemplate(), "act.test.bar.tpl");
     }
 
+
+/*
     public function testFrontControllerFalseRewriteTrue()
     {
         $this->request->expectCallCount('getSection', 3);
@@ -106,7 +100,7 @@ class frontControllerTest extends unitTestCase
         $this->assertEqual($this->frontController->getTemplate(), 'act.notFound.view.tpl');
 
         $this->request->tally();
-    }
+    }*/
 }
 
 ?>

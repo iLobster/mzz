@@ -51,7 +51,7 @@ function smarty_function_load($params, $smarty)
     $request->save();
 
     if(isset($params['section'])) {
-        $request->setSection($params['section']);
+        $request->setParam('section', $params['section']);
     }
 
     if(isset($params['args'])) {

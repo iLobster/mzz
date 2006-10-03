@@ -30,7 +30,7 @@ class stdToolkit extends toolkit
     private $response;
     private $session;
     private $smarty;
-    private $rewrite;
+    private $router;
     private $config;
     private $sectionMapper;
     private $timer;
@@ -66,7 +66,7 @@ class stdToolkit extends toolkit
     {
         if (empty($this->request)) {
             fileLoader::load('request/httpRequest');
-            $this->request = new HttpRequest(new requestParser());
+            $this->request = new HttpRequest();
         }
         return $this->request;
     }
@@ -121,20 +121,19 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект Rewrite
+     * Возвращает объект requestRouter
      *
-     * @param string $section
+     * @param iRequest $request
      * @return object
      */
-    public function getRewrite($section)
+    public function getRouter($request)
     {
-        // может тут передавать путь/аргумент для резолвера аргументом??
-        if (empty($this->rewrite)) {
-            fileLoader::load('request/rewrite');
-            $this->rewrite = new Rewrite(fileLoader::resolve('configs/rewrite.xml'));
+        if (empty($this->router)) {
+            fileLoader::load('request/requestRoute');
+            fileLoader::load('request/requestRouter');
+            $this->router = new requestRouter($request);
         }
-        $this->rewrite->loadRules($section);
-        return $this->rewrite;
+        return $this->router;
     }
 
     /**
@@ -287,16 +286,16 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Устанавливает объект Rewrite
+     * Устанавливает объект requestRouter
      *
-     * @param object $rewrite
+     * @param object $router
      * @return object
      */
-    public function setRewrite($rewrite)
+    public function setRouter($router)
     {
-        $old_rewrite = $this->rewrite;
-        $this->rewrite = $rewrite;
-        return $old_rewrite;
+        $old_router = $this->router;
+        $this->router = $router;
+        return $old_router;
     }
 
     /**

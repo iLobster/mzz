@@ -28,7 +28,7 @@ fileLoader::load('request/iRequest');
  *
  * @package system
  * @subpackage request
- * @version 0.6.1
+ * @version 0.7
  */
 
 define('SC_GET', 1);
@@ -72,39 +72,15 @@ class httpRequest implements iRequest
     /**#@-*/
 
     /**
-     * Section
-     *
-     * @var string
-     */
-    protected $section;
-
-    /**
-     * Action
-     *
-     * @var string
-     */
-    protected $action;
-
-    /**
-     * массив для временного хранения section и action между save() и restore()
-     *
-     * @var array
-     */
-    protected $savedSectionAction = array();
-
-    /**
      * Конструктор.
      *
-     * @param object $requestParser
      */
-    public function __construct($requestParser)
+    public function __construct()
     {
         $this->postVars = new arrayDataspace($_POST);
         $this->getVars = new arrayDataspace($_GET);
         $this->cookieVars = new arrayDataspace($_COOKIE);
-        $this->requestParser = $requestParser;
         $this->setParams(array());
-        $this->import($this->get('path'));
         $this->savedParams = new arrayDataspace();
     }
 
@@ -171,16 +147,6 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Импорт строки с section, action и параметрами
-     *
-     * @param string $path
-     */
-    public function import($path)
-    {
-        $this->requestParser->parse($this, $path);
-    }
-
-    /**
      * Возвращает true если используется защищенный протокол HTTPS
      *
      * @return boolean
@@ -213,43 +179,13 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает section
+     * Возвращает текущую секцию
      *
      * @return string
      */
     public function getSection()
     {
-        return $this->section;
-    }
-
-    /**
-     * Возвращает action
-     *
-     * @return string
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    /**
-     * Установка section
-     *
-     * @param string $value
-     */
-    public function setSection($value)
-    {
-        $this->section = $value;
-    }
-
-    /**
-     * Установка action
-     *
-     * @param string $value
-     */
-    public function setAction($value)
-    {
-        $this->action = $value;
+        return $this->get('section', 'mixed', SC_PATH);
     }
 
     /**
@@ -288,8 +224,9 @@ class httpRequest implements iRequest
 
     /**
     * Получение текущего урла
-    * пока возвращает лишь path, исключая QUERY_STRING
-    * @return string урл
+    *
+    * @todo сделать чтобы возвращал полностью весь адрес
+    * @return string URL
     */
     public function getUrl()
     {
@@ -304,8 +241,6 @@ class httpRequest implements iRequest
     public function save()
     {
         $this->savedParams = clone $this->params;
-        $this->savedSectionAction['action'] = $this->action;
-        $this->savedSectionAction['section'] = $this->section;
     }
 
     /**
@@ -315,8 +250,6 @@ class httpRequest implements iRequest
     public function restore()
     {
         $this->params = clone $this->savedParams;
-        $this->section = $this->savedSectionAction['section'];
-        $this->action = $this->savedSectionAction['action'];
     }
 
 }

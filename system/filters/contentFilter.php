@@ -31,6 +31,9 @@ class contentFilter implements iFilter
         $toolkit = systemToolkit::getInstance();
 
         $frontcontroller = new frontController($request);
+
+        require_once(fileLoader::resolve('configs/routes'));
+
         $template = $frontcontroller->getTemplate();
 
         $smarty = $toolkit->getSmarty();

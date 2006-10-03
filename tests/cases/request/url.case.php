@@ -4,12 +4,12 @@ fileLoader::load('request/url');
 
 class urlTest extends unitTestCase
 {
-    private $server_vars;
+    private $SERVER;
     private $url;
 
     function setUp()
     {
-        $this->server_vars = $_SERVER;
+        $this->SERVER = $_SERVER;
         $_SERVER['HTTPS'] = false;
         $_SERVER['SERVER_PORT'] = '80';
         $_SERVER['HTTP_HOST'] = 'localhost';
@@ -18,7 +18,7 @@ class urlTest extends unitTestCase
 
     public function tearDown()
     {
-        $_SERVER = $this->server_vars;
+        $_SERVER = $this->SERVER;
     }
 
     public function testUrlFull()

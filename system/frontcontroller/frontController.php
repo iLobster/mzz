@@ -14,14 +14,13 @@
  * frontController: фронтконтроллер проекта
  *
  * @package system
- * @version 0.3
+ * @version 0.4
  */
 class frontController
 {
      /**#@+
      * @var object
      */
-    protected $toolkit;
     protected $request;
     protected $sectionMapper;
     /**#@-*/
@@ -32,9 +31,9 @@ class frontController
      */
     public function __construct($request)
     {
-        $this->toolkit = systemToolkit::getInstance();
+        $toolkit = systemToolkit::getInstance();
         $this->request = $request;
-        $this->sectionMapper = $this->toolkit->getSectionMapper();
+        $this->sectionMapper = $toolkit->getSectionMapper();
     }
 
     /**
@@ -46,42 +45,12 @@ class frontController
     public function getTemplate()
     {
         $section = $this->request->getSection();
-        $action = $this->request->getAction();
+        $action = $this->request->get('action', 'mixed', SC_PATH);
 
         $template_name = $this->sectionMapper->getTemplateName($section, $action);
-
-        if ($template_name === false) {
-            $template_name = $this->getRewritedTemplate($section);
-            if($template_name == false)
-            {
-                // redirect to 404 page
-                $this->request->setSection('page');
-                $this->request->setParam(0, '404');
-                $this->request->setAction('view');
-                $template_name = $this->sectionMapper->getTemplateName('notFound', 'view');
-            }
-        }
-
         return $template_name;
     }
 
-    /**
-     * получение имени шаблона с пре-реврайтингом
-     *
-     * @return string имя шаблона в соответствии с выбранными секцией и экшном
-     */
-    public function getRewritedTemplate()
-    {
-        $rewrite = $this->toolkit->getRewrite($this->request->getSection());
-
-        $rewrited_path = $rewrite->process($this->request->get('path'));
-
-        $this->request->import($rewrited_path);
-
-        $section = $this->request->getSection();
-        $action = $this->request->getAction();
-        return $this->sectionMapper->getTemplateName($section, $action);
-    }
 }
 
 ?>

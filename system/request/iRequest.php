@@ -30,13 +30,6 @@ interface iRequest
     public function get($name, $scope = null);
 
     /**
-     * Импорт строки с section, action и параметрами
-     *
-     * @param string $path
-     */
-    public function import($path);
-
-    /**
      * Метод возвращает протокол, который был использован для передачи данных.
      *
      */
@@ -48,34 +41,6 @@ interface iRequest
      * @return boolean
      */
     public function isSecure();
-
-    /**
-     * Возвращает section
-     *
-     * @return string
-     */
-    public function getSection();
-
-    /**
-     * Возвращает action
-     *
-     * @return string
-     */
-    public function getAction();
-
-    /**
-     * Установка section
-     *
-     * @param string $value
-     */
-    public function setSection($value);
-
-    /**
-     * Установка action
-     *
-     * @param string $value
-     */
-    public function setAction($value);
 
     /**
      * Установка определенного параметра

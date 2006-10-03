@@ -62,7 +62,6 @@ class core
             fileLoader::load('filters/init');
 
             fileLoader::load('config/config');
-            fileLoader::load('request/requestParser');
             fileLoader::load('frontcontroller/frontController');
 
             fileLoader::load('db/DB');

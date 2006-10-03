@@ -1,27 +1,28 @@
 <?php
 
 fileLoader::load('request/httpRequest');
-fileLoader::load('request/requestParser');
 fileLoader::load('dataspace/arrayDataspace');
-
-Mock::generate('requestParser');
 
 class httpRequestTest extends unitTestCase
 {
-    protected $requestparser;
     protected $httprequest;
     protected $rewrite;
     // Суперглобальные переменные до запуска теста
-    protected $old = array();
+    protected $SERVER = array();
+    protected $GET = array();
+    protected $POST = array();
+    protected $COOKIE = array();
+
     protected $integer = '2006';
 
     function setUp()
     {
-        $this->old['server'] = $_SERVER;
-        $this->old['post'] = $_POST;
-        $this->old['get'] = $_GET;
-        $this->old['cookie'] = $_COOKIE;
-        // Тестируется также очистка от лишних "/"
+        $this->SERVER = $_SERVER;
+        $this->POST = $_POST;
+        $this->GET = $_GET;
+        $this->COOKIE = $_COOKIE;
+
+
         $_GET['path'] = "/news/archive/18/10//2005/list";
         $_POST['_TEST_FOO'] = "post_foo";
         $_COOKIE['_TEST_BAR'] = "cookie_bar";
@@ -30,24 +31,22 @@ class httpRequestTest extends unitTestCase
         $_POST['_TEST_ARRAY_INT'][0] = $this->integer;
         $_GET['_TEST_INTEGER'] = $this->integer;
 
-        $requestparser = new mockrequestParser();
-        $requestparser->expectOnce('parse', array($this->httprequest = new httpRequest($requestparser), $_GET['path']));
+        $this->httprequest = new httpRequest();
 
 
     }
 
     public function tearDown()
     {
-        $_SERVER = $this->old['server'];
-        $_POST = $this->old['post'];
-        $_GET = $this->old['get'];
-        $_COOKIE = $this->old['cookie'];
+        $_SERVER = $this->SERVER;
+        $_POST = $this->POST;
+        $_GET = $this->GET;
+        $_COOKIE = $this->COOKIE;
     }
 
 
     public function testIsSecure()
     {
-
         // for Apache
         unset($_SERVER['HTTPS']);
         $this->assertFalse($this->httprequest->isSecure());
@@ -68,18 +67,6 @@ class httpRequestTest extends unitTestCase
         $this->assertEqual($this->httprequest->getMethod(), 'POST');
     }
 
-    public function testSectionAction()
-    {
-        $this->assertNull($this->httprequest->getSection());
-        $this->assertNull($this->httprequest->getAction());
-
-        $this->httprequest->setSection('foo');
-        $this->httprequest->setAction('bar');
-
-        $this->assertEqual($this->httprequest->getSection(), 'foo');
-        $this->assertEqual($this->httprequest->getAction(), 'bar');
-
-    }
 
     public function testGet()
     {
@@ -115,32 +102,32 @@ class httpRequestTest extends unitTestCase
         $this->assertEqual($this->httprequest->getUrl(), $_GET['path']);
     }
 
+    public function testGetSection()
+    {
+        $this->httprequest->setParams($params = array('section' => 'example'));
+        $this->assertEqual($this->httprequest->getSection(), $params['section']);
+    }
+
     public function testGetParams()
     {
-        $this->httprequest->setParams($arr = array(1, 2, 3));
-        $this->assertEqual($this->httprequest->getParams(), $arr);
+        $this->httprequest->setParams($params = array('someKey' => 'someValue'));
+        $this->assertEqual($this->httprequest->get('someKey', 'mixed', SC_PATH), $params['someKey']);
     }
 
     public function testSaveRestore()
     {
-        $this->httprequest->setParam('param_foo', $val = 'foo');
-        $this->httprequest->setAction($action = 'someaction');
-
-        $this->assertEqual($this->httprequest->get('param_foo', 'mixed', SC_PATH), $val);
-        $this->assertEqual($this->httprequest->getAction(), $action);
+        $this->httprequest->setParams($paramsFirst = array('key' => 'hello'));
+        $this->assertEqual($this->httprequest->get('key', 'mixed', SC_PATH), $paramsFirst['key']);
 
         $this->httprequest->save();
 
-        $this->httprequest->setParam('param_foo', $val2 = 'bar');
-        $this->httprequest->setAction($action2 = 'someaction2');
-
-        $this->assertEqual($this->httprequest->get('param_foo', 'mixed', SC_PATH), $val2);
-        $this->assertEqual($this->httprequest->getAction(), $action2);
+        $this->httprequest->setParams($paramsSecond = array('index' => 'world'));
+        $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), $paramsSecond['index']);
 
         $this->httprequest->restore();
 
-        $this->assertEqual($this->httprequest->get('param_foo', 'mixed', SC_PATH), $val);
-        $this->assertEqual($this->httprequest->getAction(), $action);
+        $this->assertEqual($this->httprequest->get('key', 'mixed', SC_PATH), $paramsFirst['key']);
+        $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), null);
     }
 }
 

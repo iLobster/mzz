@@ -36,7 +36,7 @@ class requestRouter
      *
      * @var array
      */
-    protected $router;
+    protected $routes = array();
 
     /**
      * ѕоследнее правило, с которым совпал PATH
@@ -48,9 +48,11 @@ class requestRouter
     /**
      *  онструктор
      *
+     * @param iRequest $request
      */
-    public function __construct()
+    public function __construct($request)
     {
+        $this->request = $request;
     }
 
     /**
@@ -81,11 +83,15 @@ class requestRouter
     /**
      * ¬озвращает последнее правило, с которым совпал PATH
      *
-     * @param iRoute $path правило
+     * @return iRoute
      */
     public function getCurrentRoute()
     {
-
+        if (!empty($this->current)) {
+            return $this->current;
+        } else {
+            throw new mzzRuntimeException("Cannot find current route");
+        }
     }
 
     /**
@@ -98,16 +104,20 @@ class requestRouter
      */
     public function route($path)
     {
+        /* @todo переместить куда нибудь */
+        $path = trim($path, '/');
+
+        $params = array('section' => 'page', 'action' => 'view');
 
         foreach (array_reverse($this->routes) as $route) {
-            if ($params = $route->match($path)) {
-                $controller = $params['controller'];
-                $action     = $params['action'];
+            if ($parts = $route->match($path)) {
+                $params = $parts;
+                $this->current = $route;
                 break;
             }
         }
 
-        //return array($controller, $action, $params);
+        $this->request->setParams($params);
     }
 
 }

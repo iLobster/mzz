@@ -16,10 +16,10 @@
  * @subpackage page
  * @version 0.2
  */
- 
+
 fileLoader::load('page/views/pageViewView');
 fileLoader::load("page/mappers/pageMapper");
-        
+
 class pageViewController extends simpleController
 {
     public function __construct()
@@ -33,11 +33,11 @@ class pageViewController extends simpleController
 
         $pageMapper = $this->toolkit->getMapper('page', 'page', $this->request->getSection());
 
-        if (($name = $this->request->get(0, 'string', SC_PATH)) == false) {
+        if (($name = $this->request->get('name', 'string', SC_PATH)) == false) {
             $name = 'main';
         }
         $page = $pageMapper->searchByName($name);
-        
+
         if ($page) {
             return new pageViewView($page);
         } else {
