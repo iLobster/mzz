@@ -432,6 +432,16 @@ abstract class simpleMapper //implements iCacheable
         return $result;
     }
 
+    /**
+     * Поиск всех записей
+     *
+     * @return PDOStatement
+     */
+    public function searchAll()
+    {
+        $criteria = new criteria();
+        return $this->searchAllByCriteria($criteria);
+    }
     private function addSelectFields(criteria $criteria, $map, $table, $alias)
     {
         foreach ($map as $key => $val) {
