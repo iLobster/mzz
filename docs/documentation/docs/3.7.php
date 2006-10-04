@@ -70,4 +70,8 @@ mutator = "имя мутатора"
 	decorateClass = "md5PasswordHash" <br />
                 <</code>>
         </li>
+        <li>
+                <em>alias</em> - свойство указывает, какое соединение использовать мапперу.
+  
+        </li>
 </ul>
