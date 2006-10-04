@@ -229,9 +229,10 @@ abstract class simple
 
             $sectionName = isset($this->map[$name]['section']) ? $this->map[$name]['section'] : $this->section();
             $moduleName = isset($this->map[$name]['module']) ? $this->map[$name]['module'] : $this->name;
+            $alias = isset($this->map[$name]['alias']) ? $this->map[$name]['alias'] : 'default';
 
             $toolkit = systemToolkit::getInstance();
-            $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+            $mapper = $toolkit->getMapper($moduleName, $className, $sectionName, $alias);
 
             $object = $mapper->searchOneByField($fieldName, $this->fields->get($name));
 
@@ -247,9 +248,10 @@ abstract class simple
 
             $sectionName = isset($this->map[$name]['section']) ? $this->map[$name]['section'] : $this->section();
             $moduleName = isset($this->map[$name]['module']) ? $this->map[$name]['module'] : $this->name;
+            $alias = isset($this->map[$name]['alias']) ? $this->map[$name]['alias'] : 'default';
 
             $toolkit = systemToolkit::getInstance();
-            $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+            $mapper = $toolkit->getMapper($moduleName, $className, $sectionName, $alias);
 
             $accessor = $this->map[$field]['accessor'];
 
