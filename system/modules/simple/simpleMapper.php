@@ -250,7 +250,7 @@ abstract class simpleMapper //implements iCacheable
         $toolkit = systemToolkit::getInstance();
 
         foreach ($this->getOwns() as $key => $val) {
-            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
+            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
             $tmp[$this->name][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
         }
 
@@ -297,7 +297,7 @@ abstract class simpleMapper //implements iCacheable
         $this->addSelectFields($criteria, $this->getMap(), $this->table, $this->name);
 
         foreach ($this->getOwns() as $key => $val) {
-            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
+            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
 
             $this->addSelectFields($criteria, $mapper->getMap(), $val['class'], $val['class']);
 
@@ -333,6 +333,7 @@ abstract class simpleMapper //implements iCacheable
 
         $select = new simpleSelect($criteria);
         //var_dump($select->toString());
+        //echo "<pre>"; var_dump($this->db); echo "</pre>";
         $stmt = $this->db->query($select->toString());
 
         return $stmt;
@@ -387,7 +388,7 @@ abstract class simpleMapper //implements iCacheable
     public function searchOneByCriteria(criteria $criteria)
     {
         $stmt = $this->searchByCriteria($criteria);
-        $row = $stmt->fetch();
+         $row = $stmt->fetch();
 
         if ($row) {
             $data = $this->fillArray($row);
@@ -429,17 +430,6 @@ abstract class simpleMapper //implements iCacheable
         }
 
         return $result;
-    }
-
-    /**
-     * Поиск всех записей
-     *
-     * @return PDOStatement
-     */
-    public function searchAll()
-    {
-        $criteria = new criteria();
-        return $this->searchAllByCriteria($criteria);
     }
 
     private function addSelectFields(criteria $criteria, $map, $table, $alias)
@@ -552,7 +542,8 @@ abstract class simpleMapper //implements iCacheable
         }
         $sectionName = isset($val['section']) ? $val['section'] : $this->section();
         $moduleName = isset($val['module']) ? $val['module'] : $this->name();
-        return array($tableName, $fieldName, $className, $sectionName, $moduleName);
+        $alias = isset($val['alias']) ? $val['alias'] : 'default';
+        return array($tableName, $fieldName, $className, $sectionName, $moduleName, $alias);
     }
 
     private function getOwns()
@@ -562,9 +553,9 @@ abstract class simpleMapper //implements iCacheable
             foreach ($this->getMap() as $key => $val) {
                 if (isset($val['owns'])) {
                     $val['relate'] = $val['owns'];
-                    list($tableName, $fieldName, $className, $sectionName, $moduleName) = $this->explodeRelateData($val);
+                    list($tableName, $fieldName, $className, $sectionName, $moduleName, $alias) = $this->explodeRelateData($val);
 
-                    $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className);
+                    $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'alias' => $alias);
                 }
             }
         }
@@ -580,9 +571,9 @@ abstract class simpleMapper //implements iCacheable
                 if (isset($val['hasMany'])) {
                     list($field, $tmp) = explode('->', $val['hasMany'], 2);
                     $val['relate'] = $tmp;
-                    list($tableName, $fieldName, $className, $sectionName, $moduleName) = $this->explodeRelateData($val);
+                    list($tableName, $fieldName, $className, $sectionName, $moduleName, $alias) = $this->explodeRelateData($val);
 
-                    $this->relations['hasMany'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'field' => $field);
+                    $this->relations['hasMany'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'field' => $field, 'alias' => $alias);
                 }
             }
         }
@@ -617,10 +608,11 @@ abstract class simpleMapper //implements iCacheable
                 $className = $owns[$key]['class'];
                 $fieldName = $owns[$key]['key'];
                 $moduleName = $owns[$key]['module'];
+                $alias = $owns[$key]['alias'];
 
                 // получаем нужный маппер
                 $toolkit = systemToolkit::getInstance();
-                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName, $alias);
 
                 // сохраняем связанный объект
                 $mapper->save($val);
@@ -656,10 +648,11 @@ abstract class simpleMapper //implements iCacheable
                 $className = $hasMany[$key]['class'];
                 $fieldName = $hasMany[$key]['key'];
                 $moduleName = $hasMany[$key]['module'];
+                $alias = $hasMany[$key]['alias'];
 
                 // получаем нужный маппер
                 $toolkit = systemToolkit::getInstance();
-                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName, $alias);
 
                 // удаляем все записи которых нет в новом массиве
                 foreach ($oldObjIds as $subval) {
@@ -693,8 +686,10 @@ abstract class simpleMapper //implements iCacheable
                 $className = $info['class'];
                 $fieldName = $info['key'];
                 $moduleName = $info['module'];
+                $alias = $info['alias'];
 
-                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName, $alias);
 
                 if (is_array($val)) {
                     foreach ($val as $subval) {
@@ -707,7 +702,10 @@ abstract class simpleMapper //implements iCacheable
         }
     }
 
-    abstract public function convertArgsToId($args);
+    public function convertArgsToId($args)
+    {
+        return (int)$args;
+    }
 }
 
 ?>

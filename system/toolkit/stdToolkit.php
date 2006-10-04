@@ -345,15 +345,15 @@ class stdToolkit extends toolkit
      * @param string $section имя раздела
      * @return simpleMapper
      */
-    public function getMapper($module, $do, $section)
+    public function getMapper($module, $do, $section, $alias = 'default')
     {
-        if (!isset($this->mappers[$do][$section])) {
+        if (!isset($this->mappers[$alias][$do][$section])) {
             $mapperName = $do . 'Mapper';
             fileLoader::load($module . '/mappers/' . $mapperName);
-            $this->mappers[$do][$section] = new $mapperName($section);
+            $this->mappers[$alias][$do][$section] = new $mapperName($section, $alias);
         }
 
-        return $this->mappers[$do][$section];
+        return $this->mappers[$alias][$do][$section];
     }
 }
 ?>
