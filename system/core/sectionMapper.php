@@ -95,7 +95,7 @@ class sectionMapper
         if (($template_name = $this->xmlRead($section, $action)) !== false) {
             return $this->templateNameDecorate($template_name);
         }
-        return false;
+        throw new mzzRuntimeException('Не найден активный шаблон для section = <i>"' . $section . '"</i>, action = <i>"' . $action . '"</i>');
     }
 }
 

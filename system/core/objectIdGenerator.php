@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage core
- * @version $Id: objectIdGenerator.php 76 2006-09-20 04:13:16Z zerkms $
+ * @version $Id: objectIdGenerator.php 143 2006-10-03 21:03:16Z zerkms $
 */
 
 /**

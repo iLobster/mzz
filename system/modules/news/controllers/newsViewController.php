@@ -40,7 +40,7 @@ class newsViewController extends simpleController
         if ($news) {
             return new newsViewView($news);
         } else {
-            fileLoader::load('news/views/news.404.view');
+            fileLoader::load('news/views/news404View');
             return new news404View();
         }
     }

@@ -36,11 +36,26 @@ class sectionMapperTest extends unitTestCase
     {
         $section = "__not_exists__";
         $action = "__not_exists__";
-        $this->assertFalse($this->mapper->getTemplateName($section, $action));
+
+        try {
+            $this->mapper->getTemplateName($section, $action);
+            $this->fail('Не было брошено исключение');
+        } catch (mzzRuntimeException $e) {
+            $this->assertPattern('/Не найден активный шаблон/', $e->getMessage());
+        } catch (Exception $e) {
+            $this->fail('Брошено не ожидаемое исключение');
+        }
 
         $section = "test";
         $action = "__not_exists__";
-        $this->assertFalse($this->mapper->getTemplateName($section, $action));
+
+        try {
+            $this->mapper->getTemplateName($section, $action);
+        } catch (mzzRuntimeException $e) {
+            $this->assertPattern('/Не найден активный шаблон/', $e->getMessage());
+        } catch (Exception $e) {
+            $this->fail('Брошено не ожидаемое исключение');
+        }
     }
 
     public function fixtureXmlConfig()

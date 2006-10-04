@@ -142,7 +142,7 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual($row['simple_bar'], $this->fixture[1]['bar']);
 
     }
-/* да да , закоментировал тест
+/*
     public function testSearchAll()
     {
         $this->fixture();
@@ -151,8 +151,8 @@ class simpleMapperTest extends unitTestCase
 
         $this->assertEqual(count($row), count($this->fixture));
 
-    }
-*/
+    }*/
+
     public function testCreateUniqueObjectId()
     {
         $simple = new stubSimple($this->map);

@@ -53,13 +53,11 @@ class newsEditController extends simpleController
                 $news->setText($values['text']);
                 $newsMapper->save($news);
 
-                //$newsMapper->setInvalid();
-
                 $view = new newsEditSuccessView($news, $form);
             }
             return $view;
         } else {
-            fileLoader::load('news/views/news.404.view');
+            fileLoader::load('news/views/news404View');
             return new news404View();
         }
     }
