@@ -24,6 +24,15 @@ class sqlFunctionTest extends unitTestCase
         $sqlFunction = new sqlFunction('Unix_Timestamp');
         $this->assertEqual($sqlFunction->toString(), 'UNIX_TIMESTAMP()');
     }
+
+    public function testFunctionWithArguments()
+    {
+        $sqlFunction = new sqlFunction('Function', array(1,2,3));
+        $this->assertEqual($sqlFunction->toString(), "FUNCTION('1', '2', '3')");
+
+        $sqlFunction = new sqlFunction('Function', array('arg'));
+        $this->assertEqual($sqlFunction->toString(), "FUNCTION('arg')");
+    }
 }
 
 ?>

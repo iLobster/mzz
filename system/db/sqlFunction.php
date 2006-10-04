@@ -29,14 +29,25 @@ class sqlFunction
     protected $function = null;
 
     /**
+     * Аргументы
+     */
+    protected $arguments = null;
+
+    /**
      * Конструктор
      *
      * @param string $function имя функции
      *
      */
-    public function __construct($function)
+    public function __construct($function, $arguments = null)
     {
         $this->function = $function;
+        if(is_array($arguments)) {
+            $this->arguments = "'" . implode("', '", $arguments) . "'";
+        } elseif(is_scalar($arguments)) {
+            $this->arguments =  "'" . $arguments . "'";
+        }
+
     }
 
     /**
@@ -47,7 +58,7 @@ class sqlFunction
     public function toString()
     {
         if(!empty($this->function)) {
-            return strtoupper($this->function) . '()';
+            return strtoupper($this->function) . '(' . $this->arguments . ')';
         }
         return null;
     }
