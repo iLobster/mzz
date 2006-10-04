@@ -712,7 +712,7 @@ abstract class simpleMapper //implements iCacheable
         }
     }
 
-    public function convertArgsToId($args)
+    abstract public function convertArgsToId($args)
     {
         return (int)$args;
     }
