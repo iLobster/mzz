@@ -337,7 +337,6 @@ abstract class simpleMapper //implements iCacheable
         $this->addJoins($criteria);
 
         $criteria->setTable($this->table);
-        $select = new simpleSelect($criteria);
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
         if ($this->pager) {
