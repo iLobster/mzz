@@ -42,10 +42,26 @@ class sqlFunction
     public function __construct($function, $arguments = null)
     {
         $this->function = $function;
+
         if(is_array($arguments)) {
-            $this->arguments = "'" . implode("', '", $arguments) . "'";
+           foreach($arguments as $arg) {
+                if(strstr($arg, '`')) {
+                    $this->arguments .= $arg . ', ';
+                }
+                else {
+                    $this->arguments .= "'" . $arg . "', ";
+                }
+           }
+
+        $this->arguments = substr($this->arguments, 0, -2);
+
         } elseif(is_scalar($arguments)) {
-            $this->arguments =  "'" . $arguments . "'";
+                if(strstr($arguments, '`')) {
+                    $this->arguments = $arguments;
+                }
+                else {
+                    $this->arguments .= "'" . $arguments . "'";
+                }
         }
 
     }

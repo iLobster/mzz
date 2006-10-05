@@ -53,9 +53,13 @@ class simpleSelect
         $joinClause = array();
         $whereClause = array();
         $orderByClause = array();
+        $aliases = array();
 
         foreach ($this->criteria->getSelectFields() as $select) {
             $alias = $this->criteria->getSelectFieldAlias($select);
+
+            if(in_array($alias, $aliases)) continue;
+            $aliases[] = $alias;
 
             $isFunction = (bool)strpos($select, '(');
 

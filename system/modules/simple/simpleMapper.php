@@ -147,8 +147,8 @@ abstract class simpleMapper //implements iCacheable
         $fields =& $object->export();
 
         if (sizeof($fields) > 1) {
-            $this->replaceRelated($fields, $object);
 
+            $this->replaceRelated($fields, $object);
             $this->insertDataModify($fields);
 
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
@@ -170,7 +170,16 @@ abstract class simpleMapper //implements iCacheable
 
             $id = $stmt->execute();
 
-            $stmt = $this->searchByField($this->tableKey, $id);
+            $criteria = new criteria();
+            $selectFields = $this->selectDataModify();
+
+            if(is_array($selectFields)) {                foreach ($selectFields as $key => $val) {                    $criteria->addSelectField($val, $key);
+                }
+            }
+
+            $criteria->add($this->tableKey, $id);
+            $stmt = $this->searchByCriteria($criteria);
+
             $fields = $stmt->fetch();
 
             $data = $this->fillArray($fields);
@@ -219,7 +228,18 @@ abstract class simpleMapper //implements iCacheable
                 $result = $stmt->execute();
             }
 
-            $stmt = $this->searchByField($this->tableKey, $object->getId());
+            $criteria = new criteria();
+            $selectFields = $this->selectDataModify();
+
+            if(is_array($selectFields)) {
+                foreach ($selectFields as $key => $val) {
+                    $criteria->addSelectField($val, $key);
+                }
+            }
+
+            $criteria->add($this->tableKey, $object->getId());
+            $stmt = $this->searchByCriteria($criteria);
+
             $fields = $stmt->fetch();
 
             $data = $this->fillArray($fields);
@@ -317,6 +337,7 @@ abstract class simpleMapper //implements iCacheable
         $this->addJoins($criteria);
 
         $criteria->setTable($this->table);
+        $select = new simpleSelect($criteria);
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
         if ($this->pager) {
@@ -332,8 +353,6 @@ abstract class simpleMapper //implements iCacheable
         }
 
         $select = new simpleSelect($criteria);
-        //var_dump($select->toString());
-        //echo "<pre>"; var_dump($this->db); echo "</pre>";
         $stmt = $this->db->query($select->toString());
 
         return $stmt;
@@ -442,6 +461,7 @@ abstract class simpleMapper //implements iCacheable
         $criteria = new criteria();
         return $this->searchAllByCriteria($criteria);
     }
+
     private function addSelectFields(criteria $criteria, $map, $table, $alias)
     {
         foreach ($map as $key => $val) {
@@ -522,6 +542,16 @@ abstract class simpleMapper //implements iCacheable
     protected function insertDataModify(&$fields)
     {
     }
+
+    /**
+     * Выполнение операций с массивом $fields после обновления в БД
+     *
+     * @param array $fields
+     */
+    protected function selectDataModify()
+    {
+    }
+
 
     /**
      * установка объекта пейджера

@@ -5,6 +5,7 @@ fileLoader::load('simple/simpleMapper');
 fileLoader::load('simple');
 fileLoader::load('cases/modules/simple/stubMapper.class');
 fileLoader::load('cases/modules/simple/stubMapperDataModify.class');
+fileLoader::load('cases/modules/simple/stubMapperSelectDataModify.class');
 fileLoader::load('cases/modules/simple/stubSimple.class');
 
 
@@ -119,6 +120,7 @@ class simpleMapperTest extends unitTestCase
 
     }
 
+
     public function testUpdateSave()
     {
         $this->fixture();
@@ -165,6 +167,19 @@ class simpleMapperTest extends unitTestCase
 
         $this->assertEqual(1, $this->countRecord());
         $this->assertEqual(1, $simple->getObjId());
+    }
+
+    public function testSelectWithDataModify()
+    {
+        $this->mapper = new stubMapperSelectDataModify('simple');
+        $this->mapper->setMap($this->map);
+
+        $simple = new stubSimple($this->map);
+        $simple->setFoo('12345');
+        $this->mapper->save($simple);
+
+        $this->assertEqual(1, $simple->getId());
+        $this->assertEqual('12345', $simple->getFoo());
     }
 
 

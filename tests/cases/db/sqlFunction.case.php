@@ -27,11 +27,14 @@ class sqlFunctionTest extends unitTestCase
 
     public function testFunctionWithArguments()
     {
-        $sqlFunction = new sqlFunction('Function', array(1,2,3));
-        $this->assertEqual($sqlFunction->toString(), "FUNCTION('1', '2', '3')");
+        $sqlFunction = new sqlFunction('Function', array('`field`', "value", 3));
+        $this->assertEqual($sqlFunction->toString(), "FUNCTION(`field`, 'value', '3')");
 
-        $sqlFunction = new sqlFunction('Function', array('arg'));
+        $sqlFunction = new sqlFunction('Function', "arg");
         $this->assertEqual($sqlFunction->toString(), "FUNCTION('arg')");
+
+        $sqlFunction = new sqlFunction('Function', "`field`");
+        $this->assertEqual($sqlFunction->toString(), "FUNCTION(`field`)");
     }
 }
 
