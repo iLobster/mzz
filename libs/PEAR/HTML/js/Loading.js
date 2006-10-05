@@ -12,7 +12,7 @@ HTML_AJAX.Open = function(request) {
 	if (!loading) {
 		loading = document.createElement('div');
 		loading.id = 'HTML_AJAX_LOADING';
-		loading.innerHTML = 'Loading...';
+		loading.innerHTML = 'Загрузка...';
 		
 		loading.style.color	 = '#fff';
 		loading.style.position  = 'absolute';
@@ -23,6 +23,7 @@ HTML_AJAX.Open = function(request) {
 		loading.style.width		 = '80px';
 		loading.style.padding	   = '4px';
 		loading.style.fontFamily	= 'Arial, Helvetica, sans';
+                loading.style.display = 'none';
 		loading.count = 0;
 	
 		document.body.insertBefore(loading,document.body.firstChild);

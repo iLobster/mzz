@@ -224,7 +224,7 @@ class HTML_QuickForm_LiveSearch_Select extends HTML_QuickForm_text
                                       'onkeyup' => 'javascript:liveSearchKeyPress(this, event, \''.$this->getName().'Result\', \'target_'.$this->_options['elementId'].'\', \''.$this->_options['elementId'].'\', \''.$this->realName.'\', '.$zeroLength.');',//'javascript:'.$this->getName().'ObjLS.liveSearchKeyPress(this, event);disable();',
                                       'onblur' => 'javascript:liveSearchHide(\''.$this->getName().'Result\');',
                                       'id' => $this->_options['elementId'],
-                                      'style' => $style
+                                      'style' => $style,
                                       )
                                );
         if ($this->_flagFrozen) {
@@ -328,13 +328,28 @@ callback.'.$this->_options['elementId'].' = function(result) {
     var  res = document.getElementById(\''.$this->getName().'Result\');
     res.style.display = "block";
     var out = "<?xml version=\'1.0\' encoding=\'utf-8\'  ?><ul class=\"outerUl\" >";
-    for(var i in result) {
-        if (i != \'______array\') {
-            out += "<li class=\"outerLi\"><a href=\"#\" value=\""+i+"\" text=\""+result[i]+"\" onmouseover=\"liveSearchHover(this);\" onmousedown=\"liveSearchClicked(this.getAttribute(\'value\'), this.getAttribute(\'text\'), \''.$this->_options['elementId'].'\', \''.$this->realName.'\');\">"+result[i]+"</a></li>";
-        }
+    
+    var exists = false;
+    
+    if (result == \'notfound\') {
+        ' . $this->_options['onNotFound'] . '
+    } else {
+        ' . $this->_options['onFound'] . '
+    
+    
+            for(var i in result) {
+                if (i != \'______array\') {
+                    out += "<li class=\"outerLi\"><a class=\"searchItem\" href=\"#\" value=\""+i+"\" text=\""+result[i]+"\" onmouseover=\"liveSearchHover(this);\" onmousedown=\"liveSearchClicked(this.getAttribute(\'value\'), this.getAttribute(\'text\'), \''.$this->_options['elementId'].'\', \''.$this->realName.'\');\">"+result[i]+"</a></li>";
+                    exists = true;
+                }
+            }
     }
-    out += "</ul>";
-    document.getElementById(\'target_'.$this->_options['elementId'].'\').innerHTML = out;
+    if (exists) {
+        out += "</ul>";
+        document.getElementById(\'target_'.$this->_options['elementId'].'\').innerHTML = out;
+    } else {
+        liveSearchHide(\''.$this->getName().'Result\');
+    }
 }
 //]]>
 </script>

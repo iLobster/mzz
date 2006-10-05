@@ -99,7 +99,7 @@ Sample usage:
                 'viewname' => $prefix . 'View',
                 );
 
-        $controller_filename = $controllers_dir . '/' . $type . ucfirst(strtolower($action)) . 'Controller.php';
+        $controller_filename = $controllers_dir . '/' . $type . ucfirst($action) . 'Controller.php';
 
         if (is_file($controller_filename)) {
             throw new Exception('Error: controller file already exists');
@@ -118,7 +118,7 @@ Sample usage:
                 'tplname' => $type . '.' . $action . '.tpl',
                 );
 
-        $view_filename = $views_dir . '/' . $type . ucfirst(strtolower($action)) . 'View.php';
+        $view_filename = $views_dir . '/' . $type . ucfirst($action) . 'View.php';
 
         if (is_file($view_filename)) {
             throw new Exception('Error: view file already exists');
