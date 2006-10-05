@@ -173,7 +173,9 @@ abstract class simpleMapper //implements iCacheable
             $criteria = new criteria();
             $selectFields = $this->selectDataModify();
 
-            if(is_array($selectFields)) {                foreach ($selectFields as $key => $val) {                    $criteria->addSelectField($val, $key);
+            if(is_array($selectFields)) {
+                foreach ($selectFields as $key => $val) {
+                    $criteria->addSelectField($val, $key);
                 }
             }
 
