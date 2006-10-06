@@ -30,43 +30,6 @@ class news extends simple
     {
         return parent::getJipView('news', $this->getId(), 'news');
     }
-
-    /**
-     * Получение имени последнего исправлявшего новость
-     *
-     * @return string
-     */
-    /*
-    public function getEditor()
-    {
-        if ($this->fields->exists('editor')) {
-            // сделать проверку что объект нужной инстанции. в противном случае кинуть эксепшн.
-            if (is_numeric($this->fields->get('editor'))) {
-                $userMapper = new userMapper('user');
-                $user = $userMapper->searchById($this->fields->get('editor'));
-                $this->fields->set('editor', $user);
-            }
-            return $this->fields->get('editor');
-        } else {
-            return null;
-        }
-    } */
-
-    /**
-     * Получение имени папки, в которой находится новость
-     *
-     * @return string
-     */
-    /*
-    public function getFolderName()
-    {
-        fileLoader::load("news/mappers/newsFolderMapper");
-        fileLoader::load('news/newsFolder');
-        $newsFolderMapper = new newsFolderMapper('news');
-        $folderName = $newsFolderMapper->searchOneByField('id', $this->fields->get('folder_id'));
-
-        return $folderName->getName();
-    }*/
 }
 
 ?>

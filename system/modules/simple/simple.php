@@ -166,6 +166,11 @@ abstract class simple
         return $this->changedFields->export();
     }
 
+    /**
+     * Экспорт старых значений
+     *
+     * @return array
+     */
     public function exportOld()
     {
         return $this->fields->export();
@@ -292,19 +297,6 @@ abstract class simple
     {
         return $this->map;
     }
-
-    /**
-     * возвращает возможность кеширования метода $name
-     *
-     * @param string $name имя метода
-     * @return boolean возможность кеширования
-     */
-    /*
-    public function isCacheable($name)
-    {
-    return in_array($name, $this->cacheable);
-    }
-    */
 }
 
 ?>

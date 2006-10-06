@@ -550,7 +550,6 @@ abstract class simpleMapper //implements iCacheable
     {
     }
 
-
     /**
      * установка объекта пейджера
      *
@@ -571,6 +570,12 @@ abstract class simpleMapper //implements iCacheable
         $this->map = $map;
     }
 
+    /**
+     * Метод для разбора массива данных о связях
+     *
+     * @param array $val
+     * @return array
+     */
     private function explodeRelateData($val)
     {
         list($tableName, $fieldName) = explode('.', $val['relate'], 2);
@@ -584,6 +589,11 @@ abstract class simpleMapper //implements iCacheable
         return array($tableName, $fieldName, $className, $sectionName, $moduleName, $alias);
     }
 
+    /**
+     * Метод получения данных об отношениях типа owns
+     *
+     * @return array
+     */
     private function getOwns()
     {
         if (!isset($this->relations['owns'])) {
@@ -601,6 +611,11 @@ abstract class simpleMapper //implements iCacheable
         return $this->relations['owns'];
     }
 
+    /**
+     * Метод для получения данных об отношениях типа hasMany
+     *
+     * @return unknown
+     */
     private function getHasMany()
     {
         if (!isset($this->relations['hasMany'])) {
@@ -619,6 +634,12 @@ abstract class simpleMapper //implements iCacheable
         return $this->relations['hasMany'];
     }
 
+    /**
+     * Метод получения данных о связях конкретного поля
+     *
+     * @param string $key
+     * @return array|boolean массив данных или false, если таковых не имеется
+     */
     private function getRelationInfo($key)
     {
         $this->getHasMany();
@@ -740,6 +761,11 @@ abstract class simpleMapper //implements iCacheable
         }
     }
 
+    /**
+     * Абстрактный метод для получения Obj_id конкретного элемента по аргументам
+     *
+     * @param array $args
+     */
     abstract public function convertArgsToId($args);
 }
 

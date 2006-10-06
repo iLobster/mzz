@@ -198,11 +198,9 @@ class HTML_QuickForm_LiveSearch_Select extends HTML_QuickForm_text
         if (isset($this->_options['style']) AND $this->_options['style'] != '') {
             $style = $this->_options['style'];
         }
-        
          if (isset($this->_options['class']) AND $this->_options['class'] != '') {
             $class = $this->_options['class'];
         }
-        
         if (isset($this->_options['divstyle']) AND $this->_options['divstyle'] != '') {
             $divstyle =  ' class="'.$this->_options['divstyle'].'" ';
         }
@@ -337,18 +335,24 @@ callback.'.$this->_options['elementId'].' = function(result) {
     var out = "<?xml version=\'1.0\' encoding=\'utf-8\'  ?><ul class=\"outerUl\" >";
     
     var exists = false;
+    var inArray = false;
     
     if (result == \'notfound\') {
         ' . $this->_options['onNotFound'] . '
     } else {
         ' . $this->_options['onFound'] . '
-    
-    
             for(var i in result) {
                 if (i != \'______array\') {
-                    out += "<li class=\"outerLi\"><a class=\"searchItem\" href=\"#\" value=\""+i+"\" text=\""+result[i]+"\" onmouseover=\"liveSearchHover(this);\" onmousedown=\"liveSearchClicked(this.getAttribute(\'value\'), this.getAttribute(\'text\'), \''.$this->_options['elementId'].'\', \''.$this->realName.'\');\">"+result[i]+"</a></li>";
+                    out += "<li class=\"outerLi\"><a class=\"searchItem\" href=\"#\" value=\""+i+"\" text=\""+result[i]+"\" onmouseover=\"liveSearchHover(this);\" onmousedown=\"liveSearchClicked(this.getAttribute(\'value\'), this.getAttribute(\'text\'), \''.$this->_options['elementId'].'\', \''.$this->realName.'\'); ' . $this->_options['onFound'] . '\">"+result[i]+"</a></li>";
+                    if (document.getElementById(\'' . $this->_options['elementId'] . '\').value == result[i]) {
+                        inArray = true;
+                    }
                     exists = true;
                 }
+            }
+            
+            if (!inArray) {
+                ' . $this->_options['onNotFound'] . '
             }
     }
     if (exists) {
