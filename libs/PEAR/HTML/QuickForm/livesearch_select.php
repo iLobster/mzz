@@ -182,6 +182,7 @@ class HTML_QuickForm_LiveSearch_Select extends HTML_QuickForm_text
     function toHtml()
     {
         $this->realName = $this->getName();
+        $class = '';
         $liveform = '';
         $scriptLoad = '';
         $style = 'display: block;';
@@ -197,6 +198,11 @@ class HTML_QuickForm_LiveSearch_Select extends HTML_QuickForm_text
         if (isset($this->_options['style']) AND $this->_options['style'] != '') {
             $style = $this->_options['style'];
         }
+        
+         if (isset($this->_options['class']) AND $this->_options['class'] != '') {
+            $class = $this->_options['class'];
+        }
+        
         if (isset($this->_options['divstyle']) AND $this->_options['divstyle'] != '') {
             $divstyle =  ' class="'.$this->_options['divstyle'].'" ';
         }
@@ -225,6 +231,7 @@ class HTML_QuickForm_LiveSearch_Select extends HTML_QuickForm_text
                                       'onblur' => 'javascript:liveSearchHide(\''.$this->getName().'Result\');',
                                       'id' => $this->_options['elementId'],
                                       'style' => $style,
+                                      'class' => $class,
                                       )
                                );
         if ($this->_flagFrozen) {

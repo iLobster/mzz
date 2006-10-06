@@ -94,16 +94,10 @@ class userMapper extends simpleMapper
         }
     }
 
-    public function getGroups($id)
-    {
-        $groupMapper = new groupMapper('user');
-        return $groupMapper->searchByUser($id);
-
-    }
-
     public function getGroupsList($id)
     {
-        $groups = $this->getGroups($id);
+        $user = $this->searchById($id);
+        $groups = $user->getGroups($id);
         $result = array();
         foreach ($groups as $group) {
             $result[] = $group->getId();
@@ -116,7 +110,6 @@ class userMapper extends simpleMapper
      * в случае успеха устанавливает сессию
      * идентифицированного пользователя
      *
-     * @todo переписать запрос с генератором
      * @param string $login логин
      * @param string $password пароль
      * @return object
@@ -132,19 +125,17 @@ class userMapper extends simpleMapper
             $password = $service->apply($password);
         }
 
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` WHERE `login` = :login AND `password` = :password");
-        $stmt->bindParam(':login', $login);
-        $stmt->bindParam(':password', $password);
-        $stmt->execute();
+        $criteria = new criteria();
+        $criteria->add('login', $login)->add('password', $password);
 
-        $row = $stmt->fetch();
+        $user = $this->searchOneByCriteria($criteria);
 
         $toolkit = systemToolkit::getInstance();
         $session = $toolkit->getSession();
 
-        if ($row) {
-            $session->set('user_id', $row['id']);
-            return $this->createItemFromRow($row);
+        if ($user) {
+            $session->set('user_id', $user->getId());
+            return $user;
         } else {
             $session->set('user_id', MZZ_USER_GUEST_ID);
             return $this->getGuest();

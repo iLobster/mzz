@@ -39,7 +39,7 @@ class sqlFunction
      * @param string $function имя функции
      *
      */
-    public function __construct($function, $arguments = null)
+    public function __construct($function, $arguments = null, $isField = false)
     {
         $this->function = $function;
 
@@ -56,8 +56,9 @@ class sqlFunction
         $this->arguments = substr($this->arguments, 0, -2);
 
         } elseif(is_scalar($arguments)) {
-                if(strstr($arguments, '`')) {
-                    $this->arguments = $arguments;
+                if ($isField) {
+                    $arguments = str_replace('.', '`.`', $arguments);
+                    $this->arguments = '`' . $arguments . '`';
                 }
                 else {
                     $this->arguments .= "'" . $arguments . "'";
@@ -77,6 +78,11 @@ class sqlFunction
             return strtoupper($this->function) . '(' . $this->arguments . ')';
         }
         return null;
+    }
+
+    public function getFieldName()
+    {
+        return $this->arguments;
     }
 
 }

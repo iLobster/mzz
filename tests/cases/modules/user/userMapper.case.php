@@ -16,9 +16,11 @@ class userMapperTest extends unitTestCase
     public function __construct()
     {
         $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
-        'login' => array ( 'name' => 'login', 'accessor' => 'getLogin', 'mutator' => 'setLogin'),
+        'login' => array ('name' => 'login', 'accessor' => 'getLogin', 'mutator' => 'setLogin'),
         'password' => array ('name' => 'password', 'accessor' => 'getPassword', 'mutator' => 'setPassword', 'decorateClass' => 'md5PasswordHash'),
+        'group' => array ('name' => 'group', 'accessor' => 'getGroup', 'mutator' => 'setGroup', 'hasMany' => 'id->usergroup_rel.user_id', 'section' => 'user', 'module' => 'user', 'do' => 'userGroup'),
         );
+
 
         $this->db = DB::factory();
         $this->cleardb();
@@ -103,13 +105,14 @@ class userMapperTest extends unitTestCase
         $user_id = 1; $group_id = 2;
         $stmt->execute();
 
-        $groups = $this->mapper->getGroups(1);
+        $user = $this->mapper->searchById(1);
+        $groups = $user->getGroups();
 
         $this->assertEqual(sizeof($groups), 2);
 
         foreach ($groups as $key => $item) {
-            $this->assertIsA($item, 'group');
-            $this->assertEqual($item->getName(), 'name' . ($key + 1));
+            $this->assertIsA($item, 'userGroup');
+            $this->assertEqual($item->getGroup()->getName(), 'name' . ($key + 1));
         }
 
         $groupsList = $this->mapper->getGroupsList(1);

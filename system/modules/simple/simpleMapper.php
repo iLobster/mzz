@@ -206,9 +206,6 @@ abstract class simpleMapper //implements iCacheable
         $this->replaceRelated($fields, $object);
 
         if (sizeof($fields) > 0) {
-            //$bindFields = $fields; // зачем эта строка???
-            //$this->replaceRelated($fields, $object);
-
             $this->updateDataModify($fields);
 
             $query = '';

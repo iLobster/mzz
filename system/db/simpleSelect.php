@@ -61,15 +61,19 @@ class simpleSelect
             if(in_array($alias, $aliases)) continue;
             $aliases[] = $alias;
 
-            $isFunction = (bool)strpos($select, '(');
-
-            if (($dotpos = strpos($select, '.')) !== false) {
-                $tbl = substr($select, 0, $dotpos);
-                $fld = substr($select, $dotpos + 1);
-
-                $field = '`' . $tbl . '`.' . ($fld == '*' ? '*' : '`' . $fld . '`');
+            if ($select instanceof sqlFunction ) {
+                $field = $select->toString();
             } else {
-                $field = $isFunction ? $select : '`' . $select . '`';
+                $isFunction = (bool)strpos($select, '(');
+
+                if (($dotpos = strpos($select, '.')) !== false) {
+                    $tbl = substr($select, 0, $dotpos);
+                    $fld = substr($select, $dotpos + 1);
+
+                    $field = '`' . $tbl . '`.' . ($fld == '*' ? '*' : '`' . $fld . '`');
+                } else {
+                    $field = $isFunction ? $select : '`' . $select . '`';
+                }
             }
 
             $field .= ($alias ? ' AS `' . $alias . '`' : '');

@@ -33,8 +33,8 @@ class sqlFunctionTest extends unitTestCase
         $sqlFunction = new sqlFunction('Function', "arg");
         $this->assertEqual($sqlFunction->toString(), "FUNCTION('arg')");
 
-        $sqlFunction = new sqlFunction('Function', "`field`");
-        $this->assertEqual($sqlFunction->toString(), "FUNCTION(`field`)");
+        $sqlFunction = new sqlFunction('Function', 'table.field', true);
+        $this->assertEqual($sqlFunction->toString(), "FUNCTION(`table`.`field`)");
     }
 }
 

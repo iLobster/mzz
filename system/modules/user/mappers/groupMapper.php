@@ -74,49 +74,6 @@ class groupMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объекта (объектов) групп по принадлежности
-     * к нему (к ним) пользователю
-     *
-     * @param string $id идентификатор пользователя
-     * @return object|false
-     */
-    public function searchByUser($id)
-    {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->section() . "_usergroup_rel` `rel` INNER JOIN `" . $this->table . "` `gr` ON `rel`.`group_id` = `gr`.`id` WHERE `rel`.`user_id` = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-
-        $result = array();
-
-        foreach ($rows as $row) {
-            $result[] = $this->createGroupFromRow($row);
-        }
-
-        return $result;
-    }
-
-    public function getUsers($id)
-    {
-        $stmt = $this->db->prepare("SELECT * FROM `" . $this->table . "` `gr` INNER JOIN `" . $this->section() . "_usergroup_rel` `rel` ON `gr`.`id` = `rel`.`group_id` WHERE `gr`.`id` = :id");
-
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $rows = $stmt->fetchAll();
-
-        $result = array();
-
-        $userMapper = new userMapper('user');
-
-        foreach ($rows as $row) {
-            $result[] = $userMapper->searchById($row['user_id']);
-        }
-
-        return $result;
-    }
-
-    /**
      * Создает объект group из массива
      *
      * @param array $row

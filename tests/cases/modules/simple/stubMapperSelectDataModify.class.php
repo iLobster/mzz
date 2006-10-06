@@ -1,4 +1,4 @@
-<?
+<?php
 
 class stubMapperSelectDataModify extends simpleMapper
 {
@@ -10,9 +10,10 @@ class stubMapperSelectDataModify extends simpleMapper
         $modifyFields = array();
 
         // @todo Сделать, чтобы указывать
-        // $modifyFields['foo'] = new sqlFunction('REVERSE', '`foo`');
+        // ГОТОВО
+         $modifyFields['simple_foo'] = new sqlFunction('REVERSE', 'foo', true);
 
-        $modifyFields['simple_foo'] = "REVERSE(`foo`)";
+        //$modifyFields['simple_foo'] = "REVERSE(`foo`)";
         return $modifyFields;
     }
 

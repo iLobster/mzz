@@ -16,6 +16,7 @@ class groupMapperTest extends unitTestCase
         $this->map = array(
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'name' => array ( 'name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
+        'user' => array ( 'name' => 'user', 'accessor' => 'getUser', 'mutator' => 'setUser', 'hasMany' => 'id->usergroup_rel.group_id', 'section' => 'user', 'module' => 'user', 'do' => 'userGroup'),
         );
 
         $this->db = DB::factory();
@@ -121,13 +122,15 @@ class groupMapperTest extends unitTestCase
         $user_id = 3; $group_id = 1;
         $stmt->execute();
 
-        $users = $this->mapper->getUsers(1);
+        $group = $this->mapper->searchById(1);
+
+        $users = $group->getUsers();
 
         $this->assertEqual(sizeof($users), 2);
 
         foreach ($users as $key => $item) {
-            $this->assertIsA($item, 'user');
-            $this->assertEqual($item->getLogin(), 'login' . ($key + 2));
+            $this->assertIsA($item, 'userGroup');
+            $this->assertEqual($item->getUser()->getLogin(), 'login' . ($key + 2));
         }
     }
 

@@ -34,7 +34,7 @@ class userGroupMapper extends simpleMapper
      * @var string
      */
     protected $className = 'userGroup';
-    
+
     /**
      * Конструктор
      *
@@ -45,6 +45,16 @@ class userGroupMapper extends simpleMapper
     {
         parent::__construct($section, $alias);
         $this->table = $this->table . '_rel';
+    }
+
+    /**
+     * @todo сделать
+     *
+     * @param unknown_type $args
+     */
+    public function convertArgsToId($args)
+    {
+
     }
 }
 

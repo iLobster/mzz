@@ -1,5 +1,6 @@
 <?php
 fileLoader::load('db/simpleSelect');
+fileLoader::load('db/sqlFunction');
 
 class simpleSelectTest extends unitTestCase
 {
@@ -11,10 +12,17 @@ class simpleSelectTest extends unitTestCase
         $this->select = new simpleSelect($this->criteria);
     }
 
-    public function testSelect()
+    public function testSelectFunctionString()
     {
         $this->criteria->addSelectField('NOW()', 'now');
         $this->assertEqual($this->select->toString(), 'SELECT NOW() AS `now`');
+    }
+
+    public function testSelectFunctionObject()
+    {
+        $function = new sqlFunction('INET_ATON', 'table.field', true);
+        $this->criteria->addSelectField($function, 'alias');
+        $this->assertEqual($this->select->toString(), 'SELECT INET_ATON(`table`.`field`) AS `alias`');
     }
 
     public function testSelectAllNoConditions()
