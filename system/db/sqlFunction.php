@@ -34,9 +34,16 @@ class sqlFunction
     protected $arguments = null;
 
     /**
+     * Аргументы
+     */
+    protected $argumentsString = '';
+
+    /**
      * Конструктор
      *
      * @param string $function имя функции
+     * @param mixed $arguments аргументы, возможна передача массива и объектов sqlFunction
+     * @param bool $isField является ли аргумент полем
      *
      */
     public function __construct($function, $arguments = null, $isField = false)
@@ -44,45 +51,56 @@ class sqlFunction
         $this->function = $function;
 
         if(is_array($arguments)) {
-           foreach($arguments as $arg) {
-                if(strstr($arg, '`')) {
-                    $this->arguments .= $arg . ', ';
-                }
-                else {
-                    $this->arguments .= "'" . $arg . "', ";
-                }
-           }
+            foreach ($arguments as $key => $arg) {
 
-        $this->arguments = substr($this->arguments, 0, -2);
+                if(is_int($key)) {
+                    if($arg instanceof sqlFunction) {
+                        $this->argumentsString .= $arg->toString() . ', ';
+                    } else {
+                        $this->argumentsString .= "'" . $arg . "', ";
+                    }
+                } else {
+                    $field = str_replace('.', '`.`', $key);
+                    $this->argumentsString .= '`' . $field . '`, ';
 
-        } elseif(is_scalar($arguments)) {
-                if ($isField) {
-                    $arguments = str_replace('.', '`.`', $arguments);
-                    $this->arguments = '`' . $arguments . '`';
                 }
-                else {
-                    $this->arguments .= "'" . $arguments . "'";
-                }
+            }
+        } elseif($arguments) {
+            if($isField) {
+                $field = str_replace('.', '`.`', $arguments);
+                $this->argumentsString .= '`' . $field . '`, ';
+            } else {
+                $this->argumentsString .= "'" . $arguments . "', ";
+
+            }
+
         }
-
+        $this->argumentsString = substr($this->argumentsString, 0, -2);
     }
 
     /**
      * Возвращает sql функцию
      *
      * @return string|null
+
      */
     public function toString()
     {
         if(!empty($this->function)) {
-            return strtoupper($this->function) . '(' . $this->arguments . ')';
+            return strtoupper($this->function) . '(' . $this->argumentsString . ')';
         }
         return null;
     }
 
+    /**
+     * Возвращает поля функции
+     *
+     * @return string|null
+     * @toDo в совокупности с criteria 380 что выдавать надо?
+     */
     public function getFieldName()
     {
-        return $this->arguments;
+        return $this->argumentsString;
     }
 
 }

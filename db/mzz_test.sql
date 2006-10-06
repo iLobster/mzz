@@ -357,6 +357,7 @@ DROP TABLE IF EXISTS `user_usergroup_rel`;
 
 CREATE TABLE `user_usergroup_rel` (
   `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) default NULL,
   `group_id` int(11) default NULL,
   `user_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
