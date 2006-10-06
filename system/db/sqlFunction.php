@@ -53,7 +53,7 @@ class sqlFunction
         if(is_array($arguments)) {
             foreach ($arguments as $key => $arg) {
 
-                if(is_int($key)) {
+                if($arg !== true) {
                     if($arg instanceof sqlFunction) {
                         $this->argumentsString .= $arg->toString() . ', ';
                     } else {
