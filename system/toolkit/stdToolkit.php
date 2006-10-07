@@ -38,7 +38,7 @@ class stdToolkit extends toolkit
     private $cache;
     private $user;
     private $objectIdGenerator;
-    private $mappers;
+    private $mappers = array();
     /**#@-*/
 
     /**

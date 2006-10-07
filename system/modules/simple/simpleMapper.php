@@ -487,14 +487,12 @@ abstract class simpleMapper //implements iCacheable
     /**
      * ¬озвращает Map
      *
+     * @param boolean $refresh при значении true происходит обновление map
      * @return array
      */
     protected function getMap($refresh = false)
     {
-        if ($refresh) {
-            unset($this->map);
-        }
-        if (empty($this->map)) {
+        if (empty($this->map) || $refresh) {
             $mapFileName = fileLoader::resolve($this->name() . '/maps/' . $this->className . '.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
             $this->map['obj_id'] = array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');

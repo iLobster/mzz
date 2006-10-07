@@ -83,6 +83,7 @@ class newsFolderMapper extends simpleMapper
      */
     public function getFolders($id, $level = 1)
     {
+        $folders = array();
         // выбирается только нижележащий уровень
         $rawFolders = $this->tree->getBranch($id, $level);
         foreach($rawFolders as $row) {
@@ -114,6 +115,7 @@ class newsFolderMapper extends simpleMapper
     public function getFoldersByPath($path, $deep = 1)
     {
         // выбирается только нижележащий уровень
+        $folders = array();
         $rawFolders = $this->tree->getBranchByPath($path, $deep);
         foreach($rawFolders as $row) {
             $folders[] = $this->createItemFromRow($row);

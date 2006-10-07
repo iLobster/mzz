@@ -42,7 +42,7 @@ class fileLoader
      *
      * @var array
      */
-    public static $files = array();
+    private static $files = array();
 
     /**
      * установка нового резолвера в качестве текущего

@@ -118,8 +118,8 @@ class userMapper extends simpleMapper
     {
         $map = $this->getMap();
 
-        if (isset($this->map['password']['decorateClass'])) {
-            $service = $this->map['password']['decorateClass'];
+        if (isset($map['password']['decorateClass'])) {
+            $service = $map['password']['decorateClass'];
             fileLoader::load('service/' . $service);
             $service = new $service;
             $password = $service->apply($password);
