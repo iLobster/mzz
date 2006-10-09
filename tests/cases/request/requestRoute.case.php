@@ -57,10 +57,14 @@ class requestRouteTest extends unitTestCase
 
     public function testRouteWithPathAndRequirement()
     {
-        $route = new requestRoute('somepath/:controller/test/:id:action', array(), array('id' => '\d+', 'action' => '\w+'));
-        $this->assertFalse(
-            $route->match('somepath/news/test/string/'),
-            array('action' => 'view', 'controller' => 'news', 'id' => '1')
+        $route = new requestRoute('somepath/:cat/:action', array('action' => 'list'), array('cat' => '.+?', 'action' => '(?:list)'));
+        $this->assertEqual(
+            $route->match('somepath/news/world/europe/moscow/list'),
+            array('action' => 'list', 'cat' => 'news/world/europe/moscow')
+        );
+        $this->assertEqual(
+            $route->match('somepath/news/world/europe/moscow'),
+            array('action' => 'list', 'cat' => 'news/world/europe/moscow')
         );
     }
 
