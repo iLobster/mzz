@@ -178,7 +178,7 @@ class action
                 return $type;
             }
         }
-        throw new mzzSystemException('Action "' . $action . '" not found for module "' . $this->module. '"');
+        throw new mzzSystemException('Действие "' . $action . '" не найдено для модуля "' . $this->module. '"');
         return false;
     }
 

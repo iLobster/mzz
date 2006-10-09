@@ -48,16 +48,17 @@ class sqlFunction
      */
     public function __construct($function, $arguments = null, $isField = false)
     {
+        $db = db::factory();
+
         $this->function = $function;
 
         if(is_array($arguments)) {
             foreach ($arguments as $key => $arg) {
-
                 if($arg !== true) {
                     if($arg instanceof sqlFunction) {
                         $this->argumentsString .= $arg->toString() . ', ';
                     } else {
-                        $this->argumentsString .= "'" . $arg . "', ";
+                        $this->argumentsString .= $db->quote($arg) . ", ";
                     }
                 } else {
                     $field = str_replace('.', '`.`', $key);
@@ -70,7 +71,7 @@ class sqlFunction
                 $field = str_replace('.', '`.`', $arguments);
                 $this->argumentsString .= '`' . $field . '`, ';
             } else {
-                $this->argumentsString .= "'" . $arguments . "', ";
+                $this->argumentsString .= $db->quote($arguments) . ", ";
 
             }
 

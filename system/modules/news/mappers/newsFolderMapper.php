@@ -147,6 +147,11 @@ class newsFolderMapper extends simpleMapper
         $newsFolder = $this->getFolderByPath(implode('/', $args));
         return (int)$newsFolder->getObjId();
     }
+
+    public function createSubfolder($path)
+    {
+
+    }
 }
 
 ?>

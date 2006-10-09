@@ -136,6 +136,15 @@ class criterionTest extends unitTestCase
         $criterion = new criterion('field', 'value');
         $this->assertEqual($criterion->generate($table = 'table'), "`table`.`field` = 'value'");
     }
+
+    public function testSQLFuncitionAsValue()
+    {
+        $criterion = new criterion('field', new sqlFunction('FUNCTION', 'value', true));
+        $this->assertEqual($criterion->generate($table = 'table'), "`table`.`field` = FUNCTION(`value`)");
+
+        $criterion = new criterion('field', new sqlFunction('FUNCTION', 'value"'));
+        $this->assertEqual($criterion->generate($table = 'table'), "`table`.`field` = FUNCTION('value\\\"')");
+    }
 }
 
 ?>

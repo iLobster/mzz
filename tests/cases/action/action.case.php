@@ -34,7 +34,7 @@ class actionTest extends unitTestCase
             $this->action->setAction('_unknown_action_');
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/Action \"_unknown_action_\" not/i", $e->getMessage());
+            $this->assertPattern("/Äåéñòâèå \"_unknown_action_\" íå íàéäåíî/i", $e->getMessage());
             $this->pass();
         }
 

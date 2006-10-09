@@ -96,6 +96,8 @@ class criterion
      */
     private $clauses = array();
 
+    private $isFunction = false;
+
     /**
      * Массив, хранящий типы логических объединений (И/ИЛИ) между дополнительными операциями сравнения
      *
@@ -138,6 +140,11 @@ class criterion
         $this->defaultTable = $defaultTable;
 
         $result = '';
+
+        if ($this->value instanceof sqlFunction) {
+            $this->isFunction = true;
+            $this->value = $this->value->toString();
+        }
 
         if (!is_null($this->field)) {
             // для конструкции `field` IN ('val1', 'val2')
@@ -271,7 +278,9 @@ class criterion
      */
     private function getQuotedValue()
     {
-        if ($this->isField) {
+        if ($this->isFunction) {
+            return $this->value;
+        } elseif ($this->isField) {
             if (($dotpos = strpos($this->value, '.')) !== false) {
                 $alias = substr($this->value, 0, $dotpos);
                 $field = substr($this->value, $dotpos + 1);
