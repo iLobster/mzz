@@ -48,6 +48,8 @@ class userTest extends unitTestCase
 
     public function testIsLoggedIn()
     {
+        $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
+
         $id = 2;
 
         $this->assertNotEqual($id, MZZ_USER_GUEST_ID);
@@ -69,6 +71,8 @@ class userTest extends unitTestCase
 
     public function testGetGroupsList()
     {
+        $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
+
         $mapper = new mockuserMapper('news');
 
         $mapper->expectOnce('getGroupsList', array('2'));

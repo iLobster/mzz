@@ -24,13 +24,15 @@ class newsFolderTest extends unitTestCase
         $this->mapper = new newsFolderMapper('news');
         $this->newsFolder = new newsFolder($this->mappermock, $map);
         $this->cleardb();
+
+        $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
     }
 
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `news_news`');
         $this->db->query('TRUNCATE TABLE `news_newsfolder`');
-        //$this->db->query('ALTER TABLE `news_news`, auto_increment = 1');
+        $this->db->query('TRUNCATE TABLE `user_user`');
     }
 
     public function tearDown()

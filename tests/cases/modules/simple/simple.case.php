@@ -17,6 +17,7 @@ class testSimple extends unitTestCase
         'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId', 'once' => 'true'),
         'foo' => array ('name' => 'foo','accessor' => 'getFoo', 'mutator' => 'setFoo'),
         'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
+        'obj_id' => array ('name' => 'obj_id','accessor' => 'getObjId', 'mutator' => 'setObjId'),
         );
 
         $this->db = DB::factory();
@@ -28,6 +29,7 @@ class testSimple extends unitTestCase
     public function setUp()
     {
         $this->simple = new stubSimple($this->map);
+        $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
     }
 
     public function tearDown()
@@ -37,7 +39,8 @@ class testSimple extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `simple_simple`');
+        $this->db->query('TRUNCATE TABLE `simple_stubSimple`');
+        $this->db->query('TRUNCATE TABLE `user_user`');
     }
 
     public function testAccessorsAndMutators()

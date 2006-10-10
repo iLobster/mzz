@@ -1,14 +1,9 @@
-# SQL Manager 2005 for MySQL 3.7.5.1
+# EMS MySQL Manager Pro 3.3.0.2
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -50,7 +45,8 @@ INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`,
   (5,4,'новость 4',2,'текст 4',2,1140071107,1140071117),
   (6,16,'тестовая новость',2,'... текст',1,1158725119,1158725119),
   (7,17,'цйу',2,'йцу',1,1158725156,1158725156),
-  (8,18,'qwe',2,'asdqwe',1,1159144215,1159144215);
+  (8,18,'qwe',2,'asdqwe',1,1159144215,1159144215),
+  (9,20,'qqq',2,'111111111',1,1160478337,1160478337);
 
 COMMIT;
 
@@ -157,8 +153,10 @@ CREATE TABLE `sys_access` (
 #
 
 INSERT INTO `sys_access` (`id`, `module_section_action`, `obj_id`, `uid`, `gid`, `allow`) VALUES 
-  (1,1,NULL,NULL,NULL,1),
-  (2,2,NULL,NULL,NULL,1);
+  (1,1,0,0,NULL,1),
+  (2,2,0,0,NULL,1),
+  (3,1,20,2,NULL,1),
+  (4,2,20,2,NULL,1);
 
 COMMIT;
 
@@ -347,7 +345,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (16),
   (17),
   (18),
-  (19);
+  (19),
+  (20);
 
 COMMIT;
 
@@ -423,8 +422,3 @@ INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
 
 COMMIT;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

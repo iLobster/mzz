@@ -1,14 +1,9 @@
-# SQL Manager 2005 for MySQL 3.7.5.1
+# EMS MySQL Manager Pro 3.3.0.2
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz_test
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -84,12 +79,12 @@ CREATE TABLE `page_page` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_simple` table : 
+# Structure for the `simple_stubsimple` table : 
 #
 
-DROP TABLE IF EXISTS `simple_simple`;
+DROP TABLE IF EXISTS `simple_stubsimple`;
 
-CREATE TABLE `simple_simple` (
+CREATE TABLE `simple_stubsimple` (
   `id` int(11) NOT NULL auto_increment,
   `foo` varchar(10) default NULL,
   `bar` varchar(10) default NULL,
@@ -99,12 +94,12 @@ CREATE TABLE `simple_simple` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_simple_tree` table : 
+# Structure for the `simple_stubsimple_tree` table : 
 #
 
-DROP TABLE IF EXISTS `simple_simple_tree`;
+DROP TABLE IF EXISTS `simple_stubsimple_tree`;
 
-CREATE TABLE `simple_simple_tree` (
+CREATE TABLE `simple_stubsimple_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -364,8 +359,3 @@ CREATE TABLE `user_usergroup_rel` (
   UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

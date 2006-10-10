@@ -41,6 +41,10 @@ class newsFolderMapperTest extends unitTestCase
         'updated' => array ('name' => 'updated', 'accessor' => 'getUpdated', 'mutator' => 'setUpdated'),
         );
         $this->mapper = new newsFolderMapper('news');
+
+        $this->cleardb();
+
+        $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
         //echo'<pre>';print_r($this->mapper); echo'</pre>';
     }
 
@@ -53,6 +57,7 @@ class newsFolderMapperTest extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `news_newsfolder`');
         $this->db->query('TRUNCATE TABLE `news_newsfolder_tree`');
+        $this->db->query('TRUNCATE TABLE `user_user`');
     }
 
     public function testSave()

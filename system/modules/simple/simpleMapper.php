@@ -15,6 +15,7 @@
 
 fileLoader::load('db/sqlFunction');
 fileLoader::load('db/simpleSelect');
+fileLoader::load('acl');
 
 /**
  * simpleMapper: реализация общих методов у Mapper
@@ -187,6 +188,9 @@ abstract class simpleMapper //implements iCacheable
             $data = $this->fillArray($fields);
 
             $object->import($data);
+
+            $acl = new acl($toolkit->getUser());
+            $acl->register($object->getObjId(), $this->name(), $this->section());
         }
     }
 
@@ -284,8 +288,17 @@ abstract class simpleMapper //implements iCacheable
      */
     public function delete($id)
     {
+        $toolkit = systemToolkit::getInstance();
+        $object = $this->searchOneByField($this->tableKey, $id);
+
+        if ($object) {
+            $acl = new acl($toolkit->getUser());
+            $acl->delete($object->getObjId());
+        }
+
         $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `' . $this->tableKey . '` = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
         return $stmt->execute();
     }
 
@@ -405,7 +418,7 @@ abstract class simpleMapper //implements iCacheable
     public function searchOneByCriteria(criteria $criteria)
     {
         $stmt = $this->searchByCriteria($criteria);
-         $row = $stmt->fetch();
+        $row = $stmt->fetch();
 
         if ($row) {
             $data = $this->fillArray($row);

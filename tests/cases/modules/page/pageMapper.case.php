@@ -12,7 +12,7 @@ class pageMapperTest extends unitTestCase
     public function __construct()
     {
         $this->map = array(
-        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),        
+        'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'name' => array ( 'name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
         'content' => array ('name' => 'content', 'accessor' => 'getContent', 'mutator' => 'setContent')
@@ -25,6 +25,7 @@ class pageMapperTest extends unitTestCase
     public function setUp()
     {
         $this->mapper = new pageMapper('page');
+        $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
     }
 
     public function tearDown()
@@ -35,6 +36,7 @@ class pageMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `page_page`');
+        $this->db->query('TRUNCATE TABLE `user_user`');
     }
 
     public function testSave()

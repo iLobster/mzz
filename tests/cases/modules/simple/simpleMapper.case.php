@@ -41,7 +41,7 @@ class simpleMapperTest extends unitTestCase
         }
         $valString = substr($valString, 0,  strlen($valString)-1);
 
-        $stmt = $this->db->prepare(' INSERT INTO `simple_simple` (`foo`,`bar`) VALUES ' . $valString);
+        $stmt = $this->db->prepare(' INSERT INTO `simple_stubSimple` (`foo`,`bar`) VALUES ' . $valString);
         $stmt->execute();
     }
 
@@ -49,6 +49,7 @@ class simpleMapperTest extends unitTestCase
     {
         $this->mapper = new stubMapper('simple');
         $this->mapper->setMap($this->map);
+        $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
     }
 
     public function tearDown()
@@ -58,8 +59,9 @@ class simpleMapperTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `simple_simple`');
+        $this->db->query('TRUNCATE TABLE `simple_stubSimple`');
         $this->db->query('TRUNCATE TABLE `sys_obj_id`');
+        $this->db->query('TRUNCATE TABLE `user_user`');
     }
 
     public function testDelete()
@@ -144,16 +146,6 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual($row['simple_bar'], $this->fixture[1]['bar']);
 
     }
-/*
-    public function testSearchAll()
-    {
-        $this->fixture();
-        $stmt = $this->mapper->searchAll();
-        $row = $stmt->fetchAll();
-
-        $this->assertEqual(count($row), count($this->fixture));
-
-    }*/
 
     public function testCreateUniqueObjectId()
     {
@@ -185,7 +177,7 @@ class simpleMapperTest extends unitTestCase
 
     private function countRecord()
     {
-        $stmt = $this->db->query("SELECT count(*) FROM `simple_simple`");
+        $stmt = $this->db->query("SELECT count(*) FROM `simple_stubSimple`");
         $count = $stmt->fetch(PDO::FETCH_NUM);
         return (int)$count[0];
     }

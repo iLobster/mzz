@@ -27,6 +27,7 @@ class groupMapperTest extends unitTestCase
     {
         $this->mapper = new groupMapper('user');
         $this->cleardb();
+        $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
     }
 
     public function tearDown()

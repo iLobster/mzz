@@ -176,9 +176,9 @@ class acl
      */
     public function register($obj_id, $module = null, $section = null)
     {
-        $this->obj_id = $obj_id;
+        $this->obj_id = (int)$obj_id;
 
-        if (!is_int($this->obj_id) || $this->obj_id <= 0) {
+        if ($this->obj_id <= 0) {
             throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
         }
 
@@ -315,7 +315,7 @@ class acl
         $stmt->bindParam(':module', $this->module);
 
         if (!empty($obj_id)) {
-            if (!is_int($obj_id) || $obj_id <= 0) {
+            if ($obj_id <= 0) {
                 throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
             }
             $stmt->bindParam(':obj_id', $obj_id);

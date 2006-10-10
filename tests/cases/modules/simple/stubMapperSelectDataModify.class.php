@@ -3,7 +3,7 @@
 class stubMapperSelectDataModify extends simpleMapper
 {
     protected $name = 'simple';
-    protected $className = 'simple';
+    protected $className = 'stubSimple';
 
     protected function selectDataModify()
     {

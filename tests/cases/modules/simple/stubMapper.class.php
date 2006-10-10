@@ -3,7 +3,7 @@
 class stubMapper extends simpleMapper
 {
     protected $name = 'simple';
-    protected $className = 'simple';
+    protected $className = 'stubSimple';
 
     public function convertArgsToId($args)
     {
