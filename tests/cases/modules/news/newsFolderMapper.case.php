@@ -157,13 +157,19 @@ class newsFolderMapperTest extends unitTestCase
 
     public function testDelete()
     {
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+        $request->setParam('section', 'news');
+
         $this->fixture($this->mapper, $this->map);
 
         $this->assertEqual(8, $this->countNewsFolder());
 
-        $this->mapper->delete(1);
+        $this->mapper->delete(2);
 
-        $this->assertEqual(7, $this->countNewsFolder());
+        $this->assertEqual(5, $this->countNewsFolder());
+
+        $request->restore();
     }
 
     private function countNewsFolder()
