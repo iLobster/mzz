@@ -96,17 +96,27 @@ class requestRoute implements iRoute
     protected $values;
 
     /**
+     * Debug информация
+     *
+     * @var boolean
+     */
+    protected $debug;
+
+
+    /**
      * Конструктор
      *
      * @param string $pattern шаблон
      * @param array $defaults значения по умолчанию
      * @param array $requirements иные требования к значению placeholder
+     * @param boolean $debug при значении true отображается сгенерированное регулярное выражение
      */
-    public function __construct($pattern, array $defaults = array(), array $requirements = array())
+    public function __construct($pattern, array $defaults = array(), array $requirements = array(), $debug = false)
     {
         $this->pattern = $pattern;
         $this->defaults = $defaults;
         $this->requirements = $requirements;
+        $this->debug = $debug;
     }
 
     /**
@@ -121,6 +131,10 @@ class requestRoute implements iRoute
 
         if (empty($this->regex)) {
             $this->prepareRegexp();
+        }
+
+        if ($this->debug) {
+            echo 'pattern: \'' . $this->pattern . '\', regex: ' . $this->regex . ' with \'' . $path . '\'<br />';
         }
 
         if (preg_match_all($this->regex, $path, $matches, PREG_SET_ORDER)) {
