@@ -41,8 +41,8 @@ class frontControllerTest extends unitTestCase
         $this->request->expectOnce('getSection', array());
         $this->request->setReturnValue('getSection', 'test');
 
-        $this->request->expectOnce('get', array('action', '*', '*'));
-        $this->request->setReturnValue('get', 'bar', array('action', '*', '*'));
+        $this->request->expectOnce('getAction', array());
+        $this->request->setReturnValue('getAction', 'bar');
 
         $this->sectionMapper->expectOnce('getTemplateName', array('test', 'bar'));
         $this->sectionMapper->setReturnValue('getTemplateName', 'act.test.bar.tpl');

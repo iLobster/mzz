@@ -37,15 +37,6 @@ class userMapper extends simpleMapper
      */
     protected $className = 'user';
 
-    /**
-     * Конструктор
-     *
-     * @param string $section секция
-     */
-    public function __construct($section)
-    {
-        parent::__construct($section);
-    }
 
     /**
      * Создает пустой объект DO
@@ -94,6 +85,13 @@ class userMapper extends simpleMapper
         }
     }
 
+    /**
+     * Возвращает список групп, в которых существует
+     * пользователь с идентификатором $id
+     *
+     * @param string $id идентификатором
+     * @return array
+     */
     public function getGroupsList($id)
     {
         $user = $this->searchById($id);
@@ -140,19 +138,6 @@ class userMapper extends simpleMapper
             $session->set('user_id', MZZ_USER_GUEST_ID);
             return $this->getGuest();
         }
-    }
-
-    /**
-     * Создает объект user из массива
-     *
-     * @param array $row
-     * @return object
-     */
-    protected function createItemFromRow($row)
-    {
-        $user = new user($this, $this->getMap());
-        $user->import($row);
-        return $user;
     }
 
     /**

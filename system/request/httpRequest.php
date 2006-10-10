@@ -228,14 +228,27 @@ class httpRequest implements iRequest
     }
 
     /**
-    * Получение текущего урла
+    * Получение текущего урла, игнорируя путь
     *
-    * @todo сделать чтобы возвращал полностью весь адрес
     * @return string URL
     */
     public function getUrl()
     {
-        return $this->getVars->get('path');
+        $protocol = $this->isSecure() ? 'https' : 'http';
+        $port = $this->get('SERVER_PORT', 'mixed', SC_SERVER);
+        $port = ($port == '80') ? '' : ':' . $port;
+
+        return $protocol . '://' . $this->get('HTTP_HOST', 'mixed', SC_SERVER) . $port . SITE_PATH;
+    }
+
+    /**
+    * Получение текущего урла c путем
+    *
+    * @return string URL
+    */
+    public function getRequestUrl()
+    {
+        return $this->getUrl() . '/' . $this->getPath();
     }
 
     /**

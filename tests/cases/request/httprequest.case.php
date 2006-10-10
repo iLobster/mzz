@@ -97,9 +97,21 @@ class httpRequestTest extends unitTestCase
 
     public function testGetUrl()
     {
-        $_GET['path'] = "/news/archive/18/10//2005/list";
-        $this->assertEqual($this->httprequest->getUrl(), $_GET['path']);
+        $_SERVER['HTTPS'] = 'on';
+        $_SERVER['SERVER_PORT'] = '8080';
+        $_SERVER['HTTP_HOST'] = 'www.mzz.ru';
+        $_GET['path'] = "/news/";
+        $this->assertEqual($this->httprequest->getUrl(), 'https://www.mzz.ru:8080');
     }
+
+    public function testGetRequestUrl()
+    {
+        $_SERVER['HTTPS'] = false;
+        $_SERVER['SERVER_PORT'] = '80';
+        $_SERVER['HTTP_HOST'] = 'www.mzz.ru';
+        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru/news/archive/18/10/2005/list');
+    }
+
 
     public function testGetPath()
     {

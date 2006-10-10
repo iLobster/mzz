@@ -1,14 +1,18 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage request
+ * @version $Id$
+*/
 
 /**
  * url: класс для генерации URL
@@ -58,26 +62,20 @@ class url
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
-        $protocol = $request->isSecure() ? 'https' : 'http';
-        $port = $request->get('SERVER_PORT', 'mixed', SC_SERVER);
-        $port = ($port == '80') ? '' : ':' . $port;
 
-        $address = $protocol . '://' . $request->get('HTTP_HOST', 'mixed', SC_SERVER) . $port . SITE_PATH;
-
+        $address = $request->getUrl();
         if (empty($this->section)) {
             $this->setSection($this->getCurrentSection());
         }
 
         $params = '';
         $this->params  = $this->getParams();
-        //echo"<pre><b>this->params</b> ";var_dump($this->params); echo"</pre>";
         if(!empty($this->params)) {
             if(!empty($this->section)) {
                 $params = '/';
             }
 
             $params .= implode('/', $this->params);
-
 
             if(!empty($this->action)) {
                 $params .= '/';
@@ -87,9 +85,8 @@ class url
                 $params = '/';
             }
         }
-        $request_uri = $this->section . $params . $this->action;
-        //echo"<pre>";print_r("$request_uri request_uri = $this->section . $params . $this->action;"); echo"</pre>";
-        return $address . (!empty($request_uri) ? '/' . $request_uri : '');
+        $url = $this->section . $params . $this->action;
+        return $address . (!empty($url) ? '/' . $url : '');
     }
 
     /**
@@ -144,7 +141,7 @@ class url
     private function getCurrentSection()
     {
         $toolkit = systemToolkit::getInstance();
-        return $toolkit->getRequest()->get('section', 'mixed', SC_PATH);
+        return $toolkit->getRequest()->getSection();
     }
 }
 

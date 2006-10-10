@@ -55,7 +55,7 @@ class frontController
     public function getTemplate()
     {
         $section = $this->request->getSection();
-        $action = $this->request->get('action', 'mixed', SC_PATH);
+        $action = $this->request->getAction();
         return $this->sectionMapper->getTemplateName($section, $action);
     }
 

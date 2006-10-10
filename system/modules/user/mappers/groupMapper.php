@@ -44,16 +44,7 @@ class groupMapper extends simpleMapper
      */
     public function searchById($id)
     {
-        $group = $this->searchOneByField('id', $id);
-
-        if ($group) {
-            return $group;
-        } else {
-            if($id == 1) {
-                throw new mzzSystemException('Отсутствует запись с ID: 1 для гостя в таблице ' . $this->table);
-            }
-            return $this->getGuest();
-        }
+        return $this->searchOneByField('id', $id);
     }
 
     /**
@@ -64,34 +55,13 @@ class groupMapper extends simpleMapper
      */
     public function searchByName($name)
     {
-        $group = $this->searchOneByField('name', $name);
-
-        if ($group) {
-            return $group;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Создает объект group из массива
-     *
-     * @param array $row
-     * @return object
-     */
-    protected function createGroupFromRow($row)
-    {
-        $map = $this->getMap();
-        $group = new group($map);
-        $group->import($row);
-        return $group;
+        return $this->searchOneByField('name', $name);
     }
 
     public function convertArgsToId($args)
     {
-        //var_dump($args);
-        $newsFolder = $this->getFolderByPath(implode('/', $args));
-        return (int)$newsFolder->getObjId();
+        $group = $this->searchOneByField('id', $args[0]);
+        return (int)$group->getObjId();
     }
 
 }
