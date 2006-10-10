@@ -17,12 +17,6 @@
  * @version 0.1
  */
 
-/*fileLoader::load('news/views/newsCreateView');
-fileLoader::load('news/views/newsCreateSuccessView');
-fileLoader::load('news/views/newsCreateForm');
-fileLoader::load("news/mappers/newsMapper");
-fileLoader::load("news/mappers/newsFolderMapper");*/
-
 fileLoader::load('news/views/newsCreateFolderForm');
 fileLoader::load('news/views/newsCreateFolderView');
 
@@ -90,20 +84,6 @@ class newsCreateFolderController extends simpleController
 
                 fileLoader::load('news/views/newsCreateFolderSuccessView');
                 $view = new newsCreateFolderSuccessView($folder);
-
-                //var_dump($targetFolder);
-                /*
-                $values = $form->exportValues();
-                $news->setTitle($values['title']);
-                $news->setEditor($user->getId());
-                $news->setText($values['text']);
-                $news->setFolder($folder->getId());
-                $newsMapper->save($news);
-
-                $acl = new acl($user, (int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
-                $acl->register((int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
-
-                $view = new newsCreateSuccessView($news, $form);*/
             }
         } else {
             fileLoader::load('news/views/news404View');

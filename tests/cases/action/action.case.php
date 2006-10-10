@@ -54,12 +54,12 @@ class actionTest extends unitTestCase
     public function testActionGetJipActions()
     {
         $jipActions = array(
-        array ('controller' => 'foo', 'title' => NULL, 'confirm' => NULL)
+        'jipAction' => array ('controller' => 'foo', 'title' => NULL, 'confirm' => NULL)
         );
         $this->assertEqual($this->action->getJipActions('firstActions'), $jipActions);
 
         $jipActions = array(
-        array ('controller' => 'bar', 'title' => 'someTitle', 'confirm' => 'confirm message')
+        'jipActionFull' => array ('controller' => 'bar', 'title' => 'someTitle', 'confirm' => 'confirm message')
         );
         $this->assertEqual($this->action->getJipActions('secondActions'), $jipActions);
     }
