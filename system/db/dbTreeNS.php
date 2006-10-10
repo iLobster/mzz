@@ -128,7 +128,8 @@ class dbTreeNS
      * @return string
      */
     public function setInnerField($tableField)
-    {   if(!(is_string($tableField) && strlen($tableField))) return false;
+    {
+        if(!(is_string($tableField) && strlen($tableField))) return false;
         $this->innerField = $tableField;
     }
 
@@ -146,15 +147,10 @@ class dbTreeNS
      * Смена режима выборки узлов на основе пути
      *
      * @param  bool     $mode          Режим работы, с коррекцией пути или без
-     * @return void
      */
     public function setCorrectPathMode($mode = false)
     {
-        if($mode) {
-            $this->correctPathMode = true;
-        } else {
-            $this->correctPathMode = false;
-        }
+        $this->correctPathMode = $mode;
     }
 
     /**
@@ -454,6 +450,7 @@ class dbTreeNS
             return null;
         }
     }
+
     /**
      * Вставка узла ниже заданного
      *
@@ -493,6 +490,7 @@ class dbTreeNS
         return $newNode;
 
     }
+
     /**
      * Вставка корневого узла
      *
@@ -523,6 +521,7 @@ class dbTreeNS
         return $newRootNode;
 
     }
+
     /**
      * Удаление узла вместе с потомками
      *
@@ -762,18 +761,6 @@ class dbTreeNS
             $this->db->query('ALTER TABLE ' . $this->dataTable . ' ADD `path` char(255)');
         }
     }
-
-  /*  public function __sleep()
-
-    {
-        return array('table', 'dataTable', 'selectPart', 'innerPart', 'rowID');
-    }
-
-    public function __wakeup()
-    {
-        $this->db = DB::factory();
-    }*/
-
 }
 
 
