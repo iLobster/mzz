@@ -19,10 +19,17 @@
  *
  * @package system
  * @subpackage core
- * @version 0.1.1
+ * @version 0.1.2
  */
 class core
 {
+    /**
+     * Тулкит
+     *
+     * @var object
+     */
+    private $toolkit;
+
     /**
      * запуск приложения
      *
@@ -30,65 +37,23 @@ class core
     public function run()
     {
         try {
+            $resolver = $this->composeResolvers();
+            fileLoader::setResolver($resolver);
 
-            require_once systemConfig::$pathToSystem . '/resolver/init.php';
-            require_once systemConfig::$pathToSystem . '/core/fileLoader.php';
+            $this->loadCommonFiles();
 
-            $baseresolver = new compositeResolver();
-            $baseresolver->addResolver(new appFileResolver());
-            $baseresolver->addResolver(new sysFileResolver());
+            $this->composeToolkit();
 
-            $resolver = new compositeResolver();
-            $resolver->addResolver(new classFileResolver($baseresolver));
-            $resolver->addResolver(new moduleResolver($baseresolver));
-            $resolver->addResolver(new configFileResolver($baseresolver));
-            $resolver->addResolver(new libResolver($baseresolver));
-            $cachingResolver = new cachingResolver($resolver);
-
-            fileLoader::setResolver($cachingResolver);
-            fileLoader::load('exceptions/init');
-            $dispatcher = new errorDispatcher();
-            fileLoader::load('request/httpResponse');
-            fileLoader::load('request/url');
-
-            fileLoader::load('cache/iCacheable');
-
-            fileLoader::load('simple');
-            fileLoader::load('simple/simpleMapper');
-            fileLoader::load('simple/simpleView');
-            fileLoader::load('simple/simpleController');
-            fileLoader::load('simple/simpleFactory');
-
-            fileLoader::load('filters/init');
-
-            fileLoader::load('config/config');
-            fileLoader::load('frontcontroller/frontController');
-
-            fileLoader::load('db/DB');
-            fileLoader::load('dataspace/arrayDataspace');
-
-            fileLoader::load('iterators/mzzIniFilterIterator');
-
-            fileLoader::load('toolkit');
-            fileLoader::load('toolkit/stdToolkit');
-            fileLoader::load('toolkit/systemToolkit');
-
-            fileLoader::load('action');
-
-            $toolkit = systemToolkit::getInstance();
-            $toolkit->addToolkit(new stdToolkit(/*new config(systemConfig::$pathToConf . '/common.ini')*/));
-
-            $response = $toolkit->getResponse();
-            $request = $toolkit->getRequest();
+            $response = $this->toolkit->getResponse();
+            $request = $this->toolkit->getRequest();
 
             $filter_chain = new filterChain($response, $request);
 
-            $filter_chain->registerFilter(new timingFilter());
-            $filter_chain->registerFilter(new sessionFilter());
-            $filter_chain->registerFilter(new userFilter());
-            $filter_chain->registerFilter(new contentFilter());
+            $this->composeFilters($filter_chain);
+
             $filter_chain->process();
             $response->send();
+
         } catch (Exception $e) {
             if (!($e instanceof mzzException))  {
                 $name = get_class($e);
@@ -99,6 +64,91 @@ class core
                 throw $e;
             }
         }
+    }
+
+    /**
+     * "Сборка" композитного резолвера
+     *
+     * @return object
+     */
+    protected function composeResolvers()
+    {
+        require_once systemConfig::$pathToSystem . '/resolver/init.php';
+        require_once systemConfig::$pathToSystem . '/core/fileLoader.php';
+
+        $baseresolver = new compositeResolver();
+        $baseresolver->addResolver(new appFileResolver());
+        $baseresolver->addResolver(new sysFileResolver());
+
+        $resolver = new compositeResolver();
+        $resolver->addResolver(new classFileResolver($baseresolver));
+        $resolver->addResolver(new moduleResolver($baseresolver));
+        $resolver->addResolver(new configFileResolver($baseresolver));
+        $resolver->addResolver(new libResolver($baseresolver));
+        $cachingResolver = new cachingResolver($resolver);
+
+        return $cachingResolver;
+    }
+
+    /**
+     * Загрузка минимально необходимого для функционирования набора файлов
+     *
+     */
+    protected function loadCommonFiles()
+    {
+        fileLoader::load('exceptions/init');
+        $dispatcher = new errorDispatcher();
+        fileLoader::load('request/httpResponse');
+        fileLoader::load('request/url');
+
+        fileLoader::load('cache/iCacheable');
+
+        fileLoader::load('simple');
+        fileLoader::load('simple/simpleMapper');
+        fileLoader::load('simple/simpleView');
+        fileLoader::load('simple/simpleController');
+        fileLoader::load('simple/simpleFactory');
+
+        fileLoader::load('filters/init');
+
+        fileLoader::load('config/config');
+        fileLoader::load('frontcontroller/frontController');
+
+        fileLoader::load('db/DB');
+        fileLoader::load('dataspace/arrayDataspace');
+
+        fileLoader::load('iterators/mzzIniFilterIterator');
+
+        fileLoader::load('toolkit');
+        fileLoader::load('toolkit/stdToolkit');
+        fileLoader::load('toolkit/systemToolkit');
+
+        fileLoader::load('action');
+    }
+
+    /**
+     * "Сборка" композитного тулкита
+     *
+     */
+    protected function composeToolkit()
+    {
+        $this->toolkit = systemToolkit::getInstance();
+        $this->toolkit->addToolkit(new stdToolkit(/*new config(systemConfig::$pathToConf . '/common.ini')*/));
+    }
+
+    /**
+     * Регистрация необходимых фильтров
+     *
+     * @param object $filter_chain
+     * @return object
+     */
+    protected function composeFilters($filter_chain)
+    {
+        $filter_chain->registerFilter(new timingFilter());
+        $filter_chain->registerFilter(new sessionFilter());
+        $filter_chain->registerFilter(new userFilter());
+        $filter_chain->registerFilter(new contentFilter());
+        return $filter_chain;
     }
 }
 
