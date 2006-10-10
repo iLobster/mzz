@@ -35,6 +35,28 @@ if (!function_exists('preg_match') || !function_exists('preg_replace')) {
     echo "PCRE exists: " . $failed . "<br>";
     $success = false;
 }
+
+if (!is_readable(systemConfig::$pathToTemp)) {
+    echo 'Directory "' . systemConfig::$pathToTemp . '" <font color="red"><b>is not readable</b></font><br />';
+    $success = false;
+}
+
+if (!is_readable(systemConfig::$pathToTemp . '/templates_c')) {
+    echo 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not readable</b></font><br />';
+    $success = false;
+}
+
+if (!is_writable(systemConfig::$pathToTemp)) {
+    echo 'Directory "' . systemConfig::$pathToTemp . '" <font color="red"><b>is not writable</b></font><br />';
+    $success = false;
+}
+
+if (!is_writable(systemConfig::$pathToTemp . '/templates_c')) {
+    echo 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not writable</b></font><br />';
+    $success = false;
+}
+
+
 if ($success) {
     file_put_contents(systemConfig::$pathToTemp . '/checked', 'превед!');
 } else {
