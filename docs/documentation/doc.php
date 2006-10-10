@@ -51,6 +51,13 @@ function render($id) {
     $content = str_replace(array("<<pre>>", "<</pre>>"), array("<!-- code start here -->\n<div class=\"code\">\n<pre>\n", "\n</pre>\n</div>\n<!-- code end here -->\n"), $content);
 
     $content = str_replace(array('<<note>>', '<</note>>'), array($note, $note_end), $content);
+
+    // обрисовка дерева
+    $content = str_replace(array('<<c1>>', '<</c1>>'), array('<strong class="red">', '</strong>'), $content);
+    $content = str_replace(array('<<c2>>', '<</c2>>'), array('<strong class="blue">', '</strong>'), $content);
+    $content = str_replace(array('<<c3>>', '<</c3>>'), array('<strong class="orange">', '</strong>'), $content);
+    $content = str_replace(array('<<c4>>', '<</c4>>'), array('<strong class="green">', '</strong>'), $content);
+
     return $content;
 }
 
@@ -139,6 +146,11 @@ $menu = array("Предисловие" =>
                         "Управление группами",
                         "Управление правами",
                         ),
+           "Возможности работы с БД" =>
+                        array(
+                        "Составление запросов. Использование criteria",
+                        "Работа с древовидными структурами",
+                        ),
             );
 
 $_SELF = $_SERVER['PHP_SELF'];
@@ -209,7 +221,7 @@ if (!isset($_REQUEST['cat'])) {
             $prev = $path;
         }
     }
-    
+
     $title = $paths[$_REQUEST['cat']];
     require_once('header.inc.php');
 
