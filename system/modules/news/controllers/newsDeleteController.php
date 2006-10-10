@@ -22,11 +22,6 @@ fileLoader::load("news/mappers/newsMapper");
 
 class newsDeleteController extends simpleController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getView()
     {
         $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());

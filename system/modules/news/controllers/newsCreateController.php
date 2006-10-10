@@ -25,18 +25,12 @@ fileLoader::load("news/mappers/newsFolderMapper");
 
 class newsCreateController extends simpleController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getView()
     {
         $user = $this->toolkit->getUser();
 
         $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
         $news = $newsMapper->create();
-
 
         $form = newsCreateForm::getForm($this->request->get('name', 'string', SC_PATH));
 

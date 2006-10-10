@@ -81,6 +81,11 @@ class newsFolder extends simple
     {
         $this->mapper->setPager($pager);
     }
+
+    public function getJip()
+    {
+        return parent::getJipView('news', $this->getPath(), 'newsFolder');
+    }
 }
 
 ?>

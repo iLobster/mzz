@@ -95,9 +95,9 @@ class jip
     private function generate()
     {
         $result = array();
-        foreach ($this->actions as $item) {
+        foreach ($this->actions as $key => $item) {
             $result[] = array(
-            'url' => $this->buildUrl($item['controller']),
+            'url' => $this->buildUrl($key),
             'title' => $item['title'],
             'id' => $this->section . '_' . $this->module . '_' . $this->id . '_' . $item['controller'],
             'confirm' => $item['confirm'],

@@ -28,38 +28,86 @@ fileLoader::load('news/views/newsCreateFolderView');
 
 class newsCreateFolderController extends simpleController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getView()
     {
         $user = $this->toolkit->getUser();
 
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());
-        $newsFolder = $newsFolderMapper->create();
 
-        $form = newsCreateFolderForm::getForm($this->request->get('name', 'string', SC_PATH));
+        $path = $this->request->get('name', 'string', SC_PATH);
 
-        if ($form->validate() == false) {
-            $view = new newsCreateFolderView($newsFolder, $form);
+        $targetFolder = $newsFolderMapper->searchByPath($path);
+
+        $action = $this->request->getAction();
+
+        if (!is_null($targetFolder)) {
+
+            $form = newsCreateFolderForm::getForm($path, $newsFolderMapper, $action, $targetFolder);
+
+            if ($form->validate() == false) {
+                $view = new newsCreateFolderView($targetFolder, $form);
+            } else {
+                $values = $form->exportValues();
+
+                if ($action == 'createFolder') {
+                    // создаём папку
+                    $folder = $newsFolderMapper->create();
+
+                    $newsFolderMapper->createSubfolder($folder, $targetFolder);
+
+                    $path .= '/';
+                } else {
+                    // изменяем папку
+                    $folder = $newsFolderMapper->searchByPath($path);
+
+                    // ищем все каталоги, которые лежат ниже изменяемого
+                    $criterion = new criterion('path', $path . '%', criteria::LIKE);
+                    $criterion->addAnd(new criterion('path', $path, criteria::NOT_EQUAL));
+                    $criteria = new criteria();
+                    $criteria->add($criterion);
+                    $folders = $newsFolderMapper->searchAllByCriteria($criteria);
+
+                    $pos = strrpos('/' . $path, '/');
+                    if ($pos) {
+                        $path = substr($path, 0, $pos - 1);
+                        $path .= '/';
+                    } else {
+                        $path = '';
+                    }
+
+                    // для нижележащих каталогов меняем значение поля `path` на новое
+                    foreach ($folders as $currentFolder) {
+                        $currentFolder->setPath(str_replace($folder->getPath(), $path . $values['name'], $currentFolder->getPath()));
+                        $newsFolderMapper->save($currentFolder);
+                    }
+                }
+
+                $folder->setName($values['name']);
+
+                $folder->setPath($path . $values['name']);
+
+                $newsFolderMapper->save($folder);
+
+                fileLoader::load('news/views/newsCreateFolderSuccessView');
+                $view = new newsCreateFolderSuccessView($folder);
+
+                //var_dump($targetFolder);
+                /*
+                $values = $form->exportValues();
+                $news->setTitle($values['title']);
+                $news->setEditor($user->getId());
+                $news->setText($values['text']);
+                $news->setFolder($folder->getId());
+                $newsMapper->save($news);
+
+                $acl = new acl($user, (int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
+                $acl->register((int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
+
+                $view = new newsCreateSuccessView($news, $form);*/
+            }
         } else {
-            $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());
-            $folder = $newsFolderMapper->searchByName($this->request->get('name', 'string', SC_PATH));
-            var_dump($folder);
-/*
-            $values = $form->exportValues();
-            $news->setTitle($values['title']);
-            $news->setEditor($user->getId());
-            $news->setText($values['text']);
-            $news->setFolder($folder->getId());
-            $newsMapper->save($news);
-
-            $acl = new acl($user, (int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
-            $acl->register((int)$news->getObjId(), $newsMapper->name(), $this->request->getSection());
-
-            $view = new newsCreateSuccessView($news, $form);*/
+            fileLoader::load('news/views/news404View');
+            $view = new news404View();
         }
 
         return $view;

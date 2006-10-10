@@ -136,9 +136,9 @@ class action
             throw new mzzSystemException('Тип "' . $type . '" у модуля "' . $this->module . '" не существует.');
         }
 
-        foreach ($actions[$type] as $action) {
+        foreach ($actions[$type] as $key => $action) {
             if (isset($action['jip']) && $action['jip'] == true) {
-                $jip_actions[] = array(
+                $jip_actions[$key] = array(
                 'controller' => $action['controller'],
                 'title' => (isset($action['title']) ? $action['title'] : null),
                 'confirm' => (isset($action['confirm']) ? $action['confirm'] : null),

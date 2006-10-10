@@ -51,6 +51,11 @@ class newsFolderMapper extends simpleMapper
         $this->tree = new dbTreeNS($init, 'name');
     }
 
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
+
     /**
      * Выполняет поиск объекта по имени
      *
@@ -100,9 +105,36 @@ class newsFolderMapper extends simpleMapper
      * @param string $deep Глубина выборки
      * @return array with nodes
      */
-    public function getFolderByPath($path)
+    public function searchByPath($path)
     {
         return $this->searchOneByField('path', $path);
+    }
+
+    public function delete($id)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+
+        $newsMapper = $toolkit->getMapper('news', 'news', $request->getSection());
+        $newsFolderMapper = $toolkit->getMapper('news', 'newsFolder', $request->getSection());
+
+        $folder = $newsFolderMapper->searchById($id);
+
+        $news = $newsMapper->searchByFolder($folder->getId());
+        foreach ($news as $val) {
+            $newsMapper->delete($val->getId());
+        }
+
+        $folders = $newsFolderMapper->getFolders($folder->getId());
+        foreach ($folders as $subfolder) {
+            if ($id != $subfolder->getId()) {
+                $newsFolderMapper->delete($subfolder->getId());
+            }
+
+        }
+
+        $this->tree->removeNode($folder->getParent());
+        parent::delete($id);
     }
 
     /**
@@ -148,9 +180,12 @@ class newsFolderMapper extends simpleMapper
         return (int)$newsFolder->getObjId();
     }
 
-    public function createSubfolder($path)
+    public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
     {
-
+        $id = $targetFolder->getParent();
+        $node = $this->tree->insertNode($id);
+        $parent = $node['id'];
+        $folder->setParent($parent);
     }
 }
 

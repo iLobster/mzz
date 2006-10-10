@@ -9,6 +9,8 @@
         <action name="edit">news.edit</action>
         <action name="createItem">news.create</action>
         <action name="createFolder">news.createFolder</action>
+        <action name="editFolder">news.createFolder</action>
+        <action name="deleteFolder">news.deleteFolder</action>
         <action name="delete">news.delete</action>
     </news>
     <user>

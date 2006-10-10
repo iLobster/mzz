@@ -20,26 +20,47 @@
 
 class newsCreateFolderForm
 {
-    static function getForm($folder)
+    static function getForm($folder, $newsFolderMapper, $action, $targetFolder)
     {
         require_once 'HTML/QuickForm.php';
         require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
         $url = new url();
         $url->addParam($folder);
-        $url->setAction('createFolder');
+        $url->setAction($action);
 
         $form = new HTML_QuickForm('createFolder', 'POST', $url->get());
 
-        $form->addElement('text', 'title', 'Имя:', 'size=30');
-        //$form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');
+        $defaultValues = array();
+
+        if ($action == 'editFolder') {
+            $defaultValues['name'] = $targetFolder->getName();
+        }
+
+        $defaultValues['label'] = $folder;
+        $form->setDefaults($defaultValues);
+
+        $label = $form->addElement('text', 'label', 'Имя надкаталога', 'size=30');
+        $label->freeze();
+        $form->addElement('text', 'name', 'Имя:', 'size=30');
 
 
-        //$form->addElement('hidden', 'path', $url->get());
+        $form->addRule('name', 'обязательное поле', 'required');
+        $form->addRule('name', 'только алфавитно-цифровые символы', 'regex', '/\w[\w\d_]+/');
+
+        $form->registerRule('isUniqueName', 'callback', 'createFolderValidate');
+        $form->addRule('name', 'имя должно быть уникально в пределах каталога', 'isUniqueName', array($folder, $newsFolderMapper));
+
         $form->addElement('reset', 'reset', 'Сброс');
         $form->addElement('submit', 'submit', 'Сохранить');
+
         return $form;
     }
+}
+
+function createFolderValidate($name, $data)
+{
+    return is_null($data[1]->searchByPath($data[0] . '/' . $name));
 }
 
 ?>

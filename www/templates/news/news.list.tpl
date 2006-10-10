@@ -1,12 +1,14 @@
 <table border="0" width="100%" cellpadding="0" cellspacing="1">
     <tr>
         <td colspan="7"><b>Папки:</b>
-        {foreach from=$newsFolderMapper->getFolders(1) item=current_folder name=folders}
-            <a href="{url section=news action=list params=$current_folder->getName()}">{$current_folder->getName()}</a>
-            {if !$smarty.foreach.folders.last}
-                /
-            {/if}
-        {/foreach}
+                <table border="0" cellspacing="0" cellpadding="0"><tr>
+                        {foreach from=$newsFolderMapper->getFolders(1) item=current_folder name=folders}
+                                <td><a href="{url section=news action=list params=$current_folder->getPath()}">{$current_folder->getName()}</a></td><td>{$current_folder->getJip()}</td>
+                            {if !$smarty.foreach.folders.last}
+                                <td>/</td>
+                            {/if}
+                        {/foreach}
+                </tr></table>
         </td>
     </tr>
     <tr>

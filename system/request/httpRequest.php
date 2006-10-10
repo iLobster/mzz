@@ -188,6 +188,11 @@ class httpRequest implements iRequest
         return $this->get('section', 'mixed', SC_PATH);
     }
 
+    public function getAction()
+    {
+        return $this->get('action', 'mixed', SC_PATH);
+    }
+
     /**
      * Установка определенного параметра
      *

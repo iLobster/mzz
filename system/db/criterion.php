@@ -175,7 +175,7 @@ class criterion
                 if ($val) {
                     $result .= ' ' . $val . ' ';
                 }
-                $result .= '(' . $this->clauses[$key]->generate() . ')';
+                $result .= '(' . $this->clauses[$key]->generate($defaultTable) . ')';
             }
         }
 
