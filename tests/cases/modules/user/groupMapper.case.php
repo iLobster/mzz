@@ -135,6 +135,15 @@ class groupMapperTest extends unitTestCase
         }
     }
 
+    public function testConvertArgsToId()
+    {
+        $this->fixture($this->map);
+
+        $group = $this->mapper->searchById($id = 1);
+
+        $this->assertEqual($this->mapper->convertArgsToId(array($id, 2, 3)), $group->getObjId());
+    }
+
 
     private function countGroups()
     {

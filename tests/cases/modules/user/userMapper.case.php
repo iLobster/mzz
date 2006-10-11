@@ -188,10 +188,14 @@ class userMapperTest extends unitTestCase
         }
     }
 
-/*    public function testGetGroupsList()
+    public function testConvertArgsToId()
     {
+        $this->fixture($this->map);
 
-    }*/
+        $user = $this->mapper->searchById($id = 1);
+
+        $this->assertEqual($this->mapper->convertArgsToId(array($id, 2, 3)), $user->getObjId());
+    }
 
     private function countUsers()
     {

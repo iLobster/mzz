@@ -151,6 +151,16 @@ class newsMapperTest extends unitTestCase
         $this->assertEqual(3, $this->countNews());
     }
 
+    public function testConvertArgsToId()
+    {
+        $this->fixture($this->mapper, $this->map);
+
+        $news = $this->mapper->searchById($id = 1);
+
+        $this->assertEqual($this->mapper->convertArgsToId(array($id, 2, 3)), $news->getObjId());
+    }
+
+
     private function countNews()
     {
         $query = 'SELECT COUNT(*) AS `total` FROM `news_news`';
