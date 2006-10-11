@@ -13,7 +13,7 @@
  * user404View: отображение ошибки 404
  *
  * @package modules
- * @subpackage news
+ * @subpackage user
  * @version 0.1
  */
 

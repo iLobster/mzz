@@ -10,10 +10,10 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * newsEditSuccessView: вид для успешного метода edit модуля news
+ * userEditSuccessView: вид для успешного метода edit модуля news
  *
  * @package modules
- * @subpackage news
+ * @subpackage user
  * @version 0.1
  */
 

@@ -91,7 +91,7 @@ class userTest extends unitTestCase
         $user1 = $toolkit->getUser();
         $user2 = $toolkit->getUser($alias = 'another');
 
-        $this->assertEqual($user1, $user2);
+        $this->assertEqual($user1->getId(), $user2->getId());
 
 
     }

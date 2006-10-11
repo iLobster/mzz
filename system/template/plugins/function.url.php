@@ -55,7 +55,7 @@ function smarty_function_url($params, $smarty)
     if ($getUrl == true) {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
-        return $request->getUrl();
+        return $request->getRequestUrl();
     } else {
         return $url->get();
     }

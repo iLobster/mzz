@@ -40,7 +40,7 @@ class userListView extends simpleView
         $this->smarty->assign('users', $this->DAO->searchAll());
         $this->smarty->assign('pager', $pager);
 
-        $this->response->setTitle('Новости -> Список');
+        $this->response->setTitle('Пользователь -> Список');
 
         return $this->smarty->fetch('user.list.tpl');
     }
