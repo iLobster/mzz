@@ -37,7 +37,7 @@ class filterChainTest extends UnitTestCase
 
         $filter = new stubFilter();
         $filter->setText('f3');
-        $this->filterChain->registerFilter($filter);
+        $this->filterChain->registerFilter($filter, 'another');
 
         ob_start();
         $this->filterChain->process();

@@ -83,6 +83,18 @@ class userTest extends unitTestCase
         $this->mapper->save($user);
         $this->assertEqual($val, $user->getGroupsList());
     }
+
+    public function testDifferentAlias()
+    {
+        $toolkit = systemToolkit::getInstance();
+
+        $user1 = $toolkit->getUser();
+        $user2 = $toolkit->getUser($alias = 'another');
+
+        $this->assertEqual($user1, $user2);
+
+
+    }
 }
 
 

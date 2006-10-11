@@ -28,7 +28,10 @@ class userMapperTest extends unitTestCase
 
     public function setUp()
     {
-        $this->mapper = new userMapper('user');
+        // latent test multibd functional with another alias
+        $toolkit = systemToolkit::getInstance();
+        $this->mapper = $toolkit->getMapper($module = 'user', $do = 'user', $section = 'user', $alias = 'another');
+
         $this->cleardb();
     }
 

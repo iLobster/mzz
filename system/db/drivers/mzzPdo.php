@@ -75,6 +75,7 @@ class mzzPdo extends PDO
      */
     public function __construct($alias, $dsn, $username='', $password='', $charset = '', $pdoOptions = array())
     {
+        $this->alias = $alias;
         parent::__construct($dsn, $username, $password, $pdoOptions);
         $this->query("SET NAMES '" . $charset . "'");
     }

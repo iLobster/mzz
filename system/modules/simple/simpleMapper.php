@@ -99,15 +99,24 @@ abstract class simpleMapper //implements iCacheable
     protected $relations;
 
     /**
+     * Свойство для хранения информации об отношениях
+     *
+     * @var string
+     */
+    protected $alias;
+
+    /**
      * Конструктор
      *
      * @param string $section секция
-     * @param string $alias название соединения с бд
+     * @param string $alias название соединения с БД
      */
     public function __construct($section, $alias = 'default')
     {
         $this->db = DB::factory($alias);
+        $this->alias = $this->db->getAlias();
         $this->section = $section;
+
         $this->table = $this->section . '_' .$this->className;
     }
 

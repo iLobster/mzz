@@ -208,13 +208,14 @@ class stdToolkit extends toolkit
     /**
      * Возвращает объект текущего пользователя
      *
+     * @param string $alias алиас, указывающий на то какое соединение с БД использовать. Необходимо для возможности использования авторизационных данных из различных источников.
      * @return user
      */
-    public function getUser()
+    public function getUser($alias = 'default')
     {
         if (empty($this->user)) {
-            $userMapper = new userMapper('user');
-            $this->user = $userMapper->searchById(1);
+            $userMapper = $this->getMapper('user', 'user', 'user', $alias);
+            $this->user = $userMapper->searchById(MZZ_USER_GUEST_ID);
         }
         return $this->user;
     }

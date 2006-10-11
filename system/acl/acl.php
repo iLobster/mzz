@@ -83,11 +83,11 @@ class acl
      * @param string_type $module
      * @param string $section
      */
-    public function __construct($user = null, $object_id = 0, $module = null, $section = null)
+    public function __construct($user = null, $object_id = 0, $module = null, $section = null, $alias = 'default')
     {
         if (empty($user)) {
             $toolkit = systemToolkit::getInstance();
-            $user = $toolkit->getUser();
+            $user = $toolkit->getUser($alias);
         }
 
         if (!($user instanceof user)) {

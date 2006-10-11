@@ -49,6 +49,13 @@ class filterChain
     private $request;
 
     /**
+     * Используемые алиасы
+     *
+     * @var array
+     */
+    private $aliases;
+
+    /**
      * конструктор класса
      *
      * @param response $response
@@ -65,10 +72,13 @@ class filterChain
      * регистрация нового фильтра
      *
      * @param object $filter фильтр для добавления в цепочку
+     * @param string $alias (optional)алиас соединения с БД
      */
-    public function registerFilter(iFilter $filter)
+    public function registerFilter(iFilter $filter, $alias = 'default')
     {
         $this->filters[] = $filter;
+        $this->aliases[] = $alias;
+
     }
 
     /**
@@ -80,7 +90,7 @@ class filterChain
         $this->counter++;
 
         if (isset($this->filters[$this->counter])) {
-            $this->filters[$this->counter]->run($this, $this->response, $this->request);
+            $this->filters[$this->counter]->run($this, $this->response, $this->request, $this->aliases[$this->counter]);
         }
     }
 

@@ -23,6 +23,8 @@ define('SITE_PATH', '');
 define('DEBUG_MODE', 1);
 define('TEST_PATH',  realpath(SYSTEM_PATH . '/../tests'));
 
+define('MZZ_USER_GUEST_ID', 1);
+
 require_once(SYSTEM_PATH . '/systemConfig.php');
 
 systemConfig::$db['default']['driver'] = 'pdo';
@@ -32,6 +34,8 @@ systemConfig::$db['default']['password'] = "";
 systemConfig::$db['default']['charset'] = "cp1251";
 systemConfig::$db['default']['pdoOptions'] = array();
 
+systemConfig::$db['another']['dsn']  = "mysql:host=localhost;dbname=mzz_test";
+
 systemConfig::$pathToApplication = dirname(__FILE__);
 systemConfig::$pathToTemp = systemConfig::$pathToApplication . '/tmp';
 systemConfig::$pathToConf = systemConfig::$pathToApplication . '/configs';
@@ -39,5 +43,5 @@ systemConfig::init();
 
 // true - кэшировать, false - кэширование отключено
 systemConfig::$cache = true;
-
 ?>
+
