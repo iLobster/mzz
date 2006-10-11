@@ -9,27 +9,20 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-
 /**
- * news: news
+ * user404View: отображение ошибки 404
  *
  * @package modules
  * @subpackage news
- * @version 0.1.1
+ * @version 0.1
  */
 
-class news extends simple
+class user404View extends simpleView
 {
-    protected $name = 'news';
-
-    /**
-     * Получение объекта JIP
-     *
-     * @return jip
-     */
-    public function getJip()
+    public function toString()
     {
-        return parent::getJipView('news', $this->getId(), 'news');
+        $this->response->setTitle('Ошибка. Запрашиваемый пользователь не найден.');
+        return $this->smarty->fetch('user.notfound.tpl');
     }
 }
 

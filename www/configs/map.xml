@@ -16,6 +16,8 @@
     <user>
         <action name="login">user.login</action>
         <action name="exit">user.exit</action>
+        <action name="list">user.list</action>
+        <action name="edit">user.edit</action>
     </user>
     <page>
         <action name="view">page.view</action>

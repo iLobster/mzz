@@ -23,11 +23,6 @@ fileLoader::load("news/mappers/newsFolderMapper");
 
 class newsListController extends simpleController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getView()
     {
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());

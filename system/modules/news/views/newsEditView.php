@@ -19,11 +19,14 @@
 
 class newsEditView extends simpleView
 {
+    private $form;
+
     public function __construct($news, $form)
     {
         $this->form = $form;
         parent::__construct($news);
     }
+
     public function toString()
     {
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
@@ -35,7 +38,6 @@ class newsEditView extends simpleView
         $this->response->setTitle('Новости -> Редактирование -> ' . $this->DAO->getTitle());
         return $this->smarty->fetch('news.edit.tpl');
     }
-
 }
 
 ?>

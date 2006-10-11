@@ -20,7 +20,6 @@
 class newsListView extends simpleView
 {
     protected $newsFolderMapper;
-    private $httprequest;
     private $config;
 
     public function __construct($news, $newsFolderMapper)
@@ -28,9 +27,7 @@ class newsListView extends simpleView
         $this->newsFolderMapper = $newsFolderMapper;
         parent::__construct($news);
 
-        $toolkit = systemToolkit::getInstance();
-        $this->httprequest = $toolkit->getRequest();
-        $this->config = $toolkit->getConfig($this->httprequest->getSection(), 'news');
+        $this->config = $this->toolkit->getConfig($this->httprequest->getSection(), 'news');
     }
 
     public function toString()

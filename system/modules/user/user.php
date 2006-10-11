@@ -60,6 +60,16 @@ class user extends simple
     {
         return $this->mapper->getGroupsList($this->getId());
     }
+
+    /**
+     * Получение объекта JIP
+     *
+     * @return jip
+     */
+    public function getJip()
+    {
+        return parent::getJipView('user', $this->getId(), 'user');
+    }
 }
 
 ?>

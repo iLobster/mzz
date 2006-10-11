@@ -24,11 +24,6 @@ fileLoader::load("news/mappers/newsMapper");
 
 class newsEditController extends simpleController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getView()
     {
         $user = $this->toolkit->getUser();

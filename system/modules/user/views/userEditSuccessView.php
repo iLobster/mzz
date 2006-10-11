@@ -9,27 +9,19 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-
 /**
- * news: news
+ * newsEditSuccessView: вид для успешного метода edit модуля news
  *
  * @package modules
  * @subpackage news
- * @version 0.1.1
+ * @version 0.1
  */
 
-class news extends simple
+class userEditSuccessView extends simpleView
 {
-    protected $name = 'news';
-
-    /**
-     * Получение объекта JIP
-     *
-     * @return jip
-     */
-    public function getJip()
+    public function toString()
     {
-        return parent::getJipView('news', $this->getId(), 'news');
+        return '<script>window.close();window.opener.location.reload();window.opener.focus();</script>';
     }
 }
 

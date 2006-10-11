@@ -42,6 +42,10 @@ abstract class simpleView
      */
     protected $params;
 
+    protected $response;
+
+    protected $toolkit;
+
     /**
      * Конструктор
      *
@@ -52,12 +56,13 @@ abstract class simpleView
      */
     public function __construct($DAO = null)
     {
-        $toolkit = systemToolkit::getInstance();
+        $this->toolkit = systemToolkit::getInstance();
         if(!is_null($DAO)) {
             $this->DAO = $DAO;
         }
-        $this->smarty = $toolkit->getSmarty();
-        $this->response = $toolkit->getResponse();
+        $this->smarty = $this->toolkit->getSmarty();
+        $this->response = $this->toolkit->getResponse();
+        $this->httprequest = $this->toolkit->getRequest();
 
     }
 

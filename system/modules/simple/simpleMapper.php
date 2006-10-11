@@ -347,7 +347,7 @@ abstract class simpleMapper //implements iCacheable
     protected function searchByCriteria(criteria $criteria)
     {
         $this->addJoins($criteria);
-
+//var_dump($this->table);
         $criteria->setTable($this->table);
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
@@ -364,6 +364,7 @@ abstract class simpleMapper //implements iCacheable
         }
 
         $select = new simpleSelect($criteria);
+        //var_dump($select->toString());
         $stmt = $this->db->query($select->toString());
 
         return $stmt;

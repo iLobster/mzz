@@ -50,12 +50,14 @@ function smarty_function_load($params, $smarty)
     $request = $toolkit->getRequest();
     $request->save();
 
-    if(isset($params['section'])) {
-        $request->setParam('section', $params['section']);
+    if(isset($params['args'])) {
+        $section = $request->getSection();
+        $request->setParams(explode('/', $params['args']));
+        $request->setParam('section', $section);
     }
 
-    if(isset($params['args'])) {
-        $request->setParams(explode('/', $params['args']));
+    if(!empty($params['section'])) {
+        $request->setParam('section', $params['section']);
     }
 
     $mappername = $action->getType() . 'Mapper';
