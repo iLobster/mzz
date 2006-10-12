@@ -150,13 +150,17 @@ class stdToolkit extends toolkit
     /**
      * Возвращает объект SectionMapper
      *
+     * @param string $path путь до папки с активными шаблонами. По умолчанию папка_проекта/templates/act/
      * @return object
      */
-    public function getSectionMapper()
+    public function getSectionMapper($path = null)
     {
         if (empty($this->sectionMapper)) {
             fileLoader::load('core/sectionMapper');
-            $this->sectionMapper = new sectionMapper(fileLoader::resolve('configs/map.xml'));
+            if(empty($path)) {
+                $path = systemConfig::$pathToApplication . '/templates/act';
+            }
+            $this->sectionMapper = new sectionMapper($path);
         }
         return $this->sectionMapper;
     }

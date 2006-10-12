@@ -4,16 +4,15 @@ fileLoader::load('core/sectionMapper');
 class sectionMapperTest extends unitTestCase
 {
     private $mapper;
-    private $filepath;
 
     public function __construct()
     {
-        $this->fixtureXmlConfig();
+        $this->fixture();
     }
 
     public function setUp()
     {
-        $this->mapper = new sectionMapper($this->filepath);
+        $this->mapper = new sectionMapper(systemConfig::$pathToTemp);
     }
 
     public function tearDown()
@@ -29,7 +28,6 @@ class sectionMapperTest extends unitTestCase
         $section = "test";
         $action = "bar";
         $this->assertEqual($this->mapper->getTemplateName($section, $action), "act.test.bar.tpl");
-
     }
 
     public function testSectionMapperFalse()
@@ -58,25 +56,16 @@ class sectionMapperTest extends unitTestCase
         }
     }
 
-    public function fixtureXmlConfig()
+    public function fixture()
     {
-        $xml = '<?xml version="1.0" standalone="yes"?>
-        <mapps>
-          <notFound>
-              <action name="view">page.view</action>
-          </notFound>
-          <test>
-            <action name="bar">test.bar</action>
-            <action name="foo">test.foo</action>
-          </test>
-        </mapps>';
-        $this->filepath = systemConfig::$pathToTemp . '/map.xml';
-        file_put_contents($this->filepath, $xml);
+        touch(systemConfig::$pathToTemp . '/act.test.bar.tpl');
+        touch(systemConfig::$pathToTemp . '/act.test.foo.tpl');
     }
 
     public function __destruct()
     {
-        unlink($this->filepath);
+        unlink(systemConfig::$pathToTemp . '/act.test.bar.tpl');
+        unlink(systemConfig::$pathToTemp . '/act.test.foo.tpl');
     }
 
 }

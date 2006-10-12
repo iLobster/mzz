@@ -28,8 +28,8 @@ class userLoginformView extends simpleView
 
     public function toString()
     {
-        fileLoader::load('libs/PEAR/HTML/QuickForm');
-        fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
+        //fileLoader::load('libs/PEAR/HTML/QuickForm');
+        //fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
         $this->form->accept($renderer);

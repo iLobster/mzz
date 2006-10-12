@@ -17,10 +17,11 @@
 */
 
 /**
- * sectionMapper: класс для определения имени шаблона по XML-файлу
+ * sectionMapper: класс для определения имени шаблона
  *
  * @package system
  * @subpackage core
+ * @version 0.2
  */
 class sectionMapper
 {
@@ -37,39 +38,20 @@ class sectionMapper
     const TPL_EXT = ".tpl";
 
     /**
-     * XML Result
+     * Путь до папки с активными шаблонами
      *
-     * @var object
+     * @var string
      */
-    protected $xml;
+    protected $path;
 
     /**
      * Construct
      *
-     * @param string $mapFileName путь до файла конфигурации
+     * @param string $path путь до папки с активными шаблонами
      */
-    public function __construct($mapFileName)
+    public function __construct($path)
     {
-        $this->xml = simplexml_load_file($mapFileName);
-    }
-
-    /**
-     * Чтение XML-конфига с правилами для Mapper.
-     *
-     * @param string $section
-     * @param string $action
-     * @return false если требуемой секции нет
-     */
-    private function xmlRead($section, $action)
-    {
-        if (!empty($this->xml->$section)) {
-            foreach ($this->xml->$section->action as $_action) {
-                if ($_action['name'] == $action) {
-                    return (string) $_action;
-                }
-            }
-        }
-        return false;
+        $this->path = $path;
     }
 
     /**
@@ -88,12 +70,13 @@ class sectionMapper
      *
      * @param string $section
      * @param string $action
-     * @return string|false
+     * @return string
      */
     public function getTemplateName($section, $action)
     {
-        if (($template_name = $this->xmlRead($section, $action)) !== false) {
-            return $this->templateNameDecorate($template_name);
+        $templateName = $this->templateNameDecorate($section . '.' . $action);
+        if (file_exists($this->path . '/' . $templateName)) {
+            return $templateName;
         }
         throw new mzzRuntimeException('Не найден активный шаблон для section = <i>"' . $section . '"</i>, action = <i>"' . $action . '"</i>');
     }
