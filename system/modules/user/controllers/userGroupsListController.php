@@ -13,22 +13,22 @@
 */
 
 /**
- * userListController: контроллер для метода list модуля user
+ * userGroupsListController: контроллер для метода groupsList модуля user
  *
  * @package modules
  * @subpackage user
  * @version 0.1
  */
 
-fileLoader::load('user/views/userListView');
+fileLoader::load('user/views/userGroupsListView');
 
-class userListController extends simpleController
+class userGroupsListController extends simpleController
 {
     public function getView()
     {
-        $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
+        $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
 
-        return new userListView($userMapper);
+        return new userGroupsListView($groupMapper);
     }
 }
 

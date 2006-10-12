@@ -21,16 +21,6 @@
 class news extends simple
 {
     protected $name = 'news';
-
-    /**
-     * Получение объекта JIP
-     *
-     * @return jip
-     */
-    public function getJip()
-    {
-        return parent::getJipView('news', $this->getId(), 'news');
-    }
 }
 
 ?>

@@ -71,11 +71,7 @@ abstract class simpleView
      *
      * @return string
      */
-    public function toString()
-    {
-        return false;
-    }
-
+    abstract public function toString();
 }
 
 ?>

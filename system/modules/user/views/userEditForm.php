@@ -26,23 +26,40 @@ class userEditForm
      * @param string $section текущая секция
      * @return object сгенерированная форма
      */
-    static function getForm($user, $section)
+    static function getForm($user, $section, $action, $userMapper)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $form = new HTML_QuickForm('userEdit', 'POST', '/' . $section . '/' . $user->getId() . '/edit');
-        $defaultValues = array();
-        $defaultValues['login']  = $user->getLogin();
-        $form->setDefaults($defaultValues);
+        $form = new HTML_QuickForm('userEdit', 'POST', '/' . $section . '/' . $user->getId() . '/' . $action);
+
+        if ($action == 'edit') {
+            $defaultValues = array();
+            $defaultValues['login']  = $user->getLogin();
+            $form->setDefaults($defaultValues);
+        }
 
         $form->addElement('text', 'login', 'Логин:', 'size=30');
-        /*$form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');*/
+
+        $form->registerRule('isUniqueLogin', 'callback', 'createUserValidation');
+        $form->addRule('login', 'пользователь с таким именем уже существует', 'isUniqueLogin', array($user, $userMapper));
 
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: window.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }
+}
+
+function createUserValidation($login, $data)
+{
+    if ($login !== $data[0]->getLogin()) {
+        $user = $data[1]->searchByLogin($login);
+
+        if ($user->getId() != MZZ_USER_GUEST_ID) {
+            return false;
+        }
+    }
+    return true;
 }
 
 ?>

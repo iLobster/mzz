@@ -37,6 +37,7 @@ class pageEditController extends simpleController
             $name = $this->request->get('name', 'string', SC_POST);
         }
         $page = $pageMapper->searchByName($name);
+
         if ($page) {
             $form = pageEditForm::getForm($page, $this->request->getSection());
 

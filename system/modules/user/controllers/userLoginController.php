@@ -46,7 +46,7 @@ class userLoginController extends simpleController
             fileLoader::load('user/views/userLoginformView');
             fileLoader::load('user/views/userLoginForm');
 
-            $form = userLoginForm::getForm($this->request->getUrl());
+            $form = userLoginForm::getForm($this->request->getRequestUrl());
 
             return new userLoginformView($form);
         }

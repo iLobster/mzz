@@ -13,7 +13,7 @@
 */
 
 /**
- * userEditView: вид для метода edit модуля user
+ * userGroupEditView: вид для метода groupEdit модуля user
  *
  * @package modules
  * @subpackage user
@@ -21,16 +21,16 @@
  */
 
 
-class userEditView extends simpleView
+class userGroupEditView extends simpleView
 {
     private $form;
     private $action;
 
-    public function __construct($user, $form, $action)
+    public function __construct($group, $form, $action)
     {
         $this->form = $form;
         $this->action = $action;
-        parent::__construct($user);
+        parent::__construct($group);
     }
 
     public function toString()
@@ -39,13 +39,13 @@ class userEditView extends simpleView
         $this->form->accept($renderer);
 
         $this->smarty->assign('form', $renderer->toArray());
-        $this->smarty->assign('user', $this->DAO);
+        $this->smarty->assign('group', $this->DAO);
         $this->smarty->assign('action', $this->action);
 
-        $title = $this->action == 'edit' ? 'Редактирование -> ' . $this->DAO->getLogin() : 'Создание';
+        $title = $this->action == 'edit' ? 'Редактирование группы -> ' . $this->DAO->getName() : 'Создание группы';
 
         $this->response->setTitle('Пользователь -> ' . $title);
-        return $this->smarty->fetch('user.edit.tpl');
+        return $this->smarty->fetch('user.groupEdit.tpl');
     }
 }
 

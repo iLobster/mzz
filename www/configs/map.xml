@@ -18,6 +18,12 @@
         <action name="exit">user.exit</action>
         <action name="list">user.list</action>
         <action name="edit">user.edit</action>
+        <action name="create">user.edit</action>
+        <action name="delete">user.delete</action>
+        <action name="groupsList">user.groupsList</action>
+        <action name="groupEdit">user.groupEdit</action>
+        <action name="groupCreate">user.groupEdit</action>
+        <action name="groupDelete">user.groupDelete</action>
     </user>
     <page>
         <action name="view">page.view</action>

@@ -27,6 +27,8 @@ class user extends simple
      */
     private $mapper;
 
+    protected $name = 'user';
+
     /**
      * Конструктор
      *
@@ -59,16 +61,6 @@ class user extends simple
     public function getGroupsList()
     {
         return $this->mapper->getGroupsList($this->getId());
-    }
-
-    /**
-     * Получение объекта JIP
-     *
-     * @return jip
-     */
-    public function getJip()
-    {
-        return parent::getJipView('user', $this->getId(), 'user');
     }
 }
 

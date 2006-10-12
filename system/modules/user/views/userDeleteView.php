@@ -13,22 +13,21 @@
 */
 
 /**
- * userListController: контроллер для метода list модуля user
+ * userDeleteView: вид для метода delete модуля user
  *
  * @package modules
  * @subpackage user
  * @version 0.1
  */
 
-fileLoader::load('user/views/userListView');
 
-class userListController extends simpleController
+class userDeleteView extends simpleView
 {
-    public function getView()
+    public function toString()
     {
-        $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
-
-        return new userListView($userMapper);
+        $url = new url();
+        $url->setAction('list');
+        echo "<script>window.opener.location.reload(); window.close();</script>";
     }
 }
 

@@ -26,9 +26,8 @@ class newsDeleteController extends simpleController
     {
         $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
         $newsMapper->delete($this->request->get('id', 'integer', SC_PATH));
-        $view = new newsDeleteView();
 
-        return $view;
+        return new newsDeleteView();
     }
 }
 

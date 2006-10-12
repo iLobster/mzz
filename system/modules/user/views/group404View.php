@@ -9,18 +9,21 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-
 /**
- * group: класс для работы с группами пользователей
+ * пкщгз404View: отображение ошибки 404
  *
  * @package modules
  * @subpackage user
  * @version 0.1
  */
 
-class group extends simple
+class group404View extends simpleView
 {
-    protected $name = 'user';
+    public function toString()
+    {
+        $this->response->setTitle('Ошибка. Запрашиваемая группа не найдена.');
+        return $this->smarty->fetch('user.groupNotfound.tpl');
+    }
 }
 
 ?>

@@ -27,12 +27,7 @@ class newsFolder extends simple
      */
     private $mapper;
 
-    /**
-     * Кэшируемые методы
-     *
-     * @var array
-     */
-    //protected $cacheable = array('getItems', 'getFolders');
+    protected $name = 'news';
 
     /**
      * Конструктор
@@ -80,11 +75,6 @@ class newsFolder extends simple
     public function setPager($pager)
     {
         $this->mapper->setPager($pager);
-    }
-
-    public function getJip()
-    {
-        return parent::getJipView('news', $this->getPath(), 'newsFolder');
     }
 }
 

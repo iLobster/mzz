@@ -13,53 +13,53 @@
 */
 
 /**
- * userEditController: контроллер для метода edit модуля user
+ * userGroupEditController: контроллер для метода groupEdit модуля user
  *
  * @package modules
  * @subpackage user
  * @version 0.1
  */
 
-fileLoader::load('user/views/userEditView');
+fileLoader::load('user/views/userGroupEditView');
 fileLoader::load('user/views/userEditSuccessView');
-fileLoader::load('user/views/userEditForm');
+fileLoader::load('user/views/groupEditForm');
 
-class userEditController extends simpleController
+class userGroupEditController extends simpleController
 {
     public function getView()
     {
-        $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
+        $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
 
         if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
             $id = $this->request->get('id', 'integer', SC_POST);
         }
 
-        $editedUser = $userMapper->searchById($id);
+        $group = $groupMapper->searchById($id);
 
         $action = $this->request->getAction();
 
-        if ($editedUser->getId() == $id || $action == 'create') {
+        if ($group || $action == 'groupCreate') {
 
-            $form = userEditForm::getForm($editedUser, $this->request->getSection(), $action, $userMapper);
+            $form = groupEditForm::getForm($group, $this->request->getSection(), $action, $groupMapper);
 
             if ($form->validate() == false) {
-                $view = new userEditView($editedUser, $form, $action);
+                $view = new userGroupEditView($group, $form, $action);
             } else {
-                if ($action == 'create') {
-                    $editedUser = $userMapper->create();
+                if ($action == 'groupCreate') {
+                    $group = $groupMapper->create();
                 }
 
                 $values = $form->exportValues();
-                $editedUser->setLogin($values['login']);
-                $userMapper->save($editedUser);
+                $group->setName($values['name']);
+                $groupMapper->save($group);
 
                 $view = new userEditSuccessView();
             }
 
             return $view;
         } else {
-            fileLoader::load('user/views/user404View');
-            return new user404View();
+            fileLoader::load('user/views/group404View');
+            return new group404View();
         }
     }
 }

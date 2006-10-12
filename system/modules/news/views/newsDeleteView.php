@@ -27,4 +27,5 @@ class newsDeleteView extends simpleView
         exit;
     }
 }
+
 ?>

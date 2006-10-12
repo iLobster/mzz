@@ -22,8 +22,8 @@ class newsCreateFolderForm
 {
     static function getForm($folder, $newsFolderMapper, $action, $targetFolder)
     {
-        require_once 'HTML/QuickForm.php';
-        require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
+        fileLoader::load('libs/PEAR/HTML/QuickForm');
+        fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $url = new url();
         $url->addParam($folder);

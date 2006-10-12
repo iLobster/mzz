@@ -193,6 +193,11 @@ abstract class simple
         return $jip->draw();
     }
 
+    public function getJip()
+    {
+        return $this->getJipView($this->name, $this->getId(), get_class($this));
+    }
+
     /**
      * ѕровер€ет может ли поле измен€тьс€ более одного раза
      *

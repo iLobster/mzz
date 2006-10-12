@@ -28,9 +28,8 @@ class userLoginformView extends simpleView
 
     public function toString()
     {
-        // почему они не лоадером грузятся??
-        require_once 'HTML/QuickForm.php';
-        require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
+        fileLoader::load('libs/PEAR/HTML/QuickForm');
+        fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
         $this->form->accept($renderer);
