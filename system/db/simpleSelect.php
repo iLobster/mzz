@@ -58,7 +58,7 @@ class simpleSelect
         foreach ($this->criteria->getSelectFields() as $select) {
             $alias = $this->criteria->getSelectFieldAlias($select);
 
-            if(in_array($alias, $aliases)) continue;
+            if(in_array($alias, $aliases) && $alias) continue;
             $aliases[] = $alias;
 
             if ($select instanceof sqlFunction ) {

@@ -36,7 +36,8 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->setTable('table');
         $this->criteria->addSelectField('field1');
         $this->criteria->addSelectField('field2', 'alias');
-        $this->assertEqual($this->select->toString(), 'SELECT `field1`, `field2` AS `alias` FROM `table`');
+        $this->criteria->addSelectField('field3');
+        $this->assertEqual($this->select->toString(), 'SELECT `field1`, `field2` AS `alias`, `field3` FROM `table`');
     }
 
     public function testSelectAllEqualsCondition()

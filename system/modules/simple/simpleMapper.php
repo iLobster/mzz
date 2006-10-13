@@ -120,6 +120,11 @@ abstract class simpleMapper //implements iCacheable
         $this->table = $this->section . '_' .$this->className;
     }
 
+    public function getTable()
+    {
+        return $this->table;
+    }
+
     /**
      * ¬озвращает им€ модул€
      *
@@ -412,7 +417,7 @@ abstract class simpleMapper //implements iCacheable
      * @param array $row массив с данными
      * @return object
      */
-    protected function createItemFromRow($row)
+    public function createItemFromRow($row)
     {
         $object = $this->create();
         $object->import($row);
@@ -637,7 +642,7 @@ abstract class simpleMapper //implements iCacheable
      *
      * @return unknown
      */
-    private function getHasMany()
+    public function getHasMany()
     {
         if (!isset($this->relations['hasMany'])) {
             $this->relations['hasMany'] = array();

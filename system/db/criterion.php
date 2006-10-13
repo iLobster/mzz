@@ -188,7 +188,7 @@ class criterion
      * @param object $criterion
      * @return object текущий объект
      */
-    public function addAnd($criterion)
+    public function addAnd(criterion $criterion)
     {
         $this->clauses[] = $criterion;
         $this->conjunctions[] = self::C_AND;
@@ -201,7 +201,7 @@ class criterion
      * @param object $criterion
      * @return object текущий объект
      */
-    public function addOr($criterion)
+    public function addOr(criterion $criterion)
     {
         $this->clauses[] = $criterion;
         $this->conjunctions[] = self::C_OR;
@@ -214,7 +214,7 @@ class criterion
      * @param object $criterion
      * @return object текущий объект
      */
-    public function add($criterion)
+    public function add(criterion $criterion)
     {
         $this->clauses[] = $criterion;
         $this->conjunctions[] = '';

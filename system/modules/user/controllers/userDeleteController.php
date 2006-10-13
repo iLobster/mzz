@@ -26,8 +26,15 @@ class userDeleteController extends simpleController
 {
     public function getView()
     {
+        // удаляем пользователя
+        $id = $this->request->get('id', 'integer', SC_PATH);
         $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
-        $userMapper->delete($this->request->get('id', 'integer', SC_PATH));
+        $userMapper->delete($id);
+
+        // исключаем пользователя из групп, в которых он состоял
+        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
+        list(,$groups) = $userGroupMapper->searchAllByUserId($id);
+        $userGroupMapper->deleteByGroupId(array_keys($groups), $id);
 
         return new userDeleteView();
     }

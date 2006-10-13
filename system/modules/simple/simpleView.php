@@ -44,6 +44,8 @@ abstract class simpleView
 
     protected $response;
 
+    protected $httprequest;
+
     protected $toolkit;
 
     /**
