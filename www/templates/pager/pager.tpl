@@ -1,4 +1,4 @@
-{foreach from=$pager item=current}
+{foreach from=$pages item=current}
     {if not empty($current.skip)}
         ...
     {elseif not empty($current.current)}

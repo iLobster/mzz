@@ -229,8 +229,8 @@ class pager
     public function toString()
     {
         $toolkit = systemToolkit::getInstance();
-        $smarty = clone $toolkit->getSmarty();
-        $smarty->assign('pager', $this->toArray());
+        $smarty = $toolkit->getSmarty();
+        $smarty->assign('pages', $this->toArray());
         return $smarty->fetch('pager.tpl');
     }
 }
