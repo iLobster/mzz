@@ -24,11 +24,13 @@ class cachingResolverTest extends unitTestCase
         $this->mock = new mocktestCaseFileResolver();
         $this->createResolver();
         $this->cacheFile = systemConfig::$pathToTemp . '/resolver.cache';
+        touch(systemConfig::$pathToTemp . '/respond');
     }
 
     public function tearDown()
     {
         $this->deleteCache();
+        unlink(systemConfig::$pathToTemp . '/respond');
     }
 
     public function createResolver()
@@ -45,14 +47,16 @@ class cachingResolverTest extends unitTestCase
 
     public function testCachingResolve()
     {
+        $respond_path = systemConfig::$pathToTemp . '/respond';
+        $respond_realpath = realpath(systemConfig::$pathToTemp . '/respond');
         $this->mock->expectOnce('resolve', array('/request'));
-        $this->mock->setReturnValue('resolve', '/respond');
 
-        $this->assertEqual('/respond', $this->resolver->resolve('/request'));
-        $this->assertEqual('/respond', $this->resolver->resolve('/request'));
+        $this->mock->setReturnValue('resolve', $respond_path);
+        $this->assertEqual($respond_realpath, $this->resolver->resolve('/request'));
+        $this->assertEqual($respond_realpath, $this->resolver->resolve('/request'));
         unset($this->resolver);
 
-        $this->assertEqual(file_get_contents($this->cacheFile), 'a:1:{s:8:"/request";s:8:"/respond";}');
+        $this->assertEqual(unserialize(file_get_contents($this->cacheFile)), array('/request' => $respond_realpath));
         $this->assertTrue(touch($this->cacheFile, $this->mtime), 'Cannot change mtime for ' . $this->cacheFile);
 
         clearstatcache();
