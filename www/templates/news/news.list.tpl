@@ -35,7 +35,7 @@
         </tr>
     {/foreach}
     <tr>
-        <td align="center"><a href="{url section=news action=createItem params=$folderPath}"><img src="/templates/images/add.png" width="16" height="16" border="0" /></a></td>
+        <td align="center"><a href="{url section=news action=createItem params=$folderPath}"><img src="/templates/images/add.gif" width="16" height="16" border="0" /></a></td>
         <td colspan="6"><a href="{url section=news action=createItem params=$folderPath}">Добавить новость</a></td>
     </tr>
 </table>

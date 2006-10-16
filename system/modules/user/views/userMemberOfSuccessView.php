@@ -25,7 +25,6 @@ class userMemberOfSuccessView extends simpleView
         $url->addParam($this->httprequest->get('id', 'integer', SC_POST));
         $url->setAction($this->httprequest->getAction());
         $url->setSection($this->httprequest->getSection());
-        file_put_contents('c:/qqq', $url->get());
         return "<script type=\"text/javascript\">location.href = location.href;</script>";
     }
 }

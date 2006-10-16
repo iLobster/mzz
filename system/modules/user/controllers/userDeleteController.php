@@ -33,8 +33,13 @@ class userDeleteController extends simpleController
 
         // исключаем пользователя из групп, в которых он состоял
         $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
-        list(,$groups) = $userGroupMapper->searchAllByUserId($id);
-        $userGroupMapper->deleteByGroupId(array_keys($groups), $id);
+        $criteria = new criteria();
+        $criteria->add('user_id', $id);
+        $groups = $userGroupMapper->searchAllByCriteria($criteria);
+
+        foreach ($groups as $val) {
+        	$userGroupMapper->delete($val->getId());
+        }
 
         return new userDeleteView();
     }

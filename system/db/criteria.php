@@ -215,6 +215,9 @@ class criteria
         if ($offset = $criteria->getOffset()) {
             $this->offset = $offset;
         }
+        if ($orderBy = $criteria->getOrderByFields()) {
+            $this->orderBy = $orderBy;
+        }
     }
 
     /**
@@ -245,10 +248,11 @@ class criteria
      * Установка поля по которому будет производиться сортировка выборки. Направление ASC
      *
      * @param string $field имя поля
-     * @return сам объект
+     * @return object сам объект
      */
     public function setOrderByFieldAsc($field)
     {
+        $field = str_replace('.', '`.`', $field);
         $this->orderBy[] = '`' . $field . '` ASC';
         return $this;
     }
@@ -257,10 +261,11 @@ class criteria
      * Установка поля по которому будет производиться сортировка выборки. Направление DESC
      *
      * @param string $field имя поля
-     * @return сам объект
+     * @return object сам объект
      */
     public function setOrderByFieldDesc($field)
     {
+        $field = str_replace('.', '`.`', $field);
         $this->orderBy[] = '`' . $field . '` DESC';
         return $this;
     }
@@ -278,7 +283,7 @@ class criteria
 
         if ($pre != '``.') {
             foreach ($this->orderBy as $val) {
-                $result[] = $pre . $val;
+                $result[] = (strpos($val, '.') === false) ? $pre . $val : $val;
             }
         } else {
             return $this->orderBy;

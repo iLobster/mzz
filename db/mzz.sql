@@ -1,9 +1,14 @@
-# EMS MySQL Manager Pro 3.3.0.2
+# SQL Manager 2005 for MySQL 3.7.5.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -153,8 +158,6 @@ CREATE TABLE `sys_access` (
 #
 
 INSERT INTO `sys_access` (`id`, `module_section_action`, `obj_id`, `uid`, `gid`, `allow`) VALUES 
-  (1,1,0,0,NULL,1),
-  (2,2,0,0,NULL,1),
   (3,1,20,2,NULL,1),
   (4,2,20,2,NULL,1);
 
@@ -346,7 +349,19 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (17),
   (18),
   (19),
-  (20);
+  (20),
+  (21),
+  (22),
+  (23),
+  (24),
+  (25),
+  (26),
+  (27),
+  (28),
+  (29),
+  (30),
+  (31),
+  (32);
 
 COMMIT;
 
@@ -369,7 +384,8 @@ CREATE TABLE `user_group` (
 
 INSERT INTO `user_group` (`id`, `obj_id`, `name`) VALUES 
   (1,14,'unauth'),
-  (2,15,'auth');
+  (2,15,'auth'),
+  (3,28,'bbb');
 
 COMMIT;
 
@@ -417,8 +433,14 @@ CREATE TABLE `user_usergroup_rel` (
 #
 
 INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
-  (1,1,1,NULL),
-  (2,2,2,NULL);
+  (1,1,1,50),
+  (10,2,2,29),
+  (14,3,2,32);
 
 COMMIT;
 
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

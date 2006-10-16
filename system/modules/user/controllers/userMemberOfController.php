@@ -26,52 +26,62 @@ class userMemberOfController extends simpleController
 {
     public function getView()
     {
-        $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
-
         if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
             $id = $this->request->get('id', 'integer', SC_POST);
         }
 
+        $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
         $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
 
-        list($result, $selected) = $userGroupMapper->searchAllByUserId($id);
+        $user = $userMapper->searchById($id);
+
+        // проверяем что найден нужный пользователь
+        if ($id != $user->getId()) {
+            fileLoader::load('user/views/user404View');
+            return new user404View();
+        }
 
         if ($this->request->getMethod() == 'POST') {
+            // если была отправлена форма
             $groups = $this->request->get('groups', 'array', SC_POST);
 
             if (is_null($groups)) {
                 $groups = array();
             }
 
-            $removed = array_diff_key($selected, $groups);
-            $added = array_diff_key($groups, $selected);
+            $groupsArray = array();
 
-            if (sizeof($removed)) {
+            // формируем массив с выбранными группами
+            foreach (array_keys($groups) as $val) {
+                $criteria = new criteria();
+                $criteria->add('user_id', $id)->add('group_id', $val);
+                $userGroup = $userGroupMapper->searchOneByCriteria($criteria);
 
-                foreach ($removed as $key => $val) {
-                    $userGroupMapper->deleteByGroupId(array_keys($removed), $id);
-                }
-            }
-
-            if (sizeof($added)) {
-
-
-                foreach ($added as $key => $val) {
+                if (is_null($userGroup)) {
                     $userGroup = $userGroupMapper->create();
                     $userGroup->setUser($id);
-                    $userGroup->setGroup($key);
-                    $userGroupMapper->save($userGroup);
+                    $userGroup->setGroup($val);
                 }
+
+                $groupsArray[] = $userGroup;
             }
+
+            $user->setGroups($groupsArray);
+            $userMapper->save($user);
 
             fileLoader::load('user/views/userMemberOfSuccessView');
             return new userMemberOfSuccessView();
+
+        } else {
+            // если просто показать список групп и пользователей
+            $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
+
+            $criteria = new criteria();
+            $criteria->setOrderByFieldAsc('name');
+            $groups = $groupMapper->searchAll($criteria);
+
+            return new userMemberOfView($user, $groups);
         }
-
-        $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
-        $user = $userMapper->searchById($id);
-
-        return new userMemberOfView($groupMapper, $id, $result, $selected, $user);
     }
 }
 

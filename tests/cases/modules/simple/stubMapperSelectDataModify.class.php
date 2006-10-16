@@ -11,7 +11,7 @@ class stubMapperSelectDataModify extends simpleMapper
 
         // @todo Сделать, чтобы указывать
         // ГОТОВО
-         $modifyFields['simple_foo'] = new sqlFunction('REVERSE', 'foo', true);
+         $modifyFields['stubSimple_foo'] = new sqlFunction('REVERSE', 'foo', true);
 
         //$modifyFields['simple_foo'] = "REVERSE(`foo`)";
         return $modifyFields;

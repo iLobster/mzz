@@ -23,42 +23,26 @@
 
 class userMemberOfView extends simpleView
 {
-    private $id;
-    private $result;
-    private $selected;
-    private $user;
+    private $groups;
 
-    public function __construct($mapper, $id, $result, $selected, $user)
+    public function __construct($user, $groups)
     {
-        parent::__construct($mapper);
-        $this->id = $id;
-        $this->result = $result;
-        $this->selected = $selected;
-        $this->user = $user;
+        parent::__construct($user);
+        $this->groups = $groups;
     }
 
     public function toString()
     {
-        $this->config = $this->toolkit->getConfig($this->httprequest->getSection(), 'user');
+        $selected = array();
+        foreach ($this->DAO->getGroups() as $val) {
+            $selected[$val->getGroup()->getId()] = 1;
+        }
 
-        fileLoader::load('pager');
+        $this->smarty->assign('groups', $this->groups);
+        $this->smarty->assign('selected', $selected);
+        $this->smarty->assign('user', $this->DAO);
 
-        $this->smarty->assign('groups', $this->result);
-        $this->smarty->assign('selected', $this->selected);
-        $this->smarty->assign('user', $this->user);
-        //var_dump($query->toString());
-
-        //$pager = new pager($this->httprequest->getUrl(), $this->httprequest->get('page', 'integer', SC_GET), $this->config->get('items_per_page'));
-        /*
-        $this->DAO->setPager($pager);
-
-        $this->smarty->assign('groups', $this->DAO->searchAll());
-        $this->smarty->assign('pager', $pager);
-
-        $this->response->setTitle('Пользователь -> Список');
-        */
-
-        $this->response->setTitle('Пользователь -> ' . $this->user->getLogin() . ' -> список групп');
+        $this->response->setTitle('Пользователь -> ' . $this->DAO->getLogin() . ' -> список групп');
 
         return $this->smarty->fetch('user.memberOf.tpl');
     }

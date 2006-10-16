@@ -291,7 +291,7 @@ abstract class simpleMapper //implements iCacheable
             $tmp[$this->name][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
         }
 
-        return $tmp[$this->name];
+        return $tmp[$this->className];
     }
 
     /**
@@ -340,7 +340,7 @@ abstract class simpleMapper //implements iCacheable
     {
         $toolkit = systemToolkit::getInstance();
 
-        $this->addSelectFields($criteria, $this->getMap(), $this->table, $this->name);
+        $this->addSelectFields($criteria, $this->getMap(), $this->table, $this->className);
 
         foreach ($this->getOwns() as $key => $val) {
             $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
@@ -361,7 +361,7 @@ abstract class simpleMapper //implements iCacheable
     protected function searchByCriteria(criteria $criteria)
     {
         $this->addJoins($criteria);
-//var_dump($this->table);
+        //var_dump($this->table);
         $criteria->setTable($this->table);
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
@@ -378,7 +378,7 @@ abstract class simpleMapper //implements iCacheable
         }
 
         $select = new simpleSelect($criteria);
-        //var_dump($select->toString());
+        //var_dump($select->toString()); echo '<br><br>';
         $stmt = $this->db->query($select->toString());
 
         return $stmt;
@@ -482,9 +482,12 @@ abstract class simpleMapper //implements iCacheable
      *
      * @return PDOStatement
      */
-    public function searchAll()
+    public function searchAll($orderCriteria = null)
     {
         $criteria = new criteria();
+        if (!is_null($orderCriteria)) {
+            $criteria->append($orderCriteria);
+        }
         return $this->searchAllByCriteria($criteria);
     }
 
@@ -721,7 +724,8 @@ abstract class simpleMapper //implements iCacheable
                 foreach ($oldData as $subval) {
                     $oldObjIds[$subval->getObjId()] = $subval->getId();
                 }
-
+                //var_dump($oldObjIds);
+                //var_dump($val);
                 // определяем записи, которых нет в новом массиве
                 foreach ($val as $subkey => $subval) {
                     if (isset($oldObjIds[$subval->getObjId()])) {

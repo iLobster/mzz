@@ -54,6 +54,12 @@ class simpleSelectTest extends unitTestCase
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value' ORDER BY `table`.`field` DESC LIMIT 15, 10");
     }
 
+    public function testSelectOrderWithAlias()
+    {
+        $this->criteria->setTable('table')->setOrderByFieldDesc('table2.field')->setOrderByFieldAsc('table3.field2');
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` ORDER BY `table2`.`field` DESC, `table3`.`field2` ASC");
+    }
+
     public function testSelectWithCount()
     {
         $this->criteria->setTable('table')->enableCount();
