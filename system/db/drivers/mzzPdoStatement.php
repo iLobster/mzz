@@ -88,13 +88,10 @@ class mzzPdoStatement extends PDOStatement
     }
 
     /**
-     * Альтернатива стандартному PDOStatement::execute
+     * Установка соответствия mzzPdo для конкретного mzzPdoStatement
      *
-     * В случае удачного insert возвращает id последней вставленно записи
-     * В противном случае - результат выполнения запроса
-     *
-     * @param array $parameters в мануале не продокументированные параметры ?!
-     * @return integer|boolean id последней записи или результат выполнения запроса
+     * @param mzzPdo $db экземпляр драйвера соединения с базой
+     * @return void
      */
     public function setDbConnection(mzzPdo $db)
     {

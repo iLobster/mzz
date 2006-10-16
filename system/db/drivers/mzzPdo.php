@@ -117,6 +117,9 @@ class mzzPdo extends PDO
         $this->queriesNum++;
         $start_time = microtime(true);
         $result = parent::query($query);
+        if($result instanceof mzzPdoStatement) {
+            $result->setDbConnection($this);
+        }
         $this->addQueriesTime(microtime(true) - $start_time);
         return $result;
     }
