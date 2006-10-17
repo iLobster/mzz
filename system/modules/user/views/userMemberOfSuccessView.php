@@ -22,10 +22,10 @@ class userMemberOfSuccessView extends simpleView
     public function toString()
     {
         $url = new url();
-        $url->addParam($this->httprequest->get('id', 'integer', SC_POST));
-        $url->setAction($this->httprequest->getAction());
+        $url->addParam($this->httprequest->get('id', 'integer', SC_PATH));
+        $url->setAction('addToGroup');
         $url->setSection($this->httprequest->getSection());
-        return "<script type=\"text/javascript\">location.href = location.href;</script>";
+        return "<script type=\"text/javascript\">location.href = '" . $url->get() . "';</script>";
     }
 }
 

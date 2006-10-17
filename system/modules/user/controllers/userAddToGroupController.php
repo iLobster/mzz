@@ -26,7 +26,7 @@ class userAddToGroupController extends simpleController
 {
     public function getView()
     {
-        $filter = $this->request->get('filter', 'strng', SC_GET);
+        $filter = $this->request->get('xajaxargs', 'array', SC_GET);
 
         $id = $this->request->get('id', 'integer', SC_PATH);
 
@@ -70,7 +70,7 @@ class userAddToGroupController extends simpleController
 
             if (!is_null($filter)) {
                 $criteria = new criteria();
-                $criteria->add('login', $filter . '%', criteria::LIKE);
+                $criteria->add('login', $filter[0] . '%', criteria::LIKE);
 
                 $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
 

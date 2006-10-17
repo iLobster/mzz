@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
 {include file='include.css.tpl'}
 {include file='include.js.tpl'}
+{$xajax_js|default:''}
 </head>
 <body>
 <p class="title">{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION})</p>
