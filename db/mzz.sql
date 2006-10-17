@@ -51,7 +51,7 @@ INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`,
   (6,16,'тестовая новость',2,'... текст',1,1158725119,1158725119),
   (7,17,'цйу',2,'йцу',1,1158725156,1158725156),
   (8,18,'qwe',2,'asdqwe',1,1159144215,1159144215),
-  (9,20,'qqq',2,'111111111',1,1160478337,1160478337);
+  (9,20,'qqq',2,'111111111',1,1160478337,1161051833);
 
 COMMIT;
 
@@ -143,23 +143,23 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_access`;
 
 CREATE TABLE `sys_access` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `module_section_action` int(11) default NULL,
-  `obj_id` int(11) unsigned default NULL,
-  `uid` int(11) unsigned default NULL,
-  `gid` int(11) unsigned default NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `class_section_action` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  `uid` int(11) default NULL,
+  `gid` int(11) default NULL,
   `allow` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `module_action_id` (`module_section_action`,`obj_id`,`uid`,`gid`)
+  KEY `class_action_id` (`class_section_action`,`obj_id`,`uid`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access` (`id`, `module_section_action`, `obj_id`, `uid`, `gid`, `allow`) VALUES 
-  (3,1,20,2,NULL,1),
-  (4,2,20,2,NULL,1);
+INSERT INTO `sys_access` (`id`, `class_section_action`, `obj_id`, `uid`, `gid`, `allow`) VALUES 
+  (1,1,20,2,NULL,1),
+  (2,2,20,2,NULL,1);
 
 COMMIT;
 
@@ -170,7 +170,7 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_access_actions`;
 
 CREATE TABLE `sys_access_actions` (
-  `id` int(11) unsigned NOT NULL auto_increment,
+  `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
@@ -187,71 +187,71 @@ INSERT INTO `sys_access_actions` (`id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_access_modules` table : 
+# Structure for the `sys_access_classes` table : 
 #
 
-DROP TABLE IF EXISTS `sys_access_modules`;
+DROP TABLE IF EXISTS `sys_access_classes`;
 
-CREATE TABLE `sys_access_modules` (
-  `id` int(11) unsigned NOT NULL auto_increment,
+CREATE TABLE `sys_access_classes` (
+  `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_access_modules` table  (LIMIT 0,500)
+# Data for the `sys_access_classes` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access_modules` (`id`, `name`) VALUES 
+INSERT INTO `sys_access_classes` (`id`, `name`) VALUES 
   (1,'news');
 
 COMMIT;
 
 #
-# Structure for the `sys_access_modules_sections` table : 
+# Structure for the `sys_access_classes_sections` table : 
 #
 
-DROP TABLE IF EXISTS `sys_access_modules_sections`;
+DROP TABLE IF EXISTS `sys_access_classes_sections`;
 
-CREATE TABLE `sys_access_modules_sections` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `module_id` int(11) unsigned default NULL,
-  `section_id` int(11) unsigned default NULL,
+CREATE TABLE `sys_access_classes_sections` (
+  `id` int(11) NOT NULL auto_increment,
+  `class_id` int(11) default NULL,
+  `section_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `module_section` (`section_id`,`module_id`)
+  KEY `module_section` (`section_id`,`class_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_access_modules_sections` table  (LIMIT 0,500)
+# Data for the `sys_access_classes_sections` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access_modules_sections` (`id`, `module_id`, `section_id`) VALUES 
+INSERT INTO `sys_access_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
   (1,1,1);
 
 COMMIT;
 
 #
-# Structure for the `sys_access_modules_sections_actions` table : 
+# Structure for the `sys_access_classes_sections_actions` table : 
 #
 
-DROP TABLE IF EXISTS `sys_access_modules_sections_actions`;
+DROP TABLE IF EXISTS `sys_access_classes_sections_actions`;
 
-CREATE TABLE `sys_access_modules_sections_actions` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `module_section_id` int(11) unsigned default NULL,
-  `action_id` int(11) unsigned default NULL,
+CREATE TABLE `sys_access_classes_sections_actions` (
+  `id` int(11) NOT NULL auto_increment,
+  `class_section_id` int(11) default NULL,
+  `action_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `module_action_unique` (`module_section_id`,`action_id`),
+  UNIQUE KEY `module_action_unique` (`class_section_id`,`action_id`),
   KEY `action_id` (`action_id`),
-  KEY `module_id` (`module_section_id`)
+  KEY `module_id` (`class_section_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_access_modules_sections_actions` table  (LIMIT 0,500)
+# Data for the `sys_access_classes_sections_actions` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access_modules_sections_actions` (`id`, `module_section_id`, `action_id`) VALUES 
+INSERT INTO `sys_access_classes_sections_actions` (`id`, `class_section_id`, `action_id`) VALUES 
   (1,1,1),
   (2,1,2);
 
@@ -264,7 +264,7 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_access_sections`;
 
 CREATE TABLE `sys_access_sections` (
-  `id` int(11) unsigned NOT NULL auto_increment,
+  `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
@@ -361,7 +361,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (29),
   (30),
   (31),
-  (32);
+  (32),
+  (33);
 
 COMMIT;
 

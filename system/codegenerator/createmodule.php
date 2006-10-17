@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: createmodule.php 113 2006-09-25 20:44:56Z zerkms $
+ * @version $Id: createmodule.php 195 2006-10-17 03:45:00Z zerkms $
 */
 
 // createmodule.php     moduleName      name
@@ -65,7 +65,7 @@ Sample usage:
         // создаем папку для тестов
 
         $factoryName = $module . 'Factory';
-        $factoryFilename = $module . '.' . 'factory' . '.php';
+        $factoryFilename = $factoryName . '.php';
 
         if (is_file($factoryFilename)) {
             throw new Exception('Error: factory file already exists');

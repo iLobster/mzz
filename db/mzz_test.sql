@@ -1,9 +1,14 @@
-# EMS MySQL Manager Pro 3.3.0.2
+# SQL Manager 2005 for MySQL 3.7.5.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz_test
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -116,13 +121,13 @@ DROP TABLE IF EXISTS `sys_access`;
 
 CREATE TABLE `sys_access` (
   `id` int(11) NOT NULL auto_increment,
-  `module_section_action` int(11) default NULL,
+  `class_section_action` int(11) default NULL,
   `obj_id` int(11) default NULL,
   `uid` int(11) default NULL,
   `gid` int(11) default NULL,
   `allow` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `module_action_id` (`module_section_action`,`obj_id`,`uid`,`gid`)
+  KEY `class_action_id` (`class_section_action`,`obj_id`,`uid`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -139,12 +144,12 @@ CREATE TABLE `sys_access_actions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `sys_access_modules` table : 
+# Structure for the `sys_access_classes` table : 
 #
 
-DROP TABLE IF EXISTS `sys_access_modules`;
+DROP TABLE IF EXISTS `sys_access_classes`;
 
-CREATE TABLE `sys_access_modules` (
+CREATE TABLE `sys_access_classes` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
@@ -152,33 +157,33 @@ CREATE TABLE `sys_access_modules` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `sys_access_modules_sections` table : 
+# Structure for the `sys_access_classes_sections` table : 
 #
 
-DROP TABLE IF EXISTS `sys_access_modules_sections`;
+DROP TABLE IF EXISTS `sys_access_classes_sections`;
 
-CREATE TABLE `sys_access_modules_sections` (
+CREATE TABLE `sys_access_classes_sections` (
   `id` int(11) NOT NULL auto_increment,
-  `module_id` int(11) default NULL,
+  `class_id` int(11) default NULL,
   `section_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `module_section` (`section_id`,`module_id`)
+  KEY `module_section` (`section_id`,`class_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `sys_access_modules_sections_actions` table : 
+# Structure for the `sys_access_classes_sections_actions` table : 
 #
 
-DROP TABLE IF EXISTS `sys_access_modules_sections_actions`;
+DROP TABLE IF EXISTS `sys_access_classes_sections_actions`;
 
-CREATE TABLE `sys_access_modules_sections_actions` (
+CREATE TABLE `sys_access_classes_sections_actions` (
   `id` int(11) NOT NULL auto_increment,
-  `module_section_id` int(11) default NULL,
+  `class_section_id` int(11) default NULL,
   `action_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `module_action_unique` (`module_section_id`,`action_id`),
+  UNIQUE KEY `module_action_unique` (`class_section_id`,`action_id`),
   KEY `action_id` (`action_id`),
-  KEY `module_id` (`module_section_id`)
+  KEY `module_id` (`class_section_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -296,7 +301,15 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (55),
   (56),
   (57),
-  (58);
+  (58),
+  (59),
+  (60),
+  (61),
+  (62),
+  (63),
+  (64),
+  (65),
+  (66);
 
 COMMIT;
 
@@ -359,3 +372,8 @@ CREATE TABLE `user_usergroup_rel` (
   UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

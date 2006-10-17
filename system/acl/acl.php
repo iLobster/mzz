@@ -14,23 +14,23 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1
+ * @version 0.1.1
  */
 class acl
 {
     /**
      * инстанция объекта для работы с БД
      *
-     * @var object
+     * @var mzzPdo
      */
     private $db;
 
     /**
-     * имя модуля
+     * имя ДО
      *
      * @var string
      */
-    private $module;
+    private $class;
 
     /**
      * имя раздела
@@ -76,14 +76,21 @@ class acl
     private $result = array();
 
     /**
+     * массив для хранения валидных экшнов для конкретного объекта
+     *
+     * @var array
+     */
+    private $validActions = array();
+
+    /**
      * конструктор
      *
      * @param user $user
      * @param integer $object_id
-     * @param string_type $module
+     * @param string_type $class
      * @param string $section
      */
-    public function __construct($user = null, $object_id = 0, $module = null, $section = null, $alias = 'default')
+    public function __construct($user = null, $object_id = 0, $class = null, $section = null, $alias = 'default')
     {
         if (empty($user)) {
             $toolkit = systemToolkit::getInstance();
@@ -94,7 +101,7 @@ class acl
             throw new mzzInvalidParameterException('Переменная $user не является инстанцией класса user', $user);
         }
 
-        $this->module = $module;
+        $this->class = $class;
         $this->section = $section;
         //$this->type = $type;
         if (!is_int($object_id)) {
@@ -107,7 +114,7 @@ class acl
 
     /**
      * метод получения списка прав на выбранный объект у конкретного пользователя<br>
-     * объект однозначно идентифицируется совокупностью параметров: section/module/type/obj_id<br>
+     * объект однозначно идентифицируется по obj_id<br>
      * пользователь: uid/groups<br>
      * в результате получаем массив вида:<br>
      * $result[0]['param1'] = 1;<br>
@@ -131,7 +138,7 @@ class acl
             $grp = substr($grp, 0, -2);
 
             $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
-                     INNER JOIN `sys_access_modules_sections_actions` `msp` ON `a`.`module_section_action` = `msp`.`id`
+                     INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
                       INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
                        WHERE `a`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
 
@@ -141,7 +148,7 @@ class acl
 
             $qry .= ')';
 
-            $qry .= ' GROUP BY `a`.`module_section_action`';
+            $qry .= ' GROUP BY `a`.`class_section_action`';
 
             $stmt = $this->db->prepare($qry);
 
@@ -163,6 +170,111 @@ class acl
         }
     }
 
+    public function getUsersList()
+    {
+        $this->initDb();
+
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+        $userMapper = $toolkit->getMapper('user', 'user', 'user');
+
+        $qry = 'SELECT DISTINCT(`u`.`id`) FROM `sys_access` `a`
+                 INNER JOIN `' . $userMapper->getTable() . '` `u` ON `u`.`' . $userMapper->getTableKey() . '` = `a`.`uid`
+                  WHERE `a`.`obj_id` = ' . $this->obj_id;
+
+        $stmt = $this->db->query($qry);
+        $usersIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        $result = array();
+        foreach ($usersIds as $val) {
+            $result[] = $userMapper->searchById($val);
+        }
+
+        return $result;
+    }
+
+    public function getGroupsList()
+    {
+        $this->initDb();
+
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+        $groupMapper = $toolkit->getMapper('user', 'group', 'user');
+
+        $qry = 'SELECT DISTINCT(`g`.`id`) FROM `sys_access` `a`
+                 INNER JOIN `' . $groupMapper->getTable() . '` `g` ON `g`.`' . $groupMapper->getTableKey() . '` = `a`.`gid`
+                  WHERE `a`.`obj_id` = ' . $this->obj_id;
+
+        $stmt = $this->db->query($qry);
+        $groupsIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        $result = array();
+        foreach ($groupsIds as $val) {
+            $result[] = $groupMapper->searchById($val);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Метод для установки прав<br>
+     * устанавливать можно как свойства по одному, так и группу сразу
+     *
+     * @param string|array $param строка с именем изменяемого действия, или массив с ними же
+     * @param boolean $value устанавливаемое значение
+     */
+    public function set($param, $value = null)
+    {
+        $this->initDb();
+
+        // выбираем все корректные экшны для данного ДО
+        $qry = 'SELECT DISTINCT `aa`.`name`, `msa`.`id` FROM `sys_access` `a`
+                 INNER JOIN `sys_access_classes_sections_actions` `msa` ON `msa`.`id` = `a`.`class_section_action`
+                  INNER JOIN `sys_access_actions` `aa` ON `aa`.`id` = `msa`.`action_id`
+                   WHERE `a`.`obj_id` = ' . $this->obj_id;
+        $stmt = $this->db->query($qry);
+        $validActions = $stmt->fetchAll();
+
+        foreach ($validActions as $val) {
+            $this->validActions[$this->obj_id][$val['name']] = $val['id'];
+        }
+
+        if (!isset($this->validActions[$this->obj_id]) || !sizeof($this->validActions[$this->obj_id])) {
+            throw new mzzRuntimeException('Выбранный объект не зарегистрирован в acl');
+        }
+
+        if (!is_array($param)) {
+            $param = array($param => $value);
+        }
+
+        $csa_ids = array();
+        $inserts = '';
+
+        foreach ($param as $key => $val) {
+            if (!isset($this->validActions[$this->obj_id][$key])) {
+                throw new mzzInvalidParameterException('У выбранного объекта нет изменяемого действия', $key);
+            }
+
+            $csa_ids[] = $this->validActions[$this->obj_id][$key];
+            $inserts .= '(' . $this->validActions[$this->obj_id][$key] . ', ' . $this->obj_id . ', ' . $this->uid . ', ' . (int)$val . '), ';
+        }
+
+        // удаляем старые действия
+        if (sizeof($csa_ids)) {
+            $this->db->query('DELETE FROM `sys_access` WHERE `class_section_action` IN (' . implode(', ', $csa_ids) . ') AND `obj_id` = ' . $this->obj_id . ' AND `uid` = ' . $this->uid);
+        }
+
+        // добавляем новые
+        $inserts = substr($inserts, 0, -2);
+        if ($inserts) {
+            $this->db->query('INSERT INTO `sys_access` (`class_section_action`, `obj_id`, `uid`, `allow`)
+                                VALUES ' . $inserts);
+        }
+
+        // удаляем кэш
+        unset($this->result[$this->obj_id]);
+    }
+
     /**
      * метод для регистрации нового объекта в системе авторизации<br>
      * при регистрации нового объекта для него "наследуются" разрешения в соответствии со следующими правилами:<br>
@@ -171,10 +283,10 @@ class acl
      *   с аналогичными значениями раздела, модуля, типа и имеющими значение uid = 0
      *
      * @param integer $obj_id уникальный id регистрируемого объекта
-     * @param string $module имя модуля
+     * @param string $class имя ДО
      * @param string $section имя раздела
      */
-    public function register($obj_id, $module = null, $section = null)
+    public function register($obj_id, $class = null, $section = null)
     {
         $this->obj_id = (int)$obj_id;
 
@@ -182,16 +294,16 @@ class acl
             throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
         }
 
-        if (!empty($module)) {
-            $this->module = $module;
+        if (!empty($class)) {
+            $this->class = $class;
         }
 
         if (!empty($section)) {
             $this->section = $section;
         }
 
-        if (empty($this->module) || !is_string($this->module)) {
-            throw new mzzInvalidParameterException('Свойство $module не установлено или имеет тип, отличный от string', $this->module);
+        if (empty($this->class) || !is_string($this->class)) {
+            throw new mzzInvalidParameterException('Свойство $class не установлено или имеет тип, отличный от string', $this->class);
         }
 
         if (empty($this->section) || !is_string($this->section)) {
@@ -230,12 +342,12 @@ class acl
      */
     private function getQuery()
     {
-        return 'SELECT `a`.* FROM `sys_access_modules_sections` `ms`
-                 INNER JOIN `sys_access_modules` `m` ON `ms`.`module_id` = `m`.`id` AND `m`.`name` = :module
+        return 'SELECT `a`.* FROM `sys_access_classes_sections` `ms`
+                 INNER JOIN `sys_access_classes` `m` ON `ms`.`class_id` = `m`.`id` AND `m`.`name` = :class
                   INNER JOIN `sys_access_sections` `s` ON `ms`.`section_id` = `s`.`id` AND `s`.`name` = :section
-                   INNER JOIN `sys_access_modules_sections_actions` `msp` ON `msp`.`module_section_id` = `ms`.`id`
+                   INNER JOIN `sys_access_classes_sections_actions` `msp` ON `msp`.`class_section_id` = `ms`.`id`
                     INNER JOIN `sys_access_actions` `p` ON `p`.`id` = `msp`.`action_id`
-                     INNER JOIN `sys_access` `a` ON `a`.`module_section_action` = `p`.`id` AND `a`.`obj_id` = 0';
+                     INNER JOIN `sys_access` `a` ON `a`.`class_section_action` = `p`.`id` AND `a`.`obj_id` = 0';
     }
 
     /**
@@ -266,11 +378,11 @@ class acl
      */
     private function doInsertQuery($stmt, $obj_id)
     {
-        $qry = 'INSERT INTO `sys_access` (`module_section_action`, `uid`, `gid`, `allow`, `obj_id`) VALUES ';
+        $qry = 'INSERT INTO `sys_access` (`class_section_action`, `uid`, `gid`, `allow`, `obj_id`) VALUES ';
 
         $exists = false;
         while($row = $stmt->fetch()) {
-            $qry .= "(" . $this->db->quote($row['module_section_action']) . ", "; // . $this->db->quote($row['type']) . ", ";
+            $qry .= "(" . $this->db->quote($row['class_section_action']) . ", "; // . $this->db->quote($row['type']) . ", ";
             if (!$row['uid'] && !$row['gid']) {
                 $qry .= $this->db->quote($this->uid) . ', NULL';
             } else {
@@ -312,7 +424,7 @@ class acl
     private function bind($stmt, $obj_id = 0)
     {
         $stmt->bindParam(':section', $this->section);
-        $stmt->bindParam(':module', $this->module);
+        $stmt->bindParam(':class', $this->class);
 
         if (!empty($obj_id)) {
             if ($obj_id <= 0) {

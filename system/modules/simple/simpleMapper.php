@@ -125,6 +125,11 @@ abstract class simpleMapper //implements iCacheable
         return $this->table;
     }
 
+    public function getTableKey()
+    {
+        return $this->tableKey;
+    }
+
     /**
      * Возвращает имя модуля
      *
@@ -204,7 +209,7 @@ abstract class simpleMapper //implements iCacheable
             $object->import($data);
 
             $acl = new acl($toolkit->getUser());
-            $acl->register($object->getObjId(), $this->name(), $this->section());
+            $acl->register($object->getObjId(), $this->className, $this->section());
         }
     }
 
