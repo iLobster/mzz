@@ -26,10 +26,13 @@ class aclTest extends unitTestCase
 {
     private $db;
     private $acl;
+    private $alias;
+
 
     public function __construct()
     {
-        $this->db = db::factory();
+        $this->alias = 'another';
+        $this->db = db::factory($this->alias);
     }
 
     public function setUp()
@@ -44,7 +47,7 @@ class aclTest extends unitTestCase
         $this->db->query("INSERT INTO `sys_access_classes_sections_actions` (`id`, `class_section_id`, `action_id`) VALUES (1,1,1), (2,1,2)");
         $this->db->query("INSERT INTO `sys_access_actions` (`id`, `name`) VALUES (1,'edit'), (2,'delete')");
 
-        $this->acl = new acl(new userStub(), 1);
+        $this->acl = new acl($user = new userStub(), $object_id = 1, $class = null, $section = null, $alias = $this->alias);
     }
 
     public function tearDown()
@@ -82,13 +85,13 @@ class aclTest extends unitTestCase
 
     public function testRegister()
     {
-        $acl = new acl(new userStub(2));
+        $acl = new acl(new userStub(2), 0, null, null, $this->alias);
         $acl->register($obj_id = 10, $class = 'news', $section = 'news');
 
         $this->assertEqual(1, $acl->get('delete'));
         $this->assertEqual(1, $acl->get('edit'));
 
-        $acl2 = new acl(new userStub(3));
+        $acl2 = new acl(new userStub(3), 0, null, null, $this->alias);
         $this->assertEqual(1, $acl2->get('delete'));
         $this->assertEqual(1, $acl2->get('edit'));
     }
@@ -116,7 +119,7 @@ class aclTest extends unitTestCase
 
     public function testDeleteArg()
     {
-        $acl = new acl(new userStub(2));
+        $acl = new acl(new userStub(2), 0, null, null, $this->alias);
         $acl->delete(1);
         $stmt = $this->db->query('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `class_section_action` IN (1, 2) AND `obj_id` = 1');
         $row = $stmt->fetch();
@@ -128,7 +131,7 @@ class aclTest extends unitTestCase
         $this->db->query('DELETE FROM `sys_access` WHERE `id` = 3');
         $this->db->query('UPDATE `sys_access` SET `allow` = 0 WHERE `id` = 1');
 
-        $acl = new acl(new userStub(), 1, 'news', 'news');
+        $acl = new acl(new userStub(), 1, 'news', 'news', $this->alias);
 
         $this->assertEqual($acl->get('edit'), 0);
         $acl->set('edit', 1);
@@ -144,7 +147,7 @@ class aclTest extends unitTestCase
         $this->db->query('DELETE FROM `sys_access` WHERE `id` = 3');
         $this->db->query('UPDATE `sys_access` SET `allow` = 0 WHERE `id` = 1');
 
-        $acl = new acl(new userStub(), 1, 'news', 'news');
+        $acl = new acl(new userStub(), 1, 'news', 'news', $this->alias);
 
         $this->assertEqual($acl->get('edit'), 0);
         $this->assertEqual($acl->get('delete'), 1);
@@ -169,7 +172,7 @@ class aclTest extends unitTestCase
     public function testSetUnregistered()
     {
         try {
-            $acl = new acl(new userStub(), 666, 'news', 'news');
+            $acl = new acl(new userStub(), 666, 'news', 'news', $this->alias);
             $acl->set('foo', 1);
             $this->fail('Должно быть брошено исключение');
         } catch (mzzRuntimeException $e) {

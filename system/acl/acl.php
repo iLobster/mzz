@@ -81,6 +81,7 @@ class acl
      * @var array
      */
     private $validActions = array();
+    private $alias;
 
     /**
      * конструктор
@@ -92,9 +93,12 @@ class acl
      */
     public function __construct($user = null, $object_id = 0, $class = null, $section = null, $alias = 'default')
     {
+        //@todo проверить на существование
+        $this->alias = $alias;
+
         if (empty($user)) {
             $toolkit = systemToolkit::getInstance();
-            $user = $toolkit->getUser($alias);
+            $user = $toolkit->getUser($this->alias);
         }
 
         if (!($user instanceof user)) {
@@ -176,7 +180,7 @@ class acl
 
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
-        $userMapper = $toolkit->getMapper('user', 'user', 'user');
+        $userMapper = $toolkit->getMapper('user', 'user', 'user', $this->alias);
 
         $qry = 'SELECT DISTINCT(`u`.`id`) FROM `sys_access` `a`
                  INNER JOIN `' . $userMapper->getTable() . '` `u` ON `u`.`' . $userMapper->getTableKey() . '` = `a`.`uid`
@@ -199,7 +203,7 @@ class acl
 
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
-        $groupMapper = $toolkit->getMapper('user', 'group', 'user');
+        $groupMapper = $toolkit->getMapper('user', 'group', 'user', $this->alias);
 
         $qry = 'SELECT DISTINCT(`g`.`id`) FROM `sys_access` `a`
                  INNER JOIN `' . $groupMapper->getTable() . '` `g` ON `g`.`' . $groupMapper->getTableKey() . '` = `a`.`gid`
@@ -438,7 +442,7 @@ class acl
     private function initDb()
     {
         if (empty($this->db)) {
-            $this->db = db::factory();
+            $this->db = db::factory($this->alias);
         }
     }
 
