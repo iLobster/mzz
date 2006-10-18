@@ -17,11 +17,15 @@
  * @version 0.1
  */
 
-class userMemberOfSuccessView extends simpleView
+class userAddToGroupSuccessView extends simpleView
 {
     public function toString()
     {
-        return "<script type=\"text/javascript\">location.href = location.href;</script>";
+        $url = new url();
+        $url->addParam($this->httprequest->get('id', 'integer', SC_PATH));
+        $url->setAction('addToGroup');
+        $url->setSection($this->httprequest->getSection());
+        return "<script type=\"text/javascript\">location.href = '" . $url->get() . "';</script>";
     }
 }
 

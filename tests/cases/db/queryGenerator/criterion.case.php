@@ -34,6 +34,12 @@ class criterionTest extends unitTestCase
         $this->assertEqual($criterion->generate(), "`field` LIKE '%q_'");
     }
 
+    public function testIsNullCondition()
+    {
+        $criterion = new criterion('field', '', criteria::IS_NULL );
+        $this->assertEqual($criterion->generate(), "`field` IS NULL");
+    }
+
     public function testSimpleBetweenCondition()
     {
         $criterion = new criterion('field', array(1, 10), criteria::BETWEEN);

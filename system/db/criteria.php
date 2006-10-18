@@ -76,7 +76,17 @@ class criteria
      */
     const BETWEEN = 'BETWEEN';
 
+    /**
+     *  онстанта, определ€юща€ конструкцию дл€ полнотекстового поиска
+     *
+     */
     const FULLTEXT = 'MATCH (%s) AGAINST (%s)';
+
+    /**
+     *  онстанта, определ€юща€ сравнение "IS NULL"
+     *
+     */
+    const IS_NULL = 'IS NULL';
 
     /**
      * ћассив дл€ хранени€ присоедин€емых к основной таблиц
@@ -436,6 +446,8 @@ class criteria
             $arr['alias'] = '`' . $alias . '`';
         }
         $this->joins[] = $arr;
+
+        return $this;
     }
 }
 

@@ -157,7 +157,8 @@ class criterion
                 }
                 $result = substr($result, 0, -2);
                 $result .= ')';
-
+            } elseif ($this->comparsion === criteria::IS_NULL ) {
+                $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion;
             } elseif ($this->comparsion === criteria::BETWEEN) {
                 $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
             } elseif ($this->comparsion === criteria::FULLTEXT) {

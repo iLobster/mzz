@@ -7,6 +7,6 @@ $router->addRoute('pageActions', new requestRoute('page/:action', array('section
 $router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
 $router->addRoute('newsActions', new requestRoute('news/:action', array('section' => 'news', 'name' => 'root', 'action' => 'list'), array('action' => '(?:list|createItem|delete|createFolder)')));
 $router->addRoute('userActions', new requestRoute('user/:action', array('section' => 'user'), array('action' => '(?:exit|list|create|groupsList|groupCreate)')));
-//$router->addRoute('aclActions', new requestRoute('acl/:action', array('section' => 'acl')));
+$router->addRoute('aclActions', new requestRoute('access/:id/:user_id/editUser', array('section' => 'access', 'action' => 'editUser'), array('id' => '\d+', 'user_id' => '\d+')));
 
 ?>

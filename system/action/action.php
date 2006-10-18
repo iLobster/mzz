@@ -187,7 +187,7 @@ class action
      *
      * @return array
      */
-    private function getActions()
+    public function getActions()
     {
         if (empty($this->actions)) {
             foreach ($this->paths as $path) {

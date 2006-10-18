@@ -17,11 +17,11 @@
  * @version 0.1
  */
 
-class userMemberOfSuccessView extends simpleView
+class accessEditUserSuccessView extends simpleView
 {
     public function toString()
     {
-        return "<script type=\"text/javascript\">location.href = location.href;</script>";
+        return '<script>window.close();window.opener.location.reload();window.opener.focus();</script>';
     }
 }
 

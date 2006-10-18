@@ -150,7 +150,8 @@ CREATE TABLE `sys_access` (
   `gid` int(11) default NULL,
   `allow` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `class_action_id` (`class_section_action`,`obj_id`,`uid`,`gid`)
+  KEY `class_action_id` (`class_section_action`,`obj_id`,`uid`,`gid`),
+  KEY `obj_id` (`obj_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -158,8 +159,14 @@ CREATE TABLE `sys_access` (
 #
 
 INSERT INTO `sys_access` (`id`, `class_section_action`, `obj_id`, `uid`, `gid`, `allow`) VALUES 
-  (1,1,20,2,NULL,1),
-  (2,2,20,2,NULL,1);
+  (23,2,20,2,NULL,0),
+  (22,1,20,2,NULL,0),
+  (21,4,20,2,NULL,1),
+  (20,3,20,2,NULL,1),
+  (35,2,20,1,NULL,0),
+  (34,1,20,1,NULL,1),
+  (33,4,20,1,NULL,0),
+  (32,3,20,1,NULL,1);
 
 COMMIT;
 
@@ -182,7 +189,9 @@ CREATE TABLE `sys_access_actions` (
 
 INSERT INTO `sys_access_actions` (`id`, `name`) VALUES 
   (1,'edit'),
-  (2,'delete');
+  (2,'delete'),
+  (3,'view'),
+  (4,'create');
 
 COMMIT;
 
@@ -195,6 +204,7 @@ DROP TABLE IF EXISTS `sys_access_classes`;
 CREATE TABLE `sys_access_classes` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
+  `module_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -203,8 +213,8 @@ CREATE TABLE `sys_access_classes` (
 # Data for the `sys_access_classes` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access_classes` (`id`, `name`) VALUES 
-  (1,'news');
+INSERT INTO `sys_access_classes` (`id`, `name`, `module_id`) VALUES 
+  (1,'news',1);
 
 COMMIT;
 
@@ -243,8 +253,7 @@ CREATE TABLE `sys_access_classes_sections_actions` (
   `action_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `module_action_unique` (`class_section_id`,`action_id`),
-  KEY `action_id` (`action_id`),
-  KEY `module_id` (`class_section_id`)
+  KEY `action_id` (`action_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -253,7 +262,30 @@ CREATE TABLE `sys_access_classes_sections_actions` (
 
 INSERT INTO `sys_access_classes_sections_actions` (`id`, `class_section_id`, `action_id`) VALUES 
   (1,1,1),
-  (2,1,2);
+  (2,1,2),
+  (3,1,3),
+  (4,1,4);
+
+COMMIT;
+
+#
+# Structure for the `sys_access_modules` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_modules`;
+
+CREATE TABLE `sys_access_modules` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_modules` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_modules` (`id`, `name`) VALUES 
+  (1,'news');
 
 COMMIT;
 
@@ -362,7 +394,14 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (30),
   (31),
   (32),
-  (33);
+  (33),
+  (34),
+  (35),
+  (36),
+  (37),
+  (38),
+  (39),
+  (40);
 
 COMMIT;
 
@@ -401,7 +440,8 @@ CREATE TABLE `user_user` (
   `obj_id` int(10) unsigned NOT NULL default '0',
   `login` varchar(255) NOT NULL default '',
   `password` varchar(32) NOT NULL default '',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `login` (`login`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -426,7 +466,8 @@ CREATE TABLE `user_usergroup_rel` (
   `user_id` int(11) default NULL,
   `obj_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `group_id` (`group_id`,`user_id`)
+  UNIQUE KEY `group_id` (`group_id`,`user_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -436,7 +477,8 @@ CREATE TABLE `user_usergroup_rel` (
 INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
   (1,1,1,50),
   (10,2,2,29),
-  (14,3,2,32);
+  (14,3,2,32),
+  (22,3,1,40);
 
 COMMIT;
 

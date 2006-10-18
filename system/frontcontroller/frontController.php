@@ -19,6 +19,7 @@
  * @package system
  * @version 0.4
  */
+
 class frontController
 {
     /**
@@ -58,7 +59,6 @@ class frontController
         $action = $this->request->getAction();
         return $this->sectionMapper->getTemplateName($section, $action);
     }
-
 }
 
 ?>

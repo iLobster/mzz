@@ -196,6 +196,11 @@ class aclTest extends unitTestCase
         $this->assertEqual(sizeof($groups), 1);
         $this->assertEqual($groups[0]->getName(), 'somegroup');
     }
+
+    public function testGetClass()
+    {
+        $this->assertEqual($this->acl->getClass(), 'news');
+    }
 }
 
 ?>

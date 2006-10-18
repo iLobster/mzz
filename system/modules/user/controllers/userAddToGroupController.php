@@ -61,19 +61,27 @@ class userAddToGroupController extends simpleController
                 }
             }
 
-            fileLoader::load('user/views/userMemberOfSuccessView');
-            return new userMemberOfSuccessView();
+            fileLoader::load('user/views/userAddToGroupSuccessView');
+            return new userAddToGroupSuccessView();
 
         } else {
 
             $users = array();
 
             if (!is_null($filter)) {
+                $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
+                $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
+
+                $criterion = new criterion('r.user_id', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true);
+                $criterion->addAnd(new criterion('r.group_id', $id));
+
                 $criteria = new criteria();
-                $criteria->add('login', $filter[0] . '%', criteria::LIKE);
+                $criteria->addJoin($userGroupMapper->getTable(), $criterion, 'r');
+                $criteria->add('login', $filter[0] . '%', criteria::LIKE)->add('r.id', null, criteria::IS_NULL);
 
                 $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
 
+                // выбираем всех пользователей, которые ещЄ не добавлены в эту группу и удовлетвор€ют маске
                 $users = $userMapper->searchAllByCriteria($criteria);
             }
 

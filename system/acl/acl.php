@@ -228,10 +228,11 @@ class acl
         $this->initDb();
 
         // выбираем все корректные экшны для данного ДО
-        $qry = 'SELECT DISTINCT `aa`.`name`, `msa`.`id` FROM `sys_access` `a`
-                 INNER JOIN `sys_access_classes_sections_actions` `msa` ON `msa`.`id` = `a`.`class_section_action`
-                  INNER JOIN `sys_access_actions` `aa` ON `aa`.`id` = `msa`.`action_id`
-                   WHERE `a`.`obj_id` = ' . $this->obj_id;
+        $qry = 'SELECT DISTINCT `aa`.`name`, `csa2`.`id` FROM `sys_access` `a`
+                 INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`id` = `a`.`class_section_action`
+                  INNER JOIN `sys_access_classes_sections_actions` `csa2` ON `csa2`.`class_section_id` = `csa`.`class_section_id`
+                   INNER JOIN `sys_access_actions` `aa` ON `aa`.`id` = `csa2`.`action_id`
+                    WHERE `a`.`obj_id` = ' . $this->obj_id;
         $stmt = $this->db->query($qry);
         $validActions = $stmt->fetchAll();
 
@@ -286,7 +287,7 @@ class acl
      * @param string $class имя ДО
      * @param string $section имя раздела
      */
-    public function register($obj_id, $class = null, $section = null)
+    public function register($obj_id, $class = null, $section = null, $module = null)
     {
         $this->obj_id = (int)$obj_id;
 
@@ -331,6 +332,35 @@ class acl
         $this->bind($stmt, $obj_id);
 
         $stmt->execute();
+    }
+
+    public function getClass()
+    {
+        $this->initDb();
+
+        $qry = 'SELECT DISTINCT `c`.`name` FROM `sys_access` `a`
+                 INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`id` = `a`.`class_section_action`
+                  INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `csa`.`class_section_id`
+                   INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                    WHERE `obj_id` = ' . $this->obj_id;
+        $stmt = $this->db->query($qry);
+        $res = $stmt->fetch();
+        return $res['name'];
+    }
+
+    public function getModule()
+    {
+        $this->initDb();
+
+        $qry = 'SELECT DISTINCT `m`.`name` FROM `sys_access` `a`
+                 INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`id` = `a`.`class_section_action`
+                  INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `csa`.`class_section_id`
+                   INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                    INNER JOIN `sys_access_modules` `m` ON `m`.`id` = `c`.`module_id`
+                     WHERE `obj_id` = ' . $this->obj_id;
+        $stmt = $this->db->query($qry);
+        $res = $stmt->fetch();
+        return $res['name'];
     }
 
     /**
