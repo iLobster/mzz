@@ -25,9 +25,7 @@ class userGroupDeleteView extends simpleView
 {
     public function toString()
     {
-        $url = new url();
-        $url->setAction('groupsList');
-        echo "<script>window.opener.location.reload(); window.close();</script>";
+        return "<script>window.opener.location.reload(); window.close();</script>";
     }
 }
 

@@ -83,6 +83,11 @@ class aclTest extends unitTestCase
         $this->assertEqual($this->acl->get('somenotexistparam'), 0);
     }
 
+    public function testGetForGroups()
+    {
+        $this->assertEqual($this->acl->getForGroup(1), array('edit' => 0));
+    }
+
     public function testRegister()
     {
         $acl = new acl(new userStub(2), 0, null, null, $this->alias);

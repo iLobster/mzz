@@ -89,6 +89,18 @@ class criteria
     const IS_NULL = 'IS NULL';
 
     /**
+     * Константа, определяющая тип объединения INNER
+     *
+     */
+    const JOIN_INNER = 'INNER';
+
+    /**
+     * Константа, определяющая тип объединения LEFT
+     *
+     */
+    const JOIN_LEFT = 'LEFT';
+
+    /**
      * Массив для хранения присоединяемых к основной таблиц
      *
      * @var array
@@ -115,6 +127,13 @@ class criteria
      * @var array
      */
     private $orderBy = array();
+
+    /**
+     * Массив для хранения полей для группировки
+     *
+     * @var array
+     */
+    private $groupBy = array();
 
     /**
      * Массив для хранения имён полей для выборки
@@ -439,15 +458,39 @@ class criteria
      * @param criterion $criterion условие объединения
      * @param string $alias алиас, который будет присвоен присоединяемой таблице
      */
-    public function addJoin($tablename, criterion $criterion, $alias = '')
+    public function addJoin($tablename, criterion $criterion, $alias = '', $joinType = self::JOIN_LEFT)
     {
         $arr = array('table' => '`' . $tablename . '`', 'criterion' => $criterion);
+        $arr['type'] = $joinType;
         if ($alias) {
             $arr['alias'] = '`' . $alias . '`';
         }
         $this->joins[] = $arr;
 
         return $this;
+    }
+
+    /**
+     * Метод для добавления нового поля для группировки
+     *
+     * @param string $field имя поля
+     * @return object сам объект
+     */
+    public function addGroupBy($field)
+    {
+        $field = '`' . str_replace('.', '`.`', $field) . '`';
+        $this->groupBy[] = $field;
+        return $this;
+    }
+
+    /**
+     * Метод получения полей для группировки
+     *
+     * @return array
+     */
+    public function getGroupBy()
+    {
+        return $this->groupBy;
     }
 }
 

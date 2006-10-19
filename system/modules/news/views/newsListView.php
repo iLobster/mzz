@@ -22,9 +22,9 @@ class newsListView extends simpleView
     protected $newsFolderMapper;
     private $config;
 
-    public function __construct($news, $newsFolderMapper)
+    public function __construct($news)
     {
-        $this->newsFolderMapper = $newsFolderMapper;
+        //$this->newsFolderMapper = $newsFolderMapper;
         parent::__construct($news);
 
         $this->config = $this->toolkit->getConfig($this->httprequest->getSection(), 'news');
@@ -39,11 +39,10 @@ class newsListView extends simpleView
         $pager = new pager($this->httprequest->getUrl(), $page, $this->config->get('items_per_page'));
 
         $this->DAO->setPager($pager);
-
         $this->smarty->assign('folderPath', $this->DAO->getName());
         $this->smarty->assign('pager', $pager);
         $this->smarty->assign('news', $this->DAO->getItems());
-        $this->smarty->assign('newsFolderMapper', $this->newsFolderMapper);
+        $this->smarty->assign('newsFolderMapper', $this->DAO);
 
         $this->response->setTitle('Новости -> Список');
 

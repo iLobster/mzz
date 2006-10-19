@@ -40,13 +40,6 @@ class acl
     private $section;
 
     /**
-     * тип объекта
-     *
-     * @var string
-     */
-    //private $type;
-
-    /**
      * уникальный id объекта
      *
      * @var integer
@@ -74,6 +67,8 @@ class acl
      * @var array
      */
     private $result = array();
+
+    private $resultGroups = array();
 
     /**
      * массив для хранения валидных экшнов для конкретного объекта
@@ -127,11 +122,12 @@ class acl
      * 1/0 - результат. 1 - доступ есть, 0 - доступа нет<br>
      *
      * @param string|null $param
+     * @param boolean $clean флаг, обозначающий что права будут извлекаться для пользователя исключительно, без учёта прав на группы, в которых он состоит
      * @return array|bool массив с правами | наличие/отсутствие права
      */
-    public function get($param = null)
+    public function get($param = null, $clean = false)
     {
-        if (empty($this->result[$this->obj_id])) {
+        if (empty($this->result[$this->obj_id][$clean])) {
             $this->initDb();
 
             $grp = '';
@@ -146,7 +142,7 @@ class acl
                       INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
                        WHERE `a`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
 
-            if (sizeof($this->groups)) {
+            if (sizeof($this->groups) && !$clean) {
                 $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
             }
 
@@ -160,18 +156,40 @@ class acl
 
             $stmt->execute();
 
-            $this->result[$this->obj_id] = array();
+            $this->result[$this->obj_id][$clean] = array();
 
             while ($row = $stmt->fetch()) {
-                $this->result[$this->obj_id][$row['name']] = $row['access'];
+                $this->result[$this->obj_id][$clean][$row['name']] = $row['access'];
             }
         }
 
         if (empty($param)) {
-            return $this->result[$this->obj_id];
+            return $this->result[$this->obj_id][$clean];
         } else {
-            return isset($this->result[$this->obj_id][$param]) ? (bool)$this->result[$this->obj_id][$param] : false;
+            return isset($this->result[$this->obj_id][$clean][$param]) ? (bool)$this->result[$this->obj_id][$clean][$param] : false;
         }
+    }
+
+    public function getForGroup($gid)
+    {
+        if (empty($this->resultGroups[$this->obj_id])) {
+            $this->initDb();
+
+            $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
+                     INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
+                      INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
+                       WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
+                        GROUP BY `a`.`class_section_action`';
+            $stmt = $this->db->query($qry);
+
+            $this->resultGroups[$this->obj_id] = array();
+
+            while ($row = $stmt->fetch()) {
+                $this->resultGroups[$this->obj_id][$row['name']] = $row['access'];
+            }
+        }
+
+        return $this->resultGroups[$this->obj_id];
     }
 
     public function getUsersList()
@@ -179,22 +197,14 @@ class acl
         $this->initDb();
 
         $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
         $userMapper = $toolkit->getMapper('user', 'user', 'user', $this->alias);
 
-        $qry = 'SELECT DISTINCT(`u`.`id`) FROM `sys_access` `a`
-                 INNER JOIN `' . $userMapper->getTable() . '` `u` ON `u`.`' . $userMapper->getTableKey() . '` = `a`.`uid`
-                  WHERE `a`.`obj_id` = ' . $this->obj_id;
+        $criteria = new criteria();
+        $criteria->addJoin('sys_access', new criterion($userMapper->getTable() . '.' . $userMapper->getTableKey(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy($userMapper->getTable() . '.' . $userMapper->getTableKey());
+        $criteria->add('a.obj_id', $this->obj_id);
 
-        $stmt = $this->db->query($qry);
-        $usersIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-        $result = array();
-        foreach ($usersIds as $val) {
-            $result[] = $userMapper->searchById($val);
-        }
-
-        return $result;
+        return $userMapper->searchAllByCriteria($criteria);
     }
 
     public function getGroupsList()
@@ -202,22 +212,14 @@ class acl
         $this->initDb();
 
         $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
         $groupMapper = $toolkit->getMapper('user', 'group', 'user', $this->alias);
 
-        $qry = 'SELECT DISTINCT(`g`.`id`) FROM `sys_access` `a`
-                 INNER JOIN `' . $groupMapper->getTable() . '` `g` ON `g`.`' . $groupMapper->getTableKey() . '` = `a`.`gid`
-                  WHERE `a`.`obj_id` = ' . $this->obj_id;
+        $criteria = new criteria();
+        $criteria->addJoin('sys_access', new criterion($groupMapper->getTable() . '.' . $groupMapper->getTableKey(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy($groupMapper->getTable() . '.' . $groupMapper->getTableKey());
+        $criteria->add('a.obj_id', $this->obj_id);
 
-        $stmt = $this->db->query($qry);
-        $groupsIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-        $result = array();
-        foreach ($groupsIds as $val) {
-            $result[] = $groupMapper->searchById($val);
-        }
-
-        return $result;
+        return $groupMapper->searchAllByCriteria($criteria);
     }
 
     /**
@@ -227,7 +229,7 @@ class acl
      * @param string|array $param строка с именем изменяемого действия, или массив с ними же
      * @param boolean $value устанавливаемое значение
      */
-    public function set($param, $value = null)
+    public function set($param, $value = null, $group_id = 0)
     {
         $this->initDb();
 
@@ -261,23 +263,30 @@ class acl
             }
 
             $csa_ids[] = $this->validActions[$this->obj_id][$key];
-            $inserts .= '(' . $this->validActions[$this->obj_id][$key] . ', ' . $this->obj_id . ', ' . $this->uid . ', ' . (int)$val . '), ';
+            $inserts .= '(' . $this->validActions[$this->obj_id][$key] . ', ' . $this->obj_id . ', ' . ($group_id > 0 ? $group_id : $this->uid) . ', ' . (int)$val . '), ';
         }
 
         // удаляем старые действия
         if (sizeof($csa_ids)) {
-            $this->db->query('DELETE FROM `sys_access` WHERE `class_section_action` IN (' . implode(', ', $csa_ids) . ') AND `obj_id` = ' . $this->obj_id . ' AND `uid` = ' . $this->uid);
+            $qry = 'DELETE FROM `sys_access` WHERE `class_section_action` IN (' . implode(', ', $csa_ids) . ') AND `obj_id` = ' . $this->obj_id . ' AND ';
+            $qry .= $group_id > 0 ? '`gid` = ' . $group_id : '`uid` = ' . $this->uid;
+            $this->db->query($qry);
         }
 
         // добавляем новые
         $inserts = substr($inserts, 0, -2);
         if ($inserts) {
-            $this->db->query('INSERT INTO `sys_access` (`class_section_action`, `obj_id`, `uid`, `allow`)
+            $this->db->query('INSERT INTO `sys_access` (`class_section_action`, `obj_id`, `' . ($group_id > 0 ? 'gid' : 'uid') . '`, `allow`)
                                 VALUES ' . $inserts);
         }
 
         // удаляем кэш
         unset($this->result[$this->obj_id]);
+    }
+
+    public function setForGroup($gid, $param)
+    {
+        return $this->set($param, null, (int)$gid);
     }
 
     /**
@@ -331,11 +340,11 @@ class acl
     {
         $this->initDb();
 
-        $stmt = $this->db->prepare('DELETE FROM `sys_access` WHERE `obj_id` = :obj_id');
+        if (!$obj_id) {
+            $obj_id = $this->obj_id;
+        }
 
-        $this->bind($stmt, $obj_id);
-
-        $stmt->execute();
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . (int)$obj_id);
     }
 
     public function getClass()

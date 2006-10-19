@@ -13,16 +13,16 @@
 */
 
 /**
- * accessEditUserController: контроллер для метода editUser модуля access
+ * accessEditGroupController: контроллер для метода editGroup модуля access
  *
  * @package modules
  * @subpackage access
  * @version 0.1
  */
 
-fileLoader::load('access/views/accessEditUserView');
+fileLoader::load('access/views/accessEditGroupView');
 
-class accessEditUserController extends simpleController
+class accessEditGroupController extends simpleController
 {
     public function getView()
     {
@@ -30,21 +30,21 @@ class accessEditUserController extends simpleController
             $obj_id = $this->request->get('id', 'integer', SC_POST);
         }
 
-        if (($user_id = $this->request->get('user_id', 'integer', SC_PATH)) == null) {
-            $user_id = $this->request->get('user_id', 'integer', SC_POST);
+        if (($group_id = $this->request->get('user_id', 'integer', SC_PATH)) == null) {
+            $group_id = $this->request->get('user_id', 'integer', SC_POST);
         }
 
-        $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
-        $user = $userMapper->searchById($user_id);
+        $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
+        $group = $groupMapper->searchById($group_id);
 
-        $acl = new acl($user, $obj_id);
+        $acl = new acl($this->toolkit->getUser(), $obj_id);
 
         $action = $this->toolkit->getAction($acl->getModule());
         $actions = $action->getActions();
 
         $actions = $actions[$acl->getClass()];
 
-        if ($this->request->getMethod() == 'POST' && $user_id == $user->getId()) {
+        if ($this->request->getMethod() == 'POST' && $group) {
             $setted = $this->request->get('access', 'array', SC_POST);
 
             $result = array();
@@ -52,27 +52,27 @@ class accessEditUserController extends simpleController
                 $result[$key] = isset($setted[$key]) && $setted[$key];
             }
 
-            $acl->set($result);
+            $acl->setForGroup($group_id, $result);
 
             fileLoader::load('access/views/accessEditUserSuccessView');
             return new accessEditUserSuccessView();
         }
 
         $action = $this->request->getAction();
-        $users = false;
+        $groups = false;
 
-        if ($action == 'addUser') {
-            $criterion = new criterion('a.uid', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true);
+        if ($action == 'addGroup') {
+            $criterion = new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', $obj_id));
 
             $criteria = new criteria();
             $criteria->addJoin('sys_access', $criterion, 'a');
-            $criteria->add('a.uid', null, criteria::IS_NULL);
+            $criteria->add('a.gid', null, criteria::IS_NULL);
 
-            $users = $userMapper->searchAllByCriteria($criteria);
+            $groups = $groupMapper->searchAllByCriteria($criteria);
         }
 
-        return new accessEditUserView($acl, array_keys($actions), $user, $users);
+        return new accessEditGroupView($acl, array_keys($actions), $group, $groups);
     }
 }
 

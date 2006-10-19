@@ -40,22 +40,6 @@ CREATE TABLE `news_news` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `news_news` table  (LIMIT 0,500)
-#
-
-INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
-  (1,1,'новость 1',2,'текст 1',1,1140071407,1158647424),
-  (2,2,'новость 2',2,'текст 21',1,1140071307,1158644194),
-  (4,3,'новость 3',2,'текст 31',3,1140071207,1151126312),
-  (5,4,'новость 4',2,'текст 4',2,1140071107,1140071117),
-  (6,16,'тестовая новость',2,'... текст',1,1158725119,1158725119),
-  (7,17,'цйу',2,'йцу',1,1158725156,1158725156),
-  (8,18,'qwe',2,'asdqwe',1,1159144215,1159144215),
-  (9,20,'qqq',2,'111111111',1,1160478337,1161051833);
-
-COMMIT;
-
-#
 # Structure for the `news_newsfolder` table : 
 #
 
@@ -76,9 +60,7 @@ CREATE TABLE `news_newsfolder` (
 #
 
 INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES 
-  (1,6,'root',1,'root'),
-  (2,7,'parent1',2,'parent1'),
-  (3,8,'parent2',3,'parent2');
+  (1,6,'root',1,'root');
 
 COMMIT;
 
@@ -104,9 +86,7 @@ CREATE TABLE `news_newsfolder_tree` (
 #
 
 INSERT INTO `news_newsfolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,6,1),
-  (2,2,3,2),
-  (3,4,5,2);
+  (1,1,2,1);
 
 COMMIT;
 
@@ -151,7 +131,7 @@ CREATE TABLE `sys_access` (
   `allow` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
   KEY `class_action_id` (`class_section_action`,`obj_id`,`uid`,`gid`),
-  KEY `obj_id` (`obj_id`)
+  KEY `obj_id` (`obj_id`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -159,14 +139,21 @@ CREATE TABLE `sys_access` (
 #
 
 INSERT INTO `sys_access` (`id`, `class_section_action`, `obj_id`, `uid`, `gid`, `allow`) VALUES 
-  (23,2,20,2,NULL,0),
-  (22,1,20,2,NULL,0),
-  (21,4,20,2,NULL,1),
-  (20,3,20,2,NULL,1),
-  (35,2,20,1,NULL,0),
-  (34,1,20,1,NULL,1),
-  (33,4,20,1,NULL,0),
-  (32,3,20,1,NULL,1);
+  (146,3,0,NULL,1,1),
+  (147,3,0,NULL,2,1),
+  (148,4,0,NULL,2,1),
+  (149,1,0,0,NULL,1),
+  (150,2,0,0,NULL,2),
+  (157,4,6,NULL,2,1),
+  (158,5,6,NULL,2,0),
+  (159,6,6,NULL,2,0),
+  (160,7,6,NULL,2,0),
+  (161,8,6,NULL,2,0),
+  (163,5,0,NULL,2,1),
+  (164,5,0,NULL,1,1),
+  (165,6,0,NULL,2,1),
+  (166,7,0,0,NULL,1),
+  (167,8,0,0,NULL,1);
 
 COMMIT;
 
@@ -191,7 +178,11 @@ INSERT INTO `sys_access_actions` (`id`, `name`) VALUES
   (1,'edit'),
   (2,'delete'),
   (3,'view'),
-  (4,'create');
+  (4,'create'),
+  (5,'list'),
+  (6,'createFolder'),
+  (7,'editFolder'),
+  (8,'deleteFolder');
 
 COMMIT;
 
@@ -214,7 +205,8 @@ CREATE TABLE `sys_access_classes` (
 #
 
 INSERT INTO `sys_access_classes` (`id`, `name`, `module_id`) VALUES 
-  (1,'news',1);
+  (1,'news',1),
+  (2,'newsFolder',1);
 
 COMMIT;
 
@@ -237,7 +229,8 @@ CREATE TABLE `sys_access_classes_sections` (
 #
 
 INSERT INTO `sys_access_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,1,1);
+  (1,1,1),
+  (2,2,1);
 
 COMMIT;
 
@@ -264,7 +257,11 @@ INSERT INTO `sys_access_classes_sections_actions` (`id`, `class_section_id`, `ac
   (1,1,1),
   (2,1,2),
   (3,1,3),
-  (4,1,4);
+  (4,2,4),
+  (5,2,5),
+  (6,2,6),
+  (7,2,7),
+  (8,2,8);
 
 COMMIT;
 
@@ -401,7 +398,12 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (37),
   (38),
   (39),
-  (40);
+  (40),
+  (41),
+  (42),
+  (43),
+  (44),
+  (45);
 
 COMMIT;
 
@@ -424,8 +426,7 @@ CREATE TABLE `user_group` (
 
 INSERT INTO `user_group` (`id`, `obj_id`, `name`) VALUES 
   (1,14,'unauth'),
-  (2,15,'auth'),
-  (3,28,'bbb');
+  (2,15,'auth');
 
 COMMIT;
 
@@ -475,10 +476,7 @@ CREATE TABLE `user_usergroup_rel` (
 #
 
 INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
-  (1,1,1,50),
-  (10,2,2,29),
-  (14,3,2,32),
-  (22,3,1,40);
+  (1,1,1,50);
 
 COMMIT;
 

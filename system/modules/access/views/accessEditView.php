@@ -25,17 +25,23 @@ class accessEditView extends simpleView
 {
     private $groups;
     private $id;
+    private $usersExists;
+    private $groupsExist;
 
-    public function __construct($users, $groups, $id)
+    public function __construct($users, $groups, $id, $usersExists, $groupsExist)
     {
         parent::__construct($users);
         $this->groups = $groups;
         $this->id = $id;
+        $this->usersExists = $usersExists;
+        $this->groupsExist = $groupsExist;
     }
 
     public function toString()
     {
         $this->smarty->assign('users', $this->DAO);
+        $this->smarty->assign('usersExists', $this->usersExists);
+        $this->smarty->assign('groupsExists', $this->groupsExist);
         $this->smarty->assign('groups', $this->groups);
         $this->smarty->assign('id', $this->id);
         return $this->smarty->fetch('access.edit.tpl');

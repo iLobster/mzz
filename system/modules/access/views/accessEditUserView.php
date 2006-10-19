@@ -25,21 +25,25 @@ class accessEditUserView extends simpleView
 {
     private $actions;
     private $user;
+    private $users;
 
-    public function __construct($acl, $actions, $user)
+    public function __construct($acl, $actions, $user, $users = false)
     {
         $this->actions = $actions;
         $this->user = $user;
+        $this->users = $users;
         parent::__construct($acl);
     }
 
     public function toString()
     {
-        $this->smarty->assign('acl', $this->DAO->get());
+        $this->smarty->assign('acl', $this->DAO->get(null, true));
         $this->smarty->assign('user', $this->user);
+        $this->smarty->assign('users', $this->users);
         $this->smarty->assign('actions', $this->actions);
 
-        $this->response->setTitle('ACL -> объект ... -> ' . $this->user->getLogin());
+        $title = $this->httprequest->getAction() == 'editUser' ? $this->user->getLogin() : 'добавить пользователя';
+        $this->response->setTitle('ACL -> объект ... -> ' . $title);
 
         return $this->smarty->fetch('access.editUser.tpl');
     }

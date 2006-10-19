@@ -21,31 +21,41 @@
  */
 
 fileLoader::load('access/views/accessEditView');
-//fileLoader::load('access');
 
 class accessEditController extends simpleController
 {
     public function getView()
     {
-        /*if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
-            $id = $this->request->get('id', 'integer', SC_POST);
-        }*/
         $id = $this->request->get('id', 'integer', SC_PATH);
 
         $acl = new acl($this->toolkit->getUser(), $id);
         $users = $acl->getUsersList();
         $groups = $acl->getGroupsList();
 
-        //$accessMapper = $this->toolkit->getMapper('access', 'access', '');
-        //$acls = $accessMapper->searchByObjId($id);
+        $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
 
-        /*
-        foreach ($acls as $val) {
-            var_dump($val->getUser()->getLogin());
-            var_dump($val->getGroup()->getName());
-        }*/
+        $criterion = new criterion('a.uid', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true);
+        $criterion->addAnd(new criterion('a.obj_id', $id));
 
-        return new accessEditView($users, $groups, $id);
+        $criteria = new criteria();
+        $criteria->addJoin('sys_access', $criterion, 'a');
+        $criteria->add('a.uid', null, criteria::IS_NULL);
+
+        $usersNotAdded = $userMapper->searchAllByCriteria($criteria);
+
+
+        $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
+
+        $criterion = new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
+        $criterion->addAnd(new criterion('a.obj_id', $id));
+
+        $criteria = new criteria();
+        $criteria->addJoin('sys_access', $criterion, 'a');
+        $criteria->add('a.gid', null, criteria::IS_NULL);
+
+        $groupsNotAdded = $groupMapper->searchAllByCriteria($criteria);
+
+        return new accessEditView($users, $groups, $id, (bool)sizeof($usersNotAdded), (bool)sizeof($groupsNotAdded));
     }
 }
 

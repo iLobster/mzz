@@ -1,2 +1,2 @@
 {* main="popup.tpl" placeholder="content" *}
-{load module="access" action="editUser"}
+{load module="access" action="editGroup"}

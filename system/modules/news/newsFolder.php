@@ -49,7 +49,7 @@ class newsFolder extends simple
     public function getFolders()
     {
         if (!$this->fields->exists('folders')) {
-            $this->fields->set('folders', $this->mapper->getFolders($this->getId()));
+            $this->fields->set('folders', $this->mapper->getFolders($this->getParent()));
         }
         return $this->fields->get('folders');
     }
@@ -62,7 +62,7 @@ class newsFolder extends simple
     public function getItems()
     {
         if (!$this->fields->exists('items')) {
-            $this->fields->set('items', $this->mapper->getItems($this->getId()));
+            $this->fields->set('items', $this->mapper->getItems($this->getParent()));
         }
         return $this->fields->get('items');
     }
@@ -75,6 +75,11 @@ class newsFolder extends simple
     public function setPager($pager)
     {
         $this->mapper->setPager($pager);
+    }
+
+    public function getJip()
+    {
+        return $this->getJipView($this->name, $this->getPath(), get_class($this));
     }
 }
 

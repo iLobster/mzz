@@ -95,10 +95,10 @@ class userMapper extends simpleMapper
     public function getGroupsList($id)
     {
         $user = $this->searchById($id);
-        $groups = $user->getGroups($id);
+        $groups = $user->getGroups();
         $result = array();
         foreach ($groups as $group) {
-            $result[] = $group->getId();
+            $result[] = $group->getGroup()->getId();
         }
         return $result;
     }

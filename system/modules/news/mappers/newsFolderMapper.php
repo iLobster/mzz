@@ -125,7 +125,7 @@ class newsFolderMapper extends simpleMapper
             $newsMapper->delete($val->getId());
         }
 
-        $folders = $newsFolderMapper->getFolders($folder->getId());
+        $folders = $newsFolderMapper->getFolders($folder->getParent());
         foreach ($folders as $subfolder) {
             if ($id != $subfolder->getId()) {
                 $newsFolderMapper->delete($subfolder->getId());
@@ -133,8 +133,8 @@ class newsFolderMapper extends simpleMapper
 
         }
 
-        $this->tree->removeNode($folder->getParent());
         parent::delete($id);
+        $this->tree->removeNode($folder->getParent());
     }
 
     /**
