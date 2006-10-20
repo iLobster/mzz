@@ -215,7 +215,9 @@ class action
         if (!file_exists($filename)) {
             throw new mzzIoException($filename);
         }
-        return parse_ini_file($filename, true);
+        $action = parse_ini_file($filename, true);
+        $action['editACL'] = array('controller' => 'editACL', 'jip' => 1, 'title' => "<img src='/templates/images/acl.gif' width=16 height=16 border=0 />");
+        return $action;
     }
 
     /**

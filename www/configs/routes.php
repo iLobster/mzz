@@ -8,5 +8,6 @@ $router->addRoute('withId', new requestRoute(':section/:id/:action', array('acti
 $router->addRoute('newsActions', new requestRoute('news/:action', array('section' => 'news', 'name' => 'root', 'action' => 'list'), array('action' => '(?:list|createItem|delete|createFolder)')));
 $router->addRoute('userActions', new requestRoute('user/:action', array('section' => 'user'), array('action' => '(?:exit|list|create|groupsList|groupCreate)')));
 $router->addRoute('aclActions', new requestRoute('access/:id/:user_id/:action', array('section' => 'access'), array('id' => '\d+', 'user_id' => '\d+', 'action' => '(?:editUser|editGroup)')));
+$router->addRoute('aclDefault', new requestRoute('access/:id', array('section' => 'access', 'action' => 'edit'), array('id' => '\d+')));
 
 ?>

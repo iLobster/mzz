@@ -46,10 +46,10 @@ class newsCreateFolderForm
 
 
         $form->addRule('name', 'обязательное поле', 'required');
-        $form->addRule('name', 'только алфавитно-цифровые символы', 'regex', '/\w[\w\d_]+/');
+        $form->addRule('name', 'только алфавитно-цифровые символы', 'regex', '/[^\W\d][\w\d_]*/');
 
         $form->registerRule('isUniqueName', 'callback', 'createFolderValidate');
-        $form->addRule('name', 'имя должно быть уникально в пределах каталога', 'isUniqueName', array($folder, $newsFolderMapper));
+        $form->addRule('name', 'имя должно быть уникально в пределах каталога и содержать латинские буквы и цифры', 'isUniqueName', array($folder, $newsFolderMapper));
 
         $form->addElement('reset', 'reset', 'Сброс');
         $form->addElement('submit', 'submit', 'Сохранить');
@@ -60,6 +60,9 @@ class newsCreateFolderForm
 
 function createFolderValidate($name, $data)
 {
+    if (preg_match('/[^a-z0-9_\-]/i', $name)) {
+        return false;
+    }
     return is_null($data[1]->searchByPath($data[0] . '/' . $name));
 }
 

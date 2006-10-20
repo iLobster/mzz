@@ -69,12 +69,12 @@ class aclTest extends unitTestCase
 
     public function testGetAccessAll()
     {
-        $this->assertEqual($this->acl->get(), array('edit' => 0, 'delete' => 1));
+        $this->assertEqual($this->acl->get(), array('edit' => 1, 'delete' => 1));
     }
 
     public function testGetAccessPartial()
     {
-        $this->assertEqual($this->acl->get('edit'), 0);
+        $this->assertEqual($this->acl->get('edit'), 1);
         $this->assertEqual($this->acl->get('delete'), 1);
     }
 

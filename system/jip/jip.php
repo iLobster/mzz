@@ -53,6 +53,8 @@ class jip
      */
     private $actions;
 
+    private $obj_id;
+
     /**
      *  онструктор
      *
@@ -62,13 +64,14 @@ class jip
      * @param string $type тип
      * @param array $actions действи€ дл€ JIP
      */
-    public function __construct($section, $module, $id, $type, Array $actions)
+    public function __construct($section, $module, $id, $type, Array $actions, $obj_id)
     {
         $this->section = $section;
         $this->module = $module;
         $this->id = $id;
         $this->type = $type;
         $this->actions = $actions;
+        $this->obj_id = $obj_id;
     }
 
     /**
@@ -86,6 +89,15 @@ class jip
         return $url->get();
     }
 
+    private function buildACLUrl($obj_id)
+    {
+        $url = new url();
+        $url->setSection('access');
+        $url->setAction('edit');
+        $url->addParam($obj_id);
+        return $url->get();
+    }
+
     /**
      * √енерирует массив JIP из названи€ и ссылки дл€ действи€ модул€
      *
@@ -97,7 +109,7 @@ class jip
         $result = array();
         foreach ($this->actions as $key => $item) {
             $result[] = array(
-            'url' => $this->buildUrl($key),
+            'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
             'title' => $item['title'],
             'id' => $this->section . '_' . $this->module . '_' . $this->id . '_' . $item['controller'],
             'confirm' => $item['confirm'],

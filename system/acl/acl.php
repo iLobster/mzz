@@ -137,18 +137,25 @@ class acl
             }
             $grp = substr($grp, 0, -2);
 
-            $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
-                     INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
-                      INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
-                       WHERE `a`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
+            $qry = 'SELECT MAX(`access`) AS `access`, `name` FROM (
+
+                    (SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
+                                         INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
+                                          INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
+                                           WHERE `a`.`obj_id` = :obj_id AND `a`.`uid` = :uid
+                                            GROUP BY `a`.`class_section_action`)';
 
             if (sizeof($this->groups) && !$clean) {
-                $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
+                $qry .= 'UNION
+                                    (SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
+                                     INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
+                                      INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
+                                       WHERE `a`.`obj_id` = :obj_id AND `a`.`gid` IN (' . $grp . ')
+                                        GROUP BY `a`.`class_section_action`)';
             }
 
-            $qry .= ')';
-
-            $qry .= ' GROUP BY `a`.`class_section_action`';
+            $qry .= ') `x`
+            GROUP BY `x`.`name`';
 
             $stmt = $this->db->prepare($qry);
 
@@ -159,7 +166,7 @@ class acl
             $this->result[$this->obj_id][$clean] = array();
 
             while ($row = $stmt->fetch()) {
-                $this->result[$this->obj_id][$clean][$row['name']] = $row['access'];
+                $this->result[$this->obj_id][$clean][$row['name']] = (bool)$row['access'];
             }
         }
 
@@ -176,10 +183,10 @@ class acl
             $this->initDb();
 
             $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
-                     INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
-                      INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
-                       WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
-                        GROUP BY `a`.`class_section_action`';
+            INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
+            INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
+            WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
+            GROUP BY `a`.`class_section_action`';
             $stmt = $this->db->query($qry);
 
             $this->resultGroups[$this->obj_id] = array();
@@ -235,10 +242,10 @@ class acl
 
         // выбираем все корректные экшны для данного ДО
         $qry = 'SELECT DISTINCT `aa`.`name`, `csa2`.`id` FROM `sys_access` `a`
-                 INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`id` = `a`.`class_section_action`
-                  INNER JOIN `sys_access_classes_sections_actions` `csa2` ON `csa2`.`class_section_id` = `csa`.`class_section_id`
-                   INNER JOIN `sys_access_actions` `aa` ON `aa`.`id` = `csa2`.`action_id`
-                    WHERE `a`.`obj_id` = ' . $this->obj_id;
+            INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`id` = `a`.`class_section_action`
+            INNER JOIN `sys_access_classes_sections_actions` `csa2` ON `csa2`.`class_section_id` = `csa`.`class_section_id`
+            INNER JOIN `sys_access_actions` `aa` ON `aa`.`id` = `csa2`.`action_id`
+            WHERE `a`.`obj_id` = ' . $this->obj_id;
         $stmt = $this->db->query($qry);
         $validActions = $stmt->fetchAll();
 

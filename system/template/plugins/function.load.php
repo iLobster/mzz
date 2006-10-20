@@ -63,7 +63,8 @@ function smarty_function_load($params, $smarty)
     $mappername = $action->getType() . 'Mapper';
     $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
 
-
+    //$object_id = $mapper->convertArgsToId($request->getParams());
+    //$acl = new acl($toolkit->getUser(), )
     /*
     $object_id = $mapper->convertArgsToId($request->getParams());
 

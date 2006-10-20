@@ -189,7 +189,7 @@ abstract class simple
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getAction($module);
         $request = $toolkit->getRequest();
-        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type));
+        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId());
         return $jip->draw();
     }
 

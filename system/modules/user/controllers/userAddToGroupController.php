@@ -69,6 +69,7 @@ class userAddToGroupController extends simpleController
             $users = array();
 
             if (!is_null($filter)) {
+                file_put_contents('c:/q', $filter);
                 $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
                 $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
 
