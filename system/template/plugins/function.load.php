@@ -53,11 +53,11 @@ function smarty_function_load($params, $smarty)
     if(isset($params['args'])) {
         $section = $request->getSection();
         $request->setParams(explode('/', $params['args']));
-        $request->setParam('section', $section);
+        $request->setSection($section);
     }
 
     if(!empty($params['section'])) {
-        $request->setParam('section', $params['section']);
+        $request->setSection($params['section']);
     }
 
     $mappername = $action->getType() . 'Mapper';

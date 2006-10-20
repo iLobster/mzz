@@ -203,6 +203,16 @@ class httpRequest implements iRequest
     }
 
     /**
+     * Устанавливает текущую секцию
+     *
+     * @param string $section
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
+    }
+
+    /**
      * Возвращает текущее действие
      *
      * @return string
@@ -210,6 +220,16 @@ class httpRequest implements iRequest
     public function getAction()
     {
         return $this->action;
+    }
+
+    /**
+     * Устанавливает текущее действие
+     *
+     * @param string $action
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
     }
 
     /**
@@ -234,11 +254,11 @@ class httpRequest implements iRequest
     public function setParams(Array $params)
     {
         if (isset($params['section'])) {
-            $this->section = $params['section'];
+            $this->setSection($params['section']);
             unset($params['section']);
         }
         if (isset($params['action'])) {
-            $this->action = $params['action'];
+            $this->setAction($params['action']);
             unset($params['action']);
         }
         $this->params = new arrayDataspace($params);

@@ -164,7 +164,7 @@ class newsFolderMapperTest extends unitTestCase
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
-        $request->setParam('section', 'news');
+        $request->setSection('news');
 
         $this->fixture($this->mapper, $this->map);
 
