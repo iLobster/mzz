@@ -28,8 +28,8 @@ Sample usage:
     > createaction.php news edit
     Creates action edit for news type object:
         - adds new section into actions/news.ini
-        - creates controllers/news.edit.controller.php
-        - creates views/news.edit.view.php');
+        - creates controllers/newsEditController.php
+        - creates views/newsEditView.php');
         }
 
         define('CODEGEN', dirname(__FILE__));
