@@ -4,7 +4,7 @@
 $router->addRoute('nameOfRule', new requestRoute('/:section/:action'));
 <</code>>
 <<note>>Проверка на совпадение с правилом выполняется в обратном порядке.<</note>>
-Если запрашиваемый URL <code>example.com/foo/bar</code>, то он совпадет с шаблоном (в нашем примере шаблоном является <code>/:section/:action</code>, где <code>:section</code> и <code>:action</code> - placeholderЖы) и выполнится декомпозиция его. Ключи ассоциативного массива - имена placeholder-ов. Значения - <code>foo</code> и <code>bar</code> соответственно.</p>
+Если запрашиваемый URL <code>example.com/foo/bar</code>, то он совпадет с шаблоном (в нашем примере шаблоном является <code>/:section/:action</code>, где <code>:section</code> и <code>:action</code> - placeholderы) и выполнится его декомпозиция. Ключи ассоциативного массива - имена placeholder-ов. Значения - <code>foo</code> и <code>bar</code> соответственно.</p>
 
 <<note>>Имена placeholder-ов могут состоять только из латинских букв и знака подчеркивания ("_").<</note>>
 
