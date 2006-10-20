@@ -65,11 +65,25 @@ class httpRequest implements iRequest
     protected $savedParams;
 
     /**
-     * Params
+     * Параметры
      *
      */
     protected $params = array();
     /**#@-*/
+
+    /**
+     * Секция
+     *
+     * @var string
+     */
+    protected $section;
+
+    /**
+     * Действие
+     *
+     * @var string
+     */
+    protected $action;
 
     /**
      * Конструктор.
@@ -185,12 +199,17 @@ class httpRequest implements iRequest
      */
     public function getSection()
     {
-        return $this->get('section', 'mixed', SC_PATH);
+        return $this->section;
     }
 
+    /**
+     * Возвращает текущее действие
+     *
+     * @return string
+     */
     public function getAction()
     {
-        return $this->get('action', 'mixed', SC_PATH);
+        return $this->action;
     }
 
     /**
@@ -208,12 +227,20 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Установка массива параметров
+     * Установка секции, действия и массива параметров
      *
      * @param array $params
      */
     public function setParams(Array $params)
     {
+        if (isset($params['section'])) {
+            $this->section = $params['section'];
+            unset($params['section']);
+        }
+        if (isset($params['action'])) {
+            $this->action = $params['action'];
+            unset($params['action']);
+        }
         $this->params = new arrayDataspace($params);
     }
 
