@@ -6,8 +6,49 @@
 {include file='include.css.tpl'}
 {include file='include.js.tpl'}
 {$xajax_js|default:''}
+
+{literal}
+<script language="JavaScript">
+document.onkeydown = proccessKey;
+
+function proccessKey(key) {
+	var code;
+	if (!key) key = window.event;
+	if (key.keyCode) code = key.keyCode;
+	else if (key.which) code = key.which;
+	if (code == 27) hideJip();
+}
+
+function showJip(url)
+{
+        xajaxRequestUri=url;
+	if (document.getElementById('jip')) {
+		document.getElementById('jip').style.display = 'block';
+                xajax_tostring();
+		return false;
+	}
+	return true;
+}
+
+function hideJip()
+{
+	if(document.getElementById('jip')) {
+             document.getElementById('jip').style.display = 'none';
+        }
+	return false;
+}
+
+</script>
+{/literal}
+
 </head>
 <body>
+
+<div id="jip">
+Загрузка
+<input type="button" value="Закрыть" onClick="hideJip()">
+</div>
+
 <p class="title">{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION})</p>
 
 <div class="separator">&nbsp;</div>
@@ -15,6 +56,7 @@
 {$content}
 <p />
 {load module="user" action="login" args="1" section="user"}
+<a onclick="return showJip();">Показать JIP</a>
 <div class="separator">&nbsp;</div>
 {load module="timer" action="view" section="timer"}
 </body>

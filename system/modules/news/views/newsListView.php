@@ -26,8 +26,9 @@ class newsListView extends simpleView
     {
         //$this->newsFolderMapper = $newsFolderMapper;
         parent::__construct($news);
-
         $this->config = $this->toolkit->getConfig($this->httprequest->getSection(), 'news');
+        $this->xajaxInit();
+
     }
 
     public function toString()

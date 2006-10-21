@@ -40,7 +40,7 @@ class newsEditForm
         $form->addElement('text', 'title', 'Имя:', 'size=30');
         $form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');
 
-        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: window.close();\'');
+        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: hideJip();"');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }

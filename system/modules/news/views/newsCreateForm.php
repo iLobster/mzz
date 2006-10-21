@@ -36,7 +36,7 @@ class newsCreateForm
 
 
         //$form->addElement('hidden', 'path', $url->get());
-        $form->addElement('reset', 'reset', '—брос');
+        $form->addElement('reset', 'reset', '—брос', 'onclick="javascript: hideJip();"');
         $form->addElement('submit', 'submit', '—охранить');
         return $form;
     }

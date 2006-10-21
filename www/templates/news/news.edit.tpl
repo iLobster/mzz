@@ -1,5 +1,5 @@
 <form {$form.attributes}>
-<table border="0" cellpadding="0" cellspacing="1" width="100%">
+<table border="0" cellpadding="0" cellspacing="1" align="center">
     <tr>
         <td><b>ID:</b> {$news->getId()}</td>
         <td>{$form.title.label} {$form.title.html}</td>
