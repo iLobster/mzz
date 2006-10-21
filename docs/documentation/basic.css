@@ -55,7 +55,7 @@ a {
 .subtitle {
  font-size: 100%;
  font-weight: bold;
- margin-top: 30px;
+ margin-top: 40px;
  margin-bottom: -12px;
 }
 
@@ -64,22 +64,23 @@ code, pre {
 }
 
 div.code {
-  background-color: #F1F1F1;
+  background-color: #FAFAFA;
   padding: 14px 14px;
   overflow:auto;
   margin: 10px 0px;
+  border-left: 5px solid #F0F0F0;
 }
 
 div.note {
-  margin: 10px;
+  margin: 14px;
 }
 
 div.options_name {
   color: #2572B8;
   width: 80%;
-  background-color: #F6F6F6;
+  /*background-color: #F6F6F6;*/
   text-align: left;
-  padding: 6px;
+  padding: 5px;
   border-bottom: 1px solid #ECECEC;
   font-weight: bold;
 }

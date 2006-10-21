@@ -31,12 +31,8 @@ function render($id) {
 <div class="note">
 <table border="0" summary="note">
 <tr>
-<td rowspan="2" width="50"><img alt="примечание" src="note.png" width="40" height="49" /></td>
-<td><strong>Примечание</strong></td>
-</tr>
-<tr>
-<td valign="top">';
-
+<td valign="top" width="30"><img alt="примечание" src="note.png" width="27" height="33" /></td>
+<td valign="top"><strong>Примечание</strong><br />';
 
     $note_end = '</td>
 </tr>
@@ -84,7 +80,6 @@ function checkFile($num) {
 $menu = array("Предисловие" =>
                         array(
                         "Введение",
-                        "Краткое руководство (faq?)",
                         ),
            "Установка и настройка" =>
                         array(
@@ -92,9 +87,8 @@ $menu = array("Предисловие" =>
                         "Установка на linux",
                         "Установка на windows",
                         "Конфигурация"
-                                => array("Системная конфигурация (? настройка config.php)",
-                                         "Настройка Routes для URL",
-                                         "Описание map (?)"),
+                                => array("Системная конфигурация проекта",
+                                         "Настройка Routes для URL"),
                         ),
            "Структура mzz" =>
                         array(
