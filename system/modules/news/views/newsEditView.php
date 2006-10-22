@@ -20,6 +20,7 @@
 class newsEditView extends simpleView
 {
     private $form;
+    private $sended = false;
 
     public function __construct($news, $form)
     {
@@ -30,7 +31,7 @@ class newsEditView extends simpleView
 
     public function toString()
     {
-        $objResponse = new xajaxResponse();
+        if (!$this->sended) {
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
         $this->form->accept($renderer);
 
@@ -38,9 +39,15 @@ class newsEditView extends simpleView
         $this->smarty->assign('news', $this->DAO);
 
         $this->response->setTitle('Новости -> Редактирование -> ' . $this->DAO->getTitle());
-        //return $this->smarty->fetch('news.edit.tpl');
+        $this->sended = true;
+        return $this->smarty->fetch('news.edit.tpl');
+        }
+    }
 
-        $objResponse->addAssign("jip","innerHTML", $this->smarty->fetch('news.edit.tpl'));
+    public function toXML() 
+    {
+        $objResponse = new xajaxResponse;
+        $objResponse->addAssign("jip","innerHTML", $this->toString());
         return $objResponse;
     }
 }

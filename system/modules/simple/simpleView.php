@@ -65,13 +65,6 @@ abstract class simpleView
         $this->smarty = $this->toolkit->getSmarty();
         $this->response = $this->toolkit->getResponse();
         $this->httprequest = $this->toolkit->getRequest();
-        fileLoader::load("libs/xajax/xajax.inc");
-
-        $xajax = new xajax();
-        $xajax->registerFunction(array("tostring", $this, 'toString'), XAJAX_GET);
-
-        $this->smarty->assign('xajax_js', $xajax->getJavascript('/templates/'));
-        $xajax->processRequests();
     }
 
     public function xajaxInit()
@@ -79,7 +72,8 @@ abstract class simpleView
         fileLoader::load("libs/xajax/xajax.inc");
 
         $xajax = new xajax();
-        $xajax->registerFunction(array("tostring", $this, 'toString'), XAJAX_GET);
+        $xajax->exitAllowedOff();
+        $xajax->registerFunction(array("tostring", $this, 'toXML'), XAJAX_GET);
 
         $this->smarty->assign('xajax_js', $xajax->getJavascript('/templates/'));
         $xajax->processRequests();
