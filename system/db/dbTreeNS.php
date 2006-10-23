@@ -63,8 +63,9 @@ class dbTreeNS
      *
      * @var string
      */
-    private $rowID, $dataID, $treeID;
-
+    private $rowID;
+    private $dataID;
+    private $treeID;
     /**
      * Если true, то используется режим корректировки пути при выборки ветки на его основе
      * Включение режима увеличивает количество запросов на 1
@@ -84,24 +85,23 @@ class dbTreeNS
         $this->db = DB::factory();
         $this->setInnerField($innerField);
 
-        # данные о таблице с деревом
+        // данные о таблице с деревом
         $this->table = $init['tree']['table']; // as tree
 
         $this->treeID = $treeID = $init['tree']['id'];
 
-        # данные о таблице с данными
-        $this->dataTable = isset($init['data']['table'])?$init['data']['table']:null; //as data
+        // данные о таблице с данными
+        $this->dataTable = isset($init['data']['table']) ? $init['data']['table'] : null; //as data
 
         $this->dataID = isset($init['data']['id']) ? $init['data']['id'] : 'id';
 
         $this->rowID = is_null($this->dataID) ? $this->treeID : $this->dataID;
 
 
-        if(!is_null($this->dataTable)) {
+        if (!is_null($this->dataTable)) {
             $this->selectPart = '`data`.*';
             $this->innerPart = ' JOIN ' . $this->dataTable . ' `data` ON `data`.' . $this->dataID . ' = `tree`.' . $this->treeID . ' ';
-        }
-        else {
+        } else {
             $this->selectPart = '*';
             $this->innerPart = '';
         }
@@ -135,7 +135,9 @@ class dbTreeNS
      */
     public function setInnerField($tableField)
     {
-        if(!(is_string($tableField) && strlen($tableField))) return false;
+        if (!(is_string($tableField) && strlen($tableField))) {
+            return false;
+        }
         $this->innerField = $tableField;
     }
 
@@ -188,10 +190,12 @@ class dbTreeNS
     public function createPathFromTreeByID($id)
     {
         $parentBranch = $this->getParentBranch($id, 99999999);
-        if(!is_array($parentBranch)) return null;
+        if (!is_array($parentBranch)) {
+            return null;
+        }
 
         $path = '';
-        foreach($parentBranch as $node) {
+        foreach ($parentBranch as $node) {
             $path .= $node[$this->innerField] . '/';
         }
         return substr($path, 0, -1);
@@ -219,11 +223,10 @@ class dbTreeNS
      */
     protected function getBranchStmt($withRootNode = true)
     {
-        if($withRootNode) {
+        if ($withRootNode) {
             $less = '<=';
             $more = '>=';
-        }
-        else {
+        } else {
             $less = '<';
             $more = '>';
         }
@@ -246,11 +249,11 @@ class dbTreeNS
     protected function createBranchFromRow($stmt)
     {
         $branch = array();
-        while($row = $stmt->fetch()) {
+        while ($row = $stmt->fetch()) {
             $branch[$row[$this->rowID]] = $row;
         }
 
-        if(count($branch)) {
+        if (!empty($branch)) {
             return $branch;
         } else {
             return null;
@@ -289,7 +292,7 @@ class dbTreeNS
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        if($row = $stmt->fetch()) {
+        if ($row = $stmt->fetch()) {
             return $row;
         } else {
             return null;
@@ -306,7 +309,7 @@ class dbTreeNS
     public function getBranch($id, $level = 999999999)
     {
         $rootBranch = $this->getNodeInfo($id);
-        if(!$rootBranch) {
+        if (!$rootBranch) {
             return null;
         }
 
@@ -331,7 +334,7 @@ class dbTreeNS
     public function getParentBranch($id, $level = 1)
     {
         $lowerChild = $this->getNodeInfo($id);
-        if(!$lowerChild) {
+        if (!$lowerChild) {
             return null;
         }
         $highLevel = $lowerChild['level'] - $level;
@@ -359,7 +362,9 @@ class dbTreeNS
     public function getBranchContainingNode($id)
     {
         $node = $this->getNodeInfo($id);
-        if(!$node) return null;
+        if (!$node) {
+            return null;
+        }
 
         $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
         ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
@@ -381,15 +386,15 @@ class dbTreeNS
      */
     public function getBranchByPath($path, $deep = 1)
     {
-        if($this->correctPathMode) {
+        if ($this->correctPathMode) {
             // убираем части пути несуществующие в таблице
             $rewritedPath = $this->getPathVariants($path);
 
         } else {
             // простая проверка на правильность пути, убираем лишние слэши
             $pathParts = explode('/', trim($path));
-            foreach($pathParts as $key => $part) {
-                if(strlen($part) == 0 ) {
+            foreach ($pathParts as $key => $part) {
+                if (strlen($part) == 0 ) {
                     unset($pathParts[$key]);
                 }
             }
@@ -400,8 +405,10 @@ class dbTreeNS
         $query = '';
         $queryTemplate = ' SELECT *  FROM ' . $this->table . ' `tree` ' . $this->innerPart . ' WHERE ';
 
-        foreach($rewritedPath as $pathVariant) {
-            if(strlen($pathVariant) == 0) continue;
+        foreach ($rewritedPath as $pathVariant) {
+            if (strlen($pathVariant) == 0) {
+                continue;
+            }
             $query .= $queryTemplate . "`data`.`path` = '" . $pathVariant . "' UNION ";
         }
         $query = substr($query, 0, -6) ;
@@ -435,7 +442,9 @@ class dbTreeNS
     public function getParentNode($id)
     {
         $node = $this->getNodeInfo($id);
-        if(!$node){ return null; }
+        if (!$node) {
+            return null;
+        }
 
         $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
         ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
@@ -450,7 +459,7 @@ class dbTreeNS
         $stmt->execute();
         $row = $stmt->fetch();
 
-        if($row) {
+        if ($row) {
             return $row;
         } else {
             return null;
@@ -465,7 +474,9 @@ class dbTreeNS
      */
     public function insertNode($id)
     {
-        if($id == 0) return $this->insertRootNode();
+        if ($id == 0) {
+            return $this->insertRootNode();
+        }
 
         $parentNode = $this->getNodeInfo($id);
 
@@ -488,7 +499,9 @@ class dbTreeNS
         'rkey'  => $parentNode['rkey'] + 1,
         'level' => $parentNode['level'] + 1);
 
-        if(!isset($this->dataTable)) return $newNode;
+        if (!isset($this->dataTable)) {
+            return $newNode;
+        }
 
         // обновление путей в таблице данных
         $this->updatePath($newNode['id']);
@@ -519,7 +532,7 @@ class dbTreeNS
         'level' => 1);
 
         // обновление путей в таблице данных
-        if($this->dataTable) {
+        if ($this->dataTable) {
             $rootPath = $this->updatePath($newRootNode['id']);
             $this->db->exec(' UPDATE ' . $this->dataTable . ' SET `path` = CONCAT_WS("/", "' . $rootPath . '", path) WHERE ' .$this->dataID . '<>' . $newRootNode['id']);
         }
@@ -536,15 +549,11 @@ class dbTreeNS
      */
     public function removeNode($id)
     {
-        if($this->dataTable) {
-
+        if ($this->dataTable) {
             $stmt = $this->db->prepare(' DELETE  tree, data FROM  ' . $this->dataTable . ' data, ' . $this->table . ' tree ' .
             ' WHERE data.' . $this->dataID . ' = tree.' . $this->treeID . ' AND tree.lkey>= :lkey AND tree.rkey<= :rkey');
-
         } else {
-
             $stmt = $this->db->prepare(' DELETE FROM ' . $this->table . ' WHERE lkey>= :lkey AND rkey<= :rkey');
-
         }
 
         $node = $this->getNodeInfo($id);
@@ -561,7 +570,7 @@ class dbTreeNS
         $stmt->bindParam(':val', $v = $node['rkey'] - $node['lkey'] + 1, PDO::PARAM_INT);
         $stmt->execute();
 
-        if(!$stmt->errorCode()) {
+        if (!$stmt->errorCode()) {
             return true;
         } else {
             return false;
@@ -580,7 +589,7 @@ class dbTreeNS
         $node1 = $this->getNodeInfo($id1);
         $node2 = $this->getNodeInfo($id2);
 
-        if(!$node1 || !$node2 || $node1 == $node2) {
+        if (!$node1 || !$node2 || $node1 == $node2) {
             return false;
         }
 
@@ -588,11 +597,11 @@ class dbTreeNS
         ' SET lkey = :lkey, rkey = :rkey, level = :level' .
         ' WHERE id = :id');
 
-        foreach(array($id1 => $node2, $id2 => $node1) as $id => $node) {
+        foreach (array($id1 => $node2, $id2 => $node1) as $id => $node) {
             $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
             $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
             $stmt->bindParam(':level',$node['level'],PDO::PARAM_INT);
-            $stmt->bindParam(':id',   $id,           PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
         }
     }
@@ -606,12 +615,16 @@ class dbTreeNS
      */
     public function moveNode($id, $parentId)
     {
-        $node       = $this->getNodeInfo($id);
+        $node = $this->getNodeInfo($id);
         $parentNode = $this->getNodeInfo($parentId);
 
-        if ( $id == $parentId ) return false;
-        if ( !$node || !$parentNode ) return false;
-        if($parentNode['lkey'] >= $node['lkey'] && $parentNode['lkey'] <= $node['rkey']) return false;
+        if ($id == $parentId || (!$node || !$parentNode)) {
+            return false;
+        }
+
+        if ($parentNode['lkey'] >= $node['lkey'] && $parentNode['lkey'] <= $node['rkey']) {
+            return false;
+        }
 
         $level_up = ($notRoot = $parentNode['level'] != 1 ) ? $parentNode['level'] : 0;
 
@@ -619,7 +632,7 @@ class dbTreeNS
         "SELECT (rkey - 1) AS rkey FROM " . $this->table . " WHERE id = " . $parentId :
         "SELECT MAX(rkey) as rkey FROM " . $this->table;
 
-        if ($row = $this->db->getRow($query) ) {
+        if ($row = $this->db->getRow($query)) {
             $rkey = $row['rkey'];
             $right_key_near = $rkey;
             $skew_level = $level_up - $node['level'] + 1;
@@ -632,10 +645,10 @@ class dbTreeNS
             $stmt->execute();
 
             $id_edit = '';
-            while ( $row = $stmt->fetch() ) {
-                $id_edit .= ( $id_edit != '' ) ? ', ' : '';
+            while ($row = $stmt->fetch()) {
+                $id_edit .= ($id_edit != '') ? ', ' : '';
                 $id_edit .= $row['id'];
-            };
+            }
 
             if ( $node['rkey'] > $right_key_near ) {
                 $skew_edit = $right_key_near - $node['lkey'] + 1;
@@ -687,16 +700,17 @@ class dbTreeNS
             }
 
             // обновление путей в таблице данных
-            if($this->dataTable) {
+            if ($this->dataTable) {
                 $movedBranch = $this->getBranch($parentId);
 
                 $oldPathToRootNodeOfBranch = $movedBranch[$id]['path'];
                 $newPathToRootNodeOfBranch = $this->updatePath($id);
 
                 $idSet = '(';
-                foreach($movedBranch as $i =>$node) {
-                    if($i == $parentId) continue;
-                    if($i == $id) continue;
+                foreach ($movedBranch as $i =>$node) {
+                    if ($i == $parentId || $i == $id) {
+                        continue;
+                    }
                     $idSet .= $i . ',';
                 }
 
@@ -732,8 +746,10 @@ class dbTreeNS
         $queryTemplate = ' SELECT *  FROM ' . $this->table . ' `tree` ' . $this->innerPart . ' WHERE ';
         $query = '';
 
-        foreach($pathParts as $pathPart) {
-            if(strlen($pathPart) == 0) continue;
+        foreach ($pathParts as $pathPart) {
+            if (strlen($pathPart) == 0) {
+                continue;
+            }
             $query .= $queryTemplate . '`' . $this->innerField . "` = '" . $pathPart . "' UNION ";
         }
 
@@ -744,8 +760,8 @@ class dbTreeNS
         $existNodes = $stmt->fetchAll();
 
         $rewritedPath = array();
-        foreach($existNodes as $i => $node) {
-            if($i == 0) {
+        foreach ($existNodes as $i => $node) {
+            if ($i == 0) {
                 $rewritedPath[$i] = $node[$this->innerField];
             } else {
                 $rewritedPath[$i] = $rewritedPath[$i - 1] . '/' . $node[$this->innerField];
@@ -763,7 +779,7 @@ class dbTreeNS
      */
     public function createPathField()
     {
-        if(strlen($this->dataTable)) {
+        if (strlen($this->dataTable)) {
             $this->db->query('ALTER TABLE ' . $this->dataTable . ' ADD `path` char(255)');
         }
     }
