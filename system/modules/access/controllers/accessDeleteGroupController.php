@@ -26,6 +26,14 @@ class accessDeleteGroupController extends simpleController
 {
     public function getView()
     {
+        if (($obj_id = $this->request->get('id', 'integer', SC_PATH)) != null) {
+            $group_id = $this->request->get('user_id', 'integer', SC_PATH);
+
+
+            $acl = new acl($this->toolkit->getUser(), $obj_id);
+            $acl->deleteGroup($group_id);
+        }
+
         return new accessDeleteGroupView();
     }
 }

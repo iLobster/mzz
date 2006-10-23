@@ -26,6 +26,14 @@ class accessDeleteUserController extends simpleController
 {
     public function getView()
     {
+        if (($obj_id = $this->request->get('id', 'integer', SC_PATH)) != null) {
+            $user_id = $this->request->get('user_id', 'integer', SC_PATH);
+
+
+            $acl = new acl($this->toolkit->getUser(), $obj_id);
+            $acl->deleteUser($user_id);
+        }
+
         return new accessDeleteUserView();
     }
 }

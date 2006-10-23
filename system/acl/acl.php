@@ -109,6 +109,8 @@ class acl
         $this->obj_id = $object_id;
         $this->uid = $user->getId();
         $this->groups = $user->getGroupsList();
+
+        $this->db = db::factory($this->alias);
     }
 
     /**
@@ -128,7 +130,6 @@ class acl
     public function get($param = null, $clean = false)
     {
         if (empty($this->result[$this->obj_id][$clean])) {
-            $this->initDb();
 
             $grp = '';
 
@@ -177,16 +178,37 @@ class acl
         }
     }
 
+    public function deleteGroup($gid)
+    {
+        $gid = (int)$gid;
+
+        if ($gid <= 0) {
+            throw new mzzRuntimeException("Идентификатор группы должен (gid = '" . $gid . "')быть >= 1");
+        }
+
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `gid` = ' .  (int)$gid);
+    }
+
+    public function deleteUser($uid)
+    {
+        $uid = (int)$uid;
+
+        if ($uid <= 0) {
+            throw new mzzRuntimeException("Идентификатор пользователя должен (uid = '" . $uid . "')быть >= 1");
+        }
+
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `uid` = ' .  (int)$uid);
+    }
+
     public function getForGroup($gid)
     {
         if (empty($this->resultGroups[$this->obj_id])) {
-            $this->initDb();
 
             $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
-            INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
-            INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
-            WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
-            GROUP BY `a`.`class_section_action`';
+                     INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
+                      INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
+                       WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
+                        GROUP BY `a`.`class_section_action`';
             $stmt = $this->db->query($qry);
 
             $this->resultGroups[$this->obj_id] = array();
@@ -201,8 +223,6 @@ class acl
 
     public function getUsersList()
     {
-        $this->initDb();
-
         $toolkit = systemToolkit::getInstance();
         $userMapper = $toolkit->getMapper('user', 'user', 'user', $this->alias);
 
@@ -216,8 +236,6 @@ class acl
 
     public function getGroupsList()
     {
-        $this->initDb();
-
         $toolkit = systemToolkit::getInstance();
         $groupMapper = $toolkit->getMapper('user', 'group', 'user', $this->alias);
 
@@ -238,14 +256,12 @@ class acl
      */
     public function set($param, $value = null, $group_id = 0)
     {
-        $this->initDb();
-
         // выбираем все корректные экшны для данного ДО
-        $qry = 'SELECT DISTINCT `aa`.`name`, `csa2`.`id` FROM `sys_access` `a`
-            INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`id` = `a`.`class_section_action`
-            INNER JOIN `sys_access_classes_sections_actions` `csa2` ON `csa2`.`class_section_id` = `csa`.`class_section_id`
-            INNER JOIN `sys_access_actions` `aa` ON `aa`.`id` = `csa2`.`action_id`
-            WHERE `a`.`obj_id` = ' . $this->obj_id;
+        $qry = 'SELECT `a`.`name`, `a`.`id` FROM `sys_access_registry` `r`
+                 INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                  INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`class_section_id` = `cs`.`id`
+                   INNER JOIN `sys_access_actions` `a` ON `a`.`id` = `csa`.`action_id`
+                    WHERE `r`.`obj_id` = ' . $this->obj_id;
         $stmt = $this->db->query($qry);
         $validActions = $stmt->fetchAll();
 
@@ -331,10 +347,12 @@ class acl
             throw new mzzInvalidParameterException('Свойство $section не установлено или имеет тип, отличный от string', $this->section);
         }
 
-        $this->initDb();
-
         $qry = $this->getQuery();
         $this->doRoutine($qry, $obj_id);
+
+        $id = $this->getClassSection($this->class, $this->section);
+
+        $this->db->query('INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (' . $this->obj_id . ', ' . $id . ')');
     }
 
     /**
@@ -345,42 +363,59 @@ class acl
      */
     public function delete($obj_id = 0)
     {
-        $this->initDb();
-
         if (!$obj_id) {
             $obj_id = $this->obj_id;
         }
 
         $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . (int)$obj_id);
+        $this->db->query('DELETE FROM `sys_access_registry` WHERE `obj_id` = ' . (int)$obj_id);
     }
 
     public function getClass()
     {
-        $this->initDb();
-
-        $qry = 'SELECT DISTINCT `c`.`name` FROM `sys_access` `a`
-                 INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`id` = `a`.`class_section_action`
-                  INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `csa`.`class_section_id`
-                   INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                    WHERE `obj_id` = ' . $this->obj_id;
-        $stmt = $this->db->query($qry);
-        $res = $stmt->fetch();
-        return $res['name'];
+        $qry = 'SELECT `c`.`name` FROM `sys_access_registry` `r`
+                 INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                  INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                   WHERE `r`.`obj_id` = ' . $this->obj_id;
+        return $this->db->getOne($qry);
     }
 
     public function getModule()
     {
-        $this->initDb();
+        $qry = 'SELECT `m`.`name` FROM `sys_access_registry` `r`
+                 INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                  INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                   INNER JOIN `sys_access_modules` `m` ON `m`.`id` = `c`.`module_id`
+                    WHERE `r`.`obj_id` = ' . $this->obj_id;
+        return $this->db->getOne($qry);
+    }
 
-        $qry = 'SELECT DISTINCT `m`.`name` FROM `sys_access` `a`
-                 INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`id` = `a`.`class_section_action`
-                  INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `csa`.`class_section_id`
-                   INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                    INNER JOIN `sys_access_modules` `m` ON `m`.`id` = `c`.`module_id`
-                     WHERE `obj_id` = ' . $this->obj_id;
-        $stmt = $this->db->query($qry);
-        $res = $stmt->fetch();
-        return $res['name'];
+    private function getClassSection($class, $section)
+    {
+        $qry = "SELECT `cs`.`id` FROM `sys_access_classes_sections` `cs`
+                 INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                  INNER JOIN `sys_access_sections` `s` ON `s`.`id` = `cs`.`section_id`
+                   WHERE `c`.`name` = " . $this->db->quote($class) . " AND `s`.`name` = " . $this->db->quote($section);
+        $id = $this->db->getOne($qry);
+
+        if (is_null($id)) {
+            $section_id = $this->db->getOne('SELECT `id` FROM `sys_access_sections` WHERE `name` = ' . $this->db->quote($section));
+            if (is_null($section_id)) {
+                $this->db->query('INSERT INTO `sys_access_sections` (`name`) VALUES (' . $this->db->quote($section) . ')');
+                $section_id = $this->db->lastInsertId();
+            }
+
+            $class_id = $this->db->getOne('SELECT `id` FROM `sys_access_classes` WHERE `name` = ' . $this->db->quote($class));
+
+            if (is_null($class_id)) {
+                throw new mzzRuntimeException('Класс <i>' . $class . '</i> не зарегистрирован в acl (в таблице sys_access_classes)');
+            }
+
+            $this->db->query('INSERT INTO `sys_access_classes_sections` (`class_id`, `section_id`) VALUES (' . $class_id . ', ' . $section_id . ')');
+            $id = $this->db->lastInsertId();
+        }
+
+        return $id;
     }
 
     /**
@@ -436,7 +471,7 @@ class acl
             if (!$row['uid'] && !$row['gid']) {
                 $qry .= $this->db->quote($this->uid) . ', NULL';
             } else {
-                $qry .= (($tmp = (int)$row['uid']) > 0 ? $tmp : 'NULL' ). ", " . (($tmp = (int)$row['gid']) > 0 ? $tmp : 'NULL');
+                $qry .= ((int)$row['uid'] > 0 ? (int)$row['uid'] : 'NULL' ). ", " . ((int)$row['gid'] > 0 ? (int)$row['gid'] : 'NULL');
             }
             $qry .= ", " . (int)$row['allow'] . ", " . (int)$obj_id . "), ";
             $exists = true;
@@ -445,20 +480,6 @@ class acl
 
         if ($exists) {
             $this->db->query($qry);
-        }
-    }
-
-    /**
-     * метод инициализации объекта работы с базой данных<br>
-     * запускается при надобности
-     *
-     * @see acl::get()
-     * @see acl::register()
-     */
-    private function initDb()
-    {
-        if (empty($this->db)) {
-            $this->db = db::factory($this->alias);
         }
     }
 
@@ -482,6 +503,9 @@ class acl
             }
             $stmt->bindParam(':obj_id', $obj_id);
         } else {
+            if ($this->obj_id <= 0) {
+                throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
+            }
             $stmt->bindParam(':obj_id', $this->obj_id);
         }
         $stmt->bindParam(':uid', $this->uid);

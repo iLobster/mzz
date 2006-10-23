@@ -26,6 +26,7 @@ class newsFolderTest extends unitTestCase
         $this->cleardb();
 
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
+        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('news', 1), ('newsFolder', 1)");
     }
 
     public function cleardb()
@@ -33,6 +34,9 @@ class newsFolderTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `news_news`');
         $this->db->query('TRUNCATE TABLE `news_newsfolder`');
         $this->db->query('TRUNCATE TABLE `user_user`');
+        $this->db->query('TRUNCATE TABLE `sys_access_classes`');
+        $this->db->query('TRUNCATE TABLE `sys_access_classes_sections`');
+        $this->db->query('TRUNCATE TABLE `sys_access_registry`');
     }
 
     public function tearDown()

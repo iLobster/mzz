@@ -31,8 +31,7 @@ class aclTest extends unitTestCase
 
     public function __construct()
     {
-        $this->alias = 'another';
-        $this->db = db::factory($this->alias);
+        $this->db = db::factory();
     }
 
     public function setUp()
@@ -41,11 +40,12 @@ class aclTest extends unitTestCase
         $this->db->query("INSERT INTO `sys_access` (`id`, `class_section_action`, `uid`, `gid`, `allow`, `obj_id`) VALUES (1,1,1,NULL,1,1), (2,2,1,NULL,1,1), (3,1,NULL,1,0,1)");
         $this->db->query("INSERT INTO `sys_access` (`id`, `class_section_action`, `uid`, `gid`, `allow`, `obj_id`) VALUES (4,1,3,NULL,1,0), (5,2,3,NULL,1,0), (6,2,NULL,4,1,0)");
         $this->db->query("INSERT INTO `sys_access` (`id`, `class_section_action`, `uid`, `gid`, `allow`, `obj_id`) VALUES (7,1,0,NULL,1,0), (8,2,0,NULL,1,0)");
-        $this->db->query("INSERT INTO `sys_access_classes` (`id`, `name`) VALUES (1,'news')");
+        $this->db->query("INSERT INTO `sys_access_classes` (`id`, `name`, `module_id`) VALUES (1, 'news', 1)");
         $this->db->query("INSERT INTO `sys_access_sections` (`id`, `name`) VALUES (1,'news')");
         $this->db->query("INSERT INTO `sys_access_classes_sections` (`id`, `class_id`, `section_id`) VALUES (1,1,1)");
         $this->db->query("INSERT INTO `sys_access_classes_sections_actions` (`id`, `class_section_id`, `action_id`) VALUES (1,1,1), (2,1,2)");
         $this->db->query("INSERT INTO `sys_access_actions` (`id`, `name`) VALUES (1,'edit'), (2,'delete')");
+        $this->db->query("INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (1, 1)");
 
         $this->acl = new acl($user = new userStub(), $object_id = 1, $class = null, $section = null, $alias = $this->alias);
     }
@@ -63,6 +63,7 @@ class aclTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `sys_access_sections`');
         $this->db->query('TRUNCATE TABLE `sys_access_classes_sections_actions`');
         $this->db->query('TRUNCATE TABLE `sys_access_actions`');
+        $this->db->query('TRUNCATE TABLE `sys_access_registry`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `user_group`');
     }
@@ -74,8 +75,9 @@ class aclTest extends unitTestCase
 
     public function testGetAccessPartial()
     {
-        $this->assertEqual($this->acl->get('edit'), 1);
-        $this->assertEqual($this->acl->get('delete'), 1);
+        $acl = new acl($user = new userStub(), $object_id = 1, $class = null, $section = null, $alias = $this->alias);
+        $this->assertEqual($acl->get('edit'), 1);
+        $this->assertEqual($acl->get('delete'), 1);
     }
 
     public function testGetAccessPartialNotExists()
@@ -96,9 +98,11 @@ class aclTest extends unitTestCase
         $this->assertEqual(1, $acl->get('delete'));
         $this->assertEqual(1, $acl->get('edit'));
 
-        $acl2 = new acl(new userStub(3), 0, null, null, $this->alias);
+        $acl2 = new acl(new userStub(3), 10, null, null, $this->alias);
         $this->assertEqual(1, $acl2->get('delete'));
         $this->assertEqual(1, $acl2->get('edit'));
+
+        $this->assertEqual(1, $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = 10 AND `class_section_id` = 1'));
     }
 
     public function testExceptionOnNotUser()
@@ -126,9 +130,8 @@ class aclTest extends unitTestCase
     {
         $acl = new acl(new userStub(2), 0, null, null, $this->alias);
         $acl->delete(1);
-        $stmt = $this->db->query('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `class_section_action` IN (1, 2) AND `obj_id` = 1');
-        $row = $stmt->fetch();
-        $this->assertEqual($row['cnt'], 0);
+        $this->assertEqual($this->db->getOne('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `class_section_action` IN (1, 2) AND `obj_id` = 1'), 0);
+        $this->assertEqual(0, $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = 10 AND `class_section_id` = 1'));
     }
 
     public function testSet()
@@ -208,6 +211,20 @@ class aclTest extends unitTestCase
     public function testGetClass()
     {
         $this->assertEqual($this->acl->getClass(), 'news');
+    }
+
+    public function testDeleteUser()
+    {
+        $this->assertEqual(2, $this->db->getOne('SELECT COUNT(*) FROM `sys_access` WHERE `uid` = 1'));
+        $this->acl->deleteUser(1);
+        $this->assertEqual(0, $this->db->getOne('SELECT COUNT(*) FROM `sys_access` WHERE `uid` = 1'));
+    }
+
+    public function testDeleteGroup()
+    {
+        $this->assertEqual(1, $this->db->getOne('SELECT COUNT(*) FROM `sys_access` WHERE `gid` = 1'));
+        $this->acl->deleteGroup(1);
+        $this->assertEqual(0, $this->db->getOne('SELECT COUNT(*) FROM `sys_access` WHERE `gid` = 1'));
     }
 }
 

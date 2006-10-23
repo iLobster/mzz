@@ -26,6 +26,7 @@ class pageMapperTest extends unitTestCase
     {
         $this->mapper = new pageMapper('page');
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
+        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('page', 1)");
     }
 
     public function tearDown()
@@ -37,6 +38,9 @@ class pageMapperTest extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `page_page`');
         $this->db->query('TRUNCATE TABLE `user_user`');
+        $this->db->query('TRUNCATE TABLE `sys_access_classes`');
+        $this->db->query('TRUNCATE TABLE `sys_access_classes_sections`');
+        $this->db->query('TRUNCATE TABLE `sys_access_registry`');
     }
 
     public function testSave()

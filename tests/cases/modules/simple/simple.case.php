@@ -30,6 +30,7 @@ class testSimple extends unitTestCase
     {
         $this->simple = new stubSimple($this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
+        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('stubSimple', 1)");
     }
 
     public function tearDown()
@@ -41,6 +42,7 @@ class testSimple extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `simple_stubSimple`');
         $this->db->query('TRUNCATE TABLE `user_user`');
+        $this->db->query('TRUNCATE TABLE `sys_access_classes`');
     }
 
     public function testAccessorsAndMutators()

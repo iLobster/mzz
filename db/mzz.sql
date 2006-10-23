@@ -56,15 +56,6 @@ CREATE TABLE `news_newsfolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `news_newsfolder` table  (LIMIT 0,500)
-#
-
-INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES 
-  (1,6,'root',1,'root');
-
-COMMIT;
-
-#
 # Structure for the `news_newsfolder_tree` table : 
 #
 
@@ -86,7 +77,7 @@ CREATE TABLE `news_newsfolder_tree` (
 #
 
 INSERT INTO `news_newsfolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,2,1);
+  (1,1,0,1);
 
 COMMIT;
 
@@ -131,7 +122,8 @@ CREATE TABLE `sys_access` (
   `allow` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
   KEY `class_action_id` (`class_section_action`,`obj_id`,`uid`,`gid`),
-  KEY `obj_id` (`obj_id`,`gid`)
+  KEY `obj_id_uid` (`obj_id`,`gid`),
+  KEY `obj_id_gid` (`obj_id`,`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -144,16 +136,13 @@ INSERT INTO `sys_access` (`id`, `class_section_action`, `obj_id`, `uid`, `gid`, 
   (148,4,0,NULL,2,1),
   (149,1,0,0,NULL,1),
   (150,2,0,0,NULL,2),
-  (157,4,6,NULL,2,1),
-  (158,5,6,NULL,2,0),
-  (159,6,6,NULL,2,0),
-  (160,7,6,NULL,2,0),
-  (161,8,6,NULL,2,0),
   (163,5,0,NULL,2,1),
   (164,5,0,NULL,1,1),
   (165,6,0,NULL,2,1),
   (166,7,0,0,NULL,1),
-  (167,8,0,0,NULL,1);
+  (167,8,0,0,NULL,1),
+  (175,9,0,0,NULL,1),
+  (176,10,0,0,NULL,1);
 
 COMMIT;
 
@@ -182,7 +171,8 @@ INSERT INTO `sys_access_actions` (`id`, `name`) VALUES
   (5,'list'),
   (6,'createFolder'),
   (7,'editFolder'),
-  (8,'deleteFolder');
+  (8,'deleteFolder'),
+  (9,'editACL');
 
 COMMIT;
 
@@ -261,7 +251,9 @@ INSERT INTO `sys_access_classes_sections_actions` (`id`, `class_section_id`, `ac
   (5,2,5),
   (6,2,6),
   (7,2,7),
-  (8,2,8);
+  (8,2,8),
+  (9,1,9),
+  (10,2,9);
 
 COMMIT;
 
@@ -283,6 +275,28 @@ CREATE TABLE `sys_access_modules` (
 
 INSERT INTO `sys_access_modules` (`id`, `name`) VALUES 
   (1,'news');
+
+COMMIT;
+
+#
+# Structure for the `sys_access_registry` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_registry`;
+
+CREATE TABLE `sys_access_registry` (
+  `obj_id` int(11) unsigned default NULL,
+  `class_section_id` int(11) unsigned default NULL,
+  KEY `obj_id` (`obj_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_registry` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
+  (6,2),
+  (46,1);
 
 COMMIT;
 
@@ -403,7 +417,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (42),
   (43),
   (44),
-  (45);
+  (45),
+  (46),
+  (47);
 
 COMMIT;
 
@@ -476,7 +492,8 @@ CREATE TABLE `user_usergroup_rel` (
 #
 
 INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
-  (1,1,1,50);
+  (1,1,1,50),
+  (23,2,2,47);
 
 COMMIT;
 

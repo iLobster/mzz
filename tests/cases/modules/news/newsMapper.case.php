@@ -31,6 +31,7 @@ class newsMapperTest extends unitTestCase
         $this->mapper->setMap($this->map);
         $this->cleardb();
         $this->db->query('INSERT INTO `user_user` (`id`, `login`) VALUES (1, \'guest\')');
+        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('news', 1), ('newsFolder', 1)");
     }
 
     public function tearDown()
@@ -42,6 +43,9 @@ class newsMapperTest extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `news_news`');
         $this->db->query('TRUNCATE TABLE `user_user`');
+        $this->db->query('TRUNCATE TABLE `sys_access_classes`');
+        $this->db->query('TRUNCATE TABLE `sys_access_classes_sections`');
+        $this->db->query('TRUNCATE TABLE `sys_access_registry`');
     }
 
     public function testSave()
