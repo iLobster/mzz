@@ -56,7 +56,6 @@ function hideJip()
 {$content}
 <p />
 {load module="user" action="login" args="1" section="user"}
-<a onclick="return showJip();">Показать JIP</a>
 <div class="separator">&nbsp;</div>
 {load module="timer" action="view" section="timer"}
 </body>

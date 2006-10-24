@@ -117,7 +117,7 @@ abstract class simpleMapper //implements iCacheable
         $this->alias = $this->db->getAlias();
         $this->section = $section;
 
-        $this->table = $this->section . '_' .$this->className;
+        $this->table = strtolower($this->section . '_' .$this->className);
     }
 
     public function getTable()
