@@ -234,6 +234,29 @@ class acl
         return $userMapper->searchAllByCriteria($criteria);
     }
 
+    public function getUsersListDefault($section, $class)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $userMapper = $toolkit->getMapper('user', 'user', 'user', $this->alias);
+
+        $criteria = new criteria();
+        $criteria->addJoin('sys_access', new criterion('a.uid', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access_classes_sections_actions', new criterion('csa.id', 'a.class_section_action', criteria::EQUAL, true), 'csa', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access_classes_sections', new criterion('cs.id', 'csa.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
+
+        $criterion_class = new criterion('c.id', 'cs.class_id', criteria::EQUAL, true);
+        $criterion_class->addAnd(new criterion('c.name', $class));
+        $criteria->addJoin('sys_access_classes', $criterion_class, 'c', criteria::JOIN_INNER);
+
+        $criterion_section = new criterion('s.id', 'cs.section_id', criteria::EQUAL, true);
+        $criterion_section->addAnd(new criterion('s.name', $section));
+        $criteria->addJoin('sys_access_sections', $criterion_section, 's', criteria::JOIN_INNER);
+
+        $criteria->add('a.obj_id', 0);
+
+        return $userMapper->searchAllByCriteria($criteria);
+    }
+
     public function getGroupsList()
     {
         $toolkit = systemToolkit::getInstance();
@@ -246,6 +269,30 @@ class acl
 
         return $groupMapper->searchAllByCriteria($criteria);
     }
+
+    public function getGroupsListDefault($section, $class)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $groupMapper = $toolkit->getMapper('user', 'group', 'user', $this->alias);
+
+        $criteria = new criteria();
+        $criteria->addJoin('sys_access', new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access_classes_sections_actions', new criterion('csa.id', 'a.class_section_action', criteria::EQUAL, true), 'csa', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access_classes_sections', new criterion('cs.id', 'csa.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
+
+        $criterion_class = new criterion('c.id', 'cs.class_id', criteria::EQUAL, true);
+        $criterion_class->addAnd(new criterion('c.name', $class));
+        $criteria->addJoin('sys_access_classes', $criterion_class, 'c', criteria::JOIN_INNER);
+
+        $criterion_section = new criterion('s.id', 'cs.section_id', criteria::EQUAL, true);
+        $criterion_section->addAnd(new criterion('s.name', $section));
+        $criteria->addJoin('sys_access_sections', $criterion_section, 's', criteria::JOIN_INNER);
+
+        $criteria->add('a.obj_id', 0);
+
+        return $groupMapper->searchAllByCriteria($criteria);
+    }
+
 
     /**
      * Метод для установки прав<br>

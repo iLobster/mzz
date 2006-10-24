@@ -62,7 +62,7 @@ class newsFolder extends simple
     public function getItems()
     {
         if (!$this->fields->exists('items')) {
-            $this->fields->set('items', $this->mapper->getItems($this->getParent()));
+            $this->fields->set('items', $this->mapper->getItems($this->getId()));
         }
         return $this->fields->get('items');
     }
