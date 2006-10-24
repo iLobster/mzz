@@ -76,12 +76,13 @@ function smarty_function_load($params, $smarty)
     $factory = new $modulename($action);
     $controller = $factory->getController();
     $view = $controller->getView();
-    $result = $view->toString();
 
     $request->restore();
-if(!is_object($result)) {
-    return $result;
-}
+
+    if(!isset($_REQUEST['xajax'])) {
+        $result = $view->toString();
+        return $result;
+    }
 }
 
 ?>

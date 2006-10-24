@@ -38,6 +38,7 @@ class stdToolkit extends toolkit
     private $cache;
     private $user;
     private $objectIdGenerator;
+    private $xajaxResponse;
     private $mappers = array();
     /**#@-*/
 
@@ -236,6 +237,19 @@ class stdToolkit extends toolkit
             $this->objectIdGenerator = new objectIdGenerator;
         }
         return $this->objectIdGenerator->generate();
+    }
+
+    /**
+     * Возвращает xajaxResponse
+     *
+     * @return object
+     */
+    public function getXajaxResponse()
+    {
+        if (empty($this->xajaxResponse)) {
+            $this->xajaxResponse = new xajaxResponse;
+        }
+        return $this->xajaxResponse;
     }
 
     /**

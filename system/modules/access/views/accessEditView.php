@@ -30,11 +30,11 @@ class accessEditView extends simpleView
 
     public function __construct($users, $groups, $id, $usersExists, $groupsExist)
     {
-        parent::__construct($users);
         $this->groups = $groups;
         $this->id = $id;
         $this->usersExists = $usersExists;
         $this->groupsExist = $groupsExist;
+        parent::__construct($users);
     }
 
     public function toString()
