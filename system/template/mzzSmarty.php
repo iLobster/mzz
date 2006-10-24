@@ -33,6 +33,7 @@ class mzzSmarty extends Smarty
      */
     protected $mzzResources = array();
     protected $fetchedTemplates = array();
+    protected $nesting = true;
 
     /**
      * Выполняет шаблон и возвращает результат
@@ -154,8 +155,12 @@ class mzzSmarty extends Smarty
      */
     public function isActive($template)
     {
-        return (strpos($template, "{* main=") !== false);
+        return $this->nesting && (strpos($template, "{* main=") !== false);
     }
 
+    public function allowNesting($flag)
+    {
+        $this->nesting = $flag;
+    }
 }
 ?>

@@ -79,8 +79,9 @@ function smarty_function_load($params, $smarty)
     $result = $view->toString();
 
     $request->restore();
-
+if(!is_object($result)) {
     return $result;
+}
 }
 
 ?>

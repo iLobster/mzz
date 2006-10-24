@@ -101,10 +101,14 @@ define('MZZ_VERSION', MZZ_VERSION_MAJOR . '.' . MZZ_VERSION_MINOR . '.' .
                       MZZ_VERSION_MICRO . MZZ_VERSION_STATUS);
 
 // Revision
-define('MZZ_REVISION', '$Rev$');
-
-// Revision number
-define('MZZ_VERSION_REVISION',  (int)(substr(MZZ_REVISION, 6, strrpos(MZZ_REVISION, ' ') - strpos(MZZ_REVISION, ' ') - 1)));
+if(file_exists(systemConfig::$pathToSystem . '/../.svn/entries')) {
+    $svn_entries = file_get_contents(systemConfig::$pathToSystem . '/../.svn/entries');
+    $svn_entries = explode("\x0a", $svn_entries, 5);
+    $revision = trim($svn_entries[3]);
+    define('MZZ_VERSION_REVISION', $revision);
+} else {
+    define('MZZ_VERSION_REVISION', 'release');
+}
 
 // Url
 define('MZZ_URL', 'http://www.mzz.ru');

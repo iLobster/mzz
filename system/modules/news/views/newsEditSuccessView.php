@@ -32,9 +32,9 @@ class newsEditSuccessView extends simpleView
         $url = new url();
         $url->addParam($this->DAO->getId());
         $url->setAction('view');
-        echo "<script>window.opener.location.reload(); window.close();</script>";
+        //echo "<script>window.opener.location.reload(); window.close();</script>";
         // А что с этим делать?
-        //header('Location: ' . $url->get());
+        header('Location: ' . $url->get());
         exit;
 
     }

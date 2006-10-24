@@ -25,30 +25,34 @@ class newsEditView extends simpleView
     public function __construct($news, $form)
     {
         $this->form = $form;
+        $this->xml = isset($_REQUEST['xajax']);
         parent::__construct($news);
         $this->xajaxInit();
     }
 
     public function toString()
     {
+        $result = null;
+
         if (!$this->sended) {
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $this->form->accept($renderer);
+            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+            $this->form->accept($renderer);
 
-        $this->smarty->assign('form', $renderer->toArray());
-        $this->smarty->assign('news', $this->DAO);
+            $this->smarty->assign('form', $renderer->toArray());
+            $this->smarty->assign('news', $this->DAO);
 
-        $this->response->setTitle('Новости -> Редактирование -> ' . $this->DAO->getTitle());
-        $this->sended = true;
-        return $this->smarty->fetch('news.edit.tpl');
+            $this->response->setTitle('Новости -> Редактирование -> ' . $this->DAO->getTitle());
+            $this->sended = true;
+            $result = $this->smarty->fetch('news.edit.tpl');
+        } 
+        if ($this->xml) {
+            $objResponse = new xajaxResponse;
+            $objResponse->addAssign("jip","innerHTML", $result);
+            $this->xml = false;
+            return $objResponse;
+        } else { 
+            return $result;
         }
-    }
-
-    public function toXML() 
-    {
-        $objResponse = new xajaxResponse;
-        $objResponse->addAssign("jip","innerHTML", $this->toString());
-        return $objResponse;
     }
 }
 

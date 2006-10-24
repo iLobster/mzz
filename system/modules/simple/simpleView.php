@@ -48,6 +48,8 @@ abstract class simpleView
 
     protected $toolkit;
 
+    protected $xml = false;
+
     /**
      * Конструктор
      *
@@ -63,6 +65,7 @@ abstract class simpleView
             $this->DAO = $DAO;
         }
         $this->smarty = $this->toolkit->getSmarty();
+        $this->smarty->allowNesting(!$this->xml);
         $this->response = $this->toolkit->getResponse();
         $this->httprequest = $this->toolkit->getRequest();
     }
@@ -73,7 +76,7 @@ abstract class simpleView
 
         $xajax = new xajax();
         $xajax->exitAllowedOff();
-        $xajax->registerFunction(array("tostring", $this, 'toXML'), XAJAX_GET);
+        $xajax->registerFunction(array("tostring", $this, 'toString'), XAJAX_GET);
 
         $this->smarty->assign('xajax_js', $xajax->getJavascript('/templates/'));
         $xajax->processRequests();

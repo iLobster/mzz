@@ -35,19 +35,25 @@ function hideJip()
 	if(document.getElementById('jip')) {
              document.getElementById('jip').style.display = 'none';
         }
+        cleanJip();
 	return false;
 }
 
+function cleanJip()
+{
+    document.getElementById('jip').innerHTML = 'Подождите... <input type="button" value="Закрыть" onClick="hideJip()">';
+}
+
+window.onload = function() {
+    cleanJip();
+}
 </script>
 {/literal}
 
 </head>
 <body>
 
-<div id="jip">
-Загрузка
-<input type="button" value="Закрыть" onClick="hideJip()">
-</div>
+<div id="jip"></div>
 
 <p class="title">{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION})</p>
 
