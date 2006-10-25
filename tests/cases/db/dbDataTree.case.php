@@ -13,8 +13,8 @@ class dbTreeDataTest extends unitTestCase
     public function __construct()
     {
         $this->db = db::factory();
-        $this->table = 'simple_stubSimple_tree';
-        $this->dataTable = 'simple_stubSimple';
+        $this->table = 'simple_stubsimple_tree';
+        $this->dataTable = 'simple_stubsimple';
 
         $init = array ('data' => array('table' => $this->dataTable, 'id' =>'id'),
         'tree' => array('table' => $this->table , 'id' =>'id'));
@@ -35,8 +35,8 @@ class dbTreeDataTest extends unitTestCase
 
     private function clearDb()
     {
-        $this->db->query('TRUNCATE TABLE `simple_stubSimple_tree`');
-        $this->db->query('TRUNCATE TABLE `simple_stubSimple`');
+        $this->db->query('TRUNCATE TABLE `simple_stubsimple_tree`');
+        $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
 
     }
 

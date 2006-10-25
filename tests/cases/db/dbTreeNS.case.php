@@ -11,7 +11,7 @@ class dbTreeNsTest extends unitTestCase
     public function __construct()
     {
         $this->db = db::factory();
-        $this->table = 'simple_stubSimple_tree';
+        $this->table = 'simple_stubsimple_tree';
         $init = array ('tree' => array('table' => $this->table, 'id' => 'id'));
         $this->tree = new dbTreeNS($init);
         $this->clearDb();
