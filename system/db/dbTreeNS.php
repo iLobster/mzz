@@ -86,7 +86,7 @@ class dbTreeNS
         $this->setInnerField($innerField);
 
         // данные о таблице с деревом
-        $this->table = $init['tree']['table']; // as tree
+        $this->table = strtolower($init['tree']['table']); // as tree
 
         $this->treeID = $treeID = $init['tree']['id'];
 
