@@ -183,7 +183,7 @@ class newsFolderTest extends unitTestCase
 
     public function testConvertArgsToId()
     {
-        $this->db->query("INSERT INTO `news_newsFolder` (`obj_id`, `path`) VALUES (666, 'some/path')");
+        $this->db->query("INSERT INTO `news_newsfolder` (`obj_id`, `path`) VALUES (666, 'some/path')");
 
         $newsFolder = $this->mapper->searchByPath('some/path');
 
