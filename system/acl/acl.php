@@ -543,8 +543,8 @@ class acl
     {
         if (!empty($obj_id)) {
             $stmt->bindParam(':section', $this->section);
+            $stmt->bindParam(':class', $this->class);
         }
-        $stmt->bindParam(':class', $this->class);
 
         if (!empty($obj_id)) {
             if ($obj_id <= 0) {
