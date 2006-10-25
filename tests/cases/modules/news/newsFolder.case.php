@@ -112,7 +112,7 @@ class newsFolderTest extends unitTestCase
     public function testGetItems()
     {
         $id = 666;
-        $this->newsFolder->setParent($id);
+        $this->newsFolder->setId($id);
 
         $this->mappermock->expectOnce('getItems', array($id));
         $this->mappermock->setReturnValue('getItems', array('foo', 'bar'));

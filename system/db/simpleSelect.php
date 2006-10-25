@@ -83,7 +83,7 @@ class simpleSelect
         $enableCount = $this->criteria->getEnableCount();
 
         foreach ($this->criteria->getJoins() as $val) {
-            $joinClause[] = ' ' . $val['type'] . ' JOIN ' . $val['table'] .
+            $joinClause[] = ' ' . $val['type'] . ' JOIN ' . strtolower($val['table']) .
             (isset($val['alias']) ? ' ' . $val['alias'] : '') .
             ' ON ' . $val['criterion']->generate();
         }
@@ -99,7 +99,7 @@ class simpleSelect
 
         $qry = 'SELECT ' . ($enableCount ? 'SQL_CALC_FOUND_ROWS ' : '') .
         ($selectClause ? implode(', ', $selectClause) : '*') .
-        (($table = $this->criteria->getTable()) ? ' FROM `' . $table . '`' : '') .
+        (($table = $this->criteria->getTable()) ? ' FROM `' . strtolower($table) . '`' : '') .
         ($joinClause ? implode($joinClause) : '') .
         ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '') .
         ($groupByClause ? ' GROUP BY ' . implode(', ', $groupByClause) : '') .
