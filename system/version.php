@@ -103,8 +103,13 @@ define('MZZ_VERSION', MZZ_VERSION_MAJOR . '.' . MZZ_VERSION_MINOR . '.' .
 // Revision
 if(file_exists(systemConfig::$pathToSystem . '/../.svn/entries')) {
     $svn_entries = file_get_contents(systemConfig::$pathToSystem . '/../.svn/entries');
-    $svn_entries = explode("\x0a", $svn_entries, 5);
-    $revision = trim($svn_entries[3]);
+    if (strpos($svn_entries, '<?xml') !== false) {
+        preg_match('/revision="(\d+)"/', $svn_entries, $matches);
+        $revision = $matches[1];
+    } else {
+        $svn_entries = explode("\x0a", $svn_entries, 5);
+        $revision = trim($svn_entries[3]);
+    }
     define('MZZ_VERSION_REVISION', $revision);
 } else {
     define('MZZ_VERSION_REVISION', 'release');
