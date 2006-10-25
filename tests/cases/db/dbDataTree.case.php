@@ -95,8 +95,8 @@ class dbTreeDataTest extends unitTestCase
         }
         $values[$this->dataTable] = substr($valString, 0, -1);
 
-        $simple_stubSimple_tree_fields = '(id, lkey, rkey, level)';
-        $simple_stubSimple_fields = '(id, foo, bar, path)';
+        $simple_stubsimple_tree_fields = '(id, lkey, rkey, level)';
+        $simple_stubsimple_fields = '(id, foo, bar, path)';
 
         #запись фикстур в базу
         foreach($values as $table => $val) {
@@ -308,7 +308,5 @@ class dbTreeDataTest extends unitTestCase
         }
     }
 }
-
-
 
 ?>

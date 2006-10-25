@@ -494,7 +494,7 @@ class acl
     {
         $stmt = $this->db->prepare($qry);
 
-        $this->bind($stmt, $obj_id);
+        $this->bind($stmt, true);
 
         $stmt->execute();
 
@@ -539,18 +539,11 @@ class acl
      * @see acl::doRoutine()
      * @see acl::delete()
      */
-    private function bind($stmt, $obj_id = 0)
+    private function bind($stmt, $additionArgs = false)
     {
-        if (!empty($obj_id)) {
+        if ($additionArgs) {
             $stmt->bindParam(':section', $this->section);
             $stmt->bindParam(':class', $this->class);
-        }
-
-        if (!empty($obj_id)) {
-            if ($obj_id <= 0) {
-                throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
-            }
-            $stmt->bindParam(':obj_id', $obj_id);
         } else {
             if ($this->obj_id <= 0) {
                 throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
