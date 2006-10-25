@@ -40,7 +40,7 @@ class testSimple extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `simple_stubSimple`');
+        $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `sys_access_classes`');
     }

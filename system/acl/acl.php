@@ -86,7 +86,7 @@ class acl
      * @param string_type $class
      * @param string $section
      */
-    public function __construct($user = null, $object_id = 0, $class = null, $section = null, $alias = 'default')
+    public function __construct($user = null, $object_id = 0, $class = '', $section = '', $alias = 'default')
     {
         //@todo проверить на существование
         $this->alias = $alias;
