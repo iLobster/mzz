@@ -30,7 +30,7 @@ class testSimple extends unitTestCase
     {
         $this->simple = new stubSimple($this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
-        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('stubSimple', 1)");
+        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('stubsimple', 1)");
     }
 
     public function tearDown()

@@ -50,7 +50,7 @@ class simpleMapperTest extends unitTestCase
         $this->mapper = new stubMapper('simple');
         $this->mapper->setMap($this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
-        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('stubSimple', 1)");
+        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('stubsimple', 1)");
 
     }
 
@@ -178,7 +178,7 @@ class simpleMapperTest extends unitTestCase
 
     private function countRecord()
     {
-        $stmt = $this->db->query("SELECT count(*) FROM `simple_stubSimple`");
+        $stmt = $this->db->query("SELECT count(*) FROM `simple_stubsimple`");
         $count = $stmt->fetch(PDO::FETCH_NUM);
         return (int)$count[0];
     }

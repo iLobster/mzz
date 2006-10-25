@@ -99,7 +99,7 @@ class mzzPdo extends PDO
             self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset, $pdoOptions);
             self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
             self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            //self::$instance->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+            self::$instances[$alias]->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
             self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
         }
 
