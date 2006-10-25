@@ -541,7 +541,9 @@ class acl
      */
     private function bind($stmt, $obj_id = 0)
     {
-        $stmt->bindParam(':section', $this->section);
+        if (!empty($obj_id)) {
+            $stmt->bindParam(':section', $this->section);
+        }
         $stmt->bindParam(':class', $this->class);
 
         if (!empty($obj_id)) {
