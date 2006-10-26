@@ -140,19 +140,17 @@ class acl
 
             $qry = 'SELECT MAX(`access`) AS `access`, `name` FROM (
 
-                    (SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
-                                         INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
-                                          INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
-                                           WHERE `a`.`obj_id` = :obj_id AND `a`.`uid` = :uid
-                                            GROUP BY `a`.`class_section_action`)';
+                    (SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name` FROM `sys_access` `a`
+                     INNER JOIN `sys_access_actions` `aa` ON `a`.`action_id` = `aa`.`id`
+                      WHERE `a`.`obj_id` = :obj_id AND `a`.`uid` = :uid
+                       GROUP BY `aa`.`id`)';
 
             if (sizeof($this->groups) && !$clean) {
                 $qry .= 'UNION
-                                    (SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
-                                     INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
-                                      INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
-                                       WHERE `a`.`obj_id` = :obj_id AND `a`.`gid` IN (' . $grp . ')
-                                        GROUP BY `a`.`class_section_action`)';
+                          (SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name` FROM `sys_access` `a`
+                           INNER JOIN `sys_access_actions` `aa` ON `a`.`action_id` = `aa`.`id`
+                             WHERE `a`.`obj_id` = :obj_id AND `a`.`gid` IN (' . $grp . ')
+                              GROUP BY `aa`.`id`)';
             }
 
             $qry .= ') `x`
@@ -204,11 +202,12 @@ class acl
     {
         if (empty($this->resultGroups[$this->obj_id])) {
 
-            $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `p`.`name` FROM `sys_access` `a`
-                     INNER JOIN `sys_access_classes_sections_actions` `msp` ON `a`.`class_section_action` = `msp`.`id`
-                      INNER JOIN `sys_access_actions` `p` ON `msp`.`action_id` = `p`.`id`
-                       WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
-                        GROUP BY `a`.`class_section_action`';
+            $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name`
+                     FROM `sys_access` `a`
+                       INNER JOIN `sys_access_actions` `aa` ON `a`.`action_id` = `aa`.`id`
+                        WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
+                         GROUP BY `aa`.`id`';
+
             $stmt = $this->db->query($qry);
 
             $this->resultGroups[$this->obj_id] = array();
@@ -219,6 +218,26 @@ class acl
         }
 
         return $this->resultGroups[$this->obj_id];
+    }
+
+    public function getForGroupDefault($gid)
+    {
+        $qry = "SELECT `sa`.`name`, `a`.`allow` as `access` FROM `sys_access` `a`
+                   INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `a`.`class_section_id`
+                    INNER JOIN `sys_access_classes` `c` ON (`c`.`id` = `cs`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
+                     INNER JOIN `sys_access_sections` `s` ON (`s`.`id` = `cs`.`section_id`) AND (`s`.`name` = " . $this->db->quote($this->section) . ")
+                      INNER JOIN `sys_access_actions` `sa` ON `sa`.`id` = `a`.`action_id`
+                       INNER JOIN `user_group` `g` ON `g`.`id` = `a`.`gid`
+                        WHERE `a`.`obj_id` = '0' AND `a`.`gid` = " . (int)$gid;
+
+        $stmt = $this->db->query($qry);
+
+        $result = array();
+        while ($row = $stmt->fetch()) {
+            $result[$row['name']] = $row['access'];
+        }
+
+        return $result;
     }
 
     public function getUsersList()
@@ -241,8 +260,7 @@ class acl
 
         $criteria = new criteria();
         $criteria->addJoin('sys_access', new criterion('a.uid', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addJoin('sys_access_classes_sections_actions', new criterion('csa.id', 'a.class_section_action', criteria::EQUAL, true), 'csa', criteria::JOIN_INNER);
-        $criteria->addJoin('sys_access_classes_sections', new criterion('cs.id', 'csa.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access_classes_sections', new criterion('cs.id', 'a.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'cs.class_id', criteria::EQUAL, true);
         $criterion_class->addAnd(new criterion('c.name', $class));
@@ -253,6 +271,11 @@ class acl
         $criteria->addJoin('sys_access_sections', $criterion_section, 's', criteria::JOIN_INNER);
 
         $criteria->add('a.obj_id', 0);
+
+        $criteria->addGroupBy($userMapper->getTable() . '.' . $userMapper->getTableKey());
+
+        //$select = new simpleSelect($criteria);
+        //var_dump($select->toString());
 
         return $userMapper->searchAllByCriteria($criteria);
     }
@@ -277,8 +300,7 @@ class acl
 
         $criteria = new criteria();
         $criteria->addJoin('sys_access', new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addJoin('sys_access_classes_sections_actions', new criterion('csa.id', 'a.class_section_action', criteria::EQUAL, true), 'csa', criteria::JOIN_INNER);
-        $criteria->addJoin('sys_access_classes_sections', new criterion('cs.id', 'csa.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access_classes_sections', new criterion('cs.id', 'a.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'cs.class_id', criteria::EQUAL, true);
         $criterion_class->addAnd(new criterion('c.name', $class));
@@ -289,6 +311,8 @@ class acl
         $criteria->addJoin('sys_access_sections', $criterion_section, 's', criteria::JOIN_INNER);
 
         $criteria->add('a.obj_id', 0);
+
+        $criteria->addGroupBy($groupMapper->getTable() . '.' . $groupMapper->getTableKey());
 
         return $groupMapper->searchAllByCriteria($criteria);
     }
@@ -306,11 +330,11 @@ class acl
         // выбираем все корректные экшны для данного ДО
         $qry = 'SELECT `a`.`name`, `a`.`id` FROM `sys_access_registry` `r`
                  INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
-                  INNER JOIN `sys_access_classes_sections_actions` `csa` ON `csa`.`class_section_id` = `cs`.`id`
-                   INNER JOIN `sys_access_actions` `a` ON `a`.`id` = `csa`.`action_id`
+                  INNER JOIN `sys_access_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
+                   INNER JOIN `sys_access_actions` `a` ON `a`.`id` = `ca`.`action_id`
                     WHERE `r`.`obj_id` = ' . $this->obj_id;
-        $stmt = $this->db->query($qry);
-        $validActions = $stmt->fetchAll();
+
+        $validActions = $this->db->getAll($qry);
 
         foreach ($validActions as $val) {
             $this->validActions[$this->obj_id][$val['name']] = $val['id'];
@@ -324,29 +348,34 @@ class acl
             $param = array($param => $value);
         }
 
-        $csa_ids = array();
+        $actionsToDelete = array();
         $inserts = '';
+
+        $qry = "SELECT `r`.`class_section_id` FROM `sys_access_registry` `r`
+                 WHERE `r`.`obj_id` = " . $this->obj_id;
+        $class_section_id = $this->db->getOne($qry);
 
         foreach ($param as $key => $val) {
             if (!isset($this->validActions[$this->obj_id][$key])) {
                 throw new mzzInvalidParameterException('У выбранного объекта нет изменяемого действия', $key);
             }
 
-            $csa_ids[] = $this->validActions[$this->obj_id][$key];
-            $inserts .= '(' . $this->validActions[$this->obj_id][$key] . ', ' . $this->obj_id . ', ' . ($group_id > 0 ? $group_id : $this->uid) . ', ' . (int)$val . '), ';
+            $actionsToDelete[] = $this->validActions[$this->obj_id][$key];
+            $inserts .= '(' . $this->validActions[$this->obj_id][$key] . ', ' . $class_section_id . ', ' . $this->obj_id . ', ' . ($group_id > 0 ? $group_id : $this->uid) . ', ' . (int)$val . '), ';
         }
 
         // удаляем старые действия
-        if (sizeof($csa_ids)) {
-            $qry = 'DELETE FROM `sys_access` WHERE `class_section_action` IN (' . implode(', ', $csa_ids) . ') AND `obj_id` = ' . $this->obj_id . ' AND ';
+        if (sizeof($actionsToDelete)) {
+            $qry = 'DELETE FROM `sys_access` WHERE `action_id` IN (' . implode(', ', $actionsToDelete) . ') AND `obj_id` = ' . $this->obj_id . ' AND ';
             $qry .= $group_id > 0 ? '`gid` = ' . $group_id : '`uid` = ' . $this->uid;
             $this->db->query($qry);
         }
 
         // добавляем новые
         $inserts = substr($inserts, 0, -2);
+
         if ($inserts) {
-            $this->db->query('INSERT INTO `sys_access` (`class_section_action`, `obj_id`, `' . ($group_id > 0 ? 'gid' : 'uid') . '`, `allow`)
+            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_section_id`, `obj_id`, `' . ($group_id > 0 ? 'gid' : 'uid') . '`, `allow`)
                                 VALUES ' . $inserts);
         }
 
@@ -359,17 +388,63 @@ class acl
         return $this->set($param, null, (int)$gid);
     }
 
+    public function setDefault($gid, $param)
+    {
+        $qry = "SELECT `a`.* FROM `sys_access_classes_sections` `cs`
+                 INNER JOIN `sys_access_classes` `c` ON `cs`.`class_id` = `c`.`id` AND `c`.`name` = " . $this->db->quote($this->class) . "
+                  INNER JOIN `sys_access_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                   INNER JOIN `sys_access_actions` `a` ON `a`.`id` = `ca`.`action_id`";
+
+        $validActions = $this->db->getAll($qry);
+
+        foreach ($validActions as $val) {
+            $this->validActions[$this->class][$val['name']] = $val['id'];
+        }
+
+        $qry = "SELECT `cs`.`id` FROM `sys_access_classes_sections` `cs`
+                 INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id` AND `c`.`name` = " . $this->db->quote($this->class) . "
+                  INNER JOIN `sys_access_sections` `s` ON `s`.`id` = `cs`.`section_id` AND `s`.`name` = " . $this->db->quote($this->section) . "";
+        $class_section_id = $this->db->getOne($qry);
+
+        $actionsToDelete = array();
+        $inserts = '';
+
+        foreach ($param as $key => $val) {
+            if (!isset($this->validActions[$this->class][$key])) {
+                throw new mzzInvalidParameterException('У выбранного класса нет изменяемого действия', $key);
+            }
+
+            $actionsToDelete[] = $this->validActions[$this->class][$key];
+            $inserts .= '(' . $this->validActions[$this->class][$key] . ', ' . $class_section_id . ', 0, ' . $gid . ', ' . (int)$val . '), ';
+        }
+
+        // удаляем старые действия
+        if (sizeof($actionsToDelete)) {
+            $qry = 'DELETE FROM `sys_access` WHERE `action_id` IN (' . implode(', ', $actionsToDelete) . ') AND `class_section_id` = ' . $class_section_id . ' AND `obj_id` = ' . $this->obj_id . ' AND ';
+            $qry .= '`gid` = ' . $gid; // : '`uid` = ' . $this->uid;
+            $this->db->query($qry);
+        }
+
+        // добавляем новые
+        $inserts = substr($inserts, 0, -2);
+
+        if ($inserts) {
+            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_section_id`, `obj_id`, `gid`, `allow`)
+                                VALUES ' . $inserts);
+        }
+    }
+
     /**
      * метод для регистрации нового объекта в системе авторизации<br>
      * при регистрации нового объекта для него "наследуются" разрешения в соответствии со следующими правилами:<br>
-     * - права безусловно копируются для объекта с аналогичным значением раздела, модуля, типа и имеющим obj_id = 0<br>
-     * - права устанавливаются на текущего пользователя как на создателя объекта путём копирования объекта
-     *   с аналогичными значениями раздела, модуля, типа и имеющими значение uid = 0
-     *
-     * @param integer $obj_id уникальный id регистрируемого объекта
-     * @param string $class имя ДО
-     * @param string $section имя раздела
-     */
+        * - права безусловно копируются для объекта с аналогичным значением раздела, модуля, типа и имеющим obj_id = 0<br>
+        * - права устанавливаются на текущего пользователя как на создателя объекта путём копирования объекта
+        *   с аналогичными значениями раздела, модуля, типа и имеющими значение uid = 0
+        *
+        * @param integer $obj_id уникальный id регистрируемого объекта
+        * @param string $class имя ДО
+        * @param string $section имя раздела
+        */
     public function register($obj_id, $class = null, $section = null, $module = null)
     {
         $this->obj_id = (int)$obj_id;
@@ -427,13 +502,19 @@ class acl
         return $this->db->getOne($qry);
     }
 
-    public function getModule()
+    public function getModule($class = false)
     {
-        $qry = 'SELECT `m`.`name` FROM `sys_access_registry` `r`
+        if (!$class) {
+            $qry = 'SELECT `m`.`name` FROM `sys_access_registry` `r`
                  INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
                   INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
                    INNER JOIN `sys_access_modules` `m` ON `m`.`id` = `c`.`module_id`
                     WHERE `r`.`obj_id` = ' . $this->obj_id;
+        } else {
+            $qry = 'SELECT `m`.`name` FROM `sys_access_classes` `c`
+                     INNER JOIN `sys_access_modules` `m` ON `m`.`id` = `c`.`module_id`
+                      WHERE `c`.`name` = ' . $this->db->quote($class);
+        }
         return $this->db->getOne($qry);
     }
 
@@ -474,12 +555,13 @@ class acl
      */
     private function getQuery()
     {
-        return 'SELECT `a`.* FROM `sys_access_classes_sections` `ms`
-                 INNER JOIN `sys_access_classes` `m` ON `ms`.`class_id` = `m`.`id` AND `m`.`name` = :class
-                  INNER JOIN `sys_access_sections` `s` ON `ms`.`section_id` = `s`.`id` AND `s`.`name` = :section
-                   INNER JOIN `sys_access_classes_sections_actions` `msp` ON `msp`.`class_section_id` = `ms`.`id`
-                    INNER JOIN `sys_access_actions` `p` ON `p`.`id` = `msp`.`action_id`
-                     INNER JOIN `sys_access` `a` ON `a`.`class_section_action` = `p`.`id` AND `a`.`obj_id` = 0';
+        return 'SELECT `a`.* FROM `sys_access_classes_sections` `cs`
+                 INNER JOIN `sys_access_classes` `c` ON `cs`.`class_id` = `c`.`id` AND `c`.`name` = :class
+                  INNER JOIN `sys_access_sections` `s` ON `cs`.`section_id` = `s`.`id` AND `s`.`name` = :section
+                   INNER JOIN `sys_access_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                    INNER JOIN `sys_access_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
+                     INNER JOIN `sys_access` `a` ON `a`.`class_section_id` = `cs`.`id` AND `a`.`action_id` = `aa`.`id`
+                      WHERE `a`.`obj_id` = 0';
     }
 
     /**
@@ -510,11 +592,11 @@ class acl
      */
     private function doInsertQuery($stmt, $obj_id)
     {
-        $qry = 'INSERT INTO `sys_access` (`class_section_action`, `uid`, `gid`, `allow`, `obj_id`) VALUES ';
+        $qry = 'INSERT INTO `sys_access` (`action_id`, `class_section_id`, `uid`, `gid`, `allow`, `obj_id`) VALUES ';
 
         $exists = false;
         while($row = $stmt->fetch()) {
-            $qry .= "(" . $this->db->quote($row['class_section_action']) . ", "; // . $this->db->quote($row['type']) . ", ";
+            $qry .= "(" . $row['action_id'] . ', ' . $row['class_section_id'] . ", "; // . $this->db->quote($row['type']) . ", ";
             if (!$row['uid'] && !$row['gid']) {
                 $qry .= $this->db->quote($this->uid) . ', NULL';
             } else {

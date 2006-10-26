@@ -25,8 +25,8 @@
         <tr>
             <td align="center">{$group->getId()}</td>
             {assign var=group_id value=$group->getId()}
-            <td><a href="{url section=access action=editGroup params="$section/$class/$group_id"}" onClick="openWin('{url section=access action=editGroup params="$section/$class/$group_id"}', 'access_addgroupdefault_{$section}_{$class}_{$group_id}', 500, 400); return false;">{$group->getName()}</a></td>
-            <td><a href="{url section=access action=deleteGroup params="$section/$class/$group_id"}" onClick="mzz_confirm('Вы хотите удалить эту группу?') && openWin('{url section=access action=deleteGroup params="$section/$class/$group_id"}', 'access_deletegroupdefault_{$section}_{$class}_{$group_id}', 500, 400); return false;"><img src='/templates/images/delete.gif' width=16 height=16 border=0 /></a></td>
+            <td><a href="{url section=access action=editGroupDefault params="$section/$class/$group_id"}" onClick="openWin('{url section=access action=editGroupDefault params="$section/$class/$group_id"}', 'access_addgroupdefault_{$section}_{$class}_{$group_id}', 500, 400); return false;">{$group->getName()}</a></td>
+            <td><a href="{url section=access action=deleteGroupDefault params="$section/$class/$group_id"}" onClick="mzz_confirm('Вы хотите удалить эту группу?') && openWin('{url section=access action=deleteGroupDefault params="$section/$class/$group_id"}', 'access_deletegroupdefault_{$section}_{$class}_{$group_id}', 500, 400); return false;"><img src='/templates/images/delete.gif' width=16 height=16 border=0 /></a></td>
         </tr>
     {/foreach}
     {if $groupsExists}

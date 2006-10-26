@@ -13,7 +13,7 @@
 */
 
 /**
- * accessEditGroupView: вид для метода editGroup модуля access
+ * accessEditGroupDefaultView: вид для метода editGroupDefault модуля access
  *
  * @package modules
  * @subpackage access
@@ -21,7 +21,7 @@
  */
 
 
-class accessEditGroupView extends simpleView
+class accessEditGroupDefaultView extends simpleView
 {
     private $actions;
     private $group;
@@ -34,21 +34,19 @@ class accessEditGroupView extends simpleView
         $this->groups = $groups;
         parent::__construct($acl);
     }
-
     public function toString()
     {
         if ($this->group) {
-            var_dump($this->DAO->getForGroup($this->group->getId()));
-            $this->smarty->assign('acl', $this->DAO->getForGroup($this->group->getId()));
+            $this->smarty->assign('acl', $this->DAO->getForGroupDefault($this->group->getId()));
         }
         $this->smarty->assign('group', $this->group);
         $this->smarty->assign('groups', $this->groups);
         $this->smarty->assign('actions', $this->actions);
 
         $title = $this->group ? $this->group->getName() : 'добавить группу';
-        $this->response->setTitle('ACL -> объект ... -> ' . $title);
+        $this->response->setTitle('ACL -> объект ... -> права по умолчанию -> ' . $title);
 
-        return $this->smarty->fetch('access.editGroup.tpl');
+        return $this->smarty->fetch('access.editGroupDefault.tpl');
     }
 }
 
