@@ -4,7 +4,7 @@
         $resolver2 = new secondResolver();
 
         $compositeResolver->addResolver($resolver1);
-        $compositeResolver->addResolver($resolver2
+        $compositeResolver->addResolver($resolver2);
         
         $compositeResolver->resolve('file.php');
 ?>
