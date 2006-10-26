@@ -5,11 +5,6 @@
 # Database : mzz
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
-
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP DATABASE IF EXISTS `mzz`;
@@ -122,8 +117,8 @@ CREATE TABLE `page_page` (
 #
 
 INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`) VALUES 
-  (1,9,'main','ѕерва€ страница','Ёто перва€, главна€ страница'),
-  (2,10,'404','404 Not Found','«апрашиваема€ страница не найдена!'),
+  (1,9,'main','?????? ????????','??? ??????, ??????? ????????'),
+  (2,10,'404','404 Not Found','????????????? ???????? ?? ???????!'),
   (3,11,'test','test','test');
 
 COMMIT;
@@ -228,7 +223,15 @@ INSERT INTO `sys_access_actions` (`id`, `name`) VALUES
   (6,'createFolder'),
   (7,'editFolder'),
   (8,'deleteFolder'),
-  (9,'editACL');
+  (9,'editACL'),
+  (10,'login'),
+  (11,'exit'),
+  (12,'memberOf'),
+  (13,'groupDelete'),
+  (14,'groupsList'),
+  (15,'groupEdit'),
+  (16,'membersList'),
+  (17,'addToGroup');
 
 COMMIT;
 
@@ -252,7 +255,9 @@ CREATE TABLE `sys_access_classes` (
 
 INSERT INTO `sys_access_classes` (`id`, `name`, `module_id`) VALUES 
   (1,'news',1),
-  (2,'newsFolder',1);
+  (2,'newsFolder',1),
+  (3,'user',2),
+  (4,'group',2);
 
 COMMIT;
 
@@ -284,7 +289,20 @@ INSERT INTO `sys_access_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (7,2,6),
   (8,2,7),
   (9,2,8),
-  (10,2,9);
+  (10,2,9),
+  (11,3,10),
+  (12,3,11),
+  (13,3,5),
+  (14,3,1),
+  (15,3,12),
+  (16,3,2),
+  (17,4,13),
+  (18,4,14),
+  (19,4,15),
+  (20,4,16),
+  (21,4,17),
+  (22,3,9),
+  (23,4,9);
 
 COMMIT;
 
@@ -308,40 +326,9 @@ CREATE TABLE `sys_access_classes_sections` (
 
 INSERT INTO `sys_access_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
   (1,1,1),
-  (2,2,1);
-
-COMMIT;
-
-#
-# Structure for the `sys_access_classes_sections_actions_` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_classes_sections_actions_`;
-
-CREATE TABLE `sys_access_classes_sections_actions_` (
-  `id` int(11) NOT NULL auto_increment,
-  `class_section_id` int(11) default NULL,
-  `action_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `module_action_unique` (`class_section_id`,`action_id`),
-  KEY `action_id` (`action_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_access_classes_sections_actions_` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_classes_sections_actions_` (`id`, `class_section_id`, `action_id`) VALUES 
-  (1,1,1),
-  (2,1,2),
-  (3,1,3),
-  (4,2,4),
-  (5,2,5),
-  (6,2,6),
-  (7,2,7),
-  (8,2,8),
-  (9,1,9),
-  (10,2,9);
+  (2,2,1),
+  (3,3,2),
+  (4,4,2);
 
 COMMIT;
 
@@ -362,7 +349,8 @@ CREATE TABLE `sys_access_modules` (
 #
 
 INSERT INTO `sys_access_modules` (`id`, `name`) VALUES 
-  (1,'news');
+  (1,'news'),
+  (2,'user');
 
 COMMIT;
 
@@ -409,7 +397,8 @@ CREATE TABLE `sys_access_sections` (
 #
 
 INSERT INTO `sys_access_sections` (`id`, `name`) VALUES 
-  (1,'news');
+  (1,'news'),
+  (2,'user');
 
 COMMIT;
 
@@ -513,7 +502,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (47),
   (48),
   (49),
-  (50);
+  (50),
+  (51),
+  (52);
 
 COMMIT;
 
@@ -591,8 +582,3 @@ INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
 
 COMMIT;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

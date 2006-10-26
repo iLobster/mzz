@@ -5,11 +5,6 @@
 # Database : mzz_test
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
-
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP DATABASE IF EXISTS `mzz_test`;
@@ -189,22 +184,6 @@ CREATE TABLE `sys_access_classes_sections` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `sys_access_classes_sections_actions_` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_classes_sections_actions_`;
-
-CREATE TABLE `sys_access_classes_sections_actions_` (
-  `id` int(11) NOT NULL auto_increment,
-  `class_section_id` int(11) default NULL,
-  `action_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `module_action_unique` (`class_section_id`,`action_id`),
-  KEY `action_id` (`action_id`),
-  KEY `module_id` (`class_section_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
 # Structure for the `sys_access_modules` table : 
 #
 
@@ -239,18 +218,6 @@ CREATE TABLE `sys_access_sections` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_access_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_sections` (`id`, `name`) VALUES 
-  (1,'news'),
-  (2,'page'),
-  (3,'simple'),
-  (4,'user');
-
-COMMIT;
 
 #
 # Structure for the `sys_cfg` table : 
@@ -411,6 +378,15 @@ CREATE TABLE `user_user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `user_user` table  (LIMIT 0,500)
+#
+
+INSERT INTO `user_user` (`id`, `login`, `password`, `obj_id`) VALUES 
+  (1,'Guest','',NULL);
+
+COMMIT;
+
+#
 # Structure for the `user_usergroup_rel` table : 
 #
 
@@ -425,8 +401,3 @@ CREATE TABLE `user_usergroup_rel` (
   UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
