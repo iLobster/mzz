@@ -38,7 +38,6 @@ class accessEditGroupView extends simpleView
     public function toString()
     {
         if ($this->group) {
-            var_dump($this->DAO->getForGroup($this->group->getId()));
             $this->smarty->assign('acl', $this->DAO->getForGroup($this->group->getId()));
         }
         $this->smarty->assign('group', $this->group);

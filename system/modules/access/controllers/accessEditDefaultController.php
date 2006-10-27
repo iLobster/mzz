@@ -53,7 +53,7 @@ class accessEditDefaultController extends simpleController
         $select = new simpleSelect($criteria);
         $groupsNotAdded = $db->getOne($select->toString()) - sizeof($groups);
 
-        return new accessEditDefaultView($users, $groups, $class, $section, $usersNotAdded, $groupsNotAdded);
+        return new accessEditDefaultView($users, $groups, $section, $class, $usersNotAdded, $groupsNotAdded);
     }
 }
 

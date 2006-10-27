@@ -1,0 +1,1 @@
+{load module="access" action="deleteGroupDefault"}

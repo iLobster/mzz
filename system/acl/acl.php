@@ -68,6 +68,11 @@ class acl
      */
     private $result = array();
 
+    /**
+     * Массив для кеширования в памяти запросов прав для конкретных групп
+     *
+     * @var array
+     */
     private $resultGroups = array();
 
     /**
@@ -76,6 +81,12 @@ class acl
      * @var array
      */
     private $validActions = array();
+
+    /**
+     * Алиас
+     *
+     * @var string
+     */
     private $alias;
 
     /**
@@ -176,6 +187,11 @@ class acl
         }
     }
 
+    /**
+     * Метод удаления группы из ACL
+     *
+     * @param integer $gid
+     */
     public function deleteGroup($gid)
     {
         $gid = (int)$gid;
@@ -187,6 +203,32 @@ class acl
         $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `gid` = ' .  (int)$gid);
     }
 
+    /**
+     * Метод удаления группы из списков ACL по умолчанию
+     *
+     * @param integer $gid
+     */
+    public function deleteGroupDefault($gid)
+    {
+        $class_section_id = $this->getClassSection();
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = 0 AND `gid` = ' .  (int)$gid . ' AND `class_section_id` = ' . $class_section_id);
+    }
+
+    /**
+     * Метод удаления пользователя из списков ACL по умолчанию
+     *
+     */
+    public function deleteDefault()
+    {
+        $class_section_id = $this->getClassSection();
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = 0 AND `uid` = ' .  (int)$this->uid . ' AND `class_section_id` = ' . $class_section_id);
+    }
+
+    /**
+     * Метод удаления пользователя из списков ACL
+     *
+     * @param integer $uid
+     */
     public function deleteUser($uid)
     {
         $uid = (int)$uid;
@@ -198,9 +240,15 @@ class acl
         $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `uid` = ' .  (int)$uid);
     }
 
+    /**
+     * Получение прав для конкретной группы
+     *
+     * @param integer $gid
+     * @return array
+     */
     public function getForGroup($gid)
     {
-        if (empty($this->resultGroups[$this->obj_id])) {
+        if (empty($this->resultGroups[$this->obj_id][$gid])) {
 
             $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name`
                      FROM `sys_access` `a`
@@ -213,13 +261,19 @@ class acl
             $this->resultGroups[$this->obj_id] = array();
 
             while ($row = $stmt->fetch()) {
-                $this->resultGroups[$this->obj_id][$row['name']] = $row['access'];
+                $this->resultGroups[$this->obj_id][$gid][$row['name']] = $row['access'];
             }
         }
 
-        return $this->resultGroups[$this->obj_id];
+        return $this->resultGroups[$this->obj_id][$gid];
     }
 
+    /**
+     * Получение прав по умолчанию для конкретной группы
+     *
+     * @param integer $gid
+     * @return array
+     */
     public function getForGroupDefault($gid)
     {
         $qry = "SELECT `sa`.`name`, `a`.`allow` as `access` FROM `sys_access` `a`
@@ -240,6 +294,50 @@ class acl
         return $result;
     }
 
+    /**
+     * Получение списков ACL по умолчанию
+     *
+     * @return array
+     */
+    public function getDefault()
+    {
+        $qry = "SELECT `sa`.`name`, `a`.`allow` as `access` FROM `sys_access` `a`
+                   INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `a`.`class_section_id`
+                    INNER JOIN `sys_access_classes` `c` ON (`c`.`id` = `cs`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
+                     INNER JOIN `sys_access_sections` `s` ON (`s`.`id` = `cs`.`section_id`) AND (`s`.`name` = " . $this->db->quote($this->section) . ")
+                      INNER JOIN `sys_access_actions` `sa` ON `sa`.`id` = `a`.`action_id`
+                       LEFT JOIN `user_user` `u` ON `u`.`id` = `a`.`uid`
+                        WHERE `a`.`obj_id` = '0' AND `a`.`uid` = " . $this->uid;
+
+        $stmt = $this->db->query($qry);
+
+        $result = array();
+        while ($row = $stmt->fetch()) {
+            $result[$row['name']] = $row['access'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Получение прав для владельца вновь создаваемого объекта
+     *
+     * @return array
+     */
+    public function getForOwner()
+    {
+        $tmp = $this->uid;
+        $this->uid = 0;
+        $result = $this->getDefault();
+        $this->uid = $tmp;
+        return $result;
+    }
+
+    /**
+     * Метод получения списка пользователей, для которых установлены права для конкретного объекта
+     *
+     * @return array
+     */
     public function getUsersList()
     {
         $toolkit = systemToolkit::getInstance();
@@ -253,6 +351,13 @@ class acl
         return $userMapper->searchAllByCriteria($criteria);
     }
 
+    /**
+     * Метод получения списка пользователей, для которых установлены права по умолчанию для конкретного типа объекта
+     *
+     * @param string $section
+     * @param string $class
+     * @return array
+     */
     public function getUsersListDefault($section, $class)
     {
         $toolkit = systemToolkit::getInstance();
@@ -274,12 +379,14 @@ class acl
 
         $criteria->addGroupBy($userMapper->getTable() . '.' . $userMapper->getTableKey());
 
-        //$select = new simpleSelect($criteria);
-        //var_dump($select->toString());
-
         return $userMapper->searchAllByCriteria($criteria);
     }
 
+    /**
+     * Метод получения списка групп, для которых установлены права для конкретного объекта
+     *
+     * @return array
+     */
     public function getGroupsList()
     {
         $toolkit = systemToolkit::getInstance();
@@ -293,6 +400,13 @@ class acl
         return $groupMapper->searchAllByCriteria($criteria);
     }
 
+    /**
+     * Метод получения списка групп, для которых установлены права по умолчанию для конкретного типа объекта
+     *
+     * @param string $section
+     * @param string $class
+     * @return array
+     */
     public function getGroupsListDefault($section, $class)
     {
         $toolkit = systemToolkit::getInstance();
@@ -383,12 +497,27 @@ class acl
         unset($this->result[$this->obj_id]);
     }
 
+    /**
+     * Установка прав для группы
+     *
+     * @param integer $gid
+     * @param array $param
+     * @return null
+     * @see acl::set()
+     */
     public function setForGroup($gid, $param)
     {
         return $this->set($param, null, (int)$gid);
     }
 
-    public function setDefault($gid, $param)
+    /**
+     * Установка прав по умолчанию
+     *
+     * @param integer $gid
+     * @param array $param
+     * @param boolean $isUser
+     */
+    public function setDefault($gid, $param, $isUser = false)
     {
         $qry = "SELECT `a`.* FROM `sys_access_classes_sections` `cs`
                  INNER JOIN `sys_access_classes` `c` ON `cs`.`class_id` = `c`.`id` AND `c`.`name` = " . $this->db->quote($this->class) . "
@@ -401,10 +530,8 @@ class acl
             $this->validActions[$this->class][$val['name']] = $val['id'];
         }
 
-        $qry = "SELECT `cs`.`id` FROM `sys_access_classes_sections` `cs`
-                 INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id` AND `c`.`name` = " . $this->db->quote($this->class) . "
-                  INNER JOIN `sys_access_sections` `s` ON `s`.`id` = `cs`.`section_id` AND `s`.`name` = " . $this->db->quote($this->section) . "";
-        $class_section_id = $this->db->getOne($qry);
+
+        $class_section_id = $this->getClassSection();
 
         $actionsToDelete = array();
         $inserts = '';
@@ -421,7 +548,7 @@ class acl
         // удаляем старые действия
         if (sizeof($actionsToDelete)) {
             $qry = 'DELETE FROM `sys_access` WHERE `action_id` IN (' . implode(', ', $actionsToDelete) . ') AND `class_section_id` = ' . $class_section_id . ' AND `obj_id` = ' . $this->obj_id . ' AND ';
-            $qry .= '`gid` = ' . $gid; // : '`uid` = ' . $this->uid;
+            $qry .= ($isUser ? '`uid`' : '`gid`') . ' = ' . $gid;
             $this->db->query($qry);
         }
 
@@ -429,7 +556,7 @@ class acl
         $inserts = substr($inserts, 0, -2);
 
         if ($inserts) {
-            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_section_id`, `obj_id`, `gid`, `allow`)
+            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_section_id`, `obj_id`, ' . ($isUser ? '`uid`' : '`gid`') . ', `allow`)
                                 VALUES ' . $inserts);
         }
     }
@@ -493,6 +620,11 @@ class acl
         $this->db->query('DELETE FROM `sys_access_registry` WHERE `obj_id` = ' . (int)$obj_id);
     }
 
+    /**
+     * Метод получения имени класса, инстанцией которого является текущий объект
+     *
+     * @return string
+     */
     public function getClass()
     {
         $qry = 'SELECT `c`.`name` FROM `sys_access_registry` `r`
@@ -502,6 +634,12 @@ class acl
         return $this->db->getOne($qry);
     }
 
+    /**
+     * Метод получения имени модуля, которому принадлежит текущий объект
+     *
+     * @param string $class
+     * @return string
+     */
     public function getModule($class = false)
     {
         if (!$class) {
@@ -518,8 +656,22 @@ class acl
         return $this->db->getOne($qry);
     }
 
-    private function getClassSection($class, $section)
+    /**
+     * Метод получения идентификатора класс-секция, характеризующего принадлежность объекта к конкретному классу, расположенному в конкретном разделе
+     *
+     * @param string $class
+     * @param string $section
+     * @return integer
+     */
+    public function getClassSection($class = false, $section = false)
     {
+        if (empty($class)) {
+            $class = $this->class;
+        }
+        if (empty($section)) {
+            $section = $this->section;
+        }
+
         $qry = "SELECT `cs`.`id` FROM `sys_access_classes_sections` `cs`
                  INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
                   INNER JOIN `sys_access_sections` `s` ON `s`.`id` = `cs`.`section_id`

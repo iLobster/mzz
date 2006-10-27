@@ -4,6 +4,11 @@
 <br /><br />
 Пользователи
 <table border="0" width="100%" cellpadding="0" cellspacing="1">
+    <tr>
+        <td align="center">0</td>
+        <td><a href="{url section=access action=editOwner params="$section/$class"}" onClick="openWin('{url section=access action=editOwner params="$section/$class"}', 'access_editowner_{$section}_{$class}', 500, 400); return false;">Владелец объекта</a></td>
+        <td>&nbsp;</td>
+    </td>
     {foreach from=$users item=user}
         <tr>
             <td align="center">{$user->getId()}</td>

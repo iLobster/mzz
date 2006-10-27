@@ -5,6 +5,11 @@
 # Database : mzz
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES cp1251 */;
+
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP DATABASE IF EXISTS `mzz`;
@@ -117,8 +122,8 @@ CREATE TABLE `page_page` (
 #
 
 INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`) VALUES 
-  (1,9,'main','?????? ????????','??? ??????, ??????? ????????'),
-  (2,10,'404','404 Not Found','????????????? ???????? ?? ???????!'),
+  (1,9,'main','ѕерва€ страница','Ёто перва€, главна€ страница'),
+  (2,10,'404','404 Not Found','«апрашиваема€ страница не найдена!'),
   (3,11,'test','test','test');
 
 COMMIT;
@@ -148,34 +153,34 @@ CREATE TABLE `sys_access` (
 #
 
 INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`) VALUES 
-  (146,3,1,0,NULL,1,1),
-  (147,3,1,0,NULL,2,1),
-  (148,4,2,0,NULL,2,1),
-  (149,1,1,0,0,NULL,1),
-  (150,2,1,0,0,NULL,2),
+  (334,1,1,0,1,NULL,0),
+  (333,3,1,0,1,NULL,0),
+  (413,9,3,0,NULL,1,0),
+  (388,9,1,0,0,NULL,1),
+  (387,2,1,0,0,NULL,1),
   (259,9,2,49,2,NULL,1),
   (238,6,2,49,NULL,2,1),
   (237,5,2,49,NULL,2,1),
   (244,6,2,49,NULL,1,0),
   (236,4,2,49,NULL,2,1),
-  (163,5,2,0,NULL,2,1),
-  (164,5,2,0,NULL,1,1),
-  (165,6,2,0,NULL,2,1),
-  (166,7,2,0,0,NULL,1),
-  (167,8,2,0,0,NULL,1),
+  (412,2,3,0,NULL,1,0),
+  (411,12,3,0,NULL,1,0),
+  (394,9,2,0,0,NULL,1),
+  (391,6,2,0,0,NULL,1),
+  (390,5,2,0,0,NULL,1),
   (206,4,2,6,2,NULL,1),
-  (205,9,1,48,2,NULL,1),
+  (375,2,1,48,2,NULL,1),
   (204,3,1,48,NULL,2,1),
   (203,3,1,48,NULL,1,1),
-  (202,2,1,48,2,NULL,2),
-  (175,9,1,0,0,NULL,1),
-  (176,9,2,0,0,NULL,1),
+  (374,1,1,48,2,NULL,1),
+  (386,1,1,0,0,NULL,1),
+  (389,4,2,0,0,NULL,1),
   (211,9,1,6,2,NULL,1),
   (210,8,2,6,2,NULL,1),
   (209,7,2,6,2,NULL,1),
   (208,6,2,6,2,NULL,1),
   (207,5,2,6,2,NULL,1),
-  (201,1,1,48,2,NULL,1),
+  (373,3,1,48,2,NULL,0),
   (258,8,2,49,2,NULL,1),
   (257,7,2,49,2,NULL,1),
   (219,1,1,50,2,NULL,1),
@@ -193,7 +198,43 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (247,9,2,49,NULL,1,0),
   (256,6,2,49,2,NULL,0),
   (255,5,2,49,2,NULL,0),
-  (254,4,2,49,2,NULL,0);
+  (254,4,2,49,2,NULL,0),
+  (393,8,2,0,0,NULL,1),
+  (392,7,2,0,0,NULL,1),
+  (336,9,1,0,1,NULL,0),
+  (335,2,1,0,1,NULL,1),
+  (410,1,3,0,NULL,1,0),
+  (409,5,3,0,NULL,1,1),
+  (408,11,3,0,NULL,1,0),
+  (407,10,3,0,NULL,1,1),
+  (385,3,1,0,0,NULL,1),
+  (376,9,1,48,2,NULL,1),
+  (372,9,2,0,NULL,1,0),
+  (371,8,2,0,NULL,1,0),
+  (370,7,2,0,NULL,1,0),
+  (369,6,2,0,NULL,1,0),
+  (368,5,2,0,NULL,1,1),
+  (367,4,2,0,NULL,1,0),
+  (355,4,2,0,NULL,2,1),
+  (356,5,2,0,NULL,2,1),
+  (357,6,2,0,NULL,2,1),
+  (358,7,2,0,NULL,2,0),
+  (359,8,2,0,NULL,2,0),
+  (360,9,2,0,NULL,2,0),
+  (414,10,3,0,NULL,2,0),
+  (415,11,3,0,NULL,2,1),
+  (416,5,3,0,NULL,2,1),
+  (417,1,3,0,NULL,2,0),
+  (418,12,3,0,NULL,2,0),
+  (419,2,3,0,NULL,2,0),
+  (420,9,3,0,NULL,2,0),
+  (421,10,3,12,1,NULL,0),
+  (422,11,3,12,1,NULL,0),
+  (423,5,3,12,1,NULL,0),
+  (424,1,3,12,1,NULL,1),
+  (425,12,3,12,1,NULL,0),
+  (426,2,3,12,1,NULL,0),
+  (427,9,3,12,1,NULL,0);
 
 COMMIT;
 
@@ -333,6 +374,39 @@ INSERT INTO `sys_access_classes_sections` (`id`, `class_id`, `section_id`) VALUE
 COMMIT;
 
 #
+# Structure for the `sys_access_classes_sections_actions_` table : 
+#
+
+DROP TABLE IF EXISTS `sys_access_classes_sections_actions_`;
+
+CREATE TABLE `sys_access_classes_sections_actions_` (
+  `id` int(11) NOT NULL auto_increment,
+  `class_section_id` int(11) default NULL,
+  `action_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `module_action_unique` (`class_section_id`,`action_id`),
+  KEY `action_id` (`action_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_classes_sections_actions_` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_classes_sections_actions_` (`id`, `class_section_id`, `action_id`) VALUES 
+  (1,1,1),
+  (2,1,2),
+  (3,1,3),
+  (4,2,4),
+  (5,2,5),
+  (6,2,6),
+  (7,2,7),
+  (8,2,8),
+  (9,1,9),
+  (10,2,9);
+
+COMMIT;
+
+#
 # Structure for the `sys_access_modules` table : 
 #
 
@@ -375,7 +449,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (46,1),
   (48,1),
   (49,2),
-  (50,1);
+  (50,1),
+  (12,3),
+  (13,3),
+  (14,4),
+  (15,4);
 
 COMMIT;
 
@@ -582,3 +660,8 @@ INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
 
 COMMIT;
 
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

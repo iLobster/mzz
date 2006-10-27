@@ -56,7 +56,8 @@ class criterionTest extends unitTestCase
     {
         $criterion = new criterion('field', 'value');
         $criterion->addAnd(new criterion('field2', 'value2'));
-        $this->assertEqual($criterion->generate(), "(`field` = 'value') AND (`field2` = 'value2')");
+        $criterion->addAnd(new criterion('field3', 'value3'));
+        $this->assertEqual($criterion->generate(), "(`field` = 'value') AND (`field2` = 'value2') AND (`field3` = 'value3')");
     }
 
     public function testGetField()

@@ -1,0 +1,57 @@
+<?php
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+*/
+
+/**
+ * accessEditOwnerController: контроллер для метода editOwner модуля access
+ *
+ * @package modules
+ * @subpackage access
+ * @version 0.1
+ */
+
+fileLoader::load('access/views/accessEditOwnerView');
+
+class accessEditOwnerController extends simpleController
+{
+    public function getView()
+    {
+        $class = $this->request->get('class_name', 'string', SC_PATH);
+        $section = $this->request->get('section_name', 'string', SC_PATH);
+
+        $acl = new acl($this->toolkit->getUser(), 0, $class, $section);
+
+        $action = $this->toolkit->getAction($acl->getModule($class));
+        $actions = $action->getActions();
+
+        $actions = $actions[$class];
+
+        if ($this->request->getMethod() == 'POST') {
+            $setted = $this->request->get('access', 'array', SC_POST);
+
+            $result = array();
+            foreach ($actions as $key => $val) {
+                $result[$key] = isset($setted[$key]) && $setted[$key];
+            }
+
+            $acl->setDefault(0, $result, true);
+
+            fileLoader::load('access/views/accessEditUserSuccessView');
+            return new accessEditUserSuccessView();
+        }
+
+        return new accessEditOwnerView($acl, array_keys($actions), $class, $section);
+    }
+}
+
+?>
