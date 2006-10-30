@@ -17,7 +17,7 @@
 /**
  * IMzzSmarty: модификация Smarty для работы с шаблонами
  *
- * @version 0.3
+ * @version 0.5
  * @package system
  * @subpackage template
  */

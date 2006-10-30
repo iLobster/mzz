@@ -18,7 +18,7 @@ fileLoader::load('libs/smarty/Smarty.class');
 fileLoader::load('template/IMzzSmarty');
 
 /**
- * mzzSmarty: модификаци€ Smarty дл€ работы с шаблонами
+ * mzzSmarty: модификаци€ Smarty дл€ работы с активными и пассивными шаблонами
  *
  * @version 0.5
  * @package system
@@ -32,7 +32,19 @@ class mzzSmarty extends Smarty
      * @var array
      */
     protected $mzzResources = array();
+
+    /**
+     * ќбработанные шаблоны. Ќеобходимо дл€ предотвращении рекурсивного вложени€ шаблонов
+     *
+     * @var array
+     */
     protected $fetchedTemplates = array();
+
+    /**
+     * –азрешение на вложение одного шаблона в другой
+     *
+     * @var boolean
+     */
     protected $nesting = true;
 
     /**
@@ -137,11 +149,11 @@ class mzzSmarty extends Smarty
     public static function parse($str)
     {
         $params = array();
-        if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $clean_str)) {
-            $clean_str = preg_split('/\s+/', $clean_str[1]);
+        if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $matches)) {
+            $clean_str = preg_split('/\s+/', $matches[1]);
             foreach ($clean_str as $str) {
                 $param = explode('=', $str, 2);
-                $params[$param[0]] = str_replace(array("'", '"'), '', $param[1]);
+                $params[$param[0]] = trim($param[1], '\'"');
             }
         }
         return $params;
@@ -158,6 +170,11 @@ class mzzSmarty extends Smarty
         return $this->nesting && (strpos($template, "{* main=") !== false);
     }
 
+    /**
+     * ”станавливает разрешение на вложение одного шаблона в другой
+     *
+     * @param boolean $flag
+     */
     public function allowNesting($flag)
     {
         $this->nesting = $flag;

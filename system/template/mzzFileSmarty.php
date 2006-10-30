@@ -32,7 +32,6 @@ class mzzFileSmarty implements IMzzSmarty
 
     /**
      * Выполняет шаблон и возвращает результат
-     * Декорирован для реализации вложенных шаблонов.
      *
      * @param string $resource
      * @param string $cache_id
@@ -45,6 +44,7 @@ class mzzFileSmarty implements IMzzSmarty
         $this->smarty = $smarty;
         $resource_name = $this->getResourceFileName($resource[1], $this->smarty);
 
+        // Для определения активного шаблоного достаточно прочитать первые 256 байтов из шаблона
         $template = new SplFileObject($this->getTemplateDir() . '/' . $resource_name, 'r');
         $template = $template->fgets(256);
 
