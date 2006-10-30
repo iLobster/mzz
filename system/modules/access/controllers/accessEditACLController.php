@@ -20,9 +20,9 @@
  * @version 0.1
  */
 
-fileLoader::load('access/views/accessEditView');
+fileLoader::load('access/views/accessEditACLView');
 
-class accessEditController extends simpleController
+class accessEditACLController extends simpleController
 {
     public function getView()
     {
@@ -64,7 +64,7 @@ class accessEditController extends simpleController
         $select = new simpleSelect($criteria);
         $groupsNotAdded = $db->getOne($select->toString());
 
-        return new accessEditView($users, $groups, $id, (bool)$usersNotAdded, (bool)$groupsNotAdded);
+        return new accessEditACLView($users, $groups, $id, (bool)$usersNotAdded, (bool)$groupsNotAdded);
     }
 }
 

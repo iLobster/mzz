@@ -38,6 +38,7 @@ function smarty_function_load($params, $smarty)
         $error = "Template error. Module is not specified.";
         throw new mzzRuntimeException($error);
     }
+
     $module = $params['module'];
     $modulename = $module . 'Factory';
 
@@ -63,26 +64,37 @@ function smarty_function_load($params, $smarty)
     $mappername = $action->getType() . 'Mapper';
     $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
 
-    //$object_id = $mapper->convertArgsToId($request->getParams());
-    //$acl = new acl($toolkit->getUser(), )
-    /*
     $object_id = $mapper->convertArgsToId($request->getParams());
 
-    $user = $toolkit->getUser();
+    $acl = new acl($toolkit->getUser(), $object_id);
 
-    $acl = new acl($module, $request->getSection(), $user, $object_id);
-    echo $acl->get($action->getActionName()) ? 'есть доступ' : 'нет доступа'; */
+    $actionName = $action->getActionName();
 
-    $factory = new $modulename($action);
-    $controller = $factory->getController();
-    $view = $controller->getView();
+    $aclActions = array('editUser', 'addUser', 'editGroup', 'addGroup');
+    if (in_array($actionName, $aclActions)) {
+        $actionName = 'editACL';
+    }
+
+    $access = $acl->get($actionName);
+
+    $result = '';
+
+    if ($access) {
+
+        $factory = new $modulename($action);
+        $controller = $factory->getController();
+        $view = $controller->getView();
+
+        if(!isset($_REQUEST['xajax'])) {
+            $result = $view->toString();
+        }
+    } else {
+        $result = 'нет доступа. Модуль <b>' . $module . ' </b>, экшн <b>' . $actionName . '</b>, obj_id <b>' . $object_id . '</b>';
+    }
 
     $request->restore();
 
-    if(!isset($_REQUEST['xajax'])) {
-        $result = $view->toString();
-        return $result;
-    }
+    return $result;
 }
 
 ?>

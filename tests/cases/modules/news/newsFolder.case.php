@@ -180,16 +180,6 @@ class newsFolderTest extends unitTestCase
             $this->assertIdentical($this->newsFolder->$getter(), $second);
         }
     }
-
-    public function testConvertArgsToId()
-    {
-        $this->db->query("INSERT INTO `news_newsfolder` (`obj_id`, `path`) VALUES (666, 'some/path')");
-
-        $newsFolder = $this->mapper->searchByPath('some/path');
-
-        $this->assertEqual($this->mapper->convertArgsToId(array('some', 'path')), $newsFolder->getObjId());
-    }
-
 }
 
 ?>

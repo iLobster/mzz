@@ -1,3 +1,4 @@
+<img src='/templates/images/close.png' width=16 height=16 border=0 onclick="javascript: hideJip();" alt="закрыть" />
 {add file="popup.js"}
 {add file="confirm.js"}
 Пользователи

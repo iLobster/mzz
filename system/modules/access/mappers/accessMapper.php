@@ -56,7 +56,7 @@ class accessMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-
+        return (int)$args['id'];
     }
 }
 

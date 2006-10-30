@@ -93,7 +93,7 @@ class jip
     {
         $url = new url();
         $url->setSection('access');
-        $url->setAction('edit');
+        $url->setAction('editACL');
         $url->addParam($obj_id);
         return $url->get();
     }

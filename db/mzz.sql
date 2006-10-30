@@ -168,18 +168,18 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (394,9,2,0,0,NULL,1),
   (391,6,2,0,0,NULL,1),
   (390,5,2,0,0,NULL,1),
-  (206,4,2,6,2,NULL,1),
+  (441,9,2,6,2,NULL,1),
   (375,2,1,48,2,NULL,1),
   (204,3,1,48,NULL,2,1),
   (203,3,1,48,NULL,1,1),
   (374,1,1,48,2,NULL,1),
   (386,1,1,0,0,NULL,1),
   (389,4,2,0,0,NULL,1),
-  (211,9,1,6,2,NULL,1),
-  (210,8,2,6,2,NULL,1),
-  (209,7,2,6,2,NULL,1),
-  (208,6,2,6,2,NULL,1),
-  (207,5,2,6,2,NULL,1),
+  (440,8,2,6,2,NULL,1),
+  (439,7,2,6,2,NULL,1),
+  (438,6,2,6,2,NULL,1),
+  (437,5,2,6,2,NULL,1),
+  (436,4,2,6,2,NULL,1),
   (373,3,1,48,2,NULL,0),
   (258,8,2,49,2,NULL,1),
   (257,7,2,49,2,NULL,1),
@@ -234,7 +234,9 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (424,1,3,12,1,NULL,1),
   (425,12,3,12,1,NULL,0),
   (426,2,3,12,1,NULL,0),
-  (427,9,3,12,1,NULL,0);
+  (427,9,3,12,1,NULL,0),
+  (428,3,5,19,NULL,1,1),
+  (429,3,5,19,NULL,2,1);
 
 COMMIT;
 
@@ -298,7 +300,8 @@ INSERT INTO `sys_access_classes` (`id`, `name`, `module_id`) VALUES
   (1,'news',1),
   (2,'newsFolder',1),
   (3,'user',2),
-  (4,'group',2);
+  (4,'group',2),
+  (5,'timer',3);
 
 COMMIT;
 
@@ -369,7 +372,8 @@ INSERT INTO `sys_access_classes_sections` (`id`, `class_id`, `section_id`) VALUE
   (1,1,1),
   (2,2,1),
   (3,3,2),
-  (4,4,2);
+  (4,4,2),
+  (5,5,3);
 
 COMMIT;
 
@@ -424,7 +428,8 @@ CREATE TABLE `sys_access_modules` (
 
 INSERT INTO `sys_access_modules` (`id`, `name`) VALUES 
   (1,'news'),
-  (2,'user');
+  (2,'user'),
+  (3,'timer');
 
 COMMIT;
 
@@ -476,6 +481,7 @@ CREATE TABLE `sys_access_sections` (
 
 INSERT INTO `sys_access_sections` (`id`, `name`) VALUES 
   (1,'news'),
+  (3,'timer'),
   (2,'user');
 
 COMMIT;
@@ -656,7 +662,8 @@ CREATE TABLE `user_usergroup_rel` (
 
 INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
   (1,1,1,50),
-  (23,2,2,47);
+  (23,2,2,47),
+  (24,1,2,51);
 
 COMMIT;
 

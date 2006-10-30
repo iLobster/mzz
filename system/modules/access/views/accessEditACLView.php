@@ -21,7 +21,7 @@
  */
 
 
-class accessEditView extends simpleView
+class accessEditACLView extends simpleView
 {
     private $groups;
     private $id;

@@ -293,7 +293,7 @@ abstract class simpleMapper //implements iCacheable
 
         foreach ($this->getOwns() as $key => $val) {
             $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
-            $tmp[$this->name][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
+            $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
         }
 
         return $tmp[$this->className];

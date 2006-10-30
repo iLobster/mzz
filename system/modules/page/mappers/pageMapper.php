@@ -66,7 +66,7 @@ class pageMapper extends simpleMapper
 
     public function convertArgsToId($args)
     {
-        $page = $this->searchOneByField('name', $args[0]);
+        $page = $this->searchOneByField('name', $args['name']);
         return (int)$page->getObjId();
     }
 

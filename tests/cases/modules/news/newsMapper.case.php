@@ -161,7 +161,7 @@ class newsMapperTest extends unitTestCase
 
         $news = $this->mapper->searchById($id = 1);
 
-        $this->assertEqual($this->mapper->convertArgsToId(array($id, 2, 3)), $news->getObjId());
+        $this->assertEqual($this->mapper->convertArgsToId(array('id' => $id)), $news->getObjId());
     }
 
 

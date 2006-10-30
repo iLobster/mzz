@@ -188,6 +188,14 @@ class newsFolderMapperTest extends unitTestCase
         return $total;
     }
 
+    public function testConvertArgsToId()
+    {
+        $this->db->query("INSERT INTO `news_newsfolder` (`obj_id`, `path`) VALUES (666, 'some/path')");
+
+        $newsFolder = $this->mapper->searchByPath('some/path');
+
+        $this->assertEqual($this->mapper->convertArgsToId(array('name' => 'some/path')), $newsFolder->getObjId());
+    }
 
 
     private function fixture($mapper, $map)

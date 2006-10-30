@@ -80,7 +80,7 @@ class newsMapper extends simpleMapper
 
     public function convertArgsToId($args)
     {
-        $news = $this->searchOneByField('id', $args[0]);
+        $news = $this->searchOneByField('id', $args['id']);
         return (int)$news->getObjId();
     }
 }

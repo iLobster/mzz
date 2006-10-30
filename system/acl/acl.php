@@ -99,6 +99,7 @@ class acl
      */
     public function __construct($user = null, $object_id = 0, $class = '', $section = '', $alias = 'default')
     {
+        $this->db = db::factory($this->alias);
         //@todo проверить на существование
         $this->alias = $alias;
 
@@ -106,7 +107,7 @@ class acl
             $toolkit = systemToolkit::getInstance();
             $user = $toolkit->getUser($this->alias);
         }
-
+        //var_dump($this->db->getQueriesNum());
         if (!($user instanceof user)) {
             throw new mzzInvalidParameterException('Переменная $user не является инстанцией класса user', $user);
         }
@@ -117,10 +118,14 @@ class acl
         if (!is_int($object_id)) {
             throw new mzzInvalidParameterException('Переменная object_id не является переменной целочисленного типа', $object_id);
         }
+
         $this->obj_id = $object_id;
         $this->uid = $user->getId();
+
         $this->groups = $user->getGroupsList();
 
+        //var_dump($this->db->getQueriesNum());
+        //echo '<br><br>';
         $this->db = db::factory($this->alias);
     }
 
