@@ -161,7 +161,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (259,9,2,49,2,NULL,1),
   (238,6,2,49,NULL,2,1),
   (237,5,2,49,NULL,2,1),
-  (244,6,2,49,NULL,1,0),
+  (449,9,2,49,NULL,1,0),
   (236,4,2,49,NULL,2,1),
   (412,2,3,0,NULL,1,0),
   (411,12,3,0,NULL,1,0),
@@ -188,14 +188,14 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (221,3,1,50,NULL,1,1),
   (222,3,1,50,NULL,2,1),
   (223,9,1,50,2,NULL,1),
-  (243,5,2,49,NULL,1,0),
-  (242,4,2,49,NULL,1,1),
+  (448,8,2,49,NULL,1,0),
+  (447,7,2,49,NULL,1,0),
   (241,9,2,49,NULL,2,0),
   (240,8,2,49,NULL,2,0),
   (239,7,2,49,NULL,2,0),
-  (245,7,2,49,NULL,1,0),
-  (246,8,2,49,NULL,1,0),
-  (247,9,2,49,NULL,1,0),
+  (446,6,2,49,NULL,1,0),
+  (445,5,2,49,NULL,1,1),
+  (444,4,2,49,NULL,1,1),
   (256,6,2,49,2,NULL,0),
   (255,5,2,49,2,NULL,0),
   (254,4,2,49,2,NULL,0),
@@ -205,7 +205,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (335,2,1,0,1,NULL,1),
   (410,1,3,0,NULL,1,0),
   (409,5,3,0,NULL,1,1),
-  (408,11,3,0,NULL,1,0),
+  (408,11,3,0,NULL,1,1),
   (407,10,3,0,NULL,1,1),
   (385,3,1,0,0,NULL,1),
   (376,9,1,48,2,NULL,1),
@@ -236,7 +236,9 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (426,2,3,12,1,NULL,0),
   (427,9,3,12,1,NULL,0),
   (428,3,5,19,NULL,1,1),
-  (429,3,5,19,NULL,2,1);
+  (429,3,5,19,NULL,2,1),
+  (442,10,3,12,NULL,1,1),
+  (443,10,3,13,NULL,2,1);
 
 COMMIT;
 
@@ -588,7 +590,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (49),
   (50),
   (51),
-  (52);
+  (52),
+  (53);
 
 COMMIT;
 
@@ -662,8 +665,7 @@ CREATE TABLE `user_usergroup_rel` (
 
 INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
   (1,1,1,50),
-  (23,2,2,47),
-  (24,1,2,51);
+  (23,2,2,47);
 
 COMMIT;
 

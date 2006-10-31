@@ -152,6 +152,10 @@ class userMapper extends simpleMapper
 
     public function convertArgsToId($args)
     {
+        $toolkit = systemToolkit::getInstance();
+        $user = $toolkit->getUser();
+        return $user->getObjId();
+        var_dump($args);
         $user = $this->searchOneByField('id', $args[0]);
         return (int)$user->getObjId();
     }

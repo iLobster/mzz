@@ -103,6 +103,8 @@ class acl
         //@todo проверить на существование
         $this->alias = $alias;
 
+        $object_id = (int)$object_id;
+
         if (empty($user)) {
             $toolkit = systemToolkit::getInstance();
             $user = $toolkit->getUser($this->alias);
@@ -658,7 +660,14 @@ class acl
                      INNER JOIN `sys_access_modules` `m` ON `m`.`id` = `c`.`module_id`
                       WHERE `c`.`name` = ' . $this->db->quote($class);
         }
-        return $this->db->getOne($qry);
+
+        $module = $this->db->getOne($qry);
+
+        if (is_null($module)) {
+            throw new mzzRuntimeException('Выбранный объект не зарегистрирован в acl');
+        }
+
+        return $module;
     }
 
     /**

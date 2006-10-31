@@ -69,7 +69,6 @@ class pageMapper extends simpleMapper
         $page = $this->searchOneByField('name', $args['name']);
         return (int)$page->getObjId();
     }
-
 }
 
 ?>

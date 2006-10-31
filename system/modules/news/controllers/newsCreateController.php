@@ -38,7 +38,7 @@ class newsCreateController extends simpleController
             $view = new newsCreateView($news, $form);
         } else {
             $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());
-            $folder = $newsFolderMapper->searchByName($this->request->get('name', 'string', SC_PATH));
+            $folder = $newsFolderMapper->searchByPath($this->request->get('name', 'string', SC_PATH));
 
             $values = $form->exportValues();
             $news->setTitle($values['title']);
