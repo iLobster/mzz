@@ -61,7 +61,7 @@ window.onload = function() {
 <a href="{url section=news}">Новости</a> | <a href="{url section=page}">Страницы</a> | <a href="{url section=user action=list}">Пользователь</a><p />
 {$content}
 <p />
-{load module="user" action="login" args="1" section="user"}
+{load module="user" action="login" args="" section="user"}
 <div class="separator">&nbsp;</div>
 {load module="timer" action="view" section="timer"}
 </body>

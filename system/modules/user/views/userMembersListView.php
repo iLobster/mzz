@@ -27,8 +27,8 @@ class userMembersListView extends simpleView
 
     public function __construct($group, $users)
     {
-        parent::__construct($group);
         $this->users = $users;
+        parent::__construct($group);
     }
 
     public function toString()
