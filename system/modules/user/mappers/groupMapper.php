@@ -60,6 +60,7 @@ class groupMapper extends simpleMapper
 
     public function convertArgsToId($args)
     {
+        //return 1;
         $group = $this->searchOneByField('id', $args[0]);
         return (int)$group->getObjId();
     }

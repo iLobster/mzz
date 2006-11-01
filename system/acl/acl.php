@@ -587,28 +587,34 @@ class acl
             throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
         }
 
-        if (!empty($class)) {
-            $this->class = $class;
+        $id = $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = ' . $this->obj_id);
+
+        if (!$id) {
+
+            if (!empty($class)) {
+                $this->class = $class;
+            }
+
+            if (!empty($section)) {
+                $this->section = $section;
+            }
+
+            if (empty($this->class) || !is_string($this->class)) {
+                throw new mzzInvalidParameterException('Свойство $class не установлено или имеет тип, отличный от string', $this->class);
+            }
+
+            if (empty($this->section) || !is_string($this->section)) {
+                throw new mzzInvalidParameterException('Свойство $section не установлено или имеет тип, отличный от string', $this->section);
+            }
+
+            $qry = $this->getQuery();
+            $this->doRoutine($qry, $obj_id);
+
+            $id = $this->getClassSection($this->class, $this->section);
+
+            $this->db->query('INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (' . $this->obj_id . ', ' . $id . ')');
+
         }
-
-        if (!empty($section)) {
-            $this->section = $section;
-        }
-
-        if (empty($this->class) || !is_string($this->class)) {
-            throw new mzzInvalidParameterException('Свойство $class не установлено или имеет тип, отличный от string', $this->class);
-        }
-
-        if (empty($this->section) || !is_string($this->section)) {
-            throw new mzzInvalidParameterException('Свойство $section не установлено или имеет тип, отличный от string', $this->section);
-        }
-
-        $qry = $this->getQuery();
-        $this->doRoutine($qry, $obj_id);
-
-        $id = $this->getClassSection($this->class, $this->section);
-
-        $this->db->query('INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (' . $this->obj_id . ', ' . $id . ')');
     }
 
     /**

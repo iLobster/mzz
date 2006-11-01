@@ -199,7 +199,7 @@ class userMapperTest extends unitTestCase
 
         $user = $this->mapper->searchById($id = 1);
 
-        $this->assertEqual($this->mapper->convertArgsToId(array($id, 2, 3)), $user->getObjId());
+        $this->assertEqual($this->mapper->convertArgsToId(array('id' => $id)), $user->getObjId());
     }
 
     private function countUsers()

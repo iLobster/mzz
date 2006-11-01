@@ -78,7 +78,7 @@ function smarty_function_load($params, $smarty)
     $access = $acl->get($actionName);
 
     $result = '';
-
+    //$access = true;
     if ($access) {
 
         $factory = new $modulename($action);

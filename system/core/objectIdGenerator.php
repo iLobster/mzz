@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage core
- * @version $Id: objectIdGenerator.php 143 2006-10-03 21:03:16Z zerkms $
+ * @version $Id: objectIdGenerator.php 251 2006-11-01 04:49:40Z zerkms $
 */
 
 /**
@@ -52,13 +52,23 @@ class objectIdGenerator
      *
      * @return integer
      */
-    public function generate()
+    public function generate($name = null)
     {
+        if (!is_null($name)) {
+            $id = $this->db->getOne('SELECT `obj_id` FROM `sys_obj_id_named` WHERE `name` = ' . $this->db->quote($name));
+            if (is_null($id)) {
+                $id = $this->generate();
+                $this->db->query('INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES (' . $id .', ' . $this->db->quote($name) . ')');
+            }
+
+            return (int)$id;
+        }
+
         $id = $this->insert();
         if ($id % $this->clearEvery == 0) {
             $this->clean($id);
         }
-        return $id;
+        return (int)$id;
     }
 
     /**

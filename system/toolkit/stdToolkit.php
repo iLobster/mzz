@@ -230,13 +230,13 @@ class stdToolkit extends toolkit
      *
      * @return integer
      */
-    public function getObjectId()
+    public function getObjectId($name = null)
     {
         if (empty($this->objectIdGenerator)) {
             fileLoader::load('core/objectIdGenerator');
             $this->objectIdGenerator = new objectIdGenerator;
         }
-        return $this->objectIdGenerator->generate();
+        return $this->objectIdGenerator->generate($name);
     }
 
     /**

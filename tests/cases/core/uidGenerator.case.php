@@ -21,6 +21,7 @@ class objectIDGeneratorTest extends unitTestCase
     public function clearDB()
     {
         $this->db->query('TRUNCATE TABLE `sys_obj_id`');
+        $this->db->query('TRUNCATE TABLE `sys_obj_id_named`');
     }
 
     public function testGenerate()
@@ -50,6 +51,12 @@ class objectIDGeneratorTest extends unitTestCase
         $this->assertEqual($this->getCount(), 1);
 
         $this->assertEqual($this->toolkit->getObjectId(), 1000001);
+    }
+
+    public function testGetNamedObjects()
+    {
+        $this->assertEqual($this->toolkit->getObjectId('sample_name'), $obj_id = $this->db->getOne('SELECT MAX(`id`) FROM `sys_obj_id`'));
+        $this->assertEqual($this->toolkit->getObjectId('sample_name'), $obj_id);
     }
 
     private function getCount()

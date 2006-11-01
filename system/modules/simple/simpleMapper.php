@@ -208,9 +208,15 @@ abstract class simpleMapper //implements iCacheable
 
             $object->import($data);
 
-            $acl = new acl($toolkit->getUser());
-            $acl->register($object->getObjId(), $this->className, $this->section());
+            $this->register($object->getObjId());
         }
+    }
+
+    protected function register($obj_id)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $acl = new acl($toolkit->getUser());
+        $acl->register($obj_id, $this->className, $this->section());
     }
 
     /**
@@ -384,6 +390,9 @@ abstract class simpleMapper //implements iCacheable
 
         $select = new simpleSelect($criteria);
         //var_dump($select->toString()); echo '<br><br>';
+        /*$f = fopen('c:/q', 'a');
+        fwrite($f, $select->toString() . "\r\n");
+        fclose($f);*/
         $stmt = $this->db->query($select->toString());
 
         return $stmt;

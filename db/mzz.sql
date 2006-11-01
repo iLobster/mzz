@@ -238,7 +238,57 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (428,3,5,19,NULL,1,1),
   (429,3,5,19,NULL,2,1),
   (442,10,3,12,NULL,1,1),
-  (443,10,3,13,NULL,2,1);
+  (443,10,3,13,NULL,2,1),
+  (466,9,6,9,NULL,1,0),
+  (465,2,6,9,NULL,1,0),
+  (464,1,6,9,NULL,1,0),
+  (463,4,6,9,NULL,1,0),
+  (462,5,6,9,NULL,1,1),
+  (468,5,6,9,NULL,2,0),
+  (467,3,6,9,NULL,2,1),
+  (461,3,6,9,NULL,1,1),
+  (469,4,6,9,NULL,2,0),
+  (470,1,6,9,NULL,2,1),
+  (471,2,6,9,NULL,2,0),
+  (472,9,6,9,NULL,2,1),
+  (486,3,6,10,NULL,2,1),
+  (485,9,6,10,NULL,1,0),
+  (484,2,6,10,NULL,1,0),
+  (483,1,6,10,NULL,1,0),
+  (482,4,6,10,NULL,1,0),
+  (481,5,6,10,NULL,1,1),
+  (480,3,6,10,NULL,1,1),
+  (487,5,6,10,NULL,2,1),
+  (488,4,6,10,NULL,2,1),
+  (489,1,6,10,NULL,2,1),
+  (490,2,6,10,NULL,2,0),
+  (491,9,6,10,NULL,2,1),
+  (504,9,6,11,NULL,2,1),
+  (503,2,6,11,NULL,2,1),
+  (502,1,6,11,NULL,2,1),
+  (501,4,6,11,NULL,2,1),
+  (500,5,6,11,NULL,2,1),
+  (499,3,6,11,NULL,2,1),
+  (505,3,6,11,NULL,1,1),
+  (506,5,6,11,NULL,1,1),
+  (507,4,6,11,NULL,1,0),
+  (508,1,6,11,NULL,1,0),
+  (509,2,6,11,NULL,1,0),
+  (510,9,6,11,NULL,1,0),
+  (511,10,3,55,NULL,1,1),
+  (512,10,3,55,NULL,2,0),
+  (513,11,3,55,NULL,1,1),
+  (514,11,3,55,NULL,2,1),
+  (515,5,3,55,NULL,1,1),
+  (516,5,3,55,NULL,2,1),
+  (517,1,3,55,NULL,1,0),
+  (518,1,3,55,NULL,2,0),
+  (519,12,3,55,NULL,1,0),
+  (520,12,3,55,NULL,2,0),
+  (521,2,3,55,NULL,1,0),
+  (522,2,3,55,NULL,2,0),
+  (523,9,3,55,NULL,1,0),
+  (524,9,3,55,NULL,2,0);
 
 COMMIT;
 
@@ -303,7 +353,8 @@ INSERT INTO `sys_access_classes` (`id`, `name`, `module_id`) VALUES
   (2,'newsFolder',1),
   (3,'user',2),
   (4,'group',2),
-  (5,'timer',3);
+  (5,'timer',3),
+  (6,'page',4);
 
 COMMIT;
 
@@ -348,7 +399,13 @@ INSERT INTO `sys_access_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (20,4,16),
   (21,4,17),
   (22,3,9),
-  (23,4,9);
+  (23,4,9),
+  (24,6,3),
+  (25,6,9),
+  (26,6,5),
+  (27,6,4),
+  (28,6,1),
+  (29,6,2);
 
 COMMIT;
 
@@ -375,40 +432,8 @@ INSERT INTO `sys_access_classes_sections` (`id`, `class_id`, `section_id`) VALUE
   (2,2,1),
   (3,3,2),
   (4,4,2),
-  (5,5,3);
-
-COMMIT;
-
-#
-# Structure for the `sys_access_classes_sections_actions_` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_classes_sections_actions_`;
-
-CREATE TABLE `sys_access_classes_sections_actions_` (
-  `id` int(11) NOT NULL auto_increment,
-  `class_section_id` int(11) default NULL,
-  `action_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `module_action_unique` (`class_section_id`,`action_id`),
-  KEY `action_id` (`action_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_access_classes_sections_actions_` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_classes_sections_actions_` (`id`, `class_section_id`, `action_id`) VALUES 
-  (1,1,1),
-  (2,1,2),
-  (3,1,3),
-  (4,2,4),
-  (5,2,5),
-  (6,2,6),
-  (7,2,7),
-  (8,2,8),
-  (9,1,9),
-  (10,2,9);
+  (5,5,3),
+  (6,6,4);
 
 COMMIT;
 
@@ -431,7 +456,8 @@ CREATE TABLE `sys_access_modules` (
 INSERT INTO `sys_access_modules` (`id`, `name`) VALUES 
   (1,'news'),
   (2,'user'),
-  (3,'timer');
+  (3,'timer'),
+  (4,'page');
 
 COMMIT;
 
@@ -460,7 +486,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (12,3),
   (13,3),
   (14,4),
-  (15,4);
+  (15,4),
+  (9,6),
+  (10,6),
+  (11,6),
+  (55,3);
 
 COMMIT;
 
@@ -483,6 +513,7 @@ CREATE TABLE `sys_access_sections` (
 
 INSERT INTO `sys_access_sections` (`id`, `name`) VALUES 
   (1,'news'),
+  (4,'page'),
   (3,'timer'),
   (2,'user');
 
@@ -591,7 +622,29 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (50),
   (51),
   (52),
-  (53);
+  (53),
+  (54),
+  (55);
+
+COMMIT;
+
+#
+# Structure for the `sys_obj_id_named` table : 
+#
+
+DROP TABLE IF EXISTS `sys_obj_id_named`;
+
+CREATE TABLE `sys_obj_id_named` (
+  `obj_id` int(11) unsigned default NULL,
+  `name` char(255) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_obj_id_named` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES 
+  (55,'user_userFolder');
 
 COMMIT;
 
