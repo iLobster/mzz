@@ -79,6 +79,29 @@ class requestRouteTest extends unitTestCase
 
     }
 
+    public function testAssemble()
+    {
+        $route = new requestRoute('somepath/:controller/{:id}-:action/:default', array('default' => 'default'));
+        $this->assertEqual(
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view')),
+            'somepath/news/1-view/default'
+        );
+
+    }
+
+    public function testAssembleException()
+    {
+        $route = new requestRoute(':req_param');
+        try {
+            $route->assemble();
+            $this->fail('no exception thrown?');
+        } catch (Exception $e) {
+            $this->assertPattern("/req_param/i", $e->getMessage());
+            $this->pass();
+        }
+
+    }
+
 }
 
 ?>

@@ -27,7 +27,6 @@ fileLoader::load('request/iRoute');
  * new requestRoute(':controller/{:id}some', array(), array('id' => '\d+')); // совпадает с news/1some
  * </code>
  *
- * @todo композиция URL (?)
  * @package system
  * @subpackage request
  * @version 0.1
@@ -130,7 +129,7 @@ class requestRoute implements iRoute
         $this->values = $this->defaults;
 
         if (empty($this->regex)) {
-            $this->prepareRegexp();
+            $this->prepare();
         }
 
         if ($this->debug) {
@@ -168,7 +167,7 @@ class requestRoute implements iRoute
      * на совпадение PATH с шаблоном
      *
      */
-    protected function prepareRegexp()
+    protected function prepare()
     {
 
         $this->parts = preg_split('#(?:\{?(\:[a-z_]+)\}?)|(/\*$)#i', $this->pattern, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
@@ -211,6 +210,36 @@ class requestRoute implements iRoute
 
         $this->regex .= '$' . self::REGEX_DELIMITER;
     }
+
+    public function assemble($values = array())
+    {
+        if (empty($this->parts)) {
+            $this->prepare();
+        }
+
+        $url = '';
+        foreach ($this->parts as $part) {
+            if ($part['isVar']) {
+                if (isset($values[$part['name']])) {
+                    $url .= $values[$part['name']];
+                    unset($values[$part['name']]);
+                } elseif ($part == "*") {
+                    foreach($values as $key => $value) {
+                        $url .= '/' . $key . '/' . $value;
+                    }
+                } elseif (isset($this->defaults[$part['name']])) {
+                    $url .= $this->defaults[$part['name']];
+                } else {
+                    throw new mzzRuntimeException('Отсутствует значение для Route: ' . $part['name']);
+                }
+            } else {
+                $url .= $part['name'];
+            }
+        }
+
+        return $url;
+    }
+
 }
 
 ?>
