@@ -73,6 +73,11 @@ function smarty_function_load($params, $smarty)
     $aclActions = array('editUser', 'addUser', 'editGroup', 'addGroup');
     if (in_array($actionName, $aclActions)) {
         $actionName = 'editACL';
+    } else {
+        $aclDefaultActions = array('editOwner', 'editUserDefault', 'editGroupDefault');
+        if (in_array($actionName, $aclDefaultActions)) {
+            $actionName = 'editDefault';
+        }
     }
 
     $access = $acl->get($actionName);

@@ -19,10 +19,26 @@
 
 class timerMapper extends simpleMapper
 {
+    /**
+     * Имя модуля
+     *
+     * @var string
+     */
+    protected $name = 'timer';
+
+    /**
+     * Имя класса DataObject
+     *
+     * @var string
+     */
+    protected $className = 'timer';
+
     public function convertArgsToId($args)
     {
-        // таймер один - даже хз какой сюда нумбер указать, взял просто следующий
-        return 19;
+        $toolkit = systemToolkit::getInstance();
+        $obj_id = $toolkit->getObjectId('timer_timer');
+        $this->register($obj_id);
+        return $obj_id;
     }
 }
 

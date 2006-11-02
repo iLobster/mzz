@@ -187,7 +187,7 @@ class action
      *
      * @return array
      */
-    public function getActions()
+    public function getActions($onlyACL = false)
     {
         if (empty($this->actions)) {
             foreach ($this->paths as $path) {
@@ -201,6 +201,19 @@ class action
                 }
             }
         }
+
+        if ($onlyACL) {
+            $tmp = array();
+            foreach ($this->actions as $key => $val) {
+                foreach ($val as $subkey => $subval) {
+                    if (!isset($subval['inACL']) || $subval['inACL'] == 1) {
+                        $tmp[$key][$subkey] = $subval;
+                    }
+                }
+            }
+            return $tmp;
+        }
+
         return $this->actions;
     }
 

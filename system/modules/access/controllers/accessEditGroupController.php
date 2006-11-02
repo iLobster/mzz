@@ -40,7 +40,7 @@ class accessEditGroupController extends simpleController
         $acl = new acl($this->toolkit->getUser(), $obj_id);
 
         $action = $this->toolkit->getAction($acl->getModule());
-        $actions = $action->getActions();
+        $actions = $action->getActions(true);
 
         $actions = $actions[$acl->getClass()];
 

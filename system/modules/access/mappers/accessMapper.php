@@ -56,7 +56,14 @@ class accessMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        return (int)$args['id'];
+        if (isset($args['id'])) {
+            return $args['id'];
+        }
+
+        $toolkit = systemToolkit::getInstance();
+        $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['class_name']);
+        $this->register($obj_id, 'sys', 'access');
+        return $obj_id;
     }
 }
 

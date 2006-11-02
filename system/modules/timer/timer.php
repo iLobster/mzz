@@ -18,12 +18,14 @@
  * @version 0.1
  */
 
-class timer
+class timer extends simple
 {
+    protected $name = 'timer';
+
     private $db;
     /**#@+
-     * @var integer
-     */
+    * @var integer
+    */
     private $queries_start;
     private $queries_finish;
     private $prepared_start;
@@ -31,8 +33,8 @@ class timer
     /**#@-*/
 
     /**#@+
-     * @var float
-     */
+    * @var float
+    */
     private $start;
     private $finish;
     private $queries_time_start;
@@ -113,6 +115,18 @@ class timer
     public function getPreparedNum()
     {
         return $this->prepared_finish - $this->prepared_start;
+    }
+
+    public function getId()
+    {
+        return 1;
+    }
+
+    public function getObjId()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $obj_id = $toolkit->getObjectId('timer_timer');
+        return $obj_id;
     }
 }
 

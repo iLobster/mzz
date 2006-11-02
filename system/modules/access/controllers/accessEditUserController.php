@@ -40,8 +40,8 @@ class accessEditUserController extends simpleController
         $acl = new acl($user, $obj_id);
 
         $action = $this->toolkit->getAction($acl->getModule());
-        $actions = $action->getActions();
-
+        $actions = $action->getActions(true);
+//var_dump($actions);
         $actions = $actions[$acl->getClass()];
 
         if ($this->request->getMethod() == 'POST' && $user_id == $user->getId()) {

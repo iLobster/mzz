@@ -212,11 +212,18 @@ abstract class simpleMapper //implements iCacheable
         }
     }
 
-    protected function register($obj_id)
+    protected function register($obj_id, $section = null, $className = null)
     {
+        if (is_null($className)) {
+            $className = $this->className;
+        }
+
+        if (is_null($section)) {
+            $section = $this->section();
+        }
         $toolkit = systemToolkit::getInstance();
         $acl = new acl($toolkit->getUser());
-        $acl->register($obj_id, $this->className, $this->section());
+        $acl->register($obj_id, $className, $section);
     }
 
     /**
