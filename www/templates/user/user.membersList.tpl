@@ -1,7 +1,7 @@
 {add file="popup.js"}
 {add file="confirm.js"}
 Список пользователей, состоящих в группе <b>{$group->getName()}</b><br />
-<table border="0" width="100%" cellpadding="0" cellspacing="1">
+<table border="0" width="50%" cellpadding="0" cellspacing="1">
     <form method="post" action="{url}">
     {foreach from=$users item=user}
         <tr>

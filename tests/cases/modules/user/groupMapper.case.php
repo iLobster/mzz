@@ -145,7 +145,7 @@ class groupMapperTest extends unitTestCase
 
         $group = $this->mapper->searchById($id = 1);
 
-        $this->assertEqual($this->mapper->convertArgsToId(array($id, 2, 3)), $group->getObjId());
+        $this->assertEqual($this->mapper->convertArgsToId(array('id' => $id)), $group->getObjId());
     }
 
 

@@ -1,5 +1,5 @@
 <form {$form.attributes}>
-<table border="0" cellpadding="0" cellspacing="1" width="100%">
+<table border="0" cellpadding="0" cellspacing="1" width="50%">
     <tr>
         <td>{$form.name.label} {$form.name.html}</td>
         <td>{$form.title.label} {$form.title.html}</td>

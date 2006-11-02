@@ -44,7 +44,7 @@ CREATE TABLE `news_news` (
 #
 
 INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
-  (2,48,'sadf',2,'1111111111',2,1161647727,1161817920),
+  (2,48,'sadf',2,'asdqw3423',2,1161647727,1162438265),
   (3,50,'qweqwer',2,'dsff',3,1161647948,1161647948);
 
 COMMIT;
@@ -124,7 +124,8 @@ CREATE TABLE `page_page` (
 INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`) VALUES 
   (1,9,'main','Первая страница','Это первая, главная страница'),
   (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!'),
-  (3,11,'test','test','test');
+  (3,11,'test','test','test'),
+  (4,57,'403','Доступ запрещён','Доступ запрещён');
 
 COMMIT;
 
@@ -238,7 +239,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (428,3,5,19,NULL,1,1),
   (429,3,5,19,NULL,2,1),
   (442,10,3,12,NULL,1,1),
-  (527,11,3,13,NULL,2,0),
+  (589,9,3,13,NULL,2,1),
   (466,9,6,9,NULL,1,0),
   (465,2,6,9,NULL,1,0),
   (464,1,6,9,NULL,1,0),
@@ -289,12 +290,12 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (534,11,3,55,NULL,2,1),
   (540,10,3,55,NULL,1,1),
   (533,10,3,55,NULL,2,1),
-  (526,10,3,13,NULL,2,1),
-  (528,5,3,13,NULL,2,0),
-  (529,1,3,13,NULL,2,1),
-  (530,12,3,13,NULL,2,1),
-  (531,2,3,13,NULL,2,0),
-  (532,9,3,13,NULL,2,1),
+  (588,2,3,13,NULL,2,1),
+  (587,12,3,13,NULL,2,1),
+  (586,1,3,13,NULL,2,1),
+  (585,5,3,13,NULL,2,1),
+  (584,11,3,13,NULL,2,1),
+  (583,10,3,13,NULL,2,1),
   (548,14,4,56,NULL,2,1),
   (549,15,4,56,NULL,2,1),
   (550,16,4,56,NULL,2,1),
@@ -312,7 +313,13 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (564,16,4,14,NULL,2,1),
   (565,17,4,14,NULL,2,1),
   (566,13,4,14,NULL,2,1),
-  (567,9,4,14,NULL,2,1);
+  (567,9,4,14,NULL,2,1),
+  (569,3,6,57,NULL,2,1),
+  (570,5,6,57,NULL,2,1),
+  (571,4,6,57,NULL,2,1),
+  (572,1,6,57,NULL,2,1),
+  (573,2,6,57,NULL,2,1),
+  (574,9,6,57,NULL,2,1);
 
 COMMIT;
 
@@ -515,7 +522,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (10,6),
   (11,6),
   (55,3),
-  (56,4);
+  (56,4),
+  (57,6);
 
 COMMIT;
 
@@ -650,7 +658,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (53),
   (54),
   (55),
-  (56);
+  (56),
+  (57);
 
 COMMIT;
 

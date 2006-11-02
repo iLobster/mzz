@@ -89,7 +89,25 @@ function smarty_function_load($params, $smarty)
             $result = $view->toString();
         }
     } else {
-        $result = 'нет доступа. Модуль <b>' . $module . ' </b>, экшн <b>' . $actionName . '</b>, obj_id <b>' . $object_id . '</b>';
+        $request->setSection('page');
+        $request->setParams(array('name' => '403'));
+        $request->setAction('view');
+
+        $action = $toolkit->getAction('page');
+        $action->setAction('view');
+
+        fileLoader::load('pageFactory');
+
+        $factory = new pageFactory($action);
+        $controller = $factory->getController();
+        $view = $controller->getView();
+
+        if(!isset($_REQUEST['xajax'])) {
+            $result = $view->toString();
+        }
+        //$mapper = $toolkit->getMapper($module, 'page', 'page');
+
+        //$result = 'нет доступа. Модуль <b>' . $module . ' </b>, экшн <b>' . $actionName . '</b>, obj_id <b>' . $object_id . '</b>';
     }
 
     $request->restore();

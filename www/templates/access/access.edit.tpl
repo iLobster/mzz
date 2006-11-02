@@ -1,8 +1,7 @@
-<img src='/templates/images/close.png' width=16 height=16 border=0 onclick="javascript: hideJip();" alt="закрыть" />
 {add file="popup.js"}
 {add file="confirm.js"}
-Пользователи
-<table border="0" width="100%" cellpadding="0" cellspacing="1">
+Пользователи<img src='/templates/images/close.png' width=16 height=16 border=0 onclick="javascript: hideJip();" alt="закрыть" />
+<table border="0" width="50%" cellpadding="0" cellspacing="1">
     {foreach from=$users item=user}
         <tr>
             <td align="center">{$user->getId()}</td>
@@ -19,7 +18,7 @@
     {/if}
 </table>
 Группы
-<table border="0" width="100%" cellpadding="0" cellspacing="1">
+<table border="0" width="50%" cellpadding="0" cellspacing="1">
     {foreach from=$groups item=group}
         <tr>
             <td align="center">{$group->getId()}</td>

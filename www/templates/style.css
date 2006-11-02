@@ -68,11 +68,14 @@ td {
 
 #jip {
     position: absolute;
-    top: 30px;
+    top: 25%;
+    left: 25%;
     display: none;
-    width:98%;
+
     z-index: 999;
     font-size:100%;
     padding: 4px;
     text-align: center;
+    background-color: #fff;
+    border: 1px solid #000;
 }

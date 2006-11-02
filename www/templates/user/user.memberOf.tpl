@@ -1,5 +1,5 @@
 Список групп для пользователя <b>{$user->getLogin()}</b><br />
-<table border="0" width="100%" cellpadding="0" cellspacing="1">
+<table border="0" width="50%" cellpadding="0" cellspacing="1">
     {*<tr>
         <td colspan="3">Страницы ({$pager->getPagesTotal()}): {$pager->toString()}</td>
     </tr>*}

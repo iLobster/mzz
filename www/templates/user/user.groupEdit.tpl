@@ -1,5 +1,5 @@
 <form {$form.attributes}>
-    <table border="0" cellpadding="0" cellspacing="1" width="100%">
+    <table border="0" cellpadding="0" cellspacing="1" width="50%">
         {if $action eq 'groupEdit'}
         <tr>
             <td><b>ID:</b></td><td>{$group->getId()}</td>

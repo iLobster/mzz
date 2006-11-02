@@ -6,7 +6,7 @@
                         <!--td><a href='{$item.url}'  onclick="javascript: {if not empty($item.confirm)}mzz_confirm('{$item.confirm}') &amp;&amp; {/if}openWin('{$item.url}', '{$item.id|replace:"/":"_"}', 500, 400); return false;">{$item.title}</a></td-->
 
 
-                        <td><a href='{$item.url}'  onclick="javascript: return showJip('{$item.url}');">{$item.title}</a></td>
+                        <td><a href='{$item.url}'  onclick="javascript: return {if not empty($item.confirm)}mzz_confirm('{$item.confirm}') &amp;&amp; {/if}showJip('{$item.url}');">{$item.title}</a></td>
 
 
                 {/foreach}
