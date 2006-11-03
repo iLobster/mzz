@@ -156,7 +156,7 @@ class acl
             }
             $grp = substr($grp, 0, -2);
 
-            $qry = 'SELECT MAX(`access`) AS `access`, `name` FROM (
+            $qry = 'SELECT MIN(`access`) AS `access`, `name` FROM (
 
                     (SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name` FROM `sys_access` `a`
                      INNER JOIN `sys_access_actions` `aa` ON `a`.`action_id` = `aa`.`id`

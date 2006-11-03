@@ -3,7 +3,7 @@
 
 <div id="jip_menu_{$jipMenuId|replace:"/":"_"}" class="jipMenu" onmouseover="javascript: setMouseInJip(true);" onmouseout="javascript: setMouseInJip(false);">
 
-<div class="jipMenuClose"><a href="#" onclick="javascript: showJipMenu(false, '{$jipMenuId|replace:"/":"_"}');">закрыть</a></div>
+<div class="jipMenuClose">{*<a href="#" onclick="javascript: showJipMenu(false, '{$jipMenuId|replace:"/":"_"}');">закрыть</a>*}</div>
 <table width="100%" border="0" cellpadding="1" cellspacing="0"> 
 {foreach from=$jip item=item}
    <tr>
