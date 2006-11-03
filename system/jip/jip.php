@@ -111,11 +111,17 @@ class jip
             $result[] = array(
             'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
             'title' => $item['title'],
-            'id' => $this->section . '_' . $this->module . '_' . $this->id . '_' . $item['controller'],
+            'icon' => $item['icon'],
+            'id' => $this->getJipMenuId() . '_' . $item['controller'],
             'confirm' => $item['confirm'],
             );
         }
         return $result;
+    }
+
+    private function getJipMenuId()
+    {
+        return $this->section . '_' . $this->module . '_' . $this->id;
     }
 
     /**
@@ -129,6 +135,7 @@ class jip
         $smarty = $toolkit->getSmarty();
 
         $smarty->assign('jip', $this->generate());
+        $smarty->assign('jipMenuId', $this->getJipMenuId());
 
         return $smarty->fetch('jip.tpl');
     }

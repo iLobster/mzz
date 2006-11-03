@@ -54,14 +54,14 @@ class actionTest extends unitTestCase
     public function testActionGetJipActions()
     {
         $jipActions = array(
-        'jipAction' => array ('controller' => 'foo', 'title' => NULL, 'confirm' => NULL),
-        'editACL' => array('controller' => 'editACL', 'title' => "<img src='/templates/images/acl.gif' width=16 height=16 border=0 />", 'confirm' => null),
+        'jipAction' => array ('controller' => 'foo', 'title' => null, 'icon' => null, 'confirm' => null),
+        'editACL' => array('controller' => 'editACL', 'title' => 'Права доступа', 'icon' => '/templates/images/acl.gif', 'confirm' => null),
         );
         $this->assertEqual($this->action->getJipActions('firstActions'), $jipActions);
 
         $jipActions = array(
-        'jipActionFull' => array ('controller' => 'bar', 'title' => 'someTitle', 'confirm' => 'confirm message'),
-        'editACL' => array('controller' => 'editACL', 'title' => "<img src='/templates/images/acl.gif' width=16 height=16 border=0 />", 'confirm' => null),
+        'jipActionFull' => array ('controller' => 'bar', 'title' => 'someTitle', 'icon' => null, 'confirm' => 'confirm message'),
+        'editACL' => array('controller' => 'editACL', 'title' => 'Права доступа',  'icon' => '/templates/images/acl.gif', 'confirm' => null),
         );
         $this->assertEqual($this->action->getJipActions('secondActions'), $jipActions);
     }

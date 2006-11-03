@@ -117,6 +117,8 @@ class stdToolkit extends toolkit
                 $this->smarty->plugins_dir[] = $appdir;
             }
             $this->smarty->debugging = DEBUG_MODE;
+            $httprequest = $this->getRequest();
+            $this->smarty->assign('current_section', $httprequest->getSection());
         }
         return $this->smarty;
     }
@@ -127,9 +129,12 @@ class stdToolkit extends toolkit
      * @param iRequest $request
      * @return object
      */
-    public function getRouter($request)
+    public function getRouter($request = null)
     {
         if (empty($this->router)) {
+            if (empty($request)) {
+                $request = $this->getRequest();
+            }
             fileLoader::load('request/requestRoute');
             fileLoader::load('request/requestRouter');
             $this->router = new requestRouter($request);

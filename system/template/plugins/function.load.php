@@ -90,9 +90,10 @@ function smarty_function_load($params, $smarty)
         $controller = $factory->getController();
         $view = $controller->getView();
 
-        if(!isset($_REQUEST['xajax'])) {
-            $result = $view->toString();
+        if(isset($_REQUEST['xajax'])) {
+            header("Content-Type: text/html; charset=windows-1251;");
         }
+        $result = $view->toString();
     } else {
         $request->setSection('page');
         $request->setParams(array('name' => '403'));

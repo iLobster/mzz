@@ -66,20 +66,21 @@ abstract class simpleView
         $this->smarty->allowNesting(!isset($_REQUEST['xajax']));
         $this->response = $this->toolkit->getResponse();
         $this->httprequest = $this->toolkit->getRequest();
+        $this->smarty->assign('current_section', $this->httprequest->getSection());
         $this->xajaxInit();
     }
 
     public function xajaxInit()
     {
         // @todo перенести по возможности повыше модулей, чтобы например можно было обновлять время генерации страницы
-        fileLoader::load("libs/xajax/xajax.inc");
+        //fileLoader::load("libs/xajax/xajax.inc");
 
-        $xajax = new xajax();
-        $xajax->exitAllowedOff();
-        $xajax->registerFunction(array("tostring", $this, 'toXML'), XAJAX_GET);
+        ///$xajax = new xajax();
+        //$xajax->exitAllowedOff();
+        //$xajax->registerFunction(array("tostring", $this, 'toXML'), XAJAX_GET);
 
-        $this->smarty->assign('xajax_js', $xajax->getJavascript('/templates/'));
-        $xajax->processRequests();
+        //$this->smarty->assign('xajax_js', $xajax->getJavascript('/templates/'));
+       // $xajax->processRequests();
     }
 
     /**

@@ -141,6 +141,7 @@ class action
                 $jip_actions[$key] = array(
                 'controller' => $action['controller'],
                 'title' => (isset($action['title']) ? $action['title'] : null),
+                'icon' => (isset($action['icon']) ? $action['icon'] : null),
                 'confirm' => (isset($action['confirm']) ? $action['confirm'] : null),
                 );
             }
@@ -229,7 +230,7 @@ class action
             throw new mzzIoException($filename);
         }
         $action = parse_ini_file($filename, true);
-        $action['editACL'] = array('controller' => 'editACL', 'jip' => 1, 'title' => "<img src='/templates/images/acl.gif' width=16 height=16 border=0 />");
+        $action['editACL'] = array('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => 'Права доступа');
         return $action;
     }
 

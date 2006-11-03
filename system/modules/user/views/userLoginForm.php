@@ -30,11 +30,11 @@ class userLoginForm
 
         $form = new HTML_QuickForm('userLogin', 'POST', $url->get());
 
-        $form->addElement('text', 'login', 'Имя:', 'size=30');
-        $form->addElement('password', 'password', 'Пароль:', 'size=30');
+        $form->addElement('text', 'login', 'Имя:', 'size=10');
+        $form->addElement('password', 'password', 'Пароль:', 'size=10');
+        $form->addElement('checkbox', 'save', 'Запомнить');
         $form->addElement('hidden', 'url', (string)$backUrl);
 
-        $form->addElement('reset', 'reset', 'Сброс');
         $form->addElement('submit', 'submit', 'Вход');
 
         return $form;

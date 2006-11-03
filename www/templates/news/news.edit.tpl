@@ -1,15 +1,21 @@
+<div class="jipTitle">Редактирование новости</div>
+
 <form {$form.attributes}>
-<table width="50%" border="0" cellpadding="0" cellspacing="1" align="center">
+<table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>
-        <td><b>ID:</b> {$news->getId()}</td>
-        <td>{$form.title.label} {$form.title.html}</td>
+        <td style='width: 15%;'>ID:</td>
+        <td style='width: 85%;'>{$news->getId()}</td>
     </tr>
     <tr>
-        <td colspan="2">{$form.text.html}</td>
+        <td>{$form.title.label}</td>
+        <td>{$form.title.html}</td>
     </tr>
     <tr>
-        <td>{$form.submit.html}</td>
-        <td>{$form.reset.html}</td>
+        <td>&nbsp;</td>
+        <td>{$form.text.html}</td>
+    </tr>
+    <tr>
+        <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
     </tr>
     {*
     <tr>

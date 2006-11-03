@@ -1,81 +1,322 @@
-body {
-   font-family: verdana, arial, tahoma;
-   font-size: 80%;
-   color: #222;
-   background-color: #ffffff;
+html, body {
+  margin:0;
+  padding:0;
+  width:100%;
+  height: 100%;
+  background-color: #fff;
+  color: #000000;
+  font-family: tahoma, verdana, arial;
+  font-size: 90%;
 }
 
-
-a:link {
-   font-family: verdana, arial, tahoma;
-   font-size: 100%;
-   background: #fff;
-   color: #222;
+a {
+ color: #0055CC;
 }
-
 a:visited {
-   font-family: verdana, arial, tahoma;
-   font-size: 100%;
-   background: #fff;
-   color: #222;
+ /* в релизе сделать такой цвет: color: #990099;*/
+ color: #0055CC;
 }
-
 a:active {
-   font-family: verdana, arial, tahoma;
-   font-size: 100%;
-   background: #ffc;
-   color: #555;
-   text-decoration: none;
+ color: #FF0000;
 }
 
+#content {
+  min-height: 100%;
+  line-height: 140%;
+  margin: 15px;
+  margin-bottom: 80px;
+}
+
+#footer {
+  position: relative;
+  margin: -70px auto 0 auto !important;
+  width: 100%;
+  height: 65px;
+  border-top: 0;
+  padding: 0;
+}
+
+#img_logotip {
+ margin-left: 35px;
+ margin-top: 17px;
+ border: 0;
+}
+
+#hcontainer {
+ width: 100%;
+ height: 65px;
+ background-color: #ECF0F0;
+ margin: 0 auto;
+ position: relative;
+ border-bottom: 5px solid #DDE3E3;
+}
+
+#fcontainer {
+ width: 100%;
+ margin: 0 auto;
+ height: auto;
+ position: relative;
+}
+
+#wrapper {
+ margin: 0 auto;
+ width: 100%;
+ text-align: left;
+ min-height: 100%;
+ background: white;
+}
+
+* html #wrapper {
+ height: 100%;
+}
+
+#nonFooter
+{
+ position: relative;
+ min-height: 100%;
+ padding-bottom: 34px;
+}
+
+* html #nonFooter
+{
+ padding: 0;
+ height: 100%;
+}
+
+#logotip {
+ float: left;
+}
+
+#menu {
+ width: auto;
+ height: 22px;
+ position: absolute;
+ left: 240px;
+ top: 42px;
+ text-align: center;
+ font-family: tahoma, verdana, arial;
+}
+
+#menu_element {
+ background-image: url('/templates/images/menu_bg.png');
+ height: 100%;
+ padding-top: 6px;
+ float: left;
+ width: 120px;
+}
+
+#menu_element_current {
+ background-image: url('/templates/images/menu_bg_active.png');
+ height: 100%;
+ padding-top: 6px;
+ float: left;
+ width: 120px;
+}
+
+#menu a:visited  {
+color: #0055CC;
+}
 a:hover {
-   font-family: verdana, arial, tahoma;
-   font-size: 100%;
-   background: #ffc;
-   color: #222;
+ color: #FF0000;
 }
 
-.title {
-   font-size: 130%; 
-   font-family: tahoma, arial, verdana;
+
+#login {
+ float: right;
+ margin-top: 40px;
+ margin-right: 20px;
+ 
 }
 
-.separator { 
-   font-size: 1%;
-   border-bottom: 1px solid #888;
-   height: 1px;
+#loginForm {
+ float: right;
+ margin-top: 10px;
+ margin-right: 15px;
+ font-size: 85%;
 }
 
-.timer {
-   font-size: 80%;
-   font-family: Verdana;
-   color: #555555;
-   letter-spacing: -1px;
+#footer_image {
+ float: right;
+ height: 63px;
 }
 
-table {
+#footer_text {
+ float: right;
+ height: 42px;
+ border-bottom: 3px solid #D4D4D4;
+ border-top: 4px solid #D4D4D4;
+ font-size: 85%;
+ color: #535353;
+ padding:7px 5px 7px 0;
+}
+
+#submenu {
+ line-height: 170%;
+ float: left;
+ width: 170px;
+ margin-top: 30px;
+ margin-left: 8px;
+ padding: 8px;
+ background-color: #F3F5F5;
+ border-right: 1px solid #E0E4E4;
+ border-bottom: 1px solid #E0E4E4;
+}
+#submenu .title {
+ font-size: 120%;
+}
+
+
+
+.news_title {
+ font-size: 100%;
+ line-height: 200%;
+ font-weight: bold;
+}
+
+.news_info {
+ color: #7C7C7C;
+ font-size: 80%;
+ line-height: 50%;
+ margin-bottom: 8px;
+}
+
+.news_text {
+ font-size: 100%;
+ line-height: 140%;
+ margin-bottom: 20px;
+ 
+}
+
+
+
+
+
+
+
+
+
+#blockContent {
+    position: absolute;
+    display: none;
+    z-index: 999;
+    font-size:100%;
+    padding: 4px;
+    text-align: center;
+/*opacity: .4;*/
+
+
+
+/*behavior: url('/templates/pngfix.htc');*/
+/*background:transparent !important;*/
+/*background: #181818;*/
+    background-image: url('/templates/images/bg_tr.png');
+/*background-repeat: repeat;*/
+    width: 100%; height: 100%;
+    top: -8px;
+    right: 0;
+    min-height: 400px;
+
+    filter: alpha(opacity=20);
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+    -moz-opacity:0.8;
+/*
+
+filter:alpha(opacity=60);
+-moz-opacity:0.6;
+opacity:0.6;
+*/
+
+/*
+position: absolute; top: 0; right: 0; bottom: 0;  width: 100%; height: 100%; background-image: url('/templates/images/bg_tr.png');*/
+}
+
+
+#jip {
+    position: absolute;
+    display: none;
+    border: 4px solid #B6B6B6;
+    z-index: 1001;
+    font-size:100%;
+    padding: 4px;
+    width: 70%;
+    background-color: #FFFFFF;
+
+   /* left: 20%;
+    right: 20%;
+    top: 20%;
+    bottom: 20%;*/
+    overflow:auto;
+
+    min-width: 500px;
+    left: 15%;
+    /*right: 15%;*/
+    top: 15%;
+    /*bottom: 15%;*/
+    /*width: 100%; height: 300px;*/
+
+    /*padding-top: -25%;
+    padding-left: -25%;
+    padding-right: -25%;
+    padding-bottom: -25%;*/
+    /*min-height: 400px;*/
+
+/*
+position: absolute; top: 0; right: 0; bottom: 0;  width: 100%; height: 100%; background-image: url('/templates/images/bg_tr.png');*/
+}
+
+
+
+.jipTitle {
+    font-size: 120%;
+    margin-bottom: 15px;
+    padding: 5px;
+    font-weight: bold;
+}
+
+
+.jipMenu {
+    display: none;
+    background-color: #F2F2F2;
+    border: 1px solid #CDCDCD;
+    width: 200px;
+    position: absolute;z-index: 50000;
+}
+
+.jipMenuClose {
+    font-size: 80%;
+    font-weight: normal;
+    text-align: right;
+    margin-right: 3px;
+    line-height: 100%;
+}
+
+table.jip_menu {
     font-family: verdana, arial, tahoma;
     font-size: 90%;
     background-color: #E4E4E4;
-    padding: 2px;
+    padding: 1px;
 }
-td {
+td.jip_menu {
     background-color: #fff;
     font-family: verdana, arial, tahoma;
     font-size: 100%;
     padding: 3px;
 }
 
-#jip {
-    position: absolute;
-    top: 25%;
-    left: 25%;
-    display: none;
+.newsList {
+ margin-left: 220px;
+}
 
-    z-index: 999;
-    font-size:100%;
-    padding: 4px;
-    text-align: center;
-    background-color: #fff;
-    border: 1px solid #000;
+.pages {
+ font-size: 120%;
+ margin-top: 30px;
+ padding: 5px;
+ background-color: #F3F5F5;
+ border-top: 1px solid #E0E4E4;
+ border-bottom: 1px solid #E0E4E4;
+}
+
+
+table.list td {
+    border-bottom: 1px solid #F0F0F0;
 }

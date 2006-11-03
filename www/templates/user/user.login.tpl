@@ -1,17 +1,18 @@
+<div id="loginForm">
 <form {$form.attributes}>
 {$form.hidden}
-<table border="0" cellpadding="0" cellspacing="1" width="280">
+<table border="0" cellpadding="1" cellspacing="0" width="230">
     <tr>
-        <td align="center">{$form.login.label}</td>
+        <td align="right">{$form.login.label}</td>
         <td align="center">{$form.login.html}</td>
+        <td align="center">{$form.save.html}</td>
+        <td align="center">Запомнить</td>
     </tr>
     <tr>
-        <td align="center">{$form.password.label}</td>
+        <td align="right">{$form.password.label}</td>
         <td align="center">{$form.password.html}</td>
-    </tr>
-    <tr>
-        <td align="center" colspan="2">{$form.submit.html} {$form.reset.html}</td>
+        <td align="center" colspan="2">{$form.submit.html}</td>
     </tr>
 </table>
+</div>
 </form>
-<p />
