@@ -1,136 +1,13 @@
-{add file="style.css"}{add file="/fixpng.js"}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
 <title>{$title|default:''}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+{add file="ajax/yahoo.js"}{add file="ajax/connection.js"}{add file="jip.js"}{add file="style.css"}
 {include file='include.css.tpl'}
 {include file='include.js.tpl'}
-{$xajax_js|default:''}
-{literal}
-<script src="/templates/ajax/yahoo.js"></script>
-<script src="/templates/ajax/connection.js"></script>
-<script language="JavaScript">
-var urlStack = new Array;
-var currentUrl;
-var formSuccess = false;
-
-document.onkeydown = proccessKey;
-
-
-var handleSuccess = function(o){
-	if(typeof o.responseText !== undefined){
-		o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
-		o.argument.div.innerHTML += o.responseText;
-		//div.innerHTML += "<li>HTTP status: " + o.status + "</li>";
-	}
-}
-
-var handleFormSuccess = function(o){
-	if(typeof o.responseText !== undefined){
-showJip(o.argument.currentUrl, 1);
-		//o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
-		//o.argument.div.innerHTML += '<div style="font-size: 100%;color: green;">Данные сохранены</div>' + o.responseText;
-		//div.innerHTML += "<li>HTTP status: " + o.status + "</li>";
-	}
-}
-
-var handleFailure = function(o){
-	if(typeof o.responseText !== undefined){
-		alert("No response. Server error. \r\n Trans_id: " + o.tId + "; HTTP status: " + o.status + "; Code message: " + o.statusText);
-	}
-}
-
-
-
-
-function proccessKey(key) {
-	var code;
-	if (!key) key = window.event;
-	if (key.keyCode) code = key.keyCode;
-	else if (key.which) code = key.which;
-	if (code == 27) hideJip();
-}
-
-var lastJipUrl = false;
-
-function showJip(url, flag)
-{
-        cleanJip(); 
-	if (document.getElementById('jip')) {
-
-                document.getElementById('blockContent').style.display = 'block';
-                /*if (lastJipUrl != false) {
-                    urlStack.push([lastJipUrl]); alert(lastJipUrl);
-                    lastJipUrl = false; 
-                } else {
-                    lastJipUrl = url + '&xajax=true';
-                }*/urlStack.push([url]);
-
-		document.getElementById('jip').style.display = 'block';
-
-
-                var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip') }};
-                currentUrl = url;
-                 /*   urlStack.push([currentUrl]);
-                }*/
-	        var request = YAHOO.util.Connect.asyncRequest('GET', url + '&xajax=true', callback);
-
-                delete flag;
-		return false;
-	}
-        delete flag;
-	return true;
-}
-
-
-function sendFormWithAjax(form)
-{
-
-        urlStack.push([currentUrl]);
-        var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), currentUrl:currentUrl }};
-        YAHOO.util.Connect.setForm(form);
-	var request = YAHOO.util.Connect.asyncRequest('POST', form.action + '&xajax=true', callback);
-        return false;
-}
-
-
-function hideJip()
-{ 
-	if(document.getElementById('jip')) {
-
-             if (urlStack.length > 0) { 
-
-                 lastJipUrl = urlStack.pop();
-                 urlFromStack = urlStack.pop();
-                 if (urlFromStack != undefined) {  
-                 return showJip(urlFromStack[0], true);}
-             }
-             
-             document.getElementById('blockContent').style.display = 'none';
-             document.getElementById('jip').style.display = 'none';
-             lastJipUrl = false; 
-
-        }
-	return false;
-}
-
-function cleanJip()
-{
-    document.getElementById('jip').innerHTML = 'Загрузка данных. Подождите... <br /> <input type="button" value="Закрыть" onClick="hideJip()">';
-}
-/*
-window.onload = function() {
-    cleanJip();
-}
-*/
-
-</script>
-{/literal}
-
-
 </head>
-<body id=body>
-
+<body>
 
 <div id="jip"></div>
 <div id="blockContent"></div>
@@ -140,13 +17,18 @@ window.onload = function() {
 <div id="hcontainer">
 
     <div id="menu">
+     <span class="menu_element">{if $current_section ne "news"}<a href="{url section=news}">{else}<b>{/if}Новости{if $current_section ne "news"}</a>{else}</b>{/if}</span>
+     <span class="menu_element">{if $current_section ne "page"}<a href="{url section=page}">{else}<b>{/if}Страницы{if $current_section ne "page"}</a>{else}</b>{/if}</span>
+     <span class="menu_element">{if $current_section ne "user"}<a href="{url section=user action=list}">{else}<b>{/if}Пользователи{if $current_section ne "user"}</a>{else}</b>{/if}</span>
+    </div>
+    <!--div id="menu">
      <div id="menu_element{if $current_section eq "news"}_current{/if}"><a href="{url section=news}">Новости</a></div>
      <div id="menu_element{if $current_section eq "page"}_current{/if}"><a href="{url section=page}">Страницы</a></div>
      <div id="menu_element{if $current_section eq "user"}_current{/if}"><a href="{url section=user action=list}">Пользователь</a></div>
-    </div>
+    </div-->
 
     {load module="user" action="login" args="" section="user"}
-    <div id="logotip"><a href="/"><img id="img_logotip" src="/templates/images/mzz_logo.png" width="111" height="34" alt="" border="0" /></a></div>
+    <div id="logotip"><a href="/"><img id="img_logotip" src="/templates/images/mzz_logo.png" width="111" height="34" alt="" /></a></div>
 </div>
 
 

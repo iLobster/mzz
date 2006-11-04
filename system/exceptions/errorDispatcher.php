@@ -125,7 +125,7 @@ class errorDispatcher
                 foreach ($trace['args'] as $arg) {
                     $args .= $this->exception->convertToString($arg) . ', ';
                 }
-                $args = substr($args, 0, strlen($args) - 2);
+                $args = htmlspecialchars(substr($args, 0, strlen($args) - 2));
 
                 if (isset($trace['class']) && isset($trace['type'])) {
                     $trace_msg .= 'In: ' . $trace['class'] . $trace['type'] . $trace['function'] . '(' . $args . ')<br />';
@@ -159,7 +159,7 @@ class errorDispatcher
     protected function getHtmlHeader()
     {
         $header = "\r\n";
-        $header .= '<div style="width: 700px; border: 1px solid #D1D8DC; background-color: #FBFBFB; font-family: tahoma, arial, verdana; font-size: 80%; color: #2E2E2E; padding: 10px;">
+        $header .= '<div style="position: absolute;width: 700px; border: 1px solid #D1D8DC; background-color: #FBFBFB; font-family: tahoma, arial, verdana; font-size: 80%; color: #2E2E2E; padding: 10px;">
 <div style="background-color: #C46666; width: 25px; padding-left: 10px; padding-right: 10px; float: left; margin-right: 10px; color: white; font-weight: bold;">500</div>
 <div style="font-weight: bold;">Система прерывает выполнение из-за ошибки при выполнении операции.</div>
 <div style="margin-top: 15px; margin-bottom: 5px; font-size: 90%;">';

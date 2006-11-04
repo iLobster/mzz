@@ -40,32 +40,38 @@ function smarty_function_load($params, $smarty)
     }
 
     $module = $params['module'];
+    unset($params['module']);
+
     $modulename = $module . 'Factory';
 
     fileLoader::load($module . 'Factory');
     $toolkit = systemToolkit::getInstance();
 
-    $action = $toolkit->getAction($params['module']);
+    $action = $toolkit->getAction($module);
     $action->setAction($params['action']);
+    unset($params['action']);
 
     $request = $toolkit->getRequest();
     $request->save();
 
-    if(isset($params['args'])) {
-        $section = $request->getSection();
-        $request->setParams(explode('/', $params['args']));
-        $request->setSection($section);
-    }
-
     if(!empty($params['section'])) {
         $request->setSection($params['section']);
+        unset($params['section']);
+    }
+
+    foreach ($params as $name => $value) {
+        $request->setParam($name, $value);
+    }
+
+    /* @todo убрать */
+    if (isset($params['args'])) {
+        $request->setParams(explode('/', $params['args']));
     }
 
     $mappername = $action->getType() . 'Mapper';
     $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
 
     $object_id = $mapper->convertArgsToId($request->getParams());
-
     $acl = new acl($toolkit->getUser(), $object_id);
 
     $actionName = $action->getActionName();
@@ -112,7 +118,6 @@ function smarty_function_load($params, $smarty)
             $result = $view->toString();
         }
         //$mapper = $toolkit->getMapper($module, 'page', 'page');
-
         //$result = 'нет доступа. Модуль <b>' . $module . ' </b>, экшн <b>' . $actionName . '</b>, obj_id <b>' . $object_id . '</b>';
     }
 

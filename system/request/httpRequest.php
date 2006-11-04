@@ -62,13 +62,13 @@ class httpRequest implements iRequest
      * свойство для временного хранения сохранённых параметров
      *
      */
-    protected $savedParams;
+    protected $saved;
 
     /**
      * Параметры
      *
      */
-    protected $params = array();
+    protected $params = null;
     /**#@-*/
 
     /**
@@ -94,8 +94,7 @@ class httpRequest implements iRequest
         $this->postVars = new arrayDataspace($_POST);
         $this->getVars = new arrayDataspace($_GET);
         $this->cookieVars = new arrayDataspace($_COOKIE);
-        $this->setParams(array());
-        $this->savedParams = new arrayDataspace();
+        $this->params = new arrayDataspace();
     }
 
     /**
@@ -240,27 +239,16 @@ class httpRequest implements iRequest
      */
     public function setParam($name, $value)
     {
-        if (($this->params instanceof iDataspace) == false) {
-            $this->setParams(array());
-        }
         $this->params->set($name, $value);
     }
 
     /**
-     * Установка секции, действия и массива параметров
+     * Установка массива параметров. Существующие параметры будут уничтожены
      *
      * @param array $params
      */
     public function setParams(Array $params)
     {
-        if (isset($params['section'])) {
-            $this->setSection($params['section']);
-            unset($params['section']);
-        }
-        if (isset($params['action'])) {
-            $this->setAction($params['action']);
-            unset($params['action']);
-        }
         $this->params = new arrayDataspace($params);
     }
 
@@ -314,16 +302,21 @@ class httpRequest implements iRequest
      */
     public function save()
     {
-        $this->savedParams = clone $this->params;
+        $this->saved['params'] = $this->params->export();
+        $this->saved['section'] = $this->getSection();
+        $this->saved['action'] = $this->getAction();
     }
 
     /**
      * восстановление сохранённого ранее состояния
      *
+     * @todo проверка что перед этим был вызван save
      */
     public function restore()
     {
-        $this->params = clone $this->savedParams;
+        $this->params->import($this->saved['params']);
+        $this->setSection($this->saved['section']);
+        $this->setAction($this->saved['action']);
     }
 
 }

@@ -121,8 +121,14 @@ class httpRequestTest extends unitTestCase
 
     public function testGetSection()
     {
-        $this->httprequest->setParams($params = array('section' => 'example'));
-        $this->assertEqual($this->httprequest->getSection(), $params['section']);
+        $this->httprequest->setSection($section = 'news');
+        $this->assertEqual($this->httprequest->getSection(), $section);
+    }
+
+    public function testGetAction()
+    {
+        $this->httprequest->setAction($action = 'news');
+        $this->assertEqual($this->httprequest->getAction(), $action);
     }
 
     public function testGetParams()

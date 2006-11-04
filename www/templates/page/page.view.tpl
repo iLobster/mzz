@@ -10,7 +10,7 @@
     </tr>
     {*
     <tr>
-        <td colspan="4"><a href="{url section=page action=list}"><img src="/templates/images/back.gif" width="16" height="16" border="0" /></a></td>
+        <td colspan="4"><a href="{url section=page action=list}"><img src="/templates/images/back.gif" width="16" height="16" /></a></td>
     </tr>
     *}
 </table>

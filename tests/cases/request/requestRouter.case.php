@@ -54,12 +54,16 @@ class requestRouterTest extends unitTestCase
 
         $routeFirst->setReturnValue('match', false);
 
-        $result = array('controller' => 'news', 'action' => 'view');
+        $result = array('section' => 'news', 'action' => 'view', 'someparam' => '1');
         $routeSecond->setReturnValue('match', $result);
 
         $this->router->addRoute('first', $routeFirst);
         $this->router->addRoute('second', $routeSecond);
 
+        $this->request->expectOnce('setSection', array($result['section']));
+        unset($result['section']);
+        $this->request->expectOnce('setAction', array($result['action']));
+        unset($result['action']);
         $this->request->expectOnce('setParams', array($result));
         $this->router->route('path');
     }
@@ -73,7 +77,7 @@ class requestRouterTest extends unitTestCase
         $routeFirst->expectCallCount('match', 1);
         $routeSecond->expectCallCount('match', 1);
 
-        $result = array('controller' => 'news', 'action' => 'list');
+        $result = array('section' => 'news', 'action' => 'view', 'someparam' => '1');
         $routeFirst->setReturnValue('match', $result);
 
         $routeSecond->setReturnValue('match', false);
@@ -81,6 +85,10 @@ class requestRouterTest extends unitTestCase
         $this->router->addRoute('first', $routeFirst);
         $this->router->addRoute('second', $routeSecond);
 
+        $this->request->expectOnce('setSection', array($result['section']));
+        unset($result['section']);
+        $this->request->expectOnce('setAction', array($result['action']));
+        unset($result['action']);
         $this->request->expectOnce('setParams', array($result));
         $this->router->route('path');
     }
@@ -108,7 +116,8 @@ class requestRouterTest extends unitTestCase
         $route->setReturnValue('match', false);
         $this->router->addRoute('notMatch', $route);
 
-        $this->request->expectOnce('setParams', array(array('section' => 'page', 'action' => 'view')));
+        $this->request->expectOnce('setSection', array('page'));
+        $this->request->expectOnce('setAction', array('view'));
 
         $this->router->route('path');
     }

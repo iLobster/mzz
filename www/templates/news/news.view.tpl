@@ -10,6 +10,6 @@
         <td colspan="5">{$news->getText()}</td>
     </tr>
     <tr>
-        <td colspan="5"><a href="{url section=news action=list params=$news->getFolder()->getPath()}"><img src="/templates/images/back.gif" width="16" height="16" border="0" alt="Вернуться в папку" /></a></td>
+        <td colspan="5"><a href="{url section=news action=list params=$news->getFolder()->getPath()}"><img src="/templates/images/back.gif" width="16" height="16" alt="Вернуться в папку" /></a></td>
     </tr>
 </table>

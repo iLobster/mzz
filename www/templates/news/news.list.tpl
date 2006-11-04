@@ -28,7 +28,7 @@
 
 
 
-<a href="{url section=news action=createItem params=$folderPath}"><img src="/templates/images/add.gif" width="16" height="16" border="0" /></a>
+<a href="{url section=news action=createItem params=$folderPath}"><img src="/templates/images/add.gif" width="16" height="16" alt="Добавить новость" /></a>
 <a href="{url section=news action=createItem params=$folderPath}">Добавить новость</a>
-<div class="pages">Страницы: {$pager->toString()}</div>
+<div class="pages">{$pager->toString()}</div>
 </div>

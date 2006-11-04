@@ -115,6 +115,15 @@ class requestRouter
             }
         }
 
+        if (isset($params['section'])) {
+            $this->request->setSection($params['section']);
+            unset($params['section']);
+        }
+        if (isset($params['action'])) {
+            $this->request->setAction($params['action']);
+            unset($params['action']);
+        }
+
         $this->request->setParams($params);
     }
 

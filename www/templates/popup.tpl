@@ -13,6 +13,6 @@
 {$content}
 <p />
 <div class="separator">&nbsp;</div>
-{load module="timer" action="view" args="" section="timer"}
+{load module="timer" action="view" section="timer"}
 </body>
 </html>
