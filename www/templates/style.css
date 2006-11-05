@@ -13,6 +13,10 @@ img {
   border: 0;
 }
 
+img.jip {
+  cursor: pointer;
+}
+
 a {
  color: #0055CC;
 }
@@ -244,11 +248,14 @@ a:hover {
 
 
 .jipMenu {
+    font-weight: normal;
     display: none;
     background-color: #F2F2F2;
-    border: 1px solid #CDCDCD;
-    width: 200px;
-    position: absolute;z-index: 50000;
+    border: 2px solid #CDCDCD;
+    width: 180px;
+    position: absolute;
+    z-index: 50000;
+    line-height: 100%;
 }
 
 .jipMenuClose {
@@ -257,6 +264,12 @@ a:hover {
     text-align: right;
     margin-right: 3px;
     line-height: 100%;
+}
+
+
+td.jipItemIcon {
+    width: 20px;
+    text-align:center;
 }
 
 table.jip_menu {

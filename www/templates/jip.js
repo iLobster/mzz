@@ -148,8 +148,8 @@ function openJipMenu(button, jipMenu, id) {
         } else {
             e = window.event;
 
-            curr_x = (e.pageX) ? e.pageX : e.x /*+ document.documentElement.scrollLeft*/;
-            curr_y = (e.pageY) ? e.pageY : e.y /*+ document.documentElement.scrollTop*/;
+            curr_x = (e.pageX) ? e.pageX : e.x + 2 /*+ document.documentElement.scrollLeft*/;
+            curr_y = (e.pageY) ? e.pageY : e.y + 2 /*+ document.documentElement.scrollTop*/;
         } 
 
 

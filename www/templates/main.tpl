@@ -28,7 +28,7 @@
     </div-->
 
     {load module="user" action="login" args="" section="user"}
-    <div id="logotip"><a href="/"><img id="img_logotip" src="/templates/images/mzz_logo.png" width="111" height="34" alt="" /></a></div>
+    <div id="logotip"><a href="/"><img id="img_logotip" src="/templates/images/mzz_logo.png" width="124" height="29" alt="" /></a></div>
 </div>
 
 
