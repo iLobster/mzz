@@ -2,7 +2,7 @@
 {add file="confirm.js"}
 <div class="jipTitle">Права доступа</div>
 
-<table border="0" width="100%" cellpadding="5" cellspacing="1" class="list">
+<table border="0" width="99%" cellpadding="5" cellspacing="1" class="list">
     <tr>
         <th colspan="3">Пользователи</th>
     </tr>

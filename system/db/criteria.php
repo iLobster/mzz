@@ -110,7 +110,7 @@ class criteria
     /**
      * Имя основной таблицы
      *
-     * @var string
+     * @var string|array
      */
     private $table;
 
@@ -188,11 +188,16 @@ class criteria
      * Установка имени основной таблицы
      *
      * @param string $table
+     * @param string $alias алиас, который будет присвоен таблице
      * @return object сам объект
      */
-    public function setTable($table)
+    public function setTable($table, $alias = null)
     {
-        $this->table = $table;
+        if (!empty($alias)) {
+            $this->table = array('table' => $table, 'alias' => $alias);
+        } else {
+            $this->table = $table;
+        }
         return $this;
     }
 

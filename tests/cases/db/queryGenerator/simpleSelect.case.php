@@ -31,6 +31,12 @@ class simpleSelectTest extends unitTestCase
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
     }
 
+    public function testSelectAllWithTableAliasNoConditions()
+    {
+        $this->criteria->setTable('table', 'tbl');
+        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` `tbl`');
+    }
+
     public function testSelectConcreteFieldsNoConditionsSelectFieldsAlias()
     {
         $this->criteria->setTable('table');

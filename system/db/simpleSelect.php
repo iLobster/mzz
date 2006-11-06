@@ -97,9 +97,16 @@ class simpleSelect
 
         $groupByClause = $this->criteria->getGroupBy();
 
+        $table = $this->criteria->getTable();
+        if ($table && is_array($table)) {
+            $table = '`' . strtolower($table['table']) . '` `' . strtolower($table['alias']) . '`';
+        } elseif ($table) {
+            $table = '`' . strtolower($table) . '`';
+        }
+
         $qry = 'SELECT ' . ($enableCount ? 'SQL_CALC_FOUND_ROWS ' : '') .
         ($selectClause ? implode(', ', $selectClause) : '*') .
-        (($table = $this->criteria->getTable()) ? ' FROM `' . strtolower($table) . '`' : '') .
+        (($table) ? ' FROM ' . $table : '') .
         ($joinClause ? implode($joinClause) : '') .
         ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '') .
         ($groupByClause ? ' GROUP BY ' . implode(', ', $groupByClause) : '') .

@@ -14,7 +14,14 @@ class criteriaTest extends unitTestCase
     {
         $this->criteria->setTable($table = 'sometable');
 
-        $this->assertTrue($this->criteria->getTable(), $table);
+        $this->assertEqual($this->criteria->getTable(), $table);
+    }
+
+    public function testSetTableAlias()
+    {
+        $this->criteria->setTable($table = 'sometable', $alias = 'somealias');
+
+        $this->assertEqual($this->criteria->getTable(), array('table' => $table, 'alias' => $alias));
     }
 
     public function testAddAndKeys()
