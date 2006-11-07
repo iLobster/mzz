@@ -45,6 +45,7 @@ class core
             $this->composeToolkit();
 
             $response = $this->toolkit->getResponse();
+            $response->setHeader('Content-Type', 'text/html; charset=windows-1251;');
             $request = $this->toolkit->getRequest();
 
             $filter_chain = new filterChain($response, $request);

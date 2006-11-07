@@ -89,17 +89,9 @@ function smarty_function_load($params, $smarty)
     $access = $acl->get($actionName);
 
     $result = '';
-    //$access = true;
+
     if ($access) {
-
         $factory = new $modulename($action);
-        $controller = $factory->getController();
-        $view = $controller->getView();
-
-        if(isset($_REQUEST['xajax'])) {
-            header("Content-Type: text/html; charset=windows-1251;");
-        }
-        $result = $view->toString();
     } else {
         $request->setSection('page');
         $request->setParams(array('name' => '403'));
@@ -111,19 +103,14 @@ function smarty_function_load($params, $smarty)
         fileLoader::load('pageFactory');
 
         $factory = new pageFactory($action);
-        $controller = $factory->getController();
-        $view = $controller->getView();
-
-        if(!isset($_REQUEST['xajax'])) {
-            $result = $view->toString();
-        }
-        //$mapper = $toolkit->getMapper($module, 'page', 'page');
-        //$result = 'нет доступа. Модуль <b>' . $module . ' </b>, экшн <b>' . $actionName . '</b>, obj_id <b>' . $object_id . '</b>';
     }
+
+    $controller = $factory->getController();
+    $view = $controller->getView();
 
     $request->restore();
 
-    return $result;
+    return $view->toString();
 }
 
 ?>
