@@ -68,6 +68,22 @@ class newsFolder extends simple
     }
 
     /**
+     * ќчищает содержимое папки
+     *
+     * @return array
+     * @toDo надо newsMapper подт€гивать, а надо ли это?
+     */
+/*    public function removeContents()
+    {
+        $items = $this->getItems();
+        $this->fields->set('items', null);
+
+        foreach($items as $item) {
+            $this->mapper->delete($item->getId());
+        }
+    }*/
+
+    /**
      * установка объекта пейджера в маппере
      *
      * @param pager $pager

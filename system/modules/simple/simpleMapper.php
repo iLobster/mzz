@@ -151,6 +151,21 @@ abstract class simpleMapper //implements iCacheable
     }
 
     /**
+     * Если у объекта имеется идентификатор, то выполняется
+     * обновление объекта, иначе выполняется вставка объекта в БД
+     *
+     * @param object $object
+     */
+    public function save($object)
+    {
+        if ($object->getId()) {
+            $this->update($object);
+        } else {
+            $this->insert($object);
+        }
+    }
+
+    /**
      * Выполняет вставку объекта $object в таблицу.
      * Данные экспортируются из объекта в массив, который передается
      * в метод self::insertDataModify(), после генерируется и
@@ -210,20 +225,6 @@ abstract class simpleMapper //implements iCacheable
 
             $this->register($object->getObjId());
         }
-    }
-
-    protected function register($obj_id, $section = null, $className = null)
-    {
-        if (is_null($className)) {
-            $className = $this->className;
-        }
-
-        if (is_null($section)) {
-            $section = $this->section();
-        }
-        $toolkit = systemToolkit::getInstance();
-        $acl = new acl($toolkit->getUser());
-        $acl->register($obj_id, $className, $section);
     }
 
     /**
@@ -288,28 +289,18 @@ abstract class simpleMapper //implements iCacheable
         return false;
     }
 
-    /**
-     * Метод для изменения формата массива в удобную для работы форму
-     *
-     * @param array $array
-     * @return array
-     */
-    public function fillArray(&$array)
+    protected function register($obj_id, $section = null, $className = null)
     {
-        $tmp = array();
-        foreach ($array as $key => $val) {
-            list($class, $field) = explode('_', $key, 2);
-            $tmp[$class][$field] = $val;
+        if (is_null($className)) {
+            $className = $this->className;
         }
 
+        if (is_null($section)) {
+            $section = $this->section();
+        }
         $toolkit = systemToolkit::getInstance();
-
-        foreach ($this->getOwns() as $key => $val) {
-            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
-            $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
-        }
-
-        return $tmp[$this->className];
+        $acl = new acl($toolkit->getUser());
+        $acl->register($obj_id, $className, $section);
     }
 
     /**
@@ -334,20 +325,31 @@ abstract class simpleMapper //implements iCacheable
         return $stmt->execute();
     }
 
+
     /**
-     * Если у объекта имеется идентификатор, то выполняется
-     * обновление объекта, иначе выполняется вставка объекта в БД
+     * Метод для изменения формата массива в удобную для работы форму
      *
-     * @param object $object
+     * @param array $array
+     * @return array
      */
-    public function save($object)
+    public function fillArray(&$array)
     {
-        if ($object->getId()) {
-            $this->update($object);
-        } else {
-            $this->insert($object);
+        $tmp = array();
+        foreach ($array as $key => $val) {
+            list($class, $field) = explode('_', $key, 2);
+            $tmp[$class][$field] = $val;
         }
+
+        $toolkit = systemToolkit::getInstance();
+
+        foreach ($this->getOwns() as $key => $val) {
+            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
+            $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
+        }
+
+        return $tmp[$this->className];
     }
+
 
     /**
      * Метод для добавления в запрос присоединений
@@ -368,6 +370,18 @@ abstract class simpleMapper //implements iCacheable
             $joinCriterion = new criterion($key, $val['class'] . '.' . $val['key'], criteria::EQUAL, true);
             $criteria->addJoin($val['table'], $joinCriterion, $val['class']);
         }
+    }
+
+    /**
+     * Поиск записи по ключу таблицы
+     *
+     * @param integer $id идентификатор записи
+     * @return object simple
+     */
+    protected function searchByKey($id)
+    {
+        return searchByField($this->tableKey, $id);
+
     }
 
     /**
@@ -542,7 +556,7 @@ abstract class simpleMapper //implements iCacheable
      * @param boolean $refresh при значении true происходит обновление map
      * @return array
      */
-    protected function getMap($refresh = false)
+    public function getMap($refresh = false)
     {
         if (empty($this->map) || $refresh) {
             $mapFileName = fileLoader::resolve($this->name() . '/maps/' . $this->className . '.map.ini');

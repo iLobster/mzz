@@ -218,7 +218,7 @@ abstract class simple
     protected function validateAttribute($name)
     {
         foreach ($this->map as $key => $val) {
-            if (($val['accessor'] == $name) || ($val['mutator'] == $name)) {
+            if ((isset($val['accessor']) && $val['accessor'] == $name) || (isset($val['mutator']) && $val['mutator'] == $name)) {
                 return $key;
             }
         }

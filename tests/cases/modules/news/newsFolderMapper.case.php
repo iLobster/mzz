@@ -15,11 +15,6 @@ class newsFolderMapperTest extends unitTestCase
     {
         $this->db = DB::factory();
         $this->cleardb();
-        $init = array ('data' => array('table' => 'news_newsfolder', 'id' =>'parent'),
-                       'tree' => array('table' => 'news_newsfolder_tree' , 'id' =>'id'));
-
-        $this->tree = new dbTreeNS($init, 'name');
-
     }
 
     public function setUp()
@@ -40,7 +35,14 @@ class newsFolderMapperTest extends unitTestCase
         'created' => array ('name' => 'created', 'accessor' => 'getCreated', 'mutator' => 'setCreated'),
         'updated' => array ('name' => 'updated', 'accessor' => 'getUpdated', 'mutator' => 'setUpdated'),
         );
+
+
         $this->mapper = new newsFolderMapper('news');
+
+        $init = array ('data' => array('mapper' => $this->mapper, 'id' => 'parent'),
+                       'tree' => array('table' => 'news_newsfolder_tree' , 'id' =>'id'));
+
+        $this->tree = new dbTreeNS($init, 'name');
 
         $this->cleardb();
 
@@ -68,7 +70,7 @@ class newsFolderMapperTest extends unitTestCase
     {
         $newsFolder = new newsFolder($this->mapper, $this->map);
         $newsFolder->setName('somename');
-        $newsFolder->setParent(2);
+       // $newsFolder->setParent(2);
 
         $this->assertNull($newsFolder->getId());
 
@@ -140,12 +142,14 @@ class newsFolderMapperTest extends unitTestCase
         }
     }
 
+
     public function testSearchByName()
     {
         $this->fixture($this->mapper, $this->map);
         $this->assertIsA($newsFolder = $this->mapper->searchByName('name1'), 'newsFolder');
         $this->assertIdentical($newsFolder->getId(), '1');
     }
+
 
     public function testUpdate()
     {
@@ -175,19 +179,20 @@ class newsFolderMapperTest extends unitTestCase
 
         $this->assertEqual(8, $this->countNewsFolder());
 
-        $this->mapper->delete(2);
+        $this->mapper->remove(2);
 
         $this->assertEqual(5, $this->countNewsFolder());
 
         $request->restore();
     }
 
+
     private function countNewsFolder()
     {
         $query = 'SELECT COUNT(*) AS `total` FROM `news_newsfolder`';
-        $total = $this->db->getOne($query);
-        return $total;
+        return $this->db->getOne($query);
     }
+
 
     public function testConvertArgsToId()
     {
@@ -205,24 +210,20 @@ class newsFolderMapperTest extends unitTestCase
         $nodeParentsFixture = array(1 => 0, 2 => 1, 3 => 1, 4 => 1, 5 => 2, 6 => 2, 7 => 3, 8 => 3);
 
         for($i = 1; $i <= 8; $i++) {
-            if($i == 1) {
-                $node = $this->tree->insertRootNode();
-            } else {
-                $node = $this->tree->insertNode($nodeParentsFixture[$i]);
-            }
 
             $newsFolder = new newsFolder($mapper, $map);
             $newsFolder->setName('name' . ($i));
-            $newsFolder->setParent($node['id']);
+            $newsFolder->setParent($nodeParentsFixture[$i]);
             $mapper->save($newsFolder);
 
-            //  можно так
-            $newsFolder->setPath($this->tree->createPathFromTreeByID($node['id']));
-            $mapper->save($newsFolder);
-            // или же так
-            //$this->tree->updatePath($newsFolder->getId(), $node['id']);
 
-            $this->fixtureNewsFolder[$node['id']] = $newsFolder;
+            if($i == 1) {
+                $node = $this->tree->insertRootNode($newsFolder);
+            } else {
+                $node = $this->tree->insertNode($nodeParentsFixture[$i], $newsFolder);
+            }
+
+            $this->fixtureNewsFolder[$node->getId()] = $node;
         }
     }
 
