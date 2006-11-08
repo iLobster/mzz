@@ -212,7 +212,7 @@ class dbTreeNS
      * Выборка пути хранящегося в таблице на основе id записи
      *
      * @param  int     $id  Идентификатор узла
-     * @return string
+     * @return string|false
      */
     public function getPath($id)
     {
@@ -224,8 +224,10 @@ class dbTreeNS
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $row = $stmt->fetch();
-
-        return $row['path'];
+        if (!empty($row)) {
+            return $row['path'];
+        }
+        return false;
     }
 
     /**
@@ -298,7 +300,6 @@ class dbTreeNS
     protected function createBranchFromRow($stmt)
     {
         $branch = array();
-        $branch1 = array();
         while ($row = $stmt->fetch()) {
             $branch[$row[$this->rowID]] = $this->mapper->createItemFromRow($row);
         }
@@ -386,7 +387,7 @@ class dbTreeNS
      *
      * @param  int     $id            Идентификатор узла
      * @param  int     $level         Уровень глубины выборки
-     * @return array
+     * @return array|false
      */
     public function getBranch($id, $level = 999999999)
     {
@@ -401,9 +402,11 @@ class dbTreeNS
         $stmt->bindParam(':rkey', $rootBranch['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':high_level', $rootBranch['level'], PDO::PARAM_INT);
         $stmt->bindParam(':level', $level, PDO::PARAM_INT);
-        $stmt->execute();
 
-        return $this->createBranchFromRow($stmt);
+        if ($stmt->execute()) {
+            return $this->createBranchFromRow($stmt);
+        }
+        return false;
     }
 
     /**
@@ -430,9 +433,11 @@ class dbTreeNS
         $stmt->bindParam(':rkey', $lowerChild['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':child_level', $lowerChild['level'], PDO::PARAM_INT);
         $stmt->bindParam(':level', $highLevel, PDO::PARAM_INT);
-        $stmt->execute();
 
-        return $this->createBranchFromRow($stmt);
+        if ($stmt->execute()) {
+            return $this->createBranchFromRow($stmt);
+        }
+        return false;
     }
 
     /**
@@ -454,9 +459,11 @@ class dbTreeNS
         ' AND lkey <:rkey ORDER BY lkey');
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
-        $stmt->execute();
 
-        return $this->createBranchFromRow($stmt);
+        if ($stmt->execute()) {
+            return $this->createBranchFromRow($stmt);
+        }
+        return false;
     }
 
     /**
@@ -464,7 +471,7 @@ class dbTreeNS
      *
      * @param  string     $path          Путь
      * @param  string     $deep          Глубина выборки
-     * @return array with nodes
+     * @return array|false array with nodes or false
      */
     public function getBranchByPath($path, $deep = 1)
     {
@@ -509,17 +516,18 @@ class dbTreeNS
         $stmt->bindParam(':rkey', $lastNode['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':high_level', $lastNode['level'], PDO::PARAM_INT);
         $stmt->bindParam(':level', $level = $lastNode['level'] + $deep, PDO::PARAM_INT);
-        $stmt->execute();
 
-        return $this->createBranchFromRow($stmt);
-
+        if ($stmt->execute()) {
+            return $this->createBranchFromRow($stmt);
+        }
+        return false;
     }
 
     /**
      * Выборка информации о родительском узле
      *
      * @param  int  $id  Идентификатор узла
-     * @return array
+     * @return array|null
      */
     public function getParentNode($id)
     {
@@ -552,7 +560,7 @@ class dbTreeNS
     /**
      * Вставка узла ниже заданного, узел будет являтся листом дерева
      *
-     * @param  simple object  $newNode  Объект уже вставленный в таблицу данных
+     * @param  simple object $newNode Объект уже вставленный в таблицу данных
      * @return simple object с заполненными полями о месте в дереве
      */
     public function insertNode($id, simple $newNode)
@@ -673,9 +681,8 @@ class dbTreeNS
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':val', $v = $node['rkey'] - $node['lkey'] + 1, PDO::PARAM_INT);
-        $stmt->execute();
 
-        return !(bool)$stmt->errorCode();
+        return $stmt->execute();
     }
 
     /**
@@ -705,7 +712,7 @@ class dbTreeNS
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
         }
-        return true;
+        return !(bool)$stmt->errorCode();
     }
 
     /**
@@ -846,7 +853,7 @@ class dbTreeNS
      * Выборка массива содержащего возможные существующие варианты пути
      *
      * @param  string     $path          Путь
-     * @return array with id
+     * @return array array with id
      */
     protected function getPathVariants($path)
     {
@@ -884,7 +891,6 @@ class dbTreeNS
     /**
      * Создание поля для хранения путей
      *
-     * @return int
      */
     public function createPathField()
     {
