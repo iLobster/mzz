@@ -380,7 +380,7 @@ abstract class simpleMapper //implements iCacheable
      */
     protected function searchByKey($id)
     {
-        return searchByField($this->tableKey, $id);
+        return $this->searchOneByField($this->tableKey, $id);
 
     }
 
