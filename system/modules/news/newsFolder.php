@@ -93,6 +93,11 @@ class newsFolder extends simple
         $this->mapper->setPager($pager);
     }
 
+    public function removePager()
+    {
+        $this->mapper->removePager();
+    }
+
     public function getJip()
     {
         return $this->getJipView($this->name, $this->getPath(), get_class($this));

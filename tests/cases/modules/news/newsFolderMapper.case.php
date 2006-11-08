@@ -114,7 +114,7 @@ class newsFolderMapperTest extends unitTestCase
     public function testGetFolders()
     {
         $this->fixture($this->mapper, $this->map);
-
+//exit;
         $newsSubFolders = $this->mapper->getFolders(1);
 
         $this->assertEqual(count($newsSubFolders), 4);
@@ -213,7 +213,7 @@ class newsFolderMapperTest extends unitTestCase
 
             $newsFolder = new newsFolder($mapper, $map);
             $newsFolder->setName('name' . ($i));
-            $newsFolder->setParent($nodeParentsFixture[$i]);
+            $newsFolder->setParent($i);
             $mapper->save($newsFolder);
 
 

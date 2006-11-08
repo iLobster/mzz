@@ -115,7 +115,11 @@ class dbTreeNS
 
         // данные о таблице с данными
         $this->dataTable = $this->mapper ? $this->mapper->getTable() : null; //as data
-        $this->dataID = $this->mapper ? $this->mapper->getTableKey() : null;
+
+        if (isset($init['data']['id'])) {
+            $this->dataID = $init['data']['id'];
+        }
+        //$this->dataID = $this->mapper ? $this->mapper->getTableKey() : null;
 
         $this->rowID = is_null($this->dataID) ? $this->treeID : $this->dataID;
 
@@ -648,7 +652,7 @@ class dbTreeNS
         //удаление данных из таблицы данных
         $deletedBranch = $this->getBranch($id);
         foreach($deletedBranch as $node) {
-            $this->mapperOld ->delete($node->getId());
+            $this->mapperOld->delete($node->getId());
         }
 
         // удаление записей из дерева
@@ -671,11 +675,7 @@ class dbTreeNS
         $stmt->bindParam(':val', $v = $node['rkey'] - $node['lkey'] + 1, PDO::PARAM_INT);
         $stmt->execute();
 
-        if (!$stmt->errorCode()) {
-            return true;
-        } else {
-            return false;
-        }
+        return !(bool)$stmt->errorCode();
     }
 
     /**

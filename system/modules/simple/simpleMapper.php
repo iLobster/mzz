@@ -624,6 +624,11 @@ abstract class simpleMapper //implements iCacheable
         $this->pager = $pager;
     }
 
+    public function removePager()
+    {
+        $this->pager = null;
+    }
+
     /**
      * Метод установки map
      *

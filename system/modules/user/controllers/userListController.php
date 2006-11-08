@@ -26,7 +26,7 @@ class userListController extends simpleController
 {
     public function getView()
     {
-        $userMapper = clone $this->toolkit->getMapper('user', 'user', $this->request->getSection());
+        $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
 
         return new userListView($userMapper);
     }

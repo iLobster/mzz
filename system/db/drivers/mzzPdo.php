@@ -114,6 +114,7 @@ class mzzPdo extends PDO
      */
     public function query($query)
     {
+        //var_dump($query); echo '<br><br>';
         $this->queriesNum++;
         $start_time = microtime(true);
         $result = parent::query($query);

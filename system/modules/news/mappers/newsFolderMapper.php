@@ -45,7 +45,7 @@ class newsFolderMapper extends simpleMapper
     public function __construct($section)
     {
         parent::__construct($section);
-        $init = array ('data' => array('mapper' => $this, 'id' =>'parent'),
+        $init = array ('data' => array('mapper' => $this, 'id' => 'parent'),
         'tree' => array('table' => $section . '_' . $this->className . '_tree' , 'id' =>'id'));
 
 
@@ -128,7 +128,7 @@ class newsFolderMapper extends simpleMapper
                 $newsMapper->delete($news->getId());
             }
 
-       }
+        }
         $this->tree->removeNode($id);
     }
 
@@ -172,12 +172,12 @@ class newsFolderMapper extends simpleMapper
 
     // DEPRECATED пользоваться $tree->insertNode()
 
-/*    public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
+    /*    public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
     {
-        $id = $targetFolder->getParent();
-        $node = $this->tree->insertNode($id);
-        $parent = $node['id'];
-        $folder->setParent($parent);
+    $id = $targetFolder->getParent();
+    $node = $this->tree->insertNode($id);
+    $parent = $node['id'];
+    $folder->setParent($parent);
     }*/
 }
 
