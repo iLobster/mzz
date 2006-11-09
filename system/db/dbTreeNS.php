@@ -682,7 +682,7 @@ class dbTreeNS
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':val', $v = $node['rkey'] - $node['lkey'] + 1, PDO::PARAM_INT);
 
-        return $stmt->execute();
+        return !$stmt->execute();
     }
 
     /**
