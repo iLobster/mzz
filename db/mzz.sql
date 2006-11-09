@@ -451,7 +451,8 @@ INSERT INTO `sys_access_classes` (`id`, `name`, `module_id`) VALUES
   (4,'group',2),
   (5,'timer',3),
   (6,'page',4),
-  (7,'access',5);
+  (7,'access',5),
+  (8,'userGroup',2);
 
 COMMIT;
 
@@ -535,7 +536,8 @@ INSERT INTO `sys_access_classes_sections` (`id`, `class_id`, `section_id`) VALUE
   (4,4,2),
   (5,5,3),
   (6,6,4),
-  (7,7,6);
+  (7,7,6),
+  (8,8,2);
 
 COMMIT;
 
@@ -602,7 +604,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (63,7),
   (64,7),
   (65,5),
-  (66,1);
+  (66,1),
+  (68,8);
 
 COMMIT;
 
@@ -752,7 +755,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (63),
   (64),
   (65),
-  (66);
+  (66),
+  (67),
+  (68);
 
 COMMIT;
 
@@ -855,7 +860,8 @@ CREATE TABLE `user_usergroup_rel` (
 
 INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
   (1,1,1,50),
-  (23,2,2,47);
+  (23,2,2,47),
+  (25,2,1,68);
 
 COMMIT;
 
