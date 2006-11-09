@@ -42,10 +42,26 @@ abstract class simpleView
      */
     protected $params;
 
+
+    /**
+     * Объект Response
+     *
+     * @var iResponse
+     */
     protected $response;
 
+    /**
+     * Объект Request
+     *
+     * @var iRequest
+     */
     protected $httprequest;
 
+    /**
+     * Объект systemToolkit
+     *
+     * @var systemToolkit
+     */
     protected $toolkit;
 
     /**
@@ -62,26 +78,14 @@ abstract class simpleView
         if(!is_null($DAO)) {
             $this->DAO = $DAO;
         }
-        $this->smarty = $this->toolkit->getSmarty();
-        $this->smarty->allowNesting(!isset($_REQUEST['xajax']));
-        $this->response = $this->toolkit->getResponse();
         $this->httprequest = $this->toolkit->getRequest();
+        $this->smarty = $this->toolkit->getSmarty();
+        /* @todo установка в true в деструкторе? */
+        $this->smarty->allowNesting(!$this->httprequest->isAjax());
+        $this->response = $this->toolkit->getResponse();
         $this->smarty->assign('current_section', $this->httprequest->getSection());
-        $this->xajaxInit();
     }
 
-    public function xajaxInit()
-    {
-        // @todo перенести по возможности повыше модулей, чтобы например можно было обновлять время генерации страницы
-        //fileLoader::load("libs/xajax/xajax.inc");
-
-        ///$xajax = new xajax();
-        //$xajax->exitAllowedOff();
-        //$xajax->registerFunction(array("tostring", $this, 'toXML'), XAJAX_GET);
-
-        //$this->smarty->assign('xajax_js', $xajax->getJavascript('/templates/'));
-       // $xajax->processRequests();
-    }
 
     /**
      * Получение результата в виде строки
@@ -89,13 +93,6 @@ abstract class simpleView
      * @return string
      */
     abstract public function toString();
-
-    public function toXML()
-    {
-        $objResponse = $this->toolkit->getXajaxResponse();
-        $objResponse->addAssign("jip", "innerHTML", $this->toString());
-        return $objResponse;
-    }
 }
 
 ?>

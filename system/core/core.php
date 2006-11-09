@@ -45,7 +45,6 @@ class core
             $this->composeToolkit();
 
             $response = $this->toolkit->getResponse();
-            $response->setHeader('Content-Type', 'text/html; charset=windows-1251;');
             $request = $this->toolkit->getRequest();
 
             $filter_chain = new filterChain($response, $request);
@@ -56,7 +55,7 @@ class core
             $response->send();
 
         } catch (Exception $e) {
-            if (!($e instanceof mzzException))  {
+            if (!($e instanceof mzzException) && class_exists('mzzException'))  {
                 $name = get_class($e);
                 $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile(), $e->getTrace());
                 $e->setName($name);

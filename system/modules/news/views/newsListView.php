@@ -26,7 +26,6 @@ class newsListView extends simpleView
     {
         parent::__construct($news);
         $this->config = $this->toolkit->getConfig($this->httprequest->getSection(), 'news');
-        $this->xajaxInit();
     }
 
     public function toString()

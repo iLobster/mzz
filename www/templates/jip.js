@@ -58,7 +58,7 @@ function proccessKey(key) {
     if (key.keyCode) code = key.keyCode;
     else if (key.which) code = key.which;
     if (code == 27) {
-      return hideJip(); 
+      return hideJip();
     }
 }
 
@@ -66,13 +66,13 @@ var lastJipUrl = false;
 
 function showJip(url, success)
 {
-        cleanJip(); 
+        cleanJip();
 if (document.getElementById('jip')) {
 
                 document.getElementById('blockContent').style.display = 'block';
                 /*if (lastJipUrl != false) {
                     urlStack.push([lastJipUrl]); alert(lastJipUrl);
-                    lastJipUrl = false; 
+                    lastJipUrl = false;
                 } else {
                     lastJipUrl = url + '&xajax=true';
                 }*/urlStack.push([url]);
@@ -84,7 +84,7 @@ document.getElementById('jip').style.display = 'block';
                 currentUrl = url;
                  /*   urlStack.push([currentUrl]);
                 }*/
-        var request = YAHOO.util.Connect.asyncRequest('GET', url + '&xajax=true', callback);
+        var request = YAHOO.util.Connect.asyncRequest('GET', url + '&ajax=1', callback);
 
 return false;
 }
@@ -98,34 +98,34 @@ function sendFormWithAjax(form)
         urlStack.push([currentUrl]);
         var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), currentUrl:currentUrl }};
         YAHOO.util.Connect.setForm(form);
-        var request = YAHOO.util.Connect.asyncRequest('POST', form.action + '&xajax=true', callback);
+        var request = YAHOO.util.Connect.asyncRequest('POST', form.action + '&ajax=1', callback);
         return false;
 }
 
 
 function hideJip(windows, success)
-{ 
+{
 if(success === undefined){
             success = false;
-        } 
+        }
 if(windows == undefined){
             windows = 1;
         }
 if(document.getElementById('jip')) {
 
              if (urlStack.length > 0) {
-                 for (i = 0; i < windows - 1 ; i++) { 
+                 for (i = 0; i < windows - 1 ; i++) {
                      urlFromStack = urlStack.pop();
                  }
                  lastJipUrl = urlStack.pop();
                  urlFromStack = urlStack.pop();
-                 if (urlFromStack != undefined) {  
+                 if (urlFromStack != undefined) {
                  return showJip(urlFromStack[0], success);}
              }
 
              document.getElementById('blockContent').style.display = 'none';
              document.getElementById('jip').style.display = 'none';
-             lastJipUrl = false; 
+             lastJipUrl = false;
      return true;
 
         }
@@ -176,7 +176,7 @@ jipMenu.style.top = '-100px';
 
             curr_x = (e.pageX) ? e.pageX : e.x + 2 /*+ document.documentElement.scrollLeft*/;
             curr_y = (e.pageY) ? e.pageY : e.y + 2 /*+ document.documentElement.scrollTop*/;
-        } 
+        }
 
 
         var bottom_position = getBottomPosition(button);
@@ -202,7 +202,7 @@ jipMenu.style.top = '-100px';
         last_jipmenu_id = id;
 }
 
-function closeJipMenu(jipMenu) { 
+function closeJipMenu(jipMenu) {
         jipMenu.style.display = 'none';
         last_jipmenu_id = false;
         if(layertimer) {
@@ -213,14 +213,14 @@ function closeJipMenu(jipMenu) {
 
 function showJipMenu(button, id) {
     jipMenu = document.getElementById('jip_menu_' + id);
-    if (!jipMenu.style.display || jipMenu.style.display == 'none') { 
+    if (!jipMenu.style.display || jipMenu.style.display == 'none') {
         openJipMenu(button, jipMenu, id);
     } else {
         closeJipMenu(jipMenu);
     }
 }
 
-function setMouseInJip(status) { 
+function setMouseInJip(status) {
    if (status == false && last_jipmenu_id) {
       jipMenu = document.getElementById('jip_menu_' + last_jipmenu_id);
       layertimer = setTimeout("closeJipMenu(jipMenu)", 800);

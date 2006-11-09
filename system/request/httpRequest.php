@@ -171,6 +171,16 @@ class httpRequest implements iRequest
     }
 
     /**
+     * Возвращает true если используется AJAX
+     *
+     * @return boolean
+     */
+    public function isAjax()
+    {
+        return $this->get('ajax', 'boolean', SC_REQUEST);
+    }
+
+    /**
      * Метод возвращает протокол, который был использован для передачи данных.
      *
      * @return string|null возможные варианты: GET, HEAD, POST, PUT

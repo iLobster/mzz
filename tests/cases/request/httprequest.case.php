@@ -30,6 +30,8 @@ class httpRequestTest extends unitTestCase
         $_POST['_TEST_ARRAY_INT'][0] = $this->integer;
         $_GET['_TEST_INTEGER'] = $this->integer;
 
+        $_GET['ajax'] = '1';
+
         $this->httprequest = new httpRequest();
 
 
@@ -66,6 +68,11 @@ class httpRequestTest extends unitTestCase
         $this->assertEqual($this->httprequest->getMethod(), 'POST');
     }
 
+
+    public function testIsAjax()
+    {
+        $this->assertTrue($this->httprequest->isAjax());
+    }
 
     public function testGet()
     {
