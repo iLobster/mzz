@@ -229,9 +229,9 @@ CREATE TABLE `sys_access_sections` (
 #
 
 INSERT INTO `sys_access_sections` (`id`, `name`) VALUES 
-  (1,'news'),
-  (2,'page'),
-  (3,'simple'),
+  (1,'simple'),
+  (2,'news'),
+  (3,'page'),
   (4,'user');
 
 COMMIT;

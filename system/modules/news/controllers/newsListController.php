@@ -38,4 +38,5 @@ class newsListController extends simpleController
         }
     }
 }
+
 ?>

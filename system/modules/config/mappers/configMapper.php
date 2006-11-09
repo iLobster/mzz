@@ -13,41 +13,30 @@
 */
 
 /**
- * accessMapper: маппер
+ * configMapper: маппер
  *
  * @package modules
- * @subpackage access
+ * @subpackage config
  * @version 0.1
  */
 
-fileLoader::load('access');
+fileLoader::load('config');
 
-class accessMapper extends simpleMapper
+class configMapper extends simpleMapper
 {
     /**
      * Имя модуля
      *
      * @var string
      */
-    protected $name = 'access';
+    protected $name = 'config';
 
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'access';
-
-    public function __construct($section, $alias = 'default')
-    {
-        parent::__construct($section, $alias);
-        $this->table = 'sys_access';
-    }
-
-    public function searchByObjId($obj_id)
-    {
-        return $this->searchAllByField('obj_id', $obj_id);
-    }
+    protected $className = 'cfg';
 
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
@@ -56,15 +45,11 @@ class accessMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        if (isset($args['section_name']) && isset($args['class_name'])) {
+        if (isset($args['section_name']) && isset($args['module_name'])) {
             $toolkit = systemToolkit::getInstance();
-            $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['class_name']);
+            $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['module_name']);
             $this->register($obj_id, 'sys', 'access');
             return $obj_id;
-        }
-
-        if (isset($args['id'])) {
-            return $args['id'];
         }
 
         throw new mzzRuntimeException('Невозможно определить obj_id');

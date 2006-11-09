@@ -30,7 +30,7 @@ class newsDeleteFolderController extends simpleController
 
         $folder = $newsFolderMapper->searchByPath($name);
 
-        $newsFolderMapper->delete($folder->getId());
+        $newsFolderMapper->remove($folder->getParent());
 
         return new newsDeleteView();
     }

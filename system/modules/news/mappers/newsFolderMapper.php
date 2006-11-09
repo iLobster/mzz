@@ -53,6 +53,12 @@ class newsFolderMapper extends simpleMapper
         //echo "<pre>"; var_dump($this->tree); echo "</pre>";
     }
 
+    /**
+     * Поиск newsFolder по id
+     *
+     * @param integer $id
+     * @return newsFolder
+     */
     public function searchById($id)
     {
         return $this->searchOneByField('id', $id);
@@ -110,8 +116,8 @@ class newsFolderMapper extends simpleMapper
      * Удаление папки вместе с содежимым на основе id
      * не delete потому что delete используется в tree для удаления записи
      *
-     * @param string $id идентификатор
-     * @return bool
+     * @param string $id идентификатор <b>узла дерева</b> (parent) удаляемого элемента
+     * @return void
      */
     public function remove($id)
     {
@@ -129,6 +135,7 @@ class newsFolderMapper extends simpleMapper
             }
 
         }
+
         $this->tree->removeNode($id);
     }
 

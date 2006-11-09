@@ -30,7 +30,7 @@ abstract class simpleView
     /**
      * Объект шаблонного движка
      *
-     * @var object
+     * @var mzzSmarty
      */
     protected $smarty;
 

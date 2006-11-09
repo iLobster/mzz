@@ -76,7 +76,7 @@ function smarty_function_load($params, $smarty)
 
     $actionName = $action->getActionName();
 
-    $aclActions = array('editUser', 'addUser', 'editGroup', 'addGroup');
+    $aclActions = array('editUser', 'addUser', 'deleteUser', 'editGroup', 'addGroup', 'deleteGroup', 'editCfg');
     if (in_array($actionName, $aclActions)) {
         $actionName = 'editACL';
     } else {
