@@ -13,7 +13,7 @@ function extractScripts(response) {
     var matchAll = new RegExp(jsFragment, 'img');
     var matchOne = new RegExp(jsFragment, 'im');
     return (response.match(matchAll) || []).map(function(scriptTag) {
-      return (scriptTag.match(matchOne) || ['', ''])[1];
+        return (scriptTag.match(matchOne) || ['', ''])[1];
     });
 }
 
@@ -24,12 +24,23 @@ function evalScripts(response) {
 
 var handleSuccess = function(o){
     if(typeof o.responseText !== undefined){
+        urlStack.push([currentUrl]);
         o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' class='jip' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
         if (o.argument.success == true) {
             o.argument.div.innerHTML += "<div style='background-color: #EEF8E7; padding: 2px; text-align: center; width: 160px; border: 1px solid #C9E9B1; color: green; font-weight: bold;'>Данные сохранены.</div>";
         }
         o.argument.div.innerHTML += o.responseText;
+        evalScripts(o.argument.div.innerHTML);
+    }
+}
 
+var handleInSuccess = function(o){
+    if(typeof o.responseText !== undefined){
+        o.argument.div.innerHTML = '';
+        if (o.argument.success == true) {
+            o.argument.div.innerHTML += "<div style='background-color: #EEF8E7; padding: 2px; text-align: center; width: 160px; border: 1px solid #C9E9B1; color: green; font-weight: bold;'>Данные сохранены.</div>";
+        }
+        o.argument.div.innerHTML += o.responseText;
         evalScripts(o.argument.div.innerHTML);
     }
 }
@@ -37,9 +48,9 @@ var handleSuccess = function(o){
 var handleFormSuccess = function(o){
     if(typeof o.responseText !== undefined){
         showJip(o.argument.currentUrl);
-//o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
-//o.argument.div.innerHTML += '<div style="font-size: 100%;color: green;">Данные сохранены</div>' + o.responseText;
-//div.innerHTML += "<li>HTTP status: " + o.status + "</li>";
+        //o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
+        //o.argument.div.innerHTML += '<div style="font-size: 100%;color: green;">Данные сохранены</div>' + o.responseText;
+        //div.innerHTML += "<li>HTTP status: " + o.status + "</li>";
     }
 }
 
@@ -58,7 +69,7 @@ function proccessKey(key) {
     if (key.keyCode) code = key.keyCode;
     else if (key.which) code = key.which;
     if (code == 27) {
-      return hideJip();
+        return hideJip();
     }
 }
 
@@ -66,70 +77,89 @@ var lastJipUrl = false;
 
 function showJip(url, success)
 {
-        cleanJip();
-if (document.getElementById('jip')) {
+    cleanJip();
+    if (document.getElementById('jip')) {
 
-                document.getElementById('blockContent').style.display = 'block';
-                /*if (lastJipUrl != false) {
-                    urlStack.push([lastJipUrl]); alert(lastJipUrl);
-                    lastJipUrl = false;
-                } else {
-                    lastJipUrl = url + '&xajax=true';
-                }*/urlStack.push([url]);
+        document.getElementById('blockContent').style.display = 'block';
+        /*if (lastJipUrl != false) {
+        urlStack.push([lastJipUrl]); alert(lastJipUrl);
+        lastJipUrl = false;
+        } else {
+        lastJipUrl = url + '&xajax=true';
+        }*/
+        //urlStack.push([url]);
 
-document.getElementById('jip').style.display = 'block';
+        document.getElementById('jip').style.display = 'block';
 
 
-                var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), success:success }};
-                currentUrl = url;
-                 /*   urlStack.push([currentUrl]);
-                }*/
+        var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), success:success }};
+        currentUrl = url;
+        /*   urlStack.push([currentUrl]);
+        }*/
         var request = YAHOO.util.Connect.asyncRequest('GET', url + '&ajax=1', callback);
 
-return false;
-}
-return true;
-}
-
-
-function sendFormWithAjax(form)
-{
-
-        urlStack.push([currentUrl]);
-        var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), currentUrl:currentUrl }};
-        YAHOO.util.Connect.setForm(form);
-        var request = YAHOO.util.Connect.asyncRequest('POST', form.action + '&ajax=1', callback);
         return false;
+    }
+    return true;
 }
+
+
+function sendFormWithAjax(form, elementId)
+{
+    elementId = elementId || 'jip';
+    //(urlStack.slice(urlStack.length - 1, urlStack.length));
+    //if (urlStack.slice(urlStack.length - 1, urlStack.length) != currentUrl) {
+    //    urlStack.push([currentUrl]);
+    //}
+    //if(currentUrl != undefined) {
+    //urlStack.push([currentUrl]);
+    //    delete currentUrl;
+    //}
+    var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
+    YAHOO.util.Connect.setForm(form);
+    var request = YAHOO.util.Connect.asyncRequest(form.method.toUpperCase(), form.action + '&ajax=1', callback);
+    return false;
+}
+
+function sendFormInAjax(form, elementId)
+{
+    elementId = elementId || 'jip';
+    cleanSubJip(elementId);
+    var callback = {success:handleInSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
+    YAHOO.util.Connect.setForm(form);
+    var request = YAHOO.util.Connect.asyncRequest(form.method.toUpperCase(), form.action + '&ajax=1', callback);
+    return false;
+}
+
 
 
 function hideJip(windows, success)
 {
-if(success === undefined){
-            success = false;
-        }
-if(windows == undefined){
-            windows = 1;
-        }
-if(document.getElementById('jip')) {
+    if(success === undefined){
+        success = false;
+    }
+    if(windows == undefined){
+        windows = 1;
+    }
+    if(document.getElementById('jip')) {
 
-             if (urlStack.length > 0) {
-                 for (i = 0; i < windows - 1 ; i++) {
-                     urlFromStack = urlStack.pop();
-                 }
-                 lastJipUrl = urlStack.pop();
-                 urlFromStack = urlStack.pop();
-                 if (urlFromStack != undefined) {
-                 return showJip(urlFromStack[0], success);}
-             }
-
-             document.getElementById('blockContent').style.display = 'none';
-             document.getElementById('jip').style.display = 'none';
-             lastJipUrl = false;
-     return true;
-
+        if (urlStack.length > 0) {
+            for (i = 0; i < windows - 1 ; i++) {
+                urlFromStack = urlStack.pop();
+            }
+            lastJipUrl = urlStack.pop();
+            urlFromStack = urlStack.pop();
+            if (urlFromStack != undefined) {
+                return showJip(urlFromStack[0], success);}
         }
-return true;
+
+        document.getElementById('blockContent').style.display = 'none';
+        document.getElementById('jip').style.display = 'none';
+        lastJipUrl = false;
+        return true;
+
+    }
+    return true;
 }
 
 function cleanJip()
@@ -137,77 +167,82 @@ function cleanJip()
     document.getElementById('jip').innerHTML = 'Загрузка данных. Подождите... <br /> <input type="button" value="Закрыть" onClick="hideJip()">';
 }
 
+function cleanSubJip(elementId)
+{
+    elementId = elementId || 'jip';
+    document.getElementById(elementId).innerHTML = 'Загрузка данных. Подождите...';
+}
 
 
 
 function getBottomPosition(el)
 {
-     if(!el || !el.offsetParent) {
-          return false;
-     }
+    if(!el || !el.offsetParent) {
+        return false;
+    }
 
-     top_position = el.offsetTop;
-     var objParent = el.offsetParent;
+    top_position = el.offsetTop;
+    var objParent = el.offsetParent;
 
-     while(objParent && objParent.tagName != "body")
-     {
-          top_position += objParent.offsetTop;
-          objParent = objParent.offsetParent;
-     }
-     return top_position + el.offsetHeight;
+    while(objParent && objParent.tagName != "body")
+    {
+        top_position += objParent.offsetTop;
+        objParent = objParent.offsetParent;
+    }
+    return top_position + el.offsetHeight;
 }
 
 
 function openJipMenu(button, jipMenu, id) {
 
 
-jipMenu.style.top = '-100px';
-        jipMenu.style.display = 'block';
+    jipMenu.style.top = '-100px';
+    jipMenu.style.display = 'block';
 
-        if (last_jipmenu_id) {
-             closeJipMenu(document.getElementById('jip_menu_' + last_jipmenu_id));
-        }
+    if (last_jipmenu_id) {
+        closeJipMenu(document.getElementById('jip_menu_' + last_jipmenu_id));
+    }
 
-        if (is_gecko) {
-            curr_x = button.x;
-            curr_y = button.y + 17;
-        } else {
-            e = window.event;
+    if (is_gecko) {
+        curr_x = button.x;
+        curr_y = button.y + 17;
+    } else {
+        e = window.event;
 
-            curr_x = (e.pageX) ? e.pageX : e.x + 2 /*+ document.documentElement.scrollLeft*/;
-            curr_y = (e.pageY) ? e.pageY : e.y + 2 /*+ document.documentElement.scrollTop*/;
-        }
+        curr_x = (e.pageX) ? e.pageX : e.x + 2 /*+ document.documentElement.scrollLeft*/;
+        curr_y = (e.pageY) ? e.pageY : e.y + 2 /*+ document.documentElement.scrollTop*/;
+    }
 
 
-        var bottom_position = getBottomPosition(button);
+    var bottom_position = getBottomPosition(button);
 
-        var x = curr_x , y = curr_y;
-        var w = jipMenu.offsetWidth;
-        var h = jipMenu.offsetHeight;
-        var body = document.documentElement;
+    var x = curr_x , y = curr_y;
+    var w = jipMenu.offsetWidth;
+    var h = jipMenu.offsetHeight;
+    var body = document.documentElement;
 
-        if((body.clientWidth + body.scrollLeft) < (x + jipMenu.clientWidth))
-        {
-                x = body.scrollLeft + body.clientWidth - 207;
-        }
+    if((body.clientWidth + body.scrollLeft) < (x + jipMenu.clientWidth))
+    {
+        x = body.scrollLeft + body.clientWidth - 207;
+    }
 
-        if((body.clientHeight + body.scrollTop) < (bottom_position + jipMenu.clientHeight + 30))
-        {
-                y = body.scrollTop - jipMenu.clientHeight + 30;
-        }
+    if((body.clientHeight + body.scrollTop) < (bottom_position + jipMenu.clientHeight + 30))
+    {
+        y = body.scrollTop - jipMenu.clientHeight + 30;
+    }
 
-        jipMenu.style.left = x + 'px';
-        jipMenu.style.top = y + 'px';
+    jipMenu.style.left = x + 'px';
+    jipMenu.style.top = y + 'px';
 
-        last_jipmenu_id = id;
+    last_jipmenu_id = id;
 }
 
 function closeJipMenu(jipMenu) {
-        jipMenu.style.display = 'none';
-        last_jipmenu_id = false;
-        if(layertimer) {
-            clearTimeout(layertimer);
-        }
+    jipMenu.style.display = 'none';
+    last_jipmenu_id = false;
+    if(layertimer) {
+        clearTimeout(layertimer);
+    }
 }
 
 
@@ -221,10 +256,10 @@ function showJipMenu(button, id) {
 }
 
 function setMouseInJip(status) {
-   if (status == false && last_jipmenu_id) {
-      jipMenu = document.getElementById('jip_menu_' + last_jipmenu_id);
-      layertimer = setTimeout("closeJipMenu(jipMenu)", 800);
-   } else {
-      clearTimeout(layertimer);
-   }
+    if (status == false && last_jipmenu_id) {
+        jipMenu = document.getElementById('jip_menu_' + last_jipmenu_id);
+        layertimer = setTimeout("closeJipMenu(jipMenu)", 800);
+    } else {
+        clearTimeout(layertimer);
+    }
 }

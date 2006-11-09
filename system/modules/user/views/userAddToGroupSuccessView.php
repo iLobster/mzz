@@ -25,7 +25,7 @@ class userAddToGroupSuccessView extends simpleView
         $url->addParam($this->httprequest->get('id', 'integer', SC_PATH));
         $url->setAction('addToGroup');
         $url->setSection($this->httprequest->getSection());
-        return "<script type=\"text/javascript\">location.href = '" . $url->get() . "';</script>";
+       // return "<script type=\"text/javascript\">location.href = '" . $url->get() . "';</script>";
     }
 }
 

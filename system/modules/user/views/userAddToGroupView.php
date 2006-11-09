@@ -35,34 +35,17 @@ class userAddToGroupView extends simpleView
 
     public function toString()
     {
-        fileLoader::load("libs/xajax/xajax.inc");
-
         $url = new url();
         $url->setSection($this->httprequest->getSection());
         $url->addParam($this->httprequest->get('id', 'integer', SC_PATH));
         $url->setAction('addToGroupList');
 
-        $xajax = new xajax($url->get());
-        $xajax->registerFunction(array("update", $this, 'updateUsers'), XAJAX_GET);
-
-        $this->smarty->assign('xajax_js', $xajax->getJavascript('/templates/'));
         $this->smarty->assign('filter', $this->filter);
         $this->smarty->assign('users', $this->DAO);
         $this->smarty->assign('group', $this->group);
 
         $this->response->setTitle('Группа -> ' . $this->group->getName() . ' -> добавление пользователей');
-        $xajax->processRequests();
         return $this->smarty->fetch('user.addToGroup.tpl');
-    }
-
-    public function updateUsers($value)
-    {
-        $objResponse = new xajaxResponse();
-        $this->smarty->assign('filter', $this->filter);
-        $this->smarty->assign('users', $this->DAO);
-        $this->smarty->assign('group', $this->group);
-        $objResponse->addAssign("users","innerHTML", $this->smarty->fetch('user.addToGroupList.tpl'));
-        return $objResponse;
     }
 
 }
