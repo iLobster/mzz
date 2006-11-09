@@ -21,7 +21,8 @@ class accessEditUserSuccessView extends simpleView
 {
     public function toString()
     {
-        return '<script>window.close();window.opener.location.reload();window.opener.focus();</script>';
+        //return '<script>window.close();window.opener.location.reload();window.opener.focus();</script>';
+        return '<script  type="text/javascript">hideJip(2, true);</script>';
     }
 }
 

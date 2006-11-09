@@ -4,51 +4,70 @@ var is_ie = (agt.indexOf("msie") != -1) && (agt.indexOf("opera") == -1);
 var is_gecko = navigator.product == "Gecko";
 var layertimer;
 
-
 var urlStack = new Array;
 var currentUrl;
 var formSuccess = false;
 
+function extractScripts(response) {
+    jsFragment = '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)';
+    var matchAll = new RegExp(jsFragment, 'img');
+    var matchOne = new RegExp(jsFragment, 'im');
+    return (response.match(matchAll) || []).map(function(scriptTag) {
+      return (scriptTag.match(matchOne) || ['', ''])[1];
+    });
+}
+
+function evalScripts(response) {
+    return extractScripts(response).map(eval);
+}
+
+
 var handleSuccess = function(o){
-	if(typeof o.responseText !== undefined){
-		o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
-		o.argument.div.innerHTML += o.responseText;
-		//div.innerHTML += "<li>HTTP status: " + o.status + "</li>";
-	}
+    if(typeof o.responseText !== undefined){
+        o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' class='jip' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
+        if (o.argument.success == true) {
+            o.argument.div.innerHTML += "<div style='background-color: #EEF8E7; padding: 2px; text-align: center; width: 160px; border: 1px solid #C9E9B1; color: green; font-weight: bold;'>Данные сохранены.</div>";
+        }
+        o.argument.div.innerHTML += o.responseText;
+
+        evalScripts(o.argument.div.innerHTML);
+    }
 }
 
 var handleFormSuccess = function(o){
-	if(typeof o.responseText !== undefined){
-showJip(o.argument.currentUrl, 1);
-		//o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
-		//o.argument.div.innerHTML += '<div style="font-size: 100%;color: green;">Данные сохранены</div>' + o.responseText;
-		//div.innerHTML += "<li>HTTP status: " + o.status + "</li>";
-	}
+    if(typeof o.responseText !== undefined){
+        showJip(o.argument.currentUrl);
+//o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
+//o.argument.div.innerHTML += '<div style="font-size: 100%;color: green;">Данные сохранены</div>' + o.responseText;
+//div.innerHTML += "<li>HTTP status: " + o.status + "</li>";
+    }
 }
 
 var handleFailure = function(o){
-	if(typeof o.responseText !== undefined){
-		alert("No response. Server error. \r\n Trans_id: " + o.tId + "; HTTP status: " + o.status + "; Code message: " + o.statusText);
-	}
+    if(typeof o.responseText !== undefined){
+        alert("No response. Server error. \r\n Trans_id: " + o.tId + "; HTTP status: " + o.status + "; Code message: " + o.statusText);
+    }
 }
 
 
 document.onkeydown = proccessKey;
 
 function proccessKey(key) {
-	var code;
-	if (!key) key = window.event;
-	if (key.keyCode) code = key.keyCode;
-	else if (key.which) code = key.which;
-	if (code == 27) hideJip();
+    var code;
+    if (!key) key = window.event;
+    if (key.keyCode) code = key.keyCode;
+    else if (key.which) code = key.which;
+    if (code == 27) {
+      return hideJip(); 
+    }
 }
 
 var lastJipUrl = false;
 
-function showJip(url, flag)
+function showJip(url, success)
 {
         cleanJip(); 
-	if (document.getElementById('jip')) {
+if (document.getElementById('jip')) {
 
                 document.getElementById('blockContent').style.display = 'block';
                 /*if (lastJipUrl != false) {
@@ -58,20 +77,18 @@ function showJip(url, flag)
                     lastJipUrl = url + '&xajax=true';
                 }*/urlStack.push([url]);
 
-		document.getElementById('jip').style.display = 'block';
+document.getElementById('jip').style.display = 'block';
 
 
-                var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip') }};
+                var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), success:success }};
                 currentUrl = url;
                  /*   urlStack.push([currentUrl]);
                 }*/
-	        var request = YAHOO.util.Connect.asyncRequest('GET', url + '&xajax=true', callback);
+        var request = YAHOO.util.Connect.asyncRequest('GET', url + '&xajax=true', callback);
 
-                delete flag;
-		return false;
-	}
-        delete flag;
-	return true;
+return false;
+}
+return true;
 }
 
 
@@ -81,29 +98,38 @@ function sendFormWithAjax(form)
         urlStack.push([currentUrl]);
         var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), currentUrl:currentUrl }};
         YAHOO.util.Connect.setForm(form);
-	var request = YAHOO.util.Connect.asyncRequest('POST', form.action + '&xajax=true', callback);
+        var request = YAHOO.util.Connect.asyncRequest('POST', form.action + '&xajax=true', callback);
         return false;
 }
 
 
-function hideJip()
+function hideJip(windows, success)
 { 
-	if(document.getElementById('jip')) {
+if(success === undefined){
+            success = false;
+        } 
+if(windows == undefined){
+            windows = 1;
+        }
+if(document.getElementById('jip')) {
 
-             if (urlStack.length > 0) { 
-
+             if (urlStack.length > 0) {
+                 for (i = 0; i < windows - 1 ; i++) { 
+                     urlFromStack = urlStack.pop();
+                 }
                  lastJipUrl = urlStack.pop();
                  urlFromStack = urlStack.pop();
                  if (urlFromStack != undefined) {  
-                 return showJip(urlFromStack[0], true);}
+                 return showJip(urlFromStack[0], success);}
              }
-             
+
              document.getElementById('blockContent').style.display = 'none';
              document.getElementById('jip').style.display = 'none';
              lastJipUrl = false; 
+     return true;
 
         }
-	return false;
+return true;
 }
 
 function cleanJip()
@@ -135,7 +161,7 @@ function getBottomPosition(el)
 function openJipMenu(button, jipMenu, id) {
 
 
-	jipMenu.style.top = '-100px';
+jipMenu.style.top = '-100px';
         jipMenu.style.display = 'block';
 
         if (last_jipmenu_id) {
