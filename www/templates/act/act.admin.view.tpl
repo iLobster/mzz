@@ -1,2 +1,2 @@
 {* main="main.tpl" placeholder="content" *}
-{load module="user" action="groupsList"}
+{load module="admin" action="view"}

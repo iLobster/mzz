@@ -20,6 +20,7 @@
      <span class="menu_element">{if $current_section ne "news"}<a href="{url section=news}">{else}<b>{/if}Новости{if $current_section ne "news"}</a>{else}</b>{/if}</span>
      <span class="menu_element">{if $current_section ne "page"}<a href="{url section=page}">{else}<b>{/if}Страницы{if $current_section ne "page"}</a>{else}</b>{/if}</span>
      <span class="menu_element">{if $current_section ne "user"}<a href="{url section=user action=list}">{else}<b>{/if}Пользователи{if $current_section ne "user"}</a>{else}</b>{/if}</span>
+     <span class="menu_element">{if $current_section ne "admin"}<a href="{url section=admin action=view}">{else}<b>{/if}Панель управления{if $current_section ne "admin"}</a>{else}</b>{/if}</span>
     </div>
     <!--div id="menu">
      <div id="menu_element{if $current_section eq "news"}_current{/if}"><a href="{url section=news}">Новости</a></div>
@@ -27,7 +28,7 @@
      <div id="menu_element{if $current_section eq "user"}_current{/if}"><a href="{url section=user action=list}">Пользователь</a></div>
     </div-->
 
-    {load module="user" action="login" args="" section="user"}
+    {load module="user" action="login" section="user" args=""}
     <div id="logotip"><a href="/"><img id="img_logotip" src="/templates/images/mzz_logo.png" width="124" height="29" alt="" /></a></div>
 </div>
 

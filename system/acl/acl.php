@@ -159,14 +159,14 @@ class acl
             $qry = 'SELECT MIN(`access`) AS `access`, `name` FROM (
 
                     (SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name` FROM `sys_access` `a`
-                     INNER JOIN `sys_access_actions` `aa` ON `a`.`action_id` = `aa`.`id`
+                     INNER JOIN `sys_actions` `aa` ON `a`.`action_id` = `aa`.`id`
                       WHERE `a`.`obj_id` = :obj_id AND `a`.`uid` = :uid
                        GROUP BY `aa`.`id`)';
 
             if (sizeof($this->groups) && !$clean) {
                 $qry .= 'UNION
                           (SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name` FROM `sys_access` `a`
-                           INNER JOIN `sys_access_actions` `aa` ON `a`.`action_id` = `aa`.`id`
+                           INNER JOIN `sys_actions` `aa` ON `a`.`action_id` = `aa`.`id`
                              WHERE `a`.`obj_id` = :obj_id AND `a`.`gid` IN (' . $grp . ')
                               GROUP BY `aa`.`id`)';
             }
@@ -259,7 +259,7 @@ class acl
 
             $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name`
                      FROM `sys_access` `a`
-                       INNER JOIN `sys_access_actions` `aa` ON `a`.`action_id` = `aa`.`id`
+                       INNER JOIN `sys_actions` `aa` ON `a`.`action_id` = `aa`.`id`
                         WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
                          GROUP BY `aa`.`id`';
 
@@ -284,10 +284,10 @@ class acl
     public function getForGroupDefault($gid)
     {
         $qry = "SELECT `sa`.`name`, `a`.`allow` as `access` FROM `sys_access` `a`
-                   INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `a`.`class_section_id`
-                    INNER JOIN `sys_access_classes` `c` ON (`c`.`id` = `cs`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
-                     INNER JOIN `sys_access_sections` `s` ON (`s`.`id` = `cs`.`section_id`) AND (`s`.`name` = " . $this->db->quote($this->section) . ")
-                      INNER JOIN `sys_access_actions` `sa` ON `sa`.`id` = `a`.`action_id`
+                   INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `a`.`class_section_id`
+                    INNER JOIN `sys_classes` `c` ON (`c`.`id` = `cs`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
+                     INNER JOIN `sys_sections` `s` ON (`s`.`id` = `cs`.`section_id`) AND (`s`.`name` = " . $this->db->quote($this->section) . ")
+                      INNER JOIN `sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
                        INNER JOIN `user_group` `g` ON `g`.`id` = `a`.`gid`
                         WHERE `a`.`obj_id` = '0' AND `a`.`gid` = " . (int)$gid;
 
@@ -309,10 +309,10 @@ class acl
     public function getDefault()
     {
         $qry = "SELECT `sa`.`name`, `a`.`allow` as `access` FROM `sys_access` `a`
-                   INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `a`.`class_section_id`
-                    INNER JOIN `sys_access_classes` `c` ON (`c`.`id` = `cs`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
-                     INNER JOIN `sys_access_sections` `s` ON (`s`.`id` = `cs`.`section_id`) AND (`s`.`name` = " . $this->db->quote($this->section) . ")
-                      INNER JOIN `sys_access_actions` `sa` ON `sa`.`id` = `a`.`action_id`
+                   INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `a`.`class_section_id`
+                    INNER JOIN `sys_classes` `c` ON (`c`.`id` = `cs`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
+                     INNER JOIN `sys_sections` `s` ON (`s`.`id` = `cs`.`section_id`) AND (`s`.`name` = " . $this->db->quote($this->section) . ")
+                      INNER JOIN `sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
                        LEFT JOIN `user_user` `u` ON `u`.`id` = `a`.`uid`
                         WHERE `a`.`obj_id` = '0' AND `a`.`uid` = " . $this->uid;
 
@@ -372,15 +372,15 @@ class acl
 
         $criteria = new criteria();
         $criteria->addJoin('sys_access', new criterion('a.uid', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addJoin('sys_access_classes_sections', new criterion('cs.id', 'a.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_classes_sections', new criterion('cs.id', 'a.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'cs.class_id', criteria::EQUAL, true);
         $criterion_class->addAnd(new criterion('c.name', $class));
-        $criteria->addJoin('sys_access_classes', $criterion_class, 'c', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_classes', $criterion_class, 'c', criteria::JOIN_INNER);
 
         $criterion_section = new criterion('s.id', 'cs.section_id', criteria::EQUAL, true);
         $criterion_section->addAnd(new criterion('s.name', $section));
-        $criteria->addJoin('sys_access_sections', $criterion_section, 's', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_sections', $criterion_section, 's', criteria::JOIN_INNER);
 
         $criteria->add('a.obj_id', 0);
 
@@ -421,15 +421,15 @@ class acl
 
         $criteria = new criteria();
         $criteria->addJoin('sys_access', new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addJoin('sys_access_classes_sections', new criterion('cs.id', 'a.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_classes_sections', new criterion('cs.id', 'a.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'cs.class_id', criteria::EQUAL, true);
         $criterion_class->addAnd(new criterion('c.name', $class));
-        $criteria->addJoin('sys_access_classes', $criterion_class, 'c', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_classes', $criterion_class, 'c', criteria::JOIN_INNER);
 
         $criterion_section = new criterion('s.id', 'cs.section_id', criteria::EQUAL, true);
         $criterion_section->addAnd(new criterion('s.name', $section));
-        $criteria->addJoin('sys_access_sections', $criterion_section, 's', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_sections', $criterion_section, 's', criteria::JOIN_INNER);
 
         $criteria->add('a.obj_id', 0);
 
@@ -450,9 +450,9 @@ class acl
     {
         // выбираем все корректные экшны для данного ДО
         $qry = 'SELECT `a`.`name`, `a`.`id` FROM `sys_access_registry` `r`
-                 INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
-                  INNER JOIN `sys_access_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
-                   INNER JOIN `sys_access_actions` `a` ON `a`.`id` = `ca`.`action_id`
+                 INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                  INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
+                   INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
                     WHERE `r`.`obj_id` = ' . $this->obj_id;
 
         $validActions = $this->db->getAll($qry);
@@ -526,10 +526,10 @@ class acl
      */
     public function setDefault($gid, $param, $isUser = false)
     {
-        $qry = "SELECT `a`.* FROM `sys_access_classes_sections` `cs`
-                 INNER JOIN `sys_access_classes` `c` ON `cs`.`class_id` = `c`.`id` AND `c`.`name` = " . $this->db->quote($this->class) . "
-                  INNER JOIN `sys_access_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
-                   INNER JOIN `sys_access_actions` `a` ON `a`.`id` = `ca`.`action_id`";
+        $qry = "SELECT `a`.* FROM `sys_classes_sections` `cs`
+                 INNER JOIN `sys_classes` `c` ON `cs`.`class_id` = `c`.`id` AND `c`.`name` = " . $this->db->quote($this->class) . "
+                  INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                   INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`";
 
         $validActions = $this->db->getAll($qry);
 
@@ -641,8 +641,8 @@ class acl
     public function getClass()
     {
         $qry = 'SELECT `c`.`name` FROM `sys_access_registry` `r`
-                 INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
-                  INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                 INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                  INNER JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
                    WHERE `r`.`obj_id` = ' . $this->obj_id;
         return $this->db->getOne($qry);
     }
@@ -657,13 +657,13 @@ class acl
     {
         if (!$class) {
             $qry = 'SELECT `m`.`name` FROM `sys_access_registry` `r`
-                 INNER JOIN `sys_access_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
-                  INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                   INNER JOIN `sys_access_modules` `m` ON `m`.`id` = `c`.`module_id`
+                 INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                  INNER JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                   INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
                     WHERE `r`.`obj_id` = ' . $this->obj_id;
         } else {
-            $qry = 'SELECT `m`.`name` FROM `sys_access_classes` `c`
-                     INNER JOIN `sys_access_modules` `m` ON `m`.`id` = `c`.`module_id`
+            $qry = 'SELECT `m`.`name` FROM `sys_classes` `c`
+                     INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
                       WHERE `c`.`name` = ' . $this->db->quote($class);
         }
 
@@ -692,26 +692,26 @@ class acl
             $section = $this->section;
         }
 
-        $qry = "SELECT `cs`.`id` FROM `sys_access_classes_sections` `cs`
-                 INNER JOIN `sys_access_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                  INNER JOIN `sys_access_sections` `s` ON `s`.`id` = `cs`.`section_id`
+        $qry = "SELECT `cs`.`id` FROM `sys_classes_sections` `cs`
+                 INNER JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                  INNER JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
                    WHERE `c`.`name` = " . $this->db->quote($class) . " AND `s`.`name` = " . $this->db->quote($section);
         $id = $this->db->getOne($qry);
 
         if (is_null($id)) {
-            $section_id = $this->db->getOne('SELECT `id` FROM `sys_access_sections` WHERE `name` = ' . $this->db->quote($section));
+            $section_id = $this->db->getOne('SELECT `id` FROM `sys_sections` WHERE `name` = ' . $this->db->quote($section));
             if (is_null($section_id)) {
-                $this->db->query('INSERT INTO `sys_access_sections` (`name`) VALUES (' . $this->db->quote($section) . ')');
+                $this->db->query('INSERT INTO `sys_sections` (`name`) VALUES (' . $this->db->quote($section) . ')');
                 $section_id = $this->db->lastInsertId();
             }
 
-            $class_id = $this->db->getOne('SELECT `id` FROM `sys_access_classes` WHERE `name` = ' . $this->db->quote($class));
+            $class_id = $this->db->getOne('SELECT `id` FROM `sys_classes` WHERE `name` = ' . $this->db->quote($class));
 
             if (is_null($class_id)) {
-                throw new mzzRuntimeException('Класс <i>' . $class . '</i> не зарегистрирован в acl (в таблице sys_access_classes)');
+                throw new mzzRuntimeException('Класс <i>' . $class . '</i> не зарегистрирован в acl (в таблице sys_classes)');
             }
 
-            $this->db->query('INSERT INTO `sys_access_classes_sections` (`class_id`, `section_id`) VALUES (' . $class_id . ', ' . $section_id . ')');
+            $this->db->query('INSERT INTO `sys_classes_sections` (`class_id`, `section_id`) VALUES (' . $class_id . ', ' . $section_id . ')');
             $id = $this->db->lastInsertId();
         }
 
@@ -727,11 +727,11 @@ class acl
      */
     private function getQuery()
     {
-        return 'SELECT `a`.* FROM `sys_access_classes_sections` `cs`
-                 INNER JOIN `sys_access_classes` `c` ON `cs`.`class_id` = `c`.`id` AND `c`.`name` = :class
-                  INNER JOIN `sys_access_sections` `s` ON `cs`.`section_id` = `s`.`id` AND `s`.`name` = :section
-                   INNER JOIN `sys_access_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
-                    INNER JOIN `sys_access_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
+        return 'SELECT `a`.* FROM `sys_classes_sections` `cs`
+                 INNER JOIN `sys_classes` `c` ON `cs`.`class_id` = `c`.`id` AND `c`.`name` = :class
+                  INNER JOIN `sys_sections` `s` ON `cs`.`section_id` = `s`.`id` AND `s`.`name` = :section
+                   INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                    INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
                      INNER JOIN `sys_access` `a` ON `a`.`class_section_id` = `cs`.`id` AND `a`.`action_id` = `aa`.`id`
                       WHERE `a`.`obj_id` = 0';
     }

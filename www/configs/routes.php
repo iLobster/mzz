@@ -1,6 +1,7 @@
 <?php
 
 $router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list', 'name' => 'root')));
+$router->addRoute('default2', new requestRoute(':section/:action'));
 
 $router->addRoute('cfgEdit', new requestRoute('config/:section_name/:module_name/:action', array('section' => 'config'), array('action' => 'editCfg')));
 

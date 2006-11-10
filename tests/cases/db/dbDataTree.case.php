@@ -49,7 +49,7 @@ class dbTreeDataTest extends unitTestCase
         $this->treeFixture = array();
         $this->fixture();
         $this->db->query("INSERT INTO `user_user` (login) VALUES('GUEST')");
-        $this->db->query("INSERT IGNORE INTO `sys_access_classes`(id, name) VALUES(3, 'stubSimple')");
+        $this->db->query("INSERT IGNORE INTO `sys_classes`(id, name) VALUES(3, 'stubSimple')");
     }
     public function tearDown()
     {
@@ -61,7 +61,7 @@ class dbTreeDataTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `simple_stubsimple_tree`');
         $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
         $this->db->query('TRUNCATE TABLE `user_user`');
-        $this->db->query("DELETE FROM `sys_access_classes` WHERE `id` = 3");
+        $this->db->query("DELETE FROM `sys_classes` WHERE `id` = 3");
 
     }
 

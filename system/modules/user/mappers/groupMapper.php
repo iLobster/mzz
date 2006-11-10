@@ -60,7 +60,7 @@ class groupMapper extends simpleMapper
 
     public function convertArgsToId($args)
     {
-        if (isset($args[0]) && !$args[0]) {
+        if (sizeof($args) == 0) {
             $toolkit = systemToolkit::getInstance();
             $obj_id = $toolkit->getObjectId($this->section . '_groupFolder');
             $this->register($obj_id);

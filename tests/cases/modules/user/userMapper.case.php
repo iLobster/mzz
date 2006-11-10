@@ -34,7 +34,7 @@ class userMapperTest extends unitTestCase
 
         $this->cleardb();
 
-        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('group', 1), ('user', 1)");
+        $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('group', 1), ('user', 1)");
     }
 
     public function tearDown()
@@ -47,8 +47,8 @@ class userMapperTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `user_group`');
         $this->db->query('TRUNCATE TABLE `user_usergroup_rel`');
-        $this->db->query('TRUNCATE TABLE `sys_access_classes`');
-        $this->db->query('TRUNCATE TABLE `sys_access_classes_sections`');
+        $this->db->query('TRUNCATE TABLE `sys_classes`');
+        $this->db->query('TRUNCATE TABLE `sys_classes_sections`');
         $this->db->query('TRUNCATE TABLE `sys_access_registry`');
     }
 

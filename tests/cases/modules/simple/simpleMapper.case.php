@@ -50,7 +50,7 @@ class simpleMapperTest extends unitTestCase
         $this->mapper = new stubMapper('simple');
         $this->mapper->setMap($this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
-        $this->db->query("INSERT INTO `sys_access_classes` (`name`, `module_id`) VALUES ('stubsimple', 1)");
+        $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('stubsimple', 1)");
 
     }
 
@@ -64,7 +64,7 @@ class simpleMapperTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
         $this->db->query('TRUNCATE TABLE `sys_obj_id`');
         $this->db->query('TRUNCATE TABLE `user_user`');
-        $this->db->query('TRUNCATE TABLE `sys_access_classes`');
+        $this->db->query('TRUNCATE TABLE `sys_classes`');
     }
 
     public function testDelete()

@@ -134,73 +134,6 @@ CREATE TABLE `sys_access` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `sys_access_actions` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_actions`;
-
-CREATE TABLE `sys_access_actions` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_access_classes` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_classes`;
-
-CREATE TABLE `sys_access_classes` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `module_id` int(11) unsigned default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_access_classes_actions` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_classes_actions`;
-
-CREATE TABLE `sys_access_classes_actions` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `class_id` int(11) unsigned default NULL,
-  `action_id` int(11) unsigned default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `class_id` (`class_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_access_classes_sections` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_classes_sections`;
-
-CREATE TABLE `sys_access_classes_sections` (
-  `id` int(11) NOT NULL auto_increment,
-  `class_id` int(11) default NULL,
-  `section_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `module_section` (`section_id`,`class_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_access_modules` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_modules`;
-
-CREATE TABLE `sys_access_modules` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
 # Structure for the `sys_access_registry` table : 
 #
 
@@ -212,29 +145,17 @@ CREATE TABLE `sys_access_registry` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `sys_access_sections` table : 
+# Structure for the `sys_actions` table : 
 #
 
-DROP TABLE IF EXISTS `sys_access_sections`;
+DROP TABLE IF EXISTS `sys_actions`;
 
-CREATE TABLE `sys_access_sections` (
+CREATE TABLE `sys_actions` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_access_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_sections` (`id`, `name`) VALUES 
-  (1,'simple'),
-  (2,'news'),
-  (3,'page'),
-  (4,'user');
-
-COMMIT;
 
 #
 # Structure for the `sys_cfg` table : 
@@ -263,6 +184,60 @@ CREATE TABLE `sys_cfg_values` (
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_classes` table : 
+#
+
+DROP TABLE IF EXISTS `sys_classes`;
+
+CREATE TABLE `sys_classes` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `module_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_classes_actions` table : 
+#
+
+DROP TABLE IF EXISTS `sys_classes_actions`;
+
+CREATE TABLE `sys_classes_actions` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `class_id` int(11) unsigned default NULL,
+  `action_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `class_id` (`class_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_classes_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_classes_sections`;
+
+CREATE TABLE `sys_classes_sections` (
+  `id` int(11) NOT NULL auto_increment,
+  `class_id` int(11) default NULL,
+  `section_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `module_section` (`section_id`,`class_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_modules` table : 
+#
+
+DROP TABLE IF EXISTS `sys_modules`;
+
+CREATE TABLE `sys_modules` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -360,6 +335,31 @@ CREATE TABLE `sys_obj_id_named` (
   `obj_id` int(11) unsigned default NULL,
   `name` char(255) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_sections`;
+
+CREATE TABLE `sys_sections` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_sections` (`id`, `name`) VALUES 
+  (1,'simple'),
+  (2,'news'),
+  (3,'page'),
+  (4,'user');
+
+COMMIT;
 
 #
 # Structure for the `sys_sessions` table : 
