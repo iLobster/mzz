@@ -48,7 +48,7 @@ class newsEditController extends simpleController
                 $news->setText($values['text']);
                 $newsMapper->save($news);
 
-                $view = new newsEditSuccessView($news, $form);
+                $view = new simpleJipRefreshView();
             }
             return $view;
         } else {

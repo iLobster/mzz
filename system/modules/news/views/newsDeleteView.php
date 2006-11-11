@@ -23,8 +23,7 @@ class newsDeleteView extends simpleView
     {
         $url = new url();
         $url->setAction('list');
-        echo "<script>window.opener.location.reload(); window.close();</script>";
-        exit;
+        return '<script type="text/javascript">window.location.reload();</script> Обновление главного окна...';
     }
 }
 

@@ -108,6 +108,8 @@ class core
         fileLoader::load('simple/simpleView');
         fileLoader::load('simple/simpleController');
         fileLoader::load('simple/simpleFactory');
+        fileLoader::load('simple/simpleJipCloseView');
+        fileLoader::load('simple/simpleJipRefreshView');
 
         fileLoader::load('filters/init');
 

@@ -32,7 +32,7 @@ class newsDeleteFolderController extends simpleController
 
         $newsFolderMapper->remove($folder->getParent());
 
-        return new newsDeleteView();
+        return new simpleJipRefreshView();
     }
 }
 

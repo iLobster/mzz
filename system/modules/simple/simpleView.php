@@ -80,7 +80,6 @@ abstract class simpleView
         }
         $this->httprequest = $this->toolkit->getRequest();
         $this->smarty = $this->toolkit->getSmarty();
-        /* @todo установка в true в деструкторе? */
         $this->smarty->allowNesting(!$this->httprequest->isAjax());
         $this->response = $this->toolkit->getResponse();
         $this->smarty->assign('current_section', $this->httprequest->getSection());

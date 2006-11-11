@@ -27,7 +27,7 @@ class newsDeleteController extends simpleController
         $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
         $newsMapper->delete($this->request->get('id', 'integer', SC_PATH));
 
-        return new newsDeleteView();
+        return new simpleJipRefreshView();
     }
 }
 

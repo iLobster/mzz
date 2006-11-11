@@ -159,6 +159,14 @@ class httpRequestTest extends unitTestCase
         $this->assertEqual($this->httprequest->get('key', 'mixed', SC_PATH), $paramsFirst['key']);
         $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), null);
     }
+
+    public function testRestoreWithoutSave()
+    {
+        $this->assertFalse($this->httprequest->restore());
+        $this->httprequest->save();
+        $this->assertTrue($this->httprequest->restore());
+        $this->assertFalse($this->httprequest->restore());
+    }
 }
 
 ?>

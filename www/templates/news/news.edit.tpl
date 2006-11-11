@@ -1,6 +1,6 @@
 <div class="jipTitle">Редактирование новости</div>
 
-<form {$form.attributes}>
+<form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>
         <td style='width: 15%;'>ID:</td>

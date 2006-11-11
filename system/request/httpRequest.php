@@ -320,13 +320,17 @@ class httpRequest implements iRequest
     /**
      * восстановление сохранённого ранее состояния
      *
-     * @todo проверка что перед этим был вызван save
      */
     public function restore()
     {
-        $this->params->import($this->saved['params']);
-        $this->setSection($this->saved['section']);
-        $this->setAction($this->saved['action']);
+        if (!empty($this->saved)) {
+            $this->params->import($this->saved['params']);
+            $this->setSection($this->saved['section']);
+            $this->setAction($this->saved['action']);
+            $this->saved = array();
+            return true;
+        }
+        return false;
     }
 
 }

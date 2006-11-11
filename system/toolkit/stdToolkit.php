@@ -117,6 +117,9 @@ class stdToolkit extends toolkit
             }
             $this->smarty->debugging = DEBUG_MODE;
             $httprequest = $this->getRequest();
+            $this->smarty->assign('SITE_PATH', SITE_PATH);
+
+            /* @todo где это должно устанавливаться ?*/
             $this->smarty->assign('current_section', $httprequest->getSection());
         }
         return $this->smarty;
