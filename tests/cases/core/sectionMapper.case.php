@@ -7,12 +7,11 @@ class sectionMapperTest extends unitTestCase
 
     public function __construct()
     {
-        $this->fixture();
     }
 
     public function setUp()
     {
-        $this->mapper = new sectionMapper(systemConfig::$pathToTemp);
+        $this->mapper = new sectionMapper(dirname(__FILE__) . '/fixture');
     }
 
     public function tearDown()
@@ -23,11 +22,11 @@ class sectionMapperTest extends unitTestCase
     {
         $section = "test";
         $action = "foo";
-        $this->assertEqual($this->mapper->getTemplateName($section, $action), "act.test.foo.tpl");
+        $this->assertEqual($this->mapper->getTemplateName($section, $action), "act/test/foo.tpl");
 
         $section = "test";
         $action = "bar";
-        $this->assertEqual($this->mapper->getTemplateName($section, $action), "act.test.bar.tpl");
+        $this->assertEqual($this->mapper->getTemplateName($section, $action), "act/test/bar.tpl");
     }
 
     public function testSectionMapperFalse()
@@ -56,16 +55,8 @@ class sectionMapperTest extends unitTestCase
         }
     }
 
-    public function fixture()
-    {
-        touch(systemConfig::$pathToTemp . '/act.test.bar.tpl');
-        touch(systemConfig::$pathToTemp . '/act.test.foo.tpl');
-    }
-
     public function __destruct()
     {
-        unlink(systemConfig::$pathToTemp . '/act.test.bar.tpl');
-        unlink(systemConfig::$pathToTemp . '/act.test.foo.tpl');
     }
 
 }

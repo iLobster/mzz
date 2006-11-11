@@ -29,7 +29,7 @@ class sectionMapper
      * Префикс имени
      *
      */
-    const TPL_PRE = "act.";
+    const TPL_PRE = "act/";
 
     /**
      * Расширение шаблона
@@ -74,7 +74,7 @@ class sectionMapper
      */
     public function getTemplateName($section, $action)
     {
-        $templateName = $this->templateNameDecorate($section . '.' . $action);
+        $templateName = $this->templateNameDecorate($section . '/' . $action);
         if (file_exists($this->path . '/' . $templateName)) {
             return $templateName;
         }

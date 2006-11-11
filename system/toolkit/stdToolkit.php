@@ -166,7 +166,7 @@ class stdToolkit extends toolkit
         if (empty($this->sectionMapper)) {
             fileLoader::load('core/sectionMapper');
             if(empty($path)) {
-                $path = systemConfig::$pathToApplication . '/templates/act';
+                $path = systemConfig::$pathToApplication . '/templates';
             }
             $this->sectionMapper = new sectionMapper($path);
         }
