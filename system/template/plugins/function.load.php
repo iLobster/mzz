@@ -107,10 +107,9 @@ function smarty_function_load($params, $smarty)
 
     $controller = $factory->getController();
     $view = $controller->getView();
-
+    $output = $view->toString();
     $request->restore();
-
-    return $view->toString();
+    return $output;
 }
 
 ?>

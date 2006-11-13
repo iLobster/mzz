@@ -45,7 +45,11 @@ class mzzFileSmarty implements IMzzSmarty
         $resource_name = $this->getResourceFileName($resource[1], $this->smarty);
 
         // Для определения активного шаблоного достаточно прочитать первые 256 байтов из шаблона
-        $template = new SplFileObject($this->getTemplateDir() . '/' . $resource_name, 'r');
+        $fileName = $this->getTemplateDir() . '/' . $resource_name;
+        if (!file_exists($fileName)) {
+            throw new mzzRuntimeException("Шаблон <em>'" . $fileName . "'</em> отсутствует.");
+        }
+        $template = new SplFileObject($fileName, 'r');
         $template = $template->fgets(256);
 
         $result = $this->smarty->fetchPassive($resource_name, $cache_id, $compile_id, $display);
