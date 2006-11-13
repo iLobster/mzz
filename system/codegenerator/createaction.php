@@ -14,6 +14,7 @@
 
 // createaction.php     type            action
 // createaction.php     newsFolder      editFolder
+
 try {
     if (!isset($argv[1]) || $argv[1] == '-h') {
         throw new Exception('This tool is used for generating blank files for new module action
@@ -119,7 +120,7 @@ Sample usage:
     'action' => $action,
     'viewname' => $prefix . 'View',
     'module' => $module,
-    'tplname' => $type . '.' . $action . '.tpl',
+    'tplname' => $module . '.' . $action . '.tpl',
     );
 
     $view_filename = $views_dir . '/' . $type . ucfirst($action) . 'View.php';
@@ -154,4 +155,5 @@ Sample usage:
 } catch (Exception $e) {
     die($e->getMessage());
 }
+
 ?>
