@@ -1,5 +1,5 @@
 <?php
-fileLoader::load('action/action');
+fileLoader::load('controller/action');
 
 class actionTest extends unitTestCase
 {

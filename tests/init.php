@@ -63,7 +63,7 @@ fileLoader::load('dataspace/arrayDataspace');
 
 fileLoader::load('iterators/mzzIniFilterIterator');
 
-fileLoader::load('action');
+fileLoader::load('controller/action');
 fileLoader::load('timerFactory');
 
 $toolkit = systemToolkit::getInstance();

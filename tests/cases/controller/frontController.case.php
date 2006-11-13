@@ -1,9 +1,9 @@
 <?php
 
-fileLoader::load('frontcontroller/frontController');
+fileLoader::load('controller/frontController');
 
 fileLoader::load('request/httpRequest');
-fileLoader::load('core/sectionMapper');
+fileLoader::load('controller/sectionMapper');
 
 mock::generate('httpRequest');
 mock::generate('sectionMapper');

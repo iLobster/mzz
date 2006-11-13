@@ -114,7 +114,7 @@ class core
         fileLoader::load('filters/init');
 
         fileLoader::load('config/config');
-        fileLoader::load('frontcontroller/frontController');
+        fileLoader::load('controller/frontController');
 
         fileLoader::load('db/DB');
         fileLoader::load('dataspace/arrayDataspace');
@@ -125,7 +125,7 @@ class core
         fileLoader::load('toolkit/stdToolkit');
         fileLoader::load('toolkit/systemToolkit');
 
-        fileLoader::load('action');
+        fileLoader::load('controller/action');
     }
 
     /**

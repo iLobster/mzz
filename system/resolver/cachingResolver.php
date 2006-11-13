@@ -74,7 +74,12 @@ final class cachingResolver extends decoratingResolver
     {
         if (!isset($this->cache[$request])) {
             $this->changed = true;
-            $this->cache[$request] = realpath($this->resolver->resolve($request));
+            $fileName = realpath($this->resolver->resolve($request));
+            if (!empty($fileName)) {
+                $this->cache[$request] = $fileName;
+            } else {
+                return null;
+            }
         }
         return $this->cache[$request];
     }

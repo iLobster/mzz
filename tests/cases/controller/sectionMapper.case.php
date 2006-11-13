@@ -1,5 +1,5 @@
 <?php
-fileLoader::load('core/sectionMapper');
+fileLoader::load('controller/sectionMapper');
 
 class sectionMapperTest extends unitTestCase
 {
@@ -11,7 +11,7 @@ class sectionMapperTest extends unitTestCase
 
     public function setUp()
     {
-        $this->mapper = new sectionMapper(dirname(__FILE__) . '/fixture');
+        $this->mapper = new sectionMapper(dirname(__FILE__) . '/fixtures');
     }
 
     public function tearDown()
