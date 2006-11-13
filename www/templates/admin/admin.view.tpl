@@ -13,7 +13,7 @@
             <tr>
                 <td>&nbsp;</td>
                 <td colspan="2">
-                    {$section_name} <a href="{url section="config" params="`$section_name`/`$module_name`" action="editCfg"}"><img src="/templates/images/config.gif"></a>
+                    {$section_name} <a href="{url section="config" params="`$section_name`/`$module_name`" action="editCfg"}"><img src="{url section="" params="templates/images/config.gif"}"></a>
                 </td>
             </tr>
             {foreach from=$section item=class}
@@ -21,7 +21,7 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>
-                        {$class} <a href="{url section="access" params="`$section_name`/`$class`" action="editDefault"}"><img src="/templates/images/acl.gif"></a>
+                        {$class} <a href="{url section="access" params="`$section_name`/`$class`" action="editDefault"}"><img src="{url section="" params="templates/images/acl.gif"}"></a>
                     </td>
                 </tr>
             {/foreach}

@@ -13,4 +13,4 @@
 {/foreach}
 </table>
 </div>
-<img src="/templates/images/jip.gif"  class="jip" onclick="javascript: showJipMenu(this, '{$jipMenuId|replace:"/":"_"}');" alt="JIP Μενώ" />
+<img src="{url section="templates" params="images/jip.gif"}"  class="jip" onclick="javascript: showJipMenu(this, '{$jipMenuId|replace:"/":"_"}');" alt="JIP Μενώ" />

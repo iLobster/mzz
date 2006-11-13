@@ -12,7 +12,7 @@
         <td>{$form.reset.html}</td>
     </tr>
     <tr>
-        <td colspan="3"><a href="{url section=news action=list}"><img src="/templates/images/back.gif" width="16" height="16" /></a></td>
+        <td colspan="3"><a href="{url section=news action=list}"><img src="{url section="" params="templates/images/back.gif"}" width="16" height="16" /></a></td>
     </tr>
 </table>
 </form>

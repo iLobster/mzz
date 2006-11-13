@@ -108,10 +108,18 @@ class jip
     {
         $result = array();
         foreach ($this->actions as $key => $item) {
+            $url = new url();
+            $icon = $item['icon'];
+            if (strpos($icon, '/') === 0) {
+                $icon = substr($icon, 1);
+            }
+            $url->addParam($icon);
+            $url->setSection('');
+
             $result[] = array(
             'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
             'title' => $item['title'],
-            'icon' => $item['icon'],
+            'icon' => $url->get(),
             'id' => $this->getJipMenuId() . '_' . $item['controller'],
             'confirm' => $item['confirm'],
             );

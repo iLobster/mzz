@@ -19,7 +19,7 @@
         </tr>
     {/foreach}
     <tr>
-        <td align="center"><a href="{url section=user action=groupCreate}" onClick="openWin('{url section=user action=groupCreate}', 'group_create', 500,400); return false;"><img src="/templates/images/add.gif" width="16" height="16" /></a></td>
+        <td align="center"><a href="{url section=user action=groupCreate}" onClick="openWin('{url section=user action=groupCreate}', 'group_create', 500,400); return false;"><img src="{url section="" params="templates/images/add.gif"}" width="16" height="16" /></a></td>
         <td colspan="3"><a href="{url section=user action=groupCreate}" onClick="openWin('{url section=user action=groupCreate}', 'group_create', 500,400); return false;">Добавить группу</a></td>
     </tr>
 </table>

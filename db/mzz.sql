@@ -21,6 +21,45 @@ CREATE DATABASE `mzz`
 USE `mzz`;
 
 #
+# Structure for the `comments_comments` table : 
+#
+
+DROP TABLE IF EXISTS `comments_comments`;
+
+CREATE TABLE `comments_comments` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `obj_id` int(11) unsigned default NULL,
+  `text` text,
+  `author` int(11) unsigned default NULL,
+  `time` int(11) unsigned default NULL,
+  `folder_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `comments_commentsfolder` table : 
+#
+
+DROP TABLE IF EXISTS `comments_commentsfolder`;
+
+CREATE TABLE `comments_commentsfolder` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `obj_id` int(11) unsigned default NULL,
+  `parent_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `parent_id` (`parent_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `comments_commentsfolder` table  (LIMIT 0,500)
+#
+
+INSERT INTO `comments_commentsfolder` (`id`, `obj_id`, `parent_id`) VALUES 
+  (1,76,66);
+
+COMMIT;
+
+#
 # Structure for the `news_news` table : 
 #
 
@@ -389,7 +428,9 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (726,9,7,72,NULL,2,1),
   (727,18,7,72,NULL,2,1),
   (729,9,7,71,NULL,2,1),
-  (730,18,7,71,NULL,2,1);
+  (730,18,7,71,NULL,2,1),
+  (732,5,11,76,2,NULL,1),
+  (733,9,11,76,2,NULL,1);
 
 COMMIT;
 
@@ -438,7 +479,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (72,7),
   (73,7),
   (74,7),
-  (75,7);
+  (75,7),
+  (76,11);
 
 COMMIT;
 
@@ -477,7 +519,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (15,'groupEdit'),
   (16,'membersList'),
   (17,'addToGroup'),
-  (18,'editDefault');
+  (18,'editDefault'),
+  (19,'post');
 
 COMMIT;
 
@@ -565,7 +608,9 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (6,'page',4),
   (7,'access',5),
   (8,'userGroup',2),
-  (9,'admin',6);
+  (9,'admin',6),
+  (10,'comments',8),
+  (11,'commentsFolder',8);
 
 COMMIT;
 
@@ -622,7 +667,13 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (32,7,9),
   (33,5,3),
   (34,9,3),
-  (35,9,9);
+  (35,9,9),
+  (36,10,1),
+  (37,10,2),
+  (38,10,9),
+  (39,11,5),
+  (40,11,19),
+  (41,11,9);
 
 COMMIT;
 
@@ -654,7 +705,9 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (6,6,4),
   (7,7,6),
   (8,8,2),
-  (9,9,7);
+  (9,9,7),
+  (10,10,8),
+  (11,11,8);
 
 COMMIT;
 
@@ -680,7 +733,8 @@ INSERT INTO `sys_modules` (`id`, `name`) VALUES
   (3,'timer'),
   (4,'page'),
   (5,'access'),
-  (6,'admin');
+  (6,'admin'),
+  (8,'comments');
 
 COMMIT;
 
@@ -760,7 +814,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (72),
   (73),
   (74),
-  (75);
+  (75),
+  (76);
 
 COMMIT;
 
@@ -817,6 +872,7 @@ CREATE TABLE `sys_sections` (
 
 INSERT INTO `sys_sections` (`id`, `name`) VALUES 
   (7,'admin'),
+  (8,'comments'),
   (1,'news'),
   (4,'page'),
   (6,'sys'),

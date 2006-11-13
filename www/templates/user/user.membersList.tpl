@@ -15,7 +15,7 @@
                 <td colspan="2"><input type="reset" value="Сброс"></td>
             </tr>
         <tr>
-            <td align="center"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="openWin('{url section=user action=addToGroup params=$group->getId()}', 'user_addToGroup_{$group->getId()}', 500,400); return false;"><img src="/templates/images/useradd.gif" width="16" height="16" /></a></td>
+            <td align="center"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="openWin('{url section=user action=addToGroup params=$group->getId()}', 'user_addToGroup_{$group->getId()}', 500,400); return false;"><img src="{url section="" params="templates/images/useradd.gif"}" width="16" height="16" /></a></td>
             <td colspan="2"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="return showJip('{url section=user action=addToGroup params=$group->getId()}'); return false;">Добавить пользователя в группу</a></td>
         </tr>
     </table>

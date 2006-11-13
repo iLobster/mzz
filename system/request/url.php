@@ -64,7 +64,7 @@ class url
         $request = $toolkit->getRequest();
 
         $address = $request->getUrl();
-        if (empty($this->section)) {
+        if (is_null($this->section)) {
             $this->setSection($this->getCurrentSection());
         }
 

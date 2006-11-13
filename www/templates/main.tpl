@@ -24,7 +24,7 @@
     </div>
 
     {load module="user" action="login" section="user" args=""}
-    <div id="logotip"><a href="{$SITE_PATH}"><img id="img_logotip" src="/templates/images/mzz_logo.png" width="124" height="29" alt="" /></a></div>
+    <div id="logotip"><a href="{$SITE_PATH}"><img id="img_logotip" src="{url section="templates" params="images/mzz_logo.png"}" width="124" height="29" alt="" /></a></div>
 </div>
 
 
@@ -36,7 +36,7 @@
         <div id="fcontainer">
         <div id="footer_text">{load module="timer" action="view" section="timer"}
 2006 &copy; {$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION})</div>
-        <div id="footer_image"><img src="/templates/images/mzz_footer.png" width="79" height="63" alt="" /></div>
+        <div id="footer_image"><img src="{url section="templates" params="images/mzz_footer.png"}" width="79" height="63" alt="" /></div>
 
      </div>
     </div>

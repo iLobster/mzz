@@ -82,6 +82,13 @@ class urlTest extends unitTestCase
         $this->url->addParam($param2);
         $this->assertEqual($this->url->get(), 'http://localhost/foo/val1/val2');
     }
+
+    public function testUrlWithNoSection()
+    {
+        $this->url->setSection('');
+        $this->url->addParam('foo');
+        $this->assertEqual($this->url->get(), 'http://localhost/foo');
+    }
 }
 
 ?>
