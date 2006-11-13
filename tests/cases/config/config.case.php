@@ -58,10 +58,17 @@ class configTest extends unitTestCase
 
     public function fixture()
     {
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(1, '', 'someModule')");
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(2, '', 'someAnotherModule')");
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(3, 'someSection', 'someModule')");
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(4, 'someAnotherSection', 'someAnotherModule')");
+
+        $this->db->exec("INSERT INTO `sys_modules` VALUES(1, 'someModule')");
+        $this->db->exec("INSERT INTO `sys_modules` VALUES(2, 'someAnotherModule')");
+        $this->db->exec("INSERT INTO `sys_sections` VALUES(1, 'someSection')");
+        $this->db->exec("INSERT INTO `sys_sections` VALUES(2, 'someAnotherSection')");
+
+
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(1, 0, 1)");
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(2, 0, 2)");
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(3, 1, 1)");
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(4, 2, 2)");
 
         $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 1, 'someParam', 'defaultValueOfParam')");
         $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 3, 'someParam', 'someValueOfParam')");
@@ -76,6 +83,8 @@ class configTest extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `sys_cfg`');
         $this->db->query('TRUNCATE TABLE `sys_cfg_values`');
+        $this->db->query('TRUNCATE TABLE `sys_sections`');
+        $this->db->query('TRUNCATE TABLE `sys_modules`');
     }
 
 }

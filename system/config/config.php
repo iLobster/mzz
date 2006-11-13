@@ -72,10 +72,12 @@ class config
         $this->db = db::factory();
         $stmt = $this->db->prepare("SELECT IFNULL(`val`.`name`, `val_def`.`name`) as `name`,
                                      IFNULL(`val`.`value`, `val_def`.`value`) as `value` FROM `sys_cfg` `cfg_def`
-                                      INNER JOIN `sys_cfg_values` `val_def` ON `val_def`.`cfg_id` = `cfg_def`.`id` AND `cfg_def`.`section` = ''
-                                       LEFT JOIN `sys_cfg` `cfg` ON `cfg`.`section` = :section AND `cfg`.`module` = :module
-                                        LEFT JOIN `sys_cfg_values` `val` ON `val`.`cfg_id` = `cfg`.`id` AND `val`.`name` = `val_def`.`name`
-                                         WHERE `cfg_def`.`module` = :module");
+                                      INNER JOIN `sys_cfg_values` `val_def` ON `val_def`.`cfg_id` = `cfg_def`.`id` AND `cfg_def`.`section` = 0
+                                       LEFT JOIN `sys_sections` `s` ON `s`.`name` = :section
+                                        LEFT JOIN `sys_modules` `m` ON `m`.`name` = :module
+                                         LEFT JOIN `sys_cfg` `cfg` ON `cfg`.`section` = `s`.`id` AND `cfg`.`module` = `m`.`id` 
+                                          LEFT JOIN `sys_cfg_values` `val` ON `val`.`cfg_id` = `cfg`.`id` AND `val`.`name` = `val_def`.`name`
+                                           WHERE `cfg_def`.`module` = `s`.`id`");
 
         $stmt->bindParam(':section', $this->section);
         $stmt->bindParam(':module', $this->module);
@@ -125,7 +127,10 @@ class config
     {
         $this->db = db::factory();
 
-        $stmt = $this->db->prepare("SELECT `id` FROM `sys_cfg` WHERE `section` = :section AND `module` = :module");
+        $stmt = $this->db->prepare("SELECT `sys_cfg`.`id` FROM `sys_cfg` 
+                                     LEFT JOIN `sys_sections` `s` ON `s`.`name` = :section
+                                      LEFT JOIN `sys_modules` `m` ON `m`.`name` = :module
+                                       WHERE `sys_cfg`.`section` = `s`.`id` AND `sys_cfg`.`module` = `m`.`id`");
         $stmt->bindParam(':section', $section);
         $stmt->bindParam(':module', $module);
         $stmt->execute();
@@ -134,10 +139,12 @@ class config
         if (isset($result['id'])) {
             $this->cfg_id = $result['id'];
         } else {
+            throw new mzzRuntimeException('Config for section: ' . $section . ', module: ' . $module . ' not found.');
+            /* @todo будем и отсюда заполнять sys_modules/sys_sections?
             $stmt = $this->db->prepare("INSERT INTO `sys_cfg` (`section`, `module`) VALUES (:section, :module)");
             $stmt->bindParam(':section', $section);
             $stmt->bindParam(':module', $module);
-            $this->cfg_id = $stmt->execute();
+            $this->cfg_id = $stmt->execute();*/
         }
     }
 }
