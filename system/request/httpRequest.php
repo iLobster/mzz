@@ -130,6 +130,10 @@ class httpRequest implements iRequest
             $done = true;
         }
 
+        if ($this->isAjax()) {
+            $result = $this->decodeUTF8($result);
+        }
+
         if (is_null($result) || (empty($type) || $type == 'mixed')) {
             return $result;
         } else {
@@ -177,7 +181,7 @@ class httpRequest implements iRequest
      */
     public function isAjax()
     {
-        return $this->get('ajax', 'boolean', SC_REQUEST);
+        return isset($_REQUEST['ajax']);
     }
 
     /**
@@ -331,6 +335,19 @@ class httpRequest implements iRequest
             return true;
         }
         return false;
+    }
+
+    public function decodeUTF8($value)
+    {
+        if (function_exists('iconv')) {
+            $value = iconv("UTF-8", 'windows-1251//TRANSLIT', $value);
+        } elseif (function_exists('mb_convert_encoding')) {
+            $value = mb_convert_encoding($value, 'windows-1251', "UTF-8");
+        } else {
+            throw new mzzRuntimeException("The incoming data could not be converted from UTF-8");
+        }
+
+        return $value;
     }
 
 }

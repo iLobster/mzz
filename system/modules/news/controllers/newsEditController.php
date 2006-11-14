@@ -42,10 +42,9 @@ class newsEditController extends simpleController
             if ($form->validate() == false) {
                 $view = new newsEditView($news, $form);
             } else {
-                $values = $form->exportValues();
-                $news->setTitle($values['title']);
+                $news->setTitle($this->request->get('title', 'string', SC_POST));
                 $news->setEditor($user);
-                $news->setText($values['text']);
+                $news->setText($this->request->get('text', 'string', SC_POST));
                 $newsMapper->save($news);
 
                 $view = new simpleJipRefreshView();
