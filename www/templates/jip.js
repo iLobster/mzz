@@ -8,17 +8,54 @@ var urlStack = new Array;
 var currentUrl;
 var formSuccess = false;
 
+
+var $break    = new Object();
+var $continue = new Object();
+
+function each(values, iterator) {
+    var index = 0;
+    try {
+      _each(values, function(value) {
+        try {
+          iterator(value, index++);
+        } catch (e) {
+          if (e != $continue) throw e;
+        }
+      });
+    } catch (e) {
+      if (e != $break) throw e;
+    }
+}
+
+
+function collect(values, iterator) {
+    var results = [];
+    each(values, function(value, index) {
+      results.push(iterator(value, index));
+    });
+    return results;
+}
+
+
+function _each(values, iterator) {
+   for (var i = 0; i < values.length; i++)
+   iterator(values[i]);
+}
+
+
 function extractScripts(response) {
     jsFragment = '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)';
     var matchAll = new RegExp(jsFragment, 'img');
     var matchOne = new RegExp(jsFragment, 'im');
-    return (response.match(matchAll) || []).map(function(scriptTag) {
+
+    return collect(response.match(matchAll) || [], function(scriptTag) {
         return (scriptTag.match(matchOne) || ['', ''])[1];
     });
+
 }
 
 function evalScripts(response) {
-    return extractScripts(response).map(eval);
+    return collect(extractScripts(response), eval);
 }
 
 

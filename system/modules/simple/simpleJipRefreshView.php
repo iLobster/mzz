@@ -30,7 +30,7 @@ class simpleJipRefreshView extends simpleView
         if ($this->DAO) {
             $html .= 'window.location = "' . $this->DAO . '";';
         } else {
-            $html .= 'window.location.reload();';
+            $html .= 'window.location = window.location;';
         }
         $html .= '</script> Обновление главного окна...';
         return $html;
