@@ -120,11 +120,21 @@ abstract class simpleMapper //implements iCacheable
         $this->table = strtolower($this->section . '_' .$this->className);
     }
 
+    /**
+     * Возвращает таблицу
+     *
+     * @return string
+     */
     public function getTable()
     {
         return $this->table;
     }
 
+    /**
+     * Возвращает ключ таблицы
+     *
+     * @return string
+     */
     public function getTableKey()
     {
         return $this->tableKey;
@@ -455,7 +465,9 @@ abstract class simpleMapper //implements iCacheable
     public function createItemFromRow($row)
     {
         $object = $this->create();
+        //echo "<pre>row "; var_dump($row); echo "</pre>";
         $object->import($row);
+        //echo "<pre>object "; var_dump($object); echo "</pre>";
         return $object;
     }
 

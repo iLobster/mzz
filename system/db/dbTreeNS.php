@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.6
+ * @version 0.7
 */
 
 fileLoader::load('db/sqlFunction');
@@ -65,13 +65,19 @@ class dbTreeNS
     private $innerPart;
 
     /**
-     * Имя поля содержащего ключ (поле с идентификаторами) таблицы
+     * Имя поля содержащего ключ таблицы данных
      *
      * @var string
      */
-    private $rowID;
     private $dataID;
+
+    /**
+     * Имя поля содержащего ключ таблицы с деревом
+     *
+     * @var string
+     */
     private $treeID;
+
     /**
      * Если true, то используется режим корректировки пути при выборки ветки на его основе
      * Включение режима увеличивает количество запросов на 1
@@ -79,90 +85,61 @@ class dbTreeNS
      * @var bool
      */
     private $correctPathMode;
+
+    /**
+     * Маппер для работы с таблицей данных
+     *
+     * @var simpleMapper
+     */
     private $mapper;
 
     /**
      * Конструктор
      *
      * @param array  $init        Данные о таблицах и связывающих полях array( data => mapper,  tree => array(table,id))
-     * @param array  $innerField  Имя поля которое будет использоватся для построения дерева, листья дерева
+     * @param array  $innerField  Имя поля которое будет использоватся для построения пути, листья дерева
      */
     public function __construct($init, $innerField = 'name')
     {
         $this->db = DB::factory();
         $this->setInnerField($innerField);
 
-        // Добавляем в мапу метод для доступа к свойствам дерева(вложенность, ключи)
-        if(!empty($init['data']['mapper']) && $init['data']['mapper'] instanceof simpleMapper) {
-            $this->mapper = clone $init['data']['mapper'];
-            $map = $this->mapper->getMap();
-            $map['level'] = array('name' => 'level', 'accessor' => 'getLevel');
-            $map['lkey'] = array('name' => 'lkey', 'accessor' => 'getLeftKey');
-            $map['rkey'] = array('name' => 'rkey', 'accessor' => 'getRightKey');
-            $this->mapper->setMap($map);
-
-            $this->mapperOld =  $init['data']['mapper'];
-
+        // Устанавливаем маппер
+        if(!empty($init['mapper']) && $init['mapper'] instanceof simpleMapper) {
+            $this->setMapper($init['mapper']);
 
         } else {
-            throw new mzzInvalidParameterException('Переменная $init[data][mapper] не является маппером ', $init['data']['mapper']);
+            throw new mzzInvalidParameterException('Переменная $init[mapper] не является маппером ', $init['mapper']);
 
         }
 
         // данные о таблице с деревом
-        $this->table = strtolower($init['tree']['table']); // as tree
-        $this->treeID = $init['tree']['id'];
+        $this->table = strtolower($init['treeTable']); // as tree
 
-        // данные о таблице с данными
-        $this->dataTable = $this->mapper ? $this->mapper->getTable() : null; //as data
+        // @toDo либо жестко закреплять ключ дерева либо в запросах также использовать
+        $this->treeID = 'id';
 
-        if (isset($init['data']['id'])) {
-            $this->dataID = $init['data']['id'];
-        }
-        //$this->dataID = $this->mapper ? $this->mapper->getTableKey() : null;
+        // данные о связывающем поле в таблице с данными (данные <-> дерево)
+        // если поле не указано в init массиве выставляем поле id
+        $this->dataID = isset($init['joinField']) ? $init['joinField'] : 'id';
 
-        $this->rowID = is_null($this->dataID) ? $this->treeID : $this->dataID;
-
-
-        if (!is_null($this->dataTable)) {
-            //$this->selectPart = '`data`.*, `' . $this->table . '`.`level`  level';
-            $this->selectPart = '*';
-            $this->innerPart = ' JOIN ' . $this->dataTable . ' `data` ON `data`.' . $this->dataID . ' = `tree`.' . $this->treeID . ' ';
-        } else {
-            $this->selectPart = '*';
-            $this->innerPart = '';
-        }
+        $this->selectPart = '*';
+        $this->innerPart = ' JOIN ' . $this->dataTable . ' `data` ON `data`.' . $this->dataID . ' = `tree`.' . $this->treeID . ' ';
 
     }
 
     /**
-     * Делегирование метода save от переданного маппера
+     * Установка нового маппера
      *
      * @return string
      */
-    public function save(simple $object)
-    {
-        return $this->mapperOld->save($object);
-    }
-
-    /**
-     * Делегирование метода save от переданного маппера
-     *
-     * @return string
-     */
-    public function create()
-    {
-        return $this->mapperOld->create();
-    }
-
-    /**
-     * Установка имени таблицы содержащей данные
-     *
-     * @return string
-     */
-    public function setDataMapper(simpleMapper $mapper)
+    public function setMapper(simpleMapper $mapper)
     {
         $this->mapper = $mapper;
+
+        // новые данные о таблице с данными
+        $this->dataTable = $this->mapper->getTable(); //as data
+
     }
 
     /**
@@ -170,7 +147,7 @@ class dbTreeNS
      *
      * @return string
      */
-    public function getDataMapper()
+    public function getMapper()
     {
         return $this->mapper;
     }
@@ -209,28 +186,6 @@ class dbTreeNS
     }
 
     /**
-     * Выборка пути хранящегося в таблице на основе id записи
-     *
-     * @param  int     $id  Идентификатор узла
-     * @return string|false
-     */
-    public function getPath($id)
-    {
-        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
-        ' FROM ' . $this->dataTable. ' `data` ' .
-        ' WHERE `data`.' . $this->rowID . ' = :id' );
-
-
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $row = $stmt->fetch();
-        if (!empty($row)) {
-            return $row['path'];
-        }
-        return false;
-    }
-
-    /**
      * Построение пути на основе id записи
      *
      * @param  int     $id  Идентификатор узла в структуре дерева
@@ -238,7 +193,7 @@ class dbTreeNS
      */
     public function createPathFromTreeByID($id)
     {
-        $parentBranch = $this->getParentBranch($id, 99999999);
+        $parentBranch = $this->getParentBranch($id, 9999999);
 
         if (!is_array($parentBranch)) {
             return null;
@@ -246,7 +201,6 @@ class dbTreeNS
 
         $path = '';
         foreach ($parentBranch as $node) {
-
             $fieldAccessor = 'get' . ucfirst($this->getInnerField());
             $path .= $node->$fieldAccessor() . '/';
         }
@@ -261,7 +215,7 @@ class dbTreeNS
     public function  updatePath($dataID)
     {
         $path = $this->createPathFromTreeByID($dataID);
-        $this->db->query(' UPDATE ' . $this->dataTable . ' SET `path` = "'  .$path . '"  WHERE ' . $this->rowID . ' = ' . $dataID);
+        $this->db->query(' UPDATE ' . $this->dataTable . ' SET `path` = "'  .$path . '"  WHERE ' . $this->dataID . ' = ' . $dataID);
 
         return $path;
     }
@@ -295,13 +249,13 @@ class dbTreeNS
      * Создание массива объектов из сырой выборки
      *
      * @param array $stmt   Выполненный стэйтмент
-     * @return array
+     * @return array of simple object
      */
     protected function createBranchFromRow($stmt)
     {
         $branch = array();
         while ($row = $stmt->fetch()) {
-            $branch[$row[$this->rowID]] = $this->mapper->createItemFromRow($row);
+            $branch[$row[$this->dataID]] = $this->createItemFromRow($row);
         }
 
         if (!empty($branch)) {
@@ -315,11 +269,16 @@ class dbTreeNS
      * Создание объекта из сырой выборки
      *
      * @param array $row Массив с данными о полях и их значениях
-     * @return object
+     * @return object simple
      */
     protected function createItemFromRow($row)
     {
-        return $this->mapper->createItemFromRow($row);
+        $do = $this->mapper->createItemFromRow($row);
+        $do->setLevel($row['level']);
+        $do->setRightKey($row['rkey']);
+        $do->setLeftKey($row['lkey']);
+
+        return $do;
 
     }
 
@@ -328,34 +287,14 @@ class dbTreeNS
      *
      * @param  int     $level   Уровень выборки дерева, по умолчанию все дерево
      * @return array
-     * @toDo 1)в criteria $this->table сделать алиасом, а то нечитабельно
-     *       2)для подготовленных запросов, не надо добавлять кавычки в :level
-     *         new criterion($this->table . '.level', array(1, ':level'), criteria::BETWEEN, true)
-     *         должен выдавать BETWEEN 1 AND :level
      */
     public function getTree($level = 0)
     {
-        /*
-        // @toDo criteria
-        $criteria = new criteria($this->table);
-        $criteria->addSelectField('data.*');
-        $criteria->addJoin($this->dataTable, new criterion('data.id', $this->table . '.id', criteria::EQUAL, true), 'data', criteria::JOIN_INNER);
-        if($level > 0) {
-            $criteria->add(new criterion($this->table . '.level', array(1, ':level'), criteria::BETWEEN, true));
-        }
-        $criteria->setOrderByFieldDesc($this->table . '.lkey');
-        $select = new simpleSelect($criteria);
-        "<pre>";print_r($select->toString());echo"</pre>";*/
-
-
-
         $stmt = $this->db->prepare($q = ' SELECT ' . $this->selectPart .
         ' FROM ' . $this->table. ' tree ' . $this->innerPart .
         ' WHERE 1 '.
         ($level > 0 ? ' AND (tree.level BETWEEN 1 AND :level)' : '') .
         ' ORDER BY tree.lkey');
-
-        //echo"<pre>";print_r($q);echo"</pre>";
 
         $level > 0 ? $stmt->bindParam(':level', $level, PDO::PARAM_INT):'';
         $stmt->execute();
@@ -590,27 +529,14 @@ class dbTreeNS
         $stmt->bindParam(':PN_Level', $PN_Level = $parentNode['level'] + 1, PDO::PARAM_INT);
         $stmt->execute();
 
-        $fields = $newNode->exportOld();
-        $fields['lkey'] = (int)$parentNode['rkey'];
-        $fields['rkey'] = $parentNode['rkey'] + 1;
-        $fields['level'] = $parentNode['level'] + 1;
+        $newNode->setLevel($parentNode['level'] + 1);
+        $newNode->setRightKey($parentNode['rkey'] + 1);
+        $newNode->setLeftKey((int)$parentNode['rkey']);
 
-        // обновление путей в таблице данных
-        $fields['path'] = $this->updatePath($newNode->getId());
+        // обновление путей в таблице данных и в объекте
+        $newNode->import(array('path' => $this->updatePath($newNode->getId())));
 
-
-        $newTreeNode = $this->mapper->create();
-        $newTreeNode->import($fields);
-
-
-        if (!isset($this->dataTable)) {
-            return $newNode;
-        }
-
-        //$newNode = $this->createItemFromRow($newNode);
-
-        return $newTreeNode;
-
+        return $newNode;
     }
 
     /**
@@ -630,15 +556,12 @@ class dbTreeNS
         $stmt->bindParam(':new_max_right_key', $v = $maxRightKey + 2, PDO::PARAM_INT);
         $stmt->execute();
 
-        $fields = $newRootNode->exportOld();
-        $fields['lkey'] = 1;
-        $fields['rkey'] = $maxRightKey + 2;
-        $fields['level'] = 1;
-        // обновление путей в таблице данных
-        $fields['path'] = $this->updatePath($newRootNode->getId());
+        $newRootNode->setLevel(1);
+        $newRootNode->setRightKey($maxRightKey + 2);
+        $newRootNode->setLeftKey(1);
 
-        $newRootNode = $this->mapper->create();
-        $newRootNode->import($fields);
+        // обновление путей в таблице данных и в объекте
+        $newRootNode->import(array('path' => $this->updatePath($newRootNode->getId())));
 
         // добавление всем элементам в путь
         $this->db->exec(' UPDATE ' . $this->dataTable .
@@ -660,7 +583,7 @@ class dbTreeNS
         //удаление данных из таблицы данных
         $deletedBranch = $this->getBranch($id);
         foreach($deletedBranch as $node) {
-            $this->mapperOld->delete($node->getId());
+            $this->mapper->delete($node->getId());
         }
 
         // удаление записей из дерева

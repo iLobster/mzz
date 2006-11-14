@@ -39,6 +39,7 @@ class newsFolder extends simple
     {
         $this->mapper = $mapper;
         parent::__construct($map);
+        $this->treeFields = new arrayDataspace();
     }
 
     /**
@@ -101,6 +102,65 @@ class newsFolder extends simple
     public function getJip()
     {
         return $this->getJipView($this->name, $this->getPath(), get_class($this));
+    }
+    /**
+     * Метод получения уровня, на котором находится элемент.
+     *
+     * @return integer
+     */
+    public function getLevel()
+    {
+        return $this->treeFields->get('level');
+    }
+
+    /**
+     * Метод получения правого ключа узла дерева
+     *
+     * @return integer
+     */
+    public function getRightKey()
+    {
+        return $this->treeFields->get('rkey');
+    }
+
+    /**
+     * Метод получения левого ключа узла дерева
+     *
+     * @return integer
+     */
+    public function getLeftKey()
+    {
+        return $this->treeFields->get('lkey');
+    }
+
+    /**
+     * Метод установки значения уровня, на котором находится элемент.
+     *
+     * @return integer
+     */
+    public function setLevel($value)
+    {
+       $this->treeFields->set('level', $value);
+    }
+
+    /**
+     *  Метод установки значения правого ключа узла дерева
+     *
+     * @return integer
+     */
+    public function setRightKey($value)
+    {
+        $this->treeFields->set('rkey', $value);
+    }
+
+    /**
+     * Метод установки значения левого ключа узла дерева
+     *
+     * @return integer
+     */
+    public function setLeftKey($value)
+    {
+        $this->treeFields->set('lkey', $value);
     }
 }
 

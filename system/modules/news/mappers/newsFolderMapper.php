@@ -45,10 +45,8 @@ class newsFolderMapper extends simpleMapper
     public function __construct($section)
     {
         parent::__construct($section);
-        $init = array ('data' => array('mapper' => $this, 'id' => 'parent'),
-        'tree' => array('table' => $section . '_' . $this->className . '_tree' , 'id' =>'id'));
 
-
+        $init = array ('mapper' => $this, 'joinField' => 'parent', 'treeTable' => $section . '_' . $this->className . '_tree');
         $this->tree = new dbTreeNS($init, 'name');
         //echo "<pre>"; var_dump($this->tree); echo "</pre>";
     }

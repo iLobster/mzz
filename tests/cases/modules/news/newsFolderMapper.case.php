@@ -39,8 +39,7 @@ class newsFolderMapperTest extends unitTestCase
 
         $this->mapper = new newsFolderMapper('news');
 
-        $init = array ('data' => array('mapper' => $this->mapper, 'id' => 'parent'),
-                       'tree' => array('table' => 'news_newsfolder_tree' , 'id' =>'id'));
+        $init = array ('mapper' => $this->mapper, 'joinField' => 'parent', 'treeTable' => 'news_newsfolder_tree');
 
         $this->tree = new dbTreeNS($init, 'name');
 
@@ -114,7 +113,7 @@ class newsFolderMapperTest extends unitTestCase
     public function testGetFolders()
     {
         $this->fixture($this->mapper, $this->map);
-//exit;
+        //exit;
         $newsSubFolders = $this->mapper->getFolders(1);
 
         $this->assertEqual(count($newsSubFolders), 4);

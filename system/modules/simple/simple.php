@@ -150,7 +150,11 @@ abstract class simple
         $this->changedFields->clear();
 
         foreach($data as $key => $value) {
-            if (!$this->fields->exists($key) || !$this->isOnce($key)) {
+
+            //echo "<pre>key => value "; var_dump("$key => $value"); echo "</pre>";
+            //echo "<pre>this->validateAttribute($key) "; var_dump($this->validateAttribute($key)); echo "</pre>";
+
+            if (isset($this->map[$key]) && (!$this->fields->exists($key) || !$this->isOnce($key))) {
                 $this->fields->set($key, $value);
             }
         }

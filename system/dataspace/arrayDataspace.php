@@ -62,7 +62,7 @@ class arrayDataspace implements iDataspace
     /**
      * Возвращает значение по ключу
      *
-     * @param string|intger $key ключ
+     * @param string|integer $key ключ
      * @return mixed
      */
     public function get($key)

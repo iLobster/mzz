@@ -1,8 +1,8 @@
 <?php
 fileLoader::load('db/dbTreeNS');
 fileLoader::load('modules/simple/simpleMapper');
-fileLoader::load('cases/modules/simple/stubMapper.class');
-fileLoader::load('cases/modules/simple/stubSimple.class');
+fileLoader::load('cases/db/dbTreeNS/stubMapper.class');
+fileLoader::load('cases/db/dbTreeNS/stubSimple.class');
 
 class dbTreeDataTest extends unitTestCase
 {
@@ -25,14 +25,17 @@ class dbTreeDataTest extends unitTestCase
         'obj_id' => array ('name' => 'obj_id','accessor' => 'getObjId', 'mutator' => 'setObjId'),
         );
 
-        $this->mapper = new stubMapper('simple');
+        $this->mapper = new stubMapperForTree('simple');
         $this->mapper->setMap($this->map);
         $this->db = db::factory();
 
         $this->table = 'simple_stubsimple_tree';
         $this->dataTable = $this->mapper->getTable();
 
-        $init = array ('data' => array('mapper' => $this->mapper, 'id' => 'id'), 'tree' => array('table' => $this->table , 'id' =>'id'));
+        $init = array ('mapper' => $this->mapper, 'joinField' => 'id', 'treeTable' => $this->table);
+
+
+
         $this->tree = new dbTreeNS($init, 'foo');
 
         $this->clearDb();
@@ -49,7 +52,7 @@ class dbTreeDataTest extends unitTestCase
         $this->treeFixture = array();
         $this->fixture();
         $this->db->query("INSERT INTO `user_user` (login) VALUES('GUEST')");
-        $this->db->query("INSERT IGNORE INTO `sys_classes`(id, name) VALUES(3, 'stubSimple')");
+        $this->db->query("INSERT IGNORE INTO `sys_classes`(id, name) VALUES(3, 'stubSimpleForTree')");
     }
     public function tearDown()
     {
@@ -134,7 +137,7 @@ class dbTreeDataTest extends unitTestCase
     private function assertEqualFixtureAndBranch($fixture, $branch)
     {
         foreach($branch as $id => $node) {
-            $this->assertEqual($fixture[$id]['id'], $node->getId());
+             $this->assertEqual($fixture[$id]['id'], $node->getId());
             $this->assertEqual($fixture[$id]['foo'], $node->getFoo());
             $this->assertEqual($fixture[$id]['bar'], $node->getBar());
             $this->assertEqual($fixture[$id]['path'], $node->getPath());
@@ -258,7 +261,6 @@ class dbTreeDataTest extends unitTestCase
 
         $pathFixture = 'foo1/foo3/newFoo';
 
-        $this->assertEqual($pathFixture, $this->tree->getPath($newNode->getId()));
         $this->assertEqual($pathFixture, $newNode->getPath());
         $this->assertEqual($fixture['bar'], $newNode->getBar());
         $this->assertEqual($fixture['foo'], $newNode->getFoo());
@@ -326,23 +328,6 @@ class dbTreeDataTest extends unitTestCase
         $this->assertNull($this->tree->getBranch($deletedNodeId));
     }
 
-    //-----------Делегирование методов маппера, маппер передал и забыл про него-------------
-
-     public function testSave()
-     {
-        $fixture = array('foo' => 'rootFoo', 'bar' => 'rootBar');
-
-        // вставляем новую запись в таблицу с помощью dbTreeNS
-        $newNode = $this->tree->create();
-        $newNode->setBar($fixture['bar']);
-        $newNode->setFoo($fixture['foo']);
-        $this->tree->save($newNode);
-
-        $this->assertEqual($newNode->getBar(), $fixture['bar']);
-        $this->assertEqual($newNode->getFoo(), $fixture['foo']);
-
-     }
-
     //-----------Обновленные тесты которые были в dbTreeNS.case.php-------------
 
     public function testGetMaxRightKey()
@@ -372,11 +357,11 @@ class dbTreeDataTest extends unitTestCase
         $this->tree->removeNode(2);
 
         $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>10,'level'=>1),
-                       '3' => array('id'=>3, 'lkey'=>2 ,'rkey' =>7,'level'=>2),
-                       '4' => array('id'=>4, 'lkey'=>8,'rkey'=>9 ,'level'=>2),
-                       '7' => array('id'=>7, 'lkey'=>3 ,'rkey'=>4 ,'level'=>3),
-                       '8' => array('id'=>8, 'lkey'=>5,'rkey'=>6 ,'level'=>3)
-                       );
+        '3' => array('id'=>3, 'lkey'=>2 ,'rkey' =>7,'level'=>2),
+        '4' => array('id'=>4, 'lkey'=>8,'rkey'=>9 ,'level'=>2),
+        '7' => array('id'=>7, 'lkey'=>3 ,'rkey'=>4 ,'level'=>3),
+        '8' => array('id'=>8, 'lkey'=>5,'rkey'=>6 ,'level'=>3)
+        );
         $newTree = $this->tree->getTree();
         $this->assertEqual(count($fixtureNewTree), count($newTree));
 
@@ -413,7 +398,7 @@ class dbTreeDataTest extends unitTestCase
         $this->assertEqual($newInsertedNode->getLeftKey(), $fixture['lkey']);
 
 
-   }
+    }
 
     public function testInsertRootNode()
     {
@@ -447,14 +432,14 @@ class dbTreeDataTest extends unitTestCase
     {
         $this->tree->moveNode(3, 4);
         $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
-                       '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>7 ,'level'=>2),
-                       '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
-                       '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>6  ,'level'=>3),
-                       '4' => array('id'=>4, 'lkey'=>8 ,'rkey'=>15 ,'level'=>2),
-                       '3' => array('id'=>3, 'lkey'=>9 ,'rkey' =>14,'level'=>3),
-                       '7' => array('id'=>7, 'lkey'=>10,'rkey'=>11 ,'level'=>4),
-                       '8' => array('id'=>8, 'lkey'=>12,'rkey'=>13 ,'level'=>4)
-                       );
+        '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>7 ,'level'=>2),
+        '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+        '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>6  ,'level'=>3),
+        '4' => array('id'=>4, 'lkey'=>8 ,'rkey'=>15 ,'level'=>2),
+        '3' => array('id'=>3, 'lkey'=>9 ,'rkey' =>14,'level'=>3),
+        '7' => array('id'=>7, 'lkey'=>10,'rkey'=>11 ,'level'=>4),
+        '8' => array('id'=>8, 'lkey'=>12,'rkey'=>13 ,'level'=>4)
+        );
 
         $newTree = $this->tree->getTree();
         $this->assertEqual(count($fixtureNewTree), count($newTree));
@@ -478,15 +463,15 @@ class dbTreeDataTest extends unitTestCase
 
 
         $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
-                       '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>9 ,'level'=>2),
-                       '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
-                       '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>8  ,'level'=>3),
-                       '4' => array('id'=>4, 'lkey'=>6,'rkey'=>7 ,'level'=>4),
+        '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>9 ,'level'=>2),
+        '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+        '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>8  ,'level'=>3),
+        '4' => array('id'=>4, 'lkey'=>6,'rkey'=>7 ,'level'=>4),
 
-                       '3' => array('id'=>3, 'lkey'=>10 ,'rkey' =>15,'level'=>2),
-                       '7' => array('id'=>7, 'lkey'=>11 ,'rkey'=>12 ,'level'=>3),
-                       '8' => array('id'=>8, 'lkey'=>13,'rkey'=>14 ,'level'=>3)
-                       );
+        '3' => array('id'=>3, 'lkey'=>10 ,'rkey' =>15,'level'=>2),
+        '7' => array('id'=>7, 'lkey'=>11 ,'rkey'=>12 ,'level'=>3),
+        '8' => array('id'=>8, 'lkey'=>13,'rkey'=>14 ,'level'=>3)
+        );
 
         $newTree = $this->tree->getTree();
 
@@ -517,7 +502,7 @@ class dbTreeDataTest extends unitTestCase
 
         $this->tree->swapNode(2, 8);
         $fixtureNewTreeSlice = array('8' => array('id'=>8, 'lkey'=>2  ,'rkey' =>7 ,'level'=>2),
-                                     '2' => array('id'=>2, 'lkey'=>11 ,'rkey' =>12,'level'=>3));
+        '2' => array('id'=>2, 'lkey'=>11 ,'rkey' =>12,'level'=>3));
 
 
         foreach ($fixtureNewTreeSlice as $id => $node) {
@@ -528,27 +513,27 @@ class dbTreeDataTest extends unitTestCase
 }
 
 
-    #        Вот с таким деревом и будем экспериментировать
-    #
-    #
-    #                                   1
-    #                                 1[1]16
-    #                                   |
-    #                            ----------------
-    #                            |      |       |
-    #                            2      3       4
-    #                          2[2]7  8[2]13 14[2]15
-    #                            |      |
-    #                      -------      ---------
-    #                      |     |      |       |
-    #                      5     6      7       8
-    #                    3[3]4 5[3]6  9[3]10 11[3]12
-    #
-    #
-    #
-    #  P.S.             id
-    #            lkey[level]rkey
-    #
+#        Вот на таком деревом и будем тестировать
+#
+#
+#                                   1
+#                                 1[1]16
+#                                   |
+#                            ----------------
+#                            |      |       |
+#                            2      3       4
+#                          2[2]7  8[2]13 14[2]15
+#                            |      |
+#                      -------      ---------
+#                      |     |      |       |
+#                      5     6      7       8
+#                    3[3]4 5[3]6  9[3]10 11[3]12
+#
+#
+#
+#  P.S.             id
+#            lkey[level]rkey
+#
 
 
 ?>
