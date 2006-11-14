@@ -34,9 +34,9 @@ CREATE TABLE `comments_comments` (<br />
     accessor = "getAuthor"<br />
     mutator = "setAuthor"<br />
     <br />
-    [timer]<br />
-    accessor = "getTimer"<br />
-    mutator = "setTimer"<br />
+    [time]<br />
+    accessor = "getTime"<br />
+    mutator = "setTime"<br />
     <br />
     [folder_id]<br />
     accessor = "getFolder"<br />

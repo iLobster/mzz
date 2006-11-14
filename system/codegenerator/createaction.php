@@ -75,7 +75,7 @@ Sample usage:
         throw new Exception("Error: action '" . $action . "' already exists in actions file");
     }
 
-    if (strpos($type, $module) === 0) {
+    if (strpos($type, $module) === 0 && $type !== $module) {
         $data[$action]['controller'] = strtolower(substr($type, strlen($module))) . ucfirst($action);
     } else {
         $data[$action]['controller'] = $action;

@@ -13,7 +13,7 @@
 */
 
 /**
- * commentsFolderListView: вид для метода list модуля comments
+ * commentsDeleteView: вид для метода delete модуля comments
  *
  * @package modules
  * @subpackage comments
@@ -21,13 +21,11 @@
  */
 
 
-class commentsFolderListView extends simpleView
+class commentsDeleteView extends simpleView
 {
     public function toString()
     {
-        $this->smarty->assign('parent_id', $this->DAO->getParentId());
-        $this->smarty->assign('comments', $this->DAO->getComments());
-        return $this->smarty->fetch('comments.list.tpl');
+        return $this->smarty->fetch('comments.delete.tpl');
     }
 }
 

@@ -75,7 +75,7 @@ class config
                                       INNER JOIN `sys_cfg_values` `val_def` ON `val_def`.`cfg_id` = `cfg_def`.`id` AND `cfg_def`.`section` = 0
                                        LEFT JOIN `sys_sections` `s` ON `s`.`name` = :section
                                         LEFT JOIN `sys_modules` `m` ON `m`.`name` = :module
-                                         LEFT JOIN `sys_cfg` `cfg` ON `cfg`.`section` = `s`.`id` AND `cfg`.`module` = `m`.`id` 
+                                         LEFT JOIN `sys_cfg` `cfg` ON `cfg`.`section` = `s`.`id` AND `cfg`.`module` = `m`.`id`
                                           LEFT JOIN `sys_cfg_values` `val` ON `val`.`cfg_id` = `cfg`.`id` AND `val`.`name` = `val_def`.`name`
                                            WHERE `cfg_def`.`module` = `s`.`id`");
 
@@ -113,7 +113,7 @@ class config
 
         $data = '';
         foreach ($name as $key => $val) {
-            $data .= '(' . $this->db->quote($val) .', ' . $this->cfg_id . ', ' . $this->db->quote($key) . '), ';
+            $data .= '(' . $this->db->quote($val) . ', ' . $this->cfg_id . ', ' . $this->db->quote($key) . '), ';
         }
         $data = substr($data, 0, -2);
 
@@ -127,10 +127,10 @@ class config
     {
         $this->db = db::factory();
 
-        $stmt = $this->db->prepare("SELECT `sys_cfg`.`id` FROM `sys_cfg` 
+        $stmt = $this->db->prepare('SELECT `sys_cfg`.`id` FROM `sys_cfg`
                                      LEFT JOIN `sys_sections` `s` ON `s`.`name` = :section
                                       LEFT JOIN `sys_modules` `m` ON `m`.`name` = :module
-                                       WHERE `sys_cfg`.`section` = `s`.`id` AND `sys_cfg`.`module` = `m`.`id`");
+                                       WHERE `sys_cfg`.`section` = `s`.`id` AND `sys_cfg`.`module` = `m`.`id`');
         $stmt->bindParam(':section', $section);
         $stmt->bindParam(':module', $module);
         $stmt->execute();

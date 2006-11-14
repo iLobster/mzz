@@ -1,11 +1,3 @@
-; comments actions config
-
-[edit]
-controller = "edit"
-jip = "1"
-icon = "/templates/images/edit.gif"
-title = "Редактировать"
-
 [delete]
 controller = "delete"
 jip = "1"

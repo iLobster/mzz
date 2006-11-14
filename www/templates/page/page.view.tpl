@@ -14,3 +14,6 @@
     </tr>
     *}
 </table>
+{if $page->getName() ne '403'}
+    {load module="comments" section="comments" action="list" parent_id=$page->getObjId()}
+{/if}
