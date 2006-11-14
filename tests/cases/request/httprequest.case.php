@@ -11,6 +11,7 @@ class httpRequestTest extends unitTestCase
     protected $GET = array();
     protected $POST = array();
     protected $COOKIE = array();
+    protected $REQUEST = array();
 
     protected $integer = '2006';
 
@@ -20,6 +21,7 @@ class httpRequestTest extends unitTestCase
         $this->POST = $_POST;
         $this->GET = $_GET;
         $this->COOKIE = $_COOKIE;
+        $this->REQUEST = $_REQUEST;
 
 
         $_GET['path'] = "/news/archive/18/10//2005/list";
@@ -30,7 +32,6 @@ class httpRequestTest extends unitTestCase
         $_POST['_TEST_ARRAY_INT'][0] = $this->integer;
         $_GET['_TEST_INTEGER'] = $this->integer;
 
-        $_GET['ajax'] = '1';
 
         $this->httprequest = new httpRequest();
 
@@ -43,6 +44,7 @@ class httpRequestTest extends unitTestCase
         $_POST = $this->POST;
         $_GET = $this->GET;
         $_COOKIE = $this->COOKIE;
+        $_REQUEST = $this->REQUEST;
     }
 
 
@@ -71,6 +73,8 @@ class httpRequestTest extends unitTestCase
 
     public function testIsAjax()
     {
+        $this->assertFalse($this->httprequest->isAjax());
+        $_REQUEST['ajax'] = 1;
         $this->assertTrue($this->httprequest->isAjax());
     }
 
