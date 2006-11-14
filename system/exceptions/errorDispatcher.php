@@ -100,7 +100,7 @@ class errorDispatcher
             }
             $msg .= $this->exception->getMessage() . "</strong></p>\r\n";
 
-            $trace_msg =  "<a style='cursor: pointer;' onclick=\"javascript: debugTrace=document.getElementById('debugTrace');  if (debugTrace.style.display != 'block') debugTrace.style.display ='block'; else debugTrace.style.display='none';\"><strong>Показать/скрыть trace</strong></a>\r\n";
+            $trace_msg =  "<a style='cursor: pointer;' onclick=\"javascript: if (document.getElementById('debugTrace').style.display != 'block') document.getElementById('debugTrace').style.display ='block'; else document.getElementById('debugTrace').style.display='none';\"><strong>Показать/скрыть trace</strong></a>\r\n";
 
             if(($traces = $this->exception->getPrevTrace()) === null) {
                 $traces = $this->exception->getTrace();
