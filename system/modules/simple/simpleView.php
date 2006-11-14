@@ -82,7 +82,6 @@ abstract class simpleView
         $this->smarty = $this->toolkit->getSmarty();
         $this->smarty->allowNesting(!$this->httprequest->isAjax());
         $this->response = $this->toolkit->getResponse();
-        $this->smarty->assign('current_section', $this->httprequest->getSection());
     }
 
 

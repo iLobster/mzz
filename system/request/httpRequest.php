@@ -131,7 +131,11 @@ class httpRequest implements iRequest
         }
 
         if ($this->isAjax()) {
-            $result = $this->decodeUTF8($result);
+            if (is_array($result)) {
+                array_walk_recursive($result, array($this, 'decodeUTF8'));
+            } else {
+                $result = $this->decodeUTF8($result);
+            }
         }
 
         if (is_null($result) || (empty($type) || $type == 'mixed')) {

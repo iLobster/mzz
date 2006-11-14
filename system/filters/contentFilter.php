@@ -41,6 +41,7 @@ class contentFilter implements iFilter
         $template = $frontcontroller->getTemplate();
 
         $smarty = $toolkit->getSmarty();
+        $smarty->assign('current_section', $request->getSection());
         $response->append($smarty->fetch($template));
 
         $filter_chain->next();
