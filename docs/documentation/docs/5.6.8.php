@@ -82,7 +82,7 @@ Notice in file D:\server\sites\mzz\system\modules\comments\mappers\commentsFolde
 <p>Теперь выводятся логины авторов сообщений. Осталось реализовать методы delete и edit. Что ж, продолжим. Новый метод edit создаём как обычно, но доменный объект укажем не commentsFolder, а comments. Затем добавим это действие в jip для объекта comments:</p>
 <<code>>
 [edit]<br />
-controller = "Edit"<br />
+controller = "edit"<br />
 jip = "1"<br />
 icon = "/templates/images/edit.gif"<br />
 title = "Редактировать"
