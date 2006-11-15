@@ -39,7 +39,7 @@ class pageCreateController extends simpleController
         if ($form->validate() == false) {
             $view = new pageCreateView($page, $form);
         } else {
-            $values = $form->exportValues();
+            $values = $this->request->exportFormValues($form);
             $page->setName($values['name']);
             $page->setTitle($values['title']);
             $page->setContent($values['content']);

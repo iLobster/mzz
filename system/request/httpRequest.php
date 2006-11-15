@@ -271,6 +271,21 @@ class httpRequest implements iRequest
     }
 
     /**
+     * Ёкспорт значений из HTML_QuickForm
+     * ѕри участии AJAX используетс€ перекодировка из UTF-8 в Windows-1251
+     *
+     * @param HTML_QuickForm $form
+     */
+    public function exportFormValues(HTML_QuickForm $form)
+    {
+        $result = $form->exportValues();
+        if ($this->isAjax()) {
+            array_walk_recursive($result, array($this, 'decodeUTF8'));
+        }
+        return $result;
+    }
+
+    /**
      * ¬озврат массива параметров
      *
      * @return array
@@ -341,14 +356,14 @@ class httpRequest implements iRequest
         return false;
     }
 
-    public function decodeUTF8($value)
+    public function decodeUTF8(&$value)
     {
         if (function_exists('iconv')) {
-            $value = iconv("UTF-8", 'windows-1251//TRANSLIT', $value);
+            $value = iconv('UTF-8', 'windows-1251//TRANSLIT', $value);
         } elseif (function_exists('mb_convert_encoding')) {
-            $value = mb_convert_encoding($value, 'windows-1251', "UTF-8");
+            $value = mb_convert_encoding($value, 'windows-1251', 'UTF-8');
         } else {
-            throw new mzzRuntimeException("The incoming data could not be converted from UTF-8");
+            throw new mzzRuntimeException('Value could not be converted from UTF-8');
         }
 
         return $value;

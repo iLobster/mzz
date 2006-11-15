@@ -37,7 +37,7 @@ class commentsEditController extends simpleController
         if ($form->validate() == false) {
             $view = new commentsFolderPostView($form, 'edit');
         } else {
-            $values = $form->exportValues();
+            $values = $this->request->exportFormValues($form);
 
             $comment->setText($values['text']);
             $commentsMapper->save($comment);
