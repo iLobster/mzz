@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.7
+ * @version 0.8
 */
 
 fileLoader::load('db/sqlFunction');
@@ -63,6 +63,13 @@ class dbTreeNS
      * @var string
      */
     private $innerPart;
+
+    /**
+     * Связывающее поле
+     *
+     * @var string
+     */
+    private $innerField;
 
     /**
      * Имя поля содержащего ключ таблицы данных
@@ -255,7 +262,9 @@ class dbTreeNS
     {
         $branch = array();
         while ($row = $stmt->fetch()) {
+            //echo "<pre>row "; var_dump($row); echo "</pre>";
             $branch[$row[$this->dataID]] = $this->createItemFromRow($row);
+            //echo "<pre>row "; var_dump($this->createItemFromRow($row)); echo "</pre>";
         }
 
         if (!empty($branch)) {
@@ -280,6 +289,22 @@ class dbTreeNS
 
         return $do;
 
+    }
+
+
+    /**
+     * Выборка узлов по критерию
+     *
+     * @param  criteria $criteria Критерий для поиска
+     * @return array of simpleForTree objects
+     */
+    public function searchByCriteria(criteria $criteria)
+    {
+        $criteria->addJoin($this->table, new criterion($this->dataTable . '.' . $this->dataID, $this->table . '.' . $this->treeID, criteria::EQUAL, true));
+        $select = new simpleSelect($criteria);
+        $stmt = $this->db->query($select->toString());
+
+        return $this->createBranchFromRow($stmt);
     }
 
     /**

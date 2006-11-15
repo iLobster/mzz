@@ -20,6 +20,7 @@
 fileLoader::load('db/dbTreeNS');
 fileLoader::load('news/newsFolder');
 
+
 class newsFolderMapper extends simpleMapper
 {
 
@@ -48,7 +49,6 @@ class newsFolderMapper extends simpleMapper
 
         $init = array ('mapper' => $this, 'joinField' => 'parent', 'treeTable' => $section . '_' . $this->className . '_tree');
         $this->tree = new dbTreeNS($init, 'name');
-        //echo "<pre>"; var_dump($this->tree); echo "</pre>";
     }
 
     /**

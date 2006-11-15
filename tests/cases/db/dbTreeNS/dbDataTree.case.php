@@ -1,6 +1,9 @@
 <?php
-fileLoader::load('db/dbTreeNS');
+
 fileLoader::load('modules/simple/simpleMapper');
+fileLoader::load('db/dbTreeNS');
+fileLoader::load('db/sqlFunction');
+fileLoader::load('db/simpleSelect');
 fileLoader::load('cases/db/dbTreeNS/stubMapper.class');
 fileLoader::load('cases/db/dbTreeNS/stubSimple.class');
 
@@ -145,6 +148,22 @@ class dbTreeDataTest extends unitTestCase
             $this->assertEqual($this->treeFixture[$id]['lkey'], $node->getLeftKey());
             $this->assertEqual($this->treeFixture[$id]['rkey'], $node->getRightKey());
         }
+    }
+
+    public function testSearchByCriteria()
+    {
+        $criteria = new criteria($this->dataTable);
+        $criterion = new criterion('bar', 'bar5');
+        $criterion->addOr(new criterion('bar', 'bar3'));
+        $criteria->add($criterion);
+
+        # ищем узлы по критерию
+        $criteriaTreeNodes= $this->tree->SearchByCriteria($criteria);
+
+        $fixtureDataTree = $this->setFixture(array(5, 3));
+
+        $this->assertEqual(count($fixtureDataTree), count($criteriaTreeNodes));
+        $this->assertEqualFixtureAndBranch($fixtureDataTree, $criteriaTreeNodes);
     }
 
     public function testGetTree()
