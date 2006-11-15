@@ -11,14 +11,14 @@
         <tr>
             <td align="center">{$user->getId()}</td>
             {assign var=user_id value=$user->getId()}
-            <td><a href="{url section=access action=editUser params="$id/$user_id"}" onClick="return showJip('{url section=access action=editUser params="$id/$user_id"}' {* , 'access_adduser_{$id}_{$user_id}', 500, 400); return false *});">{$user->getLogin()}</a></td>
+            <td><a href="{url section=access action=editUser params="$id/$user_id"}" onClick="return showJip('{url section=access action=editUser params="$id/$user_id"}');">{$user->getLogin()}</a></td>
             <td><a href="{url section=access action=deleteUser params="$id/$user_id"}" onClick="mzz_confirm('Вы хотите удалить этого пользователя?') &&  openWin('{url section=access action=deleteUser params="$id/$user_id"}', 'access_deleteuser_{$id}_{$user_id}', 500, 400); return false;"><img src="{url section="" params="templates/images/delete.gif"}" width="16" height="16" /></a></td>
         </tr>
     {/foreach}
     {if $usersExists}
         <tr>
-            <td align="center"><a href="{url section=access params="$id" action=addUser}" onClick="openWin('{url section=access params=$id action=addUser}', 'access_adduser_{$id}', 500, 400); return false;"><img src="{url section="" params="templates/images/add.gif"}" width="16" height="16" /></a></td>
-            <td colspan="2"><a href="{url section=access params=$id action=addUser}" onClick="openWin('{url section=access params=$id action=addUser}', 'access_adduser_{$id}', 500, 400); return false;">Добавить пользователя</a></td>
+            <td align="center"><a href="{url section=access params="$id" action=addUser}" onClick="return showJip('{url section=access params=$id action=addUser}');"><img src="{url section="" params="templates/images/add.gif"}" width="16" height="16" /></a></td>
+            <td colspan="2"><a href="{url section=access params=$id action=addUser}" onClick="return showJip('{url section=access params=$id action=addUser}');">Добавить пользователя</a></td>
         </tr>
     {/if}
 
@@ -36,8 +36,8 @@
     {/foreach}
     {if $groupsExists}
         <tr>
-            <td align="center"><a href="{url section=access params=$id action=addGroup}" onClick="openWin('{url section=access params=$id action=addGroup}', 'access_addgroup_{$id}', 500, 400); return false;"><img src="{url section="" params="templates/images/add.gif"}" width="16" height="16" /></a></td>
-            <td colspan=2><a href="{url section=access params=$id action=addGroup}" onClick="openWin('{url section=access params=$id action=addGroup}', 'access_addgroup_{$id}', 500, 400); return false;">Добавить группу</a></td>
+            <td align="center"><a href="{url section=access params=$id action=addGroup}" onClick="return showJip('{url section=access params=$id action=addGroup}');"><img src="{url section="" params="templates/images/add.gif"}" width="16" height="16" /></a></td>
+            <td colspan=2><a href="{url section=access params=$id action=addGroup}" onClick="return showJip('{url section=access params=$id action=addGroup}');">Добавить группу</a></td>
         </tr>
     {/if}
 </table>

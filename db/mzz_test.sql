@@ -126,7 +126,8 @@ CREATE TABLE `sys_access` (
   `obj_id` int(11) default NULL,
   `uid` int(11) default NULL,
   `gid` int(11) default NULL,
-  `allow` tinyint(1) default NULL,
+  `allow` tinyint(1) unsigned default '0',
+  `deny` tinyint(1) unsigned default '0',
   PRIMARY KEY  (`id`),
   KEY `class_action_id` (`class_section_id`,`obj_id`,`uid`,`gid`),
   KEY `obj_id_gid` (`obj_id`,`gid`),
@@ -165,8 +166,8 @@ DROP TABLE IF EXISTS `sys_cfg`;
 
 CREATE TABLE `sys_cfg` (
   `id` int(11) NOT NULL auto_increment,
-  `section` int(11) NOT NULL,
-  `module` int(11) NOT NULL,
+  `section` int(11) NOT NULL default '0',
+  `module` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `section_module` (`section`,`module`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -249,89 +250,6 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=67 DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_obj_id_named` table : 
-#
-
-DROP TABLE IF EXISTS `sys_obj_id_named`;
-
-CREATE TABLE `sys_obj_id_named` (
-  `obj_id` int(11) unsigned default NULL,
-  `name` char(255) default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_sections` table : 
-#
-
-DROP TABLE IF EXISTS `sys_sections`;
-
-CREATE TABLE `sys_sections` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_sessions` table : 
-#
-
-DROP TABLE IF EXISTS `sys_sessions`;
-
-CREATE TABLE `sys_sessions` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `sid` varchar(50) NOT NULL default '',
-  `ts` int(11) unsigned NOT NULL default '0',
-  `valid` enum('yes','no') NOT NULL default 'yes',
-  `data` text,
-  PRIMARY KEY  (`id`),
-  KEY `valid` (`valid`),
-  KEY `sid` (`sid`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_group` table : 
-#
-
-DROP TABLE IF EXISTS `user_group`;
-
-CREATE TABLE `user_group` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `obj_id` int(11) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_user` table : 
-#
-
-DROP TABLE IF EXISTS `user_user`;
-
-CREATE TABLE `user_user` (
-  `id` int(11) NOT NULL auto_increment,
-  `login` varchar(255) NOT NULL default '',
-  `password` varchar(32) NOT NULL default '',
-  `obj_id` int(11) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_usergroup_rel` table : 
-#
-
-DROP TABLE IF EXISTS `user_usergroup_rel`;
-
-CREATE TABLE `user_usergroup_rel` (
-  `id` int(11) NOT NULL auto_increment,
-  `obj_id` int(11) default NULL,
-  `group_id` int(11) default NULL,
-  `user_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -409,16 +327,87 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
 COMMIT;
 
 #
-# Data for the `sys_sections` table  (LIMIT 0,500)
+# Structure for the `sys_obj_id_named` table : 
 #
 
-INSERT INTO `sys_sections` (`id`, `name`) VALUES 
-  (1,'simple'),
-  (2,'news'),
-  (3,'page'),
-  (4,'user');
+DROP TABLE IF EXISTS `sys_obj_id_named`;
 
-COMMIT;
+CREATE TABLE `sys_obj_id_named` (
+  `obj_id` int(11) unsigned default NULL,
+  `name` char(255) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_sections`;
+
+CREATE TABLE `sys_sections` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_sessions` table : 
+#
+
+DROP TABLE IF EXISTS `sys_sessions`;
+
+CREATE TABLE `sys_sessions` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `sid` varchar(50) NOT NULL default '',
+  `ts` int(11) unsigned NOT NULL default '0',
+  `valid` enum('yes','no') NOT NULL default 'yes',
+  `data` text,
+  PRIMARY KEY  (`id`),
+  KEY `valid` (`valid`),
+  KEY `sid` (`sid`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_group` table : 
+#
+
+DROP TABLE IF EXISTS `user_group`;
+
+CREATE TABLE `user_group` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_user` table : 
+#
+
+DROP TABLE IF EXISTS `user_user`;
+
+CREATE TABLE `user_user` (
+  `id` int(11) NOT NULL auto_increment,
+  `login` varchar(255) NOT NULL default '',
+  `password` varchar(32) NOT NULL default '',
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_usergroup_rel` table : 
+#
+
+DROP TABLE IF EXISTS `user_usergroup_rel`;
+
+CREATE TABLE `user_usergroup_rel` (
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) default NULL,
+  `group_id` int(11) default NULL,
+  `user_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 
 

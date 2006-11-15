@@ -37,7 +37,7 @@ class accessEditUserView extends simpleView
 
     public function toString()
     {
-        $this->smarty->assign('acl', $this->DAO->get(null, true));
+        $this->smarty->assign('acl', $this->DAO->get(null, true, true));
         $this->smarty->assign('user', $this->user);
         $this->smarty->assign('users', $this->users);
         $this->smarty->assign('actions', $this->actions);

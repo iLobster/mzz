@@ -165,13 +165,14 @@ abstract class simpleMapper //implements iCacheable
      * обновление объекта, иначе выполняется вставка объекта в БД
      *
      * @param object $object
+     * @param user $user пользователь, который будет зарегистрирован в ACL как владелец объекта
      */
-    public function save($object)
+    public function save($object, $user = null)
     {
         if ($object->getId()) {
             $this->update($object);
         } else {
-            $this->insert($object);
+            $this->insert($object, $user);
         }
     }
 
@@ -183,8 +184,9 @@ abstract class simpleMapper //implements iCacheable
      * В завершении возвращается переданный объект с новыми данными
      *
      * @param simple $object
+     * @param user $user пользователь, который будет зарегистрирован в ACL как владелец объекта
      */
-    protected function insert(simple $object)
+    protected function insert(simple $object, $user = null)
     {
         $toolkit = systemToolkit::getInstance();
         $object->setObjId($toolkit->getObjectId());
@@ -199,7 +201,7 @@ abstract class simpleMapper //implements iCacheable
             $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
             $markers = "";
 
-            foreach(array_keys($fields) as $val) {
+            foreach (array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
                     $fields[$val] = $fields[$val]->toString();
                     $markers .= $fields[$val] . ', ';
@@ -218,7 +220,7 @@ abstract class simpleMapper //implements iCacheable
             $criteria = new criteria();
             $selectFields = $this->selectDataModify();
 
-            if(is_array($selectFields)) {
+            if (is_array($selectFields)) {
                 foreach ($selectFields as $key => $val) {
                     $criteria->addSelectField($val, $key);
                 }
@@ -233,7 +235,15 @@ abstract class simpleMapper //implements iCacheable
 
             $object->import($data);
 
+            if (!is_null($user)) {
+                $tmp = $toolkit->setUser($user);
+            }
+
             $this->register($object->getObjId());
+
+            if (!is_null($user)) {
+                $toolkit->setUser($tmp);
+            }
         }
     }
 
@@ -256,7 +266,7 @@ abstract class simpleMapper //implements iCacheable
             $this->updateDataModify($fields);
 
             $query = '';
-            foreach(array_keys($fields) as $val) {
+            foreach (array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
                     $fields[$val] = $fields[$val]->toString();
                     $query .= '`' . $val . '` = ' . $fields[$val] . ', ';
@@ -293,7 +303,6 @@ abstract class simpleMapper //implements iCacheable
             $object->import($data);
 
             return true;
-            //return $result;
         }
 
         return false;
@@ -308,6 +317,7 @@ abstract class simpleMapper //implements iCacheable
         if (is_null($section)) {
             $section = $this->section();
         }
+
         $toolkit = systemToolkit::getInstance();
         $acl = new acl($toolkit->getUser());
         $acl->register($obj_id, $className, $section);
@@ -419,6 +429,7 @@ abstract class simpleMapper //implements iCacheable
         }
 
         $select = new simpleSelect($criteria);
+        //var_dump($select->toString()); echo '<br><br>';
         $stmt = $this->db->query($select->toString());
 
         return $stmt;
@@ -579,20 +590,22 @@ abstract class simpleMapper //implements iCacheable
      * @param string $name имя метода
      * @return boolean возможность кеширования
      */
+    /*
     public function isCacheable($name)
     {
         return in_array($name, $this->cacheable);
-    }
+    }*/
 
     /**
      * Установка ссылки на объект cache
      *
      * @package cache $cache
      */
+    /*
     public function injectCache($cache)
     {
         $this->cache = $cache;
-    }
+    }*/
 
     /**
      * Выполнение операций с массивом $fields перед обновлением в БД
@@ -656,12 +669,15 @@ abstract class simpleMapper //implements iCacheable
     {
         list($tableName, $fieldName) = explode('.', $val['relate'], 2);
         $className = $tableName;
+
         if (isset($val['do'])) {
             $className =  $val['do'];
         }
+
         $sectionName = isset($val['section']) ? $val['section'] : $this->section();
         $moduleName = isset($val['module']) ? $val['module'] : $this->name();
         $alias = isset($val['alias']) ? $val['alias'] : 'default';
+
         return array($tableName, $fieldName, $className, $sectionName, $moduleName, $alias);
     }
 
@@ -771,8 +787,7 @@ abstract class simpleMapper //implements iCacheable
                 foreach ($oldData as $subval) {
                     $oldObjIds[$subval->getObjId()] = $subval->getId();
                 }
-                //var_dump($oldObjIds);
-                //var_dump($val);
+
                 // определяем записи, которых нет в новом массиве
                 foreach ($val as $subkey => $subval) {
                     if (isset($oldObjIds[$subval->getObjId()])) {

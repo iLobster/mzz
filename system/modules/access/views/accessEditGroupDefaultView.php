@@ -42,7 +42,7 @@ class accessEditGroupDefaultView extends simpleView
     public function toString()
     {
         if ($this->group) {
-            $this->smarty->assign('acl', $this->DAO->getForGroupDefault($this->group->getId()));
+            $this->smarty->assign('acl', $this->DAO->getForGroupDefault($this->group->getId(), true));
         }
         $this->smarty->assign('group', $this->group);
         $this->smarty->assign('groups', $this->groups);

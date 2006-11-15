@@ -13,4 +13,4 @@
         <td colspan="5"><a href="{url section=news action=list params=$news->getFolder()->getPath()}"><img src="{url section="" params="templates/images/back.gif"}" width="16" height="16" alt="Вернуться в папку" /></a></td>
     </tr>
 </table>
-{load module="comments" section="comments" action="list" parent_id=$news->getObjId()}
+{load module="comments" section="comments" action="list" parent_id=$news->getObjId() owner=$news->getEditor()->getId()}

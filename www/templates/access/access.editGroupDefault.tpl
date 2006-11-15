@@ -13,7 +13,7 @@
         {foreach from=$actions item=action}
             <tr>
                 <td>{$action}</td>
-                <td><input type="checkbox" name="access[{$action}]" value="1" {if not empty($acl.$action)}{if $groups === false}checked="checked"{/if}{/if} /></td>
+                <td><input type="checkbox" name="access[{$action}][allow]" value="1" {if not empty($acl.$action.allow)}{if $groups === false}checked="checked"{/if}{/if} /><input type="checkbox" name="access[{$action}][deny]" value="1" {if not empty($acl.$action.deny)}{if $groups === false}checked="checked"{/if}{/if} /></td>
             </tr>
         {/foreach}
         <tr>

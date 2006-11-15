@@ -41,7 +41,7 @@ class accessEditUserController extends simpleController
 
         $action = $this->toolkit->getAction($acl->getModule());
         $actions = $action->getActions(true);
-//var_dump($actions);
+
         $actions = $actions[$acl->getClass()];
 
         if ($this->request->getMethod() == 'POST' && $user_id == $user->getId()) {
@@ -49,7 +49,8 @@ class accessEditUserController extends simpleController
 
             $result = array();
             foreach ($actions as $key => $val) {
-                $result[$key] = isset($setted[$key]) && $setted[$key];
+                $result[$key]['allow'] = isset($setted[$key]) && isset($setted[$key]['allow']) && $setted[$key]['allow'];
+                $result[$key]['deny'] = isset($setted[$key]) && isset($setted[$key]['deny']) && $setted[$key]['deny'];
             }
 
             $acl->set($result);

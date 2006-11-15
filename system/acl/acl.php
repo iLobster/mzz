@@ -145,9 +145,9 @@ class acl
      * @param boolean $clean флаг, обозначающий что права будут извлекатьс€ дл€ пользовател€ исключительно, без учЄта прав на группы, в которых он состоит
      * @return array|bool массив с правами | наличие/отсутствие права
      */
-    public function get($param = null, $clean = false)
+    public function get($param = null, $clean = false, $full = false)
     {
-        if (empty($this->result[$this->obj_id][$clean])) {
+        if (empty($this->result[$this->obj_id][$clean][$full])) {
 
             $grp = '';
 
@@ -156,23 +156,15 @@ class acl
             }
             $grp = substr($grp, 0, -2);
 
-            $qry = 'SELECT MIN(`access`) AS `access`, `name` FROM (
-
-                    (SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name` FROM `sys_access` `a`
+            $qry = 'SELECT (MAX(`a`.`allow`) - MAX(`a`.`deny`) = 1) AS `access`, `a`.`allow`, `a`.`deny`, `aa`.`name` FROM `sys_access` `a`
                      INNER JOIN `sys_actions` `aa` ON `a`.`action_id` = `aa`.`id`
-                      WHERE `a`.`obj_id` = :obj_id AND `a`.`uid` = :uid
-                       GROUP BY `aa`.`id`)';
+                      WHERE `a`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
 
             if (sizeof($this->groups) && !$clean) {
-                $qry .= 'UNION
-                          (SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name` FROM `sys_access` `a`
-                           INNER JOIN `sys_actions` `aa` ON `a`.`action_id` = `aa`.`id`
-                             WHERE `a`.`obj_id` = :obj_id AND `a`.`gid` IN (' . $grp . ')
-                              GROUP BY `aa`.`id`)';
+                $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
             }
 
-            $qry .= ') `x`
-            GROUP BY `x`.`name`';
+            $qry .= ') GROUP BY `aa`.`id`';
 
             $stmt = $this->db->prepare($qry);
 
@@ -180,17 +172,22 @@ class acl
 
             $stmt->execute();
 
-            $this->result[$this->obj_id][$clean] = array();
+            $this->result[$this->obj_id][$clean][$full] = array();
 
             while ($row = $stmt->fetch()) {
-                $this->result[$this->obj_id][$clean][$row['name']] = (bool)$row['access'];
+                if ($full) {
+                    $value = array('allow' => (bool)$row['allow'], 'deny' => (bool)$row['deny']);
+                } else {
+                    $value = (bool)$row['access'];
+                }
+                $this->result[$this->obj_id][$clean][$full][$row['name']] = $value;
             }
         }
 
         if (empty($param)) {
-            return $this->result[$this->obj_id][$clean];
+            return $this->result[$this->obj_id][$clean][$full];
         } else {
-            return isset($this->result[$this->obj_id][$clean][$param]) ? (bool)$this->result[$this->obj_id][$clean][$param] : false;
+            return isset($this->result[$this->obj_id][$clean][$full][$param]) ? (bool)$this->result[$this->obj_id][$clean][$full][$param] : false;
         }
     }
 
@@ -253,11 +250,11 @@ class acl
      * @param integer $gid
      * @return array
      */
-    public function getForGroup($gid)
+    public function getForGroup($gid, $full = false)
     {
-        if (empty($this->resultGroups[$this->obj_id][$gid])) {
+        if (empty($this->resultGroups[$this->obj_id][$gid][$full])) {
 
-            $qry = 'SELECT MIN(`a`.`allow`) AS `access`, `aa`.`name`
+            $qry = 'SELECT (MAX(`a`.`allow`) - MAX(`a`.`deny`) = 1) AS `access`, `a`.`allow`, `a`.`deny`, `aa`.`name`
                      FROM `sys_access` `a`
                        INNER JOIN `sys_actions` `aa` ON `a`.`action_id` = `aa`.`id`
                         WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
@@ -268,11 +265,16 @@ class acl
             $this->resultGroups[$this->obj_id] = array();
 
             while ($row = $stmt->fetch()) {
-                $this->resultGroups[$this->obj_id][$gid][$row['name']] = $row['access'];
+                if ($full) {
+                    $value = array('allow' => (bool)$row['allow'], 'deny' => (bool)$row['deny']);
+                } else {
+                    $value = (bool)$row['access'];
+                }
+                $this->resultGroups[$this->obj_id][$gid][$full][$row['name']] = $value;
             }
         }
 
-        return $this->resultGroups[$this->obj_id][$gid];
+        return $this->resultGroups[$this->obj_id][$gid][$full];
     }
 
     /**
@@ -281,9 +283,9 @@ class acl
      * @param integer $gid
      * @return array
      */
-    public function getForGroupDefault($gid)
+    public function getForGroupDefault($gid, $full = false)
     {
-        $qry = "SELECT `sa`.`name`, `a`.`allow` as `access` FROM `sys_access` `a`
+        $qry = "SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `sys_access` `a`
                    INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `a`.`class_section_id`
                     INNER JOIN `sys_classes` `c` ON (`c`.`id` = `cs`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
                      INNER JOIN `sys_sections` `s` ON (`s`.`id` = `cs`.`section_id`) AND (`s`.`name` = " . $this->db->quote($this->section) . ")
@@ -295,7 +297,12 @@ class acl
 
         $result = array();
         while ($row = $stmt->fetch()) {
-            $result[$row['name']] = $row['access'];
+            if ($full) {
+                $value = array('allow' => (bool)$row['allow'], 'deny' => (bool)$row['deny']);
+            } else {
+                $value = (bool)$row['access'];
+            }
+            $result[$row['name']] = $value;
         }
 
         return $result;
@@ -306,9 +313,9 @@ class acl
      *
      * @return array
      */
-    public function getDefault()
+    public function getDefault($full = false)
     {
-        $qry = "SELECT `sa`.`name`, `a`.`allow` as `access` FROM `sys_access` `a`
+        $qry = "SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `sys_access` `a`
                    INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `a`.`class_section_id`
                     INNER JOIN `sys_classes` `c` ON (`c`.`id` = `cs`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
                      INNER JOIN `sys_sections` `s` ON (`s`.`id` = `cs`.`section_id`) AND (`s`.`name` = " . $this->db->quote($this->section) . ")
@@ -320,7 +327,12 @@ class acl
 
         $result = array();
         while ($row = $stmt->fetch()) {
-            $result[$row['name']] = $row['access'];
+            if ($full) {
+                $value = array('allow' => (bool)$row['allow'], 'deny' => (bool)$row['deny']);
+            } else {
+                $value = (bool)$row['access'];
+            }
+            $result[$row['name']] = $value;
         }
 
         return $result;
@@ -331,11 +343,11 @@ class acl
      *
      * @return array
      */
-    public function getForOwner()
+    public function getForOwner($full = false)
     {
         $tmp = $this->uid;
         $this->uid = 0;
-        $result = $this->getDefault();
+        $result = $this->getDefault($full);
         $this->uid = $tmp;
         return $result;
     }
@@ -481,8 +493,16 @@ class acl
                 throw new mzzInvalidParameterException('” выбранного объекта нет измен€емого действи€', $key);
             }
 
+            if (is_array($val)) {
+                $allow = (int)$val['allow'];
+                $deny = (int)$val['deny'];
+            } else {
+                $allow = (int)$val;
+                $deny = 1 - $allow;
+            }
+
             $actionsToDelete[] = $this->validActions[$this->obj_id][$key];
-            $inserts .= '(' . $this->validActions[$this->obj_id][$key] . ', ' . $class_section_id . ', ' . $this->obj_id . ', ' . ($group_id > 0 ? $group_id : $this->uid) . ', ' . (int)$val . '), ';
+            $inserts .= '(' . $this->validActions[$this->obj_id][$key] . ', ' . $class_section_id . ', ' . $this->obj_id . ', ' . ($group_id > 0 ? $group_id : $this->uid) . ', ' . $allow . ', ' . $deny . '), ';
         }
 
         // удал€ем старые действи€
@@ -496,7 +516,7 @@ class acl
         $inserts = substr($inserts, 0, -2);
 
         if ($inserts) {
-            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_section_id`, `obj_id`, `' . ($group_id > 0 ? 'gid' : 'uid') . '`, `allow`)
+            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_section_id`, `obj_id`, `' . ($group_id > 0 ? 'gid' : 'uid') . '`, `allow`, `deny`)
                                 VALUES ' . $inserts);
         }
 
@@ -548,8 +568,16 @@ class acl
                 throw new mzzInvalidParameterException('” выбранного класса нет измен€емого действи€', $key);
             }
 
+            if (is_array($val)) {
+                $allow = (int)$val['allow'];
+                $deny = (int)$val['deny'];
+            } else {
+                $allow = (int)$val;
+                $deny = 1 - $allow;
+            }
+
             $actionsToDelete[] = $this->validActions[$this->class][$key];
-            $inserts .= '(' . $this->validActions[$this->class][$key] . ', ' . $class_section_id . ', 0, ' . $gid . ', ' . (int)$val . '), ';
+            $inserts .= '(' . $this->validActions[$this->class][$key] . ', ' . $class_section_id . ', 0, ' . $gid . ', ' . $allow . ', ' . $deny . '), ';
         }
 
         // удал€ем старые действи€
@@ -563,7 +591,7 @@ class acl
         $inserts = substr($inserts, 0, -2);
 
         if ($inserts) {
-            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_section_id`, `obj_id`, ' . ($isUser ? '`uid`' : '`gid`') . ', `allow`)
+            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_section_id`, `obj_id`, ' . ($isUser ? '`uid`' : '`gid`') . ', `allow`, `deny`)
                                 VALUES ' . $inserts);
         }
     }

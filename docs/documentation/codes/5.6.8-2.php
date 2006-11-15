@@ -13,9 +13,15 @@ class commentsFolderMapper extends simpleMapper
         $comment = $this->searchOneByField('parent_id', $args['parent_id']);
 
         if (is_null($comment)) {
+            $toolkit = systemToolkit::getInstance();
+            $request = $toolkit->getRequest();
+            $ownerId = $request->get('owner', 'string', SC_PATH);
+            $userMapper = $toolkit->getMapper('user', 'user', 'user');
+            $owner = $userMapper->searchById($ownerId);
+            
             $comment = $this->create();
             $comment->setParentId($args['parent_id']);
-            $this->save($comment);
+            $this->save($comment, $owner);
         }
 
         return $comment->getObjId();

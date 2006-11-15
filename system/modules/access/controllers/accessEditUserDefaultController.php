@@ -48,7 +48,8 @@ class accessEditUserDefaultController extends simpleController
 
             $result = array();
             foreach ($actions as $key => $val) {
-                $result[$key] = isset($setted[$key]) && $setted[$key];
+                $result[$key]['allow'] = isset($setted[$key]) && isset($setted[$key]['allow']) && $setted[$key]['allow'];
+                $result[$key]['deny'] = isset($setted[$key]) && isset($setted[$key]['deny']) && $setted[$key]['deny'];
             }
 
             $acl->setDefault($user_id, $result, true);

@@ -42,7 +42,7 @@ class accessEditUserDefaultView extends simpleView
     public function toString()
     {
         if ($this->user) {
-            $this->smarty->assign('acl', $this->DAO->getDefault($this->user->getId()));
+            $this->smarty->assign('acl', $this->DAO->getDefault(true));
         }
         $this->smarty->assign('user', $this->user);
         $this->smarty->assign('users', $this->users);

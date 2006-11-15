@@ -12,12 +12,12 @@
         {/if}
         {foreach from=$actions item=action}
             <tr>
-                <td><input type="checkbox" name="access[{$action}]" id="access[{$action}]" value="1" {if not empty($acl.$action)}{if $groups === false}checked="checked"{/if}{/if} /></td>
-                <td style="width: 100%;"><label for="access[{$action}]">{$action}</label></td>
+                <td><input type="checkbox" name="access[{$action}][allow]" id="access[{$action}][allow]" value="1" {if not empty($acl.$action.allow)}{if $groups === false}checked="checked"{/if}{/if} /><input type="checkbox" name="access[{$action}][deny]" id="access[{$action}][deny]" value="1" {if not empty($acl.$action.deny)}{if $groups === false}checked="checked"{/if}{/if} /></td>
+                <td style="width: 90%;"><label for="access[{$action}]">{$action}</label></td>
             </tr>
         {/foreach}
         <tr>
-            <td colspan="2"><input type="submit" value="Установить права"> <input type="reset" value="Сброс"></td>
+            <td colspan="2"><input type="submit" value="Установить права"> <input type="reset" value="Отмена" onclick="javascript: hideJip();"></td>
         </tr>
 </table>
 </form>

@@ -4,7 +4,7 @@
         {foreach from=$actions item=action}
             <tr>
                 <td>{$action}</td>
-                <td><input type="checkbox" name="access[{$action}]" value="1" {if not empty($acl.$action)}checked="checked"{/if} /></td>
+                <td><input type="checkbox" name="access[{$action}][allow]" value="1" {if not empty($acl.$action.allow)}checked="checked"{/if} /><input type="checkbox" name="access[{$action}][deny]" value="1" {if not empty($acl.$action.deny)}checked="checked"{/if} /></td>
             </tr>
         {/foreach}
         <tr>

@@ -47,6 +47,8 @@ class aclTest extends unitTestCase
         $this->db->query("INSERT INTO `sys_actions` (`id`, `name`) VALUES (1,'edit'), (2,'delete')");
         $this->db->query("INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (1, 1)");
 
+        $this->db->query("UPDATE `sys_access` SET `deny` = 1 - `allow`");
+
         $this->acl = new acl($user = new userStub(), $object_id = 1, $class = null, $section = null, $alias = $this->alias);
     }
 
@@ -148,6 +150,22 @@ class aclTest extends unitTestCase
         $this->assertEqual($acl->get('delete'), 1);
         $acl->set('delete', 0);
         $this->assertEqual($acl->get('delete'), 0);
+
+        $this->assertEqual($acl->get('edit'), 1);
+        $acl->set('edit', array('allow' => 1, 'deny' => 0));
+        $this->assertEqual($acl->get('edit'), 1);
+
+        $this->assertEqual($acl->get('edit'), 1);
+        $acl->set('edit', array('allow' => 0, 'deny' => 0));
+        $this->assertEqual($acl->get('edit'), 0);
+
+        $this->assertEqual($acl->get('edit'), 0);
+        $acl->set('edit', array('allow' => 0, 'deny' => 1));
+        $this->assertEqual($acl->get('edit'), 0);
+
+        $this->assertEqual($acl->get('edit'), 0);
+        $acl->set('edit', array('allow' => 1, 'deny' => 1));
+        $this->assertEqual($acl->get('edit'), 0);
     }
 
     public function testSetArray()

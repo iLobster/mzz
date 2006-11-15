@@ -37,7 +37,7 @@ class accessEditOwnerView extends simpleView
 
     public function toString()
     {
-        $this->smarty->assign('acl', $this->DAO->getForOwner());
+        $this->smarty->assign('acl', $this->DAO->getForOwner(true));
         $this->smarty->assign('actions', $this->actions);
         $this->smarty->assign('class', $this->class);
         $this->smarty->assign('section', $this->section);

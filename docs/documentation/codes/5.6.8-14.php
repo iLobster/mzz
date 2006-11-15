@@ -3,4 +3,5 @@
     {$comment->getText()}
     <hr>
 {/foreach}
+{$folder->getJip()}
 {load module="comments" section="comments" action="post" parent_id=$parent_id}

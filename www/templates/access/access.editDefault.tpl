@@ -14,7 +14,7 @@
             <td align="center">{$user->getId()}</td>
             {assign var=user_id value=$user->getId()}
             <td><a href="{url section=access action=editUserDefault params="$section/$class/$user_id"}" onClick="openWin('{url section=access action=editUserDefault params="$section/$class/$user_id"}', 'access_adduserdefault_{$section}_{$class}_{$user_id}', 500, 400); return false;">{$user->getLogin()}</a></td>
-            <td><a href="{url section=access action=editUserDefault params="$section/$class/$user_id"}" onClick="mzz_confirm('¬ы хотите удалить этого пользовател€?') &&  openWin('{url section=access action=deleteUserDefault params="$section/$class/$user_id"}', 'access_deleteuserdefault_{$section}_{$class}_{$user_id}', 500, 400); return false;"><img src="{url section="" params="templates/images/delete.gif"}" width="16" height="16" /></a></td>
+            <td><a href="{url section=access action=deleteUserDefault params="$section/$class/$user_id"}" onClick="mzz_confirm('¬ы хотите удалить этого пользовател€?') &&  openWin('{url section=access action=deleteUserDefault params="$section/$class/$user_id"}', 'access_deleteuserdefault_{$section}_{$class}_{$user_id}', 500, 400); return false;"><img src="{url section="" params="templates/images/delete.gif"}" width="16" height="16" /></a></td>
         </tr>
     {/foreach}
     {if $usersExists}
