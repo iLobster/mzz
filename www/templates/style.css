@@ -166,7 +166,7 @@ a:hover {
  padding:7px 5px 7px 0;
 }
 
-#submenu {
+#newsFolders {
  line-height: 170%;
  float: left;
  width: 170px;
@@ -177,7 +177,7 @@ a:hover {
  border-right: 1px solid #E0E4E4;
  border-bottom: 1px solid #E0E4E4;
 }
-#submenu .title {
+#newsFolders .title {
  font-size: 120%;
 }
 
@@ -305,4 +305,9 @@ td.jip_menu {
 
 table.list td {
     border-bottom: 1px solid #F0F0F0;
+}
+
+#submenu {
+  padding: 3px;
+  margin: 5px;
 }

@@ -1,5 +1,5 @@
 <div>
-<div id="submenu">
+<div id="newsFolders">
 <span class="title">Разделы</span><br />
 
 {foreach from=$newsFolderMapper->getFolders(1) item=current_folder name=folders}

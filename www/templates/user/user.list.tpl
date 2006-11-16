@@ -1,18 +1,14 @@
 {add file="popup.js"}
-<a href="{url section=user action=groupsList}">Группы</a>
-<table border="0" width="100%" cellpadding="0" cellspacing="1">
-    <tr>
-        <td colspan="3">Страницы ({$pager->getPagesTotal()}): {$pager->toString()}</td>
-    </tr>
+
+<div id="submenu"><a href="{url section=user action=groupsList}">Группы</a> <a href="{url section=user action=create}" onClick="openWin('{url section=user action=create}', 'user_create', 500,400); return false;">Добавить пользователя</a></div>
+
+<table border="0" width="99%" cellpadding="4" cellspacing="0" class="list">
     {foreach from=$users item=user}
         <tr>
-            <td align="center">{$user->getId()}</td>
+            <td width="30" align="center">{$user->getId()}</td>
             <td>{$user->getLogin()}</td>
-            <td>{$user->getJip()}</td>
+            <td width="20" >{$user->getJip()}</td>
         </tr>
     {/foreach}
-    <tr>
-        <td align="center"><a href="{url section=user action=create}" onClick="openWin('{url section=user action=create}', 'user_create', 500,400); return false;"><img src="{url section="templates" params="images/add.gif"}" width="16" height="16" /></a></td>
-        <td colspan="2"><a href="{url section=user action=create}" onClick="openWin('{url section=user action=create}', 'user_create', 500,400); return false;">Добавить пользователя</a></td>
-    </tr>
 </table>
+<div class="pages">{$pager->toString()}</div>
