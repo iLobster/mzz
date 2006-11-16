@@ -28,6 +28,12 @@ fileLoader::load('acl');
 abstract class simpleMapper //implements iCacheable
 {
     /**
+     * Константа, определяющая разделитель между именем сущности и именем поля в алиасах для полей в запросах
+     *
+     */
+    const TABLE_KEY_DELIMITER = '___';
+
+    /**
      * Ссылка на объект Базы Данных
      *
      * @var object
@@ -356,7 +362,7 @@ abstract class simpleMapper //implements iCacheable
     {
         $tmp = array();
         foreach ($array as $key => $val) {
-            list($class, $field) = explode('_', $key, 2);
+            list($class, $field) = explode(self::TABLE_KEY_DELIMITER, $key, 2);
             $tmp[$class][$field] = $val;
         }
 
@@ -364,7 +370,7 @@ abstract class simpleMapper //implements iCacheable
 
         foreach ($this->getOwns() as $key => $val) {
             $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
-            $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$val['class']]);
+            $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$key]);
         }
 
         return $tmp[$this->className];
@@ -385,10 +391,10 @@ abstract class simpleMapper //implements iCacheable
         foreach ($this->getOwns() as $key => $val) {
             $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
 
-            $this->addSelectFields($criteria, $mapper->getMap(), $val['class'], $val['class']);
+            $this->addSelectFields($criteria, $mapper->getMap(), $val['class'], $key);
 
-            $joinCriterion = new criterion($key, $val['class'] . '.' . $val['key'], criteria::EQUAL, true);
-            $criteria->addJoin($val['table'], $joinCriterion, $val['class']);
+            $joinCriterion = new criterion($this->className . '.' . $key, $key . '.' . $val['key'], criteria::EQUAL, true);
+            $criteria->addJoin($val['table'], $joinCriterion, $key);
         }
     }
 
@@ -413,7 +419,7 @@ abstract class simpleMapper //implements iCacheable
     protected function searchByCriteria(criteria $criteria)
     {
         $this->addJoins($criteria);
-        $criteria->setTable($this->table);
+        $criteria->setTable($this->table, $this->className);
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
         if ($this->pager) {
@@ -429,7 +435,7 @@ abstract class simpleMapper //implements iCacheable
         }
 
         $select = new simpleSelect($criteria);
-        //var_dump($select->toString()); echo '<br><br>';
+        //echo '<pre>'; var_dump($select->toString()); echo '</pre>'; echo '<br><br>';
         $stmt = $this->db->query($select->toString());
 
         return $stmt;
@@ -548,7 +554,7 @@ abstract class simpleMapper //implements iCacheable
     {
         foreach ($map as $key => $val) {
             if (!isset($val['hasMany'])) {
-                $criteria->addSelectField($table . '.' . $key, $alias . '_' . $key);
+                $criteria->addSelectField($alias . '.' . $key, $alias . self::TABLE_KEY_DELIMITER . $key);
             }
         }
     }

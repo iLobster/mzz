@@ -30,6 +30,7 @@ class commentsFolderPostController extends simpleController
     {
         $form = commentsPostForm::getForm($this->request->get('parent_id', 'integer', SC_PATH));
 
+
         if ($form->validate() == false) {
             $view = new commentsFolderPostView($form);
         } else {
@@ -40,17 +41,21 @@ class commentsFolderPostController extends simpleController
 
             $commentsFolder = $commentsFolderMapper->searchOneByField('parent_id', $parent_id);
 
-            $values = $form->exportValues();
+            if ($commentsFolder) {
 
-            $comment = $commentsMapper->create();
-            $comment->setText($values['text']);
+                $values = $form->exportValues();
 
-            $user = $this->toolkit->getUser();
+                $comment = $commentsMapper->create();
+                $comment->setText($values['text']);
 
-            $comment->setAuthor($user);
-            $comment->setFolder($commentsFolder);
+                $user = $this->toolkit->getUser();
 
-            $commentsMapper->save($comment);
+                $comment->setAuthor($user);
+                $comment->setFolder($commentsFolder);
+
+                $commentsMapper->save($comment);
+
+            }
 
             $view = new commentsPostSuccessView($values['url']);
         }

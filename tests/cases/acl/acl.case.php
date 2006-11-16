@@ -105,6 +105,9 @@ class aclTest extends unitTestCase
         $this->assertEqual(1, $acl2->get('edit'));
 
         $this->assertEqual(1, $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = 10 AND `class_section_id` = 1'));
+
+        $this->assertTrue($acl->isRegistered($obj_id));
+        $this->assertFalse($acl->isRegistered(666));
     }
 
     public function testExceptionOnNotUser()

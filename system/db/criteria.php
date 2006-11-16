@@ -313,7 +313,12 @@ class criteria
     {
         $result = array();
 
-        $pre = '`' . $this->getTable() . '`.';
+        $table = $this->getTable();
+        if (is_array($table) && isset($table['alias'])) {
+            $table = $table['alias'];
+        }
+
+        $pre = '`' . $table . '`.';
 
         if ($pre != '``.') {
             foreach ($this->orderBy as $val) {

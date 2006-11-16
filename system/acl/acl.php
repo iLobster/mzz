@@ -363,8 +363,8 @@ class acl
         $userMapper = $toolkit->getMapper('user', 'user', 'user', $this->alias);
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion($userMapper->getTable() . '.' . $userMapper->getTableKey(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addGroupBy($userMapper->getTable() . '.' . $userMapper->getTableKey());
+        $criteria->addJoin('sys_access', new criterion('user.' . $userMapper->getTableKey(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy('user.' . $userMapper->getTableKey());
         $criteria->add('a.obj_id', $this->obj_id);
 
         return $userMapper->searchAllByCriteria($criteria);
@@ -412,8 +412,8 @@ class acl
         $groupMapper = $toolkit->getMapper('user', 'group', 'user', $this->alias);
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion($groupMapper->getTable() . '.' . $groupMapper->getTableKey(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addGroupBy($groupMapper->getTable() . '.' . $groupMapper->getTableKey());
+        $criteria->addJoin('sys_access', new criterion('group.' . $groupMapper->getTableKey(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy('group.' . $groupMapper->getTableKey());
         $criteria->add('a.obj_id', $this->obj_id);
 
         return $groupMapper->searchAllByCriteria($criteria);
@@ -643,6 +643,16 @@ class acl
             $this->db->query('INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (' . $this->obj_id . ', ' . $id . ')');
 
         }
+    }
+
+    public function isRegistered($obj_id)
+    {
+        $stmt = $this->db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_access_registry` WHERE `obj_id` = :obj_id');
+        $stmt->bindParam(':obj_id', $obj_id, PDO::PARAM_INT);
+        $res = $stmt->execute();
+
+        $res = $stmt->fetch();
+        return (bool)$res['cnt'];
     }
 
     /**

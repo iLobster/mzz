@@ -66,7 +66,7 @@ class userMembersListController extends simpleController
             return new userMemberOfSuccessView();
         } else {
             $criteria = new criteria();
-            $criteria->add('group_id', $id)->setOrderByFieldAsc('user.login');
+            $criteria->add('group_id', $id)->setOrderByFieldAsc('user_id.login');
             $users = $userGroupMapper->searchAllByCriteria($criteria);
             return new userMembersListView($group, $users);
         }

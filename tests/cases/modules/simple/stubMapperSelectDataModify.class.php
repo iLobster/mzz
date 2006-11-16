@@ -9,18 +9,14 @@ class stubMapperSelectDataModify extends simpleMapper
     {
         $modifyFields = array();
 
-        // @todo Сделать, чтобы указывать
-        // ГОТОВО
-         $modifyFields['stubSimple_foo'] = new sqlFunction('REVERSE', 'foo', true);
+        $modifyFields['stubSimple' . self::TABLE_KEY_DELIMITER . 'foo'] = new sqlFunction('REVERSE', strtolower($this->className) . '.foo', true);
 
-        //$modifyFields['simple_foo'] = "REVERSE(`foo`)";
         return $modifyFields;
     }
 
     protected function insertDataModify(&$fields)
     {
         $fields['foo'] = new sqlFunction('REVERSE', $fields['foo']);
-
     }
 
     public function convertArgsToId($args)

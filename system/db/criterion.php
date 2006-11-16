@@ -255,7 +255,11 @@ class criterion
         if (!empty($this->alias)) {
             return '`' . $this->alias . '`.';
         } elseif (!empty($this->defaultTable)) {
-            return '`' . $this->defaultTable . '`.';
+            if (is_array($this->defaultTable) && isset($this->defaultTable['alias'])) {
+                return '`' . $this->defaultTable['alias'] . '`.';
+            } else {
+                return '`' . $this->defaultTable . '`.';
+            }
         }
 
         return '';
