@@ -193,6 +193,7 @@ function hideJip(windows, success)
         document.getElementById('blockContent').style.display = 'none';
         document.getElementById('jip').style.display = 'none';
         lastJipUrl = false;
+        cleanJip();
         return true;
 
     }
