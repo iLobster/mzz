@@ -132,12 +132,12 @@ class criterion
     /**
      * Метод, по вызову которого из данных генерируется часть запроса
      *
-     * @param string $defaultTable имя таблицы, которое будет подставлено, если алиас не определён
+     * @param string|array $defaultTable имя таблицы, которое будет подставлено, если алиас не определён
      * @return string
      */
     public function generate($defaultTable = '')
     {
-        $this->defaultTable = strtolower($defaultTable);
+        $this->defaultTable = $defaultTable;
 
         $result = '';
 
@@ -256,9 +256,9 @@ class criterion
             return '`' . $this->alias . '`.';
         } elseif (!empty($this->defaultTable)) {
             if (is_array($this->defaultTable) && isset($this->defaultTable['alias'])) {
-                return '`' . $this->defaultTable['alias'] . '`.';
+                return '`' . strtolower($this->defaultTable['alias']) . '`.';
             } else {
-                return '`' . $this->defaultTable . '`.';
+                return '`' . strtolower($this->defaultTable) . '`.';
             }
         }
 
