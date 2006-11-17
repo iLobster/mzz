@@ -67,7 +67,7 @@ class simpleSelect
                 $isFunction = (bool)strpos($select, '(');
 
                 if (($dotpos = strpos($select, '.')) !== false) {
-                    $tbl = substr($select, 0, $dotpos);
+                    $tbl = strtolower(substr($select, 0, $dotpos));
                     $fld = substr($select, $dotpos + 1);
 
                     $field = '`' . $tbl . '`.' . ($fld == '*' ? '*' : '`' . strtolower($fld) . '`');

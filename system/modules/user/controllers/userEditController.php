@@ -21,7 +21,6 @@
  */
 
 fileLoader::load('user/views/userEditView');
-fileLoader::load('user/views/userEditSuccessView');
 fileLoader::load('user/views/userEditForm');
 
 class userEditController extends simpleController
@@ -53,7 +52,7 @@ class userEditController extends simpleController
                 $editedUser->setLogin($values['login']);
                 $userMapper->save($editedUser);
 
-                $view = new userEditSuccessView();
+                $view = new simpleJipRefreshView();
             }
 
             return $view;
