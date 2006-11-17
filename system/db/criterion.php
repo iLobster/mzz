@@ -253,7 +253,7 @@ class criterion
     private function getQuoutedAlias()
     {
         if (!empty($this->alias)) {
-            return '`' . $this->alias . '`.';
+            return '`' . strtolower($this->alias) . '`.';
         } elseif (!empty($this->defaultTable)) {
             if (is_array($this->defaultTable) && isset($this->defaultTable['alias'])) {
                 return '`' . strtolower($this->defaultTable['alias']) . '`.';
