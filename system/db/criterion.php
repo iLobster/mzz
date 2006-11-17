@@ -137,7 +137,7 @@ class criterion
      */
     public function generate($defaultTable = '')
     {
-        $this->defaultTable = $defaultTable;
+        $this->defaultTable = strtolower($defaultTable);
 
         $result = '';
 
