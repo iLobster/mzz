@@ -373,7 +373,7 @@ abstract class simpleMapper //implements iCacheable
             $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$key]);
         }
 
-        return $tmp[$this->className];
+        return $tmp[strtolower($this->className)];
     }
 
 

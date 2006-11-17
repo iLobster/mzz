@@ -88,21 +88,31 @@ function smarty_function_load($params, $smarty)
 
     $access = $acl->get($actionName);
 
+    if (isset($params['403handle']) && $params['403handle'] == 'manual') {
+        $request->setParam('access', $access);
+        $access = true;
+    }
+
     $result = '';
 
     if ($access) {
         $factory = new $modulename($action);
     } else {
-        $request->setSection('page');
-        $request->setParams(array('name' => '403'));
-        $request->setAction('view');
+        if (!isset($params['403tpl'])) {
+            $request->setSection('page');
+            $request->setParams(array('name' => '403'));
+            $request->setAction('view');
 
-        $action = $toolkit->getAction('page');
-        $action->setAction('view');
+            $action = $toolkit->getAction('page');
+            $action->setAction('view');
 
-        fileLoader::load('pageFactory');
+            fileLoader::load('pageFactory');
 
-        $factory = new pageFactory($action);
+            $factory = new pageFactory($action);
+        } else {
+            $smarty = $toolkit->getSmarty();
+            return $smarty->fetch($params['403tpl']);
+        }
     }
 
     $controller = $factory->getController();

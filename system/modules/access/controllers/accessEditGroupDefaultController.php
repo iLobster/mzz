@@ -64,7 +64,7 @@ class accessEditGroupDefaultController extends simpleController
         if ($action == 'addGroupDefault') {
             $class_section_id = $acl->getClassSection();
 
-            $criterion = new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
+            $criterion = new criterion('a.gid', 'group.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', 0));
             $criterion->addAnd(new criterion('a.class_section_id', $class_section_id));
 

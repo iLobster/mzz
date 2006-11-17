@@ -383,7 +383,7 @@ class acl
         $userMapper = $toolkit->getMapper('user', 'user', 'user', $this->alias);
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('a.uid', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access', new criterion('a.uid', 'user.' . $userMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
         $criteria->addJoin('sys_classes_sections', new criterion('cs.id', 'a.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'cs.class_id', criteria::EQUAL, true);
@@ -396,7 +396,7 @@ class acl
 
         $criteria->add('a.obj_id', 0);
 
-        $criteria->addGroupBy($userMapper->getTable() . '.' . $userMapper->getTableKey());
+        $criteria->addGroupBy('user.' . $userMapper->getTableKey());
 
         return $userMapper->searchAllByCriteria($criteria);
     }
@@ -432,7 +432,7 @@ class acl
         $groupMapper = $toolkit->getMapper('user', 'group', 'user', $this->alias);
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access', new criterion('a.gid', 'group.' . $groupMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
         $criteria->addJoin('sys_classes_sections', new criterion('cs.id', 'a.class_section_id', criteria::EQUAL, true), 'cs', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'cs.class_id', criteria::EQUAL, true);
@@ -445,7 +445,7 @@ class acl
 
         $criteria->add('a.obj_id', 0);
 
-        $criteria->addGroupBy($groupMapper->getTable() . '.' . $groupMapper->getTableKey());
+        $criteria->addGroupBy('group.' . $groupMapper->getTableKey());
 
         return $groupMapper->searchAllByCriteria($criteria);
     }

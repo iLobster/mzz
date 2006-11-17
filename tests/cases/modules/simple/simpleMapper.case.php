@@ -145,7 +145,7 @@ class simpleMapperTest extends unitTestCase
         $this->fixture();
         $stmt = $this->mapper->searchByField('foo', $this->fixture[1]['foo']);
         $row = $stmt->fetch();
-        $this->assertEqual($row['stubSimple' . stubMapper::TABLE_KEY_DELIMITER . 'bar'], $this->fixture[1]['bar']);
+        $this->assertEqual($row['stubsimple' . stubMapper::TABLE_KEY_DELIMITER . 'bar'], $this->fixture[1]['bar']);
     }
 
     public function testCreateUniqueObjectId()

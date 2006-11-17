@@ -4,4 +4,4 @@
     <hr>
 {/foreach}
 {$folder->getJip()}
-{load module="comments" section="comments" action="post" parent_id=$parent_id}
+{load module="comments" section="comments" action="post" parent_id=$parent_id 403handle="manual" 403tpl="comments.blank.tpl"}

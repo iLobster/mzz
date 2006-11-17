@@ -63,7 +63,7 @@ class accessEditGroupController extends simpleController
         $groups = false;
 
         if ($action == 'addGroup') {
-            $criterion = new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
+            $criterion = new criterion('a.gid', 'group.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', $obj_id));
 
             $criteria = new criteria();

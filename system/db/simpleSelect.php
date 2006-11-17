@@ -56,7 +56,7 @@ class simpleSelect
         $aliases = array();
 
         foreach ($this->criteria->getSelectFields() as $select) {
-            $alias = $this->criteria->getSelectFieldAlias($select);
+            $alias = strtolower($this->criteria->getSelectFieldAlias($select));
 
             if(in_array($alias, $aliases) && $alias) continue;
             $aliases[] = $alias;
@@ -70,13 +70,14 @@ class simpleSelect
                     $tbl = substr($select, 0, $dotpos);
                     $fld = substr($select, $dotpos + 1);
 
-                    $field = '`' . $tbl . '`.' . ($fld == '*' ? '*' : '`' . $fld . '`');
+                    $field = '`' . $tbl . '`.' . ($fld == '*' ? '*' : '`' . strtolower($fld) . '`');
                 } else {
-                    $field = $isFunction ? $select : '`' . $select . '`';
+                    $field = $isFunction ? $select : '`' . strtolower($select) . '`';
                 }
             }
 
             $field .= ($alias ? ' AS `' . $alias . '`' : '');
+
             $selectClause[] = $field;
         }
 
@@ -104,7 +105,7 @@ class simpleSelect
             $table = '`' . strtolower($table) . '`';
         }
 
-        $qry = 'SELECT ' . ($enableCount ? 'SQL_CALC_FOUND_ROWS ' : '') .
+        $qry = 'SELECT ' .
         ($selectClause ? implode(', ', $selectClause) : '*') .
         (($table) ? ' FROM ' . $table : '') .
         ($joinClause ? implode($joinClause) : '') .

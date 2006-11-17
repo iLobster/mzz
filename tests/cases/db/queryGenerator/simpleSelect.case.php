@@ -66,12 +66,6 @@ class simpleSelectTest extends unitTestCase
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` ORDER BY `table2`.`field` DESC, `table3`.`field2` ASC");
     }
 
-    public function testSelectWithCount()
-    {
-        $this->criteria->setTable('table')->enableCount();
-        $this->assertEqual($this->select->toString(), "SELECT SQL_CALC_FOUND_ROWS * FROM `table`");
-    }
-
     public function testSelectWithCountFoundRows()
     {
         $this->criteria->setTable('table')->addSelectField('FOUND_ROWS()');

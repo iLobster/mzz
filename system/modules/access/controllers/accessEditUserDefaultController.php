@@ -65,7 +65,7 @@ class accessEditUserDefaultController extends simpleController
         if ($action == 'addUserDefault') {
             $class_section_id = $acl->getClassSection();
 
-            $criterion = new criterion('a.uid', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true);
+            $criterion = new criterion('a.uid', 'user.' . $userMapper->getTableKey(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', 0));
             $criterion->addAnd(new criterion('a.class_section_id', $class_section_id));
 
