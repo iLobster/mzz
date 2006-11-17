@@ -594,7 +594,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (105,10),
   (106,10),
   (107,10),
-  (108,10);
+  (108,10),
+  (119,12);
 
 COMMIT;
 
@@ -724,7 +725,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (8,'userGroup',2),
   (9,'admin',6),
   (10,'comments',8),
-  (11,'commentsFolder',8);
+  (11,'commentsFolder',8),
+  (12,'userAuth',2);
 
 COMMIT;
 
@@ -821,7 +823,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (8,8,2),
   (9,9,7),
   (10,10,8),
-  (11,11,8);
+  (11,11,8),
+  (12,12,2);
 
 COMMIT;
 
@@ -962,7 +965,18 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (106),
   (107),
   (108),
-  (109);
+  (109),
+  (110),
+  (111),
+  (112),
+  (113),
+  (114),
+  (115),
+  (116),
+  (117),
+  (118),
+  (119),
+  (120);
 
 COMMIT;
 
@@ -1075,6 +1089,31 @@ CREATE TABLE `user_user` (
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`) VALUES 
   (1,12,'guest',''),
   (2,13,'admin','098f6bcd4621d373cade4e832627b4f6');
+
+COMMIT;
+
+#
+# Structure for the `user_userauth` table : 
+#
+
+DROP TABLE IF EXISTS `user_userauth`;
+
+CREATE TABLE `user_userauth` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) unsigned default NULL,
+  `ip` char(15) default NULL,
+  `hash` char(32) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  `time` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `user_userauth` table  (LIMIT 0,500)
+#
+
+INSERT INTO `user_userauth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
+  (10,2,'127.0.0.10','05e8db32d02912a26a6c4d25392099a9',119,1163741374);
 
 COMMIT;
 

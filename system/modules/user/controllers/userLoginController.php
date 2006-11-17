@@ -38,6 +38,11 @@ class userLoginController extends simpleController
                 $user = $userMapper->login($login, $password);
 
                 if ($user->isLoggedIn()) {
+                    $save = $this->request->get('save', 'string', SC_POST);
+                    if ($save) {
+                        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
+                        $userAuthMapper->set($user->getId());
+                    }
                     fileLoader::load('user/views/userLoginSuccessView');
                     return new userLoginSuccessView($this->request->get('url', 'string', SC_POST));
                 }

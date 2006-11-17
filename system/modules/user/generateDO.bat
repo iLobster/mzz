@@ -1,1 +1,1 @@
-php ..\..\mzz\system\codegenerator\createdo.php %1
+php ..\..\codegenerator\createdo.php %1  %2

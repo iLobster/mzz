@@ -585,7 +585,9 @@ abstract class simpleMapper //implements iCacheable
         if (empty($this->map) || $refresh) {
             $mapFileName = fileLoader::resolve($this->name() . '/maps/' . $this->className . '.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
-            $this->map['obj_id'] = array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
+            if (!isset($this->map['obj_id'])) {
+                $this->map['obj_id'] = array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
+            }
         }
         return $this->map;
     }
@@ -599,7 +601,7 @@ abstract class simpleMapper //implements iCacheable
     /*
     public function isCacheable($name)
     {
-        return in_array($name, $this->cacheable);
+    return in_array($name, $this->cacheable);
     }*/
 
     /**
@@ -610,7 +612,7 @@ abstract class simpleMapper //implements iCacheable
     /*
     public function injectCache($cache)
     {
-        $this->cache = $cache;
+    $this->cache = $cache;
     }*/
 
     /**
@@ -790,6 +792,7 @@ abstract class simpleMapper //implements iCacheable
                 $oldData = $object->$accessor();
 
                 $oldObjIds = array();
+                echo '<pre>'; var_dump($oldData); echo '</pre>'; echo '<br><br>';
                 foreach ($oldData as $subval) {
                     $oldObjIds[$subval->getObjId()] = $subval->getId();
                 }

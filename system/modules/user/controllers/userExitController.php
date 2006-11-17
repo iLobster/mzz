@@ -30,6 +30,9 @@ class userExitController extends simpleController
         $session = $this->toolkit->getSession();
         $session->destroy('user_id');
 
+        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
+        $userAuthMapper->clear();
+
         return new userExitView($this->request->get('url', 'string', SC_GET));
     }
 }
