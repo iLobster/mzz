@@ -76,8 +76,8 @@ class userAuthMapper extends simpleMapper
         $userAuth->setHash($hash = md5(microtime(true)));
         $userAuth->setUserId($user_id);
 
-        // todo
-        setcookie('auth', $hash, time() + 10 * 365 * 86400, '/');
+        $response = $this->toolkit->getResponse();
+        $response->setCookie('auth', $hash, time() + 10 * 365 * 86400, '/');
 
         $this->save($userAuth);
 
@@ -93,8 +93,8 @@ class userAuthMapper extends simpleMapper
             $this->delete($each->getId());
         }
 
-        // todo
-        setcookie('auth', '', 0);
+        $response = $this->toolkit->getResponse();
+        $response->setCookie('auth', '', 0, '/');
     }
 
     private function getHash()

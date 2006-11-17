@@ -46,8 +46,8 @@ systemConfig::$cache = false;
 
 systemConfig::init();
 
-// в будущем перенести надо куда нить?
-$inc_path = ini_get('include_path') . PATH_SEPARATOR . realpath(systemConfig::$pathToSystem  . '/../libs/PEAR/');
+// @todo подумать о переносе в другое место
+$inc_path = realpath(systemConfig::$pathToSystem  . '/../libs/PEAR/') . PATH_SEPARATOR . ini_get('include_path');
 ini_set('include_path', $inc_path);
 
 ?>

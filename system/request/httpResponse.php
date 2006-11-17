@@ -65,6 +65,24 @@ class httpResponse
         $this->headers[$name] = $value;
     }
 
+    /**
+     * установка cookie
+     *
+     * @param string $name имя cookie
+     * @param string $value значение cookie
+     * @param integer $expire время жизни для cookie
+     * @param string $path путь в котором доступен cookie
+     * @param string $domain домен в котором доступен cookie
+     * @param boolean $secure указывает что cookie будет передано только при https-соединени
+     * @param boolean $httponly указывает что cookie будет доступен только через протокол HTTP
+     */
+    public function setCookie($name, $value = '', $expire = 0, $path = '', $domain = '', $secure = false, $httponly = false)
+    {
+        if (!$this->isHeadersSent()) {
+            setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+        }
+    }
+
      /**
      * Уставливает заголовок страницы
      *
@@ -123,13 +141,26 @@ class httpResponse
     {
         $headers = $this->getHeaders();
         if (!empty($headers)) {
-            if (headers_sent($file, $line)) {
-                throw new mzzRuntimeException("Cannot modify header information - headers already sent in " . $file . " on line " . $line);
-            }
-            foreach ($headers as $name => $value) {
-                header($name . ": " . $value);
+            if (!$this->isHeadersSent()) {
+                foreach ($headers as $name => $value) {
+                    header($name . ": " . $value);
+                }
             }
         }
+    }
+
+    /**
+     * Бросает исключение если заголовки были отправлены
+     *
+     * @return boolean
+     */
+    private function isHeadersSent()
+    {
+        if (headers_sent($file, $line)) {
+            throw new mzzRuntimeException("Cannot modify header information - headers already sent in " . $file . " on line " . $line);
+            return true;
+        }
+        return false;
     }
 
 }
