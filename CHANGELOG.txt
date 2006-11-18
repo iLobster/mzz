@@ -8,6 +8,9 @@ CHANGELOG
 - Нормальная работа под Unix
 - Необходимые функции для работы с пользователями/группами
 - GUI для ACL
+- {$current_section} и {$SIE_PATH} в шаблонах
+- Установка cookies через httpResponse
+- стандартные виды simpleJipCloseView, simpleJipRefreshView
 
  Version 0.0.5:
 ============================================
