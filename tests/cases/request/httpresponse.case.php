@@ -39,7 +39,7 @@ class httpResponseTest extends unitTestCase
         $this->assertEqual($content, 'test_add_content_done');
     }
 
-    public function testHttpRequestHeaders()
+    public function testSetHeaders()
     {
         $headers = array('name1' => 'value_1', 'name2' => 'value_2', 'name3' => 'value_3');
         foreach ($headers as $name => $value) {
@@ -47,6 +47,16 @@ class httpResponseTest extends unitTestCase
         }
 
         $this->assertEqual($this->response->getHeaders(), $headers);
+    }
+
+    public function testSetCookies()
+    {
+        $name = 'test';
+        $cookie = array('value' => '1', 'expire' => 0, 'path' => '/path', 'domain' => 'example.com', 'secure' => 1, 'httponly' => 1);
+        $this->response->setCookie($name, $cookie['value'], $cookie['expire'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
+
+
+        $this->assertEqual($this->response->getCookies(), array($name => $cookie));
     }
 
     public function testSetTitle()

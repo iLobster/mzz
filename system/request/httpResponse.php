@@ -39,6 +39,13 @@ class httpResponse
     private $headers = array();
 
     /**
+     * Cookies
+     *
+     * @var array
+     */
+    private $cookies = array();
+
+    /**
      * Template Engine
      *
      * @var object
@@ -78,9 +85,14 @@ class httpResponse
      */
     public function setCookie($name, $value = '', $expire = 0, $path = '', $domain = '', $secure = false, $httponly = false)
     {
-        if (!$this->isHeadersSent()) {
-            setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-        }
+        $this->cookies[$name] = array(
+                'value' => $value,
+                'expire' => $expire,
+                'path' => $path,
+                'domain' => $domain,
+                'secure' => $secure,
+                'httponly' => $httponly
+        );
     }
 
      /**
@@ -95,7 +107,7 @@ class httpResponse
 
 
     /**
-     * ¬озвращает установленные заголовки дл€ клиента
+     * ¬озвращает установленные заголовки клиенту
      *
      * @return array
      */
@@ -105,11 +117,22 @@ class httpResponse
     }
 
     /**
+     * ¬озвращает установленные cookies клиенту
+     *
+     * @return array
+     */
+    public function getCookies()
+    {
+        return $this->cookies;
+    }
+
+    /**
      * отправка содержимого клиенту
      *
      */
     public function send()
     {
+        $this->sendCookies();
         $this->sendHeaders();
         $this->sendText();
     }
@@ -144,6 +167,26 @@ class httpResponse
             if (!$this->isHeadersSent()) {
                 foreach ($headers as $name => $value) {
                     header($name . ": " . $value);
+                }
+            }
+        }
+    }
+
+    /**
+     * отправление cookies
+     *
+     */
+    private function sendCookies()
+    {
+        $cookies = $this->getCookies();
+        if (!empty($cookies)) {
+            if (!$this->isHeadersSent()) {
+                foreach ($cookies as $name => $values) {
+                    if(version_compare(phpversion(), '5.2', 'ge')) {
+                        setcookie($name, $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure'], $values['httponly']);
+                    } else {
+                        setcookie($name, $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure']);
+                    }
                 }
             }
         }
