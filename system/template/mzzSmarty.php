@@ -55,6 +55,7 @@ class mzzSmarty extends Smarty
      * @param string $cache_id
      * @param string $compile_id
      * @param boolean $display
+     * @return string
      */
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
@@ -92,6 +93,7 @@ class mzzSmarty extends Smarty
      * @param string $cache_id
      * @param string $compile_id
      * @param boolean $display
+     * @return string
      */
     public function fetchPassive($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
@@ -107,6 +109,7 @@ class mzzSmarty extends Smarty
      * @param string $compile_id
      * @param boolean $display
      * @param string $result начальный результат обработки активного шаблона как пассивного
+     * @return string
      */
     public function fetchActive($template, $cache_id = null, $compile_id = null, $display = false, $result = null)
     {

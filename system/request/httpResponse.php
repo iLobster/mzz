@@ -55,6 +55,7 @@ class httpResponse
     /**
      * конструктор класса
      *
+     * @param object $smarty объект Template Engine
      */
     public function __construct($smarty)
     {
@@ -98,7 +99,7 @@ class httpResponse
      /**
      * Уставливает заголовок страницы
      *
-     * @param $value
+     * @param string $value
      */
     public function setTitle($value)
     {

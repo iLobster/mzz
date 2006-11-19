@@ -189,7 +189,7 @@ class criteria
      *
      * @param string $table
      * @param string $alias алиас, который будет присвоен таблице
-     * @return object сам объект
+     * @return criteria текущий объект
      */
     public function setTable($table, $alias = null)
     {
@@ -218,7 +218,7 @@ class criteria
      * @param string|object $field имя поля или объект класса criterion
      * @param string $value значение. не используется если в качестве $field передаётся criterion
      * @param string $comparsion тип сравнения. не используется если в качестве $field передаётся criterion
-     * @return object сам объект
+     * @return criteria текущий объект
      */
     public function add($field, $value = null, $comparsion = null)
     {
@@ -282,7 +282,7 @@ class criteria
      * Установка поля по которому будет производиться сортировка выборки. Направление ASC
      *
      * @param string $field имя поля
-     * @return object сам объект
+     * @return criteria текущий объект
      */
     public function setOrderByFieldAsc($field)
     {
@@ -295,7 +295,7 @@ class criteria
      * Установка поля по которому будет производиться сортировка выборки. Направление DESC
      *
      * @param string $field имя поля
-     * @return object сам объект
+     * @return criteria текущий объект
      */
     public function setOrderByFieldDesc($field)
     {
@@ -380,7 +380,7 @@ class criteria
      * Поскольку mysql only фича - предполагается к удалению
      *
      * @deprecated
-     * @return unknown
+     * @return criteria текущий объект
      */
     public function enableCount()
     {
@@ -403,7 +403,7 @@ class criteria
     /**
      * Метод для очистки списка полей для выборки
      *
-     * @return object сам объект
+     * @return criteria текущий объект
      */
     public function clearSelectFields()
     {
@@ -416,7 +416,7 @@ class criteria
      *
      * @param string $field имя поля
      * @param string $alias алиас, который будет присвоен выбираемому полю
-     * @return object сам объект
+     * @return criteria текущий объект
      */
     public function addSelectField($field, $alias = null)
     {
@@ -467,6 +467,8 @@ class criteria
      * @param string $tablename имя таблицы
      * @param criterion $criterion условие объединения
      * @param string $alias алиас, который будет присвоен присоединяемой таблице
+     * @param string $joinType тип объединения
+     * @return criteria текущий объект
      */
     public function addJoin($tablename, criterion $criterion, $alias = '', $joinType = self::JOIN_LEFT)
     {
@@ -484,7 +486,7 @@ class criteria
      * Метод для добавления нового поля для группировки
      *
      * @param string $field имя поля
-     * @return object сам объект
+     * @return criteria текущий объект
      */
     public function addGroupBy($field)
     {

@@ -14,7 +14,7 @@
  * config: класс для работы с конфигурацией
  *
  * @package system
- * @version 0.4.1
+ * @version 0.5
 */
 class config
 {
@@ -26,7 +26,12 @@ class config
      */
     protected $section;
 
-    protected $cfg_id;
+    /**
+     * Идентификатор конфигурации
+     *
+     * @var integer
+     */
+    protected $cfg_id = null;
 
     /**
      * Модуль, для которого будет получена конфигурация
@@ -87,9 +92,9 @@ class config
     }
 
     /**
-     * Получает конкретное значение из конфигурации
+     * Получает конкретное значение для параметра из конфигурации
      *
-     * @param string $name имя значения
+     * @param string $name имя параметра
      * @return string|null
      * @see getValues()
      */
@@ -101,6 +106,13 @@ class config
         return isset($this->values[$name][0]['value']) ? $this->values[$name][0]['value'] : null;
     }
 
+    /**
+     * Устанавливает значение для параметра конфигурации
+     *
+     * @param string $name имя параметра
+     * @param string|null $value значение
+     * @see getCfgId()
+     */
     public function set($name, $value = null)
     {
         if (empty($this->cfg_id)) {
@@ -123,6 +135,12 @@ class config
         }
     }
 
+    /**
+     * Получает идентификатор конфигурации по секции и модулю
+     *
+     * @param string $section секция
+     * @param string $module модуль
+     */
     private function getCfgId($section, $module)
     {
         $this->db = db::factory();
@@ -137,14 +155,9 @@ class config
         $result = $stmt->fetch();
 
         if (isset($result['id'])) {
-            $this->cfg_id = $result['id'];
+            $this->cfg_id = (int)$result['id'];
         } else {
             throw new mzzRuntimeException('Config for section: ' . $section . ', module: ' . $module . ' not found.');
-            /* @todo будем и отсюда заполнять sys_modules/sys_sections?
-            $stmt = $this->db->prepare("INSERT INTO `sys_cfg` (`section`, `module`) VALUES (:section, :module)");
-            $stmt->bindParam(':section', $section);
-            $stmt->bindParam(':module', $module);
-            $this->cfg_id = $stmt->execute();*/
         }
     }
 }

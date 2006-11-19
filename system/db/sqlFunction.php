@@ -44,7 +44,6 @@ class sqlFunction
      * @param string $function имя функции
      * @param mixed $arguments аргументы, возможна передача массива и объектов sqlFunction
      * @param bool $isField является ли аргумент полем
-     *
      */
     public function __construct($function, $arguments = null, $isField = false)
     {

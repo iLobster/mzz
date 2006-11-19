@@ -53,6 +53,11 @@ class jip
      */
     private $actions;
 
+    /**
+     * Èäåíòèôèêàòîğ îáúåêòà
+     *
+     * @var integer
+     */
     private $obj_id;
 
     /**
@@ -60,9 +65,10 @@ class jip
      *
      * @param string $section
      * @param string $module èìÿ ìîäóëÿ
-     * @param string $id èäåíòèôèêàòîğ
+     * @param integer $id èäåíòèôèêàòîğ
      * @param string $type òèï
      * @param array $actions äåéñòâèÿ äëÿ JIP
+     * @param integer $obj_id èäåíòèôèêàòîğ îáúåêòà
      */
     public function __construct($section, $module, $id, $type, Array $actions, $obj_id)
     {
@@ -89,6 +95,12 @@ class jip
         return $url->get();
     }
 
+    /**
+     * Ãåíåğèğóåò ññûëêó äëÿ JIP íà ğåäàêòèğîâàíèå ACL
+     *
+     * @param integer $obj_id èäåíòèôèêàòîğ îáúåêòà
+     * @return string
+     */
     private function buildACLUrl($obj_id)
     {
         $url = new url();
@@ -127,6 +139,11 @@ class jip
         return $result;
     }
 
+    /**
+     * Âîçâğàùàåò èäåíòèôèêàòîğ JIP-ìåíş
+     *
+     * @return string
+     */
     private function getJipMenuId()
     {
         return $this->section . '_' . $this->module . '_' . $this->id;

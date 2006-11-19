@@ -78,11 +78,11 @@ class pager
     /**
      * конструктор
      *
-     * @param базовый урл $baseurl
-     * @param номер текущей страницы $page
-     * @param число объектов на одну страницу $perPage
-     * @param общее число объектов $itemsCount
-     * @param число номеров страниц возле текущей $roundItems
+     * @param string $baseurl базовый урл
+     * @param integer $page номер текущей страницы
+     * @param integer $perPage число объектов на одну страницу
+     * @param integer $itemsCount общее число объектов
+     * @param integer $roundItems число номеров страниц возле текущей
      */
     public function __construct($baseurl, $page, $perPage, $itemsCount = 0, $roundItems = 2)
     {

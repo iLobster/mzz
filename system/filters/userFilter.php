@@ -54,7 +54,7 @@ class userFilter implements iFilter
             $user_id = MZZ_USER_GUEST_ID;
         }
 
-        // хм... начинаем зависеть от таблы??
+        // @todo хм... начинаем зависеть от таблы??
         //$userMapper = $toolkit->getCache(new userMapper('user'));
         $userMapper = $toolkit->getMapper('user', 'user', 'user', $alias);
 

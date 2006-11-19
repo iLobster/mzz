@@ -50,7 +50,7 @@ class userGroupMapper extends simpleMapper
     /**
      * @todo сделать
      *
-     * @param unknown_type $args
+     * @param integer $args
      */
     public function convertArgsToId($args)
     {

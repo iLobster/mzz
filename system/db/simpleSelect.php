@@ -45,7 +45,7 @@ class simpleSelect
     /**
      * Возвращает SQL-запрос
      *
-     * @return string
+     * @return string SQL-запрос
      */
     public function toString()
     {

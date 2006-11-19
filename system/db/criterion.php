@@ -96,6 +96,11 @@ class criterion
      */
     private $clauses = array();
 
+    /**
+     * Является ли значение инстанцией sqlFunction
+     *
+     * @var boolean
+     */
     private $isFunction = false;
 
     /**
@@ -186,8 +191,8 @@ class criterion
     /**
      * Метод для добавления к текущему объекту criterion дополнительных условий, связанных логическим оператором И
      *
-     * @param object $criterion
-     * @return object текущий объект
+     * @param criterion $criterion
+     * @return criterion текущий объект
      */
     public function addAnd(criterion $criterion)
     {
@@ -199,7 +204,7 @@ class criterion
     /**
      * Метод для добавления к текущему объекту criterion дополнительных условий, связанных логическим оператором ИЛИ
      *
-     * @param object $criterion
+     * @param criterion $criterion
      * @return object текущий объект
      */
     public function addOr(criterion $criterion)
@@ -212,8 +217,8 @@ class criterion
     /**
      * Метод для добавления к текущему объекту criterion дополнительных условий, не связанных никаким логическим оператором
      *
-     * @param object $criterion
-     * @return object текущий объект
+     * @param criterion $criterion
+     * @return criterion текущий объект
      */
     public function add(criterion $criterion)
     {
@@ -266,7 +271,7 @@ class criterion
     }
 
     /**
-     * Метод для получения значения значения
+     * Метод для получения значения
      *
      * @return string
      */

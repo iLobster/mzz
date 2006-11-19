@@ -63,11 +63,6 @@ function smarty_function_load($params, $smarty)
         $request->setParam($name, $value);
     }
 
-    /* @todo убрать */
-    if (isset($params['args'])) {
-        $request->setParams(explode('/', $params['args']));
-    }
-
     $mappername = $action->getType() . 'Mapper';
     $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
 
@@ -92,8 +87,6 @@ function smarty_function_load($params, $smarty)
         $request->setParam('access', $access);
         $access = true;
     }
-
-    $result = '';
 
     if ($access) {
         $factory = new $modulename($action);

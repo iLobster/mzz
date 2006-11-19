@@ -186,6 +186,7 @@ class action
     /**
      * Возвращает все допустимые действия модуля
      *
+     * @param boolean $onlyACL выбрать только ACL действия
      * @return array
      */
     public function getActions($onlyACL = false)

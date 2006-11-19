@@ -356,6 +356,13 @@ class httpRequest implements iRequest
         return false;
     }
 
+
+    /**
+     * декодирует данные из кодировки UTF-8 в windows-1251
+     *
+     * @param string $value строка в UTF-8
+     * @return string строка в windows-1251
+     */
     public function decodeUTF8(&$value)
     {
         if (function_exists('iconv')) {

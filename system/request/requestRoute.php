@@ -211,6 +211,12 @@ class requestRoute implements iRoute
         $this->regex .= '$' . self::REGEX_DELIMITER;
     }
 
+    /**
+     * Собирает из массива параметров path для URL согласно данному Route
+     *
+     * @param array $values массив именованных параметров
+     * @return string готовый path для URL
+     */
     public function assemble($values = array())
     {
         if (empty($this->parts)) {

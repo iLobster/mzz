@@ -714,7 +714,7 @@ abstract class simpleMapper //implements iCacheable
     /**
      * Метод для получения данных об отношениях типа hasMany
      *
-     * @return unknown
+     * @return array
      */
     public function getHasMany()
     {
