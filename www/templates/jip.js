@@ -154,7 +154,7 @@ function sendFormWithAjax(form, elementId)
     //}
     var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
     YAHOO.util.Connect.setForm(form);
-    var request = YAHOO.util.Connect.asyncRequest(form.method.toUpperCase(), form.action + '&ajax=1', callback);
+    var request = YAHOO.util.Connect.asyncRequest(form.getAttribute('method').toUpperCase(), form.action + '&ajax=1', callback);
     return false;
 }
 
