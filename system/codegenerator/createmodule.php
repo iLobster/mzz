@@ -39,7 +39,7 @@ Sample usage:
         if (!isset($argv[1])) {
             throw new Exception('Error: parameter 1 \'name\' not specified. use -h for view help');
         } else {
-            $module = $argv[1];
+            $module = trim($argv[1]);
         }
 
         define('CODEGEN', dirname(__FILE__));

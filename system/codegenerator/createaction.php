@@ -61,12 +61,12 @@ Sample usage:
         throw new Exception('Error: parameter 2 \'action\' not specified. use -h for view help');
     }
 
-    $type = $argv[1];
-    $action = $argv[2];
+    $type = trim($argv[1]);
+    $action = trim($argv[2]);
     $actionsfile = 'actions/' . $type . '.ini';
 
     if (!is_file($actionsfile)) {
-        throw new Exception("Error: Actions file '" . $type . " .ini' not found");
+        throw new Exception("Error: Actions file '" . $type . ".ini' not found");
     }
 
     $data = parse_ini_file($actionsfile, true);

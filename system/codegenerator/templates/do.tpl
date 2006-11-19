@@ -13,7 +13,7 @@
 */
 
 /**
- * {{$do_data.doname}}: класс для работы с ...
+ * {{$do_data.doname}}: класс для работы c данными
  *
  * @package modules
  * @subpackage {{$do_data.module}}

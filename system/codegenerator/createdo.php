@@ -57,7 +57,7 @@ Sample usage:
         if (!isset($argv[1])) {
             throw new Exception('Error: parameter 1 \'name\' not specified. use -h for view help');
         } else {
-            $doName = $argv[1];
+            $doName = trim($argv[1]);
         }
 
 

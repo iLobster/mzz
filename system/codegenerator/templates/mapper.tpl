@@ -45,7 +45,7 @@ class {{$mapper_data.mapper_name}} extends simpleMapper
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
-     * @return object
+     * @return integer
      */
     public function convertArgsToId($args)
     {
