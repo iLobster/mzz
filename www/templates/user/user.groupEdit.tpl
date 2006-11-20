@@ -1,4 +1,4 @@
-<form {$form.attributes}>
+<form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
     <table border="0" cellpadding="0" cellspacing="1" width="50%">
         {if $action eq 'groupEdit'}
         <tr>

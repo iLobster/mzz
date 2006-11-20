@@ -21,7 +21,6 @@
  */
 
 fileLoader::load('user/views/userGroupEditView');
-fileLoader::load('user/views/userEditSuccessView');
 fileLoader::load('user/views/groupEditForm');
 
 class userGroupEditController extends simpleController
@@ -53,7 +52,7 @@ class userGroupEditController extends simpleController
                 $group->setName($values['name']);
                 $groupMapper->save($group);
 
-                $view = new userEditSuccessView();
+                $view = new simpleJipRefreshView();
             }
 
             return $view;

@@ -61,9 +61,7 @@ class userAddToGroupController extends simpleController
                 }
             }
 
-            fileLoader::load('user/views/userAddToGroupSuccessView');
-            return new userAddToGroupSuccessView();
-
+            return new simpleJipCloseView();
         } else {
 
             $users = array();

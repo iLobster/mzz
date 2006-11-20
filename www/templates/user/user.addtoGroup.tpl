@@ -7,7 +7,7 @@
 </div>
 {else}
     Найдено пользователей: <b>{$users|@count}</b><br />
-    <form method="post" action="{url}">
+    <form method="post" action="{url}" onsubmit="return sendFormWithAjax(this);return false;">
     <table border="0" width="100%" cellpadding="0" cellspacing="1">
         {foreach from=$users item=user}
             <tr>
@@ -18,7 +18,7 @@
         {/foreach}
             <tr>
                 <td><input type="submit" value="Добавить"></td>
-                <td colspan="2"><input type="reset" value="Сброс"></td>
+                <td colspan="2"><input type="reset" value="Отмена" onclick="javascript: hideJip();"></td>
             </tr>
     </table>
     </form>
