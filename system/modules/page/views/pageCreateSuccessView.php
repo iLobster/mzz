@@ -33,8 +33,7 @@ class pageCreateSuccessView extends simpleView
         $url->addParam($this->DAO->getName());
         $url->setAction('view');
 
-        header('Location: ' . $url->get());
-        exit;
+        $this->response->redirect($url->get());
     }
 }
 

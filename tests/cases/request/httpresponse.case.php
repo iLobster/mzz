@@ -65,6 +65,13 @@ class httpResponseTest extends unitTestCase
         $this->response->setTitle('test_title_value');
     }
 
+    public function testRedirect()
+    {
+        $url = 'http://example.com/path';
+        $this->response->redirect($url);
+
+        $this->assertEqual($this->response->getHeaders(), array('Location' => $url));
+    }
 }
 
 ?>

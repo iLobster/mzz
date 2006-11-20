@@ -106,6 +106,15 @@ class httpResponse
         $this->smarty->assign('title', $value);
     }
 
+     /**
+     * ”ставливает перенаправление на другую страницу
+     *
+     * @param string $url
+     */
+    public function redirect($url)
+    {
+        $this->setHeader('Location', $url);
+    }
 
     /**
      * ¬озвращает установленные заголовки клиенту

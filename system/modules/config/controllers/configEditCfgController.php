@@ -35,8 +35,7 @@ class configEditCfgController extends simpleController
             $config->set($cfg);
 
             $url = new url();
-            header('Location: ' . $url->get() . '/' . $section_name . '/' . $module_name . '/editCfg');
-            exit;
+            $this->response->redirect($url->get() . '/' . $section_name . '/' . $module_name . '/editCfg');
         }
 
         return new configEditCfgView($module_name, $section_name);

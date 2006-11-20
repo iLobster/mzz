@@ -23,8 +23,7 @@ class newsDeleteFolderView extends simpleView
     {
         $url = new url();
         $url->setAction('list');
-        echo "<script>window.opener.location.reload(); window.close();</script>";
-        exit;
+        $this->response->redirect($url->get());
     }
 }
 

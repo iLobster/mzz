@@ -62,8 +62,7 @@ class userMembersListController extends simpleController
                 }
             }
 
-            fileLoader::load('user/views/userMemberOfSuccessView');
-            return new userMemberOfSuccessView();
+            return new simpleJipRefreshView();
         } else {
             $criteria = new criteria();
             $criteria->add('group_id', $id)->setOrderByFieldAsc('user_id.login');

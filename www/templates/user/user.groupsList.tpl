@@ -1,14 +1,11 @@
 {add file="popup.js"}
 <a href="{url section=user action=list}">Пользователи</a>
-<table border="0" width="50%" cellpadding="0" cellspacing="1">
+<table border="0" width="99%" cellpadding="4" cellspacing="1" class="list">
     <tr>
-        <td colspan="4">Страницы ({$pager->getPagesTotal()}): {$pager->toString()}</td>
-    </tr>
-    <tr>
-        <td>Id</td>
-        <td>Имя</td>
-        <td>Пользователей в группе</td>
-        <td>Jip</td>
+        <td><strong>Id</strong></td>
+        <td><strong>Имя</strong></td>
+        <td><strong>Пользователей в группе</strong></td>
+        <td><strong>Jip</strong></td>
     </tr>
     {foreach from=$groups item=group}
         <tr>
@@ -23,3 +20,4 @@
         <td colspan="3"><a href="{url section=user action=groupCreate}" onClick="openWin('{url section=user action=groupCreate}', 'group_create', 500,400); return false;">Добавить группу</a></td>
     </tr>
 </table>
+<div class="pages">{$pager->toString()}</div>

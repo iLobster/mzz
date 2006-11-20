@@ -29,14 +29,10 @@ class newsEditSuccessView extends simpleView
 
     public function toString()
     {
-        $url = new url();
-        $url->addParam($this->DAO->getId());
-        $url->setAction('view');
+        //$url = new url();
+        //$url->addParam($this->DAO->getId());
+        //$url->setAction('view');
         return '<script type="text/javascript">window.location.reload();</script> Обновление главного окна...';
-        // А что с этим делать?
-        //header('Location: ' . $url->get());
-        //exit;
-
     }
 
 }

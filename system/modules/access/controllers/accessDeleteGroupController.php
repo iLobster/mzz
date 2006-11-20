@@ -34,7 +34,7 @@ class accessDeleteGroupController extends simpleController
             $acl->deleteGroup($group_id);
         }
 
-        return new accessDeleteGroupView();
+        return new simpleJipRefreshView();
     }
 }
 

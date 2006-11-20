@@ -34,10 +34,6 @@ class pageEditSuccessView extends simpleView
         $url->setAction('view');
 
         echo "<script>window.opener.location='" . $url->get() . "'; window.close();</script>";
-        // А что с этим делать?
-        //header('Location: ' . $url->get());
-        exit;
-
     }
 
 }

@@ -1,6 +1,6 @@
 Список пользователей, состоящих в группе <b>{$group->getName()}</b><br />
-<form method="post" action="{url}">
-    <table border="0" width="50%" cellpadding="0" cellspacing="1">
+<form method="post" action="{url}" onsubmit="return sendFormWithAjax(this);return false;">
+    <table border="0" width="50%" cellpadding="4" cellspacing="1" class="list">
 
         {foreach from=$users item=user}
             <tr>
@@ -12,7 +12,7 @@
         {/foreach}
             <tr>
                 <td><input type="submit" value="Удалить" onClick="return mzz_confirm('Вы действительно хотите удалить выбранных пользователей из группы?');"></td>
-                <td colspan="2"><input type="reset" value="Сброс"></td>
+                <td colspan="2"><input type="reset" value="Сброс" onclick="javascript: hideJip();"></td>
             </tr>
         <tr>
             <td align="center"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="openWin('{url section=user action=addToGroup params=$group->getId()}', 'user_addToGroup_{$group->getId()}', 500,400); return false;"><img src="{url section="" params="templates/images/useradd.gif"}" width="16" height="16" /></a></td>

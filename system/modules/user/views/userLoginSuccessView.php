@@ -22,8 +22,7 @@ class userLoginSuccessView extends simpleView
 {
     public function toString()
     {
-        header('Location: ' . $this->DAO);
-        //exit;
+        $this->response->redirect($this->DAO);
     }
 }
 

@@ -69,9 +69,7 @@ class userMemberOfController extends simpleController
             $user->setGroups($groupsArray);
             $userMapper->save($user);
 
-            fileLoader::load('user/views/userMemberOfSuccessView');
-            return new userMemberOfSuccessView();
-
+            return new simpleJipCloseView();
         } else {
             // если просто показать список групп и пользователей
             $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());

@@ -34,7 +34,7 @@ class accessDeleteUserController extends simpleController
             $acl->deleteUser($user_id);
         }
 
-        return new accessDeleteUserView();
+        return new simpleJipRefreshView();
     }
 }
 

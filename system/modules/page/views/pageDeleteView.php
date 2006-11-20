@@ -23,8 +23,8 @@ class pageDeleteView extends simpleView
     {
         $url = new url();
         $url->setAction('list');
-        echo "<script>window.opener.location.reload(); window.close();</script>";
-        exit;
+        //echo "<script>window.opener.location.reload(); window.close();</script>";
+        $this->response->redirect($url->get());
     }
 }
 ?>

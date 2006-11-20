@@ -47,7 +47,7 @@ class newsCreateController extends simpleController
             $news->setFolder($folder->getId());
             $newsMapper->save($news);
 
-            $view = new newsCreateSuccessView($news, $form);
+            $view = new simpleJipRefreshView();
         }
 
         return $view;

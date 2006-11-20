@@ -792,7 +792,7 @@ abstract class simpleMapper //implements iCacheable
                 $oldData = $object->$accessor();
 
                 $oldObjIds = array();
-                echo '<pre>'; var_dump($oldData); echo '</pre>'; echo '<br><br>';
+                //echo '<pre>'; var_dump($oldData); echo '</pre>'; echo '<br><br>';
                 foreach ($oldData as $subval) {
                     $oldObjIds[$subval->getObjId()] = $subval->getId();
                 }
