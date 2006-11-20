@@ -73,7 +73,7 @@ class userAddToGroupController extends simpleController
                 $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
                 $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
 
-                $criterion = new criterion('r.user_id', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true);
+                $criterion = new criterion('r.user_id', 'user.' . $userMapper->getTableKey(), criteria::EQUAL, true);
                 $criterion->addAnd(new criterion('r.group_id', $id));
 
                 $criteria = new criteria();

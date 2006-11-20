@@ -81,8 +81,6 @@ class httpRequestTest extends unitTestCase
     public function testGet()
     {
         $this->httprequest->setParam('param_foo', 'foo');
-        $this->assertNull($this->httprequest->get('__NOT_EXISTS__'));
-        $this->assertNull($this->httprequest->get('__NOT_EXISTS__', 'string', SC_PATH));
 
         $this->assertNull($this->httprequest->get('param_foo'));
         $this->assertEqual($this->httprequest->get('param_foo', 'mixed', SC_PATH), 'foo');
@@ -92,6 +90,14 @@ class httpRequestTest extends unitTestCase
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->assertEqual($this->httprequest->get('REQUEST_METHOD', 'mixed', SC_SERVER), 'GET');
+    }
+
+    public function testGetUnknownValue()
+    {
+        $this->assertNull($this->httprequest->get('__NOT_EXISTS__'));
+        $this->assertNull($this->httprequest->get('__NOT_EXISTS__', 'string', SC_PATH));
+        $_REQUEST['ajax'] = 1;
+        $this->assertNull($this->httprequest->get('__NOT_EXISTS__'));
     }
 
     public function testGetWithType()

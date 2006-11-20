@@ -105,7 +105,7 @@ class httpRequest implements iRequest
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
-    public function get($name, $type = null, $scope = SC_REQUEST)
+    public function get($name, $type = 'mixed', $scope = SC_REQUEST)
     {
         $result = null;
 
@@ -130,7 +130,7 @@ class httpRequest implements iRequest
             $done = true;
         }
 
-        if ($this->isAjax()) {
+        if (!empty($result) && $this->isAjax()) {
             if (is_array($result)) {
                 array_walk_recursive($result, array($this, 'decodeUTF8'));
             } else {
