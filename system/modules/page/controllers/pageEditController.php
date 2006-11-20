@@ -54,7 +54,7 @@ class pageEditController extends simpleController
                 $page->setTitle($values['title']);
                 $page->setContent($values['content']);
                 $pageMapper->save($page);
-                $view = new pageEditSuccessView($page, $form);
+                $view = new simpleJipRefreshView();
             }
             return $view;
         } else {

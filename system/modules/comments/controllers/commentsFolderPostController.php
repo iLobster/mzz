@@ -31,7 +31,8 @@ class commentsFolderPostController extends simpleController
         $form = commentsPostForm::getForm($this->request->get('parent_id', 'integer', SC_PATH));
 
         $access = $this->request->get('access', 'boolean', SC_PATH);
-        if (!$access) {
+
+        if (!is_null($access) && !$access) {
             fileLoader::load('comments/views/commentsOnlyAuthView');
 
             $user = $this->toolkit->getUser();

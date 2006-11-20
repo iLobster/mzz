@@ -42,7 +42,7 @@ class commentsEditController extends simpleController
             $comment->setText($values['text']);
             $commentsMapper->save($comment);
 
-            $view = new simpleJipCloseView();
+            $view = new simpleJipRefreshView();
         }
 
         return $view;

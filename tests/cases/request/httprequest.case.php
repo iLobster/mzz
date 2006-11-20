@@ -158,6 +158,15 @@ class httpRequestTest extends unitTestCase
         $this->httprequest->setParams($paramsSecond = array('index' => 'world'));
         $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), $paramsSecond['index']);
 
+        $this->httprequest->save();
+
+        $this->httprequest->setParams($paramsSecond = array('index' => 'foo'));
+        $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), $paramsSecond['index']);
+
+        $this->httprequest->restore();
+
+        $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), 'world');
+
         $this->httprequest->restore();
 
         $this->assertEqual($this->httprequest->get('key', 'mixed', SC_PATH), $paramsFirst['key']);

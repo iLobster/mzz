@@ -21,7 +21,7 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>
-                        {$class} <a href="{url section="access" params="`$section_name`/`$class`" action="editDefault"}"><img src="{url section="" params="templates/images/acl.gif"}"></a>
+                        {$class.class} <a href="{url section="access" params="`$section_name`/`$class.class`" action="editDefault"}"><img src="{url section="" params="templates/images/acl.gif"}"></a><a href="{url section="access" params="`$class.obj_id`" action="editACL"}"><img src="{url section="" params="templates/images/acl.gif"}"></a>
                     </td>
                 </tr>
             {/foreach}

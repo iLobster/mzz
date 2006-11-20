@@ -29,8 +29,8 @@ class newsViewController extends simpleController
 
     public function getView()
     {
-        //$newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
-        $newsMapper = new newsMapper($this->request->getSection());
+        $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
+        //$newsMapper = new newsMapper($this->request->getSection());
 
         if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
             $id = 0;

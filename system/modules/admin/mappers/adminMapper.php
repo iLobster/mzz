@@ -46,8 +46,12 @@ class adminMapper extends simpleMapper
                                    LEFT JOIN `sys_sections` `ss` ON `ss`.`id` = `s`.`section_id`
                                     ORDER BY `m`.`name`, `ss`.`name`, `c`.`name`");
         $result = array();
+
+        $toolkit = systemToolkit::getInstance();
+
         foreach ($info as $val) {
-            $result[$val['module']][$val['section']][] = $val['class'];
+            $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $val['class']);
+            $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id);
         }
 
         return $result;
@@ -66,13 +70,5 @@ class adminMapper extends simpleMapper
         return $obj_id;
     }
 }
-
-/*
-SELECT `m`.`name` AS `module`, `ss`.`name` AS `section`, `c`.`name` AS `class` FROM `sys_modules` `m`
-LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
-LEFT JOIN `sys_classes_sections` `s` ON `s`.`class_id` = `c`.`id`
-LEFT JOIN `sys_sections` `ss` ON `ss`.`id` = `s`.`section_id`
-ORDER BY `m`.`name`, `ss`.`name`, `c`.`name`
-*/
 
 ?>

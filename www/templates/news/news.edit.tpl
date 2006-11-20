@@ -17,10 +17,5 @@
     <tr>
         <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
     </tr>
-    {*
-    <tr>
-        <td colspan="3"><a href="{url section=news action=view params=$news->getId()}">назад</a></td>
-    </tr>
-    *}
 </table>
 </form>

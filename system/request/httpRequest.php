@@ -335,9 +335,10 @@ class httpRequest implements iRequest
      */
     public function save()
     {
-        $this->saved['params'] = $this->params->export();
-        $this->saved['section'] = $this->getSection();
-        $this->saved['action'] = $this->getAction();
+        $this->saved[] = array('params' => $this->params->export(), 'section' => $this->getSection(), 'action' => $this->getAction());
+        //$this->saved['params'] =;
+        //$this->saved['section'] = ;
+        //$this->saved['action'] = ;
     }
 
     /**
@@ -347,10 +348,10 @@ class httpRequest implements iRequest
     public function restore()
     {
         if (!empty($this->saved)) {
-            $this->params->import($this->saved['params']);
-            $this->setSection($this->saved['section']);
-            $this->setAction($this->saved['action']);
-            $this->saved = array();
+            $saved = array_pop($this->saved);
+            $this->params->import($saved['params']);
+            $this->setSection($saved['section']);
+            $this->setAction($saved['action']);
             return true;
         }
         return false;
