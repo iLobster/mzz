@@ -275,14 +275,11 @@ class httpRequest implements iRequest
      * ѕри участии AJAX используетс€ перекодировка из UTF-8 в Windows-1251
      *
      * @param HTML_QuickForm $form
+     * @deprecated
      */
     public function exportFormValues(HTML_QuickForm $form)
     {
-        $result = $form->exportValues();
-        if ($this->isAjax()) {
-            array_walk_recursive($result, array($this, 'decodeUTF8'));
-        }
-        return $result;
+        throw new mzzException('deprecated');
     }
 
     /**
@@ -376,7 +373,6 @@ class httpRequest implements iRequest
 
         return $value;
     }
-
 }
 
 ?>

@@ -1836,6 +1836,7 @@ class HTML_QuickForm extends HTML_Common {
      */
     function exportValue($element)
     {
+
         if (!isset($this->_elementIndex[$element])) {
             return PEAR::raiseError(null, QUICKFORM_NONEXIST_ELEMENT, null, E_USER_WARNING, "Element '$element' does not exist in HTML_QuickForm::getElementValue()", 'HTML_QuickForm_Error', true);
         }
@@ -1892,6 +1893,13 @@ class HTML_QuickForm extends HTML_Common {
                 $values[$elementName] = $value;
             }
         }
+        
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+        if ($request->isAjax()) {
+            array_walk_recursive($values, array($request, 'decodeUTF8'));
+        }
+
         return $values;
     }
 

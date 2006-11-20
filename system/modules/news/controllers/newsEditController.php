@@ -42,7 +42,7 @@ class newsEditController extends simpleController
             if ($form->validate() == false) {
                 $view = new newsEditView($news, $form);
             } else {
-                $values = $this->request->exportFormValues($form);
+                $values = $form->exportValues();
                 $news->setTitle($values['title']);
                 $news->setEditor($user);
                 $news->setText($values['text']);
