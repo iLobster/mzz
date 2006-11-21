@@ -1852,6 +1852,13 @@ class HTML_QuickForm extends HTML_Common {
                 }
             }
         }
+
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+        if ($request->isAjax()) {
+            $value = $request->decodeUTF8($value);
+        }
+
         return $value;
     }
 
@@ -1893,7 +1900,7 @@ class HTML_QuickForm extends HTML_Common {
                 $values[$elementName] = $value;
             }
         }
-        
+
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
         if ($request->isAjax()) {
