@@ -17,6 +17,11 @@ class stubMapperForTree extends simpleMapper
         $this->table = 'simple_stubsimple';
     }
 
+    public function setTable($table)
+    {        $this->table = $table;
+    }
+
+
 
     public function convertArgsToId($args)
     {

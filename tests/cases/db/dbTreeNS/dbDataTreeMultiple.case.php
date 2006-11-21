@@ -4,7 +4,7 @@ fileLoader::load('modules/simple/simpleMapper');
 fileLoader::load('db/dbTreeNS');
 fileLoader::load('db/sqlFunction');
 fileLoader::load('db/simpleSelect');
-fileLoader::load('cases/db/dbTreeNS/stubMapper2.class');
+fileLoader::load('cases/db/dbTreeNS/stubMapper.class');
 fileLoader::load('cases/db/dbTreeNS/stubSimple.class');
 
 class dbTreeDataMultipleTest extends unitTestCase
@@ -29,7 +29,8 @@ class dbTreeDataMultipleTest extends unitTestCase
         'obj_id' => array ('name' => 'obj_id','accessor' => 'getObjId', 'mutator' => 'setObjId'),
         );
 
-        $this->mapper = new stubMapperForMultipleTree('simple');
+        $this->mapper = new stubMapperForTree('simple');
+        $this->mapper->setTable('simple_stubsimple2');
         $this->mapper->setMap($this->map);
         $this->db = db::factory();
 
