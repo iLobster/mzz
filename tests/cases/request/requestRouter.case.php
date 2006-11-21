@@ -116,10 +116,12 @@ class requestRouterTest extends unitTestCase
         $route->setReturnValue('match', false);
         $this->router->addRoute('notMatch', $route);
 
-        $this->request->expectOnce('setSection', array('page'));
-        $this->request->expectOnce('setAction', array('view'));
-
-        $this->router->route('path');
+        try {
+            $this->router->route('path');
+        } catch (Exception $e) {
+            $this->assertPattern("/404/", $e->getMessage());
+            $this->pass();
+        }
     }
 
 }

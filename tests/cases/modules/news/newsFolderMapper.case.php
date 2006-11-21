@@ -116,7 +116,7 @@ class newsFolderMapperTest extends unitTestCase
         //exit;
         $newsSubFolders = $this->mapper->getFolders(1);
 
-        $this->assertEqual(count($newsSubFolders), 4);
+        $this->assertEqual(count($newsSubFolders), 8);
 
         foreach ($newsSubFolders as $item) {
             $this->assertIsA($item, 'newsFolder');
