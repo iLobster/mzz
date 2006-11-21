@@ -49,7 +49,7 @@ class pageEditController extends simpleController
             if ($form->validate() == false) {
                 $view = new pageEditView($page, $form);
             } else {
-                $values = $form->exportValues($form);
+                $values = $form->exportValues();
                 $page->setName($values['name']);
                 $page->setTitle($values['title']);
                 $page->setContent($values['content']);
