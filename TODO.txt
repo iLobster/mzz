@@ -3,11 +3,7 @@
 
 213 (!) Сделать сломанный createSubfolder!!!
 
-212 ( ) Нормально сверстать news.view.tpl ;)
-
 211 ( ) {include file="news/news.tree.tpl"} - так работает. {include file="news.tree.tpl"} так нет. нужно ли переучивать соответствующую функцию смарти для однообразия?
-
-209 (+) Переписать html_quickform::exportValues()
 
 204 ( ) Документация: подсветка для хтмл
 

@@ -3,7 +3,7 @@
 {$form.javascript}
     <table border="0" cellpadding="0" cellspacing="1" width="50%">
         <tr>
-            <td>{$form.text.label}</td>
+            <td><strong>{$form.text.label}</strong></td>
         </tr>
         <tr>
             <td>{$form.text.html}</td>

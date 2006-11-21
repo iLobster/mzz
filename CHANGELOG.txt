@@ -9,9 +9,11 @@ CHANGELOG
 - Необходимые функции для работы с пользователями/группами
 - GUI для ACL
 - {$current_section} и {$SIE_PATH} в шаблонах
+- Ajax от yahoo
 - Установка cookies через httpResponse
 - стандартные виды simpleJipCloseView, simpleJipRefreshView
 - 404 ошибка реализована в виде исключительной ситуации mzzRouteException
+- модифицированы HTML_QuickForm::exportValues() и HTML_QuickForm::exportValue()
 
  Version 0.0.5:
 ============================================

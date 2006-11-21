@@ -1,0 +1,27 @@
+div.commentsTitle {
+    border-bottom: 1px solid #EDEFEF;
+    background-color: #F8FAFA;
+    color: #4F4F4F;
+    font-family: tahoma, verdana;
+    font-size: 100%;
+    padding: 4px;
+    margin-top: 5px;
+}
+
+div.commentTitle {
+    font-family: tahoma, verdana;
+    font-size: 85%;
+    margin-top: 8px;
+    margin-left: 1px;
+    font-weight: bold;
+    color: #515151;
+}
+
+div.commentText {
+    border-bottom: 1px solid #F2F2F2;
+    font-family: tahoma, verdana;
+    font-size: 85%;
+    margin-top: 1px;
+    margin-left: 1px;
+    padding-bottom: 10px;
+}
