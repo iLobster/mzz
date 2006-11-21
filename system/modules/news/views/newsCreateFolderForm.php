@@ -26,7 +26,7 @@ class newsCreateFolderForm
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $url = new url();
-        $url->addParam($folder);
+        $url->addParam('folder', $folder);
         $url->setAction($action);
 
         $form = new HTML_QuickForm('createFolder', 'POST', $url->get());

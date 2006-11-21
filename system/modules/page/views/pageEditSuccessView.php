@@ -30,7 +30,7 @@ class pageEditSuccessView extends simpleView
     public function toString()
     {
         $url = new url();
-        $url->addParam($this->DAO->getName());
+        $url->addParam('name', $this->DAO->getName());
         $url->setAction('view');
 
         echo "<script>window.opener.location='" . $url->get() . "'; window.close();</script>";

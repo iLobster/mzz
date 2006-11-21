@@ -26,7 +26,7 @@ class commentsPostForm
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $url = new url();
-        $url->addParam($parent_id);
+        $url->addParam('parent_id', $parent_id);
         $url->setAction($action);
 
         $form = new HTML_QuickForm('post', 'POST', $url->get());

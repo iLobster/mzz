@@ -35,25 +35,32 @@ function smarty_function_url($params, $smarty)
 {
     $url = new url();
 
+    $toolkit = systemToolkit::getInstance();
     $getUrl = true;
 
     if (isset($params['section'])) {
         $getUrl = false;
         $url->setSection($params['section']);
+        unset($params['section']);
     }
 
     if (isset($params['action'])) {
         $getUrl = false;
         $url->setAction($params['action']);
+        unset($params['action']);
     }
 
-    if (isset($params['params'])) {
-        $getUrl = false;
-        $url->addParam($params['params']);
+    if (isset($params['route'])) {
+        $router = $toolkit->getRouter();
+        $url->setRoute($router->getRoute($params['route']));
+        unset($params['route']);
+    }
+
+    foreach ($params as $name => $value) {
+        $url->addParam($name, $value);
     }
 
     if ($getUrl == true) {
-        $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
         return $request->getRequestUrl();
     } else {

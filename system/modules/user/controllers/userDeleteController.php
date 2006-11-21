@@ -36,7 +36,7 @@ class userDeleteController extends simpleController
         $groups = $userGroupMapper->searchAllByField('user_id', $id);
 
         foreach ($groups as $val) {
-        	$userGroupMapper->delete($val->getId());
+            $userGroupMapper->delete($val->getId());
         }
 
         return new simpleJipRefreshView();

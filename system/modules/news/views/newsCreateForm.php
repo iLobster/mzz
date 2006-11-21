@@ -26,7 +26,7 @@ class newsCreateForm
         require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
         $url = new url();
-        $url->addParam($folder);
+        $url->addParam('folder', $folder);
         $url->setAction('createItem');
 
         $form = new HTML_QuickForm('createNews', 'POST', $url->get());

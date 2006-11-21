@@ -37,6 +37,7 @@ class url
      */
 
     protected $action;
+
     /**
      * Params
      *
@@ -44,6 +45,12 @@ class url
      */
     protected $params = array();
 
+    /**
+     * Route
+     *
+     * @var iRoute|null
+     */
+    protected $route = null;
 
     /**
      * Конструктор.
@@ -64,28 +71,41 @@ class url
         $request = $toolkit->getRequest();
 
         $address = $request->getUrl();
+        $this->params  = $this->getParams();
+
         if (is_null($this->section)) {
             $this->setSection($this->getCurrentSection());
         }
 
-        $params = '';
-        $this->params  = $this->getParams();
-        if(!empty($this->params)) {
-            if(!empty($this->section)) {
-                $params = '/';
+        if ($this->route instanceof iRoute) {
+            $params = $this->params;
+            if (empty($params['section'])) {
+                $params['section'] = $this->section;
             }
-
-            $params .= implode('/', $this->params);
-
-            if(!empty($this->action)) {
-                $params .= '/';
+            if (empty($params['action'])) {
+                $params['action'] = $this->action;
             }
+            $url = $this->route->assemble($params);
+            $this->deleteRoute();
         } else {
-            if (!empty($this->section) && !empty($this->action)) {
-                $params = '/';
+            $params = '';
+            if(!empty($this->params)) {
+                if(!empty($this->section)) {
+                    $params = '/';
+                }
+
+                $params .= implode('/', $this->params);
+
+                if(!empty($this->action)) {
+                    $params .= '/';
+                }
+            } else {
+                if (!empty($this->section) && !empty($this->action)) {
+                    $params = '/';
+                }
             }
+            $url = $this->section . $params . $this->action;
         }
-        $url = $this->section . $params . $this->action;
         return $address . (!empty($url) ? '/' . $url : '');
     }
 
@@ -114,13 +134,13 @@ class url
      *
      * @param string $value
      */
-    public function addParam($value)
+    public function addParam($name, $value)
     {
-        $this->params[] = $value;
+        $this->params[$name] = $value;
     }
 
     /**
-     * Выборка параметра
+     * Выборка параметров
      *
      */
     public function getParams()
@@ -142,6 +162,26 @@ class url
     {
         $toolkit = systemToolkit::getInstance();
         return $toolkit->getRequest()->getSection();
+    }
+
+    /**
+     * Устанавливает текущий route для сборки url
+     *
+     * @param iRoute $route
+     */
+    public function setRoute(iRoute $route)
+    {
+        $this->route = $route;
+    }
+
+    /**
+     * Убирает установленный route для сборки url
+     *
+     * @see get()
+     */
+    public function deleteRoute()
+    {
+        $this->route = null;
     }
 }
 

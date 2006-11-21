@@ -30,7 +30,7 @@ class newsCreateSuccessView extends simpleView
     public function toString()
     {
         $url = new url();
-        $url->addParam($this->DAO->getId());
+        $url->addParam('id', $this->DAO->getId());
         $url->setAction('view');
 
         $this->response->redirect($url->get());

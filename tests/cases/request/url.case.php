@@ -1,6 +1,8 @@
 <?php
 
 fileLoader::load('request/url');
+fileLoader::load('request/requestRouter');
+fileLoader::load('request/requestRoute');
 
 class urlTest extends unitTestCase
 {
@@ -29,8 +31,8 @@ class urlTest extends unitTestCase
         $param2 = 'val2';
         $this->url->setSection($section);
         $this->url->setAction($action);
-        $this->url->addParam($param1);
-        $this->url->addParam($param2);
+        $this->url->addParam('param1', $param1);
+        $this->url->addParam('param2', $param2);
         $this->assertEqual($this->url->get(), 'http://localhost/foo/val1/val2/bar');
     }
 
@@ -40,9 +42,9 @@ class urlTest extends unitTestCase
         $action = 'bar';
         $this->url->setSection($section);
         $this->url->setAction($action);
-        $this->url->addParam(null);
-        $this->url->addParam('');
-        $this->url->addParam(null);
+        $this->url->addParam('param1', null);
+        $this->url->addParam('param2', '');
+        $this->url->addParam('param3', null);
         $this->assertEqual($this->url->get(), 'http://localhost/foo/bar');
     }
 
@@ -78,16 +80,40 @@ class urlTest extends unitTestCase
         $param1 = 'val1';
         $param2 = 'val2';
         $this->url->setSection($section);
-        $this->url->addParam($param1);
-        $this->url->addParam($param2);
+        $this->url->addParam('param1', $param1);
+        $this->url->addParam('param2', $param2);
         $this->assertEqual($this->url->get(), 'http://localhost/foo/val1/val2');
     }
 
     public function testUrlWithNoSection()
     {
         $this->url->setSection('');
-        $this->url->addParam('foo');
+        $this->url->addParam('param', 'foo');
         $this->assertEqual($this->url->get(), 'http://localhost/foo');
+    }
+
+    public function testUrlWithRoute()
+    {
+        $route = new requestRoute('path/:section/:page-:place/:action');
+        $router = new requestRouter(new stdClass());
+        $router->addRoute('urlRoute', $route);
+
+        $this->url->setSection('demo');
+        $this->url->setAction('view');
+        $this->url->addParam('page', '3');
+        $this->url->addParam('place', 'current');
+        $this->assertEqual($this->url->get(), 'http://localhost/demo/3/current/view');
+
+        $this->url->setRoute($router->getRoute('urlRoute'));
+        $this->assertEqual($this->url->get(), 'http://localhost/path/demo/3-current/view');
+
+        // Test auto-delete route after call get()
+        $this->assertEqual($this->url->get(), 'http://localhost/demo/3/current/view');
+
+        $this->url->setRoute($router->getRoute('urlRoute'));
+        $this->url->addParam('section', 'news');
+        $this->url->addParam('action', 'list');
+        $this->assertEqual($this->url->get(), 'http://localhost/path/news/3-current/list');
     }
 }
 

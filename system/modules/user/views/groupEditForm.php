@@ -38,7 +38,7 @@ class groupEditForm
         $url->setSection($section);
 
         if ($action == 'groupEdit') {
-            $url->addParam($group->getId());
+            $url->addParam('id', $group->getId());
         }
 
         $form = new HTML_QuickForm('groupEdit', 'POST', $url->get());

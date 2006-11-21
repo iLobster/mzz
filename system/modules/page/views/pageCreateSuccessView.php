@@ -30,7 +30,7 @@ class pageCreateSuccessView extends simpleView
     public function toString()
     {
         $url = new url();
-        $url->addParam($this->DAO->getName());
+        $url->addParam('name', $this->DAO->getName());
         $url->setAction('view');
 
         $this->response->redirect($url->get());

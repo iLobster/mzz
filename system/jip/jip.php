@@ -91,7 +91,7 @@ class jip
         $url = new url();
         $url->setSection($this->section);
         $url->setAction($action);
-        $url->addParam($this->id);
+        $url->addParam('id', $this->id);
         return $url->get();
     }
 
@@ -106,7 +106,7 @@ class jip
         $url = new url();
         $url->setSection('access');
         $url->setAction('editACL');
-        $url->addParam($obj_id);
+        $url->addParam('obj_id', $obj_id);
         return $url->get();
     }
 
@@ -125,7 +125,7 @@ class jip
             if (strpos($icon, '/') === 0) {
                 $icon = substr($icon, 1);
             }
-            $url->addParam($icon);
+            $url->addParam('icon', $icon);
             $url->setSection('');
 
             $result[] = array(
