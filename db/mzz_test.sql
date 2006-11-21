@@ -114,6 +114,38 @@ CREATE TABLE `simple_stubsimple_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Structure for the `simple_stubsimple2` table : 
+#
+
+DROP TABLE IF EXISTS `simple_stubsimple2`;
+
+CREATE TABLE `simple_stubsimple2` (
+  `id` int(11) NOT NULL auto_increment,
+  `foo` varchar(10) default NULL,
+  `bar` varchar(10) default NULL,
+  `path` varchar(255) default NULL,
+  `obj_id` int(11) default NULL,
+  `some_id` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_stubsimple2_tree` table : 
+#
+
+DROP TABLE IF EXISTS `simple_stubsimple2_tree`;
+
+CREATE TABLE `simple_stubsimple2_tree` (
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  `some_id` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `left_key` (`lkey`,`rkey`,`level`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
 # Structure for the `sys_access` table : 
 #
 
