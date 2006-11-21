@@ -40,7 +40,7 @@ class userGroupDeleteController extends simpleController
         $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
         $groupMapper->delete($id);
 
-        return new userGroupDeleteView();
+        return new simpleJipRefreshView();
     }
 }
 

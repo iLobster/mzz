@@ -13,21 +13,19 @@
 */
 
 /**
- * userDeleteView: גטה הכÿ לועמהא delete למהףכÿ user
+ * commentsFolderDeleteView: גטה הכÿ לועמהא folderDelete למהףכÿ comments
  *
  * @package modules
- * @subpackage user
+ * @subpackage comments
  * @version 0.1
  */
 
 
-class userDeleteView extends simpleView
+class commentsFolderDeleteView extends simpleView
 {
     public function toString()
     {
-        $url = new url();
-        $url->setAction('list'); //location.href = "http://mzz/";
-        return '<script type="text/javascript">alert("ûûûûûûû");</script>';
+        return '';
     }
 }
 

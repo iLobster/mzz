@@ -130,7 +130,6 @@ class newsFolderMapper extends simpleMapper
             foreach($folderNews as $news) {
                 $newsMapper->delete($news->getId());
             }
-
         }
 
         $this->tree->removeNode($id);

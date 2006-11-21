@@ -18,7 +18,7 @@
  * @version 0.1
  */
 
-abstract class simpleView
+ class simpleView
 {
     /**
      * Данные
@@ -90,7 +90,7 @@ abstract class simpleView
      *
      * @return string
      */
-    abstract public function toString();
+     public function toString() { return ''; }
 }
 
 ?>

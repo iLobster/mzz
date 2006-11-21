@@ -39,6 +39,25 @@ class commentsFolderMapper extends simpleMapper
     protected $className = 'commentsFolder';
 
     /**
+     * Удаление папки вместе с содежимым на основе id
+     *
+     * @param string $id
+     * @return void
+     */
+    public function remove($id)
+    {
+        $toolkit = systemToolkit::getInstance();
+
+        $commentsMapper = $toolkit->getMapper('comments', 'comments', 'comments');
+
+        foreach($commentsMapper->searchAllByField('folder_id', $id) as $comment) {
+            $commentsMapper->delete($comment->getId());
+        }
+
+        $this->delete($id);
+    }
+
+    /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
      * @return object
