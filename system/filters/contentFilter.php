@@ -36,7 +36,17 @@ class contentFilter implements iFilter
 
         require_once fileLoader::resolve('configs/routes');
 
-        $router->route($request->getPath());
+        try {
+            $router->route($request->getPath());
+        } catch (mzzRouteException $e) {
+            if ($e->getMessage() == 404) {
+                $request->setSection('page');
+                $request->setAction('view');
+                $request->setParams(array('name' => 404));
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
 
         $template = $frontcontroller->getTemplate();
 

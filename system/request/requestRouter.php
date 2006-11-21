@@ -103,7 +103,7 @@ class requestRouter
      * @param string $path
      * @param array $params параметры по умолчанию для 404 ошибки
      */
-    public function route($path, $params = array('section' => 'page', 'action' => 'view', 'name' => 404))
+    public function route($path) //, $params = array('section' => 'page', 'action' => 'view', 'name' => 404))
     {
         foreach (array_reverse($this->routes) as $route) {
             if ($parts = $route->match($path)) {
@@ -111,6 +111,11 @@ class requestRouter
                 $this->current = $route;
                 break;
             }
+        }
+
+        if (!isset($params)) {
+            fileLoader::load('exceptions/mzzRouteException');
+            throw new mzzRouteException(404);
         }
 
         if (isset($params['section'])) {

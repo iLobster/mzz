@@ -11,6 +11,7 @@ CHANGELOG
 - {$current_section} и {$SIE_PATH} в шаблонах
 - Установка cookies через httpResponse
 - стандартные виды simpleJipCloseView, simpleJipRefreshView
+- 404 ошибка реализована в виде исключительной ситуации mzzRouteException
 
  Version 0.0.5:
 ============================================

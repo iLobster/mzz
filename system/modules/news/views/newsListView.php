@@ -40,7 +40,7 @@ class newsListView extends simpleView
         $this->smarty->assign('folderPath', $this->DAO->getPath());
         $this->smarty->assign('pager', $pager);
         $this->smarty->assign('news', $this->DAO->getItems());
-        $this->smarty->assign('newsFolderMapper', $this->DAO);
+        $this->smarty->assign('newsFolder', $this->DAO);
 
         $this->DAO->removePager();
 

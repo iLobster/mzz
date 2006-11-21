@@ -1,17 +1,4 @@
-<div>
-<div id="newsFolders">
-<span class="title">Разделы</span><br />
-
-{foreach from=$newsFolderMapper->getFolders(1) item=current_folder name=folders}
- <a href="{url section=news action=list params=$current_folder->getPath()}">{$current_folder->getName()}</a> {$current_folder->getJip()}
-<br />
-
-                        {/foreach}
-
-</div>
-</div>
-
-
+{include file="news/news.tree.tpl" source=$newsFolder}
 
 <div class="newsList">
 {foreach from=$news item=current_news}

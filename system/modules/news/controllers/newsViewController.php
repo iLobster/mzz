@@ -22,15 +22,9 @@ fileLoader::load("news/mappers/newsMapper");
 
 class newsViewController extends simpleController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getView()
     {
         $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
-        //$newsMapper = new newsMapper($this->request->getSection());
 
         if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
             $id = 0;

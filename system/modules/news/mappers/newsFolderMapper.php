@@ -94,8 +94,7 @@ class newsFolderMapper extends simpleMapper
      */
     public function getFolders($id, $level = 1)
     {
-        return $this->tree->getBranch($id, $level);
-
+        return $this->tree->getBranchContainingNode($id); //, $level);
     }
 
     /**
