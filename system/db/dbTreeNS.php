@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.8
+ * @version 0.9a
 */
 
 fileLoader::load('db/sqlFunction');
@@ -120,6 +120,10 @@ class dbTreeNS
 
         }
 
+        if(isset($init['treeField'])) {
+            $this->treeField = $init['treeField'];
+        }
+
         // данные о таблице с деревом
         $this->table = strtolower($init['treeTable']); // as tree
 
@@ -131,6 +135,8 @@ class dbTreeNS
         $this->dataID = isset($init['joinField']) ? $init['joinField'] : 'id';
 
         $this->selectPart = '*';
+
+
         $this->innerPart = ' JOIN ' . $this->dataTable . ' `data` ON `data`.' . $this->dataID . ' = `tree`.' . $this->treeID . ' ';
 
     }
@@ -146,13 +152,12 @@ class dbTreeNS
 
         // новые данные о таблице с данными
         $this->dataTable = $this->mapper->getTable(); //as data
-
     }
 
     /**
-     * ѕолучение имени таблицы содержащей данные
+     * ѕолучение используемого маппера
      *
-     * @return string
+     * @return simpleMapper
      */
     public function getMapper()
     {
@@ -167,9 +172,21 @@ class dbTreeNS
     public function setInnerField($tableField)
     {
         if (!(is_string($tableField) && strlen($tableField))) {
-            return false;
+            throw new mzzInvalidParameterException('ѕеременна€ $tableField не €вл€етс€ строкой и не может €вл€тс€ именем пол€ таблицы ', $tableField);
         }
         $this->innerField = $tableField;
+    }
+
+    /**
+     * ”становка идентификатора поддерева
+     *
+     * @param  integer     $id    »дентификатор(значение доп. пол€) по которому выдел€етс€ дерево
+     * @return string
+     * @toDo им€ метода придумать другое?
+     */
+    public function setTree($id)
+    {
+        $this->treeFieldID = $id;
     }
 
     /**
@@ -227,30 +244,6 @@ class dbTreeNS
         return $path;
     }
 
-    /**
-     * ѕодготовка запроса по выборке ветки
-     *
-     * @param  bool     $withRootNode ”словие выборки с корнем ветки
-     * @return array
-     */
-    protected function getBranchStmt($withRootNode = true)
-    {
-        if ($withRootNode) {
-            $less = '<=';
-            $more = '>=';
-        } else {
-            $less = '<';
-            $more = '>';
-        }
-
-        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
-        ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
-        ' WHERE lkey ' . $more . ' :lkey AND rkey ' . $less . ' :rkey' .
-        ' AND (level BETWEEN :high_level AND :level)' .
-        ' ORDER BY lkey');
-
-        return $stmt;
-    }
 
     /**
      * —оздание массива объектов из сырой выборки
@@ -301,10 +294,71 @@ class dbTreeNS
     public function searchByCriteria(criteria $criteria)
     {
         $criteria->addJoin($this->table, new criterion($this->dataTable . '.' . $this->dataID, $this->table . '.' . $this->treeID, criteria::EQUAL, true));
+
+        if($this->isMultipleTree()) {
+            $criteria->add(new criterion($this->table . '.' . $this->treeField, $this->treeFieldID));
+        }
+
         $select = new simpleSelect($criteria);
         $stmt = $this->db->query($select->toString());
 
         return $this->createBranchFromRow($stmt);
+    }
+    /**
+     * ƒобавление услови€ в критерий выборки
+     *
+     * @param  criteria   $criteria
+     * @return criteria   $criteria
+     */
+
+    private function addSubTreeCondition(criteria &$criteria)
+    {
+        if($this->isMultipleTree()) {
+            $criteria->add(new criterion($this->treeField, $this->treeFieldID));
+        }
+    }
+
+    private function getBasisCriteria()
+    {
+        // @toDo бага, фича, фишка php5? возвращаетс€ ссылка на критерий,
+        // а так как в методах в врзвращаемое значение добавл€ютс€ услови€, они добавл€ютс€ и в basisCriteria
+        // сделал клонирование
+        if(!isset($this->basisCriteria)) {
+            $this->basisCriteria= new criteria();
+
+            // ставим алиас на таблицу со структурой дерева
+            $this->basisCriteria->setTable($this->table, 'tree');
+
+            //джойним таблицу с данными как `data`
+            $this->basisCriteria->addJoin($this->dataTable, new criterion('tree.' . $this->treeID, 'data.' . $this->dataID, criteria::EQUAL, true), 'data', criteria::JOIN_INNER);
+
+        }
+        // если деревьев несколько, то добавл€ем условие дл€ их разделени€
+        if($this->isMultipleTree()) {
+            $this->basisCriteria->add(new criterion('tree.' .$this->treeField, $this->treeFieldID, criteria::EQUAL));
+        } else {
+            //@toDo подумать, как избавитс€. ’ак дл€ того чтобы в обоих случа€х было выражение WHERE
+            $this->basisCriteria->add( new criterion('id', 'tree.id', criteria::EQUAL, true));
+
+        }
+
+        return clone $this->basisCriteria;
+    }
+
+    private function getBasisQuery()
+    {
+        $select = new simpleSelect($this->getBasisCriteria());
+        return $select->toString();
+    }
+
+    /**
+     * ѕроверка, работаем с несколькими деревь€ми или нет.
+     *
+     * @return bool
+     */
+    private function isMultipleTree()
+    {
+        return isset($this->treeField) && isset($this->treeFieldID) && $this->treeFieldID > 0;
     }
 
     /**
@@ -315,13 +369,19 @@ class dbTreeNS
      */
     public function getTree($level = 0)
     {
-        $stmt = $this->db->prepare($q = ' SELECT ' . $this->selectPart .
-        ' FROM ' . $this->table. ' tree ' . $this->innerPart .
-        ' WHERE 1 '.
-        ($level > 0 ? ' AND (tree.level BETWEEN 1 AND :level)' : '') .
-        ' ORDER BY tree.lkey');
+        $criteria = $this->getBasisCriteria();
 
-        $level > 0 ? $stmt->bindParam(':level', $level, PDO::PARAM_INT):'';
+        // сортируем по левому ключу
+        $criteria->setOrderByFieldDesc('tree.lkey');
+
+        // если задана глубина выборки, добавл€ем условие
+        if($level > 0) {
+            $criteria->add(new criterion('tree.level', array(1, $level), criteria::BETWEEN));
+        }
+
+        $select = new simpleSelect($criteria);
+        $stmt = $this->db->query($select->toString());
+        //echo "<pre>getTree "; var_dump($select->toString()); echo "</pre>";
         $stmt->execute();
 
         return $this->createBranchFromRow($stmt);
@@ -335,15 +395,44 @@ class dbTreeNS
      */
     public function getNodeInfo($id)
     {
-        $stmt = $this->db->prepare(' SELECT * FROM ' .$this->table. ' WHERE id = :id');
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
+        $query = ' SELECT * FROM `' . $this->table . '` `tree` WHERE `tree`.`id` = ' . $id.
+        ($this->isMultipleTree() ? ' AND `tree`.`' . $this->treeField . '`= ' . $this->treeFieldID: '');
+
+        //echo "<pre>getNodeInfo query "; var_dump($query); echo "</pre>";
+
+        $stmt = $this->db->query($query);
 
         if ($row = $stmt->fetch()) {
             return $row;
         } else {
             return null;
         }
+    }
+
+    /**
+     * ѕодготовка запроса по выборке ветки
+     *
+     * @param  bool     $withRootNode ”словие выборки с корнем ветки
+     * @return array
+     */
+    protected function getBranchStmt($withRootNode = true)
+    {
+        if ($withRootNode) {
+            $less = '<=';
+            $more = '>=';
+        } else {
+            $less = '<';
+            $more = '>';
+        }
+
+        $stmt = $this->db->prepare($q= $this->getBasisQuery() .
+        ' AND lkey ' . $more . ' :lkey AND rkey ' . $less . ' :rkey' .
+        ' AND (`tree`.`level` BETWEEN :high_level AND :level)' .
+        ' ORDER BY `tree`.`lkey`');
+
+        //echo "<pre>getBranchStmt "; var_dump($q); echo "</pre>";
+
+        return $stmt;
     }
 
     /**
@@ -366,6 +455,7 @@ class dbTreeNS
         $stmt->bindParam(':rkey', $rootBranch['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':high_level', $rootBranch['level'], PDO::PARAM_INT);
         $stmt->bindParam(':level', $level, PDO::PARAM_INT);
+        //echo "<pre>getBranch "; var_dump($stmt); echo "</pre>";
 
         if ($stmt->execute()) {
             return $this->createBranchFromRow($stmt);
@@ -391,7 +481,11 @@ class dbTreeNS
         $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
         ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
         ' WHERE lkey <= :lkey AND rkey >= :rkey' .
-        ' AND ( level BETWEEN :level AND :child_level )   ORDER BY lkey');
+        ' AND ( level BETWEEN :level AND :child_level ) ' .
+        ($this->isMultipleTree() ? 'AND `tree`.`' . $this->treeField . '` = :treeFieldID ' : '') .
+        '  ORDER BY lkey');
+
+        $stmt->bindParam(':treeFieldID', $this->treeFieldID, PDO::PARAM_INT);
 
         $stmt->bindParam(':lkey', $lowerChild['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $lowerChild['rkey'], PDO::PARAM_INT);
@@ -419,10 +513,15 @@ class dbTreeNS
 
         $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
         ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
-        ' WHERE rkey >:lkey ' .
-        ' AND lkey <:rkey ORDER BY lkey');
+        ' WHERE `tree`.`rkey` >:lkey ' .
+        ($this->isMultipleTree() ? 'AND `tree`.`' . $this->treeField . '` = :treeFieldID ' : '') .
+        ' AND `tree`.`lkey` <:rkey ORDER BY `tree`.`lkey`');
+
+        $stmt->bindParam(':treeFieldID', $this->treeFieldID, PDO::PARAM_INT);
+
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
+        //echo "<pre>"; var_dump($stmt); echo "</pre>";
 
         if ($stmt->execute()) {
             return $this->createBranchFromRow($stmt);
@@ -456,18 +555,18 @@ class dbTreeNS
 
         // ¬ыбираем все существующие пути
         $query = '';
-        $queryTemplate = ' SELECT *  FROM ' . $this->table . ' `tree` ' . $this->innerPart . ' WHERE ';
 
         foreach ($rewritedPath as $pathVariant) {
             if (strlen($pathVariant) == 0) {
                 continue;
             }
-            $query .= $queryTemplate . "`data`.`path` = '" . $pathVariant . "' UNION ";
+            $query .= $this->getBasisQuery() . " AND `data`.`path` = '" . $pathVariant . "' UNION ";
         }
-        $query = substr($query, 0, -6) ;
 
-        $stmt = $this->db->prepare($query);
-        $stmt->execute();
+        $query = substr($query, 0, -6) ;
+        //echo "<pre>getBranchByPath query "; var_dump($query); echo "</pre>";
+
+        $stmt = $this->db->query($query);
         $existNodes = $stmt->fetchAll();
 
         // берем самый длинный существующий путь
@@ -476,12 +575,18 @@ class dbTreeNS
         // выборка без исходного узла
         $stmt = $this->getBranchStmt(false);
 
+        //echo "<pre>stmt "; var_dump($stmt); echo "</pre>";
+        //echo "<pre>lastNode "; var_dump($lastNode); echo "</pre>";
+
+        //$stmt->bindParam(':treeFieldID', $this->treeFieldID, PDO::PARAM_INT);
+
         $stmt->bindParam(':lkey', $lastNode['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $lastNode['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':high_level', $lastNode['level'], PDO::PARAM_INT);
         $stmt->bindParam(':level', $level = $lastNode['level'] + $deep, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
+            //echo "<pre>getBranchByPath"; echo "</pre>";
             return $this->createBranchFromRow($stmt);
         }
         return false;
@@ -500,18 +605,14 @@ class dbTreeNS
             return null;
         }
 
-        $stmt = $this->db->prepare(' SELECT ' . $this->selectPart .
-        ' FROM ' . $this->table . ' `tree` '. $this->innerPart .
-        ' WHERE `tree`.lkey <= :lkey' .
-        ' AND `tree`.rkey >= :rkey' .
-        ' AND `tree`.level = :level  ORDER BY `tree`.lkey');
+        $query = $this->getBasisQuery() .
+        ' AND `tree`.lkey <= ' . $node['lkey'] .
+        ' AND `tree`.rkey >= ' . $node['rkey'] .
+        ' AND `tree`.level = ' . ($node['level'] - 1).
+        ' ORDER BY `tree`.lkey';
 
-        $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':level', $level = $node['level'] - 1, PDO::PARAM_INT);
-
-        $stmt->execute();
-        $row = $stmt->fetch();
+        $row = $this->db->getRow($query);
+        //echo "<pre>row "; var_dump($row); echo "</pre>";
 
         if ($row) {
             return $this->createItemFromRow($row);
@@ -534,25 +635,24 @@ class dbTreeNS
             return $this->insertRootNode();
         }
 
-
-
         $parentNode = $this->getNodeInfo($id);
 
         $stmt = $this->db->prepare(' UPDATE ' . $this->table.
         ' SET rkey = rkey + 2, lkey = IF(lkey > :PN_RKey, lkey + 2, lkey)' .
-        ' WHERE rkey >= :PN_RKey');
+        ' WHERE rkey >= :PN_RKey' .
+        ($this->isMultipleTree() ? ' AND ' . $this->treeField . ' = ' . $this->treeFieldID : ' ')  );
 
         $stmt->bindParam(':PN_RKey',  $parentNode['rkey'], PDO::PARAM_INT);
         $stmt->execute();
 
-        $stmt = $this->db->prepare(' INSERT INTO ' . $this->table.
-        ' SET id = :id, lkey = :parent_rkey, rkey = :PN_RKey, level = :PN_Level');
+        $query = ' INSERT INTO ' . $this->table.
+        ' SET id = ' . $newNode->getId() .
+        ', lkey = ' . $parentNode['rkey'] .
+        ', rkey = ' . ($parentNode['rkey'] + 1) .
+        ', level = ' . ($parentNode['level'] + 1).
+        ($this->isMultipleTree() ? ', ' . $this->treeField . ' = ' . $this->treeFieldID : ' ');
 
-        $stmt->bindParam(':id',  $id = $newNode->getId(),  PDO::PARAM_INT);
-        $stmt->bindParam(':parent_rkey',  $parentNode['rkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':PN_RKey', $PN_RKey = $parentNode['rkey'] + 1, PDO::PARAM_INT);
-        $stmt->bindParam(':PN_Level', $PN_Level = $parentNode['level'] + 1, PDO::PARAM_INT);
-        $stmt->execute();
+        $this->db->exec($query);
 
         $newNode->setLevel($parentNode['level'] + 1);
         $newNode->setRightKey($parentNode['rkey'] + 1);
@@ -611,20 +711,19 @@ class dbTreeNS
             $this->mapper->delete($node->getId());
         }
 
-        // удаление записей из дерева
-        $stmt = $this->db->prepare(' DELETE  tree FROM  ' . $this->table . ' tree ' .
-        ' WHERE tree.lkey >= :lkey AND tree.rkey <= :rkey');
-
-
         $node = $this->getNodeInfo($id);
-        $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
-        $stmt->execute();
+        // удаление записей из дерева
+
+        $query = '  DELETE  tree FROM ' . $this->table . ' `tree` WHERE ' .
+        ' tree.lkey >= ' . $node['lkey'] . ' AND tree.rkey <= ' . $node['rkey'] .
+        ($this->isMultipleTree() ? ' AND `tree`.`' . $this->treeField . '` = ' . $this->treeFieldID : ' ');
+        $this->db->exec($query);
 
         // обновление дерева
         $stmt = $this->db->prepare(' UPDATE ' .$this->table.
         ' SET lkey = IF(lkey > :lkey, lkey - :val, lkey), rkey = rkey - :val'.
-        ' WHERE rkey >= :rkey');
+        ' WHERE rkey >= :rkey' .
+        ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ')  );
 
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
@@ -763,7 +862,7 @@ class dbTreeNS
                 $oldPathToRootNodeOfBranch = $movedBranch[$id]->getPath();
                 $newPathToRootNodeOfBranch = $this->updatePath($id);
 
-                 // если переместили один элемент под узел нижнего уровн€, то обновл€ть пути не надо
+                // если переместили один элемент под узел нижнего уровн€, то обновл€ть пути не надо
                 if(count($movedBranch) == 2 && isset($movedBranch[$parentId]) && isset($movedBranch[$id])) {
                     return true;
 
@@ -842,7 +941,7 @@ class dbTreeNS
      */
     public function createPathField()
     {
-        if (strlen($this->dataTable)) {
+        if (isset($this->dataTable)) {
             $this->db->query('ALTER TABLE ' . $this->dataTable . ' ADD `path` char(255)');
         }
     }

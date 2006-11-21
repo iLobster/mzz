@@ -249,7 +249,6 @@ class dbTreeDataTest extends unitTestCase
         $paths[] = '//foo1////foo3////';
 
         $fixtureNodes = $this->setFixture(array(7,8));
-        $fixtureNodes = $this->setFixture(array(7,8));
 
         foreach($paths as $path) {
             $nodes = $this->tree->getBranchByPath($path);
@@ -305,6 +304,7 @@ class dbTreeDataTest extends unitTestCase
         $fixtureTree = $this->setFixture();
 
         $this->assertEqual(count($fixtureTree) + 1, ($newRootNode->getRightKey())/2);
+
 
         foreach($fixtureTree as $i => $node) {
             $fixtureTree[$i]['path'] = $fixture['foo'] . '/' . $fixtureTree[$i]['path'];
