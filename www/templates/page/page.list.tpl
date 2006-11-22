@@ -14,7 +14,7 @@
         </tr>
     {/foreach}
     <tr>
-        <td align="center"><a href="{url section=page action=create}"><img src="{url section="" params="templates/images/add.gif"}" width="16" height="16" /></a></td>
+        <td align="center"><a href="{url section=page action=create}"><img src="{$SITE_PATH}templates/images/add.gif" width="16" height="16" /></a></td>
         <td colspan="6"><a href="{url section=page action=create}">Создать страницу</a></td>
     </tr>
 </table>

@@ -87,16 +87,16 @@ class httpResponse
     public function setCookie($name, $value = '', $expire = 0, $path = '', $domain = '', $secure = false, $httponly = false)
     {
         $this->cookies[$name] = array(
-                'value' => $value,
-                'expire' => $expire,
-                'path' => $path,
-                'domain' => $domain,
-                'secure' => $secure,
-                'httponly' => $httponly
+        'value' => $value,
+        'expire' => $expire,
+        'path' => $path,
+        'domain' => $domain,
+        'secure' => $secure,
+        'httponly' => $httponly
         );
     }
 
-     /**
+    /**
      * Уставливает заголовок страницы
      *
      * @param string $value
@@ -106,7 +106,7 @@ class httpResponse
         $this->smarty->assign('title', $value);
     }
 
-     /**
+    /**
      * Уставливает перенаправление на другую страницу
      *
      * @param string $url
@@ -155,6 +155,15 @@ class httpResponse
     public function append($string)
     {
         $this->response .= $string;
+    }
+
+    /**
+     * Очистка ответа
+     *
+     */
+    public function clear()
+    {
+        $this->response = '';
     }
 
     /**

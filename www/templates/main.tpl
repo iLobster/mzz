@@ -24,7 +24,7 @@
     </div>
 
     {load module="user" action="login" section="user" id=0}
-    <div id="logotip"><a href="{$SITE_PATH}"><img id="img_logotip" src="{url section="templates" params="images/mzz_logo.gif"}" width="124" height="29" alt="" /></a></div>
+    <div id="logotip"><a href="{$SITE_PATH}"><img id="img_logotip" src="{$SITE_PATH}templates/images/mzz_logo.gif" width="124" height="29" alt="" /></a></div>
 </div>
 
 

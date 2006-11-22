@@ -55,7 +55,6 @@ class httpResponseTest extends unitTestCase
         $cookie = array('value' => '1', 'expire' => 0, 'path' => '/path', 'domain' => 'example.com', 'secure' => 1, 'httponly' => 1);
         $this->response->setCookie($name, $cookie['value'], $cookie['expire'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
 
-
         $this->assertEqual($this->response->getCookies(), array($name => $cookie));
     }
 
@@ -71,6 +70,33 @@ class httpResponseTest extends unitTestCase
         $this->response->redirect($url);
 
         $this->assertEqual($this->response->getHeaders(), array('Location' => $url));
+    }
+
+    public function testClear()
+    {
+        $this->response->append('foo');
+
+        // start buffer
+        ob_start();
+        $this->response->send();
+        // read buffer
+        $content = ob_get_contents();
+        // and clean buffer
+        ob_end_clean();
+
+        $this->assertEqual($content, 'foo');
+
+        $this->response->clear();
+
+        // start buffer
+        ob_start();
+        $this->response->send();
+        // read buffer
+        $content = ob_get_contents();
+        // and clean buffer
+        ob_end_clean();
+
+        $this->assertEqual($content, '');
     }
 }
 

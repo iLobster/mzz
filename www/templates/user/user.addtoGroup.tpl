@@ -1,7 +1,7 @@
 {if is_null($filter)}
 Добавление пользователей в группу <b>{$group->getName()}</b><br />
 <form action="{url}" id='filterForm' method="get"  onsubmit="return sendFormInAjax(this, 'users'); return false;">
-    <input type="text" value="{$filter}" name="filter"><input type="image" src="{url section="" params="templates/images/search.gif"}">
+    <input type="text" value="{$filter}" name="filter"><input type="image" src="{$SITE_PATH}templates/images/search.gif">
 </form>
 <div id='users' style='width: 100%;'>
 </div>
