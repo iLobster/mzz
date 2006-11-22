@@ -4,7 +4,7 @@ fileLoader::load('modules/simple/simpleMapper');
 fileLoader::load('db/dbTreeNS');
 fileLoader::load('db/sqlFunction');
 fileLoader::load('db/simpleSelect');
-fileLoader::load('cases/db/dbTreeNS/stubMapper.class');
+fileLoader::load('cases/db/dbTreeNS/stubMapper2.class');
 fileLoader::load('cases/db/dbTreeNS/stubSimple.class');
 
 class dbTreeDataMultipleTest extends unitTestCase
@@ -29,8 +29,7 @@ class dbTreeDataMultipleTest extends unitTestCase
         'obj_id' => array ('name' => 'obj_id','accessor' => 'getObjId', 'mutator' => 'setObjId'),
         );
 
-        $this->mapper = new stubMapperForTree('simple');
-        $this->mapper->setTable('simple_stubsimple2');
+        $this->mapper = new stubMapperForMultipleTree('simple');
         $this->mapper->setMap($this->map);
         $this->db = db::factory();
 
@@ -87,16 +86,9 @@ class dbTreeDataMultipleTest extends unitTestCase
 
     private function assertEqualFixtureAndBranch($some_id, $fixture, $branch)
     {
-        //echo "<pre>some_id = $some_id;fixtureKeys= "; var_dump(array_keys($fixture)); echo "</pre>";
-        //echo "<pre>branchKeys "; var_dump(array_keys($branch)); echo "</pre>";
-
         $this->assertEqual(count($fixture), count($branch));
 
         foreach($branch as $id => $node) {
-
-            //echo "<pre>idNode-"; var_dump($id); echo "</pre>";
-            //echo "<pre>some_id-"; var_dump($some_id); echo "</pre>";
-            //echo "<pre>fixture[id] = "; var_dump($fixture[$id]); echo "</pre>";
 
             $this->assertEqual($fixture[$id]['id'], $node->getId());
             $this->assertEqual($fixture[$id]['foo'], $node->getFoo());
@@ -261,11 +253,10 @@ class dbTreeDataMultipleTest extends unitTestCase
     {
         $fixture[1] = array('bar' => 'newBar1', 'foo' => 'newFoo1');
         $fixture[2] = array('bar' => 'newBar2', 'foo' => 'newFoo2');
-
-        $parentNodeFixture = array(1 => 4, 2 => 14);
-
-        $pathFixture = array(1 => 'foo1/foo4/newFoo1', 2 => 'foo9/foo11/foo14/newFoo2');
-
+        $parentNodeFixture[1] = 4;
+        $parentNodeFixture[2] = 14;
+        $pathFixture[1] = 'foo1/foo4/newFoo1';
+        $pathFixture[2] = 'foo9/foo11/foo14/newFoo2';
 
         foreach(range(1,2)  as $some_id){
             $this->tree->setTree($some_id);
@@ -276,15 +267,122 @@ class dbTreeDataMultipleTest extends unitTestCase
             $newNode->setSomeId($some_id);
             $this->mapper->save($newNode);
 
-            //echo "<pre>parentNodeFixture[$some_id] "; var_dump($parentNodeFixture[$some_id]); echo "</pre>";
-
             $newNode = $this->tree->insertNode($parentNodeFixture[$some_id], $newNode);
-
 
             $this->assertEqual($pathFixture[$some_id], $newNode->getPath());
             $this->assertEqual($fixture[$some_id]['bar'], $newNode->getBar());
             $this->assertEqual($fixture[$some_id]['foo'], $newNode->getFoo());
             $this->assertEqual($some_id, $newNode->getSomeId());
+        }
+    }
+
+    public function testCreateNewPaths_AfterInsertRootNode()
+    {
+        $fixture[1] = array('bar' => 'rootBar1', 'foo' => 'rootFoo1');
+        $fixture[2] = array('bar' => 'rootBar2', 'foo' => 'rootFoo2');
+
+        $fixtureNodes[1] = range(1, 8);
+        $fixtureNodes[2] = range(9,17);
+
+        foreach(range(1,2)  as $some_id) {
+
+            $this->tree->setTree($some_id);
+
+            // вставляем новую запись в таблицу с данными
+            $newRootNode = $this->mapper->create();
+            $newRootNode->setBar($fixture[$some_id]['bar']);
+            $newRootNode->setFoo($fixture[$some_id]['foo']);
+            $this->mapper->save($newRootNode);
+
+
+            // добавляем в структуру дерева корневой узел
+            $newRootNode = $this->tree->insertRootNode($newRootNode);
+
+            $this->assertEqual($fixture[$some_id]['foo'], $newRootNode->getPath());
+            $this->assertEqual($fixture[$some_id]['foo'], $newRootNode->getFoo());
+            $this->assertEqual($fixture[$some_id]['bar'], $newRootNode->getBar());
+
+
+            $newTree = $this->tree->getTree();
+            $fixtureTree = $this->setFixture($some_id, $fixtureNodes[$some_id]);
+
+            $this->assertEqual(count($fixtureTree) + 1, ($newRootNode->getRightKey())/2);
+
+            foreach($fixtureTree as $i => $node) {
+                $fixtureTree[$i]['path'] = $fixture[$some_id]['foo'] . '/' . $fixtureTree[$i]['path'];
+
+                $this->assertEqual($newTree[$i]->getPath(), $fixtureTree[$i]['path']);
+                $this->assertEqual($newTree[$i]->getFoo(), $fixtureTree[$i]['foo']);
+                $this->assertEqual($newTree[$i]->getBar(), $fixtureTree[$i]['bar']);
+                $this->assertEqual($newTree[$i]->getRightKey(), $this->treeFixture[$some_id][$i]['rkey']+1);
+                $this->assertEqual($newTree[$i]->getLeftKey(), $this->treeFixture[$some_id][$i]['lkey']+1);
+                $this->assertEqual($newTree[$i]->getLevel(), $this->treeFixture[$some_id][$i]['level']+1);
+                $this->assertEqual($newTree[$i]->getSomeId(), $some_id);
+            }
+        }
+    }
+
+    public function testCreateNewPaths_AfterMoveNode()
+    {
+        $newTreePathFixture[1] = array(
+        1 => 'foo1', 2 => 'foo1/foo4/foo2',
+        3 => 'foo1/foo3', 4 => 'foo1/foo4',
+        5 => 'foo1/foo4/foo2/foo5', 6 => 'foo1/foo4/foo2/foo6',
+        7 => 'foo1/foo3/foo7', 8 => 'foo1/foo3/foo8');
+        /*
+        $newTreePathFixture[2] = array(
+        9 => 'foo9', 10 => 'foo9/foo10',
+        11 => 'foo9/foo11', 12 => 'foo9/foo12',
+        13 => 'foo9/foo13', 14 => 'foo9/foo11/foo14',
+        15 => 'foo9/foo13/foo15', 16 => 'foo9/foo13/foo16',
+        17 => 'foo9/foo13/foo17');
+
+        $move = array(1 => array(2, 4), 2 => array(13, 9));
+        // @todo не работает :( под корень не переносит
+        */
+
+        $newTreePathFixture[2] = array(
+        9 => 'foo9', 10 => 'foo9/foo10',
+        11 => 'foo9/foo11', 12 => 'foo9/foo12',
+        13 => 'foo9/foo12/foo13', 14 => 'foo9/foo11/foo14',
+        15 => 'foo9/foo12/foo13/foo15', 16 => 'foo9/foo12/foo13/foo16',
+        17 => 'foo9/foo12/foo13/foo17'
+        );
+
+        $move = array(1 => array(2, 4), 2 => array(13, 12));
+
+        foreach($newTreePathFixture as $some_id => $pathFixture) {
+            $this->tree->setTree($some_id);
+
+            $this->tree->moveNode($move[$some_id][0], $move[$some_id][1]);
+            $newTree = $this->tree->getTree();
+
+            foreach($newTree as $id => $node) {
+                $this->assertEqual($this->dataFixture[$some_id][$id]['foo'],  $node->getFoo());
+                $this->assertEqual($this->dataFixture[$some_id][$id]['bar'],  $node->getBar());
+                $this->assertEqual($newTreePathFixture[$some_id][$id],  $node->getPath());
+
+            }
+        }
+    }
+
+    public function testGetOneLevelBranchByPath_WithPathCorrect()
+    {
+        $paths[] = '/foo1///foo3/';
+        $paths[] = 'foo1//foo3/not_exist';
+        $paths[] = '/foo1/foo3';
+        $paths[] = 'foo1/not_exist/not_exist_too/foo3';
+
+        $fixtureNodes = $this->setFixture(1, array(7,8));
+        $this->tree->setTree(1);
+        $this->tree->setCorrectPathMode(true);
+
+        foreach($paths as $path) {
+            $nodes = $this->tree->getBranchByPath($path);
+            $this->assertEqual(count($nodes), count($fixtureNodes));
+
+            $this->assertEqualFixtureAndBranch(1, $fixtureNodes, $nodes);
+
         }
     }
 
@@ -298,273 +396,269 @@ class dbTreeDataMultipleTest extends unitTestCase
         $deletedNodeId = array(1 => 3, 2 => 13);
 
         foreach($fixtureTree as $some_id => $fixture) {
-             $this->tree->setTree($some_id);
-             $this->tree->removeNode($deletedNodeId[$some_id]);
-             $newTree = $this->tree->getTree();
+            $this->tree->setTree($some_id);
+            $this->tree->removeNode($deletedNodeId[$some_id]);
+            $newTree = $this->tree->getTree();
 
-             foreach($newTree as $id => $node) {
-                 $this->assertEqual($this->dataFixture[$some_id][$id]['foo'],  $node->getFoo());
-                 $this->assertEqual($this->dataFixture[$some_id][$id]['bar'],  $node->getBar());
+            foreach($newTree as $id => $node) {
+                $this->assertEqual($this->dataFixture[$some_id][$id]['foo'],  $node->getFoo());
+                $this->assertEqual($this->dataFixture[$some_id][$id]['bar'],  $node->getBar());
 
-             }
+            }
         }
     }
 
-    /*
-    public function testGetOneLevelBranchByPath_WithPathCorrect()
-    {
-    $paths[] = '/foo1///foo3/';
-    $paths[] = 'foo1//foo3/not_exist';
-    $paths[] = '/foo1/foo3';
-    $paths[] = 'foo1/not_exist/not_exist_too/foo3';
-
-    $fixtureNodes = $this->setFixture(array(7,8));
-    $this->tree->setCorrectPathMode(true);
-
-
-    foreach($paths as $path) {
-    $nodes = $this->tree->getBranchByPath($path);
-    foreach($nodes as $id => $node) {
-    $this->assertEqual($node->getId(), $fixtureNodes[$id]['id']);
-    $this->assertEqual($node->getPath(), $fixtureNodes[$id]['path']);
-    }
-    }
-    }
-
-
-
-
-
-    public function testCreateNewPaths_AfterInsertRootNode()
-    {
-    $fixture = array('foo' => 'rootFoo', 'bar' => 'rootBar');
-
-    // вставляем новую запись в таблицу с данными
-    $newRootNode = $this->mapper->create();
-    $newRootNode->setBar($fixture['bar']);
-    $newRootNode->setFoo($fixture['foo']);
-    $this->mapper->save($newRootNode);
-
-
-
-    // добавляем в структуру дерева корневой узел
-    $newRootNode = $this->tree->insertRootNode($newRootNode);
-
-    $newTree = $this->tree->getTree();
-    $fixtureTree = $this->setFixture();
-
-    $this->assertEqual(count($fixtureTree) + 1, ($newRootNode->getRightKey())/2);
-
-    foreach($fixtureTree as $i => $node) {
-    $fixtureTree[$i]['path'] = $fixture['foo'] . '/' . $fixtureTree[$i]['path'];
-    $this->assertEqual($newTree[$i]->getPath(), $fixtureTree[$i]['path']);
-    $this->assertEqual($newTree[$i]->getFoo(), $fixtureTree[$i]['foo']);
-    $this->assertEqual($newTree[$i]->getBar(), $fixtureTree[$i]['bar']);
-    }
-    }
-
-
-    public function testCreateNewPaths_AfterMoveNode()
-    {
-    $newTreePathFixture = array(1 => 'foo1', 2 => 'foo1/foo4/foo2',
-    3 => 'foo1/foo3', 4 => 'foo1/foo4',
-    5 => 'foo1/foo4/foo2/foo5', 6 => 'foo1/foo4/foo2/foo6',
-    7 => 'foo1/foo3/foo7', 8 => 'foo1/foo3/foo8');
-
-    $this->tree->moveNode(2,4);
-    $newTree = $this->tree->getTree();
-
-    foreach($newTreePathFixture as $i => $node) {
-    $this->assertEqual($newTree[$i]->getPath(), $newTreePathFixture[$i]);
-    }
-    }
-
-
-    $this->assertNull($this->tree->getBranch($deletedNodeId));
-    }
-
-    //-----------Обновленные тесты которые были в dbTreeNS.case.php-------------
-
     public function testGetMaxRightKey()
     {
-    $this->assertEqual( $this->tree->getMaxRightKey(), 16);
+        $maxKeys[1] = 16;
+        $maxKeys[2] = 18;
+        foreach($maxKeys as $some_id => $maxKey) {
+            $this->tree->setTree($some_id);
+            $this->assertEqual($this->tree->getMaxRightKey(), $maxKey);
+        }
     }
 
     public function testGetExistNodeInfoWithId()
     {
-    $nodeInfo = $this->tree->getNodeInfo($id = 5);
+        $nodes[1] = range(1, 8);
+        $nodes[2] = range(9, 17);
 
-    $this->assertEqual($nodeInfo['id'], $this->treeFixture[$id]['id']);
-    $this->assertEqual($nodeInfo['rkey'], $this->treeFixture[$id]['rkey']);
-    $this->assertEqual($nodeInfo['lkey'], $this->treeFixture[$id]['lkey']);
-    $this->assertEqual($nodeInfo['level'], $this->treeFixture[$id]['level']);
+        foreach($nodes as $some_id => $treeNodes){
+            $this->tree->setTree($some_id);
+
+            foreach($treeNodes as $nodeID) {
+                $nodeInfo = $this->tree->getNodeInfo($nodeID);
+                $this->assertEqual($nodeInfo['id'], $this->treeFixture[$some_id][$nodeID]['id']);
+                $this->assertEqual($nodeInfo['rkey'], $this->treeFixture[$some_id][$nodeID]['rkey']);
+                $this->assertEqual($nodeInfo['lkey'], $this->treeFixture[$some_id][$nodeID]['lkey']);
+                $this->assertEqual($nodeInfo['level'], $this->treeFixture[$some_id][$nodeID]['level']);
+            }
+        }
     }
 
     public function testGetNotExistNodeInfo()
     {
-    $node = $this->tree->getNodeInfo($id = 25);
-
-    $this->assertNull($node);
+        $notExistNodes[1] = 18;
+        $notExistNodes[2] = 2;
+        foreach($notExistNodes as $some_id => $notExistNode) {
+            $this->tree->setTree($some_id);
+            $this->assertNull($this->tree->getNodeInfo($notExistNode));
+        }
     }
+
+    //-----------Обновленные тесты которые были в dbTreeNS.case.php-------------
 
     public function testRemoveNode()
     {
-    $this->tree->removeNode(2);
+        $removeNodes[1] = 2;
+        $removeNodes[2] = 11;
 
-    $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>10,'level'=>1),
-    '3' => array('id'=>3, 'lkey'=>2 ,'rkey' =>7,'level'=>2),
-    '4' => array('id'=>4, 'lkey'=>8,'rkey'=>9 ,'level'=>2),
-    '7' => array('id'=>7, 'lkey'=>3 ,'rkey'=>4 ,'level'=>3),
-    '8' => array('id'=>8, 'lkey'=>5,'rkey'=>6 ,'level'=>3)
-    );
-    $newTree = $this->tree->getTree();
-    $this->assertEqual(count($fixtureNewTree), count($newTree));
+        $fixtureNewTree[1] = array(
+        '1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>10,'level'=>1),
+        '3' => array('id'=>3, 'lkey'=>2 ,'rkey' =>7,'level'=>2),
+        '4' => array('id'=>4, 'lkey'=>8,'rkey'=>9 ,'level'=>2),
+        '7' => array('id'=>7, 'lkey'=>3 ,'rkey'=>4 ,'level'=>3),
+        '8' => array('id'=>8, 'lkey'=>5,'rkey'=>6 ,'level'=>3)
+        );
 
-    foreach ($newTree as $id => $node) {
+        $fixtureNewTree[2] = array(
+        '9' => array('id'=>9, 'lkey'=>1 ,'rkey' =>6,'level'=>1),
+        '10' => array('id'=>10, 'lkey'=>2 ,'rkey' =>3,'level'=>2),
+        '12' => array('id'=>12, 'lkey'=>4,'rkey'=>5 ,'level'=>2)
+        );
 
-    $this->assertEqual($node->getId(), $id);
-    $this->assertEqual($node->getFoo(), 'foo' . $id);
-    $this->assertEqual($node->getBar(), 'bar' . $id);
+        foreach($removeNodes as $some_id => $removeNode) {
+            $this->tree->setTree($some_id);
+            $this->tree->removeNode($removeNode);
+            $newTree = $this->tree->getTree();
 
-    $this->assertEqual($node->getLevel(), $fixtureNewTree[$id]['level']);
-    $this->assertEqual($node->getRightKey(), $fixtureNewTree[$id]['rkey']);
-    $this->assertEqual($node->getLeftKey(), $fixtureNewTree[$id]['lkey']);
-    }
+            $this->assertEqual(count($fixtureNewTree[$some_id]), count($newTree));
+
+            foreach ($newTree as $id => $node) {
+                $this->assertEqual($node->getId(), $id);
+                $this->assertEqual($node->getFoo(), 'foo' . $id);
+                $this->assertEqual($node->getBar(), 'bar' . $id);
+
+                $this->assertEqual($node->getLevel(), $fixtureNewTree[$some_id][$id]['level']);
+                $this->assertEqual($node->getRightKey(), $fixtureNewTree[$some_id][$id]['rkey']);
+                $this->assertEqual($node->getLeftKey(), $fixtureNewTree[$some_id][$id]['lkey']);
+            }
+        }
     }
 
     public function testInsertNode()
     {
-    $fixture = array('id' => 9, 'bar' => 'newBar', 'foo' => 'newFoo', 'lkey' => 13, 'rkey' => 14 ,'level' => 3);
 
+        $fixtures[1] = array('id' => 18, 'bar' => 'newBar', 'foo' => 'newFoo', 'lkey' => 15, 'rkey' => 16 ,'level' => 3);
+        $fixtures[2] = array('id' => 19, 'bar' => 'newBar', 'foo' => 'newFoo', 'lkey' => 14, 'rkey' => 15 ,'level' => 4);
+        $parentNodes[1] = 4;
+        $parentNodes[2] = 14;
 
-    $newNode = $this->mapper->create();
-    $newNode->setFoo($fixture['foo']);
-    $newNode->setBar($fixture['bar']);
-    $this->mapper->save($newNode);
+        foreach ($fixtures as $some_id => $fixture) {
 
-    $newInsertedNode = $this->tree->insertNode(3, $newNode);
+            $this->tree->setTree($some_id);
 
+            $newNode = $this->mapper->create();
+            $newNode->setFoo($fixture['foo']);
+            $newNode->setBar($fixture['bar']);
+            $this->mapper->save($newNode);
 
-    $this->assertEqual($newInsertedNode->getId(), $fixture['id']);
-    $this->assertEqual($newInsertedNode->getFoo(), $fixture['foo']);
-    $this->assertEqual($newInsertedNode->getBar(), $fixture['bar']);
-    $this->assertEqual($newInsertedNode->getLevel(), $fixture['level']);
-    $this->assertEqual($newInsertedNode->getRightKey(), $fixture['rkey']);
-    $this->assertEqual($newInsertedNode->getLeftKey(), $fixture['lkey']);
+            $newInsertedNode = $this->tree->insertNode($parentNodes[$some_id], $newNode);
 
+            $this->assertEqual($newInsertedNode->getId(), $fixture['id']);
+            $this->assertEqual($newInsertedNode->getFoo(), $fixture['foo']);
+            $this->assertEqual($newInsertedNode->getBar(), $fixture['bar']);
+            $this->assertEqual($newInsertedNode->getLevel(), $fixture['level']);
+            $this->assertEqual($newInsertedNode->getRightKey(), $fixture['rkey']);
+            $this->assertEqual($newInsertedNode->getLeftKey(), $fixture['lkey']);
 
+        }
     }
+
 
     public function testInsertRootNode()
     {
-    $fixture = array('id' => 9, 'bar' => 'newBar', 'foo' => 'newFoo', 'lkey' => 13, 'lkey'=>1,'rkey'=>18 ,'level'=>1);
+        $fixtures[1] = array('id' => 18, 'bar' => 'newBar', 'foo' => 'newFoo', 'lkey' => 1, 'rkey' => 18 ,'level' => 1);
+        $fixtures[2] = array('id' => 19, 'bar' => 'newBar', 'foo' => 'newFoo', 'lkey' => 1, 'rkey' => 20 ,'level' => 1);
 
+        foreach ($fixtures as $some_id => $fixture) {
 
-    $newRootNode = $this->mapper->create();
-    $newRootNode->setFoo($fixture['foo']);
-    $newRootNode->setBar($fixture['bar']);
-    $this->mapper->save($newRootNode);
+            $this->tree->setTree($some_id);
 
-    $newInsertedRootNode = $this->tree->insertRootNode($newRootNode);
+            $newNode = $this->mapper->create();
+            $newNode->setFoo($fixture['foo']);
+            $newNode->setBar($fixture['bar']);
+            $this->mapper->save($newNode);
 
-    $this->assertEqual($newInsertedRootNode->getId(), $fixture['id']);
-    $this->assertEqual($newInsertedRootNode->getFoo(), $fixture['foo']);
-    $this->assertEqual($newInsertedRootNode->getBar(), $fixture['bar']);
-    $this->assertEqual($newInsertedRootNode->getLevel(), $fixture['level']);
-    $this->assertEqual($newInsertedRootNode->getRightKey(), $fixture['rkey']);
-    $this->assertEqual($newInsertedRootNode->getLeftKey(), $fixture['lkey']);
+            $newInsertedNode = $this->tree->insertRootNode($newNode);
+
+            $this->assertEqual($newInsertedNode->getId(), $fixture['id']);
+            $this->assertEqual($newInsertedNode->getFoo(), $fixture['foo']);
+            $this->assertEqual($newInsertedNode->getBar(), $fixture['bar']);
+            $this->assertEqual($newInsertedNode->getLevel(), $fixture['level']);
+            $this->assertEqual($newInsertedNode->getRightKey(), $fixture['rkey']);
+            $this->assertEqual($newInsertedNode->getLeftKey(), $fixture['lkey']);
+
+        }
     }
 
     public function testRemoveRootNode()
     {
-    $this->tree->removeNode(1);
-    $newTree = $this->tree->getTree();
+        $removeNodes[1] = 1;
+        $removeNodes[2] = 9;
 
-    $this->assertNull($newTree);
+        foreach (range(1,2) as $some_id) {
+
+            $this->tree->setTree($some_id);
+
+            $this->tree->removeNode($removeNodes[$some_id]);
+            $newTree = $this->tree->getTree();
+            $this->assertNull($newTree);
+        }
+    }
+
+    public function testSwapNode()
+    {
+        $swapNodes[1] = array(2, 8);
+        $swapNodes[2] = array(10, 17);
+
+        $fixtureNewTreeSlice[1] = array(
+        '8' => array('id'=>8, 'lkey'=>2  ,'rkey' =>7 ,'level'=>2),
+        '2' => array('id'=>2, 'lkey'=>11 ,'rkey' =>12,'level'=>3));
+
+        $fixtureNewTreeSlice[2] = array(
+        '10' => array('id'=>10, 'lkey'=>10  ,'rkey' =>11 ,'level'=>4),
+        '17' => array('id'=>17, 'lkey'=>2 ,'rkey' =>3,'level'=>2));
+
+
+        foreach ($fixtureNewTreeSlice as $some_id => $fixture) {
+            $this->tree->setTree($some_id);
+
+            $this->assertFalse($this->tree->swapNode($swapNodes[$some_id][0], $swapNodes[$some_id][0]));
+
+            $this->tree->swapNode($swapNodes[$some_id][0], $swapNodes[$some_id][1]);
+
+            foreach ($fixture as $id => $fixNode) {
+                $nodeInfo = $this->tree->getNodeInfo($id);
+
+                $this->assertEqual($nodeInfo['level'], $fixNode['level']);
+                $this->assertEqual($nodeInfo['rkey'], $fixNode['rkey']);
+                $this->assertEqual($nodeInfo['lkey'], $fixNode['lkey']);
+                $this->assertEqual($nodeInfo['id'], $fixNode['id']);
+            }
+        }
+    }
+
+    public function testSwapNotExistNode()
+    {
+        $this->tree->setTree(1);
+        $this->assertFalse($this->tree->swapNode(2, 20));
+        $this->assertFalse($this->tree->swapNode(20, 2));
+        $this->assertFalse($this->tree->swapNode(20, 21));
     }
 
     public function testMoveNode()
     {
-    $this->tree->moveNode(3, 4);
-    $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
-    '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>7 ,'level'=>2),
-    '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
-    '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>6  ,'level'=>3),
-    '4' => array('id'=>4, 'lkey'=>8 ,'rkey'=>15 ,'level'=>2),
-    '3' => array('id'=>3, 'lkey'=>9 ,'rkey' =>14,'level'=>3),
-    '7' => array('id'=>7, 'lkey'=>10,'rkey'=>11 ,'level'=>4),
-    '8' => array('id'=>8, 'lkey'=>12,'rkey'=>13 ,'level'=>4)
-    );
+        $fixtureNewTree = array(
+        '1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
+        '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>7 ,'level'=>2),
+        '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+        '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>6  ,'level'=>3),
+        '4' => array('id'=>4, 'lkey'=>8 ,'rkey'=>15 ,'level'=>2),
+        '3' => array('id'=>3, 'lkey'=>9 ,'rkey' =>14,'level'=>3),
+        '7' => array('id'=>7, 'lkey'=>10,'rkey'=>11 ,'level'=>4),
+        '8' => array('id'=>8, 'lkey'=>12,'rkey'=>13 ,'level'=>4)
+        );
 
-    $newTree = $this->tree->getTree();
-    $this->assertEqual(count($fixtureNewTree), count($newTree));
+        $this->tree->setTree(1);
+        $this->tree->moveNode(3, 4);
 
-    foreach ($newTree as $id => $node) {
+        $newTree = $this->tree->getTree();
+        $this->assertEqual(count($fixtureNewTree), count($newTree));
 
-    $this->assertEqual('foo' . $id, $node->getFoo());
-    $this->assertEqual('bar' . $id, $node->getBar());
-    $this->assertEqual($fixtureNewTree[$id]['id'], $node->getId());
-    $this->assertEqual($fixtureNewTree[$id]['rkey'], $node->getRightKey());
-    $this->assertEqual($fixtureNewTree[$id]['lkey'], $node->getLeftKey());
-    $this->assertEqual($fixtureNewTree[$id]['level'], $node->getLevel());
-    }
+        foreach ($newTree as $id => $node) {
+
+            $this->assertEqual('foo' . $id, $node->getFoo());
+            $this->assertEqual('bar' . $id, $node->getBar());
+            $this->assertEqual($fixtureNewTree[$id]['id'], $node->getId());
+            $this->assertEqual($fixtureNewTree[$id]['rkey'], $node->getRightKey());
+            $this->assertEqual($fixtureNewTree[$id]['lkey'], $node->getLeftKey());
+            $this->assertEqual($fixtureNewTree[$id]['level'], $node->getLevel());
+        }
 
     }
 
     public function testMoveNode2()
     {
-    $this->tree->moveNode(4, 6);
 
+        $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
+        '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>9 ,'level'=>2),
+        '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
+        '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>8  ,'level'=>3),
+        '4' => array('id'=>4, 'lkey'=>6,'rkey'=>7 ,'level'=>4),
 
+        '3' => array('id'=>3, 'lkey'=>10 ,'rkey' =>15,'level'=>2),
+        '7' => array('id'=>7, 'lkey'=>11 ,'rkey'=>12 ,'level'=>3),
+        '8' => array('id'=>8, 'lkey'=>13,'rkey'=>14 ,'level'=>3)
+        );
 
-    $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
-    '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>9 ,'level'=>2),
-    '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
-    '6' => array('id'=>6, 'lkey'=>5 ,'rkey'=>8  ,'level'=>3),
-    '4' => array('id'=>4, 'lkey'=>6,'rkey'=>7 ,'level'=>4),
+        $this->tree->setTree(1);
+        $this->tree->moveNode(4, 6);
+        $newTree = $this->tree->getTree();
 
-    '3' => array('id'=>3, 'lkey'=>10 ,'rkey' =>15,'level'=>2),
-    '7' => array('id'=>7, 'lkey'=>11 ,'rkey'=>12 ,'level'=>3),
-    '8' => array('id'=>8, 'lkey'=>13,'rkey'=>14 ,'level'=>3)
-    );
+        $this->assertEqual(count($fixtureNewTree), count($newTree));
 
-    $newTree = $this->tree->getTree();
+        foreach ($newTree as $id => $node) {
 
-    $this->assertEqual(count($fixtureNewTree), count($newTree));
+            $this->assertEqual('foo' . $id, $node->getFoo());
+            $this->assertEqual('bar' . $id, $node->getBar());
+            $this->assertEqual($fixtureNewTree[$id]['id'], $node->getId());
+            $this->assertEqual($fixtureNewTree[$id]['rkey'], $node->getRightKey());
+            $this->assertEqual($fixtureNewTree[$id]['lkey'], $node->getLeftKey());
+            $this->assertEqual($fixtureNewTree[$id]['level'], $node->getLevel());
+        }
 
-    foreach ($newTree as $id => $node) {
-
-    $this->assertEqual('foo' . $id, $node->getFoo());
-    $this->assertEqual('bar' . $id, $node->getBar());
-    $this->assertEqual($fixtureNewTree[$id]['id'], $node->getId());
-    $this->assertEqual($fixtureNewTree[$id]['rkey'], $node->getRightKey());
-    $this->assertEqual($fixtureNewTree[$id]['lkey'], $node->getLeftKey());
-    $this->assertEqual($fixtureNewTree[$id]['level'], $node->getLevel());
     }
-
-    }
-
-    public function testSwapNotExistNode()
-    {
-    $this->assertFalse($this->tree->swapNode(2, 20));
-    $this->assertFalse($this->tree->swapNode(20, 2));
-    $this->assertFalse($this->tree->swapNode(20, 21));
-    }
-
-    public function testSwapNode()
-    {
-    $this->assertFalse($this->tree->swapNode(8, 8));
-
-    $this->tree->swapNode(2, 8);
-    $fixtureNewTreeSlice = array('8' => array('id'=>8, 'lkey'=>2  ,'rkey' =>7 ,'level'=>2),
-    '2' => array('id'=>2, 'lkey'=>11 ,'rkey' =>12,'level'=>3));
-
-
-    foreach ($fixtureNewTreeSlice as $id => $node) {
-    $this->assertEqual($this->tree->getNodeInfo($id), $node);
-    }
-    }
-    */
 
     private function fixture()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class stubMapperForTree extends simpleMapper
+class stubMapperForMultipleTree extends simpleMapper
 {
     protected $name = 'simple';
     protected $className = 'stubSimpleForTree';
@@ -14,7 +14,7 @@ class stubMapperForTree extends simpleMapper
     public function __construct($section, $alias = 'default')
     {
         parent::__construct($section, $alias);
-        $this->table = 'simple_stubsimple';
+        $this->table = 'simple_stubsimple2';
     }
 
 
