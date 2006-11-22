@@ -54,8 +54,7 @@ class accessEditUserDefaultController extends simpleController
 
             $acl->setDefault($user_id, $result, true);
 
-            fileLoader::load('access/views/accessEditUserSuccessView');
-            return new accessEditUserSuccessView();
+            return new simpleJipCloseView(2);
         }
 
 

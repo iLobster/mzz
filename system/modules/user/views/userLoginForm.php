@@ -21,8 +21,8 @@ class userLoginForm
 {
     static function getForm($backUrl)
     {
-        require_once 'HTML/QuickForm.php';
-        require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
+        fileLoader::load('libs/PEAR/HTML/QuickForm');
+        fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $url = new url();
         $url->setSection('user');

@@ -24,19 +24,25 @@ class pageEditForm
      *
      * @param object $page объект page
      * @param string $section текущая секция
+     * @param string $action текущее действие
+     * @param object $pageMapper
      * @return object сгенерированная форма
      */
-    static function getForm($page, $section)
+    static function getForm($page, $section, $action, $pageMapper)
     {
-        require_once 'HTML/QuickForm.php';
-        require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
+        fileLoader::load('libs/PEAR/HTML/QuickForm');
+        fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $form = new HTML_QuickForm('form', 'POST', '/' . $section . '/' . $page->getName() . '/edit');
-        $defaultValues = array();
-        $defaultValues['name']  = $page->getName();
-        $defaultValues['title']  = $page->getTitle();
-        $defaultValues['content']  = $page->getContent();
-        $form->setDefaults($defaultValues);
+        $formAction = '/' . $section . ($action == 'edit' ? '/' . $page->getName() : '') . '/' . $action;
+        $form = new HTML_QuickForm('form', 'POST', $formAction);
+
+        if ($action == 'edit') {
+            $defaultValues = array();
+            $defaultValues['name']  = $page->getName();
+            $defaultValues['title']  = $page->getTitle();
+            $defaultValues['content']  = $page->getContent();
+            $form->setDefaults($defaultValues);
+        }
 
         $form->addElement('text', 'name', 'Name ID:', 'size=30');
         $form->addElement('text', 'title', 'Заголовок:', 'size=30');

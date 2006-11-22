@@ -24,18 +24,24 @@ class newsEditForm
      *
      * @param object $news объект новостей
      * @param string $section текущая секция
+     * @param string $action текущее действие
+     * @param object $newsMapper
      * @return object сгенерированная форма
      */
-    static function getForm($news, $section)
+    static function getForm($news, $section, $action, $newsMapper)
     {
-        require_once 'HTML/QuickForm.php';
-        require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
+        fileLoader::load('libs/PEAR/HTML/QuickForm');
+        fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $form = new HTML_QuickForm('newsEdit', 'POST', '/' . $section . '/' . $news->getId() . '/edit');
-        $defaultValues = array();
-        $defaultValues['title']  = $news->getTitle();
-        $defaultValues['text']  = $news->getText();
-        $form->setDefaults($defaultValues);
+        $formAction = '/' . $section . ($action == 'edit' ? '/' . $news->getId() : '') . '/' . $action;
+        $form = new HTML_QuickForm('newsEdit', 'POST', $formAction);
+
+        if ($action == 'edit') {
+            $defaultValues = array();
+            $defaultValues['title']  = $news->getTitle();
+            $defaultValues['text']  = $news->getText();
+            $form->setDefaults($defaultValues);
+        }
 
         $form->addElement('text', 'title', 'Имя:', 'size=30');
         $form->addElement('textarea', 'text', 'Текст:', 'rows=7 cols=50');

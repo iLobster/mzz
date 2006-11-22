@@ -24,6 +24,8 @@ class userEditForm
      *
      * @param object $user редактируемый пользователь
      * @param string $section текущая секция
+     * @param string $action текущее действие
+     * @param object $userMapper
      * @return object сгенерированная форма
      */
     static function getForm($user, $section, $action, $userMapper)
@@ -41,11 +43,12 @@ class userEditForm
         }
 
         $form->addElement('text', 'login', 'Логин:', 'size=30');
+        $form->addElement('password', 'password', 'Пароль:', 'size=30');
 
         $form->registerRule('isUniqueLogin', 'callback', 'createUserValidation');
         $form->addRule('login', 'пользователь с таким именем уже существует', 'isUniqueLogin', array($user, $userMapper));
 
-        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: window.close();\'');
+        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: hideJip();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }

@@ -19,9 +19,13 @@
 
 class pageEditView extends simpleView
 {
-    public function __construct($page, $form)
+    private $form;
+    private $action;
+
+    public function __construct($page, $form, $action)
     {
         $this->form = $form;
+        $this->action = $action;
         parent::__construct($page);
     }
     public function toString()
@@ -31,8 +35,10 @@ class pageEditView extends simpleView
 
         $this->smarty->assign('form', $renderer->toArray());
         $this->smarty->assign('page', $this->DAO);
+        $this->smarty->assign('action', $this->action);
 
-        $this->response->setTitle('Страницы -> Редактирование -> ' . $this->DAO->getName());
+        $title = $this->action == 'edit' ? 'Редактирование -> ' . $this->DAO->getName() : 'Создание';
+        $this->response->setTitle('Страницы -> ' . $title);
         return $this->smarty->fetch('page/edit.tpl');
     }
 

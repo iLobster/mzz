@@ -18,7 +18,6 @@
  */
 
 fileLoader::load('page/views/pageEditView');
-fileLoader::load('page/views/pageEditSuccessView');
 fileLoader::load('page/views/pageEditForm');
 fileLoader::load("page/mappers/pageMapper");
 
@@ -33,23 +32,21 @@ class pageEditController extends simpleController
     {
         $pageMapper = $this->toolkit->getMapper('page', 'page', $this->request->getSection());
 
-        if (($name = $this->request->get('name', 'string', SC_PATH)) == null) {
-            $name = $this->request->get('name', 'string', SC_POST);
-        }
-
-        if (is_null($name)) {
-            $name = $this->request->get('id', 'string', SC_PATH);
-        }
-
+        $name = $this->request->get('name', 'string', SC_PATH);
         $page = $pageMapper->searchByName($name);
 
-        if ($page) {
-            $form = pageEditForm::getForm($page, $this->request->getSection());
+        $action = $this->request->getAction();
+
+        if (!empty($page) || $action == 'create') {
+            $form = pageEditForm::getForm($page, $this->request->getSection(), $action, $pageMapper);
 
             if ($form->validate() == false) {
-                $view = new pageEditView($page, $form);
+                $view = new pageEditView($page, $form, $action);
             } else {
                 $values = $form->exportValues();
+                if ($action == 'create') {
+                    $page = $pageMapper->create();
+                }
                 $page->setName($values['name']);
                 $page->setTitle($values['title']);
                 $page->setContent($values['content']);

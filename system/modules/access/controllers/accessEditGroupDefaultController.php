@@ -54,8 +54,7 @@ class accessEditGroupDefaultController extends simpleController
 
             $acl->setDefault($group_id, $result);
 
-            fileLoader::load('access/views/accessEditUserSuccessView');
-            return new accessEditUserSuccessView();
+            return new simpleJipCloseView(2);
         }
 
         $action = $this->request->getAction();

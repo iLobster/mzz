@@ -55,8 +55,7 @@ class accessEditUserController extends simpleController
 
             $acl->set($result);
 
-            fileLoader::load('access/views/accessEditUserSuccessView');
-            return new accessEditUserSuccessView();
+            return new simpleJipCloseView(2);
         }
 
         $action = $this->request->getAction();

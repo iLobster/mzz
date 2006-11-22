@@ -18,7 +18,6 @@
  */
 
 fileLoader::load('news/views/newsEditView');
-fileLoader::load('news/views/newsEditSuccessView');
 fileLoader::load('news/views/newsEditForm');
 fileLoader::load("news/mappers/newsMapper");
 
@@ -30,19 +29,27 @@ class newsEditController extends simpleController
 
         $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
 
-        if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
-            $id = $this->request->get('id', 'integer', SC_POST);
-        }
-
+        $id = $this->request->get('id', 'integer', SC_PATH);
         $news = $newsMapper->searchById($id);
 
-        if ($news) {
-            $form = newsEditForm::getForm($news, $this->request->getSection());
+        $action = $this->request->getAction();
+        if (!empty($news) || $action == 'createItem') {
+            $form = newsEditForm::getForm($news, $this->request->getSection(), $action, $newsMapper);
 
             if ($form->validate() == false) {
-                $view = new newsEditView($news, $form);
+                $view = new newsEditView($news, $form, $action);
             } else {
                 $values = $form->exportValues();
+                $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());
+                $folder = $newsFolderMapper->searchByPath($this->request->get('name', 'string', SC_PATH));
+
+                if ($action == 'createItem') {
+                    $news = $newsMapper->create();
+                    $news->setFolder($folder->getId());
+                    echo 1;
+                }
+
+
                 $news->setTitle($values['title']);
                 $news->setEditor($user);
                 $news->setText($values['text']);

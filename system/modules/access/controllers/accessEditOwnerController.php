@@ -47,8 +47,7 @@ class accessEditOwnerController extends simpleController
 
             $acl->setDefault(0, $result, true);
 
-            fileLoader::load('access/views/accessEditUserSuccessView');
-            return new accessEditUserSuccessView();
+            return new simpleJipCloseView(2);
         }
 
         return new accessEditOwnerView($acl, array_keys($actions), $class, $section);

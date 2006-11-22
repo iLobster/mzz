@@ -82,8 +82,7 @@ class newsCreateFolderController extends simpleController
 
                 $newsFolderMapper->save($folder);
 
-                fileLoader::load('news/views/newsCreateFolderSuccessView');
-                $view = new newsCreateFolderSuccessView($folder);
+                $view = new simpleJipRefreshView();
             }
         } else {
             fileLoader::load('news/views/news404View');

@@ -1,4 +1,4 @@
-<form {$form.attributes}>
+<form {$form.attributes} onsubmit="return sendFormWithAjax(this); return false;">
 <table border="0" cellpadding="0" cellspacing="1" width="50%">
     {if $action eq 'edit'}
     <tr>
@@ -9,11 +9,11 @@
         <td><b>{$form.login.label}</b></td><td>{$form.login.html}{$form.login.error}</td>
     </tr>
     <tr>
+        <td><b>{$form.password.label}</b></td><td>{$form.password.html}{$form.password.error}</td>
+    </tr>
+    <tr>
         <td>{$form.submit.html}</td>
         <td>{$form.reset.html}</td>
     </tr>
-{*    <tr>
-        <td colspan="3"><a href="{url section=news action=view params=$news->getId()}">назад</a></td>
-    </tr> *}
 </table>
 </form>

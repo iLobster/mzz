@@ -50,6 +50,9 @@ class userEditController extends simpleController
 
                 $values = $form->exportValues();
                 $editedUser->setLogin($values['login']);
+                if ($action != 'create' && !empty($values['password'])) {
+                    $editedUser->setPassword($values['password']);
+                }
                 $userMapper->save($editedUser);
 
                 $view = new simpleJipRefreshView();
