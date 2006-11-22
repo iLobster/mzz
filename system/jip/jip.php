@@ -118,24 +118,34 @@ class jip
      */
     private function generate()
     {
-        $result = array();
-        foreach ($this->actions as $key => $item) {
-            $url = new url();
-            $icon = $item['icon'];
-            if (strpos($icon, '/') === 0) {
-                $icon = substr($icon, 1);
-            }
-            $url->addParam('icon', $icon);
-            $url->setSection('');
+        $toolkit = systemToolkit::getInstance();
 
-            $result[] = array(
-            'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
-            'title' => $item['title'],
-            'icon' => $url->get(),
-            'id' => $this->getJipMenuId() . '_' . $item['controller'],
-            'confirm' => $item['confirm'],
-            );
+        $acl = new acl($toolkit->getUser(), $this->obj_id);
+        $access = $acl->get();
+
+        $result = array();
+
+        foreach ($this->actions as $key => $item) {
+
+            if (isset($access[$key]) && $access[$key]) {
+                $url = new url();
+                $icon = $item['icon'];
+                if (strpos($icon, '/') === 0) {
+                    $icon = substr($icon, 1);
+                }
+                $url->addParam('icon', $icon);
+                $url->setSection('');
+
+                $result[] = array(
+                'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
+                'title' => $item['title'],
+                'icon' => $url->get(),
+                'id' => $this->getJipMenuId() . '_' . $item['controller'],
+                'confirm' => $item['confirm'],
+                );
+            }
         }
+
         return $result;
     }
 
@@ -156,13 +166,19 @@ class jip
      */
     public function draw()
     {
-        $toolkit = systemToolkit::getInstance();
-        $smarty = $toolkit->getSmarty();
+        $jip = $this->generate();
 
-        $smarty->assign('jip', $this->generate());
-        $smarty->assign('jipMenuId', $this->getJipMenuId());
+        if (sizeof($jip)) {
+            $toolkit = systemToolkit::getInstance();
+            $smarty = $toolkit->getSmarty();
 
-        return $smarty->fetch('jip.tpl');
+            $smarty->assign('jip', $jip);
+            $smarty->assign('jipMenuId', $this->getJipMenuId());
+
+            return $smarty->fetch('jip.tpl');
+        }
+
+        return '';
     }
 }
 ?>
