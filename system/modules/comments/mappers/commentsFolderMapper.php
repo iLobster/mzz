@@ -39,7 +39,7 @@ class commentsFolderMapper extends simpleMapper
     protected $className = 'commentsFolder';
 
     /**
-     * Удаление папки вместе с содежимым на основе id
+     * Удаление папки вместе с содержимым на основе id
      *
      * @param string $id
      * @return void
@@ -50,7 +50,7 @@ class commentsFolderMapper extends simpleMapper
 
         $commentsMapper = $toolkit->getMapper('comments', 'comments', 'comments');
 
-        foreach($commentsMapper->searchAllByField('folder_id', $id) as $comment) {
+        foreach ($commentsMapper->searchAllByField('folder_id', $id) as $comment) {
             $commentsMapper->delete($comment->getId());
         }
 
@@ -64,7 +64,11 @@ class commentsFolderMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        $parent_id = isset($args['parent_id']) ? $args['parent_id'] : $args['id'];
+        if (isset($args['parent_id']) || isset($args['id'])) {
+            $parent_id = isset($args['parent_id']) ? $args['parent_id'] : $args['id'];
+        } else {
+            return 1;
+        }
 
         $comment = $this->searchOneByField('parent_id', $parent_id);
 

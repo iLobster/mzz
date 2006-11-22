@@ -14,6 +14,8 @@ CHANGELOG
 - стандартные виды simpleJipCloseView, simpleJipRefreshView
 - 404 ошибка реализована в виде исключительной ситуации mzzRouteException
 - модифицированы HTML_QuickForm::exportValues() и HTML_QuickForm::exportValue()
+- доделан туториал-addon-модуль comments
+- модифицирована схема работы с MVC: теперь контроллер может возвращать как экземпл€р класса, производного от simpleView, так и строку с результатом
 
  Version 0.0.5:
 ============================================

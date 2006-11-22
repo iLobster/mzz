@@ -45,7 +45,8 @@ INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `fold
   (25,135,'asdfsdfg',2,1164000450,14),
   (29,141,'ÿ',2,1164004456,15),
   (30,142,'',2,1164004458,15),
-  (31,143,'aqweôûâ',2,1164004460,15);
+  (31,143,'aqweôûâ',2,1164004460,15),
+  (32,147,'aaaaaaaa',2,1164157623,17);
 
 COMMIT;
 
@@ -608,7 +609,10 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1094,19,11,146,2,NULL,0,0),
   (1095,9,11,146,NULL,1,0,0),
   (1096,9,11,146,NULL,2,0,0),
-  (1097,9,11,146,2,NULL,1,0);
+  (1097,9,11,146,2,NULL,1,0),
+  (1098,1,10,147,2,NULL,1,0),
+  (1099,2,10,147,2,NULL,1,0),
+  (1100,9,10,147,2,NULL,1,0);
 
 COMMIT;
 
@@ -680,7 +684,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (141,10),
   (126,12),
   (122,7),
-  (146,11);
+  (146,11),
+  (147,10);
 
 COMMIT;
 
@@ -1087,7 +1092,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (143),
   (144),
   (145),
-  (146);
+  (146),
+  (147);
 
 COMMIT;
 
