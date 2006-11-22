@@ -44,7 +44,7 @@ class userListView extends simpleView
 
         $this->response->setTitle('Пользователь -> Список');
 
-        return $this->smarty->fetch('user.list.tpl');
+        return $this->smarty->fetch('user/list.tpl');
     }
 
     private function getPageFromRequest()

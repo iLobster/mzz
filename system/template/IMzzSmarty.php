@@ -50,7 +50,7 @@ interface IMzzSmarty
      * @param object $smarty
      * @return string
      */
-    function getResourceFileName($name);
+    //function getResourceFileName($name);
 
     /**
      * ¬озвращает директорию с исходниками шаблонов

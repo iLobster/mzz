@@ -32,7 +32,7 @@ class newsCreateView extends simpleView
         $this->smarty->assign('form', $renderer->toArray());
 
         $this->response->setTitle('Новости -> Создание');
-        return $this->smarty->fetch('news.create.tpl');
+        return $this->smarty->fetch('news/create.tpl');
     }
 
 }

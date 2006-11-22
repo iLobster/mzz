@@ -22,7 +22,7 @@ class user404View extends simpleView
     public function toString()
     {
         $this->response->setTitle('Ошибка. Запрашиваемый пользователь не найден.');
-        return $this->smarty->fetch('user.notfound.tpl');
+        return $this->smarty->fetch('user/notfound.tpl');
     }
 }
 

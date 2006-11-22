@@ -38,7 +38,7 @@ class userLoginformView extends simpleView
         $this->smarty->assign('user', $this->DAO);
         $this->response->setTitle('Пользователь -> Авторизация');
 
-        return $this->smarty->fetch('user.login.tpl');
+        return $this->smarty->fetch('user/login.tpl');
     }
 }
 

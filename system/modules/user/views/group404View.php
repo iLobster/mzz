@@ -22,7 +22,7 @@ class group404View extends simpleView
     public function toString()
     {
         $this->response->setTitle('Ошибка. Запрашиваемая группа не найдена.');
-        return $this->smarty->fetch('user.groupNotfound.tpl');
+        return $this->smarty->fetch('user/groupNotfound.tpl');
     }
 }
 

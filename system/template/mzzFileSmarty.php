@@ -42,17 +42,17 @@ class mzzFileSmarty implements IMzzSmarty
     public function fetch($resource, $cache_id = null, $compile_id = null, $display = false, mzzSmarty $smarty)
     {
         $this->smarty = $smarty;
-        $resource_name = $this->getResourceFileName($resource[1], $this->smarty);
+        //$resource_name = $this->getResourceFileName($resource[1], $this->smarty);
 
         // ƒл€ определени€ активного шаблоного достаточно прочитать первые 256 байтов из шаблона
-        $fileName = $this->getTemplateDir() . '/' . $resource_name;
+        $fileName = $this->getTemplateDir() . '/' . $resource[1];
         if (!file_exists($fileName)) {
             throw new mzzRuntimeException("Ўаблон <em>'" . $fileName . "'</em> отсутствует.");
         }
         $template = new SplFileObject($fileName, 'r');
         $template = $template->fgets(256);
 
-        $result = $this->smarty->fetchPassive($resource_name, $cache_id, $compile_id, $display);
+        $result = $this->smarty->fetchPassive($resource[1], $cache_id, $compile_id, $display);
 
         // ≈сли шаблон вложен, обработать получател€
         if ($this->smarty->isActive($template)) {
@@ -75,15 +75,16 @@ class mzzFileSmarty implements IMzzSmarty
      *
      * @param string $name
      * @return string
+     * @deprecated вместо news.view.tpl использовать news/view.tpl
      */
-    public function getResourceFileName($name)
+    /*public function getResourceFileName($name)
     {
         if (!is_file($this->getTemplateDir() . '/' . $name)) {
             $subdir = substr($name, 0, strpos($name, '.'));
             return $subdir . '/' . $name;
         }
         return $name;
-    }
+    }*/
 
     /**
      * ¬озвращает директорию с исходниками шаблонов

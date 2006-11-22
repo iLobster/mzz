@@ -42,7 +42,7 @@ class userGroupsListView extends simpleView
 
         $this->response->setTitle('Пользователь -> Список групп');
 
-        return $this->smarty->fetch('user.groupsList.tpl');
+        return $this->smarty->fetch('user/groupsList.tpl');
     }
 
     private function getPageFromRequest()

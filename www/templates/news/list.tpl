@@ -1,4 +1,4 @@
-{include file="news/news.tree.tpl" source=$newsFolder}
+{include file="news/tree.tpl" source=$newsFolder}
 
 <div class="newsList">
 {foreach from=$news item=current_news}

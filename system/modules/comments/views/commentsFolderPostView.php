@@ -39,7 +39,7 @@ class commentsFolderPostView extends simpleView
         $this->smarty->assign('action', $this->action);
         $this->smarty->assign('form', $renderer->toArray());
 
-        return $this->smarty->fetch('comments.post.tpl');
+        return $this->smarty->fetch('comments/post.tpl');
     }
 }
 

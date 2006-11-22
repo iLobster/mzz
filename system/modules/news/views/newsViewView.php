@@ -23,7 +23,7 @@ class newsViewView extends simpleView
     {
         $this->smarty->assign('news', $this->DAO);
         $this->response->setTitle('Новости -> Просмотр -> ' . $this->DAO->getTitle());
-        return $this->smarty->fetch('news.view.tpl');
+        return $this->smarty->fetch('news/view.tpl');
     }
 }
 

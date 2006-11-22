@@ -46,7 +46,7 @@ class newsListView extends simpleView
 
         $this->response->setTitle('Новости -> Список');
 
-        return $this->smarty->fetch('news.list.tpl');
+        return $this->smarty->fetch('news/list.tpl');
     }
 
     private function getPageFromRequest()

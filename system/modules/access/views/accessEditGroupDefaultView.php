@@ -53,7 +53,7 @@ class accessEditGroupDefaultView extends simpleView
         $title = $this->group ? $this->group->getName() : 'добавить группу';
         $this->response->setTitle('ACL -> объект ... -> права по умолчанию -> ' . $title);
 
-        return $this->smarty->fetch('access.editGroupDefault.tpl');
+        return $this->smarty->fetch('access/editGroupDefault.tpl');
     }
 }
 

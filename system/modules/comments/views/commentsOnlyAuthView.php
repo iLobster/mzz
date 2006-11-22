@@ -26,7 +26,7 @@ class commentsOnlyAuthView extends simpleView
     public function toString()
     {
         if ($this->DAO) {
-            return $this->smarty->fetch('comments.onlyAuth.tpl');
+            return $this->smarty->fetch('comments/onlyAuth.tpl');
         }
         return '';
     }

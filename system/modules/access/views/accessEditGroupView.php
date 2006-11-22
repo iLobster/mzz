@@ -47,7 +47,7 @@ class accessEditGroupView extends simpleView
         $title = $this->group ? $this->group->getName() : 'добавить группу';
         $this->response->setTitle('ACL -> объект ... -> ' . $title);
 
-        return $this->smarty->fetch('access.editGroup.tpl');
+        return $this->smarty->fetch('access/editGroup.tpl');
     }
 }
 

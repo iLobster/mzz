@@ -45,7 +45,7 @@ class userAddToGroupView extends simpleView
         $this->smarty->assign('group', $this->group);
 
         $this->response->setTitle('Группа -> ' . $this->group->getName() . ' -> добавление пользователей');
-        return $this->smarty->fetch('user.addToGroup.tpl');
+        return $this->smarty->fetch('user/addToGroup.tpl');
     }
 
 }

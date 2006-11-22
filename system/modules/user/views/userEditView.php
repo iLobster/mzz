@@ -45,7 +45,7 @@ class userEditView extends simpleView
         $title = $this->action == 'edit' ? 'Редактирование -> ' . $this->DAO->getLogin() : 'Создание';
 
         $this->response->setTitle('Пользователь -> ' . $title);
-        return $this->smarty->fetch('user.edit.tpl');
+        return $this->smarty->fetch('user/edit.tpl');
     }
 }
 

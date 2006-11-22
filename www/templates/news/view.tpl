@@ -1,4 +1,4 @@
-{include file="news/news.tree.tpl" source=$news->getFolder()}
+{include file="news/tree.tpl" source=$news->getFolder()}
 
 <div class="newsList">
 

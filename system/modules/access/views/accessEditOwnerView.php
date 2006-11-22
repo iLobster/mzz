@@ -44,7 +44,7 @@ class accessEditOwnerView extends simpleView
 
         $this->response->setTitle('ACL -> объект ... -> права для владельца объекта');
 
-        return $this->smarty->fetch('access.editOwner.tpl');
+        return $this->smarty->fetch('access/editOwner.tpl');
     }
 }
 

@@ -24,7 +24,7 @@ class userLoginAlreadyView extends simpleView
     {
         $this->smarty->assign('user', $this->DAO);
 
-        return $this->smarty->fetch('user.already.login.tpl');
+        return $this->smarty->fetch('user/alreadyLogin.tpl');
     }
 }
 

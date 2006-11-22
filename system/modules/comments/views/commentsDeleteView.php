@@ -25,7 +25,7 @@ class commentsDeleteView extends simpleView
 {
     public function toString()
     {
-        return $this->smarty->fetch('comments.delete.tpl');
+        return $this->smarty->fetch('comments/delete.tpl');
     }
 }
 

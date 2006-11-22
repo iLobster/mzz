@@ -5,7 +5,7 @@
 
 213 (!) Сделать сломанный createSubfolder!!!
 
-211 ( ) {include file="news/news.tree.tpl"} - так работает. {include file="news.tree.tpl"} так нет. нужно ли переучивать соответствующую функцию смарти для однообразия?
+211 (+) {include file="news/news.tree.tpl"} - так работает. {include file="news.tree.tpl"} так нет. нужно ли переучивать соответствующую функцию смарти для однообразия?
         Я всё хотел предложить сделать имена шаблонов как news/tree.tpl
         Я "за" (zerkms)
 

@@ -24,7 +24,7 @@ class timerViewView extends simpleView
     public function toString()
     {
         $this->smarty->assign('timer', $this->DAO);
-        return $this->smarty->fetch('filter.time.tpl');
+        return $this->smarty->fetch('filter/time.tpl');
     }
 
 }

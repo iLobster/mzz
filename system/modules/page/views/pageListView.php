@@ -23,7 +23,7 @@ class pageListView extends simpleView
     {
         $this->smarty->assign('pages', $this->DAO);
         $this->response->setTitle('Страницы -> Список');
-        return $this->smarty->fetch('page.list.tpl');
+        return $this->smarty->fetch('page/list.tpl');
     }
 }
 

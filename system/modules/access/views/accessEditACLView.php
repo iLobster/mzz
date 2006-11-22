@@ -44,7 +44,7 @@ class accessEditACLView extends simpleView
         $this->smarty->assign('groupsExists', $this->groupsExist);
         $this->smarty->assign('groups', $this->groups);
         $this->smarty->assign('id', $this->id);
-        return $this->smarty->fetch('access.edit.tpl');
+        return $this->smarty->fetch('access/edit.tpl');
     }
 }
 

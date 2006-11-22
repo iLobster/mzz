@@ -22,7 +22,7 @@ class news404View extends simpleView
     public function toString()
     {
         $this->response->setTitle('Ошибка. Запрашиваемая новость или папка не найдена.');
-        return $this->smarty->fetch('news.notfound.tpl');
+        return $this->smarty->fetch('news/notfound.tpl');
     }
 }
 

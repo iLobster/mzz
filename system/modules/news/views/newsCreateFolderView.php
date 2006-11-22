@@ -35,7 +35,7 @@ class newsCreateFolderView extends simpleView
         $this->smarty->assign('form', $renderer->toArray());
 
         $this->response->setTitle('Новости -> Создание папки');
-        return $this->smarty->fetch('news.createFolder.tpl');
+        return $this->smarty->fetch('news/createFolder.tpl');
     }
 
 }

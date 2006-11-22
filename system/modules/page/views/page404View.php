@@ -23,7 +23,7 @@ class page404View extends simpleView
     public function toString()
     {
         $this->response->setTitle('Ошибка. Запрашиваемая страница не найдена.');
-        return $this->smarty->fetch('page.notfound.tpl');
+        return $this->smarty->fetch('page/notfound.tpl');
     }
 }
 

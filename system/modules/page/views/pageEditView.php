@@ -33,7 +33,7 @@ class pageEditView extends simpleView
         $this->smarty->assign('page', $this->DAO);
 
         $this->response->setTitle('Страницы -> Редактирование -> ' . $this->DAO->getName());
-        return $this->smarty->fetch('page.edit.tpl');
+        return $this->smarty->fetch('page/edit.tpl');
     }
 
 }

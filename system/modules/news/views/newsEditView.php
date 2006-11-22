@@ -37,7 +37,7 @@ class newsEditView extends simpleView
 
         $this->response->setTitle('Новости -> Редактирование -> ' . $this->DAO->getTitle());
 
-        return $this->smarty->fetch('news.edit.tpl');
+        return $this->smarty->fetch('news/edit.tpl');
     }
 }
 

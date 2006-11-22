@@ -47,7 +47,7 @@ class accessEditDefaultView extends simpleView
         $this->smarty->assign('groups', $this->groups);
         $this->smarty->assign('class', $this->class);
         $this->smarty->assign('section', $this->section);
-        return $this->smarty->fetch('access.editDefault.tpl');
+        return $this->smarty->fetch('access/editDefault.tpl');
     }
 }
 

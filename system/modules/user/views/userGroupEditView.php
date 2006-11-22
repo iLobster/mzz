@@ -45,7 +45,7 @@ class userGroupEditView extends simpleView
         $title = $this->action == 'edit' ? 'Редактирование группы -> ' . $this->DAO->getName() : 'Создание группы';
 
         $this->response->setTitle('Пользователь -> ' . $title);
-        return $this->smarty->fetch('user.groupEdit.tpl');
+        return $this->smarty->fetch('user/groupEdit.tpl');
     }
 }
 

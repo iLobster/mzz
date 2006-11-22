@@ -22,7 +22,7 @@ class newsFoldersView extends simpleView
     public function toString()
     {
         $this->smarty->assign('folders', $this->DAO);
-        return $this->smarty->fetch('news.folders.tpl');
+        return $this->smarty->fetch('news/folders.tpl');
     }
 }
 

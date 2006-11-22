@@ -26,7 +26,7 @@ class adminViewView extends simpleView
     public function toString()
     {
         $this->smarty->assign('info', $this->DAO);
-        return $this->smarty->fetch('admin.view.tpl');
+        return $this->smarty->fetch('admin/view.tpl');
     }
 }
 

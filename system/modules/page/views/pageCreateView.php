@@ -32,7 +32,7 @@ class pageCreateView extends simpleView
         $this->smarty->assign('form', $renderer->toArray());
 
         $this->response->setTitle('Страницы -> Создание');
-        return $this->smarty->fetch('page.create.tpl');
+        return $this->smarty->fetch('page/create.tpl');
     }
 
 }

@@ -38,7 +38,7 @@ class userMembersListView extends simpleView
 
         $this->response->setTitle('Группа -> ' . $this->DAO->getName() . ' -> список пользователей');
 
-        return $this->smarty->fetch('user.membersList.tpl');
+        return $this->smarty->fetch('user/membersList.tpl');
     }
 }
 

@@ -53,7 +53,7 @@ class accessEditUserDefaultView extends simpleView
         $title = $this->user ? $this->user->getLogin() : 'добавить пользователя';
         $this->response->setTitle('ACL -> объект ... -> права по умолчанию -> ' . $title);
 
-        return $this->smarty->fetch('access.editUserDefault.tpl');
+        return $this->smarty->fetch('access/editUserDefault.tpl');
     }
 }
 

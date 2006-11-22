@@ -45,7 +45,7 @@ class accessEditUserView extends simpleView
         $title = $this->httprequest->getAction() == 'editUser' ? $this->user->getLogin() : 'добавить пользователя';
         $this->response->setTitle('ACL -> объект ... -> ' . $title);
 
-        return $this->smarty->fetch('access.editUser.tpl');
+        return $this->smarty->fetch('access/editUser.tpl');
     }
 }
 
