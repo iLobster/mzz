@@ -15,7 +15,7 @@
  *
  * @package system
  * @subpackage filters
- * @version 0.2.1
+ * @version 0.2.2
  */
 class contentFilter implements iFilter
 {
@@ -53,9 +53,11 @@ class contentFilter implements iFilter
         $smarty = $toolkit->getSmarty();
         $smarty->assign('current_section', $request->getSection());
         $output = $smarty->fetch($template);
+
+        /*
         if (isset($GLOBALS['403global']) && $GLOBALS['403global']) {
             $output = $smarty->fetch($GLOBALS['403tpl']);
-        }
+        }*/
 
         $response->append($output);
 

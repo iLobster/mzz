@@ -20,8 +20,6 @@
  * @version 0.1
  */
 
-fileLoader::load('access/views/accessDeleteUserDefaultView');
-
 class accessDeleteUserDefaultController extends simpleController
 {
     public function getView()
@@ -37,7 +35,7 @@ class accessDeleteUserDefaultController extends simpleController
             $acl->deleteDefault();
         }
 
-        return new accessDeleteUserDefaultView();
+        return new simpleJipCloseView();
     }
 }
 

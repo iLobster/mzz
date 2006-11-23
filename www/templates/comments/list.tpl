@@ -5,4 +5,4 @@
 <div class="commentText">{$comment->getText()|htmlspecialchars|nl2br}</div>
 {/foreach}
 <br />
-{load module="comments" section="comments" action="post" parent_id=$parent_id 403handle="manual" 403tpl="comments.deny.tpl"} {* 403level="global" *}
+{load module="comments" section="comments" action="post" parent_id=$parent_id 403handle="manual" 403tpl="comments/deny.tpl"} {* 403level="global" *}

@@ -30,7 +30,7 @@ fileLoader::load('acl');
  *
  * @package system
  * @subpackage template
- * @version 0.4.1
+ * @version 0.4.2
  */
 function smarty_function_load($params, $smarty)
 {
@@ -84,6 +84,7 @@ function smarty_function_load($params, $smarty)
 
     $access = $acl->get($actionName);
 
+    /*
     if (!$access && isset($params['403level']) && $params['403level'] == 'global') {
         $response = $toolkit->getResponse();
         $response->clear();
@@ -94,7 +95,7 @@ function smarty_function_load($params, $smarty)
 
     if (isset($GLOBALS['403global']) && $GLOBALS['403global']) {
         return '';
-    }
+    }*/
 
     if (isset($params['403handle']) && $params['403handle'] == 'manual') {
         $request->setParam('access', $access);

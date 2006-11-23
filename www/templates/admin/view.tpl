@@ -1,7 +1,5 @@
-{*
-{add file="popup.js"}
+{* {add file="popup.js"} *}
 {add file="confirm.js"}
-*}
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     {foreach from=$info item=module key=module_name}
         <tr>
@@ -13,7 +11,8 @@
             <tr>
                 <td>&nbsp;</td>
                 <td colspan="2">
-                    {$section_name} <a href="{url section="config" params="`$section_name`/`$module_name`" action="editCfg"}"><img src="{$SITE_PATH}templates/images/config.gif"></a>
+                    {assign var="name" value="`$section_name`_`$module_name`"}
+                    {$section_name} {if not empty($cfgAccess.$name)}<a href="{url section="config" params="`$section_name`/`$module_name`" action="editCfg"}" onClick="showJip('{url section="config" params="`$section_name`/`$module_name`" action="editCfg"}'); return false;"><img src="{$SITE_PATH}templates/images/config.gif"></a>{/if}
                 </td>
             </tr>
             {foreach from=$section item=class}
@@ -21,7 +20,7 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>
-                        {$class.class} <a href="{url section="access" params="`$section_name`/`$class.class`" action="editDefault"}"><img src="{$SITE_PATH}templates/images/aclDefault.gif"></a><a href="{url section="access" params="`$class.obj_id`" action="editACL"}"><img src="{$SITE_PATH}templates/images/acl.gif"></a>
+                        {$class.class} {if not empty($class.editDefault)}<a href="{url section="access" params="`$section_name`/`$class.class`" action="editDefault"}" onClick="showJip('{url section="access" params="`$section_name`/`$class.class`" action="editDefault"}'); return false;"><img src="{$SITE_PATH}templates/images/aclDefault.gif"></a>{/if} {if not empty($class.editACL)}<a href="{url section="access" params="`$class.obj_id`" action="editACL"}" onClick="showJip('{url section="access" params="`$class.obj_id`" action="editACL"}'); return false;"><img src="{$SITE_PATH}templates/images/acl.gif"></a>{/if}
                     </td>
                 </tr>
             {/foreach}

@@ -20,8 +20,6 @@
  * @version 0.1
  */
 
-fileLoader::load('access/views/accessDeleteGroupView');
-
 class accessDeleteGroupController extends simpleController
 {
     public function getView()
@@ -34,7 +32,7 @@ class accessDeleteGroupController extends simpleController
             $acl->deleteGroup($group_id);
         }
 
-        return new simpleJipRefreshView();
+        return new simpleJipCloseView();
     }
 }
 

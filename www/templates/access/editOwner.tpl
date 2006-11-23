@@ -1,5 +1,5 @@
 Изменение прав на объект типа <b>{$class}</b> раздела <b>{$section}</b> для владельца объекта
-<form action="{url}" method="post">
+<form action="{url}" method="post" onsubmit="return sendFormWithAjax(this);return false;">
 <table border="0" width="100%" cellpadding="0" cellspacing="1">
         {foreach from=$actions item=action}
             <tr>

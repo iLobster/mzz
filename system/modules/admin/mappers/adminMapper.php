@@ -40,21 +40,31 @@ class adminMapper extends simpleMapper
 
     public function getInfo()
     {
+        $toolkit = systemToolkit::getInstance();
+        $user = $toolkit->getUser();
+
         $info = $this->db->getAll("SELECT `m`.`name` AS `module`, `ss`.`name` AS `section`, `c`.`name` AS `class` FROM `sys_modules` `m`
-                                 LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
-                                  LEFT JOIN `sys_classes_sections` `s` ON `s`.`class_id` = `c`.`id`
-                                   LEFT JOIN `sys_sections` `ss` ON `ss`.`id` = `s`.`section_id`
-                                    ORDER BY `m`.`name`, `ss`.`name`, `c`.`name`");
+                                    LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
+                                     LEFT JOIN `sys_classes_sections` `s` ON `s`.`class_id` = `c`.`id`
+                                      LEFT JOIN `sys_sections` `ss` ON `ss`.`id` = `s`.`section_id`
+                                       ORDER BY `m`.`name`, `ss`.`name`, `c`.`name`");
         $result = array();
+        $access = array();
 
         $toolkit = systemToolkit::getInstance();
 
         foreach ($info as $val) {
             $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $val['class']);
-            $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id);
+            $acl = new acl($user, $obj_id);
+
+            if (!isset($access[$val['section'] . '_' . $val['class']])) {
+                $access[$val['section'] . '_' . $val['class']] = $acl->get('editACL');
+            }
+
+            $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id, 'editACL' => $acl->get('editACL'), 'editDefault' => $acl->get('editDefault'));
         }
 
-        return $result;
+        return array('data' => $result, 'cfgAccess' => $access);
     }
 
     /**

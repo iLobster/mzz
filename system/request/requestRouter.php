@@ -129,7 +129,6 @@ class requestRouter
 
         $this->request->setParams($params);
     }
-
 }
 
 ?>

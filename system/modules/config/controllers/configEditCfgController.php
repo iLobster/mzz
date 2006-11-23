@@ -35,7 +35,7 @@ class configEditCfgController extends simpleController
             $config->set($cfg);
 
             $url = new url();
-            $this->response->redirect($url->get() . '/' . $section_name . '/' . $module_name . '/editCfg');
+            return new simpleJipCloseView();
         }
 
         return new configEditCfgView($module_name, $section_name);

@@ -1,5 +1,5 @@
 Изменение прав по умолчанию на объект типа <b>{$class}</b> раздела <b>{$section}</b> {if $groups === false}для группы <b>{$group->getName()}</b>{/if}
-<form action="{url}" method="post">
+<form action="{url}" method="post" onsubmit="return sendFormWithAjax(this);return false;">
 <table border="0" width="100%" cellpadding="0" cellspacing="1">
         {if $groups !== false}
             Выберите группу

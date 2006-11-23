@@ -26,6 +26,15 @@ class newsViewController extends simpleController
     {
         $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
 
+         //Генерилка "мусора" ;)
+        /*for ($i=0; $i<=10000; $i++) {
+            $news = $newsMapper->create();
+            $news->setText(md5(microtime()));
+            $news->setTitle(md5(microtime()));
+            $news->setFolder(2);
+            $newsMapper->save($news);
+        }*/
+
         if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
             $id = 0;
         }

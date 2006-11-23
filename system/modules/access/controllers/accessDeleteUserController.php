@@ -20,8 +20,6 @@
  * @version 0.1
  */
 
-fileLoader::load('access/views/accessDeleteUserView');
-
 class accessDeleteUserController extends simpleController
 {
     public function getView()
@@ -34,7 +32,7 @@ class accessDeleteUserController extends simpleController
             $acl->deleteUser($user_id);
         }
 
-        return new simpleJipRefreshView();
+        return new simpleJipCloseView();
     }
 }
 

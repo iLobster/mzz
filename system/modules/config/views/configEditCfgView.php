@@ -34,6 +34,8 @@ class configEditCfgView extends simpleView
     {
         $config = $this->toolkit->getConfig($this->section, $this->DAO);
         $this->smarty->assign('configs', $config->getValues());
+        $this->smarty->assign('section', $this->section);
+        $this->smarty->assign('module', $this->DAO);
         return $this->smarty->fetch('config/editCfg.tpl');
     }
 }
