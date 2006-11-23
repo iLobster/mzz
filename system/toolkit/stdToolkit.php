@@ -203,6 +203,7 @@ class stdToolkit extends toolkit
      * @param object объект для кэширования
      * @return object
      */
+    /*
     public function getCache($object)
     {
         die('cache called');
@@ -211,7 +212,7 @@ class stdToolkit extends toolkit
             $this->cache = true;
         }
         return new cache($object, systemConfig::$pathToTemp . '/cache');
-    }
+    }*/
 
     /**
      * Возвращает объект текущего пользователя
@@ -229,7 +230,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает уникальный идентификатор необходимый для идентификации DAO объектов
+     * Возвращает уникальный идентификатор необходимый для идентификации объектов
      *
      * @return integer
      */
