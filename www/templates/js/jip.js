@@ -12,6 +12,30 @@ var formSuccess = false;
 var $break    = new Object();
 var $continue = new Object();
 
+
+function getPosition(el, body)
+{
+    if(!el || !el.offsetParent) {
+        return false;
+    }
+    var left = 0, top = 0, right = 0, bottom = 0;
+
+    objParent = el;
+   
+    do { 
+        left += objParent.offsetLeft;
+        top += objParent.offsetTop;
+        objParent = objParent.offsetParent;
+    } while (objParent && objParent != body)
+        
+    right = left + el.offsetWidth;
+    bottom = top + el.offsetHeight;
+
+    return {"left": left, "top": top, "right": right, "bottom": bottom};
+}
+
+
+
 function each(values, iterator) {
     var index = 0;
     try {
@@ -189,7 +213,7 @@ function hideJip(windows, success)
             if (urlFromStack != undefined) {
                 return showJip(urlFromStack[0], success);}
         }
-
+        last_jipmenu_id = false;
         document.getElementById('blockContent').style.display = 'none';
         document.getElementById('jip').style.display = 'none';
         lastJipUrl = false;
@@ -235,22 +259,22 @@ function openJipMenu(button, jipMenu, id) {
 
 
     jipMenu.style.top = '-100px';
+    jipMenu.style.left = '-100px';
     jipMenu.style.display = 'block';
 
     if (last_jipmenu_id) {
         closeJipMenu(document.getElementById('jip_menu_' + last_jipmenu_id));
     }
-
+    /**************
     if (is_gecko) {
         curr_x = button.x;
         curr_y = button.y + 17;
     } else {
         e = window.event;
 
-        curr_x = (e.pageX) ? e.pageX : e.x + 2 /*+ document.documentElement.scrollLeft*/;
-        curr_y = (e.pageY) ? e.pageY : e.y + 2 /*+ document.documentElement.scrollTop*/;
+        curr_x = (e.pageX) ? e.pageX : e.x + 2; // + document.documentElement.scrollLeft;
+        curr_y = (e.pageY) ? e.pageY : e.y + 2; // + document.documentElement.scrollTop;
     }
-
 
     var bottom_position = getBottomPosition(button);
 
@@ -261,17 +285,41 @@ function openJipMenu(button, jipMenu, id) {
 
     if((body.clientWidth + body.scrollLeft) < (x + jipMenu.clientWidth))
     {
-        x = body.scrollLeft + body.clientWidth - 207;
+        x = body.scrollLeft + body.clientWidth - (jipMenu.clientWidth + 20);
     }
 
-    if((body.clientHeight + body.scrollTop) < (bottom_position + jipMenu.clientHeight + 30))
-    {
-        y = body.scrollTop - jipMenu.clientHeight + 30;
+    if((body.clientHeight + body.scrollTop) < (bottom_position + jipMenu.clientHeight ))
+    { 
+        y = ( body.clientHeight - body.scrollTop) - bottom_position-  jipMenu.clientHeight + 30;
+    }
+    **********/
+
+
+    if (document.getElementById('jip').style.display == 'block') {
+         var body = document.getElementById('jip');
+    } else {
+         var body = document.body;
+    }
+
+    pos = getPosition(button, body);
+    var x = pos["left"], y = pos["bottom"], w = jipMenu.offsetWidth, h = jipMenu.offsetHeight;
+
+    if((body.clientWidth + body.scrollLeft) - (pos["left"] + w) < 0) {
+        x = (pos["right"] - w >= 0) ? (pos["right"] - w) : body.scrollLeft;
+    }
+
+    if((body.clientHeight + body.scrollTop) - (pos["bottom"] + h) < 0) {
+        y = (pos["top"] - h >= 0) ? (pos["top"] - h) : body.scrollTop;
+    }
+
+    if (body != document.body && is_gecko) {
+        x += 4;
+        y += 4;
     }
 
     jipMenu.style.left = x + 'px';
-    jipMenu.style.top = y + 'px';
-
+    jipMenu.style.top = (y + 1) + 'px';
+    //jipMenu.style.width = w + 'px';
     last_jipmenu_id = id;
 }
 
