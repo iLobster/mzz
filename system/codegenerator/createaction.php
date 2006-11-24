@@ -120,7 +120,7 @@ Sample usage:
     'action' => $action,
     'viewname' => $prefix . 'View',
     'module' => $module,
-    'tplname' => $module . '.' . $action . '.tpl',
+    'tplname' => $module . '/' . $action . '.tpl',
     );
 
     $view_filename = $views_dir . '/' . $type . ucfirst($action) . 'View.php';
