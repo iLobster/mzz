@@ -13,8 +13,8 @@
         <tr>
             <td align="center">{$user->getId()}</td>
             {assign var=user_id value=$user->getId()}
-            <td><a href="{url section=access action=editUserDefault params="$section/$class/$user_id"}" onClick="return showJip('{url section=access action=editOwner params="$section/$class"}');">{$user->getLogin()}</a></td>
-            <td><a href="{url section=access action=deleteUserDefault params="$section/$class/$user_id"}" onClick="mzz_confirm('Вы хотите удалить этого пользователя?') && showJip('{url section=access action=deleteUserDefault params="$section/$class/$user_id"}');"><img src="{$SITE_PATH}templates/images/delete.gif" width="16" height="16" /></a></td>
+            <td><a href="{url section=access action=editUserDefault params="$section/$class/$user_id"}" onClick="return showJip('{url section=access action=editUserDefault params="$section/$class/$user_id"}');">{$user->getLogin()}</a></td>
+            <td><a href="{url section=access action=deleteUserDefault params="$section/$class/$user_id"}" onClick="mzz_confirm('Вы хотите удалить этого пользователя?') && showJip('{url section=access action=deleteUserDefault params="$section/$class/$user_id"}'); return false;"><img src="{$SITE_PATH}templates/images/delete.gif" width="16" height="16" /></a></td>
         </tr>
     {/foreach}
     {if $usersExists}
@@ -31,7 +31,7 @@
             <td align="center">{$group->getId()}</td>
             {assign var=group_id value=$group->getId()}
             <td><a href="{url section=access action=editGroupDefault params="$section/$class/$group_id"}" onClick="return showJip('{url section=access action=editGroupDefault params="$section/$class/$group_id"}');">{$group->getName()}</a></td>
-            <td><a href="{url section=access action=deleteGroupDefault params="$section/$class/$group_id"}" onClick="mzz_confirm('Вы хотите удалить эту группу?') && showJip('{url section=access action=deleteGroupDefault params="$section/$class/$group_id"}');"><img src="{$SITE_PATH}templates/images/delete.gif" width="16" height="16" /></a></td>
+            <td><a href="{url section=access action=deleteGroupDefault params="$section/$class/$group_id"}" onClick="mzz_confirm('Вы хотите удалить эту группу?') && showJip('{url section=access action=deleteGroupDefault params="$section/$class/$group_id"}'); return false;"><img src="{$SITE_PATH}templates/images/delete.gif" width="16" height="16" /></a></td>
         </tr>
     {/foreach}
     {if $groupsExists}

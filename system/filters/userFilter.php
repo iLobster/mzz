@@ -31,9 +31,8 @@ class userFilter implements iFilter
      * @param filterChain $filter_chain объект, содержащий цепочку фильтров
      * @param httpResponse $response объект, содержащий информацию, выводимую клиенту в браузер
      * @param iRequest $request
-     * @param string $alias алиас соединения с БД
      */
-    public function run(filterChain $filter_chain, $response, iRequest $request, $alias = 'default')
+    public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
         $httprequest = $toolkit->getRequest();
@@ -56,7 +55,7 @@ class userFilter implements iFilter
 
         // @todo хм... начинаем зависеть от таблы??
         //$userMapper = $toolkit->getCache(new userMapper('user'));
-        $userMapper = $toolkit->getMapper('user', 'user', 'user', $alias);
+        $userMapper = $toolkit->getMapper('user', 'user', 'user');
 
         $me = $userMapper->searchById($user_id);
 

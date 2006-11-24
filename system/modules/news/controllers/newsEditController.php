@@ -46,7 +46,6 @@ class newsEditController extends simpleController
                 if ($action == 'createItem') {
                     $news = $newsMapper->create();
                     $news->setFolder($folder->getId());
-                    echo 1;
                 }
 
 

@@ -105,22 +105,13 @@ abstract class simpleMapper //implements iCacheable
     protected $relations;
 
     /**
-     * Свойство для хранения информации об отношениях
-     *
-     * @var string
-     */
-    protected $alias;
-
-    /**
      * Конструктор
      *
      * @param string $section секция
-     * @param string $alias название соединения с БД
      */
-    public function __construct($section, $alias = 'default')
+    public function __construct($section)
     {
-        $this->db = DB::factory($alias);
-        $this->alias = $this->db->getAlias();
+        $this->db = DB::factory();
         $this->section = $section;
 
         $this->table = strtolower($this->section . '_' .$this->className);
@@ -369,7 +360,7 @@ abstract class simpleMapper //implements iCacheable
         $toolkit = systemToolkit::getInstance();
 
         foreach ($this->getOwns() as $key => $val) {
-            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
+            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
             $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$key]);
         }
 
@@ -389,7 +380,7 @@ abstract class simpleMapper //implements iCacheable
         $this->addSelectFields($criteria, $this->getMap(), $this->table, $this->className);
 
         foreach ($this->getOwns() as $key => $val) {
-            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section'], $val['alias']);
+            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
 
             $this->addSelectFields($criteria, $mapper->getMap(), $val['class'], $key);
 
@@ -684,9 +675,8 @@ abstract class simpleMapper //implements iCacheable
 
         $sectionName = isset($val['section']) ? $val['section'] : $this->section();
         $moduleName = isset($val['module']) ? $val['module'] : $this->name();
-        $alias = isset($val['alias']) ? $val['alias'] : 'default';
 
-        return array($tableName, $fieldName, $className, $sectionName, $moduleName, $alias);
+        return array($tableName, $fieldName, $className, $sectionName, $moduleName);
     }
 
     /**
@@ -701,9 +691,9 @@ abstract class simpleMapper //implements iCacheable
             foreach ($this->getMap() as $key => $val) {
                 if (isset($val['owns'])) {
                     $val['relate'] = $val['owns'];
-                    list($tableName, $fieldName, $className, $sectionName, $moduleName, $alias) = $this->explodeRelateData($val);
+                    list($tableName, $fieldName, $className, $sectionName, $moduleName) = $this->explodeRelateData($val);
 
-                    $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'alias' => $alias);
+                    $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className);
                 }
             }
         }
@@ -724,9 +714,9 @@ abstract class simpleMapper //implements iCacheable
                 if (isset($val['hasMany'])) {
                     list($field, $tmp) = explode('->', $val['hasMany'], 2);
                     $val['relate'] = $tmp;
-                    list($tableName, $fieldName, $className, $sectionName, $moduleName, $alias) = $this->explodeRelateData($val);
+                    list($tableName, $fieldName, $className, $sectionName, $moduleName) = $this->explodeRelateData($val);
 
-                    $this->relations['hasMany'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'field' => $field, 'alias' => $alias);
+                    $this->relations['hasMany'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'field' => $field);
                 }
             }
         }
@@ -767,11 +757,10 @@ abstract class simpleMapper //implements iCacheable
                 $className = $owns[$key]['class'];
                 $fieldName = $owns[$key]['key'];
                 $moduleName = $owns[$key]['module'];
-                $alias = $owns[$key]['alias'];
 
                 // получаем нужный маппер
                 $toolkit = systemToolkit::getInstance();
-                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName, $alias);
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
 
                 // сохраняем связанный объект
                 $mapper->save($val);
@@ -808,11 +797,10 @@ abstract class simpleMapper //implements iCacheable
                 $className = $hasMany[$key]['class'];
                 $fieldName = $hasMany[$key]['key'];
                 $moduleName = $hasMany[$key]['module'];
-                $alias = $hasMany[$key]['alias'];
 
                 // получаем нужный маппер
                 $toolkit = systemToolkit::getInstance();
-                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName, $alias);
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
 
                 // удаляем все записи которых нет в новом массиве
                 foreach ($oldObjIds as $subval) {
@@ -846,10 +834,8 @@ abstract class simpleMapper //implements iCacheable
                 $className = $info['class'];
                 $fieldName = $info['key'];
                 $moduleName = $info['module'];
-                $alias = $info['alias'];
 
-
-                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName, $alias);
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
 
                 if (is_array($val)) {
                     foreach ($val as $subval) {

@@ -217,13 +217,12 @@ class stdToolkit extends toolkit
     /**
      * Возвращает объект текущего пользователя
      *
-     * @param string $alias алиас, указывающий на то какое соединение с БД использовать. Необходимо для возможности использования авторизационных данных из различных источников.
      * @return user
      */
-    public function getUser($alias = 'default')
+    public function getUser()
     {
         if (empty($this->user)) {
-            $userMapper = $this->getMapper('user', 'user', 'user', $alias);
+            $userMapper = $this->getMapper('user', 'user', 'user');
             $this->user = $userMapper->searchById(MZZ_USER_GUEST_ID);
         }
         return $this->user;
@@ -355,15 +354,15 @@ class stdToolkit extends toolkit
      * @param string $section имя раздела
      * @return simpleMapper
      */
-    public function getMapper($module, $do, $section, $alias = 'default')
+    public function getMapper($module, $do, $section)
     {
-        if (!isset($this->mappers[$alias][$do][$section])) {
+        if (!isset($this->mappers[$do][$section])) {
             $mapperName = $do . 'Mapper';
             fileLoader::load($module . '/mappers/' . $mapperName);
-            $this->mappers[$alias][$do][$section] = new $mapperName($section, $alias);
+            $this->mappers[$do][$section] = new $mapperName($section);
         }
 
-        return $this->mappers[$alias][$do][$section];
+        return $this->mappers[$do][$section];
     }
 }
 ?>

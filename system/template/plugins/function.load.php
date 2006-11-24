@@ -82,6 +82,8 @@ function smarty_function_load($params, $smarty)
         }
     }
 
+    //var_dump($actionName); var_dump($object_id);
+
     $access = $acl->get($actionName);
 
     /*

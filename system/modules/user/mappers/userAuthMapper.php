@@ -42,9 +42,9 @@ class userAuthMapper extends simpleMapper
     protected $request;
     protected $session;
 
-    public function __construct($section, $alias = 'default')
+    public function __construct($section)
     {
-        parent::__construct($section, $alias);
+        parent::__construct($section);
         $this->toolkit = systemToolkit::getInstance();
         $this->request = $this->toolkit->getRequest();
         $this->session = $this->toolkit->getSession();

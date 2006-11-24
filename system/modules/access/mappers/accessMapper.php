@@ -38,9 +38,9 @@ class accessMapper extends simpleMapper
      */
     protected $className = 'access';
 
-    public function __construct($section, $alias = 'default')
+    public function __construct($section)
     {
-        parent::__construct($section, $alias);
+        parent::__construct($section);
         $this->table = 'sys_access';
     }
 

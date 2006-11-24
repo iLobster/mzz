@@ -83,13 +83,6 @@ class acl
     private $validActions = array();
 
     /**
-     * јлиас
-     *
-     * @var string
-     */
-    private $alias;
-
-    /**
      * конструктор
      *
      * @param user $user
@@ -97,17 +90,15 @@ class acl
      * @param string_type $class
      * @param string $section
      */
-    public function __construct($user = null, $object_id = 0, $class = '', $section = '', $alias = 'default')
+    public function __construct($user = null, $object_id = 0, $class = '', $section = '')
     {
-        $this->db = db::factory($this->alias);
-        //@todo проверить на существование
-        $this->alias = $alias;
+        $this->db = db::factory();
 
         $object_id = (int)$object_id;
 
         if (empty($user)) {
             $toolkit = systemToolkit::getInstance();
-            $user = $toolkit->getUser($this->alias);
+            $user = $toolkit->getUser();
         }
         //var_dump($this->db->getQueriesNum());
         if (!($user instanceof user)) {
@@ -128,7 +119,7 @@ class acl
 
         //var_dump($this->db->getQueriesNum());
         //echo '<br><br>';
-        $this->db = db::factory($this->alias);
+        $this->db = db::factory();
     }
 
     /**
@@ -360,7 +351,7 @@ class acl
     public function getUsersList()
     {
         $toolkit = systemToolkit::getInstance();
-        $userMapper = $toolkit->getMapper('user', 'user', 'user', $this->alias);
+        $userMapper = $toolkit->getMapper('user', 'user', 'user');
 
         $criteria = new criteria();
         $criteria->addJoin('sys_access', new criterion('user.' . $userMapper->getTableKey(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
@@ -380,7 +371,7 @@ class acl
     public function getUsersListDefault($section, $class)
     {
         $toolkit = systemToolkit::getInstance();
-        $userMapper = $toolkit->getMapper('user', 'user', 'user', $this->alias);
+        $userMapper = $toolkit->getMapper('user', 'user', 'user');
 
         $criteria = new criteria();
         $criteria->addJoin('sys_access', new criterion('a.uid', 'user.' . $userMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
@@ -409,7 +400,7 @@ class acl
     public function getGroupsList()
     {
         $toolkit = systemToolkit::getInstance();
-        $groupMapper = $toolkit->getMapper('user', 'group', 'user', $this->alias);
+        $groupMapper = $toolkit->getMapper('user', 'group', 'user');
 
         $criteria = new criteria();
         $criteria->addJoin('sys_access', new criterion('group.' . $groupMapper->getTableKey(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
@@ -429,7 +420,7 @@ class acl
     public function getGroupsListDefault($section, $class)
     {
         $toolkit = systemToolkit::getInstance();
-        $groupMapper = $toolkit->getMapper('user', 'group', 'user', $this->alias);
+        $groupMapper = $toolkit->getMapper('user', 'group', 'user');
 
         $criteria = new criteria();
         $criteria->addJoin('sys_access', new criterion('a.gid', 'group.' . $groupMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);

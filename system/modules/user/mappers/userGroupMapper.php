@@ -39,11 +39,10 @@ class userGroupMapper extends simpleMapper
      * Конструктор
      *
      * @param string $section секция
-     * @param string $alias название соединения с бд
      */
-    public function __construct($section, $alias = 'default')
+    public function __construct($section)
     {
-        parent::__construct($section, $alias);
+        parent::__construct($section);
         $this->table = $this->table . '_rel';
     }
 

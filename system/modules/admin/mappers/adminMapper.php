@@ -55,6 +55,7 @@ class adminMapper extends simpleMapper
 
         foreach ($info as $val) {
             $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $val['class']);
+            $this->register($obj_id, 'sys', 'access');
             $acl = new acl($user, $obj_id);
 
             if (!isset($access[$val['section'] . '_' . $val['class']])) {
