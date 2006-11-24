@@ -17,7 +17,6 @@
  * @version 0.1
  */
 
-fileLoader::load('news/views/newsDeleteView');
 fileLoader::load("news/mappers/newsMapper");
 
 class newsDeleteController extends simpleController
@@ -27,7 +26,9 @@ class newsDeleteController extends simpleController
         $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
         $newsMapper->delete($this->request->get('id', 'integer', SC_PATH));
 
-        return new simpleJipRefreshView();
+        $url = new url();
+        $url->setAction('list');
+        return new simpleJipRefreshView($url->get());
     }
 }
 

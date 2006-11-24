@@ -179,6 +179,7 @@ function sendFormWithAjax(form, elementId)
     var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
     YAHOO.util.Connect.setForm(form);
     var request = YAHOO.util.Connect.asyncRequest(form.getAttribute('method').toUpperCase(), form.action + '&ajax=1', callback);
+    cleanJip();
     return false;
 }
 
@@ -189,6 +190,7 @@ function sendFormInAjax(form, elementId)
     var callback = {success:handleInSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
     YAHOO.util.Connect.setForm(form);
     var request = YAHOO.util.Connect.asyncRequest(form.method.toUpperCase(), form.action + '&ajax=1', callback);
+    cleanJip();
     return false;
 }
 
