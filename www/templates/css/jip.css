@@ -26,6 +26,7 @@ img.jip {
 
 .jipMenu {
     font-weight: normal;
+    font-size: 12px !important;
     display: none;
     background-color: #F9F9F9;
     border: 2px solid #B6B6B6;

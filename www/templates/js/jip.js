@@ -21,16 +21,16 @@ function getPosition(el, body)
     var left = 0, top = 0, right = 0, bottom = 0;
 
     objParent = el;
-   
-    do { 
+
+    do {
         left += objParent.offsetLeft;
         top += objParent.offsetTop;
         objParent = objParent.offsetParent;
-    } while (objParent && objParent != body)
-        
+
+    } while (objParent && (objParent != body && objParent.id != 'fcontainer' && objParent.id != 'footer'))
+
     right = left + el.offsetWidth;
     bottom = top + el.offsetHeight;
-
     return {"left": left, "top": top, "right": right, "bottom": bottom};
 }
 
@@ -294,7 +294,7 @@ function openJipMenu(button, jipMenu, id) {
     }
 
     if((body.clientHeight + body.scrollTop) < (bottom_position + jipMenu.clientHeight ))
-    { 
+    {
         y = ( body.clientHeight - body.scrollTop) - bottom_position-  jipMenu.clientHeight + 30;
     }
     **********/

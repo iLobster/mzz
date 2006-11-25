@@ -271,18 +271,6 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Ёкспорт значений из HTML_QuickForm
-     * ѕри участии AJAX используетс€ перекодировка из UTF-8 в Windows-1251
-     *
-     * @param HTML_QuickForm $form
-     * @deprecated
-     */
-    public function exportFormValues(HTML_QuickForm $form)
-    {
-        throw new mzzException('deprecated');
-    }
-
-    /**
      * ¬озврат массива параметров
      *
      * @return array
