@@ -1,0 +1,88 @@
+img.jip {
+  cursor: pointer;
+}
+
+#jip {
+    position: absolute;
+    display: none;
+    border: 4px solid #B6B6B6;
+    z-index: 1001;
+    font-size:100%;
+    padding: 3px;
+    width: 70%;
+    background-color: #FFFFFF;
+    overflow:auto;
+    min-width: 500px;
+    left: 15%;
+    top: 15%;
+}
+
+.jipTitle {
+    font-size: 120%;
+    margin-bottom: 15px;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.jipMenu {
+    font-weight: normal;
+    display: none;
+    background-color: #F9F9F9;
+    border: 2px solid #B6B6B6;
+    width: 180px;
+    position: absolute;
+    z-index: 50000;
+    line-height: 100%;
+}
+
+.jipMenuClose {
+    font-size: 80%;
+    font-weight: normal;
+    text-align: right;
+    margin-right: 3px;
+    line-height: 100%;
+}
+
+
+table.jipItems {
+    cursor: pointer;
+    border: 1px solid #ffffff;
+    width: 100%;
+}
+
+td.jipItemIcon {
+    width: 20px;
+    border-right: 1px solid #D4D4D4;
+    background-color: #ECECEC;
+    text-align:center;
+}
+
+td.jipItemText {
+    border-top: 1px solid #F9F9F9;
+    border-bottom: 1px solid #F9F9F9;
+    border-left: 0;
+    border-right: 1px solid #F9F9F9;
+    padding-left: 8px;
+}
+
+td.jipItemTextActive {
+    border-top: 1px solid #D8D7C5;
+    border-bottom: 1px solid #D8D7C5;
+    border-left: 0;
+    border-right: 1px solid #D8D7C5;
+    padding-left: 8px;
+    background-color: #EBEAE2;
+}
+
+table.jip_menu {
+    font-family: verdana, arial, tahoma;
+    font-size: 90%;
+    background-color: #E4E4E4;
+    padding: 1px;
+}
+td.jip_menu {
+    background-color: #fff;
+    font-family: verdana, arial, tahoma;
+    font-size: 100%;
+    padding: 3px;
+}

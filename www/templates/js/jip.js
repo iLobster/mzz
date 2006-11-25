@@ -130,6 +130,9 @@ function proccessKey(key) {
     if (key.keyCode) code = key.keyCode;
     else if (key.which) code = key.which;
     if (code == 27) {
+        if (last_jipmenu_id) {
+            closeJipMenu(document.getElementById('jip_menu_' + last_jipmenu_id));
+        }
         return hideJip();
     }
 }
@@ -338,6 +341,7 @@ function showJipMenu(button, id) {
     jipMenu = document.getElementById('jip_menu_' + id);
     if (!jipMenu.style.display || jipMenu.style.display == 'none') {
         openJipMenu(button, jipMenu, id);
+        setMouseInJip(false);
     } else {
         closeJipMenu(jipMenu);
     }
@@ -346,7 +350,7 @@ function showJipMenu(button, id) {
 function setMouseInJip(status) {
     if (status == false && last_jipmenu_id) {
         jipMenu = document.getElementById('jip_menu_' + last_jipmenu_id);
-        layertimer = setTimeout("closeJipMenu(jipMenu)", 800);
+        layertimer = setTimeout("closeJipMenu(jipMenu)", 900);
     } else {
         clearTimeout(layertimer);
     }

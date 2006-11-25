@@ -173,7 +173,7 @@ class jip
             $smarty = $toolkit->getSmarty();
 
             $smarty->assign('jip', $jip);
-            $smarty->assign('jipMenuId', $this->getJipMenuId());
+            $smarty->assign('jipMenuId', str_replace('/', '_', $this->getJipMenuId()));
 
             return $smarty->fetch('jip.tpl');
         }
