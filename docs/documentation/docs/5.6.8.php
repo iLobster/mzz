@@ -50,7 +50,7 @@ ALL OPERATIONS COMPLETED SUCCESSFULLY
 <!-- code 4 -->
 <!-- code 5 -->
 <p>Ну и конечно же шаблон для отображения формы <code>comments.post.tpl</code></p>
-<!-- code 6 -->
+<!-- html code 6 -->
 <p>Теперь по обновлению страницы вы должны увидеть форму, состоящую из поля для ввода и кнопок "Отправить" и "Сброс". Эта форма снабжена примитивной проверкой на то, что в поле с комментарием ввели какую-либо информацию. Напишите что-либо и отправьте сообщение. Появится сообщение об ошибке:</p>
 <<code>>Runtime Exception. Thrown in file D:\server\sites\mzz\system\controller\sectionMapper.php (Line: 81) with message:<br />
 Не найден активный шаблон для section = "comments", action = "post"<</code>>

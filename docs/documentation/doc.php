@@ -43,7 +43,7 @@ function render($id) {
 
 
     $content = file_get_contents($path);
-    $content = preg_replace("/<!--\s*code\s*(\d+)\s*-->/ie", 'include_code("' . $id . '-$1");', $content);
+    $content = preg_replace("/<!--\s*(.*?)?-?code\s*(\d+)\s*-->/ie", 'include_code("' . $id . '-$2", "$1");', $content);
     $content = str_replace(array("<<code>>", "<</code>>"), array("<!-- code start here -->\n<div class=\"code\">\n<code>\n", "\n</code>\n</div>\n<!-- code end here -->\n"), $content);
     $content = str_replace(array("<<pre>>", "<</pre>>"), array("<!-- code start here -->\n<div class=\"code\">\n<pre>\n", "\n</pre>\n</div>\n<!-- code end here -->\n"), $content);
 
@@ -58,13 +58,20 @@ function render($id) {
     return $content;
 }
 
-function include_code($id) {
+function include_code($id, $type) {
     $path = 'codes/' . $id . '.php';
+    $type = trim($type);
     if(!file_exists($path)) {
         echo "<font color=red>[code for '$id' doesn't exists]</font>";
         exit;
     }
-    return '<div class="code">' . highlight_file($path, 1) . '</div>';
+    if (empty($type)) {
+        return '<div class="code">' . highlight_file($path, 1) . '</div>';
+    }
+    include_once 'highlighter/geshi.php';
+    if ($type == 'html') { $type = 'html4strict'; }
+    $geshi = new GeSHi(file_get_contents($path), $type);
+    return '<div class="code">' . $geshi->parse_code() . '</div>';
 }
 
 
