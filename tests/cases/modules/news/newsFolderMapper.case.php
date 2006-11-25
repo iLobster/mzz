@@ -69,7 +69,7 @@ class newsFolderMapperTest extends unitTestCase
     {
         $newsFolder = new newsFolder($this->mapper, $this->map);
         $newsFolder->setName('somename');
-       // $newsFolder->setParent(2);
+        // $newsFolder->setParent(2);
 
         $this->assertNull($newsFolder->getId());
 
@@ -85,9 +85,10 @@ class newsFolderMapperTest extends unitTestCase
 
         $newsFolderMapper = new newsFolderMapper('news');
 
-        $data[] = array('title', 'editor', 'text', '1');
-        $data[] = array('title2', 'editor2', 'text2', '1');
-        $data[] = array('title3', 'editor3', 'text3', '2');
+        $data[1] = array('title', 'editor', 'text', '1');
+        $data[2] = array('title2', 'editor2', 'text2', '1');
+        $data[3] = array('title3', 'editor3', 'text3', '2');
+
         foreach ($data as $record) {
             $folder = $newsFolderMapper->searchOneByField('id', $record[3]);
 
@@ -167,6 +168,25 @@ class newsFolderMapperTest extends unitTestCase
         $this->assertIdentical($newsFolder2->getId(), '1');
     }
 
+    public function testCreateSubfolder()
+    {
+        $this->fixture($this->mapper, $this->map);
+
+        $parentFolder = $this->mapper->searchById(3);
+        $newFolder = new newsFolder($this->mapper, $this->map);
+        $newFolder->setName('new');
+
+        $newFolder = $this->mapper->createSubfolder($newFolder, $parentFolder);
+
+        $this->assertEqual($newFolder->getName(), 'new');
+        $this->assertEqual($newFolder->getLevel(), 3);
+
+
+
+
+
+    }
+
     public function testDelete()
     {
         $toolkit = systemToolkit::getInstance();
@@ -214,13 +234,7 @@ class newsFolderMapperTest extends unitTestCase
             $newsFolder->setName('name' . ($i));
             $newsFolder->setParent($i);
             $mapper->save($newsFolder);
-
-
-            if($i == 1) {
-                $node = $this->tree->insertRootNode($newsFolder);
-            } else {
-                $node = $this->tree->insertNode($nodeParentsFixture[$i], $newsFolder);
-            }
+            $node = $this->tree->insertNode($nodeParentsFixture[$i], $newsFolder);
 
             $this->fixtureNewsFolder[$node->getId()] = $node;
         }

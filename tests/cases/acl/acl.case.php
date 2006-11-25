@@ -217,7 +217,7 @@ class aclTest extends unitTestCase
         $users = $this->acl->getUsersList();
 
         $this->assertEqual(sizeof($users), 1);
-        $this->assertEqual($users[0]->getLogin(), 'Guest');
+        $this->assertEqual($users[1]->getLogin(), 'Guest');
     }
 
     public function testGetGroupsList()
@@ -226,7 +226,7 @@ class aclTest extends unitTestCase
         $groups = $this->acl->getGroupsList();
 
         $this->assertEqual(sizeof($groups), 1);
-        $this->assertEqual($groups[0]->getName(), 'somegroup');
+        $this->assertEqual($groups[1]->getName(), 'somegroup');
     }
 
     public function testGetClass()

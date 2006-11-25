@@ -338,7 +338,7 @@ class dbTreeDataMultipleTest extends unitTestCase
         17 => 'foo9/foo13/foo17');
 
         $move = array(1 => array(2, 4), 2 => array(13, 9));
-        // @todo не работает :( под корень не переносит
+        // @todo не работает, под корень не переносит
         */
 
         $newTreePathFixture[2] = array(
@@ -503,7 +503,13 @@ class dbTreeDataMultipleTest extends unitTestCase
             $newNode->setBar($fixture['bar']);
             $this->mapper->save($newNode);
 
+            //parentNode = $this->mapper->searchByKey($parentNodes[$some_id]);
             $newInsertedNode = $this->tree->insertNode($parentNodes[$some_id], $newNode);
+
+            /* $this->assertEqual($newInsertedNode->getId(), $parentNode->getId());
+            $this->assertEqual($newInsertedNode->getFoo(), $parentNode->getFoo());
+            $this->assertEqual($newInsertedNode->getBar(), $parentNode->getBar());*/
+
 
             $this->assertEqual($newInsertedNode->getId(), $fixture['id']);
             $this->assertEqual($newInsertedNode->getFoo(), $fixture['foo']);

@@ -404,7 +404,6 @@ class dbTreeDataTest extends unitTestCase
         $newNode = $this->mapper->create();
         $newNode->setFoo($fixture['foo']);
         $newNode->setBar($fixture['bar']);
-        $this->mapper->save($newNode);
 
         $newInsertedNode = $this->tree->insertNode(3, $newNode);
 
@@ -427,8 +426,6 @@ class dbTreeDataTest extends unitTestCase
         $newRootNode = $this->mapper->create();
         $newRootNode->setFoo($fixture['foo']);
         $newRootNode->setBar($fixture['bar']);
-        $this->mapper->save($newRootNode);
-
         $newInsertedRootNode = $this->tree->insertRootNode($newRootNode);
 
         $this->assertEqual($newInsertedRootNode->getId(), $fixture['id']);
