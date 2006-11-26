@@ -12,6 +12,21 @@ var formSuccess = false;
 var $break    = new Object();
 var $continue = new Object();
 
+function getInnerX(){
+return window.pageXOffset||document.documentElement.scrollLeft||document.body.scrollLeft||0;
+}
+
+function getInnerY(){
+return window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop||0;
+}
+
+function getInnerWidth(){
+return typeof window.innerWidth=="number"?window.innerWidth:document.compatMode=="CSS1Compat"?document.documentElement.clientWidth:document.body.clientWidth;
+}
+
+function getInnerHeight(){
+return typeof window.innerHeight=="number"?window.innerHeight:document.compatMode=="CSS1Compat"?document.documentElement.clientHeight:document.body.clientHeight;
+}
 
 function getPosition(el, body)
 {
@@ -121,6 +136,8 @@ var handleFailure = function(o){
     }
 }
 
+window,onresize = function() { doMoveMask() };
+window.onscroll = function() { doMoveMask() };
 
 document.onkeydown = proccessKey;
 
@@ -136,14 +153,25 @@ function proccessKey(key) {
         return hideJip();
     }
 }
+function doMoveMask() {
+    if (is_gecko) {
+        document.getElementById('blockContent').style.left=getInnerX() - 23 +"px";
+    } else {
+        document.getElementById('blockContent').style.left=getInnerX() - 8 +"px";
+    }
+    document.getElementById('blockContent').style.top=getInnerY() - 8 +"px";
+    document.getElementById('blockContent').style.width=getInnerWidth() /*- 23 */+"px";
+    document.getElementById('blockContent').style.height=getInnerHeight() /*- 8 */+"px";
+
+}
 
 var lastJipUrl = false;
-
+var oldOffset = false;
 function showJip(url, success)
 {
     cleanJip();
     if (document.getElementById('jip')) {
-
+        doMoveMask();
         document.getElementById('blockContent').style.display = 'block';
         /*if (lastJipUrl != false) {
         urlStack.push([lastJipUrl]); alert(lastJipUrl);
@@ -154,6 +182,8 @@ function showJip(url, success)
         //urlStack.push([url]);
 
         document.getElementById('jip').style.display = 'block';
+        oldOffset = document.getElementById('jip').offsetHeight;
+        document.getElementById('jip').style.top = document.documentElement.scrollTop + oldOffset + 'px';
 
 
         var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), success:success }};
@@ -221,6 +251,11 @@ function hideJip(windows, success)
         last_jipmenu_id = false;
         document.getElementById('blockContent').style.display = 'none';
         document.getElementById('jip').style.display = 'none';
+        if (oldOffset) {
+            document.getElementById('jip').style.top = oldOffset + 'px';
+        }
+
+
         lastJipUrl = false;
         cleanJip();
         return true;
