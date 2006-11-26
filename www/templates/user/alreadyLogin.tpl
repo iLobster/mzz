@@ -1,4 +1,3 @@
 <div id="login">
-<div style='float: left; padding-right: 10px;'>Ваш логин: <strong>{$user->getLogin()} (ID: {$user->getId()})</strong></div>
-<div><a href="{url section=user action=exit}/?url={url}"><img src="{url section="templates" params="images/exit.gif"}" width="16" height="16" alt="Выход" /></a></div>
+<div class="info">Ваш логин: <strong>{$user->getLogin()} [ID: {$user->getId()}]</strong> (<a href="{url section=user action=exit}/?url={url}">выход</a>)</div>
 </div>

@@ -5,7 +5,7 @@
 <table border="0" cellpadding="3" cellspacing="0" class="jipItems"> 
 {foreach from=$jip item=item}
    <tr onclick="javascript: showJipMenu(this, '{$jipMenuId}'); return {if not empty($item.confirm)}mzz_confirm('{$item.confirm}') &amp;&amp; {/if}showJip('{$item.url}');" onmouseout="this.cells[1].className = 'jipItemText';" onmouseover="this.cells[1].className = 'jipItemTextActive';">
-     <td class="jipItemIcon"><img src="{$item.icon}" width="16" height="16" alt="{$item.title}" /></td>
+     <td class="jipItemIcon"><a href="{$item.url}" onclick="return false;"><img src="{$item.icon}" width="16" height="16" alt="{$item.title}" /></a></td>
      <td class="jipItemText">{$item.title}</td>
    </tr>
 {/foreach}

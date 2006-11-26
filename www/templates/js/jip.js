@@ -94,9 +94,12 @@ function extractScripts(response) {
 }
 
 function evalScripts(response) {
-    return collect(extractScripts(response), eval);
+    return collect(extractScripts(response), evalScript);
 }
 
+function evalScript(script) {
+    eval(script);
+}
 
 var handleSuccess = function(o){
     if(typeof o.responseText !== undefined){
@@ -159,9 +162,9 @@ function doMoveMask() {
     } else {
         document.getElementById('blockContent').style.left=getInnerX() - 8 +"px";
     }
-    document.getElementById('blockContent').style.top=getInnerY() - 8 +"px";
-    document.getElementById('blockContent').style.width=getInnerWidth() /*- 23 */+"px";
-    document.getElementById('blockContent').style.height=getInnerHeight() /*- 8 */+"px";
+    document.getElementById('blockContent').style.top=getInnerY() - 8 + "px";
+    document.getElementById('blockContent').style.width=getInnerWidth() +"px";
+    document.getElementById('blockContent').style.height=getInnerHeight() +"px";
 
 }
 
@@ -173,14 +176,6 @@ function showJip(url, success)
     if (document.getElementById('jip')) {
         doMoveMask();
         document.getElementById('blockContent').style.display = 'block';
-        /*if (lastJipUrl != false) {
-        urlStack.push([lastJipUrl]); alert(lastJipUrl);
-        lastJipUrl = false;
-        } else {
-        lastJipUrl = url + '&xajax=true';
-        }*/
-        //urlStack.push([url]);
-
         document.getElementById('jip').style.display = 'block';
         oldOffset = document.getElementById('jip').offsetHeight;
         document.getElementById('jip').style.top = document.documentElement.scrollTop + oldOffset + 'px';
@@ -188,8 +183,6 @@ function showJip(url, success)
 
         var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), success:success }};
         currentUrl = url;
-        /*   urlStack.push([currentUrl]);
-        }*/
         var request = YAHOO.util.Connect.asyncRequest('GET', url + '&ajax=1', callback);
 
         return false;
@@ -201,14 +194,6 @@ function showJip(url, success)
 function sendFormWithAjax(form, elementId)
 {
     elementId = elementId || 'jip';
-    //(urlStack.slice(urlStack.length - 1, urlStack.length));
-    //if (urlStack.slice(urlStack.length - 1, urlStack.length) != currentUrl) {
-    //    urlStack.push([currentUrl]);
-    //}
-    //if(currentUrl != undefined) {
-    //urlStack.push([currentUrl]);
-    //    delete currentUrl;
-    //}
     var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
     YAHOO.util.Connect.setForm(form);
     var request = YAHOO.util.Connect.asyncRequest(form.getAttribute('method').toUpperCase(), form.action + '&ajax=1', callback);
@@ -276,27 +261,7 @@ function cleanSubJip(elementId)
 }
 
 
-
-function getBottomPosition(el)
-{
-    if(!el || !el.offsetParent) {
-        return false;
-    }
-
-    top_position = el.offsetTop;
-    var objParent = el.offsetParent;
-
-    while(objParent && objParent.tagName != "body")
-    {
-        top_position += objParent.offsetTop;
-        objParent = objParent.offsetParent;
-    }
-    return top_position + el.offsetHeight;
-}
-
-
 function openJipMenu(button, jipMenu, id) {
-
 
     jipMenu.style.top = '-100px';
     jipMenu.style.left = '-100px';
@@ -305,35 +270,6 @@ function openJipMenu(button, jipMenu, id) {
     if (last_jipmenu_id) {
         closeJipMenu(document.getElementById('jip_menu_' + last_jipmenu_id));
     }
-    /**************
-    if (is_gecko) {
-        curr_x = button.x;
-        curr_y = button.y + 17;
-    } else {
-        e = window.event;
-
-        curr_x = (e.pageX) ? e.pageX : e.x + 2; // + document.documentElement.scrollLeft;
-        curr_y = (e.pageY) ? e.pageY : e.y + 2; // + document.documentElement.scrollTop;
-    }
-
-    var bottom_position = getBottomPosition(button);
-
-    var x = curr_x , y = curr_y;
-    var w = jipMenu.offsetWidth;
-    var h = jipMenu.offsetHeight;
-    var body = document.documentElement;
-
-    if((body.clientWidth + body.scrollLeft) < (x + jipMenu.clientWidth))
-    {
-        x = body.scrollLeft + body.clientWidth - (jipMenu.clientWidth + 20);
-    }
-
-    if((body.clientHeight + body.scrollTop) < (bottom_position + jipMenu.clientHeight ))
-    {
-        y = ( body.clientHeight - body.scrollTop) - bottom_position-  jipMenu.clientHeight + 30;
-    }
-    **********/
-
 
     if (document.getElementById('jip').style.display == 'block') {
          var body = document.getElementById('jip');
@@ -370,7 +306,6 @@ function closeJipMenu(jipMenu) {
         clearTimeout(layertimer);
     }
 }
-
 
 function showJipMenu(button, id) {
     jipMenu = document.getElementById('jip_menu_' + id);
