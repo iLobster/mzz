@@ -70,6 +70,7 @@ class dbTreeNS
      * @var string
      */
     private $treeID;
+    private $treeFieldID;
 
     /**
      * Если true, то используется режим корректировки пути при выборки ветки на его основе
@@ -588,15 +589,13 @@ class dbTreeNS
      * @param  simple object $newNode Объект уже вставленный в таблицу данных
      * @return simple object с заполненными полями о месте в дереве
      */
-    public function insertNode($id, simple &$newNode)
+    public function insertNode($id, simple $newNode)
     {
-        // @toDo $id
         if ($id == 0) {
             return $this->insertRootNode($newNode);
         }
 
-        $parentNode = $this->getNodeInfo($id);
-
+        if(!$parentNode = $this->getNodeInfo($id)) return false;;
 
         $stmt = $this->db->prepare(' UPDATE ' . $this->table.
         ' SET rkey = rkey + 2, lkey = IF(lkey > :PN_RKey, lkey + 2, lkey)' .
@@ -613,17 +612,21 @@ class dbTreeNS
         ($this->isMultipleTree() ? ', ' . $this->treeField . ' = ' . $this->treeFieldID : ' ');
         $this->db->exec($query);
 
-        $acsr = $this->accessorDataID;
-
-        if($newNode->$acsr() != ($lastID = $this->db->lastInsertId())) {            //echo "<pre>newNode->$acsr()"; var_dump($newNode->$acsr()); echo '</pre>';            $fields = $newNode->export();
-            $fields[$this->dataID] = $lastID;            $newNode->import($fields);
-            $this->mapper->save($newNode);            }
+        $fields = &$newNode->export();
+        if($this->isMultipleTree()) {            $fields[$this->treeField] = $this->treeFieldID;
+            }
+        // @toDo abracadabra, возможные нарушения целостности.
+        // необходима проверка 1:1
+        $newNode->import($fields);
+        $fields = $newNode->exportOld();
+        $this->mapper->save($newNode);
 
         $newNode->setLevel($parentNode['level'] + 1);
         $newNode->setRightKey($parentNode['rkey'] + 1);
         $newNode->setLeftKey((int)$parentNode['rkey']);
 
         // обновление путей в таблице данных и в объекте
+        $acsr = $this->accessorDataID;
         $newNode->import(array('path' => $this->updatePath($newNode->$acsr())));
 
         return $newNode;

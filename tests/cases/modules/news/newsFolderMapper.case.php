@@ -179,6 +179,7 @@ class newsFolderMapperTest extends unitTestCase
         $newFolder = $this->mapper->createSubfolder($newFolder, $parentFolder);
 
         $this->assertEqual($newFolder->getName(), 'new');
+        $this->assertEqual($newFolder->getParent(), 3);
         $this->assertEqual($newFolder->getLevel(), 3);
 
 

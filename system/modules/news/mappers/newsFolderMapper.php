@@ -176,8 +176,7 @@ class newsFolderMapper extends simpleMapper
     public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
     {
         $idParent = $targetFolder->getId();
-        //echo "<pre>targetFolder->getParent = $idParent </pre>";
-        //$folder->setParent($idParent);
+        $folder->setParent($idParent);
         return $this->tree->insertNode($idParent, $folder);
     }
 }
