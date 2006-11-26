@@ -119,6 +119,8 @@ class dbTreeNS
         // данные о св€зывающем поле в таблице с данными (данные <-> дерево)
         // если поле не указано в init массиве выставл€ем поле id
         $this->dataID = isset($init['joinField']) ? $init['joinField'] : 'id';
+        $this->accessorDataID = 'get' . ucfirst($this->dataID);
+
 
     }
 
@@ -359,8 +361,15 @@ class dbTreeNS
      */
     public function getNodeInfo($id)
     {
+        if($id instanceof simple) {
+            $acsr = $this->accessorDataID;
+            $id = $id->$acsr();
+
+        }
+
         $query = ' SELECT * FROM `' . $this->table . '` `tree` WHERE `tree`.`id` = ' . $id.
         ($this->isMultipleTree() ? ' AND `tree`.`' . $this->treeField . '`= ' . $this->treeFieldID: '');
+        //echo "<pre>getNodeInfo "; var_dump($query); echo "</pre>";
 
         $stmt = $this->db->query($query);
 
@@ -575,17 +584,19 @@ class dbTreeNS
     /**
      * ¬ставка узла ниже заданного, узел будет €вл€тс€ листом дерева
      *
+     * @param  integer $id »дентификатор родительского узла, под который вставл€ть
      * @param  simple object $newNode ќбъект уже вставленный в таблицу данных
      * @return simple object с заполненными пол€ми о месте в дереве
      */
-    public function insertNode($id, simple $newNode)
+    public function insertNode($id, simple &$newNode)
     {
-        // @toDo а что теперь с проверкой на вставку в корень?
+        // @toDo $id
         if ($id == 0) {
-            return $this->insertRootNode();
+            return $this->insertRootNode($newNode);
         }
 
         $parentNode = $this->getNodeInfo($id);
+
 
         $stmt = $this->db->prepare(' UPDATE ' . $this->table.
         ' SET rkey = rkey + 2, lkey = IF(lkey > :PN_RKey, lkey + 2, lkey)' .
@@ -596,23 +607,28 @@ class dbTreeNS
         $stmt->execute();
 
         $query = ' INSERT INTO ' . $this->table.
-        ' SET id = ' . $newNode->getId() .
-        ', lkey = ' . $parentNode['rkey'] .
+        ' SET lkey = ' . $parentNode['rkey'] .
         ', rkey = ' . ($parentNode['rkey'] + 1) .
         ', level = ' . ($parentNode['level'] + 1).
         ($this->isMultipleTree() ? ', ' . $this->treeField . ' = ' . $this->treeFieldID : ' ');
-
         $this->db->exec($query);
+
+        $acsr = $this->accessorDataID;
+
+        if($newNode->$acsr() != ($lastID = $this->db->lastInsertId())) {            //echo "<pre>newNode->$acsr()"; var_dump($newNode->$acsr()); echo '</pre>';            $fields = $newNode->export();
+            $fields[$this->dataID] = $lastID;            $newNode->import($fields);
+            $this->mapper->save($newNode);            }
 
         $newNode->setLevel($parentNode['level'] + 1);
         $newNode->setRightKey($parentNode['rkey'] + 1);
         $newNode->setLeftKey((int)$parentNode['rkey']);
 
         // обновление путей в таблице данных и в объекте
-        $newNode->import(array('path' => $this->updatePath($newNode->getId())));
+        $newNode->import(array('path' => $this->updatePath($newNode->$acsr())));
 
         return $newNode;
     }
+
 
     /**
      * ¬ставка корневого узла
@@ -634,17 +650,29 @@ class dbTreeNS
         $stmt->bindParam(':new_max_right_key', $v = $maxRightKey + 2, PDO::PARAM_INT);
         $stmt->execute();
 
+
+        // @toDo somechanges
+        $acsr = $this->accessorDataID;
+        if($newRootNode->$acsr() != ($lastID = $this->db->lastInsertId())) {
+            //echo "<pre>newRootNode->$acsr()"; var_dump($newRootNode->$acsr()); echo '</pre>';
+            $fields = $newRootNode->export();
+            $fields[$this->dataID] = $lastID;
+            $newRootNode->import($fields);
+            $this->mapper->save($newRootNode);
+            }
+
         $newRootNode->setLevel(1);
         $newRootNode->setRightKey($maxRightKey + 2);
         $newRootNode->setLeftKey(1);
 
+        $acsr = $this->accessorDataID;
         // обновление путей в таблице данных и в объекте
-        $newRootNode->import(array('path' => $this->updatePath($newRootNode->getId())));
+        $newRootNode->import(array('path' => $this->updatePath($newRootNode->$acsr())));
 
         // добавление всем элементам в путь
         $this->db->exec(' UPDATE ' . $this->dataTable .
         ' SET `path` = CONCAT_WS("/", "' . $newRootNode->getPath(). '", path) WHERE ' .
-        $this->dataID . '<>' . $newRootNode->getId() .
+        $this->dataID . '<>' . $newRootNode->$acsr() .
         ($this->isMultipleTree() ? ' AND ' . $this->treeField . ' = ' . $this->treeFieldID : ' '));
 
         return $newRootNode;
@@ -661,8 +689,9 @@ class dbTreeNS
     {
         //удаление данных из таблицы данных
         $deletedBranch = $this->getBranch($id);
+        $acsr = $this->accessorDataID;
         foreach($deletedBranch as $node) {
-            $this->mapper->delete($node->getId());
+            $this->mapper->delete($node->$acsr());
         }
 
         $node = $this->getNodeInfo($id);

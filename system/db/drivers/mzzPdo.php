@@ -155,7 +155,7 @@ class mzzPdo extends PDO
         return $this->prepare($query);
     }
 
-     /**
+    /**
      * Возвращает запрос для autoPrepare()
      *
      * @param string $table имя таблицы

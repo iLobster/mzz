@@ -395,9 +395,34 @@ abstract class simpleMapper //implements iCacheable
      * @param integer $id идентификатор записи
      * @return object simple
      */
-    protected function searchByKey($id)
+    public function searchByKey($id)
     {
         return $this->searchOneByField($this->tableKey, $id);
+
+    }
+
+    /**
+     * Поиск записей по ключам таблицы
+     *
+     * @param array $keys идентификатор записи
+     * @return object simple
+     */
+    public function searchByKeys($ids)
+    {
+        $criteria = new criteria();
+
+
+        foreach($ids as $id){
+            if(empty($criterion)) {
+                $criterion = new criterion($this->tableKey, $id);
+            } else {
+                $criterion->addOr(new criterion($this->tableKey, $id));
+            }
+
+            $criteria->add($criterion);
+        }
+
+        return $this->searchAllByCriteria($criteria);
 
     }
 
@@ -426,7 +451,6 @@ abstract class simpleMapper //implements iCacheable
         }
 
         $select = new simpleSelect($criteria);
-        //echo '<pre>'; var_dump($select->toString()); echo '</pre>'; echo '<br><br>';
         $stmt = $this->db->query($select->toString());
 
         return $stmt;
@@ -468,9 +492,7 @@ abstract class simpleMapper //implements iCacheable
     public function createItemFromRow($row)
     {
         $object = $this->create();
-        //echo "<pre>row "; var_dump($row); echo "</pre>";
         $object->import($row);
-        //echo "<pre>object "; var_dump($object); echo "</pre>";
         return $object;
     }
 
@@ -521,7 +543,7 @@ abstract class simpleMapper //implements iCacheable
 
         while ($row = $stmt->fetch()) {
             $data = $this->fillArray($row);
-            $result[] = $this->createItemFromRow($data);
+            $result[$data[$this->tableKey]] = $this->createItemFromRow($data);
         }
 
         return $result;
@@ -781,8 +803,7 @@ abstract class simpleMapper //implements iCacheable
                 $oldData = $object->$accessor();
 
                 $oldObjIds = array();
-                //echo '<pre>'; var_dump($oldData); echo '</pre>'; echo '<br><br>';
-                foreach ($oldData as $subval) {
+                   foreach ($oldData as $subval) {
                     $oldObjIds[$subval->getObjId()] = $subval->getId();
                 }
 

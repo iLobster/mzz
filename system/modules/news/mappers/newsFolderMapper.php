@@ -156,7 +156,7 @@ class newsFolderMapper extends simpleMapper
      */
     public function getItems($id)
     {
-        $news = new newsMapper($this->section());
+        $news = systemToolkit::getInstance()->getMapper('news', 'news', $this->section());
 
         if (!empty($this->pager)) {
             $news->setPager($this->pager);
@@ -173,15 +173,13 @@ class newsFolderMapper extends simpleMapper
         return (int)$newsFolder->getObjId();
     }
 
-    // DEPRECATED пользоваться $tree->insertNode()
-
-    /*    public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
+    public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
     {
-    $id = $targetFolder->getParent();
-    $node = $this->tree->insertNode($id);
-    $parent = $node['id'];
-    $folder->setParent($parent);
-    }*/
+        $idParent = $targetFolder->getId();
+        //echo "<pre>targetFolder->getParent = $idParent </pre>";
+        //$folder->setParent($idParent);
+        return $this->tree->insertNode($idParent, $folder);
+    }
 }
 
 ?>
