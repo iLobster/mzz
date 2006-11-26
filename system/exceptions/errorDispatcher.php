@@ -156,7 +156,7 @@ class errorDispatcher
      */
     protected function getHtmlHeader()
     {
-        return "\r\n<div style='position: absolute; width: 700px; border: 1px solid #D6D6D6; background-color: #FAFAFA; font-family: tahoma, arial, verdana; font-size: 70%; padding: 10px; line-height: 120%;'>
+        return "\r\n<div style='width: 700px; border: 1px solid #D6D6D6; background-color: #FAFAFA; font-family: tahoma, arial, verdana; font-size: 70%; padding: 10px; line-height: 120%;'>
         <span style='font-weight: bold; color: #AA0000; font-size: 130%;'>Выполнение прервано из-за непредвиденной ситуации.</span>\r\n";
     }
 
