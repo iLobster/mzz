@@ -54,14 +54,14 @@ class actionTest extends unitTestCase
     public function testActionGetJipActions()
     {
         $jipActions = array(
-        'jipAction' => array ('controller' => 'foo', 'title' => null, 'icon' => null, 'confirm' => null),
-        'editACL' => array('controller' => 'editACL', 'title' => 'Права доступа', 'icon' => '/templates/images/acl.gif', 'confirm' => null),
+        'jipAction' => array ('controller' => 'foo', 'title' => null, 'icon' => null, 'confirm' => null, 'isPopup' => null),
+        'editACL' => array('controller' => 'editACL', 'title' => 'Права доступа', 'icon' => '/templates/images/acl.gif', 'confirm' => null, 'isPopup' => null),
         );
         $this->assertEqual($this->action->getJipActions('firstActions'), $jipActions);
 
         $jipActions = array(
-        'jipActionFull' => array ('controller' => 'bar', 'title' => 'someTitle', 'icon' => null, 'confirm' => 'confirm message'),
-        'editACL' => array('controller' => 'editACL', 'title' => 'Права доступа',  'icon' => '/templates/images/acl.gif', 'confirm' => null),
+        'jipActionFull' => array ('controller' => 'bar', 'title' => 'someTitle', 'icon' => null, 'confirm' => 'confirm message', 'isPopup' => null),
+        'editACL' => array('controller' => 'editACL', 'title' => 'Права доступа',  'icon' => '/templates/images/acl.gif', 'confirm' => null, 'isPopup' => null),
         );
         $this->assertEqual($this->action->getJipActions('secondActions'), $jipActions);
     }
