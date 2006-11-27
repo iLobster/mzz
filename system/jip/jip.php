@@ -139,6 +139,7 @@ class jip
                 $result[] = array(
                 'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
                 'title' => $item['title'],
+                'isPopup' => isset($item['isPopup']) ? $item['isPopup'] :null,
                 'icon' => $url->get(),
                 'id' => $this->getJipMenuId() . '_' . $item['controller'],
                 'confirm' => $item['confirm'],

@@ -143,6 +143,7 @@ class action
                 'title' => (isset($action['title']) ? $action['title'] : null),
                 'icon' => (isset($action['icon']) ? $action['icon'] : null),
                 'confirm' => (isset($action['confirm']) ? $action['confirm'] : null),
+                'isPopup' => (isset($action['isPopup']) ? $action['isPopup'] : null)
                 );
             }
         }
