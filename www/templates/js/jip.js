@@ -208,7 +208,7 @@ function sendFormInAjax(form, elementId)
     var callback = {success:handleInSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
     YAHOO.util.Connect.setForm(form);
     var request = YAHOO.util.Connect.asyncRequest(form.method.toUpperCase(), form.action + '&ajax=1', callback);
-    cleanJip();
+    //cleanJip();
     return false;
 }
 
