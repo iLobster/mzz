@@ -167,18 +167,25 @@ class newsFolderMapper extends simpleMapper
         return $result;
     }
 
+    /**
+     * Создание подпапки
+     *
+     * @param  newsFolder     $folder          Папка для добавления
+     * @param  newsFolder     $targetFolder    Папка назначения, в которую добавлять
+     * @return newsFolder
+     */
+    public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
+    {
+        $idParent = $targetFolder->getParent();
+        return $this->tree->insertNode($idParent, $folder);
+    }
+
     public function convertArgsToId($args)
     {
         $newsFolder = $this->searchByPath($args['name']);
         return (int)$newsFolder->getObjId();
     }
 
-    public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
-    {
-        $idParent = $targetFolder->getId();
-        $folder->setParent($idParent);
-        return $this->tree->insertNode($idParent, $folder);
-    }
 }
 
 ?>
