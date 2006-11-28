@@ -17,8 +17,6 @@
  * @version 0.1
  */
 
-fileLoader::load('news/views/newsDeleteView');
-//fileLoader::load("news/mappers/newsMapper");
 
 class newsDeleteFolderController extends simpleController
 {

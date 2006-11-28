@@ -1,66 +1,62 @@
 <?php
 
-$success = true;
+$errors = array();
 
 $failed = "<font color='red'><b>failed</b></font>";
 
 define('REQUIRED_PHP_VERSION', '5.1.4');
 
 if (!version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, ">=")) {
-    echo "PHP Version: <b>" . PHP_VERSION . "</b>, required >= " . REQUIRED_PHP_VERSION . ", result: " . $failed . "<br>";
-    $success = false;
+    $errors[] = "PHP Version: <b>" . PHP_VERSION . "</b>, required >= " . REQUIRED_PHP_VERSION . ", result: " . $failed;
 }
 
-if (!class_exists('pdo')) {
-    echo "PDO exists: " . $failed . "<br>";
-    $success = false;
+// pdo check
+$pdoExists = class_exists('pdo');
+
+if (!$pdoExists) {
+    $errors[] = "<i>php_pdo</i> enabled: " . $failed;
 }
 
-if (!class_exists('pdo') || !in_array('mysql', PDO::getAvailableDrivers())) {
-    echo "PDO_MYSQL exists: " . $failed . "<br>";
-    $success = false;
+if (!$pdoExists || ($pdoExists && !in_array('mysql', PDO::getAvailableDrivers()))) {
+    $errors[] = "<i>php_pdo_mysql</i> enabled: " . $failed;
 }
 
-if (!class_exists('pdo') || !in_array('mysql', PDO::getAvailableDrivers()) || !(PDO::ATTR_SERVER_VERSION >= 4)) {
-    echo "PDO_MYSQL Version: <b>" . PDO::ATTR_SERVER_VERSION ."</b>, required >= 4, result: " . $failed . "<br>";
-    $success = false;
+
+if (!$pdoExists || ($pdoExists && !in_array('mysql', PDO::getAvailableDrivers()) && PDO::ATTR_SERVER_VERSION < 4 )) {
+    $pdoVersion = $pdoExists ? PDO::ATTR_SERVER_VERSION : 'unknown';
+    $errors[] = "<i>php_pdo_mysql</i> version: <b>" . $pdoVersion  ."</b>, required >= 4, result: " . $failed;
 }
+// end pdo check
 
 if (!function_exists('simplexml_load_file')) {
-    echo "SimpleXML exists: " . $failed . "<br>";
-    $success = false;
+    $errors[] = "SimpleXML enabled: " . $failed;
 }
 
 if (!function_exists('preg_match') || !function_exists('preg_replace')) {
-    echo "PCRE exists: " . $failed . "<br>";
-    $success = false;
+    $errors[] = "PCRE enabled: " . $failed;
 }
 
 if (!is_readable(systemConfig::$pathToTemp)) {
-    echo 'Directory "' . systemConfig::$pathToTemp . '" <font color="red"><b>is not readable</b></font><br />';
-    $success = false;
+    $errors[] = 'Directory "' . systemConfig::$pathToTemp . '" <font color="red"><b>is not readable</b></font>';
 }
 
 if (!is_readable(systemConfig::$pathToTemp . '/templates_c')) {
-    echo 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not readable</b></font><br />';
-    $success = false;
+    $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not readable</b></font>';
 }
 
 if (!is_writable(systemConfig::$pathToTemp)) {
-    echo 'Directory "' . systemConfig::$pathToTemp . '" <font color="red"><b>is not writable</b></font><br />';
-    $success = false;
+    $errors[] = 'Directory "' . systemConfig::$pathToTemp . '" <font color="red"><b>is not writable</b></font>';
 }
 
 if (!is_writable(systemConfig::$pathToTemp . '/templates_c')) {
-    echo 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not writable</b></font><br />';
-    $success = false;
+    $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not writable</b></font>';
 }
 
 
-if ($success) {
+if (empty($errors)) {
     file_put_contents(systemConfig::$pathToTemp . '/checked', 'превед!');
 } else {
-    exit('** Break');
+    exit('<span style="font-size: 120%; font-weight: bold;">mzz не может быть запущен по причине:</span><br />' . implode('<br />', $errors));
 }
 
 ?>
