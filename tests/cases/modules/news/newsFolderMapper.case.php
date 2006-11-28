@@ -179,13 +179,8 @@ class newsFolderMapperTest extends unitTestCase
         $newFolder = $this->mapper->createSubfolder($newFolder, $parentFolder);
 
         $this->assertEqual($newFolder->getName(), 'new');
-        $this->assertEqual($newFolder->getParent(), 3);
+        $this->assertEqual($newFolder->getParent(), 9);
         $this->assertEqual($newFolder->getLevel(), 3);
-
-
-
-
-
     }
 
     public function testDelete()
@@ -226,18 +221,14 @@ class newsFolderMapperTest extends unitTestCase
 
     private function fixture($mapper, $map)
     {
-
         $nodeParentsFixture = array(1 => 0, 2 => 1, 3 => 1, 4 => 1, 5 => 2, 6 => 2, 7 => 3, 8 => 3);
 
         for($i = 1; $i <= 8; $i++) {
 
             $newsFolder = new newsFolder($mapper, $map);
-            $newsFolder->setName('name' . ($i));
-            $newsFolder->setParent($i);
-            $mapper->save($newsFolder);
-            $node = $this->tree->insertNode($nodeParentsFixture[$i], $newsFolder);
-
-            $this->fixtureNewsFolder[$node->getId()] = $node;
+            $newsFolder->setName('name' . $i);
+            $newsFolder = $this->tree->insertNode($nodeParentsFixture[$i], $newsFolder);
+            $this->fixtureNewsFolder[$newsFolder->getId()] = $newsFolder;
         }
     }
 

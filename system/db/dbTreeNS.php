@@ -612,13 +612,18 @@ class dbTreeNS
         ($this->isMultipleTree() ? ', ' . $this->treeField . ' = ' . $this->treeFieldID : ' ');
         $this->db->exec($query);
 
-        $fields = &$newNode->export();
-        if($this->isMultipleTree()) {            $fields[$this->treeField] = $this->treeFieldID;
-            }
-        // @toDo abracadabra, возможные нарушения целостности.
-        // необходима проверка 1:1
-        $newNode->import($fields);
-        $fields = $newNode->exportOld();
+        $map = $newNode->getMap();
+        if($this->isMultipleTree()) {
+            $mtr = $map[$this->treeField]['mutator'];
+            $newNode->$mtr($this->treeFieldID);
+        }
+
+        $acsr = $map[$this->dataID]['accessor'];
+        if($newNode->$acsr() != ($lastID = $this->db->lastInsertId())) {
+            $mtr = $map[$this->dataID]['mutator'];
+            $newNode->$mtr($lastID);
+        }
+
         $this->mapper->save($newNode);
 
         $newNode->setLevel($parentNode['level'] + 1);
@@ -626,9 +631,7 @@ class dbTreeNS
         $newNode->setLeftKey((int)$parentNode['rkey']);
 
         // обновление путей в таблице данных и в объекте
-        $acsr = $this->accessorDataID;
         $newNode->import(array('path' => $this->updatePath($newNode->$acsr())));
-
         return $newNode;
     }
 
@@ -653,22 +656,25 @@ class dbTreeNS
         $stmt->bindParam(':new_max_right_key', $v = $maxRightKey + 2, PDO::PARAM_INT);
         $stmt->execute();
 
+        $map = $newRootNode->getMap();
+        if($this->isMultipleTree()) {
+            $mtr = $map[$this->treeField]['mutator'];
+            $newRootNode->$mtr($this->treeFieldID);
+        }
 
-        // @toDo somechanges
-        $acsr = $this->accessorDataID;
+        $acsr = $map[$this->dataID]['accessor'];
         if($newRootNode->$acsr() != ($lastID = $this->db->lastInsertId())) {
-            //echo "<pre>newRootNode->$acsr()"; var_dump($newRootNode->$acsr()); echo '</pre>';
-            $fields = $newRootNode->export();
-            $fields[$this->dataID] = $lastID;
-            $newRootNode->import($fields);
-            $this->mapper->save($newRootNode);
-            }
+            $mtr = $map[$this->dataID]['mutator'];
+            $newRootNode->$mtr($lastID);
+        }
+
+
+        $this->mapper->save($newRootNode);
 
         $newRootNode->setLevel(1);
         $newRootNode->setRightKey($maxRightKey + 2);
         $newRootNode->setLeftKey(1);
 
-        $acsr = $this->accessorDataID;
         // обновление путей в таблице данных и в объекте
         $newRootNode->import(array('path' => $this->updatePath($newRootNode->$acsr())));
 
