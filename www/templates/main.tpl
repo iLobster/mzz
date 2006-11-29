@@ -3,7 +3,7 @@
 <head>
 <title>{$title|default:''}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
-{add file="ajax/yahoo.js"}{add file="ajax/connection.js"}{add file="jip.js"}{add file="style.css"}
+{add file="ajax/yahoo.js"}{add file="ajax/connection.js"}{add file="jip.js"}{add file="jip.css"}{add file="style.css"}
 {include file='include.css.tpl'}
 {include file='include.js.tpl'}
 </head>

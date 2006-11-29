@@ -16,7 +16,8 @@ class pagerTest extends unitTestCase
 
     function testPagerMiddle()
     {
-        $pager = new pager($baseurl = '/foo', $page = 5, $items_per_page = 10, $items_count = 98, 2);
+        $pager = new pager($baseurl = '/foo', $page = 5, $items_per_page = 10, 2);
+        $pager->setCount($items_count = 98);
 
         $url = $baseurl . '?page=';
 
@@ -38,7 +39,8 @@ class pagerTest extends unitTestCase
 
     function testPagerLeft()
     {
-        $pager = new pager($baseurl = '/foo', $page = 2, $items_per_page = 10, $items_count = 98, 2);
+        $pager = new pager($baseurl = '/foo', $page = 2, $items_per_page = 10, 2);
+        $pager->setCount($items_count = 98);
 
         $url = $baseurl . '?page=';
 
@@ -56,7 +58,8 @@ class pagerTest extends unitTestCase
 
     function testPagerRight()
     {
-        $pager = new pager($baseurl = '/foo', $page = 9, $items_per_page = 10, $items_count = 98, 2);
+        $pager = new pager($baseurl = '/foo', $page = 9, $items_per_page = 10, 2);
+        $pager->setCount($items_count = 98);
 
         $url = $baseurl . '?page=';
 
@@ -73,7 +76,8 @@ class pagerTest extends unitTestCase
 
     public function testGetLimitQuery()
     {
-        $pager = new pager($baseurl = '/foo', $page = 5, $items_per_page = 10, $items_count = 98, 2);
+        $pager = new pager($baseurl = '/foo', $page = 5, $items_per_page = 10, 2);
+        $pager->setCount($items_count = 98);
         $criteria = $pager->getLimitQuery();
 
         $this->assertIsA($criteria, 'criteria');

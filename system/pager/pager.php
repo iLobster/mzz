@@ -81,15 +81,14 @@ class pager
      * @param string $baseurl базовый урл
      * @param integer $page номер текущей страницы
      * @param integer $perPage число объектов на одну страницу
-     * @param integer $itemsCount общее число объектов
      * @param integer $roundItems число номеров страниц возле текущей
      */
-    public function __construct($baseurl, $page, $perPage, $itemsCount = 0, $roundItems = 2)
+    public function __construct($baseurl, $page, $perPage, $roundItems = 2)
     {
         $this->baseurl = $baseurl;
         $this->page = ($page > 0) ? (int)$page : 1;
         $this->setPerPage($perPage);;
-        $this->itemsCount = (int)$itemsCount;
+        $this->itemsCount = 0;
         $this->roundItems = (int)$roundItems;
     }
 

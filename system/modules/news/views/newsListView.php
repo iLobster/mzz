@@ -34,7 +34,7 @@ class newsListView extends simpleView
 
         $page = ($this->getPageFromRequest() > 0) ? $this->getPageFromRequest() : 1;
 
-        $pager = new pager($this->httprequest->getUrl(), $page, $this->config->get('items_per_page'));
+        $pager = new pager($this->httprequest->getRequestUrl(), $page, $this->config->get('items_per_page'));
 
         $this->DAO->setPager($pager);
         $this->smarty->assign('folderPath', $this->DAO->getPath());
