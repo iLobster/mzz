@@ -48,7 +48,12 @@ class newsCreateFolderForm
         $form->addRule('name', 'об€зательное поле', 'required');
         $form->addRule('name', 'только алфавитно-цифровые символы', 'regex', '/[^\W\d][\w\d_]*/');
 
-        $form->registerRule('isUniqueName', 'callback', 'createFolderValidate');
+        if ($action == 'editFolder') {
+            $form->registerRule('isUniqueName', 'callback', 'editFolderValidate');
+        } else {
+            $form->registerRule('isUniqueName', 'callback', 'createFolderValidate');
+        }
+
         $form->addRule('name', 'им€ должно быть уникально в пределах каталога и содержать латинские буквы и цифры', 'isUniqueName', array($folder, $newsFolderMapper));
 
         $form->addElement('reset', 'reset', '—брос');
@@ -63,7 +68,19 @@ function createFolderValidate($name, $data)
     if (preg_match('/[^a-z0-9_\-]/i', $name)) {
         return false;
     }
+
     return is_null($data[1]->searchByPath($data[0] . '/' . $name));
+}
+
+function editFolderValidate($name, $data)
+{
+    if (preg_match('/[^a-z0-9_\-]/i', $name)) {
+        return false;
+    }
+    $data[0] = explode('/', $data[0]);
+    $current = array_pop($data[0]);
+
+    return $current == $name || is_null($data[1]->searchByPath(implode('/', $data[0]) . '/' . $name));
 }
 
 ?>
