@@ -813,6 +813,11 @@ class acl
         }
     }
 
+    public function setObjId($obj_id)
+    {
+        $this->obj_id = $obj_id;
+    }
+
     /**
      * бинд всех переменных в стейтмент
      *

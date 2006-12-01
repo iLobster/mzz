@@ -154,14 +154,17 @@ class criterion
         if (!is_null($this->field)) {
             // для конструкции `field` IN ('val1', 'val2')
             if ($this->comparsion === criteria::IN) {
-
-                $result .= $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' (';
-                // тут наверное нужно проверять ещё и sizeof($this->value)
-                foreach ($this->value as $val) {
-                    $result .= $this->db->quote($val) . ', ';
+                if (is_array($this->value) && sizeof($this->value)) {
+                    $result .= $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' (';
+                    // тут наверное нужно проверять ещё и sizeof($this->value)
+                    foreach ($this->value as $val) {
+                        $result .= $this->db->quote($val) . ', ';
+                    }
+                    $result = substr($result, 0, -2);
+                    $result .= ')';
+                } else {
+                    $result .= 'FALSE';
                 }
-                $result = substr($result, 0, -2);
-                $result .= ')';
             } elseif ($this->comparsion === criteria::IS_NULL ) {
                 $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion;
             } elseif ($this->comparsion === criteria::BETWEEN) {

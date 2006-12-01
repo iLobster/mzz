@@ -354,8 +354,13 @@ class stdToolkit extends toolkit
      * @param string $section имя раздела
      * @return simpleMapper
      */
-    public function getMapper($module, $do, $section)
+    public function getMapper($module, $do, $section = null)
     {
+        if (is_null($section)) {
+            $request = $this->getRequest();
+            $section = $request->getSection();
+        }
+
         if (!isset($this->mappers[$do][$section])) {
             $mapperName = $do . 'Mapper';
             fileLoader::load($module . '/mappers/' . $mapperName);

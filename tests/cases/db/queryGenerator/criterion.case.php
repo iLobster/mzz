@@ -26,6 +26,9 @@ class criterionTest extends unitTestCase
     {
         $criterion = new criterion('field', array('value1', 'value2'), criteria::IN);
         $this->assertEqual($criterion->generate(), "`field` IN ('value1', 'value2')");
+
+        $criterion = new criterion('field', array(), criteria::IN);
+        $this->assertEqual($criterion->generate(), "FALSE");
     }
 
     public function testSimpleLikeCondition()
