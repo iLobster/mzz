@@ -125,10 +125,11 @@ class newsFolderMapper extends simpleMapper
         $newsFolderMapper = $toolkit->getMapper('news', 'newsFolder', $request->getSection());
 
         // @toDo как то не так
-        foreach($this->tree->getBranch($id) as $folder) {
-            $folderNews = $folder->getItems();
-            foreach($folderNews as $news) {
-                $newsMapper->delete($news->getId());
+        $removedFolders = $this->tree->getBranch($id);
+        if(count($removedFolders)) {            foreach($removedFolders as $folder) {                $folderNews = $folder->getItems();
+                if(count($folderNews))
+                foreach($folderNews as $news) {                    $newsMapper->delete($news->getId());
+                }
             }
         }
 
