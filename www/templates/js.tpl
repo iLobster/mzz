@@ -1,1 +1,1 @@
-<script type="text/javascript" src="{$SITE_PATH}templates/js/{$filename}"></script>
+<script type="text/javascript" src="{$SITE_PATH}/templates/js/{$filename}"></script>

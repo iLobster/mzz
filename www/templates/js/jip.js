@@ -104,9 +104,9 @@ function evalScript(script) {
 var handleSuccess = function(o){
     if(typeof o.responseText !== undefined){
         urlStack.push([currentUrl]);
-        o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' class='jip' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
+        o.argument.div.innerHTML = "<div class='jipClose'><img alt='Закрыть' class='jip' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
         if (o.argument.success == true) {
-            o.argument.div.innerHTML += "<div style='background-color: #EEF8E7; padding: 2px; text-align: center; width: 160px; border: 1px solid #C9E9B1; color: green; font-weight: bold;'>Данные сохранены.</div>";
+            o.argument.div.innerHTML += "<div class='jipSuccess'>Данные сохранены.</div>";
         }
         o.argument.div.innerHTML += o.responseText;
         evalScripts(o.argument.div.innerHTML);
@@ -117,7 +117,7 @@ var handleInSuccess = function(o){
     if(typeof o.responseText !== undefined){
         o.argument.div.innerHTML = '';
         if (o.argument.success == true) {
-            o.argument.div.innerHTML += "<div style='background-color: #EEF8E7; padding: 2px; text-align: center; width: 160px; border: 1px solid #C9E9B1; color: green; font-weight: bold;'>Данные сохранены.</div>";
+            o.argument.div.innerHTML += "<div class='jipSuccess'>Данные сохранены.</div>";
         }
         o.argument.div.innerHTML += o.responseText;
         evalScripts(o.argument.div.innerHTML);

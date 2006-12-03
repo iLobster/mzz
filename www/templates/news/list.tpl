@@ -14,7 +14,7 @@
 {/foreach}
 
 
-<a href="{url section=news action=createItem params=$folderPath}" onclick="javascript: return showJip('{url section=news action=createItem params=$folderPath}');"><img src="{url section="templates" params="images/add.gif"}" width="16" height="16" alt="Добавить новость" /></a>
+<a href="{url section=news action=createItem params=$folderPath}" onclick="javascript: return showJip('{url section=news action=createItem params=$folderPath}');"><img src="{$SITE_PATH}/templates/images/add.gif" width="16" height="16" alt="Добавить новость" /></a>
 <a href="{url section=news action=createItem params=$folderPath}" onclick="javascript: return showJip('{url section=news action=createItem params=$folderPath}');">Добавить новость</a>
 <div class="pages">{$pager->toString()}</div>
 </div>

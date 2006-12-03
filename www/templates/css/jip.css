@@ -2,6 +2,21 @@ img.jip {
   cursor: pointer;
 }
 
+div.jipClose {
+  float: right;
+}
+
+div.jipSuccess {
+  background-color: #EEF8E7;
+  padding: 2px;
+  text-align: center;
+  width: 160px;
+  border: 1px solid #C9E9B1;
+  color: green;
+  font-weight: bold;
+}
+
+
 #jip {
     position: absolute;
     display: none;
@@ -98,7 +113,7 @@ td.jip_menu {
     text-align: center;
 
     background-image: url('/templates/images/bg_tr.png');
-    width: 100%; 
+    width: 100%;
     /*height: 100%;*/
     /*top: -8px;*/
     right: 0;

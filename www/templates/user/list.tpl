@@ -11,7 +11,7 @@
         </tr>
     {/foreach}
     <tr>
-        <td align="center"><a href="{url section=user action=create}" onClick="showJip('{url section=user action=create}'); return false;"><img src="{$SITE_PATH}templates/images/add.gif" width="16" height="16" /></a></td>
+        <td align="center"><a href="{url section=user action=create}" onClick="showJip('{url section=user action=create}'); return false;"><img src="{$SITE_PATH}/templates/images/add.gif" width="16" height="16" /></a></td>
         <td colspan="2"><a href="{url section=user action=create}" onClick="showJip('{url section=user action=create}'); return false;">Добавить пользователя</a></td>
     </tr>
 </table>

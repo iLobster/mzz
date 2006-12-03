@@ -116,7 +116,7 @@ class stdToolkit extends toolkit
                 $this->smarty->plugins_dir[] = $appdir;
             }
             $this->smarty->debugging = DEBUG_MODE;
-            $this->smarty->assign('SITE_PATH', (SITE_PATH == '') ? '/' : SITE_PATH);
+            $this->smarty->assign('SITE_PATH', rtrim(SITE_PATH, '/'));
         }
         return $this->smarty;
     }
