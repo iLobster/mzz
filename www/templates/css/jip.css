@@ -112,7 +112,7 @@ td.jip_menu {
     padding: 4px;
     text-align: center;
 
-    background-image: url('/templates/images/bg_tr.png');
+    background-image: url('../images/bg_tr.png');
     width: 100%;
     /*height: 100%;*/
     /*top: -8px;*/

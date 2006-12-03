@@ -104,7 +104,7 @@ function evalScript(script) {
 var handleSuccess = function(o){
     if(typeof o.responseText !== undefined){
         urlStack.push([currentUrl]);
-        o.argument.div.innerHTML = "<div class='jipClose'><img alt='Закрыть' class='jip' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
+        o.argument.div.innerHTML = "<div class='jipClose'><img alt='Закрыть' class='jip' width='16' height='16' src='" + SITE_PATH + "/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
         if (o.argument.success == true) {
             o.argument.div.innerHTML += "<div class='jipSuccess'>Данные сохранены.</div>";
         }
@@ -127,7 +127,7 @@ var handleInSuccess = function(o){
 var handleFormSuccess = function(o){
     if(typeof o.responseText !== undefined){
         showJip(o.argument.currentUrl);
-        //o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
+        //o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='" + SITE_PATH + "/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
         //o.argument.div.innerHTML += '<div style="font-size: 100%;color: green;">Данные сохранены</div>' + o.responseText;
         //div.innerHTML += "<li>HTTP status: " + o.status + "</li>";
     }

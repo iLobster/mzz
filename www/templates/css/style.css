@@ -105,19 +105,15 @@ a:active {
 }
 
 .menu_element {
- /*background-image: url('/templates/images/menu_bg.png');*/
  background-color: #FFF;
  height: 100%;
-
  float: left;
  padding: 0 15px;
-
  padding-top: 6px;
 
 }
 
 .menu_element_current {
-/* background-image: url('/templates/images/menu_bg.png');*/
  height: 100%;
  padding-top: 6px;
  float: left;
@@ -126,10 +122,10 @@ a:active {
 }
 
 #menu a:visited  {
-color: #0055CC;
+  color: #0055CC;
 }
 a:hover {
- color: #FF0000;
+  color: #FF0000;
 }
 
 
@@ -211,10 +207,8 @@ a:hover {
 .pages {
  font-size: 100%;
  margin-top: 50px;
- /*background-color: #F3F5F5;
- border-top: 1px solid #E0E4E4;
- border-bottom: 1px solid #E0E4E4;*/
 }
+
 .pageNumber {
  padding: 2px;
  border: 1px solid #E0E4E4;
