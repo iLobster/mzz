@@ -698,7 +698,9 @@ class dbTreeNS
     {
         //удаление данных из таблицы данных
         $deletedBranch = $this->getBranch($id);
-        if(count($deletedBranch)) {            foreach($deletedBranch as $node) {                $this->mapper->delete($node->getId());
+        if(count($deletedBranch)) {
+            foreach($deletedBranch as $node) {
+                $this->mapper->delete($node->getId());
             }
         }
 
