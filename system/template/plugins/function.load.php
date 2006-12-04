@@ -63,40 +63,46 @@ function smarty_function_load($params, $smarty)
         $request->setParam($name, $value);
     }
 
-    $mappername = $action->getType() . 'Mapper';
-    $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
+    $access = true;
 
-    $object_id = $mapper->convertArgsToId($request->getParams());
-    $acl = new acl($toolkit->getUser(), $object_id);
+    if (!isset($params['403handle']) || $params['403handle'] != 'none') {
 
-    $actionName = $action->getActionName();
+        $mappername = $action->getType() . 'Mapper';
+        $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
 
-    // массив с исключениями имён экшнов для ACL
-    $aclActions = array('editUser', 'addUser', 'deleteUser', 'deleteUserDefault', 'editGroup', 'addGroup', 'deleteGroup', 'deleteGroupDefault', 'editCfg');
-    if (in_array($actionName, $aclActions)) {
-        $actionName = 'editACL';
-    } else {
-        $aclDefaultActions = array('editOwner', 'editUserDefault', 'editGroupDefault');
-        if (in_array($actionName, $aclDefaultActions)) {
-            $actionName = 'editDefault';
+        $object_id = $mapper->convertArgsToId($request->getParams());
+        $acl = new acl($toolkit->getUser(), $object_id);
+
+        $actionName = $action->getActionName();
+
+        // массив с исключениями имён экшнов для ACL
+        $aclActions = array('editUser', 'addUser', 'deleteUser', 'deleteUserDefault', 'editGroup', 'addGroup', 'deleteGroup', 'deleteGroupDefault', 'editCfg');
+        if (in_array($actionName, $aclActions)) {
+            $actionName = 'editACL';
+        } else {
+            $aclDefaultActions = array('editOwner', 'editUserDefault', 'editGroupDefault');
+            if (in_array($actionName, $aclDefaultActions)) {
+                $actionName = 'editDefault';
+            }
         }
+
+        //var_dump($actionName); var_dump($object_id);
+
+        $access = $acl->get($actionName);
+
     }
-
-    //var_dump($actionName); var_dump($object_id);
-
-    $access = $acl->get($actionName);
 
     /*
     if (!$access && isset($params['403level']) && $params['403level'] == 'global') {
-        $response = $toolkit->getResponse();
-        $response->clear();
+    $response = $toolkit->getResponse();
+    $response->clear();
 
-        $GLOBALS['403global'] = true;
-        $GLOBALS['403tpl'] = isset($params['403tpl']) ? $params['403tpl'] : 'comments.deny.tpl';
+    $GLOBALS['403global'] = true;
+    $GLOBALS['403tpl'] = isset($params['403tpl']) ? $params['403tpl'] : 'comments.deny.tpl';
     }
 
     if (isset($GLOBALS['403global']) && $GLOBALS['403global']) {
-        return '';
+    return '';
     }*/
 
     if (isset($params['403handle']) && $params['403handle'] == 'manual') {

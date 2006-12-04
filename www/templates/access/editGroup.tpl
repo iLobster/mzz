@@ -12,8 +12,9 @@
         {/if}
         {foreach from=$actions item=action}
             <tr>
-                <td><input type="checkbox" name="access[{$action}][allow]" id="access[{$action}][allow]" value="1" {if not empty($acl.$action.allow)}{if $groups === false}checked="checked"{/if}{/if} /><input type="checkbox" name="access[{$action}][deny]" id="access[{$action}][deny]" value="1" {if not empty($acl.$action.deny)}{if $groups === false}checked="checked"{/if}{/if} /></td>
-                <td style="width: 90%;"><label for="access[{$action}]">{$action}</label></td>
+                {assign var=controller value=$action.controller}
+                <td><input type="checkbox" name="access[{$controller}][allow]" id="access[{$controller}][allow]" value="1" {if not empty($acl.$controller.allow)}{if $groups === false}checked="checked"{/if}{/if} /><input type="checkbox" name="access[{$controller}][deny]" id="access[{$controller}][deny]" value="1" {if not empty($acl.$controller.deny)}{if $groups === false}checked="checked"{/if}{/if} /></td>
+                <td style="width: 90%;"><label for="access[{$controller}]">{if not empty($action.title)}{$action.title}{else}{$controller}{/if}</label></td>
             </tr>
         {/foreach}
         <tr>

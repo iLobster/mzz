@@ -26,6 +26,7 @@ class adminViewView extends simpleView
     {
         $this->smarty->assign('info', $this->DAO['data']);
         $this->smarty->assign('cfgAccess', $this->DAO['cfgAccess']);
+        $this->smarty->assign('admin', $this->DAO['admin']);
         $this->smarty->assign('title', 'Панель управления');
         return $this->smarty->fetch('admin/view.tpl');
     }

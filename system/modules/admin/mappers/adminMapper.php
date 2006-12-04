@@ -50,6 +50,7 @@ class adminMapper extends simpleMapper
                                        ORDER BY `m`.`name`, `ss`.`name`, `c`.`name`");
         $result = array();
         $access = array();
+        $admin = array();
 
         $toolkit = systemToolkit::getInstance();
 
@@ -60,12 +61,13 @@ class adminMapper extends simpleMapper
 
             if (!isset($access[$val['section'] . '_' . $val['class']])) {
                 $access[$val['section'] . '_' . $val['class']] = $acl->get('editACL');
+                $admin[$val['section'] . '_' . $val['class']] = $acl->get('admin');
             }
 
             $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id, 'editACL' => $acl->get('editACL'), 'editDefault' => $acl->get('editDefault'));
         }
 
-        return array('data' => $result, 'cfgAccess' => $access);
+        return array('data' => $result, 'cfgAccess' => $access, 'admin' => $admin);
     }
 
     /**

@@ -21,6 +21,8 @@ $router->addRoute('aclDefaultsAdd', new requestRoute('access/:section_name/:clas
 
 $router->addRoute('aclDefaultAction', new requestRoute('access/:id', array('section' => 'access', 'action' => 'edit'), array('id' => '\d+')));
 
+$router->addRoute('admin', new requestRoute('admin/:section_name/:module_name/:action', array('section' => 'admin'), array('action' => '(?:admin)')));
+
 $router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
 
 ?>

@@ -305,7 +305,7 @@ abstract class simpleMapper //implements iCacheable
         return false;
     }
 
-    protected function register($obj_id, $section = null, $className = null)
+    public function register($obj_id, $section = null, $className = null)
     {
         if (is_null($className)) {
             $className = $this->className;

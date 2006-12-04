@@ -1,0 +1,1 @@
+{load module=$module_name section=$section_name action="admin" 403handle="none"}

@@ -72,7 +72,7 @@ class accessEditGroupController extends simpleController
             $groups = $groupMapper->searchAllByCriteria($criteria);
         }
 
-        return new accessEditGroupView($acl, array_keys($actions), $group, $groups);
+        return new accessEditGroupView($acl, $actions, $group, $groups);
     }
 }
 
