@@ -111,7 +111,7 @@ Sample usage:
         $log .= "\n\nFile created successfully:\n- " . $module . '/' . $factoryFilename;
 
          // создаем bat файлы для генерации ДО и actions в корневой папке модуля
-        $batSrc = explode(' ', file_get_contents('../generateModule.bat'));
+        $batSrc = explode(' ', file_get_contents('../create-module.bat'));
 
         // Если путь оносительный, то есть начинается  с точки, то предполагаем,
         // что генерируем модуль внутри mzz, а не в appDir
@@ -124,10 +124,10 @@ Sample usage:
 
         $genDoBat = $batSrc[0] . ' ' . $doGenerator . ' %1  %2';
         $genActionBat = $batSrc[0] . ' ' .  $actionGenerator . ' %1 %2';
-        file_put_contents('generateDO.bat', $genDoBat);
-        file_put_contents('generateAction.bat', $genActionBat);
-        $log .= "\n- generateDO.bat";
-        $log .= "\n- generateAction.bat";
+        file_put_contents('create-do.bat', $genDoBat);
+        file_put_contents('create-action.bat', $genActionBat);
+        $log .= "\n- create-do.bat";
+        $log .= "\n- create-action.bat";
 
         //file_put_contents('create_' . $module . '_module_log.txt', $log);
         echo $log;
