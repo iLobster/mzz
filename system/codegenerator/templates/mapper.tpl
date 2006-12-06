@@ -11,7 +11,11 @@
  * @link http://www.mzz.ru
  * @version $Id$
 */
-
+{{if $mapper_data.module ne $mapper_data.doname}}
+fileLoader::load('{{$mapper_data.module}}/{{$mapper_data.doname}}');
+{{else}}
+fileLoader::load('{{$mapper_data.module}}');
+{{/if}}
 /**
  * {{$mapper_data.mapper_name}}: маппер
  *
@@ -19,13 +23,6 @@
  * @subpackage {{$mapper_data.module}}
  * @version 0.1
  */
-
-{{if $mapper_data.module ne $mapper_data.doname}}
-fileLoader::load('{{$mapper_data.module}}/{{$mapper_data.doname}}');
-{{else}}
-fileLoader::load('{{$mapper_data.module}}');
-{{/if}}
-
 class {{$mapper_data.mapper_name}} extends simpleMapper
 {
     /**

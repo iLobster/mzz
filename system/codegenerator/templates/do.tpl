@@ -19,8 +19,6 @@
  * @subpackage {{$do_data.module}}
  * @version 0.1
  */
-
-
 class {{$do_data.doname}} extends simple
 {
         protected $name = '{{$do_data.module}}';

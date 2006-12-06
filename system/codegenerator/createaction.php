@@ -132,21 +132,21 @@ Sample usage:
     $log = "File edited successfully: ";
     // записываем данные в actions файл
     file_put_contents($actionsfile, $actions_output);
-    $log .= "\n- " . $actionsfile;
+    $log .= "\n-- " . $actionsfile;
 
     $log .= "\n\nFile created successfully: ";
     // записываем данные в файл контроллера
     $smarty->assign('controller_data', $controller_data);
     $controller = $smarty->fetch('controller.tpl');
     file_put_contents($controller_filename, $controller);
-    $log .= "\n- " . $controller_filename;
+    $log .= "\n-- " . $controller_filename;
 
     // записываем данные в файл вида
     $smarty->assign('view_data', $view_data);
     $view = $smarty->fetch('view.tpl');
     file_put_contents($view_filename, $view);
 
-    $log .= "\n- " . $view_filename;
+    $log .= "\n-- " . $view_filename;
     //file_put_contents('create_' . $type . '_' . $action .'_action_log.txt', $log);
 
     echo $log;

@@ -59,7 +59,7 @@ Sample usage:
         // создаем корневую папку модуля
         if (!is_dir( CUR . '/' . $module )) {
             mkdir($module, 0700);
-            $log = "Module root folder created successfully:\n- " . $module;
+            $log = "Module root folder created successfully:\n-- " . $module;
         }
         chdir($module);
         // создаем папку для тестов
@@ -74,28 +74,28 @@ Sample usage:
         // создаем папку actions
         if (!is_dir('actions')) {
             mkdir('actions');
-            $log .= "\n\nFolder created successfully:\n- " . $module . "/actions";
+            $log .= "\n\nFolder created successfully:\n-- " . $module . "/actions";
         }
 
         // создаем папку controllers
         if (!is_dir('controllers')) {
             mkdir('controllers');
-            $log .= "\n- " . $module . '/controllers';
+            $log .= "\n-- " . $module . '/controllers';
         }
         // создаем папку mappers
         if (!is_dir('mappers')) {
             mkdir('mappers');
-            $log .= "\n- " . $module . "/mappers";
+            $log .= "\n-- " . $module . "/mappers";
         }
         // создаем папку maps
         if (!is_dir('maps')) {
             mkdir('maps');
-            $log .= "\n- " . $module . "/maps";
+            $log .= "\n-- " . $module . "/maps";
         }
         // создаем папку views
         if (!is_dir('views')) {
             mkdir('views');
-            $log .= "\n- " . $module . "/views";
+            $log .= "\n-- " . $module . "/views";
         }
 
 
@@ -108,7 +108,7 @@ Sample usage:
         $smarty->assign('factory_data', $factoryData);
         $factory = $smarty->fetch('factory.tpl');
         file_put_contents($factoryFilename, $factory);
-        $log .= "\n\nFile created successfully:\n- " . $module . '/' . $factoryFilename;
+        $log .= "\n\nFile created successfully:\n-- " . $module . '/' . $factoryFilename;
 
          // создаем bat файлы для генерации ДО и actions в корневой папке модуля
         $batSrc = explode(' ', file_get_contents('../create-module.bat'));
@@ -126,8 +126,8 @@ Sample usage:
         $genActionBat = $batSrc[0] . ' ' .  $actionGenerator . ' %1 %2';
         file_put_contents('create-do.bat', $genDoBat);
         file_put_contents('create-action.bat', $genActionBat);
-        $log .= "\n- create-do.bat";
-        $log .= "\n- create-action.bat";
+        $log .= "\n-- create-do.bat";
+        $log .= "\n-- create-action.bat";
 
         //file_put_contents('create_' . $module . '_module_log.txt', $log);
         echo $log;

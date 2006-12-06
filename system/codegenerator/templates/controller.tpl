@@ -12,6 +12,8 @@
  * @version $Id$
 */
 
+fileLoader::load('{{$controller_data.module}}/views/{{$controller_data.viewname}}');
+
 /**
  * {{$controller_data.controllername}}: контроллер для метода {{$controller_data.action}} модуля {{$controller_data.module}}
  *
@@ -19,9 +21,6 @@
  * @subpackage {{$controller_data.module}}
  * @version 0.1
  */
-
-fileLoader::load('{{$controller_data.module}}/views/{{$controller_data.viewname}}');
-
 class {{$controller_data.controllername}} extends simpleController
 {
     public function getView()

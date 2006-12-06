@@ -106,7 +106,7 @@ Sample usage:
 
         $log = '';
 
-        $log .= "File created successfully:\n- " . $module . '/' . $doNameFile;
+        $log .= "File created successfully:\n-- " . $module . '/' . $doNameFile;
 
 
         // -------создаем маппер-----------
@@ -121,18 +121,19 @@ Sample usage:
         $smarty->assign('mapper_data', $mapperData);
         $mapper = $smarty->fetch('mapper.tpl');
         file_put_contents('mappers/' . $mapperNameFile, $mapper);
-        $log .= "\n- " .$module . '/mappers/' . $mapperNameFile;
+        $log .= "\n-- " .$module . '/mappers/' . $mapperNameFile;
 
         // -------(optional)создаем шаблоны тестов для ДО и маппера-----------
         // @toDo можно сделать довольно полную генерацию тестов
         // но для этого необходимо делать отдельный генератор, который создаст тест для ДО и маппера
         // на основе данных о полях из map.ini
         if(isset($argv[2])) {
-            if (!is_dir( MODULE_TEST_PATH )) {                //echo "<pre>"; print_r(MODULE_TEST_PATH);echo "</pre>";
+            if (!is_dir( MODULE_TEST_PATH )) {
+                //echo "<pre>"; print_r(MODULE_TEST_PATH);echo "</pre>";
                 mkdir(MODULE_TEST_PATH, 0700);
-                $log .= "\nModule tests  folder created successfully:\n- " . str_replace(MZZ,'', MODULE_TEST_PATH);
+                $log .= "\nModule tests  folder created successfully:\n-- " . str_replace(MZZ,'', MODULE_TEST_PATH);
             }
-            $doCaseData = array(
+            $doCaseData = array(
                 'doName' => $doName,
                 'module' => $module,
                 'tableName' => strtolower($module . '_' . $doName),
@@ -141,25 +142,26 @@ Sample usage:
             $smarty->assign('doCaseData', $doCaseData);
             $case = $smarty->fetch('do_case.tpl');
             file_put_contents(MODULE_TEST_PATH . '/' . $doCaseFileName, $case);
-            $log .= "\n- " . MODULE_TEST_SHORT_PATH . '/' . $doCaseFileName;
+            $log .= "\n-- " . MODULE_TEST_SHORT_PATH . '/' . $doCaseFileName;
 
             $smarty->assign('doCaseData', $doCaseData);
             $mapperCase = $smarty->fetch('domapper_case.tpl');
             file_put_contents(MODULE_TEST_PATH . $doMapperCaseFileName, $mapperCase);
-            $log .= "\n- " . MODULE_TEST_SHORT_PATH . $doMapperCaseFileName;
-        }
+            $log .= "\n-- " . MODULE_TEST_SHORT_PATH . $doMapperCaseFileName;
+        }
 
 
         // -------создаем ini файл для экшинов-----------
 
         $f = fopen('actions/' . $iniFileName, 'w');
+        fwrite($f, "; " . $doName . " actions config\r\n");
         fclose($f);
-        $log .= "\n- " .$module . '/actions/' . $iniFileName;
+        $log .= "\n-- " .$module . '/actions/' . $iniFileName;
 
         // -------создаем map файл -----------
         $f = fopen('maps/' . $mapFileName, 'w');
         fclose($f);
-        $log .= "\n- " .$module . '/maps/' . $mapFileName . "\n";
+        $log .= "\n-- " .$module . '/maps/' . $mapFileName . "\n";
 
         //file_put_contents('create_' . $doName . '_do_for_' . $module . '_module_log.txt', $log);
 
