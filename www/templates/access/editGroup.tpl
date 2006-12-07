@@ -10,11 +10,10 @@
                 {/foreach}
             </select>
         {/if}
-        {foreach from=$actions item=action}
+        {foreach from=$actions item=action key=key}
             <tr>
-                {assign var=controller value=$action.controller}
-                <td><input type="checkbox" name="access[{$controller}][allow]" id="access[{$controller}][allow]" value="1" {if not empty($acl.$controller.allow)}{if $groups === false}checked="checked"{/if}{/if} /><input type="checkbox" name="access[{$controller}][deny]" id="access[{$controller}][deny]" value="1" {if not empty($acl.$controller.deny)}{if $groups === false}checked="checked"{/if}{/if} /></td>
-                <td style="width: 90%;"><label for="access[{$controller}]">{if not empty($action.title)}{$action.title}{else}{$controller}{/if}</label></td>
+                <td><input type="checkbox" name="access[{$key}][allow]" id="access[{$key}][allow]" value="1" {if not empty($acl.$key.allow)}{if $groups === false}checked="checked"{/if}{/if} /><input type="checkbox" name="access[{$key}][deny]" id="access[{$key}][deny]" value="1" {if not empty($acl.$key.deny)}{if $groups === false}checked="checked"{/if}{/if} /></td>
+                <td style="width: 90%;"><label for="access[{$key}]">{if not empty($action.title)}{$action.title}{else}{$key}{/if}</label></td>
             </tr>
         {/foreach}
         <tr>

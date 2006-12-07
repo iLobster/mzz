@@ -40,6 +40,7 @@ class accessEditGroupView extends simpleView
         if ($this->group) {
             $this->smarty->assign('acl', $this->DAO->getForGroup($this->group->getId(), true));
         }
+        //var_dump($this->actions);
         $this->smarty->assign('group', $this->group);
         $this->smarty->assign('groups', $this->groups);
         $this->smarty->assign('actions', $this->actions);
