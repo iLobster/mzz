@@ -116,7 +116,9 @@ Sample usage:
         // Если путь оносительный, то есть начинается  с точки, то предполагаем,
         // что генерируем модуль внутри mzz, а не в appDir
         $genDir = substr($batSrc[1],0, strrpos($batSrc[1], '\\'));
-        if($genDir[0] == '.') {            $genDir = '..\\' . $genDir;        }
+        if($genDir[0] == '.') {
+            $genDir = '..\\' . $genDir;
+        }
 
 
         $doGenerator = $genDir . '\createdo.php';
