@@ -790,7 +790,7 @@ abstract class simpleMapper //implements iCacheable
                 // получаем схему связанного объекта
                 $relatedMap = $mapper->getMap();
 
-                // из полученной схемы получаем имя акцессора к методу, по которому получаем данные, по которым связыываем этот объект с главным
+                // из полученной схемы получаем имя акцессора к методу, по которому получаем данные, по которым связываем этот объект с главным
                 $accessor = $relatedMap[$fieldName]['accessor'];
 
                 // делаем вызов полученного акцессора и заменяем объект на строку
@@ -803,7 +803,7 @@ abstract class simpleMapper //implements iCacheable
                 $oldData = $object->$accessor();
 
                 $oldObjIds = array();
-                   foreach ($oldData as $subval) {
+                foreach ($oldData as $subval) {
                     $oldObjIds[$subval->getObjId()] = $subval->getId();
                 }
 
@@ -818,10 +818,21 @@ abstract class simpleMapper //implements iCacheable
                 $className = $hasMany[$key]['class'];
                 $fieldName = $hasMany[$key]['key'];
                 $moduleName = $hasMany[$key]['module'];
+                $fieldName = $hasMany[$key]['key'];
+                $thisField = $hasMany[$key]['field'];
 
                 // получаем нужный маппер
                 $toolkit = systemToolkit::getInstance();
                 $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+
+                // получаем схему связанного объекта
+                $relatedMap = $mapper->getMap();
+
+                // из полученной схемы получаем имя мутатора к методу, по которому устанавливаем данные, по которым связыываем этот объект с главным
+                $mutator = $relatedMap[$fieldName]['mutator'];
+                
+                // получаем имя акцессора, по которому возвращается значение поля, по которому происходит связывание
+                $accessor = $map[$thisField]['accessor'];
 
                 // удаляем все записи которых нет в новом массиве
                 foreach ($oldObjIds as $subval) {
@@ -830,6 +841,7 @@ abstract class simpleMapper //implements iCacheable
 
                 // сохраняем все новые записи
                 foreach ($val as $subval) {
+                    $subval->$mutator($object->$accessor());
                     $mapper->save($subval);
                 }
 
