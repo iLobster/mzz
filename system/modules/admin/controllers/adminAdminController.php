@@ -39,6 +39,9 @@ class adminAdminController extends simpleController
 
         $access = $acl->get('admin');
 
+        /**
+         * @todo подумать над тем, что должно быть в случае 403 здесь
+         */
         return $access ? new adminAdminView($section, $module) : 'нет доступа';
     }
 }

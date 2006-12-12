@@ -410,18 +410,20 @@ abstract class simpleMapper //implements iCacheable
     public function searchByKeys($ids)
     {
         $criteria = new criteria();
-
-
+        $criteria->add($this->tableKey, $ids, criteria::IN);
+        
+        /*
         foreach($ids as $id){
-            if(empty($criterion)) {
-                $criterion = new criterion($this->tableKey, $id);
-            } else {
-                $criterion->addOr(new criterion($this->tableKey, $id));
-            }
-
-            $criteria->add($criterion);
+        if(empty($criterion)) {
+        $criterion = new criterion($this->tableKey, $id);
+        } else {
+        $criterion->addOr(new criterion($this->tableKey, $id));
         }
 
+        $criteria->add($criterion);
+        }
+        */
+        
         return $this->searchAllByCriteria($criteria);
 
     }
@@ -830,7 +832,7 @@ abstract class simpleMapper //implements iCacheable
 
                 // из полученной схемы получаем имя мутатора к методу, по которому устанавливаем данные, по которым связыываем этот объект с главным
                 $mutator = $relatedMap[$fieldName]['mutator'];
-                
+
                 // получаем имя акцессора, по которому возвращается значение поля, по которому происходит связывание
                 $accessor = $map[$thisField]['accessor'];
 
