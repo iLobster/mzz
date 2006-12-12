@@ -369,7 +369,7 @@ class dbTreeNS
         }
 
         $query = ' SELECT * FROM `' . $this->table . '` `tree` WHERE `tree`.`id` = ' . $id.
-        ($this->isMultipleTree() ? ' AND `tree`.`' . $this->treeField . '`= ' . $this->treeFieldID: '');
+        ($this->isMultipleTree() ? ' AND `tree`.`' . $this->treeField . '`= ' . $this->treeFieldID : '');
         //echo "<pre>getNodeInfo "; var_dump($query); echo "</pre>";
 
         $stmt = $this->db->query($query);
@@ -455,7 +455,9 @@ class dbTreeNS
         ($this->isMultipleTree() ? 'AND `tree`.`' . $this->treeField . '` = :treeFieldID ' : '') .
         '  ORDER BY lkey');
 
-        $stmt->bindParam(':treeFieldID', $this->treeFieldID, PDO::PARAM_INT);
+        if ($this->isMultipleTree()) {
+            $stmt->bindParam(':treeFieldID', $this->treeFieldID, PDO::PARAM_INT);
+        }
 
         $stmt->bindParam(':lkey', $lowerChild['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $lowerChild['rkey'], PDO::PARAM_INT);
@@ -486,7 +488,9 @@ class dbTreeNS
         ($this->isMultipleTree() ? 'AND `tree`.`' . $this->treeField . '` = :treeFieldID ' : '') .
         ' AND `tree`.`lkey` <:rkey ORDER BY `tree`.`lkey`');
 
-        $stmt->bindParam(':treeFieldID', $this->treeFieldID, PDO::PARAM_INT);
+        if ($this->isMultipleTree()) {
+            $stmt->bindParam(':treeFieldID', $this->treeFieldID, PDO::PARAM_INT);
+        }
 
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
@@ -595,7 +599,9 @@ class dbTreeNS
             return $this->insertRootNode($newNode);
         }
 
-        if(!$parentNode = $this->getNodeInfo($id)) return false;;
+        if(!$parentNode = $this->getNodeInfo($id)) {
+            return false;
+        }
 
         $stmt = $this->db->prepare(' UPDATE ' . $this->table.
         ' SET rkey = rkey + 2, lkey = IF(lkey > :PN_RKey, lkey + 2, lkey)' .
