@@ -10,15 +10,6 @@
                 {/foreach}
             </select>
         {/if}
-        {foreach from=$actions item=action}
-            <tr>
-                <td>{$action}</td>
-                <td><input type="checkbox" name="access[{$action}][allow]" value="1" {if not empty($acl.$action.allow)}{if $users === false}checked="checked"{/if}{/if} /><input type="checkbox" name="access[{$action}][deny]" value="1" {if not empty($acl.$action.deny)}{if $users === false}checked="checked"{/if}{/if} /></td>
-            </tr>
-        {/foreach}
-        <tr>
-            <td><input type="submit" value="”становить права"></td>
-            <td><input type="reset" value="—брос"></td>
-        </tr>
+        {include file="access/checkboxes.tpl" actions=$actions adding=$users}
 </table>
 </form>

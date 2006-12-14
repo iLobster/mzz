@@ -75,7 +75,7 @@ class accessEditUserDefaultController extends simpleController
             $users = $userMapper->searchAllByCriteria($criteria);
         }
 
-        return new accessEditUserDefaultView($acl, array_keys($actions), $user, $users, $class, $section);
+        return new accessEditUserDefaultView($acl, $actions, $user, $users, $class, $section);
     }
 }
 

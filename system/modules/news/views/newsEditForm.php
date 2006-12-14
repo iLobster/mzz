@@ -25,15 +25,15 @@ class newsEditForm
      * @param object $news объект новостей
      * @param string $section текущая секция
      * @param string $action текущее действие
-     * @param object $newsMapper
+     * @param newsFolder $newsFolder папка, в которой создаём новость
      * @return object сгенерированная форма
      */
-    static function getForm($news, $section, $action, $newsMapper)
+    static function getForm($news, $section, $action, $newsFolder)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $formAction = '/' . $section . ($action == 'edit' ? '/' . $news->getId() : '') . '/' . $action;
+        $formAction = '/' . $section . '/' . ($action == 'edit' ? $news->getId() : $newsFolder->getPath()) . '/' . $action;
         $form = new HTML_QuickForm('newsEdit', 'POST', $formAction);
 
         if ($action == 'edit') {
