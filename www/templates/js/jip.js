@@ -7,7 +7,7 @@ var layertimer;
 var urlStack = new Array;
 var currentUrl;
 var formSuccess = false;
-
+var jipButton;
 
 var $break    = new Object();
 var $continue = new Object();
@@ -262,13 +262,13 @@ function cleanSubJip(elementId)
 
 
 function openJipMenu(button, jipMenu, id) {
-
+    button.src = SITE_PATH + '/templates/images/jip_active.gif';
     jipMenu.style.top = '-100px';
     jipMenu.style.left = '-100px';
     jipMenu.style.display = 'block';
 
-    if (last_jipmenu_id) {
-        closeJipMenu(document.getElementById('jip_menu_' + last_jipmenu_id));
+    if (last_jipmenu_id && last_jipmenu_button) {
+        closeJipMenu(document.getElementById('jip_menu_' + last_jipmenu_id), last_jipmenu_button);
     }
 
     if (document.getElementById('jip').style.display == 'block') {
@@ -297,11 +297,15 @@ function openJipMenu(button, jipMenu, id) {
     jipMenu.style.top = (y + 1) + 'px';
     //jipMenu.style.width = w + 'px';
     last_jipmenu_id = id;
+    last_jipmenu_button = button;
 }
 
-function closeJipMenu(jipMenu) {
+function closeJipMenu(jipMenu, button) {
     jipMenu.style.display = 'none';
     last_jipmenu_id = false;
+    last_jipmenu_button = false;
+    button = button || jipButton;
+    button.src = SITE_PATH + '/templates/images/jip.gif';
     if(layertimer) {
         clearTimeout(layertimer);
     }
@@ -310,6 +314,7 @@ function closeJipMenu(jipMenu) {
 function showJipMenu(button, id) {
     jipMenu = document.getElementById('jip_menu_' + id);
     if (!jipMenu.style.display || jipMenu.style.display == 'none') {
+        jipButton = button;
         openJipMenu(button, jipMenu, id);
         setMouseInJip(false);
     } else {
