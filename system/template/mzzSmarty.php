@@ -78,9 +78,9 @@ class mzzSmarty extends Smarty
         }
 
         if (!isset($this->mzzResources[$mzzname])) {
-            $this->mzzResources[$mzzname] = new $mzzname;
+            $this->mzzResources[$mzzname] = new $mzzname($this);
         }
-        $result = $this->mzzResources[$mzzname]->fetch($resource, $cache_id, $compile_id, $display, $this);
+        $result = $this->mzzResources[$mzzname]->fetch($resource, $cache_id, $compile_id, $display);
 
         return $result;
 

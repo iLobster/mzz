@@ -24,6 +24,13 @@
 interface IMzzSmarty
 {
     /**
+     * конструктор
+     *
+     * @param object $smarty
+     */
+    function __construct(mzzSmarty $smarty);
+
+    /**
      * Выполняет шаблон и возвращает результат
      * Декорирован для реализации вложенных шаблонов.
      *
@@ -31,9 +38,8 @@ interface IMzzSmarty
      * @param string $cache_id
      * @param string $compile_id
      * @param boolean $display
-     * @param object $smarty
      */
-    function fetch($resource, $cache_id = null, $compile_id = null, $display = false, mzzSmarty $smarty);
+    function fetch($resource, $cache_id = null, $compile_id = null, $display = false);
 
     /**
      * Получает и возвращает относительный путь к исходнику шаблонов.

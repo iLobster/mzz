@@ -31,17 +31,25 @@ class mzzFileSmarty implements IMzzSmarty
     private $smarty;
 
     /**
+     * конструктор
+     *
+     * @param object $smarty
+     */
+    function __construct(mzzSmarty $smarty)
+    {
+        $this->smarty = $smarty;
+    }
+
+    /**
      * ¬ыполн€ет шаблон и возвращает результат
      *
      * @param string $resource
      * @param string $cache_id
      * @param string $compile_id
      * @param boolean $display
-     * @param mzzSmarty $smarty
      */
-    public function fetch($resource, $cache_id = null, $compile_id = null, $display = false, mzzSmarty $smarty)
+    public function fetch($resource, $cache_id = null, $compile_id = null, $display = false)
     {
-        $this->smarty = $smarty;
         //$resource_name = $this->getResourceFileName($resource[1], $this->smarty);
 
         // ƒл€ определени€ активного шаблоного достаточно прочитать первые 256 байтов из шаблона
