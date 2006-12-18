@@ -120,33 +120,7 @@ class urlTest extends unitTestCase
     {
         $this->url->setGetParam('name', 'value');
         $this->url->setGetParam('name2', 'value2');
-        $this->assertEqual($this->url->get(), 'http://localhost/?name=value&amp;name2=value2');
-    }
-
-    public function testUrlEncode()
-    {
-        $this->url->setGetParam('<b>', 'русский');
-        $this->assertEqual($this->url->get(), 'http://localhost/?%3Cb%3E=%F0%F3%F1%F1%EA%E8%E9');
-
-        $this->url->setSection('<секция>');
-        $this->url->setAction('<действие>');
-        $this->url->addParam('test', '<параметр>');
-
-        $this->assertEqual($this->url->get(), 'http://localhost/%3C%F1%E5%EA%F6%E8%FF%3E/%3C%EF%E0%F0%E0%EC%E5%F2%F0%3E/%3C%E4%E5%E9%F1%F2%E2%E8%E5%3E?%3Cb%3E=%F0%F3%F1%F1%EA%E8%E9');
-    }
-
-    public function testUrlEncodeWithRoute()
-    {
-        $route = new requestRoute(':section/:page/:action');
-        $router = new requestRouter(new stdClass());
-        $router->addRoute('urlRoute', $route);
-
-        $this->url->setSection('<секция>');
-        $this->url->setAction('<действие>');
-        $this->url->addParam('page', '<параметр>');
-        $this->url->setRoute($router->getRoute('urlRoute'));
-
-        $this->assertEqual($this->url->get(), 'http://localhost/%3C%F1%E5%EA%F6%E8%FF%3E/%3C%EF%E0%F0%E0%EC%E5%F2%F0%3E/%3C%E4%E5%E9%F1%F2%E2%E8%E5%3E');
+        $this->assertEqual($this->url->get(), 'http://localhost/?name=value&name2=value2');
     }
 }
 
