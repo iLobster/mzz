@@ -24,7 +24,7 @@ class httpRequestTest extends unitTestCase
         $this->REQUEST = $_REQUEST;
 
 
-        $_GET['path'] = "/news/archive/18/10//2005/list";
+        $_GET['path'] = "/news/русский/18/10//2005/list";
         $_POST['_TEST_FOO'] = "post_foo";
         $_COOKIE['_TEST_BAR'] = "cookie_bar";
 
@@ -126,14 +126,13 @@ class httpRequestTest extends unitTestCase
         $_SERVER['HTTPS'] = false;
         $_SERVER['SERVER_PORT'] = '80';
         $_SERVER['HTTP_HOST'] = 'www.mzz.ru';
-        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru/news/archive/18/10/2005/list');
+        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru/news/%F0%F3%F1%F1%EA%E8%E9/18/10/2005/list');
     }
 
 
     public function testGetPath()
     {
-        $_GET['path'] = "/news///archive/18/10//2005/list";
-        $this->assertEqual($this->httprequest->getPath(), 'news/archive/18/10/2005/list');
+        $this->assertEqual($this->httprequest->getPath(), 'news/%F0%F3%F1%F1%EA%E8%E9/18/10/2005/list');
     }
 
     public function testGetSection()

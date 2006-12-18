@@ -311,7 +311,7 @@ class httpRequest implements iRequest
     */
     public function getPath()
     {
-        return trim(preg_replace('/\/{2,}/', '/', $this->get('path', 'mixed', SC_REQUEST)), '/');
+        return trim(preg_replace('/(%2F)+/', '/', urlencode($this->get('path', 'mixed', SC_REQUEST))), '/');
     }
 
     /**

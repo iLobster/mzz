@@ -73,7 +73,7 @@ class url
         $request = $toolkit->getRequest();
 
         $address = $request->getUrl();
-        $this->params  = $this->getParams();
+        $this->params  = array_map('urlencode', $this->getParams());
 
         if (is_null($this->section)) {
             $this->setSection($this->getCurrentSection());
@@ -82,10 +82,10 @@ class url
         if ($this->route instanceof iRoute) {
             $params = $this->params;
             if (empty($params['section'])) {
-                $params['section'] = $this->section;
+                $params['section'] = urlencode($this->section);
             }
             if (empty($params['action'])) {
-                $params['action'] = $this->action;
+                $params['action'] = urlencode($this->action);
             }
             $url = $this->route->assemble($params);
             $this->deleteRoute();
@@ -106,15 +106,15 @@ class url
                     $params = '/';
                 }
             }
-            $url = $this->section . $params . $this->action;
+            $url = urlencode($this->section) . $params . urlencode($this->action);
         }
 
         if (sizeof($this->getParams)) {
             $url .= '?';
             foreach ($this->getParams as $key => $val) {
-                $url .= $key . '=' . $val . '&';
+                $url .= urlencode($key) . '=' . urlencode($val) . '&amp;';
             }
-            $url = substr($url, 0, -1);
+            $url = substr($url, 0, -5);
         }
 
         return $address . (!empty($url) ? '/' . $url : '');

@@ -128,19 +128,20 @@ class jip
         foreach ($this->actions as $key => $item) {
 
             if (isset($access[$key]) && $access[$key]) {
+                /* @deprecated
                 $url = new url();
                 $icon = $item['icon'];
                 if (strpos($icon, '/') === 0) {
                     $icon = substr($icon, 1);
                 }
                 $url->addParam('icon', $icon);
-                $url->setSection('');
+                $url->setSection('');*/
 
                 $result[] = array(
                 'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
                 'title' => $item['title'],
                 'isPopup' => isset($item['isPopup']) ? $item['isPopup'] :null,
-                'icon' => $url->get(),
+                'icon' => SITE_PATH . $item['icon'],
                 'id' => $this->getJipMenuId() . '_' . $item['controller'],
                 'confirm' => $item['confirm'],
                 );
