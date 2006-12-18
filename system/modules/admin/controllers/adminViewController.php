@@ -27,7 +27,7 @@ class adminViewController extends simpleController
     public function getView()
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin', 'admin');
-
+        
         return new adminViewView($adminMapper->getInfo());
     }
 }

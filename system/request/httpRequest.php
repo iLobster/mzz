@@ -301,7 +301,7 @@ class httpRequest implements iRequest
     */
     public function getRequestUrl()
     {
-        return $this->getUrl() . '/' . urlencode($this->getPath());
+        return $this->getUrl() . '/' . $this->getPath();
     }
 
     /**

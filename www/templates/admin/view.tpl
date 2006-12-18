@@ -12,7 +12,7 @@
                 <td>&nbsp;</td>
                 <td colspan="2">
                     {assign var="name" value="`$section_name`_`$module_name`"}
-                    {$section_name} {if not empty($cfgAccess.$name)}<a href="{url section="config" params="`$section_name`/`$module_name`" action="editCfg"}" onClick="showJip('{url section="config" params="`$section_name`/`$module_name`" action="editCfg"}'); return false;"><img src="{$SITE_PATH}/templates/images/config.gif"></a>{/if}{if not empty($admin.$name)} <a href="{url section="admin" params="`$section_name`/`$module_name`" action="admin"}">админка</a>{/if}
+                    {$section_name} {if not empty($cfgAccess.$name)}<a href="{url section="config" params="`$section_name`/`$module_name`" action="editCfg"}" onClick="showJip('{url section="config" params="`$section_name`/`$module_name`" action="editCfg"}'); return false;"><img src="{$SITE_PATH}/templates/images/config.gif"></a>{/if}{if not empty($admin.$name)}{if $module_name ne 'admin'} <a href="{url section="admin" params="`$section_name`/`$module_name`" action="admin"}">админка</a>{/if}{/if}
                 </td>
             </tr>
             {foreach from=$section item=class}

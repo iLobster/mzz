@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1.2
+ * @version 0.1.3
  */
 class url
 {
@@ -44,6 +44,8 @@ class url
      * @var array
      */
     protected $params = array();
+
+    private $getParams = array();
 
     /**
      * Route
@@ -106,6 +108,15 @@ class url
             }
             $url = $this->section . $params . $this->action;
         }
+
+        if (sizeof($this->getParams)) {
+            $url .= '?';
+            foreach ($this->getParams as $key => $val) {
+                $url .= $key . '=' . $val . '&';
+            }
+            $url = substr($url, 0, -1);
+        }
+
         return $address . (!empty($url) ? '/' . $url : '');
     }
 
@@ -137,6 +148,17 @@ class url
     public function addParam($name, $value)
     {
         $this->params[$name] = $value;
+    }
+
+    /**
+     * Установка переменных GET
+     *
+     * @param string $name
+     * @param string $value
+     */
+    public function setGetParam($name, $value)
+    {
+        $this->getParams[$name] = $value;
     }
 
     /**
