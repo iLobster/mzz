@@ -60,7 +60,15 @@ class user extends simple
      */
     public function getGroupsList()
     {
-        return $this->mapper->getGroupsList($this->getId());
+        $toolkit = systemToolkit::getInstance();
+        $cache = $toolkit->getCache();
+
+        if (is_null($groups = $cache->load($identifier = 'groups_' . $this->getId()))) {
+            $groups = $this->mapper->getGroupsList($this->getId());
+            $cache->save($identifier, $groups);
+        }
+        
+        return $groups;
     }
 }
 

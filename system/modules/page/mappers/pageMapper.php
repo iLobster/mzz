@@ -36,13 +36,6 @@ class pageMapper extends simpleMapper
     protected $className = 'page';
 
     /**
-     * Массив кешируемых методов
-     *
-     * @var array
-     */
-    protected $cacheable = array('searchByName');
-
-    /**
      * Выполняет поиск объекта по идентификатору
      *
      * @param integer $id идентификатор

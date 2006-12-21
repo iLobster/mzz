@@ -8,6 +8,9 @@
         <td colspan="2">{$form.name.label} {$form.name.html}{$form.name.error}</td>
     </tr>
     <tr>
+        <td colspan="2">{$form.title.label} {$form.title.html}{$form.title.error}</td>
+    </tr>
+    <tr>
         <td>{$form.submit.html}</td>
         <td>{$form.reset.html}</td>
     </tr>

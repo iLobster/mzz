@@ -35,10 +35,10 @@ class stdToolkit extends toolkit
     private $sectionMapper;
     private $timer;
     private $actions;
-    private $cache;
     private $user;
     private $objectIdGenerator;
     private $mappers = array();
+    private $cache;
     /**#@-*/
 
     /**
@@ -198,23 +198,6 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект Cache
-     *
-     * @param object объект для кэширования
-     * @return object
-     */
-    /*
-    public function getCache($object)
-    {
-        die('cache called');
-        if (empty($this->cache)) {
-            fileLoader::load('cache');
-            $this->cache = true;
-        }
-        return new cache($object, systemConfig::$pathToTemp . '/cache');
-    }*/
-
-    /**
      * Возвращает объект текущего пользователя
      *
      * @return user
@@ -368,6 +351,16 @@ class stdToolkit extends toolkit
         }
 
         return $this->mappers[$do][$section];
+    }
+
+    public function getCache()
+    {
+        if (empty($this->cache)) {
+            fileLoader::load('cache');
+            $this->cache = new cache();
+        }
+
+        return $this->cache;
     }
 }
 ?>

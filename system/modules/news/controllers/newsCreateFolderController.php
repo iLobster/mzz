@@ -77,6 +77,7 @@ class newsCreateFolderController extends simpleController
                 }
 
                 $folder->setName($values['name']);
+                $folder->setTitle($values['title']);
 
                 $folder->setPath($path . $values['name']);
 

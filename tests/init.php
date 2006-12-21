@@ -33,8 +33,6 @@ $dispatcher = new errorDispatcher();
 
 fileLoader::load('config/config');
 
-fileLoader::load('cache');
-fileLoader::load('cache/iCacheable');
 
 set_error_handler('simpletest_error_handler');
 

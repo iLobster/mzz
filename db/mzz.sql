@@ -102,10 +102,11 @@ CREATE TABLE `news_news` (
 #
 
 INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
-  (2,48,'sadf',2,'asdqw3423aaaa',2,1161647727,1164000596),
+  (2,48,'sadf',2,'asdqw3423aaaa',2,1161647727,1166393498),
   (3,50,'qweqwer',2,'dsff',3,1161647948,1161647948),
   (4,66,'qweqwe',2,'234',2,1162960578,1163427143),
-  (5,136,'ggggggggg',2,'vvvvvvvvÙÙÙ',2,1164001191,1164065994);
+  (5,136,'ggggggggg',2,'vvvvvvvvÙÙÙ',2,1164001191,1164065994),
+  (6,153,'123',2,'qwe',2,1166054735,1166054735);
 
 COMMIT;
 
@@ -119,6 +120,7 @@ CREATE TABLE `news_newsfolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) unsigned NOT NULL default '0',
   `name` char(255) default NULL,
+  `title` char(255) default NULL,
   `parent` int(11) default '0',
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`),
@@ -129,9 +131,9 @@ CREATE TABLE `news_newsfolder` (
 # Data for the `news_newsfolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES 
-  (2,6,'root',1,'root'),
-  (3,49,'zzz',2,'root/zzz');
+INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+  (2,6,'root','/',1,'root'),
+  (3,49,'zzz','ÔÓ‰Í‡Ú‡ÎÓ„',2,'root/zzz');
 
 COMMIT;
 
@@ -628,7 +630,16 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1221,2,1,48,NULL,1,0,0),
   (1220,1,1,48,NULL,1,0,0),
   (1219,3,1,48,NULL,1,1,0),
-  (1198,3,1,0,1,NULL,1,0);
+  (1198,3,1,0,1,NULL,1,0),
+  (1265,1,1,153,2,NULL,1,0),
+  (1266,1,1,153,1,NULL,0,0),
+  (1267,2,1,153,2,NULL,1,0),
+  (1268,2,1,153,1,NULL,0,0),
+  (1269,3,1,153,2,NULL,1,0),
+  (1270,3,1,153,1,NULL,1,0),
+  (1271,9,1,153,2,NULL,1,0),
+  (1272,9,1,153,1,NULL,0,0),
+  (1273,20,1,153,1,NULL,0,0);
 
 COMMIT;
 
@@ -705,7 +716,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (148,12),
   (149,12),
   (150,12),
-  (151,12);
+  (151,12),
+  (155,12),
+  (153,1);
 
 COMMIT;
 
@@ -1121,7 +1134,11 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (148),
   (149),
   (150),
-  (151);
+  (151),
+  (152),
+  (153),
+  (154),
+  (155);
 
 COMMIT;
 
@@ -1265,7 +1282,8 @@ INSERT INTO `user_userauth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (15,2,'127.0.0.10','2fa75156d5b5c303756c73aff49271cd',148,1164262245),
   (16,2,'127.0.0.10','cf86fbaa31ae0541760c738157ddad41',149,1164762973),
   (17,2,'127.0.0.10','231926d71b42299ad056586146d9fdc8',150,1165213689),
-  (18,2,'127.0.0.1','23f7962e0e872c530f4e8af736633a87',151,1165448691);
+  (18,2,'127.0.0.1','23f7962e0e872c530f4e8af736633a87',151,1165448691),
+  (19,2,'127.0.0.1','87797ac73e4f640b4afc275d741d1204',155,1166160735);
 
 COMMIT;
 

@@ -41,7 +41,4 @@ systemConfig::$pathToTemp = systemConfig::$pathToApplication . '/tmp';
 systemConfig::$pathToConf = systemConfig::$pathToApplication . '/configs';
 systemConfig::init();
 
-// true - кэшировать, false - кэширование отключено
-systemConfig::$cache = true;
 ?>
-

@@ -31,9 +31,6 @@ systemConfig::$pathToApplication = dirname(__FILE__) . '';
 systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../tmp');
 systemConfig::$pathToConf = dirname(__FILE__) . '/configs';
 
-// true - кэшировать, false - кэширование отключено
-systemConfig::$cache = false;
-
 systemConfig::init();
 
 // @todo подумать о переносе в другое место

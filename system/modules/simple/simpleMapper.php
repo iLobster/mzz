@@ -25,7 +25,7 @@ fileLoader::load('acl');
  * @version 0.3
  */
 
-abstract class simpleMapper //implements iCacheable
+abstract class simpleMapper
 {
     /**
      *  онстанта, определ€юща€ разделитель между именем сущности и именем пол€ в алиасах дл€ полей в запросах
@@ -606,29 +606,6 @@ abstract class simpleMapper //implements iCacheable
         }
         return $this->map;
     }
-
-    /**
-     * возвращает возможность кешировани€ дл€ запрашиваемого метода
-     *
-     * @param string $name им€ метода
-     * @return boolean возможность кешировани€
-     */
-    /*
-    public function isCacheable($name)
-    {
-    return in_array($name, $this->cacheable);
-    }*/
-
-    /**
-     * ”становка ссылки на объект cache
-     *
-     * @package cache $cache
-     */
-    /*
-    public function injectCache($cache)
-    {
-    $this->cache = $cache;
-    }*/
 
     /**
      * ¬ыполнение операций с массивом $fields перед обновлением в Ѕƒ

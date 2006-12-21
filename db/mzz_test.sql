@@ -48,6 +48,7 @@ CREATE TABLE `news_newsfolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) default NULL,
   `name` char(255) default NULL,
+  `title` char(255) default NULL,
   `parent` int(11) default '0',
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`)
@@ -99,21 +100,6 @@ CREATE TABLE `simple_stubsimple` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubsimple_tree` table : 
-#
-
-DROP TABLE IF EXISTS `simple_stubsimple_tree`;
-
-CREATE TABLE `simple_stubsimple_tree` (
-  `id` int(10) NOT NULL auto_increment,
-  `lkey` int(10) NOT NULL default '0',
-  `rkey` int(10) NOT NULL default '0',
-  `level` int(10) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `left_key` (`lkey`,`rkey`,`level`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
 # Structure for the `simple_stubsimple2` table : 
 #
 
@@ -141,6 +127,21 @@ CREATE TABLE `simple_stubsimple2_tree` (
   `rkey` int(10) NOT NULL default '0',
   `level` int(10) NOT NULL default '0',
   `some_id` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `left_key` (`lkey`,`rkey`,`level`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_stubsimple_tree` table : 
+#
+
+DROP TABLE IF EXISTS `simple_stubsimple_tree`;
+
+CREATE TABLE `simple_stubsimple_tree` (
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -381,6 +382,18 @@ CREATE TABLE `sys_sections` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_sections` (`id`, `name`) VALUES 
+  (1,'simple'),
+  (2,'news'),
+  (3,'page'),
+  (4,'user');
+
+COMMIT;
 
 #
 # Structure for the `sys_sessions` table : 

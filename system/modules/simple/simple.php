@@ -67,13 +67,6 @@ abstract class simple
     protected $section;
 
     /**
-     * Массив кешируемых методов
-     *
-     * @deprecated
-     */
-    //protected $cacheable = array();
-
-    /**
      * Конструктор.
      *
      * @param array $map массив, содержащий информацию о полях

@@ -57,13 +57,6 @@ class systemConfig {
     public static $pathToConf;
 
     /**
-     * Включение/Отключение кэширования
-     *
-     * @var boolean
-     */
-    public static $cache;
-
-    /**
      * При вызове определяет и устанавливает путь до ядра
      *
      */

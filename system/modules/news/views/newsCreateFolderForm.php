@@ -35,6 +35,7 @@ class newsCreateFolderForm
 
         if ($action == 'editFolder') {
             $defaultValues['name'] = $targetFolder->getName();
+            $defaultValues['title'] = $targetFolder->getTitle();
         }
 
         $defaultValues['label'] = $folder;
@@ -43,6 +44,7 @@ class newsCreateFolderForm
         $label = $form->addElement('text', 'label', 'Имя надкаталога', 'size=30');
         $label->freeze();
         $form->addElement('text', 'name', 'Имя:', 'size=30');
+        $form->addElement('text', 'title', 'Название:', 'size=30');
 
 
         $form->addRule('name', 'обязательное поле', 'required');

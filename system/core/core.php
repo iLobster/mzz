@@ -101,8 +101,6 @@ class core
         fileLoader::load('request/httpResponse');
         fileLoader::load('request/url');
 
-        fileLoader::load('cache/iCacheable');
-
         fileLoader::load('simple');
         fileLoader::load('simple/simpleMapper');
         fileLoader::load('simple/simpleView');
