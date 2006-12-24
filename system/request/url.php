@@ -24,27 +24,31 @@
 class url
 {
     /**
-     * Section
+     * Секция
      *
      * @var string
      */
     protected $section;
 
     /**
-     * Action
+     * Действие
      *
      * @var string
      */
-
     protected $action;
 
     /**
-     * Params
+     * Параметры
      *
      * @var array
      */
     protected $params = array();
 
+    /**
+     * GET-параметры
+     *
+     * @var array
+     */
     private $getParams = array();
 
     /**
@@ -143,6 +147,7 @@ class url
     /**
      * Добавление параметра
      *
+     * @param string $name
      * @param string $value
      */
     public function addParam($name, $value)

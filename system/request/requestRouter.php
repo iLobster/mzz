@@ -101,9 +101,8 @@ class requestRouter
      * контроллер и действие установленные по умолчанию
      *
      * @param string $path
-     * @param array $params параметры по умолчанию для 404 ошибки
      */
-    public function route($path) //, $params = array('section' => 'page', 'action' => 'view', 'name' => 404))
+    public function route($path)
     {
         foreach (array_reverse($this->routes) as $route) {
             if ($parts = $route->match($path)) {

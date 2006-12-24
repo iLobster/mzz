@@ -174,8 +174,8 @@ class httpRequest implements iRequest
      */
     public function isSecure()
     {
-        $temp = $this->getServer('HTTPS');
-        return ($temp === 'on');
+        $protocol = $this->getServer('HTTPS');
+        return ($protocol === 'on');
     }
 
     /**
@@ -206,7 +206,7 @@ class httpRequest implements iRequest
      */
     private function getServer($name)
     {
-        return ( isset($_SERVER[$name]) ) ? $_SERVER[$name] : null;
+        return isset($_SERVER[$name]) ? $_SERVER[$name] : null;
     }
 
     /**
@@ -281,10 +281,10 @@ class httpRequest implements iRequest
     }
 
     /**
-    * Получение текущего урла, игнорируя путь
-    *
-    * @return string URL
-    */
+     * Получение текущего урла, игнорируя путь
+     *
+     * @return string URL
+     */
     public function getUrl()
     {
         $protocol = $this->isSecure() ? 'https' : 'http';
@@ -295,20 +295,20 @@ class httpRequest implements iRequest
     }
 
     /**
-    * Получение текущего урла c путем
-    *
-    * @return string URL
-    */
+     * Получение текущего урла c путем
+     *
+     * @return string URL
+     */
     public function getRequestUrl()
     {
         return $this->getUrl() . '/' . $this->getPath();
     }
 
     /**
-    * Получение текущего пути
-    *
-    * @return string PATH
-    */
+     * Получение текущего пути
+     *
+     * @return string PATH
+     */
     public function getPath()
     {
         return trim(preg_replace('/(%2F)+/', '/', urlencode($this->get('path', 'mixed', SC_REQUEST))), '/');
@@ -321,9 +321,6 @@ class httpRequest implements iRequest
     public function save()
     {
         $this->saved[] = array('params' => $this->params->export(), 'section' => $this->getSection(), 'action' => $this->getAction());
-        //$this->saved['params'] =;
-        //$this->saved['section'] = ;
-        //$this->saved['action'] = ;
     }
 
     /**
