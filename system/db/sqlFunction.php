@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1
+ * @version 0.1.1
 */
 class sqlFunction
 {
@@ -35,6 +35,8 @@ class sqlFunction
 
     /**
      * Аргументы
+     *
+     * @var string
      */
     protected $argumentsString = '';
 
@@ -47,8 +49,6 @@ class sqlFunction
      */
     public function __construct($function, $arguments = null, $isField = false)
     {
-        $db = db::factory();
-
         $this->function = $function;
 
         if(is_array($arguments)) {
@@ -57,12 +57,11 @@ class sqlFunction
                     if($arg instanceof sqlFunction) {
                         $this->argumentsString .= $arg->toString() . ', ';
                     } else {
-                        $this->argumentsString .= $db->quote($arg) . ", ";
+                        $this->argumentsString .= $this->quote($arg) . ", ";
                     }
                 } else {
                     $field = str_replace('.', '`.`', $key);
                     $this->argumentsString .= '`' . $field . '`, ';
-
                 }
             }
         } elseif($arguments) {
@@ -70,8 +69,7 @@ class sqlFunction
                 $field = str_replace('.', '`.`', $arguments);
                 $this->argumentsString .= '`' . $field . '`, ';
             } else {
-                $this->argumentsString .= $db->quote($arguments) . ", ";
-
+                $this->argumentsString .= $this->quote($arguments) . ", ";
             }
 
         }
@@ -101,6 +99,25 @@ class sqlFunction
     public function getFieldName()
     {
         return $this->argumentsString;
+    }
+
+    /**
+     * Обрамляет значение в кавычки если оно не null, число или число с
+     * плавающей точкой
+     *
+     * @param mixed $value значение аргумента
+     * @return mixed
+     */
+    protected function quote($value)
+    {
+        if (is_integer($value) || is_float($value)) {
+            return $value;
+        } elseif (is_null($value)){
+            return 'null';
+        } else {
+            $db = db::factory();
+            return $db->quote($value);
+        }
     }
 
 }
