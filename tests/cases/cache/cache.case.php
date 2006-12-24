@@ -2,7 +2,7 @@
 
 fileLoader::load('cache');
 
-class configTest extends unitTestCase
+class cacheTest extends unitTestCase
 {
     public function testGetSet()
     {

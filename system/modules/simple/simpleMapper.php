@@ -191,7 +191,6 @@ abstract class simpleMapper
         $fields =& $object->export();
 
         if (sizeof($fields) > 1) {
-
             $this->replaceRelated($fields, $object);
             $this->insertDataModify($fields);
 
@@ -202,6 +201,7 @@ abstract class simpleMapper
                 if($fields[$val] instanceof sqlFunction) {
                     $fields[$val] = $fields[$val]->toString();
                     $markers .= $fields[$val] . ', ';
+                    unset($fields[$val]);
                 } else {
                     $markers .= ':' . $val . ', ';
                 }
@@ -267,6 +267,7 @@ abstract class simpleMapper
                 if($fields[$val] instanceof sqlFunction) {
                     $fields[$val] = $fields[$val]->toString();
                     $query .= '`' . $val . '` = ' . $fields[$val] . ', ';
+                    unset($fields[$val]);
                 } else {
                     $query .= '`' . $val . '` = :' . $val . ', ';
                 }

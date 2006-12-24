@@ -1,5 +1,8 @@
-223 next
+224 next
 ------------------------------------0.0.7--------------------------------------
+
+223 ( ) mzzPdoStatement::bindArray переименовать в bindValues, а также использовать 
+        pdoStatement::bindValue вместо bindParam. Проверить наличие bindValue в php 5.1.x
 
 193 ( ) Кэширование
 

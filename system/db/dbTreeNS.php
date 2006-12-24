@@ -70,6 +70,12 @@ class dbTreeNS
      * @var string
      */
     private $treeID;
+
+    /**
+     * идентификатор поддерева
+     *
+     * @var integer
+     */
     private $treeFieldID;
 
     /**
@@ -170,7 +176,7 @@ class dbTreeNS
      */
     public function setTree($id)
     {
-        $this->treeFieldID = $id;
+        $this->treeFieldID = (int)$id;
     }
 
     /**
@@ -180,7 +186,7 @@ class dbTreeNS
      */
     public function getInnerField()
     {
-        return $this->innerField ;
+        return $this->innerField;
     }
 
     /**
@@ -220,10 +226,11 @@ class dbTreeNS
      * @param  int     $id  Идентификатор узла в структуре дерева
      * @return string
      */
-    public function  updatePath($dataID)
+    public function updatePath($dataID)
     {
+        $dataID = (int)$dataID;
         $path = $this->createPathFromTreeByID($dataID);
-        $this->db->query(' UPDATE ' . $this->dataTable . ' SET `path` = "'  .$path . '"  WHERE ' . $this->dataID . ' = ' . $dataID);
+        $this->db->query('UPDATE `' . $this->dataTable . '` SET `path` = "'  .$path . '"  WHERE `' . $this->dataID . '` = ' . $dataID);
 
         return $path;
     }
@@ -368,7 +375,7 @@ class dbTreeNS
 
         }
 
-        $query = ' SELECT * FROM `' . $this->table . '` `tree` WHERE `tree`.`id` = ' . $id.
+        $query = 'SELECT * FROM `' . $this->table . '` `tree` WHERE `tree`.`id` = ' . $id.
         ($this->isMultipleTree() ? ' AND `tree`.`' . $this->treeField . '`= ' . $this->treeFieldID : '');
         //echo "<pre>getNodeInfo "; var_dump($query); echo "</pre>";
 
@@ -397,8 +404,8 @@ class dbTreeNS
             $more = '>';
         }
 
-        $stmt = $this->db->prepare($q= $this->getBasisQuery() .
-        ' AND lkey ' . $more . ' :lkey AND rkey ' . $less . ' :rkey' .
+        $stmt = $this->db->prepare($this->getBasisQuery() .
+        ' AND `lkey` ' . $more . ' :lkey AND `rkey` ' . $less . ' :rkey' .
         ' AND (`tree`.`level` BETWEEN :high_level AND :level)' .
         ' ORDER BY `tree`.`lkey`');
 
@@ -450,10 +457,10 @@ class dbTreeNS
 
 
         $stmt = $this->db->prepare( $this->getBasisQuery() .
-        ' AND lkey <= :lkey AND rkey >= :rkey' .
-        ' AND ( level BETWEEN :level AND :child_level ) ' .
+        ' AND `lkey` <= :lkey AND `rkey` >= :rkey' .
+        ' AND (`level` BETWEEN :level AND :child_level ) ' .
         ($this->isMultipleTree() ? 'AND `tree`.`' . $this->treeField . '` = :treeFieldID ' : '') .
-        '  ORDER BY lkey');
+        '  ORDER BY `lkey`');
 
         if ($this->isMultipleTree()) {
             $stmt->bindParam(':treeFieldID', $this->treeFieldID, PDO::PARAM_INT);
@@ -571,10 +578,10 @@ class dbTreeNS
         }
 
         $query = $this->getBasisQuery() .
-        ' AND `tree`.lkey <= ' . $node['lkey'] .
-        ' AND `tree`.rkey >= ' . $node['rkey'] .
-        ' AND `tree`.level = ' . ($node['level'] - 1).
-        ' ORDER BY `tree`.lkey';
+        ' AND `tree`.`lkey` <= ' . $node['lkey'] .
+        ' AND `tree`.`rkey` >= ' . $node['rkey'] .
+        ' AND `tree`.`level` = ' . ($node['level'] - 1).
+        ' ORDER BY `tree`.`lkey`';
 
         $row = $this->db->getRow($query);
 
@@ -603,19 +610,17 @@ class dbTreeNS
             return false;
         }
 
-        $stmt = $this->db->prepare(' UPDATE ' . $this->table.
-        ' SET rkey = rkey + 2, lkey = IF(lkey > :PN_RKey, lkey + 2, lkey)' .
-        ' WHERE rkey >= :PN_RKey' .
-        ($this->isMultipleTree() ? ' AND ' . $this->treeField . ' = ' . $this->treeFieldID : ' ')  );
+        $query = 'UPDATE ' . $this->table.
+        ' SET `rkey` = `rkey` + 2, `lkey` = IF(`lkey` > ' . (int)$parentNode['rkey'] . ', `lkey` + 2, `lkey`)' .
+        ' WHERE `rkey` >= ' . (int)$parentNode['rkey'] .
+        ($this->isMultipleTree() ? ' AND ' . $this->treeField . ' = ' . (int)$this->treeFieldID : ' ');
 
-        $stmt->bindParam(':PN_RKey',  $parentNode['rkey'], PDO::PARAM_INT);
-        $stmt->execute();
+        $this->db->exec($query);
 
-        $query = ' INSERT INTO ' . $this->table.
-        ' SET lkey = ' . $parentNode['rkey'] .
-        ', rkey = ' . ($parentNode['rkey'] + 1) .
-        ', level = ' . ($parentNode['level'] + 1).
-        ($this->isMultipleTree() ? ', ' . $this->treeField . ' = ' . $this->treeFieldID : ' ');
+        $query = 'INSERT INTO `' . $this->table . '` SET `lkey` = ' . $parentNode['rkey'] .
+        ', `rkey` = ' . ($parentNode['rkey'] + 1) .
+        ', `level` = ' . ($parentNode['level'] + 1).
+        ($this->isMultipleTree() ? ', `' . $this->treeField . '` = ' . $this->treeFieldID : ' ');
         $this->db->exec($query);
 
         $map = $newNode->getMap();
@@ -650,14 +655,12 @@ class dbTreeNS
     public function insertRootNode(simple $newRootNode)
     {
         $maxRightKey = $this->getMaxRightKey();
-        $this->db->query(' UPDATE ' .$this->table.
-        ' SET rkey = rkey + 1, lkey = lkey + 1, level = level + 1 ' .
-        ($this->isMultipleTree() ? 'WHERE ' . $this->treeField . ' = ' . $this->treeFieldID : ' '));
+        $this->db->query('UPDATE `' . $this->table . '` SET `rkey` = `rkey` + 1, `lkey` = `lkey` + 1, `level` = `level` + 1 ' .
+        ($this->isMultipleTree() ? 'WHERE `' . $this->treeField . '` = ' . $this->treeFieldID : ' '));
 
 
-        $stmt = $this->db->prepare(' INSERT INTO ' .$this->table.
-        ' SET lkey = 1, rkey = :new_max_right_key, level = 1' .
-        ($this->isMultipleTree() ? ', ' . $this->treeField . ' = ' . $this->treeFieldID : ' '));
+        $stmt = $this->db->prepare('INSERT INTO `' .$this->table . '` SET `lkey` = 1, `rkey` = :new_max_right_key, `level` = 1' .
+        ($this->isMultipleTree() ? ', `' . $this->treeField . '` = ' . $this->treeFieldID : ' '));
 
         $stmt->bindParam(':new_max_right_key', $v = $maxRightKey + 2, PDO::PARAM_INT);
         $stmt->execute();
@@ -685,10 +688,10 @@ class dbTreeNS
         $newRootNode->import(array('path' => $this->updatePath($newRootNode->$acsr())));
 
         // добавление всем элементам в путь
-        $this->db->exec(' UPDATE ' . $this->dataTable .
-        ' SET `path` = CONCAT_WS("/", "' . $newRootNode->getPath(). '", path) WHERE ' .
-        $this->dataID . '<>' . $newRootNode->$acsr() .
-        ($this->isMultipleTree() ? ' AND ' . $this->treeField . ' = ' . $this->treeFieldID : ' '));
+        $this->db->exec('UPDATE ' . $this->dataTable .
+        ' SET `path` = CONCAT_WS("/", "' . $newRootNode->getPath(). '", `path`) WHERE ' .
+        '`' .$this->dataID . '`<>' . $newRootNode->$acsr() .
+        ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' '));
 
         return $newRootNode;
 
@@ -713,22 +716,19 @@ class dbTreeNS
         $node = $this->getNodeInfo($id);
         // удаление записей из дерева
 
-        $query = '  DELETE  tree FROM ' . $this->table . ' `tree` WHERE ' .
-        ' tree.lkey >= ' . $node['lkey'] . ' AND tree.rkey <= ' . $node['rkey'] .
+        $query = 'DELETE `tree` FROM `' . $this->table . '` `tree` WHERE ' .
+        ' `tree`.`lkey` >= ' . $node['lkey'] . ' AND `tree`.`rkey` <= ' . $node['rkey'] .
         ($this->isMultipleTree() ? ' AND `tree`.`' . $this->treeField . '` = ' . $this->treeFieldID : ' ');
         $this->db->exec($query);
 
         // обновление дерева
-        $stmt = $this->db->prepare(' UPDATE ' .$this->table.
-        ' SET lkey = IF(lkey > :lkey, lkey - :val, lkey), rkey = rkey - :val'.
-        ' WHERE rkey >= :rkey' .
-        ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ')  );
+        $v = $node['rkey'] - $node['lkey'] + 1;
+        $query = 'UPDATE `' .$this->table . '`' .
+        ' SET `lkey` = IF(`lkey` > ' . (int)$node['lkey'] . ', `lkey` - ' . $v . ', `lkey`), `rkey` = `rkey` - ' . $v .
+        ' WHERE `rkey` >= ' . (int)$node['rkey'] .
+        ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ');
 
-        $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':val', $v = $node['rkey'] - $node['lkey'] + 1, PDO::PARAM_INT);
-
-        return !$stmt->execute();
+        return $this->db->exec($query);
     }
 
     /**
@@ -747,9 +747,8 @@ class dbTreeNS
             return false;
         }
 
-        $stmt = $this->db->prepare(' UPDATE ' .$this->table.
-        ' SET lkey = :lkey, rkey = :rkey, level = :level' .
-        ' WHERE id = :id' .
+        $stmt = $this->db->prepare('UPDATE `' .$this->table . '` SET `lkey` = :lkey, `rkey` = :rkey, ' .
+        '`level` = :level WHERE `id` = :id' .
         ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ') );
 
         foreach (array($id1 => $node2, $id2 => $node1) as $id => $node) {
@@ -785,8 +784,8 @@ class dbTreeNS
         $level_up = ($notRoot = $parentNode['level'] != 1 ) ? $parentNode['level'] : 0;
 
         $query = ($notRoot) ?
-        "SELECT (rkey - 1) AS rkey FROM " . $this->table . " WHERE id = " . $parentId :
-        "SELECT MAX(rkey) as rkey FROM " . $this->table . ' WHERE 1 ';
+        "SELECT (`rkey` - 1) AS `rkey` FROM `" . $this->table . "` WHERE `id` = " . $parentId :
+        "SELECT MAX(`rkey`) as `rkey` FROM `" . $this->table . "` WHERE 1 ";
         $query .= $this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ' ;
 
         if ($row = $this->db->getRow($query)) {
@@ -795,7 +794,7 @@ class dbTreeNS
             $skew_level = $level_up - $node['level'] + 1;
             $skew_tree = $node['rkey'] - $node['lkey'] + 1;
 
-            $query = 'SELECT id FROM ' . $this->table . ' WHERE lkey >= :lkey AND rkey <= :rkey' .
+            $query = 'SELECT `id` FROM `' . $this->table . '` WHERE `lkey` >= :lkey AND `rkey` <= :rkey' .
             ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ' );
 
             $stmt = $this->db->prepare($query);
@@ -812,7 +811,7 @@ class dbTreeNS
             if ( $node['rkey'] > $right_key_near ) {
                 $skew_edit = $right_key_near - $node['lkey'] + 1;
 
-                $query = "UPDATE " . $this->table . ' SET rkey = rkey + :skew_tree WHERE rkey < :lkey AND rkey > :right_key_near';
+                $query = 'UPDATE `' . $this->table . '` SET `rkey` = `rkey` + :skew_tree WHERE `rkey` < :lkey AND `rkey` > :right_key_near';
                 $query .= $this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ' ;
 
                 $stmt = $this->db->prepare($query);
@@ -821,7 +820,7 @@ class dbTreeNS
                 $stmt->bindParam(':right_key_near', $right_key_near, PDO::PARAM_INT);
                 $stmt->execute();
 
-                $query = 'UPDATE ' . $this->table . ' SET lkey = lkey + :skew_tree WHERE lkey < :lkey AND lkey > :right_key_near';
+                $query = 'UPDATE `' . $this->table . '` SET `lkey` = `lkey` + :skew_tree WHERE `lkey` < :lkey AND `lkey` > :right_key_near';
                 $query .= $this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ' ;
 
                 $stmt = $this->db->prepare($query);
@@ -830,11 +829,12 @@ class dbTreeNS
                 $stmt->bindParam(':right_key_near', $right_key_near, PDO::PARAM_INT);
                 $stmt->execute();
 
-                $query = 'UPDATE ' . $this->table . ' SET lkey = lkey + :skew_edit , rkey = rkey + :skew_edit , level = level + :skew_level WHERE id IN ( :id_edit )';
+                $query = 'UPDATE `' . $this->table . '` SET `lkey` = `lkey` + :lskew_edit , `rkey` = `rkey` + :rskew_edit , `level` = `level` + :skew_level WHERE `id` IN ( :id_edit )';
                 $query .= $this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ' ;
 
                 $stmt = $this->db->prepare($query);
-                $stmt->bindParam(':skew_edit', $skew_edit, PDO::PARAM_INT);
+                $stmt->bindParam(':lskew_edit', $skew_edit, PDO::PARAM_INT);
+                $stmt->bindParam(':rskew_edit', $skew_edit, PDO::PARAM_INT);
                 $stmt->bindParam(':skew_level', $skew_level, PDO::PARAM_INT);
                 $stmt->bindParam(':id_edit', $id_edit, PDO::PARAM_STR);
                 $stmt->execute();
@@ -850,20 +850,21 @@ class dbTreeNS
             } else {
 
                 $skew_edit = $right_key_near - $node['lkey'] + 1 - $skew_tree;
-                $query = 'UPDATE ' . $this->table .
-                ' SET lkey = IF(rkey <= :rkey, lkey + :skew_edit, IF(lkey > :rkey , lkey - :skew_tree , lkey)),' .
-                ' level = IF(rkey <= :rkey, level + :skew_level, level), rkey = IF(rkey <= :rkey, rkey + :skew_edit,' .
-                ' IF(rkey <= :right_key_near , rkey - :skew_tree, rkey)) WHERE rkey > :lkey AND lkey <= :right_key_near' .
+                $query = 'UPDATE `' . $this->table . '`' .
+                ' SET `lkey` = IF(`rkey` <= ' . (int)$node['rkey'] . ', `lkey` + ' . (int)$skew_edit . ', IF(`lkey` > ' . (int)$node['rkey'] . ' , `lkey` - ' . (int)$skew_tree . ', `lkey`)),' .
+                ' `level` = IF(`rkey` <= ' . (int)$node['rkey'] . ', `level` + ' . (int)$skew_level . ', `level`), `rkey` = IF(`rkey` <= ' . (int)$node['rkey'] . ', `rkey` + ' . (int)$skew_edit . ',' .
+                ' IF(`rkey` <= ' . (int)$right_key_near . ', `rkey` - ' . (int)$skew_tree . ', `rkey`)) WHERE `rkey` > ' . (int)$node['lkey'] . ' AND `lkey` <= ' . (int)$right_key_near .
                 ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ');
 
-                $stmt = $this->db->prepare($query);
-                $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
-                $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
-                $stmt->bindParam(':skew_tree', $skew_tree, PDO::PARAM_INT);
-                $stmt->bindParam(':skew_edit', $skew_edit, PDO::PARAM_INT);
-                $stmt->bindParam(':skew_level', $skew_level, PDO::PARAM_INT);
-                $stmt->bindParam(':right_key_near', $right_key_near, PDO::PARAM_INT);
-                $stmt->execute();
+                //$stmt = $this->db->prepare($query);
+                //$stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
+                //$stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
+                //$stmt->bindParam(':skew_tree', $skew_tree, PDO::PARAM_INT);
+                //$stmt->bindParam(':skew_edit', $skew_edit, PDO::PARAM_INT);
+                //$stmt->bindParam(':skew_level', $skew_level, PDO::PARAM_INT);
+                //$stmt->bindParam(':right_key_near', $right_key_near, PDO::PARAM_INT);
+                //$stmt->execute();
+                $this->db->exec($query);
             }
 
             // обновление путей в таблице данных
@@ -887,9 +888,9 @@ class dbTreeNS
 
                 $idSet = substr($idSet, 0, -1) . ')';
 
-                $this->db->exec(' UPDATE ' . $this->dataTable .
-                ' SET path = REPLACE(path, "' . $oldPathToRootNodeOfBranch . '", "' . $newPathToRootNodeOfBranch . '") '.
-                ' WHERE ' . $this->dataID . ' IN ' . $idSet .
+                $this->db->exec('UPDATE `' . $this->dataTable . '`' .
+                ' SET `path` = REPLACE(`path`, "' . $oldPathToRootNodeOfBranch . '", "' . $newPathToRootNodeOfBranch . '") '.
+                ' WHERE `' . $this->dataID . '` IN ' . $idSet .
                 ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ')
                 );
             }
@@ -904,8 +905,8 @@ class dbTreeNS
      */
     public function getMaxRightKey()
     {
-        return (int)$this->db->getOne(' SELECT MAX(rkey) FROM ' .$this->table .
-        ($this->isMultipleTree() ? ' WHERE ' . $this->treeField . ' = ' . $this->treeFieldID : ' '));
+        return (int)$this->db->getOne('SELECT MAX(`rkey`) FROM `' .$this->table . '`' .
+        ($this->isMultipleTree() ? ' WHERE `' . $this->treeField . '` = ' . $this->treeFieldID : ' '));
     }
 
     /**
