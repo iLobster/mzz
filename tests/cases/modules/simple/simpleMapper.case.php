@@ -93,9 +93,28 @@ class simpleMapperTest extends unitTestCase
         $this->mapper->setMap($map);
         $res = $this->mapper->searchAll();
 
-        $i = 3;
+        $i = count($res);
         foreach ($res as $key => $val) {
             $this->assertEqual($val->getId(), $i);
+            $i--;
+        }
+    }
+
+    public function testSortingViaCriteria()
+    {
+        $map = $this->map;
+        $map['id']['orderBy'] = '1';
+        $map['id']['orderByDirection'] = 'ASC';
+        $criteria = new criteria();
+        $criteria->setOrderByFieldDesc('bar');
+
+        $this->fixture();
+        $this->mapper->setMap($map);
+        $res = $this->mapper->searchAll($criteria);
+
+        $i = count($res);
+        foreach ($res as $key => $val) {
+            $this->assertEqual($val->getBar(), 'bar' . $i);
             $i--;
         }
     }
