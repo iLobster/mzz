@@ -30,7 +30,7 @@ class testSimple extends unitTestCase
     {
         $this->simple = new stubSimple($this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
-        $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('stubsimple', 1)");
+        $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('stubSimple', 1)");
     }
 
     public function tearDown()
@@ -40,7 +40,7 @@ class testSimple extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
+        $this->db->query('TRUNCATE TABLE `simple_stubSimple`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
     }

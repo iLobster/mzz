@@ -118,7 +118,7 @@ class dbTreeNS
         }
 
         // данные о таблице с деревом
-        $this->table = strtolower($init['treeTable']); // as tree
+        $this->table = $init['treeTable']; // as tree
 
         // @toDo либо жестко закреплять ключ дерева либо в запросах также использовать
         $this->treeID = 'id';

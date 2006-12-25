@@ -14,7 +14,7 @@ class stubMapperForMultipleTree extends simpleMapper
     public function __construct($section, $alias = 'default')
     {
         parent::__construct($section, $alias);
-        $this->table = 'simple_stubsimple2';
+        $this->table = 'simple_stubSimple2';
     }
 
 

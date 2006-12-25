@@ -41,7 +41,7 @@ class simpleMapperTest extends unitTestCase
         }
         $valString = substr($valString, 0,  strlen($valString)-1);
 
-        $stmt = $this->db->prepare(' INSERT INTO `simple_stubsimple` (`foo`,`bar`) VALUES ' . $valString);
+        $stmt = $this->db->prepare(' INSERT INTO `simple_stubSimple` (`foo`,`bar`) VALUES ' . $valString);
         $stmt->execute();
     }
 
@@ -77,7 +77,7 @@ class simpleMapperTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
+        $this->db->query('TRUNCATE TABLE `simple_stubSimple`');
         $this->db->query('TRUNCATE TABLE `sys_obj_id`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
@@ -209,7 +209,7 @@ class simpleMapperTest extends unitTestCase
 
     private function countRecord()
     {
-        $stmt = $this->db->query("SELECT count(*) FROM `simple_stubsimple`");
+        $stmt = $this->db->query("SELECT count(*) FROM `simple_stubSimple`");
         $count = $stmt->fetch(PDO::FETCH_NUM);
         return (int)$count[0];
     }

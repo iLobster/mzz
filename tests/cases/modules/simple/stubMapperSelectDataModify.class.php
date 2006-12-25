@@ -9,7 +9,7 @@ class stubMapperSelectDataModify extends simpleMapper
     {
         $modifyFields = array();
 
-        $modifyFields['stubSimple' . self::TABLE_KEY_DELIMITER . 'foo'] = new sqlFunction('REVERSE', strtolower($this->className) . '.foo', true);
+        $modifyFields['stubSimple' . self::TABLE_KEY_DELIMITER . 'foo'] = new sqlFunction('REVERSE', $this->className . '.foo', true);
 
         return $modifyFields;
     }

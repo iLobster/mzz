@@ -18,7 +18,7 @@ class userMapperTest extends unitTestCase
         $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'login' => array ('name' => 'login', 'accessor' => 'getLogin', 'mutator' => 'setLogin'),
         'password' => array ('name' => 'password', 'accessor' => 'getPassword', 'mutator' => 'setPassword', 'decorateClass' => 'md5PasswordHash'),
-        'group' => array ('name' => 'group', 'accessor' => 'getGroup', 'mutator' => 'setGroup', 'hasMany' => 'id->usergroup_rel.user_id', 'section' => 'user', 'module' => 'user', 'do' => 'userGroup'),
+        'group' => array ('name' => 'group', 'accessor' => 'getGroup', 'mutator' => 'setGroup', 'hasMany' => 'id->userGroup_rel.user_id', 'section' => 'user', 'module' => 'user', 'do' => 'userGroup'),
         );
 
 
@@ -46,7 +46,7 @@ class userMapperTest extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `user_group`');
-        $this->db->query('TRUNCATE TABLE `user_usergroup_rel`');
+        $this->db->query('TRUNCATE TABLE `user_userGroup_rel`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
         $this->db->query('TRUNCATE TABLE `sys_classes_sections`');
         $this->db->query('TRUNCATE TABLE `sys_access_registry`');
@@ -104,7 +104,7 @@ class userMapperTest extends unitTestCase
             $group_mapper->save($group);
         }
 
-        $stmt = $this->db->prepare('INSERT INTO `user_usergroup_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
+        $stmt = $this->db->prepare('INSERT INTO `user_userGroup_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->bindParam(':group_id', $group_id, PDO::PARAM_INT);
 

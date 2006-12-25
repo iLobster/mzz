@@ -32,7 +32,7 @@ class newsFolderTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `news_news`');
-        $this->db->query('TRUNCATE TABLE `news_newsfolder`');
+        $this->db->query('TRUNCATE TABLE `news_newsFolder`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
         $this->db->query('TRUNCATE TABLE `sys_classes_sections`');

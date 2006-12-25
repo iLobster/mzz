@@ -39,7 +39,7 @@ class newsFolderMapperTest extends unitTestCase
 
         $this->mapper = new newsFolderMapper('news');
 
-        $init = array ('mapper' => $this->mapper, 'joinField' => 'parent', 'treeTable' => 'news_newsfolder_tree');
+        $init = array ('mapper' => $this->mapper, 'joinField' => 'parent', 'treeTable' => 'news_newsFolder_tree');
 
         $this->tree = new dbTreeNS($init, 'name');
 
@@ -57,8 +57,8 @@ class newsFolderMapperTest extends unitTestCase
 
     public function cleardb()
     {
-        $this->db->query('TRUNCATE TABLE `news_newsfolder`');
-        $this->db->query('TRUNCATE TABLE `news_newsfolder_tree`');
+        $this->db->query('TRUNCATE TABLE `news_newsFolder`');
+        $this->db->query('TRUNCATE TABLE `news_newsFolder_tree`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
         $this->db->query('TRUNCATE TABLE `sys_classes_sections`');
@@ -204,14 +204,14 @@ class newsFolderMapperTest extends unitTestCase
 
     private function countNewsFolder()
     {
-        $query = 'SELECT COUNT(*) AS `total` FROM `news_newsfolder`';
+        $query = 'SELECT COUNT(*) AS `total` FROM `news_newsFolder`';
         return $this->db->getOne($query);
     }
 
 
     public function testConvertArgsToId()
     {
-        $this->db->query("INSERT INTO `news_newsfolder` (`obj_id`, `path`) VALUES (666, 'some/path')");
+        $this->db->query("INSERT INTO `news_newsFolder` (`obj_id`, `path`) VALUES (666, 'some/path')");
 
         $newsFolder = $this->mapper->searchByPath('some/path');
 

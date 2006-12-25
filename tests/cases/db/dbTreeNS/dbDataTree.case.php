@@ -32,7 +32,7 @@ class dbTreeDataTest extends unitTestCase
         $this->mapper->setMap($this->map);
         $this->db = db::factory();
 
-        $this->table = 'simple_stubsimple_tree';
+        $this->table = 'simple_stubSimple_tree';
         $this->dataTable = $this->mapper->getTable();
 
         $init = array ('mapper' => $this->mapper, 'joinField' => 'id', 'treeTable' => $this->table);
@@ -64,8 +64,8 @@ class dbTreeDataTest extends unitTestCase
 
     private function clearDb()
     {
-        $this->db->query('TRUNCATE TABLE `simple_stubsimple_tree`');
-        $this->db->query('TRUNCATE TABLE `simple_stubsimple`');
+        $this->db->query('TRUNCATE TABLE `simple_stubSimple_tree`');
+        $this->db->query('TRUNCATE TABLE `simple_stubSimple`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query("DELETE FROM `sys_classes` WHERE `id` = 3");
 
@@ -126,14 +126,14 @@ class dbTreeDataTest extends unitTestCase
         }
         $values[$this->dataTable] = substr($valString, 0, -1);
 
-        $simple_stubsimple_tree_fields = '(id, lkey, rkey, level)';
-        $simple_stubsimple_fields = '(id, foo, bar, path)';
+        $simple_stubSimple_tree_fields = '(id, lkey, rkey, level)';
+        $simple_stubSimple_fields = '(id, foo, bar, path)';
 
         #запись фикстур в базу
         foreach($values as $table => $val) {
             $fields = $table . '_fields';
-            $stmt = $this->db->prepare(' INSERT INTO `' . $table . '` ' . $$fields  . ' VALUES ' . $val);
-            $stmt->execute();
+            $query = 'INSERT INTO `' . $table . '` ' . $$fields  . ' VALUES ' . $val;
+            $this->db->exec($query);
         }
     }
 

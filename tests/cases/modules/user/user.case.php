@@ -31,7 +31,7 @@ class userTest extends unitTestCase
         $this->cleardb();
 
         $this->db->query("INSERT INTO `user_group` (`id`, `name`) VALUES (1, 'foo_group'), (2, 'foo_group2')");
-        $this->db->query("INSERT INTO `user_usergroup_rel` (`group_id`, `user_id`) VALUES (1, 2), (2, 2)");
+        $this->db->query("INSERT INTO `user_userGroup_rel` (`group_id`, `user_id`) VALUES (1, 2), (2, 2)");
         $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('group', 1), ('user', 1)");
     }
 
@@ -44,7 +44,7 @@ class userTest extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `user_group`');
-        $this->db->query('TRUNCATE TABLE `user_usergroup_rel`');
+        $this->db->query('TRUNCATE TABLE `user_userGroup_rel`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
         $this->db->query('TRUNCATE TABLE `sys_classes_sections`');
         $this->db->query('TRUNCATE TABLE `sys_access_registry`');

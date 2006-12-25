@@ -16,7 +16,7 @@ class groupMapperTest extends unitTestCase
         $this->map = array(
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'name' => array ( 'name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
-        'user' => array ( 'name' => 'user', 'accessor' => 'getUser', 'mutator' => 'setUser', 'hasMany' => 'id->usergroup_rel.group_id', 'section' => 'user', 'module' => 'user', 'do' => 'userGroup'),
+        'user' => array ( 'name' => 'user', 'accessor' => 'getUser', 'mutator' => 'setUser', 'hasMany' => 'id->userGroup_rel.group_id', 'section' => 'user', 'module' => 'user', 'do' => 'userGroup'),
         );
 
         $this->db = DB::factory();
@@ -40,7 +40,7 @@ class groupMapperTest extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `user_group`');
-        $this->db->query('TRUNCATE TABLE `user_usergroup_rel`');
+        $this->db->query('TRUNCATE TABLE `user_userGroup_rel`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
         $this->db->query('TRUNCATE TABLE `sys_classes_sections`');
         $this->db->query('TRUNCATE TABLE `sys_access_registry`');
@@ -118,7 +118,7 @@ class groupMapperTest extends unitTestCase
         }
 
 
-        $stmt = $this->db->prepare('INSERT INTO `user_usergroup_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
+        $stmt = $this->db->prepare('INSERT INTO `user_userGroup_rel` (`group_id`, `user_id`) VALUES (:group_id, :user_id)');
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->bindParam(':group_id', $group_id, PDO::PARAM_INT);
 

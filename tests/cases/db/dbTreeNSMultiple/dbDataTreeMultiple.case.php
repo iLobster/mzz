@@ -33,7 +33,7 @@ class dbTreeDataMultipleTest extends unitTestCase
         $this->mapper->setMap($this->map);
         $this->db = db::factory();
 
-        $this->table = 'simple_stubsimple2_tree';
+        $this->table = 'simple_stubSimple2_tree';
         $this->dataTable = $this->mapper->getTable();
 
         $init = array ('mapper' => $this->mapper,
@@ -69,8 +69,8 @@ class dbTreeDataMultipleTest extends unitTestCase
 
     private function clearDb()
     {
-        $this->db->query('TRUNCATE TABLE `simple_stubsimple2_tree`');
-        $this->db->query('TRUNCATE TABLE `simple_stubsimple2`');
+        $this->db->query('TRUNCATE TABLE `simple_stubSimple2_tree`');
+        $this->db->query('TRUNCATE TABLE `simple_stubSimple2`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query("DELETE FROM `sys_classes` WHERE `id` = 3");
 
@@ -716,7 +716,7 @@ class dbTreeDataMultipleTest extends unitTestCase
         }
 
 
-        $stmt = $this->db->prepare(' INSERT INTO `simple_stubsimple2_tree` (id, lkey, rkey, level, some_id) VALUES ' . substr($valString, 0, -1));
+        $stmt = $this->db->prepare(' INSERT INTO `simple_stubSimple2_tree` (id, lkey, rkey, level, some_id) VALUES ' . substr($valString, 0, -1));
         $stmt->execute();
 
         // заполнение фикстуры таблицы с данными
@@ -736,7 +736,7 @@ class dbTreeDataMultipleTest extends unitTestCase
             }
         }
 
-        $stmt = $this->db->prepare(' INSERT INTO `simple_stubsimple2` (id, foo, bar, path, some_id) VALUES ' . substr($valString, 0, -1));
+        $stmt = $this->db->prepare(' INSERT INTO `simple_stubSimple2` (id, foo, bar, path, some_id) VALUES ' . substr($valString, 0, -1));
         $stmt->execute();
     }
 
