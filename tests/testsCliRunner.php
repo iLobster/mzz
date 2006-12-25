@@ -10,7 +10,7 @@ class testsCliRunner implements iFilter
         $casesDir = $casesBasedir;
         $casesName = 'all';
 
-        echo "Mzz.Cms v" . MZZ_VERSION . " tests.\r\n";
+        echo "Running for mzz v." . MZZ_VERSION . " on PHP " . phpversion() . ": ";
 
         if (isset($argv[1])) {
             $group = $argv[1];
