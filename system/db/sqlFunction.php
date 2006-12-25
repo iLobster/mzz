@@ -41,6 +41,13 @@ class sqlFunction
     protected $argumentsString = '';
 
     /**
+     * Ресурс БД
+     *
+     * @var object
+     */
+    protected $db;
+
+    /**
      * Конструктор
      *
      * @param string $function имя функции
@@ -49,6 +56,7 @@ class sqlFunction
      */
     public function __construct($function, $arguments = null, $isField = false)
     {
+        $this->db = DB::factory();
         $this->function = $function;
 
         if(is_array($arguments)) {
@@ -115,8 +123,7 @@ class sqlFunction
         } elseif (is_null($value)){
             return 'null';
         } else {
-            $db = db::factory();
-            return $db->quote($value);
+            return $this->db->quote($value);
         }
     }
 
