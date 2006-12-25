@@ -103,7 +103,7 @@ abstract class simple
             if ('get' == $match[1]) {
                 // если свойство ещЄ €вл€етс€ скал€ром (строка, число) - то пробуем загрузить относ€щийс€ к нему объект
                 if (is_scalar($this->fields->get($attribute)) || is_null($this->fields->get($attribute))) {
-                    $this->doLazyLoading($attribute);
+                    $this->doLazyLoading($attribute, $args);
                 }
                 return $this->fields->get($attribute);
             } else {
@@ -226,7 +226,7 @@ abstract class simple
      *
      * @param string $name им€ свойства
      */
-    protected function doLazyLoading($name)
+    protected function doLazyLoading($name, $args)
     {
         if (isset($this->map[$name]['owns'])) {
             list($className, $fieldName) = explode('.', $this->map[$name]['owns'], 2);
@@ -260,7 +260,14 @@ abstract class simple
 
             $accessor = $this->map[$field]['accessor'];
 
-            $this->fields->set($name, $mapper->searchAllByField($fieldName, $this->$accessor()));
+            $criteria = new criteria();
+            $criteria->add($fieldName, $this->$accessor());
+
+            if (isset($args[0]) && $args[0] instanceof criteria) {
+                $criteria->append($args[0]);
+            }
+
+            $this->fields->set($name, $mapper->searchAllByCriteria($criteria));
         }
     }
 

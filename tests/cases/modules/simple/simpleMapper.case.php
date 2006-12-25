@@ -19,7 +19,7 @@ class simpleMapperTest extends unitTestCase
     public function __construct()
     {
         $this->map = array(
-        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId' ),
+        'id'  => array ('name' => 'id', 'accessor' => 'getId',  'mutator' => 'setId'),
         'foo' => array ('name' => 'foo','accessor' => 'getFoo', 'mutator' => 'setFoo'),
         'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
         'obj_id' => array ('name' => 'obj_id','accessor' => 'getObjId', 'mutator' => 'setObjId'),
@@ -58,14 +58,7 @@ class simpleMapperTest extends unitTestCase
 
             $this->assertEqual($id, $simple->getId());
             $this->assertEqual($this->fixture[$id]['foo'], $simple->getFoo());
-
         }
-
-
-
-
-
-
     }
 
     public function setUp()
@@ -88,6 +81,23 @@ class simpleMapperTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `sys_obj_id`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
+    }
+
+    public function testSortingViaMap()
+    {
+        $map = $this->map;
+        $map['id']['orderBy'] = '1';
+        $map['id']['orderByDirection'] = 'DESC';
+
+        $this->fixture();
+        $this->mapper->setMap($map);
+        $res = $this->mapper->searchAll();
+
+        $i = 3;
+        foreach ($res as $key => $val) {
+            $this->assertEqual($val->getId(), $i);
+            $i--;
+        }
     }
 
     public function testDelete()
@@ -145,9 +155,7 @@ class simpleMapperTest extends unitTestCase
         $this->mapper->save($simple);
 
         $this->assertPattern('/^\d+$/', $simple->getBar());
-
     }
-
 
     public function testUpdateSave()
     {
@@ -168,7 +176,7 @@ class simpleMapperTest extends unitTestCase
         $this->fixture();
         $stmt = $this->mapper->searchByField('foo', $this->fixture[1]['foo']);
         $row = $stmt->fetch();
-        $this->assertEqual($row['stubsimple' . stubMapper::TABLE_KEY_DELIMITER . 'bar'], $this->fixture[1]['bar']);
+        $this->assertEqual($row['stubSimple' . stubMapper::TABLE_KEY_DELIMITER . 'bar'], $this->fixture[1]['bar']);
     }
 
     public function testCreateUniqueObjectId()
@@ -206,6 +214,5 @@ class simpleMapperTest extends unitTestCase
         return (int)$count[0];
     }
 }
-
 
 ?>

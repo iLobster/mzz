@@ -250,7 +250,7 @@ class criteria
             $this->offset = $offset;
         }
         if ($orderBy = $criteria->getOrderByFields()) {
-            $this->orderBy = $orderBy;
+            $this->orderBy += $orderBy;
         }
     }
 

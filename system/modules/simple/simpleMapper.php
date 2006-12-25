@@ -114,7 +114,7 @@ abstract class simpleMapper
         $this->db = DB::factory();
         $this->section = $section;
 
-        $this->table = strtolower($this->section . '_' .$this->className);
+        $this->table = $this->section . '_' .$this->className;
     }
 
     /**
@@ -365,7 +365,7 @@ abstract class simpleMapper
             $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$key]);
         }
 
-        return $tmp[strtolower($this->className)];
+        return $tmp[$this->className];
     }
 
 
@@ -412,21 +412,8 @@ abstract class simpleMapper
     {
         $criteria = new criteria();
         $criteria->add($this->tableKey, $ids, criteria::IN);
-        
-        /*
-        foreach($ids as $id){
-        if(empty($criterion)) {
-        $criterion = new criterion($this->tableKey, $id);
-        } else {
-        $criterion->addOr(new criterion($this->tableKey, $id));
-        }
 
-        $criteria->add($criterion);
-        }
-        */
-        
         return $this->searchAllByCriteria($criteria);
-
     }
 
     /**
@@ -453,10 +440,42 @@ abstract class simpleMapper
             $criteria->append($this->pager->getLimitQuery());
         }
 
+        $this->addOrderBy($criteria);
+
         $select = new simpleSelect($criteria);
         $stmt = $this->db->query($select->toString());
 
         return $stmt;
+    }
+
+    /**
+     * Метод добавления к текущему критерию правил сортировки из map
+     *
+     * @param criteria $criteria
+     */
+    protected function addOrderBy($criteria)
+    {
+        // добавляем сортировку
+        $orderBy = array();
+        foreach ($this->map as $key => $val) {
+            if (isset($val['orderBy'])) {
+                if (!is_numeric($val['orderBy'])) {
+                    throw new mzzInvalidParameterException('Параметр orderBy в ' . $this->className . '.ini должен быть целым числом', $val['orderBy']);
+                }
+
+                $orderBy[$val['orderBy']] = array('field' => $key, 'direction' => (isset($val['orderByDirection']) ? strtolower($val['orderByDirection']) : 'asc'));
+            }
+        }
+
+        ksort($orderBy);
+
+        foreach ($orderBy as $val) {
+            if (isset($val['direction']) && $val['direction'] === 'desc') {
+                $criteria->setOrderByFieldDesc($val['field']);
+            } else {
+                $criteria->setOrderByFieldAsc($val['field']);
+            }
+        }
     }
 
     /**

@@ -56,7 +56,7 @@ class simpleSelect
         $aliases = array();
 
         foreach ($this->criteria->getSelectFields() as $select) {
-            $alias = strtolower($this->criteria->getSelectFieldAlias($select));
+            $alias = $this->criteria->getSelectFieldAlias($select);
 
             if(in_array($alias, $aliases) && $alias) continue;
             $aliases[] = $alias;
@@ -67,12 +67,12 @@ class simpleSelect
                 $isFunction = (bool)strpos($select, '(');
 
                 if (($dotpos = strpos($select, '.')) !== false) {
-                    $tbl = strtolower(substr($select, 0, $dotpos));
+                    $tbl = substr($select, 0, $dotpos);
                     $fld = substr($select, $dotpos + 1);
 
-                    $field = '`' . $tbl . '`.' . ($fld == '*' ? '*' : '`' . strtolower($fld) . '`');
+                    $field = '`' . $tbl . '`.' . ($fld == '*' ? '*' : '`' . $fld . '`');
                 } else {
-                    $field = $isFunction ? $select : '`' . strtolower($select) . '`';
+                    $field = $isFunction ? $select : '`' . $select . '`';
                 }
             }
 
@@ -84,7 +84,7 @@ class simpleSelect
         $enableCount = $this->criteria->getEnableCount();
 
         foreach ($this->criteria->getJoins() as $val) {
-            $joinClause[] = ' ' . $val['type'] . ' JOIN ' . strtolower($val['table']) .
+            $joinClause[] = ' ' . $val['type'] . ' JOIN ' . $val['table'] .
             (isset($val['alias']) ? ' ' . $val['alias'] : '') .
             ' ON ' . $val['criterion']->generate();
         }
@@ -100,9 +100,9 @@ class simpleSelect
 
         $table = $this->criteria->getTable();
         if ($table && is_array($table)) {
-            $table = '`' . strtolower($table['table']) . '` `' . strtolower($table['alias']) . '`';
+            $table = '`' . $table['table'] . '` `' . $table['alias'] . '`';
         } elseif ($table) {
-            $table = '`' . strtolower($table) . '`';
+            $table = '`' . $table . '`';
         }
 
         $qry = 'SELECT ' .
