@@ -206,7 +206,7 @@ class mzzPdo extends PDO
     function autoExecute($table, $values, $mode = PDO_AUTOQUERY_INSERT, $where = false)
     {
         $stmt = $this->autoPrepare($table, array_keys($values), $mode, $where);
-        $stmt->bindArray($values);
+        $stmt->bindValues($values);
         $result = $stmt->execute();
         $stmt->closeCursor();
         if ($mode == PDO_AUTOQUERY_INSERT) {

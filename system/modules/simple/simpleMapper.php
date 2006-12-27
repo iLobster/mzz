@@ -210,7 +210,7 @@ abstract class simpleMapper
 
             $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
 
-            $stmt->bindArray($fields);
+            $stmt->bindValues($fields);
 
             $id = $stmt->execute();
 
@@ -277,7 +277,7 @@ abstract class simpleMapper
             if ($query) {
                 $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `' . $this->tableKey . '` = :id');
 
-                $stmt->bindArray($fields);
+                $stmt->bindValues($fields);
                 $stmt->bindParam(':id', $object->getId(), PDO::PARAM_INT);
                 $result = $stmt->execute();
             }

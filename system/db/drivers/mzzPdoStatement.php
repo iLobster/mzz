@@ -19,18 +19,16 @@
  *
  * @package system
  * @subpackage db
- * @version 0.2.1
+ * @version 0.2.2
  */
 class mzzPdoStatement extends PDOStatement
 {
     /**
      * Метод для бинда массива значений
-     * в силу особенностей пхп как обычные бинды переменных его использовать не получится
-     * т.е. после изменения содержимого массива нужно его заново биндить
      *
      * @param array $data массив с данными
      */
-    public function bindArray($data)
+    public function bindValues($data)
     {
         foreach ($data as $key => $val) {
             switch (strtolower(gettype($val))) {
@@ -50,7 +48,7 @@ class mzzPdoStatement extends PDOStatement
                 $type = PDO::PARAM_STR;
                 break;
             }
-            $this->bindParam(':' . $key, $data[$key], $type);
+            $this->bindValue(':' . $key, $data[$key], $type);
         }
     }
 
