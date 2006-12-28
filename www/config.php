@@ -23,10 +23,12 @@ define('DEBUG_MODE', 1);
 
 /**
  * Идентификатор записи в БД для неавторизированных пользователей
- *
  */
 define('MZZ_USER_GUEST_ID', 1);
-
+/**
+ * Идентификатор группы, для которой ACL всегда будет возвращать true
+ */
+define('MZZ_ROOT_GID', 2);
 
 require_once(SYSTEM_PATH . 'systemConfig.php');
 

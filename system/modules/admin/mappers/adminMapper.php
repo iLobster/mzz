@@ -61,11 +61,11 @@ class adminMapper extends simpleMapper
 
             if (!isset($access[$val['section'] . '_' . $val['class']])) {
                 $access[$val['section'] . '_' . $val['class']] = $acl->get('editACL');
-                
+
                 $action = $toolkit->getAction($val['module']);
                 $actions = $action->getActions();
                 $actions = $actions[$val['module']];
-                
+
                 $admin[$val['section'] . '_' . $val['class']] = isset($actions['admin']) && $acl->get('admin');
             }
 

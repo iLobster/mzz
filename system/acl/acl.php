@@ -83,6 +83,13 @@ class acl
     private $validActions = array();
 
     /**
+     * определяет, является ли пользователь root'ом
+     *
+     * @var boolean
+     */
+    private $isRoot = false;
+
+    /**
      * конструктор
      *
      * @param user $user
@@ -107,7 +114,7 @@ class acl
 
         $this->class = $class;
         $this->section = $section;
-        //$this->type = $type;
+
         if (!is_int($object_id)) {
             throw new mzzInvalidParameterException('Переменная object_id не является переменной целочисленного типа', $object_id);
         }
@@ -117,8 +124,10 @@ class acl
 
         $this->groups = $user->getGroupsList();
 
-        //var_dump($this->db->getQueriesNum());
-        //echo '<br><br>';
+        if (defined('MZZ_ROOT_GID') && array_search(MZZ_ROOT_GID, $this->groups) !== false) {
+            $this->isRoot = true;
+        }
+
         $this->db = db::factory();
     }
 
@@ -171,14 +180,15 @@ class acl
                 } else {
                     $value = (bool)$row['access'];
                 }
-                $this->result[$this->obj_id][$clean][$full][$row['name']] = $value;
+                $this->result[$this->obj_id][$clean][$full][$row['name']] = $value || $this->isRoot;
             }
         }
 
         if (empty($param)) {
             return $this->result[$this->obj_id][$clean][$full];
         } else {
-            return isset($this->result[$this->obj_id][$clean][$full][$param]) ? (bool)$this->result[$this->obj_id][$clean][$full][$param] : false;
+            $access = isset($this->result[$this->obj_id][$clean][$full][$param]) ? (bool)$this->result[$this->obj_id][$clean][$full][$param] : false;
+            return $access || $this->isRoot;
         }
     }
 

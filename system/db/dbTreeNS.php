@@ -348,7 +348,7 @@ class dbTreeNS
         $criteria = $this->getBasisCriteria();
 
         // сортируем по левому ключу
-        $criteria->setOrderByFieldDesc('tree.lkey');
+        $criteria->setOrderByFieldAsc('tree.lkey');
 
         // если задана глубина выборки, добавляем условие
         if($level > 0) {
