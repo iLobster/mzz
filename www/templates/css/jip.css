@@ -4,6 +4,8 @@ img.jip {
 
 div.jipClose {
   float: right;
+  margin-top: 6px;
+  margin-right: 4px;
 }
 
 div.jipSuccess {
@@ -33,10 +35,20 @@ div.jipSuccess {
 }
 
 .jipTitle {
-    font-size: 120%;
-    margin-bottom: 15px;
+    font-size: 100%;
     padding: 5px;
     font-weight: bold;
+    border: 1px solid #E6E6E6;
+    background-image: url('../images/jip_title_bg.png');
+}
+
+.jipMove {
+    background-position: left center;
+    width: 10px;
+    background-image: url('../images/jip_title_move.png');
+    float: left;
+    background-repeat: no-repeat;
+    cursor: move;
 }
 
 .jipMenu {
@@ -109,13 +121,16 @@ td.jip_menu {
     display: none;
     z-index: 999;
     font-size:100%;
-    padding: 4px;
+   /* padding: 4px;*/
     text-align: center;
 
-    background-image: url('../images/bg_tr.png');
+    background-color: #000;
     width: 100%;
     /*height: 100%;*/
     /*top: -8px;*/
+    top: 0;
+    left: 0;
+
     right: 0;
     /*min-height: 800px;*/
     filter: alpha(opacity=60);

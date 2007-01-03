@@ -28,6 +28,84 @@ function getInnerHeight(){
 return typeof window.innerHeight=="number"?window.innerHeight:document.compatMode=="CSS1Compat"?document.documentElement.clientHeight:document.body.clientHeight;
 }
 
+
+//
+// getPageScroll()
+// Returns array with x,y page scroll values.
+// Core code from - quirksmode.org
+//
+function getPageScroll(){
+
+	var yScroll;
+
+	if (self.pageYOffset) {
+		yScroll = self.pageYOffset;
+	} else if (document.documentElement && document.documentElement.scrollTop){	 // Explorer 6 Strict
+		yScroll = document.documentElement.scrollTop;
+	} else if (document.body) {// all other Explorers
+		yScroll = document.body.scrollTop;
+	}
+
+	arrayPageScroll = new Array('',yScroll) 
+	return arrayPageScroll;
+}
+
+// -----------------------------------------------------------------------------------
+
+//
+// getPageSize()
+// Returns array with page width, height and window width, height
+// Core code from - quirksmode.org
+// Edit for Firefox by pHaez
+//
+function getPageSize(){
+	
+	var xScroll, yScroll;
+	
+	if (window.innerHeight && window.scrollMaxY) {	
+		xScroll = document.body.scrollWidth;
+		yScroll = window.innerHeight + window.scrollMaxY;
+	} else if (document.body.scrollHeight > document.body.offsetHeight){ // all but Explorer Mac
+		xScroll = document.body.scrollWidth;
+		yScroll = document.body.scrollHeight;
+	} else { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari
+		xScroll = document.body.offsetWidth;
+		yScroll = document.body.offsetHeight;
+	}
+	
+	var windowWidth, windowHeight;
+	if (self.innerHeight) {	// all except Explorer
+		windowWidth = self.innerWidth;
+		windowHeight = self.innerHeight;
+	} else if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode
+		windowWidth = document.documentElement.clientWidth;
+		windowHeight = document.documentElement.clientHeight;
+	} else if (document.body) { // other Explorers
+		windowWidth = document.body.clientWidth;
+		windowHeight = document.body.clientHeight;
+	}	
+	
+	// for small pages with total height less then height of the viewport
+	if(yScroll < windowHeight){
+		pageHeight = windowHeight;
+	} else { 
+		pageHeight = yScroll;
+	}
+
+	// for small pages with total width less then width of the viewport
+	if(xScroll < windowWidth){	
+		pageWidth = windowWidth;
+	} else {
+		pageWidth = xScroll;
+	}
+
+
+	arrayPageSize = new Array(pageWidth,pageHeight,windowWidth,windowHeight) 
+	return arrayPageSize;
+}
+
+
+
 function getPosition(el, body)
 {
     if(!el || !el.offsetParent) {
@@ -139,8 +217,8 @@ var handleFailure = function(o){
     }
 }
 
-window,onresize = function() { doMoveMask() };
-window.onscroll = function() { doMoveMask() };
+window,onresize = function() { doMoveMask(); }
+//window.onscroll = function() { doMoveMask(); }
 
 document.onkeydown = proccessKey;
 
@@ -156,23 +234,36 @@ function proccessKey(key) {
         return hideJip();
     }
 }
-function doMoveMask() {
+var jipLockResized = false;
+/*
+function doMoveMask(onresize) {
+    onresize = onresize || false;
     if (is_gecko) {
         document.getElementById('blockContent').style.left=getInnerX() - 23 +"px";
     } else {
         document.getElementById('blockContent').style.left=getInnerX() - 8 +"px";
     }
     document.getElementById('blockContent').style.top=getInnerY() - 8 + "px";
-    document.getElementById('blockContent').style.width=getInnerWidth() +"px";
-    document.getElementById('blockContent').style.height=getInnerHeight() +"px";
+    if (onresize || !jipLockResized) {
+        document.getElementById('blockContent').style.width=getInnerWidth() +"px";
+        document.getElementById('blockContent').style.height=getInnerHeight() +"px";
+        jipLockResized = true;
+    }
 
+}
+
+*/
+
+function doMoveMask() {
+    var arrayPageSize = getPageSize();
+    document.getElementById('blockContent').style.height=arrayPageSize[1] +"px";
 }
 
 var lastJipUrl = false;
 var oldOffset = false;
 function showJip(url, success)
 {
-    cleanJip();
+    cleanJip();doMoveMask();
     if (document.getElementById('jip')) {
         doMoveMask();
         document.getElementById('blockContent').style.display = 'block';
@@ -330,3 +421,64 @@ function setMouseInJip(status) {
         clearTimeout(layertimer);
     }
 }
+
+
+
+
+
+
+var isdrag=false;
+var move_x, move_y, tx, ty;
+var dobj, old_mousemoveevent;
+var arrayPageSize = false;
+
+function movemouse(e)
+{
+  if (isdrag)
+  {
+    var _left = (!is_ie ? tx + e.clientX - move_x : tx + event.clientX - move_x);
+    
+    if (!arrayPageSize) { arrayPageSize = getPageSize();  }
+
+    if (_left >= 0 && _left < arrayPageSize[0] - dobj.offsetWidth) {
+       dobj.style.left  = _left + 'px';
+    }
+    var _top = (!is_ie ? ty + e.clientY - move_y : ty + event.clientY - move_y);
+
+
+    if (_top >= 0 && _top < arrayPageSize[1] - dobj.offsetHeight) {
+       dobj.style.top  = _top + 'px';
+    }
+
+    return false;
+  } else {
+    document.onmousemove = old_mousemoveevent;
+  }
+}
+
+function selectmouse(e) 
+{
+  var fobj       = !is_ie ? e.target : event.srcElement;
+  var topelement = !is_ie ? "HTML" : "BODY";
+
+  while (fobj.tagName != topelement && fobj.className != "jipMove")
+  {
+    fobj = !is_ie ? fobj.parentNode : fobj.parentElement;
+  }
+
+  if (fobj.className == "jipMove")
+  {
+    isdrag = true;
+    dobj = /*fobjfobj*/ document.getElementById('jip');
+    tx = parseInt(/*dobj.style.left + */dobj.offsetLeft + 0);
+    ty = parseInt(dobj.style.top + 0);
+    move_x = !is_ie ? e.clientX : event.clientX;
+    move_y = !is_ie ? e.clientY : event.clientY;
+    old_mousemoveevent = document.onmousemove;
+    document.onmousemove=movemouse;
+    return false;
+  }
+}
+
+document.onmousedown=selectmouse;
+document.onmouseup=new Function("isdrag=false");

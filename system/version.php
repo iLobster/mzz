@@ -101,7 +101,7 @@ define('MZZ_VERSION', MZZ_VERSION_MAJOR . '.' . MZZ_VERSION_MINOR . '.' .
                       MZZ_VERSION_MICRO . MZZ_VERSION_STATUS);
 
 // Revision
-if(file_exists(systemConfig::$pathToSystem . '/../.svn/entries')) {
+if(DEBUG_MODE && file_exists(systemConfig::$pathToSystem . '/../.svn/entries')) {
     $svn_entries = file_get_contents(systemConfig::$pathToSystem . '/../.svn/entries');
     if (strpos($svn_entries, '<?xml') !== false) {
         preg_match('/revision="(\d+)"/', $svn_entries, $matches);

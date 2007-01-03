@@ -8,10 +8,8 @@
 {include file='include.js.tpl'}
 </head>
 <body>
-
-<div id="jip"></div>
 <div id="blockContent"></div>
-
+<div id="jip"></div>
 <div id="wrapper">
 <div id="nonFooter">
 <div id="hcontainer">

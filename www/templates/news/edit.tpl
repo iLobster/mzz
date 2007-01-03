@@ -1,4 +1,7 @@
-<div class="jipTitle">Редактирование новости</div>
+<div class="jipTitle">
+<div class="jipMove">&nbsp;</div>
+Редактирование новости
+</div>
 
 <form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
