@@ -45,6 +45,7 @@ class requestRouter
      */
     protected $current;
 
+    protected $debug = false;
     /**
      * Конструктор
      *
@@ -105,7 +106,7 @@ class requestRouter
     public function route($path)
     {
         foreach (array_reverse($this->routes) as $route) {
-            if ($parts = $route->match($path)) {
+            if ($parts = $route->match($path, $this->debug)) {
                 $params = $parts;
                 $this->current = $route;
                 break;
@@ -127,6 +128,11 @@ class requestRouter
         }
 
         $this->request->setParams($params);
+    }
+
+    public function enableDebug()
+    {
+        $this->debug = true;
     }
 }
 

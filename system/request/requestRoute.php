@@ -122,9 +122,10 @@ class requestRoute implements iRoute
      * ѕроверка совпадени€ PATH с шаблоном.
      *
      * @param string $path полученный path из URL
+     * @param boolean $debug режим отладки работы маршрутизатора
      * @return array|false
      */
-    public function match($path)
+    public function match($path, $debug = false)
     {
         $this->values = $this->defaults;
 
@@ -132,8 +133,8 @@ class requestRoute implements iRoute
             $this->prepare();
         }
 
-        if ($this->debug) {
-            echo 'pattern: \'' . $this->pattern . '\', regex: ' . $this->regex . ' with \'' . $path . '\'<br />';
+        if ($debug) {
+            echo "pattern <font color=\"red\">" . $this->pattern . "</font> regex <font color=\"red\">" . $this->regex . "</font> with <font color=\"red\">" . $path . "</font> <br />\r\n";
         }
 
         if (preg_match_all($this->regex, $path, $matches, PREG_SET_ORDER)) {
@@ -169,8 +170,7 @@ class requestRoute implements iRoute
      */
     protected function prepare()
     {
-
-        $this->parts = preg_split('#(?:\{?(\:[a-z_]+)\}?)|(/\*$)#i', $this->pattern, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $this->parts = preg_split('#(?:\{?(\\\?\:[a-z_]*)\}?)|(/\*$)#i', $this->pattern, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
         $this->regex = self::REGEX_DELIMITER . '^';
 
@@ -200,6 +200,9 @@ class requestRoute implements iRoute
                 $prefix = '';
                 $postfix = '';
             } else {
+                if ($part[0] == '\\' && $part[1] == self::VARIABLE_PREFIX) {
+                    $part = substr($part, 1);
+                }
                 $this->parts[$i] = array('name'=> $part, 'isVar' => false, 'regex' => preg_quote($part, self::REGEX_DELIMITER));
                 $prefix = '(';
                 $postfix = ')';

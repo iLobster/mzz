@@ -1,5 +1,5 @@
 <?php
-
+//$router->enableDebug();
 $router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list', 'name' => 'root')));
 $router->addRoute('default2', new requestRoute(':section/:action'));
 

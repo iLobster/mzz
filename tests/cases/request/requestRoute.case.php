@@ -22,6 +22,15 @@ class requestRouteTest extends unitTestCase
         );
     }
 
+    public function testEscaped()
+    {
+        $route = new requestRoute('\:news/\::id/\:{:action}');
+        $this->assertEqual(
+            $route->match(':news/:1/:view'),
+            array('action' => 'view', 'id' => '1')
+        );
+    }
+
     public function testRouteWithPath()
     {
         $route = new requestRoute('somepath/:controller/test/:id/:action');
