@@ -21,6 +21,7 @@ class newsEditView extends simpleView
 {
     private $form;
     private $action;
+    protected $ajax = true;
 
     public function __construct($news, $form, $action)
     {

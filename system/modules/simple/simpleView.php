@@ -63,7 +63,7 @@ abstract class simpleView
      * @var systemToolkit
      */
     protected $toolkit;
-
+    protected $ajax = false;
     /**
      * Конструктор
      *
@@ -80,7 +80,9 @@ abstract class simpleView
         }
         $this->httprequest = $this->toolkit->getRequest();
         $this->smarty = $this->toolkit->getSmarty();
-        $this->smarty->allowNesting(!$this->httprequest->isAjax());
+        if ($this->ajax && $this->httprequest->isAjax()) {
+            $this->smarty->setActiveXmlTemplate('main.xml.tpl');
+        }
         $this->response = $this->toolkit->getResponse();
     }
 

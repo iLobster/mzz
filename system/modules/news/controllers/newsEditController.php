@@ -60,6 +60,7 @@ class newsEditController extends simpleController
                 $news->setTitle($values['title']);
                 $news->setEditor($user);
                 $news->setText($values['text']);
+                $news->setCreated($values['created']);
                 $newsMapper->save($news);
 
                 $view = new simpleJipRefreshView();

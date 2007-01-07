@@ -45,7 +45,9 @@ class mzzSmarty extends Smarty
      *
      * @var boolean
      */
-    protected $nesting = true;
+    protected $activeTemplate = false;
+
+    protected $javascript = array();
 
     /**
      * ¬ыполн€ет шаблон и возвращает результат
@@ -59,6 +61,10 @@ class mzzSmarty extends Smarty
      */
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
+        if (!empty($this->javascript)) {
+            $this->assign('execute_javascript', $this->javascript);
+            $this->javascript = array();
+        }
         $resource = explode(':', $resource_name, 2);
 
         if (count($resource) === 1) {
@@ -149,8 +155,14 @@ class mzzSmarty extends Smarty
      * @param string $str
      * @return array
      */
-    public static function parse($str)
+    public function parse($str)
     {
+        if ($this->activeTemplate !== false) {
+            $activeTemplate = $this->activeTemplate;
+            // дл€ предотвращени€ рекурсии
+            $this->activeTemplate = true;
+            return $activeTemplate;
+        }
         $params = array();
         if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $matches)) {
             $clean_str = preg_split('/\s+/', $matches[1]);
@@ -159,6 +171,7 @@ class mzzSmarty extends Smarty
                 $params[$param[0]] = trim($param[1], '\'"');
             }
         }
+
         return $params;
     }
 
@@ -170,17 +183,32 @@ class mzzSmarty extends Smarty
      */
     public function isActive($template)
     {
-        return $this->nesting && (strpos($template, "{* main=") !== false);
+        $isActive = (strpos($template, "{* main=") === false);
+        return ($this->activeTemplate !== true && !$isActive)
+               || (is_array($this->activeTemplate));
     }
 
     /**
-     * ”станавливает разрешение на вложение одного шаблона в другой
+     * ”станавливает активный xml-шаблон и placeholder.
      *
-     * @param boolean $flag
+     * @param string $template_name им€ шаблона
+     * @param string $placeholder им€ placeholder. ѕо умолчанию <i>content</i>
      */
-    public function allowNesting($flag)
+    public function setActiveXmlTemplate($template_name, $placeholder = 'content')
     {
-        $this->nesting = $flag;
+        if (!$this->activeTemplate) {
+            $this->activeTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
+        }
+    }
+
+    public function isXml()
+    {
+        return $this->activeTemplate !== false;
+    }
+
+    public function addJavascript($javascript)
+    {
+        $this->javascript[] = $javascript;
     }
 }
 ?>

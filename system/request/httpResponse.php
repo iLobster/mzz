@@ -143,6 +143,9 @@ class httpResponse
     public function send()
     {
         $this->sendCookies();
+        if ($this->smarty->isXml()) {
+            $this->setHeader('Content-type', 'text/xml');
+        }
         $this->sendHeaders();
         $this->sendText();
     }

@@ -1,3 +1,56 @@
+
+var OpacityEffect= function(){};
+
+OpacityEffect.prototype = {
+	step: function(){
+		var time = new Date().getTime();
+		if (time < this.time + 500){
+			this.cTime = time - this.time;
+			this.setNow();
+		} else {
+			this.clearTimer();
+			this.now = this.to;
+		}
+		this.increase();
+	},
+	increase: function(){
+                if (this.now == 0) {
+                    this.element.style.display = 'none';
+                }
+		if (window.ActiveXObject) this.element.style.filter = "alpha(opacity=" + this.now*100 + ")";
+		this.element.style.opacity = this.now;
+	},
+	setNow: function(){
+		this.now = this.compute(this.from, this.to);
+	},
+	compute: function(from, to){
+		return -(to - from)/2 * (Math.cos(Math.PI*this.cTime/500) - 1) + from;
+	},
+	custom: function(element, from, to){
+		if (!this.wait) this.clearTimer();
+		if (this.timer) return;
+		this.from = from;
+		this.to = to;
+                this.element = element;
+		this.time = new Date().getTime();
+		this.timer = this.periodical(Math.round(1000/50), this);
+		return this;
+	},
+	periodical: function(ms, bind){
+		var fn = this.step;
+		return setInterval(function(){ return fn.apply(bind, arguments);}, ms);
+	},
+	clearTimer: function(){
+	        clearTimeout(this.timer);
+	        clearInterval(this.timer);
+                this.timer = false;
+		return this;
+	}
+};
+
+OpacityEffect.prototype.wait = true;
+
+
 var last_jipmenu_id;
 var agt = navigator.userAgent.toLowerCase();
 var is_ie = (agt.indexOf("msie") != -1) && (agt.indexOf("opera") == -1);
@@ -5,6 +58,9 @@ var is_gecko = navigator.product == "Gecko";
 var layertimer;
 
 var urlStack = new Array;
+
+var responseXML = false;
+var responseHtml = false;
 var currentUrl;
 var formSuccess = false;
 var jipButton;
@@ -160,24 +216,48 @@ function _each(values, iterator) {
 }
 
 
-function extractScripts(response) {
+function extractScripts(response, onlyLoadJs) {
     jsFragment = '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)';
     var matchAll = new RegExp(jsFragment, 'img');
     var matchOne = new RegExp(jsFragment, 'im');
 
-    return collect(response.match(matchAll) || [], function(scriptTag) {
-        return (scriptTag.match(matchOne) || ['', ''])[1];
-    });
+    if (true || !onlyLoadJs) {
+        return collect(response.match(matchAll) || [], function(scriptTag) {
+            return (scriptTag.match(matchOne) || ['', ''])[1];
+        });
+    } else {
+        var matchOnlyLoad = new RegExp(jsFragment, 'im');
+        return collect(response.match(matchAll) || [], function(scriptTag) { alert(scriptTag);
+            var matchOnlyLoadJS = new RegExp('((?!/\\*)loadJS\(.*\);?)+', 'img');
+            alert((scriptTag.match(matchOnlyLoadJS) || ['', ''])/*[1]*/);
+        });
+    }
 
 }
 
-function evalScripts(response) {
-    return collect(extractScripts(response), evalScript);
+
+    function onScriptLoad(evt)
+    {
+        evt = evt || event;
+        var elem = evt.target || evt.srcElement;
+        if (evt.type == 'readystatechange' && elem.readyState && !(elem.readyState == 'complete' || elem.readyState == 'loaded')) { return }
+        
+        evalScripts(responseHtml, false)
+        
+    }
+
+
+function evalScripts(response, onlyLoadJs) {
+    onlyLoadJs = onlyLoadJs || false;
+    return collect(extractScripts(response, onlyLoadJs), evalScript);
 }
+
+
 
 function evalScript(script) {
-    eval(script);
+    try { eval(script); } catch(err) { alert('Inline script error '+err.name+ ': '+err.message); }
 }
+
 
 var handleSuccess = function(o){
     if(typeof o.responseText !== undefined){
@@ -186,8 +266,54 @@ var handleSuccess = function(o){
         if (o.argument.success == true) {
             o.argument.div.innerHTML += "<div class='jipSuccess'>Данные сохранены.</div>";
         }
-        o.argument.div.innerHTML += o.responseText;
-        evalScripts(o.argument.div.innerHTML);
+        responseXML = o.responseXML.documentElement;
+        // for html
+        var item = responseXML.getElementsByTagName('html')[0];
+
+        var tmp = '';
+        var cnodes = item.childNodes.length;
+        for (var i=0; i<cnodes; i++) {
+            if (item.childNodes[i].data != '') {
+                tmp += item.childNodes[i].data;
+            }
+        }
+        o.argument.div.innerHTML += tmp;
+
+
+        // for JS
+        var items = responseXML.getElementsByTagName('javascript');
+        if (items) {
+            var cn = items.length
+            for (var i=0; i<cn; i++) {
+                addJS(SITE_PATH + items[i].getAttribute('src'));
+            }
+        }
+
+
+
+        // for inner JS
+        var items = responseXML.getElementsByTagName('execute');
+        if (items) {
+            var jsExecute = '';
+            var cn = items.length
+            for (var i=0; i<cn; i++) {
+                cn2 = items[i].childNodes.length;
+                for (var j=0; j < cn2; j++) {
+                    if (items[i].childNodes[j].data != '') {
+                        jsExecute += items[i].childNodes[j].data;
+                    }
+                }
+            }
+        } 
+        if (jsExecute != '') {
+            myJsLoader = new jsLoader();
+            doOnLoad(function() {
+            try { eval(jsExecute); } catch(err) { alert('Inline script error '+err.name+ ': '+err.message); } });
+        }
+
+
+        responseHtml = o.argument.div.innerHTML;
+        //evalScripts(o.argument.div.innerHTML, true);
     }
 }
 
@@ -263,10 +389,16 @@ var lastJipUrl = false;
 var oldOffset = false;
 function showJip(url, success)
 {
-    cleanJip();doMoveMask();
+    cleanJip();
+    //doMoveMask();
     if (document.getElementById('jip')) {
         doMoveMask();
         document.getElementById('blockContent').style.display = 'block';
+
+        blockOpacityEffect = new OpacityEffect;
+        blockOpacityEffect.custom(document.getElementById('blockContent'), 0, 0.8);
+
+
         document.getElementById('jip').style.display = 'block';
         oldOffset = document.getElementById('jip').offsetHeight;
         document.getElementById('jip').style.top = document.documentElement.scrollTop + oldOffset + 'px';
@@ -276,6 +408,7 @@ function showJip(url, success)
         currentUrl = url;
         var request = YAHOO.util.Connect.asyncRequest('GET', url + '&ajax=1', callback);
 
+        document.getElementById('jip').style.left  = document.getElementById('jip').offsetLeft + 'px';
         return false;
     }
     return true;
@@ -325,7 +458,11 @@ function hideJip(windows, success)
                 return showJip(urlFromStack[0], success);}
         }
         last_jipmenu_id = false;
-        document.getElementById('blockContent').style.display = 'none';
+
+        blockOpacityEffect = new OpacityEffect;
+        blockOpacityEffect.custom(document.getElementById('blockContent'), 0.8, 0);
+
+        //document.getElementById('blockContent').style.display = 'none';
         document.getElementById('jip').style.display = 'none';
         if (oldOffset) {
             document.getElementById('jip').style.top = oldOffset + 'px';
@@ -482,3 +619,11 @@ function selectmouse(e)
 
 document.onmousedown=selectmouse;
 document.onmouseup=new Function("isdrag=false");
+
+
+
+
+
+
+
+
