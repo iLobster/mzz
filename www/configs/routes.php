@@ -1,6 +1,5 @@
 <?php
 //$router->enableDebug();
-$router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list', 'name' => 'root')));
 $router->addRoute('default2', new requestRoute(':section/:action'));
 
 $router->addRoute('cfgEdit', new requestRoute('config/:section_name/:module_name/:action', array('section' => 'config'), array('action' => 'editCfg')));
@@ -24,5 +23,6 @@ $router->addRoute('aclDefaultAction', new requestRoute('access/:id', array('sect
 $router->addRoute('admin', new requestRoute('admin/:section_name/:module_name/:params/:action', array('section' => 'admin', 'action' => 'admin'), array('params' => '.+?', 'action' => '(?:admin)')));
 
 $router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
+$router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list', 'name' => 'root')));
 
 ?>

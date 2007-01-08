@@ -63,7 +63,14 @@ abstract class simpleView
      * @var systemToolkit
      */
     protected $toolkit;
+
+    /**
+     * Свойство указывает может ли результат работы модуля быть отображен для Ajax в виде XML
+     *
+     * @var boolean
+     */
     protected $ajax = false;
+
     /**
      * Конструктор
      *

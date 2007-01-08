@@ -20,7 +20,7 @@ fileLoader::load('template/IMzzSmarty');
 /**
  * mzzSmarty: модификаци€ Smarty дл€ работы с активными и пассивными шаблонами
  *
- * @version 0.5
+ * @version 0.5.1
  * @package system
  * @subpackage template
  */
@@ -41,12 +41,17 @@ class mzzSmarty extends Smarty
     protected $fetchedTemplates = array();
 
     /**
-     * –азрешение на вложение одного шаблона в другой
+     * »м€ XML-шаблона и placeholder установленных runtime
      *
-     * @var boolean
+     * @var array
      */
-    protected $activeTemplate = false;
+    protected $activeXmlTemplate = false;
 
+    /**
+     * Javascript
+     *
+     * @var array
+     */
     protected $javascript = array();
 
     /**
@@ -157,11 +162,11 @@ class mzzSmarty extends Smarty
      */
     public function parse($str)
     {
-        if ($this->activeTemplate !== false) {
-            $activeTemplate = $this->activeTemplate;
+        if ($this->activeXmlTemplate !== false) {
+            $activeXmlTemplate = $this->activeXmlTemplate;
             // дл€ предотвращени€ рекурсии
-            $this->activeTemplate = true;
-            return $activeTemplate;
+            $this->activeXmlTemplate = true;
+            return $activeXmlTemplate;
         }
         $params = array();
         if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $matches)) {
@@ -184,28 +189,40 @@ class mzzSmarty extends Smarty
     public function isActive($template)
     {
         $isActive = (strpos($template, "{* main=") === false);
-        return ($this->activeTemplate !== true && !$isActive)
-               || (is_array($this->activeTemplate));
+        return ($this->activeXmlTemplate !== true && !$isActive)
+               || (is_array($this->activeXmlTemplate));
     }
 
     /**
-     * ”станавливает активный xml-шаблон и placeholder.
+     * ”станавливает активный XML-шаблон и placeholder дл€ контента
      *
-     * @param string $template_name им€ шаблона
+     * @param string $template_name им€ XML-шаблона
      * @param string $placeholder им€ placeholder. ѕо умолчанию <i>content</i>
      */
     public function setActiveXmlTemplate($template_name, $placeholder = 'content')
     {
-        if (!$this->activeTemplate) {
-            $this->activeTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
+        if (!$this->activeXmlTemplate) {
+            $this->activeXmlTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
         }
     }
 
+    /**
+     * ¬озвращает true если установлен активный XML-шаблон
+     *
+     * @return boolean
+     * @see setActiveXmlTemplate()
+     */
     public function isXml()
     {
-        return $this->activeTemplate !== false;
+        return $this->activeXmlTemplate !== false;
     }
 
+    /**
+     * ƒобавл€ет в массив javascript дл€ последующей
+     * непосредственной вставки в XML-шаблон
+     *
+     * @param string $javascript javascript
+     */
     public function addJavascript($javascript)
     {
         $this->javascript[] = $javascript;

@@ -14,30 +14,29 @@
  * @version $Id$
 */
 
-fileLoader::load('acl');
-
 /**
- * smarty_function_load: функция для смарти, загрузчик модулей
+ * smarty_block_javascript: блоковая функция смарти для вставки Javascript непосредственно
+ * в HTML-шаблон или подготовки его для последующей вставки в XML.
  *
  * Примеры использования:<br />
  * <code>
- * {load module="some_module_name" action="some_action"}
+ * {javascript}
+ * alert('hello world!');
+ * {/javascript}
  * </code>
  *
  * @param array $params входные аргументы функции
+ * @param string $content содержимое блоковой функции
  * @param object $smarty объект смарти
- * @return string результат работы модуля
  *
  * @package system
  * @subpackage template
- * @version 0.4.2
+ * @version 0.1
  */
 function smarty_block_javascript($params, $content, $smarty)
 {
     if ($content) {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-        if ($request->isAjax()) {
+        if ($smarty->isXml()) {
             $smarty->addJavascript($content);
         } else {
             echo "\r\n<script type=\"text/javascript\">\r\n<!--" . $content . "// -->\r\n</SCRIPT>\r\n";
