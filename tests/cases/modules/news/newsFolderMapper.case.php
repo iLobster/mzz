@@ -115,7 +115,7 @@ class newsFolderMapperTest extends unitTestCase
     {
         $this->fixture($this->mapper, $this->map);
         //exit;
-        $newsSubFolders = $this->mapper->getFolders(1);
+        $newsSubFolders = $this->mapper->getFolders(1, 9999);
 
         $this->assertEqual(count($newsSubFolders), 8);
 

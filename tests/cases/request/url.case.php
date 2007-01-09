@@ -115,7 +115,7 @@ class urlTest extends unitTestCase
         $this->url->addParam('action', 'list');
         $this->assertEqual($this->url->get(), 'http://localhost/path/news/3-current/list');
     }
-    
+
     public function testAddGetVariables()
     {
         $this->url->setGetParam('name', 'value');

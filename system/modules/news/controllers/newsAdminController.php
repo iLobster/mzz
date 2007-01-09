@@ -21,12 +21,27 @@
  */
 
 fileLoader::load('news/views/newsAdminView');
+fileLoader::load('news/views/newsListView');
 
 class newsAdminController extends simpleController
 {
     public function getView()
     {
-        return new newsAdminView();
+        $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
+
+        $path = $this->request->get('params', 'string', SC_PATH);
+
+        if (is_null($path)) {
+            $path = 'root';
+        }
+
+        $newsFolder = $newsFolderMapper->searchByPath($path);
+        if ($newsFolder) {
+            return new newsAdminView($newsFolder);
+        } else {
+            fileLoader::load('news/views/news404View');
+            return new news404View();
+        }
     }
 }
 

@@ -51,6 +51,7 @@ function smarty_function_url($params, $smarty)
     }
 
     if (isset($params['route'])) {
+        $getUrl = false;
         $router = $toolkit->getRouter();
         $url->setRoute($router->getRoute($params['route']));
         unset($params['route']);

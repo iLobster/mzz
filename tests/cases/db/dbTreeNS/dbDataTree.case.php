@@ -140,7 +140,7 @@ class dbTreeDataTest extends unitTestCase
     private function assertEqualFixtureAndBranch($fixture, $branch)
     {
         foreach($branch as $id => $node) {
-             $this->assertEqual($fixture[$id]['id'], $node->getId());
+            $this->assertEqual($fixture[$id]['id'], $node->getId());
             $this->assertEqual($fixture[$id]['foo'], $node->getFoo());
             $this->assertEqual($fixture[$id]['bar'], $node->getBar());
             $this->assertEqual($fixture[$id]['path'], $node->getPath());
@@ -199,6 +199,15 @@ class dbTreeDataTest extends unitTestCase
         $branch = $this->tree->getBranchContainingNode($id = 2);
 
         $fixtureBranch = $this->setFixture(array(1, 2, 5, 6));
+        $this->assertEqual(count($fixtureBranch),count($branch));
+        $this->assertEqualFixtureAndBranch($fixtureBranch, $branch);
+    }
+
+    public function testGetBranchContainingNodeLimited()
+    {
+        $branch = $this->tree->getBranchContainingNode($id = 2, 0);
+
+        $fixtureBranch = $this->setFixture(array(1, 2));
         $this->assertEqual(count($fixtureBranch),count($branch));
         $this->assertEqualFixtureAndBranch($fixtureBranch, $branch);
     }

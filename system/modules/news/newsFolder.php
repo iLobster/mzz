@@ -49,10 +49,10 @@ class newsFolder extends simpleForTree
      *
      * @return array
      */
-    public function getFolders()
+    public function getFolders($level = 1)
     {
         if (!$this->fields->exists('folders')) {
-            $this->fields->set('folders', $this->mapper->getFolders($this->getParent()));
+            $this->fields->set('folders', $this->mapper->getFolders($this->getParent(), $level));
         }
         return $this->fields->get('folders');
     }

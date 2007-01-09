@@ -18,8 +18,6 @@
  */
 
 fileLoader::load('news/views/newsListView');
-fileLoader::load("news/mappers/newsMapper");
-fileLoader::load("news/mappers/newsFolderMapper");
 
 class newsListController extends simpleController
 {

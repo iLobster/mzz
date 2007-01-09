@@ -481,9 +481,10 @@ class dbTreeNS
      * Выборка ветки в которой находится заданный узел
      *
      * @param  int     $id           Идентификатор узла
+     * @param  int     $level        Число уровней, выбираемых после текущего узла
      * @return array
      */
-    public function getBranchContainingNode($id)
+    public function getBranchContainingNode($id, $level = 999999999)
     {
         $node = $this->getNodeInfo($id);
         if (!$node) {
@@ -493,14 +494,16 @@ class dbTreeNS
         $stmt = $this->db->prepare($this->getBasisQuery() .
         ' AND `tree`.`rkey` >:lkey ' .
         ($this->isMultipleTree() ? 'AND `tree`.`' . $this->treeField . '` = :treeFieldID ' : '') .
-        ' AND `tree`.`lkey` <:rkey ORDER BY `tree`.`lkey`');
+        ' AND `tree`.`lkey` <:rkey AND `tree`.`level` <= :level ORDER BY `tree`.`lkey`');
 
         if ($this->isMultipleTree()) {
             $stmt->bindParam(':treeFieldID', $this->treeFieldID, PDO::PARAM_INT);
         }
 
+        $level += $node['level'];
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $node['rkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':level', $level, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return $this->createBranchFromRow($stmt);

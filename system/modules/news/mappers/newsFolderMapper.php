@@ -94,7 +94,7 @@ class newsFolderMapper extends simpleMapper
      */
     public function getFolders($id, $level = 1)
     {
-        return $this->tree->getBranchContainingNode($id); //, $level);
+        return $this->tree->getBranchContainingNode($id, $level);
     }
 
     /**
@@ -126,9 +126,12 @@ class newsFolderMapper extends simpleMapper
 
         // @toDo как то не так
         $removedFolders = $this->tree->getBranch($id);
-        if(count($removedFolders)) {            foreach($removedFolders as $folder) {                $folderNews = $folder->getItems();
+        if(count($removedFolders)) {
+            foreach($removedFolders as $folder) {
+                $folderNews = $folder->getItems();
                 if(count($folderNews))
-                foreach($folderNews as $news) {                    $newsMapper->delete($news->getId());
+                foreach($folderNews as $news) {
+                    $newsMapper->delete($news->getId());
                 }
             }
         }

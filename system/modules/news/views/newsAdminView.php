@@ -25,6 +25,11 @@ class newsAdminView extends simpleView
 {
     public function toString()
     {
+        $router = $this->toolkit->getRouter();
+
+        $this->smarty->assign('section_name', $this->httprequest->get('section_name', 'string', SC_PATH));
+        $this->smarty->assign('news', $this->DAO->getItems());
+        $this->smarty->assign('newsFolder', $this->DAO);
         return $this->smarty->fetch('news/admin.tpl');
     }
 }
