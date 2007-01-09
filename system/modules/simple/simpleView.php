@@ -65,13 +65,6 @@ abstract class simpleView
     protected $toolkit;
 
     /**
-     * Свойство указывает может ли результат работы модуля быть отображен для Ajax в виде XML
-     *
-     * @var boolean
-     */
-    protected $ajax = false;
-
-    /**
      * Конструктор
      *
      * Необходимые данные для отображения передаются в необязательном
@@ -87,7 +80,8 @@ abstract class simpleView
         }
         $this->httprequest = $this->toolkit->getRequest();
         $this->smarty = $this->toolkit->getSmarty();
-        if ($this->ajax && $this->httprequest->isAjax()) {
+
+        if ($this->toolkit->getRegistry()->get('isJip') && $this->httprequest->isAjax()) {
             $this->smarty->setActiveXmlTemplate('main.xml.tpl');
         }
         $this->response = $this->toolkit->getResponse();

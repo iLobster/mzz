@@ -216,23 +216,14 @@ function _each(values, iterator) {
 }
 
 
-function extractScripts(response, onlyLoadJs) {
+function extractScripts(response) {
     jsFragment = '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)';
     var matchAll = new RegExp(jsFragment, 'img');
     var matchOne = new RegExp(jsFragment, 'im');
 
-    if (true || !onlyLoadJs) {
-        return collect(response.match(matchAll) || [], function(scriptTag) {
-            return (scriptTag.match(matchOne) || ['', ''])[1];
-        });
-    } else {
-        var matchOnlyLoad = new RegExp(jsFragment, 'im');
-        return collect(response.match(matchAll) || [], function(scriptTag) { alert(scriptTag);
-            var matchOnlyLoadJS = new RegExp('((?!/\\*)loadJS\(.*\);?)+', 'img');
-            alert((scriptTag.match(matchOnlyLoadJS) || ['', ''])/*[1]*/);
-        });
-    }
-
+    return collect(response.match(matchAll) || [], function(scriptTag) {
+        return (scriptTag.match(matchOne) || ['', ''])[1];
+    });
 }
 
 
@@ -247,9 +238,8 @@ function extractScripts(response, onlyLoadJs) {
     }
 
 
-function evalScripts(response, onlyLoadJs) {
-    onlyLoadJs = onlyLoadJs || false;
-    return collect(extractScripts(response, onlyLoadJs), evalScript);
+function evalScripts(response) {
+    return collect(extractScripts(response), evalScript);
 }
 
 
@@ -283,8 +273,8 @@ var handleSuccess = function(o){
         // for JS
         var items = responseXML.getElementsByTagName('javascript');
         if (items) {
-            var cn = items.length
-            for (var i=0; i<cn; i++) {
+            var jsCount = items.length
+            for (var i=0; i<jsCount; i++) {
                 addJS(SITE_PATH + items[i].getAttribute('src'));
             }
         }
@@ -305,15 +295,17 @@ var handleSuccess = function(o){
                 }
             }
         } 
-        if (jsExecute != '') {
+        if (jsExecute != '' && jsCount > 0) {
             myJsLoader = new jsLoader();
             doOnLoad(function() {
-            try { eval(jsExecute); } catch(err) { alert('Inline script error '+err.name+ ': '+err.message); } });
+            evalScript(jsExecute); });
+        } else if (jsExecute != '') {
+            evalScript(jsExecute);
         }
 
 
         responseHtml = o.argument.div.innerHTML;
-        //evalScripts(o.argument.div.innerHTML, true);
+        evalScripts(o.argument.div.innerHTML);
     }
 }
 

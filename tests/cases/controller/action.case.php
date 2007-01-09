@@ -66,6 +66,15 @@ class actionTest extends unitTestCase
         $this->assertEqual($this->action->getJipActions('secondActions'), $jipActions);
     }
 
+    public function testIsJip()
+    {
+        $this->action->setAction('firstAction');
+        $this->assertFalse($this->action->isJip($this->action->getAction()));
+
+        $this->action->setAction('jipAction');
+        $this->assertTrue($this->action->isJip($this->action->getAction()));
+    }
+
     public function testActionGetJipActionsException()
     {
         try {

@@ -51,6 +51,10 @@ abstract class simpleFactory
     public function getController()
     {
         $action = $this->action->getAction();
+
+        $toolkit = systemToolkit::getInstance();
+        $toolkit->getRegistry()->set('isJip', $this->action->isJip($action));
+
         $classname = $this->name . ucfirst($action['controller']) . 'Controller';
         fileLoader::load($this->name . '/controllers/' . $classname);
         return new $classname();

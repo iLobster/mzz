@@ -137,7 +137,7 @@ class action
         }
 
         foreach ($actions[$type] as $key => $action) {
-            if (isset($action['jip']) && $action['jip'] == true) {
+            if ($this->isJip($action)) {
                 $jip_actions[$key] = array(
                 'controller' => $action['controller'],
                 'title' => (isset($action['title']) ? $action['title'] : null),
@@ -245,6 +245,18 @@ class action
     {
         return $this->type;
     }
+
+    /**
+     * возвращает true если у действия $action имеется атрибут jip = true
+     *
+     * @param array $action массив с данными о действии
+     * @return boolean
+     */
+    public function isJip(Array $action)
+    {
+        return isset($action['jip']) && $action['jip'] == true;
+    }
+
 }
 
 ?>

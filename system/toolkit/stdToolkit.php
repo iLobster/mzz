@@ -27,6 +27,7 @@ class stdToolkit extends toolkit
     * @var object
     */
     private $request;
+    private $registry;
     private $response;
     private $session;
     private $smarty;
@@ -69,6 +70,20 @@ class stdToolkit extends toolkit
             $this->request = new HttpRequest();
         }
         return $this->request;
+    }
+
+    /**
+     * Возвращает объект arrayDataspace
+     *
+     * @return arrayDataspace
+     */
+    public function getRegistry()
+    {
+        if (empty($this->registry)) {
+            fileLoader::load('dataspace/arrayDataspace');
+            $this->registry = new arrayDataspace();
+        }
+        return $this->registry;
     }
 
     /**
