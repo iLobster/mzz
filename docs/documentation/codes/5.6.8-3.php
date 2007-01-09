@@ -16,9 +16,9 @@ class commentsPostForm
         $form->addElement('textarea', 'text', 'Ваш комментарий', 'rows=7 cols=50');
 
         $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
+        $request = $toolkit->getRequest();
 
-        $form->addElement('hidden', 'url', $httprequest->get('REQUEST_URI', 'string', SC_SERVER));
+        $form->addElement('hidden', 'url', $request->get('REQUEST_URI', 'string', SC_SERVER));
 
         $form->addElement('reset', 'reset', 'Сброс');
         $form->addElement('submit', 'submit', 'Отправить');

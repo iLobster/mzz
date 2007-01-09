@@ -35,7 +35,6 @@ class userFilter implements iFilter
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
-        $httprequest = $toolkit->getRequest();
         $session = $toolkit->getSession();
 
         $user_id = $session->get('user_id');

@@ -25,7 +25,7 @@ class newsListView extends simpleView
     public function __construct($news)
     {
         parent::__construct($news);
-        $this->config = $this->toolkit->getConfig($this->httprequest->getSection(), 'news');
+        $this->config = $this->toolkit->getConfig($this->request->getSection(), 'news');
     }
 
     public function toString()
@@ -34,7 +34,7 @@ class newsListView extends simpleView
 
         $page = ($this->getPageFromRequest() > 0) ? $this->getPageFromRequest() : 1;
 
-        $pager = new pager($this->httprequest->getRequestUrl(), $page, $this->config->get('items_per_page'));
+        $pager = new pager($this->request->getRequestUrl(), $page, $this->config->get('items_per_page'));
 
         $this->DAO->setPager($pager);
         $this->smarty->assign('folderPath', $this->DAO->getPath());
@@ -51,7 +51,7 @@ class newsListView extends simpleView
 
     private function getPageFromRequest()
     {
-        return $this->httprequest->get('page', 'integer', SC_GET);
+        return $this->request->get('page', 'integer', SC_GET);
     }
 }
 

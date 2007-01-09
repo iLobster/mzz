@@ -55,7 +55,7 @@ abstract class simpleView
      *
      * @var iRequest
      */
-    protected $httprequest;
+    protected $request;
 
     /**
      * Îáúåêò systemToolkit
@@ -78,10 +78,10 @@ abstract class simpleView
         if(!is_null($DAO)) {
             $this->DAO = $DAO;
         }
-        $this->httprequest = $this->toolkit->getRequest();
+        $this->request = $this->toolkit->getRequest();
         $this->smarty = $this->toolkit->getSmarty();
 
-        if ($this->toolkit->getRegistry()->get('isJip') && $this->httprequest->isAjax()) {
+        if ($this->toolkit->getRegistry()->get('isJip') && $this->request->isAjax()) {
             $this->smarty->setActiveXmlTemplate('main.xml.tpl');
         }
         $this->response = $this->toolkit->getResponse();

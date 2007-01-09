@@ -36,8 +36,8 @@ class userAddToGroupView extends simpleView
     public function toString()
     {
         $url = new url();
-        $url->setSection($this->httprequest->getSection());
-        $url->addParam('id', $this->httprequest->get('id', 'integer', SC_PATH));
+        $url->setSection($this->request->getSection());
+        $url->addParam('id', $this->request->get('id', 'integer', SC_PATH));
         $url->setAction('addToGroupList');
 
         $this->smarty->assign('filter', $this->filter);
