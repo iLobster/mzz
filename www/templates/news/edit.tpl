@@ -1,6 +1,6 @@
 {add file="jscalendar/calendar.js"}{add file="jscalendar/calendar-ru.js"}{add file="jscalendar/calendar-setup.js"}
 
-<div class="jipTitle">
+<div id="jipTitle">
 <div class="jipMove">&nbsp;</div>
 Редактирование новости
 </div>
