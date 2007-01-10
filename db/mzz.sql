@@ -45,7 +45,7 @@ INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `fold
   (25,135,'asdfsdfg',2,1164000450,14),
   (29,141,'я',2,1164004456,15),
   (30,142,'',2,1164004458,15),
-  (31,143,'aqweфыв',2,1164004460,15),
+  (31,143,'aqweфывqfgggg',2,1164004460,15),
   (32,147,'aaaaaaaa',2,1164157623,17);
 
 COMMIT;
@@ -104,9 +104,9 @@ CREATE TABLE `news_news` (
 INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
   (2,48,'sadf',2,'asdqw3423aaaa',2,1161647727,1166393498),
   (3,50,'qweqwer',2,'dsff',3,1161647948,1161647948),
-  (4,66,'qweqwe',2,'234',2,1162960578,1163427143),
-  (5,136,'ggggggggg',2,'vvvvvvvvффф',2,1164001191,1164065994),
-  (6,153,'123',2,'qwe',2,1166054735,1166054735);
+  (4,66,'qweqwe1',2,'234',2,1162960578,1168314664),
+  (5,136,'ggggggggg',2,'vvvvvvvvффф',2,1164001191,1168314656),
+  (6,153,'123',2,'qwe',2,1166054735,1168307933);
 
 COMMIT;
 
@@ -133,7 +133,9 @@ CREATE TABLE `news_newsFolder` (
 
 INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (2,6,'root','/',1,'root'),
-  (3,49,'zzz','подкаталог',2,'root/zzz');
+  (3,49,'zzz','подкаталог',2,'root/zzz'),
+  (5,159,'one_more','zzz',4,'root/zzz/one_more'),
+  (6,160,'two','qqq',5,'root/zzz/two');
 
 COMMIT;
 
@@ -159,8 +161,10 @@ CREATE TABLE `news_newsFolder_tree` (
 #
 
 INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,4,1),
-  (2,2,3,2);
+  (1,1,8,1),
+  (2,2,7,2),
+  (4,3,4,3),
+  (5,5,6,3);
 
 COMMIT;
 
@@ -176,6 +180,7 @@ CREATE TABLE `page_page` (
   `name` varchar(255) NOT NULL default '',
   `title` varchar(255) NOT NULL default '',
   `content` text NOT NULL,
+  `folder_id` int(11) unsigned default NULL,
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -183,11 +188,63 @@ CREATE TABLE `page_page` (
 # Data for the `page_page` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`) VALUES 
-  (1,9,'main','Первая страница','Это первая, главная страница'),
-  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!'),
-  (3,11,'test','test','test'),
-  (4,57,'403','Доступ запрещён','Доступ запрещён');
+INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`) VALUES 
+  (1,9,'main','Первая страницаa','Это первая, главная страница',1),
+  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1),
+  (3,11,'test','test','test',1),
+  (4,57,'403','Доступ запрещён','Доступ запрещён',1);
+
+COMMIT;
+
+#
+# Structure for the `page_pageFolder` table : 
+#
+
+DROP TABLE IF EXISTS `page_pageFolder`;
+
+CREATE TABLE `page_pageFolder` (
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) unsigned NOT NULL default '0',
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `parent` int(11) default '0',
+  `path` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `page_pageFolder` table  (LIMIT 0,500)
+#
+
+INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+  (1,161,'root','/',1,'root');
+
+COMMIT;
+
+#
+# Structure for the `page_pageFolder_tree` table : 
+#
+
+DROP TABLE IF EXISTS `page_pageFolder_tree`;
+
+CREATE TABLE `page_pageFolder_tree` (
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `left_key` (`lkey`,`rkey`,`level`),
+  KEY `level` (`level`,`lkey`),
+  KEY `rkey` (`rkey`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+  (1,1,2,1);
 
 COMMIT;
 
@@ -631,15 +688,63 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1220,1,1,48,NULL,1,0,0),
   (1219,3,1,48,NULL,1,1,0),
   (1198,3,1,0,1,NULL,1,0),
+  (1309,8,2,159,NULL,1,0,0),
+  (1303,6,2,159,2,NULL,1,0),
+  (1321,5,2,160,NULL,1,1,0),
+  (1320,4,2,160,2,NULL,1,0),
+  (1308,7,2,159,2,NULL,1,0),
+  (1302,6,2,159,NULL,2,1,0),
+  (1319,4,2,160,2,NULL,1,0),
+  (1318,4,2,160,NULL,2,1,0),
+  (1307,7,2,159,2,NULL,1,0),
+  (1301,6,2,159,NULL,1,0,0),
+  (1317,4,2,160,NULL,1,0,0),
+  (1316,9,2,159,2,NULL,1,0),
+  (1306,7,2,159,NULL,2,0,0),
+  (1300,5,2,159,2,NULL,1,0),
+  (1315,9,2,159,2,NULL,1,0),
+  (1314,9,2,159,NULL,2,0,0),
+  (1305,7,2,159,NULL,1,0,0),
+  (1299,5,2,159,2,NULL,1,0),
+  (1313,9,2,159,NULL,1,0,0),
+  (1312,8,2,159,2,NULL,1,0),
+  (1304,6,2,159,2,NULL,1,0),
+  (1298,5,2,159,NULL,2,1,0),
+  (1311,8,2,159,2,NULL,1,0),
+  (1310,8,2,159,NULL,2,0,0),
   (1265,1,1,153,2,NULL,1,0),
-  (1266,1,1,153,1,NULL,0,0),
+  (1297,5,2,159,NULL,1,1,0),
   (1267,2,1,153,2,NULL,1,0),
-  (1268,2,1,153,1,NULL,0,0),
+  (1296,4,2,159,2,NULL,1,0),
   (1269,3,1,153,2,NULL,1,0),
-  (1270,3,1,153,1,NULL,1,0),
+  (1295,4,2,159,2,NULL,1,0),
   (1271,9,1,153,2,NULL,1,0),
-  (1272,9,1,153,1,NULL,0,0),
-  (1273,20,1,153,1,NULL,0,0);
+  (1294,4,2,159,NULL,2,1,0),
+  (1293,4,2,159,NULL,1,0,0),
+  (1325,6,2,160,NULL,1,0,0),
+  (1330,7,2,160,NULL,2,0,0),
+  (1324,5,2,160,2,NULL,1,0),
+  (1329,7,2,160,NULL,1,0,0),
+  (1323,5,2,160,2,NULL,1,0),
+  (1328,6,2,160,2,NULL,1,0),
+  (1322,5,2,160,NULL,2,1,0),
+  (1327,6,2,160,2,NULL,1,0),
+  (1326,6,2,160,NULL,2,1,0),
+  (1331,7,2,160,2,NULL,1,0),
+  (1332,7,2,160,2,NULL,1,0),
+  (1333,8,2,160,NULL,1,0,0),
+  (1334,8,2,160,NULL,2,0,0),
+  (1335,8,2,160,2,NULL,1,0),
+  (1336,8,2,160,2,NULL,1,0),
+  (1337,9,2,160,NULL,1,0,0),
+  (1338,9,2,160,NULL,2,0,0),
+  (1339,9,2,160,2,NULL,1,0),
+  (1340,9,2,160,2,NULL,1,0),
+  (1342,4,13,161,NULL,2,1,0),
+  (1343,5,13,161,NULL,2,1,0),
+  (1344,6,13,161,NULL,2,1,0),
+  (1345,7,13,161,NULL,2,1,0),
+  (1346,9,13,161,NULL,2,1,0);
 
 COMMIT;
 
@@ -718,7 +823,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (150,12),
   (151,12),
   (155,12),
-  (153,1);
+  (153,1),
+  (157,12),
+  (159,2),
+  (160,2),
+  (161,13);
 
 COMMIT;
 
@@ -850,7 +959,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (9,'admin',6),
   (10,'comments',8),
   (11,'commentsFolder',8),
-  (12,'userAuth',2);
+  (12,'userAuth',2),
+  (13,'pageFolder',4);
 
 COMMIT;
 
@@ -898,7 +1008,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (23,4,9),
   (24,6,3),
   (25,6,9),
-  (26,6,5),
+  (46,13,9),
   (27,6,4),
   (28,6,1),
   (29,6,2),
@@ -916,7 +1026,11 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (41,11,9),
   (42,9,20),
   (45,1,20),
-  (44,7,20);
+  (44,7,20),
+  (47,13,7),
+  (48,13,6),
+  (49,13,4),
+  (50,13,5);
 
 COMMIT;
 
@@ -951,7 +1065,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (9,9,7),
   (10,10,8),
   (11,11,8),
-  (12,12,2);
+  (12,12,2),
+  (13,13,4);
 
 COMMIT;
 
@@ -1138,7 +1253,13 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (152),
   (153),
   (154),
-  (155);
+  (155),
+  (156),
+  (157),
+  (158),
+  (159),
+  (160),
+  (161);
 
 COMMIT;
 
@@ -1176,7 +1297,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (95,'access_comments_commentsFolder'),
   (94,'access_comments_comments'),
   (122,'access_user_userAuth'),
-  (123,'access_comments_Array');
+  (123,'access_comments_Array'),
+  (158,'access_foo_foo');
 
 COMMIT;
 
@@ -1283,7 +1405,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (16,2,'127.0.0.10','cf86fbaa31ae0541760c738157ddad41',149,1164762973),
   (17,2,'127.0.0.10','231926d71b42299ad056586146d9fdc8',150,1165213689),
   (18,2,'127.0.0.1','23f7962e0e872c530f4e8af736633a87',151,1165448691),
-  (19,2,'127.0.0.1','87797ac73e4f640b4afc275d741d1204',155,1166160735);
+  (19,2,'127.0.0.1','87797ac73e4f640b4afc275d741d1204',155,1166160735),
+  (21,2,'127.0.0.1','d7077cea0a904e17ac64769455aca1c1',157,1167013306);
 
 COMMIT;
 

@@ -20,7 +20,6 @@
 fileLoader::load('db/dbTreeNS');
 fileLoader::load('news/newsFolder');
 
-
 class newsFolderMapper extends simpleMapper
 {
 
@@ -189,7 +188,6 @@ class newsFolderMapper extends simpleMapper
         $newsFolder = $this->searchByPath($args['name']);
         return (int)$newsFolder->getObjId();
     }
-
 }
 
 ?>

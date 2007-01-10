@@ -47,6 +47,17 @@ class pageMapper extends simpleMapper
     }
 
     /**
+     * Выполняет поиск объектов по идентификатору папки
+     *
+     * @param integer $id идентификатор папки
+     * @return array
+     */
+    public function searchByFolder($folder_id)
+    {
+        return $this->searchAllByField('folder_id', $folder_id);
+    }
+
+    /**
      * Выполняет поиск объекта по имени
      *
      * @param string $name имя
