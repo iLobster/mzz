@@ -52,9 +52,6 @@ OpacityEffect.prototype.wait = true;
 
 
 var last_jipmenu_id;
-var agt = navigator.userAgent.toLowerCase();
-var is_ie = (agt.indexOf("msie") != -1) && (agt.indexOf("opera") == -1);
-var is_gecko = navigator.product == "Gecko";
 var layertimer;
 
 var urlStack = new Array;
@@ -250,60 +247,63 @@ function evalScript(script) {
 
 
 var handleSuccess = function(o){
-    if(typeof o.responseText !== undefined){
-        urlStack.push([currentUrl]);
+    if(typeof(o.responseXML) != 'undefined' || typeof(o.responseText) != 'undefined'){
+        //urlStack.push([currentUrl]);
         o.argument.div.innerHTML = "<div class='jipClose'><img alt='Закрыть' class='jip' width='16' height='16' src='" + SITE_PATH + "/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
         if (o.argument.success == true) {
             o.argument.div.innerHTML += "<div class='jipSuccess'>Данные сохранены.</div>";
         }
-        responseXML = o.responseXML.documentElement;
-        // for html
-        var item = responseXML.getElementsByTagName('html')[0];
 
-        var tmp = '';
-        var cnodes = item.childNodes.length;
-        for (var i=0; i<cnodes; i++) {
-            if (item.childNodes[i].data != '') {
-                tmp += item.childNodes[i].data;
-            }
-        }
-        o.argument.div.innerHTML += tmp;
+        if (o.responseXML != null) {
+            responseXML = o.responseXML.documentElement;
+            // for HTML from XML
+            var item = responseXML.getElementsByTagName('html')[0];
 
-
-        // for JS
-        var items = responseXML.getElementsByTagName('javascript');
-        if (items) {
-            var jsCount = items.length
-            for (var i=0; i<jsCount; i++) {
-                addJS(SITE_PATH + items[i].getAttribute('src'));
-            }
-        }
-
-
-
-        // for inner JS
-        var items = responseXML.getElementsByTagName('execute');
-        if (items) {
-            var jsExecute = '';
-            var cn = items.length
-            for (var i=0; i<cn; i++) {
-                cn2 = items[i].childNodes.length;
-                for (var j=0; j < cn2; j++) {
-                    if (items[i].childNodes[j].data != '') {
-                        jsExecute += items[i].childNodes[j].data;
-                    }
+            var tmp = '';
+            var cnodes = item.childNodes.length;
+            for (var i=0; i<cnodes; i++) {
+                if (item.childNodes[i].data != '') {
+                    tmp += item.childNodes[i].data;
                 }
             }
-        } 
-        if (jsExecute != '' && jsCount > 0) {
-            myJsLoader = new jsLoader();
-            doOnLoad(function() {
-            evalScript(jsExecute); });
-        } else if (jsExecute != '') {
-            evalScript(jsExecute);
+            o.argument.div.innerHTML += tmp;
+
+
+            // for JS
+            var items = responseXML.getElementsByTagName('javascript');
+            if (items) {
+                var jsCount = items.length
+                for (var i=0; i<jsCount; i++) {
+                    addJS(SITE_PATH + items[i].getAttribute('src'));
+                }
+            }
+
+
+
+            // for inner JS
+            var items = responseXML.getElementsByTagName('execute');
+            if (items) {
+                var jsExecute = '';
+                var cn = items.length
+                for (var i=0; i<cn; i++) {
+                    cn2 = items[i].childNodes.length;
+                    for (var j=0; j < cn2; j++) {
+                        if (items[i].childNodes[j].data != '') {
+                            jsExecute += items[i].childNodes[j].data;
+                        }
+                    }
+                }
+            } 
+            if (jsExecute != '' && jsCount > 0) {
+                myJsLoader = new jsLoader();
+                doOnLoad(function() {
+                evalScript(jsExecute); });
+            } else if (jsExecute != '') {
+                evalScript(jsExecute);
+            }
+        } else {
+            o.argument.div.innerHTML += o.responseText;
         }
-
-
         responseHtml = o.argument.div.innerHTML;
         evalScripts(o.argument.div.innerHTML);
     }
@@ -385,10 +385,12 @@ function showJip(url, success)
     //doMoveMask();
     if (document.getElementById('jip')) {
         doMoveMask();
-        document.getElementById('blockContent').style.display = 'block';
+        if (document.getElementById('blockContent').style.display != 'block') {
+            document.getElementById('blockContent').style.display = 'block';
 
-        blockOpacityEffect = new OpacityEffect;
-        blockOpacityEffect.custom(document.getElementById('blockContent'), 0, 0.8);
+            blockOpacityEffect = new OpacityEffect;
+            blockOpacityEffect.custom(document.getElementById('blockContent'), 0, 0.8);
+        }
 
 
         document.getElementById('jip').style.display = 'block';
@@ -398,6 +400,7 @@ function showJip(url, success)
 
         var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), success:success }};
         currentUrl = url;
+        urlStack.push([currentUrl]);
         var request = YAHOO.util.Connect.asyncRequest('GET', url + '&ajax=1', callback);
 
         document.getElementById('jip').style.left  = document.getElementById('jip').offsetLeft + 'px';
@@ -432,15 +435,11 @@ function sendFormInAjax(form, elementId)
 
 function hideJip(windows, success)
 {
-    if(success === undefined){
-        success = false;
-    }
-    if(windows == undefined){
-        windows = 1;
-    }
-    if(document.getElementById('jip')) {
+    success = success || undefined;
+    windows = windows || 1;
 
-        if (urlStack.length > 0) {
+    if(document.getElementById('jip')) {
+        if (urlStack.length > 0) { 
             for (i = 0; i < windows - 1 ; i++) {
                 urlFromStack = urlStack.pop();
             }
@@ -471,7 +470,7 @@ function hideJip(windows, success)
 
 function cleanJip()
 {
-    document.getElementById('jip').innerHTML = 'Загрузка данных. Подождите... <br /> <input type="button" value="Закрыть" onClick="hideJip()">';
+    document.getElementById('jip').innerHTML = '<p align=center><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" align="texttop"><span id="jipLoad">Загрузка данных... (<a href="javascript: hideJip(); void(0);">отмена</a>)</span></p>';
 }
 
 function cleanSubJip(elementId)

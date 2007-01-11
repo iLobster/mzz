@@ -2,10 +2,8 @@
 
 <div id="jipTitle">
 <div class="jipMove">&nbsp;</div>
-Редактирование новости
+{if $action eq 'edit'}Редактирование новости{else}Создание новости{/if}
 </div>
-
-
 
 
 <form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">

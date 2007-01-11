@@ -20,10 +20,12 @@
 class newsCreateFolderView extends simpleView
 {
     private $form;
+    private $action;
 
-    public function __construct($newsFolder, $form)
+    public function __construct($newsFolder, $form, $action)
     {
         $this->form = $form;
+        $this->action = $action;
         parent::__construct($newsFolder);
     }
 
@@ -33,8 +35,11 @@ class newsCreateFolderView extends simpleView
         $this->form->accept($renderer);
 
         $this->smarty->assign('form', $renderer->toArray());
+        $this->smarty->assign('action', $this->action);
 
-        $this->response->setTitle('Новости -> Создание папки');
+        $title = $this->action == 'edit' ? 'Редактирование папки -> ' . $this->DAO->getTitle() : 'Создание папки';
+        $this->response->setTitle('Новости -> ' . $title);
+
         return $this->smarty->fetch('news/createFolder.tpl');
     }
 }

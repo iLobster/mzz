@@ -39,7 +39,7 @@ class newsCreateFolderController extends simpleController
             $form = newsCreateFolderForm::getForm($path, $newsFolderMapper, $action, $targetFolder);
 
             if ($form->validate() == false) {
-                $view = new newsCreateFolderView($targetFolder, $form);
+                $view = new newsCreateFolderView($targetFolder, $form, $action);
             } else {
                 $values = $form->exportValues();
 

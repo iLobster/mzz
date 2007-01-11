@@ -47,6 +47,12 @@ div.jipSuccess {
     color: #555;
 }
 
+#jipLoad {
+    font-family: tahoma, verdana, arial;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
 .jipMove {
     background-position: left center;
     width: 10px;

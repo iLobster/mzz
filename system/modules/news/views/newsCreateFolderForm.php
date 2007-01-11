@@ -58,7 +58,7 @@ class newsCreateFolderForm
 
         $form->addRule('name', 'имя должно быть уникально в пределах каталога и содержать латинские буквы и цифры', 'isUniqueName', array($folder, $newsFolderMapper));
 
-        $form->addElement('reset', 'reset', 'Сброс');
+        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: hideJip();"');
         $form->addElement('submit', 'submit', 'Сохранить');
 
         return $form;

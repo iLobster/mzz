@@ -1,9 +1,10 @@
-var Imported = new Array;
 var agt = navigator.userAgent.toLowerCase();
 var is_ie = (agt.indexOf("msie") != -1) && (agt.indexOf("opera") == -1);
+var is_gecko = navigator.product == "Gecko";
+
+var Imported = new Array;
 
 function addJS(src) {
-src = src + '?' + Number(new Date);
   if(typeof(Imported[src]) != 'undefined') {
       return;
   }
@@ -25,23 +26,15 @@ function jsLoader() {
   this.checkScriptsLoaded=function() {
     if (document.readyState!=null) { 
 
-        while(this.loadingScripts.length>0 &&
-
-(typeof(this.loadingScripts[0]) == 'string' || this.loadingScripts[0].readyState=="loaded"
+        while(this.loadingScripts.length>0 && (typeof(this.loadingScripts[0]) == 'string' 
+                     || this.loadingScripts[0].readyState=="loaded"
                      ||this.loadingScripts[0].readyState=="complete"
-                     ||this.loadingScripts[0].readyState==null)
-
-) {
+                     ||this.loadingScripts[0].readyState==null)) {
             if (typeof(this.loadingScripts[0]) == 'string') { 
                 this.loadingScripts[0] = this.createScriptElement(this.loadingScripts[0]);
             } else {
                this.loadingScripts.shift(); 
             }
-          //  if (this.loadingScripts[0].readyState=="loaded"
-          //           ||this.loadingScripts[0].readyState=="complete"
-          //           ||this.loadingScripts[0].readyState==null) {
-          ///else {      this.loadingScripts.shift(); }
-          //  }
         }
         if (this.loadingScripts.length==0) {
             this.setLoadState(this.loadState+1);
@@ -66,10 +59,6 @@ function jsLoader() {
       case JS_LOAD_END:
         if(document.readyState){
           var JS_LOADED_END = true;
-         // if(typeof MapBuilder_Release == "boolean") {
-         //   this.setLoadState(MB_LOADED);
-         //   return;
-         // }
         }else{
           this.setLoadState(JS_LOADED);
         }

@@ -32,7 +32,7 @@ class simpleJipRefreshView extends simpleView
         } else {
             $html .= 'window.location = window.location;';
         }
-        $html .= '</script> Обновление главного окна...';
+        $html .= '</script><p align="center"><span id="jipLoad">Обновление главного окна...</span></p>';
         return $html;
     }
 

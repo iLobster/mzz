@@ -1,21 +1,25 @@
+<div id="jipTitle">
+<div class="jipMove">&nbsp;</div>
+{if $action eq 'createFolder'}Создание папки{else}Редактирование папки{/if}
+</div>
+
 <form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
 {$form.hidden}
-<table border="0" cellpadding="0" cellspacing="1" width="50%">
+<table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>
-        <td colspan="2">{$form.label.label} {$form.label.html}</td>
+        <td style='width: 15%;'>{$form.label.label}</td>
+        <td style='width: 85%;'>{$form.label.html}</td>
     </tr>
     <tr>
-        <td colspan="2">{$form.name.label} {$form.name.html}{$form.name.error}</td>
+        <td>{$form.name.label}</td>
+        <td>{$form.name.html} {$form.name.error}</td>
     </tr>
     <tr>
-        <td colspan="2">{$form.title.label} {$form.title.html}{$form.title.error}</td>
+        <td>{$form.title.label}</td>
+        <td>{$form.title.html} {$form.title.error}</td>
     </tr>
     <tr>
-        <td>{$form.submit.html}</td>
-        <td>{$form.reset.html}</td>
-    </tr>
-    <tr>
-        <td colspan="3"><a href="{url section=news action=list}"><img src="{$SITE_PATH}/templates/images/back.gif" width="16" height="16" /></a></td>
+        <td colspan=2>{$form.submit.html} {$form.reset.html}</td>
     </tr>
 </table>
 </form>

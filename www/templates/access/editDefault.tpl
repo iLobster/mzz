@@ -1,6 +1,9 @@
 {add file="popup.js"}
 {add file="confirm.js"}
+<div id="jipTitle">
+<div class="jipMove">&nbsp;</div>
 Права по умолчанию. Раздел: <b>{$section}</b>, класс: <b>{$class}</b>.
+</div>
 <br /><br />
 Пользователи
 <table border="0" width="100%" cellpadding="0" cellspacing="1">
