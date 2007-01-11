@@ -27,7 +27,7 @@ class newsEditController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
-        $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
+        $newsMapper = $this->toolkit->getMapper('news', 'news');
 
         $id = $this->request->get('id', 'integer', SC_PATH);
 
@@ -42,7 +42,7 @@ class newsEditController extends simpleController
         $news = $newsMapper->searchById($id);
 
         $action = $this->request->getAction();
-        if (!empty($news) || ($action == 'createItem' && isset($newsFolder) && !is_null($newsFolder))) {
+        if (!empty($news) || ($action == 'create' && isset($newsFolder) && !is_null($newsFolder))) {
             $form = newsEditForm::getForm($news, $this->request->getSection(), $action, $newsFolder);
 
             if ($form->validate() == false) {
@@ -52,7 +52,7 @@ class newsEditController extends simpleController
                 $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());
                 $folder = $newsFolderMapper->searchByPath($this->request->get('name', 'string', SC_PATH));
 
-                if ($action == 'createItem') {
+                if ($action == 'create') {
                     $news = $newsMapper->create();
                     $news->setFolder($folder->getId());
                 }
