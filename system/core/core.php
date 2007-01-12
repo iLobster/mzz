@@ -28,7 +28,7 @@ class core
      *
      * @var object
      */
-    private $toolkit;
+    protected $toolkit;
 
     /**
      * запуск приложения
