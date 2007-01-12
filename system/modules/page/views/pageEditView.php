@@ -28,6 +28,7 @@ class pageEditView extends simpleView
         $this->action = $action;
         parent::__construct($page);
     }
+
     public function toString()
     {
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
@@ -41,7 +42,6 @@ class pageEditView extends simpleView
         $this->response->setTitle('Страницы -> ' . $title);
         return $this->smarty->fetch('page/edit.tpl');
     }
-
 }
 
 ?>

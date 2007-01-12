@@ -20,6 +20,8 @@
 
 class page extends simple
 {
+    protected $name = 'page';
+
     /**
      * Получение объекта JIP
      *
@@ -27,7 +29,7 @@ class page extends simple
      */
     public function getJip()
     {
-        return parent::getJipView('page', $this->getName(), 'page');
+        return $this->getJipView($this->name, $this->getFolder()->getPath() . '/' . $this->getName(), get_class($this));
     }
 }
 

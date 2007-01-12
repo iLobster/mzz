@@ -73,7 +73,24 @@ class pageMapper extends simpleMapper
         if (isset($args['id']) && !isset($args['name'])) {
             $args['name'] = $args['id'];
         }
-        $page = $this->searchOneByField('name', $args['name']);
+
+        if (strpos($args['name'], '/') !== false) {
+            $toolkit = systemToolkit::getInstance();
+            $pageFolderMapper = $toolkit->getMapper('page', 'pageFolder');
+
+            $folder = substr($args['name'], 0, strrpos($args['name'], '/'));
+            $pagename = substr(strrchr($args['name'], '/'), 1);
+
+            $pageFolder = $pageFolderMapper->searchByPath($folder);
+
+            $criteria = new criteria();
+            $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
+            $page = $this->searchOneByCriteria($criteria);
+        }
+
+        if (!isset($page)) {
+            $page = $this->searchOneByField('name', $args['name']);
+        }
         return (int)$page->getObjId();
     }
 }

@@ -23,22 +23,32 @@ fileLoader::load("page/mappers/pageMapper");
 
 class pageEditController extends simpleController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getView()
     {
-        $pageMapper = $this->toolkit->getMapper('page', 'page', $this->request->getSection());
+        $pageMapper = $this->toolkit->getMapper('page', 'page');
 
         $name = $this->request->get('name', 'string', SC_PATH);
-        $page = $pageMapper->searchByName($name);
+
+        if (strpos($name, '/') !== false) {
+            $folder = substr($name, 0, strrpos($name, '/'));
+            $pagename = substr(strrchr($name, '/'), 1);
+        } else {
+            $pagename = $name;
+        }
+
+        $page = $pageMapper->searchByName($pagename);
 
         $action = $this->request->getAction();
 
+        if ($action == 'create') {
+            $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+            $pageFolder = $pageFolderMapper->searchByPath($name);
+        } else {
+            $pageFolder = $page->getFolder();
+        }
+
         if (!empty($page) || $action == 'create') {
-            $form = pageEditForm::getForm($page, $this->request->getSection(), $action, $pageMapper);
+            $form = pageEditForm::getForm($page, $this->request->getSection(), $action, $pageFolder);
 
             if ($form->validate() == false) {
                 $view = new pageEditView($page, $form, $action);
@@ -50,6 +60,7 @@ class pageEditController extends simpleController
                 $page->setName($values['name']);
                 $page->setTitle($values['title']);
                 $page->setContent($values['content']);
+                $page->setFolder($pageFolder);
                 $pageMapper->save($page);
                 $view = new simpleJipRefreshView();
             }

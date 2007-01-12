@@ -25,15 +25,15 @@ class pageEditForm
      * @param object $page объект page
      * @param string $section текущая секция
      * @param string $action текущее действие
-     * @param object $pageMapper
+     * @param object $pageFolder
      * @return object сгенерированная форма
      */
-    static function getForm($page, $section, $action, $pageMapper)
+    static function getForm($page, $section, $action, $pageFolder)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $formAction = '/' . $section . ($action == 'edit' ? '/' . $page->getName() : '') . '/' . $action;
+        $formAction = '/' . $section . '/' . $pageFolder->getPath() . ($action == 'edit' ? '/' . $page->getName() : '') . '/' . $action;
         $form = new HTML_QuickForm('form', 'POST', $formAction);
 
         if ($action == 'edit') {
@@ -48,10 +48,47 @@ class pageEditForm
         $form->addElement('text', 'title', 'Заголовок:', 'size=30');
         $form->addElement('textarea', 'content', 'Содержание:', 'rows=7 cols=50');
 
+        if ($action == 'edit') {
+            $form->registerRule('isUniqueName', 'callback', 'editPageValidate');
+        } else {
+            $form->registerRule('isUniqueName', 'callback', 'createPageValidate');
+        }
+
+        $form->addRule('name', 'имя страницы должно быть уникально в пределах каталога и содержать латинские буквы и цифры', 'isUniqueName', array($page, $pageFolder));
+
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: hideJip();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }
+}
+
+function createPageValidate($name, $data)
+{
+    if (preg_match('/[^a-z0-9_\-]/i', $name)) {
+        return false;
+    }
+
+    $toolkit = systemToolkit::getInstance();
+    $pageMapper = $toolkit->getMapper('page', 'page');
+
+    $criteria = new criteria();
+    $criteria->add('name', $name)->add('folder_id', $data[1]->getId());
+    return is_null($pageMapper->searchOneByCriteria($criteria));
+}
+
+function editPageValidate($name, $data)
+{
+    if (preg_match('/[^a-z0-9_\-]/i', $name)) {
+        return false;
+    }
+
+    $toolkit = systemToolkit::getInstance();
+    $pageMapper = $toolkit->getMapper('page', 'page');
+
+    $criteria = new criteria();
+    $criteria->add('name', $name)->add('folder_id', $data[1]->getId());
+
+    return $data[0]->getName() == $name || is_null($pageMapper->searchOneByCriteria($criteria));
 }
 
 ?>

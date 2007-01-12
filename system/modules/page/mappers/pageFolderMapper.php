@@ -122,6 +122,10 @@ class pageFolderMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
+        if (!isset($args['name'])) {
+            $args['name'] = 'root';
+        }
+
         $pageFolder = $this->searchByPath($args['name']);
         return (int)$pageFolder->getObjId();
     }

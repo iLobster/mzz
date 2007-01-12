@@ -218,7 +218,8 @@ CREATE TABLE `page_pageFolder` (
 #
 
 INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
-  (1,161,'root','/',1,'root');
+  (1,161,'root','/',1,'root'),
+  (2,163,'foo','foo',2,'root/foo');
 
 COMMIT;
 
@@ -244,7 +245,8 @@ CREATE TABLE `page_pageFolder_tree` (
 #
 
 INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,2,1);
+  (1,1,4,1),
+  (2,2,3,2);
 
 COMMIT;
 
@@ -744,7 +746,27 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1343,5,13,161,NULL,2,1,0),
   (1344,6,13,161,NULL,2,1,0),
   (1345,7,13,161,NULL,2,1,0),
-  (1346,9,13,161,NULL,2,1,0);
+  (1346,9,13,161,NULL,2,1,0),
+  (1347,4,13,0,0,NULL,1,0),
+  (1348,5,13,0,0,NULL,1,0),
+  (1349,6,13,0,0,NULL,1,0),
+  (1350,7,13,0,0,NULL,1,0),
+  (1351,9,13,0,0,NULL,1,0),
+  (1352,4,13,0,NULL,2,1,0),
+  (1353,5,13,0,NULL,2,1,0),
+  (1354,6,13,0,NULL,2,1,0),
+  (1355,7,13,0,NULL,2,1,0),
+  (1356,9,13,0,NULL,2,1,0),
+  (1357,9,13,163,NULL,2,1,0),
+  (1358,9,13,163,2,NULL,1,0),
+  (1359,7,13,163,NULL,2,1,0),
+  (1360,7,13,163,2,NULL,1,0),
+  (1361,6,13,163,NULL,2,1,0),
+  (1362,6,13,163,2,NULL,1,0),
+  (1363,4,13,163,NULL,2,1,0),
+  (1364,4,13,163,2,NULL,1,0),
+  (1365,5,13,163,NULL,2,1,0),
+  (1366,5,13,163,2,NULL,1,0);
 
 COMMIT;
 
@@ -827,7 +849,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (157,12),
   (159,2),
   (160,2),
-  (161,13);
+  (161,13),
+  (162,7),
+  (163,13);
 
 COMMIT;
 
@@ -1259,7 +1283,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (158),
   (159),
   (160),
-  (161);
+  (161),
+  (162),
+  (163);
 
 COMMIT;
 
@@ -1298,7 +1324,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (94,'access_comments_comments'),
   (122,'access_user_userAuth'),
   (123,'access_comments_Array'),
-  (158,'access_foo_foo');
+  (158,'access_foo_foo'),
+  (162,'access_page_pageFolder');
 
 COMMIT;
 

@@ -31,14 +31,27 @@ class pageViewController extends simpleController
     {
         $section = $this->request->getSection();
 
-        $pageMapper = $this->toolkit->getMapper('page', 'page', $this->request->getSection());
+        $pageMapper = $this->toolkit->getMapper('page', 'page');
 
         if (($name = $this->request->get('name', 'string', SC_PATH)) == false) {
             if (($name = $this->request->get('id', 'string', SC_PATH)) == false) {
                 $name = 'main';
             }
         }
-        $page = $pageMapper->searchByName($name);
+
+        if (strpos($name, '/') !== false) {
+            $folder = substr($name, 0, strrpos($name, '/'));
+            $pagename = substr(strrchr($name, '/'), 1);
+
+            $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+            $pageFolder = $pageFolderMapper->searchByPath($folder);
+
+            $criteria = new criteria();
+            $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
+            $page = $pageMapper->searchOneByCriteria($criteria);
+        } else {
+            $page = $pageMapper->searchByName($name);
+        }
 
         if ($page) {
             return new pageViewView($page);

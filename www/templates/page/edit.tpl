@@ -1,7 +1,8 @@
 <form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
+{$form.hidden}
 <table border="0" cellpadding="0" cellspacing="1" width="50%">
     <tr>
-        <td>{$form.name.label} {$form.name.html}</td>
+        <td>{$form.name.label} {$form.name.html}{$form.name.error}</td>
         <td>{$form.title.label} {$form.title.html}</td>
     </tr>
     <tr>
