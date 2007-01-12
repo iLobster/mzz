@@ -22,7 +22,7 @@ class actionTest extends unitTestCase
     public function testActionSetAndGet()
     {
         $this->action->setAction('firstAction');
-        $this->assertEqual($this->action->getAction(), array("controller" => "firstController"));
+        $this->assertEqual($this->action->getAction(), array("controller" => "firstController", "alias" => "jipAction"));
 
         $this->action->setAction('secondAction');
         $this->assertEqual($this->action->getAction(), array("controller" => "secondController"));
@@ -84,6 +84,13 @@ class actionTest extends unitTestCase
             $this->assertPattern("/Тип \"_unknown_type_\" у модуля/i", $e->getMessage());
             $this->pass();
         }
+    }
+
+    public function testGetActionName()
+    {
+        $this->action->setAction('firstAction');
+        $this->assertEqual($this->action->getActionName(), 'firstAction');
+        $this->assertEqual($this->action->getActionName(true), 'jipAction');
     }
 }
 ?>

@@ -50,7 +50,7 @@ class accessEditOwnerController extends simpleController
             return new simpleJipCloseView(2);
         }
 
-        return new accessEditOwnerView($acl, array_keys($actions), $class, $section);
+        return new accessEditOwnerView($acl, $actions, $class, $section);
     }
 }
 

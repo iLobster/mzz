@@ -114,8 +114,11 @@ class action
      *
      * @return string
      */
-    public function getActionName()
+    public function getActionName($getAlias = false)
     {
+        if ($getAlias && isset($this->actions[$this->type][$this->action]['alias'])) {
+            return $this->actions[$this->type][$this->action]['alias'];
+        }
         return $this->action;
     }
 
