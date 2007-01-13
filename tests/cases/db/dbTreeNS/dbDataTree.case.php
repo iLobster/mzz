@@ -1,6 +1,5 @@
 <?php
 
-fileLoader::load('modules/simple/simpleMapper');
 fileLoader::load('db/dbTreeNS');
 fileLoader::load('db/sqlFunction');
 fileLoader::load('db/simpleSelect');

@@ -1,7 +1,5 @@
 <?php
 
-fileLoader::load('resolver/moduleResolver');
-
 mock::generate('sysFileResolver');
 
 class casesFileResolverTest extends UnitTestCase

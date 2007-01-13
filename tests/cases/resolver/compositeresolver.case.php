@@ -1,8 +1,6 @@
 <?php
 
-//fileLoader::load('resolver/testcasefileresolver');??????????
 fileLoader::load('cases/resolver/testCaseFileResolver');
-fileLoader::load('resolver/compositeResolver');
 
 mock::generate('testCaseFileResolver');
 

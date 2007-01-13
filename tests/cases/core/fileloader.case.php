@@ -1,15 +1,15 @@
 <?php
 
-fileLoader::load('cases/resolver/testCaseFileResolver');
+fileLoader::load('cases/core/testCoreCaseFileResolver');
 
-mock::generate('testCaseFileResolver');
+mock::generate('testCoreCaseFileResolver');
 
 class fileLoaderTest extends unitTestCase
 {
     public $resolver;
     public function setUp()
     {
-        $this->resolver = new mockTestCaseFileResolver();
+        $this->resolver = new mocktestCoreCaseFileResolver();
         $this->resolver->expectOnce('resolve', array('core/someclassStub'));
         $this->resolver->setReturnValue('resolve', TEST_PATH . '/cases/core/someclassStub.php');
         fileLoader::setResolver($this->resolver);

@@ -9,6 +9,7 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
 /**
  * timerViewView: вид для метода view модуля timer
  *
@@ -16,9 +17,6 @@
  * @subpackage timer
  * @version 0.1
  */
-
-fileLoader::load('simple/simpleView');
-
 class timerViewView extends simpleView
 {
     public function toString()

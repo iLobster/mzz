@@ -1,7 +1,5 @@
 <?php
 
-fileLoader::load('resolver/sysFileResolver');
-
 class sysFileResolverTest extends UnitTestCase
 {
     public $resolver;

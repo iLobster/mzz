@@ -11,7 +11,6 @@
 //
 
 fileLoader::load('jip/jip');
-fileLoader::load('dataspace/arrayDataspace');
 
 /**
  * simple: реализация общих методов

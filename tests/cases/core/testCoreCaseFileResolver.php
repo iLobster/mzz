@@ -1,12 +1,10 @@
 <?php
 
-class testCaseFileResolver extends fileResolver
+class testCoreCaseFileResolver extends fileResolver
 {
     public function __construct($pattern='')
     {
         parent::__construct('./cases/*.case.php');
-    }
-    public function foo() {
     }
 }
 

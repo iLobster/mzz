@@ -80,7 +80,6 @@ class stdToolkit extends toolkit
     public function getRegistry()
     {
         if (empty($this->registry)) {
-            fileLoader::load('dataspace/arrayDataspace');
             $this->registry = new arrayDataspace();
         }
         return $this->registry;

@@ -98,8 +98,9 @@ class core
     {
         fileLoader::load('exceptions/init');
         $dispatcher = new errorDispatcher();
-        fileLoader::load('request/httpResponse');
         fileLoader::load('request/url');
+
+        fileLoader::load('dataspace/arrayDataspace');
 
         fileLoader::load('simple');
         fileLoader::load('simple/simpleMapper');
@@ -115,7 +116,6 @@ class core
         fileLoader::load('controller/frontController');
 
         fileLoader::load('db/DB');
-        fileLoader::load('dataspace/arrayDataspace');
 
         fileLoader::load('iterators/mzzIniFilterIterator');
 

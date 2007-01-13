@@ -10,10 +10,6 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-
-fileLoader::load('dataspace/arrayDataspace');
-fileLoader::load('simple/simple');
-
 class simpleForTree extends simple
 {
     /**

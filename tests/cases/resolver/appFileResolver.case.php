@@ -1,7 +1,5 @@
 <?php
 
-fileLoader::load('resolver/appFileResolver');
-
 class appFileResolverTest extends UnitTestCase
 {
     public $resolver;

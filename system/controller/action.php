@@ -10,8 +10,6 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
-fileLoader::load('iterators/mzzIniFilterIterator');
-
 /**
  * action: класс для работы с actions (действиями модуля)
  *

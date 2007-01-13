@@ -82,18 +82,18 @@ class fileLoader
     /**
      * загрузка файла
      *
-     * @param string $file путь до подключаемого файла
-     * @return boolean true - если файл загружен; false - в противном случае
+     * @param string $file имя для подключаемого файла. Абсолютный путь будет автоматически определен с помощью Resolver-ОВ
+     * @return boolean true - если файл уже был загружен
      */
     public static function load($file)
     {
         if (!isset(self::$files[$file])) {
             $filename = self::resolve($file);
             self::$files[$file] = 1;
-            require_once $filename;
+            // require_once не использовано из-за ее медленности
+            require $filename;
         }
         return true;
     }
 }
-
 ?>
