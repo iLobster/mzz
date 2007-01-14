@@ -25,8 +25,7 @@
 </table>
 </form>
 
-{javascript}
-{literal}
+{javascript}{literal}
     tinyMCE.init({
         theme : "advanced",
         mode : "exact",
@@ -42,26 +41,16 @@
         theme_advanced_toolbar_location : "top",
         theme_advanced_toolbar_align : "left",
         theme_advanced_path_location : "bottom",
-            plugin_insertdate_dateFormat : "%Y-%m-%d",
-            plugin_insertdate_timeFormat : "%H:%M:%S",
+        plugin_insertdate_dateFormat : "%Y-%m-%d",
+        plugin_insertdate_timeFormat : "%H:%M:%S",
         extended_valid_elements : "hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
         external_link_list_url : "example_link_list.js",
         external_image_list_url : "example_image_list.js",
         flash_external_list_url : "example_flash_list.js",
         media_external_list_url : "example_media_list.js",
-        file_browser_callback : "fileBrowserCallBack",
         theme_advanced_resize_horizontal : false,
         theme_advanced_resizing : true,
         nonbreaking_force_tab : true,
         apply_source_formatting : true
     });
-
-    function fileBrowserCallBack(field_name, url, type, win) {
-        // This is where you insert your custom filebrowser logic
-        alert("Example of filebrowser callback: field_name: " + field_name + ", url: " + url + ", type: " + type);
-
-        // Insert new URL, this would normaly be done in a popup
-        win.document.forms[0].elements[field_name].value = "someurl.htm";
-    }
-{/literal}
-{/javascript}
+{/literal}{/javascript}

@@ -1,3 +1,4 @@
+{add file="news.css"}
 {include file="news/tree.tpl" source=$newsFolder}
 
 <div class="newsList">

@@ -1,0 +1,39 @@
+#newsFolders {
+ line-height: 170%;
+ float: left;
+ width: 170px;
+ margin-top: 30px;
+ margin-left: 8px;
+ padding: 8px;
+ background-color: #F3F5F5;
+ border-right: 1px solid #E0E4E4;
+ border-bottom: 1px solid #E0E4E4;
+}
+
+#newsFolders .title {
+ font-size: 120%;
+}
+
+.news_title {
+ font-size: 100%;
+ line-height: 200%;
+ font-weight: bold;
+}
+
+.news_info {
+ color: #7C7C7C;
+ font-size: 80%;
+ line-height: 100%;
+ margin-bottom: 8px;
+}
+
+.news_text {
+ font-size: 100%;
+ line-height: 140%;
+ margin-bottom: 20px;
+
+}
+
+.newsList {
+ margin-left: 220px;
+}

@@ -1,5 +1,5 @@
+{add file="news.css"}
 {include file="news/tree.tpl" source=$news->getFolder()}
-
 <div class="newsList">
 
 <div class="news_title">{$news->getTitle()}{$news->getJip()}</div>
