@@ -1,10 +1,22 @@
+// Detect browser
+var uagt = navigator.userAgent;
+var isMSIE = (navigator.appName == "Microsoft Internet Explorer");
+var isMSIE5 = this.isMSIE && (uagt.indexOf('MSIE 5') != -1);
+var isMSIE5_0 = this.isMSIE && (uagt.indexOf('MSIE 5.0') != -1);
+var isMSIE7 = this.isMSIE && (uagt.indexOf('MSIE 7') != -1);
+var isGecko = uagt.indexOf('Gecko') != -1;
+var isSafari = uagt.indexOf('Safari') != -1;
+var isOpera = uagt.indexOf('Opera') != -1;
+var isMac = uagt.indexOf('Mac') != -1;
+var isNS7 = uagt.indexOf('Netscape/7') != -1;
+var isNS71 = uagt.indexOf('Netscape/7.1') != -1;
 
+// Opacity effect for locking main content
 var OpacityEffect= function(){};
-
 OpacityEffect.prototype = {
 	step: function(){
 		var time = new Date().getTime();
-		if (time < this.time + 500){
+		if (time < this.time + 500) {
 			this.cTime = time - this.time;
 			this.setNow();
 		} else {
@@ -14,9 +26,9 @@ OpacityEffect.prototype = {
 		this.increase();
 	},
 	increase: function(){
-                if (this.now == 0) {
-                    this.element.style.display = 'none';
-                }
+        if (this.now == 0) {
+            this.element.style.display = 'none';
+        }
 		if (window.ActiveXObject) this.element.style.filter = "alpha(opacity=" + this.now*100 + ")";
 		this.element.style.opacity = this.now;
 	},
@@ -31,7 +43,7 @@ OpacityEffect.prototype = {
 		if (this.timer) return;
 		this.from = from;
 		this.to = to;
-                this.element = element;
+        this.element = element;
 		this.time = new Date().getTime();
 		this.timer = this.periodical(Math.round(1000/50), this);
 		return this;
@@ -41,13 +53,12 @@ OpacityEffect.prototype = {
 		return setInterval(function(){ return fn.apply(bind, arguments);}, ms);
 	},
 	clearTimer: function(){
-	        clearTimeout(this.timer);
-	        clearInterval(this.timer);
-                this.timer = false;
+	    clearTimeout(this.timer);
+	    clearInterval(this.timer);
+        this.timer = false;
 		return this;
 	}
 };
-
 OpacityEffect.prototype.wait = true;
 
 
@@ -65,46 +76,6 @@ var jipButton;
 var $break    = new Object();
 var $continue = new Object();
 
-function getInnerX(){
-return window.pageXOffset||document.documentElement.scrollLeft||document.body.scrollLeft||0;
-}
-
-function getInnerY(){
-return window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop||0;
-}
-
-function getInnerWidth(){
-return typeof window.innerWidth=="number"?window.innerWidth:document.compatMode=="CSS1Compat"?document.documentElement.clientWidth:document.body.clientWidth;
-}
-
-function getInnerHeight(){
-return typeof window.innerHeight=="number"?window.innerHeight:document.compatMode=="CSS1Compat"?document.documentElement.clientHeight:document.body.clientHeight;
-}
-
-
-//
-// getPageScroll()
-// Returns array with x,y page scroll values.
-// Core code from - quirksmode.org
-//
-function getPageScroll(){
-
-	var yScroll;
-
-	if (self.pageYOffset) {
-		yScroll = self.pageYOffset;
-	} else if (document.documentElement && document.documentElement.scrollTop){	 // Explorer 6 Strict
-		yScroll = document.documentElement.scrollTop;
-	} else if (document.body) {// all other Explorers
-		yScroll = document.body.scrollTop;
-	}
-
-	arrayPageScroll = new Array('',yScroll) 
-	return arrayPageScroll;
-}
-
-// -----------------------------------------------------------------------------------
-
 //
 // getPageSize()
 // Returns array with page width, height and window width, height
@@ -112,10 +83,10 @@ function getPageScroll(){
 // Edit for Firefox by pHaez
 //
 function getPageSize(){
-	
+
 	var xScroll, yScroll;
-	
-	if (window.innerHeight && window.scrollMaxY) {	
+
+	if (window.innerHeight && window.scrollMaxY) {
 		xScroll = document.body.scrollWidth;
 		yScroll = window.innerHeight + window.scrollMaxY;
 	} else if (document.body.scrollHeight > document.body.offsetHeight){ // all but Explorer Mac
@@ -125,7 +96,7 @@ function getPageSize(){
 		xScroll = document.body.offsetWidth;
 		yScroll = document.body.offsetHeight;
 	}
-	
+
 	var windowWidth, windowHeight;
 	if (self.innerHeight) {	// all except Explorer
 		windowWidth = self.innerWidth;
@@ -136,24 +107,24 @@ function getPageSize(){
 	} else if (document.body) { // other Explorers
 		windowWidth = document.body.clientWidth;
 		windowHeight = document.body.clientHeight;
-	}	
-	
+	}
+
 	// for small pages with total height less then height of the viewport
 	if(yScroll < windowHeight){
 		pageHeight = windowHeight;
-	} else { 
+	} else {
 		pageHeight = yScroll;
 	}
 
 	// for small pages with total width less then width of the viewport
-	if(xScroll < windowWidth){	
+	if(xScroll < windowWidth){
 		pageWidth = windowWidth;
 	} else {
 		pageWidth = xScroll;
 	}
 
 
-	arrayPageSize = new Array(pageWidth,pageHeight,windowWidth,windowHeight) 
+	arrayPageSize = new Array(pageWidth,pageHeight,windowWidth,windowHeight)
 	return arrayPageSize;
 }
 
@@ -224,15 +195,6 @@ function extractScripts(response) {
 }
 
 
-    function onScriptLoad(evt)
-    {
-        evt = evt || event;
-        var elem = evt.target || evt.srcElement;
-        if (evt.type == 'readystatechange' && elem.readyState && !(elem.readyState == 'complete' || elem.readyState == 'loaded')) { return }
-        
-        evalScripts(responseHtml, false)
-        
-    }
 
 
 function evalScripts(response) {
@@ -267,45 +229,14 @@ var handleSuccess = function(o){
                 }
             }
             o.argument.div.innerHTML += tmp;
-
-
-            // for JS
-            var items = responseXML.getElementsByTagName('javascript');
-            if (items) {
-                var jsCount = items.length
-                for (var i=0; i<jsCount; i++) {
-                    addJS(SITE_PATH + items[i].getAttribute('src'));
-                }
-            }
-
-
-
-            // for inner JS
-            var items = responseXML.getElementsByTagName('execute');
-            if (items) {
-                var jsExecute = '';
-                var cn = items.length
-                for (var i=0; i<cn; i++) {
-                    cn2 = items[i].childNodes.length;
-                    for (var j=0; j < cn2; j++) {
-                        if (items[i].childNodes[j].data != '') {
-                            jsExecute += items[i].childNodes[j].data;
-                        }
-                    }
-                }
-            } 
-            if (jsExecute != '' && jsCount > 0) {
-                myJsLoader = new jsLoader();
-                doOnLoad(function() {
-                evalScript(jsExecute); });
-            } else if (jsExecute != '') {
-                evalScript(jsExecute);
-            }
+            parseJSFromXML(o.responseXML);
         } else {
             o.argument.div.innerHTML += o.responseText;
         }
         responseHtml = o.argument.div.innerHTML;
+
         evalScripts(o.argument.div.innerHTML);
+
     }
 }
 
@@ -339,7 +270,6 @@ window,onresize = function() { doMoveMask(); }
 //window.onscroll = function() { doMoveMask(); }
 
 document.onkeydown = proccessKey;
-
 function proccessKey(key) {
     var code;
     if (!key) key = window.event;
@@ -352,25 +282,8 @@ function proccessKey(key) {
         return hideJip();
     }
 }
+
 var jipLockResized = false;
-/*
-function doMoveMask(onresize) {
-    onresize = onresize || false;
-    if (is_gecko) {
-        document.getElementById('blockContent').style.left=getInnerX() - 23 +"px";
-    } else {
-        document.getElementById('blockContent').style.left=getInnerX() - 8 +"px";
-    }
-    document.getElementById('blockContent').style.top=getInnerY() - 8 + "px";
-    if (onresize || !jipLockResized) {
-        document.getElementById('blockContent').style.width=getInnerWidth() +"px";
-        document.getElementById('blockContent').style.height=getInnerHeight() +"px";
-        jipLockResized = true;
-    }
-
-}
-
-*/
 
 function doMoveMask() {
     var arrayPageSize = getPageSize();
@@ -416,7 +329,7 @@ function sendFormWithAjax(form, elementId)
     var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
     YAHOO.util.Connect.setForm(form);
     var request = YAHOO.util.Connect.asyncRequest(form.getAttribute('method').toUpperCase(), form.action + '&ajax=1', callback);
-    cleanJip();
+    //cleanJip();
     return false;
 }
 
@@ -427,7 +340,7 @@ function sendFormInAjax(form, elementId)
     var callback = {success:handleInSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
     YAHOO.util.Connect.setForm(form);
     var request = YAHOO.util.Connect.asyncRequest(form.method.toUpperCase(), form.action + '&ajax=1', callback);
-    //cleanJip();
+    cleanJip();
     return false;
 }
 
@@ -439,7 +352,7 @@ function hideJip(windows, success)
     windows = windows || 1;
 
     if(document.getElementById('jip')) {
-        if (urlStack.length > 0) { 
+        if (urlStack.length > 0) {
             for (i = 0; i < windows - 1 ; i++) {
                 urlFromStack = urlStack.pop();
             }
@@ -507,7 +420,7 @@ function openJipMenu(button, jipMenu, id) {
         y = (pos["top"] - h >= 0) ? (pos["top"] - h) : body.scrollTop;
     }
 
-    if (body != document.body && is_gecko) {
+    if (body != document.body && isGecko) {
         x += 4;
         y += 4;
     }
@@ -564,14 +477,14 @@ function movemouse(e)
 {
   if (isdrag)
   {
-    var _left = (!is_ie ? tx + e.clientX - move_x : tx + event.clientX - move_x);
-    
+    var _left = (!isMSIE ? tx + e.clientX - move_x : tx + event.clientX - move_x);
+
     if (!arrayPageSize) { arrayPageSize = getPageSize();  }
 
     if (_left >= 0 && _left < arrayPageSize[0] - dobj.offsetWidth) {
        dobj.style.left  = _left + 'px';
     }
-    var _top = (!is_ie ? ty + e.clientY - move_y : ty + event.clientY - move_y);
+    var _top = (!isMSIE ? ty + e.clientY - move_y : ty + event.clientY - move_y);
 
 
     if (_top >= 0 && _top < arrayPageSize[1] - dobj.offsetHeight) {
@@ -584,14 +497,14 @@ function movemouse(e)
   }
 }
 
-function selectmouse(e) 
+function selectmouse(e)
 {
-  var fobj       = !is_ie ? e.target : event.srcElement;
-  var topelement = !is_ie ? "HTML" : "BODY";
+  var fobj       = !isMSIE ? e.target : event.srcElement;
+  var topelement = !isMSIE ? "HTML" : "BODY";
 
   while (fobj.tagName != topelement && fobj.className != "jipMove")
   {
-    fobj = !is_ie ? fobj.parentNode : fobj.parentElement;
+    fobj = !isMSIE ? fobj.parentNode : fobj.parentElement;
   }
 
   if (fobj.className == "jipMove")
@@ -600,8 +513,8 @@ function selectmouse(e)
     dobj = /*fobjfobj*/ document.getElementById('jip');
     tx = parseInt(/*dobj.style.left + */dobj.offsetLeft + 0);
     ty = parseInt(dobj.style.top + 0);
-    move_x = !is_ie ? e.clientX : event.clientX;
-    move_y = !is_ie ? e.clientY : event.clientY;
+    move_x = !isMSIE ? e.clientX : event.clientX;
+    move_y = !isMSIE ? e.clientY : event.clientY;
     old_mousemoveevent = document.onmousemove;
     document.onmousemove=movemouse;
     return false;
@@ -610,11 +523,3 @@ function selectmouse(e)
 
 document.onmousedown=selectmouse;
 document.onmouseup=new Function("isdrag=false");
-
-
-
-
-
-
-
-

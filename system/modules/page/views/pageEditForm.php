@@ -46,7 +46,7 @@ class pageEditForm
 
         $form->addElement('text', 'name', 'Name ID:', 'size=30');
         $form->addElement('text', 'title', 'Заголовок:', 'size=30');
-        $form->addElement('textarea', 'content', 'Содержание:', 'rows=7 cols=50');
+        $form->addElement('textarea', 'content', 'Содержание:', 'rows=15 cols=80 id="content" style="width: 100%;"');
 
         if ($action == 'edit') {
             $form->registerRule('isUniqueName', 'callback', 'editPageValidate');
