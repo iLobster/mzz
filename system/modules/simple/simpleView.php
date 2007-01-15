@@ -81,10 +81,12 @@ abstract class simpleView
         $this->request = $this->toolkit->getRequest();
         $this->smarty = $this->toolkit->getSmarty();
 
+        $this->response = $this->toolkit->getResponse();
+
         if ($this->toolkit->getRegistry()->get('isJip') && $this->request->isAjax()) {
             $this->smarty->setActiveXmlTemplate('main.xml.tpl');
+            $this->response->setHeader('Content-Type', 'text/xml');
         }
-        $this->response = $this->toolkit->getResponse();
     }
 
 
