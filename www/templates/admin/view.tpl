@@ -1,5 +1,6 @@
 {* {add file="popup.js"} *}
 {add file="confirm.js"}
+<a href="{url section="admin" action="devToolbar"}">developer toolbar</a>
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     {foreach from=$info item=module key=module_name}
         <tr>

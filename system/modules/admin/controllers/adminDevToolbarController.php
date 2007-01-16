@@ -12,23 +12,25 @@
  * @version $Id$
 */
 
+fileLoader::load('admin/views/adminDevToolbarView');
+
 /**
- * adminViewController: контроллер для метода view модуля admin
+ * adminDevToolbarController: контроллер для метода devToolbar модуля admin
  *
  * @package modules
  * @subpackage admin
  * @version 0.1
  */
-
-fileLoader::load('admin/views/adminViewView');
-
-class adminViewController extends simpleController
+class adminDevToolbarController extends simpleController
 {
     public function getView()
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
-        return new adminViewView($adminMapper->getInfo());
+        $modules = $adminMapper->getModulesList();
+        $sections = $adminMapper->getSectionsList();
+
+        return new adminDevToolbarView($modules, $sections);
     }
 }
 

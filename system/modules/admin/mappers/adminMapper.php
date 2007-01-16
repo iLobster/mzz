@@ -75,6 +75,54 @@ class adminMapper extends simpleMapper
         return array('data' => $result, 'cfgAccess' => $access, 'admin' => $admin);
     }
 
+    public function getModulesList()
+    {
+        $modules = $this->db->getAll('SELECT (COUNT(`ca`.`id`) + COUNT(`cs`.`id`) > 0) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id` FROM `sys_modules` `m`
+                                         LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
+                                          LEFT JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                                           LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id`
+                                            GROUP BY `m`.`name`, `c`.`name`');
+
+        $result = array();
+
+        foreach ($modules as $val) {
+            if (!isset($result[$val['module']])) {
+                $result[$val['module']] = array('id' => $val['m_id']);
+                $result[$val['module']]['classes'] = array();
+            }
+
+            if (!is_null($val['class'])) {
+                $result[$val['module']]['classes'][$val['c_id']] = array('name' => $val['class'], 'exists' => $val['exists']);
+            }
+        }
+
+        return $result;
+    }
+
+    public function getSectionsList()
+    {
+        $sections = $this->db->query('SELECT DISTINCT `s`.`name` AS `section`, `s`.`id` AS `s_id`, `m`.`name` AS `module`, `m`.`id` AS `m_id` FROM `sys_sections` `s`
+                                     LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
+                                      LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                       LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                                        ORDER BY `s`.`name`, `m`.`name`');
+
+        $result = array();
+
+        foreach ($sections as $val) {
+            if (!isset($result[$val['section']])) {
+                $result[$val['section']] = array('id' => $val['s_id']);
+                $result[$val['section']]['modules'] = array();
+            }
+
+            if (!is_null($val['module'])) {
+                $result[$val['section']]['modules'][$val['m_id']] = $val['module'];
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
