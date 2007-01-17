@@ -90,8 +90,8 @@ class fileLoader
         if (!isset(self::$files[$file])) {
             $filename = self::resolve($file);
             self::$files[$file] = 1;
-            // require_once не использовано из-за ее медленности
-            require $filename;
+            // mb require?
+            require_once $filename;
         }
         return true;
     }
