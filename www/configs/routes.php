@@ -1,5 +1,6 @@
 <?php
 //$router->enableDebug();
+$router->addRoute('withAnyParam', new requestRoute(':section/:name/:action', array('action' => 'view')));
 $router->addRoute('default2', new requestRoute(':section/:action'));
 
 $router->addRoute('cfgEdit', new requestRoute('config/:section_name/:module_name/:action', array('section' => 'config'), array('action' => 'editCfg')));

@@ -10,7 +10,7 @@
         <td>
             {foreach from=$modules item=module key=name name=mcycle}
                 {assign var="count" value=$module.classes|@sizeof}
-                {$name}:
+                {$name} <a href="{url section="admin" id=$module.id action="addClass"}">+</a>
                 {if $count eq 0}
                     <a>удалить</a>
                 {/if}
@@ -18,7 +18,7 @@
                 {foreach from=$module.classes item=class key=id}
                     &nbsp;&nbsp;&nbsp;{$class.name}
                     {if not $class.exists}
-                        <a>удалить</a>
+                        <a href="{url section="admin" id=$id action="editClass"}">редактировать</a>
                     {/if}
                     <br />
                 {/foreach}

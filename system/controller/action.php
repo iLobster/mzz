@@ -210,7 +210,7 @@ class action
             $tmp = array();
             foreach ($this->actions as $key => $val) {
                 foreach ($val as $subkey => $subval) {
-                    if (!isset($subval['inACL']) || $subval['inACL'] == 1) {
+                    if (!isset($subval['alias'])) {
                         $tmp[$key][$subkey] = $subval;
                     }
                 }
