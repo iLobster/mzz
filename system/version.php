@@ -110,9 +110,9 @@ if(DEBUG_MODE && file_exists(systemConfig::$pathToSystem . '/../.svn/entries')) 
         $svn_entries = explode("\x0a", $svn_entries, 5);
         $revision = trim($svn_entries[3]);
     }
-    define('MZZ_VERSION_REVISION', $revision);
+    define('MZZ_REVISION', $revision);
 } else {
-    define('MZZ_VERSION_REVISION', 'release');
+    define('MZZ_REVISION', 'release');
 }
 
 // Url

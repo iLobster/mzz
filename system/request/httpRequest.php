@@ -28,7 +28,7 @@ fileLoader::load('request/iRequest');
  *
  * @package system
  * @subpackage request
- * @version 0.7
+ * @version 0.7.1
  */
 
 define('SC_GET', 1);
@@ -348,14 +348,39 @@ class httpRequest implements iRequest
      */
     public function decodeUTF8(&$value)
     {
-        if (function_exists('iconv')) {
-            $value = iconv('UTF-8', 'windows-1251//TRANSLIT', $value);
-        } elseif (function_exists('mb_convert_encoding')) {
-            $value = mb_convert_encoding($value, 'windows-1251', 'UTF-8');
-        } else {
-            throw new mzzRuntimeException('Value could not be converted from UTF-8');
+        static $table = array();
+
+        if (empty($table)) {
+            for ($i = 0x100; $i--;) {
+                if (function_exists('iconv')) {
+                    if ('' !== $c = iconv('windows-1251','UTF-32BE//IGNORE',chr($i))) {
+                        $table[$c] = chr($i);
+                    }
+                } elseif (function_exists('mb_convert_encoding')) {
+                    if ('?' !== $c = mb_convert_encoding(chr($i),'UTF-32BE', 'windows-1251')) {
+                        $table[$c] = chr($i);
+                    }
+                } else {
+                    throw new mzzRuntimeException('Value could not be converted from UTF-8');
+                }
+            }
         }
 
+        if (function_exists('iconv')) {
+            $str = iconv('UTF-8', 'UTF-32BE', $value);
+        } elseif (function_exists('mb_convert_encoding')) {
+            $str = mb_convert_encoding($value, 'UTF-32BE', 'UTF-8');
+        }
+        $result = '';
+        $len = strlen($str);
+        for ($i = 0; $i < $len; $i += 4) {
+            if (isset($table[$s = substr($str, $i, 4)])) {
+               $result .= $table[$s];
+            } else {
+               $result .= '&#'.hexdec(bin2hex($s)).';';
+            }
+        }
+        $value = $result;
         return $value;
     }
 }

@@ -141,7 +141,7 @@ class errorDispatcher
             $html .= '<p>SAPI: <strong>' . php_sapi_name() . '</strong>, ';
             $html .= 'Software: <strong>' . (!empty($_SERVER["SERVER_SOFTWARE"]) ? $_SERVER["SERVER_SOFTWARE"] : "unknown") . '</strong>, ';
             $html .= 'PHP: <strong>' . PHP_VERSION . ' on ' . PHP_OS . '</strong>, ';
-            $html .= 'Версия mzz: <strong>' . MZZ_VERSION . ' (Rev. ' . MZZ_VERSION_REVISION . ')</strong>.</p>';
+            $html .= 'Версия mzz: <strong>' . MZZ_VERSION . ' (Rev. ' . MZZ_REVISION . ')</strong>.</p>';
         } else {
             $html .= '<p><strong>Debug-mode выключен.</strong></p>';
         }
