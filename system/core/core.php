@@ -112,7 +112,7 @@ class core
 
         fileLoader::load('filters/init');
 
-        fileLoader::load('config/config');
+        fileLoader::load('config');
         fileLoader::load('controller/frontController');
 
         fileLoader::load('db/DB');
@@ -133,7 +133,7 @@ class core
     protected function composeToolkit()
     {
         $this->toolkit = systemToolkit::getInstance();
-        $this->toolkit->addToolkit(new stdToolkit(/*new config(systemConfig::$pathToConf . '/common.ini')*/));
+        $this->toolkit->addToolkit(new stdToolkit());
     }
 
     /**

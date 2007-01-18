@@ -20,8 +20,6 @@
  * @version 0.1
  */
 
-fileLoader::load('config/config');
-
 class configMapper extends simpleMapper
 {
     /**

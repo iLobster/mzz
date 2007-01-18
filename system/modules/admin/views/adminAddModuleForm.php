@@ -10,14 +10,14 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * adminAddClassForm: форма для метода addClass модуля admin
+ * adminAddModuleForm: форма для метода addModule модуля admin
  *
  * @package modules
  * @subpackage admin
  * @version 0.1
  */
 
-class adminAddClassForm
+class adminAddModuleForm
 {
     /**
      * метод получения формы
@@ -32,9 +32,9 @@ class adminAddClassForm
         $url->setAction($action);
         $url->addParam('id', $data['id']);
 
-        $form = new HTML_QuickForm('addClass', 'POST', $url->get());
+        $form = new HTML_QuickForm('addModule', 'POST', $url->get());
 
-        if ($action == 'editClass') {
+        if ($action == 'editModule') {
             $defaultValues = array();
             $defaultValues['name']  = $data['name'];
             $form->setDefaults($defaultValues);
@@ -45,21 +45,21 @@ class adminAddClassForm
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: hideJip();"');
         $form->addElement('submit', 'submit', 'Сохранить');
 
-        $form->registerRule('isUniqueName', 'callback', 'addClassValidate');
-        $form->addRule('name', 'имя класса должно быть уникально и содержать латинские буквы и цифры', 'isUniqueName', array($db));
+        $form->registerRule('isUniqueName', 'callback', 'addModuleValidate');
+        $form->addRule('name', 'имя модуля должно быть уникально и содержать латинские буквы и цифры', 'isUniqueName', array($db));
         $form->addRule('name', 'поле обязательно к заполнению', 'required');
 
         return $form;
     }
 }
 
-function addClassValidate($name, $data)
+function addModuleValidate($name, $data)
 {
     if (strlen($name) === 0 || preg_match('/[^a-z0-9_\-]/i', $name)) {
         return false;
     }
 
-    $stmt = $data[0]->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_classes` WHERE `name` = :name');
+    $stmt = $data[0]->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_modules` WHERE `name` = :name');
     $stmt->bindValue(':name', $name, PDO::PARAM_STR);
     $stmt->execute();
     $res = $stmt->fetch();

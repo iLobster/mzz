@@ -13,13 +13,13 @@
 */
 
 /**
- * adminDeleteClassController: контроллер для метода deleteClass модуля admin
+ * adminDeleteModuleController: контроллер для метода deleteModule модуля admin
  *
  * @package modules
  * @subpackage admin
  * @version 0.1
  */
-class adminDeleteClassController extends simpleController
+class adminDeleteModuleController extends simpleController
 {
     public function getView()
     {
@@ -29,14 +29,17 @@ class adminDeleteClassController extends simpleController
         $modules = $adminMapper->getModulesList();
 
         foreach ($modules as $val) {
-            if (isset($val['classes'][$id]) && $val['classes'][$id]['exists']) {
-                // @todo изменить
-                return 'нельзя удалить класс';
+            if ($val['id'] == $id) {
+                if (sizeof($val['classes'])) {
+                    // @todo изменить
+                    return 'нельзя удалить модуль';
+                }
+                break;
             }
         }
 
         $db = DB::factory();
-        $db->query('DELETE FROM `sys_classes` WHERE `id` = ' .$id);
+        $db->query('DELETE FROM `sys_modules` WHERE `id` = ' .$id);
 
         $url = new url();
         $url->setAction('devToolbar');

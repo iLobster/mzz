@@ -12,17 +12,17 @@
  * @version $Id$
 */
 
-fileLoader::load('admin/views/adminAddClassView');
-fileLoader::load('admin/views/adminAddClassForm');
+fileLoader::load('admin/views/adminAddModuleView');
+fileLoader::load('admin/views/adminAddModuleForm');
 
 /**
- * adminAddClassController: контроллер для метода addClass модуля admin
+ * adminAddModuleController: контроллер для метода addModule модуля admin
  *
  * @package modules
  * @subpackage admin
  * @version 0.1
  */
-class adminAddClassController extends simpleController
+class adminAddModuleController extends simpleController
 {
     public function getView()
     {
@@ -31,41 +31,40 @@ class adminAddClassController extends simpleController
 
         $db = DB::factory();
 
-        if ($action == 'addClass') {
+        $data = null;
+
+        if ($action == 'editModule') {
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
-        } else {
-            $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
 
             if ($data === false) {
                 // @todo изменить
-                return 'класса не существует';
+                return 'модуля не существует';
             }
 
             $adminMapper = $this->toolkit->getMapper('admin', 'admin');
             $modules = $adminMapper->getModulesList();
 
             foreach ($modules as $val) {
-                if ($val['id'] == $data['module_id']) {
-                    if (isset($val['classes'][$data['id']]) && $val['classes'][$data['id']]['exists']) {
+                if ($val['id'] == $data['id']) {
+                    if (sizeof($val['classes'])) {
                         // @todo изменить
-                        return 'нельзя изменить имя класса';
+                        return 'нельзя изменить имя модуля';
                     }
                     break;
                 }
             }
         }
 
-        $form = adminAddClassForm::getForm($data, $db, $action);
+        $form = adminAddModuleForm::getForm($data, $db, $action);
 
         if ($form->validate()) {
             $values = $form->exportValues();
 
-            if ($action == 'addClass') {
-                $stmt = $db->prepare('INSERT INTO `sys_classes` (`name`, `module_id`) VALUES (:name, :module_id)');
-                $stmt->bindValue(':module_id', $data['id'], PDO::PARAM_INT);
+            if ($action == 'addModule') {
+                $stmt = $db->prepare('INSERT INTO `sys_modules` (`name`) VALUES (:name)');
 
             } else {
-                $stmt = $db->prepare('UPDATE `sys_classes` SET `name` = :name WHERE `id` = :id');
+                $stmt = $db->prepare('UPDATE `sys_modules` SET `name` = :name WHERE `id` = :id');
                 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             }
 
@@ -75,7 +74,8 @@ class adminAddClassController extends simpleController
             return new simpleJipRefreshView();
         }
 
-        return new adminAddClassView($data, $form, $action);
+        //return new adminAddClassView($data, $form);
+        return new adminAddModuleView($data, $form, $action);
     }
 }
 

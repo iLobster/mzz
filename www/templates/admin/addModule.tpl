@@ -1,6 +1,6 @@
 <div id="jipTitle">
 <div class="jipMove">&nbsp;</div>
-{if $action eq 'addClass'}Добавление{else}Редактирование{/if} класса
+{if $action eq 'addModule'}Добавление{else}Редактирование{/if} модуля
 </div>
 
 <form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
