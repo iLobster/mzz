@@ -44,14 +44,9 @@ class adminAddClassController extends simpleController
             $adminMapper = $this->toolkit->getMapper('admin', 'admin');
             $modules = $adminMapper->getModulesList();
 
-            foreach ($modules as $val) {
-                if ($val['id'] == $data['module_id']) {
-                    if (isset($val['classes'][$data['id']]) && $val['classes'][$data['id']]['exists']) {
-                        // @todo изменить
-                        return 'нельзя изменить имя класса';
-                    }
-                    break;
-                }
+            if (isset($modules[$data['module_id']]['classes'][$data['id']]) && $modules[$data['module_id']]['classes'][$data['id']]['exists']) {
+                // @todo изменить
+                return 'нельзя изменить имя класса';
             }
         }
 

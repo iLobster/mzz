@@ -28,11 +28,20 @@ class adminDeleteClassController extends simpleController
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $modules = $adminMapper->getModulesList();
 
+        $not_found = true;
         foreach ($modules as $val) {
-            if (isset($val['classes'][$id]) && $val['classes'][$id]['exists']) {
-                // @todo изменить
-                return 'нельзя удалить класс';
+            if (isset($val['classes'][$id])) {
+                if ($val['classes'][$id]['exists']) {
+                    // @todo изменить
+                    return 'нельзя удалить класс';
+                } else {
+                    $not_found = false;
+                }
             }
+        }
+
+        if ($not_found) {
+            return 'класс не найден';
         }
 
         $db = DB::factory();

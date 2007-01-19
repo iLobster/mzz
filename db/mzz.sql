@@ -1184,7 +1184,7 @@ CREATE TABLE `sys_classes_sections` (
   `class_id` int(11) default NULL,
   `section_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `module_section` (`section_id`,`class_id`),
+  UNIQUE KEY `module_section` (`section_id`,`class_id`),
   KEY `class_id` (`class_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 

@@ -44,14 +44,9 @@ class adminAddModuleController extends simpleController
             $adminMapper = $this->toolkit->getMapper('admin', 'admin');
             $modules = $adminMapper->getModulesList();
 
-            foreach ($modules as $val) {
-                if ($val['id'] == $data['id']) {
-                    if (sizeof($val['classes'])) {
-                        // @todo изменить
-                        return 'нельзя изменить имя модуля';
-                    }
-                    break;
-                }
+            if (sizeof($modules[$data['id']]['classes'])) {
+                // @todo изменить
+                return 'нельзя изменить имя модуля';
             }
         }
 
@@ -74,7 +69,6 @@ class adminAddModuleController extends simpleController
             return new simpleJipRefreshView();
         }
 
-        //return new adminAddClassView($data, $form);
         return new adminAddModuleView($data, $form, $action);
     }
 }

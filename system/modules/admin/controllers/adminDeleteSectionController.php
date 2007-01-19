@@ -13,32 +13,32 @@
 */
 
 /**
- * adminDeleteModuleController: контроллер для метода deleteModule модуля admin
+ * adminDeleteSectionController: контроллер для метода deleteSection модуля admin
  *
  * @package modules
  * @subpackage admin
  * @version 0.1
  */
-class adminDeleteModuleController extends simpleController
+class adminDeleteSectionController extends simpleController
 {
     public function getView()
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
-        $modules = $adminMapper->getModulesList();
+        $sections = $adminMapper->getSectionsList();
 
-        if (!isset($modules[$id])) {
-            return 'модуль не найден';
+        if (!isset($sections[$id])) {
+            return 'раздел не найден';
         }
 
-        if (sizeof($modules[$id]['classes'])) {
+        if (sizeof($sections[$id]['classes'])) {
             // @todo изменить
-            return 'нельзя удалить модуль';
+            return 'нельзя удалить раздел';
         }
 
         $db = DB::factory();
-        $db->query('DELETE FROM `sys_modules` WHERE `id` = ' .$id);
+        $db->query('DELETE FROM `sys_sections` WHERE `id` = ' .$id);
 
         $url = new url();
         $url->setAction('devToolbar');

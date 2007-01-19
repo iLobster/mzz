@@ -86,13 +86,12 @@ class adminMapper extends simpleMapper
         $result = array();
 
         foreach ($modules as $val) {
-            if (!isset($result[$val['module']])) {
-                $result[$val['module']] = array('id' => $val['m_id']);
-                $result[$val['module']]['classes'] = array();
+            if (!isset($result[$val['m_id']])) {
+                $result[$val['m_id']] = array('name' => $val['module'], 'classes' => array());
             }
 
             if (!is_null($val['class'])) {
-                $result[$val['module']]['classes'][$val['c_id']] = array('name' => $val['class'], 'exists' => $val['exists']);
+                $result[$val['m_id']]['classes'][$val['c_id']] = array('name' => $val['class'], 'exists' => $val['exists']);
             }
         }
 
@@ -101,22 +100,20 @@ class adminMapper extends simpleMapper
 
     public function getSectionsList()
     {
-        $sections = $this->db->query('SELECT DISTINCT `s`.`name` AS `section`, `s`.`id` AS `s_id`, `m`.`name` AS `module`, `m`.`id` AS `m_id` FROM `sys_sections` `s`
-                                     LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
-                                      LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                       LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
-                                        ORDER BY `s`.`name`, `m`.`name`');
+        $sections = $this->db->getAll('SELECT DISTINCT `s`.`name` AS `section`, `s`.`id` AS `s_id`, `c`.`name` AS `class`, `c`.`id` AS `c_id` FROM `sys_sections` `s`
+                                         LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
+                                          LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                           ORDER BY `s`.`name`, `c`.`name`');
 
         $result = array();
 
         foreach ($sections as $val) {
-            if (!isset($result[$val['section']])) {
-                $result[$val['section']] = array('id' => $val['s_id']);
-                $result[$val['section']]['modules'] = array();
+            if (!isset($result[$val['s_id']])) {
+                $result[$val['s_id']] = array('name' => $val['section'], 'classes' => array());
             }
 
-            if (!is_null($val['module'])) {
-                $result[$val['section']]['modules'][$val['m_id']] = $val['module'];
+            if (!is_null($val['class'])) {
+                $result[$val['s_id']]['classes'][$val['c_id']] = $val['class'];
             }
         }
 
