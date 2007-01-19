@@ -24,7 +24,6 @@ class adminAddClassToSectionController extends simpleController
     public function getView()
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
-        //$action = $this->request->getAction();
 
         $db = DB::factory();
 
@@ -72,10 +71,6 @@ class adminAddClassToSectionController extends simpleController
 
             return new simpleJipRefreshView();
         }
-
-        //$form = adminAddClassToSectionForm::getForm($data, $db, $result);
-
-        //return new adminAddClassToSectionView();
 
         $this->smarty->assign('list', $result);
         $this->smarty->assign('data', $data);

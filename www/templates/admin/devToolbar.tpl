@@ -1,6 +1,6 @@
 {add file="confirm.js"}
-<table border="1">
-    <tr valign="top">
+<table width="99%" border="1">
+    <tr>
         <td>
             <a href="{url section="admin" action="addModule"}" onClick="showJip('{url section="admin" action="addModule"}'); return false;"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить модуль" /></a><br /><br />
             {foreach from=$modules item=module key=id name=mcycle}
