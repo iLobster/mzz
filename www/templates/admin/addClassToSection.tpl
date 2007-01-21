@@ -1,8 +1,4 @@
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-Классы, входящие в раздел '{$data.name}'
-</div>
-
+{include file='jipTitle.tpl' title="Классы, входящие в раздел '$data.name'"}
 <form action="{url section="admin" id=$data.id action="addClassToSection"}" method="POST" onsubmit="return sendFormWithAjax(this);return false;">
     <table width="99%" border="0" cellpadding="5" cellspacing="0" align="center">
         {foreach from=$list item=current key=key}

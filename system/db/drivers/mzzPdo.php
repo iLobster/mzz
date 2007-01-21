@@ -265,13 +265,18 @@ class mzzPdo extends PDO
      * @param string $query
      * @return array
      */
-    public function getAll($query)
+    public function getAll($query, $fetch_style = PDO::FETCH_BOTH, $column_index = 0)
     {
         $stmt = $this->query($query);
-        $rows = array();
-        while ($row = $stmt->fetch()) {
-            $rows[] = $row;
+        // bug in PDO?
+        if ($column_index === 0) {
+            $rows = $stmt->fetchAll($fetch_style);
+        } else {
+            $rows = $stmt->fetchAll($fetch_style, $column_index);
         }
+        /*while ($row = $stmt->fetch()) {
+            $rows[] = $row;
+        }*/
         $stmt->closeCursor();
         return $rows;
     }

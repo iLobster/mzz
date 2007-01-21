@@ -1,7 +1,9 @@
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-Изменение прав на объект ... {if $groups === false}для группы <code>{$group->getName()}</code>{/if}
-</div>
+{if $groups === false}
+{assign var="groupName" value=$group->getName()}
+{include file='jipTitle.tpl' title="Изменение прав на объект ... для группы <code>$groupName</code>"}
+{else}
+{include file='jipTitle.tpl' title='Изменение прав на объект ...'}
+{/if}
 
 <form action="{url}" method="post" onsubmit="return sendFormWithAjax(this);return false;">
     <table border="0" width="99%" cellpadding="4" cellspacing="1" class="list">

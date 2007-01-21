@@ -1,7 +1,9 @@
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-Изменение прав на объект ... {if $users === false}для пользователя <code>{$user->getLogin()}</code>{/if}
-</div>
+{if $users === false}
+{assign var="userLogin" value=$user->getLogin()}
+{include file='jipTitle.tpl' title="Изменение прав на объект ... для пользователя <code>$userLogin</code>"}
+{else}
+{include file='jipTitle.tpl' title="Изменение прав на объект ..."}
+{/if}
 
 <form action="{url}" method="post" onsubmit="return sendFormWithAjax(this);return false;">
     <table border="0" width="99%" cellpadding="4" cellspacing="1" class="list">

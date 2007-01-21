@@ -1,7 +1,8 @@
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-{if $action eq 'createFolder'}Создание папки{else}Редактирование папки{/if}
-</div>
+{if $action eq 'createFolder'}
+{include file='jipTitle.tpl' title='Создание папки'}
+{else}
+{include file='jipTitle.tpl' title='Редактирование папки'}
+{/if}
 
 <form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
 {$form.hidden}

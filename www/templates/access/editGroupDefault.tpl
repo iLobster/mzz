@@ -1,7 +1,9 @@
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-Изменение прав по умолчанию на объект типа <b>{$class}</b> раздела <b>{$section}</b> {if $groups === false}для группы <b>{$group->getName()}</b>{/if}
-</div>
+{if $groups === false}
+{assign var="groupName" value=$group->getName()}
+{include file='jipTitle.tpl' title="Изменение прав по умолчанию на объект типа <b>$class</b> раздела <b>$section</b> для группы <b>$groupName</b>"}
+{else}
+{include file='jipTitle.tpl' title="Изменение прав по умолчанию на объект типа <b>$class</b> раздела <b>$section</b>"}
+{/if}
 
 <form action="{url}" method="post" onsubmit="return sendFormWithAjax(this);return false;">
 <table border="0" width="100%" cellpadding="0" cellspacing="1">

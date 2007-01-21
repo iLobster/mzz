@@ -119,6 +119,30 @@ class adminMapper extends simpleMapper
 
         return $result;
     }
+    /*
+    public function getAccessRegistry()
+    {
+        $result = $this->db->getAll('SELECT `r`.`obj_id`, `r`.`class_section_id`, `c`.`name` as `class`, `s`.`name` as `section`, `m`.`name` as `module` FROM `sys_access_registry` `r`
+                                       LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                                        LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                         LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                                          LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+                                           ORDER BY `c`.`name`, `s`.`name`, `r`.`obj_id`');
+        return $result;
+    }*/
+
+    public function getClassesInSections()
+    {
+        $classes_section = $this->db->getAll("SELECT `cs`.`id` as `id`, CONCAT_WS('_', `c`.`name`, `s`.`name`) as `name` FROM `sys_classes_sections` `cs`
+                                       LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                        LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+                                         ORDER BY `c`.`name`, `s`.`name`", PDO::FETCH_ASSOC);
+        $result = array();
+        foreach ($classes_section as $class_section) {
+            $result[$class_section['id']] = $class_section['name'];
+        }
+        return $result;
+    }
 
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса

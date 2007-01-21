@@ -1,8 +1,10 @@
 {add file="tiny_mce/tiny_mce_src.js"}
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-{if $action eq 'edit'}Редактирование страницы{else}Создание страницы{/if}
-</div>
+
+{if $action eq 'edit'}
+{include file='jipTitle.tpl' title='Редактирование страницы'}
+{else}
+{include file='jipTitle.tpl' title='Создание страницы'}
+{/if}
 
 <form {$form.attributes} onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return sendFormWithAjax(this);return false;">
 {$form.hidden}

@@ -1,8 +1,8 @@
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-{if $action eq 'addModule'}Добавление{else}Редактирование{/if} модуля
-</div>
-
+{if $action eq 'addModule'}
+{include file='jipTitle.tpl' title='Добавление модуля'}
+{else}
+{include file='jipTitle.tpl' title='Редактирование модуля'}
+{/if}
 <form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>

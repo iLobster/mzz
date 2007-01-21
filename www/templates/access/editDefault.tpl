@@ -1,18 +1,14 @@
 {add file="popup.js"}
 {add file="confirm.js"}
+{include file='jipTitle.tpl' title="Права по умолчанию. Раздел: <b>$section</b>, класс: <b>$class</b>."}
 
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-Права по умолчанию. Раздел: <b>{$section}</b>, класс: <b>{$class}</b>.
-</div>
-<br /><br />
-Пользователи
-<table border="0" width="99%" cellpadding="0" cellspacing="1">
+<p>Пользователи</p>
+<table border="0" width="99%" cellpadding="5" cellspacing="1" class="list">
     <tr>
         <td align="center">0</td>
         <td><a href="{url section=access action=editOwner params="$section/$class"}" onClick="return showJip('{url section=access action=editOwner params="$section/$class"}');">Владелец объекта</a></td>
         <td>&nbsp;</td>
-    </td>
+    </tr>
     {foreach from=$users item=user}
         <tr>
             <td align="center">{$user->getId()}</td>
@@ -28,8 +24,8 @@
         </tr>
     {/if}
 </table>
-Группы
-<table border="0" width="100%" cellpadding="0" cellspacing="1">
+<p>Группы</p>
+<table border="0" width="99%" cellpadding="0" cellspacing="1" class="list">
      {foreach from=$groups item=group}
         <tr>
             <td align="center">{$group->getId()}</td>

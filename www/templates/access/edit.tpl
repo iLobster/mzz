@@ -1,10 +1,6 @@
 {add file="popup.js"}
 {add file="confirm.js"}
-
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-Права доступа
-</div>
+{include file='jipTitle.tpl' title='Права доступа'}
 
 <table border="0" width="99%" cellpadding="5" cellspacing="1" class="list">
     <tr>

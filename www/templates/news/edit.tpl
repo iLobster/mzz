@@ -1,10 +1,10 @@
 {add file="jscalendar/calendar.js"}{add file="jscalendar/calendar-ru.js"}{add file="jscalendar/calendar-setup.js"}
 
-<div id="jipTitle">
-<div class="jipMove">&nbsp;</div>
-{if $action eq 'edit'}Редактирование новости{else}Создание новости{/if}
-</div>
-
+{if $action eq 'edit'}
+{include file='jipTitle.tpl' title='Редактирование новости'}
+{else}
+{include file='jipTitle.tpl' title='Создание новости'}
+{/if}
 
 <form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
