@@ -1,8 +1,8 @@
 {if $users === false}
 {assign var="userLogin" value=$user->getLogin()}
-{include file='jipTitle.tpl' title="Изменение прав на объект ... для пользователя <code>$userLogin</code>"}
+{include file='jipTitle.tpl' title="Изменение прав на объект для пользователя <code>$userLogin</code>"}
 {else}
-{include file='jipTitle.tpl' title="Изменение прав на объект ..."}
+{include file='jipTitle.tpl' title="Изменение прав на объект"}
 {/if}
 
 <form action="{url}" method="post" onsubmit="return sendFormWithAjax(this);return false;">
