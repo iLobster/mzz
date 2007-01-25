@@ -59,7 +59,7 @@ class pageEditController extends simpleController
                 }
                 $page->setName($values['name']);
                 $page->setTitle($values['title']);
-                $page->setContent($values['content']);
+                $page->setContent($values['contentArea']);
                 $page->setFolder($pageFolder);
                 $pageMapper->save($page);
                 $view = new simpleJipRefreshView();

@@ -6,6 +6,7 @@ CHANGELOG
 - mzzPdoStatement::bindArray переименован в bindValues
 - requestRoute: экранирование ":" (двоеточий) "\" (обратным слэшем)
 - requestRouter::enableDebug() для включения отображения процесса маршрутизации (использовать для отладки)
+- Старые Javascripts переписаны с использованием prototype
 
  Version 0.0.6:
 ============================================

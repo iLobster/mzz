@@ -1,5 +1,3 @@
-{add file="tiny_mce/tiny_mce_src.js"}
-
 {if $action eq 'edit'}
 {include file='jipTitle.tpl' title='Редактирование страницы'}
 {else}
@@ -19,7 +17,7 @@
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td>{$form.content.html}</td>
+        <td>{$form.contentArea.html}</td>
     </tr>
     <tr>
         <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
@@ -27,11 +25,12 @@
 </table>
 </form>
 
-{javascript}{literal}
-    tinyMCE.init({
+{literal}<script type="text/javascript">
+<!--
+tinyMCE.init({
         theme : "advanced",
         mode : "exact",
-        elements : "content",
+        elements : "contentArea",
         plugins : "style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
         theme_advanced_buttons1_add_before : "save,newdocument,separator",
         theme_advanced_buttons1_add : "fontselect,fontsizeselect",
@@ -55,4 +54,5 @@
         nonbreaking_force_tab : true,
         apply_source_formatting : true
     });
-{/literal}{/javascript}
+// -->
+</script>{/literal}

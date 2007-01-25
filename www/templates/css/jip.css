@@ -18,12 +18,11 @@ div.jipSuccess {
   font-weight: bold;
 }
 
-
-#jip {
+.jipWindow {
     position: absolute;
     display: none;
     border: 4px solid #B6B6B6;
-    z-index: 1001;
+    z-index: 902;
     font-size:100%;
     padding: 3px;
     width: 70%;
@@ -34,7 +33,7 @@ div.jipSuccess {
     top: 100px;
 }
 
-#jipTitle {
+.jipTitle {
     font-size: 100%;
     padding: 5px;
     font-weight: bold;
@@ -56,6 +55,7 @@ div.jipSuccess {
 .jipMove {
     background-position: left center;
     width: 10px;
+    height: 16px;
     background-image: url('../images/jip_title_move.png');
     float: left;
     background-repeat: no-repeat;
@@ -127,10 +127,10 @@ td.jip_menu {
     padding: 3px;
 }
 
-#blockContent {
+#lockContent {
     position: absolute;
     display: none;
-    z-index: 999;
+    z-index: 901;
     font-size:100%;
    /* padding: 4px;*/
     text-align: center;

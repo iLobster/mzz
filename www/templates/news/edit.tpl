@@ -1,12 +1,10 @@
-{add file="jscalendar/calendar.js"}{add file="jscalendar/calendar-ru.js"}{add file="jscalendar/calendar-setup.js"}
-
 {if $action eq 'edit'}
 {include file='jipTitle.tpl' title='Редактирование новости'}
 {else}
 {include file='jipTitle.tpl' title='Создание новости'}
 {/if}
 
-<form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
+<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     {if $action eq 'edit'}
     <tr>
@@ -35,8 +33,6 @@
 </table>
 </form>
 
-{javascript}
-{literal}
+{literal}<script type="text/javascript">
 Calendar.setup({"ifFormat":"%Y-%m-%d %H:%M:%S","daFormat":"%Y/%m/%d","firstDay":1,"showsTime":true,"showOthers":true,"timeFormat":24, "align":"BR", "inputField":"calendar-field-created","button":"calendar-trigger-created"});
-{/literal}
-{/javascript}
+</script>{/literal}

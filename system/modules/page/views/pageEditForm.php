@@ -40,13 +40,13 @@ class pageEditForm
             $defaultValues = array();
             $defaultValues['name']  = $page->getName();
             $defaultValues['title']  = $page->getTitle();
-            $defaultValues['content']  = $page->getContent();
+            $defaultValues['contentArea']  = $page->getContent();
             $form->setDefaults($defaultValues);
         }
 
         $form->addElement('text', 'name', 'Name ID:', 'size=30');
         $form->addElement('text', 'title', 'Заголовок:', 'size=30');
-        $form->addElement('textarea', 'content', 'Содержание:', 'rows=15 cols=80 id="content" style="width: 100%;"');
+        $form->addElement('textarea', 'contentArea', 'Содержание:', 'rows=15 cols=80 id="contentArea" style="width: 100%;"');
 
         if ($action == 'edit') {
             $form->registerRule('isUniqueName', 'callback', 'editPageValidate');

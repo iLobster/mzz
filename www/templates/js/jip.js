@@ -1,525 +1,470 @@
-// Detect browser
-var uagt = navigator.userAgent;
-var isMSIE = (navigator.appName == "Microsoft Internet Explorer");
-var isMSIE5 = this.isMSIE && (uagt.indexOf('MSIE 5') != -1);
-var isMSIE5_0 = this.isMSIE && (uagt.indexOf('MSIE 5.0') != -1);
-var isMSIE7 = this.isMSIE && (uagt.indexOf('MSIE 7') != -1);
-var isGecko = uagt.indexOf('Gecko') != -1;
-var isSafari = uagt.indexOf('Safari') != -1;
-var isOpera = uagt.indexOf('Opera') != -1;
-var isMac = uagt.indexOf('Mac') != -1;
-var isNS7 = uagt.indexOf('Netscape/7') != -1;
-var isNS71 = uagt.indexOf('Netscape/7.1') != -1;
+function getBrowserHeight() {
+    var yScroll, windowHeight, pageHeight;
 
-// Opacity effect for locking main content
-var OpacityEffect= function(){};
-OpacityEffect.prototype = {
-	step: function(){
-		var time = new Date().getTime();
-		if (time < this.time + 500) {
-			this.cTime = time - this.time;
-			this.setNow();
-		} else {
-			this.clearTimer();
-			this.now = this.to;
-		}
-		this.increase();
-	},
-	increase: function(){
-        if (this.now == 0) {
-            this.element.style.display = 'none';
-        }
-		if (window.ActiveXObject) this.element.style.filter = "alpha(opacity=" + this.now*100 + ")";
-		this.element.style.opacity = this.now;
-	},
-	setNow: function(){
-		this.now = this.compute(this.from, this.to);
-	},
-	compute: function(from, to){
-		return -(to - from)/2 * (Math.cos(Math.PI*this.cTime/500) - 1) + from;
-	},
-	custom: function(element, from, to){
-		if (!this.wait) this.clearTimer();
-		if (this.timer) return;
-		this.from = from;
-		this.to = to;
-        this.element = element;
-		this.time = new Date().getTime();
-		this.timer = this.periodical(Math.round(1000/50), this);
-		return this;
-	},
-	periodical: function(ms, bind){
-		var fn = this.step;
-		return setInterval(function(){ return fn.apply(bind, arguments);}, ms);
-	},
-	clearTimer: function(){
-	    clearTimeout(this.timer);
-	    clearInterval(this.timer);
-        this.timer = false;
-		return this;
-	}
-};
-OpacityEffect.prototype.wait = true;
-
-
-var last_jipmenu_id;
-var layertimer;
-
-var urlStack = new Array;
-
-var responseXML = false;
-var responseHtml = false;
-var currentUrl;
-var formSuccess = false;
-var jipButton;
-
-var $break    = new Object();
-var $continue = new Object();
-
-//
-// getPageSize()
-// Returns array with page width, height and window width, height
-// Core code from - quirksmode.org
-// Edit for Firefox by pHaez
-//
-function getPageSize(){
-
-	var xScroll, yScroll;
-
-	if (window.innerHeight && window.scrollMaxY) {
-		xScroll = document.body.scrollWidth;
-		yScroll = window.innerHeight + window.scrollMaxY;
-	} else if (document.body.scrollHeight > document.body.offsetHeight){ // all but Explorer Mac
-		xScroll = document.body.scrollWidth;
-		yScroll = document.body.scrollHeight;
-	} else { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari
-		xScroll = document.body.offsetWidth;
-		yScroll = document.body.offsetHeight;
-	}
-
-	var windowWidth, windowHeight;
-	if (self.innerHeight) {	// all except Explorer
-		windowWidth = self.innerWidth;
-		windowHeight = self.innerHeight;
-	} else if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode
-		windowWidth = document.documentElement.clientWidth;
-		windowHeight = document.documentElement.clientHeight;
-	} else if (document.body) { // other Explorers
-		windowWidth = document.body.clientWidth;
-		windowHeight = document.body.clientHeight;
-	}
-
-	// for small pages with total height less then height of the viewport
-	if(yScroll < windowHeight){
-		pageHeight = windowHeight;
-	} else {
-		pageHeight = yScroll;
-	}
-
-	// for small pages with total width less then width of the viewport
-	if(xScroll < windowWidth){
-		pageWidth = windowWidth;
-	} else {
-		pageWidth = xScroll;
-	}
-
-
-	arrayPageSize = new Array(pageWidth,pageHeight,windowWidth,windowHeight)
-	return arrayPageSize;
-}
-
-
-
-function getPosition(el, body)
-{
-    if(!el || !el.offsetParent) {
-        return false;
+    if (window.innerHeight && window.scrollMaxY) {
+        yScroll = window.innerHeight + window.scrollMaxY;
+    } else if (document.body.scrollHeight > document.body.offsetHeight){
+        yScroll = document.body.scrollHeight;
+    } else {
+        yScroll = document.body.offsetHeight;
     }
-    var left = 0, top = 0, right = 0, bottom = 0;
 
-    objParent = el;
-
-    do {
-        left += objParent.offsetLeft;
-        top += objParent.offsetTop;
-        objParent = objParent.offsetParent;
-
-    } while (objParent && (objParent != body && objParent.id != 'fcontainer' && objParent.id != 'footer'))
-
-    right = left + el.offsetWidth;
-    bottom = top + el.offsetHeight;
-    return {"left": left, "top": top, "right": right, "bottom": bottom};
-}
-
-
-
-function each(values, iterator) {
-    var index = 0;
-    try {
-      _each(values, function(value) {
-        try {
-          iterator(value, index++);
-        } catch (e) {
-          if (e != $continue) throw e;
-        }
-      });
-    } catch (e) {
-      if (e != $break) throw e;
+    if (self.innerHeight) {
+        windowHeight = self.innerHeight;
+    } else if (document.documentElement && document.documentElement.clientHeight) {
+        windowHeight = document.documentElement.clientHeight;
+    } else if (document.body) {
+        windowHeight = document.body.clientHeight;
     }
+    pageHeight = (yScroll < windowHeight) ? windowHeight : yScroll;
+
+    return {"pageHeight" : pageHeight, "windowHeight" : windowHeight};
 }
 
 
-function collect(values, iterator) {
-    var results = [];
-    each(values, function(value, index) {
-      results.push(iterator(value, index));
+//--------------------------------
+//  AJAX tools
+// -------------------------------
+mzzAjax = Class.create();
+mzzAjax.prototype = {
+  initialize: function() {
+  },
+
+  sendForm: function(form, method) {
+    var params = form.serialize().toQueryParams();
+    params.ajax = 1;
+
+    method = (method && method.toUpperCase() == 'GET') ? 'GET' : 'POST';
+    new Ajax.Request(form.action, {
+      'method': method,
+      parameters: params,
+      onSuccess: function(transport) {
+        mzzAjax.success(transport);
+      },
+      onFailure: function(transport) {
+        mzzAjax.onError(transport);
+      }
     });
-    return results;
-}
+    return false;
+  },
 
+  setTargetEelement: function(element) {
+    this.element = $(element);
+  },
 
-function _each(values, iterator) {
-   for (var i = 0; i < values.length; i++)
-   iterator(values[i]);
-}
-
-
-function extractScripts(response) {
-    jsFragment = '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)';
-    var matchAll = new RegExp(jsFragment, 'img');
-    var matchOne = new RegExp(jsFragment, 'im');
-
-    return collect(response.match(matchAll) || [], function(scriptTag) {
-        return (scriptTag.match(matchOne) || ['', ''])[1];
-    });
-}
-
-
-
-
-function evalScripts(response) {
-    return collect(extractScripts(response), evalScript);
-}
-
-
-
-function evalScript(script) {
-    try { eval(script); } catch(err) { alert('Inline script error '+err.name+ ': '+err.message); }
-}
-
-
-var handleSuccess = function(o){
-    if(typeof(o.responseXML) != 'undefined' || typeof(o.responseText) != 'undefined'){
-        //urlStack.push([currentUrl]);
-        o.argument.div.innerHTML = "<div class='jipClose'><img alt='Закрыть' class='jip' width='16' height='16' src='" + SITE_PATH + "/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
-        if (o.argument.success == true) {
-            o.argument.div.innerHTML += "<div class='jipSuccess'>Данные сохранены.</div>";
-        }
-
-        if (o.responseXML != null) {
-            responseXML = o.responseXML.documentElement;
-            // for HTML from XML
+  success: function(transport)
+  {
+    if(typeof(this.element) != 'undefined' && (typeof(transport.responseXML) != 'undefined' || typeof(transport.responseText) != 'undefined')){
+        var element = this.element;
+        element.update("<div class='jipClose'><img alt='Закрыть' class='jip' width='16' height='16' src='" + SITE_PATH + "/templates/images/close.gif' onclick='javascript: jipWindow.close();' /></div>");
+        var tmp = '';
+        if (transport.responseXML != null) {
+            responseXML = transport.responseXML.documentElement;
             var item = responseXML.getElementsByTagName('html')[0];
-
-            var tmp = '';
             var cnodes = item.childNodes.length;
             for (var i=0; i<cnodes; i++) {
                 if (item.childNodes[i].data != '') {
                     tmp += item.childNodes[i].data;
                 }
             }
-            o.argument.div.innerHTML += tmp;
-            parseJSFromXML(o.responseXML);
+            parseJSFromXML(transport.responseXML);
         } else {
-            o.argument.div.innerHTML += o.responseText;
-        }
-        responseHtml = o.argument.div.innerHTML;
-
-        evalScripts(o.argument.div.innerHTML);
-
-    }
-}
-
-var handleInSuccess = function(o){
-    if(typeof o.responseText !== undefined){
-        o.argument.div.innerHTML = '';
-        if (o.argument.success == true) {
-            o.argument.div.innerHTML += "<div class='jipSuccess'>Данные сохранены.</div>";
-        }
-        o.argument.div.innerHTML += o.responseText;
-        evalScripts(o.argument.div.innerHTML);
-    }
-}
-
-var handleFormSuccess = function(o){
-    if(typeof o.responseText !== undefined){
-        showJip(o.argument.currentUrl);
-        //o.argument.div.innerHTML = "<div style='float: right;'><img alt='Закрыть' width='16' height='16' src='" + SITE_PATH + "/templates/images/close.gif' onclick='javascript: hideJip();' /></div>";
-        //o.argument.div.innerHTML += '<div style="font-size: 100%;color: green;">Данные сохранены</div>' + o.responseText;
-        //div.innerHTML += "<li>HTTP status: " + o.status + "</li>";
-    }
-}
-
-var handleFailure = function(o){
-    if(typeof o.responseText !== undefined){
-        alert("No response. Server error. \r\n Trans_id: " + o.tId + "; HTTP status: " + o.status + "; Code message: " + o.statusText);
-    }
-}
-
-window,onresize = function() { doMoveMask(); }
-//window.onscroll = function() { doMoveMask(); }
-
-document.onkeydown = proccessKey;
-function proccessKey(key) {
-    var code;
-    if (!key) key = window.event;
-    if (key.keyCode) code = key.keyCode;
-    else if (key.which) code = key.which;
-    if (code == 27) {
-        if (last_jipmenu_id) {
-            closeJipMenu(document.getElementById('jip_menu_' + last_jipmenu_id));
-        }
-        return hideJip();
-    }
-}
-
-var jipLockResized = false;
-
-function doMoveMask() {
-    var arrayPageSize = getPageSize();
-    document.getElementById('blockContent').style.height=arrayPageSize[1] +"px";
-}
-
-var lastJipUrl = false;
-var oldOffset = false;
-function showJip(url, success)
-{
-    cleanJip();
-    //doMoveMask();
-    if (document.getElementById('jip')) {
-        doMoveMask();
-        if (document.getElementById('blockContent').style.display != 'block') {
-            document.getElementById('blockContent').style.display = 'block';
-
-            blockOpacityEffect = new OpacityEffect;
-            blockOpacityEffect.custom(document.getElementById('blockContent'), 0, 0.8);
+            tmp = transport.responseText;
         }
 
+        element.update(element.innerHTML + tmp);
+        if (document.getElementsByClassName('jipTitle').length > 0) {
+            var jipTitle = document.getElementsByClassName('jipTitle').last();
+            var jipMoveDiv = document.createElement('div');
+            jipMoveDiv.setAttribute('id', 'jip-' + jipTitle.parentNode.id);
+            Element.extend(jipMoveDiv);
+            jipMoveDiv.addClassName('jipMove');
+            jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
+            new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
+        }
 
-        document.getElementById('jip').style.display = 'block';
-        oldOffset = document.getElementById('jip').offsetHeight;
-        document.getElementById('jip').style.top = document.documentElement.scrollTop + oldOffset + 'px';
+        //element.innerHTML.evalScripts();
+        //new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
+    } else {
+        alert("No response from script. \r\n TransID: " + transport.tId + "; HTTP status: " + transport.status + "; Message: " + transport.statusText);
+    }
+  },
+
+  onError: function(transport)
+  {
+    this.stack.pop(); // delete broken url
+    alert("Error. \r\n TransID: " + transport.tId + "; HTTP status: " + transport.status + "; Message: " + transport.statusText);
+  }
+}
 
 
-        var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById('jip'), success:success }};
-        currentUrl = url;
-        urlStack.push([currentUrl]);
-        var request = YAHOO.util.Connect.asyncRequest('GET', url + '&ajax=1', callback);
+//--------------------------------
+//  JIP window
+// -------------------------------
+jipWindow = Class.create();
+jipWindow.prototype = {
+  initialize: function() {
+    this.jip = false;
+    this.locker = false;
+    this.stack = new Array;
+    this.windowCount = 0;
+    this.currentWindow = 0;
 
-        document.getElementById('jip').style.left  = document.getElementById('jip').offsetLeft + 'px';
+    this.eventKeypress  = this.keyPress.bindAsEventListener(this);
+    this.eventLockClick  = this.lockClick.bindAsEventListener(this);
+    this.eventLockUpdate  = this.lockContent.bindAsEventListener(this);
+  },
+
+  show: function(url, isNew)
+  {
+    isNew = isNew || false;
+    if (isNew || this.windowCount == 0) {
+        var jipDiv = document.createElement('div');
+        this.currentWindow = this.windowCount++;
+        this.stack[this.currentWindow] = new Array();
+        jipDiv.setAttribute('id', 'jip' + this.currentWindow);
+        Element.extend(jipDiv);
+        jipDiv.addClassName('jipWindow');
+        document.body.appendChild(jipDiv);
+    }
+    if (this.jip) {
+        this.jip.setStyle({'zIndex': 900});
+    }
+
+    this.jip = $('jip' + this.currentWindow);
+    if (typeof(mzzAjax) != 'object') {
+        mzzAjax = new mzzAjax();
+    }
+    mzzAjax.setTargetEelement(this.jip);
+    
+    Event.observe(document, "keypress", this.eventKeypress);
+    if (this.jip) {
+        this.lockContent();
+        this.clean();
+        this.jip.setStyle({display: 'block'});
+        this.jip.setStyle({
+            'top': document.documentElement.scrollTop + this.jip.offsetHeight + (this.currentWindow * 5) + 'px',
+            'left': this.jip.offsetLeft + (this.currentWindow * 5) + 'px'
+        });
+
+        new Ajax.Request(url, {
+            method: 'get',
+            parameters: { 'ajax': 1 },
+            onSuccess: function(transport) {
+                mzzAjax.success(transport);
+            },
+            onFailure: function(transport) {
+                mzzAjax.onError(transport);
+            }            
+        });
+        this.stack[this.currentWindow].push(url);
+        this.lockContent();
         return false;
     }
     return true;
-}
+  },
+  
+  lockContent: function()
+  {
+    var pageHeight = getBrowserHeight();
+    if (!this.locker) {
+            this.locker = document.createElement('div');
+            this.locker.setAttribute('id', 'lockContent');
+            Element.extend(this.locker);
+            document.body.insertBefore(this.locker, document.body.childNodes[0]);
+    }
+    //this.locker = $('lockContent');
+    this.locker.setStyle({height: pageHeight.pageHeight +"px"});
 
+    if (this.locker.getStyle('display') != 'block') {
+        Event.observe(window, "resize", this.eventLockUpdate);
+        Event.observe(this.locker, "click", this.eventLockClick);
+        this.locker.setStyle({opacity: 0.01, display: 'block'});
+        new Effect.Opacity(this.locker, {"from" : 0, "to": 0.8, "duration": 0.5});
+    }
+  },
 
-function sendFormWithAjax(form, elementId)
-{
-    elementId = elementId || 'jip';
-    var callback = {success:handleSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
-    YAHOO.util.Connect.setForm(form);
-    var request = YAHOO.util.Connect.asyncRequest(form.getAttribute('method').toUpperCase(), form.action + '&ajax=1', callback);
-    //cleanJip();
-    return false;
-}
+  unlockContent: function()
+  {
+    if (this.locker && this.locker.getStyle('display') == 'block') {
+        Event.stopObserving(this.locker, "click", this.eventLockClick);
+        Event.stopObserving(window, "resize", this.eventLockUpdate);
+        new Effect.Opacity(this.locker, {
+            "from": 0.8,
+            "to": 0,
+            "duration": 0.5,
+            "afterFinish": function () {
+                jipWindow.locker.setStyle({opacity: 0.01, display: 'none'});
+            } 
+        });
+    }
+  },
 
-function sendFormInAjax(form, elementId)
-{
-    elementId = elementId || 'jip';
-    cleanSubJip(elementId);
-    var callback = {success:handleInSuccess, failure:handleFailure, argument: { div:document.getElementById(elementId), currentUrl:currentUrl }};
-    YAHOO.util.Connect.setForm(form);
-    var request = YAHOO.util.Connect.asyncRequest(form.method.toUpperCase(), form.action + '&ajax=1', callback);
-    cleanJip();
-    return false;
-}
+  close: function(windows)
+  {
+    if(this.jip) {
+        windows = windows || 1;
+        var stack = this.stack[this.currentWindow--];
 
-
-
-function hideJip(windows, success)
-{
-    success = success || undefined;
-    windows = windows || 1;
-
-    if(document.getElementById('jip')) {
-        if (urlStack.length > 0) {
-            for (i = 0; i < windows - 1 ; i++) {
-                urlFromStack = urlStack.pop();
+        if (stack.length > 0) {
+            var i = 0;
+            for (var i = 0; i < windows; i++) {
+                stack.pop();
             }
-            lastJipUrl = urlStack.pop();
-            urlFromStack = urlStack.pop();
-            if (urlFromStack != undefined) {
-                return showJip(urlFromStack[0], success);}
-        }
-        last_jipmenu_id = false;
-
-        blockOpacityEffect = new OpacityEffect;
-        blockOpacityEffect.custom(document.getElementById('blockContent'), 0.8, 0);
-
-        //document.getElementById('blockContent').style.display = 'none';
-        document.getElementById('jip').style.display = 'none';
-        if (oldOffset) {
-            document.getElementById('jip').style.top = oldOffset + 'px';
+            var prevUrl = stack.pop();
+            if (prevUrl != undefined) {
+                return this.show(prevUrl);
+            }
         }
 
-
-        lastJipUrl = false;
-        cleanJip();
-        return true;
-
+        this.jip = $('jip' + (this.currentWindow + 1));
+        //this.clean();
+        this.jip.setStyle({display: 'none'});
+        if(--this.windowCount == 0) {
+            Event.stopObserving(document, "keypress", this.eventKeypress);
+            this.unlockContent();
+            this.jip = false;
+            this.currentWindow = 0;
+            this.stack = new Array();
+        } else {
+            this.jip = $('jip' + (this.currentWindow));
+            this.jip.setStyle({zIndex: 902});
+        }
     }
-    return true;
-}
+  },
 
-function cleanJip()
-{
-    document.getElementById('jip').innerHTML = '<p align=center><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" align="texttop"><span id="jipLoad">Загрузка данных... (<a href="javascript: hideJip(); void(0);">отмена</a>)</span></p>';
-}
-
-function cleanSubJip(elementId)
-{
-    elementId = elementId || 'jip';
-    document.getElementById(elementId).innerHTML = 'Загрузка данных. Подождите...';
-}
-
-
-function openJipMenu(button, jipMenu, id) {
-    button.src = SITE_PATH + '/templates/images/jip_active.gif';
-    jipMenu.style.top = '-100px';
-    jipMenu.style.left = '-100px';
-    jipMenu.style.display = 'block';
-
-    if (last_jipmenu_id && last_jipmenu_button) {
-        closeJipMenu(document.getElementById('jip_menu_' + last_jipmenu_id), last_jipmenu_button);
-    }
-
-    if (document.getElementById('jip').style.display == 'block') {
-         var body = document.getElementById('jip');
-    } else {
-         var body = document.body;
-    }
-
-    pos = getPosition(button, body);
-    var x = pos["left"], y = pos["bottom"], w = jipMenu.offsetWidth, h = jipMenu.offsetHeight;
-
-    if((body.clientWidth + body.scrollLeft) - (pos["left"] + w) < 0) {
-        x = (pos["right"] - w >= 0) ? (pos["right"] - w) : body.scrollLeft;
-    }
-
-    if((body.clientHeight + body.scrollTop) - (pos["bottom"] + h) < 0) {
-        y = (pos["top"] - h >= 0) ? (pos["top"] - h) : body.scrollTop;
-    }
-
-    if (body != document.body && isGecko) {
-        x += 4;
-        y += 4;
-    }
-
-    jipMenu.style.left = x + 'px';
-    jipMenu.style.top = (y + 1) + 'px';
-    //jipMenu.style.width = w + 'px';
-    last_jipmenu_id = id;
-    last_jipmenu_button = button;
-}
-
-function closeJipMenu(jipMenu, button) {
-    jipMenu.style.display = 'none';
-    last_jipmenu_id = false;
-    last_jipmenu_button = false;
-    button = button || jipButton;
-    button.src = SITE_PATH + '/templates/images/jip.gif';
-    if(layertimer) {
-        clearTimeout(layertimer);
-    }
-}
-
-function showJipMenu(button, id) {
-    jipMenu = document.getElementById('jip_menu_' + id);
-    if (!jipMenu.style.display || jipMenu.style.display == 'none') {
-        jipButton = button;
-        openJipMenu(button, jipMenu, id);
-        setMouseInJip(false);
-    } else {
-        closeJipMenu(jipMenu);
-    }
-}
-
-function setMouseInJip(status) {
-    if (status == false && last_jipmenu_id) {
-        jipMenu = document.getElementById('jip_menu_' + last_jipmenu_id);
-        layertimer = setTimeout("closeJipMenu(jipMenu)", 900);
-    } else {
-        clearTimeout(layertimer);
-    }
-}
-
-
-
-
-
-
-var isdrag=false;
-var move_x, move_y, tx, ty;
-var dobj, old_mousemoveevent;
-var arrayPageSize = false;
-
-function movemouse(e)
-{
-  if (isdrag)
+  clean: function()
   {
-    var _left = (!isMSIE ? tx + e.clientX - move_x : tx + event.clientX - move_x);
-
-    if (!arrayPageSize) { arrayPageSize = getPageSize();  }
-
-    if (_left >= 0 && _left < arrayPageSize[0] - dobj.offsetWidth) {
-       dobj.style.left  = _left + 'px';
+    if (this.jip) {
+        this.jip.update('<p align=center><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" align="texttop"><span id="jipLoad">Загрузка данных... (<a href="javascript: void(jipWindow.close());">отмена</a>)</span></p>');
     }
-    var _top = (!isMSIE ? ty + e.clientY - move_y : ty + event.clientY - move_y);
+  },
 
+  keyPress: function(event) {
+    if(event.keyCode==Event.KEY_ESC) {
+        this.close();
+        Event.stop(event);
+    }
+  },
 
-    if (_top >= 0 && _top < arrayPageSize[1] - dobj.offsetHeight) {
-       dobj.style.top  = _top + 'px';
+  lockClick: function(event) {
+    new Effect.HighlightBorder(this.jip);
+    Event.stop(event);
+  }
+}
+var jipWindow = new jipWindow;
+
+//--------------------------------
+//  Menu for JIP actions
+// -------------------------------
+jipMenu = Class.create();
+jipMenu.prototype = {
+  initialize: function() {
+    this.jipButton = false;
+    this.eventMouseOut = this.mouseOut.bindAsEventListener(this);
+    this.eventMouseIn = this.mouseIn.bindAsEventListener(this);
+    this.layertimer = false;
+    this.current = {"menu": false, "button": false};
+    this.eventKeypress  = this.keyPress.bindAsEventListener(this);
+  },
+
+  keyPress: function(event) {
+    if (event.keyCode==Event.KEY_ESC && this.current.menu != false && this.current.button != false) {
+        this.close($(this.current.menu));
+    }
+  },
+
+  show: function(button, id) {
+      var jip_menu = $('jip_menu_' + id);
+      if (jip_menu.getStyle('display') == 'none') {
+          this.jipButton = button;
+          this.open(jip_menu);
+          this.current.menu = 'jip_menu_' + id;
+          this.current.button = button;
+          Event.observe(jip_menu, "mouseout", this.eventMouseOut);
+          Event.observe(jip_menu, "mouseover", this.eventMouseIn);
+          Event.observe(document, "keypress", this.eventKeypress);
+          this.mouseOut();
+      } else {
+          Event.stopObserving(jip_menu, "mouseout", this.eventMouseOut);
+          Event.stopObserving(jip_menu, "mouseover", this.eventMouseIn);
+          this.close(jip_menu);
+      }
+  },
+
+  mouseIn: function() {
+    if (this.layertimer) {
+        clearTimeout(this.layertimer);
+    }
+  },
+
+  mouseOut: function() {
+    if (this.layertimer) {
+          this.mouseIn();
+    }
+    if (this.current.menu) {
+        this.layertimer = setTimeout("jipMenu.close($(jipMenu.current.menu))", 800);
+    }
+  },
+
+  close: function(jip_menu) {
+    Event.stopObserving(document, "keypress", this.eventKeypress);
+    jip_menu.setStyle({display: 'none'});
+    this.current.button.src = SITE_PATH + '/templates/images/jip.gif';
+    this.mouseIn();
+    this.current = {"menu": false, "button": false};
+  },
+
+  open: function(jip_menu) {
+    var jip_win = $('jip' + jipWindow.currentWindow);
+    this.jipButton.src = SITE_PATH + '/templates/images/jip_active.gif';
+    jip_menu.setStyle({
+      top: '-100px',
+      left: '-100px',
+      display: 'block'
+    });
+
+    if (this.current.menu != false && this.current.button != false) {
+        this.close($(this.current.menu), this.current.button);
+    }
+ 
+    var body = (jip_win && jip_win.getStyle('display') == 'block') ? jip_win : document.documentElement;
+
+    var size = Element.getDimensions(jip_menu);
+    var buttonSize = Element.getDimensions(this.jipButton);
+
+    var pos = Position.positionedOffset(this.jipButton);
+    var posScroll = Position.realOffset(document.documentElement);
+    if (Position.within(body, pos[0] + size.width - posScroll[0], 0)) {
+        var x = pos[0] + 1;
+    } else {
+        var x = pos[0] - size.width + buttonSize.width - 1;
     }
 
-    return false;
-  } else {
-    document.onmousemove = old_mousemoveevent;
+    if (Position.within(body, 0, pos[1] + size.height + 10 - posScroll[1])) {
+        var y = pos[1] + buttonSize.height + 1;
+    } else {
+        var y = pos[1] - size.height - buttonSize.height + 8;
+    }
+
+    x = (x < 0) ? 0 : x;
+    y = (y < 0) ? 0 : y;
+
+    jip_menu.setStyle({
+      left: x + 'px',
+      top: (y + 1) + 'px'
+    });
+  }
+}
+var jipMenu = new jipMenu;
+
+
+
+//--------------------------------
+//  Draggable for JIP window
+// -------------------------------
+Draggable = Class.create();
+Draggable.prototype = {
+  initialize: function(element, byElement) {
+    var pageSize = Element.getDimensions(document.documentElement);
+    this.pageHeight = pageSize.height;
+    this.pageWidth = pageSize.width;
+
+    this.element      = $(element);
+    this.byElement      = $(byElement);
+    Element.makePositioned(this.element);
+
+    this.active       = false; 
+    this.offsetX      = 0;
+    this.offsetY      = 0;
+    this.eventX       = 0;
+    this.eventY       = 0;
+
+    this.eventMouseDown = this.startDrag.bindAsEventListener(this);
+    this.eventMouseUp   = this.endDrag.bindAsEventListener(this);
+    this.eventMouseMove = this.update.bindAsEventListener(this);
+    this.eventKeypress  = this.keyPress.bindAsEventListener(this);
+    
+    Event.observe(this.byElement, "mousedown", this.eventMouseDown);
+    Event.observe(document, "mouseup", this.eventMouseUp);
+    Event.observe(document, "mousemove", this.eventMouseMove);
+    Event.observe(document, "keypress", this.eventKeypress);
+  },
+  destroy: function() {
+    Event.stopObserving(this.handle, "mousedown", this.eventMouseDown);
+    Event.stopObserving(document, "mouseup", this.eventMouseUp);
+    Event.stopObserving(document, "mousemove", this.eventMouseMove);
+    Event.stopObserving(document, "keypress", this.eventKeypress);
+  },
+  startDrag: function(event) {
+    if(Event.isLeftClick(event)) {
+      this.active = true;
+      this.initOffsets(event);
+      Event.stop(event);
+    }
+  },
+  finishDrag: function(event, success) {
+      this.initOffsets(event);
+      this.active = false;
+  },
+  keyPress: function(event) {
+    if(this.active) {
+      if(event.keyCode==Event.KEY_ESC) {
+        this.finishDrag(event, false);
+        Event.stop(event);
+      }
+    }
+  },
+  endDrag: function(event) {
+    if(this.active) {
+      this.finishDrag(event, true);
+      Event.stop(event);
+    }
+    this.active = false;
+  },
+  draw: function(event) {
+    var style = this.element.style;
+    style.left = this.offsetX + Event.pointerX(event) - this.eventX + "px";
+    style.top  = this.offsetY + Event.pointerY(event) - this.eventY + "px";
+  },
+  update: function(event) {
+    if(this.active) {
+      this.draw(event);
+      Event.stop(event);
+    }
+  },
+  initOffsets: function(event) {
+    var offset = Position.cumulativeOffset(this.element);
+    this.offsetX = parseInt(offset[0] + 0);
+    this.offsetY = parseInt(offset[1] + 0);
+    this.eventX = Event.pointerX(event);
+    this.eventY = Event.pointerY(event);
   }
 }
 
-function selectmouse(e)
-{
-  var fobj       = !isMSIE ? e.target : event.srcElement;
-  var topelement = !isMSIE ? "HTML" : "BODY";
+Effect.HighlightBorder = Class.create();
+Object.extend(Object.extend(Effect.HighlightBorder.prototype, Effect.Base.prototype), {
+  initialize: function(element) {
+    this.element = $(element);
+    if(!this.element) throw(Effect._elementDoesNotExistError);
+    var options = Object.extend({ startcolor: '#000000' }, arguments[1] || {});
+    this.start(options);
+  },
+  setup: function() {
+    if(this.element.getStyle('display')=='none') { this.cancel(); return; }
+    if(!this.options.endcolor)
+      this.options.endcolor = this.element.getStyle('border-color').parseColor('#B6B6B6');
+    if(!this.options.restorecolor)
+      this.options.restorecolor = this.element.getStyle('border-color');
 
-  while (fobj.tagName != topelement && fobj.className != "jipMove")
-  {
-    fobj = !isMSIE ? fobj.parentNode : fobj.parentElement;
+    this._base  = $R(0,2).map(function(i){ return parseInt(this.options.startcolor.slice(i*2+1,i*2+3),16) }.bind(this));
+    this._delta = $R(0,2).map(function(i){ return parseInt(this.options.endcolor.slice(i*2+1,i*2+3),16)-this._base[i] }.bind(this));
+  },
+  update: function(position) {
+    this.element.setStyle({borderColor: $R(0,2).inject('#',function(m,v,i){
+      return m+(Math.round(this._base[i]+(this._delta[i]*position)).toColorPart()); }.bind(this)) });
+  },
+  finish: function() {
+    this.element.setStyle({borderColor: this.options.restorecolor});
   }
-
-  if (fobj.className == "jipMove")
-  {
-    isdrag = true;
-    dobj = /*fobjfobj*/ document.getElementById('jip');
-    tx = parseInt(/*dobj.style.left + */dobj.offsetLeft + 0);
-    ty = parseInt(dobj.style.top + 0);
-    move_x = !isMSIE ? e.clientX : event.clientX;
-    move_y = !isMSIE ? e.clientY : event.clientY;
-    old_mousemoveevent = document.onmousemove;
-    document.onmousemove=movemouse;
-    return false;
-  }
-}
-
-document.onmousedown=selectmouse;
-document.onmouseup=new Function("isdrag=false");
+});

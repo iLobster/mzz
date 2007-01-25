@@ -4,29 +4,91 @@
  * Имеются следующие типы: html, apache, css, ini, javascript, mysql, smarty, sql, xml
  * Если тип не указан, то используется стандартная функция highlight_file
  *
- * @todo разделам присваивается номер в зависимости от их расположения в массиве => добавление новой категории может привести к путанице
  */
 
-function getPaths($array, $path = '') {
-    $values = array();
+$menu = array("intro.Предисловие" =>
+                        array(
+                        "about.Введение",
+                        ),
+           "setup.Установка и настройка" =>
+                        array(
+                        "system_requirements.Минимальные требования",
+                        "linux.Установка на linux",
+                        "windows.Установка на windows",
+                        "configuration.Конфигурация"
+                                => array("system.Системная конфигурация проекта",
+                                         "routes.Настройка Routes для URL",
+                                         "apache.Настройки для http-сервера Apache"),
+                        ),
+           "structure.Структура mzz" =>
+                        array(
+                        "templates.Шаблоны"
+                                => array("about.Общие сведения",
+                                         "load.Функция {load}",
+                                         "add.Функция {add}",
+                                         "url.Функция {url}",
+                                         ),
+                        "classes.Основные (или все) классы из ./system"
+                                => array("toolkit.Тулкит",
+                                         "request.Request",
+                                         "resolver.Resolver",
+                                         "dataspace.Dataspace",
+                                         "frontcontroller.Frontcontroller"
+                                         ),
+                        "run.Процесс запуска приложения",
+                        "mvc.MVC",
+                        "urls.Структура урлов, что какая часть значит",
+                        "orm.ORM",
+                        "folders.Структура каталогов mzz",
+                        "files.Назначение различных файлов (вроде реврайт-мапа итд)",
+                        "jip.JIP и AJAX",
+                        ),
+           "quick_start.Быстрый старт" =>
+                        array(
+                        "project.Структура проекта",
+                        "config.Создание конфигурации для проекта",
+                        "modules.Использование стандартных модулей",
+                        "news_extend.Расширение модуля News для конкретного проекта",
+                        "code_generation.Автоматическая генерация кода",
+                        ),
+           "modules.Модули системы" =>
+                        array(
+                        "description.Описание структуры типичного модуля mzz"
+                                => array("folders.Структура каталогов",
+                                         "actions.Actions",
+                                         "controllers.Controllers",
+                                         "mappers.Mappers",
+                                         "maps.Maps",
+                                         ),
+                        "simple.Описание Simple (надо как то в названии уточнить что от него все остальные отнаследованы) + методика написания новых модулей",
+                        "news.Описание модуля News",
+                        "page.Описание модуля Page",
+                        "timer.Описание модуля Timer",
+                        'writing_module.Написание модуля "с нуля" на примере модуля Comments'
+                                => array("intro.Введение",
+                                         "planning.Планирование",
+                                         "db_structure.Структура БД",
+                                         "urls.Общий вид урлов",
+                                         "creating_folders.Создание структуры каталогов",
+                                         "creating_do.Создание сущностей",
+                                         "module_registration.Регистрация нового модуля в системе",
+                                         "programming.Программирование действий",
+                                         "round_up.Подведение итогов",
+                                         ),
+                        ),
+           "acl.Пользователи и Права" =>
+                        array(
+                        "users.Управление пользователями",
+                        "groups.Управление группами",
+                        "permissions.Управление правами",
+                        ),
+           "db.Возможности работы с БД" =>
+                        array(
+                        "queries.Составление запросов. Использование criteria",
+                        "tree.Работа с древовидными структурами",
+                        ),
+            );
 
-    $i = 1;
-
-    foreach ($array as $key => $value) {
-        $p = (empty($path)) ? $i : $path . '.' . $i;
-
-        if(is_array($value)) {
-            $values[$p] = $key;
-            $values = $values + getPaths($value, $p);
-        } else {
-            $values[$p] = $value;
-        }
-
-        $i++;
-    }
-
-    return $values;
-}
 
 function render($id) {
     $path = 'docs/' . $id . '.php';
@@ -91,120 +153,81 @@ function checkFile($num) {
     }
 }
 
-$menu = array("Предисловие" =>
-                        array(
-                        "Введение",
-                        ),
-           "Установка и настройка" =>
-                        array(
-                        "Минимальные требования",
-                        "Установка на linux",
-                        "Установка на windows",
-                        "Конфигурация"
-                                => array("Системная конфигурация проекта",
-                                         "Настройка Routes для URL",
-                                         "Настройки для http-сервера Apache"),
-                        ),
-           "Структура mzz" =>
-                        array(
-                        "Шаблоны"
-                                => array("Общие сведения",
-                                         "Функция {load}",
-                                         "Функция {add}",
-                                         "Функция {url}",
-                                         ),
-                        "Основные (или все) классы из ./system"
-                                => array("Тулкит",
-                                         "Request",
-                                         "Resolver",
-                                         "Dataspace",
-                                         "Frontcontroller"
-                                         ),
-                        "Процесс запуска приложения",
-                       /*"Средства и методы работы с данными",*/
-                        "MVC",
-                        "Структура урлов, что какая часть значит",
-                        "ОРМ",
-                        "Структура каталогов mzz",
-                        "Назначение различных файлов (вроде реврайт-мапа итд)",
-                        ),
-           "Быстрый старт" =>
-                        array(
-                        "Структура проекта",
-                        "Создание конфигурации для проекта",
-                        "Использование стандартных модулей",
-                        "Расширение модуля News для конкретного проекта",
-                        "Автоматическая генерация кода",
-                        ),
-           "Модули системы" =>
-                        array(
-                        "Описание структуры типичного модуля mzz"
-                                => array("Структура каталогов",
-                                         "Actions",
-                                         "Controllers",
-                                         "Mappers",
-                                         "Maps",
-                                         ),
-                        "Описание Simple (надо как то в названии уточнить что от него все остальные отнаследованы) + методика написания новых модулей",
-                        "Описание модуля News",
-                        "Описание модуля Page",
-                        "Описание модуля Timer",
-                        'Написание модуля "с нуля" на примере модуля Comments'
-                                => array("Введение",
-                                         "Планирование",
-                                         "Структура БД",
-                                         "Общий вид урлов",
-                                         "Создание структуры каталогов",
-                                         "Создание сущностей",
-                                         "Регистрация нового модуля в системе",
-                                         "Программирование действий",
-                                         "Подведение итогов",
-                                         ),
-                        ),
-           "Пользователи и Права" =>
-                        array(
-                        "Управление пользователями",
-                        "Управление группами",
-                        "Управление правами",
-                        ),
-           "Возможности работы с БД" =>
-                        array(
-                        "Составление запросов. Использование criteria",
-                        "Работа с древовидными структурами",
-                        ),
-            );
 
-$_SELF = $_SERVER['PHP_SELF'];
+function getPaths($array, $path = '', $num = '') {
+    $values = array();
+    $i = 1;
+
+    foreach ($array as $key => $value) {
+        $meta = explode('.', $key, 2);
+        $link = trim($meta[0]);
+        $n = (empty($num)) ? $i : $num . '.' . $i;
+
+        $p = (empty($path)) ? $link : $path . '.' . $link;
+        if(is_array($value)) {            
+            $values[$p] = array($key, $n, trim($meta[1]));
+            $values = $values + getPaths($value, $p, $n);
+        } else {
+            $meta = explode('.', $value, 2);
+            $link = trim($meta[0]);
+            $p = (empty($path)) ? $link : $path . '.' . $link;
+            $values[$p] = array($value, $n, trim($meta[1]));
+        }
+        $i++;
+    }
+
+    return $values;
+}
+
+
 if (!isset($_REQUEST['cat'])) {
     require_once('header.inc.php');
     echo "<strong>Содержание</strong><br />\n<dl>\n";
     $i = 1;
     // Все категории
-    foreach ($menu as $title => $items) {
-        echo '<dt><a href="' . $_SELF . '?cat=' . $i . '#' . $i . '">' . $i . '. ' . $title . "</a></dt>\n";
+    foreach ($menu as $meta => $items) {
+        $meta = explode('.', $meta, 2);
+        $title = trim($meta[1]);
+        $link = trim($meta[0]);
+
+        echo '<dt><a href="' . $link . '.html#' . $link . '">' . $i . '. ' . $title . "</a></dt>\n";
 
         $n = 1;
         // Все подкатегории
         echo '<dd><dl>';
-        foreach ($items as $subtitle => $subitem) {
-            //
-            $num = implode('.', array($i, $n));
+        foreach ($items as $submeta => $subitem) {
+            $num = $i . '.' . $n;
             if (is_array($subitem)) {
+
+                $submeta = explode('.', $submeta, 2);
+                $subtitle = trim($submeta[1]);
+                $sublink = $link . '.' .trim($submeta[0]);
+
                 $m = 1;
-                echo '<dt><a href="' . $_SELF . '?cat=' . $num . '#' . $num . '">' . $num . '. ' . $subtitle . "</a></dt>\n";
+                echo '<dt><a href="' . $sublink . '.html#' . $sublink . '">' . $num . '. ' . $subtitle . "</a></dt>\n";
                 echo '<dd><dl>';
                 // Разделы в подкатегориях
-                foreach ($subitem as $subsubitem) {
-                    $num = implode('.', array($i, $n, $m));
-                    echo '<dt><a href="' . $_SELF . '?cat=' . $i . '.' . $n . '#' . $num .'">' . $num . '. ';
-                    echo $subsubitem . "</a> " . checkFile($num) . "</dt>\n";
+                foreach ($subitem as $subsubmeta) {
+                    $num = $i . '.' . $n . '.' . $m;
+
+                    $subsubmeta = explode('.', $subsubmeta, 2);
+                    $subsubtitle = trim($subsubmeta[1]);
+
+                    $subsublink = $sublink . '.' .trim($subsubmeta[0]);
+
+                    echo '<dt><a href="' . $sublink . '.html#' . $subsublink .'">' . $num . '. ';
+                    echo $subsubtitle . "</a> " . checkFile($subsublink) . "</dt>\n";
 
                     $m++;
                 }
                 echo '</dl></dd>';
 
             } else {
-                echo '<dt><a href="' . $_SELF . '?cat=' . $num . '#' . $num .'">' . $num . '. ' . $subitem . "</a>" . checkFile($num) . "</dt>\n";
+                $subitem = explode('.', $subitem, 2);
+                $subtitle = trim($subitem[1]);
+                $sublink = $link . '.' .trim($subitem[0]);
+
+                echo '<dt><a href="' . $sublink . '.html#' . $sublink .'">' . $num . '. ' . $subtitle . "</a>" . checkFile($sublink) . "</dt>\n";
             }
             $n++;
 
@@ -229,7 +252,7 @@ if (!isset($_REQUEST['cat'])) {
         }
     }
 
-    $prev = 1;
+    $prev = false;
 
     $break = false;
     foreach($tmp as $path => $title) {
@@ -243,23 +266,27 @@ if (!isset($_REQUEST['cat'])) {
         }
     }
 
-    $title = $paths[$_REQUEST['cat']];
+    if (isset($paths[$_REQUEST['cat']])) {
+        $title = $paths[$_REQUEST['cat']][2];
+    } else {
+        exit('Такого раздела в документации больше нет...');
+    }
     require_once('header.inc.php');
 
     echo '<div class="navigation"><table width="99%" summary="Navigation">
     <tr>
      <td width="20%" align="left">';
-    if($prev != $_REQUEST['cat']) {
-        echo '<a href="' . $_SELF . '?cat=' . $prev . '">Назад</a>';
+    if($prev && $prev != $_REQUEST['cat']) {
+        echo '<a href="' . $prev . '.html">Назад</a>';
     } else {
         echo 'Назад';
     }
     echo '</td>
-       <td width="60%" align="center"><a href="' . $_SELF . '?cat=' . $cat[0] . '">' . $cat[0] . '. ' . $paths[$cat[0]] . '</a></td>
+       <td width="60%" align="center"><a href="' . $cat[0] . '.html">' . $paths[$cat[0]][1] . '. ' . $paths[$cat[0]][2] . '</a></td>
        <td width="20%" align="right">';
 
     if($path != $_REQUEST['cat']) {
-        echo '<a href="' . $_SELF . '?cat=' . $path . '">Вперед</a>';
+        echo '<a href="' . $path . '.html">Вперед</a>';
     } else {
         echo 'Вперед';
     }
@@ -271,20 +298,25 @@ if (!isset($_REQUEST['cat'])) {
 
 
     if (isset($cat[1])) {
-        $category = $paths[$cat[0]];
-        $tmp = $paths[$_REQUEST['cat']];
+        $category = $paths[$cat[0]][0];
+        $tmp = $paths[$_REQUEST['cat']][0];
 
-
-        echo '<p class="title"><a name="' . $_REQUEST['cat'] . '"></a>' . $_REQUEST['cat'] . ' ' . $paths[$_REQUEST['cat']] . '</p>';
+        echo '<p class="title"><a name="' . $_REQUEST['cat'] . '"></a>' . $paths[$_REQUEST['cat']][1] . ' ' . $paths[$_REQUEST['cat']][2] . '</p>';
         if (isset($menu[$category][$tmp]) && is_array($menu[$category][$tmp])) {
             $i = 1;
             echo "<dl>";
             foreach($menu[$category][$tmp] as $title => $value) {
 
-                $num = $_REQUEST['cat'];
-                echo '<dt><a href="' . $_SELF . '?cat=' . $num . '#' . $num . '.' . $i . '">' . $num . '.' . $i . ' ';
-                echo (is_array($value)) ? $title : $value;
-                echo "</a></dt>\n";
+                $meta = (is_array($value)) ? $title : $value;
+                $meta = explode('.', $meta, 2);
+                $title = trim($meta[1]);
+                $name = $_REQUEST['cat'];
+                $linkname = $_REQUEST['cat'] . '.' . trim($meta[0]);
+
+                $num = $paths[$_REQUEST['cat']][1];
+
+                echo '<dt><a href="' . $name . '.html#' . $linkname . '">' . $num . '.' . $i . ' ';
+                echo $title . "</a></dt>\n";
                 $i++;
             }
             echo "</dl>";
@@ -293,8 +325,14 @@ if (!isset($_REQUEST['cat'])) {
 
         if(isset($menu[$category][$tmp]) && is_array($menu[$category][$tmp])) {
             foreach ($menu[$category][$tmp] as $key => $title) {
-                $id = $_REQUEST['cat'] . '.' . ($key + 1);
-                echo '<div class="subtitle"><a name="' . $id . '"></a>' . $id . ' ' . $title . '</div>';
+
+                $meta = explode('.', $title, 2);
+                $title = trim($meta[1]);
+                $link = trim($meta[0]);
+
+                $id = $_REQUEST['cat'] . '.' . $link;
+                $num = $paths[$_REQUEST['cat']][1] . '.' . ($key + 1);
+                echo '<div class="subtitle"><a name="' . $id . '"></a>' . $num . ' ' . $title . '</div>';
                 echo render($id);
             }
         } else {
@@ -302,15 +340,22 @@ if (!isset($_REQUEST['cat'])) {
         }
 
     } else {
-        $tmp = $paths[$cat[0]];
+        $tmp = $paths[$cat[0]][0];
+
         $i = 1;
         echo "<dl>";
         foreach($menu[$tmp] as $title => $value) {
+            $meta = (is_array($value)) ? $title : $value;
+            $meta = explode('.', $meta, 2);
+            $title = trim($meta[1]);
+            $link = trim($meta[0]);
 
-            $num = $cat[0] . "." . $i;
-            echo '<dt><a href="' . $_SELF . '?cat=' . $num . '#' . $num . '">' . $num . '. ';
-            echo (is_array($value)) ? $title : $value;
-            echo "</a></dt>\n";
+
+            $num = $paths[$cat[0]][1] . "." . $i;
+            $link = $cat[0] . '.' . $link;
+
+            echo '<dt><a href="' . $link . '.html#' . $link . '">' . $num . '. ';
+            echo $title . "</a></dt>\n";
             $i++;
         }
         echo "</dl>";
@@ -322,16 +367,16 @@ if (!isset($_REQUEST['cat'])) {
     <tr>
      <td width="20%" align="left" valign="top">';
     if($prev != $_REQUEST['cat']) {
-        echo '<a href="' . $_SELF . '?cat=' . $prev . '">Назад</a>';
+        echo '<a href="' . $prev . '.html">Назад</a>';
     } else {
         echo 'Назад';
     }
     echo '</td>
-       <td width="60%" align="center"><a href="' . $_SELF . '?cat=' . $cat[0] . '">' . $cat[0] . '. ' . $paths[$cat[0]] . '</a><br /><a href="' . $_SELF . '">Индекс</a></td>
+       <td width="60%" align="center"><a href="' . $cat[0] . '.html">' . $paths[$cat[0]][1] . '. ' . $paths[$cat[0]][2] . '</a><br /><a href="index.html">Индекс</a></td>
        <td width="20%" align="right" valign="top">';
 
     if($path != $_REQUEST['cat']) {
-        echo '<a href="' . $_SELF . '?cat=' . $path . '">Вперед</a>';
+        echo '<a href="' . $path . '.html">Вперед</a>';
     } else {
         echo 'Вперед';
     }

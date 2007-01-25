@@ -42,7 +42,7 @@ function parseJSFromXML(xml) {
                 addListener(scr, 'load',  onScriptLoad);
                 addListener(scr, 'error', onScriptLoad);
                 scr.type = 'text/javascript';
-                void(scr.src = script_src/* + '?' + new Number(new Date())*/);
+                void(scr.src = script_src /*+ '?' + new Number(new Date())*/);
                 void(scr.id = script_src);
                 document.getElementsByTagName('head')[0].appendChild(scr);
             }
