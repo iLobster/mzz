@@ -14,7 +14,7 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1.1
+ * @version 0.1.2
  */
 class acl
 {
@@ -143,6 +143,7 @@ class acl
      *
      * @param string|null $param
      * @param boolean $clean флаг, обозначающий что права будут извлекаться для пользователя исключительно, без учёта прав на группы, в которых он состоит
+     * @param boolean $full флаг, обозначающий, будет ли информация получаться отдельно по значениям "разрешено/запрещено" или результирующему значению разрешения
      * @return array|bool массив с правами | наличие/отсутствие права
      */
     public function get($param = null, $clean = false, $full = false)
@@ -180,7 +181,12 @@ class acl
                 } else {
                     $value = (bool)$row['access'];
                 }
-                $this->result[$this->obj_id][$clean][$full][$row['name']] = $value || $this->isRoot;
+
+                if ($this->isRoot) {
+                    $this->result[$this->obj_id][$clean][$full][$row['name']] = $full ? array('allow' => true, 'deny' => false) : true;
+                } else {
+                    $this->result[$this->obj_id][$clean][$full][$row['name']] = $value;
+                }
             }
         }
 
@@ -249,6 +255,7 @@ class acl
      * Получение прав для конкретной группы
      *
      * @param integer $gid
+     * @param boolean $full флаг, определяющий в каком формате выдавать массив с результатом (полный/сокращённый)
      * @return array
      */
     public function getForGroup($gid, $full = false)
@@ -282,6 +289,7 @@ class acl
      * Получение прав по умолчанию для конкретной группы
      *
      * @param integer $gid
+     * @param boolean $full флаг, определяющий в каком формате выдавать массив с результатом (полный/сокращённый)
      * @return array
      */
     public function getForGroupDefault($gid, $full = false)
@@ -312,6 +320,7 @@ class acl
     /**
      * Получение списков ACL по умолчанию
      *
+     * @param boolean $full флаг, определяющий в каком формате выдавать массив с результатом (полный/сокращённый)
      * @return array
      */
     public function getDefault($full = false)
@@ -342,6 +351,7 @@ class acl
     /**
      * Получение прав для владельца вновь создаваемого объекта
      *
+     * @param boolean $full флаг, определяющий в каком формате выдавать массив с результатом (полный/сокращённый)
      * @return array
      */
     public function getForOwner($full = false)
@@ -607,6 +617,7 @@ class acl
      * @param integer $obj_id уникальный id регистрируемого объекта
      * @param string $class имя ДО
      * @param string $section имя раздела
+     * @param string $module имя модуля
      */
     public function register($obj_id, $class = null, $section = null, $module = null)
     {
@@ -642,10 +653,15 @@ class acl
             $id = $this->getClassSection($this->class, $this->section);
 
             $this->db->query('INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (' . $this->obj_id . ', ' . $id . ')');
-
         }
     }
 
+    /**
+     * метод, возвращающий зарегистрирован объект в ACL или нет
+     *
+     * @param integer $obj_id
+     * @return boolean
+     */
     public function isRegistered($obj_id)
     {
         $stmt = $this->db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_access_registry` WHERE `obj_id` = :obj_id');
@@ -832,7 +848,7 @@ class acl
      * бинд всех переменных в стейтмент
      *
      * @param mzzStatement $stmt
-     * @param integer $obj_id
+     * @param boolean $additionArgs
      * @see acl::get()
      * @see acl::doRoutine()
      * @see acl::delete()

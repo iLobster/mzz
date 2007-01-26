@@ -17,6 +17,7 @@
                         <a href="{url section="admin" id=$id action="editClass"}" onClick="return showJip(this.href);"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" /></a>
                         <a href="{url section="admin" id=$id action="deleteClass"}" onClick="return mzz_confirm('Вы хотите удалить этот класс?') &amp;&amp; showJip(this.href);"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить класс" /></a>
                     {/if}
+                    <a href="{url section="admin" id=$id action="updateActions"}" onClick="return showJip(this.href);">обновить экшны</a>
                     <br />
                 {/foreach}
                 {if not $smarty.foreach.mcycle.last}

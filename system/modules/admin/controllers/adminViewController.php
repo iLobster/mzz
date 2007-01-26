@@ -17,10 +17,8 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
-
-fileLoader::load('admin/views/adminViewView');
 
 class adminViewController extends simpleController
 {
@@ -28,7 +26,12 @@ class adminViewController extends simpleController
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
-        return new adminViewView($adminMapper->getInfo());
+        $info = $adminMapper->getInfo();
+        $this->smarty->assign('info', $info['data']);
+        $this->smarty->assign('cfgAccess', $info['cfgAccess']);
+        $this->smarty->assign('admin', $info['admin']);
+        $this->smarty->assign('title', 'Панель управления');
+        return $this->smarty->fetch('admin/view.tpl');
     }
 }
 

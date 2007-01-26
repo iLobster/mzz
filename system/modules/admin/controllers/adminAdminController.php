@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 
 fileLoader::load('admin/views/adminAdminView');
@@ -42,7 +42,13 @@ class adminAdminController extends simpleController
         /**
          * @todo подумать над тем, что должно быть в случае 403 здесь
          */
-        return $access ? new adminAdminView($section, $module) : 'нет доступа';
+        if ($access) {
+            $this->smarty->assign('section_name', $section);
+            $this->smarty->assign('module_name', $module);
+            return $this->smarty->fetch('admin/admin.tpl');
+        } else {
+            return 'нет доступа';
+        }
     }
 }
 

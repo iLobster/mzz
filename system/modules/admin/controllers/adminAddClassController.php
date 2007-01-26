@@ -12,7 +12,6 @@
  * @version $Id$
 */
 
-fileLoader::load('admin/views/adminAddClassView');
 fileLoader::load('admin/views/adminAddClassForm');
 
 /**
@@ -20,7 +19,7 @@ fileLoader::load('admin/views/adminAddClassForm');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 class adminAddClassController extends simpleController
 {
@@ -70,7 +69,13 @@ class adminAddClassController extends simpleController
             return new simpleJipRefreshView();
         }
 
-        return new adminAddClassView($data, $form, $action);
+        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+        $form->accept($renderer);
+
+        $this->smarty->assign('data', $data);
+        $this->smarty->assign('action', $action);
+        $this->smarty->assign('form', $renderer->toArray());
+        return $this->smarty->fetch('admin/addClass.tpl');
     }
 }
 

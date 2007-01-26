@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3
+ * @version 0.3.1
  */
 
 abstract class simpleMapper
@@ -386,7 +386,8 @@ abstract class simpleMapper
             $this->addSelectFields($criteria, $mapper->getMap(), $val['class'], $key);
 
             $joinCriterion = new criterion($this->className . '.' . $key, $key . '.' . $val['key'], criteria::EQUAL, true);
-            $criteria->addJoin($val['table'], $joinCriterion, $key);
+
+            $criteria->addJoin($val['table'], $joinCriterion, $key, $val['join_type']);
         }
     }
 
@@ -697,7 +698,15 @@ abstract class simpleMapper
         $sectionName = isset($val['section']) ? $val['section'] : $this->section();
         $moduleName = isset($val['module']) ? $val['module'] : $this->name();
 
-        return array($tableName, $fieldName, $className, $sectionName, $moduleName);
+        $join_type = criteria::JOIN_LEFT;
+        if (isset($val['join_type'])) {
+            $valid_join_types = array('left', 'inner');
+            if (array_search($val['join_type'], $valid_join_types)) {
+                $join_type = criteria::JOIN_INNER;
+            }
+        }
+
+        return array($tableName, $fieldName, $className, $sectionName, $moduleName, $join_type);
     }
 
     /**
@@ -712,9 +721,9 @@ abstract class simpleMapper
             foreach ($this->getMap() as $key => $val) {
                 if (isset($val['owns'])) {
                     $val['relate'] = $val['owns'];
-                    list($tableName, $fieldName, $className, $sectionName, $moduleName) = $this->explodeRelateData($val);
+                    list($tableName, $fieldName, $className, $sectionName, $moduleName, $joinType) = $this->explodeRelateData($val);
 
-                    $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className);
+                    $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'join_type' => $joinType);
                 }
             }
         }

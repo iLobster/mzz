@@ -12,14 +12,12 @@
  * @version $Id$
 */
 
-fileLoader::load('admin/views/adminDevToolbarView');
-
 /**
  * adminDevToolbarController: контроллер для метода devToolbar модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 class adminDevToolbarController extends simpleController
 {
@@ -30,7 +28,9 @@ class adminDevToolbarController extends simpleController
         $modules = $adminMapper->getModulesList();
         $sections = $adminMapper->getSectionsList();
 
-        return new adminDevToolbarView($modules, $sections);
+        $this->smarty->assign('modules', $modules);
+        $this->smarty->assign('sections', $sections);
+        return $this->smarty->fetch('admin/devToolbar.tpl');
     }
 }
 
