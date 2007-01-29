@@ -12,6 +12,8 @@
  * @version $Id$
 */
 
+fileLoader::load('codegenerator/classGenerator');
+
 /**
  * adminDeleteClassController: контроллер для метода deleteClass модуля admin
  *
@@ -45,6 +47,15 @@ class adminDeleteClassController extends simpleController
         }
 
         $db = DB::factory();
+
+        $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
+
+        $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+        $dest = (file_exists(systemConfig::$pathToApplication . $const . $data['name'])) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
+
+        $classGenerator = new classGenerator($modules[$data['module_id']]['name'], $dest . $const);
+        $classGenerator->delete($data['name']);
+
         $db->query('DELETE FROM `sys_classes` WHERE `id` = ' .$id);
 
         $url = new url();

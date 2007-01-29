@@ -38,6 +38,11 @@ class adminMapper extends simpleMapper
      */
     protected $className = 'admin';
 
+    /**
+     * ћетод получени€ общей инормации об установленных модул€х, разделах и их отношений
+     *
+     * @return array
+     */
     public function getInfo()
     {
         $toolkit = systemToolkit::getInstance();
@@ -75,6 +80,11 @@ class adminMapper extends simpleMapper
         return array('data' => $result, 'cfgAccess' => $access, 'admin' => $admin);
     }
 
+    /**
+     * ћетод получени€ списка модулей и классов, которые им принадлежат
+     *
+     * @return array
+     */
     public function getModulesList()
     {
         $modules = $this->db->getAll('SELECT (COUNT(`ca`.`id`) + COUNT(`cs`.`id`) > 0) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id` FROM `sys_modules` `m`
@@ -98,6 +108,11 @@ class adminMapper extends simpleMapper
         return $result;
     }
 
+    /**
+     * ћетод получени€ списка разделов и классов, принадлежащих им
+     *
+     * @return array
+     */
     public function getSectionsList()
     {
         $sections = $this->db->getAll('SELECT DISTINCT `s`.`name` AS `section`, `s`.`id` AS `s_id`, `c`.`name` AS `class`, `c`.`id` AS `c_id` FROM `sys_sections` `s`
@@ -131,6 +146,12 @@ class adminMapper extends simpleMapper
         return $result;
     }*/
 
+    /**
+     * Enter description here...
+     *
+     * @return unknown
+     */
+    /*
     public function getClassesInSections()
     {
         $classes_section = $this->db->getAll("SELECT `cs`.`id` as `id`, CONCAT_WS('_', `c`.`name`, `s`.`name`) as `name` FROM `sys_classes_sections` `cs`
@@ -142,7 +163,7 @@ class adminMapper extends simpleMapper
             $result[$class_section['id']] = $class_section['name'];
         }
         return $result;
-    }
+    }*/
 
     /**
      * ¬озвращает уникальный дл€ ƒќ идентификатор исход€ из аргументов запроса

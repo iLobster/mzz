@@ -39,6 +39,8 @@ class userGroupsListView extends simpleView
 
         $this->smarty->assign('groups', $this->DAO->searchAll());
         $this->smarty->assign('pager', $pager);
+        $this->smarty->assign('obj_id', $this->DAO->convertArgsToId(null));
+
 
         $this->response->setTitle('Пользователь -> Список групп');
 

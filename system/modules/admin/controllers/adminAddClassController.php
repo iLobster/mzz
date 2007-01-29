@@ -13,6 +13,7 @@
 */
 
 fileLoader::load('admin/views/adminAddClassForm');
+fileLoader::load('codegenerator/classGenerator');
 
 /**
  * adminAddClassController: контроллер для метода addClass модуля admin
@@ -25,6 +26,11 @@ class adminAddClassController extends simpleController
 {
     public function getView()
     {
+        $dest = array(
+        'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules',
+        'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules'
+        );
+
         $id = $this->request->get('id', 'integer', SC_PATH);
         $action = $this->request->getAction();
 
@@ -55,14 +61,27 @@ class adminAddClassController extends simpleController
             $values = $form->exportValues();
 
             if ($action == 'addClass') {
+                $classGenerator = new classGenerator($data['name'], $dest[$values['dest']]);
+                try {
+                    $log = $classGenerator->generate($values['name']);
+                } catch (Exception $e) {
+                    return $e->getMessage() . $e->getLine() . $e->getFile();
+                }
+
                 $stmt = $db->prepare('INSERT INTO `sys_classes` (`name`, `module_id`) VALUES (:name, :module_id)');
                 $stmt->bindValue(':module_id', $data['id'], PDO::PARAM_INT);
+                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                $stmt->execute();
 
-            } else {
-                $stmt = $db->prepare('UPDATE `sys_classes` SET `name` = :name WHERE `id` = :id');
-                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $this->smarty->assign('log', $log);
+                return $this->smarty->fetch('admin/addClassResult.tpl');
             }
 
+            $classGenerator = new classGenerator($modules[$data['module_id']]['name'], $dest[$values['dest']]);
+            $classGenerator->rename($data['name'], $values['name']);
+
+            $stmt = $db->prepare('UPDATE `sys_classes` SET `name` = :name WHERE `id` = :id');
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
             $stmt->execute();
 

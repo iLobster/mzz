@@ -1,5 +1,5 @@
 {add file="popup.js"}
-
+<a href="{url section=access obj_id=$obj_id action=editACL}" onClick="showJip('{url section=access obj_id=$obj_id action=editACL}'); return false;"><img src="{$SITE_PATH}/templates/images/acl.gif" /></a>
 <div id="submenu"><a href="{url section=user action=list}">Пользователи</a></div>
 
 <table border="0" width="99%" cellpadding="4" cellspacing="1" class="list">

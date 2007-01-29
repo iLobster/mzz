@@ -44,6 +44,8 @@ class adminUpdateActionsController extends simpleController
             $actions_db[] = $row['name'];
         }
 
+        $deleted = $inserted = array();
+
         // выбираем все экшны для данного ДО из INI-файла
         $action = new action($data['m_name']);
         $tmp = $action->getActions(true);
@@ -60,6 +62,7 @@ class adminUpdateActionsController extends simpleController
                 $db->query($qry);
             }
 
+            $exists_in_db = array();
             // добавляем в БД экшны, которых в БД нет
             if (sizeof($to_insert)) {
                 // проверяем - существуют ли вообще добавляемые экшны
@@ -71,7 +74,6 @@ class adminUpdateActionsController extends simpleController
 
                 $qry = "SELECT * FROM `sys_actions` WHERE `name` IN (" . $names_needle . ")";
 
-                $exists_in_db = array();
                 $stmt = $db->query($qry);
                 while ($row = $stmt->fetch()) {
                     $exists_in_db[$row['id']] = $row['name'];
@@ -96,7 +98,9 @@ class adminUpdateActionsController extends simpleController
                 $db->query($qry);
             }
 
-            return 'Обновление успешно завершено';
+            $this->smarty->assign('insert', $exists_in_db);
+            $this->smarty->assign('delete', $to_delete);
+            return $this->smarty->fetch('admin/updateActions.tpl');
         } else {
             return 'Для данного ДО не найден файл с экшнами';
         }

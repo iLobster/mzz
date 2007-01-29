@@ -40,6 +40,21 @@ class adminAddClassForm
             $form->setDefaults($defaultValues);
         }
 
+        $dest = array();
+        if (is_writable($system = systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules')) {
+            $dest['sys'] = $system;
+        }
+        if (is_writable($app = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules')) {
+            $dest['app'] = $app;
+        }
+
+        $select = $form->addElement('select', 'dest', 'Каталог генерации:', $dest);
+        if (sizeof($dest) == 1) {
+            $val = current(array_keys($dest));
+            $select->setSelected($val);
+            $select->freeze();
+        }
+
         $form->addElement('text', 'name', 'Название:', 'size="30"');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: hideJip();"');
