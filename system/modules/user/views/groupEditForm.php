@@ -54,7 +54,7 @@ class groupEditForm
         $form->registerRule('isUniqueName', 'callback', 'createGroupValidation');
         $form->addRule('name', 'группа с таким именем уже существует', 'isUniqueName', array($group, $groupMapper));
 
-        $form->addElement('reset', 'reset', 'Отмена','onclick="javascript: hideJip();"');
+        $form->addElement('reset', 'reset', 'Отмена','onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }

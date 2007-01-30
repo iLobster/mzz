@@ -48,7 +48,7 @@ class userEditForm
         $form->registerRule('isUniqueLogin', 'callback', 'createUserValidation');
         $form->addRule('login', 'пользователь с таким именем уже существует', 'isUniqueLogin', array($user, $userMapper));
 
-        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: hideJip();\'');
+        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }

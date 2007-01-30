@@ -1,5 +1,5 @@
 {add file="popup.js"}
-<a href="{url section=access obj_id=$obj_id action=editACL}" onClick="showJip('{url section=access obj_id=$obj_id action=editACL}'); return false;"><img src="{$SITE_PATH}/templates/images/acl.gif" /></a>
+<a href="{url section=access obj_id=$obj_id action=editACL}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/acl.gif" /></a>
 <div id="submenu"><a href="{url section=user action=list}">Пользователи</a></div>
 
 <table border="0" width="99%" cellpadding="4" cellspacing="1" class="list">
@@ -18,8 +18,8 @@
         </tr>
     {/foreach}
     <tr>
-        <td align="center"><a href="{url section=user action=groupCreate}" onClick="return showJip(this.href);"><img src="{$SITE_PATH}/templates/images/add.gif" width="16" height="16" /></a></td>
-        <td colspan="3"><a href="{url section=user action=groupCreate}" onClick="return showJip(this.href);">Добавить группу</a></td>
+        <td align="center"><a href="{url section=user action=groupCreate}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/add.gif" width="16" height="16" /></a></td>
+        <td colspan="3"><a href="{url section=user action=groupCreate}" onClick="return jipWindow.open(this.href);">Добавить группу</a></td>
     </tr>
 </table>
 <div class="pages">{$pager->toString()}</div>

@@ -42,7 +42,7 @@ class adminAddSectionForm
 
         $form->addElement('text', 'name', 'Название:', 'size="30"');
 
-        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: hideJip();"');
+        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');
 
         $form->registerRule('isUniqueName', 'callback', 'addSectionValidate');

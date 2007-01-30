@@ -9,7 +9,7 @@
             </tr>
         {/foreach}
         <tr>
-            <td colspan="3"><input type="submit" value="Сохранить"> <input type="reset" value="Отмена" onclick="javascript: hideJip();"></td>
+            <td colspan="3"><input type="submit" value="Сохранить"> <input type="reset" value="Отмена" onclick="javascript: jipWindow.close();"></td>
         </tr>
     </table>
 </form>

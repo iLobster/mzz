@@ -37,7 +37,7 @@ class adminAddObjToRegistryForm
 
         $form->addElement('select', 'class_section', 'Для класса в секции:', $data);
 
-        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: hideJip();"');
+        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');
 
         $form->registerRule('isClassSectionExists', 'callback', 'addObjToRegistryValidate');

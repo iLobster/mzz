@@ -23,11 +23,56 @@ function getBrowserHeight() {
 
 
 //--------------------------------
+//  Cookie tools
+//  Cookie: a class for dealing with cookies.
+//  Simple set, get, and remove methods.
+//  Made by Vinnie Garcia but adapted from code
+//  publicly available on many JavaScript sites.
+// -------------------------------
+var Cookie = {
+ set: function (name, value, expires, path, domain, secure) {
+    document.cookie= name + "=" + escape(value) +
+        ((expires) ? "; expires=" + expires.toGMTString() : "") +
+        ((path) ? "; path=" + path : "") +
+        ((domain) ? "; domain=" + domain : "") +
+        ((secure) ? "; secure" : "");
+ },
+
+ get: function (name) {
+    var dc = document.cookie;
+    var prefix = name + "=";
+    var begin = dc.indexOf("; " + prefix);
+    if (begin == -1) {
+        begin = dc.indexOf(prefix);
+        if (begin != 0) return null;
+    } else {
+        begin += 2;
+    }
+    var end = document.cookie.indexOf(";", begin);
+    if (end == -1) {
+        end = dc.length;
+    }
+    return unescape(dc.substring(begin + prefix.length, end));
+ },
+
+ remove: function (name, path, domain) {
+    if (Cookie.get(name)) {
+        document.cookie = name + "=" +
+            ((path) ? "; path=" + path : "") +
+            ((domain) ? "; domain=" + domain : "") +
+            "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+    }
+ }
+}
+
+
+//--------------------------------
 //  AJAX tools
 // -------------------------------
 mzzAjax = Class.create();
 mzzAjax.prototype = {
   initialize: function() {
+    this.drag = false;
   },
 
   sendForm: function(form, method) {
@@ -80,7 +125,7 @@ mzzAjax.prototype = {
             Element.extend(jipMoveDiv);
             jipMoveDiv.addClassName('jipMove');
             jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
-            new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
+            this.drag = new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
         }
 
         //element.innerHTML.evalScripts();
@@ -115,7 +160,7 @@ jipWindow.prototype = {
     this.eventLockUpdate  = this.lockContent.bindAsEventListener(this);
   },
 
-  show: function(url, isNew)
+  open: function(url, isNew)
   {
     isNew = isNew || false;
     if (isNew || this.windowCount == 0) {
@@ -126,25 +171,32 @@ jipWindow.prototype = {
         Element.extend(jipDiv);
         jipDiv.addClassName('jipWindow');
         document.body.appendChild(jipDiv);
+        if (this.jip) {
+          this.jip.setStyle({'zIndex': 900});
+        }
     }
-    if (this.jip) {
-        this.jip.setStyle({'zIndex': 900});
-    }
-
     this.jip = $('jip' + this.currentWindow);
     if (typeof(mzzAjax) != 'object') {
         mzzAjax = new mzzAjax();
     }
     mzzAjax.setTargetEelement(this.jip);
-    
     Event.observe(document, "keypress", this.eventKeypress);
     if (this.jip) {
         this.lockContent();
         this.clean();
         this.jip.setStyle({display: 'block'});
+
+        var jipWindowOffsetTop = Cookie.get('jip_window_top');
+        var jipWindowOffsetLeft = Cookie.get('jip_window_left');
+
+        if (jipWindowOffsetTop == null || jipWindowOffsetLeft == null) {
+            jipWindowOffsetTop = this.jip.offsetHeight + (this.currentWindow * 5);
+            jipWindowOffsetLeft = this.jip.offsetLeft + (this.currentWindow * 5);
+        }
+
         this.jip.setStyle({
-            'top': document.documentElement.scrollTop + this.jip.offsetHeight + (this.currentWindow * 5) + 'px',
-            'left': this.jip.offsetLeft + (this.currentWindow * 5) + 'px'
+            'top': new Number(jipWindowOffsetTop) + new Number(document.documentElement.scrollTop) + 'px',
+            'left': jipWindowOffsetLeft + 'px'
         });
 
         new Ajax.Request(url, {
@@ -155,7 +207,7 @@ jipWindow.prototype = {
             },
             onFailure: function(transport) {
                 mzzAjax.onError(transport);
-            }            
+            }
         });
         this.stack[this.currentWindow].push(url);
         this.lockContent();
@@ -163,7 +215,7 @@ jipWindow.prototype = {
     }
     return true;
   },
-  
+
   lockContent: function()
   {
     var pageHeight = getBrowserHeight();
@@ -195,7 +247,7 @@ jipWindow.prototype = {
             "duration": 0.5,
             "afterFinish": function () {
                 jipWindow.locker.setStyle({opacity: 0.01, display: 'none'});
-            } 
+            }
         });
     }
   },
@@ -203,8 +255,10 @@ jipWindow.prototype = {
   close: function(windows)
   {
     if(this.jip) {
+
         windows = windows || 1;
-        var stack = this.stack[this.currentWindow--];
+        var currentWin = this.currentWindow;
+        var stack = this.stack[currentWin];
 
         if (stack.length > 0) {
             var i = 0;
@@ -213,11 +267,16 @@ jipWindow.prototype = {
             }
             var prevUrl = stack.pop();
             if (prevUrl != undefined) {
-                return this.show(prevUrl);
+                if (mzzAjax.drag) {
+                    mzzAjax.drag.destroy();
+                }
+                return this.open(prevUrl);
             }
+        } else {
+            // @todo не нужно?
+            this.currentWindow--;
         }
-
-        this.jip = $('jip' + (this.currentWindow + 1));
+        this.jip = $('jip' + (currentWin));
         //this.clean();
         this.jip.setStyle({display: 'none'});
         if(--this.windowCount == 0) {
@@ -227,7 +286,7 @@ jipWindow.prototype = {
             this.currentWindow = 0;
             this.stack = new Array();
         } else {
-            this.jip = $('jip' + (this.currentWindow));
+            this.jip = $('jip' + (--this.currentWindow));
             this.jip.setStyle({zIndex: 902});
         }
     }
@@ -248,7 +307,12 @@ jipWindow.prototype = {
   },
 
   lockClick: function(event) {
-    new Effect.HighlightBorder(this.jip);
+    Event.stopObserving(this.locker, "click", this.eventLockClick);
+    new Effect.HighlightBorder(this.jip, {
+        "afterFinish": function () {
+            Event.observe(jipWindow.locker, "click", jipWindow.eventLockClick);
+        }
+    });
     Event.stop(event);
   }
 }
@@ -327,7 +391,7 @@ jipMenu.prototype = {
     if (this.current.menu != false && this.current.button != false) {
         this.close($(this.current.menu), this.current.button);
     }
- 
+
     var body = (jip_win && jip_win.getStyle('display') == 'block') ? jip_win : document.documentElement;
 
     var size = Element.getDimensions(jip_menu);
@@ -374,24 +438,26 @@ Draggable.prototype = {
     this.byElement      = $(byElement);
     Element.makePositioned(this.element);
 
-    this.active       = false; 
+    this.active       = false;
     this.offsetX      = 0;
     this.offsetY      = 0;
     this.eventX       = 0;
     this.eventY       = 0;
+    this.offsetLeft = 0;
+    this.offsetTop = 0;
 
     this.eventMouseDown = this.startDrag.bindAsEventListener(this);
     this.eventMouseUp   = this.endDrag.bindAsEventListener(this);
     this.eventMouseMove = this.update.bindAsEventListener(this);
     this.eventKeypress  = this.keyPress.bindAsEventListener(this);
-    
+
     Event.observe(this.byElement, "mousedown", this.eventMouseDown);
     Event.observe(document, "mouseup", this.eventMouseUp);
     Event.observe(document, "mousemove", this.eventMouseMove);
     Event.observe(document, "keypress", this.eventKeypress);
   },
   destroy: function() {
-    Event.stopObserving(this.handle, "mousedown", this.eventMouseDown);
+    Event.stopObserving(this.byElement, "mousedown", this.eventMouseDown);
     Event.stopObserving(document, "mouseup", this.eventMouseUp);
     Event.stopObserving(document, "mousemove", this.eventMouseMove);
     Event.stopObserving(document, "keypress", this.eventKeypress);
@@ -417,6 +483,8 @@ Draggable.prototype = {
   },
   endDrag: function(event) {
     if(this.active) {
+      Cookie.set('jip_window_top', new Number(this.offsetTop) - new Number(document.documentElement.scrollTop), new Date(new Date().getTime() + 50000000000));
+      Cookie.set('jip_window_left', this.offsetLeft, new Date(new Date().getTime() + 50000000000));
       this.finishDrag(event, true);
       Event.stop(event);
     }
@@ -424,8 +492,10 @@ Draggable.prototype = {
   },
   draw: function(event) {
     var style = this.element.style;
-    style.left = this.offsetX + Event.pointerX(event) - this.eventX + "px";
-    style.top  = this.offsetY + Event.pointerY(event) - this.eventY + "px";
+    this.offsetLeft = this.offsetX + Event.pointerX(event) - this.eventX;
+    this.offsetTop = (this.offsetY + Event.pointerY(event) - this.eventY);
+    style.left = this.offsetLeft + "px";
+    style.top  = this.offsetTop + "px";
   },
   update: function(event) {
     if(this.active) {
@@ -456,7 +526,6 @@ Object.extend(Object.extend(Effect.HighlightBorder.prototype, Effect.Base.protot
       this.options.endcolor = this.element.getStyle('border-color').parseColor('#B6B6B6');
     if(!this.options.restorecolor)
       this.options.restorecolor = this.element.getStyle('border-color');
-
     this._base  = $R(0,2).map(function(i){ return parseInt(this.options.startcolor.slice(i*2+1,i*2+3),16) }.bind(this));
     this._delta = $R(0,2).map(function(i){ return parseInt(this.options.endcolor.slice(i*2+1,i*2+3),16)-this._base[i] }.bind(this));
   },

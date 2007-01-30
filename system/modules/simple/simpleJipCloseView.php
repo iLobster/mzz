@@ -30,7 +30,7 @@ class simpleJipCloseView extends simpleView
         if (!$this->DAO) {
             $this->DAO = 1;
         }
-        return '<script type="text/javascript"> hideJip(' . $this->DAO . ' , true); </script>';
+        return '<script type="text/javascript"> jipWindow.close(' . $this->DAO . '); </script>';
     }
 }
 

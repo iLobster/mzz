@@ -11,12 +11,12 @@
             </tr>
         {/foreach}
             <tr>
-                <td><input type="submit" value="Удалить" onClick="return mzz_confirm('Вы действительно хотите удалить выбранных пользователей из группы?');"></td>
-                <td colspan="2"><input type="reset" value="Сброс" onclick="javascript: hideJip();"></td>
+                <td><input type="submit" value="Удалить"></td>
+                <td colspan="2"><input type="reset" value="Сброс" onclick="javascript: jipWindow.close();"></td>
             </tr>
         <tr>
-            <td align="center"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="return showJip(this.href);"><img src="{$SITE_PATH}/templates/images/useradd.gif" width="16" height="16" /></a></td>
-            <td colspan="2"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="return showJip(this.href);">Добавить пользователя в группу</a></td>
+            <td align="center"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/useradd.gif" width="16" height="16" /></a></td>
+            <td colspan="2"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="return jipWindow.open(this.href);">Добавить пользователя в группу</a></td>
         </tr>
     </table>
 </form>

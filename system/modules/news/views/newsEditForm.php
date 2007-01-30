@@ -47,7 +47,7 @@ class newsEditForm
         $form->addElement('text', 'created', 'Дата создания:', 'size="30" id="calendar-field-created"');
         $form->addElement('textarea', 'text', 'Текст:', 'rows="7" cols="50"');
 
-        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: hideJip();"');
+        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }

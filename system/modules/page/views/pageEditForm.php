@@ -56,7 +56,7 @@ class pageEditForm
 
         $form->addRule('name', 'имя страницы должно быть уникально в пределах каталога и содержать латинские буквы и цифры', 'isUniqueName', array($page, $pageFolder));
 
-        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: hideJip();\'');
+        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }
