@@ -12,6 +12,8 @@
  * @version $Id$
 */
 
+fileLoader::load('codegenerator/moduleGenerator');
+
 /**
  * adminDeleteModuleController: контроллер для метода deleteModule модуля admin
  *
@@ -38,6 +40,13 @@ class adminDeleteModuleController extends simpleController
         }
 
         $db = DB::factory();
+
+        $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+        $dest = (file_exists(systemConfig::$pathToApplication . $const . $modules[$id]['name'])) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
+
+        $moduleGenerator = new moduleGenerator($dest);
+        $moduleGenerator->delete($modules[$id]['name']);
+
         $db->query('DELETE FROM `sys_modules` WHERE `id` = ' .$id);
 
         $url = new url();

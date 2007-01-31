@@ -4,7 +4,7 @@
 {include file='jipTitle.tpl' title='Редактирование папки'}
 {/if}
 
-<form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
+<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
 {$form.hidden}
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>

@@ -4,7 +4,7 @@
 {include file='jipTitle.tpl' title='Создание страницы'}
 {/if}
 
-<form {$form.attributes} onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return sendFormWithAjax(this);return false;">
+<form {$form.attributes} onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return mzzAjax.sendForm(this);return false;">
 {$form.hidden}
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>

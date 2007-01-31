@@ -26,10 +26,9 @@ class adminAddClassController extends simpleController
 {
     public function getView()
     {
-        $dest = array(
-        'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules',
-        'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules'
-        );
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+
+        $dest = $adminMapper->getDests();
 
         $id = $this->request->get('id', 'integer', SC_PATH);
         $action = $this->request->getAction();
@@ -46,7 +45,6 @@ class adminAddClassController extends simpleController
                 return 'класса не существует';
             }
 
-            $adminMapper = $this->toolkit->getMapper('admin', 'admin');
             $modules = $adminMapper->getModulesList();
 
             if (isset($modules[$data['module_id']]['classes'][$data['id']]) && $modules[$data['module_id']]['classes'][$data['id']]['exists']) {

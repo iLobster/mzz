@@ -1,6 +1,6 @@
 {if is_null($filter)}
 Добавление пользователей в группу <b>{$group->getName()}</b><br />
-<form action="{url}" id='filterForm' method="get"  onsubmit="return sendFormInAjax(this, 'users'); return false;">
+<form action="{url}" id='filterForm' method="get"  onsubmit="return mzzAjax.sendForm(this, 'users');">
     <input type="text" value="{$filter}" name="filter"><input type="image" src="{$SITE_PATH}/templates/images/search.gif">
 </form>
 <div id='users' style='width: 100%;'>

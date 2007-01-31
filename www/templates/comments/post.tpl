@@ -1,4 +1,4 @@
-<form {$form.attributes} {if $action eq 'edit'}onsubmit="return sendFormWithAjax(this);return false;"{/if}>
+<form {$form.attributes} {if $action eq 'edit'}onsubmit="return mzzAjax.sendForm(this);"{/if}>
 {$form.hidden}
 {$form.javascript}
     <table border="0" cellpadding="0" cellspacing="1" width="50%">

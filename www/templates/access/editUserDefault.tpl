@@ -4,7 +4,7 @@
 {else}
 {include file='jipTitle.tpl' title="Изменение прав на объект типа <b>$class</b> раздела <b>$section</b>"}
 {/if}
-<form action="{url}" method="post" onsubmit="return sendFormWithAjax(this);return false;">
+<form action="{url}" method="post" onsubmit="return mzzAjax.sendForm(this);">
 <table border="0" width="100%" cellpadding="0" cellspacing="1">
         {if $users !== false}
             Выберите пользователя

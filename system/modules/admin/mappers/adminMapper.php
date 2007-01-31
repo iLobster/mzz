@@ -137,13 +137,13 @@ class adminMapper extends simpleMapper
     /*
     public function getAccessRegistry()
     {
-        $result = $this->db->getAll('SELECT `r`.`obj_id`, `r`.`class_section_id`, `c`.`name` as `class`, `s`.`name` as `section`, `m`.`name` as `module` FROM `sys_access_registry` `r`
-                                       LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
-                                        LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                         LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
-                                          LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
-                                           ORDER BY `c`.`name`, `s`.`name`, `r`.`obj_id`');
-        return $result;
+    $result = $this->db->getAll('SELECT `r`.`obj_id`, `r`.`class_section_id`, `c`.`name` as `class`, `s`.`name` as `section`, `m`.`name` as `module` FROM `sys_access_registry` `r`
+    LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+    LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+    LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+    LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+    ORDER BY `c`.`name`, `s`.`name`, `r`.`obj_id`');
+    return $result;
     }*/
 
     /**
@@ -154,16 +154,36 @@ class adminMapper extends simpleMapper
     /*
     public function getClassesInSections()
     {
-        $classes_section = $this->db->getAll("SELECT `cs`.`id` as `id`, CONCAT_WS('_', `c`.`name`, `s`.`name`) as `name` FROM `sys_classes_sections` `cs`
-                                       LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                        LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
-                                         ORDER BY `c`.`name`, `s`.`name`", PDO::FETCH_ASSOC);
-        $result = array();
-        foreach ($classes_section as $class_section) {
-            $result[$class_section['id']] = $class_section['name'];
-        }
-        return $result;
+    $classes_section = $this->db->getAll("SELECT `cs`.`id` as `id`, CONCAT_WS('_', `c`.`name`, `s`.`name`) as `name` FROM `sys_classes_sections` `cs`
+    LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+    LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+    ORDER BY `c`.`name`, `s`.`name`", PDO::FETCH_ASSOC);
+    $result = array();
+    foreach ($classes_section as $class_section) {
+    $result[$class_section['id']] = $class_section['name'];
+    }
+    return $result;
     }*/
+
+    public function getDests($onlyWritable = false, $subfolder = '')
+    {
+        if ($onlyWritable) {
+            $dest = $this->getDests(false, $subfolder);
+
+            foreach ($dest as $key => $val) {
+                if (!is_writable($val)) {
+                    unset($dest[$key]);
+                }
+            }
+
+            return $dest;
+        }
+
+        return array(
+        'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder,
+        'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder
+        );
+    }
 
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса

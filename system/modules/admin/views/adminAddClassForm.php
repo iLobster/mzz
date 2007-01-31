@@ -40,13 +40,9 @@ class adminAddClassForm
             $form->setDefaults($defaultValues);
         }
 
-        $dest = array();
-        if (is_writable($system = systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules')) {
-            $dest['sys'] = $system;
-        }
-        if (is_writable($app = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules')) {
-            $dest['app'] = $app;
-        }
+        $toolkit = systemToolkit::getInstance();
+        $adminMapper = $toolkit->getMapper('admin', 'admin');
+        $dest = $adminMapper->getDests(true, $data['name']);
 
         $select = $form->addElement('select', 'dest', 'Каталог генерации:', $dest);
         if (sizeof($dest) == 1) {

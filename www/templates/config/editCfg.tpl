@@ -1,4 +1,4 @@
-<form method="post" action="{url section="config" action="editCfg" params="$section/$module"}" onsubmit="return sendFormWithAjax(this);return false;">
+<form method="post" action="{url section="config" action="editCfg" params="$section/$module"}" onsubmit="return mzzAjax.sendForm(this);">
     <table cellspacing="0" cellpadding="0" border="0">
         {foreach from=$configs item=value key=key}
             <tr><td>

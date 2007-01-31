@@ -3,7 +3,7 @@
 {else}
 {include file='jipTitle.tpl' title='Редактирование объекта в реестре доступа'}
 {/if}
-<form {$form.attributes} onsubmit="return sendFormWithAjax(this);return false;">
+<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         {if !empty($obj_id)}
         <tr>

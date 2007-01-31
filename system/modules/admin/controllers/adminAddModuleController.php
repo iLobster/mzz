@@ -13,6 +13,7 @@
 */
 
 fileLoader::load('admin/views/adminAddModuleForm');
+fileLoader::load('codegenerator/moduleGenerator');
 
 /**
  * adminAddModuleController: контроллер для метода addModule модуля admin
@@ -25,6 +26,10 @@ class adminAddModuleController extends simpleController
 {
     public function getView()
     {
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+
+        $dest = $adminMapper->getDests();
+
         $id = $this->request->get('id', 'integer', SC_PATH);
         $action = $this->request->getAction();
 
@@ -40,7 +45,6 @@ class adminAddModuleController extends simpleController
                 return 'модуля не существует';
             }
 
-            $adminMapper = $this->toolkit->getMapper('admin', 'admin');
             $modules = $adminMapper->getModulesList();
 
             if (sizeof($modules[$data['id']]['classes'])) {
@@ -54,14 +58,27 @@ class adminAddModuleController extends simpleController
         if ($form->validate()) {
             $values = $form->exportValues();
 
-            if ($action == 'addModule') {
-                $stmt = $db->prepare('INSERT INTO `sys_modules` (`name`) VALUES (:name)');
+            $moduleGenerator = new moduleGenerator($dest[$values['dest']]);
 
-            } else {
-                $stmt = $db->prepare('UPDATE `sys_modules` SET `name` = :name WHERE `id` = :id');
-                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            if ($action == 'addModule') {
+                try {
+                    $log = $moduleGenerator->generate($values['name']);
+                } catch (Exception $e) {
+                    return $e->getMessage() . $e->getLine() . $e->getFile();
+                }
+
+                $stmt = $db->prepare('INSERT INTO `sys_modules` (`name`) VALUES (:name)');
+                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                $stmt->execute();
+
+                $this->smarty->assign('log', $log);
+                return $this->smarty->fetch('admin/addModuleResult.tpl');
             }
 
+            $moduleGenerator->rename($data['name'], $values['name']);
+
+            $stmt = $db->prepare('UPDATE `sys_modules` SET `name` = :name WHERE `id` = :id');
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
             $stmt->execute();
 
