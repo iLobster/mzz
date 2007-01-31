@@ -45,7 +45,6 @@
     </tr>
     <tr>
         <td colspan="2">
-            <a href="{url section="admin" action="generateObjId"}" onclick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/generate.png" alt="Сгенерировать новый идентификатор объекта" /></a>
             <a href="{url section="admin" action="addObjToRegistry"}" onclick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Зарегистрировать новый объект" /></a><br />
         </td>
     </tr>

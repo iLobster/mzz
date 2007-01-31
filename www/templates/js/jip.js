@@ -112,7 +112,6 @@ mzzAjax.prototype = {
                     tmp += item.childNodes[i].data;
                 }
             }
-            parseJSFromXML(transport.responseXML);
         } else {
             tmp = transport.responseText;
         }
@@ -128,7 +127,7 @@ mzzAjax.prototype = {
             this.drag = new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
         }
 
-        //element.innerHTML.evalScripts();
+        element.innerHTML.evalScripts();
         //new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
     } else {
         alert("No response from script. \r\n TransID: " + transport.tId + "; HTTP status: " + transport.status + "; Message: " + transport.statusText);

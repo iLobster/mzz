@@ -1,11 +1,13 @@
+{strip}
 {add file="popup.js"}
-{add file="prototype.js"}
 {add file="jip.css"}
+{add file="jip.js"}
+{add file="calendar-blue.css"}
 {add file="jscalendar/calendar.js"}
 {add file="jscalendar/calendar-ru.js"}
 {add file="jscalendar/calendar-setup.js"}
 {add file="tiny_mce/tiny_mce_src.js"}
-
+{/strip}
 <div id="jip_menu_{$jipMenuId}" class="jipMenu">
 <table border="0" cellpadding="3" cellspacing="0" class="jipItems">
 {foreach from=$jip item=item}

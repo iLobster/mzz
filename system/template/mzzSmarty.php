@@ -48,13 +48,6 @@ class mzzSmarty extends Smarty
     protected $activeXmlTemplate = false;
 
     /**
-     * Javascript
-     *
-     * @var array
-     */
-    protected $javascript = array();
-
-    /**
      * Выполняет шаблон и возвращает результат
      * Декорирован для реализации вложенных шаблонов.
      *
@@ -66,10 +59,6 @@ class mzzSmarty extends Smarty
      */
     public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
-        if (!empty($this->javascript)) {
-            $this->assign('execute_javascript', $this->javascript);
-            $this->javascript = array();
-        }
         $resource = explode(':', $resource_name, 2);
 
         if (count($resource) === 1) {
@@ -215,17 +204,6 @@ class mzzSmarty extends Smarty
     public function isXml()
     {
         return $this->activeXmlTemplate !== false;
-    }
-
-    /**
-     * Добавляет в массив javascript для последующей
-     * непосредственной вставки в XML-шаблон
-     *
-     * @param string $javascript javascript
-     */
-    public function addJavascript($javascript)
-    {
-        $this->javascript[] = $javascript;
     }
 }
 ?>

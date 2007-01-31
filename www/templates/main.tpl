@@ -3,7 +3,14 @@
 <head>
 <title>{$title|default:''}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
-{add file="ajax/yahoo.js"}{add file="prototype.js"}{add file="effects.js"}{add file="ajax/connection.js"}{add file="common.js"}{add file="jip.js"}{add file="calendar-blue.css"}{add file="jip.css"}{add file="style.css"}
+<link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/style.css" />
+<script type="text/javascript">
+<!--
+var SITE_PATH = '{$SITE_PATH}';
+//-->
+</script>
+<script type="text/javascript" src="{$SITE_PATH}/templates/js/prototype.js"></script>
+<script type="text/javascript" src="{$SITE_PATH}/templates/js/effects.js"></script>
 {include file='include.css.tpl'}
 {include file='include.js.tpl'}
 </head>
@@ -33,7 +40,6 @@
         <div id="footer_text">{load module="timer" action="view" section="timer"}
 2007 &copy; {$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION})</div>
         <div id="footer_image"><img src="{$SITE_PATH}/templates/images/mzz_footer.png" width="79" height="63" alt="" /></div>
-
      </div>
     </div>
 </body>

@@ -151,19 +151,18 @@ class adminMapper extends simpleMapper
      *
      * @return unknown
      */
-    /*
     public function getClassesInSections()
     {
-    $classes_section = $this->db->getAll("SELECT `cs`.`id` as `id`, CONCAT_WS('_', `c`.`name`, `s`.`name`) as `name` FROM `sys_classes_sections` `cs`
-    LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-    LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
-    ORDER BY `c`.`name`, `s`.`name`", PDO::FETCH_ASSOC);
-    $result = array();
-    foreach ($classes_section as $class_section) {
-    $result[$class_section['id']] = $class_section['name'];
+        $classes_section = $this->db->getAll("SELECT `cs`.`id` as `id`, CONCAT_WS('_', `c`.`name`, `s`.`name`) as `name` FROM `sys_classes_sections` `cs`
+                                                LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                                 LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+                                                  ORDER BY `c`.`name`, `s`.`name`", PDO::FETCH_ASSOC);
+        $result = array();
+        foreach ($classes_section as $class_section) {
+            $result[$class_section['id']] = $class_section['name'];
+        }
+        return $result;
     }
-    return $result;
-    }*/
 
     public function getDests($onlyWritable = false, $subfolder = '')
     {

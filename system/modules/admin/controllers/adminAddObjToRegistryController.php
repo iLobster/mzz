@@ -34,17 +34,13 @@ class adminAddObjToRegistryController extends simpleController
 
         $form = adminAddObjToRegistryForm::getForm($data, $db, $action);
 
-        $session = $this->toolkit->getSession();
-        $obj_id = $session->get('admin_obj_id');
-
         if ($form->validate()) {
             $values = $form->exportValues();
-            if ($obj_id == $values['obj_id']) {
-                $session->destroy('admin_obj_id');
-            }
+
+            $obj_id = $this->toolkit->getObjectId();
             $stmt = $db->prepare('INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (:obj_id, :class_section)');
 
-            $stmt->bindValue(':obj_id', $values['obj_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':obj_id', $obj_id, PDO::PARAM_INT);
             $stmt->bindValue(':class_section', $values['class_section'], PDO::PARAM_INT);
             $stmt->execute();
 
@@ -55,7 +51,6 @@ class adminAddObjToRegistryController extends simpleController
         $form->accept($renderer);
         $this->smarty->assign('action', $action);
         $this->smarty->assign('form', $renderer->toArray());
-        $this->smarty->assign('obj_id', $obj_id);
         return $this->smarty->fetch('admin/addObjToRegistry.tpl');
     }
 }

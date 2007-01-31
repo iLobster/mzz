@@ -33,18 +33,17 @@ class adminAddObjToRegistryForm
 
         $form = new HTML_QuickForm('addObjToRegistry', 'POST', $url->get());
 
-        $form->addElement('text', 'obj_id', 'Идентификатор объекта:', 'size="10" id="obj_id"');
-
-        $form->addElement('select', 'class_section', 'Для класса в секции:', $data);
+        $form->addElement('select', 'class', 'Класс:', $data);
+        $section_select = $form->addElement('select', 'section', 'Секция:');
+        $section_select->addOption('', '');
+        $section_select->loadArray($data);
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');
 
         $form->registerRule('isClassSectionExists', 'callback', 'addObjToRegistryValidate');
-        $form->addRule('class_section', 'Идентификатор должен существовать и может быть только целым числом', 'isClassSectionExists', array($db));
-        $form->addRule('class_section', 'Выберите из списка', 'required');
-        $form->addRule('obj_id', 'Идентификатор должен быть целым числом', 'alphanumeric');
-        $form->addRule('obj_id', 'Необходим идентификатор объекта', 'required');
+        $form->addRule('section', 'Идентификатор должен существовать и может быть только целым числом', 'isClassSectionExists', array($db));
+        $form->addRule('section', 'Выберите из списка', 'required', null, 'client');
 
         return $form;
     }

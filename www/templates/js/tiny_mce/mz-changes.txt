@@ -1,0 +1,94 @@
+
+----------------------- core ----------------------------------
+* tiny_mce_src.js (для tiny_mce.js такие же изменения)
+> comment line 470, 479, 480 in:
+					if (tinyMCE.settings.strict_loading_mode) {
+						nl = document.getElementsByTagName("head");
+
+						le = document.createElement('link');
+						le.setAttribute('href', ar[x]);
+						le.setAttribute('rel', 'stylesheet');
+						le.setAttribute('type', 'text/css');
+
+						nl[0].appendChild(le);			
+					} else
+						document.write('<link href="' + ar[x] + '" rel="stylesheet" type="text/css" />');
+
+
+
+> before line 436:
+	loadNextScript : function() {
+> add:
+        onLoadScript : function(evt) {
+        	evt = evt || event;
+        	var elem = evt.target || evt.srcElement;
+        	if (evt.type == 'readystatechange' && elem.readyState && !(elem.readyState == 'complete' || elem.readyState == 'loaded')) { return; }
+                tinyMCE.loadingIndex++;
+                if (tinyMCE.loadingIndex >= tinyMCE.pendingFiles.length) {
+			tinyMCE.loadingIndex = -1; // Done with loading
+                        TinyMCE_Engine.prototype.onLoad();
+		}
+        },
+
+
+
+> replace line 430-431:
+		else
+			document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></script>');
+> to:
+ 		else {
+                	var scr = document.createElement('script');
+                        if (!window.opera) { Event.observe($(scr), 'readystatechange', TinyMCE_Engine.prototype.onLoadScript); }
+			Event.observe($(scr), 'load', TinyMCE_Engine.prototype.onLoadScript);
+			Event.observe($(scr), 'error', TinyMCE_Engine.prototype.onLoadScript);
+
+                	scr.type = 'text/javascript';
+                	void(scr.src = url + '?' + new Number(new Date()));
+                	document.getElementsByTagName('head')[0].appendChild(scr);
+			this.pendingFiles[this.pendingFiles.length] = url;
+
+                }
+
+
+
+> comment line 296:
+				tinyMCE.addEvent(window, "DOMContentLoaded", TinyMCE_Engine.prototype.onLoad);
+
+
+
+> comment line 305:
+				tinyMCE.addEvent(window, "load", TinyMCE_Engine.prototype.onLoad);
+
+
+----------------------- themes --------------------------------
+*themes/advanced/css/editor_ui.css
+> Line 52:
+.mceMenu {position: absolute; left: 0; top: 0; display: none; z-index: 100; background-color: white; border: 1px solid gray; font-weight: normal;}
+> To (изменяется только z-index в 100 раз):
+.mceMenu {position: absolute; left: 0; top: 0; display: none; z-index: 10000; background-color: white; border: 1px solid gray; font-weight: normal;}
+
+---------------------- plugins --------------------------------
+*plugins/fullscreen/css/page.css
+> replace line 14-15
+	overflow: visible;
+	z-index: 1 !important;
+> to:
+	overflow: visible !important;
+	z-index: 10000 !important;
+
+
+*plugins/save/editor_plugin_src.js
+> comment line 74-79:
+					for (var i=0; i<formObj.elements.length; i++) {
+						var elementId = formObj.elements[i].name ? formObj.elements[i].name : formObj.elements[i].id;
+
+						if (elementId.indexOf('mce_editor_') == 0)
+							formObj.elements[i].disabled = true;
+					}
+
+
+> replace line 84:
+						inst.formElement.form.submit();
+> to:
+						mzzAjax.sendForm(formObj);
+ 

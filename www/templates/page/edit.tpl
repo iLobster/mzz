@@ -26,7 +26,6 @@
 </form>
 
 {literal}<script type="text/javascript">
-<!--
 tinyMCE.init({
         theme : "advanced",
         mode : "exact",
@@ -45,14 +44,14 @@ tinyMCE.init({
         plugin_insertdate_dateFormat : "%Y-%m-%d",
         plugin_insertdate_timeFormat : "%H:%M:%S",
         extended_valid_elements : "hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
-        external_link_list_url : "example_link_list.js",
+        /*external_link_list_url : "example_link_list.js",
         external_image_list_url : "example_image_list.js",
         flash_external_list_url : "example_flash_list.js",
-        media_external_list_url : "example_media_list.js",
+        media_external_list_url : "example_media_list.js",*/
         theme_advanced_resize_horizontal : false,
         theme_advanced_resizing : true,
+        language: 'ru',
         nonbreaking_force_tab : true,
         apply_source_formatting : true
     });
-// -->
 </script>{/literal}
