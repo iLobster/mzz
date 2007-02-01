@@ -43,6 +43,7 @@ class adminDeleteClassController extends simpleController
         }
 
         if ($not_found) {
+            // @todo изменить
             return 'класс не найден';
         }
 

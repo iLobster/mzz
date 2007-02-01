@@ -38,7 +38,7 @@ class classGenerator
         chdir($current_dir);
     }
 
-    public function safeUnlink($filename)
+    private function safeUnlink($filename)
     {
         if (file_exists($filename)) {
             unlink($filename);

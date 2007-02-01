@@ -1,3 +1,5 @@
+{add file="jip.js"}
+{add file="jip.css"}
 <table width="99%" border="1">
     <tr>
         <td>
@@ -16,7 +18,7 @@
                         <a href="{url section="admin" id=$id action="editClass"}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" /></a>
                         <a href="{url section="admin" id=$id action="deleteClass"}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить класс" /></a>
                     {/if}
-                    <a href="{url section="admin" id=$id action="updateActions"}" onClick="return jipWindow.open(this.href);">обновить экшны</a>
+                    <a href="{url section="admin" id=$id action="listActions"}" onClick="return jipWindow.open(this.href);">экшны</a>
                     <br />
                 {/foreach}
                 {if not $smarty.foreach.mcycle.last}

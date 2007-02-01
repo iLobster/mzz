@@ -13,36 +13,38 @@
 */
 
 /**
- * adminUpdateActionsController: контроллер для метода updateActions модуля admin
+ * adminListActionsController: контроллер для метода listActions модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
-class adminUpdateActionsController extends simpleController
+class adminListActionsController extends simpleController
 {
     public function getView()
     {
+        $this->db = DB::factory();
+
         $id = $this->request->get('id', 'integer', SC_PATH);
 
-        $db = DB::factory();
-
-        $data = $db->getRow('SELECT `c`.`name` AS `c_name`, `c`.`id` AS `c_id`, `m`.`name` AS `m_name`, `m`.`id` AS `m_id` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);
+        $data = $this->db->getRow('SELECT `c`.`name` AS `c_name`, `c`.`id` AS `c_id`, `m`.`name` AS `m_name`, `m`.`id` AS `m_id` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);
         if ($data === false) {
             // @todo изменить
             return 'класса не существует';
         }
 
         // выбираем все экшны для данного ДО из БД
-        $qry = 'SELECT `a`.`name`, `a`.`id` FROM `sys_classes_actions` `ca`
-                   INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
-                    WHERE `ca`.`class_id` = ' . $id;
-        $stmt = $db->query($qry);
+        /*$qry = 'SELECT `a`.`name`, `a`.`id` FROM `sys_classes_actions` `ca`
+        INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
+        WHERE `ca`.`class_id` = ' . $id;
+        $stmt = $this->db->query($qry);
 
         $actions_db = array();
         while ($row = $stmt->fetch()) {
-            $actions_db[] = $row['name'];
-        }
+        $actions_db[] = $row['name'];
+        }*/
+
+        $actions_db = $this->getActions($id);
 
         $deleted = $inserted = array();
 
@@ -59,7 +61,7 @@ class adminUpdateActionsController extends simpleController
             // удаляем из БД экшны, которых нет в ini
             if (sizeof($to_delete)) {
                 $qry = "DELETE `ca` FROM `sys_classes_actions` `ca`, `sys_actions` `a` WHERE `a`.`id` = `ca`.`action_id` AND `ca`.`class_id` = " . $data['c_id'] . " AND `a`.`name` IN ('" . implode("', '", $to_delete) . "')";
-                $db->query($qry);
+                $this->db->query($qry);
             }
 
             $exists_in_db = array();
@@ -68,13 +70,13 @@ class adminUpdateActionsController extends simpleController
                 // проверяем - существуют ли вообще добавляемые экшны
                 $names_needle = '';
                 foreach ($to_insert as $val) {
-                    $names_needle .= "" . $db->quote($val) . ", ";
+                    $names_needle .= "" . $this->db->quote($val) . ", ";
                 }
                 $names_needle = substr($names_needle, 0, -2);
 
                 $qry = "SELECT * FROM `sys_actions` WHERE `name` IN (" . $names_needle . ")";
 
-                $stmt = $db->query($qry);
+                $stmt = $this->db->query($qry);
                 while ($row = $stmt->fetch()) {
                     $exists_in_db[$row['id']] = $row['name'];
                 }
@@ -83,9 +85,9 @@ class adminUpdateActionsController extends simpleController
                 $actions_to_add = array_diff($to_insert, $exists_in_db);
 
                 foreach ($actions_to_add as $val) {
-                    $qry = "INSERT INTO `sys_actions` (`name`) VALUES (" . $db->quote($val) . ")";
-                    $db->query($qry);
-                    $exists_in_db[$db->lastInsertId()] = $val;
+                    $qry = "INSERT INTO `sys_actions` (`name`) VALUES (" . $this->db->quote($val) . ")";
+                    $this->db->query($qry);
+                    $exists_in_db[$this->db->lastInsertId()] = $val;
                 }
 
                 // добавляем экшны к классу
@@ -95,15 +97,35 @@ class adminUpdateActionsController extends simpleController
                 }
 
                 $qry = 'INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES ' . substr($insert_string, 0, -2);
-                $db->query($qry);
+                $this->db->query($qry);
             }
 
+            $action = new action($data['m_name']);
+            $tmp = $action->getActions();
+
+            $this->smarty->assign('id', $id);
+            $this->smarty->assign('actions', $tmp[$data['c_name']]);
             $this->smarty->assign('insert', $exists_in_db);
             $this->smarty->assign('delete', $to_delete);
-            return $this->smarty->fetch('admin/updateActions.tpl');
+            return $this->smarty->fetch('admin/listActions.tpl');
         } else {
             return 'Для данного ДО не найден файл с экшнами';
         }
+    }
+
+    private function getActions($id)
+    {
+        $qry = 'SELECT `a`.`name`, `a`.`id` FROM `sys_classes_actions` `ca`
+                   INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
+                    WHERE `ca`.`class_id` = ' . $id;
+        $stmt = $this->db->query($qry);
+
+        $actions_db = array();
+        while ($row = $stmt->fetch()) {
+            $actions_db[] = $row['name'];
+        }
+
+        return $actions_db;
     }
 }
 

@@ -64,6 +64,9 @@ class requestRouter
      */
     public function addRoute($name, iRoute $route)
     {
+        if (isset($this->routes[$name])) {
+            throw new mzzRuntimeException('Route с именем ' . $name . ' уже добавлен');
+        }
         $this->routes[$name] = $route;
     }
 

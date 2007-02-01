@@ -124,6 +124,20 @@ class requestRouterTest extends unitTestCase
         }
     }
 
+    public function testAddSecondSameNameRouter()
+    {
+        $route = new mockstubRoute;
+        $this->router->addRoute('somename', $route);
+
+        try {
+            $this->router->addRoute('somename', $route);
+        } catch (mzzRuntimeException $e) {
+            $this->assertPattern("/somename.*уже добавлен/", $e->getMessage());
+        } catch (Exception $e) {
+            $this->fail('Не ожидаемый тип исключения');
+        }
+    }
+
 }
 
 ?>
