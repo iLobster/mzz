@@ -14,7 +14,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 
 class adminAddActionForm
@@ -23,7 +23,7 @@ class adminAddActionForm
      * метод получения формы
      *
      */
-    static function getForm($data, $db, $action, $action_name)
+    static function getForm($data, $db, $action, $action_name, $actionsInfo)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
@@ -32,16 +32,34 @@ class adminAddActionForm
         $url->setAction($action);
         $url->addParam('id', $data['c_id']);
         if ($action == 'editAction') {
-                $url->addParam('action_name', $action_name);
+            $url->addParam('action_name', $action_name);
         }
 
         $form = new HTML_QuickForm('addAction', 'POST', $url->get());
 
+        $defaultValues = array();
+
         if ($action == 'editAction') {
-            $defaultValues = array();
             $defaultValues['name']  = $action_name;
-            $form->setDefaults($defaultValues);
+
+            $default = array('title' => '', 'info' => '', 'icon' => '');
+
+            $info = $actionsInfo[$action_name];
+            $info = array_merge($default, $info);
+
+            $defaultValues['title'] = $info['title'];
+            $defaultValues['icon'] = $info['icon'];
+            if (isset($info['confirm'])) {
+                $defaultValues['confirm'] = $info['confirm'];
+            }
+            $defaultValues['jip'] = (!empty($info['jip']));
+            $defaultValues['inacl'] = (isset($info['inACL']) && $info['inACL'] == 0);
+
+        } else {
+            $defaultValues['icon'] = '/templates/images/';
         }
+
+        $form->setDefaults($defaultValues);
 
         $toolkit = systemToolkit::getInstance();
         $adminMapper = $toolkit->getMapper('admin', 'admin');
@@ -55,12 +73,17 @@ class adminAddActionForm
         }
 
         $form->addElement('text', 'name', 'Название:', 'size="30"');
+        $form->addElement('advcheckbox', 'jip', 'Этот экшн должен быть в jip', 'jip = "1"', null, array(0, 1));
+        $form->addElement('advcheckbox', 'inacl', 'Этот экшн не должен быть зарегистрирован в acl', 'inACL = "0"', null, array(0, 1));
+        $form->addElement('text', 'title', 'Заголовок в меню jip', 'size="30"');
+        $form->addElement('text', 'icon', 'Путь от корня сайта до иконки в меню jip', 'size="30"');
+        $form->addElement('text', 'confirm', 'Системное сообщение при выполнении данного экшна', 'size="30"');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');
 
         $form->registerRule('isUniqueName', 'callback', 'addClassValidate');
-        $form->addRule('name', 'такой экшн у класса уже есть или введённое вами имя содержит запрещённые символы', 'isUniqueName', array($db));
+        $form->addRule('name', 'такой экшн у класса уже есть или введённое вами имя содержит запрещённые символы', 'isUniqueName', array($db, $action_name));
         $form->addRule('name', 'поле обязательно к заполнению', 'required');
 
         return $form;
@@ -71,6 +94,10 @@ function addClassValidate($name, $data)
 {
     if (strlen($name) === 0 || preg_match('/[^a-z0-9_\-]/i', $name)) {
         return false;
+    }
+
+    if ($name == $data[1]) {
+        return true;
     }
 
     $res = $data[0]->getRow('SELECT COUNT(*) AS `cnt` FROM `sys_classes_actions` `ca`

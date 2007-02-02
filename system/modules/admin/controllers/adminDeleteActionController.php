@@ -19,7 +19,7 @@ fileLoader::load('codegenerator/actionGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 class adminDeleteActionController extends simpleController
 {
@@ -40,7 +40,11 @@ class adminDeleteActionController extends simpleController
         $dest .= DIRECTORY_SEPARATOR . 'modules';
 
         $actionGenerator = new actionGenerator($data['m_name'], $dest, $data['c_name']);
-        $actionGenerator->delete($action_name);
+        try {
+            $actionGenerator->delete($action_name);
+        } catch (Exception $e) {
+            return $e;
+        }
 
         $url = new url();
         $url->setAction('devToolbar');

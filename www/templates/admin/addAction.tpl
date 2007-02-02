@@ -17,6 +17,26 @@
             </tr>
         {/if}
         <tr>
+            <td>{$form.jip.label}</td>
+            <td>{$form.jip.html}{$form.jip.error}</td>
+        </tr>
+        <tr>
+            <td>{$form.title.label}</td>
+            <td>{$form.title.html}{$form.title.error}</td>
+        </tr>
+        <tr>
+            <td>{$form.icon.label}</td>
+            <td>{$form.icon.html}{$form.icon.error}</td>
+        </tr>
+        <tr>
+            <td>{$form.confirm.label}</td>
+            <td>{$form.confirm.html}{$form.confirm.error}</td>
+        </tr>
+        <tr>
+            <td>{$form.inacl.label}</td>
+            <td>{$form.inacl.html}{$form.inacl.error}</td>
+        </tr>
+        <tr>
             <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
         </tr>
     </table>

@@ -6,7 +6,6 @@
         <td align="right">{$form.login.label}</td>
         <td align="center">{$form.login.html}</td>
         <td align="center">{$form.save.html}</td>
-        <td align="center">Запомнить</td>
     </tr>
     <tr>
         <td align="right">{$form.password.label}</td>

@@ -1,11 +1,54 @@
 <?php
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+*/
+
+/**
+ * classGenerator: класс для генерации ДО
+ *
+ * @package modules
+ * @subpackage admin
+ * @version 0.1
+ */
 
 class classGenerator
 {
+    /**
+     * Массив для хранения сообщений
+     *
+     * @var array
+     */
     private $log = array();
+
+    /**
+     * Имя модуля
+     *
+     * @var string
+     */
     private $module;
+
+    /**
+     * Путь до каталога, в который будут сгенерированы файлы
+     *
+     * @var string
+     */
     private $dest;
 
+    /**
+     * Конструктор
+     *
+     * @param string $module
+     * @param string $dest
+     */
     public function __construct($module, $dest)
     {
         $this->module = $module;
@@ -16,6 +59,12 @@ class classGenerator
         define('CUR', $this->dest . DIRECTORY_SEPARATOR . $this->module);
     }
 
+    /**
+     * Метод изменения имени ДО
+     *
+     * @param string $oldName старое имя
+     * @param string $newName новое имя
+     */
     public function rename($oldName, $newName)
     {
         $current_dir = getcwd();
@@ -27,6 +76,11 @@ class classGenerator
         chdir($current_dir);
     }
 
+    /**
+     * Удаление ДО
+     *
+     * @param string $class
+     */
     public function delete($class)
     {
         $current_dir = getcwd();
@@ -38,6 +92,11 @@ class classGenerator
         chdir($current_dir);
     }
 
+    /**
+     * Метод для удаления файлов, с проверкой их существования
+     *
+     * @param string $filename
+     */
     private function safeUnlink($filename)
     {
         if (file_exists($filename)) {
@@ -45,11 +104,14 @@ class classGenerator
         }
     }
 
+    /**
+     * Метод генерации ДО
+     *
+     * @param string $class
+     * @return array
+     */
     public function generate($class)
     {
-        //define('MODULE_TEST_PATH', MZZ . '/tests/cases/modules/' . $module . '/' );
-        //define('MODULE_TEST_SHORT_PATH', str_replace(MZZ, '', MODULE_TEST_PATH));
-
         $current_dir = getcwd();
         chdir(CUR);
 
@@ -83,18 +145,7 @@ class classGenerator
             throw new Exception('Error: actions ini file[' . $iniFileName . '] already exists');
         }
 
-
-        /*        $doCaseFileName = $doName . '.case.php';
-        if (is_file(MODULE_TEST_PATH . $doCaseFileName)) {
-        throw new Exception('Error: do.case file file[' . $doCaseFileName . '] already exists');
-        }
-
-        $doMapperCaseFileName = $doName . 'Mapper.case.php';
-        if (is_file(MODULE_TEST_PATH . $doMapperCaseFileName)) {
-        throw new Exception('Error: mapper.case file[' . $doMapperCaseFileName . '] already exists');
-        }*/
-
-        // -------создаем ДО класс-----------
+        // создаем ДО класс
         $doData = array(
         'doname' => $doName,
         'module' => $this->module,
@@ -107,10 +158,7 @@ class classGenerator
 
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . $doNameFile;
 
-
-        // -------создаем маппер-----------
-
-
+        // создаем маппер
         $mapperData = array(
         'doname' => $doName,
         'module' => $this->module,
@@ -122,42 +170,13 @@ class classGenerator
         file_put_contents('mappers' . DIRECTORY_SEPARATOR . $mapperNameFile, $mapper);
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'mappers' . DIRECTORY_SEPARATOR . $mapperNameFile;
 
-        // -------(optional)создаем шаблоны тестов для ДО и маппера-----------
-        // @toDo можно сделать довольно полную генерацию тестов
-        // но для этого необходимо делать отдельный генератор, который создаст тест для ДО и маппера
-        // на основе данных о полях из map.ini
-        /*  if(isset($argv[2])) {
-        if (!is_dir( MODULE_TEST_PATH )) {
-        //echo "<pre>"; print_r(MODULE_TEST_PATH);echo "</pre>";
-        mkdir(MODULE_TEST_PATH, 0700);
-        $log .= "\nModule tests  folder created successfully:\n-- " . str_replace(MZZ,'', MODULE_TEST_PATH);
-        }
-        $doCaseData = array(
-        'doName' => $doName,
-        'module' => $module,
-        'tableName' => strtolower($module . '_' . $doName),
-        'mapperName' => $mapperName
-        );
-        $smarty->assign('doCaseData', $doCaseData);
-        $case = $smarty->fetch('do_case.tpl');
-        file_put_contents(MODULE_TEST_PATH . '/' . $doCaseFileName, $case);
-        $log .= "\n-- " . MODULE_TEST_SHORT_PATH . '/' . $doCaseFileName;
-
-        $smarty->assign('doCaseData', $doCaseData);
-        $mapperCase = $smarty->fetch('domapper_case.tpl');
-        file_put_contents(MODULE_TEST_PATH . $doMapperCaseFileName, $mapperCase);
-        $log .= "\n-- " . MODULE_TEST_SHORT_PATH . $doMapperCaseFileName;
-        }*/
-
-
-        // -------создаем ini файл для экшнов-----------
-
+        // создаем ini файл для экшнов
         $f = fopen('actions' . DIRECTORY_SEPARATOR . $iniFileName, 'w');
         fwrite($f, "; " . $doName . " actions config\r\n");
         fclose($f);
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'actions' . DIRECTORY_SEPARATOR . $iniFileName;
 
-        // -------создаем map файл -----------
+        // создаем map файл
         $f = fopen('maps' . DIRECTORY_SEPARATOR . $mapFileName, 'w');
         fclose($f);
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'maps' . DIRECTORY_SEPARATOR . $mapFileName . "\n";

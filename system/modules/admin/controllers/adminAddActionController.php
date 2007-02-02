@@ -20,7 +20,7 @@ fileLoader::load('codegenerator/actionGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 class adminAddActionController extends simpleController
 {
@@ -42,7 +42,18 @@ class adminAddActionController extends simpleController
             return 'класса не существует';
         }
 
-        $form = adminAddActionForm::getForm($data, $db, $action, $action_name);
+        $act = new action($data['m_name']);
+        $info = $act->getActions();
+
+        if ($action == 'editAction' && !isset($info[$data['c_name']][$action_name])) {
+            // @todo изменить
+            return 'у выранного класса нет запрашиваемого экшна';
+        }
+
+        $actnionsInfo = $info[$data['c_name']];
+        //echo '<br><pre>'; var_dump($actnionsInfo); echo '<br></pre>';
+
+        $form = adminAddActionForm::getForm($data, $db, $action, $action_name, $actnionsInfo);
 
         if ($form->validate()) {
             $values = $form->exportValues();
@@ -52,14 +63,14 @@ class adminAddActionController extends simpleController
 
             if ($action == 'addAction') {
                 try {
-                    $log = $actionGenerator->generate($values['name']);
+                    $log = $actionGenerator->generate($values['name'], $values);
                 } catch (Exception $e) {
                     return $e->getMessage() . $e->getLine() . $e->getFile();
                 }
 
                 $actionGenerator->addToDB($values['name']);
             } else {
-                $actionGenerator->rename($action_name, $values['name']);
+                $actionGenerator->rename($action_name, $values['name'], $values);
             }
 
             return new simpleJipCloseView();

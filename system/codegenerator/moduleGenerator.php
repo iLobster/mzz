@@ -1,11 +1,46 @@
 <?php
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+*/
 
+/**
+ * moduleGenerator: класс для генерации модуля
+ *
+ * @package modules
+ * @subpackage admin
+ * @version 0.1
+ */
 
 class moduleGenerator
 {
+    /**
+     * Массив для хранения сообщений
+     *
+     * @var array
+     */
     private $log = array();
+
+    /**
+     * Путь до каталога, в который будут сгенерированы файлы
+     *
+     * @var string
+     */
     private $dest;
 
+    /**
+     * Конструктор
+     *
+     * @param string $dest
+     */
     public function __construct($dest)
     {
         $this->dest = $dest;
@@ -15,12 +50,24 @@ class moduleGenerator
         define('CUR', $this->dest);
     }
 
+    /**
+     * Удаление модуля
+     *
+     * @param string $module
+     */
     public function delete($module)
     {
         $this->safeUnlink(CUR . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module);
+        $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module);
+        $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $module);
     }
 
-    public function safeUnlink($path)
+    /**
+     * Метод рекурсивного удаления каталога с файлами и подкаталогами в нём
+     *
+     * @param string $path
+     */
+    private function safeUnlink($path)
     {
         $handle = opendir($path);
 
@@ -39,22 +86,33 @@ class moduleGenerator
         rmdir($path);
     }
 
+    /**
+     * Переименование модуля
+     *
+     * @param string $oldName
+     * @param string $newName
+     */
     public function rename($oldName, $newName)
     {
         $current_dir = getcwd();
         chdir(CUR);
         rename($oldName, $newName);
         rename($newName . DIRECTORY_SEPARATOR . $oldName . 'Factory.php', $newName . DIRECTORY_SEPARATOR . $newName . 'Factory.php');
+        rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $oldName, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $newName);
+        rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $oldName, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $newName);
         chdir($current_dir);
     }
 
+    /**
+     * Генерация модуля
+     *
+     * @param string $module
+     * @return array
+     */
     public function generate($module)
     {
         $current_dir = getcwd();
         chdir(CUR);
-        //define('MODULE_TEST_PATH', MZZ . 'tests/cases/modules/' . $module);
-
-        //require_once MZZ . '/libs/smarty/Smarty.class.php';
 
         $smarty = new mzzSmarty();
         $smarty->template_dir = CODEGEN . DIRECTORY_SEPARATOR . 'templates';
@@ -69,7 +127,6 @@ class moduleGenerator
             $this->log[] = "Корневой каталог модуля создан успешно";
         }
         chdir($module);
-        // создаем папку для тестов
 
         $factoryName = $module . 'Factory';
         $factoryFilename = $factoryName . '.php';
@@ -105,6 +162,17 @@ class moduleGenerator
             $this->log[] = "Каталог views создан успешно";
         }
 
+        // создаём папку с активными шаблонами
+        if (!is_dir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module)) {
+            mkdir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module);
+            $this->log[] = "Каталог для активных шаблонов создан";
+        }
+
+        // создаём папку с шаблонами
+        if (!is_dir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $module)) {
+            mkdir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $module);
+            $this->log[] = "Каталог для шаблонов создан";
+        }
 
         $factoryData = array(
         'factory_name' => $factoryName,
@@ -117,32 +185,7 @@ class moduleGenerator
         file_put_contents($factoryFilename, $factory);
         $this->log[] = 'Файл ' . $module . DIRECTORY_SEPARATOR . $factoryFilename . ' создан успешно';
 
-        // создаем bat файлы для генерации ДО и actions в корневой папке модуля
-        //$batSrc = explode(' ', file_get_contents('../create-module.bat'));
-
-        // Если путь оносительный, то есть начинается  с точки, то предполагаем,
-        // что генерируем модуль внутри mzz, а не в appDir
-        /*$genDir = substr($batSrc[1],0, strrpos($batSrc[1], '\\'));
-        if($genDir[0] == '.') {
-        $genDir = '..\\' . $genDir;
-        }*/
-
-        /*
-        $doGenerator = $genDir . '\createdo.php';
-        $actionGenerator = $genDir . '\createaction.php';
-
-        $genDoBat = $batSrc[0] . ' ' . $doGenerator . ' %1  %2';
-        $genActionBat = $batSrc[0] . ' ' .  $actionGenerator . ' %1 %2';
-        file_put_contents('create-do.bat', $genDoBat);
-        file_put_contents('create-action.bat', $genActionBat);
-        $log .= "\n-- create-do.bat";
-        $log .= "\n-- create-action.bat";*/
-
-        //file_put_contents('create_' . $module . '_module_log.txt', $log);
-        //echo $log;
-
         chdir($current_dir);
-        //throw new Exception("\n\nALL OPERATIONS COMPLETED SUCCESSFULLY\n");
 
         return $this->log;
     }
