@@ -4,32 +4,10 @@
 {include file='jipTitle.tpl' title='Создание страницы'}
 {/if}
 
-<form {$form.attributes} onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return mzzAjax.sendForm(this);return false;">
-{$form.hidden}
-<table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
-    <tr>
-        <td style='width: 15%;'>{$form.name.label}</td>
-        <td style='width: 85%;'>{$form.name.html}</td>
-    </tr>
-    <tr>
-        <td>{$form.title.label}</td>
-        <td>{$form.title.html}</td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td>{$form.contentArea.html}</td>
-    </tr>
-    <tr>
-        <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
-    </tr>
-</table>
-</form>
-
 {literal}<script type="text/javascript">
 tinyMCE.init({
         theme : "advanced",
-        mode : "exact",
-        elements : "contentArea",
+        mode : "none",
         plugins : "style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
         theme_advanced_buttons1_add_before : "save,newdocument,separator",
         theme_advanced_buttons1_add : "fontselect,fontsizeselect",
@@ -55,3 +33,28 @@ tinyMCE.init({
         apply_source_formatting : true
     });
 </script>{/literal}
+
+<form {$form.attributes} onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return mzzAjax.sendForm(this);return false;">
+{$form.hidden}
+<table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
+    <tr>
+        <td style='width: 15%;'>{$form.name.label}</td>
+        <td style='width: 85%;'>{$form.name.html}</td>
+    </tr>
+    <tr>
+        <td>{$form.title.label}</td>
+        <td>{$form.title.html}</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td style="font-size: 80%;"><a href="#" onclick="javascript: return jipWindow.toggleEditorById(this, 'contentArea') && false;" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>{$form.contentArea.html}</td>
+    </tr>
+    <tr>
+        <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
+    </tr>
+</table>
+</form>

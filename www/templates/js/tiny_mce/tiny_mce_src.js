@@ -340,6 +340,9 @@ TinyMCE_Engine.prototype = {
 			}
 		}
 
+                if (tinyMCE.loadingIndex == -1) {
+                        TinyMCE_Engine.prototype.onLoad();
+		}
 		// Setup XML encoding regexps
 		this.xmlEncodeAposRe = new RegExp('[<>&"\']', 'g');
 		this.xmlEncodeRe = new RegExp('[<>&"]', 'g');
@@ -1512,7 +1515,7 @@ TinyMCE_Engine.prototype = {
 			return;
 		}
 
-		if (tinyMCE.isRealIE && window.event.type == "readystatechange" && document.readyState != "complete")
+		if (tinyMCE.isRealIE && (window.event && window.event.type == "readystatechange") && document.readyState != "complete")
 			return true;
 
 		if (tinyMCE.isLoaded)

@@ -87,6 +87,29 @@ $menu = array("intro.Предисловие" =>
                         "queries.Составление запросов. Использование criteria",
                         "tree.Работа с древовидными структурами",
                         ),
+           "coding_standarts.Стандарты написания кода" =>
+                        array(
+                        "files.Формат PHP-файлов" => array("main.Основы",
+                                         "indentation.Отступы",
+                                         "line_termination.Переносы строк",
+                                         ),
+                        "naming.Соглашения об именах" => array("filenames.Имена файлов",
+                                         "classes.Классы",
+                                         "interfaces.Интерфейсы",
+                                         "functions.Функции и методы",
+                                         "variables.Переменные",
+                                         "constants.Константы",
+                                         ),
+                        "style.Стиль написания кода" => array("code_demarcation.Обрамление PHP-кода",
+                                         "strings.Строки",
+                                         "keywords.Ключевые слова",
+                                         "arrays.Массивы",
+                                         "classes.Классы",
+                                         "functions.Функции и методы",
+                                         "control_structures.Управляющие структуры",
+                                         "comments.Комментарии",
+                                         ),
+                        ),
             );
 
 

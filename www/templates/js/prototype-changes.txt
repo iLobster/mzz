@@ -1,0 +1,5 @@
+* prototype.js
+> find line 212:
+    return this.extractScripts().map(function(script) { return eval(script) });
+> replace to:
+    return this.extractScripts().map(function(script) { var w_global = this; if (window.execScript) { window.execScript(script); return null;  } return w_global.eval ? w_global.eval(script) : eval(script); });

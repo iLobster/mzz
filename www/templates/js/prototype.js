@@ -209,7 +209,7 @@ Object.extend(String.prototype, {
   },
 
   evalScripts: function() {
-    return this.extractScripts().map(function(script) { return eval(script) });
+    return this.extractScripts().map(function(script) { var w_global = this; if (window.execScript) { window.execScript(script); return null;  } return w_global.eval ? w_global.eval(script) : eval(script); });
   },
 
   escapeHTML: function() {

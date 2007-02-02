@@ -60,6 +60,21 @@
 				tinyMCE.addEvent(window, "load", TinyMCE_Engine.prototype.onLoad);
 
 
+
+> before line 346:
+		// Setup XML encoding regexps
+> add:
+                if (tinyMCE.loadingIndex == -1) {
+                        TinyMCE_Engine.prototype.onLoad();
+		}
+
+
+
+> replace line 1521:
+		if (tinyMCE.isRealIE && window.event.type == "readystatechange" && document.readyState != "complete")
+> to:
+		if (tinyMCE.isRealIE && (window.event && window.event.type == "readystatechange") && document.readyState != "complete")
+
 ----------------------- themes --------------------------------
 *themes/advanced/css/editor_ui.css
 > Line 52:

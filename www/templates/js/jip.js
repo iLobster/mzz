@@ -153,6 +153,7 @@ jipWindow.prototype = {
     this.stack = new Array;
     this.windowCount = 0;
     this.currentWindow = 0;
+    this.toggleEditorStatus = $H();
 
     this.eventKeypress  = this.keyPress.bindAsEventListener(this);
     this.eventLockClick  = this.lockClick.bindAsEventListener(this);
@@ -251,6 +252,24 @@ jipWindow.prototype = {
     }
   },
 
+  toggleEditorById: function(link_elm, editor_id)
+  {
+    if (this.toggleEditorStatus[editor_id] == 1) {
+        link_elm.innerHTML = "¬ключить WYSIWYG-редактор";
+        this.toggleEditorStatus[editor_id] = 0;
+        if (typeof(tinyMCE) != 'undefined') {
+            tinyMCE.triggerSave(false, false);
+            tinyMCE.execCommand('mceRemoveEditor' , false, editor_id);
+        }
+    } else {
+        link_elm.innerHTML = "¬ключить обычный режим";
+        this.toggleEditorStatus[editor_id] = 1;
+        if (typeof(tinyMCE) != 'undefined') {
+            tinyMCE.execCommand('mceAddEditor' , true, editor_id);
+        }
+    }
+  },
+
   close: function(windows)
   {
     if(this.jip) {
@@ -259,6 +278,13 @@ jipWindow.prototype = {
         var currentWin = this.currentWindow;
         var stack = this.stack[currentWin];
 
+        if (typeof(tinyMCE) != 'undefined') {
+            this.toggleEditorStatus.each(function(pair) {
+                tinyMCE.execCommand('mceRemoveEditor' , false, pair.key);
+            });
+
+            this.toggleEditorStatus = $H();
+        }
         if (stack.length > 0) {
             var i = 0;
             for (var i = 0; i < windows; i++) {
