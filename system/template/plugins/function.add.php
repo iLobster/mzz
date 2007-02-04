@@ -28,11 +28,17 @@
  * @return null|void null если файл дубликат
  * @package system
  * @subpackage template
- * @version 0.1
+ * @version 0.2
  */
 function smarty_function_add($params, $smarty)
 {
-    $valid_resources = array('css', 'js');
+    static $medias = array(array(), array('js' => array(), 'css' => array()));
+
+    if (!isset($medias[0][$params['file'] . (isset($params['tpl']) ? $params['tpl'] : '')])) {
+        $medias[0][$params['file'] . (isset($params['tpl']) ? $params['tpl'] : '')] = true;
+    } else {
+        return;
+    }
 
     if (empty($params['file'])) {
         throw new mzzInvalidParameterException('Пустой атрибут', 'file');
@@ -53,7 +59,7 @@ function smarty_function_add($params, $smarty)
         $filename = $params['file'];
     }
 
-    if (!in_array($res, $valid_resources)) {
+    if (!isset($medias[1][$res])) {
         throw new mzzInvalidParameterException('Неверный тип ресурса', $res);
     }
 
@@ -64,23 +70,21 @@ function smarty_function_add($params, $smarty)
     // Если шаблон не указан, то используем шаблон соответствующий расширению
     $tpl = (!empty($params['tpl'])) ? $params['tpl'] : $res . '.tpl';
 
-    $vars = $smarty->get_template_vars($res);
+    $vars = $smarty->get_template_vars('media');
     // если массив ещё пустой - создаём
     if ($vars === null) {
-        $smarty->assign($res, array());
+        $smarty->assign_by_ref('media', $medias[1]);
     }
 
     // ищем - подключали ли мы уже данный файл
-    if (is_array($vars)) {
-        foreach ($vars as $val) {
+    if (is_array($vars[$res])) {
+        foreach ($vars[$res] as $val) {
             if ($val['file'] == $filename && $val['tpl'] == $tpl) {
                 return null;
             }
         }
     }
-
-    $smarty->append($res, array('file' => $filename, 'tpl' => $tpl));
-
+    $medias[1][$res][] = array('file' => $filename, 'tpl' => $tpl);
 }
 
 ?>

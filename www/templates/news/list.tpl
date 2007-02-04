@@ -8,16 +8,10 @@
 <div class="news_info">Автор: {$current_news->getEditor()->getLogin()}, {$current_news->getCreated()|date_format:"%e %B %Y / %H:%M"},
 Редактировано: {$current_news->getUpdated()|date_format:"%e %B %Y / %H:%M"}</div>
 
-
  <div class="news_text">{$current_news->getText()}</div>
 
-
 {/foreach}
-
-
-<a href="{url section=news action=create params=$folderPath}" onclick="javascript: return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/add.gif" width="16" height="16" alt="Добавить новость" /></a>
-<a href="{url section=news action=create params=$folderPath}" onclick="javascript: return jipWindow.open(this.href);">Добавить новость</a>
+{if $pager->getPagesTotal() > 0}
 <div class="pages">{$pager->toString()}</div>
+{/if}
 </div>
-
-

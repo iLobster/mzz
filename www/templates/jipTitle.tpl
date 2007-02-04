@@ -1,1 +1,1 @@
-<div class="jipTitle"><span>{$title}</span></div>
+<div class="jipTitle">{$title}</div>
