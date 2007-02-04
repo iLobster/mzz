@@ -9,80 +9,9 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
-/**
- * Содержит версию и имя релиза MZZ CMS
- *
- * @package system
- */
-class mzz {
-    /**
-     * Name
-     *
-     */
-    const NAME = 'Mzz.Cms';
 
-    /**
-     * Major version
-     *
-     */
-    const VERSION_MAJOR = 0;
-
-    /**
-     * Minor version
-     *
-     */
-    const VERSION_MINOR = 0;
-
-    /**
-     * Micro version
-     *
-     */
-    const VERSION_MICRO = 7;
-
-    /**
-     * Status
-     *
-     */
-    const STATUS = '-dev';
-
-    /**
-     * Revision
-     *
-     */
-    const REV = '$Rev$';
-
-    /**
-     * Url
-     *
-     */
-    const URL = 'http://www.mzz.ru';
-
-    /**
-     * Version separator
-     *
-     */
-    const SEP = '.';
-
-    /**
-     * Возвращает текущую версию
-     *
-     * @return string
-     */
-    public static function getVersion() {
-        return self::VERSION_MAJOR . self::SEP . self::VERSION_MINOR . self::SEP . self::VERSION_MICRO . self::STATUS;
-    }
-
-    /**
-     * Возвращает ревизию
-     *
-     * @return integer
-     */
-    public static function getRevision() {
-        return (int)(substr(self::REV, 6, strrpos(self::REV, ' ') - strpos(self::REV, ' ') - 1));
-    }
-}
 // Name
-define('MZZ_NAME',  'Mzz.Cms' );
+define('MZZ_NAME',  'Mzz.Framework' );
 
 // Major version
 define('MZZ_VERSION_MAJOR', 0 );

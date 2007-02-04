@@ -34,14 +34,14 @@ function smarty_function_add($params, $smarty)
 {
     static $medias = array(array(), array('js' => array(), 'css' => array()));
 
+    if (empty($params['file'])) {
+        throw new mzzInvalidParameterException('Пустой атрибут', 'file');
+    }
+
     if (!isset($medias[0][$params['file'] . (isset($params['tpl']) ? $params['tpl'] : '')])) {
         $medias[0][$params['file'] . (isset($params['tpl']) ? $params['tpl'] : '')] = true;
     } else {
         return;
-    }
-
-    if (empty($params['file'])) {
-        throw new mzzInvalidParameterException('Пустой атрибут', 'file');
     }
 
     // определяем тип ресурса
@@ -74,6 +74,7 @@ function smarty_function_add($params, $smarty)
     // если массив ещё пустой - создаём
     if ($vars === null) {
         $smarty->assign_by_ref('media', $medias[1]);
+        $vars = $medias[1];
     }
 
     // ищем - подключали ли мы уже данный файл
