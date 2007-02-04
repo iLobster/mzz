@@ -78,7 +78,7 @@ mzzAjax.prototype = {
   sendForm: function(form, method) {
     var params = form.serialize().toQueryParams();
     params.ajax = 1;
-
+    jipWindow.clean();
     method = (method && method.toUpperCase() == 'GET') ? 'GET' : 'POST';
     new Ajax.Request(form.action, {
       'method': method,

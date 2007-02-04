@@ -48,6 +48,9 @@
     <tr>
         <td colspan="2">
             <a href="{url section="admin" action="addObjToRegistry"}" onclick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Зарегистрировать новый объект" /></a><br />
+            {foreach from=$latestObjects item=latestObject}
+                <a href="{url section="access" obj_id=$latestObject.obj_id action="editACL"}" onclick="return jipWindow.open(this.href);">{$latestObject.obj_id}</a> - {$latestObject.section_name} - {$latestObject.class_name}<br />
+            {/foreach}
         </td>
     </tr>
     <tr>

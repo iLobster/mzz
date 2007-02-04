@@ -32,7 +32,8 @@ class adminAddObjToRegistryController extends simpleController
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $data = $adminMapper->getClassesInSections();
 
-        $form = adminAddObjToRegistryForm::getForm($data, $db, $action);
+        $formData = array_combine(array_keys($data), array_keys($data));
+        $form = adminAddObjToRegistryForm::getForm($formData, $db, $action);
 
         if ($form->validate()) {
             $values = $form->exportValues();
@@ -41,7 +42,7 @@ class adminAddObjToRegistryController extends simpleController
             $stmt = $db->prepare('INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (:obj_id, :class_section)');
 
             $stmt->bindValue(':obj_id', $obj_id, PDO::PARAM_INT);
-            $stmt->bindValue(':class_section', $values['class_section'], PDO::PARAM_INT);
+            $stmt->bindValue(':class_section', $values['class'], PDO::PARAM_INT);
             $stmt->execute();
 
             return new simpleJipRefreshView();
@@ -51,6 +52,7 @@ class adminAddObjToRegistryController extends simpleController
         $form->accept($renderer);
         $this->smarty->assign('action', $action);
         $this->smarty->assign('form', $renderer->toArray());
+        $this->smarty->assign('classes', $data);
         return $this->smarty->fetch('admin/addObjToRegistry.tpl');
     }
 }

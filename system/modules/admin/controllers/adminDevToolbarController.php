@@ -27,9 +27,11 @@ class adminDevToolbarController extends simpleController
 
         $modules = $adminMapper->getModulesList();
         $sections = $adminMapper->getSectionsList();
+        $latestObjects = $adminMapper->getLatestRegisteredObj();
 
         $this->smarty->assign('modules', $modules);
         $this->smarty->assign('sections', $sections);
+        $this->smarty->assign('latestObjects', $latestObjects);
         return $this->smarty->fetch('admin/devToolbar.tpl');
     }
 }

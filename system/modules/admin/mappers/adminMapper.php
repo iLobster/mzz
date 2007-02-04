@@ -153,15 +153,30 @@ class adminMapper extends simpleMapper
      */
     public function getClassesInSections()
     {
-        $classes_section = $this->db->getAll("SELECT `cs`.`id` as `id`, CONCAT_WS('_', `c`.`name`, `s`.`name`) as `name` FROM `sys_classes_sections` `cs`
-                                                LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                                 LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
-                                                  ORDER BY `c`.`name`, `s`.`name`", PDO::FETCH_ASSOC);
+        $classes = $this->db->getAll("SELECT `cs`.`id`, `c`.`name` as `class_name`, `s`.`name` as `section_name` FROM `sys_classes_sections` `cs`
+                                               LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                                LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+                                                 ORDER BY `c`.`name`, `s`.`name`", PDO::FETCH_ASSOC);
         $result = array();
-        foreach ($classes_section as $class_section) {
-            $result[$class_section['id']] = $class_section['name'];
+        foreach ($classes as $class) {
+            $result[$class['section_name']][] = array('id' => $class['id'], 'class' => $class['class_name']);
         }
         return $result;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return unknown
+     */
+    public function getLatestRegisteredObj($items = 5)
+    {
+        $objects = $this->db->getAll("SELECT `ar`.`obj_id`, `c`.`name` as `class_name`, `s`.`name` as `section_name` FROM `sys_access_registry` `ar`
+                                       LEFT JOIN `sys_classes_sections` `cs` ON `ar`.`class_section_id` = `cs`.`id`
+                                        LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                         LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+                                          ORDER BY `ar`.`obj_id` DESC LIMIT 0, " . (int)$items, PDO::FETCH_ASSOC);
+        return $objects;
     }
 
     public function getDests($onlyWritable = false, $subfolder = '')
