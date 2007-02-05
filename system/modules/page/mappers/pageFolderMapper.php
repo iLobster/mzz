@@ -20,7 +20,7 @@ fileLoader::load('db/dbTreeNS');
  *
  * @package modules
  * @subpackage page
- * @version 0.1
+ * @version 0.1.1
  */
 class pageFolderMapper extends simpleMapper
 {
@@ -113,6 +113,33 @@ class pageFolderMapper extends simpleMapper
     {
         $idParent = $targetFolder->getParent();
         return $this->tree->insertNode($idParent, $folder);
+    }
+
+    /**
+     * Метод поиска новости в каталоге
+     *
+     * @param string $name
+     * @return news|null
+     */
+    public function searchChild($name)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $pageMapper = $toolkit->getMapper('page', 'page');
+
+        if (strpos($name, '/') !== false) {
+            $folder = substr($name, 0, strrpos($name, '/'));
+            $pagename = substr(strrchr($name, '/'), 1);
+
+            $pageFolder = $this->searchByPath($folder);
+
+            $criteria = new criteria();
+            $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
+            $page = $pageMapper->searchOneByCriteria($criteria);
+        } else {
+            $page = $pageMapper->searchByName($name);
+        }
+
+        return $page;
     }
 
     /**

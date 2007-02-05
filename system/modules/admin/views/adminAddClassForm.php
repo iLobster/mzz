@@ -23,7 +23,7 @@ class adminAddClassForm
      * метод получени€ формы
      *
      */
-    static function getForm($data, $db, $action)
+    static function getForm($data, $db, $action, $module_name)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
@@ -42,7 +42,7 @@ class adminAddClassForm
 
         $toolkit = systemToolkit::getInstance();
         $adminMapper = $toolkit->getMapper('admin', 'admin');
-        $dest = $adminMapper->getDests(true, $data['name']);
+        $dest = $adminMapper->getDests(true, $module_name);
 
         $select = $form->addElement('select', 'dest', ' аталог генерации:', $dest);
         if (sizeof($dest) == 1) {

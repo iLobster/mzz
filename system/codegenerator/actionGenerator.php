@@ -192,8 +192,8 @@ class actionGenerator
         chdir(CUR);
 
         if ($oldName != $newName) {
-            rename('controllers' . DIRECTORY_SEPARATOR . $this->class . ucfirst($oldName) . 'Controller.php', 'controllers' . DIRECTORY_SEPARATOR . $this->class . ucfirst($newName) . 'Controller.php');
-            rename('views' . DIRECTORY_SEPARATOR . $this->class . ucfirst($oldName) . 'View.php', 'views' . DIRECTORY_SEPARATOR . $this->class . ucfirst($newName) . 'View.php');
+            rename('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($oldName) . 'Controller.php', 'controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($newName) . 'Controller.php');
+            rename('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($oldName) . 'View.php', 'views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($newName) . 'View.php');
 
             rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl', systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');
             rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl', systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');

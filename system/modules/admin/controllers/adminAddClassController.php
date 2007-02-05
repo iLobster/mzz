@@ -20,7 +20,7 @@ fileLoader::load('codegenerator/classGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
 class adminAddClassController extends simpleController
 {
@@ -37,6 +37,7 @@ class adminAddClassController extends simpleController
 
         if ($action == 'addClass') {
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
+            $module_name = $data['name'];
         } else {
             $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
 
@@ -51,9 +52,11 @@ class adminAddClassController extends simpleController
                 // @todo изменить
                 return 'нельзя изменить имя класса';
             }
+
+            $module_name = $modules[$data['module_id']]['name'];
         }
 
-        $form = adminAddClassForm::getForm($data, $db, $action);
+        $form = adminAddClassForm::getForm($data, $db, $action, $module_name);
 
         if ($form->validate()) {
             $values = $form->exportValues();

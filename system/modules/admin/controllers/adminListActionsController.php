@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
 class adminListActionsController extends simpleController
 {
@@ -33,18 +33,8 @@ class adminListActionsController extends simpleController
             return 'класса не существует';
         }
 
-        // выбираем все экшны для данного ДО из БД
-        /*$qry = 'SELECT `a`.`name`, `a`.`id` FROM `sys_classes_actions` `ca`
-        INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
-        WHERE `ca`.`class_id` = ' . $id;
-        $stmt = $this->db->query($qry);
-
-        $actions_db = array();
-        while ($row = $stmt->fetch()) {
-        $actions_db[] = $row['name'];
-        }*/
-
         $actions_db = $this->getActions($id);
+        $this->removeEditACL($actions_db);
 
         $deleted = $inserted = array();
 
@@ -54,6 +44,7 @@ class adminListActionsController extends simpleController
 
         if (isset($tmp[$data['c_name']])) {
             $actions_ini = array_keys($tmp[$data['c_name']]);
+            $this->removeEditACL($actions_ini);
 
             $to_delete = array_diff($actions_db, $actions_ini);
             $to_insert = array_diff($actions_ini, $actions_db);
@@ -102,9 +93,11 @@ class adminListActionsController extends simpleController
 
             $action = new action($data['m_name']);
             $tmp = $action->getActions();
+            $tmp = $tmp[$data['c_name']];
+            $this->removeEditACL($tmp);
 
             $this->smarty->assign('id', $id);
-            $this->smarty->assign('actions', $tmp[$data['c_name']]);
+            $this->smarty->assign('actions', $tmp);
             $this->smarty->assign('insert', $exists_in_db);
             $this->smarty->assign('delete', $to_delete);
             return $this->smarty->fetch('admin/listActions.tpl');
@@ -126,6 +119,18 @@ class adminListActionsController extends simpleController
         }
 
         return $actions_db;
+    }
+
+    private function removeEditACL(&$arr)
+    {
+        if (($key = array_search('editACL', $arr)) !== false) {
+            unset($arr[$key]);
+            return;
+        }
+
+        if (isset($arr['editACL'])) {
+            unset($arr['editACL']);
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 {add file="jip.js"}
 {add file="jip.css"}
 <table width="99%" border="1">
-    <tr>
+    <tr valign="top">
         <td>
             <a href="{url section="admin" action="addModule"}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить модуль" /></a><br /><br />
             {foreach from=$modules item=module key=id name=mcycle}

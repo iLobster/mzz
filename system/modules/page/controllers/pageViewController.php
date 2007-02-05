@@ -14,7 +14,7 @@
  *
  * @package modules
  * @subpackage page
- * @version 0.2
+ * @version 0.2.1
  */
 
 fileLoader::load('page/views/pageViewView');
@@ -29,29 +29,14 @@ class pageViewController extends simpleController
 
     public function getView()
     {
-        $section = $this->request->getSection();
-
-        $pageMapper = $this->toolkit->getMapper('page', 'page');
-
         if (($name = $this->request->get('name', 'string', SC_PATH)) == false) {
             if (($name = $this->request->get('id', 'string', SC_PATH)) == false) {
                 $name = 'main';
             }
         }
 
-        if (strpos($name, '/') !== false) {
-            $folder = substr($name, 0, strrpos($name, '/'));
-            $pagename = substr(strrchr($name, '/'), 1);
-
-            $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
-            $pageFolder = $pageFolderMapper->searchByPath($folder);
-
-            $criteria = new criteria();
-            $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
-            $page = $pageMapper->searchOneByCriteria($criteria);
-        } else {
-            $page = $pageMapper->searchByName($name);
-        }
+        $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+        $page = $pageFolderMapper->searchChild($name);
 
         if ($page) {
             return new pageViewView($page);

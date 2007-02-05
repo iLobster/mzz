@@ -1113,7 +1113,7 @@ CREATE TABLE `sys_classes_actions` (
   `class_id` int(11) unsigned default NULL,
   `action_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
-  KEY `class_id` (`class_id`)
+  UNIQUE KEY `class_id` (`class_id`,`action_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
