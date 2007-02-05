@@ -30,7 +30,9 @@ tinyMCE.init({
         theme_advanced_resizing : true,
         language: 'ru',
         nonbreaking_force_tab : true,
-        apply_source_formatting : true
+        apply_source_formatting : true,
+        add_unload_trigger : false,
+        add_form_submit_trigger: false
     });
 </script>{/literal}
 
@@ -47,7 +49,7 @@ tinyMCE.init({
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td style="font-size: 80%;"><a href="#" onclick="javascript: return jipWindow.toggleEditorById(this, 'contentArea') && false;" style="text-decoration: none; border-bottom: 1px dashed #aaa;">¬ключить WYSIWYG-редактор</a></td>
+        <td style="font-size: 80%;"><a href="javascript: void(0);" onclick="javascript: return jipWindow.toggleEditorById(this, 'contentArea') && false;" style="text-decoration: none; border-bottom: 1px dashed #aaa;">¬ключить WYSIWYG-редактор</a></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
