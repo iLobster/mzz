@@ -1,0 +1,72 @@
+span.toolbarSectionName {
+  font-size: 115%;
+  color: #E6851A;
+}
+
+table.toolbarActions {
+  width: 99%;
+  border: 0;
+  margin-top: 15px;
+}
+
+table.toolbarObjects {
+  width: 100%;
+  border: 0;
+  margin-top: 15px;
+  font-size: 85%;
+}
+
+tr.toolbarTitle {
+  background-color: #FAFAFA;
+  font-size: 90%;
+}
+
+td.toolbarElementName {
+  padding-left: 20px;
+  font-size: 85%;
+}
+
+td.toolbarActions {
+  width: 60px;
+  border-bottom: 1px solid #EBEBEB;
+  border-top: 1px solid #EBEBEB;
+}
+
+td.toolbarBorder {
+  border-bottom: 1px solid #EBEBEB;
+  border-top: 1px solid #EBEBEB;
+}
+
+td.toolbarEndList {
+  border-top: 2px solid #EBEBEB;
+  height: 2px;
+}
+
+div.toolbarLayerTopLeft {
+  float: left;
+  width: 30%;
+}
+
+div.toolbarLayerTopRight {
+  margin-left: 3%;
+  width: 30%;
+  float: left;
+}
+
+div.toolbarLayerBottomLeft {
+  width: 32%;
+  font-size: 100%;
+  margin-left: 65%;
+}
+
+td.toolbarEmpty {
+  font-size: 80%;
+  color: #999;
+  text-align: center;
+}
+
+tr.toolbarObjectsTitle {
+  background-color: #FAFAFA;
+  font-weight: bold;
+  color: #555;
+}
