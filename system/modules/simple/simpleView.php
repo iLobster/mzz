@@ -74,6 +74,7 @@ abstract class simpleView
      */
     public function __construct($DAO = null)
     {
+        //die('deprecated view using : <br />' . var_export(debug_backtrace()));
         $this->toolkit = systemToolkit::getInstance();
         if(!is_null($DAO)) {
             $this->DAO = $DAO;

@@ -1,14 +1,19 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
+fileLoader::load('news/views/newsCreateFolderForm');
+
 /**
  * newsCreateController: контроллер для метода create модуля news
  *
@@ -16,10 +21,6 @@
  * @subpackage news
  * @version 0.1
  */
-
-fileLoader::load('news/views/newsCreateFolderForm');
-fileLoader::load('news/views/newsCreateFolderView');
-
 class newsCreateFolderController extends simpleController
 {
     public function getView()
@@ -39,7 +40,16 @@ class newsCreateFolderController extends simpleController
             $form = newsCreateFolderForm::getForm($path, $newsFolderMapper, $action, $targetFolder);
 
             if ($form->validate() == false) {
-                $view = new newsCreateFolderView($targetFolder, $form, $action);
+                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+                $form->accept($renderer);
+
+                $this->smarty->assign('form', $renderer->toArray());
+                $this->smarty->assign('action', $action);
+
+                $title = $action == 'edit' ? 'Редактирование папки -> ' . $targetFolder->getTitle() : 'Создание папки';
+                $this->response->setTitle('Новости -> ' . $title);
+
+                $view = $this->smarty->fetch('news/createFolder.tpl');
             } else {
                 $values = $form->exportValues();
 

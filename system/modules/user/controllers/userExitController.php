@@ -19,12 +19,6 @@
 
 class userExitController extends simpleController
 {
-    public function __construct()
-    {
-        fileLoader::load('user/views/userExitView');
-        parent::__construct();
-    }
-
     public function getView()
     {
         $session = $this->toolkit->getSession();
@@ -33,7 +27,7 @@ class userExitController extends simpleController
         $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
         $userAuthMapper->clear();
 
-        return new userExitView($this->request->get('url', 'string', SC_GET));
+        $this->response->redirect($this->request->get('url', 'string', SC_GET));
     }
 }
 

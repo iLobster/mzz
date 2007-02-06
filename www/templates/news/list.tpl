@@ -3,7 +3,7 @@
 
 <div class="newsList">
 {foreach from=$news item=current_news}
-  <div class="news_title"><a href="{url section=news action=view params=$current_news->getId()}">{$current_news->getTitle()}</a>{$current_news->getJip()}</div>
+  <div class="news_title"><a href="{url action=view params=$current_news->getId()}">{$current_news->getTitle()}</a>{$current_news->getJip()}</div>
 
 <div class="news_info">Автор: {$current_news->getEditor()->getLogin()}, {$current_news->getCreated()|date_format:"%e %B %Y / %H:%M"},
 Редактировано: {$current_news->getUpdated()|date_format:"%e %B %Y / %H:%M"}</div>

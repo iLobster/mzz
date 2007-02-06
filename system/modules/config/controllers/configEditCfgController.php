@@ -19,9 +19,6 @@
  * @subpackage config
  * @version 0.1
  */
-
-fileLoader::load('config/views/configEditCfgView');
-
 class configEditCfgController extends simpleController
 {
     public function getView()
@@ -38,7 +35,11 @@ class configEditCfgController extends simpleController
             return new simpleJipCloseView();
         }
 
-        return new configEditCfgView($module_name, $section_name);
+        $config = $this->toolkit->getConfig($section_name, $module_name);
+        $this->smarty->assign('configs', $config->getValues());
+        $this->smarty->assign('section', $section_name);
+        $this->smarty->assign('module', $module_name);
+        return $this->smarty->fetch('config/editCfg.tpl');
     }
 }
 

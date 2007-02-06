@@ -1,14 +1,17 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
 /**
  * userLoginController: контроллер для метода login модуля user
  *
@@ -16,15 +19,8 @@
  * @subpackage user
  * @version 0.2.2
  */
-
 class userLoginController extends simpleController
 {
-    public function __construct()
-    {
-        fileLoader::load("user/mappers/userMapper");
-        parent::__construct();
-    }
-
     public function getView()
     {
         $user = $this->toolkit->getUser();
@@ -43,21 +39,24 @@ class userLoginController extends simpleController
                         $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
                         $userAuthMapper->set($user->getId());
                     }
-                    fileLoader::load('user/views/userLoginSuccessView');
-                    return new userLoginSuccessView($this->request->get('url', 'string', SC_POST));
+                    return $this->response->redirect($this->request->get('url', 'string', SC_POST));
                 }
             }
 
-            fileLoader::load('user/views/userLoginformView');
             fileLoader::load('user/views/userLoginForm');
-
             $form = userLoginForm::getForm($this->request->getRequestUrl());
+            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+            $form->accept($renderer);
 
-            return new userLoginformView($form);
+            $this->smarty->assign('form', $renderer->toArray());
+            $this->smarty->assign('user', null);
+            $this->response->setTitle('Пользователь -> Авторизация');
+
+            return $this->smarty->fetch('user/login.tpl');
         }
 
-        fileLoader::load('user/views/userLoginAlreadyView');
-        return new userLoginAlreadyView($user);
+        $this->smarty->assign('user', $user);
+        return $this->smarty->fetch('user/alreadyLogin.tpl');
     }
 }
 

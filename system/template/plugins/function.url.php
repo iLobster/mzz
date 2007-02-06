@@ -36,12 +36,15 @@ function smarty_function_url($params, $smarty)
     $url = new url();
 
     $toolkit = systemToolkit::getInstance();
+    $request = $toolkit->getRequest();
     $getUrl = true;
 
     if (isset($params['section'])) {
         $getUrl = false;
         $url->setSection($params['section']);
         unset($params['section']);
+    } else {
+        $url->setSection($request->getSection());
     }
 
     if (isset($params['action'])) {
@@ -62,7 +65,6 @@ function smarty_function_url($params, $smarty)
     }
 
     if ($getUrl == true) {
-        $request = $toolkit->getRequest();
         return $request->getRequestUrl();
     } else {
         return $url->get();

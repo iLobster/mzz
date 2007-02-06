@@ -1,14 +1,17 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
 /**
  * pageViewController: контроллер дл€ метода view модул€ page
  *
@@ -16,17 +19,8 @@
  * @subpackage page
  * @version 0.2.1
  */
-
-fileLoader::load('page/views/pageViewView');
-fileLoader::load("page/mappers/pageMapper");
-
 class pageViewController extends simpleController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getView()
     {
         if (($name = $this->request->get('name', 'string', SC_PATH)) == false) {
@@ -39,7 +33,9 @@ class pageViewController extends simpleController
         $page = $pageFolderMapper->searchChild($name);
 
         if ($page) {
-            return new pageViewView($page);
+            $this->smarty->assign('page', $page);
+            $this->response->setTitle('—траницы -> ' . $page->getTitle());
+            return $this->smarty->fetch('page/view.tpl');
         } else {
             fileLoader::load('page/views/page404View');
             return new page404View();

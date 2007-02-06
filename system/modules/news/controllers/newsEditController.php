@@ -1,14 +1,19 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
+fileLoader::load('news/views/newsEditForm');
+
 /**
  * NewsEditController: контроллер для метода edit модуля news
  *
@@ -16,11 +21,6 @@
  * @subpackage news
  * @version 0.1
  */
-
-fileLoader::load('news/views/newsEditView');
-fileLoader::load('news/views/newsEditForm');
-fileLoader::load("news/mappers/newsMapper");
-
 class newsEditController extends simpleController
 {
     public function getView()
@@ -46,7 +46,17 @@ class newsEditController extends simpleController
             $form = newsEditForm::getForm($news, $this->request->getSection(), $action, $newsFolder);
 
             if ($form->validate() == false) {
-                $view = new newsEditView($news, $form, $action);
+                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+                $form->accept($renderer);
+
+                $this->smarty->assign('form', $renderer->toArray());
+                $this->smarty->assign('news', $news);
+                $this->smarty->assign('action', $action);
+
+                $title = $action == 'edit' ? 'Редактирование -> ' . $news->getTitle() : 'Создание';
+                $this->response->setTitle('Новости -> ' . $title);
+
+                return $this->smarty->fetch('news/edit.tpl');
             } else {
                 $values = $form->exportValues();
                 $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());

@@ -19,10 +19,6 @@
  * @subpackage news
  * @version 0.1
  */
-
-fileLoader::load('news/views/newsAdminView');
-fileLoader::load('news/views/newsListView');
-
 class newsAdminController extends simpleController
 {
     public function getView()
@@ -37,7 +33,10 @@ class newsAdminController extends simpleController
 
         $newsFolder = $newsFolderMapper->searchByPath($path);
         if ($newsFolder) {
-            return new newsAdminView($newsFolder);
+            $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
+            $this->smarty->assign('news', $newsFolder->getItems());
+            $this->smarty->assign('newsFolder', $newsFolder);
+            return $this->smarty->fetch('news/admin.tpl');
         } else {
             fileLoader::load('news/views/news404View');
             return new news404View();

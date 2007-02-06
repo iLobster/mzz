@@ -1,14 +1,17 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
 /**
  * timerViewController: контроллер для метода view модуля timer
  *
@@ -16,29 +19,14 @@
  * @subpackage timer
  * @version 0.1
  */
-
 class timerViewController extends simpleController
 {
-    /**
-     * Конструктор
-     *
-     */
-    public function __construct()
-    {
-        fileLoader::load('timer/views/timerViewView');
-        parent::__construct();
-    }
-
-    /**
-     * Возвращает объект отображения
-     *
-     * @return object
-     */
     public function getView()
     {
         $timer = $this->toolkit->getTimer();
         $timer->finish();
-        return new timerViewView($timer);
+        $this->smarty->assign('timer', $timer);
+        return $this->smarty->fetch('filter/time.tpl');
     }
 }
 
