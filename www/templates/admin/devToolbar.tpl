@@ -19,7 +19,7 @@
             <td align=right>{if not $class.exists}
                   <a href="{url section="admin" id=$id action="editClass"}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" title="Редактировать класс" align="texttop" /></a>
                   <a href="{url section="admin" id=$id action="deleteClass"}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить класс" title="Удалить класс" align="texttop" /></a>
-                {/if}<a href="{url section="admin" id=$id action="listActions"}" onClick="return jipWindow.open(this.href);"><img src='http://mzz-dev.ru/templates/images/actions.gif' title="Действия класса" alt="Действия класса"  align="texttop"/></a></td>
+                {/if}<a href="{url section="admin" id=$id action="listActions"}" onClick="return jipWindow.open(this.href);"><img src='{$SITE_PATH}/templates/images/actions.gif' title="Действия класса" alt="Действия класса"  align="texttop"/></a></td>
         </tr>
         {/foreach}
         {if $count eq 0}
@@ -56,7 +56,7 @@
 
 
 <div class="toolbarLayerBottomLeft">
-<span class="toolbarSectionName">Зарегистрированные объекты</span> <a href="{url section="admin" action="addObjToRegistry"}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/generate.png" alt="Сгенерировать" title="Генерация и регистрация нового идентификатора объекта" align="absmiddle" /></a>
+<span class="toolbarSectionName">Зарегистрированные объекты</span> <a href="{url section="admin" action="addObjToRegistry"}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/DB.png" alt="Сгенерировать" title="Генерация и регистрация нового идентификатора объекта" align="absmiddle" /></a>
 <table class="toolbarObjects" cellpadding="2" cellspacing="0">
     <tr class="toolbarObjectsTitle">
         <td style="width: 45px;" class="toolbarBorder">obj_id</td>

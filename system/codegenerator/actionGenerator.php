@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.2
  */
 
 class actionGenerator
@@ -157,8 +157,8 @@ class actionGenerator
 
             file_put_contents($actionsfile, $actions_output);
 
-            $this->safeUnlink('controllers' . DIRECTORY_SEPARATOR . $this->class . ucfirst($action) . 'Controller.php');
-            $this->safeUnlink('views' . DIRECTORY_SEPARATOR . $this->class . ucfirst($action) . 'View.php');
+            $this->safeUnlink('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'Controller.php');
+            $this->safeUnlink('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'View.php');
 
             $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
             $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
@@ -258,6 +258,10 @@ class actionGenerator
 
                 if (!empty($params['inacl'])) {
                     $section_val['inACL'] = 0;
+                }
+
+                if (!empty($params['alias'])) {
+                    $section_val['alias'] = $params['alias'];
                 }
             }
             $actions_output .= "\r\n[" . $section . "]\r\n";

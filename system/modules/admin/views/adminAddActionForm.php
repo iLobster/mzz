@@ -52,6 +52,9 @@ class adminAddActionForm
             if (isset($info['confirm'])) {
                 $defaultValues['confirm'] = $info['confirm'];
             }
+            if (isset($info['alias'])) {
+                $defaultValues['alias'] = $info['alias'];
+            }
             $defaultValues['jip'] = (!empty($info['jip']));
             $defaultValues['inacl'] = (isset($info['inACL']) && $info['inACL'] == 0);
 
@@ -64,6 +67,14 @@ class adminAddActionForm
         $toolkit = systemToolkit::getInstance();
         $adminMapper = $toolkit->getMapper('admin', 'admin');
         $dest = $adminMapper->getDests(true, $data['m_name']);
+
+        $aliases = array(0 => '');
+        foreach ($actionsInfo as $key => $val) {
+            if ($action_name != $key) {
+                $aliases[$key] = isset($val['title']) ? $val['title'] : $key;
+            }
+        }
+        $form->addElement('select', 'alias', 'Алиас', $aliases);
 
         $select = $form->addElement('select', 'dest', 'Каталог генерации:', $dest);
         if (sizeof($dest) == 1) {

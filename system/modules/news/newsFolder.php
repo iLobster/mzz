@@ -10,6 +10,8 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 
+fileLoader::load('simple/simpleForTree');
+
 /**
  * newsFolder: newsFolder
  *
@@ -17,8 +19,6 @@
  * @subpackage news
  * @version 0.1
  */
-
-fileLoader::load('simple/simpleForTree');
 
 class newsFolder extends simpleForTree
 {

@@ -11,36 +11,40 @@
  * @link http://www.mzz.ru
  * @version $Id$
 */
-
-{{if $mapper_data.module ne $mapper_data.doname}}
-fileLoader::load('{{$mapper_data.module}}/{{$mapper_data.doname}}');
-{{else}}
-fileLoader::load('{{$mapper_data.module}}');
-{{/if}}
-
+fileLoader::load('fileManager/file');
 /**
- * {{$mapper_data.mapper_name}}: маппер
+ * fileMapper: маппер
  *
  * @package modules
- * @subpackage {{$mapper_data.module}}
+ * @subpackage fileManager
  * @version 0.1
  */
- 
-class {{$mapper_data.mapper_name}} extends simpleMapper
+class fileMapper extends simpleMapper
 {
     /**
      * Имя модуля
      *
      * @var string
      */
-    protected $name = '{{$mapper_data.module}}';
+    protected $name = 'fileManager';
 
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = '{{$mapper_data.doname}}';
+    protected $className = 'file';
+
+    /**
+     * Выполняет поиск объектов по идентификатору папки
+     *
+     * @param integer $id идентификатор папки
+     * @return array
+     */
+    public function searchByFolder($folder_id)
+    {
+        return $this->searchAllByField('folder_id', $folder_id);
+    }
 
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса

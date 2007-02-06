@@ -20,9 +20,6 @@
         <td>{$form.created.label}</td>
         <td>{$form.created.html} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button></td>
     </tr>
-
-
-
     <tr>
         <td>&nbsp;</td>
         <td>{$form.text.html}</td>

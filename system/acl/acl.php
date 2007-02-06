@@ -14,7 +14,7 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1.2
+ * @version 0.1.3
  */
 class acl
 {
@@ -157,15 +157,19 @@ class acl
             }
             $grp = substr($grp, 0, -2);
 
-            $qry = 'SELECT (MAX(`a`.`allow`) - MAX(`a`.`deny`) = 1) AS `access`, `a`.`allow`, `a`.`deny`, `aa`.`name` FROM `sys_access` `a`
-                     INNER JOIN `sys_actions` `aa` ON `a`.`action_id` = `aa`.`id`
-                      WHERE `a`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
+            $qry = 'SELECT IFNULL((MAX(`a`.`allow`) - MAX(`a`.`deny`) = 1), 0) AS `access`, IFNULL(`a`.`allow`, 0) AS `allow`, IFNULL(`a`.`deny`, 0) AS `deny`, `aa`.`name` FROM `sys_access_registry` `r`
+                     INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                      INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
+                       INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
+                        LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = `r`.`obj_id` AND `a`.`action_id` = `ca`.`action_id` AND (`a`.`uid` = :uid';
+
 
             if (sizeof($this->groups) && !$clean) {
                 $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
             }
 
-            $qry .= ') GROUP BY `aa`.`id`';
+            $qry .= ') WHERE `r`.`obj_id` = :obj_id
+                      GROUP BY `ca`.`id`';
 
             $stmt = $this->db->prepare($qry);
 

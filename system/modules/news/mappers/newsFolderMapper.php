@@ -9,6 +9,10 @@
 // This program is free software and released under
 // the GNU/GPL License (See /docs/GPL.txt).
 //
+
+fileLoader::load('db/dbTreeNS');
+fileLoader::load('news/newsFolder');
+
 /**
  * newsFolderMapper: маппер для папок новостей
  *
@@ -16,9 +20,6 @@
  * @subpackage news
  * @version 0.2
  */
-
-fileLoader::load('db/dbTreeNS');
-fileLoader::load('news/newsFolder');
 
 class newsFolderMapper extends simpleMapper
 {

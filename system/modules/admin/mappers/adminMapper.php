@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.2
  */
 
 fileLoader::load('admin');
@@ -69,7 +69,7 @@ class adminMapper extends simpleMapper
 
                 $action = $toolkit->getAction($val['module']);
                 $actions = $action->getActions();
-                $actions = $actions[$val['module']];
+                $actions = $actions[$val['class']];
 
                 $admin[$val['section'] . '_' . $val['class']] = isset($actions['admin']) && $acl->get('admin');
             }
@@ -101,6 +101,14 @@ class adminMapper extends simpleMapper
             }
 
             if (!is_null($val['class'])) {
+                if (!$val['exists']) {
+                    $action = new action($val['module']);
+                    $actions = $action->getActions();
+                    if (isset($actions[$val['class']]) && sizeof($actions[$val['class']]) > 1) {
+                        $val['exists'] = 1;
+                    }
+                }
+
                 $result[$val['m_id']]['classes'][$val['c_id']] = array('name' => $val['class'], 'exists' => $val['exists']);
             }
         }

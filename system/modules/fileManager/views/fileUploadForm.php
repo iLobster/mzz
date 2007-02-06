@@ -10,14 +10,14 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * newsEditForm: форма для метода edit модуля news
+ * fileUploadForm: форма для метода upload модуля fileManager
  *
  * @package modules
- * @subpackage news
+ * @subpackage fileManager
  * @version 0.1
  */
 
-class newsEditForm
+class fileUploadForm
 {
     /**
      * метод получения формы
@@ -28,25 +28,28 @@ class newsEditForm
      * @param newsFolder $newsFolder папка, в которой создаём новость
      * @return object сгенерированная форма
      */
-    static function getForm($news, $section, $action, $newsFolder)
+    static function getForm($folder)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        // @todo: изменить на нормальную генерацию урла
-        $formAction = '/' . $section . '/' . ($action == 'edit' ? $news->getId() : $newsFolder->getPath()) . '/' . $action;
-        $form = new HTML_QuickForm('newsEdit', 'POST', $formAction);
-
+        $url = new url();
+        $url->setAction('upload');
+        $url->addParam('path', $folder->getPath());
+        $form = new HTML_QuickForm('fileUpload', 'POST', $url->get());
+        /*
         if ($action == 'edit') {
-            $defaultValues = array();
-            $defaultValues['title']  = $news->getTitle();
-            $defaultValues['text']  = $news->getText();
-            $form->setDefaults($defaultValues);
-        }
-
+        $defaultValues = array();
+        $defaultValues['title']  = $news->getTitle();
+        $defaultValues['text']  = $news->getText();
+        $form->setDefaults($defaultValues);
+        }*/
+        /*
         $form->addElement('text', 'title', 'Имя:', 'size="30"');
         $form->addElement('text', 'created', 'Дата создания:', 'size="30" id="calendar-field-created"');
-        $form->addElement('textarea', 'text', 'Текст:', 'rows="7" cols="50"');
+        $form->addElement('textarea', 'text', 'Текст:', 'rows="7" cols="50"');*/
+
+        $form->addElement('file', 'file', 'Файл');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');

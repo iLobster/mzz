@@ -37,6 +37,10 @@
             <td>{$form.inacl.html}{$form.inacl.error}</td>
         </tr>
         <tr>
+            <td>{$form.alias.label}</td>
+            <td>{$form.alias.html}{$form.alias.error}</td>
+        </tr>
+        <tr>
             <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
         </tr>
     </table>

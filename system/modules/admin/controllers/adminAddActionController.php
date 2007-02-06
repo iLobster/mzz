@@ -51,7 +51,6 @@ class adminAddActionController extends simpleController
         }
 
         $actnionsInfo = $info[$data['c_name']];
-        //echo '<br><pre>'; var_dump($actnionsInfo); echo '<br></pre>';
 
         $form = adminAddActionForm::getForm($data, $db, $action, $action_name, $actnionsInfo);
 

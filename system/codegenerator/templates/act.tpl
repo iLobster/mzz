@@ -1,2 +1,2 @@
-{* main="popup.tpl" placeholder="content" *}
+{* main="main.tpl" placeholder="content" *}
 {load module="{{$module}}" action="{{$action}}"}
