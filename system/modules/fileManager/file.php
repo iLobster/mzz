@@ -21,7 +21,22 @@
  */
 class file extends simple
 {
-        protected $name = 'fileManager';
+    protected $name = 'fileManager';
+
+    /**
+     * Получение объекта JIP
+     *
+     * @return jip
+     */
+    public function getJip()
+    {
+        return $this->getJipView($this->name, $this->getFullPath(), get_class($this));
+    }
+
+    public function getFullPath()
+    {
+        return $this->getFolder()->getPath() . '/' . rawurlencode($this->getName());
+    }
 }
 
 ?>

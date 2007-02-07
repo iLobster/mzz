@@ -51,6 +51,21 @@ class fileMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
+    public function searchByPath($path)
+    {
+        $path = rawurldecode($path);
+        if (strpos($path, '/') !== false) {
+            $folder = substr($path, 0, strrpos($path, '/'));
+            $pagename = substr(strrchr($path, '/'), 1);
+
+            $criteria = new criteria();
+            $criteria->add('name', $pagename)->add('folder_id.path', $folder);
+            return $this->searchOneByCriteria($criteria);
+        }
+
+        return null;
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
@@ -58,7 +73,16 @@ class fileMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        return 1;
+        if (isset($args['id']) && !isset($args['name'])) {
+            $args['name'] = $args['id'];
+        }
+
+        $file = $this->searchByPath($args['name']);
+
+        if (!isset($file)) {
+            $file = $this->searchOneByField('name', $args['name']);
+        }
+        return (int)$file->getObjId();
     }
 }
 

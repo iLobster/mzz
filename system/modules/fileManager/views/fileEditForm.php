@@ -35,14 +35,11 @@ class fileEditForm
 
         $url = new url();
         $url->setAction('edit');
-        $url->addParam('id', $file->getId());
+        $url->addParam('name', $file->getFullPath());
         $form = new HTML_QuickForm('fileUpload', 'POST', $url->get());
 
         $defaultValues = array();
         $defaultValues['name']  = $file->getName();
-        if ($ext = $file->getExt()) {
-            $defaultValues['name'] .= '.' . $ext;
-        }
         $form->setDefaults($defaultValues);
 
         $form->addElement('text', 'name', 'Новое имя:', 'size="30"');

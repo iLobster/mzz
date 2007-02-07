@@ -26,10 +26,10 @@ class fileManagerEditController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $name = $this->request->get('name', 'string', SC_PATH);
 
         $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
-        $file = $fileMapper->searchById($id);
+        $file = $fileMapper->searchByPath($name);
 
         if (!$file) {
             return 'файл не найден';
@@ -38,6 +38,17 @@ class fileManagerEditController extends simpleController
         $form = fileEditForm::getForm($file);
 
         if ($form->validate()) {
+            $values = $form->exportValues();
+
+            $ext = '';
+            if (($dot = strrpos($values['name'], '.')) !== false) {
+                $ext = substr($values['name'], $dot + 1);
+            }
+
+            $file->setName($values['name']);
+            $file->setExt($ext);
+            $fileMapper->save($file);
+            //echo '<br><pre>'; var_dump($values); echo '<br></pre>';
             return 'ok';
         }
 
