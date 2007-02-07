@@ -19,9 +19,6 @@
  * @subpackage access
  * @version 0.1
  */
-
-fileLoader::load('access/views/accessEditGroupDefaultView');
-
 class accessEditGroupDefaultController extends simpleController
 {
     public function getView()
@@ -75,7 +72,19 @@ class accessEditGroupDefaultController extends simpleController
             $groups = $groupMapper->searchAllByCriteria($criteria);
         }
 
-        return new accessEditGroupDefaultView($acl, $actions, $group, $groups, $class, $section);
+        if ($group) {
+            $this->smarty->assign('acl', $acl->getForGroupDefault($group->getId(), true));
+        }
+        $this->smarty->assign('group', $group);
+        $this->smarty->assign('groups', $groups);
+        $this->smarty->assign('actions', $actions);
+        $this->smarty->assign('class', $class);
+        $this->smarty->assign('section', $section);
+
+        $title = $group ? $group->getName() : 'добавить группу';
+        $this->response->setTitle('ACL -> Права по умолчанию -> ' . $title);
+
+        return $this->smarty->fetch('access/editGroupDefault.tpl');
     }
 }
 

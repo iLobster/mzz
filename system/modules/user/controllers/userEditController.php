@@ -12,6 +12,8 @@
  * @version $Id$
 */
 
+fileLoader::load('user/views/userEditForm');
+
 /**
  * userEditController: контроллер для метода edit модуля user
  *
@@ -19,15 +21,11 @@
  * @subpackage user
  * @version 0.1
  */
-
-fileLoader::load('user/views/userEditView');
-fileLoader::load('user/views/userEditForm');
-
 class userEditController extends simpleController
 {
     public function getView()
     {
-        $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
+        $userMapper = $this->toolkit->getMapper('user', 'user');
 
         if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
             $id = $this->request->get('id', 'integer', SC_POST);
@@ -42,7 +40,17 @@ class userEditController extends simpleController
             $form = userEditForm::getForm($editedUser, $this->request->getSection(), $action, $userMapper);
 
             if ($form->validate() == false) {
-                $view = new userEditView($editedUser, $form, $action);
+                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+                $form->accept($renderer);
+
+                $this->smarty->assign('form', $renderer->toArray());
+                $this->smarty->assign('user', $editedUser);
+                $this->smarty->assign('action', $action);
+
+                $title = $action == 'edit' ? 'Редактирование -> ' . $editedUser->getLogin() : 'Создание';
+
+                $this->response->setTitle('Пользователь -> ' . $title);
+                return $this->smarty->fetch('user/edit.tpl');
             } else {
                 if ($action == 'create') {
                     $editedUser = $userMapper->create();

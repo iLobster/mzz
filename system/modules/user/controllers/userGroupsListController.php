@@ -19,16 +19,34 @@
  * @subpackage user
  * @version 0.1
  */
-
-fileLoader::load('user/views/userGroupsListView');
-
 class userGroupsListController extends simpleController
 {
     public function getView()
     {
-        $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
+        $groupMapper = $this->toolkit->getMapper('user', 'group');
 
-        return new userGroupsListView($groupMapper);
+        $config = $this->toolkit->getConfig('user', $this->request->getSection());
+
+        fileLoader::load('pager');
+
+        $pager = new pager($this->request->getUrl(), $this->getPageFromRequest(), $config->get('items_per_page'));
+
+        $groupMapper->setPager($pager);
+
+        $this->smarty->assign('groups', $groupMapper->searchAll());
+        $this->smarty->assign('pager', $pager);
+        $this->smarty->assign('obj_id', $groupMapper->convertArgsToId(null));
+
+
+        $this->response->setTitle('Ïîëüçîâàòåëü -> Ñïèñîê ãğóïï');
+
+        return $this->smarty->fetch('user/groupsList.tpl');
+    }
+
+    private function getPageFromRequest()
+    {
+        $page = $this->request->get('page', 'integer', SC_GET);
+        return ($page > 0) ? $page : 1;
     }
 }
 

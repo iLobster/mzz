@@ -19,9 +19,6 @@
  * @subpackage user
  * @version 0.1
  */
-
-fileLoader::load('user/views/userMemberOfView');
-
 class userMemberOfController extends simpleController
 {
     public function getView()
@@ -30,8 +27,8 @@ class userMemberOfController extends simpleController
             $id = $this->request->get('id', 'integer', SC_POST);
         }
 
-        $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
-        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
+        $userMapper = $this->toolkit->getMapper('user', 'user');
+        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
 
         $user = $userMapper->searchById($id);
 
@@ -72,13 +69,24 @@ class userMemberOfController extends simpleController
             return new simpleJipCloseView();
         } else {
             // если просто показать список групп и пользователей
-            $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
+            $groupMapper = $this->toolkit->getMapper('user', 'group');
 
             $criteria = new criteria();
             $criteria->setOrderByFieldAsc('name');
             $groups = $groupMapper->searchAll($criteria);
 
-            return new userMemberOfView($user, $groups);
+            $selected = array();
+            foreach ($user->getGroups() as $val) {
+                $selected[$val->getGroup()->getId()] = 1;
+            }
+
+            $this->smarty->assign('groups', $groups);
+            $this->smarty->assign('selected', $selected);
+            $this->smarty->assign('user', $user);
+
+            $this->response->setTitle('Пользователь -> ' . $user->getLogin() . ' -> список групп');
+
+            return $this->smarty->fetch('user/memberOf.tpl');
         }
     }
 }

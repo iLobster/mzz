@@ -19,9 +19,6 @@
  * @subpackage user
  * @version 0.1
  */
-
-fileLoader::load('user/views/userGroupDeleteView');
-
 class userGroupDeleteController extends simpleController
 {
     public function getView()
@@ -29,7 +26,7 @@ class userGroupDeleteController extends simpleController
         $id = $this->request->get('id', 'integer', SC_PATH);
 
         // исключаем пользователей из этой группы
-        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
+        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
         $groups = $userGroupMapper->searchAllByField('group_id', $id);
 
         foreach ($groups as $val) {
@@ -37,7 +34,7 @@ class userGroupDeleteController extends simpleController
         }
 
         // удаляем группу
-        $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
+        $groupMapper = $this->toolkit->getMapper('user', 'group');
         $groupMapper->delete($id);
 
         return new simpleJipRefreshView();

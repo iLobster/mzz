@@ -19,15 +19,11 @@
  * @subpackage user
  * @version 0.1
  */
-
-fileLoader::load('user/views/userGroupEditView');
-fileLoader::load('user/views/groupEditForm');
-
 class userGroupEditController extends simpleController
 {
     public function getView()
     {
-        $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
+        $groupMapper = $this->toolkit->getMapper('user', 'group');
 
         if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
             $id = $this->request->get('id', 'integer', SC_POST);
@@ -38,11 +34,21 @@ class userGroupEditController extends simpleController
         $action = $this->request->getAction();
 
         if ($group || $action == 'groupCreate') {
-
+            fileLoader::load('user/views/groupEditForm');
             $form = groupEditForm::getForm($group, $this->request->getSection(), $action, $groupMapper);
 
             if ($form->validate() == false) {
-                $view = new userGroupEditView($group, $form, $action);
+                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+                $form->accept($renderer);
+
+                $this->smarty->assign('form', $renderer->toArray());
+                $this->smarty->assign('group', $group);
+                $this->smarty->assign('action', $action);
+
+                $title = $action == 'edit' ? 'Ğåäàêòèğîâàíèå ãğóïïû -> ' . $group->getName() : 'Ñîçäàíèå ãğóïïû';
+
+                $this->response->setTitle('Ïîëüçîâàòåëü -> ' . $title);
+                $view = $this->smarty->fetch('user/groupEdit.tpl');
             } else {
                 if ($action == 'groupCreate') {
                     $group = $groupMapper->create();

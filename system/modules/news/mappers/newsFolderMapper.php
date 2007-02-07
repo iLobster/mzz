@@ -121,8 +121,8 @@ class newsFolderMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
 
-        $newsMapper = $toolkit->getMapper('news', 'news', $request->getSection());
-        $newsFolderMapper = $toolkit->getMapper('news', 'newsFolder', $request->getSection());
+        $newsMapper = $toolkit->getMapper('news', 'news');
+        $newsFolderMapper = $toolkit->getMapper('news', 'newsFolder');
 
         // @toDo как то не так
         $removedFolders = $this->tree->getBranch($id);

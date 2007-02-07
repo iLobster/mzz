@@ -12,11 +12,10 @@
  * @version $Id$
 */
 
-fileLoader::load('page/views/pageCreateFolderView');
 fileLoader::load('page/views/pageCreateFolderForm');
 
 /**
- * pageCreateFolderController: контроллер для метода editFolder модуля page
+ * pageCreateFolderController: контроллер для метода createFolder модуля page
  *
  * @package modules
  * @subpackage page
@@ -41,7 +40,13 @@ class pageCreateFolderController extends simpleController
             $form = pageCreateFolderForm::getForm($path, $pageFolderMapper, $action, $targetFolder);
 
             if ($form->validate() == false) {
-                $view = new pageCreateFolderView($targetFolder, $form);
+                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+                $form->accept($renderer);
+
+                $this->smarty->assign('form', $renderer->toArray());
+
+                $this->response->setTitle('Страницы -> Создание папки');
+                $view = $this->smarty->fetch('page/createFolder.tpl');
             } else {
                 $values = $form->exportValues();
 

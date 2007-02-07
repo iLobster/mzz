@@ -19,9 +19,6 @@
  * @subpackage admin
  * @version 0.1.1
  */
-
-//fileLoader::load('admin/views/adminAdminView');
-
 class adminAdminController extends simpleController
 {
     public function getView()

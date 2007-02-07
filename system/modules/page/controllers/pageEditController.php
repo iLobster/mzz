@@ -1,14 +1,19 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
+fileLoader::load('page/views/pageEditForm');
+
 /**
  * pageEditController: контроллер для метода edit модуля page
  *
@@ -16,11 +21,6 @@
  * @subpackage page
  * @version 0.1
  */
-
-fileLoader::load('page/views/pageEditView');
-fileLoader::load('page/views/pageEditForm');
-fileLoader::load("page/mappers/pageMapper");
-
 class pageEditController extends simpleController
 {
     public function getView()
@@ -51,7 +51,16 @@ class pageEditController extends simpleController
             $form = pageEditForm::getForm($page, $this->request->getSection(), $action, $pageFolder);
 
             if ($form->validate() == false) {
-                $view = new pageEditView($page, $form, $action);
+                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+                $form->accept($renderer);
+
+                $this->smarty->assign('form', $renderer->toArray());
+                $this->smarty->assign('page', $page);
+                $this->smarty->assign('action', $action);
+
+                $title = $action == 'edit' ? 'Редактирование -> ' . $page->getName() : 'Создание';
+                $this->response->setTitle('Страницы -> ' . $title);
+                $view = $this->smarty->fetch('page/edit.tpl');
             } else {
                 $values = $form->exportValues();
                 if ($action == 'create') {

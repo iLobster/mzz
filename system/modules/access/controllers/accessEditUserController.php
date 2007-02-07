@@ -19,9 +19,6 @@
  * @subpackage access
  * @version 0.1
  */
-
-fileLoader::load('access/views/accessEditUserView');
-
 class accessEditUserController extends simpleController
 {
     public function getView()
@@ -72,7 +69,15 @@ class accessEditUserController extends simpleController
             $users = $userMapper->searchAllByCriteria($criteria);
         }
 
-        return new accessEditUserView($acl, $actions, $user, $users);
+        $this->smarty->assign('acl', $acl->get(null, true, true));
+        $this->smarty->assign('user', $user);
+        $this->smarty->assign('users', $users);
+        $this->smarty->assign('actions', $actions);
+
+        $title = $this->request->getAction() == 'editUser' ? $user->getLogin() : 'добавить пользователя';
+        $this->response->setTitle('ACL -> объект ... -> ' . $title);
+
+        return $this->smarty->fetch('access/editUser.tpl');
     }
 }
 

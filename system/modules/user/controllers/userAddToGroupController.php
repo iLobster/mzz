@@ -19,9 +19,6 @@
  * @subpackage user
  * @version 0.1
  */
-
-fileLoader::load('user/views/userAddToGroupView');
-
 class userAddToGroupController extends simpleController
 {
     public function getView()
@@ -30,7 +27,7 @@ class userAddToGroupController extends simpleController
 
         $id = $this->request->get('id', 'integer', SC_PATH);
 
-        $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
+        $groupMapper = $this->toolkit->getMapper('user', 'group');
         $group = $groupMapper->searchById($id);
 
         // провер€ем что найдена нужна€ группа
@@ -40,7 +37,7 @@ class userAddToGroupController extends simpleController
         }
 
         if ($this->request->getMethod() == 'POST') {
-            $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
+            $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
 
             $users = $this->request->get('users', 'array', SC_POST);
 
@@ -67,8 +64,8 @@ class userAddToGroupController extends simpleController
             $users = array();
 
             if (!is_null($filter)) {
-                $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
-                $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
+                $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
+                $userMapper = $this->toolkit->getMapper('user', 'user');
 
                 $criterion = new criterion('r.user_id', 'user.' . $userMapper->getTableKey(), criteria::EQUAL, true);
                 $criterion->addAnd(new criterion('r.group_id', $id));
@@ -77,14 +74,23 @@ class userAddToGroupController extends simpleController
                 $criteria->addJoin($userGroupMapper->getTable(), $criterion, 'r');
                 $criteria->add('login', '%' . $filter . '%', criteria::LIKE)->add('r.id', null, criteria::IS_NULL);
 
-                $userMapper = $this->toolkit->getMapper('user', 'user', $this->request->getSection());
+                $userMapper = $this->toolkit->getMapper('user', 'user');
 
                 // выбираем всех пользователей, которые ещЄ не добавлены в эту группу и удовлетвор€ют маске
                 $users = $userMapper->searchAllByCriteria($criteria);
             }
 
-            return new userAddToGroupView($users, $group, $filter);
+            $url = new url();
+            $url->setSection($this->request->getSection());
+            $url->addParam('id', $this->request->get('id', 'integer', SC_PATH));
+            $url->setAction('addToGroupList');
 
+            $this->smarty->assign('filter', $filter);
+            $this->smarty->assign('users', $users);
+            $this->smarty->assign('group', $group);
+
+            $this->response->setTitle('√руппа -> ' . $group->getName() . ' -> добавление пользователей');
+            return $this->smarty->fetch('user/addToGroup.tpl');
         }
     }
 }

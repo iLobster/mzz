@@ -12,8 +12,6 @@
  * @version $Id$
 */
 
-fileLoader::load('page/views/pageAdminView');
-
 /**
  * pageAdminController: контроллер для метода admin модуля page
  *
@@ -35,7 +33,10 @@ class pageAdminController extends simpleController
 
         $pageFolder = $pageFolderMapper->searchByPath($path);
         if ($pageFolder) {
-            return new pageAdminView($pageFolder);
+            $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
+            $this->smarty->assign('pages', $pageFolder->getItems());
+            $this->smarty->assign('pageFolder', $pageFolder);
+            return $this->smarty->fetch('page/admin.tpl');
         } else {
             fileLoader::load('news/views/news404View');
             return new news404View();

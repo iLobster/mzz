@@ -19,9 +19,6 @@
  * @subpackage comments
  * @version 0.1
  */
-
-fileLoader::load('comments/views/commentsDeleteView');
-
 class commentsDeleteController extends simpleController
 {
     public function getView()

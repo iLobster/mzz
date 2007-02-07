@@ -19,9 +19,6 @@
  * @subpackage access
  * @version 0.1
  */
-
-fileLoader::load('access/views/accessEditACLView');
-
 class accessEditACLController extends simpleController
 {
     public function getView()
@@ -64,7 +61,12 @@ class accessEditACLController extends simpleController
         $select = new simpleSelect($criteria);
         $groupsNotAdded = $db->getOne($select->toString());
 
-        return new accessEditACLView($users, $groups, $id, (bool)$usersNotAdded, (bool)$groupsNotAdded);
+        $this->smarty->assign('users', $users);
+        $this->smarty->assign('usersExists', (bool)$usersNotAdded);
+        $this->smarty->assign('groupsExists', (bool)$groupsNotAdded);
+        $this->smarty->assign('groups', $groups);
+        $this->smarty->assign('id', $id);
+        return $this->smarty->fetch('access/edit.tpl');
     }
 }
 

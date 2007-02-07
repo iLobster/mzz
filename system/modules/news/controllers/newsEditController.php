@@ -59,7 +59,7 @@ class newsEditController extends simpleController
                 return $this->smarty->fetch('news/edit.tpl');
             } else {
                 $values = $form->exportValues();
-                $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());
+                $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
                 $folder = $newsFolderMapper->searchByPath($this->request->get('name', 'string', SC_PATH));
 
                 if ($action == 'create') {

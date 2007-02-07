@@ -19,9 +19,6 @@
  * @subpackage access
  * @version 0.1
  */
-
-fileLoader::load('access/views/accessEditUserDefaultView');
-
 class accessEditUserDefaultController extends simpleController
 {
     public function getView()
@@ -75,7 +72,19 @@ class accessEditUserDefaultController extends simpleController
             $users = $userMapper->searchAllByCriteria($criteria);
         }
 
-        return new accessEditUserDefaultView($acl, $actions, $user, $users, $class, $section);
+        if ($user) {
+            $this->smarty->assign('acl', $acl->getDefault(true));
+        }
+        $this->smarty->assign('user', $user);
+        $this->smarty->assign('users', $users);
+        $this->smarty->assign('actions', $actions);
+        $this->smarty->assign('class', $class);
+        $this->smarty->assign('section', $section);
+
+        $title = $user ? $user->getLogin() : 'добавить пользователя';
+        $this->response->setTitle('ACL -> объект ... -> права по умолчанию -> ' . $title);
+
+        return $this->smarty->fetch('access/editUserDefault.tpl');
     }
 }
 

@@ -19,9 +19,6 @@
  * @subpackage access
  * @version 0.1
  */
-
-fileLoader::load('access/views/accessEditOwnerView');
-
 class accessEditOwnerController extends simpleController
 {
     public function getView()
@@ -50,7 +47,14 @@ class accessEditOwnerController extends simpleController
             return new simpleJipCloseView(2);
         }
 
-        return new accessEditOwnerView($acl, $actions, $class, $section);
+        $this->smarty->assign('acl', $acl->getForOwner(true));
+        $this->smarty->assign('actions', $actions);
+        $this->smarty->assign('class', $class);
+        $this->smarty->assign('section', $section);
+
+        $this->response->setTitle('ACL -> Права для владельца объекта');
+
+        return $this->smarty->fetch('access/editOwner.tpl');
     }
 }
 

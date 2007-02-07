@@ -19,9 +19,6 @@
  * @subpackage access
  * @version 0.1
  */
-
-fileLoader::load('access/views/accessEditGroupView');
-
 class accessEditGroupController extends simpleController
 {
     public function getView()
@@ -72,7 +69,18 @@ class accessEditGroupController extends simpleController
             $groups = $groupMapper->searchAllByCriteria($criteria);
         }
 
-        return new accessEditGroupView($acl, $actions, $group, $groups);
+        if ($group) {
+            $this->smarty->assign('acl', $acl->getForGroup($group->getId(), true));
+        }
+
+        $this->smarty->assign('group', $group);
+        $this->smarty->assign('groups', $groups);
+        $this->smarty->assign('actions', $actions);
+
+        $title = $group ? $group->getName() : 'добавить группу';
+        $this->response->setTitle('ACL -> объект ... -> ' . $title);
+
+        return $this->smarty->fetch('access/editGroup.tpl');
     }
 }
 

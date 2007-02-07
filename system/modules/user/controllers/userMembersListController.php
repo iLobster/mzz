@@ -19,9 +19,6 @@
  * @subpackage user
  * @version 0.1
  */
-
-fileLoader::load('user/views/userMembersListView');
-
 class userMembersListController extends simpleController
 {
     public function getView()
@@ -30,8 +27,8 @@ class userMembersListController extends simpleController
             $id = $this->request->get('id', 'integer', SC_POST);
         }
 
-        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup', $this->request->getSection());
-        $groupMapper = $this->toolkit->getMapper('user', 'group', $this->request->getSection());
+        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
+        $groupMapper = $this->toolkit->getMapper('user', 'group');
 
         $group = $groupMapper->searchById($id);
 
@@ -67,7 +64,11 @@ class userMembersListController extends simpleController
             $criteria = new criteria();
             $criteria->add('group_id', $id)->setOrderByFieldAsc('user_id.login');
             $users = $userGroupMapper->searchAllByCriteria($criteria);
-            return new userMembersListView($group, $users);
+
+            $this->smarty->assign('users', $users);
+            $this->smarty->assign('group', $group);
+            $this->response->setTitle('Группа -> ' . $group->getName() . ' -> список пользователей');
+            return $this->smarty->fetch('user/membersList.tpl');
         }
     }
 }

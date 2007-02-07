@@ -23,7 +23,7 @@ class newsViewController extends simpleController
 {
     public function getView()
     {
-        $newsMapper = $this->toolkit->getMapper('news', 'news', $this->request->getSection());
+        $newsMapper = $this->toolkit->getMapper('news', 'news');
 
         //Генерилка "мусора" ;)
         /*for ($i=0; $i<=10000; $i++) {

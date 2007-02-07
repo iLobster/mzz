@@ -22,7 +22,7 @@ class newsDeleteFolderController extends simpleController
 {
     public function getView()
     {
-        $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder', $this->request->getSection());
+        $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
 
         $name = $this->request->get('name', 'string', SC_PATH);
 

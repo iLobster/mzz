@@ -19,9 +19,6 @@
  * @subpackage access
  * @version 0.1
  */
-
-fileLoader::load('access/views/accessEditDefaultView');
-
 class accessEditDefaultController extends simpleController
 {
     public function getView()
@@ -53,7 +50,13 @@ class accessEditDefaultController extends simpleController
         $select = new simpleSelect($criteria);
         $groupsNotAdded = $db->getOne($select->toString()) - sizeof($groups);
 
-        return new accessEditDefaultView($users, $groups, $section, $class, $usersNotAdded, $groupsNotAdded);
+        $this->smarty->assign('users', $users);
+        $this->smarty->assign('usersExists', $usersNotAdded);
+        $this->smarty->assign('groupsExists', $groupsNotAdded);
+        $this->smarty->assign('groups', $groups);
+        $this->smarty->assign('class', $class);
+        $this->smarty->assign('section', $section);
+        return $this->smarty->fetch('access/editDefault.tpl');
     }
 }
 
