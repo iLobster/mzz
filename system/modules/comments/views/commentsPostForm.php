@@ -44,7 +44,7 @@ class commentsPostForm
 
         $form->addElement('hidden', 'url', $request->get('REQUEST_URI', 'string', SC_SERVER));
 
-        $form->addElement('reset', 'reset', 'Отмена'); //, 'onclick="javascript: jipWindow.close();');
+        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Отправить');
 
         return $form;

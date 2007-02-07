@@ -14,7 +14,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class adminAddActionForm
@@ -94,7 +94,7 @@ class adminAddActionForm
         $form->addElement('submit', 'submit', 'Сохранить');
 
         $form->registerRule('isUniqueName', 'callback', 'addClassValidate');
-        $form->addRule('name', 'такой экшн у класса уже есть или введённое вами имя содержит запрещённые символы', 'isUniqueName', array($db, $action_name));
+        $form->addRule('name', 'такой экшн у класса уже есть или введённое вами имя содержит запрещённые символы', 'isUniqueName', array($db, $action_name, $data));
         $form->addRule('name', 'поле обязательно к заполнению', 'required');
 
         return $form;
@@ -113,7 +113,7 @@ function addClassValidate($name, $data)
 
     $res = $data[0]->getRow('SELECT COUNT(*) AS `cnt` FROM `sys_classes_actions` `ca`
                    INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
-                    WHERE `ca`.`class_id` = 10 AND `a`.`name` = ' . $data[0]->quote($name));
+                    WHERE `ca`.`class_id` = ' . $data[2]['c_id'] . ' AND `a`.`name` = ' . $data[0]->quote($name));
 
     return $res['cnt'] == 0;
 }

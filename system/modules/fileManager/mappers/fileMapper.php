@@ -46,6 +46,11 @@ class fileMapper extends simpleMapper
         return $this->searchAllByField('folder_id', $folder_id);
     }
 
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
@@ -53,7 +58,7 @@ class fileMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-
+        return 1;
     }
 }
 

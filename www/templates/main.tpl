@@ -6,6 +6,7 @@
     <div id="menu">
      <span class="menu_element"><a href="{url section=news}">{if $current_section eq "news"}<b>{/if}Новости{if $current_section eq "news"}</b>{/if}</a></span>
      <span class="menu_element"><a href="{url section=page}">{if $current_section eq "page"}<b>{/if}Страницы{if $current_section eq "page"}</b>{/if}</a></span>
+     <span class="menu_element"><a href="{url section=fileManager}">{if $current_section eq "fileManager"}<b>{/if}Файлменеджер{if $current_section eq "fileManager"}</b>{/if}</a></span>
      <span class="menu_element"><a href="{url section=user action=list}">{if $current_section eq "user"}<b>{/if}Пользователи{if $current_section eq "user"}</b>{/if}</a></span>
      <span class="menu_element"><a href="{url section=admin action=view}">{if $current_section eq "admin"}<b>{/if}Панель управления{if $current_section eq "admin"}</b>{/if}</a></span>
     </div>

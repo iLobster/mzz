@@ -35,7 +35,7 @@ class configEditCfgController extends simpleController
             return new simpleJipCloseView();
         }
 
-        $config = $this->toolkit->getConfig($section_name, $module_name);
+        $config = $this->toolkit->getConfig($module_name, $section_name);
         $this->smarty->assign('configs', $config->getValues());
         $this->smarty->assign('section', $section_name);
         $this->smarty->assign('module', $module_name);

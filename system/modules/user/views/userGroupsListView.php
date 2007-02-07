@@ -27,7 +27,7 @@ class userGroupsListView extends simpleView
 
     public function toString()
     {
-        $this->config = $this->toolkit->getConfig($this->request->getSection(), 'user');
+        $this->config = $this->toolkit->getConfig('user', $this->request->getSection());
 
         fileLoader::load('pager');
 

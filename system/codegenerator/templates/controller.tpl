@@ -12,8 +12,6 @@
  * @version $Id$
 */
 
-fileLoader::load('{{$controller_data.module}}/views/{{$controller_data.viewname}}');
-
 /**
  * {{$controller_data.controllername}}: контроллер для метода {{$controller_data.action}} модуля {{$controller_data.module}}
  *
@@ -21,11 +19,12 @@ fileLoader::load('{{$controller_data.module}}/views/{{$controller_data.viewname}
  * @subpackage {{$controller_data.module}}
  * @version 0.1
  */
+ 
 class {{$controller_data.controllername}} extends simpleController
 {
     public function getView()
     {
-        return new {{$controller_data.viewname}}();
+        return $this->smarty->fetch('{{$controller_data.module}}/{{$controller_data.action}}.tpl');
     }
 }
 

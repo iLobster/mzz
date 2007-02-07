@@ -445,6 +445,7 @@ abstract class simpleMapper
 
         $select = new simpleSelect($criteria);
         $stmt = $this->db->query($select->toString());
+        //echo '<br><pre>'; var_dump($select->toString()); echo '<br></pre>';
 
         return $stmt;
     }

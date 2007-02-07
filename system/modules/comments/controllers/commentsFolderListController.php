@@ -17,10 +17,8 @@
  *
  * @package modules
  * @subpackage comments
- * @version 0.1
+ * @version 0.1.1
  */
-
-fileLoader::load('comments/views/commentsFolderListView');
 
 class commentsFolderListController extends simpleController
 {
@@ -32,7 +30,10 @@ class commentsFolderListController extends simpleController
 
         $commentsFolder = $commentsFolderMapper->searchOneByField('parent_id', $parent_id);
 
-        return new commentsFolderListView($commentsFolder);
+        $this->smarty->assign('parent_id', $commentsFolder->getParentId());
+        $this->smarty->assign('comments', $commentsFolder->getComments());
+        $this->smarty->assign('folder', $commentsFolder);
+        return $this->smarty->fetch('comments/list.tpl');
     }
 }
 

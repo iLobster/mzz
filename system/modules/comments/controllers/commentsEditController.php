@@ -12,6 +12,8 @@
  * @version $Id$
 */
 
+fileLoader::load('comments/views/commentsPostForm');
+
 /**
  * commentsEditController: контроллер для метода edit модуля comments
  *
@@ -19,9 +21,6 @@
  * @subpackage comments
  * @version 0.1
  */
-
-fileLoader::load('comments/views/commentsFolderPostView');
-fileLoader::load('comments/views/commentsPostForm');
 
 class commentsEditController extends simpleController
 {
@@ -35,17 +34,21 @@ class commentsEditController extends simpleController
         $form = commentsPostForm::getForm($id, 'edit', $comment);
 
         if ($form->validate() == false) {
-            $view = new commentsFolderPostView($form, 'edit');
-        } else {
-            $values = $form->exportValues();
+            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+            $form->accept($renderer);
 
-            $comment->setText($values['text']);
-            $commentsMapper->save($comment);
+            $this->smarty->assign('action', 'edit');
+            $this->smarty->assign('form', $renderer->toArray());
 
-            $view = new simpleJipRefreshView();
+            return $this->smarty->fetch('comments/post.tpl');
         }
 
-        return $view;
+        $values = $form->exportValues();
+
+        $comment->setText($values['text']);
+        $commentsMapper->save($comment);
+
+        return new simpleJipRefreshView();
     }
 }
 

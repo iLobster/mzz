@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage toolkit
- * @version 0.2
+ * @version 0.2.1
  */
 class stdToolkit extends toolkit
 {
@@ -162,8 +162,12 @@ class stdToolkit extends toolkit
      * @return object
      * @todo сделать кэширование
      */
-    public function getConfig($section, $module)
+    public function getConfig($module, $section = null)
     {
+        if (is_null($section)) {
+            $request = $this->toolkit->getRequest();
+            $section = $request->getSection();
+        }
         return new config($section, $module);
     }
 

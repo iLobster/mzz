@@ -12,6 +12,8 @@
  * @version $Id$
 */
 
+fileLoader::load('comments/views/commentsPostForm');
+
 /**
  * commentsFolderPostController: контроллер для метода post модуля comments
  *
@@ -19,10 +21,6 @@
  * @subpackage comments
  * @version 0.1
  */
-
-fileLoader::load('comments/views/commentsFolderPostView');
-fileLoader::load('comments/views/commentsPostForm');
-fileLoader::load('comments/views/commentsPostSuccessView');
 
 class commentsFolderPostController extends simpleController
 {
@@ -33,42 +31,43 @@ class commentsFolderPostController extends simpleController
         $access = $this->request->get('access', 'boolean', SC_PATH);
 
         if (!is_null($access) && !$access) {
-            fileLoader::load('comments/views/commentsOnlyAuthView');
-
-            $user = $this->toolkit->getUser();
-            return new commentsOnlyAuthView($user->getId() == MZZ_USER_GUEST_ID);
+            return $user->getId() == MZZ_USER_GUEST_ID ? $this->smarty->fetch('comments/onlyAuth.tpl') : '';
         }
 
         if ($form->validate() == false) {
-            $view = new commentsFolderPostView($form);
-        } else {
-            $parent_id = $this->request->get('id', 'integer', SC_PATH);
+            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+            $form->accept($renderer);
 
-            $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');
-            $commentsFolderMapper = $this->toolkit->getMapper('comments', 'commentsFolder', 'comments');
+            $this->smarty->assign('action', 'post');
+            $this->smarty->assign('form', $renderer->toArray());
 
-            $commentsFolder = $commentsFolderMapper->searchOneByField('parent_id', $parent_id);
-
-            if ($commentsFolder) {
-
-                $values = $form->exportValues();
-
-                $comment = $commentsMapper->create();
-                $comment->setText($values['text']);
-
-                $user = $this->toolkit->getUser();
-
-                $comment->setAuthor($user);
-                $comment->setFolder($commentsFolder);
-
-                $commentsMapper->save($comment);
-
-            }
-
-            $view = new commentsPostSuccessView($values['url']);
+            return $this->smarty->fetch('comments/post.tpl');
         }
 
-        return $view;
+        $parent_id = $this->request->get('id', 'integer', SC_PATH);
+
+        $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');
+        $commentsFolderMapper = $this->toolkit->getMapper('comments', 'commentsFolder', 'comments');
+
+        $commentsFolder = $commentsFolderMapper->searchOneByField('parent_id', $parent_id);
+
+        if ($commentsFolder) {
+
+            $values = $form->exportValues();
+
+            $comment = $commentsMapper->create();
+            $comment->setText($values['text']);
+
+            $user = $this->toolkit->getUser();
+
+            $comment->setAuthor($user);
+            $comment->setFolder($commentsFolder);
+
+            $commentsMapper->save($comment);
+
+        }
+
+        $this->response->redirect($values['url']);
     }
 }
 

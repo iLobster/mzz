@@ -14,7 +14,7 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class fileUploadForm
@@ -37,19 +37,12 @@ class fileUploadForm
         $url->setAction('upload');
         $url->addParam('path', $folder->getPath());
         $form = new HTML_QuickForm('fileUpload', 'POST', $url->get());
-        /*
-        if ($action == 'edit') {
-        $defaultValues = array();
-        $defaultValues['title']  = $news->getTitle();
-        $defaultValues['text']  = $news->getText();
-        $form->setDefaults($defaultValues);
-        }*/
-        /*
-        $form->addElement('text', 'title', 'Имя:', 'size="30"');
-        $form->addElement('text', 'created', 'Дата создания:', 'size="30" id="calendar-field-created"');
-        $form->addElement('textarea', 'text', 'Текст:', 'rows="7" cols="50"');*/
 
         $form->addElement('file', 'file', 'Файл');
+        $form->addRule('file', 'обязательное поле', 'uploadedfile');
+
+        $form->addElement('text', 'name', 'Новое имя:', 'size="30"');
+        $form->addRule('name', 'недопустимые символы в имени', 'regex', '/^[a-zа-я0-9_\.\-]+$/i');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');

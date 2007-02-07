@@ -28,7 +28,7 @@ class newsListController extends simpleController
         $newsFolder = $newsFolderMapper->searchByPath($path);
 
         if ($newsFolder) {
-            $config = $this->toolkit->getConfig($this->request->getSection(), 'news');
+            $config = $this->toolkit->getConfig('news');
 
             fileLoader::load('pager');
 

@@ -44,7 +44,12 @@ INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `fold
   (34,185,'sdf',2,1170662062,28),
   (25,135,'asdfsdfg',2,1164000450,14),
   (37,188,'jhgkhjk',2,1170662102,28),
-  (33,184,'asd',2,1170662056,28);
+  (33,184,'asd',2,1170662056,28),
+  (38,214,'€€€€€€ййййм',2,1170820956,29),
+  (39,215,'фваааааааа',2,1170821437,29),
+  (40,216,'ыва',2,1170821447,29),
+  (41,217,'цйук',2,1170821449,29),
+  (42,218,'рпо',2,1170821452,29);
 
 COMMIT;
 
@@ -75,7 +80,8 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
   (21,174,170),
   (22,175,11),
   (23,177,6),
-  (28,183,182);
+  (28,183,182),
+  (29,213,212);
 
 COMMIT;
 
@@ -87,13 +93,15 @@ DROP TABLE IF EXISTS `fileManager_file`;
 
 CREATE TABLE `fileManager_file` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `realname` char(255) default NULL,
-  `name` char(255) default NULL,
+  `realname` char(255) default 'им€ в фс в каталоге на сервере',
+  `name` char(255) default 'им€ с которым файл будет отдаватьс€ клиенту',
   `ext` char(20) default NULL,
   `size` int(11) default NULL,
   `folder_id` int(11) unsigned default NULL,
   `obj_id` int(11) unsigned default NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `realname` (`realname`),
+  KEY `folder_id` (`folder_id`,`name`,`ext`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -101,7 +109,18 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `folder_id`, `obj_id`) VALUES 
-  (1,'foobar.txt','q','txt',10,1,196);
+  (1,'foobar.txt','q','txt',10,1,196),
+  (2,'06558db05a7d5148084025676972cbb2','','rec',9,NULL,201),
+  (3,'9f4b4024092fcebfc434401210f71f7d','','rec',9,NULL,202),
+  (4,'05a131b70aef0e2b9f3e344d6163d311','','rec',9,1,203),
+  (5,'5b78dc5c1c2ad6511e3e324845c2eb3c','2rec','',9,1,204),
+  (6,'13810e7f5782973b2dc72030c1c392f0','сы','',18,1,205),
+  (7,'86a4a3164ed3f07762b204d7ccbbea0e','!ј вам слабо!Excel!AutoCAD-MustDie','xls',745984,1,206),
+  (8,'3ff2104331237dafe9d7941a1286136f','mysql','',39,1,207),
+  (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,1,208),
+  (10,'02c870089fc7f94ba1286e8faef13316','web','',28,1,209),
+  (11,'59833d36a918ad9fdd5f860d8a9b350f','!ј вам слабо!Excel!AutoCAD-MustDie','xls',745984,1,210),
+  (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!ј вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,1,211);
 
 COMMIT;
 
@@ -182,7 +201,8 @@ CREATE TABLE `news_news` (
 #
 
 INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
-  (7,182,'1',2,'3',2,1170662044,1170662044);
+  (7,182,'1',2,'3',2,1170662044,1170820422),
+  (8,212,'ывф',2,'йк',2,1170820429,1170820429);
 
 COMMIT;
 
@@ -886,7 +906,39 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1456,5,11,177,NULL,2,1,0),
   (1457,9,11,177,1,NULL,1,0),
   (1458,19,11,177,1,NULL,0,0),
-  (1459,5,11,177,1,NULL,0,0);
+  (1459,5,11,177,1,NULL,0,0),
+  (1529,9,1,212,2,NULL,1,0),
+  (1530,2,1,212,2,NULL,1,0),
+  (1531,1,1,212,2,NULL,1,0),
+  (1532,3,1,212,2,NULL,1,0),
+  (1533,9,1,212,1,NULL,0,0),
+  (1534,2,1,212,1,NULL,0,0),
+  (1535,1,1,212,1,NULL,0,0),
+  (1536,3,1,212,1,NULL,1,0),
+  (1537,19,11,213,NULL,1,0,0),
+  (1538,5,11,213,NULL,1,1,0),
+  (1539,9,11,213,NULL,1,0,0),
+  (1540,9,11,213,NULL,2,0,0),
+  (1541,19,11,213,NULL,2,1,0),
+  (1542,5,11,213,NULL,2,1,0),
+  (1543,9,11,213,2,NULL,1,0),
+  (1544,19,11,213,2,NULL,0,0),
+  (1545,5,11,213,2,NULL,0,0),
+  (1546,9,10,214,2,NULL,1,0),
+  (1547,2,10,214,2,NULL,1,0),
+  (1548,1,10,214,2,NULL,1,0),
+  (1549,9,10,215,2,NULL,1,0),
+  (1550,2,10,215,2,NULL,1,0),
+  (1551,1,10,215,2,NULL,1,0),
+  (1552,9,10,216,2,NULL,1,0),
+  (1553,2,10,216,2,NULL,1,0),
+  (1554,1,10,216,2,NULL,1,0),
+  (1555,9,10,217,2,NULL,1,0),
+  (1556,2,10,217,2,NULL,1,0),
+  (1557,1,10,217,2,NULL,1,0),
+  (1558,9,10,218,2,NULL,1,0),
+  (1559,2,10,218,2,NULL,1,0),
+  (1560,1,10,218,2,NULL,1,0);
 
 COMMIT;
 
@@ -986,7 +1038,25 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (175,11),
   (176,12),
   (197,15),
-  (198,7);
+  (198,7),
+  (201,14),
+  (202,14),
+  (203,14),
+  (204,14),
+  (205,14),
+  (206,14),
+  (207,14),
+  (208,14),
+  (209,14),
+  (210,14),
+  (211,14),
+  (212,1),
+  (213,11),
+  (214,10),
+  (215,10),
+  (216,10),
+  (217,10),
+  (218,10);
 
 COMMIT;
 
@@ -1095,7 +1165,7 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `value`) VALUES
   (13,5,'',''),
   (14,6,'items_per_page','20'),
   (21,7,'upload_path','../tmp'),
-  (22,8,'upload_path','../tmp');
+  (22,8,'upload_path','../files');
 
 COMMIT;
 
@@ -1203,7 +1273,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (48,13,6),
   (49,13,4),
   (50,13,5),
-  (51,9,21);
+  (51,9,21),
+  (63,17,1);
 
 COMMIT;
 
@@ -1472,7 +1543,27 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (195),
   (196),
   (197),
-  (198);
+  (198),
+  (199),
+  (200),
+  (201),
+  (202),
+  (203),
+  (204),
+  (205),
+  (206),
+  (207),
+  (208),
+  (209),
+  (210),
+  (211),
+  (212),
+  (213),
+  (214),
+  (215),
+  (216),
+  (217),
+  (218);
 
 COMMIT;
 

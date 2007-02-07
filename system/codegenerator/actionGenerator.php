@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class actionGenerator
@@ -158,7 +158,7 @@ class actionGenerator
             file_put_contents($actionsfile, $actions_output);
 
             $this->safeUnlink('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'Controller.php');
-            $this->safeUnlink('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'View.php');
+            //$this->safeUnlink('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'View.php');
 
             $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
             $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
@@ -193,7 +193,7 @@ class actionGenerator
 
         if ($oldName != $newName) {
             rename('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($oldName) . 'Controller.php', 'controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($newName) . 'Controller.php');
-            rename('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($oldName) . 'View.php', 'views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($newName) . 'View.php');
+            //rename('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($oldName) . 'View.php', 'views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($newName) . 'View.php');
 
             rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl', systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');
             rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl', systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');
@@ -332,7 +332,7 @@ class actionGenerator
             throw new Exception('Error: controller file already exists');
         }
 
-        $views_dir = 'views';
+        /*$views_dir = 'views';
 
         if (!is_dir($views_dir)) {
             throw new Exception("Error: Views directory '" . $views_dir . "' not found");
@@ -349,7 +349,7 @@ class actionGenerator
 
         if (is_file($view_filename)) {
             throw new Exception('Error: view file already exists');
-        }
+        }*/
 
         $act_tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl';
 
@@ -374,10 +374,10 @@ class actionGenerator
         $this->log[] = $controller_filename;
 
         // записываем данные в файл вида
-        $smarty->assign('view_data', $view_data);
+        /*$smarty->assign('view_data', $view_data);
         $view = $smarty->fetch('view.tpl');
         file_put_contents($view_filename, $view);
-        $this->log[] = $view_filename;
+        $this->log[] = $view_filename;*/
 
         // записываем данные в активный шаблон
         $smarty->assign('action', $action);

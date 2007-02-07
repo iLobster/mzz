@@ -33,9 +33,11 @@ class newsEditForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        // @todo: изменить на нормальную генерацию урла
-        $formAction = '/' . $section . '/' . ($action == 'edit' ? $news->getId() : $newsFolder->getPath()) . '/' . $action;
-        $form = new HTML_QuickForm('newsEdit', 'POST', $formAction);
+        $url = new url();
+        $url->setSection($section);
+        $url->setAction($action);
+        $url->addParam('id', $action == 'edit' ? $news->getId() : $newsFolder->getPath());
+        $form = new HTML_QuickForm('newsEdit', 'POST', $url->get());
 
         if ($action == 'edit') {
             $defaultValues = array();

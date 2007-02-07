@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: createmodule.php 420 2006-12-11 23:11:56Z zerkms $
+ * @version $Id: createmodule.php 562 2007-02-07 04:37:18Z zerkms $
 */
 
 // createmodule.php     moduleName      name
@@ -93,10 +93,11 @@ Sample usage:
             $log .= "\n-- " . $module . "/maps";
         }
         // создаем папку views
+        /*
         if (!is_dir('views')) {
             mkdir('views');
             $log .= "\n-- " . $module . "/views";
-        }
+        }*/
 
 
         $factoryData = array(
