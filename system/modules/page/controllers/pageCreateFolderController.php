@@ -62,7 +62,7 @@ class pageCreateFolderController extends simpleController
                     $folder = $pageFolderMapper->searchByPath($path);
 
                     // ищем все каталоги, которые лежат ниже изменяемого
-                    $criterion = new criterion('path', $path . '%', criteria::LIKE);
+                    $criterion = new criterion('path', $path . '/%', criteria::LIKE);
                     $criterion->addAnd(new criterion('path', $path, criteria::NOT_EQUAL));
                     $criteria = new criteria();
                     $criteria->add($criterion);

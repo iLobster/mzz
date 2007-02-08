@@ -35,7 +35,31 @@ class file extends simple
 
     public function getFullPath()
     {
-        return $this->getFolder()->getPath() . '/' . rawurlencode($this->getName());
+        return $this->getFolder()->getPath() . '/' . urlencode($this->getName());
+    }
+
+    public function getRealFullPath()
+    {
+        return $this->getUploadPath() . DIRECTORY_SEPARATOR . $this->getRealname();
+    }
+
+    private function getUploadPath()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $config = $toolkit->getConfig('fileManager');
+        return $config->get('upload_path');
+    }
+
+    public function delete()
+    {
+        $toolkit = systemToolkit::getInstance();
+
+        if (file_exists($file = $this->getUploadPath() . DIRECTORY_SEPARATOR . $this->getRealname())) {
+            unlink($file);
+        }
+
+        $mapper = $toolkit->getMapper($this->name, 'file');
+        $mapper->delete($this->getId());
     }
 }
 

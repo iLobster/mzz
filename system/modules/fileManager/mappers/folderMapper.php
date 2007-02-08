@@ -97,6 +97,19 @@ class folderMapper extends simpleMapper
     }
 
     /**
+     * Создание подпапки
+     *
+     * @param  folder     $folder          Папка для добавления
+     * @param  folder     $targetFolder    Папка назначения, в которую добавлять
+     * @return folder
+     */
+    public function createSubfolder(folder $folder, folder $targetFolder)
+    {
+        $idParent = $targetFolder->getParent();
+        return $this->tree->insertNode($idParent, $folder);
+    }
+
+    /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
      * @return integer
@@ -105,6 +118,37 @@ class folderMapper extends simpleMapper
     {
         $folder = $this->searchByPath($args['name']);
         return (int)$folder->getObjId();
+    }
+
+    /**
+     * Удаление папки вместе с содежимым на основе id
+     * не delete потому что delete используется в tree для удаления записи
+     *
+     * @param string $id идентификатор <b>узла дерева</b> (parent) удаляемого элемента
+     * @return void
+     */
+    public function remove($id)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+
+        $fileMapper = $toolkit->getMapper($this->name, 'file');
+        $folderMapper = $toolkit->getMapper($this->name, 'folder');
+
+        // @toDo как то не так
+        $removedFolders = $this->tree->getBranch($id);
+        if(count($removedFolders)) {
+            foreach($removedFolders as $folder) {
+                $folderNews = $folder->getItems();
+                if(count($folderNews)) {
+                    foreach($folderNews as $news) {
+                        $folderMapper->delete($news->getId());
+                    }
+                }
+            }
+        }
+
+        $this->tree->removeNode($id);
     }
 }
 

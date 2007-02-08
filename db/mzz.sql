@@ -112,13 +112,13 @@ INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `folder
   (1,'foobar.txt','q','txt',10,1,196),
   (2,'06558db05a7d5148084025676972cbb2','','rec',9,NULL,201),
   (3,'9f4b4024092fcebfc434401210f71f7d','','rec',9,NULL,202),
-  (4,'05a131b70aef0e2b9f3e344d6163d311','','rec',9,1,203),
+  (4,'05a131b70aef0e2b9f3e344d6163d311','qwe.rec','rec',9,1,203),
   (5,'5b78dc5c1c2ad6511e3e324845c2eb3c','2rec','',9,1,204),
   (6,'13810e7f5782973b2dc72030c1c392f0','сы','',18,1,205),
   (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,1,206),
   (8,'3ff2104331237dafe9d7941a1286136f','mysql','',39,1,207),
   (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,1,208),
-  (10,'02c870089fc7f94ba1286e8faef13316','web','',28,1,209),
+  (10,'02c870089fc7f94ba1286e8faef13316','web.txt','txt',28,1,209),
   (11,'59833d36a918ad9fdd5f860d8a9b350f','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,1,210),
   (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,1,211);
 
@@ -1104,7 +1104,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (24,'qq'),
   (25,'aaa'),
   (26,'qqq'),
-  (27,'upload');
+  (27,'upload'),
+  (28,'get');
 
 COMMIT;
 
@@ -1274,7 +1275,13 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (49,13,4),
   (50,13,5),
   (51,9,21),
-  (63,17,1);
+  (63,17,1),
+  (64,17,28),
+  (65,17,2),
+  (66,17,9),
+  (67,18,9),
+  (68,17,18),
+  (69,18,18);
 
 COMMIT;
 

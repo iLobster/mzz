@@ -53,7 +53,8 @@ class fileMapper extends simpleMapper
 
     public function searchByPath($path)
     {
-        $path = rawurldecode($path);
+        $path = urldecode($path);
+
         if (strpos($path, '/') !== false) {
             $folder = substr($path, 0, strrpos($path, '/'));
             $pagename = substr(strrchr($path, '/'), 1);
@@ -64,6 +65,29 @@ class fileMapper extends simpleMapper
         }
 
         return null;
+    }
+
+    /**
+     * Выполнение операций с массивом $fields перед обновлением в БД
+     *
+     * @param array $fields
+     */
+    protected function updateDataModify(&$fields)
+    {
+        $fields['ext'] = '';
+        if (($dot = strrpos($fields['name'], '.')) !== false) {
+            $fields['ext'] = substr($fields['name'], $dot + 1);
+        }
+    }
+
+    /**
+     * Выполнение операций с массивом $fields перед вставкой в БД
+     *
+     * @param array $fields
+     */
+    protected function insertDataModify(&$fields)
+    {
+        $this->updateDataModify($fields);
     }
 
     /**

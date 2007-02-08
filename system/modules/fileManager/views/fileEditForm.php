@@ -14,7 +14,7 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class fileEditForm
@@ -22,10 +22,7 @@ class fileEditForm
     /**
      * метод получения формы
      *
-     * @param object $news объект новостей
-     * @param string $section текущая секция
-     * @param string $action текущее действие
-     * @param newsFolder $newsFolder папка, в которой создаём новость
+     * @param object $file объект "файл"
      * @return object сгенерированная форма
      */
     static function getForm($file)

@@ -39,17 +39,10 @@ class fileManagerEditController extends simpleController
 
         if ($form->validate()) {
             $values = $form->exportValues();
-
-            $ext = '';
-            if (($dot = strrpos($values['name'], '.')) !== false) {
-                $ext = substr($values['name'], $dot + 1);
-            }
-
             $file->setName($values['name']);
-            $file->setExt($ext);
             $fileMapper->save($file);
-            //echo '<br><pre>'; var_dump($values); echo '<br></pre>';
-            return 'ok';
+
+            return new simpleJipRefreshView();
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

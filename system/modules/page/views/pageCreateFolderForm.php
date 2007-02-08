@@ -58,7 +58,7 @@ class pageCreateFolderForm
 
         $form->addRule('name', 'имя должно быть уникально в пределах каталога и содержать латинские буквы и цифры', 'isUniqueName', array($folder, $pageFolderMapper));
 
-        $form->addElement('reset', 'reset', 'Сброс');
+        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');
 
         return $form;

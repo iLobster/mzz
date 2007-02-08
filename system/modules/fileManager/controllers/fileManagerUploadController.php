@@ -42,21 +42,10 @@ class fileManagerUploadController extends simpleController
             $values = $form->exportValues();
 
             $config = $this->toolkit->getConfig('fileManager');
-            //echo '<br><pre>'; var_dump($config->get('upload_path')); echo '<br></pre>';
             $fileForm = $form->getElement('file');
 
             $info = $fileForm->getValue();
             $name = !empty($values['name']) ? $values['name'] : $info['name'];
-
-            $ext = '';
-            if (($dot = strrpos($name, '.')) !== false) {
-                $ext = substr($name, $dot + 1);
-            }
-            //echo '<br><pre>'; var_dump($name); echo '<br></pre>';
-            //echo '<br><pre>'; var_dump($ext); echo '<br></pre>';
-            /*if  {
-            $newName = $values['name'];
-            }*/
 
             $criteria = new criteria();
             $criteria->add('folder_id', $folder->getId())->add('name', $name);
@@ -70,7 +59,6 @@ class fileManagerUploadController extends simpleController
                         $file = $fileMapper->create();
                         $file->setRealname($realname = md5(microtime(true)));
                         $file->setName($name);
-                        $file->setExt($ext);
                         $file->setSize($info['size']);
                         $file->setFolder($folder);
                         $fileMapper->save($file);
@@ -82,15 +70,10 @@ class fileManagerUploadController extends simpleController
                     }
                 }
 
-                return 'ok';
+                return new simpleJipRefreshView();
             }
 
             $form->setElementError('name', 'Файл с таким именем в этой папке уже существует');
-
-            //var_dump($file->moveUploadedFile($config->get('upload_path'), $newName));
-
-            //echo '<br><pre>'; var_dump($file); echo '<br></pre>';
-
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

@@ -129,9 +129,10 @@ class newsFolderMapper extends simpleMapper
         if(count($removedFolders)) {
             foreach($removedFolders as $folder) {
                 $folderNews = $folder->getItems();
-                if(count($folderNews))
-                foreach($folderNews as $news) {
-                    $newsMapper->delete($news->getId());
+                if(count($folderNews)) {
+                    foreach($folderNews as $news) {
+                        $newsMapper->delete($news->getId());
+                    }
                 }
             }
         }

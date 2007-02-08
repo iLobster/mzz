@@ -14,7 +14,7 @@
  * jip: класс для работы с jip
  *
  * @package system
- * @version 0.1
+ * @version 0.1.1
  */
 class jip
 {
@@ -121,13 +121,12 @@ class jip
         $toolkit = systemToolkit::getInstance();
 
         $acl = new acl($toolkit->getUser(), $this->obj_id);
-        $access = $acl->get();
+        //$access = $acl->get();
 
         $result = array();
 
         foreach ($this->actions as $key => $item) {
-
-            if (isset($access[$key]) && $access[$key]) {
+            if ($acl->get($key)) {
                 $result[] = array(
                 'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
                 'title' => $item['title'],
