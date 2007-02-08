@@ -1,4 +1,5 @@
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
+<iframe name="_fmUploadFile" style="border: 0;width: 200px;height: 100px;" src="about:blank"></iframe>
+<form {$form.attributes} target="_fmUploadFile">
     <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td colspan=2 style="text-align:center;">Загрузка файла в каталог <b>{$folder->getPath()}</b></td>

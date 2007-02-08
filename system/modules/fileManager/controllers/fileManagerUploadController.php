@@ -62,9 +62,8 @@ class fileManagerUploadController extends simpleController
                         $file->setSize($info['size']);
                         $file->setFolder($folder);
                         $fileMapper->save($file);
-
                         $fileForm->moveUploadedFile($config->get('upload_path'), $file->getRealname());
-
+                        return 'Файл "' . $name . '" загружен.';
                         break;
                     } catch (PDOException $e) {
                     }

@@ -44,8 +44,6 @@ class contentFilter implements iFilter
                 $request->setAction('view');
                 $request->setParams(array('name' => 404));
             }
-        } catch (Exception $e) {
-            throw $e;
         }
 
         $template = $frontcontroller->getTemplate();

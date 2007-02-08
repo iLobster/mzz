@@ -103,7 +103,10 @@ mzzAjax.prototype = {
         var element = this.element;
         element.update("<div class='jipClose'><img alt='Закрыть' class='jip' width='16' height='16' src='" + SITE_PATH + "/templates/images/close.gif' onclick='javascript: jipWindow.close();' /></div>");
         var tmp = '';
-        if (transport.responseXML != null) {
+        var ctype = transport.getResponseHeader("content-type");
+
+        if (ctype.indexOf("xml") >= 0) {
+
             responseXML = transport.responseXML.documentElement;
             var item = responseXML.getElementsByTagName('html')[0];
             var cnodes = item.childNodes.length;
@@ -120,7 +123,7 @@ mzzAjax.prototype = {
         if (document.getElementsByClassName('jipTitle').length > 0) {
             var jipTitle = document.getElementsByClassName('jipTitle').last();
             var jipMoveDiv = document.createElement('div');
-            jipMoveDiv.setAttribute('id', 'jip-' + jipTitle.parentNode.id);
+            jipMoveDiv.id = 'jip-' + jipTitle.parentNode.id;
             Element.extend(jipMoveDiv);
             jipMoveDiv.addClassName('jipMove');
             jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
@@ -129,6 +132,30 @@ mzzAjax.prototype = {
 
         element.innerHTML.evalScripts();
         //new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
+    } else {
+        alert("No response from script. \r\n TransID: " + transport.tId + "; HTTP status: " + transport.status + "; Message: " + transport.statusText);
+    }
+  },
+
+  successIn: function(transport)
+  {
+    if(typeof(this.element) != 'undefined' && (typeof(transport.responseXML) != 'undefined' || typeof(transport.responseText) != 'undefined')){
+        var element = this.element;
+        var tmp = '';
+        if (transport.responseXML != null) {
+            responseXML = transport.responseXML.documentElement;
+            var item = responseXML.getElementsByTagName('html')[0];
+            var cnodes = item.childNodes.length;
+            for (var i=0; i<cnodes; i++) {
+                if (item.childNodes[i].data != '') {
+                    tmp += item.childNodes[i].data;
+                }
+            }
+        } else {
+            tmp = transport.responseText;
+        }
+        element.update(tmp);
+        element.innerHTML.evalScripts();
     } else {
         alert("No response from script. \r\n TransID: " + transport.tId + "; HTTP status: " + transport.status + "; Message: " + transport.statusText);
     }
@@ -160,14 +187,15 @@ jipWindow.prototype = {
     this.eventLockUpdate  = this.lockContent.bindAsEventListener(this);
   },
 
-  open: function(url, isNew)
+  open: function(url, isNew, method)
   {
     isNew = isNew || false;
+    method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
     if (isNew || this.windowCount == 0) {
         var jipDiv = document.createElement('div');
         this.currentWindow = this.windowCount++;
         this.stack[this.currentWindow] = new Array();
-        jipDiv.setAttribute('id', 'jip' + this.currentWindow);
+        jipDiv.id = 'jip' + this.currentWindow;
         Element.extend(jipDiv);
         jipDiv.addClassName('jipWindow');
         document.body.appendChild(jipDiv);
@@ -190,17 +218,16 @@ jipWindow.prototype = {
         var jipWindowOffsetLeft = Cookie.get('jip_window_left');
 
         if (jipWindowOffsetTop == null || jipWindowOffsetLeft == null) {
-            jipWindowOffsetTop = this.jip.offsetHeight + (this.currentWindow * 5);
-            jipWindowOffsetLeft = this.jip.offsetLeft + (this.currentWindow * 5);
+            jipWindowOffsetTop = this.jip.offsetHeight;
+            jipWindowOffsetLeft = this.jip.offsetLeft;
         }
-
         this.jip.setStyle({
-            'top': new Number(jipWindowOffsetTop) + new Number(document.documentElement.scrollTop) + 'px',
-            'left': jipWindowOffsetLeft + 'px'
+            'top': new Number(jipWindowOffsetTop) + (this.currentWindow * 5) + new Number(document.documentElement.scrollTop) + 'px',
+            'left': new Number(jipWindowOffsetLeft)  + (this.currentWindow * 5) + 'px'
         });
 
         new Ajax.Request(url, {
-            method: 'get',
+            'method': method,
             parameters: { 'ajax': 1 },
             onSuccess: function(transport) {
                 mzzAjax.success(transport);
@@ -211,6 +238,36 @@ jipWindow.prototype = {
         });
         this.stack[this.currentWindow].push(url);
         this.lockContent();
+        return false;
+    }
+    return true;
+  },
+
+
+  openIn: function(url, target, method, params)
+  {
+    method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
+
+    var winInWin = $(target);
+    if (typeof(mzzAjax) != 'object') {
+        mzzAjax = new mzzAjax();
+    }
+    mzzAjax.setTargetEelement(winInWin)
+    var parameters = $H({ 'ajax': 1 });
+    if (params) {
+        parameters.merge(params);
+    }
+    if (winInWin) {
+        new Ajax.Request(url, {
+            'method': method,
+            'parameters': parameters,
+            onSuccess: function(transport) {
+                mzzAjax.successIn(transport);
+            },
+            onFailure: function(transport) {
+                mzzAjax.onError(transport);
+            }
+        });
         return false;
     }
     return true;
