@@ -83,7 +83,7 @@ class testsHtmlRunner implements iFilter
         $action->setAction('view');
         $timerFactory = new timerFactory($action);
         $timer = $timerFactory->getController();
-        echo $timer->getView()->toString();
+        echo $timer->getView();
 
         echo '</body></html>';
         $result = ob_get_contents();

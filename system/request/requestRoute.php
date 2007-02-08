@@ -211,7 +211,7 @@ class requestRoute implements iRoute
             $this->regex .= $prefix . $this->parts[$i]['regex'] . $postfix;
         }
 
-        $this->regex .= '$' . self::REGEX_DELIMITER;
+        $this->regex .= '$' . self::REGEX_DELIMITER . 'i';
     }
 
     /**
