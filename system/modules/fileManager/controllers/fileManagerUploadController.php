@@ -19,7 +19,7 @@ fileLoader::load('fileManager/views/fileUploadForm');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class fileManagerUploadController extends simpleController
@@ -53,6 +53,54 @@ class fileManagerUploadController extends simpleController
             $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
             $file = $fileMapper->searchOneByCriteria($criteria);
 
+            // получаем имя без расширения
+            $name_wo_ext = $name; $ext = '';
+            if ($dot = strrpos($name, '.')) {
+                $name_wo_ext = substr($name, 0, $dot);
+                $ext = substr($name, $dot + 1);
+            }
+
+            if ($file) {
+                // ищем все файлы которые подпадают под маску: filename*.ext
+                $criterion = new criterion('name', $name, criteria::NOT_EQUAL);
+                $criterion->addAnd(new criterion('name', $name_wo_ext . '%' . ($ext ? '.' . $ext : ''), criteria::LIKE));
+
+                $criteria = new criteria();
+                $criteria->add('folder_id', $folder->getId())->add($criterion);
+                $criteria->setOrderByFieldAsc('name');
+                $files = $fileMapper->searchAllByCriteria($criteria);
+
+                // ищем первый "пробел" в нумерации файлов с одинаковыми именами
+                $i = 2;
+                foreach ($files as $file) {
+                    if (strpos($file->getName(), $name_wo_ext . $i) !== 0) {
+                        break;
+                    }
+                    $i++;
+                }
+
+                // добавляем к имени найденный индекс
+                $name = substr_replace($name, $name_wo_ext . $i, 0, strlen($name_wo_ext));
+                $file = false;
+            }
+
+            if ($filesize = $folder->getFilesize()) {
+                $size_in_mb = round($info['size'] / 1024 / 1024, 3);
+                if ($size_in_mb > $filesize) {
+                    $form->setElementError('file', 'Ограничение на загрузку файла: ' . $filesize . ' Мб. У загружаемого файла размер: ' . $info['size'] . ' Мб');
+                    $file = true;
+                }
+            }
+
+            if ($exts = $folder->getExts()) {
+                $exts = explode(';', $exts);
+
+                if (!in_array($ext, $exts)) {
+                    $form->setElementError('file', 'Ограничение на расширение файла: ' . $folder->getExts() . '. У загружаемого файла расширение: "' . $ext . '"');
+                    $file = true;
+                }
+            }
+
             if (!$file) {
                 while (true) {
                     try {
@@ -72,7 +120,7 @@ class fileManagerUploadController extends simpleController
                 return new simpleJipRefreshView();
             }
 
-            $form->setElementError('name', 'Файл с таким именем в этой папке уже существует');
+            //$form->setElementError('name', 'Файл с таким именем в этой папке уже существует');
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

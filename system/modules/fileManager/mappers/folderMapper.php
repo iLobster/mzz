@@ -139,10 +139,10 @@ class folderMapper extends simpleMapper
         $removedFolders = $this->tree->getBranch($id);
         if(count($removedFolders)) {
             foreach($removedFolders as $folder) {
-                $folderNews = $folder->getItems();
-                if(count($folderNews)) {
-                    foreach($folderNews as $news) {
-                        $folderMapper->delete($news->getId());
+                $folderFiles = $folder->getItems();
+                if(count($folderFiles)) {
+                    foreach($folderFiles as $news) {
+                        $fileMapper->delete($news->getId());
                     }
                 }
             }

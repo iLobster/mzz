@@ -120,7 +120,9 @@ INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `folder
   (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,1,208),
   (10,'02c870089fc7f94ba1286e8faef13316','web.txt','txt',28,1,209),
   (11,'59833d36a918ad9fdd5f860d8a9b350f','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,1,210),
-  (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,1,211);
+  (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,1,211),
+  (13,'ddaa316ac5ba16b0a2e39a3f9c19d330','2rec','',9,2,219),
+  (14,'715dc8aa6d7e16526ae15a80386c4552','2rec.bmp','bmp',9,2,220);
 
 COMMIT;
 
@@ -137,6 +139,8 @@ CREATE TABLE `fileManager_folder` (
   `parent` int(11) unsigned default NULL,
   `path` char(255) default NULL,
   `obj_id` int(11) unsigned default NULL,
+  `filesize` int(11) unsigned default NULL,
+  `exts` char(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -144,9 +148,9 @@ CREATE TABLE `fileManager_folder` (
 # Data for the `fileManager_folder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`) VALUES 
-  (1,'root','/',1,'root',195),
-  (2,'child','child_node',2,'root/child',197);
+INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
+  (1,'root','/',1,'root',195,NULL,NULL),
+  (2,'child','child_node',2,'root/child',197,1,'bmp');
 
 COMMIT;
 
@@ -1056,7 +1060,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (215,10),
   (216,10),
   (217,10),
-  (218,10);
+  (218,10),
+  (219,14),
+  (220,14);
 
 COMMIT;
 
@@ -1570,7 +1576,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (215),
   (216),
   (217),
-  (218);
+  (218),
+  (219),
+  (220);
 
 COMMIT;
 

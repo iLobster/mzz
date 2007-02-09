@@ -14,7 +14,7 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class folderEditForm
@@ -38,16 +38,22 @@ class folderEditForm
             $defaultValues = array();
             $defaultValues['name']  = $folder->getName();
             $defaultValues['title']  = $folder->getTitle();
+            $defaultValues['exts'] = $folder->getExts();
+            $defaultValues['filesize'] = $folder->getFilesize();
             $form->setDefaults($defaultValues);
 
             $form->registerRule('isUniqueName', 'callback', 'editFolderValidate');
         } else {
-
+            $form->registerRule('isUniqueName', 'callback', 'editFolderValidate');
         }
 
         $form->addElement('text', 'name', 'Имя:', 'size="30"');
         $form->addElement('text', 'title', 'Заголовок:', 'size="30"');
+        $form->addElement('text', 'filesize', 'Максимальный размер файла (в Мб):', 'size="30"');
+        $form->addElement('text', 'exts', 'Список разрешённых расширений (разделённых знаком ";"):', 'size="30"');
 
+        $form->addRule('filesize', 'размер должен быть числовым', 'numeric');
+        $form->addRule('exts', 'недопустимые символы в расширении', 'regex', '/^[a-zа-я0-9_;\-! ]+$/i');
         $form->addRule('name', 'недопустимые символы в имени', 'regex', '/^[a-zа-я0-9_\.\-! ]+$/i');
         $form->addRule('name', 'имя должно быть уникально в пределах каталога', 'isUniqueName', array($folder, $folderMapper));
 
@@ -60,9 +66,10 @@ class folderEditForm
 function editFolderValidate($name, $data)
 {
     $path = $data[0]->getPath();
-    $pathToParent = substr($path, 0, strpos($path, '/'));
-
-    return $data[0]->getName() == $name || is_null($data[1]->searchByPath($pathToParent . '/' . $name));
+    if ($slash = strpos($path, '/')) {
+        $path = substr($path, 0, $slash);
+    }
+    return $data[0]->getName() == $name || is_null($data[1]->searchByPath($path . '/' . $name));
 }
 
 ?>

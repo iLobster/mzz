@@ -116,6 +116,37 @@ class pageFolderMapper extends simpleMapper
     }
 
     /**
+     * Удаление папки вместе с содежимым на основе id
+     * не delete потому что delete используется в tree для удаления записи
+     *
+     * @param string $id идентификатор <b>узла дерева</b> (parent) удаляемого элемента
+     * @return void
+     */
+    public function remove($id)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+
+        $pageMapper = $toolkit->getMapper($this->name, 'page');
+        //$pageFolderMapper = $toolkit->getMapper('page', 'pageFolder');
+
+        // @toDo как то не так
+        $removedFolders = $this->tree->getBranch($id);
+        if(count($removedFolders)) {
+            foreach($removedFolders as $folder) {
+                $pages = $folder->getItems();
+                if(count($pages)) {
+                    foreach($pages as $page) {
+                        $pageMapper->delete($page->getId());
+                    }
+                }
+            }
+        }
+
+        $this->tree->removeNode($id);
+    }
+
+    /**
      * Метод поиска новости в каталоге
      *
      * @param string $name

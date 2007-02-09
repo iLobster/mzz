@@ -125,11 +125,18 @@ class adminListActionsController extends simpleController
     {
         if (($key = array_search('editACL', $arr)) !== false) {
             unset($arr[$key]);
-            return;
+        }
+
+        if (($key = array_search('editDefault', $arr)) !== false) {
+            unset($arr[$key]);
         }
 
         if (isset($arr['editACL'])) {
             unset($arr['editACL']);
+        }
+        
+        if (isset($arr['editDefault'])) {
+            unset($arr['editDefault']);
         }
     }
 }

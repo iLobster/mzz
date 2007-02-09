@@ -2,7 +2,12 @@
 <form {$form.attributes} target="_fmUploadFile">
     <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td colspan=2 style="text-align:center;">Загрузка файла в каталог <b>{$folder->getPath()}</b></td>
+            <td colspan=2 style="text-align:center;">
+                Загрузка файла в каталог <b>{$folder->getPath()}</b>
+                {if $folder->getFilesize() > 0}<br />Ограничение на размер загружаемого файла: <b>{$folder->getFilesize()}</b> Мб{/if}
+                {assign var=exts value=$folder->getExts()}
+                {if not empty($exts)}<br />Ограничение на расширения файлов: <b>{$folder->getExts()}</b>{/if}
+            </td>
         </tr>
         <tr>
             <td>{$form.file.label}</td>

@@ -19,6 +19,7 @@
  * @subpackage page
  * @version 0.2.1
  */
+
 class pageViewController extends simpleController
 {
     public function getView()

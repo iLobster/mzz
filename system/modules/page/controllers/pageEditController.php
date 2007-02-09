@@ -21,6 +21,7 @@ fileLoader::load('page/views/pageEditForm');
  * @subpackage page
  * @version 0.1
  */
+
 class pageEditController extends simpleController
 {
     public function getView()
@@ -29,14 +30,8 @@ class pageEditController extends simpleController
 
         $name = $this->request->get('name', 'string', SC_PATH);
 
-        if (strpos($name, '/') !== false) {
-            $folder = substr($name, 0, strrpos($name, '/'));
-            $pagename = substr(strrchr($name, '/'), 1);
-        } else {
-            $pagename = $name;
-        }
-
-        $page = $pageMapper->searchByName($pagename);
+        $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+        $page = $pageFolderMapper->searchChild($name);
 
         $action = $this->request->getAction();
 
