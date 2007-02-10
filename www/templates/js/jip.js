@@ -21,6 +21,54 @@ function getBrowserHeight() {
     return {"pageHeight" : pageHeight, "windowHeight" : windowHeight};
 }
 
+function buildJipLinksEvent(event) {
+    if (arguments.callee.done) return;
+        arguments.callee.done = true;
+    if (_loadTimer) {
+        clearInterval(_loadTimer);
+        _loadTimer = null;
+    }
+    buildJipLinks();
+}
+
+function buildJipLinks(elm) {
+
+    var elements = (elm) ? document.getElementsByClassName('jipLink', elm) : document.getElementsByClassName('jipLink');
+
+    elements.each(function(link) {
+        Event.observe(link, 'click', function(event) {
+          jipWindow.open(link.href);
+          Event.stop(event);
+          return false;
+        });
+    });
+}
+
+
+if (document.addEventListener) {
+    document.addEventListener("DOMContentLoaded", buildJipLinksEvent, false);
+}
+
+/* for Internet Explorer */
+/*@cc_on @*/
+/*@if (@_win32)
+    document.write("<script id=__ie_onload defer src=javascript:void(0)><\/script>");
+    var script = document.getElementById("__ie_onload");
+    script.onreadystatechange = function() {
+        if (this.readyState == "complete") {
+            buildJipLinksEvent(); // call the onload handler
+        }
+    };
+/*@end @*/
+
+if (/WebKit/i.test(navigator.userAgent)) {
+    var _loadTimer = setInterval(function() {
+    if (/loaded|complete/.test(document.readyState)) {
+        buildJipLinksEvent();
+    }}, 10);
+}
+
+window.onload = buildJipLinksEvent;
 
 //--------------------------------
 //  Cookie tools
@@ -131,6 +179,7 @@ mzzAjax.prototype = {
         }
 
         element.innerHTML.evalScripts();
+        buildJipLinks(element);
         //new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
     } else {
         alert("No response from script. \r\n TransID: " + transport.tId + "; HTTP status: " + transport.status + "; Message: " + transport.statusText);
@@ -330,8 +379,7 @@ jipWindow.prototype = {
   close: function(windows)
   {
     if(this.jip) {
-
-        windows = windows || 1;
+        windows = (windows >= 0) ? windows : 1;
         var currentWin = this.currentWindow;
         var stack = this.stack[currentWin];
 

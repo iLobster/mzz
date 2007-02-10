@@ -56,7 +56,7 @@
 
 
 <div class="toolbarLayerBottomLeft">
-<span class="toolbarSectionName">Зарегистрированные объекты</span> <a href="{url section="admin" action="addObjToRegistry"}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/DB.png" alt="Сгенерировать" title="Генерация и регистрация нового идентификатора объекта" align="absmiddle" /></a>
+<span class="toolbarSectionName">Зарегистрированные объекты</span> <a href="{url section="admin" action="addObjToRegistry"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/DB.png" alt="Сгенерировать" title="Генерация и регистрация нового идентификатора объекта" align="absmiddle" /></a>
 <table class="toolbarObjects" cellpadding="2" cellspacing="0">
     <tr class="toolbarObjectsTitle">
         <td style="width: 45px;" class="toolbarBorder">obj_id</td>

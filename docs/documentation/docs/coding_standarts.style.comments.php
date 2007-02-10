@@ -5,7 +5,7 @@
 <p>Все PHP-файлы должны содержать минимальный блок комментариев в качестве заголовка:</p>
 <<code>>
 /**<br />
-&nbsp;* $URL$<br />
+&nbsp;* &#036;URL&#036;<br />
 &nbsp;*<br />
 &nbsp;* MZZ Content Management System (c) 2005-2007<br />
 &nbsp;* Website : http://www.mzz.ru<br />
@@ -14,6 +14,6 @@
 &nbsp;* the GNU/GPL License (See /docs/GPL.txt).<br />
 &nbsp;*<br />
 &nbsp;* @link http://www.mzz.ru<br />
-&nbsp;* @version $Id$<br />
+&nbsp;* @version &#036;Id&#036;<br />
 &nbsp;*/
 <</code>>

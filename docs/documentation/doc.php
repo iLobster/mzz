@@ -170,7 +170,7 @@ function include_code($id, $type) {
 function checkFile($num) {
     if(!file_exists('docs/' . $num . '.php') || filesize('docs/' . $num . '.php') < 6) {
         touch('docs/' . $num . '.php');
-        return ' <font style="color: red;">[todo]</font>';
+        return '<strong>?</strong>';
     } else {
         return '';
     }

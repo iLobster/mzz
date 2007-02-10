@@ -27,10 +27,10 @@ class simpleJipCloseView extends simpleView
 {
     public function toString()
     {
-        if (!$this->DAO) {
+        if ($this->DAO === false) {
             $this->DAO = 1;
         }
-        return '<script type="text/javascript"> jipWindow.close(' . $this->DAO . '); </script>';
+        return '<script type="text/javascript"> jipWindow.close(' . (int)$this->DAO . '); </script>';
     }
 }
 

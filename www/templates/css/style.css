@@ -24,6 +24,25 @@ a:active {
  color: #FF0000;
 }
 
+
+a.jsLink {
+ color: #0055CC;
+ border-bottom: 1px dashed #0055CC;
+ text-decoration: none;
+}
+
+a.jsLink:visited {
+ color: #0055CC;
+ border-bottom: 1px dashed #0055CC;
+ text-decoration: none;
+}
+
+a.jsLink:active {
+ color: #FF0000;
+ border-bottom: 1px dashed #FF0000;
+ text-decoration: none;
+}
+
 #content {
   min-height: 100%;
   line-height: 140%;
