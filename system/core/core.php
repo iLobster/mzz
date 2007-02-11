@@ -109,6 +109,7 @@ class core
         fileLoader::load('simple/simpleFactory');
         fileLoader::load('simple/simpleJipCloseView');
         fileLoader::load('simple/simpleJipRefreshView');
+        fileLoader::load('simple/jipTools');
 
         fileLoader::load('filters/init');
 

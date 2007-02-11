@@ -33,7 +33,6 @@ class stdToolkit extends toolkit
     private $smarty;
     private $router;
     private $config;
-    private $sectionMapper;
     private $timer;
     private $actions;
     private $user;
@@ -172,24 +171,6 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект SectionMapper
-     *
-     * @param string $path путь до папки с активными шаблонами. По умолчанию папка_проекта/templates/act/
-     * @return object
-     */
-    public function getSectionMapper($path = null)
-    {
-        if (empty($this->sectionMapper)) {
-            fileLoader::load('controller/sectionMapper');
-            if(empty($path)) {
-                $path = systemConfig::$pathToApplication . '/templates';
-            }
-            $this->sectionMapper = new sectionMapper($path);
-        }
-        return $this->sectionMapper;
-    }
-
-    /**
      * Возвращает объект Timer
      *
      * @return object
@@ -308,19 +289,6 @@ class stdToolkit extends toolkit
         $old_router = $this->router;
         $this->router = $router;
         return $old_router;
-    }
-
-    /**
-     * Устанавливает объект SectionMapper
-     *
-     * @param object $sectionMapper
-     * @return object
-     */
-    public function setSectionMapper($sectionMapper)
-    {
-        $old_sectionMapper = $this->sectionMapper;
-        $this->sectionMapper = $sectionMapper;
-        return $old_sectionMapper;
     }
 
     /**

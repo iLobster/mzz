@@ -59,7 +59,8 @@ class userMembersListController extends simpleController
                 }
             }
 
-            return new simpleJipCloseView(0);
+            //return new simpleJipCloseView();
+            return jipTools::closeWindow(0, true);
         } else {
             $criteria = new criteria();
             $criteria->add('group_id', $id)->setOrderByFieldAsc('user_id.login');

@@ -30,7 +30,8 @@ class contentFilter implements iFilter
     {
         $toolkit = systemToolkit::getInstance();
 
-        $frontcontroller = new frontController($request);
+        $tplPath = systemConfig::$pathToApplication . '/templates';
+        $frontcontroller = new frontController($request, $tplPath);
 
         $router = $toolkit->getRouter($request);
 
@@ -46,7 +47,7 @@ class contentFilter implements iFilter
             }
         }
 
-        $template = $frontcontroller->getTemplate();
+        $template = $frontcontroller->getTemplateName();
 
         $smarty = $toolkit->getSmarty();
         $smarty->assign('current_section', $request->getSection());

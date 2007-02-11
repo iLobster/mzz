@@ -46,7 +46,7 @@ systemConfig::$pathToConf = dirname(__FILE__) . '/configs';
 systemConfig::init();
 
 // @todo подумать о переносе в другое место
-$inc_path = realpath(systemConfig::$pathToSystem  . '/../libs/PEAR/') . PATH_SEPARATOR . ini_get('include_path');
-ini_set('include_path', $inc_path);
+$inc_path = realpath(systemConfig::$pathToSystem  . '/../libs/PEAR/') . PATH_SEPARATOR . get_include_path();
+set_include_path($inc_path);
 
 ?>

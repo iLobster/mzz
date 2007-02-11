@@ -1,5 +1,5 @@
 Текущий каталог: <b>{$current_folder->getPath()}</b><br />
-<a href="{url section=$current_section action=upload path=$current_folder->getPath()}" onClick="return jipWindow.open(this.href);">Загрузить файл</a><br />
+<a href="{url section=$current_section action=upload path=$current_folder->getPath()}" class="jipLink">Загрузить файл</a><br />
 Каталоги:
 <table border="1">
     <tr>

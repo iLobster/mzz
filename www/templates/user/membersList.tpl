@@ -15,8 +15,8 @@
                 <td colspan="2"><input type="reset" value="Сброс" onclick="javascript: jipWindow.close();"></td>
             </tr>
         <tr>
-            <td align="center"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="return jipWindow.open(this.href);"><img src="{$SITE_PATH}/templates/images/useradd.gif" width="16" height="16" /></a></td>
-            <td colspan="2"><a href="{url section=user action=addToGroup params=$group->getId()}" onClick="return jipWindow.open(this.href);">Добавить пользователя в группу</a></td>
+            <td align="center"><a href="{url section=user action=addToGroup params=$group->getId()}" class="jipLink"><img src="{$SITE_PATH}/templates/images/useradd.gif" width="16" height="16" /></a></td>
+            <td colspan="2"><a href="{url section=user action=addToGroup params=$group->getId()}" class="jipLink">Добавить пользователя в группу</a></td>
         </tr>
     </table>
 </form>

@@ -39,12 +39,15 @@ class newsEditForm
         $url->addParam('id', $action == 'edit' ? $news->getId() : $newsFolder->getPath());
         $form = new HTML_QuickForm('newsEdit', 'POST', $url->get());
 
+        $defaultValues = array();
         if ($action == 'edit') {
             $defaultValues = array();
             $defaultValues['title']  = $news->getTitle();
             $defaultValues['text']  = $news->getText();
-            $form->setDefaults($defaultValues);
+        } else {
+            $defaultValues['created']  = date('H:i:s d/m/Y');
         }
+        $form->setDefaults($defaultValues);
 
         $form->addElement('text', 'title', 'Имя:', 'size="30"');
         $form->addElement('text', 'created', 'Дата создания:', 'size="30" id="calendar-field-created"');

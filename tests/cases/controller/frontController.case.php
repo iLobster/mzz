@@ -1,39 +1,18 @@
 <?php
 
 fileLoader::load('controller/frontController');
-
 fileLoader::load('request/httpRequest');
-fileLoader::load('controller/sectionMapper');
-
 mock::generate('httpRequest');
-mock::generate('sectionMapper');
 
 class frontControllerTest extends unitTestCase
 {
     private $frontController;
-    private $oldRequest;
-    private $toolkit;
     private $request;
-    private $sectionMapper;
-    private $oldsectionMapper;
 
     public function setUp()
     {
-
-        $this->toolkit = systemToolkit::getInstance();
         $this->request = new mockhttpRequest();
-
-        // Create Request, SectionMapper and set in toolkit
-        $this->sectionMapper = new mocksectionMapper();
-        $this->oldsectionMapper = $this->toolkit->setSectionMapper($this->sectionMapper);
-
-        $this->frontController = new frontController($this->request);
-    }
-
-    public function tearDown()
-    {
-        // Restore SectionMapper in toolkit
-        $this->toolkit->setSectionMapper($this->oldsectionMapper);
+        $this->frontController = new frontController($this->request, dirname(__FILE__) . '/fixtures');
     }
 
     public function testFrontController()
@@ -44,10 +23,34 @@ class frontControllerTest extends unitTestCase
         $this->request->expectOnce('getAction', array());
         $this->request->setReturnValue('getAction', 'bar');
 
-        $this->sectionMapper->expectOnce('getTemplateName', array('test', 'bar'));
-        $this->sectionMapper->setReturnValue('getTemplateName', 'act.test.bar.tpl');
+        $this->assertEqual($this->frontController->getTemplateName(), "act/test/bar.tpl");
+    }
 
-        $this->assertEqual($this->frontController->getTemplate(), "act.test.bar.tpl");
+    public function testSectionMapperFalse()
+    {
+        $section = "__not_exists__";
+        $action = "__not_exists__";
+
+        try {
+            $this->frontController->getTemplateName($section, $action);
+            $this->fail('Не было брошено исключение');
+        } catch (mzzRuntimeException $e) {
+            $this->assertPattern('/Не найден активный шаблон/', $e->getMessage());
+        } catch (Exception $e) {
+            $this->fail('Брошено не ожидаемое исключение');
+        }
+
+        $section = "test";
+        $action = "__not_exists__";
+
+        try {
+            $this->frontController->getTemplateName($section, $action);
+            $this->fail('Не было брошено исключение');
+        } catch (mzzRuntimeException $e) {
+            $this->assertPattern('/Не найден активный шаблон/', $e->getMessage());
+        } catch (Exception $e) {
+            $this->fail('Брошено не ожидаемое исключение');
+        }
     }
 
 }

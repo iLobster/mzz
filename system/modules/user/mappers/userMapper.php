@@ -19,7 +19,6 @@
  */
 
 fileLoader::load('user');
-fileLoader::load('user/mappers/groupMapper');
 
 class userMapper extends simpleMapper
 {

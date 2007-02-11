@@ -17,11 +17,22 @@
  * frontController: фронтконтроллер проекта
  *
  * @package system
- * @version 0.4
+ * @version 0.5
  */
 
 class frontController
 {
+    /**
+     * Префикс имени шаблона
+     *
+     */
+    const TPL_PRE = "act/";
+
+    /**
+     * Расширение шаблона
+     *
+     */
+    const TPL_EXT = ".tpl";
     /**
      * iRequest
      *
@@ -30,34 +41,39 @@ class frontController
     protected $request;
 
     /**
-     * sectionMapper
+     * Путь до папки с шаблонами
      *
-     * @var sectionMapper
+     * @var string
      */
-    protected $sectionMapper;
+    protected $path;
 
     /**
      * конструктор класса
      *
      * @param iRequest $request
+     * @param $path путь до папки с шаблонами
      */
-    public function __construct($request)
+    public function __construct($request, $path)
     {
-        $toolkit = systemToolkit::getInstance();
         $this->request = $request;
-        $this->sectionMapper = $toolkit->getSectionMapper();
+        $this->path = $path;
     }
 
     /**
      * получение имени шаблона
      *
-     * @return string имя шаблона в соответствии с выбранными секцией и экшном
+     * @return string имя шаблона в соответствии с запрошенной секцией и экшном
      */
-    public function getTemplate()
+    public function getTemplateName()
     {
         $section = $this->request->getSection();
         $action = $this->request->getAction();
-        return $this->sectionMapper->getTemplateName($section, $action);
+
+        $tpl_name = self::TPL_PRE . $section . '/' . $action . self::TPL_EXT;
+        if (file_exists($this->path . '/' . $tpl_name)) {
+            return $tpl_name;
+        }
+        throw new mzzRuntimeException('Не найден активный шаблон для section = <i>"' . $section . '"</i>, action = <i>"' . $action . '"</i>');
     }
 }
 

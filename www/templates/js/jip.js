@@ -124,10 +124,11 @@ mzzAjax.prototype = {
   },
 
   sendForm: function(form, method) {
-    var params = form.serialize().toQueryParams();
+    var params = $(form).serialize().toQueryParams();
     params.ajax = 1;
     jipWindow.clean();
     method = (method && method.toUpperCase() == 'GET') ? 'GET' : 'POST';
+
     new Ajax.Request(form.action, {
       'method': method,
       parameters: params,
@@ -191,7 +192,7 @@ mzzAjax.prototype = {
     if(typeof(this.element) != 'undefined' && (typeof(transport.responseXML) != 'undefined' || typeof(transport.responseText) != 'undefined')){
         var element = this.element;
         var tmp = '';
-        if (transport.responseXML != null) {
+        if (transport.responseXML.documentElement != null) {
             responseXML = transport.responseXML.documentElement;
             var item = responseXML.getElementsByTagName('html')[0];
             var cnodes = item.childNodes.length;
@@ -203,6 +204,7 @@ mzzAjax.prototype = {
         } else {
             tmp = transport.responseText;
         }
+
         element.update(tmp);
         element.innerHTML.evalScripts();
     } else {
@@ -230,6 +232,7 @@ jipWindow.prototype = {
     this.windowCount = 0;
     this.currentWindow = 0;
     this.toggleEditorStatus = $H();
+    this.redirectToAfterClose = false;
 
     this.eventKeypress  = this.keyPress.bindAsEventListener(this);
     this.eventLockClick  = this.lockClick.bindAsEventListener(this);
@@ -376,6 +379,15 @@ jipWindow.prototype = {
     }
   },
 
+  refreshAfterClose: function(url)
+  {
+      if (url === true) {
+          this.redirectToAfterClose = new String(window.location).replace(window.location.hash, '');
+      } else {
+          this.redirectToAfterClose = url;
+      }
+  },
+
   close: function(windows)
   {
     if(this.jip) {
@@ -408,6 +420,12 @@ jipWindow.prototype = {
         }
         this.jip = $('jip' + (currentWin));
         //this.clean();
+        if (this.redirectToAfterClose) {
+            window.location = this.redirectToAfterClose;
+            this.setRefreshMsg();
+            this.redirectToAfterClose  = false;
+            return true;
+        }
         this.jip.setStyle({display: 'none'});
         if(--this.windowCount == 0) {
             Event.stopObserving(document, "keypress", this.eventKeypress);
@@ -426,6 +444,13 @@ jipWindow.prototype = {
   {
     if (this.jip) {
         this.jip.update('<p align=center><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" align="texttop"><span id="jipLoad">Загрузка данных... (<a href="javascript: void(jipWindow.close());">отмена</a>)</span></p>');
+    }
+  },
+
+  setRefreshMsg: function()
+  {
+    if (this.jip) {
+        this.jip.update('<p align=center><img src="' + SITE_PATH + '/templates/images/statusbar3.gif" align="texttop"><span id="jipLoad">Подождите, требуется перезагрузка окна браузера...</span></p>');
     }
   },
 
@@ -622,10 +647,16 @@ Draggable.prototype = {
   },
   draw: function(event) {
     var style = this.element.style;
-    this.offsetLeft = this.offsetX + Event.pointerX(event) - this.eventX;
-    this.offsetTop = (this.offsetY + Event.pointerY(event) - this.eventY);
-    style.left = this.offsetLeft + "px";
-    style.top  = this.offsetTop + "px";
+    var offsetLeft = this.offsetX + Event.pointerX(event) - this.eventX;
+    var offsetTop = (this.offsetY + Event.pointerY(event) - this.eventY);
+    if (offsetLeft >= 0) {
+        this.offsetLeft = this.offsetX + Event.pointerX(event) - this.eventX;
+        style.left = this.offsetLeft + "px";
+    }
+    if (offsetTop >= 0) {
+        this.offsetTop = (this.offsetY + Event.pointerY(event) - this.eventY);
+        style.top  = this.offsetTop + "px";
+    }
   },
   update: function(event) {
     if(this.active) {
