@@ -73,7 +73,6 @@ class newsEditController extends simpleController
                 $news->setCreated($values['created']);
                 $newsMapper->save($news);
 
-                //$view = new simpleJipRefreshView();
                 $view = jipTools::redirect();
             }
             return $view;

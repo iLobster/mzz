@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * {{$do_data.doname}}: класс для работы c данными
@@ -19,6 +19,7 @@
  * @subpackage {{$do_data.module}}
  * @version 0.1
  */
+ 
 class {{$do_data.doname}} extends simple
 {
         protected $name = '{{$do_data.module}}';

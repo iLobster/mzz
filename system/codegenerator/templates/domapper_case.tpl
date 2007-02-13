@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 {{if $mapper_data.module ne $mapper_data.doname}}
 fileLoader::load('{{$mapper_data.module}}/{{$mapper_data.doname}}');

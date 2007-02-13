@@ -49,7 +49,7 @@ class fileManagerEditController extends simpleController
         $form->accept($renderer);
 
         $this->smarty->assign('form', $renderer->toArray());
-
+        $this->smarty->assign('file', $file);
         return $this->smarty->fetch('fileManager/edit.tpl');
     }
 }

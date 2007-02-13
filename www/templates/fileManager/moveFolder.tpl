@@ -1,11 +1,10 @@
-{assign var="path" value=$file->getFolder()->getPath()}
-{assign var="name" value=$file->getName()}
-{include file='jipTitle.tpl' title="Редактирование файла `$path`/`$name`"}
+{assign var="path" value=$folder->getPath()}
+{include file='jipTitle.tpl' title="Перемещение каталога `$path`"}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
     <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td>{$form.name.label}</td>
-            <td>{$form.name.html}{$form.name.error}</td>
+            <td>{$form.dest.label}</td>
+            <td>{$form.dest.html}{$form.dest.error}</td>
         </tr>
         <tr>
             <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>

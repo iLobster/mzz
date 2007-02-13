@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * {{$factory_data.factory_name}}: фабрика для получения контроллеров {{$factory_data.module}}
@@ -19,6 +19,7 @@
  * @subpackage {{$factory_data.module}}
  * @version 0.1
  */
+ 
 class {{$factory_data.factory_name}} extends simpleFactory
 {
     /**

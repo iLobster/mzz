@@ -127,8 +127,6 @@ class dbTreeNS
         // если поле не указано в init массиве выставляем поле id
         $this->dataID = isset($init['joinField']) ? $init['joinField'] : 'id';
         $this->accessorDataID = 'get' . ucfirst($this->dataID);
-
-
     }
 
     /**
@@ -220,6 +218,7 @@ class dbTreeNS
         }
         return substr($path, 0, -1);
     }
+
     /**
      * Обновление поля path в таблице данных
      *
@@ -234,7 +233,6 @@ class dbTreeNS
 
         return $path;
     }
-
 
     /**
      * Создание массива объектов из сырой выборки
@@ -273,7 +271,6 @@ class dbTreeNS
 
     }
 
-
     /**
      * Выборка узлов по критерию
      *
@@ -307,15 +304,14 @@ class dbTreeNS
 
             //джойним таблицу с данными как `data`
             $this->basisCriteria->addJoin($this->dataTable, new criterion('tree.' . $this->treeID, 'data.' . $this->dataID, criteria::EQUAL, true), 'data', criteria::JOIN_INNER);
-
         }
+
         // если деревьев несколько, то добавляем условие для их разделения
         if($this->isMultipleTree()) {
             $this->basisCriteria->add(new criterion('tree.' .$this->treeField, $this->treeFieldID, criteria::EQUAL));
         } else {
             //@toDo подумать, как избавится. Хак для того чтобы в обоих случаях было выражение WHERE
-            $this->basisCriteria->add( new criterion('id', 'tree.id', criteria::EQUAL, true));
-
+            $this->basisCriteria->add(new criterion('id', 'tree.id', criteria::EQUAL, true));
         }
 
         return clone $this->basisCriteria;
@@ -372,7 +368,6 @@ class dbTreeNS
         if($id instanceof simple) {
             $acsr = $this->accessorDataID;
             $id = $id->$acsr();
-
         }
 
         $query = 'SELECT * FROM `' . $this->table . '` `tree` WHERE `tree`.`id` = ' . $id.
@@ -593,7 +588,6 @@ class dbTreeNS
         } else {
             return null;
         }
-
     }
 
     /**
@@ -810,7 +804,6 @@ class dbTreeNS
                 $id_edit .= ($id_edit != '') ? ', ' : '';
                 $id_edit .= $row['id'];
             }
-
             if ( $node['rkey'] > $right_key_near ) {
                 $skew_edit = $right_key_near - $node['lkey'] + 1;
 
@@ -882,7 +875,7 @@ class dbTreeNS
                 }
 
                 $idSet = '(';
-                foreach ($movedBranch as $i => $node) {
+                foreach (array_keys($movedBranch) as $i) {
                     if ($i == $parentId || $i == $id) {
                         continue;
                     }

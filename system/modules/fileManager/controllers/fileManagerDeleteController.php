@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * fileManagerDeleteController: контроллер для метода delete модуля fileManager

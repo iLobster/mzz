@@ -1,15 +1,25 @@
 <?php
+/**
+ * $URL: http://svn.web/repository/mzz/system/modules/simple/simpleForTree.php $
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id: simpleForTree.php 580 2007-02-13 05:16:03Z zerkms $
+ */
 
-//
-// $Id: simple.php 1105 2006-11-07 08:22:14Z jonix $
-// $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/simple/simple.php $
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * simpleForTree
+ *
+ * @package modules
+ * @subpackage simple
+ * @version 0.1
+ */
+
 class simpleForTree extends simple
 {
     /**
@@ -29,7 +39,6 @@ class simpleForTree extends simple
         parent::__construct($map);
         $this->treeFields = new arrayDataspace();
     }
-
 
     /**
      * Экспортирует новые значения для измененных полей
@@ -100,7 +109,6 @@ class simpleForTree extends simple
     {
         $this->treeFields->set('lkey', $value);
     }
-
 }
 
 ?>

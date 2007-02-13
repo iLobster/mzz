@@ -74,6 +74,11 @@ class folderMapper extends simpleMapper
         return $this->searchOneByField('path', $path);
     }
 
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
+
     /**
      * Возвращает объекты, находящиеся в данной папке
      *
@@ -94,6 +99,19 @@ class folderMapper extends simpleMapper
     public function getFolders($id, $level = 1)
     {
         return $this->tree->getBranchContainingNode($id, $level);
+    }
+
+    public function getTreeExceptNode($folder)
+    {
+        $tree = $this->tree->getTree();
+
+        $subfolders = $this->tree->getBranch($folder);
+
+        foreach (array_keys($subfolders) as $val) {
+            unset($tree[$val]);
+        }
+
+        return $tree;
     }
 
     /**
@@ -137,11 +155,11 @@ class folderMapper extends simpleMapper
 
         // @toDo как то не так
         $removedFolders = $this->tree->getBranch($id);
-        if(count($removedFolders)) {
-            foreach($removedFolders as $folder) {
+        if (count($removedFolders)) {
+            foreach ($removedFolders as $folder) {
                 $folderFiles = $folder->getItems();
-                if(count($folderFiles)) {
-                    foreach($folderFiles as $news) {
+                if (count($folderFiles)) {
+                    foreach ($folderFiles as $news) {
                         $fileMapper->delete($news->getId());
                     }
                 }
@@ -149,6 +167,16 @@ class folderMapper extends simpleMapper
         }
 
         $this->tree->removeNode($id);
+    }
+
+    public function move($folder, $destFolder)
+    {
+        return $this->tree->moveNode($folder->getParent(), $destFolder->getParent());
+    }
+
+    public function getTreeParent($id)
+    {
+        return $this->tree->getParentNode($id);
     }
 }
 

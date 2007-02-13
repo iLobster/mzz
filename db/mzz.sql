@@ -150,7 +150,9 @@ CREATE TABLE `fileManager_folder` (
 
 INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
-  (2,'child','child_node',2,'root/child',197,1,'bmp');
+  (2,'child','child_node',2,'root/child',197,1,'bmp'),
+  (3,'q','q',3,'root/child/q',221,0,''),
+  (4,'z','z',4,'root/child/q/z',222,0,'');
 
 COMMIT;
 
@@ -176,8 +178,10 @@ CREATE TABLE `fileManager_folder_tree` (
 #
 
 INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,4,1),
-  (2,2,3,2);
+  (1,1,8,1),
+  (2,2,7,2),
+  (3,3,6,3),
+  (4,4,5,4);
 
 COMMIT;
 
@@ -1062,7 +1066,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (217,10),
   (218,10),
   (219,14),
-  (220,14);
+  (220,14),
+  (221,15),
+  (222,15);
 
 COMMIT;
 
@@ -1578,7 +1584,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (217),
   (218),
   (219),
-  (220);
+  (220),
+  (221),
+  (222);
 
 COMMIT;
 

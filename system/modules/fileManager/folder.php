@@ -21,9 +21,11 @@ fileLoader::load('simple/simpleForTree');
  * @subpackage fileManager
  * @version 0.1
  */
+
 class folder extends simpleForTree
 {
     protected $name = 'fileManager';
+    protected $mapper;
 
     /**
      * Конструктор
@@ -62,6 +64,11 @@ class folder extends simpleForTree
             $this->fields->set('folders', $this->mapper->getFolders($this->getParent(), $level));
         }
         return $this->fields->get('folders');
+    }
+
+    public function getTreeParent()
+    {
+        return $this->mapper->getTreeParent($this->getParent());
     }
 
     public function getJip()

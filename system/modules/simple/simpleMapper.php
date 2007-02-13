@@ -9,9 +9,8 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @package simple
  * @version $Id$
-*/
+ */
 
 fileLoader::load('db/sqlFunction');
 fileLoader::load('db/simpleSelect');
