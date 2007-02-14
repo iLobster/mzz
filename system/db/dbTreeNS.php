@@ -778,7 +778,10 @@ class dbTreeNS
             return false;
         }
 
-        $level_up = ($notRoot = $parentNode['level'] != 1 ) ? $parentNode['level'] : 0;
+        // @todo: разобраться почему было так
+        //$level_up = ($notRoot = $parentNode['level'] != 1 ) ? $parentNode['level'] : 0;
+        $level_up = $parentNode['level'];
+        $notRoot = true;
 
         $query = ($notRoot) ?
         "SELECT (`rkey` - 1) AS `rkey` FROM `" . $this->table . "` WHERE `id` = " . $parentId :

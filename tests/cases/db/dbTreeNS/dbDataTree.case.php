@@ -484,8 +484,6 @@ class dbTreeDataTest extends unitTestCase
     {
         $this->tree->moveNode(4, 6);
 
-
-
         $fixtureNewTree = array('1' => array('id'=>1, 'lkey'=>1 ,'rkey' =>16,'level'=>1),
         '2' => array('id'=>2, 'lkey'=>2 ,'rkey' =>9 ,'level'=>2),
         '5' => array('id'=>5, 'lkey'=>3 ,'rkey'=>4  ,'level'=>3),
@@ -510,7 +508,6 @@ class dbTreeDataTest extends unitTestCase
             $this->assertEqual($fixtureNewTree[$id]['lkey'], $node->getLeftKey());
             $this->assertEqual($fixtureNewTree[$id]['level'], $node->getLevel());
         }
-
     }
 
     public function testSwapNotExistNode()
