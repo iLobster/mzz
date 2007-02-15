@@ -53,11 +53,25 @@ class fileManagerUploadController extends simpleController
             $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
             $file = $fileMapper->searchOneByCriteria($criteria);
 
-            // получаем имя без расширения
-            $name_wo_ext = $name; $ext = '';
-            if ($dot = strrpos($name, '.')) {
-                $name_wo_ext = substr($name, 0, $dot);
-                $ext = substr($name, $dot + 1);
+            $exts = $folder->getExts();
+            $exts = explode(';', $exts);
+            array_map('trim', $exts);
+            usort($exts, create_function('$a,$b', 'return strlen($a) < strlen($b);'));
+
+            foreach ($exts as $ext) {
+                if (strlen($ext) + strrpos($name, $ext) == strlen($name)) {
+                    $name_wo_ext = substr($name, 0, -strlen($ext) - 1);
+                    break;
+                }
+            }
+
+            if (!isset($name_wo_ext)) {
+                // получаем имя без расширения
+                $name_wo_ext = $name; $ext = '';
+                if ($dot = strrpos($name, '.')) {
+                    $name_wo_ext = substr($name, 0, $dot);
+                    $ext = substr($name, $dot + 1);
+                }
             }
 
             if ($file) {
@@ -107,6 +121,7 @@ class fileManagerUploadController extends simpleController
                         $file = $fileMapper->create();
                         $file->setRealname($realname = md5(microtime(true)));
                         $file->setName($name);
+                        $file->setExt($ext);
                         $file->setSize($info['size']);
                         $file->setFolder($folder);
                         $fileMapper->save($file);
@@ -119,8 +134,6 @@ class fileManagerUploadController extends simpleController
 
                 return new simpleJipRefreshView();
             }
-
-            //$form->setElementError('name', 'Файл с таким именем в этой папке уже существует');
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

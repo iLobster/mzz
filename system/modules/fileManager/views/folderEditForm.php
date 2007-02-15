@@ -53,7 +53,7 @@ class folderEditForm
         $form->addElement('text', 'exts', 'Список разрешённых расширений (разделённых знаком ";"):', 'size="30"');
 
         $form->addRule('filesize', 'размер должен быть числовым', 'numeric');
-        $form->addRule('exts', 'недопустимые символы в расширении', 'regex', '/^[a-zа-я0-9_;\-! ]+$/i');
+        $form->addRule('exts', 'недопустимые символы в расширении', 'regex', '/^[a-zа-я0-9_;\-\.! ]+$/i');
         $form->addRule('name', 'недопустимые символы в имени', 'regex', '/^[a-zа-я0-9_\.\-! ]+$/i');
         $form->addRule('name', 'имя должно быть уникально в пределах каталога', 'isUniqueName', array($folder, $folderMapper));
 

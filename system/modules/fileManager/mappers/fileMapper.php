@@ -74,7 +74,7 @@ class fileMapper extends simpleMapper
      */
     protected function updateDataModify(&$fields)
     {
-        if (isset($fields['name'])) {
+        if (isset($fields['name']) && !isset($fields['ext'])) {
             $fields['ext'] = '';
             if (($dot = strrpos($fields['name'], '.')) !== false) {
                 $fields['ext'] = substr($fields['name'], $dot + 1);

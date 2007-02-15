@@ -94,6 +94,13 @@ class dbTreeNS
     private $mapper;
 
     /**
+     * »м€ акцессора в случае, если аргументами передаютс€ объекты simple
+     *
+     * @var string
+     */
+    private $accessorDataID;
+
+    /**
      *  онструктор
      *
      * @param array  $init        ƒанные о таблицах и св€зывающих пол€х array( data => mapper,  tree => array(table,id))
@@ -126,7 +133,6 @@ class dbTreeNS
         // данные о св€зывающем поле в таблице с данными (данные <-> дерево)
         // если поле не указано в init массиве выставл€ем поле id
         $this->dataID = isset($init['joinField']) ? $init['joinField'] : 'id';
-        $this->accessorDataID = 'get' . ucfirst($this->dataID);
     }
 
     /**
@@ -366,13 +372,16 @@ class dbTreeNS
     public function getNodeInfo($id)
     {
         if($id instanceof simple) {
-            $acsr = $this->accessorDataID;
-            $id = $id->$acsr();
+            if (empty($this->accessorDataID)) {
+                $map = $id->getMap();
+                $acsr = $map[$this->dataID]['accessor'];
+                $this->accessorDataID = $id->$acsr();
+            }
+            $id = $this->accessorDataID;
         }
 
         $query = 'SELECT * FROM `' . $this->table . '` `tree` WHERE `tree`.`id` = ' . $id.
         ($this->isMultipleTree() ? ' AND `tree`.`' . $this->treeField . '`= ' . $this->treeFieldID : '');
-        //echo "<pre>getNodeInfo "; var_dump($query); echo "</pre>";
 
         $stmt = $this->db->query($query);
 

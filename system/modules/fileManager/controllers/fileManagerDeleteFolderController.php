@@ -33,7 +33,7 @@ class fileManagerDeleteFolderController extends simpleController
             return 'каталог не найден';
         }
 
-        $folderMapper->remove($folder->getParent());
+        $folderMapper->remove($folder);
 
         return new simpleJipRefreshView();
     }
