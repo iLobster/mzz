@@ -66,7 +66,7 @@ class pageEditController extends simpleController
                 $page->setContent($values['contentArea']);
                 $page->setFolder($pageFolder);
                 $pageMapper->save($page);
-                $view = new simpleJipRefreshView();
+                $view = jipTools::redirect();
             }
             return $view;
         } else {

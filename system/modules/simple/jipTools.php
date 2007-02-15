@@ -49,9 +49,9 @@ class jipTools
      */
     static public function redirect($url = null)
     {
-        $html = '<script type="text/javascript"> window.location = ';
+        $html = '<script type="text/javascript"> var toUrl = ';
         $html .= (!empty($url)) ? '"' . $url . '"' : "new String(window.location).replace(window.location.hash, '')";
-        $html .= '; </script><p align="center"><span id="jipLoad">Обновление окна браузера...</span></p>';
+        $html .= '; window.location = (toUrl.substring(toUrl.length - 1) != "#") ? toUrl : toUrl.substring(0, toUrl.length - 1); </script><p align="center"><span id="jipLoad">Обновление окна браузера...</span></p>';
         return $html;
     }
 }

@@ -6,7 +6,7 @@
 {add file="jscalendar/calendar.js"}
 {add file="jscalendar/calendar-ru.js"}
 {add file="jscalendar/calendar-setup.js"}
-{add file="tiny_mce/tiny_mce_src.js"}
+{add file="tiny_mce/tiny_mce.js"}
 {/strip}
 <div id="jip_menu_{$jipMenuId}" class="jipMenu">
 <table border="0" cellpadding="3" cellspacing="0" class="jipItems">

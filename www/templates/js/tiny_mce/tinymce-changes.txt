@@ -70,17 +70,10 @@
 
 
 
-> replace line 1521:
+> replace line 1547:
 		if (tinyMCE.isRealIE && window.event.type == "readystatechange" && document.readyState != "complete")
 > to:
 		if (tinyMCE.isRealIE && (window.event && window.event.type == "readystatechange") && document.readyState != "complete")
-
------------------------ themes --------------------------------
-*themes/advanced/css/editor_ui.css
-> Line 52:
-.mceMenu {position: absolute; left: 0; top: 0; display: none; z-index: 100; background-color: white; border: 1px solid gray; font-weight: normal;}
-> To (изменяется только z-index в 100 раз):
-.mceMenu {position: absolute; left: 0; top: 0; display: none; z-index: 10000; background-color: white; border: 1px solid gray; font-weight: normal;}
 
 ---------------------- plugins --------------------------------
 *plugins/fullscreen/css/page.css
