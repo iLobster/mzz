@@ -6,6 +6,7 @@ div.jipClose {
   float: right;
   margin-top: 6px;
   margin-right: 4px;
+  height: 13px;
 }
 
 div.jipSuccess {
@@ -21,24 +22,26 @@ div.jipSuccess {
 .jipWindow {
     position: absolute;
     display: none;
-    border: 4px solid #B6B6B6;
+    border: 2px solid #999;
     z-index: 902;
     font-size:100%;
     padding: 3px;
     width: 70%;
     background-color: #FFFFFF;
-    overflow:auto;
-    min-width: 500px;
+    overflow: auto;
+    /*min-width: 500px;*/
     left: 15%;
     top: 100px;
 }
 
 .jipTitle {
-    font-size: 100%;
-    padding: 5px;
+    padding: 4px;
+    padding-left: 10px;
     font-weight: bold;
-    border: 1px solid #E6E6E6;
-    background-image: url('../images/jip_title_bg.png');
+    border-bottom: 1px solid #EAE197;
+    border-top: 1px solid #EAE197;
+    /*background: url('../images/jip/title_bg.png') repeat-x #fff;*/
+    background-color: #FFFFE1;
 }
 
 .jipLoadJs {
@@ -53,13 +56,15 @@ div.jipSuccess {
 }
 
 .jipMove {
-    background-position: left center;
-    width: 10px;
-    height: 16px;
-    background-image: url('../images/jip_title_move.png');
-    float: left;
-    background-repeat: no-repeat;
+    /*background-position: left center;*/
+    width: 13px;
+    height: 13px;
+    /*background-image: url('../images/jip/move.gif');*/
+    float: right;
+    /*background-repeat: no-repeat;*/
     cursor: move;
+    margin-right: 12px;
+    margin-top: 1px;
 }
 
 .jipMenu {

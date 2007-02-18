@@ -47,6 +47,8 @@ class newsEditController extends simpleController
 
             if ($form->validate() == false) {
                 $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+                $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
+                $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
                 $form->accept($renderer);
 
                 $this->smarty->assign('form', $renderer->toArray());
@@ -65,12 +67,16 @@ class newsEditController extends simpleController
                 if ($action == 'create') {
                     $news = $newsMapper->create();
                     $news->setFolder($folder->getId());
+                    $date = explode(' ', $values['created']);
+                    $time = explode(':', $date[0]);
+                    $date = explode('/', $date[1]);
+                    $created = mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
+                    $news->setCreated($created);
                 }
 
                 $news->setTitle($values['title']);
                 $news->setEditor($user);
                 $news->setText($values['text']);
-                $news->setCreated($values['created']);
                 $newsMapper->save($news);
 
                 $view = jipTools::redirect();

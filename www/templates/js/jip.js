@@ -150,7 +150,7 @@ mzzAjax.prototype = {
   {
     if(typeof(this.element) != 'undefined' && (typeof(transport.responseXML) != 'undefined' || typeof(transport.responseText) != 'undefined')){
         var element = this.element;
-        element.update("<div class='jipClose'><img alt='Закрыть' class='jip' width='16' height='16' src='" + SITE_PATH + "/templates/images/close.gif' onclick='javascript: jipWindow.close();' /></div>");
+        element.update('<div class="jipClose"><img class="jip" width="12" height="12" src="' + SITE_PATH + '/templates/images/jip/close.gif" onclick="javascript: jipWindow.close();" alt="Закрыть" title="Закрыть" /></div>');
         var tmp = '';
         var ctype = transport.getResponseHeader("content-type");
 
@@ -173,13 +173,15 @@ mzzAjax.prototype = {
             var jipTitle = document.getElementsByClassName('jipTitle').last();
             var jipMoveDiv = document.createElement('div');
             jipMoveDiv.id = 'jip-' + jipTitle.parentNode.id;
+            jipMoveDiv.setAttribute('title', 'Переместить');
             Element.extend(jipMoveDiv);
             jipMoveDiv.addClassName('jipMove');
+            jipMoveDiv.update('<img width="13" height="13" src="' + SITE_PATH + '/templates/images/jip/move.gif" alt="Переместить" title="Переместить" />');
             jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
             this.drag = new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
         }
 
-        element.innerHTML.evalScripts();
+        //element.innerHTML.evalScripts();
         buildJipLinks(element);
         //new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
     } else {
@@ -419,6 +421,7 @@ jipWindow.prototype = {
             this.currentWindow--;
         }
         this.jip = $('jip' + (currentWin));
+        var jipParent = this.jip.parentNode;
         //this.clean();
         if (this.redirectToAfterClose) {
             window.location = this.redirectToAfterClose;
@@ -430,6 +433,7 @@ jipWindow.prototype = {
         if(--this.windowCount == 0) {
             Event.stopObserving(document, "keypress", this.eventKeypress);
             this.unlockContent();
+            jipParent.removeChild(this.jip);
             this.jip = false;
             this.currentWindow = 0;
             this.stack = new Array();
@@ -640,6 +644,7 @@ Draggable.prototype = {
     if(this.active) {
       Cookie.set('jip_window_top', new Number(this.offsetTop) - new Number(document.documentElement.scrollTop), new Date(new Date().getTime() + 50000000000));
       Cookie.set('jip_window_left', this.offsetLeft, new Date(new Date().getTime() + 50000000000));
+      jipWindow.lockContent();
       this.finishDrag(event, true);
       Event.stop(event);
     }
@@ -684,7 +689,7 @@ Object.extend(Object.extend(Effect.HighlightBorder.prototype, Effect.Base.protot
   setup: function() {
     if(this.element.getStyle('display')=='none') { this.cancel(); return; }
     if(!this.options.endcolor)
-      this.options.endcolor = this.element.getStyle('border-color').parseColor('#B6B6B6');
+      this.options.endcolor = this.element.getStyle('border-color').parseColor('#999999');
     if(!this.options.restorecolor)
       this.options.restorecolor = this.element.getStyle('border-color');
     this._base  = $R(0,2).map(function(i){ return parseInt(this.options.startcolor.slice(i*2+1,i*2+3),16) }.bind(this));

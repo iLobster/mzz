@@ -201,3 +201,7 @@ table.list td {
   padding: 3px;
   margin: 5px;
 }
+
+.formErrorElement textarea, .formErrorElement input {
+    border: 2px solid red;
+}
