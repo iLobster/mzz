@@ -6,11 +6,11 @@ div.calendar { position: relative; z-index: 3000; }
 }
 
 .calendar, .calendar table {
-  border: 1px solid #556;
+  border: 1px solid #777;
   font-size: 11px;
   color: #000;
   cursor: default;
-  background: #eef;
+  background: #fff;
   font-family: tahoma,verdana,sans-serif;
 }
 
@@ -19,10 +19,12 @@ div.calendar { position: relative; z-index: 3000; }
 .calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
   text-align: center;    /* They are the navigation buttons */
   padding: 2px;          /* Make the buttons seem like they're pressing */
+  border-bottom: 1px solid #ddd;
 }
 
 .calendar .nav {
-  background: #778 url('../images/menuarrow.gif') no-repeat 100% 100%;
+  background: #fff url('../images/menuarrow.gif') no-repeat 100% 100%;
+  border-bottom: 1px solid #ddd;
 }
 
 .calendar thead .title { /* This holds the current "month, year" */
@@ -31,19 +33,20 @@ div.calendar { position: relative; z-index: 3000; }
   background: #fff;
   color: #000;
   padding: 2px;
+  border-bottom: 1px solid #ddd;
 }
 
 .calendar thead .headrow { /* Row <TR> containing navigation buttons */
-  background: #778;
-  color: #fff;
+  background: #fff;
+  color: #000;
 }
 
 .calendar thead .daynames { /* Row <TR> containing the day names */
-  background: #bdf;
+  background: #EFF9FC;
 }
 
 .calendar thead .name { /* Cells <TD> containing the day names */
-  border-bottom: 1px solid #556;
+  border-bottom: 1px solid #CBEAF3;
   padding: 2px;
   text-align: center;
   color: #000;
@@ -54,14 +57,14 @@ div.calendar { position: relative; z-index: 3000; }
 }
 
 .calendar thead .hilite { /* How do the buttons in header appear when hover */
-  background-color: #aaf;
+  background-color: #EFEFEF;
   color: #000;
-  border: 1px solid #04f;
+  /*border: 1px solid #04f;*/
   padding: 1px;
 }
 
 .calendar thead .active { /* Active (pressed) buttons in header */
-  background-color: #77c;
+  background-color: #E5E5E5;
   padding: 2px 0px 0px 2px;
 }
 
@@ -74,7 +77,7 @@ div.calendar { position: relative; z-index: 3000; }
   padding: 2px 4px 2px 2px;
 }
 .calendar tbody .day.othermonth {
-  font-size: 80%;
+  font-size: 90%;
   color: #bbb;
 }
 .calendar tbody .day.othermonth.oweekend {
@@ -83,16 +86,16 @@ div.calendar { position: relative; z-index: 3000; }
 
 .calendar table .wn {
   padding: 2px 3px 2px 2px;
-  border-right: 1px solid #000;
-  background: #bdf;
+  border-right: 1px solid #CBEAF3;
+  background: #EFF9FC;
 }
 
 .calendar tbody .rowhilite td {
-  background: #def;
+  background: #D9F2F9;
 }
 
 .calendar tbody .rowhilite td.wn {
-  background: #eef;
+  background: #BBE8F4;
 }
 
 .calendar tbody td.hilite { /* Hovered cells <TD> */
@@ -144,7 +147,7 @@ div.calendar { position: relative; z-index: 3000; }
 .calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
   background: #fff;
   color: #445;
-  border-top: 1px solid #556;
+  border-top: 1px solid #ddd;
   padding: 1px;
 }
 
@@ -170,7 +173,7 @@ div.calendar { position: relative; z-index: 3000; }
   width: 4em;
   cursor: default;
   border: 1px solid #655;
-  background: #def;
+  background: #fff;
   color: #000;
   font-size: 90%;
   z-index: 100;
@@ -191,17 +194,15 @@ div.calendar { position: relative; z-index: 3000; }
 }
 
 .calendar .combo .active {
-  border-top: 1px solid #46a;
-  border-bottom: 1px solid #46a;
-  background: #eef;
+  background: #E0E0E0;
   font-weight: bold;
 }
 
 .calendar td.time {
-  border-top: 1px solid #000;
+  border-top: 1px solid #ddd;
   padding: 1px 0px;
   text-align: center;
-  background-color: #f4f0e8;
+  background-color: #fff;
 }
 
 .calendar td.time .hour,

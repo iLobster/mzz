@@ -29,7 +29,7 @@ fileLoader::load('request/iRoute');
  *
  * @package system
  * @subpackage request
- * @version 0.1
+ * @version 0.1.1
  */
 class requestRoute implements iRoute
 {
@@ -134,7 +134,9 @@ class requestRoute implements iRoute
         }
 
         if ($debug) {
-            echo "pattern <font color=\"red\">" . $this->pattern . "</font> regex <font color=\"red\">" . $this->regex . "</font> with <font color=\"red\">" . $path . "</font> <br />\r\n";
+            echo '<span style="background-color: #D9F2FC; padding: 0 3px;">' . $this->pattern . '</span>, ';
+            echo '<span style="background-color: #FBDFDA; padding: 0 3px;">' . $this->regex . '</span>, ';
+            echo '<span style="background-color: #E5FBE2; padding: 0 3px;">' . $path . "</span><br />\r\n";
         }
 
         if (preg_match_all($this->regex, $path, $matches, PREG_SET_ORDER)) {

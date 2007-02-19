@@ -275,12 +275,13 @@ class HTML_QuickForm extends HTML_Common {
                 }
             } else {
                 $this->_submitValues = 'get' == $method? $_GET: $_POST;
-                $toolkit = systemToolkit::getInstance();
-                $request = $toolkit->getRequest();
-                if ($request->isAjax()) { 
-                    array_walk_recursive($this->_submitValues, array($request, 'decodeUTF8'));
-                }
                 $this->_submitFiles  = $_FILES;
+            }
+
+            $toolkit = systemToolkit::getInstance();
+            $request = $toolkit->getRequest();
+            if ($request->isAjax()) {
+                array_walk_recursive($this->_submitValues, array($request, 'decodeUTF8'));
             }
             $this->_flagSubmitted = count($this->_submitValues) > 0 || count($this->_submitFiles) > 0;
         }

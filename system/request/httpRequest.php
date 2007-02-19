@@ -28,7 +28,7 @@ fileLoader::load('request/iRequest');
  *
  * @package system
  * @subpackage request
- * @version 0.7.1
+ * @version 0.7.2
  */
 
 define('SC_GET', 1);
@@ -159,6 +159,9 @@ class httpRequest implements iRequest
         $validTypes = array('array', 'integer', 'boolean', 'string');
         if (gettype($result) == 'array' && $type != 'array') {
             $result = array_shift($result);
+            if (!is_scalar($result)) {
+                $result = null;
+            }
         }
 
         if (gettype($result) != $type && in_array($type, $validTypes)) {
@@ -348,39 +351,54 @@ class httpRequest implements iRequest
      */
     public function decodeUTF8(&$value)
     {
-        static $table = array();
-
-        if (empty($table)) {
-            for ($i = 0x100; $i--;) {
-                if (function_exists('iconv')) {
-                    if ('' !== $c = iconv('windows-1251','UTF-32BE//IGNORE',chr($i))) {
-                        $table[$c] = chr($i);
+        $max_count = 5;
+        $max_mark = 248;
+        $html = '';
+        for ($str_pos = 0; $str_pos < strlen($value); $str_pos++) {
+            $old_chr = $value[$str_pos];
+            $old_val = ord($value[$str_pos]);
+            $new_val = 0;
+            $utf8_marker = 0;
+            if ($old_val > 127) {
+                $mark = $max_mark;
+                for ($byte_ctr = $max_count; $byte_ctr > 2; $byte_ctr--) {
+                    if (($old_val & $mark) == (($mark << 1) & 255)) {
+                        $utf8_marker = $byte_ctr - 1;
+                        break;
                     }
-                } elseif (function_exists('mb_convert_encoding')) {
-                    if ('?' !== $c = mb_convert_encoding(chr($i),'UTF-32BE', 'windows-1251')) {
-                        $table[$c] = chr($i);
-                    }
-                } else {
-                    throw new mzzRuntimeException('Value could not be converted from UTF-8');
+                    $mark = ($mark << 1) & 255;
                 }
             }
-        }
-
-        if (function_exists('iconv')) {
-            $str = iconv('UTF-8', 'UTF-32BE', $value);
-        } elseif (function_exists('mb_convert_encoding')) {
-            $str = mb_convert_encoding($value, 'UTF-32BE', 'UTF-8');
-        }
-        $result = '';
-        $len = strlen($str);
-        for ($i = 0; $i < $len; $i += 4) {
-            if (isset($table[$s = substr($str, $i, 4)])) {
-               $result .= $table[$s];
-            } else {
-               $result .= '&#'.hexdec(bin2hex($s)).';';
+            if ($utf8_marker > 1 && isset($value[$str_pos + 1])) {
+                $str_off = 0;
+                $new_val = $old_val & (127 >> $utf8_marker);
+                for ($byte_ctr = $utf8_marker; $byte_ctr > 1; $byte_ctr--) {
+                    if ((ord($value[$str_pos + 1]) & 192) == 128) {
+                        $new_val = $new_val << 6;
+                        $str_off++;
+                        $new_val = $new_val | (ord($value[$str_pos + $str_off]) & 63);
+                    }
+                    else {
+                        $new_val = $old_val;
+                    }
+                }
+                if ($new_val == 1025) {
+                    $html .= chr(168);
+                } elseif ($new_val == 1105) {
+                    $html .= chr(184);
+                } elseif (1040 <= $new_val and $new_val <= 1103) {
+                    $html .= chr($new_val - 848);
+                } else {
+                    $html .= '&#'.$new_val.';';
+                }
+                $str_pos = $str_pos + $str_off;
+            }
+            else {
+                $html .= chr($old_val);
+                $new_val = $old_val;
             }
         }
-        $value = $result;
+        $value = $html;
         return $value;
     }
 }
