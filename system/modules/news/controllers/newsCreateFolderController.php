@@ -19,8 +19,9 @@ fileLoader::load('news/views/newsCreateFolderForm');
  *
  * @package modules
  * @subpackage news
- * @version 0.1
+ * @version 0.1.1
  */
+ 
 class newsCreateFolderController extends simpleController
 {
     public function getView()
@@ -96,8 +97,7 @@ class newsCreateFolderController extends simpleController
                 $view = new simpleJipRefreshView();
             }
         } else {
-            fileLoader::load('news/views/news404View');
-            $view = new news404View();
+            $view = $this->get404()->getView();
         }
 
         return $view;

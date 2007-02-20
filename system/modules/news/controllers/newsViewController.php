@@ -17,8 +17,9 @@
  *
  * @package modules
  * @subpackage news
- * @version 0.1
+ * @version 0.1.1
  */
+
 class newsViewController extends simpleController
 {
     public function getView()
@@ -41,10 +42,9 @@ class newsViewController extends simpleController
             $this->smarty->assign('news', $news);
             $this->response->setTitle('Новости -> Просмотр -> ' . $news->getTitle());
             return $this->smarty->fetch('news/view.tpl');
-        } else {
-            fileLoader::load('news/views/news404View');
-            return new news404View();
         }
+
+        return $newsMapper->get404()->getView();
     }
 }
 

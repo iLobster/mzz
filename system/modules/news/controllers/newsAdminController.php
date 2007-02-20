@@ -17,8 +17,9 @@
  *
  * @package modules
  * @subpackage news
- * @version 0.1
+ * @version 0.1.1
  */
+ 
 class newsAdminController extends simpleController
 {
     public function getView()
@@ -37,10 +38,9 @@ class newsAdminController extends simpleController
             $this->smarty->assign('news', $newsFolder->getItems());
             $this->smarty->assign('newsFolder', $newsFolder);
             return $this->smarty->fetch('news/admin.tpl');
-        } else {
-            fileLoader::load('news/views/news404View');
-            return new news404View();
-        }
+        } 
+        
+        return $this->get404()->getView();
     }
 }
 

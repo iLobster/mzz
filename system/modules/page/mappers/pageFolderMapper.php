@@ -99,7 +99,7 @@ class pageFolderMapper extends simpleMapper
      */
     public function searchByPath($path)
     {
-        return $this->searchOneByField('path', $path);
+        return $this->tree->getNodeByPath($path);
     }
 
     /**

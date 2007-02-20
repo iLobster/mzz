@@ -56,11 +56,16 @@ class fileMapper extends simpleMapper
         $path = urldecode($path);
 
         if (strpos($path, '/') !== false) {
-            $folder = substr($path, 0, strrpos($path, '/'));
+            $folderName = substr($path, 0, strrpos($path, '/'));
             $pagename = substr(strrchr($path, '/'), 1);
 
+            $toolkit = systemToolkit::getInstance();
+            $folderMapper = $toolkit->getMapper('fileManager', 'folder');
+
+            $folder = $folderMapper->searchByPath($folderName);
+
             $criteria = new criteria();
-            $criteria->add('name', $pagename)->add('folder_id.path', $folder);
+            $criteria->add('name', $pagename)->add('folder_id', $folder->getId());
             return $this->searchOneByCriteria($criteria);
         }
 

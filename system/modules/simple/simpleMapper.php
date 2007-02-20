@@ -21,7 +21,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.1
+ * @version 0.3.2
  */
 
 abstract class simpleMapper
@@ -887,6 +887,19 @@ abstract class simpleMapper
                 }
             }
         }
+    }
+
+    /**
+     * Метод для возврата контроллера, обрабатывающего ошибку 404
+     *
+     * @return simpleController
+     *
+     * @todo подумать - насколько это плохо
+     */
+    public function get404()
+    {
+        fileLoader::load('simple/simple404Controller');
+        return new simple404Controller();
     }
 
     /**

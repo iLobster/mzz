@@ -14,7 +14,7 @@
  *
  * @package modules
  * @subpackage news
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 fileLoader::load('news');
@@ -82,7 +82,18 @@ class newsMapper extends simpleMapper
     public function convertArgsToId($args)
     {
         $news = $this->searchOneByField('id', $args['id']);
-        return (int)$news->getObjId();
+
+        if ($news) {
+            return (int)$news->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
+    }
+
+    public function get404()
+    {
+        fileLoader::load('news/controllers/news404Controller');
+        return new news404Controller();
     }
 }
 

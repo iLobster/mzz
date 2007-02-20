@@ -70,15 +70,20 @@ function smarty_function_load($params, $smarty)
         $mappername = $action->getType() . 'Mapper';
         $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
 
-        $object_id = $mapper->convertArgsToId($request->getParams());
-        $acl = new acl($toolkit->getUser(), $object_id);
+        try {
+            $object_id = $mapper->convertArgsToId($request->getParams());
 
-        $actionName = $action->getActionName(true);
+            $acl = new acl($toolkit->getUser(), $object_id);
 
-        //var_dump($actionName); var_dump($object_id);
+            $actionName = $action->getActionName(true);
 
-        $access = $acl->get($actionName);
+            //var_dump($actionName); var_dump($object_id);
 
+            $access = $acl->get($actionName);
+
+        } catch (mzzDONotFoundException $e) {
+            $controller = $mapper->get404();
+        }
     }
 
     if (isset($params['403handle']) && $params['403handle'] == 'manual') {
@@ -88,6 +93,9 @@ function smarty_function_load($params, $smarty)
 
     if ($access) {
         $factory = new $modulename($action);
+        if (!isset($controller)) {
+            $controller = $factory->getController();
+        }
     } else {
         if (!isset($params['403tpl'])) {
             $request->setSection('page');
@@ -106,7 +114,6 @@ function smarty_function_load($params, $smarty)
         }
     }
 
-    $controller = $factory->getController();
     $view = $controller->getView();
 
     if ($view instanceof simpleView) {

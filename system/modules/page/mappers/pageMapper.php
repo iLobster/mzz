@@ -91,7 +91,12 @@ class pageMapper extends simpleMapper
         if (!isset($page)) {
             $page = $this->searchOneByField('name', $args['name']);
         }
-        return (int)$page->getObjId();
+
+        if ($page) {
+            return (int)$page->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 

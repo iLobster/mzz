@@ -19,8 +19,9 @@ fileLoader::load('news/views/newsEditForm');
  *
  * @package modules
  * @subpackage news
- * @version 0.1
+ * @version 0.1.1
  */
+ 
 class newsEditController extends simpleController
 {
     public function getView()
@@ -82,10 +83,9 @@ class newsEditController extends simpleController
                 $view = jipTools::redirect();
             }
             return $view;
-        } else {
-            fileLoader::load('news/views/news404View');
-            return new news404View();
         }
+        
+        return $this->get404()->getView();
     }
 }
 

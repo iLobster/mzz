@@ -17,8 +17,9 @@
  *
  * @package modules
  * @subpackage news
- * @version 0.1
+ * @version 0.1.1
  */
+ 
 class newsListController extends simpleController
 {
     public function getView()
@@ -44,10 +45,9 @@ class newsListController extends simpleController
             $this->response->setTitle('Новости -> Список');
 
             return $this->smarty->fetch('news/list.tpl');
-        } else {
-            fileLoader::load('news/views/news404View');
-            return new news404View();
         }
+        
+        return $this->get404()->getView();
     }
 
     private function getPageNumber()

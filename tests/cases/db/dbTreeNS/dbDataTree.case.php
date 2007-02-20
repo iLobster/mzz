@@ -75,14 +75,21 @@ class dbTreeDataTest extends unitTestCase
         switch($this->fixtureType) {
             case 'treeFixture' : $fix =  $this->treeFixture; break;
             case 'dataFixture' : $fix =  $this->dataFixture; break;
-
         }
+
         if(!is_array($idArray)) {
             $idArray = range(1,8);
         }
 
         foreach($idArray as $id) {
             $fixture[$id] = $fix[$id];
+        }
+
+        // убираем имя корневого элемента из path
+        foreach ($fixture as $key => $val) {
+            if ($key != 1) {
+                $fixture[$key]['path'] = substr($val['path'], strpos($val['path'], '/') + 1);
+            }
         }
 
         return $fixture;
@@ -175,7 +182,6 @@ class dbTreeDataTest extends unitTestCase
         $this->assertEqualFixtureAndBranch($fixtureDataTree, $tree);
     }
 
-
     public function testGetBranch()
     {
         $branch = $this->tree->getBranch($id = 1, $level = 1);
@@ -232,6 +238,7 @@ class dbTreeDataTest extends unitTestCase
 
     public function testGetOneLevelBranchByPath_WithPathCorrect()
     {
+        $paths[] = 'foo3';
         $paths[] = '/foo1///foo3/';
         $paths[] = 'foo1//foo3/not_exist';
         $paths[] = '/foo1/foo3';
@@ -267,7 +274,6 @@ class dbTreeDataTest extends unitTestCase
         }
     }
 
-
     public function testCreateNewPaths_AfterInsertNewNode()
     {
         //@toDo а почему регистрация автоматическая не работает при $this->mapper->save($newNode)?
@@ -292,7 +298,6 @@ class dbTreeDataTest extends unitTestCase
         $this->assertEqual($fixture['foo'], $newNode->getFoo());
     }
 
-
     public function testCreateNewPaths_AfterInsertRootNode()
     {
         $fixture = array('foo' => 'rootFoo', 'bar' => 'rootBar');
@@ -313,22 +318,22 @@ class dbTreeDataTest extends unitTestCase
 
         $this->assertEqual(count($fixtureTree) + 1, ($newRootNode->getRightKey())/2);
 
-
         foreach($fixtureTree as $i => $node) {
-            $fixtureTree[$i]['path'] = $fixture['foo'] . '/' . $fixtureTree[$i]['path'];
+            if ($i != 1) {
+                $fixtureTree[$i]['path'] = 'foo1/' . $fixtureTree[$i]['path'];
+            }
             $this->assertEqual($newTree[$i]->getPath(), $fixtureTree[$i]['path']);
             $this->assertEqual($newTree[$i]->getFoo(), $fixtureTree[$i]['foo']);
             $this->assertEqual($newTree[$i]->getBar(), $fixtureTree[$i]['bar']);
         }
     }
 
-
     public function testCreateNewPaths_AfterMoveNode()
     {
-        $newTreePathFixture = array(1 => 'foo1', 2 => 'foo1/foo4/foo2',
-        3 => 'foo1/foo3', 4 => 'foo1/foo4',
-        5 => 'foo1/foo4/foo2/foo5', 6 => 'foo1/foo4/foo2/foo6',
-        7 => 'foo1/foo3/foo7', 8 => 'foo1/foo3/foo8');
+        $newTreePathFixture = array(1 => 'foo1', 2 => 'foo4/foo2',
+        3 => 'foo3', 4 => 'foo4',
+        5 => 'foo4/foo2/foo5', 6 => 'foo4/foo2/foo6',
+        7 => 'foo3/foo7', 8 => 'foo3/foo8');
 
         $this->tree->moveNode(2,4);
         $newTree = $this->tree->getTree();
@@ -337,7 +342,6 @@ class dbTreeDataTest extends unitTestCase
             $this->assertEqual($newTree[$i]->getPath(), $newTreePathFixture[$i]);
         }
     }
-
 
     public function testRemoveNodeAndRemoveRecordsInDataTable()
     {
@@ -530,7 +534,6 @@ class dbTreeDataTest extends unitTestCase
             $this->assertEqual($this->tree->getNodeInfo($id), $node);
         }
     }
-
 }
 
 

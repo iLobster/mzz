@@ -22,5 +22,6 @@ fileLoader::load('exceptions/mzzSystemException');
 fileLoader::load('exceptions/mzzIoException');
 fileLoader::load('exceptions/mzzCallbackException');
 fileLoader::load('exceptions/mzzInvalidParameterException');
+fileLoader::load('exceptions/mzzDONotFoundException');
 
 ?>

@@ -218,8 +218,10 @@ class dbTreeNS
         }
 
         $path = '';
+
         foreach ($parentBranch as $node) {
-            $fieldAccessor = 'get' . ucfirst($this->getInnerField());
+            $map = $node->getMap();
+            $fieldAccessor = $map[$this->getInnerField()]['accessor'];
             $path .= $node->$fieldAccessor() . '/';
         }
         return substr($path, 0, -1);
@@ -246,11 +248,11 @@ class dbTreeNS
      * @param array $stmt   Выполненный стэйтмент
      * @return array of simple object
      */
-    protected function createBranchFromRow($stmt)
+    protected function createBranchFromRow($stmt, $noRootName = false)
     {
         $branch = array();
         while ($row = $stmt->fetch()) {
-            $branch[$row[$this->dataID]] = $this->createItemFromRow($row);
+            $branch[$row[$this->dataID]] = $this->createItemFromRow($row, $noRootName);
         }
 
         if (!empty($branch)) {
@@ -266,15 +268,17 @@ class dbTreeNS
      * @param array $row Массив с данными о полях и их значениях
      * @return object simple
      */
-    protected function createItemFromRow($row)
+    protected function createItemFromRow($row, $noRootName = false)
     {
         $do = $this->mapper->createItemFromRow($row);
         $do->setLevel($row['level']);
         $do->setRightKey($row['rkey']);
         $do->setLeftKey($row['lkey']);
+        if (!$noRootName) {
+            $do->setRootName($this->getRootName());
+        }
 
         return $do;
-
     }
 
     /**
@@ -317,6 +321,7 @@ class dbTreeNS
             $this->basisCriteria->add(new criterion('tree.' .$this->treeField, $this->treeFieldID, criteria::EQUAL));
         } else {
             //@toDo подумать, как избавится. Хак для того чтобы в обоих случаях было выражение WHERE
+            //зачем??
             $this->basisCriteria->add(new criterion('id', 'tree.id', criteria::EQUAL, true));
         }
 
@@ -345,7 +350,7 @@ class dbTreeNS
      * @param  int     $level   Уровень выборки дерева, по умолчанию все дерево
      * @return array
      */
-    public function getTree($level = 0)
+    public function getTree($level = 0, $noRootName = false)
     {
         $criteria = $this->getBasisCriteria();
 
@@ -360,7 +365,7 @@ class dbTreeNS
         $select = new simpleSelect($criteria);
         $stmt = $this->db->query($select->toString());
 
-        return $this->createBranchFromRow($stmt);
+        return $this->createBranchFromRow($stmt, $noRootName);
     }
 
     /**
@@ -515,6 +520,30 @@ class dbTreeNS
         return false;
     }
 
+    private function getRootName()
+    {
+        $root = array_pop($this->getTree(1, true));
+        $map = $root->getMap();
+        $accessor = $map[$this->getInnerField()]['accessor'];
+        return $root->$accessor();
+    }
+
+    public function getNodeByPath($path)
+    {
+        $node = $this->getLongestNodeByPath($path);
+
+
+        $stmt = $this->db->prepare($this->getBasisQuery() .
+        ' AND `lkey` = :lkey');
+
+        $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return current($this->createBranchFromRow($stmt));
+        }
+        return false;
+    }
+
     /**
      * Выборка ветки(нижележащих узлов) на основе пути до верхнего узла ветки
      *
@@ -524,6 +553,37 @@ class dbTreeNS
      */
     public function getBranchByPath($path, $deep = 1)
     {
+        $lastNode = $this->getLongestNodeByPath($path);
+
+        // выборка без исходного узла
+        $stmt = $this->getBranchStmt(false);
+
+        $stmt->bindParam(':lkey', $lastNode['lkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':rkey', $lastNode['rkey'], PDO::PARAM_INT);
+        $stmt->bindParam(':high_level', $lastNode['level'], PDO::PARAM_INT);
+        $stmt->bindParam(':level', $level = $lastNode['level'] + $deep, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return $this->createBranchFromRow($stmt);
+        }
+        return false;
+    }
+
+    private function getLongestNodeByPath($path)
+    {
+        // нормализуем путь
+        $path = preg_replace('#/+#', '/', $path);
+        if (strpos($path, '/') === 0) {
+            $path = substr($path, 1);
+        }
+
+        $rootName = $this->getRootName();
+
+        if (strpos($path, $rootName) !== 0) {
+            $path = $rootName . '/' . $path;
+        }
+
+
         if ($this->correctPathMode) {
             // убираем части пути несуществующие в таблице
             $rewritedPath = $this->getPathVariants($path);
@@ -550,25 +610,13 @@ class dbTreeNS
         }
 
         $query = substr($query, 0, -6) ;
+
         $stmt = $this->db->query($query);
 
         $existNodes = $stmt->fetchAll();
 
         // берем самый длинный существующий путь
-        $lastNode = array_pop($existNodes);
-
-        // выборка без исходного узла
-        $stmt = $this->getBranchStmt(false);
-
-        $stmt->bindParam(':lkey', $lastNode['lkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':rkey', $lastNode['rkey'], PDO::PARAM_INT);
-        $stmt->bindParam(':high_level', $lastNode['level'], PDO::PARAM_INT);
-        $stmt->bindParam(':level', $level = $lastNode['level'] + $deep, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            return $this->createBranchFromRow($stmt);
-        }
-        return false;
+        return array_pop($existNodes);
     }
 
     /**
@@ -700,7 +748,6 @@ class dbTreeNS
         ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' '));
 
         return $newRootNode;
-
     }
 
     /**
@@ -878,7 +925,7 @@ class dbTreeNS
             // обновление путей в таблице данных
             if ($this->dataTable) {
                 $movedBranch = $this->getBranch($parentId);
-                $oldPathToRootNodeOfBranch = $movedBranch[$id]->getPath();
+                $oldPathToRootNodeOfBranch = $movedBranch[$id]->getPath(false);
                 $newPathToRootNodeOfBranch = $this->updatePath($id);
 
                 // если переместили один элемент под узел нижнего уровня, то обновлять пути не надо
