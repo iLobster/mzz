@@ -386,8 +386,10 @@ class httpRequest implements iRequest
                     $html .= chr(168);
                 } elseif ($new_val == 1105) {
                     $html .= chr(184);
-                } elseif (1040 <= $new_val and $new_val <= 1103) {
+                } elseif (1040 <= $new_val && $new_val <= 1103) {
                     $html .= chr($new_val - 848);
+                } elseif ($new_val < 256 && chr($old_val) == ($chr = chr($new_val))) {
+                    $html .= $chr;
                 } else {
                     $html .= '&#'.$new_val.';';
                 }
