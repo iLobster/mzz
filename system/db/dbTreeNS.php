@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.9
+ * @version 0.9.1
 */
 
 fileLoader::load('db/sqlFunction');
@@ -532,14 +532,16 @@ class dbTreeNS
     {
         $node = $this->getLongestNodeByPath($path);
 
-
         $stmt = $this->db->prepare($this->getBasisQuery() .
         ' AND `lkey` = :lkey');
 
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            return current($this->createBranchFromRow($stmt));
+            $result = $this->createBranchFromRow($stmt);
+            if (is_array($result) && sizeof($result)) {
+                return current($result);
+            }
         }
         return false;
     }

@@ -135,7 +135,11 @@ class folderMapper extends simpleMapper
     public function convertArgsToId($args)
     {
         $folder = $this->searchByPath($args['name']);
-        return (int)$folder->getObjId();
+        if ($folder) {
+            return (int)$folder->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 
     /**

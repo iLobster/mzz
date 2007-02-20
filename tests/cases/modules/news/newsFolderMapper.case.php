@@ -142,14 +142,12 @@ class newsFolderMapperTest extends unitTestCase
         }
     }
 
-
     public function testSearchByName()
     {
         $this->fixture($this->mapper, $this->map);
         $this->assertIsA($newsFolder = $this->mapper->searchByName('name1'), 'newsFolder');
         $this->assertIdentical($newsFolder->getId(), '1');
     }
-
 
     public function testUpdate()
     {
@@ -208,16 +206,14 @@ class newsFolderMapperTest extends unitTestCase
         return $this->db->getOne($query);
     }
 
-
     public function testConvertArgsToId()
     {
-        $this->db->query("INSERT INTO `news_newsFolder` (`obj_id`, `path`) VALUES (666, 'some/path')");
+        $this->fixture($this->mapper, $this->map);
 
-        $newsFolder = $this->mapper->searchByPath('some/path');
+        $newsFolder = $this->mapper->searchByPath($name = 'name1/name2');
 
-        $this->assertEqual($this->mapper->convertArgsToId(array('name' => 'some/path')), $newsFolder->getObjId());
+        $this->assertEqual($this->mapper->convertArgsToId(array('name' => $name)), $newsFolder->getObjId());
     }
-
 
     private function fixture($mapper, $map)
     {
@@ -231,7 +227,6 @@ class newsFolderMapperTest extends unitTestCase
             $this->fixtureNewsFolder[$newsFolder->getId()] = $newsFolder;
         }
     }
-
 }
 
 ?>

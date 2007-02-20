@@ -113,7 +113,11 @@ class fileMapper extends simpleMapper
         if (!isset($file)) {
             $file = $this->searchOneByField('name', $args['name']);
         }
-        return (int)$file->getObjId();
+        if ($file) {
+            return (int)$file->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 

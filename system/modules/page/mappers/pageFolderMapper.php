@@ -185,7 +185,11 @@ class pageFolderMapper extends simpleMapper
         }
 
         $pageFolder = $this->searchByPath($args['name']);
-        return (int)$pageFolder->getObjId();
+        if ($pageFolder) {
+            return (int)$pageFolder->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 

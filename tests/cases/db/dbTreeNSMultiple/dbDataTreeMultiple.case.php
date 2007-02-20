@@ -336,8 +336,8 @@ class dbTreeDataMultipleTest extends unitTestCase
         $fixture[2] = array('bar' => 'newBar2', 'foo' => 'newFoo2');
         $parentNodeFixture[1] = 4;
         $parentNodeFixture[2] = 14;
-        $pathFixture[1] = 'foo1/foo4/newFoo1';
-        $pathFixture[2] = 'foo9/foo11/foo14/newFoo2';
+        $pathFixture[1] = 'foo4/newFoo1';
+        $pathFixture[2] = 'foo11/foo14/newFoo2';
 
         foreach(range(1,2)  as $some_id){
             $this->tree->setTree($some_id);

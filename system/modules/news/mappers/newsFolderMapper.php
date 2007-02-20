@@ -107,8 +107,6 @@ class newsFolderMapper extends simpleMapper
     public function searchByPath($path)
     {
         return $this->tree->getNodeByPath($path);
-
-        //return $this->searchOneByField('path', $path);
     }
 
     /**
@@ -190,7 +188,11 @@ class newsFolderMapper extends simpleMapper
     public function convertArgsToId($args)
     {
         $newsFolder = $this->searchByPath($args['name']);
-        return (int)$newsFolder->getObjId();
+        if ($newsFolder) {
+            return (int)$newsFolder->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 

@@ -158,13 +158,18 @@ class userMapper extends simpleMapper
             } else {
                 $user = $this->searchById($args['id']);
             }
-            return (int)$user->getObjId();
-        } else {
-            $toolkit = systemToolkit::getInstance();
-            $obj_id = $toolkit->getObjectId($this->section . '_userFolder');
-            $this->register($obj_id);
-            return $obj_id;
+            if ($user) {
+                return (int)$user->getObjId();
+            }
+
+            throw new mzzDONotFoundException();
         }
+
+        $toolkit = systemToolkit::getInstance();
+        $obj_id = $toolkit->getObjectId($this->section . '_userFolder');
+        $this->register($obj_id);
+        return $obj_id;
+
 
         /*elseif (isset($args[0])) {
         $user = $this->searchById($args[0]);

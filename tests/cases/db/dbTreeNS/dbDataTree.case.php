@@ -291,7 +291,7 @@ class dbTreeDataTest extends unitTestCase
         // добавляем в структуру дерева новый узел
         $newNode = $this->tree->insertNode(3, $newNode);
 
-        $pathFixture = 'foo1/foo3/newFoo';
+        $pathFixture = 'foo3/newFoo';
 
         $this->assertEqual($pathFixture, $newNode->getPath());
         $this->assertEqual($fixture['bar'], $newNode->getBar());

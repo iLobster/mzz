@@ -84,7 +84,11 @@ class commentsFolderMapper extends simpleMapper
             $this->save($comment, $owner);
         }
 
-        return $comment->getObjId();
+        if ($comment) {
+            return $comment->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 

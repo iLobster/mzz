@@ -66,9 +66,12 @@ class groupMapper extends simpleMapper
             return $obj_id;
         }
 
-        //return 1;
         $group = $this->searchOneByField('id', $args['id']);
-        return (int)$group->getObjId();
+        if ($group) {
+            return (int)$group->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 
 }

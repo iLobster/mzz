@@ -61,7 +61,11 @@ class commentsMapper extends simpleMapper
     public function convertArgsToId($args)
     {
         $comment = $this->searchOneByField('id', $args['id']);
-        return $comment->getObjId();
+        if ($comment) {
+            return $comment->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 
