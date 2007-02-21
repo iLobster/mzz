@@ -76,15 +76,20 @@ class newsFolder extends simpleForTree
      * @return array
      * @toDo надо newsMapper подт€гивать, а надо ли это?
      */
-/*    public function removeContents()
+    /*    public function removeContents()
     {
-        $items = $this->getItems();
-        $this->fields->set('items', null);
+    $items = $this->getItems();
+    $this->fields->set('items', null);
 
-        foreach($items as $item) {
-            $this->mapper->delete($item->getId());
-        }
+    foreach($items as $item) {
+    $this->mapper->delete($item->getId());
+    }
     }*/
+
+    public function getTreeParent()
+    {
+        return $this->mapper->getTreeParent($this->getParent());
+    }
 
     /**
      * установка объекта пейджера в маппере

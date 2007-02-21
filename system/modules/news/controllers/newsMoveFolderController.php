@@ -12,41 +12,42 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/views/folderMoveForm');
+fileLoader::load('news/views/newsFolderMoveForm');
 
 /**
- * fileManagerMoveFolderController: контроллер для метода moveFolder модуля fileManager
+ * newsMoveFolderController: контроллер для метода moveFolder модуля news
  *
  * @package modules
- * @subpackage fileManager
+ * @subpackage news
  * @version 0.1
  */
 
-class fileManagerMoveFolderController extends simpleController
+class newsMoveFolderController extends simpleController
 {
     public function getView()
     {
-        $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
+        $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
         $path = $this->request->get('name', 'string', SC_PATH);
 
-        $folder = $folderMapper->searchByPath($path);
+        $folder = $newsFolderMapper->searchByPath($path);
         if (!$folder) {
             return 'каталог не найден';
         }
 
-        $folders = $folderMapper->getTreeExceptNode($folder);
+        $folders = $newsFolderMapper->getTreeExceptNode($folder);
 
         if (sizeof($folders) <= 1) {
             return 'Невозможно перемещать данный каталог';
         }
 
-        $form = folderMoveForm::getForm($folder, $folders);
+        $form = newsFolderMoveForm::getForm($folder, $folders);
 
         if ($form->validate()) {
             $values = $form->exportValues();
 
             if (isset($values['dest'])) {
-                $destFolder = $folderMapper->searchById($values['dest']);
+                $destFolder = $newsFolderMapper->searchByParentId($values['dest']);
+
                 if (!$destFolder) {
                     return 'каталог назначения не найден';
                 }
@@ -55,9 +56,9 @@ class fileManagerMoveFolderController extends simpleController
                     return 'Нельзя перенести каталог во вложенные каталоги';
                 }
 
-                $duplicate = $folderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
+                $duplicate = $newsFolderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
                 if (!$duplicate) {
-                    $result = $folderMapper->move($folder, $destFolder);
+                    $result = $newsFolderMapper->move($folder, $destFolder);
 
                     if ($result) {
                         return jipTools::redirect();
@@ -77,7 +78,7 @@ class fileManagerMoveFolderController extends simpleController
         $this->smarty->assign('form', $renderer->toArray());
         $this->smarty->assign('folder', $folder);
         $this->smarty->assign('folders', $folders);
-        return $this->smarty->fetch('fileManager/moveFolder.tpl');
+        return $this->smarty->fetch('news/moveFolder.tpl');
     }
 }
 

@@ -62,6 +62,11 @@ class newsFolderMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
+    public function searchByParentId($id)
+    {
+        return $this->searchOneByField('parent', $id);
+    }
+
     /**
      * Выполняет поиск объекта по имени
      *
@@ -172,6 +177,19 @@ class newsFolderMapper extends simpleMapper
         return $result;
     }
 
+    public function getTreeExceptNode($folder)
+    {
+        $tree = $this->tree->getTree();
+
+        $subfolders = $this->tree->getBranch($folder);
+
+        foreach (array_keys($subfolders) as $val) {
+            unset($tree[$val]);
+        }
+
+        return $tree;
+    }
+
     /**
      * Создание подпапки
      *
@@ -183,6 +201,16 @@ class newsFolderMapper extends simpleMapper
     {
         $idParent = $targetFolder->getParent();
         return $this->tree->insertNode($idParent, $folder);
+    }
+
+    public function getTreeParent($id)
+    {
+        return $this->tree->getParentNode($id);
+    }
+
+    public function move($folder, $destFolder)
+    {
+        return $this->tree->moveNode($folder, $destFolder);
     }
 
     public function convertArgsToId($args)

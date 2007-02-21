@@ -209,7 +209,7 @@ CREATE TABLE `news_news` (
 #
 
 INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
-  (7,182,'1',2,'3',2,1170662044,1170820422),
+  (7,182,'1',2,'3',2,1170662044,1172037447),
   (8,212,'ûâô',2,'éê',2,1170820429,1170820429);
 
 COMMIT;
@@ -1117,7 +1117,9 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (25,'aaa'),
   (26,'qqq'),
   (27,'upload'),
-  (28,'get');
+  (28,'get'),
+  (29,'move'),
+  (30,'moveFolder');
 
 COMMIT;
 
@@ -1293,7 +1295,14 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (66,17,9),
   (67,18,9),
   (68,17,18),
-  (69,18,18);
+  (69,18,18),
+  (70,1,29),
+  (71,17,29),
+  (72,18,6),
+  (73,18,8),
+  (74,18,7),
+  (77,18,30),
+  (76,2,30);
 
 COMMIT;
 
