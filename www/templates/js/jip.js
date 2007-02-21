@@ -154,7 +154,7 @@ mzzAjax.prototype = {
         var tmp = '';
         var ctype = transport.getResponseHeader("content-type");
 
-        if (ctype.indexOf("xml") >= 0) {
+        if (ctype.indexOf("xml") >= 0 && transport.responseXML != null) {
 
             responseXML = transport.responseXML.documentElement;
             var item = responseXML.getElementsByTagName('html')[0];
@@ -194,7 +194,9 @@ mzzAjax.prototype = {
     if(typeof(this.element) != 'undefined' && (typeof(transport.responseXML) != 'undefined' || typeof(transport.responseText) != 'undefined')){
         var element = this.element;
         var tmp = '';
-        if (transport.responseXML.documentElement != null) {
+        var ctype = transport.getResponseHeader("content-type");
+
+        if (ctype.indexOf("xml") >= 0 && transport.responseXML != null) {
             responseXML = transport.responseXML.documentElement;
             var item = responseXML.getElementsByTagName('html')[0];
             var cnodes = item.childNodes.length;
