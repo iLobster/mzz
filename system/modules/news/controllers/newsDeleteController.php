@@ -28,7 +28,8 @@ class newsDeleteController extends simpleController
 
         $url = new url();
         $url->setAction('list');
-        return new simpleJipRefreshView($url->get());
+
+        return jipTools::redirect($url->get());
     }
 }
 

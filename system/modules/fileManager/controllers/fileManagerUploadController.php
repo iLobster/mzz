@@ -132,7 +132,7 @@ class fileManagerUploadController extends simpleController
                     }
                 }
 
-                return new simpleJipRefreshView();
+                return jipTools::redirect();
             }
         }
 

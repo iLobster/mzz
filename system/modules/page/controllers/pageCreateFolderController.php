@@ -90,7 +90,7 @@ class pageCreateFolderController extends simpleController
 
                 $pageFolderMapper->save($folder);
 
-                $view = new simpleJipRefreshView();
+                $view = jipTools::redirect();
             }
         } else {
             fileLoader::load('page/views/page404View');

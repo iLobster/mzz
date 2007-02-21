@@ -63,7 +63,7 @@ class userEditController extends simpleController
                 }
                 $userMapper->save($editedUser);
 
-                $view = new simpleJipRefreshView();
+                $view = jipTools::redirect();
             }
 
             return $view;

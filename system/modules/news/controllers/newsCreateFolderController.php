@@ -21,7 +21,7 @@ fileLoader::load('news/views/newsCreateFolderForm');
  * @subpackage news
  * @version 0.1.1
  */
- 
+
 class newsCreateFolderController extends simpleController
 {
     public function getView()
@@ -94,7 +94,7 @@ class newsCreateFolderController extends simpleController
 
                 $newsFolderMapper->save($folder);
 
-                $view = new simpleJipRefreshView();
+                $view = jipTools::redirect();
             }
         } else {
             $view = $this->get404()->getView();

@@ -42,7 +42,7 @@ class fileManagerEditController extends simpleController
             $file->setName($values['name']);
             $fileMapper->save($file);
 
-            return new simpleJipRefreshView();
+            return jipTools::redirect();
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

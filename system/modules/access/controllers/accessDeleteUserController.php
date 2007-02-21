@@ -32,7 +32,7 @@ class accessDeleteUserController extends simpleController
             $acl->deleteUser($user_id);
         }
 
-        return new simpleJipCloseView();
+        return jipTools::closeWindow();
     }
 }
 

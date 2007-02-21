@@ -32,7 +32,7 @@ class accessDeleteGroupDefaultController extends simpleController
             $acl->deleteGroupDefault($group_id);
         }
 
-        return new simpleJipCloseView();
+        return jipTools::closeWindow();
     }
 }
 

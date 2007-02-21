@@ -77,7 +77,7 @@ class fileManagerEditFolderController extends simpleController
 
             $folderMapper->save($folder);
 
-            return new simpleJipRefreshView();
+            return jipTools::redirect();
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

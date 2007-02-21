@@ -59,7 +59,6 @@ class userMembersListController extends simpleController
                 }
             }
 
-            //return new simpleJipCloseView();
             return jipTools::closeWindow(0, true);
         } else {
             $criteria = new criteria();

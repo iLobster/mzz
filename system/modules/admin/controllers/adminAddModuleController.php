@@ -82,7 +82,7 @@ class adminAddModuleController extends simpleController
             $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
             $stmt->execute();
 
-            return new simpleJipRefreshView();
+            return jipTools::redirect();
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

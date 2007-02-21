@@ -69,7 +69,7 @@ class adminAddClassToSectionController extends simpleController
                 $db->query('DELETE FROM `sys_classes_sections` WHERE `section_id` = ' . $data['id'] . ' AND `class_id` IN (' . implode(', ', $delete) . ')');
             }
 
-            return new simpleJipRefreshView();
+            return jipTools::redirect();
         }
 
         $this->smarty->assign('list', $result);

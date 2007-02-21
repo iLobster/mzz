@@ -66,7 +66,7 @@ class userMemberOfController extends simpleController
             $user->setGroups($groupsArray);
             $userMapper->save($user);
 
-            return new simpleJipCloseView();
+            return jipTools::closeWindow();
         } else {
             // если просто показать список групп и пользователей
             $groupMapper = $this->toolkit->getMapper('user', 'group');

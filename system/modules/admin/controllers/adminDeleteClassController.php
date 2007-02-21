@@ -61,7 +61,7 @@ class adminDeleteClassController extends simpleController
 
         $url = new url();
         $url->setAction('devToolbar');
-        return new simpleJipRefreshView($url->get());
+        return jipTools::redirect($url->get());
     }
 }
 

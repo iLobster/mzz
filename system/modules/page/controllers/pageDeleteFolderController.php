@@ -32,7 +32,7 @@ class pageDeleteFolderController extends simpleController
 
         $pageFolderMapper->remove($folder->getParent());
 
-        return new simpleJipRefreshView();
+        return jipTools::redirect();
     }
 }
 

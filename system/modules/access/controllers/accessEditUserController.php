@@ -52,7 +52,7 @@ class accessEditUserController extends simpleController
 
             $acl->set($result);
 
-            return new simpleJipCloseView(2);
+            return jipTools::closeWindow();
         }
 
         $action = $this->request->getAction();

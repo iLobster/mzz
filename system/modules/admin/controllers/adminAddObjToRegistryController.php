@@ -45,7 +45,7 @@ class adminAddObjToRegistryController extends simpleController
             $stmt->bindValue(':class_section', $values['class'], PDO::PARAM_INT);
             $stmt->execute();
 
-            return new simpleJipRefreshView();
+            return jipTools::redirect();
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

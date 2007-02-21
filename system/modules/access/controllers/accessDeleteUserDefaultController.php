@@ -35,7 +35,7 @@ class accessDeleteUserDefaultController extends simpleController
             $acl->deleteDefault();
         }
 
-        return new simpleJipCloseView();
+        return jipTools::closeWindow();
     }
 }
 

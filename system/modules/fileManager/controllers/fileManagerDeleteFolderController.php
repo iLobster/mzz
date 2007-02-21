@@ -35,7 +35,7 @@ class fileManagerDeleteFolderController extends simpleController
 
         $folderMapper->remove($folder);
 
-        return new simpleJipRefreshView();
+        return jipTools::redirect();
     }
 }
 

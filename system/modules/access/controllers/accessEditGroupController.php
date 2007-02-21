@@ -52,7 +52,7 @@ class accessEditGroupController extends simpleController
 
             $acl->setForGroup($group_id, $result);
 
-            return new simpleJipCloseView(2);
+            return jipTools::closeWindow();
         }
 
         $action = $this->request->getAction();

@@ -72,7 +72,7 @@ class adminAddActionController extends simpleController
                 $actionGenerator->rename($action_name, $values['name'], $values);
             }
 
-            return new simpleJipCloseView();
+            return jipTools::closeWindow();
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

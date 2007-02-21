@@ -44,7 +44,7 @@ class accessEditOwnerController extends simpleController
 
             $acl->setDefault(0, $result, true);
 
-            return new simpleJipCloseView(2);
+            return jipTools::closeWindow();
         }
 
         $this->smarty->assign('acl', $acl->getForOwner(true));

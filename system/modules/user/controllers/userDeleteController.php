@@ -36,7 +36,7 @@ class userDeleteController extends simpleController
             $userGroupMapper->delete($val->getId());
         }
 
-        return new simpleJipRefreshView();
+        return jipTools::redirect();
     }
 }
 

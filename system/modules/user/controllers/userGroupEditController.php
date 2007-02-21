@@ -58,7 +58,7 @@ class userGroupEditController extends simpleController
                 $group->setName($values['name']);
                 $groupMapper->save($group);
 
-                $view = new simpleJipRefreshView();
+                $view = jipTools::redirect();
             }
 
             return $view;

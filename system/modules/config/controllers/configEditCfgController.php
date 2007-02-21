@@ -31,8 +31,7 @@ class configEditCfgController extends simpleController
             $config = $this->toolkit->getConfig($section_name, $module_name);
             $config->set($cfg);
 
-            $url = new url();
-            return new simpleJipCloseView();
+            return jipTools::closeWindow();
         }
 
         $config = $this->toolkit->getConfig($module_name, $section_name);

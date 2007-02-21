@@ -51,7 +51,7 @@ class accessEditGroupDefaultController extends simpleController
 
             $acl->setDefault($group_id, $result);
 
-            return new simpleJipCloseView(2);
+            return jipTools::closeWindow();
         }
 
         $action = $this->request->getAction();

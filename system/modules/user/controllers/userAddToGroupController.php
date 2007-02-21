@@ -58,7 +58,7 @@ class userAddToGroupController extends simpleController
                 }
             }
 
-            return new simpleJipCloseView();
+            return jipTools::closeWindow();
         } else {
 
             $users = array();

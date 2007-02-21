@@ -51,7 +51,7 @@ class accessEditUserDefaultController extends simpleController
 
             $acl->setDefault($user_id, $result, true);
 
-            return new simpleJipCloseView(2);
+            return jipTools::closeWindow();
         }
 
 
