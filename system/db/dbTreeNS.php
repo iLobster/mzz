@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.9.1
+ * @version 0.9.2
 */
 
 fileLoader::load('db/sqlFunction');
@@ -248,11 +248,11 @@ class dbTreeNS
      * @param array $stmt   ¬ыполненный стэйтмент
      * @return array of simple object
      */
-    protected function createBranchFromRow($stmt, $noRootName = false)
+    protected function createBranchFromRow($stmt)
     {
         $branch = array();
         while ($row = $stmt->fetch()) {
-            $branch[$row[$this->dataID]] = $this->createItemFromRow($row, $noRootName);
+            $branch[$row[$this->dataID]] = $this->createItemFromRow($row);
         }
 
         if (!empty($branch)) {
@@ -268,15 +268,12 @@ class dbTreeNS
      * @param array $row ћассив с данными о пол€х и их значени€х
      * @return object simple
      */
-    protected function createItemFromRow($row, $noRootName = false)
+    protected function createItemFromRow($row)
     {
         $do = $this->mapper->createItemFromRow($row);
         $do->setLevel($row['level']);
         $do->setRightKey($row['rkey']);
         $do->setLeftKey($row['lkey']);
-        if (!$noRootName) {
-            $do->setRootName($this->getRootName());
-        }
 
         return $do;
     }
@@ -350,7 +347,7 @@ class dbTreeNS
      * @param  int     $level   ”ровень выборки дерева, по умолчанию все дерево
      * @return array
      */
-    public function getTree($level = 0, $noRootName = false)
+    public function getTree($level = 0)
     {
         $criteria = $this->getBasisCriteria();
 
@@ -365,7 +362,7 @@ class dbTreeNS
         $select = new simpleSelect($criteria);
         $stmt = $this->db->query($select->toString());
 
-        return $this->createBranchFromRow($stmt, $noRootName);
+        return $this->createBranchFromRow($stmt);
     }
 
     /**
@@ -376,12 +373,12 @@ class dbTreeNS
      */
     public function getNodeInfo($id)
     {
-        if($id instanceof simple) {
-            if (empty($this->accessorDataID)) {
-                $map = $id->getMap();
-                $acsr = $map[$this->dataID]['accessor'];
-                $this->accessorDataID = $id->$acsr();
-            }
+        if ($id instanceof simple) {
+            //if (empty($this->accessorDataID)) {
+            $map = $id->getMap();
+            $acsr = $map[$this->dataID]['accessor'];
+            $this->accessorDataID = $id->$acsr();
+            //}
             $id = $this->accessorDataID;
         }
 
@@ -522,7 +519,7 @@ class dbTreeNS
 
     private function getRootName()
     {
-        $root = array_pop($this->getTree(1, true));
+        $root = array_pop($this->getTree(1));
         $map = $root->getMap();
         $accessor = $map[$this->getInnerField()]['accessor'];
         return $root->$accessor();
@@ -760,15 +757,20 @@ class dbTreeNS
      */
     public function removeNode($id)
     {
+        $node = $this->getNodeInfo($id);
+
+        if ($node['lkey'] == 1) {
+            return false;
+        }
+
         //удаление данных из таблицы данных
         $deletedBranch = $this->getBranch($id);
         if(count($deletedBranch)) {
-            foreach($deletedBranch as $node) {
-                $this->mapper->delete($node->getId());
+            foreach($deletedBranch as $currentNode) {
+                $this->mapper->delete($currentNode->getId());
             }
         }
 
-        $node = $this->getNodeInfo($id);
         // удаление записей из дерева
 
         $query = 'DELETE `tree` FROM `' . $this->table . '` `tree` WHERE ' .
@@ -842,7 +844,7 @@ class dbTreeNS
         $notRoot = true;
 
         $query = ($notRoot) ?
-        "SELECT (`rkey` - 1) AS `rkey` FROM `" . $this->table . "` WHERE `id` = " . $parentId :
+        "SELECT (`rkey` - 1) AS `rkey` FROM `" . $this->table . "` WHERE `id` = " . $parentNode['id'] :
         "SELECT MAX(`rkey`) as `rkey` FROM `" . $this->table . "` WHERE 1 ";
         $query .= $this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ' ;
 
@@ -927,17 +929,17 @@ class dbTreeNS
             // обновление путей в таблице данных
             if ($this->dataTable) {
                 $movedBranch = $this->getBranch($parentId);
-                $oldPathToRootNodeOfBranch = $movedBranch[$id]->getPath(false);
-                $newPathToRootNodeOfBranch = $this->updatePath($id);
+                $oldPathToRootNodeOfBranch = $movedBranch[$node['id']]->getPath(false);
+                $newPathToRootNodeOfBranch = $this->updatePath($node['id']);
 
                 // если переместили один элемент под узел нижнего уровн€, то обновл€ть пути не надо
-                if(count($movedBranch) == 2 && isset($movedBranch[$parentId]) && isset($movedBranch[$id])) {
+                if(count($movedBranch) == 2 && isset($movedBranch[$parentNode['id']]) && isset($movedBranch[$node['id']])) {
                     return true;
                 }
 
                 $idSet = '(';
                 foreach (array_keys($movedBranch) as $i) {
-                    if ($i == $parentId || $i == $id) {
+                    if ($i == $parentNode['id'] || $i == $node['id']) {
                         continue;
                     }
                     $idSet .= $i . ',';

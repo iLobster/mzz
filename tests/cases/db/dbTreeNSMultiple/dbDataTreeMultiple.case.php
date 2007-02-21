@@ -635,7 +635,7 @@ class dbTreeDataMultipleTest extends unitTestCase
 
             $this->tree->removeNode($removeNodes[$some_id]);
             $newTree = $this->tree->getTree();
-            $this->assertNull($newTree);
+            $this->assertNotNull($newTree);
         }
     }
 

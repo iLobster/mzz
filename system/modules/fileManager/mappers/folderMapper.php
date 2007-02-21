@@ -20,7 +20,7 @@ fileLoader::load('db/dbTreeNS');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class folderMapper extends simpleMapper
@@ -175,7 +175,7 @@ class folderMapper extends simpleMapper
 
     public function move($folder, $destFolder)
     {
-        return $this->tree->moveNode($folder->getParent(), $destFolder->getParent());
+        return $this->tree->moveNode($folder, $destFolder);
     }
 
     public function getTreeParent($id)

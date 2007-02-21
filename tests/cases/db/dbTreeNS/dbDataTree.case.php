@@ -453,7 +453,7 @@ class dbTreeDataTest extends unitTestCase
         $this->tree->removeNode(1);
         $newTree = $this->tree->getTree();
 
-        $this->assertNull($newTree);
+        $this->assertNotNull($newTree);
     }
 
     public function testMoveNode()

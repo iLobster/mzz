@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: simpleForTree.php 594 2007-02-20 04:11:17Z zerkms $
+ * @version $Id: simpleForTree.php 604 2007-02-20 23:34:20Z zerkms $
  */
 
 /**
@@ -100,21 +100,12 @@ class simpleForTree extends simple
         $this->treeFields->set('rkey', $value);
     }
 
-    public function setRootName($value)
-    {
-        $this->treeFields->set('rootName', $value);
-    }
-
     public function getPath($simple = true)
     {
         $path = $this->__call('getPath', array());
 
         if ($simple) {
-            $rootName = $this->treeFields->get('rootName');
-
-            if (is_null($rootName)) {
-                $rootName = substr($path, 0, strpos($path, '/'));
-            }
+            $rootName = substr($path, 0, strpos($path, '/'));
 
             if ($rootName && strpos($path, $rootName) === 0 && strlen($path) > strlen($rootName)) {
                 $path = substr($path, strlen($rootName) + 1);
