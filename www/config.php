@@ -1,32 +1,35 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
-
-define('SYSTEM_PATH',  '../system/');
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+*/
 
 /**
- * Additional adress
- * True: /site1
- * False: site1, site1/, /site1/
+ * Абсолютный путь до сайта.
+ * Если mzz установлен в корень веб-сервера, оставьте поле пустым
+ * Правильно: /mzz, /new/site
+ * Неправильно: site1, site1/, /site1/
  *
  */
 define('SITE_PATH', '');
 define('DEBUG_MODE', 1);
+define('SYSTEM_PATH',  '../system/');
 
 /**
  * Идентификатор записи в БД для неавторизированных пользователей
  */
 define('MZZ_USER_GUEST_ID', 1);
+
 /**
- * Идентификатор группы, для которой ACL всегда будет возвращать true
+ * Идентификатор группы, для которой ACL всегда будет возвращать true (т.е. предоставит полный доступ)
  */
 define('MZZ_ROOT_GID', 2);
 
@@ -44,9 +47,5 @@ systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../tmp');
 systemConfig::$pathToConf = dirname(__FILE__) . '/configs';
 
 systemConfig::init();
-
-// @todo подумать о переносе в другое место
-$inc_path = realpath(systemConfig::$pathToSystem  . '/../libs/PEAR/') . PATH_SEPARATOR . get_include_path();
-set_include_path($inc_path);
 
 ?>

@@ -540,7 +540,7 @@ class dbTreeNS
                 return current($result);
             }
         }
-        return false;
+        return null;
     }
 
     /**
