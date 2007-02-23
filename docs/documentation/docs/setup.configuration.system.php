@@ -25,10 +25,10 @@
 <div class="options_desc">DSN, содержит необходимую информацию о базе данных. Более подробно в разделе [todo]</div>
 
 <div class="options_name">systemConfig::$db['default']['user'] <span class="options_value">= root</span></div>
-<div class="options_desc">Имя пользователя для доступа к БД, указанной в DNS</div>
+<div class="options_desc">Имя пользователя для доступа к БД, указанной в DSN</div>
 
 <div class="options_name">systemConfig::$db['default']['password'] <span class="options_value">= null</span></div>
-<div class="options_desc">Пароль для доступа к БД, указанной в DNS</div>
+<div class="options_desc">Пароль для доступа к БД, указанной в DSN</div>
 
 <div class="options_name">systemConfig::$db['default']['charset'] <span class="options_value">= cp1251</span></div>
 <div class="options_desc">Кодировка БД. После успешного соединения с БД выполняется запрос: <code>SET NAMES `кодировка`</code></div>
