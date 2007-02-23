@@ -1,3 +1,21 @@
+/** @todo
+var onLoadEvents = new Array();
+function callLoadEvents() {
+   onLoadEvents.each(function(eventFunc) {
+       if(eventFunc != callLoadEvents) {
+           eventFunc();
+       }
+   });
+}
+function addOnLoad(eventFunc) {
+    if(window.onload && window.onload != callLoadEvents) {
+        onLoadEvents[onLoadEvents.size()] = window.onload;
+    }
+    window.onload = callLoadEvents;
+    onLoadEvents[onLoadEvents.size()] = eventFunc;
+}
+**/
+
 function getBrowserHeight() {
     var yScroll, windowHeight, pageHeight;
 

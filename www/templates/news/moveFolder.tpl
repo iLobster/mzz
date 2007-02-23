@@ -11,3 +11,15 @@
         </tr>
     </table>
 </form>
+<div id="folderTree" class="dtree"></div>
+
+<script type="text/javascript">
+var d = new dTree('d');
+d.add(0,-1,'Дерево папок');
+
+{foreach from=$folders item=current_folder}
+{assign var="parentFolder" value=$current_folder->getTreeParent()}
+d.add({$current_folder->getId()},{if is_object($parentFolder)}{$parentFolder->getId()}{else}0{/if},'{$current_folder->getName()}','');
+{/foreach}
+document.getElementById('folderTree').innerHTML = d;
+</script>
