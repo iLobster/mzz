@@ -127,8 +127,6 @@ class acl
         if (defined('MZZ_ROOT_GID') && array_search(MZZ_ROOT_GID, $this->groups) !== false) {
             $this->isRoot = true;
         }
-
-        $this->db = db::factory();
     }
 
     /**
