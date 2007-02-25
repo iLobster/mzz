@@ -7,15 +7,18 @@
 
 <form action="{url}" method="post" onsubmit="return mzzAjax.sendForm(this);">
     <table border="0" width="99%" cellpadding="4" cellspacing="1" class="list">
+            <tr>
+                <td colspan="3">
             {if $users !== false}
-                Выберите пользователя
+                Выберите пользователя: 
                 <select name="user_id">
                     <option value="-1" selected="selected"></option>
                     {foreach from=$users item=user}
                         <option value="{$user->getId()}">{$user->getLogin()}</option>
                     {/foreach}
                 </select>
-            {/if}
+            {/if}</td>
+            </tr>
             {include file="access/checkboxes.tpl" actions=$actions adding=$users}
     </table>
 </form>

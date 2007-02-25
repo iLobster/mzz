@@ -194,7 +194,7 @@ mzzAjax.prototype = {
             jipMoveDiv.setAttribute('title', 'Переместить');
             Element.extend(jipMoveDiv);
             jipMoveDiv.addClassName('jipMove');
-            jipMoveDiv.update('<img width="13" height="13" src="' + SITE_PATH + '/templates/images/jip/move.gif" alt="Переместить" title="Переместить" />');
+            jipMoveDiv.update('<img width="5" height="13" src="' + SITE_PATH + '/templates/images/jip/move.gif" alt="Переместить" title="Переместить" />');
             jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
             this.drag = new Draggable('jip' + jipWindow.currentWindow, 'jip-' + jipTitle.parentNode.id);
         }

@@ -36,7 +36,7 @@ div.jipSuccess {
 
 .jipTitle {
     padding: 4px;
-    padding-left: 10px;
+    padding-left: 7px;
     font-weight: bold;
     border-bottom: 1px solid #EAE197;
     border-top: 1px solid #EAE197;
@@ -57,13 +57,13 @@ div.jipSuccess {
 
 .jipMove {
     /*background-position: left center;*/
-    width: 13px;
+    width: 3px;
     height: 13px;
     /*background-image: url('../images/jip/move.gif');*/
-    float: right;
+    float: left;
     /*background-repeat: no-repeat;*/
     cursor: move;
-    margin-right: 12px;
+    margin-right: 8px;
     margin-top: 1px;
 }
 
