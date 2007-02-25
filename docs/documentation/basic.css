@@ -65,14 +65,22 @@ code, pre {
 
 div.code {
   background-color: #FAFAFA;
-  padding: 14px 14px;
   overflow:auto;
   margin: 10px 0px;
-  border-left: 5px solid #F0F0F0;
+}
+
+div.code_border {
+  overflow:auto;
+  padding: 14px 14px;
+  position: relative;
+  border: 1px solid #D6D6D6;
 }
 
 div.note {
   margin: 14px;
+  background-color: #FEFFDF;
+  border: 1px solid #ECECEC;
+  padding: 4px;
 }
 
 div.options_name {
@@ -97,5 +105,13 @@ span.options_value {
   font-weight: normal
 }
 
+.listTable td {
+  border-bottom: 1px solid #ECECEC;
+  padding: 3px;
+}
 
-
+.listTable thead {
+  text-align: left;
+  font-weight: bold;
+  background-color: #F7F7F7;
+}

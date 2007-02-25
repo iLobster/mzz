@@ -136,8 +136,8 @@ function render($id) {
 
     $content = file_get_contents($path);
     $content = preg_replace("/<!--\s*(.*?)?-?code\s*(\d+)\s*-->/ie", 'include_code("' . $id . '-$2", "$1");', $content);
-    $content = str_replace(array("<<code>>", "<</code>>"), array("<!-- code start here -->\n<div class=\"code\">\n<code>\n", "\n</code>\n</div>\n<!-- code end here -->\n"), $content);
-    $content = str_replace(array("<<pre>>", "<</pre>>"), array("<!-- code start here -->\n<div class=\"code\">\n<pre>\n", "\n</pre>\n</div>\n<!-- code end here -->\n"), $content);
+    $content = str_replace(array("<<code>>", "<</code>>"), array("<!-- code start here -->\n<div class=\"code\"><div class=\"code_border\">\n<code>\n", "\n</code>\n</div></div>\n<!-- code end here -->\n"), $content);
+    $content = str_replace(array("<<pre>>", "<</pre>>"), array("<!-- code start here -->\n<div class=\"code\"><div class=\"code_border\">\n<pre>\n", "\n</pre>\n</div></div>\n<!-- code end here -->\n"), $content);
 
     $content = str_replace(array('<<note>>', '<</note>>'), array($note, $note_end), $content);
 
@@ -158,12 +158,12 @@ function include_code($id, $type) {
         exit;
     }
     if (empty($type)) {
-        return '<div class="code">' . highlight_file($path, 1) . '</div>';
+        return '<div class="code"><div class="code_border">' . highlight_file($path, 1) . '</div></div>';
     }
     include_once 'highlighter/geshi.php';
     if ($type == 'html') { $type = 'html4strict'; }
     $geshi = new GeSHi(file_get_contents($path), $type);
-    return '<div class="code">' . $geshi->parse_code() . '</div>';
+    return '<div class="code"><div class="code_border">' . $geshi->parse_code() . '</div></div>';
 }
 
 
