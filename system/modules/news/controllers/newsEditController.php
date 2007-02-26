@@ -21,7 +21,7 @@ fileLoader::load('news/views/newsEditForm');
  * @subpackage news
  * @version 0.1.1
  */
- 
+
 class newsEditController extends simpleController
 {
     public function getView()
@@ -84,7 +84,7 @@ class newsEditController extends simpleController
             }
             return $view;
         }
-        
+
         return $this->get404()->getView();
     }
 }
