@@ -10,9 +10,10 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('page/pageFolder');
+fileLoader::load('simple/simpleMapperForTree');
 fileLoader::load('db/dbTreeNS');
 
 /**
@@ -20,9 +21,10 @@ fileLoader::load('db/dbTreeNS');
  *
  * @package modules
  * @subpackage page
- * @version 0.1.1
+ * @version 0.1.2
  */
-class pageFolderMapper extends simpleMapper
+
+class pageFolderMapper extends simpleMapperForTree
 {
     /**
      * Имя модуля
@@ -37,6 +39,8 @@ class pageFolderMapper extends simpleMapper
      * @var string
      */
     protected $className = 'pageFolder';
+
+    protected $itemName = 'page';
 
     /**
      * Конструктор
@@ -109,42 +113,11 @@ class pageFolderMapper extends simpleMapper
      * @param  newsFolder     $targetFolder    Папка назначения, в которую добавлять
      * @return newsFolder
      */
-    public function createSubfolder(pageFolder $folder, pageFolder $targetFolder)
+    /*public function createSubfolder(pageFolder $folder, pageFolder $targetFolder)
     {
         $idParent = $targetFolder->getParent();
         return $this->tree->insertNode($idParent, $folder);
-    }
-
-    /**
-     * Удаление папки вместе с содежимым на основе id
-     * не delete потому что delete используется в tree для удаления записи
-     *
-     * @param string $id идентификатор <b>узла дерева</b> (parent) удаляемого элемента
-     * @return void
-     */
-    public function remove($id)
-    {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-
-        $pageMapper = $toolkit->getMapper($this->name, 'page');
-        //$pageFolderMapper = $toolkit->getMapper('page', 'pageFolder');
-
-        // @toDo как то не так
-        $removedFolders = $this->tree->getBranch($id);
-        if(count($removedFolders)) {
-            foreach($removedFolders as $folder) {
-                $pages = $folder->getItems();
-                if(count($pages)) {
-                    foreach($pages as $page) {
-                        $pageMapper->delete($page->getId());
-                    }
-                }
-            }
-        }
-
-        $this->tree->removeNode($id);
-    }
+    }*/
 
     /**
      * Метод поиска новости в каталоге

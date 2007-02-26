@@ -1,4 +1,4 @@
-	# SQL Manager 2005 for MySQL 3.7.5.1
+# SQL Manager 2005 for MySQL 3.7.5.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -100,6 +100,23 @@ CREATE TABLE `page_pageFolder` (
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `page_pageFolder_tree` table : 
+#
+
+DROP TABLE IF EXISTS `page_pageFolder_tree`;
+
+CREATE TABLE `page_pageFolder_tree` (
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `left_key` (`lkey`,`rkey`,`level`),
+  KEY `level` (`level`,`lkey`),
+  KEY `rkey` (`rkey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -304,6 +321,80 @@ CREATE TABLE `sys_obj_id` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `sys_obj_id` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_obj_id` (`id`) VALUES 
+  (1),
+  (2),
+  (3),
+  (4),
+  (5),
+  (6),
+  (7),
+  (8),
+  (9),
+  (10),
+  (11),
+  (12),
+  (13),
+  (14),
+  (15),
+  (16),
+  (17),
+  (18),
+  (19),
+  (20),
+  (21),
+  (22),
+  (23),
+  (24),
+  (25),
+  (26),
+  (27),
+  (28),
+  (29),
+  (30),
+  (31),
+  (32),
+  (33),
+  (34),
+  (35),
+  (36),
+  (37),
+  (38),
+  (39),
+  (40),
+  (41),
+  (42),
+  (43),
+  (44),
+  (45),
+  (46),
+  (47),
+  (48),
+  (49),
+  (50),
+  (51),
+  (52),
+  (53),
+  (54),
+  (55),
+  (56),
+  (57),
+  (58),
+  (59),
+  (60),
+  (61),
+  (62),
+  (63),
+  (64),
+  (65),
+  (66);
+
+COMMIT;
+
+#
 # Structure for the `sys_obj_id_named` table : 
 #
 
@@ -326,6 +417,18 @@ CREATE TABLE `sys_sections` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_sections` (`id`, `name`) VALUES 
+  (1,'simple'),
+  (2,'news'),
+  (3,'page'),
+  (4,'user');
+
+COMMIT;
 
 #
 # Structure for the `sys_sessions` table : 

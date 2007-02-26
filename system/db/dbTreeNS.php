@@ -12,15 +12,15 @@
  * @package system
  * @subpackage db
  * @version $Id$
-*/
+ */
 
 /**
  * dbTreeNS: работа с деревьями Nested Sets
  *
  * @package system
  * @subpackage db
- * @version 0.9.2
-*/
+ * @version 0.9.3
+ */
 
 fileLoader::load('db/sqlFunction');
 fileLoader::load('db/simpleSelect');
@@ -373,6 +373,10 @@ class dbTreeNS
      */
     public function getNodeInfo($id)
     {
+        if (is_array($id)) {
+            return $id;
+        }
+
         if ($id instanceof simple) {
             //if (empty($this->accessorDataID)) {
             $map = $id->getMap();
@@ -927,33 +931,58 @@ class dbTreeNS
             }
 
             // обновление путей в таблице данных
-            if ($this->dataTable) {
-                $movedBranch = $this->getBranch($parentId);
-                $oldPathToRootNodeOfBranch = $movedBranch[$node['id']]->getPath(false);
-                $newPathToRootNodeOfBranch = $this->updatePath($node['id']);
+            $this->updatePaths($node, $parentNode);
 
-                // если переместили один элемент под узел нижнего уровня, то обновлять пути не надо
-                if(count($movedBranch) == 2 && isset($movedBranch[$parentNode['id']]) && isset($movedBranch[$node['id']])) {
-                    return true;
-                }
-
-                $idSet = '(';
-                foreach (array_keys($movedBranch) as $i) {
-                    if ($i == $parentNode['id'] || $i == $node['id']) {
-                        continue;
-                    }
-                    $idSet .= $i . ',';
-                }
-
-                $idSet = substr($idSet, 0, -1) . ')';
-
-                $this->db->exec('UPDATE `' . $this->dataTable . '`' .
-                ' SET `path` = REPLACE(`path`, "' . $oldPathToRootNodeOfBranch . '", "' . $newPathToRootNodeOfBranch . '") '.
-                ' WHERE `' . $this->dataID . '` IN ' . $idSet .
-                ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ')
-                );
-            }
             return true;
+        }
+    }
+
+    /**
+     * Метод обновления путей для узлов ниже указанного
+     *
+     * @param mixed $node
+     * @param mixed $parentNode
+     * @return boolean
+     */
+    public function updatePaths($node, $parentNode = null)
+    {
+        $node = $this->getNodeInfo($node);
+
+        if (!$parentNode) {
+            $parentNode = $this->getParentNode($node);
+            if (is_null($parentNode)) {
+                $parentNode = $node;
+            }
+        }
+
+        $parentNode = $this->getNodeInfo($parentNode);
+
+        if ($this->dataTable) {
+            $movedBranch = $this->getBranch($parentNode['id']);
+
+            $oldPathToRootNodeOfBranch = $movedBranch[$node['id']]->getPath(false);
+            $newPathToRootNodeOfBranch = $this->updatePath($node['id']);
+
+            // если переместили один элемент под узел нижнего уровня, то обновлять пути не надо
+            if(count($movedBranch) == 2 && isset($movedBranch[$parentNode['id']]) && isset($movedBranch[$node['id']])) {
+                return true;
+            }
+
+            $idSet = '(';
+            foreach (array_keys($movedBranch) as $i) {
+                if ($i == $parentNode['id'] || $i == $node['id']) {
+                    continue;
+                }
+                $idSet .= $i . ',';
+            }
+
+            $idSet = substr($idSet, 0, -1) . ')';
+
+            $this->db->exec($qry = 'UPDATE `' . $this->dataTable . '`' .
+            ' SET `path` = REPLACE(`path`, "' . $oldPathToRootNodeOfBranch . '", "' . $newPathToRootNodeOfBranch . '") '.
+            ' WHERE `' . $this->dataID . '` IN ' . $idSet .
+            ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ')
+            );
         }
     }
 

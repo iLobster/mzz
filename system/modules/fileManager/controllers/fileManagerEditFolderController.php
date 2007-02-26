@@ -19,7 +19,7 @@ fileLoader::load('fileManager/views/folderEditForm');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class fileManagerEditFolderController extends simpleController
@@ -43,39 +43,18 @@ class fileManagerEditFolderController extends simpleController
 
             if ($action == 'editFolder') {
                 $folder = $targetFolder;
-                // ищем все каталоги, которые лежат ниже изменяемого
-                $criteria = new criteria();
-                $criteria->add('path', $path . '/%', criteria::LIKE);
-                $folders = $folderMapper->searchAllByCriteria($criteria);
-
-                $pos = strrpos('/' . $path, '/');
-                if ($pos) {
-                    $path = substr($path, 0, $pos - 1) . '/';
-                } else {
-                    $path = '';
-                }
-
-                // для нижележащих каталогов меняем значение поля `path` на новое
-                foreach ($folders as $currentFolder) {
-                    $currentFolder->setPath(str_replace($folder->getPath(), $path . $values['name'], $currentFolder->getPath()));
-                    $folderMapper->save($currentFolder);
-                }
+                $targetFolder = null;
             } else {
                 // создаём папку
                 $folder = $folderMapper->create();
-
-                $folderMapper->createSubfolder($folder, $targetFolder);
-
-                $path .= '/';
             }
 
             $folder->setName($values['name']);
             $folder->setTitle($values['title']);
-            $folder->setPath($path . $values['name']);
             $folder->setExts($values['exts']);
             $folder->setFilesize($values['filesize']);
 
-            $folderMapper->save($folder);
+            $folderMapper->save($folder, $targetFolder);
 
             return jipTools::redirect();
         }

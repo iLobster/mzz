@@ -10,20 +10,21 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('fileManager/folder');
 fileLoader::load('db/dbTreeNS');
+fileLoader::load('simple/simpleMapperForTree');
 
 /**
  * folderMapper: маппер
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.1
+ * @version 0.1.2
  */
 
-class folderMapper extends simpleMapper
+class folderMapper extends simpleMapperForTree
 {
     /**
      * Имя модуля
@@ -38,6 +39,8 @@ class folderMapper extends simpleMapper
      * @var string
      */
     protected $className = 'folder';
+
+    protected $itemName = 'file';
 
     /**
      * Конструктор
@@ -121,11 +124,12 @@ class folderMapper extends simpleMapper
      * @param  folder     $targetFolder    Папка назначения, в которую добавлять
      * @return folder
      */
+    /*
     public function createSubfolder(folder $folder, folder $targetFolder)
     {
         $idParent = $targetFolder->getParent();
         return $this->tree->insertNode($idParent, $folder);
-    }
+    }*/
 
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
@@ -140,37 +144,6 @@ class folderMapper extends simpleMapper
         }
 
         throw new mzzDONotFoundException();
-    }
-
-    /**
-     * Удаление папки вместе с содежимым на основе id
-     * не delete потому что delete используется в tree для удаления записи
-     *
-     * @param string $id идентификатор <b>узла дерева</b> (parent) удаляемого элемента
-     * @return void
-     */
-    public function remove($id)
-    {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-
-        $fileMapper = $toolkit->getMapper($this->name, 'file');
-        $folderMapper = $toolkit->getMapper($this->name, 'folder');
-
-        // @toDo как то не так
-        $removedFolders = $this->tree->getBranch($id);
-        if (count($removedFolders)) {
-            foreach ($removedFolders as $folder) {
-                $folderFiles = $folder->getItems();
-                if (count($folderFiles)) {
-                    foreach ($folderFiles as $news) {
-                        $fileMapper->delete($news->getId());
-                    }
-                }
-            }
-        }
-
-        $this->tree->removeNode($id);
     }
 
     public function move($folder, $destFolder)

@@ -19,7 +19,7 @@ fileLoader::load('news/views/newsCreateFolderForm');
  *
  * @package modules
  * @subpackage news
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class newsCreateFolderController extends simpleController
@@ -57,42 +57,16 @@ class newsCreateFolderController extends simpleController
                 if ($action == 'createFolder') {
                     // создаём папку
                     $folder = $newsFolderMapper->create();
-
-                    $newsFolderMapper->createSubfolder($folder, $targetFolder);
-
-                    $path .= '/';
                 } else {
                     // изменяем папку
                     $folder = $newsFolderMapper->searchByPath($path);
-
-                    // ищем все каталоги, которые лежат ниже изменяемого
-                    $criterion = new criterion('path', $path . '%', criteria::LIKE);
-                    $criterion->addAnd(new criterion('path', $path, criteria::NOT_EQUAL));
-                    $criteria = new criteria();
-                    $criteria->add($criterion);
-                    $folders = $newsFolderMapper->searchAllByCriteria($criteria);
-
-                    $pos = strrpos('/' . $path, '/');
-                    if ($pos) {
-                        $path = substr($path, 0, $pos - 1);
-                        $path .= '/';
-                    } else {
-                        $path = '';
-                    }
-
-                    // для нижележащих каталогов меняем значение поля `path` на новое
-                    foreach ($folders as $currentFolder) {
-                        $currentFolder->setPath(str_replace($folder->getPath(), $path . $values['name'], $currentFolder->getPath()));
-                        $newsFolderMapper->save($currentFolder);
-                    }
+                    $targetFolder = null;
                 }
 
                 $folder->setName($values['name']);
                 $folder->setTitle($values['title']);
 
-                $folder->setPath($path . $values['name']);
-
-                $newsFolderMapper->save($folder);
+                $newsFolderMapper->save($folder, $targetFolder);
 
                 $view = jipTools::redirect();
             }

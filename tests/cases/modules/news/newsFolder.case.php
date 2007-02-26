@@ -33,6 +33,7 @@ class newsFolderTest extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `news_news`');
         $this->db->query('TRUNCATE TABLE `news_newsFolder`');
+        $this->db->query('TRUNCATE TABLE `news_newsFolder_tree`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
         $this->db->query('TRUNCATE TABLE `sys_classes_sections`');
@@ -128,6 +129,10 @@ class newsFolderTest extends unitTestCase
 
     public function testFieldsSetsOnce()
     {
+        $this->db->query("INSERT INTO `news_newsFolder` (`id`, `name`, `parent`, `path`) VALUES (1, 'root', 1, 'root')");
+        $this->db->query("INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES (1, 1, 2, 1)");
+        $target = $this->mapper->searchOneByField('id', 1);
+
         foreach(array('Id') as $val) {
             $setter = 'set' . $val;
             $getter = 'get' . $val;
@@ -136,7 +141,7 @@ class newsFolderTest extends unitTestCase
 
             $this->newsFolder->$setter($first);
 
-            $this->mapper->save($this->newsFolder);
+            $this->mapper->save($this->newsFolder, $target);
 
             $this->assertIdentical($this->newsFolder->$getter(), $first);
 
@@ -158,6 +163,10 @@ class newsFolderTest extends unitTestCase
 
     public function testFieldsSetsNotOnce()
     {
+        $this->db->query("INSERT INTO `news_newsFolder` (`id`, `name`, `parent`, `path`) VALUES (1, 'root', 1, 'root')");
+        $this->db->query("INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES (1, 1, 2, 1)");
+        $target = $this->mapper->searchOneByField('id', 1);
+
         foreach(array('Name') as $val) {
             $setter = 'set' . $val;
             $getter = 'get' . $val;
@@ -166,7 +175,7 @@ class newsFolderTest extends unitTestCase
 
             $this->newsFolder->$setter($first);
 
-            $this->mapper->save($this->newsFolder);
+            $this->mapper->save($this->newsFolder, $target);
 
             $this->assertIdentical($this->newsFolder->$getter(), $first);
 

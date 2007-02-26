@@ -114,6 +114,7 @@ function smarty_function_load($params, $smarty)
     if (!isset($controller)) {
         $controller = $factory->getController();
     }
+
     $view = $controller->getView();
 
     if ($view instanceof simpleView) {

@@ -45,6 +45,7 @@ class pageCreateFolderController extends simpleController
 
                 $this->smarty->assign('form', $renderer->toArray());
 
+                $this->smarty->assign('action', $action);
                 $this->response->setTitle('Страницы -> Создание папки');
                 $view = $this->smarty->fetch('page/createFolder.tpl');
             } else {
@@ -53,48 +54,22 @@ class pageCreateFolderController extends simpleController
                 if ($action == 'createFolder') {
                     // создаём папку
                     $folder = $pageFolderMapper->create();
-
-                    $pageFolderMapper->createSubfolder($folder, $targetFolder);
-
-                    $path .= '/';
                 } else {
                     // изменяем папку
                     $folder = $pageFolderMapper->searchByPath($path);
-
-                    // ищем все каталоги, которые лежат ниже изменяемого
-                    $criterion = new criterion('path', $path . '/%', criteria::LIKE);
-                    $criterion->addAnd(new criterion('path', $path, criteria::NOT_EQUAL));
-                    $criteria = new criteria();
-                    $criteria->add($criterion);
-                    $folders = $pageFolderMapper->searchAllByCriteria($criteria);
-
-                    $pos = strrpos('/' . $path, '/');
-                    if ($pos) {
-                        $path = substr($path, 0, $pos - 1);
-                        $path .= '/';
-                    } else {
-                        $path = '';
-                    }
-
-                    // для нижележащих каталогов меняем значение поля `path` на новое
-                    foreach ($folders as $currentFolder) {
-                        $currentFolder->setPath(str_replace($folder->getPath(), $path . $values['name'], $currentFolder->getPath()));
-                        $pageFolderMapper->save($currentFolder);
-                    }
+                    $targetFolder = null;
                 }
 
                 $folder->setName($values['name']);
                 $folder->setTitle($values['title']);
 
-                $folder->setPath($path . $values['name']);
-
-                $pageFolderMapper->save($folder);
+                $pageFolderMapper->save($folder, $targetFolder);
 
                 $view = jipTools::redirect();
             }
         } else {
-            fileLoader::load('page/views/page404View');
-            $view = new page404View();
+            //fileLoader::load('page/views/page404View');
+            //$view = new page404View();
         }
 
         return $view;

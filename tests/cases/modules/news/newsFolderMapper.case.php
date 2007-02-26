@@ -2,6 +2,7 @@
 
 fileLoader::load('news/mappers/newsFolderMapper');
 fileLoader::load('news/newsFolder');
+fileLoader::load('news/mappers/newsMapper');
 fileLoader::load('news');
 fileLoader::load('db/dbTreeNS');
 
@@ -10,6 +11,7 @@ class newsFolderMapperTest extends unitTestCase
     private $mapper;
     private $db;
     private $map;
+    private $target;
 
     public function __construct()
     {
@@ -47,7 +49,10 @@ class newsFolderMapperTest extends unitTestCase
 
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
         $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('news', 1), ('newsFolder', 1)");
-        //echo'<pre>';print_r($this->mapper); echo'</pre>';
+
+        $this->db->query("INSERT INTO `news_newsFolder` (`id`, `name`, `parent`, `path`) VALUES (1, 'name1', 1, 'name1')");
+        $this->db->query("INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES (1, 1, 2, 1)");
+        $this->target = $this->mapper->searchOneByField('id', 1);
     }
 
     public function tearDown()
@@ -57,6 +62,7 @@ class newsFolderMapperTest extends unitTestCase
 
     public function cleardb()
     {
+        $this->db->query('TRUNCATE TABLE `news_news`');
         $this->db->query('TRUNCATE TABLE `news_newsFolder`');
         $this->db->query('TRUNCATE TABLE `news_newsFolder_tree`');
         $this->db->query('TRUNCATE TABLE `user_user`');
@@ -73,9 +79,9 @@ class newsFolderMapperTest extends unitTestCase
 
         $this->assertNull($newsFolder->getId());
 
-        $this->mapper->save($newsFolder);
+        $this->mapper->save($newsFolder, $this->target);
 
-        $this->assertIdentical($newsFolder->getId(), '1');
+        $this->assertIdentical($newsFolder->getId(), '2');
     }
 
     public function testGetItems()
@@ -114,7 +120,7 @@ class newsFolderMapperTest extends unitTestCase
     public function testGetFolders()
     {
         $this->fixture($this->mapper, $this->map);
-        //exit;
+
         $newsSubFolders = $this->mapper->getFolders(1, 9999);
 
         $this->assertEqual(count($newsSubFolders), 8);
@@ -199,7 +205,6 @@ class newsFolderMapperTest extends unitTestCase
         $request->restore();
     }
 
-
     private function countNewsFolder()
     {
         $query = 'SELECT COUNT(*) AS `total` FROM `news_newsFolder`';
@@ -219,11 +224,15 @@ class newsFolderMapperTest extends unitTestCase
     {
         $nodeParentsFixture = array(1 => 0, 2 => 1, 3 => 1, 4 => 1, 5 => 2, 6 => 2, 7 => 3, 8 => 3);
 
-        for($i = 1; $i <= 8; $i++) {
+        for($i = 2; $i <= 8; $i++) {
 
             $newsFolder = new newsFolder($mapper, $map);
             $newsFolder->setName('name' . $i);
-            $newsFolder = $this->tree->insertNode($nodeParentsFixture[$i], $newsFolder);
+            //$newsFolder = $this->tree->insertNode($nodeParentsFixture[$i], $newsFolder);
+
+            $target = $this->mapper->searchOneByField('id', $nodeParentsFixture[$i]);
+
+            $this->mapper->save($newsFolder, $target);
             $this->fixtureNewsFolder[$newsFolder->getId()] = $newsFolder;
         }
     }

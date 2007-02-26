@@ -15,7 +15,8 @@ class pageMapperTest extends unitTestCase
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'name' => array ( 'name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
         'title' => array ( 'name' => 'title', 'accessor' => 'getTitle', 'mutator' => 'setTitle'),
-        'content' => array ('name' => 'content', 'accessor' => 'getContent', 'mutator' => 'setContent')
+        'content' => array ('name' => 'content', 'accessor' => 'getContent', 'mutator' => 'setContent'),
+        'folder_id' => array ('name' => 'folder_id', 'accessor' => 'getFolder', 'mutator' => 'setFolder', 'owns' => 'pageFolder.id'),
         );
 
         $this->db = DB::factory();
@@ -27,6 +28,9 @@ class pageMapperTest extends unitTestCase
         $this->mapper = new pageMapper('page');
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
         $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('page', 1)");
+
+        $this->db->query("INSERT INTO `page_pageFolder` (`id`, `path`, `parent`) VALUES (1, 'root', 1)");
+        $this->db->query("INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES (1, 1, 2, 1)");
     }
 
     public function tearDown()
@@ -37,6 +41,8 @@ class pageMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `page_page`');
+        $this->db->query('TRUNCATE TABLE `page_pageFolder`');
+        $this->db->query('TRUNCATE TABLE `page_pageFolder_tree`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
         $this->db->query('TRUNCATE TABLE `sys_classes_sections`');
@@ -96,6 +102,7 @@ class pageMapperTest extends unitTestCase
         $page->setTitle($title);
         $this->mapper->save($page);
 
+
         $page2 = $this->mapper->searchById(1);
         $this->assertEqual($page2->getName(), $name);
         $this->assertEqual($page2->getTitle(), $title);
@@ -132,6 +139,8 @@ class pageMapperTest extends unitTestCase
      */
     private function fixture($mapper, $map)
     {
+        $folderMapper = new pageFolderMapper('page');
+        $folder = $folderMapper->searchByKey(1);
 
         for($i = 0; $i < 4; $i++) {
             $folders = array(11, 11, 13, 13);
@@ -139,6 +148,7 @@ class pageMapperTest extends unitTestCase
             $page->setName('name' . ($i + 1));
             $page->setTitle('title' . ($i + 1));
             $page->setContent('content' . ($i + 1));
+            $page->setFolder($folder);
             $mapper->save($page);
         }
     }

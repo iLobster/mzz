@@ -19,6 +19,7 @@
  * @subpackage page
  * @version 0.1
  */
+
 class pageAdminController extends simpleController
 {
     public function getView()
@@ -37,10 +38,9 @@ class pageAdminController extends simpleController
             $this->smarty->assign('pages', $pageFolder->getItems());
             $this->smarty->assign('pageFolder', $pageFolder);
             return $this->smarty->fetch('page/admin.tpl');
-        } else {
-            fileLoader::load('news/views/news404View');
-            return new news404View();
         }
+
+        return $pageFolderMapper->get404()->getView();
     }
 }
 

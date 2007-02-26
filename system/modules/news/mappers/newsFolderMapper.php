@@ -1,27 +1,30 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
 
 fileLoader::load('db/dbTreeNS');
 fileLoader::load('news/newsFolder');
+fileLoader::load('simple/simpleMapperForTree');
 
 /**
  * newsFolderMapper: маппер для папок новостей
  *
  * @package modules
  * @subpackage news
- * @version 0.2
+ * @version 0.2.2
  */
 
-class newsFolderMapper extends simpleMapper
+class newsFolderMapper extends simpleMapperForTree
 {
 
     /**
@@ -37,6 +40,8 @@ class newsFolderMapper extends simpleMapper
      * @var string
      */
     protected $className = 'newsFolder';
+
+    protected $itemName = 'news';
 
     /**
      * Конструктор
@@ -115,37 +120,6 @@ class newsFolderMapper extends simpleMapper
     }
 
     /**
-     * Удаление папки вместе с содежимым на основе id
-     * не delete потому что delete используется в tree для удаления записи
-     *
-     * @param string $id идентификатор <b>узла дерева</b> (parent) удаляемого элемента
-     * @return void
-     */
-    public function remove($id)
-    {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-
-        $newsMapper = $toolkit->getMapper('news', 'news');
-        $newsFolderMapper = $toolkit->getMapper('news', 'newsFolder');
-
-        // @toDo как то не так
-        $removedFolders = $this->tree->getBranch($id);
-        if(count($removedFolders)) {
-            foreach($removedFolders as $folder) {
-                $folderNews = $folder->getItems();
-                if(count($folderNews)) {
-                    foreach($folderNews as $news) {
-                        $newsMapper->delete($news->getId());
-                    }
-                }
-            }
-        }
-
-        $this->tree->removeNode($id);
-    }
-
-    /**
      * Выборка ветки(нижележащих папок) на основе пути
      *
      * @param  string     $path          Путь
@@ -156,7 +130,6 @@ class newsFolderMapper extends simpleMapper
     {
         // выбирается только нижележащий уровень
         return $this->tree->getBranchByPath($path, $deep);
-
     }
 
     /**
@@ -166,7 +139,7 @@ class newsFolderMapper extends simpleMapper
      */
     public function getItems($id)
     {
-        $news = systemToolkit::getInstance()->getMapper('news', 'news', $this->section());
+        $news = systemToolkit::getInstance()->getMapper($this->name, $this->itemName, $this->section());
 
         if (!empty($this->pager)) {
             $news->setPager($this->pager);
@@ -197,11 +170,11 @@ class newsFolderMapper extends simpleMapper
      * @param  newsFolder     $targetFolder    Папка назначения, в которую добавлять
      * @return newsFolder
      */
-    public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
+    /*public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
     {
         $idParent = $targetFolder->getParent();
         return $this->tree->insertNode($idParent, $folder);
-    }
+    }*/
 
     public function getTreeParent($id)
     {
