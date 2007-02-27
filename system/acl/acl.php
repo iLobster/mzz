@@ -14,7 +14,7 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1.3
+ * @version 0.1.4
  */
 class acl
 {
@@ -155,7 +155,7 @@ class acl
             }
             $grp = substr($grp, 0, -2);
 
-            $qry = 'SELECT IFNULL((MAX(`a`.`allow`) - MAX(`a`.`deny`) = 1), 0) AS `access`, IFNULL(`a`.`allow`, 0) AS `allow`, IFNULL(`a`.`deny`, 0) AS `deny`, `aa`.`name` FROM `sys_access_registry` `r`
+            $qry = 'SELECT IFNULL((MAX(`a`.`allow`) - MAX(`a`.`deny`) = 1), 0) AS `access`, IFNULL(MAX(`a`.`allow`), 0) AS `allow`, IFNULL(MAX(`a`.`deny`), 0) AS `deny`, `aa`.`name` FROM `sys_access_registry` `r`
                      INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
                       INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
                        INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`

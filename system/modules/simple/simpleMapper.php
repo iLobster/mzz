@@ -399,7 +399,6 @@ abstract class simpleMapper
     public function searchByKey($id)
     {
         return $this->searchOneByField($this->tableKey, $id);
-
     }
 
     /**

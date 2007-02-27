@@ -36,29 +36,12 @@ class simpleMapperTest extends unitTestCase
     private function fixture()
     {
         $valString = '';
-        foreach($this->fixture as $id => $data) {
-            $valString .= "('" . $this->fixture[$id]['foo'] . "','" . $this->fixture[$id]['bar']. "'),";
+        foreach ($this->fixture as $id => $data) {
+            $valString .= "('" . $data['foo'] . "', '" . $data['bar']. "'),";
         }
-        $valString = substr($valString, 0,  strlen($valString)-1);
+        $valString = substr($valString, 0,  -1);
 
-        $stmt = $this->db->prepare(' INSERT INTO `simple_stubSimple` (`foo`,`bar`) VALUES ' . $valString);
-        $stmt->execute();
-    }
-
-    public function testSearchByKeys()
-    {
-        $this->fixture();
-        $idsFixture = array(1,3);
-
-        $result = $this->mapper->searchByKeys($idsFixture);
-        $this->assertEqual(count($result),count($idsFixture));
-
-        foreach ($idsFixture as $id) {
-            $simple = $result[$id];
-
-            $this->assertEqual($id, $simple->getId());
-            $this->assertEqual($this->fixture[$id]['foo'], $simple->getFoo());
-        }
+        $this->db->query('INSERT INTO `simple_stubSimple` (`foo`,`bar`) VALUES ' . $valString);
     }
 
     public function setUp()
@@ -83,39 +66,19 @@ class simpleMapperTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `sys_classes`');
     }
 
-    public function testSortingViaMap()
+    public function testSearchByKeys()
     {
-        $map = $this->map;
-        $map['id']['orderBy'] = '1';
-        $map['id']['orderByDirection'] = 'DESC';
-
         $this->fixture();
-        $this->mapper->setMap($map);
-        $res = $this->mapper->searchAll();
+        $idsFixture = array(1,3);
 
-        $i = count($res);
-        foreach ($res as $key => $val) {
-            $this->assertEqual($val->getId(), $i);
-            $i--;
-        }
-    }
+        $result = $this->mapper->searchByKeys($idsFixture);
+        $this->assertEqual(count($result),count($idsFixture));
 
-    public function testSortingViaCriteria()
-    {
-        $map = $this->map;
-        $map['id']['orderBy'] = '1';
-        $map['id']['orderByDirection'] = 'ASC';
-        $criteria = new criteria();
-        $criteria->setOrderByFieldDesc('bar');
+        foreach ($idsFixture as $id) {
+            $simple = $result[$id];
 
-        $this->fixture();
-        $this->mapper->setMap($map);
-        $res = $this->mapper->searchAll($criteria);
-
-        $i = count($res);
-        foreach ($res as $key => $val) {
-            $this->assertEqual($val->getBar(), 'bar' . $i);
-            $i--;
+            $this->assertEqual($id, $simple->getId());
+            $this->assertEqual($this->fixture[$id]['foo'], $simple->getFoo());
         }
     }
 
@@ -225,6 +188,41 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual('12345', $simple->getFoo());
     }
 
+    public function testSortingViaMap()
+    {
+        $map = $this->map;
+        $map['id']['orderBy'] = '1';
+        $map['id']['orderByDirection'] = 'DESC';
+
+        $this->fixture();
+        $this->mapper->setMap($map);
+        $res = $this->mapper->searchAll();
+
+        $i = count($res);
+        foreach ($res as $key => $val) {
+            $this->assertEqual($val->getId(), $i);
+            $i--;
+        }
+    }
+
+    public function testSortingViaCriteria()
+    {
+        $map = $this->map;
+        $map['id']['orderBy'] = '1';
+        $map['id']['orderByDirection'] = 'ASC';
+        $criteria = new criteria();
+        $criteria->setOrderByFieldDesc('bar');
+
+        $this->fixture();
+        $this->mapper->setMap($map);
+        $res = $this->mapper->searchAll($criteria);
+
+        $i = count($res);
+        foreach ($res as $key => $val) {
+            $this->assertEqual($val->getBar(), 'bar' . $i);
+            $i--;
+        }
+    }
 
     private function countRecord()
     {

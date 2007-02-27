@@ -21,7 +21,7 @@ fileLoader::load('db/criteria');
  *
  * @package system
  * @subpackage db
- * @version 0.1
+ * @version 0.1.1
  */
 class simpleSelect
 {
@@ -80,8 +80,6 @@ class simpleSelect
 
             $selectClause[] = $field;
         }
-
-        $enableCount = $this->criteria->getEnableCount();
 
         foreach ($this->criteria->getJoins() as $val) {
             $joinClause[] = ' ' . $val['type'] . ' JOIN ' . $val['table'] .

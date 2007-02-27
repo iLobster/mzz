@@ -15,7 +15,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 fileLoader::load('db/criterion');
@@ -503,6 +503,12 @@ class criteria
     public function getGroupBy()
     {
         return $this->groupBy;
+    }
+
+    public function clearGroupBy()
+    {
+        $this->groupBy = array();
+        return $this;
     }
 }
 

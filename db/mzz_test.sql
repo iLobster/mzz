@@ -30,7 +30,7 @@ CREATE TABLE `news_news` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) default NULL,
   `title` varchar(255) NOT NULL default '',
-  `editor` varchar(255) NOT NULL default '',
+  `editor` int(11) NOT NULL default '0',
   `text` text NOT NULL,
   `folder_id` int(11) default NULL,
   `created` int(11) default NULL,
@@ -117,6 +117,74 @@ CREATE TABLE `page_pageFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_catalogue` table : 
+#
+
+DROP TABLE IF EXISTS `simple_catalogue`;
+
+CREATE TABLE `simple_catalogue` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `editor` int(11) default NULL,
+  `created` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_catalogue_data` table : 
+#
+
+DROP TABLE IF EXISTS `simple_catalogue_data`;
+
+CREATE TABLE `simple_catalogue_data` (
+  `id` int(11) NOT NULL default '0',
+  `property_type` int(11) unsigned default NULL,
+  `value` text,
+  KEY `property_type` (`property_type`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_catalogue_properties` table : 
+#
+
+DROP TABLE IF EXISTS `simple_catalogue_properties`;
+
+CREATE TABLE `simple_catalogue_properties` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_catalogue_types` table : 
+#
+
+DROP TABLE IF EXISTS `simple_catalogue_types`;
+
+CREATE TABLE `simple_catalogue_types` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_catalogue_types_props` table : 
+#
+
+DROP TABLE IF EXISTS `simple_catalogue_types_props`;
+
+CREATE TABLE `simple_catalogue_types_props` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `property_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `type_id` (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -214,6 +282,18 @@ CREATE TABLE `sys_access_registry` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `sys_access_registry` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
+  (67,1),
+  (68,1),
+  (1,1),
+  (2,1);
+
+COMMIT;
+
+#
 # Structure for the `sys_actions` table : 
 #
 
@@ -298,6 +378,15 @@ CREATE TABLE `sys_classes_sections` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `sys_classes_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
+  (1,1,1);
+
+COMMIT;
+
+#
 # Structure for the `sys_modules` table : 
 #
 
@@ -319,80 +408,6 @@ CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_obj_id` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_obj_id` (`id`) VALUES 
-  (1),
-  (2),
-  (3),
-  (4),
-  (5),
-  (6),
-  (7),
-  (8),
-  (9),
-  (10),
-  (11),
-  (12),
-  (13),
-  (14),
-  (15),
-  (16),
-  (17),
-  (18),
-  (19),
-  (20),
-  (21),
-  (22),
-  (23),
-  (24),
-  (25),
-  (26),
-  (27),
-  (28),
-  (29),
-  (30),
-  (31),
-  (32),
-  (33),
-  (34),
-  (35),
-  (36),
-  (37),
-  (38),
-  (39),
-  (40),
-  (41),
-  (42),
-  (43),
-  (44),
-  (45),
-  (46),
-  (47),
-  (48),
-  (49),
-  (50),
-  (51),
-  (52),
-  (53),
-  (54),
-  (55),
-  (56),
-  (57),
-  (58),
-  (59),
-  (60),
-  (61),
-  (62),
-  (63),
-  (64),
-  (65),
-  (66);
-
-COMMIT;
 
 #
 # Structure for the `sys_obj_id_named` table : 

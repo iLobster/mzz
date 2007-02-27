@@ -77,7 +77,6 @@ class testSimple extends unitTestCase
 
             $this->assertEqual($val2, $this->simple->$getprop());
         }
-
     }
 
     public function testException()
