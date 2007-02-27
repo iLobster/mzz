@@ -33,14 +33,14 @@ class newsAdminController extends simpleController
         }
 
         $newsFolder = $newsFolderMapper->searchByPath($path);
-        if ($newsFolder) {
-            $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
-            $this->smarty->assign('news', $newsFolder->getItems());
-            $this->smarty->assign('newsFolder', $newsFolder);
-            return $this->smarty->fetch('news/admin.tpl');
-        } 
-        
-        return $this->get404()->getView();
+        if (empty($newsFolder)) {
+            return $newsFolderMapper->get404()->getView();
+        }
+
+        $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
+        $this->smarty->assign('news', $newsFolder->getItems());
+        $this->smarty->assign('newsFolder', $newsFolder);
+        return $this->smarty->fetch('news/admin.tpl');
     }
 }
 

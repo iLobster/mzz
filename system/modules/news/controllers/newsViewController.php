@@ -38,13 +38,13 @@ class newsViewController extends simpleController
         $id = $this->request->get('id', 'integer', SC_PATH);
         $news = $newsMapper->searchById($id);
 
-        if ($news) {
-            $this->smarty->assign('news', $news);
-            $this->response->setTitle('Новости -> Просмотр -> ' . $news->getTitle());
-            return $this->smarty->fetch('news/view.tpl');
+        if (empty($news)) {
+            return $newsMapper->get404()->getView();
         }
 
-        return $newsMapper->get404()->getView();
+        $this->smarty->assign('news', $news);
+        $this->response->setTitle('Новости -> Просмотр -> ' . $news->getTitle());
+        return $this->smarty->fetch('news/view.tpl');
     }
 }
 

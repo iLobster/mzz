@@ -19,7 +19,7 @@
  * @subpackage news
  * @version 0.1.1
  */
- 
+
 class newsListController extends simpleController
 {
     public function getView()
@@ -28,26 +28,25 @@ class newsListController extends simpleController
         $path = $this->request->get('name', 'string', SC_PATH);
         $newsFolder = $newsFolderMapper->searchByPath($path);
 
-        if ($newsFolder) {
-            $config = $this->toolkit->getConfig('news');
-
-            fileLoader::load('pager');
-
-            $pager = new pager($this->request->getRequestUrl(), $this->getPageNumber(), $config->get('items_per_page'));
-
-            $newsFolder->setPager($pager);
-            $this->smarty->assign('folderPath', $newsFolder->getPath());
-            $this->smarty->assign('pager', $pager);
-            $this->smarty->assign('news', $newsFolder->getItems());
-            $this->smarty->assign('newsFolder', $newsFolder);
-            $newsFolder->removePager();
-
-            $this->response->setTitle('Новости -> Список');
-
-            return $this->smarty->fetch('news/list.tpl');
+        if (empty($newsFolder)) {
+            return $newsFolderMapper->get404()->getView();
         }
-        
-        return $this->get404()->getView();
+
+        $config = $this->toolkit->getConfig('news');
+
+        fileLoader::load('pager');
+        $pager = new pager($this->request->getRequestUrl(), $this->getPageNumber(), $config->get('items_per_page'));
+
+        $newsFolder->setPager($pager);
+        $this->smarty->assign('folderPath', $newsFolder->getPath());
+        $this->smarty->assign('pager', $pager);
+        $this->smarty->assign('news', $newsFolder->getItems());
+        $this->smarty->assign('newsFolder', $newsFolder);
+        $newsFolder->removePager();
+
+        $this->response->setTitle('Новости -> Список');
+
+        return $this->smarty->fetch('news/list.tpl');
     }
 
     private function getPageNumber()

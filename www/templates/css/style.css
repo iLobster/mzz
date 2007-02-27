@@ -197,6 +197,10 @@ table.list td {
     border-bottom: 1px solid #F0F0F0;
 }
 
+table.list th {
+    border-bottom: 1px dashed #DCDCDC;
+}
+
 #submenu {
   padding: 3px;
   margin: 5px;
@@ -204,4 +208,31 @@ table.list td {
 
 .formErrorElement textarea, .formErrorElement input {
     border: 2px solid red;
+}
+
+div.confirm {
+  width:90%;
+  text-align: center;
+  line-height: 150%;
+  margin: 5px 0;
+  margin-bottom: 20px;
+}
+
+div.confirmImg {
+  width: 20%;
+  float: left;
+}
+
+div.confirmMsg {
+  width: 80%;
+  float: right;
+  padding-top: 5px;
+}
+
+div.confirm span {
+  margin-left: 40px;
+}
+
+div.confirm img {
+  float: right;
 }

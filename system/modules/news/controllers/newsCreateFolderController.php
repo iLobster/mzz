@@ -27,54 +27,46 @@ class newsCreateFolderController extends simpleController
     public function getView()
     {
         $user = $this->toolkit->getUser();
-
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
-
         $path = $this->request->get('name', 'string', SC_PATH);
-
         $targetFolder = $newsFolderMapper->searchByPath($path);
-
         $action = $this->request->getAction();
 
-        if (!is_null($targetFolder)) {
-
-            $form = newsCreateFolderForm::getForm($path, $newsFolderMapper, $action, $targetFolder);
-
-            if ($form->validate() == false) {
-                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-                $form->accept($renderer);
-
-                $this->smarty->assign('form', $renderer->toArray());
-                $this->smarty->assign('action', $action);
-
-                $title = $action == 'edit' ? 'Редактирование папки -> ' . $targetFolder->getTitle() : 'Создание папки';
-                $this->response->setTitle('Новости -> ' . $title);
-
-                $view = $this->smarty->fetch('news/createFolder.tpl');
-            } else {
-                $values = $form->exportValues();
-
-                if ($action == 'createFolder') {
-                    // создаём папку
-                    $folder = $newsFolderMapper->create();
-                } else {
-                    // изменяем папку
-                    $folder = $newsFolderMapper->searchByPath($path);
-                    $targetFolder = null;
-                }
-
-                $folder->setName($values['name']);
-                $folder->setTitle($values['title']);
-
-                $newsFolderMapper->save($folder, $targetFolder);
-
-                $view = jipTools::redirect();
-            }
-        } else {
-            $view = $this->get404()->getView();
+        if (empty($targetFolder)) {
+            return $newsFolderMapper->get404()->getView();
         }
 
-        return $view;
+        $form = newsCreateFolderForm::getForm($path, $newsFolderMapper, $action, $targetFolder);
+        if ($form->validate() == false) {
+            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+            $form->accept($renderer);
+
+            $this->smarty->assign('form', $renderer->toArray());
+            $this->smarty->assign('action', $action);
+
+            $title = $action == 'edit' ? 'Редактирование папки -> ' . $targetFolder->getTitle() : 'Создание папки';
+            $this->response->setTitle('Новости -> ' . $title);
+
+            return $this->smarty->fetch('news/createFolder.tpl');
+        } else {
+            $values = $form->exportValues();
+
+            if ($action == 'createFolder') {
+                // создаём папку
+                $folder = $newsFolderMapper->create();
+            } else {
+                // изменяем папку
+                $folder = $newsFolderMapper->searchByPath($path);
+                $targetFolder = null;
+            }
+
+            $folder->setName($values['name']);
+            $folder->setTitle($values['title']);
+
+            $newsFolderMapper->save($folder, $targetFolder);
+
+            return jipTools::redirect();
+        }
     }
 }
 

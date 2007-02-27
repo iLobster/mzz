@@ -80,12 +80,11 @@ class newsEditController extends simpleController
                 $news->setText($values['text']);
                 $newsMapper->save($news);
 
-                $view = jipTools::redirect();
+                return jipTools::redirect();
             }
-            return $view;
         }
 
-        return $this->get404()->getView();
+        return $newsMapper->get404()->getView();
     }
 }
 
