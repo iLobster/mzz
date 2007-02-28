@@ -1,21 +1,23 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
 
 /**
  * critera: класс, используемый для хранения данных о критериях выборки
  *
  * @package system
  * @subpackage db
- * @version 0.1.4
+ * @version 0.1.5
  */
 
 fileLoader::load('db/criterion');
@@ -164,14 +166,11 @@ class criteria
     private $offset = 0;
 
     /**
-     * флаг, включающий в запрос специальную структуру языка для подсчёта числа выбранных записей без учёта оператора LIMIT<br>
-     * mysql only. предполагается к удалению
+     * Флаг, добавляющий DISTINCT в запрос
      *
-     * @deprecated
      * @var boolean
      */
-    private $enableCount = false;
-
+    private $distinct = false;
     /**
      * Конструктор
      *
@@ -376,31 +375,6 @@ class criteria
     }
 
     /**
-     * Метод установки флага, указывающего, что в запрос нужно добавить служебное слово для подсчёта записей
-     * Поскольку mysql only фича - предполагается к удалению
-     *
-     * @deprecated
-     * @return criteria текущий объект
-     */
-    public function enableCount()
-    {
-        $this->enableCount = true;
-        return $this;
-    }
-
-    /**
-     * Метод получения флага подсчёта записей
-     *
-     * @see  criterioa::enableCount()
-     * @deprecated
-     * @return unknown
-     */
-    public function getEnableCount()
-    {
-        return $this->enableCount;
-    }
-
-    /**
      * Метод для очистки списка полей для выборки
      *
      * @return criteria текущий объект
@@ -505,10 +479,35 @@ class criteria
         return $this->groupBy;
     }
 
+    /**
+     * Очистка списка полей для группировки
+     *
+     * @return criteria текущий объект
+     */
     public function clearGroupBy()
     {
         $this->groupBy = array();
         return $this;
+    }
+
+    /**
+     * Получение значения флага distinct
+     *
+     * @return boolean
+     */
+    public function getDistinct()
+    {
+        return $this->distinct;
+    }
+
+    /**
+     * Установка значения флага distinct
+     *
+     * @param boolean $value
+     */
+    public function setDistinct($value = true)
+    {
+        $this->distinct = (bool)$value;
     }
 }
 

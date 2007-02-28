@@ -109,6 +109,19 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->addGroupBy('table.field');
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` GROUP BY `table`.`field`");
     }
+
+    public function testDistinct()
+    {
+        $this->criteria->setTable('table');
+        $this->criteria->setDistinct();
+        $this->assertEqual($this->select->toString(), "SELECT DISTINCT * FROM `table`");
+
+        $this->criteria->addSelectField('foo');
+        $this->assertEqual($this->select->toString(), "SELECT DISTINCT `foo` FROM `table`");
+
+        $this->criteria->setDistinct(false);
+        $this->assertEqual($this->select->toString(), "SELECT `foo` FROM `table`");
+    }
 }
 
 ?>

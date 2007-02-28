@@ -9,10 +9,8 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @package system
- * @subpackage db
  * @version $Id$
-*/
+ */
 
 fileLoader::load('db/criteria');
 
@@ -21,8 +19,9 @@ fileLoader::load('db/criteria');
  *
  * @package system
  * @subpackage db
- * @version 0.1.1
+ * @version 0.1.2
  */
+
 class simpleSelect
 {
     /**
@@ -104,6 +103,7 @@ class simpleSelect
         }
 
         $qry = 'SELECT ' .
+        ($this->criteria->getDistinct() ? 'DISTINCT ' : '') .
         ($selectClause ? implode(', ', $selectClause) : '*') .
         (($table) ? ' FROM ' . $table : '') .
         ($joinClause ? implode($joinClause) : '') .

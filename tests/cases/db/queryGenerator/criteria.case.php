@@ -61,13 +61,6 @@ class criteriaTest extends unitTestCase
         $this->assertEqual($this->criteria->getOffset(), $offset);
     }
 
-    public function testEnableCount()
-    {
-        $this->assertFalse($this->criteria->getEnableCount());
-        $this->criteria->enableCount();
-        $this->assertTrue($this->criteria->getEnableCount());
-    }
-
     public function testSelectFields()
     {
         $this->assertEqual($this->criteria->getSelectFields(), array());
@@ -98,6 +91,15 @@ class criteriaTest extends unitTestCase
 
         $this->assertEqual($this->criteria->getLimit(), $limit);
         $this->assertEqual($this->criteria->getOffset(), $offset);
+    }
+
+    public function testDistinct()
+    {
+        $this->assertFalse($this->criteria->getDistinct());
+        $this->criteria->setDistinct();
+        $this->assertTrue($this->criteria->getDistinct());
+        $this->criteria->setDistinct(false);
+        $this->assertFalse($this->criteria->getDistinct());
     }
 }
 
