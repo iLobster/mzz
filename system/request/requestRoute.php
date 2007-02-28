@@ -230,7 +230,7 @@ class requestRoute implements iRoute
         $url = '';
         foreach ($this->parts as $part) {
             if ($part['isVar']) {
-                if (is_null($values[$part['name']]) || isset($values[$part['name']])) {
+                if (array_key_exists($part['name'], $values)) {
                     $url .= $values[$part['name']];
                     unset($values[$part['name']]);
                 } elseif ($part == "*") {

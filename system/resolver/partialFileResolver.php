@@ -1,22 +1,24 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
 /**
  * partialFileResolver: базовый класс для всех частичных резолверов
- * 
+ *
  * @package system
  * @subpackage resolver
  * @version 0.1
  */
-
 class partialFileResolver implements iResolver
 {
     /**
@@ -25,7 +27,7 @@ class partialFileResolver implements iResolver
      * @var object
      */
     private $resolver;
-    
+
     /**
      * конструктор
      *
@@ -35,7 +37,7 @@ class partialFileResolver implements iResolver
     {
         $this->resolver = $resolver;
     }
-    
+
     /**
      * запуск процесса резолвинга
      *
@@ -46,7 +48,7 @@ class partialFileResolver implements iResolver
     {
         return $this->resolver->resolve($this->partialResolve($request));
     }
-    
+
     /**
      * модификация запроса
      * замещается в наследниках

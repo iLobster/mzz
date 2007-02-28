@@ -12,26 +12,23 @@
  * @version $Id$
  */
 
-fileLoader::load('news/views/newsEditForm');
+fileLoader::load('news/views/newsSaveForm');
 
 /**
- * NewsEditController: контроллер для метода edit модуля news
+ * newsSaveController: контроллер для метода save модуля news
  *
  * @package modules
  * @subpackage news
  * @version 0.1.1
  */
 
-class newsEditController extends simpleController
+class newsSaveController extends simpleController
 {
     public function getView()
     {
         $user = $this->toolkit->getUser();
-
         $newsMapper = $this->toolkit->getMapper('news', 'news');
-
         $id = $this->request->get('id', 'integer', SC_PATH);
-
         $newsFolder = null;
 
         if (is_null($id)) {
@@ -41,10 +38,11 @@ class newsEditController extends simpleController
         }
 
         $news = $newsMapper->searchById($id);
-
         $action = $this->request->getAction();
-        if (!empty($news) || ($action == 'create' && isset($newsFolder) && !is_null($newsFolder))) {
-            $form = newsEditForm::getForm($news, $this->request->getSection(), $action, $newsFolder);
+        $isEdit = ($action == 'edit');
+
+        if (!empty($news) || (!$isEdit && isset($newsFolder) && !is_null($newsFolder))) {
+            $form = newsSaveForm::getForm($news, $this->request->getSection(), $action, $newsFolder, $isEdit);
 
             if ($form->validate() == false) {
                 $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
@@ -54,18 +52,18 @@ class newsEditController extends simpleController
 
                 $this->smarty->assign('form', $renderer->toArray());
                 $this->smarty->assign('news', $news);
-                $this->smarty->assign('action', $action);
+                $this->smarty->assign('isEdit', $isEdit);
 
-                $title = $action == 'edit' ? 'Редактирование -> ' . $news->getTitle() : 'Создание';
+                $title = $isEdit ? 'Редактирование -> ' . $news->getTitle() : 'Создание';
                 $this->response->setTitle('Новости -> ' . $title);
 
-                return $this->smarty->fetch('news/edit.tpl');
+                return $this->smarty->fetch('news/save.tpl');
             } else {
                 $values = $form->exportValues();
                 $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
                 $folder = $newsFolderMapper->searchByPath($this->request->get('name', 'string', SC_PATH));
 
-                if ($action == 'create') {
+                if (!$isEdit) {
                     $news = $newsMapper->create();
                     $news->setFolder($folder->getId());
                     $date = explode(' ', $values['created']);

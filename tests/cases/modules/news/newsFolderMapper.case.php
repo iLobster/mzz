@@ -91,9 +91,9 @@ class newsFolderMapperTest extends unitTestCase
 
         $newsFolderMapper = new newsFolderMapper('news');
 
-        $data[1] = array('title', 'editor', 'text', '1');
-        $data[2] = array('title2', 'editor2', 'text2', '1');
-        $data[3] = array('title3', 'editor3', 'text3', '2');
+        $data[1] = array('title', 1, 'text', '1');
+        $data[2] = array('title2', 2, 'text2', '1');
+        $data[3] = array('title3', 2, 'text3', '2');
 
         foreach ($data as $record) {
             $folder = $newsFolderMapper->searchOneByField('id', $record[3]);

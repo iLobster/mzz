@@ -1,23 +1,24 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
 
 /**
  * simpleController: реализаци€ общих методов у контроллеров
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.2
  */
- 
 abstract class simpleController
 {
     /**
@@ -42,6 +43,14 @@ abstract class simpleController
     protected $smarty;
 
     /**
+     * —ообщение дл€ подтверждени€ выполнени€ действи€.
+     * ≈сли null, сообщение беретс€ из конфигурации действий
+     *
+     * @var string
+     */
+    protected $confirm = null;
+
+    /**
      *  онструктор
      *
      */
@@ -63,6 +72,36 @@ abstract class simpleController
      *
      */
     abstract public function getView();
+
+    /**
+     * «апуск контроллера. ≈сли в конфигурации действий указано свойство confirm, требует
+     * подтверждени€ от пользовател€ выполнени€ данного сообщени€. “екст сообщени€ может находитс€
+     * в значении свойства confirm или в свойстве объекта контроллера $confirm
+     * свойство $confirm
+     *
+     * @return mixed
+     */
+    public function run()
+    {
+        $confirm = $this->toolkit->getRegistry()->get('confirm');
+        $confirmCode = $this->request->get('_confirm', 'string', SC_GET);
+        $session = $this->toolkit->getSession();
+
+        if (!empty($confirm) && (empty($confirmCode) || $confirmCode != $session->get('confirm_code'))) {
+            $session->set('confirm_code', $code = md5(microtime()));
+            $url = $this->request->getRequestUrl();
+            $url = $url . (strpos($url, '?') ? '&' : '?') . '_confirm=' . $code;
+
+            $this->smarty->assign('url', $url);
+            $confirm = empty($this->confirm) ? $confirm : $this->confirm;
+            $this->smarty->assign('message', $confirm);
+            return $this->smarty->fetch('confirm.tpl');
+        }
+        if (!empty($confirmMsg)) {
+            $session->destroy('confirm_code');
+        }
+        return $this->getView();
+    }
 }
 
 ?>

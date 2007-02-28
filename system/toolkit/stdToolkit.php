@@ -34,10 +34,8 @@ class stdToolkit extends toolkit
     private $router;
     private $config;
     private $timer;
-    private $actions;
     private $user;
     private $objectIdGenerator;
-    private $mappers = array();
     private $cache;
     private $toolkit;
     /**#@-*/
@@ -46,6 +44,11 @@ class stdToolkit extends toolkit
      * @var array
      */
     private $actionNames = array();
+
+    /**
+     * @var array
+     */
+    private $mappers = array();
 
     /**
      * Конструктор

@@ -83,14 +83,14 @@ class url
             $error = "Url error. Route is not specified.";
             throw new mzzRuntimeException($error);
         }
-        
+
         $address = $request->getUrl();
         $this->params  = $this->getParams();
 
         if (is_null($this->section)) {
             $this->setSection($this->getCurrentSection());
         }
-        
+
         $params = $this->params;
         if (empty($params['section'])) {
             $params['section'] = $this->section;
@@ -100,7 +100,7 @@ class url
         }
         $url = $this->route->assemble($params);
         $this->deleteRoute();
-        
+
         if (sizeof($this->getParams)) {
             $url .= '?';
             foreach ($this->getParams as $key => $val) {

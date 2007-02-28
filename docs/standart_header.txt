@@ -9,4 +9,4 @@
  *
  * @link http://www.mzz.ru
  * @version $Id: standart_header.txt 1 2006-09-05 21:03:12Z zerkms $
-*/
+ */

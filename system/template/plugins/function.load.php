@@ -115,7 +115,7 @@ function smarty_function_load($params, $smarty)
         $controller = $factory->getController();
     }
 
-    $view = $controller->getView();
+    $view = $controller->run();
 
     if ($view instanceof simpleView) {
         $output = $view->toString();

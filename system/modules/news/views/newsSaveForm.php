@@ -1,23 +1,25 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
 /**
- * newsEditForm: форма дл€ метода edit модул€ news
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
+/**
+ * newsSaveForm: форма дл€ метода save модул€ news
  *
  * @package modules
  * @subpackage news
  * @version 0.1
  */
-
-class newsEditForm
+class newsSaveForm
 {
     /**
      * метод получени€ формы
@@ -26,9 +28,10 @@ class newsEditForm
      * @param string $section текуща€ секци€
      * @param string $action текущее действие
      * @param newsFolder $newsFolder папка, в которой создаЄм новость
+     * @param boolean $isEdit true если действие "редактировать"
      * @return object сгенерированна€ форма
      */
-    static function getForm($news, $section, $action, $newsFolder)
+    static function getForm($news, $section, $action, $newsFolder, $isEdit)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
@@ -36,11 +39,11 @@ class newsEditForm
         $url = new url('withAnyParam');
         $url->setSection($section);
         $url->setAction($action);
-        $url->addParam('name', $action == 'edit' ? $news->getId() : $newsFolder->getPath());
+        $url->addParam('name', $isEdit ? $news->getId() : $newsFolder->getPath());
         $form = new HTML_QuickForm('newsEdit', 'POST', $url->get());
 
         $defaultValues = array();
-        if ($action == 'edit') {
+        if ($isEdit) {
             $defaultValues = array();
             $defaultValues['title']  = $news->getTitle();
             $defaultValues['text']  = $news->getText();

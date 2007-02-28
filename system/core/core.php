@@ -106,7 +106,6 @@ class core
         fileLoader::load('simple/simpleMapper');
         fileLoader::load('simple/simpleView');
         fileLoader::load('simple/simpleController');
-        fileLoader::load('simple/simpleConfirmControllerDecorator');
         fileLoader::load('simple/simpleFactory');
         fileLoader::load('simple/simpleJipCloseView');
         fileLoader::load('simple/simpleJipRefreshView');

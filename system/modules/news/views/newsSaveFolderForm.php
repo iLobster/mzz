@@ -1,39 +1,40 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
 
 /**
- * newsCreateForm: форма для метода create модуля news
+ * newsSaveFolderForm: форма для метода saveFolder модуля news
  *
  * @package modules
  * @subpackage news
  * @version 0.1
  */
-
-class newsCreateFolderForm
+class newsSaveFolderForm
 {
-    static function getForm($folder, $newsFolderMapper, $action, $targetFolder)
+    static function getForm($folder, $newsFolderMapper, $action, $targetFolder, $isEdit)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url('withAnyParam');
-        $url->addParam('folder', $folder);
+        $url = new url('newsFolder');
+        $url->addParam('name', $folder);
         $url->setAction($action);
 
         $form = new HTML_QuickForm('createFolder', 'POST', $url->get());
 
         $defaultValues = array();
 
-        if ($action == 'editFolder') {
+        if ($isEdit) {
             $defaultValues['name'] = $targetFolder->getName();
             $defaultValues['title'] = $targetFolder->getTitle();
         }
@@ -50,7 +51,7 @@ class newsCreateFolderForm
         $form->addRule('name', 'обязательное поле', 'required');
         $form->addRule('name', 'только алфавитно-цифровые символы', 'regex', '/[^\W\d][\w\d_]*/');
 
-        if ($action == 'editFolder') {
+        if ($isEdit) {
             $form->registerRule('isUniqueName', 'callback', 'editFolderValidate');
         } else {
             $form->registerRule('isUniqueName', 'callback', 'createFolderValidate');

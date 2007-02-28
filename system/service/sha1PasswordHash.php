@@ -1,14 +1,16 @@
 <?php
-//
-// $Id: md5PasswordHash.php 711 2006-05-23 18:42:43Z mz $
-// $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/service/md5PasswordHash.php $
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL: http://svn.web/repository/mzz/docs/standart_header.txt $
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id: standart_header.txt 1 2006-09-05 21:03:12Z zerkms $
+ */
 
 fileLoader::load('service/passwordHash');
 

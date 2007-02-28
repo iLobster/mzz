@@ -1,14 +1,16 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
 
 /**
  * commentsPostForm: форма для метода post модуля comments
@@ -17,7 +19,6 @@
  * @subpackage comments
  * @version 0.1
  */
-
 class commentsPostForm
 {
     static function getForm($parent_id, $action = 'post', $comment = null)
@@ -28,7 +29,7 @@ class commentsPostForm
         $url = new url('withId');
         $url->setAction($action);
         $url->addParam('id', $parent_id);
-        
+
         $form = new HTML_QuickForm('post', 'POST', $url->get());
 
         if ($action == 'edit') {

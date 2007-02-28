@@ -1,4 +1,4 @@
-{if $action eq 'edit'}
+{if $isEdit}
 <div class="jipTitle">Редактирование новости ID: {$news->getId()} ({$news->getTitle()|substr:0:25}...)</div>
 {else}
 <div class="jipTitle">Создание новости</div>
@@ -13,7 +13,7 @@ Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":
         <td style='width: 20%;'>{$form.title.label}</td>
         <td style='width: 80%;'>{$form.title.html}</td>
     </tr>
-    {if $action ne 'edit'}
+    {if !$isEdit}
     <tr>
         <td>{$form.created.label}</td>
         <td>{$form.created.html} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button></td>

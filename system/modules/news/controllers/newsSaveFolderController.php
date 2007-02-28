@@ -12,17 +12,17 @@
  * @version $Id$
  */
 
-fileLoader::load('news/views/newsCreateFolderForm');
+fileLoader::load('news/views/newsSaveFolderForm');
 
 /**
- * newsCreateController: контроллер для метода create модуля news
+ * newsSaveController: контроллер для метода save модуля news
  *
  * @package modules
  * @subpackage news
  * @version 0.1.2
  */
 
-class newsCreateFolderController extends simpleController
+class newsSaveFolderController extends simpleController
 {
     public function getView()
     {
@@ -31,33 +31,34 @@ class newsCreateFolderController extends simpleController
         $path = $this->request->get('name', 'string', SC_PATH);
         $targetFolder = $newsFolderMapper->searchByPath($path);
         $action = $this->request->getAction();
+        $isEdit = ($action == 'editFolder');
 
         if (empty($targetFolder)) {
             return $newsFolderMapper->get404()->getView();
         }
 
-        $form = newsCreateFolderForm::getForm($path, $newsFolderMapper, $action, $targetFolder);
+        $form = newsSaveFolderForm::getForm($path, $newsFolderMapper, $action, $targetFolder, $isEdit);
         if ($form->validate() == false) {
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
 
             $this->smarty->assign('form', $renderer->toArray());
-            $this->smarty->assign('action', $action);
+            $this->smarty->assign('isEdit', $isEdit);
 
-            $title = $action == 'edit' ? 'Редактирование папки -> ' . $targetFolder->getTitle() : 'Создание папки';
+            $title = $isEdit ? 'Редактирование папки -> ' . $targetFolder->getTitle() : 'Создание папки';
             $this->response->setTitle('Новости -> ' . $title);
 
-            return $this->smarty->fetch('news/createFolder.tpl');
+            return $this->smarty->fetch('news/saveFolder.tpl');
         } else {
             $values = $form->exportValues();
 
-            if ($action == 'createFolder') {
-                // создаём папку
-                $folder = $newsFolderMapper->create();
-            } else {
+            if ($isEdit) {
                 // изменяем папку
                 $folder = $newsFolderMapper->searchByPath($path);
                 $targetFolder = null;
+            } else {
+                // создаём папку
+                $folder = $newsFolderMapper->create();
             }
 
             $folder->setName($values['name']);
