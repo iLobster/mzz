@@ -171,6 +171,7 @@ class criteria
      * @var boolean
      */
     private $distinct = false;
+
     /**
      * Конструктор
      *
