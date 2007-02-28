@@ -40,7 +40,7 @@ class adminDeleteSectionController extends simpleController
         $db = DB::factory();
         $db->query('DELETE FROM `sys_sections` WHERE `id` = ' .$id);
 
-        $url = new url();
+        $url = new url('default2');
         $url->setAction('devToolbar');
         return jipTools::redirect($url->get());
     }

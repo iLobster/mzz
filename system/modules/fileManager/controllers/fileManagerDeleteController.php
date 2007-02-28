@@ -36,8 +36,8 @@ class fileManagerDeleteController extends simpleController
 
         $path = substr($name, 0, strrpos($name, '/'));
 
-        $url = new url();
-        $url->addParam('path', $path);
+        $url = new url('withAnyParam');
+        $url->addParam('name', $path);
         $url->setAction('list');
         return jipTools::redirect($url->get());
     }

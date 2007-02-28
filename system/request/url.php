@@ -62,8 +62,11 @@ class url
      * Конструктор.
      *
      */
-    public function __construct()
+    public function __construct($route = null)
     {
+        if($route){
+            $this->setRoute($route);
+        }
     }
 
     /**
@@ -76,43 +79,28 @@ class url
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
 
+        if (!($this->route instanceof iRoute)) {
+            $error = "Url error. Route is not specified.";
+            throw new mzzRuntimeException($error);
+        }
+        
         $address = $request->getUrl();
         $this->params  = $this->getParams();
 
         if (is_null($this->section)) {
             $this->setSection($this->getCurrentSection());
         }
-
-        if ($this->route instanceof iRoute) {
-            $params = $this->params;
-            if (empty($params['section'])) {
-                $params['section'] = $this->section;
-            }
-            if (empty($params['action'])) {
-                $params['action'] = $this->action;
-            }
-            $url = $this->route->assemble($params);
-            $this->deleteRoute();
-        } else {
-            $params = '';
-            if(!empty($this->params)) {
-                if(!empty($this->section)) {
-                    $params = '/';
-                }
-
-                $params .= implode('/', $this->params);
-
-                if(!empty($this->action)) {
-                    $params .= '/';
-                }
-            } else {
-                if (!empty($this->section) && !empty($this->action)) {
-                    $params = '/';
-                }
-            }
-            $url = $this->section . $params . $this->action;
+        
+        $params = $this->params;
+        if (empty($params['section'])) {
+            $params['section'] = $this->section;
         }
-
+        if (empty($params['action'])) {
+               $params['action'] = $this->action;
+        }
+        $url = $this->route->assemble($params);
+        $this->deleteRoute();
+        
         if (sizeof($this->getParams)) {
             $url .= '?';
             foreach ($this->getParams as $key => $val) {
@@ -172,11 +160,11 @@ class url
      */
     public function getParams()
     {
-        foreach($this->params as $key => $param) {
-            if (empty($this->params[$key])) {
-                unset($this->params[$key]);
-            }
-        }
+        //foreach($this->params as $key => $param) {
+            //if (empty($this->params[$key])) {
+                //unset($this->params[$key]);
+            //}
+        //}
         return $this->params;
     }
 
@@ -196,9 +184,10 @@ class url
      *
      * @param iRoute $route
      */
-    public function setRoute(iRoute $route)
+    public function setRoute($route)
     {
-        $this->route = $route;
+        $toolkit = systemToolkit::getInstance();
+        $this->route = $toolkit->getRouter()->getRoute($route);
     }
 
     /**

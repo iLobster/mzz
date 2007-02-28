@@ -33,14 +33,21 @@
  */
 function smarty_function_url($params, $smarty)
 {
-    $url = new url();
-
     $toolkit = systemToolkit::getInstance();
     $request = $toolkit->getRequest();
-    $getUrl = true;
+    $getUrl = false;
 
+    if(!isset($params['route'])){
+        //$error = "Url error. Route is not specified.";
+        //throw new mzzRuntimeException($error);
+        $getUrl = true;
+        $params['route'] = null;
+    }
+    
+    $url = new url($params['route']);
+    
     if (isset($params['section'])) {
-        $getUrl = false;
+        //$getUrl = false;
         $url->setSection($params['section']);
         unset($params['section']);
     } else {
@@ -48,17 +55,17 @@ function smarty_function_url($params, $smarty)
     }
 
     if (isset($params['action'])) {
-        $getUrl = false;
+        //$getUrl = false;
         $url->setAction($params['action']);
         unset($params['action']);
     }
 
-    if (isset($params['route'])) {
-        $getUrl = false;
-        $router = $toolkit->getRouter();
-        $url->setRoute($router->getRoute($params['route']));
-        unset($params['route']);
-    }
+    //if (isset($params['route'])) {
+        //$getUrl = false;
+        //$router = $toolkit->getRouter();
+        //$url->setRoute($router->getRoute($params['route']));
+        //unset($params['route']);
+    //}
 
     foreach ($params as $name => $value) {
         $url->addParam($name, $value);

@@ -9,6 +9,6 @@
 
 <div class="news_text">{$news->getText()}</div>
 
-{load module="comments" section="comments" action="list" parent_id=$news->getObjId() owner=$news->getEditor()->getId()}
+{load module="comments" section="comments" action="list" id=$news->getObjId() owner=$news->getEditor()->getId()}
 
 </div>

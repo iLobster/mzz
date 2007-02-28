@@ -26,5 +26,4 @@ $router->addRoute('adminAction', new requestRoute('admin/:id/:action_name/:actio
 
 $router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
 $router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list', 'name' => 'root')));
-
 ?>

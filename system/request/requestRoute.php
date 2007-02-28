@@ -227,11 +227,10 @@ class requestRoute implements iRoute
         if (empty($this->parts)) {
             $this->prepare();
         }
-
         $url = '';
         foreach ($this->parts as $part) {
             if ($part['isVar']) {
-                if (isset($values[$part['name']])) {
+                if (is_null($values[$part['name']]) || isset($values[$part['name']])) {
                     $url .= $values[$part['name']];
                     unset($values[$part['name']]);
                 } elseif ($part == "*") {

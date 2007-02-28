@@ -28,7 +28,7 @@ class adminAddObjToRegistryForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
+        $url = new url('default2');
         $url->setAction($action);
 
         $form = new HTML_QuickForm('addObjToRegistry', 'POST', $url->get());

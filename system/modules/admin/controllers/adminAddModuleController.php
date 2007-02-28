@@ -52,7 +52,7 @@ class adminAddModuleController extends simpleController
                 return 'нельзя изменить имя модуля';
             }
         }
-
+        
         $form = adminAddModuleForm::getForm($data, $db, $action);
 
         if ($form->validate()) {

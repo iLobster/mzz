@@ -33,7 +33,7 @@ class fileEditForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
+        $url = new url('withAnyParam');
         $url->setAction('edit');
         $url->addParam('name', $file->getFullPath());
         $form = new HTML_QuickForm('fileUpload', 'POST', $url->get());

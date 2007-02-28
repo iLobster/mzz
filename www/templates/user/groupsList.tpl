@@ -1,6 +1,6 @@
 {add file="popup.js"}
-<a href="{url section=access obj_id=$obj_id action=editACL}" class="jipLink"><img src="{$SITE_PATH}/templates/images/acl.gif" /></a>
-<div id="submenu"><a href="{url section=user action=list}">Пользователи</a></div>
+<a href="{url route=withId section=access id=$obj_id action=editACL}" class="jipLink"><img src="{$SITE_PATH}/templates/images/acl.gif" /></a>
+<div id="submenu"><a href="{url route=default2 section=user action=list}">Пользователи</a></div>
 
 <table border="0" width="99%" cellpadding="4" cellspacing="1" class="list">
     <tr>
@@ -19,7 +19,7 @@
     {/foreach}
     <tr>
         <td align="center"><a href="{url section=user action=groupCreate}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" width="16" height="16" /></a></td>
-        <td colspan="3"><a href="{url section=user action=groupCreate}" class="jipLink">Добавить группу</a></td>
+        <td colspan="3"><a href="{url route=default2 section=user action=groupCreate}" class="jipLink">Добавить группу</a></td>
     </tr>
 </table>
 <div class="pages">{$pager->toString()}</div>

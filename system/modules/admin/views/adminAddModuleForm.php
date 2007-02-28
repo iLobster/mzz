@@ -28,7 +28,7 @@ class adminAddModuleForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
+        $url = new url('withId');
         $url->setAction($action);
         $url->addParam('id', $data['id']);
 

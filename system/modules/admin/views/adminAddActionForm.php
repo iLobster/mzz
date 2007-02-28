@@ -28,10 +28,11 @@ class adminAddActionForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
+        $url = new url('withId');
         $url->setAction($action);
         $url->addParam('id', $data['c_id']);
         if ($action == 'editAction') {
+            $url->setRoute('adminAction');
             $url->addParam('action_name', $action_name);
         }
 

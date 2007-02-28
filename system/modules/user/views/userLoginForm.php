@@ -24,7 +24,7 @@ class userLoginForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
+        $url = new url('default2');
         $url->setSection('user');
         $url->setAction('login');
 

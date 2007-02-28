@@ -1,5 +1,5 @@
 Текущий каталог: <b>{$current_folder->getPath()}</b><br />
-<a href="{url section=$current_section action=upload path=$current_folder->getPath()}" class="jipLink">Загрузить файл</a><br />
+<a href="{url route=withAnyParam section=$current_section action=upload name=$current_folder->getPath()}" class="jipLink">Загрузить файл</a><br />
 Каталоги:
 <table border="1">
     <tr>
@@ -11,7 +11,7 @@
     {foreach from=$folders item=folder}
         <tr>
             <td>{$folder->getId()}</td>
-            <td><a href="{url section=$current_section action=list path=$folder->getPath()}">{$folder->getName()}</a></td>
+            <td><a href="{url route=withAnyParam section=$current_section action=list name=$folder->getPath()}">{$folder->getName()}</a></td>
             <td>{$folder->getTitle()}</td>
             <td>{$folder->getJip()}</td>
         </tr>

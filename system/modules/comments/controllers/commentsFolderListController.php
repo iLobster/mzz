@@ -26,7 +26,7 @@ class commentsFolderListController extends simpleController
     {
         $commentsFolderMapper = $this->toolkit->getMapper('comments', 'commentsFolder', 'comments');
 
-        $parent_id = $this->request->get('parent_id', 'integer', SC_PATH);
+        $parent_id = $this->request->get('id', 'integer', SC_PATH);
 
         $commentsFolder = $commentsFolderMapper->searchOneByField('parent_id', $parent_id);
 

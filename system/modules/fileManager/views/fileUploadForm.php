@@ -33,9 +33,9 @@ class fileUploadForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
+        $url = new url('withAnyParam');
         $url->setAction('upload');
-        $url->addParam('path', $folder->getPath());
+        $url->addParam('name', $folder->getPath());
         $form = new HTML_QuickForm('fileUpload', 'POST', $url->get());
 
         $form->addElement('file', 'file', 'Τΰιλ');

@@ -25,10 +25,10 @@ class commentsPostForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
-        $url->addParam('parent_id', $parent_id);
+        $url = new url('withId');
         $url->setAction($action);
-
+        $url->addParam('id', $parent_id);
+        
         $form = new HTML_QuickForm('post', 'POST', $url->get());
 
         if ($action == 'edit') {

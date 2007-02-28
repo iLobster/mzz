@@ -33,11 +33,12 @@ class groupEditForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
+        $url = new url('default2');
         $url->setAction($action);
         $url->setSection($section);
 
         if ($action == 'groupEdit') {
+            $url->setRoute('withId');
             $url->addParam('id', $group->getId());
         }
 

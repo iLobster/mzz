@@ -29,7 +29,7 @@ class folderEditForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
+        $url = new url('withAnyParam');
         $url->setAction($action);
         $url->addParam('name', $folder->getPath());
         $form = new HTML_QuickForm('editFolder', 'POST', $url->get());

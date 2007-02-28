@@ -29,7 +29,6 @@ class pageViewController extends simpleController
                 $name = 'main';
             }
         }
-
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
         $page = $pageFolderMapper->searchChild($name);
 

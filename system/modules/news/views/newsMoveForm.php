@@ -33,7 +33,7 @@ class newsMoveForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url();
+        $url = new url('withId');
         $url->setAction('move');
         $url->addParam('id', $news->getId());
         $form = new HTML_QuickForm('newsMove', 'POST', $url->get());

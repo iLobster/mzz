@@ -46,7 +46,7 @@ class adminDeleteActionController extends simpleController
             return $e;
         }
 
-        $url = new url();
+        $url = new url('default2');
         $url->setAction('devToolbar');
         return jipTools::redirect($url->get());
     }

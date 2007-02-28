@@ -49,7 +49,7 @@ class adminDeleteModuleController extends simpleController
 
         $db->query('DELETE FROM `sys_modules` WHERE `id` = ' .$id);
 
-        $url = new url();
+        $url = new url('default2');
         $url->setAction('devToolbar');
         return jipTools::redirect($url->get());
     }

@@ -88,7 +88,7 @@ class jip
      */
     private function buildUrl($action)
     {
-        $url = new url();
+        $url = new url('withId');
         $url->setSection($this->section);
         $url->setAction($action);
         $url->addParam('id', $this->id);
@@ -103,10 +103,10 @@ class jip
      */
     private function buildACLUrl($obj_id)
     {
-        $url = new url();
+        $url = new url('withId');
         $url->setSection('access');
         $url->setAction('editACL');
-        $url->addParam('obj_id', $obj_id);
+        $url->addParam('id', $obj_id);
         return $url->get();
     }
 

@@ -80,7 +80,7 @@ class userAddToGroupController extends simpleController
                 $users = $userMapper->searchAllByCriteria($criteria);
             }
 
-            $url = new url();
+            $url = new url('withId');
             $url->setSection($this->request->getSection());
             $url->addParam('id', $this->request->get('id', 'integer', SC_PATH));
             $url->setAction('addToGroupList');

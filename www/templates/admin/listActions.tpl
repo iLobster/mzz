@@ -10,13 +10,13 @@
     {/if}
     <b>{$item}</b>{if not $smarty.foreach.delete.last}, {else}.<br />{/if}
 {/foreach}
-<a href="{url section="admin" id=$id action="addAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить экшн" /></a><br />
+<a href="{url route="withId" section="admin" id=$id action="addAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить экшн" /></a><br />
 {foreach from=$actions item=action key=key}
     {$key}
     {if not empty($action.title)}
         ({$action.title})
     {/if}
-    <a href="{url section="admin" id=$id actionName="$key" action="editAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать экшн" /></a>
-    <a href="{url section="admin" id=$id actionName="$key" action="deleteAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить экшн" /></a>
+    <a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="editAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать экшн" /></a>
+    <a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="deleteAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить экшн" /></a>
     <br />
 {/foreach}

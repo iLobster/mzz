@@ -4,7 +4,7 @@
 
 {foreach from=$source->getFolders() item=current_folder name=folders}
     {'&nbsp;&nbsp;'|str_repeat:$current_folder->getLevel()}
-     <a href="{url section=news action=list params=$current_folder->getPath()}">{$current_folder->getTitle()}</a> {$current_folder->getJip()}
+     <a href="{url route=withAnyParam section=news action=list name=$current_folder->getPath()}">{$current_folder->getTitle()}</a> {$current_folder->getJip()}
     <br />
 {/foreach}
 

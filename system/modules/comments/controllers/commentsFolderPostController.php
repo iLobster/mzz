@@ -27,7 +27,8 @@ class commentsFolderPostController extends simpleController
     public function getView()
     {
         $user = $this->toolkit->getUser();
-        $form = commentsPostForm::getForm($this->request->get('parent_id', 'integer', SC_PATH));
+        
+        $form = commentsPostForm::getForm($this->request->get('id', 'integer', SC_PATH));
 
         $access = $this->request->get('access', 'boolean', SC_PATH);
 
