@@ -12,52 +12,51 @@
  * @version $Id$
 */
 
-fileLoader::load('page/views/pageCreateFolderForm');
+fileLoader::load('page/views/pageSaveFolderForm');
 
 /**
- * pageCreateFolderController: контроллер для метода createFolder модуля page
+ * pageSaveFolderController: контроллер для метода saveFolder модуля page
  *
  * @package modules
  * @subpackage page
  * @version 0.1
  */
-class pageCreateFolderController extends simpleController
+class pageSaveFolderController extends simpleController
 {
     public function getView()
     {
         $user = $this->toolkit->getUser();
-
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
-
         $path = $this->request->get('name', 'string', SC_PATH);
-
         $targetFolder = $pageFolderMapper->searchByPath($path);
 
         $action = $this->request->getAction();
+        $isEdit = ($action == 'editFolder');
 
         if (!is_null($targetFolder)) {
 
-            $form = pageCreateFolderForm::getForm($path, $pageFolderMapper, $action, $targetFolder);
+            $form = pageSaveFolderForm::getForm($path, $pageFolderMapper, $action, $targetFolder, $isEdit);
 
             if ($form->validate() == false) {
                 $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
                 $form->accept($renderer);
 
                 $this->smarty->assign('form', $renderer->toArray());
+                $this->smarty->assign('isEdit', $isEdit);
 
-                $this->smarty->assign('action', $action);
-                $this->response->setTitle('Страницы -> Создание папки');
-                $view = $this->smarty->fetch('page/createFolder.tpl');
+                $title = $isEdit ? 'Редактирование папки -> ' . $targetFolder->getName() : 'Создание папки';
+                $this->response->setTitle('Страницы -> ' . $title);
+                $view = $this->smarty->fetch('page/saveFolder.tpl');
             } else {
                 $values = $form->exportValues();
 
-                if ($action == 'createFolder') {
-                    // создаём папку
-                    $folder = $pageFolderMapper->create();
-                } else {
+                if ($isEdit) {
                     // изменяем папку
                     $folder = $pageFolderMapper->searchByPath($path);
                     $targetFolder = null;
+                } else {
+                    // создаём папку
+                    $folder = $pageFolderMapper->create();
                 }
 
                 $folder->setName($values['name']);

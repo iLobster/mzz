@@ -1,4 +1,4 @@
-{if $action eq 'edit'}
+{if $isEdit}
 {include file='jipTitle.tpl' title='Редактирование страницы'}
 {else}
 {include file='jipTitle.tpl' title='Создание страницы'}

@@ -13,28 +13,28 @@
  */
 
 /**
- * pageCreateFolderForm: форма для метода create модуля page
+ * pageSaveFolderForm: форма для метода saveFolder модуля page
  *
  * @package modules
  * @subpackage page
  * @version 0.1
  */
-class pageCreateFolderForm
+class pageSaveFolderForm
 {
-    static function getForm($folder, $pageFolderMapper, $action, $targetFolder)
+    static function getForm($folder, $pageFolderMapper, $action, $targetFolder, $isEdit)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url('withAnyParam');
-        $url->addParam('folder', $folder);
+        $url = new url('pageActions');
+        $url->addParam('name', $folder);
         $url->setAction($action);
 
-        $form = new HTML_QuickForm('createFolder', 'POST', $url->get());
+        $form = new HTML_QuickForm($action, 'POST', $url->get());
 
         $defaultValues = array();
 
-        if ($action == 'editFolder') {
+        if ($isEdit) {
             $defaultValues['name'] = $targetFolder->getName();
             $defaultValues['title'] = $targetFolder->getTitle();
         }
@@ -51,7 +51,7 @@ class pageCreateFolderForm
         $form->addRule('name', 'обязательное поле', 'required');
         $form->addRule('name', 'только алфавитно-цифровые символы', 'regex', '/[^\W\d][\w\d_]*/');
 
-        if ($action == 'editFolder') {
+        if ($isEdit) {
             $form->registerRule('isUniqueName', 'callback', 'editFolderValidate');
         } else {
             $form->registerRule('isUniqueName', 'callback', 'createFolderValidate');

@@ -30,7 +30,7 @@ class newsSaveFolderForm
         $url->addParam('name', $folder);
         $url->setAction($action);
 
-        $form = new HTML_QuickForm('createFolder', 'POST', $url->get());
+        $form = new HTML_QuickForm($action, 'POST', $url->get());
 
         $defaultValues = array();
 

@@ -1,7 +1,7 @@
-{if $action eq 'createFolder'}
-{include file='jipTitle.tpl' title='Создание папки'}
-{else}
+{if $isEdit}
 {include file='jipTitle.tpl' title='Редактирование папки'}
+{else}
+{include file='jipTitle.tpl' title='Создание папки'}
 {/if}
 
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">

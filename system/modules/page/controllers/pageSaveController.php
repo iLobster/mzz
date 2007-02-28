@@ -12,38 +12,37 @@
  * @version $Id$
  */
 
-fileLoader::load('page/views/pageEditForm');
+fileLoader::load('page/views/pageSaveForm');
 
 /**
- * pageEditController: контроллер для метода edit модуля page
+ * pageSaveController: контроллер для метода save модуля page
  *
  * @package modules
  * @subpackage page
  * @version 0.1
  */
 
-class pageEditController extends simpleController
+class pageSaveController extends simpleController
 {
     public function getView()
     {
         $pageMapper = $this->toolkit->getMapper('page', 'page');
-
         $name = $this->request->get('name', 'string', SC_PATH);
-
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
         $page = $pageFolderMapper->searchChild($name);
 
         $action = $this->request->getAction();
+        $isEdit = ($action == 'edit');
 
-        if ($action == 'create') {
+        if ($isEdit) {
+            $pageFolder = $page->getFolder();
+        } else {
             $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
             $pageFolder = $pageFolderMapper->searchByPath($name);
-        } else {
-            $pageFolder = $page->getFolder();
         }
 
-        if (!empty($page) || $action == 'create') {
-            $form = pageEditForm::getForm($page, $this->request->getSection(), $action, $pageFolder);
+        if (!empty($page) || !$isEdit) {
+            $form = pageSaveForm::getForm($page, $this->request->getSection(), $action, $pageFolder, $isEdit);
 
             if ($form->validate() == false) {
                 $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
@@ -51,14 +50,14 @@ class pageEditController extends simpleController
 
                 $this->smarty->assign('form', $renderer->toArray());
                 $this->smarty->assign('page', $page);
-                $this->smarty->assign('action', $action);
+                $this->smarty->assign('isEdit', $isEdit);
 
-                $title = $action == 'edit' ? 'Редактирование -> ' . $page->getName() : 'Создание';
+                $title = $isEdit ? 'Редактирование -> ' . $page->getName() : 'Создание';
                 $this->response->setTitle('Страницы -> ' . $title);
-                $view = $this->smarty->fetch('page/edit.tpl');
+                $view = $this->smarty->fetch('page/save.tpl');
             } else {
                 $values = $form->exportValues();
-                if ($action == 'create') {
+                if (!$isEdit) {
                     $page = $pageMapper->create();
                 }
                 $page->setName($values['name']);

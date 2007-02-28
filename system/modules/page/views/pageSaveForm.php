@@ -13,13 +13,13 @@
  */
 
 /**
- * pageEditForm: форма дл€ метода edit модул€ page
+ * pageSaveForm: форма дл€ метода save модул€ page
  *
  * @package modules
  * @subpackage page
  * @version 0.1
  */
-class pageEditForm
+class pageSaveForm
 {
     /**
      * метод получени€ формы
@@ -28,17 +28,22 @@ class pageEditForm
      * @param string $section текуща€ секци€
      * @param string $action текущее действие
      * @param object $pageFolder
+     * @param boolean $isEdit true если действие "редактировать"
      * @return object сгенерированна€ форма
      */
-    static function getForm($page, $section, $action, $pageFolder)
+    static function getForm($page, $section, $action, $pageFolder, $isEdit)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $formAction = '/' . $section . '/' . $pageFolder->getPath() . ($action == 'edit' ? '/' . $page->getName() : '') . '/' . $action;
-        $form = new HTML_QuickForm('form', 'POST', $formAction);
 
-        if ($action == 'edit') {
+        $url = new url('pageActions');
+        $url->addParam('name', $pageFolder->getPath() . ($isEdit ? '/' . $page->getName() : ''));
+        $url->setAction($action);
+        $url->setSection($section);
+        $form = new HTML_QuickForm($action, 'POST', $url->get());
+
+        if ($isEdit) {
             $defaultValues = array();
             $defaultValues['name']  = $page->getName();
             $defaultValues['title']  = $page->getTitle();
@@ -50,7 +55,7 @@ class pageEditForm
         $form->addElement('text', 'title', '«аголовок:', 'size=30');
         $form->addElement('textarea', 'contentArea', '—одержание:', 'rows=15 cols=80 id="contentArea" style="width: 100%;"');
 
-        if ($action == 'edit') {
+        if ($isEdit) {
             $form->registerRule('isUniqueName', 'callback', 'editPageValidate');
         } else {
             $form->registerRule('isUniqueName', 'callback', 'createPageValidate');

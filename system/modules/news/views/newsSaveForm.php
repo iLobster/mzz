@@ -40,7 +40,7 @@ class newsSaveForm
         $url->setSection($section);
         $url->setAction($action);
         $url->addParam('name', $isEdit ? $news->getId() : $newsFolder->getPath());
-        $form = new HTML_QuickForm('newsEdit', 'POST', $url->get());
+        $form = new HTML_QuickForm($action, 'POST', $url->get());
 
         $defaultValues = array();
         if ($isEdit) {
