@@ -35,8 +35,8 @@ class pageDeleteController extends simpleController
 
         if ($page) {
             $pageMapper->delete($page->getId());
-            $url = new url();
-            $this->response->redirect($url->get());
+
+            return jipTools::redirect();
         } else {
             fileLoader::load('page/views/page404View');
             return new page404View();
