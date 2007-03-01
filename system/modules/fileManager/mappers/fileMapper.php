@@ -10,15 +10,18 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
+
 fileLoader::load('fileManager/file');
+
 /**
  * fileMapper: маппер
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
+
 class fileMapper extends simpleMapper
 {
     /**
@@ -118,6 +121,12 @@ class fileMapper extends simpleMapper
         }
 
         throw new mzzDONotFoundException();
+    }
+
+    public function get404()
+    {
+        fileLoader::load('fileManager/controllers/fileManager404Controller');
+        return new fileManager404Controller('file');
     }
 }
 

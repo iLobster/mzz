@@ -21,7 +21,7 @@ fileLoader::load('simple/simpleMapperForTree');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class folderMapper extends simpleMapperForTree
@@ -118,20 +118,6 @@ class folderMapper extends simpleMapperForTree
     }
 
     /**
-     * Создание подпапки
-     *
-     * @param  folder     $folder          Папка для добавления
-     * @param  folder     $targetFolder    Папка назначения, в которую добавлять
-     * @return folder
-     */
-    /*
-    public function createSubfolder(folder $folder, folder $targetFolder)
-    {
-        $idParent = $targetFolder->getParent();
-        return $this->tree->insertNode($idParent, $folder);
-    }*/
-
-    /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
      * @return integer
@@ -154,6 +140,12 @@ class folderMapper extends simpleMapperForTree
     public function getTreeParent($id)
     {
         return $this->tree->getParentNode($id);
+    }
+
+    public function get404()
+    {
+        fileLoader::load('fileManager/controllers/fileManager404Controller');
+        return new fileManager404Controller('folder');
     }
 }
 
