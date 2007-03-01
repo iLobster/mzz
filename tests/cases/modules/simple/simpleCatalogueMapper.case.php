@@ -48,7 +48,7 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->mapper = new stubCatalogueMapper('simple');
         $this->mapper->setMap($this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
-        $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('stubsimple', 1)");
+        $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('stubsimple', 1), ('catalogue', 1)");
     }
 
     public function tearDown()
@@ -147,6 +147,9 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->assertEqual($catalogue->getEditor(), $editor);
         $this->assertEqual($catalogue->getProperty('property_3'), $val1);
         $this->assertEqual($catalogue->getProperty('property_4'), $val2);
+
+        $res = $this->db->getOne("SELECT COUNT(*) FROM `simple_catalogue_data` WHERE `id` = 3 AND ((`property_type` = 4 AND `value` = 'bar') OR (`property_type` = 5 AND `value` = 'foo'))");
+        $this->assertEqual($res, 2);
     }
 }
 

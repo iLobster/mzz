@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleCatalogue');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 abstract class simpleCatalogueMapper extends simpleMapper
@@ -114,26 +114,15 @@ abstract class simpleCatalogueMapper extends simpleMapper
             $ids = '';
             while ($row = $stmt->fetch()) {
                 $properties[$row['name']] = $row['id'];
-                $ids .= $row['id'] . ', ';
                 $result[$row['name']] = $data[$row['name']];
             }
 
             if (sizeof($properties)) {
-                $ids = substr($ids, 0, -2);
-                $this->db->query('DELETE FROM `' . $this->tableData . '` WHERE `property_type` IN (' . $ids . ') AND `id` = ' . $object->getId());
-
-                $qry = 'INSERT INTO `' . $this->tableData . '` (`id`, `property_type`, `value`) VALUES ';
                 foreach ($properties as $key => $val) {
-                    $qry .= '(' . $object->getId() . ', ' . $val . ', ' . $this->db->quote($data[$key]) . '), ';
+                    $this->db->query($qry = 'REPLACE INTO `' . $this->tableData . '` SET `value` = ' . $this->db->quote($data[$key]) . ', `property_type` = ' . $val . ', `id` = ' . $object->getId());
                 }
 
-                $qry = substr($qry, 0, -2);
-                $this->db->query($qry);
-
-                $old =& $object->exportOldProperties();
-                $new = $result + $old;
-
-                $object->importProperties($new);
+                $object->importProperties($result + $object->exportOldProperties());
             }
         }
     }
