@@ -480,7 +480,7 @@ jipWindow.prototype = {
 
   keyPress: function(event) {
     if(event.keyCode==Event.KEY_ESC) {
-        this.close();
+        jipWindow.close();
         Event.stop(event);
     }
   },
