@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage filters
- * @version 0.2.2
+ * @version 0.2.3
  */
 class contentFilter implements iFilter
 {
@@ -43,26 +43,36 @@ class contentFilter implements iFilter
             $router->route($request->getPath());
         } catch (mzzRouteException $e) {
             if ($e->getMessage() == 404) {
-                $request->setSection('page');
-                $request->setAction('view');
-                $request->setParams(array('name' => 404));
+                $this->set404($request);
             }
         }
 
-        $template = $frontcontroller->getTemplateName();
+        try {
+            $template = $frontcontroller->getTemplateName();
+        } catch (mzzRuntimeException $e) {
+            $this->set404($request);
+            $template = $frontcontroller->getTemplateName();
+        }
 
         $smarty = $toolkit->getSmarty();
         $smarty->assign('current_section', $request->getSection());
         $output = $smarty->fetch($template);
 
-        /*
-        if (isset($GLOBALS['403global']) && $GLOBALS['403global']) {
-            $output = $smarty->fetch($GLOBALS['403tpl']);
-        }*/
-
         $response->append($output);
 
         $filter_chain->next();
+    }
+
+    /**
+     * Установка в request значений параметров, необходимых для отображения страницы с ошибкой 404
+     *
+     * @param httpRequest $request
+     */
+    private function set404($request)
+    {
+        $request->setSection('page');
+        $request->setAction('view');
+        $request->setParams(array('name' => 404));
     }
 }
 

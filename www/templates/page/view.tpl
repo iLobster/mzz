@@ -2,5 +2,7 @@
 <p>{$page->getContent()}</p>
 
 {if $page->getName() ne '403'}
-    {load module="comments" section="comments" action="list" id=$page->getObjId()}
+    {if $page->getName() ne '404'}
+        {load module="comments" section="comments" action="list" id=$page->getObjId()}
+    {/if}
 {/if}
