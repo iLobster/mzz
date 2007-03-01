@@ -31,7 +31,7 @@ define('MZZ_USER_GUEST_ID', 1);
 /**
  * Идентификатор группы, для которой ACL всегда будет возвращать true (т.е. предоставит полный доступ)
  */
-define('MZZ_ROOT_GID', 2);
+define('MZZ_ROOT_GID', 3);
 
 require_once(SYSTEM_PATH . 'systemConfig.php');
 

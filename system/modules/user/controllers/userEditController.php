@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('user/views/userEditForm');
 
@@ -19,8 +19,9 @@ fileLoader::load('user/views/userEditForm');
  *
  * @package modules
  * @subpackage user
- * @version 0.1
+ * @version 0.1.1
  */
+
 class userEditController extends simpleController
 {
     public function getView()
@@ -58,10 +59,23 @@ class userEditController extends simpleController
 
                 $values = $form->exportValues();
                 $editedUser->setLogin($values['login']);
-                if ($action != 'create' && !empty($values['password'])) {
+                if (!empty($values['password'])) {
                     $editedUser->setPassword($values['password']);
                 }
+
+                // добавим созданного пользователя в группу auth
+                $groupMapper = $this->toolkit->getMapper('user', 'group');
+                $group = $groupMapper->searchOneByField('name', 'auth');
+
                 $userMapper->save($editedUser);
+
+                $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
+                $userGroup = $userGroupMapper->create();
+                $userGroup->setGroup($group);
+
+                $editedUser->setGroups(array($userGroup));
+                $userMapper->save($editedUser);
+
 
                 $view = jipTools::redirect();
             }
