@@ -662,8 +662,9 @@ Draggable.prototype = {
   },
   endDrag: function(event) {
     if(this.active) {
-      Cookie.set('jip_window_top', new Number(this.offsetTop) - new Number(document.documentElement.scrollTop), new Date(new Date().getTime() + 50000000000));
-      Cookie.set('jip_window_left', this.offsetLeft, new Date(new Date().getTime() + 50000000000));
+      var cookiePath = (SITE_PATH == '') ? '/' : SITE_PATH;
+      Cookie.set('jip_window_top', new Number(this.offsetTop) - new Number(document.documentElement.scrollTop), new Date(new Date().getTime() + 50000000000), cookiePath);
+      Cookie.set('jip_window_left', this.offsetLeft, new Date(new Date().getTime() + 50000000000), cookiePath);
       jipWindow.lockContent();
       this.finishDrag(event, true);
       Event.stop(event);
