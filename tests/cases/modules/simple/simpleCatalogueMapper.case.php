@@ -35,7 +35,7 @@ class simpleCatalogueMapperTest extends unitTestCase
             $valString .= "('" . $data['id'] . "', '" . $data['type_id']. "', '" . $data['editor']. "', '" . $data['created']. "'),";
         }
         $valString = substr($valString, 0,  -1);
-
+        
         $this->db->query('INSERT INTO `simple_catalogue` (`id`, `type_id`, `editor`, `created`) VALUES ' . $valString);
         $this->db->query("INSERT INTO `simple_catalogue_properties` (`id`, `name`, `title`) VALUES (1, 'property_1', 'title_1'), (2, 'property_2', 'title_2'), (3, 'property_3', 'title_3'), (4, 'property_4', 'title_4')");
         $this->db->query("INSERT INTO `simple_catalogue_types` (`id`, `name`, `title`) VALUES (1, 'type_1', 'type_title_1'), (2, 'type_2', 'type_title_2')");

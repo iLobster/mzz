@@ -41,6 +41,50 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $this->tableTypesProps = $this->table . '_types_props';
     }
 
+    public function getAllTypes()
+    {
+        return $this->db->getAll('SELECT * FROM `' . $this->tableTypes . '`', PDO::FETCH_ASSOC);
+    }
+    
+    public function getAllProperties()
+    {
+        return $this->db->getAll('SELECT * FROM `' . $this->tableProperties . '`', PDO::FETCH_ASSOC);
+    }
+    
+    public function getType($id)
+    {
+        return $db->getRow('SELECT * FROM `' . $this->table . '_types' . '` WHERE `id` = ' . $id, PDO::FETCH_ASSOC);
+    }
+    
+    public function getProperties($id)
+    {
+        $stmt = $this->db->prepare('SELECT `p`.* FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` WHERE `tp`.`type_id` = :type_id');
+        $stmt->bindParam('type_id', $id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addType($name, $title, Array $properties = array())
+    {
+        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypes . '` VALUES ("", :name, :title)');
+        $stmt->bindParam('name', $name);
+        $stmt->bindParam('title', $title);
+        $type_id = $stmt->execute();
+        
+        foreach($properties as $id){
+            //todo коряво как-то... может всё в один запрос?
+            $this->addPropertyToType($type_id, $id);
+        }
+    }
+
+    public function addPropertyToType($type_id, $prop_id)
+    {
+        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypesProps . '` VALUES ("", :type_id, :prop_id)');
+        $stmt->bindParam('type_id', $type_id);
+        $stmt->bindParam('prop_id', $prop_id);
+        return $stmt->execute();
+    }
+    
     protected function searchByCriteria(criteria $criteria)
     {
         $keys = $criteria->keys();

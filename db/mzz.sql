@@ -20,6 +20,155 @@ CREATE DATABASE `mzz`
 
 USE `mzz`;
 
+-- 
+-- Структура таблицы `catalogue_catalogue`
+-- 
+-- Создание: Мар 02 2007 г., 00:25
+-- Последнее обновление: Мар 02 2007 г., 00:25
+-- 
+
+DROP TABLE IF EXISTS `catalogue_catalogue`;
+CREATE TABLE IF NOT EXISTS `catalogue_catalogue` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `editor` int(11) default NULL,
+  `created` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- 
+-- Дамп данных таблицы `catalogue_catalogue`
+-- 
+
+INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`) VALUES (1, 1, 1, 666, NULL);
+INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`) VALUES (2, 2, 2, 999, NULL);
+
+-- --------------------------------------------------------
+
+-- 
+-- Структура таблицы `catalogue_catalogue_data`
+-- 
+-- Создание: Мар 02 2007 г., 00:25
+-- Последнее обновление: Мар 02 2007 г., 00:25
+-- 
+
+DROP TABLE IF EXISTS `catalogue_catalogue_data`;
+CREATE TABLE IF NOT EXISTS `catalogue_catalogue_data` (
+  `id` int(11) NOT NULL default '0',
+  `property_type` int(11) unsigned default NULL,
+  `value` text,
+  KEY `property_type` (`property_type`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- 
+-- Дамп данных таблицы `catalogue_catalogue_data`
+-- 
+
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (1, 1, '25''');
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (1, 2, 'LG');
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (2, 6, '50$');
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (1, 3, '100$');
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (2, 5, 'BOSH');
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (2, 4, '25x25x25');
+
+-- --------------------------------------------------------
+
+-- 
+-- Структура таблицы `catalogue_catalogue_properties`
+-- 
+-- Создание: Мар 02 2007 г., 00:25
+-- Последнее обновление: Мар 02 2007 г., 00:29
+-- 
+
+DROP TABLE IF EXISTS `catalogue_catalogue_properties`;
+CREATE TABLE IF NOT EXISTS `catalogue_catalogue_properties` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- 
+-- Дамп данных таблицы `catalogue_catalogue_properties`
+-- 
+
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (1, 'diag', 'Диагональ');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (2, 'size', 'Размеры');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (3, 'model', 'Модель');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (4, 'cost', 'Цена');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (5, 'button', 'Количество кнопок');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (6, 'lamp', 'Количество лампочек');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (7, 'color', 'Цвет');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (8, 'madein', 'Производство');
+
+-- --------------------------------------------------------
+
+-- 
+-- Структура таблицы `catalogue_catalogue_types`
+-- 
+-- Создание: Мар 02 2007 г., 00:25
+-- Последнее обновление: Мар 02 2007 г., 01:46
+-- 
+
+DROP TABLE IF EXISTS `catalogue_catalogue_types`;
+CREATE TABLE IF NOT EXISTS `catalogue_catalogue_types` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- 
+-- Дамп данных таблицы `catalogue_catalogue_types`
+-- 
+
+INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES (1, 'tvs', 'Телевизоры');
+INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES (2, 'microwave', 'Микроволновки');
+INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES (3, 'utug', 'Утюги');
+INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES (4, 'notebooks', 'Ноутбуки');
+
+-- --------------------------------------------------------
+
+-- 
+-- Структура таблицы `catalogue_catalogue_types_props`
+-- 
+-- Создание: Мар 02 2007 г., 00:25
+-- Последнее обновление: Мар 02 2007 г., 01:46
+-- 
+
+DROP TABLE IF EXISTS `catalogue_catalogue_types_props`;
+CREATE TABLE IF NOT EXISTS `catalogue_catalogue_types_props` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `property_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `type_id` (`type_id`,`property_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- 
+-- Дамп данных таблицы `catalogue_catalogue_types_props`
+-- 
+
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (1, 1, 1);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (2, 1, 3);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (3, 1, 4);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (4, 2, 2);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (5, 2, 3);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (6, 2, 4);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (7, 1, 5);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (8, 1, 6);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (9, 2, 7);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (10, 1, 8);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (11, 3, 3);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (12, 3, 4);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (13, 3, 7);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (14, 4, 1);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (15, 4, 2);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (16, 4, 3);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (17, 4, 4);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (18, 4, 5);
+
 #
 # Structure for the `comments_comments` table : 
 #

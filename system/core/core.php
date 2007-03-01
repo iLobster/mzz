@@ -111,6 +111,8 @@ class core
         fileLoader::load('simple/simpleJipCloseView');
         fileLoader::load('simple/simpleJipRefreshView');
         fileLoader::load('simple/jipTools');
+        fileLoader::load('simple/simpleCatalogue');
+        fileLoader::load('simple/simpleCatalogueMapper');
 
         fileLoader::load('filters/init');
 
