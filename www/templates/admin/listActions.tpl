@@ -1,3 +1,5 @@
+{include file='jipTitle.tpl' title='Список экшнов'}
+
 {foreach from=$insert item=item name=insert}
     {if $smarty.foreach.insert.first}
         <font color="green">Были добавлены экшны</font>:

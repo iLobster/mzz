@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1.5
+ * @version 0.1.6
  */
 
 fileLoader::load('db/criterion');
@@ -262,6 +262,18 @@ class criteria
     public function keys()
     {
         return array_keys($this->map);
+    }
+
+    /**
+     * Метод удаления одного из критериев выборки
+     *
+     * @param имя ключа $key
+     * @return criteria текущий объект
+     */
+    public function remove($key)
+    {
+        unset($this->map[$key]);
+        return $this;
     }
 
     /**

@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 fileLoader::load('admin');
@@ -48,11 +48,12 @@ class adminMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
         $user = $toolkit->getUser();
 
-        $info = $this->db->getAll("SELECT `m`.`name` AS `module`, `ss`.`name` AS `section`, `c`.`name` AS `class` FROM `sys_modules` `m`
+        $info = $this->db->getAll("SELECT `m`.`name` AS `module`, `ss`.`name` AS `section`, `c`.`name` AS `class`, `c2`.`name` AS `main_class` FROM `sys_modules` `m`
                                     LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
                                      LEFT JOIN `sys_classes_sections` `s` ON `s`.`class_id` = `c`.`id`
                                       LEFT JOIN `sys_sections` `ss` ON `ss`.`id` = `s`.`section_id`
-                                       ORDER BY `m`.`name`, `ss`.`name`, `c`.`name`");
+                                       LEFT JOIN `sys_classes` `c2` ON `c2`.`id` = `m`.`main_class`
+                                        ORDER BY `m`.`name`, `ss`.`name`, `c`.`name`");
         $result = array();
         $access = array();
         $admin = array();
@@ -60,12 +61,14 @@ class adminMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
 
         foreach ($info as $val) {
-            $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $val['class']);
+            $class = (!empty($val['main_class'])) ? $val['main_class'] : $val['class'];
+
+            $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $class);
             $this->register($obj_id, 'sys', 'access');
             $acl = new acl($user, $obj_id);
 
             if (!isset($access[$val['section'] . '_' . $val['class']])) {
-                $access[$val['section'] . '_' . $val['class']] = $acl->get('editACL');
+                $access[$val['section'] . '_' . $val['module']] = $acl->get('editACL');
 
                 $action = $toolkit->getAction($val['module']);
                 $actions = $action->getActions();

@@ -99,6 +99,16 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->assertEqual($objects[1]->getProperty('property_1'), 'foobar');
         $this->assertEqual($objects[2]->getProperty('property_4'), 'mzz');
     }
+
+    public function testSearchByDynamicProperty()
+    {
+        $this->db->query("INSERT INTO `simple_catalogue_data` (`id`, `property_type`, `value`) VALUES (1, 1, 'foobar'), (1, 2, 'baz'), (2, 5, 'mzz')");
+        $object = $this->mapper->searchAllByField('property_4', 'mzz');
+
+        $this->assertEqual(sizeof($object), 1);
+        $this->assertEqual($object[2]->getId(), 2);
+        $this->assertEqual($object[2]->getProperty('property_4'), 'mzz');
+    }
 }
 
 ?>

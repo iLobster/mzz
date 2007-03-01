@@ -19,6 +19,7 @@
  * @subpackage admin
  * @version 0.1
  */
+
 class adminAddClassForm
 {
     /**

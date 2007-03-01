@@ -24,12 +24,14 @@ class criteriaTest extends unitTestCase
         $this->assertEqual($this->criteria->getTable(), array('table' => $table, 'alias' => $alias));
     }
 
-    public function testAddAndKeys()
+    public function testAddAndRemoveKeys()
     {
         $this->criteria->add('field', 'value')->add('field2', 'value2');
         $criterion = new criterion('field3', 'value3');
         $this->criteria->add($criterion)->add(new criterion())->add(new criterion());
         $this->assertEqual($this->criteria->keys(), array('field', 'field2', 'field3', 0, 1));
+        $this->criteria->remove('field')->remove('field3');
+        $this->assertEqual($this->criteria->keys(), array('field2', 0, 1));
     }
 
     public function testOverwriteKeys()

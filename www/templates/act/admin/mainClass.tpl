@@ -1,2 +1,2 @@
 {* main="popup.tpl" placeholder="content" *}
-{load module="admin" action="listActions"}
+{load module="admin" action="mainClass"}

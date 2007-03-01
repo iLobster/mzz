@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleCatalogue');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.1.1
  */
 
 abstract class simpleCatalogueMapper extends simpleMapper
@@ -43,6 +43,18 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     protected function searchByCriteria(criteria $criteria)
     {
+        $keys = $criteria->keys();
+        $map = array_keys($this->getMap());
+
+        foreach ($keys as $val) {
+            if (!in_array($val, $map)) {
+                $criterion = $criteria->getCriterion($val);
+                $value = $criterion->getValue();
+                $criteria->add('p.name', $val)->add('d.value', $value);
+                $criteria->remove($val);
+            }
+        }
+
         $this->tmpPropsData = array();
 
         $criteria->addJoin($this->tableTypes, new criterion('t.id', $this->className . '.type_id', criteria::EQUAL, true), 't', criteria::JOIN_INNER);

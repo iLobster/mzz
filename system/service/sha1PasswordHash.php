@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.web/repository/mzz/docs/standart_header.txt $
+ * $URL: http://svn.web/repository/mzz/system/service/sha1PasswordHash.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: standart_header.txt 1 2006-09-05 21:03:12Z zerkms $
+ * @version $Id: sha1PasswordHash.php 627 2007-02-28 22:30:42Z zerkms $
  */
 
 fileLoader::load('service/passwordHash');

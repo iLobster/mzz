@@ -1068,7 +1068,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (219,14),
   (220,14),
   (221,15),
-  (222,15);
+  (222,15),
+  (224,12);
 
 COMMIT;
 
@@ -1119,7 +1120,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (27,'upload'),
   (28,'get'),
   (29,'move'),
-  (30,'moveFolder');
+  (30,'moveFolder'),
+  (31,'mainClass');
 
 COMMIT;
 
@@ -1302,7 +1304,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (73,18,8),
   (74,18,7),
   (77,18,30),
-  (76,2,30);
+  (76,2,30),
+  (79,9,31);
 
 COMMIT;
 
@@ -1353,6 +1356,7 @@ DROP TABLE IF EXISTS `sys_modules`;
 CREATE TABLE `sys_modules` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
+  `main_class` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -1360,15 +1364,15 @@ CREATE TABLE `sys_modules` (
 # Data for the `sys_modules` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_modules` (`id`, `name`) VALUES 
-  (1,'news'),
-  (2,'user'),
-  (3,'timer'),
-  (4,'page'),
-  (5,'access'),
-  (6,'admin'),
-  (8,'comments'),
-  (9,'fileManager');
+INSERT INTO `sys_modules` (`id`, `name`, `main_class`) VALUES 
+  (1,'news',NULL),
+  (2,'user',NULL),
+  (3,'timer',NULL),
+  (4,'page',NULL),
+  (5,'access',NULL),
+  (6,'admin',NULL),
+  (8,'comments',NULL),
+  (9,'fileManager',17);
 
 COMMIT;
 
@@ -1595,7 +1599,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (219),
   (220),
   (221),
-  (222);
+  (222),
+  (223),
+  (224);
 
 COMMIT;
 
@@ -1752,7 +1758,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (19,2,'127.0.0.1','87797ac73e4f640b4afc275d741d1204',155,1166160735),
   (21,2,'127.0.0.1','d7077cea0a904e17ac64769455aca1c1',157,1167013306),
   (22,2,'127.0.0.1','6cf0e978f23e2cb178b7aed1112095f9',176,1170655390),
-  (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610);
+  (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610),
+  (25,2,'127.0.0.1','35309ce4e0316685d1be41d25afde9d7',224,1172709883);
 
 COMMIT;
 

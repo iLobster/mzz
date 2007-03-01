@@ -8,5 +8,5 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: standart_header.txt 1 2006-09-05 21:03:12Z zerkms $
+ * @version $Id: standart_header.txt 627 2007-02-28 22:30:42Z zerkms $
  */

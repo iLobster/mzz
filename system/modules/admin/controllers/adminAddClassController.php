@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('admin/views/adminAddClassForm');
 fileLoader::load('codegenerator/classGenerator');
@@ -22,6 +22,7 @@ fileLoader::load('codegenerator/classGenerator');
  * @subpackage admin
  * @version 0.1.2
  */
+
 class adminAddClassController extends simpleController
 {
     public function getView()
