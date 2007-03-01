@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage core
- * @version 0.1.2
+ * @version 0.1.3
  */
 class core
 {
@@ -104,6 +104,7 @@ class core
 
         fileLoader::load('simple');
         fileLoader::load('simple/simpleMapper');
+        fileLoader::load('simple/simpleCatalogueMapper');
         fileLoader::load('simple/simpleView');
         fileLoader::load('simple/simpleController');
         fileLoader::load('simple/simpleFactory');
