@@ -34,7 +34,7 @@ class newsSaveFolderController extends simpleController
         $isEdit = ($action == 'editFolder');
 
         if (empty($targetFolder)) {
-            return $newsFolderMapper->get404()->getView();
+            return $newsFolderMapper->get404()->run();
         }
 
         $form = newsSaveFolderForm::getForm($path, $newsFolderMapper, $action, $targetFolder, $isEdit);

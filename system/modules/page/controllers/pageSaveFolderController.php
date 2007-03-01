@@ -67,8 +67,7 @@ class pageSaveFolderController extends simpleController
                 $view = jipTools::redirect();
             }
         } else {
-            //fileLoader::load('page/views/page404View');
-            //$view = new page404View();
+            return $pageFolderMapper->get404()->run();
         }
 
         return $view;

@@ -82,8 +82,7 @@ class userEditController extends simpleController
 
             return $view;
         } else {
-            fileLoader::load('user/views/user404View');
-            return new user404View();
+            return $userMapper->get404()->run();
         }
     }
 }

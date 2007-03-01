@@ -50,6 +50,9 @@ class contentFilter implements iFilter
         try {
             $template = $frontcontroller->getTemplateName();
         } catch (mzzRuntimeException $e) {
+            if (DEBUG_MODE) {
+                throw $e;
+            }
             $this->set404($request);
             $template = $frontcontroller->getTemplateName();
         }

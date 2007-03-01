@@ -67,7 +67,7 @@ class accessMapper extends simpleMapper
             return $args['id'];
         }
 
-        throw new mzzRuntimeException('Невозможно определить obj_id');
+        throw new mzzDONotFoundException();
     }
 }
 

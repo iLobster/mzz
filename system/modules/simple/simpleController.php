@@ -71,7 +71,7 @@ abstract class simpleController
      * Возвращает объект отображения
      *
      */
-    abstract public function getView();
+    abstract protected function getView();
 
     /**
      * Запуск контроллера. Если в конфигурации действий указано свойство confirm, требует

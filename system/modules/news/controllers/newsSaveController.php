@@ -82,7 +82,7 @@ class newsSaveController extends simpleController
             }
         }
 
-        return $newsMapper->get404()->getView();
+        return $newsMapper->get404()->run();
     }
 }
 

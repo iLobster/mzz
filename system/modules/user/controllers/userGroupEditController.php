@@ -63,8 +63,7 @@ class userGroupEditController extends simpleController
 
             return $view;
         } else {
-            fileLoader::load('user/views/group404View');
-            return new group404View();
+            return $groupMapper->get404()->run();
         }
     }
 }

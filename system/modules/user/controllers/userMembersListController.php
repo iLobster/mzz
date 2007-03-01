@@ -34,8 +34,7 @@ class userMembersListController extends simpleController
 
         // проверяем что найдена нужная группа
         if (is_null($group)) {
-            fileLoader::load('user/views/group404View');
-            return new group404View();
+            return $groupMapper->get404()->run();
         }
 
         if ($this->request->getMethod() == 'POST') {

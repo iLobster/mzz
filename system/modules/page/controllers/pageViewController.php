@@ -32,14 +32,13 @@ class pageViewController extends simpleController
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
         $page = $pageFolderMapper->searchChild($name);
 
-        if ($page) {
-            $this->smarty->assign('page', $page);
-            $this->response->setTitle('Страницы -> ' . $page->getTitle());
-            return $this->smarty->fetch('page/view.tpl');
-        } else {
-            fileLoader::load('page/views/page404View');
-            return new page404View();
+        if (empty($page)) {
+            return $pageFolderMapper->get404()->run();
         }
+
+        $this->smarty->assign('page', $page);
+        $this->response->setTitle('Страницы -> ' . $page->getTitle());
+        return $this->smarty->fetch('page/view.tpl');
     }
 }
 

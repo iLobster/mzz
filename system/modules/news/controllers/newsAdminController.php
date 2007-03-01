@@ -19,7 +19,7 @@
  * @subpackage news
  * @version 0.1.1
  */
- 
+
 class newsAdminController extends simpleController
 {
     public function getView()
@@ -34,7 +34,7 @@ class newsAdminController extends simpleController
 
         $newsFolder = $newsFolderMapper->searchByPath($path);
         if (empty($newsFolder)) {
-            return $newsFolderMapper->get404()->getView();
+            return $newsFolderMapper->get404()->run();
         }
 
         $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));

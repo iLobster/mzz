@@ -34,8 +34,7 @@ class userMemberOfController extends simpleController
 
         // проверяем что найден нужный пользователь
         if ($id != $user->getId()) {
-            fileLoader::load('user/views/user404View');
-            return new user404View();
+            return $userMapper->get404()->run();
         }
 
         if ($this->request->getMethod() == 'POST') {

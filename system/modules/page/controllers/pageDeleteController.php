@@ -33,14 +33,12 @@ class pageDeleteController extends simpleController
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
         $page = $pageFolderMapper->searchChild($name);
 
-        if ($page) {
-            $pageMapper->delete($page->getId());
-
-            return jipTools::redirect();
-        } else {
-            fileLoader::load('page/views/page404View');
-            return new page404View();
+        if (empty($page)) {
+            return $pageMapper->get404()->run();
         }
+
+        $pageMapper->delete($page->getId());
+        return jipTools::redirect();
     }
 }
 

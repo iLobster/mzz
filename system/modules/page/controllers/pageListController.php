@@ -26,14 +26,13 @@ class pageListController extends simpleController
         $pageMapper = $this->toolkit->getMapper('page', 'page');
 
         $pages = $pageMapper->searchAll();
-        if ($pages) {
-            $this->smarty->assign('pages', $pages);
-            $this->response->setTitle('Страницы -> Список');
-            return $this->smarty->fetch('page/list.tpl');
-        } else {
-            fileLoader::load('news/views/page404View');
-            return new page404View();
+        if (empty($pages)) {
+            return $pageMapper->get404()->run();
         }
+
+        $this->smarty->assign('pages', $pages);
+        $this->response->setTitle('Страницы -> Список');
+        return $this->smarty->fetch('page/list.tpl');
     }
 }
 

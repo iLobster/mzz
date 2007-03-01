@@ -34,7 +34,7 @@ class newsMoveController extends simpleController
         $news = $newsMapper->searchById($id);
 
         if (!$news) {
-            return $newsMapper->get404()->getView();
+            return $newsMapper->get404()->run();
         }
 
         $folders = $newsFolderMapper->searchAll();

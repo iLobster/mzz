@@ -41,10 +41,10 @@ class fileUploadForm
         $form = new HTML_QuickForm('fileUpload', 'POST', $url->get());
 
         $form->addElement('file', 'file', 'Файл');
-        $form->addRule('file', 'обязательное поле', 'uploadedfile');
+        $form->addRule('file', 'Файл обязательное для заполнения поле', 'uploadedfile');
 
         $form->addElement('text', 'name', 'Новое имя:', 'size="30"');
-        $form->addRule('name', 'недопустимые символы в имени', 'regex', '/^[a-zа-я0-9_\.\-]+$/i');
+        $form->addRule('name', 'Недопустимые символы в имени', 'regex', '/^[a-zа-я0-9_\.\-]+$/i');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');

@@ -31,7 +31,7 @@ class newsMoveFolderController extends simpleController
 
         $folder = $newsFolderMapper->searchByPath($path);
         if (!$folder) {
-            return $newsFolderMapper->get404()->getView();
+            return $newsFolderMapper->get404()->run();
         }
 
         $folders = $newsFolderMapper->getTreeExceptNode($folder);

@@ -126,7 +126,7 @@ class fileManagerUploadController extends simpleController
                         $file->setFolder($folder);
                         $fileMapper->save($file);
                         $fileForm->moveUploadedFile($config->get('upload_path'), $file->getRealname());
-                        return 'Файл "' . $name . '" загружен.';
+                        return '<div id="uploadStatus">Файл "' . $name . '" загружен.</div>';
                         break;
                     } catch (PDOException $e) {
                     }

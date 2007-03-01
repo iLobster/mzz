@@ -69,8 +69,7 @@ class pageSaveController extends simpleController
             }
             return $view;
         } else {
-            fileLoader::load('page/views/page404View');
-            return new page404View();
+            return $pageMapper->get404()->run();
         }
     }
 }
