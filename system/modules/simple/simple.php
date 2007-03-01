@@ -19,8 +19,9 @@ fileLoader::load('jip/jip');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.1.1
  */
+ 
 abstract class simple
 {
     /**
@@ -168,7 +169,7 @@ abstract class simple
      *
      * @return array
      */
-    public function exportOld()
+    public function & exportOld()
     {
         return $this->fields->export();
     }

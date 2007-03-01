@@ -109,6 +109,45 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->assertEqual($object[2]->getId(), 2);
         $this->assertEqual($object[2]->getProperty('property_4'), 'mzz');
     }
+
+    public function testSet()
+    {
+        $this->db->query("INSERT INTO `simple_catalogue_data` (`id`, `property_type`, `value`) VALUES (1, 1, 'foobar'), (1, 2, 'baz'), (2, 5, 'mzz')");
+        $catalogue = $this->mapper->searchOneByField('id', 2);
+
+        $this->assertEqual($catalogue->getId(), 2);
+        $this->assertEqual($catalogue->getProperty('property_4'), 'mzz');
+
+        $catalogue->setProperty('property_4', $new = 'foo');
+        $this->mapper->save($catalogue);
+
+        $this->assertEqual($catalogue->getProperty('property_4'), $new);
+
+        $catalogue->setProperty('not_exists_property', 'someval');
+        $this->mapper->save($catalogue);
+
+        $this->assertNull($catalogue->getProperty('not_exists_property'));
+    }
+
+    public function testCreate()
+    {
+        $catalogue = $this->mapper->create();
+
+        $catalogue->setType($type = 2);
+        $catalogue->setCreated($created = 777);
+        $catalogue->setEditor($editor = 10);
+
+        $catalogue->setProperty('property_3', $val1 = 'bar');
+        $catalogue->setProperty('property_4', $val2 = 'foo');
+
+        $this->mapper->save($catalogue);
+
+        $this->assertEqual($catalogue->getType(), $type);
+        $this->assertEqual($catalogue->getCreated(), $created);
+        $this->assertEqual($catalogue->getEditor(), $editor);
+        $this->assertEqual($catalogue->getProperty('property_3'), $val1);
+        $this->assertEqual($catalogue->getProperty('property_4'), $val2);
+    }
 }
 
 ?>

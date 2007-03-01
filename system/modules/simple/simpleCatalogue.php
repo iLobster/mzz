@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.1.1
  */
 abstract class simpleCatalogue extends simple
 {
@@ -50,6 +50,11 @@ abstract class simpleCatalogue extends simple
     public function setProperty($name, $value)
     {
         return $this->changedProperties->set($name, $value);
+    }
+
+    public function & exportOldProperties()
+    {
+        return $this->properties->export();
     }
 }
 

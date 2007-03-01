@@ -184,7 +184,7 @@ CREATE TABLE `simple_catalogue_types_props` (
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
-  KEY `type_id` (`type_id`)
+  UNIQUE KEY `type_id` (`type_id`,`property_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -289,7 +289,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (67,1),
   (68,1),
   (1,1),
-  (2,1);
+  (2,1),
+  (3,1);
 
 COMMIT;
 

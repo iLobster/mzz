@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleCatalogue');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 abstract class simpleCatalogueMapper extends simpleMapper
@@ -92,6 +92,50 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $object->import($row);
         $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
         return $object;
+    }
+
+    public function save($object, $user = null)
+    {
+        parent::save($object, $user);
+        $data =& $object->exportProperties();
+
+        $properties = array_keys($data);
+        $properties_str = '';
+        foreach ($properties as $val) {
+            $properties_str .= $this->db->quote($val) . ", ";
+        }
+        $properties_str = substr($properties_str, 0, -2);
+
+        if ($properties_str) {
+            $stmt = $this->db->query("SELECT `tp`.`id`, `p`.`name` FROM `" . $this->tableProperties . "` `p` INNER JOIN `" . $this->tableTypesProps . "` `tp` ON `tp`.`property_id` = `p`.`id` AND `tp`.`type_id` = " . (int)$object->getType() . " WHERE `p`.`name` IN (" . $properties_str . ")");
+
+            $properties = array();
+            $result = array();
+            $ids = '';
+            while ($row = $stmt->fetch()) {
+                $properties[$row['name']] = $row['id'];
+                $ids .= $row['id'] . ', ';
+                $result[$row['name']] = $data[$row['name']];
+            }
+
+            if (sizeof($properties)) {
+                $ids = substr($ids, 0, -2);
+                $this->db->query('DELETE FROM `' . $this->tableData . '` WHERE `property_type` IN (' . $ids . ') AND `id` = ' . $object->getId());
+
+                $qry = 'INSERT INTO `' . $this->tableData . '` (`id`, `property_type`, `value`) VALUES ';
+                foreach ($properties as $key => $val) {
+                    $qry .= '(' . $object->getId() . ', ' . $val . ', ' . $this->db->quote($data[$key]) . '), ';
+                }
+
+                $qry = substr($qry, 0, -2);
+                $this->db->query($qry);
+
+                $old =& $object->exportOldProperties();
+                $new = $result + $old;
+
+                $object->importProperties($new);
+            }
+        }
     }
 }
 
