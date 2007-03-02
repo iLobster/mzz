@@ -20,43 +20,37 @@
  * @version 0.1
  */
  
+fileLoader::load('catalogue/views/catalogueTypeForm');
+ 
 class catalogueEditTypeController extends simpleController
 {
     public function getView()
     {
-		$catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
+        $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
+
+        $properties = $catalogueMapper->getAllProperties();
+
+        $type_id = $this->request->get('id', 'integer', SC_PATH);
 		
-		$properties = $catalogueMapper->getAllProperties();
-        
-		$type_id = $this->request->get('id', 'integer', SC_PATH);
-		
-		$type = $catalogueMapper->getType($type_id);
-        
+        $type = $catalogueMapper->getType($type_id);
+        //$type['properties'] = $catalogueMapper->getProperties($type_id);
         foreach($catalogueMapper->getProperties($type_id) as $property){
             $type['properties'][] = $property['id'];
         }
         
-        fileLoader::load('catalogue/views/catalogueAddTypeForm');
-        $form = catalogueAddTypeForm::getForm($this->request->getAction(), $properties, $type);
+        $form = catalogueTypeForm::getForm($properties, $type);
 		
 		if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
 
             $this->smarty->assign('form', $renderer->toArray());
-            $this->smarty->assign('properties', $properties);
-            return $this->smarty->fetch('catalogue/addType.tpl');
+            return $this->smarty->fetch('catalogue/editType.tpl');
         }else{
             $values = $form->exportValues();
-            $properties = array();
-            if(isset($values['properties'])){
-                foreach($values['properties'] as $id => $value){
-                    $properties[] = $id;
-                }
-                unset($values['properties']);
-            }
-            
-            $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], $properties);
+            print_r($values['properties']);
+            exit();
+            $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']);
             return jipTools::redirect();
         }
 		

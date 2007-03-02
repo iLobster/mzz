@@ -20,6 +20,8 @@
  * @version 0.1
  */
  
+fileLoader::load('catalogue/views/catalogueTypeForm');
+
 class catalogueAddTypeController extends simpleController
 {
     public function getView()
@@ -27,26 +29,17 @@ class catalogueAddTypeController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $properties = $catalogueMapper->getAllProperties();
         
-        fileLoader::load('catalogue/views/catalogueAddTypeForm');
-        $form = catalogueAddTypeForm::getForm($this->request->getAction(), $properties);
+        $form = catalogueTypeForm::getForm($properties);
         
         if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
 
             $this->smarty->assign('form', $renderer->toArray());
-            $this->smarty->assign('properties', $properties);
             return $this->smarty->fetch('catalogue/addType.tpl');
-        }else{
+        } else {
             $values = $form->exportValues();
-			$properties = array();
-            if(isset($values['properties'])){
-                foreach($values['properties'] as $id => $value){
-                    $properties[] = $id;
-                }
-                unset($values['properties']);
-            }
-            $catalogueMapper->addType($values['name'], $values['title'], $properties);
+            $catalogueMapper->addType($values['name'], $values['title'], array_keys($values['properties']));
             return jipTools::redirect();
         }
     }

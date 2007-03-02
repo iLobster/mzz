@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.web/repository/mzz/system/modules/catalogue/views/catalogueAddTypeForm.php $
+ * $URL: http://svn.web/repository/mzz/system/modules/catalogue/views/catalogueTypeForm.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,17 +9,17 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: catalogueAddTypeForm.php 637 2007-03-02 03:07:52Z zerkms $
+ * @version $Id: catalogueTypeForm.php 637 2007-03-02 03:07:52Z zerkms $
  */
 
 /**
- * catalogueAddTypeForm: форма для метода save модуля page
+ * catalogueTypeForm: форма для метода save модуля page
  *
  * @package modules
  * @subpackage catalogue
  * @version 0.1
  */
-class catalogueAddTypeForm
+class catalogueTypeForm
 {
     /**
      * метод получения формы
@@ -29,35 +29,37 @@ class catalogueAddTypeForm
      * @param array $type массив значений типа
      * @return object сгенерированная форма
      */
-    static function getForm($action, array $properties, array $type = array())
+    static function getForm(array $properties, $type = false)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
+        $defaultValues = array();
+        
+        $action = ( is_array($type) ) ? 'edit' : 'add';
+        
         $url = new url('default2');
-        $url->setAction($action);
+        $url->setAction('addType');
         $url->setSection('catalogue');
 		
-		if ($action == 'editType') {
+		if ($action == 'edit') {
+            $url->setAction('editType');
 			$url->setRoute('withId');
 			$url->addParam('id', $type['id']);
+
+            $defaultValues['name']  = $type['name'];
+            $defaultValues['title']  = $type['title'];
 		}
 		
         $form = new HTML_QuickForm($action, 'POST', $url->get());
-		
-        if ($action == 'editType') {
-            $defaultValues = array();
-            $defaultValues['name']  = $type['name'];
-            $defaultValues['title']  = $type['title'];
-            $form->setDefaults($defaultValues);
-        }
+        $form->setDefaults($defaultValues);
 
         $form->addElement('text', 'name', 'Name:', 'size="30"');
         $form->addElement('text', 'title', 'Заголовок:', 'size="30"');
 
         foreach($properties as $property){
             $checkbox = $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
-            if(isset($type['properties'])){
+            if($action == 'edit'){
                 if(in_array($property['id'], $type['properties'])){
                     $checkbox->setChecked(true);
                 }
