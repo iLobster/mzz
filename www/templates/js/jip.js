@@ -255,8 +255,9 @@ jipWindow.prototype = {
     this.currentWindow = 0;
     this.toggleEditorStatus = $H();
     this.redirectToAfterClose = false;
+    this.windowExists = false;
 
-    this.eventKeypress  = this.keyPress.bindAsEventListener(this);
+    this.eventKeypress  = this.keyPress.bindAsEventListener(jipWindow);
     this.eventLockClick  = this.lockClick.bindAsEventListener(this);
     this.eventLockUpdate  = this.lockContent.bindAsEventListener(this);
   },
@@ -277,12 +278,17 @@ jipWindow.prototype = {
           this.jip.setStyle({'zIndex': 900});
         }
     }
+
+    if (!this.windowExists) {
+        this.windowExists = true;
+        Event.observe(document, "keypress", this.eventKeypress);
+    }
+
     this.jip = $('jip' + this.currentWindow);
     if (typeof(mzzAjax) != 'object') {
         mzzAjax = new mzzAjax();
     }
     mzzAjax.setTargetEelement(this.jip);
-    Event.observe(document, "keypress", this.eventKeypress);
     if (this.jip) {
         this.lockContent();
         this.clean();
@@ -416,7 +422,6 @@ jipWindow.prototype = {
         windows = (windows >= 0) ? windows : 1;
         var currentWin = this.currentWindow;
         var stack = this.stack[currentWin];
-
         if (typeof(tinyMCE) != 'undefined') {
             this.toggleEditorStatus.each(function(pair) {
                 tinyMCE.execCommand('mceRemoveEditor' , false, pair.key);
@@ -452,6 +457,7 @@ jipWindow.prototype = {
         this.jip.setStyle({display: 'none'});
         if(--this.windowCount == 0) {
             Event.stopObserving(document, "keypress", this.eventKeypress);
+            this.windowExists = false;
             this.unlockContent();
             jipParent.removeChild(this.jip);
             this.jip = false;
