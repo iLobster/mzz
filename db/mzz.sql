@@ -145,24 +145,23 @@ CREATE TABLE `catalogue_catalogue_types_props` (
 #
 
 INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES 
-  (1,1,1),
-  (2,1,3),
-  (3,1,4),
+  (48,1,8),
+  (47,1,6),
+  (46,1,5),
   (4,2,2),
   (5,2,3),
   (6,2,4),
-  (7,1,5),
-  (8,1,6),
+  (45,1,4),
+  (44,1,3),
   (9,2,7),
-  (10,1,8),
+  (43,1,1),
   (11,3,3),
   (12,3,4),
   (13,3,7),
-  (14,4,1),
-  (15,4,2),
-  (16,4,3),
-  (17,4,4),
-  (18,4,5);
+  (58,4,3),
+  (57,4,2),
+  (56,4,1),
+  (59,4,4);
 
 COMMIT;
 
@@ -536,8 +535,8 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1202,9,1,0,1,NULL,0,0),
   (1201,20,1,0,1,NULL,0,0),
   (1113,9,3,0,NULL,1,0,0),
-  (1624,2,1,0,0,NULL,1,0),
-  (1623,29,1,0,0,NULL,0,0),
+  (859,9,1,0,0,NULL,1,0),
+  (858,2,1,0,0,NULL,1,0),
   (665,9,2,49,2,NULL,1,0),
   (671,9,2,49,NULL,2,1,0),
   (670,8,2,49,NULL,2,1,0),
@@ -550,7 +549,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (441,9,2,6,2,NULL,1,0),
   (1528,1,10,188,2,NULL,1,0),
   (1498,1,1,182,2,NULL,1,0),
-  (1622,1,1,0,0,NULL,1,0),
+  (857,1,1,0,0,NULL,1,0),
   (389,4,2,0,0,NULL,1,0),
   (440,8,2,6,2,NULL,1,0),
   (439,7,2,6,2,NULL,1,0),
@@ -578,7 +577,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1109,5,3,0,NULL,1,1,0),
   (1108,11,3,0,NULL,1,1,0),
   (1107,10,3,0,NULL,1,1,0),
-  (1621,3,1,0,0,NULL,1,0),
+  (856,3,1,0,0,NULL,1,0),
   (1497,2,1,182,2,NULL,1,0),
   (1228,9,2,0,NULL,1,0,0),
   (1227,8,2,0,NULL,1,0,0),
@@ -718,8 +717,8 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1236,5,2,0,2,NULL,1,0),
   (1235,4,2,0,2,NULL,1,0),
   (629,9,7,62,NULL,2,1,0),
-  (1620,18,7,63,NULL,2,0,0),
-  (1619,9,7,63,NULL,2,0,0),
+  (1140,18,7,63,NULL,2,1,0),
+  (1139,9,7,63,NULL,2,1,0),
   (1146,18,7,64,NULL,2,1,0),
   (1145,9,7,64,NULL,2,1,0),
   (637,3,6,0,0,NULL,1,0),
@@ -751,8 +750,8 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (985,5,3,12,NULL,2,0,0),
   (984,11,3,12,NULL,2,0,0),
   (983,10,3,12,NULL,2,0,0),
-  (1613,31,9,69,NULL,2,0,0),
-  (1618,9,9,69,NULL,2,1,0),
+  (1449,21,9,69,NULL,2,1,0),
+  (1448,20,9,69,NULL,2,1,0),
   (1143,18,7,72,NULL,2,1,0),
   (1142,9,7,72,NULL,2,1,0),
   (729,9,7,71,NULL,2,1,0),
@@ -881,7 +880,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1125,12,3,0,0,NULL,1,0),
   (1126,2,3,0,0,NULL,1,0),
   (1127,9,3,0,0,NULL,1,0),
-  (1617,21,9,69,NULL,2,1,0),
+  (1447,3,9,69,NULL,2,1,0),
   (1141,20,7,63,NULL,2,1,0),
   (1144,20,7,72,NULL,2,1,0),
   (1147,20,7,64,NULL,2,1,0),
@@ -1055,7 +1054,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1444,9,11,175,NULL,1,0,0),
   (1445,9,11,175,NULL,2,0,0),
   (1446,9,11,175,1,NULL,1,0),
-  (1616,20,9,69,NULL,2,1,0),
+  (1450,9,9,69,NULL,2,1,0),
   (1455,19,11,177,NULL,2,1,0),
   (1456,5,11,177,NULL,2,1,0),
   (1457,9,11,177,1,NULL,1,0),
@@ -1099,31 +1098,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1585,7,2,6,NULL,2,0,0),
   (1586,30,2,6,NULL,2,0,0),
   (1587,8,2,6,NULL,2,0,0),
-  (1588,9,2,6,NULL,2,0,0),
-  (1589,9,3,233,NULL,1,0,0),
-  (1590,2,3,233,NULL,1,0,0),
-  (1591,12,3,233,NULL,1,0,0),
-  (1592,1,3,233,NULL,1,0,0),
-  (1593,5,3,233,NULL,1,1,0),
-  (1594,11,3,233,NULL,1,1,0),
-  (1595,10,3,233,NULL,1,1,0),
-  (1596,9,3,233,NULL,2,1,0),
-  (1597,2,3,233,NULL,2,1,0),
-  (1598,12,3,233,NULL,2,1,0),
-  (1599,1,3,233,NULL,2,1,0),
-  (1600,5,3,233,NULL,2,1,0),
-  (1601,11,3,233,NULL,2,1,0),
-  (1602,10,3,233,NULL,2,1,0),
-  (1603,10,3,233,2,NULL,1,0),
-  (1604,11,3,233,2,NULL,1,0),
-  (1605,5,3,233,2,NULL,1,0),
-  (1606,1,3,233,2,NULL,1,0),
-  (1607,12,3,233,2,NULL,1,0),
-  (1608,2,3,233,2,NULL,1,0),
-  (1609,9,3,233,2,NULL,1,0),
-  (1615,3,9,69,NULL,2,1,0),
-  (1625,20,1,0,0,NULL,0,0),
-  (1626,9,1,0,0,NULL,1,0);
+  (1588,9,2,6,NULL,2,0,0);
 
 COMMIT;
 
@@ -1246,10 +1221,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (220,14),
   (221,15),
   (222,15),
+  (224,12),
   (225,4),
   (226,8),
-  (234,8),
-  (233,3);
+  (232,8),
+  (233,7);
 
 COMMIT;
 
@@ -1302,9 +1278,13 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (29,'move'),
   (30,'moveFolder'),
   (31,'mainClass'),
-  (32,'editCfg'),
-  (33,'listCfg'),
-  (34,'deleteCfg');
+  (32,'test'),
+  (33,'addType'),
+  (34,'deleteType'),
+  (35,'editType'),
+  (36,'addProperty'),
+  (37,'editProperty'),
+  (38,'deleteProperty');
 
 COMMIT;
 
@@ -1334,8 +1314,7 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (6,2,2),
   (1,0,0),
   (7,0,9),
-  (8,9,9),
-  (9,0,4);
+  (8,9,9);
 
 COMMIT;
 
@@ -1403,7 +1382,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (12,'userAuth',2),
   (13,'pageFolder',4),
   (17,'file',9),
-  (18,'folder',9);
+  (18,'folder',9),
+  (19,'catalogue',10);
 
 COMMIT;
 
@@ -1452,7 +1432,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (24,6,3),
   (25,6,9),
   (46,13,9),
-  (81,6,20),
+  (27,6,4),
   (28,6,1),
   (29,6,2),
   (30,5,9),
@@ -1489,8 +1469,15 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (74,18,7),
   (77,18,30),
   (76,2,30),
-  (80,1,20),
-  (85,6,29);
+  (79,9,31),
+  (81,19,3),
+  (82,19,1),
+  (84,19,33),
+  (85,19,34),
+  (86,19,35),
+  (87,19,36),
+  (88,19,37),
+  (89,19,38);
 
 COMMIT;
 
@@ -1528,7 +1515,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (12,12,2),
   (13,13,4),
   (14,17,9),
-  (15,18,9);
+  (15,18,9),
+  (16,19,10);
 
 COMMIT;
 
@@ -1557,7 +1545,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`) VALUES
   (5,'access',NULL),
   (6,'admin',NULL),
   (8,'comments',NULL),
-  (9,'fileManager',17);
+  (9,'fileManager',17),
+  (10,'catalogue',19);
 
 COMMIT;
 
@@ -1795,10 +1784,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (230),
   (231),
   (232),
-  (233),
-  (234),
-  (235),
-  (236);
+  (233);
 
 COMMIT;
 
@@ -1845,8 +1831,7 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (193,'access_fileManager_file'),
   (194,'access_fileManager_folder'),
   (198,'access_fileManager_fileManager'),
-  (235,'access_9_items_per_page'),
-  (236,'access__');
+  (233,'access_catalogue_catalogue');
 
 COMMIT;
 
@@ -1869,6 +1854,7 @@ CREATE TABLE `sys_sections` (
 
 INSERT INTO `sys_sections` (`id`, `name`) VALUES 
   (7,'admin'),
+  (10,'catalogue'),
   (8,'comments'),
   (9,'fileManager'),
   (1,'news'),
@@ -1924,8 +1910,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`) VALUES 
   (1,12,'guest',''),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6'),
-  (3,233,'z','c4ca4238a0b923820dcc509a6f75849b');
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6');
 
 COMMIT;
 
@@ -1959,7 +1944,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (19,2,'127.0.0.1','87797ac73e4f640b4afc275d741d1204',155,1166160735),
   (21,2,'127.0.0.1','d7077cea0a904e17ac64769455aca1c1',157,1167013306),
   (22,2,'127.0.0.1','6cf0e978f23e2cb178b7aed1112095f9',176,1170655390),
-  (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610);
+  (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610),
+  (25,2,'127.0.0.1','35309ce4e0316685d1be41d25afde9d7',224,1172709883);
 
 COMMIT;
 
@@ -1987,7 +1973,7 @@ INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
   (1,1,1,50),
   (23,2,2,47),
   (24,3,2,226),
-  (30,2,3,234);
+  (29,2,3,232);
 
 COMMIT;
 
@@ -1995,6 +1981,4 @@ COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;user_userGroup_rel` VALUES (24, 3, 2, 226);
-INSERT INTO `user_userGroup_rel` VALUES (29, 2, 3, 232);
-        
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
