@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('news/views/newsMoveForm');
+fileLoader::load('news/forms/newsMoveForm');
 
 /**
  * newsMoveController: контроллер для метода move модуля news

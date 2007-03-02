@@ -64,6 +64,11 @@ class pageFolder extends simpleForTree
         return $this->fields->get('items');
     }
 
+    public function getTreeParent()
+    {
+        return $this->mapper->getTreeParent($this->getParent());
+    }
+
     public function getJip()
     {
         return $this->getJipView($this->name, $this->getPath(), get_class($this));

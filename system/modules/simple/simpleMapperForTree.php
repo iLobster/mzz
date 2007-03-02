@@ -42,9 +42,9 @@ abstract class simpleMapperForTree extends simpleMapper
     /**
      * Создание подпапки
      *
-     * @param  newsFolder     $folder          Папка для добавления
-     * @param  newsFolder     $targetFolder    Папка назначения, в которую добавлять
-     * @return newsFolder
+     * @param  simpleForTree     $folder          Папка для добавления
+     * @param  simpleForTree     $targetFolder    Папка назначения, в которую добавлять
+     * @return simpleForTree
      */
     public function createSubfolder($folder, $targetFolder)
     {

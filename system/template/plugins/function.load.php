@@ -116,15 +116,8 @@ function smarty_function_load($params, $smarty)
     }
 
     $view = $controller->run();
-
-    if ($view instanceof simpleView) {
-        $output = $view->toString();
-    } else {
-        $output = $view;
-    }
-
     $request->restore();
-    return $output;
+    return $view;
 }
 
 ?>

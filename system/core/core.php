@@ -105,11 +105,8 @@ class core
         fileLoader::load('simple');
         fileLoader::load('simple/simpleMapper');
         fileLoader::load('simple/simpleCatalogueMapper');
-        fileLoader::load('simple/simpleView');
         fileLoader::load('simple/simpleController');
         fileLoader::load('simple/simpleFactory');
-        fileLoader::load('simple/simpleJipCloseView');
-        fileLoader::load('simple/simpleJipRefreshView');
         fileLoader::load('simple/jipTools');
         fileLoader::load('simple/simpleCatalogue');
         fileLoader::load('simple/simpleCatalogueMapper');

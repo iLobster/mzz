@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('news/views/newsSaveFolderForm');
+fileLoader::load('news/forms/newsSaveFolderForm');
 
 /**
  * newsSaveController: контроллер для метода save модуля news

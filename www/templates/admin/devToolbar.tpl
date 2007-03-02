@@ -9,7 +9,7 @@
                 <td class="toolbarBorder"><strong>{$module.name}</strong></td>
                 <td class="toolbarActions" align="right">
                     <a href="{url route="withId" section="admin" id=$id action="listCfg"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif" alt="Параметры конфигурации" title="Параметры конфигурации" align="texttop" /></a>
-                    <a href="{url route="withId" section="admin" id=$id action="mainClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Главный класс" title="Главный класс" align="texttop" /></a>
+                    <a href="{url route="withId" section="admin" id=$id action="mainClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/main_class.gif" alt="Главный класс" title="Главный класс" align="texttop" /></a>
                     {if $count eq 0}
                         <a href="{url route="withId" section="admin" id=$id action="editModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать модуль" title="Редактировать модуль" align="texttop" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="deleteModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить модуль" title="Удалить модуль" align="texttop" /></a>

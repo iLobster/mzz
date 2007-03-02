@@ -257,7 +257,7 @@ jipWindow.prototype = {
     this.redirectToAfterClose = false;
     this.windowExists = false;
 
-    this.eventKeypress  = this.keyPress.bindAsEventListener(jipWindow);
+    this.eventKeypress  = this.keyPress.bindAsEventListener(this);
     this.eventLockClick  = this.lockClick.bindAsEventListener(this);
     this.eventLockUpdate  = this.lockContent.bindAsEventListener(this);
   },

@@ -13,38 +13,39 @@
  */
 
 /**
- * newsMoveForm: форма для метода move модуля news
+ * pageFolderMoveForm: форма для метода moveFolder модуля page
  *
  * @package modules
- * @subpackage news
+ * @subpackage page
  * @version 0.1
  */
 
-class newsMoveForm
+class pageFolderMoveForm
 {
     /**
      * метод получения формы
      *
-     * @param object $file объект "файл"
      * @return object сгенерированная форма
      */
-    static function getForm($news, $folders)
+    static function getForm($folder, $folders)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url('withId');
-        $url->setAction('move');
-        $url->addParam('id', $news->getId());
-        $form = new HTML_QuickForm('newsMove', 'POST', $url->get());
+        $url = new url('pageActions');
+        $url->setAction('moveFolder');
+        $url->addParam('name', $folder->getPath());
+        $form = new HTML_QuickForm('folderMove', 'POST', $url->get());
 
         $defaultValues = array();
-        $defaultValues['dest']  = $news->getFolder()->getId();
+        if ($parent = $folder->getTreeParent()) {
+            $defaultValues['dest']  = $parent->getParent();
+        }
         $form->setDefaults($defaultValues);
 
         $dests = array();
-        foreach ($folders as $val) {
-            $dests[$val->getId()] = $val->getPath();
+        foreach ($folders as $key => $val) {
+            $dests[$key] = $val->getPath();
         }
 
         $select = $form->addElement('select', 'dest', 'Каталог назначения', $dests);

@@ -39,7 +39,6 @@ set_error_handler('simpletest_error_handler');
 
 fileLoader::load('simple');
 fileLoader::load('simple/simpleMapper');
-fileLoader::load('simple/simpleView');
 fileLoader::load('simple/simpleController');
 fileLoader::load('simple/simpleFactory');
 

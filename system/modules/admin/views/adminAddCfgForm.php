@@ -25,11 +25,10 @@ class adminAddCfgForm
     /**
      * метод получения формы
      *
-     * @param object $news объект новостей
-     * @param string $section текущая секция
+     * @param string $param имя редактируемого параметра
+     * @param integer $module идентификатор модуля
      * @param string $action текущее действие
-     * @param newsFolder $newsFolder папка, в которой создаём новость
-     * @param boolean $isEdit true если действие "редактировать"
+     * @param string $value значение по умолчанию для параметра
      * @return object сгенерированная форма
      */
     static function getForm($param, $module, $action, $value = '')

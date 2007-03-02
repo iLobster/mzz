@@ -86,7 +86,7 @@ class pageFolderMapper extends simpleMapperForTree
         $page = systemToolkit::getInstance()->getMapper('page', 'page', $this->section());
 
         if (!empty($this->pager)) {
-            $news->setPager($this->pager);
+            $page->setPager($this->pager);
         }
 
         $result = $page->searchByFolder($id);
@@ -106,11 +106,16 @@ class pageFolderMapper extends simpleMapperForTree
         return $this->tree->getNodeByPath($path);
     }
 
+    public function searchByParentId($id)
+    {
+        return $this->searchOneByField('parent', $id);
+    }
+
     /**
-     * Метод поиска новости в каталоге
+     * Метод поиска страницы в каталоге
      *
      * @param string $name
-     * @return news|null
+     * @return page|null
      */
     public function searchChild($name)
     {
@@ -131,6 +136,29 @@ class pageFolderMapper extends simpleMapperForTree
         $page = $pageMapper->searchOneByCriteria($criteria);
 
         return $page;
+    }
+
+    public function getTreeExceptNode($folder)
+    {
+        $tree = $this->tree->getTree();
+
+        $subfolders = $this->tree->getBranch($folder);
+
+        foreach (array_keys($subfolders) as $val) {
+            unset($tree[$val]);
+        }
+
+        return $tree;
+    }
+
+    public function getTreeParent($id)
+    {
+        return $this->tree->getParentNode($id);
+    }
+
+    public function move($folder, $destFolder)
+    {
+        return $this->tree->moveNode($folder, $destFolder);
     }
 
     /**

@@ -24,10 +24,7 @@ class fileUploadForm
     /**
      * метод получения формы
      *
-     * @param object $news объект новостей
-     * @param string $section текущая секция
-     * @param string $action текущее действие
-     * @param newsFolder $newsFolder папка, в которой создаём новость
+     * @param folder $folder папка, в которую загружаем файл
      * @return object сгенерированная форма
      */
     static function getForm($folder)

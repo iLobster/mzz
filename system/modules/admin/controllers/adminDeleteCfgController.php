@@ -33,7 +33,7 @@ class adminDeleteCfgController extends simpleController
         $config = new config('', $module['name']);
         $params = $config->getDefaultValues();
 
-        if (!isset($params[$name]) && $isEdit) {
+        if (!isset($params[$name])) {
             return 'выбранного параметра в конфигурации не существует';
         }
 
