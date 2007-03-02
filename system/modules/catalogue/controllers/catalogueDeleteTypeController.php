@@ -24,7 +24,10 @@ class catalogueDeleteTypeController extends simpleController
 {
     public function getView()
     {
-        return $this->smarty->fetch('catalogue/deleteType.tpl');
+        $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
+        $id = $this->request->get('id', 'integer', SC_PATH);
+        $catalogueMapper->deleteType($id);
+        return jipTools::redirect();
     }
 }
 

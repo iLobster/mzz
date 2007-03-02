@@ -12,6 +12,8 @@
  * @version $Id: controller.tpl 1309 2007-02-13 05:54:09Z zerkms $
  */
 
+fileLoader::load('catalogue/views/catalogueTypeForm');
+ 
 /**
  * catalogueEditTypeController: контроллер для метода editType модуля catalogue
  *
@@ -19,9 +21,7 @@
  * @subpackage catalogue
  * @version 0.1
  */
- 
-fileLoader::load('catalogue/views/catalogueTypeForm');
- 
+
 class catalogueEditTypeController extends simpleController
 {
     public function getView()
@@ -33,7 +33,6 @@ class catalogueEditTypeController extends simpleController
         $type_id = $this->request->get('id', 'integer', SC_PATH);
 		
         $type = $catalogueMapper->getType($type_id);
-        //$type['properties'] = $catalogueMapper->getProperties($type_id);
         foreach($catalogueMapper->getProperties($type_id) as $property){
             $type['properties'][] = $property['id'];
         }
@@ -45,16 +44,15 @@ class catalogueEditTypeController extends simpleController
             $form->accept($renderer);
 
             $this->smarty->assign('form', $renderer->toArray());
-            return $this->smarty->fetch('catalogue/editType.tpl');
+            return $this->smarty->fetch('catalogue/type.tpl');
         }else{
             $values = $form->exportValues();
-            print_r($values['properties']);
-            exit();
+            if(!isset($values['properties'])){
+                $values['properties'] = array();
+            }
             $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']));
             return jipTools::redirect();
         }
-		
-        return $this->smarty->fetch('catalogue/editType.tpl');
     }
 }
 

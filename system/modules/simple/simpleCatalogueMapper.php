@@ -53,7 +53,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     
     public function getType($id)
     {
-        return $this->db->getRow('SELECT * FROM `' . $this->table . '_types' . '` WHERE `id` = ' . $id, PDO::FETCH_ASSOC);
+        return $this->db->getRow('SELECT * FROM `' . $this->table . '_types' . '` WHERE `id` = ' . (int) $id, PDO::FETCH_ASSOC);
     }
     
     public function getProperties($id)
@@ -102,6 +102,18 @@ abstract class simpleCatalogueMapper extends simpleMapper
             $this->addPropertyToType($type_id, $id);
         }
     }
+    
+    public function deleteType($type_id)
+    {
+        $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypes . '` WHERE `id` = :id');
+        $stmt->bindParam('id', $type_id);
+        $stmt->execute();
+        
+        $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `type_id` = :id');
+        $stmt->bindParam('id', $type_id);
+        $stmt->execute();
+    }
+    
     protected function searchByCriteria(criteria $criteria)
     {
         $keys = $criteria->keys();

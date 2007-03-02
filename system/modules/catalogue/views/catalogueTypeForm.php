@@ -49,6 +49,9 @@ class catalogueTypeForm
 
             $defaultValues['name']  = $type['name'];
             $defaultValues['title']  = $type['title'];
+
+            array_unshift($type['properties'], 0);
+            $defaultValues['properties']  = array_flip($type['properties']);
 		}
 		
         $form = new HTML_QuickForm($action, 'POST', $url->get());
@@ -59,11 +62,6 @@ class catalogueTypeForm
 
         foreach($properties as $property){
             $checkbox = $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
-            if($action == 'edit'){
-                if(in_array($property['id'], $type['properties'])){
-                    $checkbox->setChecked(true);
-                }
-            }
         }
         
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
