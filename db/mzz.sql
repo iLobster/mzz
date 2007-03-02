@@ -33,7 +33,7 @@ CREATE TABLE `catalogue_catalogue` (
   `created` int(11) default NULL,
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue` table  (LIMIT 0,500)
@@ -85,7 +85,7 @@ CREATE TABLE `catalogue_catalogue_properties` (
   `name` char(255) default NULL,
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue_properties` table  (LIMIT 0,500)
@@ -111,7 +111,7 @@ CREATE TABLE `catalogue_catalogue_types` (
   `name` char(255) default NULL,
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue_types` table  (LIMIT 0,500)
@@ -135,7 +135,7 @@ CREATE TABLE `catalogue_catalogue_types_props` (
   `property_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=67 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue_types_props` table  (LIMIT 0,500)
@@ -167,7 +167,7 @@ CREATE TABLE `comments_comments` (
   `time` int(11) unsigned default NULL,
   `folder_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `comments_comments` table  (LIMIT 0,500)
@@ -198,7 +198,7 @@ CREATE TABLE `comments_commentsFolder` (
   `parent_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `comments_commentsFolder` table  (LIMIT 0,500)
@@ -235,7 +235,7 @@ CREATE TABLE `fileManager_file` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`,`name`,`ext`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `fileManager_file` table  (LIMIT 0,500)
@@ -275,7 +275,7 @@ CREATE TABLE `fileManager_folder` (
   `filesize` int(11) unsigned default NULL,
   `exts` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `fileManager_folder` table  (LIMIT 0,500)
@@ -304,7 +304,7 @@ CREATE TABLE `fileManager_folder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
@@ -335,7 +335,7 @@ CREATE TABLE `news_news` (
   `updated` int(11) default NULL,
   KEY `id` (`id`),
   KEY `folder_id` (`folder_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `news_news` table  (LIMIT 0,500)
@@ -362,7 +362,7 @@ CREATE TABLE `news_newsFolder` (
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `news_newsFolder` table  (LIMIT 0,500)
@@ -371,9 +371,9 @@ CREATE TABLE `news_newsFolder` (
 INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (2,6,'root','/',1,'root'),
   (3,49,'zzz','подкаталог',2,'root/zzz'),
-  (5,159,'one_more','zzz',4,'root/zzz/one_more'),
+  (5,159,'one_more','zzz',4,'root/one_more'),
   (6,160,'two','qqq',5,'root/zzz/two'),
-  (7,236,'zz','zz',6,'root/zzz/one_more/zz');
+  (7,235,'asd','asd',6,'root/one_more/asd');
 
 COMMIT;
 
@@ -392,7 +392,7 @@ CREATE TABLE `news_newsFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
@@ -400,10 +400,10 @@ CREATE TABLE `news_newsFolder_tree` (
 
 INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,10,1),
-  (2,2,9,2),
-  (4,5,8,3),
+  (2,2,5,2),
+  (4,6,9,2),
   (5,3,4,3),
-  (6,6,7,4);
+  (6,7,8,3);
 
 COMMIT;
 
@@ -421,7 +421,7 @@ CREATE TABLE `page_page` (
   `content` text NOT NULL,
   `folder_id` int(11) unsigned default NULL,
   KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `page_page` table  (LIMIT 0,500)
@@ -457,7 +457,7 @@ CREATE TABLE `page_pageFolder` (
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `page_pageFolder` table  (LIMIT 0,500)
@@ -485,7 +485,7 @@ CREATE TABLE `page_pageFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
@@ -517,7 +517,7 @@ CREATE TABLE `sys_access` (
   KEY `class_action_id` (`class_section_id`,`obj_id`,`uid`,`gid`),
   KEY `obj_id_gid` (`obj_id`,`gid`),
   KEY `obj_id_uid` (`obj_id`,`uid`)
-) ENGINE=MyISAM AUTO_INCREMENT=1647 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
@@ -529,6 +529,10 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1113,9,3,0,NULL,1,0,0),
   (859,9,1,0,0,NULL,1,0),
   (858,2,1,0,0,NULL,1,0),
+  (665,9,2,49,2,NULL,1,0),
+  (671,9,2,49,NULL,2,1,0),
+  (670,8,2,49,NULL,2,1,0),
+  (669,7,2,49,NULL,2,1,0),
   (1112,2,3,0,NULL,1,0,0),
   (1111,12,3,0,NULL,1,0,0),
   (394,9,2,0,0,NULL,1,0),
@@ -544,11 +548,19 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (438,6,2,6,2,NULL,1,0),
   (437,5,2,6,2,NULL,1,0),
   (436,4,2,6,2,NULL,1,0),
+  (664,8,2,49,2,NULL,1,0),
+  (663,7,2,49,2,NULL,1,0),
   (1504,3,1,182,1,NULL,1,0),
   (1503,1,1,182,1,NULL,0,0),
   (1502,2,1,182,1,NULL,0,0),
   (1501,20,1,182,1,NULL,0,0),
   (1500,9,1,182,1,NULL,0,0),
+  (668,6,2,49,NULL,2,1,0),
+  (667,5,2,49,NULL,2,1,0),
+  (666,4,2,49,NULL,2,1,0),
+  (662,6,2,49,2,NULL,1,0),
+  (661,5,2,49,2,NULL,1,0),
+  (660,4,2,49,2,NULL,1,0),
   (393,8,2,0,0,NULL,1,0),
   (392,7,2,0,0,NULL,1,0),
   (1200,2,1,0,1,NULL,0,0),
@@ -871,15 +883,15 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1198,3,1,0,1,NULL,1,0),
   (1309,8,2,159,NULL,1,0,0),
   (1303,6,2,159,2,NULL,1,0),
-  (1646,4,2,236,2,NULL,1,0),
-  (1634,9,2,236,NULL,2,0,0),
+  (1321,5,2,160,NULL,1,1,0),
+  (1320,4,2,160,2,NULL,1,0),
   (1308,7,2,159,2,NULL,1,0),
   (1302,6,2,159,NULL,2,1,0),
-  (1633,8,2,236,NULL,2,0,0),
-  (1645,5,2,236,2,NULL,1,0),
+  (1319,4,2,160,2,NULL,1,0),
+  (1318,4,2,160,NULL,2,1,0),
   (1307,7,2,159,2,NULL,1,0),
   (1301,6,2,159,NULL,1,0,0),
-  (1644,6,2,236,2,NULL,1,0),
+  (1317,4,2,160,NULL,1,0,0),
   (1316,9,2,159,2,NULL,1,0),
   (1306,7,2,159,NULL,2,0,0),
   (1300,5,2,159,2,NULL,1,0),
@@ -902,25 +914,25 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1451,19,11,177,NULL,1,0,0),
   (1294,4,2,159,NULL,2,1,0),
   (1293,4,2,159,NULL,1,0,0),
-  (1643,7,2,236,2,NULL,1,0),
-  (1642,8,2,236,2,NULL,1,0),
-  (1632,7,2,236,NULL,2,0,0),
-  (1641,9,2,236,2,NULL,1,0),
-  (1631,6,2,236,NULL,2,1,0),
-  (1630,5,2,236,NULL,2,1,0),
-  (1640,7,2,236,2,NULL,1,0),
-  (1629,4,2,236,NULL,2,1,0),
-  (1639,8,2,236,2,NULL,1,0),
-  (1628,4,2,236,NULL,1,0,0),
-  (1627,5,2,236,NULL,1,1,0),
-  (1638,4,2,236,2,NULL,1,0),
-  (1637,5,2,236,2,NULL,1,0),
-  (1626,6,2,236,NULL,1,0,0),
-  (1625,7,2,236,NULL,1,0,0),
-  (1636,6,2,236,2,NULL,1,0),
-  (1635,9,2,236,2,NULL,1,0),
-  (1624,8,2,236,NULL,1,0,0),
-  (1623,9,2,236,NULL,1,0,0),
+  (1325,6,2,160,NULL,1,0,0),
+  (1330,7,2,160,NULL,2,0,0),
+  (1324,5,2,160,2,NULL,1,0),
+  (1329,7,2,160,NULL,1,0,0),
+  (1323,5,2,160,2,NULL,1,0),
+  (1328,6,2,160,2,NULL,1,0),
+  (1322,5,2,160,NULL,2,1,0),
+  (1327,6,2,160,2,NULL,1,0),
+  (1326,6,2,160,NULL,2,1,0),
+  (1331,7,2,160,2,NULL,1,0),
+  (1332,7,2,160,2,NULL,1,0),
+  (1333,8,2,160,NULL,1,0,0),
+  (1334,8,2,160,NULL,2,0,0),
+  (1335,8,2,160,2,NULL,1,0),
+  (1336,8,2,160,2,NULL,1,0),
+  (1337,9,2,160,NULL,1,0,0),
+  (1338,9,2,160,NULL,2,0,0),
+  (1339,9,2,160,2,NULL,1,0),
+  (1340,9,2,160,2,NULL,1,0),
   (1342,4,13,161,NULL,2,1,0),
   (1343,5,13,161,NULL,2,1,0),
   (1344,6,13,161,NULL,2,1,0),
@@ -1011,7 +1023,15 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1429,5,11,174,NULL,1,1,0),
   (1430,5,11,174,NULL,2,1,0),
   (1431,5,11,174,1,NULL,0,0),
-  (1432,19,11,174,NULL,1,0,0),
+  (1432,19,11,174,NULL,1,0,0);
+
+COMMIT;
+
+#
+# Data for the `sys_access` table  (LIMIT 500,500)
+#
+
+INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (1433,19,11,174,NULL,2,1,0),
   (1434,19,11,174,1,NULL,0,0),
   (1435,9,11,174,NULL,1,0,0),
@@ -1023,15 +1043,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1441,19,11,175,NULL,1,0,0),
   (1442,19,11,175,NULL,2,1,0),
   (1443,19,11,175,1,NULL,0,0),
-  (1444,9,11,175,NULL,1,0,0);
-
-COMMIT;
-
-#
-# Data for the `sys_access` table  (LIMIT 500,500)
-#
-
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+  (1444,9,11,175,NULL,1,0,0),
   (1445,9,11,175,NULL,2,0,0),
   (1446,9,11,175,1,NULL,1,0),
   (1450,9,9,69,NULL,2,1,0),
@@ -1136,6 +1148,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (6,2),
   (46,1),
   (185,10),
+  (49,2),
   (182,1),
   (12,3),
   (13,3),
@@ -1193,7 +1206,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (177,11),
   (157,12),
   (159,2),
-  (236,2),
+  (160,2),
   (161,13),
   (162,7),
   (163,13),
@@ -1255,7 +1268,7 @@ CREATE TABLE `sys_actions` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_actions` table  (LIMIT 0,500)
@@ -1316,7 +1329,7 @@ CREATE TABLE `sys_cfg` (
   `module` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `section_module` (`section`,`module`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_cfg` table  (LIMIT 0,500)
@@ -1347,7 +1360,7 @@ CREATE TABLE `sys_cfg_values` (
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
@@ -1377,7 +1390,7 @@ CREATE TABLE `sys_classes` (
   `module_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_classes` table  (LIMIT 0,500)
@@ -1415,7 +1428,7 @@ CREATE TABLE `sys_classes_actions` (
   `action_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `class_id` (`class_id`,`action_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=93 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -1513,7 +1526,7 @@ CREATE TABLE `sys_classes_sections` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `module_section` (`section_id`,`class_id`),
   KEY `class_id` (`class_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_classes_sections` table  (LIMIT 0,500)
@@ -1550,7 +1563,7 @@ CREATE TABLE `sys_modules` (
   `name` char(255) default NULL,
   `main_class` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_modules` table  (LIMIT 0,500)
@@ -1578,7 +1591,7 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=237 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -1805,8 +1818,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (232),
   (233),
   (234),
-  (235),
-  (236);
+  (235);
 
 COMMIT;
 
@@ -1868,7 +1880,7 @@ CREATE TABLE `sys_sections` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`,`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_sections` table  (LIMIT 0,500)
@@ -1898,7 +1910,7 @@ CREATE TABLE `user_group` (
   `obj_id` int(10) unsigned NOT NULL default '0',
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_group` table  (LIMIT 0,500)
@@ -1924,7 +1936,7 @@ CREATE TABLE `user_user` (
   `password` varchar(32) NOT NULL default '',
   PRIMARY KEY  (`id`),
   KEY `login` (`login`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_user` table  (LIMIT 0,500)
@@ -1950,7 +1962,7 @@ CREATE TABLE `user_userAuth` (
   `obj_id` int(11) unsigned default NULL,
   `time` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -1985,7 +1997,7 @@ CREATE TABLE `user_userGroup_rel` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `group_id` (`group_id`,`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_userGroup_rel` table  (LIMIT 0,500)

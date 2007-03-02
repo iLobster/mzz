@@ -481,7 +481,6 @@ class dbTreeDataTest extends unitTestCase
             $this->assertEqual($fixtureNewTree[$id]['lkey'], $node->getLeftKey());
             $this->assertEqual($fixtureNewTree[$id]['level'], $node->getLevel());
         }
-
     }
 
     public function testMoveNode2()

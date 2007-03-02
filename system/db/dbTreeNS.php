@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.9.3
+ * @version 0.9.4
  */
 
 fileLoader::load('db/sqlFunction');
@@ -892,15 +892,13 @@ class dbTreeNS
                 $stmt->bindParam(':right_key_near', $right_key_near, PDO::PARAM_INT);
                 $stmt->execute();
 
-                $id_edit = implode(', ', array_map('intval', explode(',', $id_edit)));
-                $query = 'UPDATE `' . $this->table . '` SET `lkey` = `lkey` + :lskew_edit , `rkey` = `rkey` + :rskew_edit , `level` = `level` + :skew_level WHERE `id` IN ( ' . $id_edit . ' )';
+                $query = 'UPDATE `' . $this->table . '` SET `lkey` = `lkey` + :lskew_edit , `rkey` = `rkey` + :rskew_edit , `level` = `level` + :skew_level WHERE `id` IN (' . $id_edit . ')';
                 $query .= $this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ' ;
 
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(':lskew_edit', $skew_edit, PDO::PARAM_INT);
                 $stmt->bindParam(':rskew_edit', $skew_edit, PDO::PARAM_INT);
                 $stmt->bindParam(':skew_level', $skew_level, PDO::PARAM_INT);
-                //$stmt->bindParam(':id_edit', $id_edit, PDO::PARAM_STR);
                 $stmt->execute();
                 /*
                 @todo отладить запрос, он является суммой предыдущих трех. Навроде все правильно, но только навроде.

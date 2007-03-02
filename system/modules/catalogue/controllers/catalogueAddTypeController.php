@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: catalogueAddTypeController.php 637 2007-03-02 03:07:52Z zerkms $
+ * @version $Id: catalogueAddTypeController.php 641 2007-03-02 22:39:51Z zerkms $
  */
 
 fileLoader::load('catalogue/forms/catalogueTypeForm');
