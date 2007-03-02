@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('fileManager/views/fileUploadForm');
+fileLoader::load('fileManager/forms/fileUploadForm');
 
 /**
  * fileManagerUploadController: контроллер для метода upload модуля fileManager

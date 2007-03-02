@@ -12,8 +12,8 @@
  * @version $Id: controller.tpl 1309 2007-02-13 05:54:09Z zerkms $
  */
 
-fileLoader::load('catalogue/views/catalogueTypeForm');
- 
+fileLoader::load('catalogue/forms/catalogueTypeForm');
+
 /**
  * catalogueEditTypeController: контроллер для метода editType модуля catalogue
  *
@@ -31,14 +31,14 @@ class catalogueEditTypeController extends simpleController
         $properties = $catalogueMapper->getAllProperties();
 
         $type_id = $this->request->get('id', 'integer', SC_PATH);
-		
+
         $type = $catalogueMapper->getType($type_id);
         foreach($catalogueMapper->getProperties($type_id) as $property){
             $type['properties'][] = $property['id'];
         }
-        
+
         $form = catalogueTypeForm::getForm($properties, $type);
-		
+
 		if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);

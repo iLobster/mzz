@@ -12,8 +12,8 @@
  * @version $Id: controller.tpl 1309 2007-02-13 05:54:09Z zerkms $
  */
 
-fileLoader::load('catalogue/views/catalogueObjectForm');
- 
+fileLoader::load('catalogue/forms/catalogueObjectForm');
+
 /**
  * catalogueEditObjectController: контроллер для метода editObject модуля catalogue
  *
@@ -21,17 +21,17 @@ fileLoader::load('catalogue/views/catalogueObjectForm');
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueEditObjectController extends simpleController
 {
     public function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
-        
+
         $objectId = $this->request->get('id', 'integer', SC_PATH);
-        
+
         $catalogue = $catalogueMapper->searchById($objectId);
-        
+
         $form = catalogueObjectForm::getForm($catalogue);
 
         if($form->validate() == false){
@@ -43,11 +43,11 @@ class catalogueEditObjectController extends simpleController
             return $this->smarty->fetch('catalogue/object.tpl');
         } else {
             $values = $form->exportValues();
-            
+
             foreach(array_keys($catalogue->exportOldProperties()) as $property){
                 $catalogue->setProperty($property, $values[$property]);
             }
-            
+
             $catalogueMapper->save($catalogue);
             return jipTools::redirect();
         }

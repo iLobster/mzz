@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('comments/views/commentsPostForm');
+fileLoader::load('comments/forms/commentsPostForm');
 
 /**
  * commentsFolderPostController: контроллер для метода post модуля comments
@@ -27,7 +27,7 @@ class commentsFolderPostController extends simpleController
     public function getView()
     {
         $user = $this->toolkit->getUser();
-        
+
         $form = commentsPostForm::getForm($this->request->get('id', 'integer', SC_PATH));
 
         $access = $this->request->get('access', 'boolean', SC_PATH);

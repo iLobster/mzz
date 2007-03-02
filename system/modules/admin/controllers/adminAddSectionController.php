@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('admin/views/adminAddSectionForm');
+fileLoader::load('admin/forms/adminAddSectionForm');
 
 /**
  * adminAddSectionController: контроллер для метода addSection модуля admin

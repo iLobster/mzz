@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('admin/views/adminMainClassForm');
+fileLoader::load('admin/forms/adminMainClassForm');
 
 /**
  * adminMainClassController: контроллер для метода mainClass модуля admin

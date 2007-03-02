@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('admin/views/adminAddActionForm');
+fileLoader::load('admin/forms/adminAddActionForm');
 fileLoader::load('codegenerator/actionGenerator');
 
 /**

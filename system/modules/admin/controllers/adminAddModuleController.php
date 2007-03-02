@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('admin/views/adminAddModuleForm');
+fileLoader::load('admin/forms/adminAddModuleForm');
 fileLoader::load('codegenerator/moduleGenerator');
 
 /**
@@ -52,7 +52,7 @@ class adminAddModuleController extends simpleController
                 return 'нельзя изменить имя модуля';
             }
         }
-        
+
         $form = adminAddModuleForm::getForm($data, $db, $action);
 
         if ($form->validate()) {

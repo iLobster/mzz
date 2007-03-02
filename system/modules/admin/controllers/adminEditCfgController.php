@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('admin/views/adminAddCfgForm');
+fileLoader::load('admin/forms/adminAddCfgForm');
 
 /**
  * adminEditCfgController: контроллер для метода editCfg модуля admin

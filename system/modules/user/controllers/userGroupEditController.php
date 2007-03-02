@@ -34,7 +34,7 @@ class userGroupEditController extends simpleController
         $action = $this->request->getAction();
 
         if ($group || $action == 'groupCreate') {
-            fileLoader::load('user/views/groupEditForm');
+            fileLoader::load('user/forms/groupEditForm');
             $form = groupEditForm::getForm($group, $this->request->getSection(), $action, $groupMapper);
 
             if ($form->validate() == false) {

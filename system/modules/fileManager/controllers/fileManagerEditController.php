@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('fileManager/views/fileEditForm');
+fileLoader::load('fileManager/forms/fileEditForm');
 
 /**
  * fileManagerEditController: контроллер для метода edit модуля fileManager

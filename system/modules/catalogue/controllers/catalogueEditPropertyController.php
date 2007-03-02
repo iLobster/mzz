@@ -12,8 +12,8 @@
  * @version $Id: controller.tpl 1309 2007-02-13 05:54:09Z zerkms $
  */
 
-fileLoader::load('catalogue/views/cataloguePropertyForm');
- 
+fileLoader::load('catalogue/forms/cataloguePropertyForm');
+
 /**
  * catalogueEditPropertyController: контроллер для метода editProperty модуля catalogue
  *
@@ -21,18 +21,18 @@ fileLoader::load('catalogue/views/cataloguePropertyForm');
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueEditPropertyController extends simpleController
 {
     public function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $id = $this->request->get('id', 'integer', SC_PATH);
-        
+
         $property = $catalogueMapper->getProperty($id);
-        
+
         $form = cataloguePropertyForm::getForm($property);
-        
+
         if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);

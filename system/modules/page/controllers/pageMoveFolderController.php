@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('page/views/pageFolderMoveForm');
+fileLoader::load('page/forms/pageFolderMoveForm');
 
 /**
  * pageMoveFolderController: контроллер для метода moveFolder модуля page

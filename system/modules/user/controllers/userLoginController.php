@@ -43,7 +43,7 @@ class userLoginController extends simpleController
                 }
             }
 
-            fileLoader::load('user/views/userLoginForm');
+            fileLoader::load('user/forms/userLoginForm');
             $form = userLoginForm::getForm($this->request->getRequestUrl());
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);

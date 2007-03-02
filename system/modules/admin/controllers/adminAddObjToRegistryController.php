@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('admin/views/adminAddObjToRegistryForm');
+fileLoader::load('admin/forms/adminAddObjToRegistryForm');
 
 /**
  * adminAddObjToRegistryController: контроллер для метода addObjToRegistryController модуля admin

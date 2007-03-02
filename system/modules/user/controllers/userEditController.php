@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/views/userEditForm');
+fileLoader::load('user/forms/userEditForm');
 
 /**
  * userEditController: контроллер для метода edit модуля user

@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('comments/views/commentsPostForm');
+fileLoader::load('comments/forms/commentsPostForm');
 
 /**
  * commentsEditController: контроллер для метода edit модуля comments

@@ -29,8 +29,7 @@ Sample usage:
     > createaction.php news edit
     Creates action edit for news type object:
         - adds new section into actions/news.ini
-        - creates controllers/newsEditController.php
-        - creates views/newsEditView.php');
+        - creates controllers/newsEditController.php');
     }
 
     define('CODEGEN', dirname(__FILE__));
@@ -110,7 +109,7 @@ Sample usage:
         throw new Exception('Error: controller file already exists');
     }
 
-    $views_dir = 'views';
+    /*$views_dir = 'views';
 
     if (!is_dir($views_dir)) {
         throw new Exception("Error: Views directory '" . $views_dir . "' not found");
@@ -127,7 +126,7 @@ Sample usage:
 
     if (is_file($view_filename)) {
         throw new Exception('Error: view file already exists');
-    }
+    }*/
 
     $log = "File edited successfully: ";
     // записываем данные в actions файл
@@ -140,13 +139,13 @@ Sample usage:
     $controller = $smarty->fetch('controller.tpl');
     file_put_contents($controller_filename, $controller);
     $log .= "\n-- " . $controller_filename;
-
+    /*
     // записываем данные в файл вида
     $smarty->assign('view_data', $view_data);
     $view = $smarty->fetch('view.tpl');
     file_put_contents($view_filename, $view);
 
-    $log .= "\n-- " . $view_filename;
+    $log .= "\n-- " . $view_filename;*/
     //file_put_contents('create_' . $type . '_' . $action .'_action_log.txt', $log);
 
     echo $log;

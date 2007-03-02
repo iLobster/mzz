@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('admin/views/adminAddClassForm');
+fileLoader::load('admin/forms/adminAddClassForm');
 fileLoader::load('codegenerator/classGenerator');
 
 /**

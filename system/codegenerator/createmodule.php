@@ -32,7 +32,7 @@ Sample usage:
             - controllers
             - mappers
             - maps
-            - views' );
+            - forms' );
         }
 
 
@@ -92,12 +92,11 @@ Sample usage:
             mkdir('maps');
             $log .= "\n-- " . $module . "/maps";
         }
-        // создаем папку views
-        /*
-        if (!is_dir('views')) {
-            mkdir('views');
-            $log .= "\n-- " . $module . "/views";
-        }*/
+        // создаем папку forms
+        if (!is_dir('forms')) {
+            mkdir('forms');
+            $log .= "\n-- " . $module . "/forms";
+        }
 
 
         $factoryData = array(

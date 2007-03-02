@@ -156,10 +156,10 @@ class moduleGenerator
             mkdir('maps');
             $this->log[] = "Каталог maps создан успешно";
         }
-        // создаем папку views
-        if (!is_dir('views')) {
-            mkdir('views');
-            $this->log[] = "Каталог views создан успешно";
+        // создаем папку forms
+        if (!is_dir('forms')) {
+            mkdir('forms');
+            $this->log[] = "Каталог forms создан успешно";
         }
 
         // создаём папку с активными шаблонами

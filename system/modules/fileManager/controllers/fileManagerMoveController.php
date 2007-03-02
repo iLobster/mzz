@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/views/fileMoveForm');
+fileLoader::load('fileManager/forms/fileMoveForm');
 
 /**
  * fileManagerMoveController: контроллер для метода move модуля fileManager

@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('page/views/pageSaveForm');
+fileLoader::load('page/forms/pageSaveForm');
 
 /**
  * pageSaveController: контроллер для метода save модуля page

@@ -12,8 +12,8 @@
  * @version $Id: catalogueAddTypeController.php 637 2007-03-02 03:07:52Z zerkms $
  */
 
-fileLoader::load('catalogue/views/catalogueTypeForm');
- 
+fileLoader::load('catalogue/forms/catalogueTypeForm');
+
 /**
  * catalogueAddTypeController: контроллер для метода addType модуля catalogue
  *
@@ -21,16 +21,16 @@ fileLoader::load('catalogue/views/catalogueTypeForm');
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueAddTypeController extends simpleController
 {
     public function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $properties = $catalogueMapper->getAllProperties();
-        
+
         $form = catalogueTypeForm::getForm($properties);
-        
+
         if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);

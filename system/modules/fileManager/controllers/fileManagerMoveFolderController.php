@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/views/folderMoveForm');
+fileLoader::load('fileManager/forms/folderMoveForm');
 
 /**
  * fileManagerMoveFolderController: контроллер для метода moveFolder модуля fileManager

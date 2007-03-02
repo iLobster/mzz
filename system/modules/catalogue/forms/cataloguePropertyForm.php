@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.web/repository/mzz/system/modules/catalogue/views/catalogueObjectForm.php $
+ * $URL$
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,17 +9,17 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: catalogueObjectForm.php 637 2007-03-02 03:07:52Z zerkms $
+ * @version $Id$
  */
 
 /**
- * catalogueObjectForm: форма для метода save модуля page
+ * cataloguePropertyForm: форма для метода save модуля page
  *
  * @package modules
  * @subpackage catalogue
  * @version 0.1
  */
-class catalogueObjectForm
+class cataloguePropertyForm
 {
     /**
      * метод получения формы
@@ -29,24 +29,34 @@ class catalogueObjectForm
      * @param array $type массив значений типа
      * @return object сгенерированная форма
      */
-    static function getForm( simpleCatalogue $catalogue )
+    static function getForm($property = false)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url('withId');
-        $url->setAction('editObject');
-        $url->setSection('catalogue');
-        $url->addParam('id', $catalogue->getId());
-		
-        $form = new HTML_QuickForm('frmObject', 'POST', $url->get());
+        $defaultValues = array();
         
-        $defaults = array();
-        foreach($catalogue->exportOldProperties() as $property => $value){
-            $form->addElement('text', $property, $catalogue->getTitle($property), 'size="30"');
-            $defaults[$property] = $value;
-        }
-        $form->setDefaults($defaults);
+        $action = ( is_array($property) ) ? 'edit' : 'add';
+        
+        $url = new url('default2');
+        $url->setAction('addProperty');
+        $url->setSection('catalogue');
+		
+		if ($action == 'edit') {
+            $url->setAction('editProperty');
+			$url->setRoute('withId');
+			$url->addParam('id', $property['id']);
+
+            $defaultValues['name']  = $property['name'];
+            $defaultValues['title']  = $property['title'];
+		}
+		
+        $form = new HTML_QuickForm($action, 'POST', $url->get());
+        $form->setDefaults($defaultValues);
+
+        $form->addElement('text', 'name', 'Name:', 'size="30"');
+        $form->addElement('text', 'title', 'Заголовок:', 'size="30"');
+        
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
