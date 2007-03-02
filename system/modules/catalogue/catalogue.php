@@ -20,7 +20,7 @@
  * @version 0.1
  */
  
-class catalogue extends simple
+class catalogue extends simpleCatalogue
 {
         protected $name = 'catalogue';
 }

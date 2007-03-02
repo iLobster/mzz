@@ -38,6 +38,11 @@ class catalogueMapper extends simpleCatalogueMapper
      */
     protected $className = 'catalogue';
 
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
+    
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

@@ -1,4 +1,7 @@
-Автоматически сгенерированный шаблон<br />
-Модуль: catalogue<br />
-Экшн: view<br />
-Путь до этого файла: z:\home\mzz\www\templates\catalogue\view.tpl
+{foreach from=$items item="item"}
+    {foreach from=$item->exportOldProperties() key="property" item="value"}
+    {$item->getTitle($property)}: {$value}<br/>
+    {/foreach}
+    {$item->getJip()}
+    <br/><br/>
+{/foreach}

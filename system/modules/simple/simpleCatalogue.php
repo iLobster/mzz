@@ -24,17 +24,25 @@ abstract class simpleCatalogue extends simple
     protected $properties;
     protected $changedProperties;
 
+    protected $titles;
+    
     public function __construct(Array $map)
     {
         parent::__construct($map);
         $this->properties = new arrayDataspace();
         $this->changedProperties = new arrayDataspace();
+        $this->titles = new arrayDataspace();
     }
 
     public function importProperties(Array $data)
     {
         $this->changedProperties->clear();
         $this->properties->import($data);
+    }
+    
+    public function importTitles(Array $data)
+    {
+        $this->titles->import($data);
     }
 
     public function & exportProperties()
@@ -47,6 +55,11 @@ abstract class simpleCatalogue extends simple
         return $this->properties->get($name);
     }
 
+    public function getTitle($name)
+    {
+        return $this->titles->get($name);
+    }
+    
     public function setProperty($name, $value)
     {
         return $this->changedProperties->set($name, $value);
@@ -57,5 +70,4 @@ abstract class simpleCatalogue extends simple
         return $this->properties->export();
     }
 }
-
 ?>

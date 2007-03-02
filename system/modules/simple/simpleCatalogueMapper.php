@@ -30,6 +30,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     private $tableTypesProps = '';
 
     private $tmpPropsData = array();
+    private $tmpTitlesData = array();
 
     public function __construct($section)
     {
@@ -176,17 +177,19 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties = clone $criteria;
         $properties->clearSelectFields();
         $properties->clearGroupBy();
-        $properties->addSelectField($this->className . '.id')->addSelectField('p.name')->addSelectField('d.value');
+        $properties->addSelectField($this->className . '.id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('d.value');
         $properties->setOrderByFieldAsc('id');
 
         $select = new simpleSelect($properties);
         $stmt = $this->db->query($select->toString());
+
         //echo '<br><pre>'; var_dump($select->toString()); echo '<br></pre>';
 
         $prev_id = 0;
 
         while ($row = $stmt->fetch()) {
             $this->tmpPropsData[$row['id']][$row['name']] = $row['value'];
+            $this->tmpTitlesData[$row['id']][$row['name']] = $row['title'];
         }
 
         return $result;
@@ -197,6 +200,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $object = $this->create();
         $object->import($row);
         $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
+        $object->importTitles($this->tmpTitlesData[$row[$this->tableKey]]);
         return $object;
     }
 

@@ -24,6 +24,10 @@ class catalogueViewController extends simpleController
 {
     public function getView()
     {
+        $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
+        
+        $items = $catalogueMapper->searchAll();
+        $this->smarty->assign('items', $items);
         return $this->smarty->fetch('catalogue/view.tpl');
     }
 }
