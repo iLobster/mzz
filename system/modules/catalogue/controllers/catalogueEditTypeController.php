@@ -50,7 +50,7 @@ class catalogueEditTypeController extends simpleController
             $values = $form->exportValues();
             print_r($values['properties']);
             exit();
-            $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']);
+            $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']));
             return jipTools::redirect();
         }
 		
