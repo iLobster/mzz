@@ -16,8 +16,9 @@
  * config: класс для работы с конфигурацией
  *
  * @package system
- * @version 0.5
+ * @version 0.5.1
 */
+
 class config
 {
     /**
@@ -135,6 +136,24 @@ class config
             $this->db->query('REPLACE INTO `sys_cfg_values` (`value`, `cfg_id`, `name`) VALUES ' . $data);
             $this->values = null;
         }
+    }
+
+    public function getDefaultValues()
+    {
+        $this->db = db::factory();
+        $stmt = $this->db->prepare("SELECT `v`.`name`, `v`.`value` FROM `sys_modules` `m`
+                                    INNER JOIN `sys_cfg` `c` ON `c`.`module` = `m`.`id` AND `section` = 0
+                                     INNER JOIN `sys_cfg_values` `v` ON `v`.`cfg_id` = `c`.`id`
+                                      WHERE `m`.`name` = :module");
+        $stmt->bindParam(':module', $this->module);
+        $stmt->execute();
+
+        $result = array();
+        while ($row = $stmt->fetch()) {
+            $result[$row['name']] = $row['value'];
+        }
+
+        return $result;
     }
 
     /**

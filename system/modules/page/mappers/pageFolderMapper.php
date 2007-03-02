@@ -21,7 +21,7 @@ fileLoader::load('db/dbTreeNS');
  *
  * @package modules
  * @subpackage page
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class pageFolderMapper extends simpleMapperForTree
@@ -107,19 +107,6 @@ class pageFolderMapper extends simpleMapperForTree
     }
 
     /**
-     * Создание подпапки
-     *
-     * @param  newsFolder     $folder          Папка для добавления
-     * @param  newsFolder     $targetFolder    Папка назначения, в которую добавлять
-     * @return newsFolder
-     */
-    /*public function createSubfolder(pageFolder $folder, pageFolder $targetFolder)
-    {
-        $idParent = $targetFolder->getParent();
-        return $this->tree->insertNode($idParent, $folder);
-    }*/
-
-    /**
      * Метод поиска новости в каталоге
      *
      * @param string $name
@@ -130,18 +117,18 @@ class pageFolderMapper extends simpleMapperForTree
         $toolkit = systemToolkit::getInstance();
         $pageMapper = $toolkit->getMapper('page', 'page');
 
-        if (strpos($name, '/') !== false) {
-            $folder = substr($name, 0, strrpos($name, '/'));
-            $pagename = substr(strrchr($name, '/'), 1);
-
-            $pageFolder = $this->searchByPath($folder);
-
-            $criteria = new criteria();
-            $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
-            $page = $pageMapper->searchOneByCriteria($criteria);
-        } else {
-            $page = $pageMapper->searchByName($name);
+        if (strpos($name, '/') === false) {
+            $name = 'root/' . $name;
         }
+
+        $folder = substr($name, 0, strrpos($name, '/'));
+        $pagename = substr(strrchr($name, '/'), 1);
+
+        $pageFolder = $this->searchByPath($folder);
+
+        $criteria = new criteria();
+        $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
+        $page = $pageMapper->searchOneByCriteria($criteria);
 
         return $page;
     }

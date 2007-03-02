@@ -20,15 +20,13 @@ CREATE DATABASE `mzz`
 
 USE `mzz`;
 
--- 
--- Структура таблицы `catalogue_catalogue`
--- 
--- Создание: Мар 02 2007 г., 00:25
--- Последнее обновление: Мар 02 2007 г., 00:25
--- 
+#
+# Structure for the `catalogue_catalogue` table : 
+#
 
 DROP TABLE IF EXISTS `catalogue_catalogue`;
-CREATE TABLE IF NOT EXISTS `catalogue_catalogue` (
+
+CREATE TABLE `catalogue_catalogue` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
   `editor` int(11) default NULL,
@@ -37,108 +35,104 @@ CREATE TABLE IF NOT EXISTS `catalogue_catalogue` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
--- 
--- Дамп данных таблицы `catalogue_catalogue`
--- 
+#
+# Data for the `catalogue_catalogue` table  (LIMIT 0,500)
+#
 
-INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`) VALUES (1, 1, 1, 666, NULL);
-INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`) VALUES (2, 2, 2, 999, NULL);
+INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`) VALUES 
+  (1,1,1,666,NULL),
+  (2,2,2,999,NULL);
 
--- --------------------------------------------------------
+COMMIT;
 
--- 
--- Структура таблицы `catalogue_catalogue_data`
--- 
--- Создание: Мар 02 2007 г., 00:25
--- Последнее обновление: Мар 02 2007 г., 00:25
--- 
+#
+# Structure for the `catalogue_catalogue_data` table : 
+#
 
 DROP TABLE IF EXISTS `catalogue_catalogue_data`;
-CREATE TABLE IF NOT EXISTS `catalogue_catalogue_data` (
+
+CREATE TABLE `catalogue_catalogue_data` (
   `id` int(11) NOT NULL default '0',
   `property_type` int(11) unsigned default NULL,
   `value` text,
   KEY `property_type` (`property_type`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
--- 
--- Дамп данных таблицы `catalogue_catalogue_data`
--- 
+#
+# Data for the `catalogue_catalogue_data` table  (LIMIT 0,500)
+#
 
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (1, 1, '25''');
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (1, 2, 'LG');
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (2, 6, '50$');
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (1, 3, '100$');
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (2, 5, 'BOSH');
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES (2, 4, '25x25x25');
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES 
+  (1,1,'25'''),
+  (1,2,'LG'),
+  (2,6,'50$'),
+  (1,3,'100$'),
+  (2,5,'BOSH'),
+  (2,4,'25x25x25');
 
--- --------------------------------------------------------
+COMMIT;
 
--- 
--- Структура таблицы `catalogue_catalogue_properties`
--- 
--- Создание: Мар 02 2007 г., 00:25
--- Последнее обновление: Мар 02 2007 г., 00:29
--- 
+#
+# Structure for the `catalogue_catalogue_properties` table : 
+#
 
 DROP TABLE IF EXISTS `catalogue_catalogue_properties`;
-CREATE TABLE IF NOT EXISTS `catalogue_catalogue_properties` (
+
+CREATE TABLE `catalogue_catalogue_properties` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
--- 
--- Дамп данных таблицы `catalogue_catalogue_properties`
--- 
+#
+# Data for the `catalogue_catalogue_properties` table  (LIMIT 0,500)
+#
 
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (1, 'diag', 'Диагональ');
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (2, 'size', 'Размеры');
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (3, 'model', 'Модель');
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (4, 'cost', 'Цена');
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (5, 'button', 'Количество кнопок');
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (6, 'lamp', 'Количество лампочек');
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (7, 'color', 'Цвет');
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES (8, 'madein', 'Производство');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES 
+  (1,'diag','Диагональ'),
+  (2,'size','Размеры'),
+  (3,'model','Модель'),
+  (4,'cost','Цена'),
+  (5,'button','Количество кнопок'),
+  (6,'lamp','Количество лампочек'),
+  (7,'color','Цвет'),
+  (8,'madein','Производство');
 
--- --------------------------------------------------------
+COMMIT;
 
--- 
--- Структура таблицы `catalogue_catalogue_types`
--- 
--- Создание: Мар 02 2007 г., 00:25
--- Последнее обновление: Мар 02 2007 г., 01:46
--- 
+#
+# Structure for the `catalogue_catalogue_types` table : 
+#
 
 DROP TABLE IF EXISTS `catalogue_catalogue_types`;
-CREATE TABLE IF NOT EXISTS `catalogue_catalogue_types` (
+
+CREATE TABLE `catalogue_catalogue_types` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
--- 
--- Дамп данных таблицы `catalogue_catalogue_types`
--- 
+#
+# Data for the `catalogue_catalogue_types` table  (LIMIT 0,500)
+#
 
-INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES (1, 'tvs', 'Телевизоры');
-INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES (2, 'microwave', 'Микроволновки');
-INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES (3, 'utug', 'Утюги');
-INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES (4, 'notebooks', 'Ноутбуки');
+INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
+  (1,'tvs','Телевизоры'),
+  (2,'microwave','Микроволновки'),
+  (3,'utug','Утюги'),
+  (4,'notebooks','Ноутбуки');
 
--- --------------------------------------------------------
+COMMIT;
 
--- 
--- Структура таблицы `catalogue_catalogue_types_props`
--- 
--- Создание: Мар 02 2007 г., 00:25
--- Последнее обновление: Мар 02 2007 г., 01:46
--- 
+#
+# Structure for the `catalogue_catalogue_types_props` table : 
+#
 
 DROP TABLE IF EXISTS `catalogue_catalogue_types_props`;
-CREATE TABLE IF NOT EXISTS `catalogue_catalogue_types_props` (
+
+CREATE TABLE `catalogue_catalogue_types_props` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
@@ -146,28 +140,31 @@ CREATE TABLE IF NOT EXISTS `catalogue_catalogue_types_props` (
   UNIQUE KEY `type_id` (`type_id`,`property_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
--- 
--- Дамп данных таблицы `catalogue_catalogue_types_props`
--- 
+#
+# Data for the `catalogue_catalogue_types_props` table  (LIMIT 0,500)
+#
 
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (1, 1, 1);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (2, 1, 3);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (3, 1, 4);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (4, 2, 2);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (5, 2, 3);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (6, 2, 4);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (7, 1, 5);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (8, 1, 6);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (9, 2, 7);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (10, 1, 8);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (11, 3, 3);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (12, 3, 4);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (13, 3, 7);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (14, 4, 1);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (15, 4, 2);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (16, 4, 3);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (17, 4, 4);
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (18, 4, 5);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES 
+  (1,1,1),
+  (2,1,3),
+  (3,1,4),
+  (4,2,2),
+  (5,2,3),
+  (6,2,4),
+  (7,1,5),
+  (8,1,6),
+  (9,2,7),
+  (10,1,8),
+  (11,3,3),
+  (12,3,4),
+  (13,3,7),
+  (14,4,1),
+  (15,4,2),
+  (16,4,3),
+  (17,4,4),
+  (18,4,5);
+
+COMMIT;
 
 #
 # Structure for the `comments_comments` table : 
@@ -539,8 +536,8 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1202,9,1,0,1,NULL,0,0),
   (1201,20,1,0,1,NULL,0,0),
   (1113,9,3,0,NULL,1,0,0),
-  (859,9,1,0,0,NULL,1,0),
-  (858,2,1,0,0,NULL,1,0),
+  (1624,2,1,0,0,NULL,1,0),
+  (1623,29,1,0,0,NULL,0,0),
   (665,9,2,49,2,NULL,1,0),
   (671,9,2,49,NULL,2,1,0),
   (670,8,2,49,NULL,2,1,0),
@@ -553,7 +550,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (441,9,2,6,2,NULL,1,0),
   (1528,1,10,188,2,NULL,1,0),
   (1498,1,1,182,2,NULL,1,0),
-  (857,1,1,0,0,NULL,1,0),
+  (1622,1,1,0,0,NULL,1,0),
   (389,4,2,0,0,NULL,1,0),
   (440,8,2,6,2,NULL,1,0),
   (439,7,2,6,2,NULL,1,0),
@@ -581,7 +578,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1109,5,3,0,NULL,1,1,0),
   (1108,11,3,0,NULL,1,1,0),
   (1107,10,3,0,NULL,1,1,0),
-  (856,3,1,0,0,NULL,1,0),
+  (1621,3,1,0,0,NULL,1,0),
   (1497,2,1,182,2,NULL,1,0),
   (1228,9,2,0,NULL,1,0,0),
   (1227,8,2,0,NULL,1,0,0),
@@ -721,8 +718,8 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1236,5,2,0,2,NULL,1,0),
   (1235,4,2,0,2,NULL,1,0),
   (629,9,7,62,NULL,2,1,0),
-  (1140,18,7,63,NULL,2,1,0),
-  (1139,9,7,63,NULL,2,1,0),
+  (1620,18,7,63,NULL,2,0,0),
+  (1619,9,7,63,NULL,2,0,0),
   (1146,18,7,64,NULL,2,1,0),
   (1145,9,7,64,NULL,2,1,0),
   (637,3,6,0,0,NULL,1,0),
@@ -754,8 +751,8 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (985,5,3,12,NULL,2,0,0),
   (984,11,3,12,NULL,2,0,0),
   (983,10,3,12,NULL,2,0,0),
-  (1449,21,9,69,NULL,2,1,0),
-  (1448,20,9,69,NULL,2,1,0),
+  (1613,31,9,69,NULL,2,0,0),
+  (1618,9,9,69,NULL,2,1,0),
   (1143,18,7,72,NULL,2,1,0),
   (1142,9,7,72,NULL,2,1,0),
   (729,9,7,71,NULL,2,1,0),
@@ -884,7 +881,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1125,12,3,0,0,NULL,1,0),
   (1126,2,3,0,0,NULL,1,0),
   (1127,9,3,0,0,NULL,1,0),
-  (1447,3,9,69,NULL,2,1,0),
+  (1617,21,9,69,NULL,2,1,0),
   (1141,20,7,63,NULL,2,1,0),
   (1144,20,7,72,NULL,2,1,0),
   (1147,20,7,64,NULL,2,1,0),
@@ -1058,7 +1055,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1444,9,11,175,NULL,1,0,0),
   (1445,9,11,175,NULL,2,0,0),
   (1446,9,11,175,1,NULL,1,0),
-  (1450,9,9,69,NULL,2,1,0),
+  (1616,20,9,69,NULL,2,1,0),
   (1455,19,11,177,NULL,2,1,0),
   (1456,5,11,177,NULL,2,1,0),
   (1457,9,11,177,1,NULL,1,0),
@@ -1102,7 +1099,31 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1585,7,2,6,NULL,2,0,0),
   (1586,30,2,6,NULL,2,0,0),
   (1587,8,2,6,NULL,2,0,0),
-  (1588,9,2,6,NULL,2,0,0);
+  (1588,9,2,6,NULL,2,0,0),
+  (1589,9,3,233,NULL,1,0,0),
+  (1590,2,3,233,NULL,1,0,0),
+  (1591,12,3,233,NULL,1,0,0),
+  (1592,1,3,233,NULL,1,0,0),
+  (1593,5,3,233,NULL,1,1,0),
+  (1594,11,3,233,NULL,1,1,0),
+  (1595,10,3,233,NULL,1,1,0),
+  (1596,9,3,233,NULL,2,1,0),
+  (1597,2,3,233,NULL,2,1,0),
+  (1598,12,3,233,NULL,2,1,0),
+  (1599,1,3,233,NULL,2,1,0),
+  (1600,5,3,233,NULL,2,1,0),
+  (1601,11,3,233,NULL,2,1,0),
+  (1602,10,3,233,NULL,2,1,0),
+  (1603,10,3,233,2,NULL,1,0),
+  (1604,11,3,233,2,NULL,1,0),
+  (1605,5,3,233,2,NULL,1,0),
+  (1606,1,3,233,2,NULL,1,0),
+  (1607,12,3,233,2,NULL,1,0),
+  (1608,2,3,233,2,NULL,1,0),
+  (1609,9,3,233,2,NULL,1,0),
+  (1615,3,9,69,NULL,2,1,0),
+  (1625,20,1,0,0,NULL,0,0),
+  (1626,9,1,0,0,NULL,1,0);
 
 COMMIT;
 
@@ -1225,10 +1246,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (220,14),
   (221,15),
   (222,15),
-  (224,12),
   (225,4),
   (226,8),
-  (232,8);
+  (234,8),
+  (233,3);
 
 COMMIT;
 
@@ -1280,7 +1301,10 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (28,'get'),
   (29,'move'),
   (30,'moveFolder'),
-  (31,'mainClass');
+  (31,'mainClass'),
+  (32,'editCfg'),
+  (33,'listCfg'),
+  (34,'deleteCfg');
 
 COMMIT;
 
@@ -1310,7 +1334,8 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (6,2,2),
   (1,0,0),
   (7,0,9),
-  (8,9,9);
+  (8,9,9),
+  (9,0,4);
 
 COMMIT;
 
@@ -1427,7 +1452,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (24,6,3),
   (25,6,9),
   (46,13,9),
-  (27,6,4),
+  (81,6,20),
   (28,6,1),
   (29,6,2),
   (30,5,9),
@@ -1464,7 +1489,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (74,18,7),
   (77,18,30),
   (76,2,30),
-  (79,9,31);
+  (80,1,20),
+  (85,6,29);
 
 COMMIT;
 
@@ -1768,7 +1794,11 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (229),
   (230),
   (231),
-  (232);
+  (232),
+  (233),
+  (234),
+  (235),
+  (236);
 
 COMMIT;
 
@@ -1814,7 +1844,9 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (192,'access__folder'),
   (193,'access_fileManager_file'),
   (194,'access_fileManager_folder'),
-  (198,'access_fileManager_fileManager');
+  (198,'access_fileManager_fileManager'),
+  (235,'access_9_items_per_page'),
+  (236,'access__');
 
 COMMIT;
 
@@ -1892,7 +1924,8 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`) VALUES 
   (1,12,'guest',''),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6');
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6'),
+  (3,233,'z','c4ca4238a0b923820dcc509a6f75849b');
 
 COMMIT;
 
@@ -1926,8 +1959,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (19,2,'127.0.0.1','87797ac73e4f640b4afc275d741d1204',155,1166160735),
   (21,2,'127.0.0.1','d7077cea0a904e17ac64769455aca1c1',157,1167013306),
   (22,2,'127.0.0.1','6cf0e978f23e2cb178b7aed1112095f9',176,1170655390),
-  (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610),
-  (25,2,'127.0.0.1','35309ce4e0316685d1be41d25afde9d7',224,1172709883);
+  (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610);
 
 COMMIT;
 
@@ -1955,7 +1987,7 @@ INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
   (1,1,1,50),
   (23,2,2,47),
   (24,3,2,226),
-  (29,2,3,232);
+  (30,2,3,234);
 
 COMMIT;
 

@@ -5,7 +5,7 @@
 <table border="0" width="99%" cellpadding="5" cellspacing="1" class="list">
     <tr>
         <td align="center">0</td>
-        <td><a href="{url section=access action=editOwner params="$section/$class"}" class="jipLink">Владелец объекта</a></td>
+        <td><a href="{url route=withAnyParam section=access action=editOwner name="$section/$class"}" class="jipLink">Владелец объекта</a></td>
         <td>&nbsp;</td>
     </tr>
     {foreach from=$users item=user}
