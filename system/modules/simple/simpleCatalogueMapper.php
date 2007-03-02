@@ -53,7 +53,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     
     public function getType($id)
     {
-        return $db->getRow('SELECT * FROM `' . $this->table . '_types' . '` WHERE `id` = ' . $id, PDO::FETCH_ASSOC);
+        return $this->db->getRow('SELECT * FROM `' . $this->table . '_types' . '` WHERE `id` = ' . $id, PDO::FETCH_ASSOC);
     }
     
     public function getProperties($id)
@@ -84,7 +84,24 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->bindParam('prop_id', $prop_id);
         return $stmt->execute();
     }
-    
+
+	public function updateType($type_id, $name, $title, Array $properties = array())
+    {
+        $stmt = $this->db->prepare('UPDATE `' . $this->tableTypes . '` SET `name` = :name, `title` = :title WHERE `id` = :id');
+        $stmt->bindParam('id', $type_id);
+        $stmt->bindParam('name', $name);
+        $stmt->bindParam('title', $title);
+        $stmt->execute();
+		
+		$stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `type_id` = :id');
+		$stmt->bindParam('id', $type_id);
+		$stmt->execute();
+		
+		foreach($properties as $id){
+            //todo два раза повторяется... надо в отдельный метод?
+            $this->addPropertyToType($type_id, $id);
+        }
+    }
     protected function searchByCriteria(criteria $criteria)
     {
         $keys = $criteria->keys();

@@ -39,8 +39,8 @@ class catalogueAddTypeController extends simpleController
             return $this->smarty->fetch('catalogue/addType.tpl');
         }else{
             $values = $form->exportValues();
+			$properties = array();
             if(isset($values['properties'])){
-                $properties = array();
                 foreach($values['properties'] as $id => $value){
                     $properties[] = $id;
                 }

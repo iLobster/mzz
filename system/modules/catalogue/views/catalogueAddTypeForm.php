@@ -37,8 +37,14 @@ class catalogueAddTypeForm
         $url = new url('default2');
         $url->setAction($action);
         $url->setSection('catalogue');
+		
+		if ($action == 'editType') {
+			$url->setRoute('withId');
+			$url->addParam('id', $type['id']);
+		}
+		
         $form = new HTML_QuickForm($action, 'POST', $url->get());
-
+		
         if ($action == 'editType') {
             $defaultValues = array();
             $defaultValues['name']  = $type['name'];
@@ -50,7 +56,12 @@ class catalogueAddTypeForm
         $form->addElement('text', 'title', 'Заголовок:', 'size="30"');
 
         foreach($properties as $property){
-            $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
+            $checkbox = $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
+            if(isset($type['properties'])){
+                if(in_array($property['id'], $type['properties'])){
+                    $checkbox->setChecked(true);
+                }
+            }
         }
         
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
