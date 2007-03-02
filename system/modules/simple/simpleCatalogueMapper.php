@@ -53,7 +53,12 @@ abstract class simpleCatalogueMapper extends simpleMapper
     
     public function getType($id)
     {
-        return $this->db->getRow('SELECT * FROM `' . $this->table . '_types' . '` WHERE `id` = ' . (int) $id, PDO::FETCH_ASSOC);
+        return $this->db->getRow('SELECT * FROM `' . $this->tableTypes . '` WHERE `id` = ' . (int) $id, PDO::FETCH_ASSOC);
+    }
+    
+    public function getProperty($id)
+    {
+        return $this->db->getRow('SELECT * FROM `' . $this->tableProperties . '` WHERE `id` = ' . (int) $id, PDO::FETCH_ASSOC);
     }
     
     public function getProperties($id)
@@ -111,6 +116,34 @@ abstract class simpleCatalogueMapper extends simpleMapper
         
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `type_id` = :id');
         $stmt->bindParam('id', $type_id);
+        $stmt->execute();
+    }
+    
+    public function addProperty($name, $title)
+    {
+        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableProperties . '` VALUES ("", :name, :title)');
+        $stmt->bindParam('name', $name);
+        $stmt->bindParam('title', $title);
+        return $stmt->execute();
+    }
+    
+    public function updateProperty($id, $name, $title)
+    {
+        $stmt = $this->db->prepare('UPDATE `' . $this->tableProperties . '` SET `name` = :name, `title` = :title WHERE `id` = :id ');
+        $stmt->bindParam('id', $id);
+        $stmt->bindParam('name', $name);
+        $stmt->bindParam('title', $title);
+        return $stmt->execute();
+    }
+    
+    public function deleteProperty($id)
+    {
+        $stmt = $this->db->prepare('DELETE FROM `' . $this->tableProperties . '` WHERE `id` = :id');
+        $stmt->bindParam('id', $id);
+        $stmt->execute();
+        
+        $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id');
+        $stmt->bindParam('id', $id);
         $stmt->execute();
     }
     

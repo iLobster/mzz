@@ -16,7 +16,10 @@
     {foreach from=$properties item="property"}
         <tr>
             <td>{$property.title}</td>
-            <td><a href="{url route="withId" section="catalogue" id=$property.id action="editProperty"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать тип" title="Редактировать тип" align="texttop" /></a></td>
+            <td>
+                <a href="{url route="withId" section="catalogue" id=$property.id action="editProperty"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать тип" title="Редактировать тип" align="texttop" /></a>
+                <a href="{url route="withId" section="catalogue" id=$property.id action="deleteProperty"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить тип" title="Удалить тип" align="texttop" /></a>
+            </td>
         </tr>
     {/foreach}
 </table>
