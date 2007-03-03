@@ -22,6 +22,12 @@ class fileManagerGetController extends simpleController
             return 'файл не найден';
         }
 
+        $headers = apache_request_headers();
+        if (!isset($headers['Range'])) {
+            $file->setDownloads($file->getDownloads() + 1);
+            $fileMapper->save($file);
+        }
+
         $params = array(
         'file' => $file->getRealFullPath(),
         );

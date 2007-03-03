@@ -12,15 +12,16 @@
  * @package system
  * @subpackage toolkit
  * @version $Id$
-*/
+ */
 
 /**
  * stdToolkit: стандартный Toolkit
  *
  * @package system
  * @subpackage toolkit
- * @version 0.2.1
+ * @version 0.2.2
  */
+
 class stdToolkit extends toolkit
 {
     /**#@+
@@ -135,6 +136,9 @@ class stdToolkit extends toolkit
             }
             $this->smarty->debugging = DEBUG_MODE;
             $this->smarty->assign('SITE_PATH', rtrim(SITE_PATH, '/'));
+
+            fileLoader::load('libs/smarty/plugins/modifier.filesize');
+            $this->smarty->register_modifier('filesize', 'smarty_modifier_filesize');
         }
         return $this->smarty;
     }

@@ -1,0 +1,6 @@
+RewriteEngine on
+Options +FollowSymlinks -Indexes -Includes -MultiViews
+# +MultiViews
+RewriteBase /templates/images/fileManager/
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule (.*) default.gif [L]

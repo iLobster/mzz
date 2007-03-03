@@ -1,3 +1,6 @@
+{assign var="path" value=$folder->getPath()}
+{include file='jipTitle.tpl' title="Загрузка файла в каталог $path"}
+
 <iframe name="fmUploadFile" id="fmUploadFile" style="border: 0;width: 200px;height: 100px;" src="about:blank"></iframe>
 {literal}
 <script type="text/javascript">

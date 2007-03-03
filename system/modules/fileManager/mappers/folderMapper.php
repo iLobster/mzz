@@ -117,6 +117,11 @@ class folderMapper extends simpleMapperForTree
         return $tree;
     }
 
+    public function getTree()
+    {
+        return $this->tree->getTree();
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
@@ -124,6 +129,15 @@ class folderMapper extends simpleMapperForTree
      */
     public function convertArgsToId($args)
     {
+        /*
+        @todo
+        $toolkit = systemToolkit::getInstance();
+        $fileMapper = $toolkit->getMapper('fileManager', 'file');
+        $file = $fileMapper->searchByPath($args['name']);
+        if ($file) {
+
+        }*/
+
         $folder = $this->searchByPath($args['name']);
         if ($folder) {
             return (int)$folder->getObjId();
