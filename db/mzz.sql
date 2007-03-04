@@ -40,8 +40,7 @@ CREATE TABLE `catalogue_catalogue` (
 #
 
 INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`) VALUES 
-  (1,1,1,123,123),
-  (2,8,123,123,1234);
+  (2,2,10,777,238);
 
 COMMIT;
 
@@ -63,14 +62,10 @@ CREATE TABLE `catalogue_catalogue_data` (
 #
 
 INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES 
-  (2,65,'ATI Radeoon'),
-  (2,66,'Тоже китай'),
-  (2,64,'2000$'),
-  (2,63,'RoverBook'),
-  (1,43,'25'),
-  (1,44,'Panasonic'),
-  (1,45,'300$'),
-  (1,48,'Китай');
+  (2,4,'LG FLATRON L1717S 17'''),
+  (2,5,'ATI Radeon 9600Pro'),
+  (2,6,'Seagate 5400 80gb'),
+  (2,7,'Pentium4 - 2400 MHz');
 
 COMMIT;
 
@@ -92,11 +87,13 @@ CREATE TABLE `catalogue_catalogue_properties` (
 #
 
 INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES 
-  (1,'diag','Диагональ экрана'),
-  (3,'model','Модель'),
-  (4,'cost','Цена'),
-  (11,'videocard','Видеокарта'),
-  (8,'madein','Страна-производитель');
+  (1,'comfort','Комфортабельность'),
+  (2,'year','Год выпуска'),
+  (3,'marka','Марка'),
+  (4,'monitor','Монитор'),
+  (5,'videocard','Видеокарта'),
+  (6,'harddrive','Жесткий диск'),
+  (7,'processor','Процессор');
 
 COMMIT;
 
@@ -118,8 +115,8 @@ CREATE TABLE `catalogue_catalogue_types` (
 #
 
 INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
-  (1,'tvs','Телевизоры'),
-  (8,'notebooks','Ноутбуки');
+  (1,'autos','Автомобили'),
+  (2,'computers','Компьютеры');
 
 COMMIT;
 
@@ -142,14 +139,13 @@ CREATE TABLE `catalogue_catalogue_types_props` (
 #
 
 INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES 
-  (48,1,8),
-  (65,8,11),
-  (64,8,4),
-  (45,1,4),
-  (44,1,3),
-  (43,1,1),
-  (66,8,8),
-  (63,8,3);
+  (1,1,1),
+  (2,1,2),
+  (3,1,3),
+  (4,2,4),
+  (5,2,5),
+  (6,2,6),
+  (7,2,7);
 
 COMMIT;
 
@@ -249,14 +245,14 @@ INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downlo
   (4,'05a131b70aef0e2b9f3e344d6163d311','qwe.rec','rec',9,NULL,1,203),
   (5,'5b78dc5c1c2ad6511e3e324845c2eb3c','2rec','',9,NULL,1,204),
   (6,'13810e7f5782973b2dc72030c1c392f0','сы','',18,NULL,1,205),
-  (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,NULL,1,206),
+  (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,1,1,206),
   (8,'3ff2104331237dafe9d7941a1286136f','mysql','',39,NULL,1,207),
-  (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,NULL,1,208),
+  (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,1,1,208),
   (10,'02c870089fc7f94ba1286e8faef13316','web.txt','txt',28,NULL,1,209),
   (11,'59833d36a918ad9fdd5f860d8a9b350f','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,NULL,1,210),
-  (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,NULL,1,211),
+  (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,1,1,211),
   (13,'ddaa316ac5ba16b0a2e39a3f9c19d330','2rec','',9,NULL,2,219),
-  (14,'715dc8aa6d7e16526ae15a80386c4552','2rec.bmp','bmp',9,NULL,2,220),
+  (14,'715dc8aa6d7e16526ae15a80386c4552','2rec.bmp','bmp',9,1,2,220),
   (15,'4f0d05060fc2119d464b15a2ec93337f','apache_1.3.37.tar.gz','gz',2665370,1,4,236);
 
 COMMIT;
@@ -1256,7 +1252,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (233,7),
   (234,13),
   (235,2),
-  (236,14);
+  (236,14),
+  (238,16);
 
 COMMIT;
 
@@ -1316,7 +1313,9 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (36,'addProperty'),
   (37,'editProperty'),
   (38,'deleteProperty'),
-  (39,'editObject');
+  (39,'editObject'),
+  (40,'addObject'),
+  (41,'add');
 
 COMMIT;
 
@@ -1501,7 +1500,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (74,18,7),
   (77,18,30),
   (76,2,30),
-  (79,9,31),
+  (94,19,41),
   (81,19,3),
   (82,19,1),
   (84,19,33),
@@ -1512,7 +1511,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (89,19,38),
   (90,19,39),
   (91,13,8),
-  (92,13,30);
+  (92,13,30),
+  (95,19,2);
 
 COMMIT;
 
@@ -1822,7 +1822,10 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (233),
   (234),
   (235),
-  (236);
+  (236),
+  (237),
+  (238),
+  (239);
 
 COMMIT;
 
