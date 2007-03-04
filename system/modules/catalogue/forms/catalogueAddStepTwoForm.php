@@ -37,14 +37,14 @@ class catalogueAddStepTwoForm
         $url = new url('default2');
         $url->setAction('add');
         $url->setSection('catalogue');
-		
+
         $form = new HTML_QuickForm('frmObject', 'POST', $url->get());
-        
+
         foreach($properties as $property){
             $form->addElement('text', $property['name'], $property['title'], 'size="30"');
             $form->addRule($property['name'], $property['title'].' is required', 'required');
         }
-        
+
         $form->addElement('hidden', 'typeId', $type['id']);
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');

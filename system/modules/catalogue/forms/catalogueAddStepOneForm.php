@@ -37,16 +37,16 @@ class catalogueAddStepOneForm
         $url = new url('default2');
         $url->setAction('add');
         $url->setSection('catalogue');
-		
+
         $form = new HTML_QuickForm('frmAddStepOne', 'POST', $url->get());
-        
+
         $selectTypes = array();
         foreach ($types as $type) {
             $selectTypes[$type['id']] = $type['title'];
         }
-        
+
         $form->addElement('select', 'type', 'Тип', $selectTypes);
-        
+
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Далее >');
         return $form;

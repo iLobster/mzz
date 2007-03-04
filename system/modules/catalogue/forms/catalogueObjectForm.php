@@ -38,9 +38,9 @@ class catalogueObjectForm
         $url->setAction('editObject');
         $url->setSection('catalogue');
         $url->addParam('id', $catalogue->getId());
-		
+
         $form = new HTML_QuickForm('frmObject', 'POST', $url->get());
-        
+
         $defaults = array();
         foreach($catalogue->exportOldProperties() as $property => $value){
             $form->addElement('text', $property, $catalogue->getTitle($property), 'size="30"');

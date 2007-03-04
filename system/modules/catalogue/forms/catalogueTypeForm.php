@@ -35,17 +35,17 @@ class catalogueTypeForm
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $defaultValues = array();
-        
+
         $action = ( is_array($type) ) ? 'edit' : 'add';
-        
+
         $url = new url('default2');
         $url->setAction('addType');
         $url->setSection('catalogue');
-		
-		if ($action == 'edit') {
+
+        if ($action == 'edit') {
             $url->setAction('editType');
-			$url->setRoute('withId');
-			$url->addParam('id', $type['id']);
+            $url->setRoute('withId');
+            $url->addParam('id', $type['id']);
 
             $defaultValues['name']  = $type['name'];
             $defaultValues['title']  = $type['title'];
@@ -53,8 +53,8 @@ class catalogueTypeForm
                 array_unshift($type['properties'], 0);
                 $defaultValues['properties']  = array_flip($type['properties']);
             }
-		}
-		
+        }
+
         $form = new HTML_QuickForm($action, 'POST', $url->get());
         $form->setDefaults($defaultValues);
 
@@ -64,7 +64,7 @@ class catalogueTypeForm
         foreach($properties as $property){
             $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
         }
-        
+
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;

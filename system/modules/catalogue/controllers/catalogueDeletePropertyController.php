@@ -19,7 +19,7 @@
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueDeletePropertyController extends simpleController
 {
     public function getView()

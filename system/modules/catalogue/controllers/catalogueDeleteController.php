@@ -19,7 +19,7 @@
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueDeleteController extends simpleController
 {
     public function getView()
@@ -27,11 +27,11 @@ class catalogueDeleteController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $id = $this->request->get('id', 'integer', SC_PATH);
         $catalogue = $catalogueMapper->searchById($id);
-        
+
         if($catalogue){
             $catalogueMapper->delete($id);
         }
-        
+
         return jipTools::redirect();
     }
 }

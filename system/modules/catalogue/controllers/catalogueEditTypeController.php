@@ -39,7 +39,7 @@ class catalogueEditTypeController extends simpleController
 
         $form = catalogueTypeForm::getForm($properties, $type);
 
-		if($form->validate() == false){
+        if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
             $formArray = $renderer->toArray();

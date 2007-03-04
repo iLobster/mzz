@@ -19,16 +19,16 @@
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueEditController extends simpleController
 {
     public function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
-        
+
         $types = $catalogueMapper->getAllTypes();
         $properties = $catalogueMapper->getAllProperties();
-        
+
         $this->smarty->assign('types', $types);
         $this->smarty->assign('properties', $properties);
         return $this->smarty->fetch('catalogue/edit.tpl');

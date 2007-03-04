@@ -14,7 +14,7 @@
 
 fileLoader::load('catalogue/forms/catalogueAddStepOneForm');
 fileLoader::load('catalogue/forms/catalogueAddStepTwoForm');
- 
+
 /**
  * catalogueAddController: контроллер для метода add модуля catalogue
  *
@@ -22,7 +22,7 @@ fileLoader::load('catalogue/forms/catalogueAddStepTwoForm');
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueAddController extends simpleController
 {
     public function getView()
@@ -33,42 +33,42 @@ class catalogueAddController extends simpleController
         if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
-            
+
             $this->smarty->assign('form', $renderer->toArray());
             return $this->smarty->fetch('catalogue/addStep1.tpl');
         } else {
             $values = $form->exportValues();
-            
+
             if(!isset($values['type'])){
                 $values['type'] = $this->request->get('typeId', 'integer', SC_POST);
             }
-            
+
             $type = $catalogueMapper->getType($values['type']);
             $properties = $catalogueMapper->getProperties($type['id']);
-            
+
             $formStepTwo = catalogueAddStepTwoForm::getForm($type, $properties);
-            
+
             $fields = array();
             foreach($properties as $property){
                 $fields[] = $property['name'];
             }
-            
+
             if($formStepTwo->validate() == false){
                 $renderer2 = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
                 $formStepTwo->accept($renderer2);
-                
+
                 $this->smarty->assign('fields', $fields);
                 $this->smarty->assign('type', $type);
                 $this->smarty->assign('form', $renderer2->toArray());
                 return $this->smarty->fetch('catalogue/addStep2.tpl');
             } else {
                 $objectValues = $formStepTwo->exportValues();
-                
+
                 $catalogue = $catalogueMapper->create();
                 $catalogue->setType($values['type']);
                 $catalogue->setCreated(777);
                 $catalogue->setEditor(10);
-                
+
                 foreach ($fields as $field) {
                     $catalogue->setProperty($field, $objectValues[$field]);
                 }

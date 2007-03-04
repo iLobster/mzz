@@ -21,7 +21,7 @@ fileLoader::load('catalogue');
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueMapper extends simpleCatalogueMapper
 {
     /**
@@ -42,7 +42,7 @@ class catalogueMapper extends simpleCatalogueMapper
     {
         return $this->searchOneByField('id', $id);
     }
-    
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

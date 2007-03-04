@@ -19,10 +19,10 @@
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogue extends simpleCatalogue
 {
-        protected $name = 'catalogue';
+    protected $name = 'catalogue';
 }
 
 ?>

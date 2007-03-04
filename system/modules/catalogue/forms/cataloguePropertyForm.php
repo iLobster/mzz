@@ -35,28 +35,28 @@ class cataloguePropertyForm
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $defaultValues = array();
-        
+
         $action = ( is_array($property) ) ? 'edit' : 'add';
-        
+
         $url = new url('default2');
         $url->setAction('addProperty');
         $url->setSection('catalogue');
-		
-		if ($action == 'edit') {
+
+        if ($action == 'edit') {
             $url->setAction('editProperty');
-			$url->setRoute('withId');
-			$url->addParam('id', $property['id']);
+            $url->setRoute('withId');
+            $url->addParam('id', $property['id']);
 
             $defaultValues['name']  = $property['name'];
             $defaultValues['title']  = $property['title'];
-		}
-		
+        }
+
         $form = new HTML_QuickForm($action, 'POST', $url->get());
         $form->setDefaults($defaultValues);
 
         $form->addElement('text', 'name', 'Name:', 'size="30"');
         $form->addElement('text', 'title', 'Заголовок:', 'size="30"');
-        
+
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
