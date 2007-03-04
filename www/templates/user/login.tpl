@@ -13,5 +13,5 @@
         <td align="center" colspan="2">{$form.submit.html}</td>
     </tr>
 </table>
-</div>
 </form>
+</div>

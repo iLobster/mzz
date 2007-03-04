@@ -292,7 +292,7 @@ dTree.prototype.setCookie = function(cookieName, cookieValue, expires, path, dom
 	document.cookie =
 		escape(cookieName) + '=' + escape(cookieValue)
 		+ (expires ? '; expires=' + expires.toGMTString() : '')
-		+ (path ? '; path=' + path : '')
+		+ '; path=' + (path ? path : (SITE_PATH == '' ? '/' : SITE_PATH))
 		+ (domain ? '; domain=' + domain : '')
 		+ (secure ? '; secure' : '');
 };

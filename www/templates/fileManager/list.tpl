@@ -23,13 +23,12 @@
         </tr>
         {foreach from=$files item=file}
             <tr>
-                <td>{$file->getJip()}<img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" />{$file->getName()}</td>
-                <td align="right">{$file->getSize()|filesize}</td>
-                <td align="center">{$file->getExt()}&nbsp;</td>
                 {assign var="path" value=$current_folder->getPath()}
                 {assign var="name" value=$file->getName()}
                 {assign var="filename" value=`$path`/`$name`}
-                <td><a href="{url route=withAnyParam action=get name=$filename}">Скачать</a></td>
+                <td>{$file->getJip()}<img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" /><a href="{url route=withAnyParam action=get name=$filename}">{$file->getName()}</a></td>
+                <td align="right">{$file->getSize()|filesize}</td>
+                <td align="center">{$file->getExt()}&nbsp;</td>
             </tr>
         {/foreach}
         <tr>
@@ -43,12 +42,12 @@
 
 
 <script type="text/javascript">
-var d = new dTree('d');
-d.add(0,-1,'mzzFileManager');
+var FileManager = new dTree('FileManager');
+FileManager.add(0,-1,'mzzFileManager');
 
 {foreach from=$folders item=current_folder}
 {assign var="parentFolder" value=$current_folder->getTreeParent()}
-d.add({$current_folder->getId()},{if is_object($parentFolder)}{$parentFolder->getId()}{else}0{/if},'{$current_folder->getName()}','');
+FileManager.add({$current_folder->getId()},{if is_object($parentFolder)}{$parentFolder->getId()}{else}0{/if},'{$current_folder->getName()}</a>{$current_folder->getJip()|strip|escape:quotes}<a>','{url route=withAnyParam section=$current_section action=list name=$current_folder->getPath()}', '', '', '{$SITE_PATH}/templates/images/tree/folderopen.gif', '{$SITE_PATH}/templates/images/tree/folder.gif');
 {/foreach}
-document.getElementById('folderTree').innerHTML = d;
+document.getElementById('folderTree').innerHTML = FileManager;
 </script>

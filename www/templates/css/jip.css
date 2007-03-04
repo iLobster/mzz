@@ -68,12 +68,12 @@ div.jipSuccess {
 }
 
 .jipMenu {
-    font-weight: normal;
+    font-weight: normal !important;
     font-size: 12px !important;
     color: #000 !important;
     display: none;
     background-color: #F9F9F9;
-    border: 2px solid #B6B6B6;
+    border: 2px solid #B6B6B6 !important;
     width: 180px;
     position: absolute;
     z-index: 50000;
@@ -91,46 +91,37 @@ div.jipSuccess {
 
 table.jipItems {
     cursor: pointer;
-    border: 1px solid #ffffff;
+    border: 1px solid #ffffff !important;
     width: 100%;
 }
 
 td.jipItemIcon {
     width: 20px;
-    border-right: 1px solid #D4D4D4;
+    border-right: 1px solid #D4D4D4  !important;
+    border-left: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
     background-color: #ECECEC;
     text-align:center;
 }
 
 td.jipItemText {
-    border-top: 1px solid #F9F9F9;
-    border-bottom: 1px solid #F9F9F9;
-    border-left: 0;
-    border-right: 1px solid #F9F9F9;
+    border-top: 1px solid #F9F9F9 !important;
+    border-bottom: 1px solid #F9F9F9 !important;
+    border-left: 0 !important;
+    border-right: 1px solid #F9F9F9 !important;
     padding-left: 8px;
 }
 
 td.jipItemTextActive {
-    border-top: 1px solid #D8D7C5;
-    border-bottom: 1px solid #D8D7C5;
-    border-left: 0;
-    border-right: 1px solid #D8D7C5;
+    border-top: 1px solid #D8D7C5 !important;
+    border-bottom: 1px solid #D8D7C5 !important;
+    border-left: 0 !important;
+    border-right: 1px solid #D8D7C5 !important;
     padding-left: 8px;
-    background-color: #EBEAE2;
+    background-color: #EBEAE2 !important;
 }
 
-table.jip_menu {
-    font-family: verdana, arial, tahoma;
-    font-size: 90%;
-    background-color: #E4E4E4;
-    padding: 1px;
-}
-td.jip_menu {
-    background-color: #fff;
-    font-family: verdana, arial, tahoma;
-    font-size: 100%;
-    padding: 3px;
-}
 
 #lockContent {
     position: absolute;
