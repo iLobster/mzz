@@ -14,22 +14,28 @@
 
 fileLoader::load('catalogue/forms/catalogueAddStepOneForm');
 fileLoader::load('catalogue/forms/catalogueAddStepTwoForm');
-
+ 
 /**
- * catalogueAddController: контроллер для метода add модуля catalogue
+ * catalogueCreateController: контроллер для метода create модуля catalogue
  *
  * @package modules
  * @subpackage catalogue
  * @version 0.1
  */
-
-class catalogueAddController extends simpleController
+ 
+class catalogueCreateController extends simpleController
 {
     public function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
+        $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
+        
+        $path = $this->request->get('name', 'string', SC_PATH);
+        
+        $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
+        
         $types = $catalogueMapper->getAllTypes();
-        $form = catalogueAddStepOneForm::getForm($types);
+        $form = catalogueAddStepOneForm::getForm($types, $catalogueFolder);
         if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
@@ -46,7 +52,7 @@ class catalogueAddController extends simpleController
             $type = $catalogueMapper->getType($values['type']);
             $properties = $catalogueMapper->getProperties($type['id']);
 
-            $formStepTwo = catalogueAddStepTwoForm::getForm($type, $properties);
+            $formStepTwo = catalogueAddStepTwoForm::getForm($type, $properties, $catalogueFolder);
 
             $fields = array();
             foreach($properties as $property){
@@ -68,7 +74,9 @@ class catalogueAddController extends simpleController
                 $catalogue->setType($values['type']);
                 $catalogue->setCreated(777);
                 $catalogue->setEditor(10);
-
+                
+                $catalogue->setFolder($catalogueFolder);
+                
                 foreach ($fields as $field) {
                     $catalogue->setProperty($field, $objectValues[$field]);
                 }

@@ -7,7 +7,7 @@
      <span class="menu_element"><a href="{url route=default2 section=news action=""}">{if $current_section eq "news"}<b>{/if}Новости{if $current_section eq "news"}</b>{/if}</a></span>
      <span class="menu_element"><a href="{url route=default2 section=page action=""}">{if $current_section eq "page"}<b>{/if}Страницы{if $current_section eq "page"}</b>{/if}</a></span>
      <span class="menu_element"><a href="{url route=default2 section=fileManager action=""}">{if $current_section eq "fileManager"}<b>{/if}Файлменеджер{if $current_section eq "fileManager"}</b>{/if}</a></span>
-     <span class="menu_element"><a href="{url route="default2" section="catalogue" action="view"}">{if $current_section eq "catalogue"}<b>{/if}Каталог{if $current_section eq "catalogue"}</b>{/if}</a></span>
+     <span class="menu_element"><a href="{url route="default2" section="catalogue" action="list"}">{if $current_section eq "catalogue"}<b>{/if}Каталог{if $current_section eq "catalogue"}</b>{/if}</a></span>
      <span class="menu_element"><a href="{url route=default2 section=user action=list}">{if $current_section eq "user"}<b>{/if}Пользователи{if $current_section eq "user"}</b>{/if}</a></span>
      <span class="menu_element"><a href="{url route=default2 section=admin action=view}">{if $current_section eq "admin"}<b>{/if}Панель управления{if $current_section eq "admin"}</b>{/if}</a></span>
     </div>

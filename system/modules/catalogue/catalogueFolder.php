@@ -12,6 +12,8 @@
  * @version $Id: do.tpl 1309 2007-02-13 05:54:09Z zerkms $
  */
 
+fileLoader::load('simple/simpleForTree');
+ 
 /**
  * catalogueFolder: класс для работы c данными
  *
@@ -20,9 +22,53 @@
  * @version 0.1
  */
  
-class catalogueFolder extends simple
+class catalogueFolder extends simpleForTree
 {
-        protected $name = 'catalogue';
+    protected $name = 'catalogue';
+    private $mapper;
+    
+    public function __construct($mapper, Array $map)
+    {
+        $this->mapper = $mapper;
+        parent::__construct($map);
+        $this->treeFields = new arrayDataspace();
+    }
+    
+    public function getFolders($level = 1)
+    {
+        if (!$this->fields->exists('folders')) {
+            $this->fields->set('folders', $this->mapper->getFolders($this->getParent(), $level));
+        }
+        return $this->fields->get('folders');
+    }
+    
+    public function getItems()
+    {
+        if (!$this->fields->exists('items')) {
+            $this->fields->set('items', $this->mapper->getItems($this->getId()));
+        }
+        return $this->fields->get('items');
+    }
+    
+    public function getTreeParent()
+    {
+        return $this->mapper->getTreeParent($this->getParent());
+    }
+    
+    public function setPager($pager)
+    {
+        $this->mapper->setPager($pager);
+    }
+
+    public function removePager()
+    {
+        $this->mapper->removePager();
+    }
+
+    public function getJip()
+    {
+        return $this->getJipView($this->name, $this->getPath(), get_class($this));
+    }
 }
 
 ?>

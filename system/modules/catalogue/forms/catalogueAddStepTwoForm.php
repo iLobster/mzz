@@ -29,14 +29,15 @@ class catalogueAddStepTwoForm
      * @param array $type массив значений типа
      * @return object сгенерированна€ форма
      */
-    static function getForm(Array $type, Array $properties)
+    static function getForm(Array $type, Array $properties, catalogueFolder $folder)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $url = new url('default2');
-        $url->setAction('add');
+        $url = new url('withAnyParam');
+        $url->setAction('create');
         $url->setSection('catalogue');
+        $url->addParam('name', $folder->getPath());
 
         $form = new HTML_QuickForm('frmObject', 'POST', $url->get());
 
