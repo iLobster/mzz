@@ -1,15 +1,14 @@
+<div class="jipTitle">Добавление нового элемента для "{$type.title}" - Ввод значений</div>
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
 {$form.hidden}
 {$form.javascript}
     <table border="0" cellpadding="0" cellspacing="1" width="50%">
+{foreach from=$fields item="element"}
         <tr>
-            <td><strong>{$form.title.label}</strong></td>
-            <td>{$form.title.html}</td>
-        </tr>
+            <td>{$form.$element.label}</td> 
+            <td>{$form.$element.html}</td>
         <tr>
-            <td><strong>{$form.name.label}</strong></td>
-            <td>{$form.name.html}</td>
-        </tr>
+{/foreach}
         <tr>
             <td>{$form.submit.html}{$form.reset.html}</td>
         </tr>

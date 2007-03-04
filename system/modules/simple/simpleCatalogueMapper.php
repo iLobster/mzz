@@ -98,14 +98,26 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
         $stmt->execute();
-		
-		$stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `type_id` = :id');
-		$stmt->bindParam('id', $type_id);
-		$stmt->execute();
-		
-		foreach($properties as $id){
-            //todo два раза повторяется... надо в отдельный метод?
-            $this->addPropertyToType($type_id, $id);
+        
+        $allProperties = array();
+        foreach($this->getProperties($type_id) as $property){
+            $allProperties[] = $property['id'];
+        }
+
+        $tmpDelete = array_diff($allProperties, $properties);
+        $tmpInsert = array_diff($properties, $allProperties);
+        
+        foreach ($tmpDelete as $id) {
+            $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id');
+            $stmt->bindParam('id', $id);
+            $stmt->execute();
+        }
+        
+        foreach ($tmpInsert as $id) {
+            $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypesProps . '` VALUES("", :type, :property)');
+            $stmt->bindParam('type', $type_id);
+            $stmt->bindParam('property', $id);
+            $stmt->execute();
         }
     }
     
@@ -235,6 +247,14 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 $object->importProperties($result + $object->exportOldProperties());
             }
         }
+    }
+    
+    public function delete($id)
+    {
+        parent::delete($id);
+        $stmt = $this->db->prepare('DELETE FROM `' . $this->tableData . '` WHERE `id` = :id');
+        $stmt->bindParam('id', $id);
+        $stmt->execute();
     }
 }
 

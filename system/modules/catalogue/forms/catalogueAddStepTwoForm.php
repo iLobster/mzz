@@ -1,0 +1,54 @@
+<?php
+/**
+ * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/catalogue/forms/catalogueAddStepTwoForm.php $
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id: catalogueAddStepTwoForm.php 1365 2007-03-02 21:11:37Z mz $
+ */
+
+/**
+ * catalogueAddStepTwoForm: форма для метода save модуля page
+ *
+ * @package modules
+ * @subpackage catalogue
+ * @version 0.1
+ */
+class catalogueAddStepTwoForm
+{
+    /**
+     * метод получения формы
+     *
+     * @param string $action текущее действие
+     * @param array $properties свойства
+     * @param array $type массив значений типа
+     * @return object сгенерированная форма
+     */
+    static function getForm(Array $type, Array $properties)
+    {
+        fileLoader::load('libs/PEAR/HTML/QuickForm');
+        fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
+
+        $url = new url('default2');
+        $url->setAction('add');
+        $url->setSection('catalogue');
+		
+        $form = new HTML_QuickForm('frmObject', 'POST', $url->get());
+        
+        foreach($properties as $property){
+            $form->addElement('text', $property['name'], $property['title'], 'size="30"');
+            $form->addRule($property['name'], $property['title'].' is required', 'required');
+        }
+        
+        $form->addElement('hidden', 'typeId', $type['id']);
+        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
+        $form->addElement('submit', 'submit', 'Сохранить');
+        return $form;
+    }
+}
+?>

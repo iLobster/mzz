@@ -1,3 +1,5 @@
+<a href="{url route="default2" section="catalogue" action="view"}"><img src="{$SITE_PATH}/templates/images/back.gif" alt="настройка" title="Настройка" align="texttop" /></a>
+<br/><br/>
 <strong>Типы:</strong> <a href="{url route="default2" section="catalogue" action="addType"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить тип" title="Добавить тип" align="texttop" /></a>
 <table>
     {foreach from=$types item="type"}

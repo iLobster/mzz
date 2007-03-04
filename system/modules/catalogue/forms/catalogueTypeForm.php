@@ -49,9 +49,10 @@ class catalogueTypeForm
 
             $defaultValues['name']  = $type['name'];
             $defaultValues['title']  = $type['title'];
-
-            array_unshift($type['properties'], 0);
-            $defaultValues['properties']  = array_flip($type['properties']);
+            if(!empty($type['properties'])){
+                array_unshift($type['properties'], 0);
+                $defaultValues['properties']  = array_flip($type['properties']);
+            }
 		}
 		
         $form = new HTML_QuickForm($action, 'POST', $url->get());
@@ -61,7 +62,7 @@ class catalogueTypeForm
         $form->addElement('text', 'title', 'Заголовок:', 'size="30"');
 
         foreach($properties as $property){
-            $checkbox = $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
+            $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
         }
         
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');

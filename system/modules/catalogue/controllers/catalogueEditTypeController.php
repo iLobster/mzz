@@ -42,8 +42,9 @@ class catalogueEditTypeController extends simpleController
 		if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
-
-            $this->smarty->assign('form', $renderer->toArray());
+            $formArray = $renderer->toArray();
+            $formArray['properties'] = isset($formArray['properties']) ? $formArray['properties'] : array();
+            $this->smarty->assign('form', $formArray);
             return $this->smarty->fetch('catalogue/type.tpl');
         }else{
             $values = $form->exportValues();
