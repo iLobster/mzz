@@ -252,7 +252,7 @@ INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downlo
   (11,'59833d36a918ad9fdd5f860d8a9b350f','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,NULL,1,210),
   (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,1,1,211),
   (13,'ddaa316ac5ba16b0a2e39a3f9c19d330','2rec','',9,NULL,2,219),
-  (14,'715dc8aa6d7e16526ae15a80386c4552','2rec.bmp','bmp',9,1,2,220),
+  (14,'715dc8aa6d7e16526ae15a80386c4552','2rec.bmp','bmp',9,3,2,220),
   (15,'4f0d05060fc2119d464b15a2ec93337f','apache_1.3.37.tar.gz','gz',2665370,1,4,236);
 
 COMMIT;
@@ -1253,7 +1253,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (234,13),
   (235,2),
   (236,14),
-  (238,16);
+  (238,16),
+  (240,7);
 
 COMMIT;
 
@@ -1315,7 +1316,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (38,'deleteProperty'),
   (39,'editObject'),
   (40,'addObject'),
-  (41,'add');
+  (41,'add'),
+  (42,'testee');
 
 COMMIT;
 
@@ -1345,7 +1347,8 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (6,2,2),
   (1,0,0),
   (7,0,9),
-  (8,9,9);
+  (8,9,9),
+  (9,0,10);
 
 COMMIT;
 
@@ -1414,7 +1417,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (13,'pageFolder',4),
   (17,'file',9),
   (18,'folder',9),
-  (19,'catalogue',10);
+  (19,'catalogue',10),
+  (20,'catalogueFolder',10);
 
 COMMIT;
 
@@ -1502,7 +1506,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (76,2,30),
   (94,19,41),
   (81,19,3),
-  (82,19,1),
+  (98,19,20),
   (84,19,33),
   (85,19,34),
   (86,19,35),
@@ -1825,7 +1829,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (236),
   (237),
   (238),
-  (239);
+  (239),
+  (240);
 
 COMMIT;
 
@@ -1872,7 +1877,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (193,'access_fileManager_file'),
   (194,'access_fileManager_folder'),
   (198,'access_fileManager_fileManager'),
-  (233,'access_catalogue_catalogue');
+  (233,'access_catalogue_catalogue'),
+  (240,'access__catalogue');
 
 COMMIT;
 
