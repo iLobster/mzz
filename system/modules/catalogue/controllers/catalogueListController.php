@@ -26,7 +26,7 @@ class catalogueListController extends simpleController
     {
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
         $path = $this->request->get('name', 'string', SC_PATH);
-
+        
         $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
 
         if (empty($catalogueFolder)) {
@@ -43,6 +43,7 @@ class catalogueListController extends simpleController
         $this->smarty->assign('pager', $pager);
         $this->smarty->assign('items', $catalogueFolder->getItems());
         $this->smarty->assign('catalogueFolder', $catalogueFolder);
+        $this->smarty->assign('folders', $catalogueFolderMapper->getTree());
         $catalogueFolder->removePager();
 
         return $this->smarty->fetch('catalogue/list.tpl');

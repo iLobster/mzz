@@ -1,0 +1,19 @@
+#catalogueFolders {
+ line-height: 170%;
+ float: left;
+ width: 170px;
+ margin-top: 0px;
+ margin-left: 8px;
+ padding: 8px;
+ background-color: #F3F5F5;
+ border-right: 1px solid #E0E4E4;
+ border-bottom: 1px solid #E0E4E4;
+}
+
+#catalogueFolders .title {
+ font-size: 120%;
+}
+
+.catalogueList {
+ margin-left: 220px;
+}

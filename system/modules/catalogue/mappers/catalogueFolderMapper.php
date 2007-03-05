@@ -91,6 +91,11 @@ class catalogueFolderMapper extends simpleMapperForTree
         return $this->tree->getBranchByPath($path, $deep);
     }
     
+    public function getTree($level = 0)
+    {
+        return $this->tree->getTree($level);
+    }
+    
     public function getItems($id)
     {
         $catalogue = systemToolkit::getInstance()->getMapper($this->name, $this->itemName, $this->section());
