@@ -55,8 +55,8 @@ class catalogueMapper extends simpleCatalogueMapper
 
     public function get404()
     {
-        fileLoader::load('news/controllers/news404Controller');
-        return new news404Controller();
+        fileLoader::load('catalogue/controllers/catalogue404Controller');
+        return new catalogue404Controller();
     }
 
     /**
