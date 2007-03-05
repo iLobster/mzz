@@ -1,1 +1,0 @@
-php ..\..\codegenerator\createdo.php %1  %2

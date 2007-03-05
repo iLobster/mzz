@@ -1,1 +1,0 @@
-php ..\codegenerator\createmodule.php %1

@@ -1,1 +1,0 @@
-php ..\..\codegenerator\createaction.php %1 %2
