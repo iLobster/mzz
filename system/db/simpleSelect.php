@@ -19,7 +19,7 @@ fileLoader::load('db/criteria');
  *
  * @package system
  * @subpackage db
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class simpleSelect
@@ -81,6 +81,13 @@ class simpleSelect
         }
 
         foreach ($this->criteria->getJoins() as $val) {
+            if ($val['table'] instanceof criteria) {
+                $subquery = new simpleSelect($val['table']);
+                $val['table'] = '(' . $subquery->toString() . ')';
+            } else {
+                $val['table'] = '`' . $val['table'] . '`';
+            }
+
             $joinClause[] = ' ' . $val['type'] . ' JOIN ' . $val['table'] .
             (isset($val['alias']) ? ' ' . $val['alias'] : '') .
             ' ON ' . $val['criterion']->generate();
@@ -96,10 +103,17 @@ class simpleSelect
         $groupByClause = $this->criteria->getGroupBy();
 
         $table = $this->criteria->getTable();
-        if ($table && is_array($table)) {
-            $table = '`' . $table['table'] . '` `' . $table['alias'] . '`';
+
+        if (is_array($table)) {
+            $tableAlias = $table['alias'];
+            $table = $table['table'];
+        }
+
+        if ($table instanceof criteria) {
+            $subselect = new simpleSelect($table);
+            $table = '(' . $subselect->toString() . ')' . (isset($tableAlias) ? ' `' . $tableAlias . '`' : '');
         } elseif ($table) {
-            $table = '`' . $table . '`';
+            $table = '`' . $table . '`' . (isset($tableAlias) ? ' `' . $tableAlias . '`' : '');
         }
 
         $qry = 'SELECT ' .

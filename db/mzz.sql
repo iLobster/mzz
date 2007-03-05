@@ -32,15 +32,69 @@ CREATE TABLE `catalogue_catalogue` (
   `editor` int(11) default NULL,
   `created` int(11) default NULL,
   `obj_id` int(11) default NULL,
-  PRIMARY KEY  (`id`)
+  `folder_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `folder_id` (`folder_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`) VALUES 
-  (2,2,10,777,238);
+INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
+  (2,2,10,777,238,1),
+  (8,1,10,777,246,1);
+
+COMMIT;
+
+#
+# Structure for the `catalogue_catalogueFolder` table : 
+#
+
+DROP TABLE IF EXISTS `catalogue_catalogueFolder`;
+
+CREATE TABLE `catalogue_catalogueFolder` (
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) NOT NULL default '0',
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `parent` int(11) default '0',
+  `path` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `catalogue_catalogueFolder` table  (LIMIT 0,500)
+#
+
+INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+  (1,241,'root','/',1,'root');
+
+COMMIT;
+
+#
+# Structure for the `catalogue_catalogueFolder_tree` table : 
+#
+
+DROP TABLE IF EXISTS `catalogue_catalogueFolder_tree`;
+
+CREATE TABLE `catalogue_catalogueFolder_tree` (
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `left_key` (`lkey`,`rkey`,`level`),
+  KEY `level` (`level`,`lkey`),
+  KEY `rkey` (`rkey`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `catalogue_catalogueFolder_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+  (1,1,2,1);
 
 COMMIT;
 
@@ -65,7 +119,10 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES
   (2,4,'LG FLATRON L1717S 17'''),
   (2,5,'ATI Radeon 9600Pro'),
   (2,6,'Seagate 5400 80gb'),
-  (2,7,'Pentium4 - 2400 MHz');
+  (2,7,'Pentium4 - 2400 MHz'),
+  (8,3,'Запорожец'),
+  (8,2,'1965'),
+  (8,1,'0');
 
 COMMIT;
 
@@ -1254,7 +1311,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (235,2),
   (236,14),
   (238,16),
-  (240,7);
+  (240,7),
+  (246,16);
 
 COMMIT;
 
@@ -1317,7 +1375,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (39,'editObject'),
   (40,'addObject'),
   (41,'add'),
-  (42,'testee');
+  (42,'testee'),
+  (43,'creatrFolder');
 
 COMMIT;
 
@@ -1348,7 +1407,8 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (1,0,0),
   (7,0,9),
   (8,9,9),
-  (9,0,10);
+  (9,0,10),
+  (10,10,10);
 
 COMMIT;
 
@@ -1375,11 +1435,13 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `value`) VALUES
   (1,1,'cache','true'),
   (2,2,'items_per_page','10'),
   (3,3,'items_per_page','20'),
-  (20,4,'items_per_page','50'),
+  (25,4,'items_per_page','1'),
   (13,5,'',''),
   (14,6,'items_per_page','20'),
   (21,7,'upload_path','../tmp'),
-  (22,8,'upload_path','../files');
+  (22,8,'upload_path','../files'),
+  (23,9,'items_per_page','60'),
+  (24,10,'items_per_page','1');
 
 COMMIT;
 
@@ -1504,7 +1566,6 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (74,18,7),
   (77,18,30),
   (76,2,30),
-  (94,19,41),
   (81,19,3),
   (98,19,20),
   (84,19,33),
@@ -1516,7 +1577,10 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (90,19,39),
   (91,13,8),
   (92,13,30),
-  (95,19,2);
+  (95,19,2),
+  (99,20,5),
+  (100,20,4),
+  (102,20,6);
 
 COMMIT;
 
@@ -1555,7 +1619,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (13,13,4),
   (14,17,9),
   (15,18,9),
-  (16,19,10);
+  (16,19,10),
+  (17,20,10);
 
 COMMIT;
 
@@ -1830,7 +1895,13 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (237),
   (238),
   (239),
-  (240);
+  (240),
+  (241),
+  (242),
+  (243),
+  (244),
+  (245),
+  (246);
 
 COMMIT;
 

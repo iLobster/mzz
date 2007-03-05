@@ -122,6 +122,30 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->setDistinct(false);
         $this->assertEqual($this->select->toString(), "SELECT `foo` FROM `table`");
     }
+
+    public function testSubselect()
+    {
+        $this->criteria->setTable('table');
+        $this->criteria->addGroupBy('table.field');
+
+        $criteria = new criteria($this->criteria, 'x');
+        $select = new simpleSelect($criteria);
+
+        $this->assertEqual($select->toString(), "SELECT * FROM (SELECT * FROM `table` GROUP BY `table`.`field`) `x`");
+    }
+
+    public function testSubselectInJoin()
+    {
+        $this->criteria->setTable('table');
+        $this->criteria->addSelectField('table.*')->addSelectField('foo.id', 'foo_id');
+
+        $criteria = new criteria('zzz');
+        $criteria->add('asd', 666);
+
+        $this->criteria->addJoin($criteria, new criterion('x.id', 'table.id', criteria::EQUAL, true), 'x');
+
+        $this->assertEqual($this->select->toString(), "SELECT `table`.*, `foo`.`id` AS `foo_id` FROM `table` LEFT JOIN (SELECT * FROM `zzz` WHERE `zzz`.`asd` = 666) `x` ON `x`.`id` = `table`.`id`");
+    }
 }
 
 ?>

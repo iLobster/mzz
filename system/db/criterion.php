@@ -19,7 +19,7 @@
  * @see criteria
  * @package system
  * @subpackage db
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class criterion
@@ -303,7 +303,13 @@ class criterion
             }
             return '`' . $this->value . '`';
         } else {
-            return  $this->db->quote($this->value);
+            $value = $this->value;
+
+            if (!is_int($value)) {
+                $value = $this->db->quote($value);
+            }
+
+            return $value;
         }
     }
 }

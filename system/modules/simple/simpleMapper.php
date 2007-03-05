@@ -21,7 +21,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.2
+ * @version 0.3.3
  */
 
 abstract class simpleMapper
@@ -428,15 +428,7 @@ abstract class simpleMapper
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
         if ($this->pager) {
-            $criteriaForCount = clone $criteria;
-            $criteriaForCount->clearSelectFields()->addSelectField('COUNT(*)', 'cnt');
-            $selectForCount = new simpleSelect($criteriaForCount);
-            $stmt = $this->db->query($selectForCount->toString());
-            $count = $stmt->fetch();
-
-            $this->pager->setCount($count['cnt']);
-
-            $criteria->append($this->pager->getLimitQuery());
+            $this->count($criteria);
         }
 
         $this->addOrderBy($criteria);
@@ -446,6 +438,19 @@ abstract class simpleMapper
         //echo '<br><pre>'; var_dump($select->toString()); echo '<br></pre>';
 
         return $stmt;
+    }
+
+    private function count($criteria)
+    {
+        $criteriaForCount = clone $criteria;
+        $criteriaForCount->clearSelectFields()->addSelectField('COUNT(*)', 'cnt');
+        $selectForCount = new simpleSelect($criteriaForCount);
+        $stmt = $this->db->query($selectForCount->toString());
+        $count = $stmt->fetch();
+
+        $this->pager->setCount($count['cnt']);
+
+        $criteria->append($this->pager->getLimitQuery());
     }
 
     /**

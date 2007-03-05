@@ -16,7 +16,7 @@
  * config: класс для работы с конфигурацией
  *
  * @package system
- * @version 0.5.1
+ * @version 0.5.2
 */
 
 class config
@@ -178,6 +178,14 @@ class config
         if (isset($result['id'])) {
             $this->cfg_id = (int)$result['id'];
         } else {
+            $module_id = $this->db->getOne('SELECT `id` FROM `sys_modules` WHERE `name` = ' . $this->db->quote($module));
+            $section_id = $this->db->getOne('SELECT `id` FROM `sys_sections` WHERE `name` = ' . $this->db->quote($section));
+
+            if ($module_id && $section_id) {
+                $this->db->query('INSERT INTO `sys_cfg` (`section`, `module`) VALUES (' . $section_id . ', ' . $module_id . ')');
+                $this->getCfgId($section, $module);
+            }
+
             throw new mzzRuntimeException('Config for section: ' . $section . ', module: ' . $module . ' not found.');
         }
     }

@@ -80,7 +80,7 @@ class criteriaTest extends unitTestCase
         $joins = $this->criteria->getJoins();
         $this->assertEqual(count($joins), 1);
 
-        $this->assertEqual($joins[0]['table'], '`' . $table . '`');
+        $this->assertEqual($joins[0]['table'], $table);
         $this->assertReference($joins[0]['criterion'], $criterion);
     }
 

@@ -47,18 +47,18 @@ class catalogueMapper extends simpleCatalogueMapper
     {
         return $this->searchAllByField('folder_id', $folder_id);
     }
-    
+
     protected function updateDataModify(&$fields)
     {
         //$fields['updated'] = new sqlFunction('UNIX_TIMESTAMP');
     }
-    
+
     public function get404()
     {
         fileLoader::load('news/controllers/news404Controller');
         return new news404Controller();
     }
-    
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

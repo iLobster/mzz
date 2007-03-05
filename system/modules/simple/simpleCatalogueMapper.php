@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleCatalogue');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 abstract class simpleCatalogueMapper extends simpleMapper
@@ -46,22 +46,22 @@ abstract class simpleCatalogueMapper extends simpleMapper
     {
         return $this->db->getAll('SELECT * FROM `' . $this->tableTypes . '`', PDO::FETCH_ASSOC);
     }
-    
+
     public function getAllProperties()
     {
         return $this->db->getAll('SELECT * FROM `' . $this->tableProperties . '`', PDO::FETCH_ASSOC);
     }
-    
+
     public function getType($id)
     {
         return $this->db->getRow('SELECT * FROM `' . $this->tableTypes . '` WHERE `id` = ' . (int) $id, PDO::FETCH_ASSOC);
     }
-    
+
     public function getProperty($id)
     {
         return $this->db->getRow('SELECT * FROM `' . $this->tableProperties . '` WHERE `id` = ' . (int) $id, PDO::FETCH_ASSOC);
     }
-    
+
     public function getProperties($id)
     {
         $stmt = $this->db->prepare('SELECT `p`.* FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` WHERE `tp`.`type_id` = :type_id');
@@ -76,7 +76,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
         $type_id = $stmt->execute();
-        
+
         foreach($properties as $id){
             //todo коряво как-то... может всё в один запрос?
             $this->addPropertyToType($type_id, $id);
@@ -91,14 +91,14 @@ abstract class simpleCatalogueMapper extends simpleMapper
         return $stmt->execute();
     }
 
-	public function updateType($type_id, $name, $title, Array $properties = array())
+    public function updateType($type_id, $name, $title, Array $properties = array())
     {
         $stmt = $this->db->prepare('UPDATE `' . $this->tableTypes . '` SET `name` = :name, `title` = :title WHERE `id` = :id');
         $stmt->bindParam('id', $type_id);
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
         $stmt->execute();
-        
+
         $allProperties = array();
         foreach($this->getProperties($type_id) as $property){
             $allProperties[] = $property['id'];
@@ -106,13 +106,13 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
         $tmpDelete = array_diff($allProperties, $properties);
         $tmpInsert = array_diff($properties, $allProperties);
-        
+
         foreach ($tmpDelete as $id) {
             $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id');
             $stmt->bindParam('id', $id);
             $stmt->execute();
         }
-        
+
         foreach ($tmpInsert as $id) {
             $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypesProps . '` VALUES("", :type, :property)');
             $stmt->bindParam('type', $type_id);
@@ -120,18 +120,18 @@ abstract class simpleCatalogueMapper extends simpleMapper
             $stmt->execute();
         }
     }
-    
+
     public function deleteType($type_id)
     {
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypes . '` WHERE `id` = :id');
         $stmt->bindParam('id', $type_id);
         $stmt->execute();
-        
+
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `type_id` = :id');
         $stmt->bindParam('id', $type_id);
         $stmt->execute();
     }
-    
+
     public function addProperty($name, $title)
     {
         $stmt = $this->db->prepare('INSERT INTO `' . $this->tableProperties . '` VALUES ("", :name, :title)');
@@ -139,7 +139,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->bindParam('title', $title);
         return $stmt->execute();
     }
-    
+
     public function updateProperty($id, $name, $title)
     {
         $stmt = $this->db->prepare('UPDATE `' . $this->tableProperties . '` SET `name` = :name, `title` = :title WHERE `id` = :id ');
@@ -148,18 +148,35 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->bindParam('title', $title);
         return $stmt->execute();
     }
-    
+
     public function deleteProperty($id)
     {
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableProperties . '` WHERE `id` = :id');
         $stmt->bindParam('id', $id);
         $stmt->execute();
-        
+
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id');
         $stmt->bindParam('id', $id);
         $stmt->execute();
     }
-    
+
+    protected function count($criteria)
+    {
+        $criteriaForCount = clone $criteria;
+        $criteriaForCount->clearSelectFields()->addSelectField('COUNT(*)', 'cnt');
+
+        $subselectCriteria = new criteria($criteriaForCount, 'x');
+        $subselectCriteria->clearSelectFields()->addSelectField('COUNT(*)', 'cnt');
+
+        $selectForCount = new simpleSelect($subselectCriteria);
+        $stmt = $this->db->query($selectForCount->toString());
+        $count = $stmt->fetch();
+
+        $this->pager->setCount($count['cnt']);
+
+        $criteria->append($this->pager->getLimitQuery());
+    }
+
     protected function searchByCriteria(criteria $criteria)
     {
         $keys = $criteria->keys();
@@ -187,10 +204,20 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $result = parent::searchByCriteria($criteria);
 
         $properties = clone $criteria;
+
+        $properties->setTable($this->table, $this->className);
         $properties->clearSelectFields();
         $properties->clearGroupBy();
         $properties->addSelectField($this->className . '.id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('d.value');
         $properties->setOrderByFieldAsc('id');
+
+        // критерий для подзапроса, с помощью которого будут выбираться данные только для необходимых объектов
+        $properties_needed = clone $properties;
+        $properties_needed->setDistinct();
+        $properties_needed->clearSelectFields()->addSelectField($this->className . '.' . $this->tableKey);
+        $properties->addJoin($properties_needed, new criterion('x.' . $this->tableKey, $this->className . '.' . $this->tableKey, criteria::EQUAL, true), 'x', criteria::JOIN_INNER);
+
+        $properties->clearLimit()->clearOffset();
 
         $select = new simpleSelect($properties);
         $stmt = $this->db->query($select->toString());
@@ -248,7 +275,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
             }
         }
     }
-    
+
     public function delete($id)
     {
         parent::delete($id);

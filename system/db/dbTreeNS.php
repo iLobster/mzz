@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.9.4
+ * @version 0.9.5
  */
 
 fileLoader::load('db/sqlFunction');
@@ -112,7 +112,7 @@ class dbTreeNS
         $this->setInnerField($innerField);
 
         // Устанавливаем маппер
-        if(!empty($init['mapper']) && $init['mapper'] instanceof simpleMapper) {
+        if (!empty($init['mapper']) && $init['mapper'] instanceof simpleMapper) {
             $this->setMapper($init['mapper']);
 
         } else {
@@ -120,7 +120,7 @@ class dbTreeNS
 
         }
 
-        if(isset($init['treeField'])) {
+        if (isset($init['treeField'])) {
             $this->treeField = $init['treeField'];
         }
 
@@ -288,7 +288,7 @@ class dbTreeNS
     {
         $criteria->addJoin($this->table, new criterion($this->dataTable . '.' . $this->dataID, $this->table . '.' . $this->treeID, criteria::EQUAL, true));
 
-        if($this->isMultipleTree()) {
+        if ($this->isMultipleTree()) {
             $criteria->add(new criterion($this->table . '.' . $this->treeField, $this->treeFieldID));
         }
 
@@ -303,7 +303,7 @@ class dbTreeNS
         // @toDo бага, фича, фишка php5? возвращается ссылка на критерий,
         // а так как в методах в врзвращаемое значение добавляются условия, они добавляются и в basisCriteria
         // сделал клонирование
-        if(!isset($this->basisCriteria)) {
+        if (!isset($this->basisCriteria)) {
             $this->basisCriteria= new criteria();
 
             // ставим алиас на таблицу со структурой дерева
@@ -314,7 +314,7 @@ class dbTreeNS
         }
 
         // если деревьев несколько, то добавляем условие для их разделения
-        if($this->isMultipleTree()) {
+        if ($this->isMultipleTree()) {
             $this->basisCriteria->add(new criterion('tree.' .$this->treeField, $this->treeFieldID, criteria::EQUAL));
         } else {
             //@toDo подумать, как избавится. Хак для того чтобы в обоих случаях было выражение WHERE
@@ -355,7 +355,7 @@ class dbTreeNS
         $criteria->setOrderByFieldAsc('tree.lkey');
 
         // если задана глубина выборки, добавляем условие
-        if($level > 0) {
+        if ($level > 0) {
             $criteria->add(new criterion('tree.level', array(1, $level), criteria::BETWEEN));
         }
 
@@ -533,7 +533,7 @@ class dbTreeNS
     {
         $node = $this->getLongestNodeByPath($path);
 
-        $stmt = $this->db->prepare($this->getBasisQuery() .
+        $stmt = $this->db->prepare($qry = $this->getBasisQuery() .
         ' AND `lkey` = :lkey');
 
         $stmt->bindParam(':lkey', $node['lkey'], PDO::PARAM_INT);
@@ -586,6 +586,9 @@ class dbTreeNS
             $path = $rootName . '/' . $path;
         }
 
+        if (substr($path, -1) == '/') {
+            $path = substr($path, 0, -1);
+        }
 
         if ($this->correctPathMode) {
             // убираем части пути несуществующие в таблице
@@ -593,13 +596,15 @@ class dbTreeNS
 
         } else {
             // простая проверка на правильность пути, убираем лишние слэши
+            /*echo '<br><pre>'; var_dump($path); echo '<br></pre>';
             $pathParts = explode('/', trim($path));
             foreach ($pathParts as $key => $part) {
                 if (strlen($part) == 0 ) {
                     unset($pathParts[$key]);
                 }
             }
-            $rewritedPath[] = implode('/', $pathParts);
+            echo '<br><pre>'; var_dump(implode('/', $pathParts)); echo '<br></pre>';echo '<br><br>';*/
+            $rewritedPath[] = $path;
         }
 
         // Выбираем все существующие пути
@@ -663,7 +668,7 @@ class dbTreeNS
             return $this->insertRootNode($newNode);
         }
 
-        if(!$parentNode = $this->getNodeInfo($id)) {
+        if (!$parentNode = $this->getNodeInfo($id)) {
             return false;
         }
 
@@ -681,13 +686,13 @@ class dbTreeNS
         $this->db->exec($query);
 
         $map = $newNode->getMap();
-        if($this->isMultipleTree()) {
+        if ($this->isMultipleTree()) {
             $mtr = $map[$this->treeField]['mutator'];
             $newNode->$mtr($this->treeFieldID);
         }
 
         $acsr = $map[$this->dataID]['accessor'];
-        if($newNode->$acsr() != ($lastID = $this->db->lastInsertId())) {
+        if ($newNode->$acsr() != ($lastID = $this->db->lastInsertId())) {
             $mtr = $map[$this->dataID]['mutator'];
             $newNode->$mtr($lastID);
         }
@@ -723,13 +728,13 @@ class dbTreeNS
         $stmt->execute();
 
         $map = $newRootNode->getMap();
-        if($this->isMultipleTree()) {
+        if ($this->isMultipleTree()) {
             $mtr = $map[$this->treeField]['mutator'];
             $newRootNode->$mtr($this->treeFieldID);
         }
 
         $acsr = $map[$this->dataID]['accessor'];
-        if($newRootNode->$acsr() != ($lastID = $this->db->lastInsertId())) {
+        if ($newRootNode->$acsr() != ($lastID = $this->db->lastInsertId())) {
             $mtr = $map[$this->dataID]['mutator'];
             $newRootNode->$mtr($lastID);
         }
@@ -769,8 +774,8 @@ class dbTreeNS
 
         //удаление данных из таблицы данных
         $deletedBranch = $this->getBranch($id);
-        if(count($deletedBranch)) {
-            foreach($deletedBranch as $currentNode) {
+        if (count($deletedBranch)) {
+            foreach ($deletedBranch as $currentNode) {
                 $this->mapper->delete($currentNode->getId());
             }
         }
@@ -963,7 +968,7 @@ class dbTreeNS
             $newPathToRootNodeOfBranch = $this->updatePath($node['id']);
 
             // если переместили один элемент под узел нижнего уровня, то обновлять пути не надо
-            if(count($movedBranch) == 2 && isset($movedBranch[$parentNode['id']]) && isset($movedBranch[$node['id']])) {
+            if (count($movedBranch) == 2 && isset($movedBranch[$parentNode['id']]) && isset($movedBranch[$node['id']])) {
                 return true;
             }
 
@@ -1011,7 +1016,7 @@ class dbTreeNS
             if (strlen($pathPart) == 0) {
                 continue;
             }
-            $query .= $this->getBasisQuery() . 'AND `' . $this->innerField . "` = '" . $pathPart . "' UNION ";
+            $query .= $this->getBasisQuery() . ' AND `' . $this->innerField . "` = '" . $pathPart . "' UNION ";
         }
 
         $query = substr($query, 0, -6);

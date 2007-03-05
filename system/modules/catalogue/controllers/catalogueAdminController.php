@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/catalogue/controllers/catalogueAdminController.php $
+ * $URL$
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: catalogueAdminController.php 1377 2007-03-04 12:37:57Z mz $
+ * @version $Id$
  */
 
 /**

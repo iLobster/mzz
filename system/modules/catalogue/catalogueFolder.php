@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/do.tpl $
+ * $URL$
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: do.tpl 1309 2007-02-13 05:54:09Z zerkms $
+ * @version $Id$
  */
 
 fileLoader::load('simple/simpleForTree');

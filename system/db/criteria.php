@@ -12,15 +12,15 @@
  * @version $Id$
  */
 
+fileLoader::load('db/criterion');
+
 /**
  * critera: класс, используемый для хранения данных о критериях выборки
  *
  * @package system
  * @subpackage db
- * @version 0.1.6
+ * @version 0.1.7
  */
-
-fileLoader::load('db/criterion');
 
 class criteria
 {
@@ -177,10 +177,10 @@ class criteria
      *
      * @param string $table имя основной таблицы, из которой будет производиться выборка
      */
-    public function __construct($table = null)
+    public function __construct($table = null, $alias = null)
     {
         if ($table) {
-            $this->setTable($table);
+            $this->setTable($table, $alias);
         }
     }
 
@@ -388,6 +388,28 @@ class criteria
     }
 
     /**
+     * Метод очистки числа выбираемых записей
+     *
+     * @return object сам объект
+     */
+    public function clearLimit()
+    {
+        $this->limit = 0;
+        return $this;
+    }
+
+    /**
+     * Метод очистки сдвига
+     *
+     * @return object сам объект
+     */
+    public function clearOffset()
+    {
+        $this->offset = 0;
+        return $this;
+    }
+
+    /**
      * Метод для очистки списка полей для выборки
      *
      * @return criteria текущий объект
@@ -459,7 +481,7 @@ class criteria
      */
     public function addJoin($tablename, criterion $criterion, $alias = '', $joinType = self::JOIN_LEFT)
     {
-        $arr = array('table' => '`' . $tablename . '`', 'criterion' => $criterion);
+        $arr = array('table' => $tablename, 'criterion' => $criterion);
         $arr['type'] = $joinType;
         if ($alias) {
             $arr['alias'] = '`' . $alias . '`';
