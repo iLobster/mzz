@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Хост: localhost
--- Время создания: Мар 05 2007 г., 16:12
+-- Время создания: Мар 05 2007 г., 19:33
 -- Версия сервера: 4.1.16
 -- Версия PHP: 5.1.6
 -- 
@@ -33,7 +33,7 @@ CREATE TABLE `catalogue_catalogue` (
 -- 
 
 INSERT INTO `catalogue_catalogue` VALUES (2, 2, 10, 777, 238, 1);
-INSERT INTO `catalogue_catalogue` VALUES (8, 1, 10, 777, 246, 1);
+INSERT INTO `catalogue_catalogue` VALUES (8, 1, 10, 777, 246, 2);
 INSERT INTO `catalogue_catalogue` VALUES (11, 1, 10, 777, 250, 2);
 
 -- --------------------------------------------------------
@@ -57,8 +57,9 @@ CREATE TABLE `catalogue_catalogueFolder` (
 -- Дамп данных таблицы `catalogue_catalogueFolder`
 -- 
 
-INSERT INTO `catalogue_catalogueFolder` VALUES (1, 241, 'root', '/', 1, 'root');
-INSERT INTO `catalogue_catalogueFolder` VALUES (2, 249, 'test', 'test', 2, 'root/test');
+INSERT INTO `catalogue_catalogueFolder` VALUES (1, 241, 'root', 'Основной', 1, 'root');
+INSERT INTO `catalogue_catalogueFolder` VALUES (2, 249, 'test', 'Тестовый', 2, 'root/test');
+INSERT INTO `catalogue_catalogueFolder` VALUES (3, 251, 'test2', 'Тестовый2', 3, 'root/test/test2');
 
 -- --------------------------------------------------------
 
@@ -82,8 +83,9 @@ CREATE TABLE `catalogue_catalogueFolder_tree` (
 -- Дамп данных таблицы `catalogue_catalogueFolder_tree`
 -- 
 
-INSERT INTO `catalogue_catalogueFolder_tree` VALUES (1, 1, 4, 1);
-INSERT INTO `catalogue_catalogueFolder_tree` VALUES (2, 2, 3, 2);
+INSERT INTO `catalogue_catalogueFolder_tree` VALUES (1, 1, 6, 1);
+INSERT INTO `catalogue_catalogueFolder_tree` VALUES (2, 2, 5, 2);
+INSERT INTO `catalogue_catalogueFolder_tree` VALUES (3, 3, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -1268,6 +1270,7 @@ INSERT INTO `sys_access_registry` VALUES (240, 7);
 INSERT INTO `sys_access_registry` VALUES (246, 16);
 INSERT INTO `sys_access_registry` VALUES (249, 17);
 INSERT INTO `sys_access_registry` VALUES (250, 16);
+INSERT INTO `sys_access_registry` VALUES (251, 17);
 
 -- --------------------------------------------------------
 
@@ -1384,7 +1387,7 @@ CREATE TABLE `sys_cfg_values` (
 INSERT INTO `sys_cfg_values` VALUES (1, 1, 'cache', 'true');
 INSERT INTO `sys_cfg_values` VALUES (2, 2, 'items_per_page', '10');
 INSERT INTO `sys_cfg_values` VALUES (3, 3, 'items_per_page', '20');
-INSERT INTO `sys_cfg_values` VALUES (25, 4, 'items_per_page', '1');
+INSERT INTO `sys_cfg_values` VALUES (28, 4, 'items_per_page', '10');
 INSERT INTO `sys_cfg_values` VALUES (13, 5, '', '');
 INSERT INTO `sys_cfg_values` VALUES (14, 6, 'items_per_page', '20');
 INSERT INTO `sys_cfg_values` VALUES (21, 7, 'upload_path', '../tmp');
@@ -1511,7 +1514,7 @@ INSERT INTO `sys_classes_actions` VALUES (73, 18, 8);
 INSERT INTO `sys_classes_actions` VALUES (74, 18, 7);
 INSERT INTO `sys_classes_actions` VALUES (77, 18, 30);
 INSERT INTO `sys_classes_actions` VALUES (76, 2, 30);
-INSERT INTO `sys_classes_actions` VALUES (81, 19, 3);
+INSERT INTO `sys_classes_actions` VALUES (104, 20, 30);
 INSERT INTO `sys_classes_actions` VALUES (98, 19, 20);
 INSERT INTO `sys_classes_actions` VALUES (84, 19, 33);
 INSERT INTO `sys_classes_actions` VALUES (85, 19, 34);
@@ -1527,6 +1530,9 @@ INSERT INTO `sys_classes_actions` VALUES (99, 20, 5);
 INSERT INTO `sys_classes_actions` VALUES (100, 20, 4);
 INSERT INTO `sys_classes_actions` VALUES (102, 20, 6);
 INSERT INTO `sys_classes_actions` VALUES (103, 20, 7);
+INSERT INTO `sys_classes_actions` VALUES (105, 20, 8);
+INSERT INTO `sys_classes_actions` VALUES (106, 1, 20);
+INSERT INTO `sys_classes_actions` VALUES (107, 19, 29);
 
 -- --------------------------------------------------------
 
@@ -1846,6 +1852,8 @@ INSERT INTO `sys_obj_id` VALUES (247);
 INSERT INTO `sys_obj_id` VALUES (248);
 INSERT INTO `sys_obj_id` VALUES (249);
 INSERT INTO `sys_obj_id` VALUES (250);
+INSERT INTO `sys_obj_id` VALUES (251);
+INSERT INTO `sys_obj_id` VALUES (252);
 
 -- --------------------------------------------------------
 
