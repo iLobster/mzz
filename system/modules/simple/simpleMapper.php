@@ -440,7 +440,7 @@ abstract class simpleMapper
         return $stmt;
     }
 
-    private function count($criteria)
+    protected function count($criteria)
     {
         $criteriaForCount = clone $criteria;
         $criteriaForCount->clearSelectFields()->addSelectField('COUNT(*)', 'cnt');
