@@ -54,12 +54,12 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function getType($id)
     {
-        return $this->db->getRow('SELECT * FROM `' . $this->tableTypes . '` WHERE `id` = ' . (int) $id, PDO::FETCH_ASSOC);
+        return $this->db->getRow('SELECT * FROM `' . $this->tableTypes . '` WHERE `id` = ' . (int)$id, PDO::FETCH_ASSOC);
     }
 
     public function getProperty($id)
     {
-        return $this->db->getRow('SELECT * FROM `' . $this->tableProperties . '` WHERE `id` = ' . (int) $id, PDO::FETCH_ASSOC);
+        return $this->db->getRow('SELECT * FROM `' . $this->tableProperties . '` WHERE `id` = ' . (int)$id, PDO::FETCH_ASSOC);
     }
 
     public function getProperties($id)
@@ -70,54 +70,43 @@ abstract class simpleCatalogueMapper extends simpleMapper
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addType($name, $title, Array $properties = array())
+    public function addType($name, $title, Array $properties)
     {
-        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypes . '` VALUES ("", :name, :title)');
+        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypes . '` (`name`, `title`) VALUES (:name, :title)');
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
-        $type_id = $stmt->execute();
-
-        foreach($properties as $id){
-            //todo коряво как-то... может всё в один запрос?
-            $this->addPropertyToType($type_id, $id);
+        $typeId = $stmt->execute();
+        
+        if(!empty($properties)){
+            $this->setPropertiesToType($typeId, $properties);
         }
     }
 
-    public function addPropertyToType($type_id, $prop_id)
-    {
-        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypesProps . '` VALUES ("", :type_id, :prop_id)');
-        $stmt->bindParam('type_id', $type_id);
-        $stmt->bindParam('prop_id', $prop_id);
-        return $stmt->execute();
-    }
-
-    public function updateType($type_id, $name, $title, Array $properties = array())
+    public function updateType($typeId, $name, $title, Array $properties)
     {
         $stmt = $this->db->prepare('UPDATE `' . $this->tableTypes . '` SET `name` = :name, `title` = :title WHERE `id` = :id');
-        $stmt->bindParam('id', $type_id);
+        $stmt->bindParam('id', $typeId);
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
         $stmt->execute();
-
+        
         $allProperties = array();
-        foreach($this->getProperties($type_id) as $property){
+        foreach($this->getProperties($typeId) as $property){
             $allProperties[] = $property['id'];
         }
 
         $tmpDelete = array_diff($allProperties, $properties);
         $tmpInsert = array_diff($properties, $allProperties);
-
-        foreach ($tmpDelete as $id) {
-            $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id');
-            $stmt->bindParam('id', $id);
-            $stmt->execute();
+        
+        if(!empty($tmpDelete)){
+            array_map('intval', $tmpDelete);
+            $this->db->query('DELETE FROM `' . $this->tableData . '` WHERE `property_type` IN (SELECT `id` FROM `' . $this->tableTypesProps . '` WHERE `type_id` = ' . (int)$typeId . ' AND `property_id` IN (' . implode(', ', $tmpDelete) . '))');
+            $query = 'DELETE FROM `' . $this->tableTypesProps . '` WHERE `type_id` = ' . (int)$typeId . ' AND `property_id` IN (' . implode(', ', $tmpDelete) . ')';
+            $this->db->query($query);
         }
-
-        foreach ($tmpInsert as $id) {
-            $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypesProps . '` VALUES("", :type, :property)');
-            $stmt->bindParam('type', $type_id);
-            $stmt->bindParam('property', $id);
-            $stmt->execute();
+        
+        if(!empty($tmpInsert)){
+            $this->setPropertiesToType($typeId, $tmpInsert);
         }
     }
 
@@ -160,6 +149,17 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->execute();
     }
 
+    private function setPropertiesToType($typeId, Array $properties)
+    {
+        array_map('intval', $properties);
+        $query = 'INSERT INTO `' . $this->tableTypesProps . '` (`type_id`, `property_id`) VALUES ';
+        foreach ($properties as $id) {
+            $query .= '(' . (int)$typeId . ', ' . $id . '), ';
+        }
+        $query = substr($query, 0, -2);
+        $this->db->query($query);
+    }
+    
     protected function count($criteria)
     {
         $criteriaForCount = clone $criteria;
@@ -190,7 +190,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 $criteria->remove($val);
             }
         }
-
+        
         $this->tmpPropsData = array();
 
         $criteria->addJoin($this->tableTypes, new criterion('t.id', $this->className . '.type_id', criteria::EQUAL, true), 't', criteria::JOIN_INNER);
@@ -202,7 +202,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $criteria->addGroupBy($this->className . '.' . $this->tableKey);
 
         $result = parent::searchByCriteria($criteria);
-
+        
         $properties = clone $criteria;
 
         $properties->setTable($this->table, $this->className);

@@ -1,2 +1,2 @@
 {* main="main.tpl" placeholder="content" *}
-{load module="catalogue" action="creatrFolder"}
+{load module="catalogue" action="createFolder"}
