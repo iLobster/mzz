@@ -53,7 +53,7 @@ class catalogueAddTypeController extends simpleController
             return $this->smarty->fetch('catalogue/type.tpl');
         } else {
             $values = $form->exportValues();
-            $values['properties'] = (isset($values['properties']) ? $values['properties'] : array();
+            $values['properties'] = (isset($values['properties'])) ? $values['properties'] : array();
             
             if($action == 'editType'){
                 $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']));
