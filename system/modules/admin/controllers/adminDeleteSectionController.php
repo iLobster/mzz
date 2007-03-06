@@ -29,12 +29,13 @@ class adminDeleteSectionController extends simpleController
         $sections = $adminMapper->getSectionsList();
 
         if (!isset($sections[$id])) {
-            return 'раздел не найден';
+            $controller = new messageController('–аздела не существует', messageController::WARNING);
+            return $controller->run();
         }
 
         if (sizeof($sections[$id]['classes'])) {
-            // @todo изменить
-            return 'нельз€ удалить раздел';
+            $controller = new messageController('Ќельз€ удалить раздел', messageController::WARNING);
+            return $controller->run();
         }
 
         $db = DB::factory();

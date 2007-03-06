@@ -19,7 +19,7 @@ fileLoader::load('admin/forms/adminMainClassForm');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 
 class adminMainClassController extends simpleController
@@ -34,8 +34,8 @@ class adminMainClassController extends simpleController
         $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
 
         if ($data === false) {
-            // @todo изменить
-            return 'класса не существует';
+            $controller = new messageController('Класса не существует', messageController::WARNING);
+            return $controller->run();
         }
 
         $modules = $adminMapper->getModulesList();

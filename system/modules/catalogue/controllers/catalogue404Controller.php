@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/news/controllers/news404Controller.php $
+ * $URL: http://svn.web/repository/mzz/system/modules/catalogue/controllers/catalogue404Controller.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: news404Controller.php 1315 2007-02-20 04:25:19Z zerkms $
+ * @version $Id: catalogue404Controller.php 657 2007-03-05 21:47:20Z zerkms $
  */
 
 /**

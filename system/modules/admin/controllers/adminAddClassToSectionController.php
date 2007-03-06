@@ -10,15 +10,16 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * adminAddClassToSectionController: контроллер для метода addClassToSection модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
+ 
 class adminAddClassToSectionController extends simpleController
 {
     public function getView()
@@ -30,8 +31,8 @@ class adminAddClassToSectionController extends simpleController
         $data = $db->getRow('SELECT * FROM `sys_sections` WHERE `id` = ' . $id);
 
         if ($data === false) {
-            // @todo изменить
-            return 'раздела не существует';
+            $controller = new messageController('Раздела не существует', messageController::WARNING);
+            return $controller->run();
         }
 
         $stmt = $db->query('SELECT `c`.`id` AS `c_id`, `c`.`name` AS `c_name`, `m`.`name` AS `m_name`, `cs`.`section_id` IS NOT NULL AS `checked`, (COUNT(`r`.`class_section_id`) > 0) AS `disabled` FROM `sys_classes` `c`

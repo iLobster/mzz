@@ -1,3 +1,4 @@
+{include file='jipTitle.tpl' title='Редактирование типа'}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
 {$form.hidden}
 {$form.javascript}
@@ -10,15 +11,15 @@
             <td><strong>{$form.name.label}</strong></td>
             <td>{$form.name.html}</td>
         </tr>
-{foreach from=$form.properties item="property"}
-        <tr>
-            <td>{$property.html}</td>
-        </tr>
-{foreachelse}
-        <tr>
-            <td>Нет параметров</td>
-        <tr>
-{/foreach}
+        {foreach from=$form.properties item="property"}
+                <tr>
+                    <td>{$property.html}</td>
+                </tr>
+        {foreachelse}
+                <tr>
+                    <td>Нет параметров</td>
+                <tr>
+        {/foreach}
         <tr>
             <td>{$form.submit.html}{$form.reset.html}</td>
         </tr>

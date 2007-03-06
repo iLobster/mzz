@@ -110,6 +110,7 @@ class core
         fileLoader::load('simple/jipTools');
         fileLoader::load('simple/simpleCatalogue');
         fileLoader::load('simple/simpleCatalogueMapper');
+        fileLoader::load('simple/messageController');
 
         fileLoader::load('filters/init');
 

@@ -43,7 +43,8 @@ CREATE TABLE `catalogue_catalogue` (
 
 INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
   (2,2,10,777,238,1),
-  (8,1,10,777,246,1);
+  (8,1,10,777,246,2),
+  (11,1,10,777,250,2);
 
 COMMIT;
 
@@ -68,7 +69,9 @@ CREATE TABLE `catalogue_catalogueFolder` (
 #
 
 INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
-  (1,241,'root','/',1,'root');
+  (1,241,'root','Основной',1,'root'),
+  (2,249,'test','Тестовый',2,'root/test'),
+  (3,251,'test2','Тестовый2',3,'root/test/test2');
 
 COMMIT;
 
@@ -94,7 +97,9 @@ CREATE TABLE `catalogue_catalogueFolder_tree` (
 #
 
 INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,2,1);
+  (1,1,6,1),
+  (2,2,5,2),
+  (3,3,4,3);
 
 COMMIT;
 
@@ -119,10 +124,13 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES
   (2,4,'LG FLATRON L1717S 17'''),
   (2,5,'ATI Radeon 9600Pro'),
   (2,6,'Seagate 5400 80gb'),
-  (2,7,'Pentium4 - 2400 MHz'),
+  (11,12,'1985'),
   (8,3,'Запорожец'),
-  (8,2,'1965'),
-  (8,1,'0');
+  (2,18,'Pentium4 - 2400 MHz'),
+  (8,17,'0%'),
+  (8,12,'1983'),
+  (11,17,'10%'),
+  (11,3,'Жигули');
 
 COMMIT;
 
@@ -173,7 +181,8 @@ CREATE TABLE `catalogue_catalogue_types` (
 
 INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
   (1,'autos','Автомобили'),
-  (2,'computers','Компьютеры');
+  (2,'computers','Компьютеры'),
+  (6,'test','Тестовая');
 
 COMMIT;
 
@@ -196,13 +205,15 @@ CREATE TABLE `catalogue_catalogue_types_props` (
 #
 
 INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES 
-  (1,1,1),
-  (2,1,2),
+  (17,1,1),
+  (18,2,7),
   (3,1,3),
   (4,2,4),
   (5,2,5),
   (6,2,6),
-  (7,2,7);
+  (12,1,2),
+  (20,6,1),
+  (21,6,2);
 
 COMMIT;
 
@@ -1312,7 +1323,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (236,14),
   (238,16),
   (240,7),
-  (246,16);
+  (246,16),
+  (249,17),
+  (250,16),
+  (251,17);
 
 COMMIT;
 
@@ -1435,13 +1449,13 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `value`) VALUES
   (1,1,'cache','true'),
   (2,2,'items_per_page','10'),
   (3,3,'items_per_page','20'),
-  (25,4,'items_per_page','1'),
+  (28,4,'items_per_page','10'),
   (13,5,'',''),
   (14,6,'items_per_page','20'),
   (21,7,'upload_path','../tmp'),
   (22,8,'upload_path','../files'),
   (23,9,'items_per_page','60'),
-  (24,10,'items_per_page','1');
+  (27,10,'items_per_page','10');
 
 COMMIT;
 
@@ -1566,7 +1580,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (74,18,7),
   (77,18,30),
   (76,2,30),
-  (81,19,3),
+  (104,20,30),
   (98,19,20),
   (84,19,33),
   (85,19,34),
@@ -1580,7 +1594,11 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (95,19,2),
   (99,20,5),
   (100,20,4),
-  (102,20,6);
+  (102,20,6),
+  (103,20,7),
+  (105,20,8),
+  (106,1,20),
+  (107,19,29);
 
 COMMIT;
 
@@ -1901,7 +1919,13 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (243),
   (244),
   (245),
-  (246);
+  (246),
+  (247),
+  (248),
+  (249),
+  (250),
+  (251),
+  (252);
 
 COMMIT;
 

@@ -19,7 +19,7 @@ fileLoader::load('fileManager/forms/fileUploadForm');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class fileManagerUploadController extends simpleController
@@ -32,8 +32,7 @@ class fileManagerUploadController extends simpleController
         $folder = $folderMapper->searchByPath($path);
 
         if (!$folder) {
-            // @todo: изменить
-            return 'каталог не найден';
+            return $folderMapper->get404()->run();
         }
 
         $form = fileUploadForm::getForm($folder);

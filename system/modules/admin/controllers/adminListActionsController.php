@@ -10,15 +10,16 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * adminListActionsController: контроллер для метода listActions модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.1.3
  */
+ 
 class adminListActionsController extends simpleController
 {
     public function getView()
@@ -29,8 +30,8 @@ class adminListActionsController extends simpleController
 
         $data = $this->db->getRow('SELECT `c`.`name` AS `c_name`, `c`.`id` AS `c_id`, `m`.`name` AS `m_name`, `m`.`id` AS `m_id` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);
         if ($data === false) {
-            // @todo изменить
-            return 'класса не существует';
+            $controller = new messageController('Класса не существует', messageController::WARNING);
+            return $controller->run();
         }
 
         $actions_db = $this->getActions($id);

@@ -21,6 +21,7 @@
  * @subpackage db
  * @version 0.1.1
 */
+
 class sqlFunction
 {
     /**

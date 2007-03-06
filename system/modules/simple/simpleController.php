@@ -19,6 +19,7 @@
  * @subpackage simple
  * @version 0.2
  */
+
 abstract class simpleController
 {
     /**

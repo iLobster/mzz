@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/controller.tpl $
+ * $URL: http://svn.web/repository/mzz/system/modules/catalogue/controllers/catalogueMoveFolderController.php $
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: controller.tpl 1309 2007-02-13 05:54:09Z zerkms $
+ * @version $Id: catalogueMoveFolderController.php 657 2007-03-05 21:47:20Z zerkms $
  */
 
 fileLoader::load('catalogue/forms/catalogueFolderMoveForm');

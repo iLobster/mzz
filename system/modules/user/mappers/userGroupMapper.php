@@ -49,7 +49,6 @@ class userGroupMapper extends simpleMapper
     }
 
     /**
-     * @todo сделать
      *
      * @param integer $args
      */

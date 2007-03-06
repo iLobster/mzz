@@ -1,3 +1,4 @@
+{include file='jipTitle.tpl' title='Редактирование свойства'}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
 {$form.hidden}
 {$form.javascript}

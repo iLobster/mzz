@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class fileManagerListController extends simpleController
@@ -35,8 +35,7 @@ class fileManagerListController extends simpleController
             return $this->smarty->fetch('fileManager/list.tpl');
         }
 
-        // @todo: изменить
-        return 'каталог не найден';
+        return $folderMapper->get404()->run();
     }
 }
 

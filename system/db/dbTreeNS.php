@@ -300,9 +300,6 @@ class dbTreeNS
 
     private function getBasisCriteria()
     {
-        // @toDo бага, фича, фишка php5? возвращается ссылка на критерий,
-        // а так как в методах в врзвращаемое значение добавляются условия, они добавляются и в basisCriteria
-        // сделал клонирование
         if (!isset($this->basisCriteria)) {
             $this->basisCriteria= new criteria();
 

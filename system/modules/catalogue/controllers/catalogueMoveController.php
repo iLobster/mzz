@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/controller.tpl $
+ * $URL: http://svn.web/repository/mzz/system/modules/catalogue/controllers/catalogueMoveController.php $
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: controller.tpl 1309 2007-02-13 05:54:09Z zerkms $
+ * @version $Id: catalogueMoveController.php 661 2007-03-05 23:57:41Z zerkms $
  */
 
 fileLoader::load('catalogue/forms/catalogueMoveForm');
@@ -47,8 +47,8 @@ class catalogueMoveController extends simpleController
             $destFolder = $catalogueFolderMapper->searchById($values['dest']);
 
             if (!$destFolder) {
-                /* @todo get404() ? */
-                return 'каталог назначения не найден';
+                $controller = new messageController('Каталог назначения не найден', messageController::WARNING);
+                return $controller->run();
             }
 
             $catalogue->setFolder($destFolder);

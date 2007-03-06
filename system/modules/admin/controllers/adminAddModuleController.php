@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('admin/forms/adminAddModuleForm');
 fileLoader::load('codegenerator/moduleGenerator');
@@ -20,8 +20,9 @@ fileLoader::load('codegenerator/moduleGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
+ 
 class adminAddModuleController extends simpleController
 {
     public function getView()
@@ -41,15 +42,15 @@ class adminAddModuleController extends simpleController
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
 
             if ($data === false) {
-                // @todo изменить
-                return 'модуля не существует';
+                $controller = new messageController('Модуля не существует', messageController::WARNING);
+                return $controller->run();
             }
 
             $modules = $adminMapper->getModulesList();
 
             if (sizeof($modules[$data['id']]['classes'])) {
-                // @todo изменить
-                return 'нельзя изменить имя модуля';
+                $controller = new messageController('Нельзя изменить имя модуля', messageController::WARNING);
+                return $controller->run();
             }
         }
 

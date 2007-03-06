@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('admin/forms/adminAddSectionForm');
 
@@ -19,8 +19,9 @@ fileLoader::load('admin/forms/adminAddSectionForm');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
+ 
 class adminAddSectionController extends simpleController
 {
     public function getView()
@@ -36,16 +37,16 @@ class adminAddSectionController extends simpleController
             $data = $db->getRow('SELECT * FROM `sys_sections` WHERE `id` = ' . $id);
 
             if ($data === false) {
-                // @todo изменить
-                return 'раздела не существует';
+                $controller = new messageController('Раздела не существует', messageController::WARNING);
+                return $controller->run();
             }
 
             $adminMapper = $this->toolkit->getMapper('admin', 'admin');
             $sections = $adminMapper->getSectionsList();
 
             if (sizeof($sections[$data['id']]['classes'])) {
-                // @todo изменить
-                return 'нельзя изменить имя раздела';
+                $controller = new messageController('Нельзя изменить имя раздела', messageController::WARNING);
+                return $controller->run();
             }
         }
 

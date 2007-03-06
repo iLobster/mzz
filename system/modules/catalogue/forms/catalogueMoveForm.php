@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/catalogue/forms/catalogueMoveForm.php $
+ * $URL: http://svn.web/repository/mzz/system/modules/catalogue/forms/catalogueMoveForm.php $
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: catalogueMoveForm.php 1364 2007-03-02 20:53:58Z mz $
+ * @version $Id: catalogueMoveForm.php 657 2007-03-05 21:47:20Z zerkms $
  */
 
 /**

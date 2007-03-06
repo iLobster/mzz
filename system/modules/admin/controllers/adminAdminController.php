@@ -10,15 +10,16 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * adminAdminController: контроллер для метода admin модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
+ 
 class adminAdminController extends simpleController
 {
     public function getView()
@@ -43,9 +44,9 @@ class adminAdminController extends simpleController
             $this->smarty->assign('section_name', $section);
             $this->smarty->assign('module_name', $module);
             return $this->smarty->fetch('admin/admin.tpl');
-        } else {
-            return 'нет доступа';
         }
+        
+        return 'нет доступа';
     }
 }
 

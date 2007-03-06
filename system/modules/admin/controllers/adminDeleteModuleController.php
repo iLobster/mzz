@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('codegenerator/moduleGenerator');
 
@@ -19,8 +19,9 @@ fileLoader::load('codegenerator/moduleGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
+ 
 class adminDeleteModuleController extends simpleController
 {
     public function getView()
@@ -31,12 +32,13 @@ class adminDeleteModuleController extends simpleController
         $modules = $adminMapper->getModulesList();
 
         if (!isset($modules[$id])) {
-            return 'модуль не найден';
+            $controller = new messageController('ћодул€ не существует', messageController::WARNING);
+            return $controller->run();
         }
 
         if (sizeof($modules[$id]['classes'])) {
-            // @todo изменить
-            return 'нельз€ удалить модуль';
+            $controller = new messageController('Ќельз€ удалить модуль', messageController::WARNING);
+            return $controller->run();
         }
 
         $db = DB::factory();

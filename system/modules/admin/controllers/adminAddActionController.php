@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('admin/forms/adminAddActionForm');
 fileLoader::load('codegenerator/actionGenerator');
@@ -20,8 +20,9 @@ fileLoader::load('codegenerator/actionGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
+ 
 class adminAddActionController extends simpleController
 {
     public function getView()
@@ -38,16 +39,16 @@ class adminAddActionController extends simpleController
 
         $data = $db->getRow('SELECT `c`.`id` AS `c_id`, `m`.`id` AS `m_id`, `c`.`name` AS `c_name`, `m`.`name` AS `m_name` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);
         if ($data === false) {
-            // @todo изменить
-            return 'класса не существует';
+            $controller = new messageController('Класса не существует', messageController::WARNING);
+            return $controller->run();
         }
 
         $act = new action($data['m_name']);
         $info = $act->getActions();
 
         if ($action == 'editAction' && !isset($info[$data['c_name']][$action_name])) {
-            // @todo изменить
-            return 'у выранного класса нет запрашиваемого экшна';
+            $controller = new messageController('У выранного класса нет запрашиваемого экшна', messageController::WARNING);
+            return $controller->run();
         }
 
         $actnionsInfo = $info[$data['c_name']];

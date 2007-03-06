@@ -21,7 +21,7 @@ fileLoader::load('jip/jip');
  * @subpackage simple
  * @version 0.1.1
  */
- 
+
 abstract class simple
 {
     /**

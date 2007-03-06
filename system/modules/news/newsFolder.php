@@ -19,8 +19,9 @@ fileLoader::load('simple/simpleForTree');
  *
  * @package modules
  * @subpackage news
- * @version 0.1
+ * @version 0.1.1
  */
+ 
 class newsFolder extends simpleForTree
 {
     /**
@@ -70,22 +71,6 @@ class newsFolder extends simpleForTree
         }
         return $this->fields->get('items');
     }
-
-    /**
-     * ќчищает содержимое папки
-     *
-     * @return array
-     * @toDo надо newsMapper подт€гивать, а надо ли это?
-     */
-    /*    public function removeContents()
-    {
-    $items = $this->getItems();
-    $this->fields->set('items', null);
-
-    foreach($items as $item) {
-    $this->mapper->delete($item->getId());
-    }
-    }*/
 
     public function getTreeParent()
     {

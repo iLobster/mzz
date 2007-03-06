@@ -43,15 +43,15 @@ class adminAddClassController extends simpleController
             $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
 
             if ($data === false) {
-                // @todo изменить
-                return 'класса не существует';
+                $controller = new messageController('Класса не существует', messageController::WARNING);
+                return $controller->run();
             }
 
             $modules = $adminMapper->getModulesList();
 
             if (isset($modules[$data['module_id']]['classes'][$data['id']]) && $modules[$data['module_id']]['classes'][$data['id']]['exists']) {
-                // @todo изменить
-                return 'нельзя изменить имя класса';
+                $controller = new messageController('Нельзя изменить имя класса', messageController::WARNING);
+                return $controller->run();
             }
 
             $module_name = $modules[$data['module_id']]['name'];

@@ -19,7 +19,7 @@ fileLoader::load('page/forms/pageMoveForm');
  *
  * @package modules
  * @subpackage page
- * @version 0.1
+ * @version 0.1.1
  */
 
 class pageMoveController extends simpleController
@@ -53,8 +53,7 @@ class pageMoveController extends simpleController
             $destFolder = $pageFolderMapper->searchOneByField('id', $values['dest']);
 
             if (!$destFolder) {
-                /* @todo get404() ? */
-                return 'каталог назначения не найден';
+                return $pageFolderMapper->get404()->run();
             }
 
             $page->setFolder($destFolder);

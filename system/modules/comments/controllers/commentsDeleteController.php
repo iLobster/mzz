@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * commentsDeleteController: контроллер для метода delete модуля comments
@@ -19,6 +19,7 @@
  * @subpackage comments
  * @version 0.1
  */
+
 class commentsDeleteController extends simpleController
 {
     public function getView()

@@ -47,8 +47,7 @@ class newsMoveController extends simpleController
             $destFolder = $newsFolderMapper->searchById($values['dest']);
 
             if (!$destFolder) {
-                /* @todo get404() ? */
-                return 'каталог назначения не найден';
+                return $newsFolderMapper->get404()->run();
             }
 
             $news->setFolder($destFolder);

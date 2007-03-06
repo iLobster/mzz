@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('codegenerator/classGenerator');
 
@@ -19,8 +19,9 @@ fileLoader::load('codegenerator/classGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
+ 
 class adminDeleteClassController extends simpleController
 {
     public function getView()
@@ -34,8 +35,8 @@ class adminDeleteClassController extends simpleController
         foreach ($modules as $val) {
             if (isset($val['classes'][$id])) {
                 if ($val['classes'][$id]['exists']) {
-                    // @todo изменить
-                    return 'нельз€ удалить класс';
+                    $controller = new messageController('Ќельз€ удалить класс', messageController::WARNING);
+                    return $controller->run();
                 } else {
                     $not_found = false;
                 }
@@ -43,8 +44,8 @@ class adminDeleteClassController extends simpleController
         }
 
         if ($not_found) {
-            // @todo изменить
-            return 'класс не найден';
+            $controller = new messageController(' ласса не существует', messageController::WARNING);
+            return $controller->run();
         }
 
         $db = DB::factory();

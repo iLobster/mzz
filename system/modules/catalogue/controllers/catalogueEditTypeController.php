@@ -39,14 +39,14 @@ class catalogueEditTypeController extends simpleController
 
         $form = catalogueTypeForm::getForm($properties, $type);
 
-        if($form->validate() == false){
+        if ($form->validate() == false) {
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
             $formArray = $renderer->toArray();
             $formArray['properties'] = isset($formArray['properties']) ? $formArray['properties'] : array();
             $this->smarty->assign('form', $formArray);
             return $this->smarty->fetch('catalogue/type.tpl');
-        }else{
+        } else {
             $values = $form->exportValues();
             if(!isset($values['properties'])){
                 $values['properties'] = array();
