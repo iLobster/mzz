@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('fileManager/forms/fileUploadForm');
 
@@ -19,7 +19,7 @@ fileLoader::load('fileManager/forms/fileUploadForm');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class fileManagerUploadController extends simpleController
@@ -93,7 +93,7 @@ class fileManagerUploadController extends simpleController
                 }
 
                 // добавляем к имени найденный индекс
-                $name = substr_replace($name, $name_wo_ext . $i, 0, strlen($name_wo_ext));
+                $name = substr_replace($name, $name_wo_ext . '_' . $i, 0, strlen($name_wo_ext));
                 $file = false;
             }
 

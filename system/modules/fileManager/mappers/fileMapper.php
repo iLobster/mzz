@@ -19,7 +19,7 @@ fileLoader::load('fileManager/file');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class fileMapper extends simpleMapper
@@ -52,6 +52,11 @@ class fileMapper extends simpleMapper
     public function searchById($id)
     {
         return $this->searchOneByField('id', $id);
+    }
+
+    public function getExclusionExtensions()
+    {
+        return array('tar.gz', 'tar.bz2');
     }
 
     public function searchByPath($path)

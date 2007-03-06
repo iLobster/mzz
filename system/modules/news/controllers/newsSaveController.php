@@ -31,7 +31,7 @@ class newsSaveController extends simpleController
         $id = $this->request->get('id', 'integer', SC_PATH);
         $newsFolder = null;
 
-        if (is_null($id)) {
+        if (empty($id)) {
             $path = $this->request->get('name', 'string', SC_PATH);
             $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
             $newsFolder = $newsFolderMapper->searchByPath($path);
