@@ -105,11 +105,16 @@ class httpRequest implements iRequest
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
-    public function get($name, $type = 'mixed', $scope = SC_REQUEST)
+    public function get($name, $type = 'mixed', $scope = SC_PATH)
     {
         $result = null;
 
         $done = false;
+
+        if (!$done && $scope & SC_PATH && !is_null($result = $this->params->get($name))) {
+            $done = true;
+        }
+
         if (!$done && $scope & SC_SERVER && !is_null($result = $this->getServer($name))) {
             $done = true;
         }
@@ -126,10 +131,6 @@ class httpRequest implements iRequest
             $done = true;
         }
 
-        if (!$done && $scope & SC_PATH && !is_null($result = $this->params->get($name))) {
-            $done = true;
-        }
-
         if (!empty($result) && $this->isAjax()) {
             if (is_array($result)) {
                 array_walk_recursive($result, array($this, 'decodeUTF8'));
@@ -138,7 +139,7 @@ class httpRequest implements iRequest
             }
         }
 
-        if (is_null($result) || (empty($type) || $type == 'mixed')) {
+        if (empty($type) || $type == 'mixed') {
             return $result;
         } else {
             return $this->convertToType($result, $type);
@@ -156,7 +157,7 @@ class httpRequest implements iRequest
      */
     public function convertToType($result, $type)
     {
-        $validTypes = array('array', 'integer', 'boolean', 'string');
+        $validTypes = array('array' => 1, 'integer' => 1, 'boolean' => 1, 'string' => 1);
         if (gettype($result) == 'array' && $type != 'array') {
             $result = array_shift($result);
             if (!is_scalar($result)) {
@@ -164,7 +165,11 @@ class httpRequest implements iRequest
             }
         }
 
-        if (gettype($result) != $type && in_array($type, $validTypes)) {
+        if (!($valid = isset($validTypes[$type]))) {
+            throw new mzzRuntimeException('Неверный тип для переменной: ' . $type);
+        }
+
+        if (gettype($result) != $type && $valid) {
             settype($result, $type);
         }
         return $result;

@@ -82,10 +82,10 @@ class httpRequestTest extends unitTestCase
     {
         $this->httprequest->setParam('param_foo', 'foo');
 
-        $this->assertNull($this->httprequest->get('param_foo'));
-        $this->assertEqual($this->httprequest->get('param_foo', 'mixed', SC_PATH), 'foo');
+        $this->assertNull($this->httprequest->get('param_foo', 'mixed', SC_REQUEST));
+        $this->assertEqual($this->httprequest->get('param_foo'), 'foo');
 
-        $this->assertEqual($this->httprequest->get('_TEST_FOO'), 'post_foo');
+        $this->assertEqual($this->httprequest->get('_TEST_FOO', 'mixed', SC_POST), 'post_foo');
         $this->assertEqual($this->httprequest->get('_TEST_BAR', 'mixed', SC_COOKIE), 'cookie_bar');
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -94,22 +94,37 @@ class httpRequestTest extends unitTestCase
 
     public function testGetUnknownValue()
     {
-        $this->assertNull($this->httprequest->get('__NOT_EXISTS__'));
-        $this->assertNull($this->httprequest->get('__NOT_EXISTS__', 'string', SC_PATH));
-        $_REQUEST['ajax'] = 1;
-        $this->assertNull($this->httprequest->get('__NOT_EXISTS__'));
+        try {
+            $this->httprequest->get('param_foo', '_not_valid');
+            $this->fail('no exception thrown?');
+        } catch (Exception $e) {
+            $this->assertPattern("/_not_valid/i", $e->getMessage());
+            $this->pass();
+        }
     }
 
     public function testGetWithType()
     {
-        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY'), array('array_value'));
-        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY', 'string'), 'array_value');
+        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY', 'mixed', SC_REQUEST), array('array_value'));
+        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY', 'string', SC_REQUEST), 'array_value');
 
-        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY_INT', 'array'), array($this->integer));
-        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY_INT', 'integer'), (int)$this->integer);
+        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY_INT', 'array', SC_REQUEST), array($this->integer));
+        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY_INT', 'integer', SC_REQUEST), (int)$this->integer);
 
-        $this->assertIdentical($this->httprequest->get('_TEST_INTEGER'), $this->integer);
-        $this->assertIdentical($this->httprequest->get('_TEST_INTEGER', 'integer'), (int)$this->integer);
+        $this->assertIdentical($this->httprequest->get('_TEST_INTEGER', 'mixed', SC_REQUEST), $this->integer);
+        $this->assertIdentical($this->httprequest->get('_TEST_INTEGER', 'integer', SC_REQUEST), (int)$this->integer);
+    }
+
+    public function testGetWithUnknownType()
+    {
+        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY', 'mixed', SC_REQUEST), array('array_value'));
+        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY', 'string', SC_REQUEST), 'array_value');
+
+        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY_INT', 'array', SC_REQUEST), array($this->integer));
+        $this->assertIdentical($this->httprequest->get('_TEST_ARRAY_INT', 'integer', SC_REQUEST), (int)$this->integer);
+
+        $this->assertIdentical($this->httprequest->get('_TEST_INTEGER', 'mixed', SC_REQUEST), $this->integer);
+        $this->assertIdentical($this->httprequest->get('_TEST_INTEGER', 'integer', SC_REQUEST), (int)$this->integer);
     }
 
     public function testGetUrl()
@@ -150,32 +165,32 @@ class httpRequestTest extends unitTestCase
     public function testGetParams()
     {
         $this->httprequest->setParams($params = array('someKey' => 'someValue'));
-        $this->assertEqual($this->httprequest->get('someKey', 'mixed', SC_PATH), $params['someKey']);
+        $this->assertEqual($this->httprequest->get('someKey'), $params['someKey']);
     }
 
     public function testSaveRestore()
     {
         $this->httprequest->setParams($paramsFirst = array('key' => 'hello'));
-        $this->assertEqual($this->httprequest->get('key', 'mixed', SC_PATH), $paramsFirst['key']);
+        $this->assertEqual($this->httprequest->get('key'), $paramsFirst['key']);
 
         $this->httprequest->save();
 
         $this->httprequest->setParams($paramsSecond = array('index' => 'world'));
-        $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), $paramsSecond['index']);
+        $this->assertEqual($this->httprequest->get('index'), $paramsSecond['index']);
 
         $this->httprequest->save();
 
         $this->httprequest->setParams($paramsSecond = array('index' => 'foo'));
-        $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), $paramsSecond['index']);
+        $this->assertEqual($this->httprequest->get('index'), $paramsSecond['index']);
 
         $this->httprequest->restore();
 
-        $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), 'world');
+        $this->assertEqual($this->httprequest->get('index'), 'world');
 
         $this->httprequest->restore();
 
-        $this->assertEqual($this->httprequest->get('key', 'mixed', SC_PATH), $paramsFirst['key']);
-        $this->assertEqual($this->httprequest->get('index', 'mixed', SC_PATH), null);
+        $this->assertEqual($this->httprequest->get('key'), $paramsFirst['key']);
+        $this->assertEqual($this->httprequest->get('index'), null);
     }
 
     public function testRestoreWithoutSave()
