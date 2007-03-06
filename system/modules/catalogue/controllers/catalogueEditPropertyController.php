@@ -27,11 +27,16 @@ class catalogueEditPropertyController extends simpleController
     public function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
-        $id = $this->request->get('id', 'integer', SC_PATH);
 
-        $property = $catalogueMapper->getProperty($id);
+        $action = $this->request->getAction();
 
-        $form = cataloguePropertyForm::getForm($property);
+        if($action == 'editProperty'){
+            $id = $this->request->get('id', 'integer', SC_PATH);
+            $property = $catalogueMapper->getProperty($id);
+            $form = cataloguePropertyForm::getForm($property);
+        } else {
+            $form = cataloguePropertyForm::getForm();
+        }
 
         if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
@@ -40,7 +45,11 @@ class catalogueEditPropertyController extends simpleController
             return $this->smarty->fetch('catalogue/property.tpl');
         } else {
             $values = $form->exportValues();
-            $catalogueMapper->updateProperty($id, $values['name'], $values['title']);
+            if($action == 'editProperty'){
+                $catalogueMapper->updateProperty($id, $values['name'], $values['title']);
+            } else {
+                $catalogueMapper->addProperty($values['name'], $values['title']);
+            }
             return jipTools::redirect();
         }
     }

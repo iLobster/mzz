@@ -15,14 +15,14 @@
 fileLoader::load('catalogue/forms/catalogueTypeForm');
 
 /**
- * catalogueAddTypeController: контроллер для метода addType модуля catalogue
+ * catalogueeditTypeController: контроллер для метода editType модуля catalogue
  *
  * @package modules
  * @subpackage catalogue
  * @version 0.1
  */
 
-class catalogueAddTypeController extends simpleController
+class catalogueeditTypeController extends simpleController
 {
     public function getView()
     {

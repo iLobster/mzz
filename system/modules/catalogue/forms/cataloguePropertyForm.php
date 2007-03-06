@@ -43,8 +43,8 @@ class cataloguePropertyForm
         $url->setSection('catalogue');
 
         if ($action == 'edit') {
-            $url->setAction('editProperty');
             $url->setRoute('withId');
+            $url->setAction('editProperty');
             $url->addParam('id', $property['id']);
 
             $defaultValues['name']  = $property['name'];
