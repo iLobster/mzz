@@ -10,6 +10,7 @@ CHANGELOG
 - sectionMapper удален
 - Обновлен TinyMCE до 2.1.0
 - onClick="return jipWindow.open(this.href);" в шаблонах заменен на class="jipLink"
+- Обновление Smarty 2.6.16 до версии 2.6.17
 
  Version 0.0.6:
 ============================================
