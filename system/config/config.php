@@ -184,9 +184,9 @@ class config
             if ($module_id && $section_id) {
                 $this->db->query('INSERT INTO `sys_cfg` (`section`, `module`) VALUES (' . $section_id . ', ' . $module_id . ')');
                 $this->getCfgId($section, $module);
+            } else {
+                throw new mzzRuntimeException('Config for section: ' . $section . ', module: ' . $module . ' not found.');
             }
-
-            throw new mzzRuntimeException('Config for section: ' . $section . ', module: ' . $module . ' not found.');
         }
     }
 }
