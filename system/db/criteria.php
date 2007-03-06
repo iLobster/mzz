@@ -19,7 +19,7 @@ fileLoader::load('db/criterion');
  *
  * @package system
  * @subpackage db
- * @version 0.1.7
+ * @version 0.1.8
  */
 
 class criteria
@@ -79,6 +79,12 @@ class criteria
     const BETWEEN = 'BETWEEN';
 
     /**
+     * Константа, определяющая оператор "NOT BETWEEN"
+     *
+     */
+    const NOT_BETWEEN = 'NOT BETWEEN';
+
+    /**
      * Константа, определяющая конструкцию для полнотекстового поиска
      *
      */
@@ -89,6 +95,12 @@ class criteria
      *
      */
     const IS_NULL = 'IS NULL';
+
+    /**
+     * Константа, определяющая сравнение "IS NOT NULL"
+     *
+     */
+    const IS_NOT_NULL = 'IS NOT NULL';
 
     /**
      * Константа, определяющая тип объединения INNER

@@ -1,5 +1,7 @@
-255 next
+256 next
 ------------------------------------0.0.7--------------------------------------
+
+255 ( ) Оформить админки модулей чтобы они были похожи на админки
 
 254 (+) Новый конфиг создается только для section = 0, module = module_id, из-за этого не работает например /config/catalogue/catalogue/editCfg:
         Config for section: catalogue, module: catalogue not found.

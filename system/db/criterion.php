@@ -19,7 +19,7 @@
  * @see criteria
  * @package system
  * @subpackage db
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class criterion
@@ -167,9 +167,9 @@ class criterion
                 } else {
                     $result .= 'FALSE';
                 }
-            } elseif ($this->comparsion === criteria::IS_NULL ) {
+            } elseif ($this->comparsion === criteria::IS_NULL || $this->comparsion === criteria::IS_NOT_NULL) {
                 $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion;
-            } elseif ($this->comparsion === criteria::BETWEEN) {
+            } elseif ($this->comparsion === criteria::BETWEEN || $this->comparsion === criteria::NOT_BETWEEN) {
                 $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
             } elseif ($this->comparsion === criteria::FULLTEXT) {
                 $result = sprintf($this->comparsion, $this->getQuoutedAlias() . '`' . $this->field . '`', $this->db->quote($this->value));

@@ -39,14 +39,20 @@ class criterionTest extends unitTestCase
 
     public function testIsNullCondition()
     {
-        $criterion = new criterion('field', '', criteria::IS_NULL );
+        $criterion = new criterion('field', '', criteria::IS_NULL);
         $this->assertEqual($criterion->generate(), "`field` IS NULL");
+
+        $criterion = new criterion('field', '', criteria::IS_NOT_NULL);
+        $this->assertEqual($criterion->generate(), "`field` IS NOT NULL");
     }
 
     public function testSimpleBetweenCondition()
     {
         $criterion = new criterion('field', array(1, 10), criteria::BETWEEN);
         $this->assertEqual($criterion->generate(), "`field` BETWEEN '1' AND '10'");
+
+        $criterion = new criterion('field', array(1, 10), criteria::NOT_BETWEEN);
+        $this->assertEqual($criterion->generate(), "`field` NOT BETWEEN '1' AND '10'");
     }
 
     public function testSimpleFulltextCondition()
