@@ -29,8 +29,21 @@ class catalogueAddTypeController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $properties = $catalogueMapper->getAllProperties();
 
-        $form = catalogueTypeForm::getForm($properties);
+        $action = $this->request->getAction();
+        
+        if($action == 'editType'){
+            $type_id = $this->request->get('id', 'integer', SC_PATH);
 
+            $type = $catalogueMapper->getType($type_id);
+            foreach($catalogueMapper->getProperties($type_id) as $property){
+                $type['properties'][] = $property['id'];
+            }
+
+            $form = catalogueTypeForm::getForm($properties, $type);
+        } else {
+            $form = catalogueTypeForm::getForm($properties);
+        }
+        
         if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
@@ -40,10 +53,14 @@ class catalogueAddTypeController extends simpleController
             return $this->smarty->fetch('catalogue/type.tpl');
         } else {
             $values = $form->exportValues();
-            if(!isset($values['properties'])){
-                $values['properties'] = array();
+            $values['properties'] = (isset($values['properties']) ? $values['properties'] : array();
+            
+            if($action == 'editType'){
+                $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']));
+            } else {
+                $catalogueMapper->addType($values['name'], $values['title'], array_keys($values['properties']));
             }
-            $catalogueMapper->addType($values['name'], $values['title'], array_keys($values['properties']));
+            
             return jipTools::redirect();
         }
     }
