@@ -143,7 +143,10 @@ DROP TABLE IF EXISTS `simple_catalogue_data`;
 CREATE TABLE `simple_catalogue_data` (
   `id` int(11) NOT NULL default '0',
   `property_type` int(11) unsigned default NULL,
-  `value` text,
+  `text` text,
+  `char` varchar(255) default NULL,
+  `float` float(9,3) default NULL,
+  `date` datetime default NULL,
   UNIQUE KEY `property_type` (`property_type`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -157,6 +160,19 @@ CREATE TABLE `simple_catalogue_properties` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
+  `type_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_catalogue_properties_types` table : 
+#
+
+DROP TABLE IF EXISTS `simple_catalogue_properties_types`;
+
+CREATE TABLE `simple_catalogue_properties_types` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -282,19 +298,6 @@ CREATE TABLE `sys_access_registry` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_access_registry` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
-  (67,1),
-  (68,1),
-  (1,1),
-  (2,1),
-  (3,1);
-
-COMMIT;
-
-#
 # Structure for the `sys_actions` table : 
 #
 
@@ -379,15 +382,6 @@ CREATE TABLE `sys_classes_sections` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_classes_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,1,1);
-
-COMMIT;
-
-#
 # Structure for the `sys_modules` table : 
 #
 
@@ -409,6 +403,80 @@ CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_obj_id` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_obj_id` (`id`) VALUES 
+  (1),
+  (2),
+  (3),
+  (4),
+  (5),
+  (6),
+  (7),
+  (8),
+  (9),
+  (10),
+  (11),
+  (12),
+  (13),
+  (14),
+  (15),
+  (16),
+  (17),
+  (18),
+  (19),
+  (20),
+  (21),
+  (22),
+  (23),
+  (24),
+  (25),
+  (26),
+  (27),
+  (28),
+  (29),
+  (30),
+  (31),
+  (32),
+  (33),
+  (34),
+  (35),
+  (36),
+  (37),
+  (38),
+  (39),
+  (40),
+  (41),
+  (42),
+  (43),
+  (44),
+  (45),
+  (46),
+  (47),
+  (48),
+  (49),
+  (50),
+  (51),
+  (52),
+  (53),
+  (54),
+  (55),
+  (56),
+  (57),
+  (58),
+  (59),
+  (60),
+  (61),
+  (62),
+  (63),
+  (64),
+  (65),
+  (66);
+
+COMMIT;
 
 #
 # Structure for the `sys_obj_id_named` table : 

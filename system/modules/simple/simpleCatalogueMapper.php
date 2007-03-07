@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleCatalogue');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.4
+ * @version 0.1.5
  */
 
 abstract class simpleCatalogueMapper extends simpleMapper
@@ -27,6 +27,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     private $tableData = '';
     private $tableTypes = '';
     private $tableProperties = '';
+    private $tablePropertiesTypes = '';
     private $tableTypesProps = '';
 
     private $tmpPropsData = array();
@@ -39,6 +40,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $this->tableData = $this->table . '_data';
         $this->tableTypes = $this->table . '_types';
         $this->tableProperties = $this->table . '_properties';
+        $this->tablePropertiesTypes = $this->table . '_properties_types';
         $this->tableTypesProps = $this->table . '_types_props';
     }
 
@@ -76,7 +78,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
         $typeId = $stmt->execute();
-        
+
         if(!empty($properties)){
             $this->setPropertiesToType($typeId, $properties);
         }
@@ -89,7 +91,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
         $stmt->execute();
-        
+
         $allProperties = array();
         foreach($this->getProperties($typeId) as $property){
             $allProperties[] = $property['id'];
@@ -97,14 +99,14 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
         $tmpDelete = array_diff($allProperties, $properties);
         $tmpInsert = array_diff($properties, $allProperties);
-        
+
         if(!empty($tmpDelete)){
             array_map('intval', $tmpDelete);
             $this->db->query('DELETE FROM `' . $this->tableData . '` WHERE `property_type` IN (SELECT `id` FROM `' . $this->tableTypesProps . '` WHERE `type_id` = ' . (int)$typeId . ' AND `property_id` IN (' . implode(', ', $tmpDelete) . '))');
             $query = 'DELETE FROM `' . $this->tableTypesProps . '` WHERE `type_id` = ' . (int)$typeId . ' AND `property_id` IN (' . implode(', ', $tmpDelete) . ')';
             $this->db->query($query);
         }
-        
+
         if(!empty($tmpInsert)){
             $this->setPropertiesToType($typeId, $tmpInsert);
         }
@@ -159,7 +161,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $query = substr($query, 0, -2);
         $this->db->query($query);
     }
-    
+
     protected function count($criteria)
     {
         $criteriaForCount = clone $criteria;
@@ -177,6 +179,16 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $criteria->append($this->pager->getLimitQuery());
     }
 
+    private function getPropertyType($name)
+    {
+        return $this->db->getOne($qry = 'SELECT `t`.`name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`name` = ' . $this->db->quote($name));
+    }
+
+    private function getPropertyTypeByTypeprop($id)
+    {
+        return $this->db->getOne($qry = 'SELECT `t`.`name` FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `tp`.`property_id` = `p`.`id` INNER JOIN `' . $this->tablePropertiesTypes .'` `t` ON `t`.`id` = `p`.`type_id` WHERE `tp`.`id` = ' . (int)$id);
+    }
+
     protected function searchByCriteria(criteria $criteria)
     {
         $keys = $criteria->keys();
@@ -186,11 +198,14 @@ abstract class simpleCatalogueMapper extends simpleMapper
             if (!in_array($val, $map)) {
                 $criterion = $criteria->getCriterion($val);
                 $value = $criterion->getValue();
-                $criteria->add('p.name', $val)->add('d.value', $value);
+
+                $type = $this->getPropertyType($val);
+
+                $criteria->add('p.name', $val)->add('d.' . $type, $value);
                 $criteria->remove($val);
             }
         }
-        
+
         $this->tmpPropsData = array();
 
         $criteria->addJoin($this->tableTypes, new criterion('t.id', $this->className . '.type_id', criteria::EQUAL, true), 't', criteria::JOIN_INNER);
@@ -202,13 +217,13 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $criteria->addGroupBy($this->className . '.' . $this->tableKey);
 
         $result = parent::searchByCriteria($criteria);
-        
+
         $properties = clone $criteria;
 
         $properties->setTable($this->table, $this->className);
         $properties->clearSelectFields();
         $properties->clearGroupBy();
-        $properties->addSelectField($this->className . '.id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('d.value');
+        $properties->addSelectField('d.*')->addSelectField($this->className . '.id', 'id')->addSelectField('p.name')->addSelectField('p.title');
         $properties->setOrderByFieldAsc('id');
 
         // критерий для подзапроса, с помощью которого будут выбираться данные только для необходимых объектов
@@ -220,14 +235,12 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties->clearLimit()->clearOffset();
 
         $select = new simpleSelect($properties);
+
         $stmt = $this->db->query($select->toString());
 
-        //echo '<br><pre>'; var_dump($select->toString()); echo '<br></pre>';
-
-        $prev_id = 0;
-
         while ($row = $stmt->fetch()) {
-            $this->tmpPropsData[$row['id']][$row['name']] = $row['value'];
+            $type = $this->getPropertyTypeByTypeprop($row['property_type']);
+            $this->tmpPropsData[$row['id']][$row['name']] = isset($row[$type]) ? $row[$type] : null;
             $this->tmpTitlesData[$row['id']][$row['name']] = $row['title'];
         }
 
@@ -268,7 +281,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
             if (sizeof($properties)) {
                 foreach ($properties as $key => $val) {
-                    $this->db->query($qry = 'REPLACE INTO `' . $this->tableData . '` SET `value` = ' . $this->db->quote($data[$key]) . ', `property_type` = ' . $val . ', `id` = ' . $object->getId());
+                    $type = $this->getPropertyType($key);
+                    $this->db->query($qry = 'REPLACE INTO `' . $this->tableData . '` SET `' . $type . '` = ' . $this->db->quote($data[$key]) . ', `property_type` = ' . $val . ', `id` = ' . $object->getId());
                 }
 
                 $object->importProperties($result + $object->exportOldProperties());

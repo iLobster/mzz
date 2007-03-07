@@ -112,7 +112,11 @@ DROP TABLE IF EXISTS `catalogue_catalogue_data`;
 CREATE TABLE `catalogue_catalogue_data` (
   `id` int(11) NOT NULL default '0',
   `property_type` int(11) unsigned default NULL,
-  `value` text,
+  `text` text,
+  `char` varchar(255) default NULL,
+  `int` int(11) default NULL,
+  `date` datetime default NULL,
+  `float` float(9,3) default NULL,
   UNIQUE KEY `property_type` (`property_type`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -120,17 +124,17 @@ CREATE TABLE `catalogue_catalogue_data` (
 # Data for the `catalogue_catalogue_data` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `value`) VALUES 
-  (2,4,'LG FLATRON L1717S 17'''),
-  (2,5,'ATI Radeon 9600Pro'),
-  (2,6,'Seagate 5400 80gb'),
-  (11,12,'1985'),
-  (8,3,'Запорожец'),
-  (2,18,'Pentium4 - 2400 MHz'),
-  (8,17,'0%'),
-  (8,12,'1983'),
-  (11,17,'10%'),
-  (11,3,'Жигули');
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `date`, `float`) VALUES 
+  (2,4,NULL,'LG FLATRON L1717S 17''',NULL,NULL,NULL),
+  (2,5,NULL,'ATI Radeon 9600Pro',NULL,NULL,NULL),
+  (2,6,NULL,'Seagate 5400 80gb',NULL,NULL,NULL),
+  (11,12,NULL,NULL,1985,NULL,NULL),
+  (8,3,NULL,'Запорожец',NULL,NULL,NULL),
+  (2,18,NULL,'Pentium4 - 2400 MHz',NULL,NULL,NULL),
+  (8,17,NULL,'0%',NULL,NULL,NULL),
+  (8,12,NULL,NULL,1983,NULL,NULL),
+  (11,17,NULL,'10%',NULL,NULL,NULL),
+  (11,3,NULL,'Жигули',NULL,NULL,NULL);
 
 COMMIT;
 
@@ -144,21 +148,46 @@ CREATE TABLE `catalogue_catalogue_properties` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
-  PRIMARY KEY  (`id`)
+  `type_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue_properties` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`) VALUES 
-  (1,'comfort','Комфортабельность'),
-  (2,'year','Год выпуска'),
-  (3,'marka','Марка'),
-  (4,'monitor','Монитор'),
-  (5,'videocard','Видеокарта'),
-  (6,'harddrive','Жесткий диск'),
-  (7,'processor','Процессор');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`) VALUES 
+  (1,'comfort','Комфортабельность',1),
+  (2,'year','Год выпуска',3),
+  (3,'marka','Марка',1),
+  (4,'monitor','Монитор',1),
+  (5,'videocard','Видеокарта',1),
+  (6,'harddrive','Жесткий диск',1),
+  (7,'processor','Процессор',1);
+
+COMMIT;
+
+#
+# Structure for the `catalogue_catalogue_properties_types` table : 
+#
+
+DROP TABLE IF EXISTS `catalogue_catalogue_properties_types`;
+
+CREATE TABLE `catalogue_catalogue_properties_types` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `catalogue_catalogue_properties_types` table  (LIMIT 0,500)
+#
+
+INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`) VALUES 
+  (1,'char'),
+  (2,'float'),
+  (3,'int');
 
 COMMIT;
 
@@ -197,7 +226,8 @@ CREATE TABLE `catalogue_catalogue_types_props` (
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `type_id` (`type_id`,`property_id`)
+  UNIQUE KEY `type_id` (`type_id`,`property_id`),
+  KEY `property_id` (`property_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -1326,7 +1356,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (246,16),
   (249,17),
   (250,16),
-  (251,17);
+  (251,17),
+  (253,12);
 
 COMMIT;
 
@@ -1415,14 +1446,10 @@ CREATE TABLE `sys_cfg` (
 INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES 
   (2,0,1),
   (3,0,2),
-  (4,1,1),
-  (5,7,6),
-  (6,2,2),
   (1,0,0),
   (7,0,9),
-  (8,9,9),
   (9,0,10),
-  (10,10,10);
+  (15,10,10);
 
 COMMIT;
 
@@ -1453,9 +1480,11 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `value`) VALUES
   (13,5,'',''),
   (14,6,'items_per_page','20'),
   (21,7,'upload_path','../tmp'),
-  (22,8,'upload_path','../files'),
+  (30,8,'upload_path','../files'),
   (23,9,'items_per_page','60'),
-  (27,10,'items_per_page','10');
+  (29,10,'items_per_page','10'),
+  (31,11,'items_per_page','60'),
+  (32,15,'items_per_page','60');
 
 COMMIT;
 
@@ -1925,7 +1954,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (249),
   (250),
   (251),
-  (252);
+  (252),
+  (253);
 
 COMMIT;
 
@@ -2087,7 +2117,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (21,2,'127.0.0.1','d7077cea0a904e17ac64769455aca1c1',157,1167013306),
   (22,2,'127.0.0.1','6cf0e978f23e2cb178b7aed1112095f9',176,1170655390),
   (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610),
-  (25,2,'127.0.0.1','35309ce4e0316685d1be41d25afde9d7',224,1172709883);
+  (25,2,'127.0.0.1','35309ce4e0316685d1be41d25afde9d7',224,1172709883),
+  (26,2,'127.0.0.1','e43de89500fe5c144b5a4687c80cefa9',253,1173239786);
 
 COMMIT;
 
