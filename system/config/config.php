@@ -16,7 +16,7 @@
  * config: класс для работы с конфигурацией
  *
  * @package system
- * @version 0.5.2
+ * @version 0.5.3
 */
 
 class config
@@ -124,6 +124,14 @@ class config
 
         if (!is_array($name)) {
             $name = array($name => $value);
+        }
+
+        $allowed_keys = array_keys($this->getDefaultValues());
+
+        foreach (array_keys($name) as $key) {
+            if (!in_array($key, $allowed_keys)) {
+                unset($name[$key]);
+            }
         }
 
         $data = '';
