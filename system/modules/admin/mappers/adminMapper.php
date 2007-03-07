@@ -67,17 +67,20 @@ class adminMapper extends simpleMapper
             $this->register($obj_id, 'sys', 'access');
             $acl = new acl($user, $obj_id);
 
-            if (!isset($access[$val['section'] . '_' . $val['class']])) {
-                $access[$val['section'] . '_' . $val['module']] = $acl->get('editACL');
+            if (isset($val['section']) && isset($val['class'])) {
 
-                $action = $toolkit->getAction($val['module']);
-                $actions = $action->getActions();
-                $actions = $actions[$val['class']];
+                if (!isset($access[$val['section'] . '_' . $val['class']])) {
+                    $access[$val['section'] . '_' . $val['module']] = $acl->get('editACL');
 
-                $admin[$val['section'] . '_' . $val['class']] = isset($actions['admin']) && $acl->get('admin');
+                    $action = $toolkit->getAction($val['module']);
+                    $actions = $action->getActions();
+                    $actions = $actions[$val['class']];
+
+                    $admin[$val['section'] . '_' . $val['class']] = isset($actions['admin']) && $acl->get('admin');
+                }
+
+                $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id, 'editACL' => $acl->get('editACL'), 'editDefault' => $acl->get('editDefault'));
             }
-
-            $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id, 'editACL' => $acl->get('editACL'), 'editDefault' => $acl->get('editDefault'));
         }
 
         return array('data' => $result, 'cfgAccess' => $access, 'admin' => $admin);
