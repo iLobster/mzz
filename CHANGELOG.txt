@@ -11,6 +11,7 @@ CHANGELOG
 - Обновлен TinyMCE до 2.1.0
 - onClick="return jipWindow.open(this.href);" в шаблонах заменен на class="jipLink"
 - Обновление Smarty 2.6.16 до версии 2.6.17
+- Обновление Smarty 2.6.17 до версии 2.6.18
 
  Version 0.0.6:
 ============================================
