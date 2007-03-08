@@ -47,7 +47,6 @@ class catalogueAddStepOneForm
         }
 
         $form->addElement('select', 'type', 'Тип', $selectTypes);
-
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Далее >');
         return $form;

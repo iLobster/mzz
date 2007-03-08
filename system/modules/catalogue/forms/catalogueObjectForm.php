@@ -35,7 +35,7 @@ class catalogueObjectForm
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $url = new url('withId');
-        $url->setAction('editObject');
+        $url->setAction('edit');
         $url->setSection('catalogue');
         $url->addParam('id', $catalogue->getId());
 

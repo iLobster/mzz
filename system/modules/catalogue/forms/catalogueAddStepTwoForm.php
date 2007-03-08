@@ -40,11 +40,32 @@ class catalogueAddStepTwoForm
         $url->addParam('name', $folder->getPath());
 
         $form = new HTML_QuickForm('frmObject', 'POST', $url->get());
-
+        
         foreach($properties as $property){
-            $form->addElement('text', $property['name'], $property['title'], 'size="30"');
-            $form->addRule($property['name'], $property['title'].' is required', 'required');
+            $name = $property['name'];
+            $title = $property['title'];
+            switch($property['type']){
+                case 'char':
+                    $form->addElement('text', $name, $title, 'size="30"');
+                    $form->addRule($property['name'], $property['title'].' обязательно для заполнения', 'required', '', 'client');
+                    break;
+                    
+                case 'int':
+                    $form->addElement('text', $name, $title, 'size="30"');
+                    $form->addRule($name, $title . ' обязательно для заполнения', 'required');
+                    $form->addRule($name, $title . ' может принимать только значения (int)', 'numeric', '', 'client');
+                    break;
+                
+                case 'text':
+                    $form->addElement('textarea', $name, $title);
+                    $form->addRule($name, $title . ' обязательно для заполнения', 'required');
+                    break;
+                
+                default:
+                    break;
+            }
         }
+        $form->applyFilter('__ALL__', 'trim');
 
         $form->addElement('hidden', 'typeId', $type['id']);
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');

@@ -1,2 +1,2 @@
 {* main="main.tpl" placeholder="content" *}
-{load module="catalogue" action="editObject"}
+{load module="catalogue" action="edit"}

@@ -15,14 +15,14 @@
 fileLoader::load('catalogue/forms/cataloguePropertyForm');
 
 /**
- * catalogueAddPropertyController: контроллер для метода addProperty модуля catalogue
+ * catalogueSavePropertyController: контроллер для метода editProperty модуля catalogue
  *
  * @package modules
  * @subpackage catalogue
  * @version 0.1
  */
 
-class catalogueAddPropertyController extends simpleController
+class catalogueSavePropertyController extends simpleController
 {
     public function getView()
     {
@@ -30,12 +30,18 @@ class catalogueAddPropertyController extends simpleController
 
         $action = $this->request->getAction();
 
+        $typesTemp = $catalogueMapper->getAllPropertiesTypes();
+        $types = array();
+        foreach($typesTemp as $type){
+            $types[$type['id']] = $type['title'] . ' (' . $type['name'] . ')';
+        }
+        
         if($action == 'editProperty'){
             $id = $this->request->get('id', 'integer', SC_PATH);
             $property = $catalogueMapper->getProperty($id);
-            $form = cataloguePropertyForm::getForm($property);
+            $form = cataloguePropertyForm::getForm($property, $types);
         } else {
-            $form = cataloguePropertyForm::getForm();
+            $form = cataloguePropertyForm::getForm(false, $types);
         }
 
         if($form->validate() == false){
@@ -46,9 +52,9 @@ class catalogueAddPropertyController extends simpleController
         } else {
             $values = $form->exportValues();
             if($action == 'editProperty'){
-                $catalogueMapper->updateProperty($id, $values['name'], $values['title']);
+                $catalogueMapper->updateProperty($id, $values['name'], $values['title'], $values['type']);
             } else {
-                $catalogueMapper->addProperty($values['name'], $values['title']);
+                $catalogueMapper->addProperty($values['name'], $values['title'], $values['type']);
             }
             return jipTools::redirect();
         }

@@ -12,6 +12,10 @@
             <td>{$form.name.html}</td>
         </tr>
         <tr>
+            <td><strong>{$form.type.label}</strong></td>
+            <td>{$form.type.html}</td>
+        </tr>
+        <tr>
             <td>{$form.submit.html}{$form.reset.html}</td>
         </tr>
     </table>

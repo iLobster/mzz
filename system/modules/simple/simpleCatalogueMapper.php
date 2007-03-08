@@ -31,7 +31,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     private $tableTypesProps = '';
 
     private $tmpPropsData = array();
-    private $tmpTitlesData = array();
+    private $tmpServiceData = array();
 
     public function __construct($section)
     {
@@ -69,9 +69,31 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt = $this->db->prepare('SELECT `p`.* FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` WHERE `tp`.`type_id` = :type_id');
         $stmt->bindParam('type_id', $id);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(!empty($properties)){
+            $properties = $this->getPropertiesTypes( $properties );
+        }
+        return $properties;
     }
 
+    protected function getPropertiesTypes( $props )
+    {
+        $props_id = null;
+        $properties = array();
+        foreach($props as $property){
+            $props_id .= $property['id'] . ', ';
+            $properties[$property['name']] = $property;
+        }
+        $props_id = substr($props_id, 0, -2);
+        
+        $types = $this->db->getAll($qry = 'SELECT `t`.`name` as `type`, `p`.`name` as `name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`id` IN (' . $props_id . ')', PDO::FETCH_ASSOC);
+
+        foreach($types as $type){
+            $properties[$type['name']]['type'] = $type['type'];
+        }
+        return $properties;
+    }
+    
     public function addType($name, $title, Array $properties)
     {
         $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypes . '` (`name`, `title`) VALUES (:name, :title)');
@@ -123,20 +145,22 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->execute();
     }
 
-    public function addProperty($name, $title)
+    public function addProperty($name, $title, $type)
     {
-        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableProperties . '` VALUES ("", :name, :title)');
+        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableProperties . '` (`name`, `title`, `type_id`) VALUES (:name, :title, :type)');
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
+        $stmt->bindParam('type', $type);
         return $stmt->execute();
     }
 
-    public function updateProperty($id, $name, $title)
+    public function updateProperty($id, $name, $title, $type_id)
     {
-        $stmt = $this->db->prepare('UPDATE `' . $this->tableProperties . '` SET `name` = :name, `title` = :title WHERE `id` = :id ');
+        $stmt = $this->db->prepare('UPDATE `' . $this->tableProperties . '` SET `name` = :name, `title` = :title, `type_id` = :type_id WHERE `id` = :id ');
         $stmt->bindParam('id', $id);
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
+        $stmt->bindParam('type_id', $type_id);
         return $stmt->execute();
     }
 
@@ -179,9 +203,14 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $criteria->append($this->pager->getLimitQuery());
     }
 
+    public function getAllPropertiesTypes()
+    {
+        return $this->db->getAll('SELECT * FROM `' . $this->tablePropertiesTypes . '`', PDO::FETCH_ASSOC);
+    }
+    
     private function getPropertyType($name)
     {
-        return $this->db->getOne($qry = 'SELECT `t`.`name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`name` = ' . $this->db->quote($name));
+        return $this->db->getOne($qry = 'SELECT `t`.`id`, `t`.`name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`name` = ' . $this->db->quote($name));
     }
 
     private function getPropertyTypeByTypeprop($id)
@@ -241,9 +270,10 @@ abstract class simpleCatalogueMapper extends simpleMapper
         while ($row = $stmt->fetch()) {
             $type = $this->getPropertyTypeByTypeprop($row['property_type']);
             $this->tmpPropsData[$row['id']][$row['name']] = isset($row[$type]) ? $row[$type] : null;
-            $this->tmpTitlesData[$row['id']][$row['name']] = $row['title'];
+            $this->tmpServiceData[$row['id']]['titles'][$row['name']] = $row['title'];
+            $this->tmpServiceData[$row['id']]['types'][$row['name']] = $type;
         }
-
+        
         return $result;
     }
 
@@ -252,7 +282,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $object = $this->create();
         $object->import($row);
         $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
-        $object->importTitles($this->tmpTitlesData[$row[$this->tableKey]]);
+        $object->importServiceData($this->tmpServiceData[$row[$this->tableKey]]);
         return $object;
     }
 
