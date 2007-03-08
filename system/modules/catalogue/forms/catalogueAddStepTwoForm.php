@@ -39,7 +39,7 @@ class catalogueAddStepTwoForm
         $url->setSection('catalogue');
         $url->addParam('name', $folder->getPath());
 
-        $form = new HTML_QuickForm('frmObject', 'POST', $url->get());
+        $form = new HTML_QuickForm('frmAddStepTwo', 'POST', $url->get());
         
         foreach($properties as $property){
             $name = $property['name'];

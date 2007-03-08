@@ -210,7 +210,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     
     private function getPropertyType($name)
     {
-        return $this->db->getOne($qry = 'SELECT `t`.`id`, `t`.`name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`name` = ' . $this->db->quote($name));
+        return $this->db->getRow($qry = 'SELECT `t`.`id`, `t`.`name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`name` = ' . $this->db->quote($name));
     }
 
     private function getPropertyTypeByTypeprop($id)
@@ -312,7 +312,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
             if (sizeof($properties)) {
                 foreach ($properties as $key => $val) {
                     $type = $this->getPropertyType($key);
-                    $this->db->query($qry = 'REPLACE INTO `' . $this->tableData . '` SET `' . $type . '` = ' . $this->db->quote($data[$key]) . ', `property_type` = ' . $val . ', `id` = ' . $object->getId());
+                    $this->db->query($qry = 'REPLACE INTO `' . $this->tableData . '` SET `' . $type['name'] . '` = ' . $this->db->quote($data[$key]) . ', `property_type` = ' . $val . ', `id` = ' . $object->getId());
                 }
 
                 $object->importProperties($result + $object->exportOldProperties());

@@ -81,7 +81,14 @@ class catalogueCreateController extends simpleController
                     $catalogue->setProperty($field, $objectValues[$field]);
                 }
                 $catalogueMapper->save($catalogue);
-                return jipTools::redirect();;
+                
+                /*
+                $url = new url('withAnyParam');
+                $url->setAction('list');
+                $url->setSection('catalogue');
+                $url->addParam('name', $catalogueFolder->getPath());
+                */
+                return jipTools::redirect(/*$url->get()*/);
             }
         }
     }
