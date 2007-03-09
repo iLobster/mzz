@@ -126,7 +126,7 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->assertEqual($catalogue->getId(), 2);
         $this->assertEqual($catalogue->getProperty('property_4'), 666);
 
-        $catalogue->setProperty('property_4', $new = 'foo');
+        $catalogue->setProperty('property_4', $new = 12345.6);
         $this->mapper->save($catalogue);
 
         $this->assertEqual($catalogue->getProperty('property_4'), $new);
