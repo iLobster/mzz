@@ -85,7 +85,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
             $properties[$property['name']] = $property;
         }
         $props_id = substr($props_id, 0, -2);
-        
+
         $types = $this->db->getAll($qry = 'SELECT `t`.`name` as `type`, `p`.`name` as `name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`id` IN (' . $props_id . ')', PDO::FETCH_ASSOC);
 
         foreach($types as $type){
@@ -93,7 +93,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         }
         return $properties;
     }
-    
+
     public function addType($name, $title, Array $properties)
     {
         $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypes . '` (`name`, `title`) VALUES (:name, :title)');
@@ -173,7 +173,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableData . '` WHERE `property_type` IN ( SELECT `id` FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id )');
         $stmt->bindParam('id', $id);
         $stmt->execute();
-        
+
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id');
         $stmt->bindParam('id', $id);
         $stmt->execute();
@@ -211,7 +211,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     {
         return $this->db->getAll('SELECT * FROM `' . $this->tablePropertiesTypes . '`', PDO::FETCH_ASSOC);
     }
-    
+
     private function getPropertyType($name)
     {
         return $this->db->getRow($qry = 'SELECT `t`.`id`, `t`.`name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`name` = ' . $this->db->quote($name));
@@ -234,7 +234,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
                 $type = $this->getPropertyType($val);
 
-                $criteria->add('p.name', $val)->add('d.' . $type, $value);
+                $criteria->add('p.name', $val)->add('d.' . $type['name'], $value);
                 $criteria->remove($val);
             }
         }
@@ -277,7 +277,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
             $this->tmpServiceData[$row['id']]['titles'][$row['name']] = $row['title'];
             $this->tmpServiceData[$row['id']]['types'][$row['name']] = $type;
         }
-        
+
         return $result;
     }
 
