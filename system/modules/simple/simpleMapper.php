@@ -21,7 +21,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.3
+ * @version 0.3.4
  */
 
 abstract class simpleMapper
@@ -481,21 +481,6 @@ abstract class simpleMapper
                 $criteria->setOrderByFieldAsc($val['field']);
             }
         }
-    }
-
-    /**
-     * »щет запись по полю $name со значением $value
-     * и возвращает результат поиска
-     *
-     * @param string $name им€ пол€
-     * @param string $value значени€ пол€
-     * @return object
-     */
-    public function searchByField($name, $value)
-    {
-        $criteria = new criteria();
-        $criteria->add($name, $value);
-        return $this->searchByCriteria($criteria);
     }
 
     /**
