@@ -170,6 +170,10 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->bindParam('id', $id);
         $stmt->execute();
 
+        $stmt = $this->db->prepare('DELETE FROM `' . $this->tableData . '` WHERE `property_type` IN ( SELECT `id` FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id )');
+        $stmt->bindParam('id', $id);
+        $stmt->execute();
+        
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id');
         $stmt->bindParam('id', $id);
         $stmt->execute();

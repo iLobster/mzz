@@ -15,7 +15,7 @@
 fileLoader::load('catalogue/forms/catalogueObjectForm');
 
 /**
- * catalogueEditController: контроллер для метода editмодуля catalogue
+ * catalogueEditController: контроллер для метода edit модуля catalogue
  *
  * @package modules
  * @subpackage catalogue

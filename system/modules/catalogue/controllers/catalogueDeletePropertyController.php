@@ -26,6 +26,7 @@ class catalogueDeletePropertyController extends simpleController
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $id = $this->request->get('id', 'integer', SC_PATH);
+        
         $catalogueMapper->deleteProperty($id);
         return jipTools::redirect();
     }
