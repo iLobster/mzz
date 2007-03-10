@@ -173,7 +173,7 @@ class simpleCatalogueMapperTest extends unitTestCase
     public function testGetNonExistingClass()
     {
         $type = $this->mapper->getType($id = 999);
-        $this->assertEqual($type, false);
+        $this->assertFalse($type);
     }
 
     public function testGetProperty()
@@ -218,10 +218,13 @@ class simpleCatalogueMapperTest extends unitTestCase
 
     public function testDeleteType()
     {
-        $this->mapper->deleteType($id = 1);
+        $type = $this->mapper->getType($id = 1);
+        $this->assertTrue($type);
+
+        $this->mapper->deleteType($id);
         $type = $this->mapper->getType($id);
 
-        $this->assertEqual($type, false);
+        $this->assertFalse($type);
     }
 
     public function testAddAndUpdateProperty()
@@ -247,10 +250,14 @@ class simpleCatalogueMapperTest extends unitTestCase
 
     public function testDeleteProperty()
     {
-        $this->mapper->deleteProperty($id = 1);
+
+        $property = $this->mapper->getProperty($id = 1);
+        $this->assertTrue($property);
+
+        $this->mapper->deleteProperty($id);
         $property = $this->mapper->getProperty($id);
 
-        $this->assertEqual($property, false);
+        $this->assertFalse($property);
     }
 }
 
