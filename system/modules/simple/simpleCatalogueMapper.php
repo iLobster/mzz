@@ -61,39 +61,16 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function getProperty($id)
     {
-        return $this->db->getRow('SELECT * FROM `' . $this->tableProperties . '` WHERE `id` = ' . (int)$id, PDO::FETCH_ASSOC);
-        /*
-        SELECT `t1`.`id`, `t1`.`name`, `t1`.`title`, `t2`.`name` AS `type` FROM `catalogue_catalogue_properties` `t1`,  `catalogue_catalogue_properties_types` `t2` WHERE `t1`.`id` = 1 AND `t1`.`type_id` = `t2`.`id`
-        */
+        return $this->db->getRow('SELECT `p`.*, `pt`.`name` AS `type` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `p`.`id` = ' . (int)$id);
     }
 
     public function getProperties($id)
     {
-        $stmt = $this->db->prepare('SELECT `p`.* FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` WHERE `tp`.`type_id` = :type_id');
+        $query = 'SELECT `p`.*, `pt`.`name` as `type` FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id';
+        $stmt = $this->db->prepare($query);
         $stmt->bindParam('type_id', $id);
         $stmt->execute();
         $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if(!empty($properties)){
-            $properties = $this->getPropertiesTypes( $properties );
-        }
-        return $properties;
-    }
-
-    protected function getPropertiesTypes( $props )
-    {
-        $props_id = null;
-        $properties = array();
-        foreach($props as $property){
-            $props_id .= $property['id'] . ', ';
-            $properties[$property['name']] = $property;
-        }
-        $props_id = substr($props_id, 0, -2);
-
-        $types = $this->db->getAll($qry = 'SELECT `t`.`name` as `type`, `p`.`name` as `name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`id` IN (' . $props_id . ')', PDO::FETCH_ASSOC);
-
-        foreach($types as $type){
-            $properties[$type['name']]['type'] = $type['type'];
-        }
         return $properties;
     }
 
