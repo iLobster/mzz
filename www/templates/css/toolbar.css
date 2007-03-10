@@ -27,7 +27,7 @@ td.toolbarElementName {
 }
 
 td.toolbarActions {
-  width: 60px;
+  /*width: 60px;*/
   border-bottom: 1px solid #EBEBEB;
   border-top: 1px solid #EBEBEB;
 }
