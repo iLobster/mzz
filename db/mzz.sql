@@ -331,16 +331,16 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `folder_id`, `obj_id`) VALUES 
-  (1,'foobar.txt','q','txt',10,NULL,1,196),
+  (1,'foobar.txt','q','txt',10,1,1,196),
   (2,'06558db05a7d5148084025676972cbb2','','rec',9,NULL,NULL,201),
   (3,'9f4b4024092fcebfc434401210f71f7d','','rec',9,NULL,NULL,202),
   (4,'05a131b70aef0e2b9f3e344d6163d311','qwe.rec','rec',9,NULL,1,203),
   (5,'5b78dc5c1c2ad6511e3e324845c2eb3c','2rec','',9,NULL,1,204),
   (6,'13810e7f5782973b2dc72030c1c392f0','сы','',18,NULL,1,205),
-  (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,1,1,206),
-  (8,'3ff2104331237dafe9d7941a1286136f','mysql','',39,NULL,1,207),
+  (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,2,1,206),
+  (8,'3ff2104331237dafe9d7941a1286136f','mysql','',39,1,1,207),
   (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,1,1,208),
-  (10,'02c870089fc7f94ba1286e8faef13316','web.txt','txt',28,NULL,1,209),
+  (10,'02c870089fc7f94ba1286e8faef13316','web.txt','txt',28,3,1,209),
   (11,'59833d36a918ad9fdd5f860d8a9b350f','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,NULL,1,210),
   (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,1,1,211),
   (13,'ddaa316ac5ba16b0a2e39a3f9c19d330','2rec','',9,NULL,2,219),
@@ -1350,7 +1350,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (249,17),
   (251,17),
   (253,12),
-  (259,12);
+  (259,12),
+  (260,12),
+  (261,7);
 
 COMMIT;
 
@@ -1674,6 +1676,9 @@ CREATE TABLE `sys_modules` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `main_class` int(11) unsigned default NULL,
+  `title` char(255) default NULL,
+  `icon` char(255) default NULL,
+  `order` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -1681,16 +1686,16 @@ CREATE TABLE `sys_modules` (
 # Data for the `sys_modules` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_modules` (`id`, `name`, `main_class`) VALUES 
-  (1,'news',NULL),
-  (2,'user',NULL),
-  (3,'timer',NULL),
-  (4,'page',NULL),
-  (5,'access',NULL),
-  (6,'admin',NULL),
-  (8,'comments',NULL),
-  (9,'fileManager',17),
-  (10,'catalogue',19);
+INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`) VALUES 
+  (1,'news',NULL,NULL,NULL,NULL),
+  (2,'user',NULL,NULL,NULL,NULL),
+  (3,'timer',NULL,NULL,NULL,NULL),
+  (4,'page',NULL,NULL,NULL,NULL),
+  (5,'access',NULL,NULL,NULL,NULL),
+  (6,'admin',NULL,NULL,NULL,NULL),
+  (8,'comments',NULL,'asda','q',1),
+  (9,'fileManager',17,'Файлменеджер','fm.gif',10),
+  (10,'catalogue',19,NULL,NULL,NULL);
 
 COMMIT;
 
@@ -1954,7 +1959,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (256),
   (257),
   (258),
-  (259);
+  (259),
+  (260),
+  (261);
 
 COMMIT;
 
@@ -2002,7 +2009,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (194,'access_fileManager_folder'),
   (198,'access_fileManager_fileManager'),
   (233,'access_catalogue_catalogue'),
-  (240,'access__catalogue');
+  (240,'access__catalogue'),
+  (261,'access__');
 
 COMMIT;
 
@@ -2015,6 +2023,7 @@ DROP TABLE IF EXISTS `sys_sections`;
 CREATE TABLE `sys_sections` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
+  `title` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -2023,16 +2032,16 @@ CREATE TABLE `sys_sections` (
 # Data for the `sys_sections` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_sections` (`id`, `name`) VALUES 
-  (7,'admin'),
-  (10,'catalogue'),
-  (8,'comments'),
-  (9,'fileManager'),
-  (1,'news'),
-  (4,'page'),
-  (6,'sys'),
-  (3,'timer'),
-  (2,'user');
+INSERT INTO `sys_sections` (`id`, `name`, `title`) VALUES 
+  (7,'admin',NULL),
+  (10,'catalogue',NULL),
+  (8,'comments',NULL),
+  (9,'fileManager',NULL),
+  (1,'news',NULL),
+  (4,'page','aa'),
+  (6,'sys',NULL),
+  (3,'timer','таймер'),
+  (2,'user',NULL);
 
 COMMIT;
 
@@ -2118,7 +2127,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610),
   (25,2,'127.0.0.1','35309ce4e0316685d1be41d25afde9d7',224,1172709883),
   (26,2,'127.0.0.1','e43de89500fe5c144b5a4687c80cefa9',253,1173239786),
-  (27,2,'127.0.0.1','ccc906aca21b95a2e8825f6533632de5',259,1173277691);
+  (27,2,'127.0.0.1','ccc906aca21b95a2e8825f6533632de5',259,1173277691),
+  (28,2,'127.0.0.1','ab6db17706e797855c40ba766f8ee3fc',260,1173523868);
 
 COMMIT;
 
