@@ -42,9 +42,7 @@ CREATE TABLE `catalogue_catalogue` (
 #
 
 INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
-  (2,2,10,777,238,1),
-  (8,1,10,777,246,2),
-  (11,1,10,777,250,2);
+  (2,2,10,777,238,1);
 
 COMMIT;
 
@@ -128,13 +126,7 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
   (2,4,NULL,'LG FLATRON L1717S 17''',NULL,NULL,NULL),
   (2,5,NULL,'ATI Radeon 9600Pro',NULL,NULL,NULL),
   (2,6,NULL,'Seagate 5400 80gb',NULL,NULL,NULL),
-  (11,12,NULL,NULL,1985,NULL,NULL),
-  (8,3,NULL,'Запорожец',NULL,NULL,NULL),
-  (2,18,NULL,'Pentium4 - 2400 MHz',NULL,NULL,NULL),
-  (8,17,NULL,'0%',NULL,NULL,NULL),
-  (8,12,NULL,NULL,1983,NULL,NULL),
-  (11,17,NULL,'10%',NULL,NULL,NULL),
-  (11,3,NULL,'Жигули',NULL,NULL,NULL);
+  (2,18,NULL,'Pentium4 - 2400 MHz',NULL,NULL,NULL);
 
 COMMIT;
 
@@ -164,7 +156,8 @@ INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`) 
   (4,'monitor','Монитор',1),
   (5,'videocard','Видеокарта',1),
   (6,'harddrive','Жесткий диск',1),
-  (7,'processor','Процессор',1);
+  (7,'processor','Процессор',1),
+  (9,'test','test',2);
 
 COMMIT;
 
@@ -176,7 +169,8 @@ DROP TABLE IF EXISTS `catalogue_catalogue_properties_types`;
 
 CREATE TABLE `catalogue_catalogue_properties_types` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `name` char(255) default NULL,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -184,10 +178,11 @@ CREATE TABLE `catalogue_catalogue_properties_types` (
 # Data for the `catalogue_catalogue_properties_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`) VALUES 
-  (1,'char'),
-  (2,'float'),
-  (3,'int');
+INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUES 
+  (1,'char','Строка'),
+  (2,'float','Число с плавающей точкой'),
+  (3,'int','Целое'),
+  (4,'text','Текст');
 
 COMMIT;
 
@@ -242,8 +237,7 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) V
   (5,2,5),
   (6,2,6),
   (12,1,2),
-  (20,6,1),
-  (21,6,2);
+  (23,6,9);
 
 COMMIT;
 
@@ -1353,11 +1347,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (236,14),
   (238,16),
   (240,7),
-  (246,16),
   (249,17),
-  (250,16),
   (251,17),
-  (253,12);
+  (253,12),
+  (259,12);
 
 COMMIT;
 
@@ -1617,7 +1610,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (87,19,36),
   (88,19,37),
   (89,19,38),
-  (90,19,39),
+  (108,19,1),
   (91,13,8),
   (92,13,30),
   (95,19,2),
@@ -1955,7 +1948,13 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (250),
   (251),
   (252),
-  (253);
+  (253),
+  (254),
+  (255),
+  (256),
+  (257),
+  (258),
+  (259);
 
 COMMIT;
 
@@ -2118,7 +2117,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (22,2,'127.0.0.1','6cf0e978f23e2cb178b7aed1112095f9',176,1170655390),
   (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610),
   (25,2,'127.0.0.1','35309ce4e0316685d1be41d25afde9d7',224,1172709883),
-  (26,2,'127.0.0.1','e43de89500fe5c144b5a4687c80cefa9',253,1173239786);
+  (26,2,'127.0.0.1','e43de89500fe5c144b5a4687c80cefa9',253,1173239786),
+  (27,2,'127.0.0.1','ccc906aca21b95a2e8825f6533632de5',259,1173277691);
 
 COMMIT;
 
