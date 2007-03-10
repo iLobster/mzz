@@ -83,6 +83,7 @@ class simpleCatalogueMapperTest extends unitTestCase
     {
         $this->db->query("INSERT INTO `simple_catalogue_data` (`id`, `property_type`, `char`) VALUES (1, 1, 'foobar'), (1, 2, 'baz')");
         $this->db->query("INSERT INTO `simple_catalogue_data` (`id`, `property_type`, `float`) VALUES (2, 5, 666)");
+        $catalogue = $this->mapper->searchOneByField('id', 1);
 
         $catalogue = $this->mapper->searchOneByField('id', 1);
         $this->assertEqual($catalogue->getId(), 1);
@@ -158,6 +159,98 @@ class simpleCatalogueMapperTest extends unitTestCase
 
         $res = $this->db->getOne("SELECT COUNT(*) FROM `simple_catalogue_data` WHERE `id` = 3 AND ((`property_type` = 4 AND `char` = 'bar') OR (`property_type` = 5 AND `float` = 123))");
         $this->assertEqual($res, 2);
+    }
+
+    public function testGetType()
+    {
+        $type = $this->mapper->getType($id = 1);
+
+        $this->assertEqual($type['id'], $id);
+        $this->assertEqual($type['name'], 'type_1');
+        $this->assertEqual($type['title'], 'type_title_1');
+    }
+
+    public function testGetNonExistingClass()
+    {
+        $type = $this->mapper->getType($id = 999);
+        $this->assertEqual($type, false);
+    }
+
+    public function testGetProperty()
+    {
+        $property = $this->mapper->getProperty($id = 1);
+
+        $this->assertEqual($property['id'], $id);
+        $this->assertEqual($property['name'], 'property_1');
+        $this->assertEqual($property['title'], 'title_1');
+        $this->assertEqual($property['type_id'], 1);
+    }
+
+    public function testGetPropertiesOfType()
+    {
+        $properties = $this->mapper->getProperties($type_id = 1);
+
+        $this->assertEqual($properties['property_1']['id'], 1);
+        $this->assertEqual($properties['property_1']['name'], 'property_1');
+        $this->assertEqual($properties['property_1']['title'], 'title_1');
+        $this->assertEqual($properties['property_1']['type_id'], $type_id);
+        $this->assertEqual($properties['property_1']['type'], 'char');
+    }
+
+    public function testAddAndUpdateType()
+    {
+        $id = $this->mapper->addType($name = 'testAddName', $title = 'testAddTitle', array());
+
+        $type = $this->mapper->getType($id);
+
+        $this->assertEqual($type['id'], $id);
+        $this->assertEqual($type['name'], $name);
+        $this->assertEqual($type['title'], $title);
+
+        $this->mapper->updateType($id, $newname = 'testUpdateName', $newtitle = 'testUpdateTitle', array());
+
+        $type = $this->mapper->getType($id);
+
+        $this->assertEqual($type['id'], $id);
+        $this->assertEqual($type['name'], $newname);
+        $this->assertEqual($type['title'], $newtitle);
+    }
+
+    public function testDeleteType()
+    {
+        $this->mapper->deleteType($id = 1);
+        $type = $this->mapper->getType($id);
+
+        $this->assertEqual($type, false);
+    }
+
+    public function testAddAndUpdateProperty()
+    {
+        $id = $this->mapper->addProperty($name = 'testAddPropertyName', $title = 'testAddPropertyTitle', $type = 1);
+
+        $property = $this->mapper->getProperty($id);
+
+        $this->assertEqual($property['id'], $id);
+        $this->assertEqual($property['name'], $name);
+        $this->assertEqual($property['title'], $title);
+        $this->assertEqual($property['type_id'], $type);
+
+        $this->mapper->updateProperty($id, $newname = 'testUpdatePropertyName', $newtitle = 'testUpdatePropertyTitle', $newtype = 2);
+
+        $property = $this->mapper->getProperty($id);
+
+        $this->assertEqual($property['id'], $id);
+        $this->assertEqual($property['name'], $newname);
+        $this->assertEqual($property['title'], $newtitle);
+        $this->assertEqual($property['type_id'], $newtype);
+    }
+
+    public function testDeleteProperty()
+    {
+        $this->mapper->deleteProperty($id = 1);
+        $property = $this->mapper->getProperty($id);
+
+        $this->assertEqual($property, false);
     }
 }
 
