@@ -105,7 +105,7 @@ function addMainClassValidate($id, $data)
     $stmt->execute();
     $res = $stmt->fetch();
 
-    return $res['cnt'] == 1;
+    return $res['cnt'] == 1 || !$id;
 }
 
 ?>
