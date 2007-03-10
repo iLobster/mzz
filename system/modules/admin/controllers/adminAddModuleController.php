@@ -40,6 +40,8 @@ class adminAddModuleController extends simpleController
 
         $nameRO = false;
 
+        $classes_select = null;
+
         if ($action == 'editModule') {
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
 
@@ -57,9 +59,17 @@ class adminAddModuleController extends simpleController
                 */
                 $nameRO = true;
             }
+
+            $modules = $adminMapper->getModulesList();
+
+            $classes = $modules[$data['id']]['classes'];
+            $classes_select = array(0 => '');
+            foreach ($classes as $key => $val) {
+                $classes_select[$key] = $val['name'];
+            }
         }
 
-        $form = adminAddModuleForm::getForm($data, $db, $action, $nameRO);
+        $form = adminAddModuleForm::getForm($data, $db, $action, $nameRO, $classes_select);
 
         if ($form->validate()) {
             $values = $form->exportValues();
@@ -90,11 +100,12 @@ class adminAddModuleController extends simpleController
                 $stmt->execute();
             }
 
-            $stmt = $db->prepare('UPDATE `sys_modules` SET `icon` = :icon, `title` = :title, `order` = :order WHERE `id` = :id');
+            $stmt = $db->prepare('UPDATE `sys_modules` SET `icon` = :icon, `title` = :title, `order` = :order, `main_class` = :main_class WHERE `id` = :id');
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->bindValue(':icon', $values['icon'], PDO::PARAM_STR);
             $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
-            $stmt->bindValue(':order', $values['order'], PDO::PARAM_STR);
+            $stmt->bindValue(':order', $values['order'], PDO::PARAM_INT);
+            $stmt->bindValue(':main_class', $values['main_class'], PDO::PARAM_INT);
             $stmt->execute();
 
             return jipTools::redirect();

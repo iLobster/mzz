@@ -25,6 +25,12 @@
             <td>{$form.order.label}</td>
             <td>{$form.order.html}{$form.order.error}</td>
         </tr>
+        {if $action eq 'editModule'}
+            <tr>
+                <td>{$form.main_class.label}</td>
+                <td>{$form.main_class.html}{$form.main_class.error}</td>
+            </tr>
+        {/if}
         <tr>
             <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
         </tr>

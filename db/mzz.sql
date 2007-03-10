@@ -1444,7 +1444,8 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (1,0,0),
   (7,0,9),
   (9,0,10),
-  (15,10,10);
+  (15,10,10),
+  (16,0,8);
 
 COMMIT;
 
@@ -1695,7 +1696,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (6,'admin',NULL,NULL,NULL,NULL),
   (8,'comments',NULL,'asda','q',1),
   (9,'fileManager',17,'Ôאיכלוםוהזונ','fm.gif',10),
-  (10,'catalogue',19,NULL,NULL,NULL);
+  (10,'catalogue',19,'','',0);
 
 COMMIT;
 

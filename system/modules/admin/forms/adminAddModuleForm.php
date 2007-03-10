@@ -25,7 +25,7 @@ class adminAddModuleForm
      * метод получения формы
      *
      */
-    static function getForm($data, $db, $action, $nameRO = false)
+    static function getForm($data, $db, $action, $nameRO, $classesSelect)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
@@ -42,7 +42,12 @@ class adminAddModuleForm
             $defaultValues['title']  = $data['title'];
             $defaultValues['icon']  = $data['icon'];
             $defaultValues['order']  = $data['order'];
+            $defaultValues['main_class']  = $data['main_class'];
             $form->setDefaults($defaultValues);
+
+            $select = $form->addElement('select', 'main_class', '"Главный" класс:', $classesSelect);
+            $form->registerRule('isUniqueName', 'callback', 'addMainClassValidate');
+            $form->addRule('main_class', 'выбранный класс не существует или принадлежит другому модулю', 'isUniqueName', array($db, $data));
         }
 
         $toolkit = systemToolkit::getInstance();
@@ -90,6 +95,17 @@ function addModuleValidate($name, $data)
     $res = $stmt->fetch();
 
     return $res['cnt'] == 0;
+}
+
+function addMainClassValidate($id, $data)
+{
+    $stmt = $data[0]->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_classes` WHERE `id` = :id AND `module_id` = :module');
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->bindValue(':module', $data[1]['id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $res = $stmt->fetch();
+
+    return $res['cnt'] == 1;
 }
 
 ?>
