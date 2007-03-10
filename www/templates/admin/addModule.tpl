@@ -14,6 +14,18 @@
             <td>{$form.dest.html}{$form.dest.error}</td>
         </tr>
         <tr>
+            <td>{$form.title.label}</td>
+            <td>{$form.title.html}{$form.title.error}</td>
+        </tr>
+        <tr>
+            <td>{$form.icon.label}</td>
+            <td>{$form.icon.html}{$form.icon.error}</td>
+        </tr>
+        <tr>
+            <td>{$form.order.label}</td>
+            <td>{$form.order.html}{$form.order.error}</td>
+        </tr>
+        <tr>
             <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
         </tr>
     </table>

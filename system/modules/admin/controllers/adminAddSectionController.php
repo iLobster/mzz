@@ -19,9 +19,9 @@ fileLoader::load('admin/forms/adminAddSectionForm');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
- 
+
 class adminAddSectionController extends simpleController
 {
     public function getView()
@@ -32,6 +32,8 @@ class adminAddSectionController extends simpleController
         $db = DB::factory();
 
         $data = null;
+
+        $nameRO = false;
 
         if ($action == 'editSection') {
             $data = $db->getRow('SELECT * FROM `sys_sections` WHERE `id` = ' . $id);
@@ -45,26 +47,37 @@ class adminAddSectionController extends simpleController
             $sections = $adminMapper->getSectionsList();
 
             if (sizeof($sections[$data['id']]['classes'])) {
+                /*
                 $controller = new messageController('Нельзя изменить имя раздела', messageController::WARNING);
                 return $controller->run();
+                */
+                $nameRO = true;
             }
         }
 
-        $form = adminAddSectionForm::getForm($data, $db, $action);
+        $form = adminAddSectionForm::getForm($data, $db, $action, $nameRO);
 
         if ($form->validate()) {
             $values = $form->exportValues();
 
             if ($action == 'addSection') {
                 $stmt = $db->prepare('INSERT INTO `sys_sections` (`name`) VALUES (:name)');
+                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                $stmt->execute();
 
             } else {
-                $stmt = $db->prepare('UPDATE `sys_sections` SET `name` = :name WHERE `id` = :id');
+                if (!$nameRO) {
+                    $stmt = $db->prepare('UPDATE `sys_sections` SET `name` = :name WHERE `id` = :id');
+                    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                    $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                    $stmt->execute();
+                }
+
+                $stmt = $db->prepare('UPDATE `sys_sections` SET `title` = :title WHERE `id` = :id');
                 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
+                $stmt->execute();
             }
-            //echo '<br><pre>'; var_dump($values); echo '<br></pre>'; exit;
-            $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
-            $stmt->execute();
 
             return jipTools::redirect();
         }

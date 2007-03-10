@@ -10,8 +10,8 @@
                 <td class="toolbarActions" align="right">
                     <a href="{url route="withId" section="admin" id=$id action="listCfg"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif" alt="Параметры конфигурации" title="Параметры конфигурации" align="texttop" /></a>
                     <a href="{url route="withId" section="admin" id=$id action="mainClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/main_class.gif" alt="Главный класс" title="Главный класс" align="texttop" /></a>
+                    <a href="{url route="withId" section="admin" id=$id action="editModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать модуль" title="Редактировать модуль" align="texttop" /></a>
                     {if $count eq 0}
-                        <a href="{url route="withId" section="admin" id=$id action="editModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать модуль" title="Редактировать модуль" align="texttop" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="deleteModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить модуль" title="Удалить модуль" align="texttop" /></a>
                     {/if}
                     <a href="{url route="withId" section="admin" id=$id action="addClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить класс" title="Добавить класс" align="texttop" /></a>
@@ -45,11 +45,12 @@
             <tr class="toolbarTitle" onmouseover="this.style.backgroundColor = '#FFFDE1'" onmouseout="this.style.backgroundColor = '#FAFAFA'">
                 <td class="toolbarBorder"><strong>{$section.name}</strong></td>
                 <td class="toolbarActions" align="right">
-                {if $count eq 0}
                     <a href="{url route="withId" section="admin" id=$id action="editSection"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать раздел" title="Редактировать раздел" align="texttop" /></a>
-                    <a href="{url route="withId" section="admin" id=$id action="deleteSection"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить раздел" title="Удалить раздел" align="texttop" /></a>
-                {/if}
-                <a href="{url route="withId" section="admin" id=$id action="addClassToSection"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/classes.gif" alt="редактировать список классов" title="Редактировать список классов" align="texttop" /></a></td>
+                    {if $count eq 0}
+                        <a href="{url route="withId" section="admin" id=$id action="deleteSection"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить раздел" title="Удалить раздел" align="texttop" /></a>
+                    {/if}
+                    <a href="{url route="withId" section="admin" id=$id action="addClassToSection"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/classes.gif" alt="редактировать список классов" title="Редактировать список классов" align="texttop" /></a>
+                </td>
             </tr>
             {foreach from=$section.classes item=class key=id}
                 <tr onmouseover="this.style.backgroundColor = '#FFFDE1'" onmouseout="this.style.backgroundColor = '#FFFFFF'">

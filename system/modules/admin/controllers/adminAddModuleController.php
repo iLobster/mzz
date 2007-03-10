@@ -20,9 +20,9 @@ fileLoader::load('codegenerator/moduleGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.1.3
  */
- 
+
 class adminAddModuleController extends simpleController
 {
     public function getView()
@@ -38,6 +38,8 @@ class adminAddModuleController extends simpleController
 
         $data = null;
 
+        $nameRO = false;
+
         if ($action == 'editModule') {
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
 
@@ -49,12 +51,15 @@ class adminAddModuleController extends simpleController
             $modules = $adminMapper->getModulesList();
 
             if (sizeof($modules[$data['id']]['classes'])) {
+                /*
                 $controller = new messageController('Нельзя изменить имя модуля', messageController::WARNING);
                 return $controller->run();
+                */
+                $nameRO = true;
             }
         }
 
-        $form = adminAddModuleForm::getForm($data, $db, $action);
+        $form = adminAddModuleForm::getForm($data, $db, $action, $nameRO);
 
         if ($form->validate()) {
             $values = $form->exportValues();
@@ -76,11 +81,20 @@ class adminAddModuleController extends simpleController
                 return $this->smarty->fetch('admin/addModuleResult.tpl');
             }
 
-            $moduleGenerator->rename($data['name'], $values['name']);
+            if (!$nameRO) {
+                $moduleGenerator->rename($data['name'], $values['name']);
 
-            $stmt = $db->prepare('UPDATE `sys_modules` SET `name` = :name WHERE `id` = :id');
+                $stmt = $db->prepare('UPDATE `sys_modules` SET `name` = :name WHERE `id` = :id');
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                $stmt->execute();
+            }
+
+            $stmt = $db->prepare('UPDATE `sys_modules` SET `icon` = :icon, `title` = :title, `order` = :order WHERE `id` = :id');
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+            $stmt->bindValue(':icon', $values['icon'], PDO::PARAM_STR);
+            $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
+            $stmt->bindValue(':order', $values['order'], PDO::PARAM_STR);
             $stmt->execute();
 
             return jipTools::redirect();

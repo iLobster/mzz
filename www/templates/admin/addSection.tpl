@@ -10,6 +10,10 @@
             <td>{$form.name.html}{$form.name.error}</td>
         </tr>
         <tr>
+            <td>{$form.title.label}</td>
+            <td>{$form.title.html}{$form.title.error}</td>
+        </tr>
+        <tr>
             <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
         </tr>
     </table>

@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 class adminAddSectionForm
 {
@@ -25,7 +25,7 @@ class adminAddSectionForm
      * метод получения формы
      *
      */
-    static function getForm($data, $db, $action)
+    static function getForm($data, $db, $action, $nameRO)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
@@ -39,17 +39,25 @@ class adminAddSectionForm
         if ($action == 'editSection') {
             $defaultValues = array();
             $defaultValues['name']  = $data['name'];
+            $defaultValues['title']  = $data['title'];
             $form->setDefaults($defaultValues);
         }
 
-        $form->addElement('text', 'name', 'Название:', 'size="30"');
+        $name = $form->addElement('text', 'name', 'Название:', 'size="30"');
+        if ($nameRO) {
+            $name->freeze();
+        }
+
+        $form->addElement('text', 'title', 'Заголовок:', 'size="30"');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');
 
-        $form->registerRule('isUniqueName', 'callback', 'addSectionValidate');
-        $form->addRule('name', 'имя раздела должно быть уникально и содержать латинские буквы и цифры', 'isUniqueName', array($db));
-        $form->addRule('name', 'поле обязательно к заполнению', 'required');
+        if (!$nameRO) {
+            $form->registerRule('isUniqueName', 'callback', 'addSectionValidate');
+            $form->addRule('name', 'имя раздела должно быть уникально и содержать латинские буквы и цифры', 'isUniqueName', array($db));
+            $form->addRule('name', 'поле обязательно к заполнению', 'required');
+        }
 
         return $form;
     }
