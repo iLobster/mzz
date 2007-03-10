@@ -44,8 +44,6 @@ class catalogueSaveController extends simpleController
             $fields[] = $property['name'];
         }
 
-        //return $form->toHtml();
-
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
         $form->accept($renderer);
 

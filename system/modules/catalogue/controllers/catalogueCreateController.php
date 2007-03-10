@@ -12,8 +12,8 @@
  * @version $Id$
  */
 
-fileLoader::load('catalogue/forms/catalogueAddStepOneForm');
-fileLoader::load('catalogue/forms/catalogueAddStepTwoForm');
+//fileLoader::load('catalogue/forms/catalogueAddStepOneForm');
+//fileLoader::load('catalogue/forms/catalogueAddStepTwoForm');
 
 fileLoader::load('catalogue/forms/catalogueSaveForm');
 
@@ -33,90 +33,43 @@ class catalogueCreateController extends simpleController
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
         $path = $this->request->get('name', 'string', SC_PATH);
-
         $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
 
         $types = $catalogueMapper->getAllTypes();
-        $form = catalogueAddStepOneForm::getForm($types, $catalogueFolder);
 
-        if($form->validate() == false){
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $form->accept($renderer);
+        $createType = $this->request->get('typeId', 'integer', SC_POST);
 
-            $this->smarty->assign('form', $renderer->toArray());
-            $this->smarty->assign('folder', $catalogueFolder->getId());
-            return $this->smarty->fetch('catalogue/addStep1.tpl');
-        } else {
-            $values = $form->exportValues();
+        if($createType){
+            $properties = $catalogueMapper->getProperties($createType);
+            $form = catalogueSaveForm::getForm($properties, $catalogueFolder, $createType);
 
-            $properties = $catalogueMapper->getProperties($_POST['typeId']);
-
-            $fields = array();
-            foreach($properties as $property){
-                $fields[] = $property['name'];
-            }
-
-            $catalogue = $catalogueMapper->create();
-            $catalogue->setType($_POST['typeId']);
-            $catalogue->setCreated(777);
-            $catalogue->setEditor(10);
-
-            $catalogue->setFolder($catalogueFolder);
-
-            foreach ($fields as $field) {
-                $catalogue->setProperty($field, $_POST[$field]);
-            }
-            $catalogueMapper->save($catalogue);
-
-            return jipTools::redirect(/*$url->get()*/);
-
-            print_r($_POST);
-            exit();
-            if(!isset($values['type'])){
-                $values['type'] = $this->request->get('typeId', 'integer', SC_POST);
-            }
-
-            $type = $catalogueMapper->getType($values['type']);
-            $properties = $catalogueMapper->getProperties($type['id']);
-
-            $formStepTwo = catalogueAddStepTwoForm::getForm($type, $properties, $catalogueFolder);
-
-            $fields = array();
-            foreach($properties as $property){
-                $fields[] = $property['name'];
-            }
-
-            if($formStepTwo->validate() == false){
-                $renderer2 = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-                $formStepTwo->accept($renderer2);
-
-                $this->smarty->assign('fields', $fields);
-                $this->smarty->assign('type', $type);
-                $this->smarty->assign('form', $renderer2->toArray());
-                return $this->smarty->fetch('catalogue/addStep2.tpl');
+            if($form->validate() == false){
+                return 'Ошибки при вводе данных в форму';
             } else {
-                $objectValues = $formStepTwo->exportValues();
+                $fields = array();
+                foreach($properties as $property){
+                    $fields[] = $property['name'];
+                }
+
+                $values = $form->exportValues();
 
                 $catalogue = $catalogueMapper->create();
-                $catalogue->setType($values['type']);
+                $catalogue->setType($createType);
                 $catalogue->setCreated(777);
                 $catalogue->setEditor(10);
 
                 $catalogue->setFolder($catalogueFolder);
 
                 foreach ($fields as $field) {
-                    $catalogue->setProperty($field, $objectValues[$field]);
+                    $catalogue->setProperty($field, $values[$field]);
                 }
                 $catalogueMapper->save($catalogue);
-
-                /*
-                $url = new url('withAnyParam');
-                $url->setAction('list');
-                $url->setSection('catalogue');
-                $url->addParam('name', $catalogueFolder->getPath());
-                */
-                return jipTools::redirect(/*$url->get()*/);
+                return jipTools::redirect();
             }
+        } else {
+            $this->smarty->assign('folder', $catalogueFolder->getId());
+            $this->smarty->assign('types', $types);
+            return $this->smarty->fetch('catalogue/create.tpl');
         }
     }
 }
