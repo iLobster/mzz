@@ -63,7 +63,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     {
         return $this->db->getRow('SELECT * FROM `' . $this->tableProperties . '` WHERE `id` = ' . (int)$id, PDO::FETCH_ASSOC);
         /*
-        SELECT `t1`.`id`, `t1`.`name`, `t1`.`title`, `t2`.`name` AS `typ`e FROM `catalogue_catalogue_properties` `t1`,  `catalogue_catalogue_properties_types` `t2` WHERE `t1`.`id` = 1 AND `t1`.`type_id` = `t2`.`id`
+        SELECT `t1`.`id`, `t1`.`name`, `t1`.`title`, `t2`.`name` AS `type` FROM `catalogue_catalogue_properties` `t1`,  `catalogue_catalogue_properties_types` `t2` WHERE `t1`.`id` = 1 AND `t1`.`type_id` = `t2`.`id`
         */
     }
 
@@ -129,7 +129,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         if(!empty($tmpDelete)){
             $tmpDelete = array_map('intval', $tmpDelete);
 
-            $query = 'DELETE `t1` FROM `' . $this->tableData . '` AS `t1`, `' . $this->tableTypesProps . '` AS `t2`  WHERE `t1`.`property_type` = `t2`.`id` AND `t2`.`type_id` = ' . (int)$typeId . ' AND` t2`.`property_id` IN (' . implode(', ', $tmpDelete) . ')';
+            $query = 'DELETE `ccd` FROM `' . $this->tableData . '` `ccd`, `' . $this->tableTypesProps . '` `cctp` WHERE `ccd`.`property_type` = `cctp`.`id` AND `cctp`.`type_id` = ' . (int)$typeId . ' AND `cctp`.`property_id` IN (' . implode(', ', $tmpDelete) . ')';
             $this->db->query($query);
             $query = 'DELETE FROM `' . $this->tableTypesProps . '` WHERE `type_id` = ' . (int)$typeId . ' AND `property_id` IN (' . implode(', ', $tmpDelete) . ')';
             $this->db->query($query);
@@ -176,7 +176,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->bindParam('id', $id);
         $stmt->execute();
 
-        $stmt = $this->db->prepare('DELETE FROM `' . $this->tableData . '` WHERE `property_type` IN ( SELECT `id` FROM `' . $this->tableTypesProps . '` WHERE `property_id` = :id )');
+        $stmt = $this->db->prepare('DELETE `ccd` FROM `' . $this->tableTypesProps . '` `cctp` INNER JOIN `' . $this->tableData . '` `ccd` ON `ccd`.`property_type` = `cctp`.`id` WHERE `cctp`.`property_id` = :id');
         $stmt->bindParam('id', $id);
         $stmt->execute();
 

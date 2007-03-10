@@ -64,6 +64,7 @@ class catalogueCreateController extends simpleController
                     $catalogue->setProperty($field, $values[$field]);
                 }
                 $catalogueMapper->save($catalogue);
+                
                 return jipTools::redirect();
             }
         } else {
