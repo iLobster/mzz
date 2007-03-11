@@ -1,1 +1,1 @@
-<hr size="1" style="color: #333333;" /><font style="font-size: 60%; font-family: Verdana; color: #555555; letter-spacing: -1px;">Generation time: <b>{$timer->getPeriod()|round:5}</b> sec. Queries to DB: <b>{$timer->getQueriesNum()}</b> (<b>{$timer->getQueriesTime()|number_format:5}</b> sec.), prepared: <b>{$timer->getPreparedNum()}</b></font>
+Time: <b>{$timer->getPeriod()|round:5}</b> s. Queries: <b>{$timer->getQueriesNum()}</b>, prepared: <b>{$timer->getPreparedNum()}</b>, (<b>{$timer->getQueriesTime()|number_format:5}</b> s.)

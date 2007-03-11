@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 try {
     require_once 'init.php';
     require_once 'testsFinder.php';
+    require_once 'mzzHtmlReporter.php';
     require_once 'testsHtmlRunner.php';
 
     $toolkit = systemToolkit::getInstance();

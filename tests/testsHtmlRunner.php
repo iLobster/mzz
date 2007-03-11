@@ -33,11 +33,9 @@ class testsHtmlRunner implements iFilter
         }
 
 
-        echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+        $test->run(new mzzHtmlReporter('windows-1251'));
 
-        $test->run(new HtmlReporter('windows-1251'));
-
-        echo '<br /><a href="run.php"  style="color: black; font: 11px arial,verdana,tahoma;">';
+        echo '<br /><a href="run.php" style="color: black; font: 11px arial, tahoma, verdana;">';
         if(isset($group)) {
             echo 'All tests';
         } else {
@@ -47,19 +45,18 @@ class testsHtmlRunner implements iFilter
 
         foreach (testsFinder::getCategoriesList($casesDir) as $dirlist) {
             $name = substr(strrchr($dirlist, '/'), 1);
-            echo ' - <a href="run.php?group=' . $name . '" style="color: black; font: 11px tahoma,verdana,arial;">';
+            echo ', <a href="run.php?group=' . $name . '" style="font: 11px arial, tahoma,verdana; ';
 
             if(isset($group) && $name == $testGroup) {
-                 echo '<b>' . ucfirst($name) . ' tests</b></a>';
+                 echo 'font-weight: bold; color: #B56104;">' . ucfirst($name) . '</a>';
                  $curDir = $dirlist;
             } else {
-                 echo ucfirst($name) . ' tests</a>';
+                 echo 'color: black;">' . ucfirst($name) . '</a>';
             }
         }
 
-        echo "<br />";
         if(isset($curDir)) {
-            $subDirList = '<br /><div style="color: black; font: 12px tahoma,verdana,arial;">' . ucfirst($testGroup) . ' tests &gt;&gt;&gt; ';
+            $subDirList = '<br /><div style="color: black; font: 11px tahoma,verdana,arial;">- ' . ucfirst($testGroup) . ' tests: ';
             foreach(testsFinder::getDirsList($curDir) as $subDir) {
                 $subTest = explode('cases', $subDir);
                 $subTestDir = substr($subTest[1],1);
@@ -76,16 +73,14 @@ class testsHtmlRunner implements iFilter
 
         }
 
-
-        echo '<br /><font style="color: black; font: 11px tahoma,verdana,arial;">SimpleTest (' . SimpleTest::getVersion() . ') error counter: ' . simpletest_error_handler(0, 0, 0, 0) . '</font>';
-
+        echo '<p style="margin-top: 40px; padding-top: 7px; border-top: 1px solid #BBB; font-size: 60%; font-family: Verdana; color: #444; letter-spacing: -1px;" />';
         $action = new action('timer');
         $action->setAction('view');
         $timerFactory = new timerFactory($action);
         $timer = $timerFactory->getController();
         echo $timer->getView();
-
-        echo '</body></html>';
+        echo '. SimpleTest (' . SimpleTest::getVersion() . ') <b>' . simpletest_error_handler(0, 0, 0, 0) . '</b> errors.';
+        echo '</p></body></html>';
         $result = ob_get_contents();
         ob_end_clean();
         $response->append($result);
