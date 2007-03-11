@@ -1,5 +1,5 @@
 {literal}
-<script>
+<script language="JavaScript">
 function loadForm(id)
 {
 {/literal}
@@ -8,17 +8,17 @@ function loadForm(id)
 {literal}
     new Ajax.Request(url,
     {
-    method:'get',
-    parameters: { 
-        type: id 
-    },
-    onSuccess: 
-        function(transport){
-            var response = transport.responseText;
-            document.getElementById('testform').innerHTML = response;
+        method:'get',
+            parameters: { 
+            type: id 
         },
-    onFailure: 
-        function(){ alert('Something went wrong...') }
+        onSuccess: 
+            function(transport){
+                var response = transport.responseText;
+                document.getElementById('testform').innerHTML = response;
+            },
+        onFailure: 
+            function(){ alert('Something went wrong...') }
     });
 }
 </script>
@@ -46,3 +46,4 @@ function loadForm(id)
     </table>
 </form>
 </div>
+<script language="JavaScript">//loadForm(document.getElementById('type').value);</script>

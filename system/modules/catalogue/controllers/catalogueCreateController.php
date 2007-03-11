@@ -12,10 +12,6 @@
  * @version $Id$
  */
 
-//fileLoader::load('catalogue/forms/catalogueAddStepOneForm');
-//fileLoader::load('catalogue/forms/catalogueAddStepTwoForm');
-
-fileLoader::load('catalogue/forms/catalogueSaveForm');
 fileLoader::load('catalogue/forms/catalogueCreateForm');
 
 /**
@@ -38,17 +34,18 @@ class catalogueCreateController extends simpleController
 
         $types = $catalogueMapper->getAllTypes();
 
+        if(empty($types)){
+            return 'Нет типов';
+        }
+
         $createType = $this->request->get('type', 'integer', SC_GET);
 
         if ($this->request->getMethod() == 'POST'){
-            if($createType == 0){
-                $createType = $this->request->get('type', 'integer', SC_POST);
-            }
+            $createType = $this->request->get('type', 'integer', SC_POST);
         }
-        $properties = array();
-        if($createType != 0){
-            $properties = $catalogueMapper->getProperties($createType);
-        }
+
+        $properties = $catalogueMapper->getProperties( ($createType == 0) ? $types[0]['id'] : $createType);
+
         $form = catalogueCreateForm::getForm($types, $folder, $createType, $properties);
 
         $fields = array();
@@ -74,6 +71,8 @@ class catalogueCreateController extends simpleController
             return jipTools::redirect();
         } else {
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+            $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
+            $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
             $form->accept($renderer);
 
             $this->smarty->assign('form', $renderer->toArray());

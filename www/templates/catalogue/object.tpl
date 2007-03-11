@@ -1,4 +1,5 @@
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
+<div class="jipTitle">Редактирование</div>
+<form onsubmit="return mzzAjax.sendForm(this);" {$form.attributes}>
 {$form.hidden}
 {$form.javascript}
     <table border="0" cellpadding="0" cellspacing="1" width="50%">

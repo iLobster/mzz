@@ -40,45 +40,45 @@ class catalogueCreateForm
         $url->addParam('name', $folder->getPath());
 
         $form = new HTML_QuickForm('frmSave', 'POST', $url->get());
-        
+
         $select = array();
         foreach($types as $type){
             $select[$type['id']] = $type['title'];
         }
-        
-        $form->addElement('select', 'type', 'Тип', $select, array("onchange" => "javascript:loadForm(this.value);", "onkeypress" => "this.onchange();"));
-        
+
+        $form->addElement('select', 'type', 'Тип', $select, array("id" => "type", "onchange" => "javascript:loadForm(this.value);", "onkeypress" => "this.onchange();"));
+
         if($curType != 0){
             $form->setDefaults(array('type' => $curType));
         }
-        
+
         foreach($properties as $property){
             $name = $property['name'];
             $title = $property['title'];
             switch($property['type']){
                 case 'char':
                     $form->addElement('text', $name, $title, 'size="30"');
-                    $form->addRule($property['name'], $property['title'].' обязательно для заполнения', 'required', '', 'client');
+                    $form->addRule($property['name'], 'Поле "'.$title.'" обязательно для заполнения', 'required', '', 'client');
                     break;
 
                 case 'int':
                     $form->addElement('text', $name, $title, 'size="30"');
-                    $form->addRule($name, $title . ' обязательно для заполнения', 'required');
-                    $form->addRule($name, $title . ' может принимать только значения (int)', 'numeric', '', 'client');
+                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
+                    $form->addRule($name, 'Поле "'.$title.'" может принимать только значения (int)', 'numeric', '', 'client');
                     break;
 
                 case 'text':
                     $form->addElement('textarea', $name, $title);
-                    $form->addRule($name, $title . ' обязательно для заполнения', 'required');
+                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
                     break;
 
                 default:
                     break;
             }
         }
-        
+
         $form->applyFilter('__ALL__', 'trim');
-        
+
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
         return $form;

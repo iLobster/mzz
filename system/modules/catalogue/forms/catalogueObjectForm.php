@@ -29,7 +29,7 @@ class catalogueObjectForm
      * @param array $type массив значений типа
      * @return object сгенерированная форма
      */
-    static function getForm( simpleCatalogue $catalogue )
+    static function getForm( simpleCatalogue $catalogue, Array $properties )
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
@@ -39,13 +39,39 @@ class catalogueObjectForm
         $url->setSection('catalogue');
         $url->addParam('id', $catalogue->getId());
 
-        $form = new HTML_QuickForm('frmObject', 'POST', $url->get());
+        $form = new HTML_QuickForm('frmEdit', 'POST', $url->get());
+
+
+        foreach($properties as $property){
+            $name = $property['name'];
+            $title = $property['title'];
+            switch($property['type']){
+                case 'char':
+                    $form->addElement('text', $name, $title, 'size="30"');
+                    $form->addRule($property['name'], 'Поле "'.$title.'" обязательно для заполнения', 'required', '', 'client');
+                    break;
+
+                case 'int':
+                    $form->addElement('text', $name, $title, 'size="30"');
+                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
+                    $form->addRule($name, 'Поле "'.$title.'" может принимать только значения (int)', 'numeric', '', 'client');
+                    break;
+
+                case 'text':
+                    $form->addElement('textarea', $name, $title);
+                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
+                    break;
+
+                default:
+                    break;
+            }
+        }
 
         $defaults = array();
         foreach($catalogue->exportOldProperties() as $property => $value){
-            $form->addElement('text', $property, $catalogue->getTitle($property), 'size="30"');
             $defaults[$property] = $value;
         }
+
         $form->setDefaults($defaults);
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');
