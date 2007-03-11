@@ -25,6 +25,11 @@ class userLoginController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
+        $prefix = $this->request->get('tplPrefix', 'string');
+        if (!empty($prefix)) {
+            $prefix .= '/';
+        }
+
         if (!$user->isLoggedIn()) {
             if (strtoupper($this->request->getMethod()) == 'POST') {
                 $login = $this->request->get('login', 'string', SC_POST);
@@ -52,11 +57,11 @@ class userLoginController extends simpleController
             $this->smarty->assign('user', null);
             $this->response->setTitle('Пользователь -> Авторизация');
 
-            return $this->smarty->fetch('user/login.tpl');
+            return $this->smarty->fetch('user/' . $prefix . 'login.tpl');
         }
 
         $this->smarty->assign('user', $user);
-        return $this->smarty->fetch('user/alreadyLogin.tpl');
+        return $this->smarty->fetch('user/' . $prefix . 'alreadyLogin.tpl');
     }
 }
 

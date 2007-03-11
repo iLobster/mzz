@@ -89,9 +89,6 @@ class adminMapper extends simpleMapper
     /**
      * Метод получения общей инормации об установленных модулях, разделах имеющих свои админки
      *
-     * @todo проанализировать метод и запрос (не нравится группировка - получается
-     * если не указан main_class то берется самый первый класс в качестве основного?)
-     *
      * @return array
      */
     public function getAdminInfo()
@@ -99,21 +96,19 @@ class adminMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
         $user = $toolkit->getUser();
 
-        $info = $this->db->getAll("SELECT `m`.`name` AS `module`, `ss`.`name` AS `section`, `ss`.`title` AS `section_title`, `c`.`name` AS `class`, `c2`.`name` AS `main_class`,
-                                    `m`.`title` as `module_title`, `m`.`icon` as `module_icon`, `m`.`order` as `module_order`
-                                     FROM `sys_modules` `m`
-                                      LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
-                                       LEFT JOIN `sys_classes_sections` `s` ON `s`.`class_id` = `c`.`id`
-                                        LEFT JOIN `sys_sections` `ss` ON `ss`.`id` = `s`.`section_id`
-                                         LEFT JOIN `sys_classes` `c2` ON `c2`.`id` = `m`.`main_class`
-                                         GROUP BY `ss`.`name`
-                                          ORDER BY `m`.`order`, `m`.`name`, `ss`.`name`, `c`.`name` DESC");
+        $info = $this->db->getAll("SELECT `m`.`name` AS `module`, `ss`.`name` AS `section`, `ss`.`title` AS `section_title`,
+                                   `c`.`name` AS `main_class`, `m`.`title` as `module_title`, `m`.`icon` as `module_icon`,
+                                    `m`.`order` as `module_order` FROM `sys_modules` `m`
+                                     LEFT JOIN `sys_classes` `c` ON `c`.`id` = `m`.`main_class`
+                                      LEFT JOIN `sys_classes_sections` `s` ON `s`.`class_id` = `c`.`id`
+                                       LEFT JOIN `sys_sections` `ss` ON `ss`.`id` = `s`.`section_id`
+                                        ORDER BY `m`.`order`, `ss`.`order`, `m`.`name`, `ss`.`name`");
         $result = array();
 
         $toolkit = systemToolkit::getInstance();
 
         foreach ($info as $val) {
-            $class = (!empty($val['main_class'])) ? $val['main_class'] : $val['class'];
+            $class = $val['main_class'];
 
             $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $class);
             $this->register($obj_id, 'sys', 'access');
@@ -122,7 +117,6 @@ class adminMapper extends simpleMapper
             if (isset($val['section'])) {
                 $action = $toolkit->getAction($val['module']);
                 $actions = $action->getActions();
-                // @todo у какого класса будет прописана админка?
                 $actions = $actions[$class];
 
                 if (isset($actions['admin']) && $acl->get('admin')) {

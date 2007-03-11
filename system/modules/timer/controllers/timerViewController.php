@@ -26,7 +26,12 @@ class timerViewController extends simpleController
         $timer = $this->toolkit->getTimer();
         $timer->finish();
         $this->smarty->assign('timer', $timer);
-        return $this->smarty->fetch('filter/time.tpl');
+
+        $prefix = $this->request->get('tplPrefix', 'string');
+        if (!empty($prefix)) {
+            $prefix .= '/';
+        }
+        return $this->smarty->fetch('filter/' . $prefix . 'time.tpl');
     }
 }
 

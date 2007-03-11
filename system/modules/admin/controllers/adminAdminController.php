@@ -19,7 +19,7 @@
  * @subpackage admin
  * @version 0.1.2
  */
- 
+
 class adminAdminController extends simpleController
 {
     public function getView()
@@ -41,11 +41,16 @@ class adminAdminController extends simpleController
          * @todo подумать над тем, что должно быть в случае 403 здесь
          */
         if ($access) {
+            $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+            $menu = $adminMapper->getAdminInfo();
             $this->smarty->assign('section_name', $section);
             $this->smarty->assign('module_name', $module);
+            unset($menu['admin']);
+            $this->smarty->assign('menu', $menu);
+
             return $this->smarty->fetch('admin/admin.tpl');
         }
-        
+
         return 'нет доступа';
     }
 }

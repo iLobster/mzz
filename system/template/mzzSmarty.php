@@ -20,7 +20,7 @@ fileLoader::load('template/IMzzSmarty');
 /**
  * mzzSmarty: модификация Smarty для работы с активными и пассивными шаблонами
  *
- * @version 0.5.1
+ * @version 0.5
  * @package system
  * @subpackage template
  */
@@ -46,8 +46,6 @@ class mzzSmarty extends Smarty
      * @var array
      */
     protected $activeXmlTemplate = false;
-
-    protected $prefix = null;
 
     /**
      * Выполняет шаблон и возвращает результат
@@ -206,16 +204,6 @@ class mzzSmarty extends Smarty
     public function isXml()
     {
         return $this->activeXmlTemplate !== false;
-    }
-
-    public function setPrefix($prefix)
-    {
-        $this->prefix = $prefix;
-    }
-
-    public function getPrefix()
-    {
-        return $this->prefix;
     }
 }
 ?>

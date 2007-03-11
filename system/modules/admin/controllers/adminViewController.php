@@ -26,11 +26,10 @@ class adminViewController extends simpleController
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
-        $info = $adminMapper->getAdminInfo();
-print_r($info);
-        $this->smarty->assign('info', $info);
-        //$this->smarty->assign('cfgAccess', $info['cfgAccess']);
-        //$this->smarty->assign('admin', $info['admin']);
+        $info = $adminMapper->getInfo();
+        $this->smarty->assign('info', $info['data']);
+        $this->smarty->assign('cfgAccess', $info['cfgAccess']);
+        $this->smarty->assign('admin', $info['admin']);
         $this->smarty->assign('title', 'Панель управления');
         return $this->smarty->fetch('admin/view.tpl');
     }

@@ -45,7 +45,7 @@ div.jipSuccess {
 }
 
 .jipLoadJs {
-    font-size: 80%; 
+    font-size: 80%;
     color: #555;
 }
 
@@ -78,6 +78,11 @@ div.jipSuccess {
     position: absolute;
     z-index: 50000;
     line-height: 100%;
+    text-align: left !important;
+}
+
+.jipMenu img {
+    border: 0;
 }
 
 .jipMenuClose {

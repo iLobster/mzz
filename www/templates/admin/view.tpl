@@ -1,29 +1,5 @@
-{add file="popup.js"}
-
-
-
 <a href="{url route=default2 section="admin" action="devToolbar"}">developer toolbar</a>
-<table border="0" cellspacing="0" cellpadding="0" width="100%">
-    {foreach from=$info item=module key=module_name}
-        <tr>
-            <td colspan="3">
-                {$module_name}
-            </td>
-        </tr>
-        {foreach from=$module.sections item=section key=section_name}
-            <tr>
-                <td>&nbsp;</td>
-                <td colspan="2">
-                    {$section_name}
-                </td>
 
-            </tr>
-        {/foreach}
-    {/foreach}
-</table>
-
-{*
-<a href="{url route=default2 section="admin" action="devToolbar"}">developer toolbar</a>
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     {foreach from=$info item=module key=module_name}
         <tr>
@@ -51,5 +27,3 @@
         {/foreach}
     {/foreach}
 </table>
-
-    *}

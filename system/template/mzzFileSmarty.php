@@ -50,17 +50,6 @@ class mzzFileSmarty implements IMzzSmarty
      */
     public function fetch($resource, $cache_id = null, $compile_id = null, $display = false)
     {
-        $prefix = $this->smarty->getPrefix();
-        if (!empty($prefix)) {
-            $resource[1] = str_replace('\\', '/', $resource[1]);
-            $pos = strrpos($resource[1], '/');
-            if ($pos === false) {
-                $resource[1] = $prefix . '/' . $resource[1];
-            } else {
-                $resource[1] = substr($resource[1], 0, $pos + 1) . $prefix . '/' . substr($resource[1], $pos + 1);
-            }
-        }
-
         // Для определения активного шаблоного достаточно прочитать первые 256 байтов из шаблона
         $fileName = $this->getTemplateDir() . DIRECTORY_SEPARATOR . $resource[1];
         if (!file_exists($fileName)) {
