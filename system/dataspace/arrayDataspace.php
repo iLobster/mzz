@@ -71,7 +71,7 @@ class arrayDataspace implements iDataspace
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
 
-        return ($this->exists($key)) ? $this->data[$key] : null;
+        return (isset($this->data[$key])) ? $this->data[$key] : null;
     }
 
     /**

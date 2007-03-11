@@ -47,6 +47,8 @@ class mzzSmarty extends Smarty
      */
     protected $activeXmlTemplate = false;
 
+    protected $prefix = null;
+
     /**
      * Выполняет шаблон и возвращает результат
      * Декорирован для реализации вложенных шаблонов.
@@ -204,6 +206,16 @@ class mzzSmarty extends Smarty
     public function isXml()
     {
         return $this->activeXmlTemplate !== false;
+    }
+
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+    }
+
+    public function getPrefix()
+    {
+        return $this->prefix;
     }
 }
 ?>

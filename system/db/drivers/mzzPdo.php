@@ -50,7 +50,7 @@ class mzzPdo extends PDO
     private $queriesTime = 0;
 
     /**
-     * число "приготовленных" запросов (prepared)
+     * число "приготовленных" (prepared) запросов
      *
      * @var int
      */
@@ -114,11 +114,11 @@ class mzzPdo extends PDO
      */
     public function query($query)
     {
-        //var_dump($query); echo '<br><br>';
+        //var_dump($query); echo '<br>';
         $this->queriesNum++;
         $start_time = microtime(true);
         $result = parent::query($query);
-        if($result instanceof mzzPdoStatement) {
+        if ($result instanceof mzzPdoStatement) {
             $result->setDbConnection($this);
         }
         $this->addQueriesTime(microtime(true) - $start_time);
@@ -268,15 +268,12 @@ class mzzPdo extends PDO
     public function getAll($query, $fetch_style = PDO::FETCH_BOTH, $column_index = 0)
     {
         $stmt = $this->query($query);
-        // bug in PDO?
+        // PDO-bug fix
         if ($column_index === 0) {
             $rows = $stmt->fetchAll($fetch_style);
         } else {
             $rows = $stmt->fetchAll($fetch_style, $column_index);
         }
-        /*while ($row = $stmt->fetch()) {
-            $rows[] = $row;
-        }*/
         $stmt->closeCursor();
         return $rows;
     }

@@ -17,7 +17,7 @@
 /**
  * mzzFileSmarty: модификаци€ Smarty дл€ работы с файлами-шаблонами
  *
- * @version 0.5
+ * @version 0.6
  * @package system
  * @subpackage template
  */
@@ -50,10 +50,19 @@ class mzzFileSmarty implements IMzzSmarty
      */
     public function fetch($resource, $cache_id = null, $compile_id = null, $display = false)
     {
-        //$resource_name = $this->getResourceFileName($resource[1], $this->smarty);
+        $prefix = $this->smarty->getPrefix();
+        if (!empty($prefix)) {
+            $resource[1] = str_replace('\\', '/', $resource[1]);
+            $pos = strrpos($resource[1], '/');
+            if ($pos === false) {
+                $resource[1] = $prefix . '/' . $resource[1];
+            } else {
+                $resource[1] = substr($resource[1], 0, $pos + 1) . $prefix . '/' . substr($resource[1], $pos + 1);
+            }
+        }
 
         // ƒл€ определени€ активного шаблоного достаточно прочитать первые 256 байтов из шаблона
-        $fileName = $this->getTemplateDir() . '/' . $resource[1];
+        $fileName = $this->getTemplateDir() . DIRECTORY_SEPARATOR . $resource[1];
         if (!file_exists($fileName)) {
             throw new mzzRuntimeException("Ўаблон <em>'" . $fileName . "'</em> отсутствует.");
         }
@@ -70,29 +79,6 @@ class mzzFileSmarty implements IMzzSmarty
 
     }
 
-    /**
-     * ѕолучает и возвращает относительный путь к исходнику шаблонов.
-     * ≈сли нужный шаблон находитс€ в корне папки с шаблонами, то изменений нет,
-     * если в корне нет, то к относительному путю прибавл€етс€ перва€ часть имени до точки.
-     *
-     * ѕример:
-     * <code>
-     * news.view.tpl -> news/news.view.tpl
-     * main.tpl -> main.tpl
-     * </code>
-     *
-     * @param string $name
-     * @return string
-     * @deprecated вместо news.view.tpl использовать news/view.tpl
-     */
-    /*public function getResourceFileName($name)
-    {
-        if (!is_file($this->getTemplateDir() . '/' . $name)) {
-            $subdir = substr($name, 0, strpos($name, '.'));
-            return $subdir . '/' . $name;
-        }
-        return $name;
-    }*/
 
     /**
      * ¬озвращает директорию с исходниками шаблонов

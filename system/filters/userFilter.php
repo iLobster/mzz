@@ -46,10 +46,10 @@ class userFilter implements iFilter
                 $user_id = $userAuth->getUserId();
                 $session->set('user_id', $user_id);
             }
-        }
 
-        if (is_null($user_id)) {
-            $user_id = MZZ_USER_GUEST_ID;
+            if (is_null($user_id)) {
+                $user_id = MZZ_USER_GUEST_ID;
+            }
         }
 
         $userMapper = $toolkit->getMapper('user', 'user', 'user');

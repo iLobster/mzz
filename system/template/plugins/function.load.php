@@ -50,6 +50,12 @@ function smarty_function_load($params, $smarty)
     $action = $toolkit->getAction($module);
     $action->setAction($params['action']);
     unset($params['action']);
+    $withTplPrefix = false;
+    if (isset($params['tplPrefix'])) {
+        $smarty->setPrefix($params['tplPrefix']);
+        unset($params['tplPrefix']);
+        $withTplPrefix = true;
+    }
 
     $request = $toolkit->getRequest();
     $request->save();
@@ -117,6 +123,9 @@ function smarty_function_load($params, $smarty)
 
     $view = $controller->run();
     $request->restore();
+    if ($withTplPrefix) {
+        $smarty->setPrefix(null);
+    }
     return $view;
 }
 

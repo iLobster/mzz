@@ -20,6 +20,7 @@
  * @package system
  * @subpackage db
  * @version 0.1
+ * @deprecated загружайте дампы ручками
  */
 class dbDumpCheck
 {

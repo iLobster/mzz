@@ -95,9 +95,9 @@ class acl
      * конструктор
      *
      * @param user $user
-     * @param integer $object_id
-     * @param string_type $class
-     * @param string $section
+     * @param integer $object_id идентификатор объекта
+     * @param string $class имя класса
+     * @param string $section имя секции
      */
     public function __construct($user = null, $object_id = 0, $class = '', $section = '')
     {
@@ -111,14 +111,14 @@ class acl
         }
         //var_dump($this->db->getQueriesNum());
         if (!($user instanceof user)) {
-            throw new mzzInvalidParameterException('Переменная $user не является инстанцией класса user', $user);
+            throw new mzzInvalidParameterException('Полученный объект не является инстанцией класса user', $user);
         }
 
         $this->class = $class;
         $this->section = $section;
 
         if (!is_int($object_id)) {
-            throw new mzzInvalidParameterException('Переменная object_id не является переменной целочисленного типа', $object_id);
+            throw new mzzInvalidParameterException('Идентификатор объекта не целочисленного типа', $object_id);
         }
 
         $this->obj_id = $object_id;
@@ -211,11 +211,11 @@ class acl
     {
         $gid = (int)$gid;
 
-        if ($gid <= 0) {
-            throw new mzzRuntimeException("Идентификатор группы должен (gid = '" . $gid . "')быть >= 1");
+        if ($gid < 1) {
+            throw new mzzRuntimeException("Идентификатор группы должен быть > 0 (gid = '" . $gid . "')");
         }
 
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `gid` = ' .  (int)$gid);
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `gid` = ' .  $gid);
     }
 
     /**
@@ -248,11 +248,11 @@ class acl
     {
         $uid = (int)$uid;
 
-        if ($uid <= 0) {
-            throw new mzzRuntimeException("Идентификатор пользователя должен (uid = '" . $uid . "')быть >= 1");
+        if ($uid < 1) {
+            throw new mzzRuntimeException("Идентификатор пользователя должен быть > 0 (uid = '" . $uid . "')");
         }
 
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `uid` = ' .  (int)$uid);
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `uid` = ' .  $uid);
     }
 
     /**
@@ -489,7 +489,7 @@ class acl
         }
 
         if (!isset($this->validActions[$this->obj_id]) || !sizeof($this->validActions[$this->obj_id])) {
-            throw new mzzRuntimeException('Выбранный объект не зарегистрирован в acl');
+            throw new mzzRuntimeException('Объект с идентификатором ' . $this->obj_id . ' не зарегистрирован в acl');
         }
 
         if (!is_array($param)) {
@@ -505,7 +505,7 @@ class acl
 
         foreach ($param as $key => $val) {
             if (!isset($this->validActions[$this->obj_id][$key])) {
-                throw new mzzInvalidParameterException('У выбранного объекта нет изменяемого действия', $key);
+                throw new mzzRuntimeException("У объекта " . $this->obj_id . " нет изменяемого действия '" . $key . "'");
             }
 
             if (is_array($val)) {
@@ -580,7 +580,7 @@ class acl
 
         foreach ($param as $key => $val) {
             if (!isset($this->validActions[$this->class][$key])) {
-                throw new mzzInvalidParameterException('У выбранного класса нет изменяемого действия', $key);
+                throw new mzzRuntimeException("У класса " . $this->class . " нет изменяемого действия '" . $key . "'");
             }
 
             if (is_array($val)) {
@@ -627,28 +627,23 @@ class acl
     {
         $this->obj_id = (int)$obj_id;
 
-        if ($this->obj_id <= 0) {
-            throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
+        if ($this->obj_id < 1) {
+            throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа со значением > 0', $this->obj_id);
         }
 
         $id = $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = ' . $this->obj_id);
 
         if (!$id) {
-
-            if (!empty($class)) {
+            if (empty($class) || !is_string($class)) {
+                throw new mzzInvalidParameterException('Класс не указан или имеет тип, отличный от string', $this->class);
+            } else {
                 $this->class = $class;
             }
 
-            if (!empty($section)) {
+            if (empty($section) || !is_string($section)) {
+                throw new mzzInvalidParameterException('Секция не указана или имеет тип, отличный от string', $this->section);
+            } else {
                 $this->section = $section;
-            }
-
-            if (empty($this->class) || !is_string($this->class)) {
-                throw new mzzInvalidParameterException('Свойство $class не установлено или имеет тип, отличный от string', $this->class);
-            }
-
-            if (empty($this->section) || !is_string($this->section)) {
-                throw new mzzInvalidParameterException('Свойство $section не установлено или имеет тип, отличный от string', $this->section);
             }
 
             $qry = $this->getQuery();
@@ -729,14 +724,15 @@ class acl
         $module = $this->db->getOne($qry);
 
         if (is_null($module)) {
-            throw new mzzRuntimeException('Выбранный объект не зарегистрирован в acl');
+            throw new mzzRuntimeException('Требуемый объект не зарегистрирован в acl');
         }
 
         return $module;
     }
 
     /**
-     * Метод получения идентификатора класс-секция, характеризующего принадлежность объекта к конкретному классу, расположенному в конкретном разделе
+     * Метод получения идентификатора класс-секция, характеризующего принадлежность объекта к
+     * конкретному классу, расположенному в конкретном разделе
      *
      * @param string $class
      * @param string $section
@@ -843,13 +839,18 @@ class acl
         }
     }
 
+    /**
+     * Устанавливает идентификатор проверяемого объекта как текущий
+     *
+     * @param integer $obj_id
+     */
     public function setObjId($obj_id)
     {
-        $this->obj_id = $obj_id;
+        $this->obj_id = (int)$obj_id;
     }
 
     /**
-     * бинд всех переменных в стейтмент
+     * Привязка переменных в подготовленный запрос
      *
      * @param mzzStatement $stmt
      * @param boolean $additionArgs
@@ -863,7 +864,7 @@ class acl
             $stmt->bindParam(':section', $this->section);
             $stmt->bindParam(':class', $this->class);
         } else {
-            if ($this->obj_id <= 0) {
+            if ($this->obj_id < 1) {
                 throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
             }
             $stmt->bindParam(':obj_id', $this->obj_id);

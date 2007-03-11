@@ -117,7 +117,8 @@ class aclTest extends unitTestCase
             $acl = new acl('news', 'news', 'foo');
             $this->fail('Не было брошено исключение');
         } catch (mzzInvalidParameterException $e) {
-            $this->assertPattern('/\$user не является инстанцией/', $e->getMessage());
+            $this->assertPattern('/объект не является инстанцией класса user/', $e->getMessage());
+            $this->pass();
         } catch (Exception $e) {
             $this->fail('Брошено не ожидаемое исключение');
         }
@@ -191,8 +192,9 @@ class aclTest extends unitTestCase
         try {
             $this->acl->set('foo', 1);
             $this->fail('Должно быть брошено исключение');
-        } catch (mzzInvalidParameterException $e) {
-            $this->assertPattern('/У выбранного объекта .*foo/', $e->getMessage());
+        } catch (mzzRuntimeException $e) {
+            $this->assertPattern("/объекта 1 нет изменяемого действия 'foo'/", $e->getMessage());
+            $this->pass();
         } catch (Exception $e) {
             $this->fail('Брошено не ожидаемое исключение');
         }
@@ -205,7 +207,8 @@ class aclTest extends unitTestCase
             $acl->set('foo', 1);
             $this->fail('Должно быть брошено исключение');
         } catch (mzzRuntimeException $e) {
-            $this->assertEqual('Выбранный объект не зарегистрирован в acl', $e->getMessage());
+            $this->assertEqual('Объект с идентификатором 666 не зарегистрирован в acl', $e->getMessage());
+            $this->pass();
         } catch (Exception $e) {
             $this->fail('Брошено не ожидаемое исключение');
         }
