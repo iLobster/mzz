@@ -15,7 +15,7 @@
 fileLoader::load('catalogue/forms/catalogueTypeForm');
 
 /**
- * catalogueSaveTypeController: контроллер для метода editType модуля catalogue
+ * catalogueSaveTypeController: контроллер для метода saveType модуля catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -30,7 +30,7 @@ class catalogueSaveTypeController extends simpleController
         $properties = $catalogueMapper->getAllProperties();
 
         $action = $this->request->getAction();
-        
+
         if($action == 'editType'){
             $type_id = $this->request->get('id', 'integer', SC_PATH);
 
@@ -43,7 +43,7 @@ class catalogueSaveTypeController extends simpleController
         } else {
             $form = catalogueTypeForm::getForm($properties);
         }
-        
+
         if($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
@@ -54,13 +54,13 @@ class catalogueSaveTypeController extends simpleController
         } else {
             $values = $form->exportValues();
             $values['properties'] = (isset($values['properties'])) ? $values['properties'] : array();
-            
+
             if($action == 'editType'){
                 $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']));
             } else {
                 $catalogueMapper->addType($values['name'], $values['title'], array_keys($values['properties']));
             }
-            
+
             return jipTools::redirect();
         }
     }

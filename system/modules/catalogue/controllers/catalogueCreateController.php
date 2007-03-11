@@ -16,6 +16,7 @@
 //fileLoader::load('catalogue/forms/catalogueAddStepTwoForm');
 
 fileLoader::load('catalogue/forms/catalogueSaveForm');
+fileLoader::load('catalogue/forms/catalogueCreateForm');
 
 /**
  * catalogueCreateController: контроллер для метода create модуля catalogue
@@ -33,43 +34,51 @@ class catalogueCreateController extends simpleController
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
         $path = $this->request->get('name', 'string', SC_PATH);
-        $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
+        $folder = $catalogueFolderMapper->searchByPath($path);
 
         $types = $catalogueMapper->getAllTypes();
 
-        $createType = $this->request->get('typeId', 'integer', SC_POST);
+        $createType = $this->request->get('type', 'integer', SC_GET);
 
-        if($createType){
-            $properties = $catalogueMapper->getProperties($createType);
-            $form = catalogueSaveForm::getForm($properties, $catalogueFolder, $createType);
-
-            if($form->validate() == false){
-                return 'Ошибки при вводе данных в форму';
-            } else {
-                $fields = array();
-                foreach($properties as $property){
-                    $fields[] = $property['name'];
-                }
-
-                $values = $form->exportValues();
-
-                $catalogue = $catalogueMapper->create();
-                $catalogue->setType($createType);
-                $catalogue->setCreated(777);
-                $catalogue->setEditor(10);
-
-                $catalogue->setFolder($catalogueFolder);
-
-                foreach ($fields as $field) {
-                    $catalogue->setProperty($field, $values[$field]);
-                }
-                $catalogueMapper->save($catalogue);
-                
-                return jipTools::redirect();
+        if ($this->request->getMethod() == 'POST'){
+            if($createType == 0){
+                $createType = $this->request->get('type', 'integer', SC_POST);
             }
+        }
+        $properties = array();
+        if($createType != 0){
+            $properties = $catalogueMapper->getProperties($createType);
+        }
+        $form = catalogueCreateForm::getForm($types, $folder, $createType, $properties);
+
+        $fields = array();
+        foreach($properties as $property){
+            $fields[] = $property['name'];
+        }
+
+        if ($form->validate()){
+            $values = $form->exportValues();
+
+            $item = $catalogueMapper->create();
+            $item->setType($values['type']);
+            $item->setFolder($folder);
+            $item->setEditor(1);
+            $item->setCreated(1);
+
+            foreach ($fields as $field) {
+            	$item->setProperty($field, $values[$field]);
+            }
+
+            $catalogueMapper->save($item);
+
+            return jipTools::redirect();
         } else {
-            $this->smarty->assign('folder', $catalogueFolder->getId());
-            $this->smarty->assign('types', $types);
+            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+            $form->accept($renderer);
+
+            $this->smarty->assign('form', $renderer->toArray());
+            $this->smarty->assign('folder', $folder);
+            $this->smarty->assign('fields', $fields);
             return $this->smarty->fetch('catalogue/create.tpl');
         }
     }

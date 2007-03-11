@@ -19,7 +19,7 @@
  * @subpackage catalogue
  * @version 0.1
  */
-class catalogueSaveForm
+class catalogueCreateForm
 {
     /**
      * метод получения формы
@@ -29,8 +29,29 @@ class catalogueSaveForm
      * @param array $type массив значений типа
      * @return object сгенерированная форма
      */
-    static function getForm($form, Array $properties)
+    static function getForm(Array $types, catalogueFolder $folder, $curType, Array $properties)
     {
+        fileLoader::load('libs/PEAR/HTML/QuickForm');
+        fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
+
+        $url = new url('withAnyParam');
+        $url->setAction('create');
+        $url->setSection('catalogue');
+        $url->addParam('name', $folder->getPath());
+
+        $form = new HTML_QuickForm('frmSave', 'POST', $url->get());
+        
+        $select = array();
+        foreach($types as $type){
+            $select[$type['id']] = $type['title'];
+        }
+        
+        $form->addElement('select', 'type', 'Тип', $select, array("onchange" => "javascript:loadForm(this.value);", "onkeypress" => "this.onchange();"));
+        
+        if($curType != 0){
+            $form->setDefaults(array('type' => $curType));
+        }
+        
         foreach($properties as $property){
             $name = $property['name'];
             $title = $property['title'];
@@ -55,7 +76,11 @@ class catalogueSaveForm
                     break;
             }
         }
+        
         $form->applyFilter('__ALL__', 'trim');
+        
+        $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
+        $form->addElement('submit', 'submit', 'Сохранить');
         return $form;
     }
 }
