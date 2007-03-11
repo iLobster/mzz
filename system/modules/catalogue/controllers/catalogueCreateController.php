@@ -34,14 +34,15 @@ class catalogueCreateController extends simpleController
 
         $types = $catalogueMapper->getAllTypes();
         if (empty($types)){
-            return 'Нет типов';
+            $controller = new messageController('Отсутствуют типы', messageController::WARNING);
+            return $controller->run();
         }
 
-        $createType = $this->request->get('type', 'integer', SC_GET);
+        $createType = $this->request->get('type', 'integer', SC_GET | SC_POST);
 
-        if ($this->request->getMethod() == 'POST'){
+        /*if ($this->request->getMethod() == 'POST'){
             $createType = $this->request->get('type', 'integer', SC_POST);
-        }
+        }*/
 
         $properties = $catalogueMapper->getProperties( ($createType == 0) ? $types[0]['id'] : $createType);
 
@@ -72,7 +73,7 @@ class catalogueCreateController extends simpleController
             $item->setCreated(1);
 
             foreach ($fields as $field) {
-            	$item->setProperty($field, $values[$field]);
+                $item->setProperty($field, $values[$field]);
             }
 
             $catalogueMapper->save($item);

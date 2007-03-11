@@ -520,7 +520,8 @@ class dbTreeNS
 
     private function getRootName()
     {
-        $root = array_pop($this->getTree(1));
+        $tree = $this->getTree(1);
+        $root = array_pop($tree);
         $map = $root->getMap();
         $accessor = $map[$this->getInnerField()]['accessor'];
         return $root->$accessor();
@@ -561,7 +562,7 @@ class dbTreeNS
         $stmt->bindParam(':lkey', $lastNode['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $lastNode['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':high_level', $lastNode['level'], PDO::PARAM_INT);
-        $stmt->bindParam(':level', $level = $lastNode['level'] + $deep, PDO::PARAM_INT);
+        $stmt->bindValue(':level', $lastNode['level'] + $deep, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return $this->createBranchFromRow($stmt);
@@ -721,7 +722,7 @@ class dbTreeNS
         $stmt = $this->db->prepare('INSERT INTO `' .$this->table . '` SET `lkey` = 1, `rkey` = :new_max_right_key, `level` = 1' .
         ($this->isMultipleTree() ? ', `' . $this->treeField . '` = ' . $this->treeFieldID : ' '));
 
-        $stmt->bindParam(':new_max_right_key', $v = $maxRightKey + 2, PDO::PARAM_INT);
+        $stmt->bindValue(':new_max_right_key', $maxRightKey + 2, PDO::PARAM_INT);
         $stmt->execute();
 
         $map = $newRootNode->getMap();

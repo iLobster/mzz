@@ -277,7 +277,7 @@ abstract class simpleMapper
                 $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `' . $this->tableKey . '` = :id');
 
                 $stmt->bindValues($fields);
-                $stmt->bindParam(':id', $object->getId(), PDO::PARAM_INT);
+                $stmt->bindValue(':id', $object->getId(), PDO::PARAM_INT);
                 $result = $stmt->execute();
             }
 

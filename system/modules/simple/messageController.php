@@ -29,7 +29,7 @@ class messageController extends simpleController
     private $type;
     private $templates;
 
-    public function __construct($message, $type)
+    public function __construct($message, $type = messageController::WARNING)
     {
         parent::__construct();
 
