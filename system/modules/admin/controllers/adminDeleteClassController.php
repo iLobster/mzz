@@ -19,7 +19,7 @@ fileLoader::load('codegenerator/classGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class adminDeleteClassController extends simpleController
@@ -53,8 +53,14 @@ class adminDeleteClassController extends simpleController
         $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
 
         if ($modules[$data['module_id']]['main_class'] == $data['id']) {
-            $controller = new messageController('Нельзя удалить класс, он является главным для этого модуля', messageController::WARNING);
-            return $controller->run();
+            if (sizeof($modules[$data['module_id']]['classes']) > 1) {
+                $controller = new messageController('Нельзя удалить класс, он является главным для этого модуля', messageController::WARNING);
+                return $controller->run();
+            } else {
+                $stmt = $db->prepare('UPDATE `sys_modules` SET `main_class` = NULL WHERE `id` = :id');
+                $stmt->bindValue(':id', $data['module_id'], PDO::PARAM_INT);
+                $stmt->execute();
+            }
         }
 
         $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
