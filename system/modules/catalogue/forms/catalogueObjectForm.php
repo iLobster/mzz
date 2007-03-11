@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('catalogue/forms/catalogueAssignForm');
+
 /**
  * catalogueObjectForm: форма для метода save модуля page
  *
@@ -41,36 +43,13 @@ class catalogueObjectForm
 
         $form = new HTML_QuickForm('frmEdit', 'POST', $url->get());
 
-
-        foreach($properties as $property){
-            $name = $property['name'];
-            $title = $property['title'];
-            switch($property['type']){
-                case 'char':
-                    $form->addElement('text', $name, $title, 'size="30"');
-                    $form->addRule($property['name'], 'Поле "'.$title.'" обязательно для заполнения', 'required', '', 'client');
-                    break;
-
-                case 'int':
-                    $form->addElement('text', $name, $title, 'size="30"');
-                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
-                    $form->addRule($name, 'Поле "'.$title.'" может принимать только значения (int)', 'numeric', '', 'client');
-                    break;
-
-                case 'text':
-                    $form->addElement('textarea', $name, $title);
-                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
-                    break;
-
-                default:
-                    break;
-            }
-        }
+        catalogueAssignForm::assign($form, $properties);
 
         $defaults = array();
         foreach($catalogue->exportOldProperties() as $property => $value){
             $defaults[$property] = $value;
         }
+        $form->applyFilter('__ALL__', 'trim');
 
         $form->setDefaults($defaults);
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');

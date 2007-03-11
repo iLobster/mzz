@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/catalogue/forms/catalogueSaveForm.php $
+ * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/catalogue/forms/catalogueCreateForm.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,11 +9,13 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: catalogueSaveForm.php 1410 2007-03-08 02:52:55Z striker $
+ * @version $Id: catalogueCreateForm.php 1410 2007-03-08 02:52:55Z striker $
  */
 
+fileLoader::load('catalogue/forms/catalogueAssignForm');
+
 /**
- * catalogueSaveForm: форма для метода save модуля page
+ * catalogueCreateForm: форма для метода create модуля catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -48,34 +50,9 @@ class catalogueCreateForm
 
         $form->addElement('select', 'type', 'Тип', $select, array("id" => "type", "onchange" => "javascript:loadForm(this.value);", "onkeypress" => "this.onchange();"));
 
-        if($curType != 0){
-            $form->setDefaults(array('type' => $curType));
-        }
+        $form->setDefaults(array('type' => $curType));
 
-        foreach($properties as $property){
-            $name = $property['name'];
-            $title = $property['title'];
-            switch($property['type']){
-                case 'char':
-                    $form->addElement('text', $name, $title, 'size="30"');
-                    $form->addRule($property['name'], 'Поле "'.$title.'" обязательно для заполнения', 'required', '', 'client');
-                    break;
-
-                case 'int':
-                    $form->addElement('text', $name, $title, 'size="30"');
-                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
-                    $form->addRule($name, 'Поле "'.$title.'" может принимать только значения (int)', 'numeric', '', 'client');
-                    break;
-
-                case 'text':
-                    $form->addElement('textarea', $name, $title);
-                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
-                    break;
-
-                default:
-                    break;
-            }
-        }
+        catalogueAssignForm::assign($form, $properties);
 
         $form->applyFilter('__ALL__', 'trim');
 

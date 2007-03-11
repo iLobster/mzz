@@ -36,7 +36,7 @@ class catalogueEditController extends simpleController
 
         $form = catalogueObjectForm::getForm($catalogue, $properties);
 
-        if($form->validate() == false){
+        if ($form->validate() == false){
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
             $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');

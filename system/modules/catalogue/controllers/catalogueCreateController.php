@@ -33,8 +33,7 @@ class catalogueCreateController extends simpleController
         $folder = $catalogueFolderMapper->searchByPath($path);
 
         $types = $catalogueMapper->getAllTypes();
-
-        if(empty($types)){
+        if (empty($types)){
             return 'Нет типов';
         }
 
@@ -53,7 +52,17 @@ class catalogueCreateController extends simpleController
             $fields[] = $property['name'];
         }
 
-        if ($form->validate()){
+        if ($form->validate() == false){
+            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+            $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
+            $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
+            $form->accept($renderer);
+
+            $this->smarty->assign('form', $renderer->toArray());
+            $this->smarty->assign('folder', $folder);
+            $this->smarty->assign('fields', $fields);
+            return $this->smarty->fetch('catalogue/create.tpl');
+        } else {
             $values = $form->exportValues();
 
             $item = $catalogueMapper->create();
@@ -69,16 +78,6 @@ class catalogueCreateController extends simpleController
             $catalogueMapper->save($item);
 
             return jipTools::redirect();
-        } else {
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
-            $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
-            $form->accept($renderer);
-
-            $this->smarty->assign('form', $renderer->toArray());
-            $this->smarty->assign('folder', $folder);
-            $this->smarty->assign('fields', $fields);
-            return $this->smarty->fetch('catalogue/create.tpl');
         }
     }
 }

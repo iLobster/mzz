@@ -15,7 +15,7 @@ function loadForm(id)
         onSuccess: 
             function(transport){
                 var response = transport.responseText;
-                document.getElementById('testform').innerHTML = response;
+                document.getElementById('ajaxGetForm').innerHTML = response;
             },
         onFailure: 
             function(){ alert('Something went wrong...') }
@@ -24,7 +24,7 @@ function loadForm(id)
 </script>
 {/literal}
 
-<div id="testform">
+<div id="ajaxGetForm">
 <div class="jipTitle">Добавление нового элемента - выбор типа создаваемого элемента</div>
 <form onsubmit="return mzzAjax.sendForm(this);" {$form.attributes} >
 {$form.javascript}
