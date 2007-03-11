@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
 class adminAddSectionForm
 {
@@ -40,6 +40,7 @@ class adminAddSectionForm
             $defaultValues = array();
             $defaultValues['name']  = $data['name'];
             $defaultValues['title']  = $data['title'];
+            $defaultValues['order']  = $data['order'];
             $form->setDefaults($defaultValues);
         }
 
@@ -49,6 +50,7 @@ class adminAddSectionForm
         }
 
         $form->addElement('text', 'title', 'Заголовок:', 'size="30"');
+        $form->addElement('text', 'order', 'Порядок сортировки:', 'size="30"');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');

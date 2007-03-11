@@ -21,7 +21,7 @@ fileLoader::load('codegenerator/classGenerator');
  * @subpackage admin
  * @version 0.1.1
  */
- 
+
 class adminDeleteClassController extends simpleController
 {
     public function getView()
@@ -51,6 +51,11 @@ class adminDeleteClassController extends simpleController
         $db = DB::factory();
 
         $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
+
+        if ($modules[$data['module_id']]['main_class'] == $data['id']) {
+            $controller = new messageController('Нельзя удалить класс, он является главным для этого модуля', messageController::WARNING);
+            return $controller->run();
+        }
 
         $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
         $dest = (file_exists(systemConfig::$pathToApplication . $const . $data['name'])) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;

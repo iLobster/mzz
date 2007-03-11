@@ -20,7 +20,7 @@ fileLoader::load('codegenerator/moduleGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class adminAddModuleController extends simpleController
@@ -63,7 +63,6 @@ class adminAddModuleController extends simpleController
             $modules = $adminMapper->getModulesList();
 
             $classes = $modules[$data['id']]['classes'];
-            $classes_select = array(0 => '');
             foreach ($classes as $key => $val) {
                 $classes_select[$key] = $val['name'];
             }

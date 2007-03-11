@@ -20,7 +20,7 @@ fileLoader::load('codegenerator/classGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class adminAddClassController extends simpleController
@@ -36,6 +36,8 @@ class adminAddClassController extends simpleController
 
         $db = DB::factory();
 
+        $modules = $adminMapper->getModulesList();
+
         if ($action == 'addClass') {
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
             $module_name = $data['name'];
@@ -46,8 +48,6 @@ class adminAddClassController extends simpleController
                 $controller = new messageController('Класса не существует', messageController::WARNING);
                 return $controller->run();
             }
-
-            $modules = $adminMapper->getModulesList();
 
             if (isset($modules[$data['module_id']]['classes'][$data['id']]) && $modules[$data['module_id']]['classes'][$data['id']]['exists']) {
                 $controller = new messageController('Нельзя изменить имя класса', messageController::WARNING);
@@ -73,7 +73,14 @@ class adminAddClassController extends simpleController
                 $stmt = $db->prepare('INSERT INTO `sys_classes` (`name`, `module_id`) VALUES (:name, :module_id)');
                 $stmt->bindValue(':module_id', $data['id'], PDO::PARAM_INT);
                 $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
-                $stmt->execute();
+                $class_id = $stmt->execute();
+
+                if (!sizeof($modules[$id]['classes'])) {
+                    $stmt = $db->prepare('UPDATE `sys_modules` SET `main_class` = :class_id WHERE `id` = :id');
+                    $stmt->bindValue(':class_id', $class_id, PDO::PARAM_INT);
+                    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                    $stmt->execute();
+                }
 
                 $this->smarty->assign('log', $log);
                 return $this->smarty->fetch('admin/addClassResult.tpl');

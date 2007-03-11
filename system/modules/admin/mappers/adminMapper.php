@@ -144,7 +144,7 @@ class adminMapper extends simpleMapper
      */
     public function getModulesList()
     {
-        $modules = $this->db->getAll('SELECT (COUNT(`ca`.`id`) + COUNT(`cs`.`id`) > 0) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id` FROM `sys_modules` `m`
+        $modules = $this->db->getAll('SELECT (COUNT(`ca`.`id`) + COUNT(`cs`.`id`) > 0) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id`, `m`.`main_class` FROM `sys_modules` `m`
                                          LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
                                           LEFT JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
                                            LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id`
@@ -154,7 +154,7 @@ class adminMapper extends simpleMapper
 
         foreach ($modules as $val) {
             if (!isset($result[$val['m_id']])) {
-                $result[$val['m_id']] = array('name' => $val['module'], 'classes' => array());
+                $result[$val['m_id']] = array('name' => $val['module'], 'main_class' => $val['main_class'], 'classes' => array());
             }
 
             if (!is_null($val['class'])) {

@@ -19,7 +19,7 @@ fileLoader::load('admin/forms/adminAddSectionForm');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class adminAddSectionController extends simpleController
@@ -73,9 +73,10 @@ class adminAddSectionController extends simpleController
                     $stmt->execute();
                 }
 
-                $stmt = $db->prepare('UPDATE `sys_sections` SET `title` = :title WHERE `id` = :id');
+                $stmt = $db->prepare('UPDATE `sys_sections` SET `title` = :title, `order` = :order WHERE `id` = :id');
                 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
                 $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
+                $stmt->bindValue(':order', $values['order'], PDO::PARAM_INT);
                 $stmt->execute();
             }
 
