@@ -6,7 +6,7 @@
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td>{$form.name.label}</td>
+            <td width="30%">{$form.name.label}</td>
             <td>{$form.name.html}{$form.name.error}</td>
         </tr>
         <tr>

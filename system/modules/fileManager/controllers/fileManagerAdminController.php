@@ -13,14 +13,14 @@
 */
 
 /**
- * fileManagerListController: контроллер для метода list модуля fileManager
+ * fileManagerAdminController: контроллер для метода admin модуля fileManager
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.1
+ * @version 0.2
  */
 
-class fileManagerListController extends simpleController
+class fileManagerAdminController extends simpleController
 {
     public function getView()
     {
@@ -32,7 +32,7 @@ class fileManagerListController extends simpleController
             $this->smarty->assign('current_folder', $folder);
             $this->smarty->assign('folders', $folderMapper->getTree());
             $this->smarty->assign('files', $folder->getItems());
-            return $this->smarty->fetch('fileManager/list.tpl');
+            return $this->smarty->fetch('fileManager/admin.tpl');
         }
 
         return $folderMapper->get404()->run();

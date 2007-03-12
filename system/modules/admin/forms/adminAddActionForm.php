@@ -77,7 +77,7 @@ class adminAddActionForm
                 $aliases[$key] = isset($val['title']) ? $val['title'] : $key;
             }
         }
-        $form->addElement('select', 'alias', 'Алиас', $aliases);
+        $form->addElement('select', 'alias', 'Алиас:', $aliases);
 
         $select = $form->addElement('select', 'dest', 'Каталог генерации:', $dest);
         if (sizeof($dest) == 1) {
@@ -87,18 +87,18 @@ class adminAddActionForm
         }
 
         $form->addElement('text', 'name', 'Название:', 'size="30"');
-        $form->addElement('advcheckbox', 'jip', 'Этот экшн должен быть в jip', 'jip = "1"', null, array(0, 1));
-        $form->addElement('advcheckbox', 'inacl', 'Этот экшн не должен быть зарегистрирован в acl', 'inACL = "0"', null, array(0, 1));
-        $form->addElement('text', 'title', 'Заголовок в меню jip', 'size="30"');
-        $form->addElement('text', 'icon', 'Путь от корня сайта до иконки в меню jip', 'size="30"');
-        $form->addElement('text', 'confirm', 'Системное сообщение при выполнении данного экшна', 'size="30"');
+        $form->addElement('advcheckbox', 'jip', 'Добавить в JIP:', '', null, array(0, 1));
+        $form->addElement('advcheckbox', 'inacl', 'Не регистрировать в ACL:', '', null, array(0, 1));
+        $form->addElement('text', 'title', 'Заголовок для меню JIP:', 'size="30"');
+        $form->addElement('text', 'icon', 'Путь от корня сайта до иконки для меню JIP:', 'size="30"');
+        $form->addElement('text', 'confirm', 'Сообщение при выполнении данного действия:', 'size="30"');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
         $form->addElement('submit', 'submit', 'Сохранить');
 
         $form->registerRule('isUniqueName', 'callback', 'addClassValidate');
-        $form->addRule('name', 'такой экшн у класса уже есть или введённое вами имя содержит запрещённые символы', 'isUniqueName', array($db, $action_name, $data));
-        $form->addRule('name', 'поле обязательно к заполнению', 'required');
+        $form->addRule('name', 'Такое действие у класса уже есть или введённое вами имя содержит запрещённые символы', 'isUniqueName', array($db, $action_name, $data));
+        $form->addRule('name', 'Поле обязательно к заполнению', 'required');
 
         return $form;
     }

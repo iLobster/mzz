@@ -1,24 +1,17 @@
-{include file='jipTitle.tpl' title='Список экшнов'}
+{include file='jipTitle.tpl' title='Список действий'}
 
-{foreach from=$insert item=item name=insert}
-    {if $smarty.foreach.insert.first}
-        <font color="green">Были добавлены экшны</font>:
-    {/if}
-    <b>{$item}</b>{if not $smarty.foreach.insert.last}, {else}.<br />{/if}
-{/foreach}
-{foreach from=$delete item=item name=delete}
-    {if $smarty.foreach.delete.first}
-        <font color="red">Были удалены экшны</font>:
-    {/if}
-    <b>{$item}</b>{if not $smarty.foreach.delete.last}, {else}.<br />{/if}
-{/foreach}
-<a href="{url route="withId" section="admin" id=$id action="addAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить экшн" /></a><br />
-{foreach from=$actions item=action key=key}
-    {$key}
-    {if not empty($action.title)}
-        ({$action.title})
-    {/if}
-    <a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="editAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать экшн" /></a>
-    <a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="deleteAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить экшн" /></a>
-    <br />
-{/foreach}
+<table width="99%" cellpadding="4" cellspacing="0"  class="list">
+    <tr>
+        <td colspan="3"><a href="{url route="withId" section="admin" id=$id action="addAction"}" class="jipLink">Создать действие</a></td>
+    </tr>
+    {foreach from=$actions item=action key=key}
+        <tr>
+            <td width="25%">{$key}</td>
+            <td width="70%">{if !empty($action.title)}{$action.title}{else}<span style="color: #999;">названия нет</span>{/if}</td>
+            <td width="5%">
+            <a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="editAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="Редактировать действие" /></a>
+            <a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="deleteAction"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="Удалить действие" /></a>
+           </td>
+        </tr>
+    {/foreach}
+</table>

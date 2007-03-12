@@ -30,7 +30,9 @@ class adminAdminController extends simpleController
         $user = $this->toolkit->getUser();
         $obj_id = $this->toolkit->getObjectId('access_' . $section . '_' . $module);
 
-        $mapper = $this->toolkit->getMapper($module, $module, $section);
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $class = $adminMapper->getMainClass($module);
+        $mapper = $this->toolkit->getMapper($module, $class, $section);
 
         $mapper->register($obj_id, 'sys', 'access');
         $acl = new acl($user, $obj_id);
@@ -41,7 +43,7 @@ class adminAdminController extends simpleController
          * @todo подумать над тем, что должно быть в случае 403 здесь
          */
         if ($access) {
-            $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+            //$adminMapper = $this->toolkit->getMapper('admin', 'admin');
             $menu = $adminMapper->getAdminInfo();
             $this->smarty->assign('section_name', $section);
             $this->smarty->assign('module_name', $module);

@@ -1,1 +1,1 @@
-{load module="user" action="exit"}
+{load module="user" action="exit" 403handle="none"}

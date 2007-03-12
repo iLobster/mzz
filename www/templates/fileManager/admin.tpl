@@ -14,8 +14,8 @@
     <div id="folderTree" class="dtree"></div>
 </div>
 
-<div>
-    <table border="0" cellpadding="4" cellspacing="0" class="list">
+<div style="margin-left: 80px;">
+    <table border="0" cellpadding="4" cellspacing="0" width="100%" class="list">
         <tr>
             <td><strong>Имя</strong></td>
             <td><strong>Размер</strong></td>
@@ -43,9 +43,10 @@
 var FileManager = new dTree('FileManager');
 FileManager.add(0,-1,'mzzFileManager');
 
-{foreach from=$folders item=current_folder}
-{assign var="parentFolder" value=$current_folder->getTreeParent()}
-FileManager.add({$current_folder->getId()},{if is_object($parentFolder)}{$parentFolder->getId()}{else}0{/if},'{$current_folder->getName()}</a>{$current_folder->getJip()|strip|escape:quotes}<a>','{url route=withAnyParam section=$current_section action=list name=$current_folder->getPath()}', '', '', '{$SITE_PATH}/templates/images/tree/folderopen.gif', '{$SITE_PATH}/templates/images/tree/folder.gif');
+{foreach from=$folders item=folder}
+{assign var="parentFolder" value=$folder->getTreeParent()}
+FileManager.add({$folder->getId()},{if is_object($parentFolder)}{$parentFolder->getId()}{else}0{/if},'{$folder->getName()}</a>{$folder->getJip()|strip|escape:quotes}<a>','{url route=withAnyParam section=$current_section action=list name=$folder->getPath()}', '', '', '{$SITE_PATH}/templates/images/tree/folderopen.gif', '{$SITE_PATH}/templates/images/tree/folder.gif');
 {/foreach}
 document.getElementById('folderTree').innerHTML = FileManager;
+FileManager.openTo({$current_folder->getId()}, true);
 </script>

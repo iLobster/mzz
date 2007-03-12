@@ -131,6 +131,20 @@ class adminMapper extends simpleMapper
     }
 
     /**
+     * Метод возвращает главный класс модуля
+     *
+     * @param string $module имя модуля
+     * @return string
+     */
+    public function getMainClass($module)
+    {
+        $class = $this->db->getOne("SELECT `c`.`name` AS `main_class` FROM `sys_modules` `m`
+                                     LEFT JOIN `sys_classes` `c` ON `c`.`id` = `m`.`main_class`
+                                      WHERE `m`.`name` = " . $this->db->quote($module));
+        return $class;
+    }
+
+    /**
      * Метод получения списка модулей и классов, которые им принадлежат
      *
      * @return array

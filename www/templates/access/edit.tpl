@@ -1,4 +1,3 @@
-{add file="popup.js"}
 {include file='jipTitle.tpl' title='Права доступа'}
 
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="list">
