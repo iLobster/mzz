@@ -36,7 +36,7 @@ class accessEditUserDefaultController extends simpleController
         $acl = new acl($user, 0, $class, $section);
 
         $action = $this->toolkit->getAction($acl->getModule($class));
-        $actions = $action->getActions();
+        $actions = $action->getActions(true);
 
         $actions = $actions[$class];
 
