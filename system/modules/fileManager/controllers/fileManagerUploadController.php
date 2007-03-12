@@ -53,7 +53,12 @@ class fileManagerUploadController extends simpleController
             $file = $fileMapper->searchOneByCriteria($criteria);
 
             $exts = $folder->getExts();
-            $exts = explode(';', $exts);
+
+            if (strlen($exts)) {
+                $exts = explode(';', $exts);
+            } else {
+                $exts = $fileMapper->getExclusionExtensions();
+            }
             array_map('trim', $exts);
             usort($exts, create_function('$a,$b', 'return strlen($a) < strlen($b);'));
 
