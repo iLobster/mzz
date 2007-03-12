@@ -1,10 +1,10 @@
 <p class="pageTitle">Список новостей</p>
 
 <div class="pageContent">
-    <table cellspacing="0" cellpadding="5" class="tableList">
+    <table cellspacing="0" cellpadding="3" class="tableList">
      <thead class="tableListHead">
      <tr>
-      <td style="width: 30px;">ID</td>
+      <td style="width: 30px;">&nbsp;</td>
       <td style="text-align: left;">Название</td>
       <td style="width: 120px;">Дата создания</td>
       <td style="width: 120px;">Автор</td>
@@ -14,7 +14,7 @@
 
     {foreach from=$newsFolder->getFolders(1) item=current_folder name=folders}
         <tr>
-          <td style="width: 30px; text-align: right; color: #8B8B8B;">-</td>
+          <td style="width: 30px; text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
           <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=news module_name=news}">{$current_folder->getTitle()}</a></td>
           <td style="width: 120px; text-align: center;">-</td>
           <td style="width: 120px; text-align: center;">-</td>
@@ -24,7 +24,7 @@
 
     {foreach from=$news item=current_news}
         <tr>
-            <td style="width: 30px; text-align: right; color: #8B8B8B;">{$current_news->getId()}</td>
+            <td style="width: 30px; text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" /></td>
             <td style="text-align: left;">{$current_news->getTitle()}</td>
             <td style="width: 120px; text-align: center;">{$current_news->getUpdated()|date_format:"%d/%m/%Y %H:%M"}</td>
             <td style="width: 120px; text-align: center;">{$current_news->getEditor()->getLogin()}</td>

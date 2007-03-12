@@ -1,2 +1,2 @@
 {* main="main.tpl" placeholder="content" *}
-{load module="fileManager" action="list"}
+{load module="fileManager" action="admin"}
