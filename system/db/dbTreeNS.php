@@ -845,7 +845,7 @@ class dbTreeNS
             return false;
         }
 
-        // @todo: разобраться почему было так
+        // @todo: если понадобится реализовывать перенос узла на level 1, в самый корень
         //$level_up = ($notRoot = $parentNode['level'] != 1 ) ? $parentNode['level'] : 0;
         $level_up = $parentNode['level'];
         $notRoot = true;
