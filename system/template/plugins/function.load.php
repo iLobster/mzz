@@ -73,7 +73,7 @@ function smarty_function_load($params, $smarty)
         try {
             $args = $request->getParams();
 
-            if (isset($args['section_name']) && $args['module_name']) {
+            if (isset($args['section_name']) && isset($args['module_name'])) {
                 $object_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['module_name']);
             } else {
                 $object_id = $mapper->convertArgsToId($args);
