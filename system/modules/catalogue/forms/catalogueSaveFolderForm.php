@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/news/forms/newsSaveFolderForm.php $
+ * $URL$
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: newsSaveFolderForm.php 1364 2007-03-02 20:53:58Z mz $
+ * @version $Id$
  */
 
 /**

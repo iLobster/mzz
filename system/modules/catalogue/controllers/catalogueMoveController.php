@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.web/repository/mzz/system/modules/catalogue/controllers/catalogueMoveController.php $
+ * $URL$
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: catalogueMoveController.php 661 2007-03-05 23:57:41Z zerkms $
+ * @version $Id$
  */
 
 fileLoader::load('catalogue/forms/catalogueMoveForm');
