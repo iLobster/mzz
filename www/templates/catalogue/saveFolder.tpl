@@ -13,11 +13,11 @@
         </tr>
         <tr>
             <td>{$form.name.label}</td>
-            <td>{$form.name.html} {$form.name.error}</td>
+            <td>{$form.name.html}</td>
         </tr>
         <tr>
             <td>{$form.title.label}</td>
-            <td>{$form.title.html} {$form.title.error}</td>
+            <td>{$form.title.html}</td>
         </tr>
         <tr>
             <td colspan=2>{$form.submit.html} {$form.reset.html}</td>

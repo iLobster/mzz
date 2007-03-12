@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('catalogue/forms/catalogueFolderMoveForm');
- 
+
 /**
  * catalogueMoveFolderController: контроллер для метода moveFolder модуля catalogue
  *
@@ -21,7 +21,7 @@ fileLoader::load('catalogue/forms/catalogueFolderMoveForm');
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueMoveFolderController extends simpleController
 {
     public function getView()
@@ -73,6 +73,8 @@ class catalogueMoveFolderController extends simpleController
         }
 
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+        $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
+        $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
         $form->accept($renderer);
 
         $this->smarty->assign('form', $renderer->toArray());
