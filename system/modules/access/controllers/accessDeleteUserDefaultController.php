@@ -24,9 +24,9 @@ class accessDeleteUserDefaultController extends simpleController
 {
     public function getView()
     {
-        if (($user_id = $this->request->get('id', 'integer', SC_PATH)) != null) {
-            $class = $this->request->get('class_name', 'string', SC_PATH);
-            $section = $this->request->get('section_name', 'string', SC_PATH);
+        if (($user_id = $this->request->get('id', 'integer')) != null) {
+            $class = $this->request->get('class_name', 'string');
+            $section = $this->request->get('section_name', 'string');
 
             $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
             $user = $userMapper->searchById($user_id);

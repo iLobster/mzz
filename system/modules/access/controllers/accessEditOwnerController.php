@@ -23,8 +23,8 @@ class accessEditOwnerController extends simpleController
 {
     public function getView()
     {
-        $class = $this->request->get('class_name', 'string', SC_PATH);
-        $section = $this->request->get('section_name', 'string', SC_PATH);
+        $class = $this->request->get('class_name', 'string');
+        $section = $this->request->get('section_name', 'string');
 
         $acl = new acl($this->toolkit->getUser(), 0, $class, $section);
 

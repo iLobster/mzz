@@ -23,12 +23,10 @@ class accessEditGroupDefaultController extends simpleController
 {
     public function getView()
     {
-        if (($group_id = $this->request->get('id', 'integer', SC_PATH)) == null) {
-            $group_id = $this->request->get('id', 'integer', SC_POST);
-        }
+        $group_id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
 
-        $class = $this->request->get('class_name', 'string', SC_PATH);
-        $section = $this->request->get('section_name', 'string', SC_PATH);
+        $class = $this->request->get('class_name', 'string');
+        $section = $this->request->get('section_name', 'string');
 
         $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
         $group = $groupMapper->searchById($group_id);

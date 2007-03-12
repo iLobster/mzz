@@ -25,7 +25,7 @@ class accessEditACLController extends simpleController
     {
         $db = db::factory();
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->get('id', 'integer');
 
         $acl = new acl($this->toolkit->getUser(), $id);
         // получаем пользователей и группы, на которые уже установлены права

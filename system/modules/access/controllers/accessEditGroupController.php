@@ -23,13 +23,8 @@ class accessEditGroupController extends simpleController
 {
     public function getView()
     {
-        if (($obj_id = $this->request->get('id', 'integer', SC_PATH)) == null) {
-            $obj_id = $this->request->get('id', 'integer', SC_POST);
-        }
-
-        if (($group_id = $this->request->get('user_id', 'integer', SC_PATH)) == null) {
-            $group_id = $this->request->get('user_id', 'integer', SC_POST);
-        }
+        $obj_id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
+        $group_id = $this->request->get('user_id', 'integer', SC_PATH | SC_POST);
 
         $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
         $group = $groupMapper->searchById($group_id);

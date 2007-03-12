@@ -24,10 +24,7 @@ class userGroupEditController extends simpleController
     public function getView()
     {
         $groupMapper = $this->toolkit->getMapper('user', 'group');
-
-        if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
-            $id = $this->request->get('id', 'integer', SC_POST);
-        }
+        $id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
 
         $group = $groupMapper->searchById($id);
 

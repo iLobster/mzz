@@ -25,7 +25,7 @@ class userAddToGroupController extends simpleController
     {
         $filter = $this->request->get('filter', 'string', SC_GET);
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->get('id', 'integer');
 
         $groupMapper = $this->toolkit->getMapper('user', 'group');
         $group = $groupMapper->searchById($id);
@@ -81,7 +81,7 @@ class userAddToGroupController extends simpleController
 
             $url = new url('withId');
             $url->setSection($this->request->getSection());
-            $url->addParam('id', $this->request->get('id', 'integer', SC_PATH));
+            $url->addParam('id', $this->request->get('id', 'integer'));
             $url->setAction('addToGroupList');
 
             $this->smarty->assign('filter', $filter);
