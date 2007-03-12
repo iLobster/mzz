@@ -33,23 +33,19 @@ class catalogueCreateController extends simpleController
         $folder = $catalogueFolderMapper->searchByPath($path);
 
         $types = $catalogueMapper->getAllTypes();
-        if (empty($types)){
+        if (empty($types)) {
             $controller = new messageController('Отсутствуют типы', messageController::WARNING);
             return $controller->run();
         }
 
-        $createType = $this->request->get('type', 'integer', SC_GET | SC_POST);
+        $type = $this->request->get('type', 'integer', SC_GET | SC_POST);
 
-        /*if ($this->request->getMethod() == 'POST'){
-            $createType = $this->request->get('type', 'integer', SC_POST);
-        }*/
+        $properties = $catalogueMapper->getProperties( ($type == 0) ? $types[0]['id'] : $type);
 
-        $properties = $catalogueMapper->getProperties( ($createType == 0) ? $types[0]['id'] : $createType);
-
-        $form = catalogueCreateForm::getForm($types, $folder, $createType, $properties);
+        $form = catalogueCreateForm::getForm($types, $folder, $type, $properties);
 
         $fields = array();
-        foreach($properties as $property){
+        foreach($properties as $property) {
             $fields[] = $property['name'];
         }
 
