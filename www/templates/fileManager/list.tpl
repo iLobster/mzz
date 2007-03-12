@@ -23,9 +23,7 @@
         </tr>
         {foreach from=$files item=file}
             <tr>
-                {assign var="path" value=$current_folder->getPath()}
-                {assign var="name" value=$file->getName()}
-                {assign var="filename" value=`$path`/`$name`}
+                {assign var="filename" value=$file->getFullPath()}
                 <td>{$file->getJip()}<img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" /><a href="{url route=withAnyParam action=get name=$filename}">{$file->getName()}</a></td>
                 <td align="right">{$file->getSize()|filesize}</td>
                 <td align="center">{$file->getExt()}&nbsp;</td>

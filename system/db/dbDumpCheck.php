@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage db
- * @version $Id: dbDumpCheck.php 1 2006-09-05 21:03:12Z zerkms $
+ * @version $Id: dbDumpCheck.php 674 2007-03-11 22:27:52Z zerkms $
 */
 
 /**

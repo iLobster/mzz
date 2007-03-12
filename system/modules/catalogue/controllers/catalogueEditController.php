@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/catalogue/controllers/catalogueEditController.php $
+ * $URL: http://svn.web/repository/mzz/system/modules/catalogue/controllers/catalogueEditController.php $
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: catalogueEditController.php 1368 2007-03-03 00:19:30Z mz $
+ * @version $Id: catalogueEditController.php 674 2007-03-11 22:27:52Z zerkms $
  */
 
 fileLoader::load('catalogue/forms/catalogueObjectForm');

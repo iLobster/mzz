@@ -18,7 +18,11 @@
             </tr>
             {foreach from=$module.classes item=class key=id}
                 <tr onmouseover="this.style.backgroundColor = '#FFFDE1'" onmouseout="this.style.backgroundColor = '#FFFFFF'">
-                    <td class="toolbarElementName">{$class.name}</td>
+                    <td class="toolbarElementName">
+                        {if $class.name eq $module.main_class_name}<u>{/if}
+                        {$class.name}
+                        {if $class.name eq $module.main_class_name}</u>{/if}
+                    </td>
                     <td align=right>
                     {if not $class.exists}
                         <a href="{url route="withId" section="admin" id=$id action="editClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" title="Редактировать класс" align="texttop" /></a>
@@ -53,7 +57,12 @@
             </tr>
             {foreach from=$section.classes item=class key=id}
                 <tr onmouseover="this.style.backgroundColor = '#FFFDE1'" onmouseout="this.style.backgroundColor = '#FFFFFF'">
-                    <td colspan="2" class="toolbarElementName">{$class}</td>
+                    <td class="toolbarElementName">{$class}</td>
+                    <td align=right>
+                        {assign var="name" value="`$section.name`_`$class`"}
+                        {if not empty($access.$name.editDefault)}<a href="{url route=withAnyParam section="access" name="`$section.name`/`$class`" action="editDefault"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/aclDefault.gif"></a>{/if}
+                        {if not empty($access.$name.editACL)}<a href="{url route=withId section="access" id="`$access.$name.obj_id`" action="editACL"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/acl.gif"></a>{/if}
+                    </td>
                 </tr>
             {/foreach}
             {if $count eq 0}
@@ -64,7 +73,6 @@
         {/foreach}
     </table>
 </div>
-
 
 <div class="toolbarLayerBottomLeft">
     <span class="toolbarSectionName">Зарегистрированные объекты</span> <a href="{url route="default2" section="admin" action="addObjToRegistry"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/DB.png" alt="Сгенерировать" title="Генерация и регистрация нового идентификатора объекта" align="absmiddle" /></a>

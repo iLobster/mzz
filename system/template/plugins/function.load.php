@@ -71,7 +71,13 @@ function smarty_function_load($params, $smarty)
         $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
 
         try {
-            $object_id = $mapper->convertArgsToId($request->getParams());
+            $args = $request->getParams();
+
+            if (isset($args['section_name']) && $args['module_name']) {
+                $object_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['module_name']);
+            } else {
+                $object_id = $mapper->convertArgsToId($args);
+            }
 
             $acl = new acl($toolkit->getUser(), $object_id);
 

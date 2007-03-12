@@ -68,8 +68,7 @@ class adminMapper extends simpleMapper
             $acl = new acl($user, $obj_id);
 
             if (isset($val['section']) && isset($val['class'])) {
-
-                if (!isset($access[$val['section'] . '_' . $val['class']])) {
+                //if (!isset($access[$val['section'] . '_' . $val['class']])) {
                     $access[$val['section'] . '_' . $val['module']] = $acl->get('editACL');
 
                     $action = $toolkit->getAction($val['module']);
@@ -77,7 +76,7 @@ class adminMapper extends simpleMapper
                     $actions = $actions[$val['class']];
 
                     $admin[$val['section'] . '_' . $val['class']] = isset($actions['admin']) && $acl->get('admin');
-                }
+                //}
 
                 $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id, 'editACL' => $acl->get('editACL'), 'editDefault' => $acl->get('editDefault'));
             }
@@ -138,17 +137,21 @@ class adminMapper extends simpleMapper
      */
     public function getModulesList()
     {
-        $modules = $this->db->getAll('SELECT (COUNT(`ca`.`id`) + COUNT(`cs`.`id`) > 0) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id`, `m`.`main_class` FROM `sys_modules` `m`
+        $modules = $this->db->getAll('SELECT (COUNT(`ca`.`id`) + COUNT(`cs`.`id`) > 0) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `c2`.`name` AS `main_class_name`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id`, `m`.`main_class` FROM `sys_modules` `m`
                                          LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
-                                          LEFT JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
-                                           LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id`
-                                            GROUP BY `m`.`name`, `c`.`name`');
+                                          LEFT JOIN `sys_classes` `c2` ON `c2`.`id` = `m`.`main_class`
+                                           LEFT JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                                            LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id`
+                                             GROUP BY `m`.`name`, `c`.`name`');
 
         $result = array();
 
         foreach ($modules as $val) {
             if (!isset($result[$val['m_id']])) {
-                $result[$val['m_id']] = array('name' => $val['module'], 'main_class' => $val['main_class'], 'classes' => array());
+                if (empty($val['main_class_name'])) {
+                    $val['main_class_name'] = $val['module'];
+                }
+                $result[$val['m_id']] = array('name' => $val['module'], 'main_class' => $val['main_class'], 'classes' => array(), 'main_class_name' => $val['main_class_name']);
             }
 
             if (!is_null($val['class'])) {

@@ -130,8 +130,9 @@ class fileMapper extends simpleMapper
 
     public function get404()
     {
-        fileLoader::load('fileManager/controllers/fileManager404Controller');
-        return new fileManager404Controller('file');
+        return new messageController('Запрашиваемый вами файл не найден', messageController::WARNING);
+        //fileLoader::load('fileManager/controllers/fileManager404Controller');
+        //return new fileManager404Controller('file');
     }
 }
 
