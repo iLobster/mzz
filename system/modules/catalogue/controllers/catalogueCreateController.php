@@ -58,6 +58,7 @@ class catalogueCreateController extends simpleController
             $this->smarty->assign('form', $renderer->toArray());
             $this->smarty->assign('folder', $folder);
             $this->smarty->assign('fields', $fields);
+            $this->smarty->assign('type', $type);
             return $this->smarty->fetch('catalogue/create.tpl');
         } else {
             $values = $form->exportValues();
