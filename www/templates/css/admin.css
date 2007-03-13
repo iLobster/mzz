@@ -22,7 +22,8 @@ body {
   color: #000;
   font-weight: normal;
   font-size: 79%;
-  font-family: verdana, tahoma, arial, sans-serif;
+  font-family: tahoma, verdana, arial, sans-serif;
+  /*letter-spacing: -0.05em;*/
   color: #000;
 }
 
@@ -68,7 +69,7 @@ div.patch_minheight {
 div#sidebar {
   float: left;
   width: 210px;
-  padding: 25px 10px;
+  padding: 15px 10px;
 }
 
 
@@ -89,12 +90,12 @@ div#mainbar {
 }
 
 #header .loginInfo {
-  font-size: 85%;
+  font-size: 100%;
   width: 100%;
   height: 54px;
   background: url('../images/admin/headerBackground.png');
   text-align: right;
-  color: #fff;
+  color: #B8D8EB;
 }
 
 #header .loginInfo div {
@@ -128,7 +129,7 @@ div#mainbar {
   height: 32px;
   background: url('../images/admin/menu.png');
   color: #fff;
-  font-size: 90%;
+  font-size: 95%;
 }
 #header .favorite div {
   padding-left: 10px;
@@ -151,10 +152,10 @@ div#mainbar {
 }
 
 #sidebar span.sideMenuTitle {
-  font-size: 110%;
+  font-size: 120%;
 }
 #sidebar table {
-  font-size: 95%;
+  font-size: 100%;
   margin-top: 5px;
   width: 100%;
   border: 0;
@@ -176,7 +177,7 @@ div#mainbar {
 
 #mainbar p.pageTitle {
   border-bottom: 1px solid #E6E6E6;
-  font-size: 140%;
+  font-size: 120%;
   width: 99%;
 }
 
@@ -187,6 +188,6 @@ div#mainbar {
 table.tableList {
   border: 0;
   width: 99%;
-  font-size: 90%;
+  font-size: 100%;
   margin-top: 5px;
 }
