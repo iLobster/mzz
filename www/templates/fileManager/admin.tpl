@@ -1,19 +1,6 @@
-<div style="float:left; margin-right: 70px;">
-Текущий каталог: <b>{$current_folder->getPath()}</b><br />
+<p class="pageTitle">Менеджер файлов</p>
 
-    <table border="0">
-        {foreach from=$folders item=folder}
-            <tr>
-                {math equation="((level-1)*15 + 10)" level=$folder->getLevel() assign=padding}
-                <td style="padding-left: {$padding}px;">
-                    <img src="{$SITE_PATH}/templates/images/fileManager/folder.gif" align="texttop" style="padding-right: 5px;" /><a href="{url route=withAnyParam section=$current_section action=list name=$folder->getPath()}">{$folder->getTitle()}</a> {$folder->getJip()}
-                </td>
-            </tr>
-        {/foreach}
-    </table>
-    <div id="folderTree" class="dtree"></div>
-</div>
-
+{*
 <div style="margin-left: 80px;">
     <table border="0" cellpadding="4" cellspacing="0" width="100%" class="list">
         <tr>
@@ -36,17 +23,30 @@
             </td>
         </tr>
     </table>
+</div> *}
+
+<div class="pageContent">
+    <table cellspacing="0" cellpadding="3" class="tableList">
+        <thead class="tableListHead">
+            <tr>
+                <td style="width: 30px;">&nbsp;</td>
+                <td style="text-align: left;">Имя</td>
+                <td style="width: 120px;">Размер</td>
+                <td style="width: 120px;">Расширение</td>
+                <td style="width: 120px;">Скачиваний</td>
+                <td style="width: 30px;">JIP</td>
+            </tr>
+        </thead>
+        {foreach from=$files item=file}
+            {assign var="filename" value=$file->getFullPath()}
+            <tr align="center">
+                <td style="width: 30px;"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" /></td>
+                <td align="left"><a href="{url route=withAnyParam action=get name=$filename}">{$file->getName()}</a></td>
+                <td>{$file->getSize()|filesize}</td>
+                <td>{$file->getExt()}</td>
+                <td>{$file->getDownloads()}</td>
+                <td>{$file->getJip()}</td>
+            </tr>
+        {/foreach}
+    </table>
 </div>
-
-
-<script type="text/javascript">
-var FileManager = new dTree('FileManager');
-FileManager.add(0,-1,'mzzFileManager');
-
-{foreach from=$folders item=folder}
-{assign var="parentFolder" value=$folder->getTreeParent()}
-FileManager.add({$folder->getId()},{if is_object($parentFolder)}{$parentFolder->getId()}{else}0{/if},'{$folder->getName()}</a>{$folder->getJip()|strip|escape:quotes}<a>','{url route=withAnyParam section=$current_section action=list name=$folder->getPath()}', '', '', '{$SITE_PATH}/templates/images/tree/folderopen.gif', '{$SITE_PATH}/templates/images/tree/folder.gif');
-{/foreach}
-document.getElementById('folderTree').innerHTML = FileManager;
-FileManager.openTo({$current_folder->getId()}, true);
-</script>

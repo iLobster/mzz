@@ -45,9 +45,9 @@ class adminAdminController extends simpleController
         if ($access) {
             //$adminMapper = $this->toolkit->getMapper('admin', 'admin');
             $menu = $adminMapper->getAdminInfo();
-            $this->smarty->assign('section_name', $section);
-            $this->smarty->assign('module_name', $module);
-            unset($menu['admin']);
+            $this->smarty->assign('current_section', $section);
+            $this->smarty->assign('current_module', $module);
+            unset($menu['admin'], $menu['access']);
             $this->smarty->assign('menu', $menu);
 
             return $this->smarty->fetch('admin/admin.tpl');

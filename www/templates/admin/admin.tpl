@@ -1,1 +1,1 @@
-{load module=$module_name section=$section_name action="admin"}
+{load module=$current_module section=$current_section action="admin"}

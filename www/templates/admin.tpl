@@ -26,35 +26,44 @@
             </div>
         </div>
     </div>
-
-    <div id="sidebar">
-        <span class="sideMenuTitle">Разделы сайта</span>
-        {*<a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}"> *}
-        <table cellspacing="0" cellpadding="0">
-        {foreach from=$menu item=module key=module_name}
-            {if sizeof($module.sections) == 1}
-                <!--{$module_name} -->
-                <tr>
-                    <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" width="24" height="24" alt="" /></td>
-                    {assign var='section_name' value=$module.sections|@key}
-                    <td class="menuSection"><a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}">{$module.title}</a></td>
-                </tr>
-            {else}
-                <tr>
-                    <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" width="24" height="24" alt="" /></td>
-                    <td class="menuSection">{$module.title}</td>
-                </tr>
-                {foreach from=$module.sections item=section key=section_name}
+    {if not empty($menu)}
+        <div id="sidebar">
+            <span class="sideMenuTitle">Разделы сайта</span>
+            {*<a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}"> *}
+            <table cellspacing="0" cellpadding="0">
+            {foreach from=$menu item=module key=module_name}
+                {if sizeof($module.sections) == 1}
+                    <!--{$module_name} -->
                     <tr>
-                        <td>&nbsp;</td>
-                        <td class="menuLink"><a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}">{$section.title}</a></td>
-                </tr>
-                {/foreach}
-            {/if}
-        {/foreach}
-        </table>
-        <div class="patch_minheight"></div>
-    </div>
+                        <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" width="24" height="24" alt="" /></td>
+                        {assign var='section_name' value=$module.sections|@key}
+                        <td class="menuSection"><a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}">
+                            {if $module_name eq $current_module}<strong>{/if}
+                            {$module.title}
+                            {if $module_name eq $current_module}</strong>{/if}
+                        </a></td>
+                    </tr>
+                {else}
+                    <tr>
+                        <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" width="24" height="24" alt="" /></td>
+                        <td class="menuSection">{$module.title}</td>
+                    </tr>
+                    {foreach from=$module.sections item=section key=section_name}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="menuLink"><a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}">
+                                {if $module_name eq $current_module}{if $section_name eq $current_section}<strong>{/if}{/if}
+                                {$section.title}
+                                {if $module_name eq $current_module}{if $section_name eq $current_section}<strong>{/if}{/if}
+                            </a></td>
+                    </tr>
+                    {/foreach}
+                {/if}
+            {/foreach}
+            </table>
+            <div class="patch_minheight"></div>
+        </div>
+    {/if}
 
     <div id="mainbar">
     {$content}
