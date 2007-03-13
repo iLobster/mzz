@@ -2,14 +2,55 @@
 <div class="pageContent">
 {foreach from=$chains item="chain" name="chain"}
 {if $smarty.foreach.chain.last}
-    /{$chain->getTitle()}
+    /{$chain->getTitle()}{$chain->getJip()}
 {else}
     /<a href="{url route='admin' params=$chain->getPath() section_name="catalogue" module_name="catalogue"}">{$chain->getTitle()}</a>
 {/if}
 {foreachelse}
 {/foreach}
-<br/>
-<br/>
+    <table cellspacing="0" cellpadding="3" class="tableList">
+        <thead class="tableListHead">
+            <tr>
+                <td style="width: 30px;">&nbsp;</td>
+                <td style="text-align: left;">Название</td>
+                <td style="width: 120px;">Дата создания</td>
+                <td style="width: 120px;">Автор</td>
+                <td style="width: 30px;">JIP</td>
+            </tr>
+        </thead>
+        {foreach from=$catalogueFolder->getFolders() item="folder"}
+            {if $folder->getLevel() eq $catalogueFolder->getLevel()+1 }
+            <tr>
+                <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$folder->getPath() section_name="catalogue" module_name="catalogue"}">{$folder->getTitle()}</a></td>
+                <td style="text-align: center;">-</td>
+                <td style="text-align: center;">-</td>
+                <td style="text-align: center;">{$folder->getJip()}</td>
+            </tr>
+            {/if}
+        {/foreach}
+        
+        {foreach from=$items item="item"}
+            <tr>
+                <td style="width: 30px; text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" /></td>
+                <td style="text-align: left;">{$item->getId()}</td>
+                <td style="text-align: center;">{$item->getCreated()|date_format:"%d/%m/%Y %H:%M"}</td>
+                <td style="text-align: center;">{$item->getEditor()->getLogin()}</td>
+                <td style="text-align: center;">{$item->getJip()}</td>
+            </tr>
+        {/foreach}
+        
+        <tr class="tableListFoot">
+            <td>&nbsp;</td>
+            <td colspan="2"><a href="">1</a> <strong>2</strong> <a href="">3</a> <span style="color: #999;">...</span> <a href="">4</a></td>
+            <td colspan="2" style="text-align: right; color: #7A7A7A;">60 новостей</td>
+        </tr>
+    </table>
+</div>
+<br /><br /><hr/><br /><br />
+
+<p class="pageTitle">Список элементов</p>
+<div class="pageContent">
 Текущая директория: <strong>{$catalogueFolder->getTitle()}</strong> {$catalogueFolder->getJip()}
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
