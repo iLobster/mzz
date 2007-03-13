@@ -13,8 +13,8 @@
 
         {foreach from=$current_folder->getFolders() item=folder}
             <tr align="center">
-              <td><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
-              <td align="left"><a href="{url route='admin' params=$current_folder->getPath() section_name=news module_name=news}">{$folder->getTitle()}</a></td>
+              <td><img src="{$SITE_PATH}/templates/images/fileManager/folder.gif" /></td>
+              <td align="left"><a href="{url route='admin' params=$folder->getPath() section_name=$current_section module_name=fileManager}">{$folder->getTitle()}</a></td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
