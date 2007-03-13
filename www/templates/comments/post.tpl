@@ -6,7 +6,7 @@
             <td><strong>{$form.text.label}</strong></td>
         </tr>
         <tr>
-            <td>{$form.text.html}</td>
+            <td>{$form.text.html}{$form.text.error}</td>
         </tr>
         <tr>
             <td>{$form.submit.html}{$form.reset.html}</td>

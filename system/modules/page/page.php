@@ -23,6 +23,13 @@ class page extends simple
 {
     protected $name = 'page';
 
+    public function getFullPath()
+    {
+        return $this->getFolder()->getPath() . '/' . $this->getName();
+    }
+
+
+
     /**
      * Получение объекта JIP
      *
@@ -30,7 +37,7 @@ class page extends simple
      */
     public function getJip()
     {
-        return $this->getJipView($this->name, $this->getFolder()->getPath() . '/' . $this->getName(), get_class($this));
+        return $this->getJipView($this->name, $this->getFullPath(), get_class($this));
     }
 }
 

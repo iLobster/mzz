@@ -30,7 +30,7 @@ class fileManagerAdminController extends simpleController
         $folder = $folderMapper->searchByPath($path);
         if ($folder) {
             $this->smarty->assign('current_folder', $folder);
-            $this->smarty->assign('folders', $folderMapper->getTree());
+            //$this->smarty->assign('folders', $folderMapper->getTree());
             $this->smarty->assign('files', $folder->getItems());
             return $this->smarty->fetch('fileManager/admin.tpl');
         }

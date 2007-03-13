@@ -37,6 +37,18 @@
                 <td style="width: 30px;">JIP</td>
             </tr>
         </thead>
+
+        {foreach from=$current_folder->getFolders() item=folder}
+            <tr align="center">
+              <td><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
+              <td align="left"><a href="{url route='admin' params=$current_folder->getPath() section_name=news module_name=news}">{$folder->getTitle()}</a></td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>{$folder->getJip()}</td>
+            </tr>
+        {/foreach}
+        
         {foreach from=$files item=file}
             {assign var="filename" value=$file->getFullPath()}
             <tr align="center">
@@ -48,5 +60,10 @@
                 <td>{$file->getJip()}</td>
             </tr>
         {/foreach}
+        
+        <tr>
+            <td align="center"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" align="absmiddle" style="padding-right: 5px;" /></td>
+            <td colspan="5"><a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="jipLink">Загрузить файл</a></td>
+        </tr>
     </table>
 </div>

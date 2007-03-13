@@ -19,13 +19,15 @@ fileLoader::load('comments/forms/commentsPostForm');
  *
  * @package modules
  * @subpackage comments
- * @version 0.1
+ * @version 0.1.1
  */
 
 class commentsFolderPostController extends simpleController
 {
     public function getView()
     {
+        $parent_id = $this->request->get('id', 'integer', SC_PATH);
+
         $user = $this->toolkit->getUser();
 
         $form = commentsPostForm::getForm($this->request->get('id', 'integer', SC_PATH));
@@ -33,40 +35,51 @@ class commentsFolderPostController extends simpleController
         $access = $this->request->get('access', 'boolean', SC_PATH);
 
         if (!is_null($access) && !$access) {
-            return $user->getId() == MZZ_USER_GUEST_ID ? $this->smarty->fetch('comments/onlyAuth.tpl') : '';
+            return $user->getId() == MZZ_USER_GUEST_ID ? $this->smarty->fetch('comments/onlyAuth.tpl') : $this->smarty->fetch('comments/deny.tpl');
         }
 
         if ($form->validate() == false) {
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $form->accept($renderer);
+            $section = $this->request->getSection();
+            $session = $this->toolkit->getSession();
+            $sess_name = $section . '_' . 'comments_' . $parent_id;
 
-            $this->smarty->assign('action', 'post');
-            $this->smarty->assign('form', $renderer->toArray());
+            if (strtolower($this->request->getMethod()) != 'post') {
+                if ($session->exists($sess_name)) {
+                    $form = unserialize($session->get($sess_name));
+                    $session->destroy($sess_name);
+                }
 
-            return $this->smarty->fetch('comments/post.tpl');
-        }
+                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+                $form->accept($renderer);
+                $this->smarty->assign('action', 'post');
+                $this->smarty->assign('form', $renderer->toArray());
 
-        $parent_id = $this->request->get('id', 'integer', SC_PATH);
-
-        $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');
-        $commentsFolderMapper = $this->toolkit->getMapper('comments', 'commentsFolder', 'comments');
-
-        $commentsFolder = $commentsFolderMapper->searchOneByField('parent_id', $parent_id);
-
-        if ($commentsFolder) {
+                return $this->smarty->fetch('comments/post.tpl');
+            }
 
             $values = $form->exportValues();
+            $session->set($sess_name, serialize($form));
+        } else {
+            $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');
+            $commentsFolderMapper = $this->toolkit->getMapper('comments', 'commentsFolder', 'comments');
 
-            $comment = $commentsMapper->create();
-            $comment->setText($values['text']);
+            $commentsFolder = $commentsFolderMapper->searchOneByField('parent_id', $parent_id);
 
-            $user = $this->toolkit->getUser();
+            if ($commentsFolder) {
 
-            $comment->setAuthor($user);
-            $comment->setFolder($commentsFolder);
+                $values = $form->exportValues();
 
-            $commentsMapper->save($comment);
+                $comment = $commentsMapper->create();
+                $comment->setText($values['text']);
 
+                $user = $this->toolkit->getUser();
+
+                $comment->setAuthor($user);
+                $comment->setFolder($commentsFolder);
+
+                $commentsMapper->save($comment);
+
+            }
         }
 
         $this->response->redirect($values['url']);
