@@ -25,6 +25,15 @@ class catalogueAdminController extends simpleController
     public function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
+        $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
+
+        $path = $this->request->get('params', 'string', SC_PATH);
+
+        if (is_null($path)) {
+            $path = 'root';
+        }
+
+        $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
 
         $types = $catalogueMapper->getAllTypes();
         $properties = $catalogueMapper->getAllProperties();
@@ -72,6 +81,8 @@ class catalogueAdminController extends simpleController
         $this->smarty->assign('jipProperties', $jipProperties);
         $this->smarty->assign('types', $types);
         $this->smarty->assign('properties', $properties);
+        $this->smarty->assign('items', $catalogueFolder->getItems());
+        $this->smarty->assign('catalogueFolder', $catalogueFolder);
         return $this->smarty->fetch('catalogue/admin.tpl');
     }
 }

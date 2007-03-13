@@ -29,9 +29,9 @@ class catalogueSaveTypeController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $properties = $catalogueMapper->getAllProperties();
 
-        $action = $this->request->getAction();
+        $isEdit = ($this->request->getAction() == 'editType');
 
-        if($action == 'editType'){
+        if($isEdit){
             $type_id = $this->request->get('id', 'integer', SC_PATH);
 
             $type = $catalogueMapper->getType($type_id);
@@ -49,13 +49,15 @@ class catalogueSaveTypeController extends simpleController
             $form->accept($renderer);
             $formArray = $renderer->toArray();
             $formArray['properties'] = isset($formArray['properties']) ? $formArray['properties'] : array();
+
             $this->smarty->assign('form', $formArray);
+            $this->smarty->assign('isEdit', $isEdit);
             return $this->smarty->fetch('catalogue/type.tpl');
         } else {
             $values = $form->exportValues();
             $values['properties'] = (isset($values['properties'])) ? $values['properties'] : array();
 
-            if($action == 'editType'){
+            if($isEdit){
                 $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']));
             } else {
                 $catalogueMapper->addType($values['name'], $values['title'], array_keys($values['properties']));

@@ -28,15 +28,15 @@ class catalogueSavePropertyController extends simpleController
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
 
-        $action = $this->request->getAction();
+        $isEdit = ($this->request->getAction() == 'editProperty');
 
         $typesTemp = $catalogueMapper->getAllPropertiesTypes();
         $types = array();
         foreach($typesTemp as $type){
             $types[$type['id']] = $type['title'] . ' (' . $type['name'] . ')';
         }
-        
-        if($action == 'editProperty'){
+
+        if($isEdit){
             $id = $this->request->get('id', 'integer', SC_PATH);
             $property = $catalogueMapper->getProperty($id);
             $form = cataloguePropertyForm::getForm($property, $types);
@@ -48,10 +48,11 @@ class catalogueSavePropertyController extends simpleController
             $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
             $form->accept($renderer);
             $this->smarty->assign('form', $renderer->toArray());
+            $this->smarty->assign('isEdit', $isEdit);
             return $this->smarty->fetch('catalogue/property.tpl');
         } else {
             $values = $form->exportValues();
-            if($action == 'editProperty'){
+            if($isEdit){
                 $catalogueMapper->updateProperty($id, $values['name'], $values['title'], $values['type']);
             } else {
                 $catalogueMapper->addProperty($values['name'], $values['title'], $values['type']);

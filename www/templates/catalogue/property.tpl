@@ -1,4 +1,8 @@
+{if $isEdit}
 {include file='jipTitle.tpl' title='Редактирование свойства'}
+{else}
+{include file='jipTitle.tpl' title='Создание нового свойства'}
+{/if}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
 {$form.hidden}
 {$form.javascript}

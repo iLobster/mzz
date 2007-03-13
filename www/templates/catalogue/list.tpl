@@ -1,7 +1,5 @@
 {add file="catalogue.css"}
-{*
-{include file="catalogue/tree.tpl" source=$catalogueFolder}
-*}
+{*{include file="catalogue/tree.tpl" source=$catalogueFolder}*}
 {include file="catalogue/dtree.tpl" source=$folders}
 
 <div class="catalogueList">
