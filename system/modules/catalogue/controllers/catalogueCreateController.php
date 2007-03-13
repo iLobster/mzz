@@ -26,6 +26,7 @@ class catalogueCreateController extends simpleController
 {
     public function getView()
     {
+        $user = $this->toolkit->getUser();
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
@@ -66,8 +67,8 @@ class catalogueCreateController extends simpleController
             $item = $catalogueMapper->create();
             $item->setType($values['type']);
             $item->setFolder($folder);
-            $item->setEditor(1);
-            $item->setCreated(1);
+            $item->setEditor($user);
+            $item->setCreated(mktime());
 
             foreach ($fields as $field) {
                 $item->setProperty($field, $values[$field]);

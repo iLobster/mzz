@@ -99,7 +99,6 @@ class url
                $params['action'] = $this->action;
         }
         $url = $this->route->assemble($params);
-        $this->deleteRoute();
 
         if (sizeof($this->getParams)) {
             $url .= '?';

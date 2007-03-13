@@ -29,6 +29,47 @@ class catalogueAdminController extends simpleController
         $types = $catalogueMapper->getAllTypes();
         $properties = $catalogueMapper->getAllProperties();
 
+        $jipTypes = array();
+        $url = new url('withId');
+        foreach($types as $type){
+            $url->addParam('id', $type['id']);
+
+            $url->setAction('editType');
+            $jipTypes[$type['id']][] = array(
+                            "title" => 'Редактировать',
+                            "url" => $url->get(),
+                            "icon" => SITE_PATH . '/templates/images/edit.gif'
+                        );
+
+            $url->setAction('deleteType');
+            $jipTypes[$type['id']][] = array(
+                            "title" => 'Удалить',
+                            "url" => $url->get(),
+                            "icon" => SITE_PATH . '/templates/images/delete.gif'
+                        );
+        }
+
+        $jipProperties = array();
+        $url = new url('withId');
+        foreach($properties as $property){
+            $url->addParam('id', $property['id']);
+            $url->setAction('editProperty');
+            $jipProperties[$property['id']][] = array(
+                            "title" => 'Редактировать',
+                            "url" => $url->get(),
+                            "icon" => SITE_PATH . '/templates/images/edit.gif'
+                        );
+
+            $url->setAction('deleteProperty');
+            $jipProperties[$property['id']][] = array(
+                            "title" => 'Удалить',
+                            "url" => $url->get(),
+                            "icon" => SITE_PATH . '/templates/images/delete.gif'
+                        );
+        }
+
+        $this->smarty->assign('jipTypes', $jipTypes);
+        $this->smarty->assign('jipProperties', $jipProperties);
         $this->smarty->assign('types', $types);
         $this->smarty->assign('properties', $properties);
         return $this->smarty->fetch('catalogue/admin.tpl');

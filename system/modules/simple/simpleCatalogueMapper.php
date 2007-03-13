@@ -51,7 +51,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function getAllProperties()
     {
-        return $this->db->getAll('SELECT * FROM `' . $this->tableProperties . '`', PDO::FETCH_ASSOC);
+        return $this->db->getAll('SELECT `p`.*, `pt`.`name` AS `type` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id`', PDO::FETCH_ASSOC);
     }
 
     public function getType($id)
