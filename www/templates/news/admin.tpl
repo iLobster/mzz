@@ -13,22 +13,22 @@
         </thead>
 
         {foreach from=$newsFolder->getFolders(1) item=current_folder name=folders}
-            <tr>
-                <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
+            <tr align="center">
+                <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
                 <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=news module_name=news}">{$current_folder->getTitle()}</a></td>
-                <td style="text-align: center;">-</td>
-                <td style="text-align: center;">-</td>
-                <td style="text-align: center;">{$current_folder->getJip()}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{$current_folder->getJip()}</td>
             </tr>
         {/foreach}
 
         {foreach from=$news item=current_news}
-            <tr>
-                <td style="width: 30px; text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" /></td>
+            <tr align="center">
+                <td style="width: 30px; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" /></td>
                 <td style="text-align: left;">{$current_news->getTitle()}</td>
-                <td style="text-align: center;">{$current_news->getUpdated()|date_format:"%d/%m/%Y %H:%M"}</td>
-                <td style="text-align: center;">{$current_news->getEditor()->getLogin()}</td>
-                <td style="text-align: center;">{$current_news->getJip()}</td>
+                <td>{$current_news->getUpdated()|date_format:"%d/%m/%Y %H:%M"}</td>
+                <td>{$current_news->getEditor()->getLogin()}</td>
+                <td>{$current_news->getJip()}</td>
             </tr>
         {/foreach}
         
