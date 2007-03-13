@@ -24,7 +24,7 @@ fileLoader::load('catalogue/catalogueFolder');
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueFolderMapper extends simpleMapperForTree
 {
     /**
@@ -42,7 +42,7 @@ class catalogueFolderMapper extends simpleMapperForTree
     protected $className = 'catalogueFolder';
 
     protected $itemName = 'catalogue';
-    
+
     public function __construct($section)
     {
         parent::__construct($section);
@@ -50,7 +50,7 @@ class catalogueFolderMapper extends simpleMapperForTree
         $init = array ('mapper' => $this, 'joinField' => 'parent', 'treeTable' => $section . '_' . $this->className . '_tree');
         $this->tree = new dbTreeNS($init, 'name');
     }
-    
+
     public function searchById($id)
     {
         return $this->searchOneByField('id', $id);
@@ -60,7 +60,7 @@ class catalogueFolderMapper extends simpleMapperForTree
     {
         return $this->searchOneByField('parent', $id);
     }
-    
+
     public function searchByName($name)
     {
         if (empty($name)) {
@@ -68,34 +68,34 @@ class catalogueFolderMapper extends simpleMapperForTree
         }
         return $this->searchOneByField('name', $name);
     }
-    
+
     public function create()
     {
         $map = $this->getMap();
         return new catalogueFolder($this, $map);
     }
-    
+
     public function getFolders($id, $level = 1)
     {
         return $this->tree->getBranchContainingNode($id, $level);
     }
-    
+
     public function searchByPath($path)
     {
         return $this->tree->getNodeByPath($path);
     }
-    
+
     public function getFoldersByPath($path, $deep = 1)
     {
         // выбирается только нижележащий уровень
         return $this->tree->getBranchByPath($path, $deep);
     }
-    
+
     public function getTree($level = 0)
     {
         return $this->tree->getTree($level);
     }
-    
+
     public function getItems($id)
     {
         $catalogue = systemToolkit::getInstance()->getMapper($this->name, $this->itemName, $this->section());
@@ -121,17 +121,22 @@ class catalogueFolderMapper extends simpleMapperForTree
 
         return $tree;
     }
-    
+
     public function getTreeParent($id)
     {
         return $this->tree->getParentNode($id);
+    }
+
+    public function enumPath($id)
+    {
+        return $this->tree->getParentBranch($id, 999);
     }
 
     public function move($folder, $destFolder)
     {
         return $this->tree->moveNode($folder, $destFolder);
     }
-    
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

@@ -35,6 +35,9 @@ class catalogueAdminController extends simpleController
 
         $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
 
+        $chain = $catalogueFolderMapper->enumPath($catalogueFolder->getId());
+        $this->smarty->assign('chains', $chain);
+
         $types = $catalogueMapper->getAllTypes();
         $properties = $catalogueMapper->getAllProperties();
 

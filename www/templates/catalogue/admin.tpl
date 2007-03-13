@@ -1,6 +1,15 @@
 <p class="pageTitle">Список элементов</p>
-
 <div class="pageContent">
+{foreach from=$chains item="chain" name="chain"}
+{if $smarty.foreach.chain.last}
+    /{$chain->getTitle()}
+{else}
+    /<a href="{url route='admin' params=$chain->getPath() section_name="catalogue" module_name="catalogue"}">{$chain->getTitle()}</a>
+{/if}
+{foreachelse}
+{/foreach}
+<br/>
+<br/>
 Текущая директория: <strong>{$catalogueFolder->getTitle()}</strong> {$catalogueFolder->getJip()}
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
@@ -12,6 +21,15 @@
                 <td style="width: 30px;">JIP</td>
             </tr>
         </thead>
+            {if $catalogueFolder->getLevel() ne 1}
+            <tr>
+                <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$catalogueFolder->getTreeParent()->getPath() section_name="catalogue" module_name="catalogue"}">..</a></td>
+                <td style="text-align: center;">-</td>
+                <td style="text-align: center;">-</td>
+                <td style="text-align: center;">{$catalogueFolder->getTreeParent()->getJip()}</td>
+            </tr>
+            {/if}
         {assign var="empty" value="false"}
         {foreach from=$catalogueFolder->getFolders() item="folder"}
             {if $folder->getLevel() eq $catalogueFolder->getLevel()+1 }
@@ -36,7 +54,7 @@
                 <td style="text-align: center;">{$item->getJip()}</td>
             </tr>
         {foreachelse}
-            {if $empty eq true}
+            {if $empty eq "true"}
             <tr>
                 <td style="width: 30px; text-align: right; color: #8B8B8B;"></td>
                 <td style="text-align: left;">Тут нихрена нет</td>
