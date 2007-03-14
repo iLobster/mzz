@@ -1,4 +1,4 @@
-# SQL Manager 2005 for MySQL 3.7.5.1
+# SQL Manager 2005 for MySQL 3.7.7.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -29,6 +29,7 @@ DROP TABLE IF EXISTS `catalogue_catalogue`;
 CREATE TABLE `catalogue_catalogue` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
+  `name` varchar(255) NOT NULL default '',
   `editor` int(11) default NULL,
   `created` int(11) default NULL,
   `obj_id` int(11) default NULL,
@@ -41,8 +42,9 @@ CREATE TABLE `catalogue_catalogue` (
 # Data for the `catalogue_catalogue` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
-  (2,2,10,777,238,1);
+INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
+  (2,2,'Комп',10,777,238,1),
+  (3,1,'Запор',2,1173870334,272,1);
 
 COMMIT;
 
@@ -68,8 +70,7 @@ CREATE TABLE `catalogue_catalogueFolder` (
 
 INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (1,241,'root','Основной',1,'root'),
-  (2,249,'test','Тестовый',2,'root/test'),
-  (3,251,'test2','Тестовый2',3,'root/test/test2');
+  (2,249,'test','Тестовый',2,'root/test');
 
 COMMIT;
 
@@ -95,9 +96,8 @@ CREATE TABLE `catalogue_catalogueFolder_tree` (
 #
 
 INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,6,1),
-  (2,2,5,2),
-  (3,3,4,3);
+  (1,1,4,1),
+  (2,2,3,2);
 
 COMMIT;
 
@@ -124,9 +124,12 @@ CREATE TABLE `catalogue_catalogue_data` (
 
 INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `date`, `float`) VALUES 
   (2,4,NULL,'LG FLATRON L1717S 17''',NULL,NULL,NULL),
-  (2,5,NULL,'ATI Radeon 9600Pro',NULL,NULL,NULL),
+  (2,5,NULL,'ATI Radeon x1600Pro',NULL,NULL,NULL),
   (2,6,NULL,'Seagate 5400 80gb',NULL,NULL,NULL),
-  (2,18,NULL,'Pentium4 - 2400 MHz',NULL,NULL,NULL);
+  (2,18,NULL,'Pentium4 - 2400 MHz',NULL,NULL,NULL),
+  (3,17,NULL,'0%',NULL,NULL,NULL),
+  (3,12,NULL,NULL,1985,NULL,NULL),
+  (3,3,NULL,'Запорожец',NULL,NULL,NULL);
 
 COMMIT;
 
@@ -1348,7 +1351,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (238,16),
   (240,7),
   (249,17),
-  (251,17),
+  (272,16),
   (253,12),
   (259,12),
   (260,12),
@@ -1979,7 +1982,13 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (263),
   (264),
   (265),
-  (266);
+  (266),
+  (267),
+  (268),
+  (269),
+  (270),
+  (271),
+  (272);
 
 COMMIT;
 

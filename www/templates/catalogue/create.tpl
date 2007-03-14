@@ -34,6 +34,10 @@ function loadForm(id)
             <td>{$form.type.label}</td> 
             <td>{$form.type.html}</td>
         <tr>
+        <tr>
+            <td>{$form.name.label}</td> 
+            <td>{$form.name.html}</td>
+        <tr>
 {foreach from=$fields item="element"}
         <tr>
             <td>{$form.$element.label}</td> 

@@ -42,6 +42,8 @@ class catalogueCreateForm
         $url->addParam('name', $folder->getPath());
 
         $form = new HTML_QuickForm('frmSave', 'POST', $url->get());
+        $form->addElement('text', 'name', 'Имя');
+        $form->addRule('name', 'Введите имя', 'required');
 
         $select = array();
         foreach($types as $type){

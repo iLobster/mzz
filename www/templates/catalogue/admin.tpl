@@ -39,7 +39,7 @@
         {foreach from=$items item="item" name="itemIterator"}
             <tr>
                 <td style="width: 30px; text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" /></td>
-                <td style="text-align: left;">{$item->getId()}</td>
+                <td style="text-align: left;">{$item->getName()}</td>
                 <td style="text-align: center;">{$item->getTypeTitle()}</td>
                 <td style="text-align: center;">{$item->getCreated()|date_format:"%d/%m/%Y %H:%M"}</td>
                 <td style="text-align: center;">{$item->getEditor()->getLogin()}</td>

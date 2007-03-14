@@ -42,10 +42,11 @@ class catalogueObjectForm
         $url->addParam('id', $catalogue->getId());
 
         $form = new HTML_QuickForm('frmEdit', 'POST', $url->get());
-
+        $form->addElement('text', 'name', 'Имя');
+        $form->addRule('name', 'Введите имя', 'required');
         catalogueAssignForm::assign($form, $properties);
 
-        $defaults = array();
+        $defaults = array('name' => $catalogue->getName());
         foreach($catalogue->exportOldProperties() as $property => $value){
             $defaults[$property] = $value;
         }

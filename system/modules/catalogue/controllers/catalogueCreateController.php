@@ -41,7 +41,12 @@ class catalogueCreateController extends simpleController
 
         $type = $this->request->get('type', 'integer', SC_GET | SC_POST);
 
-        $properties = $catalogueMapper->getProperties( ($type == 0) ? $types[0]['id'] : $type);
+        if ($type == 0 ){
+            $firstType = array_shift($types);
+            $properties = $catalogueMapper->getProperties($firstType['id']);
+        } else {
+            $properties = $catalogueMapper->getProperties($type);
+        }
 
         $form = catalogueCreateForm::getForm($types, $folder, $type, $properties);
 
@@ -66,6 +71,7 @@ class catalogueCreateController extends simpleController
 
             $item = $catalogueMapper->create();
             $item->setType($values['type']);
+            $item->setName($values['name']);
             $item->setFolder($folder);
             $item->setEditor($user);
             $item->setCreated(mktime());

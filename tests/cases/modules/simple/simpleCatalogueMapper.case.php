@@ -17,11 +17,12 @@ class simpleCatalogueMapperTest extends unitTestCase
         'created' => array ('name' => 'created','accessor' => 'getCreated', 'mutator' => 'setCreated'),
         'editor' => array ('name' => 'editor','accessor' => 'getEditor', 'mutator' => 'setEditor'),
         'type_id' => array ('name' => 'type_id','accessor' => 'getType', 'mutator' => 'setType'),
+        'name' => array ('name' => 'name','accessor' => 'getName', 'mutator' => 'setName'),
         );
 
         $this->fixture = array(
-        1 => array('id' => 1, 'type_id' => 1, 'editor' => 1, 'created' => 666),
-        2 => array('id' => 2, 'type_id' => 2, 'editor' => 2, 'created' => 999),
+        1 => array('id' => 1, 'type_id' => 1, 'name' => 'name_1', 'editor' => 1, 'created' => 666),
+        2 => array('id' => 2, 'type_id' => 2, 'name' => 'name_2','editor' => 2, 'created' => 999),
         );
 
         $this->db = DB::factory();
@@ -32,11 +33,11 @@ class simpleCatalogueMapperTest extends unitTestCase
     {
         $valString = '';
         foreach ($this->fixture as $id => $data) {
-            $valString .= "('" . $data['id'] . "', '" . $data['type_id']. "', '" . $data['editor']. "', '" . $data['created']. "'),";
+            $valString .= "('" . $data['id'] . "', '" . $data['type_id']. "', '" . $data['name']. "', '" . $data['editor']. "', '" . $data['created']. "'),";
         }
         $valString = substr($valString, 0,  -1);
 
-        $this->db->query('INSERT INTO `simple_catalogue` (`id`, `type_id`, `editor`, `created`) VALUES ' . $valString);
+        $this->db->query('INSERT INTO `simple_catalogue` (`id`, `type_id`, `name`, `editor`, `created`) VALUES ' . $valString);
         $this->db->query("INSERT INTO `simple_catalogue_properties` (`id`, `name`, `title`, `type_id`) VALUES (1, 'property_1', 'title_1', 1), (2, 'property_2', 'title_2', 1), (3, 'property_3', 'title_3', 1), (4, 'property_4', 'title_4', 2)");
         $this->db->query("INSERT INTO `simple_catalogue_properties_types` (`id`, `name`) VALUES (1, 'char'), (2, 'float')");
         $this->db->query("INSERT INTO `simple_catalogue_types` (`id`, `name`, `title`) VALUES (1, 'type_1', 'type_title_1'), (2, 'type_2', 'type_title_2')");
@@ -87,6 +88,7 @@ class simpleCatalogueMapperTest extends unitTestCase
         $catalogue = $this->mapper->searchOneByField('id', 1);
 
         $this->assertEqual($catalogue->getId(), 1);
+        $this->assertEqual($catalogue->getName(), 'name_1');
         $this->assertEqual($catalogue->getType(), 1);
         $this->assertEqual($catalogue->getTypeTitle(), 'type_title_1');
 
@@ -100,6 +102,7 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->assertEqual($catalogue->getPropertyType('property_2'), 'char');
 
         $catalogue2 = $this->mapper->searchOneByField('id', 2);
+        $this->assertEqual($catalogue2->getName(), 'name_2');
         $this->assertEqual($catalogue2->getProperty('property_4'), 666);
     }
 

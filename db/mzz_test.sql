@@ -1,14 +1,9 @@
-# SQL Manager 2005 for MySQL 3.7.5.1
+# SQL Manager 2005 for MySQL 3.7.7.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz_test
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -128,6 +123,7 @@ DROP TABLE IF EXISTS `simple_catalogue`;
 CREATE TABLE `simple_catalogue` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
+  `name` varchar(255) NOT NULL default '',
   `editor` int(11) default NULL,
   `created` int(11) default NULL,
   `obj_id` int(11) default NULL,
@@ -298,6 +294,18 @@ CREATE TABLE `sys_access_registry` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `sys_access_registry` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
+  (67,1),
+  (68,1),
+  (1,2),
+  (2,1);
+
+COMMIT;
+
+#
 # Structure for the `sys_actions` table : 
 #
 
@@ -382,6 +390,16 @@ CREATE TABLE `sys_classes_sections` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `sys_classes_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
+  (1,1,1),
+  (2,2,1);
+
+COMMIT;
+
+#
 # Structure for the `sys_modules` table : 
 #
 
@@ -403,80 +421,6 @@ CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_obj_id` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_obj_id` (`id`) VALUES 
-  (1),
-  (2),
-  (3),
-  (4),
-  (5),
-  (6),
-  (7),
-  (8),
-  (9),
-  (10),
-  (11),
-  (12),
-  (13),
-  (14),
-  (15),
-  (16),
-  (17),
-  (18),
-  (19),
-  (20),
-  (21),
-  (22),
-  (23),
-  (24),
-  (25),
-  (26),
-  (27),
-  (28),
-  (29),
-  (30),
-  (31),
-  (32),
-  (33),
-  (34),
-  (35),
-  (36),
-  (37),
-  (38),
-  (39),
-  (40),
-  (41),
-  (42),
-  (43),
-  (44),
-  (45),
-  (46),
-  (47),
-  (48),
-  (49),
-  (50),
-  (51),
-  (52),
-  (53),
-  (54),
-  (55),
-  (56),
-  (57),
-  (58),
-  (59),
-  (60),
-  (61),
-  (62),
-  (63),
-  (64),
-  (65),
-  (66);
-
-COMMIT;
 
 #
 # Structure for the `sys_obj_id_named` table : 
@@ -573,8 +517,3 @@ CREATE TABLE `user_userGroup_rel` (
   UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

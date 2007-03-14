@@ -48,6 +48,7 @@ class catalogueEditController extends simpleController
         } else {
             $values = $form->exportValues();
 
+            $catalogue->setName($values['name']);
             foreach(array_keys($catalogue->exportOldProperties()) as $property){
                 $catalogue->setProperty($property, $values[$property]);
             }
