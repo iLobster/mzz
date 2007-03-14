@@ -19,7 +19,7 @@ fileLoader::load('db/criterion');
  *
  * @package system
  * @subpackage db
- * @version 0.1.8
+ * @version 0.1.9
  */
 
 class criteria
@@ -141,6 +141,8 @@ class criteria
      * @var array
      */
     private $orderBy = array();
+
+    private $orderBySettings = array();
 
     /**
      * Массив для хранения полей для группировки
@@ -306,12 +308,12 @@ class criteria
      * Установка поля по которому будет производиться сортировка выборки. Направление ASC
      *
      * @param string $field имя поля
+     * @param boolean $alias
      * @return criteria текущий объект
      */
-    public function setOrderByFieldAsc($field)
+    public function setOrderByFieldAsc($field, $alias = true)
     {
-        $field = str_replace('.', '`.`', $field);
-        $this->orderBy[] = '`' . $field . '` ASC';
+        $this->setOrderBy($field, 'ASC', $alias);
         return $this;
     }
 
@@ -319,13 +321,37 @@ class criteria
      * Установка поля по которому будет производиться сортировка выборки. Направление DESC
      *
      * @param string $field имя поля
+     * @param boolean $alias
      * @return criteria текущий объект
      */
-    public function setOrderByFieldDesc($field)
+    public function setOrderByFieldDesc($field, $alias = true)
+    {
+        $this->setOrderBy($field, 'DESC', $alias);
+        return $this;
+    }
+
+    /**
+     * Установка поля по которому будет производться сортировка
+     *
+     * @param string $field
+     * @param string $direction
+     * @param boolean $alias
+     */
+    private function setOrderBy($field, $direction, $alias)
     {
         $field = str_replace('.', '`.`', $field);
-        $this->orderBy[] = '`' . $field . '` DESC';
-        return $this;
+        $this->orderBy[] = '`' . $field . '` ' . $direction;
+        $this->setOrderBySetting($alias);
+    }
+
+    /**
+     * Установка опций для сортировки
+     *
+     * @param string $alias
+     */
+    private function setOrderBySetting($alias)
+    {
+        $this->orderBySettings[] = array('alias' => $alias);
     }
 
     /**
@@ -345,8 +371,8 @@ class criteria
         $pre = '`' . $table . '`.';
 
         if ($pre != '``.') {
-            foreach ($this->orderBy as $val) {
-                $result[] = (strpos($val, '.') === false) ? $pre . $val : $val;
+            foreach ($this->orderBy as $key => $val) {
+                $result[] = (strpos($val, '.') === false && (!isset($this->orderBySettings[$key]['alias']) || $this->orderBySettings[$key]['alias'] == true)) ? $pre . $val : $val;
             }
         } else {
             return $this->orderBy;

@@ -107,7 +107,7 @@ class newsFolderTest extends unitTestCase
         $this->mappermock->setReturnValue('getFolders', array('foo', 'bar'));
         $this->newsFolder->import($this->newsFolder->export());
 
-        $this->assertEqual($this->newsFolder->getFolders(), array('foo', 'bar'));
+        $this->assertEqual($this->newsFolder->getFolders(), array('bar'));
     }
 
     public function testGetItems()
