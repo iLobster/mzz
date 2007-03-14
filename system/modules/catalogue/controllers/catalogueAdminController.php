@@ -80,12 +80,15 @@ class catalogueAdminController extends simpleController
                         );
         }
 
+        $pager = $this->setPager($catalogueFolder, 'catalogue');
+
         $this->smarty->assign('jipTypes', $jipTypes);
         $this->smarty->assign('jipProperties', $jipProperties);
         $this->smarty->assign('types', $types);
         $this->smarty->assign('properties', $properties);
         $this->smarty->assign('items', $catalogueFolder->getItems());
         $this->smarty->assign('catalogueFolder', $catalogueFolder);
+        $this->smarty->assign('pager', $pager);
         return $this->smarty->fetch('catalogue/admin.tpl');
     }
 }

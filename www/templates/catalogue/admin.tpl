@@ -20,7 +20,7 @@
                 <td style="text-align: center;">-</td>
                 <td style="text-align: center;">-</td>
                 <td style="text-align: center;">-</td>
-                <td style="text-align: center;">{$catalogueFolder->getTreeParent()->getJip()}</td>
+                <td style="text-align: center;">{*$catalogueFolder->getTreeParent()->getJip()*}-</td>
             </tr>
         {/if}
         </thead>
@@ -56,8 +56,8 @@
         
         <tr class="tableListFoot">
             <td>&nbsp;</td>
-            <td colspan="2"><a href="">1</a> <strong>2</strong> <a href="">3</a> <span style="color: #999;">...</span> <a href="">4</a></td>
-            <td colspan="2" style="text-align: right; color: #7A7A7A;">{$smarty.foreach.itemIterator.total} элементов в этой директории</td>
+            <td colspan="2">{if $pager->getPagesTotal() > 1}{$pager->toString()}{/if}</td>
+            <td colspan="3" style="text-align: right; color: #7A7A7A;">{$smarty.foreach.itemIterator.total} элементов в этой директории</td>
         </tr>
     </table>
 </div>

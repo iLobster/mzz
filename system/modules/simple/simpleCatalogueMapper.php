@@ -44,16 +44,21 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $this->tableProperties = $this->table . '_properties';
         $this->tablePropertiesTypes = $this->table . '_properties_types';
         $this->tableTypesProps = $this->table . '_types_props';
+
+        $this->tmptypes = $this->getAllTypes();
     }
 
     public function getAllTypes()
     {
-        $tmp = $this->db->getAll('SELECT * FROM `' . $this->tableTypes . '`', PDO::FETCH_ASSOC);
-        $types = array();
-        foreach($tmp as $type){
-            $types[$type['id']] = $type;
+        if (empty($this->tmptypes)) {
+            $tmp = $this->db->getAll('SELECT * FROM `' . $this->tableTypes . '`', PDO::FETCH_ASSOC);
+            $types = array();
+            foreach($tmp as $type){
+                $types[$type['id']] = $type;
+            }
+            $this->tmptypes = $types;
         }
-        return $types;
+        return $this->tmptypes;
     }
 
     public function getAllProperties()
@@ -279,10 +284,6 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $object->import($row);
         $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
         $object->importServiceData($this->tmpServiceData[$row[$this->tableKey]]);
-
-        if(empty($this->tmptypes)){
-            $this->tmptypes = $this->getAllTypes();
-        }
         $object->importTitle($this->tmptypes[$row['type_id']]['title']);
 
         return $object;
