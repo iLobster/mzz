@@ -22,7 +22,7 @@ fileLoader::load('catalogue/catalogueFolder');
  *
  * @package modules
  * @subpackage catalogue
- * @version 0.1
+ * @version 0.1.1
  */
 
 class catalogueFolderMapper extends simpleMapperForTree
@@ -75,61 +75,10 @@ class catalogueFolderMapper extends simpleMapperForTree
         return new catalogueFolder($this, $map);
     }
 
-    public function getFolders($id, $level = 1)
-    {
-        return $this->tree->getBranchContainingNode($id, $level);
-    }
-
-    public function searchByPath($path)
-    {
-        return $this->tree->getNodeByPath($path);
-    }
-
     public function getFoldersByPath($path, $deep = 1)
     {
         // выбирается только нижележащий уровень
         return $this->tree->getBranchByPath($path, $deep);
-    }
-
-    public function getTree($level = 0)
-    {
-        return $this->tree->getTree($level);
-    }
-
-    public function getItems($id)
-    {
-        $catalogue = systemToolkit::getInstance()->getMapper($this->name, $this->itemName, $this->section());
-
-        if (!empty($this->pager)) {
-            $catalogue->setPager($this->pager);
-        }
-
-        $result = $catalogue->searchByFolder($id);
-
-        return $result;
-    }
-
-    public function getTreeExceptNode($folder)
-    {
-        $tree = $this->tree->getTree();
-
-        $subfolders = $this->tree->getBranch($folder);
-
-        foreach (array_keys($subfolders) as $val) {
-            unset($tree[$val]);
-        }
-
-        return $tree;
-    }
-
-    public function getTreeParent($id)
-    {
-        return $this->tree->getParentNode($id);
-    }
-
-    public function move($folder, $destFolder)
-    {
-        return $this->tree->moveNode($folder, $destFolder);
     }
 
     /**

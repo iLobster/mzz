@@ -375,7 +375,7 @@ INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_
   (1,'root','/',1,'root',195,NULL,NULL),
   (2,'child','child_node',2,'root/child',197,1,'bmp'),
   (3,'q','q',3,'root/child/q',221,0,''),
-  (4,'z','z',4,'root/child/q/z',222,0,'');
+  (4,'z','z',4,'root/child/z',222,0,'');
 
 COMMIT;
 
@@ -403,8 +403,8 @@ CREATE TABLE `fileManager_folder_tree` (
 INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,8,1),
   (2,2,7,2),
-  (3,3,6,3),
-  (4,4,5,4);
+  (3,3,4,3),
+  (4,5,6,3);
 
 COMMIT;
 
@@ -1353,7 +1353,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (259,12),
   (260,12),
   (261,7),
-  (262,12);
+  (262,12),
+  (263,12),
+  (264,7),
+  (265,7),
+  (266,7);
 
 COMMIT;
 
@@ -1446,7 +1450,9 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (7,0,9),
   (9,0,10),
   (15,10,10),
-  (16,0,8);
+  (16,0,8),
+  (17,1,1),
+  (18,9,9);
 
 COMMIT;
 
@@ -1481,7 +1487,11 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `value`) VALUES
   (23,9,'items_per_page','60'),
   (29,10,'items_per_page','10'),
   (31,11,'items_per_page','60'),
-  (32,15,'items_per_page','60');
+  (32,15,'items_per_page','60'),
+  (33,17,'items_per_page','1'),
+  (34,7,'items_per_page','10'),
+  (35,18,'items_per_page','1'),
+  (36,18,'upload_path','../tmp');
 
 COMMIT;
 
@@ -1965,7 +1975,11 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (259),
   (260),
   (261),
-  (262);
+  (262),
+  (263),
+  (264),
+  (265),
+  (266);
 
 COMMIT;
 
@@ -2014,7 +2028,10 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (198,'access_fileManager_fileManager'),
   (233,'access_catalogue_catalogue'),
   (240,'access__catalogue'),
-  (261,'access__');
+  (261,'access__'),
+  (264,'access_news_catalogue'),
+  (265,'access_page_news'),
+  (266,'access_fileManager_page');
 
 COMMIT;
 
@@ -2134,7 +2151,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (26,2,'127.0.0.1','e43de89500fe5c144b5a4687c80cefa9',253,1173239786),
   (27,2,'127.0.0.1','ccc906aca21b95a2e8825f6533632de5',259,1173277691),
   (28,2,'127.0.0.1','ab6db17706e797855c40ba766f8ee3fc',260,1173523868),
-  (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059);
+  (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059),
+  (30,2,'127.0.0.1','a82f02233d00f3ac1f998934774e5331',263,1173762922);
 
 COMMIT;
 

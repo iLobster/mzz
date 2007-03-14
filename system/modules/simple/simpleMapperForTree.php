@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.1.2
  */
 
 abstract class simpleMapperForTree extends simpleMapper
@@ -85,7 +85,57 @@ abstract class simpleMapperForTree extends simpleMapper
 
     public function getPath($id)
     {
-        return $this->tree->getParentBranch($id, 999);
+        return $this->tree->getParentBranch($id, false);
+    }
+
+    /**
+     * Возвращает children-папки
+     *
+     * @return array
+     */
+    public function getFolders($id, $level = 1)
+    {
+        return $this->tree->getBranch($id, $level);
+    }
+
+    public function move($folder, $destFolder)
+    {
+        return $this->tree->moveNode($folder, $destFolder);
+    }
+
+    public function getTreeParent($id)
+    {
+        return $this->tree->getParentNode($id);
+    }
+
+    public function getTreeExceptNode($folder)
+    {
+        $tree = $this->tree->getTree();
+
+        $subfolders = $this->tree->getBranch($folder);
+
+        foreach (array_keys($subfolders) as $val) {
+            unset($tree[$val]);
+        }
+
+        return $tree;
+    }
+
+    public function getTree()
+    {
+        return $this->tree->getTree();
+    }
+
+    /**
+     * Выборка папки на основе пути
+     *
+     * @param string $path Путь
+     * @param string $deep Глубина выборки
+     * @return array with nodes
+     */
+    public function searchByPath($path)
+    {
+        return $this->tree->getNodeByPath($path);
     }
 }
 

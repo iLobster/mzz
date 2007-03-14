@@ -86,6 +86,11 @@ class newsFolderMapperTest extends unitTestCase
 
     public function testGetItems()
     {
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+        $request->save();
+        $request->setSection('news');
+
         $this->fixture($this->mapper, $this->map);
         $newsMapper = new newsMapper('news');
 
@@ -115,6 +120,8 @@ class newsFolderMapperTest extends unitTestCase
             $this->assertEqual($item->getTitle(), $data[$key][0]);
             $this->assertIdentical($item->getFolder()->getId(), $data[$key][3]);
         }
+
+        $request->restore();
     }
 
     public function testGetFolders()

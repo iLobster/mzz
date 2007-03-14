@@ -2,15 +2,6 @@
 
 Путь:
 {include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="news"}
-{*
-{foreach from=$breadCrumbs item="crumb" name="crumb"}
-    {if $smarty.foreach.crumb.last}
-        {$crumb->getTitle()}{$crumb->getJip()}
-    {else}
-        <a href="{url route='admin' params=$crumb->getPath() section_name=$current_section module_name="news"}">{$crumb->getTitle()}</a> / 
-    {/if}
-{/foreach}
-*}
 
 <div class="pageContent">
     <table cellspacing="0" cellpadding="3" class="tableList">
@@ -56,8 +47,8 @@
         
         <tr class="tableListFoot">
             <td>&nbsp;</td>
-            <td colspan="2"><a href="">1</a> <strong>2</strong> <a href="">3</a> <span style="color: #999;">...</span> <a href="">4</a></td>
-            <td colspan="2" style="text-align: right; color: #7A7A7A;">60 новостей</td>
+            <td colspan="2">{$pager->toString()}</td>
+            <td colspan="2" style="text-align: right; color: #7A7A7A;">...</td>
         </tr>
     </table>
 </div>

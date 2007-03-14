@@ -273,6 +273,21 @@ abstract class simple
     }
 
     /**
+     * установка объекта пейджера в маппере
+     *
+     * @param pager $pager
+     */
+    public function setPager($pager)
+    {
+        $this->mapper->setPager($pager);
+    }
+
+    public function removePager()
+    {
+        $this->mapper->removePager();
+    }
+
+    /**
      * Возвращает имя класса, если оно указано в атрибуте 'decorateClass',
      * который декорирует значение для данного поля
      *

@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.2
+ * @version 0.2.1
  */
 
 class fileManagerAdminController extends simpleController
@@ -29,8 +29,12 @@ class fileManagerAdminController extends simpleController
 
         $folder = $folderMapper->searchByPath($path);
         if ($folder) {
+            $breadCrumbs = $folderMapper->getPath($folder);
+            $this->smarty->assign('breadCrumbs', $breadCrumbs);
+
+            $pager = $this->setPager($folder, 'fileManager');
             $this->smarty->assign('current_folder', $folder);
-            //$this->smarty->assign('folders', $folderMapper->getTree());
+            $this->smarty->assign('pager', $pager);
             $this->smarty->assign('files', $folder->getItems());
             return $this->smarty->fetch('fileManager/admin.tpl');
         }

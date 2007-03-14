@@ -21,7 +21,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.4
+ * @version 0.3.5
  */
 
 abstract class simpleMapper
@@ -451,6 +451,8 @@ abstract class simpleMapper
         $this->pager->setCount($count['cnt']);
 
         $criteria->append($this->pager->getLimitQuery());
+
+        $this->removePager();
     }
 
     /**
@@ -889,6 +891,22 @@ abstract class simpleMapper
     {
         fileLoader::load('simple/simple404Controller');
         return new simple404Controller();
+    }
+
+    /**
+     * Возвращает объекты, находящиеся в данной папке
+     *
+     * @return array
+     */
+    public function getItems($id)
+    {
+        $mapper = systemToolkit::getInstance()->getMapper($this->name, $this->itemName);
+
+        if (!empty($this->pager)) {
+            $mapper->setPager($this->pager);
+        }
+
+        return $mapper->searchByFolder($id);
     }
 
     /**

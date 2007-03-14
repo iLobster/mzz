@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: simpleForTree.php 604 2007-02-20 23:34:20Z zerkms $
+ * @version $Id: simpleForTree.php 704 2007-03-14 05:13:23Z zerkms $
  */
 
 /**
@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.1.1
  */
 
 class simpleForTree extends simple
@@ -123,6 +123,21 @@ class simpleForTree extends simple
     public function setLeftKey($value)
     {
         $this->treeFields->set('lkey', $value);
+    }
+
+    /**
+     * Возвращает children-папки
+     *
+     * @return array
+     */
+    public function getFolders($level = 1)
+    {
+        if (!$this->fields->exists('folders')) {
+            $folders = $this->mapper->getFolders($this->getParent(), $level);
+            array_shift($folders);
+            $this->fields->set('folders', $folders);
+        }
+        return $this->fields->get('folders');
     }
 }
 

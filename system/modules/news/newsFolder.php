@@ -29,7 +29,7 @@ class newsFolder extends simpleForTree
      *
      * @var object
      */
-    private $mapper;
+    protected $mapper;
 
     protected $name = 'news';
 
@@ -51,11 +51,13 @@ class newsFolder extends simpleForTree
      *
      * @return array
      */
-    public function getFolders($level = 1)
+    public function getFolders($level = 1, $withSameNode = false)
     {
         if (!$this->fields->exists('folders')) {
             $folders = $this->mapper->getFolders($this->getParent(), $level);
-            array_shift($folders);
+            if (!$withSameNode) {
+                array_shift($folders);
+            }
             $this->fields->set('folders', $folders);
         }
         return $this->fields->get('folders');
@@ -77,21 +79,6 @@ class newsFolder extends simpleForTree
     public function getTreeParent()
     {
         return $this->mapper->getTreeParent($this->getParent());
-    }
-
-    /**
-     * установка объекта пейджера в маппере
-     *
-     * @param pager $pager
-     */
-    public function setPager($pager)
-    {
-        $this->mapper->setPager($pager);
-    }
-
-    public function removePager()
-    {
-        $this->mapper->removePager();
     }
 
     public function getJip()

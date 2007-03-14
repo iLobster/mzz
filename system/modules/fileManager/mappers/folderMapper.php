@@ -21,7 +21,7 @@ fileLoader::load('simple/simpleMapperForTree');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class folderMapper extends simpleMapperForTree
@@ -65,61 +65,9 @@ class folderMapper extends simpleMapperForTree
         return new folder($this, $this->getMap());
     }
 
-    /**
-     * Выборка папки на основе пути
-     *
-     * @param string $path Путь
-     * @param string $deep Глубина выборки
-     * @return array with nodes
-     */
-    public function searchByPath($path)
-    {
-        return $this->tree->getNodeByPath($path);
-    }
-
     public function searchById($id)
     {
         return $this->searchOneByField('id', $id);
-    }
-
-    /**
-     * Возвращает объекты, находящиеся в данной папке
-     *
-     * @return array
-     */
-    public function getItems($id)
-    {
-        $fileMapper = systemToolkit::getInstance()->getMapper($this->name, 'file');
-
-        return $fileMapper->searchByFolder($id);
-    }
-
-    /**
-     * Возвращает children-папки
-     *
-     * @return array
-     */
-    public function getFolders($id, $level = 1)
-    {
-        return $this->tree->getBranchContainingNode($id, $level);
-    }
-
-    public function getTreeExceptNode($folder)
-    {
-        $tree = $this->tree->getTree();
-
-        $subfolders = $this->tree->getBranch($folder);
-
-        foreach (array_keys($subfolders) as $val) {
-            unset($tree[$val]);
-        }
-
-        return $tree;
-    }
-
-    public function getTree()
-    {
-        return $this->tree->getTree();
     }
 
     /**
@@ -129,31 +77,12 @@ class folderMapper extends simpleMapperForTree
      */
     public function convertArgsToId($args)
     {
-        /*
-        @todo
-        $toolkit = systemToolkit::getInstance();
-        $fileMapper = $toolkit->getMapper('fileManager', 'file');
-        $file = $fileMapper->searchByPath($args['name']);
-        if ($file) {
-
-        }*/
-
         $folder = $this->searchByPath($args['name']);
         if ($folder) {
             return (int)$folder->getObjId();
         }
 
         throw new mzzDONotFoundException();
-    }
-
-    public function move($folder, $destFolder)
-    {
-        return $this->tree->moveNode($folder, $destFolder);
-    }
-
-    public function getTreeParent($id)
-    {
-        return $this->tree->getParentNode($id);
     }
 
     public function get404()

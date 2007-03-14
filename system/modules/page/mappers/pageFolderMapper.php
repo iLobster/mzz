@@ -21,7 +21,7 @@ fileLoader::load('db/dbTreeNS');
  *
  * @package modules
  * @subpackage page
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class pageFolderMapper extends simpleMapperForTree
@@ -66,46 +66,6 @@ class pageFolderMapper extends simpleMapperForTree
         return new pageFolder($this, $map);
     }
 
-    /**
-     * Возвращает children-папки
-     *
-     * @return array
-     */
-    public function getFolders($id, $level = 1)
-    {
-        return $this->tree->getBranchContainingNode($id, $level);
-    }
-
-    /**
-     * Возвращает объекты, находящиеся в данной папке
-     *
-     * @return array
-     */
-    public function getItems($id)
-    {
-        $page = systemToolkit::getInstance()->getMapper('page', 'page', $this->section());
-
-        if (!empty($this->pager)) {
-            $page->setPager($this->pager);
-        }
-
-        $result = $page->searchByFolder($id);
-
-        return $result;
-    }
-
-    /**
-     * Выборка папки на основе пути
-     *
-     * @param string $path Путь
-     * @param string $deep Глубина выборки
-     * @return array with nodes
-     */
-    public function searchByPath($path)
-    {
-        return $this->tree->getNodeByPath($path);
-    }
-
     public function searchByParentId($id)
     {
         return $this->searchOneByField('parent', $id);
@@ -136,29 +96,6 @@ class pageFolderMapper extends simpleMapperForTree
         $page = $pageMapper->searchOneByCriteria($criteria);
 
         return $page;
-    }
-
-    public function getTreeExceptNode($folder)
-    {
-        $tree = $this->tree->getTree();
-
-        $subfolders = $this->tree->getBranch($folder);
-
-        foreach (array_keys($subfolders) as $val) {
-            unset($tree[$val]);
-        }
-
-        return $tree;
-    }
-
-    public function getTreeParent($id)
-    {
-        return $this->tree->getParentNode($id);
-    }
-
-    public function move($folder, $destFolder)
-    {
-        return $this->tree->moveNode($folder, $destFolder);
     }
 
     /**

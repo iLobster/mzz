@@ -19,13 +19,11 @@
  *
  * @package system
  * @subpackage db
- * @version 0.9.5
+ * @version 0.9.6
  */
 
 fileLoader::load('db/sqlFunction');
 fileLoader::load('db/simpleSelect');
-
-//@toDo searchByCriteria
 
 class dbTreeNS
 {
@@ -211,7 +209,7 @@ class dbTreeNS
      */
     public function createPathFromTreeByID($id)
     {
-        $parentBranch = $this->getParentBranch($id, 9999999);
+        $parentBranch = $this->getParentBranch($id, false);
 
         if (!is_array($parentBranch)) {
             return null;
@@ -449,8 +447,8 @@ class dbTreeNS
     /**
      * Выборка родительской ветки начиная от заданного узла
      *
-     * @param  int     $id           Идентификатор узла
-     * @param  int     $level        Уровень глубины выборки
+     * @param  int              $id           Идентификатор узла
+     * @param  int|boolean      $level        Уровень глубины выборки. Если равен 0 или false - выбирается весь путь
      * @return array
      */
     public function getParentBranch($id, $level = 1)
@@ -462,10 +460,9 @@ class dbTreeNS
         $highLevel = $lowerChild['level'] - $level;
 
 
-
         $stmt = $this->db->prepare( $this->getBasisQuery() .
         ' AND `lkey` <= :lkey AND `rkey` >= :rkey' .
-        ' AND (`level` BETWEEN :level AND :child_level ) ' .
+        ($level ? ' AND (`level` BETWEEN :level AND :child_level ) ' : ' AND `level` <= :child_level ') .
         ($this->isMultipleTree() ? 'AND `tree`.`' . $this->treeField . '` = :treeFieldID ' : '') .
         '  ORDER BY `lkey`');
 
@@ -476,7 +473,9 @@ class dbTreeNS
         $stmt->bindParam(':lkey', $lowerChild['lkey'], PDO::PARAM_INT);
         $stmt->bindParam(':rkey', $lowerChild['rkey'], PDO::PARAM_INT);
         $stmt->bindParam(':child_level', $lowerChild['level'], PDO::PARAM_INT);
-        $stmt->bindParam(':level', $highLevel, PDO::PARAM_INT);
+        if ($level) {
+            $stmt->bindParam(':level', $highLevel, PDO::PARAM_INT);
+        }
 
         if ($stmt->execute()) {
             return $this->createBranchFromRow($stmt);
@@ -597,9 +596,9 @@ class dbTreeNS
             /*echo '<br><pre>'; var_dump($path); echo '<br></pre>';
             $pathParts = explode('/', trim($path));
             foreach ($pathParts as $key => $part) {
-                if (strlen($part) == 0 ) {
-                    unset($pathParts[$key]);
-                }
+            if (strlen($part) == 0 ) {
+            unset($pathParts[$key]);
+            }
             }
             echo '<br><pre>'; var_dump(implode('/', $pathParts)); echo '<br></pre>';echo '<br><br>';*/
             $rewritedPath[] = $path;

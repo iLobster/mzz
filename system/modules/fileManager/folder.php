@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleForTree');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class folder extends simpleForTree
@@ -51,19 +51,6 @@ class folder extends simpleForTree
             $this->fields->set('items', $this->mapper->getItems($this->getId()));
         }
         return $this->fields->get('items');
-    }
-
-    /**
-     * Возвращает children-папки
-     *
-     * @return array
-     */
-    public function getFolders($level = 1)
-    {
-        if (!$this->fields->exists('folders')) {
-            $this->fields->set('folders', $this->mapper->getFolders($this->getParent(), $level));
-        }
-        return $this->fields->get('folders');
     }
 
     public function getTreeParent()

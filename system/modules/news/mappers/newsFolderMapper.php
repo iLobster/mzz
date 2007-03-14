@@ -21,7 +21,7 @@ fileLoader::load('simple/simpleMapperForTree');
  *
  * @package modules
  * @subpackage news
- * @version 0.2.2
+ * @version 0.2.3
  */
 
 class newsFolderMapper extends simpleMapperForTree
@@ -98,28 +98,6 @@ class newsFolderMapper extends simpleMapperForTree
     }
 
     /**
-     * Возвращает children-папки
-     *
-     * @return array
-     */
-    public function getFolders($id, $level = 1)
-    {
-        return $this->tree->getBranch($id, $level);
-    }
-
-    /**
-     * Выборка папки на основе пути
-     *
-     * @param string $path Путь
-     * @param string $deep Глубина выборки
-     * @return array with nodes
-     */
-    public function searchByPath($path)
-    {
-        return $this->tree->getNodeByPath($path);
-    }
-
-    /**
      * Выборка ветки(нижележащих папок) на основе пути
      *
      * @param  string     $path          Путь
@@ -130,60 +108,6 @@ class newsFolderMapper extends simpleMapperForTree
     {
         // выбирается только нижележащий уровень
         return $this->tree->getBranchByPath($path, $deep);
-    }
-
-    /**
-     * Возвращает объекты, находящиеся в данной папке
-     *
-     * @return array
-     */
-    public function getItems($id)
-    {
-        $news = systemToolkit::getInstance()->getMapper($this->name, $this->itemName, $this->section());
-
-        if (!empty($this->pager)) {
-            $news->setPager($this->pager);
-        }
-
-        $result = $news->searchByFolder($id);
-
-        return $result;
-    }
-
-    public function getTreeExceptNode($folder)
-    {
-        $tree = $this->tree->getTree();
-
-        $subfolders = $this->tree->getBranch($folder);
-
-        foreach (array_keys($subfolders) as $val) {
-            unset($tree[$val]);
-        }
-
-        return $tree;
-    }
-
-    /**
-     * Создание подпапки
-     *
-     * @param  newsFolder     $folder          Папка для добавления
-     * @param  newsFolder     $targetFolder    Папка назначения, в которую добавлять
-     * @return newsFolder
-     */
-    /*public function createSubfolder(newsFolder $folder, newsFolder $targetFolder)
-    {
-        $idParent = $targetFolder->getParent();
-        return $this->tree->insertNode($idParent, $folder);
-    }*/
-
-    public function getTreeParent($id)
-    {
-        return $this->tree->getParentNode($id);
-    }
-
-    public function move($folder, $destFolder)
-    {
-        return $this->tree->moveNode($folder, $destFolder);
     }
 
     public function convertArgsToId($args)

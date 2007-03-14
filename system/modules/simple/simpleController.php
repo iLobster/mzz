@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2
+ * @version 0.2.1
  */
 
 abstract class simpleController
@@ -102,6 +102,15 @@ abstract class simpleController
             $session->destroy('confirm_code');
         }
         return $this->getView();
+    }
+
+    protected function setPager($item, $module, $config_name = 'items_per_page')
+    {
+        $config = $this->toolkit->getConfig($module);
+        fileLoader::load('pager');
+        $pager = new pager($this->request->getRequestUrl(), $this->request->get('page', 'integer', SC_GET), $config->get($config_name));
+        $item->setPager($pager);
+        return $pager;
     }
 }
 

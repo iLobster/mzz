@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage page
- * @version 0.1
+ * @version 0.1.1
  */
 
 class pageAdminController extends simpleController
@@ -34,8 +34,13 @@ class pageAdminController extends simpleController
 
         $pageFolder = $pageFolderMapper->searchByPath($path);
         if ($pageFolder) {
+            $breadCrumbs = $pageFolderMapper->getPath($pageFolder);
+
+            $pager = $this->setPager($pageFolder, 'fileManager');
             $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
             $this->smarty->assign('pages', $pageFolder->getItems());
+            $this->smarty->assign('pager', $pager);
+            $this->smarty->assign('breadCrumbs', $breadCrumbs);
             $this->smarty->assign('pageFolder', $pageFolder);
             return $this->smarty->fetch('page/admin.tpl');
         }
