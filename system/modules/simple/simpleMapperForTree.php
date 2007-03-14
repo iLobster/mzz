@@ -82,6 +82,11 @@ abstract class simpleMapperForTree extends simpleMapper
 
         $this->tree->removeNode($id);
     }
+
+    public function getPath($id)
+    {
+        return $this->tree->getParentBranch($id, 999);
+    }
 }
 
 ?>

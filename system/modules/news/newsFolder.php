@@ -21,7 +21,7 @@ fileLoader::load('simple/simpleForTree');
  * @subpackage news
  * @version 0.1.1
  */
- 
+
 class newsFolder extends simpleForTree
 {
     /**
@@ -54,7 +54,9 @@ class newsFolder extends simpleForTree
     public function getFolders($level = 1)
     {
         if (!$this->fields->exists('folders')) {
-            $this->fields->set('folders', $this->mapper->getFolders($this->getParent(), $level));
+            $folders = $this->mapper->getFolders($this->getParent(), $level);
+            array_shift($folders);
+            $this->fields->set('folders', $folders);
         }
         return $this->fields->get('folders');
     }

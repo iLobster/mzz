@@ -127,11 +127,6 @@ class catalogueFolderMapper extends simpleMapperForTree
         return $this->tree->getParentNode($id);
     }
 
-    public function enumPath($id)
-    {
-        return $this->tree->getParentBranch($id, 999);
-    }
-
     public function move($folder, $destFolder)
     {
         return $this->tree->moveNode($folder, $destFolder);

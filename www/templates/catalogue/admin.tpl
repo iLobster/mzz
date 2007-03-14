@@ -1,13 +1,8 @@
 <p class="pageTitle">Список элементов</p>
 <div class="pageContent">
-{foreach from=$chains item="chain" name="chain"}
-{if $smarty.foreach.chain.last}
-    /{$chain->getTitle()}{$chain->getJip()}
-{else}
-    /<a href="{url route='admin' params=$chain->getPath() section_name="catalogue" module_name="catalogue"}">{$chain->getTitle()}</a>
-{/if}
-{foreachelse}
-{/foreach}
+Путь:
+{include file="breadcrumbs.tpl" breadCrumbs=$chains section=$current_section module="catalogue"}
+
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>

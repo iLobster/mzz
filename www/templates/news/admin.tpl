@@ -1,5 +1,17 @@
 <p class="pageTitle">Список новостей</p>
 
+Путь:
+{include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="news"}
+{*
+{foreach from=$breadCrumbs item="crumb" name="crumb"}
+    {if $smarty.foreach.crumb.last}
+        {$crumb->getTitle()}{$crumb->getJip()}
+    {else}
+        <a href="{url route='admin' params=$crumb->getPath() section_name=$current_section module_name="news"}">{$crumb->getTitle()}</a> / 
+    {/if}
+{/foreach}
+*}
+
 <div class="pageContent">
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
@@ -12,10 +24,20 @@
             </tr>
         </thead>
 
+        {if $newsFolder->getLevel() ne 1}
+            <tr align="center">
+                <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$newsFolder->getTreeParent()->getPath() section_name=$current_section module_name=news}">..</a></td>
+                <td>-</td>
+                <td>-</td>
+                <td>{$newsFolder->getJip()}</td>
+            </tr>
+        {/if}
+
         {foreach from=$newsFolder->getFolders(1) item=current_folder name=folders}
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=news module_name=news}">{$current_folder->getTitle()}</a></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=$current_section module_name=news}">{$current_folder->getTitle()}</a></td>
                 <td>-</td>
                 <td>-</td>
                 <td>{$current_folder->getJip()}</td>

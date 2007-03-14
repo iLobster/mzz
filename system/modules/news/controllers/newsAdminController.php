@@ -37,9 +37,12 @@ class newsAdminController extends simpleController
             return $newsFolderMapper->get404()->run();
         }
 
+        $breadCrumbs = $newsFolderMapper->getPath($newsFolder);
+
         $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
         $this->smarty->assign('news', $newsFolder->getItems());
         $this->smarty->assign('newsFolder', $newsFolder);
+        $this->smarty->assign('breadCrumbs', $breadCrumbs);
         return $this->smarty->fetch('news/admin.tpl');
     }
 }
