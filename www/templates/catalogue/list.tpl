@@ -4,8 +4,10 @@
 
 <div class="catalogueList">
     {foreach from=$items item="item"}
-        {capture name="tpl"}catalogue/types/{$item->getTypeName()}.tpl{/capture}
-        {include file=$smarty.capture.tpl item=$item}
+        {include file="catalogue/wrapper.tpl" item=$item}
+        <br/><br/>
+    {foreachelse}
+        Нет элементов
     {/foreach}
 {*
     {foreach from=$items item="item"}

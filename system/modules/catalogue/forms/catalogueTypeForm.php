@@ -42,6 +42,12 @@ class catalogueTypeForm
         $url->setAction('addType');
         $url->setSection('catalogue');
 
+        //@toDo убрать это куда-нибудь... куда? :-\
+        $defaultValues['fulltpl']  = '{foreach from=$item->exportOldProperties() key="property" item="value"}
+            {$item->getPropertyTitle($property)}: {$value}<br/>
+        {/foreach}
+        {$item->getJip()}';
+
         if ($action == 'edit') {
             $url->setAction('editType');
             $url->setRoute('withId');
@@ -65,7 +71,7 @@ class catalogueTypeForm
         foreach($properties as $property){
             $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
         }
-        $form->addElement('textarea', 'fulltpl', 'Полный шаблон:');
+        $form->addElement('textarea', 'fulltpl', 'Полный шаблон:', array('rows' => 15, 'cols' => 50));
 
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');
         $form->addElement('submit', 'submit', 'Сохранить');

@@ -1,2 +1,3 @@
 Превед! Я компьютер :)<br/>
-У меня есть процессор: <strong>{$item->getProperty('processor')}</strong>
+У меня есть процессор: <strong>{$processor}</strong>
+{$item->getJip()}
