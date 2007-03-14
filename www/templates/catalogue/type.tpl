@@ -15,6 +15,10 @@
             <td><strong>{$form.name.label}</strong></td>
             <td>{$form.name.html}</td>
         </tr>
+        <tr>
+            <td><strong>{$form.fulltpl.label}</strong></td>
+            <td>{$form.fulltpl.html}</td>
+        </tr>
         {foreach from=$form.properties item="property"}
                 <tr>
                     <td>{$property.html}</td>

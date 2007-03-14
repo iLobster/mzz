@@ -24,17 +24,19 @@ abstract class simpleCatalogue extends simple
     protected $properties;
     protected $changedProperties;
 
-    protected $title;
-    protected $properties_titles;
-    protected $properties_types;
+    protected $itemData;
+    protected $propertiesTitles;
+    protected $propertiesTypes;
 
     public function __construct(Array $map)
     {
         parent::__construct($map);
         $this->properties = new arrayDataspace();
         $this->changedProperties = new arrayDataspace();
-        $this->properties_titles = new arrayDataspace();
-        $this->properties_types = new arrayDataspace();
+
+        $this->itemData = new arrayDataspace();
+        $this->propertiesTitles = new arrayDataspace();
+        $this->propertiesTypes = new arrayDataspace();
     }
 
     public function importProperties(Array $data)
@@ -45,13 +47,13 @@ abstract class simpleCatalogue extends simple
 
     public function importServiceData(Array $data)
     {
-        $this->properties_titles->import($data['titles']);
-        $this->properties_types->import($data['types']);
+        $this->propertiesTitles->import($data['titles']);
+        $this->propertiesTypes->import($data['types']);
     }
 
-    public function importTitle($title)
+    public function importItemData(Array $data)
     {
-        $this->title = $title;
+        $this->itemData->import($data);
     }
 
     public function & exportProperties()
@@ -71,12 +73,12 @@ abstract class simpleCatalogue extends simple
 
     public function getPropertyType($name)
     {
-        return $this->properties_types->get($name);
+        return $this->propertiesTypes->get($name);
     }
 
     public function getPropertyTitle($name)
     {
-        return $this->properties_titles->get($name);
+        return $this->propertiesTitles->get($name);
     }
 
     public function setProperty($name, $value)
@@ -86,7 +88,12 @@ abstract class simpleCatalogue extends simple
 
     public function getTypeTitle()
     {
-        return $this->title;
+        return $this->itemData->get('title');
+    }
+
+    public function getTypeName()
+    {
+        return $this->itemData->get('name');
     }
 }
 ?>

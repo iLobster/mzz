@@ -42,7 +42,8 @@ class catalogueCreateController extends simpleController
         $type = $this->request->get('type', 'integer', SC_GET | SC_POST);
 
         if ($type == 0 ){
-            $firstType = array_shift($types);
+            reset($types);
+            $firstType = current($types);
             $properties = $catalogueMapper->getProperties($firstType['id']);
         } else {
             $properties = $catalogueMapper->getProperties($type);
