@@ -24,16 +24,17 @@ abstract class simpleCatalogue extends simple
     protected $properties;
     protected $changedProperties;
 
-    protected $titles;
-    protected $types;
-    
+    protected $title;
+    protected $properties_titles;
+    protected $properties_types;
+
     public function __construct(Array $map)
     {
         parent::__construct($map);
         $this->properties = new arrayDataspace();
         $this->changedProperties = new arrayDataspace();
-        $this->titles = new arrayDataspace();
-        $this->types = new arrayDataspace();
+        $this->properties_titles = new arrayDataspace();
+        $this->properties_types = new arrayDataspace();
     }
 
     public function importProperties(Array $data)
@@ -41,11 +42,16 @@ abstract class simpleCatalogue extends simple
         $this->changedProperties->clear();
         $this->properties->import($data);
     }
-    
+
     public function importServiceData(Array $data)
     {
-        $this->titles->import($data['titles']);
-        $this->types->import($data['types']);
+        $this->properties_titles->import($data['titles']);
+        $this->properties_types->import($data['types']);
+    }
+
+    public function importTitle($title)
+    {
+        $this->title = $title;
     }
 
     public function & exportProperties()
@@ -53,29 +59,34 @@ abstract class simpleCatalogue extends simple
         return $this->changedProperties->export();
     }
 
+    public function & exportOldProperties()
+    {
+        return $this->properties->export();
+    }
+
     public function getProperty($name)
     {
         return $this->properties->get($name);
     }
 
-    public function getTitle($name)
-    {
-        return $this->titles->get($name);
-    }
-    
     public function getPropertyType($name)
     {
-        return $this->types->get($name);
+        return $this->properties_types->get($name);
     }
-    
+
+    public function getPropertyTitle($name)
+    {
+        return $this->properties_titles->get($name);
+    }
+
     public function setProperty($name, $value)
     {
         return $this->changedProperties->set($name, $value);
     }
 
-    public function & exportOldProperties()
+    public function getTypeTitle()
     {
-        return $this->properties->export();
+        return $this->title;
     }
 }
 ?>

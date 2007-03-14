@@ -83,12 +83,21 @@ class simpleCatalogueMapperTest extends unitTestCase
     {
         $this->db->query("INSERT INTO `simple_catalogue_data` (`id`, `property_type`, `char`) VALUES (1, 1, 'foobar'), (1, 2, 'baz')");
         $this->db->query("INSERT INTO `simple_catalogue_data` (`id`, `property_type`, `float`) VALUES (2, 5, 666)");
-        $catalogue = $this->mapper->searchOneByField('id', 1);
 
         $catalogue = $this->mapper->searchOneByField('id', 1);
+
         $this->assertEqual($catalogue->getId(), 1);
+        $this->assertEqual($catalogue->getType(), 1);
+        $this->assertEqual($catalogue->getTypeTitle(), 'type_title_1');
+
         $this->assertEqual($catalogue->getProperty('property_1'), 'foobar');
         $this->assertEqual($catalogue->getProperty('property_2'), 'baz');
+
+        $this->assertEqual($catalogue->getPropertyTitle('property_1'), 'title_1');
+        $this->assertEqual($catalogue->getPropertyTitle('property_2'), 'title_2');
+
+        $this->assertEqual($catalogue->getPropertyType('property_1'), 'char');
+        $this->assertEqual($catalogue->getPropertyType('property_2'), 'char');
 
         $catalogue2 = $this->mapper->searchOneByField('id', 2);
         $this->assertEqual($catalogue2->getProperty('property_4'), 666);

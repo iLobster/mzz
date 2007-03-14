@@ -33,6 +33,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
     private $tmpPropsData = array();
     private $tmpServiceData = array();
 
+    private $tmpTypes = array();
+
     public function __construct($section)
     {
         parent::__construct($section);
@@ -46,7 +48,12 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function getAllTypes()
     {
-        return $this->db->getAll('SELECT * FROM `' . $this->tableTypes . '`', PDO::FETCH_ASSOC);
+        $tmp = $this->db->getAll('SELECT * FROM `' . $this->tableTypes . '`', PDO::FETCH_ASSOC);
+        $types = array();
+        foreach($tmp as $type){
+            $types[$type['id']] = $type;
+        }
+        return $types;
     }
 
     public function getAllProperties()
@@ -223,6 +230,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         }
 
         $this->tmpPropsData = array();
+        $this->tmpServiceData = array();
 
         $criteria->addJoin($this->tableTypes, new criterion('t.id', $this->className . '.type_id', criteria::EQUAL, true), 't', criteria::JOIN_INNER);
         $criteria->addJoin($this->tableTypesProps, new criterion('tp.type_id', 't.id', criteria::EQUAL, true), 'tp', criteria::JOIN_INNER);
@@ -257,6 +265,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         while ($row = $stmt->fetch()) {
             $type = $this->getPropertyTypeByTypeprop($row['property_type']);
             $this->tmpPropsData[$row['id']][$row['name']] = isset($row[$type]) ? $row[$type] : null;
+
             $this->tmpServiceData[$row['id']]['titles'][$row['name']] = $row['title'];
             $this->tmpServiceData[$row['id']]['types'][$row['name']] = $type;
         }
@@ -270,6 +279,12 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $object->import($row);
         $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
         $object->importServiceData($this->tmpServiceData[$row[$this->tableKey]]);
+
+        if(empty($this->tmptypes)){
+            $this->tmptypes = $this->getAllTypes();
+        }
+        $object->importTitle($this->tmptypes[$row['type_id']]['title']);
+
         return $object;
     }
 
