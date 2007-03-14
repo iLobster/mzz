@@ -26,7 +26,7 @@ class catalogueListController extends simpleController
     {
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
         $path = $this->request->get('name', 'string', SC_PATH);
-        
+
         $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
 
         if (empty($catalogueFolder)) {

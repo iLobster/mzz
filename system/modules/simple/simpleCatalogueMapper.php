@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleCatalogue');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.5
+ * @version 0.1.6
  */
 
 abstract class simpleCatalogueMapper extends simpleMapper
@@ -232,9 +232,9 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $this->tmpPropsData = array();
         $this->tmpServiceData = array();
 
-        $criteria->addJoin($this->tableTypes, new criterion('t.id', $this->className . '.type_id', criteria::EQUAL, true), 't', criteria::JOIN_INNER);
-        $criteria->addJoin($this->tableTypesProps, new criterion('tp.type_id', 't.id', criteria::EQUAL, true), 'tp', criteria::JOIN_INNER);
-        $criteria->addJoin($this->tableProperties, new criterion('p.id', 'tp.property_id', criteria::EQUAL, true), 'p', criteria::JOIN_INNER);
+        $criteria->addJoin($this->tableTypes, new criterion('t.id', $this->className . '.type_id', criteria::EQUAL, true), 't', criteria::JOIN_LEFT);
+        $criteria->addJoin($this->tableTypesProps, new criterion('tp.type_id', 't.id', criteria::EQUAL, true), 'tp', criteria::JOIN_LEFT);
+        $criteria->addJoin($this->tableProperties, new criterion('p.id', 'tp.property_id', criteria::EQUAL, true), 'p', criteria::JOIN_LEFT);
         $criterion = new criterion('d.property_type', 'tp.id', criteria::EQUAL, true);
         $criterion->addAnd(new criterion('d.id', $this->className . '.' . $this->tableKey, criteria::EQUAL, true));
         $criteria->addJoin($this->tableData, $criterion, 'd', criteria::JOIN_LEFT);
