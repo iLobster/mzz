@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1.1
+ * @version 0.1.2
 */
 
 class sqlFunction
@@ -100,14 +100,14 @@ class sqlFunction
     }
 
     /**
-     * Возвращает поля функции
+     * Возвращает поля функции и имя функции, объединённые знаком "_"
      *
      * @return string|null
      * @toDo в совокупности с criteria 380 что выдавать надо?
      */
     public function getFieldName()
     {
-        return $this->argumentsString;
+        return $this->function . '_' . $this->argumentsString;
     }
 
     /**

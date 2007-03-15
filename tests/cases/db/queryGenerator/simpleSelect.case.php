@@ -21,8 +21,9 @@ class simpleSelectTest extends unitTestCase
     public function testSelectFunctionObject()
     {
         $function = new sqlFunction('INET_ATON', 'table.field', true);
-        $this->criteria->addSelectField($function, 'alias');
-        $this->assertEqual($this->select->toString(), 'SELECT INET_ATON(`table`.`field`) AS `alias`');
+        $function2 = new sqlFunction('MAX', 'table.field', true);
+        $this->criteria->addSelectField($function, 'alias')->addSelectField($function2, 'alias2');
+        $this->assertEqual($this->select->toString(), 'SELECT INET_ATON(`table`.`field`) AS `alias`, MAX(`table`.`field`) AS `alias2`');
     }
 
     public function testSelectAllNoConditions()
