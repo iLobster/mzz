@@ -76,6 +76,7 @@ class newsSaveController extends simpleController
                 $news->setTitle($values['title']);
                 $news->setEditor($user);
                 $news->setText($values['text']);
+                $news->setAnnotation($values['annotation']);
                 $newsMapper->save($news);
 
                 return jipTools::redirect();

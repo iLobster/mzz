@@ -46,6 +46,7 @@ class newsSaveForm
         if ($isEdit) {
             $defaultValues = array();
             $defaultValues['title']  = $news->getTitle();
+            $defaultValues['annotation']  = $news->getAnnotation();
             $defaultValues['text']  = $news->getText();
             $defaultValues['created']  = date('H:i:s d/m/Y', $news->getCreated());
         } else {
@@ -57,6 +58,7 @@ class newsSaveForm
         $form->setDefaults($defaultValues);
 
         $form->addElement('text', 'title', 'Название:', 'size="60"');
+        $form->addElement('textarea', 'annotation', 'Аннотация:', 'rows="4" cols="50"');
         $form->addElement('textarea', 'text', 'Содержание:', 'rows="7" cols="50"');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');

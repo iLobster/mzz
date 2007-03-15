@@ -9,6 +9,7 @@
 $menu = array("intro.Предисловие" =>
                         array(
                         "about.Введение",
+                        "philosophy.Философия мзз",
                         ),
            "setup.Установка и настройка" =>
                         array(
@@ -110,6 +111,8 @@ $menu = array("intro.Предисловие" =>
                                          "comments.Комментарии",
                                          ),
                         ),
+            "glossary.Термины и определения" => array("common.Общие"
+                                         ),
             );
 
 

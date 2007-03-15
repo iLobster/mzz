@@ -1,4 +1,4 @@
-# SQL Manager 2005 for MySQL 3.7.7.1
+# SQL Manager 2005 for MySQL 3.7.5.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -422,6 +422,7 @@ CREATE TABLE `news_news` (
   `obj_id` int(10) unsigned NOT NULL default '0',
   `title` varchar(255) NOT NULL default '',
   `editor` int(11) NOT NULL default '0',
+  `annotation` text,
   `text` text NOT NULL,
   `folder_id` int(11) default NULL,
   `created` int(11) default NULL,
@@ -434,9 +435,9 @@ CREATE TABLE `news_news` (
 # Data for the `news_news` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `text`, `folder_id`, `created`, `updated`) VALUES 
-  (7,182,'1',2,'3',2,1170662044,1172037447),
-  (8,212,'ывф',2,'йк',2,1170820429,1170820429);
+INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `annotation`, `text`, `folder_id`, `created`, `updated`) VALUES 
+  (7,182,'1',2,NULL,'3',2,1170662044,1172037447),
+  (8,212,'ывф',2,'Аннотация','Содержание',2,1170820429,1173934400);
 
 COMMIT;
 
@@ -1988,7 +1989,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (269),
   (270),
   (271),
-  (272);
+  (272),
+  (273);
 
 COMMIT;
 

@@ -8,7 +8,7 @@
     <div class="news_info">Автор: {$current_news->getEditor()->getLogin()}, {$current_news->getCreated()|date_format:"%e %B %Y / %H:%M"},
     Редактировано: {$current_news->getUpdated()|date_format:"%e %B %Y / %H:%M"}</div>
 
-     <div class="news_text">{$current_news->getText()}</div>
+     <div class="news_text">{$current_news->getAnnotation()}</div>
 
     {/foreach}
     {if $pager->getPagesTotal() > 0}

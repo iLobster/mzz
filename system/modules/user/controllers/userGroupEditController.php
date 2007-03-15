@@ -29,6 +29,7 @@ class userGroupEditController extends simpleController
         $group = $groupMapper->searchById($id);
 
         $action = $this->request->getAction();
+        $isEdit = $action == 'groupEdit';
 
         if ($group || $action == 'groupCreate') {
             fileLoader::load('user/forms/groupEditForm');
@@ -41,6 +42,7 @@ class userGroupEditController extends simpleController
                 $this->smarty->assign('form', $renderer->toArray());
                 $this->smarty->assign('group', $group);
                 $this->smarty->assign('action', $action);
+                $this->smarty->assign('isEdit', $isEdit);
 
                 $title = $action == 'edit' ? 'Редактирование группы -> ' . $group->getName() : 'Создание группы';
 

@@ -20,6 +20,10 @@ Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":
     </tr>
     {/if}
     <tr>
+        <td style='vertical-align: top;'>{$form.annotation.label}</td>
+        <td>{$form.annotation.html}</td>
+    </tr>
+    <tr>
         <td style='vertical-align: top;'>{$form.text.label}</td>
         <td>{$form.text.html}</td>
     </tr>
