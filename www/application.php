@@ -21,10 +21,10 @@
  * @subpackage application
  * @version 0.1
  */
-    
-class applicaion extends core
+
+class application extends core
 {
-    
+
 }
 
 ?>
