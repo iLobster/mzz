@@ -115,7 +115,7 @@ CREATE TABLE `catalogue_catalogue_data` (
   `int` int(11) default NULL,
   `date` datetime default NULL,
   `float` float(9,3) default NULL,
-  UNIQUE KEY `property_type` (`property_type`,`id`)
+  UNIQUE KEY `id` (`id`,`property_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
