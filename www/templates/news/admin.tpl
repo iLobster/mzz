@@ -1,6 +1,12 @@
-<p class="pageTitle">Список новостей</p>
+<div style='width: 99%;'>
+<div style="padding: 4px 10px; text-align: right; float: right;/* margin-right: 8px; */margin-top: -2px; background-image: url('{$SITE_PATH}/templates/images/submenu_background.png');"><img src="{$SITE_PATH}/templates/images/filter.gif" align=absmiddle /> Поиск</div>
 
-Путь:
+<div class="pageTitle">Список новостей
+
+</div>
+</div>
+
+
 {include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="news"}
 
 <div class="pageContent">
@@ -46,9 +52,8 @@
         {/foreach}
         
         <tr class="tableListFoot">
-            <td>&nbsp;</td>
-            <td colspan="2">{$pager->toString()}</td>
-            <td colspan="2" style="text-align: right; color: #7A7A7A;">...</td>
+            <td colspan="3">{$pager->toString()}</td>
+            <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$news|@count}</td>
         </tr>
     </table>
 </div>

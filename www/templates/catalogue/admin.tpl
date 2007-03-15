@@ -1,8 +1,6 @@
 <p class="pageTitle">Список элементов</p>
 <div class="pageContent">
-<h5>Путь:
 {include file="breadcrumbs.tpl" breadCrumbs=$chains section=$current_section module="catalogue"}
-</h5>
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>

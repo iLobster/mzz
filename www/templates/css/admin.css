@@ -79,15 +79,11 @@ div#mainbar {
 }
 
 .tableListHead td {
-  border-bottom: 1px solid #E4E4E4;
   font-weight: bold;
   text-align: center;
+  background-color: #F9F9F9;
 }
 
-.tableListFoot td {
-  border-bottom: 1px solid #E4E4E4;
-  border-top: 1px solid #E4E4E4;
-}
 
 #header .loginInfo {
   font-size: 100%;
@@ -151,8 +147,10 @@ div#mainbar {
   background-image: url('../images/admin/separator.png');
 }
 
-#sidebar span.sideMenuTitle {
+#sidebar p.sideMenuTitle {
   font-size: 120%;
+  border-bottom: 1px solid #E6E6E6;
+  padding-bottom: 4px;
 }
 #sidebar table {
   font-size: 100%;
@@ -177,10 +175,17 @@ div#mainbar {
 
 #mainbar p.pageTitle {
   border-bottom: 1px solid #E6E6E6;
+  padding-bottom: 4px;
   font-size: 120%;
   width: 99%;
 }
 
+#mainbar div.pageTitle {
+  border-bottom: 1px solid #E6E6E6;
+  font-size: 120%;
+  padding-bottom: 4px;
+  /*width: 99%;*/
+}
 #mainbat div.pageContent {
   width: 99%;
 }
@@ -191,3 +196,28 @@ table.tableList {
   font-size: 100%;
   margin-top: 5px;
 }
+table.tableList td {
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.tableListFoot td {
+  border-top: 1px solid #E4E4E4;
+  border-bottom: 0 !important;
+}
+
+div.breadcrumbs {
+    margin: 5px;
+}
+
+span.breadcrumbsTitle {
+    font-size: 90%;
+    color: #555;
+}
+
+span.breadcrumbsItems {
+    font-size: 90%;
+    border: 1px solid #EAEAEA;
+    padding: 4px;
+    background-image: url('../images/breadcrumb_background.png');
+}
+

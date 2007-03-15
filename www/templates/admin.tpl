@@ -28,7 +28,7 @@
     </div>
     {if not empty($menu)}
         <div id="sidebar">
-            <span class="sideMenuTitle">Разделы сайта</span>
+            <p class="sideMenuTitle">Разделы сайта</p>
             {*<a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}"> *}
             <table cellspacing="0" cellpadding="0">
             {foreach from=$menu item=module key=module_name}
