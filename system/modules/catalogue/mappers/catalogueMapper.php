@@ -53,61 +53,6 @@ class catalogueMapper extends simpleCatalogueMapper
         //$fields['updated'] = new sqlFunction('UNIX_TIMESTAMP');
     }
 
-    public function getType($id)
-    {
-        $type = parent::getType($id);
-
-        $toolkit = systemToolkit::getInstance();
-        $path = $toolkit->getSmarty()->template_dir . '/catalogue/types/' . $type['name'] . '.tpl';
-        if (!is_writable($path)) {
-            throw new mzzIoException($path);
-        }
-
-        $type['fulltpl'] = file_get_contents($path);
-        return $type;
-    }
-
-    public function addType($name, $title, Array $properties, $fulltpl, $lighttpl='')
-    {
-        $toolkit = systemToolkit::getInstance();
-        $path = $toolkit->getSmarty()->template_dir . '/catalogue/types/';
-        if (!is_writable($path)) {
-            throw new mzzIoException($path);
-        }
-
-        file_put_contents($path . $name . '.tpl', $fulltpl);
-
-        parent::addType($name, $title, $properties);
-    }
-
-    public function updateType($typeId, $name, $title, Array $properties, $fulltpl)
-    {
-        $toolkit = systemToolkit::getInstance();
-        $path = $toolkit->getSmarty()->template_dir . '/catalogue/types/';
-        if (!is_writable($path)) {
-            throw new mzzIoException($path);
-        }
-
-        file_put_contents($path . $name . '.tpl', $fulltpl);
-
-        parent::updateType($typeId, $name, $title, $properties);
-    }
-
-    public function deleteType($type_id)
-    {
-        $type = $this->getType($type_id);
-
-        $toolkit = systemToolkit::getInstance();
-        $path = $toolkit->getSmarty()->template_dir . '/catalogue/types/' . $type['name'] . '.tpl';
-        if (!is_writable($path)) {
-            throw new mzzIoException($path);
-        }
-
-        unlink($path);
-
-        parent::deleteType($type_id);
-    }
-
     public function get404()
     {
         fileLoader::load('catalogue/controllers/catalogue404Controller');

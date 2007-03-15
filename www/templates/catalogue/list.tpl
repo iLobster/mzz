@@ -4,13 +4,6 @@
 
 <div class="catalogueList">
     {foreach from=$items item="item"}
-        {include file="catalogue/wrapper.tpl" item=$item}
-        <br/><br/>
-    {foreachelse}
-        Нет элементов
-    {/foreach}
-{*
-    {foreach from=$items item="item"}
         {foreach from=$item->exportOldProperties() key="property" item="value"}
             {$item->getPropertyTitle($property)}: {$value}<br/>
         {/foreach}
@@ -19,7 +12,6 @@
     {foreachelse}
         Нет элементов
     {/foreach}
-*}
     {if $pager->getPagesTotal() > 1}
         <div class="pages">{$pager->toString()}</div>
     {/if}
