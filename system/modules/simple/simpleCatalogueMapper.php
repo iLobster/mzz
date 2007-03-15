@@ -67,16 +67,6 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function getType($id)
     {
-        $type = $this->db->getRow('SELECT * FROM `' . $this->tableTypes . '` WHERE `id` = ' . (int)$id, PDO::FETCH_ASSOC);
-        $toolkit = systemToolkit::getInstance();
-        $path = $toolkit->getSmarty()->template_dir . '/catalogue/types/' . $type['name'] . '.tpl';
-        if (!is_writable($path)) {
-            throw new mzzIoException($path);
-        }
-
-        $type['fulltpl'] = file_get_contents($path);
-        return $type;
-
         return $this->db->getRow('SELECT * FROM `' . $this->tableTypes . '` WHERE `id` = ' . (int)$id, PDO::FETCH_ASSOC);
     }
 
@@ -95,16 +85,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
         return $properties;
     }
 
-    public function addType($name, $title, Array $properties, $fulltpl, $lighttpl='')
+    public function addType($name, $title, Array $properties)
     {
-        $toolkit = systemToolkit::getInstance();
-        $path = $toolkit->getSmarty()->template_dir . '/catalogue/types/';
-        if (!is_writable($path)) {
-            throw new mzzIoException($path);
-        }
-
-        file_put_contents($path . $name . '.tpl', $fulltpl);
-
         $stmt = $this->db->prepare('INSERT INTO `' . $this->tableTypes . '` (`name`, `title`) VALUES (:name, :title)');
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
@@ -116,16 +98,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
         return $typeId;
     }
 
-    public function updateType($typeId, $name, $title, Array $properties, $fulltpl)
+    public function updateType($typeId, $name, $title, Array $properties)
     {
-        $toolkit = systemToolkit::getInstance();
-        $path = $toolkit->getSmarty()->template_dir . '/catalogue/types/';
-        if (!is_writable($path)) {
-            throw new mzzIoException($path);
-        }
-
-        file_put_contents($path . $name . '.tpl', $fulltpl);
-
         $stmt = $this->db->prepare('UPDATE `' . $this->tableTypes . '` SET `name` = :name, `title` = :title WHERE `id` = :id');
         $stmt->bindParam('id', $typeId);
         $stmt->bindParam('name', $name);
@@ -156,16 +130,6 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function deleteType($type_id)
     {
-        $type = $this->getType($type_id);
-
-        $toolkit = systemToolkit::getInstance();
-        $path = $toolkit->getSmarty()->template_dir . '/catalogue/types/' . $type['name'] . '.tpl';
-        if (!is_writable($path)) {
-            throw new mzzIoException($path);
-        }
-
-        unlink($path);
-
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableTypes . '` WHERE `id` = :id');
         $stmt->bindParam('id', $type_id);
         $stmt->execute();
