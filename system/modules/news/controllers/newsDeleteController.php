@@ -26,10 +26,7 @@ class newsDeleteController extends simpleController
         $newsMapper = $this->toolkit->getMapper('news', 'news');
         $newsMapper->delete($this->request->get('id', 'integer', SC_PATH));
 
-        $url = new url('default2');
-        $url->setAction('list');
-
-        return jipTools::redirect($url->get());
+        return jipTools::redirect();
     }
 }
 

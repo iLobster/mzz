@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class adminViewController extends simpleController
@@ -29,6 +29,7 @@ class adminViewController extends simpleController
         $info = $adminMapper->getInfo();
         $this->smarty->assign('info', $info['data']);
         $this->smarty->assign('cfgAccess', $info['cfgAccess']);
+        $this->smarty->assign('main_class', $info['main_class']);
         $this->smarty->assign('admin', $info['admin']);
         $this->smarty->assign('title', 'Панель управления');
         return $this->smarty->fetch('admin/view.tpl');

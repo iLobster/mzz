@@ -82,6 +82,9 @@ class adminAddClassController extends simpleController
                     $stmt->execute();
                 }
 
+                $editAclId = $db->getOne("SELECT `id` FROM `sys_actions` WHERE `name` = 'editACL'");
+                $db->query('INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . $class_id .', ' . $editAclId . ')');
+
                 $this->smarty->assign('log', $log);
                 return $this->smarty->fetch('admin/addClassResult.tpl');
             }

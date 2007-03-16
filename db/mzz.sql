@@ -1637,7 +1637,6 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (102,20,6),
   (103,20,7),
   (105,20,8),
-  (106,1,20),
   (107,19,29),
   (109,17,20);
 

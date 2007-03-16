@@ -53,7 +53,7 @@
         <tr class="tableListFoot">
             <td>&nbsp;</td>
             <td colspan="2">{$pager->toString()}</td>
-            <td colspan="2" style="text-align: right; color: #7A7A7A;">...</td>
+            <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
         </tr>
         
         <tr class="tableListFoot">

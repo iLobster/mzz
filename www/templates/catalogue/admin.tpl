@@ -55,7 +55,7 @@
         <tr class="tableListFoot">
             <td>&nbsp;</td>
             <td colspan="2">{if $pager->getPagesTotal() > 1}{$pager->toString()}{/if}</td>
-            <td colspan="3" style="text-align: right; color: #7A7A7A;">{$smarty.foreach.itemIterator.total} элементов в этой директории</td>
+            <td colspan="3" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
         </tr>
     </table>
 </div>

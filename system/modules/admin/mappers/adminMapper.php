@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.4
+ * @version 0.1.5
  */
 
 fileLoader::load('admin');
@@ -57,6 +57,7 @@ class adminMapper extends simpleMapper
         $result = array();
         $access = array();
         $admin = array();
+        $main = array();
 
         $toolkit = systemToolkit::getInstance();
 
@@ -66,6 +67,8 @@ class adminMapper extends simpleMapper
             $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $class);
             $this->register($obj_id, 'sys', 'access');
             $acl = new acl($user, $obj_id);
+
+            $main[$val['module']] = $class;
 
             if (isset($val['section']) && isset($val['class'])) {
                 //if (!isset($access[$val['section'] . '_' . $val['class']])) {
@@ -82,7 +85,7 @@ class adminMapper extends simpleMapper
             }
         }
 
-        return array('data' => $result, 'cfgAccess' => $access, 'admin' => $admin);
+        return array('data' => $result, 'cfgAccess' => $access, 'admin' => $admin, 'main_class' => $main);
     }
 
     /**

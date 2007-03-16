@@ -1,6 +1,5 @@
 <p class="pageTitle">Список страниц</p>
 
-Путь:
 {include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="page"}
 
 <div class="pageContent">
@@ -17,8 +16,6 @@
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/pages/folder.gif" /></td>
                 <td style="text-align: left;"><a href="{url route='admin' params=$pageFolder->getTreeParent()->getPath() section_name=$current_section module_name=page}">..</a></td>
-                <td>-</td>
-                <td>-</td>
                 <td>{$pageFolder->getJip()}</td>
             </tr>
         {/if}
@@ -43,7 +40,7 @@
         <tr class="tableListFoot">
             <td>&nbsp;</td>
             <td colspan="2">{$pager->toString()}</td>
-            <td colspan="2" style="text-align: right; color: #7A7A7A;">...</td>
+            <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
         </tr>
     </table>
 </div>
