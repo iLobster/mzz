@@ -1,6 +1,7 @@
-<p class="pageTitle">Менеджер файлов</p>
+<div class="pageTitle">Менеджер файлов</div>
+<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="jipLink">Загрузить файл</a></div>
+<div style="height: 45px;"></div>
 
-Путь:
 {include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="fileManager"}
 
 <div class="pageContent">
@@ -51,14 +52,8 @@
         {/foreach}
         
         <tr class="tableListFoot">
-            <td>&nbsp;</td>
-            <td colspan="2">{$pager->toString()}</td>
+            <td colspan="4">{$pager->toString('adminPager.tpl')}</td>
             <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
-        </tr>
-        
-        <tr class="tableListFoot">
-            <td align="center"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" align="absmiddle" style="padding-right: 5px;" /></td>
-            <td colspan="5"><a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="jipLink">Загрузить файл</a></td>
         </tr>
     </table>
 </div>

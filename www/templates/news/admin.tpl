@@ -1,9 +1,7 @@
 <div style='width: 99%;'>
-<div style="padding: 4px 10px; text-align: right; float: right;/* margin-right: 8px; */margin-top: -2px; background-image: url('{$SITE_PATH}/templates/images/submenu_background.png');"><img src="{$SITE_PATH}/templates/images/filter.gif" align=absmiddle /> Поиск</div>
+<div style="padding: 4px 10px; text-align: right; float: right; margin-top: -2px; background-image: url('{$SITE_PATH}/templates/images/submenu_background.png');"><img src="{$SITE_PATH}/templates/images/filter.gif" align=absmiddle /> Поиск</div>
 
-<div class="pageTitle">Список новостей
-
-</div>
+<div class="pageTitle">Список новостей</div>
 </div>
 
 
@@ -52,7 +50,7 @@
         {/foreach}
         
         <tr class="tableListFoot">
-            <td colspan="3">{$pager->toString()}</td>
+            <td colspan="3">{$pager->toString('adminPager.tpl')}</td>
             <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
         </tr>
     </table>

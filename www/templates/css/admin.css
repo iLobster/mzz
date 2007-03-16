@@ -206,7 +206,7 @@ table.tableList td {
 }
 
 div.breadcrumbs {
-    margin: 5px;
+    margin: 10px 5px;
 }
 
 span.breadcrumbsTitle {
@@ -221,3 +221,16 @@ span.breadcrumbsItems {
     background-image: url('../images/breadcrumb_background.png');
 }
 
+div.moduleActions {
+    font-size: 95%;
+    margin: 7px 0;
+    padding: 4px 10px;
+    text-align: right;
+    float: left;
+    background-image: url('../images/actions_background.png');
+}
+
+div.moduleActions img {
+    float: left;
+    padding-right: 5px;
+}

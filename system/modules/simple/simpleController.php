@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 abstract class simpleController
@@ -104,9 +104,9 @@ abstract class simpleController
         return $this->getView();
     }
 
-    protected function setPager($item, $module, $config_name = 'items_per_page')
+    protected function setPager($item, $module, $config_name = 'items_per_page', $section = null)
     {
-        $config = $this->toolkit->getConfig($module);
+        $config = $this->toolkit->getConfig($module, $section);
         fileLoader::load('pager');
         $pager = new pager($this->request->getRequestUrl(), $this->request->get('page', 'integer', SC_GET), $config->get($config_name));
         $item->setPager($pager);

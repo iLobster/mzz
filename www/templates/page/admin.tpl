@@ -1,4 +1,4 @@
-<p class="pageTitle">Список страниц</p>
+<div class="pageTitle">Список страниц</div>
 
 {include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="page"}
 
@@ -36,10 +36,8 @@
                 <td>{$current_page->getJip()}</td>
             </tr>
         {/foreach}
-        
         <tr class="tableListFoot">
-            <td>&nbsp;</td>
-            <td colspan="2">{$pager->toString()}</td>
+            <td>{$pager->toString('adminPager.tpl')}</td>
             <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
         </tr>
     </table>

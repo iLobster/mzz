@@ -33,6 +33,12 @@ class configTest extends unitTestCase
         $this->assertEqual($config->get('someAnotherParam'), 'someValueOfAnotherParam');
     }
 
+    public function testConfigGetOnlyDefault()
+    {
+        $config = new config(null, 'someModule');
+        $this->assertEqual($config->get('someParam'), 'defaultValueOfParam');
+    }
+
     public function testConfigGetDefault()
     {
         $config = new config('someSection', 'someModule');
@@ -43,6 +49,9 @@ class configTest extends unitTestCase
     {
         $config = new config('someSection', 'someModule');
         $this->assertFalse($config->get('non_exists'));
+
+        $config = new config('someAnotherSection', 'someModule');
+        $this->assertEqual($config->get('someParam'), 'defaultValueOfParam');
     }
 
     public function testSetValue()
@@ -73,6 +82,7 @@ class configTest extends unitTestCase
         $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 1, 'someParam', 'defaultValueOfParam')");
         $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 3, 'someParam', 'someValueOfParam')");
 
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 2, 'someParam', 'valueForAnotherSection')");
         $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 2, 'someAnotherParam', 'someDefaultValueOfAnotherParam')");
         $this->db->exec("INSERT INTO `sys_cfg_values` VALUES(0, 4, 'someAnotherParam', 'someValueOfAnotherParam')");
 

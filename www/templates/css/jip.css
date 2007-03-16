@@ -68,11 +68,12 @@ div.jipSuccess {
 }
 
 .jipMenu {
+    font-family: tahoma, verdana, arial !important;
     font-weight: normal !important;
     font-size: 12px !important;
     color: #000 !important;
     display: none;
-    background-color: #F9F9F9;
+    background-color: #F9F9F9 !important;
     border: 2px solid #B6B6B6 !important;
     width: 180px;
     position: absolute;
@@ -150,4 +151,32 @@ td.jipItemTextActive {
     -moz-opacity: 0;
     -khtml-opacity: 0; /* Konqueror 3.1, Safari 1.1 */
     opacity: 0; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9 */
+}
+
+div.confirm {
+  width:90%;
+  font-size: 110%;
+  text-align: center;
+  line-height: 150%;
+  margin: 5px 0;
+  margin-bottom: 20px;
+}
+
+div.confirmImg {
+  width: 20%;
+  float: left;
+}
+
+div.confirmMsg {
+  width: 80%;
+  float: right;
+  padding-top: 5px;
+}
+
+div.confirm span {
+  margin-left: 40px;
+}
+
+div.confirm img {
+  float: right;
 }

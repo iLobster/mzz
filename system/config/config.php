@@ -16,7 +16,7 @@
  * config: класс для работы с конфигурацией
  *
  * @package system
- * @version 0.5.3
+ * @version 0.5.4
 */
 
 class config
@@ -78,16 +78,22 @@ class config
     public function getValues()
     {
         $this->db = db::factory();
-        $stmt = $this->db->prepare("SELECT IFNULL(`val`.`name`, `val_def`.`name`) as `name`,
-                                     IFNULL(`val`.`value`, `val_def`.`value`) as `value` FROM `sys_cfg` `cfg_def`
-                                      INNER JOIN `sys_cfg_values` `val_def` ON `val_def`.`cfg_id` = `cfg_def`.`id` AND `cfg_def`.`section` = 0
-                                       LEFT JOIN `sys_sections` `s` ON `s`.`name` = :section
-                                        LEFT JOIN `sys_modules` `m` ON `m`.`name` = :module
-                                         LEFT JOIN `sys_cfg` `cfg` ON `cfg`.`section` = `s`.`id` AND `cfg`.`module` = `m`.`id`
-                                          LEFT JOIN `sys_cfg_values` `val` ON `val`.`cfg_id` = `cfg`.`id` AND `val`.`name` = `val_def`.`name`
-                                           WHERE `cfg_def`.`module` = `s`.`id`");
+        if(empty($this->section)) {
+            $stmt = $this->db->prepare("SELECT `val_def`.`name` as `name`, `val_def`.`value` as `value` FROM `sys_cfg` `cfg_def`
+                                         INNER JOIN `sys_cfg_values` `val_def` ON `val_def`.`cfg_id` = `cfg_def`.`id` AND `cfg_def`.`section` = 0
+                                          LEFT JOIN `sys_modules` `m` ON `m`.`name` = :module");
+        } else {
+            $stmt = $this->db->prepare("SELECT IFNULL(`val`.`name`, `val_def`.`name`) as `name`,
+                                         IFNULL(`val`.`value`, `val_def`.`value`) as `value` FROM `sys_cfg` `cfg_def`
+                                          INNER JOIN `sys_cfg_values` `val_def` ON `val_def`.`cfg_id` = `cfg_def`.`id` AND `cfg_def`.`section` = 0
+                                           LEFT JOIN `sys_sections` `s` ON `s`.`name` = :section
+                                            LEFT JOIN `sys_modules` `m` ON `m`.`name` = :module
+                                             LEFT JOIN `sys_cfg` `cfg` ON `cfg`.`section` = `s`.`id` AND `cfg`.`module` = `m`.`id`
+                                              LEFT JOIN `sys_cfg_values` `val` ON `val`.`cfg_id` = `cfg`.`id` AND `val`.`name` = `val_def`.`name`
+                                               WHERE `cfg_def`.`module` = `m`.`id`");
 
-        $stmt->bindParam(':section', $this->section);
+            $stmt->bindParam(':section', $this->section);
+        }
         $stmt->bindParam(':module', $this->module);
         $stmt->execute();
 

@@ -17,12 +17,12 @@
  *
  * @package system
  * @subpackage pager
- * @version 0.1
+ * @version 0.1.1
  */
 class pager
 {
     /**
-     * базовый урл, к которому добавляется переменная page с соответствующим номером страницы
+     * базовый URL, к которому добавляется переменная page с соответствующим номером страницы
      *
      * @var string
      */
@@ -224,14 +224,15 @@ class pager
      * метод получения отформатированного "пейджинга"
      * для форматирования используется smarty и специальный шаблон
      *
+     * @param string $tpl имя шаблона отображения страниц
      * @return string
      */
-    public function toString()
+    public function toString($tpl = 'pager.tpl')
     {
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();
         $smarty->assign('pages', $this->toArray());
-        return $smarty->fetch('pager.tpl');
+        return $smarty->fetch($tpl);
     }
 }
 
