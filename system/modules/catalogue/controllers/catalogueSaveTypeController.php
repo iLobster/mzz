@@ -58,9 +58,9 @@ class catalogueSaveTypeController extends simpleController
             $values['properties'] = (isset($values['properties'])) ? $values['properties'] : array();
 
             if($isEdit){
-                $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']), $values['fulltpl']);
+                $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']));
             } else {
-                $catalogueMapper->addType($values['name'], $values['title'], array_keys($values['properties']), $values['fulltpl']);
+                $catalogueMapper->addType($values['name'], $values['title'], array_keys($values['properties']));
             }
 
             return jipTools::redirect();

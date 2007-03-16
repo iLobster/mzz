@@ -33,7 +33,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     private $tmpPropsData = array();
     private $tmpServiceData = array();
 
-    private $tmpTypes = array();
+    private $tmptypes = array();
 
     public function __construct($section)
     {
