@@ -301,8 +301,10 @@ jipWindow.prototype = {
             jipWindowOffsetTop = this.jip.offsetHeight;
             jipWindowOffsetLeft = this.jip.offsetLeft;
         }
+        var topScroll = (new Number(document.documentElement.scrollTop) > 0) ? document.documentElement.scrollTop : document.body.scrollTop;
+
         this.jip.setStyle({
-            'top': new Number(jipWindowOffsetTop) + (this.currentWindow * 5) + new Number(document.documentElement.scrollTop) + 'px',
+            'top': new Number(jipWindowOffsetTop) + (this.currentWindow * 5) + new Number(topScroll) + 'px',
             'left': new Number(jipWindowOffsetLeft)  + (this.currentWindow * 5) + 'px'
         });
 
