@@ -39,7 +39,7 @@ class newsListController extends simpleController
         $this->smarty->assign('news', $newsFolder->getItems());
         $this->smarty->assign('newsFolder', $newsFolder);
 
-        $this->response->setTitle('Новости -> Список');
+        //$this->response->setTitle('Новости -> Список');
 
         return $this->smarty->fetch('news/list.tpl');
     }

@@ -1,16 +1,20 @@
 <?php
 function smarty_function_title($params, $smarty)
 {
-	$separator = isset($params['separator']) ? $params['separator'] : ' :: ';
+    static $titles = array();
 
-	if(isset($params['set'])){
-		$smarty -> assign('title', $params['set']);
-	}
+    if (isset($params['append'])) {
+        $titles[] = array($params['append'], isset($params['separator']) ? $params['separator'] : ' :: ');
+	} else {
+	    $title = null;
+        foreach ($titles as $t) {
+            $title .= $t[0] . $t[1];
+        }
 
-	if(isset($params['append'])){
-		$title = $smarty->get_template_vars('title');
-		$smarty -> assign('title_appended', $params['append']);
-		$smarty -> assign('title', $title . $separator . $params['append']);
+        if ($title) {
+            $title = substr($title, 0, -(strlen(end(end($titles)))));
+        }
+        return $title;
 	}
 }
 ?>
