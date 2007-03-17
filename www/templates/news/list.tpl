@@ -1,6 +1,4 @@
 {add file="news.css"}
-{title append="Новости" separator=" -> "}
-{title append="Список"}
 {include file="news/tree.tpl" source=$newsFolder}
 
 <div class="newsList">
