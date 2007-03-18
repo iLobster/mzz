@@ -1,7 +1,7 @@
 {if $isEdit}
 {include file='jipTitle.tpl' title='Редактирование типа'}
 {else}
-{include file='jipTitle.tpl' title='Создание нового типа'}
+{include file='jipTitle.tpl' title='Создание типа'}
 {/if}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
 {$form.hidden}
