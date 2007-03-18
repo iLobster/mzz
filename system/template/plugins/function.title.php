@@ -41,7 +41,7 @@ function smarty_function_title($params, $smarty)
         $title = '';
         $separator = '';
         foreach ($titles as $t) {
-            if (!is_null($t) && $t != '') {
+            if (!is_null($t[0]) && $t[0] != '') {
                 $separator = ($t[1] === false) ? (isset($params['separator']) ? $params['separator'] : '') : $t[1];
                 $title .= $t[0] . $separator;
             }
