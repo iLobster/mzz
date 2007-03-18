@@ -1,21 +1,52 @@
 <?php
+/**
+ * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/template/plugins/function.add.php $
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage template
+ * @version $Id: function.add.php 1290 2007-02-04 13:38:09Z mz $
+*/
+
+/**
+ * smarty_function_title: функция для Smarty, сборка заголовка страницы
+ *
+ * Примеры использования:<br />
+ * <code>
+ * {title append="Новости" separator=" - "}
+ * {title append="2007"}
+ * {title append="Список"}
+ * {title separator=" | "} // Новости - 2007 | Список
+ * </code>
+ *
+ * @param array $params входные аргументы функции
+ * @param object $smarty объект смарти
+ * @return string|void заголовок если не указан параметр append
+ * @package system
+ * @subpackage template
+ * @version 0.1
+ */
 function smarty_function_title($params, $smarty)
 {
     static $titles = array();
-
     if (isset($params['append'])) {
         $titles[] = array($params['append'], isset($params['separator']) ? $params['separator'] : false);
-	} else {
-	    $title = '';
+    } else {
+        $title = '';
+        $separator = '';
         foreach ($titles as $t) {
-            $separator = ( ($t[1] == false) ? $params['defaultSeparator'] : $t[1]);
-            $title .= $t[0] . $separator;
+            if (!is_null($t) && $t != '') {
+                $separator = ($t[1] === false) ? (isset($params['separator']) ? $params['separator'] : '') : $t[1];
+                $title .= $t[0] . $separator;
+            }
         }
-
-        if ($title) {
-            $title = substr($title, 0, -1 * (strlen($separator)));
-        }
-        return $title;
-	}
+        return substr($title, 0, -(strlen($separator)));
+    }
 }
 ?>
