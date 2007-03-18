@@ -46,7 +46,8 @@ function smarty_function_title($params, $smarty)
                 $title .= $t[0] . $separator;
             }
         }
-        return substr($title, 0, -(strlen($separator)));
+        //return substr($title, 0, -(strlen($separator)));
+        return $title;
     }
 }
 ?>

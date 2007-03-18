@@ -1,3 +1,5 @@
+{title append=$newsFolder->getTitle()}
+{title append="Список новостей"}
 {add file="news.css"}
 {include file="news/tree.tpl" source=$newsFolder}
 
