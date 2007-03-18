@@ -112,8 +112,7 @@ class newsFolderMapper extends simpleMapperForTree
 
     public function convertArgsToId($args)
     {
-        $newsFolder = $this->searchByPath($args['name']);
-        if ($newsFolder) {
+        if (isset($args['name']) && $newsFolder = $this->searchByPath($args['name'])) {
             return (int)$newsFolder->getObjId();
         }
 

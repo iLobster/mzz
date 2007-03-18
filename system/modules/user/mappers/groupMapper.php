@@ -68,8 +68,7 @@ class groupMapper extends simpleMapper
             return $obj_id;
         }
 
-        $group = $this->searchOneByField('id', $args['id']);
-        if ($group) {
+        if (isset($args['id']) && $group = $this->searchOneByField('id', $args['id'])) {
             return (int)$group->getObjId();
         }
 

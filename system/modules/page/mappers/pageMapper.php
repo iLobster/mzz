@@ -85,6 +85,10 @@ class pageMapper extends simpleMapper
 
             $pageFolder = $pageFolderMapper->searchByPath($folder);
 
+            if (empty($pageFolder)) {
+                throw new mzzDONotFoundException();
+            }
+
             $criteria = new criteria();
             $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
             $page = $this->searchOneByCriteria($criteria);

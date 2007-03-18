@@ -60,8 +60,7 @@ class commentsMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        $comment = $this->searchOneByField('id', $args['id']);
-        if ($comment) {
+        if (isset($args['id']) && $comment = $this->searchOneByField('id', $args['id'])) {
             return $comment->getObjId();
         }
 
