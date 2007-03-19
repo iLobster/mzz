@@ -30,7 +30,7 @@ fileLoader::load('acl');
  *
  * @package system
  * @subpackage template
- * @version 0.4.2
+ * @version 0.4.3
  */
 function smarty_function_load($params, $smarty)
 {
@@ -74,7 +74,7 @@ function smarty_function_load($params, $smarty)
             $args = $request->getParams();
 
             if (isset($args['section_name']) && isset($args['module_name'])) {
-                $object_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['module_name']);
+                $object_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['module_name'], false);
             } else {
                 $object_id = $mapper->convertArgsToId($args);
             }

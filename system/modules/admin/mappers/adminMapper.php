@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.5
+ * @version 0.1.6
  */
 
 fileLoader::load('admin');
@@ -72,13 +72,13 @@ class adminMapper extends simpleMapper
 
             if (isset($val['section']) && isset($val['class'])) {
                 //if (!isset($access[$val['section'] . '_' . $val['class']])) {
-                    $access[$val['section'] . '_' . $val['module']] = $acl->get('editACL');
+                $access[$val['section'] . '_' . $val['module']] = $acl->get('editACL');
 
-                    $action = $toolkit->getAction($val['module']);
-                    $actions = $action->getActions();
-                    $actions = $actions[$val['class']];
+                $action = $toolkit->getAction($val['module']);
+                $actions = $action->getActions();
+                $actions = $actions[$val['class']];
 
-                    $admin[$val['section'] . '_' . $val['class']] = isset($actions['admin']) && $acl->get('admin');
+                $admin[$val['section'] . '_' . $val['class']] = isset($actions['admin']) && $acl->get('admin');
                 //}
 
                 $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id, 'editACL' => $acl->get('editACL'), 'editDefault' => $acl->get('editDefault'));
@@ -113,6 +113,7 @@ class adminMapper extends simpleMapper
             $class = $val['main_class'];
 
             $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $class);
+
             $this->register($obj_id, 'sys', 'access');
             $acl = new acl($user, $obj_id);
 

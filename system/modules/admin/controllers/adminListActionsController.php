@@ -19,7 +19,7 @@
  * @subpackage admin
  * @version 0.1.3
  */
- 
+
 class adminListActionsController extends simpleController
 {
     public function getView()
@@ -135,7 +135,7 @@ class adminListActionsController extends simpleController
         if (isset($arr['editACL'])) {
             unset($arr['editACL']);
         }
-        
+
         if (isset($arr['editDefault'])) {
             unset($arr['editDefault']);
         }

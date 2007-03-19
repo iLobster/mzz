@@ -104,12 +104,23 @@ abstract class simpleController
         return $this->getView();
     }
 
-    protected function setPager($item, $module, $config_name = 'items_per_page', $section = null)
+    /**
+     * Метод установки пейджера для получаемой коллекции объектов
+     *
+     * @param simpleMapper $item маппер, который возвращает требуемую коллекцию объектов
+     * @param string $module имя модуля, которому принадлежит маппер
+     * @param string $config_name имя конфигурационной переменной, в которой лежит число объектов на странице
+     * @return pager
+     */
+    protected function setPager($item, $module, $config_name = 'items_per_page')
     {
-        $config = $this->toolkit->getConfig($module, $section);
+        $config = $this->toolkit->getConfig($module);
         fileLoader::load('pager');
         $pager = new pager($this->request->getRequestUrl(), $this->request->get('page', 'integer', SC_GET), $config->get($config_name));
         $item->setPager($pager);
+
+        $this->smarty->assign('pager', $pager);
+
         return $pager;
     }
 }

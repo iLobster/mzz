@@ -3,5 +3,5 @@
 <<code>>
 {load module="timer" action="view" section="timer"}
 <</code>>
-Оформление хранится в шаблоне <code>filter/time.tpl</code>. Пример оформления:
+Оформление хранится в шаблоне <code>filter/timer.tpl</code>. Пример оформления:
 <!-- smarty code 1 -->

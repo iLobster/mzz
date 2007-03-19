@@ -34,7 +34,6 @@ class fileManagerAdminController extends simpleController
 
             $pager = $this->setPager($folder, 'fileManager');
             $this->smarty->assign('current_folder', $folder);
-            $this->smarty->assign('pager', $pager);
             $this->smarty->assign('files', $folder->getItems());
             return $this->smarty->fetch('fileManager/admin.tpl');
         }

@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage toolkit
- * @version 0.2.2
+ * @version 0.2.3
  */
 
 class stdToolkit extends toolkit
@@ -222,15 +222,17 @@ class stdToolkit extends toolkit
     /**
      * Возвращает уникальный идентификатор необходимый для идентификации объектов
      *
+     * @param string $name
+     * @param boolean $generateNew
      * @return integer
      */
-    public function getObjectId($name = null)
+    public function getObjectId($name = null, $generateNew = true)
     {
         if (empty($this->objectIdGenerator)) {
             fileLoader::load('core/objectIdGenerator');
             $this->objectIdGenerator = new objectIdGenerator;
         }
-        return $this->objectIdGenerator->generate($name);
+        return $this->objectIdGenerator->generate($name, $generateNew);
     }
 
     /**

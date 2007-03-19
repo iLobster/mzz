@@ -88,7 +88,6 @@ class catalogueAdminController extends simpleController
         $this->smarty->assign('properties', $properties);
         $this->smarty->assign('items', $catalogueFolder->getItems());
         $this->smarty->assign('catalogueFolder', $catalogueFolder);
-        $this->smarty->assign('pager', $pager);
         return $this->smarty->fetch('catalogue/admin.tpl');
     }
 }

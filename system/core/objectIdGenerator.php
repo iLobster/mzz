@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage core
- * @version $Id: objectIdGenerator.php 251 2006-11-01 04:49:40Z zerkms $
+ * @version $Id: objectIdGenerator.php 726 2007-03-19 01:21:20Z zerkms $
 */
 
 /**
@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage core
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class objectIdGenerator
@@ -50,15 +50,27 @@ class objectIdGenerator
     /**
      * Метод, возвращающий следующий номер
      *
+     * @param string $name
+     * @param boolean $generateNew
      * @return integer
      */
-    public function generate($name = null)
+    public function generate($name = null, $generateNew = true)
     {
+        $toolkit = systemToolkit::getInstance();
+        $cache = $toolkit->getCache();
+
         if (!is_null($name)) {
-            $id = $this->db->getOne('SELECT `obj_id` FROM `sys_obj_id_named` WHERE `name` = ' . $this->db->quote($name));
-            if (is_null($id)) {
-                $id = $this->generate();
-                $this->db->query('INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES (' . $id .', ' . $this->db->quote($name) . ')');
+            if (is_null($id = $cache->load($identifier = 'obj_id_' . $name))) {
+                $id = $this->db->getOne('SELECT `obj_id` FROM `sys_obj_id_named` WHERE `name` = ' . $this->db->quote($name));
+
+                if (is_null($id) && $generateNew) {
+                    $id = $this->generate();
+                    $this->db->query('INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES (' . $id .', ' . $this->db->quote($name) . ')');
+                } elseif (is_null($id)) {
+                    $id = $this->generate('access_admin_admin', false);
+                }
+
+                $cache->save($identifier, $id);
             }
 
             return (int)$id;

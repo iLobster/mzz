@@ -39,13 +39,12 @@ class newsAdminController extends simpleController
 
         $breadCrumbs = $newsFolderMapper->getPath($newsFolder);
 
-        $pager = $this->setPager($newsFolder, 'news', 'items_per_page', 0);
+        $pager = $this->setPager($newsFolder, 'news', 'items_per_page');
 
         $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
         $this->smarty->assign('news', $newsFolder->getItems());
         $this->smarty->assign('newsFolder', $newsFolder);
         $this->smarty->assign('breadCrumbs', $breadCrumbs);
-        $this->smarty->assign('pager', $pager);
 
         return $this->smarty->fetch('news/admin.tpl');
     }
