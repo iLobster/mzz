@@ -16,7 +16,7 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1.4
+ * @version 0.1.6
  */
 class acl
 {
@@ -63,21 +63,6 @@ class acl
     private $groups = array();
 
     /**
-     * переменная, для хранения результатов запросов<br>
-     * для кеширования в памяти (предотвращение повторных аналогичных запросов)
-     *
-     * @var array
-     */
-    private $result = array();
-
-    /**
-     * Массив для кеширования в памяти запросов прав для конкретных групп
-     *
-     * @var array
-     */
-    private $resultGroups = array();
-
-    /**
      * массив для хранения валидных экшнов для конкретного объекта
      *
      * @var array
@@ -92,6 +77,13 @@ class acl
     private $isRoot = false;
 
     /**
+     * Объект для работы с кэшем
+     *
+     * @var cache
+     */
+    private $cache;
+
+    /**
      * конструктор
      *
      * @param user $user
@@ -102,11 +94,11 @@ class acl
     public function __construct($user = null, $object_id = 0, $class = '', $section = '')
     {
         $this->db = db::factory();
+        $toolkit = systemToolkit::getInstance();
 
         $object_id = (int)$object_id;
 
         if (empty($user)) {
-            $toolkit = systemToolkit::getInstance();
             $user = $toolkit->getUser();
         }
         //var_dump($this->db->getQueriesNum());
@@ -129,6 +121,8 @@ class acl
         if (defined('MZZ_ROOT_GID') && array_search(MZZ_ROOT_GID, $this->groups) !== false) {
             $this->isRoot = true;
         }
+
+        $this->cache = $toolkit->getCache();
     }
 
     /**
@@ -148,7 +142,10 @@ class acl
      */
     public function get($param = null, $clean = false, $full = false)
     {
-        if (empty($this->result[$this->obj_id][$clean][$full])) {
+        $identifier = $this->obj_id;
+        $result = $this->cache->load($identifier);
+
+        if (!isset($result[$clean][$full])) {
 
             $grp = '';
 
@@ -177,7 +174,7 @@ class acl
 
             $stmt->execute();
 
-            $this->result[$this->obj_id][$clean][$full] = array();
+            $result[$clean][$full] = array();
 
             while ($row = $stmt->fetch()) {
                 if ($full) {
@@ -187,17 +184,19 @@ class acl
                 }
 
                 if ($this->isRoot) {
-                    $this->result[$this->obj_id][$clean][$full][$row['name']] = $full ? array('allow' => true, 'deny' => false) : true;
+                    $result[$clean][$full][$row['name']] = $full ? array('allow' => true, 'deny' => false) : true;
                 } else {
-                    $this->result[$this->obj_id][$clean][$full][$row['name']] = $value;
+                    $result[$clean][$full][$row['name']] = $value;
                 }
             }
+
+            $this->cache->save($identifier, $result);
         }
 
         if (empty($param)) {
-            return $this->result[$this->obj_id][$clean][$full];
+            return $result[$clean][$full];
         } else {
-            $access = isset($this->result[$this->obj_id][$clean][$full][$param]) ? (bool)$this->result[$this->obj_id][$clean][$full][$param] : false;
+            $access = isset($result[$clean][$full][$param]) ? (bool)$result[$clean][$full][$param] : false;
             return $access || $this->isRoot;
         }
     }
@@ -264,7 +263,10 @@ class acl
      */
     public function getForGroup($gid, $full = false)
     {
-        if (empty($this->resultGroups[$this->obj_id][$gid][$full])) {
+        $identifier = $this->obj_id . '_groups';
+        $result = $this->cache->load($identifier);
+
+        if (!isset($result[$gid][$full])) {
 
             $qry = 'SELECT (MAX(`a`.`allow`) - MAX(`a`.`deny`) = 1) AS `access`, `a`.`allow`, `a`.`deny`, `aa`.`name`
                      FROM `sys_access` `a`
@@ -274,7 +276,7 @@ class acl
 
             $stmt = $this->db->query($qry);
 
-            $this->resultGroups[$this->obj_id] = array();
+            $result = array();
 
             while ($row = $stmt->fetch()) {
                 if ($full) {
@@ -282,11 +284,13 @@ class acl
                 } else {
                     $value = (bool)$row['access'];
                 }
-                $this->resultGroups[$this->obj_id][$gid][$full][$row['name']] = $value;
+                $result[$gid][$full][$row['name']] = $value;
             }
+
+            $this->cache->save($identifier, $result);
         }
 
-        return $this->resultGroups[$this->obj_id][$gid][$full];
+        return $result[$gid][$full];
     }
 
     /**
@@ -536,7 +540,8 @@ class acl
         }
 
         // удаляем кэш
-        unset($this->result[$this->obj_id]);
+        $this->cache->save($this->obj_id, null);
+        //unset($this->result[$this->obj_id]);
     }
 
     /**

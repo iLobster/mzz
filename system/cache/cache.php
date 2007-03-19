@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage cache
- * @version 0.3
+ * @version 0.3.1
  */
 
 class cache
@@ -30,16 +30,16 @@ class cache
      * @var arrayDataspace
      */
     private $data;
-    
+
     /**
      * Конструктор
      *
      */
     public function __construct()
     {
-        $this->data = new arrayDataspace();
+        $this->drop();
     }
-    
+
     /**
      * Метод помещения данных в кэш
      *
@@ -60,6 +60,15 @@ class cache
     public function load($identifier)
     {
         return $this->data->get($identifier);
+    }
+
+    /**
+     * Метод для удаления содержимого кэша
+     *
+     */
+    public function drop()
+    {
+        $this->data = new arrayDataspace();
     }
 }
 
