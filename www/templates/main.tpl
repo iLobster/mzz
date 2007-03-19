@@ -22,7 +22,7 @@
 
 <div id="footer">
         <div id="fcontainer">
-        <div id="footer_text">{load module="timer" action="view" section="timer" 403handle="none"}
+        <div id="footer_text">{$timer->toString()}
 2007 &copy; {$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION})</div>
         <div id="footer_image"><img src="{$SITE_PATH}/templates/images/mzz_footer.png" width="79" height="63" alt="" /></div>
      </div>

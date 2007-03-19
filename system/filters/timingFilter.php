@@ -20,7 +20,7 @@
  * @version 0.2
  */
 
-fileLoader::load('timer/timer');
+//fileLoader::load('timer/timer');
 
 class timingFilter implements iFilter
 {
@@ -34,7 +34,9 @@ class timingFilter implements iFilter
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
-        $toolkit->getTimer();
+        $timer = $toolkit->getTimer();
+        $smarty = $toolkit->getSmarty();
+        $smarty->assign('timer', $timer);
 
         $filter_chain->next();
     }

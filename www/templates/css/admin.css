@@ -85,7 +85,7 @@ div#mainbar {
 .tableListHead td {
   font-weight: bold;
   text-align: center;
-  background-color: #F9F9F9;
+  background-color: #F7F7F7;
 }
 
 
@@ -126,14 +126,15 @@ div#mainbar {
 
 #header .favorite {
   width: 100%;
-  height: 32px;
-  background: url('../images/admin/menu.png');
+  height: 30px;
+  background-color: #ECEBE3;
+  border-bottom: 1px solid #DFDDCE;
   color: #fff;
   font-size: 95%;
 }
 #header .favorite div {
   padding-left: 10px;
-  padding-top: 9px;
+  padding-top: 8px;
 }
 
 #header img.favoriteIcon {
@@ -201,11 +202,11 @@ table.tableList {
   margin-top: 5px;
 }
 table.tableList td {
-  border-bottom: 1px solid #EBEBEB;
+  border-bottom: 1px solid #F4F4F4;
 }
 
 .tableListFoot td {
-  border-top: 1px solid #E4E4E4;
+ /* border-top: 1px solid #F4F4F4;*/
   border-bottom: 0 !important;
 }
 

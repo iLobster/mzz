@@ -185,6 +185,7 @@ class stdToolkit extends toolkit
     public function getTimer()
     {
         if (empty($this->timer)) {
+            fileLoader::load('timer');
             $this->timer = new timer();
             $this->timer->start();
         }
