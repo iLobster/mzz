@@ -27,6 +27,10 @@ body {
   color: #000;
 }
 
+img {
+  border: 0;
+}
+
 div#page {
   width: 100%;
   margin: auto;
