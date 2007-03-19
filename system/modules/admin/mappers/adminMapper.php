@@ -287,6 +287,11 @@ class adminMapper extends simpleMapper
     public function convertArgsToId($args)
     {
         $toolkit = systemToolkit::getInstance();
+
+        if (isset($args['section_name']) && isset($args['module_name'])) {
+            return $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['module_name'], false);
+        }
+
         $obj_id = $toolkit->getObjectId('access_admin_admin');
         $this->register($obj_id);
         return $obj_id;
