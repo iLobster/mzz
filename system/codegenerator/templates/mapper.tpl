@@ -25,7 +25,7 @@ fileLoader::load('{{$mapper_data.module}}');
  * @subpackage {{$mapper_data.module}}
  * @version 0.1
  */
- 
+
 class {{$mapper_data.mapper_name}} extends simpleMapper
 {
     /**

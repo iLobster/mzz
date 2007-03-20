@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('simple/simpleForTree');
- 
+
 /**
  * catalogueFolder: класс для работы c данными
  *
@@ -21,19 +21,19 @@ fileLoader::load('simple/simpleForTree');
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueFolder extends simpleForTree
 {
     protected $name = 'catalogue';
     private $mapper;
-    
+
     public function __construct($mapper, Array $map)
     {
         $this->mapper = $mapper;
         parent::__construct($map);
         $this->treeFields = new arrayDataspace();
     }
-    
+
     public function getFolders($level = 1)
     {
         if (!$this->fields->exists('folders')) {
@@ -41,7 +41,7 @@ class catalogueFolder extends simpleForTree
         }
         return $this->fields->get('folders');
     }
-    
+
     public function getItems()
     {
         if (!$this->fields->exists('items')) {
@@ -49,12 +49,12 @@ class catalogueFolder extends simpleForTree
         }
         return $this->fields->get('items');
     }
-    
+
     public function getTreeParent()
     {
         return $this->mapper->getTreeParent($this->getParent());
     }
-    
+
     public function setPager($pager)
     {
         $this->mapper->setPager($pager);

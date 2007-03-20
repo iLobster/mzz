@@ -43,9 +43,9 @@ function smarty_function_url($params, $smarty)
         $getUrl = true;
         $params['route'] = null;
     }
-    
+
     $url = new url($params['route']);
-    
+
     if (isset($params['section'])) {
         //$getUrl = false;
         $url->setSection($params['section']);
@@ -61,10 +61,10 @@ function smarty_function_url($params, $smarty)
     }
 
     //if (isset($params['route'])) {
-        //$getUrl = false;
-        //$router = $toolkit->getRouter();
-        //$url->setRoute($router->getRoute($params['route']));
-        //unset($params['route']);
+    //$getUrl = false;
+    //$router = $toolkit->getRouter();
+    //$url->setRoute($router->getRoute($params['route']));
+    //unset($params['route']);
     //}
 
     foreach ($params as $name => $value) {

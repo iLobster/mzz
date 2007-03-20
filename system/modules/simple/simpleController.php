@@ -96,7 +96,7 @@ abstract class simpleController
             $this->smarty->assign('url', $url);
             $confirm = empty($this->confirm) ? $confirm : $this->confirm;
             $this->smarty->assign('message', $confirm);
-            return $this->smarty->fetch('confirm.tpl');
+            return $this->smarty->fetch('simple/confirm.tpl');
         }
         if (!empty($confirmMsg)) {
             $session->destroy('confirm_code');

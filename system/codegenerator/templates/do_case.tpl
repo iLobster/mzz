@@ -28,7 +28,7 @@ class {{$doCaseData.doName}}Test extends unitTestCase
     private ${{$doCaseData.doName}};
     private $map;
     private $db;
-    
+
 
     public function setUp()
     {

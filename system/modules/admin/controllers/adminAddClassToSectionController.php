@@ -19,7 +19,7 @@
  * @subpackage admin
  * @version 0.1.2
  */
- 
+
 class adminAddClassToSectionController extends simpleController
 {
     public function getView()

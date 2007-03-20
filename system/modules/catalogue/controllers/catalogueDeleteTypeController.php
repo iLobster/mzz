@@ -26,12 +26,12 @@ class catalogueDeleteTypeController extends simpleController
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $id = $this->request->get('id', 'integer', SC_PATH);
-        
+
         $item = $catalogueMapper->searchOneByField('type_id', $id);
         if($item){
             return '“ип не может быть удалЄн';
         }
-        
+
         $catalogueMapper->deleteType($id);
         return jipTools::redirect();
     }

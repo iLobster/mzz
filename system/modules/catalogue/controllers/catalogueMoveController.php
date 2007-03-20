@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('catalogue/forms/catalogueMoveForm');
- 
+
 /**
  * catalogueMoveController: контроллер для метода move модуля catalogue
  *
@@ -21,7 +21,7 @@ fileLoader::load('catalogue/forms/catalogueMoveForm');
  * @subpackage catalogue
  * @version 0.1
  */
- 
+
 class catalogueMoveController extends simpleController
 {
     public function getView()

@@ -48,7 +48,7 @@ abstract class decoratingResolver implements iResolver
      */
     public function resolve($request)
     {
-       return $this->resolver->resolve($request);
+        return $this->resolver->resolve($request);
     }
 
     /**

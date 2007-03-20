@@ -21,7 +21,7 @@ fileLoader::load('codegenerator/moduleGenerator');
  * @subpackage admin
  * @version 0.1.1
  */
- 
+
 class adminDeleteModuleController extends simpleController
 {
     public function getView()

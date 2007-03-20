@@ -22,7 +22,7 @@ fileLoader::load('codegenerator/actionGenerator');
  * @subpackage admin
  * @version 0.1.2
  */
- 
+
 class adminAddActionController extends simpleController
 {
     public function getView()

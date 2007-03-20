@@ -27,7 +27,7 @@ class {{$doCaseData.mapperName}}Test extends unitTestCase
 
     public function __construct()
     {
-        $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),        
+        $this->map = array('id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId' ),
         'created' => array ('name' => 'created', 'accessor' => 'getCreated', 'mutator' => 'setCreated'),
         'updated' => array ('name' => 'updated', 'accessor' => 'getUpdated', 'mutator' => 'setUpdated')
         );

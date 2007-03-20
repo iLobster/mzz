@@ -96,7 +96,7 @@ class url
             $params['section'] = $this->section;
         }
         if (empty($params['action'])) {
-               $params['action'] = $this->action;
+            $params['action'] = $this->action;
         }
         $url = $this->route->assemble($params);
 
@@ -160,9 +160,9 @@ class url
     public function getParams()
     {
         //foreach($this->params as $key => $param) {
-            //if (empty($this->params[$key])) {
-                //unset($this->params[$key]);
-            //}
+        //if (empty($this->params[$key])) {
+        //unset($this->params[$key]);
+        //}
         //}
         return $this->params;
     }

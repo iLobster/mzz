@@ -19,7 +19,7 @@
  * @subpackage {{$factory_data.module}}
  * @version 0.1
  */
- 
+
 class {{$factory_data.factory_name}} extends simpleFactory
 {
     /**
