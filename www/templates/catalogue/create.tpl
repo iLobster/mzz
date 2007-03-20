@@ -1,4 +1,7 @@
-{if $type eq 0}<div class="jipTitle">Добавление нового элемента - выбор типа создаваемого элемента</div>{/if}
+{if $type eq 0}
+<script type="text/javascript" src="/templates/js/prototype.js"></script>
+<div class="jipTitle">Добавление нового элемента - выбор типа создаваемого элемента</div>
+{/if}
 <div id="ajaxGetForm">
 {literal}
 <script language="JavaScript">

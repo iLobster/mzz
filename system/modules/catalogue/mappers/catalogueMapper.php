@@ -61,38 +61,39 @@ class catalogueMapper extends simpleCatalogueMapper
      */
     public function convertArgsToId($args)
     {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
+        $request = systemToolkit::getInstance()->getRequest();
 
         $action = $request->getAction();
 
-        if ($action == 'edit'){
+        if ($action == 'addType' || $action == 'addProperty') {
+            return $this->getObjId();
+        } elseif ($action == 'editType' || $action == 'deleteType') {
+            $type = $this->getType($args['id']);
+            if ($type) {
+                return $this->getObjId();
+            }
+        } elseif ($action == 'editProperty' || $action == 'deleteProperty') {
+            $property = $this->getProperty($args['id']);
+            if ($property) {
+                return $this->getObjId();
+            }
+        } else {
             $item = $this->searchOneByField('id', $args['id']);
 
             if ($item) {
                 return (int)$item->getObjId();
             }
-        } elseif ($action == 'addType') {
-            $obj_id = $toolkit->getObjectId('access_' . $request->getSection() . '_catalogue');
-            $this->register($obj_id);
-            return $obj_id;
-        } elseif ($action == 'editType') {
-            $type = $this->getType($args['id']);
-            if ($type) {
-                $obj_id = $toolkit->getObjectId('access_' . $request->getSection() . '_catalogue');
-                $this->register($obj_id);
-                return $obj_id;
-            }
-        } elseif ($action == 'editProperty') {
-            $property = $this->getProperty($args['id']);
-            if ($property) {
-                $obj_id = $toolkit->getObjectId('access_' . $request->getSection() . '_catalogue');
-                $this->register($obj_id);
-                return $obj_id;
-            }
         }
 
         throw new mzzDONotFoundException();
+    }
+
+    private function getObjId()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $obj_id = $toolkit->getObjectId('access_' . $toolkit->getRequest()->getSection() . '_catalogue');
+        $this->register($obj_id);
+        return $obj_id;
     }
 }
 
