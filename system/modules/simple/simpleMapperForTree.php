@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 abstract class simpleMapperForTree extends simpleMapper
@@ -100,20 +100,25 @@ abstract class simpleMapperForTree extends simpleMapper
 
     public function getTreeForMenu($id)
     {
-        $parent = $this->tree->getNodeInfo($this->tree->getParentNode($id));
         $node = $this->tree->getNodeInfo($id);
 
         $criterionLevel2 = new criterion('tree.level', 2);
 
-        $criterionPath = new criterion('tree.lkey', $node['rkey'], criteria::LESS);
-        $criterionPath->addAnd(new criterion('tree.rkey', $node['lkey'], criteria::GREATER));
+        if ($node['level'] != 1) {
+            $parent = $this->tree->getNodeInfo($this->tree->getParentNode($id));
 
-        $criterionSameLevel = new criterion('tree.level', $node['level']);
-        $criterionSameLevel->addAnd(new criterion('tree.lkey', $parent['lkey'], criteria::GREATER));
-        $criterionSameLevel->addAnd(new criterion('tree.rkey', $parent['rkey'], criteria::LESS));
+            $criterionSameLevel = new criterion('tree.level', $node['level']);
+            $criterionSameLevel->addAnd(new criterion('tree.lkey', $parent['lkey'], criteria::GREATER));
+            $criterionSameLevel->addAnd(new criterion('tree.rkey', $parent['rkey'], criteria::LESS));
+            $criterionLevel2->addOr($criterionSameLevel);
 
-        $criterionLevel2->addOr($criterionPath);
-        $criterionLevel2->addOr($criterionSameLevel);
+            $criterionPath = new criterion('tree.lkey', $node['rkey'], criteria::LESS);
+            $criterionPath->addAnd(new criterion('tree.rkey', $node['lkey'], criteria::GREATER));
+            $criterionLevel2->addOr($criterionPath);
+        } else {
+            $criterionRoot = new criterion('tree.level', 1);
+            $criterionLevel2->addOr($criterionRoot);
+        }
 
         $criteria = new criteria();
         $criteria->add($criterionLevel2);
