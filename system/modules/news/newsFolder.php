@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleForTree');
  *
  * @package modules
  * @subpackage news
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class newsFolder extends simpleForTree
@@ -61,6 +61,11 @@ class newsFolder extends simpleForTree
             $this->fields->set('folders', $folders);
         }
         return $this->fields->get('folders');
+    }
+
+    public function getTreeForMenu()
+    {
+        return $this->mapper->getTreeForMenu($this->getParent());
     }
 
     /**

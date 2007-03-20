@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 abstract class simpleMapperForTree extends simpleMapper
@@ -96,6 +96,30 @@ abstract class simpleMapperForTree extends simpleMapper
     public function getFolders($id, $level = 1)
     {
         return $this->tree->getBranch($id, $level);
+    }
+
+    public function getTreeForMenu($id)
+    {
+        $parent = $this->tree->getNodeInfo($this->tree->getParentNode($id));
+        $node = $this->tree->getNodeInfo($id);
+
+        $criterionLevel2 = new criterion('tree.level', 2);
+
+        $criterionPath = new criterion('tree.lkey', $node['rkey'], criteria::LESS);
+        $criterionPath->addAnd(new criterion('tree.rkey', $node['lkey'], criteria::GREATER));
+
+        $criterionSameLevel = new criterion('tree.level', $node['level']);
+        $criterionSameLevel->addAnd(new criterion('tree.lkey', $parent['lkey'], criteria::GREATER));
+        $criterionSameLevel->addAnd(new criterion('tree.rkey', $parent['rkey'], criteria::LESS));
+
+        $criterionLevel2->addOr($criterionPath);
+        $criterionLevel2->addOr($criterionSameLevel);
+
+        $criteria = new criteria();
+        $criteria->add($criterionLevel2);
+        $criteria->setOrderByFieldAsc('tree.lkey');
+
+        return $this->tree->searchByCriteria($criteria);
     }
 
     public function move($folder, $destFolder)
