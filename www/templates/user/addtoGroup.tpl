@@ -11,7 +11,7 @@
     <span style="font-size: 110%;">Результат поиска (найдено: {$users|@count})</span>
     <div style="border-top: 2px solid #BABABA; padding: 10px;">
         <form method="post" action="{url}" onsubmit="return mzzAjax.sendForm(this);">
-            <table border="0" width="100%" cellpadding="2" cellspacing="0" class="list">
+            <table border="0" width="100%" cellpadding="2" cellspacing="0" class="systemTable">
                 {foreach from=$users item=user}
                     <tr>
                         <td align="center" width="10px">{$user->getId()}</td>

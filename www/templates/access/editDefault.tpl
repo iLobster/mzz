@@ -1,6 +1,6 @@
 {include file='jipTitle.tpl' title="Права по умолчанию для раздела: <b>$section</b>, класса: <b>$class</b>."}
 
-<table border="0" width="99%" cellpadding="4" cellspacing="0" class="list">
+<table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
     <tr>
         <th colspan="3">Пользователи{if $usersExists} (<a href="{url route=withAnyParam section=access name="$section/$class" action=addUserDefault}" class="jipLink">добавить</a>){/if}</th>
     </tr>

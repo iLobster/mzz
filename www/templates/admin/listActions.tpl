@@ -1,6 +1,6 @@
 {include file='jipTitle.tpl' title='Список действий'}
 
-<table width="99%" cellpadding="4" cellspacing="0"  class="list">
+<table width="99%" cellpadding="4" cellspacing="0" class="systemTable">
     <tr>
         <td colspan="3"><a href="{url route="withId" section="admin" id=$id action="addAction"}" class="jipLink">Создать действие</a></td>
     </tr>

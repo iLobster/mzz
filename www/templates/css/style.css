@@ -187,11 +187,11 @@ a:hover {
  margin-top: 50px;
 }
 
-table.list td {
+table.systemTable td {
     border-bottom: 1px solid #F0F0F0;
 }
 
-table.list th {
+table.systemTable th {
     border-bottom: 1px dashed #DCDCDC;
 }
 

@@ -1,6 +1,6 @@
 {include file='jipTitle.tpl' title="Опции конфигурации"}
 
-<table width="99%" cellpadding="4" cellspacing="0" class="list">
+<table width="99%" cellpadding="4" cellspacing="0" class="systemTable">
     <tr>
         <td colspan="3"><a href="{url route="withId" id=$data.id action=addCfg}" class="jipLink">Добавить новую опцию</a></td>
     </tr>

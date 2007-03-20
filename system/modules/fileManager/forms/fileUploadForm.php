@@ -35,16 +35,16 @@ class fileUploadForm
         $url = new url('withAnyParam');
         $url->setAction('upload');
         $url->addParam('name', $folder->getPath());
-        $form = new HTML_QuickForm('fileUpload', 'POST', $url->get());
+        $form = new HTML_QuickForm('fmUploadFileForm', 'POST', $url->get());
 
         $form->addElement('file', 'file', 'Файл');
-        $form->addRule('file', 'Файл обязательное для заполнения поле', 'uploadedfile');
+        $form->addRule('file', 'Укажите файл для загрузки', 'uploadedfile');
 
         $form->addElement('text', 'name', 'Новое имя:', 'size="30"');
         $form->addRule('name', 'Недопустимые символы в имени', 'regex', '/^[a-zа-я0-9_\.\-]+$/i');
 
-        $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');
-        $form->addElement('submit', 'submit', 'Сохранить');
+        $form->addElement('reset', 'resetButton', 'Отмена', 'onclick="javascript: jipWindow.close();"');
+        $form->addElement('submit', 'submit', 'Загрузить', 'id="fmUploadFileSubmitButton"');
         return $form;
     }
 }

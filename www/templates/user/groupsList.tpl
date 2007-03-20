@@ -2,7 +2,7 @@
 <a href="{url route=withId section=access id=$obj_id action=editACL}" class="jipLink"><img src="{$SITE_PATH}/templates/images/acl.gif" /></a>
 <div id="submenu"><a href="{url route=default2 section=user action=list}">Пользователи</a></div>
 
-<table border="0" width="99%" cellpadding="4" cellspacing="1" class="list">
+<table border="0" width="99%" cellpadding="4" cellspacing="1" class="systemTable">
     <tr>
         <td><strong>Id</strong></td>
         <td><strong>Имя</strong></td>

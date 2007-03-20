@@ -190,7 +190,7 @@ function getPaths($array, $path = '', $num = '') {
         $n = (empty($num)) ? $i : $num . '.' . $i;
 
         $p = (empty($path)) ? $link : $path . '.' . $link;
-        if(is_array($value)) {            
+        if(is_array($value)) {
             $values[$p] = array($key, $n, trim($meta[1]));
             $values = $values + getPaths($value, $p, $n);
         } else {
@@ -415,6 +415,5 @@ if (!isset($_REQUEST['cat'])) {
 }
 ?>
 </div>
-<br />
 </body>
 </html>

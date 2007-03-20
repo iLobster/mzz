@@ -2,7 +2,7 @@
 
 <div id="submenu"><a href="{url route=default2 section=user action=groupsList}">Группы</a></div>
 
-<table border="0" width="99%" cellpadding="4" cellspacing="0" class="list">
+<table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
     {foreach from=$users item=user}
         <tr>
             <td width="30" align="center">{$user->getId()}</td>
