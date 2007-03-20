@@ -114,7 +114,7 @@ abstract class simpleMapperForTree extends simpleMapper
 
             $criterionPath = new criterion('tree.lkey', $node['rkey'], criteria::LESS);
             $criterionPath->addAnd(new criterion('tree.rkey', $node['lkey'], criteria::GREATER));
-            $criterionPath->addAnd(new criterion('tree.level', $node['level'] + 1));
+            $criterionPath->addAnd(new criterion('tree.level', $node['level'] + 1, criteria::LESS_EQUAL));
             $criterionLevel2->addOr($criterionPath);
         } else {
             $criterionRoot = new criterion('tree.level', 1);
