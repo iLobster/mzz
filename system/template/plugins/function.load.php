@@ -30,7 +30,7 @@ fileLoader::load('acl');
  *
  * @package system
  * @subpackage template
- * @version 0.4.4
+ * @version 0.4.5
  */
 function smarty_function_load($params, $smarty)
 {
@@ -73,7 +73,9 @@ function smarty_function_load($params, $smarty)
         try {
             $args = $request->getParams();
 
-            if (isset($args['section_name']) && isset($args['module_name'])) {
+            $actionName = $action->getActionName(true);
+
+            if (isset($args['section_name']) && isset($args['module_name']) && $actionName == 'admin') {
                 $adminmapper = $toolkit->getMapper('admin', 'admin', $request->getSection());
                 $object_id = $adminmapper->convertArgsToId($args);
             } else {
@@ -81,8 +83,6 @@ function smarty_function_load($params, $smarty)
             }
 
             $acl = new acl($toolkit->getUser(), $object_id);
-
-            $actionName = $action->getActionName(true);
 
             //var_dump($actionName); var_dump($object_id);
 
