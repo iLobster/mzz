@@ -3,8 +3,8 @@
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
         {foreach from=$configs item=value key=key}
             <tr>
-                <td>{$key}</td>
-                <td><input type="text" name="config[{$key}]" value="{$value.0.value}"></td>
+                <td>{$value.title}</td>
+                <td><input type="text" name="config[{$key}]" value="{$value.value}"></td>
             </tr>
         {foreachelse}
             <tr>

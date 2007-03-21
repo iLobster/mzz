@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.9.7
+ * @version 0.9.8
  */
 
 fileLoader::load('db/sqlFunction');
@@ -285,10 +285,10 @@ class dbTreeNS
     public function searchByCriteria(criteria $criteria)
     {
         $criteria->setTable($this->dataTable, 'data');
-        $criteria->addJoin($this->table, new criterion('data.' . $this->dataID, 'tree.' . $this->treeID, criteria::EQUAL, true), 'tree');
+        $criteria->addJoin($this->table, new criterion('data.' . $this->dataID, 'tree.' . $this->treeID, criteria::EQUAL, true), 'tree', criteria::JOIN_INNER);
 
         if ($this->isMultipleTree()) {
-            $criteria->add(new criterion($this->table . '.' . $this->treeField, $this->treeFieldID));
+            $criteria->add(new criterion('tree.' . $this->treeField, $this->treeFieldID));
         }
 
         $select = new simpleSelect($criteria);

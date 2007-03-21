@@ -26,6 +26,14 @@ class simpleSelectTest extends unitTestCase
         $this->assertEqual($this->select->toString(), 'SELECT INET_ATON(`table`.`field`) AS `alias`, MAX(`table`.`field`) AS `alias2`');
     }
 
+    public function testSelectOperator()
+    {
+        $operator = new sqlOperator('+', array('table.field2', 100));
+        $this->criteria->setTable('table');
+        $this->criteria->add('field', $operator);
+        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` WHERE `table`.`field` = `table`.`field2` + 100');
+    }
+
     public function testSelectAllNoConditions()
     {
         $this->criteria->setTable('table');

@@ -455,7 +455,8 @@ CREATE TABLE `news_newsFolder` (
   `parent` int(11) default '0',
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `name` (`name`)
+  KEY `name` (`name`),
+  KEY `parent` (`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -470,7 +471,12 @@ INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`
   (7,235,'asd','asd',6,'root/one_more/asd'),
   (8,276,'qqq','aaaaaaa',7,'root/zzz/qqq'),
   (9,277,'p','p',8,'root/zzz/p'),
-  (10,278,'i','i',9,'root/one_more/i');
+  (10,278,'i','i',9,'root/one_more/i'),
+  (11,279,'t','t',10,'root/one_more/asd/t'),
+  (14,282,'n','n',13,'root/zzz/p/n'),
+  (15,283,'m','m',14,'root/zzz/p/m'),
+  (16,284,'h','h',15,'root/zzz/p/h'),
+  (17,285,'q','q',16,'root/zzz/qqq/q');
 
 COMMIT;
 
@@ -496,14 +502,19 @@ CREATE TABLE `news_newsFolder_tree` (
 #
 
 INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,16,1),
-  (2,2,9,2),
-  (4,10,15,2),
+  (1,1,26,1),
+  (2,2,17,2),
+  (4,18,25,2),
   (5,3,4,3),
-  (6,11,12,3),
-  (7,5,6,3),
-  (8,7,8,3),
-  (9,13,14,3);
+  (6,19,22,3),
+  (7,5,8,3),
+  (8,9,16,3),
+  (9,23,24,3),
+  (10,20,21,4),
+  (13,10,11,4),
+  (14,12,13,4),
+  (15,14,15,4),
+  (16,6,7,4);
 
 COMMIT;
 
@@ -1296,7 +1307,127 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (1691,7,2,278,2,NULL,1,0),
   (1692,6,2,278,2,NULL,1,0),
   (1693,5,2,278,2,NULL,1,0),
-  (1694,4,2,278,2,NULL,1,0);
+  (1694,4,2,278,2,NULL,1,0),
+  (1695,9,2,279,NULL,1,0,0),
+  (1696,8,2,279,NULL,1,0,0),
+  (1697,7,2,279,NULL,1,0,0),
+  (1698,6,2,279,NULL,1,0,0),
+  (1699,5,2,279,NULL,1,1,0),
+  (1700,4,2,279,NULL,1,0,0),
+  (1701,4,2,279,NULL,2,1,0),
+  (1702,5,2,279,NULL,2,1,0),
+  (1703,6,2,279,NULL,2,1,0),
+  (1704,7,2,279,NULL,2,0,0),
+  (1705,8,2,279,NULL,2,0,0),
+  (1706,9,2,279,NULL,2,0,0),
+  (1707,9,2,279,2,NULL,1,0),
+  (1708,6,2,279,2,NULL,1,0),
+  (1709,5,2,279,2,NULL,1,0),
+  (1710,4,2,279,2,NULL,1,0),
+  (1711,8,2,279,2,NULL,1,0),
+  (1712,7,2,279,2,NULL,1,0),
+  (1713,9,2,279,2,NULL,1,0),
+  (1714,8,2,279,2,NULL,1,0),
+  (1715,7,2,279,2,NULL,1,0),
+  (1716,6,2,279,2,NULL,1,0),
+  (1717,5,2,279,2,NULL,1,0),
+  (1718,4,2,279,2,NULL,1,0),
+  (1778,9,2,282,NULL,2,0,0),
+  (1777,8,2,282,NULL,2,0,0),
+  (1776,7,2,282,NULL,2,0,0),
+  (1775,6,2,282,NULL,2,1,0),
+  (1774,5,2,282,NULL,2,1,0),
+  (1773,4,2,282,NULL,2,1,0),
+  (1772,4,2,282,NULL,1,0,0),
+  (1771,5,2,282,NULL,1,1,0),
+  (1770,6,2,282,NULL,1,0,0),
+  (1769,7,2,282,NULL,1,0,0),
+  (1768,8,2,282,NULL,1,0,0),
+  (1767,9,2,282,NULL,1,0,0),
+  (1790,4,2,282,2,NULL,1,0),
+  (1789,5,2,282,2,NULL,1,0),
+  (1788,6,2,282,2,NULL,1,0),
+  (1787,7,2,282,2,NULL,1,0),
+  (1786,8,2,282,2,NULL,1,0),
+  (1785,9,2,282,2,NULL,1,0),
+  (1784,7,2,282,2,NULL,1,0),
+  (1783,8,2,282,2,NULL,1,0),
+  (1782,4,2,282,2,NULL,1,0),
+  (1781,5,2,282,2,NULL,1,0),
+  (1780,6,2,282,2,NULL,1,0),
+  (1779,9,2,282,2,NULL,1,0),
+  (1814,4,2,283,2,NULL,1,0),
+  (1813,5,2,283,2,NULL,1,0),
+  (1812,6,2,283,2,NULL,1,0),
+  (1811,7,2,283,2,NULL,1,0),
+  (1810,8,2,283,2,NULL,1,0),
+  (1809,9,2,283,2,NULL,1,0),
+  (1808,7,2,283,2,NULL,1,0),
+  (1807,8,2,283,2,NULL,1,0),
+  (1806,4,2,283,2,NULL,1,0),
+  (1805,5,2,283,2,NULL,1,0),
+  (1804,6,2,283,2,NULL,1,0),
+  (1803,9,2,283,2,NULL,1,0),
+  (1802,9,2,283,NULL,2,0,0),
+  (1801,8,2,283,NULL,2,0,0),
+  (1800,7,2,283,NULL,2,0,0),
+  (1799,6,2,283,NULL,2,1,0),
+  (1798,5,2,283,NULL,2,1,0),
+  (1797,4,2,283,NULL,2,1,0),
+  (1796,4,2,283,NULL,1,0,0),
+  (1795,5,2,283,NULL,1,1,0),
+  (1794,6,2,283,NULL,1,0,0),
+  (1793,7,2,283,NULL,1,0,0),
+  (1792,8,2,283,NULL,1,0,0),
+  (1791,9,2,283,NULL,1,0,0),
+  (1815,9,2,284,NULL,1,0,0),
+  (1816,8,2,284,NULL,1,0,0),
+  (1817,7,2,284,NULL,1,0,0),
+  (1818,6,2,284,NULL,1,0,0),
+  (1819,5,2,284,NULL,1,1,0),
+  (1820,4,2,284,NULL,1,0,0),
+  (1821,4,2,284,NULL,2,1,0),
+  (1822,5,2,284,NULL,2,1,0),
+  (1823,6,2,284,NULL,2,1,0),
+  (1824,7,2,284,NULL,2,0,0),
+  (1825,8,2,284,NULL,2,0,0),
+  (1826,9,2,284,NULL,2,0,0),
+  (1827,9,2,284,2,NULL,1,0),
+  (1828,6,2,284,2,NULL,1,0),
+  (1829,5,2,284,2,NULL,1,0),
+  (1830,4,2,284,2,NULL,1,0),
+  (1831,8,2,284,2,NULL,1,0),
+  (1832,7,2,284,2,NULL,1,0),
+  (1833,9,2,284,2,NULL,1,0),
+  (1834,8,2,284,2,NULL,1,0),
+  (1835,7,2,284,2,NULL,1,0),
+  (1836,6,2,284,2,NULL,1,0),
+  (1837,5,2,284,2,NULL,1,0),
+  (1838,4,2,284,2,NULL,1,0),
+  (1839,9,2,285,NULL,1,0,0),
+  (1840,8,2,285,NULL,1,0,0),
+  (1841,7,2,285,NULL,1,0,0),
+  (1842,6,2,285,NULL,1,0,0),
+  (1843,5,2,285,NULL,1,1,0),
+  (1844,4,2,285,NULL,1,0,0),
+  (1845,4,2,285,NULL,2,1,0),
+  (1846,5,2,285,NULL,2,1,0),
+  (1847,6,2,285,NULL,2,1,0),
+  (1848,7,2,285,NULL,2,0,0),
+  (1849,8,2,285,NULL,2,0,0),
+  (1850,9,2,285,NULL,2,0,0),
+  (1851,9,2,285,2,NULL,1,0),
+  (1852,6,2,285,2,NULL,1,0),
+  (1853,5,2,285,2,NULL,1,0),
+  (1854,4,2,285,2,NULL,1,0),
+  (1855,8,2,285,2,NULL,1,0),
+  (1856,7,2,285,2,NULL,1,0),
+  (1857,9,2,285,2,NULL,1,0),
+  (1858,8,2,285,2,NULL,1,0),
+  (1859,7,2,285,2,NULL,1,0),
+  (1860,6,2,285,2,NULL,1,0),
+  (1861,5,2,285,2,NULL,1,0),
+  (1862,4,2,285,2,NULL,1,0);
 
 COMMIT;
 
@@ -1436,13 +1567,17 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (260,12),
   (261,7),
   (262,12),
-  (263,12),
   (264,7),
   (265,7),
   (266,7),
   (276,2),
   (277,2),
-  (278,2);
+  (278,2),
+  (279,2),
+  (282,2),
+  (283,2),
+  (284,2),
+  (285,2);
 
 COMMIT;
 
@@ -1543,6 +1678,30 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
 COMMIT;
 
 #
+# Structure for the `sys_cfg_titles` table : 
+#
+
+DROP TABLE IF EXISTS `sys_cfg_titles`;
+
+CREATE TABLE `sys_cfg_titles` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `title` (`title`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_cfg_titles` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES 
+  (1,'Элементов на странице'),
+  (2,'Каталог загрузки'),
+  (3,'Кэширование');
+
+COMMIT;
+
+#
 # Structure for the `sys_cfg_values` table : 
 #
 
@@ -1551,7 +1710,8 @@ DROP TABLE IF EXISTS `sys_cfg_values`;
 CREATE TABLE `sys_cfg_values` (
   `id` int(11) NOT NULL auto_increment,
   `cfg_id` int(11) NOT NULL default '0',
-  `name` varchar(255) NOT NULL default '',
+  `name` int(11) NOT NULL default '0',
+  `title` int(11) default NULL,
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
@@ -1561,23 +1721,46 @@ CREATE TABLE `sys_cfg_values` (
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `value`) VALUES 
-  (1,1,'cache','true'),
-  (2,2,'items_per_page','10'),
-  (3,3,'items_per_page','20'),
-  (28,4,'items_per_page','10'),
-  (13,5,'',''),
-  (14,6,'items_per_page','20'),
-  (21,7,'upload_path','../tmp'),
-  (30,8,'upload_path','../files'),
-  (23,9,'items_per_page','60'),
-  (29,10,'items_per_page','10'),
-  (31,11,'items_per_page','60'),
-  (32,15,'items_per_page','60'),
-  (38,17,'items_per_page','1'),
-  (34,7,'items_per_page','10'),
-  (35,18,'items_per_page','1'),
-  (36,18,'upload_path','../tmp');
+INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES 
+  (1,1,3,3,'true'),
+  (2,2,1,1,'10'),
+  (3,3,1,1,'20'),
+  (28,4,1,1,'10'),
+  (14,6,1,1,'20'),
+  (21,7,2,2,'../tmp'),
+  (30,8,2,2,'../files'),
+  (23,9,1,1,'60'),
+  (29,10,1,1,'10'),
+  (31,11,1,1,'60'),
+  (40,15,1,1,'60'),
+  (38,17,1,1,'1'),
+  (34,7,1,1,'10'),
+  (35,18,1,1,'1'),
+  (36,18,2,2,'../tmp');
+
+COMMIT;
+
+#
+# Structure for the `sys_cfg_vars` table : 
+#
+
+DROP TABLE IF EXISTS `sys_cfg_vars`;
+
+CREATE TABLE `sys_cfg_vars` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_cfg_vars` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES 
+  (1,'items_per_page'),
+  (2,'upload_path'),
+  (3,'cache');
 
 COMMIT;
 
@@ -2076,7 +2259,14 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (275),
   (276),
   (277),
-  (278);
+  (278),
+  (279),
+  (280),
+  (281),
+  (282),
+  (283),
+  (284),
+  (285);
 
 COMMIT;
 
@@ -2248,8 +2438,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (26,2,'127.0.0.1','e43de89500fe5c144b5a4687c80cefa9',253,1173239786),
   (27,2,'127.0.0.1','ccc906aca21b95a2e8825f6533632de5',259,1173277691),
   (28,2,'127.0.0.1','ab6db17706e797855c40ba766f8ee3fc',260,1173523868),
-  (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059),
-  (30,2,'127.0.0.1','a82f02233d00f3ac1f998934774e5331',263,1173762922);
+  (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059);
 
 COMMIT;
 

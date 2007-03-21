@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 
 class adminDeleteCfgController extends simpleController
@@ -37,14 +37,7 @@ class adminDeleteCfgController extends simpleController
             return 'выбранного параметра в конфигурации не существует';
         }
 
-        $stmt = $db->query('SELECT `id` FROM `sys_cfg` WHERE `module` = ' . $id);
-        $ids = '';
-        while ($row = $stmt->fetch()) {
-            $ids .= $row['id'] . ', ';
-        }
-        $ids = substr($ids, 0, -2);
-
-        $db->query('DELETE FROM `sys_cfg_values` WHERE `cfg_id` IN (' . $ids . ') AND `name` = ' . $db->quote($name));
+        $config->delete($name);
 
         return jipTools::closeWindow(2);
     }

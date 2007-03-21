@@ -80,8 +80,8 @@ class sqlFunction
             } else {
                 $this->argumentsString .= $this->quote($arguments) . ", ";
             }
-
         }
+
         $this->argumentsString = substr($this->argumentsString, 0, -2);
     }
 

@@ -305,7 +305,7 @@ class dbTreeDataMultipleTest extends unitTestCase
         foreach($this->dataFixture as $some_id => $fixture) {
             $this->tree->setTree($some_id);
 
-            $criteria = new criteria($this->dataTable);
+            $criteria = new criteria();
             $criterion = new criterion('bar', $criteriaFixture[$some_id][0]);
             $criterion->addOr(new criterion('bar', $criteriaFixture[$some_id][1]));
             $criteria->add($criterion);

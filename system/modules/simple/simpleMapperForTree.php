@@ -17,11 +17,13 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.5
+ * @version 0.1.6
  */
 
 abstract class simpleMapperForTree extends simpleMapper
 {
+    protected $init;
+
     public function save($object, $target = null)
     {
         $data = $object->export();
@@ -102,28 +104,18 @@ abstract class simpleMapperForTree extends simpleMapper
     {
         $node = $this->tree->getNodeInfo($id);
 
-        $criterionLevel2 = new criterion('tree.level', 2);
-
-        if ($node['level'] != 1) {
-            $parent = $this->tree->getNodeInfo($this->tree->getParentNode($id));
-
-            $criterionSameLevel = new criterion('tree.level', $node['level']);
-            $criterionSameLevel->addAnd(new criterion('tree.lkey', $parent['lkey'], criteria::GREATER));
-            $criterionSameLevel->addAnd(new criterion('tree.rkey', $parent['rkey'], criteria::LESS));
-            $criterionLevel2->addOr($criterionSameLevel);
-
-            $criterionPath = new criterion('tree.lkey', $node['rkey'], criteria::LESS);
-            $criterionPath->addAnd(new criterion('tree.rkey', $node['lkey'], criteria::GREATER));
-            $criterionPath->addAnd(new criterion('tree.level', $node['level'] + 1, criteria::LESS_EQUAL));
-            $criterionLevel2->addOr($criterionPath);
-        } else {
-            $criterionRoot = new criterion('tree.level', 1);
-            $criterionLevel2->addOr($criterionRoot);
-        }
+        $criterion = new criterion('tree2.lkey', 'tree.lkey', criteria::GREATER_EQUAL, true);
+        $criterion->addAnd(new criterion('tree2.rkey', 'tree.rkey', criteria::LESS_EQUAL, true));
+        $criterion->addAnd(new criterion('tree2.level', new sqlOperator('+', array('tree.level', 1)), criteria::LESS_EQUAL));
 
         $criteria = new criteria();
-        $criteria->add($criterionLevel2);
-        $criteria->setOrderByFieldAsc('tree.lkey');
+        $criteria->clearSelectFields()->addSelectField('tree2.*')->addSelectField('data2.*');
+        $criteria->addJoin($this->init['treeTable'], $criterion, 'tree2', criteria::JOIN_INNER);
+        $criteria->addJoin($this->table, new criterion('data2.' . $this->init['joinField'], 'tree2.id', criteria::EQUAL, true), 'data2', criteria::JOIN_INNER);
+        $criteria->add('tree.lkey', $node['lkey'], criteria::LESS_EQUAL);
+        $criteria->add('tree.rkey', $node['rkey'], criteria::GREATER_EQUAL);
+        $criteria->setOrderByFieldAsc('tree2.lkey');
+        $criteria->addGroupBy('tree2.id');
 
         return $this->tree->searchByCriteria($criteria);
     }

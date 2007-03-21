@@ -19,7 +19,7 @@ fileLoader::load('admin/forms/adminAddCfgForm');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 
 class adminEditCfgController extends simpleController
@@ -39,31 +39,19 @@ class adminEditCfgController extends simpleController
         $params = $config->getDefaultValues();
 
         if (!isset($params[$name]) && $isEdit) {
-            return 'выбранного параметра в конфигурации не существует';
+            $controller = new messageController('¬ыбранного параметра в конфигурации не существует', messageController::WARNING);
+            return $controller->run();
         }
 
-        $form = adminAddCfgForm::getForm($name, $id, $action, !$isEdit ? '' : $params[$name]);
+        $form = adminAddCfgForm::getForm($name, $id, $action, !$isEdit ? '' : $params[$name], !$isEdit ? '' : $config->getTitle($name));
 
         if ($form->validate()) {
             $values = $form->exportValues();
 
-            $cfg_id = $db->getOne('SELECT `id` FROM `sys_cfg` WHERE `module` = ' . $id . ' AND `section` = 0');
-
             if ($isEdit) {
-                if ($values['param'] != $name) {
-                    $stmt = $db->query('SELECT `id` FROM `sys_cfg` WHERE `module` = ' . $id);
-                    $ids = '';
-                    while ($row = $stmt->fetch()) {
-                        $ids .= $row['id'] . ', ';
-                    }
-                    $ids = substr($ids, 0, -2);
-
-                    $db->query('UPDATE `sys_cfg_values` SET `name` = ' . $db->quote($values['param']) . ' WHERE `cfg_id` IN (' . $ids . ') AND `name` = ' . $db->quote($name));
-                }
-
-                $db->query('UPDATE `sys_cfg_values` SET `value` = ' . $db->quote($values['value']) . ' WHERE `cfg_id` = ' . $cfg_id . ' AND `name` = ' . $db->quote($values['param']));
+                $config->update($name, $values['param'], $values['value'], $values['title']);
             } else {
-                $db->query('INSERT INTO `sys_cfg_values` (`cfg_id`, `name`, `value`) VALUES (' . $cfg_id . ', ' . $db->quote($values['param']) . ', ' . $db->quote($values['value']) . ')');
+                $config->create($values['param'], $values['value'], $values['title']);
             }
 
             return jipTools::closeWindow();

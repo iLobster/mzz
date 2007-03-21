@@ -19,7 +19,7 @@
  * @see criteria
  * @package system
  * @subpackage db
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class criterion
@@ -148,7 +148,7 @@ class criterion
 
         $result = '';
 
-        if ($this->value instanceof sqlFunction) {
+        if (($this->value instanceof sqlFunction) || ($this->value instanceof sqlOperator)) {
             $this->isFunction = true;
             $this->value = $this->value->toString();
         }

@@ -13,6 +13,7 @@
  */
 
 fileLoader::load('db/sqlFunction');
+fileLoader::load('db/sqlOperator');
 fileLoader::load('db/simpleSelect');
 fileLoader::load('acl');
 

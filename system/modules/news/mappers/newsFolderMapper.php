@@ -52,8 +52,8 @@ class newsFolderMapper extends simpleMapperForTree
     {
         parent::__construct($section);
 
-        $init = array ('mapper' => $this, 'joinField' => 'parent', 'treeTable' => $section . '_' . $this->className . '_tree');
-        $this->tree = new dbTreeNS($init, 'name');
+        $this->init = array ('mapper' => $this, 'joinField' => 'parent', 'treeTable' => $section . '_' . $this->className . '_tree');
+        $this->tree = new dbTreeNS($this->init, 'name');
     }
 
     /**

@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 
 class adminAddCfgForm
@@ -31,7 +31,7 @@ class adminAddCfgForm
      * @param string $value значение по умолчанию для параметра
      * @return object сгенерированная форма
      */
-    static function getForm($param, $module, $action, $value = '')
+    static function getForm($param, $module, $action, $value = '', $title = '')
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
@@ -41,27 +41,26 @@ class adminAddCfgForm
         if ($isEdit) {
             $url = new url('adminCfgEdit');
             $url->addParam('name', $param);
-            $url->setAction('editCfg');
         } else {
             $url = new url('withId');
             $url->setSection('admin');
-            $url->setAction('addCfg');
         }
+        $url->setAction($action);
         $url->addParam('id', $module);
 
         $form = new HTML_QuickForm($action, 'POST', $url->get());
-
-
 
         $defaultValues = array();
         if ($isEdit) {
             $defaultValues = array();
             $defaultValues['param']  = $param;
             $defaultValues['value']  = $value;
+            $defaultValues['title']  = $title;
         }
         $form->setDefaults($defaultValues);
 
         $form->addElement('text', 'param', 'Параметр:', 'size="60"');
+        $form->addElement('text', 'title', 'Заголовок:', 'size="60"');
         $form->addElement('text', 'value', 'Значение:', 'size="60"');
 
         $form->addElement('reset', 'reset', 'Отмена', 'onclick="javascript: jipWindow.close();"');

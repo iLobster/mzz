@@ -11,6 +11,10 @@
             <td>{$form.param.html}{$form.param.error}</td>
         </tr>
         <tr>
+            <td>{$form.title.label}</td>
+            <td>{$form.title.html}{$form.title.error}</td>
+        </tr>
+        <tr>
             <td>{$form.value.label}</td>
             <td>{$form.value.html}{$form.value.error}</td>
         </tr>
