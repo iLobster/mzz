@@ -1475,7 +1475,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (71,7),
   (72,7),
   (73,7),
-  (74,7),
+  (287,7),
   (75,7),
   (188,10),
   (189,12),
@@ -1567,6 +1567,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (260,12),
   (261,7),
   (262,12),
+  (286,12),
   (264,7),
   (265,7),
   (266,7),
@@ -1577,7 +1578,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (282,2),
   (283,2),
   (284,2),
-  (285,2);
+  (285,2),
+  (288,7);
 
 COMMIT;
 
@@ -1787,7 +1789,6 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (2,'newsFolder',1),
   (3,'user',2),
   (4,'group',2),
-  (5,'timer',3),
   (6,'page',4),
   (7,'access',5),
   (8,'userGroup',2),
@@ -1851,10 +1852,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (27,6,4),
   (28,6,1),
   (29,6,2),
-  (30,5,9),
   (31,7,18),
   (32,7,9),
-  (33,5,3),
   (34,9,3),
   (35,9,9),
   (36,10,1),
@@ -1931,7 +1930,6 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (2,2,1),
   (3,3,2),
   (4,4,2),
-  (5,5,3),
   (6,6,4),
   (7,7,6),
   (8,8,2),
@@ -1970,7 +1968,6 @@ CREATE TABLE `sys_modules` (
 INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`) VALUES 
   (1,'news',1,'Новости','news.gif',10),
   (2,'user',3,'Пользователи','users.gif',90),
-  (3,'timer',5,'Таймер','timer.gif',80),
   (4,'page',6,'Страницы','pages.gif',20),
   (5,'access',7,'Права доступа','access.gif',10),
   (6,'admin',9,'Администрирование','admin.gif',20),
@@ -2266,7 +2263,10 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (282),
   (283),
   (284),
-  (285);
+  (285),
+  (286),
+  (287),
+  (288);
 
 COMMIT;
 
@@ -2299,7 +2299,7 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (69,'access_admin_admin'),
   (72,'access_user_user'),
   (73,'access_sys_access'),
-  (74,'access_timer_timer'),
+  (287,'access_timer_timer'),
   (75,'access_user_userGroup'),
   (95,'access_comments_commentsFolder'),
   (94,'access_comments_comments'),
@@ -2307,15 +2307,10 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (123,'access_comments_Array'),
   (158,'access_foo_foo'),
   (162,'access_page_pageFolder'),
-  (190,'access__q'),
-  (191,'access__file'),
-  (192,'access__folder'),
   (193,'access_fileManager_file'),
   (194,'access_fileManager_folder'),
   (198,'access_fileManager_fileManager'),
   (233,'access_catalogue_catalogue'),
-  (240,'access__catalogue'),
-  (261,'access__'),
   (264,'access_news_catalogue'),
   (265,'access_page_news'),
   (266,'access_fileManager_page');
@@ -2349,7 +2344,6 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (1,'news','Новости',50),
   (4,'page','Страницы',60),
   (6,'sys','Системное',0),
-  (3,'timer','Таймер',70),
   (2,'user','Пользователи',80);
 
 COMMIT;
@@ -2438,7 +2432,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (26,2,'127.0.0.1','e43de89500fe5c144b5a4687c80cefa9',253,1173239786),
   (27,2,'127.0.0.1','ccc906aca21b95a2e8825f6533632de5',259,1173277691),
   (28,2,'127.0.0.1','ab6db17706e797855c40ba766f8ee3fc',260,1173523868),
-  (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059);
+  (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059),
+  (31,2,'127.0.0.1','86db01de276d43e124a8f90698a47535',286,1174513056);
 
 COMMIT;
 
