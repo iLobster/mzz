@@ -66,6 +66,18 @@ class sqlFunctionTest extends unitTestCase
         $function = new sqlFunction('function', 'value " value');
         $this->assertEqual($function->toString(), "FUNCTION('value \\\" value')");
     }
+
+
+    public function testWithSqlOperatorArgument()
+    {
+
+        $sqlOperator = new sqlOperator('+', array(1, 2));
+        $sqlFunction = new sqlFunction('NOW', $sqlOperator);
+        $this->assertEqual($sqlFunction->toString(), 'NOW(1 + 2)');
+        $sqlFunction = new sqlFunction('NOW', array($sqlOperator));
+        $this->assertEqual($sqlFunction->toString(), 'NOW(1 + 2)');
+    }
+
 }
 
 ?>

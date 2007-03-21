@@ -63,11 +63,7 @@ class sqlFunction
         if(is_array($arguments)) {
             foreach ($arguments as $key => $arg) {
                 if($arg !== true) {
-                    if($arg instanceof sqlFunction) {
-                        $this->argumentsString .= $arg->toString() . ', ';
-                    } else {
-                        $this->argumentsString .= $this->quote($arg) . ", ";
-                    }
+                    $this->appendArgument($arg);
                 } else {
                     $field = str_replace('.', '`.`', $key);
                     $this->argumentsString .= '`' . $field . '`, ';
@@ -78,7 +74,7 @@ class sqlFunction
                 $field = str_replace('.', '`.`', $arguments);
                 $this->argumentsString .= '`' . $field . '`, ';
             } else {
-                $this->argumentsString .= $this->quote($arguments) . ", ";
+                $this->appendArgument($arguments);
             }
         }
 
@@ -125,6 +121,15 @@ class sqlFunction
             return 'null';
         } else {
             return $this->db->quote($value);
+        }
+    }
+
+    protected function appendArgument($arg)
+    {
+        if($arg instanceof sqlFunction || $arg instanceof sqlOperator) {
+            $this->argumentsString .= $arg->toString() . ', ';
+        } else {
+            $this->argumentsString .= $this->quote($arg) . ", ";
         }
     }
 
