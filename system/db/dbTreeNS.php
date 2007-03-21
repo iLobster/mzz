@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.9.8
+ * @version 0.9.9
  */
 
 fileLoader::load('db/sqlFunction');
@@ -282,14 +282,17 @@ class dbTreeNS
      * @param  criteria $criteria Критерий для поиска
      * @return array of simpleForTree objects
      */
-    public function searchByCriteria(criteria $criteria)
+    public function searchByCriteria(criteria $addition)
     {
+        $criteria = new criteria();
         $criteria->setTable($this->dataTable, 'data');
         $criteria->addJoin($this->table, new criterion('data.' . $this->dataID, 'tree.' . $this->treeID, criteria::EQUAL, true), 'tree', criteria::JOIN_INNER);
 
         if ($this->isMultipleTree()) {
             $criteria->add(new criterion('tree.' . $this->treeField, $this->treeFieldID));
         }
+
+        $criteria->append($addition);
 
         $select = new simpleSelect($criteria);
         $stmt = $this->db->query($select->toString());

@@ -19,7 +19,7 @@ fileLoader::load('db/criterion');
  *
  * @package system
  * @subpackage db
- * @version 0.1.9
+ * @version 0.1.10
  */
 
 class criteria
@@ -257,14 +257,36 @@ class criteria
      */
     public function append(criteria $criteria)
     {
+        if ($selectFields = $criteria->getSelectFields()) {
+            $this->selectFields = array_merge($this->selectFields, $selectFields);
+        }
+
+        if ($aliases = $criteria->getSelectFieldAlias()) {
+            $this->selectFieldsAliases = array_merge($this->selectFieldsAliases, $aliases);
+        }
+
+        if ($joins = $criteria->getJoins()) {
+            $this->joins = array_merge($this->joins, $joins);
+        }
+
+        if ($map = $criteria->getCriterion()) {
+            $this->map = array_merge($this->map, $map);
+        }
+
         if ($limit = $criteria->getLimit()) {
             $this->limit = $limit;
         }
+
         if ($offset = $criteria->getOffset()) {
             $this->offset = $offset;
         }
+
         if ($orderBy = $criteria->getOrderByFields()) {
-            $this->orderBy += $orderBy;
+            $this->orderBy = array_merge($this->orderBy, $orderBy);
+        }
+
+        if ($groupBy = $criteria->getGroupBy()) {
+            $this->groupBy = array_merge($this->groupBy, $groupBy);
         }
     }
 
@@ -296,12 +318,12 @@ class criteria
      * @param string $key имя ключа
      * @return object|null искомый объект, либо null в противном случае
      */
-    public function getCriterion($key)
+    public function getCriterion($key = null)
     {
         if (isset($this->map[$key])) {
             return $this->map[$key];
         }
-        return null;
+        return $this->map;
     }
 
     /**
@@ -492,10 +514,14 @@ class criteria
      * @param string $field
      * @return string|null искомый алиас, либо null если алиас не найден
      */
-    public function getSelectFieldAlias($field)
+    public function getSelectFieldAlias($field = null)
     {
-        $name = ($field instanceof sqlFunction) ? $field->getFieldName() : $field;
-        return isset($this->selectFieldsAliases[$name]) ? $this->selectFieldsAliases[$name] : null;
+        if ($field) {
+            $name = ($field instanceof sqlFunction) ? $field->getFieldName() : $field;
+            return isset($this->selectFieldsAliases[$name]) ? $this->selectFieldsAliases[$name] : null;
+        }
+
+        return $this->selectFieldsAliases;
     }
 
     /**
