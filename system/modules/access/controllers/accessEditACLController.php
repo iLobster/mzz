@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage access
- * @version 0.1
+ * @version 0.1.1
  */
 class accessEditACLController extends simpleController
 {
@@ -28,6 +28,12 @@ class accessEditACLController extends simpleController
         $id = $this->request->get('id', 'integer');
 
         $acl = new acl($this->toolkit->getUser(), $id);
+
+        if (!$acl->isRegistered()) {
+            $controller = new messageController('Запрашиваемый вами объект не зарегистрирован в системе', messageController::WARNING);
+            return $controller->run();
+        }
+
         // получаем пользователей и группы, на которые уже установлены права
         $users = $acl->getUsersList();
         $groups = $acl->getGroupsList();

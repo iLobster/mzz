@@ -16,7 +16,7 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1.6
+ * @version 0.1.7
  */
 class acl
 {
@@ -666,8 +666,12 @@ class acl
      * @param integer $obj_id
      * @return boolean
      */
-    public function isRegistered($obj_id)
+    public function isRegistered($obj_id = null)
     {
+        if (is_null($obj_id)) {
+            $obj_id = $this->obj_id;
+        }
+
         $stmt = $this->db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_access_registry` WHERE `obj_id` = :obj_id');
         $stmt->bindParam(':obj_id', $obj_id, PDO::PARAM_INT);
         $res = $stmt->execute();
