@@ -16,16 +16,16 @@
 define('MZZ_NAME',  'Mzz.Framework' );
 
 // Major version
-define('MZZ_VERSION_MAJOR', 0 );
+define('MZZ_VERSION_MAJOR', 0);
 
 // Minor version
-define('MZZ_VERSION_MINOR', 0 );
+define('MZZ_VERSION_MINOR', 0);
 
 // Micro version
-define('MZZ_VERSION_MICRO', 7 );
+define('MZZ_VERSION_MICRO', 8);
 
 // Status
-define('MZZ_VERSION_STATUS', '-dev' );
+define('MZZ_VERSION_STATUS', '-dev');
 
 // Full version
 define('MZZ_VERSION', MZZ_VERSION_MAJOR . '.' . MZZ_VERSION_MINOR . '.' .

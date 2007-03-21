@@ -61,11 +61,11 @@ fileLoader::load('dataspace/arrayDataspace');
 fileLoader::load('iterators/mzzIniFilterIterator');
 
 fileLoader::load('controller/action');
-fileLoader::load('timerFactory');
+fileLoader::load('timer');
 
 $toolkit = systemToolkit::getInstance();
-$toolkit->addToolkit(new stdToolkit(/*new config(systemConfig::$pathToConf . '/common.ini')*/));
+$toolkit->addToolkit(new stdToolkit());
 
-$toolkit->getTimer();
+//$toolkit->getTimer();
 
 ?>

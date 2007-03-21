@@ -74,11 +74,10 @@ class testsHtmlRunner implements iFilter
         }
 
         echo '<p style="margin-top: 40px; padding-top: 7px; border-top: 1px solid #BBB; font-size: 60%; font-family: Verdana; color: #444; letter-spacing: -1px;" />';
-        $action = new action('timer');
-        $action->setAction('view');
-        $timerFactory = new timerFactory($action);
-        $timer = $timerFactory->getController();
-        echo $timer->getView();
+
+        $toolkit = systemToolkit::getInstance();
+        $timer = $toolkit->getTimer();
+        echo $timer->toString();
         echo '. SimpleTest (' . SimpleTest::getVersion() . ') <b>' . simpletest_error_handler(0, 0, 0, 0) . '</b> errors.';
         echo '</p></body></html>';
         $result = ob_get_contents();
