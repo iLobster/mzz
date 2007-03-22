@@ -36,7 +36,7 @@ class pageAdminController extends simpleController
         if ($pageFolder) {
             $breadCrumbs = $pageFolderMapper->getPath($pageFolder);
 
-            $pager = $this->setPager($pageFolder, 'fileManager');
+            $pager = $this->setPager($pageFolder);
             $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
             $this->smarty->assign('pages', $pageFolder->getItems());
             $this->smarty->assign('breadCrumbs', $breadCrumbs);

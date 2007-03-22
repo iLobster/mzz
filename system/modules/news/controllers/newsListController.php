@@ -13,7 +13,7 @@
  */
 
 /**
- * NewsListController: контроллер для метода list модуля news
+ * newsListController: контроллер для метода list модуля news
  *
  * @package modules
  * @subpackage news
@@ -32,7 +32,8 @@ class newsListController extends simpleController
             return $newsFolderMapper->get404()->run();
         }
 
-        $pager = $this->setPager($newsFolder, 'news');
+        $config = $this->toolkit->getConfig('news');
+        $pager = $this->setPager($newsFolder, $config->get('items_per_page'));
 
         $this->smarty->assign('folderPath', $newsFolder->getPath());
         $this->smarty->assign('pager', $pager);

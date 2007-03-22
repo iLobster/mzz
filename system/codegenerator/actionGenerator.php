@@ -151,7 +151,7 @@ class actionGenerator
             foreach ($data as $section => $section_val) {
                 $actions_output .= "\r\n[" . $section . "]\r\n";
                 foreach ($section_val as $key => $val) {
-                    $actions_output .= $key . " = \"" . $val . "\"\r\n";;
+                    $actions_output .= $key . " = \"" . $val . "\"\r\n";
                 }
             }
 
@@ -266,7 +266,7 @@ class actionGenerator
             }
             $actions_output .= "\r\n[" . $section . "]\r\n";
             foreach ($section_val as $key => $val) {
-                $actions_output .= $key . " = \"" . $val . "\"\r\n";;
+                $actions_output .= $key . " = \"" . $val . "\"\r\n";
             }
         }
 

@@ -80,7 +80,7 @@ class catalogueAdminController extends simpleController
                         );
         }
 
-        $pager = $this->setPager($catalogueFolder, 'catalogue');
+        $pager = $this->setPager($catalogueFolder);
 
         $this->smarty->assign('jipTypes', $jipTypes);
         $this->smarty->assign('jipProperties', $jipProperties);

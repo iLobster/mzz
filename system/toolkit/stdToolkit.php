@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage toolkit
- * @version 0.2.3
+ * @version 0.2.4
  */
 
 class stdToolkit extends toolkit
@@ -238,97 +238,6 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Устанавливает объект Request
-     *
-     * @param object $request
-     * @return object
-     */
-    public function setRequest($request)
-    {
-        $old_request = $this->request;
-        $this->request = $request;
-        return $old_request;
-    }
-
-    /**
-     * Устанавливает объект Response
-     *
-     * @param object $response
-     * @return object
-     */
-    public function setResponse($response)
-    {
-        $old_response = $this->response;
-        $this->response = $response;
-        return $old_response;
-    }
-
-    /**
-     * Устанавливает объект Session
-     *
-     * @param object $session
-     * @return object
-     */
-    public function setSession($session)
-    {
-        $old_session = $this->session;
-        $this->session = $session;
-        return $old_session;
-    }
-
-    /**
-     * Устанавливает объект Smarty
-     *
-     * @param object $smarty
-     * @return object
-     */
-    public function setSmarty($smarty)
-    {
-        $old_smarty = $this->smarty;
-        $this->smarty = $smarty;
-        return $old_smarty;
-    }
-
-    /**
-     * Устанавливает объект requestRouter
-     *
-     * @param object $router
-     * @return object
-     */
-    public function setRouter($router)
-    {
-        $old_router = $this->router;
-        $this->router = $router;
-        return $old_router;
-    }
-
-    /**
-     * Устанавливает объект пользователя
-     *
-     * @param user $user
-     * @return user
-     */
-    public function setUser($user)
-    {
-        $tmp = $this->user;
-        $this->user = $user;
-        return $tmp;
-    }
-
-    /**
-     * Устанавливает объект конфигурации
-     *
-     * @param object $config
-     * @return object
-     */
-    public function setConfig($config)
-    {
-        $tmp = $this->config;
-        $this->config = $config;
-        return $tmp;
-    }
-
-    /**
      * Возвращает необходимый маппер
      *
      * @param string $module имя модуля
@@ -352,6 +261,11 @@ class stdToolkit extends toolkit
         return $this->mappers[$do][$section];
     }
 
+    /**
+     * Возвращает объект для работы с кэшем
+     *
+     * @return cache
+     */
     public function getCache()
     {
         if (empty($this->cache)) {
@@ -360,6 +274,19 @@ class stdToolkit extends toolkit
         }
 
         return $this->cache;
+    }
+
+    /**
+     * Устанавливает объект пользователя
+     *
+     * @param user $user
+     * @return user
+     */
+    public function setUser($user)
+    {
+        $tmp = $this->user;
+        $this->user = $user;
+        return $tmp;
     }
 }
 ?>

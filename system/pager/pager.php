@@ -88,7 +88,7 @@ class pager
     {
         $this->baseurl = $baseurl;
         $this->page = ($page > 0) ? (int)$page : 1;
-        $this->setPerPage($perPage);;
+        $this->setPerPage($perPage);
         $this->itemsCount = 0;
         $this->roundItems = (int)$roundItems;
     }
@@ -100,11 +100,7 @@ class pager
      */
     private function setPerPage($value)
     {
-        if ($value < 1) {
-            $value = 10;
-        }
-
-        $this->perPage = (int)$value;
+        $this->perPage = ($value < 1) ? 10 : (int)$value;
     }
 
     /**
