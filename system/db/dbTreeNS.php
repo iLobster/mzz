@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.9.9
+ * @version 0.9.10
  */
 
 fileLoader::load('db/sqlFunction');
@@ -983,11 +983,13 @@ class dbTreeNS
 
             $idSet = substr($idSet, 0, -1) . ')';
 
-            $this->db->exec($qry = 'UPDATE `' . $this->dataTable . '`' .
-            ' SET `path` = REPLACE(`path`, "' . $oldPathToRootNodeOfBranch . '", "' . $newPathToRootNodeOfBranch . '") '.
-            ' WHERE `' . $this->dataID . '` IN ' . $idSet .
-            ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ')
-            );
+            if ($idSet != ')') {
+                $this->db->exec($qry = 'UPDATE `' . $this->dataTable . '`' .
+                ' SET `path` = REPLACE(`path`, "' . $oldPathToRootNodeOfBranch . '", "' . $newPathToRootNodeOfBranch . '") '.
+                ' WHERE `' . $this->dataID . '` IN ' . $idSet .
+                ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ')
+                );
+            }
         }
     }
 
