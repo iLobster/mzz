@@ -319,9 +319,12 @@ jipWindow.prototype = {
             }
         });
 
-        var urlParams = url.toQueryParams();
+        //var urlParams = url.toQueryParams();
 
-        if (typeof urlParams._confirm == 'undefined') {
+        //if (typeof urlParams._confirm == 'undefined') {
+        //    this.stack[this.currentWindow].push(url);
+        //}
+        if(url.match(/[&\?]_confirm=/) == null) {
             this.stack[this.currentWindow].push(url);
         }
 
