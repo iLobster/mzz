@@ -318,7 +318,14 @@ jipWindow.prototype = {
                 mzzAjax.onError(transport);
             }
         });
-        this.stack[this.currentWindow].push(url);
+
+        var urlParams = url.toQueryParams();
+
+        if (typeof urlParams._confirm == 'undefined') {
+            this.stack[this.currentWindow].push(url);
+        }
+
+        //this.stack[this.currentWindow].push(url);
         this.lockContent();
         return false;
     }

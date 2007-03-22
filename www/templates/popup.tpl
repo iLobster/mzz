@@ -14,6 +14,6 @@
 {$content}
 <p />
 <div class="separator">&nbsp;</div>
-{load module="timer" action="view" section="timer"}
+{$timer->toString()}
 </body>
 </html>
