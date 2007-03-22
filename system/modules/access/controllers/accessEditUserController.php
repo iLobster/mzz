@@ -31,7 +31,14 @@ class accessEditUserController extends simpleController
 
         $acl = new acl($user, $obj_id);
 
-        $action = $this->toolkit->getAction($acl->getModule());
+        try {
+            $action = $this->toolkit->getAction($acl->getModule());
+        } catch (mzzRuntimeException $e) {
+            $controller = new messageController($e->getMessage(), messageController::WARNING);
+            return $controller->run();
+        }
+
+
         $actions = $action->getActions(true);
 
         $actions = $actions[$acl->getClass()];
