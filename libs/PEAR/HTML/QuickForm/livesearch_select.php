@@ -241,6 +241,10 @@ class HTML_QuickForm_LiveSearch_Select extends HTML_QuickForm_text
         <li'.$listyle.'> </li>
     </ul>
 </div>';
+            
+            $scriptLoad .= "
+<script type='text/javascript' src=\"{$this->_options['server']}?client=Util,main,dispatcher,httpclient,request,json,loading,queues,QfLiveSearch&amp;stub={$this->_options['searchClassname']}\"></script>";
+
             if (!defined('HTML_QUICKFORM_LIVESEARCH_EXISTS')) {
                 if ($printStyle != 0) {
                     $scriptLoad = <<<EOS
@@ -314,7 +318,6 @@ class HTML_QuickForm_LiveSearch_Select extends HTML_QuickForm_text
 EOS;
                 }
                 $scriptLoad .= "
-<script type='text/javascript' src=\"{$this->_options['server']}?client=Util,main,dispatcher,httpclient,request,json,loading,queues,QfLiveSearch&amp;stub={$this->_options['searchClassname']}\"></script>
 <script type='text/javascript'>//<![CDATA[
 callback = {};
 function searchRequest(searchBox, callfunc) {
@@ -376,7 +379,7 @@ callback.'.$this->_options['elementId'].' = function(result) {
 //]]>
 </script>
 ';
-                        define('HTML_QUICKFORM_JS_INIT_EXISTS', true);
+                        //define('HTML_QUICKFORM_JS_INIT_EXISTS', true);
                     }
             $scriptLoad .= '
 <input type="hidden" name="'.$this->realName.'" id="'.$this->realName.'" value="'.$this->_hidden_value.'" />'."\n";
