@@ -77,8 +77,8 @@
             <td>{$type.title}</td>
             <td>{$type.name}</td>
             <td align="center">
-                {capture name="menuId"}jip_types_{$type.id}{/capture}
-                {include file="jip.tpl" jipMenuId=$smarty.capture.menuId jip=$jipTypes[$type.id]}
+                {assign var="typeId" value=$type.id}
+                {include file="jip.tpl" jipMenuId="jip_types_$typeId" jip=$jipTypes[$type.id]}
             </td>
         </tr>
     {/foreach}
@@ -104,8 +104,8 @@
             <td>{$property.name}</td>
             <td>{$property.type}</td>
             <td align="center">
-                {capture name="menuId"}jip_properties_{$property.id}{/capture}
-                {include file="jip.tpl" jipMenuId=$smarty.capture.menuId jip=$jipProperties[$property.id]}
+                {assign var="propId" value=$property.id}
+                {include file="jip.tpl" jipMenuId="jip_properties_$propId" jip=$jipProperties[$property.id]}
             </td>
         </tr>
     {/foreach}

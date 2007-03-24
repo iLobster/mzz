@@ -39,17 +39,6 @@ CREATE TABLE `catalogue_catalogue` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `catalogue_catalogue` table  (LIMIT 0,500)
-#
-
-INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
-  (2,2,'Комп',10,777,238,1),
-  (3,1,'Запор',2,1173870334,272,1),
-  (4,1,'zz',2,1174517279,289,1);
-
-COMMIT;
-
-#
 # Structure for the `catalogue_catalogue_data` table : 
 #
 
@@ -65,24 +54,6 @@ CREATE TABLE `catalogue_catalogue_data` (
   `float` float(9,3) default NULL,
   UNIQUE KEY `id` (`id`,`property_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251 ROW_FORMAT=FIXED;
-
-#
-# Data for the `catalogue_catalogue_data` table  (LIMIT 0,500)
-#
-
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `date`, `float`) VALUES 
-  (2,4,NULL,'LG FLATRON L1717S 17''',NULL,NULL,NULL),
-  (2,5,NULL,'ATI Radeon x1600Pro',NULL,NULL,NULL),
-  (2,6,NULL,'Seagate 5400 80gb',NULL,NULL,NULL),
-  (2,18,NULL,'Pentium4 - 2400 MHz',NULL,NULL,NULL),
-  (3,17,NULL,'0%',NULL,NULL,NULL),
-  (3,12,NULL,NULL,1985,NULL,NULL),
-  (3,3,NULL,'Запорожец',NULL,NULL,NULL),
-  (4,17,NULL,'zz',NULL,NULL,NULL),
-  (4,12,NULL,NULL,424,NULL,NULL),
-  (4,3,NULL,'z',NULL,NULL,NULL);
-
-COMMIT;
 
 #
 # Structure for the `catalogue_catalogue_properties` table : 
@@ -104,14 +75,12 @@ CREATE TABLE `catalogue_catalogue_properties` (
 #
 
 INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`) VALUES 
-  (1,'comfort','Комфортабельность',1),
-  (2,'year','Год выпуска',3),
-  (3,'marka','Марка',1),
+  (10,'author','Автор',1),
+  (11,'pagescount','Количество страниц',3),
   (4,'monitor','Монитор',1),
   (5,'videocard','Видеокарта',1),
   (6,'harddrive','Жесткий диск',1),
-  (7,'processor','Процессор',1),
-  (9,'test','test',2);
+  (7,'processor','Процессор',1);
 
 COMMIT;
 
@@ -158,9 +127,9 @@ CREATE TABLE `catalogue_catalogue_types` (
 #
 
 INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
-  (1,'autos','Автомобили'),
+  (7,'mobile phone','Мобильный телефон'),
   (2,'computers','Компьютеры'),
-  (6,'test','Тестовая');
+  (8,'books','Книги');
 
 COMMIT;
 
@@ -184,14 +153,12 @@ CREATE TABLE `catalogue_catalogue_types_props` (
 #
 
 INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES 
-  (17,1,1),
   (18,2,7),
-  (3,1,3),
+  (24,8,10),
   (4,2,4),
   (5,2,5),
   (6,2,6),
-  (12,1,2),
-  (23,6,9);
+  (25,8,11);
 
 COMMIT;
 
@@ -217,7 +184,13 @@ CREATE TABLE `catalogue_cataloguefolder` (
 
 INSERT INTO `catalogue_cataloguefolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (1,241,'root','Основной',1,'root'),
-  (2,249,'test','Тестовый',2,'root/test');
+  (3,478,'computers','Компьютеры',3,'root/computers'),
+  (4,480,'technika','Бытовая техника',4,'root/technika'),
+  (5,481,'mobile','Мобильные телефоны',5,'root/mobile'),
+  (6,482,'sport','Спортивные товары',6,'root/sport'),
+  (7,483,'books','Книги',7,'root/books'),
+  (8,484,'romans','Романы',8,'root/books/romans'),
+  (9,485,'fantazy','Фэнтези',9,'root/books/fantazy');
 
 COMMIT;
 
@@ -243,8 +216,14 @@ CREATE TABLE `catalogue_cataloguefolder_tree` (
 #
 
 INSERT INTO `catalogue_cataloguefolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,4,1),
-  (2,2,3,2);
+  (1,1,16,1),
+  (3,2,3,2),
+  (4,4,5,2),
+  (5,6,7,2),
+  (6,8,9,2),
+  (7,10,15,2),
+  (8,11,12,3),
+  (9,13,14,3);
 
 COMMIT;
 
@@ -302,7 +281,8 @@ INSERT INTO `comments_commentsfolder` (`id`, `obj_id`, `parent_id`) VALUES
   (23,177,6),
   (35,470,355),
   (36,471,400),
-  (34,469,458);
+  (34,469,458),
+  (37,477,330);
 
 COMMIT;
 
@@ -4114,7 +4094,16 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4813,1,3,472,2,NULL,1,0),
   (4814,12,3,472,2,NULL,1,0),
   (4815,2,3,472,2,NULL,1,0),
-  (4816,9,3,472,2,NULL,1,0);
+  (4816,9,3,472,2,NULL,1,0),
+  (4827,19,11,477,NULL,1,0,0),
+  (4828,5,11,477,NULL,1,1,0),
+  (4829,9,11,477,NULL,1,0,0),
+  (4830,9,11,477,NULL,2,0,0),
+  (4831,19,11,477,NULL,2,1,0),
+  (4832,5,11,477,NULL,2,1,0),
+  (4833,9,11,477,2,NULL,1,0),
+  (4834,19,11,477,2,NULL,0,0),
+  (4835,5,11,477,2,NULL,0,0);
 
 COMMIT;
 
@@ -4245,10 +4234,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (234,13),
   (309,1),
   (236,14),
-  (238,16),
+  (484,17),
   (240,7),
-  (249,17),
-  (272,16),
+  (476,12),
+  (478,17),
   (253,12),
   (259,12),
   (260,12),
@@ -4267,7 +4256,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (311,1),
   (315,1),
   (288,7),
-  (289,16),
+  (477,11),
   (290,7),
   (319,1),
   (320,1),
@@ -4421,7 +4410,12 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (469,11),
   (470,11),
   (471,11),
-  (472,3);
+  (472,3),
+  (480,17),
+  (481,17),
+  (482,17),
+  (483,17),
+  (485,17);
 
 COMMIT;
 
@@ -5292,7 +5286,17 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (472),
   (473),
   (474),
-  (475);
+  (475),
+  (476),
+  (477),
+  (478),
+  (479),
+  (480),
+  (481),
+  (482),
+  (483),
+  (484),
+  (485);
 
 COMMIT;
 
@@ -5461,7 +5465,8 @@ INSERT INTO `user_userauth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (27,2,'127.0.0.1','ccc906aca21b95a2e8825f6533632de5',259,1173277691),
   (28,2,'127.0.0.1','ab6db17706e797855c40ba766f8ee3fc',260,1173523868),
   (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059),
-  (31,2,'127.0.0.1','86db01de276d43e124a8f90698a47535',286,1174513056);
+  (31,2,'127.0.0.1','86db01de276d43e124a8f90698a47535',286,1174513056),
+  (32,2,'127.0.0.1','38c02192a4890c38332d953ea4eaf6d8',476,1174653915);
 
 COMMIT;
 
