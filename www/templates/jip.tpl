@@ -12,10 +12,10 @@
 {/strip}
 <div id="jip_menu_{$jipMenuId}" class="jipMenu">
 <table border="0" cellpadding="3" cellspacing="0" class="jipItems">
-{foreach from=$jip item=item}
-   <tr onclick="javascript: jipMenu.show(this, '{$jipMenuId}'); return jipWindow.open('{$item.url}');" onmouseout="this.cells[1].className = 'jipItemText';" onmouseover="this.cells[1].className = 'jipItemTextActive';">
-     <td class="jipItemIcon"><a href="{$item.url}" onclick="return false;"><img src="{$item.icon}" width="16" height="16" alt="{$item.title}" /></a></td>
-     <td class="jipItemText">{$item.title}</td>
+{foreach from=$jip item=jipItem}
+   <tr onclick="javascript: jipMenu.show(this, '{$jipMenuId}'); return jipWindow.open('{$jipItem.url}');" onmouseout="this.cells[1].className = 'jipItemText';" onmouseover="this.cells[1].className = 'jipItemTextActive';">
+     <td class="jipItemIcon"><a href="{$jipItem.url}" onclick="return false;"><img src="{$jipItem.icon}" width="16" height="16" alt="{$jipItem.title}" /></a></td>
+     <td class="jipItemText">{$jipItem.title}</td>
    </tr>
 {/foreach}
 </table>

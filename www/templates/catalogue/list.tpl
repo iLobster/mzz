@@ -6,6 +6,7 @@
 
 <div>
     {foreach from=$items item="item"}
+        {$item->getJip()}
         <h3>{$item->getName()}</h3>
         {foreach from=$item->exportOldProperties() key="property" item="value"}
             {$item->getPropertyTitle($property)}: {$value}<br/>
