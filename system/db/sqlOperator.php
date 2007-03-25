@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1
+ * @version 0.1.1
 */
 
 class sqlOperator
@@ -37,6 +37,13 @@ class sqlOperator
      * @var array
      */
     private $arguments;
+
+    /**
+     * Доступные операторы
+     *
+     * @var array
+     */
+    protected $validOperators = array('+', '-', '*', '/', '%', 'DIV', 'MOD');
 
     /**
      * Конструктор
@@ -61,7 +68,7 @@ class sqlOperator
      */
     public function toString()
     {
-        if (!in_array($this->operator, array('+', '-', '*', '/', '%', 'DIV', 'MOD'))) {
+        if (!in_array($this->operator, $this->validOperators)) {
             throw new mzzInvalidParameterException('Некорректное значение оператора', $this->operator);
         }
 
