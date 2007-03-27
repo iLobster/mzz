@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.1.3
  */
 class adminAddActionForm
 {
@@ -50,6 +50,7 @@ class adminAddActionForm
             $info = $actionsInfo[$action_name];
             $info = array_merge($default, $info);
 
+            $defaultValues['controller'] = $info['controller'];
             $defaultValues['title'] = $info['title'];
             $defaultValues['icon'] = $info['icon'];
             if (isset($info['confirm'])) {
@@ -87,6 +88,7 @@ class adminAddActionForm
         }
 
         $form->addElement('text', 'name', 'Название:', 'size="30"');
+        $form->addElement('text', 'controller', 'Контроллер:', 'size="30"');
         $form->addElement('advcheckbox', 'jip', 'Добавить в JIP:', '', null, array(0, 1));
         $form->addElement('advcheckbox', 'inacl', 'Не регистрировать в ACL:', '', null, array(0, 1));
         $form->addElement('text', 'title', 'Заголовок для меню JIP:', 'size="30"');

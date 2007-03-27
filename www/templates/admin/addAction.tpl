@@ -16,7 +16,10 @@
                 <td>{$form.dest.html}{$form.dest.error}</td>
             </tr>
         {/if}
-
+        <tr>
+            <td>{$form.controller.label}</td>
+            <td>{$form.controller.html}{$form.controller.error}</td>
+        </tr>
         <tr>
             <td>{$form.title.label}</td>
             <td>{$form.title.html}{$form.title.error}</td>

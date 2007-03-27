@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class actionGenerator
@@ -237,7 +237,11 @@ class actionGenerator
 
                 unset($section_val);
 
-                $section_val['controller'] = $newName;
+                if (!empty($params['controller'])) {
+                    $section_val['controller'] = $params['controller'];
+                } else {
+                    $section_val['controller'] = $newName;
+                }
 
                 if (!empty($params['jip'])) {
                     $section_val['jip'] = 1;
@@ -335,7 +339,7 @@ class actionGenerator
         /*$views_dir = 'views';
 
         if (!is_dir($views_dir)) {
-            throw new Exception("Error: Views directory '" . $views_dir . "' not found");
+        throw new Exception("Error: Views directory '" . $views_dir . "' not found");
         }
 
         $view_data = array(
@@ -348,7 +352,7 @@ class actionGenerator
         $view_filename = $views_dir . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'View.php';
 
         if (is_file($view_filename)) {
-            throw new Exception('Error: view file already exists');
+        throw new Exception('Error: view file already exists');
         }*/
 
         $act_tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl';
