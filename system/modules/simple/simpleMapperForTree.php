@@ -104,8 +104,8 @@ abstract class simpleMapperForTree extends simpleMapper
     {
         $node = $this->tree->getNodeInfo($id);
 
-        $criterion = new criterion('tree2.lkey', 'tree.lkey', criteria::GREATER_EQUAL, true);
-        $criterion->addAnd(new criterion('tree2.rkey', 'tree.rkey', criteria::LESS_EQUAL, true));
+        $criterion = new criterion('tree2.lkey', 'tree.lkey', criteria::GREATER, true);
+        $criterion->addAnd(new criterion('tree2.rkey', 'tree.rkey', criteria::LESS, true));
         $criterion->addAnd(new criterion('tree2.level', new sqlOperator('+', array('tree.level', 1)), criteria::LESS_EQUAL));
 
         $criteria = new criteria();
