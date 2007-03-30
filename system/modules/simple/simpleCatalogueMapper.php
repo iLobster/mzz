@@ -247,7 +247,6 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $result = parent::searchByCriteria($criteria);
 
         $properties = clone $criteria;
-
         $properties->setTable($this->table, $this->className);
         $properties->clearSelectFields();
         $properties->clearGroupBy();
@@ -263,15 +262,16 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties->clearLimit()->clearOffset();
 
         $select = new simpleSelect($properties);
-
         $stmt = $this->db->query($select->toString());
 
         while ($row = $stmt->fetch()) {
-            $type = $this->getPropertyTypeByTypeprop($row['property_type']);
-            $this->tmpPropsData[$row['id']][$row['name']] = isset($row[$type]) ? $row[$type] : null;
+            if ($row['property_type']) {
+                $type = $this->getPropertyTypeByTypeprop($row['property_type']);
+                $this->tmpPropsData[$row['id']][$row['name']] = isset($row[$type]) ? $row[$type] : null;
 
-            $this->tmpServiceData[$row['id']]['titles'][$row['name']] = $row['title'];
-            $this->tmpServiceData[$row['id']]['types'][$row['name']] = $type;
+                $this->tmpServiceData[$row['id']]['titles'][$row['name']] = $row['title'];
+                $this->tmpServiceData[$row['id']]['types'][$row['name']] = $type;
+            }
         }
 
         return $result;
@@ -281,8 +281,11 @@ abstract class simpleCatalogueMapper extends simpleMapper
     {
         $object = $this->create();
         $object->import($row);
-        $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
-        $object->importServiceData($this->tmpServiceData[$row[$this->tableKey]]);
+        if (isset($this->tmpPropsData[$row[$this->tableKey]]) && isset($this->tmpServiceData[$row[$this->tableKey]])) {
+            $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
+            $object->importServiceData($this->tmpServiceData[$row[$this->tableKey]]);
+        }
+
         $object->importItemData($this->tmptypes[$row['type_id']]);
 
         return $object;
