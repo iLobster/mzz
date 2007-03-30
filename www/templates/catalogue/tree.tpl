@@ -1,5 +1,5 @@
 <div>
-<div id="newsFolders">
+<div id="catalogueFolders">
 <span class="title">Разделы</span><br />
 
 {foreach from=$source->getFolders() item="current_folder" name="folders"}

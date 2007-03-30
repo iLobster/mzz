@@ -25,7 +25,7 @@ fileLoader::load('simple/simpleForTree');
 class catalogueFolder extends simpleForTree
 {
     protected $name = 'catalogue';
-    private $mapper;
+    protected $mapper;
 
     public function __construct($mapper, Array $map)
     {
@@ -34,20 +34,17 @@ class catalogueFolder extends simpleForTree
         $this->treeFields = new arrayDataspace();
     }
 
-    public function getFolders($level = 1)
-    {
-        if (!$this->fields->exists('folders')) {
-            $this->fields->set('folders', $this->mapper->getFolders($this->getParent(), $level));
-        }
-        return $this->fields->get('folders');
-    }
-
     public function getItems()
     {
         if (!$this->fields->exists('items')) {
             $this->fields->set('items', $this->mapper->getItems($this->getId()));
         }
         return $this->fields->get('items');
+    }
+
+    public function getTreeForMenu()
+    {
+        return $this->mapper->getTreeForMenu($this->getParent());
     }
 
     public function getTreeParent()

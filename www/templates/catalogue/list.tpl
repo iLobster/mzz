@@ -1,17 +1,15 @@
 {assign var="catalogueFolderName" value=$catalogueFolder->getTitle()}
 {title append="Каталог :: $catalogueFolderName"}
 {add file="catalogue.css"}
-
+{include file="catalogue/breadcrumbs.tpl" breadCrumbs=$chains}
 {include file="catalogue/flat.tpl" source=$catalogueFolder}
 
-<div>
+<div class="catalogueList">
     {foreach from=$items item="item"}
-        {$item->getJip()}
-        <h3>{$item->getName()}</h3>
+        <h3>{$item->getName()}{$item->getJip()}</h3>
         {foreach from=$item->exportOldProperties() key="property" item="value"}
-            {$item->getPropertyTitle($property)}: {$value}<br/>
+            <strong>{$item->getPropertyTitle($property)}:</strong> {$value}<br/>
         {/foreach}
-        {$item->getJip()}
         <br/><br/>
     {/foreach}
     {if $pager->getPagesTotal() > 1}

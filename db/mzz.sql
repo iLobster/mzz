@@ -39,6 +39,16 @@ CREATE TABLE `catalogue_catalogue` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `catalogue_catalogue` table  (LIMIT 0,500)
+#
+
+INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
+  (6,8,'Delphi: программирование на языке высокого уровня',2,1175235587,489,12),
+  (7,8,'Учебник английского языка для технических университетов и вузов',2,1175237052,490,12);
+
+COMMIT;
+
+#
 # Structure for the `catalogue_catalogue_data` table : 
 #
 
@@ -54,6 +64,22 @@ CREATE TABLE `catalogue_catalogue_data` (
   `float` float(9,3) default NULL,
   UNIQUE KEY `id` (`id`,`property_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251 ROW_FORMAT=FIXED;
+
+#
+# Data for the `catalogue_catalogue_data` table  (LIMIT 0,500)
+#
+
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `date`, `float`) VALUES 
+  (6,27,'Книга посвящена новейшей версии Delphi  7 Studio. Здесь изложены как приёмы программирования в среде Delphi, её главные составные части - галереи компонентов, хранилища объектов, вспомогательный инструментарий, так и сам язык программирования Delphi',NULL,NULL,NULL,NULL),
+  (6,24,NULL,'В.В. Фаронов',NULL,NULL,NULL),
+  (6,25,NULL,NULL,640,NULL,NULL),
+  (6,26,NULL,'Издетельский дом \"Питер\"',NULL,NULL,NULL),
+  (7,24,NULL,'И.В. Орловская, Л.С. Самсонова, А.И. Скубриева',NULL,NULL,NULL),
+  (7,25,NULL,NULL,448,NULL,NULL),
+  (7,26,NULL,'Издательство МГТУ им. Н.Э. Баумана',NULL,NULL,NULL),
+  (7,27,'Учебник состоит из 12 уроков-тем, объединенных единой тематикой и содержащих: основной текст, назначением которого является обучение чтению технической литературы по специальностям машинно- и приборостроительных вузов; дополнительные текста и диалоги для общественной лексики, развития навыков профессионального обучения по изучаемой тематике; письменные и устные грамматические и лексические упражнения коммуникативной направленности.',NULL,NULL,NULL,NULL);
+
+COMMIT;
 
 #
 # Structure for the `catalogue_catalogue_properties` table : 
@@ -77,10 +103,8 @@ CREATE TABLE `catalogue_catalogue_properties` (
 INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`) VALUES 
   (10,'author','Автор',1),
   (11,'pagescount','Количество страниц',3),
-  (4,'monitor','Монитор',1),
-  (5,'videocard','Видеокарта',1),
-  (6,'harddrive','Жесткий диск',1),
-  (7,'processor','Процессор',1);
+  (13,'annotation','Аннотация',4),
+  (12,'izdat','Издатель',1);
 
 COMMIT;
 
@@ -128,7 +152,6 @@ CREATE TABLE `catalogue_catalogue_types` (
 
 INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
   (7,'mobile phone','Мобильный телефон'),
-  (2,'computers','Компьютеры'),
   (8,'books','Книги');
 
 COMMIT;
@@ -153,11 +176,9 @@ CREATE TABLE `catalogue_catalogue_types_props` (
 #
 
 INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES 
-  (18,2,7),
+  (26,8,12),
   (24,8,10),
-  (4,2,4),
-  (5,2,5),
-  (6,2,6),
+  (27,8,13),
   (25,8,11);
 
 COMMIT;
@@ -184,13 +205,10 @@ CREATE TABLE `catalogue_cataloguefolder` (
 
 INSERT INTO `catalogue_cataloguefolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (1,241,'root','Основной',1,'root'),
-  (3,478,'computers','Компьютеры',3,'root/computers'),
-  (4,480,'technika','Бытовая техника',4,'root/technika'),
-  (5,481,'mobile','Мобильные телефоны',5,'root/mobile'),
-  (6,482,'sport','Спортивные товары',6,'root/sport'),
-  (7,483,'books','Книги',7,'root/books'),
-  (8,484,'romans','Романы',8,'root/books/romans'),
-  (9,485,'fantazy','Фэнтези',9,'root/books/fantazy');
+  (10,486,'books','Книги',10,'root/books'),
+  (11,487,'fantazy','Фантастика',11,'root/books/fantazy'),
+  (5,481,'mobile','Телефоны',5,'root/mobile'),
+  (12,488,'tech','Техническая литература',12,'root/books/tech');
 
 COMMIT;
 
@@ -216,14 +234,11 @@ CREATE TABLE `catalogue_cataloguefolder_tree` (
 #
 
 INSERT INTO `catalogue_cataloguefolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,16,1),
-  (3,2,3,2),
-  (4,4,5,2),
-  (5,6,7,2),
-  (6,8,9,2),
-  (7,10,15,2),
-  (8,11,12,3),
-  (9,13,14,3);
+  (1,1,10,1),
+  (10,4,9,2),
+  (11,5,6,3),
+  (5,2,3,2),
+  (12,7,8,3);
 
 COMMIT;
 
@@ -4234,10 +4249,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (234,13),
   (309,1),
   (236,14),
-  (484,17),
+  (490,16),
   (240,7),
   (476,12),
-  (478,17),
+  (486,17),
   (253,12),
   (259,12),
   (260,12),
@@ -4411,11 +4426,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (470,11),
   (471,11),
   (472,3),
-  (480,17),
+  (487,17),
   (481,17),
-  (482,17),
-  (483,17),
-  (485,17);
+  (488,17),
+  (489,16);
 
 COMMIT;
 
@@ -5296,7 +5310,14 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (482),
   (483),
   (484),
-  (485);
+  (485),
+  (486),
+  (487),
+  (488),
+  (489),
+  (490),
+  (491),
+  (492);
 
 COMMIT;
 
