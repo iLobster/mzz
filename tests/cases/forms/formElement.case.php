@@ -1,11 +1,11 @@
 <?php
-fileLoader::load('forms/form');
+fileLoader::load('forms/formElement');
 
-class stubFormElement extends Form
+class stubFormElement extends formElement
 {
 }
 
-class formTest extends UnitTestCase
+class formElementTest extends UnitTestCase
 {
     function setup()
     {

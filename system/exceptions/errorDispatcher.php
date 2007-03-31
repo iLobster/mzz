@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage exceptions
- * @version 0.1
+ * @version 0.1.1
  */
 class errorDispatcher
 {
@@ -31,7 +31,6 @@ class errorDispatcher
      */
     public function __construct()
     {
-        $this->setDispatcher($this);
     }
 
     /**

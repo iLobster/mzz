@@ -12,19 +12,13 @@
  * @version $Id$
  */
 
-abstract class Form
+abstract class formElement
 {
     static public function createTag($name, Array $options = array())
     {
         if (!$name) {
             return null;
         }
-/*
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-        if (($value = $request->get($options['name'], 'mixed', SC_POST | SC_GET)) != null) {
-            $options['value'] = $value;
-        }*/
 
         return '<' . $name . self::optionsToString($options) . ' />';
     }

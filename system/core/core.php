@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage core
- * @version 0.1.3
+ * @version 0.1.4
  */
 class core
 {
@@ -97,9 +97,9 @@ class core
     protected function loadCommonFiles()
     {
         fileLoader::load('exceptions/init');
-        $dispatcher = new errorDispatcher();
-        fileLoader::load('request/url');
+        errorDispatcher::setDispatcher(new errorDispatcher());
 
+        fileLoader::load('request/url');
         fileLoader::load('dataspace/arrayDataspace');
 
         fileLoader::load('simple');
