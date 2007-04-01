@@ -4764,6 +4764,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (105,20,8),
   (107,19,29),
   (109,17,20),
+  (115,20,9),
   (114,7,20);
 
 COMMIT;
