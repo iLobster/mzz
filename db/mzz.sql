@@ -208,7 +208,8 @@ INSERT INTO `catalogue_cataloguefolder` (`id`, `obj_id`, `name`, `title`, `paren
   (10,486,'books','Книги',10,'root/books'),
   (11,487,'fantazy','Фантастика',11,'root/books/fantazy'),
   (5,481,'mobile','Телефоны',5,'root/mobile'),
-  (12,488,'tech','Техническая литература',12,'root/books/tech');
+  (12,488,'tech','Техническая литература',12,'root/books/tech'),
+  (13,493,'aaa','aaa',13,'root/aaa');
 
 COMMIT;
 
@@ -234,11 +235,12 @@ CREATE TABLE `catalogue_cataloguefolder_tree` (
 #
 
 INSERT INTO `catalogue_cataloguefolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,10,1),
+  (1,1,12,1),
   (10,4,9,2),
   (11,5,6,3),
   (5,2,3,2),
-  (12,7,8,3);
+  (12,7,8,3),
+  (13,10,11,2);
 
 COMMIT;
 
@@ -4118,7 +4120,17 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4832,5,11,477,NULL,2,1,0),
   (4833,9,11,477,2,NULL,1,0),
   (4834,19,11,477,2,NULL,0,0),
-  (4835,5,11,477,2,NULL,0,0);
+  (4835,5,11,477,2,NULL,0,0),
+  (4836,5,17,493,NULL,1,1,0),
+  (4837,4,17,493,NULL,1,0,0),
+  (4838,6,17,493,NULL,1,0,0),
+  (4839,7,17,493,NULL,1,0,0),
+  (4840,30,17,493,NULL,1,0,0),
+  (4841,8,17,493,NULL,1,0,0),
+  (4842,9,17,493,NULL,1,0,0),
+  (4843,9,7,233,NULL,1,1,0),
+  (4844,20,7,233,NULL,1,1,0),
+  (4845,18,7,233,NULL,1,1,0);
 
 COMMIT;
 
@@ -4429,7 +4441,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (487,17),
   (481,17),
   (488,17),
-  (489,16);
+  (489,16),
+  (493,17),
+  (494,12);
 
 COMMIT;
 
@@ -4749,7 +4763,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (103,20,7),
   (105,20,8),
   (107,19,29),
-  (109,17,20);
+  (109,17,20),
+  (114,7,20);
 
 COMMIT;
 
@@ -5317,7 +5332,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (489),
   (490),
   (491),
-  (492);
+  (492),
+  (493),
+  (494);
 
 COMMIT;
 
@@ -5487,7 +5504,8 @@ INSERT INTO `user_userauth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (28,2,'127.0.0.1','ab6db17706e797855c40ba766f8ee3fc',260,1173523868),
   (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059),
   (31,2,'127.0.0.1','86db01de276d43e124a8f90698a47535',286,1174513056),
-  (32,2,'127.0.0.1','38c02192a4890c38332d953ea4eaf6d8',476,1174653915);
+  (32,2,'127.0.0.1','38c02192a4890c38332d953ea4eaf6d8',476,1174653915),
+  (33,2,'127.0.0.1','8539a118934eb12959125b4a42c2cf20',494,1175426933);
 
 COMMIT;
 
