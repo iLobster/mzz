@@ -49,7 +49,7 @@ tinyMCE.init({
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td style="font-size: 80%;"><a href="javascript: void(0);" onclick="javascript: return jipWindow.toggleEditorById(this, 'contentArea') && false;" style="text-decoration: none; border-bottom: 1px dashed #aaa;">¬ключить WYSIWYG-редактор</a></td>
+        <td style="font-size: 80%;"><a href="javascript: jipWindow.toggleEditorById(this, 'contentArea');" style="text-decoration: none; border-bottom: 1px dashed #aaa;">¬ключить WYSIWYG-редактор</a></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
