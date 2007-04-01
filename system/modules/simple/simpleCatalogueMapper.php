@@ -267,10 +267,10 @@ abstract class simpleCatalogueMapper extends simpleMapper
         while ($row = $stmt->fetch()) {
             if ($row['property_type']) {
                 $type = $this->getPropertyTypeByTypeprop($row['property_type']);
-                $this->tmpPropsData[$row['id']][$row['name']] = isset($row[$type]) ? $row[$type] : null;
+                $this->tmpPropsData[$row[$this->tableKey]][$row['name']] = isset($row[$type]) ? $row[$type] : null;
 
-                $this->tmpServiceData[$row['id']]['titles'][$row['name']] = $row['title'];
-                $this->tmpServiceData[$row['id']]['types'][$row['name']] = $type;
+                $this->tmpServiceData[$row[$this->tableKey]]['titles'][$row['name']] = $row['title'];
+                $this->tmpServiceData[$row[$this->tableKey]]['types'][$row['name']] = $type;
             }
         }
 
