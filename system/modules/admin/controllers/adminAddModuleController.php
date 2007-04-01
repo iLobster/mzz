@@ -104,6 +104,9 @@ class adminAddModuleController extends simpleController
             $stmt->bindValue(':icon', $values['icon'], PDO::PARAM_STR);
             $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
             $stmt->bindValue(':order', $values['order'], PDO::PARAM_INT);
+            if (!isset($values['main_class'])) {
+                $values['main_class'] = 0;
+            }
             $stmt->bindValue(':main_class', $values['main_class'], PDO::PARAM_INT);
             $stmt->execute();
 

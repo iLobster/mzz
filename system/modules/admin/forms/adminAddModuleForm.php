@@ -75,7 +75,7 @@ class adminAddModuleForm
 
         if (!$nameRO) {
             $form->registerRule('isUniqueName', 'callback', 'addModuleValidate');
-            $form->addRule('name', 'имя модуля должно быть уникально и содержать латинские буквы и цифры', 'isUniqueName', array($db));
+            $form->addRule('name', 'имя модуля должно быть уникально и содержать латинские буквы и цифры', 'isUniqueName', array($db, $data['name']));
             $form->addRule('name', 'поле обязательно к заполнению', 'required');
         }
 
@@ -87,6 +87,10 @@ function addModuleValidate($name, $data)
 {
     if (strlen($name) === 0 || preg_match('/[^a-z0-9_\-]/i', $name)) {
         return false;
+    }
+
+    if ($name == $data[1]) {
+        return true;
     }
 
     $stmt = $data[0]->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_modules` WHERE `name` = :name');
