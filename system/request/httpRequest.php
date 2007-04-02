@@ -169,7 +169,7 @@ class httpRequest implements iRequest
             throw new mzzRuntimeException('Неверный тип для переменной: ' . $type);
         }
 
-        if (gettype($result) != $type && $valid) {
+        if (gettype($result) != $type && $valid && !is_null($result)) {
             settype($result, $type);
         }
         return $result;
