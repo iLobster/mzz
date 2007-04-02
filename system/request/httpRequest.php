@@ -91,10 +91,7 @@ class httpRequest implements iRequest
      */
     public function __construct()
     {
-        $this->postVars = new arrayDataspace($_POST);
-        $this->getVars = new arrayDataspace($_GET);
-        $this->cookieVars = new arrayDataspace($_COOKIE);
-        $this->params = new arrayDataspace();
+        $this->refresh();
     }
 
     /**
@@ -407,6 +404,14 @@ class httpRequest implements iRequest
         }
         $value = $html;
         return $value;
+    }
+
+    public function refresh()
+    {
+        $this->postVars = new arrayDataspace($_POST);
+        $this->getVars = new arrayDataspace($_GET);
+        $this->cookieVars = new arrayDataspace($_COOKIE);
+        $this->params = new arrayDataspace();
     }
 }
 

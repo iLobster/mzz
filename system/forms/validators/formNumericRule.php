@@ -2,11 +2,11 @@
 
 fileLoader::load('forms/validators/formAbstractRule');
 
-class formRequiredRule extends formAbstractRule
+class formNumericRule extends formAbstractRule
 {
     public function validate()
     {
-        return $this->value != '';
+        return is_numeric($this->value);
     }
 }
 

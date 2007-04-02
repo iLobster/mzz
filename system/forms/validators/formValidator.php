@@ -15,11 +15,17 @@
 class formValidator
 {
     private $validators;
+    private $errors;
 
-    public function add($validator, $value)
+    public function __construct()
+    {
+        $this->errors = new arrayDataspace();
+    }
+
+    public function add($validator, $name, $errorMsg = '')
     {
         $validatorName = 'form' . ucfirst($validator) . 'Rule';
-        $this->validators[] = new $validatorName($value);
+        $this->validators[] = new $validatorName($name, $errorMsg);
     }
 
     public function validate()
@@ -27,13 +33,22 @@ class formValidator
         $valid = true;
 
         foreach ($this->validators as $validator) {
-            $valid &= $validator->validate();
+            $result = $validator->validate();
+
+            if (!$result && !$this->errors->exists($validator->getName())) {
+                $this->errors->set($validator->getName(), $validator->getErrorMsg());
+            }
+
+            $valid &= $result;
         }
 
-        return $valid;
+        return (bool)$valid;
     }
 
-
+    public function getErrors()
+    {
+        return $this->errors;
+    }
 }
 
 ?>
