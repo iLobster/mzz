@@ -21,7 +21,8 @@ function readUploadStatus() {
     $('fmUploadFileSubmitButton').disable();
     fmUploadFileSubmitButtonValue = $('fmUploadFileSubmitButton').value;
     $('fmUploadFileSubmitButton').value = "Загрузка...";
-    fmUploadFile.onload = function () {
+
+    var frameOnLoadFunction = fmUploadFile.onload = function () {
         var statusDivId = fmUploadFile.contentWindow.document.getElementById('uploadStatusError') ?  'uploadStatusError' : 'uploadStatus';
         $(statusDivId).style.display = 'block';
         $(statusDivId).innerHTML = fmUploadFile.contentWindow.document.getElementById(statusDivId).innerHTML;
@@ -32,7 +33,13 @@ function readUploadStatus() {
             $('fmUploadFileForm').reset();
         }
     }
+
+    fmUploadFile.onload = frameOnLoadFunction;
+    if(/MSIE/.test(navigator.userAgent)) {
+        (fmUploadFile.addEventListener || ('on', fmUploadFile.attachEvent))('on' + 'load', frameOnLoadFunction, false);
+    }
 }
+
 function fmResetUploadForm() {
     var fmUploadFile = $('fmUploadFile').setStyle({'width': 0, 'height': 0, 'display': 'none'});
     $('uploadStatus').style.display = 'none';
