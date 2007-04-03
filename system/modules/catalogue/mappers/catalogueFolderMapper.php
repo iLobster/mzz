@@ -88,7 +88,13 @@ class catalogueFolderMapper extends simpleMapperForTree
      */
     public function convertArgsToId($args)
     {
-        return 1;
+        $folder = $this->searchByPath($args['name']);
+
+        if ($folder) {
+            return $folder->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 
