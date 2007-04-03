@@ -30,7 +30,7 @@ fileLoader::load('acl');
  *
  * @package system
  * @subpackage template
- * @version 0.4.5
+ * @version 0.4.6
  */
 function smarty_function_load($params, $smarty)
 {
@@ -53,6 +53,8 @@ function smarty_function_load($params, $smarty)
 
     $request = $toolkit->getRequest();
     $request->save();
+
+    $request->setAction($action->getActionName());
 
     if(!empty($params['section'])) {
         $request->setSection($params['section']);
