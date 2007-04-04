@@ -63,7 +63,7 @@ class fileManagerUploadController extends simpleController
             usort($exts, create_function('$a,$b', 'return strlen($a) < strlen($b);'));
 
             foreach ($exts as $ext) {
-                if (strlen($ext) + strrpos($name, $ext) == strlen($name)) {
+                if (strlen($ext) + strrpos(strtolower($name), strtolower($ext)) == strlen($name)) {
                     $name_wo_ext = substr($name, 0, -strlen($ext) - 1);
                     break;
                 }
