@@ -54,7 +54,7 @@ function smarty_function_load($params, $smarty)
     $request = $toolkit->getRequest();
     $request->save();
 
-    $request->setAction($action->getActionName());
+    //$request->setAction($action->getActionName());
 
     if(!empty($params['section'])) {
         $request->setSection($params['section']);

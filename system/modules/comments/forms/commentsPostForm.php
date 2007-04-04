@@ -39,6 +39,7 @@ class commentsPostForm
         }
 
         $form->addElement('textarea', 'text', 'Ваш комментарий', 'rows=7 cols=50');
+        $form->addRule('text', 'комментарий обязателен для заполнения', 'required');
 
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
