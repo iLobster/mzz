@@ -35,8 +35,17 @@ class userEditForm
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
-        $formAction = '/' . $section . ($action == 'edit' ? '/' . $user->getId() : '') . '/' . $action;
-        $form = new HTML_QuickForm('userEdit', 'POST', $formAction);
+        if ($action == 'edit') {
+            $url = new url('withId');
+            $url->addParam('id', $user->getId());
+        } else {
+            $url = new url('default2');
+        }
+
+        $url->setAction($action);
+        $url->setSection($section);
+
+        $form = new HTML_QuickForm('userEdit', 'POST', $url->get());
 
         if ($action == 'edit') {
             $defaultValues = array();
