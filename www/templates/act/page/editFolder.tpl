@@ -1,2 +1,2 @@
 {* main="popup.tpl" placeholder="content" *}
-{load module="page" action="createFolder"}
+{load module="page" action="editFolder"}

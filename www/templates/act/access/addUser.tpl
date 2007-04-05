@@ -1,1 +1,1 @@
-{load module="access" action="editUser"}
+{load module="access" action="addUser"}

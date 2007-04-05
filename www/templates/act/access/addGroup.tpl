@@ -1,1 +1,1 @@
-{load module="access" action="editGroup"}
+{load module="access" action="addGroup"}
