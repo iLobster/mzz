@@ -256,6 +256,7 @@ jipWindow.prototype = {
     this.toggleEditorStatus = $H();
     this.redirectToAfterClose = false;
     this.windowExists = false;
+    this.selectElements = null;
 
     this.eventKeypress  = this.keyPress.bindAsEventListener(this);
     this.eventLockClick  = this.lockClick.bindAsEventListener(this);
@@ -369,10 +370,10 @@ jipWindow.prototype = {
   {
     var pageHeight = getBrowserHeight();
     if (!this.locker) {
-            this.locker = document.createElement('div');
-            this.locker.setAttribute('id', 'lockContent');
-            Element.extend(this.locker);
-            document.body.insertBefore(this.locker, document.body.childNodes[0]);
+        this.locker = document.createElement('div');
+        this.locker.setAttribute('id', 'lockContent');
+        Element.extend(this.locker);
+        document.body.insertBefore(this.locker, document.body.childNodes[0]);
     }
     //this.locker = $('lockContent');
     this.locker.setStyle({height: pageHeight.pageHeight +"px"});
@@ -382,6 +383,17 @@ jipWindow.prototype = {
         Event.observe(this.locker, "click", this.eventLockClick);
         this.locker.setStyle({opacity: 0.01, display: 'block'});
         new Effect.Opacity(this.locker, {"from" : 0, "to": 0.8, "duration": 0.5});
+
+        if(/MSIE/.test(navigator.userAgent) && !window.opera) {
+            this.selectElements = $A(document.getElementsByTagName('select'));
+            this.selectElements.each(function (elm, index) {
+                if (elm.style.visibility == "hidden") {
+                    delete jipWindow.selectElements[index];
+                } else {
+                    elm.style.visibility = "hidden";
+                }
+            });
+        }
     }
   },
 
@@ -396,6 +408,10 @@ jipWindow.prototype = {
             "duration": 0.5,
             "afterFinish": function () {
                 jipWindow.locker.setStyle({opacity: 0.01, display: 'none'});
+                if(/MSIE/.test(navigator.userAgent) && !window.opera) {
+                    jipWindow.selectElements.each(function (elm) { if (elm) { elm.style.visibility = "visible"; } } );
+                    jipWindow.selectElements = null;
+                }
             }
         });
     }
