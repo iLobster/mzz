@@ -57,5 +57,21 @@ abstract class formElement
         return preg_replace('/&amp;([a-z]+|(#\d+)|(#x[\da-f]+));/i', '&$1;', htmlspecialchars($value));
     }
 
+    static public function getValue($options)
+    {
+        $name = $options['name'];
+        $default = isset($options['value']) ? $options['value'] : '';
+
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+        if (!is_null($value = $request->get($name, 'mixed', SC_REQUEST))) {
+            return $value;
+        } else {
+            return $default;
+        }
+    }
+
+    abstract static public function toString($options = array());
 }
+
 ?>

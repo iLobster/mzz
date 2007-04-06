@@ -12,26 +12,17 @@
  * @version $Id$
  */
 
-fileLoader::load("forms/formElement");
-
 class formTextField extends formElement
 {
-    static public function toString($name, $value = null, $options = array())
+    static public function toString($options = array())
     {
-        $value = self::getValue($name, $value);
-        $options = array_merge(array('type' => 'text', 'name' => $name, 'id' => $name, 'value' => $value), $options);
-        return self::createTag('input', $options);
-    }
+        $options['value'] = self::getValue($options);
 
-    static public function getValue($name, $default = '')
-    {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-        if (($value = $request->get($name, 'mixed', SC_POST | SC_GET)) != null) {
-            return $value;
-        } else {
-            return $default;
+        if (!isset($options['type'])) {
+            $options['type'] = 'text';
         }
+
+        return self::createTag('input', $options);
     }
 }
 

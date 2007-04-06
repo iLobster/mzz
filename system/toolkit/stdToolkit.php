@@ -140,6 +140,9 @@ class stdToolkit extends toolkit
 
             fileLoader::load('libs/smarty/plugins/modifier.filesize');
             $this->smarty->register_modifier('filesize', 'smarty_modifier_filesize');
+
+            fileLoader::load('forms/form');
+            $this->smarty->register_object('form', new form());
         }
         return $this->smarty;
     }

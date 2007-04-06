@@ -3,6 +3,7 @@ fileLoader::load('forms/formElement');
 
 class stubFormElement extends formElement
 {
+    static public function toString($options = array()) {}
 }
 
 class formElementTest extends UnitTestCase
@@ -42,7 +43,6 @@ class formElementTest extends UnitTestCase
         $expected = '<input id="id_title" name="title" type="text" value="&quot;&lt;&gt;&amp;" />';
         $this->assertEqual(stubFormElement::createTag('input', $options), $expected);
     }
-
-
 }
+
 ?>

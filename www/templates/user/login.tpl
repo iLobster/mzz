@@ -1,18 +1,17 @@
 <div id="loginForm">
-<form action="{$form.action}" method="post" name="userLogin" id="userLogin">
-{textfield type="hidden" name="url" size=10 id="backUrlField" value=$form.backUrl}
-
-<table border="0" cellpadding="1" cellspacing="0" width="230">
-    <tr>
-        <td align="right">Логин</td>
-        <td align="center">{textfield name="login" size=10 id="loginField"}</td>
-        {* @todo <td align="center">{$form.save.html}</td>*}
-    </tr>
-    <tr>
-        <td align="right">Пароль</td>
-        <td align="center">{textfield type="password" name="password" size=10 id="passwordField"}</td>
-        <td align="center" colspan="2"><input name="submit" value="Вход" type="submit" /></td>
-    </tr>
-</table>
-</form>
+    <form action="{$form.action}" method="post" name="userLogin" id="userLogin">
+        {form->hidden name="url" id="backUrlField" value=$form.backUrl}
+        <table border="0" cellpadding="1" cellspacing="0" width="230">
+            <tr>
+                <td align="right">Логин</td>
+                <td align="center">{form->text name="login" size=10 id="loginField"}</td> 
+                <td align="center">{form->checkbox name="save" text="Запомнить" value="1"}</td>
+            </tr>
+            <tr>
+                <td align="right">Пароль</td>
+                <td align="center">{form->password name="password" size=10 id="passwordField"}</td>
+                <td align="center" colspan="2">{form->submit name="submit" value="Вход"}</td>
+            </tr>
+        </table>
+    </form>
 </div>
