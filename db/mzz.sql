@@ -44,7 +44,10 @@ CREATE TABLE `catalogue_catalogue` (
 
 INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
   (6,8,'Delphi: программирование на языке высокого уровня',2,1175235587,489,12),
-  (7,8,'Учебник английского языка для технических университетов и вузов',2,1175237052,490,12);
+  (7,8,'Учебник английского языка для технических университетов и вузов',2,1175237052,490,12),
+  (8,7,'Nokia 6300',2,1175871646,501,5),
+  (9,7,'Nokia E65',2,1175871677,502,5),
+  (10,7,'Motorola KRZR K1',2,1175871755,503,5);
 
 COMMIT;
 
@@ -77,7 +80,16 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
   (7,24,NULL,'И.В. Орловская, Л.С. Самсонова, А.И. Скубриева',NULL,NULL,NULL),
   (7,25,NULL,NULL,448,NULL,NULL),
   (7,26,NULL,'Издательство МГТУ им. Н.Э. Баумана',NULL,NULL,NULL),
-  (7,27,'Учебник состоит из 12 уроков-тем, объединенных единой тематикой и содержащих: основной текст, назначением которого является обучение чтению технической литературы по специальностям машинно- и приборостроительных вузов; дополнительные текста и диалоги для общественной лексики, развития навыков профессионального обучения по изучаемой тематике; письменные и устные грамматические и лексические упражнения коммуникативной направленности.',NULL,NULL,NULL,NULL);
+  (7,27,'Учебник состоит из 12 уроков-тем, объединенных единой тематикой и содержащих: основной текст, назначением которого является обучение чтению технической литературы по специальностям машинно- и приборостроительных вузов; дополнительные текста и диалоги для общественной лексики, развития навыков профессионального обучения по изучаемой тематике; письменные и устные грамматические и лексические упражнения коммуникативной направленности.',NULL,NULL,NULL,NULL),
+  (8,28,NULL,'GSM 900/1800/1900',NULL,NULL,NULL),
+  (8,29,NULL,'91 г.',NULL,NULL,NULL),
+  (8,30,NULL,'106.4 x 43.6 x 11.7',NULL,NULL,NULL),
+  (9,28,NULL,'GSM 850/900/1800/1900',NULL,NULL,NULL),
+  (9,29,NULL,'115 г.',NULL,NULL,NULL),
+  (9,30,NULL,'105 x 49 x 15.5',NULL,NULL,NULL),
+  (10,28,NULL,'GSM 850/900/1800/1900',NULL,NULL,NULL),
+  (10,29,NULL,'102 г.',NULL,NULL,NULL),
+  (10,30,NULL,'103 x 42 x 16',NULL,NULL,NULL);
 
 COMMIT;
 
@@ -104,7 +116,10 @@ INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`) 
   (10,'author','Автор',1),
   (11,'pagescount','Количество страниц',3),
   (13,'annotation','Аннотация',4),
-  (12,'izdat','Издатель',1);
+  (12,'izdat','Издатель',1),
+  (14,'standart','Стандарт',1),
+  (15,'weight','Вес',1),
+  (16,'size','Размеры',1);
 
 COMMIT;
 
@@ -151,7 +166,7 @@ CREATE TABLE `catalogue_catalogue_types` (
 #
 
 INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
-  (7,'mobile phone','Мобильный телефон'),
+  (7,'mobile','Мобильный телефон'),
   (8,'books','Книги');
 
 COMMIT;
@@ -179,17 +194,20 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) V
   (26,8,12),
   (24,8,10),
   (27,8,13),
-  (25,8,11);
+  (25,8,11),
+  (28,7,14),
+  (29,7,15),
+  (30,7,16);
 
 COMMIT;
 
 #
-# Structure for the `catalogue_cataloguefolder` table : 
+# Structure for the `catalogue_catalogueFolder` table : 
 #
 
-DROP TABLE IF EXISTS `catalogue_cataloguefolder`;
+DROP TABLE IF EXISTS `catalogue_catalogueFolder`;
 
-CREATE TABLE `catalogue_cataloguefolder` (
+CREATE TABLE `catalogue_catalogueFolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) NOT NULL default '0',
   `name` char(255) default NULL,
@@ -200,26 +218,25 @@ CREATE TABLE `catalogue_cataloguefolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `catalogue_cataloguefolder` table  (LIMIT 0,500)
+# Data for the `catalogue_catalogueFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_cataloguefolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (1,241,'root','Основной',1,'root'),
   (10,486,'books','Книги',10,'root/books'),
   (11,487,'fantazy','Фантастика',11,'root/books/fantazy'),
   (5,481,'mobile','Телефоны',5,'root/mobile'),
-  (12,488,'tech','Техническая литература',12,'root/books/tech'),
-  (13,493,'aaa','aaa',13,'root/aaa');
+  (12,488,'tech','Техническая литература',12,'root/books/tech');
 
 COMMIT;
 
 #
-# Structure for the `catalogue_cataloguefolder_tree` table : 
+# Structure for the `catalogue_catalogueFolder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `catalogue_cataloguefolder_tree`;
+DROP TABLE IF EXISTS `catalogue_catalogueFolder_tree`;
 
-CREATE TABLE `catalogue_cataloguefolder_tree` (
+CREATE TABLE `catalogue_catalogueFolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -231,16 +248,15 @@ CREATE TABLE `catalogue_cataloguefolder_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `catalogue_cataloguefolder_tree` table  (LIMIT 0,500)
+# Data for the `catalogue_catalogueFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_cataloguefolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,12,1),
+INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+  (1,1,10,1),
   (10,4,9,2),
   (11,5,6,3),
   (5,2,3,2),
-  (12,7,8,3),
-  (13,10,11,2);
+  (12,7,8,3);
 
 COMMIT;
 
@@ -270,12 +286,12 @@ INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `fold
 COMMIT;
 
 #
-# Structure for the `comments_commentsfolder` table : 
+# Structure for the `comments_commentsFolder` table : 
 #
 
-DROP TABLE IF EXISTS `comments_commentsfolder`;
+DROP TABLE IF EXISTS `comments_commentsFolder`;
 
-CREATE TABLE `comments_commentsfolder` (
+CREATE TABLE `comments_commentsFolder` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `obj_id` int(11) unsigned default NULL,
   `parent_id` int(11) unsigned default NULL,
@@ -284,10 +300,10 @@ CREATE TABLE `comments_commentsfolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `comments_commentsfolder` table  (LIMIT 0,500)
+# Data for the `comments_commentsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `comments_commentsfolder` (`id`, `obj_id`, `parent_id`) VALUES 
+INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES 
   (14,134,9),
   (16,145,10),
   (18,171,164),
@@ -304,12 +320,12 @@ INSERT INTO `comments_commentsfolder` (`id`, `obj_id`, `parent_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `filemanager_file` table : 
+# Structure for the `fileManager_file` table : 
 #
 
-DROP TABLE IF EXISTS `filemanager_file`;
+DROP TABLE IF EXISTS `fileManager_file`;
 
-CREATE TABLE `filemanager_file` (
+CREATE TABLE `fileManager_file` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `realname` char(255) default 'имя в фс в каталоге на сервере',
   `name` char(255) default 'имя с которым файл будет отдаваться клиенту',
@@ -324,10 +340,10 @@ CREATE TABLE `filemanager_file` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `filemanager_file` table  (LIMIT 0,500)
+# Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
-INSERT INTO `filemanager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `folder_id`, `obj_id`) VALUES 
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `folder_id`, `obj_id`) VALUES 
   (1,'foobar.txt','q','txt',10,1,1,196),
   (2,'06558db05a7d5148084025676972cbb2','','rec',9,NULL,NULL,201),
   (3,'9f4b4024092fcebfc434401210f71f7d','','rec',9,NULL,NULL,202),
@@ -347,12 +363,12 @@ INSERT INTO `filemanager_file` (`id`, `realname`, `name`, `ext`, `size`, `downlo
 COMMIT;
 
 #
-# Structure for the `filemanager_folder` table : 
+# Structure for the `fileManager_folder` table : 
 #
 
-DROP TABLE IF EXISTS `filemanager_folder`;
+DROP TABLE IF EXISTS `fileManager_folder`;
 
-CREATE TABLE `filemanager_folder` (
+CREATE TABLE `fileManager_folder` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
@@ -365,10 +381,10 @@ CREATE TABLE `filemanager_folder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `filemanager_folder` table  (LIMIT 0,500)
+# Data for the `fileManager_folder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `filemanager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
+INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
   (2,'child','child_node',2,'root/child',197,1,'bmp'),
   (3,'q','q',3,'root/child/q',221,0,''),
@@ -377,12 +393,12 @@ INSERT INTO `filemanager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_
 COMMIT;
 
 #
-# Structure for the `filemanager_folder_tree` table : 
+# Structure for the `fileManager_folder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `filemanager_folder_tree`;
+DROP TABLE IF EXISTS `fileManager_folder_tree`;
 
-CREATE TABLE `filemanager_folder_tree` (
+CREATE TABLE `fileManager_folder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -394,10 +410,10 @@ CREATE TABLE `filemanager_folder_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `filemanager_folder_tree` table  (LIMIT 0,500)
+# Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `filemanager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,8,1),
   (2,2,7,2),
   (3,3,4,3),
@@ -593,12 +609,12 @@ INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `annotation`, `text`
 COMMIT;
 
 #
-# Structure for the `news_newsfolder` table : 
+# Structure for the `news_newsFolder` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsfolder`;
+DROP TABLE IF EXISTS `news_newsFolder`;
 
-CREATE TABLE `news_newsfolder` (
+CREATE TABLE `news_newsFolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) unsigned NOT NULL default '0',
   `name` char(255) default NULL,
@@ -611,10 +627,10 @@ CREATE TABLE `news_newsfolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `news_newsfolder` table  (LIMIT 0,500)
+# Data for the `news_newsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (2,6,'root','Новости',1,'root'),
   (29,306,'politic','Политика',28,'root/politic'),
   (21,298,'russia','В России',20,'root/russia'),
@@ -634,12 +650,12 @@ INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`
 COMMIT;
 
 #
-# Structure for the `news_newsfolder_tree` table : 
+# Structure for the `news_newsFolder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsfolder_tree`;
+DROP TABLE IF EXISTS `news_newsFolder_tree`;
 
-CREATE TABLE `news_newsfolder_tree` (
+CREATE TABLE `news_newsFolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -651,10 +667,10 @@ CREATE TABLE `news_newsfolder_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `news_newsfolder_tree` table  (LIMIT 0,500)
+# Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsfolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,30,1),
   (28,24,25,2),
   (20,8,9,2),
@@ -709,12 +725,12 @@ INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`
 COMMIT;
 
 #
-# Structure for the `page_pagefolder` table : 
+# Structure for the `page_pageFolder` table : 
 #
 
-DROP TABLE IF EXISTS `page_pagefolder`;
+DROP TABLE IF EXISTS `page_pageFolder`;
 
-CREATE TABLE `page_pagefolder` (
+CREATE TABLE `page_pageFolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) unsigned NOT NULL default '0',
   `name` char(255) default NULL,
@@ -726,10 +742,10 @@ CREATE TABLE `page_pagefolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `page_pagefolder` table  (LIMIT 0,500)
+# Data for the `page_pageFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pagefolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (1,161,'root','/',1,'root'),
   (2,163,'foo','foo',2,'root/foo'),
   (3,234,'zz','zz',3,'root/foo/zz');
@@ -737,12 +753,12 @@ INSERT INTO `page_pagefolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`
 COMMIT;
 
 #
-# Structure for the `page_pagefolder_tree` table : 
+# Structure for the `page_pageFolder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `page_pagefolder_tree`;
+DROP TABLE IF EXISTS `page_pageFolder_tree`;
 
-CREATE TABLE `page_pagefolder_tree` (
+CREATE TABLE `page_pageFolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -754,10 +770,10 @@ CREATE TABLE `page_pagefolder_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `page_pagefolder_tree` table  (LIMIT 0,500)
+# Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pagefolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,6,1),
   (2,2,5,2),
   (3,3,4,3);
@@ -4121,16 +4137,9 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4833,9,11,477,2,NULL,1,0),
   (4834,19,11,477,2,NULL,0,0),
   (4835,5,11,477,2,NULL,0,0),
-  (4836,5,17,493,NULL,1,1,0),
-  (4837,4,17,493,NULL,1,0,0),
-  (4838,6,17,493,NULL,1,0,0),
-  (4839,7,17,493,NULL,1,0,0),
-  (4840,30,17,493,NULL,1,0,0),
-  (4841,8,17,493,NULL,1,0,0),
-  (4842,9,17,493,NULL,1,0,0),
-  (4843,9,7,233,NULL,1,1,0),
-  (4844,20,7,233,NULL,1,1,0),
-  (4845,18,7,233,NULL,1,1,0),
+  (4860,18,7,233,NULL,1,0,1),
+  (4859,20,7,233,NULL,1,0,1),
+  (4858,9,7,233,NULL,1,0,1),
   (4857,9,6,9,NULL,1,0,1);
 
 COMMIT;
@@ -4443,8 +4452,12 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (481,17),
   (488,17),
   (489,16),
-  (493,17),
-  (494,12);
+  (501,16),
+  (494,12),
+  (498,12),
+  (497,7),
+  (502,16),
+  (503,16);
 
 COMMIT;
 
@@ -5348,7 +5361,16 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (491),
   (492),
   (493),
-  (494);
+  (494),
+  (495),
+  (496),
+  (497),
+  (498),
+  (499),
+  (500),
+  (501),
+  (502),
+  (503);
 
 COMMIT;
 
@@ -5396,7 +5418,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (264,'access_news_catalogue'),
   (265,'access_page_news'),
   (266,'access_fileManager_page'),
-  (290,'access__catalogue');
+  (290,'access__catalogue'),
+  (497,'access_catalogue_catalogueFolder');
 
 COMMIT;
 
@@ -5482,12 +5505,12 @@ INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_userauth` table : 
+# Structure for the `user_userAuth` table : 
 #
 
-DROP TABLE IF EXISTS `user_userauth`;
+DROP TABLE IF EXISTS `user_userAuth`;
 
-CREATE TABLE `user_userauth` (
+CREATE TABLE `user_userAuth` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `user_id` int(11) unsigned default NULL,
   `ip` char(15) default NULL,
@@ -5498,10 +5521,10 @@ CREATE TABLE `user_userauth` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `user_userauth` table  (LIMIT 0,500)
+# Data for the `user_userAuth` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userauth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
+INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
   (12,2,'127.0.0.10','40f005459cebb89062ce9c68d8a1a6e4',121,1163984139),
   (14,2,'127.0.0.10','dfbd10d2c43c598707181edac1dcb03f',126,1163992875),
   (15,2,'127.0.0.10','2fa75156d5b5c303756c73aff49271cd',148,1164262245),
@@ -5519,17 +5542,18 @@ INSERT INTO `user_userauth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059),
   (31,2,'127.0.0.1','86db01de276d43e124a8f90698a47535',286,1174513056),
   (32,2,'127.0.0.1','38c02192a4890c38332d953ea4eaf6d8',476,1174653915),
-  (33,2,'127.0.0.1','8539a118934eb12959125b4a42c2cf20',494,1175426933);
+  (33,2,'127.0.0.1','8539a118934eb12959125b4a42c2cf20',494,1175426933),
+  (36,2,'127.0.0.1','19269e37d22baa4c020b3c4b3732c9ea',498,1175870749);
 
 COMMIT;
 
 #
-# Structure for the `user_usergroup_rel` table : 
+# Structure for the `user_userGroup_rel` table : 
 #
 
-DROP TABLE IF EXISTS `user_usergroup_rel`;
+DROP TABLE IF EXISTS `user_userGroup_rel`;
 
-CREATE TABLE `user_usergroup_rel` (
+CREATE TABLE `user_userGroup_rel` (
   `id` int(11) NOT NULL auto_increment,
   `group_id` int(11) default NULL,
   `user_id` int(11) default NULL,
@@ -5540,10 +5564,10 @@ CREATE TABLE `user_usergroup_rel` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `user_usergroup_rel` table  (LIMIT 0,500)
+# Data for the `user_userGroup_rel` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
+INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
   (1,1,1,50),
   (23,2,2,47),
   (24,3,2,226),
