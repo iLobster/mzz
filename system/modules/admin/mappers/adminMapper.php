@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.7
+ * @version 0.1.8
  */
 
 fileLoader::load('admin');
@@ -158,7 +158,7 @@ class adminMapper extends simpleMapper
         $modules = $this->db->getAll('SELECT (COUNT(`ca`.`id`) + COUNT(`cs`.`id`) > 0) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `c2`.`name` AS `main_class_name`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id`, `m`.`main_class` FROM `sys_modules` `m`
                                          LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
                                           LEFT JOIN `sys_classes` `c2` ON `c2`.`id` = `m`.`main_class`
-                                           LEFT JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                                           LEFT JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id` AND `ca`.`action_id` != 9
                                             LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id`
                                              GROUP BY `m`.`name`, `c`.`name`');
 
