@@ -16,7 +16,7 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1.7
+ * @version 0.1.8
  */
 class acl
 {
@@ -651,8 +651,10 @@ class acl
                 $this->section = $section;
             }
 
-            $qry = $this->getQuery();
-            $this->doRoutine($qry, $obj_id);
+            if ($this->uid != MZZ_USER_GUEST_ID) {
+                $qry = $this->getQuery();
+                $this->doRoutine($qry, $obj_id);
+            }
 
             $id = $this->getClassSection($this->class, $this->section);
 
