@@ -77,7 +77,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function getProperties($id)
     {
-        $query = 'SELECT `p`.*, `pt`.`name` as `type` FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id';
+        $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isShort` FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam('type_id', $id);
         $stmt->execute();
@@ -111,8 +111,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
             $allProperties[] = $property['id'];
         }
 
-        $tmpDelete = array_diff($allProperties, $properties);
-        $tmpInsert = array_diff($properties, $allProperties);
+        $tmpDelete = array_diff($allProperties, array_keys($properties));
+        $tmpInsert = array_diff(array_keys($properties), $allProperties);
 
         if(!empty($tmpDelete)){
             $tmpDelete = array_map('intval', $tmpDelete);
@@ -250,7 +250,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties->setTable($this->table, $this->className);
         $properties->clearSelectFields();
         $properties->clearGroupBy();
-        $properties->addSelectField('d.*')->addSelectField($this->className . '.id', 'id')->addSelectField('p.name')->addSelectField('p.title');
+        $properties->addSelectField('d.*')->addSelectField($this->className . '.id', 'id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('tp.isShort');
         $properties->setOrderByFieldAsc('id');
 
         // критерий для подзапроса, с помощью которого будут выбираться данные только для необходимых объектов
@@ -267,10 +267,18 @@ abstract class simpleCatalogueMapper extends simpleMapper
         while ($row = $stmt->fetch()) {
             if ($row['property_type']) {
                 $type = $this->getPropertyTypeByTypeprop($row['property_type']);
-                $this->tmpPropsData[$row[$this->tableKey]][$row['name']] = isset($row[$type]) ? $row[$type] : null;
 
-                $this->tmpServiceData[$row[$this->tableKey]]['titles'][$row['name']] = $row['title'];
-                $this->tmpServiceData[$row[$this->tableKey]]['types'][$row['name']] = $type;
+                $property[$row['name']] = array(
+                    'id' =>  $row['id'],
+                    'name' =>  $row['name'],
+                    'title' =>  $row['title'],
+                    'type' =>  $type,
+                    'type_id' =>  $row['property_type'],
+                    'value' =>  (isset($row[$type]) ? $row[$type] : null),
+                    'isShort' =>  (bool)$row['isShort']
+                );
+
+                $this->tmpPropsData[$row[$this->tableKey]] = $property;
             }
         }
 
@@ -281,13 +289,12 @@ abstract class simpleCatalogueMapper extends simpleMapper
     {
         $object = $this->create();
         $object->import($row);
-        if (isset($this->tmpPropsData[$row[$this->tableKey]]) && isset($this->tmpServiceData[$row[$this->tableKey]])) {
+
+        if (isset($this->tmpPropsData[$row[$this->tableKey]])) {
             $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
-            $object->importServiceData($this->tmpServiceData[$row[$this->tableKey]]);
         }
 
-        $object->importItemData($this->tmptypes[$row['type_id']]);
-
+        $object->importTypeData($this->tmptypes[$row['type_id']]);
         return $object;
     }
 
@@ -302,7 +309,6 @@ abstract class simpleCatalogueMapper extends simpleMapper
             $properties_str .= $this->db->quote($val) . ", ";
         }
         $properties_str = substr($properties_str, 0, -2);
-
         if ($properties_str) {
             $stmt = $this->db->query("SELECT `tp`.`id`, `p`.`name` FROM `" . $this->tableProperties . "` `p` INNER JOIN `" . $this->tableTypesProps . "` `tp` ON `tp`.`property_id` = `p`.`id` AND `tp`.`type_id` = " . (int)$object->getType() . " WHERE `p`.`name` IN (" . $properties_str . ")");
 
@@ -313,14 +319,16 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 $properties[$row['name']] = $row['id'];
                 $result[$row['name']] = $data[$row['name']];
             }
-
             if (sizeof($properties)) {
                 foreach ($properties as $key => $val) {
                     $type = $this->getPropertyType($key);
                     $this->db->query($qry = 'REPLACE INTO `' . $this->tableData . '` SET `' . $type['name'] . '` = ' . $this->db->quote($data[$key]) . ', `property_type` = ' . $val . ', `id` = ' . $object->getId());
                 }
-
-                $object->importProperties($result + $object->exportOldProperties());
+                $tmp = $object->exportOldProperties();
+                foreach ($result as $id => $value) {
+                    $tmp[$id]['value'] = $value;
+                }
+                $object->importProperties($tmp);
             }
         }
     }

@@ -47,8 +47,8 @@ class catalogueObjectForm
         catalogueAssignForm::assign($form, $properties);
 
         $defaults = array('name' => $catalogue->getName());
-        foreach($catalogue->exportOldProperties() as $property => $value){
-            $defaults[$property] = $value;
+        foreach($catalogue->exportOldProperties() as $propertyName => $property){
+            $defaults[$propertyName] = $property['value'];
         }
         $form->applyFilter('__ALL__', 'trim');
 

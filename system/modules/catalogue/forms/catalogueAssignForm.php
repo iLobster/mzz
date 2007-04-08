@@ -35,23 +35,22 @@ class catalogueAssignForm
             switch($property['type']){
                 case 'char':
                     $form->addElement('text', $name, $title, 'size="30"');
-                    $form->addRule($property['name'], 'Поле "'.$title.'" обязательно для заполнения', 'required', '', 'client');
+                    //$form->addRule($property['name'], 'Поле "'.$title.'" обязательно для заполнения', 'required', '', 'client');
                     break;
 
                 case 'int':
                     $form->addElement('text', $name, $title, 'size="30"');
-                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
                     $form->addRule($name, 'Поле "'.$title.'" может принимать только значения (int)', 'numeric', '', 'client');
                     break;
 
                 case 'text':
                     $form->addElement('textarea', $name, $title);
-                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
+                    //$form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
                     break;
 
                 case 'float':
                     $form->addElement('text', $name, $title, 'size="30"');
-                    $form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
+                    //$form->addRule($name, 'Поле "'.$title.'" обязательно для заполнения', 'required');
                     $form->addRule($name, 'Поле "'.$title.'" может принимать только значения (float)', 'numeric', '', 'client');
                     break;
 

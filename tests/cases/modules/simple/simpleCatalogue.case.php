@@ -80,15 +80,32 @@ class simpleCatalogueTest extends unitTestCase
     public function testGetAndSetProperties()
     {
         $properties = array(
-        'p1' => 'value1',
-        'p2' => 'value2',
+            'p1' => array(
+                'id'  =>  $id_1 = 'id_1',
+                'name'  =>  $name_1 = 'name_1',
+                'title'  =>  $title_1 = 'title_1',
+                'type'  =>  $type_1 = 'char',
+                'type_id'  =>  $type_id_1 = 1,
+                'value'  =>  $value_1 = 'value1',
+                'isShort'  =>  $isShort_1 = false
+            ),
+            'p2' => array(
+                'id'  =>  $id_2 = 'id_2',
+                'name'  =>  $name_2 = 'name_2',
+                'title'  =>  $title_2 = 'title_2',
+                'type'  =>  $type_2 = 'int',
+                'type_id'  =>  $type_id_2 = 2,
+                'value'  =>  $value_2 = '123456',
+                'isShort'  =>  $isShort_2 = false
+            ),
         );
+
         $this->simple->importProperties($properties);
 
         $this->assertEqual($this->simple->exportProperties(), array());
 
-        $this->assertEqual($this->simple->getProperty('p1'), 'value1');
-        $this->assertEqual($this->simple->getProperty('p2'), 'value2');
+        $this->assertEqual($this->simple->getPropertyValue('p1'), $value_1);
+        $this->assertEqual($this->simple->getPropertyValue('p2'), $value_2);
 
         $this->simple->setProperty('p3', 'value3');
 

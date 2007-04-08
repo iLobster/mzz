@@ -15,14 +15,25 @@
             <td><strong>{$form.name.label}</strong></td>
             <td>{$form.name.html}</td>
         </tr>
-        {foreach from=$form.properties item="property"}
-                <tr>
-                    <td>{$property.html}</td>
-                </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        {foreach from=$form.properties key="id" item="property" name="propertyIterator"}
+        {if $smarty.foreach.propertyIterator.first}
+            <tr>
+                <td><strong>Параметр:</strong></td>
+                <td><strong>Для краткого:</strong></td>
+            </tr>
+        {/if}
+            <tr>
+                <td>{$property.html}</td>
+                <td>{$form.full.$id.html}</td>
+            </tr>
         {foreachelse}
-                <tr>
-                    <td>Нет параметров</td>
-                <tr>
+            <tr>
+                <td>Нет параметров</td>
+            <tr>
         {/foreach}
         <tr>
             <td>{$form.submit.html}{$form.reset.html}</td>

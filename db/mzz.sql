@@ -52,6 +52,65 @@ INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`,
 COMMIT;
 
 #
+# Structure for the `catalogue_catalogueFolder` table : 
+#
+
+DROP TABLE IF EXISTS `catalogue_catalogueFolder`;
+
+CREATE TABLE `catalogue_catalogueFolder` (
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) NOT NULL default '0',
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `parent` int(11) default '0',
+  `path` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `catalogue_catalogueFolder` table  (LIMIT 0,500)
+#
+
+INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+  (1,241,'root','Основной',1,'root'),
+  (10,486,'books','Книги',10,'root/books'),
+  (11,487,'fantazy','Фантастика',11,'root/books/fantazy'),
+  (5,481,'mobile','Телефоны',5,'root/mobile'),
+  (12,488,'tech','Техническая литература',12,'root/books/tech');
+
+COMMIT;
+
+#
+# Structure for the `catalogue_catalogueFolder_tree` table : 
+#
+
+DROP TABLE IF EXISTS `catalogue_catalogueFolder_tree`;
+
+CREATE TABLE `catalogue_catalogueFolder_tree` (
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `left_key` (`lkey`,`rkey`,`level`),
+  KEY `level` (`level`,`lkey`),
+  KEY `rkey` (`rkey`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `catalogue_catalogueFolder_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+  (1,1,10,1),
+  (10,4,9,2),
+  (11,5,6,3),
+  (5,2,3,2),
+  (12,7,8,3);
+
+COMMIT;
+
+#
 # Structure for the `catalogue_catalogue_data` table : 
 #
 
@@ -88,7 +147,7 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
   (9,29,NULL,'115 г.',NULL,NULL,NULL),
   (9,30,NULL,'105 x 49 x 15.5',NULL,NULL,NULL),
   (10,28,NULL,'GSM 850/900/1800/1900',NULL,NULL,NULL),
-  (10,29,NULL,'102 г.',NULL,NULL,NULL),
+  (10,29,NULL,'',NULL,NULL,NULL),
   (10,30,NULL,'103 x 42 x 16',NULL,NULL,NULL);
 
 COMMIT;
@@ -181,6 +240,7 @@ CREATE TABLE `catalogue_catalogue_types_props` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
+  `isShort` tinyint(1) unsigned default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`),
   KEY `property_id` (`property_id`)
@@ -190,73 +250,14 @@ CREATE TABLE `catalogue_catalogue_types_props` (
 # Data for the `catalogue_catalogue_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES 
-  (26,8,12),
-  (24,8,10),
-  (27,8,13),
-  (25,8,11),
-  (28,7,14),
-  (29,7,15),
-  (30,7,16);
-
-COMMIT;
-
-#
-# Structure for the `catalogue_catalogueFolder` table : 
-#
-
-DROP TABLE IF EXISTS `catalogue_catalogueFolder`;
-
-CREATE TABLE `catalogue_catalogueFolder` (
-  `id` int(11) NOT NULL auto_increment,
-  `obj_id` int(11) NOT NULL default '0',
-  `name` char(255) default NULL,
-  `title` char(255) default NULL,
-  `parent` int(11) default '0',
-  `path` char(255) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `catalogue_catalogueFolder` table  (LIMIT 0,500)
-#
-
-INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
-  (1,241,'root','Основной',1,'root'),
-  (10,486,'books','Книги',10,'root/books'),
-  (11,487,'fantazy','Фантастика',11,'root/books/fantazy'),
-  (5,481,'mobile','Телефоны',5,'root/mobile'),
-  (12,488,'tech','Техническая литература',12,'root/books/tech');
-
-COMMIT;
-
-#
-# Structure for the `catalogue_catalogueFolder_tree` table : 
-#
-
-DROP TABLE IF EXISTS `catalogue_catalogueFolder_tree`;
-
-CREATE TABLE `catalogue_catalogueFolder_tree` (
-  `id` int(10) NOT NULL auto_increment,
-  `lkey` int(10) NOT NULL default '0',
-  `rkey` int(10) NOT NULL default '0',
-  `level` int(10) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `left_key` (`lkey`,`rkey`,`level`),
-  KEY `level` (`level`,`lkey`),
-  KEY `rkey` (`rkey`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `catalogue_catalogueFolder_tree` table  (LIMIT 0,500)
-#
-
-INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,10,1),
-  (10,4,9,2),
-  (11,5,6,3),
-  (5,2,3,2),
-  (12,7,8,3);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `isShort`) VALUES 
+  (26,8,12,0),
+  (24,8,10,0),
+  (27,8,13,0),
+  (25,8,11,0),
+  (28,7,14,0),
+  (29,7,15,0),
+  (30,7,16,0);
 
 COMMIT;
 
@@ -315,7 +316,8 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
   (35,470,355),
   (36,471,400),
   (34,469,458),
-  (37,477,330);
+  (37,477,330),
+  (38,504,468);
 
 COMMIT;
 
@@ -347,7 +349,7 @@ INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downlo
   (1,'foobar.txt','q','txt',10,1,1,196),
   (2,'06558db05a7d5148084025676972cbb2','','rec',9,NULL,NULL,201),
   (3,'9f4b4024092fcebfc434401210f71f7d','','rec',9,NULL,NULL,202),
-  (4,'05a131b70aef0e2b9f3e344d6163d311','qwe.rec','rec',9,NULL,1,203),
+  (4,'05a131b70aef0e2b9f3e344d6163d311','qwe.rec','rec',9,3,1,203),
   (5,'5b78dc5c1c2ad6511e3e324845c2eb3c','2rec','',9,NULL,1,204),
   (6,'13810e7f5782973b2dc72030c1c392f0','сы','',18,NULL,1,205),
   (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,2,1,206),
@@ -4140,7 +4142,16 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4860,18,7,233,NULL,1,0,1),
   (4859,20,7,233,NULL,1,0,1),
   (4858,9,7,233,NULL,1,0,1),
-  (4857,9,6,9,NULL,1,0,1);
+  (4857,9,6,9,NULL,1,0,1),
+  (4861,19,11,504,NULL,1,0,0),
+  (4862,5,11,504,NULL,1,1,0),
+  (4863,9,11,504,NULL,1,0,0),
+  (4864,9,11,504,NULL,2,0,0),
+  (4865,19,11,504,NULL,2,1,0),
+  (4866,5,11,504,NULL,2,1,0),
+  (4867,9,11,504,2,NULL,1,0),
+  (4868,19,11,504,2,NULL,0,0),
+  (4869,5,11,504,2,NULL,0,0);
 
 COMMIT;
 
@@ -4457,7 +4468,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (498,12),
   (497,7),
   (502,16),
-  (503,16);
+  (503,16),
+  (504,11);
 
 COMMIT;
 
@@ -5370,7 +5382,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (500),
   (501),
   (502),
-  (503);
+  (503),
+  (504),
+  (505);
 
 COMMIT;
 

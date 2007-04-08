@@ -1,5 +1,5 @@
 {if $type eq 0}
-<div class="jipTitle">Добавление нового элемента - выбор типа создаваемого элемента</div>
+<div class="jipTitle">Добавление нового элемента</div>
 {/if}
 <div id="ajaxGetForm">
 {literal}

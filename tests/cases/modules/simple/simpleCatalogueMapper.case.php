@@ -41,7 +41,7 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->db->query("INSERT INTO `simple_catalogue_properties` (`id`, `name`, `title`, `type_id`) VALUES (1, 'property_1', 'title_1', 1), (2, 'property_2', 'title_2', 1), (3, 'property_3', 'title_3', 1), (4, 'property_4', 'title_4', 2)");
         $this->db->query("INSERT INTO `simple_catalogue_properties_types` (`id`, `name`) VALUES (1, 'char'), (2, 'float')");
         $this->db->query("INSERT INTO `simple_catalogue_types` (`id`, `name`, `title`) VALUES (1, 'type_1', 'type_title_1'), (2, 'type_2', 'type_title_2')");
-        $this->db->query("INSERT INTO `simple_catalogue_types_props` (`id`, `type_id`, `property_id`) VALUES (1, 1, 1), (2, 1, 2), (3, 1, 3), (4, 2, 3), (5, 2, 4)");
+        $this->db->query("INSERT INTO `simple_catalogue_types_props` (`id`, `type_id`, `property_id`, `isShort`) VALUES (1, 1, 1, 0), (2, 1, 2, 1), (3, 1, 3, 1), (4, 2, 3, 0), (5, 2, 4, 1)");
     }
 
     public function setUp()
@@ -92,8 +92,8 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->assertEqual($catalogue->getType(), 1);
         $this->assertEqual($catalogue->getTypeTitle(), 'type_title_1');
 
-        $this->assertEqual($catalogue->getProperty('property_1'), 'foobar');
-        $this->assertEqual($catalogue->getProperty('property_2'), 'baz');
+        $this->assertEqual($catalogue->getPropertyValue('property_1'), 'foobar');
+        $this->assertEqual($catalogue->getPropertyValue('property_2'), 'baz');
 
         $this->assertEqual($catalogue->getPropertyTitle('property_1'), 'title_1');
         $this->assertEqual($catalogue->getPropertyTitle('property_2'), 'title_2');
@@ -103,7 +103,7 @@ class simpleCatalogueMapperTest extends unitTestCase
 
         $catalogue2 = $this->mapper->searchOneByField('id', 2);
         $this->assertEqual($catalogue2->getName(), 'name_2');
-        $this->assertEqual($catalogue2->getProperty('property_4'), 666);
+        $this->assertEqual($catalogue2->getPropertyValue('property_4'), 666);
     }
 
     public function testGetFewObjects()
@@ -113,8 +113,8 @@ class simpleCatalogueMapperTest extends unitTestCase
 
         $objects = $this->mapper->searchAll();
 
-        $this->assertEqual($objects[1]->getProperty('property_1'), 'foobar');
-        $this->assertEqual($objects[2]->getProperty('property_4'), 666);
+        $this->assertEqual($objects[1]->getPropertyValue('property_1'), 'foobar');
+        $this->assertEqual($objects[2]->getPropertyValue('property_4'), 666);
     }
 
     public function testSearchByDynamicProperty()
@@ -126,7 +126,7 @@ class simpleCatalogueMapperTest extends unitTestCase
 
         $this->assertEqual(sizeof($object), 1);
         $this->assertEqual($object[2]->getId(), 2);
-        $this->assertEqual($object[2]->getProperty('property_4'), 666);
+        $this->assertEqual($object[2]->getPropertyValue('property_4'), 666);
     }
 
     public function testSet()
@@ -137,17 +137,17 @@ class simpleCatalogueMapperTest extends unitTestCase
         $catalogue = $this->mapper->searchOneByField('id', 2);
 
         $this->assertEqual($catalogue->getId(), 2);
-        $this->assertEqual($catalogue->getProperty('property_4'), 666);
+        $this->assertEqual($catalogue->getPropertyValue('property_4'), 666);
 
         $catalogue->setProperty('property_4', $new = 12345.6);
         $this->mapper->save($catalogue);
 
-        $this->assertEqual($catalogue->getProperty('property_4'), $new);
+        $this->assertEqual($catalogue->getPropertyValue('property_4'), $new);
 
         $catalogue->setProperty('not_exists_property', 'someval');
         $this->mapper->save($catalogue);
 
-        $this->assertNull($catalogue->getProperty('not_exists_property'));
+        $this->assertNull($catalogue->getPropertyValue('not_exists_property'));
     }
 
     public function testCreate()
@@ -166,8 +166,8 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->assertEqual($catalogue->getType(), $type);
         $this->assertEqual($catalogue->getCreated(), $created);
         $this->assertEqual($catalogue->getEditor(), $editor);
-        $this->assertEqual($catalogue->getProperty('property_3'), $val1);
-        $this->assertEqual($catalogue->getProperty('property_4'), $val2);
+        $this->assertEqual($catalogue->getPropertyValue('property_3'), $val1);
+        $this->assertEqual($catalogue->getPropertyValue('property_4'), $val2);
 
         $res = $this->db->getOne("SELECT COUNT(*) FROM `simple_catalogue_data` WHERE `id` = 3 AND ((`property_type` = 4 AND `char` = 'bar') OR (`property_type` = 5 AND `float` = 123))");
         $this->assertEqual($res, 2);

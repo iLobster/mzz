@@ -29,14 +29,14 @@ class catalogueTypeForm
      * @param array $type массив значений типа
      * @return object сгенерированная форма
      */
-    static function getForm(array $properties, $type = false, $fulltpl = null, $litetpl = null)
+    static function getForm(array $properties, $type = false)
     {
         fileLoader::load('libs/PEAR/HTML/QuickForm');
         fileLoader::load('libs/PEAR/HTML/QuickForm/Renderer/ArraySmarty');
 
         $defaultValues = array();
 
-        $action = ( is_array($type) ) ? 'edit' : 'add';
+        $action = (is_array($type)) ? 'edit' : 'add';
 
         $url = new url('default2');
         $url->setAction('addType');
@@ -49,7 +49,7 @@ class catalogueTypeForm
 
             $defaultValues['name']  = $type['name'];
             $defaultValues['title']  = $type['title'];
-            if(!empty($type['properties'])){
+            if (!empty($type['properties'])) {
                 array_unshift($type['properties'], 0);
                 $defaultValues['properties']  = array_flip($type['properties']);
             }
@@ -63,6 +63,7 @@ class catalogueTypeForm
 
         foreach($properties as $property){
             $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
+            $form->addElement('advcheckbox', 'full['.$property['id'].']', null , null, null,array(0, 1));
         }
 
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');

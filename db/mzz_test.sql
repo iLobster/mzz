@@ -1,4 +1,4 @@
-# SQL Manager 2005 for MySQL 3.7.5.1
+# SQL Manager 2005 for MySQL 3.7.7.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -201,6 +201,7 @@ CREATE TABLE `simple_catalogue_types_props` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
+  `isShort` tinyint(1) unsigned default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -304,30 +305,10 @@ CREATE TABLE `sys_access_registry` (
 #
 
 INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
-  (67,1),
-  (68,1),
-  (69,1),
-  (70,1),
-  (71,1),
-  (72,1),
-  (73,1),
-  (74,1),
-  (75,1),
-  (76,1),
-  (77,1),
-  (78,1),
-  (79,1),
-  (80,1),
-  (81,1),
-  (82,1),
-  (83,1),
-  (84,1),
-  (85,1),
-  (86,1),
-  (87,1),
-  (88,1),
-  (89,1),
-  (90,1);
+  (173,1),
+  (174,1),
+  (1,2),
+  (2,1);
 
 COMMIT;
 
@@ -447,7 +428,8 @@ CREATE TABLE `sys_classes_sections` (
 #
 
 INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,3,1);
+  (1,1,1),
+  (2,2,1);
 
 COMMIT;
 
@@ -473,104 +455,6 @@ CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_obj_id` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_obj_id` (`id`) VALUES 
-  (1),
-  (2),
-  (3),
-  (4),
-  (5),
-  (6),
-  (7),
-  (8),
-  (9),
-  (10),
-  (11),
-  (12),
-  (13),
-  (14),
-  (15),
-  (16),
-  (17),
-  (18),
-  (19),
-  (20),
-  (21),
-  (22),
-  (23),
-  (24),
-  (25),
-  (26),
-  (27),
-  (28),
-  (29),
-  (30),
-  (31),
-  (32),
-  (33),
-  (34),
-  (35),
-  (36),
-  (37),
-  (38),
-  (39),
-  (40),
-  (41),
-  (42),
-  (43),
-  (44),
-  (45),
-  (46),
-  (47),
-  (48),
-  (49),
-  (50),
-  (51),
-  (52),
-  (53),
-  (54),
-  (55),
-  (56),
-  (57),
-  (58),
-  (59),
-  (60),
-  (61),
-  (62),
-  (63),
-  (64),
-  (65),
-  (66),
-  (67),
-  (68),
-  (69),
-  (70),
-  (71),
-  (72),
-  (73),
-  (74),
-  (75),
-  (76),
-  (77),
-  (78),
-  (79),
-  (80),
-  (81),
-  (82),
-  (83),
-  (84),
-  (85),
-  (86),
-  (87),
-  (88),
-  (89),
-  (90);
-
-COMMIT;
 
 #
 # Structure for the `sys_obj_id_named` table : 

@@ -7,8 +7,10 @@
     {include file="catalogue/breadcrumbs.tpl" breadCrumbs=$chains}
     {foreach from=$items item="item"}
         <h3>{$item->getName()}{$item->getJip()}</h3>
-        {foreach from=$item->exportOldProperties() key="property" item="value"}
-            <strong>{$item->getPropertyTitle($property)}:</strong> {$value}<br/>
+        {foreach from=$item->exportOldProperties() key="propertyName" item="property"}
+            {if $property.value ne ''}
+            <strong>{$property.title}:</strong> {$property.value}<br/>
+            {/if}
         {/foreach}
         <br/><br/>
     {/foreach}

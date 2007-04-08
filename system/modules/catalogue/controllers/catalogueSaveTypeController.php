@@ -56,9 +56,15 @@ class catalogueSaveTypeController extends simpleController
         } else {
             $values = $form->exportValues();
             $values['properties'] = (isset($values['properties'])) ? $values['properties'] : array();
+            $values['full'] = (isset($values['full'])) ? $values['full'] : array();
+
+            $properties = array();
+            foreach (array_keys($values['properties']) as $id) {
+                $properties[$id] = $values['full'][$id];
+            }
 
             if($isEdit){
-                $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], array_keys($values['properties']));
+                $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], $properties);
             } else {
                 $catalogueMapper->addType($values['name'], $values['title'], array_keys($values['properties']));
             }
