@@ -93,7 +93,14 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $typeId = $stmt->execute();
 
         if(!empty($properties)){
-            $this->setPropertiesToType($typeId, $properties);
+            $this->setPropertiesToType($typeId, array_keys($properties));
+            foreach ($properties as $id => $isShort) {
+                $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isShort` = :isShort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
+                $stmt->bindParam('type_id', $typeId);
+                $stmt->bindParam('prop_id', $id);
+                $stmt->bindParam('isShort', $isShort);
+                $stmt->execute();
+            }
         }
         return $typeId;
     }
@@ -116,7 +123,6 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
         if(!empty($tmpDelete)){
             $tmpDelete = array_map('intval', $tmpDelete);
-
             $query = 'DELETE `ccd` FROM `' . $this->tableData . '` `ccd`, `' . $this->tableTypesProps . '` `cctp` WHERE `ccd`.`property_type` = `cctp`.`id` AND `cctp`.`type_id` = ' . (int)$typeId . ' AND `cctp`.`property_id` IN (' . implode(', ', $tmpDelete) . ')';
             $this->db->query($query);
             $query = 'DELETE FROM `' . $this->tableTypesProps . '` WHERE `type_id` = ' . (int)$typeId . ' AND `property_id` IN (' . implode(', ', $tmpDelete) . ')';
@@ -125,6 +131,16 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
         if(!empty($tmpInsert)){
             $this->setPropertiesToType($typeId, $tmpInsert);
+        }
+
+        if(!empty($properties)){
+            foreach ($properties as $id => $isShort) {
+                $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isShort` = :isShort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
+                $stmt->bindParam('type_id', $typeId);
+                $stmt->bindParam('prop_id', $id);
+                $stmt->bindParam('isShort', $isShort);
+                $stmt->execute();
+            }
         }
     }
 

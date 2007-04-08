@@ -50,8 +50,18 @@ class catalogueTypeForm
             $defaultValues['name']  = $type['name'];
             $defaultValues['title']  = $type['title'];
             if (!empty($type['properties'])) {
-                array_unshift($type['properties'], 0);
-                $defaultValues['properties']  = array_flip($type['properties']);
+                $tmp = array_keys($type['properties']);
+                array_unshift($tmp, 0);
+                $defaultValues['properties']  = array_flip($tmp);
+
+                $tmp = array();
+                foreach ($type['properties'] as $property) {
+                    if ($property['isShort']) {
+                        $tmp[] = $property['id'];
+                    }
+                }
+                array_unshift($tmp, 0);
+                $defaultValues['full']  = array_flip($tmp);
             }
         }
 
@@ -63,7 +73,7 @@ class catalogueTypeForm
 
         foreach($properties as $property){
             $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
-            $form->addElement('advcheckbox', 'full['.$property['id'].']', null , null, null,array(0, 1));
+            $form->addElement('checkbox', 'full['.$property['id'].']', null, null, /*(!in_array($property['id'], array_keys($defaultValues['properties'])) ? 'disabled' : '')*/);
         }
 
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');

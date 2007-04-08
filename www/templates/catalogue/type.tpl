@@ -3,6 +3,11 @@
 {else}
 {include file='jipTitle.tpl' title='Создание типа'}
 {/if}
+{literal}<script language="javascript">
+function switchChckbox(elem) {
+    var id=
+}
+</script>{/literal}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
 {$form.hidden}
 {$form.javascript}

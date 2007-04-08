@@ -255,8 +255,8 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `
   (24,8,10,0),
   (27,8,13,0),
   (25,8,11,0),
-  (28,7,14,0),
-  (29,7,15,0),
+  (28,7,14,1),
+  (29,7,15,1),
   (30,7,16,0);
 
 COMMIT;
@@ -4699,8 +4699,7 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (17,'file',9),
   (18,'folder',9),
   (19,'catalogue',10),
-  (20,'catalogueFolder',10),
-  (21,'zzaz',10);
+  (20,'catalogueFolder',10);
 
 COMMIT;
 
@@ -4803,7 +4802,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (114,7,20),
   (121,19,20),
   (126,3,4),
-  (127,4,51);
+  (127,4,51),
+  (129,19,3);
 
 COMMIT;
 

@@ -6,9 +6,9 @@
 <div class="catalogueList">
     {include file="catalogue/breadcrumbs.tpl" breadCrumbs=$chains}
     {foreach from=$items item="item"}
-        <h3>{$item->getName()}{$item->getJip()}</h3>
+        <h3><a href="{url route="withId" module="catalogue" action="view" id=$item->getId()}">{$item->getName()}</a>{$item->getJip()}</h3>
         {foreach from=$item->exportOldProperties() key="propertyName" item="property"}
-            {if $property.value ne ''}
+            {if $property.value ne '' AND $property.isShort eq TRUE}
             <strong>{$property.title}:</strong> {$property.value}<br/>
             {/if}
         {/foreach}

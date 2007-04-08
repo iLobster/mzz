@@ -36,7 +36,7 @@ class catalogueSaveTypeController extends simpleController
 
             $type = $catalogueMapper->getType($type_id);
             foreach($catalogueMapper->getProperties($type_id) as $property){
-                $type['properties'][] = $property['id'];
+                $type['properties'][$property['id']] = $property;
             }
 
             $form = catalogueTypeForm::getForm($properties, $type);
@@ -60,13 +60,13 @@ class catalogueSaveTypeController extends simpleController
 
             $properties = array();
             foreach (array_keys($values['properties']) as $id) {
-                $properties[$id] = $values['full'][$id];
+                $properties[$id] = isset($values['full'][$id]) ? 1 : 0;
             }
 
             if($isEdit){
                 $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], $properties);
             } else {
-                $catalogueMapper->addType($values['name'], $values['title'], array_keys($values['properties']));
+                $catalogueMapper->addType($values['name'], $values['title'], $properties);
             }
 
             return jipTools::redirect();
