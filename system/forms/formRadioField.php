@@ -12,20 +12,10 @@
  * @version $Id$
  */
 
-class formCheckboxField extends formElement
+class formRadioField extends formElement
 {
     static public function toString($options = array())
     {
-        $options['type'] = 'checkbox';
-        $value = self::getValue($options['name'], $options['value']);
-
-        if (isset($options['values'])) {
-            $values = explode('|', $options['values']);
-            unset($options['values']);
-        } else {
-            $values = array(0, 1);
-        }
-
         if (isset($options['text'])) {
             $text = $options['text'];
             unset($options['text']);
@@ -35,23 +25,20 @@ class formCheckboxField extends formElement
 
             $options['id'] = $id;
         }
+        $options['type'] = 'radio';
+        $value = $options['value'];
 
-        if (!in_array($value, $values)) {
-            $value = $values[0];
-        }
+        $requestValue = self::getValue($options['name']);
 
-        if ($value == $values[1]) {
+        if ((string)$value === $requestValue) {
             $options['checked'] = true;
+        } elseif ($requestValue !== false) {
+            unset($options['checked']);
         }
-
-        $options['value'] = $values[1];
 
         $checkbox = self::createTag($options);
 
-        $optionsHidden = array('type' => 'hidden', 'name' => $options['name'], 'value' => $values[0]);
-        $hidden = self::createTag($optionsHidden);
-
-        return $hidden . $checkbox . (isset($label) ? $label : '');
+        return $checkbox . (isset($label) ? $label : '');
     }
 }
 

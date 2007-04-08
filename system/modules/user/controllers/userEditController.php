@@ -59,19 +59,21 @@ class userEditController extends simpleController
                     $editedUser->setPassword($values['password']);
                 }
 
-                // добавим созданного пользователя в группу auth
-                $groupMapper = $this->toolkit->getMapper('user', 'group');
-                $group = $groupMapper->searchOneByField('name', 'auth');
+                if ($action == 'create') {
+                    // добавим созданного пользователя в группу auth
+                    $groupMapper = $this->toolkit->getMapper('user', 'group');
+                    $group = $groupMapper->searchOneByField('name', 'auth');
+
+                    $userMapper->save($editedUser);
+
+                    $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
+                    $userGroup = $userGroupMapper->create();
+                    $userGroup->setGroup($group);
+
+                    $editedUser->setGroups(array($userGroup));
+                }
 
                 $userMapper->save($editedUser);
-
-                $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
-                $userGroup = $userGroupMapper->create();
-                $userGroup->setGroup($group);
-
-                $editedUser->setGroups(array($userGroup));
-                $userMapper->save($editedUser);
-
 
                 $view = jipTools::redirect();
             }

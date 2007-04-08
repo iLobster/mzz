@@ -14,29 +14,29 @@
 
 abstract class formElement
 {
-    static public function createTag($name, Array $options = array())
+    static public function createTag(Array $options = array(), $name = 'input')
     {
         if (!$name) {
             return null;
         }
+        $content = isset($options['content']) ? $options['content'] : false;
+        unset($options['content']);
 
-        return '<' . $name . self::optionsToString($options) . ' />';
-    }
-
-    static public function createContentTag($name, $content = '', $options = array())
-    {
-        if (!$name) {
-            return null;
+        $html = '<' . $name . self::optionsToString($options);
+        if ($content !== false) {
+            $html .= '>' . $content . '</' . $name . '>';
+        } else {
+            $html .= ' />';
         }
-
-        return '<' . $name . self::optionsToString($options) . '>' . $content . '</' . $name . '>';
+        $html .= "\r\n";
+        return $html;
     }
 
     static public function optionsToString(Array $options = array())
     {
         $html = '';
 
-        foreach (array('disabled', 'readonly', 'multiple') as $attribute) {
+        foreach (array('disabled', 'readonly', 'multiple', 'checked', 'selected') as $attribute) {
             if (isset($options[$attribute])) {
                 if ($options[$attribute]) {
                     $options[$attribute] = $attribute;
@@ -57,11 +57,8 @@ abstract class formElement
         return preg_replace('/&amp;([a-z]+|(#\d+)|(#x[\da-f]+));/i', '&$1;', htmlspecialchars($value));
     }
 
-    static public function getValue($options)
+    static public function getValue($name, $default = false)
     {
-        $name = $options['name'];
-        $default = isset($options['value']) ? $options['value'] : '';
-
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
         if (!is_null($value = $request->get($name, 'mixed', SC_REQUEST))) {

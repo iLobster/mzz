@@ -16,13 +16,14 @@ class formTextField extends formElement
 {
     static public function toString($options = array())
     {
-        $options['value'] = self::getValue($options);
+        $value = isset($options['value']) ? $options['value'] : '';
+        $options['value'] = self::getValue($options['name'], $value);
 
         if (!isset($options['type'])) {
             $options['type'] = 'text';
         }
 
-        return self::createTag('input', $options);
+        return self::createTag($options);
     }
 }
 

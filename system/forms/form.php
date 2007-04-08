@@ -33,6 +33,18 @@ class form
         fileLoader::load('forms/formCheckboxField');
         return formCheckboxField::toString($params);
     }
+
+    public function radio($params, $smarty)
+    {
+        fileLoader::load('forms/formRadioField');
+        return formRadioField::toString($params);
+    }
+
+    public function select($params, $smarty)
+    {
+        fileLoader::load('forms/formSelectField');
+        return formSelectField::toString($params);
+    }
 }
 
 ?>
