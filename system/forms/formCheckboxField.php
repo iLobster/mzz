@@ -20,10 +20,11 @@ class formCheckboxField extends formElement
         $value = self::getValue($options);
 
         if (!isset($options['values'])) {
-            $options['values'] = '0|1';
+            $values = array(0, 1);
+        } else {
+            $values = explode('|', $options['values']);
+            unset($options['values']);
         }
-        $values = explode('|', $options['values']);
-        unset($options['values']);
 
         if (isset($options['text'])) {
             $text = $options['text'];

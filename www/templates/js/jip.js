@@ -51,14 +51,16 @@ function buildJipLinksEvent(event) {
 
 function buildJipLinks(elm) {
 
-    var elements = (elm) ? document.getElementsByClassName('jipLink', elm) : document.getElementsByClassName('jipLink');
+    var elements = $A((elm || document).getElementsByTagName('a'));
 
     elements.each(function(link) {
-        Event.observe(link, 'click', function(event) {
-          jipWindow.open(link.href);
-          Event.stop(event);
-          return false;
-        });
+        if (/jipLink/.test(link.className)) {
+            Event.observe(link, 'click', function(event) {
+                jipWindow.open(link.href);
+                Event.stop(event);
+                return false;
+            });
+        }
     });
 }
 
