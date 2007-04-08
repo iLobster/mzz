@@ -5,7 +5,9 @@
 {/if}
 {literal}<script language="javascript">
 function switchChckbox(id, self) {
-    $("full[" + id + "]").disabled = !self.checked;
+    var element = $("full[" + id + "]");
+    element.disabled = !self.checked;
+    element.checked = element.disabled && self.checked;
 }
 </script>{/literal}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
