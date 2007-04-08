@@ -72,8 +72,12 @@ class catalogueTypeForm
         $form->addElement('text', 'title', 'Заголовок:', 'size="30"');
 
         foreach($properties as $property){
-            $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title']);
-            $form->addElement('checkbox', 'full['.$property['id'].']', null, null, /*(!in_array($property['id'], array_keys($defaultValues['properties'])) ? 'disabled' : '')*/);
+            $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title'], array('onclick' => 'javascript:switchChckbox(' . $property['id'] . ', this);'));
+            $attributes = array('id' => 'full['.$property['id'].']');
+            if (!in_array($property['id'], array_keys($defaultValues['properties']))) {
+                $attributes['disabled'] = 'true';
+            }
+            $form->addElement('checkbox', 'full['.$property['id'].']', null, null, $attributes);
         }
 
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');

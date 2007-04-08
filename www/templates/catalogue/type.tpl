@@ -4,8 +4,8 @@
 {include file='jipTitle.tpl' title='Создание типа'}
 {/if}
 {literal}<script language="javascript">
-function switchChckbox(elem) {
-    var id=
+function switchChckbox(id, self) {
+    $("full[" + id + "]").disabled = !self.checked;
 }
 </script>{/literal}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
