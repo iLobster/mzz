@@ -25,6 +25,7 @@ class formValidator
     public function add($validator, $name, $errorMsg = '')
     {
         $validatorName = 'form' . ucfirst($validator) . 'Rule';
+        fileLoader::load('forms/validators/' . $validatorName);
         $this->validators[] = new $validatorName($name, $errorMsg);
     }
 

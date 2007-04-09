@@ -12,7 +12,8 @@
  * @version $Id$
  */
 
-fileLoader::load('news/forms/newsSaveForm');
+//fileLoader::load('news/forms/newsSaveForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * newsSaveController: контроллер для метода save модуля news
@@ -42,15 +43,24 @@ class newsSaveController extends simpleController
         $isEdit = ($action == 'edit');
 
         if (!empty($news) || (!$isEdit && isset($newsFolder) && !is_null($newsFolder))) {
-            $form = newsSaveForm::getForm($news, $this->request->getSection(), $action, $newsFolder, $isEdit);
+            //$form = newsSaveForm::getForm($news, $this->request->getSection(), $action, $newsFolder, $isEdit);
+            $validator = new formValidator();
+            $validator->add('required', 'title','Необходимо назвать новость');
 
-            if ($form->validate() == false) {
-                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-                $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
-                $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
-                $form->accept($renderer);
+            if (!$validator->validate()) {
+                $url = new url('withAnyParam');
+                $url->setSection($this->request->getSection());
+                $url->setAction($action);
+                $url->addParam('name', $isEdit ? $news->getId() : $newsFolder->getPath());
+                $this->smarty->assign('action', $url->get());
+                $this->smarty->assign('errors', $validator->getErrors()->export());
 
-                $this->smarty->assign('form', $renderer->toArray());
+                //$renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
+                //$renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
+                //$renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
+                //$form->accept($renderer);
+
+                //$this->smarty->assign('form', $renderer->toArray());
                 $this->smarty->assign('news', $news);
                 $this->smarty->assign('isEdit', $isEdit);
 
@@ -59,24 +69,28 @@ class newsSaveController extends simpleController
 
                 return $this->smarty->fetch('news/save.tpl');
             } else {
-                $values = $form->exportValues();
+                //$values = $form->exportValues();
+                $title = $this->request->get('title', 'string', SC_POST);
+                $annotation = $this->request->get('annotation', 'string', SC_POST);
+                $text = $this->request->get('text', 'string', SC_POST);
+
                 $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
                 $folder = $newsFolderMapper->searchByPath($this->request->get('name', 'string', SC_PATH));
 
                 if (!$isEdit) {
                     $news = $newsMapper->create();
                     $news->setFolder($folder->getId());
-                    $date = explode(' ', $values['created']);
+                    /*$date = explode(' ', $values['created']);
                     $time = explode(':', $date[0]);
                     $date = explode('/', $date[1]);
                     $created = mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
-                    $news->setCreated($created);
+                    $news->setCreated($created);*/
                 }
 
-                $news->setTitle($values['title']);
+                $news->setTitle($title);
                 $news->setEditor($user);
-                $news->setText($values['text']);
-                $news->setAnnotation($values['annotation']);
+                $news->setText($text);
+                $news->setAnnotation($annotation);
                 $newsMapper->save($news);
 
                 return jipTools::redirect();

@@ -7,11 +7,11 @@ Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":
 </script>{/literal}
 {/if}
 
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
+<form action={$action} method="post" onsubmit="return mzzAjax.sendForm(this);">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>
-        <td style='width: 20%;'>{$form.title.label}</td>
-        <td style='width: 80%;'>{$form.title.html}</td>
+        <td style='width: 20%;'>Название</td>
+        <td style='width: 80%;'>{form->text name="title" value=$news->getTitle() size="60"}{if not empty($errors.title)}{$errors.title}{/if}</td>
     </tr>
     {if !$isEdit}
     <tr>
@@ -20,16 +20,16 @@ Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":
     </tr>
     {/if}
     <tr>
-        <td style='vertical-align: top;'>{$form.annotation.label}</td>
-        <td>{$form.annotation.html}</td>
+        <td style='vertical-align: top;'>Аннотация</td>
+        <td>{form->textarea name="annotation" value=$news->getAnnotation() rows="4" cols="50"}</td>
     </tr>
     <tr>
-        <td style='vertical-align: top;'>{$form.text.label}</td>
-        <td>{$form.text.html}</td>
+        <td style='vertical-align: top;'>Текст</td>
+        <td>{form->textarea name="text" value=$news->getText() rows="7" cols="50"}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td>{$form.submit.html} {$form.reset.html}</td>
+        <td>{form->submit name="submit" value="Сохранить"} {form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
     </tr>
 </table>
 </form>

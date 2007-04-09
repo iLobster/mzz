@@ -28,6 +28,12 @@ class form
         return $this->text($params, $smarty);
     }
 
+    public function reset($params, $smarty)
+    {
+        $params['type'] = 'reset';
+        return $this->text($params, $smarty);
+    }
+
     public function checkbox($params, $smarty)
     {
         fileLoader::load('forms/formCheckboxField');
@@ -44,6 +50,12 @@ class form
     {
         fileLoader::load('forms/formSelectField');
         return formSelectField::toString($params);
+    }
+
+    public function textarea($params, $smarty)
+    {
+        fileLoader::load('forms/formTextareaField');
+        return formTextareaField::toString($params);
     }
 }
 
