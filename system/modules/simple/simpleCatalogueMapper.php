@@ -76,7 +76,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function getProperties($id)
     {
-        $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isShort` FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id';
+        $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isShort`, `tp`.`sort` FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam('type_id', $id);
         $stmt->execute();
@@ -189,11 +189,12 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     private function updatePropertiesSelection($typeId, Array $properties)
     {
-        foreach ($properties as $id => $isShort) {
-            $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isShort` = :isShort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
+        foreach ($properties as $id => $values) {
+            $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isShort` = :isShort, `sort` = :sort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
             $stmt->bindParam('type_id', $typeId);
             $stmt->bindParam('prop_id', $id);
-            $stmt->bindParam('isShort', $isShort);
+            $stmt->bindParam('sort', $values['sort']);
+            $stmt->bindParam('isShort', $values['isShort']);
             $stmt->execute();
         }
     }
@@ -272,10 +273,11 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties_needed->setDistinct();
         $properties_needed->clearSelectFields()->addSelectField($this->className . '.' . $this->tableKey);
         $properties->addJoin($properties_needed, new criterion('x.' . $this->tableKey, $this->className . '.' . $this->tableKey, criteria::EQUAL, true), 'x', criteria::JOIN_INNER);
-
+        $properties->setOrderByFieldAsc('tp.sort');
         $properties->clearLimit()->clearOffset();
 
         $select = new simpleSelect($properties);
+
         $stmt = $this->db->query($select->toString());
 
         while ($row = $stmt->fetch()) {

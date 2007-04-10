@@ -201,6 +201,7 @@ CREATE TABLE `simple_catalogue_types_props` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
+  `sort` int(11) NOT NULL default '0',
   `isShort` tinyint(1) unsigned default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`)
@@ -308,7 +309,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (173,1),
   (174,1),
   (1,2),
-  (2,1);
+  (2,1),
+  (3,1),
+  (4,1);
 
 COMMIT;
 

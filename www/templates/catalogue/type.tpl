@@ -8,6 +8,9 @@ function switchChckbox(id, self) {
     var element = $("full[" + id + "]");
     element.disabled = !self.checked;
     element.checked = element.disabled && self.checked;
+    
+    var element = $("sort[" + id + "]");
+    element.disabled = !self.checked;
 }
 </script>{/literal}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
@@ -30,11 +33,13 @@ function switchChckbox(id, self) {
         {if $smarty.foreach.propertyIterator.first}
             <tr>
                 <td><strong>Параметр:</strong></td>
+                <td><strong>Сортировка:</strong></td>
                 <td><strong>Для краткого:</strong></td>
             </tr>
         {/if}
             <tr>
                 <td>{$property.html}</td>
+                <td>{$form.sort.$id.html}</td>
                 <td>{$form.full.$id.html}</td>
             </tr>
         {foreachelse}

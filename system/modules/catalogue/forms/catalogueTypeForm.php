@@ -55,13 +55,16 @@ class catalogueTypeForm
                 $defaultValues['properties']  = array_flip($tmp);
 
                 $tmp = array();
+                $tmp2 = array();
                 foreach ($type['properties'] as $property) {
+                    $tmp2[$property['id']] = $property['sort'];
                     if ($property['isShort']) {
                         $tmp[] = $property['id'];
                     }
                 }
                 array_unshift($tmp, 0);
                 $defaultValues['full']  = array_flip($tmp);
+                $defaultValues['sort']  = $tmp2;
             }
         }
 
@@ -73,12 +76,15 @@ class catalogueTypeForm
 
         foreach($properties as $property){
             $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title'], array('onclick' => 'javascript:switchChckbox(' . $property['id'] . ', this);'));
-            $attributes = array('id' => 'full['.$property['id'].']');
+            $checkBoxAttributes = array('id' => 'full['.$property['id'].']');
+            $sortTextAtributes = array('id' => 'sort['.$property['id'].']', 'size' => 3, 'maxlength' => 999);
 
             if ((isset($defaultValues['properties']) && !in_array($property['id'], array_keys($defaultValues['properties']))) or $action == 'add') {
-                $attributes['disabled'] = 'true';
+                $checkBoxAttributes['disabled'] = 'true';
+                $sortTextAtributes['disabled'] = 'true';
             }
-            $form->addElement('checkbox', 'full['.$property['id'].']', null, null, $attributes);
+            $form->addElement('checkbox', 'full['.$property['id'].']', null, null, $checkBoxAttributes);
+            $form->addElement('text', 'sort['.$property['id'].']', null, $sortTextAtributes);
         }
 
         $form->addElement('reset', 'reset', 'Отмена','onclick=\'javascript: jipWindow.close();\'');

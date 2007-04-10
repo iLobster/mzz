@@ -56,11 +56,11 @@ class catalogueSaveTypeController extends simpleController
         } else {
             $values = $form->exportValues();
             $values['properties'] = (isset($values['properties'])) ? $values['properties'] : array();
-            $values['full'] = (isset($values['full'])) ? $values['full'] : array();
 
             $properties = array();
             foreach (array_keys($values['properties']) as $id) {
-                $properties[$id] = isset($values['full'][$id]) ? 1 : 0;
+                $properties[$id]['isShort'] = isset($values['full'][$id]) ? 1 : 0;
+                $properties[$id]['sort'] = isset($values['sort'][$id]) ? $values['sort'][$id] : 0;
             }
 
             if($isEdit){

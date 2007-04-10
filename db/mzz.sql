@@ -240,6 +240,7 @@ CREATE TABLE `catalogue_catalogue_types_props` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
+  `sort` int(11) unsigned default '0',
   `isShort` tinyint(1) unsigned default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`),
@@ -250,14 +251,14 @@ CREATE TABLE `catalogue_catalogue_types_props` (
 # Data for the `catalogue_catalogue_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `isShort`) VALUES 
-  (26,8,12,0),
-  (24,8,10,0),
-  (27,8,13,0),
-  (25,8,11,0),
-  (28,7,14,1),
-  (29,7,15,1),
-  (30,7,16,0);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `sort`, `isShort`) VALUES 
+  (26,8,12,1,1),
+  (24,8,10,2,1),
+  (27,8,13,4,1),
+  (25,8,11,5,0),
+  (28,7,14,2,1),
+  (29,7,15,1,1),
+  (30,7,16,6,0);
 
 COMMIT;
 
