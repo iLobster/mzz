@@ -56,7 +56,6 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 $this->tmptypes[$type['id']] = $type;
             }
         }
-
         return $this->tmptypes;
     }
 
@@ -94,13 +93,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
         if(!empty($properties)){
             $this->setPropertiesToType($typeId, array_keys($properties));
-            foreach ($properties as $id => $isShort) {
-                $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isShort` = :isShort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
-                $stmt->bindParam('type_id', $typeId);
-                $stmt->bindParam('prop_id', $id);
-                $stmt->bindParam('isShort', $isShort);
-                $stmt->execute();
-            }
+            $this->updatePropertiesSelection($typeId, $properties);
         }
         return $typeId;
     }
@@ -134,13 +127,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         }
 
         if(!empty($properties)){
-            foreach ($properties as $id => $isShort) {
-                $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isShort` = :isShort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
-                $stmt->bindParam('type_id', $typeId);
-                $stmt->bindParam('prop_id', $id);
-                $stmt->bindParam('isShort', $isShort);
-                $stmt->execute();
-            }
+            $this->updatePropertiesSelection($typeId, $properties);
         }
     }
 
@@ -198,6 +185,17 @@ abstract class simpleCatalogueMapper extends simpleMapper
         }
         $query = substr($query, 0, -2);
         $this->db->query($query);
+    }
+
+    private function updatePropertiesSelection($typeId, Array $properties)
+    {
+        foreach ($properties as $id => $isShort) {
+            $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isShort` = :isShort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
+            $stmt->bindParam('type_id', $typeId);
+            $stmt->bindParam('prop_id', $id);
+            $stmt->bindParam('isShort', $isShort);
+            $stmt->execute();
+        }
     }
 
     protected function count($criteria)
