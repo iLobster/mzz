@@ -1,5 +1,5 @@
 {if $isEdit}
-<div class="jipTitle">Редактирование новости ID: {$news->getId()} ({$news->getTitle()|substr:0:25}...)</div>
+<div class="jipTitle">Редактирование новости ID: {$news->getId()} ({$news->getTitle()|htmlspecialchars|substr:0:25}...)</div>
 {else}
 <div class="jipTitle">Создание новости</div>
 {literal}<script type="text/javascript">

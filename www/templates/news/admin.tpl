@@ -30,7 +30,7 @@
         {foreach from=$newsFolder->getFolders(1) item=current_folder name=folders}
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=$current_section module_name=news}">{$current_folder->getTitle()}</a></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=$current_section module_name=news}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
                 <td>-</td>
                 <td>{$current_folder->getJip()}</td>
             </tr>
@@ -39,7 +39,7 @@
         {foreach from=$news item=current_news}
             <tr align="center">
                 <td style="width: 30px; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" alt="" title="Автор: {$current_news->getEditor()->getLogin()}" /></td>
-                <td style="text-align: left;">{$current_news->getTitle()}</td>
+                <td style="text-align: left;">{$current_news->getTitle()|htmlspecialchars}</td>
                 <td>{$current_news->getUpdated()|date_format:"%d/%m/%Y %H:%M"}</td>
                 <td>{$current_news->getJip()}</td>
             </tr>

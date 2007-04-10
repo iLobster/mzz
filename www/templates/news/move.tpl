@@ -1,5 +1,5 @@
-{assign var="path" value=$news->getFolder()->getPath()}
-{assign var="name" value=$news->getTitle()}
+{assign var="path" value=$news->getFolder()->getPath()|htmlspecialchars}
+{assign var="name" value=$news->getTitle()|htmlspecialchars}
 {include file='jipTitle.tpl' title="Перемещение новости '$name' из каталога '$path'"}
 <form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
     <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
