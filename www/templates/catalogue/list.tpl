@@ -1,5 +1,5 @@
 {assign var="catalogueFolderName" value=$catalogueFolder->getTitle()}
-{title append="Каталог :: $catalogueFolderName"}
+{title append="Каталог"}
 {add file="catalogue.css"}
 {include file="catalogue/tree.tpl" source=$catalogueFolder}
 

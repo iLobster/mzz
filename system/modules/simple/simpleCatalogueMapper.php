@@ -31,7 +31,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     private $tableTypesProps = '';
 
     private $tmpPropsData = array();
-    private $tmpServiceData = array();
+    private $tmpPropsTypes = array();
 
     private $tmptypes = array();
 
@@ -192,9 +192,9 @@ abstract class simpleCatalogueMapper extends simpleMapper
         foreach ($properties as $id => $values) {
             $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isShort` = :isShort, `sort` = :sort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
             $stmt->bindParam('type_id', $typeId);
-            $stmt->bindParam('prop_id', $id);
-            $stmt->bindParam('sort', $values['sort']);
-            $stmt->bindParam('isShort', $values['isShort']);
+            $stmt->bindParam('prop_id', $id, PDO::PARAM_INT);
+            $stmt->bindParam('sort', $values['sort'], PDO::PARAM_INT);
+            $stmt->bindParam('isShort', $values['isShort'], PDO::PARAM_INT);
             $stmt->execute();
         }
     }
@@ -228,7 +228,10 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     private function getPropertyTypeByTypeprop($id)
     {
-        return $this->db->getOne($qry = 'SELECT `t`.`name` FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `tp`.`property_id` = `p`.`id` INNER JOIN `' . $this->tablePropertiesTypes .'` `t` ON `t`.`id` = `p`.`type_id` WHERE `tp`.`id` = ' . (int)$id);
+        if (!isset($this->tmpPropsTypes[$id])) {
+            $this->tmpPropsTypes[$id] = $this->db->getOne($qry = 'SELECT `t`.`name` FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `tp`.`property_id` = `p`.`id` INNER JOIN `' . $this->tablePropertiesTypes .'` `t` ON `t`.`id` = `p`.`type_id` WHERE `tp`.`id` = ' . (int)$id);
+        }
+        return $this->tmpPropsTypes[$id];
     }
 
     protected function searchByCriteria(criteria $criteria)
@@ -266,14 +269,13 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties->clearSelectFields();
         $properties->clearGroupBy();
         $properties->addSelectField('d.*')->addSelectField($this->className . '.id', 'id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('tp.isShort');
-        $properties->setOrderByFieldAsc('id');
+        $properties->setOrderByFieldAsc('tp.sort');
 
         // критерий для подзапроса, с помощью которого будут выбираться данные только для необходимых объектов
         $properties_needed = clone $properties;
         $properties_needed->setDistinct();
         $properties_needed->clearSelectFields()->addSelectField($this->className . '.' . $this->tableKey);
         $properties->addJoin($properties_needed, new criterion('x.' . $this->tableKey, $this->className . '.' . $this->tableKey, criteria::EQUAL, true), 'x', criteria::JOIN_INNER);
-        $properties->setOrderByFieldAsc('tp.sort');
         $properties->clearLimit()->clearOffset();
 
         $select = new simpleSelect($properties);

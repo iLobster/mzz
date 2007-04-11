@@ -1,6 +1,7 @@
 <div class="breadcrumbs">
  <span class="breadcrumbsItems">
  {foreach from=$breadCrumbs item="crumb" name="crumb"}
+    {if !$smarty.foreach.crumb.first}{title append=$crumb->getTitle()}{/if}
     {if $smarty.foreach.crumb.last}
         <strong>{$crumb->getTitle()}</strong>{$crumb->getJip()}
     {else}
