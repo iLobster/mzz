@@ -306,7 +306,9 @@ class httpRequest implements iRequest
      */
     public function getRequestUrl()
     {
-        return $this->getUrl() . '/' . $this->getPath();
+        $get = $this->getVars->export();
+        unset($get['path']);
+        return $this->getUrl() . '/' . $this->getPath() . (sizeof($get) ? '?' . http_build_query($get) : '');
     }
 
     /**

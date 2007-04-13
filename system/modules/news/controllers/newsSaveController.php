@@ -53,7 +53,7 @@ class newsSaveController extends simpleController
                 $url->setAction($action);
                 $url->addParam('name', $isEdit ? $news->getId() : $newsFolder->getPath());
                 $this->smarty->assign('action', $url->get());
-                $this->smarty->assign('errors', $validator->getErrors()->export());
+                $this->smarty->assign('errors', $validator->getErrors());
 
                 //$renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
                 //$renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');

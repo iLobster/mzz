@@ -32,10 +32,8 @@ class httpRequestTest extends unitTestCase
         $_POST['_TEST_ARRAY_INT'][0] = $this->integer;
         $_GET['_TEST_INTEGER'] = $this->integer;
 
-
+        unset($_GET['group']);
         $this->httprequest = new httpRequest();
-
-
     }
 
     public function tearDown()
@@ -141,7 +139,7 @@ class httpRequestTest extends unitTestCase
         $_SERVER['HTTPS'] = false;
         $_SERVER['SERVER_PORT'] = '80';
         $_SERVER['HTTP_HOST'] = 'www.mzz.ru';
-        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru/news/%F0%F3%F1%F1%EA%E8%E9/18/10/2005/list');
+        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru/news/%F0%F3%F1%F1%EA%E8%E9/18/10/2005/list?_TEST_INTEGER=2006');
     }
 
 

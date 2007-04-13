@@ -25,6 +25,9 @@ class form
     public function submit($params, $smarty)
     {
         $params['type'] = 'submit';
+        if (!isset($params['name'])) {
+            throw new mzzRuntimeException('Элементу типа submit обязательно нужно указывать имя');
+        }
         return $this->text($params, $smarty);
     }
 

@@ -20,8 +20,15 @@ class formValidatorTest extends UnitTestCase
         $this->request->restore();
     }
 
+    public function testNotValidateWithNoSubmit()
+    {
+        $validator = new formValidator();
+        $this->assertFalse($validator->validate());
+    }
+
     public function testValidate()
     {
+        $_POST['submit'] = 'submit';
         $_POST['data'] = 'value';
         $_POST['data2'] = 'value';
         $_POST['data3'] = 'value';
@@ -35,6 +42,7 @@ class formValidatorTest extends UnitTestCase
 
     public function testValidateError()
     {
+        $_POST['submit'] = 'submit';
         $_POST['data'] = 'value';
         $this->request->refresh();
 
