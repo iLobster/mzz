@@ -77,7 +77,7 @@ class catalogueTypeForm
         foreach($properties as $property){
             $form->addElement('checkbox', 'properties['.$property['id'].']', null , $property['title'], array('onclick' => 'javascript:switchChckbox(' . $property['id'] . ', this);'));
             $checkBoxAttributes = array('id' => 'full['.$property['id'].']');
-            $sortTextAtributes = array('id' => 'sort['.$property['id'].']', 'size' => 3, 'maxlength' => 999);
+            $sortTextAtributes = array('id' => 'sort['.$property['id'].']', 'size' => 3, 'maxlength' => 4);
 
             if ((isset($defaultValues['properties']) && !in_array($property['id'], array_keys($defaultValues['properties']))) or $action == 'add') {
                 $checkBoxAttributes['disabled'] = 'true';

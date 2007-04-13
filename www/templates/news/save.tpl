@@ -7,7 +7,7 @@
     </script>{/literal}
 {/if}
 
-<form action={$action} method="post" onsubmit="return mzzAjax.sendForm(this);">
+<form action="{$action}" method="post" onsubmit="return mzzAjax.sendForm(this);">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td style='width: 20%;'>Название</td>
@@ -15,8 +15,8 @@
         </tr>
         {if !$isEdit}
             <tr>
-                <td>{$form.created.label}</td>
-                <td>{$form.created.html} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button></td>
+                <td>Дата создания:</td>
+                <td>{form->text name="created" size="20" id="calendar-field-created" value=$smarty.now|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button>{$errors->get('created')}</td>
             </tr>
         {/if}
         <tr>

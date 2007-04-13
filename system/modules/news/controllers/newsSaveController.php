@@ -38,14 +38,19 @@ class newsSaveController extends simpleController
             $newsFolder = $newsFolderMapper->searchByPath($path);
         }
 
-        $news = $newsMapper->searchById($id);
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
+        $news = ($isEdit) ? $newsMapper->searchById($id) : $newsMapper->create();
 
         if (!empty($news) || (!$isEdit && isset($newsFolder) && !is_null($newsFolder))) {
             //$form = newsSaveForm::getForm($news, $this->request->getSection(), $action, $newsFolder, $isEdit);
             $validator = new formValidator();
-            $validator->add('required', 'title','Необходимо назвать новость');
+            $validator->add('required', 'title', 'Необходимо назвать новость');
+
+            if (!$isEdit) {
+                $validator->add('required', 'created', 'Необходимо указать дату');
+                $validator->add('regex', 'created', 'Правильный формат даты: чч:м:с д/м/г ', '#^([01][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])\s(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])[/](19|20)\d{2}$#');
+            }
 
             if (!$validator->validate()) {
                 $url = new url('withAnyParam');
