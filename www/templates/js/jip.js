@@ -189,8 +189,9 @@ mzzAjax.prototype = {
         }
 
         element.update(element.innerHTML + tmp);
-        if (document.getElementsByClassName('jipTitle').length > 0) {
-            var jipTitle = document.getElementsByClassName('jipTitle').last();
+        var jipTitles = document.getElementsByClassName('jipTitle');
+        if (jipTitles.length > 0) {
+            var jipTitle = jipTitles.last();
             var jipMoveDiv = document.createElement('div');
             jipMoveDiv.id = 'jip-' + jipTitle.parentNode.id;
             jipMoveDiv.setAttribute('title', 'Переместить');
@@ -523,7 +524,8 @@ jipWindow.prototype = {
 
   lockClick: function(event) {
     Event.stopObserving(this.locker, "click", this.eventLockClick);
-    new Effect.HighlightBorder(this.jip, {
+
+    new Effect.Highlight(this.jip.getElementsByClassName('jipTitle').last(), {
         "afterFinish": function () {
             Event.observe(jipWindow.locker, "click", jipWindow.eventLockClick);
         }
@@ -536,6 +538,7 @@ var jipWindow = new jipWindow;
 //--------------------------------
 //  Menu for JIP actions
 // -------------------------------
+
 jipMenu = Class.create();
 jipMenu.prototype = {
   initialize: function() {
@@ -553,22 +556,101 @@ jipMenu.prototype = {
     }
   },
 
-  show: function(button, id) {
-      var jip_menu = $('jip_menu_' + id);
-      if (jip_menu.getStyle('display') == 'none') {
+  show: function(button, menuId, items) {
+
+
+
+
+
+
+
+
+
+
+id = 'jip_menu_' + menuId;
+
+
+if($(id) == null) {
+
+    if (this.current.menu != false && this.current.button != false) {
+        this.close($(this.current.menu), this.current.button);
+    }
+
+
+var jipMenuDOM = document.createElement('div');
+jipMenuDOM.id = id;
+$(jipMenuDOM).addClassName('jipMenu');
+var jipMenuTable = $(document.createElement('table')).addClassName('jipItems');
+jipMenuTable.cellPadding = 3;
+jipMenuTable.cellSpacing = 0;
+
+
+var jipMenuTbody = document.createElement('tbody');
+$A(items).each(function (elm, i) {
+    var jipMenuTableTR = document.createElement('TR');
+    jipMenuTableTR.onclick = function () { /*jipMenu.show(button, menuId);*/ jipMenu.close($(jipMenu.current.menu)); return jipWindow.open(elm[1]); }
+
+    jipMenuTableTR.onmouseout =  function (event) { jipMenuTableTR.cells[1].className = 'jipItemText'; };
+    jipMenuTableTR.onmouseover = function (event) { jipMenuTableTR.cells[1].className = 'jipItemTextActive'; };
+
+    var jipMenuTdTitle = document.createElement('td');
+    jipMenuTdTitle.className = "jipItemText";
+
+    var jipMenuItemTitle = document.createTextNode(elm[0]);
+    jipMenuTdTitle.appendChild(jipMenuItemTitle);
+
+    var jipMenuTdIcon = document.createElement('td');
+    jipMenuTdIcon.className = "jipItemIcon";
+
+    var jipMenuItemImg = document.createElement('img');
+    jipMenuItemImg.src = elm[2];
+    jipMenuItemImg.height= 16;
+    jipMenuItemImg.width= 16;
+
+    var jipMenuItemA = document.createElement('a');
+    jipMenuItemA.href = elm[1];
+    jipMenuItemA.oclick = false;
+    jipMenuItemA.appendChild(jipMenuItemImg);
+    jipMenuTdIcon.appendChild(jipMenuItemA);
+    jipMenuTableTR.appendChild(jipMenuTdIcon);
+    jipMenuTableTR.appendChild(jipMenuTdTitle);
+    jipMenuTbody.appendChild(jipMenuTableTR);
+});
+
+
+
+
+jipMenuTable.appendChild(jipMenuTbody);
+jipMenuDOM.appendChild(jipMenuTable);
+
+
+var parentDiv = button.parentNode;
+
+parentDiv.insertBefore(jipMenuDOM, button);
+
+
+
+
+
+
+
           this.jipButton = button;
-          this.open(jip_menu);
-          this.current.menu = 'jip_menu_' + id;
+    this.jipMenu = jipMenuDOM;
+          this.open(jipMenuDOM);
+          this.current.menu = id;
           this.current.button = button;
-          Event.observe(jip_menu, "mouseout", this.eventMouseOut);
-          Event.observe(jip_menu, "mouseover", this.eventMouseIn);
+          Event.observe(jipMenuDOM, "mouseout", this.eventMouseOut);
+          Event.observe(jipMenuDOM, "mouseover", this.eventMouseIn);
           Event.observe(document, "keypress", this.eventKeypress);
           this.mouseOut();
-      } else {
-          Event.stopObserving(jip_menu, "mouseout", this.eventMouseOut);
-          Event.stopObserving(jip_menu, "mouseover", this.eventMouseIn);
-          this.close(jip_menu);
-      }
+
+
+} else {
+          this.close($(id));
+}
+
+
+
   },
 
   mouseIn: function() {
@@ -577,7 +659,7 @@ jipMenu.prototype = {
     }
   },
 
-  mouseOut: function() {
+  mouseOut: function() { 
     if (this.layertimer) {
           this.mouseIn();
     }
@@ -587,11 +669,15 @@ jipMenu.prototype = {
   },
 
   close: function(jip_menu) {
+    Event.stopObserving(jip_menu, "mouseout", this.eventMouseOut);
+    Event.stopObserving(jip_menu, "mouseover", this.eventMouseIn);
     Event.stopObserving(document, "keypress", this.eventKeypress);
     jip_menu.setStyle({display: 'none'});
     this.current.button.src = SITE_PATH + '/templates/images/jip.gif';
     this.mouseIn();
     this.current = {"menu": false, "button": false};
+    this.jipMenu.parentNode.removeChild(this.jipMenu);
+    this.jipButton = false;
   },
 
   open: function(jip_menu) {
@@ -603,13 +689,9 @@ jipMenu.prototype = {
       display: 'block'
     });
 
-    if (this.current.menu != false && this.current.button != false) {
-        this.close($(this.current.menu), this.current.button);
-    }
-
     var body = (jip_win && jip_win.getStyle('display') == 'block') ? jip_win : document.documentElement;
 
-    var size = Element.getDimensions(jip_menu);
+    var size = Element.getDimensions(jip_menu); 
     var buttonSize = Element.getDimensions(this.jipButton);
 
     var pos = Position.positionedOffset(this.jipButton);
@@ -699,8 +781,9 @@ Draggable.prototype = {
   endDrag: function(event) {
     if(this.active) {
       var cookiePath = (SITE_PATH == '') ? '/' : SITE_PATH;
-      Cookie.set('jip_window_top', new Number(this.offsetTop) - new Number(document.documentElement.scrollTop), new Date(new Date().getTime() + 50000000000), cookiePath);
-      Cookie.set('jip_window_left', this.offsetLeft, new Date(new Date().getTime() + 50000000000), cookiePath);
+      var cookieLifeTime = new Date(new Date().getTime() + 50000000000);
+      Cookie.set('jip_window_top', new Number(this.offsetTop) - new Number(document.documentElement.scrollTop), cookieLifeTime, cookiePath);
+      Cookie.set('jip_window_left', this.offsetLeft, cookieLifeTime, cookiePath);
       jipWindow.lockContent();
       this.finishDrag(event, true);
       Event.stop(event);
@@ -734,29 +817,3 @@ Draggable.prototype = {
     this.eventY = Event.pointerY(event);
   }
 }
-
-Effect.HighlightBorder = Class.create();
-Object.extend(Object.extend(Effect.HighlightBorder.prototype, Effect.Base.prototype), {
-  initialize: function(element) {
-    this.element = $(element);
-    if(!this.element) throw(Effect._elementDoesNotExistError);
-    var options = Object.extend({ startcolor: '#000000' }, arguments[1] || {});
-    this.start(options);
-  },
-  setup: function() {
-    if(this.element.getStyle('display')=='none') { this.cancel(); return; }
-    if(!this.options.endcolor)
-      this.options.endcolor = this.element.getStyle('border-color').parseColor('#999999');
-    if(!this.options.restorecolor)
-      this.options.restorecolor = this.element.getStyle('border-color');
-    this._base  = $R(0,2).map(function(i){ return parseInt(this.options.startcolor.slice(i*2+1,i*2+3),16) }.bind(this));
-    this._delta = $R(0,2).map(function(i){ return parseInt(this.options.endcolor.slice(i*2+1,i*2+3),16)-this._base[i] }.bind(this));
-  },
-  update: function(position) {
-    this.element.setStyle({borderColor: $R(0,2).inject('#',function(m,v,i){
-      return m+(Math.round(this._base[i]+(this._delta[i]*position)).toColorPart()); }.bind(this)) });
-  },
-  finish: function() {
-    this.element.setStyle({borderColor: this.options.restorecolor});
-  }
-});
