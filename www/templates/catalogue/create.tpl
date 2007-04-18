@@ -1,13 +1,10 @@
+{if $type === null}<div class="jipTitle">Добавление нового элемента</div>{/if}
 <div id="ajaxGetForm">
-<div class="jipTitle">Добавление нового элемента</div>
-{literal}
-<script language="javascript">
+{literal}<script language="javascript">
 function loadForm(id)
-{
-{/literal}
+{{/literal}
     var folderPath = '{$folder->getPath()}';
-    var url = '{url route="withAnyParam" section="catalogue" name="' + folderPath + '" action="create"}';
-{literal}
+    var url = '{url route="withAnyParam" section="catalogue" name="' + folderPath + '" action="create"}';{literal}
     new Ajax.Request(url,
     {
         method:'get',
@@ -21,8 +18,8 @@ function loadForm(id)
             function(){ alert('Something went wrong...') }
     });
 }
-</script>
-{/literal}
+</script>{/literal}
+{$type}
 <form action="{$action}" method="post" onsubmit="return mzzAjax.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="50%">
         <tr>

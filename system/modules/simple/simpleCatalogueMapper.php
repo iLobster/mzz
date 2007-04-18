@@ -76,7 +76,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function getProperties($id)
     {
-        $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isShort`, `tp`.`sort`, "" as value FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id';
+        $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isShort`, `tp`.`sort`, NULL as value FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id';
         $stmt = $this->db->prepare($query);
         $stmt->bindParam('type_id', $id);
         $stmt->execute();
