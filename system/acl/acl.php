@@ -686,7 +686,9 @@ class acl
             }
 
             $actionsToDelete[] = $this->validActions[$this->class][$key];
+            if ($allow || $deny) {
             $inserts .= '(' . $this->validActions[$this->class][$key] . ', ' . $class_section_id . ', 0, ' . $gid . ', ' . $allow . ', ' . $deny . '), ';
+            }
         }
 
         // удаляем старые действия
