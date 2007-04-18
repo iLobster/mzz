@@ -16,7 +16,7 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1.10
+ * @version 0.1.11
  */
 class acl
 {
@@ -187,10 +187,16 @@ class acl
                       INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
                        INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
                         LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = 0 AND `a`.`action_id` = `ca`.`action_id` AND `a`.`class_section_id` = `r`.`class_section_id`
-                         WHERE `r`.`obj_id` = :obj_id AND (`a`.`uid` IS NULL OR `a`.`uid` != 0)
-                          order by `aa`.`id`';
+                         WHERE `r`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
+
+                if (sizeof($this->groups)) {
+                    $q_def .= ' OR `a`.`gid` IN (' . $grp . ')';
+                }
+
+                $q_def .= ') order by `aa`.`id`';
+
                 $stmt = $this->db->prepare($q_def);
-                $stmt->bindParam(':obj_id', $this->obj_id);
+                $this->bind($stmt);
                 $stmt->execute();
 
                 while($row = $stmt->fetch()) {
