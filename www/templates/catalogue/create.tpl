@@ -1,7 +1,5 @@
-{if $type eq 0}
-<div class="jipTitle">Добавление нового элемента</div>
-{/if}
 <div id="ajaxGetForm">
+<div class="jipTitle">Добавление нового элемента</div>
 {literal}
 <script language="javascript">
 function loadForm(id)
@@ -13,9 +11,7 @@ function loadForm(id)
     new Ajax.Request(url,
     {
         method:'get',
-            parameters: { 
-            type: id 
-        },
+            parameters: { type: id },
         onSuccess: 
             function(transport){
                 var response = transport.responseText;
@@ -27,27 +23,21 @@ function loadForm(id)
 }
 </script>
 {/literal}
-
-<form onsubmit="return mzzAjax.sendForm(this);" {$form.attributes} >
-{$form.javascript}
-{$form.hidden}
+<form action="{$action}" method="post" onsubmit="return mzzAjax.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="50%">
         <tr>
-            <td>{$form.type.label}</td> 
-            <td>{$form.type.html}</td>
+            <td>Тип:</td> 
+            <td>{form->select name="type" options=$select id="type" onchange="javascript:loadForm(this.value);" onkeypress="this.onchange();"}{$errors->get('type')}</td>
         <tr>
+{if $type ne 0}
         <tr>
-            <td>{$form.name.label}</td> 
-            <td>{$form.name.html}</td>
+            <td>Имя:</td> 
+            <td>{form->text name="name" size="60"}{$errors->get('name')}</td>
         <tr>
-{foreach from=$fields item="element"}
+        {include file="catalogue/properties.tpl" data=$properties}
+{/if}
         <tr>
-            <td>{$form.$element.label}</td> 
-            <td>{$form.$element.html}</td>
-        <tr>
-{/foreach}
-        <tr>
-            <td>{$form.submit.html}{$form.reset.html}</td>
+            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

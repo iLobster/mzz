@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('catalogue/forms/catalogueCreateForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * catalogueCreateController: контроллер для метода create модуля catalogue
@@ -40,45 +40,51 @@ class catalogueCreateController extends simpleController
         }
 
         $type = $this->request->get('type', 'integer', SC_GET | SC_POST);
+        $properties = $catalogueMapper->getProperties($type);
 
-        if ($type == 0 ){
-            reset($types);
-            $firstType = current($types);
-            $properties = $catalogueMapper->getProperties($firstType['id']);
-        } else {
-            $properties = $catalogueMapper->getProperties($type);
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Необходимо назвать новый элемент');
+        $validator->add('required', 'type', 'Необходимо указать тип');
+
+        foreach ($properties as $property) {
+            if ($property['type'] == 'int') {
+                $validator->add('numeric', $property['name'], 'Нужен int');
+            } elseif ($property['type'] == 'float') {
+                $validator->add('numeric', $property['name'], 'Нужен float');
+            }
         }
 
-        $form = catalogueCreateForm::getForm($types, $folder, $type, $properties);
+        if (!$validator->validate()){
+            $url = new url('withAnyParam');
+            $url->setSection($this->request->getSection());
+            $url->setAction('create');
+            $url->addParam('name', $folder->getPath());
 
-        $fields = array();
-        foreach($properties as $property) {
-            $fields[] = $property['name'];
-        }
+            $select = array();
+            foreach($types as $type_tmp){
+                $select[$type_tmp['id']] = $type_tmp['title'];
+            }
 
-        if ($form->validate() == false){
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
-            $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
-            $form->accept($renderer);
-
-            $this->smarty->assign('form', $renderer->toArray());
+            $this->smarty->assign('action', $url->get());
+            $this->smarty->assign('errors', $validator->getErrors());
             $this->smarty->assign('folder', $folder);
-            $this->smarty->assign('fields', $fields);
+            $this->smarty->assign('properties', $properties);
+            $this->smarty->assign('select', $select);
             $this->smarty->assign('type', $type);
             return $this->smarty->fetch('catalogue/create.tpl');
         } else {
-            $values = $form->exportValues();
+            $name = $this->request->get('name', 'string', SC_POST);
 
             $item = $catalogueMapper->create();
-            $item->setType($values['type']);
-            $item->setName($values['name']);
+            $item->setType($type);
+            $item->setName($name);
             $item->setFolder($folder);
             $item->setEditor($user);
             $item->setCreated(mktime());
 
-            foreach ($fields as $field) {
-                $item->setProperty($field, $values[$field]);
+            foreach($properties as $property){
+                $propValue = $this->request->get($property['name'], 'mixed', SC_POST);
+                $item->setProperty($property['name'], $propValue);
             }
 
             $catalogueMapper->save($item);

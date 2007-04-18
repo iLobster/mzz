@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('catalogue/forms/catalogueObjectForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * catalogueEditController: контроллер для метода edit модуля catalogue
@@ -29,28 +29,36 @@ class catalogueEditController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
 
         $objectId = $this->request->get('id', 'integer', SC_PATH);
-
         $catalogue = $catalogueMapper->searchById($objectId);
 
-        $properties = $catalogueMapper->getProperties($catalogue->getType());
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Необходимо назвать элемент');
 
-        $form = catalogueObjectForm::getForm($catalogue, $properties);
+        foreach ($catalogue->exportOldProperties() as $property) {
+            if ($property['type'] == 'int') {
+                $validator->add('numeric', $property['name'], 'Нужен int');
+            } elseif ($property['type'] == 'float') {
+                $validator->add('numeric', $property['name'], 'Нужен float');
+            }
+        }
 
-        if ($form->validate() == false){
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
-            $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
-            $form->accept($renderer);
+        if (!$validator->validate()) {
+            $url = new url('withAnyParam');
+            $url->setSection($this->request->getSection());
+            $url->setAction('edit');
+            $url->addParam('name', $catalogue->getId());
 
-            $this->smarty->assign('fields', array_keys($catalogue->exportOldProperties()));
-            $this->smarty->assign('form', $renderer->toArray());
+            $this->smarty->assign('catalogue', $catalogue);
+            $this->smarty->assign('action', $url->get());
+            $this->smarty->assign('errors', $validator->getErrors());
+
             return $this->smarty->fetch('catalogue/object.tpl');
         } else {
-            $values = $form->exportValues();
-
-            $catalogue->setName($values['name']);
-            foreach(array_keys($catalogue->exportOldProperties()) as $property){
-                $catalogue->setProperty($property, $values[$property]);
+            $name = $this->request->get('name', 'string', SC_POST);
+            $catalogue->setName($name);
+            foreach($catalogue->exportOldProperties() as $property){
+                $propValue = $this->request->get($property['name'], 'mixed', SC_POST);
+                $catalogue->setProperty($property['name'], $propValue);
             }
 
             $catalogueMapper->save($catalogue);

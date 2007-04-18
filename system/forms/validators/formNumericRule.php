@@ -6,7 +6,7 @@ class formNumericRule extends formAbstractRule
 {
     public function validate()
     {
-        return is_numeric($this->value);
+        return empty($this->value) || is_numeric($this->value);
     }
 }
 
