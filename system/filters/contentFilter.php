@@ -59,6 +59,7 @@ class contentFilter implements iFilter
 
         $smarty = $toolkit->getSmarty();
         $smarty->assign('current_section', $request->getSection());
+        $smarty->assign('current_path', $request->getPath());
         $output = $smarty->fetch($template);
 
         $response->append($output);
