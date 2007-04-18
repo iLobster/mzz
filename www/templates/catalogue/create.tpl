@@ -3,23 +3,12 @@
 {literal}<script language="javascript">
 function loadForm(id)
 {{/literal}
-    var folderPath = '{$folder->getPath()}';
-    var url = '{url route="withAnyParam" section="catalogue" name="' + folderPath + '" action="create"}';{literal}
-    new Ajax.Request(url,
-    {
-        method:'get',
-            parameters: { type: id },
-        onSuccess: 
-            function(transport){
-                var response = transport.responseText;
-                document.getElementById('ajaxGetForm').innerHTML = response;
-            },
-        onFailure: 
-            function(){ alert('Something went wrong...') }
+    var url = '{url route="withAnyParam" section="catalogue" name=$folder->getPath() action="create"}';{literal}
+    new Ajax.Updater('ajaxGetForm', url, {
+        parameters: { type: id }
     });
 }
 </script>{/literal}
-{$type}
 <form action="{$action}" method="post" onsubmit="return mzzAjax.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="50%">
         <tr>
