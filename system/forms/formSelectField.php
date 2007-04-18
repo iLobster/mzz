@@ -17,10 +17,13 @@ class formSelectField extends formElement
     static public function toString($options = array())
     {
         $html = '';
-        $value = self::getValue($options['name']);
-        $options['options'] = array_merge(array('' => ''), $options['options']);
+        $value = isset($options['value']) ? $options['value'] : '';
+        $value = self::getValue($options['name'], $value);
+
+        $options['options'] = array('' => '') + $options['options'];
+
         foreach ($options['options'] as $key => $text) {
-            $html .= self::createTag(array('content' => $text, 'value' => $key, 'selected' => $key == $value), 'option');
+            $html .= self::createTag(array('content' => $text, 'value' => $key, 'selected' => (string)$key == (string)$value), 'option');
         }
         unset($options['options']);
         unset($options['value']);
