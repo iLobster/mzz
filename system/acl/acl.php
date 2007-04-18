@@ -16,7 +16,7 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1.9
+ * @version 0.1.10
  */
 class acl
 {
@@ -602,7 +602,9 @@ class acl
             }
 
             $actionsToDelete[] = $this->validActions[$this->obj_id][$key];
-            $inserts .= '(' . $this->validActions[$this->obj_id][$key] . ', ' . $class_section_id . ', ' . $this->obj_id . ', ' . ($group_id > 0 ? $group_id : $this->uid) . ', ' . $allow . ', ' . $deny . '), ';
+            if ($allow || $deny) {
+                $inserts .= '(' . $this->validActions[$this->obj_id][$key] . ', ' . $class_section_id . ', ' . $this->obj_id . ', ' . ($group_id > 0 ? $group_id : $this->uid) . ', ' . $allow . ', ' . $deny . '), ';
+            }
         }
 
         // удаляем старые действия
