@@ -306,6 +306,13 @@ abstract class simpleMapper
         return false;
     }
 
+    /**
+     * Метод регистраци объекта в ACL (при создании)
+     *
+     * @param integer $obj_id уникальный идентификатор объекта
+     * @param string $section имя раздела
+     * @param string $className имя класса
+     */
     public function register($obj_id, $section = null, $className = null)
     {
         if (is_null($className)) {

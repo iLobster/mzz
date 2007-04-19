@@ -16,6 +16,8 @@ abstract class formElement
 {
     static public function createTag(Array $options = array(), $name = 'input')
     {
+        self::parseError($options);
+
         if (!$name) {
             return null;
         }
@@ -30,6 +32,35 @@ abstract class formElement
         }
         $html .= "\r\n";
         return $html;
+    }
+
+    static protected function isRequired($options)
+    {
+        $validator = systemToolkit::getInstance()->getValidator();
+        return $validator->isFieldRequired($options['name']);
+    }
+
+    static protected function parseError(& $options)
+    {
+        $hasErrors = false;
+
+        $validator = systemToolkit::getInstance()->getValidator();
+        $errors = $validator->getErrors();
+
+        if (isset($options['name']) && !is_null($errors->get($options['name']))) {
+            $hasErrors = true;
+
+            if (isset($options['onError'])) {
+                $onError = explode('=', $options['onError']);
+                $cnt = sizeof($onError);
+                for ($i=1; $i < $cnt; $i = $i + 2) {
+                    $options[$onError[$i-1]] = $onError[$i];
+                }
+            }
+        }
+        unset($options['onError']);
+
+        return $hasErrors;
     }
 
     static public function optionsToString(Array $options = array())

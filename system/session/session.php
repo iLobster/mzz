@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage session
- * @version 0.1
+ * @version 0.1.1
 */
 class session
 {
@@ -68,7 +68,7 @@ class session
      */
     public function get($name, $default_value = null)
     {
-        return ($this->exists($name)) ? $_SESSION[$name] : $default_value;
+        return ($this->exists($name)) ? unserialize($_SESSION[$name]) : $default_value;
     }
 
     /**
@@ -79,7 +79,7 @@ class session
      */
     public function set($name, $value)
     {
-        $_SESSION[$name] = $value;
+        $_SESSION[$name] = serialize($value);
     }
 
     /**

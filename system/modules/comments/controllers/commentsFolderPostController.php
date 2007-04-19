@@ -59,9 +59,12 @@ class commentsFolderPostController extends simpleController
                 }
 
                 if ($session->exists($sess_name)) {
-                    $arr = unserialize($session->get($sess_name));
+                    $arr = $session->get($sess_name);
                     $this->smarty->assign('text', $arr['text']);
                     $this->smarty->assign('errors', $arr['validator']->getErrors());
+
+                    $this->toolkit->setValidator($arr['validator']);
+
                     $session->destroy($sess_name);
                 }
 
@@ -79,7 +82,7 @@ class commentsFolderPostController extends simpleController
             }
 
             $text = $this->request->get('text', 'string', SC_POST);
-            $session->set($sess_name, serialize(array('text' => $text, 'validator' => $validator)));
+            $session->set($sess_name, array('text' => $text, 'validator' => $validator));
 
         } else {
             $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');

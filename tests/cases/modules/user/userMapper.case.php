@@ -168,7 +168,7 @@ class userMapperTest extends unitTestCase
         $user = $this->mapper->login('login1', 'passwd1');
 
         $this->assertEqual($user->getId(), 1);
-        $this->assertEqual($_SESSION['user_id'], 1);
+        $this->assertEqual($_SESSION['user_id'], serialize('1'));
         $this->assertEqual($user->getLogin(), 'login1');
     }
 
@@ -179,7 +179,7 @@ class userMapperTest extends unitTestCase
         $user = $this->mapper->login('not_exists_login', 'any_password');
 
         $this->assertEqual($user->getId(), MZZ_USER_GUEST_ID);
-        $this->assertEqual($_SESSION['user_id'], MZZ_USER_GUEST_ID);
+        $this->assertEqual($_SESSION['user_id'], serialize(MZZ_USER_GUEST_ID));
     }
 
     public function testLoginException()

@@ -39,6 +39,7 @@ class stdToolkit extends toolkit
     private $objectIdGenerator;
     private $cache;
     private $toolkit;
+    private $validator;
     /**#@-*/
 
     /**
@@ -277,6 +278,16 @@ class stdToolkit extends toolkit
         }
 
         return $this->cache;
+    }
+
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
+    public function setValidator($value)
+    {
+        $this->validator = $value;
     }
 
     /**

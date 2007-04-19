@@ -84,7 +84,7 @@ class httpResponse
      * @param boolean $secure указывает что cookie будет передано только при https-соединени
      * @param boolean $httponly указывает что cookie будет доступен только через протокол HTTP
      */
-    public function setCookie($name, $value = '', $expire = 0, $path = SITE_PATH, $domain = '', $secure = false, $httponly = false)
+    public function setCookie($name, $value = '', $expire = 0, $path = '/', $domain = '', $secure = false, $httponly = false)
     {
         $this->cookies[$name] = array(
         'value' => $value,

@@ -22,7 +22,7 @@
 
 class formValidator
 {
-    private $validators;
+    private $validators = array();
     private $errors;
     private $submit;
 
@@ -35,6 +35,8 @@ class formValidator
         }
 
         $this->submit = $submit;
+
+        systemToolkit::getInstance()->setValidator($this);
     }
 
     public function add($validator, $name, $errorMsg = '', $params = '')
@@ -60,6 +62,17 @@ class formValidator
             }
 
             return (bool)$valid;
+        }
+
+        return false;
+    }
+
+    public function isFieldRequired($name)
+    {
+        foreach ($this->validators as $validator) {
+            if ($validator instanceof formRequiredRule && $validator->getName() == $name) {
+                return true;
+            }
         }
 
         return false;

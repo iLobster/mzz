@@ -30,6 +30,7 @@ class sessionTest extends unitTestCase
         $_SESSION['key_first'] = 'value_first';
         $_SESSION['key_second'] = 'value_second';
         $_SESSION['key_third'] = 'value_third';
+        $_SESSION = array_map('serialize', $_SESSION);
     }
 
     public function testGet()
@@ -52,7 +53,7 @@ class sessionTest extends unitTestCase
     public function testSet()
     {
         $this->session->set($name = 'foo', $val = 'bar');
-        $this->assertEqual($_SESSION[$name], $val);
+        $this->assertEqual($_SESSION[$name], serialize($val));
     }
 
     public function testExists()

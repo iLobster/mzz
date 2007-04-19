@@ -60,6 +60,12 @@ class form
         fileLoader::load('forms/formTextareaField');
         return formTextareaField::toString($params);
     }
+
+    public function caption($params, $smarty)
+    {
+        fileLoader::load('forms/formCaptionField');
+        return formCaptionField::toString($params);
+    }
 }
 
 ?>
