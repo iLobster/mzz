@@ -45,16 +45,17 @@ abstract class formElement
         $hasErrors = false;
 
         $validator = systemToolkit::getInstance()->getValidator();
-        $errors = $validator->getErrors();
+        if ($validator) {
+            $errors = $validator->getErrors();
+            if (isset($options['name']) && !is_null($errors->get($options['name']))) {
+                $hasErrors = true;
 
-        if (isset($options['name']) && !is_null($errors->get($options['name']))) {
-            $hasErrors = true;
-
-            if (isset($options['onError'])) {
-                $onError = explode('=', $options['onError']);
-                $cnt = sizeof($onError);
-                for ($i=1; $i < $cnt; $i = $i + 2) {
-                    $options[$onError[$i-1]] = $onError[$i];
+                if (isset($options['onError'])) {
+                    $onError = explode('=', $options['onError']);
+                    $cnt = sizeof($onError);
+                    for ($i=1; $i < $cnt; $i = $i + 2) {
+                        $options[$onError[$i-1]] = $onError[$i];
+                    }
                 }
             }
         }
