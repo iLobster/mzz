@@ -1,26 +1,20 @@
-{if $isEdit}
-{include file='jipTitle.tpl' title='Редактирование свойства'}
-{else}
-{include file='jipTitle.tpl' title='Создание свойства'}
-{/if}
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
-{$form.hidden}
-{$form.javascript}
-    <table border="0" cellpadding="0" cellspacing="1" width="50%">
+<div class="jipTitle">{if $isEdit}Редактирование свойства{else}Создание свойства{/if}</div>
+<form action="{$action}" method="post" onsubmit="return mzzAjax.sendForm(this);">
+    <table border="0" cellpadding="0" cellspacing="1" width="100%">
         <tr>
-            <td><strong>{$form.title.label}</strong></td>
-            <td>{$form.title.html}</td>
+            <td><strong>Заголовок:</strong></td>
+            <td>{form->text name="title" size="60" value=$title}{$errors->get('title')}</td>
         </tr>
         <tr>
-            <td><strong>{$form.name.label}</strong></td>
-            <td>{$form.name.html}</td>
+            <td><strong>Имя:</strong></td>
+            <td>{form->text name="name" size="60" value=$name}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td><strong>{$form.type.label}</strong></td>
-            <td>{$form.type.html}</td>
+            <td><strong>Тип:</strong></td>
+            <td>{form->select name="type" options=$types value=$type}{$errors->get('type')}</td>
         </tr>
         <tr>
-            <td>{$form.submit.html}{$form.reset.html}</td>
+            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

@@ -12,10 +12,11 @@
  * @version $Id$
  */
 
-fileLoader::load('catalogue/forms/cataloguePropertyForm');
+//fileLoader::load('catalogue/forms/cataloguePropertyForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
- * catalogueSavePropertyController: контроллер для метода editProperty модуля catalogue
+ * catalogueSavePropertyController: контроллер для метода saveProperty модуля catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -28,34 +29,56 @@ class catalogueSavePropertyController extends simpleController
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
 
-        $isEdit = ($this->request->getAction() == 'editProperty');
+        $action = $this->request->getAction();
+        $isEdit = ($action == 'editProperty');
 
         $typesTemp = $catalogueMapper->getAllPropertiesTypes();
         $types = array();
-        foreach($typesTemp as $type){
+        foreach ($typesTemp as $type) {
             $types[$type['id']] = $type['title'] . ' (' . $type['name'] . ')';
         }
 
-        if($isEdit){
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Необходимо назвать это свойство');
+        $validator->add('required', 'title', 'Необходимо дать метку этому свойству');
+        $validator->add('required', 'type', 'Необходимо указать тип поля');
+
+        if ($isEdit) {
             $id = $this->request->get('id', 'integer', SC_PATH);
             $property = $catalogueMapper->getProperty($id);
-            $form = cataloguePropertyForm::getForm($property, $types);
-        } else {
-            $form = cataloguePropertyForm::getForm(false, $types);
         }
 
-        if($form->validate() == false){
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $form->accept($renderer);
-            $this->smarty->assign('form', $renderer->toArray());
+        if (!$validator->validate()) {
+            $url = new url('default2');
+            $url->setAction($action);
+            $url->setSection($this->request->getSection());
+
+            if ($isEdit) {
+                $url->setRoute('withId');
+                $url->addParam('id', $property['id']);
+            }
+
+            $name = isset($property['name']) ? $property['name'] : '';
+            $title = isset($property['title']) ? $property['title'] : '';
+            $typeId = isset($property['type_id']) ? $property['type_id'] : '';
+
+            $this->smarty->assign('name', $name);
+            $this->smarty->assign('title', $title);
+            $this->smarty->assign('type', $typeId);
+            $this->smarty->assign('types', $types);
             $this->smarty->assign('isEdit', $isEdit);
+            $this->smarty->assign('action', $url->get());
+            $this->smarty->assign('errors', $validator->getErrors());
             return $this->smarty->fetch('catalogue/property.tpl');
         } else {
-            $values = $form->exportValues();
+            $name = $this->request->get('name', 'string', SC_POST);
+            $title = $this->request->get('title', 'string', SC_POST);
+            $type = $this->request->get('type', 'integer', SC_POST);
+
             if($isEdit){
-                $catalogueMapper->updateProperty($id, $values['name'], $values['title'], $values['type']);
+                $catalogueMapper->updateProperty($id, $name, $title, $type);
             } else {
-                $catalogueMapper->addProperty($values['name'], $values['title'], $values['type']);
+                $catalogueMapper->addProperty($name, $title, $type);
             }
             return jipTools::redirect();
         }
