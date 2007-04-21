@@ -34,6 +34,15 @@ tinyMCE.init({
         add_unload_trigger : false,
         add_form_submit_trigger: false
     });
+
+function toggleEditor(id) {
+	var elm = document.getElementById(id);
+
+	if (tinyMCE.getInstanceById(id) == null)
+		tinyMCE.execCommand('mceAddControl', false, id);
+	else
+		tinyMCE.execCommand('mceRemoveControl', false, id);
+}
 </script>{/literal}
 
 <form {$form.attributes} onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return mzzAjax.sendForm(this);">
@@ -49,7 +58,7 @@ tinyMCE.init({
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td style="font-size: 80%;"><a href="javascript: jipWindow.toggleEditorById(this, 'contentArea');" style="text-decoration: none; border-bottom: 1px dashed #aaa;">¬ключить WYSIWYG-редактор</a></td>
+        <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" style="text-decoration: none; border-bottom: 1px dashed #aaa;">¬ключить WYSIWYG-редактор</a></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
