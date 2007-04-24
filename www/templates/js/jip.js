@@ -651,13 +651,14 @@ jipMenu.prototype = {
     },
 
     close: function() {
+        this.jipMenu.setStyle({'visibility': 'hidden'});
         Event.stopObserving(this.jipMenu, "mouseout", this.eventMouseOut);
         Event.stopObserving(this.jipMenu, "mouseover", this.eventMouseIn);
         Event.stopObserving(document, "keypress", this.eventKeypress);
         this.current.button.src = SITE_PATH + '/templates/images/jip.gif';
         this.mouseIn();
         this.current = {"menu": false, "button": false};
-        this.jipMenu.parentNode.removeChild(this.jipMenu);
+        setTimeout(this.jipMenu.parentNode.removeChild(this.jipMenu), 10);
         this.jipButton = false;
         this.jipMenu = false;
     },
