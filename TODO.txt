@@ -44,6 +44,8 @@
 248 ( ) Невалидния вёрстка в devToolbar
 
 227 (*) mzzForms
+        0. Полный отказ от QF
+        1. Сделать правило, использующее callback-функцию
 
 242 ( ) код:
         $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);

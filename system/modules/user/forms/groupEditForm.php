@@ -49,10 +49,12 @@ class groupEditForm
         if ($action == 'groupEdit') {
             $defaultValues = array();
             $defaultValues['name']  = $group->getName();
+            $defaultValues['is_default'] = $group->getIsDefault();
             $form->setDefaults($defaultValues);
         }
 
         $form->addElement('text', 'name', 'Имя:', 'size=30');
+        $form->addElement('advcheckbox', 'is_default', 'Помещать в эту группу создаваемых пользователей:', null, null, array(0, 1));
 
         $form->registerRule('isUniqueName', 'callback', 'createGroupValidation');
         $form->addRule('name', 'группа с таким именем уже существует', 'isUniqueName', array($group, $groupMapper));

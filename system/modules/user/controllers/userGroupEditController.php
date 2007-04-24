@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage user
- * @version 0.1
+ * @version 0.1.1
  */
 class userGroupEditController extends simpleController
 {
@@ -44,7 +44,7 @@ class userGroupEditController extends simpleController
                 $this->smarty->assign('action', $action);
                 $this->smarty->assign('isEdit', $isEdit);
 
-                $title = $action == 'edit' ? 'Редактирование группы -> ' . $group->getName() : 'Создание группы';
+                $title = $isEdit ? 'Редактирование группы -> ' . $group->getName() : 'Создание группы';
 
                 $this->response->setTitle('Пользователь -> ' . $title);
                 $view = $this->smarty->fetch('user/groupEdit.tpl');
@@ -55,6 +55,7 @@ class userGroupEditController extends simpleController
 
                 $values = $form->exportValues();
                 $group->setName($values['name']);
+                $group->setIsDefault((bool)$values['is_default']);
                 $groupMapper->save($group);
 
                 $view = jipTools::redirect();

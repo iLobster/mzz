@@ -19,7 +19,7 @@ fileLoader::load('user/forms/userEditForm');
  *
  * @package modules
  * @subpackage user
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class userEditController extends simpleController
@@ -60,17 +60,23 @@ class userEditController extends simpleController
                 }
 
                 if ($action == 'create') {
-                    // добавим созданного пользователя в группу auth
+                    // добавим созданного пользователя в группы с флагом 'is_default'
                     $groupMapper = $this->toolkit->getMapper('user', 'group');
-                    $group = $groupMapper->searchOneByField('name', 'auth');
+                    $groups = $groupMapper->searchAllByField('is_default', 1);
 
                     $userMapper->save($editedUser);
 
                     $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
-                    $userGroup = $userGroupMapper->create();
-                    $userGroup->setGroup($group);
+                    $userGroup = array();
 
-                    $editedUser->setGroups(array($userGroup));
+                    foreach ($groups as $group) {
+                        $userGroup_tmp = $userGroupMapper->create();
+                        $userGroup_tmp->setGroup($group);
+
+                        $userGroup[] = $userGroup_tmp;
+                    }
+
+                    $editedUser->setGroups($userGroup);
                 }
 
                 $userMapper->save($editedUser);
