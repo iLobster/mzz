@@ -10,8 +10,9 @@
      <span class="menu_element"><a href="{url route=default2 section=user action=list}">{if $current_section eq "user"}<b>{/if}Пользователи{if $current_section eq "user"}</b>{/if}</a></span>
      <span class="menu_element"><a href="{url route=default2 section=admin action=view}">{if $current_section eq "admin"}<b>{/if}Панель управления{if $current_section eq "admin"}</b>{/if}</a></span>
     </div>
-
-    {load module="user" action="login" section="user" id=0 403handle="none"}
+    {if $current_section != 'user'}
+    {load module="user" action="loginForm" section="user" id=0 403handle="none"}
+    {/if}
     <div id="logotip"><a href="{$SITE_PATH}/"><img id="img_logotip" src="{$SITE_PATH}/templates/images/mzz_logo.gif" width="124" height="29" alt="" /></a></div>
 </div>
 
