@@ -171,7 +171,6 @@ class stdToolkit extends toolkit
      * Возвращает объект Config
      *
      * @return object
-     * @todo сделать кэширование
      */
     public function getConfig($module, $section = null)
     {
@@ -179,7 +178,13 @@ class stdToolkit extends toolkit
             $request = $this->toolkit->getRequest();
             $section = $request->getSection();
         }
-        return new config($section, $module);
+
+        if(empty($this->config[$module][$section])) {
+        	$this->config[$module][$section] = new config($section, $module);
+
+        }
+
+        return $this->config[$module][$section];
     }
 
     /**
