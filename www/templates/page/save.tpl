@@ -36,12 +36,25 @@ tinyMCE.init({
     });
 
 function toggleEditor(id) {
-	var elm = document.getElementById(id);
+    var elm = document.getElementById(id);
+    var tinyMCEInterval = false;
+    var removeEditorLoadingStatus = function () {
+            tinyMCEInterval ? clearInterval(tinyMCEInterval) : false;
+            var editorLoadingText = $('editorLoadingText');
+            editorLoadingText ? editorLoadingText.parentNode.removeChild(editorLoadingText) : false;
+    };
 
-	if (tinyMCE.getInstanceById(id) == null)
-		tinyMCE.execCommand('mceAddControl', false, id);
-	else
-		tinyMCE.execCommand('mceRemoveControl', false, id);
+    if (tinyMCE.getInstanceById(id) == null && tinyMCEInterval == false) {
+        new Insertion.Before(elm, '<div id="editorLoadingText"><strong>Загрузка редактора...</strong></div>');
+        tinyMCEInterval = setInterval(function() {
+            if (tinyMCE.loadingIndex == -1) {
+                tinyMCE.execCommand('mceAddControl', false, id);
+                removeEditorLoadingStatus() 
+            }}, 100);
+    } else {
+        removeEditorLoadingStatus();
+        tinyMCE.execCommand('mceRemoveControl', false, id);
+    }
 }
 </script>{/literal}
 
