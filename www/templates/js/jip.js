@@ -1,21 +1,3 @@
-/** @todo
-var onLoadEvents = new Array();
-function callLoadEvents() {
-onLoadEvents.each(function(eventFunc) {
-if(eventFunc != callLoadEvents) {
-eventFunc();
-}
-});
-}
-function addOnLoad(eventFunc) {
-if(window.onload && window.onload != callLoadEvents) {
-onLoadEvents[onLoadEvents.size()] = window.onload;
-}
-window.onload = callLoadEvents;
-onLoadEvents[onLoadEvents.size()] = eventFunc;
-}
-**/
-
 function getBrowserHeight() {
     var yScroll, windowHeight, pageHeight;
 
@@ -38,6 +20,22 @@ function getBrowserHeight() {
 
     return {"pageHeight" : pageHeight, "windowHeight" : windowHeight};
 }
+/* todo
+var onLoadEvents = new Array();
+function callLoadEvents() {
+onLoadEvents.each(function(eventFunc) {
+if(eventFunc != callLoadEvents) {
+eventFunc();
+}
+});
+}
+function addOnLoad(eventFunc) {
+if(window.onload && window.onload != callLoadEvents) {
+onLoadEvents[onLoadEvents.size()] = window.onload;
+}
+window.onload = callLoadEvents;
+onLoadEvents[onLoadEvents.size()] = eventFunc;
+}*/
 
 function buildJipLinksEvent(event) {
     if (arguments.callee.done) return;
@@ -134,119 +132,6 @@ var Cookie = {
     }
 }
 
-
-//--------------------------------
-//  AJAX tools
-// -------------------------------
-mzzAjax = Class.create();
-mzzAjax.prototype = {
-    initialize: function() {
-        this.drag = false;
-    },
-
-    sendForm: function(form, method) {
-        var params = $(form).serialize().toQueryParams();
-        params.ajax = 1;
-        jipWindow.clean();
-        method = (method && method.toUpperCase() == 'GET') ? 'GET' : 'POST';
-
-        new Ajax.Request(form.action, {
-        'method': method,
-        parameters: params,
-        onSuccess: function(transport) {
-            mzzAjax.success(transport);
-        },
-        onFailure: function(transport) {
-            mzzAjax.onError(transport);
-        }
-        });
-        return false;
-    },
-
-    setTargetEelement: function(element) {
-        this.element = $(element);
-    },
-
-    success: function(transport)
-    {
-        if(typeof(this.element) != 'undefined' && (typeof(transport.responseXML) != 'undefined' || typeof(transport.responseText) != 'undefined')){
-            var element = this.element;
-            element.update('<div class="jipClose"><img class="jip" width="12" height="12" src="' + SITE_PATH + '/templates/images/jip/close.gif" onclick="javascript: jipWindow.close();" alt="Закрыть" title="Закрыть" /></div>');
-            var tmp = '';
-            var ctype = transport.getResponseHeader("content-type");
-
-            if (ctype.indexOf("xml") >= 0 && transport.responseXML != null) {
-
-                responseXML = transport.responseXML.documentElement;
-                var item = responseXML.getElementsByTagName('html')[0];
-                var cnodes = item.childNodes.length;
-                for (var i=0; i<cnodes; i++) {
-                    if (item.childNodes[i].data != '') {
-                        tmp += item.childNodes[i].data;
-                    }
-                }
-            } else {
-                tmp = transport.responseText;
-            }
-
-            element.update(element.innerHTML + tmp);
-            var jipTitles = document.getElementsByClassName('jipTitle');
-            if (jipTitles.length > 0) {
-                var jipTitle = jipTitles.last();
-                var jipMoveDiv = document.createElement('div');
-                jipMoveDiv.id = 'jip-' + jipTitle.parentNode.id;
-                jipMoveDiv.setAttribute('title', 'Переместить');
-                Element.extend(jipMoveDiv);
-                jipMoveDiv.addClassName('jipMove');
-                jipMoveDiv.update('<img width="5" height="13" src="' + SITE_PATH + '/templates/images/jip/move.gif" alt="Переместить" title="Переместить" />');
-                jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
-                this.drag = new Draggable('jip' + jipWindow.currentWindow, {
-                    'handle': 'jip-' + jipTitle.parentNode.id
-                });
-            }
-
-            //element.innerHTML.evalScripts();
-            buildJipLinks(element);
-        } else {
-            alert("No response from script. \r\n TransID: " + transport.tId + "; HTTP status: " + transport.status + "; Message: " + transport.statusText);
-        }
-    },
-
-    successIn: function(transport)
-    {
-        if(typeof(this.element) != 'undefined' && (typeof(transport.responseXML) != 'undefined' || typeof(transport.responseText) != 'undefined')){
-            var element = this.element;
-            var tmp = '';
-            var ctype = transport.getResponseHeader("content-type");
-
-            if (ctype.indexOf("xml") >= 0 && transport.responseXML != null) {
-                responseXML = transport.responseXML.documentElement;
-                var item = responseXML.getElementsByTagName('html')[0];
-                var cnodes = item.childNodes.length;
-                for (var i=0; i<cnodes; i++) {
-                    if (item.childNodes[i].data != '') {
-                        tmp += item.childNodes[i].data;
-                    }
-                }
-            } else {
-                tmp = transport.responseText;
-            }
-
-            element.update(tmp);
-            element.innerHTML.evalScripts();
-        } else {
-            alert("No response from script. \r\n TransID: " + transport.tId + "; HTTP status: " + transport.status + "; Message: " + transport.statusText);
-        }
-    },
-
-    onError: function(transport)
-    {
-        this.stack.pop(); // delete broken url
-        alert("Error. \r\n TransID: " + transport.tId + "; HTTP status: " + transport.status + "; Message: " + transport.statusText);
-    }
-}
-
-
 //--------------------------------
 //  JIP window
 // -------------------------------
@@ -262,6 +147,7 @@ jipWindow.prototype = {
         this.redirectToAfterClose = false;
         this.windowExists = false;
         this.selectElements = null;
+        this.drag = false;
 
         this.eventKeypress  = this.keyPress.bindAsEventListener(this);
         this.eventLockClick  = this.lockClick.bindAsEventListener(this);
@@ -291,10 +177,7 @@ jipWindow.prototype = {
         }
 
         this.jip = $('jip' + this.currentWindow);
-        if (typeof(mzzAjax) != 'object') {
-            mzzAjax = new mzzAjax();
-        }
-        mzzAjax.setTargetEelement(this.jip);
+
         if (this.jip) {
             this.lockContent();
             this.clean();
@@ -315,54 +198,93 @@ jipWindow.prototype = {
             });
 
             new Ajax.Request(url, {
-            'method': method,
-            parameters: { 'ajax': 1 },
-            onSuccess: function(transport) {
-                mzzAjax.success(transport);
-            },
-            onFailure: function(transport) {
-                mzzAjax.onError(transport);
-            }
+                'method': method,
+                parameters: {'ajax': 1},
+                onSuccess: function(transport) {
+                    jipWindow.successRequest(transport);
+                },
+                onFailure: function(transport) {
+                    jipWindow.setErrorMsg(transport);
+                }
             });
 
             if(url.match(/[&\?]_confirm=/) == null) {
                 this.stack[this.currentWindow].push(url);
             }
 
-            this.lockContent();
             return false;
         }
         return true;
     },
 
 
-    openIn: function(url, target, method, params)
-    {
-        method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
+    sendForm: function(form, method) {
+        var params = $(form).serialize().toQueryParams();
+        params.ajax = 1;
+        jipWindow.clean();
+        method = (method && method.toUpperCase() == 'GET') ? 'GET' : 'POST';
 
-        var winInWin = $(target);
-        if (typeof(mzzAjax) != 'object') {
-            mzzAjax = new mzzAjax();
-        }
-        mzzAjax.setTargetEelement(winInWin)
-        var parameters = $H({ 'ajax': 1 });
-        if (params) {
-            parameters.merge(params);
-        }
-        if (winInWin) {
-            new Ajax.Request(url, {
+        new Ajax.Request(form.action, {
             'method': method,
-            'parameters': parameters,
+            parameters: params,
             onSuccess: function(transport) {
-                mzzAjax.successIn(transport);
+                jipWindow.successRequest(transport);
             },
             onFailure: function(transport) {
-                mzzAjax.onError(transport);
+                jipWindow.setErrorMsg(transport);
             }
-            });
+        });
+        return false;
+    },
+
+    successRequest: function(transport)
+    {
+        this.element = this.jip;
+        if (typeof(this.jip) == 'undefined') {
+            alert('Нет ни одно окна для открытия страницы.');
             return false;
         }
-        return true;
+        if (typeof(transport.responseXML) == 'undefined' && typeof(transport.responseText) == 'undefined') {
+            this.setErrorMsg();
+            return false;
+        }
+
+        this.jip.update('<div class="jipClose"><img class="jip" width="12" height="12" src="' + SITE_PATH + '/templates/images/jip/close.gif" onclick="javascript: jipWindow.close();" alt="Закрыть" title="Закрыть" /></div>');
+
+        var tmp = '';
+        var ctype = transport.getResponseHeader("content-type");
+        if (typeof(transport.responseXML) != 'undefined' && ctype.indexOf("xml") >= 0) {
+            responseXML = transport.responseXML.documentElement;
+            var item = responseXML.getElementsByTagName('html')[0];
+            Object.values(item.childNodes).each(function (elm) {
+                if (typeof(elm.data) == 'string' && elm.data != '') {
+                    tmp += elm.data;
+                }
+            });
+        } else {
+            tmp = transport.responseText;
+        }
+        this.jip.update(this.jip.innerHTML + tmp);
+
+        var jipTitles = document.getElementsByClassName('jipTitle');
+        if (jipTitles.length > 0) {
+            var jipTitle = jipTitles.last();
+            var jipMoveDiv = document.createElement('div');
+            jipMoveDiv.id = 'jip-' + jipTitle.parentNode.id;
+            jipMoveDiv.setAttribute('title', 'Переместить');
+            Element.extend(jipMoveDiv);
+            jipMoveDiv.addClassName('jipMove');
+            jipMoveDiv.update('<img width="5" height="13" src="' + SITE_PATH + '/templates/images/jip/move.gif" alt="Переместить" title="Переместить" />');
+            jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
+            this.drag = new Draggable('jip' + jipWindow.currentWindow, {
+                'handle': 'jip-' + jipTitle.parentNode.id,
+                'onEnd': function() {
+                    jipWindow.lockContent();
+                }
+            });
+        }
+        this.lockContent();
+        buildJipLinks(this.jip);
     },
 
     lockContent: function()
@@ -370,19 +292,18 @@ jipWindow.prototype = {
         var pageHeight = getBrowserHeight();
         if (!this.locker) {
             this.locker = document.createElement('div');
-            this.locker.setAttribute('id', 'lockContent');
+            this.locker.id = 'lockContent';
             Element.extend(this.locker);
             document.body.insertBefore(this.locker, document.body.childNodes[0]);
         }
-        //this.locker = $('lockContent');
-        this.locker.setStyle({height: pageHeight.pageHeight +"px"});
+        this.locker.setStyle({height: pageHeight.pageHeight +  "px"});
 
         if (this.locker.getStyle('display') != 'block') {
             Event.observe(window, "resize", this.eventLockUpdate);
             Event.observe(this.locker, "click", this.eventLockClick);
             this.locker.setStyle({opacity: 0.01, display: 'block'});
             new Effect.Opacity(this.locker, {"from" : 0, "to": 0.8, "duration": 0.5});
-
+            // hide select elements
             if(/MSIE/.test(navigator.userAgent) && !window.opera) {
                 this.selectElements = $A(document.getElementsByTagName('select'));
                 this.selectElements.each(function (elm, index) {
@@ -416,26 +337,9 @@ jipWindow.prototype = {
         }
     },
 
-    toggleEditorById: function(link_elm, editor_id)
-    {
-        if (this.toggleEditorStatus[editor_id] == 1) {
-            link_elm.innerHTML = "Включить WYSIWYG-редактор";
-            this.toggleEditorStatus[editor_id] = 0;
-            if (typeof(tinyMCE) != 'undefined') {
-                tinyMCE.triggerSave(false, false);
-                tinyMCE.execCommand('mceRemoveEditor' , false, editor_id);
-            }
-        } else {
-            link_elm.innerHTML = "Включить обычный режим";
-            this.toggleEditorStatus[editor_id] = 1;
-            if (typeof(tinyMCE) != 'undefined') {
-                tinyMCE.execCommand('mceAddEditor' , true, editor_id);
-            }
-        }
-    },
-
     refreshAfterClose: function(url)
     {
+        url = url || true;
         if (url === true) {
             this.redirectToAfterClose = new String(window.location).replace(window.location.hash, '');
         } else {
@@ -463,13 +367,13 @@ jipWindow.prototype = {
                 }
                 var prevUrl = stack.pop();
                 if (prevUrl != undefined) {
-                    if (mzzAjax.drag) {
-                        mzzAjax.drag.destroy();
+                    if (this.drag) {
+                        this.drag.destroy();
                     }
                     return this.open(prevUrl);
                 }
             } else {
-                // @todo не нужно?
+                // нужно?
                 this.currentWindow--;
             }
             this.jip = $('jip' + (currentWin));
@@ -481,6 +385,7 @@ jipWindow.prototype = {
                 this.redirectToAfterClose  = false;
                 return true;
             }
+
             if(--this.windowCount == 0) {
                 var cookiePath = (SITE_PATH == '') ? '/' : SITE_PATH;
                 var cookieLifeTime = new Date(new Date().getTime() + 50000000000);
@@ -492,7 +397,10 @@ jipWindow.prototype = {
                 Cookie.set('jip_window_left', leftOffset, cookieLifeTime, cookiePath);
 
                 this.jip.setStyle({display: 'none'});
-                mzzAjax.drag.destroy();
+
+                if (this.drag) {
+                    this.drag.destroy();
+                }
                 Event.stopObserving(document, "keypress", this.eventKeypress);
                 this.windowExists = false;
                 this.unlockContent();
@@ -521,6 +429,13 @@ jipWindow.prototype = {
         }
     },
 
+    setErrorMsg: function()
+    {
+        if (this.jip) {
+            this.jip.update('<p align=center>Невозможно выполнить запрос. Попробуйте еще раз.</p>');
+        }
+    },
+
     keyPress: function(event) {
         if(event.keyCode==Event.KEY_ESC) {
             jipWindow.close();
@@ -529,6 +444,7 @@ jipWindow.prototype = {
     },
 
     lockClick: function(event) {
+        // fix double click
         Event.stopObserving(this.locker, "click", this.eventLockClick);
 
         new Effect.Highlight(this.jip.getElementsByClassName('jipTitle').last(), {

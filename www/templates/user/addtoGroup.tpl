@@ -1,8 +1,8 @@
-{if empty($filter)}
+{if !isset($filter)}
     <div class="jipTitle">Добавление пользователей в группу <b>{$group->getName()}</b></div>
     <div style="padding: 15px;">
-        <form action="{url}" id='filterForm' method="get" onsubmit="return jipWindow.openIn(this.action, 'users', 'GET', this.serialize(true));">
-            Имя пользователя: <input type="text" value="{$filter}" name="filter"> <input type="image" src="{$SITE_PATH}/templates/images/search.gif">
+        <form action="{url}" id='filterForm' method="get" onsubmit="new Ajax.Updater('users', this.action, {literal}{'method': 'get', 'parameters': this.serialize(true)}{/literal}); return false;">
+            Имя пользователя: <input type="text" value="" name="filter"> <input type="image" src="{$SITE_PATH}/templates/images/search.gif">
         </form>
     </div>
     <div id='users' style='padding: 15px;'>
@@ -10,7 +10,7 @@
 {else}
     <span style="font-size: 110%;">Результат поиска (найдено: {$users|@count})</span>
     <div style="border-top: 2px solid #BABABA; padding: 10px;">
-        <form method="post" action="{url}" onsubmit="return mzzAjax.sendForm(this);">
+        <form method="post" action="{url}" onsubmit="return jipWindow.sendForm(this);">
             <table border="0" width="100%" cellpadding="2" cellspacing="0" class="systemTable">
                 {foreach from=$users item=user}
                     <tr>

@@ -8,12 +8,12 @@ function switchChckbox(id, self) {
     var element = $("full[" + id + "]");
     element.disabled = !self.checked;
     element.checked = element.disabled && self.checked;
-    
+
     var element = $("sort[" + id + "]");
     element.disabled = !self.checked;
 }
 </script>{/literal}
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
+<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
 {$form.hidden}
 {$form.javascript}
     <table border="0" cellpadding="0" cellspacing="1" width="50%">

@@ -4,7 +4,7 @@
 {include file='jipTitle.tpl' title='Создание папки'}
 {/if}
 
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
+<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
 {$form.hidden}
     <table border="0" cellpadding="0" cellspacing="1" width="50%">
         <tr>

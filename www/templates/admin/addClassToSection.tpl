@@ -1,5 +1,5 @@
 {include file='jipTitle.tpl' title="Классы, входящие в раздел '`$data.name`'"}
-<form action="{url route="withId" section="admin" id=$data.id action="addClassToSection"}" method="POST" onsubmit="return mzzAjax.sendForm(this);">
+<form action="{url route="withId" section="admin" id=$data.id action="addClassToSection"}" method="POST" onsubmit="return jipWindow.sendForm(this);">
     <table width="99%" cellpadding="4" cellspacing="0" class="systemTable">
         <tr>
             <td>&nbsp;</td>

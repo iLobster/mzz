@@ -1,4 +1,4 @@
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
+<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
     <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td colspan=2 style="text-align:center;">{if $action eq 'editFolder'}Редактирование{else}Создание{/if} каталога</td>

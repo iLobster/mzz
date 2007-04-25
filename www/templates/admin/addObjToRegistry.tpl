@@ -37,7 +37,7 @@ addobjClass.options.length = 0;
 }
 {/literal}
 </script>
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
+<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td>{$form.section.label}</td>

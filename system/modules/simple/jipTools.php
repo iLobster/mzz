@@ -45,6 +45,14 @@ class jipTools
         return $html;
     }
 
+    static public function setRefreshAfterClose($url = true)
+    {
+        $html = '<script type="text/javascript"> jipWindow.refreshAfterClose(';
+        $html .= ($url === true) ? 'true' : '"' . $url . '"';
+        $html .= '); </script>';
+        return $html;
+    }
+
     /**
      * Обновление окна браузера или перенаправление на другой URL
      *

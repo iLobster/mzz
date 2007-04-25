@@ -1,5 +1,5 @@
 {include file='jipTitle.tpl' title="Конфигурация для модуля $module в секции $section"}
-<form method="post" action="{url section="config" action="editCfg" params="$section/$module"}" onsubmit="return mzzAjax.sendForm(this);">
+<form method="post" action="{url section="config" action="editCfg" params="$section/$module"}" onsubmit="return jipWindow.sendForm(this);">
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
         {foreach from=$configs item=value key=key}
             <tr>

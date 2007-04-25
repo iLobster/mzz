@@ -31,6 +31,7 @@ function readUploadStatus() {
         $('fmUploadFileSubmitButton').value = fmUploadFileSubmitButtonValue;
         if (statusDivId == 'uploadStatus') {
             $('fmUploadFileForm').reset();
+            jipWindow.refreshAfterClose();
         }
     }
 

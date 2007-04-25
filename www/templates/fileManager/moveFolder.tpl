@@ -1,6 +1,6 @@
 {assign var="path" value=$folder->getPath()}
 {include file='jipTitle.tpl' title="Перемещение каталога `$path`"}
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
+<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
     <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td>{$form.dest.label}</td>

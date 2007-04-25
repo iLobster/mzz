@@ -45,7 +45,7 @@ function toggleEditor(id) {
 }
 </script>{/literal}
 
-<form {$form.attributes} onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return mzzAjax.sendForm(this);">
+<form {$form.attributes} onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);">
 {$form.hidden}
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>

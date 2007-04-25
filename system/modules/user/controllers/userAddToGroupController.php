@@ -77,6 +77,7 @@ class userAddToGroupController extends simpleController
 
                 // выбираем всех пользователей, которые ещЄ не добавлены в эту группу и удовлетвор€ют маске
                 $users = $userMapper->searchAllByCriteria($criteria);
+                $this->smarty->assign('filter', $filter);
             }
 
             $url = new url('withId');
@@ -84,7 +85,7 @@ class userAddToGroupController extends simpleController
             $url->addParam('id', $this->request->get('id', 'integer'));
             $url->setAction('addToGroupList');
 
-            $this->smarty->assign('filter', $filter);
+
             $this->smarty->assign('users', $users);
             $this->smarty->assign('group', $group);
 

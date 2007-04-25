@@ -3,7 +3,7 @@
 {else}
     {include file='jipTitle.tpl' title='Создание пользователя'}
 {/if}
-<form {$form.attributes} onsubmit="return mzzAjax.sendForm(this);">
+<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="50%">
         {if $action eq 'edit'}
             <tr>

@@ -5,7 +5,7 @@
 {include file='jipTitle.tpl' title="Изменение прав по умолчанию на объект типа <b>$class</b> раздела <b>$section</b>"}
 {/if}
 
-<form action="{url}" method="post" onsubmit="return mzzAjax.sendForm(this);">
+<form action="{url}" method="post" onsubmit="return jipWindow.sendForm(this);">
 <table border="0" width="99%" cellpadding="4" cellspacing="1" class="systemTable">
         <tr>
             <td colspan="3">

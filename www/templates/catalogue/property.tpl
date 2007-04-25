@@ -1,5 +1,5 @@
 <div class="jipTitle">{if $isEdit}Редактирование свойства{else}Создание свойства{/if}</div>
-<form action="{$action}" method="post" onsubmit="return mzzAjax.sendForm(this);">
+<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="100%">
         <tr>
             <td><strong>Заголовок:</strong></td>

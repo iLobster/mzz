@@ -81,7 +81,7 @@ var TinyMCE_SavePlugin = {
 					tinyMCE.isNotDirty = true;
 
 					if (formObj.onsubmit == null || formObj.onsubmit() != false)
-						mzzAjax.sendForm(formObj);
+						jipWindow.sendForm(formObj);
 				} else
 					alert("Error: No form element found.");
 
