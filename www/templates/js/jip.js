@@ -200,11 +200,8 @@ mzzAjax.prototype = {
                 jipMoveDiv.addClassName('jipMove');
                 jipMoveDiv.update('<img width="5" height="13" src="' + SITE_PATH + '/templates/images/jip/move.gif" alt="Переместить" title="Переместить" />');
                 jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
-                this.drag =  new Draggable('jip' + jipWindow.currentWindow, {
-                    'handle': 'jip-' + jipTitle.parentNode.id,
-                    'change': function (th) {
-                       // alert(th.dragging);
-                    }
+                this.drag = new Draggable('jip' + jipWindow.currentWindow, {
+                    'handle': 'jip-' + jipTitle.parentNode.id
                 });
             }
 
@@ -658,9 +655,8 @@ jipMenu.prototype = {
         this.current.button.src = SITE_PATH + '/templates/images/jip.gif';
         this.mouseIn();
         this.current = {"menu": false, "button": false};
-        setTimeout(this.jipMenu.parentNode.removeChild(this.jipMenu), 10);
+        setTimeout(function () { jipMenu.jipMenu.parentNode.removeChild(jipMenu.jipMenu); jipMenu.jipMenu = false; }, 10);
         this.jipButton = false;
-        this.jipMenu = false;
     },
 
     draw: function() {
