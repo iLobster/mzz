@@ -94,6 +94,10 @@ class pager
      */
     public function __construct($baseurl, $page, $perPage, $roundItems = 2, $reverse = false)
     {
+        $baseurl = preg_replace('/page=\d*/', '', $baseurl);
+        if (strpos($baseurl, '?') == strlen($baseurl) - 1) {
+            $baseurl = substr($baseurl, 0, -1);
+        }
         $this->baseurl = $baseurl;
         $this->page = $page;
         $this->setPerPage($perPage);
@@ -237,7 +241,9 @@ class pager
                     $result[$lastPage] = array('page' => $lastPage, 'url' => $url . $lastPage);
                 }
 
-                $result[$this->page]['current'] = true;
+                if (isset($result[$this->page])) {
+                    $result[$this->page]['current'] = true;
+                }
             }
 
             $this->result = $result;
