@@ -6,8 +6,8 @@
             <td>{form->text name="title" size="60" value=$title onError="style=border: red 1px solid;"}{$errors->get('title')}</td>
         </tr>
         <tr>
-            <td><strong>Имя:</strong></td>
-            <td>{form->text name="name" size="60" value=$name}{$errors->get('name')}</td>
+            <td><strong>{form->caption name="name" value="Имя:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+            <td>{form->text name="name" size="60" value=$name onError="style=border: red 1px solid;"}{$errors->get('name')}</td>
         </tr>
         <tr>
             <td><strong>Тип:</strong></td>

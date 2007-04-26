@@ -25,15 +25,33 @@ class catalogueDeleteController extends simpleController
     public function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
+        $user = $this->toolkit->getUser();
 
         $id = $this->request->get('id', 'integer', SC_PATH);
-        $catalogue = $catalogueMapper->searchById($id);
 
-        if($catalogue){
-            $catalogueMapper->delete($id);
+        if ($id) {
+            $items = array($id);
+        } else {
+            $items = array_keys((array) $this->request->get('items', 'mixed', SC_POST));
         }
 
-        return jipTools::redirect();
+        $nonAccessible = array();
+        foreach ($items as $id) {
+            $catalogue = $catalogueMapper->searchById($id);
+            if ($catalogue) {
+                $acl = new acl($user, $catalogue->getObjId());
+                if ($acl->get($this->request->getAction())) {
+                    $catalogueMapper->delete($id);
+                } else {
+                    $nonAccessible[] = $id;
+                }
+            }
+        }
+        if (empty($nonAccessible)) {
+            return jipTools::redirect();
+        } else {
+            return print_r($nonAccessible);
+        }
     }
 }
 

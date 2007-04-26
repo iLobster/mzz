@@ -1,10 +1,12 @@
 <p class="pageTitle">Список элементов</p>
 <div class="pageContent">
 {include file="breadcrumbs.tpl" breadCrumbs=$chains section=$current_section module="catalogue"}
+<form onsubmit="jipWindow.open('{url route="default2" section="catalogue" action="delete"}', false, 'POST', $(this).serialize(true)); return false;">
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>
                 <td style="width: 30px;">&nbsp;</td>
+                <td style="width: 1px;">&nbsp;</td>
                 <td style="text-align: left;">Название</td>
                 <td style="text-align: center;">Тип</td>
                 <td style="width: 120px;">Дата создания</td>
@@ -14,7 +16,8 @@
         {if $catalogueFolder->getLevel() ne 1}
             <tr>
                 <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$catalogueFolder->getTreeParent()->getPath() section_name="catalogue" module_name="catalogue"}">..</a></td>
+                <td style="text-align: center;">-</td>
+                <td style="text-align: left;"><a href="{url route="admin" params=$catalogueFolder->getTreeParent()->getPath() section_name="catalogue" module_name="catalogue"}">..</a></td>
                 <td style="text-align: center;">-</td>
                 <td style="text-align: center;">-</td>
                 <td style="text-align: center;">-</td>
@@ -26,6 +29,7 @@
             {if $folder->getLevel() eq $catalogueFolder->getLevel()+1 }
             <tr>
                 <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
+                <td style="text-align: center;">-</td>
                 <td style="text-align: left;"><a href="{url route='admin' params=$folder->getPath() section_name="catalogue" module_name="catalogue"}">{$folder->getTitle()}</a></td>
                 <td style="text-align: center;">-</td>
                 <td style="text-align: center;">-</td>
@@ -34,30 +38,28 @@
             </tr>
             {/if}
         {/foreach}
-        {foreach from=$items item="item" name="itemIterator"}
+        {foreach from=$items item="item"}
             <tr>
                 <td style="width: 30px; text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" /></td>
+                <td style="text-align: center;"><input type="checkbox" name="items[{$item->getId()}]" /></td>
                 <td style="text-align: left;">{$item->getName()}</td>
                 <td style="text-align: center;">{$item->getTypeTitle()}</td>
                 <td style="text-align: center;">{$item->getCreated()|date_format:"%d/%m/%Y %H:%M"}</td>
                 <td style="text-align: center;">{$item->getEditor()->getLogin()}</td>
                 <td style="text-align: center;">{$item->getJip()}</td>
             </tr>
-        {foreachelse}
-            {if $smarty.foreach.folderIterator.total eq 1}
-            <tr>
-                <td>&nbsp;</td>
-                <td>Пусто</td>
-            </tr>
-            {/if}
         {/foreach}
-        
         <tr class="tableListFoot">
             <td>&nbsp;</td>
             <td colspan="2">{if $pager->getPagesTotal() > 1}{$pager->toString()}{/if}</td>
             <td colspan="3" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
         </tr>
     </table>
+    <select id="massAction">
+        <option value="delete">Удалить</option>
+    </select>
+    <input type="submit" value="DoItNoW!">
+</form>
 </div>
 <br /><br /><br />
 <p class="pageTitle">Список типов</p>
