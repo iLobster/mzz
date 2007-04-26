@@ -182,7 +182,7 @@ class pager
     {
         $criteria = new criteria();
 
-        if ($this->page >= 0) {
+        if ($this->page > 0) {
             $firstPage = $this->reverse ? $this->getPagesTotal() : 1;
             $offset = abs($this->page - $firstPage) * $this->perPage;
         } else {

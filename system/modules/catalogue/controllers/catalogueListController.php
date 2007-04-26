@@ -34,13 +34,9 @@ class catalogueListController extends simpleController
         }
 
         $config = $this->toolkit->getConfig('catalogue');
+        $this->setPager($catalogueFolder, $config->get('items_per_page'));
 
-        fileLoader::load('pager');
-        $pager = new pager($this->request->getRequestUrl(), $this->getPageNumber(), $config->get('items_per_page'));
-
-        $catalogueFolder->setPager($pager);
         $this->smarty->assign('folderPath', $catalogueFolder->getPath());
-        $this->smarty->assign('pager', $pager);
         $this->smarty->assign('items', $catalogueFolder->getItems());
         $this->smarty->assign('catalogueFolder', $catalogueFolder);
         $this->smarty->assign('folders', $catalogueFolderMapper->getTree());

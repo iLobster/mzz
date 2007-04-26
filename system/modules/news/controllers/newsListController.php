@@ -33,10 +33,9 @@ class newsListController extends simpleController
         }
 
         $config = $this->toolkit->getConfig('news');
-        $pager = $this->setPager($newsFolder, $config->get('items_per_page'), true);
+        $this->setPager($newsFolder, $config->get('items_per_page'), true);
 
         $this->smarty->assign('folderPath', $newsFolder->getPath());
-        $this->smarty->assign('pager', $pager);
         $this->smarty->assign('news', $newsFolder->getItems());
         $this->smarty->assign('newsFolder', $newsFolder);
 

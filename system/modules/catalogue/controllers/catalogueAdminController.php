@@ -91,4 +91,5 @@ class catalogueAdminController extends simpleController
         return $this->smarty->fetch('catalogue/admin.tpl');
     }
 }
+
 ?>
