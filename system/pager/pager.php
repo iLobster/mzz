@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage pager
- * @version 0.2
+ * @version 0.2.1
  */
 class pager
 {
@@ -94,12 +94,12 @@ class pager
      */
     public function __construct($baseurl, $page, $perPage, $roundItems = 2, $reverse = false)
     {
-        $baseurl = preg_replace('/page=\d*/', '', $baseurl);
+        $baseurl = preg_replace('/page=[^a-z]*/', '', $baseurl);
         if (strpos($baseurl, '?') == strlen($baseurl) - 1) {
             $baseurl = substr($baseurl, 0, -1);
         }
         $this->baseurl = $baseurl;
-        $this->page = $page;
+        $this->page = (int)$page;
         $this->setPerPage($perPage);
         $this->itemsCount = 0;
         $this->roundItems = (int)$roundItems;
@@ -182,7 +182,7 @@ class pager
     {
         $criteria = new criteria();
 
-        if ($this->page) {
+        if ($this->page >= 0) {
             $firstPage = $this->reverse ? $this->getPagesTotal() : 1;
             $offset = abs($this->page - $firstPage) * $this->perPage;
         } else {
@@ -207,7 +207,7 @@ class pager
 
             $pagesTotal = $this->getPagesTotal();
 
-            if (!$this->page) {
+            if ($this->page <= 0) {
                 $this->page = $this->reverse ? $pagesTotal : 1;
             }
 
