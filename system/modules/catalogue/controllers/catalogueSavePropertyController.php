@@ -12,7 +12,6 @@
  * @version $Id$
  */
 
-//fileLoader::load('catalogue/forms/cataloguePropertyForm');
 fileLoader::load('forms/validators/formValidator');
 
 /**

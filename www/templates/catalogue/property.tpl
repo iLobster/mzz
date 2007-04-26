@@ -2,8 +2,8 @@
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="100%">
         <tr>
-            <td><strong>Заголовок:</strong></td>
-            <td>{form->text name="title" size="60" value=$title}{$errors->get('title')}</td>
+            <td><strong>{form->caption name="title" value="Заголовок:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+            <td>{form->text name="title" size="60" value=$title onError="style=border: red 1px solid;"}{$errors->get('title')}</td>
         </tr>
         <tr>
             <td><strong>Имя:</strong></td>

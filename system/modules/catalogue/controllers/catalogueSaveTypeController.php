@@ -12,7 +12,8 @@
  * @version $Id$
  */
 
-fileLoader::load('catalogue/forms/catalogueTypeForm');
+fileLoader::load('forms/validators/formValidator');
+//fileLoader::load('catalogue/forms/catalogueTypeForm');
 
 /**
  * catalogueSaveTypeController: контроллер для метода saveType модуля catalogue
@@ -27,46 +28,74 @@ class catalogueSaveTypeController extends simpleController
     public function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
-        $properties = $catalogueMapper->getAllProperties();
+        $properties_tmp = $catalogueMapper->getAllProperties();
 
-        $isEdit = ($this->request->getAction() == 'editType');
-
-        if($isEdit){
-            $type_id = $this->request->get('id', 'integer', SC_PATH);
-
-            $type = $catalogueMapper->getType($type_id);
-            foreach($catalogueMapper->getProperties($type_id) as $property){
-                $type['properties'][$property['id']] = $property;
-            }
-
-            $form = catalogueTypeForm::getForm($properties, $type);
-        } else {
-            $form = catalogueTypeForm::getForm($properties);
+        $properties = array();
+        foreach ($properties_tmp as $property) {
+            $properties[$property['id']] = $property;
         }
 
-        if($form->validate() == false){
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $form->accept($renderer);
-            $formArray = $renderer->toArray();
-            $formArray['properties'] = isset($formArray['properties']) ? $formArray['properties'] : array();
+        $action = $this->request->getAction();
+        $isEdit = ($action == 'editType');
 
-            $this->smarty->assign('form', $formArray);
-            $this->smarty->assign('isEdit', $isEdit);
-            return $this->smarty->fetch('catalogue/type.tpl');
-        } else {
-            $values = $form->exportValues();
-            $values['properties'] = (isset($values['properties'])) ? $values['properties'] : array();
+        $type = array(
+            'title'         =>  '',
+            'name'          =>  '',
+            'properties'    =>  array()
+        );
 
-            $properties = array();
-            foreach (array_keys($values['properties']) as $id) {
-                $properties[$id]['isShort'] = isset($values['full'][$id]) ? 1 : 0;
-                $properties[$id]['sort'] = isset($values['sort'][$id]) ? $values['sort'][$id] : 0;
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Необходимо назвать этот тип');
+        $validator->add('required', 'title', 'Необходимо дать метку этому типу');
+
+        if ($isEdit) {
+            $type_id = $this->request->get('id', 'integer', SC_PATH);
+            $type = $catalogueMapper->getType($type_id);
+
+            $props_tmp = $catalogueMapper->getProperties($type_id);
+
+            foreach ($props_tmp as $prop) {
+                $type['properties'][$prop['id']] = $prop;
+                unset($properties[$prop['id']]);
+            }
+        }
+
+        if (!$validator->validate()) {
+            $url = new url('default2');
+            $url->setAction($action);
+            $url->setSection($this->request->getSection());
+
+            if ($isEdit) {
+                $url->setRoute('withId');
+                $url->addParam('id', $type['id']);
             }
 
-            if($isEdit){
-                $catalogueMapper->updateType($type_id ,$values['name'], $values['title'], $properties);
+            $this->smarty->assign('properties', $properties);
+            $this->smarty->assign('action', $url->get());
+            $this->smarty->assign('type', $type);
+            $this->smarty->assign('isEdit', $isEdit);
+            $this->smarty->assign('errors', $validator->getErrors());
+            return $this->smarty->fetch('catalogue/type.tpl');
+        } else {
+            $name = $this->request->get('name', 'string', SC_POST);
+            $title = $this->request->get('title', 'string', SC_POST);
+
+            $newProperties_tmp = (array) $this->request->get('properties', 'mixed', SC_POST);
+            $newPropertiesIsShort = (array) $this->request->get('full', 'mixed', SC_POST);
+            $newPropertiesSort = (array) $this->request->get('sort', 'mixed', SC_POST);
+
+            $newProperties = array();
+            foreach ($newProperties_tmp as $id => $value) {
+                if ($value != 0) {
+                    $newProperties[$id]['isShort'] = (isset($newPropertiesIsShort[$id]) && $newPropertiesIsShort[$id] != 0) ? 1 : 0;
+                    $newProperties[$id]['sort'] = (isset($newPropertiesSort[$id]) && $newPropertiesSort[$id] != 0) ? (int) $newPropertiesSort[$id] : 0;
+                }
+            }
+
+            if ($isEdit) {
+                $catalogueMapper->updateType($type_id , $name, $title, $newProperties);
             } else {
-                $catalogueMapper->addType($values['name'], $values['title'], $properties);
+                $catalogueMapper->addType($name, $title, $newProperties);
             }
 
             return jipTools::redirect();
