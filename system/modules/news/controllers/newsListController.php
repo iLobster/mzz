@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage news
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class newsListController extends simpleController
@@ -33,7 +33,7 @@ class newsListController extends simpleController
         }
 
         $config = $this->toolkit->getConfig('news');
-        $pager = $this->setPager($newsFolder, $config->get('items_per_page'));
+        $pager = $this->setPager($newsFolder, $config->get('items_per_page'), true);
 
         $this->smarty->assign('folderPath', $newsFolder->getPath());
         $this->smarty->assign('pager', $pager);

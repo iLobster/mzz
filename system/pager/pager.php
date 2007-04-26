@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage pager
- * @version 0.1.1
+ * @version 0.2
  */
 class pager
 {
@@ -69,6 +69,13 @@ class pager
     private $pagesTotal;
 
     /**
+     * Флаг, изменяющий порядок страниц на противоположный (от больших к меньшим)
+     *
+     * @var boolean
+     */
+    private $reverse;
+
+    /**
      * переменная для хранения сгенерированного результата
      * для предотвращения ненужной повторной обработки
      *
@@ -83,14 +90,16 @@ class pager
      * @param integer $page номер текущей страницы
      * @param integer $perPage число объектов на одну страницу
      * @param integer $roundItems число номеров страниц возле текущей
+     * @param boolean $reverse обратный порядок страниц
      */
-    public function __construct($baseurl, $page, $perPage, $roundItems = 2)
+    public function __construct($baseurl, $page, $perPage, $roundItems = 2, $reverse = false)
     {
         $this->baseurl = $baseurl;
-        $this->page = ($page > 0) ? (int)$page : 1;
+        $this->page = $page;
         $this->setPerPage($perPage);
         $this->itemsCount = 0;
         $this->roundItems = (int)$roundItems;
+        $this->reverse = $reverse;
     }
 
     /**
@@ -164,7 +173,15 @@ class pager
     public function getLimitQuery()
     {
         $criteria = new criteria();
-        return $criteria->setLimit($this->perPage)->setOffset(($this->page - 1) * $this->perPage);
+
+        if ($this->page) {
+            $firstPage = $this->reverse ? $this->getPagesTotal() : 1;
+            $offset = abs($this->page - $firstPage) * $this->perPage;
+        } else {
+            $offset = 0;
+        }
+
+        return $criteria->setLimit($this->perPage)->setOffset($offset);
     }
 
     /**
@@ -176,37 +193,49 @@ class pager
     public function toArray()
     {
         if (empty($this->result)) {
+            $sign = $this->reverse ? -1 : 1;
 
             $result = array();
+
+            $pagesTotal = $this->getPagesTotal();
+
+            if (!$this->page) {
+                $this->page = $this->reverse ? $pagesTotal : 1;
+            }
 
             $url = $this->baseurl . (strpos($this->baseurl, '?') ? '&' : '?') . 'page=';
 
             if ($this->itemsCount > 0) {
-                $result[1] = array('page' => 1, 'url' => $url . '1');
+                $firstPage = $this->reverse ? $pagesTotal : 1;
+                $result[$firstPage] = array('page' => $firstPage, 'url' => $url . $firstPage);
             }
 
-            if ($this->page - $this->roundItems > 2) {
+            $leftSkip = ($this->reverse ? $pagesTotal - $this->page - 1 : $this->page - 2) > $this->roundItems;
+            $rightSkip = ($this->reverse ? $this->page - 2 : $pagesTotal - $this->page - 1) > $this->roundItems;
+
+            if ($leftSkip) {
                 $result[] = array('skip' => true);
+                $left = $this->page - $sign * $this->roundItems;
+            } else {
+                $left = $firstPage + $sign;
             }
 
-            $pagesTotal = $this->getPagesTotal();
-            $left = (($tmp = $this->page - $this->roundItems) > 1) ? $tmp : 1;
-            $right = (($tmp = $this->page + $this->roundItems) < $pagesTotal) ? $tmp : $pagesTotal;
-
-            for ($i = $left; $i <= $right; $i++) {
-                $result[$i] = array('page' => $i, 'url' => $url . $i);
+            if ($rightSkip) {
+                $right = $this->page + $sign * $this->roundItems;
+            } else {
+                $right = $this->reverse ? 1 : $pagesTotal;
             }
 
-            if ($this->page + $this->roundItems + 1 < $pagesTotal) {
+
+            while ($sign * ($right - $left) >= 0) {
+                $result[$left] = array('page' => $left, 'url' => $url . $left);
+                $left += $sign;
+            }
+
+            if ($rightSkip) {
                 $result[] = array('skip' => true);
-            }
-
-            $result[$pagesTotal] = array('page' => $pagesTotal, 'url' => $url . $pagesTotal);
-
-            if ($this->page > $pagesTotal) {
-                $this->page = $pagesTotal;
-            } elseif ($this->page < 1) {
-                $this->page = 1;
+                $lastPage = abs($firstPage - $pagesTotal) + 1;
+                $result[$lastPage] = array('page' => $lastPage, 'url' => $url . $lastPage);
             }
 
             $result[$this->page]['current'] = true;

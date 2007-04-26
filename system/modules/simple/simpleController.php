@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2.3
+ * @version 0.2.4
  */
 
 abstract class simpleController
@@ -109,12 +109,13 @@ abstract class simpleController
      *
      * @param simpleMapper $item маппер, который возвращает требуемую коллекцию объектов
      * @param integer $per_page число объектов на странице
+     * @param boolean $reverse флаг, измен€ющий пор€док страниц на противоположный (от больших к меньшим)
      * @return pager
      */
-    protected function setPager($item, $per_page = 20)
+    protected function setPager($item, $per_page = 20, $reverse = false, $roundItems = 2)
     {
         fileLoader::load('pager');
-        $pager = new pager($this->request->getRequestUrl(), $this->request->get('page', 'integer', SC_GET), $per_page);
+        $pager = new pager($this->request->getRequestUrl(), $this->request->get('page', 'integer', SC_GET), $per_page, $roundItems, $reverse);
         $item->setPager($pager);
 
         $this->smarty->assign('pager', $pager);

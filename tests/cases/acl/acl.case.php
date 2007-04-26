@@ -161,9 +161,9 @@ class aclTest extends unitTestCase
 
         $this->assertEqual($acl->get('edit'), 1);
         $acl->set('edit', array('allow' => 0, 'deny' => 0));
-        $this->assertEqual($acl->get('edit'), 1);
+        $this->assertEqual($acl->get('edit'), 0);
 
-        $this->assertEqual($acl->get('edit'), 1);
+        $this->assertEqual($acl->get('edit'), 0);
         $acl->set('edit', array('allow' => 0, 'deny' => 1));
         $this->assertEqual($acl->get('edit'), 0);
 
@@ -182,7 +182,7 @@ class aclTest extends unitTestCase
         $cache = systemToolkit::getInstance()->getCache();
         $cache->drop();
 
-        $this->assertEqual($acl->get('edit'), 1);
+        $this->assertEqual($acl->get('edit'), 0);
         $this->assertEqual($acl->get('delete'), 1);
 
         $acl->set($access = array('edit' => 0, 'delete' => 0));
