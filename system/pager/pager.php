@@ -154,6 +154,10 @@ class pager
     public function setCount($count)
     {
         $this->itemsCount = (int)$count;
+
+        if ($this->page > $this->getPagesTotal()) {
+            $this->page = $this->getPagesTotal();
+        }
     }
 
     /**
