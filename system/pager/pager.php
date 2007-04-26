@@ -208,37 +208,37 @@ class pager
             if ($this->itemsCount > 0) {
                 $firstPage = $this->reverse ? $pagesTotal : 1;
                 $result[$firstPage] = array('page' => $firstPage, 'url' => $url . $firstPage);
+
+                $leftSkip = ($this->reverse ? $pagesTotal - $this->page - 1 : $this->page - 2) > $this->roundItems;
+                $rightSkip = ($this->reverse ? $this->page - 2 : $pagesTotal - $this->page - 1) > $this->roundItems;
+
+                if ($leftSkip) {
+                    $result[] = array('skip' => true);
+                    $left = $this->page - $sign * $this->roundItems;
+                } else {
+                    $left = $firstPage + $sign;
+                }
+
+                if ($rightSkip) {
+                    $right = $this->page + $sign * $this->roundItems;
+                } else {
+                    $right = $this->reverse ? 1 : $pagesTotal;
+                }
+
+
+                while ($sign * ($right - $left) >= 0) {
+                    $result[$left] = array('page' => $left, 'url' => $url . $left);
+                    $left += $sign;
+                }
+
+                if ($rightSkip) {
+                    $result[] = array('skip' => true);
+                    $lastPage = abs($firstPage - $pagesTotal) + 1;
+                    $result[$lastPage] = array('page' => $lastPage, 'url' => $url . $lastPage);
+                }
+
+                $result[$this->page]['current'] = true;
             }
-
-            $leftSkip = ($this->reverse ? $pagesTotal - $this->page - 1 : $this->page - 2) > $this->roundItems;
-            $rightSkip = ($this->reverse ? $this->page - 2 : $pagesTotal - $this->page - 1) > $this->roundItems;
-
-            if ($leftSkip) {
-                $result[] = array('skip' => true);
-                $left = $this->page - $sign * $this->roundItems;
-            } else {
-                $left = $firstPage + $sign;
-            }
-
-            if ($rightSkip) {
-                $right = $this->page + $sign * $this->roundItems;
-            } else {
-                $right = $this->reverse ? 1 : $pagesTotal;
-            }
-
-
-            while ($sign * ($right - $left) >= 0) {
-                $result[$left] = array('page' => $left, 'url' => $url . $left);
-                $left += $sign;
-            }
-
-            if ($rightSkip) {
-                $result[] = array('skip' => true);
-                $lastPage = abs($firstPage - $pagesTotal) + 1;
-                $result[$lastPage] = array('page' => $lastPage, 'url' => $url . $lastPage);
-            }
-
-            $result[$this->page]['current'] = true;
 
             $this->result = $result;
         }
