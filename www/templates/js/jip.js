@@ -154,9 +154,10 @@ jipWindow.prototype = {
         this.eventLockUpdate  = this.lockContent.bindAsEventListener(this);
     },
 
-    open: function(url, isNew, method)
+    open: function(url, isNew, method, params)
     {
         isNew = isNew || false;
+        params = params || {};
         method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
         if (isNew || this.windowCount == 0) {
             var jipDiv = document.createElement('div');
@@ -199,7 +200,7 @@ jipWindow.prototype = {
 
             new Ajax.Request(url, {
                 'method': method,
-                parameters: {'ajax': 1},
+                parameters: $H({'ajax': 1}).merge(params),
                 onSuccess: function(transport) {
                     jipWindow.successRequest(transport);
                 },

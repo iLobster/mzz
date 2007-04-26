@@ -94,10 +94,12 @@ class pager
      */
     public function __construct($baseurl, $page, $perPage, $roundItems = 2, $reverse = false)
     {
-        $baseurl = preg_replace('/page=[^a-z]*/', '', $baseurl);
-        if (strpos($baseurl, '?') == strlen($baseurl) - 1) {
+        $baseurl = preg_replace('/([&?])page=.*?($|&)/i', '$1', $baseurl);
+
+        if ((($end = strrpos($baseurl, '?')) || ($end = strrpos($baseurl, '&'))) && $end === strlen($baseurl) - 1) {
             $baseurl = substr($baseurl, 0, -1);
         }
+
         $this->baseurl = $baseurl;
         $this->page = (int)$page;
         $this->setPerPage($perPage);
