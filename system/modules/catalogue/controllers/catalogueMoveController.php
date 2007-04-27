@@ -12,7 +12,8 @@
  * @version $Id$
  */
 
-fileLoader::load('catalogue/forms/catalogueMoveForm');
+//fileLoader::load('catalogue/forms/catalogueMoveForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * catalogueMoveController: контроллер для метода move модуля catalogue
@@ -26,42 +27,69 @@ class catalogueMoveController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer', SC_PATH);
-
+        $user = $this->toolkit->getUser();
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
-        $catalogue = $catalogueMapper->searchById($id);
+        $id = $this->request->get('id', 'integer', SC_PATH);
 
-        if (!$catalogue) {
-            return $catalogueMapper->get404()->run();
+        $isMassAction = false;
+        if ($id) {
+            $items = array($id);
+        } else {
+            $isMassAction = true;
+            $items = array_keys((array) $this->request->get('items', 'mixed', SC_POST));
         }
 
-        $folders = $catalogueFolderMapper->searchAll();
+        $validator = new formValidator();
+        $validator->add('required', 'dest', 'Необходимо указать каталог назначени');
 
-        $form = catalogueMoveForm::getForm($catalogue, $folders);
-
-        if ($form->validate()) {
-            $values = $form->exportValues();
-
-            $destFolder = $catalogueFolderMapper->searchById($values['dest']);
+        if ($validator->validate()) {
+            $dest = $this->request->get('dest', 'integer', SC_POST);
+            $destFolder = $catalogueFolderMapper->searchById($dest);
 
             if (!$destFolder) {
                 $controller = new messageController('Каталог назначения не найден', messageController::WARNING);
                 return $controller->run();
             }
 
-            $catalogue->setFolder($destFolder);
-            $catalogueMapper->save($catalogue);
+            $nonAccessible = array();
+            foreach ($items as $id) {
+                $catalogue = $catalogueMapper->searchById($id);
+                if ($catalogue) {
+                    $acl = new acl($user, $catalogue->getObjId());
+                    if ($acl->get($this->request->getAction())) {
+                        $catalogue->setFolder($destFolder);
+                        $catalogueMapper->save($catalogue);
+                    } else {
+                        $nonAccessible[] = $id;
+                    }
+                }
+            }
 
-            return jipTools::redirect();
+            if (empty($nonAccessible)) {
+                return jipTools::redirect();
+            } else {
+                $this->smarty->assign('nonAccess', $nonAccessible);
+                return $this->smarty->fetch('catalogue/nonAccess.tpl');
+            }
         }
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $form->accept($renderer);
+        $folders = $catalogueFolderMapper->searchAll();
+        $dests = array();
+        foreach ($folders as $val) {
+            $dests[$val->getId()] = $val->getPath();
+        }
 
-        $this->smarty->assign('form', $renderer->toArray());
-        $this->smarty->assign('news', $catalogue);
+        $url = new url('withAnyParam');
+        $url->setSection($this->request->getSection());
+        $url->setAction($this->request->getAction());
+        $url->addParam('name', $isMassAction ? '' : $id);
+
+        $this->smarty->assign('items', $items);
+        $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('select', $dests);
         return $this->smarty->fetch('catalogue/move.tpl');
     }
 }

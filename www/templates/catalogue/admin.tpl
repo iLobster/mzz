@@ -1,7 +1,11 @@
+<script language="JavaScript">
+var massActionDelete = "{url route="default2" section="catalogue" action="delete"}";
+var massActionMove = "{url route="default2" section="catalogue" action="move"}";
+</script>
 <p class="pageTitle">Список элементов</p>
 <div class="pageContent">
 {include file="breadcrumbs.tpl" breadCrumbs=$chains section=$current_section module="catalogue"}
-<form onsubmit="jipWindow.open('{url route="default2" section="catalogue" action="delete"}', false, 'POST', $(this).serialize(true)); return false;">
+<form onsubmit="jipWindow.open((($('massAction').value == 'delete') ? massActionDelete : massActionMove), false, 'POST', $(this).serialize(true)); return false;">
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>
@@ -56,9 +60,10 @@
         </tr>
     </table>
     <select id="massAction">
+        <option value="move">Переместить</option>
         <option value="delete">Удалить</option>
     </select>
-    <input type="submit" value="DoItNoW!">
+    <input type="submit" value="ok">
 </form>
 </div>
 <br /><br /><br />

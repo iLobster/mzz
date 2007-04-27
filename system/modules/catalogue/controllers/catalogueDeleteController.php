@@ -28,12 +28,7 @@ class catalogueDeleteController extends simpleController
         $user = $this->toolkit->getUser();
 
         $id = $this->request->get('id', 'integer', SC_PATH);
-
-        if ($id) {
-            $items = array($id);
-        } else {
-            $items = array_keys((array) $this->request->get('items', 'mixed', SC_POST));
-        }
+        $items = $id ? array($id) : array_keys((array) $this->request->get('items', 'mixed', SC_POST));;
 
         $nonAccessible = array();
         foreach ($items as $id) {

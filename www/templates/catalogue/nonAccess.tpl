@@ -1,0 +1,2 @@
+<div class="jipTitle">Внимание!</div>
+Над объектами с id <strong>{foreach from=$nonAccess item="id"}{$id} {/foreach}</strong> не было произведено действий, так как у вас недостаточно прав для этой операции. <a href="javascript:jipWindow.close();">ok</a>
