@@ -12,15 +12,15 @@
  * @version $Id$
  */
 
-fileLoader::load('admin/forms/adminAddActionForm');
 fileLoader::load('codegenerator/actionGenerator');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * adminAddActionController: контроллер для метода addAction модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.2
  */
 
 class adminAddActionController extends simpleController
@@ -29,9 +29,6 @@ class adminAddActionController extends simpleController
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
         $action_name = $this->request->get('action_name', 'string', SC_PATH);
-
-        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
-        $dest = $adminMapper->getDests();
 
         $action = $this->request->getAction();
 
@@ -51,17 +48,90 @@ class adminAddActionController extends simpleController
             return $controller->run();
         }
 
-        $actnionsInfo = $info[$data['c_name']];
+        $isEdit = $action == 'editAction';
 
-        $form = adminAddActionForm::getForm($data, $db, $action, $action_name, $actnionsInfo);
+        $actionsInfo = $info[$data['c_name']];
+        //@todo предлагаю этот код также вынести в отдельный класс как это раньше было с QF
+        // НАЧАЛО ВАЛИДАТОРА
+        $url = new url('withId');
+        $url->setAction($action);
+        $url->addParam('id', $data['c_id']);
+        if ($isEdit) {
+            $url->setRoute('adminAction');
+            $url->addParam('action_name', $action_name);
+        }
 
-        if ($form->validate()) {
-            $values = $form->exportValues();
+        $defaults = new arrayDataspace();
+
+        if ($isEdit) {
+            $defaults->set('name', $action_name);
+
+            $default = array('title' => '', 'info' => '', 'icon' => '');
+
+            $info = $actionsInfo[$action_name];
+            $info = array_merge($default, $info);
+
+            $defaults->set('controller', $info['controller']);
+            $defaults->set('title', $info['title']);
+            $defaults->set('icon', $info['icon']);
+
+            if (isset($info['confirm'])) {
+                $defaults->set('confirm', $info['confirm']);
+            }
+            if (isset($info['alias'])) {
+                $defaults->set('alias', $info['alias']);
+            }
+            $defaults->set('jip', !empty($info['jip']));
+            $defaults->set('inACL', isset($info['inACL']) && $info['inACL'] == 0);
+        } else {
+            $defaults->set('icon', '/templates/images/');
+        }
+
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $dest = $adminMapper->getDests(true, $data['m_name']);
+
+        foreach ($actionsInfo as $key => $val) {
+            if ($action_name != $key) {
+                $aliases[$key] = isset($val['title']) ? $val['title'] : $key;
+            }
+        }
+
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Поле обязательно к заполнению');
+        $validator->add('callback', 'name', 'Такое действие у класса уже есть или введённое вами имя содержит запрещённые символы', array('addClassValidate', $db, $action_name, $data));
+
+        // КОНЕЦ ВАЛИДАТОРА
+
+        if ($validator->validate()) {
+            $values = array(
+            'alias' => $this->request->get('alias', 'string', SC_POST),
+            'dest' => $this->request->get('dest', 'string', SC_POST),
+            'name' => $this->request->get('name', 'string', SC_POST),
+            'controller' => $this->request->get('controller', 'string', SC_POST),
+            'jip' => $this->request->get('jip', 'string', SC_POST),
+            'inacl' => $this->request->get('inacl', 'string', SC_POST),
+            'title' => $this->request->get('title', 'string', SC_POST),
+            'icon' => $this->request->get('icon', 'string', SC_POST),
+            'confirm' => $this->request->get('confirm', 'string', SC_POST),
+            );
+
             $modules = $adminMapper->getModulesList();
 
+            if (!$values['dest']) {
+                $file = fileLoader::resolve($modules[$data['m_id']]['name'] . '/actions/' . $data['c_name'] . '.ini');
+
+                foreach ($dest as $key => $val) {
+                    if (strpos($file, $val) === 0) {
+                        $values['dest'] = $key;
+                        break;
+                    }
+                }
+            }
+
+            $dest = $adminMapper->getDests();
             $actionGenerator = new actionGenerator($modules[$data['m_id']]['name'], $dest[$values['dest']], $data['c_name']);
 
-            if ($action == 'addAction') {
+            if (!$isEdit) {
                 try {
                     $log = $actionGenerator->generate($values['name'], $values);
                 } catch (Exception $e) {
@@ -76,14 +146,35 @@ class adminAddActionController extends simpleController
             return jipTools::closeWindow();
         }
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $form->accept($renderer);
+        $this->smarty->assign('errors', $validator->getErrors());
 
         $this->smarty->assign('data', $data);
         $this->smarty->assign('action', $action);
-        $this->smarty->assign('form', $renderer->toArray());
+
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('aliases', $aliases);
+        $this->smarty->assign('dests', $dest);
+        $this->smarty->assign('defaults', $defaults);
+
         return $this->smarty->fetch('admin/addAction.tpl');
     }
+}
+
+function addClassValidate($name, $data)
+{
+    if (strlen($name) === 0 || preg_match('/[^a-z0-9_\-]/i', $name)) {
+        return false;
+    }
+
+    if ($name == $data[1]) {
+        return true;
+    }
+
+    $res = $data[0]->getRow('SELECT COUNT(*) AS `cnt` FROM `sys_classes_actions` `ca`
+                   INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
+                    WHERE `ca`.`class_id` = ' . $data[2]['c_id'] . ' AND `a`.`name` = ' . $data[0]->quote($name));
+
+    return $res['cnt'] == 0;
 }
 
 ?>

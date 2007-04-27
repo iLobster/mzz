@@ -19,7 +19,7 @@ class formCaptionField extends formElement
         $result = $options['value'];
         $required = '';
 
-         if (self::isRequired($options)) {
+        if (self::isRequired($options)) {
             $required = (isset($options['onRequired']) ? $options['onRequired'] : '<span style="color: red;">*</span> ');
             unset($options['onRequired']);
         }

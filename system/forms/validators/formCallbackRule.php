@@ -7,7 +7,7 @@ class formCallbackRule extends formAbstractRule
     public function validate()
     {
         $funcName = array_shift($this->params);
-        return call_user_func_array($funcName, $this->params);
+        return call_user_func_array($funcName, array($this->value, $this->params));
     }
 }
 

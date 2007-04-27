@@ -18,6 +18,7 @@
  * @package modules
  * @subpackage admin
  * @version 0.1.3
+ * @deprecated
  */
 class adminAddActionForm
 {

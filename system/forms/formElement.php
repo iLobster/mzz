@@ -16,6 +16,10 @@ abstract class formElement
 {
     static public function createTag(Array $options = array(), $name = 'input')
     {
+        if (!isset($options['onError'])) {
+            $options['onError'] = 'style=color: red;';
+        }
+
         self::parseError($options);
 
         if (!$name) {
@@ -37,7 +41,7 @@ abstract class formElement
     static protected function isRequired($options)
     {
         $validator = systemToolkit::getInstance()->getValidator();
-        return $validator->isFieldRequired($options['name']);
+        return ($validator instanceof formValidator) ? $validator->isFieldRequired($options['name']) : null;
     }
 
     static protected function parseError(& $options)
