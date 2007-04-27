@@ -160,19 +160,19 @@ class adminAddActionController extends simpleController
     }
 }
 
-function addClassValidate($name, $data)
+function addClassValidate($name, $db, $action_name, $data)
 {
     if (strlen($name) === 0 || preg_match('/[^a-z0-9_\-]/i', $name)) {
         return false;
     }
 
-    if ($name == $data[1]) {
+    if ($name == $action_name) {
         return true;
     }
 
-    $res = $data[0]->getRow('SELECT COUNT(*) AS `cnt` FROM `sys_classes_actions` `ca`
+    $res = $db->getRow('SELECT COUNT(*) AS `cnt` FROM `sys_classes_actions` `ca`
                    INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
-                    WHERE `ca`.`class_id` = ' . $data[2]['c_id'] . ' AND `a`.`name` = ' . $data[0]->quote($name));
+                    WHERE `ca`.`class_id` = ' . $data['c_id'] . ' AND `a`.`name` = ' . $db->quote($name));
 
     return $res['cnt'] == 0;
 }

@@ -1,7 +1,7 @@
 <?php
 fileLoader::load('forms/validators/formCallbackRule');
 
-function simpleCallbackRuleFunction($a, $b, $c) {
+function simpleCallbackRuleFunction($value, $a, $b, $c) {
     return ($a < $b) && ($b < $c);
 }
 
