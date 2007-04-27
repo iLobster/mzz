@@ -257,11 +257,12 @@ jipWindow.prototype = {
         if (typeof(transport.responseXML) != 'undefined' && ctype.indexOf("xml") >= 0) {
             responseXML = transport.responseXML.documentElement;
             var item = responseXML.getElementsByTagName('html')[0];
-            Object.values(item.childNodes).each(function (elm) {
-                if (typeof(elm.data) == 'string' && elm.data != '') {
-                    tmp += elm.data;
+            var cnodes = item.childNodes.length;
+            for (var i=0; i<cnodes; i++) {
+                if (item.childNodes[i].data != '') {
+                    tmp += item.childNodes[i].data;
                 }
-            });
+            }
         } else {
             tmp = transport.responseText;
         }
