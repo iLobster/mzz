@@ -66,7 +66,7 @@ class timer
     public function start()
     {
         $this->start = microtime(true);
-        $this->queries_start = $this->db->getQueriesNum() - 1;
+        $this->queries_start = $this->db->getQueriesNum();
         $this->queries_time_start = $this->db->getQueriesTime();
         $this->prepared_start = $this->db->getPreparedNum();
     }
