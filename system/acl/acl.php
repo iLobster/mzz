@@ -16,7 +16,7 @@
  * acl: класс авторизации пользователей
  *
  * @package system
- * @version 0.1.11
+ * @version 0.2
  */
 class acl
 {
@@ -154,102 +154,48 @@ class acl
             }
             $grp = substr($grp, 0, -2);
 
-            $q = 'SELECT `a`.`allow`, `a`.`deny`, `aa`.`name`, `a`.`uid`, `a`.`gid` FROM `sys_access_registry` `r`
+            $qry = 'SELECT IFNULL((MAX(`allow`) - MAX(`deny`) = 1), 0) AS `access`, IFNULL(MAX(`allow`), 0) AS `allow`, IFNULL(MAX(`deny`), 0) AS `deny`, `name` FROM
+            ( (';
+
+            $qry .= 'SELECT `a`.`allow`, `a`.`deny`, `aa`.`name`, `a`.`uid`, `a`.`gid` FROM `sys_access_registry` `r`
                      INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
                       INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
                        INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
                         LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = `r`.`obj_id` AND `a`.`action_id` = `ca`.`action_id` AND (`a`.`uid` = :uid';
 
+
             if (sizeof($this->groups) && !$clean) {
-                $q .= ' OR `a`.`gid` IN (' . $grp . ')';
+                $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
             }
 
-            $q .= ') WHERE `r`.`obj_id` = :obj_id
-                          ORDER by `aa`.`id`';
+            $qry .= ') WHERE `r`.`obj_id` = :obj_id';
 
-            $stmt = $this->db->prepare($q);
-            $this->bind($stmt);
-            $stmt->execute();
-            $concrete = array();
-            while($row = $stmt->fetch()) {
-                $sub = $row['uid'] ? 'user' : 'group';
-                $row['concrete'] = true;
-                $sub_val = $row['uid'] ? $row['uid'] : $row['gid'];
-                if ($sub_val && ($row['allow'] || $row['deny'])) {
-                    $concrete[$sub][$sub_val][$row['name']] = $row;
-                }
-            }
-
+            $qry .= ')';
 
             if (!$clean) {
-                $q_def = 'SELECT a.allow, a.deny, aa.name, a.uid, a.gid FROM `sys_access_registry` `r`
+                $qry .= ' UNION ALL (';
+
+                $qry .= 'SELECT a.allow, a.deny, aa.name, a.uid, a.gid FROM `sys_access_registry` `r`
                      INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
                       INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
                        INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
                         LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = 0 AND `a`.`action_id` = `ca`.`action_id` AND `a`.`class_section_id` = `r`.`class_section_id`
                          WHERE `r`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
 
-                if (sizeof($this->groups)) {
-                    $q_def .= ' OR `a`.`gid` IN (' . $grp . ')';
+                if (sizeof($this->groups) && !$clean) {
+                    $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
                 }
 
-                $q_def .= ') order by `aa`.`id`';
+                ')';
 
-                $stmt = $this->db->prepare($q_def);
-                $this->bind($stmt);
-                $stmt->execute();
-
-                while($row = $stmt->fetch()) {
-                    $sub = $row['uid'] ? 'user' : 'group';
-                    $sub_val = $row['uid'] ? $row['uid'] : $row['gid'];
-                    if (!isset($concrete[$sub][$sub_val][$row['name']])) {
-                        $concrete[$sub][$sub_val][$row['name']] = $row;
-                    }
-                }
+                $qry .= '))';
             }
 
-            //echo '<br><pre>'; var_dump($concrete); echo '<br></pre>';
+            $qry .= ') `x`
 
-            $res = array();
+                         GROUP BY `x`.`name`';
 
-            foreach (array('user', 'group') as $type) {
-                if (isset($concrete[$type])) {
-                    foreach ($concrete[$type] as $val) {
-                        foreach ($val as $name => $access) {
-                            if (!isset($res[$name])) {
-                                $res[$name] = array('allow' => $access['allow'], 'deny' => $access['deny'], 'name' => $access['name']);
-                                $res[$name]['concrete'] = isset($access['concrete']) ? true : false;
-                            } else {
-                                if (!isset($res[$name]['concrete'])) {
-                                    $res[$name]['allow'] |= $access['allow'];
-                                    $res[$name]['deny'] |= $access['deny'];
-                                } elseif (isset($res[$name]['concrete']) && isset($access['concrete'])) {
-                                    $res[$name]['allow'] |= $access['allow'];
-                                    $res[$name]['deny'] |= $access['deny'];
-                                    $res[$name]['concrete'] = true;
-                                }
-                            }
-                            $res[$name]['access'] = $res[$name]['allow'] > $res[$name]['deny'];
-                        }
-                    }
-                }
-            }
-
-            // echo '<br><pre>'; var_dump($res); echo '<br></pre>';
-
-            /*       $qry = 'SELECT IFNULL((MAX(`a`.`allow`) - MAX(`a`.`deny`) = 1), 0) AS `access`, IFNULL(MAX(`a`.`allow`), 0) AS `allow`, IFNULL(MAX(`a`.`deny`), 0) AS `deny`, `aa`.`name` FROM `sys_access_registry` `r`
-            INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
-            INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
-            INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
-            LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = `r`.`obj_id` AND `a`.`action_id` = `ca`.`action_id` AND (`a`.`uid` = :uid';
-
-
-            if (sizeof($this->groups) && !$clean) {
-            $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
-            }
-
-            $qry .= ') WHERE `r`.`obj_id` = :obj_id
-            GROUP BY `ca`.`id`';
+            //echo '<pre>'; var_dump($qry); echo '</pre>';
 
             $stmt = $this->db->prepare($qry);
 
@@ -257,17 +203,16 @@ class acl
 
             $stmt->execute();
 
-            $result[$clean][$full] = array();*/
+            $result[$clean][$full] = array();
 
-            //while ($row = $stmt->fetch()) {
-            foreach ($res as $row) {
+            while ($row = $stmt->fetch()) {
                 if ($full) {
                     $value = array('allow' => (bool)$row['allow'], 'deny' => (bool)$row['deny']);
                 } else {
                     $value = (bool)$row['access'];
                 }
 
-                if ($this->isRoot) {
+                if ($this->isRoot && !$clean) {
                     $result[$clean][$full][$row['name']] = $full ? array('allow' => true, 'deny' => false) : true;
                 } else {
                     $result[$clean][$full][$row['name']] = $value;
@@ -278,10 +223,7 @@ class acl
         }
 
         if (empty($param)) {
-            if (isset($result[$clean][$full])) {
-                return $result[$clean][$full];
-            }
-            return null;
+            return $result[$clean][$full];
         } else {
             $access = isset($result[$clean][$full][$param]) ? (bool)$result[$clean][$full][$param] : false;
             return $access || $this->isRoot;
@@ -687,7 +629,7 @@ class acl
 
             $actionsToDelete[] = $this->validActions[$this->class][$key];
             if ($allow || $deny) {
-            $inserts .= '(' . $this->validActions[$this->class][$key] . ', ' . $class_section_id . ', 0, ' . $gid . ', ' . $allow . ', ' . $deny . '), ';
+                $inserts .= '(' . $this->validActions[$this->class][$key] . ', ' . $class_section_id . ', 0, ' . $gid . ', ' . $allow . ', ' . $deny . '), ';
             }
         }
 
