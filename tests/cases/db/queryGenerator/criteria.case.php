@@ -54,6 +54,12 @@ class criteriaTest extends unitTestCase
         $this->assertEqual($this->criteria->getOrderByFields(), array('`field` ASC', '`field2` DESC'));
     }
 
+    public function testAddOrderByFunction()
+    {
+        $this->criteria->setOrderByFieldAsc(new sqlFunction('rand'));
+        $this->assertEqual($this->criteria->getOrderByFields(), array('RAND() ASC'));
+    }
+
     public function testGetSetLimitAndOffset()
     {
         $this->criteria->setLimit($limit = 20);

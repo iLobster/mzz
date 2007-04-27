@@ -19,7 +19,7 @@ fileLoader::load('db/criterion');
  *
  * @package system
  * @subpackage db
- * @version 0.1.10
+ * @version 0.1.11
  */
 
 class criteria
@@ -367,8 +367,12 @@ class criteria
      */
     private function setOrderBy($field, $direction, $alias)
     {
-        $field = str_replace('.', '`.`', $field);
-        $this->orderBy[] = '`' . $field . '` ' . $direction;
+        if ($field instanceof sqlFunction) {
+            $field = $field->toString() . ' ';
+        } else {
+            $field = '`' . str_replace('.', '`.`', $field) . '` ';
+        }
+        $this->orderBy[] = $field . $direction;
         $this->setOrderBySetting($alias);
     }
 
