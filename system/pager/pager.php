@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage pager
- * @version 0.2.1
+ * @version 0.2.2
  */
 class pager
 {
@@ -100,7 +100,7 @@ class pager
             $baseurl = substr($baseurl, 0, -1);
         }
 
-        $this->baseurl = $baseurl;
+        $this->baseurl = $baseurl . (strpos($baseurl, '?') ? '&' : '?') . 'page=';
         $this->page = (int)$page;
         $this->setPerPage($perPage);
         $this->itemsCount = 0;
@@ -136,6 +136,38 @@ class pager
     public function getPage()
     {
         return $this->page;
+    }
+
+    /**
+     * ћетод получени€ ссылки на следующую страницу
+     *
+     * @return string|null ссылка на предыдущую страницу либо null, в случае если текуща€ страница последн€€
+     */
+    public function getNext()
+    {
+        if ($this->reverse && $this->page > 1) {
+            $page = $this->page - 1;
+        } elseif (!$this->reverse && $this->page < $this->getPagesTotal()) {
+            $page = $this->page + 1;
+        }
+
+        return isset($page) ? $this->baseurl . $page : null;
+    }
+
+    /**
+     * ћетод получени€ ссылки на предыдущую страницу
+     *
+     * @return string|null ссылка на предыдущую страницу либо null, в случае если текуща€ страница перва€
+     */
+    public function getPrev()
+    {
+        if ($this->reverse && $this->page < $this->getPagesTotal()) {
+            $page = $this->page + 1;
+        } elseif (!$this->reverse && $this->page > 1) {
+            $page = $this->page - 1;
+        }
+
+        return isset($page) ? $this->baseurl . $page : null;
     }
 
     /**
@@ -213,11 +245,9 @@ class pager
                 $this->page = $this->reverse ? $pagesTotal : 1;
             }
 
-            $url = $this->baseurl . (strpos($this->baseurl, '?') ? '&' : '?') . 'page=';
-
             if ($this->itemsCount > 0) {
                 $firstPage = $this->reverse ? $pagesTotal : 1;
-                $result[$firstPage] = array('page' => $firstPage, 'url' => $url . $firstPage);
+                $result[$firstPage] = array('page' => $firstPage, 'url' => $this->baseurl . $firstPage);
 
                 $leftSkip = ($this->reverse ? $pagesTotal - $this->page - 1 : $this->page - 2) > $this->roundItems;
                 $rightSkip = ($this->reverse ? $this->page - 2 : $pagesTotal - $this->page - 1) > $this->roundItems;
@@ -237,14 +267,14 @@ class pager
 
 
                 while ($sign * ($right - $left) >= 0) {
-                    $result[$left] = array('page' => $left, 'url' => $url . $left);
+                    $result[$left] = array('page' => $left, 'url' => $this->baseurl . $left);
                     $left += $sign;
                 }
 
                 if ($rightSkip) {
                     $result[] = array('skip' => true);
                     $lastPage = abs($firstPage - $pagesTotal) + 1;
-                    $result[$lastPage] = array('page' => $lastPage, 'url' => $url . $lastPage);
+                    $result[$lastPage] = array('page' => $lastPage, 'url' => $this->baseurl . $lastPage);
                 }
 
                 if (isset($result[$this->page])) {
@@ -268,6 +298,7 @@ class pager
     {
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();
+        $smarty->assign('pager', $this);
         $smarty->assign('pages', $this->toArray());
         return $smarty->fetch($tpl);
     }
