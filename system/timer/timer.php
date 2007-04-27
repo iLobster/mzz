@@ -135,7 +135,6 @@ class timer
     public function toString($tpl = 'time.tpl')
     {
         $this->finish();
-        //$this->smarty->assign('timer', $this);
         return $this->smarty->fetch('filter/' . $tpl);
     }
 
