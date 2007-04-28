@@ -1,25 +1,30 @@
-<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
-    <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
+{if $isEdit}
+    <div class="jipTitle">Редактирование каталога</div>
+{else}
+    <div class="jipTitle">Создание каталога</div>
+{/if}
+
+<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+    <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td colspan=2 style="text-align:center;">{if $action eq 'editFolder'}Редактирование{else}Создание{/if} каталога</td>
-        </tr>
-        <tr>
-            <td>{$form.name.label}</td>
-            <td>{$form.name.html}{$form.name.error}</td>
-        </tr>
-            <td>{$form.title.label}</td>
-            <td>{$form.title.html}{$form.title.error}</td>
-        </tr>
-        </tr>
-            <td>{$form.filesize.label}</td>
-            <td>{$form.filesize.html}{$form.filesize.error}</td>
-        </tr>
-        </tr>
-            <td>{$form.exts.label}</td>
-            <td>{$form.exts.html}{$form.exts.error}</td>
+            <td style='width: 30%;'>{form->caption name="name" value="Идентификатор" onError="style=color: red;"}</td>
+            <td style='width: 70%;'>{form->text name="name" value=$folder->getName() size="40"}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
+            <td style='width: 30%;'>{form->caption name="title" value="Название" onError="style=color: red;"}</td>
+            <td style='width: 70%;'>{form->text name="title" value=$folder->getTitle() size="40"}{$errors->get('title')}</td>
+        </tr>
+        <tr>
+            <td style='width: 30%;'>{form->caption name="filesize" value="Максимальный размер файла (в Мб)" onError="style=color: red;"}</td>
+            <td style='width: 70%;'>{form->text name="filesize" value=$folder->getFilesize() size="40"}{$errors->get('filesize')}</td>
+        </tr>
+        <tr>
+            <td style='width: 30%;'>{form->caption name="exts" value='Разрешённые расширения:<br /><span style="font-size: 90%; color: #777;">(разделённые знаком ";")</span>' onError="style=color: red;"}</td>
+            <td style='width: 70%;'>{form->text name="exts" value=$folder->getExts() size="40"}{$errors->get('exts')}</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>{form->submit name="submit" value="Сохранить"} {form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

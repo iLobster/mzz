@@ -12,61 +12,83 @@
  * @version $Id$
 */
 
-fileLoader::load('fileManager/forms/folderEditForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * fileManagerEditFolderController: контроллер для метода editFolder модуля fileManager
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.1
+ * @version 0.2
  */
-
 class fileManagerEditFolderController extends simpleController
 {
     public function getView()
     {
         $path = $this->request->get('name', 'string', SC_PATH);
         $action = $this->request->getAction();
+        $isEdit = ($action == 'editFolder');
 
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
         $targetFolder = $folderMapper->searchByPath($path);
 
         if (!$targetFolder) {
-            return 'каталог не найден';
+            return $folderMapper->get404()->run();
         }
 
-        $form = folderEditForm::getForm($targetFolder, $folderMapper, $action);
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Необходимо дать идентификатор папке');
+        $validator->add('required', 'title', 'Необходимо назвать папку');
+        $validator->add('numeric', 'filesize', 'Размер должен быть числовым');
+        $validator->add('regex', 'exts', 'Недопустимые символы в расширении', '/^[a-zа-я0-9_;\-\.! ]+$/i');
+        $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-zа-я0-9_\.\-! ]+$/i');
+        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkFolderName', $targetFolder, $folderMapper));
 
-        if ($form->validate()) {
-            $values = $form->exportValues();
+        if ($validator->validate()) {
+            $name = $this->request->get('name', 'string', SC_POST);
+            $title = $this->request->get('title', 'string', SC_POST);
+            $exts = $this->request->get('exts', 'string', SC_POST);
+            $filesize = $this->request->get('filesize', 'integer', SC_POST);
 
-            if ($action == 'editFolder') {
+            if ($isEdit) {
                 $folder = $targetFolder;
                 $targetFolder = null;
             } else {
-                // создаём папку
                 $folder = $folderMapper->create();
             }
 
-            $folder->setName($values['name']);
-            $folder->setTitle($values['title']);
-            $folder->setExts($values['exts']);
-            $folder->setFilesize($values['filesize']);
+            $folder->setName($name);
+            $folder->setTitle($title);
+            $folder->setExts($exts);
+            $folder->setFilesize($filesize);
 
             $folderMapper->save($folder, $targetFolder);
-
             return jipTools::redirect();
         }
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $form->accept($renderer);
+        $url = new url('withAnyParam');
+        $url->setAction($action);
+        $url->addParam('name', $targetFolder->getPath());
 
-        $this->smarty->assign('action', $action);
-        $this->smarty->assign('form', $renderer->toArray());
-
+        $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('isEdit', $isEdit);
+        $this->smarty->assign('folder', $targetFolder);
         return $this->smarty->fetch('fileManager/editFolder.tpl');
     }
 }
 
+
+function checkFolderName($name, $folder, $mapper)
+{
+    if ($name == $folder->getName()) {
+        return true;
+    }
+
+    $path = $folder->getPath();
+    if (($slash = strpos($path, '/')) !== false) {
+        $path = substr($path, 0, $slash);
+    }
+    return is_null($mapper->searchByPath($path . '/' . $name));
+}
 ?>

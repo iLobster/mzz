@@ -6,7 +6,7 @@ class formRegexRule extends formAbstractRule
 {
     public function validate()
     {
-        return preg_match($this->params, $this->value);
+        return empty($this->value) || preg_match($this->params, $this->value);
     }
 }
 
