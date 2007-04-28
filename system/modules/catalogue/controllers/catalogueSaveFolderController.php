@@ -48,6 +48,7 @@ class catalogueSaveFolderController extends simpleController
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо назвать папку');
         $validator->add('regex', 'name', 'Только алфавитно-цифровые символы', '/[^\W\d][\w\d_]*/');
+        $validator->add('callback', 'name', 'Уникальное имя в пределах каталога', $isEdit ? array('editFolderValidate', $folder, $catalogueFolderMapper) : array('createFolderValidate', $targetFolder, $catalogueFolderMapper));
 
         if (!$validator->validate()) {
             $url = new url('withAnyParam');
@@ -84,23 +85,23 @@ class catalogueSaveFolderController extends simpleController
     }
 }
 
-function createFolderValidate($name, $data)
+function createFolderValidate($name, $folder, $folderMapper)
 {
     if (preg_match('/[^a-z0-9_\-]/i', $name)) {
         return false;
     }
 
-    return is_null($data[1]->searchByPath($data[0] . '/' . $name));
+    return is_null($folderMapper->searchByPath($folder->getPath() . '/' . $name));
 }
 
-function editFolderValidate($name, $data)
+function editFolderValidate($name, $folder, $folderMapper)
 {
     if (preg_match('/[^a-z0-9_\-]/i', $name)) {
         return false;
     }
-    $data[0] = explode('/', $data[0]);
-    $current = array_pop($data[0]);
+    $folder = explode('/', $folder->getPath());
+    $current = array_pop($folder);
 
-    return $current == $name || is_null($data[1]->searchByPath(implode('/', $data[0]) . '/' . $name));
+    return $current == $name || is_null($folderMapper->searchByPath(implode('/', $folder) . '/' . $name));
 }
 ?>

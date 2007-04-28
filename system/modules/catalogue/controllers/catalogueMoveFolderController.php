@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('catalogue/forms/catalogueFolderMoveForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * catalogueMoveFolderController: контроллер для метода moveFolder модуля catalogue
@@ -40,19 +40,24 @@ class catalogueMoveFolderController extends simpleController
             return 'Невозможно перемещать данный каталог';
         }
 
-        $form = catalogueFolderMoveForm::getForm($folder, $folders);
+        $select = array();
+        foreach ($folders as $key => $val) {
+            $select[$key] = $val->getPath();
+        }
 
-        if ($form->validate()) {
-            $values = $form->exportValues();
+        $validator = new formValidator();
+        $validator->add('required', 'dest', 'Необходимо указать каталог назначения');
 
-            if (isset($values['dest'])) {
-                $destFolder = $catalogueFolderMapper->searchByParentId($values['dest']);
+        if ($validator->validate()) {
+            $dest = $this->request->get('dest', 'integer', SC_POST);
+            if ($dest) {
+                $destFolder = $catalogueFolderMapper->searchByParentId($dest);
 
                 if (!$destFolder) {
                     return 'каталог назначения не найден';
                 }
 
-                if (!isset($folders[$values['dest']])) {
+                if (!isset($folders[$dest])) {
                     return 'Нельзя перенести каталог во вложенные каталоги';
                 }
 
@@ -64,22 +69,23 @@ class catalogueMoveFolderController extends simpleController
                         return jipTools::redirect();
                     }
 
-                    $form->setElementError('dest', 'Невозможно осуществить данное перемещение');
+                    return 'Невозможно осуществить данное перемещение';
 
                 } else {
-                    $form->setElementError('dest', 'В выбранном каталоге назначения уже существует каталог с таким именем');
+                    return 'В выбранном каталоге назначения уже существует каталог с таким именем';
                 }
             }
         }
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
-        $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
-        $form->accept($renderer);
+        $url = new url('withAnyParam');
+        $url->setSection($this->request->getSection());
+        $url->setAction($this->request->getAction());
+        $url->addParam('name', $folder->getPath());
 
-        $this->smarty->assign('form', $renderer->toArray());
+        $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('folder', $folder);
-        $this->smarty->assign('folders', $folders);
+        $this->smarty->assign('select', $select);
         return $this->smarty->fetch('catalogue/moveFolder.tpl');
     }
 }

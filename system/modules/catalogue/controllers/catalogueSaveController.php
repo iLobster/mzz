@@ -41,6 +41,7 @@ class catalogueSaveController extends simpleController
         $isEdit = ($action == 'edit');
 
         $item = $isEdit ? $catalogueMapper->searchById($id) : $catalogueMapper->create();
+        $defType = $isEdit ? $item->getFolder()->getDefType() : $catalogueFolder->getDefType();
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо назвать новый элемент');
@@ -84,6 +85,7 @@ class catalogueSaveController extends simpleController
                 }
 
                 $this->smarty->assign('item', $item);
+                $this->smarty->assign('defType', $defType);
                 $this->smarty->assign('properties', $properties);
                 $this->smarty->assign('action', $url->get());
                 $this->smarty->assign('errors', $validator->getErrors());

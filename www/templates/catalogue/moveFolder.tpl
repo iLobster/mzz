@@ -1,27 +1,12 @@
-{assign var="path" value=$folder->getPath()}
-{include file='jipTitle.tpl' title="Перемещение каталога `$path`"}
-<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
+<div class="jipTitle">Перемещение каталога `{$folder->getPath()}`</div>
+<form action="{$action}" method="POST" onsubmit="return jipWindow.sendForm(this);">
     <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td>{$form.dest.label}</td>
-            <td>{$form.dest.html}{$form.dest.error}</td>
+            <td>{form->caption name="dest" value="Каталог назначения" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</td>
+            <td>{form->select name="dest" size="5" value='' options=$select onError="style=border: red 1px solid;"}{$errors->get('dest')}</td>
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
+            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>
-{*
-<div id="folderTree" class="dtree"></div>
-
-<script type="text/javascript">
-var d = new dTree('d');
-d.add(0,-1,'Дерево папок');
-
-{foreach from=$folders item=current_folder}
-{assign var="parentFolder" value=$current_folder->getTreeParent()}
-d.add({$current_folder->getId()},{if is_object($parentFolder)}{$parentFolder->getId()}{else}0{/if},'{$current_folder->getName()}','');
-{/foreach}
-document.getElementById('folderTree').innerHTML = d;
-</script>
-*}
