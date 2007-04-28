@@ -1,5 +1,5 @@
 {if $isEdit}<div class="jipTitle">Редактирование</div>{else}
-{if $type == null}<div class="jipTitle">Добавление нового элемента</div>{/if}
+{if ($type == null && !isset($smarty.get.type)) || isset($smarty.post.type)}<div class="jipTitle">Добавление нового элемента</div>{/if}
 <div id="ajaxGetForm">
 {literal}<script language="javascript">
 function loadForm(id)
