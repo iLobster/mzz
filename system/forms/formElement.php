@@ -34,7 +34,7 @@ abstract class formElement
         } else {
             $html .= ' />';
         }
-        $html .= "\r\n";
+        //$html .= "\r\n";
         return $html;
     }
 

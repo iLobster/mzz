@@ -23,18 +23,18 @@ function loadForm(id)
 {/if}
 {strip}
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
-    <table border="0" cellpadding="0" cellspacing="1" width="50%">
+    <table border="0" cellpadding="0" cellspacing="1" width="99%">
         {if !$isEdit}<tr>
             <td>Тип:</td>
             <td>{form->select name="type" options=$select id="type" onchange="javascript:loadForm(this.value);" onkeypress="this.onchange();"}{$errors->get('type')}</td>
         <tr>{/if}
         {if $isEdit || $type ne 0}<tr>
-            <td>Имя:</td>
+            <td>{form->caption name=name value=Имя:}</td>
             <td>{form->text name="name" size="60" value=$item->getName()}{$errors->get('name')}</td>
         <tr>
         {foreach from=$properties item="element"}
                 <tr>
-                    <td>{$element.title}:</td>
+                    <td>{form->caption name=$element.name value=$element.title}:</td>
                     <td>
                         {if $element.type eq 'text'}
                             {form->textarea name=$element.name value=$element.value style="width:500px;height:300px;"}{$errors->get($element.name)}
