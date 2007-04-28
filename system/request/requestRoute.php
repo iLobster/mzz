@@ -246,7 +246,9 @@ class requestRoute implements iRoute
                 $url .= $part['name'];
             }
         }
-
+        if (substr($url, -1) == '/') {
+            $url = substr($url, 0, -1);
+        }
         return $url;
     }
 
