@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage core
- * @version 0.1.4
+ * @version 0.1.5
  */
 class core
 {
@@ -34,7 +34,7 @@ class core
      * запуск приложения
      *
      */
-    public function run()
+    final public function run()
     {
         try {
             $resolver = $this->composeResolvers();
@@ -51,9 +51,10 @@ class core
 
             $this->composeFilters($filter_chain);
 
+            $this->preprocess();
+
             $filter_chain->process();
             $response->send();
-
         } catch (Exception $e) {
             if (!($e instanceof mzzException) && class_exists('mzzException'))  {
                 $name = get_class($e);
@@ -65,6 +66,16 @@ class core
             }
         }
     }
+
+    /**
+     * Метод, выполняемый до запуска фильтров.
+     * Может быть использован для различной настройки приложения непосредственно перед запуском.
+     *
+     */
+     protected function preprocess()
+     {
+         
+     }
 
     /**
      * "Сборка" композитного резолвера
