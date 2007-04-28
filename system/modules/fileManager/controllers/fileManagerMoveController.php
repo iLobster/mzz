@@ -40,6 +40,7 @@ class fileManagerMoveController extends simpleController
         $folders = $folderMapper->searchAll();
 
         $validator = new formValidator();
+        $validator->add('required', 'dest', 'Обязательное для заполнения поле');
         $validator->add('callback', 'dest', 'В каталоге назначения уже есть файл с таким же именем', array('checkFilename', $file));
 
         if ($validator->validate()) {
