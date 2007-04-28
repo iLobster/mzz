@@ -52,15 +52,15 @@ function fmResetUploadForm() {
 fmResetUploadForm();
 </script>
 {/literal}
-<form {$form.attributes} target="fmUploadFile" onsubmit="readUploadStatus();">
+<form action="{$form_action}" method="post" target="fmUploadFile" onsubmit="readUploadStatus();" enctype="multipart/form-data">
     <table width="99%" border="0" cellpadding="5" cellspacing="0" class="systemTable" align="center">
         <tr>
             <td width="25%">Системный путь</td>
             <td width="75%">{$folder->getPath()}</td>
         </tr>
         <tr>
-            <td style="vertical-align: top;">{$form.file.label}</td>
-            <td>{$form.file.html}{$form.file.error}
+            <td style="vertical-align: top;">{form->caption name="file" value="Файл"}</td>
+            <td>{form->file name="file"}{$errors->get('file')}
             <span style="text-align:center; color: #999; font-size: 90%;">
                 {if $folder->getFilesize() > 0}<br />Ограничение на размер загружаемого файла: <b>{$folder->getFilesize()}</b> Мб{/if}
                 {assign var=exts value=$folder->getExts()}
@@ -68,11 +68,11 @@ fmResetUploadForm();
             </span></td>
         </tr>
         <tr>
-            <td>{$form.name.label}</td>
-            <td>{$form.name.html}{$form.name.error}</td>
+            <td>{form->caption name="name" value="Новое имя"}</td>
+            <td>{form->text name="name"}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.resetButton.html}</td>
+            <td colspan=2 style="text-align:center;">{form->submit name="submit" value="Загрузить"} {form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

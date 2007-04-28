@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/forms/fileUploadForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * fileManagerUploadController: контроллер для метода upload модуля fileManager
@@ -35,16 +35,19 @@ class fileManagerUploadController extends simpleController
             return $folderMapper->get404()->run();
         }
 
-        $form = fileUploadForm::getForm($folder);
+        $validator = new formValidator();
+        $validator->add('uploaded', 'file', 'Укажите файл для загрузки');
+        $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-zа-я0-9_\.\-! ]+$/i');
 
-        if ($form->validate()) {
-            $values = $form->exportValues();
+        $errors = $validator->getErrors();
+
+        if ($validator->validate()) {
+            $name = $this->request->get('name', 'string', SC_POST);
 
             $config = $this->toolkit->getConfig('fileManager');
-            $fileForm = $form->getElement('file');
 
-            $info = $fileForm->getValue();
-            $name = !empty($values['name']) ? $values['name'] : $info['name'];
+            $info = array('name' => $_FILES['file']['name'], 'size' => $_FILES['file']['size'], 'tmp_name' => $_FILES['file']['tmp_name']);
+            $name = !empty($name) ? $name : $info['name'];
 
             $criteria = new criteria();
             $criteria->add('folder_id', $folder->getId())->add('name', $name);
@@ -105,7 +108,7 @@ class fileManagerUploadController extends simpleController
             if ($filesize = $folder->getFilesize()) {
                 $size_in_mb = round($info['size'] / 1024 / 1024, 3);
                 if ($size_in_mb > $filesize) {
-                    $form->setElementError('file', 'Ограничение на загрузку файла: ' . $filesize . ' Мб. У загружаемого файла размер: ' . $size_in_mb . ' Мб');
+                    $errors->set('file', 'Ограничение на загрузку файла: ' . $filesize . ' Мб. У загружаемого файла размер: ' . $size_in_mb . ' Мб');
                     $file = true;
                 }
             }
@@ -114,7 +117,7 @@ class fileManagerUploadController extends simpleController
                 $exts = explode(';', $exts);
 
                 if (!in_array($ext, $exts)) {
-                    $form->setElementError('file', 'Ограничение на расширение файла: ' . $folder->getExts() . '. У загружаемого файла расширение: "' . $ext . '"');
+                    $errors->set('file', 'Ограничение на расширение файла: ' . $folder->getExts() . '. У загружаемого файла расширение: "' . $ext . '"');
                     $file = true;
                 }
             }
@@ -129,7 +132,7 @@ class fileManagerUploadController extends simpleController
                         $file->setSize($info['size']);
                         $file->setFolder($folder);
                         $fileMapper->save($file);
-                        $fileForm->moveUploadedFile($config->get('upload_path'), $file->getRealname());
+                        move_uploaded_file($info['tmp_name'], $config->get('upload_path') . '/' . $file->getRealname());
                         return '<div id="uploadStatus">Файл "' . $name . '" загружен.</div>';
                         break;
                     } catch (PDOException $e) {
@@ -140,11 +143,14 @@ class fileManagerUploadController extends simpleController
             }
         }
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $form->accept($renderer);
+        $url = new url('withAnyParam');
+        $url->setAction('upload');
+        $url->addParam('name', $folder->getPath());
+        $this->smarty->assign('form_action', $url->get());
+
+        $this->smarty->assign('errors', $errors);
 
         $this->smarty->assign('folder', $folder);
-        $this->smarty->assign('form', $renderer->toArray());
 
         return $this->smarty->fetch('fileManager/upload.tpl');
     }
