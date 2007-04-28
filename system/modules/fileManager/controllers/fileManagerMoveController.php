@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/forms/fileMoveForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * fileManagerMoveController: контроллер для метода move модуля fileManager
@@ -27,49 +27,67 @@ class fileManagerMoveController extends simpleController
     public function getView()
     {
         $name = $this->request->get('name', 'string', SC_PATH);
+        $dest = $this->request->get('dest', 'integer', SC_POST);
 
         $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
         $file = $fileMapper->searchByPath($name);
 
         if (!$file) {
-            return 'файл не найден';
+            return $fileMapper->get404()->run();
         }
 
         $folders = $folderMapper->searchAll();
 
-        $form = fileMoveForm::getForm($file, $folders);
+        $validator = new formValidator();
+        $validator->add('callback', 'dest', 'В каталоге назначения уже есть файл с таким же именем', array('checkFilename', $file));
 
-        if ($form->validate()) {
-            $values = $form->exportValues();
-
-            $destFolder = $folderMapper->searchById($values['dest']);
+        if ($validator->validate()) {
+            $destFolder = $folderMapper->searchById($dest);
 
             if (!$destFolder) {
-                return 'каталог назначения не найден';
+                return $folderMapper->get404()->run();
             }
 
-            $criteria = new criteria();
-            $criteria->add('folder_id', $destFolder->getId())->add('name', $file->getName());
-            $duplicate = $fileMapper->searchOneByCriteria($criteria);
-
-            if (!$duplicate) {
-                $file->setFolder($destFolder);
-                $fileMapper->save($file);
-                return jipTools::redirect();
-            }
-
-            $form->setElementError('dest', 'В каталоге назначения уже есть файл с таким же именем');
+            $file->setFolder($destFolder);
+            $fileMapper->save($file);
+            return jipTools::redirect();
         }
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $form->accept($renderer);
 
-        $this->smarty->assign('form', $renderer->toArray());
+        $url = new url('withAnyParam');
+        $url->setAction('move');
+        $url->addParam('name', $file->getFullPath());
+        $this->smarty->assign('form_action', $url->get());
+
+        $dests = array();
+        foreach ($folders as $val) {
+            $dests[$val->getId()] = $val->getPath();
+        }
+        $this->smarty->assign('dests', $dests);
+
+        $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('file', $file);
         $this->smarty->assign('folders', $folders);
         return $this->smarty->fetch('fileManager/move.tpl');
     }
+}
+
+function checkFilename($dest, $file)
+{
+    $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder');
+    $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file');
+
+    $destFolder = $folderMapper->searchById($dest);
+
+    if (!$destFolder) {
+        return false;
+    }
+
+    $criteria = new criteria();
+    $criteria->add('folder_id', $destFolder->getId())->add('name', $file->getName());
+
+    return is_null($fileMapper->searchOneByCriteria($criteria));
 }
 
 ?>
