@@ -1,9 +1,9 @@
 {assign var="folderTitle" value=$folder->getTitle()}
 {include file='jipTitle.tpl' title="Загрузка файла в каталог $folderTitle"}
-{if !empty($form.errors)}
+{if !$errors->isEmpty()}
 <div id="uploadStatusError">
 <ul>
-{foreach from=$form.errors item=formError}
+{foreach from=$errors->export() item=formError}
     <li>{$formError}</li>
 {/foreach}
 </ul></div>
@@ -18,7 +18,7 @@ function readUploadStatus() {
     $('uploadStatus').style.display = 'none';
     $('uploadStatusError').style.display = 'none';
     var fmUploadFile = $('fmUploadFile');
-    $('fmUploadFileSubmitButton').disable();
+    $('fmUploadFileSubmitButton').disable();;
     fmUploadFileSubmitButtonValue = $('fmUploadFileSubmitButton').value;
     $('fmUploadFileSubmitButton').value = "Загрузка...";
 
@@ -72,7 +72,7 @@ fmResetUploadForm();
             <td>{form->text name="name"}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{form->submit name="submit" value="Загрузить"} {form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
+            <td colspan=2 style="text-align:center;">{form->submit id="fmUploadFileSubmitButton" name="submit" value="Загрузить"} {form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

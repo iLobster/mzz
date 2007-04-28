@@ -128,5 +128,14 @@ class arrayDataspace implements iDataspace
     {
         $this->data = array();
     }
+
+    /**
+    * Проверяет является ли Dataspace пустым
+    *
+    */
+    public function isEmpty()
+    {
+        return empty($this->data);
+    }
 }
 ?>
