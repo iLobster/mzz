@@ -1,14 +1,14 @@
 {assign var="path" value=$file->getFolder()->getPath()}
 {assign var="name" value=$file->getName()}
 {include file='jipTitle.tpl' title="Редактирование файла `$path`/`$name`"}
-<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
-    <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
+<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+    <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td>{$form.name.label}</td>
-            <td>{$form.name.html}{$form.name.error}</td>
+            <td>{form->caption name="name" value="Новое имя"}</td>
+            <td>{form->text name="name" value=$file->getName()}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
+            <td colspan=2 style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>
