@@ -105,7 +105,7 @@ class fileManagerUploadController extends simpleController
             if ($filesize = $folder->getFilesize()) {
                 $size_in_mb = round($info['size'] / 1024 / 1024, 3);
                 if ($size_in_mb > $filesize) {
-                    $form->setElementError('file', 'Ограничение на загрузку файла: ' . $filesize . ' Мб. У загружаемого файла размер: ' . $info['size'] . ' Мб');
+                    $form->setElementError('file', 'Ограничение на загрузку файла: ' . $filesize . ' Мб. У загружаемого файла размер: ' . $size_in_mb . ' Мб');
                     $file = true;
                 }
             }
