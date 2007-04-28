@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('catalogue/forms/catalogueSaveFolderForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * catalogueSaveFolderController: контроллер для метода saveFolder модуля catalogue
@@ -30,6 +30,7 @@ class catalogueSaveFolderController extends simpleController
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
         $path = $this->request->get('name', 'string', SC_PATH);
         $targetFolder = $catalogueFolderMapper->searchByPath($path);
+
         $action = $this->request->getAction();
         $isEdit = ($action == 'editFolder');
 
@@ -37,34 +38,44 @@ class catalogueSaveFolderController extends simpleController
             return $catalogueFolderMapper->get404()->run();
         }
 
-        $form = catalogueSaveFolderForm::getForm($path, $catalogueFolderMapper, $action, $targetFolder, $isEdit);
-        if ($form->validate() == false) {
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $renderer->setRequiredTemplate('{if $error}<font color="red"><strong>{$label}</strong></font>{else}{if $required}<span style="color: red;">*</span> {/if}{$label}{/if}');
-            $renderer->setErrorTemplate('{if $error}<div class="formErrorElement">{$html}</div><font color="gray" size="1">{$error}</font>{else}{$html}{/if}');
-
-            $form->accept($renderer);
-
-            $this->smarty->assign('form', $renderer->toArray());
-            $this->smarty->assign('isEdit', $isEdit);
-
-            $title = $isEdit ? 'Редактирование папки -> ' . $targetFolder->getTitle() : 'Создание папки';
-
-            return $this->smarty->fetch('catalogue/saveFolder.tpl');
+        if ($isEdit) {
+            $folder = $catalogueFolderMapper->searchByPath($path);
+            $targetFolder = null;
         } else {
-            $values = $form->exportValues();
+            $folder = $catalogueFolderMapper->create();
+        }
 
-            if ($isEdit) {
-                // изменяем папку
-                $folder = $catalogueFolderMapper->searchByPath($path);
-                $targetFolder = null;
-            } else {
-                // создаём папку
-                $folder = $catalogueFolderMapper->create();
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Необходимо назвать папку');
+        $validator->add('regex', 'name', 'Только алфавитно-цифровые символы', '/[^\W\d][\w\d_]*/');
+
+        if (!$validator->validate()) {
+            $url = new url('withAnyParam');
+            $url->setSection($this->request->getSection());
+            $url->setAction($action);
+            $url->addParam('name', $isEdit ? $folder->getPath() : $targetFolder->getPath());
+
+            $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
+            $types_tmp = $catalogueMapper->getAlltypes();
+            $types = array();
+            foreach ($types_tmp as $type) {
+                $types[$type['id']] = $type['title'];
             }
 
-            $folder->setName($values['name']);
-            $folder->setTitle($values['title']);
+            $this->smarty->assign('types', $types);
+            $this->smarty->assign('folder', $folder);
+            $this->smarty->assign('action', $url->get());
+            $this->smarty->assign('errors', $validator->getErrors());
+            $this->smarty->assign('isEdit', $isEdit);
+            return $this->smarty->fetch('catalogue/saveFolder.tpl');
+        } else {
+            $name = $this->request->get('name', 'string', SC_POST);
+            $title = $this->request->get('title', 'string', SC_POST);
+            $defaultType = $this->request->get('defaultType', 'integer', SC_POST);
+
+            $folder->setName($name);
+            $folder->setTitle($title);
+            $folder->setDefType($defaultType);
 
             $catalogueFolderMapper->save($folder, $targetFolder);
 
@@ -73,4 +84,23 @@ class catalogueSaveFolderController extends simpleController
     }
 }
 
+function createFolderValidate($name, $data)
+{
+    if (preg_match('/[^a-z0-9_\-]/i', $name)) {
+        return false;
+    }
+
+    return is_null($data[1]->searchByPath($data[0] . '/' . $name));
+}
+
+function editFolderValidate($name, $data)
+{
+    if (preg_match('/[^a-z0-9_\-]/i', $name)) {
+        return false;
+    }
+    $data[0] = explode('/', $data[0]);
+    $current = array_pop($data[0]);
+
+    return $current == $name || is_null($data[1]->searchByPath(implode('/', $data[0]) . '/' . $name));
+}
 ?>
