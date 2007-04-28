@@ -43,7 +43,7 @@
             {assign var="filename" value=$file->getFullPath()}
             <tr align="center">
                 <td style="width: 30px;"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" /></td>
-                <td style="text-align: left;"><a href="{url route=withAnyParam action=get name=$filename}">{$file->getName()}</a></td>
+                <td style="text-align: left;"><a href="{url route=withAnyParam name=$filename}">{$file->getName()}</a></td>
                 <td style="text-align: right;">{$file->getSize()|filesize}</td>
                 <td>{$file->getExt()}</td>
                 <td>{$file->getDownloads()}</td>
