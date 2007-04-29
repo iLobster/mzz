@@ -68,6 +68,8 @@ class folder extends simpleForTree
         $info = array('name' => $_FILES[$upload_name]['name'], 'size' => $_FILES[$upload_name]['size'], 'tmp_name' => $_FILES[$upload_name]['tmp_name']);
         $name = !empty($name) ? $new_name : $info['name'];
 
+        $name = preg_replace('/[^a-zà-ÿ0-9!_. \-\[\]()]/i', '', $name);
+
         $criteria = new criteria();
         $criteria->add('folder_id', $this->getId())->add('name', $name);
 
