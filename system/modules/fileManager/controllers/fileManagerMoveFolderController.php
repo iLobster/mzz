@@ -63,8 +63,8 @@ class fileManagerMoveFolderController extends simpleController
 
 
         $dests = array();
-        foreach ($folders as $key => $val) {
-            $dests[$key] = $val->getPath();
+        foreach ($folders as $val) {
+            $dests[$val->getId()] = $val->getPath();
         }
         $this->smarty->assign('dests', $dests);
         $this->smarty->assign('form_action', $url->get());

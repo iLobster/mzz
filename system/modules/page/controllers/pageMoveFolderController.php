@@ -63,8 +63,8 @@ class pageMoveFolderController extends simpleController
         $url->addParam('name', $folder->getPath());
 
         $dests = array();
-        foreach ($folders as $key => $val) {
-            $dests[$key] = $val->getPath();
+        foreach ($folders as $val) {
+            $dests[$val->getId()] = $val->getPath();
         }
 
         $this->smarty->assign('folder', $folder);
