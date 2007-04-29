@@ -58,7 +58,7 @@ class catalogueSaveFolderController extends simpleController
 
             $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
             $types_tmp = $catalogueMapper->getAlltypes();
-            $types = array();
+            $types = array('' => '');
             foreach ($types_tmp as $type) {
                 $types[$type['id']] = $type['title'];
             }

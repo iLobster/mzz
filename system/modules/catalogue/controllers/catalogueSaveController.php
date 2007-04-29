@@ -54,6 +54,9 @@ class catalogueSaveController extends simpleController
                 return $controller->run();
             }
             $type = $this->request->get('type', 'integer', SC_GET | SC_POST);
+            if (empty($type)) {
+                $type = $defType;
+            }
             $properties = $catalogueMapper->getProperties($type);
         } else {
             $properties = $item->exportOldProperties();
@@ -75,7 +78,7 @@ class catalogueSaveController extends simpleController
                 $url->addParam('name', $isEdit ? $item->getId() : $catalogueFolder->getPath());
 
                 if (!$isEdit) {
-                    $select = array();
+                    $select = array('' => '');
                     foreach($types as $type_tmp){
                         $select[$type_tmp['id']] = $type_tmp['title'];
                     }
