@@ -71,6 +71,10 @@ class pageFolderMapper extends simpleMapperForTree
         return $this->searchOneByField('parent', $id);
     }
 
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
     /**
      * Метод поиска страницы в каталоге
      *

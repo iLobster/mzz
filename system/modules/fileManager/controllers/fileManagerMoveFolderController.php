@@ -54,7 +54,7 @@ class fileManagerMoveFolderController extends simpleController
             if ($result) {
                 return jipTools::redirect();
             }
-            $errors->set('file', 'Ќевозможно осуществить требуемое перемещение');
+            $errors->set('dest', 'Ќевозможно осуществить требуемое перемещение');
         }
 
         $url = new url('withAnyParam');
