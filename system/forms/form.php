@@ -28,10 +28,14 @@ class form
         if (!isset($params['name'])) {
             throw new mzzRuntimeException('Элементу типа submit обязательно нужно указывать имя');
         }
+        $name = $params['name'];
+        unset($params['name']);
+
         $submit = $this->text($params, $smarty);
         if (isset($params['id'])) {
             unset($params['id']);
         }
+        $params['name'] = $name;
         return $this->hidden($params, $smarty) . $submit;
     }
 

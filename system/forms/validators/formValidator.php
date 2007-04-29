@@ -52,10 +52,13 @@ class formValidator
             $valid = true;
 
             foreach ($this->validators as $validator) {
+                if ($this->errors->exists($name = $validator->getName())) {
+                    continue;
+                }
                 $result = $validator->validate();
 
-                if (!$result && !$this->errors->exists($validator->getName())) {
-                    $this->errors->set($validator->getName(), $validator->getErrorMsg());
+                if (!$result) {
+                    $this->errors->set($name, $validator->getErrorMsg());
                 }
 
                 $valid &= $result;
