@@ -12,63 +12,79 @@
  * @version $Id$
  */
 
-fileLoader::load('news/forms/newsSaveFolderForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * newsSaveController: контроллер для метода save модуля news
  *
  * @package modules
  * @subpackage news
- * @version 0.1.2
+ * @version 0.2
  */
-
 class newsSaveFolderController extends simpleController
 {
     public function getView()
     {
-        $user = $this->toolkit->getUser();
-        $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
         $path = $this->request->get('name', 'string', SC_PATH);
-        $targetFolder = $newsFolderMapper->searchByPath($path);
         $action = $this->request->getAction();
         $isEdit = ($action == 'editFolder');
 
+        $folderMapper = $this->toolkit->getMapper('news', 'newsFolder');
+        $targetFolder = $folderMapper->searchByPath($path);
+
         if (empty($targetFolder)) {
-            return $newsFolderMapper->get404()->run();
+            return $folderMapper->get404()->run();
         }
 
-        $form = newsSaveFolderForm::getForm($path, $newsFolderMapper, $action, $targetFolder, $isEdit);
-        if ($form->validate() == false) {
-            $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            $form->accept($renderer);
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Необходимо дать идентификатор папке');
+        $validator->add('required', 'title', 'Необходимо назвать папку');
+        $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-zа-я0-9_\.\-! ]+$/i');
+        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkNewsFolderName', $path, $folderMapper, $isEdit));
 
-            $this->smarty->assign('form', $renderer->toArray());
-            $this->smarty->assign('isEdit', $isEdit);
 
-            $title = $isEdit ? 'Редактирование папки -> ' . $targetFolder->getTitle() : 'Создание папки';
-            $this->response->setTitle('Новости -> ' . $title);
-
-            return $this->smarty->fetch('news/saveFolder.tpl');
-        } else {
-            $values = $form->exportValues();
+        if ($validator->validate()) {
+            $name = $this->request->get('name', 'string', SC_POST);
+            $title = $this->request->get('title', 'string', SC_POST);
 
             if ($isEdit) {
-                // изменяем папку
-                $folder = $newsFolderMapper->searchByPath($path);
+                $folder = $targetFolder;
                 $targetFolder = null;
             } else {
-                // создаём папку
-                $folder = $newsFolderMapper->create();
+                $folder = $folderMapper->create();
             }
 
-            $folder->setName($values['name']);
-            $folder->setTitle($values['title']);
+            $folder->setName($name);
+            $folder->setTitle($title);
 
-            $newsFolderMapper->save($folder, $targetFolder);
-
+            $folderMapper->save($folder, $targetFolder);
             return jipTools::redirect();
         }
+
+        $url = new url('newsFolder');
+        $url->addParam('name', $path);
+        $url->setAction($action);
+
+        $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('isEdit', $isEdit);
+
+        $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
+        $this->smarty->assign('folder', $targetFolder);
+        return $this->smarty->fetch('news/saveFolder.tpl');
     }
 }
 
+function checkNewsFolderName($name, $path, $mapper, $isEdit)
+{
+    if ($isEdit) {
+        $path = explode('/', $path);
+        $current = array_pop($path);
+
+        return $current == $name || is_null($mapper->searchByPath(implode('/', $path) . '/' . $name));
+    } else {
+        return is_null($mapper->searchByPath($path . '/' . $name));
+    }
+
+}
 ?>

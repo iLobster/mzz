@@ -19,7 +19,7 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage page
- * @version 0.1
+ * @version 0.2
  */
 
 class pageMoveFolderController extends simpleController

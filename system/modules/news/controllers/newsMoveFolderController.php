@@ -12,74 +12,87 @@
  * @version $Id$
  */
 
-fileLoader::load('news/forms/newsFolderMoveForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * newsMoveFolderController: контроллер для метода moveFolder модуля news
  *
  * @package modules
  * @subpackage news
- * @version 0.1
+ * @version 0.2
  */
 
 class newsMoveFolderController extends simpleController
 {
     public function getView()
     {
-        $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
+        $folderMapper = $this->toolkit->getMapper('news', 'newsFolder');
         $path = $this->request->get('name', 'string', SC_PATH);
+        $dest = $this->request->get('dest', 'integer', SC_POST);
 
-        $folder = $newsFolderMapper->searchByPath($path);
+        $folder = $folderMapper->searchByPath($path);
         if (!$folder) {
-            return $newsFolderMapper->get404()->run();
+            $controller = new messageController('каталог не найден');
+            return $controller->run();
         }
 
-        $folders = $newsFolderMapper->getTreeExceptNode($folder);
-
+        $folders = $folderMapper->getTreeExceptNode($folder);
         if (sizeof($folders) <= 1) {
-            return 'Невозможно перемещать данный каталог';
+            $controller = new messageController('Невозможно перемещать данный каталог');
+            return $controller->run();
         }
 
-        $form = newsFolderMoveForm::getForm($folder, $folders);
+        $validator = new formValidator();
 
-        if ($form->validate()) {
-            $values = $form->exportValues();
+        $validator->add('required', 'dest', 'Обязательное для заполнения поле');
+        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestNewsFolderExists', $folderMapper));
+        $validator->add('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array('checkUniqueNewsFolderName', $folderMapper, $folder));
+        $validator->add('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array('checkDestNewsFolderIsNotChildren', $folders));
 
-            if (isset($values['dest'])) {
-                $destFolder = $newsFolderMapper->searchByParentId($values['dest']);
-
-                if (!$destFolder) {
-                    return 'каталог назначения не найден';
-                }
-
-                if (!isset($folders[$values['dest']])) {
-                    return 'Нельзя перенести каталог во вложенные каталоги';
-                }
-
-                $duplicate = $newsFolderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
-                if (!$duplicate) {
-                    $result = $newsFolderMapper->move($folder, $destFolder);
-
-                    if ($result) {
-                        return jipTools::redirect();
-                    }
-
-                    $form->setElementError('dest', 'Невозможно осуществить данное перемещение');
-
-                } else {
-                    $form->setElementError('dest', 'В выбранном каталоге назначения уже существует каталог с таким именем');
-                }
+        if ($validator->validate()) {
+            $destFolder = $folderMapper->searchById($dest);
+            $result = $folderMapper->move($folder, $destFolder);
+            if ($result) {
+                return jipTools::redirect();
             }
+            $errors->set('dest', 'Невозможно осуществить требуемое перемещение');
         }
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $form->accept($renderer);
+        $url = new url('withAnyParam');
+        $url->setAction('moveFolder');
+        $url->addParam('name', $folder->getPath());
 
-        $this->smarty->assign('form', $renderer->toArray());
+        $dests = array();
+        foreach ($folders as $val) {
+            $dests[$val->getId()] = $val->getPath();
+        }
+
         $this->smarty->assign('folder', $folder);
-        $this->smarty->assign('folders', $folders);
+        $this->smarty->assign('dests', $dests);
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
         return $this->smarty->fetch('news/moveFolder.tpl');
     }
 }
 
+function checkUniqueNewsFolderName($id, $folderMapper, $folder)
+{
+    if ($folder->getTreeParent()->getId() == $id) {
+        return true;
+    }
+    $destFolder = $folderMapper->searchById($id);
+    $someFolder = $folderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
+    return empty($someFolder);
+}
+
+function checkDestNewsFolderExists($id, $folderMapper)
+{
+    $destFolder = $folderMapper->searchById($id);
+    return !empty($destFolder);
+}
+
+function checkDestNewsFolderIsNotChildren($id, $folders)
+{
+    return isset($folders[$id]);
+}
 ?>

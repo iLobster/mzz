@@ -18,6 +18,7 @@
  * @package modules
  * @subpackage news
  * @version 0.1
+ * @deprecated удалю попозже
  */
 class newsSaveFolderForm
 {

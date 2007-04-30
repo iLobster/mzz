@@ -42,7 +42,7 @@ class fileManagerEditFolderController extends simpleController
         $validator->add('numeric', 'filesize', 'Размер должен быть числовым');
         $validator->add('regex', 'exts', 'Недопустимые символы в расширении', '/^[a-zа-я0-9_;\-\.! ]+$/i');
         $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-zа-я0-9_\.\-! ]+$/i');
-        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkFolderName', $targetFolder, $folderMapper));
+        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkFileFolderName', $path, $folderMapper, $isEdit));
 
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);
@@ -73,22 +73,27 @@ class fileManagerEditFolderController extends simpleController
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('isEdit', $isEdit);
+        $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
         $this->smarty->assign('folder', $targetFolder);
         return $this->smarty->fetch('fileManager/editFolder.tpl');
     }
 }
 
 
-function checkFolderName($name, $folder, $mapper)
+function checkFileFolderName($name, $path, $mapper, $isEdit)
 {
-    if ($name == $folder->getName()) {
-        return true;
-    }
-
+    /* wtf?
     $path = $folder->getPath();
     if (($slash = strpos($path, '/')) !== false) {
         $path = substr($path, 0, $slash);
+    }*/
+    if ($isEdit) {
+        $path = explode('/', $path);
+        $current = array_pop($path);
+
+        return $current == $name || is_null($mapper->searchByPath(implode('/', $path) . '/' . $name));
+    } else {
+        return is_null($mapper->searchByPath($path . '/' . $name));
     }
-    return is_null($mapper->searchByPath($path . '/' . $name));
 }
 ?>
