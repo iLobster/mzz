@@ -41,6 +41,10 @@ class catalogueMoveController extends simpleController
             $items = array_keys((array) $this->request->get('items', 'mixed', SC_POST));
         }
 
+        if (empty($items)) {
+            return jipTools::redirect();
+        }
+
         $validator = new formValidator();
         $validator->add('required', 'dest', 'Необходимо указать каталог назначени');
 

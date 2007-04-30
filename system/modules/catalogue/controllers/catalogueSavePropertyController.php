@@ -32,7 +32,7 @@ class catalogueSavePropertyController extends simpleController
         $isEdit = ($action == 'editProperty');
 
         $typesTemp = $catalogueMapper->getAllPropertiesTypes();
-        $types = array();
+        $types = array('' => '');
         foreach ($typesTemp as $type) {
             $types[$type['id']] = $type['title'] . ' (' . $type['name'] . ')';
         }
@@ -45,6 +45,10 @@ class catalogueSavePropertyController extends simpleController
         if ($isEdit) {
             $id = $this->request->get('id', 'integer', SC_PATH);
             $property = $catalogueMapper->getProperty($id);
+
+            if ($property['type'] == 'select') {
+                $property['args'] = unserialize($property['args']);
+            }
         }
 
         if (!$validator->validate()) {
@@ -55,15 +59,9 @@ class catalogueSavePropertyController extends simpleController
             if ($isEdit) {
                 $url->setRoute('withId');
                 $url->addParam('id', $property['id']);
+                $this->smarty->assign('property', $property);
             }
 
-            $name = isset($property['name']) ? $property['name'] : '';
-            $title = isset($property['title']) ? $property['title'] : '';
-            $typeId = isset($property['type_id']) ? $property['type_id'] : '';
-
-            $this->smarty->assign('name', $name);
-            $this->smarty->assign('title', $title);
-            $this->smarty->assign('type', $typeId);
             $this->smarty->assign('types', $types);
             $this->smarty->assign('isEdit', $isEdit);
             $this->smarty->assign('action', $url->get());
@@ -74,10 +72,22 @@ class catalogueSavePropertyController extends simpleController
             $title = $this->request->get('title', 'string', SC_POST);
             $type = $this->request->get('type', 'integer', SC_POST);
 
+            $params = array();
+            if ($type == 5) {
+                $keys = (array) $this->request->get('selectkeys', 'mixed', SC_POST);
+                $values = (array) $this->request->get('selectvalues', 'mixed', SC_POST);
+
+                if (!$selectvalues = array_combine($keys, $values)) {
+                    throw new mzzException('');
+                }
+
+                $params['args'] = serialize($selectvalues);
+            }
+
             if($isEdit){
-                $catalogueMapper->updateProperty($id, $name, $title, $type);
+                $catalogueMapper->updateProperty($id, $name, $title, $type, $params);
             } else {
-                $catalogueMapper->addProperty($name, $title, $type);
+                $catalogueMapper->addProperty($name, $title, $type, $params);
             }
             return jipTools::redirect();
         }

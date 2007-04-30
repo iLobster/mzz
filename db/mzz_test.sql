@@ -160,9 +160,10 @@ DROP TABLE IF EXISTS `simple_catalogue_properties`;
 
 CREATE TABLE `simple_catalogue_properties` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `title` char(255) default NULL,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) default NULL,
   `type_id` int(11) unsigned default NULL,
+  `args` text,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -291,22 +292,6 @@ CREATE TABLE `sys_access` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_access` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
-  (1,1,1,1,1,NULL,1,0),
-  (2,2,1,1,1,NULL,1,0),
-  (3,1,1,1,NULL,1,0,0),
-  (4,1,1,0,3,NULL,1,0),
-  (5,2,1,0,3,NULL,1,0),
-  (6,2,1,0,NULL,4,1,0),
-  (7,1,1,0,0,NULL,1,0),
-  (8,2,1,0,0,NULL,1,0);
-
-COMMIT;
-
-#
 # Structure for the `sys_access_registry` table : 
 #
 
@@ -322,7 +307,9 @@ CREATE TABLE `sys_access_registry` (
 #
 
 INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
-  (1,1);
+  (32,1),
+  (33,1),
+  (1,2);
 
 COMMIT;
 
@@ -407,7 +394,7 @@ CREATE TABLE `sys_classes` (
   `module_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `sys_classes_actions` table : 
@@ -442,7 +429,8 @@ CREATE TABLE `sys_classes_sections` (
 #
 
 INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,1,1);
+  (1,1,1),
+  (2,2,1);
 
 COMMIT;
 
@@ -467,81 +455,7 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=67 DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_obj_id` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_obj_id` (`id`) VALUES 
-  (1),
-  (2),
-  (3),
-  (4),
-  (5),
-  (6),
-  (7),
-  (8),
-  (9),
-  (10),
-  (11),
-  (12),
-  (13),
-  (14),
-  (15),
-  (16),
-  (17),
-  (18),
-  (19),
-  (20),
-  (21),
-  (22),
-  (23),
-  (24),
-  (25),
-  (26),
-  (27),
-  (28),
-  (29),
-  (30),
-  (31),
-  (32),
-  (33),
-  (34),
-  (35),
-  (36),
-  (37),
-  (38),
-  (39),
-  (40),
-  (41),
-  (42),
-  (43),
-  (44),
-  (45),
-  (46),
-  (47),
-  (48),
-  (49),
-  (50),
-  (51),
-  (52),
-  (53),
-  (54),
-  (55),
-  (56),
-  (57),
-  (58),
-  (59),
-  (60),
-  (61),
-  (62),
-  (63),
-  (64),
-  (65),
-  (66);
-
-COMMIT;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `sys_obj_id_named` table : 
@@ -572,7 +486,10 @@ CREATE TABLE `sys_sections` (
 #
 
 INSERT INTO `sys_sections` (`id`, `name`) VALUES 
-  (1,'news');
+  (1,'simple'),
+  (2,'news'),
+  (3,'page'),
+  (4,'user');
 
 COMMIT;
 
@@ -591,7 +508,7 @@ CREATE TABLE `sys_sessions` (
   PRIMARY KEY  (`id`),
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `user_group` table : 

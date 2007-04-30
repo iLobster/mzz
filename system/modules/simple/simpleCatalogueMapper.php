@@ -142,22 +142,27 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $stmt->execute();
     }
 
-    public function addProperty($name, $title, $type)
+    public function addProperty($name, $title, $type, $params = array())
     {
-        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableProperties . '` (`name`, `title`, `type_id`) VALUES (:name, :title, :type)');
+        $stmt = $this->db->prepare('INSERT INTO `' . $this->tableProperties . '` (`name`, `title`, `type_id`, `args`) VALUES (:name, :title, :type, :args)');
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
         $stmt->bindParam('type', $type);
+
+        $args = isset($params['args']) ? $params['args'] : null;
+        $stmt->bindParam('args', $args);
         return $stmt->execute();
     }
 
-    public function updateProperty($id, $name, $title, $type_id)
+    public function updateProperty($id, $name, $title, $type_id, $params = array())
     {
-        $stmt = $this->db->prepare('UPDATE `' . $this->tableProperties . '` SET `name` = :name, `title` = :title, `type_id` = :type_id WHERE `id` = :id ');
+        $stmt = $this->db->prepare('UPDATE `' . $this->tableProperties . '` SET `name` = :name, `title` = :title, `type_id` = :type_id, `args` = :args WHERE `id` = :id ');
         $stmt->bindParam('id', $id);
         $stmt->bindParam('name', $name);
         $stmt->bindParam('title', $title);
         $stmt->bindParam('type_id', $type_id);
+        $args = isset($params['args']) ? $params['args'] : null;
+        $stmt->bindParam('args', $args);
         return $stmt->execute();
     }
 
@@ -268,7 +273,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties->setTable($this->table, $this->className);
         $properties->clearSelectFields();
         $properties->clearGroupBy();
-        $properties->addSelectField('d.*')->addSelectField($this->className . '.id', 'id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('tp.isShort');
+        $properties->addSelectField('d.*')->addSelectField($this->className . '.id', 'id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('p.args')->addSelectField('tp.isShort');
         $properties->setOrderByFieldAsc('tp.sort');
 
         // критерий для подзапроса, с помощью которого будут выбираться данные только для необходимых объектов
@@ -293,13 +298,13 @@ abstract class simpleCatalogueMapper extends simpleMapper
                     'type' =>  $type,
                     'type_id' =>  $row['property_type'],
                     'value' =>  (isset($row[$type]) ? $row[$type] : null),
-                    'isShort' =>  (bool)$row['isShort']
+                    'isShort' =>  (bool)$row['isShort'],
+                    'args'  =>  isset($row['args']) ? $row['args'] : ''
                 );
 
                 $this->tmpPropsData[$row[$this->tableKey]] = $property;
             }
         }
-
         return $result;
     }
 

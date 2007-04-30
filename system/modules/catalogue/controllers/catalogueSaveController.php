@@ -62,11 +62,13 @@ class catalogueSaveController extends simpleController
             $properties = $item->exportOldProperties();
         }
 
-        foreach ($properties as $property) {
+        foreach ($properties as &$property) {
             if ($property['type'] == 'int') {
                 $validator->add('numeric', $property['name'], 'Нужен int');
             } elseif ($property['type'] == 'float') {
                 $validator->add('numeric', $property['name'], 'Нужен float');
+            } elseif ($property['type'] == 'select') {
+                $property['args'] = unserialize($property['args']);
             }
         }
 

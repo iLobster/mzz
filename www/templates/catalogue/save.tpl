@@ -38,6 +38,12 @@ function loadForm(id)
                     <td>
                         {if $element.type eq 'text'}
                             {form->textarea name=$element.name value=$element.value style="width:500px;height:300px;"}{$errors->get($element.name)}
+                        {elseif $element.type eq 'select'}
+                            <select name="{$element.name}">
+                            {foreach from=$element.args key="key" item="arg"}
+                                <option value="{$key}" {if $key == $element.value}selected{/if}>{$arg}</option>
+                            {/foreach}
+                            </select>
                         {else}
                             {form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}
                         {/if}
