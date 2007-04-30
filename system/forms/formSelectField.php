@@ -18,15 +18,20 @@ class formSelectField extends formElement
     {
         $html = '';
         $value = isset($options['value']) ? $options['value'] : '';
-        $value = self::getValue($options['name'], $value);
+        $name = $options['name'];
 
-        //$options['options'] = array('' => '') + $options['options'];
+        if (isset($options['null']) && $options['null']) {
+            $options['options'] = array('' => '') + $options['options'];
+        }
 
         foreach ($options['options'] as $key => $text) {
-            $html .= self::createTag(array('content' => $text, 'value' => $key, 'selected' => (string)$key == (string)$value), 'option');
+            $value = self::getValue($name, $value);
+            $selected = ((string)$key == (string)$value);
+            $html .= self::createTag(array('content' => $text, 'value' => $key, 'selected' => $selected), 'option');
         }
         unset($options['options']);
         unset($options['value']);
+        unset($options['null']);
 
         $options = array_merge($options, array('content' => $html));
         $select = self::createTag($options, 'select');

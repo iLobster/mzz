@@ -105,7 +105,11 @@ class httpRequest implements iRequest
     public function get($name, $type = 'mixed', $scope = SC_PATH)
     {
         $result = null;
-
+        $originalName = false;
+        if ($bracket = strpos($name, '[')) {
+            $originalName = $name;
+            $name = substr($name, 0, $bracket);
+        }
         $done = false;
 
         if (!$done && $scope & SC_PATH && !is_null($result = $this->params->get($name))) {
@@ -126,6 +130,22 @@ class httpRequest implements iRequest
 
         if (!$done && $scope & SC_GET && !is_null($result = $this->getVars->get($name))) {
             $done = true;
+        }
+
+        if ($originalName) {
+            $name = $originalName;
+            $name = str_replace('[]', '[0]', $name);
+            preg_match_all('/\[["\']?(.*?)["\']?\]/', $name, $indexes);
+            // or str_replace(array('[]', '][', '[', ']'), array('', '[', '[', ''), substr($name, strpos($name, '[') + 1));
+            $indexes = $indexes[1];
+
+            foreach($indexes as $index) {
+                if (!isset($result[$index])) {
+                    $result = null;
+                    break;
+                }
+                $result = $result[$index];
+            }
         }
 
         if (!empty($result) && $this->isAjax()) {

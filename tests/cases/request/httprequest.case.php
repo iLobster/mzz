@@ -125,6 +125,13 @@ class httpRequestTest extends unitTestCase
         $this->assertIdentical($this->httprequest->get('_TEST_INTEGER', 'integer', SC_REQUEST), (int)$this->integer);
     }
 
+    public function testGetWithIndex()
+    {
+        $_GET['user']['1']['login'][0] = "root";
+        $this->httprequest->refresh();
+        $this->assertEqual($this->httprequest->get("user[1]['login'][]", 'mixed', SC_REQUEST), 'root');
+    }
+
     public function testGetUrl()
     {
         $_SERVER['HTTPS'] = 'on';

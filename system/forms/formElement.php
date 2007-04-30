@@ -14,6 +14,7 @@
 
 abstract class formElement
 {
+    static protected $counts = array();
     static public function createTag(Array $options = array(), $name = 'input')
     {
         if (!isset($options['onError'])) {
@@ -97,7 +98,18 @@ abstract class formElement
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
-        if (!is_null($value = $request->get($name, 'mixed', SC_REQUEST))) {
+
+        if($pos = strpos($name, '[]')) {
+            if (!isset(self::$counts[$name])) {
+                self::$counts[$name] = 0;
+            } else {
+                self::$counts[$name]++;
+            }
+            $pos += 2;
+            $name = str_replace('[]', '[' . self::$counts[$name] . ']', substr($name, 0, $pos)) . str_replace('[]', '[0]', substr($name, $pos));
+        }
+        $value = $request->get($name, 'mixed', SC_REQUEST);
+        if (!is_null($value)) {
             return $value;
         } else {
             return $default;
@@ -106,5 +118,4 @@ abstract class formElement
 
     abstract static public function toString($options = array());
 }
-
 ?>
