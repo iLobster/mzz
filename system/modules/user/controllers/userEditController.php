@@ -12,14 +12,14 @@
  * @version $Id$
  */
 
-fileLoader::load('user/forms/userEditForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * userEditController: контроллер для метода edit модуля user
  *
  * @package modules
  * @subpackage user
- * @version 0.1.2
+ * @version 0.2
  */
 
 class userEditController extends simpleController
@@ -31,64 +31,83 @@ class userEditController extends simpleController
         $editedUser = $userMapper->searchById($id);
 
         $action = $this->request->getAction();
+        $isEdit = ($action == 'edit');
 
-        if ($editedUser->getId() == $id || $action == 'create') {
+        if ($isEdit && $editedUser->getId() != $id) {
+            return $userMapper->get404()->run();
+        }
 
-            $form = userEditForm::getForm($editedUser, $this->request->getSection(), $action, $userMapper);
+        $validator = new formValidator();
+        $validator->add('required', 'user[login]', 'Обязательное для заполнения поле');
+        if (!$isEdit) {
+            $validator->add('required', 'user[password]', 'Обязательное для заполнения поле');
+        }
 
-            if ($form->validate() == false) {
-                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-                $form->accept($renderer);
+        $validator->add('callback', 'user[login]', 'Пользователь с таким логином же существует', array('checkUniqueUserLogin', $editedUser, $userMapper));
 
-                $this->smarty->assign('form', $renderer->toArray());
-                $this->smarty->assign('user', $editedUser);
-                $this->smarty->assign('action', $action);
+        if ($validator->validate()) {
+            if (!$isEdit) {
+                $editedUser = $userMapper->create();
+            }
 
-                $title = $action == 'edit' ? 'Редактирование -> ' . $editedUser->getLogin() : 'Создание';
+            $info = $this->request->get('user', 'array', SC_POST);
 
-                $this->response->setTitle('Пользователь -> ' . $title);
-                return $this->smarty->fetch('user/edit.tpl');
-            } else {
-                if ($action == 'create') {
-                    $editedUser = $userMapper->create();
-                }
+            $editedUser->setLogin((string)$info['login']);
+            if (!empty($info['password'])) {
+                $editedUser->setPassword((string)$info['password']);
+            }
 
-                $values = $form->exportValues();
-                $editedUser->setLogin($values['login']);
-                if (!empty($values['password'])) {
-                    $editedUser->setPassword($values['password']);
-                }
-
-                if ($action == 'create') {
-                    // добавим созданного пользователя в группы с флагом 'is_default'
-                    $groupMapper = $this->toolkit->getMapper('user', 'group');
-                    $groups = $groupMapper->searchAllByField('is_default', 1);
-
-                    $userMapper->save($editedUser);
-
-                    $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
-                    $userGroup = array();
-
-                    foreach ($groups as $group) {
-                        $userGroup_tmp = $userGroupMapper->create();
-                        $userGroup_tmp->setGroup($group);
-
-                        $userGroup[] = $userGroup_tmp;
-                    }
-
-                    $editedUser->setGroups($userGroup);
-                }
+            if (!$isEdit) {
+                // добавим созданного пользователя в группы с флагом 'is_default'
+                $groupMapper = $this->toolkit->getMapper('user', 'group');
+                $groups = $groupMapper->searchAllByField('is_default', 1);
 
                 $userMapper->save($editedUser);
 
-                $view = jipTools::redirect();
+                $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
+                $userGroup = array();
+
+                foreach ($groups as $group) {
+                    $userGroup_tmp = $userGroupMapper->create();
+                    $userGroup_tmp->setGroup($group);
+
+                    $userGroup[] = $userGroup_tmp;
+                }
+
+                $editedUser->setGroups($userGroup);
             }
 
-            return $view;
-        } else {
-            return $userMapper->get404()->run();
+            $userMapper->save($editedUser);
+            return jipTools::redirect();
         }
+
+
+        if ($isEdit) {
+            $url = new url('withId');
+            $url->addParam('id', $editedUser->getId());
+        } else {
+            $url = new url('default2');
+        }
+        $url->setAction($action);
+
+
+        $editedUser = ($isEdit) ? $editedUser : $userMapper->create();
+        $this->smarty->assign('user', $editedUser);
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('isEdit', $isEdit);
+        $this->smarty->assign('errors', $validator->getErrors());
+        return $this->smarty->fetch('user/edit.tpl');
     }
+}
+
+function checkUniqueUserLogin($login, $user, $userMapper)
+{
+    if ($login === $user->getLogin()) {
+        return true;
+
+    }
+    $user = $userMapper->searchByLogin($login);
+    return ($user->getId() == MZZ_USER_GUEST_ID && $login !== $user->getLogin());
 }
 
 ?>

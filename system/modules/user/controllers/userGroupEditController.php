@@ -12,12 +12,14 @@
  * @version $Id$
 */
 
+fileLoader::load('forms/validators/formValidator');
+
 /**
  * userGroupEditController: контроллер для метода groupEdit модуля user
  *
  * @package modules
  * @subpackage user
- * @version 0.1.1
+ * @version 0.2
  */
 class userGroupEditController extends simpleController
 {
@@ -29,43 +31,56 @@ class userGroupEditController extends simpleController
         $group = $groupMapper->searchById($id);
 
         $action = $this->request->getAction();
-        $isEdit = $action == 'groupEdit';
+        $isEdit = ($action == 'groupEdit');
 
-        if ($group || $action == 'groupCreate') {
-            fileLoader::load('user/forms/groupEditForm');
-            $form = groupEditForm::getForm($group, $this->request->getSection(), $action, $groupMapper);
-
-            if ($form->validate() == false) {
-                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-                $form->accept($renderer);
-
-                $this->smarty->assign('form', $renderer->toArray());
-                $this->smarty->assign('group', $group);
-                $this->smarty->assign('action', $action);
-                $this->smarty->assign('isEdit', $isEdit);
-
-                $title = $isEdit ? 'Редактирование группы -> ' . $group->getName() : 'Создание группы';
-
-                $this->response->setTitle('Пользователь -> ' . $title);
-                $view = $this->smarty->fetch('user/groupEdit.tpl');
-            } else {
-                if ($action == 'groupCreate') {
-                    $group = $groupMapper->create();
-                }
-
-                $values = $form->exportValues();
-                $group->setName($values['name']);
-                $group->setIsDefault((bool)$values['is_default']);
-                $groupMapper->save($group);
-
-                $view = jipTools::redirect();
-            }
-
-            return $view;
-        } else {
+        if (!$group && $isEdit) {
             return $groupMapper->get404()->run();
         }
+
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Обязательное для заполнения поле');
+        $validator->add('callback', 'name', 'Группа с таким именем уже существует', array('checkUniqueGroupName', $group, $groupMapper));
+
+        if ($validator->validate()) {
+            if (!$isEdit) {
+                $group = $groupMapper->create();
+            }
+
+            $name = $this->request->get('name', 'string', SC_POST);
+            $is_default = $this->request->get('is_default', 'boolean', SC_POST);
+            $group->setName($name);
+            $group->setIsDefault($is_default);
+            $groupMapper->save($group);
+
+            return jipTools::redirect();
+        }
+
+
+        $url = new url('default2');
+        $url->setAction($action);
+
+        if ($isEdit) {
+            $url->setRoute('withId');
+            $url->addParam('id', $group->getId());
+        }
+
+        $group = ($isEdit) ? $group : $groupMapper->create();
+        $this->smarty->assign('group', $group);
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('isEdit', $isEdit);
+        $this->smarty->assign('errors', $validator->getErrors());
+        return $this->smarty->fetch('user/groupEdit.tpl');
     }
+}
+
+function checkUniqueGroupName($name, $group, $groupMapper)
+{
+    if (is_object($group) && $name === $group->getName()) {
+        return true;
+    }
+
+    $group = $groupMapper->searchByName($name);
+    return empty($group);
 }
 
 ?>

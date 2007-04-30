@@ -34,8 +34,8 @@ class userLoginFormController extends simpleController
             $url = new url('default2');
             $url->setSection('user');
             $url->setAction('login');
-            $form = array('action' => $url->get(), 'backUrl' => $this->request->getRequestUrl());
-            $this->smarty->assign('form', $form);
+            $this->smarty->assign('form_action', $url->get());
+            $this->smarty->assign('backURL', $this->request->getRequestUrl());
             $this->smarty->assign('user', null);
 
             return $this->smarty->fetch('user/' . $prefix . 'loginForm.tpl');

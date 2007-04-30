@@ -48,20 +48,12 @@ class userLoginController extends simpleController
                 }
             }
 
-            //fileLoader::load('user/forms/userLoginForm');
-            //$form = userLoginForm::getForm($this->request->getRequestUrl());
-            //$renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-            //$form->accept($renderer);
-
-            //$this->smarty->assign('form', $renderer->toArray());
-
 
             $url = new url('default2');
             $url->setSection('user');
             $url->setAction('login');
-            $form = array('action' => $url->get(), 'backUrl' => $this->request->getRequestUrl());
-            $this->smarty->assign('form', $form);
-
+            $this->smarty->assign('form_action', $url->get());
+            $this->smarty->assign('backURL', $this->request->getRequestUrl());
             $this->smarty->assign('user', null);
             $this->response->setTitle('Пользователь -> Авторизация');
 

@@ -1,6 +1,6 @@
 <div style='float: right; margin-top: -15px;'>
-<form action="{$form.action}" method="post" name="userLogin" id="userLogin">
-{form->hidden name="url" id="backUrlField" value=$form.backUrl}
+<form action="{$form_action}" method="post" name="userLogin" id="userLogin">
+{form->hidden name="url" id="backUrlField" value=$backURL}
     <table border="0" cellpadding="1" cellspacing="0" width="230">
         <tr>
             <td align="right">Логин</td>
