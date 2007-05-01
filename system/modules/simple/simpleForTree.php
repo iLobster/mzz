@@ -34,9 +34,9 @@ class simpleForTree extends simple
      *
      * @param array $map массив, содержащий информацию о полях
      */
-    public function __construct(Array $map)
+    public function __construct($mapper, Array $map)
     {
-        parent::__construct($map);
+        parent::__construct($mapper, $map);
         $this->treeFields = new arrayDataspace();
     }
 

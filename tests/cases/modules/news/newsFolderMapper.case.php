@@ -103,7 +103,7 @@ class newsFolderMapperTest extends unitTestCase
         foreach ($data as $record) {
             $folder = $newsFolderMapper->searchOneByField('id', $record[3]);
 
-            $news = new news($this->mapNews);
+            $news = new news($newsFolderMapper, $this->mapNews);
             $news->setTitle($record[0]);
             $news->setEditor($record[1]);
             $news->setText($record[2]);

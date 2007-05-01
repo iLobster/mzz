@@ -54,7 +54,7 @@ class newsMapperTest extends unitTestCase
         $user = $userMapper->searchById(1);
         $user->setLogin($newlogin = 'NEWLOGIN');
 
-        $news = new news($this->map);
+        $news = new news($this->mapper, $this->map);
         $news->setTitle('sometitle');
         $news->setEditor($user);
         $news->setText('sometext');
@@ -180,7 +180,7 @@ class newsMapperTest extends unitTestCase
 
         for($i = 0; $i < 4; $i++) {
             $folders = array(11, 11, 13, 13);
-            $news = new news($map);
+            $news = new news($mapper, $map);
             $news->setTitle('title' . ($i + 1));
             $news->setEditor($i + 1);
             $news->setText('text' . ($i + 1));

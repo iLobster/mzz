@@ -33,8 +33,7 @@ class pageFolder extends simpleForTree
      */
     public function __construct($mapper, Array $map)
     {
-        $this->mapper = $mapper;
-        parent::__construct($map);
+        parent::__construct($mapper, $map);
         $this->treeFields = new arrayDataspace();
     }
 

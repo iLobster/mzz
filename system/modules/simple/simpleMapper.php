@@ -500,7 +500,7 @@ abstract class simpleMapper
      */
     public function create()
     {
-        $object = new $this->className($this->getMap());
+        $object = new $this->className($this, $this->getMap());
         $object->section($this->section());
         return $object;
     }

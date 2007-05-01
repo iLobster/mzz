@@ -26,7 +26,7 @@ class simpleCatalogueTest extends unitTestCase
 
     public function setUp()
     {
-        $this->simple = new stubSimpleCatalogue($this->map);
+        $this->simple = new stubSimpleCatalogue($this->mapper, $this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
         $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('stubSimpleCatalogue', 1)");
     }

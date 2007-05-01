@@ -53,6 +53,13 @@ abstract class simple
     protected $map;
 
     /**
+     * Маппер
+     *
+     * @var simpleMapper
+     */
+    protected $mapper;
+
+    /**
      * Поле в таблице для хранения уникального идентификатора доменного объекта
      * Если это поле используется в других целях переопределяйте его в наследуемом классе
      *
@@ -70,11 +77,13 @@ abstract class simple
     /**
      * Конструктор.
      *
+     * @param simpleMapper $mapper обслуживающий маппер
      * @param array $map массив, содержащий информацию о полях
      */
-    public function __construct(Array $map)
+    public function __construct($mapper, Array $map)
     {
         $this->map = $map;
+        $this->mapper = $mapper;
 
         $this->map[$this->obj_id_field] = array (
         'name' => $this->obj_id_field,
@@ -315,10 +324,26 @@ abstract class simple
         }
         return $this->section;
     }
+    /**
+     * Метод для получения списка(карты) полей
+     *
+     * @return array
+     */
 
     public function getMap()
     {
         return $this->map;
+    }
+
+    /**
+     * Метод, возвращающий обслуживающий маппер
+     *
+     * @return simpleMapper
+     */
+
+    public function mapper()
+    {
+        return $this->mapper;
     }
 }
 

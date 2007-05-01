@@ -87,17 +87,6 @@ class newsFolderMapper extends simpleMapperForTree
     }
 
     /**
-     * Возвращает Доменный Объект, который обслуживает запрашиваемый маппер
-     *
-     * @return object
-     */
-    public function create()
-    {
-        $map = $this->getMap();
-        return new newsFolder($this, $map);
-    }
-
-    /**
      * Выборка ветки(нижележащих папок) на основе пути
      *
      * @param  string     $path          Путь

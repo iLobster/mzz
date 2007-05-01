@@ -95,7 +95,7 @@ class simpleMapperTest extends unitTestCase
 
     public function testInsertSave()
     {
-        $simple = new stubSimple($this->map);
+        $simple = new stubSimple($this->mapper, $this->map);
         $simple->setFoo($this->fixture[1]['foo']);
         $simple->setBar($this->fixture[1]['bar']);
 
@@ -114,7 +114,7 @@ class simpleMapperTest extends unitTestCase
         $this->mapper = new stubMapperDataModify('simple');
         $this->mapper->setMap($this->map);
 
-        $simple = new stubSimple($this->map);
+        $simple = new stubSimple($this->mapper, $this->map);
         $simple->setFoo($this->fixture[1]['foo']);
         $this->mapper->save($simple);
 
@@ -131,7 +131,7 @@ class simpleMapperTest extends unitTestCase
         $this->mapper = new stubMapperDataModify('simple');
         $this->mapper->setMap($this->map);
 
-        $simple = new stubSimple($this->map);
+        $simple = new stubSimple($this->mapper, $this->map);
         $simple->import(array('id'=>1));
         $simple->setFoo($this->fixture[1]['foo']);
         $this->mapper->save($simple);
@@ -143,7 +143,7 @@ class simpleMapperTest extends unitTestCase
     {
         $this->fixture();
 
-        $simple = new stubSimple($this->map);
+        $simple = new stubSimple($this->mapper, $this->map);
         $simple->import(array('id'=>1));
 
         $simple->setFoo('newfoo1');
@@ -155,7 +155,7 @@ class simpleMapperTest extends unitTestCase
 
     public function testCreateUniqueObjectId()
     {
-        $simple = new stubSimple($this->map);
+        $simple = new stubSimple($this->mapper, $this->map);
 
         $simple->setFoo('value');
 
@@ -172,7 +172,7 @@ class simpleMapperTest extends unitTestCase
         $this->mapper = new stubMapperSelectDataModify('simple');
         $this->mapper->setMap($this->map);
 
-        $simple = new stubSimple($this->map);
+        $simple = new stubSimple($this->mapper, $this->map);
         $simple->setFoo('12345');
         $this->mapper->save($simple);
 

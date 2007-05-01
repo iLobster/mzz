@@ -99,7 +99,7 @@ class userMapperTest extends unitTestCase
 
         $group_mapper = new groupMapper('user');
         for($i = 1; $i <= 2; $i++) {
-            $group = new group($map);
+            $group = new group($group_mapper, $map);
             $group->setName('name' . $i);
             $group_mapper->save($group);
         }

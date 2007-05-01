@@ -51,7 +51,7 @@ class pageMapperTest extends unitTestCase
 
     public function testSave()
     {
-        $page = new page($this->map);
+        $page = new page($this->mapper, $this->map);
         $page->setName('somename');
         $page->setTitle('sometitle');
         $page->setContent('somecontent');
@@ -144,7 +144,7 @@ class pageMapperTest extends unitTestCase
 
         for($i = 0; $i < 4; $i++) {
             $folders = array(11, 11, 13, 13);
-            $page = new page($map);
+            $page = new page($mapper, $map);
             $page->setName('name' . ($i + 1));
             $page->setTitle('title' . ($i + 1));
             $page->setContent('content' . ($i + 1));

@@ -48,7 +48,7 @@ class groupMapperTest extends unitTestCase
 
     public function testSave()
     {
-        $group = new group($this->map);
+        $group = new group($this->mapper, $this->map);
         $group->setName($name = 'someName');
 
         $this->assertNull($group->getId());
@@ -160,7 +160,7 @@ class groupMapperTest extends unitTestCase
     private function fixture($map)
     {
         for($i = 1; $i <= 4; $i++) {
-            $group = new group($map);
+            $group = new group($this->mapper, $map);
             $group->setName('name' . $i);
             $this->mapper->save($group);
         }

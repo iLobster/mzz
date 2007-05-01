@@ -26,9 +26,10 @@ abstract class simpleCatalogue extends simple
 
     protected $objectType;
 
-    public function __construct(Array $map)
+    public function __construct($mapper, Array $map)
     {
-        parent::__construct($map);
+        parent::__construct($mapper, $map);
+
         $this->properties = new arrayDataspace();
         $this->changedProperties = new arrayDataspace();
 

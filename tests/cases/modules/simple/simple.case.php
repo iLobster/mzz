@@ -28,7 +28,7 @@ class testSimple extends unitTestCase
 
     public function setUp()
     {
-        $this->simple = new stubSimple($this->map);
+        $this->simple = new stubSimple($this->mapper, $this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
         $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('stubSimple', 1)");
     }

@@ -21,26 +21,7 @@
  */
 class user extends simple
 {
-    /**
-     * Mapper
-     *
-     * @var object
-     */
-    private $mapper;
-
     protected $name = 'user';
-
-    /**
-     * Конструктор
-     *
-     * @param object $mapper
-     * @param array $map
-     */
-    public function __construct($mapper, Array $map)
-    {
-        $this->mapper = $mapper;
-        parent::__construct($map);
-    }
 
     /**
      * Проверяет является ли пользователь авторизированным

@@ -24,13 +24,6 @@ fileLoader::load('simple/simpleForTree');
 
 class newsFolder extends simpleForTree
 {
-    /**
-     * Mapper
-     *
-     * @var object
-     */
-    protected $mapper;
-
     protected $name = 'news';
 
     /**
@@ -41,8 +34,7 @@ class newsFolder extends simpleForTree
      */
     public function __construct($mapper, Array $map)
     {
-        $this->mapper = $mapper;
-        parent::__construct($map);
+        parent::__construct($mapper, $map);
         $this->treeFields = new arrayDataspace();
     }
 
