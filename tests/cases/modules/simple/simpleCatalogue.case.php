@@ -80,35 +80,36 @@ class simpleCatalogueTest extends unitTestCase
     public function testGetAndSetProperties()
     {
         $properties = array(
-            'p1' => array(
+            array(
                 'id'  =>  $id_1 = 'id_1',
                 'name'  =>  $name_1 = 'name_1',
                 'title'  =>  $title_1 = 'title_1',
                 'type'  =>  $type_1 = 'char',
                 'type_id'  =>  $type_id_1 = 1,
-                'value'  =>  $value_1 = 'value1',
                 'isShort'  =>  $isShort_1 = false
             ),
-            'p2' => array(
+            array(
                 'id'  =>  $id_2 = 'id_2',
                 'name'  =>  $name_2 = 'name_2',
                 'title'  =>  $title_2 = 'title_2',
                 'type'  =>  $type_2 = 'int',
                 'type_id'  =>  $type_id_2 = 2,
-                'value'  =>  $value_2 = '123456',
                 'isShort'  =>  $isShort_2 = false
             ),
         );
 
-        $this->simple->importProperties($properties);
+        $properties_values = array('name_1' => $value_1 = 'value1', 'name_2' => $value_2 = '123456');
+
+        $this->simple->importPropsData($properties);
+        $this->simple->importProperties($properties_values);
 
         $this->assertEqual($this->simple->exportProperties(), array());
 
-        $this->assertEqual($this->simple->getPropertyValue('p1'), $value_1);
-        $this->assertEqual($this->simple->getPropertyTitle('p1'), $title_1);
-        $this->assertEqual($this->simple->getPropertyType('p1'), $type_1);
+        $this->assertEqual($this->simple->getPropertyValue('name_1'), $value_1);
+        $this->assertEqual($this->simple->getPropertyTitle('name_1'), $title_1);
+        $this->assertEqual($this->simple->getPropertyType('name_1'), $type_1);
 
-        $p2 = $this->simple->getProperty('p2');
+        $p2 = $this->simple->getProperty('name_2');
         $this->assertEqual($p2['value'], $value_2);
         $this->assertEqual($p2['title'], $title_2);
         $this->assertEqual($p2['type'], $type_2);
@@ -116,10 +117,6 @@ class simpleCatalogueTest extends unitTestCase
         $this->simple->setProperty('p3', 'value3');
 
         $this->assertNull($this->simple->getPropertyValue('p3'));
-
-        $this->simple->importProperties($this->simple->exportProperties());
-
-        $this->assertEqual($this->simple->getProperty('p3'), 'value3');
     }
 }
 

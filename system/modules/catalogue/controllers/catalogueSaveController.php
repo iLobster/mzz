@@ -67,7 +67,7 @@ class catalogueSaveController extends simpleController
                 $validator->add('numeric', $property['name'], 'Нужен int');
             } elseif ($property['type'] == 'float') {
                 $validator->add('numeric', $property['name'], 'Нужен float');
-            } elseif ($property['type'] == 'select') {
+            } elseif ($property['type'] == 'select' && !$isEdit) {
                 $property['args'] = unserialize($property['args']);
             }
         }
@@ -107,9 +107,9 @@ class catalogueSaveController extends simpleController
                     $item->setEditor($user);
                 }
 
-                foreach($properties as $property){
-                    $propValue = $this->request->get($property['name'], 'mixed', SC_POST);
-                    $item->setProperty($property['name'], $propValue);
+                foreach ($properties as $prop) {
+                    $propValue = $this->request->get($prop['name'], 'mixed', SC_POST);
+                    $item->setProperty($prop['name'], $propValue);
                 }
 
                 $catalogueMapper->save($item);

@@ -30,15 +30,39 @@ abstract class simpleCatalogue extends simple
     {
         parent::__construct($mapper, $map);
 
+
         $this->properties = new arrayDataspace();
         $this->changedProperties = new arrayDataspace();
-
         $this->objectType = new arrayDataspace();
+    }
+
+    /*
+    public function setType($type)
+    {
+        parent::__call('setType', $type);
+    }
+    */
+
+    public function importPropsData(Array $data)
+    {
+        $props = array();
+        foreach ($data as $d) {
+            if ($d['type'] == 'select') {
+                $d['args'] = unserialize($d['args']);
+            }
+            $props[$d['name']] = $d;
+        }
+        $this->properties->import($props);
     }
 
     public function importProperties(Array $data)
     {
-        $this->properties->import($data);
+        $props = $this->properties->export();
+
+        foreach ($data as $name => $value) {
+            $props[$name]['value'] = isset($props[$name]) ? $value : '';
+        }
+        $this->properties->import($props);
     }
 
     public function importTypeData(Array $data)

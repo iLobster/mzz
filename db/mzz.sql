@@ -47,9 +47,7 @@ INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`,
   (7,8,'Учебник английского языка для технических университетов и вузов',2,1175237052,490,12),
   (8,7,'Nokia 6300',2,1175871646,501,5),
   (9,7,'Nokia E65',2,1175871677,502,5),
-  (10,7,'Motorola KRZR K1',2,1175871755,503,5),
-  (16,10,'test',2,1177924268,515,13),
-  (18,10,'Да?',2,1177937701,517,1);
+  (10,7,'Motorola KRZR K1',2,1175871755,503,5);
 
 COMMIT;
 
@@ -79,8 +77,7 @@ INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `defau
   (10,486,'books','Книги',0,10,'root/books'),
   (11,487,'fantazy','Фантастика',0,11,'root/books/fantazy'),
   (5,481,'mobile','Телефоны',0,5,'root/mobile'),
-  (12,488,'tech','Техническая литература',0,12,'root/books/tech'),
-  (13,509,'test','test',10,13,'root/test');
+  (12,488,'tech','Техническая литература',11,12,'root/books/tech');
 
 COMMIT;
 
@@ -106,12 +103,11 @@ CREATE TABLE `catalogue_catalogueFolder_tree` (
 #
 
 INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,12,1),
+  (1,1,10,1),
   (10,4,9,2),
   (11,5,6,3),
   (5,2,3,2),
-  (12,7,8,3),
-  (13,10,11,2);
+  (12,7,8,3);
 
 COMMIT;
 
@@ -154,9 +150,7 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
   (9,30,NULL,'105 x 49 x 15.5',NULL,NULL,NULL,NULL),
   (10,28,NULL,'GSM 850/900/1800/1900',NULL,NULL,NULL,NULL),
   (10,29,NULL,'',NULL,NULL,NULL,NULL),
-  (10,30,NULL,'103 x 42 x 16',NULL,NULL,NULL,NULL),
-  (16,32,NULL,NULL,NULL,NULL,NULL,'1'),
-  (18,32,NULL,NULL,NULL,NULL,NULL,'1');
+  (10,30,NULL,'103 x 42 x 16',NULL,NULL,NULL,NULL);
 
 COMMIT;
 
@@ -171,12 +165,8 @@ CREATE TABLE `catalogue_catalogue_properties` (
   `name` varchar(255) default NULL,
   `title` varchar(255) default NULL,
   `type_id` int(11) unsigned default NULL,
-  `section` varchar(255) NOT NULL default '',
-  `module` varchar(255) NOT NULL default '',
-  `mapper` varchar(255) NOT NULL default '',
   `method` varchar(255) NOT NULL default '',
   `args` text NOT NULL,
-  `domethod` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -185,15 +175,14 @@ CREATE TABLE `catalogue_catalogue_properties` (
 # Data for the `catalogue_catalogue_properties` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, `section`, `module`, `mapper`, `method`, `args`, `domethod`) VALUES 
-  (10,'author','Автор',1,'','','','','',''),
-  (11,'pagescount','Количество страниц',3,'','','','','',''),
-  (13,'annotation','Аннотация',4,'','','','','',''),
-  (12,'izdat','Издатель',1,'','','','','',''),
-  (14,'standart','Стандарт',1,'','','','','',''),
-  (15,'weight','Вес',1,'','','','','',''),
-  (16,'size','Размеры',1,'','','','','',''),
-  (19,'yesorno','Да|Нет',5,'','','','','a:3:{i:0;s:0:\"\";i:1;s:2:\"Да\";i:2;s:3:\"Нет\";}','');
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, `method`, `args`) VALUES 
+  (10,'author','Автор',1,'',''),
+  (11,'pagescount','Количество страниц',3,'',''),
+  (13,'annotation','Аннотация',4,'',''),
+  (12,'izdat','Издатель',1,'',''),
+  (14,'standart','Стандарт',1,'',''),
+  (15,'weight','Вес',1,'',''),
+  (16,'size','Размеры',1,'','');
 
 COMMIT;
 
@@ -242,8 +231,7 @@ CREATE TABLE `catalogue_catalogue_types` (
 
 INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
   (7,'mobile','Мобильный телефон'),
-  (8,'books','Книги'),
-  (10,'simple','Простой');
+  (8,'books','Книги');
 
 COMMIT;
 
@@ -276,7 +264,7 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `
   (28,7,14,2,1),
   (29,7,15,1,1),
   (30,7,16,6,0),
-  (32,10,19,1,1);
+  (43,7,12,0,0);
 
 COMMIT;
 
@@ -4491,9 +4479,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (504,11),
   (507,12),
   (508,12),
-  (509,17),
-  (515,16),
-  (517,16);
+  (524,12);
 
 COMMIT;
 
@@ -5401,7 +5387,17 @@ COMMIT;
 INSERT INTO `sys_obj_id` (`id`) VALUES 
   (515),
   (516),
-  (517);
+  (517),
+  (518),
+  (519),
+  (520),
+  (521),
+  (522),
+  (523),
+  (524),
+  (525),
+  (526),
+  (527);
 
 COMMIT;
 
@@ -5577,7 +5573,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (33,2,'127.0.0.1','8539a118934eb12959125b4a42c2cf20',494,1175426933),
   (36,2,'127.0.0.1','19269e37d22baa4c020b3c4b3732c9ea',498,1175870749),
   (38,2,'127.0.0.1','d6090ce8c9813fad79e3da7eae307a81',507,1177501534),
-  (39,2,'127.0.0.1','d3c8209095775bd072b72d167697c787',508,1177858428);
+  (39,2,'127.0.0.1','d3c8209095775bd072b72d167697c787',508,1177858428),
+  (40,2,'127.0.0.1','8c54ec4684e05d0d7b1c77af2c1c548b',524,1177993805);
 
 COMMIT;
 

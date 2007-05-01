@@ -114,7 +114,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $tmpDelete = array_diff($allProperties, array_keys($properties));
         $tmpInsert = array_diff(array_keys($properties), $allProperties);
 
-        if(!empty($tmpDelete)){
+        if (!empty($tmpDelete)) {
             $tmpDelete = array_map('intval', $tmpDelete);
             $query = 'DELETE `ccd` FROM `' . $this->tableData . '` `ccd`, `' . $this->tableTypesProps . '` `cctp` WHERE `ccd`.`property_type` = `cctp`.`id` AND `cctp`.`type_id` = ' . (int)$typeId . ' AND `cctp`.`property_id` IN (' . implode(', ', $tmpDelete) . ')';
             $this->db->query($query);
@@ -122,11 +122,11 @@ abstract class simpleCatalogueMapper extends simpleMapper
             $this->db->query($query);
         }
 
-        if(!empty($tmpInsert)){
+        if (!empty($tmpInsert)) {
             $this->setPropertiesToType($typeId, $tmpInsert);
         }
 
-        if(!empty($properties)){
+        if (!empty($properties)) {
             $this->updatePropertiesSelection($typeId, $properties);
         }
     }
@@ -284,13 +284,14 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties->clearLimit()->clearOffset();
 
         $select = new simpleSelect($properties);
-
         $stmt = $this->db->query($select->toString());
 
         while ($row = $stmt->fetch()) {
             if ($row['property_type']) {
                 $type = $this->getPropertyTypeByTypeprop($row['property_type']);
+                $property[$row['name']] = (isset($row[$type]) ? $row[$type] : null);
 
+                /*
                 $property[$row['name']] = array(
                     'id' =>  $row['id'],
                     'name' =>  $row['name'],
@@ -299,8 +300,13 @@ abstract class simpleCatalogueMapper extends simpleMapper
                     'type_id' =>  $row['property_type'],
                     'value' =>  (isset($row[$type]) ? $row[$type] : null),
                     'isShort' =>  (bool)$row['isShort'],
-                    'args'  =>  isset($row['args']) ? $row['args'] : ''
+                    'args'  =>  $row['args']
                 );
+
+                if ($type == 'select') {
+                    $property[$row['name']]['args'] = unserialize($property[$row['name']]['args']);
+                }
+                */
 
                 $this->tmpPropsData[$row[$this->tableKey]] = $property;
             }
@@ -312,6 +318,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
     {
         $object = $this->create();
         $object->import($row);
+
+        $object->importPropsData($this->getProperties($row['type_id']));
 
         if (isset($this->tmpPropsData[$row[$this->tableKey]])) {
             $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
@@ -342,6 +350,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 $properties[$row['name']] = $row['id'];
                 $result[$row['name']] = $data[$row['name']];
             }
+
             if (sizeof($properties)) {
                 foreach ($properties as $key => $val) {
                     $type = $this->getPropertyType($key);
@@ -349,7 +358,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 }
                 $tmp = $object->exportOldProperties();
                 foreach ($result as $id => $value) {
-                    $tmp[$id]['value'] = $value;
+                    $tmp[$id] = $value;
                 }
                 $object->importProperties($tmp);
             }

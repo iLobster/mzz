@@ -157,6 +157,7 @@ class simpleCatalogueMapperTest extends unitTestCase
         $catalogue->setType($type = 2);
         $catalogue->setCreated($created = 777);
         $catalogue->setEditor($editor = 10);
+        $catalogue->importPropsData($this->mapper->getProperties($type));
 
         $catalogue->setProperty('property_3', $val1 = 'bar');
         $catalogue->setProperty('property_4', $val2 = 123);

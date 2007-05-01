@@ -15,7 +15,7 @@ function addOne()
 	var td = tr.insertCell(tr.cells.length);
 	td.innerHTML = 'Значение';
 	td = tr.insertCell(tr.cells.length);
-	td.innerHTML = '<input type="text" name="selectkeys[' + count + ']" value="' + count + '"><input maxlength="10" name="selectvalues[' + count + ']" type="text" /><img src="/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" />';
+	td.innerHTML = '<input maxlength="10" name="selectvalues[' + count + ']" type="text" /><img src="/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" />';
     count++;
 }
 
@@ -46,7 +46,7 @@ function deleteOne(trelem)
                     {foreach from=$property.args item="val" key="key" name="argsIterator"}
                     <tr>
                         <td>Значение:</td>
-                        <td><input type="text" name="selectkeys[{$smarty.foreach.argsIterator.iteration}]" value="{$key}"><input type="text" name="selectvalues[{$smarty.foreach.argsIterator.iteration}]" value="{$val}" /><img src="{$SITE_PATH}/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" /></td>
+                        <td><input type="text" name="selectvalues[{$smarty.foreach.argsIterator.iteration}]" value="{$val}" /><img src="{$SITE_PATH}/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" /></td>
                     </tr>
                     {/foreach}
                     <script language="JavaScript">count = {$smarty.foreach.argsIterator.total+1};</script>
