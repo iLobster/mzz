@@ -620,11 +620,21 @@ abstract class simpleMapper
         if (empty($this->map) || $refresh) {
             $mapFileName = fileLoader::resolve($this->name() . '/maps/' . $this->className . '.map.ini');
             $this->map = parse_ini_file($mapFileName, true);
-            if (!isset($this->map['obj_id'])) {
-                $this->map['obj_id'] = array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
-            }
+            $this->addObjId($this->map);
         }
         return $this->map;
+    }
+
+    /**
+     * Метод добавления служебного поля obj_id к схеме данных
+     *
+     * @param array $map
+     */
+    protected function addObjId(&$map)
+    {
+        if (!isset($map['obj_id'])) {
+            $map['obj_id'] = array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
+        }
     }
 
     /**
