@@ -36,9 +36,10 @@ systemConfig::$db['default']['pdoOptions'] = array();
 
 systemConfig::$db['another']['dsn']  = "mysql:host=localhost;dbname=mzz_test";
 
-systemConfig::$pathToApplication = dirname(__FILE__);
-systemConfig::$pathToTemp = systemConfig::$pathToApplication . '/tmp';
-systemConfig::$pathToConf = systemConfig::$pathToApplication . '/configs';
+systemConfig::$pathToApplication = dirname(__FILE__) . '/../www';
+systemConfig::$pathToTests = dirname(__FILE__);
+systemConfig::$pathToTemp = systemConfig::$pathToTests . '/tmp';
+systemConfig::$pathToConf = systemConfig::$pathToTests . '/configs';
 systemConfig::init();
 
 ?>

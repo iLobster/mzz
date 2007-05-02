@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage resolver
- * @version 0.1
+ * @version 0.1.1
  */
 class testFileResolver extends fileResolver
 {
@@ -27,7 +27,7 @@ class testFileResolver extends fileResolver
      */
     public function __construct()
     {
-        parent::__construct(systemConfig::$pathToApplication  . '/*');
+        parent::__construct(systemConfig::$pathToTests  . '/*');
     }
 }
 

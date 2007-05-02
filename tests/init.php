@@ -17,9 +17,9 @@ require_once systemConfig::$pathToSystem . '/resolver/casesFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/testFileResolver.php';
 
 $baseresolver = new compositeResolver();
-$baseresolver->addResolver(new sysFileResolver());
-$baseresolver->addResolver(new testFileResolver());
 $baseresolver->addResolver(new appFileResolver());
+$baseresolver->addResolver(new testFileResolver());
+$baseresolver->addResolver(new sysFileResolver());
 $resolver = new compositeResolver();
 $resolver->addResolver(new classFileResolver($baseresolver));
 $resolver->addResolver(new casesFileResolver($baseresolver));

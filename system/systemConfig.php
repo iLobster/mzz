@@ -16,7 +16,7 @@
  * systemConfig: статический класс дл€ хранени€ путей
  *
  * @package system
- * @version 0.2
+ * @version 0.2.1
  */
 class systemConfig
 {
@@ -58,6 +58,13 @@ class systemConfig
      * @var string
      */
     public static $pathToConf;
+
+    /**
+     * ѕуть до каталога с тестами
+     *
+     * @var string
+     */
+    public static $pathToTests;
 
     /**
      * ѕри вызове определ€ет и устанавливает путь до €дра
