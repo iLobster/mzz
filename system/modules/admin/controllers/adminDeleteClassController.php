@@ -64,9 +64,11 @@ class adminDeleteClassController extends simpleController
         }
 
         $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
-        $dest = (file_exists(systemConfig::$pathToApplication . $const . $data['name'])) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
+        $moduleName = $modules[$data['module_id']]['name'];
 
-        $classGenerator = new classGenerator($modules[$data['module_id']]['name'], $dest . $const);
+        $dest = (file_exists(systemConfig::$pathToApplication . $const . $moduleName)) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
+
+        $classGenerator = new classGenerator($moduleName, $dest . $const);
         $classGenerator->delete($data['name']);
 
         $db->query('DELETE FROM `sys_classes` WHERE `id` = ' .$id);
