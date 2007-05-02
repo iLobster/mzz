@@ -32,8 +32,12 @@ class testsHtmlRunner implements iFilter
             $test->addTestFile($case);
         }
 
-
         $test->run(new mzzHtmlReporter('windows-1251'));
+
+        $toolkit = systemToolkit::getInstance();
+        $smarty = $toolkit->getSmarty();
+        $application_template_dir = $smarty->template_dir;
+        $smarty->template_dir = systemConfig::$pathToTests . '/templates';
 
         echo '<br /><a href="run.php" style="color: black; font: 11px arial, tahoma, verdana;">';
         if(isset($group)) {
@@ -75,7 +79,6 @@ class testsHtmlRunner implements iFilter
 
         echo '<p style="margin-top: 40px; padding-top: 7px; border-top: 1px solid #BBB; font-size: 60%; font-family: Verdana; color: #444; letter-spacing: -1px;" />';
 
-        $toolkit = systemToolkit::getInstance();
         $timer = $toolkit->getTimer();
         echo $timer->toString();
         echo '. SimpleTest (' . SimpleTest::getVersion() . ') <b>' . simpletest_error_handler(0, 0, 0, 0) . '</b> errors.';
@@ -83,7 +86,7 @@ class testsHtmlRunner implements iFilter
         $result = ob_get_contents();
         ob_end_clean();
         $response->append($result);
-
+        $smarty->template_dir = $application_template_dir;
         $filter_chain->next();
     }
 }
