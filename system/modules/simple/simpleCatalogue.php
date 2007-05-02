@@ -26,22 +26,27 @@ abstract class simpleCatalogue extends simple
 
     protected $objectType;
 
+    protected $mapper;
+
     public function __construct($mapper, Array $map)
     {
         parent::__construct($mapper, $map);
-
+        $this->mapper = $mapper;
 
         $this->properties = new arrayDataspace();
         $this->changedProperties = new arrayDataspace();
         $this->objectType = new arrayDataspace();
     }
 
-    /*
+
     public function setType($type)
     {
-        parent::__call('setType', $type);
+        if (!$this->getType()) {
+            parent::__call('setType', array($type));
+            $this->importPropsData($this->mapper->getProperties($type));
+        }
     }
-    */
+
 
     public function importPropsData(Array $data)
     {

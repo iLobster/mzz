@@ -290,24 +290,6 @@ abstract class simpleCatalogueMapper extends simpleMapper
             if ($row['property_type']) {
                 $type = $this->getPropertyTypeByTypeprop($row['property_type']);
                 $property[$row['name']] = (isset($row[$type]) ? $row[$type] : null);
-
-                /*
-                $property[$row['name']] = array(
-                    'id' =>  $row['id'],
-                    'name' =>  $row['name'],
-                    'title' =>  $row['title'],
-                    'type' =>  $type,
-                    'type_id' =>  $row['property_type'],
-                    'value' =>  (isset($row[$type]) ? $row[$type] : null),
-                    'isShort' =>  (bool)$row['isShort'],
-                    'args'  =>  $row['args']
-                );
-
-                if ($type == 'select') {
-                    $property[$row['name']]['args'] = unserialize($property[$row['name']]['args']);
-                }
-                */
-
                 $this->tmpPropsData[$row[$this->tableKey]] = $property;
             }
         }
