@@ -11,7 +11,7 @@ class fileLoaderTest extends unitTestCase
     {
         $this->resolver = new mocktestCoreCaseFileResolver();
         $this->resolver->expectOnce('resolve', array('core/someclassStub'));
-        $this->resolver->setReturnValue('resolve', TEST_PATH . '/cases/core/someclassStub.php');
+        $this->resolver->setReturnValue('resolve', systemConfig::$pathToTests . '/cases/core/someclassStub.php');
         fileLoader::setResolver($this->resolver);
     }
 
@@ -22,7 +22,7 @@ class fileLoaderTest extends unitTestCase
 
     public function testResolving()
     {
-        $this->assertEqual(fileLoader::resolve('core/someclassStub'),  TEST_PATH . '/cases/core/someclassStub.php');
+        $this->assertEqual(fileLoader::resolve('core/someclassStub'),  systemConfig::$pathToTests . '/cases/core/someclassStub.php');
     }
 
     public function testLoading()

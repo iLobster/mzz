@@ -21,7 +21,6 @@ define('SYSTEM_PATH',  realpath(dirname(__FILE__) . '/../system'));
  */
 define('SITE_PATH', '');
 define('DEBUG_MODE', 1);
-define('TEST_PATH',  realpath(SYSTEM_PATH . '/../tests'));
 
 define('MZZ_USER_GUEST_ID', 1);
 

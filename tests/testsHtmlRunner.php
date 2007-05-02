@@ -6,7 +6,7 @@ class testsHtmlRunner implements iFilter
     {
         ob_start();
         $casesBasedir = 'cases';
-        $casesDir = TEST_PATH . '/' . $casesBasedir;
+        $casesDir = systemConfig::$pathToTests . '/' . $casesBasedir;
 
         $casesName = 'all';
         $casesDirGroup = $casesDir;
