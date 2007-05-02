@@ -113,7 +113,7 @@ class acl
             throw new mzzInvalidParameterException('Идентификатор объекта не целочисленного типа', $object_id);
         }
 
-        $this->obj_id = $object_id;
+        $this->setObjId($object_id);
         $this->uid = $user->getId();
 
         $this->groups = $user->getGroupsList();
@@ -180,7 +180,7 @@ class acl
                       INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `cs`.`class_id`
                        INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
                         LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = 0 AND `a`.`action_id` = `ca`.`action_id` AND `a`.`class_section_id` = `r`.`class_section_id`
-                         WHERE `r`.`obj_id` = :obj_id AND (`a`.`uid` = :uid';
+                         WHERE `r`.`obj_id` = ' . $this->obj_id. ' AND (`a`.`uid` = ' . $this->uid;
 
                 if (sizeof($this->groups) && !$clean) {
                     $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
@@ -663,7 +663,7 @@ class acl
      */
     public function register($obj_id, $class = null, $section = null, $module = null)
     {
-        $this->obj_id = (int)$obj_id;
+        $this->setObjId($obj_id);
 
         if ($this->obj_id < 1) {
             throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа со значением > 0', $this->obj_id);
