@@ -73,6 +73,7 @@ class catalogueSavePropertyController extends simpleController
             $type = $this->request->get('type', 'integer', SC_POST);
 
             $params = array();
+            // zerkms: так делать Ќ≈Ћ№«я. опирайс€ на им€ типа а не на его id!!!
             switch ($type) {
                 case 5:
                     $values = (array) $this->request->get('selectvalues', 'mixed', SC_POST);
