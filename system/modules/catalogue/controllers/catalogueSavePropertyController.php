@@ -73,14 +73,15 @@ class catalogueSavePropertyController extends simpleController
             $type = $this->request->get('type', 'integer', SC_POST);
 
             $params = array();
-            if ($type == 5) {
-                $values = (array) $this->request->get('selectvalues', 'mixed', SC_POST);
-                $selectvalues = array();
-                foreach ($values as $val) {
-                    $selectvalues[] = $val;
-                }
-
-                $params['args'] = serialize($selectvalues);
+            switch ($type) {
+                case 5:
+                    $values = (array) $this->request->get('selectvalues', 'mixed', SC_POST);
+                    $selectvalues = array();
+                    foreach ($values as $val) {
+                        $selectvalues[] = $val;
+                    }
+                    $params['args'] = serialize($selectvalues);
+                    break;
             }
 
             if($isEdit){

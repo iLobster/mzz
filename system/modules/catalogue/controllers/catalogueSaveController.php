@@ -109,6 +109,14 @@ class catalogueSaveController extends simpleController
 
                 foreach ($properties as $prop) {
                     $propValue = $this->request->get($prop['name'], 'mixed', SC_POST);
+
+                    if ($prop['type'] == 'datetime') {
+                        $date = explode(' ', $propValue);
+                        $time = explode(':', $date[0]);
+                        $date = explode('/', $date[1]);
+                        $propValue = mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
+                    }
+
                     $item->setProperty($prop['name'], $propValue);
                 }
 

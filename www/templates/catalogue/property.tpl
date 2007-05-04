@@ -40,7 +40,7 @@ function deleteOne(trelem)
         </tr>
         <tr>
             <table>
-                <tbody id="selectvariants" {if !$isEdit && $type != 5}style="display:none;"{/if}>
+                <tbody id="selectvariants" {if !$isEdit || $type != 5}style="display:none;"{/if}>
                 <input type="button" value="+" onclick="javascript:addOne();">
                 {if $isEdit && $type == 5}
                     {foreach from=$property.args item="val" key="key" name="argsIterator"}

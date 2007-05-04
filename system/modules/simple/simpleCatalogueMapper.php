@@ -32,8 +32,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     private $tmpPropsData = array();
     private $tmpPropsTypes = array();
-
     private $tmptypes = array();
+    private $tmpTypesProps = array();
 
     public function __construct($section)
     {
@@ -76,12 +76,15 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     public function getProperties($id)
     {
-        $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isShort`, `tp`.`sort`, NULL as value FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id';
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam('type_id', $id);
-        $stmt->execute();
-        $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $properties;
+        if (!isset($this->tmpTypesProps[$id])) {
+            $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isShort`, `tp`.`sort`, NULL as value FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam('type_id', $id);
+            $stmt->execute();
+            $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $this->tmpTypesProps[$id] = $properties;
+        }
+        return $this->tmpTypesProps[$id];
     }
 
     public function addType($name, $title, Array $properties)
@@ -256,8 +259,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
             }
         }
 
-        $this->tmpPropsData = array();
-        $this->tmpServiceData = array();
+        //$this->tmpPropsData = array();
 
         $criteria->addJoin($this->tableTypes, new criterion('t.id', $this->className . '.type_id', criteria::EQUAL, true), 't', criteria::JOIN_LEFT);
         $criteria->addJoin($this->tableTypesProps, new criterion('tp.type_id', 't.id', criteria::EQUAL, true), 'tp', criteria::JOIN_LEFT);

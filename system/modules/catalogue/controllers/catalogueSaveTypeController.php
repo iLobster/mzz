@@ -53,7 +53,7 @@ class catalogueSaveTypeController extends simpleController
             $type = $catalogueMapper->getType($type_id);
 
             $props_tmp = $catalogueMapper->getProperties($type_id);
-
+            $type['properties'] = array();
             foreach ($props_tmp as $prop) {
                 $type['properties'][$prop['id']] = $prop;
                 unset($properties[$prop['id']]);
