@@ -40,7 +40,7 @@ class adminAdminController extends simpleController
         if (isset($menu[$module]['sections'][$section])) {
             $class = $adminMapper->getMainClass($module);
 
-            $obj_id = $this->toolkit->getObjectId('access_' . $section . '_' . $module);
+            $obj_id = $this->toolkit->getObjectId('access_' . $section . '_' . $class);
 
             $mapper = $this->toolkit->getMapper($module, $class, $section);
 
