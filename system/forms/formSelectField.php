@@ -24,17 +24,30 @@ class formSelectField extends formElement
             $options['options'] = array('' => '') + $options['options'];
         }
 
+        if (sizeof($options['options']) < 2 && isset($options['one_item_freeze']) && $options['one_item_freeze']) {
+            $options['freeze'] = true;
+        }
+
         foreach ($options['options'] as $key => $text) {
             $value = self::getValue($name, $value);
             $selected = ((string)$key == (string)$value);
+            if ($selected) {
+                $value_selected = $text;
+            }
             $html .= self::createTag(array('content' => $text, 'value' => $key, 'selected' => $selected), 'option');
         }
-        unset($options['options']);
-        unset($options['value']);
-        unset($options['null']);
 
-        $options = array_merge($options, array('content' => $html));
-        $select = self::createTag($options, 'select');
+        if (self::isFreeze($options)) {
+            reset($options['options']);
+            $select = isset($value_selected) ? $value_selected : current($options['options']);
+        } else {
+            unset($options['options']);
+            unset($options['value']);
+            unset($options['null']);
+
+            $options = array_merge($options, array('content' => $html));
+            $select = self::createTag($options, 'select');
+        }
         return $select;
     }
 }

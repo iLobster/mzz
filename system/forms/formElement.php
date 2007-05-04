@@ -29,14 +29,23 @@ abstract class formElement
         $content = isset($options['content']) ? $options['content'] : false;
         unset($options['content']);
 
-        $html = '<' . $name . self::optionsToString($options);
-        if ($content !== false) {
-            $html .= '>' . $content . '</' . $name . '>';
+        if (self::isFreeze($options)) {
+            $html = $options['value'];
         } else {
-            $html .= ' />';
+            $html = '<' . $name . self::optionsToString($options);
+            if ($content !== false) {
+                $html .= '>' . $content . '</' . $name . '>';
+            } else {
+                $html .= ' />';
+            }
         }
         //$html .= "\r\n";
         return $html;
+    }
+
+    static public function isFreeze($options)
+    {
+        return isset($options['freeze']) && $options['freeze'];
     }
 
     static protected function isRequired($options)

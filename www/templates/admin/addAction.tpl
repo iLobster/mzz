@@ -13,7 +13,7 @@
         {if $action eq 'addAction'}
             <tr>
                 <td>{form->caption name="dest" value="Каталог генерации"}</td>
-                <td>{if sizeof($dests) > 1}{form->select name="dest" options=$dests}{else}{$dests|@current}{form->hidden name="dest" value=$dests|@key}{/if}</td>
+                <td>{form->select name="dest" options=$dests one_item_freeze=1}</td>
             </tr>
         {/if}
         <tr>
