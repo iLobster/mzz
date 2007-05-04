@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage user
- * @version 0.1
+ * @version 0.1.1
  */
 class userGroupsListController extends simpleController
 {
@@ -27,26 +27,14 @@ class userGroupsListController extends simpleController
 
         $config = $this->toolkit->getConfig('user', $this->request->getSection());
 
-        fileLoader::load('pager');
-
-        $pager = new pager($this->request->getUrl(), $this->getPageFromRequest(), $config->get('items_per_page'));
-
-        $groupMapper->setPager($pager);
+        $this->setPager($groupMapper, $config->get('items_per_page'), true);
 
         $this->smarty->assign('groups', $groupMapper->searchAll());
-        $this->smarty->assign('pager', $pager);
         $this->smarty->assign('obj_id', $groupMapper->convertArgsToId(null));
-
 
         $this->response->setTitle('Ïîëüçîâàòåëü -> Ñïèñîê ãğóïï');
 
         return $this->smarty->fetch('user/groupsList.tpl');
-    }
-
-    private function getPageFromRequest()
-    {
-        $page = $this->request->get('page', 'integer', SC_GET);
-        return ($page > 0) ? $page : 1;
     }
 }
 

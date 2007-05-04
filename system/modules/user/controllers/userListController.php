@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage user
- * @version 0.1
+ * @version 0.1.1
  */
 class userListController extends simpleController
 {
@@ -26,25 +26,14 @@ class userListController extends simpleController
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $config = $this->toolkit->getConfig('user', $this->request->getSection());
 
-        fileLoader::load('pager');
-        $pager = new pager($this->request->getRequestUrl(), $this->getPageFromRequest(), $config->get('items_per_page'));
-        $userMapper->setPager($pager);
+        $this->setPager($userMapper, $config->get('items_per_page'), true);
 
         $this->smarty->assign('users', $userMapper->searchAll());
-        $this->smarty->assign('pager', $pager);
         $this->smarty->assign('obj_id', $userMapper->convertArgsToId(null));
-
-        $userMapper->removePager();
 
         $this->response->setTitle('Ïîëüçîâàòåëü -> Ñïèñîê');
 
         return $this->smarty->fetch('user/list.tpl');
-    }
-
-    private function getPageFromRequest()
-    {
-        $page = $this->request->get('page', 'integer', SC_GET);
-        return ($page > 0) ? $page : 1;
     }
 }
 
