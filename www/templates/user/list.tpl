@@ -1,5 +1,5 @@
 {add file="popup.js"}
-
+<a href="{url route=withId section=access id=$obj_id action=editACL}" class="jipLink"><img src="{$SITE_PATH}/templates/images/acl.gif" /></a>
 <div id="submenu"><a href="{url route=default2 section=user action=groupsList}">Группы</a></div>
 
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">

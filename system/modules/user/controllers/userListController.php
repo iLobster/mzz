@@ -32,6 +32,7 @@ class userListController extends simpleController
 
         $this->smarty->assign('users', $userMapper->searchAll());
         $this->smarty->assign('pager', $pager);
+        $this->smarty->assign('obj_id', $userMapper->convertArgsToId(null));
 
         $userMapper->removePager();
 
