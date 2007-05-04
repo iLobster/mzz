@@ -219,21 +219,18 @@ jipWindow.prototype = {
     },
 
 
-    sendForm: function(form, method) {
+    sendForm: function(form) {
         var params = $(form).serialize().toQueryParams();
-        //alert(params);
         params.ajax = 1;
         jipWindow.clean();
-        method = (method && method.toUpperCase() == 'GET') ? 'GET' : 'POST';
-        new Ajax.Request(form.action, {
-        'method': method,
-        parameters: params,
-        onSuccess: function(transport) {
-            jipWindow.successRequest(transport);
-        },
-        onFailure: function(transport) {
-            jipWindow.setErrorMsg(transport);
-        }
+        $(form).request({
+            parameters: params,
+            onSuccess: function(transport) {
+                jipWindow.successRequest(transport);
+            },
+            onFailure: function(transport) {
+                jipWindow.setErrorMsg(transport);
+            }
         });
         return false;
     },
