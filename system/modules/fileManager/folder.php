@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleForTree');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class folder extends simpleForTree
@@ -64,6 +64,10 @@ class folder extends simpleForTree
 
     public function upload($upload_name, $new_name, $path)
     {
+        if (!isset($_FILES[$upload_name])) {
+            throw new mzzRuntimeException('Укажите файл для загрузки');
+        }
+
         $info = array('name' => $_FILES[$upload_name]['name'], 'size' => $_FILES[$upload_name]['size'], 'tmp_name' => $_FILES[$upload_name]['tmp_name']);
         $name = !empty($name) ? $new_name : $info['name'];
 
