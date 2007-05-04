@@ -109,7 +109,7 @@ class adminAddActionController extends simpleController
             'name' => $this->request->get('name', 'string', SC_POST),
             'controller' => $this->request->get('controller', 'string', SC_POST),
             'jip' => $this->request->get('jip', 'string', SC_POST),
-            'inacl' => $this->request->get('inacl', 'string', SC_POST),
+            'inacl' => $this->request->get('inACL', 'string', SC_POST),
             'title' => $this->request->get('title', 'string', SC_POST),
             'icon' => $this->request->get('icon', 'string', SC_POST),
             'confirm' => $this->request->get('confirm', 'string', SC_POST),
