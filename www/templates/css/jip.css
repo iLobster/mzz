@@ -75,15 +75,22 @@ div.jipSuccess {
     display: none;
     background-color: #F9F9F9 !important;
     border: 2px solid #B6B6B6 !important;
-    width: 180px;
-    position: absolute;
-    z-index: 50000;
-    line-height: 100%;
+    width: 180px !important;
+    position: absolute !important;
+    line-height: 100% !important;
     text-align: left !important;
+    margin: 0;
+    font-variant: normal !important;
+    text-transform: none !important;
+    text-indent: 0 !important;
+    letter-spacing: normal !important;
+    white-space: normal !important;
+    word-spacing: normal !important;
+    font-style: normal !important;
 }
 
 .jipMenu img {
-    border: 0;
+    border: 0 !important;
 }
 
 .jipMenuClose {
@@ -94,9 +101,14 @@ div.jipSuccess {
     line-height: 100%;
 }
 
+.jipMenu td {
+    border-collapse: separate !important;
+    border-width: medium !important;
+    border-spacing: 0 !important;
+}
 
 table.jipItems {
-    cursor: pointer;
+    cursor: pointer !important;
     border: 1px solid #ffffff !important;
     width: 100%;
 }
@@ -107,8 +119,10 @@ td.jipItemIcon {
     border-left: 0 !important;
     border-top: 0 !important;
     border-bottom: 0 !important;
-    background-color: #ECECEC;
-    text-align:center;
+    background-image: url(../images/jip_bg.png) !important;
+    background-position: top left !important;
+    background-color: #ECECEC !important;
+    text-align: center !important;
 }
 
 td.jipItemText {
@@ -117,15 +131,16 @@ td.jipItemText {
     border-left: 0 !important;
     border-right: 1px solid #F9F9F9 !important;
     padding-left: 8px;
+    background-color: #F9F9F9 !important;
 }
 
 td.jipItemTextActive {
-    border-top: 1px solid #D8D7C5 !important;
-    border-bottom: 1px solid #D8D7C5 !important;
+    border-top: 1px solid #D4D4D4 !important;
+    border-bottom: 1px solid #D4D4D4 !important;
     border-left: 0 !important;
-    border-right: 1px solid #D8D7C5 !important;
+    border-right: 1px solid #D4D4D4 !important;
     padding-left: 8px;
-    background-color: #EBEAE2 !important;
+    background-color: #FFF !important;
 }
 
 
