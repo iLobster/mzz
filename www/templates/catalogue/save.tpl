@@ -4,16 +4,14 @@
 {literal}<script language="javascript">
 function loadForm(id)
 {{/literal}
-    var folderPath = '{$folder->getPath()}';
-    var url = '{url route="withAnyParam" section="catalogue" name="' + folderPath + '" action="create"}';{literal}
+    var url = '{url route="withAnyParam" section="catalogue" name=$folder->getPath() action="create"}';{literal}
     new Ajax.Request(url,
     {
         method:'get',
             parameters: { type: id },
         onSuccess:
             function(transport){
-                var response = transport.responseText;
-                document.getElementById('ajaxGetForm').innerHTML = response;
+                $('ajaxGetForm').update(transport.responseText);
             },
         onFailure:
             function(){ alert('Something went wrong...') }

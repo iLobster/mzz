@@ -220,7 +220,8 @@ jipWindow.prototype = {
 
 
     sendForm: function(form) {
-        var params = $(form).serialize().toQueryParams();
+        var params = $(form).serialize(true);
+
         params.ajax = 1;
         jipWindow.clean();
         $(form).request({
