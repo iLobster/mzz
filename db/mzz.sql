@@ -76,7 +76,7 @@ INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `defau
   (1,241,'root','Основной',0,1,'root'),
   (10,486,'books','Книги',0,10,'root/books'),
   (11,487,'fantazy','Фантастика',0,11,'root/books/fantazy'),
-  (5,481,'mobile','Телефоны',0,5,'root/mobile'),
+  (5,481,'mobile','Телефоны',7,5,'root/mobile'),
   (12,488,'tech','Техническая литература',11,12,'root/books/tech');
 
 COMMIT;
@@ -126,6 +126,7 @@ CREATE TABLE `catalogue_catalogue_data` (
   `date` datetime default NULL,
   `float` float(9,3) default NULL,
   `select` varchar(255) default NULL,
+  `datetime` int(11) default NULL,
   UNIQUE KEY `id` (`id`,`property_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251 ROW_FORMAT=FIXED;
 
@@ -133,24 +134,24 @@ CREATE TABLE `catalogue_catalogue_data` (
 # Data for the `catalogue_catalogue_data` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `date`, `float`, `select`) VALUES 
-  (6,27,'Книга посвящена новейшей версии Delphi  7 Studio. Здесь изложены как приёмы программирования в среде Delphi, её главные составные части - галереи компонентов, хранилища объектов, вспомогательный инструментарий, так и сам язык программирования Delphi',NULL,NULL,NULL,NULL,NULL),
-  (6,24,NULL,'В.В. Фаронов',NULL,NULL,NULL,NULL),
-  (6,25,NULL,NULL,640,NULL,NULL,NULL),
-  (6,26,NULL,'Издетельский дом \"Питер\"',NULL,NULL,NULL,NULL),
-  (7,24,NULL,'И.В. Орловская, Л.С. Самсонова, А.И. Скубриева',NULL,NULL,NULL,NULL),
-  (7,25,NULL,NULL,448,NULL,NULL,NULL),
-  (7,26,NULL,'Издательство МГТУ им. Н.Э. Баумана',NULL,NULL,NULL,NULL),
-  (7,27,'Учебник состоит из 12 уроков-тем, объединенных единой тематикой и содержащих: основной текст, назначением которого является обучение чтению технической литературы по специальностям машинно- и приборостроительных вузов; дополнительные текста и диалоги для общественной лексики, развития навыков профессионального обучения по изучаемой тематике; письменные и устные грамматические и лексические упражнения коммуникативной направленности.',NULL,NULL,NULL,NULL,NULL),
-  (8,28,NULL,'GSM 900/1800/1900',NULL,NULL,NULL,NULL),
-  (8,29,NULL,'91 г.',NULL,NULL,NULL,NULL),
-  (8,30,NULL,'106.4 x 43.6 x 11.7',NULL,NULL,NULL,NULL),
-  (9,28,NULL,'GSM 850/900/1800/1900',NULL,NULL,NULL,NULL),
-  (9,29,NULL,'115 г.',NULL,NULL,NULL,NULL),
-  (9,30,NULL,'105 x 49 x 15.5',NULL,NULL,NULL,NULL),
-  (10,28,NULL,'GSM 850/900/1800/1900',NULL,NULL,NULL,NULL),
-  (10,29,NULL,'',NULL,NULL,NULL,NULL),
-  (10,30,NULL,'103 x 42 x 16',NULL,NULL,NULL,NULL);
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `date`, `float`, `select`, `datetime`) VALUES 
+  (6,27,'Книга посвящена новейшей версии Delphi  7 Studio. Здесь изложены как приёмы программирования в среде Delphi, её главные составные части - галереи компонентов, хранилища объектов, вспомогательный инструментарий, так и сам язык программирования Delphi',NULL,NULL,NULL,NULL,NULL,NULL),
+  (6,24,NULL,'В.В. Фаронов',NULL,NULL,NULL,NULL,NULL),
+  (6,25,NULL,NULL,640,NULL,NULL,NULL,NULL),
+  (6,26,NULL,'Издетельский дом \"Питер\"',NULL,NULL,NULL,NULL,NULL),
+  (7,24,NULL,'И.В. Орловская, Л.С. Самсонова, А.И. Скубриева',NULL,NULL,NULL,NULL,NULL),
+  (7,25,NULL,NULL,448,NULL,NULL,NULL,NULL),
+  (7,26,NULL,'Издательство МГТУ им. Н.Э. Баумана',NULL,NULL,NULL,NULL,NULL),
+  (7,27,'Учебник состоит из 12 уроков-тем, объединенных единой тематикой и содержащих: основной текст, назначением которого является обучение чтению технической литературы по специальностям машинно- и приборостроительных вузов; дополнительные текста и диалоги для общественной лексики, развития навыков профессионального обучения по изучаемой тематике; письменные и устные грамматические и лексические упражнения коммуникативной направленности.',NULL,NULL,NULL,NULL,NULL,NULL),
+  (8,28,NULL,'GSM 900/1800/1900',NULL,NULL,NULL,NULL,NULL),
+  (8,29,NULL,'91 г.',NULL,NULL,NULL,NULL,NULL),
+  (8,30,NULL,'106.4 x 43.6 x 11.7',NULL,NULL,NULL,NULL,NULL),
+  (9,28,NULL,'GSM 850/900/1800/1900',NULL,NULL,NULL,NULL,NULL),
+  (9,29,NULL,'115 г.',NULL,NULL,NULL,NULL,NULL),
+  (9,30,NULL,'105 x 49 x 15.5',NULL,NULL,NULL,NULL,NULL),
+  (10,28,NULL,'GSM 850/900/1800/1900',NULL,NULL,NULL,NULL,NULL),
+  (10,29,NULL,'',NULL,NULL,NULL,NULL,NULL),
+  (10,30,NULL,'103 x 42 x 16',NULL,NULL,NULL,NULL,NULL);
 
 COMMIT;
 
@@ -166,7 +167,7 @@ CREATE TABLE `catalogue_catalogue_properties` (
   `title` varchar(255) default NULL,
   `type_id` int(11) unsigned default NULL,
   `method` varchar(255) NOT NULL default '',
-  `args` text NOT NULL,
+  `args` text,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -182,7 +183,8 @@ INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, 
   (12,'izdat','Издатель',1,'',''),
   (14,'standart','Стандарт',1,'',''),
   (15,'weight','Вес',1,'',''),
-  (16,'size','Размеры',1,'','');
+  (16,'size','Размеры',1,'',''),
+  (21,'test','test',6,'',NULL);
 
 COMMIT;
 
@@ -208,7 +210,8 @@ INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUE
   (2,'float','Число с плавающей точкой'),
   (3,'int','Целое'),
   (4,'text','Текст'),
-  (5,'select','Список');
+  (5,'select','Список'),
+  (6,'datetime','Дата и время');
 
 COMMIT;
 
@@ -264,6 +267,7 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `
   (28,7,14,2,1),
   (29,7,15,1,1),
   (30,7,16,6,0),
+  (47,7,21,0,0),
   (43,7,12,0,0);
 
 COMMIT;
@@ -359,15 +363,15 @@ INSERT INTO `filemanager_file` (`id`, `realname`, `name`, `ext`, `size`, `downlo
   (4,'05a131b70aef0e2b9f3e344d6163d311','qwe.rec','rec',9,3,1,203),
   (5,'5b78dc5c1c2ad6511e3e324845c2eb3c','2rec','',9,NULL,1,204),
   (6,'13810e7f5782973b2dc72030c1c392f0','сы','',18,NULL,1,205),
-  (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,2,1,206),
+  (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,6,1,206),
   (8,'3ff2104331237dafe9d7941a1286136f','mysql','',39,1,1,207),
-  (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,1,1,208),
+  (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,2,1,208),
   (10,'02c870089fc7f94ba1286e8faef13316','web.txt','txt',28,3,1,209),
   (11,'59833d36a918ad9fdd5f860d8a9b350f','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,NULL,1,210),
-  (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,1,1,211),
+  (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,2,1,211),
   (13,'ddaa316ac5ba16b0a2e39a3f9c19d330','2rec','',9,NULL,2,219),
   (14,'715dc8aa6d7e16526ae15a80386c4552','2rec.bmp','bmp',9,3,2,220),
-  (15,'4f0d05060fc2119d464b15a2ec93337f','apache_1.3.37.tar.gz','gz',2665370,1,4,236);
+  (15,'4f0d05060fc2119d464b15a2ec93337f','apache_1.3.37.tar.gz','gz',2665370,2,4,236);
 
 COMMIT;
 
@@ -4478,7 +4482,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (503,16),
   (504,11),
   (507,12),
-  (508,12),
+  (529,12),
   (524,12);
 
 COMMIT;
@@ -5397,7 +5401,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (524),
   (525),
   (526),
-  (527);
+  (527),
+  (528),
+  (529);
 
 COMMIT;
 
@@ -5573,7 +5579,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (33,2,'127.0.0.1','8539a118934eb12959125b4a42c2cf20',494,1175426933),
   (36,2,'127.0.0.1','19269e37d22baa4c020b3c4b3732c9ea',498,1175870749),
   (38,2,'127.0.0.1','d6090ce8c9813fad79e3da7eae307a81',507,1177501534),
-  (39,2,'127.0.0.1','d3c8209095775bd072b72d167697c787',508,1177858428),
+  (41,2,'127.0.0.1','30a14bf7cf464e1954409b121b7b0f81',529,1178274095),
   (40,2,'127.0.0.1','8c54ec4684e05d0d7b1c77af2c1c548b',524,1177993805);
 
 COMMIT;
