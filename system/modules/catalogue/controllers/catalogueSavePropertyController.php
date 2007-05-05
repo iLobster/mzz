@@ -32,9 +32,11 @@ class catalogueSavePropertyController extends simpleController
         $isEdit = ($action == 'editProperty');
 
         $typesTemp = $catalogueMapper->getAllPropertiesTypes();
-        $types = array('' => '');
+        $types = array();
+        $select = array('' => '');
         foreach ($typesTemp as $type) {
-            $types[$type['id']] = $type['title'] . ' (' . $type['name'] . ')';
+            $types[$type['id']] = $type['name'];
+            $select[$type['id']] = $type['title'] . ' (' . $type['name'] . ')';
         }
 
         $validator = new formValidator();
@@ -62,7 +64,7 @@ class catalogueSavePropertyController extends simpleController
                 $this->smarty->assign('property', $property);
             }
 
-            $this->smarty->assign('types', $types);
+            $this->smarty->assign('types', $select);
             $this->smarty->assign('isEdit', $isEdit);
             $this->smarty->assign('action', $url->get());
             $this->smarty->assign('errors', $validator->getErrors());
@@ -73,9 +75,8 @@ class catalogueSavePropertyController extends simpleController
             $type = $this->request->get('type', 'integer', SC_POST);
 
             $params = array();
-            // zerkms: так делать Ќ≈Ћ№«я. опирайс€ на им€ типа а не на его id!!!
-            switch ($type) {
-                case 5:
+            switch ($types[$type]) {
+                case 'select':
                     $values = (array) $this->request->get('selectvalues', 'mixed', SC_POST);
                     $selectvalues = array();
                     foreach ($values as $val) {
@@ -85,7 +86,7 @@ class catalogueSavePropertyController extends simpleController
                     break;
             }
 
-            if($isEdit){
+            if ($isEdit) {
                 $catalogueMapper->updateProperty($id, $name, $title, $type, $params);
             } else {
                 $catalogueMapper->addProperty($name, $title, $type, $params);
