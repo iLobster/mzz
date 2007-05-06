@@ -1,7 +1,7 @@
 {if $isEdit}
-{include file='jipTitle.tpl' title='Редактирование страницы'}
+    <div class="jipTitle">Редактирование страницы "{$page->getName()|htmlspecialchars}"</div>
 {else}
-{include file='jipTitle.tpl' title='Создание страницы'}
+    <div class="jipTitle">Создание страницы</div>
 {/if}
 
 {literal}<script type="text/javascript">
@@ -49,7 +49,7 @@ function toggleEditor(id) {
         tinyMCEInterval = setInterval(function() {
             if (tinyMCE.loadingIndex == -1) {
                 tinyMCE.execCommand('mceAddControl', false, id);
-                removeEditorLoadingStatus() 
+                removeEditorLoadingStatus()
             }}, 100);
     } else {
         removeEditorLoadingStatus();
@@ -57,28 +57,27 @@ function toggleEditor(id) {
     }
 }
 </script>{/literal}
-
-<form {$form.attributes} onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);">
-{$form.hidden}
+<form action="{$form_action}" method="post" onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>
-        <td style='width: 15%;'>{$form.name.label}</td>
-        <td style='width: 85%;'>{$form.name.html}</td>
+        <td style='width: 15%;'>{form->caption name="name" value="Идентификатор" onError="style=color: red;"}</td>
+        <td style='width: 85%;'>{form->text name="name" value=$page->getName() size="60"}{$errors->get('name')}</td>
     </tr>
     <tr>
-        <td>{$form.title.label}</td>
-        <td>{$form.title.html}</td>
+        <td style='width: 15%;'>{form->caption name="title" value="Название" onError="style=color: red;"}</td>
+        <td style='width: 85%;'>{form->text name="title" value=$page->getTitle() size="60"}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></td>
     </tr>
     <tr>
-        <td>&nbsp;</td>
-        <td>{$form.contentArea.html}</td>
+        <td style='vertical-align: top;'>{form->caption name="contentArea" value="Содержимое" onError="style=color: red;"}</td>
+        <td>{form->textarea name="contentArea" value=$page->getContent() rows="4" cols="50"}{$errors->get('contentArea')}</td>
     </tr>
     <tr>
-        <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
+        <td>&nbsp;</td>
+        <td>{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
     </tr>
 </table>
 </form>

@@ -36,6 +36,7 @@ class formValidator
 
         $this->submit = $submit;
 
+        fileLoader::load('forms/validators/formAbstractRule');
         systemToolkit::getInstance()->setValidator($this);
     }
 
@@ -43,6 +44,7 @@ class formValidator
     {
         $validatorName = 'form' . ucfirst($validator) . 'Rule';
         fileLoader::load('forms/validators/' . $validatorName);
+
         $this->validators[] = new $validatorName($name, $errorMsg, $params);
     }
 

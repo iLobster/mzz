@@ -12,6 +12,13 @@
  * @version $Id$
  */
 
+/**
+ * formCaptionField
+ *
+ * @package system
+ * @subpackage forms
+ * @version 0.1
+ */
 class formCaptionField extends formElement
 {
     static public function toString($options = array())

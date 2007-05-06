@@ -16,7 +16,7 @@ function switchChckbox(id, self) {
             <td><strong>{form->caption name="title" value="Заголовок:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
             <td>{form->text name="title" size="60" value=$type.title onError="style=border: red 1px solid;"}{$errors->get('title')}</td>
         </tr>
-        
+
         <tr>
             <td><strong>{form->caption name="name" value="Название:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
             <td>{form->text name="name" size="60" value=$type.name onError="style=border: red 1px solid;"}{$errors->get('name')}</td>
@@ -45,7 +45,7 @@ function switchChckbox(id, self) {
             </tr>
         {/foreach}
         <tr>
-            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

@@ -72,7 +72,7 @@ fmResetUploadForm();
             <td>{form->text name="name"}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{form->submit id="fmUploadFileSubmitButton" name="submit" value="Загрузить"} {form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
+            <td colspan=2 style="text-align:center;">{form->submit id="fmUploadFileSubmitButton" name="submit" value="Загрузить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

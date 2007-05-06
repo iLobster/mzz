@@ -85,6 +85,5 @@ function checkNewsFolderName($name, $path, $mapper, $isEdit)
     } else {
         return is_null($mapper->searchByPath($path . '/' . $name));
     }
-
 }
 ?>

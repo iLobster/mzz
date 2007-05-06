@@ -54,7 +54,7 @@ function deleteOne(trelem)
             </table>
         </tr>
         <tr>
-            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset onclick="javascript: jipWindow.close();" name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
         </tbody>
     </table>

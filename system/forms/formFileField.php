@@ -12,6 +12,13 @@
  * @version $Id$
  */
 
+/**
+ * formFileField
+ *
+ * @package system
+ * @subpackage forms
+ * @version 0.1
+ */
 class formFileField extends formElement
 {
     static public function toString($options = array())

@@ -1,14 +1,14 @@
 {assign var="path" value=$news->getFolder()->getPath()|htmlspecialchars}
 {assign var="name" value=$news->getTitle()|htmlspecialchars}
 {include file='jipTitle.tpl' title="Перемещение новости '$name' из каталога '$path'"}
-<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
-    <table width="100%" border="1" cellpadding="5" cellspacing="0" align="center">
+<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+    <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td>{$form.dest.label}</td>
-            <td>{$form.dest.html}{$form.dest.error}</td>
+            <td>{form->caption name="dest" value="Каталог назначения"}</td>
+            <td>{form->select name="dest" options=$dests size=5 value=$news->getFolder()->getId()}{$errors->get('dest')}</td>
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
+            <td colspan=2 style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

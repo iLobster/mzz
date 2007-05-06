@@ -1,4 +1,5 @@
 <?php
+fileLoader::load('forms/validators/formAbstractRule');
 fileLoader::load('forms/validators/formCallbackRule');
 
 function simpleCallbackRuleFunction($value, $a, $b, $c) {

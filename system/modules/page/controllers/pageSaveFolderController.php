@@ -12,66 +12,78 @@
  * @version $Id$
 */
 
-fileLoader::load('page/forms/pageSaveFolderForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * pageSaveFolderController: контроллер для метода saveFolder модуля page
  *
  * @package modules
  * @subpackage page
- * @version 0.1
+ * @version 0.2
  */
 class pageSaveFolderController extends simpleController
 {
     public function getView()
     {
-        $user = $this->toolkit->getUser();
-        $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
         $path = $this->request->get('name', 'string', SC_PATH);
-        $targetFolder = $pageFolderMapper->searchByPath($path);
-
         $action = $this->request->getAction();
         $isEdit = ($action == 'editFolder');
 
-        if (!is_null($targetFolder)) {
+        $folderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+        $targetFolder = $folderMapper->searchByPath($path);
 
-            $form = pageSaveFolderForm::getForm($path, $pageFolderMapper, $action, $targetFolder, $isEdit);
-
-            if ($form->validate() == false) {
-                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-                $form->accept($renderer);
-
-                $this->smarty->assign('form', $renderer->toArray());
-                $this->smarty->assign('isEdit', $isEdit);
-
-                $title = $isEdit ? 'Редактирование папки -> ' . $targetFolder->getName() : 'Создание папки';
-                $this->response->setTitle('Страницы -> ' . $title);
-                $view = $this->smarty->fetch('page/saveFolder.tpl');
-            } else {
-                $values = $form->exportValues();
-
-                if ($isEdit) {
-                    // изменяем папку
-                    $folder = $pageFolderMapper->searchByPath($path);
-                    $targetFolder = null;
-                } else {
-                    // создаём папку
-                    $folder = $pageFolderMapper->create();
-                }
-
-                $folder->setName($values['name']);
-                $folder->setTitle($values['title']);
-
-                $pageFolderMapper->save($folder, $targetFolder);
-
-                $view = jipTools::redirect();
-            }
-        } else {
-            return $pageFolderMapper->get404()->run();
+        if (empty($targetFolder)) {
+            return $folderMapper->get404()->run();
         }
 
-        return $view;
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'Необходимо дать идентификатор папке');
+        $validator->add('required', 'title', 'Необходимо назвать папку');
+        $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-zа-я0-9_\.\-! ]+$/i');
+        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkPageFolderName', $path, $folderMapper, $isEdit));
+
+
+        if ($validator->validate()) {
+            $name = $this->request->get('name', 'string', SC_POST);
+            $title = $this->request->get('title', 'string', SC_POST);
+
+            if ($isEdit) {
+                $folder = $targetFolder;
+                $targetFolder = null;
+            } else {
+                $folder = $folderMapper->create();
+            }
+
+            $folder->setName($name);
+            $folder->setTitle($title);
+
+            $folderMapper->save($folder, $targetFolder);
+            return jipTools::redirect();
+        }
+
+        $url = new url('pageActions');
+        $url->addParam('name', $path);
+        $url->setAction($action);
+
+        $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('isEdit', $isEdit);
+
+        $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
+        $this->smarty->assign('folder', $targetFolder);
+        return $this->smarty->fetch('page/saveFolder.tpl');
     }
 }
 
+function checkPageFolderName($name, $path, $mapper, $isEdit)
+{
+    if ($isEdit) {
+        $path = explode('/', $path);
+        $current = array_pop($path);
+
+        return $current == $name || is_null($mapper->searchByPath(implode('/', $path) . '/' . $name));
+    } else {
+        return is_null($mapper->searchByPath($path . '/' . $name));
+    }
+}
 ?>

@@ -12,6 +12,13 @@
  * @version $Id$
  */
 
+/**
+ * formElement
+ *
+ * @package system
+ * @subpackage forms
+ * @version 0.1
+ */
 abstract class formElement
 {
     static protected $counts = array();

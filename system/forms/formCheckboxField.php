@@ -12,6 +12,13 @@
  * @version $Id$
  */
 
+/**
+ * formCheckboxField
+ *
+ * @package system
+ * @subpackage forms
+ * @version 0.1
+ */
 class formCheckboxField extends formElement
 {
     static public function toString($options = array())

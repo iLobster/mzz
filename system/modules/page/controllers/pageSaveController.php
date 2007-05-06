@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('page/forms/pageSaveForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * pageSaveController: контроллер для метода save модуля page
@@ -26,52 +26,73 @@ class pageSaveController extends simpleController
 {
     public function getView()
     {
+
+
+
+
         $pageMapper = $this->toolkit->getMapper('page', 'page');
         $name = $this->request->get('name', 'string', SC_PATH);
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
-        $page = $pageFolderMapper->searchChild($name);
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
 
         if ($isEdit) {
+            $page = $pageFolderMapper->searchChild($name);
             $pageFolder = $page->getFolder();
         } else {
-            $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+            $page = $pageMapper->create();
             $pageFolder = $pageFolderMapper->searchByPath($name);
         }
 
-        if (!empty($page) || !$isEdit) {
-            $form = pageSaveForm::getForm($page, $this->request->getSection(), $action, $pageFolder, $isEdit);
 
-            if ($form->validate() == false) {
-                $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-                $form->accept($renderer);
 
-                $this->smarty->assign('form', $renderer->toArray());
-                $this->smarty->assign('page', $page);
-                $this->smarty->assign('isEdit', $isEdit);
+        if (!empty($page) || (!$isEdit && isset($pageFolder) && !is_null($pageFolder))) {
+            $validator = new formValidator();
+            $validator->add('required', 'name', 'Обязательное для заполнения поле');
+            $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-zа-я0-9_\.\-! ]+$/i');
+            $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkPageName', $page));
 
-                $title = $isEdit ? 'Редактирование -> ' . $page->getName() : 'Создание';
-                $this->response->setTitle('Страницы -> ' . $title);
-                $view = $this->smarty->fetch('page/save.tpl');
-            } else {
-                $values = $form->exportValues();
-                if (!$isEdit) {
-                    $page = $pageMapper->create();
-                }
-                $page->setName($values['name']);
-                $page->setTitle($values['title']);
-                $page->setContent($values['contentArea']);
+            if ($validator->validate()) {
+                $name = $this->request->get('name', 'string', SC_POST);
+                $title = $this->request->get('title', 'string', SC_POST);
+                $contentArea = $this->request->get('contentArea', 'string', SC_POST);
+
+                $page->setName($name);
+                $page->setTitle($title);
+                $page->setContent($contentArea);
+
                 $page->setFolder($pageFolder);
                 $pageMapper->save($page);
-                $view = jipTools::redirect();
+                return jipTools::redirect();
             }
-            return $view;
-        } else {
-            return $pageMapper->get404()->run();
+
+            $url = new url('pageActions');
+            $url->addParam('name', $pageFolder->getPath() . ($isEdit ? '/' . $page->getName() : ''));
+            $url->setAction($action);
+
+            $this->smarty->assign('form_action', $url->get());
+            $this->smarty->assign('errors', $validator->getErrors());
+            $this->smarty->assign('page', $page);
+            $this->smarty->assign('isEdit', $isEdit);
+
+            return $this->smarty->fetch('page/save.tpl');
         }
+
+        return $pageMapper->get404()->run();
     }
 }
 
+function checkPageName($name, $page)
+{
+    if ($name == $page->getName()) {
+        return true;
+    }
+
+    $criteria = new criteria();
+    $criteria->add('folder_id', $page->getFolder()->getId())->add('name', $name);
+
+    $pageMapper = systemToolkit::getInstance()->getMapper('page', 'page');
+    return is_null($pageMapper->searchOneByCriteria($criteria));
+}
 ?>

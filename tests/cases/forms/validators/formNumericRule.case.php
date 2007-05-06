@@ -1,5 +1,6 @@
 <?php
 
+fileLoader::load('forms/validators/formAbstractRule');
 fileLoader::load('forms/validators/formNumericRule');
 
 class formNumericRuleTest extends UnitTestCase

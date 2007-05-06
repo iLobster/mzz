@@ -1,7 +1,26 @@
 <?php
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
 
 fileLoader::load("forms/formElement");
 
+/**
+ * form: ץוכןונ הכÿ נאבמעû ס פמנלאלט
+ *
+ * @package system
+ * @subpackage forms
+ * @version 0.1
+ */
 class form
 {
     public function text($params, $smarty)
@@ -42,6 +61,10 @@ class form
     public function reset($params, $smarty)
     {
         $params['type'] = 'reset';
+        if (isset($params['jip']) && $params['jip']) {
+            $params['onclick'] = (empty($params['onclick']) ? 'javascript:' : '') . ' jipWindow.close();';
+            unset($params['jip']);
+        }
         return $this->text($params, $smarty);
     }
 
