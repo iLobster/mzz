@@ -51,7 +51,7 @@ class pageSaveController extends simpleController
             $validator = new formValidator();
             $validator->add('required', 'name', 'Обязательное для заполнения поле');
             $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-zа-я0-9_\.\-! ]+$/i');
-            $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkPageName', $page));
+            $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkPageName', $page, $pageFolder));
 
             if ($validator->validate()) {
                 $name = $this->request->get('name', 'string', SC_POST);
@@ -83,16 +83,15 @@ class pageSaveController extends simpleController
     }
 }
 
-function checkPageName($name, $page)
+function checkPageName($name, $page, $pageFolder)
 {
     if ($name == $page->getName()) {
         return true;
     }
+    $pageMapper = systemToolkit::getInstance()->getMapper('page', 'page');
 
     $criteria = new criteria();
-    $criteria->add('folder_id', $page->getFolder()->getId())->add('name', $name);
-
-    $pageMapper = systemToolkit::getInstance()->getMapper('page', 'page');
+    $criteria->add('folder_id', $pageFolder->getId())->add('name', $name);
     return is_null($pageMapper->searchOneByCriteria($criteria));
 }
 ?>
