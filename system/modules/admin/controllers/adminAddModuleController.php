@@ -38,6 +38,8 @@ class adminAddModuleController extends simpleController
 
         $data = null;
 
+        $isEdit = $action != 'addModule';
+
         $nameRO = false;
 
         $classes_select = null;
@@ -75,7 +77,7 @@ class adminAddModuleController extends simpleController
 
             $moduleGenerator = new moduleGenerator($dest[$values['dest']]);
 
-            if ($action == 'addModule') {
+            if (!$isEdit) {
                 try {
                     $log = $moduleGenerator->generate($values['name']);
                 } catch (Exception $e) {
@@ -84,13 +86,13 @@ class adminAddModuleController extends simpleController
 
                 $stmt = $db->prepare('INSERT INTO `sys_modules` (`name`) VALUES (:name)');
                 $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
-                $stmt->execute();
+                $id = $stmt->execute();
 
                 $this->smarty->assign('log', $log);
-                return $this->smarty->fetch('admin/addModuleResult.tpl');
+                //return $this->smarty->fetch('admin/addModuleResult.tpl');
             }
 
-            if (!$nameRO) {
+            if (!$nameRO && $isEdit) {
                 $moduleGenerator->rename($data['name'], $values['name']);
 
                 $stmt = $db->prepare('UPDATE `sys_modules` SET `name` = :name WHERE `id` = :id');
