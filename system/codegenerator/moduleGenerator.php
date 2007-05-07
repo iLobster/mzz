@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 
 class moduleGenerator
@@ -155,11 +155,6 @@ class moduleGenerator
         if (!is_dir('maps')) {
             mkdir('maps');
             $this->log[] = "Каталог maps создан успешно";
-        }
-        // создаем папку forms
-        if (!is_dir('forms')) {
-            mkdir('forms');
-            $this->log[] = "Каталог forms создан успешно";
         }
 
         // создаём папку с активными шаблонами
