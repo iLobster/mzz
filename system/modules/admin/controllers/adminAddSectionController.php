@@ -35,6 +35,8 @@ class adminAddSectionController extends simpleController
 
         $nameRO = false;
 
+        $isEdit = $action != 'addSection';
+
         if ($action == 'editSection') {
             $data = $db->getRow('SELECT * FROM `sys_sections` WHERE `id` = ' . $id);
 
@@ -60,25 +62,25 @@ class adminAddSectionController extends simpleController
         if ($form->validate()) {
             $values = $form->exportValues();
 
-            if ($action == 'addSection') {
+            if (!$isEdit) {
                 $stmt = $db->prepare('INSERT INTO `sys_sections` (`name`) VALUES (:name)');
                 $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
-                $stmt->execute();
+                $id = $stmt->execute();
 
-            } else {
-                if (!$nameRO) {
-                    $stmt = $db->prepare('UPDATE `sys_sections` SET `name` = :name WHERE `id` = :id');
-                    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-                    $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
-                    $stmt->execute();
-                }
+            }
 
-                $stmt = $db->prepare('UPDATE `sys_sections` SET `title` = :title, `order` = :order WHERE `id` = :id');
+            if (!$nameRO && $isEdit) {
+                $stmt = $db->prepare('UPDATE `sys_sections` SET `name` = :name WHERE `id` = :id');
                 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-                $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
-                $stmt->bindValue(':order', $values['order'], PDO::PARAM_INT);
+                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
                 $stmt->execute();
             }
+
+            $stmt = $db->prepare('UPDATE `sys_sections` SET `title` = :title, `order` = :order WHERE `id` = :id');
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
+            $stmt->bindValue(':order', $values['order'], PDO::PARAM_INT);
+            $stmt->execute();
 
             return jipTools::redirect();
         }

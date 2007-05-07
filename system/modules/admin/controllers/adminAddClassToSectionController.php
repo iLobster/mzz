@@ -40,7 +40,7 @@ class adminAddClassToSectionController extends simpleController
                               LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id` AND `cs`.`section_id` = ' . $data['id'] . '
                                LEFT JOIN `sys_access_registry` `r` ON `r`.`class_section_id` = `cs`.`id`
                                 GROUP BY `c`.`id`, `cs`.`id`
-                                 ORDER BY `c`.`name`');
+                                 ORDER BY `m`.`name`, `c`.`name`');
 
         $result = array();
         while ($tmp = $stmt->fetch()) {

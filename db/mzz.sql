@@ -4485,7 +4485,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (529,12),
   (524,12),
   (530,7),
-  (531,7);
+  (531,7),
+  (532,7);
 
 COMMIT;
 
@@ -4838,7 +4839,10 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (14,17,9),
   (15,18,9),
   (16,19,10),
-  (17,20,10);
+  (17,20,10),
+  (18,22,11),
+  (19,21,11),
+  (20,23,11);
 
 COMMIT;
 
@@ -5415,7 +5419,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (528),
   (529),
   (530),
-  (531);
+  (531),
+  (532);
 
 COMMIT;
 
@@ -5466,7 +5471,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (290,'access__catalogue'),
   (497,'access_catalogue_catalogueFolder'),
   (530,'access__'),
-  (531,'access__gallery');
+  (531,'access__gallery'),
+  (532,'access_gallery_gallery');
 
 COMMIT;
 
@@ -5497,7 +5503,8 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (1,'news','Новости',50),
   (4,'page','Страницы',60),
   (6,'sys','Системное',0),
-  (2,'user','Пользователи',80);
+  (2,'user','Пользователи',80),
+  (11,'gallery','Галерея',80);
 
 COMMIT;
 
