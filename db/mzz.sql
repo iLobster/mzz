@@ -333,12 +333,12 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `filemanager_file` table : 
+# Structure for the `fileManager_file` table : 
 #
 
-DROP TABLE IF EXISTS `filemanager_file`;
+DROP TABLE IF EXISTS `fileManager_file`;
 
-CREATE TABLE `filemanager_file` (
+CREATE TABLE `fileManager_file` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `realname` char(255) default 'имя в фс в каталоге на сервере',
   `name` char(255) default 'имя с которым файл будет отдаваться клиенту',
@@ -353,10 +353,10 @@ CREATE TABLE `filemanager_file` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `filemanager_file` table  (LIMIT 0,500)
+# Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
-INSERT INTO `filemanager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `folder_id`, `obj_id`) VALUES 
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `folder_id`, `obj_id`) VALUES 
   (1,'foobar.txt','q','txt',10,1,1,196),
   (2,'06558db05a7d5148084025676972cbb2','','rec',9,NULL,NULL,201),
   (3,'9f4b4024092fcebfc434401210f71f7d','','rec',9,NULL,NULL,202),
