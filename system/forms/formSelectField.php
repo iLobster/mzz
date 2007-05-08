@@ -27,7 +27,10 @@ class formSelectField extends formElement
         $value = isset($options['value']) ? $options['value'] : '';
         $name = $options['name'];
 
-        if (isset($options['null']) && $options['null']) {
+        if (!isset($options['options'])) {
+            $options['options'] = array();
+        }
+        if (isset($options['emptyFirst']) && $options['emptyFirst']) {
             $options['options'] = array('' => '') + $options['options'];
         }
 
@@ -50,7 +53,7 @@ class formSelectField extends formElement
         } else {
             unset($options['options']);
             unset($options['value']);
-            unset($options['null']);
+            unset($options['emptyFirst']);
 
             $options = array_merge($options, array('content' => $html));
             $select = self::createTag($options, 'select');

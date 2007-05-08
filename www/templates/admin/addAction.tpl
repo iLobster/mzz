@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <td>{form->caption name="alias" value="Алиас"}</td>
-            <td>{form->select name="alias" null=true options=$aliases value=$defaults->get('alias')}</td>
+            <td>{form->select name="alias" emptyFirst=true options=$aliases value=$defaults->get('alias')}</td>
         </tr>
         <tr>
             <td>{form->caption name="inACL" value="Не регистрировать в ACL"}</td>

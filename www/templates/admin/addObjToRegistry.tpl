@@ -9,10 +9,10 @@
 {literal}
 var classes = $H({
 {/literal}
-{foreach name=section_loop key=section_name item=sections from=$classes}
+{foreach name=section_loop key=section_name item=sectionInfo from=$classes}
 '{$section_name}' : {literal}{{/literal}
-    {foreach item=classes from=$sections name=class_loop}
-        {$classes.id}:  '{$classes.class}' {if $smarty.foreach.class_loop.last eq false},{/if}
+    {foreach item=classInfo from=$sectionInfo name=class_loop}
+        {$classInfo.id}:  '{$classInfo.class}' {if $smarty.foreach.class_loop.last eq false},{/if}
     {/foreach}{literal}}{/literal}
     {if $smarty.foreach.section_loop.last eq false},{/if}
 {/foreach}
@@ -37,19 +37,19 @@ addobjClass.options.length = 0;
 }
 {/literal}
 </script>
-<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
+<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td>{$form.section.label}</td>
-            <td>{$form.section.html}{$form.section.error}</td>
-            <td>{$form.class.label}</td>
-            <td>{$form.class.html}</td>
+            <td>{form->caption name="section" value="Секция" onError="style=color: red;"}</td>
+            <td>{form->select name="section" options=$sections emptyFirst=true id="addobj_section" onchange="addObjChangeClass(this)" onkeypress="this.onchange()"}</td>
+            <td>{form->caption name="class" value="Класс" onError="style=color: red;"}</td>
+            <td>{form->select name="class" emptyFirst=true id="addobj_class" style="width: 150px;" disabled="disabled"}</td>
         </tr>
         <tr>
-            <td colspan="4">{$form.class.error}</td>
+            <td colspan="4">{$errors->get('section')}<br />{$errors->get('class')}</td>
         </tr>
         <tr>
-            <td colspan=4 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
+            <td colspan=4 style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>
