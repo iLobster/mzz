@@ -17,13 +17,16 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 class formTextareaField extends formElement
 {
     static public function toString($options = array())
     {
-        $options['content'] = $options['value'];
+        $value = isset($options['value']) ? $options['value'] : '';
+        if (isset($options['name'])) {
+            $options['content'] = self::getValue($options['name'], $value);
+        }
         unset($options['value']);
         if (is_null($options['content'])) {
             $options['content'] = '';
