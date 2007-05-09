@@ -435,6 +435,50 @@ INSERT INTO `filemanager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
 COMMIT;
 
 #
+# Structure for the `gallery_album` table : 
+#
+
+DROP TABLE IF EXISTS `gallery_album`;
+
+CREATE TABLE `gallery_album` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `gallery_id` int(11) unsigned default NULL,
+  `name` char(255) default NULL,
+  `pics_number` int(11) default NULL,
+  `created` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `gallery_gallery` table : 
+#
+
+DROP TABLE IF EXISTS `gallery_gallery`;
+
+CREATE TABLE `gallery_gallery` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `owner` int(11) unsigned default NULL,
+  `created` int(11) default NULL,
+  `updated` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `gallery_photo` table : 
+#
+
+DROP TABLE IF EXISTS `gallery_photo`;
+
+CREATE TABLE `gallery_photo` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `album_id` int(11) default NULL,
+  `name` char(255) default NULL,
+  `size_x` int(11) default NULL,
+  `size_y` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
 # Structure for the `news_news` table : 
 #
 
