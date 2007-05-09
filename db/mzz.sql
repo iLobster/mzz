@@ -353,29 +353,6 @@ CREATE TABLE `fileManager_file` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `fileManager_file` table  (LIMIT 0,500)
-#
-
-INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `folder_id`, `obj_id`) VALUES 
-  (1,'foobar.txt','q','txt',10,1,1,196),
-  (2,'06558db05a7d5148084025676972cbb2','','rec',9,NULL,NULL,201),
-  (3,'9f4b4024092fcebfc434401210f71f7d','','rec',9,NULL,NULL,202),
-  (4,'05a131b70aef0e2b9f3e344d6163d311','qwe.rec','rec',9,3,1,203),
-  (5,'5b78dc5c1c2ad6511e3e324845c2eb3c','2rec','',9,NULL,1,204),
-  (6,'13810e7f5782973b2dc72030c1c392f0','сы','',18,NULL,1,205),
-  (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,6,1,206),
-  (8,'3ff2104331237dafe9d7941a1286136f','mysql','',39,1,1,207),
-  (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,2,1,208),
-  (10,'02c870089fc7f94ba1286e8faef13316','web.txt','txt',28,3,1,209),
-  (11,'59833d36a918ad9fdd5f860d8a9b350f','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,NULL,1,210),
-  (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,2,1,211),
-  (13,'ddaa316ac5ba16b0a2e39a3f9c19d330','2rec','',9,NULL,2,219),
-  (14,'715dc8aa6d7e16526ae15a80386c4552','2rec.bmp','bmp',9,3,2,220),
-  (15,'4f0d05060fc2119d464b15a2ec93337f','apache_1.3.37.tar.gz','gz',2665370,2,4,236);
-
-COMMIT;
-
-#
 # Structure for the `filemanager_folder` table : 
 #
 
@@ -399,9 +376,8 @@ CREATE TABLE `filemanager_folder` (
 
 INSERT INTO `filemanager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
-  (2,'child','child_node',2,'root/child',197,1,'bmp'),
-  (3,'q','q',3,'root/child/q',221,0,''),
-  (4,'z','z',4,'root/child/z',222,0,'');
+  (6,'thumbnails','Превью',6,'root/gallery/thumbnails',534,0,''),
+  (5,'gallery','Галерея',5,'root/gallery',533,0,'');
 
 COMMIT;
 
@@ -427,10 +403,9 @@ CREATE TABLE `filemanager_folder_tree` (
 #
 
 INSERT INTO `filemanager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,8,1),
-  (2,2,7,2),
-  (3,3,4,3),
-  (4,5,6,3);
+  (1,1,6,1),
+  (6,3,4,3),
+  (5,2,5,2);
 
 COMMIT;
 
@@ -4275,7 +4250,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (108,10),
   (121,12),
   (123,7),
-  (196,14),
   (126,12),
   (122,7),
   (296,2),
@@ -4305,19 +4279,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (174,11),
   (175,11),
   (176,12),
-  (197,15),
   (198,7),
   (201,14),
   (202,14),
-  (203,14),
-  (204,14),
-  (205,14),
-  (206,14),
-  (207,14),
-  (208,14),
-  (209,14),
-  (210,14),
-  (211,14),
+  (534,15),
+  (533,15),
   (300,2),
   (301,2),
   (306,2),
@@ -4325,10 +4291,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (304,2),
   (303,2),
   (302,2),
-  (219,14),
-  (220,14),
-  (221,15),
-  (222,15),
   (224,12),
   (225,4),
   (226,8),
@@ -4336,7 +4298,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (233,7),
   (234,13),
   (309,1),
-  (236,14),
   (490,16),
   (240,7),
   (476,12),
@@ -5464,7 +5425,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (529),
   (530),
   (531),
-  (532);
+  (532),
+  (533),
+  (534);
 
 COMMIT;
 
