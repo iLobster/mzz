@@ -1,7 +1,13 @@
 <script language="JavaScript">
 var massActionDelete = "{url route="default2" section="catalogue" action="delete"}";
 var massActionMove = "{url route="default2" section="catalogue" action="move"}";
-</script>
+{literal}function selectAllItems(access) {
+    $A(document.getElementsByTagName('input')).each(function(elm) {
+        if (elm.type == 'checkbox' && elm.id.match(new RegExp('^catalogueitem_\\d+$', 'im'))) {
+            elm.checked = access;
+        }});
+}
+</script>{/literal}
 <p class="pageTitle">Список элементов</p>
 <div class="pageContent">
 {include file="breadcrumbs.tpl" breadCrumbs=$chains section=$current_section module="catalogue"}
@@ -10,7 +16,7 @@ var massActionMove = "{url route="default2" section="catalogue" action="move"}";
         <thead class="tableListHead">
             <tr>
                 <td style="width: 30px;">&nbsp;</td>
-                <td style="width: 1px;">&nbsp;</td>
+                <td style="width: 1px;">{if $pager->getPagesTotal() > 0}<input type="checkbox" onclick="javascript:selectAllItems(this.checked);"/>{/if}</td>
                 <td style="text-align: left;">Название</td>
                 <td style="text-align: center;">Тип</td>
                 <td style="width: 120px;">Дата создания</td>
@@ -30,12 +36,12 @@ var massActionMove = "{url route="default2" section="catalogue" action="move"}";
         {/if}
         </thead>
         {foreach from=$catalogueFolder->getFolders() item="folder" name="folderIterator"}
-            {if $folder->getLevel() eq $catalogueFolder->getLevel()+1 }
+            {if $folder->getLevel() eq $catalogueFolder->getLevel()+1}
             <tr>
                 <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
                 <td style="text-align: center;">-</td>
                 <td style="text-align: left;"><a href="{url route='admin' params=$folder->getPath() section_name="catalogue" module_name="catalogue"}">{$folder->getTitle()}</a></td>
-                <td style="text-align: center;">-</td>
+                <td style="text-align: center;">{if in_array($folder->getDefType(), array_keys($types))}{assign var="foldertype" value=$folder->getDefType()}{$types.$foldertype.title}{else}-{/if}</td>
                 <td style="text-align: center;">-</td>
                 <td style="text-align: center;">-</td>
                 <td style="text-align: center;">{$folder->getJip()}</td>
@@ -45,7 +51,7 @@ var massActionMove = "{url route="default2" section="catalogue" action="move"}";
         {foreach from=$items item="item"}
             <tr>
                 <td style="width: 30px; text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" /></td>
-                <td style="text-align: center;"><input type="checkbox" name="items[{$item->getId()}]" /></td>
+                <td style="text-align: center;"><input type="checkbox" id="catalogueitem_{$item->getId()}" name="items[{$item->getId()}]" /></td>
                 <td style="text-align: left;">{$item->getName()}</td>
                 <td style="text-align: center;">{$item->getTypeTitle()}</td>
                 <td style="text-align: center;">{$item->getCreated()|date_format:"%d/%m/%Y %H:%M"}</td>
@@ -59,11 +65,11 @@ var massActionMove = "{url route="default2" section="catalogue" action="move"}";
             <td colspan="3" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
         </tr>
     </table>
-    <select id="massAction">
+    {if $pager->getPagesTotal() > 0}<select id="massAction">
         <option value="move">Переместить</option>
         <option value="delete">Удалить</option>
     </select>
-    <input type="submit" value="ok">
+    <input type="submit" value="ok">{/if}
 </form>
 </div>
 <br /><br /><br />
@@ -92,7 +98,7 @@ var massActionMove = "{url route="default2" section="catalogue" action="move"}";
     </table>
 </div>
 <br /><br />
-<p class="pageTitle">Список Параметров</p>
+<p class="pageTitle">Список параметров</p>
 <div class="pageContent">
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
