@@ -170,6 +170,8 @@ jipWindow.prototype = {
             if (this.jip) {
                 this.jip.setStyle({'zIndex': 900});
             }
+        } else {
+            this.savePosition(this.jip);
         }
 
         if (!this.windowExists) {
@@ -194,8 +196,8 @@ jipWindow.prototype = {
             var topScroll = (new Number(document.documentElement.scrollTop) > 0) ? document.documentElement.scrollTop : document.body.scrollTop;
 
             this.jip.setStyle({
-            'top': new Number(jipWindowOffsetTop) + (this.currentWindow * 5) + new Number(topScroll) + 'px',
-            'left': new Number(jipWindowOffsetLeft)  + (this.currentWindow * 5) + 'px'
+            'top': new Number(jipWindowOffsetTop) + (this.currentWindow * 20) + new Number(topScroll) + 'px',
+            'left': new Number(jipWindowOffsetLeft)  + (this.currentWindow * 20) + 'px'
             });
 
             new Ajax.Request(url, {
@@ -355,6 +357,7 @@ jipWindow.prototype = {
     close: function(windows)
     {
         if(this.jip) {
+            //this.savePosition(this.jip);
             windows = (windows >= 0) ? windows : 1;
             var currentWin = this.currentWindow;
             var stack = this.stack[currentWin];
@@ -392,15 +395,7 @@ jipWindow.prototype = {
             }
 
             if(--this.windowCount == 0) {
-                var cookiePath = (SITE_PATH == '') ? '/' : SITE_PATH;
-                var cookieLifeTime = new Date(new Date().getTime() + 50000000000);
-                var offsets = Position.cumulativeOffset(this.jip);
-                var topOffset = parseInt(offsets[1]) - new Number(document.documentElement.scrollTop);
-                var leftOffset = (offsets[0] >= 0) ? offsets[0] : 0;
-                topOffset = (topOffset >= 0) ? topOffset : 0;
-                Cookie.set('jip_window_top', topOffset, cookieLifeTime, cookiePath);
-                Cookie.set('jip_window_left', leftOffset, cookieLifeTime, cookiePath);
-
+                this.savePosition(this.jip);
                 this.jip.setStyle({display: 'none'});
 
                 if (this.drag) {
@@ -414,10 +409,24 @@ jipWindow.prototype = {
                 this.currentWindow = 0;
                 this.stack = new Array();
             } else {
+                this.jip.setStyle({display: 'none'});
+                jipParent.removeChild(this.jip);
                 this.jip = $('jip' + (--this.currentWindow));
                 this.jip.setStyle({zIndex: 902});
             }
         }
+    },
+
+    savePosition: function(jip)
+    {
+        var cookiePath = (SITE_PATH == '') ? '/' : SITE_PATH;
+        var cookieLifeTime = new Date(new Date().getTime() + 50000000000);
+        var offsets = Position.cumulativeOffset(jip);
+        var topOffset = parseInt(offsets[1]) - new Number(document.documentElement.scrollTop);
+        var leftOffset = (offsets[0] >= 0) ? offsets[0] : 0;
+        topOffset = (topOffset >= 0) ? topOffset : 0;
+        Cookie.set('jip_window_top', topOffset, cookieLifeTime, cookiePath);
+        Cookie.set('jip_window_left', leftOffset, cookieLifeTime, cookiePath);
     },
 
     clean: function()
