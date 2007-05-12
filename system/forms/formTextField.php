@@ -23,12 +23,13 @@ class formTextField extends formElement
 {
     static public function toString($options = array())
     {
-        $value = isset($options['value']) ? $options['value'] : '';
-        if (isset($options['name'])) {
-            $options['value'] = self::getValue($options['name'], $value);
-        }
         if (!isset($options['type'])) {
             $options['type'] = 'text';
+        }
+        
+        $value = isset($options['value']) ? $options['value'] : '';
+        if (isset($options['name']) && $options['type'] != 'password') {
+            $options['value'] = self::getValue($options['name'], $value);
         }
 
         return self::createTag($options);
