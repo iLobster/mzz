@@ -49,11 +49,13 @@ function toggleEditor(id) {
         tinyMCEInterval = setInterval(function() {
             if (tinyMCE.loadingIndex == -1) {
                 tinyMCE.execCommand('mceAddControl', false, id);
-                removeEditorLoadingStatus()
+                removeEditorLoadingStatus();
+                jipWindow.addTinyMCEId(id);
             }}, 100);
     } else {
         removeEditorLoadingStatus();
         tinyMCE.execCommand('mceRemoveControl', false, id);
+        jipWindow.deleteTinyMCEId(id);
     }
 }
 </script>{/literal}

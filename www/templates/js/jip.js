@@ -152,6 +152,7 @@ jipWindow.prototype = {
         this.eventKeypress  = this.keyPress.bindAsEventListener(this);
         this.eventLockClick  = this.lockClick.bindAsEventListener(this);
         this.eventLockUpdate  = this.lockContent.bindAsEventListener(this);
+        this.tinyMCEIds = new Array();
     },
 
     open: function(url, isNew, method, params)
@@ -220,8 +221,18 @@ jipWindow.prototype = {
         return true;
     },
 
+    addTinyMCEId: function(id)
+    {
+        this.tinyMCEIds[this.tinyMCEIds.length] = id;
+    },
 
-    sendForm: function(form) {
+    deleteTinyMCEId: function(id)
+    {
+        this.tinyMCEIds = this.tinyMCEIds.without(id);
+    },
+
+    sendForm: function(form)
+    {
         var params = $(form).serialize(true);
 
         params.ajax = 1;
@@ -358,6 +369,8 @@ jipWindow.prototype = {
     {
         if(this.jip) {
             //this.savePosition(this.jip);
+            this.tinyMCEIds.each(function(id) { tinyMCE.execCommand('mceRemoveControl', false, id); });
+            this.oncloseEvents = new Array();
             windows = (windows >= 0) ? windows : 1;
             var currentWin = this.currentWindow;
             var stack = this.stack[currentWin];

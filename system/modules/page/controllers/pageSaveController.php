@@ -67,7 +67,7 @@ class pageSaveController extends simpleController
                 return jipTools::redirect();
             }
 
-            $url = new url('pageActions');
+            $url = new url('withAnyParam');
             $url->addParam('name', $pageFolder->getPath() . ($isEdit ? '/' . $page->getName() : ''));
             $url->setAction($action);
 
