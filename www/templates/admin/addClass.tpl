@@ -1,21 +1,24 @@
-{if $action eq 'addClass'}
-{include file='jipTitle.tpl' title='Добавление класса'}
-{else}
+{if $isEdit}
 {include file='jipTitle.tpl' title='Редактирование класса'}
+{else}
+{include file='jipTitle.tpl' title='Добавление класса'}
 {/if}
 
-<form {$form.attributes} onsubmit="return jipWindow.sendForm(this);">
+<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td>{$form.name.label}</td>
-            <td>{$form.name.html}{$form.name.error}</td>
+            <td style='width: 20%;'>{form->caption name="name" value="Название" onError="style=color: red;"}</td>
+            <td style='width: 80%;'>{form->text name="name" value=$data.name size="60"}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td>{$form.dest.label}</td>
-            <td>{$form.dest.html}{$form.dest.error}</td>
+        {*if !$isEdit*}
+            <td style='width: 20%;'>{form->caption name="dest" value="Каталог генерации" onError="style=color: red;"}</td>
+            <td style='width: 80%;'>{form->select name="dest" options=$data.dest one_item_freeze=1}{$errors->get('dest')}</td>
+        {*/if*}
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{$form.submit.html} {$form.reset.html}</td>
+            <td>&nbsp;</td>
+            <td>{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

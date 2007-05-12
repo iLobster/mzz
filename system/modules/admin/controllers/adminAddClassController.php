@@ -12,15 +12,15 @@
  * @version $Id$
  */
 
-fileLoader::load('admin/forms/adminAddClassForm');
 fileLoader::load('codegenerator/classGenerator');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * adminAddClassController: контроллер дл€ метода addClass модул€ admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.3
+ * @version 0.2
  */
 
 class adminAddClassController extends simpleController
@@ -33,15 +33,13 @@ class adminAddClassController extends simpleController
 
         $id = $this->request->get('id', 'integer', SC_PATH);
         $action = $this->request->getAction();
+        $isEdit = ($action == 'editClass');
 
         $db = DB::factory();
 
         $modules = $adminMapper->getModulesList();
 
-        if ($action == 'addClass') {
-            $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
-            $module_name = $data['name'];
-        } else {
+        if ($isEdit) {
             $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
 
             if ($data === false) {
@@ -55,24 +53,32 @@ class adminAddClassController extends simpleController
             }
 
             $module_name = $modules[$data['module_id']]['name'];
+        } else {
+            $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
+            $module_name = $data['name'];
         }
 
-        $form = adminAddClassForm::getForm($data, $db, $action, $module_name);
+        $validator = new formValidator();
+        $validator->add('required', 'name', 'ќб€зательное дл€ заполнени€ поле');
+        $validator->add('callback', 'name', '»дентификатор должен быть уникален в пределах каталога', array('checkUniqueClass', $db));
+        $validator->add('regex', 'name', '–азрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
 
-        if ($form->validate()) {
-            $values = $form->exportValues();
 
-            if ($action == 'addClass') {
-                $classGenerator = new classGenerator($data['name'], $dest[$values['dest']]);
+        if ($validator->validate()) {
+            $name = $this->request->get('name', 'string', SC_POST);
+            $newDest = $this->request->get('dest', 'string', SC_POST);
+
+            if (!$isEdit) {
+                $classGenerator = new classGenerator($data['name'], $dest[$newDest]);
                 try {
-                    $log = $classGenerator->generate($values['name']);
+                    $log = $classGenerator->generate($name);
                 } catch (Exception $e) {
                     return $e->getMessage() . $e->getLine() . $e->getFile();
                 }
 
                 $stmt = $db->prepare('INSERT INTO `sys_classes` (`name`, `module_id`) VALUES (:name, :module_id)');
                 $stmt->bindValue(':module_id', $data['id'], PDO::PARAM_INT);
-                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
                 $class_id = $stmt->execute();
 
                 if (!sizeof($modules[$id]['classes'])) {
@@ -89,25 +95,39 @@ class adminAddClassController extends simpleController
                 return $this->smarty->fetch('admin/addClassResult.tpl');
             }
 
-            $classGenerator = new classGenerator($modules[$data['module_id']]['name'], $dest[$values['dest']]);
-            $classGenerator->rename($data['name'], $values['name']);
+            $classGenerator = new classGenerator($modules[$data['module_id']]['name'], $dest[$newDest]);
+            $classGenerator->rename($data['name'], $name);
 
             $stmt = $db->prepare('UPDATE `sys_classes` SET `name` = :name WHERE `id` = :id');
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+            $stmt->bindValue(':name', $name, PDO::PARAM_STR);
             $stmt->execute();
 
             return jipTools::redirect();
         }
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $form->accept($renderer);
+        $url = new url('withId');
+        $url->setAction($action);
+        $url->addParam('id', $data['id']);
+
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('isEdit', $isEdit);
+
+        $data['dest'] = $adminMapper->getDests(true, $module_name);
 
         $this->smarty->assign('data', $data);
-        $this->smarty->assign('action', $action);
-        $this->smarty->assign('form', $renderer->toArray());
         return $this->smarty->fetch('admin/addClass.tpl');
     }
 }
 
+function checkUniqueClass($name, $db)
+{
+    $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_classes` WHERE `name` = :name');
+    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+    $stmt->execute();
+    $res = $stmt->fetch();
+
+    return $res['cnt'] == 0;
+}
 ?>
