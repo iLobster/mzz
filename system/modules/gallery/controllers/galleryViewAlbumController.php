@@ -24,6 +24,28 @@ class galleryViewAlbumController extends simpleController
 {
     public function getView()
     {
+        $user_name = $this->request->get('user', 'string');
+        $album_id = $this->request->get('album', 'integer');
+
+        $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
+        $albumMapper = $this->toolkit->getMapper('gallery', 'album');
+
+        $user = $userMapper->searchByLogin($user_name);
+        if ($user->getId() == MZZ_USER_GUEST_ID) {
+            return $albumMapper->get404()->run();
+        }
+
+        $album = $albumMapper->searchById($album_id);
+        if (is_null($album) || $album->getGallery()->getOwner()->getId() != $user->getId()) {
+            return $albumMapper->get404()->run();
+        }
+
+        $photosMapper = $this->toolkit->getMapper('gallery', 'photo');
+        $photos = $photosMapper->searchAllByField('album_id', $album->getId());
+
+        $this->smarty->assign('album', $album);
+        $this->smarty->assign('photos', $photos);
+
         return $this->smarty->fetch('gallery/viewAlbum.tpl');
     }
 }

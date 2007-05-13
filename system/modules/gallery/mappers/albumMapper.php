@@ -39,6 +39,17 @@ class albumMapper extends simpleMapper
     protected $className = 'album';
 
     /**
+     * Выполняет поиск объекта по идентификатору
+     *
+     * @param integer $id идентификатор
+     * @return object|null
+     */
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
+
+    /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
      * @return integer

@@ -1,4 +1,7 @@
-Автоматически сгенерированный шаблон<br />
-Модуль: gallery<br />
-Экшн: viewAlbum<br />
-Путь до этого файла: s:\sites\mzz\www\templates\gallery\viewAlbum.tpl
+Альбом: {$album->getName()}{$album->getJip()}<br />
+Фотки:
+{foreach from=$photos item=photo}
+    {$photo->getId()}
+{foreachelse}
+    Ни одно фото не загружено
+{/foreach}

@@ -427,6 +427,15 @@ CREATE TABLE `gallery_album` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `gallery_album` table  (LIMIT 0,500)
+#
+
+INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `obj_id`) VALUES 
+  (1,1,'asd',0,NULL,537);
+
+COMMIT;
+
+#
 # Structure for the `gallery_gallery` table : 
 #
 
@@ -4509,7 +4518,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (531,7),
   (532,7),
   (535,11),
-  (536,19);
+  (536,19),
+  (537,18);
 
 COMMIT;
 
@@ -4560,7 +4570,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (52,'viewGallery'),
   (53,'createAlbum'),
   (54,'editAlbum'),
-  (55,'viewAlbum');
+  (55,'viewAlbum'),
+  (56,'uploadPhoto');
 
 COMMIT;
 
@@ -4831,7 +4842,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (133,21,52),
   (134,21,53),
   (135,22,54),
-  (136,22,55);
+  (136,22,55),
+  (137,22,56);
 
 COMMIT;
 
@@ -5455,7 +5467,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (533),
   (534),
   (535),
-  (536);
+  (536),
+  (537);
 
 COMMIT;
 
