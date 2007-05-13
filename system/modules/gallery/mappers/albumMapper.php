@@ -45,7 +45,7 @@ class albumMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-
+        return 1;
     }
 }
 
