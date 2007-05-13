@@ -1,4 +1,6 @@
-Автоматически сгенерированный шаблон<br />
-Модуль: gallery<br />
-Экшн: viewGallery<br />
-Путь до этого файла: s:\sites\mzz\www\templates\gallery\viewGallery.tpl
+Альбомы:
+{foreach from=$albums item=album}
+    <a href="{url route=galleryAlbum user=$user album=$album->getId() action=viewAlbum}">{$album->getName()} ({$album->getPicsNumber()} фото)</a><br />
+{foreachelse}
+    Ни одного альбома не создано
+{/foreach}

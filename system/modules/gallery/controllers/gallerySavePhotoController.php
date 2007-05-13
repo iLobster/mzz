@@ -52,6 +52,9 @@ class gallerySavePhotoController extends simpleController
                 $photo->setName($name);
                 $photosMapper->save($photo);
 
+                $album->setPicsNumber($album->getPicsNumber() + 1);
+                $albumMapper->save($album);
+
                 $filerMapper = $this->toolkit->getMapper('fileManager', 'file', 'fileManager');
                 $file->setName($photo->getId() . '.jpg');
                 $file->setRightHeader(1);

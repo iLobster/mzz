@@ -45,6 +45,10 @@ class galleryViewGalleryController extends simpleController
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');
         $albums = $albumMapper->searchAllByField('gallery_id', $gallery->getId());
 
+        $this->smarty->assign('user', $user_name);
+        $this->smarty->assign('gallery', $gallery);
+        $this->smarty->assign('albums', $albums);
+
         return $this->smarty->fetch('gallery/viewGallery.tpl');
     }
 }
