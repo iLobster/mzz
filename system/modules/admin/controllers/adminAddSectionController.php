@@ -12,14 +12,14 @@
  * @version $Id$
  */
 
-fileLoader::load('admin/forms/adminAddSectionForm');
+fileLoader::load('forms/validators/formValidator');
 
 /**
  * adminAddSectionController: контроллер дл€ метода addSection модул€ admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.3
+ * @version 0.2
  */
 
 class adminAddSectionController extends simpleController
@@ -31,13 +31,13 @@ class adminAddSectionController extends simpleController
 
         $db = DB::factory();
 
-        $data = null;
+        $data = array('name' => '', 'title' => '', 'order' => '');
 
         $nameRO = false;
 
-        $isEdit = $action != 'addSection';
+        $isEdit = ($action == 'editSection');
 
-        if ($action == 'editSection') {
+        if ($isEdit) {
             $data = $db->getRow('SELECT * FROM `sys_sections` WHERE `id` = ' . $id);
 
             if ($data === false) {
@@ -57,14 +57,22 @@ class adminAddSectionController extends simpleController
             }
         }
 
-        $form = adminAddSectionForm::getForm($data, $db, $action, $nameRO);
+        $validator = new formValidator();
 
-        if ($form->validate()) {
-            $values = $form->exportValues();
+        if (!$nameRO) {
+            $validator->add('required', 'name', 'ќб€зательное дл€ заполнени€ поле');
+            $validator->add('callback', 'name', '»м€ раздела должно быть уникально', array('checkUniqueSectionName', $db, $data['name'], $isEdit));
+            $validator->add('regex', 'name', '–азрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
+        }
+
+        if ($validator->validate()) {
+            $name = $this->request->get('name', 'string', SC_POST);
+            $title = $this->request->get('title', 'string', SC_POST);
+            $order = $this->request->get('order', 'integer', SC_POST);
 
             if (!$isEdit) {
                 $stmt = $db->prepare('INSERT INTO `sys_sections` (`name`) VALUES (:name)');
-                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
                 $id = $stmt->execute();
 
             }
@@ -72,27 +80,50 @@ class adminAddSectionController extends simpleController
             if (!$nameRO && $isEdit) {
                 $stmt = $db->prepare('UPDATE `sys_sections` SET `name` = :name WHERE `id` = :id');
                 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
                 $stmt->execute();
             }
 
             $stmt = $db->prepare('UPDATE `sys_sections` SET `title` = :title, `order` = :order WHERE `id` = :id');
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
-            $stmt->bindValue(':order', $values['order'], PDO::PARAM_INT);
+            $stmt->bindValue(':title', $title, PDO::PARAM_STR);
+            $stmt->bindValue(':order', $order, PDO::PARAM_INT);
             $stmt->execute();
 
             return jipTools::redirect();
         }
 
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $form->accept($renderer);
+        if ($isEdit) {
+            $url = new url('withId');
+            $url->addParam('id', $data['id']);
+        } else {
+            $url = new url('default2');
+        }
+        $url->setAction($action);
+
         $this->smarty->assign('data', $data);
-        $this->smarty->assign('action', $action);
-        $this->smarty->assign('form', $renderer->toArray());
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('isEdit', $isEdit);
+        $this->smarty->assign('nameRO', $nameRO);
+
         return $this->smarty->fetch('admin/addSection.tpl');
     }
+}
+
+function checkUniqueSectionName($name, $db, $currentName, $isEdit)
+{
+    if ($isEdit && $name == $currentName) {
+        return true;
+    }
+
+    $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_sections` WHERE `name` = :name');
+    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+    $stmt->execute();
+    $res = $stmt->fetch();
+
+    return $res['cnt'] == 0;
 }
 
 ?>

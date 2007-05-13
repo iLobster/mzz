@@ -60,7 +60,7 @@ class adminAddClassController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkUniqueClass', $db));
+        $validator->add('callback', 'name', 'Название должно быть уникально', array('checkUniqueClass', $db, $data['name'], $isEdit));
         $validator->add('regex', 'name', 'Разрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
 
 
@@ -106,9 +106,13 @@ class adminAddClassController extends simpleController
             return jipTools::redirect();
         }
 
-        $url = new url('withId');
+        if ($isEdit) {
+            $url = new url('withId');
+            $url->addParam('id', $data['id']);
+        } else {
+            $url = new url('default2');
+        }
         $url->setAction($action);
-        $url->addParam('id', $data['id']);
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
@@ -121,8 +125,11 @@ class adminAddClassController extends simpleController
     }
 }
 
-function checkUniqueClass($name, $db)
+function checkUniqueClass($name, $db, $currentName, $isEdit)
 {
+    if ($isEdit && $name == $currentName) {
+        return true;
+    }
     $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_classes` WHERE `name` = :name');
     $stmt->bindValue(':name', $name, PDO::PARAM_STR);
     $stmt->execute();

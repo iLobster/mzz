@@ -23,7 +23,7 @@ fileLoader::load("forms/formElement");
  */
 class form
 {
-    public function text($params, $smarty)
+    public function text($params, $smarty = null)
     {
         fileLoader::load('forms/formTextField');
         return formTextField::toString($params);

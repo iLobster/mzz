@@ -42,14 +42,19 @@ class formSelectField extends formElement
             $value = self::getValue($name, $value);
             $selected = ((string)$key == (string)$value);
             if ($selected) {
-                $value_selected = $text;
+                $value_selected = array($key, $text);
             }
             $html .= self::createTag(array('content' => $text, 'value' => $key, 'selected' => $selected), 'option');
         }
 
         if (self::isFreeze($options)) {
             reset($options['options']);
-            $select = isset($value_selected) ? $value_selected : current($options['options']);
+            // hide current value
+            $value = isset($value_selected) ? $value_selected[0] : key($options['options']);
+            $params = array('name' => $name, 'value' => $value, 'type' => 'hidden');
+            $select = form::text($params);
+
+            $select .= isset($value_selected) ? $value_selected[1] : current($options['options']);
         } else {
             unset($options['options']);
             unset($options['value']);

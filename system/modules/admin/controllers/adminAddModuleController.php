@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('admin/forms/adminAddModuleForm');
+fileLoader::load('forms/validators/formValidator');
 fileLoader::load('codegenerator/moduleGenerator');
 
 /**
@@ -20,7 +20,7 @@ fileLoader::load('codegenerator/moduleGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.4
+ * @version 0.2
  */
 
 class adminAddModuleController extends simpleController
@@ -38,13 +38,13 @@ class adminAddModuleController extends simpleController
 
         $data = null;
 
-        $isEdit = $action != 'addModule';
+        $isEdit = ($action == 'editModule');
 
         $nameRO = false;
 
         $classes_select = null;
 
-        if ($action == 'editModule') {
+        if ($isEdit) {
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
 
             if ($data === false) {
@@ -70,22 +70,39 @@ class adminAddModuleController extends simpleController
             }
         }
 
-        $form = adminAddModuleForm::getForm($data, $db, $action, $nameRO, $classes_select);
 
-        if ($form->validate()) {
-            $values = $form->exportValues();
+        $validator = new formValidator();
 
-            $moduleGenerator = new moduleGenerator($dest[$values['dest']]);
+
+        if (!$nameRO) {
+            $validator->add('required', 'name', 'поле обязательно к заполнению');
+            $validator->add('regex', 'name', 'Разрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
+            $validator->add('callback', 'name', 'Имя модуля должно быть уникально', array('checkUniqueModuleName', $db, $data['name']));
+        }
+
+        if ($isEdit) {
+            $validator->add('callback', 'main_class', 'выбранный класс не существует или принадлежит другому модулю', array('checkValidMainClass', $db, $data));
+        }
+
+        if ($validator->validate()) {
+            $name = $this->request->get('name', 'string', SC_POST);
+            $icon = $this->request->get('icon', 'string', SC_POST);
+            $title = $this->request->get('title', 'string', SC_POST);
+            $order = $this->request->get('order', 'integer', SC_POST);
+            $newDest = $this->request->get('dest', 'string', SC_POST);
+            $main_class = $this->request->get('main_class', 'integer', SC_POST);
+
+            $moduleGenerator = new moduleGenerator($dest[$newDest]);
 
             if (!$isEdit) {
                 try {
-                    $log = $moduleGenerator->generate($values['name']);
+                    $log = $moduleGenerator->generate($name);
                 } catch (Exception $e) {
                     return $e->getMessage() . $e->getLine() . $e->getFile();
                 }
 
                 $stmt = $db->prepare('INSERT INTO `sys_modules` (`name`) VALUES (:name)');
-                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
                 $id = $stmt->execute();
 
                 $this->smarty->assign('log', $log);
@@ -93,36 +110,72 @@ class adminAddModuleController extends simpleController
             }
 
             if (!$nameRO && $isEdit) {
-                $moduleGenerator->rename($data['name'], $values['name']);
+                $moduleGenerator->rename($data['name'], $name);
 
                 $stmt = $db->prepare('UPDATE `sys_modules` SET `name` = :name WHERE `id` = :id');
                 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-                $stmt->bindValue(':name', $values['name'], PDO::PARAM_STR);
+                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
                 $stmt->execute();
             }
 
             $stmt = $db->prepare('UPDATE `sys_modules` SET `icon` = :icon, `title` = :title, `order` = :order, `main_class` = :main_class WHERE `id` = :id');
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->bindValue(':icon', $values['icon'], PDO::PARAM_STR);
-            $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
-            $stmt->bindValue(':order', $values['order'], PDO::PARAM_INT);
-            if (!isset($values['main_class'])) {
-                $values['main_class'] = 0;
+            $stmt->bindValue(':icon', $icon, PDO::PARAM_STR);
+            $stmt->bindValue(':title', $title, PDO::PARAM_STR);
+            $stmt->bindValue(':order', $order, PDO::PARAM_INT);
+            if (empty($main_class)) {
+                $main_class = 0;
             }
-            $stmt->bindValue(':main_class', $values['main_class'], PDO::PARAM_INT);
+            $stmt->bindValue(':main_class', $main_class, PDO::PARAM_INT);
             $stmt->execute();
 
             return jipTools::redirect();
         }
 
-        $renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, true);
-        $form->accept($renderer);
+        if ($isEdit) {
+            $url = new url('withId');
+            $url->addParam('id', $data['id']);
+        } else {
+            $url = new url('default2');
+        }
+        $url->setAction($action);
 
+        $dest = $adminMapper->getDests(true);
+
+        $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('data', $data);
-        $this->smarty->assign('action', $action);
-        $this->smarty->assign('form', $renderer->toArray());
+        $this->smarty->assign('dests', $dest);
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('isEdit', $isEdit);
+        $this->smarty->assign('nameRO', $nameRO);
         return $this->smarty->fetch('admin/addModule.tpl');
     }
 }
+
+function checkUniqueModuleName($name, $db, $module_name)
+{
+    if ($name == $module_name) {
+        return true;
+    }
+
+    $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_modules` WHERE `name` = :name');
+    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+    $stmt->execute();
+    $res = $stmt->fetch();
+
+    return $res['cnt'] == 0;
+}
+
+function checkValidMainClass($id, $db, $data)
+{
+    $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_classes` WHERE `id` = :id AND `module_id` = :module');
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->bindValue(':module', $data['id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $res = $stmt->fetch();
+
+    return $res['cnt'] == 1 || !$id;
+}
+
 
 ?>
