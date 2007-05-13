@@ -346,6 +346,7 @@ CREATE TABLE `fileManager_file` (
   `ext` char(20) default NULL,
   `size` int(11) default NULL,
   `downloads` int(11) default NULL,
+  `right_header` tinyint(4) default NULL,
   `folder_id` int(11) unsigned default NULL,
   `obj_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
@@ -378,7 +379,7 @@ CREATE TABLE `filemanager_folder` (
 INSERT INTO `filemanager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
   (6,'thumbnails','Превью',6,'root/gallery/thumbnails',534,0,''),
-  (5,'gallery','Галерея',5,'root/gallery',533,0,'');
+  (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg');
 
 COMMIT;
 

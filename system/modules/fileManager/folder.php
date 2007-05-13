@@ -62,8 +62,13 @@ class folder extends simpleForTree
         return $this->getJipView($this->name, $this->getPath(), get_class($this));
     }
 
-    public function upload($upload_name, $new_name, $path)
+    public function upload($upload_name, $new_name, $path = null)
     {
+        if (is_null($path)) {
+            $config = systemToolkit::getInstance()->getConfig('fileManager', $this->section);
+            $path = $config->get('upload_path');
+        }
+
         if (!isset($_FILES[$upload_name])) {
             throw new mzzRuntimeException('”кажите файл дл€ загрузки');
         }
@@ -76,7 +81,7 @@ class folder extends simpleForTree
         $criteria = new criteria();
         $criteria->add('folder_id', $this->getId())->add('name', $name);
 
-        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file');
+        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file', $this->section);
         $file = $fileMapper->searchOneByCriteria($criteria);
 
         $exts = $this->getExts();
@@ -154,8 +159,11 @@ class folder extends simpleForTree
                 $file->setSize($info['size']);
                 $file->setFolder($this);
                 $fileMapper->save($file);
-                move_uploaded_file($info['tmp_name'], $path . '/' . $file->getRealname());
-                break;
+                if (move_uploaded_file($info['tmp_name'], $path . '/' . $file->getRealname())) {
+                    break;
+                }
+
+                throw new mzzRuntimeException('‘айл не "' . $info['tmp_name'] . '" был перемещЄн  в каталог "' . $path . '/' . $file->getRealname() . '"');
             } catch (PDOException $e) {
             }
         }

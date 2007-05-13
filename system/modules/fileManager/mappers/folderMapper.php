@@ -62,7 +62,9 @@ class folderMapper extends simpleMapperForTree
      */
     public function create()
     {
-        return new folder($this, $this->getMap());
+        $folder = new folder($this, $this->getMap());
+        $folder->section($this->section);
+        return $folder;
     }
 
     public function searchById($id)

@@ -106,14 +106,21 @@ class file extends simple
                 }
             }
 
+            // @todo: а тут не надо response ?
             header("Pragma: public");
             header("Expires: 0");
             header("Cache-Control: public, must-revalidate, max-age=0");
             header("Content-Length: " . ($size - $offset + 1));
             header("Content-Range: bytes " . $offset . "-" . $size . "/" . $fileSize);
-            header("Content-Type: application/x-octetstream");
+            if (!$this->getRightHeader()) {
+                header("Content-Type: application/x-octetstream");
+                header("Content-Disposition: attachment; filename=\"" . $this->getName() . "\"");
+            } else {
+                // @todo: сделать определение
+                header("Content-Type: image/jpg");
+            }
             header("Last-Modified: " . date('r', filemtime($fileName)));
-            header("Content-Disposition: attachment; filename=\"" . $this->getName() . "\"");
+
             header("Content-Transfer-Encoding: binary");
             header("Accept-Ranges: bytes");
             if (ob_get_level()) {
