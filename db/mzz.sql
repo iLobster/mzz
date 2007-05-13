@@ -4557,7 +4557,9 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (29,'move'),
   (30,'moveFolder'),
   (51,'groupCreate'),
-  (52,'viewGallery');
+  (52,'viewGallery'),
+  (53,'createAlbum'),
+  (54,'editAlbum');
 
 COMMIT;
 
@@ -4825,7 +4827,9 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (130,21,9),
   (131,22,9),
   (132,23,9),
-  (133,21,52);
+  (133,21,52),
+  (134,21,53),
+  (135,22,54);
 
 COMMIT;
 
