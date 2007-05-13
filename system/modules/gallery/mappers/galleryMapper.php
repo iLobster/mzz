@@ -39,6 +39,17 @@ class galleryMapper extends simpleMapper
     protected $className = 'gallery';
 
     /**
+     * Выполняет поиск объекта по владельцу
+     *
+     * @param integer $owner идентификатор владельца
+     * @return object|null
+     */
+    public function searchByOwner($owner)
+    {
+        return $this->searchOneByField('owner', $owner);
+    }
+
+    /**
      * Выполнение операций с массивом $fields перед обновлением в БД
      *
      * @param array $fields

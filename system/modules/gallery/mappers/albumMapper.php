@@ -50,6 +50,27 @@ class albumMapper extends simpleMapper
     }
 
     /**
+     * Выполняет поиск объекта по идентификатору галери
+     *
+     * @param integer $gallery_id идентификатор галереи
+     * @return object|null
+     */
+    public function searchByGalleryId($gallery_id)
+    {
+        return $this->searchOneByField('gallery_id', $gallery_id);
+    }
+
+    /**
+     * Выполнение операций с массивом $fields перед вставкой в БД
+     *
+     * @param array $fields
+     */
+    protected function insertDataModify(&$fields)
+    {
+        $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
+    }
+
+    /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
      * @return integer
