@@ -77,7 +77,7 @@ INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `defau
   (10,486,'books','Книги',0,10,'root/books'),
   (11,487,'fantazy','Фантастика',0,11,'root/books/fantazy'),
   (5,481,'mobile','Телефоны',7,5,'root/mobile'),
-  (12,488,'tech','Техническая литература',8,12,'root/books/tech');
+  (12,488,'tech','Техническая литература',11,12,'root/books/tech');
 
 COMMIT;
 
@@ -328,7 +328,8 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
   (36,471,400),
   (34,469,458),
   (37,477,330),
-  (38,504,468);
+  (38,504,468),
+  (39,535,452);
 
 COMMIT;
 
@@ -351,29 +352,6 @@ CREATE TABLE `fileManager_file` (
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`,`name`,`ext`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `fileManager_file` table  (LIMIT 0,500)
-#
-
-INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `folder_id`, `obj_id`) VALUES 
-  (1,'foobar.txt','q','txt',10,1,1,196),
-  (2,'06558db05a7d5148084025676972cbb2','','rec',9,NULL,NULL,201),
-  (3,'9f4b4024092fcebfc434401210f71f7d','','rec',9,NULL,NULL,202),
-  (4,'05a131b70aef0e2b9f3e344d6163d311','qwe.rec','rec',9,3,1,203),
-  (5,'5b78dc5c1c2ad6511e3e324845c2eb3c','2rec','',9,NULL,1,204),
-  (6,'13810e7f5782973b2dc72030c1c392f0','сы','',18,NULL,1,205),
-  (7,'86a4a3164ed3f07762b204d7ccbbea0e','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,6,1,206),
-  (8,'3ff2104331237dafe9d7941a1286136f','mysql','',39,1,1,207),
-  (9,'395ce8a398746491a5e73c2f0ab786ba','сверхурочка','',38,2,1,208),
-  (10,'02c870089fc7f94ba1286e8faef13316','web.txt','txt',28,4,1,209),
-  (11,'59833d36a918ad9fdd5f860d8a9b350f','!А вам слабо!Excel!AutoCAD-MustDie','xls',745984,NULL,1,210),
-  (12,'72bbe08ad2ff3bf5ac950061a8a71ccd','!А вам слабо!Excel!AutoCAD-MustDie.xls','xls',745984,2,1,211),
-  (13,'ddaa316ac5ba16b0a2e39a3f9c19d330','2rec','',9,NULL,2,219),
-  (14,'715dc8aa6d7e16526ae15a80386c4552','2rec.bmp','bmp',9,3,2,220),
-  (15,'4f0d05060fc2119d464b15a2ec93337f','apache_1.3.37.tar.gz','gz',2665370,2,4,236);
-
-COMMIT;
 
 #
 # Structure for the `filemanager_folder` table : 
@@ -399,9 +377,8 @@ CREATE TABLE `filemanager_folder` (
 
 INSERT INTO `filemanager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
-  (2,'child','child_node',2,'root/child',197,1,'bmp'),
-  (3,'q','q',3,'root/child/q',221,0,''),
-  (4,'z','z',4,'root/child/z',222,0,'');
+  (6,'thumbnails','Превью',6,'root/gallery/thumbnails',534,0,''),
+  (5,'gallery','Галерея',5,'root/gallery',533,0,'');
 
 COMMIT;
 
@@ -427,12 +404,67 @@ CREATE TABLE `filemanager_folder_tree` (
 #
 
 INSERT INTO `filemanager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,8,1),
-  (2,2,7,2),
-  (3,3,4,3),
-  (4,5,6,3);
+  (1,1,6,1),
+  (6,3,4,3),
+  (5,2,5,2);
 
 COMMIT;
+
+#
+# Structure for the `gallery_album` table : 
+#
+
+DROP TABLE IF EXISTS `gallery_album`;
+
+CREATE TABLE `gallery_album` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `gallery_id` int(11) unsigned default NULL,
+  `name` char(255) default NULL,
+  `pics_number` int(11) default NULL,
+  `created` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `gallery_gallery` table : 
+#
+
+DROP TABLE IF EXISTS `gallery_gallery`;
+
+CREATE TABLE `gallery_gallery` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `owner` int(11) unsigned default NULL,
+  `created` int(11) default NULL,
+  `updated` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `gallery_gallery` table  (LIMIT 0,500)
+#
+
+INSERT INTO `gallery_gallery` (`id`, `owner`, `created`, `updated`, `obj_id`) VALUES 
+  (1,2,1179050922,1179050922,536);
+
+COMMIT;
+
+#
+# Structure for the `gallery_photo` table : 
+#
+
+DROP TABLE IF EXISTS `gallery_photo`;
+
+CREATE TABLE `gallery_photo` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `album_id` int(11) default NULL,
+  `name` char(255) default NULL,
+  `size_x` int(11) default NULL,
+  `size_y` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `news_news` table : 
@@ -4162,7 +4194,10 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4866,5,11,504,NULL,2,1,0),
   (4867,9,11,504,2,NULL,1,0),
   (4868,19,11,504,2,NULL,0,0),
-  (4869,5,11,504,2,NULL,0,0);
+  (4869,5,11,504,2,NULL,0,0),
+  (4870,9,11,535,2,NULL,1,0),
+  (4871,19,11,535,2,NULL,0,0),
+  (4872,5,11,535,2,NULL,0,0);
 
 COMMIT;
 
@@ -4231,7 +4266,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (108,10),
   (121,12),
   (123,7),
-  (196,14),
   (126,12),
   (122,7),
   (296,2),
@@ -4261,19 +4295,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (174,11),
   (175,11),
   (176,12),
-  (197,15),
   (198,7),
   (201,14),
   (202,14),
-  (203,14),
-  (204,14),
-  (205,14),
-  (206,14),
-  (207,14),
-  (208,14),
-  (209,14),
-  (210,14),
-  (211,14),
+  (534,15),
+  (533,15),
   (300,2),
   (301,2),
   (306,2),
@@ -4281,10 +4307,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (304,2),
   (303,2),
   (302,2),
-  (219,14),
-  (220,14),
-  (221,15),
-  (222,15),
   (224,12),
   (225,4),
   (226,8),
@@ -4292,7 +4314,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (233,7),
   (234,13),
   (309,1),
-  (236,14),
   (490,16),
   (240,7),
   (476,12),
@@ -4482,11 +4503,13 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (503,16),
   (504,11),
   (507,12),
-  (535,12),
+  (529,12),
   (524,12),
   (530,7),
   (531,7),
-  (532,7);
+  (532,7),
+  (535,11),
+  (536,19);
 
 COMMIT;
 
@@ -4534,7 +4557,7 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (29,'move'),
   (30,'moveFolder'),
   (51,'groupCreate'),
-  (52,'register');
+  (52,'viewGallery');
 
 COMMIT;
 
@@ -4802,7 +4825,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (130,21,9),
   (131,22,9),
   (132,23,9),
-  (133,3,52);
+  (133,21,52);
 
 COMMIT;
 
@@ -5426,8 +5449,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (533),
   (534),
   (535),
-  (536),
-  (537);
+  (536);
 
 COMMIT;
 
@@ -5551,7 +5573,7 @@ CREATE TABLE `user_user` (
   `obj_id` int(10) unsigned NOT NULL default '0',
   `login` varchar(255) NOT NULL default '',
   `password` varchar(32) NOT NULL default '',
-  `created` int(10) unsigned default NULL,
+  `created` int(11) default NULL,
   `confirmed` varchar(32) default NULL,
   PRIMARY KEY  (`id`),
   KEY `login` (`login`)
@@ -5609,7 +5631,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (33,2,'127.0.0.1','8539a118934eb12959125b4a42c2cf20',494,1175426933),
   (36,2,'127.0.0.1','19269e37d22baa4c020b3c4b3732c9ea',498,1175870749),
   (38,2,'127.0.0.1','d6090ce8c9813fad79e3da7eae307a81',507,1177501534),
-  (43,2,'127.0.0.1','4348289d135fc10b5bbca3d2acf8adec',535,1178972744),
+  (41,2,'127.0.0.1','30a14bf7cf464e1954409b121b7b0f81',529,1178274095),
   (40,2,'127.0.0.1','8c54ec4684e05d0d7b1c77af2c1c548b',524,1177993805);
 
 COMMIT;

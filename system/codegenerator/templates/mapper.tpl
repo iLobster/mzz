@@ -49,7 +49,7 @@ class {{$mapper_data.mapper_name}} extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-
+        return 1;
     }
 }
 
