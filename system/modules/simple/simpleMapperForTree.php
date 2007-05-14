@@ -70,15 +70,11 @@ abstract class simpleMapperForTree extends simpleMapper
         //$pageFolderMapper = $toolkit->getMapper('page', 'pageFolder');
 
         // @toDo как то не так
-        $removedFolders = $this->tree->getBranch($id);
-        if(count($removedFolders)) {
-            foreach($removedFolders as $folder) {
-                $items = $folder->getItems();
-                if(count($items)) {
-                    foreach($items as $item) {
-                        $mapper->delete($item->getId());
-                    }
-                }
+        $removedFolders = (array) $this->tree->getBranch($id);
+        foreach ($removedFolders as $folder) {
+            $items = (array) $folder->getItems();
+            foreach ($items as $item) {
+                $mapper->delete($item->getId());
             }
         }
 

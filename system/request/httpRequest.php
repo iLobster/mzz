@@ -305,6 +305,11 @@ class httpRequest implements iRequest
         return $this->params->export();
     }
 
+    public function exportPost()
+    {
+        return $this->postVars->export();
+    }
+
     /**
      * Получение текущего урла, игнорируя путь
      *

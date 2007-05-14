@@ -12,12 +12,13 @@ $router->addRoute('fmFolderRoot', new requestRoute('fileManager/:action', array(
 $router->addRoute('pageDefault', new requestRoute('page', array('section' => 'page', 'action' => 'view', 'name' => 'main')));
 
 $router->addRoute('catalogueFolder', new requestRoute('catalogue/:name/:action', array('section' => 'catalogue', 'name' => 'root', 'action' => 'list'), array('name' => '.+?', 'action' => '(?:list|create|createFolder|editFolder|deleteFolder|moveFolder)')));
-//$router->addRoute('catalogueActions', new requestRoute('catalogue/:action', array('section' => 'catalogue')));
+$router->addRoute('catalogueActions', new requestRoute('catalogue/:action', array('section' => 'catalogue')));
 
 $router->addRoute('newsFolder', new requestRoute('news/:name/:action', array('section' => 'news', 'name' => 'root', 'action' => 'list'), array('name' => '.+?', 'action' => '(?:list|create|createFolder|editFolder|deleteFolder|moveFolder)')));
 //$router->addRoute('newsActions', new requestRoute('news/:action', array('section' => 'news', 'name' => 'root', 'action' => 'list'), array('action' => '(?:list|create|delete|createFolder)')));
 //$router->addRoute('userActions', new requestRoute('user/:action', array('section' => 'user'), array('action' => '(?:exit|list|login|create|groupsList|groupCreate)')));
 
+$router->addRoute('galleryAlbumActions', new requestRoute('gallery/:user/:action', array('section' => 'gallery'), array('action' => '(?:createAlbum)')));
 $router->addRoute('galleryAlbum', new requestRoute('gallery/:user/:album/:action', array('section' => 'gallery')));
 
 

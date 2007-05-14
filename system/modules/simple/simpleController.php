@@ -96,6 +96,17 @@ abstract class simpleController
             $this->smarty->assign('url', $url);
             $confirm = empty($this->confirm) ? $confirm : $this->confirm;
             $this->smarty->assign('message', $confirm);
+            $this->smarty->assign('method', $this->request->getMethod());
+            if ($this->request->getMethod() == 'POST') {
+                $postData = http_build_query($this->request->exportPost());
+                $postData = explode('&', $postData);
+                $formValues = array();
+                foreach($postData as $key => $value) {
+                    $formValues[$key] = explode('=', $value);
+                    $formValues[$key][0] = urldecode($formValues[$key][0]);
+                }
+                $this->smarty->assign('formValues', $formValues);
+            }
             return $this->smarty->fetch('simple/confirm.tpl');
         }
         if (!empty($confirmMsg)) {

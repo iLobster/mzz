@@ -19,42 +19,34 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage gallery
- * @version 0.1
+ * @version 0.1.1
  */
 
 class gallerySaveAlbumController extends simpleController
 {
     public function getView()
     {
-
+        $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');
-        $id = $this->request->get('id', 'integer', SC_PATH);
         $galleryMapper = $this->toolkit->getMapper('gallery', 'gallery');
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'editAlbum');
 
-        $album = $albumMapper->searchById($id);
-
-        if ($isEdit && !$album) {
-            return $albumMapper->get404()->run();
-        }
-
-        /*
-        $gallery = $galleryMapper->searchByOwner($user);
-
-        if (!$gallery) {
-        return $galleryMapper->get404()->run();
-        }
-
         if ($isEdit) {
-        $album = $albumMapper->searchByGalleryId($gallery->getId());
-        if (!$album) {
-        return $albumMapper->get404()->run();
-        }
+            $id = $this->request->get('id', 'integer', SC_PATH);
+            $album = $albumMapper->searchById($id);
+            if (!$album) {
+                return $albumMapper->get404()->run();
+            }
         } else {
-        $album = $albumMapper->create();
-        }*/
+            $user_name = $this->request->get('user', 'string', SC_PATH);
+            $user = $userMapper->searchByLogin($user_name);
+            if ($user->getId() == MZZ_USER_GUEST_ID) {
+                return $albumMapper->get404()->run();
+            }
+            $album = $albumMapper->create();
+        }
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо назвать альбом');
@@ -63,14 +55,22 @@ class gallerySaveAlbumController extends simpleController
             $name = $this->request->get('name', 'string', SC_POST);
 
             $album->setName($name);
+            if (!$isEdit) {
+                $album->setGallery($galleryMapper->searchByOwner($user->getId())->getId());
+            }
             $albumMapper->save($album);
 
             return jipTools::redirect();
         }
 
-        $url = new url('withId');
+        if ($isEdit) {
+            $url = new url('galleryAlbum');
+            $url->addParam('id', $album->getId());
+        } else {
+            $url = new url('galleryAlbumActions');
+        }
+        $url->addParam('user', $user->getLogin());
         $url->setAction($action);
-        $url->addParam('id', $album->getId());
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
