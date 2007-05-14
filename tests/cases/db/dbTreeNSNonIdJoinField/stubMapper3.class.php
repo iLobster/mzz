@@ -1,4 +1,4 @@
-<?
+<?php
 class stubMapperForTreeNonIdTest extends simpleMapper
 {
     protected $name = 'simple';
