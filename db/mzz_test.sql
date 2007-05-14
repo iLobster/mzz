@@ -1,14 +1,9 @@
-# SQL Manager 2005 for MySQL 3.7.7.1
+# SQL Manager 2005 for MySQL 3.7.5.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz_test
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -40,12 +35,12 @@ CREATE TABLE `news_news` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `news_newsFolder` table : 
+# Structure for the `news_newsfolder` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsFolder`;
+DROP TABLE IF EXISTS `news_newsfolder`;
 
-CREATE TABLE `news_newsFolder` (
+CREATE TABLE `news_newsfolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) default NULL,
   `name` char(255) default NULL,
@@ -56,12 +51,12 @@ CREATE TABLE `news_newsFolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `news_newsFolder_tree` table : 
+# Structure for the `news_newsfolder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsFolder_tree`;
+DROP TABLE IF EXISTS `news_newsfolder_tree`;
 
-CREATE TABLE `news_newsFolder_tree` (
+CREATE TABLE `news_newsfolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -87,12 +82,12 @@ CREATE TABLE `page_page` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `page_pageFolder` table : 
+# Structure for the `page_pagefolder` table : 
 #
 
-DROP TABLE IF EXISTS `page_pageFolder`;
+DROP TABLE IF EXISTS `page_pagefolder`;
 
-CREATE TABLE `page_pageFolder` (
+CREATE TABLE `page_pagefolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) unsigned NOT NULL default '0',
   `name` char(255) default NULL,
@@ -104,12 +99,12 @@ CREATE TABLE `page_pageFolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `page_pageFolder_tree` table : 
+# Structure for the `page_pagefolder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `page_pageFolder_tree`;
+DROP TABLE IF EXISTS `page_pagefolder_tree`;
 
-CREATE TABLE `page_pageFolder_tree` (
+CREATE TABLE `page_pagefolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -209,12 +204,12 @@ CREATE TABLE `simple_catalogue_types_props` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubSimple` table : 
+# Structure for the `simple_stubsimple` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stubSimple`;
+DROP TABLE IF EXISTS `simple_stubsimple`;
 
-CREATE TABLE `simple_stubSimple` (
+CREATE TABLE `simple_stubsimple` (
   `id` int(11) NOT NULL auto_increment,
   `foo` varchar(10) default NULL,
   `bar` varchar(10) default NULL,
@@ -224,12 +219,12 @@ CREATE TABLE `simple_stubSimple` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubSimple2` table : 
+# Structure for the `simple_stubsimple2` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stubSimple2`;
+DROP TABLE IF EXISTS `simple_stubsimple2`;
 
-CREATE TABLE `simple_stubSimple2` (
+CREATE TABLE `simple_stubsimple2` (
   `id` int(11) NOT NULL auto_increment,
   `foo` varchar(10) default NULL,
   `bar` varchar(10) default NULL,
@@ -240,12 +235,12 @@ CREATE TABLE `simple_stubSimple2` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubSimple2_tree` table : 
+# Structure for the `simple_stubsimple2_tree` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stubSimple2_tree`;
+DROP TABLE IF EXISTS `simple_stubsimple2_tree`;
 
-CREATE TABLE `simple_stubSimple2_tree` (
+CREATE TABLE `simple_stubsimple2_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -256,12 +251,28 @@ CREATE TABLE `simple_stubSimple2_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubSimple_tree` table : 
+# Structure for the `simple_stubsimple3` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stubSimple_tree`;
+DROP TABLE IF EXISTS `simple_stubsimple3`;
 
-CREATE TABLE `simple_stubSimple_tree` (
+CREATE TABLE `simple_stubsimple3` (
+  `id` int(11) NOT NULL auto_increment,
+  `foo` varchar(10) default NULL,
+  `bar` varchar(10) default NULL,
+  `path` varchar(255) default NULL,
+  `joinfield` int(11) unsigned default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `simple_stubsimple_tree` table : 
+#
+
+DROP TABLE IF EXISTS `simple_stubsimple_tree`;
+
+CREATE TABLE `simple_stubsimple_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -301,17 +312,6 @@ CREATE TABLE `sys_access_registry` (
   `obj_id` int(11) unsigned default NULL,
   `class_section_id` int(11) unsigned default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_access_registry` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
-  (32,1),
-  (33,1),
-  (1,2);
-
-COMMIT;
 
 #
 # Structure for the `sys_actions` table : 
@@ -394,7 +394,7 @@ CREATE TABLE `sys_classes` (
   `module_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `sys_classes_actions` table : 
@@ -422,17 +422,7 @@ CREATE TABLE `sys_classes_sections` (
   `section_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `module_section` (`section_id`,`class_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_classes_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,1,1),
-  (2,2,1);
-
-COMMIT;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `sys_modules` table : 
@@ -455,7 +445,7 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=143 DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `sys_obj_id_named` table : 
@@ -479,19 +469,7 @@ CREATE TABLE `sys_sections` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_sections` (`id`, `name`) VALUES 
-  (1,'simple'),
-  (2,'news'),
-  (3,'page'),
-  (4,'user');
-
-COMMIT;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `sys_sessions` table : 
@@ -535,16 +513,18 @@ CREATE TABLE `user_user` (
   `login` varchar(255) NOT NULL default '',
   `password` varchar(32) NOT NULL default '',
   `obj_id` int(11) default NULL,
+  `created` int(11) default NULL,
+  `confirmed` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `user_userGroup_rel` table : 
+# Structure for the `user_usergroup_rel` table : 
 #
 
-DROP TABLE IF EXISTS `user_userGroup_rel`;
+DROP TABLE IF EXISTS `user_usergroup_rel`;
 
-CREATE TABLE `user_userGroup_rel` (
+CREATE TABLE `user_usergroup_rel` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) default NULL,
   `group_id` int(11) default NULL,
@@ -553,8 +533,321 @@ CREATE TABLE `user_userGroup_rel` (
   UNIQUE KEY `group_id` (`group_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
+#
+# Data for the `sys_access_registry` table  (LIMIT 0,500)
+#
 
+INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
+  (32,1),
+  (33,1),
+  (1,2),
+  (7,3),
+  (8,3),
+  (9,3),
+  (10,3),
+  (11,3),
+  (12,3),
+  (13,3),
+  (14,3),
+  (15,3),
+  (16,3),
+  (17,3),
+  (18,3),
+  (19,3),
+  (20,3),
+  (21,3),
+  (22,3),
+  (23,3),
+  (24,3),
+  (25,3),
+  (26,3),
+  (27,3),
+  (28,3),
+  (29,3),
+  (30,3),
+  (31,3),
+  (34,3),
+  (35,3),
+  (36,3),
+  (37,3),
+  (38,3),
+  (39,3),
+  (40,3),
+  (41,3),
+  (42,3),
+  (43,3),
+  (44,3),
+  (45,3),
+  (46,3),
+  (47,3),
+  (48,3),
+  (49,3),
+  (50,3),
+  (51,3),
+  (52,3),
+  (53,3),
+  (54,3),
+  (55,3),
+  (56,3),
+  (57,3),
+  (58,3),
+  (59,3),
+  (60,3),
+  (61,3),
+  (62,3),
+  (63,3),
+  (64,3),
+  (65,3),
+  (66,3),
+  (67,3),
+  (68,3),
+  (69,3),
+  (70,3),
+  (71,3),
+  (72,3),
+  (73,3),
+  (74,3),
+  (75,3),
+  (76,3),
+  (77,3),
+  (78,3),
+  (79,3),
+  (80,3),
+  (81,3),
+  (82,3),
+  (83,3),
+  (84,3),
+  (85,3),
+  (86,3),
+  (87,3),
+  (88,3),
+  (89,3),
+  (90,3),
+  (91,3),
+  (92,3),
+  (93,3),
+  (94,3),
+  (95,3),
+  (96,3),
+  (97,3),
+  (98,3),
+  (99,3),
+  (100,3),
+  (101,3),
+  (102,3),
+  (103,3),
+  (104,3),
+  (105,3),
+  (106,3),
+  (107,3),
+  (108,3),
+  (109,3),
+  (110,3),
+  (111,3),
+  (112,3),
+  (113,3),
+  (114,3),
+  (115,3),
+  (116,3),
+  (117,3),
+  (118,3),
+  (119,3),
+  (120,3),
+  (121,3),
+  (122,3),
+  (123,3),
+  (124,3),
+  (125,3),
+  (126,3),
+  (127,3),
+  (128,3),
+  (129,3),
+  (130,3),
+  (131,3),
+  (132,3),
+  (133,3),
+  (134,3),
+  (135,3),
+  (136,3),
+  (137,3),
+  (138,3),
+  (139,3),
+  (140,3),
+  (141,3),
+  (142,3);
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+COMMIT;
+
+#
+# Data for the `sys_classes_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
+  (1,1,1),
+  (2,2,1),
+  (3,3,1);
+
+COMMIT;
+
+#
+# Data for the `sys_obj_id` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_obj_id` (`id`) VALUES 
+  (1),
+  (2),
+  (3),
+  (4),
+  (5),
+  (6),
+  (7),
+  (8),
+  (9),
+  (10),
+  (11),
+  (12),
+  (13),
+  (14),
+  (15),
+  (16),
+  (17),
+  (18),
+  (19),
+  (20),
+  (21),
+  (22),
+  (23),
+  (24),
+  (25),
+  (26),
+  (27),
+  (28),
+  (29),
+  (30),
+  (31),
+  (32),
+  (33),
+  (34),
+  (35),
+  (36),
+  (37),
+  (38),
+  (39),
+  (40),
+  (41),
+  (42),
+  (43),
+  (44),
+  (45),
+  (46),
+  (47),
+  (48),
+  (49),
+  (50),
+  (51),
+  (52),
+  (53),
+  (54),
+  (55),
+  (56),
+  (57),
+  (58),
+  (59),
+  (60),
+  (61),
+  (62),
+  (63),
+  (64),
+  (65),
+  (66),
+  (67),
+  (68),
+  (69),
+  (70),
+  (71),
+  (72),
+  (73),
+  (74),
+  (75),
+  (76),
+  (77),
+  (78),
+  (79),
+  (80),
+  (81),
+  (82),
+  (83),
+  (84),
+  (85),
+  (86),
+  (87),
+  (88),
+  (89),
+  (90),
+  (91),
+  (92),
+  (93),
+  (94),
+  (95),
+  (96),
+  (97),
+  (98),
+  (99),
+  (100),
+  (101),
+  (102),
+  (103),
+  (104),
+  (105),
+  (106),
+  (107),
+  (108),
+  (109),
+  (110),
+  (111),
+  (112),
+  (113),
+  (114),
+  (115),
+  (116),
+  (117),
+  (118),
+  (119),
+  (120),
+  (121),
+  (122),
+  (123),
+  (124),
+  (125),
+  (126),
+  (127),
+  (128),
+  (129),
+  (130),
+  (131),
+  (132),
+  (133),
+  (134),
+  (135),
+  (136),
+  (137),
+  (138),
+  (139),
+  (140),
+  (141),
+  (142);
+
+COMMIT;
+
+#
+# Data for the `sys_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_sections` (`id`, `name`) VALUES 
+  (1,'simple'),
+  (2,'news'),
+  (3,'page'),
+  (4,'user');
+
+COMMIT;
+

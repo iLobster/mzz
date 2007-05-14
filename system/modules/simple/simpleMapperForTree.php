@@ -122,7 +122,7 @@ abstract class simpleMapperForTree extends simpleMapper
 
     public function move($folder, $destFolder)
     {
-        return $this->tree->moveNode($folder, $destFolder);
+        return $this->tree->moveNode($folder->getParent(), $destFolder->getParent());
     }
 
     public function getTreeParent($id)

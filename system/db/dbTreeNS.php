@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.9.10
+ * @version 0.10
  */
 
 fileLoader::load('db/sqlFunction');
@@ -250,7 +250,8 @@ class dbTreeNS
     {
         $branch = array();
         while ($row = $stmt->fetch()) {
-            $branch[$row[$this->dataID]] = $this->createItemFromRow($row);
+            $do = $this->createItemFromRow($row);
+            $branch[$do->getId()] = $do;
         }
 
         if (!empty($branch)) {
@@ -424,7 +425,7 @@ class dbTreeNS
     /**
      * Выборка ветки начиная от заданного узла
      *
-     * @param  int     $id            Идентификатор узла
+     * @param  int     $id            Идентификатор узла в дереве (!! не идентификатор объекта, т.е. tree.id = data.joinfield)
      * @param  int     $level         Уровень глубины выборки
      * @return array|false
      */
@@ -945,8 +946,8 @@ class dbTreeNS
     /**
      * Метод обновления путей для узлов ниже указанного
      *
-     * @param mixed $node
-     * @param mixed $parentNode
+     * @param integer $node        ID узла в дереве
+     * @param integer $parentNode  ID родительского узла
      * @return boolean
      */
     public function updatePaths($node, $parentNode = null)
@@ -963,9 +964,18 @@ class dbTreeNS
         $parentNode = $this->getNodeInfo($parentNode);
 
         if ($this->dataTable) {
+            // ключи это ID из data
             $movedBranch = $this->getBranch($parentNode['id']);
+            $map = $this->mapper->getMap();
+            $joinFieldAccessor = $map[$this->dataID]['accessor'];
 
-            $oldPathToRootNodeOfBranch = $movedBranch[$node['id']]->getPath(false);
+            foreach ($movedBranch as $id => $tmpNode) {
+                $treeKeysOfMovedBranch[$tmpNode->$joinFieldAccessor()] = $id;
+            }
+
+            $movedNode = $movedBranch[$treeKeysOfMovedBranch[$node['id']]];
+            $oldPathToRootNodeOfBranch = $movedNode->getPath(false);
+
             $newPathToRootNodeOfBranch = $this->updatePath($node['id']);
 
             // если переместили один элемент под узел нижнего уровня, то обновлять пути не надо
@@ -986,7 +996,7 @@ class dbTreeNS
             if ($idSet != ')') {
                 $this->db->exec($qry = 'UPDATE `' . $this->dataTable . '`' .
                 ' SET `path` = REPLACE(`path`, "' . $oldPathToRootNodeOfBranch . '", "' . $newPathToRootNodeOfBranch . '") '.
-                ' WHERE `' . $this->dataID . '` IN ' . $idSet .
+                ' WHERE `' . $this->mapper->getTableKey() . '` IN ' . $idSet .
                 ($this->isMultipleTree() ? ' AND `' . $this->treeField . '` = ' . $this->treeFieldID : ' ')
                 );
             }
@@ -1036,7 +1046,6 @@ class dbTreeNS
         }
 
         return $rewritedPath;
-
     }
 
     /**
@@ -1050,7 +1059,5 @@ class dbTreeNS
         }
     }
 }
-
-
 
 ?>
