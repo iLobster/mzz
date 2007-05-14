@@ -82,6 +82,10 @@ div#mainbar {
   padding: 15px 10px;
 }
 
+div#mainbarWithoutSidebar {
+  padding: 20px;
+}
+
 .tableListHead td {
   font-weight: bold;
   text-align: center;
@@ -191,7 +195,7 @@ div#mainbar {
   padding-bottom: 4px;
   /*width: 99%;*/
 }
-#mainbat div.pageContent {
+#mainbar div.pageContent {
   width: 99%;
 }
 

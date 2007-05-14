@@ -73,7 +73,7 @@ class actionGenerator
 
         define('CODEGEN', systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'codegenerator');
         define('MZZ', systemConfig::$pathToApplication);
-        define('CUR', $this->dest . DIRECTORY_SEPARATOR . $this->module);
+        define('CUR_DEST_FOLDER', $this->dest . DIRECTORY_SEPARATOR . $this->module);
     }
 
     /**
@@ -137,7 +137,7 @@ class actionGenerator
             $deleted = $delete->rowCount();
 
             $current_dir = getcwd();
-            chdir(CUR);
+            chdir(CUR_DEST_FOLDER);
 
             $actionsfile = 'actions' . DIRECTORY_SEPARATOR . $this->class . '.ini';
             $data = parse_ini_file($actionsfile = 'actions' . DIRECTORY_SEPARATOR . $this->class . '.ini', true);
@@ -189,7 +189,7 @@ class actionGenerator
     public function rename($oldName, $newName, $params)
     {
         $current_dir = getcwd();
-        chdir(CUR);
+        chdir(CUR_DEST_FOLDER);
 
         if ($oldName != $newName) {
             rename('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($oldName) . 'Controller.php', 'controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($newName) . 'Controller.php');
@@ -287,7 +287,7 @@ class actionGenerator
     public function generate($action, $params)
     {
         $current_dir = getcwd();
-        chdir(CUR);
+        chdir(CUR_DEST_FOLDER);
 
         $smarty = new Smarty();
         $smarty->template_dir = CODEGEN . DIRECTORY_SEPARATOR . 'templates';

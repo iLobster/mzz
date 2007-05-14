@@ -1,5 +1,6 @@
 {add file="toolbar.css"}
 <!-- модули и классы -->
+<div class="pageContent">
 <div class="toolbarLayerTopLeft">
     <span class="toolbarSectionName"><strong>Модули</strong> и классы</span> <a href="{url route="default2" section="admin" action="addModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить модуль" title="Добавить модуль" align="absmiddle" /></a>
     <table class="toolbarActions" cellpadding="1" cellspacing="0">
@@ -90,4 +91,5 @@
                 </tr>
             {/foreach}
     </table>
+</div>
 </div>

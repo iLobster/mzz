@@ -97,23 +97,13 @@ class adminAddActionController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Поле обязательно к заполнению');
-        $validator->add('callback', 'name', 'Такое действие у класса уже есть или введённое вами имя содержит запрещённые символы', array('addClassValidate', $db, $action_name, $data));
+        $validator->add('required', 'action[name]', 'Поле обязательно к заполнению');
+        $validator->add('callback', 'action[name]', 'Такое действие у класса уже есть или введённое вами имя содержит запрещённые символы', array('addClassValidate', $db, $action_name, $data));
 
         // КОНЕЦ ВАЛИДАТОРА
 
         if ($validator->validate()) {
-            $values = array(
-            'alias' => $this->request->get('alias', 'string', SC_POST),
-            'dest' => $this->request->get('dest', 'string', SC_POST),
-            'name' => $this->request->get('name', 'string', SC_POST),
-            'controller' => $this->request->get('controller', 'string', SC_POST),
-            'jip' => $this->request->get('jip', 'string', SC_POST),
-            'inacl' => $this->request->get('inACL', 'string', SC_POST),
-            'title' => $this->request->get('title', 'string', SC_POST),
-            'icon' => $this->request->get('icon', 'string', SC_POST),
-            'confirm' => $this->request->get('confirm', 'string', SC_POST),
-            );
+            $values = $this->request->get('action', 'array', SC_POST);
 
             $modules = $adminMapper->getModulesList();
 

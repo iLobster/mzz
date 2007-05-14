@@ -44,7 +44,7 @@
                 <td>{$current_news->getJip()}</td>
             </tr>
         {/foreach}
-        
+
         <tr class="tableListFoot">
             <td colspan="2">{$pager->toString('adminPager.tpl')}</td>
             <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>

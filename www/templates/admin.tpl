@@ -49,7 +49,7 @@
         </div>
     {/if}
 
-    <div id="mainbar">
+    <div id="mainbar{if empty($menu)}WithoutSidebar{/if}">
     {$content}
     <div class="patch_minheight"></div>
     </div>
