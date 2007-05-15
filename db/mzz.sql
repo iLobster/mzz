@@ -355,6 +355,15 @@ CREATE TABLE `fileManager_file` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `fileManager_file` table  (LIMIT 0,500)
+#
+
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
+  (1,'5ddff66e0f46aa1d8f03be750da9d656','1.jpg','jpg',116850,6,1,5,539);
+
+COMMIT;
+
+#
 # Structure for the `filemanager_folder` table : 
 #
 
@@ -432,7 +441,7 @@ CREATE TABLE `gallery_album` (
 #
 
 INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `obj_id`) VALUES 
-  (1,1,'asd',0,NULL,537);
+  (1,1,'asd',1,NULL,537);
 
 COMMIT;
 
@@ -475,6 +484,15 @@ CREATE TABLE `gallery_photo` (
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `gallery_photo` table  (LIMIT 0,500)
+#
+
+INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES 
+  (1,1,'',NULL,NULL,540);
+
+COMMIT;
 
 #
 # Structure for the `news_news` table : 
@@ -4520,7 +4538,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (532,7),
   (535,11),
   (536,19),
-  (537,18);
+  (537,18),
+  (538,12),
+  (539,14),
+  (540,20);
 
 COMMIT;
 
@@ -4572,7 +4593,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (53,'createAlbum'),
   (54,'editAlbum'),
   (55,'viewAlbum'),
-  (56,'uploadPhoto');
+  (56,'uploadPhoto'),
+  (57,'viewThumbnail');
 
 COMMIT;
 
@@ -4844,7 +4866,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (134,21,53),
   (135,22,54),
   (136,22,55),
-  (137,22,56);
+  (137,22,56),
+  (138,23,57);
 
 COMMIT;
 
@@ -5469,7 +5492,10 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (534),
   (535),
   (536),
-  (537);
+  (537),
+  (538),
+  (539),
+  (540);
 
 COMMIT;
 
@@ -5652,7 +5678,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (36,2,'127.0.0.1','19269e37d22baa4c020b3c4b3732c9ea',498,1175870749),
   (38,2,'127.0.0.1','d6090ce8c9813fad79e3da7eae307a81',507,1177501534),
   (41,2,'127.0.0.1','30a14bf7cf464e1954409b121b7b0f81',529,1178274095),
-  (40,2,'127.0.0.1','8c54ec4684e05d0d7b1c77af2c1c548b',524,1177993805);
+  (40,2,'127.0.0.1','8c54ec4684e05d0d7b1c77af2c1c548b',524,1177993805),
+  (42,2,'127.0.0.1','a47cd179dacb2cbc2fcbf3e243d12ddb',538,1179236686);
 
 COMMIT;
 

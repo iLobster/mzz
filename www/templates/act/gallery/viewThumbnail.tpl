@@ -1,0 +1,1 @@
+{load module="gallery" action="viewThumbnail"}

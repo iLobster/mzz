@@ -46,7 +46,7 @@ class file extends simple
     private function getUploadPath()
     {
         $toolkit = systemToolkit::getInstance();
-        $config = $toolkit->getConfig('fileManager');
+        $config = $toolkit->getConfig('fileManager', $this->section);
         return $config->get('upload_path');
     }
 
@@ -58,7 +58,7 @@ class file extends simple
             unlink($file);
         }
 
-        $mapper = $toolkit->getMapper($this->name, 'file');
+        $mapper = $toolkit->getMapper($this->name, 'file', $this->section);
         $mapper->delete($this->getId());
     }
 
@@ -70,7 +70,7 @@ class file extends simple
         $range = $request->get('HTTP_RANGE', 'string', SC_SERVER);
         if (empty($range)) {
             $this->setDownloads($this->getDownloads() + 1);
-            $fileMapper = $toolkit->getMapper('fileManager', 'file');
+            $fileMapper = $toolkit->getMapper('fileManager', 'file', $this->section);
             $fileMapper->save($this);
         }
 

@@ -68,7 +68,7 @@ class fileMapper extends simpleMapper
             $pagename = substr(strrchr($path, '/'), 1);
 
             $toolkit = systemToolkit::getInstance();
-            $folderMapper = $toolkit->getMapper('fileManager', 'folder');
+            $folderMapper = $toolkit->getMapper('fileManager', 'folder', $this->section);
 
             $folder = $folderMapper->searchByPath($folderName);
 
