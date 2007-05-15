@@ -106,12 +106,8 @@ class adminAddClassController extends simpleController
             return jipTools::redirect();
         }
 
-        if ($isEdit) {
-            $url = new url('withId');
-            $url->addParam('id', $data['id']);
-        } else {
-            $url = new url('default2');
-        }
+        $url = new url('withId');
+        $url->addParam('id', $data['id']);
         $url->setAction($action);
 
         $this->smarty->assign('form_action', $url->get());
