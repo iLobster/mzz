@@ -72,9 +72,11 @@ class fileMapper extends simpleMapper
 
             $folder = $folderMapper->searchByPath($folderName);
 
-            $criteria = new criteria();
-            $criteria->add('name', $pagename)->add('folder_id', $folder->getId());
-            return $this->searchOneByCriteria($criteria);
+            if (!is_null($folder)) {
+                $criteria = new criteria();
+                $criteria->add('name', $pagename)->add('folder_id', $folder->getId());
+                return $this->searchOneByCriteria($criteria);
+            }
         }
 
         return null;

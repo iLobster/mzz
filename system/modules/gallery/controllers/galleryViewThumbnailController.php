@@ -27,7 +27,7 @@ class galleryViewThumbnailController extends simpleController
         $fileMapper = $this->toolkit->getMapper('fileManager', 'file', 'fileManager');
 
         $photo = $this->request->get('pic', 'string', SC_PATH);
-        $thumbnail = $fileMapper->searchByPath('root/gallery/thumbnail/' . $photo);
+        $thumbnail = $fileMapper->searchByPath('root/gallery/thumbnails/' . $photo);
 
         if (!$thumbnail) {
             $source = $fileMapper->searchByPath('root/gallery/' . $photo);
