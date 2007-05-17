@@ -13,6 +13,10 @@ img {
   border: 0;
 }
 
+form  {
+   margin: 0px;
+}
+
 a {
  color: #0055CC;
 }
