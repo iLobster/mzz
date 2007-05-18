@@ -61,7 +61,7 @@ class pageSaveFolderController extends simpleController
             return jipTools::redirect();
         }
 
-        $url = new url('pageActions');
+        $url = new url('withAnyParam');
         $url->addParam('name', $path);
         $url->setAction($action);
 
