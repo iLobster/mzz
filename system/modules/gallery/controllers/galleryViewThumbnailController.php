@@ -30,8 +30,7 @@ class galleryViewThumbnailController extends simpleController
         $album_id = $this->request->get('album', 'integer');
         $album = $albumMapper->searchById($album_id);
 
-        $photo = $this->request->get('pic', 'string', SC_PATH);
-        $photo .= '.jpg';
+        $photo = $this->request->get('pic', 'string', SC_PATH) . '.jpg';
         $thumbnail = $fileMapper->searchByPath('root/gallery/thumbnails/' . $photo);
 
         if (!$thumbnail) {
@@ -59,15 +58,13 @@ class galleryViewThumbnailController extends simpleController
                 $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', 'fileManager');
 
                 $folder = $folderMapper->searchByPath('root/gallery/thumbnails');
-                $file = $folder->upload($file, $photo);
-                $file->setRightHeader(1);
-                $fileMapper->save($file);
-
-                $thumbnail = $file;
+                $thumbnail = $folder->upload($file, $photo);
+                $thumbnail->setRightHeader(1);
+                $fileMapper->save($thumbnail);
             }
         }
 
-         try {
+        try {
             $thumbnail->download();
         } catch (mzzIoException $e) {
             return $e->getMessage();

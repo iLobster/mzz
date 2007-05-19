@@ -8,13 +8,15 @@
     {foreach from=$items item="item"}
         <h3><a href="{url route="withId" module="catalogue" action="view" id=$item->getId()}">{$item->getName()}</a>{$item->getJip()}</h3>
         {foreach from=$item->exportOldProperties() key="propertyName" item="property"}
-            {if $property.value ne '' AND $property.isShort eq TRUE}
-                {if $property.type == 'select'}
+        {if $property.value ne '' AND $property.isShort eq TRUE}
+            {if $property.type == 'select'}
             <strong>{$property.title}:</strong> {$property.args[$property.value]}<br/>
-                {else}
+            {elseif $property.type == 'datetime'}
+            <strong>{$property.title}:</strong> {$property.value|date_format:$property.args}<br/>
+            {else}
             <strong>{$property.title}:</strong> {$property.value}<br/>
-                {/if}
             {/if}
+        {/if}
         {/foreach}
         <br/><br/>
     {/foreach}

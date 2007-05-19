@@ -1,12 +1,19 @@
 <div class="jipTitle">{if $isEdit}Редактирование свойства{else}Создание свойства{/if}</div>
 {assign var="title" value=''}{if isset($property.title)}{assign var="title" value=$property.title}{/if}
 {assign var="name" value=''}{if isset($property.name)}{assign var="name" value=$property.name}{/if}
-{assign var="type" value=''}{if isset($property.type_id)}{assign var="type" value=$property.type_id}{/if}
-{literal}<script language="JavaScript">
+{assign var="type" value=''}{if isset($property.type_id)}{assign var="type" value=$property.type}{/if}
+<script language="JavaScript">
 var count = 0;
+var types = new Array();
+{foreach from=$types key="type_id" item="type_name"}
+types[{$type_id}] = "{$type_name}";
+{/foreach}
+{literal}
 function showHidden(value)
 {
-    $('selectvariants').style.display = (value == 5) ? '' : 'none';
+    value = types[value];
+    $('selectvariants').style.display = (value == 'select') ? '' : 'none';
+    $('datetimeformat').style.display = (value == 'datetime') ? '' : 'none';
 }
 function addOne()
 {
@@ -36,13 +43,13 @@ function deleteOne(trelem)
         </tr>
         <tr>
             <td><strong>{form->caption name="type" value="Тип:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
-            <td>{form->select name="type" options=$types value=$type onchange="javascript:showHidden(this.value);" onError="style=border: red 1px solid;"}{$errors->get('type')}</td>
+            <td>{form->select name="type" options=$selectdata value=$property.type_id onchange="javascript:showHidden(this.value);" onError="style=border: red 1px solid;"}{$errors->get('type')}</td>
         </tr>
         <tr>
             <table>
-                <tbody id="selectvariants" {if !$isEdit || $type != 5}style="display:none;"{/if}>
+                <tbody id="selectvariants" {if !$isEdit || $type != 'select'}style="display:none;"{/if}>
                 <input type="button" value="+" onclick="javascript:addOne();">
-                {if $isEdit && $type == 5}
+                {if $isEdit && $type == 'select'}
                     {foreach from=$property.args item="val" key="key" name="argsIterator"}
                     <tr>
                         <td>Значение:</td>
@@ -51,6 +58,13 @@ function deleteOne(trelem)
                     {/foreach}
                     <script language="JavaScript">count = {$smarty.foreach.argsIterator.total+1};</script>
                 {/if}
+                </tbody>
+                <tbody id="datetimeformat" {if !$isEdit || $type != 'datetime'}style="display:none;"{/if}>
+                    <tr>
+                        <td>Формат:</td>
+                        <td><input type="text" size="60" name="datetimeformat" {if $isEdit && $type == 'datetime'}value="{$property.args}"{else}value="%H:%M:%S %d/%m/%Y"{/if}/></td>
+                    </tr>
+                </tbody>
             </table>
         </tr>
         <tr>

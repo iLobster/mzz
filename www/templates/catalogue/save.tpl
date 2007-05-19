@@ -28,7 +28,7 @@ function loadForm(id)
             <td>{form->select name="type" options=$select id="type" value=$defType onchange="javascript:loadForm(this.value);" onkeypress="this.onchange();"}{$errors->get('type')}</td>
         <tr>{/if}
         {if $isEdit || $type ne 0}<tr>
-            <td>{form->caption name=name value=Имя:}</td>
+            <td>{form->caption name=name value="Имя:"}</td>
             <td>{form->text name="name" size="60" value=$item->getName()}{$errors->get('name')}</td>
         <tr>
         {foreach from=$properties item="element"}

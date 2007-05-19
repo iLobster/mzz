@@ -64,7 +64,8 @@ class catalogueSavePropertyController extends simpleController
                 $this->smarty->assign('property', $property);
             }
 
-            $this->smarty->assign('types', $select);
+            $this->smarty->assign('types', $types);
+            $this->smarty->assign('selectdata', $select);
             $this->smarty->assign('isEdit', $isEdit);
             $this->smarty->assign('action', $url->get());
             $this->smarty->assign('errors', $validator->getErrors());
@@ -83,6 +84,9 @@ class catalogueSavePropertyController extends simpleController
                         $selectvalues[] = $val;
                     }
                     $params['args'] = serialize($selectvalues);
+                    break;
+                case 'datetime':
+                    $params['args'] = $this->request->get('datetimeformat', 'string', SC_POST);
                     break;
             }
 
