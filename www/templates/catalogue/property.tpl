@@ -1,12 +1,13 @@
 <div class="jipTitle">{if $isEdit}Редактирование свойства{else}Создание свойства{/if}</div>
 {assign var="title" value=''}{if isset($property.title)}{assign var="title" value=$property.title}{/if}
 {assign var="name" value=''}{if isset($property.name)}{assign var="name" value=$property.name}{/if}
-{assign var="type" value=''}{if isset($property.type_id)}{assign var="type" value=$property.type}{/if}
+{assign var="type" value=''}{if isset($property.type)}{assign var="type" value=$property.type}{/if}
+{assign var="type_id" value=''}{if isset($property.type_id)}{assign var="type_id" value=$property.type_id}{/if}
 <script language="JavaScript">
 var count = 0;
 var types = new Array();
-{foreach from=$types key="type_id" item="type_name"}
-types[{$type_id}] = "{$type_name}";
+{foreach from=$types key="type_tmp_id" item="type_name"}
+types[{$type_tmp_id}] = "{$type_name}";
 {/foreach}
 {literal}
 function showHidden(value)
@@ -43,7 +44,7 @@ function deleteOne(trelem)
         </tr>
         <tr>
             <td><strong>{form->caption name="type" value="Тип:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
-            <td>{form->select name="type" options=$selectdata value=$property.type_id onchange="javascript:showHidden(this.value);" onError="style=border: red 1px solid;"}{$errors->get('type')}</td>
+            <td>{form->select name="type" options=$selectdata value=$type_id onchange="javascript:showHidden(this.value);" onError="style=border: red 1px solid;"}{$errors->get('type')}</td>
         </tr>
         <tr>
             <table>
