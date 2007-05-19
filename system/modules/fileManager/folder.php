@@ -62,7 +62,7 @@ class folder extends simpleForTree
         return $this->getJipView($this->name, $this->getPath(), get_class($this));
     }
 
-    public function upload($upload_name, $name, $path = null)
+    public function upload($upload_name, $name = null, $path = null)
     {
         if (is_null($path)) {
             $config = systemToolkit::getInstance()->getConfig('fileManager', $this->section);
@@ -79,7 +79,9 @@ class folder extends simpleForTree
             $info = array('name' => $_FILES[$upload_name]['name'], 'size' => $_FILES[$upload_name]['size'], 'tmp_name' => $_FILES[$upload_name]['tmp_name']);
         }
 
-        //$name = !empty($name) ? $new_name : $info['name'];
+        if (empty($name)) {
+            $name = $info['name'];
+        }
 
         $name = preg_replace('/[^a-zà-ÿ0-9!_. \-\[\]()]/i', '', $name);
 
