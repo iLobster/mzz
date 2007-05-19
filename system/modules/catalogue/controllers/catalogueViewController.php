@@ -41,6 +41,8 @@ class catalogueViewController extends simpleController
         $this->smarty->assign('folders', $catalogueFolderMapper->getTree());
 
         $chain = $catalogueFolderMapper->getPath($catalogueFolder->getId());
+        $chain[] = $item;
+
         $this->smarty->assign('chains', $chain);
         return $this->smarty->fetch('catalogue/view.tpl');
     }
