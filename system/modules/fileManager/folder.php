@@ -166,7 +166,7 @@ class folder extends simpleForTree
                 $file->setSize($info['size']);
                 $file->setFolder($this);
                 $fileMapper->save($file);
-                if (move_uploaded_file($info['tmp_name'], $path . '/' . $file->getRealname())) {
+                if (rename($info['tmp_name'], $path . '/' . $file->getRealname())) {
                     break;
                 }
 
