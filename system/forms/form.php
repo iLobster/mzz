@@ -19,7 +19,7 @@ fileLoader::load("forms/formElement");
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 class form
 {
@@ -38,6 +38,12 @@ class form
     public function hidden($params, $smarty)
     {
         $params['type'] = 'hidden';
+        return $this->text($params, $smarty);
+    }
+
+    public function image($params, $smarty)
+    {
+        $params['type'] = 'image';
         return $this->text($params, $smarty);
     }
 
