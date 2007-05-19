@@ -23,6 +23,27 @@
 class photo extends simple
 {
     protected $name = 'gallery';
+
+    public function getFile()
+    {
+        static $folder_id = 0;
+
+        if (!$folder_id) {
+            // @todo: разобраться с секшном в fm
+            $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', 'fileManager');
+            $folder = $folderMapper->searchOneByField('path', 'root/gallery');
+            $folder_id = $folder->getId();
+        }
+
+        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file', 'fileManager');
+
+        $criteria = new criteria();
+        $criteria->add('name', $this->getId() . '.%', criteria::LIKE)->add('folder_id', $folder_id);
+
+        $file = $fileMapper->searchOneByCriteria($criteria);
+
+        return $file;
+    }
 }
 
 ?>
