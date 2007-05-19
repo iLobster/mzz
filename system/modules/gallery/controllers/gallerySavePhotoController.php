@@ -44,7 +44,8 @@ class gallerySavePhotoController extends simpleController
             $name = $this->request->get('name', 'string', SC_POST);
 
             try {
-                $file = $folder->upload('image', md5(microtime(true)));
+                // @todo: научить определять расширение
+                $file = $folder->upload('image', md5(microtime(true)) . '.jpg');
 
                 $photosMapper = $this->toolkit->getMapper('gallery', 'photo');
                 $photo = $photosMapper->create();

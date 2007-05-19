@@ -62,7 +62,7 @@ class folder extends simpleForTree
         return $this->getJipView($this->name, $this->getPath(), get_class($this));
     }
 
-    public function upload($upload_name, $new_name, $path = null)
+    public function upload($upload_name, $name, $path = null)
     {
         if (is_null($path)) {
             $config = systemToolkit::getInstance()->getConfig('fileManager', $this->section);
@@ -70,11 +70,16 @@ class folder extends simpleForTree
         }
 
         if (!isset($_FILES[$upload_name])) {
-            throw new mzzRuntimeException('Укажите файл для загрузки');
+            if (is_file($upload_name)) {
+                $info = array('name' => basename($upload_name), 'size' => filesize($upload_name), 'tmp_name' => $upload_name);
+            } else {
+                throw new mzzRuntimeException('Укажите файл для загрузки');
+            }
+        } else {
+            $info = array('name' => $_FILES[$upload_name]['name'], 'size' => $_FILES[$upload_name]['size'], 'tmp_name' => $_FILES[$upload_name]['tmp_name']);
         }
 
-        $info = array('name' => $_FILES[$upload_name]['name'], 'size' => $_FILES[$upload_name]['size'], 'tmp_name' => $_FILES[$upload_name]['tmp_name']);
-        $name = !empty($name) ? $new_name : $info['name'];
+        //$name = !empty($name) ? $new_name : $info['name'];
 
         $name = preg_replace('/[^a-zа-я0-9!_. \-\[\]()]/i', '', $name);
 
