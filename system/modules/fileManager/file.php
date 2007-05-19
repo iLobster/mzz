@@ -132,6 +132,8 @@ class file extends simple
                 fseek($fp, $offset);
             }
 
+            session_write_close();
+
             while ($offset <= $size) {
                 $bufferSize = 262144;
                 if ($bufferSize + $offset > $size) {
