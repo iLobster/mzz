@@ -40,7 +40,7 @@ class file extends simple
 
     public function getRealFullPath()
     {
-        return $this->getUploadPath() . DIRECTORY_SEPARATOR . $this->getRealname();
+        return systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . $this->getUploadPath() . DIRECTORY_SEPARATOR . $this->getRealname();
     }
 
     private function getUploadPath()

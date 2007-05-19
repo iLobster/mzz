@@ -355,21 +355,12 @@ CREATE TABLE `fileManager_file` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `fileManager_file` table  (LIMIT 0,500)
+# Structure for the `fileManager_folder` table : 
 #
 
-INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
-  (1,'5ddff66e0f46aa1d8f03be750da9d656','1.jpg','jpg',116850,6,1,5,539);
+DROP TABLE IF EXISTS `fileManager_folder`;
 
-COMMIT;
-
-#
-# Structure for the `filemanager_folder` table : 
-#
-
-DROP TABLE IF EXISTS `filemanager_folder`;
-
-CREATE TABLE `filemanager_folder` (
+CREATE TABLE `fileManager_folder` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
@@ -382,10 +373,10 @@ CREATE TABLE `filemanager_folder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `filemanager_folder` table  (LIMIT 0,500)
+# Data for the `fileManager_folder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `filemanager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
+INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
   (6,'thumbnails','Превью',6,'root/gallery/thumbnails',534,0,''),
   (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg');
@@ -393,12 +384,12 @@ INSERT INTO `filemanager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_
 COMMIT;
 
 #
-# Structure for the `filemanager_folder_tree` table : 
+# Structure for the `fileManager_folder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `filemanager_folder_tree`;
+DROP TABLE IF EXISTS `fileManager_folder_tree`;
 
-CREATE TABLE `filemanager_folder_tree` (
+CREATE TABLE `fileManager_folder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -410,10 +401,10 @@ CREATE TABLE `filemanager_folder_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `filemanager_folder_tree` table  (LIMIT 0,500)
+# Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `filemanager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,6,1),
   (6,3,4,3),
   (5,2,5,2);
@@ -441,7 +432,7 @@ CREATE TABLE `gallery_album` (
 #
 
 INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `obj_id`) VALUES 
-  (1,1,'asd',1,NULL,537);
+  (1,1,'asd',6,NULL,537);
 
 COMMIT;
 
@@ -484,15 +475,6 @@ CREATE TABLE `gallery_photo` (
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `gallery_photo` table  (LIMIT 0,500)
-#
-
-INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES 
-  (1,1,'',NULL,NULL,540);
-
-COMMIT;
 
 #
 # Structure for the `news_news` table : 
@@ -4540,8 +4522,12 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (536,19),
   (537,18),
   (538,12),
-  (539,14),
-  (540,20);
+  (540,20),
+  (541,12),
+  (545,20),
+  (548,20),
+  (551,20),
+  (554,20);
 
 COMMIT;
 
@@ -4867,7 +4853,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (135,22,54),
   (136,22,55),
   (137,22,56),
-  (138,23,57);
+  (138,23,57),
+  (139,23,2);
 
 COMMIT;
 
@@ -5495,7 +5482,25 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (537),
   (538),
   (539),
-  (540);
+  (540),
+  (541),
+  (542),
+  (543),
+  (544),
+  (545),
+  (546),
+  (547),
+  (548),
+  (549),
+  (550),
+  (551),
+  (552),
+  (553),
+  (554),
+  (555),
+  (556),
+  (557),
+  (558);
 
 COMMIT;
 
@@ -5679,7 +5684,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (38,2,'127.0.0.1','d6090ce8c9813fad79e3da7eae307a81',507,1177501534),
   (41,2,'127.0.0.1','30a14bf7cf464e1954409b121b7b0f81',529,1178274095),
   (40,2,'127.0.0.1','8c54ec4684e05d0d7b1c77af2c1c548b',524,1177993805),
-  (42,2,'127.0.0.1','a47cd179dacb2cbc2fcbf3e243d12ddb',538,1179236686);
+  (42,2,'127.0.0.1','a47cd179dacb2cbc2fcbf3e243d12ddb',538,1179236686),
+  (43,2,'127.0.0.1','b2511bfd1d2906995fe96f68984c7181',541,1179495030);
 
 COMMIT;
 

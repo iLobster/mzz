@@ -45,7 +45,8 @@ class catalogueDeleteController extends simpleController
         if (empty($nonAccessible)) {
             return jipTools::redirect();
         } else {
-            return print_r($nonAccessible);
+            $this->smarty->assign('nonAccess', $nonAccessible);
+            return $this->smarty->fetch('catalogue/nonAccess.tpl');
         }
     }
 }

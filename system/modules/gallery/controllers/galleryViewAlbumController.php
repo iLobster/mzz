@@ -45,6 +45,7 @@ class galleryViewAlbumController extends simpleController
 
         $this->smarty->assign('album', $album);
         $this->smarty->assign('photos', $photos);
+        $this->smarty->assign('user', $user);
         // @todo: убрать хардкод
         $this->smarty->assign('url_prefix', '/fileManager/gallery/');
 

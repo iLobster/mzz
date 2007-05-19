@@ -25,14 +25,45 @@ class galleryViewThumbnailController extends simpleController
     public function getView()
     {
         $fileMapper = $this->toolkit->getMapper('fileManager', 'file', 'fileManager');
+        $albumMapper = $this->toolkit->getMapper('gallery', 'album');
+
+        $album_id = $this->request->get('album', 'integer');
+        $album = $albumMapper->searchById($album_id);
 
         $photo = $this->request->get('pic', 'string', SC_PATH);
+        $photo .= '.jpg';
         $thumbnail = $fileMapper->searchByPath('root/gallery/thumbnails/' . $photo);
 
         if (!$thumbnail) {
             $source = $fileMapper->searchByPath('root/gallery/' . $photo);
             if ($source) {
+                $filename = $source->getRealFullPath();
+                $width = 200;
+                $height = 200;
 
+                list($width_orig, $height_orig) = getimagesize($filename);
+
+                if ($width && ($width_orig < $height_orig)) {
+                    $width = ($height / $height_orig) * $width_orig;
+                } else {
+                    $height = ($width / $width_orig) * $height_orig;
+                }
+
+                $thumbnail = imagecreatetruecolor($width, $height);
+                $image = imagecreatefromjpeg($filename);
+                imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+
+                $file = systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . $photo;
+                imagejpeg($thumbnail, $file);
+
+                $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', 'fileManager');
+
+                $folder = $folderMapper->searchByPath('root/gallery/thumbnails');
+                $file = $folder->upload($file, $photo);
+                $file->setRightHeader(1);
+                $fileMapper->save($file);
+
+                $thumbnail = $file;
             }
         }
 
