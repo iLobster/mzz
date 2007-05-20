@@ -36,7 +36,7 @@ class adminDeleteActionController extends simpleController
         }
 
         $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
-        $dest = (file_exists(systemConfig::$pathToApplication . $const . 'actions' . DIRECTORY_SEPARATOR . $data['m_name'])) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
+        $dest = (file_exists(systemConfig::$pathToApplication . $const . $data['m_name'] . DIRECTORY_SEPARATOR . 'actions')) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
         $dest .= DIRECTORY_SEPARATOR . 'modules';
 
         $actionGenerator = new actionGenerator($data['m_name'], $dest, $data['c_name']);
