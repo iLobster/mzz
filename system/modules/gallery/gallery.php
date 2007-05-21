@@ -23,6 +23,11 @@
 class gallery extends simple
 {
     protected $name = 'gallery';
+
+    public function getJip()
+    {
+        return $this->getJipView($this->name, $this->getOwner()->getLogin(), get_class($this));
+    }
 }
 
 ?>
