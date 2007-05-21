@@ -43,6 +43,20 @@ class photoMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
+    public function searchLastByGallery($gallery, $number = 10)
+    {
+        $galleryMapper = systemToolkit::getInstance()->getMapper('gallery', 'gallery', $this->section);
+        $albumMapper = systemToolkit::getInstance()->getMapper('gallery', 'album', $this->section);
+
+        $criteria = new criteria();
+        //$criteria->addJoin($albumMapper->getTable(), new criterion('a.' . $albumMapper->getTableKey(), 'photo.album_id', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin($galleryMapper->getTable(), new criterion('g.id', 'album_id.gallery_id', criteria::EQUAL, true), 'g', criteria::JOIN_INNER);
+        $criteria->setLimit($number);
+        $criteria->setOrderByFieldDesc('photo.id');
+
+        return $this->searchAllByCriteria($criteria);
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

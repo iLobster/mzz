@@ -58,18 +58,20 @@ class gallerySaveAlbumController extends simpleController
             if (!$isEdit) {
                 $album->setGallery($galleryMapper->searchByOwner($user->getId())->getId());
             }
+            $album->setPicsNumber(0);
             $albumMapper->save($album);
 
             return jipTools::redirect();
         }
 
         if ($isEdit) {
-            $url = new url('galleryAlbum');
+            $url = new url('withId');
             $url->addParam('id', $album->getId());
         } else {
             $url = new url('galleryAlbumActions');
+            $url->addParam('user', $user->getLogin());
         }
-        $url->addParam('user', $user->getLogin());
+
         $url->setAction($action);
 
         $this->smarty->assign('form_action', $url->get());
