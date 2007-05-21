@@ -361,7 +361,8 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
   (40,570,537),
   (41,591,573),
   (42,596,594),
-  (43,607,604);
+  (43,607,604),
+  (44,614,612);
 
 COMMIT;
 
@@ -385,6 +386,16 @@ CREATE TABLE `fileManager_file` (
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`,`name`,`ext`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `fileManager_file` table  (LIMIT 0,500)
+#
+
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1,1,5,611),
+  (2,'d6164e00c85b325d4446fe6fa28982df','1.jpg','jpg',1553,2,1,6,613);
+
+COMMIT;
 
 #
 # Structure for the `fileManager_folder` table : 
@@ -464,7 +475,7 @@ CREATE TABLE `gallery_album` (
 #
 
 INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `obj_id`) VALUES 
-  (1,1,'asd',0,NULL,537);
+  (1,1,'asd',1,NULL,537);
 
 COMMIT;
 
@@ -507,6 +518,15 @@ CREATE TABLE `gallery_photo` (
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `gallery_photo` table  (LIMIT 0,500)
+#
+
+INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES 
+  (1,1,'',NULL,NULL,612);
+
+COMMIT;
 
 #
 # Structure for the `news_news` table : 
@@ -4254,7 +4274,10 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4884,5,11,596,2,NULL,0,0),
   (4885,9,11,607,2,NULL,1,0),
   (4886,19,11,607,2,NULL,0,0),
-  (4887,5,11,607,2,NULL,0,0);
+  (4887,5,11,607,2,NULL,0,0),
+  (4888,9,11,614,2,NULL,1,0),
+  (4889,19,11,614,2,NULL,0,0),
+  (4890,5,11,614,2,NULL,0,0);
 
 COMMIT;
 
@@ -4585,7 +4608,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (570,11),
   (591,11),
   (579,10),
-  (596,11);
+  (596,11),
+  (611,14),
+  (612,20),
+  (613,14),
+  (614,11);
 
 COMMIT;
 
@@ -5622,7 +5649,11 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (607),
   (608),
   (609),
-  (610);
+  (610),
+  (611),
+  (612),
+  (613),
+  (614);
 
 COMMIT;
 
