@@ -63,7 +63,7 @@ class galleryViewThumbnailController extends simpleController
                 $image = imagecreatefromjpeg($filename);
                 imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 
-                $file = systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . $photo;
+                $file = systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . $photo->getId();
                 imagejpeg($thumbnail, $file);
 
                 $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', 'fileManager');
