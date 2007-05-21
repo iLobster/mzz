@@ -515,7 +515,8 @@ CREATE TABLE `gallery_photo` (
   `size_x` int(11) default NULL,
   `size_y` int(11) default NULL,
   `obj_id` int(11) default NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `album_id` (`album_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #

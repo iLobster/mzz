@@ -23,6 +23,12 @@
 class album extends simple
 {
     protected $name = 'gallery';
+
+    public function getBestPhoto()
+    {
+        $albumMapper = systemToolkit::getInstance()->getMapper('gallery', 'album', $this->section());
+        return $albumMapper->getBestPhoto($this);
+    }
 }
 
 ?>

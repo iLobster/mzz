@@ -70,6 +70,20 @@ class galleryMapper extends simpleMapper
         $fields['updated'] = $fields['created'];
     }
 
+    public function getFolderId()
+    {
+        static $folder_id = 0;
+
+        if (!$folder_id) {
+            // @todo: разобраться с секшном в fm
+            $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', 'fileManager');
+            $folder = $folderMapper->searchOneByField('path', 'root/gallery');
+            $folder_id = $folder->getId();
+        }
+
+        return $folder_id;
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

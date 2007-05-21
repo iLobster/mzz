@@ -70,6 +70,25 @@ class albumMapper extends simpleMapper
         $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
     }
 
+    public function getBestPhoto($album)
+    {
+        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file', 'fileManager');
+        $photoMapper = systemToolkit::getInstance()->getMapper('gallery', 'photo', $this->section);
+
+        $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getFolderId();
+        $criteria = new criteria();
+
+        $criteria->add('album_id', $album->getId());
+
+        $criterion = new criterion('f.name', new sqlFunction('CONCAT', array('photo.id' => true, '.%')), criteria::LIKE);
+        $criterion->addAnd(new criterion('f.folder_id', $folder_id));
+        $criteria->addJoin($fileMapper->getTable(), $criterion, 'f', criteria::JOIN_INNER);
+        $criteria->setOrderByFieldDesc('f.downloads');
+        $criteria->setLimit(1);
+
+        return $photoMapper->searchOneByCriteria($criteria);
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
