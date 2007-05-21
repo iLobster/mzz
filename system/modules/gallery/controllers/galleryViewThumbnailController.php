@@ -24,28 +24,39 @@ class galleryViewThumbnailController extends simpleController
 {
     public function getView()
     {
-        $fileMapper = $this->toolkit->getMapper('fileManager', 'file', 'fileManager');
+
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');
+        $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
 
         $album_id = $this->request->get('album', 'integer');
         $album = $albumMapper->searchById($album_id);
 
-        $photo = $this->request->get('pic', 'string', SC_PATH) . '.jpg';
-        $thumbnail = $fileMapper->searchByPath('root/gallery/thumbnails/' . $photo);
+        $photo_id = $this->request->get('pic', 'string', SC_PATH);
+        $photo = $photoMapper->searchById($photo_id);
+        $thumbnail = $photo->getThumbnail();
 
         if (!$thumbnail) {
-            $source = $fileMapper->searchByPath('root/gallery/' . $photo);
+            $source = $photo->getFile();
             if ($source) {
                 $filename = $source->getRealFullPath();
-                $width = 200;
-                $height = 200;
+                $config = $this->toolkit->getConfig('gallery');
+
+                $width = $config->get('thmb_width');
+                $height = $config->get('thmb_height');;
 
                 list($width_orig, $height_orig) = getimagesize($filename);
 
-                if ($width && ($width_orig < $height_orig)) {
-                    $width = ($height / $height_orig) * $width_orig;
+                $aspect_w = $width_orig / $width;
+                $aspect_h = $height_orig / $height;
+
+                $aspect = ($aspect_h > $aspect_w) ? $aspect_h : $aspect_w;
+
+                if ($aspect <= 1) {
+                    $width = $width_orig;
+                    $height = $height_orig;
                 } else {
-                    $height = ($width / $width_orig) * $height_orig;
+                    $width = round($width_orig / $aspect);
+                    $height = round($height_orig / $aspect);
                 }
 
                 $thumbnail = imagecreatetruecolor($width, $height);
@@ -56,9 +67,10 @@ class galleryViewThumbnailController extends simpleController
                 imagejpeg($thumbnail, $file);
 
                 $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', 'fileManager');
+                $fileMapper = $this->toolkit->getMapper('fileManager', 'file', 'fileManager');
 
                 $folder = $folderMapper->searchByPath('root/gallery/thumbnails');
-                $thumbnail = $folder->upload($file, $photo);
+                $thumbnail = $folder->upload($file, $photo_id . '.jpg');
                 $thumbnail->setRightHeader(1);
                 $fileMapper->save($thumbnail);
             }

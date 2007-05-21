@@ -1,7 +1,7 @@
 Альбом: {$album->getName()}{$album->getJip()}<br />
 Фотки:<br />
 {foreach from=$photos item=photo}
-    <img src="{url route="galleryPicAction" album=$album->getId() user=$user->getLogin() pic=$photo->getId() action="viewThumbnail"}" />{$photo->getName()}{$photo->getJip()}{$photo->getFile()->getSize()|filesize}
+    <a href="{url route="galleryPicAction" album=$album->getId() user=$user->getLogin() pic=$photo->getId() action="view"}"><img src="{url route="galleryPicAction" album=$album->getId() user=$user->getLogin() pic=$photo->getId() action="viewThumbnail"}" /></a>{$photo->getName()}{$photo->getJip()}{$photo->getFile()->getSize()|filesize}
     <hr>
 {foreachelse}
     Ни одно фото не загружено

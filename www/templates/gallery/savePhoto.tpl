@@ -1,5 +1,6 @@
 {assign var="albumTitle" value=$album->getName()}
-{include file='jipTitle.tpl' title="Загрузка фото в альбом $albumTitle"}
+{assign var="photoName" value=$photo->getName()}
+<div class="jipTitle">{if $isEdit}Редактирование "{$photo->getName()}" из альбома {$albumTitle}{else}Загрузка фото в альбом {$albumTitle}{/if}</div>
 {if !$errors->isEmpty()}
     <div id="uploadStatusError">
     <ul>
@@ -8,6 +9,7 @@
     {/foreach}
     </ul></div>
 {else}
+    {if !$isEdit}
     <iframe name="fmUploadFile" id="fmUploadFile" style="border: 0;width: 200px;height: 100px;" src="about:blank"></iframe>
     <div id="uploadStatus"></div>
     <div id="uploadStatusError"></div>
@@ -51,11 +53,10 @@
     }
     fmResetUploadForm();
     </script>
-    {/literal}
-
-    <form action="{$form_action}" method="post" target="fmUploadFile" onsubmit="readUploadStatus();" enctype="multipart/form-data">
+    {/literal}{/if}
+    <form action="{$form_action}" method="post" {if !$isEdit}target="fmUploadFile" onsubmit="readUploadStatus();" enctype="multipart/form-data"{else}onsubmit="return jipWindow.sendForm(this);"{/if}>
         <table width="99%" border="0" cellpadding="5" cellspacing="0" class="systemTable" align="center">
-            <tr>
+            {if !$isEdit}<tr>
                 <td style="vertical-align: top;">{form->caption name="image" value="Файл"}</td>
                 <td>{form->file name="image"}{$errors->get('image')}
                 {*<span style="text-align:center; color: #999; font-size: 90%;">
@@ -64,10 +65,10 @@
                     {if not empty($exts)}<br />Ограничение на расширения файлов: <b>{$folder->getExts()}</b>{/if}
                 </span> *}
                 </td>
-            </tr>
+            </tr>{/if}
             <tr>
                 <td>{form->caption name="name" value="Название фотки"}</td>
-                <td>{form->text name="name"}{$errors->get('name')}</td>
+                <td>{form->text name="name" value="$photoName"}{$errors->get('name')}</td>
             </tr>
             <tr>
                 <td colspan=2 style="text-align:center;">{form->submit id="fmUploadFileSubmitButton" name="submit" value="Загрузить"} {form->reset jip=true name="reset" value="Отмена"}</td>

@@ -26,6 +26,18 @@ class photo extends simple
 
     private static $folder_id = 0;
 
+    public function getThumbnail()
+    {
+        //@todo: хардкод убрать нельзя оставить :)
+        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file', 'fileManager');
+        $thumbnail = $fileMapper->searchByPath('root/gallery/thumbnails/' . $this->getId() . '.jpg');
+        if ($thumbnail) {
+            return $thumbnail;
+        } else {
+            return null;
+        }
+    }
+
     public function getFile()
     {
         if (!self::$folder_id) {

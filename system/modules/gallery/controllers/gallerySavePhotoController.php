@@ -26,54 +26,71 @@ class gallerySavePhotoController extends simpleController
 {
     public function getView()
     {
-        $album_id = $this->request->get('id', 'integer');
-
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');
-        // хардкод убрать
-        $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', 'fileManager');
+        $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
 
-        $album = $albumMapper->searchById($album_id);
-
-        $folder = $folderMapper->searchByPath('root/gallery');
+        $action = $this->request->getAction();
+        $isEdit = ($action == 'editPhoto');
 
         $validator = new formValidator();
-        $validator->add('uploaded', 'image', 'Укажите файл для загрузки');
+
+        if ($isEdit) {
+            $photo_id = $this->request->get('id', 'integer');
+            $photo = $photoMapper->searchById($photo_id);
+            $album = $photo->getAlbum();
+        } else {
+            $photo = $photoMapper->create();
+            $album_id = $this->request->get('id', 'integer');
+            $album = $albumMapper->searchById($album_id);
+
+            $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', 'fileManager');
+            $folder = $folderMapper->searchByPath('root/gallery');
+
+            $validator->add('uploaded', 'image', 'Укажите файл для загрузки');
+        }
+
+
         $errors = $validator->getErrors();
 
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);
 
-            try {
-                // @todo: научить определять расширение
-                $file = $folder->upload('image', md5(microtime(true)) . '.jpg');
-
-                $photosMapper = $this->toolkit->getMapper('gallery', 'photo');
-                $photo = $photosMapper->create();
-                $photo->setAlbum($album);
+            if ($isEdit) {
                 $photo->setName($name);
-                $photosMapper->save($photo);
+                $photoMapper->save($photo);
+                return jipTools::redirect();
+            } else {
+                try {
+                    // @todo: научить определять расширение
+                    $file = $folder->upload('image', md5(microtime(true)) . '.jpg');
+                    $photo->setAlbum($album);
+                    $photo->setName($name);
+                    $photoMapper->save($photo);
 
-                $album->setPicsNumber($album->getPicsNumber() + 1);
-                $albumMapper->save($album);
+                    $album->setPicsNumber($album->getPicsNumber() + 1);
+                    $albumMapper->save($album);
 
-                $filerMapper = $this->toolkit->getMapper('fileManager', 'file', 'fileManager');
-                $file->setName($photo->getId() . '.jpg');
-                $file->setRightHeader(1);
-                $filerMapper->save($file);
+                    $filerMapper = $this->toolkit->getMapper('fileManager', 'file', 'fileManager');
+                    $file->setName($photo->getId() . '.jpg');
+                    $file->setRightHeader(1);
+                    $filerMapper->save($file);
 
-                return '<div id="uploadStatus">Файл "' . $file->getName() . '" загружен.</div>';
-            } catch (mzzRuntimeException $e) {
-                $errors->set('image', $e->getMessage());
+                    return '<div id="uploadStatus">Файл "' . $file->getName() . '" загружен.</div>';
+                } catch (mzzRuntimeException $e) {
+                    $errors->set('image', $e->getMessage());
+                }
             }
         }
 
         $url = new url('withId');
-        $url->setAction('uploadPhoto');
-        $url->addParam('id', $album->getId());
-        $this->smarty->assign('form_action', $url->get());
+        $url->setAction($action);
+        $url->addParam('id', $isEdit ? $photo->getId() : $album->getId());
 
+        $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('album', $album);
         $this->smarty->assign('errors', $errors);
+        $this->smarty->assign('isEdit', $isEdit);
+        $this->smarty->assign('photo', $photo);
 
         return $this->smarty->fetch('gallery/savePhoto.tpl');
     }
