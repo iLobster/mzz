@@ -64,7 +64,12 @@ class photoMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        return 1;
+        $item = $this->searchOneByField('id', $args['id']);
+        if ($item) {
+            return (int)$item->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 

@@ -20,7 +20,7 @@ $router->addRoute('newsFolder', new requestRoute('news/:name/:action', array('se
 
 $router->addRoute('galleryAlbumActions', new requestRoute('gallery/:name/:action', array('section' => 'gallery'), array('action' => '(?:createAlbum)')));
 $router->addRoute('galleryAlbum', new requestRoute('gallery/:name/:album/:action', array('section' => 'gallery')));
-$router->addRoute('galleryPicAction', new requestRoute('gallery/:name/:album/:pic/:action', array('section' => 'gallery')));
+$router->addRoute('galleryPicAction', new requestRoute('gallery/:name/:album/:id/:action', array('section' => 'gallery')));
 
 
 $router->addRoute('aclActions', new requestRoute('access/:id/:user_id/:action', array('section' => 'access'), array('id' => '\d+', 'user_id' => '\d+', 'action' => '(?:editUser|editGroup|deleteGroup|deleteUser)')));

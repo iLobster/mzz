@@ -6,7 +6,7 @@
         <td>
             Последние фотки:<br />
             {foreach from=$photos item=photo}
-                <img src="{url route="galleryPicAction" album=$photo->getAlbum()->getId() name=$user pic=$photo->getId() action="viewThumbnail"}" alt="{$photo->getName()} ({$photo->getFile()->getSize()|filesize})" />
+                <img src="{url route="galleryPicAction" album=$photo->getAlbum()->getId() name=$user id=$photo->getId() action="viewThumbnail"}" alt="{$photo->getName()} ({$photo->getFile()->getSize()|filesize})" />
             {foreachelse}
                 Ни одной фотки не загружено
             {/foreach}

@@ -30,7 +30,7 @@ class galleryViewPhotoController extends simpleController
         $album_id = $this->request->get('album', 'integer');
         $album = $albumMapper->searchById($album_id);
 
-        $photo_id = $this->request->get('pic', 'string', SC_PATH);
+        $photo_id = $this->request->get('id', 'integer', SC_PATH);
         $photo = $photoMapper->searchById($photo_id);
         $file = $photo->getFile();
         try {
