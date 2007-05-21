@@ -77,7 +77,13 @@ class galleryMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        return 1;
+        $gallery = $this->searchOneByField('owner.login', $args['name']);
+
+        if ($gallery) {
+            return $gallery->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 
