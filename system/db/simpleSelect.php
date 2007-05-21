@@ -54,11 +54,16 @@ class simpleSelect
         $orderByClause = array();
         $aliases = array();
 
+        $i = 0;
         foreach ($this->criteria->getSelectFields() as $select) {
             $alias = $this->criteria->getSelectFieldAlias($select);
 
-            if(in_array($alias, $aliases) && $alias) continue;
-            $aliases[] = $alias;
+            if(in_array($alias, $aliases) && $alias) {
+                // если поле с таким алиасом уже есть - то старое заменяем новым
+                unset($selectClause[$alias]);
+            } else {
+                $aliases[] = $alias;
+            }
 
             if ($select instanceof sqlFunction ) {
                 $field = $select->toString();
@@ -75,9 +80,13 @@ class simpleSelect
                 }
             }
 
-            $field .= ($alias ? ' AS `' . $alias . '`' : '');
+            if ($alias) {
+                $field .= ' AS `' . $alias . '`';
+            } else {
+                $alias = ++$i;
+            }
 
-            $selectClause[] = $field;
+            $selectClause[$alias] = $field;
         }
 
         foreach ($this->criteria->getJoins() as $val) {

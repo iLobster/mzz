@@ -291,6 +291,10 @@ class criteria
             $this->orderBy = array_merge($this->orderBy, $orderBy);
         }
 
+        if ($orderBySettings = $criteria->getOrderBySettings()) {
+            $this->orderBySettings = array_merge($this->orderBySettings, $orderBySettings);
+        }
+
         if ($groupBy = $criteria->getGroupBy()) {
             $this->groupBy = array_merge($this->groupBy, $groupBy);
         }
@@ -374,6 +378,11 @@ class criteria
         }
         $this->orderBy[] = $field . $direction;
         $this->setOrderBySetting($alias);
+    }
+
+    protected function getOrderBySettings()
+    {
+        return $this->orderBySettings;
     }
 
     /**

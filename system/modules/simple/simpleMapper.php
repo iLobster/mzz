@@ -429,10 +429,13 @@ abstract class simpleMapper
      * @param criteria $criteria заданный критерий
      * @return object PDOStatement
      */
-    protected function searchByCriteria(criteria $criteria)
+    protected function searchByCriteria(criteria $criteria_outer)
     {
+        $criteria = new criteria();
         $this->addJoins($criteria);
         $criteria->setTable($this->table, $this->className);
+
+        $criteria->append($criteria_outer);
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
         if ($this->pager) {
