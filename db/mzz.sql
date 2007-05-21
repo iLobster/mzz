@@ -392,8 +392,7 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1,1,5,611),
-  (2,'d6164e00c85b325d4446fe6fa28982df','1.jpg','jpg',1553,2,1,6,613);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1,1,5,611);
 
 COMMIT;
 
@@ -4611,7 +4610,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (596,11),
   (611,14),
   (612,20),
-  (613,14),
   (614,11);
 
 COMMIT;
