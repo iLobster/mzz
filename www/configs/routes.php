@@ -18,9 +18,9 @@ $router->addRoute('newsFolder', new requestRoute('news/:name/:action', array('se
 //$router->addRoute('newsActions', new requestRoute('news/:action', array('section' => 'news', 'name' => 'root', 'action' => 'list'), array('action' => '(?:list|create|delete|createFolder)')));
 //$router->addRoute('userActions', new requestRoute('user/:action', array('section' => 'user'), array('action' => '(?:exit|list|login|create|groupsList|groupCreate)')));
 
-$router->addRoute('galleryAlbumActions', new requestRoute('gallery/:user/:action', array('section' => 'gallery'), array('action' => '(?:createAlbum)')));
-$router->addRoute('galleryAlbum', new requestRoute('gallery/:user/:album/:action', array('section' => 'gallery')));
-$router->addRoute('galleryPicAction', new requestRoute('gallery/:user/:album/:pic/:action', array('section' => 'gallery')));
+$router->addRoute('galleryAlbumActions', new requestRoute('gallery/:name/:action', array('section' => 'gallery'), array('action' => '(?:createAlbum)')));
+$router->addRoute('galleryAlbum', new requestRoute('gallery/:name/:album/:action', array('section' => 'gallery')));
+$router->addRoute('galleryPicAction', new requestRoute('gallery/:name/:album/:pic/:action', array('section' => 'gallery')));
 
 
 $router->addRoute('aclActions', new requestRoute('access/:id/:user_id/:action', array('section' => 'access'), array('id' => '\d+', 'user_id' => '\d+', 'action' => '(?:editUser|editGroup|deleteGroup|deleteUser)')));

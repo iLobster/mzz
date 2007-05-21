@@ -40,7 +40,7 @@ class gallerySaveAlbumController extends simpleController
                 return $albumMapper->get404()->run();
             }
         } else {
-            $user_name = $this->request->get('user', 'string', SC_PATH);
+            $user_name = $this->request->get('name', 'string', SC_PATH);
             $user = $userMapper->searchByLogin($user_name);
             if ($user->getId() == MZZ_USER_GUEST_ID) {
                 return $albumMapper->get404()->run();
@@ -69,7 +69,7 @@ class gallerySaveAlbumController extends simpleController
             $url->addParam('id', $album->getId());
         } else {
             $url = new url('galleryAlbumActions');
-            $url->addParam('user', $user->getLogin());
+            $url->addParam('name', $user->getLogin());
         }
 
         $url->setAction($action);
