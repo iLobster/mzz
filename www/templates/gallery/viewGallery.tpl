@@ -14,7 +14,7 @@
         <td>
             Альбомы:<br />
             {foreach from=$albums item=album}
-                <a href="{url route=galleryAlbum name=$user album=$album->getId() action=viewAlbum}"><img src="{url route="galleryPicAction" album=$album->getId() name=$user id=$album->getBestPhoto()->getId() action="viewThumbnail"}" /><br />
+                <a href="{url route=galleryAlbum name=$user album=$album->getId() action=viewAlbum}"><img src="{url route="galleryPicAction" album=$album->getId() name=$user id=$album->getMainPhoto()->getId() action="viewThumbnail"}" /><br />
                 {$album->getName()} ({$album->getPicsNumber()} фото)</a>{$album->getJip()}
                 <br />
             {foreachelse}

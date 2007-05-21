@@ -53,12 +53,16 @@ class gallerySaveAlbumController extends simpleController
 
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);
+            $main_photo = $this->request->get('main_photo', 'integer', SC_POST);
 
             $album->setName($name);
-            if (!$isEdit) {
+            if ($isEdit) {
+                $album->setMainPhoto($main_photo);
+            } else {
                 $album->setGallery($galleryMapper->searchByOwner($user->getId())->getId());
+                $album->setPicsNumber(0);
             }
-            $album->setPicsNumber(0);
+
             $albumMapper->save($album);
 
             return jipTools::redirect();
@@ -74,6 +78,18 @@ class gallerySaveAlbumController extends simpleController
 
         $url->setAction($action);
 
+        if ($isEdit) {
+            $photosMapper = $this->toolkit->getMapper('gallery', 'photo');
+            $albumPhotos = $photosMapper->searchAllByField('album_id', $album->getId());
+            $photos = array();
+
+            foreach ($albumPhotos as $photo) {
+                $photos[$photo->getId()] = $photo->getName();
+            }
+
+
+            $this->smarty->assign('photos', $photos);
+        }
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('album', $album);
