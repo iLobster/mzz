@@ -27,7 +27,7 @@ class galleryViewController extends simpleController
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');
         $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
 
-        $user_name = $this->request->get('user', 'string');
+        $user_name = $this->request->get('name', 'string');
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
 
         $user = $userMapper->searchByLogin($user_name);
