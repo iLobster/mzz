@@ -6,3 +6,5 @@
 {foreachelse}
     Ни одно фото не загружено
 {/foreach}
+
+{load module="comments" section="comments" action="list" id=$album->getObjId() owner=$album->getGallery()->getOwner()->getId()}
