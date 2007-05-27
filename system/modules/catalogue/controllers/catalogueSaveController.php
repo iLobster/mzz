@@ -69,7 +69,7 @@ class catalogueSaveController extends simpleController
                 $validator->add('numeric', $property['name'], 'Нужен float');
             } elseif ($property['type'] == 'select' && !$isEdit) {
                 $property['args'] = unserialize($property['args']);
-            } elseif ($property['type'] == 'dynamicselect') {
+            } elseif ($property['type'] == 'dynamicselect' && !$isEdit) {
                 $tmp = unserialize($property['args']);
 
                 $tmpMapper = $this->toolkit->getMapper($tmp['module'], $tmp['do'], $tmp['section']);

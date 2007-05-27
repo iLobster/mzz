@@ -52,8 +52,25 @@ abstract class simpleCatalogue extends simple
     {
         $props = array();
         foreach ($data as $d) {
-            if ($d['type'] == 'select') {
-                $d['args'] = unserialize($d['args']);
+            switch ($d['type']) {
+                case 'select':
+                    $d['args'] = unserialize($d['args']);
+                    break;
+                case 'dynamicselect':
+                    $tmp = unserialize($d['args']);
+                    $toolkit = systemToolkit::getInstance();
+                    $tmpMapper = $toolkit->getMapper($tmp['module'], $tmp['do'], $tmp['section']);
+
+                    if (!is_callable(array(&$tmpMapper, $tmp['searchMethod']))) {
+                        throw new mzzCallbackException(array(&$tmpMapper, $tmp['searchMethod']));
+                    }
+
+                    $tmpData = call_user_func_array(array(&$tmpMapper, $tmp['searchMethod']), empty($tmp['params']) ? array() : explode('|', $tmp['params']));
+                    $d['args'] = ($tmp['nullElement']) ? array('' => '') : array();
+                    foreach ($tmpData as $tmp_do) {
+                        $d['args'][$tmp_do->getId()] = $tmp_do->$tmp['extractMethod']();
+                    }
+                    break;
             }
             $props[$d['name']] = $d;
         }
