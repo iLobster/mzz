@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage gallery
- * @version 0.1
+ * @version 0.1.1
  */
 
 class album extends simple
@@ -28,6 +28,17 @@ class album extends simple
     {
         $albumMapper = systemToolkit::getInstance()->getMapper('gallery', 'album', $this->section());
         return $albumMapper->getBestPhoto($this);
+    }
+
+    public function getMainPhoto()
+    {
+        $photo = parent::__call('getMainPhoto', array());
+
+        if (!$photo->getId()) {
+            return $this->getBestPhoto();
+        }
+
+        return $photo;
     }
 }
 
