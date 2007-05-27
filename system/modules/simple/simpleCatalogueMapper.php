@@ -242,6 +242,14 @@ abstract class simpleCatalogueMapper extends simpleMapper
         return $this->tmpPropsTypes[$id];
     }
 
+    private function prepareType($type)
+    {
+        if ($type == 'select' || $type == 'dynamicselect' || $type == 'datetime') {
+            $type = 'int';
+        }
+        return $type;
+    }
+
     protected function searchByCriteria(criteria $criteria)
     {
         $keys = $criteria->keys();
@@ -290,7 +298,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
         while ($row = $stmt->fetch()) {
             if ($row['property_type']) {
-                $type = $this->getPropertyTypeByTypeprop($row['property_type']);
+                $type = $this->prepareType($this->getPropertyTypeByTypeprop($row['property_type']));
                 $property[$row['name']] = (isset($row[$type]) ? $row[$type] : null);
                 $this->tmpPropsData[$row[$this->tableKey]] = $property;
             }
@@ -338,6 +346,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
             if (sizeof($properties)) {
                 foreach ($properties as $key => $val) {
                     $type = $this->getPropertyType($key);
+                    $type['name'] = $this->prepareType($type['name']);
                     $this->db->query($qry = 'REPLACE INTO `' . $this->tableData . '` SET `' . $type['name'] . '` = ' . $this->db->quote($data[$key]) . ', `property_type` = ' . $val . ', `id` = ' . $object->getId());
                 }
                 $tmp = $object->exportOldProperties();
