@@ -43,7 +43,8 @@ class gallerySavePhotoController extends simpleController
             $album_id = $this->request->get('id', 'integer');
             $album = $albumMapper->searchById($album_id);
 
-            $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', 'fileManager');
+            $config = systemToolkit::getInstance()->getConfig('gallery', $photoMapper->section());
+            $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', $config->get('filemanager_section'));
             $folder = $folderMapper->searchByPath('root/gallery');
 
             $validator->add('uploaded', 'image', 'Укажите файл для загрузки');
@@ -62,7 +63,7 @@ class gallerySavePhotoController extends simpleController
             } else {
                 try {
                     // @todo: научить определять расширение
-                    $file = $folder->upload('image', md5(microtime(true)) . '.jpg');
+                    $file = $folder->upload('image');
                     $photo->setAlbum($album);
                     $photo->setName($name);
                     $photoMapper->save($photo);
@@ -70,12 +71,13 @@ class gallerySavePhotoController extends simpleController
                     $album->setPicsNumber($album->getPicsNumber() + 1);
                     $albumMapper->save($album);
 
-                    $filerMapper = $this->toolkit->getMapper('fileManager', 'file', 'fileManager');
-                    $file->setName($photo->getId() . '.jpg');
+                    $fileMapper = $photo->getFileMapper();
+                    $fileMapper->save($file);
+                    $file->setName($photo->getId() . '.' . $file->getExt());
                     $file->setRightHeader(1);
-                    $filerMapper->save($file);
+                    $fileMapper->save($file);
 
-                    return '<div id="uploadStatus">Файл "' . $file->getName() . '" загружен.</div>';
+                    return '<div id="uploadStatus">Фото ' . $photo->getName() . ' загружено.</div>';
                 } catch (mzzRuntimeException $e) {
                     $errors->set('image', $e->getMessage());
                 }

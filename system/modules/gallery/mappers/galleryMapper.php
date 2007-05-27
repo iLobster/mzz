@@ -75,8 +75,8 @@ class galleryMapper extends simpleMapper
         static $folder_id = 0;
 
         if (!$folder_id) {
-            // @todo: разобраться с секшном в fm
-            $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', 'fileManager');
+            $config = systemToolkit::getInstance()->getConfig('gallery', $this->section);
+            $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', $config->get('filemanager_section'));
             $folder = $folderMapper->searchOneByField('path', 'root/gallery');
             $folder_id = $folder->getId();
         }

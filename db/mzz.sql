@@ -394,8 +394,8 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,3,1,5,611),
-  (2,'aee7cb7fa3141705901d6bae90b081e6','1.jpg','jpg',1553,25,1,6,616);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,4,1,5,611),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,1,1,6,623);
 
 COMMIT;
 
@@ -4619,7 +4619,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (615,12),
   (616,14),
   (619,12),
-  (622,16);
+  (622,16),
+  (623,14);
 
 COMMIT;
 
@@ -4735,7 +4736,8 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
   (3,'Кэширование'),
   (4,'Ширина создаваемой превьюшки'),
   (5,'Длина создаваемого превью'),
-  (6,'Ширина создаваемого превью');
+  (6,'Ширина создаваемого превью'),
+  (7,'Секция файлменеджера');
 
 COMMIT;
 
@@ -4776,7 +4778,8 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES
   (42,18,1,1,'1'),
   (43,18,2,2,'../files'),
   (44,21,4,6,'80'),
-  (45,21,5,5,'60');
+  (45,21,5,5,'60'),
+  (46,21,6,7,'fileManager');
 
 COMMIT;
 
@@ -4802,7 +4805,8 @@ INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
   (2,'upload_path'),
   (3,'cache'),
   (4,'thmb_width'),
-  (5,'thmb_height');
+  (5,'thmb_height'),
+  (6,'filemanager_section');
 
 COMMIT;
 
@@ -5668,7 +5672,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (619),
   (620),
   (621),
-  (622);
+  (622),
+  (623);
 
 COMMIT;
 

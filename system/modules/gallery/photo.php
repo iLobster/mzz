@@ -26,8 +26,7 @@ class photo extends simple
 
     public function getThumbnail()
     {
-        //@todo: хардкод убрать нельзя оставить :)
-        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file', 'fileManager');
+        $fileMapper = $this->getFileMapper();
         $thumbnail = $fileMapper->searchByPath('root/gallery/thumbnails/' . $this->getId() . '.jpg');
         if ($thumbnail) {
             return $thumbnail;
@@ -39,7 +38,7 @@ class photo extends simple
     public function getFile()
     {
         $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getFolderId();
-        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file', 'fileManager');
+        $fileMapper = $this->getFileMapper();
 
         $criteria = new criteria();
         $criteria->add('name', $this->getId() . '.%', criteria::LIKE)->add('folder_id', $folder_id);
@@ -47,6 +46,12 @@ class photo extends simple
         $file = $fileMapper->searchOneByCriteria($criteria);
 
         return $file;
+    }
+
+    public function getFileMapper()
+    {
+        $config = systemToolkit::getInstance()->getConfig('gallery', $this->section);
+        return systemToolkit::getInstance()->getMapper('fileManager', 'file', $config->get('filemanager_section'));
     }
 }
 
