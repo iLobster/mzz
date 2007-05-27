@@ -15,6 +15,7 @@ function showHidden(value)
     value = types[value];
     $('selectvariants').style.display = (value == 'select') ? '' : 'none';
     $('datetimeformat').style.display = (value == 'datetime') ? '' : 'none';
+    $('dynamicselect').style.display = (value == 'dynamicselect') ? '' : 'none';
 }
 function addOne()
 {
@@ -64,6 +65,36 @@ function deleteOne(trelem)
                     <tr>
                         <td>Формат:</td>
                         <td><input type="text" size="60" name="datetimeformat" {if $isEdit && $type == 'datetime'}value="{$property.args}"{else}value="%H:%M:%S %d/%m/%Y"{/if}/></td>
+                    </tr>
+                </tbody>
+                <tbody id="dynamicselect" {if !$isEdit || $type != 'dynamicselect'}style="display:none;"{/if}>
+                    <tr>
+                        <td>Имя модуля:</td>
+                        <td><input type="text" size="60" name="dynamicselect_module" {if $isEdit && $type == 'dynamicselect'}value="{$property.args.module}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Имя ДО:</td>
+                        <td><input type="text" size="60" name="dynamicselect_do" {if $isEdit && $type == 'dynamicselect'}value="{$property.args.do}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Имя секции:</td>
+                        <td><input type="text" size="60" name="dynamicselect_section" {if $isEdit && $type == 'dynamicselect'}value="{$property.args.section}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Имя метода для поиска:</td>
+                        <td><input type="text" size="60" name="dynamicselect_searchMethod" {if $isEdit && $type == 'dynamicselect'}value="{$property.args.searchMethod}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Параметры (с "|" в качестве разделителя):</td>
+                        <td><input type="text" size="60" name="dynamicselect_params" {if $isEdit && $type == 'dynamicselect'}value="{$property.args.params}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Имя метода извлечения данных:</td>
+                        <td><input type="text" size="60" name="dynamicselect_extractMethod" {if $isEdit && $type == 'dynamicselect'}value="{$property.args.extractMethod}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Нулевой элемент:</td>
+                        <td><input type="checkbox" name="dynamicselect_nullelement" value="1" {if $isEdit && $type == 'dynamicselect' && $property.args.nullElement}checked{/if}/></td>
                     </tr>
                 </tbody>
             </table>

@@ -36,7 +36,7 @@ CREATE TABLE `catalogue_catalogue` (
   `folder_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `folder_id` (`folder_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue` table  (LIMIT 0,500)
@@ -71,7 +71,7 @@ CREATE TABLE `catalogue_catalogueFolder` (
   `parent` int(11) default '0',
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogueFolder` table  (LIMIT 0,500)
@@ -101,7 +101,7 @@ CREATE TABLE `catalogue_catalogueFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogueFolder_tree` table  (LIMIT 0,500)
@@ -128,10 +128,10 @@ CREATE TABLE `catalogue_catalogue_data` (
   `text` text,
   `char` varchar(255) default NULL,
   `int` int(11) default NULL,
-  `date` datetime default NULL,
   `float` float(9,3) default NULL,
-  `select` varchar(255) default NULL,
+  `select` int(11) unsigned default NULL,
   `datetime` int(11) default NULL,
+  `dynamicselect` int(11) unsigned default NULL,
   UNIQUE KEY `id` (`id`,`property_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251 ROW_FORMAT=FIXED;
 
@@ -139,7 +139,7 @@ CREATE TABLE `catalogue_catalogue_data` (
 # Data for the `catalogue_catalogue_data` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `date`, `float`, `select`, `datetime`) VALUES 
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `float`, `select`, `datetime`, `dynamicselect`) VALUES 
   (6,27,'Книга посвящена новейшей версии Delphi  7 Studio. Здесь изложены как приёмы программирования в среде Delphi, её главные составные части - галереи компонентов, хранилища объектов, вспомогательный инструментарий, так и сам язык программирования Delphi',NULL,NULL,NULL,NULL,NULL,NULL),
   (6,24,NULL,'В.В. Фаронов',NULL,NULL,NULL,NULL,NULL),
   (6,25,NULL,NULL,640,NULL,NULL,NULL,NULL),
@@ -161,18 +161,18 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
   (11,25,NULL,NULL,0,NULL,NULL,NULL,NULL),
   (11,26,NULL,'',NULL,NULL,NULL,NULL,NULL),
   (11,27,'От создателя первого российского блок-бастера \"Ночной дозор\"! Отчаянный наемный телохранитель Кей Альтос беспощаден к себе и к миру, в котором вынужден жить. Его родина уничтожена, его домом стал Космос, его работой сделалась смерть.',NULL,NULL,NULL,NULL,NULL,NULL),
-  (12,49,NULL,NULL,NULL,NULL,NULL,'1',NULL),
-  (12,50,NULL,NULL,NULL,NULL,NULL,NULL,1179565712),
+  (12,49,NULL,NULL,NULL,NULL,1,NULL,NULL),
+  (12,50,NULL,NULL,NULL,NULL,NULL,1179565712,NULL),
   (12,51,'Эти стаканчики-непроливайки - настоящая находка для родителей и очень удобная вещь для детей! Теперь ребенок может не бояться пролить воду с краской из стакана на любимую мамину скатерть и можно полностью отдаться творческому процессу.',NULL,NULL,NULL,NULL,NULL,NULL),
-  (13,49,NULL,NULL,NULL,NULL,NULL,'1',NULL),
-  (13,50,NULL,NULL,NULL,NULL,NULL,NULL,1147165740),
+  (13,49,NULL,NULL,NULL,NULL,1,NULL,NULL),
+  (13,50,NULL,NULL,NULL,NULL,NULL,1147165740,NULL),
   (13,51,'С помощью набора штампиков \"Пираты Карибского моря\" ребенок сможет создать целую картину даже не умея рисовать. Набор включает в себя 7 штампиков и 3 фломастера. Такой большой выбор способствует развитию воображения и фантазии, пробуждает у ребенка желание творить, представляя себя настоящим художником. А кроме того, это просто увлекательное и веселое занятие как для одного малыша, так и для целой компании.',NULL,NULL,NULL,NULL,NULL,NULL),
   (14,24,NULL,'Эд Леки-Томпсон, Хьяо Айде-Гудман, Алек Коув, Стивен Д. Новицки',NULL,NULL,NULL,NULL,NULL),
   (14,25,NULL,NULL,604,NULL,NULL,NULL,NULL),
   (14,26,NULL,'\"Диалектика\"',NULL,NULL,NULL,NULL,NULL),
   (14,27,'В данном практическом руководстве продемонстрирована вся мощь и гибкость языка PHP и даны полезные советы программистам. В этой книге показано, как построить масштабируемую и высокопроизводительную инфраструктуру на языке PHP5...',NULL,NULL,NULL,NULL,NULL,NULL),
-  (15,49,NULL,NULL,NULL,NULL,NULL,'1',NULL),
-  (15,50,NULL,NULL,NULL,NULL,NULL,NULL,1178529780),
+  (15,49,NULL,NULL,NULL,NULL,1,NULL,NULL),
+  (15,50,NULL,NULL,NULL,NULL,NULL,1178529780,NULL),
   (15,51,'Бархатная раскраска выгодно отличается от обычных раскрасок. Ее бархатная поверхность вокруг раскрашиваемых участков рисунка, помогает ребенку аккуратно и красиво раскрасить, а блестящие гелевые краски, создают неповторимый мерцающий эффект. Рисунок раскрашенный своими руками, станет уникальным украшением для детской комнаты.',NULL,NULL,NULL,NULL,NULL,NULL);
 
 COMMIT;
@@ -188,17 +188,17 @@ CREATE TABLE `catalogue_catalogue_properties` (
   `name` varchar(255) default NULL,
   `title` varchar(255) default NULL,
   `type_id` int(11) unsigned default NULL,
-  `method` varchar(255) NOT NULL default '',
+  `options` text,
   `args` text,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue_properties` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, `method`, `args`) VALUES 
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, `options`, `args`) VALUES 
   (10,'author','Автор',1,'',''),
   (11,'pagescount','Количество страниц',3,'',''),
   (13,'annotation','Аннотация',4,'',''),
@@ -208,7 +208,8 @@ INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, 
   (16,'size','Размеры',1,'',''),
   (25,'storedata','Дата поступления на склад',6,'','%H:%M:%S %d/%B/%Y'),
   (24,'madein','Страна изготовитель',5,'','a:3:{i:0;s:0:\"\";i:1;s:5:\"Китай\";i:2;s:6:\"Россия\";}'),
-  (26,'about','Описание',4,'',NULL);
+  (26,'about','Описание',4,'',NULL),
+  (30,'test','test',7,NULL,'a:7:{s:6:\"module\";s:4:\"page\";s:2:\"do\";s:4:\"page\";s:7:\"section\";s:4:\"page\";s:12:\"searchMethod\";s:14:\"searchByFolder\";s:13:\"extractMethod\";s:8:\"getTitle\";s:6:\"params\";s:1:\"2\";s:11:\"nullElement\";b:1;}');
 
 COMMIT;
 
@@ -223,7 +224,7 @@ CREATE TABLE `catalogue_catalogue_properties_types` (
   `name` varchar(255) default NULL,
   `title` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue_properties_types` table  (LIMIT 0,500)
@@ -235,7 +236,8 @@ INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUE
   (3,'int','Целое'),
   (4,'text','Текст'),
   (5,'select','Список'),
-  (6,'datetime','Дата и время');
+  (6,'datetime','Дата и время'),
+  (7,'dynamicselect','Динамический select');
 
 COMMIT;
 
@@ -250,7 +252,7 @@ CREATE TABLE `catalogue_catalogue_types` (
   `name` char(255) default NULL,
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue_types` table  (LIMIT 0,500)
@@ -259,7 +261,8 @@ CREATE TABLE `catalogue_catalogue_types` (
 INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
   (7,'mobile','Мобильный телефон'),
   (8,'books','Книги'),
-  (9,'childrens','Детский мир');
+  (9,'childrens','Детский мир'),
+  (10,'test','test');
 
 COMMIT;
 
@@ -278,7 +281,7 @@ CREATE TABLE `catalogue_catalogue_types_props` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`),
   KEY `property_id` (`property_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `catalogue_catalogue_types_props` table  (LIMIT 0,500)
@@ -295,7 +298,8 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `
   (50,9,25,0,0),
   (43,7,12,0,0),
   (49,9,24,0,0),
-  (51,9,26,0,1);
+  (51,9,26,0,1),
+  (54,10,30,0,0);
 
 COMMIT;
 
@@ -313,7 +317,7 @@ CREATE TABLE `comments_comments` (
   `time` int(11) unsigned default NULL,
   `folder_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `comments_comments` table  (LIMIT 0,500)
@@ -337,7 +341,7 @@ CREATE TABLE `comments_commentsFolder` (
   `parent_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `comments_commentsFolder` table  (LIMIT 0,500)
@@ -385,15 +389,15 @@ CREATE TABLE `fileManager_file` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`,`name`,`ext`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1,1,5,611),
-  (2,'aee7cb7fa3141705901d6bae90b081e6','1.jpg','jpg',1553,16,1,6,616);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,3,1,5,611),
+  (2,'aee7cb7fa3141705901d6bae90b081e6','1.jpg','jpg',1553,24,1,6,616);
 
 COMMIT;
 
@@ -413,7 +417,7 @@ CREATE TABLE `fileManager_folder` (
   `filesize` int(11) unsigned default NULL,
   `exts` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `fileManager_folder` table  (LIMIT 0,500)
@@ -441,7 +445,7 @@ CREATE TABLE `fileManager_folder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
@@ -466,10 +470,10 @@ CREATE TABLE `gallery_album` (
   `name` char(255) default NULL,
   `pics_number` int(11) default NULL,
   `created` int(11) default NULL,
-  `main_photo` int(11) NOT NULL,
+  `main_photo` int(11) NOT NULL default '0',
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `gallery_album` table  (LIMIT 0,500)
@@ -493,7 +497,7 @@ CREATE TABLE `gallery_gallery` (
   `updated` int(11) default NULL,
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `gallery_gallery` table  (LIMIT 0,500)
@@ -519,7 +523,7 @@ CREATE TABLE `gallery_photo` (
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `album_id` (`album_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `gallery_photo` table  (LIMIT 0,500)
@@ -548,7 +552,7 @@ CREATE TABLE `news_news` (
   `updated` int(11) default NULL,
   KEY `id` (`id`),
   KEY `folder_id` (`folder_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=169 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `news_news` table  (LIMIT 0,500)
@@ -733,7 +737,7 @@ CREATE TABLE `news_newsFolder` (
   PRIMARY KEY  (`id`),
   KEY `name` (`name`),
   KEY `parent` (`parent`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `news_newsFolder` table  (LIMIT 0,500)
@@ -773,7 +777,7 @@ CREATE TABLE `news_newsFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
@@ -812,7 +816,7 @@ CREATE TABLE `page_page` (
   `content` text NOT NULL,
   `folder_id` int(11) unsigned default NULL,
   KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `page_page` table  (LIMIT 0,500)
@@ -848,7 +852,7 @@ CREATE TABLE `page_pageFolder` (
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `page_pageFolder` table  (LIMIT 0,500)
@@ -876,7 +880,7 @@ CREATE TABLE `page_pageFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
@@ -908,7 +912,7 @@ CREATE TABLE `sys_access` (
   KEY `class_action_id` (`class_section_id`,`obj_id`,`uid`,`gid`),
   KEY `obj_id_gid` (`obj_id`,`gid`),
   KEY `obj_id_uid` (`obj_id`,`uid`)
-) ENGINE=MyISAM AUTO_INCREMENT=4891 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
@@ -4615,7 +4619,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (612,20),
   (614,11),
   (615,12),
-  (616,14);
+  (616,14),
+  (619,12);
 
 COMMIT;
 
@@ -4630,7 +4635,7 @@ CREATE TABLE `sys_actions` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_actions` table  (LIMIT 0,500)
@@ -4686,7 +4691,7 @@ CREATE TABLE `sys_cfg` (
   `module` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `section_module` (`section`,`module`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_cfg` table  (LIMIT 0,500)
@@ -4719,7 +4724,7 @@ CREATE TABLE `sys_cfg_titles` (
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_cfg_titles` table  (LIMIT 0,500)
@@ -4749,7 +4754,7 @@ CREATE TABLE `sys_cfg_values` (
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=46 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
@@ -4787,7 +4792,7 @@ CREATE TABLE `sys_cfg_vars` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_cfg_vars` table  (LIMIT 0,500)
@@ -4814,7 +4819,7 @@ CREATE TABLE `sys_classes` (
   `module_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_classes` table  (LIMIT 0,500)
@@ -4855,7 +4860,7 @@ CREATE TABLE `sys_classes_actions` (
   `action_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `class_id` (`class_id`,`action_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=145 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -4971,7 +4976,7 @@ CREATE TABLE `sys_classes_sections` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `module_section` (`section_id`,`class_id`),
   KEY `class_id` (`class_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_classes_sections` table  (LIMIT 0,500)
@@ -5014,7 +5019,7 @@ CREATE TABLE `sys_modules` (
   `icon` char(255) default NULL,
   `order` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_modules` table  (LIMIT 0,500)
@@ -5042,7 +5047,7 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=619 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -5660,7 +5665,10 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (615),
   (616),
   (617),
-  (618);
+  (618),
+  (619),
+  (620),
+  (621);
 
 COMMIT;
 
@@ -5729,7 +5737,7 @@ CREATE TABLE `sys_sections` (
   `order` int(11) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`,`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_sections` table  (LIMIT 0,500)
@@ -5760,7 +5768,7 @@ CREATE TABLE `user_group` (
   `name` char(255) default NULL,
   `is_default` tinyint(4) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_group` table  (LIMIT 0,500)
@@ -5788,7 +5796,7 @@ CREATE TABLE `user_user` (
   `confirmed` varchar(32) default NULL,
   PRIMARY KEY  (`id`),
   KEY `login` (`login`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_user` table  (LIMIT 0,500)
@@ -5815,7 +5823,7 @@ CREATE TABLE `user_userAuth` (
   `obj_id` int(11) unsigned default NULL,
   `time` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=46 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -5847,7 +5855,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (42,2,'127.0.0.1','a47cd179dacb2cbc2fcbf3e243d12ddb',538,1179236686),
   (43,2,'127.0.0.1','b2511bfd1d2906995fe96f68984c7181',541,1179495030),
   (44,2,'127.0.0.1','a46540554cada38f1d48bd0832078e5f',567,1179718723),
-  (45,2,'127.0.0.1','cba27dedbe67f747ae71e793c7f815e7',615,1179777463);
+  (45,2,'127.0.0.1','cba27dedbe67f747ae71e793c7f815e7',615,1179777463),
+  (46,2,'127.0.0.1','aeec5af86d3bac1a76a24f28ef32b7ec',619,1179993941);
 
 COMMIT;
 
@@ -5865,7 +5874,7 @@ CREATE TABLE `user_userGroup_rel` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `group_id` (`group_id`,`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_userGroup_rel` table  (LIMIT 0,500)

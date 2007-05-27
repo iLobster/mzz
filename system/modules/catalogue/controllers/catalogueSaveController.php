@@ -69,6 +69,20 @@ class catalogueSaveController extends simpleController
                 $validator->add('numeric', $property['name'], 'Нужен float');
             } elseif ($property['type'] == 'select' && !$isEdit) {
                 $property['args'] = unserialize($property['args']);
+            } elseif ($property['type'] == 'dynamicselect') {
+                $tmp = unserialize($property['args']);
+
+                $tmpMapper = $this->toolkit->getMapper($tmp['module'], $tmp['do'], $tmp['section']);
+
+                if (!is_callable(array(&$tmpMapper, $tmp['searchMethod']))) {
+                    throw new mzzCallbackException(array(&$tmpMapper, $tmp['searchMethod']));
+                }
+
+                $tmpData = call_user_func_array(array(&$tmpMapper, $tmp['searchMethod']), empty($tmp['params']) ? array() : explode('|', $tmp['params']));
+                $property['args'] = ($tmp['nullElement']) ? array('' => '') : array();
+                foreach ($tmpData as $tmp_do) {
+                    $property['args'][$tmp_do->getId()] = $tmp_do->$tmp['extractMethod']();
+                }
             }
         }
 

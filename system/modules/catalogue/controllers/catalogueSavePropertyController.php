@@ -48,8 +48,13 @@ class catalogueSavePropertyController extends simpleController
             $id = $this->request->get('id', 'integer', SC_PATH);
             $property = $catalogueMapper->getProperty($id);
 
-            if ($property['type'] == 'select') {
-                $property['args'] = unserialize($property['args']);
+            switch ($property['type']) {
+                case 'select':
+                    $property['args'] = unserialize($property['args']);
+                    break;
+                case 'dynamicselect':
+                    $property['args'] = unserialize($property['args']);
+                    break;
             }
         }
 
@@ -87,6 +92,26 @@ class catalogueSavePropertyController extends simpleController
                     break;
                 case 'datetime':
                     $params['args'] = $this->request->get('datetimeformat', 'string', SC_POST);
+                    break;
+
+                case 'dynamicselect':
+                    $moduleName = $this->request->get('dynamicselect_module', 'string', SC_POST);
+                    $doName = $this->request->get('dynamicselect_do', 'string', SC_POST);
+                    $sectionName = $this->request->get('dynamicselect_section', 'string', SC_POST);
+                    $searchMethod = $this->request->get('dynamicselect_searchMethod', 'string', SC_POST);
+                    $extractMethod = $this->request->get('dynamicselect_extractMethod', 'string', SC_POST);
+                    $callbackParams = $this->request->get('dynamicselect_params', 'string', SC_POST);
+                    $nullElement = $this->request->get('dynamicselect_nullelement', 'integer', SC_POST);
+
+                    $params['args'] = serialize(array(
+                        'module'    =>  $moduleName,
+                        'do'    =>  $doName,
+                        'section'   =>  $sectionName,
+                        'searchMethod'  =>  $searchMethod,
+                        'extractMethod' =>  $extractMethod,
+                        'params' =>  $callbackParams,
+                        'nullElement'   =>  (bool)$nullElement
+                    ));
                     break;
             }
 
