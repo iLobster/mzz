@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class fileManagerDeleteController extends simpleController
@@ -32,7 +32,7 @@ class fileManagerDeleteController extends simpleController
             return 'файл не найден';
         }
 
-        $file->delete();
+        $fileMapper->delete($file->getId());
 
         $path = substr($name, 0, strrpos($name, '/'));
 

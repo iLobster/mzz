@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.1
+ * @version 0.1.2
  */
 class file extends simple
 {
@@ -43,23 +43,11 @@ class file extends simple
         return systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . $this->getUploadPath() . DIRECTORY_SEPARATOR . $this->getRealname();
     }
 
-    private function getUploadPath()
+    public function getUploadPath()
     {
         $toolkit = systemToolkit::getInstance();
         $config = $toolkit->getConfig('fileManager', $this->section);
         return $config->get('upload_path');
-    }
-
-    public function delete()
-    {
-        $toolkit = systemToolkit::getInstance();
-
-        if (file_exists($file = $this->getUploadPath() . DIRECTORY_SEPARATOR . $this->getRealname())) {
-            unlink($file);
-        }
-
-        $mapper = $toolkit->getMapper($this->name, 'file', $this->section);
-        $mapper->delete($this->getId());
     }
 
     public function download()

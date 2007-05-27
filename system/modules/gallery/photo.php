@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage gallery
- * @version 0.1
+ * @version 0.1.1
  */
 
 class photo extends simple
@@ -26,26 +26,24 @@ class photo extends simple
 
     public function getThumbnail()
     {
-        $fileMapper = $this->getFileMapper();
-        $thumbnail = $fileMapper->searchByPath('root/gallery/thumbnails/' . $this->getId() . '.jpg');
-        if ($thumbnail) {
-            return $thumbnail;
-        } else {
-            return null;
-        }
+        $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getThumbFolderId();
+        return $this->getFromFM($folder_id);
     }
 
     public function getFile()
     {
         $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getFolderId();
+        return $this->getFromFM($folder_id);
+    }
+
+    private function getFromFM($folder_id)
+    {
         $fileMapper = $this->getFileMapper();
 
         $criteria = new criteria();
         $criteria->add('name', $this->getId() . '.%', criteria::LIKE)->add('folder_id', $folder_id);
 
-        $file = $fileMapper->searchOneByCriteria($criteria);
-
-        return $file;
+        return $fileMapper->searchOneByCriteria($criteria);
     }
 
     public function getFileMapper()

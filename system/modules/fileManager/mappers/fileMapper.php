@@ -19,7 +19,7 @@ fileLoader::load('fileManager/file');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class fileMapper extends simpleMapper
@@ -95,6 +95,17 @@ class fileMapper extends simpleMapper
                 $fields['ext'] = substr($fields['name'], $dot + 1);
             }
         }
+    }
+
+    public function delete($id)
+    {
+        $file = $this->searchById($id);
+
+        if ($file && file_exists($file = $file->getUploadPath() . DIRECTORY_SEPARATOR . $file->getRealname())) {
+            unlink($file);
+        }
+
+        parent::delete($id);
     }
 
     /**

@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage gallery
- * @version 0.1
+ * @version 0.1.1
  */
 
 class galleryDeleteController extends simpleController
@@ -28,7 +28,7 @@ class galleryDeleteController extends simpleController
         $id = $this->request->get('id', 'integer', SC_PATH);
         $photo = $photoMapper->searchById($id);
         if ($photo) {
-            $fileMapper = $this->toolkit->getMapper('fileManager', 'file', 'fileManager');
+            $fileMapper = $photo->getFileMapper();
             $albumMapper = $this->toolkit->getMapper('gallery', 'album');
             $file = $photo->getFile();
             $album = $photo->getAlbum();
@@ -36,7 +36,7 @@ class galleryDeleteController extends simpleController
             $album->setPicsNumber($album->getPicsNumber() - 1);
             $albumMapper->save($album);
 
-            $thumbnail = $fileMapper->searchByPath('root/gallery/thumbnails/' . $id . '.jpg');
+            $thumbnail = $photo->getThumbnail();
             if ($thumbnail) {
                 $fileMapper->delete($thumbnail->getId());
             }
