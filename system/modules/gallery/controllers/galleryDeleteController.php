@@ -27,6 +27,7 @@ class galleryDeleteController extends simpleController
         $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
         $id = $this->request->get('id', 'integer', SC_PATH);
         $photo = $photoMapper->searchById($id);
+        $url = null;
         if ($photo) {
             $fileMapper = $photo->getFileMapper();
             $albumMapper = $this->toolkit->getMapper('gallery', 'album');
@@ -41,11 +42,17 @@ class galleryDeleteController extends simpleController
                 $fileMapper->delete($thumbnail->getId());
             }
 
+            $url = new url('galleryAlbum');
+            $url->addParam('name', $album->getGallery()->getOwner()->getLogin());
+            $url->addParam('album', $album->getId());
+            $url->setAction('viewAlbum');
+            $url = $url->get();
+
             $fileMapper->delete($file->getId());
             $photoMapper->delete($photo->getId());
         }
 
-        return jipTools::redirect();
+        return jipTools::redirect($url);
     }
 }
 

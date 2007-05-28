@@ -62,7 +62,6 @@ class gallerySavePhotoController extends simpleController
                 return jipTools::redirect();
             } else {
                 try {
-                    // @todo: научить определять расширение
                     $file = $folder->upload('image');
                     $photo->setAlbum($album);
                     $photo->setName($name);

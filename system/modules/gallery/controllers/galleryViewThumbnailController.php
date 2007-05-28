@@ -37,7 +37,10 @@ class galleryViewThumbnailController extends simpleController
 
         if (!$thumbnail) {
             $source = $photo->getFile();
-            if ($source) {
+            if ($source && in_array($ext = $source->getExt(), array('jpg', 'png', 'gif'))) {
+                if ($ext == 'jpg') {
+                    $ext = 'jpeg';
+                }
                 $filename = $source->getRealFullPath();
                 $config = $this->toolkit->getConfig('gallery');
 
@@ -60,11 +63,12 @@ class galleryViewThumbnailController extends simpleController
                 }
 
                 $thumbnail = imagecreatetruecolor($width, $height);
-                $image = imagecreatefromjpeg($filename);
+                $image = call_user_func('imagecreatefrom' . $ext, $filename);
                 imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 
                 $file = systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . $photo->getId();
-                imagejpeg($thumbnail, $file);
+
+                call_user_func('image' . $ext, $thumbnail, $file);
 
                 $config = systemToolkit::getInstance()->getConfig('gallery', $photoMapper->section());
                 $section = $config->get('filemanager_section');
@@ -73,7 +77,7 @@ class galleryViewThumbnailController extends simpleController
                 $fileMapper = $this->toolkit->getMapper('fileManager', 'file', $section);
 
                 $folder = $folderMapper->searchByPath('root/gallery/thumbnails');
-                $thumbnail = $folder->upload($file, $photo_id . '.jpg');
+                $thumbnail = $folder->upload($file, $photo_id . '.' . $source->getExt());
                 $thumbnail->setRightHeader(1);
                 $fileMapper->save($thumbnail);
             }
