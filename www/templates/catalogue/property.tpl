@@ -16,6 +16,7 @@ function showHidden(value)
     $('selectvariants').style.display = (value == 'select') ? '' : 'none';
     $('datetimeformat').style.display = (value == 'datetime') ? '' : 'none';
     $('dynamicselect').style.display = (value == 'dynamicselect') ? '' : 'none';
+    jipWindow.lockContent();
 }
 function addOne()
 {
