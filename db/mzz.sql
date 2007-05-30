@@ -364,7 +364,8 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
   (41,591,573),
   (42,596,594),
   (43,607,604),
-  (44,614,612);
+  (44,614,612),
+  (45,631,626);
 
 COMMIT;
 
@@ -394,8 +395,10 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,4,1,5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,1,1,6,623);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,5,1,5,611),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,19,1,6,623),
+  (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,7,1,5,625),
+  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,15,1,6,629);
 
 COMMIT;
 
@@ -478,7 +481,7 @@ CREATE TABLE `gallery_album` (
 #
 
 INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `main_photo`, `obj_id`) VALUES 
-  (1,1,'asd',1,NULL,1,537);
+  (1,1,'asd',2,NULL,0,537);
 
 COMMIT;
 
@@ -528,7 +531,8 @@ CREATE TABLE `gallery_photo` (
 #
 
 INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES 
-  (1,1,'девка',NULL,NULL,612);
+  (1,1,'девка',NULL,NULL,612),
+  (2,1,'',NULL,NULL,626);
 
 COMMIT;
 
@@ -4281,7 +4285,10 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4887,5,11,607,2,NULL,0,0),
   (4888,9,11,614,2,NULL,1,0),
   (4889,19,11,614,2,NULL,0,0),
-  (4890,5,11,614,2,NULL,0,0);
+  (4890,5,11,614,2,NULL,0,0),
+  (4891,9,11,631,2,NULL,1,0),
+  (4892,19,11,631,2,NULL,0,0),
+  (4893,5,11,631,2,NULL,0,0);
 
 COMMIT;
 
@@ -4620,7 +4627,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (616,14),
   (619,12),
   (622,16),
-  (623,14);
+  (623,14),
+  (625,14),
+  (626,20),
+  (629,14),
+  (631,11);
 
 COMMIT;
 
@@ -4737,7 +4748,8 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
   (4,'Ширина создаваемой превьюшки'),
   (5,'Длина создаваемого превью'),
   (6,'Ширина создаваемого превью'),
-  (7,'Секция файлменеджера');
+  (7,'Секция файлменеджера'),
+  (8,'Количество последних фотографий');
 
 COMMIT;
 
@@ -4779,7 +4791,8 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES
   (43,18,2,2,'../files'),
   (44,21,4,6,'80'),
   (45,21,5,5,'60'),
-  (46,21,6,7,'fileManager');
+  (46,21,6,7,'fileManager'),
+  (47,21,7,8,'5');
 
 COMMIT;
 
@@ -4806,7 +4819,8 @@ INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
   (3,'cache'),
   (4,'thmb_width'),
   (5,'thmb_height'),
-  (6,'filemanager_section');
+  (6,'filemanager_section'),
+  (7,'last_photo_number');
 
 COMMIT;
 
@@ -5673,7 +5687,15 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (620),
   (621),
   (622),
-  (623);
+  (623),
+  (624),
+  (625),
+  (626),
+  (627),
+  (628),
+  (629),
+  (630),
+  (631);
 
 COMMIT;
 
