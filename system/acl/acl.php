@@ -911,8 +911,8 @@ class acl
             if ($this->obj_id < 1) {
                 throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа и иметь значение > 0', $this->obj_id);
             }
-            $stmt->bindParam(':obj_id', $this->obj_id);
-            $stmt->bindParam(':uid', $this->uid);
+            $stmt->bindParam(':obj_id', $this->obj_id, PDO::PARAM_INT);
+            $stmt->bindParam(':uid', $this->uid, PDO::PARAM_INT);
         }
     }
 }
