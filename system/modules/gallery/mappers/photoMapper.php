@@ -43,8 +43,10 @@ class photoMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
-    public function searchLastByGallery($gallery, $number = 10)
+    public function searchLastByGallery($gallery)
     {
+        $config = systemToolkit::getInstance()->getConfig('gallery');
+        $number = $config->get('last_photo_number');
         $galleryMapper = systemToolkit::getInstance()->getMapper('gallery', 'gallery', $this->section);
         $albumMapper = systemToolkit::getInstance()->getMapper('gallery', 'album', $this->section);
 
