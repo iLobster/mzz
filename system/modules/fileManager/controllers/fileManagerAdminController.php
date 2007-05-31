@@ -32,7 +32,8 @@ class fileManagerAdminController extends simpleController
             $breadCrumbs = $folderMapper->getPath($folder);
             $this->smarty->assign('breadCrumbs', $breadCrumbs);
 
-            $pager = $this->setPager($folder);
+            $config = $this->toolkit->getConfig('fileManager');
+            $pager = $this->setPager($folder, $config->get('items_per_page'));
             $this->smarty->assign('current_folder', $folder);
             $this->smarty->assign('files', $folder->getItems());
             return $this->smarty->fetch('fileManager/admin.tpl');

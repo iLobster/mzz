@@ -61,7 +61,7 @@ var massActionMove = "{url route="default2" section="catalogue" action="move"}";
         {/foreach}
         <tr class="tableListFoot">
             <td>&nbsp;</td>
-            <td colspan="2">{if $pager->getPagesTotal() > 1}{$pager->toString()}{/if}</td>
+            <td colspan="2">{if $pager->getPagesTotal() > 1}{$pager->toString('adminPager.tpl')}{/if}</td>
             <td colspan="3" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
         </tr>
     </table>
