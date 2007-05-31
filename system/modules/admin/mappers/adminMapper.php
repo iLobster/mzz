@@ -203,10 +203,10 @@ class adminMapper extends simpleMapper
         $result = array();
 
         foreach ($modules as $val) {
-            if (!isset($result[$val['section_name']]['modules'][$val['module_name']])) {
-                $result[$val['section_name']]['modules'][$val['module_name']] = array($val['class_name']);
-            } else {
+            if (!empty($val['module_name'])) {
                 $result[$val['section_name']]['modules'][$val['module_name']][] = $val['class_name'];
+            } else {
+                $result[$val['section_name']]['modules'] = array();
             }
         }
 

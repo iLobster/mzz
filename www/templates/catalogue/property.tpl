@@ -56,10 +56,13 @@ var classesInModuleSection = $H({
 {foreach name=sections_loop key=sectionName item=modulesNames from=$classes}
 '{$sectionName}' : {literal}{{/literal}
     {foreach key=moduleName item=moduleClasses from=$modulesNames name=modules_loop}
+
+                     {if !empty($moduleClasses)}
         '{$moduleName}':  {literal}{{/literal} {foreach item=className key=classId from=$moduleClasses name=classes_loop}
                               {$classId}: '{$className}'
                               {if $smarty.foreach.classes_loop.last eq false},{/if}
                           {/foreach}{literal}}{/literal}
+                     {/if}
         {if $smarty.foreach.modules_loop.last eq false},{/if}
     {/foreach}{literal}}{/literal}
     {if $smarty.foreach.sections_loop.last eq false},{/if}
@@ -79,6 +82,7 @@ modulesList.options.length = 0;
    $H(modulesInSection[$F(select)]).each(function(pair) {
        modulesList.options[i++] = new Option(pair.value, pair.key);
    });
+
    (i > 0) ? modulesList.enable() : modulesList.disable();
    modulesList.selectedIndex = 0;
    //modulesList.activate();
