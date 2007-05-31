@@ -148,6 +148,11 @@ class criteria
      */
     private $orderBy = array();
 
+    /**
+     * Массив для хранения различных параметров полей, по которым производится сортировка (например, алиас)
+     *
+     * @var array
+     */
     private $orderBySettings = array();
 
     /**
