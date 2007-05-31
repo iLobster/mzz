@@ -189,6 +189,32 @@ class adminMapper extends simpleMapper
     }
 
     /**
+     * Метод получения списка модулей, секций и классов, которые им принадлежат
+     *
+     * @return array
+     */
+    public function getSectionsAndModulesWithClasses()
+    {
+        $modules = $this->db->getAll('SELECT `s`.`name` AS `section_name`, `m`.`name` AS `module_name`, `c`.`name` AS `class_name` FROM `sys_sections` `s`
+                                       LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
+                                        LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                         LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`');
+
+        $result = array();
+
+        foreach ($modules as $val) {
+            if (!isset($result[$val['section_name']]['modules'][$val['module_name']])) {
+                $result[$val['section_name']]['modules'][$val['module_name']] = array($val['class_name']);
+            } else {
+                $result[$val['section_name']]['modules'][$val['module_name']][] = $val['class_name'];
+            }
+        }
+
+        return $result;
+    }
+
+
+    /**
      * Метод получения списка разделов и классов, принадлежащих им
      *
      * @return array

@@ -58,6 +58,20 @@ class catalogueSavePropertyController extends simpleController
             }
         }
 
+
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $data = $adminMapper->getSectionsAndModulesWithClasses();
+
+        $sections = array_keys($data);
+
+        $modules = array();
+        $classes = array();
+
+        foreach ($data as $key => $section) {
+            $classes[$key] = $section['modules'];
+            $modules[$key] = array_keys($section['modules']);
+        }
+
         if (!$validator->validate()) {
             $url = new url('default2');
             $url->setAction($action);
@@ -73,6 +87,9 @@ class catalogueSavePropertyController extends simpleController
             $this->smarty->assign('selectdata', $select);
             $this->smarty->assign('isEdit', $isEdit);
             $this->smarty->assign('action', $url->get());
+            $this->smarty->assign('sections', $sections);
+            $this->smarty->assign('modules', $modules);
+            $this->smarty->assign('classes', $classes);
             $this->smarty->assign('errors', $validator->getErrors());
             return $this->smarty->fetch('catalogue/property.tpl');
         } else {

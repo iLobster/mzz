@@ -33,7 +33,75 @@ function deleteOne(trelem)
 {
     $('selectvariants').removeChild(trelem);
 }
-</script>{/literal}
+
+{/literal}
+{strip}
+{literal}
+var modulesInSection = $H({
+{/literal}
+{foreach name=sections_loop key=sectionName item=modulesNames from=$modules}
+'{$sectionName}' : {literal}{{/literal}
+    {foreach item=moduleName from=$modulesNames name=modules_loop}
+        '{$moduleName}':  '{$moduleName}' {if $smarty.foreach.modules_loop.last eq false},{/if}
+    {/foreach}{literal}}{/literal}
+    {if $smarty.foreach.sections_loop.last eq false},{/if}
+{/foreach}
+{literal}
+});
+{/literal}
+
+{literal}
+var classesInModuleSection = $H({
+{/literal}
+{foreach name=sections_loop key=sectionName item=modulesNames from=$classes}
+'{$sectionName}' : {literal}{{/literal}
+    {foreach key=moduleName item=moduleClasses from=$modulesNames name=modules_loop}
+        '{$moduleName}':  {literal}{{/literal} {foreach item=className key=classId from=$moduleClasses name=classes_loop}
+                              {$classId}: '{$className}'
+                              {if $smarty.foreach.classes_loop.last eq false},{/if}
+                          {/foreach}{literal}}{/literal}
+        {if $smarty.foreach.modules_loop.last eq false},{/if}
+    {/foreach}{literal}}{/literal}
+    {if $smarty.foreach.sections_loop.last eq false},{/if}
+{/foreach}
+{literal}
+});
+{/literal}
+{/strip}
+
+{literal}
+function catalogueChangeModulesList(select) {
+var modulesList = $('catalogue_modules_list');
+
+modulesList.options.length = 0;
+
+   var i = 0;
+   $H(modulesInSection[$F(select)]).each(function(pair) {
+       modulesList.options[i++] = new Option(pair.value, pair.key);
+   });
+   (i > 0) ? modulesList.enable() : modulesList.disable();
+   modulesList.selectedIndex = 0;
+   //modulesList.activate();
+
+}
+
+function catalogueChangeClassesList(select) {
+var classesList = $('catalogue_classes_list');
+
+classesList.options.length = 0;
+   var i = 0;
+   $H(classesInModuleSection[$F($('catalogue_section_list'))][$F(select)]).each(function(pair) {
+       classesList.options[i++] = new Option(pair.value, pair.key);
+   });
+   (i > 0) ? classesList.enable() : classesList.disable();
+   classesList.selectedIndex = 0;
+   //modulesList.activate();
+
+}
+{/literal}
+
+
+</script>
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="100%">
         <tr>
@@ -73,6 +141,44 @@ function deleteOne(trelem)
                         <td>Имя модуля:</td>
                         <td><input type="text" size="60" name="dynamicselect_module" {if $isEdit && $type == 'dynamicselect'}value="{$property.args.module}"{/if}/></td>
                     </tr>
+
+                    <tr>
+                        <td><strong>{form->caption name="dynamicselect_section" value="Секция:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+                        <td>
+
+                        <select name="type" style="width: 200px;" id="catalogue_section_list" onchange="catalogueChangeModulesList(this); catalogueChangeClassesList($('catalogue_modules_list'));" onkeypress="this.onchange();">
+                        <option value=""></option>
+
+                        {foreach from=$sections item="sectionName"}
+                        <option value="{$sectionName}"{if $isEdit && $type == 'dynamicselect' && $sectionName == $property.args.section}selected="selected"{/if}>{$sectionName}</option>
+                        {/foreach}
+                        </select>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>{form->caption name="dynamicselect_module" value="Модуль:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+                        <td>
+
+                        <select name="dynamicselect_module" style="width: 200px;" id="catalogue_modules_list" disabled="disabled" onchange="catalogueChangeClassesList(this)" onkeypress="this.onchange();">
+                        <option value=""></option>
+                        </select>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>{form->caption name="dynamicselect_class" value="Класс:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+                        <td>
+
+                        <select name="dynamicselect_class" style="width: 200px;" id="catalogue_classes_list" disabled="disabled">
+                        <option value=""></option>
+                        </select>
+
+                        </td>
+                    </tr>
+
                     <tr>
                         <td>Имя ДО:</td>
                         <td><input type="text" size="60" name="dynamicselect_do" {if $isEdit && $type == 'dynamicselect'}value="{$property.args.do}"{/if}/></td>
