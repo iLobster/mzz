@@ -43,10 +43,11 @@ function loadForm(id)
                             {literal}<script type="text/javascript">Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":1,"showsTime":true,"showOthers":true,"timeFormat":24, "align":"BR", "inputField":"calendar-field-created","button":"calendar-trigger-created","cache":"false"});</script>{/literal}
                             {if $isEdit}{assign var="calendarvalue" value=$element.value}{else}{assign var="calendarvalue" value=$smarty.now}{/if}
                             {form->text name=$element.name size="20" id="calendar-field-created" value=$calendarvalue|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button>{$errors->get($element.name)}
-                        
-                        {else}
-                            {form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}
-                        {/if}
+                        {elseif $element.type == 'img'}
+                            {foreach from=$element.args item="img"}
+                                <img src="{url route="galleryPicAction" action="viewThumbnail" id=$img->getId() album=$img->getAlbum()->getId() name=$img->getAlbum()->getGallery()->getOwner()->getLogin()}" />
+                            {/foreach}
+                        {else}{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}{/if}
                     </td>
                 <tr>
         {/foreach}{/if}

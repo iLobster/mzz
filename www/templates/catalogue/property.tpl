@@ -16,6 +16,7 @@ function showHidden(value)
     $('selectvariants').style.display = (value == 'select') ? '' : 'none';
     $('datetimeformat').style.display = (value == 'datetime') ? '' : 'none';
     $('dynamicselect').style.display = (value == 'dynamicselect') ? '' : 'none';
+    $('img').style.display = (value == 'img') ? '' : 'none';
     jipWindow.lockContent();
 }
 function addOne()
@@ -206,6 +207,28 @@ classesList.options.length = 0;
                     <tr>
                         <td>Нулевой элемент:</td>
                         <td><input type="checkbox" name="dynamicselect_nullelement" value="1" {if $isEdit && $type == 'dynamicselect' && $property.args.nullElement}checked{/if}/></td>
+                    </tr>
+                </tbody>
+                <tbody id="img" {if !$isEdit || $type != 'img'}style="display:none;"{/if}>
+                    <tr>
+                        <td>Имя модуля:</td>
+                        <td><input type="text" size="60" name="img_module" {if $isEdit && $type == 'img'}value="{$property.args.module}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Имя ДО:</td>
+                        <td><input type="text" size="60" name="img_do" {if $isEdit && $type == 'img'}value="{$property.args.do}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Имя секции:</td>
+                        <td><input type="text" size="60" name="img_section" {if $isEdit && $type == 'img'}value="{$property.args.section}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Имя метода для поиска:</td>
+                        <td><input type="text" size="60" name="img_searchMethod" {if $isEdit && $type == 'img'}value="{$property.args.searchMethod}"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td>Параметры (с "|" в качестве разделителя):</td>
+                        <td><input type="text" size="60" name="img_params" {if $isEdit && $type == 'img'}value="{$property.args.params}"{/if}/></td>
                     </tr>
                 </tbody>
             </table>

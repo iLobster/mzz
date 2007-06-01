@@ -55,6 +55,9 @@ class catalogueSavePropertyController extends simpleController
                 case 'dynamicselect':
                     $property['args'] = unserialize($property['args']);
                     break;
+                case 'img':
+                    $property['args'] = unserialize($property['args']);
+                    break;
             }
         }
 
@@ -107,6 +110,7 @@ class catalogueSavePropertyController extends simpleController
                     }
                     $params['args'] = serialize($selectvalues);
                     break;
+
                 case 'datetime':
                     $params['args'] = $this->request->get('datetimeformat', 'string', SC_POST);
                     break;
@@ -128,6 +132,22 @@ class catalogueSavePropertyController extends simpleController
                         'extractMethod' =>  $extractMethod,
                         'params' =>  $callbackParams,
                         'nullElement'   =>  (bool)$nullElement
+                    ));
+                    break;
+
+                case 'img':
+                    $moduleName = $this->request->get('img_module', 'string', SC_POST);
+                    $doName = $this->request->get('img_do', 'string', SC_POST);
+                    $sectionName = $this->request->get('img_section', 'string', SC_POST);
+                    $searchMethod = $this->request->get('img_searchMethod', 'string', SC_POST);
+                    $callbackParams = $this->request->get('img_params', 'string', SC_POST);
+
+                    $params['args'] = serialize(array(
+                        'module'    =>  $moduleName,
+                        'do'    =>  $doName,
+                        'section'   =>  $sectionName,
+                        'searchMethod'  =>  $searchMethod,
+                        'params' =>  $callbackParams
                     ));
                     break;
             }

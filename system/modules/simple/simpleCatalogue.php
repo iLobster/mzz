@@ -38,7 +38,6 @@ abstract class simpleCatalogue extends simple
         $this->objectType = new arrayDataspace();
     }
 
-
     public function setType($type)
     {
         if (!$this->getType()) {
@@ -47,40 +46,14 @@ abstract class simpleCatalogue extends simple
         }
     }
 
-
-    public function importPropsData(Array $data)
+    public function importPropsData(Array $props)
     {
-        $props = array();
-        foreach ($data as $d) {
-            switch ($d['type']) {
-                case 'select':
-                    $d['args'] = unserialize($d['args']);
-                    break;
-                case 'dynamicselect':
-                    $tmp = unserialize($d['args']);
-                    $toolkit = systemToolkit::getInstance();
-                    $tmpMapper = $toolkit->getMapper($tmp['module'], $tmp['do'], $tmp['section']);
-
-                    if (!is_callable(array(&$tmpMapper, $tmp['searchMethod']))) {
-                        throw new mzzCallbackException(array(&$tmpMapper, $tmp['searchMethod']));
-                    }
-
-                    $tmpData = call_user_func_array(array(&$tmpMapper, $tmp['searchMethod']), empty($tmp['params']) ? array() : explode('|', $tmp['params']));
-                    $d['args'] = ($tmp['nullElement']) ? array('' => '') : array();
-                    foreach ($tmpData as $tmp_do) {
-                        $d['args'][$tmp_do->getId()] = $tmp_do->$tmp['extractMethod']();
-                    }
-                    break;
-            }
-            $props[$d['name']] = $d;
-        }
         $this->properties->import($props);
     }
 
     public function importProperties(Array $data)
     {
         $props = $this->properties->export();
-
         foreach ($data as $name => $value) {
             $props[$name]['value'] = isset($props[$name]) ? $value : '';
         }

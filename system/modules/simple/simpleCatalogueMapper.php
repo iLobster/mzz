@@ -81,7 +81,48 @@ abstract class simpleCatalogueMapper extends simpleMapper
             $stmt = $this->db->prepare($query);
             $stmt->bindParam('type_id', $id);
             $stmt->execute();
-            $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $properties_tmp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $properties = array();
+            foreach ($properties_tmp as $props) {
+                switch ($props['type']) {
+                    case 'select':
+                        $props['args'] = unserialize($props['args']);
+                        break;
+                    case 'dynamicselect':
+                        $tmp = unserialize($props['args']);
+                        $toolkit = systemToolkit::getInstance();
+                        $tmpMapper = $toolkit->getMapper($tmp['module'], $tmp['do'], $tmp['section']);
+
+                        if (!is_callable(array(&$tmpMapper, $tmp['searchMethod']))) {
+                            throw new mzzCallbackException(array(&$tmpMapper, $tmp['searchMethod']));
+                        }
+
+                        $tmpData = call_user_func_array(array(&$tmpMapper, $tmp['searchMethod']), empty($tmp['params']) ? array() : explode('|', $tmp['params']));
+                        $props['args'] = ($tmp['nullElement']) ? array('' => '') : array();
+                        foreach ($tmpData as $tmp_do) {
+                            $props['args'][$tmp_do->getId()] = $tmp_do->$tmp['extractMethod']();
+                        }
+                        break;
+
+                    case 'img':
+                        $tmp = unserialize($props['args']);
+                        $toolkit = systemToolkit::getInstance();
+                        $tmpMapper = $toolkit->getMapper($tmp['module'], $tmp['do'], $tmp['section']);
+
+                        if (!is_callable(array(&$tmpMapper, $tmp['searchMethod']))) {
+                            throw new mzzCallbackException(array(&$tmpMapper, $tmp['searchMethod']));
+                        }
+
+                        $tmpData = call_user_func_array(array(&$tmpMapper, $tmp['searchMethod']), empty($tmp['params']) ? array() : explode('|', $tmp['params']));
+                        $props['args'] = array();
+                        foreach ($tmpData as $tmp_do) {
+                            $props['args'][$tmp_do->getId()] = $tmp_do;
+                        }
+                        break;
+                }
+                $properties[$props['name']] = $props;
+            }
             $this->tmpTypesProps[$id] = $properties;
         }
         return $this->tmpTypesProps[$id];
@@ -244,7 +285,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     private function prepareType($type)
     {
-        if ($type == 'select' || $type == 'dynamicselect' || $type == 'datetime') {
+        if ($type == 'select' || $type == 'dynamicselect' || $type == 'datetime' || $type == 'img') {
             $type = 'int';
         }
         return $type;
@@ -266,8 +307,6 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 $criteria->remove($val);
             }
         }
-
-        //$this->tmpPropsData = array();
 
         $criteria->addJoin($this->tableTypes, new criterion('t.id', $this->className . '.type_id', criteria::EQUAL, true), 't', criteria::JOIN_LEFT);
         $criteria->addJoin($this->tableTypesProps, new criterion('tp.type_id', 't.id', criteria::EQUAL, true), 'tp', criteria::JOIN_LEFT);
