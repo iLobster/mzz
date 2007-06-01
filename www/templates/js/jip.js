@@ -314,6 +314,18 @@ jipWindow.prototype = {
             Element.extend(this.locker);
             document.body.insertBefore(this.locker, document.body.childNodes[0]);
         }
+
+
+
+        if (Prototype.Browser.IE) {
+            var cumulativeOffsets = Position.cumulativeOffset(this.jip);
+            var diff = (this.jip.offsetHeight + cumulativeOffsets[1]) - pageHeight.pageHeight;
+            if (diff > 0) {
+                pageHeight.pageHeight += diff;
+            }
+        }
+
+
         this.locker.setStyle({height: pageHeight.pageHeight +  "px"});
 
         if (this.locker.getStyle('display') != 'block') {
@@ -322,7 +334,7 @@ jipWindow.prototype = {
             this.locker.setStyle({opacity: 0.01, display: 'block'});
             new Effect.Opacity(this.locker, {"from" : 0, "to": 0.8, "duration": 0.5});
             // hide select elements
-            if(/MSIE/.test(navigator.userAgent) && !window.opera) {
+            if(Prototype.Browser.IE) {
                 this.selectElements = $A(document.getElementsByTagName('select'));
                 this.selectElements.each(function (elm, index) {
                     if (elm.style.visibility == "hidden") {
@@ -346,7 +358,7 @@ jipWindow.prototype = {
             "duration": 0.5,
             "afterFinish": function () {
                 jipWindow.locker.setStyle({opacity: 0.01, display: 'none'});
-                if(/MSIE/.test(navigator.userAgent) && !window.opera) {
+                if(Prototype.Browser.IE) {
                     jipWindow.selectElements.each(function (elm) { if (elm) { elm.style.visibility = "visible"; } } );
                     jipWindow.selectElements = null;
                 }
@@ -368,6 +380,12 @@ jipWindow.prototype = {
     close: function(windows)
     {
         if(this.jip) {
+            // избавляемся от "вспышки" в IE
+            if(Prototype.Browser.IE) {
+                $A(this.jip.getElementsByTagName('select')).each(function (elm) {
+                    elm.style.visibility = "hidden";
+                });
+            }
             //this.savePosition(this.jip);
             this.tinyMCEIds.each(function(id) { tinyMCE.execCommand('mceRemoveControl', false, id); });
             this.oncloseEvents = new Array();

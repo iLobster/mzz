@@ -3,39 +3,13 @@
 {assign var="name" value=''}{if isset($property.name)}{assign var="name" value=$property.name}{/if}
 {assign var="type" value=''}{if isset($property.type)}{assign var="type" value=$property.type}{/if}
 {assign var="type_id" value=''}{if isset($property.type_id)}{assign var="type_id" value=$property.type_id}{/if}
-<script language="JavaScript">
+<script type="text/javascript">
 var count = 0;
 var types = new Array();
 {foreach from=$types key="type_tmp_id" item="type_name"}
 types[{$type_tmp_id}] = "{$type_name}";
 {/foreach}
-{literal}
-function showHidden(value)
-{
-    value = types[value];
-    $('selectvariants').style.display = (value == 'select') ? '' : 'none';
-    $('datetimeformat').style.display = (value == 'datetime') ? '' : 'none';
-    $('dynamicselect').style.display = (value == 'dynamicselect') ? '' : 'none';
-    $('img').style.display = (value == 'img') ? '' : 'none';
-    jipWindow.lockContent();
-}
-function addOne()
-{
-    var tbody = $('selectvariants');
-	var tr = tbody.insertRow(tbody.rows.length);
-	var td = tr.insertCell(tr.cells.length);
-	td.innerHTML = 'Значение';
-	td = tr.insertCell(tr.cells.length);
-	td.innerHTML = '<input maxlength="10" name="selectvalues[' + count + ']" type="text" /><img src="/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" />';
-    count++;
-}
 
-function deleteOne(trelem)
-{
-    $('selectvariants').removeChild(trelem);
-}
-
-{/literal}
 {strip}
 {literal}
 var modulesInSection = $H({
@@ -49,9 +23,7 @@ var modulesInSection = $H({
 {/foreach}
 {literal}
 });
-{/literal}
 
-{literal}
 var classesInModuleSection = $H({
 {/literal}
 {foreach name=sections_loop key=sectionName item=modulesNames from=$classes}
@@ -74,38 +46,72 @@ var classesInModuleSection = $H({
 {/strip}
 
 {literal}
-function catalogueChangeModulesList(select) {
-var modulesList = $('catalogue_modules_list');
+function showHidden(value)
+{
+    value = types[value];
+    $('selectvariants').style.display = (value == 'select') ? '' : 'none';
+    $('datetimeformat').style.display = (value == 'datetime') ? '' : 'none';
+    $('dynamicselect').style.display = (value == 'dynamicselect') ? '' : 'none';
+    $('img').style.display = (value == 'img') ? '' : 'none';
+    jipWindow.lockContent();
+}
+function addOne()
+{
+    var tbody = $('selectvariants');
+	var tr = tbody.insertRow(tbody.rows.length);
+	var td = tr.insertCell(tr.cells.length);
+	td.innerHTML = 'Значение';
+	td = tr.insertCell(tr.cells.length);
 
-modulesList.options.length = 0;
 
-   var i = 0;
-   $H(modulesInSection[$F(select)]).each(function(pair) {
-       modulesList.options[i++] = new Option(pair.value, pair.key);
-   });
+	var newInput = document.createElement('input');
+	newInput.maxLength = 10;
+	newInput.name = 'selectvalues[' + count + ']';
+	newInput.type = "text";
 
-   (i > 0) ? modulesList.enable() : modulesList.disable();
-   modulesList.selectedIndex = 0;
-   //modulesList.activate();
+	var newImg = document.createElement('img');
+	newImg.src = SITE_PATH + "/templates/images/delete.gif";
+	newImg.onclick = function () {
+	    deleteOne(this.parentNode.parentNode);
+	}
 
+	td.appendChild(newInput);
+	td.appendChild(newImg);
+	//td.innerHTML = '<input maxlength="10" name="selectvalues[' + count + ']" type="text" />
+	//<img src="/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" />';
+    count++;
+    jipWindow.lockContent();
 }
 
-function catalogueChangeClassesList(select) {
-var classesList = $('catalogue_classes_list');
+function deleteOne(trelem)
+{
+    $('selectvariants').removeChild(trelem);
+}
 
-classesList.options.length = 0;
-   var i = 0;
-   $H(classesInModuleSection[$F($('catalogue_section_list'))][$F(select)]).each(function(pair) {
-       classesList.options[i++] = new Option(pair.value, pair.key);
-   });
-   (i > 0) ? classesList.enable() : classesList.disable();
-   classesList.selectedIndex = 0;
-   //modulesList.activate();
+function catalogueChangeModulesList(select)
+{
+    var modulesList = $('catalogue_modules_list');
+    modulesList.options.length = 0;
+    var i = 0;
+    $H(modulesInSection[$F(select)]).each(function(pair) {
+        modulesList.options[i++] = new Option(pair.value, pair.key);
+    });
+    (i > 0) ? modulesList.enable() : modulesList.disable();
+    modulesList.selectedIndex = 0;
+}
 
+function catalogueChangeClassesList(select)
+{
+    var classesList = $('catalogue_classes_list');
+    classesList.options.length = 0;
+    var i = 0;
+    $H(classesInModuleSection[$F($('catalogue_section_list'))][$F(select)]).each(function(pair) {
+        classesList.options[i++] = new Option(pair.value, pair.key);
+     });
+    (i > 0) ? classesList.enable() : classesList.disable();
+    classesList.selectedIndex = 0;
 }
 {/literal}
-
-
 </script>
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="100%">
@@ -132,7 +138,7 @@ classesList.options.length = 0;
                         <td><input type="text" name="selectvalues[{$smarty.foreach.argsIterator.iteration}]" value="{$val}" /><img src="{$SITE_PATH}/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" /></td>
                     </tr>
                     {/foreach}
-                    <script language="JavaScript">count = {$smarty.foreach.argsIterator.total+1};</script>
+                    <script type="text/javascript">count = {$smarty.foreach.argsIterator.total+1};</script>
                 {/if}
                 </tbody>
                 <tbody id="datetimeformat" {if !$isEdit || $type != 'datetime'}style="display:none;"{/if}>
