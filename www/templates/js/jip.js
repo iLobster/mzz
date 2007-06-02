@@ -284,9 +284,16 @@ jipWindow.prototype = {
         }
         this.jip.update(this.jip.innerHTML + tmp);
 
-        var jipTitles = document.getElementsByClassName('jipTitle');
-        if (jipTitles.length > 0) {
-            var jipTitle = jipTitles.last();
+        var jipTitle = '';
+        for (var i = 1; i < 5; i++) {
+            jipTitle = this.jip.childNodes[i];
+            if (jipTitle.className == 'jipTitle') {
+                i = 0;
+                break;
+            }
+        }
+
+        if (!i) {
             var jipMoveDiv = document.createElement('div');
             jipMoveDiv.id = 'jip-' + jipTitle.parentNode.id;
             jipMoveDiv.setAttribute('title', 'Переместить');
