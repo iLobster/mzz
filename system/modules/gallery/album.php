@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage gallery
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class album extends simple
@@ -30,11 +30,11 @@ class album extends simple
         return $albumMapper->getBestPhoto($this);
     }
 
-    public function getMainPhoto()
+    public function getMainPhoto($real_data = false)
     {
         $photo = parent::__call('getMainPhoto', array());
 
-        if (!$photo->getId()) {
+        if (!$real_data && !$photo->getId()) {
             return $this->getBestPhoto();
         }
 
