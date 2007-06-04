@@ -12,7 +12,7 @@
                 <td style="text-align: left;">Имя</td>
                 <td style="width: 75px; text-align: right;">Размер</td>
                 <td style="width: 50px;">Тип</td>
-                <td style="width: 85px;">Скачено</td>
+                <td style="width: 85px;">Скачано</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
         </thead>
