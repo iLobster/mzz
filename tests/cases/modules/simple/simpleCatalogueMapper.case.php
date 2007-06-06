@@ -205,11 +205,11 @@ class simpleCatalogueMapperTest extends unitTestCase
         $properties = $this->mapper->getProperties($type_id = 1);
 
         $this->assertEqual(count($properties), 3);
-        $this->assertEqual($properties[0]['id'], 1);
-        $this->assertEqual($properties[0]['name'], 'property_1');
-        $this->assertEqual($properties[0]['title'], 'title_1');
-        $this->assertEqual($properties[0]['type_id'], $type_id);
-        $this->assertEqual($properties[0]['type'], 'char');
+        $this->assertEqual($properties['property_1']['id'], 1);
+        $this->assertEqual($properties['property_1']['name'], 'property_1');
+        $this->assertEqual($properties['property_1']['title'], 'title_1');
+        $this->assertEqual($properties['property_1']['type_id'], $type_id);
+        $this->assertEqual($properties['property_1']['type'], 'char');
     }
 
     public function testAddAndUpdateType()

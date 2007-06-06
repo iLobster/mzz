@@ -80,17 +80,17 @@ class simpleCatalogueTest extends unitTestCase
     public function testGetAndSetProperties()
     {
         $properties = array(
-            array(
+            $name_1 = 'name_1' => array(
                 'id'  =>  $id_1 = 'id_1',
-                'name'  =>  $name_1 = 'name_1',
+                'name'  =>  $name_1,
                 'title'  =>  $title_1 = 'title_1',
                 'type'  =>  $type_1 = 'char',
                 'type_id'  =>  $type_id_1 = 1,
                 'isShort'  =>  $isShort_1 = false
             ),
-            array(
+            $name_2 = 'name_2' => array(
                 'id'  =>  $id_2 = 'id_2',
-                'name'  =>  $name_2 = 'name_2',
+                'name'  =>  $name_2,
                 'title'  =>  $title_2 = 'title_2',
                 'type'  =>  $type_2 = 'int',
                 'type_id'  =>  $type_id_2 = 2,
