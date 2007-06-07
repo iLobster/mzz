@@ -11,7 +11,7 @@
 &nbsp;* Website : http://www.mzz.ru<br />
 &nbsp;*<br />
 &nbsp;* This program is free software and released under<br />
-&nbsp;* the GNU/GPL License (See /docs/GPL.txt).<br />
+&nbsp;* the GNU Lesser General Public License (See /docs/LGPL.txt).<br />
 &nbsp;*<br />
 &nbsp;* @link http://www.mzz.ru<br />
 &nbsp;* @version &#036;Id&#036;<br />

@@ -57,11 +57,11 @@ class form
         unset($params['name']);
 
         $submit = $this->text($params, $smarty);
-        if (isset($params['id'])) {
-            unset($params['id']);
-        }
-        $params['name'] = $name;
-        return $this->hidden($params, $smarty) . $submit;
+
+        $hiddenParams = array();
+        $hiddenParams['value'] = $params['value'];
+        $hiddenParams['name'] = $name;
+        return $this->hidden($hiddenParams, $smarty) . $submit;
     }
 
     public function reset($params, $smarty)
