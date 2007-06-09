@@ -56,11 +56,14 @@ class session
                 array($this->storageDriver, 'storageDestroy'),
                 array($this->storageDriver, 'storageGc'));
         }
+
         session_start();
-        
+
         // исправление у€звимости 'session fixation'
-        $hash = md5($_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_ACCEPT_CHARSET']);
-        if (!isset($_SESSION['mzz_session_fixation']) || $_SESSION['mzz_session_fixation'] != $hash) {
+        $hash = md5($_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR'] . (isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : 'fucking ie'));
+        if (!isset($_SESSION['mzz_session_fixation'])) {
+            $_SESSION['mzz_session_fixation'] = $hash;
+        } elseif ($_SESSION['mzz_session_fixation'] != $hash) {
             session_regenerate_id();
             $_SESSION = array();
             $_SESSION['mzz_session_fixation'] = $hash;
