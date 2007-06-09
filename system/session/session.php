@@ -59,7 +59,7 @@ class session
         session_start();
         
         // исправление у€звимости 'session fixation'
-        $hash = md5($_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR']);
+        $hash = md5($_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_ACCEPT_CHARSET']);
         if (!isset($_SESSION['mzz_session_fixation']) || $_SESSION['mzz_session_fixation'] != $hash) {
             session_regenerate_id();
             $_SESSION = array();
