@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage session
- * @version 0.1.1
+ * @version 0.1.2
 */
 class session
 {
@@ -57,6 +57,14 @@ class session
                 array($this->storageDriver, 'storageGc'));
         }
         session_start();
+        
+        // исправление у€звимости 'session fixation'
+        $hash = md5($_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR']);
+        if (!isset($_SESSION['mzz_session_fixation']) || $_SESSION['mzz_session_fixation'] != $hash) {
+            session_regenerate_id();
+            $_SESSION = array();
+            $_SESSION['mzz_session_fixation'] = $hash;
+        }
     }
 
     /**
