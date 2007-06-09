@@ -76,6 +76,11 @@ class gallerySavePhotoController extends simpleController
                     $file->setRightHeader(1);
                     $fileMapper->save($file);
 
+                    if (!$photo->getName()) {
+                        $photo->setName($file->getName());
+                        $photoMapper->save($photo);
+                    }
+
                     return '<div id="uploadStatus">Фото ' . $photo->getName() . ' загружено.</div>';
                 } catch (mzzRuntimeException $e) {
                     $errors->set('image', $e->getMessage());
