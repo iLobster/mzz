@@ -165,6 +165,13 @@ class testSimple extends unitTestCase
             $this->assertIdentical($this->simple->$getter(), $second);
         }
     }
+
+    public function testFakeFields()
+    {
+        $this->simple->import(array('id' => $id = 666, 'fake' => $fake = 'fake_value'));
+        $this->assertEqual($this->simple->getId(), $id);
+        $this->assertEqual($this->simple->fakeField('fake'), $fake);
+    }
 }
 
 

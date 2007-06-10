@@ -19,7 +19,7 @@ fileLoader::load('jip/jip');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 abstract class simple
@@ -37,6 +37,13 @@ abstract class simple
      * @var arrayDataspace
      */
     protected $fields;
+
+    /**
+     * Датаспейс для значений, которые берутся не из полей БД, а вычисляются в запросе
+     *
+     * @var arrayDataspace
+     */
+    protected $fakeFields;
 
     /**
      * Измененные поля
@@ -94,6 +101,7 @@ abstract class simple
 
         $this->fields = new arrayDataspace();
         $this->changedFields = new arrayDataspace();
+        $this->fakeFields = new arrayDataspace();
     }
 
     /**
@@ -159,8 +167,21 @@ abstract class simple
 
             if (isset($this->map[$key]) && (!$this->fields->exists($key) || !$this->isOnce($key))) {
                 $this->fields->set($key, $value);
+            } else {
+                $this->fakeFields->set($key, $value);
             }
         }
+    }
+
+    /**
+     * Возвращает значение вычисленного поля
+     *
+     * @param string $name имя поля
+     * @return mixed
+     */
+    public function fakeField($name)
+    {
+        return $this->fakeFields->get($name);
     }
 
     /**
