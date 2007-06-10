@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.5
+ * @version 0.3.6
  */
 
 abstract class simpleMapper
@@ -361,8 +361,11 @@ abstract class simpleMapper
     {
         $tmp = array();
         foreach ($array as $key => $val) {
-            list($class, $field) = explode(self::TABLE_KEY_DELIMITER, $key, 2);
-            $tmp[$class][$field] = $val;
+            $exploded = explode(self::TABLE_KEY_DELIMITER, $key, 2);
+            if (isset($exploded[1])) {
+                list($class, $field) = $exploded;
+                $tmp[$class][$field] = $val;
+            }
         }
 
         $toolkit = systemToolkit::getInstance();
