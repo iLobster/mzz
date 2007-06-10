@@ -71,6 +71,10 @@ class catalogueSaveController extends simpleController
                 case 'float':
                     $validator->add('numeric', $property['name'], 'Нужен float');
                     break;
+
+                case 'datetime':
+                    $validator->add('regex', $property['name'], 'Неправильный формат даты', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
+                    break;
             }
         }
 
@@ -113,10 +117,12 @@ class catalogueSaveController extends simpleController
                     $propValue = $this->request->get($prop['name'], 'mixed', SC_POST);
 
                     if ($prop['type'] == 'datetime') {
-                        $date = explode(' ', $propValue);
-                        $time = explode(':', $date[0]);
-                        $date = explode('/', $date[1]);
-                        $propValue = mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
+                        if (!empty($propValue)) {
+                            $date = explode(' ', $propValue);
+                            $time = explode(':', $date[0]);
+                            $date = explode('/', $date[1]);
+                            $propValue = mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
+                        }
                     }
 
                     $item->setProperty($prop['name'], $propValue);
