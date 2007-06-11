@@ -20,6 +20,10 @@ div.jipSuccess {
 }
 
 .jipWindow {
+    font-family: tahoma, verdana, arial !important;
+    font-weight: normal !important;
+    font-size: 12px !important;
+    color: #000 !important;
     position: absolute;
     display: none;
     border: 2px solid #999;
@@ -34,7 +38,18 @@ div.jipSuccess {
     top: 100px;
 }
 
+.jipWindow a {
+    color:#0055CC !important;
+}
+
+.jipWindow a:active {
+    color:#FF0000 !important;
+}
+
 .jipTitle {
+    font-family: tahoma, verdana, arial !important;
+    color: #000 !important;
+    text-align: left;
     padding: 4px;
     padding-left: 7px;
     font-weight: bold;
@@ -132,6 +147,8 @@ td.jipItemText {
     border-right: 1px solid #F9F9F9 !important;
     padding-left: 8px;
     background-color: #F9F9F9 !important;
+    font-family: tahoma, verdana, arial !important;
+    color: black !important;
 }
 
 td.jipItemTextActive {
@@ -141,8 +158,9 @@ td.jipItemTextActive {
     border-right: 1px solid #D4D4D4 !important;
     padding-left: 8px;
     background-color: #FFF !important;
+    font-family: tahoma, verdana, arial !important;
+    color: black !important;
 }
-
 
 #lockContent {
     position: absolute;

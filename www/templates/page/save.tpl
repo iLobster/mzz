@@ -52,10 +52,12 @@ function toggleEditor(id) {
                 removeEditorLoadingStatus();
                 jipWindow.addTinyMCEId(id);
             }}, 100);
+        $('editorStatus').innerHTML = 'Выключить WYSIWYG-редактор';
     } else {
         removeEditorLoadingStatus();
         tinyMCE.execCommand('mceRemoveControl', false, id);
         jipWindow.deleteTinyMCEId(id);
+        $('editorStatus').innerHTML = 'Включить WYSIWYG-редактор';
     }
 }
 </script>{/literal}
@@ -71,7 +73,7 @@ function toggleEditor(id) {
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></td>
+        <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" id="editorStatus" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></td>
     </tr>
     <tr>
         <td style='vertical-align: top;'>{form->caption name="contentArea" value="Содержимое" onError="style=color: red;"}</td>
