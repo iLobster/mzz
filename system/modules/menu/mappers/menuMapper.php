@@ -23,7 +23,7 @@ fileLoader::load('menu');
  * @version 0.1
  */
 
-class menuMapper extends simpleMapperForTree
+class menuMapper extends simpleMapper
 {
     /**
      * Имя модуля
@@ -38,6 +38,17 @@ class menuMapper extends simpleMapperForTree
      * @var string
      */
     protected $className = 'menu';
+
+
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
+
+    public function searchByName($folder_id)
+    {
+        return $this->searchOneByField('name', $id);
+    }
 
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса

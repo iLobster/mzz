@@ -538,6 +538,175 @@ INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_
 COMMIT;
 
 #
+# Structure for the `menu_item` table : 
+#
+
+DROP TABLE IF EXISTS `menu_item`;
+
+CREATE TABLE `menu_item` (
+  `id` int(11) NOT NULL auto_increment,
+  `parent_id` int(10) unsigned default NULL,
+  `type_id` int(10) unsigned default NULL,
+  `menu_id` int(10) unsigned default NULL,
+  `title` varchar(255) NOT NULL default '',
+  `order` int(10) unsigned default NULL,
+  `obj_id` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `menu_item` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_item` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
+  (1,NULL,1,1,'Главная',1,NULL);
+
+COMMIT;
+
+#
+# Structure for the `menu_item_data` table : 
+#
+
+DROP TABLE IF EXISTS `menu_item_data`;
+
+CREATE TABLE `menu_item_data` (
+  `id` int(11) NOT NULL default '0',
+  `property_type` int(11) unsigned default NULL,
+  `text` text,
+  `char` varchar(255) default NULL,
+  `int` int(11) default NULL,
+  `float` float(9,3) default NULL,
+  UNIQUE KEY `id` (`id`,`property_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `menu_item_data` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_item_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
+  (1,1,NULL,'/',NULL,NULL);
+
+COMMIT;
+
+#
+# Structure for the `menu_item_properties` table : 
+#
+
+DROP TABLE IF EXISTS `menu_item_properties`;
+
+CREATE TABLE `menu_item_properties` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) default NULL,
+  `type_id` int(11) unsigned default NULL,
+  `args` text,
+  PRIMARY KEY  (`id`),
+  KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `menu_item_properties` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_item_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
+  (1,'url','Ссылка',1,NULL);
+
+COMMIT;
+
+#
+# Structure for the `menu_item_properties_types` table : 
+#
+
+DROP TABLE IF EXISTS `menu_item_properties_types`;
+
+CREATE TABLE `menu_item_properties_types` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `menu_item_properties_types` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_item_properties_types` (`id`, `name`, `title`) VALUES 
+  (1,'char','Строка');
+
+COMMIT;
+
+#
+# Structure for the `menu_item_types` table : 
+#
+
+DROP TABLE IF EXISTS `menu_item_types`;
+
+CREATE TABLE `menu_item_types` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `menu_item_types` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_item_types` (`id`, `name`, `title`) VALUES 
+  (1,'simple','Простой');
+
+COMMIT;
+
+#
+# Structure for the `menu_item_types_props` table : 
+#
+
+DROP TABLE IF EXISTS `menu_item_types_props`;
+
+CREATE TABLE `menu_item_types_props` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `property_id` int(11) unsigned default NULL,
+  `sort` int(11) unsigned default '0',
+  `isShort` tinyint(1) unsigned default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `type_id` (`type_id`,`property_id`),
+  KEY `property_id` (`property_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `menu_item_types_props` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_item_types_props` (`id`, `type_id`, `property_id`, `sort`, `isShort`) VALUES 
+  (1,1,1,0,0);
+
+COMMIT;
+
+#
+# Structure for the `menu_menu` table : 
+#
+
+DROP TABLE IF EXISTS `menu_menu`;
+
+CREATE TABLE `menu_menu` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `menu_menu` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES 
+  (1,'general','Главное',NULL);
+
+COMMIT;
+
+#
 # Structure for the `news_news` table : 
 #
 
@@ -4723,7 +4892,8 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (18,9,9),
   (19,0,5),
   (20,0,6),
-  (21,0,11);
+  (21,0,11),
+  (22,0,12);
 
 COMMIT;
 
@@ -5061,7 +5231,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (9,'fileManager',17,'Менеджер файлов','fm.gif',50),
   (10,'catalogue',19,'Каталог','catalogue.gif',30),
   (11,'gallery',21,'Галерея','pages.gif',80),
-  (12,'menu',24,'Меню','pages.gif',0);
+  (12,'menu',25,'Меню','pages.gif',0);
 
 COMMIT;
 

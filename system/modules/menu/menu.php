@@ -22,47 +22,17 @@ fileLoader::load('simple/simpleForTree');
  * @version 0.1
  */
 
-class menu extends simpleForTree
+class menu extends simple
 {
     protected $name = 'menu';
 
-    public function __construct($mapper, Array $map)
+    public function searchAllItems()
     {
-        parent::__construct($mapper, $map);
-        $this->treeFields = new arrayDataspace();
-    }
+        $criteria = new criteria;
+        $criteria->add('menu_id', $this->getId(), criteria::EQUAL);
 
-    public function getItems()
-    {
-        if (!$this->fields->exists('items')) {
-            $this->fields->set('items', $this->mapper->getItems($this->getId()));
-        }
-        return $this->fields->get('items');
-    }
-
-    public function getTreeForMenu()
-    {
-        return $this->mapper->getTreeForMenu($this->getParent());
-    }
-
-    public function getTreeParent()
-    {
-        return $this->mapper->getTreeParent($this->getParent());
-    }
-
-    public function setPager($pager)
-    {
-        $this->mapper->setPager($pager);
-    }
-
-    public function removePager()
-    {
-        $this->mapper->removePager();
-    }
-
-    public function getJip()
-    {
-        return $this->getJipView($this->name, $this->getPath(), get_class($this));
+        $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'item');
+        return $itemMapper->searchAllByCriteria($criteria);
     }
 }
 
