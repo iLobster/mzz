@@ -144,6 +144,7 @@ class adminAddModuleController extends simpleController
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('data', $data);
+        $this->smarty->assign('classes_select', $classes_select);
         $this->smarty->assign('dests', $dest);
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('isEdit', $isEdit);

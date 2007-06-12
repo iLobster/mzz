@@ -4631,7 +4631,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (625,14),
   (626,20),
   (629,14),
-  (631,11);
+  (631,11),
+  (632,7),
+  (633,7);
 
 COMMIT;
 
@@ -4686,7 +4688,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (56,'uploadPhoto'),
   (57,'viewThumbnail'),
   (59,'viewPhoto'),
-  (60,'editPhoto');
+  (60,'editPhoto'),
+  (61,'save');
 
 COMMIT;
 
@@ -4861,7 +4864,9 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (20,'catalogueFolder',10),
   (21,'gallery',11),
   (22,'album',11),
-  (23,'photo',11);
+  (23,'photo',11),
+  (24,'item',12),
+  (25,'menu',12);
 
 COMMIT;
 
@@ -4976,7 +4981,11 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (139,23,2),
   (141,23,3),
   (143,23,59),
-  (144,23,60);
+  (144,23,60),
+  (145,24,9),
+  (146,25,9),
+  (147,25,3),
+  (148,24,61);
 
 COMMIT;
 
@@ -5051,7 +5060,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (8,'comments',10,'Комментарии','comments.gif',40),
   (9,'fileManager',17,'Менеджер файлов','fm.gif',50),
   (10,'catalogue',19,'Каталог','catalogue.gif',30),
-  (11,'gallery',21,'Галерея','pages.gif',80);
+  (11,'gallery',21,'Галерея','pages.gif',80),
+  (12,'menu',24,'Меню','pages.gif',0);
 
 COMMIT;
 
@@ -5695,7 +5705,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (628),
   (629),
   (630),
-  (631);
+  (631),
+  (632),
+  (633);
 
 COMMIT;
 
@@ -5747,7 +5759,9 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (497,'access_catalogue_catalogueFolder'),
   (530,'access__'),
   (531,'access__gallery'),
-  (532,'access_gallery_gallery');
+  (532,'access_gallery_gallery'),
+  (632,'access__item'),
+  (633,'access__menu');
 
 COMMIT;
 

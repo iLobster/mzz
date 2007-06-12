@@ -13,7 +13,6 @@
  */
 
 fileLoader::load('db/dbTreeNS');
-fileLoader::load('news/newsFolder');
 fileLoader::load('simple/simpleMapperForTree');
 fileLoader::load('catalogue/catalogueFolder');
 

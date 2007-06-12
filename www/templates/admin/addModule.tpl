@@ -32,7 +32,7 @@
         {if $isEdit}
             <tr>
                 <td style="width: 30%;">{form->caption name="main_class" value="Главный класс:"}</td>
-                <td>{form->text name="main_class" size="30" value=$data.main_class}{$errors->get('main_class')}</td>
+                <td>{form->select name="main_class" options=$classes_select value=$data.main_class}{$errors->get('main_class')}</td>
             </tr>
         {/if}
         <tr>
