@@ -50,6 +50,36 @@ class menuMapper extends simpleMapper
         return $this->searchOneByField('name', $id);
     }
 
+    public function searchAllItems($menuId)
+    {
+        $criteria = new criteria;
+        $criteria->add('menu_id', $menuId)->setOrderByFieldDesc('order');
+
+        $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'item');
+        $data = $itemMapper->searchAllByCriteria($criteria);
+
+        $tree = array();
+        foreach ($data as $branch) {
+            $tree[$branch->getId()] = $branch;
+        }
+
+        $tree = $this->build_tree($tree);
+        return $tree;
+    }
+
+    public function build_tree($tree, $id = 0)
+    {
+        $result = array();
+        foreach ($tree as $key => $val) {
+            if ($id == $val->getParent()) {
+                unset($tree[$key]);
+                $result[$key] = $val;
+                $result[$key]->setChildrens($this->build_tree($tree, $key));
+            }
+        }
+        return $result;
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

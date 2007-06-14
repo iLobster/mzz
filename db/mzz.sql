@@ -545,7 +545,7 @@ DROP TABLE IF EXISTS `menu_item`;
 
 CREATE TABLE `menu_item` (
   `id` int(11) NOT NULL auto_increment,
-  `parent_id` int(10) unsigned default NULL,
+  `parent_id` int(10) unsigned default '0',
   `type_id` int(10) unsigned default NULL,
   `menu_id` int(10) unsigned default NULL,
   `title` varchar(255) NOT NULL default '',
@@ -559,7 +559,11 @@ CREATE TABLE `menu_item` (
 #
 
 INSERT INTO `menu_item` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
-  (1,NULL,1,1,'Главная',1,NULL);
+  (1,0,1,1,'Главная',1,NULL),
+  (2,1,1,1,'Новости',2,NULL),
+  (3,1,1,1,'test',NULL,NULL),
+  (4,2,1,1,'test2',NULL,NULL),
+  (5,4,1,1,'test3',NULL,NULL);
 
 COMMIT;
 
@@ -584,7 +588,10 @@ CREATE TABLE `menu_item_data` (
 #
 
 INSERT INTO `menu_item_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
-  (1,1,NULL,'/',NULL,NULL);
+  (1,1,NULL,'/',NULL,NULL),
+  (2,1,NULL,'/news',NULL,NULL),
+  (3,1,NULL,'/test',NULL,NULL),
+  (4,1,NULL,'tert',NULL,NULL);
 
 COMMIT;
 
@@ -4802,7 +4809,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (629,14),
   (631,11),
   (632,7),
-  (633,7);
+  (633,7),
+  (634,12);
 
 COMMIT;
 
@@ -5877,7 +5885,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (630),
   (631),
   (632),
-  (633);
+  (633),
+  (634);
 
 COMMIT;
 
@@ -6067,7 +6076,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (43,2,'127.0.0.1','b2511bfd1d2906995fe96f68984c7181',541,1179495030),
   (44,2,'127.0.0.1','a46540554cada38f1d48bd0832078e5f',567,1179718723),
   (45,2,'127.0.0.1','cba27dedbe67f747ae71e793c7f815e7',615,1179777463),
-  (46,2,'127.0.0.1','aeec5af86d3bac1a76a24f28ef32b7ec',619,1179993941);
+  (46,2,'127.0.0.1','aeec5af86d3bac1a76a24f28ef32b7ec',619,1179993941),
+  (47,2,'127.0.0.1','c6de5dc93546987d91e834e88dd1e321',634,1181822827);
 
 COMMIT;
 

@@ -23,6 +23,18 @@
 class item extends simpleCatalogue
 {
     protected $name = 'menu';
+
+    protected $childrens = array();
+
+    public function getChildrens()
+    {
+        return $this->childrens;
+    }
+
+    public function setChildrens($childrens)
+    {
+        $this->childrens = $childrens;
+    }
 }
 
 ?>

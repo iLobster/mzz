@@ -28,11 +28,7 @@ class menu extends simple
 
     public function searchAllItems()
     {
-        $criteria = new criteria;
-        $criteria->add('menu_id', $this->getId(), criteria::EQUAL);
-
-        $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'item');
-        return $itemMapper->searchAllByCriteria($criteria);
+        return $this->mapper->searchAllItems($this->getId());
     }
 }
 
