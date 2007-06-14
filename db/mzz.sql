@@ -549,7 +549,7 @@ CREATE TABLE `menu_item` (
   `type_id` int(10) unsigned default NULL,
   `menu_id` int(10) unsigned default NULL,
   `title` varchar(255) NOT NULL default '',
-  `order` int(10) unsigned default NULL,
+  `order` int(10) unsigned default '0',
   `obj_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -559,11 +559,11 @@ CREATE TABLE `menu_item` (
 #
 
 INSERT INTO `menu_item` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
-  (1,0,1,1,'Главная',1,NULL),
-  (2,1,1,1,'Новости',2,NULL),
-  (3,1,1,1,'test',NULL,NULL),
-  (4,2,1,1,'test2',NULL,NULL),
-  (5,4,1,1,'test3',NULL,NULL);
+  (1,0,1,1,'Главная',1,637),
+  (2,1,1,1,'Новости',2,638),
+  (6,2,1,1,'test',0,639),
+  (7,1,1,1,'tt',0,640),
+  (8,7,1,1,'te',0,641);
 
 COMMIT;
 
@@ -590,8 +590,8 @@ CREATE TABLE `menu_item_data` (
 INSERT INTO `menu_item_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
   (1,1,NULL,'/',NULL,NULL),
   (2,1,NULL,'/news',NULL,NULL),
-  (3,1,NULL,'/test',NULL,NULL),
-  (4,1,NULL,'tert',NULL,NULL);
+  (8,1,NULL,'asdf',NULL,NULL),
+  (7,1,NULL,'dfg',NULL,NULL);
 
 COMMIT;
 
@@ -709,7 +709,7 @@ CREATE TABLE `menu_menu` (
 #
 
 INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES 
-  (1,'general','Главное',NULL);
+  (1,'general','Главное',636);
 
 COMMIT;
 
@@ -4810,7 +4810,14 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (631,11),
   (632,7),
   (633,7),
-  (634,12);
+  (634,12),
+  (635,7),
+  (636,22),
+  (637,21),
+  (638,21),
+  (639,21),
+  (640,21),
+  (641,21);
 
 COMMIT;
 
@@ -5163,7 +5170,9 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (145,24,9),
   (146,25,9),
   (147,25,3),
-  (148,24,61);
+  (152,24,4),
+  (149,25,20),
+  (151,24,1);
 
 COMMIT;
 
@@ -5205,7 +5214,9 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (17,20,10),
   (18,22,11),
   (19,21,11),
-  (20,23,11);
+  (20,23,11),
+  (21,24,12),
+  (22,25,12);
 
 COMMIT;
 
@@ -5886,7 +5897,14 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (631),
   (632),
   (633),
-  (634);
+  (634),
+  (635),
+  (636),
+  (637),
+  (638),
+  (639),
+  (640),
+  (641);
 
 COMMIT;
 
@@ -5940,7 +5958,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (531,'access__gallery'),
   (532,'access_gallery_gallery'),
   (632,'access__item'),
-  (633,'access__menu');
+  (633,'access__menu'),
+  (635,'access_menu_menu');
 
 COMMIT;
 
@@ -5972,7 +5991,8 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (4,'page','Страницы',60),
   (6,'sys','Системное',0),
   (2,'user','Пользователи',80),
-  (11,'gallery','Галерея',80);
+  (11,'gallery','Галерея',80),
+  (12,'menu','Меню',0);
 
 COMMIT;
 

@@ -12,23 +12,23 @@
  * @version $Id$
  */
 
-fileLoader::load('simple/simpleForTree');
-
 /**
- * menu: класс для работы c данными
+ * menuAdminController: контроллер для метода admin модуля menu
  *
  * @package modules
  * @subpackage menu
  * @version 0.1
  */
 
-class menu extends simple
+class menuAdminController extends simpleController
 {
-    protected $name = 'menu';
-
-    public function searchItems()
+    public function getView()
     {
-        return $this->mapper->searchItemsById($this->getId());
+        $menuMapper = $this->toolkit->getMapper('menu', 'menu');
+        $menus = $menuMapper->searchAll();
+
+        $this->smarty->assign('menus', $menus);
+        return $this->smarty->fetch('menu/admin.tpl');
     }
 }
 

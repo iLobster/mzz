@@ -50,20 +50,14 @@ class menuMapper extends simpleMapper
         return $this->searchOneByField('name', $id);
     }
 
-    public function searchAllItems($menuId)
+    public function searchItemsById($menuId)
     {
         $criteria = new criteria;
         $criteria->add('menu_id', $menuId)->setOrderByFieldDesc('order');
 
         $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'item');
         $data = $itemMapper->searchAllByCriteria($criteria);
-
-        $tree = array();
-        foreach ($data as $branch) {
-            $tree[$branch->getId()] = $branch;
-        }
-
-        $tree = $this->build_tree($tree);
+        $tree = $this->build_tree($data);
         return $tree;
     }
 

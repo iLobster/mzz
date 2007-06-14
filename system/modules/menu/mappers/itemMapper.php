@@ -39,6 +39,11 @@ class itemMapper extends simpleCatalogueMapper
      */
     protected $className = 'item';
 
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

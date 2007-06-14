@@ -26,7 +26,7 @@ class menuViewController extends simpleController
     {
         $id = $this->request->get('id', 'integer');
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
-        $items = $menuMapper->searchAllItems($id);
+        $items = $menuMapper->searchItemsById($id);
 
         $this->smarty->assign('items', $items);
         return $this->smarty->fetch('menu/view.tpl');
