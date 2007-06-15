@@ -109,34 +109,38 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual($this->fixture[1]['bar'], $simple->getBar());
     }
 
-    public function testInsertSaveWithDataModify()
+    public function testInsertAndUpdateWithDataModify()
     {
         $this->mapper = new stubMapperDataModify('simple');
         $this->mapper->setMap($this->map);
 
         $simple = new stubSimple($this->mapper, $this->map);
-        $simple->setFoo($this->fixture[1]['foo']);
+        $simple->setBar($bar = 'bAr VaLUe');
         $this->mapper->save($simple);
 
         $this->assertEqual(1, $simple->getId());
-        $this->assertEqual($this->fixture[1]['foo'], $simple->getFoo());
-        $this->assertPattern('/^\d+$/', $simple->getBar());
+        $this->assertEqual(strtolower($bar), $simple->getBar());
 
+        $simple->setBar($bar = 'bAr VaLUe');
+        $this->mapper->save($simple);
+        $this->assertEqual(strtoupper($bar), $simple->getBar());
     }
 
-    public function testUpdateSaveWithDataModify()
+    public function testInsertAndUpdateWithDataModifyOperator()
     {
-        $this->fixture();
-
-        $this->mapper = new stubMapperDataModify('simple');
+        $this->mapper = new stubMapperDataModifyWithOperator('simple');
         $this->mapper->setMap($this->map);
 
         $simple = new stubSimple($this->mapper, $this->map);
-        $simple->import(array('id'=>1));
-        $simple->setFoo($this->fixture[1]['foo']);
+        $simple->setBar($bar = 666);
         $this->mapper->save($simple);
 
-        $this->assertPattern('/^\d+$/', $simple->getBar());
+        $this->assertEqual(1, $simple->getId());
+        $this->assertEqual($bar * 10, $simple->getBar());
+
+        $simple->setBar($bar = 666);
+        $this->mapper->save($simple);
+        $this->assertEqual($bar * 5, $simple->getBar());
     }
 
     public function testUpdateSave()

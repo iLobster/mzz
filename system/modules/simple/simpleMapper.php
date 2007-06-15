@@ -202,6 +202,10 @@ abstract class simpleMapper
                     $fields[$val] = $fields[$val]->toString();
                     $markers .= $fields[$val] . ', ';
                     unset($fields[$val]);
+                } elseif($fields[$val] instanceof sqlOperator){
+                    $fields[$val] = $fields[$val]->toString();
+                    $markers .= $fields[$val] . ', ';
+                    unset($fields[$val]);
                 } else {
                     $markers .= ':' . $val . ', ';
                 }
@@ -265,6 +269,10 @@ abstract class simpleMapper
             $query = '';
             foreach (array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
+                    $fields[$val] = $fields[$val]->toString();
+                    $query .= '`' . $val . '` = ' . $fields[$val] . ', ';
+                    unset($fields[$val]);
+                } else if($fields[$val] instanceof sqlOperator){
                     $fields[$val] = $fields[$val]->toString();
                     $query .= '`' . $val . '` = ' . $fields[$val] . ', ';
                     unset($fields[$val]);
