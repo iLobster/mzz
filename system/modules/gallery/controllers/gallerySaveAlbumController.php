@@ -72,7 +72,7 @@ class gallerySaveAlbumController extends simpleController
             $url = new url('withId');
             $url->addParam('id', $album->getId());
         } else {
-            $url = new url('galleryAlbumActions');
+            $url = new url('withAnyParam');
             $url->addParam('name', $user->getLogin());
         }
 
