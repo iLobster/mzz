@@ -35,7 +35,7 @@ class adminAdminController extends simpleController
         $this->smarty->assign('current_section', $section);
         $this->smarty->assign('current_module', $module);
         unset($menu['admin'], $menu['access']);
-        $this->smarty->assign('menu', $menu);
+        $this->smarty->assign('admin_menu', $menu);
 
         if (isset($menu[$module]['sections'][$section])) {
             $class = $adminMapper->getMainClass($module);

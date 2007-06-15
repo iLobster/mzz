@@ -11,12 +11,12 @@
             </div>
         </div>
     </div>
-    {if not empty($menu)}
+    {if not empty($admin_menu)}
         <div id="sidebar">
             <p class="sideMenuTitle">Разделы сайта</p>
             {*<a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}"> *}
             <table cellspacing="0" cellpadding="0">
-            {foreach from=$menu item=module key=module_name}
+            {foreach from=$admin_menu item=module key=module_name}
                 {if sizeof($module.sections) == 1}
                     <tr>
                         <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" width="24" height="24" alt="" /></td>
@@ -49,7 +49,7 @@
         </div>
     {/if}
 
-    <div id="mainbar{if empty($menu)}WithoutSidebar{/if}">
+    <div id="mainbar{if empty($admin_menu)}WithoutSidebar{/if}">
     {$content}
     <div class="patch_minheight"></div>
     </div>
