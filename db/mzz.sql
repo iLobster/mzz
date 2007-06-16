@@ -4815,8 +4815,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (637,21),
   (638,21),
   (639,21),
+  (643,7),
   (641,21),
-  (642,7);
+  (642,7),
+  (644,7),
+  (645,23);
 
 COMMIT;
 
@@ -4873,7 +4876,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (59,'viewPhoto'),
   (60,'editPhoto'),
   (61,'save'),
-  (62,'deletemenu');
+  (62,'deletemenu'),
+  (63,'addmenu');
 
 COMMIT;
 
@@ -5051,7 +5055,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (22,'album',11),
   (23,'photo',11),
   (24,'item',12),
-  (25,'menu',12);
+  (25,'menu',12),
+  (26,'menuFolder',12);
 
 COMMIT;
 
@@ -5171,10 +5176,12 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (146,25,9),
   (147,25,3),
   (152,24,4),
-  (149,25,20),
+  (158,26,20),
   (151,24,1),
   (155,25,62),
-  (156,24,2);
+  (156,24,2),
+  (157,26,9),
+  (159,26,63);
 
 COMMIT;
 
@@ -5218,7 +5225,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (19,21,11),
   (20,23,11),
   (21,24,12),
-  (22,25,12);
+  (22,25,12),
+  (23,26,12);
 
 COMMIT;
 
@@ -5252,7 +5260,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (9,'fileManager',17,'Менеджер файлов','fm.gif',50),
   (10,'catalogue',19,'Каталог','catalogue.gif',30),
   (11,'gallery',21,'Галерея','pages.gif',80),
-  (12,'menu',25,'Меню','pages.gif',90);
+  (12,'menu',26,'Меню','pages.gif',90);
 
 COMMIT;
 
@@ -5907,7 +5915,10 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (639),
   (640),
   (641),
-  (642);
+  (642),
+  (643),
+  (644),
+  (645);
 
 COMMIT;
 
@@ -5963,7 +5974,10 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (632,'access__item'),
   (633,'access__menu'),
   (635,'access_menu_menu'),
-  (642,'access_menu_item');
+  (642,'access_menu_item'),
+  (643,'access__menuFolder'),
+  (644,'access_menu_menuFolder'),
+  (645,'menu_menuFolder');
 
 COMMIT;
 

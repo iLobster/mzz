@@ -45,9 +45,9 @@ class menuMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
-    public function searchByName($folder_id)
+    public function searchByName($name)
     {
-        return $this->searchOneByField('name', $id);
+        return $this->searchOneByField('name', $name);
     }
 
     public function searchItemsById($menuId)

@@ -25,9 +25,12 @@ class menuAdminController extends simpleController
     public function getView()
     {
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
+        $menuFolderMapper = $this->toolkit->getMapper('menu', 'menuFolder');
+        $folder = $menuFolderMapper->getFolder();
         $menus = $menuMapper->searchAll();
 
         $this->smarty->assign('menus', $menus);
+        $this->smarty->assign('folder', $folder);
         return $this->smarty->fetch('menu/admin.tpl');
     }
 }
