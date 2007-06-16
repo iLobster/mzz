@@ -24,14 +24,17 @@ class item extends simpleCatalogue
 {
     protected $name = 'menu';
 
-    protected $childrens = array();
+    protected $childrens = false;
 
     public function getChildrens()
     {
+        if ($this->childrens === false) {
+            $this->childrens = $this->mapper->getChildrensById($this->getId());
+        }
         return $this->childrens;
     }
 
-    public function setChildrens($childrens)
+    public function setChildrens(Array $childrens)
     {
         $this->childrens = $childrens;
     }

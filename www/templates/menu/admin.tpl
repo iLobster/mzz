@@ -1,4 +1,4 @@
 {foreach from=$menus item="menu"}
-<h1>{$menu->getTitle()}</h1>
-{include file="menu/view.tpl" items=$menu->searchItems()}
+<strong>{$menu->getTitle()}</strong>{$menu->getJip()}
+{include file="menu/adminview.tpl" items=$menu->searchItems()}
 {/foreach}

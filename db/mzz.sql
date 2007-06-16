@@ -396,7 +396,7 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,5,1,5,611),
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,6,1,5,611),
   (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,21,1,6,623),
   (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,7,1,5,625),
   (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,17,1,6,629);
@@ -562,7 +562,6 @@ INSERT INTO `menu_item` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `orde
   (1,0,1,1,'Главная',1,637),
   (2,1,1,1,'Новости',2,638),
   (6,2,1,1,'test',0,639),
-  (7,1,1,1,'tt',0,640),
   (8,7,1,1,'te',0,641);
 
 COMMIT;
@@ -591,7 +590,7 @@ INSERT INTO `menu_item_data` (`id`, `property_type`, `text`, `char`, `int`, `flo
   (1,1,NULL,'/',NULL,NULL),
   (2,1,NULL,'/news',NULL,NULL),
   (8,1,NULL,'asdf',NULL,NULL),
-  (7,1,NULL,'dfg',NULL,NULL);
+  (6,1,NULL,'ff',NULL,NULL);
 
 COMMIT;
 
@@ -4816,8 +4815,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (637,21),
   (638,21),
   (639,21),
-  (640,21),
-  (641,21);
+  (641,21),
+  (642,7);
 
 COMMIT;
 
@@ -4873,7 +4872,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (57,'viewThumbnail'),
   (59,'viewPhoto'),
   (60,'editPhoto'),
-  (61,'save');
+  (61,'save'),
+  (62,'deletemenu');
 
 COMMIT;
 
@@ -5172,7 +5172,9 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (147,25,3),
   (152,24,4),
   (149,25,20),
-  (151,24,1);
+  (151,24,1),
+  (155,25,62),
+  (156,24,2);
 
 COMMIT;
 
@@ -5250,7 +5252,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (9,'fileManager',17,'Менеджер файлов','fm.gif',50),
   (10,'catalogue',19,'Каталог','catalogue.gif',30),
   (11,'gallery',21,'Галерея','pages.gif',80),
-  (12,'menu',25,'Меню','pages.gif',0);
+  (12,'menu',25,'Меню','pages.gif',90);
 
 COMMIT;
 
@@ -5904,7 +5906,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (638),
   (639),
   (640),
-  (641);
+  (641),
+  (642);
 
 COMMIT;
 
@@ -5959,7 +5962,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (532,'access_gallery_gallery'),
   (632,'access__item'),
   (633,'access__menu'),
-  (635,'access_menu_menu');
+  (635,'access_menu_menu'),
+  (642,'access_menu_item');
 
 COMMIT;
 
@@ -5992,7 +5996,7 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (6,'sys','Системное',0),
   (2,'user','Пользователи',80),
   (11,'gallery','Галерея',80),
-  (12,'menu','Меню',0);
+  (12,'menu','Меню',50);
 
 COMMIT;
 

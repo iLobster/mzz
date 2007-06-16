@@ -44,6 +44,15 @@ class itemMapper extends simpleCatalogueMapper
         return $this->searchOneByField('id', $id);
     }
 
+    public function getChildrensById($id)
+    {
+        $criteria = new criteria;
+        $criteria->add('parent_id', $id)->setOrderByFieldDesc('order');
+
+        $data = $this->searchAllByCriteria($criteria);
+        return $data;
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
