@@ -27,7 +27,13 @@ class menuSaveController extends simpleController
     public function getView()
     {
         $itemMapper = $this->toolkit->getMapper('menu', 'item');
+        $menuMapper = $this->toolkit->getMapper('menu', 'menu');
+
         $id = $this->request->get('id', 'integer', SC_PATH);
+        $menuName = $this->request->get('menu_name', 'string', SC_PATH);
+        $isRoot = !empty($menuName);
+
+        $menu = $isRoot ? $menuMapper->searchByName($menuName) : $itemMapper->searchById($id)->getMenu();
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
@@ -39,10 +45,16 @@ class menuSaveController extends simpleController
         $validator->add('required', 'url', 'Необходим адрес');
 
         if (!$validator->validate()) {
-            $url = new url('withId');
-            $url->setSection($this->request->getSection());
-            $url->setAction($action);
-            $url->addParam('id', $isEdit ? $item->getId() : $id);
+            if (!$isRoot) {
+                $url = new url('withId');
+                $url->setSection($this->request->getSection());
+                $url->setAction($action);
+                $url->addParam('id', $isEdit ? $item->getId() : $id);
+            } else {
+                $url = new url('menuCreateAction');
+                $url->addParam('id', $id);
+                $url->addParam('menu_name', $menu->getName());
+            }
 
             $this->smarty->assign('item', $item);
             $this->smarty->assign('action', $url->get());
@@ -57,7 +69,7 @@ class menuSaveController extends simpleController
             $item->setProperty('url', $url);
 
             if (!$isEdit) {
-                $item->setMenu($itemMapper->searchById($id)->getMenu());
+                $item->setMenu($menu);
                 $item->setType(1);
                 $item->setParent($id);
             }

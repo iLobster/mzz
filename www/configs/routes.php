@@ -33,7 +33,7 @@ $router->addRoute('admin', new requestRoute('admin/:section_name/:module_name/:p
 $router->addRoute('adminCfgEdit', new requestRoute('admin/:id/:name/:action', array('section' => 'admin', 'action' => 'editCfg'), array('id' => '\d+')));
 $router->addRoute('adminAction', new requestRoute('admin/:id/:action_name/:action', array('section' => 'admin'), array('id' => '\d+', 'action' => '(?:editAction|deleteAction)')));
 
-
+$router->addRoute('menuCreateAction', new requestRoute('menu/:menu_name/:id/create', array('section' => 'menu', 'action' => 'create'), array('id' => '\d+')));
 
 $router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
 $router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list', 'name' => 'root')));
