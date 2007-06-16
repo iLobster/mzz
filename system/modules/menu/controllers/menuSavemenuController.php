@@ -15,54 +15,50 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * menuSaveController: контроллер для метода create модуля menu
+ * menuSavemenuController: контроллер для метода create модуля menu
  *
  * @package modules
  * @subpackage menu
  * @version 0.1
  */
 
-class menuSaveController extends simpleController
+class menuSavemenuController extends simpleController
 {
     public function getView()
     {
-        $itemMapper = $this->toolkit->getMapper('menu', 'item');
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $menuMapper = $this->toolkit->getMapper('menu', 'menu');
 
         $action = $this->request->getAction();
-        $isEdit = ($action == 'edit');
+        $isEdit = ($action == 'editmenu');
 
-        $item = $isEdit ? $itemMapper->searchById($id) : $itemMapper->create();
+        $id = $this->request->get('id', 'integer', SC_PATH);
+        $menu = $isEdit ? $menuMapper->searchById($id) : $menuMapper->create();
 
         $validator = new formValidator();
+        $validator->add('required', 'name', 'Необходимо имя');
         $validator->add('required', 'title', 'Необходим заголовок');
-        $validator->add('required', 'url', 'Необходим адрес');
 
         if (!$validator->validate()) {
-            $url = new url('withId');
+            $url = new url($isEdit ? 'withId' : 'default2');
             $url->setSection($this->request->getSection());
             $url->setAction($action);
-            $url->addParam('id', $isEdit ? $item->getId() : $id);
+            if ($isEdit) {
+                $url->addParam('id', $menu->getId());
+            }
 
-            $this->smarty->assign('item', $item);
+            $this->smarty->assign('menu', $menu);
             $this->smarty->assign('action', $url->get());
             $this->smarty->assign('errors', $validator->getErrors());
             $this->smarty->assign('isEdit', $isEdit);
-            return $this->smarty->fetch('menu/save.tpl');
+            return $this->smarty->fetch('menu/savemenu.tpl');
         } else {
             $title = $this->request->get('title', 'string', SC_POST);
-            $url = $this->request->get('url', 'string', SC_POST);
+            $name = $this->request->get('name', 'string', SC_POST);
 
-            $item->setTitle($title);
-            $item->setProperty('url', $url);
+            $menu->setTitle($title);
+            $menu->setName($name);
 
-            if (!$isEdit) {
-                $item->setMenu($itemMapper->searchById($id)->getMenu());
-                $item->setType(1);
-                $item->setParent($id);
-            }
-
-            $itemMapper->save($item);
+            $menuMapper->save($menu);
             return jipTools::redirect();
         }
     }

@@ -555,18 +555,6 @@ CREATE TABLE `menu_item` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_item` table  (LIMIT 0,500)
-#
-
-INSERT INTO `menu_item` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
-  (1,0,1,1,'Главная',1,637),
-  (2,1,1,1,'Новости',2,638),
-  (6,2,1,1,'test',0,639),
-  (8,7,1,1,'te',0,641);
-
-COMMIT;
-
-#
 # Structure for the `menu_item_data` table : 
 #
 
@@ -581,18 +569,6 @@ CREATE TABLE `menu_item_data` (
   `float` float(9,3) default NULL,
   UNIQUE KEY `id` (`id`,`property_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `menu_item_data` table  (LIMIT 0,500)
-#
-
-INSERT INTO `menu_item_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
-  (1,1,NULL,'/',NULL,NULL),
-  (2,1,NULL,'/news',NULL,NULL),
-  (8,1,NULL,'asdf',NULL,NULL),
-  (6,1,NULL,'ff',NULL,NULL);
-
-COMMIT;
 
 #
 # Structure for the `menu_item_properties` table : 
@@ -708,7 +684,7 @@ CREATE TABLE `menu_menu` (
 #
 
 INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES 
-  (1,'general','Главное',636);
+  (4,'general','Главная',648);
 
 COMMIT;
 
@@ -4811,9 +4787,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (633,7),
   (634,12),
   (635,7),
-  (636,22),
+  (648,22),
   (637,21),
-  (638,21),
   (639,21),
   (643,7),
   (641,21),
@@ -4877,7 +4852,9 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (60,'editPhoto'),
   (61,'save'),
   (62,'deletemenu'),
-  (63,'addmenu');
+  (63,'addmenu'),
+  (64,'editmenu'),
+  (65,'additem');
 
 COMMIT;
 
@@ -5181,7 +5158,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (155,25,62),
   (156,24,2),
   (157,26,9),
-  (159,26,63);
+  (160,26,63),
+  (161,25,64);
 
 COMMIT;
 
@@ -5918,7 +5896,10 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (642),
   (643),
   (644),
-  (645);
+  (645),
+  (646),
+  (647),
+  (648);
 
 COMMIT;
 

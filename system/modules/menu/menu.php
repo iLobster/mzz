@@ -30,6 +30,25 @@ class menu extends simple
     {
         return $this->mapper->searchItemsById($this->getId());
     }
+
+    protected function getJipView($module, $id, $type)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $action = $toolkit->getAction($module);
+        $request = $toolkit->getRequest();
+
+        $create['create'] = array(
+            'controller' => 'save',
+            'title' => 'Создать подпункт',
+            'icon' => '/templates/images/add.gif',
+            'confirm' => ''
+        );
+
+        $actions = $create + $action->getJipActions($type);
+
+        $jip = new jip($request->getSection(), $module, $id, $type, $actions, $this->getObjId());
+        return $jip->draw();
+    }
 }
 
 ?>
