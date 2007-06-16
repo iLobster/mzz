@@ -139,7 +139,7 @@ class stdToolkit extends toolkit
             $this->smarty->debugging = DEBUG_MODE;
             $this->smarty->assign('SITE_PATH', rtrim(SITE_PATH, '/'));
 
-            fileLoader::load('libs/smarty/plugins/modifier.filesize');
+            fileLoader::load('template/plugins/modifier.filesize');
             $this->smarty->register_modifier('filesize', 'smarty_modifier_filesize');
 
             fileLoader::load('forms/form');
