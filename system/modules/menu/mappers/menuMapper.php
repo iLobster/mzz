@@ -53,7 +53,7 @@ class menuMapper extends simpleMapper
     public function searchItemsById($menuId)
     {
         $criteria = new criteria;
-        $criteria->add('menu_id', $menuId)->setOrderByFieldDesc('order');
+        $criteria->add('menu_id', $menuId)->setOrderByFieldAsc('order');
 
         $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'item');
         $data = $itemMapper->searchAllByCriteria($criteria);
@@ -81,7 +81,13 @@ class menuMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        return 1;
+        $menu = $this->searchByName($args['name']);
+
+        if ($menu) {
+            return (int)$menu->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 

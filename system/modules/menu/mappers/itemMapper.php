@@ -60,7 +60,13 @@ class itemMapper extends simpleCatalogueMapper
      */
     public function convertArgsToId($args)
     {
-        return 1;
+        $item = $this->searchById($args['id']);
+
+        if ($item) {
+            return (int)$item->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 

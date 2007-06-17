@@ -47,7 +47,7 @@ class newsSaveController extends simpleController
 
             if (!$isEdit) {
                 $validator->add('required', 'created', 'Необходимо указать дату');
-                $validator->add('regex', 'created', 'Правильный формат даты: чч:м:с д/м/г ', '#^([01][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])\s(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])[/](19|20)\d{2}$#');
+                $validator->add('regex', 'created', 'Неправильный формат даты', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
             }
 
 
@@ -60,13 +60,15 @@ class newsSaveController extends simpleController
                 $folder = $newsFolderMapper->searchByPath($this->request->get('name', 'string', SC_PATH));
 
                 if (!$isEdit) {
+                    $created = $this->request->get('created', 'string', SC_POST);
                     $news = $newsMapper->create();
                     $news->setFolder($folder->getId());
-                    /*$date = explode(' ', $values['created']);
+
+                    $date = explode(' ', $created);
                     $time = explode(':', $date[0]);
                     $date = explode('/', $date[1]);
                     $created = mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
-                    $news->setCreated($created);*/
+                    $news->setCreated($created);
                 }
 
                 $news->setTitle($title);

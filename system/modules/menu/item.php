@@ -38,6 +38,18 @@ class item extends simpleCatalogue
     {
         $this->childrens = $childrens;
     }
+
+    public function isActive()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+
+        switch ($this->getTypeName()) {
+            case 'simple':
+                return ($request->getUrl() . $this->getPropertyValue('url') == $request->getRequestUrl());
+                break;
+        }
+    }
 }
 
 ?>
