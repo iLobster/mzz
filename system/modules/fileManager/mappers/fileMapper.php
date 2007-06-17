@@ -82,6 +82,18 @@ class fileMapper extends simpleMapper
         return null;
     }
 
+    public function searchByNameMask($mask)
+    {
+
+        $criterion = new criterion('name', $mask, criteria::LIKE);
+
+        $criteria = new criteria();
+        $criteria->add($criterion);
+        $criteria->setOrderByFieldAsc('name');
+        $files = $this->searchAllByCriteria($criteria);
+        return $files;
+    }
+
     /**
      * Выполнение операций с массивом $fields перед обновлением в БД
      *
