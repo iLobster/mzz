@@ -43,7 +43,7 @@ jip = "1"
 <</code>>
 
 Закрыть JIP-окно можно вызовом Javascript-функции <code>jipWindow.close()</code>:
-<<code>>
-&lt;input type="reset" onclick="jipWindow.close();"&gt;<br />
+<<code html>>
+&lt;input type="reset" onclick="jipWindow.close();"&gt;
 &lt;a href="javascript: void(jipWindow.close());"&gt;закрыть&lt;/a&gt;
 <</code>>

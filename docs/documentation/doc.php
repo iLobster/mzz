@@ -139,7 +139,11 @@ function render($id) {
 
     $content = file_get_contents($path);
     $content = preg_replace("/<!--\s*(.*?)?-?code\s*(\d+)\s*-->/ie", 'include_code("' . $id . '-$2", "$1");', $content);
-    $content = str_replace(array("<<code>>", "<</code>>"), array("<!-- code start here -->\n<div class=\"code\"><div class=\"code_border\">\n<code>\n", "\n</code>\n</div></div>\n<!-- code end here -->\n"), $content);
+    $content = preg_replace("/<<code\s*(.*?)>>(.*?)<<\/code>>/ise", "highlightInlineCode('$1', str_replace('\\\"', '\"', html_entity_decode('$2')));", $content);
+
+
+
+    //$content = str_replace(array("<<code>>", "<</code>>"), array("<!-- code start here -->\n<div class=\"code\"><div class=\"code_border\">\n<code>\n", "\n</code>\n</div></div>\n<!-- code end here -->\n"), $content);
     $content = str_replace(array("<<pre>>", "<</pre>>"), array("<!-- code start here -->\n<div class=\"code\"><div class=\"code_border\">\n<pre>\n", "\n</pre>\n</div></div>\n<!-- code end here -->\n"), $content);
 
     $content = str_replace(array('<<note>>', '<</note>>'), array($note, $note_end), $content);
@@ -166,6 +170,17 @@ function include_code($id, $type) {
     include_once 'highlighter/geshi.php';
     if ($type == 'html') { $type = 'html4strict'; }
     $geshi = new GeSHi(file_get_contents($path), $type);
+    return '<div class="code"><div class="code_border">' . $geshi->parse_code() . '</div></div>';
+}
+
+
+function highlightInlineCode($type, $code) {
+    $type = trim($type);
+    $code = trim($code);
+
+    include_once 'highlighter/geshi.php';
+    if ($type == 'html') { $type = 'html4strict'; }
+    $geshi = new GeSHi($code, $type);
     return '<div class="code"><div class="code_border">' . $geshi->parse_code() . '</div></div>';
 }
 
@@ -303,18 +318,18 @@ if (!isset($_REQUEST['cat'])) {
     <tr>
      <td width="20%" align="left">';
     if($prev && $prev != $_REQUEST['cat']) {
-        echo '<a href="' . $prev . '.html">Назад</a>';
+        echo '<a href="' . $prev . '.html"><span style="font-size: 120%;">&larr;</span> Назад</a>';
     } else {
-        echo 'Назад';
+        //echo 'Назад';
     }
     echo '</td>
        <td width="60%" align="center"><a href="' . $cat[0] . '.html">' . $paths[$cat[0]][1] . '. ' . $paths[$cat[0]][2] . '</a></td>
        <td width="20%" align="right">';
 
     if($path != $_REQUEST['cat']) {
-        echo '<a href="' . $path . '.html">Вперед</a>';
+        echo '<a href="' . $path . '.html">Вперед <span style="font-size: 120%;">&rarr;</span></a>';
     } else {
-        echo 'Вперед';
+        //echo 'Вперед';
     }
 
     echo '
@@ -392,19 +407,20 @@ if (!isset($_REQUEST['cat'])) {
     echo '<div class="navigation_f"><table width="99%" summary="Navigation">
     <tr>
      <td width="20%" align="left" valign="top">';
-    if($prev != $_REQUEST['cat']) {
-        echo '<a href="' . $prev . '.html">Назад</a>';
+
+    if($prev && $prev != $_REQUEST['cat']) {
+        echo '<a href="' . $prev . '.html"><span style="font-size: 120%;">&larr;</span> Назад</a>';
     } else {
-        echo 'Назад';
+        //echo 'Назад';
     }
     echo '</td>
        <td width="60%" align="center"><a href="' . $cat[0] . '.html">' . $paths[$cat[0]][1] . '. ' . $paths[$cat[0]][2] . '</a><br /><a href="index.html">Индекс</a></td>
        <td width="20%" align="right" valign="top">';
 
     if($path != $_REQUEST['cat']) {
-        echo '<a href="' . $path . '.html">Вперед</a>';
+        echo '<a href="' . $path . '.html">Вперед <span style="font-size: 120%;">&rarr;</span></a>';
     } else {
-        echo 'Вперед';
+        //echo 'Вперед';
     }
 
     echo '
