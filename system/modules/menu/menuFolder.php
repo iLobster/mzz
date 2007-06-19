@@ -23,6 +23,23 @@
 class menuFolder extends simple
 {
     protected $name = 'menu';
+
+    protected function getJipView($module, $id, $type)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $action = $toolkit->getAction($module);
+        $request = $toolkit->getRequest();
+
+        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId());
+
+        $url = new url('default2');
+        $url->setSection($request->getSection());
+        $url->setAction('addmenu');
+
+        $createAction = &$jip->getItem('addmenu');
+        $createAction['url'] = $url->get();
+        return $jip->draw();
+    }
 }
 
 ?>

@@ -16,7 +16,7 @@
  * jip: класс для работы с jip
  *
  * @package system
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class jip
@@ -63,6 +63,14 @@ class jip
      */
     private $obj_id;
 
+
+    /**
+     * Результат сборки массива элементов JIP-меню
+     *
+     * @var array
+     */
+    private $result = array();
+
     /**
      * Конструктор
      *
@@ -81,6 +89,7 @@ class jip
         $this->type = $type;
         $this->actions = $actions;
         $this->obj_id = $obj_id;
+        $this->generate();
     }
 
     /**
@@ -126,11 +135,9 @@ class jip
         $acl = new acl($toolkit->getUser(), $this->obj_id);
         //$access = $acl->get();
 
-        $result = array();
-
         foreach ($this->actions as $key => $item) {
             if ($acl->get($key)) {
-                $result[] = array(
+                $this->result[$key] = array(
                 'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
                 'title' => $item['title'],
                 'isPopup' => isset($item['isPopup']) ? $item['isPopup'] :null,
@@ -140,8 +147,20 @@ class jip
                 );
             }
         }
+    }
 
-        return $result;
+    /**
+     * Возвращает ссылку на массив данных элемента JIP-меню
+     *
+     * @return array
+     */
+    public function & getItem($name)
+    {
+        if (isset($this->result[$name])) {
+            return $this->result[$name];
+        } else {
+            throw new mzzRuntimeException('Не найден элемент "' . $name . '" в jip-меню для dataobject "' . $this->type . '"');
+        }
     }
 
     /**
@@ -161,18 +180,21 @@ class jip
      */
     public function draw()
     {
-        $jip = $this->generate();
+        if (empty($this->result)) {
+            $this->generate();
+        }
 
-        if (sizeof($jip)) {
+        if (sizeof($this->result)) {
             $toolkit = systemToolkit::getInstance();
             $smarty = $toolkit->getSmarty();
 
-            $smarty->assign('jip', $jip);
+            $smarty->assign('jip', $this->result);
             $smarty->assign('jipMenuId', str_replace('/', '_', $this->getJipMenuId()));
+            $this->result = array();
 
             return $smarty->fetch('jip.tpl');
         }
-
+        
         return '';
     }
 }
