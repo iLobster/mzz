@@ -138,7 +138,7 @@ class jip
         foreach ($this->actions as $key => $item) {
             if ($acl->get($key)) {
                 $this->result[$key] = array(
-                'url' => ($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id),
+                'url' => isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id)),
                 'title' => $item['title'],
                 'isPopup' => isset($item['isPopup']) ? $item['isPopup'] :null,
                 'icon' => SITE_PATH . $item['icon'],
@@ -194,7 +194,7 @@ class jip
 
             return $smarty->fetch('jip.tpl');
         }
-        
+
         return '';
     }
 }

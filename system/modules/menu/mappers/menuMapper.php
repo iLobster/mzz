@@ -74,6 +74,12 @@ class menuMapper extends simpleMapper
         return $result;
     }
 
+    public function get404()
+    {
+        fileLoader::load('menu/controllers/menu404Controller');
+        return new menu404Controller();
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

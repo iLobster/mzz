@@ -26,9 +26,9 @@ class menuDeletemenuController extends simpleController
     {
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
         $itemMapper = $this->toolkit->getMapper('menu', 'item');
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $name = $this->request->get('name', 'string');
 
-        $menu = $menuMapper->searchById($id);
+        $menu = $menuMapper->searchByName($name);
 
         foreach ($menu->searchItems() as $item) {
             $itemMapper->delete($item->getId());

@@ -31,15 +31,26 @@ class menu extends simple
         return $this->mapper->searchItemsById($this->getId());
     }
 
+    public function getJip()
+    {
+        return $this->getJipView($this->name, $this->getName(), get_class($this));
+    }
+
     protected function getJipView($module, $id, $type)
     {
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getAction($module);
         $request = $toolkit->getRequest();
 
+        $url = new url('menuCreateAction');
+        $url->setSection($request->getSection());
+        $url->addParam('id', '0');
+        $url->addParam('menu_name', $this->getName());
+
         $create['create'] = array(
+            'url' => $url->get(),
             'controller' => 'save',
-            'title' => 'Создать подпункт',
+            'title' => 'Создать пункт',
             'icon' => '/templates/images/add.gif',
             'confirm' => ''
         );

@@ -13,18 +13,18 @@
  */
 
 /**
- * catalogue404Controller: контроллер для метода 404 модуля catalogue
+ * menu404Controller: контроллер для метода 404 модуля menu
  *
  * @package modules
- * @subpackage catalogue
+ * @subpackage menu
  * @version 0.1
  */
 
-class catalogue404Controller extends simpleController
+class menu404Controller extends simpleController
 {
     public function getView()
     {
-        return $this->smarty->fetch('catalogue/notfound.tpl');
+        return $this->smarty->fetch('menu/notfound.tpl');
     }
 }
 

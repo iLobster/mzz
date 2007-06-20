@@ -4,12 +4,7 @@
 <div id="hcontainer">
 
     <div id="menu">
-     <span class="menu_element"><a href="{url route=default2 section=news action=""}">{if $current_section eq "news"}<b>{/if}Новости{if $current_section eq "news"}</b>{/if}</a></span>
-     <span class="menu_element"><a href="{url route=default2 section=page action=""}">{if $current_section eq "page"}<b>{/if}Страницы{if $current_section eq "page"}</b>{/if}</a></span>
-     <span class="menu_element"><a href="{url route=default2 section=catalogue}">{if $current_section eq "catalogue"}<b>{/if}Каталог{if $current_section eq "catalogue"}</b>{/if}</a></span>
-     <span class="menu_element"><a href="{url route=withAnyParam section=gallery name=admin action=viewGallery}">{if $current_section eq "gallery"}<b>{/if}Галерея{if $current_section eq "gallery"}</b>{/if}</a></span>
-     <span class="menu_element"><a href="{url route=default2 section=user action=list}">{if $current_section eq "user"}<b>{/if}Пользователи{if $current_section eq "user"}</b>{/if}</a></span>
-     <span class="menu_element"><a href="{url route=default2 section=admin action=view}">{if $current_section eq "admin"}<b>{/if}Панель управления{if $current_section eq "admin"}</b>{/if}</a></span>
+    {load module="menu" section="menu" action="view" name="demo"}
     </div>
     {* {if $current_section != 'user'} *}
     {load module="user" action="loginForm" section="user" id=0 403handle="none"}

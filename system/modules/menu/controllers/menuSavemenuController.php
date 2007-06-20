@@ -31,19 +31,19 @@ class menuSavemenuController extends simpleController
         $action = $this->request->getAction();
         $isEdit = ($action == 'editmenu');
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
-        $menu = $isEdit ? $menuMapper->searchById($id) : $menuMapper->create();
+        $name = $this->request->get('name', 'string');
+        $menu = $isEdit ? $menuMapper->searchByName($name) : $menuMapper->create();
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо имя');
         $validator->add('required', 'title', 'Необходим заголовок');
 
         if (!$validator->validate()) {
-            $url = new url($isEdit ? 'withId' : 'default2');
+            $url = new url($isEdit ? 'withAnyParam' : 'default2');
             $url->setSection($this->request->getSection());
             $url->setAction($action);
             if ($isEdit) {
-                $url->addParam('id', $menu->getId());
+                $url->addParam('name', $menu->getName());
             }
 
             $this->smarty->assign('menu', $menu);

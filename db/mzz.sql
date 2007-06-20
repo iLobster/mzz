@@ -168,8 +168,8 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
   (14,25,NULL,NULL,604,NULL),
   (14,26,NULL,'\"Диалектика\"',NULL,NULL),
   (14,27,'В данном практическом руководстве продемонстрирована вся мощь и гибкость языка PHP и даны полезные советы программистам. В этой книге показано, как построить масштабируемую и высокопроизводительную инфраструктуру на языке PHP5...',NULL,NULL,NULL),
-  (15,49,NULL,NULL,NULL,NULL),
-  (15,50,NULL,NULL,NULL,NULL),
+  (15,49,NULL,NULL,0,NULL),
+  (15,50,NULL,NULL,1181014750,NULL),
   (15,51,'Бархатная раскраска выгодно отличается от обычных раскрасок. Ее бархатная поверхность вокруг раскрашиваемых участков рисунка, помогает ребенку аккуратно и красиво раскрасить, а блестящие гелевые краски, создают неповторимый мерцающий эффект. Рисунок раскрашенный своими руками, станет уникальным украшением для детской комнаты.',NULL,NULL,NULL);
 
 COMMIT;
@@ -397,9 +397,9 @@ CREATE TABLE `fileManager_file` (
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
   (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,6,1,5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,21,1,6,623),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,22,1,6,623),
   (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,7,1,5,625),
-  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,17,1,6,629);
+  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,18,1,6,629);
 
 COMMIT;
 
@@ -552,7 +552,21 @@ CREATE TABLE `menu_item` (
   `order` int(10) unsigned default '0',
   `obj_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251 PACK_KEYS=0;
+
+#
+# Data for the `menu_item` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_item` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
+  (1,0,2,5,'Новости',0,661),
+  (2,0,2,5,'Страницы',0,662),
+  (3,0,2,5,'Каталог',0,663),
+  (4,0,2,5,'Галерея',0,664),
+  (5,0,2,5,'Пользователи',0,665),
+  (6,0,2,5,'Панель управления',0,666);
+
+COMMIT;
 
 #
 # Structure for the `menu_item_data` table : 
@@ -569,6 +583,32 @@ CREATE TABLE `menu_item_data` (
   `float` float(9,3) default NULL,
   UNIQUE KEY `id` (`id`,`property_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `menu_item_data` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_item_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
+  (2,2,NULL,'page',NULL,NULL),
+  (1,4,NULL,'',NULL,NULL),
+  (1,2,NULL,'news',NULL,NULL),
+  (1,3,NULL,'news',NULL,NULL),
+  (2,3,NULL,'page',NULL,NULL),
+  (2,4,NULL,'',NULL,NULL),
+  (3,2,NULL,'catalogue',NULL,NULL),
+  (3,3,NULL,'catalogue',NULL,NULL),
+  (3,4,NULL,'',NULL,NULL),
+  (4,2,NULL,'gallery/admin/viewGallery',NULL,NULL),
+  (4,3,NULL,'gallery',NULL,NULL),
+  (4,4,NULL,'',NULL,NULL),
+  (5,2,NULL,'user/list',NULL,NULL),
+  (5,3,NULL,'user',NULL,NULL),
+  (5,4,NULL,'',NULL,NULL),
+  (6,2,NULL,'admin',NULL,NULL),
+  (6,3,NULL,'admin',NULL,NULL),
+  (6,4,NULL,'',NULL,NULL);
+
+COMMIT;
 
 #
 # Structure for the `menu_item_properties` table : 
@@ -591,7 +631,10 @@ CREATE TABLE `menu_item_properties` (
 #
 
 INSERT INTO `menu_item_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
-  (1,'url','Ссылка',1,NULL);
+  (1,'url','Ссылка',1,NULL),
+  (2,'url','Ссылка',1,NULL),
+  (3,'section','section',1,NULL),
+  (4,'action','action',1,NULL);
 
 COMMIT;
 
@@ -635,7 +678,8 @@ CREATE TABLE `menu_item_types` (
 #
 
 INSERT INTO `menu_item_types` (`id`, `name`, `title`) VALUES 
-  (1,'simple','Простой');
+  (1,'simple','Простой'),
+  (2,'advanced','Advanced');
 
 COMMIT;
 
@@ -661,7 +705,10 @@ CREATE TABLE `menu_item_types_props` (
 #
 
 INSERT INTO `menu_item_types_props` (`id`, `type_id`, `property_id`, `sort`, `isShort`) VALUES 
-  (1,1,1,0,0);
+  (1,1,1,0,0),
+  (2,2,2,0,0),
+  (3,2,3,0,0),
+  (4,2,4,0,0);
 
 COMMIT;
 
@@ -684,7 +731,7 @@ CREATE TABLE `menu_menu` (
 #
 
 INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES 
-  (4,'general','Главная',648);
+  (5,'demo','Демо-меню',660);
 
 COMMIT;
 
@@ -4787,14 +4834,21 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (633,7),
   (634,12),
   (635,7),
-  (648,22),
+  (660,22),
   (637,21),
+  (663,21),
   (639,21),
   (643,7),
   (641,21),
   (642,7),
   (644,7),
-  (645,23);
+  (645,23),
+  (664,21),
+  (654,12),
+  (661,21),
+  (662,21),
+  (665,21),
+  (666,21);
 
 COMMIT;
 
@@ -4854,7 +4908,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (62,'deletemenu'),
   (63,'addmenu'),
   (64,'editmenu'),
-  (65,'additem');
+  (65,'additem'),
+  (66,'last');
 
 COMMIT;
 
@@ -5899,7 +5954,26 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (645),
   (646),
   (647),
-  (648);
+  (648),
+  (649),
+  (650),
+  (651),
+  (652),
+  (653),
+  (654),
+  (655),
+  (656),
+  (657),
+  (658),
+  (659),
+  (660),
+  (661),
+  (662),
+  (663),
+  (664),
+  (665),
+  (666),
+  (667);
 
 COMMIT;
 
@@ -6096,7 +6170,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (44,2,'127.0.0.1','a46540554cada38f1d48bd0832078e5f',567,1179718723),
   (45,2,'127.0.0.1','cba27dedbe67f747ae71e793c7f815e7',615,1179777463),
   (46,2,'127.0.0.1','aeec5af86d3bac1a76a24f28ef32b7ec',619,1179993941),
-  (47,2,'127.0.0.1','c6de5dc93546987d91e834e88dd1e321',634,1181822827);
+  (47,2,'127.0.0.1','c6de5dc93546987d91e834e88dd1e321',634,1181822827),
+  (48,2,'127.0.0.1','7f825cd5ac7360ed49bc536d0e9ed9d3',654,1182045769);
 
 COMMIT;
 

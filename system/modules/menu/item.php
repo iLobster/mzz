@@ -39,6 +39,22 @@ class item extends simpleCatalogue
         $this->childrens = $childrens;
     }
 
+    public function getUrl()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+
+        switch ($this->getTypeName()) {
+            case 'simple':
+                return ($request->getUrl() . '/' . $this->getPropertyValue('url'));
+                break;
+
+            case 'advanced':
+                return ($request->getUrl() . '/' . $this->getPropertyValue('url'));
+                break;
+        }
+    }
+
     public function isActive()
     {
         $toolkit = systemToolkit::getInstance();
@@ -46,7 +62,27 @@ class item extends simpleCatalogue
 
         switch ($this->getTypeName()) {
             case 'simple':
-                return ($request->getUrl() . $this->getPropertyValue('url') == $request->getRequestUrl());
+                return ($request->getUrl() . '/' . $this->getPropertyValue('url') == $request->getRequestUrl());
+                break;
+
+            case 'advanced':
+                $section = $this->getPropertyValue('section');
+                $action = $this->getPropertyValue('action');
+
+                $smarty = $toolkit->getSmarty();
+
+                $isActive = false;
+                if (!empty($section)) {
+                    $current_section = $smarty->get_template_vars('current_section');
+                    $isActive = ($current_section == $section) ? true : false;
+                }
+
+                if (!empty($action)) {
+                    $current_action = $smarty->get_template_vars('current_action');
+                    $isActive = ($current_action == $action) ? true : false;
+                }
+
+                return $isActive;
                 break;
         }
     }

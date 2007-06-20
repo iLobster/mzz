@@ -60,6 +60,9 @@ class itemMapper extends simpleCatalogueMapper
      */
     public function convertArgsToId($args)
     {
+        if ($args['id'] == 0) {
+            return 1;
+        }
         $item = $this->searchById($args['id']);
 
         if ($item) {

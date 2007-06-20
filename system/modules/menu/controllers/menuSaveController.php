@@ -29,49 +29,82 @@ class menuSaveController extends simpleController
         $itemMapper = $this->toolkit->getMapper('menu', 'item');
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
-        $menuName = $this->request->get('menu_name', 'string', SC_PATH);
-        $isRoot = !empty($menuName);
-
-        $menu = $isRoot ? $menuMapper->searchByName($menuName) : $itemMapper->searchById($id)->getMenu();
-
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
+        $isRoot = false;
+
+        $id = $this->request->get('id', 'integer');
+        if ($id === 0) {
+            $menuName = $this->request->get('menu_name', 'string');
+            $isRoot = true;
+        }
 
         $item = $isEdit ? $itemMapper->searchById($id) : $itemMapper->create();
+        $menu = $isRoot ? $menuMapper->searchByName($menuName) : $itemMapper->searchById($id)->getMenu();
+
+        if (is_null($item) || ($isRoot && is_null($menu))) {
+            return $menuMapper->get404()->run();
+        }
 
         $validator = new formValidator();
         $validator->add('required', 'title', 'Необходим заголовок');
-        $validator->add('required', 'url', 'Необходим адрес');
+
+        if (!$isEdit) {
+            $validator->add('required', 'type', 'Необходимо указать тип');
+            $types = $itemMapper->getAllTypes();
+            if (empty($types)) {
+                $controller = new messageController('Отсутствуют типы', messageController::WARNING);
+                return $controller->run();
+            }
+            $type = $this->request->get('type', 'integer', SC_GET | SC_POST);
+            $properties = $itemMapper->getProperties($type);
+        } else {
+            $properties = $item->exportOldProperties();
+        }
 
         if (!$validator->validate()) {
+            $url = new url($isRoot ? 'menuCreateAction' : 'withId');
             if (!$isRoot) {
-                $url = new url('withId');
                 $url->setSection($this->request->getSection());
                 $url->setAction($action);
                 $url->addParam('id', $isEdit ? $item->getId() : $id);
             } else {
-                $url = new url('menuCreateAction');
                 $url->addParam('id', $id);
                 $url->addParam('menu_name', $menu->getName());
+                $this->smarty->assign('menu', $menu);
+            }
+
+            if (!$isEdit) {
+                $select = array('' => '');
+                foreach($types as $type_tmp){
+                    $select[$type_tmp['id']] = $type_tmp['title'];
+                }
+                $this->smarty->assign('select', $select);
+                $this->smarty->assign('type', $type);
             }
 
             $this->smarty->assign('item', $item);
+            $this->smarty->assign('properties', $properties);
+            $this->smarty->assign('request', $this->toolkit->getRequest());
             $this->smarty->assign('action', $url->get());
             $this->smarty->assign('errors', $validator->getErrors());
             $this->smarty->assign('isEdit', $isEdit);
+            $this->smarty->assign('isRoot', $isRoot);
             return $this->smarty->fetch('menu/save.tpl');
         } else {
             $title = $this->request->get('title', 'string', SC_POST);
-            $url = $this->request->get('url', 'string', SC_POST);
 
             $item->setTitle($title);
-            $item->setProperty('url', $url);
 
             if (!$isEdit) {
                 $item->setMenu($menu);
-                $item->setType(1);
+                $item->setType($type);
                 $item->setParent($id);
+            }
+
+            foreach ($properties as $prop) {
+                $propValue = $this->request->get($prop['name'], 'mixed', SC_POST);
+                $item->setProperty($prop['name'], $propValue);
             }
 
             $itemMapper->save($item);
