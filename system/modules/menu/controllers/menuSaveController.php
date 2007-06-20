@@ -84,6 +84,7 @@ class menuSaveController extends simpleController
             }
 
             $this->smarty->assign('item', $item);
+            $this->smarty->assign('id', $id);
             $this->smarty->assign('properties', $properties);
             $this->smarty->assign('request', $this->toolkit->getRequest());
             $this->smarty->assign('action', $url->get());
