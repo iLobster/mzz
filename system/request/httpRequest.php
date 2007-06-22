@@ -72,18 +72,32 @@ class httpRequest implements iRequest
     /**#@-*/
 
     /**
-     * Секция
+     * Текущая секция
      *
      * @var string
      */
     protected $section;
 
     /**
-     * Действие
+     * Текущее действие
      *
      * @var string
      */
     protected $action;
+
+    /**
+     * Запрошенная секция
+     *
+     * @var string
+     */
+    protected $requestedSection = false;
+
+    /**
+     * Запрошенное действие
+     *
+     * @var string
+     */
+    protected $requestedAction = false;
 
     /**
      * Конструктор.
@@ -235,6 +249,34 @@ class httpRequest implements iRequest
     }
 
     /**
+     * Устанавливает текущую секцию
+     * Первое установленное значение считается запрошенной секцией
+     *
+     * @param string $section
+     */
+    public function setSection($section)
+    {
+        if ($this->requestedSection === false) {
+            $this->requestedSection = $section;
+        }
+        $this->section = $section;
+    }
+
+    /**
+     * Устанавливает текущее действие
+     * Первое установленное значение считается запрошенным действием
+     *
+     * @param string $action
+     */
+    public function setAction($action)
+    {
+        if ($this->requestedAction === false) {
+            $this->requestedAction = $action;
+        }
+        $this->action = $action;
+    }
+
+    /**
      * Возвращает текущую секцию
      *
      * @return string
@@ -242,16 +284,6 @@ class httpRequest implements iRequest
     public function getSection()
     {
         return $this->section;
-    }
-
-    /**
-     * Устанавливает текущую секцию
-     *
-     * @param string $section
-     */
-    public function setSection($section)
-    {
-        $this->section = $section;
     }
 
     /**
@@ -265,13 +297,23 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Устанавливает текущее действие
+     * Возвращает запрошенную секцию
      *
-     * @param string $action
+     * @return string
      */
-    public function setAction($action)
+    public function getRequestedSection()
     {
-        $this->action = $action;
+        return $this->requestedSection;
+    }
+
+    /**
+     * Возвращает запрошенное действие
+     *
+     * @return string
+     */
+    public function getRequestedAction()
+    {
+        return $this->requestedAction;
     }
 
     /**

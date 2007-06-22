@@ -69,17 +69,13 @@ class item extends simpleCatalogue
                 $section = $this->getPropertyValue('section');
                 $action = $this->getPropertyValue('action');
 
-                $smarty = $toolkit->getSmarty();
-
                 $isActive = false;
                 if (!empty($section)) {
-                    $current_section = $smarty->get_template_vars('current_section');
-                    $isActive = ($current_section == $section) ? true : false;
+                    $isActive = ($request->getRequestedSection() == $section);
                 }
 
                 if (!empty($action)) {
-                    $current_action = $smarty->get_template_vars('current_action');
-                    $isActive = ($current_action == $action) ? true : false;
+                    $isActive = ($request->getRequestedAction() == $action);
                 }
 
                 return $isActive;
