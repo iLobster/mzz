@@ -55,20 +55,20 @@ class menuMapper extends simpleMapper
         $criteria = new criteria;
         $criteria->add('menu_id', $menuId)->setOrderByFieldAsc('order');
 
-        $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'item');
+        $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'menuItem');
         $data = $itemMapper->searchAllByCriteria($criteria);
-        $tree = $this->build_tree($data);
+        $tree = $this->buildTree($data);
         return $tree;
     }
 
-    public function build_tree($tree, $id = 0)
+    private function buildTree($tree, $id = 0)
     {
         $result = array();
         foreach ($tree as $key => $val) {
             if ($id == $val->getParent()) {
                 unset($tree[$key]);
                 $result[$key] = $val;
-                $result[$key]->setChildrens($this->build_tree($tree, $key));
+                $result[$key]->setChildrens($this->buildTree($tree, $key));
             }
         }
         return $result;

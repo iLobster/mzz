@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('db/dbTreeNS');
-fileLoader::load('menu/item');
+fileLoader::load('menu/menuItem');
 
 /**
  * itemMapper: маппер
@@ -23,7 +23,7 @@ fileLoader::load('menu/item');
  * @version 0.1
  */
 
-class itemMapper extends simpleCatalogueMapper
+class menuItemMapper extends simpleCatalogueMapper
 {
     /**
      * Имя модуля
@@ -37,7 +37,7 @@ class itemMapper extends simpleCatalogueMapper
      *
      * @var string
      */
-    protected $className = 'item';
+    protected $className = 'menuItem';
 
     public function searchById($id)
     {
@@ -61,7 +61,7 @@ class itemMapper extends simpleCatalogueMapper
     public function convertArgsToId($args)
     {
         if ($args['id'] == 0) {
-            return 1;
+            return 672;
         }
         $item = $this->searchById($args['id']);
 

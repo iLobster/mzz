@@ -366,7 +366,9 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
   (42,596,594),
   (43,607,604),
   (44,614,612),
-  (45,631,626);
+  (45,631,626),
+  (46,668,463),
+  (47,669,456);
 
 COMMIT;
 
@@ -396,10 +398,10 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,6,1,5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,22,1,6,623),
-  (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,7,1,5,625),
-  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,18,1,6,629);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,8,1,5,611),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,31,1,6,623),
+  (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,8,1,5,625),
+  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,26,1,6,629);
 
 COMMIT;
 
@@ -538,12 +540,35 @@ INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_
 COMMIT;
 
 #
-# Structure for the `menu_item` table : 
+# Structure for the `menu_menu` table : 
 #
 
-DROP TABLE IF EXISTS `menu_item`;
+DROP TABLE IF EXISTS `menu_menu`;
 
-CREATE TABLE `menu_item` (
+CREATE TABLE `menu_menu` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `menu_menu` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES 
+  (5,'demo','Демо-меню',660);
+
+COMMIT;
+
+#
+# Structure for the `menu_menuItem` table : 
+#
+
+DROP TABLE IF EXISTS `menu_menuItem`;
+
+CREATE TABLE `menu_menuItem` (
   `id` int(11) NOT NULL auto_increment,
   `parent_id` int(10) unsigned default '0',
   `type_id` int(10) unsigned default NULL,
@@ -555,10 +580,10 @@ CREATE TABLE `menu_item` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251 PACK_KEYS=0;
 
 #
-# Data for the `menu_item` table  (LIMIT 0,500)
+# Data for the `menu_menuItem` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_item` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
+INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
   (1,0,2,5,'Новости',0,661),
   (2,0,2,5,'Страницы',0,662),
   (3,0,2,5,'Каталог',0,663),
@@ -569,12 +594,12 @@ INSERT INTO `menu_item` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `orde
 COMMIT;
 
 #
-# Structure for the `menu_item_data` table : 
+# Structure for the `menu_menuItem_data` table : 
 #
 
-DROP TABLE IF EXISTS `menu_item_data`;
+DROP TABLE IF EXISTS `menu_menuItem_data`;
 
-CREATE TABLE `menu_item_data` (
+CREATE TABLE `menu_menuItem_data` (
   `id` int(11) NOT NULL default '0',
   `property_type` int(11) unsigned default NULL,
   `text` text,
@@ -585,10 +610,10 @@ CREATE TABLE `menu_item_data` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_item_data` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_data` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_item_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
+INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
   (2,2,NULL,'page',NULL,NULL),
   (1,4,NULL,'',NULL,NULL),
   (1,2,NULL,'news',NULL,NULL),
@@ -611,12 +636,12 @@ INSERT INTO `menu_item_data` (`id`, `property_type`, `text`, `char`, `int`, `flo
 COMMIT;
 
 #
-# Structure for the `menu_item_properties` table : 
+# Structure for the `menu_menuItem_properties` table : 
 #
 
-DROP TABLE IF EXISTS `menu_item_properties`;
+DROP TABLE IF EXISTS `menu_menuItem_properties`;
 
-CREATE TABLE `menu_item_properties` (
+CREATE TABLE `menu_menuItem_properties` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `title` varchar(255) default NULL,
@@ -627,10 +652,10 @@ CREATE TABLE `menu_item_properties` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_item_properties` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_properties` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_item_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
+INSERT INTO `menu_menuItem_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
   (1,'url','Ссылка',1,NULL),
   (2,'url','Ссылка',1,NULL),
   (3,'section','section',1,NULL),
@@ -639,12 +664,12 @@ INSERT INTO `menu_item_properties` (`id`, `name`, `title`, `type_id`, `args`) VA
 COMMIT;
 
 #
-# Structure for the `menu_item_properties_types` table : 
+# Structure for the `menu_menuItem_properties_types` table : 
 #
 
-DROP TABLE IF EXISTS `menu_item_properties_types`;
+DROP TABLE IF EXISTS `menu_menuItem_properties_types`;
 
-CREATE TABLE `menu_item_properties_types` (
+CREATE TABLE `menu_menuItem_properties_types` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `title` varchar(255) NOT NULL default '',
@@ -652,21 +677,21 @@ CREATE TABLE `menu_item_properties_types` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_item_properties_types` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_properties_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_item_properties_types` (`id`, `name`, `title`) VALUES 
+INSERT INTO `menu_menuItem_properties_types` (`id`, `name`, `title`) VALUES 
   (1,'char','Строка');
 
 COMMIT;
 
 #
-# Structure for the `menu_item_types` table : 
+# Structure for the `menu_menuItem_types` table : 
 #
 
-DROP TABLE IF EXISTS `menu_item_types`;
+DROP TABLE IF EXISTS `menu_menuItem_types`;
 
-CREATE TABLE `menu_item_types` (
+CREATE TABLE `menu_menuItem_types` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
@@ -674,22 +699,22 @@ CREATE TABLE `menu_item_types` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_item_types` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_item_types` (`id`, `name`, `title`) VALUES 
+INSERT INTO `menu_menuItem_types` (`id`, `name`, `title`) VALUES 
   (1,'simple','Простой'),
   (2,'advanced','Advanced');
 
 COMMIT;
 
 #
-# Structure for the `menu_item_types_props` table : 
+# Structure for the `menu_menuItem_types_props` table : 
 #
 
-DROP TABLE IF EXISTS `menu_item_types_props`;
+DROP TABLE IF EXISTS `menu_menuItem_types_props`;
 
-CREATE TABLE `menu_item_types_props` (
+CREATE TABLE `menu_menuItem_types_props` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
@@ -701,37 +726,14 @@ CREATE TABLE `menu_item_types_props` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_item_types_props` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_item_types_props` (`id`, `type_id`, `property_id`, `sort`, `isShort`) VALUES 
+INSERT INTO `menu_menuItem_types_props` (`id`, `type_id`, `property_id`, `sort`, `isShort`) VALUES 
   (1,1,1,0,0),
   (2,2,2,0,0),
   (3,2,3,0,0),
   (4,2,4,0,0);
-
-COMMIT;
-
-#
-# Structure for the `menu_menu` table : 
-#
-
-DROP TABLE IF EXISTS `menu_menu`;
-
-CREATE TABLE `menu_menu` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `title` varchar(255) NOT NULL default '',
-  `obj_id` int(11) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `menu_menu` table  (LIMIT 0,500)
-#
-
-INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES 
-  (5,'demo','Демо-меню',660);
 
 COMMIT;
 
@@ -4487,7 +4489,13 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4890,5,11,614,2,NULL,0,0),
   (4891,9,11,631,2,NULL,1,0),
   (4892,19,11,631,2,NULL,0,0),
-  (4893,5,11,631,2,NULL,0,0);
+  (4893,5,11,631,2,NULL,0,0),
+  (4894,9,11,668,2,NULL,1,0),
+  (4895,19,11,668,2,NULL,0,0),
+  (4896,5,11,668,2,NULL,0,0),
+  (4897,9,11,669,2,NULL,1,0),
+  (4898,19,11,669,2,NULL,0,0),
+  (4899,5,11,669,2,NULL,0,0);
 
 COMMIT;
 
@@ -4848,7 +4856,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (661,21),
   (662,21),
   (665,21),
-  (666,21);
+  (666,21),
+  (668,11),
+  (669,11),
+  (672,21);
 
 COMMIT;
 
@@ -5086,7 +5097,7 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (21,'gallery',11),
   (22,'album',11),
   (23,'photo',11),
-  (24,'item',12),
+  (24,'menuItem',12),
   (25,'menu',12),
   (26,'menuFolder',12);
 
@@ -5973,7 +5984,12 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (664),
   (665),
   (666),
-  (667);
+  (667),
+  (668),
+  (669),
+  (670),
+  (671),
+  (672);
 
 COMMIT;
 
@@ -6026,10 +6042,10 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (530,'access__'),
   (531,'access__gallery'),
   (532,'access_gallery_gallery'),
-  (632,'access__item'),
+  (632,'access__menuItem'),
   (633,'access__menu'),
   (635,'access_menu_menu'),
-  (642,'access_menu_item'),
+  (642,'access_menu_menuItem'),
   (643,'access__menuFolder'),
   (644,'access_menu_menuFolder'),
   (645,'menu_menuFolder');

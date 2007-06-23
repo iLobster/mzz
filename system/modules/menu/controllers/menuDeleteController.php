@@ -24,7 +24,7 @@ class menuDeleteController extends simpleController
 {
     public function getView()
     {
-        $itemMapper = $this->toolkit->getMapper('menu', 'item');
+        $itemMapper = $this->toolkit->getMapper('menu', 'menuItem');
         $id = $this->request->get('id', 'integer', SC_PATH);
 
         $item = $itemMapper->searchById($id);
@@ -39,7 +39,7 @@ class menuDeleteController extends simpleController
 
     private function deleteBranch(item $item)
     {
-        $itemMapper = $this->toolkit->getMapper('menu', 'item');
+        $itemMapper = $this->toolkit->getMapper('menu', 'menuItem');
         return print_r($item->getChildrens(), true);
         foreach ($item->getChildrens() as $child) {
             $this->deleteBranch($child);

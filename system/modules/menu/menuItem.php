@@ -13,14 +13,14 @@
  */
 
 /**
- * item: класс для работы c данными
+ * menuItem: класс для работы c данными
  *
  * @package modules
  * @subpackage menu
  * @version 0.1
  */
 
-class item extends simpleCatalogue
+class menuItem extends simpleCatalogue
 {
     protected $name = 'menu';
 

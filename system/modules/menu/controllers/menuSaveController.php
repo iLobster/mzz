@@ -26,7 +26,7 @@ class menuSaveController extends simpleController
 {
     public function getView()
     {
-        $itemMapper = $this->toolkit->getMapper('menu', 'item');
+        $itemMapper = $this->toolkit->getMapper('menu', 'menuItem');
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
 
         $action = $this->request->getAction();
