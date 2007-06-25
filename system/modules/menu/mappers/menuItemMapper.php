@@ -53,6 +53,18 @@ class menuItemMapper extends simpleCatalogueMapper
         return $data;
     }
 
+
+    public function getMaxOrder($id)
+    {
+        $db = DB::factory();
+        $criteria = new criteria($this->table);
+        $criteria->addSelectField('MAX(`order`)', 'maxorder')->add('parent_id', (int)$id);
+        $select = new simpleSelect($criteria);
+        $stmt = $db->query($select->toString());
+        $maxorder = $stmt->fetch();
+        return (int)$maxorder['maxorder'] + 1;
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

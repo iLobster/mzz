@@ -37,7 +37,7 @@ class menuDeleteController extends simpleController
         return jipTools::redirect();
     }
 
-    private function deleteBranch(item $item)
+    private function deleteBranch(menuItem $item)
     {
         $itemMapper = $this->toolkit->getMapper('menu', 'menuItem');
         return print_r($item->getChildrens(), true);

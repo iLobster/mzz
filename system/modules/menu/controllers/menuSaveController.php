@@ -101,6 +101,7 @@ class menuSaveController extends simpleController
                 $item->setMenu($menu);
                 $item->setType($type);
                 $item->setParent($id);
+                $item->setOrder($itemMapper->getMaxOrder($id));
             }
 
             foreach ($properties as $prop) {
