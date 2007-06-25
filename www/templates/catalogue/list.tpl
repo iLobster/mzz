@@ -2,7 +2,6 @@
 {title append="Каталог"}
 {add file="catalogue.css"}
 {include file="catalogue/tree.tpl" source=$catalogueFolder}
-
 <div class="catalogueList">
     {include file="catalogue/breadcrumbs.tpl" breadCrumbs=$chains}
     {foreach from=$items item="item"}

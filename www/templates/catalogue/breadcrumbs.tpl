@@ -5,7 +5,7 @@
     {if $smarty.foreach.crumb.last}
         <strong>{if is_a($crumb, 'catalogue')}{$crumb->getName()}{else}{$crumb->getTitle()}{/if}</strong>{$crumb->getJip()}
     {else}
-        <a href="{url route="withAnyParam" name=$crumb->getPath() action="list" section=$current_section module="catalogue"}">{$crumb->getTitle()}</a> / {*<img src="{$SITE_PATH}/templates/images/breadcrumb_arrow.gif" alt="" width="10" height="10" />*} 
+        <a href="{url route="withAnyParam" name=$crumb->getPath() section=$current_section action="list" module="catalogue"}">{$crumb->getTitle()}</a> / {*<img src="{$SITE_PATH}/templates/images/breadcrumb_arrow.gif" alt="" width="10" height="10" />*} 
     {/if}
  {/foreach}
  </span>

@@ -4,7 +4,7 @@
 {literal}<script language="javascript">
 function loadForm(id)
 {{/literal}
-    var url = '{url route="withAnyParam" section="catalogue" name=$folder->getPath() action="create"}';{literal}
+    var url = '{url route="withAnyParam" section=$current_section name=$folder->getPath() action="create"}';{literal}
     new Ajax.Request(url,
     {
         method:'get',

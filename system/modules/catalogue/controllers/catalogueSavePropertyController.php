@@ -34,15 +34,15 @@ class catalogueSavePropertyController extends simpleController
         $typesTemp = $catalogueMapper->getAllPropertiesTypes();
         $types = array();
         $select = array('' => '');
-        foreach ($typesTemp as $type) {
-            $types[$type['id']] = $type['name'];
-            $select[$type['id']] = $type['title'] . ' (' . $type['name'] . ')';
+        foreach ($typesTemp as $type_tmp) {
+            $types[$type_tmp['id']] = $type_tmp['name'];
+            $select[$type_tmp['id']] = $type_tmp['title'] . ' (' . $type_tmp['name'] . ')';
         }
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо назвать это свойство');
         $validator->add('required', 'title', 'Необходимо дать метку этому свойству');
-        $validator->add('required', 'type', 'Необходимо указать тип поля');
+        $validator->add('required', 'type_id', 'Необходимо указать тип поля');
 
         if ($isEdit) {
             $id = $this->request->get('id', 'integer', SC_PATH);
@@ -98,7 +98,7 @@ class catalogueSavePropertyController extends simpleController
         } else {
             $name = $this->request->get('name', 'string', SC_POST);
             $title = $this->request->get('title', 'string', SC_POST);
-            $type = $this->request->get('type', 'integer', SC_POST);
+            $type = $this->request->get('type_id', 'integer', SC_POST);
 
             $params = array();
             switch ($types[$type]) {

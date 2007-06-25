@@ -196,7 +196,7 @@ CREATE TABLE `catalogue_catalogue_properties` (
 
 INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
   (10,'author','Автор',1,''),
-  (11,'pagescount','Количество страниц',3,''),
+  (11,'pagescount','Количество страниц',3,NULL),
   (13,'annotation','Аннотация',4,''),
   (12,'izdat','Издатель',1,''),
   (14,'standart','Стандарт',1,''),
@@ -585,11 +585,11 @@ CREATE TABLE `menu_menuItem` (
 
 INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
   (1,0,2,5,'Новости',0,661),
-  (2,0,2,5,'Страницы',0,662),
-  (3,0,2,5,'Каталог',0,663),
-  (4,0,2,5,'Галерея',0,664),
-  (5,0,2,5,'Пользователи',0,665),
-  (6,0,2,5,'Панель управления',0,666);
+  (2,0,2,5,'Страницы',1,662),
+  (3,0,2,5,'Каталог',2,663),
+  (4,0,2,5,'Галерея',3,664),
+  (5,0,2,5,'Пользователи',4,665),
+  (6,0,2,5,'Панель управления',5,666);
 
 COMMIT;
 

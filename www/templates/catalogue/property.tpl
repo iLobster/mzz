@@ -124,8 +124,8 @@ function catalogueChangeClassesList(select)
             <td>{form->text name="name" size="60" value=$name onError="style=border: red 1px solid;"}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td><strong>{form->caption name="type" value="“ип:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
-            <td>{form->select name="type" options=$selectdata value=$type_id onchange="javascript:showHidden(this.value);" onError="style=border: red 1px solid;"}{$errors->get('type')}</td>
+            <td><strong>{form->caption name="type_id" value="“ип:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+            <td>{form->select name="type_id" options=$selectdata value=$type_id onchange="javascript:showHidden(this.value);" onError="style=border: red 1px solid;"}{$errors->get('type_id')}</td>
         </tr>
         <tr>
             <table>

@@ -932,7 +932,7 @@ abstract class simpleMapper
      */
     public function getItems($id)
     {
-        $mapper = systemToolkit::getInstance()->getMapper($this->name, $this->itemName);
+        $mapper = systemToolkit::getInstance()->getMapper($this->name, $this->itemName, $this->section);
 
         if (!empty($this->pager)) {
             $mapper->setPager($this->pager);
