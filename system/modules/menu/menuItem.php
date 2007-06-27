@@ -39,6 +39,11 @@ class menuItem extends simpleCatalogue
         $this->childrens = $childrens;
     }
 
+    public function changeOrder($direction)
+    {
+        $this->mapper->changeOrder($this->getId(), $direction);
+    }
+
     public function getUrl()
     {
         $toolkit = systemToolkit::getInstance();

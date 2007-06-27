@@ -53,6 +53,16 @@ class menuItemMapper extends simpleCatalogueMapper
         return $data;
     }
 
+    public function getMinOrder($id)
+    {
+        $db = DB::factory();
+        $criteria = new criteria($this->table);
+        $criteria->addSelectField('MIN(`order`)', 'minorder')->add('parent_id', (int)$id);
+        $select = new simpleSelect($criteria);
+        $stmt = $db->query($select->toString());
+        $maxorder = $stmt->fetch();
+        return (int)$maxorder['minorder'];
+    }
 
     public function getMaxOrder($id)
     {
@@ -62,7 +72,30 @@ class menuItemMapper extends simpleCatalogueMapper
         $select = new simpleSelect($criteria);
         $stmt = $db->query($select->toString());
         $maxorder = $stmt->fetch();
-        return (int)$maxorder['maxorder'] + 1;
+        return (int)$maxorder['maxorder'];
+    }
+
+    public function searchByOrderAndParent($order, $parent)
+    {
+        $criteria = new criteria;
+        $criteria->add('order', (int)$order)->add('parent_id', (int)$parent);
+        return $this->searchOneByCriteria($criteria);
+    }
+
+
+    public function changeOrder($id, $direction)
+    {
+        $item = $this->searchById($id);
+
+        if ($item) {
+            $next = $this->searchByOrderAndParent((($direction == 'up') ?$item->getOrder() - 1 : $item->getOrder() + 1), $item->getParent());
+            if ($next) {
+                $item->setOrder($next->getOrder());
+                $next->setOrder($item->getOrder());
+                $this->save($next);
+            }
+            $this->save($item);
+        }
     }
 
     /**

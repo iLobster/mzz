@@ -398,10 +398,10 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,8,1,5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,31,1,6,623),
-  (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,8,1,5,625),
-  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,26,1,6,629);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,9,1,5,611),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,33,1,6,623),
+  (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,9,1,5,625),
+  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,27,1,6,629);
 
 COMMIT;
 
@@ -4920,7 +4920,9 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (63,'addmenu'),
   (64,'editmenu'),
   (65,'additem'),
-  (66,'last');
+  (66,'last'),
+  (67,'moveUp'),
+  (68,'moveDown');
 
 COMMIT;
 
@@ -5022,8 +5024,8 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES
   (40,15,1,1,'60'),
   (41,17,1,1,'10'),
   (34,7,1,1,'10'),
-  (42,18,1,1,'1'),
-  (43,18,2,2,'../files'),
+  (48,18,1,1,'10'),
+  (49,18,2,2,'../files'),
   (44,21,4,6,'80'),
   (45,21,5,5,'60'),
   (46,21,6,7,'fileManager'),
@@ -5225,7 +5227,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (156,24,2),
   (157,26,9),
   (160,26,63),
-  (161,25,64);
+  (161,25,64),
+  (166,24,67);
 
 COMMIT;
 
@@ -5989,7 +5992,11 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (669),
   (670),
   (671),
-  (672);
+  (672),
+  (673),
+  (674),
+  (675),
+  (676);
 
 COMMIT;
 

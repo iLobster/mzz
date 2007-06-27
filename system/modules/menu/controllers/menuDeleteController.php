@@ -40,7 +40,6 @@ class menuDeleteController extends simpleController
     private function deleteBranch(menuItem $item)
     {
         $itemMapper = $this->toolkit->getMapper('menu', 'menuItem');
-        return print_r($item->getChildrens(), true);
         foreach ($item->getChildrens() as $child) {
             $this->deleteBranch($child);
             $itemMapper->delete($child->getId());
