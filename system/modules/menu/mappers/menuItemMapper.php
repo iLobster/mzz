@@ -87,6 +87,15 @@ class menuItemMapper extends simpleCatalogueMapper
         }
     }
 
+    public function delete(menuItem $item)
+    {
+        $stmt = $this->db->prepare('UPDATE ' . $this->table . ' SET `order` = `order` - 1 WHERE `parent_id` = :parent_id AND `order` > :order');
+        $stmt->bindParam('parent_id', $item->getParent(), PDO::PARAM_INT);
+        $stmt->bindParam('order', $item->getOrder(), PDO::PARAM_INT);
+        $stmt->execute();
+        parent::delete($item->getId());
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

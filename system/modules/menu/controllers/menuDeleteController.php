@@ -31,7 +31,7 @@ class menuDeleteController extends simpleController
 
         if ($item) {
             $this->deleteBranch($item);
-            $itemMapper->delete($id);
+            $itemMapper->delete($item);
         }
 
         return jipTools::redirect();
@@ -42,7 +42,7 @@ class menuDeleteController extends simpleController
         $itemMapper = $this->toolkit->getMapper('menu', 'menuItem');
         foreach ($item->getChildrens() as $child) {
             $this->deleteBranch($child);
-            $itemMapper->delete($child->getId());
+            $itemMapper->delete($child);
         }
     }
 }
