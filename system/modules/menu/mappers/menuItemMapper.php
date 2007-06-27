@@ -53,17 +53,6 @@ class menuItemMapper extends simpleCatalogueMapper
         return $data;
     }
 
-    public function getMinOrder($id)
-    {
-        $db = DB::factory();
-        $criteria = new criteria($this->table);
-        $criteria->addSelectField('MIN(`order`)', 'minorder')->add('parent_id', (int)$id);
-        $select = new simpleSelect($criteria);
-        $stmt = $db->query($select->toString());
-        $maxorder = $stmt->fetch();
-        return (int)$maxorder['minorder'];
-    }
-
     public function getMaxOrder($id)
     {
         $db = DB::factory();
