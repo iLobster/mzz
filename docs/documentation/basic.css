@@ -7,34 +7,29 @@
 html, body {
   margin:6px;
   padding:6px;
-  background-color: #EDEDED;
-  color: #000000;
-  font-family: verdana, tahoma, arial;
+  background-color: #FFFFFF;
+  color: #000000; 
+  font-family: Verdana, Tahoma, Arial;
   font-size: 90%;
 }
 
 #content {
-  background-color: white;
-  border: 1px solid #D6D6D6;
+  /*background-color: white;
+  border: 1px solid #D6D6D6;*/
   padding: 20px;
-  line-height: 130%;
+  line-height: 150%;
   font-size: 100%;
 }
 
 #title {
   font-size: 150%;
-  font-family: verdana, tahoma, arial;
-}
-
-#version {
-  font-size: 70%;
-  font-family: verdana, tahoma, arial;
-  width: 90px;
-  padding-bottom: 25px;
+  border-bottom: 2px solid #919191;
+  padding-bottom: 7px;
+  margin-bottom: 25px;
 }
 
 a {
-  color: #0086CE;
+  color: #0081C6;
 }
 
 .navigation {
@@ -71,16 +66,17 @@ div.code {
 
 div.code_border {
   overflow:auto;
-  padding: 14px 14px;
+  padding: 0px 12px;
   position: relative;
   border: 1px solid #D6D6D6;
+  background-color: #FAFAFA;
 }
 
 div.note {
-  margin: 14px;
-  background-color: #FEFFDF;
-  border: 1px solid #ECECEC;
-  padding: 4px;
+  margin: 10px 0px;
+  background-color: #FBE6F3;
+  border: 1px solid #DB9CAB;
+  padding: 8px;
 }
 
 div.options_name {

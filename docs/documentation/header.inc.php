@@ -9,5 +9,4 @@
 
 <div id="content">
 
-<div id="title">Документация mzz</div>
-<div id="version">версия 0.1.0</div>
+<div id="title">Документация mzz 0.1.x</div>

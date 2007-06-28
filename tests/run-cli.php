@@ -1,10 +1,7 @@
 <?php
 //error_reporting(E_ALL | E_STRICT);
 error_reporting(E_ALL);
-/**
- *
- * @todo txt-отображение исключения 
- */
+
 $application_path = dirname(__FILE__);
 
 try {
@@ -22,16 +19,6 @@ try {
     $filter_chain->process();
 
     $response->send();
-/*
-} catch (MzzException $e) {
-    $e->printHtml();
-} catch (Exception $e) {
-    $name = get_class($e);
-    $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());
-    $e->setName($name);
-    $e->printHtml();
-}
-*/
 } catch (Exception $e) {
     $name = get_class($e);
     $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());

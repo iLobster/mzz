@@ -3,9 +3,9 @@
 
 <p>ѕримеры правильных имен:</p>
 <<code>>
-newsDeleteController<br />
-httpRequest<br />
-adminMapper<br />
+newsDeleteController
+httpRequest
+adminMapper
 <</code>>
 
 <p> ласс может быть определен как абстрактный (abstract class core) или как финальный (final class core). ѕодумайте прежде чем объ€вл€ть класс финальным.</p>
@@ -13,12 +13,12 @@ adminMapper<br />
 <p>—войства класса должны быть определены как public, private, или protected. »спользование var (который хоть и €вл€етс€ алиасом public), дл€ указани€ доступа к свойству не допускаетс€.</p>
 
 <p>ѕример класса:</p>
-<<code>>
-class funnyAction<br />
-{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;const SOME_CONSTANT = 'value';<br />
-&nbsp;&nbsp;&nbsp;&nbsp;public $foo;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;protected $some;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;private $bar = 'Default value';<br />
+<<code php>>
+class funnyAction
+{
+    const SOME_CONSTANT = 'value';
+    public $foo;
+    protected $some;
+    private $bar = 'Default value';
 }
 <</code>>

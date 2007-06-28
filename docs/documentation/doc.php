@@ -14,8 +14,7 @@ $menu = array("intro.Предисловие" =>
            "setup.Установка и настройка" =>
                         array(
                         "system_requirements.Минимальные требования",
-                        "linux.Установка на linux",
-                        "windows.Установка на windows",
+                        "server.Установка на сервер",
                         "configuration.Конфигурация"
                                 => array("system.Системная конфигурация проекта",
                                          "routes.Настройка Routes для URL",
@@ -124,18 +123,8 @@ function render($id) {
 
     $note = '
 <div class="note">
-<table border="0" summary="note">
-<tr>
-<td valign="top" width="30"><img alt="примечание" src="note.png" width="27" height="33" /></td>
-<td valign="top"><strong>Примечание</strong><br />';
-
-    $note_end = '</td>
-</tr>
-</table>
-</div>
 ';
-
-
+    $note_end = "\r\n</div>\r\n";
 
     $content = file_get_contents($path);
     $content = preg_replace("/<!--\s*(.*?)?-?code\s*(\d+)\s*-->/ie", 'include_code("' . $id . '-$2", "$1");', $content);
@@ -165,7 +154,7 @@ function include_code($id, $type) {
         exit;
     }
     if (empty($type)) {
-        return '<div class="code"><div class="code_border">' . highlight_file($path, 1) . '</div></div>';
+       // return '<div class="code"><div class="code_border">' . highlight_file($path, 1) . '</div></div>';
     }
     include_once 'highlighter/geshi.php';
     if ($type == 'html') { $type = 'html4strict'; }
@@ -316,15 +305,15 @@ if (!isset($_REQUEST['cat'])) {
 
     echo '<div class="navigation"><table width="99%" summary="Navigation">
     <tr>
-     <td width="20%" align="left">';
+     <td style="width: 20%; text-align: left;">';
     if($prev && $prev != $_REQUEST['cat']) {
         echo '<a href="' . $prev . '.html"><span style="font-size: 120%;">&larr;</span> Назад</a>';
     } else {
         //echo 'Назад';
     }
     echo '</td>
-       <td width="60%" align="center"><a href="' . $cat[0] . '.html">' . $paths[$cat[0]][1] . '. ' . $paths[$cat[0]][2] . '</a></td>
-       <td width="20%" align="right">';
+       <td style="width: 60%; text-align: center;"><a href="' . $cat[0] . '.html">' . $paths[$cat[0]][1] . '. ' . $paths[$cat[0]][2] . '</a></td>
+       <td style="width: 20%; text-align: right;">';
 
     if($path != $_REQUEST['cat']) {
         echo '<a href="' . $path . '.html">Вперед <span style="font-size: 120%;">&rarr;</span></a>';
@@ -406,7 +395,7 @@ if (!isset($_REQUEST['cat'])) {
 
     echo '<div class="navigation_f"><table width="99%" summary="Navigation">
     <tr>
-     <td width="20%" align="left" valign="top">';
+     <td style="width: 20%; text-align: left;" valign="top">';
 
     if($prev && $prev != $_REQUEST['cat']) {
         echo '<a href="' . $prev . '.html"><span style="font-size: 120%;">&larr;</span> Назад</a>';
@@ -414,8 +403,8 @@ if (!isset($_REQUEST['cat'])) {
         //echo 'Назад';
     }
     echo '</td>
-       <td width="60%" align="center"><a href="' . $cat[0] . '.html">' . $paths[$cat[0]][1] . '. ' . $paths[$cat[0]][2] . '</a><br /><a href="index.html">Индекс</a></td>
-       <td width="20%" align="right" valign="top">';
+       <td style="width: 60%; text-align: center;"><a href="' . $cat[0] . '.html">' . $paths[$cat[0]][1] . '. ' . $paths[$cat[0]][2] . '</a><br /><a href="index.html">Индекс</a></td>
+       <td style="width: 20%; text-align: right;" valign="top">';
 
     if($path != $_REQUEST['cat']) {
         echo '<a href="' . $path . '.html">Вперед <span style="font-size: 120%;">&rarr;</span></a>';

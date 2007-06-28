@@ -1,26 +1,27 @@
 <?php
 /*************************************************************************************
- * xml.php
- * -------
- * Author: Nigel McNie (nigel@geshi.org)
- * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
+ * bash.php
+ * --------
+ * Author: Andreas Gohr (andi@splitbrain.org)
+ * Copyright: (c) 2004 Andreas Gohr, Nigel McNie (http://qbnz.com/highlighter)
  * Release Version: 1.0.7.19
- * Date Started: 2004/09/01
+ * Date Started: 2004/08/20
  *
- * XML language file for GeSHi. Based on the idea/file by Christian Weiske
+ * BASH language file for GeSHi.
  *
  * CHANGES
  * -------
- * 2005/12/28 (1.0.2)
- *   -  Removed escape character for strings
- * 2004/11/27 (1.0.1)
- *   -  Added support for multiple object splitters
- * 2004/10/27 (1.0.0)
+ * 2004/11/27 (1.0.2)
+ *  -  Added support for multiple object splitters
+ * 2004/10/27 (1.0.1)
+ *   -  Added support for URLs
+ * 2004/08/20 (1.0.0)
  *   -  First Release
  *
  * TODO (updated 2004/11/27)
  * -------------------------
- * * Check regexps work and correctly highlight XML stuff and nothing else
+ * * Get symbols working
+ * * Highlight builtin vars
  *
  *************************************************************************************
  *
@@ -43,24 +44,45 @@
  ************************************************************************************/
 
 $language_data = array (
-	'LANG_NAME' => 'XML',
+    'LANG_NAME' => 'Bash',
+    // Bash DOES have single line comments with # markers. But bash also has
+    // the  $# variable, so comments need special handling (see sf.net
+    // 1564839)
 	'COMMENT_SINGLE' => array(),
-	'COMMENT_MULTI' => array('<!--' => '-->'),
+	'COMMENT_MULTI' => array(),
 	'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
 	'QUOTEMARKS' => array("'", '"'),
-	'ESCAPE_CHAR' => '',
+	'ESCAPE_CHAR' => '\\',
 	'KEYWORDS' => array(
+		1 => array(
+			'case', 'do', 'done', 'elif', 'else', 'esac', 'fi', 'for', 'function',
+			'if', 'in', 'select', 'then', 'until', 'while', 'time'
+			),
+		3 => array(
+			'source', 'alias', 'bg', 'bind', 'break', 'builtin', 'cd', 'command',
+			'compgen', 'complete', 'continue', 'declare', 'typeset', 'dirs',
+			'disown', 'echo', 'enable', 'eval', 'exec', 'exit', 'export', 'fc',
+			'fg', 'getopts', 'hash', 'help', 'history', 'jobs', 'kill', 'let',
+			'local', 'logout', 'popd', 'printf', 'pushd', 'pwd', 'read', 'readonly',
+			'return', 'set', 'shift', 'shopt', 'suspend', 'test', 'times', 'trap',
+			'type', 'ulimit', 'umask', 'unalias', 'unset', 'wait'
+			)
 		),
 	'SYMBOLS' => array(
+		'(', ')', '[', ']', '!', '@', '%', '&', '*', '|', '/', '<', '>'
 		),
 	'CASE_SENSITIVE' => array(
 		GESHI_COMMENTS => false,
+		1 => true,
+		3 => true,
 		),
 	'STYLES' => array(
 		'KEYWORDS' => array(
+			1 => 'color: #b1b100;',
+			3 => 'color: #000066;'
 			),
 		'COMMENTS' => array(
-			'MULTI' => 'color: #808080; font-style: italic;'
+			1 => 'color: #808080; font-style: italic;',
 			),
 		'ESCAPE_CHAR' => array(
 			0 => 'color: #000099; font-weight: bold;'
@@ -79,66 +101,34 @@ $language_data = array (
 		'SYMBOLS' => array(
 			0 => 'color: #66cc66;'
 			),
-		'SCRIPT' => array(
-			0 => 'color: #00bbdd;',
-			1 => 'color: #ddbb00;',
-			2 => 'color: #339933;',
-			3 => 'color: #009900;'
-			),
 		'REGEXPS' => array(
-			0 => 'color: #000066;',
-			1 => 'font-weight: bold; color: black;',
-			2 => 'font-weight: bold; color: black;',
+			0 => 'color: #0000ff;',
+			1 => 'color: #0000ff;',
+            2 => 'color: #0000ff;',
+            3 => 'color: #808080; font-style: italic;',
+            4 => 'color: #0000ff;'
+			),
+		'SCRIPT' => array(
 			)
 		),
 	'URLS' => array(
+		1 => '',
+		3 => ''
 		),
 	'OOLANG' => false,
 	'OBJECT_SPLITTERS' => array(
 		),
 	'REGEXPS' => array(
-		0 => array(
-			GESHI_SEARCH => '([a-z\-:]+)(=)',
-			GESHI_REPLACE => '\\1',
-			GESHI_MODIFIERS => 'i',
-			GESHI_BEFORE => '',
-			GESHI_AFTER => '\\2'
-			),
-		1 => array(
-			GESHI_SEARCH => '(&lt;[/?|(\?xml)]?[a-z0-9_\-:]*(\??&gt;)?)',
-			GESHI_REPLACE => '\\1',
-			GESHI_MODIFIERS => 'i',
-			GESHI_BEFORE => '',
-			GESHI_AFTER => ''
-			),
-		2 => array(
-			GESHI_SEARCH => '(([/|\?])?&gt;)',
-			GESHI_REPLACE => '\\1',
-			GESHI_MODIFIERS => 'i',
-			GESHI_BEFORE => '',
-			GESHI_AFTER => ''
-			)
+		0 => "\\$\\{[a-zA-Z_][a-zA-Z0-9_]*?\\}",
+		1 => "\\$[a-zA-Z_][a-zA-Z0-9_]*",
+        2 => "([a-zA-Z_][a-zA-Z0-9_]*)=",
+        3 => "(?<!\\$)#[^\n]*",
+        4 => "\\$#"
 		),
-	'STRICT_MODE_APPLIES' => GESHI_ALWAYS,
+	'STRICT_MODE_APPLIES' => GESHI_NEVER,
 	'SCRIPT_DELIMITERS' => array(
-		0 => array(
-			'<!DOCTYPE' => '>'
-			),
-		1 => array(
-			'&' => ';'
-			),
-		2 => array(
-			'<![CDATA[' => ']]>'
-			),
-		3 => array(
-			'<' => '>'
-			)
-	),
+		),
 	'HIGHLIGHT_STRICT_BLOCK' => array(
-		0 => false,
-		1 => false,
-		2 => false,
-		3 => true
 		)
 );
 

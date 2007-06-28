@@ -1,7 +1,7 @@
 <p>Интерфейсы именуются так же, как классы, но первая буква имени обязательно "i".</p>
 <p>Примеры имен интерфейсов:</p>
 <<code>>
-iRequest<br />
-iResponse<br />
-iResolver<br />
+iRequest
+iResponse
+iResolver
 <</code>>
