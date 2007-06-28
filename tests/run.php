@@ -3,6 +3,10 @@
 //error_reporting(E_ALL | E_STRICT);
 error_reporting(E_ALL);
 
+if (empty($application_path)) {
+    $application_path = dirname(__FILE__);
+}
+
 try {
     require_once 'init.php';
     require_once 'testsFinder.php';

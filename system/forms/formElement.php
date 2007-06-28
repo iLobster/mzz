@@ -28,6 +28,7 @@ abstract class formElement
             $options['onError'] = 'style=color: red;';
         }
 
+
         self::parseError($options);
 
         if (!$name) {
@@ -71,16 +72,17 @@ abstract class formElement
             if (isset($options['name']) && !is_null($errors->get($options['name']))) {
                 $hasErrors = true;
 
-                if (isset($options['onError'])) {
+                if (isset($options['onError']) && $options['onError'] != false) {
                     $onError = explode('=', $options['onError']);
                     $cnt = sizeof($onError);
                     for ($i=1; $i < $cnt; $i = $i + 2) {
                         $options[$onError[$i-1]] = $onError[$i];
                     }
+
                 }
             }
         }
-        unset($options['onError']);
+        $options['onError'] = false;
 
         return $hasErrors;
     }
@@ -100,7 +102,9 @@ abstract class formElement
         }
         ksort($options);
         foreach ($options as $key => $value) {
-            $html .= ' ' . $key . '="' . self::escapeOnce($value) . '"';
+            if (!empty($key) && $value !== false) {
+                $html .= ' ' . $key . '="' . self::escapeOnce($value) . '"';
+            }
         }
         return $html;
     }

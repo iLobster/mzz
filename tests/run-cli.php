@@ -5,6 +5,8 @@ error_reporting(E_ALL);
  *
  * @todo txt-отображение исключения 
  */
+$application_path = dirname(__FILE__);
+
 try {
     require_once 'init.php';
     require_once 'testsFinder.php';
