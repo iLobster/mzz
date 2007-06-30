@@ -3,7 +3,7 @@
 
 285 ( ) Роуты
         1. В дебаге роутов выводить имя роута
-        2. В роутах есть такой вот: $router->addRoute('catalogueFolder', new requestRoute('catalogue/:name/:action', array('section' => 'catalogue', 'name' => 'root', 'action' => 'list'), array('name' => '.+?', 'action' => '(?:list|create|createFolder|editFolder|deleteFolder|moveFolder)')));
+     *  2. В роутах есть такой вот: $router->addRoute('catalogueFolder', new requestRoute('catalogue/:name/:action', array('section' => 'catalogue', 'name' => 'root', 'action' => 'list'), array('name' => '.+?', 'action' => '(?:list|create|createFolder|editFolder|deleteFolder|moveFolder)')));
             zerkms: по моей логике - урл типа: mzz/catalogue/addType не должен захватываться этим роутом, потому что 'name' => '.+?', НО, судя по всему, рега срабатывает для дефолтного 'name' => 'root'. Собственно поведение нужно как-то поменять на ожидаемое
 
 281 ( ) JIP и всё, что с ним связано
