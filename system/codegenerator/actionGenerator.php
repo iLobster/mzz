@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.4
+ * @version 0.1.5
  */
 
 class actionGenerator
@@ -195,8 +195,12 @@ class actionGenerator
             rename('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($oldName) . 'Controller.php', 'controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($newName) . 'Controller.php');
             //rename('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($oldName) . 'View.php', 'views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($newName) . 'View.php');
 
-            rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl', systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');
-            rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl', systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');
+            if (is_file($tmp = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl')) {
+                rename($tmp, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');
+            }
+            if (is_file($tmp = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl')) {
+                rename($tmp, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');
+            }
         }
 
         $actionsfile = 'actions' . DIRECTORY_SEPARATOR . $this->class . '.ini';

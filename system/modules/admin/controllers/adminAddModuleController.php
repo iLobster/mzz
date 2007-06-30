@@ -20,7 +20,7 @@ fileLoader::load('codegenerator/moduleGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.2
+ * @version 0.2.1
  */
 
 class adminAddModuleController extends simpleController
@@ -141,6 +141,11 @@ class adminAddModuleController extends simpleController
         $url->setAction($action);
 
         $dest = $adminMapper->getDests(true);
+
+        if (!sizeof($dest)) {
+            $controller = new messageController('Ќет доступа на запись в каталоги дл€ создани€ модул€', messageController::WARNING);
+            return $controller->run();
+        }
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('data', $data);

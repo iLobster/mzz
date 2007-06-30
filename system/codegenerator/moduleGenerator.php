@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class moduleGenerator
@@ -121,8 +121,12 @@ class moduleGenerator
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
 
+        if (is_writeable(CUR)) {
+            throw new mzzRuntimeException('Нет доступа на запись в каталог ' . CUR);
+        }
+
         // создаем корневую папку модуля
-        if (!is_dir( CUR . DIRECTORY_SEPARATOR . $module )) {
+        if (!is_dir(CUR . DIRECTORY_SEPARATOR . $module)) {
             mkdir($module, 0700);
             $this->log[] = "Корневой каталог модуля создан успешно";
         }
