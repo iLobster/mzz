@@ -107,7 +107,7 @@ class adminAddActionController extends simpleController
 
             $modules = $adminMapper->getModulesList();
 
-            if (!$values['dest']) {
+            if (@!$values['dest']) {
                 $file = fileLoader::resolve($modules[$data['m_id']]['name'] . '/actions/' . $data['c_name'] . '.ini');
 
                 foreach ($dest as $key => $val) {
