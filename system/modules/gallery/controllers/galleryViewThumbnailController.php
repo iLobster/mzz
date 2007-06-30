@@ -37,7 +37,7 @@ class galleryViewThumbnailController extends simpleController
 
         if (!$thumbnail) {
             $source = $photo->getFile();
-            if ($source && in_array($ext = $source->getExt(), array('jpg', 'png', 'gif'))) {
+            if ($source && in_array($ext = $source->getExt(), array('jpg', 'jpeg', 'png', 'gif'))) {
                 if ($ext == 'jpg') {
                     $ext = 'jpeg';
                 }

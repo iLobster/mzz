@@ -96,7 +96,8 @@ class albumMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        return 1;
+        $action = systemToolkit::getInstance()->getRequest()->getAction();
+        return (int)$this->searchById(($action == 'viewAlbum') ? $args['album'] : $args['id'])->getObjId();
     }
 }
 
