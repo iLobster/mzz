@@ -67,6 +67,7 @@ class requestRouter
         if (isset($this->routes[$name])) {
             throw new mzzRuntimeException('Route с именем ' . $name . ' уже добавлен');
         }
+        $route->setName($name);
         $this->routes[$name] = $route;
     }
 

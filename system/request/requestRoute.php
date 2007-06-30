@@ -51,6 +51,14 @@ class requestRoute implements iRoute
      */
     const REGEX_DELIMITER = '#';
 
+
+    /**
+     * Имя роута
+     *
+     * @var string
+     */
+    protected $name;
+
     /**
      * Шаблон
      *
@@ -101,7 +109,6 @@ class requestRoute implements iRoute
      */
     protected $debug;
 
-
     /**
      * Конструктор
      *
@@ -116,6 +123,14 @@ class requestRoute implements iRoute
         $this->defaults = $defaults;
         $this->requirements = $requirements;
         $this->debug = $debug;
+    }
+
+    public function setName($name)
+    {
+        if (!empty($this->name)) {
+            throw new mzzRuntimeException('У Route уже есть имя - ' . $this->name);
+        }
+        $this->name = $name;
     }
 
     /**
@@ -134,6 +149,7 @@ class requestRoute implements iRoute
         }
 
         if ($debug) {
+            echo '<span style="background-color: #D9F2FC; padding: 0 3px;">' . $this->name . '</span>, ';
             echo '<span style="background-color: #D9F2FC; padding: 0 3px;">' . $this->pattern . '</span>, ';
             echo '<span style="background-color: #FBDFDA; padding: 0 3px;">' . $this->regex . '</span>, ';
             echo '<span style="background-color: #E5FBE2; padding: 0 3px;">' . $path . "</span><br />\r\n";
