@@ -19,7 +19,7 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.2
+ * @version 0.2.1
  */
 class adminAddObjToRegistryController extends simpleController
 {
@@ -77,4 +77,5 @@ function checkClassSectionExists($id, $db)
 
     return $res['cnt'] == 1;
 }
+
 ?>

@@ -4,7 +4,7 @@
 <div id="hcontainer">
 
     <div id="menu">
-    {load module="menu" section="menu" action="view" name="demo"}
+    {load module="menu" section="menu" action="view" name="demo" 403handle="none"}
     </div>
     {* {if $current_section != 'user'} *}
     {load module="user" action="loginForm" section="user" id=0 403handle="none"}
