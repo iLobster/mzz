@@ -53,22 +53,13 @@ class adminAdminController extends simpleController
 
             $access = $acl->get('admin');
 
-            /**
-             * @todo подумать над тем, что должно быть в случае 403 здесь
-             */
-            if (!$access) {
-                //$adminMapper = $this->toolkit->getMapper('admin', 'admin');
-
-
+            if ($access) {
                 return $this->smarty->fetch('admin/admin.tpl');
             }
-
 
             fileLoader::load('simple/simple403Controller');
             $controller = new simple403Controller();
             return $controller->run();
-
-            return 'нет доступа';
         }
 
         if (isset($menu[$module])) {
