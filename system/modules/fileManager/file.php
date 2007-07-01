@@ -100,12 +100,20 @@ class file extends simple
             header("Cache-Control: public, must-revalidate, max-age=0");
             header("Content-Length: " . ($size - $offset + 1));
             header("Content-Range: bytes " . $offset . "-" . $size . "/" . $fileSize);
-            if (!$this->getRightHeader()) {
+
+            $mimetypes = array(
+            'jpg' => 'image/jpg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'zip' => 'application/zip',
+            'mp3' => 'audio/mpeg'
+            );
+            if (!$this->getRightHeader() || !in_array($this->getExt(), $mimetypes)) {
                 header("Content-Type: application/x-octetstream");
                 header("Content-Disposition: attachment; filename=\"" . $this->getName() . "\"");
             } else {
                 // @todo: сделать определение
-                header("Content-Type: image/jpg");
+                header("Content-Type: " . $mimetypes[$this->getExt()]);
             }
             header("Last-Modified: " . date('r', filemtime($fileName)));
 
