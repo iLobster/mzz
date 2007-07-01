@@ -105,6 +105,14 @@ abstract class simpleMapper
     protected $relations;
 
     /**
+     * Поле в таблице для хранения уникального идентификатора доменного объекта
+     * Если это поле используется в других целях переопределяйте его в наследуемом классе
+     *
+     * @var string
+     */
+    protected $obj_id_field = "obj_id";
+
+    /**
      * Конструктор
      *
      * @param string $section секция
@@ -644,10 +652,10 @@ abstract class simpleMapper
      *
      * @param array $map
      */
-    protected function addObjId(&$map)
+    public function addObjId(&$map)
     {
-        if (!isset($map['obj_id'])) {
-            $map['obj_id'] = array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
+        if (!isset($map[$this->obj_id_field])) {
+            $map['obj_id'] = array('name' => $this->obj_id_field, 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
         }
     }
 

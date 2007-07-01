@@ -19,7 +19,7 @@ fileLoader::load('jip/jip');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 abstract class simple
@@ -67,14 +67,6 @@ abstract class simple
     protected $mapper;
 
     /**
-     * ѕоле в таблице дл€ хранени€ уникального идентификатора доменного объекта
-     * ≈сли это поле используетс€ в других цел€х переопредел€йте его в наследуемом классе
-     *
-     * @var string
-     */
-    protected $obj_id_field = "obj_id";
-
-    /**
      * »м€ раздела, в контексте которого в данный момент работает данный модуль
      *
      * @var string
@@ -92,12 +84,7 @@ abstract class simple
         $this->map = $map;
         $this->mapper = $mapper;
 
-        $this->map[$this->obj_id_field] = array (
-        'name' => $this->obj_id_field,
-        'accessor' => 'getObjId',
-        'mutator' => 'setObjId',
-        'once' => 'true'
-        );
+        $this->mapper->addObjId($this->map);
 
         $this->fields = new arrayDataspace();
         $this->changedFields = new arrayDataspace();

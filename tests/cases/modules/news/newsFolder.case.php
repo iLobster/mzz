@@ -16,7 +16,8 @@ class newsFolderTest extends unitTestCase
         $map = array(
         'id' => array ('name' => 'id', 'accessor' => 'getId', 'mutator' => 'setId', 'once' => 'true' ),
         'name' => array ('name' => 'name', 'accessor' => 'getName', 'mutator' => 'setName'),
-        'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent')
+        'parent' => array ('name' => 'parent', 'accessor' => 'getParent', 'mutator' => 'setParent'),
+        'obj_id' => array('name' => 'obj_id', 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true')
         );
 
         $this->db = DB::factory();
