@@ -27,7 +27,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1.1
+ * @version 0.1.2
  */
 class requestRouter
 {
@@ -45,7 +45,13 @@ class requestRouter
      */
     protected $current;
 
+    /**
+     * Вывод отладочной информации
+     *
+     * @var boolean
+     */
     protected $debug = false;
+
     /**
      * Конструктор
      *
@@ -134,6 +140,10 @@ class requestRouter
         $this->request->setParams($params);
     }
 
+    /**
+     * Включение отображения отладочной информации
+     *
+     */
     public function enableDebug()
     {
         $this->debug = true;

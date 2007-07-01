@@ -93,7 +93,7 @@ class requestRouteTest extends unitTestCase
         $route = new requestRoute('somepath/:controller/{:id}-:action/:default', array('default' => 'default'));
         $this->assertEqual(
             $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view')),
-            'somepath/news/1-view/default'
+            'somepath/news/1-view'
         );
 
     }

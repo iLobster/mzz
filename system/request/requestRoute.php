@@ -125,6 +125,11 @@ class requestRoute implements iRoute
         $this->debug = $debug;
     }
 
+    /**
+     * ”становка имени роута. ”станавливаетс€ только один раз
+     *
+     * @param string $name
+     */
     public function setName($name)
     {
         if (!empty($this->name)) {
@@ -149,7 +154,7 @@ class requestRoute implements iRoute
         }
 
         if ($debug) {
-            echo '<span style="background-color: #D9F2FC; padding: 0 3px;">' . $this->name . '</span>, ';
+            echo '<span style="background-color: #FCF4DA; padding: 0 3px;">' . $this->name . '</span>, ';
             echo '<span style="background-color: #D9F2FC; padding: 0 3px;">' . $this->pattern . '</span>, ';
             echo '<span style="background-color: #FBDFDA; padding: 0 3px;">' . $this->regex . '</span>, ';
             echo '<span style="background-color: #E5FBE2; padding: 0 3px;">' . $path . "</span><br />\r\n";
@@ -247,6 +252,12 @@ class requestRoute implements iRoute
         foreach ($this->parts as $part) {
             if ($part['isVar']) {
                 if (array_key_exists($part['name'], $values)) {
+                    // @todo осталось лишь придумать что-то с роутом withId в JIP
+                    $regex = isset($this->requirements[$part['name']]) ? self::REGEX_DELIMITER . $this->requirements[$part['name']] . self::REGEX_DELIMITER : false;
+                    $regex = false;
+                    if ($regex && !preg_match($regex, $values[$part['name']])) {
+                        throw new mzzRuntimeException('«начение "' . $values[$part['name']] . '" не соответствует регул€рному выражению "' . $this->requirements[$part['name']] . '"');
+                    }
                     $url .= $values[$part['name']];
                     unset($values[$part['name']]);
                 } elseif ($part == "*") {
@@ -254,7 +265,7 @@ class requestRoute implements iRoute
                         $url .= '/' . $key . '/' . $value;
                     }
                 } elseif (isset($this->defaults[$part['name']])) {
-                    $url .= $this->defaults[$part['name']];
+                    $url = substr($url, 0, -1);
                 } else {
                     throw new mzzRuntimeException('ќтсутствует значение дл€ Route: ' . $part['name']);
                 }

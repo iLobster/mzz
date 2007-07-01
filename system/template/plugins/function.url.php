@@ -19,9 +19,9 @@
  *
  * Примеры использования:<br />
  * <code>
- * {url section="news"}
- * {url section="guestbook" action="delete" params="41"}
- * {url section="news" params="2006/08/12"}
+ * {url route="default" section="news" action="list"}
+ * {url route="guestbookActions" section="guestbook" action="delete" params="41"}
+ * {url route="newsActions" section="news" params="2006/08/12"}
  * </code>
  *
  * @param array $params входные аргументы функции
@@ -29,7 +29,7 @@
  * @return string результат работы модуля
  * @package system
  * @subpackage template
- * @version 0.1
+ * @version 0.2
  */
 function smarty_function_url($params, $smarty)
 {
@@ -38,8 +38,6 @@ function smarty_function_url($params, $smarty)
     $getUrl = false;
 
     if(!isset($params['route'])){
-        //$error = "Url error. Route is not specified.";
-        //throw new mzzRuntimeException($error);
         $getUrl = true;
         $params['route'] = null;
     }
@@ -53,19 +51,6 @@ function smarty_function_url($params, $smarty)
     } else {
         $url->setSection($request->getSection());
     }
-
-    if (isset($params['action'])) {
-        //$getUrl = false;
-        $url->setAction($params['action']);
-        unset($params['action']);
-    }
-
-    //if (isset($params['route'])) {
-    //$getUrl = false;
-    //$router = $toolkit->getRouter();
-    //$url->setRoute($router->getRoute($params['route']));
-    //unset($params['route']);
-    //}
 
     foreach ($params as $name => $value) {
         $url->addParam($name, $value);

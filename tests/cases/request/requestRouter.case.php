@@ -7,6 +7,8 @@ fileLoader::load('request/httpRequest');
 class stubRoute implements iRoute {
     public function match($path) {
     }
+    public function setName($name) {
+    }
 }
 Mock::generate('stubRoute');
 Mock::generate('httpRequest');

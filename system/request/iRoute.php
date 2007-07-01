@@ -31,6 +31,13 @@ interface iRoute
      * @return array|false
      */
     public function match($path);
+
+    /**
+     * Установка имени роута. Устанавливается только один раз
+     *
+     * @param string $name
+     */
+    public function setName($name);
 }
 
 ?>

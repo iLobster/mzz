@@ -95,7 +95,7 @@ class url
         if (empty($params['section'])) {
             $params['section'] = $this->section;
         }
-        if (empty($params['action'])) {
+        if (!empty($this->action)) {
             $params['action'] = $this->action;
         }
         $url = $this->route->assemble($params);
