@@ -108,7 +108,7 @@ class file extends simple
             'zip' => 'application/zip',
             'mp3' => 'audio/mpeg'
             );
-            if (!$this->getRightHeader() || !in_array($this->getExt(), $mimetypes)) {
+            if (!$this->getRightHeader() || !isset($mimetypes[$this->getExt()])) {
                 header("Content-Type: application/x-octetstream");
                 header("Content-Disposition: attachment; filename=\"" . $this->getName() . "\"");
             } else {
