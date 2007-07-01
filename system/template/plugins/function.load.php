@@ -106,10 +106,11 @@ function smarty_function_load($params, $smarty)
         if (!isset($params['403tpl'])) {
             fileLoader::load('simple/simple403Controller');
             $controller = new simple403Controller();
-            return $controller->run();
         } else {
             $smarty = $toolkit->getSmarty();
-            return $smarty->fetch($params['403tpl']);
+            $view = $smarty->fetch($params['403tpl']);
+            $request->restore();
+            return $view;
         }
     }
 
