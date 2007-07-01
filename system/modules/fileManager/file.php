@@ -58,8 +58,7 @@ class file extends simple
         $range = $request->get('HTTP_RANGE', 'string', SC_SERVER);
         if (empty($range)) {
             $this->setDownloads($this->getDownloads() + 1);
-            $fileMapper = $toolkit->getMapper('fileManager', 'file', $this->section);
-            $fileMapper->save($this);
+            $this->mapper->save($this);
         }
 
         set_time_limit(0);
@@ -101,18 +100,11 @@ class file extends simple
             header("Content-Length: " . ($size - $offset + 1));
             header("Content-Range: bytes " . $offset . "-" . $size . "/" . $fileSize);
 
-            $mimetypes = array(
-            'jpg' => 'image/jpg',
-            'png' => 'image/png',
-            'gif' => 'image/gif',
-            'zip' => 'application/zip',
-            'mp3' => 'audio/mpeg'
-            );
+            $mimetypes = $this->mapper->getMimetypes();
             if (!$this->getRightHeader() || !isset($mimetypes[$this->getExt()])) {
                 header("Content-Type: application/x-octetstream");
                 header("Content-Disposition: attachment; filename=\"" . $this->getName() . "\"");
             } else {
-                // @todo: сделать определение
                 header("Content-Type: " . $mimetypes[$this->getExt()]);
             }
             header("Last-Modified: " . date('r', filemtime($fileName)));
