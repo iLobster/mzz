@@ -629,7 +629,7 @@ INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, 
   (5,2,NULL,'user/list',NULL,NULL),
   (5,3,NULL,'user',NULL,NULL),
   (5,4,NULL,'',NULL,NULL),
-  (6,2,NULL,'admin',NULL,NULL),
+  (6,2,NULL,'admin/admin',NULL,NULL),
   (6,3,NULL,'admin',NULL,NULL),
   (6,4,NULL,'',NULL,NULL);
 
