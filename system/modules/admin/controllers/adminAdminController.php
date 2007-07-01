@@ -24,8 +24,8 @@ class adminAdminController extends simpleController
 {
     public function getView()
     {
-        $section = $this->request->get('section_name', 'string', SC_PATH);
-        $module = $this->request->get('module_name', 'string', SC_PATH);
+        $section = $this->request->get('section_name', 'string');
+        $module = $this->request->get('module_name', 'string');
 
         $user = $this->toolkit->getUser();
 
@@ -36,6 +36,10 @@ class adminAdminController extends simpleController
         $this->smarty->assign('current_module', $module);
         unset($menu['admin'], $menu['access']);
         $this->smarty->assign('admin_menu', $menu);
+
+        if (is_null($module) && is_null($section)) {
+            return $this->smarty->fetch('admin/main.tpl');
+        }
 
         if (isset($menu[$module]['sections'][$section])) {
             $class = $adminMapper->getMainClass($module);
@@ -49,20 +53,29 @@ class adminAdminController extends simpleController
 
             $access = $acl->get('admin');
 
-        /**
-         * @todo подумать над тем, что должно быть в случае 403 здесь
-         */
-            if ($access) {
+            /**
+             * @todo подумать над тем, что должно быть в случае 403 здесь
+             */
+            if (!$access) {
                 //$adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
 
                 return $this->smarty->fetch('admin/admin.tpl');
             }
 
+
+            fileLoader::load('simple/simple403Controller');
+            $controller = new simple403Controller();
+            return $controller->run();
+
             return 'нет доступа';
         }
 
-        return 'Запрашиваемого вами модуля не существует';
+        if (isset($menu[$module])) {
+            return $this->smarty->fetch('admin/noSection.tpl');
+        } else {
+            return $this->smarty->fetch('admin/noModule.tpl');
+        }
     }
 }
 

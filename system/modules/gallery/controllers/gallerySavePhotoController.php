@@ -81,7 +81,8 @@ class gallerySavePhotoController extends simpleController
                         $photoMapper->save($photo);
                     }
 
-                    return '<div id="uploadStatus">Фото ' . $photo->getName() . ' загружено.</div>';
+                    $this->smarty->assign('photo_name', $photo->getName());
+                    return $this->smarty->fetch('gallery/photoUploaded.tpl');
                 } catch (mzzRuntimeException $e) {
                     $errors->set('image', $e->getMessage());
                 }
