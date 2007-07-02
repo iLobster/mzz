@@ -32,6 +32,11 @@ class adminAdminController extends simpleController
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
         $menu = $adminMapper->getAdminInfo();
+        unset($menu['admin'], $menu['access']);
+        $this->smarty->assign('admin_menu', $menu);
+
+        $this->smarty->assign('current_section', $section);
+        $this->smarty->assign('current_module', $module);
 
         if (is_null($module) && is_null($section)) {
             $module = $this->request->get('name', 'string');
@@ -39,17 +44,16 @@ class adminAdminController extends simpleController
                 return $this->smarty->fetch('admin/main.tpl');
             }
 
+            // если указан лишь модуль, и этот модуль находится лишь в одной секции - отображаем её
             if (isset($menu[$module]['sections']) && sizeof($menu[$module]['sections']) == 1) {
                 $section = key($menu[$module]['sections']);
                 $this->request->setParam('section_name', $section);
                 $this->request->setParam('module_name', $module);
+
+                $this->smarty->assign('current_section', $section);
+                $this->smarty->assign('current_module', $module);
             }
         }
-
-        $this->smarty->assign('current_section', $section);
-        $this->smarty->assign('current_module', $module);
-        unset($menu['admin'], $menu['access']);
-        $this->smarty->assign('admin_menu', $menu);
 
         if (isset($menu[$module]['sections'][$section])) {
             $class = $adminMapper->getMainClass($module);
