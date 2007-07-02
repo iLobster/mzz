@@ -5,7 +5,7 @@
 288 ( ) url::assign('section', 'news') вместо url::setSection('news') (mz)
 
 279 ( ) јдминка (zerkms)
-        1. ”брать повтор€ющиес€ секции (page/page, etc)
+     +  1. ”брать повтор€ющиес€ секции (page/page, etc)
      !  2. http://mzz/admin/view - убрать эту страницу, на еЄ место поместить админку
 
 277 ( ) √алере€ (*)

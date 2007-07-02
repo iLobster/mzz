@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class adminAdminController extends simpleController
@@ -32,14 +32,24 @@ class adminAdminController extends simpleController
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
         $menu = $adminMapper->getAdminInfo();
+
+        if (is_null($module) && is_null($section)) {
+            $module = $this->request->get('name', 'string');
+            if (is_null($module)) {
+                return $this->smarty->fetch('admin/main.tpl');
+            }
+
+            if (isset($menu[$module]['sections']) && sizeof($menu[$module]['sections']) == 1) {
+                $section = key($menu[$module]['sections']);
+                $this->request->setParam('section_name', $section);
+                $this->request->setParam('module_name', $module);
+            }
+        }
+
         $this->smarty->assign('current_section', $section);
         $this->smarty->assign('current_module', $module);
         unset($menu['admin'], $menu['access']);
         $this->smarty->assign('admin_menu', $menu);
-
-        if (is_null($module) && is_null($section)) {
-            return $this->smarty->fetch('admin/main.tpl');
-        }
 
         if (isset($menu[$module]['sections'][$section])) {
             $class = $adminMapper->getMainClass($module);

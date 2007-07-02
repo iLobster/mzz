@@ -21,7 +21,7 @@
                     <tr>
                         <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" width="24" height="24" alt="" /></td>
                         {assign var='section_name' value=$module.sections|@key}
-                        <td class="menuSection"><a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}">
+                        <td class="menuSection"><a href="{url route=withAnyParam section="admin" name=$module_name action="admin"}">
                             {if $module_name eq $current_module}<strong>{/if}
                             {$module.title}
                             {if $module_name eq $current_module}</strong>{/if}
