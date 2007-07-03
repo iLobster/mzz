@@ -12,6 +12,7 @@
                 <td style="text-align: left;">Имя</td>
                 <td style="width: 75px; text-align: right;">Размер</td>
                 <td style="width: 50px;">Тип</td>
+                <td style="width: 60px;">md5-хэш</td>
                 <td style="width: 85px;">Скачано</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
@@ -21,6 +22,7 @@
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/pages/folder.gif" /></td>
                 <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getTreeParent()->getPath() section_name=$current_section module_name=fileManager}">..</a></td>
+                <td>-</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
@@ -35,6 +37,7 @@
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
+              <td>&nbsp;</td>
               <td>{$folder->getJip()}</td>
             </tr>
         {/foreach}
@@ -46,6 +49,7 @@
                 <td style="text-align: left;"><a href="{url route=withAnyParam name=$filename}">{$file->getName()}</a></td>
                 <td style="text-align: right;">{$file->getSize()|filesize}</td>
                 <td>{$file->getExt()}</td>
+                <td>{$file->getMd5()}</td>
                 <td>{$file->getDownloads()}</td>
                 <td>{$file->getJip()}</td>
             </tr>

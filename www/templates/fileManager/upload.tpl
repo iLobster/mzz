@@ -72,6 +72,10 @@ fmResetUploadForm();
             <td>{form->text name="name"}{$errors->get('name')}</td>
         </tr>
         <tr>
+            <td>{form->caption name="about" value="Описание"}</td>
+            <td>{form->textarea name="about"}{$errors->get('about')}</td>
+        </tr>
+        <tr>
             <td>{form->caption name="header" value="Отдавать с нужными заголовками"}</td>
             <td>{form->checkbox name="header" value=0}{$errors->get('header')}</td>
         </tr>

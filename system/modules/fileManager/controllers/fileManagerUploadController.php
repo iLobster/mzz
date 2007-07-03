@@ -44,12 +44,14 @@ class fileManagerUploadController extends simpleController
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);
             $header = $this->request->get('header', 'string', SC_POST);
+            $about = $this->request->get('about', 'string', SC_POST);
 
             $config = $this->toolkit->getConfig('fileManager');
 
             try {
                 $file = $folder->upload('file', $name, $config->get('upload_path'));
                 $file->setRightHeader($header);
+                $file->setAbout($about);
 
                 $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
                 $fileMapper->save($file);

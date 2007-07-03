@@ -42,7 +42,9 @@ class fileManagerEditController extends simpleController
 
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);
+            $about = $this->request->get('about', 'string', SC_POST);
             $file->setName($name);
+            $file->setAbout($about);
             $fileMapper->save($file);
 
             return jipTools::redirect();

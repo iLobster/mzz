@@ -380,12 +380,13 @@ DROP TABLE IF EXISTS `fileManager_file`;
 
 CREATE TABLE `fileManager_file` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `realname` char(255) default 'имя в фс в каталоге на сервере',
-  `name` char(255) default 'имя с которым файл будет отдаваться клиенту',
-  `ext` char(20) default NULL,
+  `realname` varchar(255) default 'имя в фс в каталоге на сервере',
+  `name` varchar(255) default 'имя с которым файл будет отдаваться клиенту',
+  `ext` varchar(20) default NULL,
   `size` int(11) default NULL,
   `downloads` int(11) default NULL,
   `right_header` tinyint(4) default NULL,
+  `about` text,
   `folder_id` int(11) unsigned default NULL,
   `obj_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
@@ -397,11 +398,11 @@ CREATE TABLE `fileManager_file` (
 # Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,9,1,5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,33,1,6,623),
-  (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,9,1,5,625),
-  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,27,1,6,629);
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,10,1,'',5,611),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,33,1,'',6,623),
+  (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,9,1,'',5,625),
+  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,27,1,'',6,629);
 
 COMMIT;
 
@@ -4495,7 +4496,8 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4896,5,11,668,2,NULL,0,0),
   (4897,9,11,669,2,NULL,1,0),
   (4898,19,11,669,2,NULL,0,0),
-  (4899,5,11,669,2,NULL,0,0);
+  (4899,5,11,669,2,NULL,0,0),
+  (4900,3,22,0,NULL,1,1,0);
 
 COMMIT;
 
@@ -5996,7 +5998,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (673),
   (674),
   (675),
-  (676);
+  (676),
+  (677);
 
 COMMIT;
 

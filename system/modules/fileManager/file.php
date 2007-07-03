@@ -50,6 +50,11 @@ class file extends simple
         return $config->get('upload_path');
     }
 
+    public function getMd5()
+    {
+        return md5_file($this->getRealFullPath());
+    }
+
     public function download()
     {
         $toolkit = systemToolkit::getInstance();

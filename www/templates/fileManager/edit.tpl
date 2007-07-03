@@ -8,6 +8,10 @@
             <td>{form->text name="name" value=$file->getName()}{$errors->get('name')}</td>
         </tr>
         <tr>
+            <td>{form->caption name="about" value="Описание"}</td>
+            <td>{form->textarea name="about" value=$file->getAbout()}{$errors->get('about')}</td>
+        </tr>
+        <tr>
             <td colspan=2 style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
