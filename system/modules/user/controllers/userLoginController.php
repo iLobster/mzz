@@ -44,6 +44,7 @@ class userLoginController extends simpleController
                         $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
                         $userAuthMapper->set($user->getId());
                     }
+
                     return $this->response->redirect($this->request->get('url', 'string', SC_POST));
                 }
             }
@@ -60,8 +61,10 @@ class userLoginController extends simpleController
             return $this->smarty->fetch('user/' . $prefix . 'login.tpl');
         }
 
-        $this->smarty->assign('user', $user);
-        return $this->smarty->fetch('user/' . $prefix . 'alreadyLogin.tpl');
+        //$this->smarty->assign('user', $user);
+        //return $this->smarty->fetch('user/' . $prefix . 'alreadyLogin.tpl');
+        // @todo: если нет урла - редиректить на главную
+        return $this->response->redirect($this->request->get('url', 'string', SC_POST));
     }
 }
 

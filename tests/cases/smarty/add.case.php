@@ -13,6 +13,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
     {
         $this->smarty = new mockstubSmarty();
         $this->function = new ReflectionFunction('smarty_function_add');
+        smarty_function_add(array('init' => true), $this->smarty);
     }
 
     private function setUpExpectOnce($tpl)

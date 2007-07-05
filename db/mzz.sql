@@ -4861,7 +4861,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (666,21),
   (668,11),
   (669,11),
-  (672,21);
+  (672,21),
+  (679,7);
 
 COMMIT;
 
@@ -5103,7 +5104,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (23,'photo',11),
   (24,'menuItem',12),
   (25,'menu',12),
-  (26,'menuFolder',12);
+  (26,'menuFolder',12),
+  (27,'userOnline',2);
 
 COMMIT;
 
@@ -5275,7 +5277,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (20,23,11),
   (21,24,12),
   (22,25,12),
-  (23,26,12);
+  (23,26,12),
+  (24,27,2);
 
 COMMIT;
 
@@ -5999,7 +6002,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (674),
   (675),
   (676),
-  (677);
+  (677),
+  (678),
+  (679);
 
 COMMIT;
 
@@ -6058,7 +6063,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (642,'access_menu_menuItem'),
   (643,'access__menuFolder'),
   (644,'access_menu_menuFolder'),
-  (645,'menu_menuFolder');
+  (645,'menu_menuFolder'),
+  (679,'access__user');
 
 COMMIT;
 
@@ -6226,6 +6232,32 @@ INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
   (23,2,2,47),
   (24,3,2,226),
   (30,2,3,473);
+
+COMMIT;
+
+#
+# Structure for the `user_userOnline` table : 
+#
+
+DROP TABLE IF EXISTS `user_userOnline`;
+
+CREATE TABLE `user_userOnline` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) default NULL,
+  `session` char(32) default NULL,
+  `last_activity` datetime default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `user_id` (`user_id`,`session`),
+  KEY `last_activity` (`last_activity`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `user_userOnline` table  (LIMIT 0,500)
+#
+
+INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`) VALUES 
+  (1,2,'4d37ba366382d82a7b1e016f32028c05','2007-07-05 16:23:54',678);
 
 COMMIT;
 

@@ -34,8 +34,7 @@ class userOnlineController extends simpleController
         $guests = 0;
         foreach ($users as $key => $user) {
             if ($user->getUser()->getId() == MZZ_USER_GUEST_ID) {
-                // @todo: откладывается до коммита, т.к. нет fakeFields
-                $guests = 666;
+                $guests = $user->fakeField('cnt');
                 unset($users[$key]);
                 break;
             }

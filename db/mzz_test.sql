@@ -1,9 +1,14 @@
-# SQL Manager 2005 for MySQL 3.7.5.1
+# SQL Manager 2005 for MySQL 3.7.7.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz_test
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -394,7 +399,7 @@ CREATE TABLE `sys_classes` (
   `module_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `sys_classes_actions` table : 
@@ -422,7 +427,7 @@ CREATE TABLE `sys_classes_sections` (
   `section_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `module_section` (`section_id`,`class_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Structure for the `sys_modules` table : 
@@ -445,249 +450,7 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=143 DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_obj_id_named` table : 
-#
-
-DROP TABLE IF EXISTS `sys_obj_id_named`;
-
-CREATE TABLE `sys_obj_id_named` (
-  `obj_id` int(11) unsigned default NULL,
-  `name` char(255) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_sections` table : 
-#
-
-DROP TABLE IF EXISTS `sys_sections`;
-
-CREATE TABLE `sys_sections` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `sys_sessions` table : 
-#
-
-DROP TABLE IF EXISTS `sys_sessions`;
-
-CREATE TABLE `sys_sessions` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `sid` varchar(50) NOT NULL default '',
-  `ts` int(11) unsigned NOT NULL default '0',
-  `valid` enum('yes','no') NOT NULL default 'yes',
-  `data` text,
-  PRIMARY KEY  (`id`),
-  KEY `valid` (`valid`),
-  KEY `sid` (`sid`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_group` table : 
-#
-
-DROP TABLE IF EXISTS `user_group`;
-
-CREATE TABLE `user_group` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `obj_id` int(11) default NULL,
-  `is_default` tinyint(4) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_user` table : 
-#
-
-DROP TABLE IF EXISTS `user_user`;
-
-CREATE TABLE `user_user` (
-  `id` int(11) NOT NULL auto_increment,
-  `login` varchar(255) NOT NULL default '',
-  `password` varchar(32) NOT NULL default '',
-  `obj_id` int(11) default NULL,
-  `created` int(11) default NULL,
-  `confirmed` int(11) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Structure for the `user_usergroup_rel` table : 
-#
-
-DROP TABLE IF EXISTS `user_usergroup_rel`;
-
-CREATE TABLE `user_usergroup_rel` (
-  `id` int(11) NOT NULL auto_increment,
-  `obj_id` int(11) default NULL,
-  `group_id` int(11) default NULL,
-  `user_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `group_id` (`group_id`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_access_registry` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
-  (32,1),
-  (33,1),
-  (1,2),
-  (7,3),
-  (8,3),
-  (9,3),
-  (10,3),
-  (11,3),
-  (12,3),
-  (13,3),
-  (14,3),
-  (15,3),
-  (16,3),
-  (17,3),
-  (18,3),
-  (19,3),
-  (20,3),
-  (21,3),
-  (22,3),
-  (23,3),
-  (24,3),
-  (25,3),
-  (26,3),
-  (27,3),
-  (28,3),
-  (29,3),
-  (30,3),
-  (31,3),
-  (34,3),
-  (35,3),
-  (36,3),
-  (37,3),
-  (38,3),
-  (39,3),
-  (40,3),
-  (41,3),
-  (42,3),
-  (43,3),
-  (44,3),
-  (45,3),
-  (46,3),
-  (47,3),
-  (48,3),
-  (49,3),
-  (50,3),
-  (51,3),
-  (52,3),
-  (53,3),
-  (54,3),
-  (55,3),
-  (56,3),
-  (57,3),
-  (58,3),
-  (59,3),
-  (60,3),
-  (61,3),
-  (62,3),
-  (63,3),
-  (64,3),
-  (65,3),
-  (66,3),
-  (67,3),
-  (68,3),
-  (69,3),
-  (70,3),
-  (71,3),
-  (72,3),
-  (73,3),
-  (74,3),
-  (75,3),
-  (76,3),
-  (77,3),
-  (78,3),
-  (79,3),
-  (80,3),
-  (81,3),
-  (82,3),
-  (83,3),
-  (84,3),
-  (85,3),
-  (86,3),
-  (87,3),
-  (88,3),
-  (89,3),
-  (90,3),
-  (91,3),
-  (92,3),
-  (93,3),
-  (94,3),
-  (95,3),
-  (96,3),
-  (97,3),
-  (98,3),
-  (99,3),
-  (100,3),
-  (101,3),
-  (102,3),
-  (103,3),
-  (104,3),
-  (105,3),
-  (106,3),
-  (107,3),
-  (108,3),
-  (109,3),
-  (110,3),
-  (111,3),
-  (112,3),
-  (113,3),
-  (114,3),
-  (115,3),
-  (116,3),
-  (117,3),
-  (118,3),
-  (119,3),
-  (120,3),
-  (121,3),
-  (122,3),
-  (123,3),
-  (124,3),
-  (125,3),
-  (126,3),
-  (127,3),
-  (128,3),
-  (129,3),
-  (130,3),
-  (131,3),
-  (132,3),
-  (133,3),
-  (134,3),
-  (135,3),
-  (136,3),
-  (137,3),
-  (138,3),
-  (139,3),
-  (140,3),
-  (141,3),
-  (142,3);
-
-COMMIT;
-
-#
-# Data for the `sys_classes_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,1,1),
-  (2,2,1),
-  (3,3,1);
-
-COMMIT;
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -759,85 +522,33 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (63),
   (64),
   (65),
-  (66),
-  (67),
-  (68),
-  (69),
-  (70),
-  (71),
-  (72),
-  (73),
-  (74),
-  (75),
-  (76),
-  (77),
-  (78),
-  (79),
-  (80),
-  (81),
-  (82),
-  (83),
-  (84),
-  (85),
-  (86),
-  (87),
-  (88),
-  (89),
-  (90),
-  (91),
-  (92),
-  (93),
-  (94),
-  (95),
-  (96),
-  (97),
-  (98),
-  (99),
-  (100),
-  (101),
-  (102),
-  (103),
-  (104),
-  (105),
-  (106),
-  (107),
-  (108),
-  (109),
-  (110),
-  (111),
-  (112),
-  (113),
-  (114),
-  (115),
-  (116),
-  (117),
-  (118),
-  (119),
-  (120),
-  (121),
-  (122),
-  (123),
-  (124),
-  (125),
-  (126),
-  (127),
-  (128),
-  (129),
-  (130),
-  (131),
-  (132),
-  (133),
-  (134),
-  (135),
-  (136),
-  (137),
-  (138),
-  (139),
-  (140),
-  (141),
-  (142);
+  (66);
 
 COMMIT;
+
+#
+# Structure for the `sys_obj_id_named` table : 
+#
+
+DROP TABLE IF EXISTS `sys_obj_id_named`;
+
+CREATE TABLE `sys_obj_id_named` (
+  `obj_id` int(11) unsigned default NULL,
+  `name` char(255) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `sys_sections` table : 
+#
+
+DROP TABLE IF EXISTS `sys_sections`;
+
+CREATE TABLE `sys_sections` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_sections` table  (LIMIT 0,500)
@@ -851,3 +562,87 @@ INSERT INTO `sys_sections` (`id`, `name`) VALUES
 
 COMMIT;
 
+#
+# Structure for the `sys_sessions` table : 
+#
+
+DROP TABLE IF EXISTS `sys_sessions`;
+
+CREATE TABLE `sys_sessions` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `sid` varchar(50) NOT NULL default '',
+  `ts` int(11) unsigned NOT NULL default '0',
+  `valid` enum('yes','no') NOT NULL default 'yes',
+  `data` text,
+  PRIMARY KEY  (`id`),
+  KEY `valid` (`valid`),
+  KEY `sid` (`sid`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_group` table : 
+#
+
+DROP TABLE IF EXISTS `user_group`;
+
+CREATE TABLE `user_group` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `obj_id` int(11) default NULL,
+  `is_default` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_user` table : 
+#
+
+DROP TABLE IF EXISTS `user_user`;
+
+CREATE TABLE `user_user` (
+  `id` int(11) NOT NULL auto_increment,
+  `login` varchar(255) NOT NULL default '',
+  `password` varchar(32) NOT NULL default '',
+  `obj_id` int(11) default NULL,
+  `created` int(11) default NULL,
+  `confirmed` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_userOnline` table : 
+#
+
+DROP TABLE IF EXISTS `user_userOnline`;
+
+CREATE TABLE `user_userOnline` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) default NULL,
+  `session` char(32) default NULL,
+  `last_activity` datetime default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `user_id` (`user_id`,`session`),
+  KEY `last_activity` (`last_activity`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `user_usergroup_rel` table : 
+#
+
+DROP TABLE IF EXISTS `user_usergroup_rel`;
+
+CREATE TABLE `user_usergroup_rel` (
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) default NULL,
+  `group_id` int(11) default NULL,
+  `user_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
