@@ -13,7 +13,7 @@
  */
 
 /**
- * formRadioField
+ * formRadioField: радио-кнопка
  *
  * @package system
  * @subpackage forms

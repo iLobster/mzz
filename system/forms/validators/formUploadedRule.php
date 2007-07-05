@@ -13,7 +13,7 @@
  */
 
 /**
- * formUploadedRule
+ * formUploadedRule: валидатор загружаемых файлов
  *
  * @package system
  * @subpackage forms

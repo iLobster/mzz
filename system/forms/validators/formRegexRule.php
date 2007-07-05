@@ -13,7 +13,7 @@
  */
 
 /**
- * formRegexRule
+ * formRegexRule: правило, определяющее валидность значения в соответствии с регулярным выражением
  *
  * @package system
  * @subpackage forms

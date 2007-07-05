@@ -45,7 +45,7 @@ class httpResponseTest extends unitTestCase
 
     public function testSetHeaders()
     {
-        $headers = array('name1' => 'value_1', 'name2' => 'value_2', 'name3' => 'value_3');
+        $headers = array('name1' => 'value_1', 'name2' => 'value_2', 'name3' => 'value_3', '' => 'value_4');
         foreach ($headers as $name => $value) {
             $this->response->setHeader($name, $value);
         }

@@ -149,7 +149,11 @@ class newsFolderTest extends unitTestCase
             $second = '5';
             $this->assertNotEqual($second, $first);
 
-            $this->newsFolder->$setter($second);
+            try {
+                $this->newsFolder->$setter($second);
+                $this->fail('Ожидается исключение');
+            } catch (mzzRuntimeException $e) {
+            }
 
             $this->mapper->save($this->newsFolder);
 

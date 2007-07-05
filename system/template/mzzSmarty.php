@@ -16,13 +16,14 @@
 
 fileLoader::load('libs/smarty/Smarty.class');
 fileLoader::load('template/IMzzSmarty');
+fileLoader::load('template/plugins/function.add');
 
 /**
  * mzzSmarty: модификация Smarty для работы с активными и пассивными шаблонами
  *
- * @version 0.5
  * @package system
  * @subpackage template
+ * @version 0.5.1
  */
 class mzzSmarty extends Smarty
 {
@@ -46,6 +47,17 @@ class mzzSmarty extends Smarty
      * @var array
      */
     protected $activeXmlTemplate = false;
+
+    /**
+     * Конструктор
+     *
+     */
+    public function __construct()
+    {
+        parent::Smarty();
+        // инициализация массива media, используемого в функции {add}
+        smarty_function_add(array('init' => true), $this);
+    }
 
     /**
      * Выполняет шаблон и возвращает результат
@@ -179,7 +191,7 @@ class mzzSmarty extends Smarty
     {
         $isActive = (strpos($template, "{* main=") === false);
         return ($this->activeXmlTemplate !== true && !$isActive)
-               || (is_array($this->activeXmlTemplate));
+        || (is_array($this->activeXmlTemplate));
     }
 
     /**

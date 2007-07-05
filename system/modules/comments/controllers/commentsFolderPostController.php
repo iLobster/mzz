@@ -42,6 +42,8 @@ class commentsFolderPostController extends simpleController
         $action = $this->request->getAction();
         $isEdit = $action == 'edit';
 
+        $text = $this->request->get('text', 'string', SC_POST);
+
         if (!$validator->validate()) {
             $section = $this->request->getSection();
             $session = $this->toolkit->getSession();
@@ -98,8 +100,6 @@ class commentsFolderPostController extends simpleController
                 $user = $this->toolkit->getUser();
                 $comment->setAuthor($user);
             }
-
-            $text = $this->request->get('text', 'string', SC_POST);
 
             $comment->setText($text);
 

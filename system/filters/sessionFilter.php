@@ -21,7 +21,7 @@ fileLoader::load('session');
  *
  * @package system
  * @subpackage filters
- * @version 0.2
+ * @version 0.2.1
  */
 class sessionFilter implements iFilter
 {
@@ -34,16 +34,12 @@ class sessionFilter implements iFilter
      */
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
-        /*
-        $toolkit = systemToolkit::getInstance();
-        возможно сессия будет получаться из тулкита
-        */
-        $session = new session;
+        $session = systemToolkit::getInstance()->getSession();
         $session->start();
 
         $filter_chain->next();
 
-        //$session->stop(); ??
+        $session->stop();
     }
 }
 

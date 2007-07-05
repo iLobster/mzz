@@ -73,10 +73,19 @@ class userAddToGroupController extends simpleController
                 $criteria->addJoin($userGroupMapper->getTable(), $criterion, 'r');
                 $criteria->add('login', '%' . $filter . '%', criteria::LIKE)->add('r.id', null, criteria::IS_NULL);
 
+                // @todo: веро€тно этот лимит нужно перенести в конфиг?
+                $limit = 25;
+                $criteria->setLimit($limit + 1);
+
                 $userMapper = $this->toolkit->getMapper('user', 'user');
 
                 // выбираем всех пользователей, которые ещЄ не добавлены в эту группу и удовлетвор€ют маске
                 $users = $userMapper->searchAllByCriteria($criteria);
+
+                if (sizeof($users) > $limit) {
+                    $this->smarty->assign('too_much', true);
+                }
+
                 $this->smarty->assign('filter', $filter);
             }
 

@@ -13,7 +13,7 @@
  */
 
 /**
- * formElement
+ * formElement: базовый для всех элементов формы класс
  *
  * @package system
  * @subpackage forms
@@ -21,7 +21,20 @@
  */
 abstract class formElement
 {
+    /**
+     * Массив, используемый для индексирования элементов форм, в именах которых используется []
+     *
+     * @var array
+     */
     static protected $counts = array();
+
+    /**
+     * Создание тегов
+     *
+     * @param array $options массив опций
+     * @param string $name имя тега
+     * @return string|null
+     */
     static public function createTag(Array $options = array(), $name = 'input')
     {
         if (!isset($options['onError'])) {
@@ -51,17 +64,35 @@ abstract class formElement
         return $html;
     }
 
-    static public function isFreeze($options)
+    /**
+     * Проверка, является элемент "замороженным" или нет
+     *
+     * @param array $options массив опций
+     * @return boolean true, в случае если элемент "заморожен" и false в противном случае
+     */
+    static public function isFreeze(Array $options)
     {
         return isset($options['freeze']) && $options['freeze'];
     }
 
-    static protected function isRequired($options)
+    /**
+     * Возвращает информацию о том, обязательно поле для заполнения или нет
+     *
+     * @param array $options массив опций
+     * @return boolean true, в случае, если поле обязательно к заполнению и false - в противном случае
+     */
+    static protected function isRequired(Array $options)
     {
         $validator = systemToolkit::getInstance()->getValidator();
         return ($validator instanceof formValidator) ? $validator->isFieldRequired($options['name']) : null;
     }
 
+    /**
+     * Проверяет, заполнено ли поле с ошибкой, и если да - тогда обрабатывает опцию onError, в которой содержатся изменённые стили и другие опции html для ошибочного поля
+     *
+     * @param array $options массив опций
+     * @return boolean true в случае, если поле введено с ошибками и false в противном случае
+     */
     static protected function parseError(& $options)
     {
         $hasErrors = false;
@@ -87,6 +118,12 @@ abstract class formElement
         return $hasErrors;
     }
 
+    /**
+     * Конвертирование массива опций в строку параметров html тега
+     *
+     * @param array $options массив опций
+     * @return string
+     */
     static public function optionsToString(Array $options = array())
     {
         $html = '';
@@ -109,11 +146,24 @@ abstract class formElement
         return $html;
     }
 
+    /**
+     * Экраниерование опций
+     *
+     * @param string $value
+     * @return string
+     */
     static protected function escapeOnce($value)
     {
         return preg_replace('/&amp;([a-z]+|(#\d+)|(#x[\da-f]+));/i', '&$1;', htmlspecialchars($value));
     }
 
+    /**
+     * Получение значение, введённого в поле формы
+     *
+     * @param string $name имя поля
+     * @param string $default значение по умолчанию, используется в случае, когда значение поля не найдено в суперглобальных массивах $_POST или $_GET
+     * @return string
+     */
     static public function getValue($name, $default = false)
     {
         $toolkit = systemToolkit::getInstance();
@@ -129,13 +179,16 @@ abstract class formElement
             $name = str_replace('[]', '[' . self::$counts[$name] . ']', substr($name, 0, $pos)) . str_replace('[]', '[0]', substr($name, $pos));
         }
         $value = $request->get($name, 'mixed', SC_REQUEST);
-        if (!is_null($value)) {
-            return $value;
-        } else {
-            return $default;
-        }
+
+        return !is_null($value) ? $value : $default;
     }
 
+    /**
+     * Абстрактный метод, используется в наследниках для определения алгоритма генерации тегов
+     *
+     * @param array $options
+     */
     abstract static public function toString($options = array());
 }
+
 ?>

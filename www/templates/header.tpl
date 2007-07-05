@@ -9,9 +9,6 @@
 var SITE_PATH = '{$SITE_PATH}';
 //-->
 </script>
-<script type="text/javascript" src="{$SITE_PATH}/templates/js/prototype.js"></script>
-<script type="text/javascript" src="{$SITE_PATH}/templates/js/effects.js"></script>
-<script type="text/javascript" src="{$SITE_PATH}/templates/js/dragdrop.js"></script>
 {include file='include.css.tpl'}
 {include file='include.js.tpl'}
 </head>

@@ -17,14 +17,14 @@
  *
  * @package modules
  * @subpackage user
- * @version 0.1
+ * @version 0.1.1
  */
 class userExitController extends simpleController
 {
     public function getView()
     {
-        $session = $this->toolkit->getSession();
-        $session->destroy('user_id');
+        $userMapper = $this->toolkit->getMapper('user', 'user');
+        $userMapper->logout();
 
         $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
         $userAuthMapper->clear();

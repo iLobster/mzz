@@ -128,7 +128,11 @@ class testSimple extends unitTestCase
             $second = '5';
             $this->assertNotEqual($second, $first);
 
-            $this->simple->$setter($second);
+            try {
+                $this->simple->$setter($second);
+                $this->fail('Ожидается исключение');
+            } catch (mzzRuntimeException $e) {
+            }
 
             $this->mapper->save($this->simple);
 

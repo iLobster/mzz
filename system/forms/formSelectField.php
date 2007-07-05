@@ -13,7 +13,7 @@
  */
 
 /**
- * formSelectField
+ * formSelectField: выпадающий список
  *
  * @package system
  * @subpackage forms
@@ -31,7 +31,7 @@ class formSelectField extends formElement
             $options['options'] = array();
         }
         if (isset($options['emptyFirst']) && $options['emptyFirst']) {
-            $options['options'] = array('' => '') + $options['options'];
+            $options['options'] = array('' => '&nbsp;') + $options['options'];
         }
 
         if (sizeof($options['options']) < 2 && isset($options['one_item_freeze']) && $options['one_item_freeze']) {

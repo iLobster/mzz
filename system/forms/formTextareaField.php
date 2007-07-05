@@ -13,7 +13,7 @@
  */
 
 /**
- * formTextareaField
+ * formTextareaField: текстарея
  *
  * @package system
  * @subpackage forms

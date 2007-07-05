@@ -17,14 +17,28 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.1.1
  */
 
 class simple404Controller extends simpleController
 {
     public function getView()
     {
-        return '«апрашиваема€ вами страница не найдена';
+        $this->request->setSection('page');
+        $this->request->setParams(array('name' => '404'));
+        $this->request->setAction('view');
+
+        $action = $this->toolkit->getAction('page');
+        $action->setAction('view');
+
+        fileLoader::load('pageFactory');
+
+        $factory = new pageFactory($action);
+        $controller = $factory->getController();
+
+        $this->toolkit->getResponse()->setHeader('', 'HTTP/1.x 404 Not Found');
+
+        return $controller->run();
     }
 }
 

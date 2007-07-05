@@ -13,7 +13,7 @@
  */
 
 /**
- * formTextField
+ * formTextField: однострочное поле редактирования
  *
  * @package system
  * @subpackage forms
@@ -26,7 +26,7 @@ class formTextField extends formElement
         if (!isset($options['type'])) {
             $options['type'] = 'text';
         }
-        
+
         $value = isset($options['value']) ? $options['value'] : '';
         if (isset($options['name']) && $options['type'] != 'password') {
             $options['value'] = self::getValue($options['name'], $value);

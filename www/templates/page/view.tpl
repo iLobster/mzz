@@ -1,3 +1,4 @@
+{title append=$page->getTitle()}
 <h2>{$page->getTitle()}{$page->getJip()}</h2>
 <p>{$page->getContent()}</p>
 

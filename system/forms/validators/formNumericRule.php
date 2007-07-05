@@ -13,7 +13,7 @@
  */
 
 /**
- * formNumericRule
+ * formNumericRule: правило, проверяющее, является ли значение числом
  *
  * @package system
  * @subpackage forms

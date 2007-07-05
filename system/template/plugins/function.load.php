@@ -30,7 +30,7 @@ fileLoader::load('acl');
  *
  * @package system
  * @subpackage template
- * @version 0.4.6
+ * @version 0.4.7
  */
 function smarty_function_load($params, $smarty)
 {
@@ -39,6 +39,7 @@ function smarty_function_load($params, $smarty)
         throw new mzzRuntimeException($error);
     }
 
+    // получаем необходимые для запуска модуля и аутентификации данные
     $module = $params['module'];
     unset($params['module']);
 
@@ -67,6 +68,7 @@ function smarty_function_load($params, $smarty)
 
     $access = true;
 
+    // проверяем - не отключена ли в данном запуске модуля проверка прав
     if (!isset($params['403handle']) || $params['403handle'] != 'none') {
 
         $mappername = $action->getType() . 'Mapper';
@@ -95,17 +97,22 @@ function smarty_function_load($params, $smarty)
         }
     }
 
+    // проверяем, включен ли ручной режим проверки прав
     if (isset($params['403handle']) && $params['403handle'] == 'manual') {
         $request->setParam('access', $access);
         $access = true;
     }
 
     if ($access) {
+        // если права на запуск модуля есть - запускаем
         $factory = new $modulename($action);
     } else {
+        // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
         if (!isset($params['403tpl'])) {
             fileLoader::load('simple/simple403Controller');
             $controller = new simple403Controller();
+
+            $toolkit->getResponse()->setHeader('', 'HTTP/1.x 403 Forbidden');
         } else {
             $smarty = $toolkit->getSmarty();
             $view = $smarty->fetch($params['403tpl']);
@@ -118,6 +125,7 @@ function smarty_function_load($params, $smarty)
         $controller = $factory->getController();
     }
 
+    // отдаём контент в вызывающий шаблон
     $view = $controller->run();
     $request->restore();
     return $view;

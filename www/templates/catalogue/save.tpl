@@ -25,7 +25,7 @@ function loadForm(id)
     <table border="0" cellpadding="0" cellspacing="1" width="99%">
         {if !$isEdit}<tr>
             <td>Тип:</td>
-            <td>{form->select name="type" options=$select id="type" value=$defType onchange="javascript:loadForm(this.value);" onkeypress="this.onchange();"}{$errors->get('type')}</td>
+            <td>{form->select name="type" options=$select id="type" value=$defType emptyFirst=1 onchange="javascript:loadForm(this.value);" onkeypress="this.onchange();"}{$errors->get('type')}</td>
         </tr>{/if}
         <tr>
             <td>{form->caption name="name" value="Имя:"}</td>

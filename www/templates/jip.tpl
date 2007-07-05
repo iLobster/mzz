@@ -1,4 +1,8 @@
 {strip}
+{add file="prototype.js"}
+{add file="effects.js"}
+{add file="dragdrop.js"}
+
 {add file="popup.js"}
 {add file="jip.css"}
 {add file="dtree.css"}

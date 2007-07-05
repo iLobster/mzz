@@ -16,3 +16,5 @@
     </tr>
 </table>
 <div class="pages">{$pager->toString()}</div>
+<br />
+{load module="user" action="online" section="user" 403handle="none"}

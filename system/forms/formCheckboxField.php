@@ -13,7 +13,7 @@
  */
 
 /**
- * formCheckboxField
+ * formCheckboxField: чекбокс
  *
  * @package system
  * @subpackage forms

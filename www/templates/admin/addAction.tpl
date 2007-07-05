@@ -15,6 +15,8 @@
                 <td>{form->caption name="action[dest]" value="Каталог генерации"}</td>
                 <td>{form->select name="action[dest]" options=$dests one_item_freeze=1}</td>
             </tr>
+        {else}
+            {$defaults->get('dest')}
         {/if}
         <tr>
             <td>{form->caption name="action[controller]" value="Контроллер"}</td>

@@ -71,6 +71,15 @@ class session
     }
 
     /**
+     * Закрытие сессии
+     *
+     */
+    public function stop()
+    {
+        session_write_close();
+    }
+
+    /**
      * Возвращает значение из сессии
      *
      * @param string $name ключ

@@ -13,7 +13,7 @@
  */
 
 /**
- * formRequiredRule
+ * formRequiredRule: правило, определяющее, что значение поле обязательно должно быть заполнено
  *
  * @package system
  * @subpackage forms

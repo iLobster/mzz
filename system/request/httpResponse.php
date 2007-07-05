@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1
+ * @version 0.1.1
  */
 
 class httpResponse
@@ -89,7 +89,7 @@ class httpResponse
         $this->cookies[$name] = array(
         'value' => $value,
         'expire' => $expire,
-        'path' => $path,
+        'path' => $path ? $path : '/',
         'domain' => $domain,
         'secure' => $secure,
         'httponly' => $httponly
@@ -188,7 +188,11 @@ class httpResponse
         if (!empty($headers)) {
             if (!$this->isHeadersSent()) {
                 foreach ($headers as $name => $value) {
-                    header($name . ": " . $value);
+                    if ($name) {
+                        header($name . ": " . $value);
+                    } else {
+                        header($value);
+                    }
                 }
             }
         }

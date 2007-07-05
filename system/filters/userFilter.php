@@ -58,6 +58,10 @@ class userFilter implements iFilter
 
         $toolkit->setUser($me);
 
+        // обновл€ем себ€ в списке онлайн-пользователей
+        $userOnlineMapper = $toolkit->getMapper('user', 'userOnline', 'user');
+        $userOnlineMapper->refresh($me);
+
         $filter_chain->next();
     }
 }

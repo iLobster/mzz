@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1.1
+ * @version 0.1.2
 */
 
 class sqlOperator
@@ -43,7 +43,7 @@ class sqlOperator
      *
      * @var array
      */
-    protected $validOperators = array('+', '-', '*', '/', '%', 'DIV', 'MOD');
+    protected $validOperators = array('+', '-', '*', '/', '%', 'DIV', 'MOD', 'INTERVAL');
 
     /**
      * Конструктор
@@ -72,6 +72,10 @@ class sqlOperator
             throw new mzzInvalidParameterException('Некорректное значение оператора', $this->operator);
         }
 
+        if ($this->operator == 'INTERVAL') {
+            return $this->operator . ' ' . $this->arguments[0];
+        }
+
         $args = array_map(array($this, 'cast'), $this->arguments);
         return implode(' ' . $this->operator . ' ', $args);
     }
@@ -88,6 +92,8 @@ class sqlOperator
             $arg = (int)$arg;
         } elseif ($arg instanceof sqlOperator) {
             $arg = $this->setPriority($arg->toString());
+        } elseif($arg instanceof sqlFunction) {
+            $arg = $arg->toString();
         } else {
             $arg = '`' . str_replace('.', '`.`', $arg) . '`';
         }

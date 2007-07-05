@@ -28,11 +28,20 @@
  * @return null|void null если файл дубликат
  * @package system
  * @subpackage template
- * @version 0.2
+ * @version 0.2.1
  */
 function smarty_function_add($params, $smarty)
 {
     static $medias = array(array(), array('js' => array(), 'css' => array()));
+
+    $vars = $smarty->get_template_vars('media');
+
+    // инициализация массива media, выполняется один раз при инстанциации Smarty
+    if (isset($params['init']) && $vars === null) {
+        $smarty->assign_by_ref('media', $medias[1]);
+        $vars = $medias[1];
+        return;
+    }
 
     if (empty($params['file'])) {
         throw new mzzInvalidParameterException('Пустой атрибут', 'file');
@@ -69,13 +78,6 @@ function smarty_function_add($params, $smarty)
 
     // Если шаблон не указан, то используем шаблон соответствующий расширению
     $tpl = (!empty($params['tpl'])) ? $params['tpl'] : $res . '.tpl';
-
-    $vars = $smarty->get_template_vars('media');
-    // если массив ещё пустой - создаём
-    if ($vars === null) {
-        $smarty->assign_by_ref('media', $medias[1]);
-        $vars = $medias[1];
-    }
 
     // ищем - подключали ли мы уже данный файл
     if (is_array($vars[$res])) {

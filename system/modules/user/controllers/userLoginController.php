@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage user
- * @version 0.2.2
+ * @version 0.2.3
  */
 class userLoginController extends simpleController
 {
@@ -35,7 +35,7 @@ class userLoginController extends simpleController
                 $login = $this->request->get('login', 'string', SC_POST);
                 $password = $this->request->get('password', 'string', SC_POST);
 
-                $userMapper = new userMapper('user');
+                $userMapper = $this->toolkit->getMapper('user', 'user');
                 $user = $userMapper->login($login, $password);
 
                 if ($user->isLoggedIn()) {

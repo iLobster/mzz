@@ -13,7 +13,7 @@
  */
 
 /**
- * formCallbackRule
+ * formCallbackRule: правило проверки по callback-функции
  *
  * @package system
  * @subpackage forms

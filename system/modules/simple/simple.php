@@ -19,7 +19,7 @@ fileLoader::load('jip/jip');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 abstract class simple
@@ -104,29 +104,32 @@ abstract class simple
      */
     public function __call($name, $args)
     {
-        if (preg_match('/^(get|set)(\w+)/', strtolower($name), $match) && $attribute = $this->validateAttribute($name)) {
-            if ('get' == $match[1]) {
+        if ($attribute = $this->validateAttribute($name)) {
+            list($method, $field) = $attribute;
+            if ('accessor' == $method) {
                 // если свойство ещё является скаляром (строка, число) - то пробуем загрузить относящийся к нему объект
-                if (is_scalar($this->fields->get($attribute)) || is_null($this->fields->get($attribute))) {
-                    $this->doLazyLoading($attribute, $args);
+                if (is_scalar($this->fields->get($field)) || is_null($this->fields->get($field))) {
+                    $this->doLazyLoading($field, $args);
                 }
-                return $this->fields->get($attribute);
+                return $this->fields->get($field);
             } else {
                 // Устанавливает значение только в том случае, если значение
                 // поля не установлено ранее или оно может изменяться более одного раза
                 if (sizeof($args) < 1) {
-                    throw new mzzRuntimeException('Вызов метода ' . get_class($this) . '::' . $name . '() без аргумента');
+                    throw new mzzRuntimeException('Вызов мутатора ' . get_class($this) . '::' . $name . '() без аргумента');
                 }
 
-                if (!$this->fields->exists($attribute) || !$this->isOnce($attribute)) {
+                if (!$this->fields->exists($field) || !$this->isOnce($field)) {
 
-                    if ($service = $this->isDecorated($attribute)) {
+                    if ($service = $this->isDecorated($field)) {
                         fileLoader::load('service/' . $service);
                         $service = new $service;
                         $args[0] = $service->apply($args[0]);
                     }
 
-                    $this->changedFields->set($attribute, $args[0]);
+                    $this->changedFields->set($field, $args[0]);
+                } elseif ($this->isOnce($field)) {
+                    throw new mzzRuntimeException('Изменяемое поле ' . $field . ' доступно только для чтения');
                 }
             }
         } else {
@@ -233,8 +236,10 @@ abstract class simple
     protected function validateAttribute($name)
     {
         foreach ($this->map as $key => $val) {
-            if ((isset($val['accessor']) && $val['accessor'] == $name) || (isset($val['mutator']) && $val['mutator'] == $name)) {
-                return $key;
+            if (isset($val['accessor']) && $val['accessor'] == $name) {
+                return array('accessor', $key);
+            } elseif (isset($val['mutator']) && $val['mutator'] == $name) {
+                return array('mutator', $key);
             }
         }
     }

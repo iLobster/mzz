@@ -34,6 +34,12 @@ class sqlOperatorTest extends unitTestCase
         $this->assertEqual($sqlOperator->toString(), '`table`.`field` / 2');
     }
 
+    public function testInterval()
+    {
+        $sqlOperator = new sqlOperator('INTERVAL', array('1 DAY'));
+        $this->assertEqual($sqlOperator->toString(), 'INTERVAL 1 DAY');
+    }
+
     public function testGenerateMultiple()
     {
         $sqlOperator = new sqlOperator('-', array('table.field', 'field2', 1 , 2));
@@ -67,6 +73,12 @@ class sqlOperatorTest extends unitTestCase
         } catch (Exception $e) {
             $this->fail('Исключение не ожидаемого типа');
         }
+    }
+
+    public function testSqlFunctions()
+    {
+        $sqlOperator = new sqlOperator('-', array(new sqlFunction('NOW'), new sqlOperator('INTERVAL', array('1 DAY'))));
+        $this->assertEqual($sqlOperator->toString(), 'NOW() - INTERVAL 1 DAY');
     }
 
     public function testUnexpectedArguments()

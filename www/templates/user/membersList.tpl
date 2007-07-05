@@ -11,10 +11,14 @@
                 {*<td>{$group->getJip()}</td> *}
             </tr>
         {/foreach}
+        {if sizeof($users)}
             <tr>
                 <td><input type="submit" value="Удалить"></td>
                 <td colspan="2"><input type="reset" value="Сброс" onclick="javascript: jipWindow.close();"></td>
             </tr>
+        {else}
+            В этой группе пока нет ни одного пользователя
+        {/if}
         <tr>
             <td align="center"><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" class="jipLink"><img src="{$SITE_PATH}/templates/images/useradd.gif" width="16" height="16" /></a></td>
             <td colspan="2"><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" onclick="javascript: return jipWindow.open(this.href, true);">Добавить пользователя в группу</a></td>
