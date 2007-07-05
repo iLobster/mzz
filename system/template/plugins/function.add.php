@@ -28,7 +28,7 @@
  * @return null|void null если файл дубликат
  * @package system
  * @subpackage template
- * @version 0.2.1
+ * @version 0.2.2
  */
 function smarty_function_add($params, $smarty)
 {
@@ -39,18 +39,11 @@ function smarty_function_add($params, $smarty)
     // инициализация массива media, выполняется один раз при инстанциации Smarty
     if (isset($params['init']) && $vars === null) {
         $smarty->assign_by_ref('media', $medias[1]);
-        $vars = $medias[1];
         return;
     }
 
     if (empty($params['file'])) {
         throw new mzzInvalidParameterException('Пустой атрибут', 'file');
-    }
-
-    if (!isset($medias[0][$params['file'] . (isset($params['tpl']) ? $params['tpl'] : '')])) {
-        $medias[0][$params['file'] . (isset($params['tpl']) ? $params['tpl'] : '')] = true;
-    } else {
-        return;
     }
 
     // определяем тип ресурса
@@ -68,6 +61,14 @@ function smarty_function_add($params, $smarty)
         $filename = $params['file'];
     }
 
+    // Если шаблон не указан, то используем шаблон соответствующий расширению
+    $tpl = (!empty($params['tpl'])) ? $params['tpl'] : $res . '.tpl';
+
+    if (isset($medias[0][$filename . $tpl])) {
+        return;
+    }
+    $medias[0][$filename . $tpl] = true;
+
     if (!isset($medias[1][$res])) {
         throw new mzzInvalidParameterException('Неверный тип ресурса', $res);
     }
@@ -75,9 +76,6 @@ function smarty_function_add($params, $smarty)
     if (!preg_match('/^[a-z0-9_\.?&=\/\-]+$/i', $filename)) {
         throw new mzzInvalidParameterException('Неверное имя файла', $filename);
     }
-
-    // Если шаблон не указан, то используем шаблон соответствующий расширению
-    $tpl = (!empty($params['tpl'])) ? $params['tpl'] : $res . '.tpl';
 
     // ищем - подключали ли мы уже данный файл
     if (is_array($vars[$res])) {
