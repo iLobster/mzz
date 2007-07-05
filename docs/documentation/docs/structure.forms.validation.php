@@ -1,7 +1,7 @@
 <p>¬ mzz генераци€ и валидаци€ форм разделены. —тандартные правила валидации располагаютс€ в каталоге <i>system/forms/validators</i>. ƒл€ валидации формы вначале нужно подключить класс валидатора форм и создать объект этого класса. Ёто делаетс€ так:</p>
 <<code>>
-    fileLoader::load('forms/validators/formValidator');<br />
-    $validator = new formValidator();
+fileLoader::load('forms/validators/formValidator');
+$validator = new formValidator();
 <</code>>
 <p>ƒл€ добавлени€ правила валидации формы используетс€ следующий синтаксис:</p>
 <<code>>
