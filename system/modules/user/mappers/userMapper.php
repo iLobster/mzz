@@ -138,9 +138,6 @@ class userMapper extends simpleMapper
             $user = $this->getGuest();
         }
 
-        $userOnlineMapper = $toolkit->getMapper('user', 'userOnline', 'user');
-        $userOnlineMapper->changeLogin($user);
-
         return $user;
     }
 
@@ -154,9 +151,6 @@ class userMapper extends simpleMapper
 
         $session = $toolkit->getSession();
         $session->destroy('user_id');
-
-        $userOnlineMapper = $toolkit->getMapper('user', 'userOnline', 'user');
-        $userOnlineMapper->changeLogin($this->getGuest());
     }
 
     /**

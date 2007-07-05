@@ -15,13 +15,13 @@
 */
 
 /**
- * userFilter: фильтр для инициализации текущего пользователя
+ * userOnlineFilter: фильтр для фиксирования пользователей онлайн
  *
  * @package system
  * @subpackage filters
- * @version 0.1.1
+ * @version 0.1
  */
-class userFilter implements iFilter
+class userOnlineFilter implements iFilter
 {
     /**
      * запуск фильтра на исполнение
@@ -33,28 +33,9 @@ class userFilter implements iFilter
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
-        $session = $toolkit->getSession();
-
-        $user_id = $session->get('user_id');
-
-        if (is_null($user_id)) {
-            $userAuthMapper = $toolkit->getMapper('user', 'userAuth', 'user');
-            $userAuth = $userAuthMapper->get();
-            if (!is_null($userAuth)) {
-                $user_id = $userAuth->getUserId();
-                $session->set('user_id', $user_id);
-            }
-
-            if (is_null($user_id)) {
-                $user_id = MZZ_USER_GUEST_ID;
-            }
-        }
-
-        $userMapper = $toolkit->getMapper('user', 'user', 'user');
-
-        $me = $userMapper->searchById($user_id);
-
-        $toolkit->setUser($me);
+        // обновляем себя в списке онлайн-пользователей
+        $userOnlineMapper = $toolkit->getMapper('user', 'userOnline', 'user');
+        $userOnlineMapper->refresh($toolkit->getUser());
 
         $filter_chain->next();
     }

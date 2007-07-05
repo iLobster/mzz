@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage core
- * @version 0.1.5
+ * @version 0.1.6
  */
 class core
 {
@@ -74,7 +74,7 @@ class core
      */
      protected function preprocess()
      {
-         
+
      }
 
     /**
@@ -160,6 +160,7 @@ class core
         $filter_chain->registerFilter(new timingFilter());
         $filter_chain->registerFilter(new sessionFilter());
         $filter_chain->registerFilter(new userFilter());
+        $filter_chain->registerFilter(new userOnlineFilter());
         $filter_chain->registerFilter(new contentFilter());
         return $filter_chain;
     }

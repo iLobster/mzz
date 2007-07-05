@@ -92,6 +92,11 @@ class userOnlineMapper extends simpleMapper
                 $this->delete($user->getId());
             }
 
+            $last_id = $session->get('last_user_id');
+            if ($last_id != $me->getId()) {
+                $this->changeLogin($me, $session);
+            }
+
             $alreadyRun = true;
         }
     }
@@ -100,8 +105,9 @@ class userOnlineMapper extends simpleMapper
      * Удаление старой записи при смене логина
      *
      * @param user $me
+     * @param session $session
      */
-    public function changeLogin($me)
+    private function changeLogin($me, $session)
     {
         $session = systemToolkit::getInstance()->getSession();
         $criteria = new criteria();
@@ -112,6 +118,7 @@ class userOnlineMapper extends simpleMapper
             $this->delete($user->getId());
         }
 
+        $session->set('last_user_id', $me->getId());
     }
 
     /**
