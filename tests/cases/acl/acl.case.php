@@ -1,6 +1,7 @@
 <?php
 
 fileLoader::load('acl');
+fileLoader::load('user');
 
 class userStub extends user
 {
