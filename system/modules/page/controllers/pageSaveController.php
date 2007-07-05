@@ -53,10 +53,12 @@ class pageSaveController extends simpleController
                 $name = $this->request->get('name', 'string', SC_POST);
                 $title = $this->request->get('title', 'string', SC_POST);
                 $contentArea = $this->request->get('contentArea', 'string', SC_POST);
+                $compiled = $this->request->get('compiled', 'integer', SC_POST);
 
                 $page->setName($name);
                 $page->setTitle($title);
                 $page->setContent($contentArea);
+                $page->setCompiled($compiled);
 
                 $page->setFolder($pageFolder);
                 $pageMapper->save($page);

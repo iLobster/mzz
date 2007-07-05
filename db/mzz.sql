@@ -1018,6 +1018,7 @@ CREATE TABLE `page_page` (
   `name` varchar(255) NOT NULL default '',
   `title` varchar(255) NOT NULL default '',
   `content` text NOT NULL,
+  `compiled` tinyint(1) unsigned default '0',
   `folder_id` int(11) unsigned default NULL,
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -1026,18 +1027,18 @@ CREATE TABLE `page_page` (
 # Data for the `page_page` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`) VALUES 
-  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n',1),
-  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1),
-  (3,11,'test','test','test',1),
-  (4,57,'403','Доступ запрещён','Доступ запрещён',1),
-  (5,164,'pagename','123','234',2),
-  (6,165,'asd','qwe','asd',2),
-  (7,166,'12345','1','qwe',2),
-  (8,167,'1236','2','asd',2),
-  (9,168,'1237','3','qwe',2),
-  (10,169,'1234','ffffff','f',2),
-  (11,170,'ss','ква','sdaf',2);
+INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `compiled`, `folder_id`) VALUES 
+  (1,9,'main','Первая страница','<p>\nЭто <strong>первая</strong>, главная <strike>страница</strike>\n</p>\n<p>\n{load module=\"user\" action=\"online\" section=\"user\"} \n</p>\n',1,1),
+  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',0,1),
+  (3,11,'test','test','test',0,1),
+  (4,57,'403','Доступ запрещён','Доступ запрещён',0,1),
+  (5,164,'pagename','123','234',0,2),
+  (6,165,'asd','qwe','asd',0,2),
+  (7,166,'12345','1','qwe',0,2),
+  (8,167,'1236','2','asd',0,2),
+  (9,168,'1237','3','qwe',0,2),
+  (10,169,'1234','ffffff','f',0,2),
+  (11,170,'ss','ква','sdaf',0,2);
 
 COMMIT;
 
@@ -4862,7 +4863,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (668,11),
   (669,11),
   (672,21),
-  (679,7);
+  (679,7),
+  (680,24);
 
 COMMIT;
 
@@ -4925,7 +4927,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (65,'additem'),
   (66,'last'),
   (67,'moveUp'),
-  (68,'moveDown');
+  (68,'moveDown'),
+  (69,'register');
 
 COMMIT;
 
@@ -5232,7 +5235,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (157,26,9),
   (160,26,63),
   (161,25,64),
-  (166,24,67);
+  (166,24,67),
+  (167,3,69);
 
 COMMIT;
 
@@ -6004,7 +6008,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (676),
   (677),
   (678),
-  (679);
+  (679),
+  (680);
 
 COMMIT;
 
@@ -6257,7 +6262,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`) VALUES 
-  (1,2,'4d37ba366382d82a7b1e016f32028c05','2007-07-05 16:23:54',678);
+  (2,2,'439dcb8b3e105ef61029ca7a72cadf4f','2007-07-05 20:58:56',680);
 
 COMMIT;
 

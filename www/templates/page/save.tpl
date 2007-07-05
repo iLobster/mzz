@@ -71,6 +71,10 @@ function toggleEditor(id) {
         <td style='width: 15%;'>{form->caption name="title" value="Название" onError="style=color: red;"}</td>
         <td style='width: 85%;'>{form->text name="title" value=$page->getTitle() size="60"}</td>
     </tr>
+        <tr>
+        <td style='width: 15%;'>{form->caption name="title" value="Компилируемый" onError="style=color: red;"}</td>
+        <td style='width: 85%;'>{form->checkbox name="compiled" value=$page->getCompiled()}</td>
+    </tr>
     <tr>
         <td>&nbsp;</td>
         <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" id="editorStatus" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></td>
