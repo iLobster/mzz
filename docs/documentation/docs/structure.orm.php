@@ -18,15 +18,15 @@ mutator = "имя мутатора"
         <li>
                 <em>owns</em> - используется для создания отношений 1:1.<br />
                 Синтаксис:
-                <<code>>
+                <<code ini>>
                         owns = "имя_объекта.поле"
                 <</code>>
                 Пример:
-                <<code>>
-                        [related_id]<br />
-                        accessor = "getRelated"<br />
-                        mutator = "setRelated"<br />
-                        owns = "related.id"<br />
+                <<code ini>>
+[related_id]
+accessor = "getRelated"
+mutator = "setRelated"
+owns = "related.id"
                 <</code>>
                 В приведённом примере текущая таблица (а соответственно и объект) связана отношением 1:1 с таблицей <code>related</code>. Связь осуществляется между полем <code>related_id</code> текущей таблицы и полем <code>id</code> таблицы <code>related</code>.<br />
                 В полученном согласно этой схеме ДО данные в свойстве <code>related_id</code> (получаемое с помощью мутатора <code>getRelated</code>), будет являться инстанцией класса <code>related</code> с нужными данными.<br />
@@ -37,11 +37,11 @@ mutator = "имя мутатора"
         <li>
                 <em>hasMany</em> - опция, аналогичная owns, с тем лишь различием, что в текущей таблице для связи используется другое поле, например Primary Key, а также в результате выборки возвращается не один, а коллекция объектов.<br />
                 Пример:
-                <<code>>
-                        [related_id]<br />
-                        accessor = "getRelated"<br />
-                        mutator = "setRelated"<br />
-                        hasMany = "id->related2.relate_id"
+                <<code ini>>
+[related_id]
+accessor = "getRelated"
+mutator = "setRelated"
+hasMany = "id->related2.relate_id"
                 <</code>>
                 В этом примере <code>related2.relate_id</code> несут ту же смысловую нагрузку что и для опции <code>owns</code>, а <code>id</code> (после которого должен следовать знак "->") - обозначает имя поля, по которому происходит связывание<br />
                 <p>Пример клиентского кода абсолютно аналогичен примеру из owns.</p>
@@ -49,30 +49,30 @@ mutator = "имя мутатора"
         <li>
                 <em>section, module, do</em> - данные свойства используются совместно с owns и hasMany для того, чтобы указать, в контексте какой секции, какого модуля и какого типа должен создаваться присоединяемый DO.<br />
                 Это можно использовать например в случае, когда у вас список пользователей находится в таблице <code>user_user</code>, таблица с новостями - <code>news_news</code>. В таблице <code>news</code> поле <code>editor</code> определяет последнего исправлявшего новость. Текущая секция - <code>news</code>. Для этой ситуации файл map для DO <code>news</code> может выглядеть следующим образом:
-                <<code>>
-                        [editor]<br />
-                        accessor = "getEditor"<br />
-                        mutator = "setEditor"<br />
-                        owns = "user.id"<br />
-                        section = "user"<br />
-                        module = "user"<br />
-                        do = "other_user"<br />
+                <<code ini>>
+[editor]
+accessor = "getEditor"
+mutator = "setEditor"
+owns = "user.id"
+section = "user"
+module = "user"
+do = "other_user"
                 <</code>>
                 Пример клиентского кода:
                 <!-- code 2 -->
                 <p>Пример вернёт имя последнего исправлявшего новость. Причём объект, возвращаемый по
-                <<code>>$news->getEditor();<</code>>
+                <<code php>>$news->getEditor();<</code>>
                 будет инстанцией класса <i>other_user</i>.
                 </p>
         </li>
         <li>
                 <em>decorateClass</em> - данное свойство устанавливает какой сервисный класс использовать для декорирования свойства<br />
 	Например, вам необходимо хешировать пароль:                
-                <<code>>
-	[password] <br />
-	accessor = "getPassword" <br />
-	mutator = "setPassword" <br />
-	decorateClass = "md5PasswordHash" <br />
+                <<code ini>>
+[password]
+accessor = "getPassword"
+mutator = "setPassword"
+decorateClass = "md5PasswordHash"
                 <</code>>
         </li>
         <li>

@@ -2,7 +2,9 @@
 </p>
 
 <p>Синтаксис функции:</p>
-<<code>>{add file="<em>имя файла</em>" tpl="<em>имя шаблона</em>"}<</code>>
+<<code smarty>>
+    {add file="<em>имя файла</em>" tpl="<em>имя шаблона</em>"}
+<</code>>
 
 <p>Описание аргументов:
 <dl>
@@ -12,11 +14,11 @@
 </p>
 
 <p><strong>Пример 1.</strong> Подключения CSS файла:</p>
-<<code>>
-{add file="style.css"}
+<<code smarty>>
+    {add file="style.css"}
 <</code>>
 
 <p><strong>Пример 2.</strong> Подключение JS файла используя формат, определенный в шаблоне "some_template.tpl":</p>
-<<code>>
-{add file="script.js" tpl="some_template.tpl"}
+<<code smarty>>
+    {add file="script.js" tpl="some_template.tpl"}
 <</code>>

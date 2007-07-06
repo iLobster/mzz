@@ -1,18 +1,18 @@
 <p>Вся конфигурация проекта содержится в следующих файлах в каталоге проекта:</p>
 <<code>>
-        configs<br />
-        |<br />
-        |------- <strong>.htaccess</strong><br />
-        |<br />
-        |------- <strong>routes.php</strong><br />
-        |<br />
-        <strong>.htaccess</strong><br />
-        <strong>application.php</strong><br />
-        <strong>config.php</strong><br />
+        configs
+        |
+        |------- <strong>.htaccess</strong>
+        |
+        |------- <strong>routes.php</strong>
+        |
+        <strong>.htaccess</strong>
+        <strong>application.php</strong>
+        <strong>config.php</strong>
 <</code>>
 
 <p>Файл <code>configs/.htaccess</code> содержит лишь одну строку, которая запрещает внешний просмотр и выполнение файлов в каталоге <code>configs/</code></p>
-<<code>>
+<<code apache>>
 Deny from all
 <</code>>
 

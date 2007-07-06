@@ -1,26 +1,26 @@
 <p>Пример типичного файла с actions (действиями):</p>
-<<code>>
-        ; news actions config<br />
-        <br />
-        [view]<br />
-        controller = "view"<br />
-        <br />
-        [folders]<br />
-        controller = "folders"<br />
-        <br />
-        [create]<br />
-        controller = "create"<br />
-        <br />
-        [edit]<br />
-        controller = "edit"<br />
-        jip = true<br />
-        title = "&lt;img src='/templates/images/edit.png' width=16 height=16 border=0 alt='edit' /&gt;"<br />
-        <br />
-        [delete]<br />
-        controller = "delete"<br />
-        jip = true<br />
-        title = "&lt;img src='/templates/images/delete.png' width=16 height=16 border=0 alt='delete' /&gt;"<br />
-        confirm = "Вы хотите удалить эту новость?"<br />
+<<code ini>>
+; news actions config
+
+[view]
+controller = "view"
+
+[folders]
+controller = "folders"
+
+[create]
+controller = "create"
+
+[edit]
+controller = "edit"
+jip = true
+title = "&lt;img src='/templates/images/edit.png' width=16 height=16 border=0 alt='edit' /&gt;"
+
+[delete]
+controller = "delete"
+jip = true
+title = "&lt;img src='/templates/images/delete.png' width=16 height=16 border=0 alt='delete' /&gt;"
+confirm = "Вы хотите удалить эту новость?"
 <</code>>
 
 <p>Каждая секция (Например: [view]) обозначает имя определяемого действия. Имя может состоять из букв латинского алфавита (желательно в нижнем регистре), цифр и знака подчёркивания. В каждой секции указывается свойство <em>controller</em> - это имя контроллера, который будет обслуживать данное действие (ссылка на теорию MVC). Это свойство является обязательным (?).<p>

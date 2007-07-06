@@ -12,30 +12,30 @@
 <p>JIP имеет каждый DataObject, наследованный от класса <code>simple</code>.</p>
 
 <p>Действия, которые доступны в меню при наличии прав на них, имеют опцию <code>jip</code> со значением 1 в конфигурации действий:</p>
-<<code>>
-[edit]<br />
-controller = "edit"<br />
+<<code ini>>
+[edit]
+controller = "edit"
 jip = "1"
 <</code>>
 
 <p>Для отображения кнопки JIP необходимо в шаблоне вызвать метод <code>simple::getJip()</code>:</p>
-<<code>>
+<<code smarty>>
 {$news->getJip()}
 <</code>>
 
 <p>При нажатии на один из элементов соответствующая страница открывается в JIP-окне.</p>
 
 <p>Также в JIP-окне открываются любые ссылки, принадлежащие CSS-классу <code>jipLink</code>:</p>
-<<code>>
+<<code html>>
 &lt;a href="{url route="default" section="news" action="info"}" class="jipLink"&gt;Сис. информация&lt;/a&gt;
 <</code>>
 <p>Открываемые в JIP-окне страницы должны содержать как минимум его заголовок. Он определяется HTML-элементом &lt;DIV&gt;, который принадлежит к CSS-классу <code>jipTitle</code>:</p>
-<<code>>
+<<code html>>
 &lt;div class="jipTitle"&gt;Создать новость&lt;/div&gt;
 <</code>>
 
 <p>Форму можно отправить через Ajax добавив атрибут <code>onsubmit="return mzzAjax.sendForm(this);"</code>:</p>
-<<code>>
+<<code html>>
 &lt;form action="/winner/add" method="post" onsubmit="return mzzAjax.sendForm(this);"&gt;<br />
 Имя: &lt;input size="60" name="name" type="text"&gt;<br />
 &lt;input type="submit"&gt;<br />

@@ -1,7 +1,7 @@
 <p>WEB-сервер принимает запрос от клиентского приложения. Этот запрос отправляется в единственную точку входа в приложение - <code>index.php</code> - с помощью правила mod_rewrite</p>
-<<code>>
-        RewriteCond %{SCRIPT_FILENAME} !-f<br />
-        RewriteRule (.*) index.php?path=/$1&%{QUERY_STRING} [L]<br />
+<<code apache>>
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule (.*) index.php?path=/$1&%{QUERY_STRING} [L]
 <</code>>
 <p>Файл <code>index.php</code> подключает файл с конфигурацией (<code>config.php</code>). В конфигурации определяются пути до необходимых для работы mzz каталогов (ссылка на соотв. раздел) и некоторые другие опции, например - параметры соединения с БД.</p>
 

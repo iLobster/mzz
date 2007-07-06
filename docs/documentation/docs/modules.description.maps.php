@@ -1,36 +1,36 @@
 <p>Пример типичного map-файла:</p>
-<<code>>
-        [id]<br />
-        accessor = "getId"<br />
-        mutator = "setId"<br />
-        once = true<br />
-        <br />
-        [title]<br />
-        accessor = "getTitle"<br />
-        mutator = "setTitle"<br />
-        <br />
-        [editor]<br />
-        accessor = "getEditor"<br />
-        mutator = "setEditor"<br />
-        owns = "user.id"<br />
-        module = "user"<br />
-        section = "user"<br />
-        <br />
-        [text]<br />
-        accessor = "getText"<br />
-        mutator = "setText"<br />
-        <br />
-        [folder_id]<br />
-        accessor = "getFolderId"<br />
-        mutator = "setFolderId"<br />
-        <br />
-        [created]<br />
-        accessor = "getCreated"<br />
-        mutator = "setCreated"<br />
-        once = true<br />
-        <br />
-        [updated]<br />
-        accessor = "getUpdated"<br />
-        mutator = "setUpdated"<br />
-        once = true
+<<code ini>>
+[id]
+accessor = "getId"
+mutator = "setId"
+once = true
+
+[title]
+accessor = "getTitle"
+mutator = "setTitle"
+
+[editor]
+accessor = "getEditor"
+mutator = "setEditor"
+owns = "user.id"
+module = "user"
+section = "user"
+
+[text]
+accessor = "getText"
+mutator = "setText"
+
+[folder_id]
+accessor = "getFolderId"
+mutator = "setFolderId"
+
+[created]
+accessor = "getCreated"
+mutator = "setCreated"
+once = true
+
+[updated]
+accessor = "getUpdated"
+mutator = "setUpdated"
+once = true
 <</code>>

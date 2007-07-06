@@ -11,7 +11,9 @@
 <p>Для получения текущего URL вызывается <code>{url}</code> без каких-либо аргументов.</p>
 
 <p>Синтаксис функции:</p>
-<<code>>{url section="<em>секция</em>" action="<em>действие</em>" route="маршрутизатор"}<</code>>
+<<code smarty>>
+{url section="<em>секция</em>" action="<em>действие</em>" route="маршрутизатор"}
+<</code>>
 <p>Описание аргументов:
 <dl>
         <dd>- <em>section</em>: имя секции, на которую будет ссылаться URL;</dd>
@@ -22,12 +24,12 @@
 <p>Функция может принимать так же и любые другие аргументы, которые будут являться параметрами.
 Примером генерации http://example.com/news/4/asc/edit в соотвествии с маршрутизатором <code>:section/:id/:sort/:action</code> является:
 </p>
-<<code>>
+<<code smarty>>
 {url section="news" action="edit" id="4" sort="asc" route="newsList"}
 <</code>>
 
 <p>Пример генерации URL для редактирования объекта с ID 4 в секции "news" (http://example.com/news/4/edit):</p>
-<<code>>
+<<code smarty>>
 {url section="news" action="edit" id="4"}
 <</code>>
 <<note>>

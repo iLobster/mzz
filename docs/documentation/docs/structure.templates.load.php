@@ -1,7 +1,9 @@
 <p>Функция <code>{load}</code> предназначена для запуска модулей из шаблонов. Этот метод некая "стратегией вытягивания", в которой шаблоны (по сути клиентский код) сами определяют, какие данные нужно получить и отобразить пользователю. За счёт этого добивается удобство и гибкость построенных на подобных системах, использующих данный принцип, приложений.</p>
 
 <p>Синтаксис функции:</p>
-<<code>>{load module="" action="" args="" section=""}<</code>>
+<<code smarty>>
+    {load module="" action="" args="" section=""}
+<</code>>
 <p>Описание аргументов:
 <dl>
 
@@ -12,11 +14,11 @@
 </dl></p>
 
 <p><strong>Пример 1.</strong> Загрузка модуля "Новости" и выполнения действия "List":</p>
-<<code>>
-{load module="news" action="list"}
+<<code smarty>>
+    {load module="news" action="list"}
 <</code>>
 
 <p><strong>Пример 2.</strong> Загрузка модуля "Новости" и отображения новости с ID 15 секции "mainNews":</p>
-<<code>>
-{load module="news" action="view" args="15" section="mainNews"}
+<<code smarty>>
+    {load module="news" action="view" args="15" section="mainNews"}
 <</code>>

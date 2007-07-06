@@ -1,22 +1,22 @@
 <p>—труктура каталогов типичного модул€ mzz выгл€дит следующим образом (рассмотрим на примере стандартного модул€ <code>news</code>):</p>
 <<code>>
-        news<br />
-        |<br />
-        |------- <b>actions/</b><br />
-        |<br />
-        |------- <b>controllers/</b><br />
-        |<br />
-        |------- <b>mappers/</b><br />
-        |<br />
-        |------- <b>maps/</b><br />
-        |<br />
-        |------- <b>views/</b><br />
-        |<br />
-        |------- news.php<br />
-        |<br />
-        |------- news.factory.php<br />
-        |<br />
-        |------- newsFolder.php<br />
+        news
+        |
+        |------- <b>actions/</b>
+        |
+        |------- <b>controllers/</b>
+        |
+        |------- <b>mappers/</b>
+        |
+        |------- <b>maps/</b>
+        |
+        |------- <b>views/</b>
+        |
+        |------- news.php
+        |
+        |------- news.factory.php
+        |
+        |------- newsFolder.php
 <</code>>
 <p>ѕеречислим все представленные элементы и опишем их назначение:
 <ul>
