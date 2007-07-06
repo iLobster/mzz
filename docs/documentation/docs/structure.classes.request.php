@@ -4,7 +4,7 @@ $request = $toolkit->getRequest();
 <</code>>
 <p>Для получения значения необходимого параметра используется метод <code>httpRequest::get()</code>, который может принимать три аргумента:
 имя внешней переменной, тип (к которому будет приведено значение) и источник данных. По умолчанию тип - <code>mixed</code>, источник данных - <code>SC_PATH</code>.</p>
-<!-- code 1 -->
+<!-- php code 1 -->
 <p>Доступные типы:</p>
 <table border="0" cellspacing="0" cellpadding="0" class="listTable">
 <thead>

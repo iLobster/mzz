@@ -2,20 +2,20 @@
 <<code>>generateModule.bat comments<</code>>
 <p>В ответ на эту команду будет выдана информация о результате генерации: какие файлы и каталоги были созданы или изменены, или ошибка и, возможно, причина, по которой сгенерировать модуль не удалось.</p>
 <<code>>
-Module root folder created successfully:<br />
-- comments<br />
-<br />
-Folder created successfully:<br />
-- comments/actions<br />
-- comments/controllers<br />
-- comments/mappers<br />
-- comments/maps<br />
-- comments/views<br />
-<br />
-File created successfully:<br />
-- comments/commentsFactory.php<br />
-- generateDO.bat<br />
-- generateAction.bat<br />
-<br />
+Module root folder created successfully:
+- comments
+
+Folder created successfully:
+- comments/actions
+- comments/controllers
+- comments/mappers
+- comments/maps
+- comments/views
+
+File created successfully:
+- comments/commentsFactory.php
+- generateDO.bat
+- generateAction.bat
+
 ALL OPERATIONS COMPLETED SUCCESSFULLY
 <</code>>

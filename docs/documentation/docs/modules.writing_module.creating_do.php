@@ -4,26 +4,26 @@
         <<code>>generateDO.bat comments<</code>>
         <p>Результат успешного выполнения команды:</p>
         <<code>>
-            File created successfully:<br />
-            - comments/comments.php<br />
-            - comments/mappers/commentsMapper.php<br />
-            - comments/actions/comments.ini<br />
-            - comments/maps/comments.map.ini<br />
-            <br />
-            ALL OPERATIONS COMPLETED SUCCESSFULLY
+File created successfully:
+- comments/comments.php
+- comments/mappers/commentsMapper.php
+- comments/actions/comments.ini
+- comments/maps/comments.map.ini
+
+ALL OPERATIONS COMPLETED SUCCESSFULLY
         <</code>>
     </li>
     <li>Для сущности <code>commentsFolder</code>:
         <<code>>generateDO.bat commentsFolder<</code>>
         <p>Результат успешного выполнения команды:</p>
         <<code>>
-            File created successfully:<br />
-            - comments/commentsFolder.php<br />
-            - comments/mappers/commentsFolderMapper.php<br />
-            - comments/actions/commentsFolder.ini<br />
-            - comments/maps/commentsFolder.map.ini<br />
-            <br />
-            ALL OPERATIONS COMPLETED SUCCESSFULLY
+File created successfully:
+- comments/commentsFolder.php
+- comments/mappers/commentsFolderMapper.php
+- comments/actions/commentsFolder.ini
+- comments/maps/commentsFolder.map.ini
+
+ALL OPERATIONS COMPLETED SUCCESSFULLY
         <</code>>
     </li>
 </ul>

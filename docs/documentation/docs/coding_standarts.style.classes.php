@@ -8,13 +8,13 @@
 
 <p>Пример класса:</p>
 
-<<code>>
-/**<br />
-&nbsp;* Блок комментариев<br />
-&nbsp;*/<br />
-class sample<br />
-{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;// содержимое класса<br />
+<<code php>>
+/**
+&nbsp;* Блок комментариев
+&nbsp;*/
+class sample
+{
+&nbsp;&nbsp;&nbsp;&nbsp;// содержимое класса
 }
 <</code>>
 

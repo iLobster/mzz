@@ -1,5 +1,5 @@
 {foreach from=$comments item=comment}
-    {$comment->getAuthor()->getLogin()}, {$comment->getTime()|date_format:"%e %B %Y / %H:%M"}<br />
+    {$comment->getAuthor()->getLogin()}, {$comment->getTime()|date_format:"%e %B %Y / %H:%M"}
     {$comment->getText()|htmlspecialchars}
     <hr>
 {/foreach}

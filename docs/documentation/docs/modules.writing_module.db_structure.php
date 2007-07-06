@@ -8,39 +8,39 @@
     <li><em>folder_id</em> - идентификатор папки (commentsFolder), в которой находится данный комментарий.</li>
 </ul>
 <p>Для описанной структуры дамп будет следующим:</p>
-<<code>>
-CREATE TABLE `comments_comments` (<br />
-  `id` int(11) unsigned NOT NULL auto_increment,<br />
-  `obj_id` int(11) unsigned default NULL,<br />
-  `text` text,<br />
-  `author` int(11) unsigned default NULL,<br />
-  `time` int(11) unsigned default NULL,<br />
-  `folder_id` int(11) unsigned default NULL,<br />
-  PRIMARY KEY  (`id`)<br />
+<<code sql>>
+CREATE TABLE `comments_comments` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `obj_id` int(11) unsigned default NULL,
+  `text` text,
+  `author` int(11) unsigned default NULL,
+  `time` int(11) unsigned default NULL,
+  `folder_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 <</code>>
 <p>Эту же структуру опишем в файле comments.map.ini:</p>
-<<code>>
-    [id]<br />
-    accessor = "getId"<br />
-    mutator = "setId"<br />
-    once = true<br />
-    <br />
-    [text]<br />
-    accessor = "getText"<br />
-    mutator = "setText"<br />
-    <br />
-    [author]<br />
-    accessor = "getAuthor"<br />
-    mutator = "setAuthor"<br />
-    <br />
-    [time]<br />
-    accessor = "getTime"<br />
-    mutator = "setTime"<br />
-    <br />
-    [folder_id]<br />
-    accessor = "getFolder"<br />
-    mutator = "setFolder"<br />
+<<code ini>>
+[id]
+accessor = "getId"
+mutator = "setId"
+once = true
+
+[text]
+accessor = "getText"
+mutator = "setText"
+
+[author]
+accessor = "getAuthor"
+mutator = "setAuthor"
+
+[time]
+accessor = "getTime"
+mutator = "setTime"
+
+[folder_id]
+accessor = "getFolder"
+mutator = "setFolder"
 <</code>>
 <<note>>Как вы можете заметить - в этой схеме мы ещё не учли отношения с таблицами пользователей и <code>commentsFolder</code>. Это будет сделано чуть позднее.<</note>>
 <p>Для сущности <code>commentsFolder</code> таблица БД будет следующей:</p>
@@ -49,23 +49,23 @@ CREATE TABLE `comments_comments` (<br />
     <li><em>obj_id</em> - системный идентификатор объекта в пределах всего приложения (ссылку);</li>
     <li><em>parent_id</em> - системный идентификатор комментируемого объекта.</li>
 </ul>
-<<code>>
-CREATE TABLE `comments_commentsfolder` (<br />
-  `id` int(11) unsigned NOT NULL auto_increment,<br />
-  `obj_id` int(11) unsigned default NULL,<br />
-  `parent_id` int(11) unsigned default NULL,<br />
-  PRIMARY KEY  (`id`),<br />
-  KEY `parent_id` (`parent_id`)<br />
+<<code sql>>
+CREATE TABLE `comments_commentsfolder` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `obj_id` int(11) unsigned default NULL,
+  `parent_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `parent_id` (`parent_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 <</code>>
 <p>Эту структуру также опишем в файле commentsFolder.map.ini:</p>
-<<code>>
-    [id]<br />
-    accessor = "getId"<br />
-    mutator = "setId"<br />
-    once = true<br />
-    <br />
-    [parent_id]<br />
-    accessor = "getParentId"<br />
-    mutator = "setParentId"<br />
+<<code ini>>
+[id]
+accessor = "getId"
+mutator = "setId"
+once = true
+
+[parent_id]
+accessor = "getParentId"
+mutator = "setParentId"
 <</code>>

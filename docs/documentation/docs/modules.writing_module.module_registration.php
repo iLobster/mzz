@@ -11,10 +11,12 @@
 <p>В таблицу <code>`sys_modules`</code> также добавляем одну запись - comments, которой присваивается id = 8.</p>
 <p>В таблице <code>`sys_classes`</code> хранятся все сущности приложения. Добавляем в неё 2 записи - comments и commentsFolder. В качестве `module_id` для обоих записей указываем 8 (идентификатор модуля). Для вновь созданных записей значения id составили 10 и 11 соответственно.</p>
 <p>Теперь мы должны указать какие действия каким сущностям должны соответствовать. Для <code>comments</code> это будут edit, delete, editACL, для <code>commentsFolder</code> - list, post, editACL. Поэтому в таблицу <code>`sys_classes_actions`</code> добавляем записи, связывающие конкретную сущность и соответствующие им экшны. В нашем случае это будут следующие записи:</p>
-<table border="1">
-    <tr>
-        <td>class_id</td><td>action_id</td>
-    </tr>
+<table border="0" cellspacing="0" cellpadding="0" class="listTable">
+    <thead>
+        <tr>
+            <td><strong>class_id</strong></td><td><strong>action_id</strong></td>
+        </tr>
+    </thead>
     <tr>
         <td>10</td><td>1</td>
     </tr>

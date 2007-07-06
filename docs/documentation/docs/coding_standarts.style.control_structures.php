@@ -4,17 +4,17 @@
 
 <p>Открывающаяся фигурная скобка пишется на той же строке, что и условие. Закрывающаяся фигурная скобка пишется на отдельной строке.</p>
 
-<<code>>
-if ($a != 2) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;$a = 2;<br />
-}<br />
-<br />
-if ($a != 2 && $b == 'value') {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;$a = 2;<br />
-} elseif ($a == 3) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;$a = 4;<br />
-} else {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;$a = 7;<br />
+<<code php>>
+if ($a != 2) {
+&nbsp;&nbsp;&nbsp;&nbsp;$a = 2;
+}
+
+if ($a != 2 && $b == 'value') {
+&nbsp;&nbsp;&nbsp;&nbsp;$a = 2;
+} elseif ($a == 3) {
+&nbsp;&nbsp;&nbsp;&nbsp;$a = 4;
+} else {
+&nbsp;&nbsp;&nbsp;&nbsp;$a = 7;
 }
 <</code>>
 
@@ -23,16 +23,16 @@ if ($a != 2 && $b == 'value') {<br />
 <p>Управляющие структуры написанные с использованием "switch" конструкции должны иметь один пробел до открывающей круглой скобки условного выражения, и также один пробел после закрывающей круглой скобки.</p>
 
 <p>Содержимое каждого "case" выражения должно писаться с отступом в дополнительные четыре пробела.</p>
-<<code>>
-switch ($value) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;case 1:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$a = 'b';<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
-<br />
-&nbsp;&nbsp;&nbsp;&nbsp;case 2:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
-<br />
-&nbsp;&nbsp;&nbsp;&nbsp;default:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
+<<code php>>
+switch ($value) {
+&nbsp;&nbsp;&nbsp;&nbsp;case 1:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$a = 'b';
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+
+&nbsp;&nbsp;&nbsp;&nbsp;case 2:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+
+&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
 }
 <</code>>

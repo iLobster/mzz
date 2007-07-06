@@ -17,13 +17,13 @@ Deny from all
 <</code>>
 
 <p>Файл <code>configs/routes.php</code> содержит <a href="doc.php?cat=2.4#2.4.2">настройку Routes для URL</a></p>
-<!-- code 1 -->
+<!-- php code 1 -->
 
 <p>Файл <code>application.php</code> (todo)</p>
-<!-- code 2 -->
+<!-- php code 2 -->
 
 <p>Файл <code>.htaccess</code> содержит <a href="doc.php?cat=2.4#2.4.3">настройки для http-сервера Apache</a></p>
-<!-- code 3 -->
+<!-- apache code 3 -->
 
 <p>Файл <code>config.php</code> содержит <a href="doc.php?cat=2.4#2.4.1">системную конфигурацию</a></p>
-<!-- code 4 -->
+<!-- php code 4 -->

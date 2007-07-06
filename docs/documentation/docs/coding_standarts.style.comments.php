@@ -3,17 +3,17 @@
 <p>Подходят комментарии в стилях C (/* */) и C++ (//). Первые используются в определении классов, методов, функций и т.д., а вторые внутри методов, функций и в глобальной видимости. Использование комментариев в стиле Perl/shell (#) не допускается.</p>
 
 <p>Все PHP-файлы должны содержать минимальный блок комментариев в качестве заголовка:</p>
-<<code>>
-/**<br />
-&nbsp;* &#036;URL&#036;<br />
-&nbsp;*<br />
-&nbsp;* MZZ Content Management System (c) 2005-2007<br />
-&nbsp;* Website : http://www.mzz.ru<br />
-&nbsp;*<br />
-&nbsp;* This program is free software and released under<br />
-&nbsp;* the GNU Lesser General Public License (See /docs/LGPL.txt).<br />
-&nbsp;*<br />
-&nbsp;* @link http://www.mzz.ru<br />
-&nbsp;* @version &#036;Id&#036;<br />
+<<code php>>
+/**
+&nbsp;* &#036;URL&#036;
+&nbsp;*
+&nbsp;* MZZ Content Management System (c) 2005-2007
+&nbsp;* Website : http://www.mzz.ru
+&nbsp;*
+&nbsp;* This program is free software and released under
+&nbsp;* the GNU Lesser General Public License (See /docs/LGPL.txt).
+&nbsp;*
+&nbsp;* @link http://www.mzz.ru
+&nbsp;* @version &#036;Id&#036;
 &nbsp;*/
 <</code>>

@@ -104,7 +104,7 @@
     <li>
         <i>select</i> - хелпер для генерации выпадающего списка. Пример использования:
         В пхп заранее сформируем массив с пунктами выпадающего списка:
-        <!-- code 1 -->
+        <!-- php code 1 -->
         А в шаблоне вызовем хелпер:
         <<code smarty>>
             {form->select name="sample_select" options=$data one_item_freeze=1 value="2" emptyFirst=1}
