@@ -69,7 +69,9 @@ class userOnlineMapper extends simpleMapper
         static $alreadyRun = false;
 
         if (!$alreadyRun) {
-            $session = systemToolkit::getInstance()->getSession();
+            $toolkit = systemToolkit::getInstance();
+            $session = $toolkit->getSession();
+            $request = $toolkit->getRequest();
 
             $criteria = new criteria();
             $criteria->add('user_id', $me->getId());
@@ -79,8 +81,10 @@ class userOnlineMapper extends simpleMapper
                 $exists = $this->create();
                 $exists->setUser($me);
                 $exists->setSession($session->getId());
+                $exists->setIp($request->get('REMOTE_ADDR', 'string', SC_SERVER));
             }
             $exists->setLastActivity('refresh please :)');
+            $exists->setUrl($request->getRequestUrl());
             $this->save($exists);
 
             // удаляем по таймауту, а также пользователей, с такой же сессией но другим user_id (при смене логина)

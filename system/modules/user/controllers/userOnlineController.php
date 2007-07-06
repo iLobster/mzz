@@ -27,19 +27,21 @@ class userOnlineController extends simpleController
         $userOnlineMapper = $this->toolkit->getMapper('user', 'userOnline');
         $criteria = new criteria();
         $criteria->setOrderByFieldAsc('user_id.login');
-        $criteria->addGroupBy('user_id');
-        $criteria->addSelectField('COUNT(*)', 'userOnline' . userOnlineMapper::TABLE_KEY_DELIMITER . 'cnt');
         $users = $userOnlineMapper->searchAll($criteria);
 
         $guests = 0;
+        $total = 0;
         foreach ($users as $key => $user) {
             if ($user->getUser()->getId() == MZZ_USER_GUEST_ID) {
-                $guests = $user->fakeField('cnt');
+                $guests++;
                 unset($users[$key]);
-                break;
+                continue;
             }
+
+            $total++;
         }
 
+        $this->smarty->assign('total', $total);
         $this->smarty->assign('guests', $guests);
         $this->smarty->assign('users', $users);
 

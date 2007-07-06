@@ -400,9 +400,9 @@ CREATE TABLE `fileManager_file` (
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
   (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,10,1,'',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,33,1,'',6,623),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,36,1,'',6,623),
   (4,'9655e498443188533954a25625049192','2.jpg','jpg',17182,9,1,'',5,625),
-  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,27,1,'',6,629);
+  (5,'d8fceb4a8c495ad4b34fc424a57c88c6','2.jpg','jpg',1529,30,1,'',6,629);
 
 COMMIT;
 
@@ -1018,8 +1018,8 @@ CREATE TABLE `page_page` (
   `name` varchar(255) NOT NULL default '',
   `title` varchar(255) NOT NULL default '',
   `content` text NOT NULL,
-  `compiled` tinyint(1) unsigned default '0',
   `folder_id` int(11) unsigned default NULL,
+  `compiled` int(11) default NULL,
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -1027,18 +1027,18 @@ CREATE TABLE `page_page` (
 # Data for the `page_page` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `compiled`, `folder_id`) VALUES 
-  (1,9,'main','Первая страница','<p>\nЭто <strong>первая</strong>, главная <strike>страница</strike>\n</p>\n<p>\n{load module=\"user\" action=\"online\" section=\"user\"} \n</p>\n',1,1),
-  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',0,1),
-  (3,11,'test','test','test',0,1),
-  (4,57,'403','Доступ запрещён','Доступ запрещён',0,1),
-  (5,164,'pagename','123','234',0,2),
-  (6,165,'asd','qwe','asd',0,2),
-  (7,166,'12345','1','qwe',0,2),
-  (8,167,'1236','2','asd',0,2),
-  (9,168,'1237','3','qwe',0,2),
-  (10,169,'1234','ffffff','f',0,2),
-  (11,170,'ss','ква','sdaf',0,2);
+INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `compiled`) VALUES 
+  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\r\n{load section=\"user\" action=\"list\" module=\"user\"}\r\n',1,1),
+  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1,NULL),
+  (3,11,'test','test','test',1,NULL),
+  (4,57,'403','Доступ запрещён','Доступ запрещён',1,NULL),
+  (5,164,'pagename','123','234',2,NULL),
+  (6,165,'asd','qwe','asd',2,NULL),
+  (7,166,'12345','1','qwe',2,NULL),
+  (8,167,'1236','2','asd',2,NULL),
+  (9,168,'1237','3','qwe',2,NULL),
+  (10,169,'1234','ffffff','f',2,NULL),
+  (11,170,'ss','ква','sdaf',2,NULL);
 
 COMMIT;
 
@@ -4864,7 +4864,19 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (669,11),
   (672,21),
   (679,7),
-  (680,24);
+  (689,24),
+  (681,24),
+  (683,24),
+  (684,24),
+  (717,24),
+  (692,24),
+  (693,24),
+  (703,24),
+  (707,24),
+  (715,24),
+  (718,24),
+  (766,24),
+  (759,12);
 
 COMMIT;
 
@@ -6009,7 +6021,93 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (677),
   (678),
   (679),
-  (680);
+  (680),
+  (681),
+  (682),
+  (683),
+  (684),
+  (685),
+  (686),
+  (687),
+  (688),
+  (689),
+  (690),
+  (691),
+  (692),
+  (693),
+  (694),
+  (695),
+  (696),
+  (697),
+  (698),
+  (699),
+  (700),
+  (701),
+  (702),
+  (703),
+  (704),
+  (705),
+  (706),
+  (707),
+  (708),
+  (709),
+  (710),
+  (711),
+  (712),
+  (713),
+  (714),
+  (715),
+  (716),
+  (717),
+  (718),
+  (719),
+  (720),
+  (721),
+  (722),
+  (723),
+  (724),
+  (725),
+  (726),
+  (727),
+  (728),
+  (729),
+  (730),
+  (731),
+  (732),
+  (733),
+  (734),
+  (735),
+  (736),
+  (737),
+  (738),
+  (739),
+  (740),
+  (741),
+  (742),
+  (743),
+  (744),
+  (745),
+  (746),
+  (747),
+  (748),
+  (749),
+  (750),
+  (751),
+  (752),
+  (753),
+  (754),
+  (755),
+  (756),
+  (757),
+  (758),
+  (759),
+  (760),
+  (761),
+  (762),
+  (763),
+  (764),
+  (765),
+  (766);
 
 COMMIT;
 
@@ -6208,7 +6306,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (45,2,'127.0.0.1','cba27dedbe67f747ae71e793c7f815e7',615,1179777463),
   (46,2,'127.0.0.1','aeec5af86d3bac1a76a24f28ef32b7ec',619,1179993941),
   (47,2,'127.0.0.1','c6de5dc93546987d91e834e88dd1e321',634,1181822827),
-  (48,2,'127.0.0.1','7f825cd5ac7360ed49bc536d0e9ed9d3',654,1182045769);
+  (48,2,'127.0.0.1','7f825cd5ac7360ed49bc536d0e9ed9d3',654,1182045769),
+  (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529);
 
 COMMIT;
 
@@ -6252,6 +6351,8 @@ CREATE TABLE `user_userOnline` (
   `session` char(32) default NULL,
   `last_activity` datetime default NULL,
   `obj_id` int(11) default NULL,
+  `url` char(255) default NULL,
+  `ip` char(15) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `user_id` (`user_id`,`session`),
   KEY `last_activity` (`last_activity`)
@@ -6261,8 +6362,8 @@ CREATE TABLE `user_userOnline` (
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`) VALUES 
-  (2,2,'439dcb8b3e105ef61029ca7a72cadf4f','2007-07-05 20:58:56',680);
+INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
+  (68,2,'e474980b2694dd518f5fbc164eb28cba','2007-07-06 11:02:08',766,'http://mzz/page','127.0.0.1');
 
 COMMIT;
 
