@@ -68,9 +68,9 @@
             &lt;input name="save" type="hidden" value="off" /&gt;&lt;input id="mzzForms_ccbde77946cbec11692f84948f593d48" name="save" type="checkbox" value="on" /&gt;&lt;label for="mzzForms_ccbde77946cbec11692f84948f593d48" style="cursor: pointer; cursor: hand;"&gt;«апомнить&lt;/label&gt;
         <</code>>
         ¬ браузере пользовател€ это будет выгл€деть следующим образом:
-        <<code>>
+        <<example>>
             <input name="save" type="hidden" value="off" /><input id="mzzForms_ccbde77946cbec11692f84948f593d48" name="save" type="checkbox" value="on" /><label for="mzzForms_ccbde77946cbec11692f84948f593d48" style="cursor: pointer; cursor: hand;">«апомнить</label>
-        <</code>>
+        <</example>>
         ¬ качестве принимаемых параметров кроме вышеописанных <i>name</i> и <i>value</i>, checkbox также может принимать парметр <i>text</i>, который будет выводить текст, по€сн€ющий назначение данного чекбокса. Ётот параметр необ€зательный и параметр <i>values</i>, в котором перечислены значени€, отправл€емые на сервер при выключенном и включенном состо€нии соответственно (значение по умолчанию: <i>0|1</i>).
     </li>
     <li>
