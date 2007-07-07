@@ -84,7 +84,7 @@ class session
      *
      * @param string $name ключ
      * @param string $get возвращаемое значение если значение с ключом $name не существует
-     * @return string|null
+     * @return mixed
      */
     public function get($name, $default_value = null)
     {
