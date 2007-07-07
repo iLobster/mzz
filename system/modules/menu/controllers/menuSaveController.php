@@ -80,10 +80,10 @@ class menuSaveController extends simpleController
                     $select[$type_tmp['id']] = $type_tmp['title'];
                 }
                 $this->smarty->assign('select', $select);
-                $this->smarty->assign('type', $type);
             }
 
             $this->smarty->assign('item', $item);
+            $this->smarty->assign('type', ($isEdit) ? $item->getTypeId() : $type);
             $this->smarty->assign('id', $id);
             $this->smarty->assign('properties', $properties);
             $this->smarty->assign('request', $this->toolkit->getRequest());

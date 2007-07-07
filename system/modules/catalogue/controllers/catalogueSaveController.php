@@ -90,11 +90,11 @@ class catalogueSaveController extends simpleController
                         $select[$type_tmp['id']] = $type_tmp['title'];
                     }
                     $this->smarty->assign('select', $select);
-                    $this->smarty->assign('type', $type);
                     $this->smarty->assign('folder', $catalogueFolder);
                 }
 
                 $this->smarty->assign('item', $item);
+                $this->smarty->assign('type', ($isEdit) ? $item->getTypeId() : $type);
                 $this->smarty->assign('defType', $defType);
                 $this->smarty->assign('properties', $properties);
                 $this->smarty->assign('action', $url->get());

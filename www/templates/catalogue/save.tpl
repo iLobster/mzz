@@ -27,10 +27,10 @@ function loadForm(id)
             <td>Тип:</td>
             <td>{form->select name="type" options=$select id="type" value=$defType emptyFirst=1 onchange="javascript:loadForm(this.value);" onkeypress="this.onchange();"}{$errors->get('type')}</td>
         </tr>{/if}
-        <tr>
+        {if $type != 0}<tr>
             <td>{form->caption name="name" value="Имя:"}</td>
             <td>{form->text name="name" size="60" value=$item->getName()}{$errors->get('name')}</td>
-        </tr>
+        </tr>{/if}
         {foreach from=$properties item="element"}
             <tr>
                 <td>{form->caption name=$element.name value=$element.title}:</td>
