@@ -25,6 +25,11 @@ class formSelectField extends formElement
     {
         $html = '';
         $value = isset($options['value']) ? $options['value'] : '';
+
+        if (isset($options['multiple']) && $options['multiple'] && substr($options['name'], -2) !== '[]') {
+            $options['name'] .= '[]';
+        }
+
         $name = $options['name'];
 
         if (!isset($options['options'])) {
