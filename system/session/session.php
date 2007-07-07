@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage session
- * @version 0.1.2
+ * @version 0.1.3
 */
 class session
 {
@@ -60,13 +60,13 @@ class session
         session_start();
 
         // исправление у€звимости 'session fixation'
-        $hash = md5($_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR'] . (isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : 'fucking ie'));
-        if (!isset($_SESSION['mzz_session_fixation'])) {
-            $_SESSION['mzz_session_fixation'] = $hash;
-        } elseif ($_SESSION['mzz_session_fixation'] != $hash) {
+        $hash = md5((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'UA doesnt exists') . $_SERVER['REMOTE_ADDR'] . (isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : 'fucking ie'));
+        if ($this->exists('mzz_session_fixation')) {
+            $this->set('mzz_session_fixation', $hash);
+        } elseif ($this->get('mzz_session_fixation') != $hash) {
             session_regenerate_id();
-            $_SESSION = array();
-            $_SESSION['mzz_session_fixation'] = $hash;
+            $this->reset();
+            $this->set('mzz_session_fixation', $hash);
         }
     }
 
