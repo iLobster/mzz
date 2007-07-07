@@ -1,8 +1,9 @@
 <?php
 /**
  * подсветка для кода: <!-- тип code номер -->
- * Имеются следующие типы: html, apache, css, ini, javascript, mysql, smarty, sql, xml
- * Если тип не указан, то используется стандартная функция highlight_file
+ * для inline-кода: <<code тип>>код<</code>>
+ * для отображения html-примеров: <<example>><strong>пример</strong><</example>>
+ * Имеются следующие типы: apache, bash, css, html, ini, javascript, mysql, php, smarty, sql, xml
  *
  */
 
@@ -130,7 +131,11 @@ function render($id) {
     $note = '
 <div class="note">
 ';
-    $note_end = "\r\n</div>\r\n";
+    $end = "\r\n</div>\r\n";
+
+    $example = '
+<div class="example">
+';
 
     $content = file_get_contents($path);
     $content = preg_replace("/<!--\s*(.*?)?-?code\s*(\d+)\s*-->/ie", 'include_code("' . $id . '-$2", "$1");', $content);
@@ -141,7 +146,8 @@ function render($id) {
     //$content = str_replace(array("<<code>>", "<</code>>"), array("<!-- code start here -->\n<div class=\"code\"><div class=\"code_border\">\n<code>\n", "\n</code>\n</div></div>\n<!-- code end here -->\n"), $content);
     $content = str_replace(array("<<pre>>", "<</pre>>"), array("<!-- code start here -->\n<div class=\"code\"><div class=\"code_border\">\n<pre>\n", "\n</pre>\n</div></div>\n<!-- code end here -->\n"), $content);
 
-    $content = str_replace(array('<<note>>', '<</note>>'), array($note, $note_end), $content);
+    $content = str_replace(array('<<note>>', '<</note>>'), array($note, $end), $content);
+    $content = str_replace(array('<<example>>', '<</example>>'), array($example, $end), $content);
 
     // обрисовка дерева
     $content = str_replace(array('<<c1>>', '<</c1>>'), array('<strong class="red">', '</strong>'), $content);

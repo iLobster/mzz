@@ -38,9 +38,9 @@
                     &lt;span style="color: red;"&gt;Название&lt;/span&gt;<br />
                 <</code>>
                 Отображение:
-                <<code>>
+                <<example>>
                     <span style="color: red;">Название</span>
-                <</code>>
+                <</example>>
             </li>
             <li>
                 <i>onRequired</i> - параметр, отвечающий за знак, выводимый перед заголовком поля и обозначающий, что данное поле является обязательным к заполнению. Значением по умолчанию для данного параметра является:<br />
@@ -52,9 +52,9 @@
                     &lt;span style="color: red; font-size: 150%;"&gt;*&lt;/span&gt; Название
                 <</code>>
                 Отображение:
-                <<code>>
+                <<example>>
                     <span style="color: red; font-size: 150%;">*</span> Название
-                <</code>>
+                <</example>>
             </li>
         </ul>
     </li>
@@ -83,9 +83,9 @@
             &lt;input name="file" type="file" /&gt;
         <</code>>
         Отображение:
-        <<code>>
+        <<example>>
             <input name="file" type="file" />
-        <</code>>
+        <</example>>
     </li>
     <li>
         <i>radio</i> - хелпер для генерации элемента интерфейса "радио-кнопка" (radio-button). Пример использования:
@@ -97,9 +97,9 @@
             &lt;input id="mzzForms_25c6f3917428566415187f5b2d3020f1" name="field" type="radio" value="10" /&gt;&lt;label for="mzzForms_25c6f3917428566415187f5b2d3020f1" style="cursor: pointer; cursor: hand;"&gt;sample radio button&lt;/label&gt;
         <</code>>
         Отображение:
-        <<code>>
+        <<example>>
             <input id="mzzForms_25c6f3917428566415187f5b2d3020f1" name="field" type="radio" value="10" /><label for="mzzForms_25c6f3917428566415187f5b2d3020f1" style="cursor: pointer; cursor: hand;">sample radio button</label>
-        <</code>>
+        <</example>>
     </li>
     <li>
         <i>select</i> - хелпер для генерации выпадающего списка. Пример использования:
@@ -119,14 +119,14 @@
 &lt;/select&gt;
         <</code>>
         Отображение:
-        <<code>>
+        <<example>>
             <select name="sample_select">
             <option value="">&nbsp;</option>
             <option value="1">One</option>
             <option value="2" selected="selected">Two</option>
             <option value="3">Three</option>
             </select>
-        <</code>>
+        <</example>>
         Дополнительные параметры, которые может принимать данный хелпер:
         <ul>
             <li><i>emptyFirst</i> - установленный в значение "<i>1</i>", данный параметр добавит к массиву пунктов списка первый пункт, с пустым значением. Значение по умолчанию: "<i>0</i>"</li>

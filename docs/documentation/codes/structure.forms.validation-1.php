@@ -4,7 +4,7 @@
     function sample_callback($value, $time, $rand)
     {
         echo 'Введено значение: ' . $value . '<br />';
-        echo 'Текущее время: ' . date('H:i:s d.m.Y', $time) . '<br />';
+        echo 'Время и дата вызова: ' . date('H:i:s d.m.Y', $time) . '<br />';
         echo 'Случайное число в интервале от 1 до 10: ' . $rand;
         return true;
     }

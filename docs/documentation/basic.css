@@ -79,6 +79,14 @@ div.note {
   padding: 8px;
 }
 
+div.example {
+  margin: 10px 0px;
+  background-color: #F4FAFB;
+  border: 1px solid #BCE1E7;
+  padding: 8px;
+}
+
+
 div.options_name {
   color: #2572B8;
   width: 80%;
