@@ -19,7 +19,7 @@ fileLoader::load('user');
  *
  * @package modules
  * @subpackage user
- * @version 0.2.1
+ * @version 0.2.2
  */
 class userMapper extends simpleMapper
 {
@@ -132,13 +132,37 @@ class userMapper extends simpleMapper
         $session = $toolkit->getSession();
 
         if ($user) {
-            $session->set('user_id', $user->getId());
+            $this->setUserId($user->getId());
         } else {
-            $session->set('user_id', MZZ_USER_GUEST_ID);
+            $this->setUserId(MZZ_USER_GUEST_ID);
             $user = $this->getGuest();
         }
 
         return $user;
+    }
+
+    /**
+     * Установка текущего user_id
+     *
+     * @param integer $user_id
+     */
+    public function setUserId($user_id)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $session = $toolkit->getSession();
+        $session->set('user_id', $user_id);
+    }
+
+    /**
+     * Получение текущего user_id
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $session = $toolkit->getSession();
+        return $session->get('user_id');
     }
 
     /**
@@ -147,10 +171,7 @@ class userMapper extends simpleMapper
      */
     public function logout()
     {
-        $toolkit = systemToolkit::getInstance();
-
-        $session = $toolkit->getSession();
-        $session->destroy('user_id');
+        $this->setUserId(MZZ_USER_GUEST_ID);
     }
 
     /**

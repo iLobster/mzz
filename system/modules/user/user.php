@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage user
- * @version 0.1.4
+ * @version 0.1.5
  */
 class user extends simple
 {
@@ -51,6 +51,17 @@ class user extends simple
         }
 
         return $groups;
+    }
+
+    public function __sleep()
+    {
+        $this->section($this->mapper->section());
+        return array('fields', 'map', 'section');
+    }
+
+    public function __wakeup()
+    {
+        $this->mapper = systemToolkit::getInstance()->getmapper('user', 'user', $this->section());
     }
 }
 
