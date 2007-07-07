@@ -46,7 +46,7 @@ class pageSaveController extends simpleController
         if (!empty($page) || (!$isEdit && isset($pageFolder) && !is_null($pageFolder))) {
             $validator = new formValidator();
             $validator->add('required', 'name', 'Обязательное для заполнения поле');
-            $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-zа-я0-9_\.\-! ]+$/i');
+            $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-z0-9_\.\-! ]+$/i');
             $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkPageName', $page, $pageFolder));
 
             if ($validator->validate()) {
