@@ -47,7 +47,7 @@ class menuItemMapper extends simpleCatalogueMapper
     public function getChildrensById($id)
     {
         $criteria = new criteria;
-        $criteria->add('parent_id', $id)->setOrderByFieldDesc('order');
+        $criteria->add('parent_id', $id)->setOrderByFieldDesc('order')->setOrderByFieldDesc('id');
 
         $data = $this->searchAllByCriteria($criteria);
         return $data;

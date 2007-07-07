@@ -53,7 +53,7 @@ class menuMapper extends simpleMapper
     public function searchItemsById($menuId)
     {
         $criteria = new criteria;
-        $criteria->add('menu_id', $menuId)->setOrderByFieldAsc('order');
+        $criteria->add('menu_id', $menuId)->setOrderByFieldAsc('order')->setOrderByFieldAsc('id');
 
         $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'menuItem');
         $data = $itemMapper->searchAllByCriteria($criteria);
