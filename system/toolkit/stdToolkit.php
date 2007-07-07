@@ -75,6 +75,7 @@ class stdToolkit extends toolkit
             fileLoader::load('request/httpRequest');
             $this->request = new HttpRequest();
         }
+
         return $this->request;
     }
 
@@ -88,6 +89,7 @@ class stdToolkit extends toolkit
         if (empty($this->registry)) {
             $this->registry = new arrayDataspace();
         }
+
         return $this->registry;
     }
 
@@ -102,6 +104,7 @@ class stdToolkit extends toolkit
             fileLoader::load('request/httpResponse');
             $this->response = new httpResponse($this->toolkit->getSmarty());
         }
+
         return $this->response;
     }
 
@@ -116,6 +119,7 @@ class stdToolkit extends toolkit
             fileLoader::load('session');
             $this->session = new session();
         }
+
         return $this->session;
     }
 
@@ -145,6 +149,7 @@ class stdToolkit extends toolkit
             fileLoader::load('forms/form');
             $this->smarty->register_object('form', new form());
         }
+
         return $this->smarty;
     }
 
@@ -164,6 +169,7 @@ class stdToolkit extends toolkit
             fileLoader::load('request/requestRouter');
             $this->router = new requestRouter($request);
         }
+
         return $this->router;
     }
 
@@ -179,7 +185,7 @@ class stdToolkit extends toolkit
             $section = $request->getSection();
         }
 
-        if(empty($this->config[$module][$section])) {
+        if (empty($this->config[$module][$section])) {
             $this->config[$module][$section] = new config($section, $module);
         }
 
@@ -198,6 +204,7 @@ class stdToolkit extends toolkit
             $this->timer = new timer();
             $this->timer->start();
         }
+
         return $this->timer;
     }
 
@@ -212,6 +219,7 @@ class stdToolkit extends toolkit
         if ($this->actionNames->exists($module) == false) {
             $this->actionNames->set($module, new action($module));
         }
+
         return $this->actionNames->get($module);
     }
 
@@ -226,6 +234,7 @@ class stdToolkit extends toolkit
             $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
             $this->user = $userMapper->searchById(MZZ_USER_GUEST_ID);
         }
+
         return $this->user;
     }
 
@@ -307,4 +316,5 @@ class stdToolkit extends toolkit
         return $tmp;
     }
 }
+
 ?>
