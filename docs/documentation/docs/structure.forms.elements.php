@@ -136,7 +136,7 @@
     <li>
         <i>textarea</i> - хелпер для генерации текстареи
         <<code smarty>>
-            {form->textarea content="содержимое текстатери" name="sample"}
+            {form->textarea content="содержимое текстареи" name="sample"}
         <</code>>
         Html:
         <<code html>>

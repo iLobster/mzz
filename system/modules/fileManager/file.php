@@ -52,7 +52,9 @@ class file extends simple
 
     public function getMd5()
     {
-        return md5_file($this->getRealFullPath());
+        if (is_file($this->getRealFullPath())) {
+            return md5_file($this->getRealFullPath());
+        }
     }
 
     public function download()
