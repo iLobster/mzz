@@ -1,0 +1,61 @@
+ul#myTree {
+    margin: 0;
+    padding: 0;
+}
+
+.myTree, .myTree ul {
+    list-style: none;
+    padding-left: 2px;
+}
+
+.expandImage {
+    margin-right: 1px;
+}
+
+.folderImage {
+}
+
+.textHolder {
+    height: 16px;
+    line-height: 16px;
+    padding-left: 6px;
+    background-color: transparent;
+}
+
+li.dropOver div.menuItemContent {
+    background-color: #FFFFD5 !important;
+}
+
+.treeItem {
+    list-style: none;
+    width : auto;
+    height: auto;
+}
+
+
+img.expandImage {
+    text-align: center;
+    float: left;
+    margin-top: 16px;
+    margin-left: 0px;
+    color: #9F9F9F;
+}
+
+#myTree .menuItem {
+    height: 48px;
+    margin-top: 1px;
+}
+
+#myTree .menuItemContent {
+    margin-left:25px;
+    height: 32px;
+    font-size: 14px;
+    border: 1px solid #EEEEEE;
+    border-right: 0;
+    padding: 8px;
+}
+
+
+/* Fix IE. Hide from IE Mac \*/
+* html li.treeItem { background-color: #FFFFFF; height: 50px; }
+/* End */
