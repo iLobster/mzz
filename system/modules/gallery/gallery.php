@@ -24,6 +24,15 @@ class gallery extends simple
 {
     protected $name = 'gallery';
 
+    public function getAlbums()
+    {
+        $criteria = new criteria;
+        $criteria->add('gallery_id', $this->getId());
+
+        $albumMapper = systemToolkit::getInstance()->getMapper('gallery', 'album');
+        return $albumMapper->searchAllByField('gallery_id', $this->getId());
+    }
+
     public function getJip()
     {
         return $this->getJipView($this->name, $this->getOwner()->getLogin(), get_class($this));

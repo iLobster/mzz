@@ -40,6 +40,15 @@ class album extends simple
 
         return $photo;
     }
+
+    public function getPhotos()
+    {
+        $criteria = new criteria;
+        $criteria->add('album_id', $this->getId());
+
+        $photoMapper = systemToolkit::getInstance()->getMapper('gallery', 'photo');
+        return $photoMapper->searchAllByField('album_id', $this->getId());
+    }
 }
 
 ?>

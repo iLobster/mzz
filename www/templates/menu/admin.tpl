@@ -1,7 +1,7 @@
 {add file="menuTree.css"}
 {add file="menuTree.js"}
 <div class="pageContent">
-<h1>Список меню:{$folder->getJip()}</h1>
+<p class="pageTitle">Список меню:{$folder->getJip()}</p>
 {foreach from=$menus item="menu"}
 
 <ul id="myTree">
