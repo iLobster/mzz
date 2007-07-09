@@ -21,7 +21,7 @@
  */
 class pageListController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $pageMapper = $this->toolkit->getMapper('page', 'page');
 

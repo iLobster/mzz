@@ -22,7 +22,7 @@
 
 class newsAdminController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
 

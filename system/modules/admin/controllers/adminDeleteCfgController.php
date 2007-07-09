@@ -22,7 +22,7 @@
 
 class adminDeleteCfgController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
         $name = $this->request->get('name', 'string', SC_PATH);

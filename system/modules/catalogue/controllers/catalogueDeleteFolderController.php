@@ -22,7 +22,7 @@
 
 class catalogueDeleteFolderController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 

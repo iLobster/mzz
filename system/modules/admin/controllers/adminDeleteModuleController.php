@@ -24,7 +24,7 @@ fileLoader::load('codegenerator/moduleGenerator');
 
 class adminDeleteModuleController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
 

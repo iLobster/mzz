@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * userDeleteController: контроллер для метода delete модуля user
@@ -21,7 +21,7 @@
  */
 class userDeleteController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         // удаляем пользователя
         $id = $this->request->get('id', 'integer');

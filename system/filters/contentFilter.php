@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage filters
- * @version 0.2.3
+ * @version 0.2.5
  */
 class contentFilter implements iFilter
 {
@@ -53,6 +53,7 @@ class contentFilter implements iFilter
             if (DEBUG_MODE) {
                 throw $e;
             }
+
             $this->set404($request);
             $template = $frontcontroller->getTemplateName();
         }
@@ -72,15 +73,14 @@ class contentFilter implements iFilter
     }
 
     /**
-     * Установка в request значений параметров, необходимых для отображения страницы с ошибкой 404
+     * Вывод страницы 404
      *
-     * @param httpRequest $request
      */
-    private function set404($request)
+    private function set404()
     {
-        $request->setSection('page');
-        $request->setAction('view');
-        $request->setParams(array('name' => 404));
+        fileLoader::load('simple/simple404Controller');
+        $controller = new simple404Controller();
+        $controller->run();
     }
 }
 

@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * userAddToGroupController: контроллер для метода addToGroup модуля user
@@ -21,7 +21,7 @@
  */
 class userAddToGroupController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $filter = $this->request->get('filter', 'string', SC_GET);
 

@@ -25,7 +25,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class adminAddActionController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
         $action_name = $this->request->get('action_name', 'string', SC_PATH);

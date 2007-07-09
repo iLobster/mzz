@@ -22,7 +22,7 @@
 
 class galleryViewAlbumController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $user_name = $this->request->get('name', 'string');
         $album_id = $this->request->get('album', 'integer');

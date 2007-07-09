@@ -22,7 +22,7 @@
 
 class userOnlineController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $userOnlineMapper = $this->toolkit->getMapper('user', 'userOnline');
         $criteria = new criteria();

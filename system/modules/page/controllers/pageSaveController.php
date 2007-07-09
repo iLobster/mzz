@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class pageSaveController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $pageMapper = $this->toolkit->getMapper('page', 'page');
         $name = $this->request->get('name', 'string', SC_PATH);

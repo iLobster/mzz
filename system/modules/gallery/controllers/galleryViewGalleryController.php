@@ -22,7 +22,7 @@
 
 class galleryViewGalleryController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $galleryMapper = $this->toolkit->getMapper('gallery', 'gallery');

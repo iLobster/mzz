@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class pageMoveFolderController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $folderMapper = $this->toolkit->getMapper('page', 'pageFolder');
         $path = $this->request->get('name', 'string', SC_PATH);

@@ -22,7 +22,7 @@
 
 class newsListController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
         $path = $this->request->get('name', 'string', SC_PATH);

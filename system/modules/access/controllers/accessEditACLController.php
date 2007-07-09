@@ -21,7 +21,7 @@
  */
 class accessEditACLController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $db = db::factory();
 

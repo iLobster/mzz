@@ -22,7 +22,7 @@
 
 class fileManagerDeleteController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $name = $this->request->get('name', 'string', SC_PATH);
         $fileMapper = $this->toolkit->getMapper('fileManager', 'file');

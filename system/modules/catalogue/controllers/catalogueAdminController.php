@@ -22,7 +22,7 @@
 
 class catalogueAdminController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');

@@ -22,7 +22,7 @@
 
 class adminListActionsController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $this->db = DB::factory();
 

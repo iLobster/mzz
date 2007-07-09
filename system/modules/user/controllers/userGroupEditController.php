@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('forms/validators/formValidator');
 
@@ -23,7 +23,7 @@ fileLoader::load('forms/validators/formValidator');
  */
 class userGroupEditController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $groupMapper = $this->toolkit->getMapper('user', 'group');
         $id = $this->request->get('id', 'integer', SC_PATH | SC_POST);

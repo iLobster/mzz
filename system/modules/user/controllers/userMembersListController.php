@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * userMembersListController: контроллер для метода membersList модуля user
@@ -21,7 +21,7 @@
  */
 class userMembersListController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
             $id = $this->request->get('id', 'integer', SC_POST);

@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class catalogueMoveFolderController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
         $path = $this->request->get('name', 'string', SC_PATH);

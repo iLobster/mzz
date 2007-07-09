@@ -22,7 +22,7 @@
 
 class accessDeleteGroupController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         if (($obj_id = $this->request->get('id', 'integer')) != null) {
             $group_id = $this->request->get('user_id', 'integer');

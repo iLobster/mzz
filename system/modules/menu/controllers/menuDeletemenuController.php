@@ -22,7 +22,7 @@
 
 class menuDeletemenuController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
         $itemMapper = $this->toolkit->getMapper('menu', 'menuItem');

@@ -22,7 +22,7 @@
 
 class commentsDeleteController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');
         $commentsMapper->delete($this->request->get('id', 'integer', SC_PATH));

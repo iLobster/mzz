@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class catalogueSaveController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $user = $this->toolkit->getUser();
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');

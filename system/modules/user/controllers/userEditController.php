@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class userEditController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $id = $this->request->get('id', 'integer', SC_PATH | SC_POST);

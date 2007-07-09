@@ -1,15 +1,16 @@
-{include file='jipTitle.tpl' title="Классы, входящие в раздел '`$data.name`'"}
-<form action="{url route="withId" section="admin" id=$data.id action="addClassToSection"}" method="POST" onsubmit="return jipWindow.sendForm(this);">
+{include file='jipTitle.tpl' title="Модули, входящие в раздел '`$data.name`'"}
+<form action="{url route="withId" section="admin" id=$data.id action="addModuleToSection"}" method="POST" onsubmit="return jipWindow.sendForm(this);">
     <table width="99%" cellpadding="4" cellspacing="0" class="systemTable">
         <tr>
             <td>&nbsp;</td>
-            <td><strong>Класс</strong></td>
             <td><strong>Модуль</strong></td>
         </tr>
         {foreach from=$list item=current key=key}
             <tr>
-                <td width="5%"><input type="checkbox" {if not empty($current.disabled)}disabled="1"{else}name="class[{$key}]"{/if} {if not empty($current.checked)}checked="checked"{/if} value="1" /></td>
-                <td width="25%">{$current.c_name}</td>
+                <td width="5%">
+                    {assign var=name value="module[`$key`]"}
+                    {form->checkbox name=$name  value=$current.checked}
+                </td>
                 <td width="70%">{$current.m_name}</td>
             </tr>
         {/foreach}

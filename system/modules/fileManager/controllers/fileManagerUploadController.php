@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class fileManagerUploadController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
         $path = $this->request->get('name', 'string', SC_PATH);

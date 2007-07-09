@@ -21,7 +21,7 @@
  */
 class adminDeleteSectionController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
 

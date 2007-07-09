@@ -23,7 +23,7 @@ fileLoader::load('forms/validators/formValidator');
  */
 class adminAddObjToRegistryController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $action = $this->request->getAction();
 

@@ -22,7 +22,7 @@
 
 class fileManagerAdminController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
         $path = $this->request->get('params', 'string', SC_PATH);

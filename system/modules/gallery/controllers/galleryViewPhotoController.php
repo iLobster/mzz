@@ -22,7 +22,7 @@
 
 class galleryViewPhotoController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');

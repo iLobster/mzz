@@ -13,7 +13,6 @@
  */
 
 fileLoader::load('forms/validators/formValidator');
-//fileLoader::load('catalogue/forms/catalogueTypeForm');
 
 /**
  * catalogueSaveTypeController: контроллер для метода saveType модуля catalogue
@@ -25,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class catalogueSaveTypeController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $properties_tmp = $catalogueMapper->getAllProperties();

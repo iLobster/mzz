@@ -22,7 +22,7 @@
 
 class catalogueDeleteController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $user = $this->toolkit->getUser();

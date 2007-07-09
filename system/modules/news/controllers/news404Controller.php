@@ -22,7 +22,7 @@
 
 class news404Controller extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $this->response->setTitle('Ошибка. Запрашиваемая новость или папка не найдена.');
         return $this->smarty->fetch('news/notfound.tpl');

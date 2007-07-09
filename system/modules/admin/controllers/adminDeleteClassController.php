@@ -24,14 +24,14 @@ fileLoader::load('codegenerator/classGenerator');
 
 class adminDeleteClassController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $modules = $adminMapper->getModulesList();
 
-        $not_found = true;
+        /*$not_found = true;
         foreach ($modules as $val) {
             if (isset($val['classes'][$id])) {
                 if ($val['classes'][$id]['exists']) {
@@ -41,9 +41,11 @@ class adminDeleteClassController extends simpleController
                     $not_found = false;
                 }
             }
-        }
+        }*/
 
-        if ($not_found) {
+        $class = $adminMapper->searchClassById($id);
+
+        if (!$class) {
             $controller = new messageController('Êëàññà íå ñóùåñòâóåò', messageController::WARNING);
             return $controller->run();
         }

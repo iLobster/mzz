@@ -22,7 +22,7 @@
 
 class galleryDeleteController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
         $id = $this->request->get('id', 'integer', SC_PATH);

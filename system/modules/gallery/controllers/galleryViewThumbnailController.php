@@ -22,7 +22,7 @@
 
 class galleryViewThumbnailController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
 
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');

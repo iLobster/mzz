@@ -21,7 +21,7 @@
  */
 class adminDevToolbarController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 

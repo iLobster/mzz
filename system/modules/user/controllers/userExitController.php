@@ -21,7 +21,7 @@
  */
 class userExitController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $userMapper->logout();

@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class gallerySaveAlbumController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');

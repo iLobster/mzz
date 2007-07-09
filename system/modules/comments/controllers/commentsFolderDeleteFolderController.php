@@ -22,7 +22,7 @@
 
 class commentsFolderDeleteFolderController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $commentsFolderMapper = $this->toolkit->getMapper('comments', 'commentsFolder', 'comments');
         $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');

@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class pageMoveController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         // @todo ???
         if (($name = $this->request->get('name', 'string', SC_PATH)) == false) {

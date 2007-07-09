@@ -25,7 +25,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class adminAddClassController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
@@ -47,10 +47,11 @@ class adminAddClassController extends simpleController
                 return $controller->run();
             }
 
+            /*
             if (isset($modules[$data['module_id']]['classes'][$data['id']]) && $modules[$data['module_id']]['classes'][$data['id']]['exists']) {
                 $controller = new messageController('Нельзя изменить имя класса', messageController::WARNING);
                 return $controller->run();
-            }
+            }*/
 
             $module_name = $modules[$data['module_id']]['name'];
         } else {
@@ -91,6 +92,8 @@ class adminAddClassController extends simpleController
                 $editAclId = $db->getOne("SELECT `id` FROM `sys_actions` WHERE `name` = 'editACL'");
                 $db->query('INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . $class_id .', ' . $editAclId . ')');
 
+                $adminMapper->registerClassInSections($class_id);
+
                 $this->smarty->assign('log', $log);
                 return $this->smarty->fetch('admin/addClassResult.tpl');
             }
@@ -115,6 +118,10 @@ class adminAddClassController extends simpleController
         $this->smarty->assign('isEdit', $isEdit);
 
         $data['dest'] = $adminMapper->getDests(true, $module_name);
+
+        if (!$isEdit) {
+            $data['name'] = '';
+        }
 
         $this->smarty->assign('data', $data);
         return $this->smarty->fetch('admin/addClass.tpl');

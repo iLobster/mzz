@@ -12,7 +12,6 @@
  * @version $Id$
  */
 
-//fileLoader::load('catalogue/forms/catalogueMoveForm');
 fileLoader::load('forms/validators/formValidator');
 
 /**
@@ -25,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class catalogueMoveController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $user = $this->toolkit->getUser();
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');

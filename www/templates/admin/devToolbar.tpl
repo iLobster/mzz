@@ -25,10 +25,8 @@
                         {if $class.name eq $module.main_class_name}</u>{/if}
                     </td>
                     <td align=right>
-                    {if not $class.exists}
                         <a href="{url route="withId" section="admin" id=$id action="editClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" title="Редактировать класс" align="texttop" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить класс" title="Удалить класс" align="texttop" /></a>
-                    {/if}
                     <a href="{url route="withId" section="admin" id=$id action="listActions"}" class="jipLink"><img src='{$SITE_PATH}/templates/images/actions.gif' title="Действия класса" alt="Действия класса"  align="texttop"/></a></td>
                 </tr>
             {/foreach}
@@ -53,7 +51,7 @@
                     {if $count eq 0}
                         <a href="{url route="withId" section="admin" id=$id action="deleteSection"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить раздел" title="Удалить раздел" align="texttop" /></a>
                     {/if}
-                    <a href="{url route="withId" section="admin" id=$id action="addClassToSection"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/classes.gif" alt="редактировать список классов" title="Редактировать список классов" align="texttop" /></a>
+                    <a href="{url route="withId" section="admin" id=$id action="addModuleToSection"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/classes.gif" alt="редактировать список модулей" title="Редактировать список модулей" align="texttop" /></a>
                 </td>
             </tr>
             {foreach from=$section.classes item=class key=id}

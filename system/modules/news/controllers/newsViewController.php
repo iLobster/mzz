@@ -22,7 +22,7 @@
 
 class newsViewController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $newsMapper = $this->toolkit->getMapper('news', 'news');
 

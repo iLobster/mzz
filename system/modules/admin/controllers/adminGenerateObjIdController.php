@@ -21,7 +21,7 @@
  */
 class adminGenerateObjIdController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $obj_id = $this->toolkit->getObjectId();
 

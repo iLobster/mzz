@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.8
+ * @version 0.1.9
  */
 
 fileLoader::load('admin');
@@ -62,6 +62,11 @@ class adminMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
 
         foreach ($info as $val) {
+            /*if (!$val['section']) {
+            $class_info = $this->searchClassByName($val['class']);
+            $this->registerClassInSections($class_info['id']);
+            }*/
+
             $class = (!empty($val['main_class'])) ? $val['main_class'] : $val['class'];
 
             $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $class);
@@ -71,7 +76,7 @@ class adminMapper extends simpleMapper
             $main[$val['module']] = $class;
 
             if (isset($val['section']) && isset($val['class'])) {
-                //if (!isset($access[$val['section'] . '_' . $val['class']])) {
+
                 $access[$val['section'] . '_' . $val['module']] = $acl->get('editACL');
 
                 $action = $toolkit->getAction($val['module']);
@@ -79,7 +84,6 @@ class adminMapper extends simpleMapper
                 $actions = $actions[$val['class']];
 
                 $admin[$val['section'] . '_' . $val['class']] = isset($actions['admin']) && $acl->get('admin');
-                //}
 
                 $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id, 'editACL' => $acl->get('editACL'), 'editDefault' => $acl->get('editDefault'));
             }
@@ -129,6 +133,132 @@ class adminMapper extends simpleMapper
                     $result[$val['module']]['sections'][$val['section']] = array('title' => $val['section_title']);
                 }
             }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Поиск класса по id
+     *
+     * @param integer $id
+     * @return array|boolean
+     */
+    public function searchClassById($id)
+    {
+        return $this->db->getRow("SELECT * FROM `sys_classes` WHERE `id` = " . (int)$id);
+    }
+
+    /**
+     * Поиск классов, входящих в модуль, по id модуля
+     *
+     * @param integer $id
+     * @return array|boolean
+     */
+    public function searchClassesByModuleId($id)
+    {
+        return $this->db->getAll('SELECT * FROM `sys_classes` WHERE `module_id` = ' . (int)$id);
+    }
+
+    /**
+     * Поиск класса по имени
+     *
+     * @param string $name
+     * @return array|boolean
+     */
+    public function searchClassByName($name)
+    {
+        return $this->db->getRow("SELECT * FROM `sys_classes` WHERE `name` = " . $this->db->quote($name));
+    }
+
+    /**
+     * Поиск модуля, которому принадлежит класс
+     *
+     * @param integer $id id класса
+     * @return array|boolean
+     */
+    public function searchModuleByClassId($id)
+    {
+        return $this->db->getRow('SELECT `m`.* FROM `sys_classes` `c`
+                                   INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                                    WHERE `c`.`id` = ' . (int)$id);
+    }
+
+    /**
+     * Регистрация класса в секциях, в которых зарегистрирован модуль, в который входит класс. Происходит при создании нового класса
+     *
+     * @param integer $class_id
+     */
+    public function registerClassInSections($class_id)
+    {
+        $module = $this->searchModuleByClassId($class_id);
+        $sections = $this->getSectionsModuleRegistered($module['id']);
+
+        $insert = '';
+        foreach ($sections as $val) {
+            $insert .= '(' . $val['id'] . ', ' . $class_id . '), ';
+        }
+
+        $insert = substr($insert, 0, -2);
+
+        if ($insert) {
+            $this->db->query('INSERT INTO `sys_classes_sections` (`section_id`, `class_id`) VALUES ' . $insert);
+        }
+    }
+
+    /**
+     * Удаление класса из всех секций, в которых он был зарегистрирован
+     *
+     * @param integer $class_id
+     */
+    public function deleteClassFromSections($class_id)
+    {
+        $module = $this->searchModuleByClassId($class_id);
+        $sections = $this->getSectionsModuleRegistered($module['id']);
+
+        $delete = array();
+        foreach ($sections as $val) {
+            $delete[] = $val['id'];
+        }
+
+        if ($delete) {
+            $this->db->query('DELETE FROM `sys_classes_sections` WHERE `class_id` = ' . (int)$class_id . ' AND `section_id` IN (' . implode(', ', $delete) . ')');
+        }
+    }
+
+    /**
+     * Список секций, в которых зарегистрирован модуль
+     *
+     * @param integer $module_id
+     * @return array
+     */
+    public function getSectionsModuleRegistered($module_id)
+    {
+        return $this->db->getAll('SELECT `s`.* FROM `sys_modules` `m`
+                                    INNER JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
+                                     INNER JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id`
+                                      INNER JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+                                       WHERE `m`.`id` = ' . (int)$module_id . '
+                                        GROUP BY `s`.`id`');
+    }
+
+    /**
+     * Список модулей, которые зарегистрированы в секции
+     *
+     * @param integer $section_id
+     * @return array
+     */
+    public function getModulesAtSection($section_id)
+    {
+        $stmt = $this->db->query('SELECT `m`.`id` AS `m_id`, `m`.`name` AS `m_name`, `cs`.`section_id` IS NOT NULL AS `checked` FROM `sys_classes` `c`
+                                     INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                                      LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id` AND `cs`.`section_id` = ' . (int)$section_id . '
+                                       GROUP BY `m`.`id`
+                                        ORDER BY `m`.`name`');
+
+        $result = array();
+        while ($tmp = $stmt->fetch()) {
+            $result[$tmp['m_id']] = $tmp;
         }
 
         return $result;
@@ -253,9 +383,9 @@ class adminMapper extends simpleMapper
     }*/
 
     /**
-     * Enter description here...
+     * Получение списка классов в секциях
      *
-     * @return unknown
+     * @return array
      */
     public function getClassesInSections()
     {
@@ -271,9 +401,10 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Enter description here...
+     * Получение последних зарегистрированных в ACL объектов
      *
-     * @return unknown
+     * @param integer $items число элементов
+     * @return array
      */
     public function getLatestRegisteredObj($items = 5)
     {
@@ -285,6 +416,13 @@ class adminMapper extends simpleMapper
         return $objects;
     }
 
+    /**
+     * Получение списка каталогов, используемых для генерации модулей
+     *
+     * @param boolean $onlyWritable показывать только те, для которых есть права на запись
+     * @param string $subfolder подкаталог в каталоге modules, права на запись в который будет проверяться
+     * @return array
+     */
     public function getDests($onlyWritable = false, $subfolder = '')
     {
         if ($onlyWritable) {

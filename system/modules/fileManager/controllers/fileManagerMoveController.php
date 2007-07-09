@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class fileManagerMoveController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $name = $this->request->get('name', 'string', SC_PATH);
         $dest = $this->request->get('dest', 'integer', SC_POST);

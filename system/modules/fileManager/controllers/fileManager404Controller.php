@@ -23,7 +23,7 @@
 class fileManager404Controller extends simpleController
 {
     private $type;
-    public function __construct($type = 'file')
+    protected function __construct($type = 'file')
     {
         $this->type = $type;
         parent::__construct();

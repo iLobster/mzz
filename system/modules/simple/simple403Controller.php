@@ -24,19 +24,19 @@ class simple403Controller extends simpleController
 {
     public function getView()
     {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-        $request->setSection('page');
-        $request->setParams(array('name' => '403'));
-        $request->setAction('view');
+        $this->request->setSection('page');
+        $this->request->setParams(array('name' => '403'));
+        $this->request->setAction('view');
 
-        $action = $toolkit->getAction('page');
+        $action = $this->toolkit->getAction('page');
         $action->setAction('view');
 
         fileLoader::load('pageFactory');
 
         $factory = new pageFactory($action);
         $controller = $factory->getController();
+
+        $this->toolkit->getResponse()->setHeader('', 'HTTP/1.x 403 Forbidden');
 
         return $controller->run();
     }

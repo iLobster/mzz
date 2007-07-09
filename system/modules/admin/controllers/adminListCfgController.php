@@ -22,7 +22,7 @@
 
 class adminListCfgController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $id = $this->request->get('id', 'string', SC_PATH);
 

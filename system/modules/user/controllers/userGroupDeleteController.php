@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * userGroupDeleteController: контроллер для метода groupDelete модуля user
@@ -21,7 +21,7 @@
  */
 class userGroupDeleteController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $id = $this->request->get('id', 'integer');
 

@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * userGroupsListController: контроллер для метода groupsList модуля user
@@ -21,7 +21,7 @@
  */
 class userGroupsListController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $groupMapper = $this->toolkit->getMapper('user', 'group');
 

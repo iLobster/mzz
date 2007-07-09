@@ -23,7 +23,7 @@ fileLoader::load('forms/validators/formValidator');
  */
 class pageSaveFolderController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $path = $this->request->get('name', 'string', SC_PATH);
         $action = $this->request->getAction();

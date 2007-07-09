@@ -22,7 +22,7 @@
 
 class pageViewController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         if (($name = $this->request->get('name', 'string', SC_PATH)) == false) {
             if (($name = $this->request->get('id', 'string', SC_PATH)) == false) {

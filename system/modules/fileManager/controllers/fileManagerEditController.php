@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class fileManagerEditController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $name = $this->request->get('name', 'string', SC_PATH);
 

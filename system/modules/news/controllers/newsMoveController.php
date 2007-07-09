@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class newsMoveController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
         $dest = $this->request->get('dest', 'integer', SC_POST);

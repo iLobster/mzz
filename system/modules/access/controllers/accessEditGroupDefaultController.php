@@ -21,7 +21,7 @@
  */
 class accessEditGroupDefaultController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $group_id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
 

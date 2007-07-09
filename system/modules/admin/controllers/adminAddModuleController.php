@@ -25,7 +25,7 @@ fileLoader::load('codegenerator/moduleGenerator');
 
 class adminAddModuleController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 

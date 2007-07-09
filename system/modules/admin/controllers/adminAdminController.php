@@ -22,7 +22,7 @@
 
 class adminAdminController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $section = $this->request->get('section_name', 'string');
         $module = $this->request->get('module_name', 'string');

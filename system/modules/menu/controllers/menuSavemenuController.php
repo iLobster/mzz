@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class menuSavemenuController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
 

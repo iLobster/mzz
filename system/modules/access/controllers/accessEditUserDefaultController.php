@@ -21,7 +21,7 @@
  */
 class accessEditUserDefaultController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $user_id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
 

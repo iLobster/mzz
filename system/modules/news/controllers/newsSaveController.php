@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class newsSaveController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $user = $this->toolkit->getUser();
         $newsMapper = $this->toolkit->getMapper('news', 'news');

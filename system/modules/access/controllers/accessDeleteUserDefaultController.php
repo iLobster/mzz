@@ -22,7 +22,7 @@
 
 class accessDeleteUserDefaultController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         if (($user_id = $this->request->get('id', 'integer')) != null) {
             $class = $this->request->get('class_name', 'string');

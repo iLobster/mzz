@@ -22,7 +22,7 @@
 
 class pageDeleteFolderController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
 

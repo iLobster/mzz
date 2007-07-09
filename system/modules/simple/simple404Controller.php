@@ -22,7 +22,7 @@
 
 class simple404Controller extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $this->request->setSection('page');
         $this->request->setParams(array('name' => '404'));

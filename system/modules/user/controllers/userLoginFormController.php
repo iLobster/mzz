@@ -21,7 +21,7 @@
  */
 class userLoginFormController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $user = $this->toolkit->getUser();
 

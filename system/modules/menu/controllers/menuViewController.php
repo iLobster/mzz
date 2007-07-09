@@ -22,7 +22,7 @@
 
 class menuViewController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
 

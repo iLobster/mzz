@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * userListController: контроллер для метода list модуля user
@@ -21,7 +21,7 @@
  */
 class userListController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $config = $this->toolkit->getConfig('user', $this->request->getSection());

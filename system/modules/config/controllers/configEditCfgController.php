@@ -21,7 +21,7 @@
  */
 class configEditCfgController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $module_name = $this->request->get('module_name', 'string', SC_PATH);
         $section_name = $this->request->get('section_name', 'string', SC_PATH);

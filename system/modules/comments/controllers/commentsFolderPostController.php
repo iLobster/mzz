@@ -24,7 +24,7 @@ fileLoader::load('forms/validators/formValidator');
 
 class commentsFolderPostController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $parent_id = $this->request->get('id', 'integer', SC_PATH);
 

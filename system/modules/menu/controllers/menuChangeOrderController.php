@@ -22,7 +22,7 @@
 
 class menuChangeOrderController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $id = $this->request->get('id', 'integer');
         $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');

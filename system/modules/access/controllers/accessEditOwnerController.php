@@ -21,7 +21,7 @@
  */
 class accessEditOwnerController extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $class = $this->request->get('class_name', 'string');
         $section = $this->request->get('section_name', 'string');

@@ -22,7 +22,7 @@
 
 class menu404Controller extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         return $this->smarty->fetch('menu/notfound.tpl');
     }
