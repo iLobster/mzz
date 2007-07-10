@@ -1,14 +1,11 @@
 <p>Вся конфигурация проекта содержится в следующих файлах в каталоге проекта:</p>
 <<code>>
-        configs
-        |
-        |------- <strong>.htaccess</strong>
-        |
-        |------- <strong>routes.php</strong>
-        |
-        <strong>.htaccess</strong>
-        <strong>application.php</strong>
-        <strong>config.php</strong>
+configs/
+  .htaccess
+  routes.php
+.htaccess
+application.php
+config.php
 <</code>>
 
 <p>Файл <code>configs/.htaccess</code> содержит лишь одну строку, которая запрещает внешний просмотр и выполнение файлов в каталоге <code>configs/</code></p>

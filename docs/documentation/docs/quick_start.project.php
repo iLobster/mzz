@@ -1,22 +1,14 @@
 <p>Структура типичного проекта, выполненного на основе mzz выглядит следующим образом:</p>
 <<code>>
-Проект
-        |
-        |------- <b>tmp/</b>
-        |
-        |------- <b>www/</b>
-                |
-                |------- <b>configs/</b>
-                |
-                |------- <b>templates/</b>
-                |
-                |------- .htaccess
-                |
-                |------- application.php
-                |
-                |------- config.php
-                |
-                |------- index.php
+<папка проекта>/
+  tmp/
+  www/
+  configs/
+  templates/
+  .htaccess
+  application.php
+  config.php
+  index.php
 <</code>>
 <p>Перечислим все представленные каталоги и опишем их назначение:
 </p>

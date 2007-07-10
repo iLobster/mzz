@@ -49,6 +49,7 @@ $menu = array("intro.Предисловие" =>
                                          "validation.Валидация форм",
                                          "create_rule.Создание собственных валидаторов"
                                          ),
+                        "timer.Описание timer",
                         ),
            "quick_start.Быстрый старт" =>
                         array(
@@ -70,7 +71,6 @@ $menu = array("intro.Предисловие" =>
                         "simple.Описание Simple (надо как то в названии уточнить что от него все остальные отнаследованы) + методика написания новых модулей",
                         "news.Описание модуля News",
                         "page.Описание модуля Page",
-                        "timer.Описание модуля Timer",
                         'writing_module.Написание модуля "с нуля" на примере модуля Comments'
                                 => array("intro.Введение",
                                          "planning.Планирование",
@@ -96,10 +96,7 @@ $menu = array("intro.Предисловие" =>
                         ),
            "coding_standarts.Стандарты написания кода" =>
                         array(
-                        "files.Формат PHP-файлов" => array("main.Основы",
-                                         "indentation.Отступы",
-                                         "line_termination.Переносы строк",
-                                         ),
+                        "basic.Основы",
                         "naming.Соглашения об именах" => array("filenames.Имена файлов",
                                          "classes.Классы",
                                          "interfaces.Интерфейсы",
