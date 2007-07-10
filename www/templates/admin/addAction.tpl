@@ -47,7 +47,7 @@
             <td>{form->checkbox name="action[jip]" value=$defaults->get('jip')}</td>
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td colspan="2" style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

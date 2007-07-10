@@ -140,7 +140,7 @@ class actionGenerator
             chdir(CUR_DEST_FOLDER);
 
             $actionsfile = 'actions' . DIRECTORY_SEPARATOR . $this->class . '.ini';
-            $data = parse_ini_file($actionsfile = 'actions' . DIRECTORY_SEPARATOR . $this->class . '.ini', true);
+            $data = parse_ini_file($actionsfile, true);
 
             if (isset($data[$action])) {
                 unset($data[$action]);

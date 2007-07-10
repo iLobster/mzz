@@ -17,13 +17,17 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 class formRangeRule extends formAbstractRule
 {
     public function validate()
     {
-        return $this->value >= $this->params[0] && $this->value <= $this->params[1];
+        if (!is_array($this->params) || !isset($this->params[0]) || !isset($this->params[1])) {
+            throw new mzzRuntimeException('В массиве нужно указать 2 параметра, обозначающих начало и конец интервала');
+        }
+
+        return empty($this->value) || ($this->value >= $this->params[0] && $this->value <= $this->params[1]);
     }
 }
 

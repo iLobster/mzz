@@ -44,7 +44,7 @@ class adminAddActionController extends simpleController
         $info = $act->getActions();
 
         if ($action == 'editAction' && !isset($info[$data['c_name']][$action_name])) {
-            $controller = new messageController('Ó âûğàííîãî êëàññà íåò çàïğàøèâàåìîãî ıêøíà', messageController::WARNING);
+            $controller = new messageController('Ó âûáğàííîãî êëàññà íåò çàïğàøèâàåìîãî ıêøíà', messageController::WARNING);
             return $controller->run();
         }
 
