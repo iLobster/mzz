@@ -68,7 +68,6 @@ class adminSavemapController extends simpleController
         $validator->add('equal', 'field[accessor]', 'Имена акцессора и мутатора должны быть разными', array('field[mutator]', false));
         $validator->add('required', 'field[mutator]', 'Поле обязательно к заполнению');
         $validator->add('callback', 'field[mutator]', 'Такое имя мутатора уже используется', array('addMapMethodValidate', $mapfile, $isEdit ? $field_name : ''));
-        $validator->add('required', 'field[once]');
         $validator->add('range', 'field[orderBy]', 'Значение должно быть положительным', range(1, 99999));
 
         if ($validator->validate()) {
@@ -82,10 +81,12 @@ class adminSavemapController extends simpleController
             $mapfile[$field_name]['accessor'] = $values['accessor'];
             $mapfile[$field_name]['mutator'] = $values['mutator'];
 
-            if ($values['once']) {
-                $mapfile[$field_name]['once'] = $values['once'];
-            } elseif (isset($mapfile[$field_name]['once'])) {
-                unset($mapfile[$field_name]['once']);
+            if (isset($values['once'])) {
+                if ($values['once']) {
+                    $mapfile[$field_name]['once'] = $values['once'];
+                } elseif (isset($mapfile[$field_name]['once'])) {
+                    unset($mapfile[$field_name]['once']);
+                }
             }
 
             if (isset($values['orderBy'])) {
