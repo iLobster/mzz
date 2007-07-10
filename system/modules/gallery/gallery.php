@@ -26,9 +26,6 @@ class gallery extends simple
 
     public function getAlbums()
     {
-        $criteria = new criteria;
-        $criteria->add('gallery_id', $this->getId());
-
         $albumMapper = systemToolkit::getInstance()->getMapper('gallery', 'album');
         return $albumMapper->searchAllByField('gallery_id', $this->getId());
     }
