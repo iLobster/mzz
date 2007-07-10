@@ -2,6 +2,7 @@
 
 //fileLoader::load('simple/simpleMapper');
 fileLoader::load('cases/modules/simple/stubSimple.class');
+fileLoader::load('cases/modules/simple/stubMapper.class');
 
 class simpleCatalogueTest extends unitTestCase
 {

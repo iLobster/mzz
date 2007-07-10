@@ -1,6 +1,7 @@
 <?php
 
 //fileLoader::load('db/sqlFunction');
+fileLoader::load('cases/modules/simple/stubMapper.class');
 
 class simpleCatalogueMapperTest extends unitTestCase
 {

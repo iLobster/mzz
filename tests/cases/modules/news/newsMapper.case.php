@@ -1,6 +1,7 @@
 <?php
 
 fileLoader::load('news/mappers/newsMapper');
+fileLoader::load('user/mappers/userMapper');
 fileLoader::load('news');
 
 class newsMapperTest extends unitTestCase

@@ -1,6 +1,6 @@
 <?php
 
-fileLoader::load('service/iniFIle');
+fileLoader::load('service/iniFile');
 
 class iniFileTest extends unitTestCase
 {
