@@ -36,6 +36,32 @@ class formRangeRuleTest extends UnitTestCase
         $this->assertFalse($rule->validate());
     }
 
+    public function testOneSideRanges()
+    {
+        $_POST['number'] = 666;
+        $this->request->refresh();
+
+        $rule = new formRangeRule('number', '', array(1, null));
+        $this->assertTrue($rule->validate());
+
+        $rule = new formRangeRule('number', '', array(1000, null));
+        $this->assertFalse($rule->validate());
+
+        $rule = new formRangeRule('number', '', array(null, 1000));
+        $this->assertTrue($rule->validate());
+
+        $rule = new formRangeRule('number', '', array(null, 100));
+        $this->assertFalse($rule->validate());
+
+        try {
+            $rule = new formRangeRule('number', '', array(null, null));
+            $rule->validate();
+            $this->fail();
+        } catch (mzzRuntimeException $e) {
+            $this->assertPattern("/2 параметра/i", $e->getMessage());
+        }
+    }
+
     public function testException()
     {
         $_POST['number'] = 0;
@@ -45,6 +71,7 @@ class formRangeRuleTest extends UnitTestCase
 
         try {
             $rule->validate();
+            $this->fail();
         } catch (mzzRuntimeException $e) {
             $this->assertPattern("/2 параметра/i", $e->getMessage());
         }
