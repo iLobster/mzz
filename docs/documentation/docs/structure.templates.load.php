@@ -20,5 +20,5 @@
 
 <p><strong>Пример 2.</strong> Загрузка модуля "Новости" и отображения новости с ID 15 секции "mainNews":</p>
 <<code smarty>>
-    {load module="news" action="view" args="15" section="mainNews"}
+    {load module="news" action="view" id="15" section="mainNews"}
 <</code>>
