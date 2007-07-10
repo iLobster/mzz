@@ -2,7 +2,7 @@
 
 <p>Синтаксис функции:</p>
 <<code smarty>>
-    {load module="" action="" args="" section=""}
+    {load module="" action="" section="" param1="..." param2="..." ...}
 <</code>>
 <p>Описание аргументов:
 <dl>
