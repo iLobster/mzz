@@ -18,7 +18,6 @@ $menu = array("intro.Предисловие" =>
                         "server.Установка на сервер",
                         "configuration.Конфигурация"
                                 => array("system.Системная конфигурация проекта",
-                                         "routes.Настройка Routes для URL",
                                          "apache.Настройки для http-сервера Apache"),
                         ),
            "structure.Структура mzz" =>
