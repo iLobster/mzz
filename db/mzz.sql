@@ -371,7 +371,8 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
   (44,614,612),
   (45,631,626),
   (46,668,463),
-  (47,669,456);
+  (47,669,456),
+  (48,783,780);
 
 COMMIT;
 
@@ -402,8 +403,10 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,10,1,'',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,47,1,'',6,623);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,15,1,'',5,611),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,55,1,'',6,623),
+  (4,'256dc2b521b20609fed2d66aa2eeb34d','2.jpg','jpg',243556,2,1,NULL,5,779),
+  (5,'3dac90917213a1dc07fffce0d5e84e1a','2.jpg','jpg',1961,3,1,NULL,6,784);
 
 COMMIT;
 
@@ -487,7 +490,7 @@ CREATE TABLE `gallery_album` (
 
 INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `main_photo`, `obj_id`) VALUES 
   (1,1,'asd',1,NULL,0,537),
-  (2,1,'gsdf',0,1183979981,0,777);
+  (2,1,'gsdf',1,1183979981,0,777);
 
 COMMIT;
 
@@ -537,7 +540,8 @@ CREATE TABLE `gallery_photo` (
 #
 
 INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES 
-  (1,1,'девка',NULL,NULL,612);
+  (1,1,'девка',NULL,NULL,612),
+  (2,2,'test',NULL,NULL,780);
 
 COMMIT;
 
@@ -4499,7 +4503,10 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4897,9,11,669,2,NULL,1,0),
   (4898,19,11,669,2,NULL,0,0),
   (4899,5,11,669,2,NULL,0,0),
-  (4900,3,22,0,NULL,1,1,0);
+  (4900,3,22,0,NULL,1,1,0),
+  (4901,9,11,783,2,NULL,1,0),
+  (4902,19,11,783,2,NULL,0,0),
+  (4903,5,11,783,2,NULL,0,0);
 
 COMMIT;
 
@@ -4838,7 +4845,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (616,14),
   (619,12),
   (623,14),
-  (776,24),
+  (779,14),
   (777,18),
   (631,11),
   (632,7),
@@ -4877,7 +4884,12 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (718,24),
   (759,12),
   (770,12),
-  (775,16);
+  (775,16),
+  (780,20),
+  (783,11),
+  (784,14),
+  (786,12),
+  (789,24);
 
 COMMIT;
 
@@ -5329,7 +5341,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (8,'comments',10,'Комментарии','comments.gif',40),
   (9,'fileManager',17,'Менеджер файлов','fm.gif',50),
   (10,'catalogue',19,'Каталог','catalogue.gif',30),
-  (11,'gallery',21,'Галерея','pages.gif',80),
+  (11,'gallery',21,'Галерея','gallery.gif',80),
   (12,'menu',26,'Меню','pages.gif',90);
 
 COMMIT;
@@ -6120,7 +6132,19 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (774),
   (775),
   (776),
-  (777);
+  (777),
+  (778),
+  (779),
+  (780),
+  (781),
+  (782),
+  (783),
+  (784),
+  (785),
+  (786),
+  (787),
+  (788),
+  (789);
 
 COMMIT;
 
@@ -6168,19 +6192,12 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (264,'access_news_catalogue'),
   (265,'access_page_news'),
   (266,'access_fileManager_page'),
-  (290,'access__catalogue'),
   (497,'access_catalogue_catalogueFolder'),
-  (530,'access__'),
-  (531,'access__gallery'),
   (532,'access_gallery_gallery'),
-  (632,'access__menuItem'),
-  (633,'access__menu'),
   (635,'access_menu_menu'),
   (642,'access_menu_menuItem'),
-  (643,'access__menuFolder'),
   (644,'access_menu_menuFolder'),
-  (645,'menu_menuFolder'),
-  (679,'access__user');
+  (645,'menu_menuFolder');
 
 COMMIT;
 
@@ -6321,7 +6338,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (47,2,'127.0.0.1','c6de5dc93546987d91e834e88dd1e321',634,1181822827),
   (48,2,'127.0.0.1','7f825cd5ac7360ed49bc536d0e9ed9d3',654,1182045769),
   (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
-  (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1183816243);
+  (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1183816243),
+  (70,2,'127.0.0.1','3ebb9e119ee719960cb6f0290bbee16e',786,1184040506);
 
 COMMIT;
 
@@ -6377,7 +6395,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (73,2,'83e011682c0aee94450159310aac6b53','2007-07-09 22:24:41',776,'http://mzz/gallery/2/uploadPhoto?ajax=1','127.0.0.1');
+  (78,2,'8d685724510331ad6e96d4b4c3d671ce','2007-07-11 10:11:23',789,'http://mzz/admin/admin','127.0.0.1');
 
 COMMIT;
 

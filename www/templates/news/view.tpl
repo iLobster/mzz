@@ -1,3 +1,5 @@
+{title append=$news->getTitle()}
+{title append="Новости"}
 {add file="news.css"}
 {include file="news/tree.tpl" source=$news->getFolder()}
 <div class="newsList">

@@ -22,3 +22,5 @@
 <<code smarty>>
     {load module="news" action="view" id="15" section="mainNews"}
 <</code>>
+
+<p>Также у функции load есть 2 параметра <code>403handle</code> и <code>403tpl</code>, определяющие метод проверки прав на запуск объекта и имя шаблона, отображаемого в случае, если прав нет. Подробнее об этом читайте в разделе документации, описывающем <a href="structure.acl.html#structure.acl.module_running">взаимодействие системы проверки прав и шаблонов</a>.</p>

@@ -19,7 +19,7 @@
             {foreach from=$admin_menu item=module key=module_name}
                 {if sizeof($module.sections) == 1}
                     <tr>
-                        <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" width="24" height="24" alt="" /></td>
+                        <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" alt="" /></td>
                         {assign var='section_name' value=$module.sections|@key}
                         <td class="menuSection"><a href="{url route=withAnyParam section="admin" name=$module_name action="admin"}">
                             {if $module_name eq $current_module}<strong>{/if}
@@ -29,7 +29,7 @@
                     </tr>
                 {else}
                     <tr>
-                        <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" width="24" height="24" alt="" /></td>
+                        <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" alt="" /></td>
                         <td class="menuSection">{$module.title}</td>
                     </tr>
                     {foreach from=$module.sections item=section key=section_name}

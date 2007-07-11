@@ -293,11 +293,21 @@ class stdToolkit extends toolkit
         return $this->cache;
     }
 
+    /**
+     * Установка значения валидатора
+     *
+     * @return formValidator
+     */
     public function getValidator()
     {
         return $this->validator;
     }
 
+    /**
+     * Получение валидатора
+     *
+     * @param formValidator $value
+     */
     public function setValidator($value)
     {
         $this->validator = $value;

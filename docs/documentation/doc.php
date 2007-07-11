@@ -29,17 +29,27 @@ $menu = array("intro.Предисловие" =>
                                          "add.Функция {add}",
                                          "url.Функция {url}",
                                          ),
-                        "classes.Основные (или все) классы из ./system"
+                        "classes.Основные системные классы"
                                 => array("toolkit.Тулкит",
                                          "request.Request",
+                                         "response.Response",
+                                         "routers.Routers",
                                          "resolver.Resolver",
                                          "dataspace.Dataspace",
                                          "frontcontroller.Frontcontroller"
                                          ),
                         "run.Процесс запуска приложения",
                         "mvc.MVC",
-                        "urls.Структура урлов, что какая часть значит",
+                        //"urls.Структура урлов, что какая часть значит",
                         "orm.ORM",
+                        "acl.ACL"
+                                => array("overview.Обзор",
+                                         "tables.Хранение прав в БД",
+                                         "overlay.Наложение прав",
+                                         "owners.Владельцы объектов",
+                                         "coding.Работа с ACL",
+                                         "module_running.Запуск модулей из шаблонов"
+                                         ),
                         "folders.Структура каталогов mzz",
                         "files.Назначение различных файлов (вроде реврайт-мапа итд)",
                         "jip.JIP и AJAX",
@@ -68,7 +78,17 @@ $menu = array("intro.Предисловие" =>
                                          "mappers.Mappers",
                                          "maps.Maps",
                                          ),
-                        "simple.Описание Simple (надо как то в названии уточнить что от него все остальные отнаследованы) + методика написания новых модулей",
+                        "simple.Базовые классы для написания модулей"
+                                => array("simple.simple",
+                                         "simpleForTree.simpleForTree",
+                                         "simpleMapper.simpleMapper",
+                                         "simpleMapperForTree.simpleMapperForTree",
+                                         "simpleController.simpleController",
+                                         "simpleFactory.simpleFactory",
+                                         "403controller.simple403Controller",
+                                         "404controller.simple404Controller",
+                                         "messageController.messageController"
+                                         ),
                         "news.Описание модуля News",
                         "page.Описание модуля Page",
                         'writing_module.Написание модуля "с нуля" на примере модуля Comments'
@@ -82,6 +102,7 @@ $menu = array("intro.Предисловие" =>
                                          "programming.Программирование действий",
                                          "round_up.Подведение итогов",
                                          ),
+                        "404handling.Методика обработки ошибки 404 в модулях",
                         ),
            "acl.Пользователи и Права" =>
                         array(
@@ -89,7 +110,7 @@ $menu = array("intro.Предисловие" =>
                         "groups.Управление группами",
                         "permissions.Управление правами",
                         ),
-           "db.Возможности работы с БД" =>
+           "db.Работа с БД" =>
                         array(
                         "queries.Составление запросов. Использование criteria",
                         "tree.Работа с древовидными структурами",

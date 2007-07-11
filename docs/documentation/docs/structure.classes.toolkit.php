@@ -11,6 +11,9 @@
     <li><em>getAction($module)</em> - Возвращает объект Action для модуля $module</li>
     <li><em>getUser()</em> - Возвращает объект текущего пользователя</li>
     <li><em>getObjectId($name = null)</em> - Возвращает уникальный идентификатор необходимый для идентификации объектов</li>
+    <li><em>getMapper($module, $do, $section)</em> - Возвращает необходимый маппер</li>
+    <li><em>getCache()</em> - Возвращает объект для работы с кэшем</li>
+    <li><em>getValidator()</em> - Получение текущего валидатора</li>
     <li><em>setRequest($request)</em> - Устанавливает объект Request</li>
     <li><em>setResponse($response)</em> - Устанавливает объект Response</li>
     <li><em>setSession($session)</em> - Устанавливает объект Session</li>
@@ -19,5 +22,9 @@
     <li><em>setSectionMapper($sectionMapper)</em> - Устанавливает объект SectionMapper</li>
     <li><em>setUser($user)</em> - Устанавливает объект пользователя</li>
     <li><em>setConfig($config)</em> - Устанавливает объект конфигурации</li>
-    <li><em>getMapper($module, $do, $section)</em> - Возвращает необходимый маппер</li>
+    <li><em>setValidator($validator)</em> - Установка значения валидатора</li>
 </ul>
+<p>Для получения инстанции тулкита необходимо воспользоваться следующей конструкцией:</p>
+<<code php>>
+$toolkit = systemToolkit::getInstance();
+<</code>>
