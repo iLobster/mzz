@@ -1,6 +1,2 @@
-AddDefaultCharset windows-1251
-RewriteEngine on
-Options +FollowSymlinks -Indexes -Includes -MultiViews
-RewriteBase /tests/
-RewriteCond %{SCRIPT_FILENAME} !run.php
-RewriteRule (.*) run.php?%{QUERY_STRING} [L]
+RewriteEngine off
+DirectoryIndex run.php

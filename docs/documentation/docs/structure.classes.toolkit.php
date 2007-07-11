@@ -22,7 +22,7 @@
     <li><em>setSectionMapper($sectionMapper)</em> - Устанавливает объект SectionMapper</li>
     <li><em>setUser($user)</em> - Устанавливает объект пользователя</li>
     <li><em>setConfig($config)</em> - Устанавливает объект конфигурации</li>
-    <li><em>setValidator($validator)</em> - Установка значения валидатора</li>
+    <li><em>setValidator($validator)</em> - Установка валидатора</li>
 </ul>
 <p>Для получения инстанции тулкита необходимо воспользоваться следующей конструкцией:</p>
 <<code php>>

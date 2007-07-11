@@ -29,7 +29,7 @@ $menu = array("intro.Предисловие" =>
                                          "url.Функция {url}",
                                          ),
                         "classes.Основные системные классы"
-                                => array("toolkit.Тулкит",
+                                => array("toolkit.Toolkit",
                                          "request.Request",
                                          "response.Response",
                                          "routers.Routers",

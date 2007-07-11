@@ -1,4 +1,4 @@
-<p>Даные о правах хранятся в группе таблиц в БД mzz.</p>
+<p>Данные о правах хранятся в группе таблиц в БД mzz.</p>
 <table border="0" cellspacing="0" cellpadding="0" class="listTable">
     <thead>
         <tr>
