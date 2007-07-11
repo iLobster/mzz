@@ -1,1 +1,0 @@
-This dir is deprecated and exists for BC, use mzz/tests instead of.
