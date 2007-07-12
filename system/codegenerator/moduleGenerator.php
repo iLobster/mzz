@@ -121,7 +121,7 @@ class moduleGenerator
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
 
-        if (is_writeable(CUR)) {
+        if (!is_writeable(CUR)) {
             throw new mzzRuntimeException('Нет доступа на запись в каталог ' . CUR);
         }
 
