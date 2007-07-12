@@ -103,7 +103,8 @@ class folder extends simpleForTree
         usort($exts, create_function('$a,$b', 'return strlen($a) < strlen($b);'));
 
         foreach ($exts as $ext) {
-            if (strlen($ext) + strrpos(strtolower($name), strtolower($ext)) == strlen($name)) {
+            $pos = strrpos(strtolower($name), strtolower($ext));
+            if ($pos !== false && strlen($ext) + $pos == strlen($name)) {
                 $name_wo_ext = substr($name, 0, -strlen($ext) - 1);
                 break;
             }
@@ -117,7 +118,6 @@ class folder extends simpleForTree
                 $ext = substr($name, $dot + 1);
             }
         }
-
         if ($file) {
             // ищем все файлы которые подпадают под маску: filename*.ext
             $criterion = new criterion('name', $name, criteria::NOT_EQUAL);
