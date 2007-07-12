@@ -1,4 +1,4 @@
-{$question->getQuestion()}{$vote->getJip()}<br />
+{$question->getQuestion()}{$question->getJip()}<br />
 <form action="{$action}" method="post">
 {form->hidden name="url" id="backUrlField" value=$backURL}
 {foreach name="answersIterator" from=$question->getAnswers() item="answer"}
@@ -6,4 +6,4 @@
 {/foreach}
 <input type="submit" value="Проголосовать" />
 </form>
-<a href="{url route="withAnyParam" action="results" name=$vote->getName()}">Результаты</a>
+<a href="{url route="withAnyParam" action="results" name=$question->getName()}">Результаты</a>
