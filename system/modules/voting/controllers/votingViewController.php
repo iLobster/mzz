@@ -29,13 +29,13 @@ class votingViewController extends simpleController
 
         $question = $questionMapper->searchByName($name);
 
-        $this->smarty->assign('question', $question);
-
         $vote = $question->getVote();
         if ($vote) {
             $this->smarty->assign('vote', $vote);
-            return $this->smarty->fetch('voting/allreadyVote.tpl');
+            return $this->smarty->fetch('voting/alreadyVote.tpl');
         }
+
+        $this->smarty->assign('question', $question);
 
         $url = new url('withId');
         $url->setAction('post');
