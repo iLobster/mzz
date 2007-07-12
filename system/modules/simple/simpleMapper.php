@@ -227,7 +227,7 @@ abstract class simpleMapper
             $id = $stmt->execute();
 
             $criteria = new criteria();
-            $selectFields = $this->selectDataModify();
+            $this->selectDataModify($selectFields);
 
             if (is_array($selectFields)) {
                 foreach ($selectFields as $key => $val) {
@@ -299,7 +299,7 @@ abstract class simpleMapper
             }
 
             $criteria = new criteria();
-            $selectFields = $this->selectDataModify();
+            $this->selectDataModify($selectFields);
 
             if(is_array($selectFields)) {
                 foreach ($selectFields as $key => $val) {
@@ -682,7 +682,7 @@ abstract class simpleMapper
      *
      * @param array $fields
      */
-    protected function selectDataModify()
+    protected function selectDataModify(&$fields)
     {
     }
 

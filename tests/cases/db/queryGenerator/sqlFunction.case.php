@@ -51,10 +51,10 @@ class sqlFunctionTest extends unitTestCase
 
     public function testCompositeFunction()
     {
-        $function1 = new sqlFunction('Function_1','table.field', true);
+        $function1 = new sqlFunction('Function_1', 'table.field', true);
 
         $function2_arguments = array('table.field' => true, 'value');
-        $function2 = new sqlFunction('Function_2',$function2_arguments);
+        $function2 = new sqlFunction('Function_2', $function2_arguments);
 
         $arguments = array($function1, $function2, 'value', 'field' => true);
         $sqlFunction = new sqlFunction('Function', $arguments);

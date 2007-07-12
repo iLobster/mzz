@@ -5,13 +5,9 @@ class stubMapperSelectDataModify extends simpleMapper
     protected $name = 'simple';
     protected $className = 'stubSimple';
 
-    protected function selectDataModify()
+    protected function selectDataModify(&$modifyFields)
     {
-        $modifyFields = array();
-
         $modifyFields['stubSimple' . self::TABLE_KEY_DELIMITER . 'foo'] = new sqlFunction('REVERSE', $this->className . '.foo', true);
-
-        return $modifyFields;
     }
 
     protected function insertDataModify(&$fields)
