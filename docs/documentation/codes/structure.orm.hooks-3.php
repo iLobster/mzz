@@ -4,13 +4,10 @@ class someMapper extends simpleMapper
 {
     [...]
 
-    protected function selectDataModify()
+    protected function selectDataModify(&$modifyFields)
     {
-        $modifyFields = array();
-
-        $modifyFields['field_name'] = new sqlFunction('REVERSE', $this->className . '.foo', true);
-
-        return $modifyFields;
+        // в результате в SELECT запроса добавится REVERSE(`some`.`foo`) AS `foo`
+        $modifyFields['foo'] = new sqlFunction('REVERSE', $this->className . '.foo', true);
     }
 }
 

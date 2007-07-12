@@ -147,7 +147,7 @@ abstract class formElement
     }
 
     /**
-     * Экраниерование опций
+     * Экранирование опций
      *
      * @param string $value
      * @return string
