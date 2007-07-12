@@ -404,9 +404,9 @@ CREATE TABLE `fileManager_file` (
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
   (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,15,1,'',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,55,1,'',6,623),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,57,1,'',6,623),
   (4,'256dc2b521b20609fed2d66aa2eeb34d','2.jpg','jpg',243556,2,1,NULL,5,779),
-  (5,'3dac90917213a1dc07fffce0d5e84e1a','2.jpg','jpg',1961,3,1,NULL,6,784);
+  (5,'3dac90917213a1dc07fffce0d5e84e1a','2.jpg','jpg',1961,4,1,NULL,6,784);
 
 COMMIT;
 
@@ -4890,7 +4890,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (784,14),
   (786,12),
   (241,17),
-  (790,24);
+  (792,7),
+  (791,24),
+  (793,7),
+  (794,7),
+  (795,7);
 
 COMMIT;
 
@@ -5134,7 +5138,11 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (24,'menuItem',12),
   (25,'menu',12),
   (26,'menuFolder',12),
-  (27,'userOnline',2);
+  (27,'userOnline',2),
+  (28,'question',13),
+  (29,'answer',13),
+  (30,'voteFolder',13),
+  (31,'vote',13);
 
 COMMIT;
 
@@ -5263,7 +5271,11 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (161,25,64),
   (166,24,67),
   (167,3,69),
-  (168,21,20);
+  (168,21,20),
+  (169,28,9),
+  (170,29,9),
+  (171,30,9),
+  (172,31,9);
 
 COMMIT;
 
@@ -5309,7 +5321,11 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (21,24,12),
   (22,25,12),
   (23,26,12),
-  (24,27,2);
+  (24,27,2),
+  (25,28,13),
+  (26,29,13),
+  (27,30,13),
+  (28,31,13);
 
 COMMIT;
 
@@ -5343,7 +5359,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (9,'fileManager',17,'Менеджер файлов','fm.gif',50),
   (10,'catalogue',19,'Каталог','catalogue.gif',30),
   (11,'gallery',21,'Галерея','gallery.gif',80),
-  (12,'menu',26,'Меню','pages.gif',90);
+  (12,'menu',26,'Меню','pages.gif',90),
+  (13,'voting',30,'Голосование','',0);
 
 COMMIT;
 
@@ -6146,7 +6163,12 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (787),
   (788),
   (789),
-  (790);
+  (790),
+  (791),
+  (792),
+  (793),
+  (794),
+  (795);
 
 COMMIT;
 
@@ -6199,7 +6221,11 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (635,'access_menu_menu'),
   (642,'access_menu_menuItem'),
   (644,'access_menu_menuFolder'),
-  (645,'menu_menuFolder');
+  (645,'menu_menuFolder'),
+  (792,'access__'),
+  (793,'access__question'),
+  (794,'access_voting_question'),
+  (795,'access_voting_voteFolder');
 
 COMMIT;
 
@@ -6232,7 +6258,8 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (6,'sys','Системное',0),
   (2,'user','Пользователи',80),
   (11,'gallery','Галерея',80),
-  (12,'menu','Меню',50);
+  (12,'menu','Меню',50),
+  (13,'voting','Голосование',0);
 
 COMMIT;
 
@@ -6397,9 +6424,46 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (79,2,'8465cd1dbdf4caa7d78dbe3855930bb5','2007-07-12 19:09:12',790,'http://mzz/admin/21/listActions?ajax=1','127.0.0.1');
+  (80,2,'856c43c8967b6f7c7d31c48847680f9d','2007-07-12 21:04:35',791,'http://mzz/admin/answer/readmap?ajax=1','127.0.0.1');
 
 COMMIT;
+
+#
+# Structure for the `voting_answer` table : 
+#
+
+DROP TABLE IF EXISTS `voting_answer`;
+
+CREATE TABLE `voting_answer` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) NOT NULL default '',
+  `question_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `voting_question` table : 
+#
+
+DROP TABLE IF EXISTS `voting_question`;
+
+CREATE TABLE `voting_question` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `voting_vote` table : 
+#
+
+DROP TABLE IF EXISTS `voting_vote`;
+
+CREATE TABLE `voting_vote` (
+  `answer_id` int(11) NOT NULL default '0',
+  `user_id` int(11) NOT NULL default '0',
+  `question_id` int(11) NOT NULL default '0'
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 
 
