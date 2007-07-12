@@ -140,7 +140,7 @@ abstract class formElement
         ksort($options);
         foreach ($options as $key => $value) {
             if (!empty($key) && $value !== false) {
-                $html .= ' ' . $key . '="' . self::escapeOnce($value) . '"';
+                $html .= ' ' . $key . '="' . self::escapeOnce($value, substr($key, 0, 2) == 'on') . '"';
             }
         }
         return $html;
@@ -152,9 +152,13 @@ abstract class formElement
      * @param string $value
      * @return string
      */
-    static protected function escapeOnce($value)
+    static protected function escapeOnce($value, $js = false)
     {
-        return preg_replace('/&amp;([a-z]+|(#\d+)|(#x[\da-f]+));/i', '&$1;', htmlspecialchars($value));
+        if ($js) {
+            return str_replace('"', '&quot;', $value);
+        } else {
+            return preg_replace('/&amp;([a-z]+|(#\d+)|(#x[\da-f]+));/i', '&$1;', htmlspecialchars($value));
+        }
     }
 
     /**

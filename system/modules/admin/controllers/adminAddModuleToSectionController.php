@@ -99,9 +99,7 @@ class adminAddModuleToSectionController extends simpleController
                 $delete_array = array();
 
                 foreach ($delete as $val) {
-                    foreach ($adminMapper->searchClassesByModuleId($val) as $class) {
-                        $delete_array[] = $class['id'];
-                    }
+                    $delete_array[] = array_keys($adminMapper->searchClassesByModuleId($val));
                 }
 
                 $db->query('DELETE FROM `sys_classes_sections` WHERE `section_id` = ' . $data['id'] . ' AND `class_id` IN (' . implode(', ', $delete_array) . ')');
@@ -111,8 +109,8 @@ class adminAddModuleToSectionController extends simpleController
                 $insert_sql = '';
 
                 foreach ($insert as $val) {
-                    foreach ($adminMapper->searchClassesByModuleId($val) as $class) {
-                        $insert_sql .= '(' . $class['id'] . ', ' . $data['id'] . '), ';
+                    foreach (array_keys($adminMapper->searchClassesByModuleId($val)) as $class_id) {
+                        $insert_sql .= '(' . $class_id . ', ' . $data['id'] . '), ';
                     }
                 }
 

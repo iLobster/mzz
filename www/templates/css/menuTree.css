@@ -12,13 +12,20 @@ ul#myTree {
     margin-right: 1px;
 }
 
+.dragImage {
+    text-align: right;
+    float: right;
+    position: relative;
+    margin-right: 5px;
+    margin-top: -25px;
+}
+
 .folderImage {
 }
 
 .textHolder {
-    height: 16px;
-    line-height: 16px;
-    padding-left: 6px;
+    height: 14px;
+    padding-left: 0px;
     background-color: transparent;
 }
 
@@ -32,30 +39,62 @@ li.dropOver div.menuItemContent {
     height: auto;
 }
 
+.menuItem {
+    height: 37px;
+    margin-top: 1px;
+}
 
 img.expandImage {
     text-align: center;
     float: left;
-    margin-top: 16px;
+    margin-top: 12px;
     margin-left: 0px;
     color: #9F9F9F;
 }
 
-#myTree .menuItem {
-    height: 48px;
-    margin-top: 1px;
+
+.menuItemRoot {
+    height: 20px;
 }
+
+.menuItemRoot img.expandImage {
+    margin-top: 0px;
+    margin-right: 10px;
+}
+
 
 #myTree .menuItemContent {
     margin-left:25px;
-    height: 32px;
-    font-size: 14px;
-    border: 1px solid #EEEEEE;
+    height: 23px;
+    border: 1px solid #F5F5F5;
     border-right: 0;
-    padding: 8px;
+    padding: 7px 8px;
 }
 
 
+.menuType {
+    text-align: right;
+    float: right;
+    color: #7A7A7A;
+    font-size: 90%;
+    position: relative;
+}
+
+.menuUrl {
+    color: #7A7A7A;
+    font-size: 90%;
+}
+
+.treeItemRoot {
+    width: 100%;
+    height: 15px;
+}
+
+.menuJipItems {
+    float: right;
+    width: 40%;
+}
+
 /* Fix IE. Hide from IE Mac \*/
-* html li.treeItem { background-color: #FFFFFF; height: 50px; }
+* html li.treeItem { background-color: #FFFFFF; height: 16px; }
 /* End */

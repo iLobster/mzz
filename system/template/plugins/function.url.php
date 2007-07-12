@@ -42,6 +42,12 @@ function smarty_function_url($params, $smarty)
         $params['route'] = null;
     }
 
+    $onlyPath = false;
+    if(isset($params['onlyPath'])){
+        $onlyPath = true;
+        unset($params['onlyPath']);
+    }
+
     $url = new url($params['route']);
 
     if (isset($params['section'])) {
@@ -57,7 +63,7 @@ function smarty_function_url($params, $smarty)
     }
 
     if ($getUrl == true) {
-        return $request->getRequestUrl();
+        return $onlyPath ? SITE_PATH . '/' . $request->getPath() : $request->getRequestUrl();
     } else {
         return $url->get();
     }

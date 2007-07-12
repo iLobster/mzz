@@ -20,7 +20,8 @@ div.jipSuccess {
 }
 
 .jipWindow {
-    font-family: tahoma, verdana, arial !important;
+    font-family: Helvetica,  Lucida, tahoma, verdana, arial, sans-serif !important;
+
     font-weight: normal !important;
     font-size: 12px !important;
     color: #000 !important;
@@ -28,7 +29,6 @@ div.jipSuccess {
     display: none;
     border: 2px solid #999;
     z-index: 902;
-    font-size:100%;
     padding: 3px;
     width: 80%;
     background-color: #FFFFFF;
@@ -39,7 +39,29 @@ div.jipSuccess {
 }
 
 .jipWindow a {
-    color:#0055CC !important;
+    color:#0055CC;
+}
+
+.jipWindow a.cancelLink {
+    /*margin-left: 10px;*/
+    color: #9B1A06;
+}
+
+.jipWindow a.cancelLink:hover {
+    color: #E42105;
+}
+
+.jipWindow input {
+    padding: 1px;
+}
+.jipWindow .errorField {
+    border: 2px solid #E31717;
+}
+
+.jipWindow .errorText {
+    font-size: 90%;
+    color: #646464;
+    padding: 1px;
 }
 
 .jipWindow a:active {
@@ -102,7 +124,7 @@ div.jipSuccess {
     white-space: normal !important;
     word-spacing: normal !important;
     font-style: normal !important;
-    z-index: 800;
+    z-index: 3000;
 }
 
 .jipMenu img {
@@ -213,4 +235,22 @@ div.confirm span {
 
 div.confirm img {
   float: right;
+}
+
+.jipAjaxLoading {
+  padding: 5px;
+  border: 1px solid #F1DC92;
+  background-color: #FFF9D5;
+  color: #004000;
+  width: 130px;
+  font-size: 90%;
+}
+
+.jipAjaxLoadingError {
+  padding: 5px;
+  border: 1px solid #F29191;
+  background-color: #FFD5D5;
+  color: #800000;
+  width: 130px;
+  font-size: 90%;
 }

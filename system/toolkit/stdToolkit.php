@@ -294,7 +294,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Установка значения валидатора
+     * Получение валидатора
      *
      * @return formValidator
      */
@@ -304,7 +304,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Получение валидатора
+     * Установка валидатора
      *
      * @param formValidator $value
      */
@@ -314,7 +314,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Устанавливает объект пользователя
+     * Устанавливает объект пользователя и возвращает установленный ранее
      *
      * @param user $user
      * @return user

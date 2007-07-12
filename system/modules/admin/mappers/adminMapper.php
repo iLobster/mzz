@@ -157,7 +157,7 @@ class adminMapper extends simpleMapper
      */
     public function searchClassesByModuleId($id)
     {
-        return $this->db->getAll('SELECT * FROM `sys_classes` WHERE `module_id` = ' . (int)$id);
+        return $this->db->getAll('SELECT * FROM `sys_classes` WHERE `module_id` = ' . (int)$id, PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
     }
 
     /**
@@ -182,6 +182,20 @@ class adminMapper extends simpleMapper
         return $this->db->getRow('SELECT `m`.* FROM `sys_classes` `c`
                                    INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
                                     WHERE `c`.`id` = ' . (int)$id);
+    }
+
+    /**
+     * Поиск модулей, которые зарегистрированы в секции
+     *
+     * @param integer $id id секции
+     * @return array|boolean
+     */
+    public function searchModulesBySection($id)
+    {
+        return $this->db->getAll('SELECT DISTINCT `m`.`id`, `m`.`name` FROM `sys_classes_sections` `cs`
+                                   LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                    INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                                     WHERE `cs`.`section_id` = ' . (int)$id, PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
     }
 
     /**
@@ -325,10 +339,11 @@ class adminMapper extends simpleMapper
      */
     public function getSectionsAndModulesWithClasses()
     {
-        $modules = $this->db->getAll('SELECT `s`.`name` AS `section_name`, `m`.`name` AS `module_name`, `c`.`name` AS `class_name` FROM `sys_sections` `s`
-                                       LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
-                                        LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                         LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`');
+        $modules = $this->db->getAll('SELECT `s`.`id` AS `section_id`, `s`.`name` AS `section_name`, `m`.`name` AS `module_name`,
+                                       `c`.`name` AS `class_name` FROM `sys_sections` `s`
+                                        LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
+                                         LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                          LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`');
 
         $result = array();
 
@@ -337,6 +352,9 @@ class adminMapper extends simpleMapper
                 $result[$val['section_name']]['modules'][$val['module_name']][] = $val['class_name'];
             } else {
                 $result[$val['section_name']]['modules'] = array();
+            }
+            if (!isset($result[$val['section_name']]['id'])) {
+                $result[$val['section_name']]['id'] = $val['section_id'];
             }
         }
 

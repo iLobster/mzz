@@ -271,3 +271,15 @@ div#uploadStatus {
  border: 1px solid #D8F3FA;
  display: none;
 }
+
+a.jsLink {
+ text-decoration: none;
+ border-bottom: 1px dotted #0055CC;
+ font-size: 90%;
+}
+
+a.jsLink:hover {
+ text-decoration: none;
+ border-bottom: 1px dotted #E42105;
+ color: #E42105;
+}
