@@ -29,14 +29,7 @@ class menuViewController extends simpleController
         $name = $this->request->get('name', 'string');
         $menu = $menuMapper->searchByName($name);
 
-        if (!$menu) {
-            //todo 404
-            throw new mzzDONotFoundException();
-        }
-
-        $items = $menu->searchItems();
-
-        $this->smarty->assign('items', $items);
+        $this->smarty->assign('menu', $menu);
         return $this->smarty->fetch('menu/view.tpl');
     }
 }

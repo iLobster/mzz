@@ -23,6 +23,18 @@
 class question extends simple
 {
     protected $name = 'voting';
+
+    public function getAnswers()
+    {
+        return $this->mapper->getAllAnswers($this->getId());
+    }
+
+    public function getVote()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $user = $toolkit->getUser();
+        return $this->mapper->getVote($this->getId(), $user);
+    }
 }
 
 ?>

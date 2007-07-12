@@ -26,7 +26,7 @@ class menu extends simple
 {
     protected $name = 'menu';
 
-    public function searchItems()
+    public function getItems()
     {
         return $this->mapper->searchItemsById($this->getId());
     }

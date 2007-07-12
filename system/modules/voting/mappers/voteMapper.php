@@ -29,7 +29,7 @@ class voteMapper extends simpleMapper
      *
      * @var string
      */
-    protected $name = 'variant';
+    protected $name = 'voting';
 
     /**
      * Имя класса DataObject

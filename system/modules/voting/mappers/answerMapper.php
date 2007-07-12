@@ -38,6 +38,11 @@ class answerMapper extends simpleMapper
      */
     protected $className = 'answer';
 
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

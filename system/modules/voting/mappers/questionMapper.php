@@ -38,6 +38,33 @@ class questionMapper extends simpleMapper
      */
     protected $className = 'question';
 
+    public function searchById($id)
+    {
+        return $this->searchOneByField('id', $id);
+    }
+
+    public function searchByName($name)
+    {
+        return $this->searchOneByField('name', $name);
+    }
+
+    public function getAllAnswers($id)
+    {
+        $answerMapper = systemToolkit::getInstance()->getMapper('voting', 'answer');
+        return $answerMapper->searchAllByField('question_id', $id);
+    }
+
+    public function getVote($id, $user)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $voteMapper = $toolkit->getMapper('voting', 'vote');
+
+        $criteria = new criteria;
+        $criteria->add('user_id', $user->getId())->add('question_id', $id);
+
+        return $voteMapper->searchOneByCriteria($criteria);
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

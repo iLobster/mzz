@@ -1,0 +1,1 @@
+Вы уже отдали свой голос: {$vote->getAnswer()->getName()}

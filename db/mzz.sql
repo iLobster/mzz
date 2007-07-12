@@ -4891,10 +4891,18 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (786,12),
   (241,17),
   (792,7),
-  (791,24),
+  (798,26),
   (793,7),
   (794,7),
-  (795,7);
+  (795,7),
+  (796,25),
+  (797,24),
+  (799,26),
+  (801,28),
+  (802,28),
+  (803,28),
+  (804,28),
+  (805,28);
 
 COMMIT;
 
@@ -4958,7 +4966,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (66,'last'),
   (67,'moveUp'),
   (68,'moveDown'),
-  (69,'register');
+  (69,'register'),
+  (70,'results');
 
 COMMIT;
 
@@ -5275,7 +5284,11 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (169,28,9),
   (170,29,9),
   (171,30,9),
-  (172,31,9);
+  (172,31,9),
+  (174,28,3),
+  (176,28,70),
+  (177,28,1),
+  (178,28,19);
 
 COMMIT;
 
@@ -6168,7 +6181,17 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (792),
   (793),
   (794),
-  (795);
+  (795),
+  (796),
+  (797),
+  (798),
+  (799),
+  (800),
+  (801),
+  (802),
+  (803),
+  (804),
+  (805);
 
 COMMIT;
 
@@ -6424,7 +6447,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (80,2,'856c43c8967b6f7c7d31c48847680f9d','2007-07-12 21:04:35',791,'http://mzz/admin/answer/readmap?ajax=1','127.0.0.1');
+  (81,2,'811c4f50648a67733e580d86ae4c4202','2007-07-12 23:47:46',797,'http://mzz/admin/31/addAction?ajax=1','127.0.0.1');
 
 COMMIT;
 
@@ -6438,8 +6461,19 @@ CREATE TABLE `voting_answer` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) NOT NULL default '',
   `question_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `voting_answer` table  (LIMIT 0,500)
+#
+
+INSERT INTO `voting_answer` (`id`, `name`, `question_id`, `obj_id`) VALUES 
+  (1,'Да',1,798),
+  (2,'Нет',1,799);
+
+COMMIT;
 
 #
 # Structure for the `voting_question` table : 
@@ -6450,8 +6484,19 @@ DROP TABLE IF EXISTS `voting_question`;
 CREATE TABLE `voting_question` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) NOT NULL default '',
+  `question` char(255) NOT NULL default '',
+  `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `voting_question` table  (LIMIT 0,500)
+#
+
+INSERT INTO `voting_question` (`id`, `name`, `question`, `obj_id`) VALUES 
+  (1,'simple','Вы верите в розового жирафика?',796);
+
+COMMIT;
 
 #
 # Structure for the `voting_vote` table : 
@@ -6460,10 +6505,26 @@ CREATE TABLE `voting_question` (
 DROP TABLE IF EXISTS `voting_vote`;
 
 CREATE TABLE `voting_vote` (
+  `id` int(11) NOT NULL auto_increment,
   `answer_id` int(11) NOT NULL default '0',
   `user_id` int(11) NOT NULL default '0',
-  `question_id` int(11) NOT NULL default '0'
+  `question_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `voting_vote` table  (LIMIT 0,500)
+#
+
+INSERT INTO `voting_vote` (`id`, `answer_id`, `user_id`, `question_id`, `obj_id`) VALUES 
+  (1,1,2,1,801),
+  (2,1,2,1,802),
+  (3,1,2,1,803),
+  (4,1,2,1,804),
+  (5,1,2,1,805);
+
+COMMIT;
 
 
 
