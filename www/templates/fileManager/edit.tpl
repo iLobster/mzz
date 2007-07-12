@@ -12,6 +12,10 @@
             <td>{form->textarea name="about" value=$file->getAbout()}{$errors->get('about')}</td>
         </tr>
         <tr>
+            <td>{form->caption name="header" value="Отдавать с нужными заголовками"}</td>
+            <td>{form->checkbox name="header" value=$file->getRightHeader()}{$errors->get('header')}</td>
+        </tr>
+        <tr>
             <td colspan=2 style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>

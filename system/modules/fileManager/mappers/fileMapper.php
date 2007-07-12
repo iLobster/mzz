@@ -106,7 +106,7 @@ class fileMapper extends simpleMapper
         if (isset($fields['name']) && !isset($fields['ext'])) {
             $fields['ext'] = '';
             if (($dot = strrpos($fields['name'], '.')) !== false) {
-                $fields['ext'] = substr($fields['name'], $dot + 1);
+                $fields['ext'] = strtolower(substr($fields['name'], $dot + 1));
             }
         }
     }

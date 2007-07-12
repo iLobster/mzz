@@ -1,0 +1,1 @@
+<div id="uploadStatus">Файл {$file_name} загружен.</div>

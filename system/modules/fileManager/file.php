@@ -57,6 +57,11 @@ class file extends simple
         }
     }
 
+    public function getExt()
+    {
+        return strtolower($this->__call('getExt', array()));
+    }
+
     public function download()
     {
         $toolkit = systemToolkit::getInstance();

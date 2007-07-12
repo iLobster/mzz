@@ -56,7 +56,8 @@ class fileManagerUploadController extends simpleController
                 $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
                 $fileMapper->save($file);
 
-                return '<div id="uploadStatus">Файл "' . $file->getName() . '" загружен.</div>';
+                $this->smarty->assign('file_name', $file->getName());
+                return $this->smarty->fetch('fileManager/fileUploaded.tpl');
             } catch (mzzRuntimeException $e) {
                 $errors->set('file', $e->getMessage());
             }

@@ -43,8 +43,10 @@ class fileManagerEditController extends simpleController
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);
             $about = $this->request->get('about', 'string', SC_POST);
+            $header = $this->request->get('header', 'string', SC_POST);
             $file->setName($name);
             $file->setAbout($about);
+            $file->setRightHeader($header);
             $fileMapper->save($file);
 
             return jipTools::redirect();
@@ -64,7 +66,7 @@ class fileManagerEditController extends simpleController
 
 function checkFilename($name, $file)
 {
-    if ($name == $file->getName()) {
+    if (strtolower($name) == strtolower($file->getName())) {
         return true;
     }
 
