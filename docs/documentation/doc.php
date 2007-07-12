@@ -335,7 +335,18 @@ if (!isset($_REQUEST['cat'])) {
     if (isset($paths[$_REQUEST['cat']])) {
         $title = $paths[$_REQUEST['cat']][2];
     } else {
-        exit('Такого раздела в документации больше нет...');
+        // пробуем еще раз (для регистронезависимой WINDOWS)
+        if(PHP_OS == 'WINNT' && isset($_SERVER['REQUEST_URI'])) {
+            $pos = strrpos($_SERVER['REQUEST_URI'], '/') + 1;
+            $_REQUEST['cat'] = substr($_SERVER['REQUEST_URI'], $pos, strrpos($_SERVER['REQUEST_URI'], '.') - $pos);
+            if (isset($paths[$_REQUEST['cat']])) {
+                $title = $paths[$_REQUEST['cat']][2];
+            } else {
+                exit('Этот раздел больше не существует в <a href="index.html">документации</a>.');
+            }
+        } else {
+            exit('Этот раздел больше не существует в <a href="index.html">документации</a>.');
+        }
     }
     require_once('header.inc.php');
 
