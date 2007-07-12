@@ -28,10 +28,6 @@ if (!$pdoExists || ($pdoExists && !in_array('mysql', PDO::getAvailableDrivers())
 }
 // end pdo check
 
-if (!function_exists('simplexml_load_file')) {
-    $errors[] = "SimpleXML enabled: " . $failed;
-}
-
 if (!function_exists('preg_match') || !function_exists('preg_replace')) {
     $errors[] = "PCRE enabled: " . $failed;
 }
