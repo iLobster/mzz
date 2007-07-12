@@ -4889,7 +4889,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (783,11),
   (784,14),
   (786,12),
-  (789,24);
+  (241,17),
+  (790,24);
 
 COMMIT;
 
@@ -6144,7 +6145,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (786),
   (787),
   (788),
-  (789);
+  (789),
+  (790);
 
 COMMIT;
 
@@ -6395,7 +6397,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (78,2,'8d685724510331ad6e96d4b4c3d671ce','2007-07-11 10:11:23',789,'http://mzz/admin/admin','127.0.0.1');
+  (79,2,'8465cd1dbdf4caa7d78dbe3855930bb5','2007-07-12 19:09:12',790,'http://mzz/admin/21/listActions?ajax=1','127.0.0.1');
 
 COMMIT;
 
