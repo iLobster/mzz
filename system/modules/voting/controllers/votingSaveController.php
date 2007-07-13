@@ -54,6 +54,7 @@ class votingSaveController extends simpleController
             $vote->setName($name);
             $vote->setQuestion($question);
             $questionMapper->save($vote);
+
             return jipTools::redirect();
         }
     }

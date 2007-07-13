@@ -96,6 +96,32 @@ class menuItemMapper extends simpleCatalogueMapper
         parent::delete($item->getId());
     }
 
+    /*
+    public function getAllTypes()
+    {
+        if (empty($this->tmptypes)) {
+            $this->tmptypes = array(
+                1 => array(
+                        'id' => 1,
+                        'name' => 'simple',
+                        'title' => 'Простой'
+                    ),
+                2 => array(
+                        'id' => 2,
+                        'name' => 'advanced',
+                        'title' => 'Advanced'
+                    )
+            );
+        }
+        return $this->tmptypes;
+    }
+
+    public function getType($id)
+    {
+        return $this->tmptypes[$id];
+    }
+    */
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
