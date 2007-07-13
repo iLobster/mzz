@@ -24,6 +24,12 @@ class votingResultsController extends simpleController
 {
     public function getView()
     {
+        $name = $this->request->get('name', 'string');
+        $questionMapper = $this->toolkit->getMapper('voting', 'question');
+
+        $question = $questionMapper->searchByName($name);
+
+        $this->smarty->assign('question', $question);
         return $this->smarty->fetch('voting/results.tpl');
     }
 }

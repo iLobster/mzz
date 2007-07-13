@@ -23,6 +23,12 @@
 class answer extends simple
 {
     protected $name = 'voting';
+
+    public function getResults()
+    {
+        $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
+        return $voteMapper->getResults($this->getQuestion()->getId(), $this->getId());
+    }
 }
 
 ?>

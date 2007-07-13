@@ -35,6 +35,12 @@ class question extends simple
         $user = $toolkit->getUser();
         return $this->mapper->getVote($this->getId(), $user);
     }
+
+    public function getResultsCount()
+    {
+        $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
+        return $voteMapper->getResultsCount($this->getId());
+    }
 }
 
 ?>

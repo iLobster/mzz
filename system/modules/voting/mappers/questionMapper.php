@@ -72,7 +72,19 @@ class questionMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        return 1;
+        $action = systemToolkit::getInstance()->getRequest()->getAction();
+
+        if ($action == 'view' || $action == 'results') {
+            $question = $this->searchByName($args['name']);
+        } else {
+            $question = $this->searchById($args['id']);
+        }
+
+        if ($question) {
+            return (int)$question->getObjId();
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 
