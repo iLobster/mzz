@@ -72,10 +72,13 @@ class adminReadmapController extends simpleController
         $insert = array_diff($scheme, array_keys($mapfile));
 
         foreach ($insert as $field) {
+            $changed = true;
             $mapfile[$field] = array('accessor' => 'get' . ucfirst(strtolower($field)), 'mutator' => 'set' . ucfirst(strtolower($field)));
         }
 
-        $file->write($mapfile);
+        if (isset($changed)) {
+            $file->write($mapfile);
+        }
 
         $this->smarty->assign('fields', $mapfile);
         $this->smarty->assign('delete', $delete);

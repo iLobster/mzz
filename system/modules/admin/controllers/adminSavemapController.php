@@ -68,7 +68,7 @@ class adminSavemapController extends simpleController
         $validator->add('equal', 'field[accessor]', 'Имена акцессора и мутатора должны быть разными', array('field[mutator]', false));
         $validator->add('required', 'field[mutator]', 'Поле обязательно к заполнению');
         $validator->add('callback', 'field[mutator]', 'Такое имя мутатора уже используется', array('addMapMethodValidate', $mapfile, $isEdit ? $field_name : ''));
-        $validator->add('range', 'field[orderBy]', 'Значение должно быть положительным', range(1, 99999));
+        $validator->add('range', 'field[orderBy]', 'Значение должно быть положительным', range(1, null));
 
         if ($validator->validate()) {
             $values = $this->request->get('field', 'array', SC_POST);
