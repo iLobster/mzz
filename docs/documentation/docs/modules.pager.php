@@ -3,7 +3,7 @@
     public function __construct($baseurl, $page, $perPage, $roundItems = 2, $reverse = false)
 <</code>>
 <ul>
-    <li><code>$baseurl</code> - базовый урл, именно он выставляется на номера страниц пейджинга, с автоматическим изменением переменной page.</li>
+    <li><code>$baseurl</code> - базовый урл, тот урл, на который будут ссылаться страницы пейджера. Переменная page в эту ссылку подставляется автоматически.</li>
     <li><code>$page</code> - номер текущей страницы.</li>
     <li><code>$perPage</code> - число элементов на странице.</li>
     <li><code>$roundItems</code> - число номеров страниц, выводимых вокруг текущего номера.</li>
