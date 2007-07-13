@@ -96,6 +96,8 @@ class core
         $resolver->addResolver(new moduleResolver($baseresolver));
         $resolver->addResolver(new configFileResolver($baseresolver));
         $resolver->addResolver(new libResolver($baseresolver));
+        $resolver->addResolver(new templateResolver($baseresolver));
+
         $cachingResolver = new cachingResolver($resolver);
 
         return $cachingResolver;

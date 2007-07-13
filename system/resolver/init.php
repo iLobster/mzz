@@ -25,5 +25,6 @@ require_once systemConfig::$pathToSystem . '/resolver/configFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/libResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/decoratingResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/cachingResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/templateResolver.php';
 
 ?>

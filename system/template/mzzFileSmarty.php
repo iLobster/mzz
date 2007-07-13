@@ -51,7 +51,13 @@ class mzzFileSmarty implements IMzzSmarty
     public function fetch($resource, $cache_id = null, $compile_id = null, $display = false)
     {
         // Для определения активного шаблоного достаточно прочитать первые 256 байтов из шаблона
-        $fileName = $this->getTemplateDir() . DIRECTORY_SEPARATOR . $resource[1];
+        //$fileName = $this->getTemplateDir() . DIRECTORY_SEPARATOR . $resource[1];
+        $resource['resource_name'] = $resource[1];
+        $resource['resource_base_path'] = $this->smarty->template_dir;
+        $this->smarty->_parse_resource_name($resource);
+
+        $fileName = $resource['resource_name'];
+
         if (!file_exists($fileName)) {
             throw new mzzRuntimeException("Шаблон <em>'" . $fileName . "'</em> отсутствует.");
         }

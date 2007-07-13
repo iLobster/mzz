@@ -217,5 +217,24 @@ class mzzSmarty extends Smarty
     {
         return $this->activeXmlTemplate !== false;
     }
+
+    function _parse_resource_name(&$params)
+    {
+        $parts = explode(':', $params['resource_name'], 2);
+
+        if (sizeof($parts) >= 2 && $parts[0] != 'file') {
+            return parent::_parse_resource_name($params);
+        }
+
+        if (parent::_parse_resource_name($params)) {
+            return true;
+        }
+
+        $name = fileLoader::resolve($params['resource_name']);
+        $params['resource_name'] = $name;
+        $params['resource_type'] = 'file';
+        return true;
+    }
 }
+
 ?>
