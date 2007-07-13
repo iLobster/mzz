@@ -52,7 +52,7 @@ function ajaxLoadTypeConfig(value)
 
 function catalogueChangeList(select, type)
 {
-    type = (type == 'classes' ? 'classes' : 'modules');
+    type = (type == 'classes' ? 'classes' : (type == 'methods' ? 'methods' : 'modules'));
     var optList = $('catalogue_' + type + '_list');
     optList.disable();
     optList.options.length = 0;
@@ -63,7 +63,13 @@ function catalogueChangeList(select, type)
         $('catalogue_classes_list').disable();
     }
 
-    optList.options[0] = new Option('Загрузка...');
+    if (type == 'modules' || type == 'classes') {
+        $('catalogue_methods_list').options.length = 0;
+        $('catalogue_methods_list').options[0] = new Option('Данных нет');
+        $('catalogue_methods_list').disable();
+    }
+
+    optList.options[0] = new Option('Загрузка...', '');
 
     new Ajax.Request({/literal}'{url onlyPath=true}'{literal}, {
     method: 'get', parameters: { ajaxRequest: 'dynamicselect_' + type, for_id: $F(select)}, onSuccess: function(transport) {
@@ -77,18 +83,20 @@ function catalogueChangeList(select, type)
             if (i > 0) {
                 if (type == 'modules') {
                     catalogueChangeList($('catalogue_modules_list'), 'classes');
+                } else if (type == 'classes') {
+                    catalogueChangeList($('catalogue_classes_list'), 'methods');
                 }
                 optList.enable();
             } else {
-                optList.options[0] = new Option('Данных нет');
+                optList.options[0] = new Option('Данных нет', '');
             }
             optList.selectedIndex = 0;
 
         } else {
-            optList.options[0] = new Option('Данные не получены.');
+            optList.options[0] = new Option('Данные не получены.', '');
         }
     }, onFailure: function(transport) {
-        optList.options[0] = new Option('Ошибка загрузки.');
+        optList.options[0] = new Option('Ошибка загрузки.', '');
     }
     });
 }
@@ -154,7 +162,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
         </tbody>
     </table>
 {elseif $ajaxRequest == 'dynamicselect'}
-    <table border="0" cellpadding="0" cellspacing="3" width="100%">
+    <table border="1" cellpadding="0" cellspacing="3" width="100%">
         <tr>
             <td width="40%">
                 <table border="0" cellpadding="0" cellspacing="3" width="100%">
@@ -163,7 +171,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
                     </tr>
                     <tr>
                         <td>
-                        {form->select name="dynamicselect_section" options=$sections value=$dynamicselect_section emptyFirst=1 style="width: 200px;" id="catalogue_section_list" onchange="catalogueChangeList(this);" onkeypress="this.onchange();"}
+                        {form->select name="dynamicselect_section" options=$sections value=$dynamicselect_section emptyFirst=1 style="width: 270px;" id="catalogue_section_list" onchange="catalogueChangeList(this);" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 
@@ -172,7 +180,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
                     </tr>
                     <tr>
                         <td>
-                        {form->select name="dynamicselect_module" style="width: 200px;" id="catalogue_modules_list" disabled=1 onchange="catalogueChangeList(this, 'classes');" onkeypress="this.onchange();"}
+                        {form->select name="dynamicselect_module" style="width: 270px;" id="catalogue_modules_list" disabled=1 onchange="catalogueChangeList(this, 'classes');" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 
@@ -181,7 +189,16 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
                     </tr>
                     <tr>
                         <td>
-                        {form->select name="dynamicselect_class" style="width: 200px;" id="catalogue_classes_list" disabled=1}
+                        {form->select name="dynamicselect_class" style="width: 270px;" id="catalogue_classes_list" disabled=1 onchange="catalogueChangeList(this, 'methods');" onkeypress="this.onchange();"}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>{form->caption name="dynamicselect_method" value="Метод:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        {form->select name="dynamicselect_method" style="width: 270px;" id="catalogue_methods_list" disabled=1}
                         </td>
                     </tr>
                 </table>
@@ -196,6 +213,17 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
 {/literal}
 {foreach name="dataLoop" key="dataId" item="dataName" from=$data}
 {$dataId}: '{$dataName[0].name}'{if $smarty.foreach.dataLoop.last eq false},{/if}
+{/foreach}
+{literal}
+})
+{/literal}
+
+{elseif $ajaxRequest == 'dynamicselect_methods'}
+{literal}
+({
+{/literal}
+{foreach name="dataLoop" item="dataName" from=$data}
+'{$dataName}': '{$dataName}'{if $smarty.foreach.dataLoop.last eq false},{/if}
 {/foreach}
 {literal}
 })

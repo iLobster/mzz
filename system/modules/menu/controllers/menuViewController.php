@@ -28,7 +28,9 @@ class menuViewController extends simpleController
 
         $name = $this->request->get('name', 'string');
         $menu = $menuMapper->searchByName($name);
-
+        if (empty($menu)) {
+            return $menuMapper->get404()->run();
+        }
         $this->smarty->assign('menu', $menu);
         return $this->smarty->fetch('menu/view.tpl');
     }

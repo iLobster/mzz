@@ -1,12 +1,15 @@
 {add file="menuTree.css"}
 {add file="menuTree.js"}
+<div class="pageTitle">Список меню {$folder->getJip()}</div>
 <div class="pageContent">
-<p class="pageTitle">Список меню:{$folder->getJip()}</p>
+
+<p></p>
+
 {foreach from=$menus item="menu"}
 
 <ul id="myTree">
-<li class="treeItem" id="root" style="width: 100%; height: 15px;"><div class="menuItem"><span class="textHolder"><strong>{$menu->getTitle()} ({$menu->getName()})</strong>{$menu->getJip()}</span></div>
-<ul>
+<li class="treeItem treeItemRoot" id="root"><div class="menuItem menuItemRoot"><span class="textHolder"><strong>{$menu->getTitle()} ({$menu->getName()})</strong>{$menu->getJip()}</span></div>
+<ul style="displa: none;">
 {include file="menu/adminview.tpl" menu=$menu items=$menu->searchItems()}
 </ul>
 </li>

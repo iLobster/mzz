@@ -116,6 +116,11 @@ class catalogueSavePropertyController extends simpleController
                         $classes = $adminMapper->searchClassesByModuleId($module_id);
                         $this->smarty->assign('data', $classes);
                         break;
+                    case 'dynamicselect_methods':
+                        $class_id = $this->request->get('for_id', 'integer', SC_REQUEST);
+                        $classes = $adminMapper->getSearchMethods($class_id);
+                        $this->smarty->assign('data', $classes);
+                        break;
                 }
             }
 

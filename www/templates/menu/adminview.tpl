@@ -2,10 +2,15 @@
     <li class="treeItem">
         <div class="menuItem">
         <div class="menuItemContent">
-        <div style="text-align: right;float: right; color: #8D8D8D; font-size: 11px; position: relative" class="menuType">{$item->getTypeTitle()}</div>
-        <span class="textHolder">{$item->getTitle()}</span>{$item->getJip()}<br /> <span style=" color: #8D8D8D; font-size: 11px;">{$item->getUrl()}</span></div>
+        <div class="menuType">{$item->getTypeTitle()}</div>
+        <div style="display: inline; float: left;"><span class="textHolder">{$item->getTitle()}</span> <span class="menuUrl">({$item->getUrl(false)})</span></div>
+        {$item->getJip('menu/jip.tpl')}
+        </div>
+        {*<div class="dragImage"><img src="{$SITE_PATH}/templates/images/drag.gif" width="26" height="15" /></div>*}
     </div>
 
     {if sizeof($item->getChildrens())}<ul style="display: none;">{include file="menu/adminview.tpl" items=$item->getChildrens()}</ul>{/if}
     </li>
 {/foreach}
+
+{*$item->getJip()*}

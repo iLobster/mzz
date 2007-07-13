@@ -132,8 +132,8 @@ function buildMenuTree()
             onEnd: function(eventName, dragElement, event) {
                 $$('li.treeItem').each(function (_elm) {
                     $(_elm).makePositioned();
+                    _elm.style.zIndex = '1';
                 });
-
                 Droppables.drops.each(function (drop) {
                     if (drop.expanderTime){
                         window.clearTimeout(drop.expanderTime);
@@ -156,7 +156,7 @@ function buildMenuTree()
         if (elm.id == 'root') return;
 
         Draggables.addObserver(new TreeObserver());
-        new Draggable(elm, {revert: true, handle: 'textHolder',  ghosting: true,
+        new Draggable(elm, {revert: true, handle: 'textHolder', ghosting: true,
 
         reverteffect: function(element, top_offset, left_offset) {
             var widthBefore = element.getWidth();
@@ -169,7 +169,7 @@ function buildMenuTree()
             queue: {scope:'_draggable', position:'end'},
             afterFinish: function(obj)
             {
-                obj.element.setStyle({width: '100%'});
+                obj.element.setStyle({width: '100%', zIndex: '1'});
             }
             });
         }});

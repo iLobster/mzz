@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage menu
- * @version 0.1
+ * @version 0.1.1
  */
 
 class menuItem extends simpleCatalogue
@@ -44,18 +44,18 @@ class menuItem extends simpleCatalogue
         $this->mapper->changeOrder($this->getId(), $direction);
     }
 
-    public function getUrl()
+    public function getUrl($full = true)
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
 
         switch ($this->getTypeName()) {
             case 'simple':
-                return ($request->getUrl() . '/' . $this->getPropertyValue('url'));
+                return (($full ? $request->getUrl() : '') . '/' . $this->getPropertyValue('url'));
                 break;
 
             case 'advanced':
-                return ($request->getUrl() . '/' . $this->getPropertyValue('url'));
+                return (($full ? $request->getUrl() : '') . '/' . $this->getPropertyValue('url'));
                 break;
         }
     }

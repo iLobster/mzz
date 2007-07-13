@@ -196,20 +196,28 @@ abstract class simple
      * @param string $module
      * @param string $id
      * @param string $type
+     * @param string $tpl шаблон JIP-меню
      * @return string
      */
-    protected function getJipView($module, $id, $type)
+    protected function getJipView($module, $id, $type, $tpl = jip::DEFAULT_TEMPLATE)
     {
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getAction($module);
         $request = $toolkit->getRequest();
-        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId());
+        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId(), $tpl);
         return $jip->draw();
     }
 
-    public function getJip()
+    /**
+     * Получение объекта JIP.
+     * Переопределяется если требуется использовать другие данные для построения JIP-меню
+     *
+     * @param string $tpl шаблон JIP-меню
+     * @return string
+     */
+    public function getJip($tpl = jip::DEFAULT_TEMPLATE)
     {
-        return $this->getJipView($this->name, $this->getId(), get_class($this));
+        return $this->getJipView($this->name, $this->getId(), get_class($this), $tpl);
     }
 
     /**

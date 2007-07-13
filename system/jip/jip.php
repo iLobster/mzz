@@ -16,11 +16,18 @@
  * jip: класс для работы с jip
  *
  * @package system
- * @version 0.1.2
+ * @version 0.1.3
  */
 
 class jip
 {
+    /**
+     * Имя JIP-шаблона по умолчанию
+     *
+     * @var string
+     */
+    const DEFAULT_TEMPLATE = 'jip.tpl';
+
     /**
      * Section
      *
@@ -63,13 +70,19 @@ class jip
      */
     private $obj_id;
 
-
     /**
      * Результат сборки массива элементов JIP-меню
      *
      * @var array
      */
     private $result = array();
+
+    /**
+     * Шаблон JIP-меню
+     *
+     * @var string
+     */
+    private $tpl = null;
 
     /**
      * Конструктор
@@ -81,7 +94,7 @@ class jip
      * @param array $actions действия для JIP
      * @param integer $obj_id идентификатор объекта
      */
-    public function __construct($section, $module, $id, $type, Array $actions, $obj_id)
+    public function __construct($section, $module, $id, $type, Array $actions, $obj_id, $tpl = self::DEFAULT_TEMPLATE)
     {
         $this->section = $section;
         $this->module = $module;
@@ -89,6 +102,7 @@ class jip
         $this->type = $type;
         $this->actions = $actions;
         $this->obj_id = $obj_id;
+        $this->tpl = $tpl;
         $this->generate();
     }
 
@@ -191,7 +205,7 @@ class jip
             $smarty->assign('jipMenuId', str_replace('/', '_', $this->getJipMenuId()));
             $this->result = array();
 
-            return $smarty->fetch('jip.tpl');
+            return $smarty->fetch($this->tpl);
         }
 
         return '';

@@ -150,6 +150,19 @@ class adminMapper extends simpleMapper
     }
 
     /**
+     * Поиск класса и модуля, которому принадлежит он, по идентификатору класса
+     *
+     * @param integer $id
+     * @return array|boolean
+     */
+    public function searchClassWithModuleById($id)
+    {
+        return $this->db->getRow("SELECT `c`.`name` AS `class_name`, `m`.`name` AS `module_name` FROM `sys_classes` `c`
+                                   INNER JOIN `sys_modules` `m` ON `c`.`module_id` = `m`.`id`
+                                    WHERE `c`.`id` = " . (int)$id);
+    }
+
+    /**
      * Поиск классов, входящих в модуль, по id модуля
      *
      * @param integer $id
@@ -415,6 +428,54 @@ class adminMapper extends simpleMapper
         foreach ($classes as $class) {
             $result[$class['section_name']][] = array('id' => $class['id'], 'class' => $class['class_name']);
         }
+        return $result;
+    }
+
+    /**
+     * Получение списка get* и search* методов маппера
+     *
+     * @param integer $class_id идентификатор класса
+     * @return array
+     */
+    public function getSearchMethods($class_id)
+    {
+        $class = $this->searchClassWithModuleById($class_id);
+
+        $toolkit = systemToolkit::getInstance();
+
+        if (empty($class['class_name']) || empty($class['module_name'])) {
+            return null;
+        }
+
+        $mapper = $class['class_name'] . 'Mapper';
+        fileLoader::load($class['module_name'] . '/mappers/' . $mapper);
+
+        if (!class_exists($mapper)) {
+            return null;
+        }
+
+        $methods = get_class_methods($mapper);
+        $result = array();
+        foreach ($methods as $method) {
+            // @todo возможно нужно использовать stripos
+            if (strpos($method, 'search') === 0 || strpos($method, 'get') === 0) {
+                // убрано в отдельное условие
+                $reflect = new ReflectionMethod($mapper, $method);
+                if ($reflect->isPublic()) {
+                    $valid = true;
+                    foreach ($reflect->getParameters() as $param) {
+                        if (!$param->isOptional() && ($param->isArray() || $param->getClass() != null || $param->isPassedByReference())) {
+                            $valid = false;
+                            break;
+                        }
+                    }
+                    if ($valid) {
+                        $result[] = $method;
+                    }
+                }
+            }
+        }
+        sort($result);
         return $result;
     }
 
