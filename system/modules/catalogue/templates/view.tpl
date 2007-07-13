@@ -7,9 +7,5 @@
     {include file="catalogue/breadcrumbs.tpl" breadCrumbs=$chains}
     {title append=$catalogue->getName()}
         <h3>{$catalogue->getName()}</a>{$catalogue->getJip()}</h3>
-        {foreach from=$catalogue->exportOldProperties() key="propertyName" item="property"}
-        {if $property.value != ''}
-            {include file="catalogue/viewProperties.tpl"}
-        {/if}
-        {/foreach}
+        {include file="catalogue/viewProperties.tpl" properties=$catalogue->exportOldProperties() action="view"}
 </div>

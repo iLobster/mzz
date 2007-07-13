@@ -6,11 +6,7 @@
     {include file="catalogue/breadcrumbs.tpl" breadCrumbs=$chains}
     {foreach from=$items item="item"}
         <h3><a href="{url route="withId" module="catalogue" action="view" id=$item->getId()}">{$item->getName()}</a>{$item->getJip()}</h3>
-        {foreach from=$item->exportOldProperties() key="propertyName" item="property"}
-        {if $property.value ne '' AND $property.isShort eq TRUE}
-            {include file="catalogue/viewProperties.tpl"}
-        {/if}
-        {/foreach}
+        {include file="catalogue/viewProperties.tpl" properties=$item->exportOldProperties() action="list"}
         <br/><br/>
     {/foreach}
     {if $pager->getPagesTotal() > 1}
