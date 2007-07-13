@@ -23,7 +23,7 @@ fileLoader::load('template/plugins/function.add');
  *
  * @package system
  * @subpackage template
- * @version 0.5.1
+ * @version 0.5.2
  */
 class mzzSmarty extends Smarty
 {
@@ -220,12 +220,6 @@ class mzzSmarty extends Smarty
 
     function _parse_resource_name(&$params)
     {
-        $parts = explode(':', $params['resource_name'], 2);
-
-        if (sizeof($parts) >= 2 && $parts[0] != 'file') {
-            return parent::_parse_resource_name($params);
-        }
-
         if (parent::_parse_resource_name($params)) {
             return true;
         }
