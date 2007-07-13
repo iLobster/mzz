@@ -15,11 +15,7 @@
 require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
 
 /**
- * classFileResolver: резолвит основные классы
- * Примеры:
- * (запрос -> результат)
- * core         -> core/core.php
- * module/bla   -> module/bla.php
+ * classFileResolver: резолвит шаблоны из каталогов с модулями
  *
  * @package system
  * @subpackage resolver
