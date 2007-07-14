@@ -140,7 +140,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
 <div id="catalogueTypeConfig" style="border-top: 1px solid #EBEBEB; margin: 10px 5px 5px; padding: 5px;"></div>
 
 <div style="padding: 5px 3px;">
-{form->submit name="submit" value="Сохранить"} или <a class="cancelLink" href="javascript: jipWindow.close();">отменить</a>
+{form->submit name="submit" value="Сохранить"} {*или <a class="cancelLink" href="javascript: jipWindow.close();">отменить</a>*}{form->reset jip=true name="reset" value="Отмена"}
 </div>
 </form>
 </div>
