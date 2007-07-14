@@ -164,7 +164,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
 {elseif $ajaxRequest == 'dynamicselect'}
     <table border="1" cellpadding="0" cellspacing="3" width="100%">
         <tr>
-            <td width="40%">
+            <td width="40%" valign="top">
                 <table border="0" cellpadding="0" cellspacing="3" width="100%">
                     <tr>
                         <td><strong>{form->caption name="dynamicselect_section" value="Секция:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
@@ -204,7 +204,28 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
                 </table>
 
             </td>
-            <td width="60%"></td>
+            <td width="60%" valign="top">
+            <span style="font-size: 120%; font-weight: bold;">Параметры метода:</span><br />
+            <strong>Описание:</strong> Выполняет поиск объекта по идентификатору галереи
+
+            <table border="0" cellpadding="3" cellspacing="0" width="60%" >
+            <tr>
+                <td rowspan="2" valign="top" style="color: #515151;">gallery_id = </td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td style="color: #838383;font-size: 90%;">Тип: <strong>integer</strong><br />идентификатор галереи</td>
+            </tr>
+            <tr>
+                <td rowspan="2" valign="top" style="color: #515151;">gallery_id = </td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td style="color: #838383;font-size: 90%;">Тип: <strong>integer</strong><br />идентификатор галереи</td>
+            </tr>
+            </table>
+
+            </td>
         </tr>
     </table>
 {elseif $ajaxRequest == 'dynamicselect_modules' || $ajaxRequest == 'dynamicselect_classes'}
@@ -228,4 +249,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
 {literal}
 })
 {/literal}
+
+{elseif $ajaxRequest == 'dynamicselect_method'}
+{$data|var_dump}
 {/if}

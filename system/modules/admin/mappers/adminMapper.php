@@ -479,6 +479,88 @@ class adminMapper extends simpleMapper
         return $result;
     }
 
+    public function getMethodInfo($class_id, $method)
+    {
+        $class = $this->searchClassWithModuleById($class_id);
+
+        $toolkit = systemToolkit::getInstance();
+
+        if (empty($class['class_name']) || empty($class['module_name'])) {
+            return null;
+        }
+
+        $mapper = $class['class_name'] . 'Mapper';
+        fileLoader::load($class['module_name'] . '/mappers/' . $mapper);
+
+        // @todo функция method_exists может принимать первым аргументом имя класса, а не объект, но
+        // в php-документации это пока не отражено
+        if (!class_exists($mapper) || !method_exists($mapper, $method)) {
+            return null;
+        }
+
+        $reflect = new ReflectionMethod($mapper, $method);
+        if ($reflect->isPublic()) {
+            $docComment = $reflect->getDocComment();
+            preg_match_all('#^\s*\*\s*(.*?)$#mU', $docComment, $matches);
+            $docblocks = $matches[1];
+            $docParams = array();
+            $description = '';
+            foreach ($docblocks as $docblock) {
+                $docblock = trim($docblock);
+                if (empty($docblock) || $docblock[0] == '/') {
+                    continue;
+                }
+                if ($docblock[0] == '@') {
+                    if (substr($docblock, 0, 6) == '@param') {
+                        $param = preg_split('/\s+/', $docblock, 4);
+                        if (count($param) >= 3) {
+                            $docParams[trim($param[2])] = array(trim($param[1]), isset($param[3]) ? trim($param[3]) : '');
+                        }
+                    }
+                } else {
+                    $description .= $docblock . ' ';
+                }
+            }
+
+            $params = array('description' => $description);
+            foreach ($reflect->getParameters() as $param) {
+                if (isset($docParams['$' . $param->getName()])) {
+                    $docParam = $docParams['$' . $param->getName()];
+                } else {
+                    $docParam = array('unknown', 'описание не указано');
+                }
+                $isScalar = !($param->isArray() || $param->getClass() != null || $param->isPassedByReference());
+                $isScalarType = in_array($docParam[0], array('string', 'integer', 'boolean', 'float'));
+
+                // один из параметров не скалярный и обязательный, вызов невозможен
+                if (!$param->isOptional() && (!$isScalar || !$isScalarType)) {
+                    $params = false;
+                    break;
+                }
+
+                if (!$isScalar || !$isScalarType) {
+                    if ($param->isArray()) {
+                        $type = 'array';
+                    } elseif ($param->getClass() != null && ($class_name = $param->getClass()->getName())) {
+                        $type = $class_name;
+                    } else {
+                        $type = $docParam[0];
+                    }
+                    $params['$' . $param->getName()] = array($type, $docParam[1], false);
+                } elseif ($isScalar && $isScalarType) {
+                    $params['$' . $param->getName()] = array($docParam[0], $docParam[1], true);
+                }
+
+                if ($param->isOptional()) {
+                    $params['$' . $param->getName()][3] = (string)$param->getDefaultValue();
+                }
+            }
+
+        }
+
+        return $params;
+    }
+
     /**
      * Получение последних зарегистрированных в ACL объектов
      *

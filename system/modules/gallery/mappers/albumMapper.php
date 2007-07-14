@@ -50,7 +50,7 @@ class albumMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объекта по идентификатору галери
+     * Выполняет поиск объекта по идентификатору галереи
      *
      * @param integer $gallery_id идентификатор галереи
      * @return object|null
@@ -70,6 +70,12 @@ class albumMapper extends simpleMapper
         $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
     }
 
+    /**
+     * Возвращает самую популярную (скачиваемую) фотографию из альбома
+     *
+     * @param album $album DO
+     * @return array|null
+     */
     public function getBestPhoto($album)
     {
         $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file', 'fileManager');
