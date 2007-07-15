@@ -58,7 +58,7 @@ class simpleSelect
         foreach ($this->criteria->getSelectFields() as $select) {
             $alias = $this->criteria->getSelectFieldAlias($select);
 
-            if(in_array($alias, $aliases) && $alias) {
+            if($alias && in_array($alias, $aliases)) {
                 // если поле с таким алиасом уже есть - то старое заменяем новым
                 unset($selectClause[$alias]);
             } else {
