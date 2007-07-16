@@ -105,6 +105,12 @@ $menu = array("intro.Предисловие" =>
                                          "programming.Программирование действий",
                                          "round_up.Подведение итогов",
                                          ),
+                        "writing_module_new.Написание модуля, 'messages'"
+                                => array("intro.Введение",
+                                         "planning.Планирование",
+                                         "db_structure.Структура БД",
+                                         "programming.Программирование действий",
+                                         ),
                         "404handling.Методика обработки ошибки 404 в модулях",
                         "pager.Пейджер",
                         ),

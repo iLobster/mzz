@@ -12,7 +12,7 @@
 
 <p>Синтаксис функции:</p>
 <<code smarty>>
-{url section="<em>секция</em>" action="<em>действие</em>" route="маршрутизатор"}
+{url section="секция" action="действие" route="маршрутизатор"}
 <</code>>
 <p>Описание аргументов:
 <dl>

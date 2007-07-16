@@ -157,11 +157,14 @@ class actionGenerator
 
             file_put_contents($actionsfile, $actions_output);
 
+            // удаляем контроллер
             $this->safeUnlink('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'Controller.php');
+            // удаляем шаблон
+            $this->safeUnlink('templates' . DIRECTORY_SEPARATOR . $action . '.tpl');
             //$this->safeUnlink('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'View.php');
 
             $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
-            $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
+            //$this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
 
             chdir($current_dir);
         }
@@ -198,8 +201,8 @@ class actionGenerator
             if (is_file($tmp = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl')) {
                 rename($tmp, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');
             }
-            if (is_file($tmp = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl')) {
-                rename($tmp, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl');
+            if (is_file($tmp = 'templates' . DIRECTORY_SEPARATOR . $oldName . '.tpl')) {
+                rename($tmp, 'templates' . DIRECTORY_SEPARATOR . $newName . '.tpl');
             }
         }
 
@@ -365,7 +368,7 @@ class actionGenerator
             throw new Exception('Error: active template already exists');
         }
 
-        $tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl';
+        $tpl_filename = 'templates' . DIRECTORY_SEPARATOR . $action . '.tpl';
 
         if (is_file($tpl_filename)) {
             throw new Exception('Error: template already exists');

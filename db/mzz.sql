@@ -404,9 +404,9 @@ CREATE TABLE `fileManager_file` (
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
   (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,15,1,'',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,57,1,'',6,623),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,59,1,'',6,623),
   (4,'256dc2b521b20609fed2d66aa2eeb34d','2.jpg','jpg',243556,2,1,NULL,5,779),
-  (5,'3dac90917213a1dc07fffce0d5e84e1a','2.jpg','jpg',1961,4,1,NULL,6,784);
+  (5,'3dac90917213a1dc07fffce0d5e84e1a','2.jpg','jpg',1961,6,1,NULL,6,784);
 
 COMMIT;
 
@@ -595,7 +595,8 @@ INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `
   (3,0,2,5,'Каталог',3,663),
   (4,0,2,5,'Галерея',4,664),
   (5,0,2,5,'Пользователи',5,665),
-  (6,0,2,5,'Панель управления',6,666);
+  (6,0,2,5,'Панель управления',6,666),
+  (7,0,2,5,'Сообщения',7,815);
 
 COMMIT;
 
@@ -637,7 +638,10 @@ INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, 
   (5,4,NULL,'',NULL,NULL),
   (6,2,NULL,'admin/admin',NULL,NULL),
   (6,3,NULL,'admin',NULL,NULL),
-  (6,4,NULL,'',NULL,NULL);
+  (6,4,NULL,'',NULL,NULL),
+  (7,2,NULL,'/message/incoming/list',NULL,NULL),
+  (7,3,NULL,'message',NULL,NULL),
+  (7,4,NULL,'',NULL,NULL);
 
 COMMIT;
 
@@ -740,6 +744,59 @@ INSERT INTO `menu_menuItem_types_props` (`id`, `type_id`, `property_id`, `sort`,
   (2,2,2,0,0),
   (3,2,3,0,0),
   (4,2,4,0,0);
+
+COMMIT;
+
+#
+# Structure for the `message_message` table : 
+#
+
+DROP TABLE IF EXISTS `message_message`;
+
+CREATE TABLE `message_message` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` varchar(255) default NULL,
+  `text` text,
+  `sender` int(11) default NULL,
+  `recipient` int(11) default NULL,
+  `time` int(11) default NULL,
+  `watched` tinyint(4) default NULL,
+  `category_id` int(11) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `message_message` table  (LIMIT 0,500)
+#
+
+INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `time`, `watched`, `category_id`, `obj_id`) VALUES 
+  (1,'Превед','Превед медвед',1,2,502341,0,1,812);
+
+COMMIT;
+
+#
+# Structure for the `message_messageCategory` table : 
+#
+
+DROP TABLE IF EXISTS `message_messageCategory`;
+
+CREATE TABLE `message_messageCategory` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  `name` char(20) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `message_messageCategory` table  (LIMIT 0,500)
+#
+
+INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES 
+  (1,'Входящие','incoming',809),
+  (2,'Исходящие','sent',810),
+  (3,'Корзина','recycle',811);
 
 COMMIT;
 
@@ -4888,7 +4945,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (780,20),
   (783,11),
   (784,14),
-  (786,12),
+  (814,24),
   (241,17),
   (792,7),
   (798,26),
@@ -4896,13 +4953,20 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (794,7),
   (795,7),
   (796,25),
-  (797,24),
+  (807,7),
   (799,26),
   (801,28),
   (802,28),
   (803,28),
   (804,28),
-  (805,28);
+  (805,28),
+  (806,24),
+  (808,7),
+  (809,30),
+  (810,30),
+  (811,30),
+  (812,29),
+  (815,21);
 
 COMMIT;
 
@@ -4967,7 +5031,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (67,'moveUp'),
   (68,'moveDown'),
   (69,'register'),
-  (70,'results');
+  (70,'results'),
+  (71,'send');
 
 COMMIT;
 
@@ -5151,7 +5216,9 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (28,'question',13),
   (29,'answer',13),
   (30,'voteFolder',13),
-  (31,'vote',13);
+  (31,'vote',13),
+  (32,'message',14),
+  (33,'messageCategory',14);
 
 COMMIT;
 
@@ -5288,7 +5355,12 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (174,28,3),
   (176,28,70),
   (177,28,1),
-  (178,28,19);
+  (178,28,19),
+  (179,32,9),
+  (180,33,9),
+  (181,33,5),
+  (182,32,3),
+  (183,32,71);
 
 COMMIT;
 
@@ -5338,7 +5410,9 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (25,28,13),
   (26,29,13),
   (27,30,13),
-  (28,31,13);
+  (28,31,13),
+  (29,32,14),
+  (30,33,14);
 
 COMMIT;
 
@@ -5373,7 +5447,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (10,'catalogue',19,'Каталог','catalogue.gif',30),
   (11,'gallery',21,'Галерея','gallery.gif',80),
   (12,'menu',26,'Меню','pages.gif',90),
-  (13,'voting',30,'Голосование','',0);
+  (13,'voting',30,'Голосование','',0),
+  (14,'message',32,'Сообщения пользователей','page.gif',0);
 
 COMMIT;
 
@@ -6191,7 +6266,17 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (802),
   (803),
   (804),
-  (805);
+  (805),
+  (806),
+  (807),
+  (808),
+  (809),
+  (810),
+  (811),
+  (812),
+  (813),
+  (814),
+  (815);
 
 COMMIT;
 
@@ -6245,10 +6330,9 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (642,'access_menu_menuItem'),
   (644,'access_menu_menuFolder'),
   (645,'menu_menuFolder'),
-  (792,'access__'),
-  (793,'access__question'),
   (794,'access_voting_question'),
-  (795,'access_voting_voteFolder');
+  (795,'access_voting_voteFolder'),
+  (808,'access_message_message');
 
 COMMIT;
 
@@ -6282,7 +6366,8 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (2,'user','Пользователи',80),
   (11,'gallery','Галерея',80),
   (12,'menu','Меню',50),
-  (13,'voting','Голосование',0);
+  (13,'voting','Голосование',0),
+  (14,'message','Сообщения пользователей',0);
 
 COMMIT;
 
@@ -6390,8 +6475,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (47,2,'127.0.0.1','c6de5dc93546987d91e834e88dd1e321',634,1181822827),
   (48,2,'127.0.0.1','7f825cd5ac7360ed49bc536d0e9ed9d3',654,1182045769),
   (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
-  (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1183816243),
-  (70,2,'127.0.0.1','3ebb9e119ee719960cb6f0290bbee16e',786,1184040506);
+  (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1183816243);
 
 COMMIT;
 
@@ -6447,7 +6531,8 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (81,2,'811c4f50648a67733e580d86ae4c4202','2007-07-12 23:47:46',797,'http://mzz/admin/31/addAction?ajax=1','127.0.0.1');
+  (82,2,'ebfd9b32a132bff35247eb4d5e499477','2007-07-16 15:52:16',806,'http://mzz/message/1/view','127.0.0.1'),
+  (84,1,'b6cdeeaf8806be134d48cf0544b030ad','2007-07-16 15:41:21',814,'http://mzz/message/1/view','127.0.0.1');
 
 COMMIT;
 
