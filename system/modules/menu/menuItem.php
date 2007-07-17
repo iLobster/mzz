@@ -79,7 +79,7 @@ class menuItem extends simpleCatalogue
                     $isActive = ($request->getRequestedSection() == $section);
                 }
 
-                if (!empty($action)) {
+                if ($isActive && !empty($action)) {
                     $isActive = ($request->getRequestedAction() == $action);
                 }
 

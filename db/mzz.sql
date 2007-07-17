@@ -4965,7 +4965,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (811,30),
   (812,29),
   (815,21),
-  (816,24);
+  (817,24);
 
 COMMIT;
 
@@ -6277,7 +6277,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (813),
   (814),
   (815),
-  (816);
+  (816),
+  (817);
 
 COMMIT;
 
@@ -6532,7 +6533,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (85,2,'49f47f73f0a5ba434ee2b5c99f09eaea','2007-07-17 09:46:14',816,'http://mzz/message/incoming/list','127.0.0.1');
+  (86,2,'38a3cb35ab2bc6514ce56ad27fd0a6a0','2007-07-17 22:40:02',817,'http://mzz/voting/1/edit?ajax=1','127.0.0.1');
 
 COMMIT;
 
@@ -6544,7 +6545,8 @@ DROP TABLE IF EXISTS `voting_answer`;
 
 CREATE TABLE `voting_answer` (
   `id` int(11) NOT NULL auto_increment,
-  `name` char(255) NOT NULL default '',
+  `title` char(255) NOT NULL default '',
+  `type` smallint(6) default '0',
   `question_id` int(11) NOT NULL default '0',
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
@@ -6554,9 +6556,9 @@ CREATE TABLE `voting_answer` (
 # Data for the `voting_answer` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_answer` (`id`, `name`, `question_id`, `obj_id`) VALUES 
-  (1,'Да',1,798),
-  (2,'Нет',1,799);
+INSERT INTO `voting_answer` (`id`, `title`, `type`, `question_id`, `obj_id`) VALUES 
+  (1,'Да',0,1,798),
+  (2,'Нет',0,1,799);
 
 COMMIT;
 

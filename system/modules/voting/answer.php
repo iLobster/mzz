@@ -29,6 +29,17 @@ class answer extends simple
         $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
         return $voteMapper->getResults($this->getQuestion()->getId(), $this->getId());
     }
+
+    public function getTypeTitle()
+    {
+        $type_id = $this->getType();
+        $types = $this->mapper->getAnswersTypes();
+
+        if (!isset($types[$type_id])) {
+            throw new mzzRuntimeException('Неверное значение для типа ответа - ' . $type_id);
+        }
+        return $types[$type_id];
+    }
 }
 
 ?>

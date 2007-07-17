@@ -43,6 +43,15 @@ class answerMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
+    public function getAnswersTypes()
+    {
+        return array(
+            0 => 'checkbox',
+            1 => 'radio',
+            2 => 'text'
+        );
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *

@@ -31,7 +31,7 @@ class votingSaveController extends simpleController
         $isEdit = ($action == 'edit');
 
         $id = $this->request->get('id', 'integer');
-        $vote = ($isEdit) ? $questionMapper->searchById($id) : $questionMapper->create();
+        $question = ($isEdit) ? $questionMapper->searchById($id) : $questionMapper->create();
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо задать имя голосования');
@@ -42,17 +42,21 @@ class votingSaveController extends simpleController
             $url->setAction($action);
             $url->addParam('id', $id);
 
-            $this->smarty->assign('vote', $vote);
+            $answerMapper = $this->toolkit->getMapper('voting', 'answer');
+
+
+            $this->smarty->assign('question', $question);
+            $this->smarty->assign('answers_types', $answerMapper->getAnswersTypes());
             $this->smarty->assign('action', $url->get());
             $this->smarty->assign('errors', $validator->getErrors());
             $this->smarty->assign('isEdit', $isEdit);
             return $this->smarty->fetch('voting/save.tpl');
         } else {
             $name = $this->request->get('name', 'string', SC_POST);
-            $question = $this->request->get('question', 'string', SC_POST);
+            $question_name = $this->request->get('question', 'string', SC_POST);
 
-            $vote->setName($name);
-            $vote->setQuestion($question);
+            $question->setName($name);
+            $question->setQuestion($question_name);
             $questionMapper->save($vote);
 
             return jipTools::redirect();
