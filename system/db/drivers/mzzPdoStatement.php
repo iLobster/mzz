@@ -21,8 +21,16 @@
  * @subpackage db
  * @version 0.2.2
  */
-class mzzPdoStatement extends PDOStatement
+class mzzPdoStatement
 {
+    protected $statement;
+    protected $db;
+
+    public function __construct($statement)
+    {
+        $this->statement = $statement;
+    }
+
     /**
      * Метод для бинда массива значений
      *
@@ -48,7 +56,7 @@ class mzzPdoStatement extends PDOStatement
                 $type = PDO::PARAM_STR;
                 break;
             }
-            $this->bindValue(':' . $key, $data[$key], $type);
+            $this->statement->bindValue(':' . $key, $data[$key], $type);
         }
     }
 
@@ -62,7 +70,7 @@ class mzzPdoStatement extends PDOStatement
      */
     public function fetch($how = PDO::FETCH_ASSOC, $orientation = PDO::FETCH_ORI_NEXT, $offset = PDO::FETCH_ORI_ABS)
     {
-        return parent::fetch($how, $orientation, $offset);
+        return $this->statement->fetch($how, $orientation, $offset);
     }
 
     /**
@@ -77,7 +85,7 @@ class mzzPdoStatement extends PDOStatement
     public function execute($parameters = null)
     {
         $start_time = microtime(true);
-        $result = parent::execute($parameters);
+        $result = $this->statement->execute($parameters);
         $this->db->addQueriesTime(microtime(true) - $start_time);
 
         $lastInsertId = $this->db->lastInsertId();
@@ -94,6 +102,11 @@ class mzzPdoStatement extends PDOStatement
     public function setDbConnection(mzzPdo $db)
     {
         $this->db = $db;
+    }
+
+    public function __call($name, $args)
+    {
+        return call_user_func_array(array($this->statement, $name), $args);
     }
 }
 

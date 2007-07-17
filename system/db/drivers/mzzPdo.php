@@ -97,7 +97,7 @@ class mzzPdo extends PDO
             $pdoOptions = isset(systemConfig::$db[$alias]['pdoOptions']) ? systemConfig::$db[$alias]['pdoOptions'] : systemConfig::$db['default']['pdoOptions'];
 
             self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset, $pdoOptions);
-            self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
+            //self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
             self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             self::$instances[$alias]->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
             self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
@@ -118,8 +118,8 @@ class mzzPdo extends PDO
         $this->queriesNum++;
         $start_time = microtime(true);
         $result = parent::query($query);
-        if ($result instanceof mzzPdoStatement) {
-            $result->setDbConnection($this);
+        if ($result instanceof PDOStatement) {
+            $result = new mzzPdoStatement($result);
         }
         $this->addQueriesTime(microtime(true) - $start_time);
         return $result;
@@ -136,6 +136,9 @@ class mzzPdo extends PDO
     {
         $this->queriesPrepared++;
         $stmt = parent::prepare($query, $driver_options);
+        if ($stmt instanceof PDOStatement) {
+            $stmt = new mzzPdoStatement($stmt);
+        }
         $stmt->setDbConnection($this);
         return $stmt;
     }

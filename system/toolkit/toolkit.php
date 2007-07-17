@@ -38,10 +38,9 @@ abstract class toolkit implements iToolkit
      */
     public function __construct()
     {
-        $selfMethods = get_class_methods('toolkit');
         $toolkitMethods = get_class_methods($this);
         foreach ($toolkitMethods as $value) {
-            if (!in_array($value, $selfMethods)) {
+            if (!method_exists('toolkit', $value)) {
                 $this->tools[strtolower($value)] = true;
             }
         }
