@@ -170,7 +170,7 @@ class folder extends simpleForTree
                     break;
                 }
 
-                throw new mzzRuntimeException('‘айл "' . $info['tmp_name'] . '" н  был перемещЄн  в каталог "' . $path . '/' . $file->getRealname() . '"');
+                throw new mzzRuntimeException('‘айл "' . $info['tmp_name'] . '" не был перемещЄн  в каталог "' . $path . '/' . $file->getRealname() . '"');
             } catch (PDOException $e) {
             }
         }

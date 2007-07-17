@@ -62,7 +62,13 @@ class file extends simple
         return strtolower($this->__call('getExt', array()));
     }
 
-    public function download()
+    /**
+     * Загрузка файла
+     *
+     * @param string $name (optional)Имя с которым будет отдан файл.
+     * @return file
+     */
+    public function download($name = null)
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
@@ -112,13 +118,19 @@ class file extends simple
             header("Content-Length: " . ($size - $offset + 1));
             header("Content-Range: bytes " . $offset . "-" . $size . "/" . $fileSize);
 
+
             $mimetypes = $this->mapper->getMimetypes();
             if (!$this->getRightHeader() || !isset($mimetypes[$this->getExt()])) {
                 header("Content-Type: application/x-octetstream");
-                header("Content-Disposition: attachment; filename=\"" . $this->getName() . "\"");
             } else {
                 header("Content-Type: " . $mimetypes[$this->getExt()]);
             }
+
+            if(empty($name)) {
+                $name = $this->getName();
+            }
+
+            header("Content-Disposition: attachment; filename=\"" . $name . "\"");
             header("Last-Modified: " . date('r', filemtime($fileName)));
 
             header("Content-Transfer-Encoding: binary");
