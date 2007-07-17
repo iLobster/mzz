@@ -61,7 +61,7 @@ class session
 
         // исправление у€звимости 'session fixation'
         $hash = md5((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'UA doesnt exists') . $_SERVER['REMOTE_ADDR'] . (isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : 'fucking ie'));
-        if ($this->exists('mzz_session_fixation')) {
+        if (!$this->exists('mzz_session_fixation')) {
             $this->set('mzz_session_fixation', $hash);
         } elseif ($this->get('mzz_session_fixation') != $hash) {
             session_regenerate_id();
