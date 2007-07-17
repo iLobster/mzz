@@ -7,6 +7,18 @@ class messageViewController extends simpleController
         $id = $this->request->get('id', 'integer'); // получаем id сообщения
         $messageMapper = $this->toolkit->getMapper('message', 'message'); // получаем маппер
         $message = $messageMapper->searchByKey($id); // получаем сообщение
+
+        // если сообщение не найдено - показываем ошибку
+        if (!$message) {
+            return $messageMapper->get404()->run();
+        }
+
+        // если сообщение ещё не было просмотрено - устанавливаем флаг "просмотра" в 1
+        if (!$message->getWatched()) {
+            $message->setWatched(1);
+            $messageMapper->save($message);
+        }
+
         $category = $message->getCategory(); // получаем категорию сообщения
         $isSent = $category->getName() == 'sent';
 

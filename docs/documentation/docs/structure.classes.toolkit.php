@@ -10,7 +10,7 @@
     <li><em>getTimer()</em> - Возвращает объект Timer</li>
     <li><em>getAction($module)</em> - Возвращает объект Action для модуля $module</li>
     <li><em>getUser()</em> - Возвращает объект текущего пользователя</li>
-    <li><em>getObjectId($name = null)</em> - Возвращает уникальный идентификатор необходимый для идентификации объектов</li>
+    <li><em>getObjectId($name = null)</em> - Возвращает уникальный идентификатор необходимый для <a href="structure.acl.html">ACL</a> (и <a href="structure.acl.html#structure.acl.obj_id">"фейковых" объектов</a> в частности)</li>
     <li><em>getMapper($module, $do, $section)</em> - Возвращает необходимый маппер</li>
     <li><em>getCache()</em> - Возвращает объект для работы с кэшем</li>
     <li><em>getValidator()</em> - Получение текущего валидатора</li>

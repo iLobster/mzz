@@ -13,14 +13,14 @@
  */
 
 /**
- * messageViewController: контроллер для метода view модуля message
+ * messageDeleteController: контроллер для метода delete модуля message
  *
  * @package modules
  * @subpackage message
  * @version 0.1
  */
 
-class messageViewController extends simpleController
+class messageDeleteController extends simpleController
 {
     public function getView()
     {
@@ -30,11 +30,6 @@ class messageViewController extends simpleController
 
         if (!$message) {
             return $messageMapper->get404()->run();
-        }
-
-        if (!$message->getWatched()) {
-            $message->setWatched(1);
-            $messageMapper->save($message);
         }
 
         $category = $message->getCategory();
@@ -49,15 +44,16 @@ class messageViewController extends simpleController
             return $controller->run();
         }
 
-        $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');
-        $messageCategories = $messageCategoryMapper->searchAll();
-        $this->smarty->assign('categories', $messageCategories);
-        $this->smarty->assign('messageCategory', $category);
-        $this->smarty->assign('isSent', $isSent);
+        if ($message->getCategory()->getName() != 'recycle') {
+            $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');
+            $recycle = $messageCategoryMapper->searchOneByField('name', 'recycle');
+            $message->setCategory($recycle);
+            $messageMapper->save($message);
+        } else {
+            $messageMapper->delete($message->getId());
+        }
 
-        $this->smarty->assign('message', $message);
-
-        return $this->smarty->fetch('message/view.tpl');
+        return jipTools::redirect();
     }
 }
 

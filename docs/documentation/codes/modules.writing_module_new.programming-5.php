@@ -1,42 +1,25 @@
 <?php
-/**
- * $URL$
- *
- * MZZ Content Management System (c) 2007
- * Website : http://www.mzz.ru
- *
- * This program is free software and released under
- * the GNU Lesser General Public License (See /docs/LGPL.txt).
- *
- * @link http://www.mzz.ru
- * @version $Id$
- */
-
-fileLoader::load('forms/validators/formValidator');
-
-/**
- * messageSendController: контроллер дл€ метода send модул€ message
- *
- * @package modules
- * @subpackage message
- * @version 0.1
- */
 
 class messageSendController extends simpleController
 {
     public function getView()
     {
+        // получаем текущего пользовател€
         $me = $this->toolkit->getUser();
 
+        // из запроса - получаем им€ получател€
         $recipient = $this->request->get('name', 'string');
 
+        // ищем получател€
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $recipient_user = $userMapper->searchByLogin($recipient);
+        // если получатель был указан в ”–Ће, но такого пользовател€ не существует - показываем ошибку
         if ($recipient && !$recipient_user) {
             $controller = new messageController('ѕолучател€ не существует', messageController::WARNING);
             return $controller->run();
         }
 
+        // ищем пользователей, которым можно отправить сообщение (все, кроме текущего пользовател€ и гост€)
         $criteria = new criteria();
         $criteria->add('id', MZZ_USER_GUEST_ID, criteria::NOT_EQUAL);
         $criteria->setOrderByFieldAsc('login');
@@ -47,21 +30,27 @@ class messageSendController extends simpleController
         }
         unset($usersArray[$me->getId()]);
 
+        // составл€ем валидатор дл€ формы
         $validator = new formValidator();
         $validator->add('required', 'message[title]', 'Ќеобходимо указать тему сообщени€');
         $validator->add('required', 'message[text]', 'Ќеобходимо указать текст сообщени€');
         $validator->add('required', 'message[recipient]', 'Ќеобходимо указать получател€ сообщени€');
         $validator->add('callback', 'message[recipient]', 'ѕользователь не найден', array('checkRecipient', $usersArray));
 
+        // валидируем форму
         if ($validator->validate()) {
+            // получаем данные сообщени€
             $msg = $this->request->get('message', 'array', SC_POST);
 
+            // получаем необходимые мапперы
             $messageMapper = $this->toolkit->getMapper('message', 'message');
             $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');
 
+            // ищем категории сообщений дл€ отправленного и вход€щего сообщений
             $incoming = $messageCategoryMapper->searchOneByField('name', 'incoming');
             $sent = $messageCategoryMapper->searchOneByField('name', 'sent');
 
+            // составл€ем сообщение, которое будет отправлено пользователю
             $message = $messageMapper->create();
             $message->setTitle($msg['title']);
             $message->setText($msg['text']);
@@ -70,6 +59,7 @@ class messageSendController extends simpleController
             $message->setWatched(0);
             $message->setCategory($incoming);
 
+            // делаем копию, помещаем еЄ в "отправленные"
             $messageSent = $messageMapper->create();
             $messageSent->setTitle($msg['title']);
             $messageSent->setText($msg['text']);
@@ -78,21 +68,27 @@ class messageSendController extends simpleController
             $messageSent->setWatched(1);
             $messageSent->setCategory($sent);
 
+            // сохран€ем оба сообщени€
             $messageMapper->save($message);
             $messageMapper->save($messageSent);
 
+            // закрываем jip-окно
             return jipTools::redirect();
         }
 
+        // генерируем урл
         if ($recipient) {
+            // если пользователь был указан, то урл будет вида: site/message/USERNAME/send
             $url = new url('withAnyParam');
             $url->addParam('name', $recipient);
         } else {
+            // иначе: site/message/send
             $url = new url('default2');
         }
         $url->setSection('message');
         $url->setAction('send');
 
+        // передаЄм в шаблон данные
         $this->smarty->assign('recipient', $recipient_user->getId());
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
@@ -101,6 +97,7 @@ class messageSendController extends simpleController
     }
 }
 
+// функци€-валидатор, провер€юща€ что выбранный пользователь может €вл€тьс€ получателем сообщени€
 function checkRecipient($user_id, $users)
 {
     return isset($users[$user_id]);

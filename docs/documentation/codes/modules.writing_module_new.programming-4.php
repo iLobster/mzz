@@ -1,5 +1,13 @@
-{title append=$messageCategory->getTitle()|htmlspecialchars}
-{title append="Список сообщений"}
+{add file="prototype.js"}
+{add file="prototype_improvements.js"}
+{add file="effects.js"}
+{add file="dragdrop.js"}
+{add file="popup.js"}
+{add file="jip.css"}
+{add file="jip.js"}
+
+{title append=$message->getTitle()|htmlspecialchars}
+{title append="Просмотр сообщения"}
 
 {foreach from=$categories item=category name=cat}
     <a href="{url route=withAnyParam action=list section=message name=$category->getName()}">{$category->getTitle()|htmlspecialchars}</a>

@@ -8,7 +8,7 @@
     <li><code>time</code> - timestamp времени отправлени€ сообщени€</li>
     <li><code>watched</code> - флаг, определ€ющий, просмотрено сообщение или нет</li>
     <li><code>category_id</code> - идентификатор категории, к которой относитс€ сообщение</li>
-    <li><code>obj_id</code> - уникальный идентификатор объекта, служебное поле дл€ ORM</li>
+    <li><code>obj_id</code> - уникальный идентификатор объекта, служебное поле дл€ <a href="structure.acl.html#structure.acl">ACL</a></li>
 </ul>
 <<code sql>>
 CREATE TABLE `message_message` (
@@ -29,7 +29,7 @@ CREATE TABLE `message_message` (
     <li><code>id</code> - первичный ключ таблицы, идентификатор сообщени€</li>
     <li><code>title</code> - название категории, будет отображатьс€ дл€ пользователей</li>
     <li><code>name</code> - им€ категории, будет составл€ть часть урла и использоватьс€ дл€ служебных целей</li>
-    <li><code>obj_id</code> - уникальный идентификатор объекта, служебное поле дл€ ORM</li>
+    <li><code>obj_id</code> - уникальный идентификатор объекта, служебное поле дл€ <a href="structure.acl.html#structure.acl">ACL</a></li>
 </ul>
 <<code sql>>
 CREATE TABLE `message_messageCategory` (

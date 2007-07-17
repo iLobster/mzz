@@ -771,7 +771,7 @@ CREATE TABLE `message_message` (
 #
 
 INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `time`, `watched`, `category_id`, `obj_id`) VALUES 
-  (1,'Превед','Превед медвед',1,2,502341,0,1,812);
+  (1,'Превед','Превед медвед',1,2,1184625784,1,1,812);
 
 COMMIT;
 
@@ -4945,7 +4945,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (780,20),
   (783,11),
   (784,14),
-  (814,24),
   (241,17),
   (792,7),
   (798,26),
@@ -4960,13 +4959,13 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (803,28),
   (804,28),
   (805,28),
-  (806,24),
   (808,7),
   (809,30),
   (810,30),
   (811,30),
   (812,29),
-  (815,21);
+  (815,21),
+  (816,24);
 
 COMMIT;
 
@@ -5360,7 +5359,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (180,33,9),
   (181,33,5),
   (182,32,3),
-  (183,32,71);
+  (185,33,71),
+  (186,32,2);
 
 COMMIT;
 
@@ -6276,7 +6276,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (812),
   (813),
   (814),
-  (815);
+  (815),
+  (816);
 
 COMMIT;
 
@@ -6531,8 +6532,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (82,2,'ebfd9b32a132bff35247eb4d5e499477','2007-07-16 15:52:16',806,'http://mzz/message/1/view','127.0.0.1'),
-  (84,1,'b6cdeeaf8806be134d48cf0544b030ad','2007-07-16 15:41:21',814,'http://mzz/message/1/view','127.0.0.1');
+  (85,2,'49f47f73f0a5ba434ee2b5c99f09eaea','2007-07-17 09:46:14',816,'http://mzz/message/incoming/list','127.0.0.1');
 
 COMMIT;
 

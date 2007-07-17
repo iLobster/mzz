@@ -51,7 +51,9 @@ $menu = array("intro.Предисловие" =>
                                          "overlay.Наложение прав",
                                          "owners.Владельцы объектов",
                                          "coding.Работа с ACL",
-                                         "module_running.Запуск модулей из шаблонов"
+                                         "module_running.Запуск модулей из шаблонов",
+                                         "obj_id.obj_id",
+                                         "convertargstoid.Метод convertArgsToId()"
                                          ),
                         "folders.Структура каталогов mzz",
                         "files.Назначение различных файлов (вроде реврайт-мапа итд)",
@@ -110,6 +112,7 @@ $menu = array("intro.Предисловие" =>
                                          "planning.Планирование",
                                          "db_structure.Структура БД",
                                          "programming.Программирование действий",
+                                         "round_up.Подведение итогов",
                                          ),
                         "404handling.Методика обработки ошибки 404 в модулях",
                         "pager.Пейджер",
