@@ -703,6 +703,15 @@
             $url = $this->_page->getUrl();
             return $url ? $url->asString() : false;
         }
+ 
+        /**
+         *    Accessor for base URL of page if set via BASE tag
+         *    @return string    base URL
+         */
+        function getBaseUrl() {
+            $url = $this->_page->getBaseUrl();
+            return $url ? $url->asString() : false;
+        }
 
         /**
          *    Accessor for raw bytes sent down the wire.
@@ -750,22 +759,13 @@
         }
 
         /**
-         *    Accessor for a list of all fixed links in current page.
+         *    Accessor for a list of all links in current page.
          *    @return array   List of urls with scheme of
          *                    http or https and hostname.
          *    @access public
          */
-        function getAbsoluteUrls() {
-            return $this->_page->getAbsoluteUrls();
-        }
-
-        /**
-         *    Accessor for a list of all relative links.
-         *    @return array      List of urls without hostname.
-         *    @access public
-         */
-        function getRelativeUrls() {
-            return $this->_page->getRelativeUrls();
+        function getUrls() {
+            return $this->_page->getUrls();
         }
 
         /**
