@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1.2
+ * @version 0.1.3
  */
 class formRangeRule extends formAbstractRule
 {
@@ -27,7 +27,7 @@ class formRangeRule extends formAbstractRule
             throw new mzzRuntimeException('В массиве нужно указать 2 параметра, обозначающих начало и конец интервала');
         }
 
-        if (is_null($this->value)) {
+        if (is_null($this->value) || $this->value === '') {
             return true;
         }
 

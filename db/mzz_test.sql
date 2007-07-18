@@ -38,9 +38,9 @@ CREATE TABLE `news_news` (
 # Structure for the `news_newsfolder` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsfolder`;
+DROP TABLE IF EXISTS `news_newsFolder`;
 
-CREATE TABLE `news_newsfolder` (
+CREATE TABLE `news_newsFolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) default NULL,
   `name` char(255) default NULL,
@@ -54,9 +54,9 @@ CREATE TABLE `news_newsfolder` (
 # Structure for the `news_newsfolder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsfolder_tree`;
+DROP TABLE IF EXISTS `news_newsFolder_tree`;
 
-CREATE TABLE `news_newsfolder_tree` (
+CREATE TABLE `news_newsFolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -86,9 +86,9 @@ CREATE TABLE `page_page` (
 # Structure for the `page_pagefolder` table : 
 #
 
-DROP TABLE IF EXISTS `page_pagefolder`;
+DROP TABLE IF EXISTS `page_pageFolder`;
 
-CREATE TABLE `page_pagefolder` (
+CREATE TABLE `page_pageFolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) unsigned NOT NULL default '0',
   `name` char(255) default NULL,
@@ -103,9 +103,9 @@ CREATE TABLE `page_pagefolder` (
 # Structure for the `page_pagefolder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `page_pagefolder_tree`;
+DROP TABLE IF EXISTS `page_pageFolder_tree`;
 
-CREATE TABLE `page_pagefolder_tree` (
+CREATE TABLE `page_pageFolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -208,9 +208,9 @@ CREATE TABLE `simple_catalogue_types_props` (
 # Structure for the `simple_stubsimple` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stubsimple`;
+DROP TABLE IF EXISTS `simple_stubSimple`;
 
-CREATE TABLE `simple_stubsimple` (
+CREATE TABLE `simple_stubSimple` (
   `id` int(11) NOT NULL auto_increment,
   `foo` varchar(10) default NULL,
   `bar` varchar(10) default NULL,
@@ -223,9 +223,9 @@ CREATE TABLE `simple_stubsimple` (
 # Structure for the `simple_stubsimple2` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stubsimple2`;
+DROP TABLE IF EXISTS `simple_stubSimple2`;
 
-CREATE TABLE `simple_stubsimple2` (
+CREATE TABLE `simple_stubSimple2` (
   `id` int(11) NOT NULL auto_increment,
   `foo` varchar(10) default NULL,
   `bar` varchar(10) default NULL,
@@ -239,9 +239,9 @@ CREATE TABLE `simple_stubsimple2` (
 # Structure for the `simple_stubsimple2_tree` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stubsimple2_tree`;
+DROP TABLE IF EXISTS `simple_stubSimple2_tree`;
 
-CREATE TABLE `simple_stubsimple2_tree` (
+CREATE TABLE `simple_stubSimple2_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -255,9 +255,9 @@ CREATE TABLE `simple_stubsimple2_tree` (
 # Structure for the `simple_stubsimple3` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stubsimple3`;
+DROP TABLE IF EXISTS `simple_stubSimple3`;
 
-CREATE TABLE `simple_stubsimple3` (
+CREATE TABLE `simple_stubSimple3` (
   `id` int(11) NOT NULL auto_increment,
   `foo` varchar(10) default NULL,
   `bar` varchar(10) default NULL,
@@ -271,9 +271,9 @@ CREATE TABLE `simple_stubsimple3` (
 # Structure for the `simple_stubsimple_tree` table : 
 #
 
-DROP TABLE IF EXISTS `simple_stubsimple_tree`;
+DROP TABLE IF EXISTS `simple_stubSimple_tree`;
 
-CREATE TABLE `simple_stubsimple_tree` (
+CREATE TABLE `simple_stubSimple_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -626,9 +626,9 @@ CREATE TABLE `user_userOnline` (
 # Structure for the `user_usergroup_rel` table : 
 #
 
-DROP TABLE IF EXISTS `user_usergroup_rel`;
+DROP TABLE IF EXISTS `user_userGroup_rel`;
 
-CREATE TABLE `user_usergroup_rel` (
+CREATE TABLE `user_userGroup_rel` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) default NULL,
   `group_id` int(11) default NULL,
