@@ -85,14 +85,14 @@ class testSimple extends unitTestCase
             $this->simple->getAny();
             $this->fail('Должен быть брошен EXCEPTION!');
         } catch (Exception $e) {
-            $this->assertWantedPattern('/simple::getany/i', $e->getMessage());
+            $this->assertPattern('/simple::getany/i', $e->getMessage());
         }
 
         try {
             $this->simple->setAny('any');
             $this->fail('Должен быть брошен EXCEPTION!');
         } catch (Exception $e) {
-            $this->assertWantedPattern('/simple::setany/i', $e->getMessage());
+            $this->assertPattern('/simple::setany/i', $e->getMessage());
         }
     }
 
@@ -107,7 +107,7 @@ class testSimple extends unitTestCase
             $this->simple->setId();
             $this->fail('Должен быть брошен EXCEPTION!');
         } catch (Exception $e) {
-            $this->assertWantedPattern('/simple::setid/i', $e->getMessage());
+            $this->assertPattern('/simple::setid/i', $e->getMessage());
         }
     }
 
@@ -132,6 +132,7 @@ class testSimple extends unitTestCase
                 $this->simple->$setter($second);
                 $this->fail('Ожидается исключение');
             } catch (mzzRuntimeException $e) {
+                $this->pass();
             }
 
             $this->mapper->save($this->simple);

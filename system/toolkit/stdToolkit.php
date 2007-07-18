@@ -325,6 +325,19 @@ class stdToolkit extends toolkit
         $this->user = $user;
         return $tmp;
     }
+
+    /**
+     * Устанавливает объект Request
+     *
+     * @param iRequest $request
+     * @return iRequest
+     */
+    public function setRequest($request)
+    {
+        $tmp = $this->request;
+        $this->request = $request;
+        return $tmp;
+    }
 }
 
 ?>

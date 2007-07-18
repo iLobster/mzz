@@ -88,13 +88,17 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->assertEqual($match, 1);
     }
 
-    public function testTypoResourceNameWithTemplate()
+    public function testNameWithEmptyResource()
     {
         $this->setUpExpectOnce('css');
-        $params = array('file' => ':style4.css');
-        smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('css', array('file' => 'style4.css', 'tpl' => 'css.tpl'));
-        $this->assertEqual($match, 1);
+        $params = array('file' => ':style.css');
+        try {
+            smarty_function_add($params, $this->smarty);
+            $this->fail('no exception thrown?');
+        } catch (Exception $e) {
+            $this->assertPattern("/טלÿ פאיכא.*:style\.css.*$/i", $e->getMessage());
+            $this->pass();
+        }
     }
 
     public function testTypoFilenameWithTemplate()

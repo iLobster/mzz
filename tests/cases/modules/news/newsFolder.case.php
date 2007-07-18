@@ -88,14 +88,14 @@ class newsFolderTest extends unitTestCase
             $this->newsFolder->getFoo();
             $this->fail('Должен быть брошен EXCEPTION!');
         } catch (Exception $e) {
-            $this->assertWantedPattern('/newsFolder::getfoo/i', $e->getMessage());
+            $this->assertPattern('/newsFolder::getfoo/i', $e->getMessage());
         }
 
         try {
             $this->newsFolder->setFoo();
             $this->fail('Должен быть брошен EXCEPTION!');
         } catch (Exception $e) {
-            $this->assertWantedPattern('/newsFolder::setfoo/i', $e->getMessage());
+            $this->assertPattern('/newsFolder::setfoo/i', $e->getMessage());
         }
     }
 
@@ -153,6 +153,7 @@ class newsFolderTest extends unitTestCase
                 $this->newsFolder->$setter($second);
                 $this->fail('Ожидается исключение');
             } catch (mzzRuntimeException $e) {
+                $this->pass();
             }
 
             $this->mapper->save($this->newsFolder);

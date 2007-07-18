@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.7
+ * @version 0.8
  */
 
 interface iRequest
@@ -112,7 +112,21 @@ interface iRequest
     public function getRequestUrl();
 
     /**
-    * Получение текущего пути
+     * Возвращает порт из URL
+     *
+     * @return string
+     */
+    public function getUrlPort();
+
+    /**
+     * Возвращает часть с именем хоста из URL
+     *
+     * @return string
+     */
+    public function getUrlHost();
+
+    /**
+    * Получение текущего пути из URL
     *
     * @return string PATH
     */

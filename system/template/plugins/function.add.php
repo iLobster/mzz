@@ -28,7 +28,7 @@
  * @return null|void null если файл дубликат
  * @package system
  * @subpackage template
- * @version 0.2.2
+ * @version 0.2.3
  */
 function smarty_function_add($params, $smarty)
 {
@@ -47,16 +47,13 @@ function smarty_function_add($params, $smarty)
     }
 
     // определяем тип ресурса
-    // Первая часть - тип ресурс, вторая - файл ресурса
-    $tmp = array_map('trim', explode(':', $params['file'], 2));
-
-    if (sizeof($tmp) == 2 && strlen($tmp[0]) > 0) {
+    if (strpos($params['file'], ':')) {
         // Ресурс указан
-        $res = $tmp[0];
-        $filename = $tmp[1];
+        $tmp = explode(':', $params['file'], 2);
+        $res = trim($tmp[0]);
+        $filename = trim($tmp[1]);
     } else {
         // Ресурс не указан, пытаемся определить ресурс по расширению
-        $params['file'] = str_replace(':', '', $params['file']);
         $res = substr(strrchr($params['file'], '.'), 1);
         $filename = $params['file'];
     }

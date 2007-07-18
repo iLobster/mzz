@@ -22,13 +22,13 @@ fileLoader::load('request/iRequest');
  *
  * Examples:
  * <code>
- * $httprequest->get('var', SC_GET | SC_COOKIE);
+ * $httprequest->get('var', 'integer', SC_GET | SC_COOKIE);
  * $httprequest->get('var2');
  * </code>
  *
  * @package system
  * @subpackage request
- * @version 0.7.2
+ * @version 0.8
  */
 
 define('SC_GET', 1);
@@ -100,6 +100,27 @@ class httpRequest implements iRequest
     protected $requestedAction = false;
 
     /**
+     * Порт
+     *
+     * @var integer
+     */
+    protected $urlPort;
+
+    /**
+     * Хост
+     *
+     * @var string
+     */
+    protected $urlHost;
+
+    /**
+     * Запрошенный путь
+     *
+     * @var string
+     */
+    protected $urlPath;
+
+    /**
      * Конструктор.
      *
      */
@@ -130,7 +151,7 @@ class httpRequest implements iRequest
             $done = true;
         }
 
-        if (!$done && $scope & SC_SERVER && !is_null($result = $this->getServer($name))) {
+        if (!$done && $scope & SC_SERVER && !is_null($result = $this->getServerValue($name))) {
             $done = true;
         }
 
@@ -213,7 +234,7 @@ class httpRequest implements iRequest
      */
     public function isSecure()
     {
-        $protocol = $this->getServer('HTTPS');
+        $protocol = $this->getServerValue('HTTPS');
         return ($protocol === 'on');
     }
 
@@ -228,24 +249,76 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Метод возвращает протокол, который был использован для передачи данных.
+     * Возвращает метод, который был использован для доступа к страницам (данным).
      *
-     * @return string|null возможные варианты: GET, HEAD, POST, PUT
+     * @return string|null GET, HEAD, POST, PUT, DELETE...
      */
     public function getMethod()
     {
-        return $this->getServer('REQUEST_METHOD');
+        return $this->getServerValue('REQUEST_METHOD');
     }
 
     /**
-     * Метод получения переменной из суперглобального массива _SERVER
+     * Получение текущего URL без запрошенного пути (но с SITE_PATH).
+     * Пример: 	http://example.com:8080/mzz
      *
-     * @param string $name имя переменной
-     * @return string|null
+     * @return string URL
      */
-    private function getServer($name)
+    public function getUrl()
     {
-        return isset($_SERVER[$name]) ? $_SERVER[$name] : null;
+        $port = $this->getUrlPort();
+        $scheme = 'http' . ($this->isSecure() ? 's' : '');
+
+        if(($scheme == 'http' && $port == 80) || ($scheme == 'https' && $port == 443)) {
+            $port = '';
+        } else {
+            $port = ':' . $port;
+        }
+
+        return $scheme . '://' . $this->getUrlHost() . $port . SITE_PATH;
+    }
+
+    /**
+     * Получение полного URL.
+     * Пример: 	http://example.com:8080/mzz/foo/bar/?baz=1
+     *
+     * @return string URL
+     */
+    public function getRequestUrl()
+    {
+        $get = $this->getVars->export();
+        unset($get['path']);
+        return $this->getUrl() . '/' . $this->getPath() . (!empty($get) ? '?' . http_build_query($get) : '');
+    }
+
+    /**
+     * Возвращает порт из URL
+     *
+     * @return string
+     */
+    public function getUrlPort()
+    {
+        return $this->urlPort;
+    }
+
+    /**
+     * Возвращает часть с именем хоста из URL
+     *
+     * @return string
+     */
+    public function getUrlHost()
+    {
+        return $this->urlHost;
+    }
+
+    /**
+     * Возвращает запрошенный путь из URL
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->urlPath;
     }
 
     /**
@@ -338,7 +411,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возврат массива параметров
+     * Возвращает массив параметров
      *
      * @return array
      */
@@ -347,45 +420,64 @@ class httpRequest implements iRequest
         return $this->params->export();
     }
 
+    /**
+     * Экспорт POST-данных
+     *
+     * @return array
+     */
     public function exportPost()
     {
         return $this->postVars->export();
     }
 
     /**
-     * Получение текущего урла, игнорируя путь
-     *
-     * @return string URL
-     */
-    public function getUrl()
+	 * Инициализация
+	 *
+	 */
+    public function initialize()
     {
-        $protocol = $this->isSecure() ? 'https' : 'http';
-        $port = $this->get('SERVER_PORT', 'mixed', SC_SERVER);
-        $port = ($port == '80') ? '' : ':' . $port;
+        $this->urlPort = (int)$this->getServerValue('SERVER_PORT');
+        $port = $this->getUrlPort();
 
-        return $protocol . '://' . $this->get('HTTP_HOST', 'mixed', SC_SERVER) . $port . SITE_PATH;
+        list($host) = explode(':', $this->getServerValue('HTTP_HOST'));
+        $this->urlHost = $host;
+
+        // @todo проверить на IIS
+        if (!isset($_SERVER['REQUEST_URI']) && isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) {
+            if(isset($_SERVER['HTTP_X_REWRITE_URL'])) {
+                // Microsoft IIS with ISAPI_Rewrite
+                $_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
+            } elseif(!isset($_SERVER['REQUEST_URI'])) {
+                // Microsoft IIS with PHP in CGI mode
+                $_SERVER['REQUEST_URI'] = $_SERVER['ORIG_PATH_INFO'] . (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '' ? '?' . $_SERVER['QUERY_STRING'] : '');
+            }
+        }
+
+        // Microsoft IIS with PHP in CGI mode
+        if (!isset($_SERVER['QUERY_STRING'])) {
+            $_SERVER['QUERY_STRING'] = '';
+        }
+
+        $this->urlPath = trim(preg_replace('/(%2F)+/', '/', urlencode($this->get('path', 'mixed', SC_REQUEST))), '/');
     }
 
     /**
-     * Получение текущего урла c путем
+     * Поиск значения по ключу в массиве $_SERVER или $_ENV
+     * Если ничего не найдено, возвращает значение по умолчанию
      *
-     * @return string URL
+     * @param string|integer $key
+     * @param mixed $default
+     * @return mixed
      */
-    public function getRequestUrl()
+    protected function getServerValue($key, $default = null)
     {
-        $get = $this->getVars->export();
-        unset($get['path']);
-        return $this->getUrl() . '/' . $this->getPath() . (sizeof($get) ? '?' . http_build_query($get) : '');
-    }
+        if (array_key_exists($key, $_SERVER)) {
+            return $_SERVER[$key];
+        } elseif (array_key_exists($key, $_ENV)) {
+            return $_ENV[$key];
+        }
 
-    /**
-     * Получение текущего пути
-     *
-     * @return string PATH
-     */
-    public function getPath()
-    {
-        return trim(preg_replace('/(%2F)+/', '/', urlencode($this->get('path', 'mixed', SC_REQUEST))), '/');
+        return $default;
     }
 
     /**
@@ -490,6 +582,7 @@ class httpRequest implements iRequest
         $this->getVars = new arrayDataspace($_GET);
         $this->cookieVars = new arrayDataspace($_COOKIE);
         $this->params = new arrayDataspace();
+        $this->initialize();
     }
 }
 
