@@ -29,6 +29,33 @@ class question extends simple
         return $this->mapper->getAllAnswers($this->getId());
     }
 
+    public function setAnswers(Array $answers, Array $types)
+    {
+        $answerMapper = systemToolkit::getInstance()->getMapper('voting', 'answer');
+        $oldAnswers = $this->getAnswers();
+
+        $answer_ids = array();
+        $answer_types = array();
+        foreach ($oldAnswers as $answ) {
+            $answer_ids[] = $answ->getId();
+        }
+
+        $tmpDelete = array_diff($answer_ids, array_keys($answers));
+        $tmpInsert = array_diff(array_keys($answers), $answer_ids);
+
+        foreach ($tmpDelete as $delete) {
+            $answerMapper->delete($delete);
+        }
+
+        foreach ($tmpInsert as $insert) {
+            $answer = $answerMapper->create();
+            $answer->setType($types[$insert]);
+            $answer->setQuestion($this);
+            $answer->setTitle($answers[$insert]);
+            $answerMapper->save($answer);
+        }
+    }
+
     public function getVote()
     {
         $toolkit = systemToolkit::getInstance();

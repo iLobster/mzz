@@ -24,6 +24,8 @@ class votingPostController extends simpleController
 {
     public function getView()
     {
+        print_r($_POST);
+        exit;
         $user = $this->toolkit->getUser();
 
         $id = $this->request->get('id', 'integer');

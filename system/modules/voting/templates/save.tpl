@@ -1,37 +1,37 @@
 <div class="jipTitle">{if $isEdit}Редактирование{else}Создание{/if}</div>
 {literal}<script type="text/javascript">
-var count = 0;
-
 function addOne()
 {
     var tbody = $('selectvariants');
 	var tr = tbody.insertRow(tbody.rows.length);
 	var td = tr.insertCell(tr.cells.length);
     
+    var newInput = document.createElement('input');
+    newInput.name = 'answers[]';
+	newInput.type = "text";
+    
     td.width = '20%';
-	td.innerHTML = '<input type="text" name="selectvalues[' + count + ']">';
+	//td.innerHTML = '<input type="text" name="answers[]">';
+	td.appendChild(newInput);
 	td = tr.insertCell(tr.cells.length);
 	td.width = '80%';
 
-	var newInput = document.createElement('input');
-	newInput.maxLength = 10;
-	newInput.name = 'selectvalues[' + count + ']';
-	newInput.type = "text";
-
+    var newType = document.createElement('select');
+    newType.name = 'answers_type[]';
+    {/literal}{foreach from=$answers_types item="type" key="id"}
+    newType.options[{$id}] = new Option("{$type}", "{$id}");
+    {/foreach}{literal}
 	var newImg = document.createElement('img');
 	newImg.src = SITE_PATH + "/templates/images/delete.gif";
 	newImg.onclick = function () {
 	    deleteOne(this.parentNode.parentNode);
 	}
 
-	td.appendChild(newInput);
+	td.appendChild(newType);
 	td.appendChild(newImg);
-	//td.innerHTML = '<input maxlength="10" name="selectvalues[' + count + ']" type="text" />
-	//<img src="/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" />';
-    count++;
+    
     jipWindow.lockContent();
 }
-
 function deleteOne(trelem)
 {
     $('selectvariants').removeChild(trelem);
@@ -59,11 +59,10 @@ function deleteOne(trelem)
             {foreach from=$question->getAnswers() item="answer" name="variantsIterator"}
                 {assign var="answerId" value=$answer->getId()}
                 <tr>
-                    <td width="20%">{form->text name="answer_$answerId" value=$answer->getTitle()}</td>
-                    <td width="80%">{form->select name="answer_type_$answerId" options=$answers_types}<img src="{$SITE_PATH}/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" /></td>
+                    <td width="20%">{form->text name="answers[$answerId]" value=$answer->getTitle()}</td>
+                    <td width="80%">{form->select name="answers_type[$answerId]" value=$answer->getType() options=$answers_types}<img src="{$SITE_PATH}/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" /></td>
                 </tr>
             {/foreach}
-            <script type="text/javascript">count = {$smarty.foreach.variantsIterator.total+1};</script>
         </tbody>
     </table>
         <tr>

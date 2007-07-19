@@ -4947,7 +4947,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (784,14),
   (241,17),
   (792,7),
-  (798,26),
   (793,7),
   (794,7),
   (795,7),
@@ -4965,7 +4964,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (811,30),
   (812,29),
   (815,21),
-  (817,24);
+  (818,24),
+  (823,26),
+  (827,26);
 
 COMMIT;
 
@@ -6278,7 +6279,17 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (814),
   (815),
   (816),
-  (817);
+  (817),
+  (818),
+  (819),
+  (820),
+  (821),
+  (822),
+  (823),
+  (824),
+  (825),
+  (826),
+  (827);
 
 COMMIT;
 
@@ -6533,7 +6544,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (86,2,'38a3cb35ab2bc6514ce56ad27fd0a6a0','2007-07-17 22:40:02',817,'http://mzz/voting/1/edit?ajax=1','127.0.0.1');
+  (87,2,'a42a37d532a8a8007b80465214be9d50','2007-07-19 22:52:49',818,'http://mzz/voting/1/edit?ajax=1','127.0.0.1');
 
 COMMIT;
 
@@ -6557,8 +6568,9 @@ CREATE TABLE `voting_answer` (
 #
 
 INSERT INTO `voting_answer` (`id`, `title`, `type`, `question_id`, `obj_id`) VALUES 
-  (1,'Да',0,1,798),
-  (2,'Нет',0,1,799);
+  (2,'Нет',0,1,799),
+  (5,'Да',0,1,823),
+  (9,'еуые',1,1,827);
 
 COMMIT;
 
@@ -6599,19 +6611,6 @@ CREATE TABLE `voting_vote` (
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `voting_vote` table  (LIMIT 0,500)
-#
-
-INSERT INTO `voting_vote` (`id`, `answer_id`, `user_id`, `question_id`, `obj_id`) VALUES 
-  (1,1,2,1,801),
-  (2,1,2,1,802),
-  (3,1,2,1,803),
-  (4,1,2,1,804),
-  (5,1,2,1,805);
-
-COMMIT;
 
 
 

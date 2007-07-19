@@ -44,7 +44,6 @@ class votingSaveController extends simpleController
 
             $answerMapper = $this->toolkit->getMapper('voting', 'answer');
 
-
             $this->smarty->assign('question', $question);
             $this->smarty->assign('answers_types', $answerMapper->getAnswersTypes());
             $this->smarty->assign('action', $url->get());
@@ -54,10 +53,13 @@ class votingSaveController extends simpleController
         } else {
             $name = $this->request->get('name', 'string', SC_POST);
             $question_name = $this->request->get('question', 'string', SC_POST);
+            $answers = $this->request->get('answers', 'array', SC_POST);
+            $answers_type = $this->request->get('answers_type', 'array', SC_POST);
 
             $question->setName($name);
             $question->setQuestion($question_name);
-            $questionMapper->save($vote);
+            $question->setAnswers($answers, $answers_type);
+            $questionMapper->save($question);
 
             return jipTools::redirect();
         }

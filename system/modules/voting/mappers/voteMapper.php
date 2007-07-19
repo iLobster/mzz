@@ -38,6 +38,11 @@ class voteMapper extends simpleMapper
      */
     protected $className = 'vote';
 
+    public function searchByAnswer($answer_id)
+    {
+        return $this->searchAllByField('answer_id', $answer_id);
+    }
+
     public function getResults($question_id, $answer_id)
     {
         $db = DB::factory();

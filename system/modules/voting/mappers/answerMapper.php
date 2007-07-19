@@ -46,10 +46,20 @@ class answerMapper extends simpleMapper
     public function getAnswersTypes()
     {
         return array(
-            0 => 'checkbox',
-            1 => 'radio',
+            0 => 'radio',
+            1 => 'checkbox',
             2 => 'text'
         );
+    }
+
+    public function delete($id)
+    {
+        $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
+        $votes = $voteMapper->searchByAnswer($id);
+        foreach ($votes as $vote) {
+            $voteMapper->delete($vote->getId());
+        }
+        parent::delete($id);
     }
 
     /**
