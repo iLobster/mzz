@@ -338,9 +338,9 @@ jipWindow.prototype = {
 
                 if (!inJip) {
                     jipWindow.selectElements.browserWindow = selectElements;
-                    jipWindow.selectElements.jip = $H();
+                    //jipWindow.selectElements.jip = $H();
                 } else {
-                    jipWindow.selectElements.browserWindow = $H();
+                    //jipWindow.selectElements.browserWindow = $H();
                     jipWindow.selectElements.jip = selectElements;
                 }
             });
@@ -351,9 +351,15 @@ jipWindow.prototype = {
     {
         if (Prototype.Browser.IE) {
             if (!inJip) {
+                if (typeof(jipWindow.selectElements.browserWindow) == 'undefined') {
+                    return;
+                }
                 jipWindow.selectElements.browserWindow.each(function (elm) { if (elm) { elm.style.visibility = "visible"; } } );
                 jipWindow.selectElements.browserWindow = $H();
             } else {
+                if (typeof(jipWindow.selectElements.jip) == 'undefined') {
+                    return;
+                }
                 jipWindow.selectElements.jip.each(function (elm) { if (elm) { elm.style.visibility = "visible"; } } );
                 jipWindow.selectElements.jip = $H();
             }
