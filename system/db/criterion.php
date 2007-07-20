@@ -19,7 +19,7 @@
  * @see criteria
  * @package system
  * @subpackage db
- * @version 0.1.4
+ * @version 0.1.5
  */
 
 class criterion
@@ -311,6 +311,26 @@ class criterion
 
             return $value;
         }
+    }
+
+    /**
+     * ѕолучение метода сравнени€ операндов
+     *
+     * @return integer
+     */
+    public function getComparsion()
+    {
+        return $this->comparsion;
+    }
+
+    /**
+     * ѕолучение критерионов, св€занных по or или and
+     *
+     * @return criterion
+     */
+    public function getClauses()
+    {
+        return array($this->clauses, $this->conjunctions);
     }
 }
 

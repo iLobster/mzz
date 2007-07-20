@@ -5,6 +5,11 @@
 # Database : mzz_test
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES cp1251 */;
+
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP DATABASE IF EXISTS `mzz_test`;
@@ -35,7 +40,7 @@ CREATE TABLE `news_news` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `news_newsfolder` table : 
+# Structure for the `news_newsFolder` table : 
 #
 
 DROP TABLE IF EXISTS `news_newsFolder`;
@@ -51,7 +56,7 @@ CREATE TABLE `news_newsFolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `news_newsfolder_tree` table : 
+# Structure for the `news_newsFolder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `news_newsFolder_tree`;
@@ -83,7 +88,7 @@ CREATE TABLE `page_page` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `page_pagefolder` table : 
+# Structure for the `page_pageFolder` table : 
 #
 
 DROP TABLE IF EXISTS `page_pageFolder`;
@@ -100,7 +105,7 @@ CREATE TABLE `page_pageFolder` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `page_pagefolder_tree` table : 
+# Structure for the `page_pageFolder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `page_pageFolder_tree`;
@@ -205,7 +210,7 @@ CREATE TABLE `simple_catalogue_types_props` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubsimple` table : 
+# Structure for the `simple_stubSimple` table : 
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple`;
@@ -220,7 +225,7 @@ CREATE TABLE `simple_stubSimple` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubsimple2` table : 
+# Structure for the `simple_stubSimple2` table : 
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple2`;
@@ -236,7 +241,7 @@ CREATE TABLE `simple_stubSimple2` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubsimple2_tree` table : 
+# Structure for the `simple_stubSimple2_tree` table : 
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple2_tree`;
@@ -252,7 +257,7 @@ CREATE TABLE `simple_stubSimple2_tree` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubsimple3` table : 
+# Structure for the `simple_stubSimple3` table : 
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple3`;
@@ -268,7 +273,7 @@ CREATE TABLE `simple_stubSimple3` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `simple_stubsimple_tree` table : 
+# Structure for the `simple_stubSimple_tree` table : 
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple_tree`;
@@ -313,6 +318,26 @@ CREATE TABLE `sys_access_registry` (
   `obj_id` int(11) unsigned default NULL,
   `class_section_id` int(11) unsigned default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_registry` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
+  (67,1),
+  (68,1),
+  (69,1),
+  (70,1),
+  (71,1),
+  (72,1),
+  (73,1),
+  (74,1),
+  (75,1),
+  (76,1),
+  (77,1),
+  (78,1);
+
+COMMIT;
 
 #
 # Structure for the `sys_actions` table : 
@@ -426,6 +451,15 @@ CREATE TABLE `sys_classes_sections` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `sys_classes_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
+  (1,3,1);
+
+COMMIT;
+
+#
 # Structure for the `sys_modules` table : 
 #
 
@@ -518,7 +552,19 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (63),
   (64),
   (65),
-  (66);
+  (66),
+  (67),
+  (68),
+  (69),
+  (70),
+  (71),
+  (72),
+  (73),
+  (74),
+  (75),
+  (76),
+  (77),
+  (78);
 
 COMMIT;
 
@@ -576,6 +622,20 @@ CREATE TABLE `sys_sessions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Structure for the `treeNS` table : 
+#
+
+DROP TABLE IF EXISTS `treeNS`;
+
+CREATE TABLE `treeNS` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `lkey` int(11) unsigned default NULL,
+  `rkey` int(11) unsigned default NULL,
+  `level` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
 # Structure for the `user_group` table : 
 #
 
@@ -606,6 +666,21 @@ CREATE TABLE `user_user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Structure for the `user_userGroup_rel` table : 
+#
+
+DROP TABLE IF EXISTS `user_userGroup_rel`;
+
+CREATE TABLE `user_userGroup_rel` (
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) default NULL,
+  `group_id` int(11) default NULL,
+  `user_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
 # Structure for the `user_userOnline` table : 
 #
 
@@ -622,18 +697,8 @@ CREATE TABLE `user_userOnline` (
   KEY `last_activity` (`last_activity`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-#
-# Structure for the `user_usergroup_rel` table : 
-#
 
-DROP TABLE IF EXISTS `user_userGroup_rel`;
 
-CREATE TABLE `user_userGroup_rel` (
-  `id` int(11) NOT NULL auto_increment,
-  `obj_id` int(11) default NULL,
-  `group_id` int(11) default NULL,
-  `user_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `group_id` (`group_id`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

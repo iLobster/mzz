@@ -235,7 +235,7 @@ abstract class simpleMapper
                 }
             }
 
-            $criteria->add($this->tableKey, $id);
+            $criteria->add($this->className . '.' . $this->tableKey, $id);
             $stmt = $this->searchByCriteria($criteria);
 
             $fields = $stmt->fetch();
@@ -371,9 +371,10 @@ abstract class simpleMapper
      * Метод для изменения формата массива в удобную для работы форму
      *
      * @param array $array
+     * @param string $name имя запрашиваемого ДО
      * @return array
      */
-    public function fillArray(&$array)
+    public function fillArray(&$array, $name = null)
     {
         $tmp = array();
         foreach ($array as $key => $val) {
@@ -391,7 +392,7 @@ abstract class simpleMapper
             $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$key]);
         }
 
-        return $tmp[$this->className];
+        return is_null($name) ? $tmp[$this->className] : $tmp[$name];
     }
 
 
@@ -464,8 +465,8 @@ abstract class simpleMapper
         $this->addOrderBy($criteria);
 
         $select = new simpleSelect($criteria);
-        $stmt = $this->db->query($select->toString());
         //echo '<br><pre>'; var_dump($select->toString()); echo '<br></pre>';
+        $stmt = $this->db->query($select->toString());
 
         return $stmt;
     }
