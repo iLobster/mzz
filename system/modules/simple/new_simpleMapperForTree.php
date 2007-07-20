@@ -50,7 +50,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
 
         $this->addOrderBy($criteria);
 
-        // если были указаны критерии без явной установки иммени таблицы - заменяем их на аналогичные с именами таблиц
+        // если были указаны критерии без явной установки имени таблицы - заменяем их на аналогичные с именами таблиц
         foreach ($criteria->getCriterion() as $key => $condition) {
             $field = $condition->getField();
             if (!strpos($field, '.')) {

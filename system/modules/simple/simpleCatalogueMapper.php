@@ -297,7 +297,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $map = array_keys($this->getMap());
 
         foreach ($keys as $val) {
-            if (!in_array($val, $map) && !strpos($val, '.')) {
+            if (!strpos($val, '.') && !in_array($val, $map)) {
                 $criterion = $criteria->getCriterion($val);
                 $value = $criterion->getValue();
 
