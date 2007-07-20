@@ -146,7 +146,7 @@ jipWindow.prototype = {
         this.toggleEditorStatus = $H();
         this.redirectToAfterClose = false;
         this.windowExists = false;
-        this.selectElements = null;
+        this.selectElements = $H();
         this.drag = false;
 
         this.eventKeypress  = this.keyPress.bindAsEventListener(this);
@@ -299,17 +299,65 @@ jipWindow.prototype = {
             jipMoveDiv.setAttribute('title', 'Переместить');
             Element.extend(jipMoveDiv);
             jipMoveDiv.addClassName('jipMove');
-            jipMoveDiv.update('<img width="5" height="13" src="' + SITE_PATH + '/templates/images/jip/move.gif" alt="Переместить" title="Переместить" />');
+
             jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
             this.drag = new Draggable('jip' + jipWindow.currentWindow, {
             'handle': 'jip-' + jipTitle.parentNode.id,
+            'onStart': function() {
+                this.defaultsHandlers = [document.body.ondrag, document.body.onselectstart];
+                document.body.ondrag = function () { return false; }
+                document.body.onselectstart = function () { return false; }
+                jipWindow.hideSelects(true);
+            },
             'onEnd': function() {
+                document.body.ondrag = this.defaultsHandlers[0];
+                document.body.onselectstart = this.defaultsHandlers[1];
                 jipWindow.lockContent();
+                jipWindow.showSelects(true);
             }
             });
         }
         this.lockContent();
         buildJipLinks(this.jip);
+    },
+
+
+    hideSelects: function(inJip) {
+        if (Prototype.Browser.IE) {
+            var id = (inJip) ? '.jipWindow ' : '';
+            $$(id + 'select').each(function(element) {
+                var selectElements = $$(id + 'select');
+
+                selectElements.each(function (elm, index) {
+                    if (elm.style.visibility == "hidden") {
+                        delete selectElements[index];
+                    } else {
+                        elm.style.visibility = "hidden";
+                    }
+                });
+
+                if (!inJip) {
+                    jipWindow.selectElements.browserWindow = selectElements;
+                    jipWindow.selectElements.jip = $H();
+                } else {
+                    jipWindow.selectElements.browserWindow = $H();
+                    jipWindow.selectElements.jip = selectElements;
+                }
+            });
+        }
+    },
+
+    showSelects: function(inJip)
+    {
+        if (Prototype.Browser.IE) {
+            if (!inJip) {
+                jipWindow.selectElements.browserWindow.each(function (elm) { if (elm) { elm.style.visibility = "visible"; } } );
+                jipWindow.selectElements.browserWindow = $H();
+            } else {
+                jipWindow.selectElements.jip.each(function (elm) { if (elm) { elm.style.visibility = "visible"; } } );
+                jipWindow.selectElements.jip = $H();
+            }
+        }
     },
 
     lockContent: function()
@@ -339,18 +387,9 @@ jipWindow.prototype = {
             Event.observe(window, "resize", this.eventLockUpdate);
             Event.observe(this.locker, "click", this.eventLockClick);
             this.locker.setStyle({opacity: 0.01, display: 'block'});
-            new Effect.Opacity(this.locker, {"from" : 0, "to": 0.8, "duration": 0.5});
+            new Effect.Opacity(this.locker, {"from" : 0, "to": 0.8, "duration": 0.3, 'fps': 500});
             // hide select elements
-            if(Prototype.Browser.IE) {
-                this.selectElements = $A(document.getElementsByTagName('select'));
-                this.selectElements.each(function (elm, index) {
-                    if (elm.style.visibility == "hidden") {
-                        delete jipWindow.selectElements[index];
-                    } else {
-                        elm.style.visibility = "hidden";
-                    }
-                });
-            }
+            this.hideSelects();
         }
     },
 
@@ -362,13 +401,11 @@ jipWindow.prototype = {
             new Effect.Opacity(this.locker, {
             "from": 0.8,
             "to": 0,
-            "duration": 0.5,
+            "duration": 0.3,
+            "fps": 500,
             "afterFinish": function () {
                 jipWindow.locker.setStyle({opacity: 0.01, display: 'none'});
-                if(Prototype.Browser.IE) {
-                    jipWindow.selectElements.each(function (elm) { if (elm) { elm.style.visibility = "visible"; } } );
-                    jipWindow.selectElements = null;
-                }
+                jipWindow.showSelects();
             }
             });
         }

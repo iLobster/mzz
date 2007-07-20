@@ -486,7 +486,7 @@ class adminMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
 
         if (empty($class['class_name']) || empty($class['module_name'])) {
-            return null;
+            return false;
         }
 
         $mapper = $class['class_name'] . 'Mapper';
@@ -495,7 +495,7 @@ class adminMapper extends simpleMapper
         // @todo функци€ method_exists может принимать первым аргументом им€ класса, а не объект, но
         // в php-документации это пока не отражено
         if (!class_exists($mapper) || !method_exists($mapper, $method)) {
-            return null;
+            return false;
         }
 
         $reflect = new ReflectionMethod($mapper, $method);
@@ -514,7 +514,8 @@ class adminMapper extends simpleMapper
                     if (substr($docblock, 0, 6) == '@param') {
                         $param = preg_split('/\s+/', $docblock, 4);
                         if (count($param) >= 3) {
-                            $docParams[trim($param[2])] = array(trim($param[1]), isset($param[3]) ? trim($param[3]) : '');
+                            $param[2] = substr(trim($param[2]), 1);
+                            $docParams[$param[2]] = array(trim($param[1]), isset($param[3]) ? trim($param[3]) : '');
                         }
                     }
                 } else {
@@ -524,8 +525,8 @@ class adminMapper extends simpleMapper
 
             $params = array('description' => $description);
             foreach ($reflect->getParameters() as $param) {
-                if (isset($docParams['$' . $param->getName()])) {
-                    $docParam = $docParams['$' . $param->getName()];
+                if (isset($docParams[$param->getName()])) {
+                    $docParam = $docParams[$param->getName()];
                 } else {
                     $docParam = array('unknown', 'описание не указано');
                 }
@@ -534,7 +535,7 @@ class adminMapper extends simpleMapper
 
                 // один из параметров не скал€рный и об€зательный, вызов невозможен
                 if (!$param->isOptional() && (!$isScalar || !$isScalarType)) {
-                    $params = false;
+                    $params = null;
                     break;
                 }
 
@@ -546,13 +547,14 @@ class adminMapper extends simpleMapper
                     } else {
                         $type = $docParam[0];
                     }
-                    $params['$' . $param->getName()] = array($type, $docParam[1], false);
+                    $params[$param->getName()] = array($type, $docParam[1], false);
                 } elseif ($isScalar && $isScalarType) {
-                    $params['$' . $param->getName()] = array($docParam[0], $docParam[1], true);
+                    $params[$param->getName()] = array($docParam[0], $docParam[1], true);
                 }
 
                 if ($param->isOptional()) {
-                    $params['$' . $param->getName()][3] = (string)$param->getDefaultValue();
+                    $defaultValue = $param->getDefaultValue();
+                    $params[$param->getName()][3] = is_scalar($defaultValue) ? $defaultValue : (string)$defaultValue;
                 }
             }
 

@@ -99,21 +99,24 @@ class errorDispatcher
             }
             $msg .= $this->exception->getMessage() . "</strong></p>\r\n";
 
-            $trace_msg =  "<a style='cursor: pointer;' onclick=\"javascript: if (document.getElementById('debugTrace').style.display != 'block') document.getElementById('debugTrace').style.display ='block'; else document.getElementById('debugTrace').style.display='none';\"><strong>Показать/скрыть trace</strong></a>\r\n";
-
             if(($traces = $this->exception->getPrevTrace()) === null) {
                 $traces = $this->exception->getTrace();
             }
 
-            $count = count($traces);
-
-            $trace_msg .= "\r\n<p style='color: #424242; display: none;' id='debugTrace'>";
+            $trace_msg = '';
+            $count = $total = count($traces);
+            if ($total > 3) {
+                $trace_msg = "<p><a style='cursor: pointer; padding: 1px; border-bottom: 1px dashed #555;' onclick=\"javascript: if (document.getElementById('debugTrace').style.display != 'block') document.getElementById('debugTrace').style.display ='block'; else document.getElementById('debugTrace').style.display='none';\"><strong>Показать/скрыть весь trace</strong></a></p>\r\n";
+            }
             foreach ($traces as $trace) {
                 if (!isset($trace['file'])) {
                     $trace['file'] = 'unknown';
                 }
                 if (!isset($trace['line'])) {
                     $trace['line'] = 'unknown';
+                }
+                if ($total - $count == 3) {
+                   $trace_msg .= "\r\n<div style='color: #424242; display: none;' id='debugTrace'>";
                 }
                 $count--;
                 $trace_msg .= $count . '. ' . $trace['file'] . ':' . $trace['line'] . ', ';
@@ -133,7 +136,9 @@ class errorDispatcher
                 }
                 $trace_msg .= "\r\n";
             }
-            $trace_msg .= '</p>';
+            if ($total > 3) {
+                $trace_msg .= '</div>';
+            }
 
             $html .= $msg . $trace_msg . "\r\n";
 

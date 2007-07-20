@@ -54,6 +54,12 @@ div.jipSuccess {
 .jipWindow input {
     padding: 1px;
 }
+
+.jipWindow form {
+    padding: 0;
+    margin: 0;
+}
+
 .jipWindow .errorField {
     border: 2px solid #E31717;
 }
@@ -93,15 +99,17 @@ div.jipSuccess {
 }
 
 .jipMove {
-    /*background-position: left center;*/
-    width: 3px;
-    height: 13px;
-    /*background-image: url('../images/jip/move.gif');*/
+    background-position: left center;
+    width: 16px;
+    height: 16px;
+    background-image: url('../images/move.gif');
     float: left;
-    /*background-repeat: no-repeat;*/
+    background-repeat: no-repeat;
     cursor: move;
-    margin-right: 8px;
-    margin-top: 1px;
+    margin-right: 6px;
+    /*margin-top: 1px;*/
+    position: relative;
+    top: -2px;
 }
 
 .jipMenu {
