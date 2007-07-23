@@ -10,7 +10,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
     protected $tree_name_field;
     protected $tree_path_field;
     protected $tree;
-    protected $treeTmp;
+    protected $treeTmp = array();
 
     public function __construct($section)
     {
@@ -22,7 +22,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
         }
 
         $this->tree = new new_dbTreeNS($this->tree_table);
-        $this->tree_join_field = 'some_id';
+        $this->tree_join_field = 'parent';
     }
 
     protected function searchByCriteria(criteria $criteria_outer)
@@ -123,7 +123,6 @@ abstract class new_simpleMapperForTree extends simpleMapper
             $node = $this->tree->getNodeInfo($target);
             $id = $this->tree->insert($node['id']);
             $object->$mutator($id);
-
         } else {
             $target = $this->getTreeParent($object);
         }
@@ -155,6 +154,11 @@ abstract class new_simpleMapperForTree extends simpleMapper
         }
 
         return $result;
+    }
+
+    public function searchByPath($path)
+    {
+        return $this->searchOneByField($this->tree_path_field, $path);
     }
 
     /**

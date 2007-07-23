@@ -550,6 +550,7 @@ abstract class simpleMapper
     public function searchOneByCriteria(criteria $criteria)
     {
         $stmt = $this->searchByCriteria($criteria);
+
         $row = $stmt->fetch();
 
         if ($row) {
@@ -947,7 +948,11 @@ abstract class simpleMapper
             $mapper->setPager($this->pager);
         }
 
-        return $mapper->searchByFolder($id);
+        $result = $mapper->searchByFolder($id);
+
+        $this->pager = null;
+
+        return $result;
     }
 
     /**

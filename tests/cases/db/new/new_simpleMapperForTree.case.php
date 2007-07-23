@@ -190,6 +190,7 @@ class new_StubSimpleMapperForTree extends new_simpleMapperForTree
         parent::__construct($section, $alias);
         $this->table = 'simple_stubSimple2';
         $this->tree_name_field = 'foo';
+        $this->tree_join_field = 'some_id';
     }
 
     public function convertArgsToId($args)

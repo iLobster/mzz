@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('simple/simpleForTree');
+fileLoader::load('simple/new_simpleForTree');
 
 /**
  * newsFolder: newsFolder
@@ -22,7 +22,7 @@ fileLoader::load('simple/simpleForTree');
  * @version 0.1.2
  */
 
-class newsFolder extends simpleForTree
+class newsFolder extends new_simpleForTree
 {
     protected $name = 'news';
 
