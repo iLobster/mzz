@@ -435,7 +435,7 @@ TinyMCE_Engine.prototype = {
 			Event.observe($(scr), 'error', TinyMCE_Engine.prototype.onLoadScript);
 
                 	scr.type = 'text/javascript';
-                	void(scr.src = url + '?' + new Number(new Date()));
+                	scr.src = url;
                 	document.getElementsByTagName('head')[0].appendChild(scr);
 			this.pendingFiles[this.pendingFiles.length] = url;
 

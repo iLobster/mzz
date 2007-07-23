@@ -20,22 +20,6 @@ function getBrowserHeight() {
 
     return {"pageHeight" : pageHeight, "windowHeight" : windowHeight};
 }
-/* todo
-var onLoadEvents = new Array();
-function callLoadEvents() {
-onLoadEvents.each(function(eventFunc) {
-if(eventFunc != callLoadEvents) {
-eventFunc();
-}
-});
-}
-function addOnLoad(eventFunc) {
-if(window.onload && window.onload != callLoadEvents) {
-onLoadEvents[onLoadEvents.size()] = window.onload;
-}
-window.onload = callLoadEvents;
-onLoadEvents[onLoadEvents.size()] = eventFunc;
-}*/
 
 function buildJipLinksEvent(event) {
     if (arguments.callee.done) return;
@@ -45,23 +29,23 @@ function buildJipLinksEvent(event) {
         _loadTimer = null;
     }
     buildJipLinks();
+    Event.stopObserving(window, 'load', buildJipLinksEvent);
 }
 
 function buildJipLinks(elm) {
-
-    var elements = $A((elm || document).getElementsByTagName('a'));
-
-    elements.each(function(link) {
-        if (/jipLink/.test(link.className)) {
+    var jipLinkFunc = function(link) {
             Event.observe(link, 'click', function(event) {
                 jipWindow.open(link.href);
                 Event.stop(event);
                 return false;
             });
-        }
-    });
+    }
+    if (elm) {
+        $(elm).getElementsBySelector('a.jipLink').each(jipLinkFunc);
+    } else {
+        $$('a.jipLink').each(jipLinkFunc);
+    }
 }
-
 
 if (document.addEventListener) {
     document.addEventListener("DOMContentLoaded", buildJipLinksEvent, false);
@@ -86,14 +70,11 @@ if (/WebKit/i.test(navigator.userAgent)) {
         }}, 10);
 }
 
-window.onload = buildJipLinksEvent;
+Event.observe(window, 'load', buildJipLinksEvent);
 
 //--------------------------------
 //  Cookie tools
-//  Cookie: a class for dealing with cookies.
-//  Simple set, get, and remove methods.
-//  Made by Vinnie Garcia but adapted from code
-//  publicly available on many JavaScript sites.
+//  Made by Vinnie Garcia
 // -------------------------------
 Cookie = Class.create();
 var Cookie = {
@@ -131,6 +112,46 @@ var Cookie = {
         }
     }
 }
+
+
+//--------------------------------
+//  Javascript Loader
+// -------------------------------
+jsLoaderClass = Class.create();
+jsLoaderClass.prototype = {
+    initialize: function() {
+        this.pendingFiles  = [];
+        this.loadingIndex = 0;
+    },
+
+    load: function(url)
+    {
+        if (this.pendingFiles.indexOf(url) != -1) {
+            return;
+        }
+        var scr = document.createElement('script');
+        scr.type = 'text/javascript';
+        if (!window.opera) { Event.observe($(scr), 'readystatechange', jsLoader.onLoadScript); }
+        Event.observe($(scr), 'load', jsLoader.onLoadScript);
+        Event.observe($(scr), 'error', jsLoader.onLoadScript);
+        scr.src = url;
+        document.getElementsByTagName('head')[0].appendChild(scr);
+        this.pendingFiles[this.pendingFiles.length] = url;
+    },
+
+    onLoadScript : function(evt) {
+        evt = evt || event;
+        var elem = evt.target || evt.srcElement;
+        if (evt.type == 'readystatechange' && elem.readyState && !(elem.readyState == 'complete' || elem.readyState == 'loaded')) { return; }
+        jsLoader.loadingIndex++;
+        if (jsLoader.loadingIndex >= jsLoader.pendingFiles.length) {
+            jsLoader.loadingIndex = 0; // Done with loading
+            jsLoader.onLoad();
+        }
+    }
+}
+jsLoader = new jsLoaderClass;
+jsLoader.onLoad = function () {}
 
 //--------------------------------
 //  JIP window
@@ -531,14 +552,16 @@ jipWindow.prototype = {
         }
     },
 
-    keyPress: function(event) {
+    keyPress: function(event)
+    {
         if(event.keyCode==Event.KEY_ESC) {
             jipWindow.close();
             Event.stop(event);
         }
     },
 
-    lockClick: function(event) {
+    lockClick: function(event)
+    {
         // fix double click
         Event.stopObserving(this.locker, "click", this.eventLockClick);
 

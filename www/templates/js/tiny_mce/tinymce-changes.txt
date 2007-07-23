@@ -10,7 +10,7 @@
 						le.setAttribute('rel', 'stylesheet');
 						le.setAttribute('type', 'text/css');
 
-						nl[0].appendChild(le);			
+						nl[0].appendChild(le);
 					} else
 						document.write('<link href="' + ar[x] + '" rel="stylesheet" type="text/css" />');
 
@@ -43,7 +43,7 @@
 			Event.observe($(scr), 'error', TinyMCE_Engine.prototype.onLoadScript);
 
                 	scr.type = 'text/javascript';
-                	void(scr.src = url + '?' + new Number(new Date()));
+                	scr.src = url;
                 	document.getElementsByTagName('head')[0].appendChild(scr);
 			this.pendingFiles[this.pendingFiles.length] = url;
 
@@ -99,4 +99,4 @@
 						inst.formElement.form.submit();
 > to:
 						mzzAjax.sendForm(formObj);
- 
+

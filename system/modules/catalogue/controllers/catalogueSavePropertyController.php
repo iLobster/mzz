@@ -144,6 +144,10 @@ class catalogueSavePropertyController extends simpleController
             'type_id' => $isEdit && isset($property['type_id']) ? $property['type_id'] : ''
             );
 
+            if ($ajaxRequest == 'datetime') {
+                $propertyForm['args'] = $isEdit && isset($property['args']) ? $property['args'] : '%H:%M:%S %d/%m/%Y';
+            }
+
             $this->smarty->assign(array(
             'types' => $types,
             'propertyForm' => $propertyForm,
