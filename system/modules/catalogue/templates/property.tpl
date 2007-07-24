@@ -3,13 +3,12 @@
 var count = 0;
 var CATALOGUE_PATH = '{url onlyPath=true}';
 jsLoader.load(SITE_PATH + '/templates/js/catalogue.js');
-{if $isEdit}jsLoader.onLoad = function () {literal}{{/literal}
-ajaxLoadTypeConfig({$propertyForm.type_id});
+
+jsLoader.onLoad = function () {literal}{{/literal}
+{if $isEdit}ajaxLoadTypeConfig({$propertyForm.type_id});{/if}
 {literal}}{/literal}
-{/if}
+jsLoader.check();
 </script>
-
-
 
 <div class="jipTitle">{if $isEdit}Редактирование свойства{else}Создание свойства{/if}</div>
 

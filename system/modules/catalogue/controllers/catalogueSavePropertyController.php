@@ -19,9 +19,8 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage catalogue
- * @version 0.1
+ * @version 0.2
  */
-
 class catalogueSavePropertyController extends simpleController
 {
     protected function getView()
@@ -29,9 +28,7 @@ class catalogueSavePropertyController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $action = $this->request->getAction();
         $isEdit = ($action == 'editProperty');
-
         $ajaxRequest = $this->request->get('ajaxRequest', 'string', SC_REQUEST);
-
 
         $typesTemp = $catalogueMapper->getAllPropertiesTypes();
         $types = array();
@@ -91,17 +88,11 @@ class catalogueSavePropertyController extends simpleController
                 $this->smarty->assign('property', $property);
             }
 
-
-
             if (!empty($ajaxRequest)) {
                 $ajaxRequest = (is_numeric($ajaxRequest) ? $types[$ajaxRequest] : $ajaxRequest);
                 switch ($ajaxRequest) {
                     case 'dynamicselect':
-
-
-
                         $dynamicselect_section = $isEdit && isset($property['args']['section']) ? $property['args']['section'] : false;
-
                         $this->smarty->assign('dynamicselect_section', $dynamicselect_section);
                         break;
                     case 'dynamicselect_modules':
@@ -135,8 +126,6 @@ class catalogueSavePropertyController extends simpleController
                 }
             }
 
-
-
             $propertyForm = array(
             'title' => $isEdit && isset($property['title']) ? $property['title'] : '',
             'name' => $isEdit && isset($property['name']) ? $property['name'] : '',
@@ -161,69 +150,69 @@ class catalogueSavePropertyController extends simpleController
             'errors' => $validator->getErrors()));
 
             return $this->smarty->fetch('catalogue/property.tpl');
-        } else {/*
+        } else {
             $name = $this->request->get('name', 'string', SC_POST);
             $title = $this->request->get('title', 'string', SC_POST);
             $type = $this->request->get('type_id', 'integer', SC_POST);
 
             $params = array();
             switch ($types[$type]) {
-            case 'select':
-            $values = (array) $this->request->get('selectvalues', 'mixed', SC_POST);
-            $selectvalues = array();
-            foreach ($values as $val) {
-            $selectvalues[] = $val;
-            }
-            $params['args'] = serialize($selectvalues);
-            break;
+                case 'select':
+                    $values = (array) $this->request->get('selectvalues', 'mixed', SC_POST);
+                    $selectvalues = array();
+                    foreach ($values as $val) {
+                        $selectvalues[] = $val;
+                    }
+                    $params['args'] = serialize($selectvalues);
+                    break;
 
-            case 'datetime':
-            $params['args'] = $this->request->get('datetimeformat', 'string', SC_POST);
-            break;
+                case 'datetime':
+                    $params['args'] = $this->request->get('datetimeformat', 'string', SC_POST);
+                    break;
 
-            case 'dynamicselect':
-            $moduleName = $this->request->get('dynamicselect_module', 'string', SC_POST);
-            $doName = $this->request->get('dynamicselect_do', 'string', SC_POST);
-            $sectionName = $this->request->get('dynamicselect_section', 'string', SC_POST);
-            $searchMethod = $this->request->get('dynamicselect_searchMethod', 'string', SC_POST);
-            $extractMethod = $this->request->get('dynamicselect_extractMethod', 'string', SC_POST);
-            $callbackParams = $this->request->get('dynamicselect_params', 'string', SC_POST);
-            $nullElement = $this->request->get('dynamicselect_nullelement', 'integer', SC_POST);
+                case 'dynamicselect':
+                   /* $moduleName = $this->request->get('dynamicselect_module', 'string', SC_POST);
+                    $doName = $this->request->get('dynamicselect_do', 'string', SC_POST);
+                    $sectionName = $this->request->get('dynamicselect_section', 'string', SC_POST);
+                    $searchMethod = $this->request->get('dynamicselect_searchMethod', 'string', SC_POST);
+                    $extractMethod = $this->request->get('dynamicselect_extractMethod', 'string', SC_POST);
+                    $callbackParams = $this->request->get('dynamicselect_params', 'string', SC_POST);
+                    $nullElement = $this->request->get('dynamicselect_nullelement', 'integer', SC_POST);
 
-            $params['args'] = serialize(array(
-            'module'    =>  $moduleName,
-            'do'    =>  $doName,
-            'section'   =>  $sectionName,
-            'searchMethod'  =>  $searchMethod,
-            'extractMethod' =>  $extractMethod,
-            'params' =>  $callbackParams,
-            'nullElement'   =>  (bool)$nullElement
-            ));
-            break;
+                    $params['args'] = serialize(array(
+                    'module'    =>  $moduleName,
+                    'do'    =>  $doName,
+                    'section'   =>  $sectionName,
+                    'searchMethod'  =>  $searchMethod,
+                    'extractMethod' =>  $extractMethod,
+                    'params' =>  $callbackParams,
+                    'nullElement'   =>  (bool)$nullElement
+                    ));
+                    break;*/
 
-            case 'img':
-            $moduleName = $this->request->get('img_module', 'string', SC_POST);
-            $doName = $this->request->get('img_do', 'string', SC_POST);
-            $sectionName = $this->request->get('img_section', 'string', SC_POST);
-            $searchMethod = $this->request->get('img_searchMethod', 'string', SC_POST);
-            $callbackParams = $this->request->get('img_params', 'string', SC_POST);
+                /*case 'img':
+                    $moduleName = $this->request->get('img_module', 'string', SC_POST);
+                    $doName = $this->request->get('img_do', 'string', SC_POST);
+                    $sectionName = $this->request->get('img_section', 'string', SC_POST);
+                    $searchMethod = $this->request->get('img_searchMethod', 'string', SC_POST);
+                    $callbackParams = $this->request->get('img_params', 'string', SC_POST);
 
-            $params['args'] = serialize(array(
-            'module'    =>  $moduleName,
-            'do'    =>  $doName,
-            'section'   =>  $sectionName,
-            'searchMethod'  =>  $searchMethod,
-            'params' =>  $callbackParams
-            ));
-            break;
+                    $params['args'] = serialize(array(
+                    'module'    =>  $moduleName,
+                    'do'    =>  $doName,
+                    'section'   =>  $sectionName,
+                    'searchMethod'  =>  $searchMethod,
+                    'params' =>  $callbackParams
+                    ));
+                    break;*/
             }
 
             if ($isEdit) {
-            $catalogueMapper->updateProperty($id, $name, $title, $type, $params);
+                $catalogueMapper->updateProperty($id, $name, $title, $type, $params);
             } else {
-            $catalogueMapper->addProperty($name, $title, $type, $params);
+                $catalogueMapper->addProperty($name, $title, $type, $params);
             }
-            return jipTools::redirect();*/
+            return jipTools::redirect();
         }
     }
 }

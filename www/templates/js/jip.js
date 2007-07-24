@@ -34,11 +34,11 @@ function buildJipLinksEvent(event) {
 
 function buildJipLinks(elm) {
     var jipLinkFunc = function(link) {
-            Event.observe(link, 'click', function(event) {
-                jipWindow.open(link.href);
-                Event.stop(event);
-                return false;
-            });
+        Event.observe(link, 'click', function(event) {
+            jipWindow.open(link.href);
+            Event.stop(event);
+            return false;
+        });
     }
     if (elm) {
         $(elm).getElementsBySelector('a.jipLink').each(jipLinkFunc);
@@ -126,9 +126,10 @@ jsLoaderClass.prototype = {
 
     load: function(url)
     {
-        if (this.pendingFiles.indexOf(url) != -1) {
+        if ($$('script').any(function (jsElm) { return jsElm.src == url; })) {
             return;
         }
+
         var scr = document.createElement('script');
         scr.type = 'text/javascript';
         if (!window.opera) { Event.observe($(scr), 'readystatechange', jsLoader.onLoadScript); }
@@ -139,13 +140,22 @@ jsLoaderClass.prototype = {
         this.pendingFiles[this.pendingFiles.length] = url;
     },
 
-    onLoadScript : function(evt) {
+    onLoadScript: function(evt) {
         evt = evt || event;
         var elem = evt.target || evt.srcElement;
         if (evt.type == 'readystatechange' && elem.readyState && !(elem.readyState == 'complete' || elem.readyState == 'loaded')) { return; }
+
+        if (jsLoader.pendingFiles == 0) {
+            return;
+        }
         jsLoader.loadingIndex++;
-        if (jsLoader.loadingIndex >= jsLoader.pendingFiles.length) {
-            jsLoader.loadingIndex = 0; // Done with loading
+        jsLoader.check();
+    },
+
+    check: function() {
+        if (jsLoader.loadingIndex >= jsLoader.pendingFiles.length) { // loaded
+            jsLoader.pendingFiles = [];
+            jsLoader.loadingIndex = 0;
             jsLoader.onLoad();
         }
     }

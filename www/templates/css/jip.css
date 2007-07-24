@@ -100,16 +100,16 @@ div.jipSuccess {
 
 .jipMove {
     background-position: left center;
-    width: 16px;
+    width: 5px;
     height: 16px;
-    background-image: url('../images/move.gif');
+    background-image: url('../images/jip/move.gif');
     float: left;
     background-repeat: no-repeat;
     cursor: move;
     margin-right: 6px;
     /*margin-top: 1px;*/
     position: relative;
-    top: -2px;
+    top: -1px;
 }
 
 .jipMenu {
