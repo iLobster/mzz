@@ -43,6 +43,15 @@ html, body {
   padding: 10px;
 }
 
+#title a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+#title a:hover {
+  text-decoration: underline;
+}
+
 #sidebarOpener  {
   background-color: #575757;
   padding: 4px;
