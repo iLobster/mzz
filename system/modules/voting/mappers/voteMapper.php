@@ -56,7 +56,7 @@ class voteMapper extends simpleMapper
     {
         $db = DB::factory();
         $criteria = new criteria($this->table);
-        $criteria->addSelectField('COUNT(*)', 'count')->add('question_id', $question_id);
+        $criteria->addSelectField('COUNT(DISTINCT `user_id`)', 'count')->add('question_id', $question_id);
         $select = new simpleSelect($criteria);
         return $db->getOne($select->toString());
     }
