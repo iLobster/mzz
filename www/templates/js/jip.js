@@ -119,9 +119,11 @@ var Cookie = {
 // -------------------------------
 jsLoaderClass = Class.create();
 jsLoaderClass.prototype = {
-    initialize: function() {
+    initialize: function()
+    {
         this.pendingFiles  = [];
         this.loadingIndex = 0;
+        this.onLoad = function () {}
     },
 
     load: function(url)
@@ -140,7 +142,8 @@ jsLoaderClass.prototype = {
         this.pendingFiles[this.pendingFiles.length] = url;
     },
 
-    onLoadScript: function(evt) {
+    onLoadScript: function(evt)
+    {
         evt = evt || event;
         var elem = evt.target || evt.srcElement;
         if (evt.type == 'readystatechange' && elem.readyState && !(elem.readyState == 'complete' || elem.readyState == 'loaded')) { return; }
@@ -152,16 +155,22 @@ jsLoaderClass.prototype = {
         jsLoader.check();
     },
 
-    check: function() {
+    check: function()
+    {
         if (jsLoader.loadingIndex >= jsLoader.pendingFiles.length) { // loaded
             jsLoader.pendingFiles = [];
             jsLoader.loadingIndex = 0;
             jsLoader.onLoad();
         }
+    },
+
+    setOnLoad: function(func)
+    {
+        jsLoader.onLoad = func;
+        jsLoader.check();
     }
 }
 jsLoader = new jsLoaderClass;
-jsLoader.onLoad = function () {}
 
 //--------------------------------
 //  JIP window
@@ -175,7 +184,7 @@ jipWindow.prototype = {
         this.windowCount = 0;
         this.currentWindow = 0;
         this.toggleEditorStatus = $H();
-        this.redirectToAfterClose = false;
+        this.redirectAfterClose = false;
         this.windowExists = false;
         this.selectElements = $H();
         this.drag = false;
@@ -356,25 +365,23 @@ jipWindow.prototype = {
     hideSelects: function(inJip) {
         if (Prototype.Browser.IE) {
             var id = (inJip) ? '.jipWindow ' : '';
-            $$(id + 'select').each(function(element) {
-                var selectElements = $$(id + 'select');
+            var selectElements = $$(id + 'select');
 
-                selectElements.each(function (elm, index) {
-                    if (elm.style.visibility == "hidden") {
-                        delete selectElements[index];
-                    } else {
-                        elm.style.visibility = "hidden";
-                    }
-                });
-
-                if (!inJip) {
-                    jipWindow.selectElements.browserWindow = selectElements;
-                    //jipWindow.selectElements.jip = $H();
+            selectElements.each(function (elm, index) {
+                if (elm.style.visibility == "hidden") {
+                    delete selectElements[index];
                 } else {
-                    //jipWindow.selectElements.browserWindow = $H();
-                    jipWindow.selectElements.jip = selectElements;
+                    elm.style.visibility = "hidden";
                 }
             });
+
+            if (!inJip) {
+                jipWindow.selectElements.browserWindow = selectElements;
+                //jipWindow.selectElements.jip = $H();
+            } else {
+                //jipWindow.selectElements.browserWindow = $H();
+                jipWindow.selectElements.jip = selectElements;
+            }
         }
     },
 
@@ -452,9 +459,9 @@ jipWindow.prototype = {
     {
         url = url || true;
         if (url === true) {
-            this.redirectToAfterClose = new String(window.location).replace(window.location.hash, '');
+            this.redirectAfterClose = true;
         } else {
-            this.redirectToAfterClose = url;
+            this.redirectAfterClose = url;
         }
     },
 
@@ -499,10 +506,14 @@ jipWindow.prototype = {
             this.jip = $('jip' + (currentWin));
             var jipParent = this.jip.parentNode;
             //this.clean();
-            if (this.redirectToAfterClose) {
-                window.location = this.redirectToAfterClose;
+            if (this.redirectAfterClose) {
+                if (this.redirectAfterClose === true) {
+                    window.location.reload(true);
+                } else {
+                    window.location = this.redirectAfterClose;
+                }
                 this.setRefreshMsg();
-                this.redirectToAfterClose  = false;
+                this.redirectAfterClose = false;
                 return true;
             }
 
