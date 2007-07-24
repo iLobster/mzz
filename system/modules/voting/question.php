@@ -56,11 +56,11 @@ class question extends simple
         }
     }
 
-    public function getVote()
+    public function getVotes()
     {
         $toolkit = systemToolkit::getInstance();
         $user = $toolkit->getUser();
-        return $this->mapper->getVote($this->getId(), $user);
+        return $this->mapper->getVotes($this->getId(), $user);
     }
 
     public function getResultsCount()

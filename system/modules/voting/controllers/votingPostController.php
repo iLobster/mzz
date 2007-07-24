@@ -24,18 +24,42 @@ class votingPostController extends simpleController
 {
     public function getView()
     {
-        print_r($_POST);
-        exit;
         $user = $this->toolkit->getUser();
 
         $id = $this->request->get('id', 'integer');
         $questionMapper = $this->toolkit->getMapper('voting', 'question');
         $answerMapper = $this->toolkit->getMapper('voting', 'answer');
+        $voteMapper = $this->toolkit->getMapper('voting', 'vote');
 
-        $vote = $questionMapper->searchById($id);
+        $question = $questionMapper->searchById($id);
 
-        $answer_id = $this->request->get('answer', 'integer', SC_POST);
-        $answer = $answerMapper->searchById($answer_id);
+        $answers = $this->request->get('answer', 'array', SC_POST);
+
+        foreach ($answers as $answer_id) {
+            if ($answer_id != 0) {
+                $answer = $answerMapper->searchById($answer_id);
+
+                $vote = $voteMapper->create();
+                $vote->setUser($user);
+                $vote->setQuestion($question);
+                $vote->setAnswer($answer);
+
+                if ($answer->getTypeTitle() == 'text') {
+                    $text = $this->request->get('answer_' . $answer_id, 'string', SC_POST);
+                    $vote->setText($text);
+                }
+
+                $voteMapper->save($vote);
+            }
+        }
+        $backurl = $this->request->get('url', 'string', SC_POST);
+        if (!$backurl) {
+            $url = new url('default');
+            $backurl = $url->get();
+        }
+
+        return $this->response->redirect($backurl);
+
 
         $answers = array();
         foreach ($vote->getAnswers() as $ans) {
@@ -52,8 +76,8 @@ class votingPostController extends simpleController
         $newVote->setUser($user);
         $newVote->setQuestion($vote);
         $newVote->setAnswer($answer);
+        exit;
         $voteMapper->save($newVote);
-
 
         $backurl = $this->request->get('url', 'string', SC_POST);
         if (!$backurl) {

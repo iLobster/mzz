@@ -54,7 +54,7 @@ class questionMapper extends simpleMapper
         return $answerMapper->searchAllByField('question_id', $id);
     }
 
-    public function getVote($id, $user)
+    public function getVotes($id, $user)
     {
         $toolkit = systemToolkit::getInstance();
         $voteMapper = $toolkit->getMapper('voting', 'vote');
@@ -62,7 +62,7 @@ class questionMapper extends simpleMapper
         $criteria = new criteria;
         $criteria->add('user_id', $user->getId())->add('question_id', $id);
 
-        return $voteMapper->searchOneByCriteria($criteria);
+        return $voteMapper->searchAllByCriteria($criteria);
     }
 
     /**
