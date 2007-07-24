@@ -27,6 +27,7 @@ class votingPostController extends simpleController
         $user = $this->toolkit->getUser();
 
         $id = $this->request->get('id', 'integer');
+
         $questionMapper = $this->toolkit->getMapper('voting', 'question');
         $answerMapper = $this->toolkit->getMapper('voting', 'answer');
         $voteMapper = $this->toolkit->getMapper('voting', 'vote');
@@ -34,9 +35,10 @@ class votingPostController extends simpleController
         $question = $questionMapper->searchById($id);
 
         $answers = $this->request->get('answer', 'array', SC_POST);
+        $validAnswers = array_keys($question->getAnswers());
 
         foreach ($answers as $answer_id) {
-            if ($answer_id != 0) {
+            if (in_array($answer_id, $validAnswers)) {
                 $answer = $answerMapper->searchById($answer_id);
 
                 $vote = $voteMapper->create();
@@ -52,33 +54,6 @@ class votingPostController extends simpleController
                 $voteMapper->save($vote);
             }
         }
-        $backurl = $this->request->get('url', 'string', SC_POST);
-        if (!$backurl) {
-            $url = new url('default');
-            $backurl = $url->get();
-        }
-
-        return $this->response->redirect($backurl);
-
-
-        $answers = array();
-        foreach ($vote->getAnswers() as $ans) {
-            $answers[] = $ans->getId();
-        }
-
-        if (!$answer || !in_array($answer->getId(), $answers)) {
-            //@todo: а чо тут ваще выводить? шаблон? или ваще эксшепшн кидать?
-            return 'а вот хер!';
-        }
-
-        $voteMapper = $this->toolkit->getMapper('voting', 'vote');
-        $newVote = $voteMapper->create();
-        $newVote->setUser($user);
-        $newVote->setQuestion($vote);
-        $newVote->setAnswer($answer);
-        exit;
-        $voteMapper->save($newVote);
-
         $backurl = $this->request->get('url', 'string', SC_POST);
         if (!$backurl) {
             $url = new url('default');

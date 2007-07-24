@@ -34,24 +34,26 @@ class question extends simple
         $answerMapper = systemToolkit::getInstance()->getMapper('voting', 'answer');
         $oldAnswers = $this->getAnswers();
 
-        $answer_ids = array();
-        $answer_types = array();
-        foreach ($oldAnswers as $answ) {
-            $answer_ids[] = $answ->getId();
-        }
-
-        $tmpDelete = array_diff($answer_ids, array_keys($answers));
-        $tmpInsert = array_diff(array_keys($answers), $answer_ids);
+        $tmpDelete = array_diff(array_keys($oldAnswers), array_keys($answers));
+        $tmpInsert = array_diff(array_keys($answers), array_keys($oldAnswers));
 
         foreach ($tmpDelete as $delete) {
             $answerMapper->delete($delete);
+            if (isset($answers[$delete])) {
+                unset($answers[$delete]);
+            }
         }
 
-        foreach ($tmpInsert as $insert) {
-            $answer = $answerMapper->create();
-            $answer->setType($types[$insert]);
-            $answer->setQuestion($this);
-            $answer->setTitle($answers[$insert]);
+        foreach ($answers as $id => $title) {
+            if (in_array($id, $tmpInsert)) {
+                $answer = $answerMapper->create();
+                $answer->setQuestion($this);
+            } else {
+                $answer = $answerMapper->searchById($id);
+            }
+
+            $answer->setTitle($title);
+            $answer->setType(isset($types[$id]) ? $types[$id] : 0);
             $answerMapper->save($answer);
         }
     }

@@ -53,12 +53,13 @@ class votingSaveController extends simpleController
         } else {
             $name = $this->request->get('name', 'string', SC_POST);
             $question_name = $this->request->get('question', 'string', SC_POST);
-            $answers = $this->request->get('answers', 'array', SC_POST);
-            $answers_type = $this->request->get('answers_type', 'array', SC_POST);
+
+            $titles = $this->request->get('answers', 'array', SC_POST);
+            $types = $this->request->get('answers_type', 'array', SC_POST);
 
             $question->setName($name);
             $question->setQuestion($question_name);
-            $question->setAnswers($answers, $answers_type);
+            $question->setAnswers($titles, $types);
             $questionMapper->save($question);
 
             return jipTools::redirect();
