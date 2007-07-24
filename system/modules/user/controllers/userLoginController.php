@@ -61,10 +61,10 @@ class userLoginController extends simpleController
             return $this->smarty->fetch('user/' . $prefix . 'login.tpl');
         }
 
-        if (strtoupper($this->request->getMethod()) == 'POST') {
+        /*if (strtoupper($this->request->getMethod()) == 'POST') {
             // @todo: если нет урла - редиректить на главную
             return $this->response->redirect($this->request->get('url', 'string', SC_POST));
-        }
+        }*/
 
         $this->smarty->assign('user', $user);
         return $this->smarty->fetch('user/' . $prefix . 'alreadyLogin.tpl');

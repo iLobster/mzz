@@ -48,19 +48,26 @@ class new_dbTreeNS
         return $this->fields;
     }
 
-    private function getCriteria()
+    private function getStdCriteria()
     {
         $criteria = new criteria($this->table, 'tree');
-
-        if ($this->criteria) {
-            $criteria->append($this->criteria);
-        }
 
         $criteria->addSelectField('tree.id', $this->fields['id'])
         ->addSelectField('tree.lkey', $this->fields['lkey'])
         ->addSelectField('tree.rkey', $this->fields['rkey'])
         ->addSelectField('tree.level', $this->fields['level']);
         $criteria->setOrderByFieldAsc('tree.lkey');
+
+        return $criteria;
+    }
+
+    private function getCriteria()
+    {
+        $criteria = $this->getStdCriteria();
+
+        if ($this->criteria) {
+            $criteria->append($this->criteria);
+        }
 
         return $criteria;
     }
@@ -149,8 +156,8 @@ class new_dbTreeNS
 
     public function move($node, $target)
     {
-        $node = $this->getNodeInfo($node);
         $target = $this->getNodeInfo($target);
+        $node = $this->getNodeInfo($node);
 
         $skew_tree = $node['rkey'] - $node['lkey'] + 1;
         $skew_level = $target['level'] - $node['level'] + 1;
@@ -183,6 +190,8 @@ class new_dbTreeNS
 
             $this->db->query($qry);
         }
+
+        return true;
     }
 
     public function insert($id)
@@ -211,7 +220,9 @@ class new_dbTreeNS
         if ($id instanceof new_simpleForTree) {
             $id = $id->getTreeKey();
         }
-        $criteria = $this->getCriteria();
+
+        $criteria = $this->getStdCriteria();
+
         $criteria->add('tree.id', $id);
 
         $select = new simpleSelect($criteria);

@@ -26,13 +26,19 @@ class new_simpleForTree extends simple
      *
      * @return integer
      */
-    public function getLevel()
+    public function getTreeLevel()
     {
+        if (!$this->treeFields->exists('id')) {
+            $this->mapper->loadTreeData($this);
+        }
         return $this->treeFields->get('level');
     }
 
     public function getTreeKey()
     {
+        if (!$this->treeFields->exists('id')) {
+            $this->mapper->loadTreeData($this);
+        }
         return $this->treeFields->get('id');
     }
 

@@ -49,6 +49,8 @@ class newsMoveFolderController extends simpleController
         $validator->add('callback', 'dest', '¬ каталоге назначени€ уже есть каталог с таким именем', array('checkUniqueNewsFolderName', $folderMapper, $folder));
         $validator->add('callback', 'dest', 'Ќельз€ перенести каталог во вложенные каталоги', array('checkDestNewsFolderIsNotChildren', $folders));
 
+        $errors = $validator->getErrors();
+
         if ($validator->validate()) {
             $destFolder = $folderMapper->searchById($dest);
             $result = $folderMapper->move($folder, $destFolder);
@@ -70,7 +72,7 @@ class newsMoveFolderController extends simpleController
         $this->smarty->assign('folder', $folder);
         $this->smarty->assign('dests', $dests);
         $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('errors', $errors);
         return $this->smarty->fetch('news/moveFolder.tpl');
     }
 }

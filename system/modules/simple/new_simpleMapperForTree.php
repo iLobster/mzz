@@ -34,7 +34,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $stmt;
     }
 
-    private function getStdCriteria($criteria_outer = null)
+    protected function getStdCriteria($criteria_outer = null)
     {
         $criteria = new criteria();
         $this->addJoins($criteria);
@@ -53,7 +53,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
         // если были указаны критерии без явной установки имени таблицы - заменяем их на аналогичные с именами таблиц
         foreach ($criteria->getCriterion() as $key => $condition) {
             $field = $condition->getField();
-            if (!strpos($field, '.')) {
+            if (!strpos($field, '.') && !$condition->getAlias()) {
                 $criteria->remove($key);
                 $criterion = new criterion($this->className . '.' . $field, $condition->getValue(), $condition->getComparsion());
 
@@ -103,6 +103,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
         $stmt = $this->tree->getParentNode($child->getTreeKey());
 
         if ($row = $stmt->fetch()) {
+
             $row = $this->fillArray($row);
             $parent = $this->createItemFromRow($row);
 
@@ -114,6 +115,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
 
     public function save($object, $target = null, $user = null)
     {
+        static $i=0;
         $data = $object->export();
 
         $mutator = $this->map[$this->tree_join_field]['mutator'];
@@ -146,7 +148,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
             $this->save($object);
 
             foreach ($branch as $key => $val) {
-                if ($key != $object->getTreeKey()) {
+                if ($val->getTreeKey() != $object->getTreeKey()) {
                     $val->$nameMutator($val->$nameAccessor());
                     $this->save($val);
                 }
@@ -154,6 +156,29 @@ abstract class new_simpleMapperForTree extends simpleMapper
         }
 
         return $result;
+    }
+
+    public function move(new_simpleForTree $node, new_simpleForTree $target)
+    {
+        $result = $this->tree->move($node, $target);
+
+        if ($result) {
+            $nameAccessor = $this->map[$this->tree_name_field]['accessor'];
+            $nameMutator = $this->map[$this->tree_name_field]['mutator'];
+            $node->$nameMutator($node->$nameAccessor());
+
+            $this->save($node);
+        }
+
+        return $result;
+    }
+
+    public function loadTreeData(new_simpleForTree $object)
+    {
+        $accessor = $this->map[$this->tree_join_field]['accessor'];
+        $id = $object->$accessor();
+        $node = $this->tree->getNodeInfo($id);
+        $object->importTreeFields($node);
     }
 
     public function searchByPath($path)
@@ -180,7 +205,6 @@ abstract class new_simpleMapperForTree extends simpleMapper
         $this->treeTmp = parent::fillArray($array, 'tree');
         return parent::fillArray($array, $name);
     }
-
 }
 
 ?>

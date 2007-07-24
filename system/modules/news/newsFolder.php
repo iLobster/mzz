@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('simple/new_simpleForTree');
+fileLoader::load('simple/simpleForTree');
 
 /**
  * newsFolder: newsFolder
@@ -22,7 +22,7 @@ fileLoader::load('simple/new_simpleForTree');
  * @version 0.1.2
  */
 
-class newsFolder extends new_simpleForTree
+class newsFolder extends simpleForTree
 {
     protected $name = 'news';
 
@@ -75,7 +75,7 @@ class newsFolder extends new_simpleForTree
 
     public function getTreeParent()
     {
-        return $this->mapper->getTreeParent($this->getParent());
+        return $this->mapper->getTreeParent($this);
     }
 
     public function getJip()
