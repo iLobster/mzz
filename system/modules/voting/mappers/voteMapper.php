@@ -51,27 +51,20 @@ class voteMapper
         return $stmt->execute();
     }
 
-    public function searchByAnswer2($answer_id)
-    {
-        return $this->searchAllByField('answer_id', $answer_id);
-    }
-
     public function getResults($question_id, $answer_id)
     {
-        $db = DB::factory();
         $criteria = new criteria($this->table);
         $criteria->addSelectField('COUNT(*)', 'count')->add('question_id', $question_id)->add('answer_id', $answer_id);
         $select = new simpleSelect($criteria);
-        return $db->getOne($select->toString());
+        return $this->db->getOne($select->toString());
     }
 
     public function getResultsCount($question_id)
     {
-        $db = DB::factory();
         $criteria = new criteria($this->table);
         $criteria->addSelectField('COUNT(DISTINCT `user_id`)', 'count')->add('question_id', $question_id);
         $select = new simpleSelect($criteria);
-        return $db->getOne($select->toString());
+        return $this->db->getOne($select->toString());
     }
 }
 
