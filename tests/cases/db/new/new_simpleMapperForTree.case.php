@@ -75,6 +75,25 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $this->db->query('INSERT INTO `simple_stubSimple2` (`foo`, `bar`, `path`, `some_id`) VALUES ' . $data);
     }
 
+    #        ¬от на таком деревом и будем тестировать
+    #
+    #
+    #                                   1
+    #                                 1[1]16
+    #                                   |
+    #                            ----------------
+    #                            |      |       |
+    #                            2      3       4
+    #                          2[2]7  8[2]13 14[2]15
+    #                            |      |
+    #                      -------      ---------
+    #                      |     |      |       |
+    #                      5     6      7       8
+    #                    3[3]4 5[3]6  9[3]10 11[3]12
+    #
+    #
+
+
     public function tearDown()
     {
         $this->clearDb();
@@ -86,6 +105,19 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `simple_stubSimple2`');
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query("DELETE FROM `sys_classes` WHERE `id` = 3");
+    }
+
+    public function testGetTree()
+    {
+        $res = $this->mapper->searchAll();
+
+        $this->assertEqual(array(1, 2, 3, 4, 5, 6, 7, 8), array_keys($res));
+        foreach ($res as $key => $do) {
+            $this->assertEqual($do->getFoo(), $this->data[$key][0]);
+            $this->assertEqual($do->getBar(), $this->data[$key][1]);
+            $this->assertEqual($do->getPath(), $this->data[$key][2]);
+            $this->assertEqual($do->getTreeLevel(), $this->structure[$key][2]);
+        }
     }
 
     public function testSearchByCriteria()
@@ -184,7 +216,6 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $target = $this->mapper->searchByKey(4);
         $this->mapper->move($node, $target);
 
-
         $node = $this->mapper->searchByKey(2);
         $this->assertEqual($node->getTreeLevel(), 3);
         $this->assertEqual($node->getPath(), 'foo1/foo4/foo2');
@@ -193,6 +224,25 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $this->assertEqual($node->getTreeLevel(), 4);
         $this->assertEqual($node->getPath(), 'foo1/foo4/foo2/foo5');
     }
+
+    public function testDelete()
+    {
+        $node = $this->mapper->searchByKey(2);
+        $this->mapper->delete($node);
+
+        $res = $this->mapper->searchAll();
+
+        $this->assertEqual(array(1, 3, 4, 7, 8), array_keys($res));
+        foreach ($res as $key => $do) {
+            $this->assertEqual($do->getFoo(), $this->data[$key][0]);
+            $this->assertEqual($do->getBar(), $this->data[$key][1]);
+            $this->assertEqual($do->getPath(), $this->data[$key][2]);
+            $this->assertEqual($do->getTreeLevel(), $this->structure[$key][2]);
+        }
+
+        $res = $this->db->getAll('SELECT COUNT(*) AS `cnt` FROM simple_stubSimple2');
+        $this->assertEqual($res[0]['cnt'], 5);
+    }
 }
 
 class new_StubSimpleMapperForTree extends new_simpleMapperForTree
@@ -200,13 +250,15 @@ class new_StubSimpleMapperForTree extends new_simpleMapperForTree
     protected $name = 'simple';
     protected $className = 'new_stubSimpleForTree';
 
-    public function __construct($section, $alias = 'default')
+    public function __construct($section)
     {
-        $this->tree_table = 'simple_stubSimple2_tree';
-        parent::__construct($section, $alias);
+        parent::__construct($section);
         $this->table = 'simple_stubSimple2';
-        $this->tree_name_field = 'foo';
-        $this->tree_join_field = 'some_id';
+    }
+
+    protected function getTreeParams()
+    {
+        return array('nameField' => 'foo', 'pathField' => 'path', 'joinField' => 'some_id', 'tableName' => 'simple_stubSimple2_tree');
     }
 
     public function convertArgsToId($args)
@@ -218,4 +270,4 @@ class new_stubSimpleForTree extends new_simpleForTree
 {
 }
 
-?>
+    ?>

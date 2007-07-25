@@ -166,6 +166,16 @@ abstract class simpleMapper
     }
 
     /**
+     * Получение имени класса, обслуживаемого маппером
+     *
+     * @return string
+     */
+    public function getClassName()
+    {
+        return $this->className;
+    }
+
+    /**
      * Если у объекта имеется идентификатор, то выполняется
      * обновление объекта, иначе выполняется вставка объекта в БД
      *
@@ -347,11 +357,15 @@ abstract class simpleMapper
     /**
      * Выполняет удаление объекта из БД
      *
-     * @param integer $id
+     * @param integer|simple $id
      * @return mixed
      */
     public function delete($id)
     {
+        if ($id instanceof simple) {
+            $id = $id->getId();
+        }
+
         $toolkit = systemToolkit::getInstance();
         $object = $this->searchOneByField($this->tableKey, $id);
 
