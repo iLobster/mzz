@@ -33,7 +33,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return parent::searchByCriteria($criteria);
     }
 
-    public function getBranch($target, $level = 0)
+    public function getBranch(new_simpleForTree $target, $level = 0)
     {
         $criteria = new criteria();
         $this->tree->addSelect($criteria);
@@ -72,7 +72,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return null;
     }
 
-    public function save($object, $target = null, $user = null)
+    public function save(new_simpleForTree $object, $target = null, $user = null)
     {
         $data = $object->export();
 
