@@ -41,17 +41,8 @@ class votingPostController extends simpleController
             if (in_array($answer_id, $validAnswers)) {
                 $answer = $answerMapper->searchById($answer_id);
 
-                $vote = $voteMapper->create();
-                $vote->setUser($user);
-                $vote->setQuestion($question);
-                $vote->setAnswer($answer);
-
-                if ($answer->getTypeTitle() == 'text') {
-                    $text = $this->request->get('answer_' . $answer_id, 'string', SC_POST);
-                    $vote->setText($text);
-                }
-
-                $voteMapper->save($vote);
+                $text = (($answer->getTypeTitle() == 'text')) ? $this->request->get('answer_' . $answer_id, 'string', SC_POST) : null;
+                $voteMapper->create($question, $answer, $user, $text);
             }
         }
         $backurl = $this->request->get('url', 'string', SC_POST);

@@ -59,6 +59,8 @@ class questionMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
         $voteMapper = $toolkit->getMapper('voting', 'vote');
 
+        return $voteMapper->searchVotes($id, $user);
+
         $criteria = new criteria;
         $criteria->add('user_id', $user->getId())->add('question_id', $id);
 

@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('voting/vote');
-
 /**
  * voteMapper: маппер
  *
@@ -22,23 +20,38 @@ fileLoader::load('voting/vote');
  * @version 0.1
  */
 
-class voteMapper extends simpleMapper
+class voteMapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'voting';
+    protected $db = null;
 
-    /**
-     * Имя класса DataObject
-     *
-     * @var string
-     */
-    protected $className = 'vote';
+    protected $section = null;
 
-    public function searchByAnswer($answer_id)
+    protected $table = null;
+
+    public function __construct($section)
+    {
+        $this->db = DB::factory();
+        $this->section = $section;
+        $this->table = $this->section . '_vote';
+    }
+
+    public function searchVotes($question, user $user)
+    {
+        return $this->db->getAll('SELECT * FROM `' . $this->table . '` WHERE `question_id` = ' . (int) $question . ' AND `user_id` = ' . (int) $user->getId());
+    }
+
+    public function create(question $question, answer $answer, user $user, $text = null)
+    {
+        echo 'INSERT INTO `' . $this->table . '` (`question_id `, `answer_id `, `user_id`, `text`) VALUES (:question, :answer, :user, :text)';
+        $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (`question_id`, `answer_id`, `user_id`, `text`) VALUES (:question, :answer, :user, :text)');
+        $stmt->bindParam('question', $question->getId());
+        $stmt->bindParam('answer', $answer->getId());
+        $stmt->bindParam('user', $user->getId());
+        $stmt->bindParam('text', $text);
+        return $stmt->execute();
+    }
+
+    public function searchByAnswer2($answer_id)
     {
         return $this->searchAllByField('answer_id', $answer_id);
     }
@@ -59,16 +72,6 @@ class voteMapper extends simpleMapper
         $criteria->addSelectField('COUNT(DISTINCT `user_id`)', 'count')->add('question_id', $question_id);
         $select = new simpleSelect($criteria);
         return $db->getOne($select->toString());
-    }
-
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
-    {
-        return 1;
     }
 }
 
