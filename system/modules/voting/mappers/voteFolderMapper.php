@@ -38,6 +38,20 @@ class voteFolderMapper extends simpleMapper
      */
     protected $className = 'voteFolder';
 
+    public function getFolder()
+    {
+        $folder = $this->create();
+        $folder->import(array('obj_id' => $this->getObjId()));
+        return $folder;
+    }
+
+    private function getObjId()
+    {
+        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_voteFolder');
+        $this->register($obj_id);
+        return $obj_id;
+    }
+
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
@@ -45,7 +59,7 @@ class voteFolderMapper extends simpleMapper
      */
     public function convertArgsToId($args)
     {
-        return 1;
+        return $this->getObjId();
     }
 }
 

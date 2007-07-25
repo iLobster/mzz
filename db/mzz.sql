@@ -4964,6 +4964,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (811,30),
   (812,29),
   (815,21),
+  (832,27),
   (823,26),
   (827,26),
   (828,24);
@@ -5360,7 +5361,10 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (181,33,5),
   (182,32,3),
   (185,33,71),
-  (186,32,2);
+  (186,32,2),
+  (187,30,20),
+  (188,30,4),
+  (189,28,2);
 
 COMMIT;
 
@@ -6292,7 +6296,10 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (828),
   (829),
   (830),
-  (831);
+  (831),
+  (832),
+  (833),
+  (834);
 
 COMMIT;
 
@@ -6348,7 +6355,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (645,'menu_menuFolder'),
   (794,'access_voting_question'),
   (795,'access_voting_voteFolder'),
-  (808,'access_message_message');
+  (808,'access_message_message'),
+  (832,'voting_voteFolder');
 
 COMMIT;
 
@@ -6547,7 +6555,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (88,2,'45dedeb9128694056f2447d7a51bff41','2007-07-25 22:31:31',828,'http://mzz/voting/simple/results','127.0.0.1');
+  (88,2,'45dedeb9128694056f2447d7a51bff41','2007-07-25 23:01:35',828,'http://mzz/templates/images/admin','127.0.0.1');
 
 COMMIT;
 

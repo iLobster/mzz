@@ -60,11 +60,16 @@ class questionMapper extends simpleMapper
         $voteMapper = $toolkit->getMapper('voting', 'vote');
 
         return $voteMapper->searchVotes($id, $user);
+    }
 
-        $criteria = new criteria;
-        $criteria->add('user_id', $user->getId())->add('question_id', $id);
-
-        return $voteMapper->searchAllByCriteria($criteria);
+    public function delete(question $do)
+    {
+        $answerMapper = systemToolkit::getInstance()->getMapper('voting', 'answer');
+        $answers = $this->getAllAnswers($do->getId());
+        foreach ($answers as $answer) {
+            $answerMapper->delete($answer->getId());
+        }
+        parent::delete($do->getId());
     }
 
     /**

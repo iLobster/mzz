@@ -35,6 +35,11 @@ class voteMapper
         $this->table = $this->section . '_vote';
     }
 
+    public function searchByAnswer($answer_id)
+    {
+        return $this->db->getAll('SELECT * FROM `' . $this->table . '` WHERE `answer_id` = ' . (int) $answer_id);
+    }
+
     public function searchVotes($question, user $user)
     {
         return $this->db->getAll('SELECT * FROM `' . $this->table . '` WHERE `question_id` = ' . (int) $question . ' AND `user_id` = ' . (int) $user->getId());
