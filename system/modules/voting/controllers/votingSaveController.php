@@ -35,6 +35,7 @@ class votingSaveController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо задать имя голосования');
+        $validator->add('callback', 'name', 'Имя голосования должно быть уникальным', array(array($this, 'uniqueName')));
         $validator->add('required', 'question', 'Необходимо задать тему голосования');
 
         if (!$validator->validate()) {
@@ -54,8 +55,8 @@ class votingSaveController extends simpleController
             $name = $this->request->get('name', 'string', SC_POST);
             $question_name = $this->request->get('question', 'string', SC_POST);
 
-            $titles = $this->request->get('answers', 'array', SC_POST);
-            $types = $this->request->get('answers_type', 'array', SC_POST);
+            $titles = (array)$this->request->get('answers', 'array', SC_POST);
+            $types = (array)$this->request->get('answers_type', 'array', SC_POST);
 
             $question->setName($name);
             $question->setQuestion($question_name);
@@ -64,6 +65,18 @@ class votingSaveController extends simpleController
 
             return jipTools::redirect();
         }
+    }
+
+    public function uniqueName($name)
+    {
+        $questionMapper = $this->toolkit->getMapper('voting', 'question');
+        $questionsTmp = $questionMapper->searchAll();
+        $questions = array();
+        foreach ($questionsTmp as $do) {
+            $questions[] = $do->getName();
+        }
+
+        return !in_array($name, $questions);
     }
 }
 

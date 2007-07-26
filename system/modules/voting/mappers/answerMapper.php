@@ -55,10 +55,7 @@ class answerMapper extends simpleMapper
     public function delete($id)
     {
         $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
-        $votes = $voteMapper->searchByAnswer($id);
-        foreach ($votes as $vote) {
-            $voteMapper->delete($vote->getId());
-        }
+        $voteMapper->deleteByAnswer($id);
         parent::delete($id);
     }
 
