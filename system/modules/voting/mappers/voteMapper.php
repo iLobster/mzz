@@ -47,7 +47,6 @@ class voteMapper
 
     public function create(question $question, answer $answer, user $user, $text = null)
     {
-        echo 'INSERT INTO `' . $this->table . '` (`question_id `, `answer_id `, `user_id`, `text`) VALUES (:question, :answer, :user, :text)';
         $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (`question_id`, `answer_id`, `user_id`, `text`) VALUES (:question, :answer, :user, :text)');
         $stmt->bindParam('question', $question->getId());
         $stmt->bindParam('answer', $answer->getId());
