@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1.2
+ * @version 0.1.3
 */
 
 class sqlOperator
@@ -43,7 +43,15 @@ class sqlOperator
      *
      * @var array
      */
-    protected $validOperators = array('+', '-', '*', '/', '%', 'DIV', 'MOD', 'INTERVAL');
+    protected $validOperators = array('+', '-', '*', '/', '%', 'DIV', 'MOD', 'INTERVAL', 'DISTINCT');
+
+    /**
+     * ќператоры, у которых операнды наход€тс€ лишь справа
+     * true значит, что значени€ операндов необходимо приводить к нужному типу, false - оставить как есть
+     *
+     * @var array
+     */
+    protected $leftSideOperators = array('INTERVAL' => false, 'DISTINCT' => true);
 
     /**
      *  онструктор
@@ -54,7 +62,7 @@ class sqlOperator
     public function __construct($operator, $arguments)
     {
         if (!is_array($arguments)) {
-            throw new mzzInvalidParameterException('јргументы должны быть переданы в массиве', $arguments);
+            $arguments = array($arguments);
         }
 
         $this->operator = strtoupper($operator);
@@ -72,8 +80,9 @@ class sqlOperator
             throw new mzzInvalidParameterException('Ќекорректное значение оператора', $this->operator);
         }
 
-        if ($this->operator == 'INTERVAL') {
-            return $this->operator . ' ' . $this->arguments[0];
+        if (isset($this->leftSideOperators[$this->operator])) {
+            $arg = $this->leftSideOperators[$this->operator] ? $this->cast($this->arguments[0]) : $this->arguments[0];
+            return $this->operator . ' ' . $arg;
         }
 
         $args = array_map(array($this, 'cast'), $this->arguments);

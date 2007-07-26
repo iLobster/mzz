@@ -19,7 +19,7 @@ fileLoader::load('db/criteria');
  *
  * @package system
  * @subpackage db
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class simpleSelect
@@ -68,15 +68,13 @@ class simpleSelect
             if ($select instanceof sqlFunction ) {
                 $field = $select->toString();
             } else {
-                $isFunction = (bool)strpos($select, '(');
-
                 if (($dotpos = strpos($select, '.')) !== false) {
                     $tbl = substr($select, 0, $dotpos);
                     $fld = substr($select, $dotpos + 1);
 
                     $field = '`' . $tbl . '`.' . ($fld == '*' ? '*' : '`' . $fld . '`');
                 } else {
-                    $field = $isFunction ? $select : '`' . $select . '`';
+                    $field = '`' . $select . '`';
                 }
             }
 

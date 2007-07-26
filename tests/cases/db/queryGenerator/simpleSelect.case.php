@@ -12,12 +12,6 @@ class simpleSelectTest extends unitTestCase
         $this->select = new simpleSelect($this->criteria);
     }
 
-    public function testSelectFunctionString()
-    {
-        $this->criteria->addSelectField('NOW()', 'now');
-        $this->assertEqual($this->select->toString(), 'SELECT NOW() AS `now`');
-    }
-
     public function testSelectFunctionObject()
     {
         $function = new sqlFunction('INET_ATON', 'table.field', true);
@@ -32,6 +26,17 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->setTable('table');
         $this->criteria->add('field', $operator);
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` WHERE `table`.`field` = `table`.`field2` + 100');
+    }
+
+    public function testSelectFunctionsAndOperators()
+    {
+        $function = new sqlFunction('count', '*', true);
+        $this->criteria->addSelectField($function, 'cnt');
+        $this->assertEqual($this->select->toString(), 'SELECT COUNT(*) AS `cnt`');
+
+        $function = new sqlFunction('count', new sqlOperator('DISTINCT', 'field'));
+        $this->criteria->addSelectField($function, 'cnt');
+        $this->assertEqual($this->select->toString(), 'SELECT COUNT(DISTINCT `field`) AS `cnt`');
     }
 
     public function testSelectAllNoConditions()
@@ -79,12 +84,6 @@ class simpleSelectTest extends unitTestCase
     {
         $this->criteria->setTable('table')->setOrderByFieldDesc('field', false)->setOrderByFieldAsc('field2', false);
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` ORDER BY `field` DESC, `field2` ASC");
-    }
-
-    public function testSelectWithCountFoundRows()
-    {
-        $this->criteria->setTable('table')->addSelectField('FOUND_ROWS()');
-        $this->assertEqual($this->select->toString(), "SELECT FOUND_ROWS() FROM `table`");
     }
 
     public function testSelectWithSimpleJoin()

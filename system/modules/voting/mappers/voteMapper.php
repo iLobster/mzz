@@ -59,7 +59,7 @@ class voteMapper
     public function getResults($question_id, $answer_id)
     {
         $criteria = new criteria($this->table);
-        $criteria->addSelectField('COUNT(*)', 'count')->add('question_id', $question_id)->add('answer_id', $answer_id);
+        $criteria->addSelectField(new sqlFunction('count', '*', true), 'count')->add('question_id', $question_id)->add('answer_id', $answer_id);
         $select = new simpleSelect($criteria);
         return $this->db->getOne($select->toString());
     }
@@ -67,7 +67,7 @@ class voteMapper
     public function getResultsCount($question_id)
     {
         $criteria = new criteria($this->table);
-        $criteria->addSelectField('COUNT(DISTINCT `user_id`)', 'count')->add('question_id', $question_id);
+        $criteria->addSelectField(new sqlFunction('count', new sqlOperator('DISTINCT', 'user_id')), 'count')->add('question_id', $question_id);
         $select = new simpleSelect($criteria);
         return $this->db->getOne($select->toString());
     }

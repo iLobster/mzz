@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.6
+ * @version 0.3.7
  */
 
 abstract class simpleMapper
@@ -488,12 +488,10 @@ abstract class simpleMapper
     protected function count($criteria)
     {
         $criteriaForCount = clone $criteria;
-        $criteriaForCount->clearSelectFields()->addSelectField('COUNT(*)', 'cnt');
+        $criteriaForCount->clearSelectFields()->addSelectField(new sqlFunction('count', '*', true), 'cnt');
         $selectForCount = new simpleSelect($criteriaForCount);
-        $stmt = $this->db->query($selectForCount->toString());
-        $count = $stmt->fetch();
 
-        $this->pager->setCount($count['cnt']);
+        $this->pager->setCount($this->db->getOne($selectForCount->toString()));
 
         $criteria->append($this->pager->getLimitQuery());
 

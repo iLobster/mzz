@@ -12,19 +12,19 @@
  * @version $Id$
  */
 
-fileLoader::load('db/dbTreeNS');
+//fileLoader::load('db/dbTreeNS');
 fileLoader::load('news/newsFolder');
-fileLoader::load('simple/simpleMapperForTree');
+fileLoader::load('simple/new_simpleMapperForTree');
 
 /**
  * newsFolderMapper: маппер для папок новостей
  *
  * @package modules
  * @subpackage news
- * @version 0.2.3
+ * @version 0.2.4
  */
 
-class newsFolderMapper extends simpleMapperForTree
+class newsFolderMapper extends new_simpleMapperForTree
 {
 
     /**
@@ -42,19 +42,6 @@ class newsFolderMapper extends simpleMapperForTree
     protected $className = 'newsFolder';
 
     protected $itemName = 'news';
-
-    /**
-     * Конструктор
-     *
-     * @param string $section секция
-     */
-    public function __construct($section)
-    {
-        parent::__construct($section);
-
-        $this->init = array ('mapper' => $this, 'joinField' => 'parent', 'treeTable' => $section . '_' . $this->className . '_tree');
-        $this->tree = new dbTreeNS($this->init, 'name');
-    }
 
     /**
      * Поиск newsFolder по id

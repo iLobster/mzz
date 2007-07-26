@@ -34,10 +34,13 @@ class sqlOperatorTest extends unitTestCase
         $this->assertEqual($sqlOperator->toString(), '`table`.`field` / 2');
     }
 
-    public function testInterval()
+    public function testLeftsideOperators()
     {
-        $sqlOperator = new sqlOperator('INTERVAL', array('1 DAY'));
+        $sqlOperator = new sqlOperator('INTERVAL', '1 DAY');
         $this->assertEqual($sqlOperator->toString(), 'INTERVAL 1 DAY');
+
+        $sqlOperator = new sqlOperator('DISTINCT', array('field'));
+        $this->assertEqual($sqlOperator->toString(), 'DISTINCT `field`');
     }
 
     public function testGenerateMultiple()
@@ -77,20 +80,8 @@ class sqlOperatorTest extends unitTestCase
 
     public function testSqlFunctions()
     {
-        $sqlOperator = new sqlOperator('-', array(new sqlFunction('NOW'), new sqlOperator('INTERVAL', array('1 DAY'))));
+        $sqlOperator = new sqlOperator('-', array(new sqlFunction('NOW'), new sqlOperator('INTERVAL', '1 DAY')));
         $this->assertEqual($sqlOperator->toString(), 'NOW() - INTERVAL 1 DAY');
-    }
-
-    public function testUnexpectedArguments()
-    {
-        try {
-            $sqlOperator = new sqlOperator('+', 1);
-            $sqlOperator->toString();
-        } catch (mzzInvalidParameterException $e) {
-            $this->assertPattern("/массив/i", $e->getMessage());
-        } catch (Exception $e) {
-            $this->fail('Исключение не ожидаемого типа');
-        }
     }
 }
 

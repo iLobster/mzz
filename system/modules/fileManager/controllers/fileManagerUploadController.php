@@ -49,7 +49,7 @@ class fileManagerUploadController extends simpleController
             $config = $this->toolkit->getConfig('fileManager');
 
             try {
-                $file = $folder->upload('file', $name, $config->get('upload_path'));
+                $file = $folder->upload('file', $name);
                 $file->setRightHeader($header);
                 $file->setAbout($about);
 

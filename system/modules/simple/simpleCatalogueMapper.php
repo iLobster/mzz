@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleCatalogue');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.6
+ * @version 0.1.7
  */
 
 abstract class simpleCatalogueMapper extends simpleMapper
@@ -251,10 +251,10 @@ abstract class simpleCatalogueMapper extends simpleMapper
     protected function count($criteria)
     {
         $criteriaForCount = clone $criteria;
-        $criteriaForCount->clearSelectFields()->addSelectField('COUNT(*)', 'cnt');
+        $criteriaForCount->clearSelectFields()->addSelectField(new sqlFunction('count', '*', true), 'cnt');
 
         $subselectCriteria = new criteria($criteriaForCount, 'x');
-        $subselectCriteria->clearSelectFields()->addSelectField('COUNT(*)', 'cnt');
+        $subselectCriteria->clearSelectFields()->addSelectField(new sqlFunction('count', '*', true), 'cnt');
 
         $selectForCount = new simpleSelect($subselectCriteria);
         $stmt = $this->db->query($selectForCount->toString());

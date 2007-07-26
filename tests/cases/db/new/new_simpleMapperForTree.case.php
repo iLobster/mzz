@@ -107,17 +107,22 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $this->db->query("DELETE FROM `sys_classes` WHERE `id` = 3");
     }
 
+    private function assertEqualBranch($branch)
+    {
+        foreach ($branch as $key => $do) {
+            $this->assertEqual($do->getFoo(), $this->data[$key][0]);
+            $this->assertEqual($do->getBar(), $this->data[$key][1]);
+            $this->assertEqual($do->getPath(false), $this->data[$key][2]);
+            $this->assertEqual($do->getTreeLevel(), $this->structure[$key][2]);
+        }
+    }
+
     public function testGetTree()
     {
         $res = $this->mapper->searchAll();
 
         $this->assertEqual(array(1, 2, 3, 4, 5, 6, 7, 8), array_keys($res));
-        foreach ($res as $key => $do) {
-            $this->assertEqual($do->getFoo(), $this->data[$key][0]);
-            $this->assertEqual($do->getBar(), $this->data[$key][1]);
-            $this->assertEqual($do->getPath(), $this->data[$key][2]);
-            $this->assertEqual($do->getTreeLevel(), $this->structure[$key][2]);
-        }
+        $this->assertEqualBranch($res);
     }
 
     public function testSearchByCriteria()
@@ -128,13 +133,7 @@ class new_simpleMapperForTreeTest extends unitTestCase
 
         $this->assertEqual(3, sizeof($res));
         $this->assertEqual(array(2, 5, 6), array_keys($res));
-
-        foreach ($res as $key => $do) {
-            $this->assertEqual($do->getFoo(), $this->data[$key][0]);
-            $this->assertEqual($do->getBar(), $this->data[$key][1]);
-            $this->assertEqual($do->getPath(), $this->data[$key][2]);
-            $this->assertEqual($do->getTreeLevel(), $this->structure[$key][2]);
-        }
+        $this->assertEqualBranch($res);
     }
 
     public function testSearchByCriterions()
@@ -150,12 +149,7 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $this->assertEqual(3, sizeof($res));
         $this->assertEqual(array(1, 2, 5), array_keys($res));
 
-        foreach ($res as $key => $do) {
-            $this->assertEqual($do->getFoo(), $this->data[$key][0]);
-            $this->assertEqual($do->getBar(), $this->data[$key][1]);
-            $this->assertEqual($do->getPath(), $this->data[$key][2]);
-            $this->assertEqual($do->getTreeLevel(), $this->structure[$key][2]);
-        }
+        $this->assertEqualBranch($res);
     }
 
     public function testGetBranch()
@@ -166,12 +160,7 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $this->assertEqual(3, sizeof($branch));
         $this->assertEqual(array(2, 5, 6), array_keys($branch));
 
-        foreach ($branch as $key => $do) {
-            $this->assertEqual($do->getFoo(), $this->data[$key][0]);
-            $this->assertEqual($do->getBar(), $this->data[$key][1]);
-            $this->assertEqual($do->getPath(), $this->data[$key][2]);
-            $this->assertEqual($do->getTreeLevel(), $this->structure[$key][2]);
-        }
+        $this->assertEqualBranch($branch);
     }
 
     public function testGetParent()
@@ -196,7 +185,7 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $branch = $this->mapper->getBranch($target);
 
         $this->assertTrue(isset($branch[9]));
-        $this->assertEqual($do->getPath(), 'foo1/foo4/newFoo');
+        $this->assertEqual($do->getPath(false), 'foo1/foo4/newFoo');
     }
 
     public function testUpdate()
@@ -207,7 +196,7 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $this->mapper->save($node);
 
         $newNode = $this->mapper->searchByKey(5);
-        $this->assertEqual($newNode->getPath(), 'foo1/q/foo5');
+        $this->assertEqual($newNode->getPath(false), 'foo1/q/foo5');
     }
 
     public function testMove()
@@ -218,11 +207,11 @@ class new_simpleMapperForTreeTest extends unitTestCase
 
         $node = $this->mapper->searchByKey(2);
         $this->assertEqual($node->getTreeLevel(), 3);
-        $this->assertEqual($node->getPath(), 'foo1/foo4/foo2');
+        $this->assertEqual($node->getPath(false), 'foo1/foo4/foo2');
 
         $node = $this->mapper->searchByKey(5);
         $this->assertEqual($node->getTreeLevel(), 4);
-        $this->assertEqual($node->getPath(), 'foo1/foo4/foo2/foo5');
+        $this->assertEqual($node->getPath(false), 'foo1/foo4/foo2/foo5');
     }
 
     public function testDelete()
@@ -233,13 +222,7 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $res = $this->mapper->searchAll();
 
         $this->assertEqual(array(1, 3, 4, 7, 8), array_keys($res));
-        foreach ($res as $key => $do) {
-            $this->assertEqual($do->getFoo(), $this->data[$key][0]);
-            $this->assertEqual($do->getBar(), $this->data[$key][1]);
-            $this->assertEqual($do->getPath(), $this->data[$key][2]);
-            $this->assertEqual($do->getTreeLevel(), $this->structure[$key][2]);
-        }
-
+        $this->assertEqualBranch($res);
         $res = $this->db->getAll('SELECT COUNT(*) AS `cnt` FROM simple_stubSimple2');
         $this->assertEqual($res[0]['cnt'], 5);
     }

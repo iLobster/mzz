@@ -5,11 +5,6 @@ fileLoader::load('simple/new_simpleForTree');
 
 abstract class new_simpleMapperForTree extends simpleMapper
 {
-    /*protected $tree_table;
-    protected $tree_join_field;
-    protected $tree_name_field;
-    protected $tree_path_field;
-    protected $tree;*/
     protected $treeTmp = array();
     protected $treeParams = array();
 
@@ -25,6 +20,33 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return array('nameField' => 'name', 'pathField' => 'path', 'joinField' => 'parent', 'tableName' => $this->table . '_tree');
     }
 
+    private function getRoot()
+    {
+        $criteria = new criteria();
+        $criteria->add('tree.lkey', 1);
+        return $this->searchOneByCriteria($criteria);
+    }
+
+    public function searchByPath($path)
+    {
+        if (strpos($path, '/') === 0) {
+            $path = substr($path, 1);
+        }
+
+        $root = $this->getRoot();
+        $accessor = $this->map[$this->treeParams['nameField']]['accessor'];
+        $rootName = $root->$accessor();
+
+        if (strpos($path, $rootName) !== 0) {
+            $path = $rootName . '/' . $path;
+        }
+
+        if (substr($path, -1) == '/') {
+            $path = substr($path, 0, -1);
+        }
+
+        return $this->searchOneByField($this->treeParams['pathField'], $path);
+    }
 
     protected function searchByCriteria(criteria $criteria)
     {
@@ -101,7 +123,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
             $nameAccessor = $this->map[$this->treeParams['nameField']]['accessor'];
             $nameMutator = $this->map[$this->treeParams['nameField']]['mutator'];
 
-            $baseName = $target->$pathAccessor() . '/' . $object->$nameAccessor();
+            $baseName = $target->$pathAccessor(false) . '/' . $object->$nameAccessor();
             $object->$pathMutator($baseName);
             $this->save($object);
 
@@ -138,160 +160,57 @@ abstract class new_simpleMapperForTree extends simpleMapper
         $this->tree->delete($id);
     }
 
-    /*
-
-    public function save($object, $target = null, $user = null)
+    public function getTreeExceptNode($folder)
     {
-    static $i=0;
-    $data = $object->export();
+        $tree = $this->searchAll();
 
-    $mutator = $this->map[$this->tree_join_field]['mutator'];
-    $accessor = $this->map[$this->tree_join_field]['accessor'];
+        $subfolders = $this->getBranch($folder);
 
-    if (!$object->getId()) {
-    $node = $this->tree->getNodeInfo($target);
-    $id = $this->tree->insert($node['id']);
-    $object->$mutator($id);
-    } else {
-    $target = $this->getTreeParent($object);
+        foreach (array_keys($subfolders) as $val) {
+            unset($tree[$val]);
+        }
+
+        return $tree;
     }
 
-    $result = parent::save($object, $user);
-
-    $node = $this->tree->getNodeInfo($object->$accessor());
-
-    $object->importTreeFields($node);
-
-    if (isset($data[$this->tree_name_field])) {
-    $branch = $this->getBranch($object, 1);
-
-    $pathAccessor = $this->map[$this->tree_path_field]['accessor'];
-    $pathMutator = $this->map[$this->tree_path_field]['mutator'];
-    $nameAccessor = $this->map[$this->tree_name_field]['accessor'];
-    $nameMutator = $this->map[$this->tree_name_field]['mutator'];
-
-    $baseName = $target->$pathAccessor() . '/' . $object->$nameAccessor();
-    $object->$pathMutator($baseName);
-    $this->save($object);
-
-    foreach ($branch as $key => $val) {
-    if ($val->getTreeKey() != $object->getTreeKey()) {
-    $val->$nameMutator($val->$nameAccessor());
-    $this->save($val);
-    }
-    }
-    }
-
-    return $result;
-    }
-
-    protected function getStdCriteria($criteria_outer = null)
+    public function getTreeForMenu($id)
     {
-    $criteria = new criteria();
-    $this->addJoins($criteria);
+        $node = $this->tree->getNodeInfo($id);
 
-    if ($criteria_outer) {
-    $criteria->append($criteria_outer);
-    }
+        $criterion = new criterion('tree2.lkey', 'tree.lkey', criteria::GREATER, true);
+        $criterion->addAnd(new criterion('tree2.rkey', 'tree.rkey', criteria::LESS, true));
+        $criterion->addAnd(new criterion('tree2.level', new sqlOperator('+', array('tree.level', 1)), criteria::LESS_EQUAL));
 
-    // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
-    if ($this->pager) {
-    $this->count($criteria);
-    }
+        $criteria = new criteria();
+        $criteria->clearSelectFields()->addSelectField('data2.*');
+        $this->tree->addSelect($criteria, 'tree2');
+        $this->tree->addJoin($criteria);
+        $criteria->addJoin($this->treeParams['tableName'], $criterion, 'tree2', criteria::JOIN_INNER);
+        $criteria->addJoin($this->table, new criterion('data2.' . $this->treeParams['joinField'], 'tree2.id', criteria::EQUAL, true), 'data2', criteria::JOIN_INNER);
+        $criteria->add('tree.lkey', $node['lkey'], criteria::LESS_EQUAL);
+        $criteria->add('tree.rkey', $node['rkey'], criteria::GREATER_EQUAL);
+        $criteria->setOrderByFieldAsc('tree2.lkey');
+        $criteria->addGroupBy('tree2.id');
 
-    $this->addOrderBy($criteria);
+        $stmt = parent::searchByCriteria($criteria);
 
-    // если были указаны критерии без явной установки имени таблицы - заменяем их на аналогичные с именами таблиц
-    foreach ($criteria->getCriterion() as $key => $condition) {
-    $field = $condition->getField();
-    if (!strpos($field, '.') && !$condition->getAlias()) {
-    $criteria->remove($key);
-    $criterion = new criterion($this->className . '.' . $field, $condition->getValue(), $condition->getComparsion());
+        $result = array();
+        while ($row = $stmt->fetch()) {
+            $this->setTreeTmp($row, 'tree2');
+            $result[$row[$this->tableKey]] = $this->createItemFromRow($row);
+        }
 
-    $clauses = $condition->getClauses();
-    foreach ($clauses[0] as $clause_key => $clause) {
-    if ($clause) {
-    $clause_field = $clause->getField();
-    if (!strpos($clause_field, '.')) {
-    $clause_field = $this->className . '.' . $clause_field;
-    }
-    if ($clauses[1][$clause_key] == 'OR') {
-    $criterion->addOr(new criterion($clause_field, $clause->getValue(), $clause->getComparsion()));
-    } else {
-    $criterion->addAnd(new criterion($clause_field, $clause->getValue(), $clause->getComparsion()));
-    }
-    }
-    }
-    $criteria->add($criterion);
-    }
-    }
-
-    // добавляем таблицу с деревом
-    $criteria->addJoin($this->table, new criterion($this->className . '.' . $this->tree_join_field, 'tree.id', criteria::EQUAL, true), $this->className);
-    $this->tree->appendCriteria($criteria);
-
-    return $criteria;
-    }
-
-    public function getBranch($target, $level = 0)
-    {
-    $criteria = $this->getStdCriteria();
-    $stmt = $this->tree->getBranch($target->getTreeKey());
-
-    $result = array();
-
-    while ($row = $stmt->fetch()) {
-    $data = $this->fillArray($row);
-    $result[$data[$this->tableKey]] = $this->createItemFromRow($data);
-    }
-
-    return $result;
-    }
-
-    public function getTreeParent($child)
-    {
-    $criteria = $this->getStdCriteria();
-    $stmt = $this->tree->getParentNode($child->getTreeKey());
-
-    if ($row = $stmt->fetch()) {
-
-    $row = $this->fillArray($row);
-    $parent = $this->createItemFromRow($row);
-
-    return $parent;
-    }
-
-    return null;
-    }
-
-    public function move(new_simpleForTree $node, new_simpleForTree $target)
-    {
-    $result = $this->tree->move($node, $target);
-
-    if ($result) {
-    $nameAccessor = $this->map[$this->tree_name_field]['accessor'];
-    $nameMutator = $this->map[$this->tree_name_field]['mutator'];
-    $node->$nameMutator($node->$nameAccessor());
-
-    $this->save($node);
-    }
-
-    return $result;
+        return $result;
     }
 
     public function loadTreeData(new_simpleForTree $object)
     {
-    $accessor = $this->map[$this->tree_join_field]['accessor'];
-    $id = $object->$accessor();
-    $node = $this->tree->getNodeInfo($id);
-    $object->importTreeFields($node);
+        $accessor = $this->map[$this->treeParams['joinField']]['accessor'];
+        $id = $object->$accessor();
+        $node = $this->tree->getNodeInfo($id);
+        $object->importTreeFields($node);
     }
 
-    public function searchByPath($path)
-    {
-    return $this->searchOneByField($this->tree_path_field, $path);
-    }
-    */
     /**
      * Заполняет данными из массива доменный объект
      *
@@ -303,14 +222,19 @@ abstract class new_simpleMapperForTree extends simpleMapper
         $object = $this->create();
         $object->import($row);
         $object->importTreeFields($this->treeTmp);
-        $this->treeTmp = null;
+        $this->treeTmp = array();
         return $object;
     }
 
     public function fillArray(&$array, $name = null)
     {
-        $this->treeTmp = parent::fillArray($array, 'tree');
+        $this->setTreeTmp($array);
         return parent::fillArray($array, $name);
+    }
+
+    protected function setTreeTmp(&$array, $name = 'tree')
+    {
+        $this->treeTmp = parent::fillArray($array, $name);
     }
 }
 

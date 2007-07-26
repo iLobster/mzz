@@ -66,6 +66,24 @@ class sqlFunctionTest extends unitTestCase
         $function = new sqlFunction('function', 'value " value');
         $this->assertEqual($function->toString(), "FUNCTION('value \\\" value')");
     }
+
+    public function testAsterisc()
+    {
+        $function = new sqlFunction('count', '*', true);
+        $this->assertEqual($function->toString(), "COUNT(*)");
+    }
+
+    public function testNested()
+    {
+        $function = new sqlFunction('foo', new sqlFunction('bar', '*', true));
+        $this->assertEqual($function->toString(), "FOO(BAR(*))");
+    }
+
+    public function testSqlOperator()
+    {
+        $function = new sqlFunction('count', new sqlOperator('DISTINCT', 'field'));
+        $this->assertEqual($function->toString(), "COUNT(DISTINCT `field`)");
+    }
 }
 
 ?>

@@ -52,6 +52,21 @@ class new_simpleForTree extends simple
         $this->treeFields->import($data);
     }
 
+    public function getPath($simple = true)
+    {
+        $path = $this->__call('getPath', array());
+
+        if ($simple) {
+            $rootName = substr($path, 0, strpos($path, '/'));
+
+            if ($rootName && strpos($path, $rootName) === 0 && strlen($path) > strlen($rootName)) {
+                $path = substr($path, strlen($rootName) + 1);
+            }
+        }
+
+        return $path;
+    }
+
     /**
      * Возвращает children-папки
      *

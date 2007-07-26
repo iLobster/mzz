@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1.2
+ * @version 0.1.3
 */
 
 class sqlFunction
@@ -60,10 +60,14 @@ class sqlFunction
         $this->db = DB::factory();
         $this->function = $function;
 
+        if (!is_array($arguments) && ($arguments instanceof sqlFunction || $arguments instanceof sqlOperator)) {
+            $arguments = array($arguments);
+        }
+
         if(is_array($arguments)) {
             foreach ($arguments as $key => $arg) {
                 if($arg !== true) {
-                    if($arg instanceof sqlFunction) {
+                    if (($arg instanceof sqlFunction) || ($arg instanceof sqlOperator)) {
                         $this->argumentsString .= $arg->toString() . ', ';
                     } else {
                         $this->argumentsString .= $this->quote($arg) . ", ";
@@ -75,8 +79,12 @@ class sqlFunction
             }
         } elseif($arguments) {
             if($isField) {
-                $field = str_replace('.', '`.`', $arguments);
-                $this->argumentsString .= '`' . $field . '`, ';
+                if ($arguments == '*') {
+                    $this->argumentsString .= '*  ';
+                } else {
+                    $field = str_replace('.', '`.`', $arguments);
+                    $this->argumentsString .= '`' . $field . '`, ';
+                }
             } else {
                 $this->argumentsString .= $this->quote($arguments) . ", ";
             }
