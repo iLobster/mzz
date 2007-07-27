@@ -33,7 +33,7 @@ class fileManagerDeleteFolderController extends simpleController
             return 'каталог не найден';
         }
 
-        $folderMapper->remove($folder);
+        $folderMapper->delete($folder);
 
         return jipTools::redirect();
     }

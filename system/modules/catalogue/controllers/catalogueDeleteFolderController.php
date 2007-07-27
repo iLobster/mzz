@@ -30,7 +30,7 @@ class catalogueDeleteFolderController extends simpleController
 
         $folder = $catalogueFolderMapper->searchByPath($name);
 
-        $catalogueFolderMapper->remove($folder->getParent());
+        $catalogueFolderMapper->delete($folder);
 
         return jipTools::redirect();
     }

@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('page/pageFolder');
-fileLoader::load('simple/simpleMapperForTree');
+fileLoader::load('simple/new_simpleMapperForTree');
 fileLoader::load('db/dbTreeNS');
 
 /**
@@ -24,7 +24,7 @@ fileLoader::load('db/dbTreeNS');
  * @version 0.1.4
  */
 
-class pageFolderMapper extends simpleMapperForTree
+class pageFolderMapper extends new_simpleMapperForTree
 {
     /**
      * Имя модуля
@@ -41,19 +41,6 @@ class pageFolderMapper extends simpleMapperForTree
     protected $className = 'pageFolder';
 
     protected $itemName = 'page';
-
-    /**
-     * Конструктор
-     *
-     * @param string $section секция
-     */
-    public function __construct($section)
-    {
-        parent::__construct($section);
-
-        $init = array ('mapper' => $this, 'joinField' => 'parent', 'treeTable' => $section . '_' . $this->className . '_tree');
-        $this->tree = new dbTreeNS($init, 'name');
-    }
 
     /**
      * Возвращает Доменный Объект, который обслуживает запрашиваемый маппер

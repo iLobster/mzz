@@ -68,19 +68,31 @@ class new_simpleForTree extends simple
     }
 
     /**
+     * Возвращает объекты, находящиеся в данной папке
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        if (!$this->fields->exists('items')) {
+            $this->fields->set('items', $this->mapper->getItems($this->getId()));
+        }
+        return $this->fields->get('items');
+    }
+
+    /**
      * Возвращает children-папки
      *
      * @return array
      */
     public function getFolders($level = 1)
     {
-        // @todo: реализовать
-        /*        if (!$this->fields->exists('folders')) {
-        $folders = $this->mapper->getFolders($this->getParent(), $level);
-        array_shift($folders);
-        $this->fields->set('folders', $folders);
+        if (!$this->fields->exists('folders')) {
+            $folders = $this->mapper->getFolders($this, $level);
+            array_shift($folders);
+            $this->fields->set('folders', $folders);
         }
-        return $this->fields->get('folders');*/
+        return $this->fields->get('folders');
     }
 }
 

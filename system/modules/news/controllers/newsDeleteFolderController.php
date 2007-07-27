@@ -29,7 +29,7 @@ class newsDeleteFolderController extends simpleController
 
         $folder = $newsFolderMapper->searchByPath($name);
 
-        $newsFolderMapper->remove($folder->getParent());
+        $newsFolderMapper->delete($folder);
 
         return jipTools::redirect();
     }

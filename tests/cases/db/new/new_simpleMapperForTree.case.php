@@ -121,7 +121,7 @@ class new_simpleMapperForTreeTest extends unitTestCase
     {
         $res = $this->mapper->searchAll();
 
-        $this->assertEqual(array(1, 2, 3, 4, 5, 6, 7, 8), array_keys($res));
+        $this->assertEqual(array(1, 2, 5, 6, 3, 7, 8, 4), array_keys($res));
         $this->assertEqualBranch($res);
     }
 
@@ -159,6 +159,28 @@ class new_simpleMapperForTreeTest extends unitTestCase
 
         $this->assertEqual(3, sizeof($branch));
         $this->assertEqual(array(2, 5, 6), array_keys($branch));
+
+        $this->assertEqualBranch($branch);
+    }
+
+    public function testGetBranchWithLevel()
+    {
+        $target = $this->mapper->searchByKey(1);
+        $branch = $this->mapper->getBranch($target, 1);
+
+        $this->assertEqual(4, sizeof($branch));
+        $this->assertEqual(array(1, 2, 3, 4), array_keys($branch));
+
+        $this->assertEqualBranch($branch);
+    }
+
+    public function testGetParentBranch()
+    {
+        $target = $this->mapper->searchByKey(6);
+        $branch = $this->mapper->getParentBranch($target);
+
+        $this->assertEqual(3, sizeof($branch));
+        $this->assertEqual(array(1, 2, 6), array_keys($branch));
 
         $this->assertEqualBranch($branch);
     }
@@ -221,7 +243,7 @@ class new_simpleMapperForTreeTest extends unitTestCase
 
         $res = $this->mapper->searchAll();
 
-        $this->assertEqual(array(1, 3, 4, 7, 8), array_keys($res));
+        $this->assertEqual(array(1, 3, 7, 8, 4), array_keys($res));
         $this->assertEqualBranch($res);
         $res = $this->db->getAll('SELECT COUNT(*) AS `cnt` FROM simple_stubSimple2');
         $this->assertEqual($res[0]['cnt'], 5);
@@ -232,6 +254,7 @@ class new_StubSimpleMapperForTree extends new_simpleMapperForTree
 {
     protected $name = 'simple';
     protected $className = 'new_stubSimpleForTree';
+    protected $itemName = 'new_stubSimpleForTree';
 
     public function __construct($section)
     {
@@ -251,6 +274,17 @@ class new_StubSimpleMapperForTree extends new_simpleMapperForTree
 
 class new_stubSimpleForTree extends new_simpleForTree
 {
+    public function getItems()
+    {
+        return array();
+    }
 }
 
-    ?>
+class new_stubSimpleForTreeMapper extends simpleMapper
+{
+    public function convertArgsToId($args)
+    {
+    }
+}
+
+?>

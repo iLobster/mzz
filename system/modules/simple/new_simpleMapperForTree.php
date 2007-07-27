@@ -20,7 +20,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return array('nameField' => 'name', 'pathField' => 'path', 'joinField' => 'parent', 'tableName' => $this->table . '_tree');
     }
 
-    private function getRoot()
+    public function getRoot()
     {
         $criteria = new criteria();
         $criteria->add('tree.lkey', 1);
@@ -55,12 +55,41 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return parent::searchByCriteria($criteria);
     }
 
+    /**
+     * Возвращает children-папки
+     *
+     * @return array
+     */
+    public function getFolders($id, $level = 1)
+    {
+        return $this->getBranch($id, $level);
+    }
+
     public function getBranch(new_simpleForTree $target, $level = 0)
     {
         $criteria = new criteria();
         $this->tree->addSelect($criteria);
         $this->tree->addJoin($criteria);
-        $this->tree->getBranch($criteria, $target->getTreeKey());
+        $this->tree->getBranch($criteria, $target, $level);
+
+        $stmt = parent::searchByCriteria($criteria);
+
+        $result = array();
+
+        while ($row = $stmt->fetch()) {
+            $data = $this->fillArray($row);
+            $result[$data[$this->tableKey]] = $this->createItemFromRow($data);
+        }
+
+        return $result;
+    }
+
+    public function getParentBranch($node)
+    {
+        $criteria = new criteria();
+        $this->tree->addSelect($criteria);
+        $this->tree->addJoin($criteria);
+        $this->tree->getParentBranch($criteria, $node);
 
         $stmt = parent::searchByCriteria($criteria);
 
@@ -154,7 +183,14 @@ abstract class new_simpleMapperForTree extends simpleMapper
     public function delete(new_simpleForTree $id)
     {
         $branch = $this->getBranch($id);
+
+        $mapper = systemToolkit::getInstance()->getMapper($this->name, $this->itemName);
+
         foreach ($branch as $do) {
+            $items = (array) $do->getItems();
+            foreach ($items as $item) {
+                $mapper->delete($item->getId());
+            }
             parent::delete($do);
         }
         $this->tree->delete($id);

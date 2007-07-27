@@ -18,7 +18,7 @@
             </tr>
         </thead>
 
-        {if $current_folder->getLevel() ne 1}
+        {if $current_folder->getTreeLevel() ne 1}
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/pages/folder.gif" /></td>
                 <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getTreeParent()->getPath() section_name=$current_section module_name=fileManager}">..</a></td>

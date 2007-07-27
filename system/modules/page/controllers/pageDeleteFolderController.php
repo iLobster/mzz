@@ -30,7 +30,7 @@ class pageDeleteFolderController extends simpleController
 
         $folder = $pageFolderMapper->searchByPath($name);
 
-        $pageFolderMapper->remove($folder->getParent());
+        $pageFolderMapper->delete($folder);
 
         return jipTools::redirect();
     }

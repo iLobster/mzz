@@ -19,7 +19,7 @@ fileLoader::load('jip/jip');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.4
+ * @version 0.1.5
  */
 
 abstract class simple
@@ -89,6 +89,16 @@ abstract class simple
         $this->fields = new arrayDataspace();
         $this->changedFields = new arrayDataspace();
         $this->fakeFields = new arrayDataspace();
+    }
+
+    /**
+     * Получение маппера
+     *
+     * @return simpleMapper
+     */
+    public function getMapper()
+    {
+        return $this->mapper;
     }
 
     /**

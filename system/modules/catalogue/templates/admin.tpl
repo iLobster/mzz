@@ -23,7 +23,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
                 <td style="width: 120px;">Автор</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
-        {if $catalogueFolder->getLevel() != 1}
+        {if $catalogueFolder->getTreeLevel() != 1}
             <tr>
                 <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
                 <td style="text-align: center;">-</td>
@@ -36,7 +36,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
         {/if}
         </thead>
         {foreach from=$catalogueFolder->getFolders() item="folder" name="folderIterator"}
-            {if $folder->getLevel() == $catalogueFolder->getLevel()+1}
+            {if $folder->getTreeLevel() == $catalogueFolder->getTreeLevel()+1}
             <tr>
                 <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
                 <td style="text-align: center;">-</td>

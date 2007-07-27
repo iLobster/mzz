@@ -28,16 +28,12 @@ class newsAdminController extends simpleController
 
         $path = $this->request->get('params', 'string', SC_PATH);
 
-        if (is_null($path)) {
-            $path = 'root';
-        }
-
         $newsFolder = $newsFolderMapper->searchByPath($path);
         if (empty($newsFolder)) {
             return $newsFolderMapper->get404()->run();
         }
 
-        $breadCrumbs = $newsFolderMapper->getPath($newsFolder);
+        $breadCrumbs = $newsFolderMapper->getParentBranch($newsFolder);
 
         $pager = $this->setPager($newsFolder);
 

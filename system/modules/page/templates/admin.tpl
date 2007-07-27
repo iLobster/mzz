@@ -12,7 +12,7 @@
             </tr>
         </thead>
         
-        {if $pageFolder->getLevel() ne 1}
+        {if $pageFolder->getTreeLevel() ne 1}
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/pages/folder.gif" /></td>
                 <td style="text-align: left;"><a href="{url route='admin' params=$pageFolder->getTreeParent()->getPath() section_name=$current_section module_name=page}">..</a></td>

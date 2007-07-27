@@ -38,7 +38,8 @@ class new_dbTreeNS
         $criteria->addSelectField($alias . '.id', $alias . simpleMapper::TABLE_KEY_DELIMITER . 'id')
         ->addSelectField($alias . '.lkey', $alias . simpleMapper::TABLE_KEY_DELIMITER . 'lkey')
         ->addSelectField($alias . '.rkey', $alias . simpleMapper::TABLE_KEY_DELIMITER . 'rkey')
-        ->addSelectField($alias . '.level', $alias . simpleMapper::TABLE_KEY_DELIMITER . 'level');
+        ->addSelectField($alias . '.level', $alias . simpleMapper::TABLE_KEY_DELIMITER . 'level')
+        ->setOrderByFieldAsc($alias . '.lkey');
     }
 
     public function getNodeInfo($id)
@@ -71,6 +72,14 @@ class new_dbTreeNS
         if ($level > 0) {
             $criteria->add('tree.level', $node['level'] + $level, criteria::LESS_EQUAL);
         }
+    }
+
+    public function getParentBranch(criteria $criteria, $node)
+    {
+        $node = $this->getNodeInfo($node);
+
+        $criteria->add('tree.lkey', $node['lkey'], criteria::LESS_EQUAL);
+        $criteria->add('tree.rkey', $node['rkey'], criteria::GREATER_EQUAL);
     }
 
     public function getParentNode(criteria $criteria, $id)

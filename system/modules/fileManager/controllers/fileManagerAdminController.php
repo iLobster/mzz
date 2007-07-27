@@ -28,8 +28,9 @@ class fileManagerAdminController extends simpleController
         $path = $this->request->get('params', 'string', SC_PATH);
 
         $folder = $folderMapper->searchByPath($path);
+
         if ($folder) {
-            $breadCrumbs = $folderMapper->getPath($folder);
+            $breadCrumbs = $folderMapper->getParentBranch($folder);
             $this->smarty->assign('breadCrumbs', $breadCrumbs);
 
             $config = $this->toolkit->getConfig('fileManager');

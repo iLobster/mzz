@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('simple/simpleForTree');
+fileLoader::load('simple/new_simpleForTree');
 
 /**
  * folder: класс для работы c данными
@@ -22,7 +22,7 @@ fileLoader::load('simple/simpleForTree');
  * @version 0.1.3
  */
 
-class folder extends simpleForTree
+class folder extends new_simpleForTree
 {
     protected $name = 'fileManager';
     protected $mapper;
@@ -37,24 +37,6 @@ class folder extends simpleForTree
     {
         parent::__construct($mapper, $map);
         $this->treeFields = new arrayDataspace();
-    }
-
-    /**
-     * Возвращает объекты, находящиеся в данной папке
-     *
-     * @return array
-     */
-    public function getItems()
-    {
-        if (!$this->fields->exists('items')) {
-            $this->fields->set('items', $this->mapper->getItems($this->getId()));
-        }
-        return $this->fields->get('items');
-    }
-
-    public function getTreeParent()
-    {
-        return $this->mapper->getTreeParent($this->getParent());
     }
 
     public function getJip()

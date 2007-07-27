@@ -271,7 +271,9 @@ class stdToolkit extends toolkit
 
         if (!isset($this->mappers[$do][$section])) {
             $mapperName = $do . 'Mapper';
-            fileLoader::load($module . '/mappers/' . $mapperName);
+            if (!class_exists($mapperName)) {
+                fileLoader::load($module . '/mappers/' . $mapperName);
+            }
             $this->mappers[$do][$section] = new $mapperName($section);
         }
 

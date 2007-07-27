@@ -46,7 +46,7 @@ class newsFolder extends new_simpleForTree
     public function getFolders($level = 1, $withSameNode = false)
     {
         if (!$this->fields->exists('folders')) {
-            $folders = $this->mapper->getFolders($this->getParent(), $level);
+            $folders = $this->mapper->getFolders($this, $level);
             if (!$withSameNode) {
                 array_shift($folders);
             }
@@ -58,19 +58,6 @@ class newsFolder extends new_simpleForTree
     public function getTreeForMenu()
     {
         return $this->mapper->getTreeForMenu($this->getParent());
-    }
-
-    /**
-     * Возвращает объекты, находящиеся в данной папке
-     *
-     * @return array
-     */
-    public function getItems()
-    {
-        if (!$this->fields->exists('items')) {
-            $this->fields->set('items', $this->mapper->getItems($this->getId()));
-        }
-        return $this->fields->get('items');
     }
 
     public function getTreeParent()

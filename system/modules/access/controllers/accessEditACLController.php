@@ -45,7 +45,7 @@ class accessEditACLController extends simpleController
         $criterion->addAnd(new criterion('a.obj_id', $id));
 
         $criteria = new criteria($userMapper->getTable());
-        $criteria->addSelectField('COUNT(*)', 'cnt');
+        $criteria->addSelectField(new sqlFunction('count', '*', 'true'), 'cnt');
         $criteria->addJoin('sys_access', $criterion, 'a');
         $criteria->add('a.uid', null, criteria::IS_NULL);
 
@@ -60,7 +60,7 @@ class accessEditACLController extends simpleController
         $criterion->addAnd(new criterion('a.obj_id', $id));
 
         $criteria = new criteria($groupMapper->getTable());
-        $criteria->addSelectField('COUNT(*)', 'cnt');
+        $criteria->addSelectField(new sqlFunction('count', '*', 'true'), 'cnt');
         $criteria->addJoin('sys_access', $criterion, 'a');
         $criteria->add('a.gid', null, criteria::IS_NULL);
 

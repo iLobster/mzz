@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('db/dbTreeNS');
-fileLoader::load('simple/simpleMapperForTree');
+fileLoader::load('simple/new_simpleMapperForTree');
 fileLoader::load('catalogue/catalogueFolder');
 
 /**
@@ -24,7 +24,7 @@ fileLoader::load('catalogue/catalogueFolder');
  * @version 0.1.1
  */
 
-class catalogueFolderMapper extends simpleMapperForTree
+class catalogueFolderMapper extends new_simpleMapperForTree
 {
     /**
      * Имя модуля
@@ -41,14 +41,6 @@ class catalogueFolderMapper extends simpleMapperForTree
     protected $className = 'catalogueFolder';
 
     protected $itemName = 'catalogue';
-
-    public function __construct($section)
-    {
-        parent::__construct($section);
-
-        $this->init = array ('mapper' => $this, 'joinField' => 'parent', 'treeTable' => $section . '_' . $this->className . '_tree');
-        $this->tree = new dbTreeNS($this->init, 'name');
-    }
 
     public function searchById($id)
     {

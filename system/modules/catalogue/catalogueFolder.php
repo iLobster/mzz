@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('simple/simpleForTree');
+fileLoader::load('simple/new_simpleForTree');
 
 /**
  * catalogueFolder: класс для работы c данными
@@ -22,7 +22,7 @@ fileLoader::load('simple/simpleForTree');
  * @version 0.1
  */
 
-class catalogueFolder extends simpleForTree
+class catalogueFolder extends new_simpleForTree
 {
     protected $name = 'catalogue';
 
@@ -32,14 +32,6 @@ class catalogueFolder extends simpleForTree
         $this->treeFields = new arrayDataspace();
     }
 
-    public function getItems()
-    {
-        if (!$this->fields->exists('items')) {
-            $this->fields->set('items', $this->mapper->getItems($this->getId()));
-        }
-        return $this->fields->get('items');
-    }
-
     public function getTreeForMenu()
     {
         return $this->mapper->getTreeForMenu($this->getParent());
@@ -47,17 +39,12 @@ class catalogueFolder extends simpleForTree
 
     public function getTreeParent()
     {
-        return $this->mapper->getTreeParent($this->getParent());
+        return $this->mapper->getTreeParent($this);
     }
 
     public function setPager($pager)
     {
         $this->mapper->setPager($pager);
-    }
-
-    public function removePager()
-    {
-        $this->mapper->removePager();
     }
 
     public function getJip()
