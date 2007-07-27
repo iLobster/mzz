@@ -35,7 +35,7 @@ class votingSaveController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо задать имя голосования');
-        $validator->add('callback', 'name', 'Имя голосования должно быть уникальным', array(array($this, 'uniqueName')));
+        $validator->add('callback', 'name', 'Имя голосования должно быть уникальным', array(array($this, 'checkVoteName'), $question));
         $validator->add('required', 'question', 'Необходимо задать тему голосования');
 
         if (!$validator->validate()) {
@@ -67,16 +67,16 @@ class votingSaveController extends simpleController
         }
     }
 
-    public function uniqueName($name)
+    public function checkVoteName($name, $question)
     {
-        $questionMapper = $this->toolkit->getMapper('voting', 'question');
-        $questionsTmp = $questionMapper->searchAll();
-        $questions = array();
-        foreach ($questionsTmp as $do) {
-            $questions[] = $do->getName();
+        if ($name == $question->getName()) {
+            return true;
         }
+        $questionMapper = systemToolkit::getInstance()->getMapper('voting', 'question');
 
-        return !in_array($name, $questions);
+        $criteria = new criteria();
+        $criteria->add('name', $name);
+        return is_null($questionMapper->searchOneByCriteria($criteria));
     }
 }
 

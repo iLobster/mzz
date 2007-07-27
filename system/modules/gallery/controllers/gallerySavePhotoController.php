@@ -59,6 +59,7 @@ class gallerySavePhotoController extends simpleController
             if ($isEdit) {
                 $photo->setName($name);
                 $photoMapper->save($photo);
+
                 return jipTools::redirect();
             } else {
                 try {

@@ -51,6 +51,15 @@ class photo extends simple
         $config = systemToolkit::getInstance()->getConfig('gallery', $this->section);
         return systemToolkit::getInstance()->getMapper('fileManager', 'file', $config->get('filemanager_section'));
     }
+
+    public function setName($name)
+    {
+        parent::__call('setName', array($name));
+        $file = $this->getFile();
+        $fileMapper = $this->getFileMapper();
+        $file->setAbout($name);
+        $fileMapper->save($file);
+    }
 }
 
 ?>
