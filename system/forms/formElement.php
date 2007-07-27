@@ -13,11 +13,11 @@
  */
 
 /**
- * formElement: базовый для всех элементов формы класс
+ * formElement: базовый класс всех элементов формы
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 abstract class formElement
 {
@@ -41,7 +41,6 @@ abstract class formElement
             $options['onError'] = 'style=color: red;';
         }
 
-
         self::parseError($options);
 
         if (!$name) {
@@ -57,10 +56,10 @@ abstract class formElement
             if ($content !== false) {
                 $html .= '>' . $content . '</' . $name . '>';
             } else {
-                $html .= ' />';
+                $html .= ($name == 'form') ? '>' : ' />';
             }
         }
-        //$html .= "\r\n";
+
         return $html;
     }
 

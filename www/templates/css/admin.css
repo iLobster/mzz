@@ -253,7 +253,7 @@ table.systemTable th {
     border-bottom: 1px dashed #DCDCDC;
 }
 
-div#uploadStatusError {
+div.uploadError {
  margin: 5px;
  padding: 2px;
  font-weight: bold;
@@ -263,7 +263,7 @@ div#uploadStatusError {
  color: #840909;
 }
 
-div#uploadStatus {
+div.uploadSuccess {
  margin: 5px;
  padding: 2px;
  font-weight: bold;

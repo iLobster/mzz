@@ -1,58 +1,17 @@
-{assign var="folderTitle" value=$folder->getTitle()}
-{include file='jipTitle.tpl' title="Загрузка файла в каталог $folderTitle"}
 {if !$errors->isEmpty()}
-<div id="uploadStatusError">
+<div id="fmUploadStatusError">
 <ul>
 {foreach from=$errors->export() item=formError}
     <li>{$formError}</li>
 {/foreach}
 </ul></div>
+{elseif isset($success) && isset($file_name)}
+<div id="fmUploadStatus">Файл {$file_name} загружен.</div>
 {else}
-<iframe name="fmUploadFile" id="fmUploadFile" style="border: 0;width: 200px;height: 100px;" src="about:blank"></iframe>
-<div id="uploadStatus"></div>
-<div id="uploadStatusError"></div>
-{literal}
-<script type="text/javascript">
-var fmUploadFileSubmitButtonValue = null;
-function readUploadStatus() {
-    $('uploadStatus').style.display = 'none';
-    $('uploadStatusError').style.display = 'none';
-    var fmUploadFile = $('fmUploadFile');
-    $('fmUploadFileSubmitButton').disable();;
-    fmUploadFileSubmitButtonValue = $('fmUploadFileSubmitButton').value;
-    $('fmUploadFileSubmitButton').value = "Загрузка...";
+{assign var="folderTitle" value=$folder->getTitle()}
+{include file='jipTitle.tpl' title="Загрузка файла в каталог $folderTitle"}
 
-    var frameOnLoadFunction = fmUploadFile.onload = function () {
-        var statusDivId = fmUploadFile.contentWindow.document.getElementById('uploadStatusError') ?  'uploadStatusError' : 'uploadStatus';
-        $(statusDivId).style.display = 'block';
-        $(statusDivId).innerHTML = fmUploadFile.contentWindow.document.getElementById(statusDivId).innerHTML;
-
-        $('fmUploadFileSubmitButton').enable();
-        $('fmUploadFileSubmitButton').value = fmUploadFileSubmitButtonValue;
-        if (statusDivId == 'uploadStatus') {
-            $('fmUploadFileForm').reset();
-            jipWindow.refreshAfterClose();
-        }
-    }
-
-    fmUploadFile.onload = frameOnLoadFunction;
-    if(/MSIE/.test(navigator.userAgent)) {
-        (fmUploadFile.addEventListener || ('on', fmUploadFile.attachEvent))('on' + 'load', frameOnLoadFunction, false);
-    }
-}
-
-function fmResetUploadForm() {
-    var fmUploadFile = $('fmUploadFile').setStyle({'width': 0, 'height': 0, 'display': 'none'});
-    $('uploadStatus').style.display = 'none';
-    if (fmUploadFileSubmitButtonValue) {
-        $('fmUploadFileSubmitButton').value = fmUploadFileSubmitButtonValue;
-        $('fmUploadFileSubmitButton').enable();
-    }
-}
-fmResetUploadForm();
-</script>
-{/literal}
-<form action="{$form_action}" method="post" target="fmUploadFile" onsubmit="readUploadStatus();" enctype="multipart/form-data">
+{form->open action=$form_action method="post" ajaxUpload="fm"}
     <table width="99%" border="0" cellpadding="5" cellspacing="0" class="systemTable" align="center">
         <tr>
             <td width="25%">Системный путь</td>
@@ -80,7 +39,7 @@ fmResetUploadForm();
             <td>{form->checkbox name="header" value=0}{$errors->get('header')}</td>
         </tr>
         <tr>
-            <td colspan=2 style="text-align:center;">{form->submit id="fmUploadFileSubmitButton" name="submit" value="Загрузить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td colspan="2" style="text-align:center;">{form->submit id="fmUploadSubmitButton" name="submit" value="Загрузить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

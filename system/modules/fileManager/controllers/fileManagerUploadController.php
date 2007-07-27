@@ -57,7 +57,7 @@ class fileManagerUploadController extends simpleController
                 $fileMapper->save($file);
 
                 $this->smarty->assign('file_name', $file->getName());
-                return $this->smarty->fetch('fileManager/fileUploaded.tpl');
+                $this->smarty->assign('success', true);
             } catch (mzzRuntimeException $e) {
                 $errors->set('file', $e->getMessage());
             }

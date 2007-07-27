@@ -41,7 +41,7 @@
               <td>{$folder->getJip()}</td>
             </tr>
         {/foreach}
-        
+
         {foreach from=$files item=file}
             {assign var="filename" value=$file->getFullPath()}
             <tr align="center">
@@ -54,7 +54,7 @@
                 <td>{$file->getJip()}</td>
             </tr>
         {/foreach}
-        
+
         <tr class="tableListFoot">
             <td colspan="4">{$pager->toString('adminPager.tpl')}</td>
             <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>

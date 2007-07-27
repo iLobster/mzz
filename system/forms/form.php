@@ -19,10 +19,16 @@ fileLoader::load("forms/formElement");
  *
  * @package system
  * @subpackage forms
- * @version 0.1.1
+ * @version 0.1.2
  */
 class form
 {
+    public function open($params, $smarty)
+    {
+        fileLoader::load('forms/formTag');
+        return formTag::toString($params);
+    }
+
     public function text($params, $smarty = null)
     {
         fileLoader::load('forms/formTextField');
