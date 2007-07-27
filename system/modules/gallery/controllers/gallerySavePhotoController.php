@@ -65,7 +65,6 @@ class gallerySavePhotoController extends simpleController
                 try {
                     $file = $folder->upload('image');
                     $photo->setAlbum($album);
-                    $photo->setName($name);
                     $photoMapper->save($photo);
 
                     $album->setPicsNumber($album->getPicsNumber() + 1);
@@ -77,13 +76,11 @@ class gallerySavePhotoController extends simpleController
                     $file->setRightHeader(1);
                     $fileMapper->save($file);
 
-                    if (!$photo->getName()) {
-                        $photo->setName($file->getName());
-                        $photoMapper->save($photo);
-                    }
+                    $photo->setName($name);
+                    $photoMapper->save($photo);
 
                     $this->smarty->assign('photo_name', $photo->getName());
-                    return $this->smarty->fetch('gallery/photoUploaded.tpl');
+                    $this->smarty->assign('success', true);
                 } catch (mzzRuntimeException $e) {
                     $errors->set('image', $e->getMessage());
                 }

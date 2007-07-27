@@ -36,7 +36,7 @@ class photo extends simple
         return $this->getFromFM($folder_id);
     }
 
-    private function getFromFM($folder_id)
+    protected function getFromFM($folder_id)
     {
         $fileMapper = $this->getFileMapper();
 
@@ -54,6 +54,7 @@ class photo extends simple
 
     public function setName($name)
     {
+        // @todo подумать, такое решение неудобно тем, что перед setName() обязательно надо делать save()
         parent::__call('setName', array($name));
         $file = $this->getFile();
         $fileMapper = $this->getFileMapper();
