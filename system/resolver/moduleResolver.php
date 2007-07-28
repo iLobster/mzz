@@ -45,17 +45,13 @@ class moduleResolver extends partialFileResolver
         $result = null;
 
         // короткий вид nameFactory переписываем в name/nameFactory
-        if (preg_match('/^([a-z]+)Factory$/i', $request, $matches) == true) {
+        if (preg_match('/^([a-z]+)Factory$/i', $request, $matches)) {
             $request = $matches[1] . '/' . $request;
-        }
-
-        if (preg_match('/^[a-z]+(\/[a-z\._]+)+$/i', $request) == true) {
-            $result = 'modules/' . $request;
         }
 
         if (preg_match('/^[a-z]+$/i', $request)) {
             $result = 'modules/' . $request . '/' . $request;
-        } elseif (preg_match('/^[a-z]+(\/[a-z]+)+$/i', $request)) {
+        } elseif (preg_match('/^[a-z]+(\/[a-z0-9\._]+)+$/i', $request)) {
             $result = 'modules/' . $request;
         }
 
