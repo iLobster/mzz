@@ -43,13 +43,13 @@ class {{$mapper_data.mapper_name}} extends simpleMapper
     protected $className = '{{$mapper_data.doname}}';
 
     /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
+     * Возвращает доменный объект по аргументам
      *
-     * @return integer
+     * @return simple
      */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
-        return 1;
+        throw new mzzDONotFoundException();
     }
 }
 

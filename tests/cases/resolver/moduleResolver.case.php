@@ -15,10 +15,10 @@ class moduleResolverTest extends UnitTestCase
 
     public function testResolve()
     {
-        $this->mock->expectOnce('resolve', array('modules/news/news.list.controller.php'));
+        $this->mock->expectOnce('resolve', array('modules/news/newsListController.php'));
         $this->mock->setReturnValue('resolve', 'resolved_path');
 
-        $this->assertEqual('resolved_path', $this->resolver->resolve('news/news.list.controller'));
+        $this->assertEqual('resolved_path', $this->resolver->resolve('news/newsListController'));
     }
 
     public function testResolveName()
@@ -31,10 +31,10 @@ class moduleResolverTest extends UnitTestCase
 
     public function testShortResolve()
     {
-        $this->mock->expectOnce('resolve', array('modules/news/news.list.controller.php'));
+        $this->mock->expectOnce('resolve', array('modules/news/newsListController.php'));
         $this->mock->setReturnValue('resolve', 'resolved_path');
 
-        $this->assertEqual('resolved_path', $this->resolver->resolve('news.list.controller'));
+        $this->assertEqual('resolved_path', $this->resolver->resolve('news/newsListController'));
     }
 
     public function testFactoryResolve()

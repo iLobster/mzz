@@ -44,20 +44,19 @@ class moduleResolver extends partialFileResolver
     {
         $result = null;
 
-        // короткий вид news.factory переписываем в news/news.factory
+        // короткий вид nameFactory переписываем в name/nameFactory
         if (preg_match('/^([a-z]+)Factory$/i', $request, $matches) == true) {
-            $request = $matches[1] . '/' . $request;
-            // короткий вид news.list.controller переписываем в news/news.list.controller
-        } elseif (preg_match('/^([a-z]+)(?:\.[a-z0-9]+){2,}$/i', $request, $matches) == true) {
             $request = $matches[1] . '/' . $request;
         }
 
-        if (preg_match('/^[a-z]+(\/[a-z0-9\._]+)+$/i', $request) == true) {
+        if (preg_match('/^[a-z]+(\/[a-z\._]+)+$/i', $request) == true) {
             $result = 'modules/' . $request;
         }
 
-        if (preg_match('/^[a-z]+$/i', $request) == true) {
+        if (preg_match('/^[a-z]+$/i', $request)) {
             $result = 'modules/' . $request . '/' . $request;
+        } elseif (preg_match('/^[a-z]+(\/[a-z]+)+$/i', $request)) {
+            $result = 'modules/' . $request;
         }
 
         $ext = substr(strrchr($request, '.'), 1);
