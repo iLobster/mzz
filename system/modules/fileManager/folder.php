@@ -46,10 +46,12 @@ class folder extends new_simpleForTree
 
     public function upload($upload_name, $name = null, $path = null)
     {
-        if (is_null($path)) {
-            $config = systemToolkit::getInstance()->getConfig('fileManager', $this->section);
-            $path = $config->get('upload_path');
+        if (!is_null($path)) {
+            throw new Exception('deprecated argument');
         }
+
+        $config = systemToolkit::getInstance()->getConfig('fileManager', $this->section);
+        $path = $config->get('upload_path');
 
         if (!isset($_FILES[$upload_name])) {
             if (is_file($upload_name)) {
