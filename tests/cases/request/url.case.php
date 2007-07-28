@@ -51,7 +51,7 @@ class urlTest extends unitTestCase
         $url->addParam('action', $action = 'bar');
         $url->addParam('param', $param = 'val1');
         $url->addParam('other', $other = 'val2');
-        $this->assertEqual($url->get(), 'http://localhost/foo/val1/val2/bar');
+        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/foo/val1/val2/bar');
     }
 
     public function testUrlHttpsWithoutParams()
@@ -64,7 +64,7 @@ class urlTest extends unitTestCase
         $url->setSection($section = 'foo');
         $url->addParam('action', $action = 'bar');
 
-        $this->assertEqual($url->get(), 'https://localhost/foo/bar');
+        $this->assertEqual($url->get(), 'https://localhost'. SITE_PATH . '/foo/bar');
     }
 
     public function testOnlyUrlWithPort()
@@ -75,7 +75,7 @@ class urlTest extends unitTestCase
         $url = new url('default');
 
         $this->assertNotEqual($_SERVER['SERVER_PORT'], '80');
-        $this->assertEqual($url->get(), 'http://localhost:8080');
+        $this->assertEqual($url->get(), 'http://localhost:8080' . SITE_PATH);
     }
 
     public function testAddGetVariables()
@@ -83,7 +83,7 @@ class urlTest extends unitTestCase
         $url = new url('default');
         $url->setGetParam('name', 'value');
         $url->setGetParam('name2', 'value2');
-        $this->assertEqual($url->get(), 'http://localhost/?name=value&name2=value2');
+        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH .'/?name=value&name2=value2');
     }
 
     public function testHttpsWithoutGet()
@@ -97,7 +97,7 @@ class urlTest extends unitTestCase
         $url->addParam('action', $action = 'bar');
         $url->setGetParam('name', 'value');
         $url->setGetParam('name2', 'value2');
-        $this->assertEqual($url->get(), 'http://localhost/foo/bar?name=value&name2=value2');
+        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/foo/bar?name=value&name2=value2');
     }
 }
 

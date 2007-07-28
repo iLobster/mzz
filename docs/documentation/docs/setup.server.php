@@ -9,12 +9,12 @@ tar -xvzf <им€ архива>.tar.gz -C htdocs/
 
 <p>≈сли mzz установлен не в корень веб-сервера, то необходимо в <code>SITE_PATH</code> указать URL-путь.</p>
 
-<p>Ќапример, DocumentRoot в конфигурации веб-сервера Apache имеет значение <code>c:\www</code>, mzz распакован в <code>c:\www\sites\mzz</code>. —оответственно URL будет иметь примерно следующий вид: <code>http://localhost/sites/mzz/</code>. ¬ таком случае <code>SITE_PATH</code> должен иметь значение <code>/sites/mzz</code>, в <code>www/.htaccess</code> измен€тс€ некоторые директивы:
+<p>Ќапример, DocumentRoot в конфигурации веб-сервера Apache имеет значение <code>c:\www</code>, mzz распакован в <code>c:\www\sites\mzz</code>. —оответственно URL будет иметь примерно следующий вид: <code>http://localhost/sites/mzz/www/</code>. ¬ таком случае <code>SITE_PATH</code> должен иметь значение <code>/sites/mzz/www</code>, в <code>www/.htaccess</code> измен€тс€ некоторые директивы:
 <<code apache>>
 #....
-RewriteBase /sites/mzz
+RewriteBase /sites/mzz/www
 #....
-RewriteCond %{REQUEST_URI} !^/sites/mzz/?$
+RewriteCond %{REQUEST_URI} !^/sites/mzz/www/?$
 #....
 <</code>>
 

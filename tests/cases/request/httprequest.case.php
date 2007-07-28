@@ -139,10 +139,10 @@ class httpRequestTest extends unitTestCase
         $_SERVER['HTTP_HOST'] = 'www.mzz.ru';
         $_GET['path'] = "/news/";
         $this->httprequest->refresh();
-        $this->assertEqual($this->httprequest->getUrl(), 'https://www.mzz.ru:8080');
+        $this->assertEqual($this->httprequest->getUrl(), 'https://www.mzz.ru:8080' . SITE_PATH);
         $_SERVER['HTTP_HOST'] = 'www.mzz.ru:8080';
         $this->httprequest->refresh();
-        $this->assertEqual($this->httprequest->getUrl(), 'https://www.mzz.ru:8080');
+        $this->assertEqual($this->httprequest->getUrl(), 'https://www.mzz.ru:8080' . SITE_PATH);
     }
 
     public function testGetRequestUrl()
@@ -151,7 +151,7 @@ class httpRequestTest extends unitTestCase
         $_SERVER['SERVER_PORT'] = '80';
         $_SERVER['HTTP_HOST'] = 'www.mzz.ru';
         $this->httprequest->refresh();
-        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru/news/%F0%F3%F1%F1%EA%E8%E9/18/10/2005/list?_TEST_INTEGER=2006');
+        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru' . SITE_PATH . '/news/%F0%F3%F1%F1%EA%E8%E9/18/10/2005/list?_TEST_INTEGER=2006');
     }
 
 
