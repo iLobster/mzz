@@ -1,33 +1,16 @@
 <?php
-/**
- * $URL$
- *
- * MZZ Content Management System (c) 2007
- * Website : http://www.mzz.ru
- *
- * This program is free software and released under
- * the GNU Lesser General Public License (See /docs/LGPL.txt).
- *
- * @link http://www.mzz.ru
- * @version $Id$
- */
-
-/**
- * message: класс для работы c данными
- *
- * @package modules
- * @subpackage message
- * @version 0.1
- */
 
 class message extends simple
 {
-    protected $name = 'message';
+    [...]
 
     public function getAcl($name = null)
     {
+        // у экшна 'delete' логика проверки авторизации будет такая же
         if ($name == 'view' || $name == 'delete') {
+            // получаем id получателя сообщения (или отправителя, в случае с категорией 'sent'
             $user_id = ($this->getCategory()->getName() == 'sent') ? $this->getSender()->getId() : $this->getRecipient()->getId();
+            // если id получателя/отправителя == id текущего пользователя - доступ есть
             return $user_id == systemToolkit::getInstance()->getUser()->getId();
         }
 

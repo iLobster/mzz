@@ -1,1 +1,1 @@
-{load module="message" action="delete" 403handle="none"}
+{load module="message" action="delete"}

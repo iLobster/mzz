@@ -4,12 +4,12 @@ class newsMapper extends simpleMapper
 {
     [...]
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $news = $this->searchOneByField('id', $args['id']);
 
         if ($news) {
-            return (int)$news->getObjId();
+            return $news;
         }
 
         throw new mzzDONotFoundException();

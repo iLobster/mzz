@@ -53,7 +53,8 @@ $menu = array("intro.Предисловие" =>
                                          "coding.Работа с ACL",
                                          "module_running.Запуск модулей из шаблонов",
                                          "obj_id.obj_id",
-                                         "convertargstoid.Метод convertArgsToId()"
+                                         "convertargstoobj.Метод convertArgsToObj()",
+                                         "getacl.Метод getAcl()"
                                          ),
                         "folders.Структура каталогов mzz",
                         "files.Назначение различных файлов (вроде реврайт-мапа итд)",

@@ -22,15 +22,6 @@ class messageViewController extends simpleController
         $category = $message->getCategory(); // получаем категорию сообщения
         $isSent = $category->getName() == 'sent';
 
-        $me = $this->toolkit->getUser(); // получаем текущего пользователя
-        $user_id = $isSent ? $message->getSender()->getId() : $message->getRecipient()->getId(); // получаем id получателя или отправителя (в зависимости от категории)
-
-        if ($user_id != $me->getId()) { // проверяем, есть ли права на просмотр. права есть - если текущий пользователь == получателю сообщения
-            fileLoader::load('simple/simple403Controller');
-            $controller = new simple403Controller();
-            return $controller->run();
-        }
-
         $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory'); // получаем маппер категорий
         $messageCategories = $messageCategoryMapper->searchAll(); // выбираем все категории
         

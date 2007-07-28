@@ -40,15 +40,6 @@ class messageViewController extends simpleController
         $category = $message->getCategory();
         $isSent = $category->getName() == 'sent';
 
-        $me = $this->toolkit->getUser();
-        $user_id = $isSent ? $message->getSender()->getId() : $message->getRecipient()->getId();
-
-        if ($user_id != $me->getId()) {
-            fileLoader::load('simple/simple403Controller');
-            $controller = new simple403Controller();
-            return $controller->run();
-        }
-
         $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');
         $messageCategories = $messageCategoryMapper->searchAll();
         $this->smarty->assign('categories', $messageCategories);

@@ -60,9 +60,7 @@ class messageMapper extends simpleMapper
 
     public function convertArgsToObj($args)
     {
-        $obj = $this->create();
-        $obj->import(array('obj_id' => 1));
-        return $obj;
+        return $this->searchByKey($args['id']);
     }
 }
 

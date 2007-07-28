@@ -32,18 +32,6 @@ class messageDeleteController extends simpleController
             return $messageMapper->get404()->run();
         }
 
-        $category = $message->getCategory();
-        $isSent = $category->getName() == 'sent';
-
-        $me = $this->toolkit->getUser();
-        $user_id = $isSent ? $message->getSender()->getId() : $message->getRecipient()->getId();
-
-        if ($user_id != $me->getId()) {
-            fileLoader::load('simple/simple403Controller');
-            $controller = new simple403Controller();
-            return $controller->run();
-        }
-
         if ($message->getCategory()->getName() != 'recycle') {
             $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');
             $recycle = $messageCategoryMapper->searchOneByField('name', 'recycle');
