@@ -871,7 +871,6 @@ abstract class simpleMapper
                 $className = $hasMany[$key]['class'];
                 $fieldName = $hasMany[$key]['key'];
                 $moduleName = $hasMany[$key]['module'];
-                $fieldName = $hasMany[$key]['key'];
                 $thisField = $hasMany[$key]['field'];
 
                 // получаем нужный маппер
