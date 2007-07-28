@@ -61,6 +61,17 @@ class photo extends simple
         $file->setAbout($name);
         $fileMapper->save($file);
     }
+
+    public function getAcl($name = null)
+    {
+        $access = parent::getAcl($name);
+
+        if (in_array($name, array('viewPhoto', 'viewThumbnail', 'view')) && $access) {
+            $access = $this->getAlbum()->getAcl('viewAlbum');
+        }
+
+        return $access;
+    }
 }
 
 ?>

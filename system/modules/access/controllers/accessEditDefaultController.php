@@ -37,7 +37,7 @@ class accessEditDefaultController extends simpleController
 
         // получаем число пользователей, которые ещё не добавлены в ACL для этого объекта
         $criteria = new criteria($userMapper->getTable());
-        $criteria->addSelectField('COUNT(*)', 'cnt');
+        $criteria->addSelectField(new sqlFunction('count', '*', true), 'cnt');
         $select = new simpleSelect($criteria);
         $usersNotAdded = $db->getOne($select->toString()) - sizeof($users);
 
@@ -46,7 +46,7 @@ class accessEditDefaultController extends simpleController
 
         // получаем число групп, которые ещё не добавлены в ACL для этого объекта
         $criteria = new criteria($groupMapper->getTable());
-        $criteria->addSelectField('COUNT(*)', 'cnt');
+        $criteria->addSelectField(new sqlFunction('count', '*', true), 'cnt');
         $select = new simpleSelect($criteria);
         $groupsNotAdded = $db->getOne($select->toString()) - sizeof($groups);
 

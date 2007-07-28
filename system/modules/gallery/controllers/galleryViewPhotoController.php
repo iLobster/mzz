@@ -33,15 +33,6 @@ class galleryViewPhotoController extends simpleController
         $photo_id = $this->request->get('id', 'integer', SC_PATH);
         $photo = $photoMapper->searchById($photo_id);
 
-        $access = $this->request->get('access', 'boolean', SC_PATH);
-        if ($access) {
-            $acl = new acl($this->toolkit->getUser(), $photo->getAlbum()->getObjId());
-            $access = $acl->get('viewAlbum');
-        }
-        if (!$access) {
-            return $photoMapper->get404()->run();
-        }
-
         $file = $photo->getFile();
         try {
             $file->download();
