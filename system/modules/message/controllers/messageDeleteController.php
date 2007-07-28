@@ -32,7 +32,7 @@ class messageDeleteController extends simpleController
             return $messageMapper->get404()->run();
         }
 
-        if ($message->getCategory()->getName() != 'recycle') {
+        if ($message->getCategory()->getName() != 'recycle' && $message->getCategory()->getName() != 'sent') {
             $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');
             $recycle = $messageCategoryMapper->searchOneByField('name', 'recycle');
             $message->setCategory($recycle);

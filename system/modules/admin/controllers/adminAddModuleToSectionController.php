@@ -99,7 +99,7 @@ class adminAddModuleToSectionController extends simpleController
                 $delete_array = array();
 
                 foreach ($delete as $val) {
-                    $delete_array[] = array_keys($adminMapper->searchClassesByModuleId($val));
+                    $delete_array = $delete_array + array_keys($adminMapper->searchClassesByModuleId($val));
                 }
 
                 $db->query('DELETE FROM `sys_classes_sections` WHERE `section_id` = ' . $data['id'] . ' AND `class_id` IN (' . implode(', ', $delete_array) . ')');
