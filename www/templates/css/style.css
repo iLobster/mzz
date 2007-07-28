@@ -204,6 +204,25 @@ table.systemTable th {
   margin: 5px;
 }
 
+div.uploadError {
+ margin: 5px;
+ padding: 2px;
+ font-weight: bold;
+ background-color: #FDDFDF;
+ border: 1px solid #FBC4C4;
+ display: none;
+ color: #840909;
+}
+
+div.uploadSuccess {
+ margin: 5px;
+ padding: 2px;
+ font-weight: bold;
+ background-color: #E9F8FC;
+ border: 1px solid #D8F3FA;
+ display: none;
+}
+
 .formErrorElement textarea, .formErrorElement input {
     border: 2px solid red;
 }
