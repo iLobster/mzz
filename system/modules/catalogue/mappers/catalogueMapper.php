@@ -54,34 +54,29 @@ class catalogueMapper extends simpleCatalogueMapper
         return new catalogue404Controller();
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $request = systemToolkit::getInstance()->getRequest();
 
         $action = $request->getAction();
 
         if ($action == 'addType' || $action == 'addProperty') {
-            return $this->getObjId();
+            return $this->getAccess();
         } elseif ($action == 'editType' || $action == 'deleteType') {
             $type = $this->getType($args['id']);
             if ($type) {
-                return $this->getObjId();
+                return $this->getAccess();
             }
         } elseif ($action == 'editProperty' || $action == 'deleteProperty') {
             $property = $this->getProperty($args['id']);
             if ($property) {
-                return $this->getObjId();
+                return $this->getAccess();
             }
         } else {
             $item = $this->searchOneByField('id', $args['id']);
 
             if ($item) {
-                return (int)$item->getObjId();
+                return $item;
             }
         }
 
@@ -94,6 +89,14 @@ class catalogueMapper extends simpleCatalogueMapper
         $obj_id = $toolkit->getObjectId('access_' . $toolkit->getRequest()->getSection() . '_catalogue');
         $this->register($obj_id);
         return $obj_id;
+    }
+
+    private function getAccess()
+    {
+        $accessMapper = systemToolkit::getInstance()->getMapper('access', 'access');
+        $access = $accessMapper->create();
+        $access->import(array('obj_id' => $this->getObjId()));
+        return $access;
     }
 }
 

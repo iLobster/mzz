@@ -59,16 +59,11 @@ class photoMapper extends simpleMapper
         return $this->searchAllByCriteria($criteria);
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $item = $this->searchOneByField('id', $args['id']);
         if ($item) {
-            return (int)$item->getObjId();
+            return $item;
         }
 
         throw new mzzDONotFoundException();

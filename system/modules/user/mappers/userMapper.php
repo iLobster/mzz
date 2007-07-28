@@ -184,7 +184,7 @@ class userMapper extends simpleMapper
         return $this->searchById(MZZ_USER_GUEST_ID);
     }
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if (isset($args['id'])) {
             if ($args['id'] == 0) {
@@ -194,7 +194,7 @@ class userMapper extends simpleMapper
                 $user = $this->searchById($args['id']);
             }
             if ($user) {
-                return (int)$user->getObjId();
+                return $user;
             }
 
             throw new mzzDONotFoundException();
@@ -203,22 +203,11 @@ class userMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
         $obj_id = $toolkit->getObjectId($this->section . '_userFolder');
         $this->register($obj_id);
-        return $obj_id;
 
+        $user = $this->create();
+        $user->import(array('obj_id' => $obj_id));
 
-        /*elseif (isset($args[0])) {
-        $user = $this->searchById($args[0]);
-        return (int)$user->getObjId();
-        }*/
-
-        /*
-        $toolkit = systemToolkit::getInstance();
-        $user = $toolkit->getUser();
-        return $user->getObjId();*/
-        /*
-        var_dump($args);
-        $user = $this->searchOneByField('id', $args[0]);
-        return (int)$user->getObjId();*/
+        return $user;
     }
 }
 

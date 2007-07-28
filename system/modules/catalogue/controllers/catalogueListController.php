@@ -39,10 +39,10 @@ class catalogueListController extends simpleController
         $this->smarty->assign('folderPath', $catalogueFolder->getPath());
         $this->smarty->assign('items', $catalogueFolder->getItems());
         $this->smarty->assign('catalogueFolder', $catalogueFolder);
-        $this->smarty->assign('folders', $catalogueFolderMapper->getTree());
+        $this->smarty->assign('folders', $catalogueFolderMapper->getTreeForMenu($catalogueFolder));
         $catalogueFolder->removePager();
 
-        $chain = $catalogueFolderMapper->getPath($catalogueFolder->getId());
+        $chain = $catalogueFolderMapper->getParentBranch($catalogueFolder);
         $this->smarty->assign('chains', $chain);
 
         return $this->smarty->fetch('catalogue/list.tpl');

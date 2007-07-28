@@ -30,7 +30,7 @@ class userGroupsListController extends simpleController
         $this->setPager($groupMapper, $config->get('items_per_page'), true);
 
         $this->smarty->assign('groups', $groupMapper->searchAll());
-        $this->smarty->assign('obj_id', $groupMapper->convertArgsToId(null));
+        $this->smarty->assign('obj_id', $groupMapper->convertArgsToObj(null)->getObjId());
 
         $this->response->setTitle('Пользователь -> Список групп');
 

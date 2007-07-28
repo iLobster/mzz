@@ -70,7 +70,7 @@ class pageMapper extends simpleMapper
         return $this->searchOneByField('name', $name);
     }
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if (isset($args['id']) && !isset($args['name'])) {
             $args['name'] = $args['id'];
@@ -99,7 +99,7 @@ class pageMapper extends simpleMapper
         }
 
         if ($page) {
-            return (int)$page->getObjId();
+            return $page;
         }
 
         throw new mzzDONotFoundException();

@@ -98,17 +98,12 @@ class galleryMapper extends simpleMapper
         return $thumb_folder_id;
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $gallery = $this->searchOneByField('owner.login', $args['name']);
 
         if ($gallery) {
-            return $gallery->getObjId();
+            return $gallery;
         }
 
         throw new mzzDONotFoundException();

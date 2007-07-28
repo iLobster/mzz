@@ -95,15 +95,10 @@ class albumMapper extends simpleMapper
         return $photoMapper->searchOneByCriteria($criteria);
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $action = systemToolkit::getInstance()->getRequest()->getAction();
-        return (int)$this->searchById(($action == 'viewAlbum') ? $args['album'] : $args['id'])->getObjId();
+        return $this->searchById(($action == 'viewAlbum') ? $args['album'] : $args['id']);
     }
 }
 

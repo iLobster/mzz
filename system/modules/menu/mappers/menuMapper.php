@@ -80,17 +80,12 @@ class menuMapper extends simpleMapper
         return new menu404Controller();
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $menu = $this->searchByName($args['name']);
 
         if ($menu) {
-            return (int)$menu->getObjId();
+            return $menu;
         }
 
         throw new mzzDONotFoundException();

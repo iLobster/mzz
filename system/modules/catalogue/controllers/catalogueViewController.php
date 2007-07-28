@@ -38,9 +38,9 @@ class catalogueViewController extends simpleController
         $this->smarty->assign('catalogue', $item);
         $this->smarty->assign('folderPath', $catalogueFolder->getPath());
         $this->smarty->assign('catalogueFolder', $catalogueFolder);
-        $this->smarty->assign('folders', $catalogueFolderMapper->getTree());
+        $this->smarty->assign('folders', $catalogueFolderMapper->getTreeForMenu($catalogueFolder));
 
-        $chain = $catalogueFolderMapper->getPath($catalogueFolder->getId());
+        $chain = $catalogueFolderMapper->getParentBranch($catalogueFolder);
         $chain[] = $item;
 
         $this->smarty->assign('chains', $chain);

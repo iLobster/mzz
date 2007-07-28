@@ -15,7 +15,7 @@ class stubMapperDataModify extends simpleMapper
         $fields['bar'] = new sqlFunction('UPPER', $fields['bar']);
     }
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
     }
 }
@@ -35,7 +35,7 @@ class stubMapperDataModifyWithOperator extends simpleMapper
         $fields['bar'] = new sqlOperator('*', array((int)$fields['bar'], 5));
     }
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
     }
 }

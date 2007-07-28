@@ -356,7 +356,6 @@ abstract class simple
      *
      * @return array
      */
-
     public function getMap()
     {
         return $this->map;
@@ -367,10 +366,15 @@ abstract class simple
      *
      * @return simpleMapper
      */
-
     public function mapper()
     {
         return $this->mapper;
+    }
+
+    public function getAcl($name = null)
+    {
+        $acl = new acl(systemToolkit::getInstance()->getUser(), $this->getObjId());
+        return $acl->get($name);
     }
 }
 

@@ -94,7 +94,7 @@ class pageFolderMapper extends new_simpleMapperForTree
      *
      * @return integer
      */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if (!isset($args['name'])) {
             $args['name'] = 'root';
@@ -102,7 +102,7 @@ class pageFolderMapper extends new_simpleMapperForTree
 
         $pageFolder = $this->searchByPath($args['name']);
         if ($pageFolder) {
-            return (int)$pageFolder->getObjId();
+            return $pageFolder;
         }
 
         throw new mzzDONotFoundException();

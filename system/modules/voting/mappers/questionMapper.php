@@ -77,7 +77,7 @@ class questionMapper extends simpleMapper
      *
      * @return integer
      */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $action = systemToolkit::getInstance()->getRequest()->getAction();
 
@@ -88,7 +88,7 @@ class questionMapper extends simpleMapper
         }
 
         if ($question) {
-            return (int)$question->getObjId();
+            return $question;
         }
 
         throw new mzzDONotFoundException();

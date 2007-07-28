@@ -52,7 +52,7 @@ class userGroupMapper extends simpleMapper
      *
      * @param integer $args
      */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
 
     }

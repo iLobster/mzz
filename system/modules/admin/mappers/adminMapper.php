@@ -606,23 +606,26 @@ class adminMapper extends simpleMapper
         );
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return object
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $toolkit = systemToolkit::getInstance();
 
         if (isset($args['section_name']) && isset($args['module_name'])) {
+            $accessMapper = $toolkit->getMapper('access', 'access');
             $main_class = $this->getMainClass($args['module_name']);
-            return $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $main_class, false);
+            $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $main_class, false);
+
+            $obj = $accessMapper->create();
+        } else {
+            $obj_id = $toolkit->getObjectId('access_admin_admin');
+            $this->register($obj_id);
+
+            $obj = $this->create();
         }
 
-        $obj_id = $toolkit->getObjectId('access_admin_admin');
-        $this->register($obj_id);
-        return $obj_id;
+        $obj->import(array('obj_id' => $obj_id));
+
+        return $obj;
     }
 }
 

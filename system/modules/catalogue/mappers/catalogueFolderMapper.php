@@ -72,17 +72,12 @@ class catalogueFolderMapper extends new_simpleMapperForTree
         return $this->tree->getBranchByPath($path, $deep);
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $folder = $this->searchByPath($args['name']);
 
         if ($folder) {
-            return $folder->getObjId();
+            return $folder;
         }
 
         throw new mzzDONotFoundException();

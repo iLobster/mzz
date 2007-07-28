@@ -119,12 +119,12 @@ class pageMapperTest extends unitTestCase
         $this->assertEqual(3, $this->countPages());
     }
 
-    public function testConvertArgsToId()
+    public function testConvertArgsToObj()
     {
         $this->fixture($this->mapper, $this->map);
 
         $page = $this->mapper->searchByName($name = 'name2');
-        $this->assertEqual($this->mapper->convertArgsToId(array('name' => $name)), $page->getObjId());
+        $this->assertEqual($this->mapper->convertArgsToObj(array('name' => $name))->getObjId(), $page->getObjId());
     }
 
     private function countPages()

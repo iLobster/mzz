@@ -59,17 +59,21 @@ class groupMapper extends simpleMapper
         return $this->searchOneByField('name', $name);
     }
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if (sizeof($args) == 0) {
             $toolkit = systemToolkit::getInstance();
             $obj_id = $toolkit->getObjectId($this->section . '_groupFolder');
             $this->register($obj_id);
-            return $obj_id;
+
+            $group = $this->create();
+            $group->import(array('obj_id' => $obj_id));
+
+            return $group;
         }
 
         if (isset($args['id']) && $group = $this->searchOneByField('id', $args['id'])) {
-            return (int)$group->getObjId();
+            return $group;
         }
 
         throw new mzzDONotFoundException();

@@ -7,7 +7,7 @@ class stubMapper extends simpleMapper
     protected $name = 'simple';
     protected $className = 'stubSimple';
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
     }
 }
@@ -17,7 +17,7 @@ class stubCatalogueMapper extends simpleCatalogueMapper
     protected $name = 'simple';
     protected $className = 'catalogue';
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
     }
 }

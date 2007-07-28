@@ -193,13 +193,13 @@ class userMapperTest extends unitTestCase
         }
     }
 
-    public function testConvertArgsToId()
+    public function testConvertArgsToObj()
     {
         $this->fixture($this->map);
 
         $user = $this->mapper->searchById($id = 1);
 
-        $this->assertEqual($this->mapper->convertArgsToId(array('id' => $id)), $user->getObjId());
+        $this->assertEqual($this->mapper->convertArgsToObj(array('id' => $id))->getObjId(), $user->getObjId());
     }
 
     private function countUsers()

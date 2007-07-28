@@ -132,12 +132,7 @@ class fileMapper extends simpleMapper
         $this->updateDataModify($fields);
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if (isset($args['id']) && !isset($args['name'])) {
             $args['name'] = $args['id'];
@@ -149,7 +144,7 @@ class fileMapper extends simpleMapper
             $file = $this->searchOneByField('name', $args['name']);
         }
         if ($file) {
-            return (int)$file->getObjId();
+            return $file;
         }
 
         throw new mzzDONotFoundException();

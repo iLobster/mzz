@@ -52,14 +52,12 @@ class menuFolderMapper extends simpleMapper
         return $obj_id;
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
-        return $this->getObjId();
+        $accessMapper = systemToolkit::getInstance()->getMapper('access', 'access');
+        $access = $accessMapper->create();
+        $access->import(array('obj_id', $this->getObjId()));
+        return $access;
     }
 }
 

@@ -41,13 +41,18 @@ class configMapper extends simpleMapper
      *
      * @return object
      */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if (isset($args['section_name']) && isset($args['module_name'])) {
             $toolkit = systemToolkit::getInstance();
             $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['module_name']);
             $this->register($obj_id, 'sys', 'access');
-            return $obj_id;
+            
+            $accessMapper = $toolkit->getMapper('access', 'access');
+            $access = $accessMapper->create();
+            $access->import(array('obj_id' => $obj_id));
+            
+            return $access;
         }
 
         throw new mzzRuntimeException('Невозможно определить obj_id');

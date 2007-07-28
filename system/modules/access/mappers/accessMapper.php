@@ -49,22 +49,22 @@ class accessMapper extends simpleMapper
         return $this->searchAllByField('obj_id', $obj_id);
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return object
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
+        $access = $this->create();
+
         if (isset($args['section_name']) && isset($args['class_name'])) {
             $toolkit = systemToolkit::getInstance();
             $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['class_name']);
             $this->register($obj_id, 'sys', 'access');
-            return $obj_id;
+
+            $access->import(array('obj_id' => $obj_id));
+            return $access;
         }
 
         if (isset($args['id'])) {
-            return $args['id'];
+            $access->import(array('obj_id' => $args['id']));
+            return $access;
         }
 
         throw new mzzDONotFoundException();

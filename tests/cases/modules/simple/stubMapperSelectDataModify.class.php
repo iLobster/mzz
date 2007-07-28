@@ -15,7 +15,7 @@ class stubMapperSelectDataModify extends simpleMapper
         $fields['foo'] = new sqlFunction('REVERSE', $fields['foo']);
     }
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
     }
 }

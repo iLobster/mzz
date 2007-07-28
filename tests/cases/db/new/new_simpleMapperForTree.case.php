@@ -267,7 +267,7 @@ class new_StubSimpleMapperForTree extends new_simpleMapperForTree
         return array('nameField' => 'foo', 'pathField' => 'path', 'joinField' => 'some_id', 'tableName' => 'simple_stubSimple2_tree');
     }
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
     }
 }
@@ -282,7 +282,7 @@ class new_stubSimpleForTree extends new_simpleForTree
 
 class new_stubSimpleForTreeMapper extends simpleMapper
 {
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
     }
 }

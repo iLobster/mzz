@@ -18,7 +18,7 @@ class stubMapperForTree extends simpleMapper
     }
 
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
     }
 }

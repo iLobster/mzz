@@ -972,7 +972,7 @@ abstract class simpleMapper
      *
      * @param array $args
      */
-    abstract public function convertArgsToId($args);
+    abstract public function convertArgsToObj($args);
 }
 
 ?>

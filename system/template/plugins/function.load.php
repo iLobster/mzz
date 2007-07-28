@@ -80,17 +80,18 @@ function smarty_function_load($params, $smarty)
             $actionName = $action->getActionName(true);
 
             if (isset($args['section_name']) && isset($args['module_name']) && $actionName == 'admin') {
-                $adminmapper = $toolkit->getMapper('admin', 'admin', $request->getSection());
-                $object_id = $adminmapper->convertArgsToId($args);
-            } else {
-                $object_id = $mapper->convertArgsToId($args);
+                $mapper = $toolkit->getMapper('admin', 'admin', $request->getSection());
             }
 
-            $acl = new acl($toolkit->getUser(), $object_id);
+            //$object_id = $mapper->convertArgsToId($args);
+            $obj = $mapper->convertArgsToObj($args);
+            //$object_id = $obj->getObjId();
+            //$acl = new acl($toolkit->getUser(), $object_id);
 
             //var_dump($actionName); var_dump($object_id);
 
-            $access = $acl->get($actionName);
+            //$access = $acl->get($actionName);
+            $access = $obj->getAcl($actionName);
 
         } catch (mzzDONotFoundException $e) {
             $controller = $mapper->get404();

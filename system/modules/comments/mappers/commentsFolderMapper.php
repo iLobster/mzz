@@ -57,16 +57,12 @@ class commentsFolderMapper extends simpleMapper
         $this->delete($id);
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return object
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if (isset($args['parent_id']) || isset($args['id'])) {
             $parent_id = isset($args['parent_id']) ? $args['parent_id'] : $args['id'];
         } else {
+            throw new Exception();
             return 1;
         }
 
@@ -85,7 +81,7 @@ class commentsFolderMapper extends simpleMapper
         }
 
         if ($comment) {
-            return $comment->getObjId();
+            return $comment;
         }
 
         throw new mzzDONotFoundException();

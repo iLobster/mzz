@@ -133,7 +133,7 @@ class userAuthMapper extends simpleMapper
      *
      * @return object
      */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
 
     }

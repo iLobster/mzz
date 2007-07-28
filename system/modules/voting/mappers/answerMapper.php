@@ -64,9 +64,11 @@ class answerMapper extends simpleMapper
      *
      * @return integer
      */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
-        return 1;
+        $obj = $this->create();
+        $obj->import(array('obj_id' => 1));
+        return $obj;
     }
 }
 

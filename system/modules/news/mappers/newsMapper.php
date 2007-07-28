@@ -80,12 +80,12 @@ class newsMapper extends simpleMapper
         $fields['updated'] = $fields['created'];
     }
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $news = $this->searchByKey($args['id']);
 
         if ($news) {
-            return (int)$news->getObjId();
+            return $news;
         }
 
         throw new mzzDONotFoundException();

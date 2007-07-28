@@ -99,43 +99,39 @@ class menuItemMapper extends simpleCatalogueMapper
     /*
     public function getAllTypes()
     {
-        if (empty($this->tmptypes)) {
-            $this->tmptypes = array(
-                1 => array(
-                        'id' => 1,
-                        'name' => 'simple',
-                        'title' => 'Простой'
-                    ),
-                2 => array(
-                        'id' => 2,
-                        'name' => 'advanced',
-                        'title' => 'Advanced'
-                    )
-            );
-        }
-        return $this->tmptypes;
+    if (empty($this->tmptypes)) {
+    $this->tmptypes = array(
+    1 => array(
+    'id' => 1,
+    'name' => 'simple',
+    'title' => 'Простой'
+    ),
+    2 => array(
+    'id' => 2,
+    'name' => 'advanced',
+    'title' => 'Advanced'
+    )
+    );
+    }
+    return $this->tmptypes;
     }
 
     public function getType($id)
     {
-        return $this->tmptypes[$id];
+    return $this->tmptypes[$id];
     }
     */
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if ($args['id'] == 0) {
+            throw new Exception('страйкер, это что за херня?');
             return 672;
         }
         $item = $this->searchById($args['id']);
 
         if ($item) {
-            return (int)$item->getObjId();
+            return $item;
         }
 
         throw new mzzDONotFoundException();

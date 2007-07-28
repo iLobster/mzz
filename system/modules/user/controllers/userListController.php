@@ -29,7 +29,7 @@ class userListController extends simpleController
         $this->setPager($userMapper, $config->get('items_per_page'), true);
 
         $this->smarty->assign('users', $userMapper->searchAll());
-        $this->smarty->assign('obj_id', $userMapper->convertArgsToId(null));
+        $this->smarty->assign('obj_id', $userMapper->convertArgsToObj(null)->getObjId());
 
         $this->response->setTitle('Пользователь -> Список');
 

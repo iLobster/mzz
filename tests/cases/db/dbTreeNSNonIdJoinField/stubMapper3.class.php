@@ -15,7 +15,7 @@ class stubMapperForTreeNonIdTest extends simpleMapper
         parent::__construct($section, $alias);
         $this->table = 'simple_stubSimple3';
     }
-    
+
     /**
      * Заполняет данными из массива доменный объект
      *
@@ -27,10 +27,10 @@ class stubMapperForTreeNonIdTest extends simpleMapper
         $object = $this->create();
         $object->import($row);
         return $object;
-    }    
+    }
 
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
     }
 }

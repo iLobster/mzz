@@ -53,15 +53,10 @@ class commentsMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return object
-     */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if (isset($args['id']) && $comment = $this->searchOneByField('id', $args['id'])) {
-            return $comment->getObjId();
+            return $comment;
         }
 
         throw new mzzDONotFoundException();

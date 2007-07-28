@@ -86,10 +86,10 @@ class newsFolderMapper extends new_simpleMapperForTree
         return $this->tree->getBranchByPath($path, $deep);
     }
 
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         if (isset($args['name']) && $newsFolder = $this->searchByPath($args['name'])) {
-            return (int)$newsFolder->getObjId();
+            return $newsFolder;
         }
 
         throw new mzzDONotFoundException();
