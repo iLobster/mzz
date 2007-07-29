@@ -78,9 +78,8 @@ class catalogueMoveFolderController extends simpleController
         }
 
         $url = new url('withAnyParam');
-        $url->setSection($this->request->getSection());
         $url->setAction($this->request->getAction());
-        $url->addParam('name', $folder->getPath());
+        $url->add('name', $folder->getPath());
 
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());

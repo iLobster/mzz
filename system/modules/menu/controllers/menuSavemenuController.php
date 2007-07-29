@@ -40,10 +40,9 @@ class menuSavemenuController extends simpleController
 
         if (!$validator->validate()) {
             $url = new url($isEdit ? 'withAnyParam' : 'default2');
-            $url->setSection($this->request->getSection());
             $url->setAction($action);
             if ($isEdit) {
-                $url->addParam('name', $menu->getName());
+                $url->add('name', $menu->getName());
             }
 
             $this->smarty->assign('menu', $menu);

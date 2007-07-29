@@ -62,7 +62,7 @@ class pageSaveFolderController extends simpleController
         }
 
         $url = new url('withAnyParam');
-        $url->addParam('name', $path);
+        $url->add('name', $path);
         $url->setAction($action);
 
         $this->smarty->assign('action', $url->get());

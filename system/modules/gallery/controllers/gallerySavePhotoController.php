@@ -89,7 +89,7 @@ class gallerySavePhotoController extends simpleController
 
         $url = new url('withId');
         $url->setAction($action);
-        $url->addParam('id', $isEdit ? $photo->getId() : $album->getId());
+        $url->add('id', $isEdit ? $photo->getId() : $album->getId());
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('album', $album);

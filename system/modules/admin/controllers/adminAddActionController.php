@@ -55,10 +55,10 @@ class adminAddActionController extends simpleController
         // ÍÀ×ÀËÎ ÂÀËÈÄÀÒÎÐÀ
         $url = new url('withId');
         $url->setAction($action);
-        $url->addParam('id', $data['c_id']);
+        $url->add('id', $data['c_id']);
         if ($isEdit) {
             $url->setRoute('adminAction');
-            $url->addParam('action_name', $action_name);
+            $url->add('action_name', $action_name);
         }
 
         $defaults = new arrayDataspace();

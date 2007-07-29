@@ -41,7 +41,7 @@ class votingSaveController extends simpleController
         if (!$validator->validate()) {
             $url = new url(($isEdit) ? 'withId' : 'default2');
             $url->setAction($action);
-            $url->addParam('id', $id);
+            $url->add('id', $id);
 
             $answerMapper = $this->toolkit->getMapper('voting', 'answer');
 

@@ -117,7 +117,7 @@ class jip
         $url = new url('withId');
         $url->setSection($this->section);
         $url->setAction($action);
-        $url->addParam('id', $this->id);
+        $url->add('id', $this->id);
         return $url->get();
     }
 
@@ -132,7 +132,7 @@ class jip
         $url = new url('withId');
         $url->setSection('access');
         $url->setAction('editACL');
-        $url->addParam('id', $obj_id);
+        $url->add('id', $obj_id);
         return $url->get();
     }
 

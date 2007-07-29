@@ -81,9 +81,8 @@ class catalogueSaveController extends simpleController
         if (!empty($item) || (!$isEdit && isset($catalogueFolder) && !is_null($catalogueFolder))) {
             if (!$validator->validate()) {
                 $url = new url('withAnyParam');
-                $url->setSection($this->request->getSection());
                 $url->setAction($action);
-                $url->addParam('name', $isEdit ? $item->getId() : $catalogueFolder->getPath());
+                $url->add('name', $isEdit ? $item->getId() : $catalogueFolder->getPath());
 
                 if (!$isEdit) {
                     foreach($types as $type_tmp){

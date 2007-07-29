@@ -66,7 +66,7 @@ class pageSaveController extends simpleController
             }
 
             $url = new url('withAnyParam');
-            $url->addParam('name', $pageFolder->getPath() . ($isEdit ? '/' . $page->getName() : ''));
+            $url->add('name', $pageFolder->getPath() . ($isEdit ? '/' . $page->getName() : ''));
             $url->setAction($action);
 
             $this->smarty->assign('form_action', $url->get());

@@ -96,7 +96,7 @@ class adminAddSectionController extends simpleController
 
         if ($isEdit) {
             $url = new url('withId');
-            $url->addParam('id', $data['id']);
+            $url->add('id', $data['id']);
         } else {
             $url = new url('default2');
         }

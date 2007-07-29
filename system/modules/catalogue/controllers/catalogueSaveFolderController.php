@@ -65,9 +65,8 @@ class catalogueSaveFolderController extends simpleController
         }
 
         $url = new url('withAnyParam');
-        $url->setSection($this->request->getSection());
         $url->setAction($action);
-        $url->addParam('name', $isEdit ? $folder->getPath() : $targetFolder->getPath());
+        $url->add('name', $isEdit ? $folder->getPath() : $targetFolder->getPath());
 
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $types_tmp = $catalogueMapper->getAlltypes();

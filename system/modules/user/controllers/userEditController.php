@@ -84,7 +84,7 @@ class userEditController extends simpleController
 
         if ($isEdit) {
             $url = new url('withId');
-            $url->addParam('id', $editedUser->getId());
+            $url->add('id', $editedUser->getId());
         } else {
             $url = new url('default2');
         }

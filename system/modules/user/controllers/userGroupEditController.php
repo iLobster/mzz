@@ -61,7 +61,7 @@ class userGroupEditController extends simpleController
 
         if ($isEdit) {
             $url->setRoute('withId');
-            $url->addParam('id', $group->getId());
+            $url->add('id', $group->getId());
         }
 
         $group = ($isEdit) ? $group : $groupMapper->create();

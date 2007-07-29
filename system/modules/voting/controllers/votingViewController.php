@@ -41,7 +41,7 @@ class votingViewController extends simpleController
 
         $url = new url('withId');
         $url->setAction('post');
-        $url->addParam('id', $question->getId());
+        $url->add('id', $question->getId());
 
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('backURL', $this->request->getRequestUrl());

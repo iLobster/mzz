@@ -48,7 +48,6 @@ class userRegisterController extends simpleController
             $validator->add('callback', 'repassword', 'Повтор пароля не совпадает', array('checkRepass', $this->request->get('password', 'string', SC_POST)));
 
             $url = new url('default2');
-            $url->setSection($this->request->getSection());
             $url->setAction('register');
 
             if (!$validator->validate()) {
@@ -68,8 +67,8 @@ class userRegisterController extends simpleController
                 $user->setConfirmed($confirm);
                 $userMapper->save($user);
 
-                $url->setGetParam('user', $user->getId());
-                $url->setGetParam('confirm', $confirm);
+                $url->add('user', $user->getId(), true);
+                $url->add('confirm', $confirm, true);
                 $this->smarty->assign('url', $url->get());
 
                 if (mail($email, 'Подтверждения регистрации', $this->smarty->fetch('user/mail.tpl'))) {

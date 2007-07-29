@@ -70,10 +70,10 @@ class gallerySaveAlbumController extends simpleController
 
         if ($isEdit) {
             $url = new url('withId');
-            $url->addParam('id', $album->getId());
+            $url->add('id', $album->getId());
         } else {
             $url = new url('withAnyParam');
-            $url->addParam('name', $user->getLogin());
+            $url->add('name', $user->getLogin());
         }
 
         $url->setAction($action);

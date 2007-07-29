@@ -81,9 +81,8 @@ class newsSaveController extends simpleController
             }
 
             $url = new url('withAnyParam');
-            $url->setSection($this->request->getSection());
             $url->setAction($action);
-            $url->addParam('name', $isEdit ? $news->getId() : $newsFolder->getPath());
+            $url->add('name', $isEdit ? $news->getId() : $newsFolder->getPath());
             $this->smarty->assign('action', $url->get());
             $this->smarty->assign('errors', $validator->getErrors());
 

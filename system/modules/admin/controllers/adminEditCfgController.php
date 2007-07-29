@@ -68,13 +68,13 @@ class adminSaveCfgController extends simpleController
 
         if ($isEdit) {
             $url = new url('adminCfgEdit');
-            $url->addParam('name', $name);
+            $url->add('name', $name);
         } else {
             $url = new url('withId');
             $url->setSection('admin');
         }
         $url->setAction($action);
-        $url->addParam('id', $module);
+        $url->add('id', $module);
 
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
@@ -86,54 +86,4 @@ class adminSaveCfgController extends simpleController
     }
 }
 
-
-
-/*
-        if (!empty($news) || (!$isEdit && isset($newsFolder) && !is_null($newsFolder))) {
-            $validator = new formValidator();
-            $validator->add('required', 'title', 'Необходимо назвать новость');
-
-            if (!$isEdit) {
-                $validator->add('required', 'created', 'Необходимо указать дату');
-                $validator->add('regex', 'created', 'Правильный формат даты: чч:м:с д/м/г ', '#^([01][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])\s(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])[/](19|20)\d{2}$#');
-            }
-
-
-            if ($validator->validate()) {
-                $title = $this->request->get('title', 'string', SC_POST);
-                $annotation = $this->request->get('annotation', 'string', SC_POST);
-                $text = $this->request->get('text', 'string', SC_POST);
-
-                $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
-                $folder = $newsFolderMapper->searchByPath($this->request->get('name', 'string', SC_PAT
-
-                $news->setTitle($title);
-                $news->setEditor($user);
-                $news->setText($text);
-                $news->setAnnotation($annotation);
-                $newsMapper->save($news);
-
-                return jipTools::redirect();
-            }
-
-            $url = new url('withAnyParam');
-            $url->setSection($this->request->getSection());
-            $url->setAction($action);
-            $url->addParam('name', $isEdit ? $news->getId() : $newsFolder->getPath());
-            $this->smarty->assign('action', $url->get());
-            $this->smarty->assign('errors', $validator->getErrors());
-
-            $this->smarty->assign('news', $news);
-            $this->smarty->assign('isEdit', $isEdit);
-
-            $title = $isEdit ? 'Редактирование -> ' . $news->getTitle() : 'Создание';
-            $this->response->setTitle('Новости -> ' . $title);
-
-            return $this->smarty->fetch('news/save.tpl');
-        }
-
-        return $newsMapper->get404()->run();
-    }
-}
-*/
 ?>

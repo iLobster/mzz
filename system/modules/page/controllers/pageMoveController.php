@@ -62,7 +62,7 @@ class pageMoveController extends simpleController
 
         $url = new url('withAnyParam');
         $url->setAction('move');
-        $url->addParam('name', $page->getFolder()->getPath() . '/' . $page->getName());
+        $url->add('name', $page->getFolder()->getPath() . '/' . $page->getName());
 
         $dests = array();
         foreach ($folders as $val) {

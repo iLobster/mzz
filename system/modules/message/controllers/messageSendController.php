@@ -86,7 +86,7 @@ class messageSendController extends simpleController
 
         if ($recipient) {
             $url = new url('withAnyParam');
-            $url->addParam('name', $recipient);
+            $url->add('name', $recipient);
         } else {
             $url = new url('default2');
         }

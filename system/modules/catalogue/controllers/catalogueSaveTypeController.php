@@ -62,11 +62,10 @@ class catalogueSaveTypeController extends simpleController
         if (!$validator->validate()) {
             $url = new url('default2');
             $url->setAction($action);
-            $url->setSection($this->request->getSection());
 
             if ($isEdit) {
                 $url->setRoute('withId');
-                $url->addParam('id', $type['id']);
+                $url->add('id', $type['id']);
             }
 
             $this->smarty->assign('properties', $properties);

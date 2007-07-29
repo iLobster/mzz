@@ -33,7 +33,6 @@ class menuFolder extends simple
         $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId());
 
         $url = new url('default2');
-        $url->setSection($request->getSection());
         $url->setAction('addmenu');
 
         $createAction = &$jip->getItem('addmenu');

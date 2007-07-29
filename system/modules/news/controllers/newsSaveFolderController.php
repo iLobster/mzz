@@ -62,7 +62,7 @@ class newsSaveFolderController extends simpleController
         }
 
         $url = new url('newsFolder');
-        $url->addParam('name', $path);
+        $url->add('name', $path);
         $url->setAction($action);
 
         $this->smarty->assign('action', $url->get());

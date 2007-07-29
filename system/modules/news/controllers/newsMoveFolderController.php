@@ -62,7 +62,7 @@ class newsMoveFolderController extends simpleController
 
         $url = new url('withAnyParam');
         $url->setAction('moveFolder');
-        $url->addParam('name', $folder->getPath());
+        $url->add('name', $folder->getPath());
 
         $dests = array();
         foreach ($folders as $val) {

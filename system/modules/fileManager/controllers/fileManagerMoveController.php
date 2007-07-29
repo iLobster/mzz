@@ -58,7 +58,7 @@ class fileManagerMoveController extends simpleController
 
         $url = new url('withAnyParam');
         $url->setAction('move');
-        $url->addParam('name', $file->getFullPath());
+        $url->add('name', $file->getFullPath());
         $this->smarty->assign('form_action', $url->get());
 
         $dests = array();

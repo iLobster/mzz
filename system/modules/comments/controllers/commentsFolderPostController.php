@@ -75,7 +75,7 @@ class commentsFolderPostController extends simpleController
 
                 $url = new url('withId');
                 $url->setAction($action);
-                $url->addParam('id', $parent_id);
+                $url->add('id', $parent_id);
 
                 $this->smarty->assign('action', $url->get());
                 $this->smarty->assign('url', $this->request->get('REQUEST_URI', 'string', SC_SERVER));

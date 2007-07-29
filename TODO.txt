@@ -32,7 +32,7 @@
 
 289 ( ) Перемещение элемента/ветки меню в другой парент (от js поступать будет id и новый parentId) (страйкер)
 
-288 ( ) url::assign('section', 'news') вместо url::setSection('news') (mz)
+288 (+) url::add() вместо url::addParam() (mz)
 
 279 ( ) Админка (zerkms)
      !  2. http://mzz/admin/view - убрать эту страницу, на её место поместить админку

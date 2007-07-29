@@ -43,8 +43,8 @@ class galleryDeleteController extends simpleController
             }
 
             $url = new url('galleryAlbum');
-            $url->addParam('name', $album->getGallery()->getOwner()->getLogin());
-            $url->addParam('album', $album->getId());
+            $url->add('name', $album->getGallery()->getOwner()->getLogin());
+            $url->add('album', $album->getId());
             $url->setAction('viewAlbum');
             $url = $url->get();
 

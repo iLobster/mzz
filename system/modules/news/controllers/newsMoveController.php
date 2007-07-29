@@ -58,7 +58,7 @@ class newsMoveController extends simpleController
 
         $url = new url('withId');
         $url->setAction('move');
-        $url->addParam('id', $news->getId());
+        $url->add('id', $news->getId());
 
         $dests = array();
         foreach ($folders as $val) {

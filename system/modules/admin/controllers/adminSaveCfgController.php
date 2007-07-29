@@ -69,13 +69,13 @@ class adminSaveCfgController extends simpleController
 
         if ($isEdit) {
             $url = new url('adminCfgEdit');
-            $url->addParam('name', $name);
+            $url->add('name', $name);
         } else {
             $url = new url('withId');
             $url->setSection('admin');
         }
         $url->setAction($action);
-        $url->addParam('id', $id);
+        $url->add('id', $id);
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());

@@ -85,9 +85,8 @@ class catalogueMoveController extends simpleController
         }
 
         $url = new url('withAnyParam');
-        $url->setSection($this->request->getSection());
         $url->setAction($this->request->getAction());
-        $url->addParam('name', $isMassAction ? '' : $id);
+        $url->add('name', $isMassAction ? '' : $id);
 
         $this->smarty->assign('items', $items);
         $this->smarty->assign('action', $url->get());

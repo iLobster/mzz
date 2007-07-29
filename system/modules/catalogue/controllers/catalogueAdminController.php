@@ -44,7 +44,7 @@ class catalogueAdminController extends simpleController
         $jipTypes = array();
         $url = new url('withId');
         foreach($types as $type){
-            $url->addParam('id', $type['id']);
+            $url->add('id', $type['id']);
 
             $url->setAction('editType');
             $jipTypes[$type['id']][] = array(
@@ -64,7 +64,7 @@ class catalogueAdminController extends simpleController
         $jipProperties = array();
         $url = new url('withId');
         foreach($properties as $property){
-            $url->addParam('id', $property['id']);
+            $url->add('id', $property['id']);
             $url->setAction('editProperty');
             $jipProperties[$property['id']][] = array(
                             "title" => 'Редактировать',

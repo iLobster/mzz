@@ -110,7 +110,7 @@ class adminAddClassController extends simpleController
         }
 
         $url = new url('withId');
-        $url->addParam('id', $data['id']);
+        $url->add('id', $data['id']);
         $url->setAction($action);
 
         $this->smarty->assign('form_action', $url->get());

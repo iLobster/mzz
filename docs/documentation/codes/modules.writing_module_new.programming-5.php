@@ -80,7 +80,7 @@ class messageSendController extends simpleController
         if ($recipient) {
             // если пользователь был указан, то урл будет вида: site/message/USERNAME/send
             $url = new url('withAnyParam');
-            $url->addParam('name', $recipient);
+            $url->add('name', $recipient);
         } else {
             // иначе: site/message/send
             $url = new url('default2');

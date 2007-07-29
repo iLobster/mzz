@@ -123,14 +123,14 @@ class adminSavemapController extends simpleController
 
         if ($isEdit) {
             $url = new url('adminMap');
-            $url->addParam('class', $class_name);
-            $url->addParam('field', $field_name);
+            $url->add('class', $class_name);
+            $url->add('field', $field_name);
         } else {
             $url = new url('withAnyParam');
             $url->setSection('admin');
-            $url->addParam('name', $class_name);
+            $url->add('name', $class_name);
         }
-        $url->addParam('action', $action);
+        $url->setAction($action);
 
         $this->smarty->assign('errors', $validator->getErrors());
 

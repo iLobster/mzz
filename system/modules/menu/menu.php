@@ -43,9 +43,8 @@ class menu extends simple
         $request = $toolkit->getRequest();
 
         $url = new url('menuCreateAction');
-        $url->setSection($request->getSection());
-        $url->addParam('id', '0');
-        $url->addParam('menu_name', $this->getName());
+        $url->add('id', '0');
+        $url->add('menu_name', $this->getName());
 
         $create['create'] = array(
             'url' => $url->get(),

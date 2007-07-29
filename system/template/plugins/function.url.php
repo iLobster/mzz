@@ -50,16 +50,8 @@ function smarty_function_url($params, $smarty)
 
     $url = new url($params['route']);
 
-    if (isset($params['section'])) {
-        //$getUrl = false;
-        $url->setSection($params['section']);
-        unset($params['section']);
-    } else {
-        $url->setSection($request->getSection());
-    }
-
     foreach ($params as $name => $value) {
-        $url->addParam($name, $value);
+        $url->add($name, $value);
     }
 
     if ($getUrl == true) {

@@ -68,7 +68,7 @@ class fileManagerEditFolderController extends simpleController
 
         $url = new url('withAnyParam');
         $url->setAction($action);
-        $url->addParam('name', $targetFolder->getPath());
+        $url->add('name', $targetFolder->getPath());
 
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());

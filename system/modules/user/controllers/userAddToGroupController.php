@@ -90,8 +90,7 @@ class userAddToGroupController extends simpleController
             }
 
             $url = new url('withId');
-            $url->setSection($this->request->getSection());
-            $url->addParam('id', $this->request->get('id', 'integer'));
+            $url->add('id', $this->request->get('id', 'integer'));
             $url->setAction('addToGroupList');
 
 

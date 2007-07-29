@@ -48,9 +48,9 @@ class urlTest extends unitTestCase
         $url = new url('urlRoute');
 
         $url->setSection($section = 'foo');
-        $url->addParam('action', $action = 'bar');
-        $url->addParam('param', $param = 'val1');
-        $url->addParam('other', $other = 'val2');
+        $url->setAction($action = 'bar');
+        $url->add('param', $param = 'val1');
+        $url->add('other', $other = 'val2');
         $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/foo/val1/val2/bar');
     }
 
@@ -62,7 +62,7 @@ class urlTest extends unitTestCase
         $url = new url('urlHttpsWithoutParams');
 
         $url->setSection($section = 'foo');
-        $url->addParam('action', $action = 'bar');
+        $url->add('action', $action = 'bar');
 
         $this->assertEqual($url->get(), 'https://localhost'. SITE_PATH . '/foo/bar');
     }
@@ -81,8 +81,8 @@ class urlTest extends unitTestCase
     public function testAddGetVariables()
     {
         $url = new url('default');
-        $url->setGetParam('name', 'value');
-        $url->setGetParam('name2', 'value2');
+        $url->add('name', 'value', true);
+        $url->add('name2', 'value2', true);
         $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH .'/?name=value&name2=value2');
     }
 
@@ -94,9 +94,9 @@ class urlTest extends unitTestCase
         $url = new url('urlHttpsWithoutGet');
 
         $url->setSection($section = 'foo');
-        $url->addParam('action', $action = 'bar');
-        $url->setGetParam('name', 'value');
-        $url->setGetParam('name2', 'value2');
+        $url->add('action', $action = 'bar');
+        $url->add('name', 'value', true);
+        $url->add('name2', 'value2', true);
         $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/foo/bar?name=value&name2=value2');
     }
 }

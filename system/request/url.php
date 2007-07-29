@@ -19,24 +19,10 @@
  *
  * @package system
  * @subpackage request
- * @version 0.1.3
+ * @version 0.2
  */
 class url
 {
-    /**
-     * Секция
-     *
-     * @var string
-     */
-    protected $section;
-
-    /**
-     * Действие
-     *
-     * @var string
-     */
-    protected $action;
-
     /**
      * Параметры
      *
@@ -64,7 +50,7 @@ class url
      */
     public function __construct($route = null)
     {
-        if($route){
+        if ($route){
             $this->setRoute($route);
         }
     }
@@ -87,17 +73,11 @@ class url
         $address = $request->getUrl();
         $this->params  = $this->getParams();
 
-        if (is_null($this->section)) {
-            $this->setSection($this->getCurrentSection());
-        }
-
         $params = $this->params;
         if (empty($params['section'])) {
-            $params['section'] = $this->section;
+            $params['section'] = $this->getCurrentSection();
         }
-        if (!empty($this->action)) {
-            $params['action'] = $this->action;
-        }
+
         $url = $this->route->assemble($params);
 
         if (sizeof($this->getParams)) {
@@ -112,58 +92,47 @@ class url
     }
 
     /**
-     * Установка section
+     * Добавление параметра
+     *
+     * @param string $name
+     * @param string $value
+     * @param boolean $get если true, то параметр будет добавлен как GET (?param=value&param2=value2...)
+     */
+    public function add($name, $value, $get = false)
+    {
+        if (!$get) {
+            $this->params[$name] = $value;
+        } else {
+            $this->getParams[$name] = $value;
+        }
+    }
+
+    /**
+     * Установка имени секции
      *
      * @param string $value
      */
     public function setSection($value)
     {
-        $this->section = $value;
+        $this->add('section', $value);
     }
 
     /**
-     * Установка action
+     * Установка имени действия
      *
      * @param string $value
      */
     public function setAction($value)
     {
-        $this->action = $value;
+        $this->add('action', $value);
     }
 
     /**
-     * Добавление параметра
-     *
-     * @param string $name
-     * @param string $value
-     */
-    public function addParam($name, $value)
-    {
-        $this->params[$name] = $value;
-    }
-
-    /**
-     * Установка переменных GET
-     *
-     * @param string $name
-     * @param string $value
-     */
-    public function setGetParam($name, $value)
-    {
-        $this->getParams[$name] = $value;
-    }
-
-    /**
-     * Выборка параметров
+     * Возвращает все установленные не GET параметры
      *
      */
     public function getParams()
     {
-        //foreach($this->params as $key => $param) {
-        //if (empty($this->params[$key])) {
-        //unset($this->params[$key]);
-        //}
-        //}
         return $this->params;
     }
 
@@ -172,14 +141,14 @@ class url
      *
      * @return string
      */
-    private function getCurrentSection()
+    protected function getCurrentSection()
     {
         $toolkit = systemToolkit::getInstance();
         return $toolkit->getRequest()->getSection();
     }
 
     /**
-     * Устанавливает текущий route для сборки url
+     * Устанавливает текущий роут, по которому будет собран url
      *
      * @param iRoute $route
      */
@@ -190,8 +159,9 @@ class url
     }
 
     /**
-     * Убирает установленный route для сборки url
+     * Убирает установленный роут
      *
+     * @deprecated ?
      * @see get()
      */
     public function deleteRoute()

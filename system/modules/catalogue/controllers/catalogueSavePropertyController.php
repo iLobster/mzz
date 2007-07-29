@@ -80,11 +80,10 @@ class catalogueSavePropertyController extends simpleController
         if (!$validator->validate()) {
             $url = new url('default2');
             $url->setAction($action);
-            $url->setSection($this->request->getSection());
 
             if ($isEdit) {
                 $url->setRoute('withId');
-                $url->addParam('id', $property['id']);
+                $url->add('id', $property['id']);
                 $this->smarty->assign('property', $property);
             }
 
