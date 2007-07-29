@@ -57,7 +57,7 @@ class voteFolderMapper extends simpleMapper
      *
      * @return integer
      */
-    public function convertArgsToId($args)
+    public function convertArgsToObj($args)
     {
         $accessMapper = systemToolkit::getInstance()->getMapper('access', 'access');
         $access = $accessMapper->create();

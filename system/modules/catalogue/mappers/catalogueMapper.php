@@ -86,7 +86,7 @@ class catalogueMapper extends simpleCatalogueMapper
     private function getObjId()
     {
         $toolkit = systemToolkit::getInstance();
-        $obj_id = $toolkit->getObjectId('access_' . $toolkit->getRequest()->getSection() . '_catalogue');
+        $obj_id = $toolkit->getObjectId($this->section . '_catalogue');
         $this->register($obj_id);
         return $obj_id;
     }
