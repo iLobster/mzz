@@ -164,7 +164,7 @@ function render($id) {
 
     $note = "\r\n<p class=\"note\">";
     $end = "\r\n</p>\r\n";
-    $example = "\r\n<p class=\"example\">";
+    $example = "\r\n<div class=\"example\">";
     $end_example = "\r\n</div>\r\n";
 
     $content = file_get_contents($path);
