@@ -57,7 +57,7 @@ class newsFolder extends new_simpleForTree
 
     public function getTreeForMenu()
     {
-        return $this->mapper->getTreeForMenu($this->getParent());
+        return $this->mapper->getTreeForMenu($this);
     }
 
     public function getTreeParent()

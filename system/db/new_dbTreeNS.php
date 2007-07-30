@@ -5,34 +5,57 @@
 
 class new_dbTreeNS
 {
+    /**
+     * Ссылка на инстанцию PDO
+     *
+     * @var mzzPdo
+     */
     private $db;
-    /*private $table;
-    private $fields;
-    private $criteria;
-    private $return_stmt = false;*/
+
+    /**
+     * Параметры объединения таблицы данных и таблицы структуры
+     *
+     * @see new_simpleMapperForTree::getTreeParams()
+     * @var array
+     */
     private $params = array();
+
+    /**
+     * Ссылка на маппер, работающий с данными
+     *
+     * @var new_simpleMapperForTree
+     */
     private $mapper;
 
+    /**
+     * Конструктор
+     *
+     * @param array $params
+     * @param new_simpleMapperForTree $mapper
+     */
     public function __construct(Array $params, $mapper)
     {
         $this->params = $params;
         $this->mapper = $mapper;
         $this->db = db::factory();
-        /*      $this->table = $table;
-        $this->db = db::factory();
-        $this->fields = array(
-        'id' => 'tree' . simpleMapper::TABLE_KEY_DELIMITER . 'id',
-        'lkey' => 'tree' . simpleMapper::TABLE_KEY_DELIMITER . 'lkey',
-        'rkey' => 'tree' . simpleMapper::TABLE_KEY_DELIMITER . 'rkey',
-        'level' => 'tree' . simpleMapper::TABLE_KEY_DELIMITER . 'level'
-        ); */
     }
 
+    /**
+     * Добавление к критерии объединения таблицы с данными и таблицы со структурой
+     *
+     * @param criteria $criteria
+     */
     public function addJoin(criteria $criteria)
     {
         $criteria->addJoin($this->params['tableName'], new criterion('tree.id', $this->mapper->getClassName() . '.' . $this->params['joinField'], criteria::EQUAL, true), 'tree', criteria::JOIN_INNER);
     }
 
+    /**
+     * Добавление к критерии выборки стандартных полей для выборки данных о структуре дерева и поля с сортировкой
+     *
+     * @param criteria $criteria
+     * @param string $alias алиас на таблицу со структурой
+     */
     public function addSelect(criteria $criteria, $alias = 'tree')
     {
         $criteria->addSelectField($alias . '.id', $alias . simpleMapper::TABLE_KEY_DELIMITER . 'id')
@@ -42,6 +65,12 @@ class new_dbTreeNS
         ->setOrderByFieldAsc($alias . '.lkey');
     }
 
+    /**
+     * Получение информации об узле
+     *
+     * @param new_simpleForTree|integer $id
+     * @return unknown
+     */
     public function getNodeInfo($id)
     {
         if ($id instanceof new_simpleForTree) {
@@ -58,12 +87,25 @@ class new_dbTreeNS
         return $this->createItemFromRow($row[0]);
     }
 
+    /**
+     * Выборка из массива с данными лишь данных, относящихся к структуре
+     *
+     * @param array $row
+     * @return array
+     */
     public function createItemFromRow($row)
     {
         return array('id' => $row['id'], 'lkey' => $row['lkey'], 'rkey' => $row['rkey'], 'level' => $row['level']);
     }
 
-    public function getBranch(criteria $criteria, $id, $level = 0)
+    /**
+     * Получение ветви дерева
+     *
+     * @param criteria $criteria
+     * @param new_simpleForTree $id
+     * @param integer $level
+     */
+    public function getBranch(criteria $criteria, new_simpleForTree $id, $level = 0)
     {
         $node = $this->getNodeInfo($id);
 
@@ -74,7 +116,13 @@ class new_dbTreeNS
         }
     }
 
-    public function getParentBranch(criteria $criteria, $node)
+    /**
+     * Получение родительской ветки
+     *
+     * @param criteria $criteria
+     * @param new_simpleForTree $node
+     */
+    public function getParentBranch(criteria $criteria, new_simpleForTree $node)
     {
         $node = $this->getNodeInfo($node);
 
@@ -82,7 +130,13 @@ class new_dbTreeNS
         $criteria->add('tree.rkey', $node['rkey'], criteria::GREATER_EQUAL);
     }
 
-    public function getParentNode(criteria $criteria, $id)
+    /**
+     * Получение родительского узла
+     *
+     * @param criteria $criteria
+     * @param new_simpleForTree $id
+     */
+    public function getParentNode(criteria $criteria, new_simpleForTree $id)
     {
         $node = $this->getNodeInfo($id);
 
@@ -91,7 +145,13 @@ class new_dbTreeNS
         $criteria->add('tree.level', $node['level'] - 1);
     }
 
-    public function insert($id)
+    /**
+     * Вставка узла
+     *
+     * @param new_simpleForTree $id
+     * @return integer id добавленной записи
+     */
+    public function insert(new_simpleForTree $id)
     {
         $node = $this->getNodeInfo($id);
         $qry = 'UPDATE `' . $this->params['tableName'] . '` SET rkey = rkey + 2, lkey = IF(lkey > ' . $node['rkey'] . ', lkey + 2, lkey) WHERE rkey >= ' . $node['rkey'];
@@ -102,7 +162,14 @@ class new_dbTreeNS
         return $this->db->lastInsertId();
     }
 
-    public function move($node, $target)
+    /**
+     * Перемещение узла
+     *
+     * @param new_simpleForTree $node
+     * @param new_simpleForTree $target
+     * @return boolean
+     */
+    public function move(new_simpleForTree $node, new_simpleForTree $target)
     {
         $target = $this->getNodeInfo($target);
         $node = $this->getNodeInfo($node);
@@ -142,7 +209,12 @@ class new_dbTreeNS
         return true;
     }
 
-    public function delete($id)
+    /**
+     * Удаление узла
+     *
+     * @param new_simpleForTree $id
+     */
+    public function delete(new_simpleForTree $id)
     {
         $node = $this->getNodeInfo($id);
         $qry = 'DELETE FROM `' . $this->params['tableName'] . '` WHERE lkey >= ' . $node['lkey'] . ' AND rkey <= ' . $node['rkey'];

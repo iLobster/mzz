@@ -611,11 +611,10 @@ class adminMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
 
         if (isset($args['section_name']) && isset($args['module_name'])) {
-            $accessMapper = $toolkit->getMapper('access', 'access');
             $main_class = $this->getMainClass($args['module_name']);
             $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $main_class, false);
 
-            $obj = $accessMapper->create();
+            $obj = $this->create();
         } else {
             $obj_id = $toolkit->getObjectId('access_admin_admin');
             $this->register($obj_id);

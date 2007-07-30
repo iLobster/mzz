@@ -22,6 +22,24 @@
 
 class simple404Controller extends simpleController
 {
+    /**
+     * Свойство, определяющее - отправлять контент или только заголовки
+     *
+     * @var boolean
+     */
+    protected $onlyHeaders;
+
+    /**
+     * Конструктор
+     *
+     * @param boolean $onlyHeaders
+     */
+    public function __construct($onlyHeaders = false)
+    {
+        parent::__construct();
+        $this->onlyHeaders = (bool)$onlyHeaders;
+    }
+
     protected function getView()
     {
         $this->request->setSection('page');
@@ -38,6 +56,7 @@ class simple404Controller extends simpleController
 
         $this->toolkit->getResponse()->setHeader('', 'HTTP/1.x 404 Not Found');
 
+        return $this->onlyHeaders ? false : $controller->run();
         return false;
     }
 }

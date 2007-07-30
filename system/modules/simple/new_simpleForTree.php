@@ -22,7 +22,7 @@ class new_simpleForTree extends simple
     }
 
     /**
-     * Метод получения уровня, на котором находится элемент.
+     * Получение уровня, на котором находится элемент.
      *
      * @return integer
      */
@@ -34,6 +34,11 @@ class new_simpleForTree extends simple
         return $this->treeFields->get('level');
     }
 
+    /**
+     * Получение id узла в дереве
+     *
+     * @return integer
+     */
     public function getTreeKey()
     {
         if (!$this->treeFields->exists('id')) {
@@ -42,16 +47,32 @@ class new_simpleForTree extends simple
         return $this->treeFields->get('id');
     }
 
+    /**
+     * Получение предка текущего узла
+     *
+     * @return new_simpleForTree
+     */
     public function getTreeParent()
     {
         return $this->mapper->getTreeParent($this);
     }
 
+    /**
+     * Метод для импортирования данных из дерева
+     *
+     * @param array $data
+     */
     public function importTreeFields(Array $data)
     {
         $this->treeFields->import($data);
     }
 
+    /**
+     * Получение пути до узла
+     *
+     * @param boolean $simple получить в сокращённом (без корневого элемента) или полном формате
+     * @return string
+     */
     public function getPath($simple = true)
     {
         $path = $this->__call('getPath', array());

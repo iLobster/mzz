@@ -5,9 +5,25 @@ fileLoader::load('simple/new_simpleForTree');
 
 abstract class new_simpleMapperForTree extends simpleMapper
 {
+    /**
+     * Массив для хранения временных данных о дереве (до добавления их в объект)
+     *
+     * @var array
+     */
     protected $treeTmp = array();
+
+    /**
+     * Параметры дерева (имя таблицы, имя поле по которому происходит связывание, имя поля для указания пути, имя узла)
+     *
+     * @var array
+     */
     protected $treeParams = array();
 
+    /**
+     * Конструктор
+     *
+     * @param string $section имя раздела
+     */
     public function __construct($section)
     {
         parent::__construct($section);
@@ -15,11 +31,21 @@ abstract class new_simpleMapperForTree extends simpleMapper
         $this->tree = new new_dbTreeNS($this->treeParams, $this);
     }
 
+    /**
+     * Получение параметров дерева
+     *
+     * @return array
+     */
     protected function getTreeParams()
     {
         return array('nameField' => 'name', 'pathField' => 'path', 'joinField' => 'parent', 'tableName' => $this->table . '_tree');
     }
 
+    /**
+     * Получение корневого элемента дерева
+     *
+     * @return new_simpleForTree
+     */
     public function getRoot()
     {
         $criteria = new criteria();
@@ -27,6 +53,12 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $this->searchOneByCriteria($criteria);
     }
 
+    /**
+     * Поиск узла по пути
+     *
+     * @param string $path
+     * @return new_simpleForTree
+     */
     public function searchByPath($path)
     {
         if (strpos($path, '/') === 0) {
@@ -48,6 +80,12 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $this->searchOneByField($this->treeParams['pathField'], $path);
     }
 
+    /**
+     * Поиск узла по критерию
+     *
+     * @param criteria $criteria
+     * @return new_simpleForTree
+     */
     protected function searchByCriteria(criteria $criteria)
     {
         $this->tree->addSelect($criteria);
@@ -56,7 +94,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Возвращает children-папки
+     * Получение наследников
      *
      * @return array
      */
@@ -65,6 +103,13 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $this->getBranch($id, $level);
     }
 
+    /**
+     * Получение ветки дерева, начиная с искомого узла
+     *
+     * @param new_simpleForTree $target искомый узел дерева
+     * @param integer $level число выбираемых уровней
+     * @return array массив найденных элементов
+     */
     public function getBranch(new_simpleForTree $target, $level = 0)
     {
         $criteria = new criteria();
@@ -84,7 +129,13 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $result;
     }
 
-    public function getParentBranch($node)
+    /**
+     * Получение всех предков искомого узла
+     *
+     * @param new_simpleForTree $node
+     * @return array
+     */
+    public function getParentBranch(new_simpleForTree $node)
     {
         $criteria = new criteria();
         $this->tree->addSelect($criteria);
@@ -103,12 +154,18 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $result;
     }
 
-    public function getTreeParent($child)
+    /**
+     * Получение предка искомого узла
+     *
+     * @param new_simpleForTree $child
+     * @return new_simpleForTree
+     */
+    public function getTreeParent(new_simpleForTree $child)
     {
         $criteria = new criteria();
         $this->tree->addSelect($criteria);
         $this->tree->addJoin($criteria);
-        $this->tree->getParentNode($criteria, $child->getTreeKey());
+        $this->tree->getParentNode($criteria, $child);
 
         $stmt = parent::searchByCriteria($criteria);
 
@@ -123,28 +180,42 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return null;
     }
 
+    /**
+     * Сохранение объекта
+     *
+     * @param new_simpleForTree $object
+     * @param new_simpleForTree $target узел, в который сохраняется объект (в случае - если происходит создание)
+     * @param user $user
+     */
     public function save(new_simpleForTree $object, $target = null, $user = null)
     {
+        // получаем сохраняемую инфу
         $data = $object->export();
 
         $mutator = $this->map[$this->treeParams['joinField']]['mutator'];
         $accessor = $this->map[$this->treeParams['joinField']]['accessor'];
 
+        // если объект создаётся - ищем узел, в который он будет вложен
         if (!$object->getId()) {
-            $node = $this->tree->getNodeInfo($target);
-            $id = $this->tree->insert($node['id']);
+            //$node = $this->tree->getNodeInfo($target);
+            $id = $this->tree->insert($target);
             $object->$mutator($id);
         } else {
+            // иначе получаем родительский узел
             $target = $this->getTreeParent($object);
         }
 
         $result = parent::save($object, $user);
 
+        // получаем информацию об узле из дерева
         $node = $this->tree->getNodeInfo($object->$accessor());
 
+        // импортируем эту информацию
         $object->importTreeFields($node);
 
+        // если поле, являющееся именем узла, было изменено - модифицируем пути этого узла и всех вложенных в него
         if (isset($data[$this->treeParams['nameField']])) {
+            // получаем всех предков данного узла, вложенность 1 уровень
             $branch = $this->getBranch($object, 1);
 
             $pathAccessor = $this->map[$this->treeParams['pathField']]['accessor'];
@@ -152,19 +223,30 @@ abstract class new_simpleMapperForTree extends simpleMapper
             $nameAccessor = $this->map[$this->treeParams['nameField']]['accessor'];
             $nameMutator = $this->map[$this->treeParams['nameField']]['mutator'];
 
+            // модифицируем путь текущего узла
             $baseName = $target->$pathAccessor(false) . '/' . $object->$nameAccessor();
             $object->$pathMutator($baseName);
+            // сохраняем текущий объект
             $this->save($object);
 
+            // удаляем текущий объект из массива
+            array_shift($branch);
+            // обходим всех предков
             foreach ($branch as $key => $val) {
-                if ($val->getTreeKey() != $object->getTreeKey()) {
+                    // рекурсивно вызываем функцию модификации путей и для всех предков
                     $val->$nameMutator($val->$nameAccessor());
                     $this->save($val);
-                }
             }
         }
     }
 
+    /**
+     * Перемещение узла
+     *
+     * @param new_simpleForTree $node переносимый узел
+     * @param new_simpleForTree $target узел, в который переносим
+     * @return boolean
+     */
     public function move(new_simpleForTree $node, new_simpleForTree $target)
     {
         $result = $this->tree->move($node, $target);
@@ -180,15 +262,23 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $result;
     }
 
+    /**
+     * Удаление узла
+     *
+     * @param new_simpleForTree $id
+     */
     public function delete(new_simpleForTree $id)
     {
+        // получаем всех предков узла
         $branch = $this->getBranch($id);
 
         $mapper = systemToolkit::getInstance()->getMapper($this->name, $this->itemName);
 
         foreach ($branch as $do) {
+            // получаем всех элементы, содержащиеся в узле дерева
             $items = (array) $do->getItems();
             foreach ($items as $item) {
+                // удаляем их
                 $mapper->delete($item->getId());
             }
             parent::delete($do);
@@ -196,7 +286,13 @@ abstract class new_simpleMapperForTree extends simpleMapper
         $this->tree->delete($id);
     }
 
-    public function getTreeExceptNode($folder)
+    /**
+     * Получение дерева, исключая искомый узел и всех его наследников
+     *
+     * @param new_simpleForTree $folder
+     * @return array
+     */
+    public function getTreeExceptNode(new_simpleForTree $folder)
     {
         $tree = $this->searchAll();
 
@@ -209,9 +305,15 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $tree;
     }
 
-    public function getTreeForMenu($id)
+    /**
+     * Получение дерево с наследниками текущего узла следующего уровня вложенности, предками и всем первым уровнем дерева
+     *
+     * @param new_simpleForTree $id искомый узел
+     * @return array
+     */
+    public function getTreeForMenu(new_simpleForTree $node)
     {
-        $node = $this->tree->getNodeInfo($id);
+        $node = $this->tree->getNodeInfo($node);
 
         $criterion = new criterion('tree2.lkey', 'tree.lkey', criteria::GREATER, true);
         $criterion->addAnd(new criterion('tree2.rkey', 'tree.rkey', criteria::LESS, true));
@@ -239,6 +341,11 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $result;
     }
 
+    /**
+     * Загрузка данных об узле в объект
+     *
+     * @param new_simpleForTree $object
+     */
     public function loadTreeData(new_simpleForTree $object)
     {
         $accessor = $this->map[$this->treeParams['joinField']]['accessor'];
@@ -262,12 +369,25 @@ abstract class new_simpleMapperForTree extends simpleMapper
         return $object;
     }
 
+    /**
+     * Метод парсинга исходного массива в форму, удобную для заполнения объекта данными
+     *
+     * @param array $array искомый массив
+     * @param string $name имя получаемого вложенного массива
+     * @return array
+     */
     public function fillArray(&$array, $name = null)
     {
         $this->setTreeTmp($array);
         return parent::fillArray($array, $name);
     }
 
+    /**
+     * Установка во временный массив данных из дерева о текущем узле
+     *
+     * @param array $array
+     * @param string $name
+     */
     protected function setTreeTmp(&$array, $name = 'tree')
     {
         $this->treeTmp = parent::fillArray($array, $name);

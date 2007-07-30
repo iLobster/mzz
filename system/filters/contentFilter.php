@@ -84,7 +84,7 @@ class contentFilter implements iFilter
     private function get404()
     {
         fileLoader::load('simple/simple404Controller');
-        $controller = new simple404Controller();
+        $controller = new simple404Controller(true);
         return $controller->run();
     }
 }
