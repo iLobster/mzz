@@ -56,10 +56,13 @@ class adminReadmapController extends simpleController
 
             $schemas[] = $tmp;
         }
-
-        $scheme = $schemas[0];
-
         //@todo: реализовать ситуацию, когда таблицы не совпадают по полям
+
+        if (isset($schemas[0])) {
+            $scheme = $schemas[0];
+        } else {
+            $scheme = array();
+        }
 
         $mapfile_name = $module['name'] . '/maps/' . $class['name'] . '.map.ini';
         $file = new iniFile(fileLoader::resolve($mapfile_name));
