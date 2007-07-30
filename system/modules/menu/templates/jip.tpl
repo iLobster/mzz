@@ -4,7 +4,7 @@
 {add file="effects.js"}
 {add file="dragdrop.js"}
 {/strip}
-<div class="menuJipItems" id="{$jipMenuId}">
+<div class="menuJipItems hover_target" id="{$jipMenuId}">
 <table border="0" cellpadding="3" cellspacing="0">
     <tbody>
         <tr>

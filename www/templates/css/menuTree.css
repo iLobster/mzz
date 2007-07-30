@@ -40,8 +40,8 @@ li.dropOver div.menuItemContent {
 }
 
 .menuItem {
-    height: 37px;
-    margin-top: 1px;
+    height: 38px;
+    /*margin-top: -2px;*/
 }
 
 img.expandImage {
@@ -90,9 +90,20 @@ img.expandImage {
     height: 15px;
 }
 
-.menuJipItems {
-    float: right;
-    width: 40%;
+div.menuJipItems {
+    display: none;
+}
+
+li.hover div.menuJipItems {
+    /*float: right;
+    width: 40%;*/
+    position: absolute;
+    display: block;
+    left: -108px;
+    top: 5px;
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-right: 1px solid #FFFFFF;
 }
 
 /* Fix IE. Hide from IE Mac \*/
