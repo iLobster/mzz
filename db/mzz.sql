@@ -4965,9 +4965,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (823,26),
   (827,26),
   (843,25),
-  (835,24),
   (845,25),
-  (844,26);
+  (844,26),
+  (852,24);
 
 COMMIT;
 
@@ -5460,7 +5460,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (10,'catalogue',19,'Каталог','catalogue.gif',30),
   (11,'gallery',21,'Галерея','gallery.gif',80),
   (12,'menu',26,'Меню','pages.gif',90),
-  (13,'voting',30,'Голосование','',0),
+  (13,'voting',30,'Голосование','voting.gif',0),
   (14,'message',32,'Сообщения пользователей','page.gif',0);
 
 COMMIT;
@@ -6325,7 +6325,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (848),
   (849),
   (850),
-  (851);
+  (851),
+  (852);
 
 COMMIT;
 
@@ -6581,7 +6582,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (89,2,'74c8c9dee4c9b711dba3e691fe44c4c8','2007-07-29 22:44:08',835,'http://mzz/gallery/1/editAlbum?ajax=1','127.0.0.1');
+  (90,2,'202684d5af79819a05cef4279e87c599','2007-07-31 10:26:31',852,'http://mzz/admin/catalogue/admin','127.0.0.1');
 
 COMMIT;
 
