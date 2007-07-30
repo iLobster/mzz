@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class simple404Controller extends simpleController
@@ -38,7 +38,7 @@ class simple404Controller extends simpleController
 
         $this->toolkit->getResponse()->setHeader('', 'HTTP/1.x 404 Not Found');
 
-        return $controller->run();
+        return false;
     }
 }
 

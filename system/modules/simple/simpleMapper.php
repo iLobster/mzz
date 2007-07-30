@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.7
+ * @version 0.3.8
  */
 
 abstract class simpleMapper
@@ -833,6 +833,12 @@ abstract class simpleMapper
                 $fieldName = $owns[$key]['key'];
                 $moduleName = $owns[$key]['module'];
 
+                // проверяем что передан объект нужного типа
+                if (!is_a($val, $className)) {
+                    $mutator = $map[$key]['mutator'];
+                    throw new mzzInvalidParameterException('С помощью мутатора ' . $mutator . ' должен быть передан объект типа ' . $className . ', однако передан объект', $val);
+                }
+
                 // получаем нужный маппер
                 $toolkit = systemToolkit::getInstance();
                 $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
@@ -852,6 +858,12 @@ abstract class simpleMapper
                 // отмечаем, что это поле уже было сохранено
                 $saved[$key] = true;
             } elseif (isset($map[$key]['hasMany'])) {
+                // проверяем что передан массив
+                if (!is_array($val)) {
+                    $mutator = $map[$key]['mutator'];
+                    throw new mzzInvalidParameterException('С помощью мутатора ' . $mutator . ' должен быть передан массив, однако передано ', $val);
+                }
+
                 $accessor = $map[$key]['accessor'];
                 $oldData = $object->$accessor();
 
@@ -860,18 +872,23 @@ abstract class simpleMapper
                     $oldObjIds[$subval->getObjId()] = $subval->getId();
                 }
 
-                // определяем записи, которых нет в новом массиве
-                foreach ($val as $subkey => $subval) {
-                    if (isset($oldObjIds[$subval->getObjId()])) {
-                        unset($oldObjIds[$subval->getObjId()]);
-                    }
-                }
-
                 $sectionName = $hasMany[$key]['section'];
                 $className = $hasMany[$key]['class'];
                 $fieldName = $hasMany[$key]['key'];
                 $moduleName = $hasMany[$key]['module'];
                 $thisField = $hasMany[$key]['field'];
+
+                // определяем записи, которых нет в новом массиве
+                foreach ($val as $subkey => $subval) {
+                    // проверяем что каждый из элементов массива нужного типа
+                    if (!is_a($subval, $className)) {
+                        throw new mzzInvalidParameterException('Ожидается элемент массива типа ' . $className . ', однако передан объект', $subval);
+                    }
+
+                    if (isset($oldObjIds[$subval->getObjId()])) {
+                        unset($oldObjIds[$subval->getObjId()]);
+                    }
+                }
 
                 // получаем нужный маппер
                 $toolkit = systemToolkit::getInstance();

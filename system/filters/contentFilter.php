@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage filters
- * @version 0.2.5
+ * @version 0.2.6
  */
 class contentFilter implements iFilter
 {
@@ -54,8 +54,10 @@ class contentFilter implements iFilter
                 throw $e;
             }
 
-            $this->set404($request);
-            $template = $frontcontroller->getTemplateName();
+            $output = $this->get404($request);
+            if ($output === false) {
+                $template = $frontcontroller->getTemplateName();
+            }
         }
 
         $smarty = $toolkit->getSmarty();
@@ -65,7 +67,10 @@ class contentFilter implements iFilter
         $smarty->assign('current_action', $request->getRequestedAction());
         $smarty->assign('current_path', $request->getPath());
 
-        $output = $smarty->fetch($template);
+        // если вывода ещё не было (не 404 страница), или был (404, но вернувшая false - что значит что должен быть запущен стандартный запуск через активный шаблон)
+        if (!isset($output) || $output === false) {
+            $output = $smarty->fetch($template);
+        }
 
         $response->append($output);
 
@@ -76,11 +81,11 @@ class contentFilter implements iFilter
      * Вывод страницы 404
      *
      */
-    private function set404()
+    private function get404()
     {
         fileLoader::load('simple/simple404Controller');
         $controller = new simple404Controller();
-        $controller->run();
+        return $controller->run();
     }
 }
 
