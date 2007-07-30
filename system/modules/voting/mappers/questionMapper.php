@@ -43,11 +43,6 @@ class questionMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
-    public function searchByName($name)
-    {
-        return $this->searchOneByField('name', $name);
-    }
-
     public function getAllAnswers($id)
     {
         $answerMapper = systemToolkit::getInstance()->getMapper('voting', 'answer');
@@ -79,13 +74,7 @@ class questionMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
-        $action = systemToolkit::getInstance()->getRequest()->getAction();
-
-        if ($action == 'view' || $action == 'results') {
-            $question = $this->searchByName($args['name']);
-        } else {
-            $question = $this->searchById($args['id']);
-        }
+        $question = $this->searchById($args['id']);
 
         if ($question) {
             return $question;

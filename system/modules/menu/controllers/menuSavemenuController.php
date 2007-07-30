@@ -37,6 +37,7 @@ class menuSavemenuController extends simpleController
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо имя');
         $validator->add('required', 'title', 'Необходим заголовок');
+        $validator->add('callback', 'name', 'Имя меню должно быть уникальным', array(array($this, 'checkName'), $menu));
 
         if (!$validator->validate()) {
             $url = new url($isEdit ? 'withAnyParam' : 'default2');
@@ -60,6 +61,18 @@ class menuSavemenuController extends simpleController
             $menuMapper->save($menu);
             return jipTools::redirect();
         }
+    }
+
+    public function checkName($name, $menu)
+    {
+        if ($name == $menu->getName()) {
+            return true;
+        }
+        $menuMapper = systemToolkit::getInstance()->getMapper('menu', 'menu');
+
+        $criteria = new criteria();
+        $criteria->add('name', $name);
+        return is_null($menuMapper->searchOneByCriteria($criteria));
     }
 }
 

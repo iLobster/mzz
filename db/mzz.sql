@@ -326,8 +326,7 @@ CREATE TABLE `comments_comments` (
 #
 
 INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `folder_id`) VALUES 
-  (25,135,'asdfsdfg',2,1164000450,14),
-  (26,579,'Ну нихера себе красотень то какая!',2,1179728334,40);
+  (25,135,'asdfsdfg',2,1164000450,14);
 
 COMMIT;
 
@@ -372,7 +371,8 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
   (45,631,626),
   (46,668,463),
   (47,669,456),
-  (48,783,780);
+  (48,783,780),
+  (49,836,777);
 
 COMMIT;
 
@@ -403,10 +403,8 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,15,1,'',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,59,1,'',6,623),
-  (4,'256dc2b521b20609fed2d66aa2eeb34d','2.jpg','jpg',243556,2,1,NULL,5,779),
-  (5,'3dac90917213a1dc07fffce0d5e84e1a','2.jpg','jpg',1961,6,1,NULL,6,784);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,16,1,'',5,611),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,65,1,'',6,623);
 
 COMMIT;
 
@@ -490,7 +488,7 @@ CREATE TABLE `gallery_album` (
 
 INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `main_photo`, `obj_id`) VALUES 
   (1,1,'asd',1,NULL,0,537),
-  (2,1,'gsdf',1,1183979981,0,777);
+  (2,1,'gsdf',0,1183979981,0,777);
 
 COMMIT;
 
@@ -540,8 +538,7 @@ CREATE TABLE `gallery_photo` (
 #
 
 INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES 
-  (1,1,'девка',NULL,NULL,612),
-  (2,2,'test',NULL,NULL,780);
+  (1,1,'девка',NULL,NULL,612);
 
 COMMIT;
 
@@ -639,7 +636,7 @@ INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, 
   (6,2,NULL,'admin/admin',NULL,NULL),
   (6,3,NULL,'admin',NULL,NULL),
   (6,4,NULL,'',NULL,NULL),
-  (7,2,NULL,'/message/incoming/list',NULL,NULL),
+  (7,2,NULL,'message/incoming/list',NULL,NULL),
   (7,3,NULL,'message',NULL,NULL),
   (7,4,NULL,'',NULL,NULL);
 
@@ -4536,9 +4533,6 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4873,9,11,570,2,NULL,1,0),
   (4874,19,11,570,2,NULL,0,0),
   (4875,5,11,570,2,NULL,0,0),
-  (4876,9,10,579,2,NULL,1,0),
-  (4877,2,10,579,2,NULL,1,0),
-  (4878,1,10,579,2,NULL,1,0),
   (4879,9,11,591,2,NULL,1,0),
   (4880,19,11,591,2,NULL,0,0),
   (4881,5,11,591,2,NULL,0,0),
@@ -4563,7 +4557,10 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (4900,3,22,0,NULL,1,1,0),
   (4901,9,11,783,2,NULL,1,0),
   (4902,19,11,783,2,NULL,0,0),
-  (4903,5,11,783,2,NULL,0,0);
+  (4903,5,11,783,2,NULL,0,0),
+  (4904,9,11,836,2,NULL,1,0),
+  (4905,19,11,836,2,NULL,0,0),
+  (4906,5,11,836,2,NULL,0,0);
 
 COMMIT;
 
@@ -4893,7 +4890,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (607,11),
   (570,11),
   (591,11),
-  (579,10),
+  (837,31),
   (596,11),
   (611,14),
   (612,20),
@@ -4902,7 +4899,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (616,14),
   (619,12),
   (623,14),
-  (779,14),
+  (842,25),
   (777,18),
   (631,11),
   (632,7),
@@ -4942,9 +4939,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (759,12),
   (770,12),
   (775,16),
-  (780,20),
+  (836,11),
   (783,11),
-  (784,14),
+  (841,26),
   (241,17),
   (792,7),
   (793,7),
@@ -4967,7 +4964,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (832,27),
   (823,26),
   (827,26),
-  (828,24);
+  (843,25),
+  (835,24),
+  (845,25),
+  (844,26);
 
 COMMIT;
 
@@ -5033,7 +5033,10 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (68,'moveDown'),
   (69,'register'),
   (70,'results'),
-  (71,'send');
+  (71,'send'),
+  (72,'addcategory'),
+  (73,'deletecategory'),
+  (74,'editcategory');
 
 COMMIT;
 
@@ -5218,7 +5221,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (29,'answer',13),
   (30,'voteFolder',13),
   (32,'message',14),
-  (33,'messageCategory',14);
+  (33,'messageCategory',14),
+  (34,'voteCategory',13);
 
 COMMIT;
 
@@ -5363,8 +5367,12 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (185,33,71),
   (186,32,2),
   (187,30,20),
-  (188,30,4),
-  (189,28,2);
+  (194,30,72),
+  (189,28,2),
+  (190,34,9),
+  (192,34,4),
+  (195,34,73),
+  (196,34,74);
 
 COMMIT;
 
@@ -5416,7 +5424,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (27,30,13),
   (28,31,13),
   (29,32,14),
-  (30,33,14);
+  (30,33,14),
+  (31,34,13);
 
 COMMIT;
 
@@ -6299,7 +6308,24 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (831),
   (832),
   (833),
-  (834);
+  (834),
+  (835),
+  (836),
+  (837),
+  (838),
+  (839),
+  (840),
+  (841),
+  (842),
+  (843),
+  (844),
+  (845),
+  (846),
+  (847),
+  (848),
+  (849),
+  (850),
+  (851);
 
 COMMIT;
 
@@ -6555,7 +6581,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (88,2,'45dedeb9128694056f2447d7a51bff41','2007-07-25 23:01:35',828,'http://mzz/templates/images/admin','127.0.0.1');
+  (89,2,'74c8c9dee4c9b711dba3e691fe44c4c8','2007-07-29 22:44:08',835,'http://mzz/gallery/1/editAlbum?ajax=1','127.0.0.1');
 
 COMMIT;
 
@@ -6593,8 +6619,8 @@ DROP TABLE IF EXISTS `voting_question`;
 
 CREATE TABLE `voting_question` (
   `id` int(11) NOT NULL auto_increment,
-  `name` char(255) NOT NULL default '',
   `question` char(255) NOT NULL default '',
+  `category_id` int(11) default '0',
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -6603,8 +6629,8 @@ CREATE TABLE `voting_question` (
 # Data for the `voting_question` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_question` (`id`, `name`, `question`, `obj_id`) VALUES 
-  (1,'simple','Вы верите в розового жирафика?',796);
+INSERT INTO `voting_question` (`id`, `question`, `category_id`, `obj_id`) VALUES 
+  (1,'Вы верите в розового жирафика?',1,796);
 
 COMMIT;
 
@@ -6629,6 +6655,29 @@ CREATE TABLE `voting_vote` (
 
 INSERT INTO `voting_vote` (`id`, `answer_id`, `user_id`, `question_id`, `text`) VALUES 
   (5,9,2,1,NULL);
+
+COMMIT;
+
+#
+# Structure for the `voting_voteCategory` table : 
+#
+
+DROP TABLE IF EXISTS `voting_voteCategory`;
+
+CREATE TABLE `voting_voteCategory` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `obj_id` int(11) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `voting_voteCategory` table  (LIMIT 0,500)
+#
+
+INSERT INTO `voting_voteCategory` (`id`, `name`, `title`, `obj_id`) VALUES 
+  (1,'simple','Простая',837);
 
 COMMIT;
 

@@ -44,10 +44,6 @@ function deleteOne(trelem)
             <td>{form->text name="question" size="60" value=$question->getQuestion()}{$errors->get('question')}</td>
         <tr>
         <tr>
-            <td>{form->caption name="name" value="Èìÿ:"}</td>
-            <td>{form->text name="name" size="60" value=$question->getName()}{$errors->get('name')}</td>
-        <tr>
-        <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
         </tr>

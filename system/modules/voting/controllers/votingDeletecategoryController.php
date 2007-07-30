@@ -13,24 +13,27 @@
  */
 
 /**
- * votingAdminController: контроллер для метода admin модуля voting
+ * votingDeletecategoryController: контроллер для метода deletecategory модуля voting
  *
  * @package modules
  * @subpackage voting
  * @version 0.1
  */
 
-class votingAdminController extends simpleController
+class votingDeletecategoryController extends simpleController
 {
     public function getView()
     {
+        $id = $this->request->get('id', 'integer');
         $categoryMapper = $this->toolkit->getMapper('voting', 'voteCategory');
-        $folderMapper = $this->toolkit->getMapper('voting', 'voteFolder');
-        $categories = $categoryMapper->searchAll();
 
-        $this->smarty->assign('categories', $categories);
-        $this->smarty->assign('folder', $folderMapper->getFolder());
-        return $this->smarty->fetch('voting/admin.tpl');
+        $category = $categoryMapper->searchById($id);
+
+        if ($category) {
+            $categoryMapper->delete($category);
+        }
+
+        return jipTools::redirect();
     }
 }
 

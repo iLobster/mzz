@@ -9,4 +9,4 @@
     {$answers[$vote.answer_id]->getTitle()}
     {if $answers[$vote.answer_id]->getTypeTitle() == 'text'} ({$vote.text|htmlspecialchars}){/if} 
 {/foreach}<br />
-<a href="{url route="withAnyParam" action="results" name=$question->getName()}">Результаты</a>
+<a href="{url route="withId" action="results" id=$question->getId()}">Результаты</a>

@@ -14,4 +14,4 @@
 {/foreach}
 {form->submit name="submit" value="Проголосовать"}
 </form>
-<a href="{url route="withAnyParam" action="results" name=$question->getName()}">Результаты</a>
+<a href="{url route="withId" action="results" id=$question->getId()}">Результаты</a>

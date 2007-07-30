@@ -26,20 +26,24 @@ class votingSaveController extends simpleController
 {
     public function getView()
     {
+        $categoryMapper = $this->toolkit->getMapper('voting', 'voteCategory');
         $questionMapper = $this->toolkit->getMapper('voting', 'question');
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
-
         $id = $this->request->get('id', 'integer');
-        $question = ($isEdit) ? $questionMapper->searchById($id) : $questionMapper->create();
+
+        if ($isEdit) {
+            $question = $questionMapper->searchById($id);
+        } else {
+            $category = $categoryMapper->searchById($id);
+            $question = $questionMapper->create();
+        }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Необходимо задать имя голосования');
-        $validator->add('callback', 'name', 'Имя голосования должно быть уникальным', array(array($this, 'checkVoteName'), $question));
         $validator->add('required', 'question', 'Необходимо задать тему голосования');
 
         if (!$validator->validate()) {
-            $url = new url(($isEdit) ? 'withId' : 'default2');
+            $url = new url('withId');
             $url->setAction($action);
             $url->add('id', $id);
 
@@ -52,31 +56,21 @@ class votingSaveController extends simpleController
             $this->smarty->assign('isEdit', $isEdit);
             return $this->smarty->fetch('voting/save.tpl');
         } else {
-            $name = $this->request->get('name', 'string', SC_POST);
+            if (!$isEdit) {
+                $question->setCategory($category);
+            }
             $question_name = $this->request->get('question', 'string', SC_POST);
 
             $titles = (array)$this->request->get('answers', 'array', SC_POST);
             $types = (array)$this->request->get('answers_type', 'array', SC_POST);
 
-            $question->setName($name);
             $question->setQuestion($question_name);
             $question->setAnswers($titles, $types);
+
             $questionMapper->save($question);
 
             return jipTools::redirect();
         }
-    }
-
-    public function checkVoteName($name, $question)
-    {
-        if ($name == $question->getName()) {
-            return true;
-        }
-        $questionMapper = systemToolkit::getInstance()->getMapper('voting', 'question');
-
-        $criteria = new criteria();
-        $criteria->add('name', $name);
-        return is_null($questionMapper->searchOneByCriteria($criteria));
     }
 }
 

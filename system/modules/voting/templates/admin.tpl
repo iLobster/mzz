@@ -1,8 +1,8 @@
-<p class="pageTitle">Список голосований:{$folder->getJip()}</p>
-{foreach from=$questions item="question"}
-{$question->getQuestion()} (<strong>{$question->getName()}</strong>){$question->getJip()}<br />
-    {foreach from=$question->getAnswers() item="answer"}
-        
-    {/foreach}
-    <br /><br />
+<p class="pageTitle">Список категорий:{$folder->getJip()}</p>
+{foreach from=$categories item="category"}
+{$category->getTitle()} ({$category->getName()}){$category->getJip()}<br />
+{foreach from=$category->getQuestions() item="question"}
+<strong>{$question->getId()}.</strong>{$question->getQuestion()} {$question->getJip()}<br />
+{/foreach}
+<br /><br />
 {/foreach}

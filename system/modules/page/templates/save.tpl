@@ -72,7 +72,7 @@ function toggleEditor(id) {
         <td style='width: 85%;'>{form->text name="title" value=$page->getTitle() size="60"}</td>
     </tr>
         <tr>
-        <td style='width: 15%;'>{form->caption name="title" value="Компилируемый" onError="style=color: red;"}</td>
+        <td style='width: 15%;'>{form->caption name="title" value="Компилируемая" onError="style=color: red;"}</td>
         <td style='width: 85%;'>{form->checkbox name="compiled" value=$page->getCompiled()}</td>
     </tr>
     <tr>

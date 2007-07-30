@@ -24,10 +24,10 @@ class votingViewController extends simpleController
 {
     public function getView()
     {
-        $name = $this->request->get('name', 'string');
+        $id = $this->request->get('id', 'integer');
         $questionMapper = $this->toolkit->getMapper('voting', 'question');
 
-        $question = $questionMapper->searchByName($name);
+        $question = $questionMapper->searchById($id);
 
         $votes = $question->getVotes();
         if (!empty($votes)) {

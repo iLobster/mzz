@@ -122,11 +122,22 @@ class menuItemMapper extends simpleCatalogueMapper
     }
     */
 
+    private function getObjId()
+    {
+        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_menuItem');
+        $this->register($obj_id);
+        return $obj_id;
+    }
+
     public function convertArgsToObj($args)
     {
         if ($args['id'] == 0) {
-            throw new Exception('страйкер, это что за херня?');
-            return 672;
+            //throw new Exception('страйкер, это что за херня?');
+            //return 672;
+            $accessMapper = systemToolkit::getInstance()->getMapper('access', 'access');
+            $access = $accessMapper->create();
+            $access->import(array('obj_id' => $this->getObjId()));
+            return $access;
         }
         $item = $this->searchById($args['id']);
 
