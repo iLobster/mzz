@@ -68,6 +68,16 @@ class new_simpleForTree extends simple
     }
 
     /**
+     * Экспортирование данных из дерева
+     *
+     * @return array
+     */
+    public function exportTreeFields()
+    {
+        return $this->treeFields->export();
+    }
+
+    /**
      * Получение пути до узла
      *
      * @param boolean $simple получить в сокращённом (без корневого элемента) или полном формате

@@ -236,6 +236,15 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $this->assertEqual($node->getPath(false), 'foo1/foo4/foo2/foo5');
     }
 
+    public function testMoveNested()
+    {
+        $this->expectException(new mzzRuntimeException('Ќевозможно перенести узел во вложенную ветку'));
+
+        $node = $this->mapper->searchByKey(2);
+        $target = $this->mapper->searchByKey(5);
+        $this->mapper->move($node, $target);
+    }
+
     public function testDelete()
     {
         $node = $this->mapper->searchByKey(2);

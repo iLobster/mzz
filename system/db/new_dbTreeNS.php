@@ -73,6 +73,10 @@ class new_dbTreeNS
      */
     public function getNodeInfo($id)
     {
+        if (is_null($id)) {
+            throw new mzzRuntimeException('Узел не найден');
+        }
+
         if ($id instanceof new_simpleForTree) {
             $id = $id->getTreeKey();
         }
@@ -173,6 +177,10 @@ class new_dbTreeNS
     {
         $target = $this->getNodeInfo($target);
         $node = $this->getNodeInfo($node);
+
+        if ($node['lkey'] <= $target['lkey'] && $node['rkey'] >= $target['rkey']) {
+            throw new mzzRuntimeException('Невозможно перенести узел во вложенную ветку');
+        }
 
         $skew_tree = $node['rkey'] - $node['lkey'] + 1;
         $skew_level = $target['level'] - $node['level'] + 1;
