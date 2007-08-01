@@ -404,7 +404,7 @@ CREATE TABLE `fileManager_file` (
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
   (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,16,1,'',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,65,1,'',6,623);
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,66,1,'',6,623);
 
 COMMIT;
 
@@ -1087,7 +1087,7 @@ CREATE TABLE `page_page` (
 #
 
 INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `compiled`) VALUES 
-  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\r\n{load section=\"user\" action=\"list\" module=\"user\"}\r\n',1,1),
+  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n{load module=\"voting\" section=\"voting\" action=\"viewActual\" name=\"simple\"}\n',1,1),
   (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1,NULL),
   (3,11,'test','test','test',1,NULL),
   (4,57,'403','Доступ запрещён','Доступ запрещён',1,NULL),
@@ -4963,11 +4963,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (815,21),
   (832,27),
   (823,26),
-  (827,26),
+  (854,26),
   (843,25),
   (845,25),
   (844,26),
-  (852,24);
+  (853,24);
 
 COMMIT;
 
@@ -5036,7 +5036,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (71,'send'),
   (72,'addcategory'),
   (73,'deletecategory'),
-  (74,'editcategory');
+  (74,'editcategory'),
+  (75,'viewActual');
 
 COMMIT;
 
@@ -5372,7 +5373,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (190,34,9),
   (192,34,4),
   (195,34,73),
-  (196,34,74);
+  (196,34,74),
+  (197,34,75);
 
 COMMIT;
 
@@ -6326,7 +6328,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (849),
   (850),
   (851),
-  (852);
+  (852),
+  (853),
+  (854);
 
 COMMIT;
 
@@ -6486,6 +6490,7 @@ CREATE TABLE `user_userAuth` (
   `user_id` int(11) unsigned default NULL,
   `ip` char(15) default NULL,
   `hash` char(32) default NULL,
+  `obj_id` int(11) unsigned default NULL,
   `time` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -6494,38 +6499,38 @@ CREATE TABLE `user_userAuth` (
 # Data for the `user_userAuth` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `time`) VALUES 
-  (12,2,'127.0.0.10','40f005459cebb89062ce9c68d8a1a6e4',1163984139),
-  (14,2,'127.0.0.10','dfbd10d2c43c598707181edac1dcb03f',1163992875),
-  (15,2,'127.0.0.10','2fa75156d5b5c303756c73aff49271cd',1164262245),
-  (16,2,'127.0.0.10','cf86fbaa31ae0541760c738157ddad41',1164762973),
-  (17,2,'127.0.0.10','231926d71b42299ad056586146d9fdc8',1165213689),
-  (18,2,'127.0.0.1','23f7962e0e872c530f4e8af736633a87',1165448691),
-  (19,2,'127.0.0.1','87797ac73e4f640b4afc275d741d1204',1166160735),
-  (21,2,'127.0.0.1','d7077cea0a904e17ac64769455aca1c1',1167013306),
-  (22,2,'127.0.0.1','6cf0e978f23e2cb178b7aed1112095f9',1170655390),
-  (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',1170713610),
-  (25,2,'127.0.0.1','35309ce4e0316685d1be41d25afde9d7',1172709883),
-  (26,2,'127.0.0.1','e43de89500fe5c144b5a4687c80cefa9',1173239786),
-  (27,2,'127.0.0.1','ccc906aca21b95a2e8825f6533632de5',1173277691),
-  (28,2,'127.0.0.1','ab6db17706e797855c40ba766f8ee3fc',1173523868),
-  (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',1173738059),
-  (31,2,'127.0.0.1','86db01de276d43e124a8f90698a47535',1174513056),
-  (32,2,'127.0.0.1','38c02192a4890c38332d953ea4eaf6d8',1174653915),
-  (33,2,'127.0.0.1','8539a118934eb12959125b4a42c2cf20',1175426933),
-  (36,2,'127.0.0.1','19269e37d22baa4c020b3c4b3732c9ea',1175870749),
-  (38,2,'127.0.0.1','d6090ce8c9813fad79e3da7eae307a81',1177501534),
-  (41,2,'127.0.0.1','30a14bf7cf464e1954409b121b7b0f81',1178274095),
-  (40,2,'127.0.0.1','8c54ec4684e05d0d7b1c77af2c1c548b',1177993805),
-  (42,2,'127.0.0.1','a47cd179dacb2cbc2fcbf3e243d12ddb',1179236686),
-  (43,2,'127.0.0.1','b2511bfd1d2906995fe96f68984c7181',1179495030),
-  (44,2,'127.0.0.1','a46540554cada38f1d48bd0832078e5f',1179718723),
-  (45,2,'127.0.0.1','cba27dedbe67f747ae71e793c7f815e7',1179777463),
-  (46,2,'127.0.0.1','aeec5af86d3bac1a76a24f28ef32b7ec',1179993941),
-  (47,2,'127.0.0.1','c6de5dc93546987d91e834e88dd1e321',1181822827),
-  (48,2,'127.0.0.1','7f825cd5ac7360ed49bc536d0e9ed9d3',1182045769),
-  (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',1183614529),
-  (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',1183816243);
+INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
+  (12,2,'127.0.0.10','40f005459cebb89062ce9c68d8a1a6e4',121,1163984139),
+  (14,2,'127.0.0.10','dfbd10d2c43c598707181edac1dcb03f',126,1163992875),
+  (15,2,'127.0.0.10','2fa75156d5b5c303756c73aff49271cd',148,1164262245),
+  (16,2,'127.0.0.10','cf86fbaa31ae0541760c738157ddad41',149,1164762973),
+  (17,2,'127.0.0.10','231926d71b42299ad056586146d9fdc8',150,1165213689),
+  (18,2,'127.0.0.1','23f7962e0e872c530f4e8af736633a87',151,1165448691),
+  (19,2,'127.0.0.1','87797ac73e4f640b4afc275d741d1204',155,1166160735),
+  (21,2,'127.0.0.1','d7077cea0a904e17ac64769455aca1c1',157,1167013306),
+  (22,2,'127.0.0.1','6cf0e978f23e2cb178b7aed1112095f9',176,1170655390),
+  (23,2,'127.0.0.1','7f0e40b578c76a1809043d0cb4b1b58d',189,1170713610),
+  (25,2,'127.0.0.1','35309ce4e0316685d1be41d25afde9d7',224,1172709883),
+  (26,2,'127.0.0.1','e43de89500fe5c144b5a4687c80cefa9',253,1173239786),
+  (27,2,'127.0.0.1','ccc906aca21b95a2e8825f6533632de5',259,1173277691),
+  (28,2,'127.0.0.1','ab6db17706e797855c40ba766f8ee3fc',260,1173523868),
+  (29,2,'127.0.0.1','64e5e933282a5f410d87265186533fe4',262,1173738059),
+  (31,2,'127.0.0.1','86db01de276d43e124a8f90698a47535',286,1174513056),
+  (32,2,'127.0.0.1','38c02192a4890c38332d953ea4eaf6d8',476,1174653915),
+  (33,2,'127.0.0.1','8539a118934eb12959125b4a42c2cf20',494,1175426933),
+  (36,2,'127.0.0.1','19269e37d22baa4c020b3c4b3732c9ea',498,1175870749),
+  (38,2,'127.0.0.1','d6090ce8c9813fad79e3da7eae307a81',507,1177501534),
+  (41,2,'127.0.0.1','30a14bf7cf464e1954409b121b7b0f81',529,1178274095),
+  (40,2,'127.0.0.1','8c54ec4684e05d0d7b1c77af2c1c548b',524,1177993805),
+  (42,2,'127.0.0.1','a47cd179dacb2cbc2fcbf3e243d12ddb',538,1179236686),
+  (43,2,'127.0.0.1','b2511bfd1d2906995fe96f68984c7181',541,1179495030),
+  (44,2,'127.0.0.1','a46540554cada38f1d48bd0832078e5f',567,1179718723),
+  (45,2,'127.0.0.1','cba27dedbe67f747ae71e793c7f815e7',615,1179777463),
+  (46,2,'127.0.0.1','aeec5af86d3bac1a76a24f28ef32b7ec',619,1179993941),
+  (47,2,'127.0.0.1','c6de5dc93546987d91e834e88dd1e321',634,1181822827),
+  (48,2,'127.0.0.1','7f825cd5ac7360ed49bc536d0e9ed9d3',654,1182045769),
+  (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
+  (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1185959953);
 
 COMMIT;
 
@@ -6568,6 +6573,7 @@ CREATE TABLE `user_userOnline` (
   `user_id` int(11) default NULL,
   `session` char(32) default NULL,
   `last_activity` datetime default NULL,
+  `obj_id` int(11) default NULL,
   `url` char(255) default NULL,
   `ip` char(15) default NULL,
   PRIMARY KEY  (`id`),
@@ -6579,8 +6585,8 @@ CREATE TABLE `user_userOnline` (
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (90,2,'202684d5af79819a05cef4279e87c599','2007-07-31 10:26:31','http://mzz/admin/catalogue/admin','127.0.0.1');
+INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
+  (92,2,'a81bef98e975764f770d0d1064575f35','2007-08-01 20:22:21',NULL,'http://mzz/admin/gallery/admin','127.0.0.1');
 
 COMMIT;
 
@@ -6604,9 +6610,9 @@ CREATE TABLE `voting_answer` (
 #
 
 INSERT INTO `voting_answer` (`id`, `title`, `type`, `question_id`, `obj_id`) VALUES 
-  (2,'Нет',0,1,799),
-  (5,'Да',0,1,823),
-  (9,'еуые',1,1,827);
+  (2,'Да',0,1,799),
+  (5,'Нет',0,1,823),
+  (10,'Свой вариант',2,1,854);
 
 COMMIT;
 
@@ -6647,15 +6653,6 @@ CREATE TABLE `voting_vote` (
   `text` char(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `voting_vote` table  (LIMIT 0,500)
-#
-
-INSERT INTO `voting_vote` (`id`, `answer_id`, `user_id`, `question_id`, `text`) VALUES 
-  (5,9,2,1,NULL);
-
-COMMIT;
 
 #
 # Structure for the `voting_voteCategory` table : 
