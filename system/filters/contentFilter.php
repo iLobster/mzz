@@ -43,7 +43,7 @@ class contentFilter implements iFilter
             $router->route($request->getPath());
         } catch (mzzRouteException $e) {
             if ($e->getMessage() == 404) {
-                $this->set404($request);
+                $output = $this->get404();
             }
         }
 
@@ -54,7 +54,7 @@ class contentFilter implements iFilter
                 throw $e;
             }
 
-            $output = $this->get404($request);
+            $output = $this->get404();
             if ($output === false) {
                 $template = $frontcontroller->getTemplateName();
             }

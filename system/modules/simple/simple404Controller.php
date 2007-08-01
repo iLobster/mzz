@@ -57,7 +57,6 @@ class simple404Controller extends simpleController
         $this->toolkit->getResponse()->setHeader('', 'HTTP/1.x 404 Not Found');
 
         return $this->onlyHeaders ? false : $controller->run();
-        return false;
     }
 }
 
