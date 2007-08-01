@@ -43,10 +43,38 @@ class voteCategoryMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
+    public function searchByName($name)
+    {
+        return $this->searchOneByField('name', $name);
+    }
+
     public function getQuestions($id)
     {
         $questionMapper = systemToolkit::getInstance()->getMapper('voting', 'question');
         return $questionMapper->searchAllByField('category_id', $id);
+    }
+
+    public function getActual($id)
+    {
+        $actualQuestions = array();;
+        $questions = $this->getQuestions($id);
+
+        if (empty($questions)) {
+            return null;
+        }
+
+        foreach ($questions as $question) {
+            $votes = $question->getVotes();
+            if (empty($votes)) {
+                $actualQuestions[] = $question;
+            }
+        }
+
+        if (empty($actualQuestions)) {
+            $actualQuestions = array_values($questions);
+        }
+
+        return $actualQuestions[rand(0, (count($actualQuestions) - 1))];
     }
 
     public function delete(voteCategory $do)
@@ -66,7 +94,13 @@ class voteCategoryMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
-        $category = $this->searchById($args['id']);
+        $action = systemToolkit::getInstance()->getRequest()->getAction();
+
+        if ($action == 'viewActual') {
+            $category = $this->searchByName($args['name']);
+        } else {
+            $category = $this->searchById($args['id']);
+        }
 
         if ($category) {
             return $category;

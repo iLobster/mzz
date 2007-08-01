@@ -28,6 +28,11 @@ class voteCategory extends simple
     {
         return $this->mapper->getQuestions($this->getId());
     }
+
+    public function getActual()
+    {
+        return $this->mapper->getActual($this->getId());
+    }
 }
 
 ?>
