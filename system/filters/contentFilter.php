@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage filters
- * @version 0.2.6
+ * @version 0.2.7
  */
 class contentFilter implements iFilter
 {
@@ -41,16 +41,9 @@ class contentFilter implements iFilter
 
         try {
             $router->route($request->getPath());
-        } catch (mzzRouteException $e) {
-            if ($e->getMessage() == 404) {
-                $output = $this->get404();
-            }
-        }
-
-        try {
             $template = $frontcontroller->getTemplateName();
         } catch (mzzRuntimeException $e) {
-            if (DEBUG_MODE) {
+            if (DEBUG_MODE && !($e instanceof mzzRouteException)) {
                 throw $e;
             }
 

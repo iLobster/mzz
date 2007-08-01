@@ -22,7 +22,7 @@
  * @version 0.1
 */
 
-class mzzRouteException extends mzzException
+class mzzRouteException extends mzzRuntimeException
 {
 
 }
