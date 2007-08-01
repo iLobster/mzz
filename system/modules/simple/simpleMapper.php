@@ -180,7 +180,7 @@ abstract class simpleMapper
      *
      * @return boolean
      */
-    public function objId_enabled()
+    public function isObjIdEnabled()
     {
         return !is_null($this->obj_id_field);
     }
@@ -215,7 +215,7 @@ abstract class simpleMapper
     {
         $toolkit = systemToolkit::getInstance();
 
-        if ($this->objId_enabled()) {
+        if ($this->isObjIdEnabled()) {
             $object->setObjId($toolkit->getObjectId());
         }
 
@@ -271,7 +271,7 @@ abstract class simpleMapper
                 $tmp = $toolkit->setUser($user);
             }
 
-            if ($this->objId_enabled()) {
+            if ($this->isObjIdEnabled()) {
                 $this->register($object->getObjId());
             }
 
@@ -384,7 +384,7 @@ abstract class simpleMapper
         $toolkit = systemToolkit::getInstance();
         $object = $this->searchOneByField($this->tableKey, $id);
 
-        if ($object && $this->objId_enabled()) {
+        if ($object && $this->isObjIdEnabled()) {
             $acl = new acl($toolkit->getUser());
             $acl->delete($object->getObjId());
         }
@@ -683,7 +683,7 @@ abstract class simpleMapper
      */
     public function addObjId(&$map)
     {
-        if (!isset($map[$this->obj_id_field]) && $this->objId_enabled()) {
+        if (!isset($map[$this->obj_id_field]) && $this->isObjIdEnabled()) {
             $map[$this->obj_id_field] = array('name' => $this->obj_id_field, 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
         }
     }
