@@ -57,7 +57,8 @@ class menuItemMapper extends simpleCatalogueMapper
     {
         $db = DB::factory();
         $criteria = new criteria($this->table);
-        $criteria->addSelectField('MAX(`order`)', 'maxorder')->add('parent_id', (int)$id);
+        $criteria->addSelectField(new sqlFunction('MAX', 'order', true), 'maxorder')->add('parent_id', (int)$id);
+        //$criteria->addSelectField('MAX(`order`)', 'maxorder')->add('parent_id', (int)$id);
         $select = new simpleSelect($criteria);
         $stmt = $db->query($select->toString());
         $maxorder = $stmt->fetch();

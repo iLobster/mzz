@@ -618,25 +618,25 @@ CREATE TABLE `menu_menuItem_data` (
 #
 
 INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
-  (2,2,NULL,'page',NULL,NULL),
+  (2,2,NULL,'/page',NULL,NULL),
   (1,4,NULL,'',NULL,NULL),
-  (1,2,NULL,'news',NULL,NULL),
+  (1,2,NULL,'/news',NULL,NULL),
   (1,3,NULL,'news',NULL,NULL),
   (2,3,NULL,'page',NULL,NULL),
   (2,4,NULL,'',NULL,NULL),
-  (3,2,NULL,'catalogue',NULL,NULL),
+  (3,2,NULL,'/catalogue',NULL,NULL),
   (3,3,NULL,'catalogue',NULL,NULL),
   (3,4,NULL,'',NULL,NULL),
-  (4,2,NULL,'gallery/admin/viewGallery',NULL,NULL),
+  (4,2,NULL,'/gallery/admin/viewGallery',NULL,NULL),
   (4,3,NULL,'gallery',NULL,NULL),
   (4,4,NULL,'',NULL,NULL),
-  (5,2,NULL,'user/list',NULL,NULL),
+  (5,2,NULL,'/user/list',NULL,NULL),
   (5,3,NULL,'user',NULL,NULL),
   (5,4,NULL,'',NULL,NULL),
-  (6,2,NULL,'admin/admin',NULL,NULL),
+  (6,2,NULL,'/admin/admin',NULL,NULL),
   (6,3,NULL,'admin',NULL,NULL),
   (6,4,NULL,'',NULL,NULL),
-  (7,2,NULL,'message/incoming/list',NULL,NULL),
+  (7,2,NULL,'/message/incoming/list',NULL,NULL),
   (7,3,NULL,'message',NULL,NULL),
   (7,4,NULL,'',NULL,NULL);
 
@@ -4967,6 +4967,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (843,25),
   (845,25),
   (844,26),
+  (855,21),
   (853,24);
 
 COMMIT;
@@ -6330,7 +6331,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (851),
   (852),
   (853),
-  (854);
+  (854),
+  (855),
+  (856);
 
 COMMIT;
 
@@ -6387,7 +6390,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (794,'access_voting_question'),
   (795,'access_voting_voteFolder'),
   (808,'access_message_message'),
-  (832,'voting_voteFolder');
+  (832,'voting_voteFolder'),
+  (855,'menu_menuItem');
 
 COMMIT;
 
@@ -6530,7 +6534,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (47,2,'127.0.0.1','c6de5dc93546987d91e834e88dd1e321',634,1181822827),
   (48,2,'127.0.0.1','7f825cd5ac7360ed49bc536d0e9ed9d3',654,1182045769),
   (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
-  (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1185959953);
+  (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1185959953),
+  (70,2,'127.0.0.1','3ba4b15b4c2a24773bdc153fcde5f444',NULL,1185974311);
 
 COMMIT;
 
@@ -6586,7 +6591,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (92,2,'a81bef98e975764f770d0d1064575f35','2007-08-01 20:22:21',NULL,'http://mzz/admin/gallery/admin','127.0.0.1');
+  (94,2,'3edeff2de3648bc3f93e594925f02a0b','2007-08-02 00:48:02',NULL,'http://mzz/page','127.0.0.1');
 
 COMMIT;
 

@@ -38,7 +38,7 @@ function loadForm(id)
                 {form->textarea name=$element.name value=$element.value style="width:500px;height:300px;"}{$errors->get($element.name)}
                 {elseif $element.type eq 'select' || $element.type == 'dynamicselect'}
                     {form->select name=$element.name options=$element.args value=$element.value}
-                {elseif $element.name == 'url'}{$request->getUrl()}/{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}
+                {elseif $element.name == 'url'}{$request->getUrl()}{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}
                 {else}{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}{/if}</td>
             </tr>{/foreach}
         <tr>

@@ -51,11 +51,11 @@ class menuItem extends simpleCatalogue
 
         switch ($this->getTypeName()) {
             case 'simple':
-                return (($full ? $request->getUrl() : '') . '/' . $this->getPropertyValue('url'));
+                return (($full ? $request->getUrl() : '') . $this->getPropertyValue('url'));
                 break;
 
             case 'advanced':
-                return (($full ? $request->getUrl() : '') . '/' . $this->getPropertyValue('url'));
+                return (($full ? $request->getUrl() : '') . $this->getPropertyValue('url'));
                 break;
         }
     }
@@ -67,7 +67,7 @@ class menuItem extends simpleCatalogue
 
         switch ($this->getTypeName()) {
             case 'simple':
-                return ($request->getUrl() . '/' . $this->getPropertyValue('url') == $request->getRequestUrl());
+                return ($request->getUrl() . $this->getPropertyValue('url') == $request->getRequestUrl());
                 break;
 
             case 'advanced':

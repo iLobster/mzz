@@ -12,7 +12,7 @@ $router->addRoute('pageActions', new requestRoute('page/:name/:action', array('s
 $router->addRoute('pageDefault', new requestRoute('page', array('section' => 'page', 'action' => 'view', 'name' => 'main')));
 
 $router->addRoute('catalogueFolder', new requestRoute('catalogue/:name/:action', array('section' => 'catalogue', 'name' => 'root', 'action' => 'list'), array('name' => '.+?', 'action' => '(?:list|create|createFolder|editFolder|deleteFolder|moveFolder)')));
-$router->addRoute('catalogueActions', new requestRoute('catalogue/:action', array('section' => 'catalogue'), array('action' => '(?:addType|addProperty)')));
+$router->addRoute('catalogueActions', new requestRoute('catalogue/:action', array('section' => 'catalogue'), array('action' => '(?:addType|addProperty|delete|move)')));
 
 $router->addRoute('newsFolder', new requestRoute('news/:name/:action', array('section' => 'news', 'name' => 'root', 'action' => 'list'), array('name' => '.+?', 'action' => '(?:list|create|createFolder|editFolder|deleteFolder|moveFolder)')));
 //$router->addRoute('newsActions', new requestRoute('news/:action', array('section' => 'news', 'name' => 'root', 'action' => 'list'), array('action' => '(?:list|create|delete|createFolder)')));
