@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.8
+ * @version 0.3.9
  */
 
 abstract class simpleMapper
@@ -176,6 +176,16 @@ abstract class simpleMapper
     }
 
     /**
+     * Использовать или нет obj_id
+     *
+     * @return boolean
+     */
+    public function objId_enabled()
+    {
+        return !is_null($this->obj_id_field);
+    }
+
+    /**
      * Если у объекта имеется идентификатор, то выполняется
      * обновление объекта, иначе выполняется вставка объекта в БД
      *
@@ -204,7 +214,10 @@ abstract class simpleMapper
     protected function insert(simple $object, $user = null)
     {
         $toolkit = systemToolkit::getInstance();
-        $object->setObjId($toolkit->getObjectId());
+
+        if ($this->objId_enabled()) {
+            $object->setObjId($toolkit->getObjectId());
+        }
 
         $fields =& $object->export();
 
@@ -258,7 +271,9 @@ abstract class simpleMapper
                 $tmp = $toolkit->setUser($user);
             }
 
-            $this->register($object->getObjId());
+            if ($this->objId_enabled()) {
+                $this->register($object->getObjId());
+            }
 
             if (!is_null($user)) {
                 $toolkit->setUser($tmp);
@@ -369,7 +384,7 @@ abstract class simpleMapper
         $toolkit = systemToolkit::getInstance();
         $object = $this->searchOneByField($this->tableKey, $id);
 
-        if ($object) {
+        if ($object && $this->objId_enabled()) {
             $acl = new acl($toolkit->getUser());
             $acl->delete($object->getObjId());
         }
@@ -668,8 +683,8 @@ abstract class simpleMapper
      */
     public function addObjId(&$map)
     {
-        if (!isset($map[$this->obj_id_field])) {
-            $map['obj_id'] = array('name' => $this->obj_id_field, 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
+        if (!isset($map[$this->obj_id_field]) && $this->objId_enabled()) {
+            $map[$this->obj_id_field] = array('name' => $this->obj_id_field, 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
         }
     }
 
@@ -869,7 +884,7 @@ abstract class simpleMapper
 
                 $oldObjIds = array();
                 foreach ($oldData as $subval) {
-                    $oldObjIds[$subval->getObjId()] = $subval->getId();
+                    $oldObjIds[$subval->getId()] = $subval->getId();
                 }
 
                 $sectionName = $hasMany[$key]['section'];
@@ -885,8 +900,8 @@ abstract class simpleMapper
                         throw new mzzInvalidParameterException('Ожидается элемент массива типа ' . $className . ', однако передан объект', $subval);
                     }
 
-                    if (isset($oldObjIds[$subval->getObjId()])) {
-                        unset($oldObjIds[$subval->getObjId()]);
+                    if (isset($oldObjIds[$subval->getId()])) {
+                        unset($oldObjIds[$subval->getId()]);
                     }
                 }
 

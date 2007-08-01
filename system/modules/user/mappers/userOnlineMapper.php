@@ -38,6 +38,8 @@ class userOnlineMapper extends simpleMapper
      */
     protected $className = 'userOnline';
 
+    protected $obj_id_field = null;
+
     /**
      * Выполнение операций с массивом $fields перед обновлением в БД
      *

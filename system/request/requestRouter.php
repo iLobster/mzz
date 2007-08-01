@@ -116,7 +116,8 @@ class requestRouter
     public function route($path)
     {
         foreach (array_reverse($this->routes) as $route) {
-            if ($params = $route->match($path, $this->debug)) {
+            if ($parts = $route->match($path, $this->debug)) {
+                $params = $parts;
                 $this->current = $route;
                 break;
             }

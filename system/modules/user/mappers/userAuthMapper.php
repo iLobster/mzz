@@ -12,15 +12,15 @@
  * @version $Id$
 */
 
+fileLoader::load('user/userAuth');
+
 /**
  * userAuthMapper: маппер
  *
  * @package modules
  * @subpackage user
- * @version 0.1
+ * @version 0.1.1
  */
-
-fileLoader::load('user/userAuth');
 
 class userAuthMapper extends simpleMapper
 {
@@ -37,6 +37,8 @@ class userAuthMapper extends simpleMapper
      * @var string
      */
     protected $className = 'userAuth';
+
+    protected $obj_id_field = null;
 
     protected $toolkit;
     protected $request;
@@ -58,7 +60,14 @@ class userAuthMapper extends simpleMapper
         $criteria = new criteria();
         $criteria->add('hash', $hash)->add('ip', $ip);
 
-        return $this->searchOneByCriteria($criteria);
+        $auth = $this->searchOneByCriteria($criteria);
+
+        if ($auth) {
+            $auth->setTime('update me please');
+            $this->save($auth);
+        }
+
+        return $auth;
     }
 
     public function set($user_id)
@@ -97,6 +106,18 @@ class userAuthMapper extends simpleMapper
         $response->setCookie('auth', '', 0, '/');
     }
 
+    public function clearExpired($timestamp)
+    {
+        $criteria = new criteria();
+        $criteria->add('time', $timestamp, criteria::LESS);
+
+        $auths = $this->searchAllByCriteria($criteria);
+
+        foreach ($auths as $auth) {
+            $this->delete($auth);
+        }
+    }
+
     private function getHash()
     {
         return $this->request->get('auth', 'string', SC_COOKIE);
@@ -124,7 +145,7 @@ class userAuthMapper extends simpleMapper
      */
     protected function updateDataModify(&$fields)
     {
-        $fields['time'] = new sqlFunction('UNIX_TIMESTAMP');
+        $this->insertDataModify($fields);
     }
 
 

@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage user
- * @version 0.1.1
+ * @version 0.1.2
  */
 class userExitController extends simpleController
 {
@@ -28,6 +28,7 @@ class userExitController extends simpleController
 
         $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
         $userAuthMapper->clear();
+        $userAuthMapper->clearExpired(strtotime('-1 month'));
 
         $this->response->redirect($this->request->get('url', 'string', SC_GET));
     }

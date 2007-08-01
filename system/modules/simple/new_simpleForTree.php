@@ -48,6 +48,19 @@ class new_simpleForTree extends simple
     }
 
     /**
+     * Получение id дерева
+     *
+     * @return integer
+     */
+    public function getTreeId()
+    {
+        if (!$this->treeFields->exists('tree_id')) {
+            $this->mapper->loadTreeData($this);
+        }
+        return $this->treeFields->get('tree_id');
+    }
+
+    /**
      * Получение предка текущего узла
      *
      * @return new_simpleForTree

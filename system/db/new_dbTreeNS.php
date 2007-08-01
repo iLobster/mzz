@@ -13,6 +13,13 @@ class new_dbTreeNS
     private $db;
 
     /**
+     * Идентификатор дерева
+     *
+     * @var integer
+     */
+    private $tree_id;
+
+    /**
      * Параметры объединения таблицы данных и таблицы структуры
      *
      * @see new_simpleMapperForTree::getTreeParams()
@@ -40,6 +47,11 @@ class new_dbTreeNS
         $this->db = db::factory();
     }
 
+    public function setTree($tree_id)
+    {
+        $this->tree_id = $tree_id;
+    }
+
     /**
      * Добавление к критерии объединения таблицы с данными и таблицы со структурой
      *
@@ -48,6 +60,10 @@ class new_dbTreeNS
     public function addJoin(criteria $criteria)
     {
         $criteria->addJoin($this->params['tableName'], new criterion('tree.id', $this->mapper->getClassName() . '.' . $this->params['joinField'], criteria::EQUAL, true), 'tree', criteria::JOIN_INNER);
+
+        if ($this->tree_id) {
+            $criteria->add('tree.' . $this->params['treeIdField'], $this->tree_id);
+        }
     }
 
     /**
@@ -63,6 +79,10 @@ class new_dbTreeNS
         ->addSelectField($alias . '.rkey', $alias . simpleMapper::TABLE_KEY_DELIMITER . 'rkey')
         ->addSelectField($alias . '.level', $alias . simpleMapper::TABLE_KEY_DELIMITER . 'level')
         ->setOrderByFieldAsc($alias . '.lkey');
+
+        if ($this->tree_id) {
+            $criteria->addSelectField($alias . '.' . $this->params['treeIdField'], $alias . simpleMapper::TABLE_KEY_DELIMITER . 'tree_id');
+        }
     }
 
     /**
@@ -85,6 +105,8 @@ class new_dbTreeNS
 
         $criteria->add('tree.id', $id);
 
+        $this->addSelect($criteria);
+
         $select = new simpleSelect($criteria);
         $row = $this->db->getAll($select->toString());
 
@@ -99,7 +121,15 @@ class new_dbTreeNS
      */
     public function createItemFromRow($row)
     {
-        return array('id' => $row['id'], 'lkey' => $row['lkey'], 'rkey' => $row['rkey'], 'level' => $row['level']);
+        $row = $this->mapper->fillArray($row, 'tree');
+
+        $res = array('id' => $row['id'], 'lkey' => $row['lkey'], 'rkey' => $row['rkey'], 'level' => $row['level']);
+
+        if ($this->tree_id) {
+            $res['tree_id'] = $row['tree_id'];
+        }
+
+        return $res;
     }
 
     /**
@@ -159,11 +189,22 @@ class new_dbTreeNS
     {
         $node = $this->getNodeInfo($id);
         $qry = 'UPDATE `' . $this->params['tableName'] . '` SET rkey = rkey + 2, lkey = IF(lkey > ' . $node['rkey'] . ', lkey + 2, lkey) WHERE rkey >= ' . $node['rkey'];
+        $this->addMultitreeWhereCond($qry);
         $this->db->query($qry);
         $qry = 'INSERT INTO `' . $this->params['tableName'] . '` SET lkey = ' . $node['rkey'] . ', rkey = ' . $node['rkey'] . ' + 1, level = ' . $node['level'] . ' + 1';
+        if ($this->tree_id) {
+            $qry .= ', ' . $this->params['treeIdField'] . ' = ' . $this->tree_id;
+        }
         $this->db->query($qry);
 
         return $this->db->lastInsertId();
+    }
+
+    public function addMultitreeWhereCond(&$qry)
+    {
+        if ($this->tree_id) {
+            $qry .= ' AND ' . $this->params['treeIdField'] . ' = ' . $this->tree_id;
+        }
     }
 
     /**
@@ -191,6 +232,10 @@ class new_dbTreeNS
 
         if ($node['rkey'] > $rkey_near) {
             $qry = 'SELECT `id` FROM `' . $this->params['tableName'] . '` WHERE lkey >= ' . $node['lkey'] . ' AND rkey <= ' . $node['rkey'];
+            if ($this->tree_id) {
+                $qry .= ' AND ' . $this->params['treeIdField'] . ' = ' . $this->tree_id;
+            }
+
             $id_edit = '';
             foreach ($this->db->getAll($qry) as $val) {
                 $id_edit .= $val['id'] . ', ';
@@ -198,10 +243,15 @@ class new_dbTreeNS
             $id_edit = substr($id_edit, 0, -2);
 
             $qry = 'UPDATE `' . $this->params['tableName'] . '` SET rkey = rkey + ' . $skew_tree . ' WHERE rkey < ' . $node['lkey'] . ' AND rkey > ' . $rkey_near;
+            $this->addMultitreeWhereCond($qry);
             $this->db->query($qry);
+
             $qry = 'UPDATE `' . $this->params['tableName'] . '` SET lkey = lkey + ' . $skew_tree . ' WHERE lkey < ' . $node['lkey'] . ' AND lkey > ' . $rkey_near;
+            $this->addMultitreeWhereCond($qry);
             $this->db->query($qry);
+
             $qry = 'UPDATE `' . $this->params['tableName'] . '` SET lkey = lkey + ' . $skew_edit . ', rkey = rkey + ' . $skew_edit . ', level = level + ' . $skew_level . ' WHERE id IN (' . $id_edit . ')';
+            $this->addMultitreeWhereCond($qry);
             $this->db->query($qry);
         } else {
             $skew_edit -= $skew_tree;
@@ -210,7 +260,7 @@ class new_dbTreeNS
                     SET `lkey` = IF(`rkey` <= ' . $node['rkey'] . ', `lkey` + ' . $skew_edit . ', IF(`lkey` > ' . $node['rkey'] . ' , `lkey` - ' . $skew_tree . ', `lkey`)),
                     `level` = IF(`rkey` <= ' . $node['rkey'] . ', `level` + ' . $skew_level . ', `level`), `rkey` = IF(`rkey` <= ' . $node['rkey'] . ', `rkey` + ' . $skew_edit . ',
                     IF(`rkey` <= ' . $rkey_near . ', `rkey` - ' . $skew_tree . ', `rkey`)) WHERE `rkey` > ' . $node['lkey'] . ' AND `lkey` <= ' . $rkey_near;
-
+            $this->addMultitreeWhereCond($qry);
             $this->db->query($qry);
         }
 
@@ -226,9 +276,11 @@ class new_dbTreeNS
     {
         $node = $this->getNodeInfo($id);
         $qry = 'DELETE FROM `' . $this->params['tableName'] . '` WHERE lkey >= ' . $node['lkey'] . ' AND rkey <= ' . $node['rkey'];
+        $this->addMultitreeWhereCond($qry);
         $this->db->query($qry);
         $diff = $node['rkey'] - $node['lkey'] + 1;
         $qry = 'UPDATE `' . $this->params['tableName'] . '` SET lkey = IF(lkey > ' . $node['lkey'] . ', lkey - ' . $diff  . ', lkey), rkey = rkey - ' . $diff . ' WHERE rkey > ' . $node['rkey'];
+        $this->addMultitreeWhereCond($qry);
         $this->db->query($qry);
     }
 }

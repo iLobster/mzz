@@ -27,8 +27,13 @@ abstract class new_simpleMapperForTree extends simpleMapper
     public function __construct($section)
     {
         parent::__construct($section);
-        $this->treeParams = $this->getTreeParams();
+        $this->treeParams = array_merge(self::getTreeParams(), $this->getTreeParams());
         $this->tree = new new_dbTreeNS($this->treeParams, $this);
+    }
+
+    public function setTree($tree_id)
+    {
+        $this->tree->setTree($tree_id);
     }
 
     /**
@@ -38,7 +43,7 @@ abstract class new_simpleMapperForTree extends simpleMapper
      */
     protected function getTreeParams()
     {
-        return array('nameField' => 'name', 'pathField' => 'path', 'joinField' => 'parent', 'tableName' => $this->table . '_tree');
+        return array('nameField' => 'name', 'pathField' => 'path', 'joinField' => 'parent', 'tableName' => $this->table . '_tree', 'treeIdField' => 'tree_id');
     }
 
     /**

@@ -44,12 +44,8 @@ class folder extends new_simpleForTree
         return $this->getJipView($this->name, $this->getPath(), get_class($this));
     }
 
-    public function upload($upload_name, $name = null, $path = null)
+    public function upload($upload_name, $name = null)
     {
-        if (!is_null($path)) {
-            throw new Exception('deprecated argument');
-        }
-
         $config = systemToolkit::getInstance()->getConfig('fileManager', $this->section);
         $path = $config->get('upload_path');
 

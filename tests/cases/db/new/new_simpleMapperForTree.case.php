@@ -49,11 +49,11 @@ class new_simpleMapperForTreeTest extends unitTestCase
 
         $qry = '';
         foreach ($this->structure as $id => $node) {
-            $qry .= '(' . $id .', ' . $node[0] .', ' . $node[1] .', ' . $node[2] .'), ';
+            $qry .= '(' . $id .', ' . $node[0] .', ' . $node[1] .', ' . $node[2] .', 1), ';
         }
         $qry = substr($qry, 0, -2);
 
-        $this->db->query('INSERT INTO `simple_stubSimple2_tree` (`id`, `lkey`, `rkey`, `level`) VALUES ' . $qry);
+        $this->db->query('INSERT INTO `simple_stubSimple2_tree` (`id`, `lkey`, `rkey`, `level`, `some_id`) VALUES ' . $qry);
 
         $this->data = array(
         1 => array('foo1', 'bar1', 'foo1'),
@@ -221,7 +221,7 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $this->assertEqual($newNode->getPath(false), 'foo1/q/foo5');
     }
 
-    public function testMove()
+    public function testMove_Up()
     {
         $node = $this->mapper->searchByKey(2);
         $target = $this->mapper->searchByKey(4);
@@ -234,6 +234,17 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $node = $this->mapper->searchByKey(5);
         $this->assertEqual($node->getTreeLevel(), 4);
         $this->assertEqual($node->getPath(false), 'foo1/foo4/foo2/foo5');
+    }
+
+    public function testMove_Down()
+    {
+        $node = $this->mapper->searchByKey(4);
+        $target = $this->mapper->searchByKey(2);
+        $this->mapper->move($node, $target);
+
+        $node = $this->mapper->searchByKey(4);
+        $this->assertEqual($node->getTreeLevel(), 3);
+        $this->assertEqual($node->getPath(false), 'foo1/foo2/foo4');
     }
 
     public function testMoveNested()
@@ -257,6 +268,118 @@ class new_simpleMapperForTreeTest extends unitTestCase
         $res = $this->db->getAll('SELECT COUNT(*) AS `cnt` FROM simple_stubSimple2');
         $this->assertEqual($res[0]['cnt'], 5);
     }
+
+    public function appendMultiTree()
+    {
+        $this->structure2 = array(
+        9 => array(1, 8, 1),
+        10 => array(2, 3, 2),
+        11 => array(4, 7, 2),
+        12 => array(5, 6, 3),
+        );
+
+        $qry = '';
+        foreach ($this->structure2 as $id => $node) {
+            $qry .= '(' . $id .', ' . $node[0] .', ' . $node[1] .', ' . $node[2] .', 2), ';
+        }
+        $qry = substr($qry, 0, -2);
+
+        $this->structure += $this->structure2;
+
+        $this->db->query('INSERT INTO `simple_stubSimple2_tree` (`id`, `lkey`, `rkey`, `level`, `some_id`) VALUES ' . $qry);
+
+        $this->data2 = array(
+        9 => array('new_foo1', 'new_bar1', 'new_foo1'),
+        10 => array('new_foo2', 'new_bar2', 'new_foo1/new_foo2'),
+        11 => array('new_foo3', 'new_bar3', 'new_foo1/new_foo3'),
+        12 => array('new_foo4', 'new_bar4', 'new_foo1/new_foo3/new_foo4'),
+        );
+
+        $data = '';
+        foreach ($this->data2 as $key => $val) {
+            $data .= "('" . $val[0] . "', '" . $val[1] . "', '" . $val[2] . "', " . $key . '), ';
+        }
+        $data = substr($data, 0, -2);
+
+        $this->data += $this->data2;
+
+        $this->db->query('INSERT INTO `simple_stubSimple2` (`foo`, `bar`, `path`, `some_id`) VALUES ' . $data);
+    }
+
+    public function testMultiGetTree()
+    {
+        $this->appendMultiTree();
+
+        $this->mapper->setTree(1);
+        $res = $this->mapper->searchAll();
+
+        $this->assertEqual(array(1, 2, 5, 6, 3, 7, 8, 4), array_keys($res));
+        $this->assertEqualBranch($res);
+
+        $this->assertEqual($res[1]->getTreeId(), 1);
+
+        $this->mapper->setTree(2);
+        $res = $this->mapper->searchAll();
+
+        $this->assertEqual(array(9, 10, 11, 12), array_keys($res));
+        $this->assertEqualBranch($res);
+
+        $this->assertEqual($res[9]->getTreeId(), 2);
+    }
+
+    public function testMultiSearchByCriteria()
+    {
+        $this->appendMultiTree();
+
+        $this->mapper->setTree(2);
+
+        $criteria = new criteria();
+        $criteria->add('path', 'new_foo1/new_foo3%', criteria::LIKE);
+        $res = $this->mapper->searchAllByCriteria($criteria);
+
+        $this->assertEqual(2, sizeof($res));
+        $this->assertEqual(array(11, 12), array_keys($res));
+        $this->assertEqualBranch($res);
+
+        $this->assertEqual($res[11]->getTreeId(), 2);
+    }
+
+    public function testMultiCreate()
+    {
+        $this->appendMultiTree();
+        $this->mapper->setTree(2);
+
+        $target = $this->mapper->searchByKey(12);
+
+        $do = $this->mapper->create();
+        $do->setFoo('newFoo');
+
+        $this->mapper->save($do, $target);
+
+        $this->assertEqual($do->getTreeKey(), 13);
+
+        $branch = $this->mapper->getBranch($target);
+
+        $this->assertTrue(isset($branch[13]));
+        $this->assertEqual($do->getPath(false), 'new_foo1/new_foo3/new_foo4/newFoo');
+    }
+
+    public function testMultiUpdate()
+    {
+        $this->appendMultiTree();
+        $this->mapper->setTree(2);
+
+        $node = $this->mapper->searchByKey(11);
+
+        $node->setFoo('q');
+        $this->mapper->save($node);
+
+        $newNode = $this->mapper->searchByKey(11);
+        $this->assertEqual($newNode->getPath(false), 'new_foo1/q');
+
+        $newNode = $this->mapper->searchByKey(12);
+        $this->assertEqual($newNode->getPath(false), 'new_foo1/q/new_foo4');
+    }
 }
 
 class new_StubSimpleMapperForTree extends new_simpleMapperForTree
@@ -273,7 +396,7 @@ class new_StubSimpleMapperForTree extends new_simpleMapperForTree
 
     protected function getTreeParams()
     {
-        return array('nameField' => 'foo', 'pathField' => 'path', 'joinField' => 'some_id', 'tableName' => 'simple_stubSimple2_tree');
+        return array('nameField' => 'foo', 'pathField' => 'path', 'joinField' => 'some_id', 'tableName' => 'simple_stubSimple2_tree', 'treeIdField' => 'some_id');
     }
 
     public function convertArgsToObj($args)
