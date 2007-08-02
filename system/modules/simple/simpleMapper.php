@@ -849,7 +849,7 @@ abstract class simpleMapper
                 $moduleName = $owns[$key]['module'];
 
                 // проверяем что передан объект нужного типа
-                if (!is_a($val, $className)) {
+                if (!($val instanceof $className)) {
                     $mutator = $map[$key]['mutator'];
                     throw new mzzInvalidParameterException('С помощью мутатора ' . $mutator . ' должен быть передан объект типа ' . $className . ', однако передан объект', $val);
                 }
@@ -896,7 +896,7 @@ abstract class simpleMapper
                 // определяем записи, которых нет в новом массиве
                 foreach ($val as $subkey => $subval) {
                     // проверяем что каждый из элементов массива нужного типа
-                    if (!is_a($subval, $className)) {
+                    if (!($subval instanceof $className)) {
                         throw new mzzInvalidParameterException('Ожидается элемент массива типа ' . $className . ', однако передан объект', $subval);
                     }
 
