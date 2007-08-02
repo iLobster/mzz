@@ -133,12 +133,9 @@ class menuItemMapper extends simpleCatalogueMapper
     public function convertArgsToObj($args)
     {
         if ($args['id'] == 0) {
-            //throw new Exception('страйкер, это что за херня?');
-            //return 672;
-            $accessMapper = systemToolkit::getInstance()->getMapper('access', 'access');
-            $access = $accessMapper->create();
-            $access->import(array('obj_id' => $this->getObjId()));
-            return $access;
+            $obj = $this->create();
+            $obj->import(array('obj_id' => $this->getObjId()));
+            return $obj;
         }
         $item = $this->searchById($args['id']);
 

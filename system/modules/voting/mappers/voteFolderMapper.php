@@ -59,10 +59,9 @@ class voteFolderMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
-        $accessMapper = systemToolkit::getInstance()->getMapper('access', 'access');
-        $access = $accessMapper->create();
-        $access->import(array('obj_id' => $this->getObjId()));
-        return $access;
+        $obj = $this->create();
+        $obj->import(array('obj_id' => $this->getObjId()));
+        return $obj;
     }
 }
 
