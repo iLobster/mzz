@@ -35,6 +35,11 @@ class voteMapper
         $this->table = $this->section . '_vote';
     }
 
+    public function getTable()
+    {
+        return $this->table;
+    }
+
     public function deleteByAnswer($answer_id)
     {
         return $this->db->query('DELETE FROM `' . $this->table . '` WHERE `answer_id` = ' . (int) $answer_id);

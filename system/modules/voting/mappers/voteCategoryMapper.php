@@ -56,25 +56,23 @@ class voteCategoryMapper extends simpleMapper
 
     public function getActual($id)
     {
-        $actualQuestions = array();;
         $questions = $this->getQuestions($id);
 
         if (empty($questions)) {
             return null;
         }
 
-        foreach ($questions as $question) {
-            $votes = $question->getVotes();
-            if (empty($votes)) {
-                $actualQuestions[] = $question;
-            }
-        }
+        $questionMapper = systemToolkit::getInstance()->getMapper('voting', 'question');
+        $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
 
-        if (empty($actualQuestions)) {
-            $actualQuestions = array_values($questions);
-        }
+        $criteria = new criteria;
+        $criterion = new criterion('vote.question_id', 'question.id', criteria::EQUAL, true);
+        $criterion->addAnd(new criterion('user_id', systemToolkit::getInstance()->getUser()->getId()));
+        $criteria->addJoin($voteMapper->getTable(), $criterion, 'vote', criteria::JOIN_LEFT);
+        $criteria->add('category_id', $id)->add('vote.id', '', criteria::IS_NULL);
+        $criteria->setOrderByFieldAsc(new sqlFunction('RAND'), false)->setLimit(1);
 
-        return $actualQuestions[rand(0, (count($actualQuestions) - 1))];
+        return $questionMapper->searchOneByCriteria($criteria);
     }
 
     public function delete(voteCategory $do)

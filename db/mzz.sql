@@ -1,4 +1,4 @@
-# SQL Manager 2005 for MySQL 3.7.7.1
+# SQL Manager 2007 for MySQL 4.1.1.3
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -6535,7 +6535,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (48,2,'127.0.0.1','7f825cd5ac7360ed49bc536d0e9ed9d3',654,1182045769),
   (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
   (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1185959953),
-  (70,2,'127.0.0.1','3ba4b15b4c2a24773bdc153fcde5f444',NULL,1185974311);
+  (70,2,'127.0.0.1','3ba4b15b4c2a24773bdc153fcde5f444',NULL,1185974311),
+  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1186011121);
 
 COMMIT;
 
@@ -6591,7 +6592,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (94,2,'3edeff2de3648bc3f93e594925f02a0b','2007-08-02 00:48:02',NULL,'http://mzz/page','127.0.0.1');
+  (96,2,'83e92de2c210ef6aeb93b3bd15552d36','2007-08-02 11:51:44',NULL,'http://mzz/page','127.0.0.1');
 
 COMMIT;
 
@@ -6632,7 +6633,8 @@ CREATE TABLE `voting_question` (
   `question` char(255) NOT NULL default '',
   `category_id` int(11) default '0',
   `obj_id` int(11) default NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `category_id` (`category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
@@ -6656,7 +6658,8 @@ CREATE TABLE `voting_vote` (
   `user_id` int(11) NOT NULL default '0',
   `question_id` int(11) NOT NULL default '0',
   `text` char(255) default NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `question` (`question_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
