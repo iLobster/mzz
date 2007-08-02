@@ -19,7 +19,7 @@ require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
  *
  * @package system
  * @subpackage resolver
- * @version 0.1
+ * @version 0.1.1
  */
 class moduleResolver extends partialFileResolver
 {
@@ -43,13 +43,10 @@ class moduleResolver extends partialFileResolver
     protected function partialResolve($request)
     {
         $result = null;
-        //echo "<pre>";var_dump($request);echo "</pre>";
-
 
         // короткий вид nameFactory переписываем в name/nameFactory
         if (preg_match('/^([a-z0-9]+)Factory$/i', $request, $matches)) {
             $request = $matches[1] . '/' . $request;
-            //echo "<pre>";var_dump($request);echo "</pre>";
         }
 
         if (preg_match('/^[a-z0-9]+$/i', $request)) {
@@ -62,7 +59,7 @@ class moduleResolver extends partialFileResolver
         if ($ext != 'php' && $ext != 'ini' && $ext != 'xml') {
             $result .= '.php';
         }
-        //echo "<pre>";var_dump($result);echo "</pre>";
+
         return $result;
     }
 }
