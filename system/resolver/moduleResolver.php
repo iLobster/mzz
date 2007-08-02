@@ -43,15 +43,18 @@ class moduleResolver extends partialFileResolver
     protected function partialResolve($request)
     {
         $result = null;
+        //echo "<pre>";var_dump($request);echo "</pre>";
+
 
         // короткий вид nameFactory переписываем в name/nameFactory
-        if (preg_match('/^([a-z]+)Factory$/i', $request, $matches)) {
+        if (preg_match('/^([a-z0-9]+)Factory$/i', $request, $matches)) {
             $request = $matches[1] . '/' . $request;
+            //echo "<pre>";var_dump($request);echo "</pre>";
         }
 
-        if (preg_match('/^[a-z]+$/i', $request)) {
+        if (preg_match('/^[a-z0-9]+$/i', $request)) {
             $result = 'modules/' . $request . '/' . $request;
-        } elseif (preg_match('/^[a-z]+(\/[a-z0-9\._]+)+$/i', $request)) {
+        } elseif (preg_match('/^[a-z0-9]+(\/[a-z0-9\._]+)+$/i', $request)) {
             $result = 'modules/' . $request;
         }
 
@@ -59,6 +62,7 @@ class moduleResolver extends partialFileResolver
         if ($ext != 'php' && $ext != 'ini' && $ext != 'xml') {
             $result .= '.php';
         }
+        //echo "<pre>";var_dump($result);echo "</pre>";
         return $result;
     }
 }
