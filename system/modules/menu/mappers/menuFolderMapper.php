@@ -46,17 +46,17 @@ class menuFolderMapper extends simpleMapper
     }
 
     private function getObjId()
-    {
+    { 
         $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_menuFolder');
         $this->register($obj_id);
-        return $obj_id;
+        return $obj_id; 
     }
 
     public function convertArgsToObj($args)
     {
         $accessMapper = systemToolkit::getInstance()->getMapper('access', 'access');
         $access = $accessMapper->create();
-        $access->import(array('obj_id', $this->getObjId()));
+        $access->import(array('obj_id' => $this->getObjId()));
         return $access;
     }
 }
