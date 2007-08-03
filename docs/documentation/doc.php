@@ -29,13 +29,13 @@ $menu = array("intro.Предисловие" =>
                                          "url.Функция {url}",
                                          ),
                         "classes.Основные системные классы"
-                                => array("toolkit.Toolkit",
-                                         "request.Request",
-                                         "response.Response",
+                                => array("toolkit.toolkit",
+                                         "request.httpRequest",
+                                         "response.httpResponse",
                                          "routers.Routers",
                                          "resolver.Resolver",
-                                         "dataspace.Dataspace",
-                                         "frontcontroller.Frontcontroller"
+                                         "dataspace.arrayDataspace",
+                                         "frontcontroller.frontController"
                                          ),
                         "run.Процесс запуска приложения",
                         "mvc.MVC",
