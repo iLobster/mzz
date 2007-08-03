@@ -41,6 +41,9 @@ class votingSaveController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'question', 'Необходимо задать тему голосования');
+        $validator->add('regex', 'created', 'Неправильный формат даты', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
+        $validator->add('regex', 'expired', 'Неправильный формат даты', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
+        $validator->add('callback', 'expired', 'Дата окончания не должна быть меньше даты старта', array(array($this, 'checkExpiredDate'), $question));
 
         if (!$validator->validate()) {
             $url = new url('withId');
@@ -60,6 +63,11 @@ class votingSaveController extends simpleController
                 $question->setCategory($category);
             }
             $question_name = $this->request->get('question', 'string', SC_POST);
+            $created = $this->request->get('created', 'string', SC_POST);
+            $expired = $this->request->get('expired', 'string', SC_POST);
+
+            $question->setCreated($this->getTimestampByField($created));
+            $question->setExpired($this->getTimestampByField($expired));
 
             $titles = (array)$this->request->get('answers', 'array', SC_POST);
             $types = (array)$this->request->get('answers_type', 'array', SC_POST);
@@ -71,6 +79,20 @@ class votingSaveController extends simpleController
 
             return jipTools::redirect();
         }
+    }
+
+    private function getTimestampByField($field)
+    {
+        $date = explode(' ', $field);
+        $time = explode(':', $date[0]);
+        $date = explode('/', $date[1]);
+        return mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
+    }
+
+    public function checkExpiredDate($expired, $question)
+    {
+        $stamp = (is_null($question->getCreated())) ? $this->request->get('created', 'string', SC_POST) : $question->getCreated();
+        return ($this->getTimestampByField($expired) > $stamp);
     }
 }
 

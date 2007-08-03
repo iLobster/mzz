@@ -1087,7 +1087,7 @@ CREATE TABLE `page_page` (
 #
 
 INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `compiled`) VALUES 
-  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n{load module=\"voting\" section=\"voting\" action=\"viewActual\" name=\"simple\"}\n',1,1),
+  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike><br />\n{load module=\"voting\" section=\"voting\" action=\"viewActual\" name=\"simple\"}\n',1,1),
   (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1,NULL),
   (3,11,'test','test','test',1,NULL),
   (4,57,'403','Доступ запрещён','Доступ запрещён',1,NULL),
@@ -6536,7 +6536,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
   (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1185959953),
   (70,2,'127.0.0.1','3ba4b15b4c2a24773bdc153fcde5f444',NULL,1185974311),
-  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1186011121);
+  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1186096943);
 
 COMMIT;
 
@@ -6592,7 +6592,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (96,2,'83e92de2c210ef6aeb93b3bd15552d36','2007-08-02 11:51:44',NULL,'http://mzz/page','127.0.0.1');
+  (97,2,'6458d051ba7d242f8d2a73df1da76307','2007-08-03 11:19:48',NULL,'http://mzz/page','127.0.0.1');
 
 COMMIT;
 
@@ -6632,6 +6632,8 @@ CREATE TABLE `voting_question` (
   `id` int(11) NOT NULL auto_increment,
   `question` char(255) NOT NULL default '',
   `category_id` int(11) default '0',
+  `created` int(11) default NULL,
+  `expired` int(11) default NULL,
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `category_id` (`category_id`)
@@ -6641,8 +6643,8 @@ CREATE TABLE `voting_question` (
 # Data for the `voting_question` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_question` (`id`, `question`, `category_id`, `obj_id`) VALUES 
-  (1,'Вы верите в розового жирафика?',1,796);
+INSERT INTO `voting_question` (`id`, `question`, `category_id`, `created`, `expired`, `obj_id`) VALUES 
+  (1,'Вы верите в розового жирафика?',1,1186015080,1186188060,796);
 
 COMMIT;
 

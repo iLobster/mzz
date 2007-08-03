@@ -70,6 +70,16 @@ class question extends simple
         $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
         return $voteMapper->getResultsCount($this->getId());
     }
+
+    public function isStarted()
+    {
+        return (time() >= $this->getCreated());
+    }
+
+    public function isExpired()
+    {
+        return (time() >= $this->getExpired());
+    }
 }
 
 ?>

@@ -36,6 +36,8 @@ function deleteOne(trelem)
 {
     $('selectvariants').removeChild(trelem);
 }
+Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":1,"showsTime":true,"showOthers":true,"timeFormat":24, "align":"BR", "inputField":"calendar-field-created","button":"calendar-trigger-created"});
+Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":1,"showsTime":true,"showOthers":true,"timeFormat":24, "align":"BR", "inputField":"calendar-field-expired","button":"calendar-trigger-expired"});
 </script>{/literal}
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="99%">
@@ -43,6 +45,16 @@ function deleteOne(trelem)
             <td>{form->caption name="question" value="Вопрос:"}</td>
             <td>{form->text name="question" size="60" value=$question->getQuestion()}{$errors->get('question')}</td>
         <tr>
+        <tr>
+            {if $isEdit}{assign var="calendarvalue" value=$question->getCreated()}{else}{assign var="calendarvalue" value=$smarty.now}{/if}
+            <td>{form->caption name="created" value="Дата открытия:"}</td>
+            <td>{form->text name="created" size="20" id="calendar-field-created" value=$calendarvalue|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button>{$errors->get('created')}</td>
+        </tr>
+        <tr>
+            {if $isEdit}{assign var="calendarvalue" value=$question->getExpired()}{else}{assign var="calendarvalue" value=$smarty.now+3600}{/if}
+            <td>{form->caption name="expired" value="Дата окончания:"}</td>
+            <td>{form->text name="expired" size="20" id="calendar-field-expired" value=$calendarvalue|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-expired" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button>{$errors->get('expired')}</td>
+        </tr>
         <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>

@@ -34,6 +34,11 @@ class votingPostController extends simpleController
 
         $question = $questionMapper->searchById($id);
 
+        $votes = $question->getVotes();
+        if (!empty($votes) || !$question->isStarted() || $question->isExpired()) {
+            return 'Not allowed';
+        }
+
         $answers = $this->request->get('answer', 'array', SC_POST);
         $validAnswers = array_keys($question->getAnswers());
 
