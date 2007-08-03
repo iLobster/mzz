@@ -29,11 +29,17 @@ class galleryDeleteAlbumController extends simpleController
 
         $album = $albumMapper->searchById($id);
 
+        $owner = $album->getGallery()->getOwner()->getLogin();
+
         if ($album) {
             $albumMapper->delete($album);
         }
 
-        return jipTools::redirect();
+        $url = new url('withAnyParam');
+        $url->add('name', $owner);
+        $url->setAction('viewGallery');
+
+        return jipTools::redirect($url->get());
     }
 }
 

@@ -37,19 +37,13 @@ class galleryDeleteController extends simpleController
             $album->setPicsNumber($album->getPicsNumber() - 1);
             $albumMapper->save($album);
 
-            $thumbnail = $photo->getThumbnail();
-            if ($thumbnail) {
-                $fileMapper->delete($thumbnail->getId());
-            }
-
             $url = new url('galleryAlbum');
             $url->add('name', $album->getGallery()->getOwner()->getLogin());
             $url->add('album', $album->getId());
             $url->setAction('viewAlbum');
             $url = $url->get();
 
-            $fileMapper->delete($file->getId());
-            $photoMapper->delete($photo->getId());
+            $photoMapper->delete($photo);
         }
 
         return jipTools::redirect($url);
