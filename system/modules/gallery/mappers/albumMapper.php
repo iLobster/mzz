@@ -70,6 +70,16 @@ class albumMapper extends simpleMapper
         $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
     }
 
+    public function delete(album $do)
+    {
+        $photoMapper = systemToolkit::getInstance()->getMapper('gallery', 'photo');
+        $photos = $photoMapper->searchAllByField('album_id', $do->getId());
+        foreach ($photos as $photo) {
+            $photoMapper->delete($photo);
+        }
+        parent::delete($do->getId());
+    }
+
     /**
      * Возвращает самую популярную (скачиваемую) фотографию из альбома
      *

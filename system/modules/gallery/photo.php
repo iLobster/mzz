@@ -52,6 +52,7 @@ class photo extends simple
         return systemToolkit::getInstance()->getMapper('fileManager', 'file', $config->get('filemanager_section'));
     }
 
+    /*
     public function setName($name)
     {
         // @todo подумать, такое решение неудобно тем, что перед setName() обязательно надо делать save()
@@ -61,6 +62,22 @@ class photo extends simple
         $file->setAbout($name);
         $fileMapper->save($file);
     }
+    */
+
+    public function setAbout($about)
+    {
+        $file = $this->getFile();
+        $fileMapper = $this->getFileMapper();
+        $file->setAbout($about);
+        $fileMapper->save($file);
+    }
+
+    public function getAbout()
+    {
+        $file = $this->getFile();
+        return (is_null($file)) ? null : $file->getAbout();
+    }
+
 
     public function getAcl($name = null)
     {

@@ -59,6 +59,16 @@ class photoMapper extends simpleMapper
         return $this->searchAllByCriteria($criteria);
     }
 
+    public function delete(photo $do)
+    {
+        $fileMapper = $do->getFileMapper();
+        $file = $do->getFile();
+        $thumb = $do->getThumbnail();
+        $fileMapper->delete($file->getId());
+        $fileMapper->delete($thumb->getId());
+        parent::delete($do->getId());
+    }
+
     public function convertArgsToObj($args)
     {
         $item = $this->searchOneByField('id', $args['id']);

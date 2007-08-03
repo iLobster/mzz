@@ -34,6 +34,8 @@ class gallerySavePhotoController extends simpleController
 
         $validator = new formValidator();
 
+        $validator->add('required', 'name', 'Укажите имя фотографии');
+
         if ($isEdit) {
             $photo_id = $this->request->get('id', 'integer');
             $photo = $photoMapper->searchById($photo_id);
@@ -55,9 +57,11 @@ class gallerySavePhotoController extends simpleController
 
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);
+            $about = $this->request->get('about', 'string', SC_POST);
 
             if ($isEdit) {
                 $photo->setName($name);
+                $photo->setAbout($about);
                 $photoMapper->save($photo);
 
                 return jipTools::redirect();
@@ -77,6 +81,7 @@ class gallerySavePhotoController extends simpleController
                     $fileMapper->save($file);
 
                     $photo->setName($name);
+                    $photo->setAbout($about);
                     $photoMapper->save($photo);
 
                     $this->smarty->assign('photo_name', $photo->getName());

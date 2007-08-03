@@ -1,5 +1,6 @@
 {assign var="albumTitle" value=$album->getName()}
 {assign var="photoName" value=$photo->getName()}
+{assign var="photoAbout" value=$photo->getAbout()}
 {if !$errors->isEmpty()}
     <div id="galleryUploadStatusError">
     <ul>
@@ -30,6 +31,10 @@
             <tr>
                 <td>{form->caption name="name" value="Название фотки"}</td>
                 <td>{form->text name="name" value="$photoName"}{$errors->get('name')}</td>
+            </tr>
+            <tr>
+                <td>{form->caption name="about" value="Описание фотки"}</td>
+                <td>{form->textarea name="about" value=$photoAbout}{$errors->get('about')}</td>
             </tr>
             <tr>
                 <td colspan=2 style="text-align:center;">{form->submit id="galleryUploadSubmitButton" name="submit" value="Загрузить"} {form->reset jip=true name="reset" value="Отмена"}</td>

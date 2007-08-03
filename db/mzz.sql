@@ -403,8 +403,8 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,16,1,'',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,66,1,'',6,623);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,22,1,'По фамилии Fernandes',5,611),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,81,1,'',6,623);
 
 COMMIT;
 
@@ -487,8 +487,7 @@ CREATE TABLE `gallery_album` (
 #
 
 INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `main_photo`, `obj_id`) VALUES 
-  (1,1,'asd',1,NULL,0,537),
-  (2,1,'gsdf',0,1183979981,0,777);
+  (1,1,'asd',1,NULL,0,537);
 
 COMMIT;
 
@@ -538,7 +537,7 @@ CREATE TABLE `gallery_photo` (
 #
 
 INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES 
-  (1,1,'девка',NULL,NULL,612);
+  (1,1,'Collien',NULL,NULL,612);
 
 COMMIT;
 
@@ -4900,7 +4899,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (619,12),
   (623,14),
   (842,25),
-  (777,18),
   (631,11),
   (632,7),
   (633,7),
@@ -5038,7 +5036,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (72,'addcategory'),
   (73,'deletecategory'),
   (74,'editcategory'),
-  (75,'viewActual');
+  (75,'viewActual'),
+  (76,'deleteAlbum');
 
 COMMIT;
 
@@ -5375,7 +5374,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (192,34,4),
   (195,34,73),
   (196,34,74),
-  (197,34,75);
+  (197,34,75),
+  (198,22,76);
 
 COMMIT;
 
@@ -6333,7 +6333,12 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (853),
   (854),
   (855),
-  (856);
+  (856),
+  (857),
+  (858),
+  (859),
+  (860),
+  (861);
 
 COMMIT;
 
@@ -6592,7 +6597,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (97,2,'6458d051ba7d242f8d2a73df1da76307','2007-08-03 11:19:48',NULL,'http://mzz/page','127.0.0.1');
+  (97,2,'6458d051ba7d242f8d2a73df1da76307','2007-08-03 12:18:42',NULL,'http://mzz/admin/gallery/admin','127.0.0.1');
 
 COMMIT;
 
