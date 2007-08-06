@@ -55,6 +55,11 @@ class newsMoveFolderController extends simpleController
             $destFolder = $folderMapper->searchById($dest);
             $result = $folderMapper->move($folder, $destFolder);
             if ($result) {
+                /*$url = new url('withAnyParam');
+                $url->add('action', 'list');
+                $url->add('name', $folder->getPath());
+                return jipTools::redirect($url->get());*/
+                // @todo: чтобы тут нормально сделать, скорее всего придётся научить роутер выдавать имя текущего роута
                 return jipTools::redirect();
             }
             $errors->set('dest', 'Невозможно осуществить требуемое перемещение');
