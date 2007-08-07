@@ -116,12 +116,81 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
             </td>
         </tr>
     </table>
-{elseif $ajaxRequest == 'dynamicselect_modules' || $ajaxRequest == 'dynamicselect_classes'}
+
+{elseif $ajaxRequest == 'img'}
+    <table border="0" cellpadding="0" cellspacing="3" width="100%">
+        <tr>
+            <td width="40%" valign="top">
+                <table border="0" cellpadding="0" cellspacing="3" width="100%">
+                    <tr>
+                        <td><strong>{form->caption name="dynamicselect_section" value="Секция:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        {form->select name="dynamicselect_section" options=$sections value=$dynamicselect_section emptyFirst=1 style="width: 270px;" id="catalogue_section_list" onchange="catalogueChangeList(this);" onkeypress="this.onchange();"}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>{form->caption name="dynamicselect_module" value="Модуль:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        {form->select name="dynamicselect_module" style="width: 270px;" id="catalogue_modules_list" disabled=1 onchange="catalogueChangeList(this, 'classes');" onkeypress="this.onchange();"}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>{form->caption name="dynamicselect_class" value="Класс:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        {form->select name="dynamicselect_class" style="width: 270px;" id="catalogue_classes_list" disabled=1 onchange="catalogueChangeList(this, 'folders');catalogueChangeList(this, 'methods');" onkeypress="this.onchange();"}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>{form->caption name="dynamicselect_method" value="Метод:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        {form->select name="dynamicselect_method" style="width: 270px;" id="catalogue_methods_list" onchange="catalogueGetMethodInfo(this);" onkeypress="this.onchange();" disabled=1}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>{form->caption name="folder" value="Папка:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        {form->select name="folder" style="width: 270px;" id="catalogue_folders_list"  disabled=1}
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+            <td width="60%" valign="top">
+            <span style="font-size: 120%; font-weight: bold;">Параметры метода:</span>
+            <div id="methodData"></div>
+            </td>
+        </tr>
+    </table>
+{elseif in_array($ajaxRequest, array('dynamicselect_modules', 'dynamicselect_classes'))}
 {literal}
 ({
 {/literal}
 {foreach name="dataLoop" key="dataId" item="dataName" from=$data}
 {$dataId}: '{$dataName[0].name}'{if $smarty.foreach.dataLoop.last eq false},{/if}
+{/foreach}
+{literal}
+})
+{/literal}
+{elseif $ajaxRequest == 'dynamicselect_folders'}
+{literal}
+({
+{/literal}
+{foreach name="dataLoop" key="dataId" item="dataName" from=$data}
+{$dataId}: ['{$dataName[0]}', '{$dataName[1]}']{if $smarty.foreach.dataLoop.last eq false},{/if}
 {/foreach}
 {literal}
 })

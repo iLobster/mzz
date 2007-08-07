@@ -94,6 +94,10 @@ class catalogueSavePropertyController extends simpleController
                         $dynamicselect_section = $isEdit && isset($property['args']['section']) ? $property['args']['section'] : false;
                         $this->smarty->assign('dynamicselect_section', $dynamicselect_section);
                         break;
+                    case 'img':
+                        $dynamicselect_section = $isEdit && isset($property['args']['section']) ? $property['args']['section'] : false;
+                        $this->smarty->assign('dynamicselect_section', $dynamicselect_section);
+                        break;
                     case 'dynamicselect_modules':
 
                         $section_id = $this->request->get('for_id', 'integer', SC_REQUEST);
@@ -110,6 +114,20 @@ class catalogueSavePropertyController extends simpleController
                         $class_id = $this->request->get('for_id', 'integer', SC_REQUEST);
                         $classes = $adminMapper->getSearchMethods($class_id);
                         $this->smarty->assign('data', $classes);
+                        break;
+                    case 'dynamicselect_folders':
+                        $section = $this->request->get('section', 'string', SC_REQUEST);
+                        $module = $this->request->get('module', 'string', SC_REQUEST);
+                        $class = $this->request->get('class', 'string', SC_REQUEST);
+
+                        $folderMapper = $this->toolkit->getMapper($module, $class, $section);
+                        $folders = $folderMapper->searchAll();
+
+                        $foldersList = array();
+                        foreach ($folders as $folder) {
+                            $foldersList[$folder->getId()] = array($folder->getTitle(), $folder->getTreeLevel());
+                        }
+                        $this->smarty->assign('data', $foldersList);
                         break;
                     case 'dynamicselect_method':
                         $method_name = $this->request->get('method_name', 'string', SC_REQUEST);

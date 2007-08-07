@@ -51,12 +51,12 @@ function ajaxLoadTypeConfig(value)
 
 function catalogueChangeList(select, type)
 {
-    type = (type == 'classes' ? 'classes' : (type == 'methods' ? 'methods' : 'modules'));
+    type = (['classes', 'methods', 'modules', 'folders'].indexOf(type) >= 0) ? type : 'modules';
     var optList = $('catalogue_' + type + '_list');
     optList.disable();
     optList.options.length = 0;
 
-    if (type == 'modules') {
+   if (type == 'modules') {
         $('catalogue_classes_list').disable();
         $('catalogue_classes_list').options.length = 0;
         $('catalogue_classes_list').options[0] = new Option('Данных нет');
@@ -71,14 +71,27 @@ function catalogueChangeList(select, type)
     $('methodData').update('Загрузка данных...');
 
     optList.options[0] = new Option('Загрузка...', '');
+    var params = $H({ajaxRequest: 'dynamicselect_' + type, for_id: $F(select)});
+    if (type == 'folders') {
+        params.merge({
+        'section': $('catalogue_section_list').options[$('catalogue_section_list').selectedIndex].text,
+        'module': $('catalogue_modules_list').options[$('catalogue_modules_list').selectedIndex].text,
+        'class': $('catalogue_classes_list').options[$('catalogue_classes_list').selectedIndex].text
+        });
+
+    }
 
     new Ajax.Request(CATALOGUE_PATH, {
-        method: 'get', parameters: { ajaxRequest: 'dynamicselect_' + type, for_id: $F(select)}, onSuccess: function(transport) {
+        method: 'get', parameters: params, onSuccess: function(transport) {
             if (transport.responseText.match(/\(\{/)) {
                 var optListData = eval(transport.responseText);
                 var i = 0;
                 $H(optListData).each(function(pair) {
-                    optList.options[i++] = new Option(pair.value, pair.key);
+                    if (typeof(pair.value) == 'string') {
+                        optList.options[i++] = new Option(pair.value, pair.key);
+                    } else {
+                        optList.options[i++] = new Option(pair.value[0], pair.key).setStyle({paddingLeft: (pair.value[1] - 1) * 15 + 'px'});
+                    }
                 });
 
                 if (i > 0) {
@@ -86,6 +99,7 @@ function catalogueChangeList(select, type)
                         catalogueChangeList($('catalogue_modules_list'), 'classes');
                     } else if (type == 'classes') {
                         catalogueChangeList($('catalogue_classes_list'), 'methods');
+                       // catalogueChangeList($('catalogue_folders_list'), 'folders');
                     } else if (type == 'methods') {
                         catalogueGetMethodInfo($('catalogue_methods_list'));
                     }

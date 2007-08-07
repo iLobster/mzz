@@ -137,7 +137,7 @@ jsLoaderClass.prototype = {
         if (!window.opera) { Event.observe($(scr), 'readystatechange', jsLoader.onLoadScript); }
         Event.observe($(scr), 'load', jsLoader.onLoadScript);
         Event.observe($(scr), 'error', jsLoader.onLoadScript);
-        scr.src = url;
+        scr.src = url + '?' + new Date().getTime();
         document.getElementsByTagName('head')[0].appendChild(scr);
         this.pendingFiles[this.pendingFiles.length] = url;
     },
