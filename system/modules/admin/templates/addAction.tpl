@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td>{form->caption name="action[inACL]" value="Не регистрировать в ACL"}</td>
-            <td>{form->checkbox name="action[inACL]" value=$defaults->get('inACL')}</td>
+            <td>{form->checkbox name="action[inACL]" value=$defaults->get('inACL') values="1|0"}</td>
         </tr>
         <tr>
             <td>{form->caption name="action[jip]" value="Добавить в JIP"}</td>

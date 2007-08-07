@@ -50,7 +50,7 @@ class formEqualRuleTest extends UnitTestCase
             $rule->validate();
             $this->fail('Должно быть брошено исключение');
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern("/отсутствует имя/i", $e->getMessage());
+            $this->assertPattern("/Отсутствует имя/i", $e->getMessage());
         }
     }
 

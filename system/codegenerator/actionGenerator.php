@@ -267,7 +267,7 @@ class actionGenerator
                     $section_val['confirm'] = $params['confirm'];
                 }
 
-                if (!empty($params['inacl'])) {
+                if (isset($params['inACL']) && $params['inACL'] == '0') {
                     $section_val['inACL'] = 0;
                 }
 
@@ -368,7 +368,7 @@ class actionGenerator
             throw new Exception('Error: active template already exists');
         }
 
-        $tpl_filename = 'templates' . DIRECTORY_SEPARATOR . $action . '.tpl';
+        $tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $action . '.tpl';
 
         if (is_file($tpl_filename)) {
             throw new Exception('Error: template already exists');
