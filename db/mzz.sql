@@ -403,8 +403,8 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,22,1,'По фамилии Fernandes',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,81,1,'',6,623);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,24,1,'По фамилии Fernandes',5,611),
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,86,1,'',6,623);
 
 COMMIT;
 
@@ -591,8 +591,8 @@ INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `
   (3,0,2,5,'Каталог',3,663),
   (4,0,2,5,'Галерея',4,664),
   (5,0,2,5,'Пользователи',5,665),
-  (6,0,2,5,'Панель управления',6,666),
-  (7,0,2,5,'Сообщения',7,815);
+  (6,0,2,5,'Панель управления',7,666),
+  (7,0,2,5,'Сообщения',8,815);
 
 COMMIT;
 
@@ -4966,7 +4966,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (845,25),
   (844,26),
   (855,21),
-  (853,24);
+  (853,24),
+  (862,16);
 
 COMMIT;
 
@@ -5375,7 +5376,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (195,34,73),
   (196,34,74),
   (197,34,75),
-  (198,22,76);
+  (198,22,76),
+  (199,24,29);
 
 COMMIT;
 
@@ -6338,7 +6340,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (858),
   (859),
   (860),
-  (861);
+  (861),
+  (862);
 
 COMMIT;
 
@@ -6396,7 +6399,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (795,'access_voting_voteFolder'),
   (808,'access_message_message'),
   (832,'voting_voteFolder'),
-  (855,'menu_menuItem');
+  (855,'menu_menuItem'),
+  (862,'catalogue_catalogue');
 
 COMMIT;
 
@@ -6541,7 +6545,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
   (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1185959953),
   (70,2,'127.0.0.1','3ba4b15b4c2a24773bdc153fcde5f444',NULL,1185974311),
-  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1186096943);
+  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1186612423);
 
 COMMIT;
 
@@ -6597,7 +6601,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (97,2,'6458d051ba7d242f8d2a73df1da76307','2007-08-03 12:18:42',NULL,'http://mzz/admin/gallery/admin','127.0.0.1');
+  (101,2,'2cf62ea41d6a9b3e97b52e3134d74307','2007-08-09 10:43:48',NULL,'http://mzz/admin/menu/admin','127.0.0.1');
 
 COMMIT;
 

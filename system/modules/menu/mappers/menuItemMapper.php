@@ -58,7 +58,6 @@ class menuItemMapper extends simpleCatalogueMapper
         $db = DB::factory();
         $criteria = new criteria($this->table);
         $criteria->addSelectField(new sqlFunction('MAX', 'order', true), 'maxorder')->add('parent_id', (int)$id);
-        //$criteria->addSelectField('MAX(`order`)', 'maxorder')->add('parent_id', (int)$id);
         $select = new simpleSelect($criteria);
         $stmt = $db->query($select->toString());
         $maxorder = $stmt->fetch();
@@ -73,28 +72,59 @@ class menuItemMapper extends simpleCatalogueMapper
     }
 
 
-    public function changeOrder($id, $direction)
+    public function move(menuItem $item, $target)
     {
-        $item = $this->searchById($id);
-
-        if ($item) {
-            $next = $this->searchByOrderAndParent((($direction == 'up') ?$item->getOrder() - 1 : $item->getOrder() + 1), $item->getParent());
-            if ($next) {
-                $item->setOrder($next->getOrder());
-                $next->setOrder($item->getOrder());
-                $this->save($next);
-            }
-            $this->save($item);
+        if ($target == 'up' || $target == 'down') {
+            $item = $this->changeOrder($item, $target);
+        } else {
+            $item = $this->changeParent($item, $target);
         }
+
+        $this->save($item);
+    }
+
+    protected function changeOrder(menuItem $item, $target)
+    {
+        $next = $this->searchByOrderAndParent((($target == 'up') ? $item->getOrder() - 1 : $item->getOrder() + 1), $item->getParent());
+        if ($next) {
+            $item->setOrder($next->getOrder());
+            $next->setOrder($item->getOrder());
+            $this->save($next);
+        }
+        return $item;
+    }
+
+    protected function changeParent(menuItem $item, $target)
+    {
+        $new = $this->searchById($target);
+
+        if ($new || $target == 0) {
+            $this->shift($item->getParent(), $item->getOrder());
+
+            $item->setOrder($this->getMaxOrder($target) + 1);
+            $item->setParent($target);
+        }
+
+        return $item;
     }
 
     public function delete(menuItem $item)
     {
-        $stmt = $this->db->prepare('UPDATE ' . $this->table . ' SET `order` = `order` - 1 WHERE `parent_id` = :parent_id AND `order` > :order');
-        $stmt->bindParam('parent_id', $item->getParent(), PDO::PARAM_INT);
-        $stmt->bindParam('order', $item->getOrder(), PDO::PARAM_INT);
-        $stmt->execute();
+        $childrens = $this->getChildrensById($item->getId());
+        foreach ($childrens as $child) {
+            parent::delete($child->getId());
+        }
+
+        $this->shift($item->getParent(), $item->getOrder());
         parent::delete($item->getId());
+    }
+
+    protected function shift($parent_id, $order)
+    {
+        $stmt = $this->db->prepare('UPDATE ' . $this->table . ' SET `order` = `order` - 1 WHERE `parent_id` = :parent_id AND `order` > :order');
+        $stmt->bindParam('parent_id', $parent_id, PDO::PARAM_INT);
+        $stmt->bindParam('order', $order, PDO::PARAM_INT);
+        $stmt->execute();
     }
 
     /*

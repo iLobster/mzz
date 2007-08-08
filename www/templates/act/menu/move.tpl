@@ -1,2 +1,2 @@
 {* main="main.tpl" placeholder="content" *}
-{load module="menu" action="moveDown"}
+{load module="menu" action="move"}

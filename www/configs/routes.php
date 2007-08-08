@@ -35,6 +35,7 @@ $router->addRoute('adminCfgEdit', new requestRoute('admin/:id/:name/:action', ar
 $router->addRoute('adminAction', new requestRoute('admin/:id/:action_name/:action', array('section' => 'admin'), array('id' => '\d+', 'action' => '(?:editAction|deleteAction)')));
 
 $router->addRoute('menuCreateAction', new requestRoute('menu/:menu_name/:id/create', array('section' => 'menu', 'action' => 'create'), array('id' => '\d+')));
+$router->addRoute('menuMoveAction', new requestRoute('menu/:id/:target/move', array('section' => 'menu', 'action' => 'move'), array('id' => '\d+', 'target' => '(?:up|down|\d+)')));
 
 $router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
 $router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list', 'name' => 'root')));

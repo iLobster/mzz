@@ -39,9 +39,9 @@ class menuItem extends simpleCatalogue
         $this->childrens = $childrens;
     }
 
-    public function changeOrder($direction)
+    public function move($target)
     {
-        $this->mapper->changeOrder($this->getId(), $direction);
+        $this->mapper->move($this, $target);
     }
 
     public function getUrl($full = true)
@@ -86,6 +86,48 @@ class menuItem extends simpleCatalogue
                 return $isActive;
                 break;
         }
+    }
+
+    protected function getJipView($module, $id, $type, $tpl = jip::DEFAULT_TEMPLATE)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $action = $toolkit->getAction($module);
+        $request = $toolkit->getRequest();
+
+        $url = new url('menuMoveAction');
+        $url->add('id', $id);
+
+        $items = array();
+        $url->add('target', 'up');
+        $items['up'] = array(
+            'url' => $url->get(),
+            'controller' => 'move',
+            'title' => 'Вверх',
+            'icon' => '/templates/images/arrow_up.gif',
+            'confirm' => ''
+        );
+
+        $url->add('target', 'down');
+        $items['down'] = array(
+            'url' => $url->get(),
+            'controller' => 'move',
+            'title' => 'Вниз',
+            'icon' => '/templates/images/arrow_down.gif',
+            'confirm' => ''
+        );
+
+        $create['create'] = array(
+            'url' => $url->get(),
+            'controller' => 'save',
+            'title' => 'Создать пункт',
+            'icon' => '/templates/images/add.gif',
+            'confirm' => ''
+        );
+
+        $actions = $items + $action->getJipActions($type);
+
+        $jip = new jip($request->getSection(), $module, $id, $type, $actions, $this->getObjId(), $tpl);
+        return $jip->draw();
     }
 }
 

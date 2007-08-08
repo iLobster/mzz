@@ -13,18 +13,20 @@
  */
 
 /**
- * menuChangeOrderController: контроллер для метода moveUp модуля menu
+ * menuMoveController: контроллер для метода move модуля menu
  *
  * @package modules
  * @subpackage menu
  * @version 0.1
  */
 
-class menuChangeOrderController extends simpleController
+class menuMoveController extends simpleController
 {
-    protected function getView()
+    public function getView()
     {
         $id = $this->request->get('id', 'integer');
+        $target = $this->request->get('target', 'string');
+
         $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');
 
         $item = $menuItemMapper->searchById($id);
@@ -34,9 +36,7 @@ class menuChangeOrderController extends simpleController
             return $menuMapper->get404()->run();
         }
 
-        $direction = ($this->request->getAction() == 'moveUp') ? 'up' : 'down';
-        $item->changeOrder($direction);
-
+        $item->move($target);
         return jipTools::redirect();
     }
 }
