@@ -368,7 +368,9 @@ class actionGenerator
             throw new Exception('Error: active template already exists');
         }
 
-        $tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $action . '.tpl';
+        if (!is_dir($tpl_filename = 'templates')) {
+            $tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $action . '.tpl';
+        }
 
         if (is_file($tpl_filename)) {
             throw new Exception('Error: template already exists');
