@@ -76,7 +76,7 @@ class menuItemMapper extends simpleCatalogueMapper
     {
         if ($target == 'up' || $target == 'down') {
             $item = $this->changeOrder($item, $target);
-        } else {
+        } elseif ($item->getParent() != $target) {
             $item = $this->changeParent($item, $target);
         }
 
