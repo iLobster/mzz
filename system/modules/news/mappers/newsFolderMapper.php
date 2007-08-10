@@ -14,7 +14,7 @@
 
 //fileLoader::load('db/dbTreeNS');
 fileLoader::load('news/newsFolder');
-fileLoader::load('simple/new_simpleMapperForTree');
+fileLoader::load('simple/simpleMapperForTree');
 
 /**
  * newsFolderMapper: маппер для папок новостей
@@ -24,7 +24,7 @@ fileLoader::load('simple/new_simpleMapperForTree');
  * @version 0.2.4
  */
 
-class newsFolderMapper extends new_simpleMapperForTree
+class newsFolderMapper extends simpleMapperForTree
 {
 
     /**

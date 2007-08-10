@@ -12,7 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('db/dbTreeNS');
 fileLoader::load('menu/menuItem');
 
 /**

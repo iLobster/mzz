@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('db/dbTreeNS');
-fileLoader::load('simple/new_simpleMapperForTree');
+fileLoader::load('simple/simpleMapperForTree');
 fileLoader::load('catalogue/catalogueFolder');
 
 /**
@@ -24,7 +24,7 @@ fileLoader::load('catalogue/catalogueFolder');
  * @version 0.1.1
  */
 
-class catalogueFolderMapper extends new_simpleMapperForTree
+class catalogueFolderMapper extends simpleMapperForTree
 {
     /**
      * Имя модуля

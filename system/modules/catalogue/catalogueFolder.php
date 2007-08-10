@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('simple/new_simpleForTree');
+fileLoader::load('simple/simpleForTree');
 
 /**
  * catalogueFolder: класс для работы c данными
@@ -22,7 +22,7 @@ fileLoader::load('simple/new_simpleForTree');
  * @version 0.1
  */
 
-class catalogueFolder extends new_simpleForTree
+class catalogueFolder extends simpleForTree
 {
     protected $name = 'catalogue';
 

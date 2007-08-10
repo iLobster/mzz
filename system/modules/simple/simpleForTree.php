@@ -2,24 +2,22 @@
 /**
  * $URL: http://svn.web/repository/mzz/system/modules/simple/simpleForTree.php $
  *
- * MZZ Content Management System (c) 2006
+ * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
  *
  * This program is free software and released under
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: simpleForTree.php 811 2007-06-07 21:44:19Z zerkms $
+ * @version $Id: simpleForTree.php 995 2007-08-09 23:59:18Z zerkms $
  */
 
 /**
- * simpleForTree
+ * simpleForTree: базовый ДО для работы с древовидными структурами
  *
- * @package modules
- * @subpackage simple
- * @version 0.1.1
+ * @package system
+ * @version 0.1
  */
-
 class simpleForTree extends simple
 {
     /**
@@ -41,65 +39,80 @@ class simpleForTree extends simple
     }
 
     /**
-     * Экспортирует новые значения для измененных полей
+     * Получение уровня, на котором находится элемент.
+     *
+     * @return integer
+     */
+    public function getTreeLevel()
+    {
+        if (!$this->treeFields->exists('id')) {
+            $this->mapper->loadTreeData($this);
+        }
+        return $this->treeFields->get('level');
+    }
+
+    /**
+     * Получение id узла в дереве
+     *
+     * @return integer
+     */
+    public function getTreeKey()
+    {
+        if (!$this->treeFields->exists('id')) {
+            $this->mapper->loadTreeData($this);
+        }
+        return $this->treeFields->get('id');
+    }
+
+    /**
+     * Получение id дерева
+     *
+     * @return integer
+     */
+    public function getTreeId()
+    {
+        if (!$this->treeFields->exists('tree_id')) {
+            $this->mapper->loadTreeData($this);
+        }
+        return $this->treeFields->get('tree_id');
+    }
+
+    /**
+     * Получение предка текущего узла
+     *
+     * @return simpleForTree
+     */
+    public function getTreeParent()
+    {
+        return $this->mapper->getTreeParent($this);
+    }
+
+    /**
+     * Метод для импортирования данных из дерева
+     *
+     * @param array $data
+     */
+    public function importTreeFields(Array $data)
+    {
+        $this->treeFields->import($data);
+    }
+
+    /**
+     * Экспортирование данных из дерева
      *
      * @return array
      */
-    public function & exportTreeFields()
+    public function exportTreeFields()
     {
         return $this->treeFields->export();
     }
 
     /**
-     * Метод получения уровня, на котором находится элемент.
+     * Получение пути до узла
      *
-     * @return integer
+     * @param boolean $simple получить в сокращённом (без корневого элемента) или полном формате
+     * @return string
      */
-    public function getLevel()
-    {
-        return $this->treeFields->get('level');
-    }
-
-    /**
-     * Метод получения правого ключа узла дерева
-     *
-     * @return integer
-     */
-    public function getRightKey()
-    {
-        return $this->treeFields->get('rkey');
-    }
-
-    /**
-     * Метод получения левого ключа узла дерева
-     *
-     * @return integer
-     */
-    public function getLeftKey()
-    {
-        return $this->treeFields->get('lkey');
-    }
-
-    /**
-     * Метод установки значения уровня, на котором находится элемент.
-     *
-     * @return integer
-     */
-    public function setLevel($value)
-    {
-        $this->treeFields->set('level', $value);
-    }
-
-    /**
-     *  Метод установки значения правого ключа узла дерева
-     *
-     * @return integer
-     */
-    public function setRightKey($value)
-    {
-        $this->treeFields->set('rkey', $value);
-    }
-
     public function getPath($simple = true)
     {
         $path = $this->__call('getPath', array());
@@ -116,13 +129,16 @@ class simpleForTree extends simple
     }
 
     /**
-     * Метод установки значения левого ключа узла дерева
+     * Возвращает объекты, находящиеся в данной папке
      *
-     * @return integer
+     * @return array
      */
-    public function setLeftKey($value)
+    public function getItems()
     {
-        $this->treeFields->set('lkey', $value);
+        if (!$this->fields->exists('items')) {
+            $this->fields->set('items', $this->mapper->getItems($this->getId()));
+        }
+        return $this->fields->get('items');
     }
 
     /**
@@ -133,7 +149,7 @@ class simpleForTree extends simple
     public function getFolders($level = 1)
     {
         if (!$this->fields->exists('folders')) {
-            $folders = $this->mapper->getFolders($this->getParent(), $level);
+            $folders = $this->mapper->getFolders($this, $level);
             array_shift($folders);
             $this->fields->set('folders', $folders);
         }

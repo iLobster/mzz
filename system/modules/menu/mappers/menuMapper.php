@@ -12,7 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('simple/simpleMapperForTree');
 fileLoader::load('menu');
 
 /**

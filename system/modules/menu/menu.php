@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('simple/simpleForTree');
-
 /**
  * menu: класс для работы c данными
  *

@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('simple/new_simpleForTree');
+fileLoader::load('simple/simpleForTree');
 
 /**
  * pageFolder: класс для работы c данными
@@ -21,7 +21,7 @@ fileLoader::load('simple/new_simpleForTree');
  * @subpackage page
  * @version 0.1.1
  */
-class pageFolder extends new_simpleForTree
+class pageFolder extends simpleForTree
 {
     protected $name = 'page';
 

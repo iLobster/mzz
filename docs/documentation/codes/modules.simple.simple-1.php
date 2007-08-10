@@ -1,6 +1,6 @@
 <?php
 
-class newsFolder extends new_simpleForTree
+class newsFolder extends simpleForTree
 {
     [...]
 

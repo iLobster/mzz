@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('simple/new_simpleForTree');
+fileLoader::load('simple/simpleForTree');
 
 /**
  * folder: класс для работы c данными
@@ -22,7 +22,7 @@ fileLoader::load('simple/new_simpleForTree');
  * @version 0.1.3
  */
 
-class folder extends new_simpleForTree
+class folder extends simpleForTree
 {
     protected $name = 'fileManager';
     protected $mapper;

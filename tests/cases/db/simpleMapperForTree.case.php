@@ -1,8 +1,8 @@
 <?php
 
-fileLoader::load('simple/new_simpleMapperForTree');
+fileLoader::load('simple/simpleMapperForTree');
 
-class new_simpleMapperForTreeTest extends unitTestCase
+class simpleMapperForTreeTest extends unitTestCase
 {
     private $db;
     private $mapper;
@@ -24,14 +24,14 @@ class new_simpleMapperForTreeTest extends unitTestCase
         'some_id' => array ('name' => 'some_id','accessor' => 'getSomeId', 'mutator' => 'setSomeId'), // поле, связывающее структуру и данные в дереве
         );
 
-        $this->mapper = new new_StubSimpleMapperForTree('simple');
+        $this->mapper = new StubSimpleMapperForTree('simple');
         $this->mapper->setMap($this->map);
 
         $this->clearDb();
         $this->fillDb();
 
         $this->db->query("INSERT INTO `user_user` (login) VALUES('GUEST')");
-        $this->db->query("INSERT IGNORE INTO `sys_classes`(id, name) VALUES(3, 'new_stubSimpleForTree')");
+        $this->db->query("INSERT IGNORE INTO `sys_classes`(id, name) VALUES(3, 'stubSimpleForTree')");
     }
 
     private function fillDb()
@@ -382,11 +382,11 @@ class new_simpleMapperForTreeTest extends unitTestCase
     }
 }
 
-class new_StubSimpleMapperForTree extends new_simpleMapperForTree
+class StubSimpleMapperForTree extends simpleMapperForTree
 {
     protected $name = 'simple';
-    protected $className = 'new_stubSimpleForTree';
-    protected $itemName = 'new_stubSimpleForTree';
+    protected $className = 'stubSimpleForTree';
+    protected $itemName = 'stubSimpleForTree';
 
     public function __construct($section)
     {
@@ -404,7 +404,7 @@ class new_StubSimpleMapperForTree extends new_simpleMapperForTree
     }
 }
 
-class new_stubSimpleForTree extends new_simpleForTree
+class stubSimpleForTree extends simpleForTree
 {
     public function getItems()
     {
@@ -412,7 +412,7 @@ class new_stubSimpleForTree extends new_simpleForTree
     }
 }
 
-class new_stubSimpleForTreeMapper extends simpleMapper
+class stubSimpleForTreeMapper extends simpleMapper
 {
     public function convertArgsToObj($args)
     {

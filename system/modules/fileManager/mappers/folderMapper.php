@@ -14,7 +14,7 @@
 
 fileLoader::load('fileManager/folder');
 fileLoader::load('db/dbTreeNS');
-fileLoader::load('simple/new_simpleMapperForTree');
+fileLoader::load('simple/simpleMapperForTree');
 
 /**
  * folderMapper: маппер
@@ -24,7 +24,7 @@ fileLoader::load('simple/new_simpleMapperForTree');
  * @version 0.1.4
  */
 
-class folderMapper extends new_simpleMapperForTree
+class folderMapper extends simpleMapperForTree
 {
     /**
      * Имя модуля

@@ -13,8 +13,7 @@
  */
 
 fileLoader::load('page/pageFolder');
-fileLoader::load('simple/new_simpleMapperForTree');
-fileLoader::load('db/dbTreeNS');
+fileLoader::load('simple/simpleMapperForTree');
 
 /**
  * pageFolderMapper: маппер
@@ -24,7 +23,7 @@ fileLoader::load('db/dbTreeNS');
  * @version 0.1.4
  */
 
-class pageFolderMapper extends new_simpleMapperForTree
+class pageFolderMapper extends simpleMapperForTree
 {
     /**
      * Имя модуля
