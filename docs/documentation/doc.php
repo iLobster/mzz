@@ -462,7 +462,7 @@ if (!isset($_REQUEST['cat'])) {
         $tmp = $paths[$cat[0]][0];
         $i = 1;
 
-        echo '<p class="title"><a name="intro.philosophy"></a><span class="titleNumber">' . $paths[$cat[0]][1] . '.</span> ' . $paths[$cat[0]][2] . '</p>';
+        echo '<p class="title"><span class="titleNumber">' . $paths[$cat[0]][1] . '.</span> ' . $paths[$cat[0]][2] . '</p>';
         echo "<dl>";
         foreach($menu[$tmp] as $title => $value) {
             $meta = (is_array($value)) ? $title : $value;
@@ -482,13 +482,18 @@ if (!isset($_REQUEST['cat'])) {
     }
 
     echo '<div class="navigation_f">';
-    if($path != $_REQUEST['cat']) {
-        echo '<a href="' . $path . '.html">Вперед <span style="font-size: 120%;">&rarr;</span></a> | ';
-    }
+
     if($prev && $prev != $_REQUEST['cat']) {
-        echo '<a href="' . $prev . '.html">Назад <span style="font-size: 120%;">&larr;</span></a> | ';
+        echo '<a href="' . $prev . '.html"><span style="font-size: 120%;">&larr;</span> Назад</a> | ';
     }
-    echo '<a href="index.html">Индекс</a></div>';
+
+    echo '<a href="index.html">Индекс</a>';
+
+    if($path != $_REQUEST['cat']) {
+        echo '| <a href="' . $path . '.html">Вперед <span style="font-size: 120%;">&rarr;</span></a>';
+    }
+
+    echo '</div>';
 }
 ?>
 </div>
