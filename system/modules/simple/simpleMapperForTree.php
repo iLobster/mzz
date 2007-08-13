@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleForTree');
  * simpleMapperForTree: маппер для работы с древовидными структурами
  *
  * @package system
- * @version 0.1
+ * @version 0.2.1
  */
 
 abstract class simpleMapperForTree extends simpleMapper
@@ -50,6 +50,11 @@ abstract class simpleMapperForTree extends simpleMapper
         $this->tree = new dbTreeNS($this->treeParams, $this);
     }
 
+    /**
+     * Установка id дерева (в случае если в таблицах хранится несколько древовидных структур одновременно)
+     *
+     * @param integer $tree_id
+     */
     public function setTree($tree_id)
     {
         $this->tree->setTree($tree_id);
@@ -120,9 +125,11 @@ abstract class simpleMapperForTree extends simpleMapper
     /**
      * Получение наследников
      *
+     * @param simpleForTree $id испомый узел
+     * @param integer $level глубина выборки
      * @return array
      */
-    public function getFolders($id, $level = 1)
+    public function getFolders(simpleForTree $id, $level = 1)
     {
         return $this->getBranch($id, $level);
     }
@@ -248,7 +255,7 @@ abstract class simpleMapperForTree extends simpleMapper
             $nameMutator = $this->map[$this->treeParams['nameField']]['mutator'];
 
             // модифицируем путь текущего узла
-            $baseName = $target->$pathAccessor(false) . '/' . $object->$nameAccessor();
+            $baseName = ($object->getTreeLevel() > 1 ? $target->$pathAccessor(false) . '/' : '') . $object->$nameAccessor();
             $object->$pathMutator($baseName);
             // сохраняем текущий объект
             $this->save($object);
@@ -257,9 +264,9 @@ abstract class simpleMapperForTree extends simpleMapper
             array_shift($branch);
             // обходим всех предков
             foreach ($branch as $key => $val) {
-                    // рекурсивно вызываем функцию модификации путей и для всех предков
-                    $val->$nameMutator($val->$nameAccessor());
-                    $this->save($val);
+                // рекурсивно вызываем функцию модификации путей и для всех предков
+                $val->$nameMutator($val->$nameAccessor());
+                $this->save($val);
             }
         }
     }

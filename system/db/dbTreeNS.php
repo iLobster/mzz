@@ -16,7 +16,7 @@
  * dbTreeNS: класс для работы с древовидными структурами
  *
  * @package system
- * @version 0.1
+ * @version 0.2
  */
 class dbTreeNS
 {

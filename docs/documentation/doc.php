@@ -490,7 +490,7 @@ if (!isset($_REQUEST['cat'])) {
     echo '<a href="index.html">Индекс</a>';
 
     if($path != $_REQUEST['cat']) {
-        echo '| <a href="' . $path . '.html">Вперед <span style="font-size: 120%;">&rarr;</span></a>';
+        echo ' | <a href="' . $path . '.html">Вперед <span style="font-size: 120%;">&rarr;</span></a>';
     }
 
     echo '</div>';

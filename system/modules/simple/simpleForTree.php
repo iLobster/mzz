@@ -9,14 +9,14 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: simpleForTree.php 995 2007-08-09 23:59:18Z zerkms $
+ * @version $Id: simpleForTree.php 996 2007-08-12 21:23:54Z zerkms $
  */
 
 /**
  * simpleForTree: базовый ДО для работы с древовидными структурами
  *
  * @package system
- * @version 0.1
+ * @version 0.2
  */
 class simpleForTree extends simple
 {
