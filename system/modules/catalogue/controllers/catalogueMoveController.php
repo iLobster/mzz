@@ -31,6 +31,7 @@ class catalogueMoveController extends simpleController
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
         $id = $this->request->get('id', 'integer', SC_PATH);
+        $dest = $this->request->get('dest', 'integer', SC_POST);
 
         $isMassAction = false;
         if ($id) {
@@ -49,15 +50,10 @@ class catalogueMoveController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'dest', 'Необходимо указать каталог назначения');
+        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestCatalogueFolderExists', $catalogueFolderMapper));
 
         if ($validator->validate()) {
-            $dest = $this->request->get('dest', 'integer', SC_POST);
             $destFolder = $catalogueFolderMapper->searchById($dest);
-
-            if (!$destFolder) {
-                $controller = new messageController('Каталог назначения не найден', messageController::WARNING);
-                return $controller->run();
-            }
 
             $nonAccessible = array();
             foreach ($items as $id) {
@@ -106,6 +102,12 @@ class catalogueMoveController extends simpleController
         $this->smarty->assign('folder', $folder);
         return $this->smarty->fetch('catalogue/move.tpl');
     }
+}
+
+function checkDestCatalogueFolderExists($dest, $folderMapper)
+{
+    $destFolder = $folderMapper->searchById($dest);
+    return (bool)$destFolder;
 }
 
 ?>

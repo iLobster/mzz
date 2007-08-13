@@ -63,10 +63,14 @@ class fileManagerMoveFolderController extends simpleController
 
 
         $dests = array();
+        $styles = array();
         foreach ($folders as $val) {
-            $dests[$val->getId()] = $val->getPath();
+            $dests[$val->getId()] = $val->getTitle();
+            $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
         }
+
         $this->smarty->assign('dests', $dests);
+        $this->smarty->assign('styles', $styles);
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('folder', $folder);

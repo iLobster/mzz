@@ -63,12 +63,15 @@ class pageMoveFolderController extends simpleController
         $url->add('name', $folder->getPath());
 
         $dests = array();
+        $styles = array();
         foreach ($folders as $val) {
             $dests[$val->getId()] = $val->getPath();
+            $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
         }
 
         $this->smarty->assign('folder', $folder);
         $this->smarty->assign('dests', $dests);
+        $this->smarty->assign('styles', $styles);
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         return $this->smarty->fetch('page/moveFolder.tpl');

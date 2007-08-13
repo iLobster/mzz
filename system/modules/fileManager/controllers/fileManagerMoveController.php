@@ -42,13 +42,10 @@ class fileManagerMoveController extends simpleController
         $validator = new formValidator();
         $validator->add('required', 'dest', 'Обязательное для заполнения поле');
         $validator->add('callback', 'dest', 'В каталоге назначения уже есть файл с таким же именем', array('checkFilename', $file));
+        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestFMFolderExists', $folderMapper));
 
         if ($validator->validate()) {
             $destFolder = $folderMapper->searchById($dest);
-
-            if (!$destFolder) {
-                return $folderMapper->get404()->run();
-            }
 
             $file->setFolder($destFolder);
             $fileMapper->save($file);
@@ -62,16 +59,26 @@ class fileManagerMoveController extends simpleController
         $this->smarty->assign('form_action', $url->get());
 
         $dests = array();
+        $styles = array();
         foreach ($folders as $val) {
-            $dests[$val->getId()] = $val->getPath();
+            $dests[$val->getId()] = $val->getTitle();
+            $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
         }
+
         $this->smarty->assign('dests', $dests);
+        $this->smarty->assign('styles', $styles);
 
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('file', $file);
         $this->smarty->assign('folders', $folders);
         return $this->smarty->fetch('fileManager/move.tpl');
     }
+}
+
+function checkDestFMFolderExists($id, $folderMapper)
+{
+    $destFolder = $folderMapper->searchById($id);
+    return !empty($destFolder);
 }
 
 function checkFilename($dest, $file)

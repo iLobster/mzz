@@ -14,7 +14,7 @@
             <td>{form->select name="defaultType" value=$folder->getDefType() options=$types onError="style=border: red 1px solid;"}{$errors->get('defaultType')}</td>
         </tr>
         <tr>
-            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset jip=true name="reset" value="Отмена"}</td>
+            <td colspan="2" style="text-align:left;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

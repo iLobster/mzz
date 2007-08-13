@@ -43,7 +43,7 @@ class votingSaveController extends simpleController
         $validator->add('required', 'question', 'Необходимо задать тему голосования');
         $validator->add('regex', 'created', 'Неправильный формат даты', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
         $validator->add('regex', 'expired', 'Неправильный формат даты', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
-        $validator->add('callback', 'expired', 'Дата окончания не должна быть меньше даты старта', array(array($this, 'checkExpiredDate'), $question));
+        $validator->add('callback', 'expired', 'Дата окончания не может быть меньше даты старта', array(array($this, 'checkExpiredDate'), $question));
 
         if (!$validator->validate()) {
             $url = new url('withId');

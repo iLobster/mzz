@@ -49,7 +49,7 @@ function loadForm(id)
                 {else}{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}{/if}</td>
             </tr>{/foreach}
         <tr>
-            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset jip=true name="reset" value="Отмена"}</td>
+            <td style="text-align:left;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

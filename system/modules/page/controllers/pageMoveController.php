@@ -46,13 +46,9 @@ class pageMoveController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestPageFolderExists'));
+        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestPageFolderExists', $pageFolderMapper));
         if ($validator->validate()) {
             $destFolder = $pageFolderMapper->searchById($dest);
-
-            if (!$destFolder) {
-                return $pageFolderMapper->get404()->run();
-            }
 
             $page->setFolder($destFolder);
             $pageMapper->save($page);
@@ -65,12 +61,15 @@ class pageMoveController extends simpleController
         $url->add('name', $page->getFolder()->getPath() . '/' . $page->getName());
 
         $dests = array();
+        $styles = array();
         foreach ($folders as $val) {
-            $dests[$val->getId()] = $val->getPath();
+            $dests[$val->getId()] = $val->getTitle();
+            $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
         }
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('dests', $dests);
+        $this->smarty->assign('styles', $styles);
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('page', $page);
         return $this->smarty->fetch('page/move.tpl');
@@ -78,9 +77,8 @@ class pageMoveController extends simpleController
     }
 }
 
-function checkDestPageFolderExists($dest)
+function checkDestPageFolderExists($dest, $folderMapper)
 {
-    $folderMapper = systemToolkit::getInstance()->getMapper('page', 'pageFolder');
     $destFolder = $folderMapper->searchById($dest);
     return (bool)$destFolder;
 }

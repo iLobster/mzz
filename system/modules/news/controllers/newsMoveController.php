@@ -26,57 +26,50 @@ class newsMoveController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer', SC_PATH);
-        $dest = $this->request->get('dest', 'integer', SC_POST);
-
         $newsMapper = $this->toolkit->getMapper('news', 'news');
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
+
+        $id = $this->request->get('id', 'integer', SC_PATH);
+
         $news = $newsMapper->searchById($id);
 
         if (!$news) {
             return $newsMapper->get404()->run();
         }
 
-        $folders = $newsFolderMapper->searchAll();
-
         $validator = new formValidator();
-        $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestNewsFolderExists'));
+        $validator->add('required', 'dest', 'Необходимо указать каталог назначения');
 
         if ($validator->validate()) {
-            $destFolder = $newsFolderMapper->searchById($dest);
+            $dest = $this->request->get('dest', 'integer', SC_POST);
+            $destFolder = $catalogueFolderMapper->searchById($dest);
 
             if (!$destFolder) {
-                return $newsFolderMapper->get404()->run();
+                $controller = new messageController('Каталог назначения не найден', messageController::WARNING);
+                return $controller->run();
             }
 
-            $news->setFolder($destFolder);
-            $newsMapper->save($news);
-
             return jipTools::redirect();
+        }
+
+        $folders = $newsFolderMapper->searchAll();
+        $dests = array();
+        $styles = array();
+        foreach ($folders as $val) {
+            $dests[$val->getId()] = $val->getTitle();
+            $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
         }
 
         $url = new url('withId');
         $url->setAction('move');
         $url->add('id', $news->getId());
 
-        $dests = array();
-        foreach ($folders as $val) {
-            $dests[$val->getId()] = $val->getPath();
-        }
-
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('news', $news);
+        $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('dests', $dests);
+        $this->smarty->assign('styles', $styles);
         return $this->smarty->fetch('news/move.tpl');
     }
-}
-
-function checkDestNewsFolderExists($dest)
-{
-    $folderMapper = systemToolkit::getInstance()->getMapper('news', 'newsFolder');
-    $destFolder = $folderMapper->searchById($dest);
-    return (bool)$destFolder;
 }
 ?>
