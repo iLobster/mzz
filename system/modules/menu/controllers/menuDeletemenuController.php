@@ -30,8 +30,8 @@ class menuDeletemenuController extends simpleController
 
         $menu = $menuMapper->searchByName($name);
 
-        foreach ($menu->searchItems() as $item) {
-            $itemMapper->delete($item->getId());
+        foreach ($menu->getItems() as $item) {
+            $itemMapper->delete($item);
         }
 
         $menuMapper->delete($menu->getId());
