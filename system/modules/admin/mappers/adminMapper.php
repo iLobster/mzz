@@ -256,16 +256,17 @@ class adminMapper extends simpleMapper
     /**
      * —писок секций, в которых зарегистрирован модуль
      *
-     * @param integer $module_id
+     * @param integer|string $module если значение не число, то поиск производитс€ по имени модул€
      * @return array
      */
-    public function getSectionsModuleRegistered($module_id)
+    public function getSectionsModuleRegistered($module)
     {
+        $where = '`m`.' . (is_numeric($module) ? '`id` = ' . (int)$module : '`name` = ' . $this->db->quote($module));
         return $this->db->getAll('SELECT `s`.* FROM `sys_modules` `m`
                                     INNER JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
                                      INNER JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id`
                                       INNER JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
-                                       WHERE `m`.`id` = ' . (int)$module_id . '
+                                       WHERE ' . $where . '
                                         GROUP BY `s`.`id`');
     }
 
@@ -374,6 +375,29 @@ class adminMapper extends simpleMapper
         return $result;
     }
 
+    /**
+     * ѕолучение списка секций и классов дл€ конкретного модул€
+     *
+     * @return array
+     */
+    public function getModuleSectionsAndClasses($module)
+    {
+        $modules = $this->db->getAll('SELECT `s`.`id` AS `section_id`, `s`.`name` AS `section_name` FROM `sys_sections` `s`
+                                        LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
+                                         LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                                          LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                                           WHERE `m`.`name` = ' . $this->db->quote($module));
+
+        $result = array();
+
+        foreach ($modules as $val) {
+            if (!isset($result[$val['section_name']]['id'])) {
+                $result[$val['section_name']]['id'] = $val['section_id'];
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * ћетод получени€ списка разделов и классов, принадлежащих им

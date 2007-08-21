@@ -61,22 +61,32 @@ class catalogueSavePropertyController extends simpleController
         }
 
 
+        $ajaxRequest = (is_numeric($ajaxRequest) ? $types[$ajaxRequest] : $ajaxRequest);
+
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
-        $data = $adminMapper->getSectionsAndModulesWithClasses();
         $sections = array();
+        if ($ajaxRequest === 'img') {
+            $data = $adminMapper->getSectionsModuleRegistered('fileManager');
 
-        foreach ($data as $name => $sectionInfo) {
-            $sections[$sectionInfo['id']] = $name;
+            foreach ($data as $sectionInfo) {
+
+                $sections[$sectionInfo['id']] = $sectionInfo['title'];
+            }
+        } else {
+            $data = $adminMapper->getSectionsAndModulesWithClasses();
+
+            foreach ($data as $name => $sectionInfo) {
+                $sections[$sectionInfo['id']] = $name;
+            }
+
+            $modules = array();
+            $classes = array();
+
+            foreach ($data as $key => $section) {
+                $classes[$key] = $section['modules'];
+                $modules[$key] = array_keys($section['modules']);
+            }
         }
-
-        $modules = array();
-        $classes = array();
-
-        foreach ($data as $key => $section) {
-            $classes[$key] = $section['modules'];
-            $modules[$key] = array_keys($section['modules']);
-        }
-
         if (!$validator->validate()) {
             $url = new url('default2');
             $url->setAction($action);
@@ -88,7 +98,6 @@ class catalogueSavePropertyController extends simpleController
             }
 
             if (!empty($ajaxRequest)) {
-                $ajaxRequest = (is_numeric($ajaxRequest) ? $types[$ajaxRequest] : $ajaxRequest);
                 switch ($ajaxRequest) {
                     case 'dynamicselect':
                         $dynamicselect_section = $isEdit && isset($property['args']['section']) ? $property['args']['section'] : false;
@@ -125,7 +134,7 @@ class catalogueSavePropertyController extends simpleController
 
                         $foldersList = array();
                         foreach ($folders as $folder) {
-                            $foldersList[$folder->getId()] = array($folder->getTitle(), $folder->getTreeLevel());
+                            $foldersList[$folder->getId()] = array($folder->getTitle(), $folder->getTreeLevel() - 1);
                         }
                         $this->smarty->assign('data', $foldersList);
                         break;
@@ -161,11 +170,13 @@ class catalogueSavePropertyController extends simpleController
             'isEdit' => $isEdit,
             'action' => $url->get(),
             'sections' => $sections,
-            'modules' => $modules,
-            'classes' => $classes,
             'ajaxRequest' => $ajaxRequest,
             'errors' => $validator->getErrors()));
 
+            if ($ajaxRequest !== 'img') {
+                $this->smarty->assign('modules', $modules);
+                $this->smarty->assign('classes', $classes);
+            }
             return $this->smarty->fetch('catalogue/property.tpl');
         } else {
             $name = $this->request->get('name', 'string', SC_POST);

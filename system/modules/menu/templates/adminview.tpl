@@ -1,5 +1,5 @@
 {foreach from=$items key="id" item="item"}
-    <li class="treeItem hover_container hover_target">
+    <li class="treeItem" id="treeItem-{$id}">
         <div class="menuItem">
         <div class="menuItemContent">
         <div class="menuType">{$item->getTypeTitle()}</div>

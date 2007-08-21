@@ -67,8 +67,7 @@ class newsMoveFolderController extends simpleController
         $dests = array();
         $styles = array();
         foreach ($folders as $val) {
-            $dests[$val->getId()] = $val->getTitle();
-            $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
+            $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
         }
 
         $this->smarty->assign('folder', $folder);

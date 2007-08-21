@@ -2,23 +2,17 @@
 <script type="text/javascript">
 var count = 0;
 var CATALOGUE_PATH = '{url onlyPath=true}';
+var CATALOGUE_TYPES_WITH_CONFIG = [5, 6, 7, 8];
+
 jsLoader.load(SITE_PATH + '/templates/js/catalogue.js');
 
 jsLoader.setOnLoad(function () {literal}{{/literal}
-{if $isEdit}ajaxLoadTypeConfig({$propertyForm.type_id});{/if}
+{if $isEdit}mzzLoadTypeConfig({$propertyForm.type_id});{/if}
 {literal}});{/literal}
 </script>
 
 <div class="jipTitle">{if $isEdit}Редактирование свойства{else}Создание свойства{/if}</div>
 
-{capture name=requestConfigForType}
-{literal}
-
-$('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoading">Загрузка данных...</div>';
-new Ajax.Updater({ success: 'catalogueTypeConfig' }, '{/literal}{url onlyPath=true}{literal}', {parameters: { ajaxRequest: this.value}, method: 'GET', onFailure: function () {
-$('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка загрузки!</div>';
-}});{/literal}
-{/capture}
 <div style="padding: 10px;">
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="3" width="100%">
@@ -32,7 +26,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
         </tr>
         <tr>
             <td><strong>{form->caption name="type_id" value="Тип:" onError='' onRequired=""}</strong></td>
-            <td><div class="errorText">{$errors->get('type_id')}</div>{form->select name="type_id" options=$selectdata value=$propertyForm.type_id onchange="ajaxLoadTypeConfig(this.value);" onError="class=errorField"}</td>
+            <td><div class="errorText">{$errors->get('type_id')}</div>{form->select name="type_id" options=$selectdata value=$propertyForm.type_id onchange="mzzLoadTypeConfig(this.value);" onError="class=errorField"}</td>
         </tr>
     </table>
 
@@ -77,7 +71,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
                     </tr>
                     <tr>
                         <td>
-                        {form->select name="dynamicselect_section" options=$sections value=$dynamicselect_section emptyFirst=1 style="width: 270px;" id="catalogue_section_list" onchange="catalogueChangeList(this);" onkeypress="this.onchange();"}
+                        {form->select name="dynamicselect_section" options=$sections value=$dynamicselect_section emptyFirst=1 style="width: 270px;" id="catalogue_section_list" onchange="mzzCatalogue.getList(this);" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 
@@ -86,7 +80,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
                     </tr>
                     <tr>
                         <td>
-                        {form->select name="dynamicselect_module" style="width: 270px;" id="catalogue_modules_list" disabled=1 onchange="catalogueChangeList(this, 'classes');" onkeypress="this.onchange();"}
+                        {form->select name="dynamicselect_module" style="width: 270px;" id="catalogue_modules_list" disabled=1 onchange="mzzCatalogue.getList(this, 'classes');" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 
@@ -95,7 +89,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
                     </tr>
                     <tr>
                         <td>
-                        {form->select name="dynamicselect_class" style="width: 270px;" id="catalogue_classes_list" disabled=1 onchange="catalogueChangeList(this, 'methods');" onkeypress="this.onchange();"}
+                        {form->select name="dynamicselect_class" style="width: 270px;" id="catalogue_classes_list" disabled=1 onchange="mzzCatalogue.getList(this, 'methods');" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 
@@ -104,7 +98,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
                     </tr>
                     <tr>
                         <td>
-                        {form->select name="dynamicselect_method" style="width: 270px;" id="catalogue_methods_list" onchange="catalogueGetMethodInfo(this);" onkeypress="this.onchange();" disabled=1}
+                        {form->select name="dynamicselect_method" style="width: 270px;" id="catalogue_methods_list" onchange="mzzCatalogue.getMethodInfo(this);" onkeypress="this.onchange();" disabled=1}
                         </td>
                     </tr>
                 </table>
@@ -127,34 +121,7 @@ $('catalogueTypeConfig').innerHTML = '<div class="jipAjaxLoadingError">Ошибка за
                     </tr>
                     <tr>
                         <td>
-                        {form->select name="dynamicselect_section" options=$sections value=$dynamicselect_section emptyFirst=1 style="width: 270px;" id="catalogue_section_list" onchange="catalogueChangeList(this);" onkeypress="this.onchange();"}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>{form->caption name="dynamicselect_module" value="Модуль:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
-                    </tr>
-                    <tr>
-                        <td>
-                        {form->select name="dynamicselect_module" style="width: 270px;" id="catalogue_modules_list" disabled=1 onchange="catalogueChangeList(this, 'classes');" onkeypress="this.onchange();"}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>{form->caption name="dynamicselect_class" value="Класс:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
-                    </tr>
-                    <tr>
-                        <td>
-                        {form->select name="dynamicselect_class" style="width: 270px;" id="catalogue_classes_list" disabled=1 onchange="catalogueChangeList(this, 'folders');catalogueChangeList(this, 'methods');" onkeypress="this.onchange();"}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>{form->caption name="dynamicselect_method" value="Метод:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
-                    </tr>
-                    <tr>
-                        <td>
-                        {form->select name="dynamicselect_method" style="width: 270px;" id="catalogue_methods_list" onchange="catalogueGetMethodInfo(this);" onkeypress="this.onchange();" disabled=1}
+                        {form->select name="dynamicselect_section" options=$sections value=$dynamicselect_section emptyFirst=1 style="width: 270px;" id="catalogue_section_list" onchange="mzzCatalogue.getList(this);" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 

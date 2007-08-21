@@ -53,6 +53,9 @@ class formSelectField extends formElement
                 $value_selected = array($key, $text);
             }
             $style = isset($options['styles'][$key]) ? $options['styles'][$key] : false;
+            if ($selected) {
+                $style = "font-weight: bold;";
+            }
             $html .= self::createTag(array('content' => $text, 'style' => $style, 'value' => $key, 'selected' => $selected), 'option');
         }
 
