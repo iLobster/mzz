@@ -24,7 +24,7 @@ function buildMenuTree()
         if (!tree.id || !tree.id.match(/^myTree/)) {
             return false;
         }
-        $A(tree.getElementsBySelector("li.treeItem")).each(function(elm)
+        $A($(tree).getElementsBySelector("li.treeItem")).each(function(elm)
         {
             subbranch = elm.getElementsByTagName("ul");
             if ($A(subbranch).size() > 0) {
