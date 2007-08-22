@@ -69,13 +69,13 @@ class adminMapper extends simpleMapper
 
             $class = (!empty($val['main_class'])) ? $val['main_class'] : $val['class'];
 
-            $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $class);
-            $this->register($obj_id, 'sys', 'access');
-            $acl = new acl($user, $obj_id);
-
             $main[$val['module']] = $class;
 
             if (isset($val['section']) && isset($val['class'])) {
+                $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $class);
+                $this->register($obj_id, 'sys', 'access');
+                $acl = new acl($user, $obj_id);
+
 
                 $access[$val['section'] . '_' . $val['module']] = $acl->get('editACL');
 

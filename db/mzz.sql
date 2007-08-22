@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.1.1.3
+# SQL Manager 2005 for MySQL 3.7.5.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -4967,7 +4967,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (844,26),
   (855,21),
   (853,24),
-  (862,16);
+  (862,16),
+  (863,7),
+  (864,7),
+  (865,7),
+  (866,7);
 
 COMMIT;
 
@@ -5224,7 +5228,11 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (30,'voteFolder',13),
   (32,'message',14),
   (33,'messageCategory',14),
-  (34,'voteCategory',13);
+  (34,'voteCategory',13),
+  (35,'forum',15),
+  (36,'category',15),
+  (37,'thread',15),
+  (38,'post',15);
 
 COMMIT;
 
@@ -5377,7 +5385,11 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (196,34,74),
   (197,34,75),
   (198,22,76),
-  (199,24,29);
+  (199,24,29),
+  (200,35,9),
+  (201,36,9),
+  (202,37,9),
+  (203,38,9);
 
 COMMIT;
 
@@ -5430,7 +5442,11 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (28,31,13),
   (29,32,14),
   (30,33,14),
-  (31,34,13);
+  (31,34,13),
+  (32,35,15),
+  (33,36,15),
+  (34,37,15),
+  (35,38,15);
 
 COMMIT;
 
@@ -5466,7 +5482,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (11,'gallery',21,'Галерея','gallery.gif',80),
   (12,'menu',26,'Меню','pages.gif',90),
   (13,'voting',30,'Голосование','voting.gif',0),
-  (14,'message',32,'Сообщения пользователей','page.gif',0);
+  (14,'message',32,'Сообщения пользователей','page.gif',0),
+  (15,'forum',35,'Форум','',0);
 
 COMMIT;
 
@@ -6341,7 +6358,11 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (859),
   (860),
   (861),
-  (862);
+  (862),
+  (863),
+  (864),
+  (865),
+  (866);
 
 COMMIT;
 
@@ -6400,7 +6421,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (808,'access_message_message'),
   (832,'voting_voteFolder'),
   (855,'menu_menuItem'),
-  (862,'catalogue_catalogue');
+  (862,'catalogue_catalogue'),
+  (866,'access_forum_forum');
 
 COMMIT;
 
@@ -6435,7 +6457,8 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (11,'gallery','Галерея',80),
   (12,'menu','Меню',50),
   (13,'voting','Голосование',0),
-  (14,'message','Сообщения пользователей',0);
+  (14,'message','Сообщения пользователей',0),
+  (15,'forum','Форум',0);
 
 COMMIT;
 
@@ -6601,7 +6624,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (101,2,'2cf62ea41d6a9b3e97b52e3134d74307','2007-08-09 10:43:48',NULL,'http://mzz/admin/menu/admin','127.0.0.1');
+  (102,2,'249554bf465e45d490a1812e40bdce82','2007-08-22 15:20:42',NULL,'http://mzz/admin/devToolbar','127.0.0.1');
 
 COMMIT;
 
