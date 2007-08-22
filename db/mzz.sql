@@ -5452,7 +5452,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (200,35,9),
   (201,36,9),
   (202,37,9),
-  (203,38,9);
+  (203,38,9),
+  (204,38,5);
 
 COMMIT;
 
@@ -6688,7 +6689,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (104,2,'122f852b9e226ddf10bdaf2f900798f4','2007-08-22 15:44:24',NULL,'http://mzz/admin/devToolbar','127.0.0.1');
+  (104,2,'122f852b9e226ddf10bdaf2f900798f4','2007-08-22 16:04:10',NULL,'http://mzz/admin/38/listActions?ajax=1','127.0.0.1');
 
 COMMIT;
 

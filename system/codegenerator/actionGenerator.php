@@ -73,7 +73,7 @@ class actionGenerator
 
         define('CODEGEN', systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'codegenerator');
         define('MZZ', systemConfig::$pathToApplication);
-        define('CUR_DEST_FOLDER', $this->dest . DIRECTORY_SEPARATOR . $this->module);
+        define('CUR_DEST_FOLDER', $this->dest . $this->module);
     }
 
     /**
@@ -372,7 +372,7 @@ class actionGenerator
             $tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $action . '.tpl';
         }
 
-        if (is_file($tpl_filename)) {
+        if (is_file($tpl_filename = $tpl_filename . DIRECTORY_SEPARATOR . $action . '.tpl')) {
             throw new Exception('Error: template already exists');
         }
 
