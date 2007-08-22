@@ -466,6 +466,69 @@ INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
 COMMIT;
 
 #
+# Structure for the `forum_category` table : 
+#
+
+DROP TABLE IF EXISTS `forum_category`;
+
+CREATE TABLE `forum_category` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  `order` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `forum_forum` table : 
+#
+
+DROP TABLE IF EXISTS `forum_forum`;
+
+CREATE TABLE `forum_forum` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  `category_id` int(11) default NULL,
+  `order` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `forum_post` table : 
+#
+
+DROP TABLE IF EXISTS `forum_post`;
+
+CREATE TABLE `forum_post` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `text` text,
+  `author` int(11) default NULL,
+  `post_date` int(11) default NULL,
+  `edit_date` int(11) default NULL,
+  `thread_id` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Structure for the `forum_thread` table : 
+#
+
+DROP TABLE IF EXISTS `forum_thread`;
+
+CREATE TABLE `forum_thread` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  `post_date` int(11) default NULL,
+  `last_post_date` int(11) default NULL,
+  `author` int(11) default NULL,
+  `forum_id` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
 # Structure for the `gallery_album` table : 
 #
 
@@ -6568,7 +6631,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
   (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1185959953),
   (70,2,'127.0.0.1','3ba4b15b4c2a24773bdc153fcde5f444',NULL,1185974311),
-  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1186612423);
+  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1186612423),
+  (72,2,'127.0.0.1','4f9252b570591bcf33d0bc3224b12de8',NULL,1187756548);
 
 COMMIT;
 
@@ -6624,7 +6688,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (102,2,'249554bf465e45d490a1812e40bdce82','2007-08-22 15:20:42',NULL,'http://mzz/admin/devToolbar','127.0.0.1');
+  (104,2,'122f852b9e226ddf10bdaf2f900798f4','2007-08-22 15:44:24',NULL,'http://mzz/admin/devToolbar','127.0.0.1');
 
 COMMIT;
 
