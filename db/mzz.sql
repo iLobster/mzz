@@ -1,4 +1,4 @@
-# SQL Manager 2005 for MySQL 3.7.5.1
+# SQL Manager 2007 for MySQL 4.1.1.3
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -377,6 +377,53 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
 COMMIT;
 
 #
+# Structure for the `faq_faq` table : 
+#
+
+DROP TABLE IF EXISTS `faq_faq`;
+
+CREATE TABLE `faq_faq` (
+  `id` int(11) NOT NULL auto_increment,
+  `question` char(255) default NULL,
+  `answer` text,
+  `category_id` int(10) unsigned default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `faq_faq` table  (LIMIT 0,500)
+#
+
+INSERT INTO `faq_faq` (`id`, `question`, `answer`, `category_id`, `obj_id`) VALUES 
+  (1,'Надо ли мне верить в розового жирафика, чтобы пользоваться mzz?','Желательно, но вовсе необязательно',1,872);
+
+COMMIT;
+
+#
+# Structure for the `faq_faqCategory` table : 
+#
+
+DROP TABLE IF EXISTS `faq_faqCategory`;
+
+CREATE TABLE `faq_faqCategory` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `obj_id` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `faq_faqCategory` table  (LIMIT 0,500)
+#
+
+INSERT INTO `faq_faqCategory` (`id`, `name`, `title`, `obj_id`) VALUES 
+  (1,'demo','Демо',870);
+
+COMMIT;
+
+#
 # Structure for the `fileManager_file` table : 
 #
 
@@ -404,7 +451,7 @@ CREATE TABLE `fileManager_file` (
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
   (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,24,1,'По фамилии Fernandes',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,86,1,'',6,623);
+  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,87,1,'',6,623);
 
 COMMIT;
 
@@ -5034,7 +5081,12 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (863,7),
   (864,7),
   (865,7),
-  (866,7);
+  (866,7),
+  (868,7),
+  (869,7),
+  (870,37),
+  (872,36),
+  (874,38);
 
 COMMIT;
 
@@ -5105,7 +5157,10 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (73,'deletecategory'),
   (74,'editcategory'),
   (75,'viewActual'),
-  (76,'deleteAlbum');
+  (76,'deleteAlbum'),
+  (77,'deletecat'),
+  (78,'createcat'),
+  (79,'editcat');
 
 COMMIT;
 
@@ -5295,7 +5350,10 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (35,'forum',15),
   (36,'category',15),
   (37,'thread',15),
-  (38,'post',15);
+  (38,'post',15),
+  (39,'faq',16),
+  (41,'faqCategory',16),
+  (42,'faqFolder',16);
 
 COMMIT;
 
@@ -5453,7 +5511,19 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (201,36,9),
   (202,37,9),
   (203,38,9),
-  (204,38,5);
+  (204,38,5),
+  (205,39,9),
+  (206,40,9),
+  (207,41,9),
+  (208,42,9),
+  (209,41,5),
+  (210,41,4),
+  (211,39,1),
+  (212,39,2),
+  (214,41,77),
+  (215,42,20),
+  (216,42,78),
+  (217,41,79);
 
 COMMIT;
 
@@ -5510,7 +5580,10 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (32,35,15),
   (33,36,15),
   (34,37,15),
-  (35,38,15);
+  (35,38,15),
+  (36,39,16),
+  (37,41,16),
+  (38,42,16);
 
 COMMIT;
 
@@ -5547,7 +5620,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (12,'menu',26,'Меню','pages.gif',90),
   (13,'voting',30,'Голосование','voting.gif',0),
   (14,'message',32,'Сообщения пользователей','page.gif',0),
-  (15,'forum',35,'Форум','',0);
+  (15,'forum',35,'Форум','',0),
+  (16,'faq',42,'FAQ','',0);
 
 COMMIT;
 
@@ -6426,7 +6500,18 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (863),
   (864),
   (865),
-  (866);
+  (866),
+  (867),
+  (868),
+  (869),
+  (870),
+  (871),
+  (872),
+  (873),
+  (874),
+  (875),
+  (876),
+  (877);
 
 COMMIT;
 
@@ -6486,7 +6571,10 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (832,'voting_voteFolder'),
   (855,'menu_menuItem'),
   (862,'catalogue_catalogue'),
-  (866,'access_forum_forum');
+  (866,'access_forum_forum'),
+  (868,'access_faq_faq'),
+  (869,'access_faq_faqFolder'),
+  (874,'faq_faqFolder');
 
 COMMIT;
 
@@ -6522,7 +6610,8 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (12,'menu','Меню',50),
   (13,'voting','Голосование',0),
   (14,'message','Сообщения пользователей',0),
-  (15,'forum','Форум',0);
+  (15,'forum','Форум',0),
+  (16,'faq','',0);
 
 COMMIT;
 
@@ -6632,7 +6721,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
   (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1185959953),
   (70,2,'127.0.0.1','3ba4b15b4c2a24773bdc153fcde5f444',NULL,1185974311),
-  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1186612423),
+  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1187831447),
   (72,2,'127.0.0.1','4f9252b570591bcf33d0bc3224b12de8',NULL,1187756548);
 
 COMMIT;
@@ -6689,7 +6778,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (104,2,'122f852b9e226ddf10bdaf2f900798f4','2007-08-22 16:04:10',NULL,'http://mzz/admin/38/listActions?ajax=1','127.0.0.1');
+  (106,2,'1f82ecb31c15dcf4ea2d03b1f7c2603c','2007-08-23 13:53:22',NULL,'http://mzz/faq/demo/list','127.0.0.1');
 
 COMMIT;
 
