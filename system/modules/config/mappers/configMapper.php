@@ -47,10 +47,11 @@ class configMapper extends simpleMapper
             $toolkit = systemToolkit::getInstance();
             $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['module_name']);
             $this->register($obj_id, 'sys', 'access');
-            
-            $obj = $this->create();
+
+            $accessMapper = systemToolkit::getInstance()->getMapper('access', 'access', 'access');
+            $obj = $accessMapper->create();
             $obj->import(array('obj_id' => $obj_id));
-            
+
             return $obj;
         }
 
