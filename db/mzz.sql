@@ -583,7 +583,11 @@ CREATE TABLE `forum_post` (
 
 INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thread_id`, `obj_id`) VALUES 
   (1,'Пост 1',2,10,NULL,1,886),
-  (2,'Пост 2',2,231654,NULL,1,887);
+  (2,'Пост 2',2,231654,NULL,1,887),
+  (3,'adfwqer',2,1187931976,NULL,4,896),
+  (4,'sd',2,1187932074,NULL,5,900),
+  (5,'tyr',2,1187932122,NULL,6,904),
+  (6,'типа пост ;)',2,1187932173,NULL,7,908);
 
 COMMIT;
 
@@ -611,7 +615,11 @@ CREATE TABLE `forum_thread` (
 #
 
 INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `last_post_date`, `author`, `last_post_author`, `forum_id`, `obj_id`) VALUES 
-  (1,'новый тред',0,15,20,2,2,1,885);
+  (1,'новый тред',0,15,20,2,2,1,885),
+  (5,'q',1,1187932074,1187932074,2,2,1,899),
+  (6,'fdhd',0,1187932122,1187932122,2,2,1,903),
+  (4,'sadfsadf',1,1187931976,1187931976,2,2,1,895),
+  (7,'стас кобан',0,1187932173,1187932173,2,2,1,907);
 
 COMMIT;
 
@@ -5141,7 +5149,17 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (885,34),
   (886,35),
   (887,35),
-  (888,21);
+  (888,21),
+  (889,34),
+  (892,34),
+  (895,34),
+  (896,35),
+  (899,34),
+  (900,35),
+  (903,34),
+  (904,35),
+  (907,34),
+  (908,35);
 
 COMMIT;
 
@@ -5217,7 +5235,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (78,'createcat'),
   (79,'editcat'),
   (80,'forum'),
-  (81,'thread');
+  (81,'thread'),
+  (82,'newThread');
 
 COMMIT;
 
@@ -5584,7 +5603,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (217,41,79),
   (218,43,9),
   (219,43,80),
-  (221,37,81);
+  (221,37,81),
+  (223,35,82);
 
 COMMIT;
 
@@ -6584,7 +6604,29 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (885),
   (886),
   (887),
-  (888);
+  (888),
+  (889),
+  (890),
+  (891),
+  (892),
+  (893),
+  (894),
+  (895),
+  (896),
+  (897),
+  (898),
+  (899),
+  (900),
+  (901),
+  (902),
+  (903),
+  (904),
+  (905),
+  (906),
+  (907),
+  (908),
+  (909),
+  (910);
 
 COMMIT;
 
@@ -6855,7 +6897,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (109,2,'65caf5c40940c395ee01076f7c863278','2007-08-24 15:11:13',NULL,'http://mzz/admin/35/listActions?ajax=1','127.0.0.1');
+  (109,2,'65caf5c40940c395ee01076f7c863278','2007-08-24 16:10:16',NULL,'http://mzz/forum/1/list','127.0.0.1');
 
 COMMIT;
 

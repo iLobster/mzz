@@ -39,12 +39,48 @@ class postMapper extends simpleMapper
     protected $className = 'post';
 
     /**
+     * Выполнение операций с массивом $fields перед вставкой в БД
+     *
+     * @param array $fields
+     */
+    protected function insertDataModify(&$fields)
+    {
+        $fields['post_date'] = new sqlFunction('UNIX_TIMESTAMP');
+
+        $threadMapper = systemToolkit::getInstance()->getMapper('forum', 'thread');
+        $thread = $threadMapper->searchByKey($fields['thread_id']);
+
+        if ($thread->getPostsCount()) {
+            $thread->setPostsCount($thread->getPostsCount() + 1);
+        }
+        $thread->setLastPostDate($fields['post_date']);
+        $thread->setLastPostAuthor($fields['author']);
+        $threadMapper->save($thread);
+    }
+
+    /**
+     * Выполнение операций с массивом $fields перед обновлением в БД
+     *
+     * @param array $fields
+     */
+    protected function updateDataModify(&$fields)
+    {
+        $fields['edit_date'] = new sqlFunction('UNIX_TIMESTAMP');
+    }
+
+    /**
      * Возвращает доменный объект по аргументам
      *
      * @return simple
      */
     public function convertArgsToObj($args)
     {
+        $do = $this->searchByKey($args['id']);
+
+        if ($do) {
+            return $do;
+        }
+
         throw new mzzDONotFoundException();
     }
 }

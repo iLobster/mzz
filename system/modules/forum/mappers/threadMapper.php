@@ -39,6 +39,17 @@ class threadMapper extends simpleMapper
     protected $className = 'thread';
 
     /**
+     * Выполнение операций с массивом $fields перед вставкой в БД
+     *
+     * @param array $fields
+     */
+    protected function insertDataModify(&$fields)
+    {
+        $fields['post_date'] = new sqlFunction('UNIX_TIMESTAMP');
+        $fields['last_post_date'] = new sqlFunction('UNIX_TIMESTAMP');
+    }
+
+    /**
      * Возвращает доменный объект по аргументам
      *
      * @return simple

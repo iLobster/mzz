@@ -1,5 +1,5 @@
 Форум: {$forum->getTitle()}<br />
-Треды:
+Треды: (<a href="{url route=withId action=newThread id=$forum->getId()}">создать новый</a>)
 <table border="1" width="100%">
     <tr>
         <td>Название</td>
