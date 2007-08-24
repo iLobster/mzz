@@ -12,17 +12,17 @@
  * @version $Id$
  */
 
-fileLoader::load('forum');
+fileLoader::load('forum/categoryFolder');
 
 /**
- * forumMapper: маппер
+ * categoryFolderMapper: маппер
  *
  * @package modules
  * @subpackage forum
  * @version 0.1
  */
 
-class forumMapper extends simpleMapper
+class categoryFolderMapper extends simpleMapper
 {
     /**
      * Имя модуля
@@ -36,22 +36,25 @@ class forumMapper extends simpleMapper
      *
      * @var string
      */
-    protected $className = 'forum';
+    protected $className = 'categoryFolder';
+
+    private function getObjId()
+    {
+        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_forumCategoryFolder');
+        $this->register($obj_id);
+        return $obj_id;
+    }
 
     /**
-     * Возвращает доменный объект по аргументам
+     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
-     * @return simple
+     * @return integer
      */
     public function convertArgsToObj($args)
     {
-        $do = $this->searchByKey($args['id']);
-
-        if ($do) {
-            return $do;
-        }
-
-        throw new mzzDONotFoundException();
+        $obj = $this->create();
+        $obj->import(array('obj_id' => $this->getObjId()));
+        return $obj;
     }
 }
 

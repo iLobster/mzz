@@ -45,6 +45,12 @@ class threadMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
+        $do = $this->searchByKey($args['id']);
+
+        if ($do) {
+            return $do;
+        }
+
         throw new mzzDONotFoundException();
     }
 }

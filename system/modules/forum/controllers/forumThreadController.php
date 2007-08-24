@@ -13,23 +13,22 @@
  */
 
 /**
- * forumListController: контроллер для метода list модуля forum
+ * forumThreadController: контроллер для метода thread модуля forum
  *
  * @package modules
  * @subpackage forum
  * @version 0.1
  */
 
-class forumListController extends simpleController
+class forumThreadController extends simpleController
 {
     public function getView()
     {
-        $forumMapper = $this->toolkit->getMapper('forum', 'forum');
+        $threadMapper = $this->toolkit->getMapper('forum', 'thread');
+        $thread = $threadMapper->searchByKey($this->request->get('id', 'integer'));
 
-        $forum = $forumMapper->searchByKey($this->request->get('id', 'integer'));
-
-        $this->smarty->assign('forum', $forum);
-        return $this->smarty->fetch('forum/list.tpl');
+        $this->smarty->assign('thread', $thread);
+        return $this->smarty->fetch('forum/thread.tpl');
     }
 }
 
