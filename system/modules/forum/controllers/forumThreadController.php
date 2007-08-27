@@ -24,9 +24,18 @@ class forumThreadController extends simpleController
 {
     public function getView()
     {
-        $threadMapper = $this->toolkit->getMapper('forum', 'thread');
-        $thread = $threadMapper->searchByKey($this->request->get('id', 'integer'));
+        $id = $this->request->get('id', 'integer');
 
+        $threadMapper = $this->toolkit->getMapper('forum', 'thread');
+        $postsMapper = $this->toolkit->getMapper('forum', 'post');
+
+        $thread = $threadMapper->searchByKey($id);
+
+        $this->setPager($postsMapper, 5);
+
+        $posts = $postsMapper->searchAllByField('thread_id', $id);
+
+        $this->smarty->assign('posts', $posts);
         $this->smarty->assign('thread', $thread);
         return $this->smarty->fetch('forum/thread.tpl');
     }

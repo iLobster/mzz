@@ -46,7 +46,6 @@ class threadMapper extends simpleMapper
     protected function insertDataModify(&$fields)
     {
         $fields['post_date'] = new sqlFunction('UNIX_TIMESTAMP');
-        $fields['last_post_date'] = new sqlFunction('UNIX_TIMESTAMP');
     }
 
     /**

@@ -25,9 +25,21 @@ class forumListController extends simpleController
     public function getView()
     {
         $forumMapper = $this->toolkit->getMapper('forum', 'forum');
+        $id = $this->request->get('id', 'integer');
 
-        $forum = $forumMapper->searchByKey($this->request->get('id', 'integer'));
+        $forum = $forumMapper->searchByKey($id);
 
+        $criteria = new criteria();
+        $criteria->add('forum_id', $id);
+        $criteria->setOrderByFieldDesc('last_post.id');
+
+        $threadMapper = $this->toolkit->getMapper('forum', 'thread');
+
+        $this->setPager($threadMapper, 5);
+
+        $threads = $threadMapper->searchAllByCriteria($criteria);
+
+        $this->smarty->assign('threads', $threads);
         $this->smarty->assign('forum', $forum);
         return $this->smarty->fetch('forum/list.tpl');
     }

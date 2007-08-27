@@ -15,49 +15,52 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * forumNewThreadController: контроллер для метода newThread модуля forum
+ * forumPostController: контроллер для метода post модуля forum
  *
  * @package modules
  * @subpackage forum
  * @version 0.1
  */
 
-class forumNewThreadController extends simpleController
+class forumPostController extends simpleController
 {
     public function getView()
     {
+        $action = $this->request->getAction();
+        $isEdit = $action == 'edit';
+
         $id = $this->request->get('id', 'integer');
 
-        $forumMapper = $this->toolkit->getMapper('forum', 'forum');
-        $forum = $forumMapper->searchByKey($id);
+        $threadMapper = $this->toolkit->getMapper('forum', 'thread');
+        $postMapper = $this->toolkit->getMapper('forum', 'post');
+        if ($isEdit) {
+            $post = $postMapper->searchByKey($id);
+            $thread = $post->getThread();
+        } else {
+            $thread = $threadMapper->searchByKey($id);
+            $post = $postMapper->create();
+        }
 
         $validator = new formValidator();
-        $validator->add('required', 'title', 'Необходимо название треду');
+
         $validator->add('required', 'text', 'Необходимо написать сообщение');
 
         if ($validator->validate()) {
-            $title = $this->request->get('title', 'string', SC_POST);
             $text = $this->request->get('text', 'string', SC_POST);
 
-            $threadMapper = $this->toolkit->getMapper('forum', 'thread');
-            $postMapper = $this->toolkit->getMapper('forum', 'post');
+            if (!$isEdit) {
+                $post = $postMapper->create();
+                $post->setAuthor($this->toolkit->getUser());
+                $post->setThread($thread);
+            }
 
-            $thread = $threadMapper->create();
-            $thread->setTitle($title);
-            $thread->setAuthor($me = $this->toolkit->getUser());
-            $thread->setForum($forum);
-
-            $threadMapper->save($thread);
-
-            $post = $postMapper->create();
             $post->setText($text);
-            $post->setAuthor($me);
-            $post->setThread($thread);
-
             $postMapper->save($post);
 
-            $thread->setLastPost($post);
-            $threadMapper->save($thread);
+            if (!$isEdit) {
+                $thread->setLastPost($post);
+                $threadMapper->save($thread);
+            }
 
             $url = new url('withId');
             $url->setAction('thread');
@@ -68,13 +71,14 @@ class forumNewThreadController extends simpleController
         }
 
         $url = new url('withId');
-        $url->setAction('newThread');
+        $url->setAction($action);
         $url->add('id', $id);
 
+        $this->smarty->assign('post', $post);
+        $this->smarty->assign('isEdit', $isEdit);
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('action', $url->get());
-        $this->smarty->assign('forum', $forum);
-        return $this->smarty->fetch('forum/newThread.tpl');
+        return $this->smarty->fetch('forum/post.tpl');
     }
 }
 

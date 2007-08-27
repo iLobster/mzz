@@ -50,11 +50,7 @@ class postMapper extends simpleMapper
         $threadMapper = systemToolkit::getInstance()->getMapper('forum', 'thread');
         $thread = $threadMapper->searchByKey($fields['thread_id']);
 
-        if ($thread->getPostsCount()) {
-            $thread->setPostsCount($thread->getPostsCount() + 1);
-        }
-        $thread->setLastPostDate($fields['post_date']);
-        $thread->setLastPostAuthor($fields['author']);
+        $thread->setPostsCount($thread->getPostsCount() + 1);
         $threadMapper->save($thread);
     }
 

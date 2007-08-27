@@ -8,7 +8,7 @@
         </tr>
         <tr>
             <td style='vertical-align: top;'>{form->caption name="title" value="Текст сообщения" onError="style=color: red;"}</td>
-            <td>{form->textarea name="text" rows="7" cols="50"}{$errors->get('title')}</td>
+            <td>{form->textarea name="text" rows="7" cols="50"}{$errors->get('text')}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
