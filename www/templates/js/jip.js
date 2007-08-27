@@ -431,7 +431,7 @@ jipWindow.prototype = {
             Event.observe(window, "resize", this.eventLockUpdate);
             Event.observe(this.locker, "click", this.eventLockClick);
             this.locker.setStyle({opacity: 0.01, display: 'block'});
-            new Effect.Opacity(this.locker, {"from" : 0, "to": 0.8, "duration": 0.3, 'fps': 500});
+            this.setOpacityEffect();
             // hide select elements
             this.hideSelects();
         }
@@ -442,17 +442,26 @@ jipWindow.prototype = {
         if (this.locker && this.locker.getStyle('display') == 'block') {
             Event.stopObserving(this.locker, "click", this.eventLockClick);
             Event.stopObserving(window, "resize", this.eventLockUpdate);
-            new Effect.Opacity(this.locker, {
+            this.setOpacityEffect({
             "from": 0.8,
             "to": 0,
-            "duration": 0.3,
-            "fps": 500,
             "afterFinish": function () {
                 jipWindow.locker.setStyle({opacity: 0.01, display: 'none'});
                 jipWindow.showSelects();
             }
             });
         }
+    },
+
+    setOpacityEffect: function() {
+        var options = Object.extend({
+        "from": 0,
+        "to": 0.8,
+        "duration": 0.3,
+        "fps": 500
+        }, arguments[0] || {});
+
+        new Effect.Opacity(this.locker, options);
     },
 
     refreshAfterClose: function(url)
@@ -599,7 +608,6 @@ var jipWindow = new jipWindow;
 //--------------------------------
 //  Menu for JIP actions
 // -------------------------------
-
 jipMenu = Class.create();
 jipMenu.prototype = {
     initialize: function() {
@@ -621,8 +629,9 @@ jipMenu.prototype = {
 
     show: function(button, menuId, items) {
         id = 'jip_menu_' + menuId;
+
         // open if closed
-        if($(id) == null) {
+        if(!$(id) || $(id).getStyle('display') == 'none') {
             if (this.current.menu != false && this.current.button != false) {
                 this.close();
             }
@@ -657,75 +666,80 @@ jipMenu.prototype = {
             this.mouseIn();
         }
         if (this.current.menu) {
-            this.layertimer = setTimeout("jipMenu.close()", 800);
+            this.layertimer = setTimeout("jipMenu.close()", 1000);
         }
     },
 
     close: function() {
-        this.jipMenu.setStyle({'visibility': 'hidden'});
+        this.jipMenu.setStyle({'display': 'none'});
         Event.stopObserving(this.jipMenu, "mouseout", this.eventMouseOut);
         Event.stopObserving(this.jipMenu, "mouseover", this.eventMouseIn);
         Event.stopObserving(document, "keypress", this.eventKeypress);
         this.current.button.src = SITE_PATH + '/templates/images/jip.gif';
         this.mouseIn();
         this.current = {"menu": false, "button": false};
-        this.closeTimer = setTimeout(function () { jipMenu.jipMenu.parentNode.removeChild(jipMenu.jipMenu); jipMenu.jipMenu = false; }, 10);
+        //this.closeTimer = setTimeout(function () { jipMenu.jipMenu.parentNode.removeChild(jipMenu.jipMenu); jipMenu.jipMenu = false; }, 10);
         //this.jipMenu.parentNode.removeChild(jipMenu.jipMenu);
-        //this.jipMenu = false;;
+        this.jipMenu = false;;
         this.jipButton = false;
     },
 
     draw: function(button, id, items) {
         var jip_win = $('jip' + jipWindow.currentWindow);
 
-        var jipMenuDOM = document.createElement('div');
-        jipMenuDOM.id = id;
-        $(jipMenuDOM).addClassName('jipMenu');
-        var jipMenuTable = $(document.createElement('table')).addClassName('jipItems');
-        jipMenuTable.cellPadding = 3;
-        jipMenuTable.cellSpacing = 0;
+        if (!$(id)) {
+            var jipMenuDOM = document.createElement('div');
+            jipMenuDOM.id = id;
+            $(jipMenuDOM).addClassName('jipMenu');
+            var jipMenuTable = $(document.createElement('table')).addClassName('jipItems');
+            jipMenuTable.cellPadding = 3;
+            jipMenuTable.cellSpacing = 0;
 
 
-        var jipMenuTbody = document.createElement('tbody');
-        $A(items).each(function (elm, i) {
-            var jipMenuTableTR = document.createElement('TR');
-            jipMenuTableTR.onclick = function () { jipMenu.close(); return jipWindow.open(elm[1]); }
+            var jipMenuTbody = document.createElement('tbody');
+            $A(items).each(function (elm, i) {
+                var jipMenuTableTR = document.createElement('TR');
+                jipMenuTableTR.onclick = function () { jipMenu.close(); return jipWindow.open(elm[1]); }
 
-            jipMenuTableTR.onmouseout =  function (event) { jipMenuTableTR.cells[1].className = 'jipItemText'; };
-            jipMenuTableTR.onmouseover = function (event) { jipMenuTableTR.cells[1].className = 'jipItemTextActive'; };
+                jipMenuTableTR.onmouseout =  function (event) { jipMenuTableTR.cells[1].className = 'jipItemText'; };
+                jipMenuTableTR.onmouseover = function (event) { jipMenuTableTR.cells[1].className = 'jipItemTextActive'; };
 
-            var jipMenuTdTitle = document.createElement('td');
-            jipMenuTdTitle.className = "jipItemText";
+                var jipMenuTdTitle = document.createElement('td');
+                jipMenuTdTitle.className = "jipItemText";
 
-            var jipMenuItemTitle = document.createTextNode(elm[0]);
-            jipMenuTdTitle.appendChild(jipMenuItemTitle);
+                var jipMenuItemTitle = document.createTextNode(elm[0]);
+                jipMenuTdTitle.appendChild(jipMenuItemTitle);
 
-            var jipMenuTdIcon = document.createElement('td');
-            jipMenuTdIcon.className = "jipItemIcon";
+                var jipMenuTdIcon = document.createElement('td');
+                jipMenuTdIcon.className = "jipItemIcon";
 
-            var jipMenuItemImg = document.createElement('img');
-            jipMenuItemImg.src = elm[2];
-            jipMenuItemImg.height= 16;
-            jipMenuItemImg.width= 16;
+                var jipMenuItemImg = document.createElement('img');
+                jipMenuItemImg.src = elm[2];
+                jipMenuItemImg.height= 16;
+                jipMenuItemImg.width= 16;
 
-            var jipMenuItemA = document.createElement('a');
-            jipMenuItemA.href = elm[1];
-            jipMenuItemA.oclick = false;
-            jipMenuItemA.appendChild(jipMenuItemImg);
-            jipMenuTdIcon.appendChild(jipMenuItemA);
-            jipMenuTableTR.appendChild(jipMenuTdIcon);
-            jipMenuTableTR.appendChild(jipMenuTdTitle);
-            jipMenuTbody.appendChild(jipMenuTableTR);
-        });
+                var jipMenuItemA = document.createElement('a');
+                jipMenuItemA.href = elm[1];
+                jipMenuItemA.oclick = false;
+                jipMenuItemA.appendChild(jipMenuItemImg);
+                jipMenuTdIcon.appendChild(jipMenuItemA);
+                jipMenuTableTR.appendChild(jipMenuTdIcon);
+                jipMenuTableTR.appendChild(jipMenuTdTitle);
+                jipMenuTbody.appendChild(jipMenuTableTR);
+            });
 
 
-        jipMenuTable.appendChild(jipMenuTbody);
-        jipMenuDOM.appendChild(jipMenuTable);
-        button.parentNode.insertBefore(jipMenuDOM, button);
-
+            jipMenuTable.appendChild(jipMenuTbody);
+            jipMenuDOM.appendChild(jipMenuTable);
+            button.parentNode.insertBefore(jipMenuDOM, button);
+        } else {
+            var jipMenuDOM = $(id);
+            jipMenuDOM.setStyle({display: 'inline'});
+        }
         Event.observe(jipMenuDOM, "mouseout", this.eventMouseOut);
         Event.observe(jipMenuDOM, "mouseover", this.eventMouseIn);
         Event.observe(document, "keypress", this.eventKeypress);
+
         this.mouseOut();
 
         this.jipButton = button;

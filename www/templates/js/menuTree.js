@@ -1,8 +1,8 @@
 function buildMenuTree()
 {
-    var menuTreeImages = {'minus': '/templates/images/tree_minus.gif',
-    'plus': '/templates/images/tree_plus.gif',
-    'blank': '/templates/images/spacer.gif'};
+    var menuTreeImages = {'minus': SITE_PATH + '/templates/images/tree_minus.gif',
+    'plus': SITE_PATH + '/templates/images/tree_plus.gif',
+    'blank': SITE_PATH + '/templates/images/spacer.gif'};
 
     function toggleBranch(branch, expanderImage) {
         branch = $(branch);

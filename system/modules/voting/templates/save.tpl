@@ -3,33 +3,33 @@
 function addOne()
 {
     var tbody = $('selectvariants');
-	var tr = tbody.insertRow(tbody.rows.length);
-	var td = tr.insertCell(tr.cells.length);
-    
+    var tr = tbody.insertRow(tbody.rows.length);
+    var td = tr.insertCell(tr.cells.length);
+
     var newInput = document.createElement('input');
     newInput.name = 'answers[]';
-	newInput.type = "text";
-    
+    newInput.type = "text";
+
     td.width = '20%';
-	//td.innerHTML = '<input type="text" name="answers[]">';
-	td.appendChild(newInput);
-	td = tr.insertCell(tr.cells.length);
-	td.width = '80%';
+    //td.innerHTML = '<input type="text" name="answers[]">';
+    td.appendChild(newInput);
+    td = tr.insertCell(tr.cells.length);
+    td.width = '80%';
 
     var newType = document.createElement('select');
     newType.name = 'answers_type[]';
     {/literal}{foreach from=$answers_types item="type" key="id"}
     newType.options[{$id}] = new Option("{$type}", "{$id}");
     {/foreach}{literal}
-	var newImg = document.createElement('img');
-	newImg.src = SITE_PATH + "/templates/images/delete.gif";
-	newImg.onclick = function () {
-	    deleteOne(this.parentNode.parentNode);
-	}
+    var newImg = document.createElement('img');
+    newImg.src = SITE_PATH + "/templates/images/delete.gif";
+    newImg.onclick = function () {
+        deleteOne(this.parentNode.parentNode);
+    }
 
-	td.appendChild(newType);
-	td.appendChild(newImg);
-    
+    td.appendChild(newType);
+    td.appendChild(newImg);
+
     jipWindow.lockContent();
 }
 function deleteOne(trelem)

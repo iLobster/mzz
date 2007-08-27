@@ -260,7 +260,7 @@ class httpRequest implements iRequest
 
     /**
      * Получение текущего URL без запрошенного пути (но с SITE_PATH).
-     * Пример: 	http://example.com:8080/mzz
+     * Пример: http://example.com:8080/mzz
      *
      * @return string URL
      */
@@ -280,7 +280,7 @@ class httpRequest implements iRequest
 
     /**
      * Получение полного URL.
-     * Пример: 	http://example.com:8080/mzz/foo/bar/?baz=1
+     * Пример: http://example.com:8080/mzz/foo/bar/?baz=1
      *
      * @return string URL
      */
@@ -431,9 +431,9 @@ class httpRequest implements iRequest
     }
 
     /**
-	 * Инициализация
-	 *
-	 */
+     * Инициализация
+     *
+     */
     public function initialize()
     {
         $this->urlPort = (int)$this->getServerValue('SERVER_PORT');

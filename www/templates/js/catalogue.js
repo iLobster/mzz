@@ -32,29 +32,39 @@ function deleteOne(trelem)
     $('selectvariants').removeChild(trelem);
 }
 
-
 function mzzLoadTypeConfig(value)
 {
     $('catalogueTypeConfig').innerHTML = '';
     if (CATALOGUE_TYPES_WITH_CONFIG.indexOf(value) == -1) {
+        $('catalogueSubmitProperty').enable();
         return false;
     }
-    var loadingDiv = document.createElement('div');
+    var loadingDiv = $(document.createElement('div'));
     loadingDiv.className = "jipAjaxLoading";
     loadingDiv.update('Загрузка данных...');
     $('catalogueTypeConfig').appendChild(loadingDiv);
 
+    $('catalogueSubmitProperty').disable();
+
     new Ajax.Updater({success: 'catalogueTypeConfig' }, CATALOGUE_PATH, {
-        parameters: {ajaxRequest: value}, method: 'GET',
+        parameters: {loadType: value}, method: 'GET',
         onFailure: function () {
             loadingDiv.className = 'jipAjaxLoadingError';
             loadingDiv.update('Ошибка загрузки.');
+        },
+        onComplete: function(transport, param) {
+            mzzCatalogue.autoloadSelects();
+            $('catalogueSubmitProperty').enable();
         }
     });
 }
 
 
 var mzzCatalogue = {
+    setValues: function(values) {
+        this.values = $H(values);
+    },
+
     getList: function(select, type)
     {
         type = (['classes', 'methods', 'modules', 'folders'].indexOf(type) >= 0) ? type : 'modules';
@@ -62,6 +72,7 @@ var mzzCatalogue = {
         if (!select || !optList) {
             return false;
         }
+        $('catalogueSubmitProperty').disable();
         optList.disable();
         optList.options.length = 0;
 
@@ -72,31 +83,41 @@ var mzzCatalogue = {
             this.setLoadingMode($('catalogue_methods_list'));
             this.setLoadingMode($('catalogue_folders_list'));
         }
-
-        $('methodData').update('Загрузка данных...');
-
+        if ($('methodData')) {
+            $('methodData').update('Загрузка данных...');
+        }
         optList.options[0] = new Option('Загрузка...', '');
-        var params = $H({ajaxRequest: 'dynamicselect_' + type, for_id: $F(select)});
+
+        var params = $H({loadType: type, for_id: $F(select)});
         if (type == 'folders') {
             params.merge({
-            'section': this.getSelectedText('catalogue_section_list'),
-            'module': this.getSelectedText('catalogue_modules_list'),
-            'class': this.getSelectedText('catalogue_classes_list')
+            'section': $F('catalogue_sections_list')
             });
         }
 
         new Ajax.Request(CATALOGUE_PATH, {
             method: 'get', parameters: params, onSuccess: function(transport) {
                 if (transport.responseText.match(/\(\{/)) {
+                    $('catalogueSubmitProperty').enable();
                     var optListData = eval(transport.responseText);
                     var i = 0;
+                    var selectedIndex = false;
                     $H(optListData).each(function(pair) {
                         if (typeof(pair.value) == 'string') {
-                            optList.options[i++] = new Option(pair.value, pair.key);
+                            optList.options[i] = new Option(pair.value, pair.key);
                         } else {
-                            optList.options[i++] = new Option(String.fromCharCode(160).times(pair.value[1] * 5) + pair.value[0], pair.key);
+                            optList.options[i] = new Option(String.fromCharCode(160).times(pair.value[1] * 5) + pair.value[0], pair.key);
                         }
+
+                        if (typeof(mzzCatalogue.values[type]) != 'undefined' && mzzCatalogue.values[type] === pair.key) {
+                            selectedIndex = i;
+                            $(optList.options[i]).setStyle({fontWeight: 'bold'});
+                            mzzCatalogue.values.remove(type);
+                        }
+                        i++;
                     });
+
+                    optList.selectedIndex = selectedIndex || 0;
 
                     if (i > 0) {
                         if (type == 'modules') {
@@ -111,7 +132,6 @@ var mzzCatalogue = {
                     } else {
                         optList.options[0] = new Option('Данных нет', '');
                     }
-                    optList.selectedIndex = 0;
 
                 } else {
                     optList.options[0] = new Option('Данные не получены.', '');
@@ -133,7 +153,7 @@ var mzzCatalogue = {
 
     getSelectedText: function(id)
     {
-        return $(id).options[$(id).selectedIndex].text;
+        return id ? $(id).options[$(id).selectedIndex].text : false;
     },
 
 
@@ -141,9 +161,10 @@ var mzzCatalogue = {
     {
         var classId = $F($('catalogue_classes_list'));
         $('methodData').update('Загрузка данных...');
+        $('catalogueSubmitProperty').disable();
 
         new Ajax.Request(CATALOGUE_PATH, {
-            method: 'get', parameters: { ajaxRequest: 'dynamicselect_method',  class_id: classId, method_name: $F(select)}, onSuccess: function(transport) {
+            method: 'get', parameters: { loadType: 'method',  class_id: classId, method_name: $F(select)}, onSuccess: function(transport) {
                 if (transport.responseText.match(/\(\{/)) {
                     var methodInfo = $H(eval(transport.responseText));
 
@@ -162,7 +183,7 @@ var mzzCatalogue = {
                         descTable.cellSadding = "3";
                         descTable.width = "70%";
 
-
+                        var i = 0;
                         methodInfo.each(function (pair) {
 
                             var argValueRow   = descTable.insertRow(-1);
@@ -178,10 +199,20 @@ var mzzCatalogue = {
 
                             if (pair.value.editable == '1') {
                                 if (pair.value.type == 'boolean') {
-                                    var valueInput = document.createElement('select');
+                                    var valueInput = $(document.createElement('select')).setStyle({width: '60px'});
+                                    valueInput.name = 'typeConfig[methodArgs][' + i + ']';
                                     valueInput.options[0] = new Option('да','true');
                                     valueInput.options[1] = new Option('нет','false');
-                                    valueInput.selectedIndex = pair.value.defaultValue == 'false' ? 1 : 0;
+
+                                    if (typeof(mzzCatalogue.values.methodArgs) != 'undefined' &&
+                                        typeof(mzzCatalogue.values.methodArgs['arg' + i]) != 'undefined') {
+                                        valueInput.selectedIndex = mzzCatalogue.values.methodArgs['arg' + i] == 'false' ? 1 : 0;
+                                        $(valueInput.options[valueInput.selectedIndex]).setStyle({fontWeight: 'bold'});
+                                        mzzCatalogue.values.methodArgs.remove('arg' + i);
+                                    } else {
+                                        valueInput.selectedIndex = pair.value.defaultValue == 'false' ? 1 : 0;
+                                    }
+
                                     if (typeof(pair.value.defaultValue) != 'undefined') {
                                         if (pair.value.defaultValue == 'false') {
                                             pair.value.defaultValue = 'нет';
@@ -218,9 +249,10 @@ var mzzCatalogue = {
 
                             descCell.innerHTML = 'Тип: <strong>' + pair.value.type + '</strong><br />' + pair.value.desc;
 
-
+                            i++;
                         });
 
+                        $('catalogueSubmitProperty').enable();
                         $('methodData').appendChild(descTable);
                     }
                 } else {
@@ -230,6 +262,13 @@ var mzzCatalogue = {
                 $('methodData').update('Данные не получены');
             }
         });
-    }
+    },
 
+    autoloadSelects: function() {
+        if (mzzCatalogue.values.size() && $('catalogue_sections_list')) {
+            $('catalogue_sections_list').onchange();
+        }
+    }
 }
+
+mzzCatalogue.setValues({});

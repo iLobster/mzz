@@ -106,7 +106,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                         break;
 
                     case 'img':
-                        $tmp = unserialize($props['args']);
+                        /*$tmp = unserialize($props['args']);
                         $toolkit = systemToolkit::getInstance();
                         $tmpMapper = $toolkit->getMapper($tmp['module'], $tmp['do'], $tmp['section']);
 
@@ -119,7 +119,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                         foreach ($tmpData as $tmp_do) {
                             $props['args'][$tmp_do->getId()] = $tmp_do;
                         }
-                        break;
+                        break;*/
                 }
                 $properties[$props['name']] = $props;
             }

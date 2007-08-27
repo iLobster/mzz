@@ -23,7 +23,7 @@ fileLoader::load('dataspace/iDataspace');
  * @subpackage dataspace
  * @version 0.1
  */
-class arrayDataspace implements iDataspace
+class arrayDataspace implements iDataspace, ArrayAccess
 {
     /**
      * Массив для хранения данных
@@ -72,6 +72,26 @@ class arrayDataspace implements iDataspace
         }
 
         return (isset($this->data[$key])) ? $this->data[$key] : null;
+    }
+
+    public function offsetExists($offset)
+    {
+        return $this->exists($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        return $this->get($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        return $this->delete($offset);
     }
 
     /**

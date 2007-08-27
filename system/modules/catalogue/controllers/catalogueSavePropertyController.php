@@ -28,7 +28,24 @@ class catalogueSavePropertyController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $action = $this->request->getAction();
         $isEdit = ($action == 'editProperty');
-        $ajaxRequest = $this->request->get('ajaxRequest', 'string', SC_REQUEST);
+        ///$isAjax = $this->request->get('_ajax', 'string', SC_REQUEST);
+
+        $property = array();
+        $isAjax = false;
+
+        if ($isEdit) {
+            $id = $this->request->get('id', 'integer', SC_PATH);
+            $property = $catalogueMapper->getProperty($id);
+        }
+
+        if (($loadType = $this->request->get('loadType', 'string', SC_REQUEST)) !== null) {
+            $isAjax = true;
+        } elseif ($isEdit) {
+            $loadType = $property['type_id'];
+        } else {
+            $loadType = $this->request->get('type_id', 'integer', SC_REQUEST);
+            $property['type_id'] = $loadType;
+        }
 
         $typesTemp = $catalogueMapper->getAllPropertiesTypes();
         $types = array();
@@ -39,14 +56,12 @@ class catalogueSavePropertyController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Необходимо дать имя свойству');
-        $validator->add('required', 'title', 'Необходимо указать заголовок для свойства');
-        $validator->add('required', 'type_id', 'Необходимо указать тип значения свойства');
+        $validator->add('required', 'name', 'У свойства должно быть имя из допустимых символов (a-Z0-9)');
+        $validator->add('required', 'title', 'Укажите название свойства (имя для отображения)');
+        $validator->add('required', 'type_id', 'Укажите тип значения свойства');
+
 
         if ($isEdit) {
-            $id = $this->request->get('id', 'integer', SC_PATH);
-            $property = $catalogueMapper->getProperty($id);
-
             switch ($property['type']) {
                 case 'select':
                     $property['args'] = unserialize($property['args']);
@@ -61,16 +76,15 @@ class catalogueSavePropertyController extends simpleController
         }
 
 
-        $ajaxRequest = (is_numeric($ajaxRequest) ? $types[$ajaxRequest] : $ajaxRequest);
+        $loadType = (is_numeric($loadType) ? $types[$loadType] : $loadType);
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $sections = array();
-        if ($ajaxRequest === 'img') {
+        if ($loadType === 'img') {
             $data = $adminMapper->getSectionsModuleRegistered('fileManager');
 
             foreach ($data as $sectionInfo) {
-
-                $sections[$sectionInfo['id']] = $sectionInfo['title'];
+                $sections[$sectionInfo['name']] = $sectionInfo['title'];
             }
         } else {
             $data = $adminMapper->getSectionsAndModulesWithClasses();
@@ -97,71 +111,79 @@ class catalogueSavePropertyController extends simpleController
                 $this->smarty->assign('property', $property);
             }
 
-            if (!empty($ajaxRequest)) {
-                switch ($ajaxRequest) {
-                    case 'dynamicselect':
-                        $dynamicselect_section = $isEdit && isset($property['args']['section']) ? $property['args']['section'] : false;
-                        $this->smarty->assign('dynamicselect_section', $dynamicselect_section);
-                        break;
-                    case 'img':
-                        $dynamicselect_section = $isEdit && isset($property['args']['section']) ? $property['args']['section'] : false;
-                        $this->smarty->assign('dynamicselect_section', $dynamicselect_section);
-                        break;
-                    case 'dynamicselect_modules':
+            if (!empty($loadType)) {
 
-                        $section_id = $this->request->get('for_id', 'integer', SC_REQUEST);
-                        $modules = $adminMapper->searchModulesBySection($section_id);
-                        $this->smarty->assign('data', $modules);
-                        break;
-                    case 'dynamicselect_classes':
+                if ($loadType == 'dynamicselect' || $loadType == 'img') {
+                    $current_type_section = $isEdit && isset($property['args']['section']) ? $property['args']['section'] : false;
+                    $this->smarty->assign('current_type_section', $current_type_section);
+                } else {
+                    switch ($loadType) {
+                        case 'modules':
 
-                        $module_id = $this->request->get('for_id', 'integer', SC_REQUEST);
-                        $classes = $adminMapper->searchClassesByModuleId($module_id);
-                        $this->smarty->assign('data', $classes);
-                        break;
-                    case 'dynamicselect_methods':
-                        $class_id = $this->request->get('for_id', 'integer', SC_REQUEST);
-                        $classes = $adminMapper->getSearchMethods($class_id);
-                        $this->smarty->assign('data', $classes);
-                        break;
-                    case 'dynamicselect_folders':
-                        $section = $this->request->get('section', 'string', SC_REQUEST);
-                        $module = $this->request->get('module', 'string', SC_REQUEST);
-                        $class = $this->request->get('class', 'string', SC_REQUEST);
+                            $section_id = $this->request->get('for_id', 'integer', SC_REQUEST);
+                            $modules = $adminMapper->searchModulesBySection($section_id);
+                            $this->smarty->assign('data', $modules);
+                            break;
+                        case 'classes':
 
-                        $folderMapper = $this->toolkit->getMapper($module, $class, $section);
-                        $folders = $folderMapper->searchAll();
+                            $module_id = $this->request->get('for_id', 'integer', SC_REQUEST);
+                            $classes = $adminMapper->searchClassesByModuleId($module_id);
+                            $this->smarty->assign('data', $classes);
+                            break;
 
-                        $foldersList = array();
-                        foreach ($folders as $folder) {
-                            $foldersList[$folder->getId()] = array($folder->getTitle(), $folder->getTreeLevel() - 1);
-                        }
-                        $this->smarty->assign('data', $foldersList);
-                        break;
-                    case 'dynamicselect_method':
-                        $method_name = $this->request->get('method_name', 'string', SC_REQUEST);
-                        $class_id = $this->request->get('class_id', 'integer', SC_REQUEST);
-                        $data = $adminMapper->getMethodInfo($class_id, $method_name);
-                        if ($data) {
-                            $description = $data['description'];
-                            unset($data['description']);
-                            $this->smarty->assign('description', $description);
-                        }
-                        $this->smarty->assign('data', $data);
-                        break;
+                        case 'methods':
+                            $class_id = $this->request->get('for_id', 'integer', SC_REQUEST);
+                            $methods = $adminMapper->getSearchMethods($class_id);
+                            $this->smarty->assign('data', $methods);
+                            break;
+
+                        case 'folders':
+                            $section = $this->request->get('section', 'string', SC_REQUEST);
+
+                            $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', $section);
+                            $folders = $folderMapper->searchAll();
+
+                            $foldersList = array();
+                            foreach ($folders as $folder) {
+                                $foldersList[$folder->getId()] = array($folder->getTitle(), $folder->getTreeLevel() - 1);
+                            }
+                            $this->smarty->assign('data', $foldersList);
+                            break;
+
+                        case 'method':
+                            $method_name = $this->request->get('method_name', 'string', SC_REQUEST);
+                            $class_id = $this->request->get('class_id', 'integer', SC_REQUEST);
+                            $data = $adminMapper->getMethodInfo($class_id, $method_name);
+                            if ($data) {
+                                $description = $data['description'];
+                                unset($data['description']);
+                                $this->smarty->assign('description', $description);
+                            }
+                            $this->smarty->assign('data', $data);
+                            break;
+                    }
                 }
             }
 
-            $propertyForm = array(
-            'title' => $isEdit && isset($property['title']) ? $property['title'] : '',
-            'name' => $isEdit && isset($property['name']) ? $property['name'] : '',
-            'type' => $isEdit && isset($property['type']) ? $property['type'] : '',
-            'type_id' => $isEdit && isset($property['type_id']) ? $property['type_id'] : ''
-            );
-
-            if ($ajaxRequest == 'datetime') {
-                $propertyForm['args'] = $isEdit && isset($property['args']) ? $property['args'] : '%H:%M:%S %d/%m/%Y';
+            $propertyForm = $property;
+            if (($typeConfig = $this->request->get('typeConfig', 'array', SC_POST)) !== null) {
+                $propertyForm['typeConfig'] = $typeConfig;
             }
+
+            if (is_array($propertyForm) && array_key_exists('args', $propertyForm)) {
+                $propertyForm['typeConfig'] = $propertyForm['args'];
+                unset($propertyForm['args']);
+            }
+
+            if ($loadType == 'datetime') {
+                $propertyForm['typeConfig'] = $isEdit && isset($propertyForm['typeConfig']) ? $propertyForm['typeConfig'] : '%H:%M:%S %d/%m/%Y';
+            }
+
+            if (isset($propertyForm['typeConfig']) && is_array($propertyForm['typeConfig'])) {
+                $propertyForm['typeConfig'] = new arrayDataspace($propertyForm['typeConfig']);
+            }
+
+            $propertyForm = new arrayDataspace($propertyForm);
 
             $this->smarty->assign(array(
             'types' => $types,
@@ -170,10 +192,11 @@ class catalogueSavePropertyController extends simpleController
             'isEdit' => $isEdit,
             'action' => $url->get(),
             'sections' => $sections,
-            'ajaxRequest' => $ajaxRequest,
+            'isAjax' => $isAjax,
+            'loadType' => $loadType,
             'errors' => $validator->getErrors()));
 
-            if ($ajaxRequest !== 'img') {
+            if ($loadType !== 'img') {
                 $this->smarty->assign('modules', $modules);
                 $this->smarty->assign('classes', $classes);
             }
@@ -199,7 +222,7 @@ class catalogueSavePropertyController extends simpleController
                     break;
 
                 case 'dynamicselect':
-                   /* $moduleName = $this->request->get('dynamicselect_module', 'string', SC_POST);
+                    /* $moduleName = $this->request->get('dynamicselect_module', 'string', SC_POST);
                     $doName = $this->request->get('dynamicselect_do', 'string', SC_POST);
                     $sectionName = $this->request->get('dynamicselect_section', 'string', SC_POST);
                     $searchMethod = $this->request->get('dynamicselect_searchMethod', 'string', SC_POST);
@@ -218,21 +241,15 @@ class catalogueSavePropertyController extends simpleController
                     ));
                     break;*/
 
-                /*case 'img':
-                    $moduleName = $this->request->get('img_module', 'string', SC_POST);
-                    $doName = $this->request->get('img_do', 'string', SC_POST);
-                    $sectionName = $this->request->get('img_section', 'string', SC_POST);
-                    $searchMethod = $this->request->get('img_searchMethod', 'string', SC_POST);
-                    $callbackParams = $this->request->get('img_params', 'string', SC_POST);
+                case 'img':
+                    $sectionName = $this->request->get('dynamicselect_section', 'string', SC_POST);
+                    $folderId = $this->request->get('folder', 'integer', SC_POST);
 
                     $params['args'] = serialize(array(
-                    'module'    =>  $moduleName,
-                    'do'    =>  $doName,
                     'section'   =>  $sectionName,
-                    'searchMethod'  =>  $searchMethod,
-                    'params' =>  $callbackParams
+                    'folderId'  =>  $folderId
                     ));
-                    break;*/
+                    break;
             }
 
             if ($isEdit) {

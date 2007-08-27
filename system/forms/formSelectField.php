@@ -45,18 +45,21 @@ class formSelectField extends formElement
         if (sizeof($options['options']) < 2 && isset($options['one_item_freeze']) && $options['one_item_freeze']) {
             $options['freeze'] = true;
         }
-
-        foreach ($options['options'] as $key => $text) {
-            $value = self::getValue($name, $value);
-            $selected = ((string)$key == (string)$value);
-            if ($selected) {
-                $value_selected = array($key, $text);
+        if (is_array($options['options'])) {
+            foreach ($options['options'] as $key => $text) {
+                $value = self::getValue($name, $value);
+                $selected = ((string)$key == (string)$value);
+                if ($selected) {
+                    $value_selected = array($key, $text);
+                }
+                $style = isset($options['styles'][$key]) ? $options['styles'][$key] : false;
+                if ($selected) {
+                    $style = "font-weight: bold;";
+                }
+                $html .= self::createTag(array('content' => $text, 'style' => $style, 'value' => $key, 'selected' => $selected), 'option');
             }
-            $style = isset($options['styles'][$key]) ? $options['styles'][$key] : false;
-            if ($selected) {
-                $style = "font-weight: bold;";
-            }
-            $html .= self::createTag(array('content' => $text, 'style' => $style, 'value' => $key, 'selected' => $selected), 'option');
+        } elseif (!empty($options['options']) && is_scalar($options['options'])) {
+            $html .= self::createTag(array('content' => $options['options'], 'value' => null), 'option');
         }
 
         if (self::isFreeze($options)) {
