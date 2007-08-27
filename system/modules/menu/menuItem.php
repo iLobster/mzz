@@ -103,7 +103,7 @@ class menuItem extends simpleCatalogue
             'url' => $url->get(),
             'controller' => 'move',
             'title' => 'Вверх',
-            'icon' => systemConfig::$pathToApplication + '/templates/images/arrow_up.gif',
+            'icon' => SITE_PATH . '/templates/images/arrow_up.gif',
             'confirm' => ''
         );
 
@@ -112,7 +112,7 @@ class menuItem extends simpleCatalogue
             'url' => $url->get(),
             'controller' => 'move',
             'title' => 'Вниз',
-            'icon' => systemConfig::$pathToApplication + '/templates/images/arrow_down.gif',
+            'icon' => SITE_PATH . '/templates/images/arrow_down.gif',
             'confirm' => ''
         );
 
@@ -120,7 +120,7 @@ class menuItem extends simpleCatalogue
             'url' => $url->get(),
             'controller' => 'save',
             'title' => 'Создать пункт',
-            'icon' => systemConfig::$pathToApplication + '/templates/images/add.gif',
+            'icon' => SITE_PATH . '/templates/images/add.gif',
             'confirm' => ''
         );
 
