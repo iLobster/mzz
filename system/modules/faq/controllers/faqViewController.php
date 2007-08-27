@@ -13,25 +13,21 @@
  */
 
 /**
- * faqListController: контроллер для метода list модуля faq
+ * faqViewController: контроллер для метода view модуля faq
  *
  * @package modules
  * @subpackage faq
  * @version 0.1
  */
 
-class faqListController extends simpleController
+class faqViewController extends simpleController
 {
     public function getView()
     {
-        $name = $this->request->get('name', 'string');
-
         $categoryMapper = $this->toolkit->getMapper('faq', 'faqCategory');
-        $category = $categoryMapper->searchByName($name);
 
-        $this->smarty->assign('faqCategory', $category);
         $this->smarty->assign('categories', $categoryMapper->searchAll());
-        return $this->smarty->fetch('faq/list.tpl');
+        return $this->smarty->fetch('faq/view.tpl');
     }
 }
 

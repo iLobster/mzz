@@ -1,4 +1,4 @@
-# SQL Manager 2005 for MySQL 3.7.5.1
+# SQL Manager 2007 for MySQL 4.1.1.3
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -532,8 +532,7 @@ CREATE TABLE `forum_category` (
 #
 
 INSERT INTO `forum_category` (`id`, `title`, `order`, `obj_id`) VALUES 
-  (1,'main',1,880),
-  (2,'новая категория2',100,935);
+  (1,'main',1,880);
 
 COMMIT;
 
@@ -557,9 +556,7 @@ CREATE TABLE `forum_forum` (
 #
 
 INSERT INTO `forum_forum` (`id`, `title`, `category_id`, `order`, `obj_id`) VALUES 
-  (1,'Новый форум',1,100,881),
-  (2,'lol2? :)',1,10,936),
-  (3,'ещё один тупой форум',2,0,937);
+  (1,'Новый форум',1,1,881);
 
 COMMIT;
 
@@ -590,24 +587,7 @@ INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thr
   (3,'adfwqer',2,1187931976,NULL,4,896),
   (4,'sd',2,1187932074,NULL,5,900),
   (5,'tyr',2,1187932122,NULL,6,904),
-  (6,'типа пост ;)',2,1187932173,NULL,7,908),
-  (7,'хехе',2,1188183439,NULL,7,911),
-  (8,'фывафыва',2,1188183538,NULL,7,912),
-  (9,'апорапоапо',2,1188183541,NULL,7,913),
-  (10,'аправрва',2,1188183547,NULL,7,914),
-  (11,'апоровыапывпывп',2,1188183565,1188184207,7,915),
-  (12,'апороsdfgfsdgф11123',2,1188184047,1188184202,7,916),
-  (13,'fhdfh',2,1188184816,NULL,1,918),
-  (14,'гы, сына, лол',2,1188184821,1188184843,1,919),
-  (15,'ывапывп',2,1188185186,NULL,1,920),
-  (16,'апоапоапо',2,1188185191,NULL,1,921),
-  (17,'р',2,1188185213,NULL,8,924),
-  (18,'ббб',2,1188185309,NULL,9,928),
-  (19,'олрплпрл',2,1188185316,NULL,9,931),
-  (20,'апопаоапо',2,1188185344,NULL,8,932),
-  (21,'выапывапывп',2,1188185811,NULL,1,933),
-  (22,'выапывапывп',2,1188185812,NULL,1,934),
-  (23,'тупой пост в тупом треде',2,1188188069,NULL,10,939);
+  (6,'типа пост ;)',2,1187932173,NULL,7,908);
 
 COMMIT;
 
@@ -620,12 +600,13 @@ DROP TABLE IF EXISTS `forum_thread`;
 CREATE TABLE `forum_thread` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `title` char(255) default NULL,
-  `posts_count` int(11) default '-1',
+  `posts_count` int(11) default '0',
   `post_date` int(11) default NULL,
+  `last_post_date` int(11) default NULL,
   `author` int(11) default NULL,
+  `last_post_author` int(11) default NULL,
   `forum_id` int(11) default NULL,
   `obj_id` int(11) default NULL,
-  `last_post` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -633,15 +614,12 @@ CREATE TABLE `forum_thread` (
 # Data for the `forum_thread` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`) VALUES 
-  (1,'новый тред',4,15,2,1,885,22),
-  (5,'q',1,1187932074,2,1,899,11),
-  (6,'fdhd',0,1187932122,2,1,903,11),
-  (4,'sadfsadf',1,1187931976,2,1,895,11),
-  (7,'стас кобан',0,1187932173,2,1,907,12),
-  (8,'уцкецуе',1,1188185213,2,1,923,20),
-  (9,'ааа',1,1188185309,2,1,927,19),
-  (10,'тред в тупом форуме',0,1188188069,2,3,938,23);
+INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `last_post_date`, `author`, `last_post_author`, `forum_id`, `obj_id`) VALUES 
+  (1,'новый тред',0,15,20,2,2,1,885),
+  (5,'q',1,1187932074,1187932074,2,2,1,899),
+  (6,'fdhd',0,1187932122,1187932122,2,2,1,903),
+  (4,'sadfsadf',1,1187931976,1187931976,2,2,1,895),
+  (7,'стас кобан',0,1187932173,1187932173,2,2,1,907);
 
 COMMIT;
 
@@ -5181,30 +5159,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (903,34),
   (904,35),
   (907,34),
-  (908,35),
-  (911,35),
-  (912,35),
-  (913,35),
-  (914,35),
-  (915,35),
-  (916,35),
-  (918,35),
-  (919,35),
-  (920,35),
-  (921,35),
-  (923,34),
-  (924,35),
-  (927,34),
-  (928,35),
-  (931,35),
-  (932,35),
-  (933,35),
-  (934,35),
-  (935,33),
-  (936,32),
-  (937,32),
-  (938,34),
-  (939,35);
+  (908,35);
 
 COMMIT;
 
@@ -5281,10 +5236,7 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (79,'editcat'),
   (80,'forum'),
   (81,'thread'),
-  (82,'newThread'),
-  (83,'createCategory'),
-  (84,'createForum'),
-  (85,'editForum');
+  (82,'newThread');
 
 COMMIT;
 
@@ -5653,13 +5605,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (219,43,80),
   (221,37,81),
   (223,35,82),
-  (224,37,19),
-  (225,38,1),
-  (226,43,83),
-  (227,35,20),
-  (229,36,74),
-  (230,36,84),
-  (231,35,85);
+  (224,42,3);
 
 COMMIT;
 
@@ -6681,38 +6627,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (907),
   (908),
   (909),
-  (910),
-  (911),
-  (912),
-  (913),
-  (914),
-  (915),
-  (916),
-  (917),
-  (918),
-  (919),
-  (920),
-  (921),
-  (922),
-  (923),
-  (924),
-  (925),
-  (926),
-  (927),
-  (928),
-  (929),
-  (930),
-  (931),
-  (932),
-  (933),
-  (934),
-  (935),
-  (936),
-  (937),
-  (938),
-  (939),
-  (940),
-  (941);
+  (910);
 
 COMMIT;
 
@@ -6926,7 +6841,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (68,2,'127.0.0.1','659714e5e2556811f0fae16ad79c79c9',759,1183614529),
   (69,2,'127.0.0.1','af59f1b8afe2820814baf343a7283055',770,1185959953),
   (70,2,'127.0.0.1','3ba4b15b4c2a24773bdc153fcde5f444',NULL,1185974311),
-  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1187831447),
+  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1188253469),
   (72,2,'127.0.0.1','4f9252b570591bcf33d0bc3224b12de8',NULL,1187925555);
 
 COMMIT;
@@ -6983,7 +6898,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `obj_id`, `url`, `ip`) VALUES 
-  (110,2,'922a427865615648f8d4e5678786cf4d','2007-08-27 15:14:43',NULL,'http://mzz/forum/10/thread','127.0.0.1');
+  (111,2,'8328cf582f61bddde33dee583d771afa','2007-08-28 09:56:09',NULL,'http://mzz/faq/demo/list','127.0.0.1');
 
 COMMIT;
 
