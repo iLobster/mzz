@@ -72,9 +72,30 @@ var mzzCatalogue = {
         if (!select || !optList) {
             return false;
         }
+
+        var validValue = true;
+        if ($F(select) == '') {
+            var types = $A(['modules', 'classes', 'methods', 'folders']);
+            types.each(function(value, index) {
+                if (index <= types.indexOf(type) || !$('catalogue_' + value + '_list') ||
+                $('catalogue_' + value + '_list').disabled) {
+                    return;
+                }
+                validValue = false;
+                $('catalogue_' + value + '_list').disable().options.length = 0;
+                if (value == 'methods') {
+                    $('methodArgsValues').update('');
+                }
+            });
+        }
+
         $('catalogueSubmitProperty').disable();
         optList.disable();
         optList.options.length = 0;
+
+        if (!validValue) {
+            return false;
+        }
 
         switch (type) {
             case 'modules':
@@ -83,8 +104,8 @@ var mzzCatalogue = {
             this.setLoadingMode($('catalogue_methods_list'));
             this.setLoadingMode($('catalogue_folders_list'));
         }
-        if ($('methodData')) {
-            $('methodData').update('Загрузка данных...');
+        if ($('methodArgsValues')) {
+            $('methodArgsValues').update('Загрузка данных...');
         }
         optList.options[0] = new Option('Загрузка...', '');
 
@@ -160,7 +181,7 @@ var mzzCatalogue = {
     getMethodInfo: function(select)
     {
         var classId = $F($('catalogue_classes_list'));
-        $('methodData').update('Загрузка данных...');
+        $('methodArgsValues').update('Загрузка данных...');
         $('catalogueSubmitProperty').disable();
 
         new Ajax.Request(CATALOGUE_PATH, {
@@ -169,12 +190,12 @@ var mzzCatalogue = {
                     var methodInfo = $H(eval(transport.responseText));
 
                     if (typeof(methodInfo.notCallable) != 'undefined') {
-                        $('methodData').update('<span style="color: #9C0303; font-weight: bold;">Данный метод не может быть вызван. Возможно, один из его обязательных аргументов нескалярного типа или отсутствует PHPDoc-комментарий к нему. Укажите другой метод.</span>');
+                        $('methodArgsValues').update('<span style="color: #9C0303; font-weight: bold;">Данный метод не может быть вызван. Возможно, один из его обязательных аргументов нескалярного типа или отсутствует PHPDoc-комментарий к нему. Укажите другой метод.</span>');
                     } else {
                         var description = methodInfo.description || 'Описание не указано';
                         methodInfo.remove('description');
 
-                        $('methodData').update(description);
+                        $('methodArgsValues').update(description);
 
 
                         var descTable = document.createElement('table');
@@ -253,19 +274,19 @@ var mzzCatalogue = {
                         });
 
                         $('catalogueSubmitProperty').enable();
-                        $('methodData').appendChild(descTable);
+                        $('methodArgsValues').appendChild(descTable);
                     }
                 } else {
-                    $('methodData').update('Данные не получены');
+                    $('methodArgsValues').update('Данные не получены');
                 }
             }, onFailure: function(transport) {
-                $('methodData').update('Данные не получены');
+                $('methodArgsValues').update('Данные не получены');
             }
         });
     },
 
     autoloadSelects: function() {
-        if (mzzCatalogue.values.size() && $('catalogue_sections_list')) {
+        if (mzzCatalogue.values.size() && $('catalogue_sections_list') && $F('catalogue_sections_list') != '') {
             $('catalogue_sections_list').onchange();
         }
     }

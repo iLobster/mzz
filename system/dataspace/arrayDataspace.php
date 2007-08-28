@@ -21,7 +21,7 @@ fileLoader::load('dataspace/iDataspace');
  *
  * @package system
  * @subpackage dataspace
- * @version 0.1
+ * @version 0.2
  */
 class arrayDataspace implements iDataspace, ArrayAccess
 {
@@ -86,7 +86,7 @@ class arrayDataspace implements iDataspace, ArrayAccess
 
     public function offsetSet($offset, $value)
     {
-        return $this->get($offset, $value);
+        return $this->set($offset, $value);
     }
 
     public function offsetUnset($offset)

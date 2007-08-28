@@ -55,11 +55,37 @@ class catalogueSavePropertyController extends simpleController
             $select[$type_tmp['id']] = $type_tmp['name'] . ' - ' . $type_tmp['title'];
         }
 
+        $loadType = !empty($loadType) ? (is_numeric($loadType) ? $types[$loadType] : $loadType) : null;
+
         $validator = new formValidator();
         $validator->add('required', 'name', 'У свойства должно быть имя из допустимых символов (a-Z0-9)');
         $validator->add('required', 'title', 'Укажите название свойства (имя для отображения)');
         $validator->add('required', 'type_id', 'Укажите тип значения свойства');
 
+        if ($loadType == 'dynamicselect') {
+            $validator->add('required', 'typeConfig[section]', 'Укажите секцию');
+            $validator->add('required', 'typeConfig[module]', 'Укажите модуль');
+            $validator->add('required', 'typeConfig[class]', 'Укажите класс доменного объекта');
+            $validator->add('required', 'typeConfig[searchMethod]', 'Укажите метод поиска данных');
+            $validator->add('required', 'typeConfig[extractMethod]', 'Укажите метод извлечения данных из доменного объекта');
+
+            $fieldNames = array('section', 'module', 'class', 'searchMethod', 'extractMethod');
+            foreach ($fieldNames as $fieldName) {
+                $validator->add('regex', 'typeConfig[' . $fieldName . ']', 'В значении допустимы только [a-z0-9_]', '/^[a-z0-9_]+$/i');
+            }
+        }
+
+/*
+
+                    $params['args'] = serialize(array(
+                    'section'   =>  $typeConfig['section'],
+                    'module'    =>  $typeConfig['module'],
+                    'do'    =>  $typeConfig['class'],
+                    'searchMethod'  =>  $typeConfig['method'],
+                    'extractMethod' =>  $typeConfig['extractMethod'],
+                    'args' =>  unserialize($typeConfig['args']),
+                    'optional' =>  (boolean)$typeConfig['optional']
+                    ));*/
 
         if ($isEdit) {
             switch ($property['type']) {
@@ -76,7 +102,6 @@ class catalogueSavePropertyController extends simpleController
         }
 
 
-        $loadType = (is_numeric($loadType) ? $types[$loadType] : $loadType);
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $sections = array();
@@ -222,24 +247,21 @@ class catalogueSavePropertyController extends simpleController
                     break;
 
                 case 'dynamicselect':
-                    /* $moduleName = $this->request->get('dynamicselect_module', 'string', SC_POST);
-                    $doName = $this->request->get('dynamicselect_do', 'string', SC_POST);
-                    $sectionName = $this->request->get('dynamicselect_section', 'string', SC_POST);
-                    $searchMethod = $this->request->get('dynamicselect_searchMethod', 'string', SC_POST);
-                    $extractMethod = $this->request->get('dynamicselect_extractMethod', 'string', SC_POST);
-                    $callbackParams = $this->request->get('dynamicselect_params', 'string', SC_POST);
-                    $nullElement = $this->request->get('dynamicselect_nullelement', 'integer', SC_POST);
+                    $typeConfig = $this->request->get('typeConfig', 'array', SC_POST);
+
+                    //$extractMethod = $this->request->get('dynamicselect_extractMethod', 'string', SC_POST);
+                    //$nullElement = $this->request->get('dynamicselect_nullelement', 'integer', SC_POST);
 
                     $params['args'] = serialize(array(
-                    'module'    =>  $moduleName,
-                    'do'    =>  $doName,
-                    'section'   =>  $sectionName,
-                    'searchMethod'  =>  $searchMethod,
-                    'extractMethod' =>  $extractMethod,
-                    'params' =>  $callbackParams,
-                    'nullElement'   =>  (bool)$nullElement
+                    'section'   =>  $typeConfig['section'],
+                    'module'    =>  $typeConfig['module'],
+                    'do'    =>  $typeConfig['class'],
+                    'searchMethod'  =>  $typeConfig['searchMethod'],
+                    'extractMethod' =>  $typeConfig['extractMethod'],
+                    'args' =>  unserialize($typeConfig['args']),
+                    'optional' =>  (boolean)$typeConfig['optional']
                     ));
-                    break;*/
+                    break;
 
                 case 'img':
                     $sectionName = $this->request->get('dynamicselect_section', 'string', SC_POST);

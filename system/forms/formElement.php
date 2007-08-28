@@ -37,9 +37,11 @@ abstract class formElement
      */
     static public function createTag(Array $options = array(), $name = 'input')
     {
+        /*
+        @todo а нужно ли изменять стили стандартных элементов форм?
         if (!isset($options['onError'])) {
-            $options['onError'] = 'style=color: red;';
-        }
+            $options['onError'] = $name == 'span' ? 'style=color: red;' : '';
+        }*/
 
         self::parseError($options);
 
@@ -54,6 +56,7 @@ abstract class formElement
         } else {
             $html = '<' . $name . self::optionsToString($options);
             if ($content !== false) {
+                $content = is_scalar($content) ? $content : '';
                 $html .= '>' . $content . '</' . $name . '>';
             } else {
                 $html .= ($name == 'form') ? '>' : ' />';
@@ -106,7 +109,7 @@ abstract class formElement
                     $onError = explode('=', $options['onError']);
                     $cnt = sizeof($onError);
                     for ($i=1; $i < $cnt; $i = $i + 2) {
-                        $options[$onError[$i-1]] = $onError[$i];
+                        $options[$onError[$i-1]] = trim($onError[$i], '"\'');
                     }
 
                 }
@@ -139,6 +142,7 @@ abstract class formElement
         ksort($options);
         foreach ($options as $key => $value) {
             if (!empty($key) && $value !== false) {
+                $value = is_scalar($value) ? $value : '';
                 $html .= ' ' . $key . '="' . self::escapeOnce($value, substr($key, 0, 2) == 'on') . '"';
             }
         }

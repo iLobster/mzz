@@ -31,13 +31,17 @@ class formCaptionField extends formElement
             unset($options['onRequired']);
         }
 
+        if (!array_key_exists('onError', $options)) {
+            $options['onError'] = 'style=color: red;';
+        }
+
         if (self::parseError($options)) {
             $options['content'] = $result;
             unset($options['value']);
+            unset($options['name']);
+
             $result = self::createTag($options, 'span');
         }
-
-        unset($options['name']);
 
         return $required . $result;
     }

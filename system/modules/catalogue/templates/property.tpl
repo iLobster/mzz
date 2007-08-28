@@ -30,16 +30,16 @@ mzzCatalogue.autoloadSelects();
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="3" width="100%">
         <tr>
-            <td><strong>{form->caption name="title" value="Название:" onError=false onRequired=false}</strong></td>
-            <td><div class="errorText">{$errors->get('title')}</div>{form->text name="title" size="40" value=$propertyForm.title onError="class=errorField"}</td>
+            <td><strong>{form->caption name="title" value="Название:" onRequired=false}</strong></td>
+            <td><div class="errorText">{$errors->get('title')}</div>{form->text name="title" size="40" value=$propertyForm.title}</td>
         </tr>
         <tr>
-            <td><strong>{form->caption name="name" value="Имя (латиница):" onError='' onRequired=""}</strong></td>
-            <td><div class="errorText">{$errors->get('name')}</div>{form->text name="name" size="40" value=$propertyForm.name onError="class=errorField"}</td>
+            <td><strong>{form->caption name="name" value="Имя (латиница):" onRequired=false}</strong></td>
+            <td><div class="errorText">{$errors->get('name')}</div>{form->text name="name" size="40" value=$propertyForm.name}</td>
         </tr>
         <tr>
-            <td><strong>{form->caption name="type_id" value="Тип:" onError='' onRequired=""}</strong></td>
-            <td><div class="errorText">{$errors->get('type_id')}</div>{form->select name="type_id" options=$selectdata value=$propertyForm.type_id onchange="mzzLoadTypeConfig(this.value);" onError="class=errorField"}</td>
+            <td><strong>{form->caption name="type_id" value="Тип:" onRequired=false}</strong></td>
+            <td><div class="errorText">{$errors->get('type_id')}</div>{form->select name="type_id" options=$selectdata value=$propertyForm.type_id onchange="mzzLoadTypeConfig(this.value);"}</td>
         </tr>
     </table>
 
@@ -67,7 +67,7 @@ mzzCatalogue.autoloadSelects();
     <table border="0" cellpadding="0" cellspacing="3" width="100%">
         <tr>
             <td width="20%">Формат:</td>
-            <td width="80%">{form->text name="datetimeformat" size="30" value=$propertyForm.args}</td>
+            <td width="80%">{form->text name="datetimeformat" size="30" value=$propertyForm.typeConfig}</td>
         </tr>
     </table>
 {elseif $loadType == 'dynamicselect'}
@@ -76,38 +76,38 @@ mzzCatalogue.autoloadSelects();
             <td width="40%" valign="top">
                 <table border="0" cellpadding="0" cellspacing="3" width="100%">
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[section]" value="Секция:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[section]" value="Секция:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
-                        <td>
+                        <td><div class="errorText">{$errors->get('typeConfig[section]')}</div>
                         {form->select name="typeConfig[section]" options=$sections value=$propertyForm.typeConfig.section emptyFirst=1 style="width: 270px;" id="catalogue_sections_list" onchange="mzzCatalogue.getList(this);" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[module]" value="Модуль:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[module]" value="Модуль:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
-                        <td>
+                        <td><div class="errorText">{$errors->get('typeConfig[module]')}</div>
                         {form->select name="typeConfig[module]" style="width: 270px;" id="catalogue_modules_list" disabled=1 onchange="mzzCatalogue.getList(this, 'classes');" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[class]" value="Класс:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[class]" value="Класс:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
-                        <td>
+                        <td><div class="errorText">{$errors->get('typeConfig[class]')}</div>
                         {form->select name="typeConfig[class]" style="width: 270px;" id="catalogue_classes_list" disabled=1 onchange="mzzCatalogue.getList(this, 'methods');" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[method]" value="Метод:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[searchMethod]" value="Метод:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
-                        <td>
-                        {form->select name="typeConfig[method]" style="width: 270px;" id="catalogue_methods_list" onchange="mzzCatalogue.getMethodInfo(this);" onkeypress="this.onchange();" disabled=1}
+                        <td><div class="errorText">{$errors->get('typeConfig[searchMethod]')}</div>
+                        {form->select name="typeConfig[searchMethod]" style="width: 270px;" id="catalogue_methods_list" onchange="mzzCatalogue.getMethodInfo(this);" onkeypress="this.onchange();" disabled=1}
                         </td>
                     </tr>
                 </table>
@@ -115,7 +115,7 @@ mzzCatalogue.autoloadSelects();
             </td>
             <td width="60%" valign="top">
             <span style="font-size: 120%; font-weight: bold;">Параметры метода:</span>
-            <div id="methodData"></div>
+            <div id="methodArgsValues"></div>
             </td>
         </tr>
     </table>
