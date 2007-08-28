@@ -2,7 +2,7 @@ html, body {
   margin:0;
   padding:0;
   background-color: #FFFFFF;
-  color: #000000; 
+  color: #000000;
   font-family: Tahoma, Verdana, Arial;
   font-size: 90%;
 }
@@ -50,6 +50,27 @@ html, body {
 
 #title a:hover {
   text-decoration: underline;
+}
+
+#onePageLink {
+  background-color: #575757;
+  padding: 4px;
+  position: absolute;
+  right: 25px;
+  width: 160px;
+  text-align: center;
+  top: 13px;
+  cursor: default;
+}
+
+#onePageLink a {
+  color: #BBB;
+  text-decoration: none;
+}
+
+#onePageLink a:hover {
+  color: #DDD;
+  text-decoration: none;
 }
 
 #sidebarOpener  {
@@ -117,13 +138,37 @@ dt, dl {
 
 .navigation_f {
   font-size: 90%;
-  border-top: 1px solid #D6D6D6;
+  border-top: 1px solid #BBBBBB;
   color: #D6D6D6;
   margin-top: 120px;
 }
 
+.copyright_f {
+  margin-top: 30px;
+}
+
 .title {
  font-size: 170%;
+}
+
+.titleOnePage {
+ font-size: 150%;
+ border-bottom: 1px solid #CCCCCC;
+ padding: 3px;
+}
+
+.titleCatOnePage {
+ font-size: 150%;
+ border-bottom: 1px solid #CCCCCC;
+ padding: 3px;
+ margin-bottom: -24px;
+}
+
+.partTitleOnePage {
+ font-size: 170%;
+ border-bottom: 1px solid #CCCCCC;
+ padding: 5px 3px;
+ margin-bottom: -2px;
 }
 
 .titleNumber {
@@ -135,6 +180,15 @@ dt, dl {
  font-weight: bold;
  margin-top: 40px;
  margin-bottom: -12px;
+}
+
+.subtitleOnePage {
+ font-size: 120%;
+ font-weight: bold;
+ margin-top: 40px;
+ margin-bottom: 0px;
+ border-bottom: 1px solid #CCCCCC;
+ padding: 3px;
 }
 
 code, pre {

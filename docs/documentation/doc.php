@@ -244,9 +244,12 @@ function getPaths($array, $path = '', $num = '') {
 
     return $values;
 }
+$isOnePage = isset($_REQUEST['one-page']) && !file_exists('one-page.html');
 
-if (!isset($_REQUEST['cat'])) {
+if (!isset($_REQUEST['cat']) && !$isOnePage) {
     require_once('header.inc.php');
+    echo '<div id="onePageLink"><a href="one-page.html">Всё на одной странице</a></div>';
+
     echo '<p class="title"><strong>Содержание</strong></p><dl id="fullContent">';
     $i = 1;
     // Все категории
@@ -302,6 +305,85 @@ if (!isset($_REQUEST['cat'])) {
         $i++;
     }
     echo "</dl>\n";
+    echo '<div class="copyright_f">&nbsp;</div>';
+} elseif ($isOnePage) {
+    require_once('header.inc.php');
+    // @todo возможно надо сделать полноценное дерево
+    echo '<div id="sidebarOpener" onmouseover="showSidebar();" onmouseout="hideSidebar();">Разделы</div>';
+    echo '<div id="sidebar" onmouseout="hideSidebar();" onmouseover="showSidebar();">';
+    echo '<ul class="itemsList">';
+    $i = 1;
+    // Все категории
+    foreach ($menu as $meta => $items) {
+        $meta = explode('.', $meta, 2);
+        $title = trim($meta[1]);
+        $link = trim($meta[0]);
+
+        echo '<li>' . $i . '. <a href="#' . $link . '">' . $title . "</a>\n";
+
+        $n = 1;
+        // Все подкатегории
+
+        echo '<ul>';
+        foreach ($items as $submeta => $subitem) {
+            $num = $i . '.' . $n;
+            $subitem = explode('.', is_array($subitem) ? $submeta : $subitem, 2);
+            $subtitle = trim($subitem[1]);
+            $sublink = $link . '.' .trim($subitem[0]);
+            echo '<li>' . $num . '. <a href="#' . $sublink . '">' . $subtitle . "</a></li>\n";
+            $n++;
+
+        }
+        echo '</ul></li>';
+        $i++;
+    }
+    echo "</ul>\n";
+    echo '</div>';
+
+    $paths = $menu;
+    $catNum = 1;
+    foreach ($paths as $cat => $path) {
+
+        if (is_array($path)) {
+            $cat = explode('.', $cat, 2);
+            echo '<p class="partTitleOnePage"><a name="' . $cat[0] . '"></a><span class="titleNumber">Часть ' . $catNum .'.</span> ' . $cat[1] . '</p>';
+
+            $cat = $cat[0];
+            $subCatNum = 0;
+            foreach ($path as $subcat => $subpath) {
+                $subCatNum++;
+                
+                $subcat = explode('.', (is_array($subpath) ? $subcat : $subpath), 2);
+                echo '<p class="title' . (is_array($subpath) ? 'Cat' : '') . 'OnePage"><a name="' . $cat . '.' . $subcat[0] . '"></a><span class="titleNumber">' . $catNum .'.' . $subCatNum .'.</span> ' . $subcat[1] . '</p>';
+
+                if (is_array($subpath)) {
+                    $subSubCatNum = 0;
+                    foreach ($subpath as $subsubpath) {
+                        $subSubCatNum++;
+                        $subsubcat = explode('.', $subsubpath, 2);
+                        $subsubcatTitle = $subsubcat[1];
+                        $subsubcat = $cat . '.' . $subcat[0] . '.' . $subsubcat[0];
+                        echo '<p class="subtitleOnePage"><a name="' . $subsubcat . '"></a><span class="titleNumber">' . $catNum .'.' . $subCatNum .'.' . $subSubCatNum .'.</span> ' . $subsubcatTitle . '</p>';
+                        echo render($subsubcat);
+                    }
+                } else {
+                    $subcat = $cat . '.' . $subcat[0];
+                    echo render($subcat);
+                }
+
+            }
+
+
+        } else {
+            echo render($cat);
+        }
+        $catNum++;
+    }
+
+    echo '<div class="navigation_f">';
+    echo '<a href="index.html">Постраничная версия</a>';
+    echo '</div>';
+
 } else {
     $cat = explode(".", $_REQUEST["cat"]);
     $paths = getPaths($menu);
@@ -347,7 +429,7 @@ if (!isset($_REQUEST['cat'])) {
     }
     require_once('header.inc.php');
     echo '<div id="sidebarOpener" onmouseover="showSidebar();" onmouseout="hideSidebar();">Разделы</div>'
-         .'<div id="sidebar" onmouseout="hideSidebar();" onmouseover="showSidebar();">';
+    .'<div id="sidebar" onmouseout="hideSidebar();" onmouseover="showSidebar();">';
 
     $paths_nums = explode('.', $paths[$_REQUEST['cat']][1]);
     echo '<a href="index.html">Индекс</a><ul class="itemsList">';
