@@ -1,6 +1,4 @@
-Форум: <a href="{url route=withId action=list id=$thread->getForum()->getId()}">{$thread->getForum()->getTitle()}</a><br />
-Тред: {$thread->getTitle()}<br />
-<a href="{url route=withId action=post id=$thread->getId()}">Добавить пост</a>
+<a href="{url route=default2 action=forum}">Форум</a> / <a href="{url route=withId action=list id=$thread->getForum()->getId()}">{$thread->getForum()->getTitle()}</a> / {$thread->getTitle()} (<a href="{url route=withId action=post id=$thread->getId()}">Ответить</a>)<br />
 
 <table border="1" width="100%">
     {foreach from=$posts item=post}

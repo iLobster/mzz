@@ -52,6 +52,13 @@ class postMapper extends simpleMapper
 
         $thread->setPostsCount($thread->getPostsCount() + 1);
         $threadMapper->save($thread);
+
+        $forum = $thread->getForum();
+        if ($thread->getPostsCount() == 0) {
+            $forum->setThreadsCount($forum->getThreadsCount() + 1);
+        }
+        $forum->setPostsCount($forum->getPostsCount() + 1);
+        $forum->getMapper()->save($forum);
     }
 
     /**

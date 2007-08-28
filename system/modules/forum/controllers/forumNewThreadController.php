@@ -59,6 +59,10 @@ class forumNewThreadController extends simpleController
             $thread->setLastPost($post);
             $threadMapper->save($thread);
 
+            $forum = $thread->getForum();
+            $forum->setLastPost($post);
+            $forumMapper->save($forum);
+
             $url = new url('withId');
             $url->setAction('thread');
             $url->add('id', $thread->getId());

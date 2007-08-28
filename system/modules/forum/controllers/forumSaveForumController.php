@@ -53,6 +53,7 @@ class forumSaveForumController extends simpleController
 
             $forum->setTitle($this->request->get('title', 'string', SC_POST));
             $forum->setOrder($this->request->get('order', 'integer', SC_POST));
+            $forum->setDescription($this->request->get('description', 'string', SC_POST));
             $forumMapper->save($forum);
 
             return jipTools::redirect();
