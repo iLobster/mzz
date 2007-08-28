@@ -32,7 +32,7 @@ class userOnlineController extends simpleController
         $guests = 0;
         $total = 0;
         foreach ($users as $key => $user) {
-            if (!$user->getUser()->isLogedIn()) {
+            if (!$user->getUser()->isLoggedIn()) {
                 $guests++;
                 unset($users[$key]);
                 continue;
