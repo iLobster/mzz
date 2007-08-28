@@ -112,8 +112,6 @@ function smarty_function_load($params, $smarty)
         if (!isset($params['403tpl'])) {
             fileLoader::load('simple/simple403Controller');
             $controller = new simple403Controller();
-
-            $toolkit->getResponse()->setHeader('', 'HTTP/1.x 403 Forbidden');
         } else {
             $smarty = $toolkit->getSmarty();
             $view = $smarty->fetch($params['403tpl']);

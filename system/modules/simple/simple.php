@@ -371,6 +371,12 @@ abstract class simple
         return $this->mapper;
     }
 
+    /**
+     * Получение из ACL прав на выполнение запрашиваемого экшна
+     *
+     * @param string $name имя экшна
+     * @return boolean
+     */
     public function getAcl($name = null)
     {
         $acl = new acl(systemToolkit::getInstance()->getUser(), $this->getObjId());

@@ -23,6 +23,17 @@
 class forum extends simple
 {
     protected $name = 'forum';
+
+    public function getAcl($name = null)
+    {
+        $access = parent::getAcl($name);
+
+        if ($name == 'newThread' && $access) {
+            $access = $this->getAcl('list');
+        }
+
+        return $access;
+    }
 }
 
 ?>

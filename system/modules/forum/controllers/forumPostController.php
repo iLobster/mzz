@@ -29,16 +29,30 @@ class forumPostController extends simpleController
         $action = $this->request->getAction();
         $isEdit = $action == 'edit';
 
+        $user = $this->toolkit->getUser();
+
         $id = $this->request->get('id', 'integer');
 
         $threadMapper = $this->toolkit->getMapper('forum', 'thread');
         $postMapper = $this->toolkit->getMapper('forum', 'post');
+
         if ($isEdit) {
             $post = $postMapper->searchByKey($id);
             $thread = $post->getThread();
         } else {
             $thread = $threadMapper->searchByKey($id);
             $post = $postMapper->create();
+        }
+
+        $access = $this->request->get('access', 'boolean', SC_PATH);
+
+        if (!is_null($access) && !$access) {
+            if (!$user->isLoggedIn()) {
+                return $this->smarty->fetch('forum/onlyAuth.tpl');
+            } elseif ($thread->getIsClosed()) {
+                return $this->smarty->fetch('forum/closed.tpl');
+            }
+            return $postMapper->get404()->run();
         }
 
         $validator = new formValidator();
@@ -50,7 +64,7 @@ class forumPostController extends simpleController
 
             if (!$isEdit) {
                 $post = $postMapper->create();
-                $post->setAuthor($this->toolkit->getUser());
+                $post->setAuthor($user);
                 $post->setThread($thread);
             }
 
@@ -67,8 +81,8 @@ class forumPostController extends simpleController
             $forum->getMapper()->save($forum);
 
             $url = new url('withId');
-            $url->setAction('thread');
-            $url->add('id', $thread->getId());
+            $url->setAction('goto');
+            $url->add('id', $post->getId());
 
             $response = $this->toolkit->getResponse();
             $response->redirect($url->get());

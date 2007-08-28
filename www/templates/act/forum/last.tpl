@@ -1,0 +1,1 @@
+{load module="forum" action="last"}

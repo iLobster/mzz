@@ -1,5 +1,7 @@
 <div class="pageContent">
-    <a href="{url route=default2 section=$current_section action=createCategory}" class="jipLink">Создать категорию</a><br /><br />
+    <a href="{url route=default2 section=$current_section action=createCategory}" class="jipLink">Создать категорию</a>
+    <a href="{url route=withId section=access action=editACL id=$categoryFolder->getObjId()}" class="jipLink">Права доступа к форуму</a>
+    <br /><br />
 
     <table border="1" width="100%">
         {foreach from=$categories item=category name=cat}

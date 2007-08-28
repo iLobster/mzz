@@ -23,6 +23,21 @@
 class thread extends simple
 {
     protected $name = 'forum';
+
+    public function getAcl($name = null)
+    {
+        $access = parent::getAcl($name);
+
+        if ($access) {
+            if ($name == 'thread' || $name == 'last') {
+                $access = $this->getForum()->getAcl('list');
+            } elseif ($name == 'post') {
+                $access = $this->getAcl('thread');
+            }
+        }
+
+        return $access;
+    }
 }
 
 ?>

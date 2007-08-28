@@ -64,8 +64,8 @@ class forumNewThreadController extends simpleController
             $forumMapper->save($forum);
 
             $url = new url('withId');
-            $url->setAction('thread');
-            $url->add('id', $thread->getId());
+            $url->setAction('goto');
+            $url->add('id', $post->getId());
 
             $response = $this->toolkit->getResponse();
             $response->redirect($url->get());

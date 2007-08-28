@@ -1,5 +1,5 @@
-Форум: {$forum->getTitle()}<br />
-Треды: (<a href="{url route=withId action=newThread id=$forum->getId()}">создать новый</a>)
+<a href="{url route=default2 action=forum}">Форум</a> / {$forum->getTitle()}
+{if $forum->getAcl('newThread')} (<a href="{url route=withId action=newThread id=$forum->getId()}">Начать новую тему</a>){/if}<br />
 <table border="1" width="100%">
     <tr>
         <td>Название</td>
@@ -12,7 +12,7 @@
             <td><a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a></td>
             <td>{$thread->getAuthor()->getLogin()}</td>
             <td>{$thread->getPostsCount()}</td>
-            <td>{$thread->getLastPost()->getAuthor()->getLogin()}, {$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</td>
+            <td>{$thread->getLastPost()->getAuthor()->getLogin()}, <a href="{url route=withId action=last id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
         </tr>
     {/foreach}
 </table>
