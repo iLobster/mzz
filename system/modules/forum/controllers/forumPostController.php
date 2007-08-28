@@ -74,11 +74,11 @@ class forumPostController extends simpleController
             if (!$isEdit) {
                 $thread->setLastPost($post);
                 $threadMapper->save($thread);
-            }
 
-            $forum = $thread->getForum();
-            $forum->setLastPost($post);
-            $forum->getMapper()->save($forum);
+                $forum = $thread->getForum();
+                $forum->setLastPost($post);
+                $forum->getMapper()->save($forum);
+            }
 
             $url = new url('withId');
             $url->setAction('goto');

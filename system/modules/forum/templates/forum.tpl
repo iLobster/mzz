@@ -14,7 +14,7 @@
                 <td><a href="{url route=withId action=list id=$forum->getId()}">{$forum->getTitle()}</a>{if $forum->getDescription()}<br /><font size="1px"><b>{$forum->getDescription()}</b></font>{/if}</td>
                 <td>{$forum->getThreadsCount()}</td>
                 <td>{$forum->getPostsCount()}</td>
-                <td>{if $forum->getLastPost()->getId()}<a href="{url route=withId action=last id=$forum->getLastPost()->getThread()->getId()}">{$forum->getLastPost()->getThread()->getTitle()}</a><br />{$forum->getLastPost()->getThread()->getAuthor()->getLogin()}, {$forum->getLastPost()->getThread()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{else}Постов нет{/if}</td>
+                <td>{if $forum->getLastPost()->getId()}<a href="{url route=withId action=last id=$forum->getLastPost()->getThread()->getId()}">{$forum->getLastPost()->getThread()->getTitle()}</a><br />{$forum->getLastPost()->getThread()->getAuthor()->getLogin()}, {$forum->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{else}Постов нет{/if}</td>
             </tr>
         {/foreach}
     </table>
