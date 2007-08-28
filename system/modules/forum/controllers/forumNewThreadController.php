@@ -57,6 +57,7 @@ class forumNewThreadController extends simpleController
             $postMapper->save($post);
 
             $thread->setLastPost($post);
+            $thread->setFirstPost($post);
             $threadMapper->save($thread);
 
             $forum = $thread->getForum();

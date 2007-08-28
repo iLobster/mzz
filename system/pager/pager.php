@@ -100,6 +100,10 @@ class pager
             $baseurl = substr($baseurl, 0, -1);
         }
 
+        if ($page <= 0) {
+            $page = 1;
+        }
+
         $this->baseurl = $baseurl . (strpos($baseurl, '?') ? '&' : '?') . 'page=';
         $this->page = (int)$page;
         $this->setPerPage($perPage);
@@ -126,6 +130,16 @@ class pager
     public function getPerPage()
     {
         return $this->perPage;
+    }
+
+    /**
+     * ѕолучение фактического номера страницы
+     *
+     * @return integer
+     */
+    public function getRealPage()
+    {
+        return $this->reverse ? $this->getPagesTotal() - $this->page + 1 : $this->page;
     }
 
     /**

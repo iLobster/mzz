@@ -47,7 +47,7 @@ class userOnlineMapper extends simpleMapper
      */
     protected function updateDataModify(&$fields)
     {
-        $fields['last_activity'] = new sqlFunction('NOW');
+        $fields['last_activity'] = new sqlFunction('unix_timestamp');
     }
 
     /**
@@ -92,10 +92,19 @@ class userOnlineMapper extends simpleMapper
             // удаляем по таймауту, а также пользователей, с такой же сессией но другим user_id (при смене логина)
             // @todo: таймаут переносить в конфиг
             $criteria = new criteria();
-            $criteria->add('last_activity', new sqlOperator('-', array(new sqlFunction('NOW'), new sqlOperator('INTERVAL', array('15 MINUTE')))), criteria::LESS);
+            $criteria->add('last_activity', new sqlOperator('-', array(new sqlFunction('unix_timestamp'), 15 * 60)), criteria::LESS);
             $users = $this->searchAllbyCriteria($criteria);
+
+            if (sizeof($users)) {
+                $userMapper = $toolkit->getMapper('user', 'user', 'user');
+            }
+
             foreach ($users as $user) {
                 $this->delete($user->getId());
+
+                $usr = $user->getUser();
+                $usr->setLastLogin($user->getLastActivity());
+                $userMapper->save($usr);
             }
 
             $last_id = $session->get('last_user_id');

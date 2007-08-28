@@ -23,8 +23,13 @@ class userExitController extends simpleController
 {
     protected function getView()
     {
+        $user = $this->toolkit->getUser();
+        $user->setLastLogin(new sqlFunction('unix_timestamp'));
+
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $userMapper->logout();
+
+        $userMapper->save($user);
 
         $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
         $userAuthMapper->clear();

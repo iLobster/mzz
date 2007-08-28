@@ -24,6 +24,13 @@ class thread extends simple
 {
     protected $name = 'forum';
 
+    public function isNew()
+    {
+        $forumMapper = $this->getForum()->getMapper();
+        $user = systemToolkit::getInstance()->getUser();
+        return ($user->isLoggedIn() && $user->getLastLogin() < $this->getLastPost()->getPostDate()) && ($forumMapper->retrieveView($this->getId()) < $this->getLastPost()->getPostDate());
+    }
+
     public function getAcl($name = null)
     {
         $access = parent::getAcl($name);
@@ -32,7 +39,7 @@ class thread extends simple
             if ($name == 'thread' || $name == 'last') {
                 $access = $this->getForum()->getAcl('list');
             } elseif ($name == 'post') {
-                $access = $this->getAcl('thread');
+                $access = !$this->getIsClosed() && $this->getAcl('thread');
             }
         }
 

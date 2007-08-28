@@ -2,6 +2,7 @@
 {if $forum->getAcl('newThread')} (<a href="{url route=withId action=newThread id=$forum->getId()}">Начать новую тему</a>){/if}<br />
 <table border="1" width="100%">
     <tr>
+        <td>&nbsp;</td>
         <td>Название</td>
         <td>Автор</td>
         <td>Постов</td>
@@ -9,6 +10,13 @@
     </tr>
     {foreach from=$threads item=thread}
         <tr>
+            <td>
+                {if $thread->isNew()}
+                    <span style="color: red;">new!!!</span>
+                {else}
+                    &nbsp;
+                {/if}
+            </td>
             <td><a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a></td>
             <td>{$thread->getAuthor()->getLogin()}</td>
             <td>{$thread->getPostsCount()}</td>

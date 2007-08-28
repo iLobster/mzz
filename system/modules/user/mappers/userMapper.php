@@ -128,9 +128,6 @@ class userMapper extends simpleMapper
 
         $user = $this->searchOneByCriteria($criteria);
 
-        $toolkit = systemToolkit::getInstance();
-        $session = $toolkit->getSession();
-
         if ($user) {
             $this->setUserId($user->getId());
         } else {

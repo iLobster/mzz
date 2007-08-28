@@ -27,11 +27,15 @@ class forumLastController extends simpleController
         $id = $this->request->get('id', 'integer');
 
         $postMapper = $this->toolkit->getMapper('forum', 'post');
+        $user = $this->toolkit->getUser();
+        $forumMapper = $this->toolkit->getMapper('forum', 'forum');
+        $time = max($forumMapper->retrieveView($id), $user->getLastLogin());
 
         $criteria = new criteria($postMapper->getTable());
         $criteria->addSelectField(new sqlFunction('count', '*', true), 'cnt');
         $criteria->addSelectField(new sqlFunction('max', 'id', true), 'max_id');
         $criteria->add('thread_id', $id);
+        $criteria->add('post_date', $time, criteria::LESS);
 
         $select = new simpleSelect($criteria);
 

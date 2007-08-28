@@ -31,12 +31,30 @@ class forumMapper extends simpleMapper
      */
     protected $name = 'forum';
 
+    private $session;
+
     /**
      * Имя класса DataObject
      *
      * @var string
      */
     protected $className = 'forum';
+
+    public function __construct($section)
+    {
+        parent::__construct($section);
+        $this->session = systemToolkit::getInstance()->getSession();
+    }
+
+    public function storeView($id)
+    {
+        $this->session->set('forum[' . $this->section() . '][' . $id . ']', time());
+    }
+
+    public function retrieveView($id)
+    {
+        return $this->session->get('forum[' . $this->section() . '][' . $id . ']');
+    }
 
     /**
      * Возвращает доменный объект по аргументам

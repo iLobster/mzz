@@ -48,13 +48,13 @@ class session
     public function start()
     {
         if($this->storageDriver) {
-                session_set_save_handler(
-                array($this->storageDriver, 'storageOpen'),
-                array($this->storageDriver, 'storageClose'),
-                array($this->storageDriver, 'storageRead'),
-                array($this->storageDriver, 'storageWrite'),
-                array($this->storageDriver, 'storageDestroy'),
-                array($this->storageDriver, 'storageGc'));
+            session_set_save_handler(
+            array($this->storageDriver, 'storageOpen'),
+            array($this->storageDriver, 'storageClose'),
+            array($this->storageDriver, 'storageRead'),
+            array($this->storageDriver, 'storageWrite'),
+            array($this->storageDriver, 'storageDestroy'),
+            array($this->storageDriver, 'storageGc'));
         }
 
         session_start();
@@ -80,6 +80,12 @@ class session
         session_write_close();
     }
 
+    private function explodeName($name)
+    {
+        preg_match_all('/(.*)(?:\[(.*)\])+/U', $name, $matches);
+        return array('name' => isset($matches[1][0]) ? $matches[1][0] : '', 'keys' => $matches[2]);
+    }
+
     /**
      * Возвращает значение из сессии
      *
@@ -89,7 +95,30 @@ class session
      */
     public function get($name, $default_value = null)
     {
-        return ($this->exists($name)) ? unserialize($_SESSION[$name]) : $default_value;
+        $matches = $this->explodeName($name);
+
+        if (sizeof($matches['keys'])) {
+            if (!isset($_SESSION[$matches['name']])) {
+                return $default_value;
+            }
+
+            $var =& $_SESSION[$matches['name']];
+            foreach ($matches['keys'] as $key) {
+
+                if (!isset($var[$key])) {
+                    return $default_value;
+                }
+                $var =& $var[$key];
+            }
+        } else {
+            if (!$this->exists($name)) {
+                return $default_value;
+            }
+
+            $var =& $_SESSION[$name];
+        }
+
+        return $var;
     }
 
     /**
@@ -100,7 +129,20 @@ class session
      */
     public function set($name, $value)
     {
-        $_SESSION[$name] = serialize($value);
+        $matches = $this->explodeName($name);
+
+        if (sizeof($matches['keys'])) {
+            $var =& $_SESSION[$matches['name']];
+            foreach ($matches['keys'] as $key) {
+                if (!isset($var[$key])) {
+                    $var[$key] = array();
+                }
+                $var =& $var[$key];
+            }
+        } else {
+            $var =& $_SESSION[$name];
+        }
+        $var = $value;
     }
 
     /**
@@ -120,6 +162,25 @@ class session
      */
     public function exists($name)
     {
+        $matches = $this->explodeName($name);
+
+        if (sizeof($matches['keys'])) {
+            if (!isset($_SESSION[$matches['name']])) {
+                return false;
+            }
+
+            $var =& $_SESSION[$matches['name']];
+
+            foreach ($matches['keys'] as $key) {
+                if (!isset($var[$key])) {
+                    return false;
+                }
+                $var =& $var[$key];
+            }
+
+            return true;
+        }
+
         return isset($_SESSION[$name]);
     }
 

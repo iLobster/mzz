@@ -35,6 +35,10 @@ class forumThreadController extends simpleController
 
         $posts = $postsMapper->searchAllByField('thread_id', $id);
 
+
+        $forumMapper = $thread->getForum()->getMapper();
+        $forumMapper->storeView($thread->getId());
+
         $this->smarty->assign('posts', $posts);
         $this->smarty->assign('thread', $thread);
         return $this->smarty->fetch('forum/thread.tpl');
