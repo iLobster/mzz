@@ -2,7 +2,6 @@ AddDefaultCharset windows-1251
 DirectoryIndex doc.php
 RewriteEngine on
 Options +FollowSymlinks -Indexes -Includes -MultiViews
-RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule index.html doc.php [L]
-RewriteCond %{REQUEST_URI} !one-page.html$
+RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ([a-zA-Z0-9._-]+)\.html doc.php?cat=$1 [L]

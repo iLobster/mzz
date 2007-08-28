@@ -244,10 +244,10 @@ function getPaths($array, $path = '', $num = '') {
 
     return $values;
 }
-$isOnePage = isset($_REQUEST['one-page']) && !file_exists('one-page.html');
 
+$isOnePage = isset($_REQUEST['cat']) && $_REQUEST['cat'] == 'one-page';
 if (!isset($_REQUEST['cat']) && !$isOnePage) {
-    require_once('header.inc.php');
+    require_once('header.php');
     echo '<div id="onePageLink"><a href="one-page.html">Всё на одной странице</a></div>';
 
     echo '<p class="title"><strong>Содержание</strong></p><dl id="fullContent">';
@@ -307,7 +307,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
     echo "</dl>\n";
     echo '<div class="copyright_f">&nbsp;</div>';
 } elseif ($isOnePage) {
-    require_once('header.inc.php');
+    require_once('header.php');
     // @todo возможно надо сделать полноценное дерево
     echo '<div id="sidebarOpener" onmouseover="showSidebar();" onmouseout="hideSidebar();">Разделы</div>';
     echo '<div id="sidebar" onmouseout="hideSidebar();" onmouseover="showSidebar();">';
@@ -421,13 +421,15 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
             if (isset($paths[$_REQUEST['cat']])) {
                 $title = $paths[$_REQUEST['cat']][2];
             } else {
+                include('header.php');
                 exit('Этот раздел больше не существует в <a href="index.html">документации</a>.');
             }
         } else {
+            include('header.php');
             exit('Этот раздел больше не существует в <a href="index.html">документации</a>.');
         }
     }
-    require_once('header.inc.php');
+    require_once('header.php');
     echo '<div id="sidebarOpener" onmouseover="showSidebar();" onmouseout="hideSidebar();">Разделы</div>'
     .'<div id="sidebar" onmouseout="hideSidebar();" onmouseover="showSidebar();">';
 
