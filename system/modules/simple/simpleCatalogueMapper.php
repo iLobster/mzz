@@ -99,7 +99,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                         }
 
                         $tmpData = call_user_func_array(array(&$tmpMapper, $tmp['searchMethod']), empty($tmp['params']) ? array() : explode('|', $tmp['params']));
-                        $props['args'] = ($tmp['nullElement']) ? array('' => '') : array();
+                        $props['args'] = ($tmp['optional']) ? array('' => '') : array();
                         foreach ($tmpData as $tmp_do) {
                             $props['args'][$tmp_do->getId()] = $tmp_do->$tmp['extractMethod']();
                         }

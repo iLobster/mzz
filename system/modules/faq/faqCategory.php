@@ -24,16 +24,6 @@ class faqCategory extends simple
 {
     protected $name = 'faq';
 
-    protected $answers = false;
-
-    public function getAnswers()
-    {
-        if ($this->answers === false) {
-            $this->answers = $this->mapper->getAnswers($this->getId());
-        }
-        return $this->answers;
-    }
-
     public function getJip()
     {
         return $this->getJipView($this->name, $this->getName(), get_class($this));

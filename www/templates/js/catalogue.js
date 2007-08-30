@@ -75,7 +75,7 @@ var mzzCatalogue = {
 
         var validValue = true;
         if ($F(select) == '') {
-            var types = $A(['modules', 'classes', 'methods', 'folders']);
+            var types = $A(['modules', 'classes', 'methods', 'extractMethods', 'folders']);
             types.each(function(value, index) {
                 if (index <= types.indexOf(type) || !$('catalogue_' + value + '_list') ||
                 $('catalogue_' + value + '_list').disabled) {
@@ -102,7 +102,10 @@ var mzzCatalogue = {
             this.setLoadingMode($('catalogue_classes_list'));
             case 'classes':
             this.setLoadingMode($('catalogue_methods_list'));
+            //this.setLoadingMode($('catalogue_extractMethods_list'));
             this.setLoadingMode($('catalogue_folders_list'));
+            case 'methods':
+            this.setLoadingMode($('catalogue_extractMethods_list'));
         }
         if ($('methodArgsValues')) {
             $('methodArgsValues').update('Загрузка данных...');
@@ -123,6 +126,14 @@ var mzzCatalogue = {
                     var optListData = eval(transport.responseText);
                     var i = 0;
                     var selectedIndex = false;
+                    var extractMethods = false;
+
+
+                    if (type == 'methods' && typeof(optListData) == 'object') {
+                        var extractMethods = $A(optListData.extractMethods);
+                        optListData = optListData.searchMethods;
+                    }
+
                     $H(optListData).each(function(pair) {
                         if (typeof(pair.value) == 'string') {
                             optList.options[i] = new Option(pair.value, pair.key);
@@ -137,6 +148,28 @@ var mzzCatalogue = {
                         }
                         i++;
                     });
+
+                    if (extractMethods && $('catalogue_extractMethods_list')) {
+                        var extractMethodsList = $('catalogue_extractMethods_list');
+                        var m = 0;
+                        extractMethods.each(function(methodName) {
+                            extractMethodsList.options[m] = new Option(methodName, methodName);
+                            if (typeof(mzzCatalogue.values['extractMethods']) != 'undefined' && mzzCatalogue.values['extractMethods'] === methodName) {
+                                extractMethodsList.selectedIndex = m;
+                                $(extractMethodsList.options[m]).setStyle({fontWeight: 'bold'});
+                                mzzCatalogue.values.remove('extractMethods');
+                            }
+                            m++;
+                        });
+
+                        if (m > 0) {
+                            extractMethodsList.enable();
+                        } else {
+                            extractMethodsList.options[0] = new Option('Данных нет', '');
+                        }
+                    } else if (type == 'methods' && $('catalogue_extractMethods_list')) {
+                        $('catalogue_extractMethods_list').options[0] = new Option('Данные не получены.', '');
+                    }
 
                     optList.selectedIndex = selectedIndex || 0;
 
@@ -217,11 +250,19 @@ var mzzCatalogue = {
                             nameCell.appendChild(cellText);
 
                             var valueCell  = argValueRow.insertCell(-1);
+                            var editable = pair.value.editable == '1';
+                            if (editable) {
 
-                            if (pair.value.editable == '1') {
+
                                 if (pair.value.type == 'boolean') {
                                     var valueInput = $(document.createElement('select')).setStyle({width: '60px'});
-                                    valueInput.name = 'typeConfig[methodArgs][' + i + ']';
+                                } else {
+                                    var valueInput = document.createElement('input');
+                                }
+
+                                valueInput.name = 'typeConfig[methodArgs][' + i + ']';
+
+                                if (pair.value.type == 'boolean') {
                                     valueInput.options[0] = new Option('да','true');
                                     valueInput.options[1] = new Option('нет','false');
 
@@ -230,7 +271,7 @@ var mzzCatalogue = {
                                         valueInput.selectedIndex = mzzCatalogue.values.methodArgs['arg' + i] == 'false' ? 1 : 0;
                                         $(valueInput.options[valueInput.selectedIndex]).setStyle({fontWeight: 'bold'});
                                         mzzCatalogue.values.methodArgs.remove('arg' + i);
-                                    } else {
+                                    } else if (typeof(pair.value.defaultValue) != 'undefined') {
                                         valueInput.selectedIndex = pair.value.defaultValue == 'false' ? 1 : 0;
                                     }
 
@@ -242,20 +283,31 @@ var mzzCatalogue = {
                                         }
                                     }
                                 } else {
-                                    var valueInput = document.createElement('input');
+                                    if (typeof(mzzCatalogue.values.methodArgs) != 'undefined' &&
+                                        typeof(mzzCatalogue.values.methodArgs['arg' + i]) != 'undefined') {
+                                        valueInput.value = mzzCatalogue.values.methodArgs['arg' + i];
+                                        mzzCatalogue.values.methodArgs.remove('arg' + i);
+                                    } else {
+                                        valueInput.value = typeof(pair.value.defaultValue) != 'undefined' ? pair.value.defaultValue : '';
+                                    }
                                 }
-                            } else {
-                                var valueInput = pair.value.defaultValue;
-                            }
 
-                            valueCell.appendChild(valueInput);
+                                valueCell.appendChild(valueInput);
+                            }
 
                             if (typeof(pair.value.defaultValue) != 'undefined') {
                                 if (pair.value.defaultValue != '') {
-                                    var defaultText = ' (по умолчанию: ' + pair.value.defaultValue + ')';
+                                    var defaultText = 'по умолчанию: ' + pair.value.defaultValue;
                                 } else {
-                                    var defaultText = ' (пустое значение по умолчанию)';
+                                    var defaultText = 'пустое значение по умолчанию';
                                 }
+
+                                if (editable) {
+                                    defaultText = ' (' + defaultText + ')';
+                                } else {
+                                   defaultText += ', нередактируемое значение';
+                                }
+
                                 var defaultValueSpan = document.createElement('span');
                                 defaultValueSpan.style.color = '#777777';
                                 defaultValueSpan.appendChild(document.createTextNode(defaultText));

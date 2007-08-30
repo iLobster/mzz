@@ -15,7 +15,8 @@ mzzCatalogue.setValues({ldelim}
 'sections': '{$propertyForm.typeConfig.section}',
 'modules': '{$propertyForm.typeConfig.module}',
 'classes': '{$propertyForm.typeConfig.class}',
-'methods': '{$propertyForm.typeConfig.method}',
+'methods': '{$propertyForm.typeConfig.searchMethod}',
+'extractMethods': '{$propertyForm.typeConfig.extractMethod}',
 'methodArgs': $H({ldelim}{foreach name="methodArgsLoop" from=$propertyForm.typeConfig.methodArgs item="methodArgValue" key="methodArgNumber"}
 arg{$methodArgNumber}: "{$methodArgValue|addslashes}"{if $smarty.foreach.methodArgsLoop.last eq false},{/if}
 {/foreach}{rdelim})
@@ -103,18 +104,31 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[searchMethod]" value="Метод:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[searchMethod]" value="Метод поиска:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[searchMethod]')}</div>
                         {form->select name="typeConfig[searchMethod]" style="width: 270px;" id="catalogue_methods_list" onchange="mzzCatalogue.getMethodInfo(this);" onkeypress="this.onchange();" disabled=1}
                         </td>
                     </tr>
+
+                    <tr>
+                        <td><strong>{form->caption name="typeConfig[extractMethod]" value="Метод извлечения данных:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                    </tr>
+                    <tr>
+                        <td><div class="errorText">{$errors->get('typeConfig[extractMethod]')}</div>
+                        {form->select name="typeConfig[extractMethod]" style="width: 270px;" id="catalogue_extractMethods_list" disabled=1}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"">{form->checkbox name="typeConfig[optional]" text="Добавить первым пустое значение" value=$propertyForm.typeConfig.optional}</td>
+                    </tr>
                 </table>
 
             </td>
             <td width="60%" valign="top">
-            <span style="font-size: 120%; font-weight: bold;">Параметры метода:</span>
+            <span style="font-size: 120%; font-weight: bold;">Параметры метода поиска:</span>
             <div id="methodArgsValues"></div>
             </td>
         </tr>
@@ -157,15 +171,16 @@ mzzCatalogue.autoloadSelects();
 {/literal}
 
 {elseif $loadType == 'methods'}
-{literal}
-({
-{/literal}
-{foreach name="dataLoop" item="dataName" from=$data}
+({ldelim}searchMethods: {ldelim}
+{foreach name="dataLoop" item="dataName" from=$searchMethods}
 '{$dataName}': '{$dataName}'{if $smarty.foreach.dataLoop.last eq false},{/if}
 {/foreach}
-{literal}
-})
-{/literal}
+{rdelim},
+extractMethods: [
+{foreach name="extractMethodsLoop" item="extractMethodName" from=$extractMethods}
+'{$extractMethodName}'{if $smarty.foreach.extractMethodsLoop.last eq false},{/if}
+{/foreach}
+]{rdelim})
 {elseif $loadType == 'method'}
 {literal}({{/literal}
 {if $data !== false && $data !== null}

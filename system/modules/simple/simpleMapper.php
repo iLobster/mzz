@@ -625,6 +625,7 @@ abstract class simpleMapper
     /**
      * Поиск всех записей
      *
+     * @param criteria $orderCriteria
      * @return PDOStatement
      */
     public function searchAll($orderCriteria = null)

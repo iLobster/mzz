@@ -163,6 +163,25 @@ class adminMapper extends simpleMapper
     }
 
     /**
+     * Возвращает имя класса, модуля, секции в которых он находится по идентификаторам
+     *
+     * @param integer $section
+     * @param integer $module
+     * @param integer $class
+     * @return array|boolean
+     */
+    public function getNamesOfSectionModuleClass($section, $module, $class)
+    {
+        return $this->db->getAll('SELECT `s`.`name` AS `section_name` , `m`.`name` AS `module_name` , `c`.`name` AS `class_name`
+                                   FROM `sys_sections` `s`
+                                    INNER JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
+                                     INNER JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id` AND `c`.`id` =  ' . (int)$class . '
+                                      INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` AND `m`.`id` = ' . (int)$module . '
+                                       WHERE `s`.`id` = ' . (int)$section);
+
+    }
+
+    /**
      * Поиск классов, входящих в модуль, по id модуля
      *
      * @param integer $id
@@ -502,6 +521,63 @@ class adminMapper extends simpleMapper
         sort($result);
         return $result;
     }
+
+    /**
+     * Получение геттеров (методы для получения данных) доменного объекта
+     *
+     * @param string|integer $class_id идентификатор или имя класса
+     * @return array
+     */
+    public function getClassExtractMethods($class)
+    {
+        if (preg_match('/^\d+$/', $class)) {
+            $class = $this->searchClassById($class);
+        } else {
+            $class = $this->searchClassByName($class);
+        }
+        if (empty($class)) {
+            return null;
+        }
+
+        $module = $this->searchModuleByClassId($class['id']);
+        if (empty($module)) {
+            return null;
+        }
+
+        $toolkit = systemToolkit::getInstance();
+        $mapper = $toolkit->getMapper($module['name'], $class['name']);
+        $accessors = array();
+        foreach ($mapper->getMap() as $key => $val) {
+            $accessors[] = $val['accessor'];
+        }
+        return $accessors;
+    }
+
+    /*
+    public function getExtractMethods($module)
+    {
+    if (empty($module['id']) || empty($module['name'])) {
+    return null;
+    }
+
+    $classes = $this->searchClassesByModuleId($module['id']);
+    if (empty($classes)) {
+    return null;
+    }
+
+    $toolkit = systemToolkit::getInstance();
+
+    $accessors = array();
+    foreach ($classes as $class) {
+    $mapper = $toolkit->getMapper($module['name'], $class[0]['name']);
+    $map = $mapper->getMap();
+    foreach ($map as $key => $val) {
+    $accessors[$class[0]['name']][] = $val['accessor'];
+    }
+    }
+
+    return $accessors;
+    }*/
 
     public function getMethodInfo($class_id, $method)
     {

@@ -99,6 +99,19 @@ class urlTest extends unitTestCase
         $url->add('name2', 'value2', true);
         $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/foo/bar?name=value&name2=value2');
     }
+
+    public function testAnchor()
+    {
+        $url = new url('urlHttpsWithoutParams');
+        $url->setSection($section = 'foo');
+        $url->setAction($action = 'bar');
+        $url->add('#', 'anchor');
+        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/foo/bar#anchor');
+
+        $url = new url('default');
+        $url->add('#', 'anchor');
+        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/#anchor');
+    }
 }
 
 ?>

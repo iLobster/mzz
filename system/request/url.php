@@ -45,6 +45,13 @@ class url
     protected $route = null;
 
     /**
+     * HTML якорь
+     *
+     * @var string
+     */
+    protected $anchor;
+
+    /**
      * Конструктор.
      *
      */
@@ -78,17 +85,21 @@ class url
             $params['section'] = $this->getCurrentSection();
         }
 
-        $url = $this->route->assemble($params);
+        $path = $this->route->assemble($params);
 
         if (sizeof($this->getParams)) {
-            $url .= '?';
+            $path .= '?';
             foreach ($this->getParams as $key => $val) {
-                $url .= $key . '=' . $val . '&';
+                $path .= $key . '=' . $val . '&';
             }
-            $url = substr($url, 0, -1);
+            $path = substr($path, 0, -1);
         }
 
-        return $address . (!empty($url) ? '/' . $url : '');
+        $url = $address . (!empty($path) ? '/' . $path : '');
+        if (!empty($this->anchor)) {
+            $url .= (empty($path) ? '/' : '') . '#' . $this->anchor;
+        }
+        return $url;
     }
 
     /**
@@ -100,6 +111,11 @@ class url
      */
     public function add($name, $value, $get = false)
     {
+        if ($name == '#') {
+            $this->anchor = $value;
+            return;
+        }
+
         if (!$get) {
             $this->params[$name] = $value;
         } else {

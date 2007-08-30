@@ -75,18 +75,6 @@ class catalogueSavePropertyController extends simpleController
             }
         }
 
-/*
-
-                    $params['args'] = serialize(array(
-                    'section'   =>  $typeConfig['section'],
-                    'module'    =>  $typeConfig['module'],
-                    'do'    =>  $typeConfig['class'],
-                    'searchMethod'  =>  $typeConfig['method'],
-                    'extractMethod' =>  $typeConfig['extractMethod'],
-                    'args' =>  unserialize($typeConfig['args']),
-                    'optional' =>  (boolean)$typeConfig['optional']
-                    ));*/
-
         if ($isEdit) {
             switch ($property['type']) {
                 case 'select':
@@ -158,8 +146,11 @@ class catalogueSavePropertyController extends simpleController
 
                         case 'methods':
                             $class_id = $this->request->get('for_id', 'integer', SC_REQUEST);
-                            $methods = $adminMapper->getSearchMethods($class_id);
-                            $this->smarty->assign('data', $methods);
+                            $searchMethods = $adminMapper->getSearchMethods($class_id);
+                            $this->smarty->assign('searchMethods', $searchMethods);
+                            // методы извлечения данных
+                            $extactMethods = $adminMapper->getClassExtractMethods($class_id);
+                            $this->smarty->assign('extractMethods', $extactMethods);
                             break;
 
                         case 'folders':
@@ -247,25 +238,32 @@ class catalogueSavePropertyController extends simpleController
                     break;
 
                 case 'dynamicselect':
-                    $typeConfig = $this->request->get('typeConfig', 'array', SC_POST);
+                    $typeConfig = new arrayDataspace($this->request->get('typeConfig', 'array', SC_POST));
 
                     //$extractMethod = $this->request->get('dynamicselect_extractMethod', 'string', SC_POST);
                     //$nullElement = $this->request->get('dynamicselect_nullelement', 'integer', SC_POST);
 
+                    $names = $adminMapper->getNamesOfSectionModuleClass($typeConfig['section'], $typeConfig['module'], $typeConfig['class']);
+                    if (empty($names)) {
+                        $controller = new messageController('Отсутствует информация о параметрах в БД', messageController::WARNING);
+                        return $controller->run();
+                    }
+                    $names = $names[0];
+
                     $params['args'] = serialize(array(
-                    'section'   =>  $typeConfig['section'],
-                    'module'    =>  $typeConfig['module'],
-                    'do'    =>  $typeConfig['class'],
+                    'section'   =>  $names['section_name'],
+                    'module'    =>  $names['module_name'],
+                    'do'    =>  $names['class_name'],
                     'searchMethod'  =>  $typeConfig['searchMethod'],
                     'extractMethod' =>  $typeConfig['extractMethod'],
-                    'args' =>  unserialize($typeConfig['args']),
+                    'args' =>  $typeConfig['methodArgs'],
                     'optional' =>  (boolean)$typeConfig['optional']
                     ));
                     break;
 
                 case 'img':
-                    $sectionName = $this->request->get('dynamicselect_section', 'string', SC_POST);
-                    $folderId = $this->request->get('folder', 'integer', SC_POST);
+                    $sectionName = $this->request->get('typeConfig[section]', 'string', SC_POST);
+                    $folderId = $this->request->get('typeConfig[folder]', 'integer', SC_POST);
 
                     $params['args'] = serialize(array(
                     'section'   =>  $sectionName,
