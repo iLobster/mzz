@@ -31,6 +31,7 @@ class forumLastController extends simpleController
         $forumMapper = $this->toolkit->getMapper('forum', 'forum');
         $time = max($forumMapper->retrieveView($id), $user->getLastLogin());
 
+        /* SELECT COUNT(*) AS `cnt`, MAX(`id`) AS `max_id` FROM `forum_post` WHERE `forum_post`.`thread_id` = :thread_id AND `forum_post`.`post_date` < :last_login */
         $criteria = new criteria($postMapper->getTable());
         $criteria->addSelectField(new sqlFunction('count', '*', true), 'cnt');
         $criteria->addSelectField(new sqlFunction('max', 'id', true), 'max_id');
@@ -41,6 +42,21 @@ class forumLastController extends simpleController
 
         $db = db::factory();
         $cnt = $db->getRow($select->toString());
+
+        /* SELECT `id` FROM `forum_post` WHERE `forum_post`.`id` > :post_id AND `forum_post`.`thread_id` = :thread_id ORDER BY `forum_post`.`id` ASC LIMIT 1 */
+        $criteria = new criteria($postMapper->getTable());
+        $criteria->addSelectField('id');
+        $criteria->add('id', $cnt['max_id'], criteria::GREATER);
+        $criteria->add('thread_id', $id);
+        $criteria->setOrderByFieldAsc('id');
+        $criteria->setLimit(1);
+
+        $select = new simpleSelect($criteria);
+        $last_post = $db->getRow($select->toString());
+
+        if (!$last_post) {
+            $last_post['id'] = $cnt['max_id'];
+        }
 
         // в конфиг закинуть число постов и тредов на странице
         $per_page = 5;
@@ -55,7 +71,7 @@ class forumLastController extends simpleController
         }
 
         $response = $this->toolkit->getResponse();
-        $response->redirect($url->get() . '#post_' . $cnt['max_id']);
+        $response->redirect($url->get() . '#post_' . $last_post['id']);
     }
 }
 

@@ -52,6 +52,8 @@ class forumEditThreadController extends simpleController
 
             $response = $this->toolkit->getResponse();
             $response->redirect($url->get());
+
+            return;
         }
 
         $url = new url('withId');

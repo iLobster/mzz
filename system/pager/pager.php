@@ -100,10 +100,6 @@ class pager
             $baseurl = substr($baseurl, 0, -1);
         }
 
-        if ($page <= 0) {
-            $page = 1;
-        }
-
         $this->baseurl = $baseurl . (strpos($baseurl, '?') ? '&' : '?') . 'page=';
         $this->page = (int)$page;
         $this->setPerPage($perPage);
@@ -139,7 +135,8 @@ class pager
      */
     public function getRealPage()
     {
-        return $this->reverse ? $this->getPagesTotal() - $this->page + 1 : $this->page;
+        $page = $this->page > 0 ? $this->page : 1;
+        return $this->reverse ? $this->getPagesTotal() - $page + 1 : $page;
     }
 
     /**
@@ -312,7 +309,6 @@ class pager
     {
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();
-        $smarty->assign('pager', $this);
         $smarty->assign('pages', $this->toArray());
         return $smarty->fetch($tpl);
     }

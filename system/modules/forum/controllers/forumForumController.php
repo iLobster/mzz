@@ -27,6 +27,9 @@ class forumForumController extends simpleController
         $categoryMapper = $this->toolkit->getMapper('forum', 'category');
         $categories = $categoryMapper->searchAll();
 
+        $forumMapper = $this->toolkit->getMapper('forum', 'forum');
+
+        $this->smarty->assign('new_forums', $forumMapper->getNewForums());
         $this->smarty->assign('categories', $categories);
         return $this->smarty->fetch('forum/forum.tpl');
     }

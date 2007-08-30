@@ -56,6 +56,43 @@ class forumMapper extends simpleMapper
         return $this->session->get('forum[' . $this->section() . '][' . $id . ']');
     }
 
+    public function retrieveAllViews()
+    {
+        if (is_array($array = $this->session->get('forum[' . $this->section() . ']'))) {
+            return array_keys($array);
+        }
+
+        return array();
+    }
+
+    public function getNewForums()
+    {
+        $user = systemToolkit::getInstance()->getUser();
+
+        if (!$user->isLoggedIn()) {
+            return array();
+        }
+
+        $qry = 'SELECT `t`.`forum_id` FROM `forum_thread` `t`
+                 INNER JOIN `forum_post` `p` ON `p`.`id` = `t`.`last_post`
+                  WHERE (`p`.`post_date` > ' . $user->getLastLogin() . (sizeof($this->retrieveAllViews()) ? ' AND `t`.`id` NOT IN (' . implode(', ', $this->retrieveAllViews()) . ')' : '') . ')';
+
+        foreach ($this->retrieveAllViews() as $thread) {
+            $qry .= ' OR (`t`.`id` = ' . $thread . ' AND `p`.`post_date` > ' . $this->retrieveView($thread) . ')';
+        }
+
+        $qry .= ' GROUP BY `t`.`forum_id`';
+
+        $new = $this->db->getAll($qry);
+
+        $result = array();
+        foreach ($new as $thread) {
+            $result[$thread['forum_id']] = 1;
+        }
+
+        return $result;
+    }
+
     /**
      * Возвращает доменный объект по аргументам
      *

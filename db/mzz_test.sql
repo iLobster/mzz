@@ -1,14 +1,9 @@
-# SQL Manager 2005 for MySQL 3.7.7.1
+# SQL Manager 2005 for MySQL 3.7.5.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz_test
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -320,26 +315,6 @@ CREATE TABLE `sys_access_registry` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_access_registry` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
-  (67,1),
-  (68,1),
-  (69,1),
-  (70,1),
-  (71,1),
-  (72,1),
-  (73,1),
-  (74,1),
-  (75,1),
-  (76,1),
-  (77,1),
-  (78,1);
-
-COMMIT;
-
-#
 # Structure for the `sys_actions` table : 
 #
 
@@ -451,15 +426,6 @@ CREATE TABLE `sys_classes_sections` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `sys_classes_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,3,1);
-
-COMMIT;
-
-#
 # Structure for the `sys_modules` table : 
 #
 
@@ -564,7 +530,61 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (75),
   (76),
   (77),
-  (78);
+  (78),
+  (79),
+  (80),
+  (81),
+  (82),
+  (83),
+  (84),
+  (85),
+  (86),
+  (87),
+  (88),
+  (89),
+  (90),
+  (91),
+  (92),
+  (93),
+  (94),
+  (95),
+  (96),
+  (97),
+  (98),
+  (99),
+  (100),
+  (101),
+  (102),
+  (103),
+  (104),
+  (105),
+  (106),
+  (107),
+  (108),
+  (109),
+  (110),
+  (111),
+  (112),
+  (113),
+  (114),
+  (115),
+  (116),
+  (117),
+  (118),
+  (119),
+  (120),
+  (121),
+  (122),
+  (123),
+  (124),
+  (125),
+  (126),
+  (127),
+  (128),
+  (129),
+  (130),
+  (131),
+  (132);
 
 COMMIT;
 
@@ -598,9 +618,8 @@ CREATE TABLE `sys_sections` (
 
 INSERT INTO `sys_sections` (`id`, `name`) VALUES 
   (1,'simple'),
-  (2,'news'),
-  (3,'page'),
-  (4,'user');
+  (2,'page'),
+  (3,'user');
 
 COMMIT;
 
@@ -662,6 +681,7 @@ CREATE TABLE `user_user` (
   `obj_id` int(11) default NULL,
   `created` int(11) default NULL,
   `confirmed` int(11) default NULL,
+  `last_login` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
@@ -697,8 +717,3 @@ CREATE TABLE `user_userOnline` (
   KEY `last_activity` (`last_activity`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

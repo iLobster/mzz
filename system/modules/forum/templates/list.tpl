@@ -17,7 +17,13 @@
                     &nbsp;
                 {/if}
             </td>
-            <td><a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a></td>
+            <td>
+                <a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a>
+                {assign var=id value=$thread->getId()}
+                {if not empty($pagers.$id)}
+                    {$pagers.$id->toString('forum/pager.tpl')}
+                {/if}
+            </td>
             <td>{$thread->getAuthor()->getLogin()}</td>
             <td>{$thread->getPostsCount()}</td>
             <td>{$thread->getLastPost()->getAuthor()->getLogin()}, <a href="{url route=withId action=last id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>

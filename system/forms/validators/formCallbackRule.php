@@ -17,13 +17,16 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 class formCallbackRule extends formAbstractRule
 {
     public function validate()
     {
         $funcName = array_shift($this->params);
+        if (!is_callable($funcName)) {
+            throw new Exception('Указанная функция ' . $funcName . ' не является валидным callback\'ом');
+        }
         return call_user_func_array($funcName, array_merge(array($this->value), $this->params));
     }
 }

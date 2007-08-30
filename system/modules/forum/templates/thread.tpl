@@ -6,8 +6,14 @@
         <tr>
             <td>
                 <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
-                {if $thread->getFirstPost()->getId() eq $post->getId() && $thread->getACL('editThread')}
-                     <a href="{url route=withId action=editThread id=$thread->getId()}">Редактировать</a>
+                {$thread->getFirstPost()->getId()}
+                {if $thread->getFirstPost()->getId() eq $post->getId()}
+                    {if $thread->getAcl('editThread')}
+                        <a href="{url route=withId action=editThread id=$thread->getId()}">Редактировать</a>
+                    {/if}
+                    {if $thread->getAcl('moveThread')}
+                        <a href="{url route=withId action=moveThread id=$thread->getId()}">Перенести</a>
+                    {/if}
                 {else}
                     {if $post->getAcl('edit')} <a href="{url route=withId action=edit id=$post->getId()}">Редактировать</a>{/if}
                 {/if}
