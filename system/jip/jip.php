@@ -150,14 +150,10 @@ class jip
 
         foreach ($this->actions as $key => $item) {
             if ($acl->get($key)) {
-                $this->result[$key] = array(
-                'url' => isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id)),
-                'title' => $item['title'],
-                'isPopup' => isset($item['isPopup']) ? $item['isPopup'] :null,
-                'icon' => SITE_PATH . $item['icon'],
-                'id' => $this->getJipMenuId() . '_' . $item['controller'],
-                'confirm' => $item['confirm'],
-                );
+                $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id));
+                $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
+                $item['icon'] = isset($item['icon']) ? SITE_PATH . $item['icon'] : '';
+                $this->result[$key] = new arrayDataspace($item);
             }
         }
     }

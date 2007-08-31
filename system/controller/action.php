@@ -132,24 +132,21 @@ class action
      */
     public function getJipActions($type)
     {
-        $jip_actions = array();
         $actions = $this->getActions();
 
         if (!isset($actions[$type])) {
             throw new mzzSystemException('Тип "' . $type . '" у модуля "' . $this->module . '" не существует.');
         }
 
-        foreach ($actions[$type] as $key => $action) {
+        $jip_actions = $actions[$type];
+        foreach ($jip_actions as $key => $action) {
             if ($this->isJip($action)) {
-                $jip_actions[$key] = array(
-                'controller' => $action['controller'],
-                'title' => (isset($action['title']) ? $action['title'] : null),
-                'icon' => (isset($action['icon']) ? $action['icon'] : null),
-                'confirm' => (isset($action['confirm']) ? $action['confirm'] : null),
-                'isPopup' => (isset($action['isPopup']) ? $action['isPopup'] : null)
-                );
+                unset($jip_actions[$key]['jip']);
+            } else {
+                unset($jip_actions[$key]);
             }
         }
+
         return $jip_actions;
     }
 

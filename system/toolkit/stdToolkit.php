@@ -42,15 +42,12 @@ class stdToolkit extends toolkit
     private $validator;
     /**#@-*/
 
-    /**
-     * @var array
-     */
+    /**#@+
+    * @var array
+    */
     private $actionNames = array();
-
-    /**
-     * @var array
-     */
     private $mappers = array();
+    /**#@-*/
 
     /**
      * Конструктор
@@ -209,14 +206,14 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект Action для модуля $module
+     * Возвращает объект с описанием действий конкретного модуля
      *
      * @param string $module имя модуля
      * @return object
      */
     public function getAction($module)
     {
-        if ($this->actionNames->exists($module) == false) {
+        if (!$this->actionNames->exists($module)) {
             $this->actionNames->set($module, new action($module));
         }
 
