@@ -149,7 +149,8 @@ class jip
         //$access = $acl->get();
 
         foreach ($this->actions as $key => $item) {
-            if ($acl->get($key)) {
+            $action = isset($item['alias']) ? $item['alias'] : $key;
+            if ($acl->get($action)) {
                 $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id));
                 $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
                 $item['icon'] = isset($item['icon']) ? SITE_PATH . $item['icon'] : '';
