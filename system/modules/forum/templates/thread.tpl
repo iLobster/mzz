@@ -6,7 +6,6 @@
         <tr>
             <td>
                 <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
-                {$thread->getFirstPost()->getId()}
                 {if $thread->getFirstPost()->getId() eq $post->getId()}
                     {if $thread->getAcl('editThread')}
                         <a href="{url route=withId action=editThread id=$thread->getId()}">Редактировать</a>
