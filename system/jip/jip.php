@@ -163,6 +163,17 @@ class jip
     }
 
     /**
+     * Проверяет присутствие элемента в JIP-меню
+     *
+     * @param string $name имя элемента
+     * @return boolean
+     */
+    public function hasItem($name)
+    {
+        return isset($this->result[$name]);
+    }
+
+    /**
      * Возвращает ссылку на массив данных элемента JIP-меню
      *
      * @return array

@@ -35,7 +35,7 @@ class menuSaveController extends simpleController
 
         $id = $this->request->get('id', 'integer');
         if ($id === 0) {
-            $menuName = $this->request->get('menu_name', 'string');
+            $menuName = $this->request->get('name', 'string');
             $isRoot = true;
         }
 
@@ -69,7 +69,7 @@ class menuSaveController extends simpleController
                 $url->add('id', $isEdit ? $item->getId() : $id);
             } else {
                 $url->add('id', $id);
-                $url->add('menu_name', $menu->getName());
+                $url->add('name', $menu->getName());
                 $this->smarty->assign('menu', $menu);
             }
 

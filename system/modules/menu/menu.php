@@ -40,21 +40,17 @@ class menu extends simple
         $action = $toolkit->getAction($module);
         $request = $toolkit->getRequest();
 
-        $url = new url('menuCreateAction');
-        $url->add('id', '0');
-        $url->add('menu_name', $this->getName());
+        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId());
 
-        $create['create'] = array(
-            'url' => $url->get(),
-            'controller' => 'save',
-            'title' => 'Создать пункт',
-            'icon' => '/templates/images/add.gif',
-            'confirm' => ''
-        );
+        if ($jip->hasItem('create')) {
+            $url = new url('menuCreateAction');
+            $url->add('id', '0');
+            $url->add('name', $this->getName());
 
-        $actions = $create + $action->getJipActions($type);
+            $act = &$jip->getItem('create');
+            $act['url'] = $url->get();
+        }
 
-        $jip = new jip($request->getSection(), $module, $id, $type, $actions, $this->getObjId());
         return $jip->draw();
     }
 }

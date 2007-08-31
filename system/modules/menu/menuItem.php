@@ -94,39 +94,22 @@ class menuItem extends simpleCatalogue
         $action = $toolkit->getAction($module);
         $request = $toolkit->getRequest();
 
+        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId(), $tpl);
+
         $url = new url('menuMoveAction');
         $url->add('id', $id);
 
-        $items = array();
-        $url->add('target', 'up');
-        $items['up'] = array(
-            'url' => $url->get(),
-            'controller' => 'move',
-            'title' => 'Вверх',
-            'icon' => SITE_PATH . '/templates/images/arrow_up.gif',
-            'confirm' => ''
-        );
+        if ($jip->hasItem('up')) {
+            $act = &$jip->getItem('up');
+            $url->add('target', 'up');
+            $act['url'] = $url->get();
+        }
 
-        $url->add('target', 'down');
-        $items['down'] = array(
-            'url' => $url->get(),
-            'controller' => 'move',
-            'title' => 'Вниз',
-            'icon' => SITE_PATH . '/templates/images/arrow_down.gif',
-            'confirm' => ''
-        );
-
-        $create['create'] = array(
-            'url' => $url->get(),
-            'controller' => 'save',
-            'title' => 'Создать пункт',
-            'icon' => SITE_PATH . '/templates/images/add.gif',
-            'confirm' => ''
-        );
-
-        $actions = $items + $action->getJipActions($type);
-
-        $jip = new jip($request->getSection(), $module, $id, $type, $actions, $this->getObjId(), $tpl);
+        if ($jip->hasItem('down')) {
+            $act = &$jip->getItem('down');
+            $url->add('target', 'down');
+            $act['url'] = $url->get();
+        }
         return $jip->draw();
     }
 }
