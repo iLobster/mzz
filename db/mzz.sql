@@ -5505,7 +5505,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (87,'editThread'),
   (88,'moveThread'),
   (89,'up'),
-  (90,'down');
+  (90,'down'),
+  (91,'createRoot');
 
 COMMIT;
 
@@ -5826,7 +5827,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (157,26,9),
   (160,26,63),
   (161,25,64),
-  (238,25,4),
+  (239,25,91),
   (167,3,69),
   (168,21,20),
   (169,28,9),
@@ -7340,7 +7341,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (157,2,'ec529c30da4febe8c54cc7f022856e5b',1188518219,'http://mzz/templates/images/admin','127.0.0.1');
+  (157,2,'ec529c30da4febe8c54cc7f022856e5b',1188520046,'http://mzz/menu/1/create?ajax=1','127.0.0.1');
 
 COMMIT;
 

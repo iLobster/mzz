@@ -33,26 +33,6 @@ class menu extends simple
     {
         return $this->getJipView($this->name, $this->getName(), get_class($this));
     }
-
-    protected function getJipView($module, $id, $type)
-    {
-        $toolkit = systemToolkit::getInstance();
-        $action = $toolkit->getAction($module);
-        $request = $toolkit->getRequest();
-
-        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId());
-
-        if ($jip->hasItem('create')) {
-            $url = new url('menuCreateAction');
-            $url->add('id', '0');
-            $url->add('name', $this->getName());
-
-            $act = &$jip->getItem('create');
-            $act['url'] = $url->get();
-        }
-
-        return $jip->draw();
-    }
 }
 
 ?>

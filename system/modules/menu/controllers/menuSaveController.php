@@ -31,12 +31,11 @@ class menuSaveController extends simpleController
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
-        $isRoot = false;
+        $isRoot = ($action == 'createRoot');
 
         $id = $this->request->get('id', 'integer');
-        if ($id === 0) {
+        if ($isRoot) {
             $menuName = $this->request->get('name', 'string');
-            $isRoot = true;
         }
 
         $item = $isEdit ? $itemMapper->searchById($id) : $itemMapper->create();
@@ -63,12 +62,12 @@ class menuSaveController extends simpleController
         }
 
         if (!$validator->validate()) {
-            $url = new url($isRoot ? 'menuCreateAction' : 'withId');
+            $url = new url($isRoot ? 'withAnyParam' : 'withId');
             if (!$isRoot) {
                 $url->setAction($action);
                 $url->add('id', $isEdit ? $item->getId() : $id);
             } else {
-                $url->add('id', $id);
+                $url->add('action', 'createRoot');
                 $url->add('name', $menu->getName());
                 $this->smarty->assign('menu', $menu);
             }

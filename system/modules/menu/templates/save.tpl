@@ -4,7 +4,7 @@
 {literal}<script language="javascript">
 function loadForm(id)
 {{/literal}
-    {if $isRoot}var url = '{url route="menuCreateAction" name=$menu->getName() id="0"}';{else}var url = '{url route="withId" section="menu" id=$id action="create"}';{/if}
+    {if $isRoot}var url = '{url route="withAnyParam" action="createRoot" name=$menu->getName()}';{else}var url = '{url route="withId" section="menu" id=$id action="create"}';{/if}
     {literal}
     new Ajax.Request(url,
     {
