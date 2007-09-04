@@ -53,6 +53,13 @@ class requestRouter
     protected $debug = false;
 
     /**
+     * Объект httpRequest, содержащий в себе параметры запроса
+     *
+     * @var httpRequest
+     */
+    private $request;
+
+    /**
      * Конструктор
      *
      * @param iRequest $request
