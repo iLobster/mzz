@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('service/iniFIle');
+fileLoader::load('service/iniFile');
 
 /**
  * adminDeletemapController: контроллер для удаления поля

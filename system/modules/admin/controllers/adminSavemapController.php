@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('forms/validators/formValidator');
-fileLoader::load('service/iniFIle');
+fileLoader::load('service/iniFile');
 
 /**
  * adminSavemapController: контроллер для редактирования полей map-файла
