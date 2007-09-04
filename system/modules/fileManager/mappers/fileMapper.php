@@ -46,7 +46,7 @@ class fileMapper extends simpleMapper
      */
     public function searchByFolder($folder_id)
     {
-        return $this->searchAllByField('folder_id', $folder_id);
+        return $this->searchAllByField('folder_id', (int)$folder_id);
     }
 
     public function searchById($id)

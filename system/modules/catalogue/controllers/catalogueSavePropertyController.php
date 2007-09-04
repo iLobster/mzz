@@ -240,12 +240,9 @@ class catalogueSavePropertyController extends simpleController
                 case 'dynamicselect':
                     $typeConfig = new arrayDataspace($this->request->get('typeConfig', 'array', SC_POST));
 
-                    //$extractMethod = $this->request->get('dynamicselect_extractMethod', 'string', SC_POST);
-                    //$nullElement = $this->request->get('dynamicselect_nullelement', 'integer', SC_POST);
-
                     $names = $adminMapper->getNamesOfSectionModuleClass($typeConfig['section'], $typeConfig['module'], $typeConfig['class']);
                     if (empty($names)) {
-                        $controller = new messageController('Отсутствует информация о параметрах в БД', messageController::WARNING);
+                        $controller = new messageController('Отсутствует информация о параметрах для динамического списка в БД', messageController::WARNING);
                         return $controller->run();
                     }
                     $names = $names[0];

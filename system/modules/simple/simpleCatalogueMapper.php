@@ -106,20 +106,20 @@ abstract class simpleCatalogueMapper extends simpleMapper
                         break;
 
                     case 'img':
-                        /*$tmp = unserialize($props['args']);
+                        $tmp = unserialize($props['args']);
                         $toolkit = systemToolkit::getInstance();
-                        $tmpMapper = $toolkit->getMapper($tmp['module'], $tmp['do'], $tmp['section']);
+                        $tmpMapper = $toolkit->getMapper('fileManager', 'folder', $tmp['section']);
 
-                        if (!is_callable(array(&$tmpMapper, $tmp['searchMethod']))) {
-                            throw new mzzCallbackException(array(&$tmpMapper, $tmp['searchMethod']));
+                        if (!is_object($tmpMapper)) {
+                            throw new mzzRuntimeException('Не получен маппер для получения каталога изображений');
                         }
 
-                        $tmpData = call_user_func_array(array(&$tmpMapper, $tmp['searchMethod']), empty($tmp['params']) ? array() : explode('|', $tmp['params']));
+                        $tmpData = $tmpMapper->searchByKey($tmp['folderId']);
                         $props['args'] = array();
                         foreach ($tmpData as $tmp_do) {
                             $props['args'][$tmp_do->getId()] = $tmp_do;
                         }
-                        break;*/
+                        break;
                 }
                 $properties[$props['name']] = $props;
             }

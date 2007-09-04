@@ -10,7 +10,7 @@ jsLoader.setOnLoad(function () {ldelim}
 mzzCatalogue.setValues({ldelim}
 {if $propertyForm.type_id == 8}
 'sections': '{$propertyForm.typeConfig.section}',
-'folders': '{$propertyForm.typeConfig.folder}'
+'folders': '{$propertyForm.typeConfig.folderId}'
 {elseif $propertyForm.type_id == 7}
 'sections': '{$propertyForm.typeConfig.section}',
 'modules': '{$propertyForm.typeConfig.module}',
@@ -150,25 +150,18 @@ mzzCatalogue.autoloadSelects();
         </tr>
     </table>
 {elseif in_array($loadType, array('modules', 'classes'))}
-{literal}
-({
-{/literal}
+({ldelim}
 {foreach name="dataLoop" key="dataId" item="dataName" from=$data}
 {$dataId}: '{$dataName[0].name}'{if $smarty.foreach.dataLoop.last eq false},{/if}
 {/foreach}
-{literal}
-})
-{/literal}
+{rdelim})
+
 {elseif $loadType == 'folders'}
-{literal}
-({
-{/literal}
+({ldelim}
 {foreach name="dataLoop" key="dataId" item="dataName" from=$data}
 {$dataId}: ['{$dataName[0]}', '{$dataName[1]}']{if $smarty.foreach.dataLoop.last eq false},{/if}
 {/foreach}
-{literal}
-})
-{/literal}
+{rdelim})
 
 {elseif $loadType == 'methods'}
 ({ldelim}searchMethods: {ldelim}
@@ -181,26 +174,25 @@ extractMethods: [
 '{$extractMethodName}'{if $smarty.foreach.extractMethodsLoop.last eq false},{/if}
 {/foreach}
 ]{rdelim})
+
 {elseif $loadType == 'method'}
-{literal}({{/literal}
+({ldelim}
 {if $data !== false && $data !== null}
 description: '{$description}'{if !empty($data)},
 {foreach name="argsLoop" item="arg" key="argName" from=$data}
-'{$argName}': {literal}{{/literal}'type': '{$arg[0]}', desc: '{$arg[1]}', editable: '{$arg[2]}'{if isset($arg[3])},
+'{$argName}': {ldelim}'type': '{$arg[0]}', desc: '{$arg[1]}', editable: '{$arg[2]}'{if isset($arg[3])},
  'defaultValue': {if $arg[3] === false}'false'{elseif $arg[3] === true}'true'{else}'{$arg[3]}'{/if}
- {/if}{literal}}{/literal} {if $smarty.foreach.argsLoop.last eq false},{/if}
+ {/if}{rdelim}{if $smarty.foreach.argsLoop.last eq false},{/if}
 {/foreach}
 {/if}
 {elseif $data === null}
 'notCallable': true
-{/if}{literal}}){/literal}
+{/if}{rdelim})
 {/if}
 
 {if !$isAjax}
 </div>
-
 {form->submit name="submit" value="Сохранить" id="catalogueSubmitProperty"} {form->reset jip=true name="reset" value="Отмена"}
-
 </form>
 </div>
 {/if}
