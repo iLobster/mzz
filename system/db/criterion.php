@@ -19,7 +19,7 @@
  * @see criteria
  * @package system
  * @subpackage db
- * @version 0.1.5
+ * @version 0.1.6
  */
 
 class criterion
@@ -106,6 +106,13 @@ class criterion
     private $isFunction = false;
 
     /**
+     * Является ли первый аргумент (поле) функцией или оператором
+     *
+     * @var boolean
+     */
+    private $fieldIsFunction = false;
+
+    /**
      * Массив, хранящий типы логических объединений (И/ИЛИ) между дополнительными операциями сравнения
      *
      * @var array
@@ -125,7 +132,7 @@ class criterion
     public function __construct($field = null, $value = null, $comparsion = null, $isField = null)
     {
         $this->db = db::factory();
-        if (($dotpos = strpos($field, '.')) !== false) {
+        if (is_string($field) && ($dotpos = strpos($field, '.')) !== false) {
             $this->alias = substr($field, 0, $dotpos);
             $this->field = substr($field, $dotpos + 1);
         } else {
@@ -153,12 +160,17 @@ class criterion
             $this->value = $this->value->toString();
         }
 
+        if (($this->field instanceof sqlFunction) || ($this->field instanceof sqlOperator)) {
+            $this->fieldIsFunction = true;
+            $this->field = $this->field->toString();
+        }
+
         if (!is_null($this->field)) {
             // для конструкции `field` IN ('val1', 'val2')
             if ($this->comparsion === criteria::IN || $this->comparsion === criteria::NOT_IN) {
                 if (is_array($this->value) && sizeof($this->value)) {
-                    $result .= $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' (';
-                    // тут наверное нужно проверять ещё и sizeof($this->value)
+                    $result .= $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' (';
+
                     foreach ($this->value as $val) {
                         $result .= $this->db->quote($val) . ', ';
                     }
@@ -168,13 +180,13 @@ class criterion
                     $result .= 'FALSE';
                 }
             } elseif ($this->comparsion === criteria::IS_NULL || $this->comparsion === criteria::IS_NOT_NULL) {
-                $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion;
+                $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion;
             } elseif ($this->comparsion === criteria::BETWEEN || $this->comparsion === criteria::NOT_BETWEEN) {
-                $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
+                $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
             } elseif ($this->comparsion === criteria::FULLTEXT) {
-                $result = sprintf($this->comparsion, $this->getQuoutedAlias() . '`' . $this->field . '`', $this->db->quote($this->value));
+                $result = sprintf($this->comparsion, $this->getQuoutedAlias() . $this->getQuotedField(), $this->db->quote($this->value));
             } else {
-                $result = $this->getQuoutedAlias() . '`' . $this->field . '` ' . $this->comparsion . ' ' . $this->getQuotedValue();
+                $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' ' . $this->getQuotedValue();
             }
         }
 
@@ -283,6 +295,20 @@ class criterion
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Получение экранированного значения поля
+     *
+     * @return string
+     */
+    private function getQuotedField()
+    {
+        if ($this->fieldIsFunction) {
+            return $this->field;
+        }
+
+        return '`' . $this->field . '`';
     }
 
     /**

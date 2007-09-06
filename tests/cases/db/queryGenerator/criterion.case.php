@@ -101,7 +101,6 @@ class criterionTest extends unitTestCase
         $criterion = new criterion('foo.bar', 'value');
         $this->assertEqual($criterion->getValue(), 'value');
         $this->assertEqual($criterion->getField(), 'bar');
-        //$this->assertEqual($criterion->getQuotedAlias(), 'foo');
 
         $this->assertEqual($criterion->generate(), "`foo`.`bar` = 'value'");
     }
@@ -160,6 +159,12 @@ class criterionTest extends unitTestCase
 
         $criterion = new criterion('field', new sqlFunction('FUNCTION', 'value"'));
         $this->assertEqual($criterion->generate($table = 'table'), "`table`.`field` = FUNCTION('value\\\"')");
+    }
+
+    public function testFunctionAndFunctionComparasion()
+    {
+        $criterion = new criterion(new sqlFunction('FUNCTION', 'value'), new sqlFunction('FUNCTION', 'value', true));
+        $this->assertEqual($criterion->generate(), "FUNCTION('value') = FUNCTION(`value`)");
     }
 }
 
