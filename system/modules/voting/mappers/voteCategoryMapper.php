@@ -72,9 +72,26 @@ class voteCategoryMapper extends simpleMapper
         $criteria->add('category_id', $id)->add('vote.id', '', criteria::IS_NULL)->add('created', time(), criteria::LESS_EQUAL)->add('expired', time(), criteria::GREATER_EQUAL);
         $criteria->setOrderByFieldAsc(new sqlFunction('RAND'), false)->setLimit(1);
 
-        //$select = new simpleSelect($criteria);
-        //echo $select->toString();
-        //exit;
+        return $questionMapper->searchOneByCriteria($criteria);
+    }
+
+    public function getLast($id)
+    {
+        $questions = $this->getQuestions($id);
+
+        if (empty($questions)) {
+            return null;
+        }
+
+        $questionMapper = systemToolkit::getInstance()->getMapper('voting', 'question');
+        $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
+
+        $criteria = new criteria;
+        //$criterion = new criterion('vote.question_id', 'question.id', criteria::EQUAL, true);
+        //$criterion->addAnd(new criterion('user_id', systemToolkit::getInstance()->getUser()->getId()));
+        //$criteria->addJoin($voteMapper->getTable(), $criterion, 'vote', criteria::JOIN_LEFT);
+        $criteria->add('category_id', $id)->add('expired', time(), criteria::GREATER_EQUAL);
+        $criteria->setLimit(1);
 
         return $questionMapper->searchOneByCriteria($criteria);
     }

@@ -31,7 +31,14 @@ class votingViewActualController extends simpleController
         $question = $category->getActual();
 
         if (is_null($question)) {
-            return $categoryMapper->get404()->run();
+            //$question = $category->getLast();
+
+            if (is_null($question)) {
+                return null;
+            }
+
+            $this->smarty->assign('question', $question);
+            return $this->smarty->fetch('voting/results.tpl');
         }
 
         $votes = $question->getVotes();

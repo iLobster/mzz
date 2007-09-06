@@ -33,6 +33,11 @@ class voteCategory extends simple
     {
         return $this->mapper->getActual($this->getId());
     }
+
+    public function getLast()
+    {
+        return $this->mapper->getLast($this->getId());
+    }
 }
 
 ?>
