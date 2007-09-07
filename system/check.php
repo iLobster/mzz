@@ -28,8 +28,16 @@ if (!$pdoExists || ($pdoExists && !in_array('mysql', PDO::getAvailableDrivers())
 }
 // end pdo check
 
-if (!function_exists('preg_match') || !function_exists('preg_replace')) {
+if (!extension_loaded('pcre')) {
     $errors[] = "PCRE enabled: " . $failed;
+}
+
+if (!extension_loaded('gd')) {
+    $errors[] = "GD2 enabled: " . $failed;
+}
+
+if (extension_loaded('gd') && !function_exists('imagecreatetruecolor')) {
+    $errors[] = "GD version 2.0.1 or later: " . $failed;
 }
 
 if (!is_readable(systemConfig::$pathToTemp)) {
