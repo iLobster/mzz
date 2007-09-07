@@ -87,11 +87,8 @@ class voteCategoryMapper extends simpleMapper
         $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
 
         $criteria = new criteria;
-        //$criterion = new criterion('vote.question_id', 'question.id', criteria::EQUAL, true);
-        //$criterion->addAnd(new criterion('user_id', systemToolkit::getInstance()->getUser()->getId()));
-        //$criteria->addJoin($voteMapper->getTable(), $criterion, 'vote', criteria::JOIN_LEFT);
-        $criteria->add('category_id', $id)->add('expired', time(), criteria::GREATER_EQUAL);
-        $criteria->setLimit(1);
+        $criteria->add('category_id', $id);
+        $criteria->setOrderByFieldDesc('expired')->setLimit(1);
 
         return $questionMapper->searchOneByCriteria($criteria);
     }

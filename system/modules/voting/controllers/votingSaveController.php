@@ -91,7 +91,7 @@ class votingSaveController extends simpleController
 
     public function checkExpiredDate($expired, $question)
     {
-        $stamp = (is_null($question->getCreated())) ? $this->request->get('created', 'string', SC_POST) : $question->getCreated();
+        $stamp = (is_null($question->getCreated())) ? $this->getTimestampByField$this->request->get('created', 'string', SC_POST)) : $question->getCreated();
         return ($this->getTimestampByField($expired) > $stamp);
     }
 }

@@ -31,7 +31,7 @@ class votingViewActualController extends simpleController
         $question = $category->getActual();
 
         if (is_null($question)) {
-            //$question = $category->getLast();
+            $question = $category->getLast();
 
             if (is_null($question)) {
                 return null;
