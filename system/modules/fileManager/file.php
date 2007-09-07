@@ -23,6 +23,8 @@ class file extends simple
 {
     protected $name = 'fileManager';
 
+    protected $extra = false;
+
     /**
      * Получение объекта JIP
      *
@@ -60,6 +62,18 @@ class file extends simple
     public function getExt()
     {
         return strtolower($this->__call('getExt', array()));
+    }
+
+    public function extra()
+    {
+        fileLoader::load('modules/fileManager/extras/fmSimpleFile');
+        if (empty($this->extra)) {
+            if ($this->getExt() == 'jpg') {
+                fileLoader::load('modules/fileManager/extras/fmImageFile');
+                $this->extra = new fmImageFile($this);
+            }
+        }
+        return $this->extra;
     }
 
     /**

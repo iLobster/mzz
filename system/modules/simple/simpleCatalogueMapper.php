@@ -107,6 +107,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
                     case 'img':
                         $tmp = unserialize($props['args']);
+                        //$tmp = array('section' => 'fileManager', 'folderId' => 1);
                         $toolkit = systemToolkit::getInstance();
                         $tmpMapper = $toolkit->getMapper('fileManager', 'folder', $tmp['section']);
 

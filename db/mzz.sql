@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.1.1.3
+# SQL Manager 2005 for MySQL 3.7.7.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -209,7 +209,7 @@ INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, 
   (24,'madein','Страна изготовитель',5,'a:3:{i:0;s:0:\"\";i:1;s:5:\"Китай\";i:2;s:6:\"Россия\";}'),
   (26,'about','Описание',4,NULL),
   (31,'test1','Динамический селект',7,'a:7:{s:7:\"section\";s:4:\"user\";s:6:\"module\";s:4:\"user\";s:2:\"do\";s:4:\"user\";s:12:\"searchMethod\";s:9:\"searchAll\";s:13:\"extractMethod\";s:8:\"getLogin\";s:4:\"args\";N;s:8:\"optional\";b:1;}'),
-  (32,'img','Изображение',8,'a:5:{s:6:\"module\";s:7:\"gallery\";s:2:\"do\";s:5:\"photo\";s:7:\"section\";s:7:\"gallery\";s:12:\"searchMethod\";s:9:\"searchAll\";s:6:\"params\";s:0:\"\";}');
+  (32,'img','Изображение',8,'a:2:{s:7:\"section\";s:11:\"fileManager\";s:8:\"folderId\";i:1;}');
 
 COMMIT;
 
@@ -481,7 +481,9 @@ CREATE TABLE `fileManager_folder` (
 INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
   (6,'thumbnails','Превью',6,'root/gallery/thumbnails',534,0,''),
-  (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg');
+  (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg'),
+  (7,'extras','extras',7,'root/extras',1093,0,''),
+  (8,'thumbnails','Thumbnails',8,'root/extras/thumbnails',1094,0,'');
 
 COMMIT;
 
@@ -507,9 +509,11 @@ CREATE TABLE `fileManager_folder_tree` (
 #
 
 INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,6,1),
+  (1,1,10,1),
   (6,3,4,3),
-  (5,2,5,2);
+  (5,2,5,2),
+  (7,6,9,2),
+  (8,7,8,3);
 
 COMMIT;
 
@@ -5420,7 +5424,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1077,35),
   (1081,35),
   (1085,35),
-  (1089,35);
+  (1089,35),
+  (1093,15),
+  (1094,15);
 
 COMMIT;
 
@@ -5506,7 +5512,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (88,'moveThread'),
   (89,'up'),
   (90,'down'),
-  (91,'createRoot');
+  (91,'createRoot'),
+  (92,'browse');
 
 COMMIT;
 
@@ -5885,7 +5892,9 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (232,37,66),
   (233,38,86),
   (234,37,87),
-  (235,37,88);
+  (235,37,88),
+  (240,18,5),
+  (241,18,92);
 
 COMMIT;
 
@@ -7097,7 +7106,10 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1089),
   (1090),
   (1091),
-  (1092);
+  (1092),
+  (1093),
+  (1094),
+  (1095);
 
 COMMIT;
 
@@ -7255,7 +7267,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1188364151),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1188442891),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1188520046),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1188441493);
 
 COMMIT;
@@ -7341,7 +7353,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (157,2,'ec529c30da4febe8c54cc7f022856e5b',1188520046,'http://mzz/menu/1/create?ajax=1','127.0.0.1');
+  (158,2,'1d290db159e0f7ae7311d168ac11e109',1189173816,'http://mzz/templates/images/admin','127.0.0.1');
 
 COMMIT;
 
