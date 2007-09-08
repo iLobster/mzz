@@ -451,8 +451,8 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,24,1,'По фамилии Fernandes',5,611),
-  (3,'80028e6d2a5175bf1d263f4e96c3a67f','1.jpg','jpg',1553,87,1,'',6,623);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,25,1,'По фамилии Fernandes',5,611),
+  (4,'dbd95b00d79e75b7c72336fbaf5ea916','1.jpg','jpg',1553,1,1,NULL,8,1096);
 
 COMMIT;
 
@@ -480,7 +480,6 @@ CREATE TABLE `fileManager_folder` (
 
 INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
-  (6,'thumbnails','Превью',6,'root/gallery/thumbnails',534,0,''),
   (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg'),
   (7,'extras','extras',7,'root/extras',1093,0,''),
   (8,'thumbnails','Thumbnails',8,'root/extras/thumbnails',1094,0,'');
@@ -509,11 +508,10 @@ CREATE TABLE `fileManager_folder_tree` (
 #
 
 INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,10,1),
-  (6,3,4,3),
-  (5,2,5,2),
-  (7,6,9,2),
-  (8,7,8,3);
+  (1,1,8,1),
+  (5,2,3,2),
+  (7,4,7,2),
+  (8,5,6,3);
 
 COMMIT;
 
@@ -4992,7 +4990,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (198,7),
   (201,14),
   (202,14),
-  (534,15),
+  (1096,14),
   (533,15),
   (300,2),
   (301,2),
@@ -5229,7 +5227,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (615,12),
   (616,14),
   (619,12),
-  (623,14),
   (842,25),
   (631,11),
   (632,7),
@@ -5411,7 +5408,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1057,35),
   (1061,35),
   (1065,35),
-  (1069,35);
+  (1069,35),
+  (1073,35);
 
 COMMIT;
 
@@ -5420,7 +5418,6 @@ COMMIT;
 #
 
 INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
-  (1073,35),
   (1077,35),
   (1081,35),
   (1085,35),
@@ -7109,7 +7106,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1092),
   (1093),
   (1094),
-  (1095);
+  (1095),
+  (1096);
 
 COMMIT;
 
@@ -7267,7 +7265,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1188364151),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1188520046),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1189173816),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1188441493);
 
 COMMIT;
@@ -7353,7 +7351,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (158,2,'1d290db159e0f7ae7311d168ac11e109',1189173816,'http://mzz/templates/images/admin','127.0.0.1');
+  (159,2,'f40cd229b8c68f279015ca1e641e64cf',1189253994,'http://mzz/templates/images/admin','127.0.0.1');
 
 COMMIT;
 

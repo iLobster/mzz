@@ -26,8 +26,12 @@ class photo extends simple
 
     public function getThumbnail()
     {
+        return $this->getFile()->extra()->getThumbnail();
+
+        /*
         $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getThumbFolderId();
         return $this->getFromFM($folder_id);
+        */
     }
 
     public function getFile()

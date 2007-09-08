@@ -34,6 +34,7 @@ class galleryViewThumbnailController extends simpleController
         $photo = $photoMapper->searchById($photo_id);
         $thumbnail = $photo->getThumbnail();
 
+        /*
         if (!$thumbnail) {
             $source = $photo->getFile();
             if ($source && in_array($ext = $source->getExt(), array('jpg', 'jpeg', 'png', 'gif'))) {
@@ -81,6 +82,8 @@ class galleryViewThumbnailController extends simpleController
                 $fileMapper->save($thumbnail);
             }
         }
+
+        */
 
         try {
             $thumbnail->download();
