@@ -451,8 +451,8 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,25,1,'По фамилии Fernandes',5,611),
-  (4,'dbd95b00d79e75b7c72336fbaf5ea916','1.jpg','jpg',1553,1,1,NULL,8,1096);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,28,1,'По фамилии Fernandes',5,611),
+  (6,'292cea736807441578ceacd47a5bb3e5','1.jpg','jpg',1553,1,1,NULL,9,1099);
 
 COMMIT;
 
@@ -480,6 +480,7 @@ CREATE TABLE `fileManager_folder` (
 
 INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
+  (9,'80x60','80x60',9,'root/extras/thumbnails/80x60',1097,NULL,NULL),
   (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg'),
   (7,'extras','extras',7,'root/extras',1093,0,''),
   (8,'thumbnails','Thumbnails',8,'root/extras/thumbnails',1094,0,'');
@@ -508,10 +509,11 @@ CREATE TABLE `fileManager_folder_tree` (
 #
 
 INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,8,1),
+  (1,1,10,1),
+  (9,6,7,4),
   (5,2,3,2),
-  (7,4,7,2),
-  (8,5,6,3);
+  (7,4,9,2),
+  (8,5,8,3);
 
 COMMIT;
 
@@ -4990,7 +4992,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (198,7),
   (201,14),
   (202,14),
-  (1096,14),
   (533,15),
   (300,2),
   (301,2),
@@ -5227,6 +5228,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (615,12),
   (616,14),
   (619,12),
+  (1097,15),
   (842,25),
   (631,11),
   (632,7),
@@ -5423,7 +5425,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1085,35),
   (1089,35),
   (1093,15),
-  (1094,15);
+  (1094,15),
+  (1099,14);
 
 COMMIT;
 
@@ -7107,7 +7110,10 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1093),
   (1094),
   (1095),
-  (1096);
+  (1096),
+  (1097),
+  (1098),
+  (1099);
 
 COMMIT;
 
@@ -7351,7 +7357,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (159,2,'f40cd229b8c68f279015ca1e641e64cf',1189253994,'http://mzz/templates/images/admin','127.0.0.1');
+  (159,2,'f40cd229b8c68f279015ca1e641e64cf',1189255795,'http://mzz/templates/images/admin','127.0.0.1');
 
 COMMIT;
 

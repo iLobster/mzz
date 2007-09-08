@@ -1,11 +1,25 @@
 <?php
 class fmImageFile extends fmSimpleFile
 {
-    public function getThumbnail()
+    public function getThumbnail($width = 80, $height = 60)
     {
         $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', $this->file->section());
 
-        $thumbnail = $this->mapper->searchByPath('root/extras/thumbnails/' . $this->file->getId() . '.' . $this->file->getExt());
+        $thumbFolderName = (int)$width . 'x' . (int)$height;
+
+        $folder = $folderMapper->searchByPath('root/extras/thumbnails/' . $thumbFolderName);
+
+        if (!$folder) {
+            $folder = $folderMapper->create();
+
+            $folder->setName($thumbFolderName);
+            $folder->setTitle($thumbFolderName);
+
+            $targetFolder = $folderMapper->searchByPath('root/extras/thumbnails');
+            $folderMapper->save($folder, $targetFolder);
+        }
+
+        $thumbnail = $this->mapper->searchByPath('root/extras/thumbnails/' . $folder->getName() . '/' . $this->file->getId() . '.' . $this->file->getExt());
 
         if (!$thumbnail) {
             if (in_array($ext = $this->file->getExt(), array('jpg', 'jpeg', 'png', 'gif'))) {
@@ -13,9 +27,6 @@ class fmImageFile extends fmSimpleFile
                     $ext = 'jpeg';
                 }
                 $filename = $this->file->getRealFullPath();
-
-                $width = 80;
-                $height = 60;
 
                 list($width_orig, $height_orig) = getimagesize($filename);
 
@@ -49,7 +60,6 @@ class fmImageFile extends fmSimpleFile
 
                 call_user_func('image' . $ext, $thumbnail, $file);
 
-                $folder = $folderMapper->searchByPath('root/extras/thumbnails');
                 $thumbnail = $folder->upload($file, $this->file->getId() . '.' . $this->file->getExt());
                 $thumbnail->setRightHeader(1);
                 $this->mapper->save($thumbnail);
