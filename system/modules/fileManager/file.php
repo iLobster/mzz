@@ -68,7 +68,7 @@ class file extends simple
     {
         fileLoader::load('modules/fileManager/extras/fmSimpleFile');
         if (empty($this->extra)) {
-            if ($this->getExt() == 'jpg') {
+            if ($this->getExt() == 'jpg' || $this->getExt() == 'png' || $this->getExt() == 'gif') {
                 fileLoader::load('modules/fileManager/extras/fmImageFile');
                 $this->extra = new fmImageFile($this);
             }

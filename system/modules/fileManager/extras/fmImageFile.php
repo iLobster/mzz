@@ -5,7 +5,7 @@ class fmImageFile extends fmSimpleFile
     {
         $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', $this->file->section());
 
-        $thumbnail = $this->mapper->searchByPath('root/extras/thumbnails/' . $this->file->getId() . '.jpg');
+        $thumbnail = $this->mapper->searchByPath('root/extras/thumbnails/' . $this->file->getId() . '.' . $this->file->getExt());
 
         if (!$thumbnail) {
             if (in_array($ext = $this->file->getExt(), array('jpg', 'jpeg', 'png', 'gif'))) {
@@ -34,6 +34,15 @@ class fmImageFile extends fmSimpleFile
 
                 $thumbnail = imagecreatetruecolor($width, $height);
                 $image = call_user_func('imagecreatefrom' . $ext, $filename);
+
+                if ($ext == 'png') {
+                    imagealphablending($thumbnail, false);
+                    imagesavealpha($thumbnail, true);
+                } elseif ($ext == 'gif') {
+                    $trans_color = imagecolorallocate($image, 255, 255, 255);
+                    imagecolortransparent($image, $trans_color);
+                }
+
                 imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 
                 $file = systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . $this->file->getId();
@@ -41,7 +50,7 @@ class fmImageFile extends fmSimpleFile
                 call_user_func('image' . $ext, $thumbnail, $file);
 
                 $folder = $folderMapper->searchByPath('root/extras/thumbnails');
-                $thumbnail = $folder->upload($file, $this->file->getId() . '.jpg');
+                $thumbnail = $folder->upload($file, $this->file->getId() . '.' . $this->file->getExt());
                 $thumbnail->setRightHeader(1);
                 $this->mapper->save($thumbnail);
             }
