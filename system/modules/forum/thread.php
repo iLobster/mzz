@@ -17,12 +17,18 @@
  *
  * @package modules
  * @subpackage forum
- * @version 0.1
+ * @version 0.1.1
  */
 
 class thread extends simple
 {
     protected $name = 'forum';
+
+    public function isPopular()
+    {
+        // @todo: вынести в конфиг
+        return $this->getViewCount() * 86400 / (time() - $this->getPostDate()) > 20;
+    }
 
     public function isNew()
     {
@@ -33,6 +39,12 @@ class thread extends simple
 
     public function getAcl($name = null)
     {
+        if ($name == 'editThread' && !$this->getIsClosed()) {
+            if (systemToolkit::getInstance()->getUser()->getId() == $this->getAuthor()->getId()) {
+                return true;
+            }
+        }
+
         $access = parent::getAcl($name);
 
         if ($access) {

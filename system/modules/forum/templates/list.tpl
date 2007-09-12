@@ -6,6 +6,7 @@
         <td>Название</td>
         <td>Автор</td>
         <td>Постов</td>
+        <td>Просмотров</td>
         <td>Последнее сообщение</td>
     </tr>
     {foreach from=$threads item=thread}
@@ -13,6 +14,11 @@
             <td>
                 {if $thread->isNew()}
                     <span style="color: red;">new!!!</span>
+                {else}
+                    &nbsp;
+                {/if}
+                {if $thread->isPopular()}
+                    <span style="color: blue;">popular!!!</span>
                 {else}
                     &nbsp;
                 {/if}
@@ -26,6 +32,7 @@
             </td>
             <td>{$thread->getAuthor()->getLogin()}</td>
             <td>{$thread->getPostsCount()}</td>
+            <td>{if $thread->getViewCount()}{$thread->getViewCount()}{else}0{/if}</td>
             <td>{$thread->getLastPost()->getAuthor()->getLogin()}, <a href="{url route=withId action=last id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
         </tr>
     {/foreach}

@@ -63,9 +63,18 @@ class forumPostController extends simpleController
             $text = $this->request->get('text', 'string', SC_POST);
 
             if (!$isEdit) {
-                $post = $postMapper->create();
-                $post->setAuthor($user);
-                $post->setThread($thread);
+                // @todo: интервал в конфиг
+                if ($thread->getLastPost()->getPostDate() >= strtotime('-15 minutes')) {
+                    $post = $thread->getLastPost();
+                    $post->setPostDate(new sqlFunction('UNIX_TIMESTAMP'));
+                    $isEdit = true;
+                    // @todo: сделать по-человечески
+                    $text = $post->getText() . "\r\n\r\nдобавлено\r\n\r\n" . $text;
+                } else {
+                    $post = $postMapper->create();
+                    $post->setAuthor($user);
+                    $post->setThread($thread);
+                }
             }
 
             $post->setText($text);

@@ -23,6 +23,17 @@
 class post extends simple
 {
     protected $name = 'forum';
+
+    public function getAcl($name = null)
+    {
+        if ($name == 'edit') {
+            if (systemToolkit::getInstance()->getUser()->getId() == $this->getAuthor()->getId()) {
+                return true;
+            }
+        }
+
+        return parent::getAcl($name);
+    }
 }
 
 ?>

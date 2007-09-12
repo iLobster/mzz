@@ -46,9 +46,17 @@ class forumMapper extends simpleMapper
         $this->session = systemToolkit::getInstance()->getSession();
     }
 
-    public function storeView($id)
+    public function storeView($thread)
     {
-        $this->session->set('forum[' . $this->section() . '][' . $id . ']', time());
+        $this->session->set('forum[' . $this->section() . '][' . $thread->getId() . ']', time());
+
+        if ($this->getLastThreadId() != $thread->getId()) {
+            echo 1;
+            $this->setLastThreadId($thread->getId());
+
+            $thread->setViewCount($thread->getViewCount() + 1);
+            $thread->getMapper()->save($thread);
+        }
     }
 
     public function retrieveView($id)
@@ -63,6 +71,16 @@ class forumMapper extends simpleMapper
         }
 
         return array();
+    }
+
+    public function setLastThreadId($id)
+    {
+        $this->session->set('forum[' . $this->section() . '_last_thread]', $id);
+    }
+
+    public function getLastThreadId()
+    {
+        return $this->session->get('forum[' . $this->section() . '_last_thread]');
     }
 
     public function getNewForums()

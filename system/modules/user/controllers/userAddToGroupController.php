@@ -77,8 +77,6 @@ class userAddToGroupController extends simpleController
                 $limit = 25;
                 $criteria->setLimit($limit + 1);
 
-                $userMapper = $this->toolkit->getMapper('user', 'user');
-
                 // выбираем всех пользователей, которые ещЄ не добавлены в эту группу и удовлетвор€ют маске
                 $users = $userMapper->searchAllByCriteria($criteria);
 
