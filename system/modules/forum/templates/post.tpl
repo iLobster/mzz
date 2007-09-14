@@ -11,7 +11,7 @@
             <td>{form->textarea name="text" rows="7" cols="50" value=$post->getText()}{$errors->get('text')}</td>
         </tr>
         <tr>
-            <td>{form->submit name="submit" value="Отправить"} {form->reset name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="Отправить"} {form->reset jip="true" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>

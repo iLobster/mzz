@@ -19,7 +19,7 @@
             <td style='width: 80%;'>{form->text name="order" size="60" value=$forum->getOrder()}{$errors->get('order')}</td>
         </tr>
         <tr>
-            <td>{form->submit name="submit" value="Сохранить"} {form->reset name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="Сохранить"} {form->reset jip="true" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>
