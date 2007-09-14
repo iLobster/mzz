@@ -38,3 +38,31 @@ Event.Observer.prototype = new function(){
         this.observe = true;
     };
 };
+
+
+// 1.6.0 features:
+document.viewport = {
+  getDimensions: function() {
+    var dimensions = { };
+    $w('width height').each(function(d) {
+      var D = d.capitalize();
+      dimensions[d] = self['inner' + D] ||
+       (document.documentElement['client' + D] || document.body['client' + D]);
+    });
+    return dimensions;
+  },
+
+  getWidth: function() {
+    return this.getDimensions().width;
+  },
+
+  getHeight: function() {
+    return this.getDimensions().height;
+  },
+
+  getScrollOffsets: function() {
+    return Element._returnOffset(
+      window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
+      window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop);
+  }
+};

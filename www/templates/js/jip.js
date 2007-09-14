@@ -188,6 +188,7 @@ jipWindow.prototype = {
         this.windowExists = false;
         this.selectElements = $H();
         this.drag = false;
+        this.onJipLoadFunc = null;
 
         this.eventKeypress  = this.keyPress.bindAsEventListener(this);
         this.eventLockClick  = this.lockClick.bindAsEventListener(this);
@@ -259,6 +260,21 @@ jipWindow.prototype = {
             return false;
         }
         return true;
+    },
+
+    onJipLoad: function(func)
+    {
+        this.onJipLoadFunc = func;
+    },
+
+    autoSize: function()
+    {
+        var offsets = Position.cumulativeOffset(this.jip);
+        var topOffset = parseInt(offsets[1]) - new Number(document.documentElement.scrollTop);
+        topOffset = (topOffset >= 0) ? topOffset : 0;
+        if (document.viewport.getHeight() - (this.jip.getHeight() + topOffset) < 0) {
+            this.jip.setStyle({height: (document.viewport.getHeight() - topOffset * 2) + 'px'});
+        }
     },
 
     addTinyMCEId: function(id)
@@ -359,6 +375,12 @@ jipWindow.prototype = {
         }
         this.lockContent();
         buildJipLinks(this.jip);
+        window.setTimeout(function () {
+            if (jipWindow.onJipLoadFunc) {
+                jipWindow.onJipLoadFunc();
+                jipWindow.onJipLoadFunc = null;
+           }
+        }, 1);
     },
 
 

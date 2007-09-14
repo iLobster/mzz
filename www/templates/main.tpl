@@ -13,7 +13,10 @@
 </div>
 
 
-<div id="content">{$content}</div>
+<div id="content">
+<a href="/browser" class="jipLink">browse</a>
+
+{$content}</div>
 </div>
 </div>
 
