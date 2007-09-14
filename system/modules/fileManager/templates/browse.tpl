@@ -56,8 +56,7 @@ var mzzFileBrowse = {
 {foreach from=$files item="file"}
     {if $file->extra() instanceof fmImageFile}
     <div class="fmBrowseThumbWrap" id="file-{$file->getId()}" onclick="mzzFileBrowse.selectFile(this);">
-        {assign var="fileName" value=$file->extra()->getThumbnail()->getName()}
-        <div class="fmBrowseThumb"><img src="{url route="fmFolder" name="root/extras/thumbnails/$fileName"}" title="{$file->getName()}" alt="{$file->getName()}" /></div>
+        <div class="fmBrowseThumb"><img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()}" alt="{$file->getName()}" /></div>
         <div class="fileDetails" style="display: none;">
         <strong>Имя:</strong><span>{$file->getName()}</span>
         <strong>Размер:</strong><span>{$file->getSize()}</span>
