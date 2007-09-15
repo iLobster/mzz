@@ -1,4 +1,4 @@
-﻿Event.__observe = Event.observe;
+Event.__observe = Event.observe;
 Event.observe = function(element, name, observer, useCapture, observe){
     observe = (typeof(observe) == 'undefined' ? true : observe);
     return new Event.Observer(element, name, observer, useCapture, observe);
@@ -39,30 +39,18 @@ Event.Observer.prototype = new function(){
     };
 };
 
+var mzzRegistry = {
+     _registry: $H(),
 
-// 1.6.0 features:
-document.viewport = {
-  getDimensions: function() {
-    var dimensions = { };
-    $w('width height').each(function(d) {
-      var D = d.capitalize();
-      dimensions[d] = self['inner' + D] ||
-       (document.documentElement['client' + D] || document.body['client' + D]);
-    });
-    return dimensions;
-  },
+     get: function(name) {
+         return this.has(name) ? this._registry[name] : null;
+     },
 
-  getWidth: function() {
-    return this.getDimensions().width;
-  },
+     set: function(name, value) {
+         this._registry[name] = value;
+     },
 
-  getHeight: function() {
-    return this.getDimensions().height;
-  },
-
-  getScrollOffsets: function() {
-    return Element._returnOffset(
-      window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
-      window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop);
-  }
-};
+     has: function(name) {
+         return $A(this._registry.keys()).indexOf(name) != -1;
+     }
+}

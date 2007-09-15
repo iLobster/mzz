@@ -40,6 +40,7 @@ function buildJipLinks(elm) {
             return false;
         });
     }
+    // @todo сделать опции
     if (elm) {
         $(elm).getElementsBySelector('a.jipLink').each(jipLinkFunc);
     } else {
@@ -173,6 +174,24 @@ jsLoaderClass.prototype = {
 jsLoader = new jsLoaderClass;
 
 //--------------------------------
+//  CSS Loader
+// -------------------------------
+cssLoader = {
+    load: function(url)
+    {
+        if ($$('link').any(function (jsElm) { return jsElm.href == url; })) {
+            return;
+        }
+
+        var cssLink = document.createElement('link');
+        cssLink.type = 'text/css';
+        cssLink.rel = 'stylesheet';
+        cssLink.href = url;
+        document.getElementsByTagName('head')[0].appendChild(cssLink);
+    }
+}
+
+//--------------------------------
 //  JIP window
 // -------------------------------
 jipWindow = Class.create();
@@ -186,7 +205,7 @@ jipWindow.prototype = {
         this.toggleEditorStatus = $H();
         this.redirectAfterClose = false;
         this.windowExists = false;
-        this.selectElements = $H();
+        this.selectElements = $H({'jip': $A([])});
         this.drag = false;
         this.onJipLoadFunc = null;
 
@@ -204,6 +223,9 @@ jipWindow.prototype = {
         if (isNew || this.windowCount == 0) {
             var jipDiv = document.createElement('div');
             this.currentWindow = this.windowCount++;
+            if (this.currentWindow > 0) {
+                this.hideSelects(this.currentWindow - 1);
+            }
             this.stack[this.currentWindow] = new Array();
             jipDiv.id = 'jip' + this.currentWindow;
             Element.extend(jipDiv);
@@ -273,7 +295,9 @@ jipWindow.prototype = {
         var topOffset = parseInt(offsets[1]) - new Number(document.documentElement.scrollTop);
         topOffset = (topOffset >= 0) ? topOffset : 0;
         if (document.viewport.getHeight() - (this.jip.getHeight() + topOffset) < 0) {
-            this.jip.setStyle({height: (document.viewport.getHeight() - topOffset * 2) + 'px'});
+            var newHeight = (document.viewport.getHeight() - topOffset * 2);
+            newHeight = newHeight < 150 ? 150 : newHeight;
+            this.jip.setStyle({height: newHeight + 'px'});
         }
     },
 
@@ -363,13 +387,13 @@ jipWindow.prototype = {
                 this.defaultsHandlers = [document.body.ondrag, document.body.onselectstart];
                 document.body.ondrag = function () { return false; }
                 document.body.onselectstart = function () { return false; }
-                jipWindow.hideSelects(true);
+                jipWindow.hideSelects('jips');
             },
             'onEnd': function() {
                 document.body.ondrag = this.defaultsHandlers[0];
                 document.body.onselectstart = this.defaultsHandlers[1];
                 jipWindow.lockContent();
-                jipWindow.showSelects(true);
+                jipWindow.showSelects('jips');
             }
             });
         }
@@ -384,9 +408,10 @@ jipWindow.prototype = {
     },
 
 
-    hideSelects: function(inJip) {
+    hideSelects: function() {
         if (Prototype.Browser.IE) {
-            var id = (inJip) ? '.jipWindow ' : '';
+            var jipId = (arguments.length > 0) ? $A(arguments).last() : false;
+            var id = (jipId !== false) ? (jipId == 'jips' ? '.jipWindow ' : '#jip' + jipId + ' ') : '';
             var selectElements = $$(id + 'select');
 
             selectElements.each(function (elm, index) {
@@ -397,31 +422,43 @@ jipWindow.prototype = {
                 }
             });
 
-            if (!inJip) {
+            if (jipId === false) {
                 jipWindow.selectElements.browserWindow = selectElements;
                 //jipWindow.selectElements.jip = $H();
             } else {
                 //jipWindow.selectElements.browserWindow = $H();
-                jipWindow.selectElements.jip = selectElements;
+                if (jipId == 'jips') {
+                    jipWindow.selectElements.jipWindow = selectElements;
+                } else {
+                    jipWindow.selectElements.jip[jipId] = selectElements;
+                }
             }
         }
     },
 
-    showSelects: function(inJip)
+    showSelects: function()
     {
         if (Prototype.Browser.IE) {
-            if (!inJip) {
+            var jipId = (arguments.length > 0) ? $A(arguments).last() : false;
+            var showSelect = function (elm) { if (elm) elm.style.visibility = "visible"; };
+            if (jipId === false) {
                 if (typeof(jipWindow.selectElements.browserWindow) == 'undefined') {
                     return;
                 }
-                jipWindow.selectElements.browserWindow.each(function (elm) { if (elm) { elm.style.visibility = "visible"; } } );
+                jipWindow.selectElements.browserWindow.each(showSelect);
                 jipWindow.selectElements.browserWindow = $H();
-            } else {
-                if (typeof(jipWindow.selectElements.jip) == 'undefined') {
+            } else if (jipId == 'jips') {
+                if (typeof(jipWindow.selectElements.jipWindow) == 'undefined') {
                     return;
                 }
-                jipWindow.selectElements.jip.each(function (elm) { if (elm) { elm.style.visibility = "visible"; } } );
-                jipWindow.selectElements.jip = $H();
+                jipWindow.selectElements.jipWindow.each(showSelect);
+                jipWindow.selectElements.jipWindow = $H();
+            } else {
+                if (typeof(jipWindow.selectElements.jip[jipId]) == 'undefined') {
+                    return;
+                }
+                jipWindow.selectElements.jip[jipId].each(showSelect);
+                jipWindow.selectElements.jip[jipId] = $H();
             }
         }
     },
@@ -563,10 +600,17 @@ jipWindow.prototype = {
                 this.currentWindow = 0;
                 this.stack = new Array();
             } else {
-                this.jip.setStyle({display: 'none'});
-                jipParent.removeChild(this.jip);
-                this.jip = $('jip' + (--this.currentWindow));
-                this.jip.setStyle({zIndex: 902});
+
+                var _this = this;
+                new Effect.DropOut('jip' + (this.currentWindow), {
+                    afterFinish: function() {
+                        _this.jip.setStyle({display: 'none'});
+                        jipParent.removeChild(_this.jip);
+                        _this.jip = $('jip' + (--_this.currentWindow));
+                        _this.jip.setStyle({zIndex: 902});
+                        _this.showSelects(_this.currentWindow);
+                    }
+                });
             }
         }
     },
@@ -586,14 +630,14 @@ jipWindow.prototype = {
     clean: function()
     {
         if (this.jip) {
-            this.jip.update('<p align=center><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" align="texttop"><span id="jipLoad">Загрузка данных... (<a href="javascript: void(jipWindow.close());">отмена</a>)</span></p>');
+            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" width="32" height="32" /><br />Страница открывается...<br /><a href="javascript: void(jipWindow.close());">отменить</a></div>');
         }
     },
 
     setRefreshMsg: function()
     {
         if (this.jip) {
-            this.jip.update('<p align=center><img src="' + SITE_PATH + '/templates/images/statusbar3.gif" align="texttop"><span id="jipLoad">Подождите, требуется перезагрузка окна браузера...</span></p>');
+            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar3.gif" width="32" height="32" /><br />Перезагрузка страницы...</div>');
         }
     },
 

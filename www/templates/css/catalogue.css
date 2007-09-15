@@ -17,3 +17,14 @@
 .catalogueList {
  margin-left: 220px;
 }
+
+#catalogueImagesList .fileThumb {
+    float: left;
+    margin: 4px;
+    margin-right: 0;
+    width: 100px;
+    height: 100px;
+
+    background: #ebebeb;
+    border: 1px solid #D7D7D7;
+}

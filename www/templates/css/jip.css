@@ -92,10 +92,20 @@ div.jipSuccess {
     color: #555;
 }
 
-#jipLoad {
-    font-family: tahoma, verdana, arial;
+div#jipLoad {
+    font-family: Tahoma, Verdana, Arial;
     font-weight: bold;
-    padding-left: 20px;
+    text-align: center;
+    padding: 10px;
+    line-height: 150%;
+}
+
+div#jipLoad a {
+    font-size: 90%;
+}
+
+div#jipLoad img {
+    margin-bottom: 10px;
 }
 
 .jipMove {

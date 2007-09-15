@@ -109,6 +109,8 @@ class fileMapper extends simpleMapper
                 $fields['ext'] = strtolower(substr($fields['name'], $dot + 1));
             }
         }
+
+        $fields['modified'] = new sqlFunction('UNIX_TIMESTAMP');
     }
 
     public function delete($id)

@@ -283,3 +283,17 @@ a.jsLink:hover {
  border-bottom: 1px dotted #E42105;
  color: #E42105;
 }
+
+div.noticeMessage {
+    background-color: #EDF8FE;
+    border: 2px solid #B6DDF1;
+    padding: 5px;
+    margin: 5px;
+}
+
+div.helpMessage {
+    background-color: #F3FDEC;
+    border: 2px solid #CEF0B5;
+    padding: 5px;
+    margin: 5px;
+}

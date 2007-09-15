@@ -211,6 +211,13 @@ div.noticeMessage {
     margin: 5px;
 }
 
+div.helpMessage {
+    background-color: #F3FDEC;
+    border: 2px solid #CEF0B5;
+    padding: 5px;
+    margin: 5px;
+}
+
 div.uploadError {
  margin: 5px;
  padding: 2px;
@@ -232,85 +239,4 @@ div.uploadSuccess {
 
 .formErrorElement textarea, .formErrorElement input {
     border: 2px solid red;
-}
-
-
-.fmBrowseMainInterface {
-    overflow: auto;
-    height:90%;
-}
-
-.fmBrowseInterfaceDetails {
-    width: 200px;
-    height: 90%;
-    float: left;
-    overflow: auto;
-}
-
-#fmBrowseDetailsWrap {
-    padding: 10px;
-}
-
-.fmBrowse .selectedFile .fmBrowseThumb {
-    background: #c3daf9;
-    border: 2px solid #6593cf;
-    padding: 3px;
-}
-
-.fmBrowseDetails {
-    padding: 10px;
-    text-align: center;
-    height: 100%;
-}
-
-.fmBrowseDetails span, .fmBrowseDetails b {
-    background-color: #FFFFFF;
-}
-
-.fmBrowseDetailsText {
-    border-top: 1px solid #cccccc;
-    margin-top: 5px;
-    padding-top: 5px;
-    text-align: left;
-}
-
-.fmBrowseDetailsText b {
-    color: #555555;
-    display: block;
-    margin-bottom: 4px;
-}
-
-.fmBrowseDetailsText span{
-    display: block;
-    margin-bottom: 5px;
-    margin-left: 5px;
-}
-
-.fmBrowse {
-    overflow: auto;
-}
-
-.fmBrowseThumb {
-    background: #ebebeb;
-    border: 1px solid #D7D7D7;
-    padding: 4px;
-    text-align: center;
-}
-
-.fmBrowseThumb img{
-    align: center;
-}
-
-.fmBrowseThumbWrap{
-    float: left;
-    margin: 4px;
-    margin-right: 0;
-    padding: 5px;
-    width: 100px;
-    height: 100px;
-
-}
-
-.fmBrowseThumbWrap span {
-    font-size: 90%;
 }

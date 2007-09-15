@@ -1,11 +1,12 @@
-{include file="jipTitle.tpl" title="Браузер"}
+{include file="jipTitle.tpl" title="Менеджер файлов"}
 {literal}
 <script type="text/javascript">
+cssLoader.load(SITE_PATH + '/templates/css/fileBrowse.css');
 jipWindow.autoSize();
 var mzzFileBrowse = {
     lastFile: false,
 
-    selectFile: function(elm)
+    makeSelected: function(elm)
     {
         if (this.lastFile == elm.id) {
             return;
@@ -16,6 +17,39 @@ var mzzFileBrowse = {
         $(elm).addClassName('selectedFile');
         this.lastFile = elm.id;
         this.showDetails(elm);
+    },
+
+    selectFile: function(elm)
+    {
+        if (!mzzRegistry.has('fileBrowseOptions')) {
+            alert('Переменная "fileBrowseOptions", содержащая настройки менеджера файлов, не установлена в Registry.');
+            return false;
+        }
+        var fileBrowseOptions = mzzRegistry.get('fileBrowseOptions');
+
+        if (typeof(fileBrowseOptions.target) == 'undefined') {
+            alert('Опция "target" для менеджера файлов, содержащая идентификатор списка для вставки, не установлена.');
+            return false;
+        }
+
+        if (typeof(fileBrowseOptions.formElementId) == 'undefined') {
+            alert('Опция "formElementId" для менеджера файлов, содержащая идентификатор элемента формы, не установлена.');
+            return false;
+        }
+
+        $A([fileBrowseOptions.target, fileBrowseOptions.formElementId]).each(function(elmId) {
+            if (!$(elmId)) {
+                alert('Элемент с идентификатором "' + elmId + '" не найден.');
+                return false;
+            }
+        });
+
+       elm = $(elm);
+       var fileThumb = (elm.getElementsBySelector('img') || [])[0];
+
+       $(fileBrowseOptions.target).insert('<div class="fileThumb"><img src="' + fileThumb.src + '" title="' + fileThumb.title + '" alt="' + fileThumb.alt + '" /></div>'
+      // + '<div style="top: 10px; left: -20px; position: relative; float: left; cursor: pointer; cursor: hand;" onclick="alert(1);"><img src="' + SITE_PATH + '/templates/images/imageDelete.gif"></div>');
+       + '<span>Удалить</span>');
     },
 
     showDetails: function(elm)
@@ -41,10 +75,8 @@ var mzzFileBrowse = {
 </script>
 {/literal}
 
-
-
 <div class="fmBrowseInterfaceDetails">
-<div id="fmBrowseDetailsWrap">Выберите файл из правой части</div>
+<div id="fmBrowseDetailsWrap"><div class="helpMessage">Выберите файл из правой части</div></div>
 </div>
 <div class="fmBrowseMainInterface">
 
@@ -55,14 +87,14 @@ var mzzFileBrowse = {
 {/if}
 {foreach from=$files item="file"}
     {if $file->extra() instanceof fmImageFile}
-    <div class="fmBrowseThumbWrap" id="file-{$file->getId()}" onclick="mzzFileBrowse.selectFile(this);">
-        <div class="fmBrowseThumb"><img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()}" alt="{$file->getName()}" /></div>
+    <div class="fmBrowseThumbWrap" id="file-{$file->getId()}" ondblclick="mzzFileBrowse.selectFile(this);" onmousedown="mzzFileBrowse.makeSelected(this);">
+        <div class="fmBrowseThumb"><img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()|htmlspecialchars}" alt="{$file->getName()}" /></div>
         <div class="fileDetails" style="display: none;">
         <strong>Имя:</strong><span>{$file->getName()}</span>
-        <strong>Размер:</strong><span>{$file->getSize()}</span>
-        <strong>Изменено:</strong><span>Today</span>
+        <strong>Размер:</strong><span>{$file->getSize()|filesize}</span>
+        <strong>Изменено:</strong><span>{$file->getModified()|date_format:"%e/%m/%Y %T"}</span>
         </div>
-        <span>{$file->getName()|substr:0:14}{if strlen($file->getName()) > 14}...{/if}</span>
+        <span title="{$file->getName()}">{$file->getName()|substr:0:14}{if strlen($file->getName()) > 14}...{/if}</span>
      </div>
     {/if}
 {/foreach}

@@ -1,9 +1,10 @@
 {if $isEdit}<div class="jipTitle">Редактирование</div>{else}
 {if $type === null || !isset($smarty.get.type) || isset($smarty.post.type)}<div class="jipTitle">Добавление нового элемента</div>{/if}
 <div id="ajaxGetForm">
-{literal}<script language="javascript">
+<script type="javascript">
+cssLoader.load(SITE_PATH + '/templates/css/catalogue.css');
 function loadForm(id)
-{{/literal}
+{ldelim}
     var url = '{url route="withAnyParam" section=$current_section name=$folder->getPath() action="create"}';{literal}
     new Ajax.Request(url,
     {
@@ -15,14 +16,14 @@ function loadForm(id)
             },
         onFailure:
             function(){ alert('Something went wrong...') }
-    });
-}
-</script>{/literal}
+    });{/literal}
+{rdelim}
+</script>
 {/if}
 
 {strip}
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
-    <table border="0" cellpadding="0" cellspacing="1" width="99%">
+    <table border="0" cellpadding="4" cellspacing="1" width="99%">
         {if !$isEdit}<tr>
             <td>Тип:</td>
             <td>{form->select name="type" options=$select id="type" value=$defType emptyFirst=1 onchange="javascript:loadForm(this.value);" onkeypress="this.onchange();"}{$errors->get('type')}</td>
@@ -33,8 +34,8 @@ function loadForm(id)
         </tr>{/if}
         {foreach from=$properties item="element"}
             <tr>
-                <td>{form->caption name=$element.name value=$element.title}:</td>
-                <td>{if $element.type eq 'text'}
+                <td valign="top">{form->caption name=$element.name value=$element.title}:</td>
+                <td valign="top">{if $element.type eq 'text'}
                 {form->textarea name=$element.name value=$element.value style="width:500px;height:300px;"}{$errors->get($element.name)}
                 {elseif $element.type eq 'select' || $element.type == 'dynamicselect'}
                     {form->select name=$element.name options=$element.args value=$element.value}
@@ -43,10 +44,13 @@ function loadForm(id)
                     {if $isEdit}{assign var="calendarvalue" value=$element.value}{else}{assign var="calendarvalue" value=$smarty.now}{/if}
                     {form->text name=$element.name size="20" id="calendar-field-created" value=$calendarvalue|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button>{$errors->get($element.name)}
                 {elseif $element.type == 'img'}
+                    {form->hidden name="images" id="catalogueFormImages"}
+<a href="/browser" onmousedown="mzzRegistry.set('fileBrowseOptions', {literal}{target: 'catalogueImagesList', formElementId: 'catalogueFormImages'}{/literal}); jipWindow.open(this.href, 1);"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
                     {foreach from=$element.args item="img"}
                     test
                         <img src="{url route="galleryPicAction" action="viewThumbnail" id=$img->getId() album=$img->getAlbum()->getId() name=$img->getAlbum()->getGallery()->getOwner()->getLogin()}" />
                     {/foreach}
+                    <div id="catalogueImagesList"></div>
                 {else}{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}{/if}</td>
             </tr>{/foreach}
         <tr>
