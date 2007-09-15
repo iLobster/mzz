@@ -45,7 +45,7 @@ function loadForm(id)
                     {form->text name=$element.name size="20" id="calendar-field-created" value=$calendarvalue|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button>{$errors->get($element.name)}
                 {elseif $element.type == 'img'}
                     {form->hidden name="images" id="catalogueFormImages"}
-<a href="/browser" onmousedown="mzzRegistry.set('fileBrowseOptions', {literal}{target: 'catalogueImagesList', formElementId: 'catalogueFormImages'}{/literal}); jipWindow.open(this.href, 1);"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
+<a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {literal}{target: 'catalogueImagesList', formElementId: 'catalogueFormImages'}{/literal}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
                     {foreach from=$element.args item="img"}
                     test
                         <img src="{url route="galleryPicAction" action="viewThumbnail" id=$img->getId() album=$img->getAlbum()->getId() name=$img->getAlbum()->getGallery()->getOwner()->getLogin()}" />
