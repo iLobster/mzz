@@ -436,7 +436,7 @@ CREATE TABLE `fileManager_file` (
   `name` varchar(255) default 'имя с которым файл будет отдаваться клиенту',
   `ext` varchar(20) default NULL,
   `size` int(11) default NULL,
-  `modified` int(11) NOT NULL,
+  `modified` int(11) default NULL,
   `downloads` int(11) default NULL,
   `right_header` tinyint(4) default NULL,
   `about` text,
@@ -445,26 +445,15 @@ CREATE TABLE `fileManager_file` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`,`name`,`ext`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1189778679,28,1,'По фамилии Fernandes',5,611),
-  (6,'292cea736807441578ceacd47a5bb3e5','1.jpg','jpg',1553,1189859623,2,1,NULL,9,1099),
-  (8,'b4f8bfa637725cf206848591520e64d3','7.png','png',3654,1189793818,93,1,NULL,9,1141),
-  (9,'5e6dc62841fcecf071e9aa29459ce9db','7.jpg','jpg',28565,1189793844,NULL,0,'',1,1142),
-  (10,'bb21b4012d63961383da62ad3f5d9bd4','Carrera.jpg','jpg',32557,1189793848,NULL,0,'',1,1143),
-  (11,'e58e46d5b7a396365316c179dd0a83b2','m3.jpg','jpg',20070,1189793853,NULL,0,'',1,1144),
-  (12,'d45458f8d17b0de02fa31ed1291cc6b2','s7.jpg','jpg',52986,1189793856,NULL,0,'',1,1145),
-  (13,'b68cbbe1bbfd21ffd5cac8974f2c0682','SLR.jpg','jpg',31552,1189793861,NULL,0,'',1,1146),
-  (14,'4551827289fbc63ed7cb00cb6eaaf947','9.jpg','jpg',1781,1189863000,86,1,NULL,9,1147),
-  (15,'4e893a14912e8a841a3345d75dbe96f9','10.jpg','jpg',1796,1189863001,66,1,NULL,9,1148),
-  (16,'b63fa7fc40f77c831ecf253e4de2073a','11.jpg','jpg',1622,1189863003,28,1,NULL,9,1149),
-  (17,'1742a0e6a6121652bc96095a59e9d421','12.jpg','jpg',2185,1189862996,25,1,NULL,9,1150),
-  (18,'154697a816de5b8914c266cda9d7e5fb','13.jpg','jpg',1831,1189862997,22,1,NULL,9,1151);
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1189865423,28,1,'По фамилии Fernandes',5,611),
+  (6,'292cea736807441578ceacd47a5bb3e5','1.jpg','jpg',1553,1189865423,1,1,NULL,9,1099);
 
 COMMIT;
 
@@ -5448,18 +5437,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1117,35),
   (1126,35),
   (1130,35),
-  (1134,35),
-  (1142,14),
-  (1141,14),
-  (1143,14),
-  (1144,14),
-  (1145,14),
-  (1146,14),
-  (1147,14),
-  (1148,14),
-  (1149,14),
-  (1150,14),
-  (1151,14);
+  (1134,35);
 
 COMMIT;
 
@@ -6039,7 +6017,7 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1152 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=1140 DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -7186,19 +7164,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1136),
   (1137),
   (1138),
-  (1139),
-  (1140),
-  (1141),
-  (1142),
-  (1143),
-  (1144),
-  (1145),
-  (1146),
-  (1147),
-  (1148),
-  (1149),
-  (1150),
-  (1151);
+  (1139);
 
 COMMIT;
 
@@ -7355,8 +7321,8 @@ CREATE TABLE `user_user` (
 #
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
-  (1,12,'guest','',NULL,NULL,1189859724),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1189860918),
+  (1,12,'guest','',NULL,NULL,1188364151),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1189569289),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1189555865);
 
 COMMIT;
@@ -7375,7 +7341,7 @@ CREATE TABLE `user_userAuth` (
   `obj_id` int(11) unsigned default NULL,
   `time` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=87 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=85 DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -7389,9 +7355,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1187831447),
   (72,2,'127.0.0.1','4f9252b570591bcf33d0bc3224b12de8',NULL,1187925555),
   (83,3,'127.0.0.1','3c1dd5996146da706f16d93ac5b4beae',NULL,1189555848),
-  (84,2,'127.0.0.1','088b2337cdc1e50fb5c68215f197b7fb',NULL,1189860981),
-  (85,2,'127.0.0.1','a0109b7a47860c5bed330f768dcbf9e0',NULL,1189857942),
-  (86,2,'127.0.0.1','23f1bc8f38d108396a1afb417bfa4b73',NULL,1189859706);
+  (84,2,'127.0.0.1','0c7731ab2cbc019466ed8b4962bc20f4',NULL,1189865442);
 
 COMMIT;
 
@@ -7439,14 +7403,14 @@ CREATE TABLE `user_userOnline` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `user_id` (`user_id`,`session`),
   KEY `last_activity` (`last_activity`)
-) ENGINE=MyISAM AUTO_INCREMENT=177 DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM AUTO_INCREMENT=163 DEFAULT CHARSET=cp1251;
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (176,2,'0sncpig917vhc3j0jltt7tqcf1',1189863003,'http://mzz-dev.ru/filemanager/extras/thumbnails/80x60/11.jpg','127.0.0.1');
+  (162,2,'jf9c7fej443e1h198mukqcf9b1',1189865455,'http://mzz-dev.ru/browser?ajax=1','127.0.0.1');
 
 COMMIT;
 
