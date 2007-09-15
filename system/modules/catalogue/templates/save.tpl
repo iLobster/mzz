@@ -44,13 +44,20 @@ function loadForm(id)
                     {if $isEdit}{assign var="calendarvalue" value=$element.value}{else}{assign var="calendarvalue" value=$smarty.now}{/if}
                     {form->text name=$element.name size="20" id="calendar-field-created" value=$calendarvalue|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button>{$errors->get($element.name)}
                 {elseif $element.type == 'img'}
+                {*
                     {form->hidden name="images" id="catalogueFormImages"}
 <a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {literal}{target: 'catalogueImagesList', formElementId: 'catalogueFormImages'}{/literal}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
-                    {foreach from=$element.args item="img"}
-                    test
-                        <img src="{url route="galleryPicAction" action="viewThumbnail" id=$img->getId() album=$img->getAlbum()->getId() name=$img->getAlbum()->getGallery()->getOwner()->getLogin()}" />
-                    {/foreach}
                     <div id="catalogueImagesList"></div>
+                *}
+                    
+                    {assign var="elementname" value=$element.name}
+                    {form->hidden name=$elementname[] id="catalogueFormImages_$elementname"}
+                    <a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {ldelim}target: 'catalogueImagesList_{$elementname}', formElementId: 'catalogueFormImages_{$elementname}'{rdelim}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
+                    <div id="catalogueImagesList_{$elementname}">
+                    {foreach from=$element.value item="file"}
+                        <div class="fileThumb"><img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()|htmlspecialchars}" alt="{$file->getName()}" /></div><span>Удалить</span>
+                    {/foreach}
+                    </div>
                 {else}{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}{/if}</td>
             </tr>{/foreach}
         <tr>

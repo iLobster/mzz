@@ -19,7 +19,7 @@ var mzzFileBrowse = {
         this.showDetails(elm);
     },
 
-    selectFile: function(elm)
+    selectFile: function(elm, fileId)
     {
         if (!mzzRegistry.has('fileBrowseOptions')) {
             alert('Переменная "fileBrowseOptions", содержащая настройки менеджера файлов, не установлена в Registry.');
@@ -47,6 +47,7 @@ var mzzFileBrowse = {
        elm = $(elm);
        var fileThumb = (elm.getElementsBySelector('img') || [])[0];
 
+       $(fileBrowseOptions.formElementId).value = fileId;
        $(fileBrowseOptions.target).insert('<div class="fileThumb"><img src="' + fileThumb.src + '" title="' + fileThumb.title + '" alt="' + fileThumb.alt + '" /></div>'
       // + '<div style="top: 10px; left: -20px; position: relative; float: left; cursor: pointer; cursor: hand;" onclick="alert(1);"><img src="' + SITE_PATH + '/templates/images/imageDelete.gif"></div>');
        + '<span>Удалить</span>');
@@ -87,7 +88,7 @@ var mzzFileBrowse = {
 {/if}
 {foreach from=$files item="file"}
     {if $file->extra() instanceof fmImageFile}
-    <div class="fmBrowseThumbWrap" id="file-{$file->getId()}" ondblclick="mzzFileBrowse.selectFile(this);" onmousedown="mzzFileBrowse.makeSelected(this);">
+    <div class="fmBrowseThumbWrap" id="file-{$file->getId()}" ondblclick="mzzFileBrowse.selectFile(this, {$file->getId()});" onmousedown="mzzFileBrowse.makeSelected(this);">
         <div class="fmBrowseThumb"><img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()|htmlspecialchars}" alt="{$file->getName()}" /></div>
         <div class="fileDetails" style="display: none;">
         <strong>Имя:</strong><span>{$file->getName()}</span>

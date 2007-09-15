@@ -286,8 +286,10 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
     private function prepareType($type)
     {
-        if ($type == 'select' || $type == 'dynamicselect' || $type == 'datetime' || $type == 'img') {
+        if ($type == 'select' || $type == 'dynamicselect' || $type == 'datetime') {
             $type = 'int';
+        } elseif ($type == 'img') {
+            $type = 'text';
         }
         return $type;
     }
@@ -338,7 +340,30 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
         while ($row = $stmt->fetch()) {
             if ($row['property_type']) {
-                $type = $this->prepareType($this->getPropertyTypeByTypeprop($row['property_type']));
+                $type_title = $this->getPropertyTypeByTypeprop($row['property_type']);
+                $type = $this->prepareType($type_title);
+
+                if (isset($row[$type])) {
+                    switch ($type_title) {
+                        case 'img':
+                            $tmp_value = unserialize($row[$type]);
+                            $tmp = unserialize($row['args']);
+                            $toolkit = systemToolkit::getInstance();
+                            $tmpMapper = $toolkit->getMapper('fileManager', 'file', $tmp['section']);
+
+                            if (!is_object($tmpMapper)) {
+                                throw new mzzRuntimeException('Не получен маппер для получения изображений');
+                            }
+
+                            $images = array();
+                            foreach ($tmp_value as $img_id) {
+                                $images[] = $tmpMapper->searchById($img_id);
+                            }
+                            $row[$type] = $images;
+                            break;
+                    }
+                }
+
                 $property[$row['name']] = (isset($row[$type]) ? $row[$type] : null);
                 $this->tmpPropsData[$row[$this->tableKey]] = $property;
             }

@@ -8,8 +8,11 @@
 {elseif $property.type == 'dynamicselect'}
     {if $property.value != 0}<strong>{$property.title}:</strong> {$property.args[$property.value]}<br/>{/if}
 {elseif $property.type == 'img'}
-    {if $action == 'view'}{assign var="imgAction" value="viewPhoto"}{else}{assign var="imgAction" value="viewThumbnail"}{/if}
-    <img src="{url route="galleryPicAction" action=$imgAction id=$property.args[$property.value]->getId() album=$property.args[$property.value]->getAlbum()->getId() name=$property.args[$property.value]->getAlbum()->getGallery()->getOwner()->getLogin()}" />
+    <strong>{$property.title}:</strong>
+    {foreach from=$property.value item="item"}
+        {if $action == 'view'}{assign var="imageFile" value=$item}{else}{assign var="imageFile" value=$item->extra()->getThumbnail()}{/if}
+        <img src="{url route="fmFolder" name=$imageFile->getFullPath()}" title="{$imageFile->getName()|htmlspecialchars}" alt="{$imageFile->getName()}" />
+    {/foreach}
 {else}<strong>{$property.title}:</strong> {$property.value}<br/>{/if}
 
     {/if}

@@ -121,6 +121,8 @@ class catalogueSaveController extends simpleController
                             $date = explode('/', $date[1]);
                             $propValue = mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
                         }
+                    } elseif ($prop['type'] == 'img') {
+                        $propValue = serialize($propValue);
                     }
 
                     $item->setProperty($prop['name'], $propValue);
