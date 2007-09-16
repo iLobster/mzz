@@ -412,7 +412,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 foreach ($properties as $key => $val) {
                     $type = $this->getPropertyType($key);
                     $type['name'] = $this->prepareType($type['name']);
-                    $this->db->query($qry = 'REPLACE INTO `' . $this->tableData . '` SET `' . $type['name'] . '` = ' . $this->db->quote($data[$key]) . ', `property_type` = ' . $val . ', `id` = ' . $object->getId());
+                    $value = !empty($data[$key]) ? $this->db->quote($data[$key]) : 'null';
+                    $this->db->query($qry = 'REPLACE INTO `' . $this->tableData . '` SET `' . $type['name'] . '` = ' . $value . ', `property_type` = ' . $val . ', `id` = ' . $object->getId());
                 }
                 $tmp = $object->exportOldProperties();
                 foreach ($result as $id => $value) {

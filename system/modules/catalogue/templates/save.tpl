@@ -1,8 +1,14 @@
-{if $isEdit}<div class="jipTitle">Редактирование</div>{else}
+{if $isEdit}<div class="jipTitle">Редактирование</div>
+<script type="javascript">
+cssLoader.load(SITE_PATH + '/templates/css/catalogue.css');
+cssLoader.load(SITE_PATH + '/templates/css/fileBrowse.css');
+</script>
+{else}
 {if $type === null || !isset($smarty.get.type) || isset($smarty.post.type)}<div class="jipTitle">Добавление нового элемента</div>{/if}
 <div id="ajaxGetForm">
 <script type="javascript">
 cssLoader.load(SITE_PATH + '/templates/css/catalogue.css');
+cssLoader.load(SITE_PATH + '/templates/css/fileBrowse.css');
 function loadForm(id)
 {ldelim}
     var url = '{url route="withAnyParam" section=$current_section name=$folder->getPath() action="create"}';{literal}
@@ -49,13 +55,16 @@ function loadForm(id)
 <a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {literal}{target: 'catalogueImagesList', formElementId: 'catalogueFormImages'}{/literal}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
                     <div id="catalogueImagesList"></div>
                 *}
-                    
+
                     {assign var="elementname" value=$element.name}
-                    <a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {ldelim}target: 'catalogueImagesList_{$elementname}', hiddenName: '{$elementname}'{rdelim}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
+                    <a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {ldelim}target: 'catalogueImagesList_{$elementname}', hiddenName: '{$elementname}[]'{rdelim}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
                     <div id="catalogueImagesList_{$elementname}">
                     {foreach from=$element.value item="file"}
+<div class="fmBrowseThumbWrap"><div class="fmBrowseThumb">
+<img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()}" alt="{$file->getName()}" /></div>
+{literal}<span><a href="#" onclick="if (confirm('Вы уверены что хотите удалить этот файл?')) { var _elm = $(this).up('div.fmBrowseThumbWrap'); new Effect.Fade(_elm, {afterFinish: function() { _elm.remove(); } }); } return false;">убрать</a></span></div>
+{/literal}
                         {form->hidden name=$elementname[] value=$file->getId()}
-                        <div class="fileThumb"><img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()|htmlspecialchars}" alt="{$file->getName()}" /></div><span>Удалить</span>
                     {/foreach}
                     </div>
                 {else}{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}{/if}</td>

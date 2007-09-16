@@ -32,26 +32,35 @@ var mzzFileBrowse = {
             return false;
         }
 
-        /*
+
         if (typeof(fileBrowseOptions.hiddenName) == 'undefined') {
-            alert('Опция "formElementId" для менеджера файлов, содержащая идентификатор элемента формы, не установлена.');
+            alert('Опция "hiddenName" для менеджера файлов, содержащая имя скрытого поля формы с выбранными файлами, не установлена.');
+            return false;
+        }
+        if (!$(fileBrowseOptions.target)) {
+            alert('Элемент с идентификатором "' + elmId + '" не найден.');
             return false;
         }
 
-        $A([fileBrowseOptions.target, fileBrowseOptions.formElementId]).each(function(elmId) {
-            if (!$(elmId)) {
-                alert('Элемент с идентификатором "' + elmId + '" не найден.');
-                return false;
-            }
-        });
-        */
+        var isMultiple = fileBrowseOptions.hiddenName.endsWith('[]');
+
         elm = $(elm);
+
         var fileThumb = (elm.getElementsBySelector('img') || [])[0];
-       
-        $(fileBrowseOptions.target).up('form').insert(new Element("input", { name: fileBrowseOptions.hiddenName + "[]", value: fileId, type: "hidden" }));
-        $(fileBrowseOptions.target).insert('<div class="fileThumb"><img src="' + fileThumb.src + '" title="' + fileThumb.title + '" alt="' + fileThumb.alt + '" /></div>'
-        // + '<div style="top: 10px; left: -20px; position: relative; float: left; cursor: pointer; cursor: hand;" onclick="alert(1);"><img src="' + SITE_PATH + '/templates/images/imageDelete.gif"></div>');
-        + '<span>Удалить</span>');
+
+        $(fileBrowseOptions.target).up('form').insert(new Element("input", { name: fileBrowseOptions.hiddenName, value: fileId, type: "hidden" }));
+
+        var newThumb = '<div class="fmBrowseThumbWrap">'
+        + '<div class="fmBrowseThumb"><img src="' + fileThumb.src + '" title="' + fileThumb.title + '" alt="' + fileThumb.alt + '" /></div>'
+        + '<span><a href="#" onclick="if (confirm(\'Вы уверены что хотите удалить этот файл?\')) { var _elm = $(this).up(\'div.fmBrowseThumbWrap\'); new Effect.Fade(_elm, {afterFinish: function() { _elm.remove(); } }); } return false;">убрать</a></span></div>';
+
+        isMultiple ? $(fileBrowseOptions.target).insert(newThumb) : $(fileBrowseOptions.target).update(newThumb);
+
+        if (isMultiple) {
+            new Effect.Highlight(elm);
+        } else {
+            jipWindow.close();
+        }
     },
 
     showDetails: function(elm)
