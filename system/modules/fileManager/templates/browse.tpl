@@ -32,7 +32,8 @@ var mzzFileBrowse = {
             return false;
         }
 
-        if (typeof(fileBrowseOptions.formElementId) == 'undefined') {
+        /*
+        if (typeof(fileBrowseOptions.hiddenName) == 'undefined') {
             alert('Опция "formElementId" для менеджера файлов, содержащая идентификатор элемента формы, не установлена.');
             return false;
         }
@@ -43,14 +44,14 @@ var mzzFileBrowse = {
                 return false;
             }
         });
-
-       elm = $(elm);
-       var fileThumb = (elm.getElementsBySelector('img') || [])[0];
-
-       $(fileBrowseOptions.formElementId).value = fileId;
-       $(fileBrowseOptions.target).insert('<div class="fileThumb"><img src="' + fileThumb.src + '" title="' + fileThumb.title + '" alt="' + fileThumb.alt + '" /></div>'
-      // + '<div style="top: 10px; left: -20px; position: relative; float: left; cursor: pointer; cursor: hand;" onclick="alert(1);"><img src="' + SITE_PATH + '/templates/images/imageDelete.gif"></div>');
-       + '<span>Удалить</span>');
+        */
+        elm = $(elm);
+        var fileThumb = (elm.getElementsBySelector('img') || [])[0];
+       
+        $(fileBrowseOptions.target).up('form').insert(new Element("input", { name: fileBrowseOptions.hiddenName + "[]", value: fileId, type: "hidden" }));
+        $(fileBrowseOptions.target).insert('<div class="fileThumb"><img src="' + fileThumb.src + '" title="' + fileThumb.title + '" alt="' + fileThumb.alt + '" /></div>'
+        // + '<div style="top: 10px; left: -20px; position: relative; float: left; cursor: pointer; cursor: hand;" onclick="alert(1);"><img src="' + SITE_PATH + '/templates/images/imageDelete.gif"></div>');
+        + '<span>Удалить</span>');
     },
 
     showDetails: function(elm)

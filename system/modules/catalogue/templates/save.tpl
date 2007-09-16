@@ -51,10 +51,10 @@ function loadForm(id)
                 *}
                     
                     {assign var="elementname" value=$element.name}
-                    {form->hidden name=$elementname[] id="catalogueFormImages_$elementname"}
-                    <a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {ldelim}target: 'catalogueImagesList_{$elementname}', formElementId: 'catalogueFormImages_{$elementname}'{rdelim}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
+                    <a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {ldelim}target: 'catalogueImagesList_{$elementname}', hiddenName: '{$elementname}'{rdelim}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
                     <div id="catalogueImagesList_{$elementname}">
                     {foreach from=$element.value item="file"}
+                        {form->hidden name=$elementname[] value=$file->getId()}
                         <div class="fileThumb"><img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()|htmlspecialchars}" alt="{$file->getName()}" /></div><span>Удалить</span>
                     {/foreach}
                     </div>
