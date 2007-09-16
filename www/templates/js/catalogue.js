@@ -35,7 +35,7 @@ function deleteOne(trelem)
 function mzzLoadTypeConfig(value)
 {
     $('catalogueTypeConfig').innerHTML = '';
-    if (CATALOGUE_TYPES_WITH_CONFIG.indexOf(value) == -1) {
+    if (!$A(CATALOGUE_TYPES_WITH_CONFIG).include(parseInt(value))) {
         $('catalogueSubmitProperty').enable();
         return false;
     }
