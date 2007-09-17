@@ -346,7 +346,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 if (isset($row[$type])) {
                     switch ($type_title) {
                         case 'img':
-                            $tmp_value = unserialize($row[$type]);
+                            $tmp_value = (array)unserialize($row[$type]);
                             $tmp = unserialize($row['args']);
                             $toolkit = systemToolkit::getInstance();
                             $tmpMapper = $toolkit->getMapper('fileManager', 'file', $tmp['section']);

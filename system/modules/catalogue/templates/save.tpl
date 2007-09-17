@@ -62,7 +62,7 @@ function loadForm(id)
                     {foreach from=$element.value item="file"}
 <div class="fmBrowseThumbWrap"><div class="fmBrowseThumb">
 <img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()}" alt="{$file->getName()}" /></div>
-{literal}<span><a href="#" onclick="if (confirm('Вы уверены что хотите удалить этот файл?')) { var _elm = $(this).up('div.fmBrowseThumbWrap'); new Effect.Fade(_elm, {afterFinish: function() { _elm.remove(); } }); } return false;">убрать</a></span></div>
+{literal}<span><a href="#" onclick="if (confirm('Вы уверены что хотите удалить этот файл?')) { var _elm = $(this).up('div.fmBrowseThumbWrap'); new Effect.Fade(_elm, {afterFinish: function() { _elm.remove(); } });  this.up('form').getInputs('hidden', '{/literal}{$elementname}{literal}[]').each(function(elm) { if (elm.value == {/literal}{$file->getId()}{literal}) { elm.remove(); throw $break; }}); } return false;">убрать</a></span></div>
 {/literal}
                         {form->hidden name=$elementname[] value=$file->getId()}
                     {/foreach}
