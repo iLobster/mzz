@@ -299,6 +299,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $keys = $criteria->keys();
         $map = array_keys($this->getMap());
 
+        $keys_to_remove = array();
+
         foreach ($keys as $val) {
             if (!strpos($val, '.') && !in_array($val, $map)) {
                 $criterion = $criteria->getCriterion($val);
@@ -308,6 +310,8 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
                 $criteria->add('p.name', $val)->add('d.' . $type['name'], $value);
                 $criteria->remove($val);
+
+                $keys_to_remove[] = $type['name'];
             }
         }
 
@@ -334,6 +338,11 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties_needed->clearSelectFields()->addSelectField($this->className . '.' . $this->tableKey);
         $properties->addJoin($properties_needed, new criterion('x.' . $this->tableKey, $this->className . '.' . $this->tableKey, criteria::EQUAL, true), 'x', criteria::JOIN_INNER);
         $properties->clearLimit()->clearOffset();
+
+        $properties->remove('p.name');
+        foreach ($keys_to_remove as $key) {
+            $properties->remove('d.' . $key);
+        }
 
         $select = new simpleSelect($properties);
         $stmt = $this->db->query($select->toString());

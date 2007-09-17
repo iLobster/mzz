@@ -120,7 +120,7 @@ class simpleCatalogueMapperTest extends unitTestCase
 
     public function testSearchByDynamicProperty()
     {
-        $this->db->query("INSERT INTO `simple_catalogue_data` (`id`, `property_type`, `char`) VALUES (1, 1, 'foobar'), (1, 2, 'baz')");
+        $this->db->query("INSERT INTO `simple_catalogue_data` (`id`, `property_type`, `char`) VALUES (1, 1, 'foobar'), (1, 2, 'baz'), (2, 4, 'lol')");
         $this->db->query("INSERT INTO `simple_catalogue_data` (`id`, `property_type`, `float`) VALUES (2, 5, 666)");
 
         $object = $this->mapper->searchAllByField('property_4', 666);
@@ -128,6 +128,7 @@ class simpleCatalogueMapperTest extends unitTestCase
         $this->assertEqual(sizeof($object), 1);
         $this->assertEqual($object[2]->getId(), 2);
         $this->assertEqual($object[2]->getPropertyValue('property_4'), 666);
+        $this->assertEqual($object[2]->getPropertyValue('property_3'), 'lol');
     }
 
     public function testSet()
