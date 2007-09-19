@@ -93,7 +93,7 @@ class userOnlineMapper extends simpleMapper
             // @todo: таймаут переносить в конфиг
             $criteria = new criteria();
             $criteria->add('last_activity', new sqlOperator('-', array(new sqlFunction('unix_timestamp'), 15 * 60)), criteria::LESS);
-            $users = $this->searchAllbyCriteria($criteria);
+            $users = $this->searchAllByCriteria($criteria);
 
             if (sizeof($users)) {
                 $userMapper = $toolkit->getMapper('user', 'user', 'user');

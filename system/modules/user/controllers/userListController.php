@@ -26,7 +26,7 @@ class userListController extends simpleController
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $config = $this->toolkit->getConfig('user', $this->request->getSection());
 
-        $this->setPager($userMapper, $config->get('items_per_page'), true);
+        $this->setPager($userMapper, $config->get('items_per_page'));
 
         $this->smarty->assign('users', $userMapper->searchAll());
         $this->smarty->assign('obj_id', $userMapper->convertArgsToObj(null)->getObjId());

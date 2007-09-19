@@ -51,7 +51,6 @@ class forumMapper extends simpleMapper
         $this->session->set('forum[' . $this->section() . '][' . $thread->getId() . ']', time());
 
         if ($this->getLastThreadId() != $thread->getId()) {
-            echo 1;
             $this->setLastThreadId($thread->getId());
 
             $thread->setViewCount($thread->getViewCount() + 1);
@@ -81,6 +80,34 @@ class forumMapper extends simpleMapper
     public function getLastThreadId()
     {
         return $this->session->get('forum[' . $this->section() . '_last_thread]');
+    }
+
+    public function getNewThreads()
+    {
+        $user = systemToolkit::getInstance()->getUser();
+
+        if (!$user->isLoggedIn()) {
+            return array();
+        }
+
+        $qry = 'SELECT `t`.`id` FROM `forum_thread` `t`
+                 INNER JOIN `forum_post` `p` ON `p`.`id` = `t`.`last_post`
+                  WHERE (`p`.`post_date` > ' . $user->getLastLogin() . (sizeof($this->retrieveAllViews()) ? ' AND `t`.`id` NOT IN (' . implode(', ', $this->retrieveAllViews()) . ')' : '') . ')';
+
+        foreach ($this->retrieveAllViews() as $thread) {
+            $qry .= ' OR (`t`.`id` = ' . $thread . ' AND `p`.`post_date` > ' . $this->retrieveView($thread) . ')';
+        }
+
+        $qry .= ' ORDER BY `p`.`post_date` DESC';
+
+        $new = $this->db->getAll($qry);
+
+        $result = array();
+        foreach ($new as $thread) {
+            $result[$thread['id']] = 1;
+        }
+
+        return $result;
     }
 
     public function getNewForums()
