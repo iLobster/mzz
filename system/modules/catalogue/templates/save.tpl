@@ -1,14 +1,14 @@
 {if $isEdit}<div class="jipTitle">Редактирование</div>
 <script type="javascript">
 cssLoader.load(SITE_PATH + '/templates/css/catalogue.css');
-cssLoader.load(SITE_PATH + '/templates/css/fileBrowse.css');
+jsLoader.load(SITE_PATH + '/templates/js/fileBrowser.js');
 </script>
 {else}
 {if $type === null || !isset($smarty.get.type) || isset($smarty.post.type)}<div class="jipTitle">Добавление нового элемента</div>{/if}
 <div id="ajaxGetForm">
 <script type="javascript">
 cssLoader.load(SITE_PATH + '/templates/css/catalogue.css');
-cssLoader.load(SITE_PATH + '/templates/css/fileBrowse.css');
+jsLoader.load(SITE_PATH + '/templates/js/fileBrowser.js');
 function loadForm(id)
 {ldelim}
     var url = '{url route="withAnyParam" section=$current_section name=$folder->getPath() action="create"}';{literal}
@@ -32,7 +32,7 @@ function loadForm(id)
     <table border="0" cellpadding="4" cellspacing="1" width="99%">
         {if !$isEdit}<tr>
             <td>Тип:</td>
-            <td>{form->select name="type" options=$select id="type" value=$defType emptyFirst=1 onchange="javascript:loadForm(this.value);" onkeypress="this.onchange();"}{$errors->get('type')}</td>
+            <td>{form->select name="type" options=$select id="type" value=$defType emptyFirst=1 onchange='javascript:loadForm($F(this));' onkeypress="this.onchange();"}{$errors->get('type')}</td>
         </tr>{/if}
         {if $type != 0}<tr>
             <td>{form->caption name="name" value="Имя:"}</td>
@@ -62,8 +62,8 @@ function loadForm(id)
                     {foreach from=$element.value item="file"}
 <div class="fmBrowseThumbWrap"><div class="fmBrowseThumb">
 <img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()}" alt="{$file->getName()}" /></div>
-{literal}<span><a href="#" onclick="if (confirm('Вы уверены что хотите удалить этот файл?')) { var _elm = $(this).up('div.fmBrowseThumbWrap'); new Effect.Fade(_elm, {afterFinish: function() { _elm.remove(); } });  this.up('form').getInputs('hidden', '{/literal}{$elementname}{literal}[]').each(function(elm) { if (elm.value == {/literal}{$file->getId()}{literal}) { elm.remove(); throw $break; }}); } return false;">убрать</a></span></div>
-{/literal}
+<span><a href="#" onclick="return mzzFileBrowse.removeFile(this, '{$elementname}[]', {$file->getId()});">убрать</a></span></div>
+
                         {form->hidden name=$elementname[] value=$file->getId()}
                     {/foreach}
                     </div>

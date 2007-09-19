@@ -20,6 +20,12 @@
     padding: 3px;
 }
 
+.fmBrowse .alreadySelectedFile .fmBrowseThumb {
+    background: #FDFBE2;
+    border: 2px solid #F1EBB0;
+    padding: 3px;
+}
+
 .fmBrowseDetails {
     padding: 10px;
     text-align: center;
