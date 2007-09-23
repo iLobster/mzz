@@ -42,21 +42,12 @@ abstract class simpleCatalogue extends simple
     {
         if (!$this->getType()) {
             parent::__call('setType', array($type));
-            $this->importPropsData($this->mapper->getProperties($type));
+            $this->importProperties($this->mapper->getProperties($type));
         }
     }
 
-    public function importPropsData(Array $props)
+    public function importProperties(Array $props)
     {
-        $this->properties->import($props);
-    }
-
-    public function importProperties(Array $data)
-    {
-        $props = $this->properties->export();
-        foreach ($data as $name => $value) {
-            $props[$name]['value'] = isset($props[$name]) ? $value : '';
-        }
         $this->properties->import($props);
     }
 

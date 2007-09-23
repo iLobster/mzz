@@ -385,11 +385,15 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $object = $this->create();
         $object->import($row);
 
-        $object->importPropsData($this->getProperties($row['type_id']));
+        $properties = $this->getProperties($row['type_id']);
 
         if (isset($this->tmpPropsData[$row[$this->tableKey]])) {
-            $object->importProperties($this->tmpPropsData[$row[$this->tableKey]]);
+            foreach ($this->tmpPropsData[$row[$this->tableKey]] as $name => $value) {
+                $properties[$name]['value'] = isset($properties[$name]) ? $value : '';
+            }
         }
+
+        $object->importProperties($properties);
 
         $object->importTypeData($this->tmptypes[$row['type_id']]);
         return $object;
@@ -426,7 +430,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                 }
                 $tmp = $object->exportOldProperties();
                 foreach ($result as $id => $value) {
-                    $tmp[$id] = $value;
+                    $tmp[$id]['value'] = $value;
                 }
                 $object->importProperties($tmp);
             }

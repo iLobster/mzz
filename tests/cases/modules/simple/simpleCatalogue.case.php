@@ -87,7 +87,8 @@ class simpleCatalogueTest extends unitTestCase
                 'title'  =>  $title_1 = 'title_1',
                 'type'  =>  $type_1 = 'char',
                 'type_id'  =>  $type_id_1 = 1,
-                'isShort'  =>  $isShort_1 = false
+                'isShort'  =>  $isShort_1 = false,
+                'value' => $value_1 = 'value_1'
             ),
             $name_2 = 'name_2' => array(
                 'id'  =>  $id_2 = 'id_2',
@@ -95,14 +96,12 @@ class simpleCatalogueTest extends unitTestCase
                 'title'  =>  $title_2 = 'title_2',
                 'type'  =>  $type_2 = 'int',
                 'type_id'  =>  $type_id_2 = 2,
-                'isShort'  =>  $isShort_2 = false
+                'isShort'  =>  $isShort_2 = false,
+                'value' => $value_2 = 'value_2'
             ),
         );
 
-        $properties_values = array('name_1' => $value_1 = 'value1', 'name_2' => $value_2 = '123456');
-
-        $this->simple->importPropsData($properties);
-        $this->simple->importProperties($properties_values);
+        $this->simple->importProperties($properties);
 
         $this->assertEqual($this->simple->exportProperties(), array());
 

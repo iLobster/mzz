@@ -9,5 +9,9 @@ abstract class fmSimpleFile
         $this->file = $file;
         $this->mapper = $file->mapper();
     }
+
+    public function delete()
+    {
+    }
 }
 ?>

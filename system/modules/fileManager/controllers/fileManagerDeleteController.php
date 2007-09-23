@@ -32,7 +32,7 @@ class fileManagerDeleteController extends simpleController
             return 'файл не найден';
         }
 
-        $fileMapper->delete($file->getId());
+        $fileMapper->delete($file);
 
         $path = substr($name, 0, strrpos($name, '/'));
 

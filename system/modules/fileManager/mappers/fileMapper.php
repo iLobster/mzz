@@ -113,9 +113,13 @@ class fileMapper extends simpleMapper
         $fields['modified'] = new sqlFunction('UNIX_TIMESTAMP');
     }
 
-    public function delete($id)
+    public function delete(file $file)
     {
-        $file = $this->searchById($id);
+        $id = $file->getId();
+
+        if ($file->extra() instanceof fmSimpleFile) {
+            $file->extra()->delete();
+        }
 
         if ($file && file_exists($file = $file->getUploadPath() . DIRECTORY_SEPARATOR . $file->getRealname())) {
             unlink($file);
