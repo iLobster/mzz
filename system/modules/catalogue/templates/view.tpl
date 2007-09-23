@@ -6,6 +6,6 @@
 <div class="catalogueList">
     {include file="catalogue/breadcrumbs.tpl" breadCrumbs=$chains}
     {title append=$catalogue->getName()}
-        <h3>{$catalogue->getName()}</a>{$catalogue->getJip()}</h3>
+        <h3>{$catalogue->getName()} {$catalogue->getJip()}</h3>
         {include file="catalogue/viewProperties.tpl" properties=$catalogue->exportOldProperties() action="view"}
 </div>

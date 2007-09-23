@@ -1,4 +1,4 @@
-<script language="JavaScript">
+<script type="text/javascript">
 var massActionDelete = "{url route="default2" section=$current_section action="delete"}";
 var massActionMove = "{url route="default2" section=$current_section action="move"}";
 {literal}function selectAllItems(access) {
@@ -11,7 +11,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
 <p class="pageTitle">Список элементов</p>
 <div class="pageContent">
 {include file="breadcrumbs.tpl" breadCrumbs=$chains section=$current_section module="catalogue"}
-<form onsubmit="jipWindow.open((($('massAction').value == 'delete') ? massActionDelete : massActionMove), false, 'POST', $(this).serialize(true)); return false;">
+<form action="" onsubmit="jipWindow.open((($('massAction').value == 'delete') ? massActionDelete : massActionMove), false, 'POST', $(this).serialize(true)); return false;">
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>
@@ -25,7 +25,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
             </tr>
         {if $catalogueFolder->getTreeLevel() != 1}
             <tr>
-                <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
+                <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" alt="folder" /></td>
                 <td style="text-align: center;">-</td>
                 <td style="text-align: left;"><a href="{url route="admin" params=$catalogueFolder->getTreeParent()->getPath() section_name=$current_section module_name="catalogue"}">..</a></td>
                 <td style="text-align: center;">-</td>
@@ -38,7 +38,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
         {foreach from=$catalogueFolder->getFolders() item="folder" name="folderIterator"}
             {if $folder->getTreeLevel() == $catalogueFolder->getTreeLevel()+1}
             <tr>
-                <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
+                <td style="text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" alt="folder" /></td>
                 <td style="text-align: center;">-</td>
                 <td style="text-align: left;"><a href="{url route='admin' params=$folder->getPath() section_name=$current_section module_name="catalogue"}">{$folder->getTitle()}</a></td>
                 <td style="text-align: center;">{if in_array($folder->getDefType(), array_keys($types))}{assign var="foldertype" value=$folder->getDefType()}{$types.$foldertype.title}{else}-{/if}</td>
@@ -50,7 +50,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
         {/foreach}
         {foreach from=$items item="item"}
             <tr>
-                <td style="width: 30px; text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" /></td>
+                <td style="width: 30px; text-align: right; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" alt="item" /></td>
                 <td style="text-align: center;"><input type="checkbox" id="catalogueitem_{$item->getId()}" name="items[{$item->getId()}]" /></td>
                 <td style="text-align: left;"><a href="{url route="withId" module="catalogue" action="view" id=$item->getId()}">{$item->getName()}</a></td>
                 <td style="text-align: center;">{$item->getTypeTitle()}</td>
