@@ -85,6 +85,19 @@ class userRegisterController extends simpleController
             if ($user) {
                 $user->setConfirmed('');
                 $userMapper->save($user);
+
+                $groupMapper = $this->toolkit->getMapper('user', 'group');
+                $groups = $groupMapper->searchAllByField('is_default', 1);
+
+                $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
+
+                foreach ($groups as $group) {
+                    $userGroup = $userGroupMapper->create();
+                    $userGroup->setGroup($group);
+                    $userGroup->setUser($user);
+                    $userGroupMapper->save($userGroup);
+                }
+
                 return 'Регистрация подтверждена';
             } else {
                 return 'Нет такого пользователя';
