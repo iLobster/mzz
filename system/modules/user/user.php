@@ -35,6 +35,11 @@ class user extends simple
         return $this->getId() > 0 && $this->getId() !=  MZZ_USER_GUEST_ID;
     }
 
+    public function isConfirmed()
+    {
+        return is_null($this->getConfirmed());
+    }
+
     /**
      * Получение списка групп, в которых состоит пользователь
      *

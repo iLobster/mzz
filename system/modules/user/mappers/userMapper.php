@@ -128,7 +128,7 @@ class userMapper extends simpleMapper
 
         $user = $this->searchOneByCriteria($criteria);
 
-        if ($user) {
+        if ($user && $user->isConfirmed()) {
             $this->setUserId($user->getId());
         } else {
             $this->setUserId(MZZ_USER_GUEST_ID);
