@@ -213,8 +213,8 @@ abstract class simple
     {
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getAction($module);
-        $request = $toolkit->getRequest();
-        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId(), $tpl);
+        //$request = $toolkit->getRequest();
+        $jip = new jip($this->section(), $module, $id, $type, $action->getJipActions($type), $this->getObjId(), $tpl);
         return $jip->draw();
     }
 
@@ -349,6 +349,11 @@ abstract class simple
         if (!is_null($section)) {
             $this->section = $section;
         }
+
+        if (!$this->section) {
+            $this->section = $this->mapper->section();
+        }
+
         return $this->section;
     }
     /**
