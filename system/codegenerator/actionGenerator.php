@@ -73,7 +73,7 @@ class actionGenerator
 
         define('CODEGEN', systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'codegenerator');
         define('MZZ', systemConfig::$pathToApplication);
-        define('CUR_DEST_FOLDER', $this->dest . $this->module);
+        define('CUR_DEST_FOLDER', $this->dest . DIRECTORY_SEPARATOR . $this->module);
     }
 
     /**
