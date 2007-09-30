@@ -15,6 +15,16 @@ class stubMapperDataModify extends simpleMapper
         $fields['bar'] = new sqlFunction('UPPER', $fields['bar']);
     }
 
+    protected function afterUpdate(&$fields)
+    {
+        $fields['foo'] = strtolower($fields['foo']);
+    }
+
+    protected function afterInsert(&$fields)
+    {
+        $fields['foo'] = strtolower($fields['foo']);
+    }
+
     public function convertArgsToObj($args)
     {
     }

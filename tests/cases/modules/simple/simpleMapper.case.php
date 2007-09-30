@@ -116,14 +116,17 @@ class simpleMapperTest extends unitTestCase
 
         $simple = new stubSimple($this->mapper, $this->map);
         $simple->setBar($bar = 'bAr VaLUe');
+        $simple->setFoo($foo = 'foO vAlUe');
         $this->mapper->save($simple);
 
         $this->assertEqual(1, $simple->getId());
         $this->assertEqual(strtolower($bar), $simple->getBar());
+        $this->assertEqual(strtolower($foo), $simple->getFoo());
 
         $simple->setBar($bar = 'bAr VaLUe');
         $this->mapper->save($simple);
         $this->assertEqual(strtoupper($bar), $simple->getBar());
+        $this->assertEqual(strtolower($foo), $simple->getFoo());
     }
 
     public function testInsertAndUpdateWithDataModifyOperator()

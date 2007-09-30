@@ -76,10 +76,10 @@ abstract class simpleMapper
     protected $tableKey = 'id';
 
     /**
-    * Число записей, возвращённых за последний запрос (без учёта LIMIT)
-    *
-    * @var integer
-    */
+     * Число записей, возвращённых за последний запрос (без учёта LIMIT)
+     *
+     * @var integer
+     */
     protected $count;
 
     /**
@@ -265,6 +265,8 @@ abstract class simpleMapper
 
             $data = $this->fillArray($fields);
 
+            $this->afterInsert($data);
+            
             $object->import($data);
 
             if (!is_null($user)) {
@@ -339,8 +341,10 @@ abstract class simpleMapper
 
             $data = $this->fillArray($fields);
 
+            $this->afterUpdate($data);
+            
             $object->import($data);
-
+            
             return true;
         }
 
@@ -713,6 +717,24 @@ abstract class simpleMapper
      * @param array $fields
      */
     protected function selectDataModify(&$fields)
+    {
+    }
+
+    /**
+     * Хук, вызываемый сразу же после добавления объекта в БД
+     *
+     * @param array $fields
+     */
+    protected function afterInsert(&$fields)
+    {
+    }
+
+    /**
+     * Хук, вызываемый сразу же после обновления объекта в БД
+     *
+     * @param array $fields
+     */
+    protected function afterUpdate(&$fields)
     {
     }
 
