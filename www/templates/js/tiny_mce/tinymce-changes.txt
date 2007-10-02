@@ -1,7 +1,7 @@
 
 ----------------------- core ----------------------------------
 * tiny_mce_src.js (для tiny_mce.js такие же изменения)
-> comment line 470, 479, 480 in:
+> comment line 471, 480, 481 in:
 					if (tinyMCE.settings.strict_loading_mode) {
 						nl = document.getElementsByTagName("head");
 
@@ -16,7 +16,7 @@
 
 
 
-> before line 436:
+> before line 438:
 	loadNextScript : function() {
 > add:
         onLoadScript : function(evt) {
@@ -32,15 +32,15 @@
 
 
 
-> replace line 430-431:
+> replace line 432-433:
 		else
 			document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></script>');
 > to:
  		else {
                 	var scr = document.createElement('script');
-                        if (!window.opera) { Event.observe($(scr), 'readystatechange', TinyMCE_Engine.prototype.onLoadScript); }
-			Event.observe($(scr), 'load', TinyMCE_Engine.prototype.onLoadScript);
-			Event.observe($(scr), 'error', TinyMCE_Engine.prototype.onLoadScript);
+                        if (!window.opera) { scr.onreadystatechange = TinyMCE_Engine.prototype.onLoadScript; }
+			scr.onload = TinyMCE_Engine.prototype.onLoadScript;
+			scr.onerror = TinyMCE_Engine.prototype.onLoadScript;
 
                 	scr.type = 'text/javascript';
                 	scr.src = url;
@@ -51,17 +51,17 @@
 
 
 
-> comment line 296:
+> comment line 297:
 				tinyMCE.addEvent(window, "DOMContentLoaded", TinyMCE_Engine.prototype.onLoad);
 
 
 
-> comment line 305:
+> comment line 306:
 				tinyMCE.addEvent(window, "load", TinyMCE_Engine.prototype.onLoad);
 
 
 
-> before line 346:
+> before line 348:
 		// Setup XML encoding regexps
 > add:
                 if (tinyMCE.loadingIndex == -1) {
@@ -70,7 +70,7 @@
 
 
 
-> replace line 1547:
+> replace line 1609:
 		if (tinyMCE.isRealIE && window.event.type == "readystatechange" && document.readyState != "complete")
 > to:
 		if (tinyMCE.isRealIE && (window.event && window.event.type == "readystatechange") && document.readyState != "complete")

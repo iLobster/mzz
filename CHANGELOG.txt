@@ -9,6 +9,7 @@ CHANGELOG
 - отказ от PEAR
 - переход с лицензии GPL на LGPL
 - Обновлен SimpleTest с 1.0.1beta до 1.0.1beta2
+- Обновлен TinyMCE до 2.1.2
 и многое другое...
 
  Version 0.0.7:
