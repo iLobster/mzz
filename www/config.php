@@ -21,7 +21,7 @@
  */
 define('SITE_PATH', '');
 define('DEBUG_MODE', 1);
-define('SYSTEM_PATH',  '../system/');
+define('SYSTEM_PATH', '../system/');
 
 /**
  * Идентификатор записи в БД для неавторизированных пользователей
@@ -36,10 +36,10 @@ define('MZZ_ROOT_GID', 3);
 require_once(SYSTEM_PATH . 'systemConfig.php');
 
 systemConfig::$db['default']['driver'] = 'pdo';
-systemConfig::$db['default']['dsn']  = "mysql:host=localhost;dbname=mzz";
-systemConfig::$db['default']['user'] = "root";
-systemConfig::$db['default']['password'] = "";
-systemConfig::$db['default']['charset'] = "cp1251";
+systemConfig::$db['default']['dsn']  = 'mysql:host=localhost;dbname=mzz';
+systemConfig::$db['default']['user'] = 'root';
+systemConfig::$db['default']['password'] = '';
+systemConfig::$db['default']['charset'] = 'cp1251';
 systemConfig::$db['default']['pdoOptions'] = array();
 
 systemConfig::$pathToApplication = dirname(__FILE__) . '';
