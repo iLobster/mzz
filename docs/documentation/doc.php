@@ -412,14 +412,28 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
     }
 
     if (isset($paths[$_REQUEST['cat']])) {
-        $title = $paths[$_REQUEST['cat']][2];
+        $cat_id = '';
+        $title = array();
+        foreach ($cat as $cat_id_cur) {
+            $cat_id .= $cat_id_cur;
+            $title[] = $paths[$cat_id][2];
+            $cat_id .= '.';
+        }
+        $title = implode(' | ', array_reverse($title));
     } else {
         // пробуем еще раз (для регистронезависимой WINDOWS)
         if(PHP_OS == 'WINNT' && isset($_SERVER['REQUEST_URI'])) {
             $pos = strrpos($_SERVER['REQUEST_URI'], '/') + 1;
             $_REQUEST['cat'] = substr($_SERVER['REQUEST_URI'], $pos, strrpos($_SERVER['REQUEST_URI'], '.') - $pos);
             if (isset($paths[$_REQUEST['cat']])) {
-                $title = $paths[$_REQUEST['cat']][2];
+                $cat_id = '';
+                $title = array();
+                foreach ($cat as $cat_id_cur) {
+                    $cat_id .= $cat_id_cur;
+                    $title[] = $paths[$cat_id][2];
+                    $cat_id .= '.';
+                }
+                $title = implode(' | ', array_reverse($title));
             } else {
                 include('header.php');
                 exit('Этот раздел больше не существует в <a href="index.html">документации</a>.');
