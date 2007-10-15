@@ -26,11 +26,19 @@ class menuItem extends simpleCatalogue
 
     protected $childrens = false;
 
+    protected $isActive = null;
+
     public function getChildrens()
     {
         if ($this->childrens === false) {
             $this->childrens = $this->mapper->getChildrensById($this->getId());
+            foreach ($this->childrens as $children) {
+                if ($children->isActive()) {
+                    $this->isActive = true;
+                }
+            }
         }
+
         return $this->childrens;
     }
 
@@ -62,30 +70,34 @@ class menuItem extends simpleCatalogue
 
     public function isActive()
     {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
+        if (!is_bool($this->isActive)) {
+            $toolkit = systemToolkit::getInstance();
+            $request = $toolkit->getRequest();
 
-        switch ($this->getTypeName()) {
-            case 'simple':
-                return ($request->getUrl() . $this->getPropertyValue('url') == $request->getRequestUrl());
-                break;
 
-            case 'advanced':
-                $section = $this->getPropertyValue('section');
-                $action = $this->getPropertyValue('action');
+            switch ($this->getTypeName()) {
+                case 'simple':
+                    $this->isActive = ($request->getUrl() . $this->getPropertyValue('url') == $request->getRequestUrl());
+                    break;
 
-                $isActive = false;
-                if (!empty($section)) {
-                    $isActive = ($request->getRequestedSection() == $section);
-                }
+                case 'advanced':
+                    $section = $this->getPropertyValue('section');
+                    $action = $this->getPropertyValue('action');
 
-                if ($isActive && !empty($action)) {
-                    $isActive = ($request->getRequestedAction() == $action);
-                }
+                    $isActive = false;
+                    if (!empty($section)) {
+                        $isActive = ($request->getRequestedSection() == $section);
+                    }
 
-                return $isActive;
-                break;
+                    if ($isActive && !empty($action)) {
+                        $isActive = ($request->getRequestedAction() == $action);
+                    }
+
+                    $this->isActive = $isActive;
+                    break;
+            }
         }
+        return $this->isActive;
     }
 
     protected function getJipView($module, $id, $type, $tpl = jip::DEFAULT_TEMPLATE)
