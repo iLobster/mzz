@@ -118,7 +118,7 @@ class sqlOperator
      */
     private function setPriority($arg)
     {
-        if (in_array($this->operator, array('*', '/'))) {
+        if (in_array($this->operator, array('*', '/', '-'))) {
             $arg = '(' . $arg . ')';
         }
 
