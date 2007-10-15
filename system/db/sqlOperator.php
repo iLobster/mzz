@@ -43,7 +43,7 @@ class sqlOperator
      *
      * @var array
      */
-    protected $validOperators = array('+', '-', '*', '/', '%', 'DIV', 'MOD', 'INTERVAL', 'DISTINCT');
+    protected $validOperators = array('+', '-', '*', '/', '%', 'DIV', 'MOD', 'INTERVAL', 'DISTINCT', '<', '>', '=', '!=', '<=', '>=');
 
     /**
      * ќператоры, у которых операнды наход€тс€ лишь справа
@@ -118,7 +118,7 @@ class sqlOperator
      */
     private function setPriority($arg)
     {
-        if (in_array($this->operator, array('*', '/', '-'))) {
+        if (in_array($this->operator, array('*', '/', '-', 'DIV', 'MOD', '<', '>', '=', '!=', '<=', '>='))) {
             $arg = '(' . $arg . ')';
         }
 
