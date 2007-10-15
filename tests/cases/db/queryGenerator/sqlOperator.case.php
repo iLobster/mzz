@@ -53,7 +53,7 @@ class sqlOperatorTest extends unitTestCase
     {
         $operatorNested = new sqlOperator('+', array(1, 2));
         $sqlOperator = new sqlOperator('-', array($operatorNested, 'field'));
-        $this->assertEqual($sqlOperator->toString(), '1 + 2 - `field`');
+        $this->assertEqual($sqlOperator->toString(), '(1 + 2) - `field`');
     }
 
     public function testNestedPriority()
@@ -81,7 +81,7 @@ class sqlOperatorTest extends unitTestCase
     public function testSqlFunctions()
     {
         $sqlOperator = new sqlOperator('-', array(new sqlFunction('NOW'), new sqlOperator('INTERVAL', '1 DAY')));
-        $this->assertEqual($sqlOperator->toString(), 'NOW() - INTERVAL 1 DAY');
+        $this->assertEqual($sqlOperator->toString(), 'NOW() - (INTERVAL 1 DAY)');
     }
 }
 
