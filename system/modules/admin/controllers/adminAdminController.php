@@ -40,7 +40,7 @@ class adminAdminController extends simpleController
 
         if (is_null($module) && is_null($section)) {
             $module = $this->request->get('name', 'string');
-            if (is_null($module)) {
+            if (empty($module)) {
                 return $this->smarty->fetch('admin/main.tpl');
             }
 

@@ -310,7 +310,7 @@ abstract class simpleMapperForTree extends simpleMapper
             $items = (array) $do->getItems();
             foreach ($items as $item) {
                 // удаляем их
-                $mapper->delete($item->getId());
+                $mapper->delete($item);
             }
             parent::delete($do);
         }
