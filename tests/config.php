@@ -20,6 +20,7 @@ define('SYSTEM_PATH',  realpath(dirname(__FILE__) . '/../system'));
  *
  */
 define('SITE_PATH', '');
+define('COOKIE_DOMAIN', '');
 define('DEBUG_MODE', 1);
 
 define('MZZ_USER_GUEST_ID', 1);

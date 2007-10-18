@@ -20,6 +20,8 @@
  *
  */
 define('SITE_PATH', '');
+define('COOKIE_DOMAIN', '');
+
 define('DEBUG_MODE', 1);
 define('SYSTEM_PATH', '../system/');
 

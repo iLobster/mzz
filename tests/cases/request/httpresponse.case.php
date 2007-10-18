@@ -63,6 +63,13 @@ class httpResponseTest extends unitTestCase
 
     public function testSetCookies()
     {
+
+        $name = 'test';
+        $cookie = array('value' => '1', 'domain' => COOKIE_DOMAIN);
+        $this->response->setCookie($name, $cookie['value']);
+        $cookies = $this->response->getCookies();
+        $this->assertEqual($cookies[$name]['domain'], $cookie['domain']);
+
         $name = 'test';
         $cookie = array('value' => '1', 'expire' => 0, 'path' => '/path', 'domain' => 'example.com', 'secure' => 1, 'httponly' => 1);
         $this->response->setCookie($name, $cookie['value'], $cookie['expire'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
