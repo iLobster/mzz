@@ -24,26 +24,23 @@ class menuItem extends simpleCatalogue
 {
     protected $name = 'menu';
 
-    protected $childrens = false;
+    protected $childrens = array();
 
     protected $isActive = null;
 
     public function getChildrens()
     {
-        if ($this->childrens === false) {
-            $this->childrens = $this->mapper->getChildrensById($this->getId());
-            foreach ($this->childrens as $children) {
-                if ($children->isActive()) {
-                    $this->isActive = true;
-                }
-            }
-        }
-
         return $this->childrens;
     }
 
-    public function setChildrens(Array $childrens)
+    public function setChildrens(Array $childrens, $parent)
     {
+        foreach ($childrens as $child) {
+            if ($child->isActive()) {
+                $this->isActive = true;
+            }
+        }
+
         $this->childrens = $childrens;
     }
 
@@ -74,10 +71,9 @@ class menuItem extends simpleCatalogue
             $toolkit = systemToolkit::getInstance();
             $request = $toolkit->getRequest();
 
-
             switch ($this->getTypeName()) {
                 case 'simple':
-                    $this->isActive = ($request->getUrl() . $this->getPropertyValue('url') == $request->getRequestUrl());
+                    $isActive = ($request->getUrl() . $this->getPropertyValue('url') == $request->getRequestUrl());
                     break;
 
                 case 'advanced':
@@ -92,11 +88,12 @@ class menuItem extends simpleCatalogue
                     if ($isActive && !empty($action)) {
                         $isActive = ($request->getRequestedAction() == $action);
                     }
-
-                    $this->isActive = $isActive;
                     break;
             }
+
+            $this->isActive = $isActive;
         }
+
         return $this->isActive;
     }
 

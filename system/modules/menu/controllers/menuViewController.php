@@ -31,6 +31,7 @@ class menuViewController extends simpleController
         if (empty($menu)) {
             return $menuMapper->get404()->run();
         }
+
         $this->smarty->assign('menu', $menu);
         return $this->smarty->fetch('menu/view.tpl');
     }

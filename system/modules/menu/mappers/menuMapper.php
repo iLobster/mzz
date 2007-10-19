@@ -52,7 +52,7 @@ class menuMapper extends simpleMapper
     public function searchItemsById($menuId)
     {
         $criteria = new criteria;
-        $criteria->add('menu_id', $menuId)->setOrderByFieldAsc('order')->setOrderByFieldAsc('id');
+        $criteria->add('menu_id', $menuId)->setOrderByFieldAsc('order')->setOrderByFieldDesc('id');
 
         $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'menuItem');
         $data = $itemMapper->searchAllByCriteria($criteria);
@@ -67,7 +67,7 @@ class menuMapper extends simpleMapper
             if ($id == $val->getParent()) {
                 unset($tree[$key]);
                 $result[$key] = $val;
-                $result[$key]->setChildrens($this->buildTree($tree, $key));
+                $result[$key]->setChildrens($this->buildTree($tree, $key), $val);
             }
         }
         return $result;
