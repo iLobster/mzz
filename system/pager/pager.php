@@ -96,7 +96,7 @@ class pager
     {
         $baseurl = preg_replace('/([&?])page=.*?($|&)/i', '$1', $baseurl);
 
-        if (($end = strrpos($baseurl, '&')) || (($end = strrpos($baseurl, '?'))) && $end === strlen($baseurl) - 1) {
+        if (($end = strrpos($baseurl, '&') || ($end = strrpos($baseurl, '?'))) && $end === strlen($baseurl) - 1) {
             $baseurl = substr($baseurl, 0, -1);
         }
 
