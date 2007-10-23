@@ -139,6 +139,16 @@ class requestRoute implements iRoute
     }
 
     /**
+     * Возвращение имени роута
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Проверка совпадения PATH с шаблоном.
      *
      * @param string $path полученный path из URL
@@ -154,7 +164,7 @@ class requestRoute implements iRoute
         }
 
         if ($debug) {
-            echo '<span style="background-color: #FCF4DA; padding: 0 3px;">' . $this->name . '</span>, ';
+            echo '<span style="background-color: #FCF4DA; padding: 0 3px;">' . $this->getName() . '</span>, ';
             echo '<span style="background-color: #D9F2FC; padding: 0 3px;">' . $this->pattern . '</span>, ';
             echo '<span style="background-color: #FBDFDA; padding: 0 3px;">' . $this->regex . '</span>, ';
             echo '<span style="background-color: #E5FBE2; padding: 0 3px;">' . $path . "</span><br />\r\n";

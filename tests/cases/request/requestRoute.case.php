@@ -40,6 +40,13 @@ class requestRouteTest extends unitTestCase
         );
     }
 
+    public function testRouteName()
+    {
+        $route = new requestRoute(':controller/:action');
+        $route->setName($name = 'testRoute');
+        $this->assertEqual($route->getName(), $name);
+    }
+
     public function testRouteWithPathAndAny()
     {
         $route = new requestRoute('somepath/:controller/test/:id/:action/*');
