@@ -80,12 +80,28 @@ class newsMapper extends simpleMapper
         $fields['updated'] = $fields['created'];
     }
 
+    private function getObjId()
+    {
+        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_searchByTag');
+        $this->register($obj_id);
+        return $obj_id;
+    }
+
     public function convertArgsToObj($args)
     {
-        $news = $this->searchByKey($args['id']);
+        if(isset($args['id'])) {
+            $news = $this->searchByKey($args['id']);
+            if ($news) {
+                return $news;
+            }
+        }
 
-        if ($news) {
-            return $news;
+        $action = systemToolkit::getInstance()->getRequest()->getRequestedAction();
+
+        if($action == 'searchByTag') {
+            $obj = $this->create();
+            $obj->import(array('obj_id' => $this->getObjId()));
+            return $obj;
         }
 
         throw new mzzDONotFoundException();

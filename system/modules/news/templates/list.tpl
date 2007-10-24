@@ -17,3 +17,9 @@
         <div class="pages">{$pager->toString()}</div>
     {/if}
 </div>
+
+
+<div align="center">
+Облако тегов всех объектов <br />
+{load module=tags action=tagsCloud tmodule=news tclass=news}
+</div>

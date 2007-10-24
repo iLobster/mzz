@@ -38,4 +38,7 @@ $router->addRoute('menuMoveAction', new requestRoute('menu/:id/:target/move', ar
 
 $router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
 $router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list', 'name' => 'root')));
+
+$router->addRoute('tags', new requestRoute(':section/tag/:tag', array('action' => 'searchByTag'), array('tag' => '.+?')));
+
 ?>
