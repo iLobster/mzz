@@ -43,30 +43,30 @@ class menuItemMapper extends simpleCatalogueMapper
         return $this->searchOneByField('id', $id);
     }
 
-    public function getChildrensById($id)
+    public function getMenuChildrens($parent_id, $menu_id)
     {
         $criteria = new criteria;
-        $criteria->add('parent_id', $id)->setOrderByFieldDesc('order')->setOrderByFieldDesc('id');
+        $criteria->add('parent_id', (int)$parent_id)->add('menu_id', (int)$menuId)->setOrderByFieldDesc('order')->setOrderByFieldDesc('id');
 
         $data = $this->searchAllByCriteria($criteria);
         return $data;
     }
 
-    public function getMaxOrder($id)
+    public function getMaxOrder($parent_id, $menu_id)
     {
         $db = DB::factory();
         $criteria = new criteria($this->table);
-        $criteria->addSelectField(new sqlFunction('MAX', 'order', true), 'maxorder')->add('parent_id', (int)$id);
+        $criteria->addSelectField(new sqlFunction('MAX', 'order', true), 'maxorder')->add('parent_id', (int)$parent_id)->add('menu_id', (int)$menu_id);
         $select = new simpleSelect($criteria);
         $stmt = $db->query($select->toString());
         $maxorder = $stmt->fetch();
         return (int)$maxorder['maxorder'];
     }
 
-    public function searchByOrderAndParent($order, $parent)
+    public function searchByOrderAndParentInMenu($order, $parent, $menu_id)
     {
         $criteria = new criteria;
-        $criteria->add('order', (int)$order)->add('parent_id', (int)$parent);
+        $criteria->add('order', (int)$order)->add('parent_id', (int)$parent)->add('menu_id', (int)$menu_id);
         return $this->searchOneByCriteria($criteria);
     }
 
@@ -84,7 +84,8 @@ class menuItemMapper extends simpleCatalogueMapper
 
     protected function changeOrder(menuItem $item, $target)
     {
-        $next = $this->searchByOrderAndParent((($target == 'up') ? $item->getOrder() - 1 : $item->getOrder() + 1), $item->getParent());
+        $order = ($target == 'up') ? $item->getOrder() - 1 : $item->getOrder() + 1;
+        $next = $this->searchByOrderAndParentInMenu($order, $item->getParent(), $item->getMenu()->getId());
         if ($next) {
             $item->setOrder($next->getOrder());
             $next->setOrder($item->getOrder());
@@ -100,7 +101,7 @@ class menuItemMapper extends simpleCatalogueMapper
         if ($new || $target == 0) {
             $this->shift($item->getParent(), $item->getOrder());
 
-            $item->setOrder($this->getMaxOrder($target) + 1);
+            $item->setOrder($this->getMaxOrder($target, $item->getMenu()->getId()) + 1);
             $item->setParent($target);
         }
 
@@ -109,7 +110,7 @@ class menuItemMapper extends simpleCatalogueMapper
 
     public function delete(menuItem $item)
     {
-        $childrens = $this->getChildrensById($item->getId());
+        $childrens = $this->getMenuChildrens($item->getId(), $item->getMenu());
         foreach ($childrens as $child) {
             parent::delete($child->getId());
         }

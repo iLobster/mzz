@@ -98,8 +98,8 @@ class menuSaveController extends simpleController
             if (!$isEdit) {
                 $item->setMenu($menu);
                 $item->setType($type);
-                $item->setParent($id);
-                $item->setOrder($itemMapper->getMaxOrder($id) + 1);
+                $item->setParent((int)$id);
+                $item->setOrder($itemMapper->getMaxOrder($id, $menu->getId()) + 1);
             }
 
             foreach ($properties as $prop) {
