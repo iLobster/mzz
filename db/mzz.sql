@@ -849,7 +849,7 @@ DROP TABLE IF EXISTS `menu_menuItem`;
 
 CREATE TABLE `menu_menuItem` (
   `id` int(11) NOT NULL auto_increment,
-  `parent_id` int(10) unsigned default '0',
+  `parent_id` int(10) NOT NULL unsigned default '0',
   `type_id` int(10) unsigned default NULL,
   `menu_id` int(10) unsigned default NULL,
   `title` varchar(255) NOT NULL default '',
