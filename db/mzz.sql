@@ -58,6 +58,66 @@ INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`,
 COMMIT;
 
 #
+# Structure for the `catalogue_catalogueFolder` table : 
+#
+
+DROP TABLE IF EXISTS `catalogue_catalogueFolder`;
+
+CREATE TABLE `catalogue_catalogueFolder` (
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) NOT NULL default '0',
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `default_type` int(10) unsigned NOT NULL default '0',
+  `parent` int(11) default '0',
+  `path` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `catalogue_catalogueFolder` table  (LIMIT 0,500)
+#
+
+INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `default_type`, `parent`, `path`) VALUES 
+  (1,241,'root','Основной',0,1,'root'),
+  (5,481,'mobile','Телефоны',7,5,'root/mobile'),
+  (10,486,'books','Книги',0,10,'root/books'),
+  (11,487,'fantazy','Фантастика',0,11,'root/books/fantazy'),
+  (12,488,'tech','Техническая литература',11,12,'root/books/tech');
+
+COMMIT;
+
+#
+# Structure for the `catalogue_catalogueFolder_tree` table : 
+#
+
+DROP TABLE IF EXISTS `catalogue_catalogueFolder_tree`;
+
+CREATE TABLE `catalogue_catalogueFolder_tree` (
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `left_key` (`lkey`,`rkey`,`level`),
+  KEY `level` (`level`,`lkey`),
+  KEY `rkey` (`rkey`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `catalogue_catalogueFolder_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+  (1,1,10,1),
+  (5,2,3,2),
+  (10,4,9,2),
+  (11,5,6,3),
+  (12,7,8,3);
+
+COMMIT;
+
+#
 # Structure for the `catalogue_catalogue_data` table : 
 #
 
@@ -246,66 +306,6 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `
 COMMIT;
 
 #
-# Structure for the `catalogue_cataloguefolder` table : 
-#
-
-DROP TABLE IF EXISTS `catalogue_cataloguefolder`;
-
-CREATE TABLE `catalogue_cataloguefolder` (
-  `id` int(11) NOT NULL auto_increment,
-  `obj_id` int(11) NOT NULL default '0',
-  `name` char(255) default NULL,
-  `title` char(255) default NULL,
-  `default_type` int(10) unsigned NOT NULL default '0',
-  `parent` int(11) default '0',
-  `path` char(255) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `catalogue_cataloguefolder` table  (LIMIT 0,500)
-#
-
-INSERT INTO `catalogue_cataloguefolder` (`id`, `obj_id`, `name`, `title`, `default_type`, `parent`, `path`) VALUES 
-  (1,241,'root','Основной',0,1,'root'),
-  (5,481,'mobile','Телефоны',7,5,'root/mobile'),
-  (10,486,'books','Книги',0,10,'root/books'),
-  (11,487,'fantazy','Фантастика',0,11,'root/books/fantazy'),
-  (12,488,'tech','Техническая литература',11,12,'root/books/tech');
-
-COMMIT;
-
-#
-# Structure for the `catalogue_cataloguefolder_tree` table : 
-#
-
-DROP TABLE IF EXISTS `catalogue_cataloguefolder_tree`;
-
-CREATE TABLE `catalogue_cataloguefolder_tree` (
-  `id` int(10) NOT NULL auto_increment,
-  `lkey` int(10) NOT NULL default '0',
-  `rkey` int(10) NOT NULL default '0',
-  `level` int(10) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `left_key` (`lkey`,`rkey`,`level`),
-  KEY `level` (`level`,`lkey`),
-  KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `catalogue_cataloguefolder_tree` table  (LIMIT 0,500)
-#
-
-INSERT INTO `catalogue_cataloguefolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,10,1),
-  (5,2,3,2),
-  (10,4,9,2),
-  (11,5,6,3),
-  (12,7,8,3);
-
-COMMIT;
-
-#
 # Structure for the `comments_comments` table : 
 #
 
@@ -331,12 +331,12 @@ INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `fold
 COMMIT;
 
 #
-# Structure for the `comments_commentsfolder` table : 
+# Structure for the `comments_commentsFolder` table : 
 #
 
-DROP TABLE IF EXISTS `comments_commentsfolder`;
+DROP TABLE IF EXISTS `comments_commentsFolder`;
 
-CREATE TABLE `comments_commentsfolder` (
+CREATE TABLE `comments_commentsFolder` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `obj_id` int(11) unsigned default NULL,
   `parent_id` int(11) unsigned default NULL,
@@ -345,10 +345,10 @@ CREATE TABLE `comments_commentsfolder` (
 ) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `comments_commentsfolder` table  (LIMIT 0,500)
+# Data for the `comments_commentsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `comments_commentsfolder` (`id`, `obj_id`, `parent_id`) VALUES 
+INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES 
   (14,134,9),
   (16,145,10),
   (18,171,164),
@@ -405,12 +405,12 @@ INSERT INTO `faq_faq` (`id`, `question`, `answer`, `category_id`, `obj_id`) VALU
 COMMIT;
 
 #
-# Structure for the `faq_faqcategory` table : 
+# Structure for the `faq_faqCategory` table : 
 #
 
-DROP TABLE IF EXISTS `faq_faqcategory`;
+DROP TABLE IF EXISTS `faq_faqCategory`;
 
-CREATE TABLE `faq_faqcategory` (
+CREATE TABLE `faq_faqCategory` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
@@ -419,21 +419,21 @@ CREATE TABLE `faq_faqcategory` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `faq_faqcategory` table  (LIMIT 0,500)
+# Data for the `faq_faqCategory` table  (LIMIT 0,500)
 #
 
-INSERT INTO `faq_faqcategory` (`id`, `name`, `title`, `obj_id`) VALUES 
+INSERT INTO `faq_faqCategory` (`id`, `name`, `title`, `obj_id`) VALUES 
   (1,'demo','Демо',870);
 
 COMMIT;
 
 #
-# Structure for the `filemanager_file` table : 
+# Structure for the `fileManager_file` table : 
 #
 
-DROP TABLE IF EXISTS `filemanager_file`;
+DROP TABLE IF EXISTS `fileManager_file`;
 
-CREATE TABLE `filemanager_file` (
+CREATE TABLE `fileManager_file` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `realname` varchar(255) default 'имя в фс в каталоге на сервере',
   `name` varchar(255) default 'имя с которым файл будет отдаваться клиенту',
@@ -451,10 +451,10 @@ CREATE TABLE `filemanager_file` (
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `filemanager_file` table  (LIMIT 0,500)
+# Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
-INSERT INTO `filemanager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
   (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1189865423,28,1,'По фамилии Fernandes',5,611),
   (6,'292cea736807441578ceacd47a5bb3e5','1.jpg','jpg',1553,1189865423,1,1,NULL,9,1099),
   (7,'dff0916ad4715c9c9825fbf2d161475d','programming_1.jpg','jpg',243556,1189980269,NULL,0,'',1,1140),
@@ -469,12 +469,12 @@ INSERT INTO `filemanager_file` (`id`, `realname`, `name`, `ext`, `size`, `modifi
 COMMIT;
 
 #
-# Structure for the `filemanager_folder` table : 
+# Structure for the `fileManager_folder` table : 
 #
 
-DROP TABLE IF EXISTS `filemanager_folder`;
+DROP TABLE IF EXISTS `fileManager_folder`;
 
-CREATE TABLE `filemanager_folder` (
+CREATE TABLE `fileManager_folder` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
@@ -487,10 +487,10 @@ CREATE TABLE `filemanager_folder` (
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `filemanager_folder` table  (LIMIT 0,500)
+# Data for the `fileManager_folder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `filemanager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
+INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
   (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg'),
   (7,'extras','extras',7,'root/extras',1093,0,''),
@@ -500,12 +500,12 @@ INSERT INTO `filemanager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_
 COMMIT;
 
 #
-# Structure for the `filemanager_folder_tree` table : 
+# Structure for the `fileManager_folder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `filemanager_folder_tree`;
+DROP TABLE IF EXISTS `fileManager_folder_tree`;
 
-CREATE TABLE `filemanager_folder_tree` (
+CREATE TABLE `fileManager_folder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -517,10 +517,10 @@ CREATE TABLE `filemanager_folder_tree` (
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `filemanager_folder_tree` table  (LIMIT 0,500)
+# Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `filemanager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,10,1),
   (5,2,3,2),
   (7,4,9,2),
@@ -842,12 +842,12 @@ INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `menu_menuitem` table : 
+# Structure for the `menu_menuItem` table : 
 #
 
-DROP TABLE IF EXISTS `menu_menuitem`;
+DROP TABLE IF EXISTS `menu_menuItem`;
 
-CREATE TABLE `menu_menuitem` (
+CREATE TABLE `menu_menuItem` (
   `id` int(11) NOT NULL auto_increment,
   `parent_id` int(10) unsigned default '0',
   `type_id` int(10) unsigned default NULL,
@@ -859,10 +859,10 @@ CREATE TABLE `menu_menuitem` (
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=cp1251 PACK_KEYS=0;
 
 #
-# Data for the `menu_menuitem` table  (LIMIT 0,500)
+# Data for the `menu_menuItem` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuitem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
+INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
   (1,0,2,5,'Новости',1,661),
   (2,0,2,5,'Страницы',2,662),
   (3,0,2,5,'Каталог',3,663),
@@ -875,12 +875,12 @@ INSERT INTO `menu_menuitem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `
 COMMIT;
 
 #
-# Structure for the `menu_menuitem_data` table : 
+# Structure for the `menu_menuItem_data` table : 
 #
 
-DROP TABLE IF EXISTS `menu_menuitem_data`;
+DROP TABLE IF EXISTS `menu_menuItem_data`;
 
-CREATE TABLE `menu_menuitem_data` (
+CREATE TABLE `menu_menuItem_data` (
   `id` int(11) NOT NULL default '0',
   `property_type` int(11) unsigned default NULL,
   `text` text,
@@ -891,10 +891,10 @@ CREATE TABLE `menu_menuitem_data` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_menuitem_data` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_data` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuitem_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
+INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
   (2,2,NULL,'/page',NULL,NULL),
   (1,4,NULL,'',NULL,NULL),
   (1,2,NULL,'/news',NULL,NULL),
@@ -923,12 +923,12 @@ INSERT INTO `menu_menuitem_data` (`id`, `property_type`, `text`, `char`, `int`, 
 COMMIT;
 
 #
-# Structure for the `menu_menuitem_properties` table : 
+# Structure for the `menu_menuItem_properties` table : 
 #
 
-DROP TABLE IF EXISTS `menu_menuitem_properties`;
+DROP TABLE IF EXISTS `menu_menuItem_properties`;
 
-CREATE TABLE `menu_menuitem_properties` (
+CREATE TABLE `menu_menuItem_properties` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `title` varchar(255) default NULL,
@@ -939,10 +939,10 @@ CREATE TABLE `menu_menuitem_properties` (
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_menuitem_properties` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_properties` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuitem_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
+INSERT INTO `menu_menuItem_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
   (1,'url','Ссылка',1,NULL),
   (2,'url','Ссылка',1,NULL),
   (3,'section','section',1,NULL),
@@ -951,12 +951,12 @@ INSERT INTO `menu_menuitem_properties` (`id`, `name`, `title`, `type_id`, `args`
 COMMIT;
 
 #
-# Structure for the `menu_menuitem_properties_types` table : 
+# Structure for the `menu_menuItem_properties_types` table : 
 #
 
-DROP TABLE IF EXISTS `menu_menuitem_properties_types`;
+DROP TABLE IF EXISTS `menu_menuItem_properties_types`;
 
-CREATE TABLE `menu_menuitem_properties_types` (
+CREATE TABLE `menu_menuItem_properties_types` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `title` varchar(255) NOT NULL default '',
@@ -964,21 +964,21 @@ CREATE TABLE `menu_menuitem_properties_types` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_menuitem_properties_types` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_properties_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuitem_properties_types` (`id`, `name`, `title`) VALUES 
+INSERT INTO `menu_menuItem_properties_types` (`id`, `name`, `title`) VALUES 
   (1,'char','Строка');
 
 COMMIT;
 
 #
-# Structure for the `menu_menuitem_types` table : 
+# Structure for the `menu_menuItem_types` table : 
 #
 
-DROP TABLE IF EXISTS `menu_menuitem_types`;
+DROP TABLE IF EXISTS `menu_menuItem_types`;
 
-CREATE TABLE `menu_menuitem_types` (
+CREATE TABLE `menu_menuItem_types` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
@@ -986,22 +986,22 @@ CREATE TABLE `menu_menuitem_types` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_menuitem_types` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuitem_types` (`id`, `name`, `title`) VALUES 
+INSERT INTO `menu_menuItem_types` (`id`, `name`, `title`) VALUES 
   (1,'simple','Простой'),
   (2,'advanced','Advanced');
 
 COMMIT;
 
 #
-# Structure for the `menu_menuitem_types_props` table : 
+# Structure for the `menu_menuItem_types_props` table : 
 #
 
-DROP TABLE IF EXISTS `menu_menuitem_types_props`;
+DROP TABLE IF EXISTS `menu_menuItem_types_props`;
 
-CREATE TABLE `menu_menuitem_types_props` (
+CREATE TABLE `menu_menuItem_types_props` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
@@ -1013,10 +1013,10 @@ CREATE TABLE `menu_menuitem_types_props` (
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `menu_menuitem_types_props` table  (LIMIT 0,500)
+# Data for the `menu_menuItem_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuitem_types_props` (`id`, `type_id`, `property_id`, `sort`, `isShort`) VALUES 
+INSERT INTO `menu_menuItem_types_props` (`id`, `type_id`, `property_id`, `sort`, `isShort`) VALUES 
   (1,1,1,0,0),
   (2,2,2,0,0),
   (3,2,3,0,0),
@@ -1053,12 +1053,12 @@ INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `ti
 COMMIT;
 
 #
-# Structure for the `message_messagecategory` table : 
+# Structure for the `message_messageCategory` table : 
 #
 
-DROP TABLE IF EXISTS `message_messagecategory`;
+DROP TABLE IF EXISTS `message_messageCategory`;
 
-CREATE TABLE `message_messagecategory` (
+CREATE TABLE `message_messageCategory` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `title` char(255) default NULL,
   `name` char(20) default NULL,
@@ -1067,10 +1067,10 @@ CREATE TABLE `message_messagecategory` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `message_messagecategory` table  (LIMIT 0,500)
+# Data for the `message_messageCategory` table  (LIMIT 0,500)
 #
 
-INSERT INTO `message_messagecategory` (`id`, `title`, `name`, `obj_id`) VALUES 
+INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES 
   (1,'Входящие','incoming',809),
   (2,'Исходящие','sent',810),
   (3,'Корзина','recycle',811);
@@ -1265,12 +1265,12 @@ INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `annotation`, `text`
 COMMIT;
 
 #
-# Structure for the `news_newsfolder` table : 
+# Structure for the `news_newsFolder` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsfolder`;
+DROP TABLE IF EXISTS `news_newsFolder`;
 
-CREATE TABLE `news_newsfolder` (
+CREATE TABLE `news_newsFolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) unsigned NOT NULL default '0',
   `name` char(255) default NULL,
@@ -1283,10 +1283,10 @@ CREATE TABLE `news_newsfolder` (
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `news_newsfolder` table  (LIMIT 0,500)
+# Data for the `news_newsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (2,6,'root','Новости',1,'root'),
   (18,295,'main','Главное',17,'root/main'),
   (19,296,'comments','Комментарии',18,'root/comments'),
@@ -1306,12 +1306,12 @@ INSERT INTO `news_newsfolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`
 COMMIT;
 
 #
-# Structure for the `news_newsfolder_tree` table : 
+# Structure for the `news_newsFolder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `news_newsfolder_tree`;
+DROP TABLE IF EXISTS `news_newsFolder_tree`;
 
-CREATE TABLE `news_newsfolder_tree` (
+CREATE TABLE `news_newsFolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -1323,10 +1323,10 @@ CREATE TABLE `news_newsfolder_tree` (
 ) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `news_newsfolder_tree` table  (LIMIT 0,500)
+# Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsfolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,30,1),
   (17,2,3,2),
   (18,4,5,2),
@@ -1382,12 +1382,12 @@ INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`
 COMMIT;
 
 #
-# Structure for the `page_pagefolder` table : 
+# Structure for the `page_pageFolder` table : 
 #
 
-DROP TABLE IF EXISTS `page_pagefolder`;
+DROP TABLE IF EXISTS `page_pageFolder`;
 
-CREATE TABLE `page_pagefolder` (
+CREATE TABLE `page_pageFolder` (
   `id` int(11) NOT NULL auto_increment,
   `obj_id` int(11) unsigned NOT NULL default '0',
   `name` char(255) default NULL,
@@ -1399,10 +1399,10 @@ CREATE TABLE `page_pagefolder` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `page_pagefolder` table  (LIMIT 0,500)
+# Data for the `page_pageFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pagefolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (1,161,'root','/',1,'root'),
   (2,163,'foo','foo',2,'root/foo'),
   (3,234,'zz','zz',3,'root/foo/zz');
@@ -1410,12 +1410,12 @@ INSERT INTO `page_pagefolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`
 COMMIT;
 
 #
-# Structure for the `page_pagefolder_tree` table : 
+# Structure for the `page_pageFolder_tree` table : 
 #
 
-DROP TABLE IF EXISTS `page_pagefolder_tree`;
+DROP TABLE IF EXISTS `page_pageFolder_tree`;
 
-CREATE TABLE `page_pagefolder_tree` (
+CREATE TABLE `page_pageFolder_tree` (
   `id` int(10) NOT NULL auto_increment,
   `lkey` int(10) NOT NULL default '0',
   `rkey` int(10) NOT NULL default '0',
@@ -1427,10 +1427,10 @@ CREATE TABLE `page_pagefolder_tree` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `page_pagefolder_tree` table  (LIMIT 0,500)
+# Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pagefolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,6,1),
   (2,2,5,2),
   (3,3,4,3);
@@ -7458,12 +7458,12 @@ INSERT INTO `tags_tags` (`id`, `tag`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `tags_tagsitem` table : 
+# Structure for the `tags_tagsItem` table : 
 #
 
-DROP TABLE IF EXISTS `tags_tagsitem`;
+DROP TABLE IF EXISTS `tags_tagsItem`;
 
-CREATE TABLE `tags_tagsitem` (
+CREATE TABLE `tags_tagsItem` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `item_obj_id` int(10) unsigned default NULL,
   `obj_id` int(10) unsigned default NULL,
@@ -7472,10 +7472,10 @@ CREATE TABLE `tags_tagsitem` (
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `tags_tagsitem` table  (LIMIT 0,500)
+# Data for the `tags_tagsItem` table  (LIMIT 0,500)
 #
 
-INSERT INTO `tags_tagsitem` (`id`, `item_obj_id`, `obj_id`, `owner`) VALUES 
+INSERT INTO `tags_tagsItem` (`id`, `item_obj_id`, `obj_id`, `owner`) VALUES 
   (11,331,1161,NULL),
   (12,459,1166,NULL),
   (13,445,1170,NULL),
@@ -7538,12 +7538,12 @@ INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confir
 COMMIT;
 
 #
-# Structure for the `user_userauth` table : 
+# Structure for the `user_userAuth` table : 
 #
 
-DROP TABLE IF EXISTS `user_userauth`;
+DROP TABLE IF EXISTS `user_userAuth`;
 
-CREATE TABLE `user_userauth` (
+CREATE TABLE `user_userAuth` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `user_id` int(11) unsigned default NULL,
   `ip` char(15) default NULL,
@@ -7554,10 +7554,10 @@ CREATE TABLE `user_userauth` (
 ) ENGINE=MyISAM AUTO_INCREMENT=90 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `user_userauth` table  (LIMIT 0,500)
+# Data for the `user_userAuth` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userauth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
+INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
   (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1187831447),
   (72,2,'127.0.0.1','4f9252b570591bcf33d0bc3224b12de8',NULL,1187925555),
   (81,2,'127.0.0.1','be504534880ccf8dd7c6e1e620c90479',NULL,1188427749),
@@ -7571,12 +7571,12 @@ INSERT INTO `user_userauth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
 COMMIT;
 
 #
-# Structure for the `user_usergroup_rel` table : 
+# Structure for the `user_userGroup_rel` table : 
 #
 
-DROP TABLE IF EXISTS `user_usergroup_rel`;
+DROP TABLE IF EXISTS `user_userGroup_rel`;
 
-CREATE TABLE `user_usergroup_rel` (
+CREATE TABLE `user_userGroup_rel` (
   `id` int(11) NOT NULL auto_increment,
   `group_id` int(11) default NULL,
   `user_id` int(11) default NULL,
@@ -7587,10 +7587,10 @@ CREATE TABLE `user_usergroup_rel` (
 ) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `user_usergroup_rel` table  (LIMIT 0,500)
+# Data for the `user_userGroup_rel` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
+INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
   (1,1,1,50),
   (23,2,2,47),
   (24,3,2,226),
@@ -7599,12 +7599,12 @@ INSERT INTO `user_usergroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_useronline` table : 
+# Structure for the `user_userOnline` table : 
 #
 
-DROP TABLE IF EXISTS `user_useronline`;
+DROP TABLE IF EXISTS `user_userOnline`;
 
-CREATE TABLE `user_useronline` (
+CREATE TABLE `user_userOnline` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `user_id` int(11) default NULL,
   `session` char(32) default NULL,
@@ -7617,10 +7617,10 @@ CREATE TABLE `user_useronline` (
 ) ENGINE=MyISAM AUTO_INCREMENT=202 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `user_useronline` table  (LIMIT 0,500)
+# Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_useronline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
+INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
   (201,2,'11b2e9e5f1d616fe10f7f1f9258d024f',1193228200,'http://mzz/news/168/view','127.0.0.1');
 
 COMMIT;
@@ -7694,12 +7694,12 @@ CREATE TABLE `voting_vote` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
-# Structure for the `voting_votecategory` table : 
+# Structure for the `voting_voteCategory` table : 
 #
 
-DROP TABLE IF EXISTS `voting_votecategory`;
+DROP TABLE IF EXISTS `voting_voteCategory`;
 
-CREATE TABLE `voting_votecategory` (
+CREATE TABLE `voting_voteCategory` (
   `id` int(11) NOT NULL auto_increment,
   `name` char(255) default NULL,
   `title` char(255) default NULL,
@@ -7708,10 +7708,10 @@ CREATE TABLE `voting_votecategory` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=cp1251;
 
 #
-# Data for the `voting_votecategory` table  (LIMIT 0,500)
+# Data for the `voting_voteCategory` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_votecategory` (`id`, `name`, `title`, `obj_id`) VALUES 
+INSERT INTO `voting_voteCategory` (`id`, `name`, `title`, `obj_id`) VALUES 
   (1,'simple','Простая',837);
 
 COMMIT;
