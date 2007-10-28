@@ -36,7 +36,7 @@ class catalogueDeleteController extends simpleController
             if ($catalogue) {
                 $acl = new acl($user, $catalogue->getObjId());
                 if ($acl->get($this->request->getAction())) {
-                    $catalogueMapper->delete($id);
+                    $catalogueMapper->delete($catalogue);
                 } else {
                     $nonAccessible[] = $id;
                 }
