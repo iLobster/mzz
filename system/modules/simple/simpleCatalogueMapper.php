@@ -437,11 +437,11 @@ abstract class simpleCatalogueMapper extends simpleMapper
         }
     }
 
-    public function delete($id)
+    public function delete($item)
     {
-        parent::delete($id);
+        parent::delete($item);
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableData . '` WHERE `id` = :id');
-        $stmt->bindParam('id', $id);
+        $stmt->bindParam('id', $item->getId());
         $stmt->execute();
     }
 }
