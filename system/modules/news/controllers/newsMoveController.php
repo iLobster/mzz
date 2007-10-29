@@ -42,12 +42,15 @@ class newsMoveController extends simpleController
 
         if ($validator->validate()) {
             $dest = $this->request->get('dest', 'integer', SC_POST);
-            $destFolder = $catalogueFolderMapper->searchById($dest);
+            $destFolder = $newsFolderMapper->searchById($dest);
 
             if (!$destFolder) {
                 $controller = new messageController('Каталог назначения не найден', messageController::WARNING);
                 return $controller->run();
             }
+            
+            $news->setFolder($destFolder);
+            $newsMapper->save($news);
 
             return jipTools::redirect();
         }
