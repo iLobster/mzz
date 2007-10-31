@@ -44,7 +44,7 @@ class album extends simple
     public function getPhotos()
     {
         $photoMapper = systemToolkit::getInstance()->getMapper('gallery', 'photo');
-        return $photoMapper->searchAllByField('album_id', $this->getId());
+        return $photoMapper->searchByAlbum($this->getId());
     }
 }
 

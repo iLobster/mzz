@@ -41,7 +41,7 @@ abstract class simpleMapper
     protected $db;
 
     /**
-     * »м€ таблицы модул€ (собираетс€ из имени, секции, постфикса)
+     * »м€ таблицы модул€ (состоит из секци€_им€ ласса)
      *
      * @var string
      */
@@ -383,6 +383,8 @@ abstract class simpleMapper
     {
         if ($id instanceof simple) {
             $id = $id->getId();
+        } elseif (!is_scalar($id)) {
+            throw new mzzRuntimeException('Wrong id or object');
         }
 
         $toolkit = systemToolkit::getInstance();

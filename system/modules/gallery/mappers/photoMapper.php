@@ -43,6 +43,14 @@ class photoMapper extends simpleMapper
         return $this->searchOneByField('id', $id);
     }
 
+    public function searchByAlbum($id)
+    {
+        $criteria = new criteria();
+        //$criteria->addSelectField(new sqlFunction('count', '*', true), 'cnt');
+        $criteria->add('album_id', $id);
+        return $this->searchAllByCriteria($criteria);
+    }
+
     public function searchLastByGallery($gallery)
     {
         $config = systemToolkit::getInstance()->getConfig('gallery');

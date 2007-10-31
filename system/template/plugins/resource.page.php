@@ -1,5 +1,19 @@
 <?php
-function smarty_resource_page_source($tpl_name, &$tpl_source, &$smarty) {
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU Lesser General Public License (See /docs/LGPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
+function smarty_resource_page_source($tpl_name, &$tpl_source, &$smarty)
+{
     $toolkit = systemToolkit::getInstance();
     $pageMapper = $toolkit->getMapper('page', 'page');
     $page = $pageMapper->searchById($tpl_name);
@@ -18,10 +32,12 @@ function smarty_resource_page_timestamp($tpl_name, &$tpl_timestamp, &$smarty)
     return true;
 }
 
-function smarty_resource_page_secure($tpl_name, &$smarty) {
+function smarty_resource_page_secure($tpl_name, &$smarty)
+{
     return true;
 }
 
-function smarty_resource_page_trusted($tpl_name, &$smarty) {
+function smarty_resource_page_trusted($tpl_name, &$smarty)
+{
 }
 ?>

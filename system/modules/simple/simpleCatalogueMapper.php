@@ -437,11 +437,18 @@ abstract class simpleCatalogueMapper extends simpleMapper
         }
     }
 
-    public function delete($item)
+    public function delete($id)
     {
-        parent::delete($item);
+        if ($id instanceof simple) {
+            $id = $id->getId();
+        } elseif (!is_scalar($id)) {
+            throw new mzzRuntimeException('Wrong id or object');
+        }
+
+        parent::delete($id);
+
         $stmt = $this->db->prepare('DELETE FROM `' . $this->tableData . '` WHERE `id` = :id');
-        $stmt->bindParam('id', $item->getId());
+        $stmt->bindParam('id', $id, PDO::PARAM_INT);
         $stmt->execute();
     }
 }

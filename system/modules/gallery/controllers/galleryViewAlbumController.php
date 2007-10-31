@@ -40,8 +40,7 @@ class galleryViewAlbumController extends simpleController
             return $albumMapper->get404()->run();
         }
 
-        $photosMapper = $this->toolkit->getMapper('gallery', 'photo');
-        $photos = $photosMapper->searchAllByField('album_id', $album->getId());
+        $photos = $album->getPhotos();
 
         $this->smarty->assign('album', $album);
         $this->smarty->assign('photos', $photos);

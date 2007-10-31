@@ -36,10 +36,13 @@ class formCheckboxField extends formElement
         if (isset($options['text'])) {
             $text = $options['text'];
             unset($options['text']);
+            if (isset($options['id'])) {
+                $id = $options['id'];
+            } else {
+                $id = 'mzzForms_' . md5(microtime(true) . (isset($options['name']) ? $options['name'] : ''));
+            }
 
-            $id = 'mzzForms_' . md5(microtime(true));
             $label = self::createTag(array('for' => $id, 'style' => 'cursor: pointer; cursor: hand;', 'content' => $text), 'label');
-
             $options['id'] = $id;
         }
 

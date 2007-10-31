@@ -41,7 +41,7 @@ class galleryViewController extends simpleController
         $photo_id = $this->request->get('id', 'integer', SC_PATH);
         $photo = $photoMapper->searchById($photo_id);
 
-        $photos = $photoMapper->searchAllByField('album_id', $album->getId());
+        $photos = $album->getPhotos();
 
         $this->smarty->assign('photo', $photo);
         $this->smarty->assign('album', $album);

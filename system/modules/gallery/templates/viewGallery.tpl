@@ -1,25 +1,22 @@
+{add file="gallery.css"}
 {title append=$user}
 {title append="Галерея"}
-{$gallery->getJip()}<br />
-<table border="1" width="100%">
-    <tr valign="top">
-        <td>
-            Последние фотки:<br />
-            {foreach from=$photos item="photo"}
-                <a href="{url route="galleryPicAction" action="view" album=$photo->getAlbum()->getId() name=$user id=$photo->getId()}"><img src="{url route="galleryPicAction" album=$photo->getAlbum()->getId() name=$user id=$photo->getId() action="viewThumbnail"}" alt="{$photo->getName()} ({$photo->getFile()->getSize()|filesize})" /></a>
-            {foreachelse}
-                Ни одной фотки не загружено
-            {/foreach}
-        </td>
-        <td>
-            Альбомы:<br />
-            {foreach from=$albums item="album"}
-                <a href="{url route=galleryAlbum name=$user album=$album->getId() action=viewAlbum}">{if $album->getMainPhoto()}<img src="{url route="galleryPicAction" album=$album->getId() name=$user id=$album->getMainPhoto()->getId() action="viewThumbnail"}" />{/if}<br />
-                {$album->getName()} ({$album->getPicsNumber()} фото)</a>{$album->getJip()}
-                <br />
-            {foreachelse}
-                Ни одного альбома не создано
-            {/foreach}
-        </td>
-    </tr>
-</table>
+<h3>Альбомы пользователя {$user}{$gallery->getJip()}</h3>
+
+
+{foreach from=$albums item="album"}
+    <div class="albums">
+        <div class="albumCase">
+            <div>
+                <a href="{url route=galleryAlbum name=$user album=$album->getId() action=viewAlbum}">
+                <img {if $album->getMainPhoto()}class="albumThumb" src="{url route="galleryPicAction" album=$album->getId() name=$user id=$album->getMainPhoto()->getId() action="viewThumbnail"}{else}src="{$SITE_PATH}/templates/images/gallery/empty.gif{/if}" alt="{$album->getName()}" title="{$album->getName()}" /></a>
+            </div>
+        </div>
+        <h4><a href="{url route=galleryAlbum name=$user album=$album->getId() action=viewAlbum}" title="{$album->getName()|addslashes}">{if strlen($album->getName()) > 15}{$album->getName()|htmlspecialchars|substr:0:12}...{else}{$album->getName()|htmlspecialchars}{/if}</a></h4>
+        <p><b>{$album->getPicsNumber()}</b> фото {$album->getJip()}</p>	
+    </div>
+{foreachelse}
+     Альбомов у пользователя нет.
+{/foreach}
+
+<br clear="all" />

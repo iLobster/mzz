@@ -1,0 +1,47 @@
+.albums, .albumPhotos {
+    width: 120px;
+    height: 140px;
+    text-align: left;
+    float: left;
+    padding-right: 6px;
+}
+
+.albums h4 {
+    width: 110px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 95%;
+    font-weight: bold;
+}
+
+.albums p, .albumPhotos p {
+    margin-top: 2px;
+    font-size: 85%;
+    color: #888;
+}
+
+.albumCase {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 92px;
+    height: 72px;
+    padding: 5px 0 0 6px;
+    background: url("../images/gallery/album_bg.gif") no-repeat;
+}
+
+.albumCase .albumThumb { 
+    border: 1px solid #000;
+}
+
+p.photoCount {
+    margin: -17px 0 20px 0;
+    font-size: 85%;
+    color: #666;
+    font-family: tahoma, verdana;
+}
+
+.albumPhotoCase {
+    /*padding: 5px;
+    border: 1px solid #DFDFDF;
+    text-align: center;*/
+}
