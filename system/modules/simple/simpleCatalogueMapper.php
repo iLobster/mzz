@@ -308,7 +308,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
                 $type = $this->getPropertyType($val);
 
-                $criteria->add('p.name', $val)->add('d.' . $type['name'], $value);
+                $criteria->add('p.name', $val)->add('d.' . $type['name'], $value, $criterion->getComparsion());
                 $criteria->remove($val);
 
                 $keys_to_remove[] = $type['name'];
