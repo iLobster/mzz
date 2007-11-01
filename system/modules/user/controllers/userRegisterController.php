@@ -83,7 +83,7 @@ class userRegisterController extends simpleController
             $user = $userMapper->searchOneByCriteria($criteria);
 
             if ($user) {
-                $user->setConfirmed('');
+                $user->setConfirmed(null);
                 $userMapper->save($user);
 
                 $groupMapper = $this->toolkit->getMapper('user', 'group');
