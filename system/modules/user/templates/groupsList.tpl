@@ -9,11 +9,11 @@
         <td><strong>Пользователей в группе</strong></td>
         <td><strong>Jip</strong></td>
     </tr>
-    {foreach from=$groups item=group}
+    {foreach from=$groups item=group key=key}
         <tr>
             <td align="center">{$group->getId()}</td>
             <td>{$group->getName()}</td>
-            <td>{$group->getUsers()|@count}</td>
+            <td>{$usersGroups.$key}</td>
             <td>{$group->getJip()}</td>
         </tr>
     {/foreach}
