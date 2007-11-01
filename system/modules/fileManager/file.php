@@ -132,19 +132,18 @@ class file extends simple
             header("Content-Length: " . ($size - $offset + 1));
             header("Content-Range: bytes " . $offset . "-" . $size . "/" . $fileSize);
 
+            if(empty($name)) {
+                $name = $this->getName();
+            }
 
             $mimetypes = $this->mapper->getMimetypes();
             if (!$this->getRightHeader() || !isset($mimetypes[$this->getExt()])) {
+                header("Content-Disposition: attachment; filename=\"" . $name . "\"");
                 header("Content-Type: application/x-octetstream");
             } else {
                 header("Content-Type: " . $mimetypes[$this->getExt()]);
             }
 
-            if(empty($name)) {
-                $name = $this->getName();
-            }
-
-            header("Content-Disposition: attachment; filename=\"" . $name . "\"");
             header("Last-Modified: " . date('r', filemtime($fileName)));
 
             header("Content-Transfer-Encoding: binary");
