@@ -43,10 +43,10 @@ class menuItemMapper extends simpleCatalogueMapper
         return $this->searchOneByField('id', $id);
     }
 
-    public function getMenuChildrens($parent_id, $menu_id)
+    public function getMenuChildrens($parent_id, menu $menu)
     {
         $criteria = new criteria;
-        $criteria->add('parent_id', (int)$parent_id)->add('menu_id', (int)$menuId)->setOrderByFieldDesc('order')->setOrderByFieldDesc('id');
+        $criteria->add('parent_id', (int)$parent_id)->add('menu_id', $menu->getId())->setOrderByFieldDesc('order')->setOrderByFieldDesc('id');
 
         $data = $this->searchAllByCriteria($criteria);
         return $data;

@@ -71,13 +71,11 @@ class photoMapper extends simpleMapper
     {
         $fileMapper = $do->getFileMapper();
         $file = $do->getFile();
-        $thumbnail = $do->getThumbnail();
-        if ($thumbnail) {
-            $fileMapper->delete($thumbnail);
-        }
+
         if ($file) {
             $fileMapper->delete($file);
         }
+
         parent::delete($do->getId());
     }
 
