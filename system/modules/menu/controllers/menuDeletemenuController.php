@@ -34,7 +34,7 @@ class menuDeletemenuController extends simpleController
             $itemMapper->delete($item);
         }
 
-        $menuMapper->delete($menu->getId());
+        $menuMapper->delete($menu);
 
         return jipTools::redirect();
     }
