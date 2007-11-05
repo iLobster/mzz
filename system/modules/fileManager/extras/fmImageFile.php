@@ -6,7 +6,7 @@ class fmImageFile extends fmSimpleFile
         $config = systemToolkit::getInstance()->getConfig('fileManager');
         $publicPath = $config->get('public_path');
 
-        $thumb_name = md5($this->file->getId() . $this->file->getName()) . '.' . $this->file->getExt();
+        $thumb_name = md5($this->file->section() . $this->file->getId() . $this->file->getName()) . '_' . $width . 'x' . $height . '.' . $this->file->getExt();
         $file = systemConfig::$pathToApplication . $publicPath . DIRECTORY_SEPARATOR . 'thumbnails' . DIRECTORY_SEPARATOR . $thumb_name;
 
         if (!is_file($file)) {

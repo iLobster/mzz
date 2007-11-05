@@ -3,7 +3,7 @@
 {title append=$user->getLogin()}
 {title append="Галерея"}
 
-<h3>Альбом «{$album->getName()}»</h3>
+<h3>Альбом «{$album->getName()}» {$album->getJip()}</h3>
 
 <p class="photoCount">{$photos|@sizeof|word_ending:"фотографий,фотография,фотографии"},
 в <a href="{url route="withAnyParam" name=$user->getLogin()  action="viewGallery"}">галерее</a> пользователя {$user->getLogin()}</p>
