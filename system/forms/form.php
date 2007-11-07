@@ -117,7 +117,7 @@ class form
         return formFileField::toString($params);
     }
 
-    public function captcha($params, $smarty = null)
+    public function captcha($params, $smarty)
     {
         fileLoader::load('forms/formCaptchaField');
         return formCaptchaField::toString($params);

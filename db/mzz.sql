@@ -5,11 +5,6 @@
 # Database : mzz
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
-
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP DATABASE IF EXISTS `mzz`;
@@ -1398,7 +1393,7 @@ CREATE TABLE `page_page` (
 #
 
 INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `compiled`) VALUES 
-  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike><br />\n{load module=\"voting\" section=\"voting\" action=\"viewActual\" name=\"simple\"}\n',1,1),
+  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n',1,0),
   (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1,NULL),
   (3,11,'test','test','test',1,NULL),
   (4,57,'403','Доступ запрещён','Доступ запрещён',1,NULL),
@@ -5764,8 +5759,7 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES
   (47,21,7,8,'5'),
   (48,18,1,1,'10'),
   (49,18,2,2,'../files'),
-  (50,7,8,10,'/files'),
-  (51,24,10,11,'5');
+  (50,7,8,10,'/files');
 
 COMMIT;
 
@@ -7661,7 +7655,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1193226088),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1193988875),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1194418677),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7752,7 +7746,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (206,2,'442480f9174f4d7d1c715386ca0c440f',1194418677,'http://mzz/captcha?rand=3022','127.0.0.1');
+  (207,2,'d1d042c0d9d091078071d987ca6813ae',1194446915,'http://mzz/captcha?rand=66ea6f00994ec62b69572d1e6dc48177','127.0.0.1');
 
 COMMIT;
 
@@ -7804,7 +7798,7 @@ CREATE TABLE `voting_question` (
 #
 
 INSERT INTO `voting_question` (`id`, `question`, `category_id`, `created`, `expired`, `obj_id`) VALUES 
-  (1,'Вы верите в розового жирафика?',1,1186015080,1186188060,796);
+  (1,'Вы верите в розового жирафика?',1,1186015080,1217810460,796);
 
 COMMIT;
 
@@ -7847,8 +7841,3 @@ INSERT INTO `voting_voteCategory` (`id`, `name`, `title`, `obj_id`) VALUES
 
 COMMIT;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

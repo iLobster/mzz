@@ -24,7 +24,14 @@ class formCaptchaRule extends formAbstractRule
     public function validate()
     {
         $session = systemToolkit::getInstance()->getSession();
-        $captchaValue = $session->get('captcha', false);
+        $request = systemToolkit::getInstance()->getRequest();
+
+        $captcha_id = $request->get($this->name . '_id', 'string', SC_POST);
+
+        $captcha_sessionkey = 'captcha_' . $captcha_id;
+
+        $captchaValue = $session->get($captcha_sessionkey, false);
+        $session->destroy($captcha_sessionkey);
 
         if ($captchaValue) {
             return (md5($this->value) == $captchaValue);

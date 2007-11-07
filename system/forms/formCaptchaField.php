@@ -23,11 +23,14 @@ class formCaptchaField extends formElement
 {
     static public function toString($options = array())
     {
-        //$options['type'] = 'text';
+        $options['type'] = 'text';
 
-        $image = self::createTag(array('src' => '/captcha/?rand=' . mt_rand(0, 10000)), 'img');
+        $captcha_id = md5(microtime(true));
 
-        return $image . self::createTag($options);
+        $image = self::createTag(array('src' => '/captcha/?rand=' . $captcha_id, 'width' => 120, 'height' => 60), 'img');
+        $hidden = self::createTag(array('type' => 'hidden', 'name' => $options['name'] . '_id', 'value' => $captcha_id), 'input');
+
+        return $hidden . $image . '<br />' . self::createTag($options);
     }
 }
 

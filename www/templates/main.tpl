@@ -50,8 +50,7 @@
                 <div class="sideBlock">
                     <p class="sideBlockTitle">Опрос</p>
                     <div class="sideBlockContent">
-                        <a href="#">Личные сообщения</a><br />
-                        <a href="#">Выход</a>
+                        {load module="voting" section="voting" action="viewActual" name="simple"}
                     </div>
                 </div>
 
