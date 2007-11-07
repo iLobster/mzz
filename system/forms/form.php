@@ -23,6 +23,7 @@ fileLoader::load("forms/formElement");
  */
 class form
 {
+
     public function open($params, $smarty)
     {
         fileLoader::load('forms/formTag');
@@ -114,6 +115,12 @@ class form
     {
         fileLoader::load('forms/formFileField');
         return formFileField::toString($params);
+    }
+
+    public function captcha($params, $smarty = null)
+    {
+        fileLoader::load('forms/formCaptchaField');
+        return formCaptchaField::toString($params);
     }
 }
 

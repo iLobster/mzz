@@ -1078,7 +1078,8 @@ CREATE TABLE `message_message` (
 #
 
 INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `time`, `watched`, `category_id`, `obj_id`) VALUES 
-  (1,'Превед','Превед медвед',1,2,1184625784,1,1,812);
+  (1,'Превед','Превед медвед',1,2,1184625784,1,1,812),
+  (2,'test','test',2,3,1194418216,0,1,1232);
 
 COMMIT;
 
@@ -5555,7 +5556,10 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1220,20),
   (1223,11),
   (1226,11),
-  (1227,11);
+  (1227,11),
+  (1230,43),
+  (1231,7),
+  (1232,29);
 
 COMMIT;
 
@@ -5683,7 +5687,8 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (20,0,6),
   (21,0,11),
   (22,0,12),
-  (23,0,17);
+  (23,0,17),
+  (24,0,18);
 
 COMMIT;
 
@@ -5714,7 +5719,8 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
   (7,'Секция файлменеджера'),
   (8,'Количество последних фотографий'),
   (9,''),
-  (10,'public_path');
+  (10,'public_path'),
+  (11,'Длина строки');
 
 COMMIT;
 
@@ -5758,7 +5764,8 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES
   (47,21,7,8,'5'),
   (48,18,1,1,'10'),
   (49,18,2,2,'../files'),
-  (50,7,8,10,'/files');
+  (50,7,8,10,'/files'),
+  (51,24,10,11,'5');
 
 COMMIT;
 
@@ -5787,7 +5794,9 @@ INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
   (5,'thmb_height'),
   (6,'filemanager_section'),
   (7,'last_photo_number'),
-  (8,'public_path');
+  (8,'public_path'),
+  (9,'strlen'),
+  (10,'length');
 
 COMMIT;
 
@@ -5849,7 +5858,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (43,'categoryFolder',15),
   (44,'tags',17),
   (45,'tagsItem',17),
-  (46,'tagsItemRel',17);
+  (46,'tagsItemRel',17),
+  (47,'captcha',18);
 
 COMMIT;
 
@@ -6044,7 +6054,9 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (250,45,95),
   (251,45,94),
   (252,45,5),
-  (253,1,97);
+  (253,1,97),
+  (254,47,9),
+  (255,47,3);
 
 COMMIT;
 
@@ -6108,7 +6120,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (39,43,15),
   (40,45,17),
   (41,44,17),
-  (42,46,17);
+  (42,46,17),
+  (43,47,18);
 
 COMMIT;
 
@@ -6147,7 +6160,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (14,'message',32,'Сообщения пользователей','page.gif',0),
   (15,'forum',35,'Форум','',0),
   (16,'faq',42,'FAQ','',0),
-  (17,'tags',45,'','',0);
+  (17,'tags',45,'','',0),
+  (18,'captcha',47,'Captcha','',0);
 
 COMMIT;
 
@@ -7397,7 +7411,11 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1226),
   (1227),
   (1228),
-  (1229);
+  (1229),
+  (1230),
+  (1231),
+  (1232),
+  (1233);
 
 COMMIT;
 
@@ -7468,7 +7486,9 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (982,'access_forum_thread'),
   (1165,'news_searchByTag'),
   (1169,'news_tagsCloud'),
-  (1184,'access_tags_tagsItem');
+  (1184,'access_tags_tagsItem'),
+  (1230,'captcha_captcha'),
+  (1231,'access_captcha_captcha');
 
 COMMIT;
 
@@ -7506,7 +7526,8 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (14,'message','Сообщения пользователей',0),
   (15,'forum','Форум',0),
   (16,'faq','',0),
-  (17,'tags',NULL,NULL);
+  (17,'tags',NULL,NULL),
+  (18,'captcha',NULL,NULL);
 
 COMMIT;
 
@@ -7640,7 +7661,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1193226088),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1193874208),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1193988875),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7675,7 +7696,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (87,3,'127.0.0.1','27795bb192fb7db9b9d1956a5ab64695',NULL,1190000095),
   (88,2,'127.0.0.1','2cb55a1503611b24dd8bd14c0dfddd28',NULL,1193226125),
   (89,2,'127.0.0.1','83d75d9a718c75e0d30977be9182e8d9',NULL,1193228151),
-  (90,2,'127.0.0.1','d362454ed43a871c97c859ebd9f3bfc6',NULL,1193986007);
+  (90,2,'127.0.0.1','d362454ed43a871c97c859ebd9f3bfc6',NULL,1193986007),
+  (91,2,'127.0.0.1','84bf2d010202708157191906c06e990f',NULL,1194405647);
 
 COMMIT;
 
@@ -7730,7 +7752,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (204,2,'f006b73949931fc4b768c8678b41b52b',1193988875,'http://mzz/templates/images/admin','127.0.0.1');
+  (206,2,'442480f9174f4d7d1c715386ca0c440f',1194418677,'http://mzz/captcha?rand=3022','127.0.0.1');
 
 COMMIT;
 

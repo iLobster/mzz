@@ -52,6 +52,8 @@ class messageSendController extends simpleController
         $validator->add('required', 'message[text]', 'Необходимо указать текст сообщения');
         $validator->add('required', 'message[recipient]', 'Необходимо указать получателя сообщения');
         $validator->add('callback', 'message[recipient]', 'Пользователь не найден', array('checkRecipient', $usersArray));
+        $validator->add('required', 'captcha', 'Введите текст, изображенный на картинке');
+        $validator->add('captcha', 'captcha', 'Неверный текст');
 
         if ($validator->validate()) {
             $msg = $this->request->get('message', 'array', SC_POST);

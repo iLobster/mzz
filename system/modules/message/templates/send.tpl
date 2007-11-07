@@ -14,6 +14,10 @@
             <td style='width: 80%;'>{form->textarea name="message[text]" rows="6" cols="50"}{$errors->get('message[text]')}</td>
         </tr>
         <tr>
+            <td style='width: 20%;'>{*{form->caption name="captcha" value="Введите код:"}*}</td>
+            <td style='width: 80%;'>{form->captcha name="captcha"}{$errors->get('captcha')}</td>
+        </tr>
+        <tr>
             <td>&nbsp;</td>
             <td>{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>

@@ -1,0 +1,1 @@
+{load module="captcha" action="view" 403handle="none"}
