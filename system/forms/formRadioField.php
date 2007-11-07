@@ -23,11 +23,14 @@ class formRadioField extends formElement
 {
     static public function toString($options = array())
     {
+        static $i = 0;
+        
         if (isset($options['text'])) {
             $text = $options['text'];
             unset($options['text']);
 
-            $id = 'mzzForms_' . md5(microtime(true));
+            $id = 'mzzFormsRadio_' . $i;
+            $i++;
             $label = self::createTag(array('for' => $id, 'style' => 'cursor: pointer; cursor: hand;', 'content' => $text), 'label');
 
             $options['id'] = $id;
