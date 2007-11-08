@@ -27,7 +27,7 @@ class formCaptchaField extends formElement
 
         $captcha_id = md5(microtime(true));
 
-        $image = self::createTag(array('src' => '/captcha/?rand=' . $captcha_id, 'width' => 120, 'height' => 60), 'img');
+        $image = self::createTag(array('src' => '/captcha/?rand=' . $captcha_id, 'width' => 120, 'height' => 40), 'img');
         $hidden = self::createTag(array('type' => 'hidden', 'name' => $options['name'] . '_id', 'value' => $captcha_id), 'input');
 
         return $hidden . $image . '<br />' . self::createTag($options);
