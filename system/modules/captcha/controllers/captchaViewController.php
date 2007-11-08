@@ -98,6 +98,8 @@ class captchaViewController extends simpleController
             $image = ob_get_contents();
             ob_end_clean();
 
+            imagedestroy($im);
+
             $session->set('captcha_' . $captcha_id, md5($string));
 
             $this->response->setHeader('Content-type', 'image/png');
