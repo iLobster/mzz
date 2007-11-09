@@ -6,6 +6,10 @@ function switchChckbox(id, self) {
     element.disabled = !self.checked;
     element.checked = element.disabled && self.checked;
 
+    var element = $("short[" + id + "]");
+    element.disabled = !self.checked;
+    element.checked = element.disabled && self.checked;
+
     var element = $("sort[" + id + "]");
     element.disabled = !self.checked;
 }
@@ -28,20 +32,23 @@ function switchChckbox(id, self) {
         <tr>
             <td><strong>Параметр:</strong></td>
             <td><strong>Сортировка:</strong></td>
+            <td><strong>Для полного:</strong></td>
             <td><strong>Для краткого:</strong></td>
         </tr>
         {foreach from=$type.properties key="id" item="property"}
             <tr>
                 <td>{form->checkbox value=1 name="properties[$id]" onclick="javascript:switchChckbox($id, this);"} {$property.title}</td>
                 <td>{form->text name="sort[$id]" id="sort[$id]" size=3 maxlength=4 value=$property.sort}</td>
-                <td>{form->checkbox value=$property.isShort name="full[$id]" id="full[$id]"}</td>
+                <td>{form->checkbox value=$property.isFull name="full[$id]" id="full[$id]"}</td>
+                <td>{form->checkbox value=$property.isShort name="short[$id]" id="short[$id]"}</td>
             </tr>
         {/foreach}
         {foreach from=$properties key="id" item="property"}
             <tr>
                 <td>{form->checkbox value=0 name="properties[$id]" onclick="javascript:switchChckbox($id, this);"} {$property.title}</td>
                 <td>{form->text name="sort[$id]" id = "sort[$id]" size=3 maxlength=4 disabled="true"}</td>
-                <td>{form->checkbox value=0 name="full[$id]" id="full[$id]" disabled="true"}</td>
+                <td>{form->checkbox value="1" name="full[$id]" id="full[$id]" disabled="true"}</td>
+                <td>{form->checkbox value="0" name="short[$id]" id="short[$id]" disabled="true"}</td>
             </tr>
         {/foreach}
         <tr>

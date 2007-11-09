@@ -79,12 +79,14 @@ class catalogueSaveTypeController extends simpleController
             $title = $this->request->get('title', 'string', SC_POST);
 
             $newProperties_tmp = (array) $this->request->get('properties', 'mixed', SC_POST);
-            $newPropertiesIsShort = (array) $this->request->get('full', 'mixed', SC_POST);
+            $newPropertiesIsFull = (array) $this->request->get('full', 'mixed', SC_POST);
+            $newPropertiesIsShort = (array) $this->request->get('short', 'mixed', SC_POST);
             $newPropertiesSort = (array) $this->request->get('sort', 'mixed', SC_POST);
 
             $newProperties = array();
             foreach ($newProperties_tmp as $id => $value) {
                 if ($value != 0) {
+                    $newProperties[$id]['isFull'] = (isset($newPropertiesIsFull[$id]) && $newPropertiesIsFull[$id] != 0) ? 1 : 0;
                     $newProperties[$id]['isShort'] = (isset($newPropertiesIsShort[$id]) && $newPropertiesIsShort[$id] != 0) ? 1 : 0;
                     $newProperties[$id]['sort'] = (isset($newPropertiesSort[$id]) && $newPropertiesSort[$id] != 0) ? (int) $newPropertiesSort[$id] : 0;
                 }

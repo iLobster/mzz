@@ -24,7 +24,7 @@ class formRadioField extends formElement
     static public function toString($options = array())
     {
         static $i = 0;
-        
+
         if (isset($options['text'])) {
             $text = $options['text'];
             unset($options['text']);
@@ -44,6 +44,10 @@ class formRadioField extends formElement
             $options['checked'] = true;
         } elseif ($requestValue !== false) {
             unset($options['checked']);
+        }
+
+        if (isset($options['values'])) {
+            unset($options['values']);
         }
 
         $checkbox = self::createTag($options);

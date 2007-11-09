@@ -77,7 +77,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     public function getProperties($id)
     {
         if (!isset($this->tmpTypesProps[$id])) {
-            $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isShort`, `tp`.`sort`, NULL as value FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id ORDER BY `tp`.`sort` ASC';
+            $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isFull`, `tp`.`isShort`, `tp`.`sort`, NULL as value FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id ORDER BY `tp`.`sort` ASC';
             $stmt = $this->db->prepare($query);
             $stmt->bindParam('type_id', $id);
             $stmt->execute();
@@ -240,10 +240,11 @@ abstract class simpleCatalogueMapper extends simpleMapper
     private function updatePropertiesSelection($typeId, Array $properties)
     {
         foreach ($properties as $id => $values) {
-            $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isShort` = :isShort, `sort` = :sort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
+            $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isFull` = :isFull, `isShort` = :isShort, `sort` = :sort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
             $stmt->bindParam('type_id', $typeId);
             $stmt->bindParam('prop_id', $id, PDO::PARAM_INT);
             $stmt->bindParam('sort', $values['sort'], PDO::PARAM_INT);
+            $stmt->bindParam('isFull', $values['isFull'], PDO::PARAM_INT);
             $stmt->bindParam('isShort', $values['isShort'], PDO::PARAM_INT);
             $stmt->execute();
         }
@@ -329,7 +330,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties->setTable($this->table, $this->className);
         $properties->clearSelectFields();
         $properties->clearGroupBy();
-        $properties->addSelectField('d.*')->addSelectField($this->className . '.id', 'id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('p.args')->addSelectField('tp.isShort');
+        $properties->addSelectField('d.*')->addSelectField($this->className . '.id', 'id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('p.args')->addSelectField('tp.isFull')->addSelectField('tp.isShort');
         //$properties->setOrderByFieldAsc('tp.sort');
 
         // критерий для подзапроса, с помощью которого будут выбираться данные только для необходимых объектов

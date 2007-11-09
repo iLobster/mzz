@@ -273,7 +273,8 @@ CREATE TABLE `catalogue_catalogue_types_props` (
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
   `sort` int(11) unsigned default '0',
-  `isShort` tinyint(1) unsigned default '0',
+  `isFull` tinyint(1) NOT NULL default '1',
+  `isShort` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`),
   KEY `property_id` (`property_id`)
@@ -283,20 +284,19 @@ CREATE TABLE `catalogue_catalogue_types_props` (
 # Data for the `catalogue_catalogue_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `sort`, `isShort`) VALUES 
-  (24,8,10,2,1),
-  (25,8,11,5,0),
-  (26,8,12,1,1),
-  (27,8,13,4,1),
-  (28,7,14,2,1),
-  (29,7,15,1,1),
-  (30,7,16,6,0),
-  (43,7,12,0,0),
-  (49,9,24,0,0),
-  (50,9,25,0,0),
-  (51,9,26,0,1),
-  (55,11,31,0,0),
-  (56,11,32,0,0);
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES 
+  (24,8,10,2,0,1),
+  (25,8,11,5,0,0),
+  (26,8,12,1,0,1),
+  (27,8,13,4,0,1),
+  (28,7,14,2,1,0),
+  (29,7,15,1,0,1),
+  (30,7,16,6,0,1),
+  (49,9,24,0,0,0),
+  (50,9,25,0,0,0),
+  (51,9,26,0,0,1),
+  (55,11,31,0,0,0),
+  (56,11,32,0,0,0);
 
 COMMIT;
 
@@ -838,7 +838,8 @@ CREATE TABLE `menu_menu` (
 
 INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES 
   (5,'demo','Демо-меню',660),
-  (6,'hmenu','Верхнее меню',1185);
+  (6,'hmenu','Верхнее меню',1185),
+  (7,'smenu','Боковое меню',1234);
 
 COMMIT;
 
@@ -865,19 +866,25 @@ CREATE TABLE `menu_menuItem` (
 
 INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
   (1,0,2,5,'Новости',1,661),
-  (2,0,2,5,'Страницы',2,662),
-  (3,0,2,5,'Каталог',3,663),
-  (4,0,2,5,'Галерея',4,664),
-  (5,0,2,5,'Пользователи',5,665),
-  (6,0,2,5,'Панель управления',7,666),
-  (7,0,2,5,'Сообщения',8,815),
-  (8,0,2,5,'Форум',9,888),
+  (2,0,2,5,'Страницы',1,662),
+  (3,0,2,5,'Каталог',1,663),
+  (4,0,2,5,'Галерея',2,664),
+  (5,0,2,5,'Пользователи',3,665),
+  (6,0,2,5,'Панель управления',5,666),
+  (7,0,2,5,'Сообщения',6,815),
+  (8,0,2,5,'Форум',7,888),
   (9,0,2,6,'Новости',1,1186),
-  (10,0,2,6,'Каталог',2,1187),
-  (11,0,2,6,'Галерея',3,1188),
-  (12,0,2,6,'Вопросы и ответы',4,1189),
-  (13,0,2,6,'Форум',5,1190),
-  (14,0,2,6,'ПУ',6,1191);
+  (10,0,2,6,'Каталог',1,1187),
+  (11,0,2,6,'Галерея',1,1188),
+  (12,0,2,6,'Вопросы и ответы',2,1189),
+  (13,0,2,6,'Форум',3,1190),
+  (14,0,2,6,'ПУ',4,1191),
+  (18,0,1,7,'Новости',1,1238),
+  (19,18,1,7,'Главное',1,1239),
+  (20,0,1,7,'Каталог',2,1240),
+  (21,20,1,7,'Техническая литература',1,1241),
+  (22,0,1,7,'FAQ',3,1242),
+  (23,22,1,7,'Демо',1,1243);
 
 COMMIT;
 
@@ -943,7 +950,13 @@ INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, 
   (13,4,NULL,NULL,NULL,NULL),
   (14,2,NULL,'/admin/admin',NULL,NULL),
   (14,3,NULL,NULL,NULL,NULL),
-  (14,4,NULL,NULL,NULL,NULL);
+  (14,4,NULL,NULL,NULL,NULL),
+  (19,1,NULL,'/news/main/list',NULL,NULL),
+  (18,1,NULL,'/news',NULL,NULL),
+  (20,1,NULL,'/catalogue',NULL,NULL),
+  (21,1,NULL,'/catalogue/books/tech/list',NULL,NULL),
+  (22,1,NULL,'/faq',NULL,NULL),
+  (23,1,NULL,'/faq/demo/list',NULL,NULL);
 
 COMMIT;
 
@@ -1031,7 +1044,8 @@ CREATE TABLE `menu_menuItem_types_props` (
   `type_id` int(11) unsigned default NULL,
   `property_id` int(11) unsigned default NULL,
   `sort` int(11) unsigned default '0',
-  `isShort` tinyint(1) unsigned default '0',
+  `isFull` tinyint(1) NOT NULL default '1',
+  `isShort` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`),
   KEY `property_id` (`property_id`)
@@ -1041,11 +1055,11 @@ CREATE TABLE `menu_menuItem_types_props` (
 # Data for the `menu_menuItem_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem_types_props` (`id`, `type_id`, `property_id`, `sort`, `isShort`) VALUES 
-  (1,1,1,0,0),
-  (2,2,2,0,0),
-  (3,2,3,0,0),
-  (4,2,4,0,0);
+INSERT INTO `menu_menuItem_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES 
+  (1,1,1,0,1,0),
+  (2,2,2,0,1,0),
+  (3,2,3,0,1,0),
+  (4,2,4,0,1,0);
 
 COMMIT;
 
@@ -5554,7 +5568,14 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1227,11),
   (1230,43),
   (1231,7),
-  (1232,29);
+  (1232,29),
+  (1234,22),
+  (1238,21),
+  (1239,21),
+  (1240,21),
+  (1241,21),
+  (1242,21),
+  (1243,21);
 
 COMMIT;
 
@@ -7409,7 +7430,17 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1230),
   (1231),
   (1232),
-  (1233);
+  (1233),
+  (1234),
+  (1235),
+  (1236),
+  (1237),
+  (1238),
+  (1239),
+  (1240),
+  (1241),
+  (1242),
+  (1243);
 
 COMMIT;
 
@@ -7655,7 +7686,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1193226088),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1194418677),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1194446915),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7746,7 +7777,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (207,2,'d1d042c0d9d091078071d987ca6813ae',1194446915,'http://mzz/captcha?rand=66ea6f00994ec62b69572d1e6dc48177','127.0.0.1');
+  (208,2,'f9467859deb391f765ac24803d558412',1194623834,'http://mzz/gallery/admin/3/6/viewThumbnail','127.0.0.1');
 
 COMMIT;
 
