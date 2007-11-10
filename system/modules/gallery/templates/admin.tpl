@@ -19,7 +19,7 @@
                 <td style="text-align: left;"><a href="{url route="galleryPicAction" album=$album->getId() name=$gallery->getOwner()->getLogin() id=$photo->getId() action="view"}">{$photo->getName()}</a></td>
                 <td style="text-align: left;">{$photo->getAbout()}</td>
                 <td style="width: 30px;text-align: center;">{$photo->getFile()->getDownloads()}</td>
-                <td style="width: 120px;text-align: center;"><a href="{url route="galleryPicAction" album=$album->getId() name=$gallery->getOwner()->getLogin() id=$photo->getId() action="view"}"><img src="{url route="galleryPicAction" album=$album->getId() name=$gallery->getOwner()->getLogin() id=$photo->getId() action="viewThumbnail"}" /></a></td>
+                <td style="width: 120px;text-align: center;"><a href="{url route="galleryPicAction" album=$album->getId() name=$gallery->getOwner()->getLogin() id=$photo->getId() action="view"}"><img src="{$photo->getThumbnail()}" alt="{$photo->getName()}, {$photo->getFile()->getSize()|filesize}" title="{$photo->getName()}, {$photo->getFile()->getSize()|filesize}" /></a></td>
                 <td style="width: 30px;text-align: center;">{$photo->getJip()}</td>
             </tr>
         {/foreach}
