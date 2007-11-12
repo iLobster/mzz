@@ -2,7 +2,7 @@
 var massActionDelete = "{url route="default2" section=$current_section action="delete"}";
 var massActionMove = "{url route="default2" section=$current_section action="move"}";
 {literal}function selectAllItems(access) {
-    $A(document.getElementsByTagName('input')).each(function(elm) {
+    $$('input').each(function(elm) {
         if (elm.type == 'checkbox' && elm.id.match(new RegExp('^catalogueitem_\\d+$', 'im'))) {
             elm.checked = access;
         }});

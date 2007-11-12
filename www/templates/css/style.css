@@ -5,8 +5,7 @@ html, body {
     height: 100%;
     background-color: #fff;
     color: #000000;
- /*   font-family: tahoma, verdana, arial;*/
-font-family:Arial,sans-serif;
+    font-family: tahoma, verdana, arial;
     font-size: 90%;
 }
 
@@ -121,7 +120,7 @@ img {
 
 #hcontainer {
 	width: 100%;
-	height: 104px;
+	height: 96px;
 	margin: 0 auto;
 	position: relative;
 	z-index: 2;
@@ -129,14 +128,21 @@ img {
         background-repeat: no-repeat;
 }
 
-#background_lines {
+#hbackground {
 	background: #333D44 url("../images/header_background.png");
 }
 
 #hcontainer img {
-	margin-left: 37px;
-	margin-top: 31px;
+	margin-left: 39px;
+	margin-top: 27px;
 	border: 0;
+}
+
+.headerBorderLine {
+    background-color: #EFEFEA;
+    border-bottom: 1px solid #E3E2DA;
+    height: 2px;
+    margin-top: 6px;
 }
 
 #menucontainer {
@@ -254,19 +260,16 @@ ul.sideMenu li {
 
 ul.sideMenu li ul {
 	margin-left: -15px;
-	padding-left: -15px;
-	font-size: 90%;
 }
 
 ul.sideMenu li ul li {
-	/*background: #fff url("arrow_sub.gif") no-repeat 5px 8px;*/
+	background: #fff url("../images/submenu_arrow.gif") no-repeat 6px 9px;
 }
 
 ul.sideMenu li a {
 	/*color: #003379;*/
-        color: #033F63;
-	/*font-family: Tahoma, Verdana, Arial;*/
-	font-size: 110%;
+        /*color: #033F63;*/
+        color: #1A2D53;
 	text-decoration: none;
 }
 

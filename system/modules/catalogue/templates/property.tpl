@@ -4,9 +4,9 @@ var count = 0;
 var CATALOGUE_PATH = '{url onlyPath=true}';
 var CATALOGUE_TYPES_WITH_CONFIG = [5, 6, 7, 8];
 
-jsLoader.load(SITE_PATH + '/templates/js/catalogue.js');
+fileLoader.loadJS(SITE_PATH + '/templates/js/catalogue.js');
 
-jsLoader.setOnLoad(function () {ldelim}
+fileLoader.setOnLoad(function () {ldelim}
 mzzCatalogue.setValues({ldelim}
 {if $propertyForm.type_id == 8}
 'sections': '{$propertyForm.typeConfig.section}',

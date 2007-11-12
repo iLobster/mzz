@@ -12,8 +12,8 @@
     /**
      * @param access 1 - allow checkboxes, 0 - deny checkboxes
      */
-    function selectAllPermissions(access) { 
-        $A(document.getElementsByTagName('input')).each(function(elm) { 
+    function setPermissionForAllActions(access, link) {
+        $(link).up('table').select('input').each(function(elm) {
         var elmInfo = elm.id.match(new RegExp('access_.*?_(allow|deny)', 'im'));
         if(elmInfo) {
             if ((access && elmInfo[1] == 'deny') || (!access && elmInfo[1] == 'allow')) {
@@ -22,13 +22,14 @@
                 $(elmInfo[0]).checked = 'checked';
             }
         }});
+        return false;
     }
     </script>{/literal}
 
     <tr>
-        <td><a class="jsLink" href="javascript: void(selectAllPermissions(1));">Разрешить</a></td>
-        <td><a class="jsLink" href="javascript: void(selectAllPermissions(0));">Запретить</a></td>
-        <td style="width: 100%;"><strong>Имя права</strong></td>
+        <td><a class="jsLink" href="#" onclick="return setPermissionForAllActions(1, this);">Разрешить</a></td>
+        <td><a class="jsLink" href="#" onclick="return setPermissionForAllActions(0, this);">Запретить</a></td>
+        <td style="width: 100%;"><strong>Действие</strong></td>
     </tr>
 {foreach from=$actions item=action key=key}
     <tr>

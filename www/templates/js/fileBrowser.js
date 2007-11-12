@@ -1,4 +1,4 @@
-cssLoader.load(SITE_PATH + '/templates/css/fileBrowse.css');
+fileLoader.loadCSS(SITE_PATH + '/templates/css/fileBrowse.css');
 var mzzFileBrowse = {
     lastFile: false,
     options: null,
@@ -70,12 +70,12 @@ var mzzFileBrowse = {
         new Effect.Opacity('fmBrowseDetailsWrap', {duration:0.2, from:1.0, to:0.01,
         afterFinish: function() {
             elm = $(elm);
-            var fileThumb = (elm.getElementsBySelector('img') || [])[0];
+            var fileThumb = (elm.select('img') || [])[0];
             var details = '<div class="fmBrowseDetails">';
             if (fileThumb) {
                 details += '<img src="' + fileThumb.src + '" title="' + fileThumb.title + '" />';
             }
-            details += '<div class="fmBrowseDetailsText">' + ((elm.getElementsByClassName('fileDetails') || [])[0].innerHTML) + '</div></div>';
+            details += '<div class="fmBrowseDetailsText">' + ((elm.select('.fileDetails') || [])[0].innerHTML) + '</div></div>';
 
             $('fmBrowseDetailsWrap').update(details);
             new Effect.Opacity('fmBrowseDetailsWrap', {duration: 0.2, from: 0.01, to: 1.0});
@@ -94,12 +94,12 @@ var mzzFileBrowse = {
         }
         this.options = mzzRegistry.get('fileBrowseOptions');
 
-        if (typeof(this.options.target) == 'undefined') {
+        if (Object.isUndefined(this.options.target)) {
             alert('Опция "target" для менеджера файлов, содержащая идентификатор списка для вставки, не установлена.');
             this.options = null;
             return false;
         }
-        if (typeof(this.options.hiddenName) == 'undefined') {
+        if (Object.isUndefined(this.options.hiddenName)) {
             alert('Опция "hiddenName" для менеджера файлов, содержащая имя скрытого поля формы с выбранными файлами, не установлена.');
             this.options = null;
             return false;

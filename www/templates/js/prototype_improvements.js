@@ -43,11 +43,11 @@ var mzzRegistry = {
      _registry: $H(),
 
      get: function(name) {
-         return this.has(name) ? this._registry[name] : null;
+         return this.has(name) ? this._registry.get(name) : null;
      },
 
      set: function(name, value) {
-         this._registry[name] = value;
+         this._registry.set(name, value);
      },
 
      has: function(name) {

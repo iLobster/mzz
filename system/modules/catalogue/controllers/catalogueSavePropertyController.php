@@ -154,7 +154,7 @@ class catalogueSavePropertyController extends simpleController
                             break;
 
                         case 'folders':
-                            $section = $this->request->get('section', 'string', SC_REQUEST);
+                            $section = $this->request->get('for_id', 'string', SC_REQUEST);
 
                             $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', $section);
                             $folders = $folderMapper->searchAll();

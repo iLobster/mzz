@@ -2,9 +2,9 @@
 
 <div id="wrapper">
     <div id="nonFooter">
-        <div id="background_lines">
+        <div id="hbackground">
             <div id="hcontainer">
-                <div><a href="{$SITE_PATH}/"><img src="{$SITE_PATH}/templates/images/mzz_logo.gif" width="141" height="40" alt="" /></a></div>
+                <div><a href="{$SITE_PATH}/"><img src="{$SITE_PATH}/templates/images/mzz_logo.gif" width="146" height="42" alt="" /></a></div>
             </div>
         </div>
         <div id="menucontainer">
@@ -13,13 +13,27 @@
             </div>
         </div>
 
+        <div class="headerBorderLine"><img src="{$SITE_PATH}/templates/images/spacer.gif" width="1" height="2" /></div>
         <div id="content">
 
             <div id="leftMainCol">
                 <div id="container">
                     <!--  left column  -->
                     <div id="col1">
-                        {load module="menu" section="menu" action="view" name="smenu" tplPrefix="side" 403handle="none"}
+                        <ul class="sideMenu">
+                            <li><a href="#">Новости</a>
+                            <ul>
+                                <li><a href="#">Компании</a></li>
+                                <li><a href="#">Партнеров</a></li>
+                                <li><a href="#">Клиентам</a></li>
+                            </ul></li>
+                            <li><a href="#">Каталог</a></li>
+                            <li><a href="#">Галерея</a></li>
+                            <li><a href="#">Пользователи</a></li>
+                            <li><a href="#">Форум</a></li>
+                            <li><a href="#">Вопросы и ответы</a></li>
+                            <li><a href="#">О нас</a></li>
+                        </ul>
                         <div class="sideBlock">
                             {load module="user" action="loginForm" section="user" id=0 403handle="none"}
                         </div>
@@ -28,6 +42,7 @@
                     <!-- center column -->
                     <div id="col2">
                         {$content}
+                        <div class="clear"></div>
                     </div>
                 </div>
             </div>
@@ -37,14 +52,7 @@
                 <div class="sideBlock">
                     <p class="sideBlockTitle">Опрос</p>
                     <div class="sideBlockContent">
-                        {load module="voting" section="voting" action="viewActual" name="simple" 403handle="none"}
-                    </div>
-                </div>
-
-                <div class="sideBlock">
-                    <p class="sideBlockTitle">Фото дня</p>
-                    <div class="sideBlockContent" style="text-align: center;">
-                        <img src="{$SITE_PATH}/gallery/admin/3/6/viewThumbnail" alt="" />
+                        {load module="voting" section="voting" action="viewActual" name="simple"}
                     </div>
                 </div>
 

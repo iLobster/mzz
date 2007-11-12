@@ -1,40 +1,78 @@
-function getBrowserHeight() {
-    var yScroll, windowHeight, pageHeight;
+/**
+ *  CSS and Javascript Loader
+ */
+fileLoader = Class.create({
+    initialize: function()
+    {
+        this.pendingFiles  = [];
+        this.loadingIndex = 0;
+        this.onLoad = function () {}
+    },
 
-    if (window.innerHeight && window.scrollMaxY) {
-        yScroll = window.innerHeight + window.scrollMaxY;
-    } else if (document.body.scrollHeight > document.body.offsetHeight){
-        yScroll = document.body.scrollHeight;
-    } else {
-        yScroll = document.body.offsetHeight;
+    loadJS: function(url)
+    {
+        if ($$('script').any(function (jsElm) { return jsElm.src == url; })) {
+            return;
+        }
+
+        var scriptTag = new Element('script', {type: 'text/javascript'});
+        if (!window.opera) {
+            scriptTag.observe('readystatechange', fileLoader.onLoadScript);
+        }
+        scriptTag.observe('load', fileLoader.onLoadScript);
+        scriptTag.observe('error', fileLoader.onLoadScript);
+        scriptTag.src = url + '?' + new Date().getTime();
+        document.getElementsByTagName('head')[0].appendChild(scriptTag);
+        this.pendingFiles[this.pendingFiles.length] = url;
+    },
+
+    loadCSS: function(url)
+    {
+        if ($$('link').any(function (jsElm) { return jsElm.href == url; })) {
+            return;
+        }
+
+        var cssLink = new Element('link', {type: 'text/css', rel: 'stylesheet', href: url});
+        document.getElementsByTagName('head')[0].appendChild(cssLink);
+    },
+
+    onLoadScript: function(evt)
+    {
+        evt = evt || event;
+        var elem = evt.target || evt.srcElement;
+        if (evt.type == 'readystatechange' && elem.readyState && !(elem.readyState == 'complete' || elem.readyState == 'loaded')) {
+            return;
+        }
+
+        if (fileLoader.pendingFiles == 0) {
+            return;
+        }
+
+        fileLoader.loadingIndex++;
+        fileLoader.check();
+    },
+
+    check: function()
+    {
+        if (fileLoader.loadingIndex >= fileLoader.pendingFiles.length) { // loaded
+            fileLoader.pendingFiles = [];
+            fileLoader.loadingIndex = 0;
+            fileLoader.onLoad();
+        }
+    },
+
+    setOnLoad: function(func)
+    {
+        fileLoader.onLoad = func;
+        fileLoader.check();
     }
+});
 
-    if (self.innerHeight) {
-        windowHeight = self.innerHeight;
-    } else if (document.documentElement && document.documentElement.clientHeight) {
-        windowHeight = document.documentElement.clientHeight;
-    } else if (document.body) {
-        windowHeight = document.body.clientHeight;
-    }
-    pageHeight = (yScroll < windowHeight) ? windowHeight : yScroll;
-
-    return {"pageHeight" : pageHeight, "windowHeight" : windowHeight};
-}
-
-function buildJipLinksEvent(event) {
-    if (arguments.callee.done) return;
-    arguments.callee.done = true;
-    if (_loadTimer) {
-        clearInterval(_loadTimer);
-        _loadTimer = null;
-    }
-    buildJipLinks();
-    Event.stopObserving(window, 'load', buildJipLinksEvent);
-}
+var fileLoader = new fileLoader;
 
 function buildJipLinks(elm) {
     var jipLinkFunc = function(link) {
-        Event.observe(link, 'click', function(event) {
+        $(link).observe('click', function(event) {
             jipWindow.open(link.href);
             Event.stop(event);
             return false;
@@ -42,44 +80,21 @@ function buildJipLinks(elm) {
     }
     // @todo сделать опции
     if (elm) {
-        $(elm).getElementsBySelector('a.jipLink').each(jipLinkFunc);
+        $(elm).select('a.jipLink').each(jipLinkFunc);
     } else {
         $$('a.jipLink').each(jipLinkFunc);
     }
 }
 
-if (document.addEventListener) {
-    document.addEventListener("DOMContentLoaded", buildJipLinksEvent, false);
-}
+document.observe("dom:loaded", function() { buildJipLinks(); });
 
-/* for Internet Explorer */
-/*@cc_on @*/
-/*@if (@_win32)
-document.write("<script id=__ie_onload defer src=javascript:void(0)><\/script>");
-var script = document.getElementById("__ie_onload");
-script.onreadystatechange = function() {
-if (this.readyState == "complete") {
-buildJipLinksEvent(); // call the onload handler
-}
-};
-/*@end @*/
 
-if (/WebKit/i.test(navigator.userAgent)) {
-    var _loadTimer = setInterval(function() {
-        if (/loaded|complete/.test(document.readyState)) {
-            buildJipLinksEvent();
-        }}, 10);
-}
-
-Event.observe(window, 'load', buildJipLinksEvent);
-
-//--------------------------------
-//  Cookie tools
-//  Made by Vinnie Garcia
-// -------------------------------
-Cookie = Class.create();
+/**
+ * Cookie tools
+ * Made by Vinnie Garcia
+ */
 var Cookie = {
-    set: function (name, value, expires, path, domain, secure) {
+    set: function(name, value, expires, path, domain, secure) {
         document.cookie = name + "=" + escape(value) +
         ((expires) ? "; expires=" + expires.toGMTString() : "") +
         ((path) ? "; path=" + path : "") +
@@ -87,7 +102,7 @@ var Cookie = {
         ((secure) ? "; secure" : "");
     },
 
-    get: function (name) {
+    get: function(name) {
         var dc = document.cookie;
         var prefix = name + "=";
         var begin = dc.indexOf("; " + prefix);
@@ -104,7 +119,7 @@ var Cookie = {
         return unescape(dc.substring(begin + prefix.length, end));
     },
 
-    remove: function (name, path, domain) {
+    remove: function(name, path, domain) {
         if (Cookie.get(name)) {
             document.cookie = name + "=" +
             ((path) ? "; path=" + path : "") +
@@ -114,88 +129,7 @@ var Cookie = {
     }
 }
 
-
-//--------------------------------
-//  Javascript Loader
-// -------------------------------
-jsLoaderClass = Class.create();
-jsLoaderClass.prototype = {
-    initialize: function()
-    {
-        this.pendingFiles  = [];
-        this.loadingIndex = 0;
-        this.onLoad = function () {}
-    },
-
-    load: function(url)
-    {
-        if ($$('script').any(function (jsElm) { return jsElm.src == url; })) {
-            return;
-        }
-
-        var scr = document.createElement('script');
-        scr.type = 'text/javascript';
-        if (!window.opera) { Event.observe($(scr), 'readystatechange', jsLoader.onLoadScript); }
-        Event.observe($(scr), 'load', jsLoader.onLoadScript);
-        Event.observe($(scr), 'error', jsLoader.onLoadScript);
-        scr.src = url + '?' + new Date().getTime();
-        document.getElementsByTagName('head')[0].appendChild(scr);
-        this.pendingFiles[this.pendingFiles.length] = url;
-    },
-
-    onLoadScript: function(evt)
-    {
-        evt = evt || event;
-        var elem = evt.target || evt.srcElement;
-        if (evt.type == 'readystatechange' && elem.readyState && !(elem.readyState == 'complete' || elem.readyState == 'loaded')) { return; }
-
-        if (jsLoader.pendingFiles == 0) {
-            return;
-        }
-        jsLoader.loadingIndex++;
-        jsLoader.check();
-    },
-
-    check: function()
-    {
-        if (jsLoader.loadingIndex >= jsLoader.pendingFiles.length) { // loaded
-            jsLoader.pendingFiles = [];
-            jsLoader.loadingIndex = 0;
-            jsLoader.onLoad();
-        }
-    },
-
-    setOnLoad: function(func)
-    {
-        jsLoader.onLoad = func;
-        jsLoader.check();
-    }
-}
-jsLoader = new jsLoaderClass;
-
-//--------------------------------
-//  CSS Loader
-// -------------------------------
-cssLoader = {
-    load: function(url)
-    {
-        if ($$('link').any(function (jsElm) { return jsElm.href == url; })) {
-            return;
-        }
-
-        var cssLink = document.createElement('link');
-        cssLink.type = 'text/css';
-        cssLink.rel = 'stylesheet';
-        cssLink.href = url;
-        document.getElementsByTagName('head')[0].appendChild(cssLink);
-    }
-}
-
-//--------------------------------
-//  JIP window
-// -------------------------------
-jipWindow = Class.create();
-jipWindow.prototype = {
+jipWindow = Class.create({
     initialize: function() {
         this.jip = false;
         this.locker = false;
@@ -221,15 +155,12 @@ jipWindow.prototype = {
         params = params || {};
         method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
         if (isNew || this.windowCount == 0) {
-            var jipDiv = document.createElement('div');
             this.currentWindow = this.windowCount++;
             if (this.currentWindow > 0) {
                 this.hideSelects(this.currentWindow - 1);
             }
             this.stack[this.currentWindow] = new Array();
-            jipDiv.id = 'jip' + this.currentWindow;
-            Element.extend(jipDiv);
-            jipDiv.addClassName('jipWindow');
+            var jipDiv = new Element('div', {id: 'jip' + this.currentWindow, 'class': 'jipWindow'});
             document.body.appendChild(jipDiv);
             if (this.jip) {
                 this.jip.setStyle({'zIndex': 900});
@@ -240,7 +171,7 @@ jipWindow.prototype = {
 
         if (!this.windowExists) {
             this.windowExists = true;
-            Event.observe(document, "keypress", this.eventKeypress);
+            document.observe("keypress", this.eventKeypress);
         }
 
         this.jip = $('jip' + this.currentWindow);
@@ -272,8 +203,7 @@ jipWindow.prototype = {
             },
             onFailure: function(transport) {
                 jipWindow.setErrorMsg(transport);
-            }
-            });
+            }});
 
             if(url.match(/[&\?]_confirm=/) == null) {
                 this.stack[this.currentWindow].push(url);
@@ -284,262 +214,13 @@ jipWindow.prototype = {
         return true;
     },
 
-    onJipLoad: function(func)
-    {
-        this.onJipLoadFunc = func;
-    },
-
-    autoSize: function()
-    {
-        var offsets = Position.cumulativeOffset(this.jip);
-        var topOffset = parseInt(offsets[1]) - new Number(document.documentElement.scrollTop);
-        topOffset = (topOffset >= 0) ? topOffset : 0;
-        if (document.viewport.getHeight() - (this.jip.getHeight() + topOffset) < 0) {
-            var newHeight = (document.viewport.getHeight() - topOffset * 2);
-            newHeight = newHeight < 150 ? 150 : newHeight;
-            this.jip.setStyle({height: newHeight + 'px'});
-        }
-    },
-
-    addTinyMCEId: function(id)
-    {
-        this.tinyMCEIds[this.tinyMCEIds.length] = id;
-    },
-
-    deleteTinyMCEId: function(id)
-    {
-        this.tinyMCEIds = this.tinyMCEIds.without(id);
-    },
-
-    sendForm: function(form)
-    {
-        var params = $(form).serialize(true);
-
-        params.ajax = 1;
-        jipWindow.clean();
-        $(form).request({
-            parameters: params,
-            onSuccess: function(transport) {
-                jipWindow.successRequest(transport);
-            },
-            onFailure: function(transport) {
-                jipWindow.setErrorMsg(transport);
-            }
-        });
-        return false;
-    },
-
-    successRequest: function(transport)
-    {
-        this.element = this.jip;
-        if (typeof(this.jip) == 'undefined') {
-            alert('Нет ни одно окна для открытия страницы.');
-            return false;
-        }
-        if (typeof(transport.responseXML) == 'undefined' && typeof(transport.responseText) == 'undefined') {
-            this.setErrorMsg();
-            return false;
-        }
-
-        this.jip.update('<div class="jipClose"><img class="jip" width="12" height="12" src="' + SITE_PATH + '/templates/images/jip/close.gif" onclick="javascript: jipWindow.close();" alt="Закрыть" title="Закрыть" /></div>');
-
-        var tmp = '';
-        var ctype = transport.getResponseHeader("content-type");
-        if (typeof(transport.responseXML) != 'undefined' && ctype.indexOf("xml") >= 0) {
-            responseXML = transport.responseXML.documentElement;
-            var item = responseXML.getElementsByTagName('html')[0];
-            if (typeof(item) != 'undefined') {
-                var cnodes = item.childNodes.length;
-                for (var i=0; i<cnodes; i++) {
-                    if (item.childNodes[i].data != '') {
-                        tmp += item.childNodes[i].data;
-                    }
-                }
-            }
-        } else {
-            tmp = transport.responseText;
-        }
-        if (tmp == '') {
-            this.setErrorMsg();
-        }
-        this.jip.update(this.jip.innerHTML + tmp);
-
-        var jipTitle = '';
-        for (var i = 1; i < 5; i++) {
-            jipTitle = this.jip.childNodes[i];
-            if (jipTitle.className == 'jipTitle') {
-                i = 0;
-                break;
-            }
-        }
-
-        if (!i) {
-            var jipMoveDiv = document.createElement('div');
-            jipMoveDiv.id = 'jip-' + jipTitle.parentNode.id;
-            jipMoveDiv.setAttribute('title', 'Переместить');
-            Element.extend(jipMoveDiv);
-            jipMoveDiv.addClassName('jipMove');
-
-            jipTitle.insertBefore(jipMoveDiv, jipTitle.childNodes[0]);
-            this.drag = new Draggable('jip' + jipWindow.currentWindow, {
-            'handle': 'jip-' + jipTitle.parentNode.id,
-            'onStart': function() {
-                this.defaultsHandlers = [document.body.ondrag, document.body.onselectstart];
-                document.body.ondrag = function () { return false; }
-                document.body.onselectstart = function () { return false; }
-                jipWindow.hideSelects('jips');
-            },
-            'onEnd': function() {
-                document.body.ondrag = this.defaultsHandlers[0];
-                document.body.onselectstart = this.defaultsHandlers[1];
-                jipWindow.lockContent();
-                jipWindow.showSelects('jips');
-            }
-            });
-        }
-        this.lockContent();
-        buildJipLinks(this.jip);
-        window.setTimeout(function () {
-            if (jipWindow.onJipLoadFunc) {
-                jipWindow.onJipLoadFunc();
-                jipWindow.onJipLoadFunc = null;
-           }
-        }, 1);
-    },
-
-
-    hideSelects: function() {
-        if (Prototype.Browser.IE) {
-            var jipId = (arguments.length > 0) ? $A(arguments).last() : false;
-            var id = (jipId !== false) ? (jipId == 'jips' ? '.jipWindow ' : '#jip' + jipId + ' ') : '';
-            var selectElements = $$(id + 'select');
-
-            selectElements.each(function (elm, index) {
-                if (elm.style.visibility == "hidden") {
-                    delete selectElements[index];
-                } else {
-                    elm.style.visibility = "hidden";
-                }
-            });
-
-            if (jipId === false) {
-                jipWindow.selectElements.browserWindow = selectElements;
-                //jipWindow.selectElements.jip = $H();
-            } else {
-                //jipWindow.selectElements.browserWindow = $H();
-                if (jipId == 'jips') {
-                    jipWindow.selectElements.jipWindow = selectElements;
-                } else {
-                    jipWindow.selectElements.jip[jipId] = selectElements;
-                }
-            }
-        }
-    },
-
-    showSelects: function()
-    {
-        if (Prototype.Browser.IE) {
-            var jipId = (arguments.length > 0) ? $A(arguments).last() : false;
-            var showSelect = function (elm) { if (elm) elm.style.visibility = "visible"; };
-            if (jipId === false) {
-                if (typeof(jipWindow.selectElements.browserWindow) == 'undefined') {
-                    return;
-                }
-                jipWindow.selectElements.browserWindow.each(showSelect);
-                jipWindow.selectElements.browserWindow = $H();
-            } else if (jipId == 'jips') {
-                if (typeof(jipWindow.selectElements.jipWindow) == 'undefined') {
-                    return;
-                }
-                jipWindow.selectElements.jipWindow.each(showSelect);
-                jipWindow.selectElements.jipWindow = $H();
-            } else {
-                if (typeof(jipWindow.selectElements.jip[jipId]) == 'undefined') {
-                    return;
-                }
-                jipWindow.selectElements.jip[jipId].each(showSelect);
-                jipWindow.selectElements.jip[jipId] = $H();
-            }
-        }
-    },
-
-    lockContent: function()
-    {
-        var pageHeight = getBrowserHeight();
-        if (!this.locker) {
-            this.locker = document.createElement('div');
-            this.locker.id = 'lockContent';
-            Element.extend(this.locker);
-            document.body.insertBefore(this.locker, document.body.childNodes[0]);
-        }
-
-
-
-        if (Prototype.Browser.IE) {
-            var cumulativeOffsets = Position.cumulativeOffset(this.jip);
-            var diff = (this.jip.offsetHeight + cumulativeOffsets[1]) - pageHeight.pageHeight;
-            if (diff > 0) {
-                pageHeight.pageHeight += diff;
-            }
-        }
-
-
-        this.locker.setStyle({height: pageHeight.pageHeight +  "px"});
-
-        if (this.locker.getStyle('display') != 'block') {
-            Event.observe(window, "resize", this.eventLockUpdate);
-            Event.observe(this.locker, "click", this.eventLockClick);
-            this.locker.setStyle({opacity: 0.01, display: 'block'});
-            this.setOpacityEffect();
-            // hide select elements
-            this.hideSelects();
-        }
-    },
-
-    unlockContent: function()
-    {
-        if (this.locker && this.locker.getStyle('display') == 'block') {
-            Event.stopObserving(this.locker, "click", this.eventLockClick);
-            Event.stopObserving(window, "resize", this.eventLockUpdate);
-            this.setOpacityEffect({
-            "from": 0.8,
-            "to": 0,
-            "afterFinish": function () {
-                jipWindow.locker.setStyle({opacity: 0.01, display: 'none'});
-                jipWindow.showSelects();
-            }
-            });
-        }
-    },
-
-    setOpacityEffect: function() {
-        var options = Object.extend({
-        "from": 0,
-        "to": 0.8,
-        "duration": 0.3,
-        "fps": 500
-        }, arguments[0] || {});
-
-        new Effect.Opacity(this.locker, options);
-    },
-
-    refreshAfterClose: function(url)
-    {
-        url = url || true;
-        if (url === true) {
-            this.redirectAfterClose = true;
-        } else {
-            this.redirectAfterClose = url;
-        }
-    },
-
     close: function(windows)
     {
         if(this.jip) {
             // избавляемся от "вспышки" в IE
             if(Prototype.Browser.IE) {
                 $A(this.jip.getElementsByTagName('select')).each(function (elm) {
-                    elm.style.visibility = "hidden";
+                    $(elm).setStyle({visibility: "hidden"});
                 });
             }
             //this.savePosition(this.jip);
@@ -592,26 +273,311 @@ jipWindow.prototype = {
                 if (this.drag) {
                     this.drag.destroy();
                 }
-                Event.stopObserving(document, "keypress", this.eventKeypress);
+                document.stopObserving("keypress", this.eventKeypress);
                 this.windowExists = false;
                 this.unlockContent();
                 jipParent.removeChild(this.jip);
+                jipParent = null;
                 this.jip = false;
                 this.currentWindow = 0;
                 this.stack = new Array();
             } else {
-
-                var _this = this;
+                var closedJip = this.jip;
                 new Effect.DropOut('jip' + (this.currentWindow), {
                     afterFinish: function() {
-                        _this.jip.setStyle({display: 'none'});
-                        jipParent.removeChild(_this.jip);
-                        _this.jip = $('jip' + (--_this.currentWindow));
-                        _this.jip.setStyle({zIndex: 902});
-                        _this.showSelects(_this.currentWindow);
+                        closedJip.setStyle({display: 'none'});
+                        jipParent.removeChild(closedJip);
+                        closedJip = null;
                     }
                 });
+
+                this.jip = $('jip' + (--this.currentWindow));
+                this.jip.setStyle({zIndex: 902});
+                this.showSelects(this.currentWindow);
             }
+        }
+    },
+
+    successRequest: function(transport)
+    {
+        this.element = this.jip;
+        if (Object.isUndefined(this.jip)) {
+            alert('Нет ни одно окна для открытия страницы.');
+            return false;
+        }
+        if (Object.isUndefined(transport.responseXML) && Object.isUndefined(transport.responseText)) {
+            this.setErrorMsg();
+            return false;
+        }
+
+        this.jip.update('<div class="jipClose"><img class="jip" width="12" height="12" src="' + SITE_PATH + '/templates/images/jip/close.gif" onclick="javascript: jipWindow.close();" alt="Закрыть" title="Закрыть" /></div>');
+
+        var tmp = '';
+        var ctype = transport.getResponseHeader("content-type");
+        if (!Object.isUndefined(transport.responseXML) && ctype.indexOf("xml") >= 0) {
+            responseXML = transport.responseXML.documentElement;
+            var item = responseXML.getElementsByTagName('html')[0];
+            if (!Object.isUndefined(item)) {
+                var cnodes = item.childNodes.length;
+                for (var i=0; i<cnodes; i++) {
+                    if (item.childNodes[i].data != '') {
+                        tmp += item.childNodes[i].data;
+                    }
+                }
+            }
+        } else {
+            tmp = transport.responseText;
+        }
+        if (tmp == '') {
+            this.setErrorMsg();
+        }
+
+        this.jip.update(this.jip.innerHTML + tmp);
+        
+        var jipTitle = '';
+        var jipClose = '';
+        var currentElement = '';
+        for (var i = 0; i < 5; i++) {
+            currentElement = this.jip.childNodes[i];
+
+            if (Object.isElement(currentElement) && $(currentElement).hasClassName('jipTitle')) {
+                jipTitle = currentElement;
+            } else if (Object.isElement(currentElement) && $(currentElement).hasClassName('jipClose')) {
+                jipClose = currentElement;
+            }
+            if (jipTitle != '' && jipClose != '') {
+                i = -1;
+                break;
+            }
+        }
+
+        if (i == -1) {
+            jipTitle = jipTitle.remove();
+            jipClose = jipClose.remove();
+            this.jip.update('<div style="padding: 10px;">' + this.jip.innerHTML + '</div>');
+            this.jip.insert({top: jipTitle});
+            this.jip.insert({top: jipClose});
+
+            var jipMoveDiv = new Element('div', {id: 'jip-' + jipTitle.parentNode.id, title: 'Переместить', 'class': 'jipMove'});
+            jipTitle.insert({top: jipMoveDiv});
+            this.drag = new Draggable('jip' + jipWindow.currentWindow, {
+            'handle': 'jip-' + jipTitle.parentNode.id,
+            'onStart': function() {
+                this.defaultsHandlers = [document.body.ondrag, document.body.onselectstart];
+                document.body.ondrag = function () { return false; }
+                document.body.onselectstart = function () { return false; }
+                jipWindow.hideSelects('jips');
+            },
+            'onEnd': function() {
+                document.body.ondrag = this.defaultsHandlers[0];
+                document.body.onselectstart = this.defaultsHandlers[1];
+                jipWindow.lockContent();
+                jipWindow.showSelects('jips');
+            }
+            });
+        }
+        this.lockContent();
+        buildJipLinks(this.jip);
+        window.setTimeout(function () {
+            if (jipWindow.onJipLoadFunc) {
+                jipWindow.onJipLoadFunc();
+                jipWindow.onJipLoadFunc = null;
+           }
+        }, 1);
+    },
+
+    getPageHeight: function()
+    {
+        var yScroll, windowHeight;
+
+        if (window.innerHeight && window.scrollMaxY) {
+            yScroll = window.innerHeight + window.scrollMaxY;
+        } else if (document.body.scrollHeight > document.body.offsetHeight){
+            yScroll = document.body.scrollHeight;
+        } else {
+            yScroll = document.body.offsetHeight;
+        }
+
+        if (self.innerHeight) {
+            windowHeight = self.innerHeight;
+        } else if (document.documentElement && document.documentElement.clientHeight) {
+            windowHeight = document.documentElement.clientHeight;
+        } else if (document.body) {
+            windowHeight = document.body.clientHeight;
+        }
+        return (yScroll < windowHeight) ? windowHeight : yScroll;
+    },
+
+    lockContent: function()
+    {
+        var pageHeight = this.getPageHeight();
+
+        if (!this.locker) {
+            this.locker = new Element('div', {id: 'lockContent'});
+            this.locker.id = 'lockContent';
+            Element.extend(this.locker);
+            $(document.body).insert({top: this.locker});
+        }
+
+        if (Prototype.Browser.IE) {
+            var cumulativeOffsets = Position.cumulativeOffset(this.jip);
+            var diff = (this.jip.offsetHeight + cumulativeOffsets[1]) - pageHeight;
+            if (diff > 0) {
+                pageHeight += diff;
+            }
+        }
+
+        this.locker.setStyle({height: pageHeight +  "px"});
+
+        if (this.locker.getStyle('display') != 'block') {
+            Event.observe(window, "resize", this.eventLockUpdate);
+            this.locker.observe("click", this.eventLockClick);
+            this.locker.setStyle({opacity: 0.01, display: 'block'});
+            this.setOpacityEffect();
+            // hide select elements
+            this.hideSelects();
+        }
+    },
+
+    unlockContent: function()
+    {
+        if (this.locker && this.locker.getStyle('display') == 'block') {
+            this.locker.stopObserving("click", this.eventLockClick);
+            Event.stopObserving(window, "resize", this.eventLockUpdate);
+            this.setOpacityEffect({
+            "from": 0.8,
+            "to": 0,
+            "afterFinish": function () {
+                jipWindow.locker.setStyle({opacity: 0.01, display: 'none'});
+                jipWindow.showSelects();
+            }
+            });
+        }
+    },
+
+    hideSelects: function()
+    {
+        if (Prototype.Browser.IE) {
+            var jipId = (arguments.length > 0) ? $A(arguments).last() : false;
+            var id = (jipId !== false) ? (jipId == 'jips' ? '.jipWindow ' : '#jip' + jipId + ' ') : '';
+            var selectElements = $$(id + 'select');
+
+            selectElements.each(function (elm, index) {
+                if (elm.getStyle('visibility') == 'hidden') {
+                    selectElements[index] = null;
+                    delete selectElements[index];
+                } else {
+                    elm.setStyle({visibility: 'hidden'});
+                }
+            });
+
+            if (jipId === false) {
+                jipWindow.selectElements.set('browserWindow', selectElements);
+            } else {
+                if (jipId == 'jips') {
+                    jipWindow.selectElements.set('jipWindow', selectElements);
+                } else {
+                    var jips = jipWindow.selectElements.get('jip');
+                    jips[jipId] = selectElements;
+                    jipWindow.selectElements.set('jip', jips);
+                }
+            }
+        }
+    },
+
+    showSelects: function()
+    {
+        if (Prototype.Browser.IE) {
+            var jipId = (arguments.length > 0) ? $A(arguments).last() : false;
+            var showSelect = function (elm) { if (elm) elm.setStyle({visibility: 'visible'}); };
+            if (jipId === false) {
+                if (Object.isUndefined(jipWindow.selectElements.get('browserWindow'))) {
+                    return;
+                }
+                jipWindow.selectElements.get('browserWindow').each(showSelect);
+                jipWindow.selectElements.set('browserWindow', $H());
+            } else if (jipId == 'jips') {
+                var selects = jipWindow.selectElements.get('jipWindow');
+                if (Object.isUndefined(selects)) {
+                    return;
+                }
+                jipWindow.selectElements.get('jipWindow').each(showSelect);
+                jipWindow.selectElements.set('jipWindow', $H());
+            } else {alert(1);
+                var jips = jipWindow.selectElements.get('jip');
+                if (Object.isUndefined(jips[jipId])) {
+                    return;
+                }
+                jips[jipId].each(showSelect);
+                jips[jipId] = $H();
+                jipWindow.selectElements.set('jip', jips);
+            }
+        }
+    },
+
+    autoSize: function()
+    {
+        var offsets = Position.cumulativeOffset(this.jip);
+        var topOffset = parseInt(offsets[1]) - new Number(document.documentElement.scrollTop);
+        topOffset = (topOffset >= 0) ? topOffset : 0;
+        if (document.viewport.getHeight() - (this.jip.getHeight() + topOffset) < 0) {
+            var newHeight = (document.viewport.getHeight() - topOffset * 2);
+            newHeight = newHeight < 150 ? 150 : newHeight;
+            this.jip.setStyle({height: newHeight + 'px'});
+        }
+    },
+
+    onJipLoad: function(func)
+    {
+        this.onJipLoadFunc = func;
+    },
+
+    addTinyMCEId: function(id)
+    {
+        this.tinyMCEIds[this.tinyMCEIds.length] = id;
+    },
+
+    deleteTinyMCEId: function(id)
+    {
+        this.tinyMCEIds = this.tinyMCEIds.without(id);
+    },
+
+    sendForm: function(form)
+    {
+        var params = $(form).serialize(true);
+
+        params.ajax = 1;
+        jipWindow.clean();
+        $(form).request({
+            parameters: params,
+            onSuccess: function(transport) {
+                jipWindow.successRequest(transport);
+            },
+            onFailure: function(transport) {
+                jipWindow.setErrorMsg(transport);
+            }
+        });
+        return false;
+    },
+
+    setOpacityEffect: function() {
+        var options = Object.extend({
+        "from": 0,
+        "to": 0.8,
+        "duration": 0.3,
+        "fps": 500
+        }, arguments[0] || {});
+
+        new Effect.Opacity(this.locker, options);
+    },
+
+    refreshAfterClose: function(url)
+    {
+        url = url || true;
+        if (url === true) {
+            this.redirectAfterClose = true;
+        } else {
+            this.redirectAfterClose = url;
         }
     },
 
@@ -650,7 +616,7 @@ jipWindow.prototype = {
 
     keyPress: function(event)
     {
-        if(event.keyCode==Event.KEY_ESC) {
+        if(event.keyCode == Event.KEY_ESC) {
             jipWindow.close();
             Event.stop(event);
         }
@@ -659,65 +625,56 @@ jipWindow.prototype = {
     lockClick: function(event)
     {
         // fix double click
-        Event.stopObserving(this.locker, "click", this.eventLockClick);
+        this.locker.stopObserving("click", this.eventLockClick);
 
-        new Effect.Highlight(this.jip.getElementsByClassName('jipTitle').last(), {
+        new Effect.Highlight(this.jip.select('.jipTitle').last(), {
         "afterFinish": function () {
-            Event.observe(jipWindow.locker, "click", jipWindow.eventLockClick);
-        }
-        });
+            jipWindow.locker.observe("click", jipWindow.eventLockClick);
+        }});
         Event.stop(event);
     }
-}
+});
+
 var jipWindow = new jipWindow;
 
-//--------------------------------
-//  Menu for JIP actions
-// -------------------------------
-jipMenu = Class.create();
-jipMenu.prototype = {
+
+
+/**
+ * JIP Menu
+ */
+jipMenu = Class.create({
     initialize: function() {
         this.jipButton = false;
         this.eventMouseOut = this.mouseOut.bindAsEventListener(this);
         this.eventMouseIn = this.mouseIn.bindAsEventListener(this);
         this.layertimer = false;
-        this.current = {"menu": false, "button": false};
+        this.current = $H({"menu": false, "button": false});
         this.eventKeypress  = this.keyPress.bindAsEventListener(this);
         this.jipMenu = false;
         this.closeTimer = false;
     },
 
     keyPress: function(event) {
-        if (event.keyCode==Event.KEY_ESC && this.current.menu != false && this.current.button != false) {
+        if (event.keyCode == Event.KEY_ESC && this.current.get('menu') != false && this.current.get('button') != false) {
             this.close();
         }
     },
 
     show: function(button, menuId, items) {
         id = 'jip_menu_' + menuId;
-
         // open if closed
         if(!$(id) || $(id).getStyle('display') == 'none') {
-            if (this.current.menu != false && this.current.button != false) {
+            if (this.current.get('menu') != false && this.current.get('button') != false) {
                 this.close();
             }
-            var setupFunc = function () {
-                jipMenu.current.menu = id;
-                jipMenu.current.button = button;
+            (function () {
+                jipMenu.current.set('menu', id);
+                jipMenu.current.set('button', button);
                 jipMenu.draw(button, id, items);
-            }
-
-            if (this.closeTimer) {
-                setTimeout(setupFunc, 11);
-            } else {
-                setupFunc();
-            }
-
+            }).delay(this.closeTimer ? 11 : 0);
         } else {
             this.close();
         }
-
-
     },
 
     mouseIn: function() {
@@ -731,19 +688,20 @@ jipMenu.prototype = {
         if (this.layertimer) {
             this.mouseIn();
         }
-        if (this.current.menu) {
+        if (this.current.get('menu')) {
             this.layertimer = setTimeout("jipMenu.close()", 1000);
         }
     },
 
     close: function() {
         this.jipMenu.setStyle({'display': 'none'});
-        Event.stopObserving(this.jipMenu, "mouseout", this.eventMouseOut);
-        Event.stopObserving(this.jipMenu, "mouseover", this.eventMouseIn);
-        Event.stopObserving(document, "keypress", this.eventKeypress);
-        this.current.button.src = SITE_PATH + '/templates/images/jip.gif';
+
+        this.jipMenu.stopObserving("mouseout", this.eventMouseOut);
+        this.jipMenu.stopObserving("mouseover", this.eventMouseIn);
+        document.stopObserving("keypress", this.eventKeypress);
+        this.current.get('button').writeAttribute('src',  SITE_PATH + '/templates/images/jip.gif');
         this.mouseIn();
-        this.current = {"menu": false, "button": false};
+        this.current = $H({'menu': false, 'button': false});
         //this.closeTimer = setTimeout(function () { jipMenu.jipMenu.parentNode.removeChild(jipMenu.jipMenu); jipMenu.jipMenu = false; }, 10);
         //this.jipMenu.parentNode.removeChild(jipMenu.jipMenu);
         this.jipMenu = false;;
@@ -754,39 +712,21 @@ jipMenu.prototype = {
         var jip_win = $('jip' + jipWindow.currentWindow);
 
         if (!$(id)) {
-            var jipMenuDOM = document.createElement('div');
-            jipMenuDOM.id = id;
-            $(jipMenuDOM).addClassName('jipMenu');
-            var jipMenuTable = $(document.createElement('table')).addClassName('jipItems');
-            jipMenuTable.cellPadding = 3;
-            jipMenuTable.cellSpacing = 0;
-
-
-            var jipMenuTbody = document.createElement('tbody');
+            var jipMenuDiv = new Element('div', {id: id, 'class': 'jipMenu'});
+            var jipMenuTable = new Element('table', {'class': 'jipItems', cellPadding: 3, cellSpacing: 0});
+            var jipMenuTbody = new Element('tbody');
             $A(items).each(function (elm, i) {
-                var jipMenuTableTR = document.createElement('TR');
-                jipMenuTableTR.onclick = function () { jipMenu.close(); return jipWindow.open(elm[1]); }
-
-                jipMenuTableTR.onmouseout =  function (event) { jipMenuTableTR.cells[1].className = 'jipItemText'; };
-                jipMenuTableTR.onmouseover = function (event) { jipMenuTableTR.cells[1].className = 'jipItemTextActive'; };
-
-                var jipMenuTdTitle = document.createElement('td');
-                jipMenuTdTitle.className = "jipItemText";
-
+                var jipMenuTableTR = new Element('tr');
+                jipMenuTableTR.observe('click', function () { jipMenu.close(); return jipWindow.open(elm[1]); });
+                jipMenuTableTR.observe('mouseout', function () { jipMenuTableTR.cells[1].removeClassName('jipItemTextActive'); });
+                jipMenuTableTR.observe('mouseover', function () { jipMenuTableTR.cells[1].addClassName('jipItemTextActive'); });
+                var jipMenuTdTitle = new Element('td', {'class': 'jipItemText'});
                 var jipMenuItemTitle = document.createTextNode(elm[0]);
                 jipMenuTdTitle.appendChild(jipMenuItemTitle);
-
-                var jipMenuTdIcon = document.createElement('td');
-                jipMenuTdIcon.className = "jipItemIcon";
-
-                var jipMenuItemImg = document.createElement('img');
-                jipMenuItemImg.src = elm[2];
-                jipMenuItemImg.height= 16;
-                jipMenuItemImg.width= 16;
-
-                var jipMenuItemA = document.createElement('a');
-                jipMenuItemA.href = elm[1];
-                jipMenuItemA.oclick = false;
+                var jipMenuTdIcon = new Element('td', {'class': 'jipItemIcon'});
+                var jipMenuItemImg = new Element('img', {src: elm[2], height: 16, width: 16});
+                var jipMenuItemA = new Element('a', {href: elm[1]});
+                jipMenuItemA.observe('click', function(event) { jipMenu.close(); event.stop(); return jipWindow.open(elm[1]); });
                 jipMenuItemA.appendChild(jipMenuItemImg);
                 jipMenuTdIcon.appendChild(jipMenuItemA);
                 jipMenuTableTR.appendChild(jipMenuTdIcon);
@@ -794,23 +734,22 @@ jipMenu.prototype = {
                 jipMenuTbody.appendChild(jipMenuTableTR);
             });
 
-
             jipMenuTable.appendChild(jipMenuTbody);
-            jipMenuDOM.appendChild(jipMenuTable);
-            button.parentNode.insertBefore(jipMenuDOM, button);
+            jipMenuDiv.appendChild(jipMenuTable);
+            $(button.parentNode).insert({top: jipMenuDiv});
         } else {
-            var jipMenuDOM = $(id);
-            jipMenuDOM.setStyle({display: 'inline'});
+            var jipMenuDiv = $(id);
+            jipMenuDiv.setStyle({display: 'inline'});
         }
-        Event.observe(jipMenuDOM, "mouseout", this.eventMouseOut);
-        Event.observe(jipMenuDOM, "mouseover", this.eventMouseIn);
-        Event.observe(document, "keypress", this.eventKeypress);
+        jipMenuDiv.observe("mouseout", this.eventMouseOut);
+        jipMenuDiv.observe("mouseover", this.eventMouseIn);
+        document.observe("keypress", this.eventKeypress);
 
         this.mouseOut();
 
-        this.jipButton = button;
-        this.jipMenu = jipMenuDOM;
-        this.jipButton.src = SITE_PATH + '/templates/images/jip_active.gif';
+        this.jipButton = $(button);
+        this.jipMenu = jipMenuDiv;
+        this.jipButton.writeAttribute('src', SITE_PATH + '/templates/images/jip_active.gif');
         this.jipMenu.setStyle({
             top: '-500px',
             left: '-500px',
@@ -843,5 +782,5 @@ jipMenu.prototype = {
             left: x + 'px', top: y + 'px'
         });
     }
-}
+});
 var jipMenu = new jipMenu;

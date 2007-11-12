@@ -23,8 +23,8 @@ var classes = $H({
 
 {literal}
 function addObjChangeClass(select) {
-var addobjClass = $('addobj_class');
-addobjClass.options.length = 0;
+    var addobjClass = $('addobj_class');
+    addobjClass.options.length = 0;
 
    var i = 0;
    $H(classes[$F(select)]).each(function(pair) {

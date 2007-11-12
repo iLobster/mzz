@@ -21,5 +21,5 @@
 
 <div align="center">
 Облако тегов всех объектов <br />
-{load module=tags action=tagsCloud tmodule=news tclass=news}
+{load module=tags action=tagsCloud tmodule=news tclass=news section=tags}
 </div>

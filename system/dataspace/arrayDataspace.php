@@ -121,6 +121,18 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
+     * Алиас arrayDataspace::exists()
+     *
+     * @param string|integer $key ключ
+     * @see arrayDataspace::exists()
+     * @return boolean
+     */
+    public function has($key)
+    {
+        return $this->exists($key);
+    }
+
+    /**
      * Импорт массива в Dataspace
      *
      * @param array $data

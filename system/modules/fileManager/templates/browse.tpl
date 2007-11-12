@@ -3,7 +3,7 @@
 jipWindow.autoSize();
 {literal}
 if (mzzFileBrowse.checkOptions()) {
-    $(mzzFileBrowse.options.target).up('form').getElementsBySelector('input[type="hidden"][name="' + mzzFileBrowse.options.hiddenName + '"]').each(function(elm) {
+    $(mzzFileBrowse.options.target).up('form').select('input[type="hidden"][name="' + mzzFileBrowse.options.hiddenName + '"]').each(function(elm) {
         if ($('file-' + $F(elm))) {
             $('file-' + $F(elm)).addClassName('alreadySelectedFile');
         }
@@ -26,7 +26,7 @@ if (mzzFileBrowse.checkOptions()) {
 {foreach from=$files item="file"}
     {if $file->extra() instanceof fmImageFile}
     <div class="fmBrowseThumbWrap" id="file-{$file->getId()}" ondblclick="mzzFileBrowse.selectFile(this, {$file->getId()});" onmousedown="mzzFileBrowse.makeSelected(this);">
-        <div class="fmBrowseThumb"><img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()|htmlspecialchars}" alt="{$file->getName()}" /></div>
+        <div class="fmBrowseThumb"><img src="{$file->extra()->getThumbnail()}" title="{$file->getName()|htmlspecialchars}" alt="{$file->getName()}" /></div>
         <div class="fileDetails" style="display: none;">
         <strong>Имя:</strong><span>{$file->getName()}</span>
         <strong>Размер:</strong><span>{$file->getSize()|filesize}</span>
@@ -40,8 +40,3 @@ if (mzzFileBrowse.checkOptions()) {
 
 </div>
 </div>
-
-
-
-
-

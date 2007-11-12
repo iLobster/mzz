@@ -1,14 +1,14 @@
 {if $isEdit}<div class="jipTitle">Редактирование</div>
 <script type="javascript">
-cssLoader.load(SITE_PATH + '/templates/css/catalogue.css');
-jsLoader.load(SITE_PATH + '/templates/js/fileBrowser.js');
+fileLoader.loadCSS(SITE_PATH + '/templates/css/catalogue.css');
+fileLoader.loadJS(SITE_PATH + '/templates/js/fileBrowser.js');
 </script>
 {else}
 {if $type === null || !isset($smarty.get.type) || isset($smarty.post.type)}<div class="jipTitle">Добавление нового элемента</div>{/if}
 <div id="ajaxGetForm">
 <script type="javascript">
-cssLoader.load(SITE_PATH + '/templates/css/catalogue.css');
-jsLoader.load(SITE_PATH + '/templates/js/fileBrowser.js');
+fileLoader.loadCSS(SITE_PATH + '/templates/css/catalogue.css');
+fileLoader.loadJS(SITE_PATH + '/templates/js/fileBrowser.js');
 function loadForm(id)
 {ldelim}
     var url = '{url route="withAnyParam" section=$current_section name=$folder->getPath() action="create"}';{literal}

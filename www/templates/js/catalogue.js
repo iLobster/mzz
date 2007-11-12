@@ -10,16 +10,11 @@ function addOne()
     td = tr.insertCell(tr.cells.length);
     td.width = '80%';
 
-    var newInput = document.createElement('input');
-    newInput.maxLength = 10;
-    newInput.name = 'selectvalues[' + count + ']';
-    newInput.type = "text";
-
-    var newImg = document.createElement('img');
-    newImg.src = SITE_PATH + "/templates/images/delete.gif";
-    newImg.onclick = function () {
+    var newInput = new Element('input', {maxLength: 10, name: 'selectvalues[' + count + ']', type: 'text'});
+    var newImg = new Element('img', {src: SITE_PATH + '/templates/images/delete.gif'});
+    newImg.observe('click', function () {
         deleteOne(this.parentNode.parentNode);
-    }
+    });
 
     td.appendChild(newInput);
     td.appendChild(newImg);
@@ -27,9 +22,10 @@ function addOne()
     jipWindow.lockContent();
 }
 
-function deleteOne(trelem)
+function deleteOne(trElem)
 {
-    $('selectvariants').removeChild(trelem);
+    //$('selectvariants').removeChild(trElem);
+    $(trElem).remove();
 }
 
 function mzzLoadTypeConfig(value)
@@ -39,17 +35,15 @@ function mzzLoadTypeConfig(value)
         $('catalogueSubmitProperty').enable();
         return false;
     }
-    var loadingDiv = $(document.createElement('div'));
-    loadingDiv.className = "jipAjaxLoading";
+    var loadingDiv = new Element('div', {className: 'jipAjaxLoading'});
     loadingDiv.update('Загрузка данных...');
     $('catalogueTypeConfig').appendChild(loadingDiv);
-
     $('catalogueSubmitProperty').disable();
 
     new Ajax.Updater({success: 'catalogueTypeConfig' }, CATALOGUE_PATH, {
         parameters: {loadType: value}, method: 'GET',
         onFailure: function () {
-            loadingDiv.className = 'jipAjaxLoadingError';
+            loadingDiv.addClassName('jipAjaxLoadingError');
             loadingDiv.update('Ошибка загрузки.');
         },
         onComplete: function(transport, param) {
@@ -135,16 +129,16 @@ var mzzCatalogue = {
                     }
 
                     $H(optListData).each(function(pair) {
-                        if (typeof(pair.value) == 'string') {
+                        if (Object.isString(pair.value)) {
                             optList.options[i] = new Option(pair.value, pair.key);
                         } else {
                             optList.options[i] = new Option(String.fromCharCode(160).times(pair.value[1] * 5) + pair.value[0], pair.key);
                         }
 
-                        if (typeof(mzzCatalogue.values[type]) != 'undefined' && mzzCatalogue.values[type] === pair.key) {
+                        if (!Object.isUndefined(mzzCatalogue.values.get(type)) && mzzCatalogue.values.get(type) === pair.key) {
                             selectedIndex = i;
                             $(optList.options[i]).setStyle({fontWeight: 'bold'});
-                            mzzCatalogue.values.remove(type);
+                            mzzCatalogue.values.unset(type);
                         }
                         i++;
                     });
@@ -154,10 +148,10 @@ var mzzCatalogue = {
                         var m = 0;
                         extractMethods.each(function(methodName) {
                             extractMethodsList.options[m] = new Option(methodName, methodName);
-                            if (typeof(mzzCatalogue.values['extractMethods']) != 'undefined' && mzzCatalogue.values['extractMethods'] === methodName) {
+                            if (!Object.isUndefined(mzzCatalogue.values.get('extractMethods')) && mzzCatalogue.values.get('extractMethods') === methodName) {
                                 extractMethodsList.selectedIndex = m;
                                 $(extractMethodsList.options[m]).setStyle({fontWeight: 'bold'});
-                                mzzCatalogue.values.remove('extractMethods');
+                                mzzCatalogue.values.unset('extractMethods');
                             }
                             m++;
                         });
@@ -222,21 +216,15 @@ var mzzCatalogue = {
                 if (transport.responseText.match(/\(\{/)) {
                     var methodInfo = $H(eval(transport.responseText));
 
-                    if (typeof(methodInfo.notCallable) != 'undefined') {
+                    if (!Object.isUndefined(methodInfo.get('notCallable'))) {
                         $('methodArgsValues').update('<span style="color: #9C0303; font-weight: bold;">Данный метод не может быть вызван. Возможно, один из его обязательных аргументов нескалярного типа или отсутствует PHPDoc-комментарий к нему. Укажите другой метод.</span>');
                     } else {
-                        var description = methodInfo.description || 'Описание не указано';
-                        methodInfo.remove('description');
+                        var description = methodInfo.get('description') || 'Описание не указано';
+                        methodInfo.unset('description');
 
                         $('methodArgsValues').update(description);
 
-
-                        var descTable = document.createElement('table');
-                        descTable.style.border = '0';
-                        descTable.cellPadding = "3";
-                        descTable.cellSadding = "3";
-                        descTable.width = "70%";
-
+                        var descTable = new Element('table', {cellPadding: 3, cellSadding: 3, width: "70%"}).setStyle({border: 0});
                         var i = 0;
                         methodInfo.each(function (pair) {
 
@@ -255,27 +243,27 @@ var mzzCatalogue = {
 
 
                                 if (pair.value.type == 'boolean') {
-                                    var valueInput = $(document.createElement('select')).setStyle({width: '60px'});
+                                    var valueInput = new Element('select').setStyle({width: '60px'});
                                 } else {
-                                    var valueInput = document.createElement('input');
+                                    var valueInput = new Element('input');
                                 }
 
-                                valueInput.name = 'typeConfig[methodArgs][' + i + ']';
+                                valueInput.writeAttribute('name', 'typeConfig[methodArgs][' + i + ']');
 
                                 if (pair.value.type == 'boolean') {
                                     valueInput.options[0] = new Option('да','true');
                                     valueInput.options[1] = new Option('нет','false');
 
-                                    if (typeof(mzzCatalogue.values.methodArgs) != 'undefined' &&
-                                        typeof(mzzCatalogue.values.methodArgs['arg' + i]) != 'undefined') {
-                                        valueInput.selectedIndex = mzzCatalogue.values.methodArgs['arg' + i] == 'false' ? 1 : 0;
+                                    if (!Object.isUndefined(mzzCatalogue.values.get('methodArgs')) &&
+                                        !Object.isUndefined(mzzCatalogue.values.get('methodArgs')['arg' + i])) {
+                                        valueInput.selectedIndex = mzzCatalogue.values.get('methodArgs')['arg' + i] == 'false' ? 1 : 0;
                                         $(valueInput.options[valueInput.selectedIndex]).setStyle({fontWeight: 'bold'});
-                                        mzzCatalogue.values.methodArgs.remove('arg' + i);
-                                    } else if (typeof(pair.value.defaultValue) != 'undefined') {
+                                        mzzCatalogue.values.get('methodArgs').unset('arg' + i);
+                                    } else if (!Object.isUndefined(pair.value.defaultValue)) {
                                         valueInput.selectedIndex = pair.value.defaultValue == 'false' ? 1 : 0;
                                     }
 
-                                    if (typeof(pair.value.defaultValue) != 'undefined') {
+                                    if (!Object.isUndefined(pair.value.defaultValue)) {
                                         if (pair.value.defaultValue == 'false') {
                                             pair.value.defaultValue = 'нет';
                                         } else if (pair.value.defaultValue == 'true') {
@@ -283,19 +271,19 @@ var mzzCatalogue = {
                                         }
                                     }
                                 } else {
-                                    if (typeof(mzzCatalogue.values.methodArgs) != 'undefined' &&
-                                        typeof(mzzCatalogue.values.methodArgs['arg' + i]) != 'undefined') {
-                                        valueInput.value = mzzCatalogue.values.methodArgs['arg' + i];
-                                        mzzCatalogue.values.methodArgs.remove('arg' + i);
+                                    if (!Object.isUndefined(mzzCatalogue.values.get('methodArgs')) &&
+                                        !Object.isUndefined(mzzCatalogue.values.get('methodArgs')['arg' + i])) {
+                                        valueInput.value = mzzCatalogue.values.get('methodArgs')['arg' + i];
+                                        mzzCatalogue.values.get('methodArgs').unset('arg' + i);
                                     } else {
-                                        valueInput.value = typeof(pair.value.defaultValue) != 'undefined' ? pair.value.defaultValue : '';
+                                        valueInput.value = !Object.isUndefined(pair.value.defaultValue) ? pair.value.defaultValue : '';
                                     }
                                 }
 
                                 valueCell.appendChild(valueInput);
                             }
 
-                            if (typeof(pair.value.defaultValue) != 'undefined') {
+                            if (!Object.isUndefined(pair.value.defaultValue)) {
                                 if (pair.value.defaultValue != '') {
                                     var defaultText = 'по умолчанию: ' + pair.value.defaultValue;
                                 } else {
@@ -308,18 +296,15 @@ var mzzCatalogue = {
                                    defaultText += ', нередактируемое значение';
                                 }
 
-                                var defaultValueSpan = document.createElement('span');
-                                defaultValueSpan.style.color = '#777777';
+                                var defaultValueSpan = new Element('span').setStyle({color: '#777777'});
                                 defaultValueSpan.appendChild(document.createTextNode(defaultText));
                                 valueCell.appendChild(defaultValueSpan);
                             }
 
 
                             var argDescRow   = descTable.insertRow(-1);
-                            var descCell  = argDescRow.insertCell(-1);
-                            descCell.style.color = "#838383";
-                            descCell.style.fontSize = "90%";
-
+                            var descCell  = $(argDescRow.insertCell(-1));
+                            descCell.setStyle({color: "#838383", fontSize: "90%"});
                             descCell.innerHTML = 'Тип: <strong>' + pair.value.type + '</strong><br />' + pair.value.desc;
 
                             i++;
