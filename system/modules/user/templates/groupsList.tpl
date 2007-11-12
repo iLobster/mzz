@@ -13,7 +13,7 @@
         <tr>
             <td align="center">{$group->getId()}</td>
             <td>{$group->getName()}</td>
-            <td>{$usersGroups.$key}</td>
+            <td>{$usersGroups.$key|default:0}</td>
             <td>{$group->getJip()}</td>
         </tr>
     {/foreach}
