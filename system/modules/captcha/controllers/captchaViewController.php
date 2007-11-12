@@ -31,7 +31,7 @@ class captchaViewController extends simpleController
             $width = 120;
             $height = 40;
             $length = 5;
-            $font = dirname(__FILE__) . './font.ttf';
+            $font = dirname(__FILE__) . '/font.ttf';
             $symbols = '1234567890';
 
             $string = null;
