@@ -105,6 +105,9 @@ class captchaViewController extends simpleController
             $this->response->setHeader('Content-type', 'image/png');
             return $image;
         }
+
+        $captchaMapper = $this->toolkit->getMapper('captcha', 'captcha');
+        return $captchaMapper->get404()->run();
     }
 }
 

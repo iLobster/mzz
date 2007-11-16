@@ -27,7 +27,10 @@ class formCaptchaField extends formElement
 
         $captcha_id = md5(microtime(true));
 
-        $image = self::createTag(array('src' => SITE_PATH . '/captcha/?rand=' . $captcha_id, 'width' => 120, 'height' => 40, 'alt' => 'Нажмите на изображение для обновления', 'onclick' => 'javascript: this.src = "' . SITE_PATH . '/captcha/?rand=' . $captcha_id . '&refresh=" + Math.random();'), 'img');
+        $url = new url('captcha');
+        $captcha_src = $url->get() . '?rand=' . $captcha_id;
+
+        $image = self::createTag(array('src' => $captcha_src, 'width' => 120, 'height' => 40, 'alt' => 'Нажмите на изображение для обновления', 'onclick' => 'javascript: this.src = "' . $captcha_src . '&refresh=" + Math.random();'), 'img');
         $hidden = self::createTag(array('type' => 'hidden', 'name' => $options['name'] . '_id', 'value' => $captcha_id), 'input');
 
         return $hidden . $image . '<br />' . self::createTag($options);
