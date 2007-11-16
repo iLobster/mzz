@@ -52,7 +52,7 @@
                 <div class="sideBlock">
                     <p class="sideBlockTitle">Опрос</p>
                     <div class="sideBlockContent">
-                        {load module="voting" section="voting" action="viewActual" name="simple"}
+                        {load module="voting" section="voting" action="viewActual" name="simple" 403handle="none"}
                     </div>
                 </div>
 
