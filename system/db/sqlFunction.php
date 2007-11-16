@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1.3
+ * @version 0.2
 */
 
 class sqlFunction
@@ -33,6 +33,20 @@ class sqlFunction
      * Аргументы
      */
     protected $arguments = null;
+
+    /**
+     * Поле, определяющее является 2ой аргумент полем или строковой константой
+     *
+     * @var boolean
+     */
+    protected $isField = false;
+
+    /**
+     * Объект класса simpleSelect, через который происходит экранирование полей, таблиц, алиасов и значений
+     *
+     * @var simpleSelect
+     */
+    protected $simpleSelect;
 
     /**
      * Аргументы
@@ -57,40 +71,14 @@ class sqlFunction
      */
     public function __construct($function, $arguments = null, $isField = false)
     {
-        $this->db = DB::factory();
         $this->function = $function;
 
         if (!is_array($arguments) && ($arguments instanceof sqlFunction || $arguments instanceof sqlOperator)) {
             $arguments = array($arguments);
         }
 
-        if(is_array($arguments)) {
-            foreach ($arguments as $key => $arg) {
-                if($arg !== true) {
-                    if (($arg instanceof sqlFunction) || ($arg instanceof sqlOperator)) {
-                        $this->argumentsString .= $arg->toString() . ', ';
-                    } else {
-                        $this->argumentsString .= $this->quote($arg) . ", ";
-                    }
-                } else {
-                    $field = str_replace('.', '`.`', $key);
-                    $this->argumentsString .= '`' . $field . '`, ';
-                }
-            }
-        } elseif($arguments) {
-            if($isField) {
-                if ($arguments == '*') {
-                    $this->argumentsString .= '*  ';
-                } else {
-                    $field = str_replace('.', '`.`', $arguments);
-                    $this->argumentsString .= '`' . $field . '`, ';
-                }
-            } else {
-                $this->argumentsString .= $this->quote($arguments) . ", ";
-            }
-        }
-
-        $this->argumentsString = substr($this->argumentsString, 0, -2);
+        $this->arguments = $arguments;
+        $this->isField = $isField;
     }
 
     /**
@@ -99,12 +87,54 @@ class sqlFunction
      * @return string|null
 
      */
-    public function toString()
+    public function toString($simpleSelect)
     {
+        $this->simpleSelect = $simpleSelect;
+
+        $arguments = $this->arguments;
+        $isField = $this->isField;
+
+        if(is_array($arguments)) {
+            foreach ($arguments as $key => $arg) {
+                if($arg !== true) {
+                    if (($arg instanceof sqlFunction) || ($arg instanceof sqlOperator)) {
+                        $this->argumentsString .= $arg->toString($this->simpleSelect) . ', ';
+                    } else {
+                        $this->argumentsString .= $this->quote($arg) . ', ';
+                    }
+                } else {
+                    $this->argumentsString .= $this->simpleSelect->quoteField($key) . ', ';
+                }
+            }
+        } elseif($arguments) {
+            if($isField) {
+                if ($arguments == '*') {
+                    $this->argumentsString .= '*  ';
+                } else {
+                    $this->argumentsString .= $this->simpleSelect->quoteField($arguments) . ', ';
+                }
+            } else {
+                $this->argumentsString .= $this->quote($arguments) . ", ";
+            }
+        }
+
+        $this->argumentsString = substr($this->argumentsString, 0, -2);
+
+
         if(!empty($this->function)) {
             return strtoupper($this->function) . '(' . $this->argumentsString . ')';
         }
         return null;
+    }
+
+    /**
+     * Получение аргументов функции
+     *
+     * @return string|array
+     */
+    public function getArguments()
+    {
+        return $this->arguments;
     }
 
     /**
@@ -115,7 +145,20 @@ class sqlFunction
      */
     public function getFieldName()
     {
-        return $this->function . '_' . $this->argumentsString;
+        $name = $this->function;
+
+        if (is_array($this->arguments)) {
+            foreach ($this->arguments as $argument) {
+                if ($argument instanceof sqlFunction || $argument instanceof sqlOperator) {
+                    $name .= '_' . implode('_', $argument->getArguments());
+                }
+            }
+        } else {
+            $name .= '_' . $this->arguments;
+        }
+
+        return $name;
+        //return $this->function . '_' . (is_array($this->arguments) ? implode('_', $this->arguments) : $this->arguments);
     }
 
     /**
@@ -132,7 +175,7 @@ class sqlFunction
         } elseif (is_null($value)){
             return 'null';
         } else {
-            return $this->db->quote($value);
+            return $this->simpleSelect->quote($value);
         }
     }
 

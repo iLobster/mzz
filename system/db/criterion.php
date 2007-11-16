@@ -19,7 +19,7 @@
  * @see criteria
  * @package system
  * @subpackage db
- * @version 0.1.6
+ * @version 0.2
  */
 
 class criterion
@@ -53,8 +53,7 @@ class criterion
     private $alias;
 
     /**
-     * Флаг, обозначающий что второй аргумент конструктора $value является также полем, а не просто строковой константой<br>
-     * Установка флага в true в результате приведёт к тому, что второй операнд будет обрамлён в "`" (обратная кавычка, back tick) и к нему будет добавлен алиас, если таковой имеется
+     * Флаг, обозначающий что второй аргумент конструктора $value является также полем, а не просто строковой константой
      *
      * @see criterion::__construct()
      * @var boolean
@@ -85,11 +84,11 @@ class criterion
     private $comparsion;
 
     /**
-     * Класс для хранения объекта работы с БД
+     * Объект класса simpleSelect, через который происходит экранирование полей, таблиц, алиасов и значений
      *
-     * @var object
+     * @var simpleSelect
      */
-    private $db;
+    private $simpleSelect;
 
     /**
      * Массив, хранящий дополнительные операции сравнения
@@ -131,7 +130,6 @@ class criterion
      */
     public function __construct($field = null, $value = null, $comparsion = null, $isField = null)
     {
-        $this->db = db::factory();
         if (is_string($field) && ($dotpos = strpos($field, '.')) !== false) {
             $this->alias = substr($field, 0, $dotpos);
             $this->field = substr($field, $dotpos + 1);
@@ -149,30 +147,32 @@ class criterion
      * @param string|array $defaultTable имя таблицы, которое будет подставлено, если алиас не определён
      * @return string
      */
-    public function generate($defaultTable = '')
+    public function generate($simpleSelect, $defaultTable = '')
     {
+        $this->simpleSelect = $simpleSelect;
+
         $this->defaultTable = $defaultTable;
 
         $result = '';
 
         if (($this->value instanceof sqlFunction) || ($this->value instanceof sqlOperator)) {
             $this->isFunction = true;
-            $this->value = $this->value->toString();
+            $this->value = $this->value->toString($this->simpleSelect);
         }
 
         if (($this->field instanceof sqlFunction) || ($this->field instanceof sqlOperator)) {
             $this->fieldIsFunction = true;
-            $this->field = $this->field->toString();
+            $this->field = $this->field->toString($this->simpleSelect);
         }
 
         if (!is_null($this->field)) {
-            // для конструкции `field` IN ('val1', 'val2')
+            // для конструкции field IN ('val1', 'val2')
             if ($this->comparsion === criteria::IN || $this->comparsion === criteria::NOT_IN) {
                 if (is_array($this->value) && sizeof($this->value)) {
                     $result .= $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' (';
 
                     foreach ($this->value as $val) {
-                        $result .= $this->db->quote($val) . ', ';
+                        $result .= $this->simpleSelect->quote($val) . ', ';
                     }
                     $result = substr($result, 0, -2);
                     $result .= ')';
@@ -182,9 +182,9 @@ class criterion
             } elseif ($this->comparsion === criteria::IS_NULL || $this->comparsion === criteria::IS_NOT_NULL) {
                 $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion;
             } elseif ($this->comparsion === criteria::BETWEEN || $this->comparsion === criteria::NOT_BETWEEN) {
-                $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' ' . $this->db->quote($this->value[0]) . ' AND ' . $this->db->quote($this->value[1]);
+                $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' ' . $this->simpleSelect->quote($this->value[0]) . ' AND ' . $this->simpleSelect->quote($this->value[1]);
             } elseif ($this->comparsion === criteria::FULLTEXT) {
-                $result = sprintf($this->comparsion, $this->getQuoutedAlias() . $this->getQuotedField(), $this->db->quote($this->value));
+                $result = sprintf($this->comparsion, $this->getQuoutedAlias() . $this->getQuotedField(), $this->simpleSelect->quote($this->value));
             } else {
                 $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' ' . $this->getQuotedValue();
             }
@@ -198,7 +198,7 @@ class criterion
                 if ($val) {
                     $result .= ' ' . $val . ' ';
                 }
-                $result .= '(' . $this->clauses[$key]->generate($defaultTable) . ')';
+                $result .= '(' . $this->clauses[$key]->generate($simpleSelect, $defaultTable) . ')';
             }
         }
 
@@ -275,12 +275,12 @@ class criterion
     private function getQuoutedAlias()
     {
         if (!empty($this->alias)) {
-            return '`' . $this->alias . '`.';
+            return $this->simpleSelect->quoteAlias($this->alias) . '.';
         } elseif (!empty($this->defaultTable)) {
             if (is_array($this->defaultTable) && isset($this->defaultTable['alias'])) {
-                return '`' . $this->defaultTable['alias'] . '`.';
+                return $this->simpleSelect->quoteAlias($this->defaultTable['alias']) . '.';
             } else {
-                return '`' . $this->defaultTable . '`.';
+                return $this->simpleSelect->quoteAlias($this->defaultTable) . '.';
             }
         }
 
@@ -308,7 +308,7 @@ class criterion
             return $this->field;
         }
 
-        return '`' . $this->field . '`';
+        return $this->simpleSelect->quoteField($this->field);
     }
 
     /**
@@ -325,14 +325,14 @@ class criterion
             if (($dotpos = strpos($this->value, '.')) !== false) {
                 $alias = substr($this->value, 0, $dotpos);
                 $field = substr($this->value, $dotpos + 1);
-                return '`' . $alias . '`.`' . $field . '`';
+                return $this->simpleSelect->quoteAlias($alias) . '.' . $this->simpleSelect->quoteField($field);
             }
-            return '`' . $this->value . '`';
+            return $this->simpleSelect->quoteField($this->value);
         } else {
             $value = $this->value;
 
             if (!is_int($value)) {
-                $value = $this->db->quote($value);
+                $value = $this->simpleSelect->quote($value);
             }
 
             return $value;

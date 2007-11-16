@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.9
+ * @version 0.3.10
  */
 
 abstract class simpleMapper
@@ -113,6 +113,13 @@ abstract class simpleMapper
     protected $obj_id_field = "obj_id";
 
     /**
+     * Объект класса simpleSelect, через который происходит экранирование полей, таблиц, алиасов и значений
+     *
+     * @var simpleSelect
+     */
+    protected $simpleSelect;
+
+    /**
      * Конструктор
      *
      * @param string $section секция
@@ -123,6 +130,7 @@ abstract class simpleMapper
         $this->section = $section;
 
         $this->table = $this->section . '_' .$this->className;
+        $this->simpleSelect = new simpleSelect(new criteria());
     }
 
     /**
@@ -230,11 +238,11 @@ abstract class simpleMapper
 
             foreach (array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
-                    $fields[$val] = $fields[$val]->toString();
+                    $fields[$val] = $fields[$val]->toString($this->simpleSelect);
                     $markers .= $fields[$val] . ', ';
                     unset($fields[$val]);
                 } elseif($fields[$val] instanceof sqlOperator){
-                    $fields[$val] = $fields[$val]->toString();
+                    $fields[$val] = $fields[$val]->toString($this->simpleSelect);
                     $markers .= $fields[$val] . ', ';
                     unset($fields[$val]);
                 } else {
@@ -266,7 +274,7 @@ abstract class simpleMapper
             $data = $this->fillArray($fields);
 
             $this->afterInsert($data);
-            
+
             $object->import($data);
 
             if (!is_null($user)) {
@@ -304,11 +312,11 @@ abstract class simpleMapper
             $query = '';
             foreach (array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
-                    $fields[$val] = $fields[$val]->toString();
+                    $fields[$val] = $fields[$val]->toString($this->simpleSelect);
                     $query .= '`' . $val . '` = ' . $fields[$val] . ', ';
                     unset($fields[$val]);
                 } else if($fields[$val] instanceof sqlOperator){
-                    $fields[$val] = $fields[$val]->toString();
+                    $fields[$val] = $fields[$val]->toString($this->simpleSelect);
                     $query .= '`' . $val . '` = ' . $fields[$val] . ', ';
                     unset($fields[$val]);
                 } else {
@@ -342,9 +350,9 @@ abstract class simpleMapper
             $data = $this->fillArray($fields);
 
             $this->afterUpdate($data);
-            
+
             $object->import($data);
-            
+
             return true;
         }
 

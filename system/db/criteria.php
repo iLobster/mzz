@@ -19,7 +19,7 @@ fileLoader::load('db/criterion');
  *
  * @package system
  * @subpackage db
- * @version 0.1.11
+ * @version 0.2
  */
 
 class criteria
@@ -376,16 +376,16 @@ class criteria
      */
     private function setOrderBy($field, $direction, $alias)
     {
-        if ($field instanceof sqlFunction) {
-            $field = $field->toString() . ' ';
-        } else {
-            $field = '`' . str_replace('.', '`.`', $field) . '` ';
-        }
-        $this->orderBy[] = $field . $direction;
-        $this->setOrderBySetting($alias);
+        $this->orderBy[] = $field;
+        $this->setOrderBySetting($alias, $direction);
     }
 
-    protected function getOrderBySettings()
+    /**
+     * Получение опций сортировки
+     *
+     * @return array
+     */
+    public function getOrderBySettings()
     {
         return $this->orderBySettings;
     }
@@ -395,9 +395,9 @@ class criteria
      *
      * @param string $alias
      */
-    private function setOrderBySetting($alias)
+    private function setOrderBySetting($alias, $direction)
     {
-        $this->orderBySettings[] = array('alias' => $alias);
+        $this->orderBySettings[] = array('alias' => $alias, 'direction' => $direction);
     }
 
     /**
@@ -407,24 +407,7 @@ class criteria
      */
     public function getOrderByFields()
     {
-        $result = array();
-
-        $table = $this->getTable();
-        if (is_array($table) && isset($table['alias'])) {
-            $table = $table['alias'];
-        }
-
-        $pre = '`' . $table . '`.';
-
-        if ($pre != '``.') {
-            foreach ($this->orderBy as $key => $val) {
-                $result[] = (strpos($val, '.') === false && (!isset($this->orderBySettings[$key]['alias']) || $this->orderBySettings[$key]['alias'] == true)) ? $pre . $val : $val;
-            }
-        } else {
-            return $this->orderBy;
-        }
-
-        return $result;
+        return $this->orderBy;
     }
 
     /**

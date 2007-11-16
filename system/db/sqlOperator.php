@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.1.3
+ * @version 0.2
 */
 
 class sqlOperator
@@ -54,6 +54,13 @@ class sqlOperator
     protected $leftSideOperators = array('INTERVAL' => false, 'DISTINCT' => true);
 
     /**
+     * Объект класса simpleSelect, через который происходит экранирование полей, таблиц, алиасов и значений
+     *
+     * @var simpleSelect
+     */
+    private $simpleSelect;
+
+    /**
      * Конструктор
      *
      * @param string $operator
@@ -74,8 +81,10 @@ class sqlOperator
      *
      * @return string
      */
-    public function toString()
+    public function toString($simpleSelect)
     {
+        $this->simpleSelect = $simpleSelect;
+
         if (!in_array($this->operator, $this->validOperators)) {
             throw new mzzInvalidParameterException('Некорректное значение оператора', $this->operator);
         }
@@ -90,6 +99,16 @@ class sqlOperator
     }
 
     /**
+     * Получение аргументов оператора
+     *
+     * @return string|array
+     */
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+
+    /**
      * Необходимая нормализация операндов
      *
      * @param string|object $arg
@@ -100,11 +119,11 @@ class sqlOperator
         if (is_numeric($arg)) {
             $arg = (int)$arg;
         } elseif ($arg instanceof sqlOperator) {
-            $arg = $this->setPriority($arg->toString());
+            $arg = $this->setPriority($arg->toString($this->simpleSelect));
         } elseif($arg instanceof sqlFunction) {
-            $arg = $arg->toString();
+            $arg = $arg->toString($this->simpleSelect);
         } else {
-            $arg = '`' . str_replace('.', '`.`', $arg) . '`';
+            $arg = $this->simpleSelect->quoteField($arg);
         }
 
         return $arg;

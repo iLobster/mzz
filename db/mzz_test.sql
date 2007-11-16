@@ -1,9 +1,14 @@
-# SQL Manager 2005 for MySQL 3.7.5.1
+# SQL Manager 2007 for MySQL 4.1.2.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz_test
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -200,6 +205,7 @@ CREATE TABLE `simple_catalogue_types_props` (
   `property_id` int(11) unsigned default NULL,
   `sort` int(11) NOT NULL default '0',
   `isShort` tinyint(1) unsigned default '0',
+  `isFull` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
@@ -518,73 +524,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (63),
   (64),
   (65),
-  (66),
-  (67),
-  (68),
-  (69),
-  (70),
-  (71),
-  (72),
-  (73),
-  (74),
-  (75),
-  (76),
-  (77),
-  (78),
-  (79),
-  (80),
-  (81),
-  (82),
-  (83),
-  (84),
-  (85),
-  (86),
-  (87),
-  (88),
-  (89),
-  (90),
-  (91),
-  (92),
-  (93),
-  (94),
-  (95),
-  (96),
-  (97),
-  (98),
-  (99),
-  (100),
-  (101),
-  (102),
-  (103),
-  (104),
-  (105),
-  (106),
-  (107),
-  (108),
-  (109),
-  (110),
-  (111),
-  (112),
-  (113),
-  (114),
-  (115),
-  (116),
-  (117),
-  (118),
-  (119),
-  (120),
-  (121),
-  (122),
-  (123),
-  (124),
-  (125),
-  (126),
-  (127),
-  (128),
-  (129),
-  (130),
-  (131),
-  (132);
+  (66);
 
 COMMIT;
 
@@ -717,3 +657,8 @@ CREATE TABLE `user_userOnline` (
   KEY `last_activity` (`last_activity`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

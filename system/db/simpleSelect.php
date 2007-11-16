@@ -19,7 +19,7 @@ fileLoader::load('db/criteria');
  *
  * @package system
  * @subpackage db
- * @version 0.1.4
+ * @version 0.2
  */
 
 class simpleSelect
@@ -30,6 +30,13 @@ class simpleSelect
      * @var criteria
      */
     private $criteria;
+
+    /**
+     * Объект базы данных
+     *
+     * @var mzzPdo
+     */
+    private $db;
 
     /**
      * Конструктор
@@ -55,6 +62,7 @@ class simpleSelect
         $aliases = array();
 
         $i = 0;
+
         foreach ($this->criteria->getSelectFields() as $select) {
             $alias = $this->criteria->getSelectFieldAlias($select);
 
@@ -66,20 +74,20 @@ class simpleSelect
             }
 
             if ($select instanceof sqlFunction ) {
-                $field = $select->toString();
+                $field = $select->toString($this);
             } else {
                 if (($dotpos = strpos($select, '.')) !== false) {
                     $tbl = substr($select, 0, $dotpos);
                     $fld = substr($select, $dotpos + 1);
 
-                    $field = '`' . $tbl . '`.' . ($fld == '*' ? '*' : '`' . $fld . '`');
+                    $field = $this->quoteTable($tbl) . '.' . ($fld == '*' ? '*' : $this->quoteField($fld));
                 } else {
-                    $field = '`' . $select . '`';
+                    $field = $this->quoteField($select);
                 }
             }
 
             if ($alias) {
-                $field .= ' AS `' . $alias . '`';
+                $field .= ' AS ' . $this->quoteAlias($alias);
             } else {
                 $alias = ++$i;
             }
@@ -90,38 +98,53 @@ class simpleSelect
         foreach ($this->criteria->getJoins() as $val) {
             if ($val['table'] instanceof criteria) {
                 $subquery = new simpleSelect($val['table']);
-                $val['table'] = '(' . $subquery->toString() . ')';
+                $val['table'] = '(' . $subquery->toString($this) . ')';
             } else {
-                $val['table'] = '`' . $val['table'] . '`';
+                $val['table'] = $this->quoteTable($val['table']);
             }
 
             $joinClause[] = ' ' . $val['type'] . ' JOIN ' . $val['table'] .
             (isset($val['alias']) ? ' ' . $val['alias'] : '') .
-            ' ON ' . $val['criterion']->generate();
+            ' ON ' . $val['criterion']->generate($this);
         }
 
         foreach ($this->criteria->keys() as $key) {
             $criterion = $this->criteria->getCriterion($key);
-            $whereClause[]  = $criterion->generate($this->criteria->getTable());
+            $whereClause[]  = $criterion->generate($this, $this->criteria->getTable());
         }
-
-        $orderByClause = $this->criteria->getOrderByFields();
-
-        $groupByClause = $this->criteria->getGroupBy();
 
         $table = $this->criteria->getTable();
 
         if (is_array($table)) {
-            $tableAlias = $table['alias'];
+            $tableAlias = $this->quoteAlias($table['alias']);
             $table = $table['table'];
         }
 
         if ($table instanceof criteria) {
             $subselect = new simpleSelect($table);
-            $table = '(' . $subselect->toString() . ')' . (isset($tableAlias) ? ' `' . $tableAlias . '`' : '');
+            $table = '(' . $subselect->toString($this) . ')' . (isset($tableAlias) ? ' ' . $tableAlias : '');
         } elseif ($table) {
-            $table = '`' . $table . '`' . (isset($tableAlias) ? ' `' . $tableAlias . '`' : '');
+            $table = $this->quoteTable($table) . (isset($tableAlias) ? ' ' . $tableAlias : '');
         }
+
+        $orderBySettings = $this->criteria->getOrderBySettings();
+        foreach ($this->criteria->getOrderByFields() as $key => $val) {
+            if ($val instanceof sqlFunction) {
+                $order = $val->toString($this);
+            } else {
+                $order = $this->quoteField($val);
+
+                if (strpos($val, '.') === false && (!isset($orderBySettings[$key]['alias']) || $orderBySettings[$key]['alias'] == true)) {
+                    $order = (isset($tableAlias) ? $tableAlias : $table) . '.' . $order;
+                }
+            }
+
+            $order .= ' ' . $orderBySettings[$key]['direction'];
+
+            $orderByClause[] = $order;
+        }
+
+        $groupByClause = $this->criteria->getGroupBy();
 
         $qry = 'SELECT ' .
         ($this->criteria->getDistinct() ? 'DISTINCT ' : '') .
@@ -134,6 +157,64 @@ class simpleSelect
         (($limit = $this->criteria->getLimit()) ? ' LIMIT ' . (($offset = $this->criteria->getOffset()) ? $offset . ', ' : '') . $limit : '');
 
         return $qry;
+    }
+
+    /**
+     * Получение объекта для работы с БД
+     *
+     * @return mzzPdo
+     */
+    public function getDb()
+    {
+        if (!$this->db) {
+            $this->db = db::factory();
+        }
+        return $this->db;
+    }
+
+    /**
+     * Экранирование значений
+     *
+     * @param string $value
+     * @return string
+     */
+    public function quote($value)
+    {
+        return $this->getDb()->quote($value);
+    }
+
+    /**
+     * Экранирование алиасов
+     *
+     * @param string $alias
+     * @return string
+     */
+    public function quoteAlias($alias)
+    {
+        return '`' . $alias . '`';
+    }
+
+    /**
+     * Экранирование имён полей
+     *
+     * @param string $field
+     * @return string
+     */
+    public function quoteField($field)
+    {
+        $field = str_replace('.', '`.`', $field);
+        return '`' . $field . '`';
+    }
+
+    /**
+     * Экранирование имён таблиц
+     *
+     * @param string $table
+     * @return string
+     */
+    public function quoteTable($table)
+    {
+        return '`' . $table . '`';
     }
 }
 

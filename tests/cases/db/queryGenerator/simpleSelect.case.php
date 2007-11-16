@@ -76,14 +76,20 @@ class simpleSelectTest extends unitTestCase
 
     public function testSelectOrderWithAlias()
     {
-        $this->criteria->setTable('table')->setOrderByFieldDesc('table2.field')->setOrderByFieldAsc('table3.field2');
-        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` ORDER BY `table2`.`field` DESC, `table3`.`field2` ASC");
+        $this->criteria->setTable('table', 'alias')->setOrderByFieldDesc('table2.field')->setOrderByFieldAsc('table3.field2')->setOrderByFieldAsc('field3');
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` `alias` ORDER BY `table2`.`field` DESC, `table3`.`field2` ASC, `alias`.`field3` ASC");
     }
 
     public function testSelectOrderWithoutAlias()
     {
         $this->criteria->setTable('table')->setOrderByFieldDesc('field', false)->setOrderByFieldAsc('field2', false);
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` ORDER BY `field` DESC, `field2` ASC");
+    }
+
+    public function testSelectOrderByFunction()
+    {
+        $this->criteria->setTable('table')->setOrderByFieldAsc(new sqlFunction('RAND'), false);
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` ORDER BY RAND() ASC");
     }
 
     public function testSelectWithSimpleJoin()

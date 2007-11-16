@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/controller.tpl $
+ * $URL$
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: controller.tpl 1790 2007-06-07 09:48:45Z mz $
+ * @version $Id$
  */
 
 /**
