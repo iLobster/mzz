@@ -6,7 +6,7 @@ var CATALOGUE_TYPES_WITH_CONFIG = [5, 6, 7, 8];
 
 fileLoader.loadJS(SITE_PATH + '/templates/js/catalogue.js');
 
-fileLoader.setOnLoad(function () {ldelim}
+fileLoader.onJsLoad(function () {ldelim}
 mzzCatalogue.setValues({ldelim}
 {if $propertyForm.type_id == 8}
 'sections': '{$propertyForm.typeConfig.section}',

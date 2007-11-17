@@ -53,8 +53,8 @@ class formTag extends formElement
             $options['target'] = $options['ajaxUpload'] . "UploadFile";
             $html = '<iframe name="' . $options['ajaxUpload'] . 'UploadFile" id="' . $options['ajaxUpload'] . 'UploadFile" style="border: 0; width: 0; height: 0;" src="about:blank"></iframe>';
             $html .= '<div id="' . $options['ajaxUpload'] . 'UploadStatus" class="uploadSuccess"></div><div id="' . $options['ajaxUpload'] . 'UploadStatusError" class="uploadError"></div>';
-            $html .= '<script type="text/javascript"> jsLoader.load(SITE_PATH + "/templates/js/upload.js");';
-            $html .= 'jsLoader.setOnLoad(function () { mzzResetUploadForm(\'' . $options['ajaxUpload'] . '\'); });</script>';
+            $html .= '<script type="text/javascript"> fileLoader.loadJS(SITE_PATH + "/templates/js/upload.js");';
+            $html .= 'fileLoader.onJsLoad(function () { mzzResetUploadForm(\'' . $options['ajaxUpload'] . '\'); });</script>';
         }
 
         return $html . self::createTag($options, 'form');

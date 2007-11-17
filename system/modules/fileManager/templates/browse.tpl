@@ -3,7 +3,7 @@
 jipWindow.autoSize();
 {literal}
 if (mzzFileBrowse.checkOptions()) {
-    $(mzzFileBrowse.options.target).up('form').select('input[type="hidden"][name="' + mzzFileBrowse.options.hiddenName + '"]').each(function(elm) {
+    $(mzzFileBrowse.options.get('target')).up('form').select('input[type="hidden"][name="' + mzzFileBrowse.options.hiddenName + '"]').each(function(elm) {
         if ($('file-' + $F(elm))) {
             $('file-' + $F(elm)).addClassName('alreadySelectedFile');
         }

@@ -17,10 +17,10 @@ fileLoader = Class.create({
 
         var scriptTag = new Element('script', {type: 'text/javascript'});
         if (!window.opera) {
-            scriptTag.observe('readystatechange', fileLoader.onLoadScript);
+            scriptTag.observe('readystatechange', fileLoader.updateLoadingCount);
         }
-        scriptTag.observe('load', fileLoader.onLoadScript);
-        scriptTag.observe('error', fileLoader.onLoadScript);
+        scriptTag.observe('load', fileLoader.updateLoadingCount);
+        scriptTag.observe('error', fileLoader.updateLoadingCount);
         scriptTag.src = url + '?' + new Date().getTime();
         document.getElementsByTagName('head')[0].appendChild(scriptTag);
         this.pendingFiles[this.pendingFiles.length] = url;
@@ -36,7 +36,7 @@ fileLoader = Class.create({
         document.getElementsByTagName('head')[0].appendChild(cssLink);
     },
 
-    onLoadScript: function(evt)
+    updateLoadingCount: function(evt)
     {
         evt = evt || event;
         var elem = evt.target || evt.srcElement;
@@ -61,7 +61,7 @@ fileLoader = Class.create({
         }
     },
 
-    setOnLoad: function(func)
+    onJsLoad: function(func)
     {
         fileLoader.onLoad = func;
         fileLoader.check();
