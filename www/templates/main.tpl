@@ -20,20 +20,7 @@
                 <div id="container">
                     <!--  left column  -->
                     <div id="col1">
-                        <ul class="sideMenu">
-                            <li><a href="#">Новости</a>
-                            <ul>
-                                <li><a href="#">Компании</a></li>
-                                <li><a href="#">Партнеров</a></li>
-                                <li><a href="#">Клиентам</a></li>
-                            </ul></li>
-                            <li><a href="#">Каталог</a></li>
-                            <li><a href="#">Галерея</a></li>
-                            <li><a href="#">Пользователи</a></li>
-                            <li><a href="#">Форум</a></li>
-                            <li><a href="#">Вопросы и ответы</a></li>
-                            <li><a href="#">О нас</a></li>
-                        </ul>
+                        {load module="menu" section="menu" action="view" name="smenu" tplPrefix="side" 403handle="none"}
                         <div class="sideBlock">
                             {load module="user" action="loginForm" section="user" id=0 403handle="none"}
                         </div>
