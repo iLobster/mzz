@@ -217,6 +217,7 @@ jipWindow = Class.create({
     close: function(windows)
     {
         if(this.jip) {
+            document.stopObserving("keypress", this.eventKeypress);
             // избавляемся от "вспышки" в IE
             if(Prototype.Browser.IE) {
                 $A(this.jip.getElementsByTagName('select')).each(function (elm) {
@@ -246,6 +247,7 @@ jipWindow = Class.create({
                     if (this.drag) {
                         this.drag.destroy();
                     }
+                    document.observe("keypress", this.eventKeypress);
                     return this.open(prevUrl);
                 }
             } else {
@@ -273,7 +275,6 @@ jipWindow = Class.create({
                 if (this.drag) {
                     this.drag.destroy();
                 }
-                document.stopObserving("keypress", this.eventKeypress);
                 this.windowExists = false;
                 this.unlockContent();
                 jipParent.removeChild(this.jip);
@@ -292,6 +293,7 @@ jipWindow = Class.create({
                 });
 
                 this.jip = $('jip' + (--this.currentWindow));
+                document.observe("keypress", this.eventKeypress);
                 this.jip.setStyle({zIndex: 902});
                 this.showSelects(this.currentWindow);
             }
@@ -410,6 +412,9 @@ jipWindow = Class.create({
 
     lockContent: function()
     {
+        if (!this.windowCount) {
+            return false;
+        }
         var pageHeight = this.getPageHeight();
 
         if (!this.locker) {

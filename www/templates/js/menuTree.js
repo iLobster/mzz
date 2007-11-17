@@ -24,7 +24,7 @@ function buildMenuTree()
         if (!tree.id || !tree.id.match(/^myTree/)) {
             return false;
         }
-        $A($(tree).getElementsBySelector("li.treeItem")).each(function(elm)
+        $A($(tree).select("li.treeItem")).each(function(elm)
         {
             subbranch = elm.getElementsByTagName("ul");
             if ($A(subbranch).size() > 0) {
@@ -32,8 +32,8 @@ function buildMenuTree()
             } else {
                 var img_src = menuTreeImages.blank;
             }
-            divMenuItem = $($(elm).getElementsBySelector('div.menuItem')[0]);
-            new Insertion.Top(divMenuItem, '<img src="' + img_src + '" width="15" height="15" class="expandImage" />');
+            var divMenuItem = $(elm).select('div.menuItem')[0];
+            divMenuItem.insert({top: '<img src="' + img_src + '" width="15" height="15" class="expandImage" />'});
 
             Droppables.add(elm,
             {
@@ -58,12 +58,11 @@ function buildMenuTree()
                             if (subbranch.getStyle('display') == 'none') {
                                 this.expanded = true;
                                 var targetBranch = subbranch;
-                                this.expanderTime = window.setTimeout(
-                                function()
+                                this.expanderTime = (function()
                                 {
-                                    toggleBranch(targetBranch, targetBranch.parentNode.getElementsBySelector('img.expandImage')[0]);
+                                    toggleBranch(targetBranch, targetBranch.parentNode.select('img.expandImage')[0]);
                                     this.expanded = true;
-                                }, 700);
+                                }).delay(0.7);
 
                                 var mouseOutEventer = Event.observe($(dropped), 'mouseout', function (event) {
                                     if (_this.expanderTime){
@@ -101,7 +100,7 @@ function buildMenuTree()
                     subbranch = $A(dropped.getElementsByTagName('ul'));
 
                     if (subbranch.size() == 0) {
-                        new Insertion.Bottom(dropped, '<ul></ul>');
+                        dropped.insert({bottom: '<ul></ul>'});
                         subbranch = dropped.getElementsByTagName('ul');
                     } else {
                         _subbranch=$(subbranch[0]);
@@ -109,28 +108,28 @@ function buildMenuTree()
                             _subbranch.show();
                         }
 
-                        expandImg = dropped.getElementsBySelector('img.expandImage')[0];
+                        expandImg = dropped.select('img.expandImage')[0];
                         expandImg.src = menuTreeImages.minus;
                     }
 
                     oldParent = dragged.parentNode;
                     subbranch[0].appendChild(dragged);
 
-                    new Effect.Highlight(dragged.getElementsBySelector('div.menuItemContent')[0]);
+                    new Effect.Highlight(dragged.select('div.menuItemContent')[0]);
 
-                    oldBranches = $(oldParent).getElementsBySelector('li');
+                    oldBranches = $(oldParent).select('li');
                     if (oldBranches.size() == 0) {
-                        $(oldParent.parentNode).getElementsBySelector('img.expandImage').each(function (element) {
+                        $(oldParent.parentNode).select('img.expandImage').each(function (element) {
                             element.src = menuTreeImages.blank;
                         });
                     }
 
-                    oldBranches = $(oldParent.parentNode).getElementsBySelector('li');
+                    oldBranches = $(oldParent.parentNode).select('li');
                     if (oldBranches.size() == 0) {
                         $(oldParent).remove();
                     }
 
-                    expander = dropped.getElementsBySelector('img.expandImage');
+                    expander = dropped.select('img.expandImage');
                     if (expander[0].src.indexOf('spacer') > -1) {
                         expander[0].src = menuTreeImages.minus;
                     }
@@ -168,7 +167,8 @@ function buildMenuTree()
             if (elm.id == 'root') return;
 
             Draggables.addObserver(new TreeObserver());
-            new Draggable(elm, {revert: true, handle: 'textHolder', ghosting: true,
+
+            new Draggable(elm, {revert: true, handle: $('textHolder'), ghosting: true,
 
             reverteffect: function(element, top_offset, left_offset) {
                 var widthBefore = element.getWidth();
@@ -187,11 +187,11 @@ function buildMenuTree()
             }});
         });
 
-        $A(tree.getElementsByClassName("expandImage")).each( function (imgElm) {
+        $A(tree.select(".expandImage")).each( function (imgElm) {
             imgElm.observe("click", function(event) {
                 if (Event.element(event).src.indexOf('spacer') == -1) {
                     expandImg = event.srcElement || event.target;
-                    subbranch = $(expandImg.parentNode.parentNode).getElementsBySelector('ul')[0];
+                    subbranch = $(expandImg.parentNode.parentNode).select('ul')[0];
                     toggleBranch(subbranch, expandImg);
                 }
             }
