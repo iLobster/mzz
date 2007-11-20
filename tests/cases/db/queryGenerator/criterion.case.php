@@ -50,10 +50,10 @@ class criterionTest extends unitTestCase
     public function testSimpleBetweenCondition()
     {
         $criterion = new criterion('field', array(1, 10), criteria::BETWEEN);
-        $this->assertEqual($criterion->generate($this->simpleSelect), "`field` BETWEEN '1' AND '10'");
+        $this->assertEqual($criterion->generate($this->simpleSelect), "`field` BETWEEN 1 AND 10");
 
         $criterion = new criterion('field', array(1, 10), criteria::NOT_BETWEEN);
-        $this->assertEqual($criterion->generate($this->simpleSelect), "`field` NOT BETWEEN '1' AND '10'");
+        $this->assertEqual($criterion->generate($this->simpleSelect), "`field` NOT BETWEEN 1 AND 10");
     }
 
     public function testSimpleFulltextCondition()

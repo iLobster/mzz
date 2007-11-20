@@ -158,7 +158,6 @@ class sqlFunction
         }
 
         return $name;
-        //return $this->function . '_' . (is_array($this->arguments) ? implode('_', $this->arguments) : $this->arguments);
     }
 
     /**
@@ -178,6 +177,6 @@ class sqlFunction
             return $this->simpleSelect->quote($value);
         }
     }
-
 }
+
 ?>

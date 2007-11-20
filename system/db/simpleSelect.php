@@ -19,7 +19,7 @@ fileLoader::load('db/criteria');
  *
  * @package system
  * @subpackage db
- * @version 0.2
+ * @version 0.2.1
  */
 
 class simpleSelect
@@ -175,11 +175,17 @@ class simpleSelect
     /**
      * Ёкранирование значений
      *
-     * @param string $value
-     * @return string
+     * @param mixed $value
+     * @return mixed
      */
     public function quote($value)
     {
+        if (is_null($value)) {
+            return 'NULL';
+        } elseif (is_numeric($value)) {
+            return $value;
+        }
+
         return $this->getDb()->quote($value);
     }
 
