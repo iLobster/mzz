@@ -222,8 +222,18 @@ CREATE TABLE `simple_stubSimple` (
   `bar` varchar(10) default NULL,
   `path` varchar(255) default NULL,
   `obj_id` int(11) default NULL,
+  `tree_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `simple_stubSimple` table  (LIMIT 0,500)
+#
+
+INSERT INTO `simple_stubSimple` (`id`, `foo`, `bar`, `path`, `obj_id`, `tree_id`) VALUES 
+  (1,'foo','bar',NULL,12,NULL);
+
+COMMIT;
 
 #
 # Structure for the `simple_stubSimple2` table : 
@@ -242,6 +252,22 @@ CREATE TABLE `simple_stubSimple2` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `simple_stubSimple2` table  (LIMIT 0,500)
+#
+
+INSERT INTO `simple_stubSimple2` (`id`, `foo`, `bar`, `path`, `obj_id`, `some_id`) VALUES 
+  (1,'foo1','bar1','foo1',NULL,1),
+  (2,'foo2','bar2','foo1/foo2',NULL,2),
+  (3,'foo3','bar3','foo1/foo3',NULL,3),
+  (4,'foo4','bar4','foo1/foo4',NULL,4),
+  (5,'foo5','bar5','foo1/foo2/foo5',NULL,5),
+  (6,'foo6','bar6','foo1/foo2/foo6',NULL,6),
+  (7,'foo7','bar7','foo1/foo3/foo7',NULL,7),
+  (8,'foo8','bar8','foo1/foo3/foo8',NULL,8);
+
+COMMIT;
+
+#
 # Structure for the `simple_stubSimple2_tree` table : 
 #
 
@@ -256,6 +282,22 @@ CREATE TABLE `simple_stubSimple2_tree` (
   PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `simple_stubSimple2_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `simple_stubSimple2_tree` (`id`, `lkey`, `rkey`, `level`, `some_id`) VALUES 
+  (1,1,16,1,1),
+  (2,2,7,2,1),
+  (3,8,13,2,1),
+  (4,14,15,2,1),
+  (5,3,4,3,1),
+  (6,5,6,3,1),
+  (7,9,10,3,1),
+  (8,11,12,3,1);
+
+COMMIT;
 
 #
 # Structure for the `simple_stubSimple3` table : 
@@ -319,6 +361,19 @@ CREATE TABLE `sys_access_registry` (
   `obj_id` int(11) unsigned default NULL,
   `class_section_id` int(11) unsigned default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_access_registry` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
+  (67,1),
+  (68,1),
+  (1,2),
+  (2,1),
+  (3,1);
+
+COMMIT;
 
 #
 # Structure for the `sys_actions` table : 
@@ -404,6 +459,16 @@ CREATE TABLE `sys_classes` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 #
+# Data for the `sys_classes` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES 
+  (3,'stubSimpleForTree',NULL),
+  (4,'stubSimple',1);
+
+COMMIT;
+
+#
 # Structure for the `sys_classes_actions` table : 
 #
 
@@ -430,6 +495,16 @@ CREATE TABLE `sys_classes_sections` (
   PRIMARY KEY  (`id`),
   KEY `module_section` (`section_id`,`class_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `sys_classes_sections` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
+  (1,1,1),
+  (2,2,1);
+
+COMMIT;
 
 #
 # Structure for the `sys_modules` table : 
@@ -470,61 +545,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (9),
   (10),
   (11),
-  (12),
-  (13),
-  (14),
-  (15),
-  (16),
-  (17),
-  (18),
-  (19),
-  (20),
-  (21),
-  (22),
-  (23),
-  (24),
-  (25),
-  (26),
-  (27),
-  (28),
-  (29),
-  (30),
-  (31),
-  (32),
-  (33),
-  (34),
-  (35),
-  (36),
-  (37),
-  (38),
-  (39),
-  (40),
-  (41),
-  (42),
-  (43),
-  (44),
-  (45),
-  (46),
-  (47),
-  (48),
-  (49),
-  (50),
-  (51),
-  (52),
-  (53),
-  (54),
-  (55),
-  (56),
-  (57),
-  (58),
-  (59),
-  (60),
-  (61),
-  (62),
-  (63),
-  (64),
-  (65),
-  (66);
+  (12);
 
 COMMIT;
 
@@ -624,6 +645,16 @@ CREATE TABLE `user_user` (
   `last_login` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+#
+# Data for the `user_user` table  (LIMIT 0,500)
+#
+
+INSERT INTO `user_user` (`id`, `login`, `password`, `obj_id`, `created`, `confirmed`, `last_login`) VALUES 
+  (1,'GUEST','',NULL,NULL,NULL,NULL),
+  (2,'GUEST','',NULL,NULL,NULL,NULL);
+
+COMMIT;
 
 #
 # Structure for the `user_userGroup_rel` table : 

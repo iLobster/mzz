@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.10
+ * @version 0.3.11
  */
 
 abstract class simpleMapper
@@ -120,13 +120,20 @@ abstract class simpleMapper
     protected $simpleSelect;
 
     /**
+     * Алиас соединения к БД
+     *
+     * @var string
+     */
+    protected $dbAlias = 'default';
+
+    /**
      * Конструктор
      *
      * @param string $section секция
      */
     public function __construct($section)
     {
-        $this->db = DB::factory();
+        $this->db = DB::factory($this->dbAlias);
         $this->section = $section;
 
         $this->table = $this->section . '_' .$this->className;
@@ -267,6 +274,7 @@ abstract class simpleMapper
             }
 
             $criteria->add($this->className . '.' . $this->tableKey, $id);
+
             $stmt = $this->searchByCriteria($criteria);
 
             $fields = $stmt->fetch();
@@ -457,7 +465,8 @@ abstract class simpleMapper
 
             $joinCriterion = new criterion($this->className . '.' . $key, $key . '.' . $val['key'], criteria::EQUAL, true);
 
-            $criteria->addJoin($val['table'], $joinCriterion, $key, $val['join_type']);
+            //$criteria->addJoin($val['table'], $joinCriterion, $key, $val['join_type']);
+            $criteria->addJoin($mapper->getTable(), $joinCriterion, $key, $val['join_type']);
         }
     }
 
@@ -564,7 +573,11 @@ abstract class simpleMapper
      */
     public function create()
     {
-        $object = new $this->className($this, $this->getMap());
+        if (!$this->map) {
+            $this->map = $this->getMap();
+        }
+
+        $object = new $this->className($this, $this->map);
         $object->section($this->section());
         return $object;
     }
@@ -888,8 +901,9 @@ abstract class simpleMapper
                 }
 
                 // получаем нужный маппер
-                $toolkit = systemToolkit::getInstance();
-                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+                //$toolkit = systemToolkit::getInstance();
+                //$mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+                $mapper = $val->getMapper();
 
                 // сохраняем связанный объект
                 $mapper->save($val);
@@ -939,8 +953,9 @@ abstract class simpleMapper
                 }
 
                 // получаем нужный маппер
-                $toolkit = systemToolkit::getInstance();
-                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);
+                /*$toolkit = systemToolkit::getInstance();
+                $mapper = $toolkit->getMapper($moduleName, $className, $sectionName);*/
+                $mapper = $subval->getMapper();
 
                 // получаем схему связанного объекта
                 $relatedMap = $mapper->getMap();
