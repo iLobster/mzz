@@ -24,7 +24,7 @@ fileLoader::load('db/drivers/mzzPdoStatement');
  *
  * @package system
  * @subpackage db
- * @version 0.2.1
+ * @version 0.2.2
  */
 class mzzPdo extends PDO
 {
@@ -99,8 +99,20 @@ class mzzPdo extends PDO
             self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset, $pdoOptions);
             self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
             self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            self::$instances[$alias]->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-            self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+
+            try {
+                self::$instances[$alias]->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+                self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+            } catch (PDOException $e) {
+                if ($e->getCode() != 'IM001') {
+                    throw $e;
+                }
+            }
+
+            if (substr($dsn, 0, 5) == 'mssql') {
+                self::$instances[$alias]->query('SET ANSI_NULLS ON');
+                self::$instances[$alias]->query('SET ANSI_WARNINGS ON');
+            }
         }
 
         return self::$instances[$alias];

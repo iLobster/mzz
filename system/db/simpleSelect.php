@@ -19,7 +19,7 @@ fileLoader::load('db/criteria');
  *
  * @package system
  * @subpackage db
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 class simpleSelect
@@ -208,8 +208,7 @@ class simpleSelect
      */
     public function quoteField($field)
     {
-        $field = str_replace('.', '`.`', $field);
-        return '`' . $field . '`';
+        return '`' . str_replace('.', '`.`', $field) . '`';
     }
 
     /**

@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.2.2
+ * @version 0.2.3
  */
 class mzzPdoStatement extends PDOStatement
 {
@@ -33,20 +33,20 @@ class mzzPdoStatement extends PDOStatement
         foreach ($data as $key => $val) {
             switch (strtolower(gettype($val))) {
                 case "boolean":
-                $type = PDO::PARAM_BOOL;
-                break;
+                    $type = PDO::PARAM_BOOL;
+                    break;
                 case "integer":
-                $type = PDO::PARAM_INT;
-                break;
+                    $type = PDO::PARAM_INT;
+                    break;
                 case "string":
-                $type = PDO::PARAM_STR;
-                break;
+                    $type = PDO::PARAM_STR;
+                    break;
                 case "null":
-                $type = PDO::PARAM_NULL;
-                break;
+                    $type = PDO::PARAM_NULL;
+                    break;
                 default:
-                $type = PDO::PARAM_STR;
-                break;
+                    $type = PDO::PARAM_STR;
+                    break;
             }
             $this->bindValue(':' . $key, $data[$key], $type);
         }
@@ -80,7 +80,15 @@ class mzzPdoStatement extends PDOStatement
         $result = parent::execute($parameters);
         $this->db->addQueriesTime(microtime(true) - $start_time);
 
-        $lastInsertId = $this->db->lastInsertId();
+        $lastInsertId = null;
+
+        try {
+            $lastInsertId = $this->db->lastInsertId();
+        } catch (PDOException $e) {
+            if ($e->getCode() != 'IM001') {
+                throw $e;
+            }
+        }
 
         return ($result && $lastInsertId) ? $lastInsertId : $result;
     }

@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.11
+ * @version 0.3.12
  */
 
 abstract class simpleMapper
@@ -120,6 +120,13 @@ abstract class simpleMapper
     protected $simpleSelect;
 
     /**
+     * Объект класса simpleSelect, через который происходит экранирование полей, таблиц, алиасов и значений
+     *
+     * @var string
+     */
+    protected $simpleSelectName = 'simpleSelect';
+
+    /**
      * Алиас соединения к БД
      *
      * @var string
@@ -137,7 +144,12 @@ abstract class simpleMapper
         $this->section = $section;
 
         $this->table = $this->section . '_' .$this->className;
-        $this->simpleSelect = new simpleSelect(new criteria());
+
+        if (!class_exists($this->simpleSelectName)) {
+            fileLoader::load('db/' . $this->simpleSelectName);
+        }
+
+        $this->simpleSelect = new $this->simpleSelectName(new criteria());
     }
 
     /**
@@ -240,7 +252,7 @@ abstract class simpleMapper
             $this->replaceRelated($fields, $object);
             $this->insertDataModify($fields);
 
-            $field_names = '`' . implode('`, `', array_keys($fields)) . '`';
+            $field_names = implode(', ', array_map(array($this->simpleSelect, 'quoteField'), array_keys($fields)));
             $markers = "";
 
             foreach (array_keys($fields) as $val) {
@@ -258,7 +270,7 @@ abstract class simpleMapper
             }
             $markers = substr($markers, 0, -2);
 
-            $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (' . $field_names . ') VALUES (' . $markers . ')');
+            $stmt = $this->db->prepare('INSERT INTO ' . $this->simpleSelect->quoteTable($this->table) . ' (' . $field_names . ') VALUES (' . $markers . ')');
 
             $stmt->bindValues($fields);
 
@@ -321,20 +333,20 @@ abstract class simpleMapper
             foreach (array_keys($fields) as $val) {
                 if($fields[$val] instanceof sqlFunction) {
                     $fields[$val] = $fields[$val]->toString($this->simpleSelect);
-                    $query .= '`' . $val . '` = ' . $fields[$val] . ', ';
+                    $query .= $this->simpleSelect->quoteField($val) . ' = ' . $fields[$val] . ', ';
                     unset($fields[$val]);
                 } else if($fields[$val] instanceof sqlOperator){
                     $fields[$val] = $fields[$val]->toString($this->simpleSelect);
-                    $query .= '`' . $val . '` = ' . $fields[$val] . ', ';
+                    $query .= $this->simpleSelect->quoteField($val) . ' = ' . $fields[$val] . ', ';
                     unset($fields[$val]);
                 } else {
-                    $query .= '`' . $val . '` = :' . $val . ', ';
+                    $query .= $this->simpleSelect->quoteField($val) . ' = :' . $val . ', ';
                 }
             }
             $query = substr($query, 0, -2);
 
             if ($query) {
-                $stmt = $this->db->prepare('UPDATE  `' . $this->table . '` SET ' . $query . ' WHERE `' . $this->tableKey . '` = :id');
+                $stmt = $this->db->prepare('UPDATE  ' . $this->simpleSelect->quoteTable($this->table) . ' SET ' . $query . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = :id');
 
                 $stmt->bindValues($fields);
                 $stmt->bindValue(':id', $object->getId(), PDO::PARAM_INT);
@@ -411,7 +423,7 @@ abstract class simpleMapper
             $acl->delete($object->getObjId());
         }
 
-        $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `' . $this->tableKey . '` = :id');
+        $stmt = $this->db->prepare('DELETE FROM ' . $this->simpleSelect->quoteTable($this->table) . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         return $stmt->execute();
@@ -516,7 +528,7 @@ abstract class simpleMapper
 
         $this->addOrderBy($criteria);
 
-        $select = new simpleSelect($criteria);
+        $select = new $this->simpleSelectName($criteria);
         //echo '<br><pre>'; var_dump($select->toString()); echo '<br></pre>';
         $stmt = $this->db->query($select->toString());
 
