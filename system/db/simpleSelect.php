@@ -104,7 +104,7 @@ class simpleSelect
             }
 
             $joinClause[] = ' ' . $val['type'] . ' JOIN ' . $val['table'] .
-            (isset($val['alias']) ? ' ' . $val['alias'] : '') .
+            (isset($val['alias']) ? ' ' . $this->quoteAlias($val['alias']) : '') .
             ' ON ' . $val['criterion']->generate($this);
         }
 

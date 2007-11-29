@@ -555,7 +555,7 @@ class criteria
         $arr = array('table' => $tablename, 'criterion' => $criterion);
         $arr['type'] = $joinType;
         if ($alias) {
-            $arr['alias'] = '`' . $alias . '`';
+            $arr['alias'] = $alias;
         }
         $this->joins[] = $arr;
 
