@@ -182,7 +182,7 @@ class httpRequest implements iRequest
                 $result = $result[$index];
             }
         }
-
+        /*
         if (!empty($result) && $this->isAjax()) {
             if (is_array($result)) {
                 array_walk_recursive($result, array($this, 'decodeUTF8'));
@@ -190,6 +190,7 @@ class httpRequest implements iRequest
                 $result = $this->decodeUTF8($result);
             }
         }
+        */
 
         if (empty($type) || $type == 'mixed') {
             return $result;
