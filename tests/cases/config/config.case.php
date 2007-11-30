@@ -26,11 +26,11 @@ class configTest extends unitTestCase
     {
         $config = new config('someSection', 'someModule');
         $this->assertEqual($config->get('someParam'), 'someValueOfParam');
-        $this->assertEqual($config->getTitle('someParam'), 'ïàðàìåòð');
+        $this->assertEqual($config->getTitle('someParam'), 'Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€');
 
         $config = new config('someAnotherSection', 'someAnotherModule');
         $this->assertEqual($config->get('someAnotherParam'), 'someValueOfAnotherParam');
-        $this->assertEqual($config->getTitle('someAnotherParam'), 'ïàðàìåòð2');
+        $this->assertEqual($config->getTitle('someAnotherParam'), 'Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€2');
     }
 
     public function testConfigGetOnlyDefault()
@@ -98,9 +98,9 @@ class configTest extends unitTestCase
         $this->db->exec("INSERT INTO `sys_cfg_vars` VALUES (0, 'someAnotherParam')");
         $this->db->exec("INSERT INTO `sys_cfg_vars` VALUES (0, 'someDefaultParam')");
 
-        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'ïàðàìåòð')");
-        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'ïàðàìåòð2')");
-        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'äåôîëòíûé_ïàðàìåòð')");
+        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€')");
+        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€2')");
+        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'Ð´ÐµÑ„Ð¾Ð»Ñ‚Ð½Ñ‹Ð¹_Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€')");
 
         $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 1, 1, 1, 'defaultValueOfParam')");
         $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 3, 1, 1, 'someValueOfParam')");

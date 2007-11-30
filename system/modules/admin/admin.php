@@ -13,7 +13,7 @@
 */
 
 /**
- * admin: класс для работы с ...
+ * admin: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ ...
  *
  * @package modules
  * @subpackage admin

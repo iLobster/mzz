@@ -15,7 +15,7 @@
 */
 
 /**
- * response: объект для хранения информации и заголовков, отправляемой клиенту
+ * response: РѕР±СЉРµРєС‚ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РёРЅС„РѕСЂРјР°С†РёРё Рё Р·Р°РіРѕР»РѕРІРєРѕРІ, РѕС‚РїСЂР°РІР»СЏРµРјРѕР№ РєР»РёРµРЅС‚Сѓ
  *
  * @package system
  * @subpackage request
@@ -25,14 +25,14 @@
 class httpResponse
 {
     /**
-     * содержимое ответа
+     * СЃРѕРґРµСЂР¶РёРјРѕРµ РѕС‚РІРµС‚Р°
      *
      * @var string
      */
     private $response = '';
 
     /**
-     * Заголовки
+     * Р—Р°РіРѕР»РѕРІРєРё
      *
      * @var array
      */
@@ -53,9 +53,9 @@ class httpResponse
     private $smarty;
 
     /**
-     * конструктор класса
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР°
      *
-     * @param object $smarty объект Template Engine
+     * @param object $smarty РѕР±СЉРµРєС‚ Template Engine
      */
     public function __construct($smarty)
     {
@@ -63,7 +63,7 @@ class httpResponse
     }
 
     /**
-     * Уставливает заголовки для клиента
+     * РЈСЃС‚Р°РІР»РёРІР°РµС‚ Р·Р°РіРѕР»РѕРІРєРё РґР»СЏ РєР»РёРµРЅС‚Р°
      *
      * @param $name
      * @param $value
@@ -74,15 +74,15 @@ class httpResponse
     }
 
     /**
-     * установка cookie
+     * СѓСЃС‚Р°РЅРѕРІРєР° cookie
      *
-     * @param string $name имя cookie
-     * @param string $value значение cookie
-     * @param integer $expire время жизни для cookie
-     * @param string $path путь в котором доступен cookie
-     * @param string $domain домен в котором доступен cookie
-     * @param boolean $secure указывает что cookie будет передано только при https-соединени
-     * @param boolean $httponly указывает что cookie будет доступен только через протокол HTTP
+     * @param string $name РёРјСЏ cookie
+     * @param string $value Р·РЅР°С‡РµРЅРёРµ cookie
+     * @param integer $expire РІСЂРµРјСЏ Р¶РёР·РЅРё РґР»СЏ cookie
+     * @param string $path РїСѓС‚СЊ РІ РєРѕС‚РѕСЂРѕРј РґРѕСЃС‚СѓРїРµРЅ cookie
+     * @param string $domain РґРѕРјРµРЅ РІ РєРѕС‚РѕСЂРѕРј РґРѕСЃС‚СѓРїРµРЅ cookie
+     * @param boolean $secure СѓРєР°Р·С‹РІР°РµС‚ С‡С‚Рѕ cookie Р±СѓРґРµС‚ РїРµСЂРµРґР°РЅРѕ С‚РѕР»СЊРєРѕ РїСЂРё https-СЃРѕРµРґРёРЅРµРЅРё
+     * @param boolean $httponly СѓРєР°Р·С‹РІР°РµС‚ С‡С‚Рѕ cookie Р±СѓРґРµС‚ РґРѕСЃС‚СѓРїРµРЅ С‚РѕР»СЊРєРѕ С‡РµСЂРµР· РїСЂРѕС‚РѕРєРѕР» HTTP
      */
     public function setCookie($name, $value = '', $expire = 0, $path = SITE_PATH, $domain = COOKIE_DOMAIN, $secure = false, $httponly = false)
     {
@@ -97,7 +97,7 @@ class httpResponse
     }
 
     /**
-     * Уставливает заголовок страницы
+     * РЈСЃС‚Р°РІР»РёРІР°РµС‚ Р·Р°РіРѕР»РѕРІРѕРє СЃС‚СЂР°РЅРёС†С‹
      *
      * @param string $value
      */
@@ -107,7 +107,7 @@ class httpResponse
     }
 
     /**
-     * Уставливает перенаправление на другую страницу
+     * РЈСЃС‚Р°РІР»РёРІР°РµС‚ РїРµСЂРµРЅР°РїСЂР°РІР»РµРЅРёРµ РЅР° РґСЂСѓРіСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ
      *
      * @param string $url
      */
@@ -117,7 +117,7 @@ class httpResponse
     }
 
     /**
-     * Возвращает установленные заголовки клиенту
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рµ Р·Р°РіРѕР»РѕРІРєРё РєР»РёРµРЅС‚Сѓ
      *
      * @return array
      */
@@ -127,7 +127,7 @@ class httpResponse
     }
 
     /**
-     * Возвращает установленные cookies клиенту
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рµ cookies РєР»РёРµРЅС‚Сѓ
      *
      * @return array
      */
@@ -137,7 +137,7 @@ class httpResponse
     }
 
     /**
-     * отправка содержимого клиенту
+     * РѕС‚РїСЂР°РІРєР° СЃРѕРґРµСЂР¶РёРјРѕРіРѕ РєР»РёРµРЅС‚Сѓ
      *
      */
     public function send()
@@ -151,9 +151,9 @@ class httpResponse
     }
 
     /**
-     * добавление информации к ответу
+     * РґРѕР±Р°РІР»РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё Рє РѕС‚РІРµС‚Сѓ
      *
-     * @param string $string строка для добавления
+     * @param string $string СЃС‚СЂРѕРєР° РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ
      */
     public function append($string)
     {
@@ -161,7 +161,7 @@ class httpResponse
     }
 
     /**
-     * Очистка ответа
+     * РћС‡РёСЃС‚РєР° РѕС‚РІРµС‚Р°
      *
      */
     public function clear()
@@ -170,7 +170,7 @@ class httpResponse
     }
 
     /**
-     * отправление текста
+     * РѕС‚РїСЂР°РІР»РµРЅРёРµ С‚РµРєСЃС‚Р°
      *
      */
     private function sendText()
@@ -179,7 +179,7 @@ class httpResponse
     }
 
     /**
-     * отправление заголовков
+     * РѕС‚РїСЂР°РІР»РµРЅРёРµ Р·Р°РіРѕР»РѕРІРєРѕРІ
      *
      */
     private function sendHeaders()
@@ -199,7 +199,7 @@ class httpResponse
     }
 
     /**
-     * отправление cookies
+     * РѕС‚РїСЂР°РІР»РµРЅРёРµ cookies
      *
      */
     private function sendCookies()
@@ -219,7 +219,7 @@ class httpResponse
     }
 
     /**
-     * Бросает исключение если заголовки были отправлены
+     * Р‘СЂРѕСЃР°РµС‚ РёСЃРєР»СЋС‡РµРЅРёРµ РµСЃР»Рё Р·Р°РіРѕР»РѕРІРєРё Р±С‹Р»Рё РѕС‚РїСЂР°РІР»РµРЅС‹
      *
      * @return boolean
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/controller.tpl $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/tags/controllers/tagsEditTagsController.php $
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,13 +9,13 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: controller.tpl 1790 2007-06-07 09:48:45Z mz $
+ * @version $Id: tagsEditTagsController.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * tagsEditTagsController: контроллер для метода addTags модуля tags
+ * tagsEditTagsController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° addTags РјРѕРґСѓР»СЏ tags
  *
  * @package modules
  * @subpackage tags
@@ -42,7 +42,7 @@ class tagsEditTagsController extends simpleController
             if ($validator->validate()) {
 
                 $tags = $this->request->get('tags', 'string', SC_POST);
-                /* парсим тэги */
+                /* РїР°СЂСЃРёРј С‚СЌРіРё */
                 $tags = explode(',', $tags);
                 $tags = array_map('trim', $tags);
                 foreach ($tags as $i => $t) {
@@ -55,44 +55,44 @@ class tagsEditTagsController extends simpleController
                 $tagsMapper = $this->toolkit->getMapper('tags', 'tags', 'tags');
                 $tagsItemRelMapper = $this->toolkit->getMapper('tags', 'tagsItemRel', 'tags');
 
-                /* учитывается что если в базе iPod, ввели ipod, IPOD, сохраняется как iPod */
+                /* СѓС‡РёС‚С‹РІР°РµС‚СЃСЏ С‡С‚Рѕ РµСЃР»Рё РІ Р±Р°Р·Рµ iPod, РІРІРµР»Рё ipod, IPOD, СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ РєР°Рє iPod */
 
                 $existedTags = $tagsMapper->searchTags($tags);
 
                 $existedTagsPlain = $newInBaseTagsPlain = $newTagsPlain = $currentTagsPlain = $deletedTagsPlain = array();
                 $newInBaseTags = $newTags = array();
 
-                // вычисляем новые таги, которых нет в базе
+                // РІС‹С‡РёСЃР»СЏРµРј РЅРѕРІС‹Рµ С‚Р°РіРё, РєРѕС‚РѕСЂС‹С… РЅРµС‚ РІ Р±Р°Р·Рµ
                 if(!empty($existedTags)) {
 
-                    // готовим массив с тагами строками
+                    // РіРѕС‚РѕРІРёРј РјР°СЃСЃРёРІ СЃ С‚Р°РіР°РјРё СЃС‚СЂРѕРєР°РјРё
                     foreach ($existedTags as $t) {
                         $existedTagsPlain[] = $t->getTag();
                     }
 
-                    // для поиска новых тагов переводим их нижний регистр
+                    // РґР»СЏ РїРѕРёСЃРєР° РЅРѕРІС‹С… С‚Р°РіРѕРІ РїРµСЂРµРІРѕРґРёРј РёС… РЅРёР¶РЅРёР№ СЂРµРіРёСЃС‚СЂ
                     $existedTagsPlainLowString = array_map('strtolower', $existedTagsPlain);
 
-                    // вычисляем новые таги
+                    // РІС‹С‡РёСЃР»СЏРµРј РЅРѕРІС‹Рµ С‚Р°РіРё
                     foreach ($tagsPlainLowString as $i => $t) {
                         if(!in_array($t, $existedTagsPlainLowString)) {
                             $newInBaseTagsPlain[] = $tags[$i];
                         }
                     }
                 } else {
-                    // все таги новые
+                    // РІСЃРµ С‚Р°РіРё РЅРѕРІС‹Рµ
                     $newInBaseTagsPlain = $tags;
                 }
 
-                // готовим массив с текущими тагами строками
+                // РіРѕС‚РѕРІРёРј РјР°СЃСЃРёРІ СЃ С‚РµРєСѓС‰РёРјРё С‚Р°РіР°РјРё СЃС‚СЂРѕРєР°РјРё
                 $currentTags = $tagsItem->getTags();
                 foreach ($currentTags as $t) {
                     $currentTagsPlain[] = $t->getTag();
                 }
 
-                // вычисляем удаленные таги
-                // @2think а где результаты используется?
-                // можно для отмены удаления использовать
+                // РІС‹С‡РёСЃР»СЏРµРј СѓРґР°Р»РµРЅРЅС‹Рµ С‚Р°РіРё
+                // @2think Р° РіРґРµ СЂРµР·СѓР»СЊС‚Р°С‚С‹ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ?
+                // РјРѕР¶РЅРѕ РґР»СЏ РѕС‚РјРµРЅС‹ СѓРґР°Р»РµРЅРёСЏ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ
                 $currentTagsPlainLowString = array_map('strtolower', $currentTagsPlain);
                 foreach ($currentTagsPlainLowString as $i => $t) {
                     if(!in_array($t, $tagsPlainLowString)) {
@@ -100,18 +100,18 @@ class tagsEditTagsController extends simpleController
                     }
                 }
 
-                // новые для объекта таги
+                // РЅРѕРІС‹Рµ РґР»СЏ РѕР±СЉРµРєС‚Р° С‚Р°РіРё
                 $newTagsPlainLowString = array_diff($tagsPlainLowString, $currentTagsPlainLowString);
                 foreach(array_keys($newTagsPlainLowString) as $key) {
                     $newTagsPlain[$key] = $tags[$key];
                 }
 
-                // создаем новые для базы таги
+                // СЃРѕР·РґР°РµРј РЅРѕРІС‹Рµ РґР»СЏ Р±Р°Р·С‹ С‚Р°РіРё
                 if(!empty($newInBaseTagsPlain)) {
                     $newInBaseTags = $tagsMapper->createTags($newInBaseTagsPlain);
                 }
 
-                // ищем новые для объекта таги и переводим их в объекты
+                // РёС‰РµРј РЅРѕРІС‹Рµ РґР»СЏ РѕР±СЉРµРєС‚Р° С‚Р°РіРё Рё РїРµСЂРµРІРѕРґРёРј РёС… РІ РѕР±СЉРµРєС‚С‹
                 $newTags = array();
                 if(!empty($newTagsPlain)) {
                     foreach ($existedTags as $key => $t) {
@@ -124,8 +124,8 @@ class tagsEditTagsController extends simpleController
                 $currentUser = $this->toolkit->getUser();
 
 
-                // новые таги = $newInBaseTags + $newTags
-                // связываем таги с сущностью
+                // РЅРѕРІС‹Рµ С‚Р°РіРё = $newInBaseTags + $newTags
+                // СЃРІСЏР·С‹РІР°РµРј С‚Р°РіРё СЃ СЃСѓС‰РЅРѕСЃС‚СЊСЋ
                 $allNewTags = array_merge($newInBaseTags, $newTags);
                 foreach ($allNewTags as $tag) {
                     $tagItemRel = $tagsItemRelMapper->create();
@@ -134,13 +134,13 @@ class tagsEditTagsController extends simpleController
                     $tagsItemRelMapper->save($tagItemRel);
                 }
 
-                // вычисляем удаленные таги
-                // удаляем связи
+                // РІС‹С‡РёСЃР»СЏРµРј СѓРґР°Р»РµРЅРЅС‹Рµ С‚Р°РіРё
+                // СѓРґР°Р»СЏРµРј СЃРІСЏР·Рё
                 $currentTagsKeys = array_keys($currentTags);
                 $existedTagsKeys = array_keys($existedTags);
                 $deletedTagsKeys = array_diff($currentTagsKeys, $existedTagsKeys);
 
-                // @todo подумать о личных, общих тэгах. Что удалять, как удалять?
+                // @todo РїРѕРґСѓРјР°С‚СЊ Рѕ Р»РёС‡РЅС‹С…, РѕР±С‰РёС… С‚СЌРіР°С…. Р§С‚Рѕ СѓРґР°Р»СЏС‚СЊ, РєР°Рє СѓРґР°Р»СЏС‚СЊ?
 
                 if(!empty($deletedTagsKeys)) {
                     foreach($deletedTagsKeys as $key) {
@@ -148,7 +148,7 @@ class tagsEditTagsController extends simpleController
                     }
                 }
 
-                // @toDo не обновлять всю страницу, обновлять только теги
+                // @toDo РЅРµ РѕР±РЅРѕРІР»СЏС‚СЊ РІСЃСЋ СЃС‚СЂР°РЅРёС†Сѓ, РѕР±РЅРѕРІР»СЏС‚СЊ С‚РѕР»СЊРєРѕ С‚РµРіРё
                 //exit;
                 return jipTools::redirect();
             }

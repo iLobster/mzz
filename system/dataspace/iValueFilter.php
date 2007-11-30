@@ -15,7 +15,7 @@
 */
 
 /**
- * iValueFilter: интерфейс ValueFilter
+ * iValueFilter: РёРЅС‚РµСЂС„РµР№СЃ ValueFilter
  *
  * @package system
  * @subpackage dataspace
@@ -24,9 +24,9 @@
 interface iValueFilter
 {
     /**
-     * Применяет фильтр к значению и возвращает его
+     * РџСЂРёРјРµРЅСЏРµС‚ С„РёР»СЊС‚СЂ Рє Р·РЅР°С‡РµРЅРёСЋ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РµРіРѕ
      *
-     * @param mixed $value значение
+     * @param mixed $value Р·РЅР°С‡РµРЅРёРµ
      * @return mixed
      */
     public function filter($value);

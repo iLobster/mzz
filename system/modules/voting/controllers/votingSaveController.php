@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * votingSaveController: êîíòðîëëåð äëÿ ìåòîäà save ìîäóëÿ voting
+ * votingSaveController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° save Ð¼Ð¾Ð´ÑƒÐ»Ñ voting
  *
  * @package modules
  * @subpackage voting
@@ -40,10 +40,10 @@ class votingSaveController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'question', 'Íåîáõîäèìî çàäàòü òåìó ãîëîñîâàíèÿ');
-        $validator->add('regex', 'created', 'Íåïðàâèëüíûé ôîðìàò äàòû', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
-        $validator->add('regex', 'expired', 'Íåïðàâèëüíûé ôîðìàò äàòû', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
-        $validator->add('callback', 'expired', 'Äàòà îêîí÷àíèÿ íå ìîæåò áûòü ìåíüøå äàòû ñòàðòà', array(array($this, 'checkExpiredDate'), $question));
+        $validator->add('required', 'question', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð·Ð°Ð´Ð°Ñ‚ÑŒ Ñ‚ÐµÐ¼Ñƒ Ð³Ð¾Ð»Ð¾ÑÐ¾Ð²Ð°Ð½Ð¸Ñ');
+        $validator->add('regex', 'created', 'ÐÐµÐ¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ‹Ð¹ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ð´Ð°Ñ‚Ñ‹', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
+        $validator->add('regex', 'expired', 'ÐÐµÐ¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ‹Ð¹ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ð´Ð°Ñ‚Ñ‹', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
+        $validator->add('callback', 'expired', 'Ð”Ð°Ñ‚Ð° Ð¾ÐºÐ¾Ð½Ñ‡Ð°Ð½Ð¸Ñ Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð¼ÐµÐ½ÑŒÑˆÐµ Ð´Ð°Ñ‚Ñ‹ ÑÑ‚Ð°Ñ€Ñ‚Ð°', array(array($this, 'checkExpiredDate'), $question));
 
         if (!$validator->validate()) {
             $url = new url('withId');

@@ -15,7 +15,7 @@ class filterChainTest extends UnitTestCase
     {
         $request = new mockhttpRequest;
 
-        // Smarty â ýòèõ òåñòàõ íå íóæåí, çàìåíÿåì ïóñòûì îáúåêòîì
+        // Smarty Ð² ÑÑ‚Ð¸Ñ… Ñ‚ÐµÑÑ‚Ð°Ñ… Ð½Ðµ Ð½ÑƒÐ¶ÐµÐ½, Ð·Ð°Ð¼ÐµÐ½ÑÐµÐ¼ Ð¿ÑƒÑÑ‚Ñ‹Ð¼ Ð¾Ð±ÑŠÐµÐºÑ‚Ð¾Ð¼
         $response = new httpResponse(new stdClass());
 
         $this->filterChain = new filterChain($response, $request);

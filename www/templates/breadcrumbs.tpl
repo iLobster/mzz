@@ -1,5 +1,5 @@
 <div class="breadcrumbs">
- <span class="breadcrumbsTitle">ѕуть:</span> <span class="breadcrumbsItems">
+ <span class="breadcrumbsTitle">–Я—Г—В—М:</span> <span class="breadcrumbsItems">
  {foreach from=$breadCrumbs item="crumb" name="crumb"}
     {if $smarty.foreach.crumb.last}
         <strong>{$crumb->getTitle()}</strong>{$crumb->getJip()}

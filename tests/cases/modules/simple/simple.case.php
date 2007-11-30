@@ -5,7 +5,7 @@ fileLoader::load('simple');
 fileLoader::load('cases/modules/simple/stubMapper.class');
 fileLoader::load('cases/modules/simple/stubSimple.class');
 
-// simpleTest åñòü êëàññ
+// simpleTest ĞµÑÑ‚ÑŒ ĞºĞ»Ğ°ÑÑ
 class testSimple extends unitTestCase
 {
     private $simple;
@@ -83,14 +83,14 @@ class testSimple extends unitTestCase
     {
         try {
             $this->simple->getAny();
-            $this->fail('Äîëæåí áûòü áğîøåí EXCEPTION!');
+            $this->fail('Ğ”Ğ¾Ğ»Ğ¶ĞµĞ½ Ğ±Ñ‹Ñ‚ÑŒ Ğ±Ñ€Ğ¾ÑˆĞµĞ½ EXCEPTION!');
         } catch (Exception $e) {
             $this->assertPattern('/simple::getany/i', $e->getMessage());
         }
 
         try {
             $this->simple->setAny('any');
-            $this->fail('Äîëæåí áûòü áğîøåí EXCEPTION!');
+            $this->fail('Ğ”Ğ¾Ğ»Ğ¶ĞµĞ½ Ğ±Ñ‹Ñ‚ÑŒ Ğ±Ñ€Ğ¾ÑˆĞµĞ½ EXCEPTION!');
         } catch (Exception $e) {
             $this->assertPattern('/simple::setany/i', $e->getMessage());
         }
@@ -105,7 +105,7 @@ class testSimple extends unitTestCase
     {
         try {
             $this->simple->setId();
-            $this->fail('Äîëæåí áûòü áğîøåí EXCEPTION!');
+            $this->fail('Ğ”Ğ¾Ğ»Ğ¶ĞµĞ½ Ğ±Ñ‹Ñ‚ÑŒ Ğ±Ñ€Ğ¾ÑˆĞµĞ½ EXCEPTION!');
         } catch (Exception $e) {
             $this->assertPattern('/simple::setid/i', $e->getMessage());
         }
@@ -130,7 +130,7 @@ class testSimple extends unitTestCase
 
             try {
                 $this->simple->$setter($second);
-                $this->fail('Îæèäàåòñÿ èñêëş÷åíèå');
+                $this->fail('ĞĞ¶Ğ¸Ğ´Ğ°ĞµÑ‚ÑÑ Ğ¸ÑĞºĞ»ÑÑ‡ĞµĞ½Ğ¸Ğµ');
             } catch (mzzRuntimeException $e) {
                 $this->pass();
             }

@@ -15,7 +15,7 @@
 fileLoader::load('user/userGroup');
 
 /**
- * groupMapper: маппер для групп пользователей
+ * groupMapper: РјР°РїРїРµСЂ РґР»СЏ РіСЂСѓРїРї РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
  *
  * @package modules
  * @subpackage user
@@ -24,23 +24,23 @@ fileLoader::load('user/userGroup');
 class userGroupMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'user';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'userGroup';
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param string $section секция
+     * @param string $section СЃРµРєС†РёСЏ
      */
     public function __construct($section)
     {

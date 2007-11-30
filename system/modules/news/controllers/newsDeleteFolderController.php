@@ -13,7 +13,7 @@
  */
 
 /**
- * newsDeleteFolderController: контроллер для метода delete модуля news
+ * newsDeleteFolderController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° delete РјРѕРґСѓР»СЏ news
  *
  * @package modules
  * @subpackage news

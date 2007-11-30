@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * adminAddObjToRegistryController: êîíòðîëëåð äëÿ ìåòîäà addObjToRegistryController ìîäóëÿ admin
+ * adminAddObjToRegistryController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° addObjToRegistryController Ð¼Ð¾Ð´ÑƒÐ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -35,9 +35,9 @@ class adminAddObjToRegistryController extends simpleController
         $sections = array_combine(array_keys($classes), array_keys($classes));
 
         $validator = new formValidator();
-        $validator->add('required', 'section', 'Íåîáõîäèìî óêàçàòü ñåêöèþ');
-        $validator->add('required', 'class', 'Íåîáõîäèìî óêàçàòü êëàññ');
-        $validator->add('callback', 'class', 'Óêàæèòå ñóùåñòâóþùèé êëàññ', array('checkClassSectionExists', $db));
+        $validator->add('required', 'section', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ ÑÐµÐºÑ†Ð¸ÑŽ');
+        $validator->add('required', 'class', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ ÐºÐ»Ð°ÑÑ');
+        $validator->add('callback', 'class', 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ð¹ ÐºÐ»Ð°ÑÑ', array('checkClassSectionExists', $db));
 
         if ($validator->validate()) {
             $class = $this->request->get('class', 'integer', SC_POST);

@@ -10,5 +10,5 @@
     <a name="faq{$faq->getId()}"></a><strong>Q:{$faq->getQuestion()}</strong>{$faq->getJip()}<br />
     A:{$faq->getAnswer()|nl2br}<br /><br />
 {foreachelse}
-    Пусто
+    РџСѓСЃС‚Рѕ
 {/foreach}

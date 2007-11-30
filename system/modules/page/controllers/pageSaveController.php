@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * pageSaveController: êîíòðîëëåð äëÿ ìåòîäà save ìîäóëÿ page
+ * pageSaveController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° save Ð¼Ð¾Ð´ÑƒÐ»Ñ page
  *
  * @package modules
  * @subpackage page
@@ -45,9 +45,9 @@ class pageSaveController extends simpleController
 
         if (!empty($page) || (!$isEdit && isset($pageFolder) && !is_null($pageFolder))) {
             $validator = new formValidator();
-            $validator->add('required', 'name', 'Îáÿçàòåëüíîå äëÿ çàïîëíåíèÿ ïîëå');
-            $validator->add('regex', 'name', 'Íåäîïóñòèìûå ñèìâîëû â èäåíòèôèêàòîðå', '/^[a-z0-9_\.\-! ]+$/i');
-            $validator->add('callback', 'name', 'Èäåíòèôèêàòîð äîëæåí áûòü óíèêàëåí â ïðåäåëàõ êàòàëîãà', array('checkPageName', $page, $pageFolder));
+            $validator->add('required', 'name', 'ÐžÐ±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð´Ð»Ñ Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»Ðµ');
+            $validator->add('regex', 'name', 'ÐÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹ Ð² Ð¸Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€Ðµ', '/^[a-z0-9_\.\-! ]+$/i');
+            $validator->add('callback', 'name', 'Ð˜Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€ Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ ÑƒÐ½Ð¸ÐºÐ°Ð»ÐµÐ½ Ð² Ð¿Ñ€ÐµÐ´ÐµÐ»Ð°Ñ… ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð°', array('checkPageName', $page, $pageFolder));
 
             if ($validator->validate()) {
                 $name = $this->request->get('name', 'string', SC_POST);

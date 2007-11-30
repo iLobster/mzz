@@ -13,7 +13,7 @@
 */
 
 /**
- * newsAdminController: контроллер для метода admin модуля news
+ * newsAdminController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° admin РјРѕРґСѓР»СЏ news
  *
  * @package modules
  * @subpackage news

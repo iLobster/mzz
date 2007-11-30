@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * userRegisterController: контроллер для метода register модуля user
+ * userRegisterController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° register РјРѕРґСѓР»СЏ user
  *
  * @package modules
  * @subpackage user
@@ -30,7 +30,7 @@ class userRegisterController extends simpleController
         $user = $this->toolkit->getUser();
 
         //if ($user->isLoggedIn()) {
-            //$controller = new messageController('Вам не требуется регистрация', messageController::INFO);
+            //$controller = new messageController('Р’Р°Рј РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ СЂРµРіРёСЃС‚СЂР°С†РёСЏ', messageController::INFO);
             //return $controller->run();
         //}
 
@@ -39,13 +39,13 @@ class userRegisterController extends simpleController
 
         if (empty($userId) || empty($confirm)) {
             $validator = new formValidator();
-            $validator->add('required', 'login', 'Необходимо указать логин');
-            $validator->add('required', 'password', 'Необходимо указать пароль');
-            $validator->add('required', 'email', 'Необходимо указать обратный e-mail');
-            $validator->add('Regex', 'email', 'Необходимо указать правильный e-mail', '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/');
-            $validator->add('required', 'repassword', 'Необходимо указать повтор пароль');
-            $validator->add('callback', 'login', 'Пользователь с таким логином уже существует', array('checkUniqueUserLogin', $userMapper));
-            $validator->add('callback', 'repassword', 'Повтор пароля не совпадает', array('checkRepass', $this->request->get('password', 'string', SC_POST)));
+            $validator->add('required', 'login', 'РќРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ Р»РѕРіРёРЅ');
+            $validator->add('required', 'password', 'РќРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ РїР°СЂРѕР»СЊ');
+            $validator->add('required', 'email', 'РќРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ РѕР±СЂР°С‚РЅС‹Р№ e-mail');
+            $validator->add('Regex', 'email', 'РќРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ РїСЂР°РІРёР»СЊРЅС‹Р№ e-mail', '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/');
+            $validator->add('required', 'repassword', 'РќРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ РїРѕРІС‚РѕСЂ РїР°СЂРѕР»СЊ');
+            $validator->add('callback', 'login', 'РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ С‚Р°РєРёРј Р»РѕРіРёРЅРѕРј СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚', array('checkUniqueUserLogin', $userMapper));
+            $validator->add('callback', 'repassword', 'РџРѕРІС‚РѕСЂ РїР°СЂРѕР»СЏ РЅРµ СЃРѕРІРїР°РґР°РµС‚', array('checkRepass', $this->request->get('password', 'string', SC_POST)));
 
             $url = new url('default2');
             $url->setAction('register');
@@ -71,10 +71,10 @@ class userRegisterController extends simpleController
                 $url->add('confirm', $confirm, true);
                 $this->smarty->assign('url', $url->get());
 
-                if (mail($email, 'Подтверждения регистрации', $this->smarty->fetch('user/mail.tpl'))) {
+                if (mail($email, 'РџРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ СЂРµРіРёСЃС‚СЂР°С†РёРё', $this->smarty->fetch('user/mail.tpl'))) {
                     return $this->smarty->fetch('user/success.tpl');
                 } else {
-                    return 'ошибка... не знаю чо написать. эксепшн наверное? откладываем до mzzMail';
+                    return 'РѕС€РёР±РєР°... РЅРµ Р·РЅР°СЋ С‡Рѕ РЅР°РїРёСЃР°С‚СЊ. СЌРєСЃРµРїС€РЅ РЅР°РІРµСЂРЅРѕРµ? РѕС‚РєР»Р°РґС‹РІР°РµРј РґРѕ mzzMail';
                 }
             }
         } else {
@@ -98,9 +98,9 @@ class userRegisterController extends simpleController
                     $userGroupMapper->save($userGroup);
                 }
 
-                return 'Регистрация подтверждена';
+                return 'Р РµРіРёСЃС‚СЂР°С†РёСЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°';
             } else {
-                return 'Нет такого пользователя';
+                return 'РќРµС‚ С‚Р°РєРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ';
             }
         }
     }

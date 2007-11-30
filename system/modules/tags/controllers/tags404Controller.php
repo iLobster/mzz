@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/modules/simple/simple404Controller.php $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/tags/controllers/tags404Controller.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,11 +9,11 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: simple404Controller.php 2016 2007-08-01 02:25:17Z zerkms $
+ * @version $Id: tags404Controller.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 /**
- * simple404Controller: контроллер для метода 404 модуля simple
+ * simple404Controller: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° 404 РјРѕРґСѓР»СЏ simple
  *
  * @package modules
  * @subpackage simple

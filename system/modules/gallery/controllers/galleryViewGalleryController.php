@@ -13,7 +13,7 @@
  */
 
 /**
- * galleryViewGalleryController: êîíòðîëëåð äëÿ ìåòîäà viewGallery ìîäóëÿ gallery
+ * galleryViewGalleryController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° viewGallery Ð¼Ð¾Ð´ÑƒÐ»Ñ gallery
  *
  * @package modules
  * @subpackage gallery
@@ -33,7 +33,7 @@ class galleryViewGalleryController extends simpleController
             return $galleryMapper->get404()->run();
         }
 
-        //@todo: ñäåëàòü ïðîâåðêó íà âîçìîæíîñòü ñîçäàíèÿ ãàëåðåè
+        //@todo: ÑÐ´ÐµÐ»Ð°Ñ‚ÑŒ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÑƒ Ð½Ð° Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ñ Ð³Ð°Ð»ÐµÑ€ÐµÐ¸
 
         $gallery = $galleryMapper->searchOneByField('owner', $user->getId());
         if (is_null($gallery)) {

@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * catalogueMoveController: êîíòðîëëåð äëÿ ìåòîäà move ìîäóëÿ catalogue
+ * catalogueMoveController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° move Ð¼Ð¾Ð´ÑƒÐ»Ñ catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -49,8 +49,8 @@ class catalogueMoveController extends simpleController
         $folder = $catalogueMapper->searchById(current($items))->getFolder();
 
         $validator = new formValidator();
-        $validator->add('required', 'dest', 'Íåîáõîäèìî óêàçàòü êàòàëîã íàçíà÷åíèÿ');
-        $validator->add('callback', 'dest', 'Êàòàëîã íàçíà÷åíèÿ íå ñóùåñòâóåò', array('checkDestCatalogueFolderExists', $catalogueFolderMapper));
+        $validator->add('required', 'dest', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³ Ð½Ð°Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ');
+        $validator->add('callback', 'dest', 'ÐšÐ°Ñ‚Ð°Ð»Ð¾Ð³ Ð½Ð°Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚', array('checkDestCatalogueFolderExists', $catalogueFolderMapper));
 
         if ($validator->validate()) {
             $destFolder = $catalogueFolderMapper->searchById($dest);

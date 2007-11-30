@@ -5,15 +5,15 @@
         <div class="siteName"><div>www.mzz.ru</div></div>
         <div class="favorite">
             <div>
-                <a href="{$SITE_PATH}/"><img src="{$SITE_PATH}/templates/images/admin/favorite.gif" class="favoriteIcon" width="18" height="16" alt="Site" title="Перейти на сайт" /></a>
-                <!--span class="doubleSeparator">&nbsp;</span> <a href="#">Добавить новость</a>
-                <span>&nbsp;</span> <a href="#">Добавить страницу</a-->
+                <a href="{$SITE_PATH}/"><img src="{$SITE_PATH}/templates/images/admin/favorite.gif" class="favoriteIcon" width="18" height="16" alt="Site" title="РџРµСЂРµР№С‚Рё РЅР° СЃР°Р№С‚" /></a>
+                <!--span class="doubleSeparator">&nbsp;</span> <a href="#">Р”РѕР±Р°РІРёС‚СЊ РЅРѕРІРѕСЃС‚СЊ</a>
+                <span>&nbsp;</span> <a href="#">Р”РѕР±Р°РІРёС‚СЊ СЃС‚СЂР°РЅРёС†Сѓ</a-->
             </div>
         </div>
     </div>
     {if not empty($admin_menu)}
         <div id="sidebar">
-            <p class="sideMenuTitle">Разделы сайта</p>
+            <p class="sideMenuTitle">Р Р°Р·РґРµР»С‹ СЃР°Р№С‚Р°</p>
             {*<a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}"> *}
             <table cellspacing="0" cellpadding="0">
             {foreach from=$admin_menu item=module key=module_name}

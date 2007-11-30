@@ -1,13 +1,13 @@
 {title append=$news->getTitle()}
-{title append="Íîâîñòè"}
+{title append="ÐÐ¾Ð²Ð¾ÑÑ‚Ð¸"}
 {add file="news.css"}
 {include file="news/tree.tpl" source=$news->getFolder()}
 <div class="newsList">
 
 <div class="news_title">{$news->getTitle()|htmlspecialchars}{$news->getJip()}</div>
 
-<div class="news_info">Àâòîð: {$news->getEditor()->getLogin()}, {$news->getCreated()|date_format:"%e %B %Y / %H:%M"},
-Ðåäàêòèðîâàíî: {$news->getUpdated()|date_format:"%e %B %Y / %H:%M"}</div>
+<div class="news_info">ÐÐ²Ñ‚Ð¾Ñ€: {$news->getEditor()->getLogin()}, {$news->getCreated()|date_format:"%e %B %Y / %H:%M"},
+Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¾: {$news->getUpdated()|date_format:"%e %B %Y / %H:%M"}</div>
 
 <div class="news_text">{$news->getText()|htmlspecialchars}</div>
 {load module="tags" section="tags" action="list" parent_id=$news->getObjId()}

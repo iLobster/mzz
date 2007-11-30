@@ -13,7 +13,7 @@
 */
 
 /**
- * fileManagerAdminController: контроллер для метода admin модуля fileManager
+ * fileManagerAdminController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° admin РјРѕРґСѓР»СЏ fileManager
  *
  * @package modules
  * @subpackage fileManager

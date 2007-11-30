@@ -13,7 +13,7 @@
  */
 
 /**
- * menuDeleteController: контроллер для метода delete модуля menu
+ * menuDeleteController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° delete РјРѕРґСѓР»СЏ menu
  *
  * @package modules
  * @subpackage menu

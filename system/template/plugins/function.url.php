@@ -15,18 +15,18 @@
 */
 
 /**
- * smarty_function_url: функция для смарти, генератор URL
+ * smarty_function_url: С„СѓРЅРєС†РёСЏ РґР»СЏ СЃРјР°СЂС‚Рё, РіРµРЅРµСЂР°С‚РѕСЂ URL
  *
- * Примеры использования:<br />
+ * РџСЂРёРјРµСЂС‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ:<br />
  * <code>
  * {url route="default" section="news" action="list"}
  * {url route="guestbookActions" section="guestbook" action="delete" params="41"}
  * {url route="newsActions" section="news" params="2006/08/12"}
  * </code>
  *
- * @param array $params входные аргументы функции
- * @param object $smarty объект смарти
- * @return string результат работы модуля
+ * @param array $params РІС…РѕРґРЅС‹Рµ Р°СЂРіСѓРјРµРЅС‚С‹ С„СѓРЅРєС†РёРё
+ * @param object $smarty РѕР±СЉРµРєС‚ СЃРјР°СЂС‚Рё
+ * @return string СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°Р±РѕС‚С‹ РјРѕРґСѓР»СЏ
  * @package system
  * @subpackage template
  * @version 0.2

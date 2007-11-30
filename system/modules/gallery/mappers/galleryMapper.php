@@ -15,7 +15,7 @@
 fileLoader::load('gallery');
 
 /**
- * galleryMapper: маппер
+ * galleryMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage gallery
@@ -25,23 +25,23 @@ fileLoader::load('gallery');
 class galleryMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'gallery';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'gallery';
 
     /**
-     * Выполняет поиск объекта по владельцу
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РІР»Р°РґРµР»СЊС†Сѓ
      *
-     * @param integer $owner идентификатор владельца
+     * @param integer $owner РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РІР»Р°РґРµР»СЊС†Р°
      * @return object|null
      */
     public function searchByOwner($owner)
@@ -50,7 +50,7 @@ class galleryMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РѕР±РЅРѕРІР»РµРЅРёРµРј РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -60,7 +60,7 @@ class galleryMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РІСЃС‚Р°РІРєРѕР№ РІ Р‘Р”
      *
      * @param array $fields
      */

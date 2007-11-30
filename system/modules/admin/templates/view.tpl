@@ -13,7 +13,7 @@
                 <td colspan="2">
                     {assign var="name" value="`$section_name`_`$module_name`"}
                     {assign var="main_name" value="`$section_name`_`$main_class.$module_name`"}
-                    {$section_name} {if not empty($cfgAccess.$name)}<a href="{url route="withAnyParam" section="admin" name="`$section_name`/`$module_name`" action="editConfig"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif"></a>{/if}{if not empty($admin.$main_name)}{if $module_name ne 'admin'}{if $module_name ne 'access'}  <a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}">‡‰ÏËÌÍ‡</a>{/if}{/if}{/if}
+                    {$section_name} {if not empty($cfgAccess.$name)}<a href="{url route="withAnyParam" section="admin" name="`$section_name`/`$module_name`" action="editConfig"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif"></a>{/if}{if not empty($admin.$main_name)}{if $module_name ne 'admin'}{if $module_name ne 'access'}  <a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}">–∞–¥–º–∏–Ω–∫–∞</a>{/if}{/if}{/if}
                 </td>
             </tr>
             {foreach from=$section item=class}

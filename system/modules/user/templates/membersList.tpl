@@ -1,5 +1,5 @@
 {assign var=name value=$group->getName()}
-{include file='jipTitle.tpl' title="Список пользователей, состоящих в группе $name"}
+{include file='jipTitle.tpl' title="РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, СЃРѕСЃС‚РѕСЏС‰РёС… РІ РіСЂСѓРїРїРµ $name"}
 <form method="post" action="{url}" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" width="50%" cellpadding="4" cellspacing="1" class="systemTable">
 
@@ -12,15 +12,15 @@
         {/foreach}
         {if sizeof($users)}
             <tr>
-                <td><input type="submit" value="Удалить"></td>
-                <td colspan="2"><input type="reset" value="Сброс" onclick="javascript: jipWindow.close();"></td>
+                <td><input type="submit" value="РЈРґР°Р»РёС‚СЊ"></td>
+                <td colspan="2"><input type="reset" value="РЎР±СЂРѕСЃ" onclick="javascript: jipWindow.close();"></td>
             </tr>
         {else}
-            В этой группе пока нет ни одного пользователя
+            Р’ СЌС‚РѕР№ РіСЂСѓРїРїРµ РїРѕРєР° РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         {/if}
         <tr>
             <td align="center"><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" class="jipLink"><img src="{$SITE_PATH}/templates/images/useradd.gif" width="16" height="16" /></a></td>
-            <td colspan="2"><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" class="jipLink">Добавить пользователя в группу</a></td>
+            <td colspan="2"><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" class="jipLink">Р”РѕР±Р°РІРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ РіСЂСѓРїРїСѓ</a></td>
         </tr>
     </table>
 </form>

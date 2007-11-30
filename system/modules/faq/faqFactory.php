@@ -13,7 +13,7 @@
  */
 
 /**
- * faqFactory: фабрика для получения контроллеров faq
+ * faqFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ faq
  *
  * @package modules
  * @subpackage faq
@@ -23,7 +23,7 @@
 class faqFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

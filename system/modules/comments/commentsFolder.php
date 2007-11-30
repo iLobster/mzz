@@ -13,7 +13,7 @@
 */
 
 /**
- * commentsFolder: класс для работы с ...
+ * commentsFolder: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ ...
  *
  * @package modules
  * @subpackage comments

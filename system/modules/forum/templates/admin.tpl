@@ -1,12 +1,12 @@
 <div class="pageContent">
-    <a href="{url route=default2 section=$current_section action=createCategory}" class="jipLink">Создать категорию</a>
-    <a href="{url route=withId section=access action=editACL id=$categoryFolder->getObjId()}" class="jipLink">Права доступа к форуму</a>
+    <a href="{url route=default2 section=$current_section action=createCategory}" class="jipLink">РЎРѕР·РґР°С‚СЊ РєР°С‚РµРіРѕСЂРёСЋ</a>
+    <a href="{url route=withId section=access action=editACL id=$categoryFolder->getObjId()}" class="jipLink">РџСЂР°РІР° РґРѕСЃС‚СѓРїР° Рє С„РѕСЂСѓРјСѓ</a>
     <br /><br />
 
     <table border="1" width="100%">
         {foreach from=$categories item=category name=cat}
             <tr>
-                <td>Категория: {$category->getTitle()} {$category->getJip()}</td>
+                <td>РљР°С‚РµРіРѕСЂРёСЏ: {$category->getTitle()} {$category->getJip()}</td>
             </tr>
             {foreach from=$category->getForums() item=forum}
                 <tr>

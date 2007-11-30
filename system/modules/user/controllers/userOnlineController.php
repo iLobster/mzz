@@ -13,7 +13,7 @@
  */
 
 /**
- * userOnlineController: контроллер для метода online модуля user
+ * userOnlineController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° online РјРѕРґСѓР»СЏ user
  *
  * @package modules
  * @subpackage user

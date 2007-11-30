@@ -13,7 +13,7 @@
  */
 
 /**
- * dbTreeNS: класс для работы с древовидными структурами
+ * dbTreeNS: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РґСЂРµРІРѕРІРёРґРЅС‹РјРё СЃС‚СЂСѓРєС‚СѓСЂР°РјРё
  *
  * @package system
  * @version 0.2
@@ -21,21 +21,21 @@
 class dbTreeNS
 {
     /**
-     * Ссылка на инстанцию PDO
+     * РЎСЃС‹Р»РєР° РЅР° РёРЅСЃС‚Р°РЅС†РёСЋ PDO
      *
      * @var mzzPdo
      */
     private $db;
 
     /**
-     * Идентификатор дерева
+     * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РґРµСЂРµРІР°
      *
      * @var integer
      */
     private $tree_id;
 
     /**
-     * Параметры объединения таблицы данных и таблицы структуры
+     * РџР°СЂР°РјРµС‚СЂС‹ РѕР±СЉРµРґРёРЅРµРЅРёСЏ С‚Р°Р±Р»РёС†С‹ РґР°РЅРЅС‹С… Рё С‚Р°Р±Р»РёС†С‹ СЃС‚СЂСѓРєС‚СѓСЂС‹
      *
      * @see simpleMapperForTree::getTreeParams()
      * @var array
@@ -43,14 +43,14 @@ class dbTreeNS
     private $params = array();
 
     /**
-     * Ссылка на маппер, работающий с данными
+     * РЎСЃС‹Р»РєР° РЅР° РјР°РїРїРµСЂ, СЂР°Р±РѕС‚Р°СЋС‰РёР№ СЃ РґР°РЅРЅС‹РјРё
      *
      * @var simpleMapperForTree
      */
     private $mapper;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param array $params
      * @param simpleMapperForTree $mapper
@@ -68,7 +68,7 @@ class dbTreeNS
     }
 
     /**
-     * Добавление к критерии объединения таблицы с данными и таблицы со структурой
+     * Р”РѕР±Р°РІР»РµРЅРёРµ Рє РєСЂРёС‚РµСЂРёРё РѕР±СЉРµРґРёРЅРµРЅРёСЏ С‚Р°Р±Р»РёС†С‹ СЃ РґР°РЅРЅС‹РјРё Рё С‚Р°Р±Р»РёС†С‹ СЃРѕ СЃС‚СЂСѓРєС‚СѓСЂРѕР№
      *
      * @param criteria $criteria
      */
@@ -82,10 +82,10 @@ class dbTreeNS
     }
 
     /**
-     * Добавление к критерии выборки стандартных полей для выборки данных о структуре дерева и поля с сортировкой
+     * Р”РѕР±Р°РІР»РµРЅРёРµ Рє РєСЂРёС‚РµСЂРёРё РІС‹Р±РѕСЂРєРё СЃС‚Р°РЅРґР°СЂС‚РЅС‹С… РїРѕР»РµР№ РґР»СЏ РІС‹Р±РѕСЂРєРё РґР°РЅРЅС‹С… Рѕ СЃС‚СЂСѓРєС‚СѓСЂРµ РґРµСЂРµРІР° Рё РїРѕР»СЏ СЃ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№
      *
      * @param criteria $criteria
-     * @param string $alias алиас на таблицу со структурой
+     * @param string $alias Р°Р»РёР°СЃ РЅР° С‚Р°Р±Р»РёС†Сѓ СЃРѕ СЃС‚СЂСѓРєС‚СѓСЂРѕР№
      */
     public function addSelect(criteria $criteria, $alias = 'tree')
     {
@@ -101,7 +101,7 @@ class dbTreeNS
     }
 
     /**
-     * Получение информации об узле
+     * РџРѕР»СѓС‡РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё РѕР± СѓР·Р»Рµ
      *
      * @param simpleForTree|integer $id
      * @return unknown
@@ -109,7 +109,7 @@ class dbTreeNS
     public function getNodeInfo($id)
     {
         if (is_null($id)) {
-            throw new mzzRuntimeException('Узел не найден');
+            throw new mzzRuntimeException('РЈР·РµР» РЅРµ РЅР°Р№РґРµРЅ');
         }
 
         if ($id instanceof simpleForTree) {
@@ -129,7 +129,7 @@ class dbTreeNS
     }
 
     /**
-     * Выборка из массива с данными лишь данных, относящихся к структуре
+     * Р’С‹Р±РѕСЂРєР° РёР· РјР°СЃСЃРёРІР° СЃ РґР°РЅРЅС‹РјРё Р»РёС€СЊ РґР°РЅРЅС‹С…, РѕС‚РЅРѕСЃСЏС‰РёС…СЃСЏ Рє СЃС‚СЂСѓРєС‚СѓСЂРµ
      *
      * @param array $row
      * @return array
@@ -148,7 +148,7 @@ class dbTreeNS
     }
 
     /**
-     * Получение ветви дерева
+     * РџРѕР»СѓС‡РµРЅРёРµ РІРµС‚РІРё РґРµСЂРµРІР°
      *
      * @param criteria $criteria
      * @param simpleForTree $id
@@ -166,7 +166,7 @@ class dbTreeNS
     }
 
     /**
-     * Получение родительской ветки
+     * РџРѕР»СѓС‡РµРЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РІРµС‚РєРё
      *
      * @param criteria $criteria
      * @param simpleForTree $node
@@ -180,7 +180,7 @@ class dbTreeNS
     }
 
     /**
-     * Получение родительского узла
+     * РџРѕР»СѓС‡РµРЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ СѓР·Р»Р°
      *
      * @param criteria $criteria
      * @param simpleForTree $id
@@ -195,10 +195,10 @@ class dbTreeNS
     }
 
     /**
-     * Вставка узла
+     * Р’СЃС‚Р°РІРєР° СѓР·Р»Р°
      *
      * @param simpleForTree $id
-     * @return integer id добавленной записи
+     * @return integer id РґРѕР±Р°РІР»РµРЅРЅРѕР№ Р·Р°РїРёСЃРё
      */
     public function insert(simpleForTree $id)
     {
@@ -223,7 +223,7 @@ class dbTreeNS
     }
 
     /**
-     * Перемещение узла
+     * РџРµСЂРµРјРµС‰РµРЅРёРµ СѓР·Р»Р°
      *
      * @param simpleForTree $node
      * @param simpleForTree $target
@@ -235,7 +235,7 @@ class dbTreeNS
         $node = $this->getNodeInfo($node);
 
         if ($node['lkey'] <= $target['lkey'] && $node['rkey'] >= $target['rkey']) {
-            throw new mzzRuntimeException('Невозможно перенести узел во вложенную ветку');
+            throw new mzzRuntimeException('РќРµРІРѕР·РјРѕР¶РЅРѕ РїРµСЂРµРЅРµСЃС‚Рё СѓР·РµР» РІРѕ РІР»РѕР¶РµРЅРЅСѓСЋ РІРµС‚РєСѓ');
         }
 
         $skew_tree = $node['rkey'] - $node['lkey'] + 1;
@@ -283,7 +283,7 @@ class dbTreeNS
     }
 
     /**
-     * Удаление узла
+     * РЈРґР°Р»РµРЅРёРµ СѓР·Р»Р°
      *
      * @param simpleForTree $id
      */

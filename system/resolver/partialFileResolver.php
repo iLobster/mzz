@@ -13,7 +13,7 @@
  */
 
 /**
- * partialFileResolver: базовый класс для всех частичных резолверов
+ * partialFileResolver: Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РІСЃРµС… С‡Р°СЃС‚РёС‡РЅС‹С… СЂРµР·РѕР»РІРµСЂРѕРІ
  *
  * @package system
  * @subpackage resolver
@@ -22,16 +22,16 @@
 class partialFileResolver implements iResolver
 {
     /**
-     * базовый резолвер
+     * Р±Р°Р·РѕРІС‹Р№ СЂРµР·РѕР»РІРµСЂ
      *
      * @var object
      */
     private $resolver;
 
     /**
-     * конструктор
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param object $resolver базовый резолвер
+     * @param object $resolver Р±Р°Р·РѕРІС‹Р№ СЂРµР·РѕР»РІРµСЂ
      */
     public function __construct(iResolver $resolver)
     {
@@ -39,10 +39,10 @@ class partialFileResolver implements iResolver
     }
 
     /**
-     * запуск процесса резолвинга
+     * Р·Р°РїСѓСЃРє РїСЂРѕС†РµСЃСЃР° СЂРµР·РѕР»РІРёРЅРіР°
      *
-     * @param string $request строка запроса
-     * @return string|null путь до файла, если файл найден, null в противном случае
+     * @param string $request СЃС‚СЂРѕРєР° Р·Р°РїСЂРѕСЃР°
+     * @return string|null РїСѓС‚СЊ РґРѕ С„Р°Р№Р»Р°, РµСЃР»Рё С„Р°Р№Р» РЅР°Р№РґРµРЅ, null РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ
      */
     public function resolve($request)
     {
@@ -50,11 +50,11 @@ class partialFileResolver implements iResolver
     }
 
     /**
-     * модификация запроса
-     * замещается в наследниках
+     * РјРѕРґРёС„РёРєР°С†РёСЏ Р·Р°РїСЂРѕСЃР°
+     * Р·Р°РјРµС‰Р°РµС‚СЃСЏ РІ РЅР°СЃР»РµРґРЅРёРєР°С…
      *
-     * @param string $request строка запроса
-     * @return string переписанный запрос
+     * @param string $request СЃС‚СЂРѕРєР° Р·Р°РїСЂРѕСЃР°
+     * @return string РїРµСЂРµРїРёСЃР°РЅРЅС‹Р№ Р·Р°РїСЂРѕСЃ
      */
     protected function partialResolve($request)
     {

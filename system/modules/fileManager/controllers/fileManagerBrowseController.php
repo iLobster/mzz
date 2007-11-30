@@ -13,7 +13,7 @@
  */
 
 /**
- * fileManagerBrowseController: контроллер для метода browse модуля fileManager
+ * fileManagerBrowseController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° browse РјРѕРґСѓР»СЏ fileManager
  *
  * @package modules
  * @subpackage fileManager

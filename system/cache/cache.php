@@ -15,7 +15,7 @@
 */
 
 /**
- * cache: класс для работы с кэшем
+ * cache: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РєСЌС€РµРј
  *
  * @package system
  * @subpackage cache
@@ -25,14 +25,14 @@
 class cache
 {
     /**
-     * Контейнер для данных
+     * РљРѕРЅС‚РµР№РЅРµСЂ РґР»СЏ РґР°РЅРЅС‹С…
      *
      * @var arrayDataspace
      */
     private $data;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      */
     public function __construct()
@@ -41,10 +41,10 @@ class cache
     }
 
     /**
-     * Метод помещения данных в кэш
+     * РњРµС‚РѕРґ РїРѕРјРµС‰РµРЅРёСЏ РґР°РЅРЅС‹С… РІ РєСЌС€
      *
-     * @param string $identifier идентификатор кэша
-     * @param mixed $value значение, помещаемое в кэш
+     * @param string $identifier РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєСЌС€Р°
+     * @param mixed $value Р·РЅР°С‡РµРЅРёРµ, РїРѕРјРµС‰Р°РµРјРѕРµ РІ РєСЌС€
      */
     public function save($identifier, $value)
     {
@@ -52,9 +52,9 @@ class cache
     }
 
     /**
-     * Метод извлечения данных из кэша
+     * РњРµС‚РѕРґ РёР·РІР»РµС‡РµРЅРёСЏ РґР°РЅРЅС‹С… РёР· РєСЌС€Р°
      *
-     * @param string $identifier идентификатор кэша
+     * @param string $identifier РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєСЌС€Р°
      * @return mixed
      */
     public function load($identifier)
@@ -63,7 +63,7 @@ class cache
     }
 
     /**
-     * Метод для удаления содержимого кэша
+     * РњРµС‚РѕРґ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ РєСЌС€Р°
      *
      */
     public function drop()

@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.1.2.1
+﻿# SQL Manager 2007 for MySQL 4.1.2.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -15,8 +15,8 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP DATABASE IF EXISTS `mzz_test`;
 
 CREATE DATABASE `mzz_test`
-    CHARACTER SET 'cp1251'
-    COLLATE 'cp1251_general_ci';
+    CHARACTER SET 'utf8'
+    COLLATE 'utf8_general_ci';
 
 USE `mzz_test`;
 
@@ -37,7 +37,7 @@ CREATE TABLE `news_news` (
   `created` int(11) default NULL,
   `updated` int(11) default NULL,
   KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `news_newsFolder` table : 
@@ -53,7 +53,7 @@ CREATE TABLE `news_newsFolder` (
   `parent` int(11) default '0',
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `news_newsFolder_tree` table : 
@@ -68,7 +68,7 @@ CREATE TABLE `news_newsFolder_tree` (
   `level` int(10) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `page_page` table : 
@@ -85,7 +85,7 @@ CREATE TABLE `page_page` (
   `obj_id` int(11) default NULL,
   `folder_id` int(11) NOT NULL default '0',
   KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `page_pageFolder` table : 
@@ -102,7 +102,7 @@ CREATE TABLE `page_pageFolder` (
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `page_pageFolder_tree` table : 
@@ -119,7 +119,7 @@ CREATE TABLE `page_pageFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_catalogue` table : 
@@ -135,7 +135,7 @@ CREATE TABLE `simple_catalogue` (
   `created` int(11) default NULL,
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_catalogue_data` table : 
@@ -151,7 +151,7 @@ CREATE TABLE `simple_catalogue_data` (
   `float` float(9,3) default NULL,
   `date` datetime default NULL,
   UNIQUE KEY `property_type` (`property_type`,`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_catalogue_properties` table : 
@@ -166,7 +166,7 @@ CREATE TABLE `simple_catalogue_properties` (
   `type_id` int(11) unsigned default NULL,
   `args` text,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_catalogue_properties_types` table : 
@@ -178,7 +178,7 @@ CREATE TABLE `simple_catalogue_properties_types` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_catalogue_types` table : 
@@ -191,7 +191,7 @@ CREATE TABLE `simple_catalogue_types` (
   `name` char(255) default NULL,
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_catalogue_types_props` table : 
@@ -208,7 +208,7 @@ CREATE TABLE `simple_catalogue_types_props` (
   `isFull` tinyint(1) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_stubSimple` table : 
@@ -224,16 +224,7 @@ CREATE TABLE `simple_stubSimple` (
   `obj_id` int(11) default NULL,
   `tree_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `simple_stubSimple` table  (LIMIT 0,500)
-#
-
-INSERT INTO `simple_stubSimple` (`id`, `foo`, `bar`, `path`, `obj_id`, `tree_id`) VALUES 
-  (1,'foo','bar',NULL,12,NULL);
-
-COMMIT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_stubSimple2` table : 
@@ -249,23 +240,7 @@ CREATE TABLE `simple_stubSimple2` (
   `obj_id` int(11) default NULL,
   `some_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `simple_stubSimple2` table  (LIMIT 0,500)
-#
-
-INSERT INTO `simple_stubSimple2` (`id`, `foo`, `bar`, `path`, `obj_id`, `some_id`) VALUES 
-  (1,'foo1','bar1','foo1',NULL,1),
-  (2,'foo2','bar2','foo1/foo2',NULL,2),
-  (3,'foo3','bar3','foo1/foo3',NULL,3),
-  (4,'foo4','bar4','foo1/foo4',NULL,4),
-  (5,'foo5','bar5','foo1/foo2/foo5',NULL,5),
-  (6,'foo6','bar6','foo1/foo2/foo6',NULL,6),
-  (7,'foo7','bar7','foo1/foo3/foo7',NULL,7),
-  (8,'foo8','bar8','foo1/foo3/foo8',NULL,8);
-
-COMMIT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_stubSimple2_tree` table : 
@@ -281,23 +256,7 @@ CREATE TABLE `simple_stubSimple2_tree` (
   `some_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `simple_stubSimple2_tree` table  (LIMIT 0,500)
-#
-
-INSERT INTO `simple_stubSimple2_tree` (`id`, `lkey`, `rkey`, `level`, `some_id`) VALUES 
-  (1,1,16,1,1),
-  (2,2,7,2,1),
-  (3,8,13,2,1),
-  (4,14,15,2,1),
-  (5,3,4,3,1),
-  (6,5,6,3,1),
-  (7,9,10,3,1),
-  (8,11,12,3,1);
-
-COMMIT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_stubSimple3` table : 
@@ -313,7 +272,7 @@ CREATE TABLE `simple_stubSimple3` (
   `joinfield` int(11) unsigned default NULL,
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `simple_stubSimple_tree` table : 
@@ -328,7 +287,7 @@ CREATE TABLE `simple_stubSimple_tree` (
   `level` int(10) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_access` table : 
@@ -349,7 +308,7 @@ CREATE TABLE `sys_access` (
   KEY `class_action_id` (`class_section_id`,`obj_id`,`uid`,`gid`),
   KEY `obj_id_gid` (`obj_id`,`gid`),
   KEY `obj_id_uid` (`obj_id`,`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_access_registry` table : 
@@ -360,20 +319,7 @@ DROP TABLE IF EXISTS `sys_access_registry`;
 CREATE TABLE `sys_access_registry` (
   `obj_id` int(11) unsigned default NULL,
   `class_section_id` int(11) unsigned default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_access_registry` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
-  (67,1),
-  (68,1),
-  (1,2),
-  (2,1),
-  (3,1);
-
-COMMIT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_actions` table : 
@@ -386,7 +332,7 @@ CREATE TABLE `sys_actions` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_cfg` table : 
@@ -400,7 +346,7 @@ CREATE TABLE `sys_cfg` (
   `module` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `section_module` (`section`,`module`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_cfg_titles` table : 
@@ -413,7 +359,7 @@ CREATE TABLE `sys_cfg_titles` (
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_cfg_values` table : 
@@ -429,7 +375,7 @@ CREATE TABLE `sys_cfg_values` (
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_cfg_vars` table : 
@@ -442,7 +388,7 @@ CREATE TABLE `sys_cfg_vars` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_classes` table : 
@@ -456,17 +402,7 @@ CREATE TABLE `sys_classes` (
   `module_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_classes` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES 
-  (3,'stubSimpleForTree',NULL),
-  (4,'stubSimple',1);
-
-COMMIT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_classes_actions` table : 
@@ -480,7 +416,7 @@ CREATE TABLE `sys_classes_actions` (
   `action_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   KEY `class_id` (`class_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_classes_sections` table : 
@@ -494,17 +430,7 @@ CREATE TABLE `sys_classes_sections` (
   `section_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `module_section` (`section_id`,`class_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `sys_classes_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,1,1),
-  (2,2,1);
-
-COMMIT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_modules` table : 
@@ -516,7 +442,7 @@ CREATE TABLE `sys_modules` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_obj_id` table : 
@@ -527,7 +453,7 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -545,7 +471,61 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (9),
   (10),
   (11),
-  (12);
+  (12),
+  (13),
+  (14),
+  (15),
+  (16),
+  (17),
+  (18),
+  (19),
+  (20),
+  (21),
+  (22),
+  (23),
+  (24),
+  (25),
+  (26),
+  (27),
+  (28),
+  (29),
+  (30),
+  (31),
+  (32),
+  (33),
+  (34),
+  (35),
+  (36),
+  (37),
+  (38),
+  (39),
+  (40),
+  (41),
+  (42),
+  (43),
+  (44),
+  (45),
+  (46),
+  (47),
+  (48),
+  (49),
+  (50),
+  (51),
+  (52),
+  (53),
+  (54),
+  (55),
+  (56),
+  (57),
+  (58),
+  (59),
+  (60),
+  (61),
+  (62),
+  (63),
+  (64),
+  (65),
+  (66);
 
 COMMIT;
 
@@ -558,7 +538,7 @@ DROP TABLE IF EXISTS `sys_obj_id_named`;
 CREATE TABLE `sys_obj_id_named` (
   `obj_id` int(11) unsigned default NULL,
   `name` char(255) default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_sections` table : 
@@ -571,7 +551,7 @@ CREATE TABLE `sys_sections` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_sections` table  (LIMIT 0,500)
@@ -599,7 +579,7 @@ CREATE TABLE `sys_sessions` (
   PRIMARY KEY  (`id`),
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `treeNS` table : 
@@ -613,7 +593,7 @@ CREATE TABLE `treeNS` (
   `rkey` int(11) unsigned default NULL,
   `level` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `user_group` table : 
@@ -627,7 +607,7 @@ CREATE TABLE `user_group` (
   `obj_id` int(11) default NULL,
   `is_default` tinyint(4) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `user_user` table : 
@@ -644,17 +624,7 @@ CREATE TABLE `user_user` (
   `confirmed` int(11) default NULL,
   `last_login` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
-
-#
-# Data for the `user_user` table  (LIMIT 0,500)
-#
-
-INSERT INTO `user_user` (`id`, `login`, `password`, `obj_id`, `created`, `confirmed`, `last_login`) VALUES 
-  (1,'GUEST','',NULL,NULL,NULL,NULL),
-  (2,'GUEST','',NULL,NULL,NULL,NULL);
-
-COMMIT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `user_userGroup_rel` table : 
@@ -669,7 +639,7 @@ CREATE TABLE `user_userGroup_rel` (
   `user_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `group_id` (`group_id`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `user_userOnline` table : 
@@ -686,7 +656,7 @@ CREATE TABLE `user_userOnline` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `user_id` (`user_id`,`session`),
   KEY `last_activity` (`last_activity`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 

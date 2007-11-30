@@ -16,7 +16,7 @@
 
 fileLoader::load('dataspace/iValueFilter');
 /**
- * changeableDataspaceFilter: write/read фильтры
+ * changeableDataspaceFilter: write/read С„РёР»СЊС‚СЂС‹
  *
  * @package system
  * @subpackage dataspace
@@ -46,7 +46,7 @@ class changeableDataspaceFilter implements iDataspace
     protected $writeFilters;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param iDataspace $dataspace
      */
@@ -56,7 +56,7 @@ class changeableDataspaceFilter implements iDataspace
     }
 
     /**
-     * Устанавливает read-фильтр
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ read-С„РёР»СЊС‚СЂ
      *
      * @param string $key
      * @param iValueFilter $filter
@@ -70,7 +70,7 @@ class changeableDataspaceFilter implements iDataspace
     }
 
     /**
-     * Устанавливает write-фильтр
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ write-С„РёР»СЊС‚СЂ
      *
      * @param string $key
      * @param iValueFilter $filter
@@ -84,10 +84,10 @@ class changeableDataspaceFilter implements iDataspace
     }
 
      /**
-     * Сохранение значения
+     * РЎРѕС…СЂР°РЅРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ
      *
-     * @param string|integer $key ключ для доступа к значению
-     * @param mixed $value значение
+     * @param string|integer $key РєР»СЋС‡ РґР»СЏ РґРѕСЃС‚СѓРїР° Рє Р·РЅР°С‡РµРЅРёСЋ
+     * @param mixed $value Р·РЅР°С‡РµРЅРёРµ
      * @return true
      */
     public function set($key, $value)
@@ -100,9 +100,9 @@ class changeableDataspaceFilter implements iDataspace
     }
 
     /**
-     * Возвращает значение по ключу
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ РїРѕ РєР»СЋС‡Сѓ
      *
-     * @param string|intger $key ключ
+     * @param string|intger $key РєР»СЋС‡
      * @return mixed
      */
     public function get($key)
@@ -117,9 +117,9 @@ class changeableDataspaceFilter implements iDataspace
     }
 
      /**
-     * Удаляет значение с ключом $key
+     * РЈРґР°Р»СЏРµС‚ Р·РЅР°С‡РµРЅРёРµ СЃ РєР»СЋС‡РѕРј $key
      *
-     * @param string|integer $key ключ
+     * @param string|integer $key РєР»СЋС‡
      * @return true
      */
     public function delete($key)
@@ -128,9 +128,9 @@ class changeableDataspaceFilter implements iDataspace
     }
 
     /**
-     * Проверяет существует ли значение с ключом $key
+     * РџСЂРѕРІРµСЂСЏРµС‚ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё Р·РЅР°С‡РµРЅРёРµ СЃ РєР»СЋС‡РѕРј $key
      *
-     * @param string|integer $key ключ
+     * @param string|integer $key РєР»СЋС‡
      * @return boolean
      */
     public function exists($key)

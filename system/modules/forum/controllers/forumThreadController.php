@@ -13,7 +13,7 @@
  */
 
 /**
- * forumThreadController: контроллер для метода thread модуля forum
+ * forumThreadController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° thread РјРѕРґСѓР»СЏ forum
  *
  * @package modules
  * @subpackage forum

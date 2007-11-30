@@ -13,7 +13,7 @@
  */
 
 /**
- * messageListController: контроллер для метода list модуля message
+ * messageListController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° list РјРѕРґСѓР»СЏ message
  *
  * @package modules
  * @subpackage message

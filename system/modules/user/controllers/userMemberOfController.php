@@ -13,7 +13,7 @@
  */
 
 /**
- * userMemberOfController: êîíòðîëëåð äëÿ ìåòîäà memberOf ìîäóëÿ user
+ * userMemberOfController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° memberOf Ð¼Ð¾Ð´ÑƒÐ»Ñ user
  *
  * @package modules
  * @subpackage user
@@ -32,13 +32,13 @@ class userMemberOfController extends simpleController
 
         $user = $userMapper->searchById($id);
 
-        // ïðîâåðÿåì ÷òî íàéäåí íóæíûé ïîëüçîâàòåëü
+        // Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‡Ñ‚Ð¾ Ð½Ð°Ð¹Ð´ÐµÐ½ Ð½ÑƒÐ¶Ð½Ñ‹Ð¹ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ
         if ($id != $user->getId()) {
             return $userMapper->get404()->run();
         }
 
         if ($this->request->getMethod() == 'POST') {
-            // åñëè áûëà îòïðàâëåíà ôîðìà
+            // ÐµÑÐ»Ð¸ Ð±Ñ‹Ð»Ð° Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð° Ñ„Ð¾Ñ€Ð¼Ð°
             $groups = $this->request->get('groups', 'array', SC_POST);
 
             if (is_null($groups)) {
@@ -47,7 +47,7 @@ class userMemberOfController extends simpleController
 
             $groupsArray = array();
 
-            // ôîðìèðóåì ìàññèâ ñ âûáðàííûìè ãðóïïàìè
+            // Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€ÑƒÐµÐ¼ Ð¼Ð°ÑÑÐ¸Ð² Ñ Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ð³Ñ€ÑƒÐ¿Ð¿Ð°Ð¼Ð¸
             foreach (array_keys($groups) as $val) {
                 $criteria = new criteria();
                 $criteria->add('user_id', $id)->add('group_id', $val);
@@ -67,7 +67,7 @@ class userMemberOfController extends simpleController
 
             return jipTools::closeWindow();
         } else {
-            // åñëè ïðîñòî ïîêàçàòü ñïèñîê ãðóïï è ïîëüçîâàòåëåé
+            // ÐµÑÐ»Ð¸ Ð¿Ñ€Ð¾ÑÑ‚Ð¾ Ð¿Ð¾ÐºÐ°Ð·Ð°Ñ‚ÑŒ ÑÐ¿Ð¸ÑÐ¾Ðº Ð³Ñ€ÑƒÐ¿Ð¿ Ð¸ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹
             $groupMapper = $this->toolkit->getMapper('user', 'group');
 
             $criteria = new criteria();
@@ -83,7 +83,7 @@ class userMemberOfController extends simpleController
             $this->smarty->assign('selected', $selected);
             $this->smarty->assign('user', $user);
 
-            $this->response->setTitle('Ïîëüçîâàòåëü -> ' . $user->getLogin() . ' -> ñïèñîê ãðóïï');
+            $this->response->setTitle('ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ -> ' . $user->getLogin() . ' -> ÑÐ¿Ð¸ÑÐ¾Ðº Ð³Ñ€ÑƒÐ¿Ð¿');
 
             return $this->smarty->fetch('user/memberOf.tpl');
         }

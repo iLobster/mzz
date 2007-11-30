@@ -4,7 +4,7 @@ class news404Controller extends simpleController
 {
     protected function getView()
     {
-        $this->response->setTitle('Îøèáêà. Çàïðàøèâàåìàÿ íîâîñòü íå íàéäåíà.');
+        $this->response->setTitle('ÐžÑˆÐ¸Ð±ÐºÐ°. Ð—Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÐ¼Ð°Ñ Ð½Ð¾Ð²Ð¾ÑÑ‚ÑŒ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð°.');
         return $this->smarty->fetch('news/notfound.tpl');
     }
 }

@@ -17,7 +17,7 @@ fileLoader::load('db/dbTreeNS');
 fileLoader::load('simple/simpleMapperForTree');
 
 /**
- * folderMapper: маппер
+ * folderMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage fileManager
@@ -27,14 +27,14 @@ fileLoader::load('simple/simpleMapperForTree');
 class folderMapper extends simpleMapperForTree
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'fileManager';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
@@ -43,7 +43,7 @@ class folderMapper extends simpleMapperForTree
     protected $itemName = 'file';
 
     /**
-     * Возвращает Доменный Объект, который обслуживает запрашиваемый маппер
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р”РѕРјРµРЅРЅС‹Р№ РћР±СЉРµРєС‚, РєРѕС‚РѕСЂС‹Р№ РѕР±СЃР»СѓР¶РёРІР°РµС‚ Р·Р°РїСЂР°С€РёРІР°РµРјС‹Р№ РјР°РїРїРµСЂ
      *
      * @return object
      */

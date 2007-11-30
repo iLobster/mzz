@@ -1,7 +1,7 @@
 {if $isEdit}
-    <div class="jipTitle">Редактирование страницы "{$page->getName()|htmlspecialchars}"</div>
+    <div class="jipTitle">Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ СЃС‚СЂР°РЅРёС†С‹ "{$page->getName()|htmlspecialchars}"</div>
 {else}
-    <div class="jipTitle">Создание страницы</div>
+    <div class="jipTitle">РЎРѕР·РґР°РЅРёРµ СЃС‚СЂР°РЅРёС†С‹</div>
 {/if}
 
 {literal}<script type="text/javascript">
@@ -45,47 +45,47 @@ function toggleEditor(id) {
     };
 
     if (tinyMCE.getInstanceById(id) == null && tinyMCEInterval == false) {
-        new Insertion.Before(elm, '<div id="editorLoadingText"><strong>Загрузка редактора...</strong></div>');
+        new Insertion.Before(elm, '<div id="editorLoadingText"><strong>Р—Р°РіСЂСѓР·РєР° СЂРµРґР°РєС‚РѕСЂР°...</strong></div>');
         tinyMCEInterval = setInterval(function() {
             if (tinyMCE.loadingIndex == -1) {
                 tinyMCE.execCommand('mceAddControl', false, id);
                 removeEditorLoadingStatus();
                 jipWindow.addTinyMCEId(id);
             }}, 100);
-        $('editorStatus').innerHTML = 'Выключить WYSIWYG-редактор';
+        $('editorStatus').innerHTML = 'Р’С‹РєР»СЋС‡РёС‚СЊ WYSIWYG-СЂРµРґР°РєС‚РѕСЂ';
     } else {
         removeEditorLoadingStatus();
         tinyMCE.execCommand('mceRemoveControl', false, id);
         jipWindow.deleteTinyMCEId(id);
-        $('editorStatus').innerHTML = 'Включить WYSIWYG-редактор';
+        $('editorStatus').innerHTML = 'Р’РєР»СЋС‡РёС‚СЊ WYSIWYG-СЂРµРґР°РєС‚РѕСЂ';
     }
 }
 </script>{/literal}
 <form action="{$form_action}" method="post" onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>
-        <td style='width: 15%;'>{form->caption name="name" value="Идентификатор" onError="style=color: red;"}</td>
+        <td style='width: 15%;'>{form->caption name="name" value="РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ" onError="style=color: red;"}</td>
         <td style='width: 85%;'>{form->text name="name" value=$page->getName() size="60"}{$errors->get('name')}</td>
     </tr>
     <tr>
-        <td style='width: 15%;'>{form->caption name="title" value="Название" onError="style=color: red;"}</td>
+        <td style='width: 15%;'>{form->caption name="title" value="РќР°Р·РІР°РЅРёРµ" onError="style=color: red;"}</td>
         <td style='width: 85%;'>{form->text name="title" value=$page->getTitle() size="60"}</td>
     </tr>
         <tr>
-        <td style='width: 15%;'>{form->caption name="title" value="Компилируемая" onError="style=color: red;"}</td>
+        <td style='width: 15%;'>{form->caption name="title" value="РљРѕРјРїРёР»РёСЂСѓРµРјР°СЏ" onError="style=color: red;"}</td>
         <td style='width: 85%;'>{form->checkbox name="compiled" value=$page->getCompiled()}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" id="editorStatus" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></td>
+        <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" id="editorStatus" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Р’РєР»СЋС‡РёС‚СЊ WYSIWYG-СЂРµРґР°РєС‚РѕСЂ</a></td>
     </tr>
     <tr>
-        <td style='vertical-align: top;'>{form->caption name="contentArea" value="Содержимое" onError="style=color: red;"}</td>
+        <td style='vertical-align: top;'>{form->caption name="contentArea" value="РЎРѕРґРµСЂР¶РёРјРѕРµ" onError="style=color: red;"}</td>
         <td>{form->textarea name="contentArea" value=$page->getContent() rows="4" style="width: 100%;" id="contentArea" cols="50"}{$errors->get('contentArea')}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td>{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+        <td>{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
     </tr>
 </table>
 </form>

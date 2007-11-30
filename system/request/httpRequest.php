@@ -17,8 +17,8 @@
 fileLoader::load('request/iRequest');
 
 /**
- * httpRequest: класс для работы с суперглобальными массивами.
- * Доступ к httpRequest можно получить через Toolkit.
+ * httpRequest: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ СЃСѓРїРµСЂРіР»РѕР±Р°Р»СЊРЅС‹РјРё РјР°СЃСЃРёРІР°РјРё.
+ * Р”РѕСЃС‚СѓРї Рє httpRequest РјРѕР¶РЅРѕ РїРѕР»СѓС‡РёС‚СЊ С‡РµСЂРµР· Toolkit.
  *
  * Examples:
  * <code>
@@ -44,12 +44,12 @@ class httpRequest implements iRequest
     * @var array
     */
     /**
-     * POST-данные
+     * POST-РґР°РЅРЅС‹Рµ
      */
     protected $postVars;
 
     /**
-     * GET-данные
+     * GET-РґР°РЅРЅС‹Рµ
      */
     protected $getVars;
 
@@ -59,69 +59,69 @@ class httpRequest implements iRequest
     protected $cookieVars;
 
     /**
-     * свойство для временного хранения сохранённых параметров
+     * СЃРІРѕР№СЃС‚РІРѕ РґР»СЏ РІСЂРµРјРµРЅРЅРѕРіРѕ С…СЂР°РЅРµРЅРёСЏ СЃРѕС…СЂР°РЅС‘РЅРЅС‹С… РїР°СЂР°РјРµС‚СЂРѕРІ
      *
      */
     protected $saved;
 
     /**
-     * Параметры
+     * РџР°СЂР°РјРµС‚СЂС‹
      *
      */
     protected $params = null;
     /**#@-*/
 
     /**
-     * Текущая секция
+     * РўРµРєСѓС‰Р°СЏ СЃРµРєС†РёСЏ
      *
      * @var string
      */
     protected $section;
 
     /**
-     * Текущее действие
+     * РўРµРєСѓС‰РµРµ РґРµР№СЃС‚РІРёРµ
      *
      * @var string
      */
     protected $action;
 
     /**
-     * Запрошенная секция
+     * Р—Р°РїСЂРѕС€РµРЅРЅР°СЏ СЃРµРєС†РёСЏ
      *
      * @var string
      */
     protected $requestedSection = false;
 
     /**
-     * Запрошенное действие
+     * Р—Р°РїСЂРѕС€РµРЅРЅРѕРµ РґРµР№СЃС‚РІРёРµ
      *
      * @var string
      */
     protected $requestedAction = false;
 
     /**
-     * Порт
+     * РџРѕСЂС‚
      *
      * @var integer
      */
     protected $urlPort;
 
     /**
-     * Хост
+     * РҐРѕСЃС‚
      *
      * @var string
      */
     protected $urlHost;
 
     /**
-     * Запрошенный путь
+     * Р—Р°РїСЂРѕС€РµРЅРЅС‹Р№ РїСѓС‚СЊ
      *
      * @var string
      */
     protected $urlPath;
 
     /**
-     * Конструктор.
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
      *
      */
     public function __construct()
@@ -130,11 +130,11 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Метод получения переменной из суперглобального массива
+     * РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ РїРµСЂРµРјРµРЅРЅРѕР№ РёР· СЃСѓРїРµСЂРіР»РѕР±Р°Р»СЊРЅРѕРіРѕ РјР°СЃСЃРёРІР°
      *
-     * @param string  $name  имя переменной
-     * @param string  $type  тип, в который будет преобразовано значение
-     * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
+     * @param string  $name  РёРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№
+     * @param string  $type  С‚РёРї, РІ РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ
+     * @param integer $scope Р±РёРЅР°СЂРЅРѕРµ С‡РёСЃР»Рѕ, РѕРїСЂРµРґРµР»СЏСЋС‰РµРµ РІ РєР°РєРёС… РјР°СЃСЃРёРІР°С… РёСЃРєР°С‚СЊ РїРµСЂРµРјРµРЅРЅСѓСЋ
      * @return string|null
      */
     public function get($name, $type = 'mixed', $scope = SC_PATH)
@@ -199,12 +199,12 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Преобразователь значения переменной $result к типу $type
-     * Если $result массив, то из него извлекается первый элемент и
-     * дальнейшие преобразования происходят только с этим элементом
+     * РџСЂРµРѕР±СЂР°Р·РѕРІР°С‚РµР»СЊ Р·РЅР°С‡РµРЅРёСЏ РїРµСЂРµРјРµРЅРЅРѕР№ $result Рє С‚РёРїСѓ $type
+     * Р•СЃР»Рё $result РјР°СЃСЃРёРІ, С‚Рѕ РёР· РЅРµРіРѕ РёР·РІР»РµРєР°РµС‚СЃСЏ РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ Рё
+     * РґР°Р»СЊРЅРµР№С€РёРµ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ РїСЂРѕРёСЃС…РѕРґСЏС‚ С‚РѕР»СЊРєРѕ СЃ СЌС‚РёРј СЌР»РµРјРµРЅС‚РѕРј
      *
-     * @param mixed $result значение полученное из URI
-     * @param string $type тип, в который будет преобразовано значение
+     * @param mixed $result Р·РЅР°С‡РµРЅРёРµ РїРѕР»СѓС‡РµРЅРЅРѕРµ РёР· URI
+     * @param string $type С‚РёРї, РІ РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ
      * @return mixed
      */
     public function convertToType($result, $type)
@@ -218,7 +218,7 @@ class httpRequest implements iRequest
         }
 
         if (!($valid = isset($validTypes[$type]))) {
-            throw new mzzRuntimeException('Неверный тип для переменной: ' . $type);
+            throw new mzzRuntimeException('РќРµРІРµСЂРЅС‹Р№ С‚РёРї РґР»СЏ РїРµСЂРµРјРµРЅРЅРѕР№: ' . $type);
         }
 
         if (gettype($result) != $type && $valid && !is_null($result)) {
@@ -228,7 +228,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает true если используется защищенный протокол HTTPS
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ true РµСЃР»Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р·Р°С‰РёС‰РµРЅРЅС‹Р№ РїСЂРѕС‚РѕРєРѕР» HTTPS
      *
      * @return boolean
      */
@@ -239,7 +239,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает true если используется AJAX
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ true РµСЃР»Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ AJAX
      *
      * @return boolean
      */
@@ -249,7 +249,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает метод, который был использован для доступа к страницам (данным).
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РјРµС‚РѕРґ, РєРѕС‚РѕСЂС‹Р№ Р±С‹Р» РёСЃРїРѕР»СЊР·РѕРІР°РЅ РґР»СЏ РґРѕСЃС‚СѓРїР° Рє СЃС‚СЂР°РЅРёС†Р°Рј (РґР°РЅРЅС‹Рј).
      *
      * @return string|null GET, HEAD, POST, PUT, DELETE...
      */
@@ -259,8 +259,8 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Получение текущего URL без запрошенного пути (но с SITE_PATH).
-     * Пример: http://example.com:8080/mzz
+     * РџРѕР»СѓС‡РµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ URL Р±РµР· Р·Р°РїСЂРѕС€РµРЅРЅРѕРіРѕ РїСѓС‚Рё (РЅРѕ СЃ SITE_PATH).
+     * РџСЂРёРјРµСЂ: http://example.com:8080/mzz
      *
      * @return string URL
      */
@@ -279,8 +279,8 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Получение полного URL.
-     * Пример: http://example.com:8080/mzz/foo/bar/?baz=1
+     * РџРѕР»СѓС‡РµРЅРёРµ РїРѕР»РЅРѕРіРѕ URL.
+     * РџСЂРёРјРµСЂ: http://example.com:8080/mzz/foo/bar/?baz=1
      *
      * @return string URL
      */
@@ -292,7 +292,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает порт из URL
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРѕСЂС‚ РёР· URL
      *
      * @return string
      */
@@ -302,7 +302,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает часть с именем хоста из URL
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ С‡Р°СЃС‚СЊ СЃ РёРјРµРЅРµРј С…РѕСЃС‚Р° РёР· URL
      *
      * @return string
      */
@@ -312,7 +312,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает запрошенный путь из URL
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·Р°РїСЂРѕС€РµРЅРЅС‹Р№ РїСѓС‚СЊ РёР· URL
      *
      * @return string
      */
@@ -322,8 +322,8 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Устанавливает текущую секцию
-     * Первое установленное значение считается запрошенной секцией
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ С‚РµРєСѓС‰СѓСЋ СЃРµРєС†РёСЋ
+     * РџРµСЂРІРѕРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ СЃС‡РёС‚Р°РµС‚СЃСЏ Р·Р°РїСЂРѕС€РµРЅРЅРѕР№ СЃРµРєС†РёРµР№
      *
      * @param string $section
      */
@@ -336,8 +336,8 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Устанавливает текущее действие
-     * Первое установленное значение считается запрошенным действием
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ С‚РµРєСѓС‰РµРµ РґРµР№СЃС‚РІРёРµ
+     * РџРµСЂРІРѕРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ СЃС‡РёС‚Р°РµС‚СЃСЏ Р·Р°РїСЂРѕС€РµРЅРЅС‹Рј РґРµР№СЃС‚РІРёРµРј
      *
      * @param string $action
      */
@@ -350,7 +350,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает текущую секцию
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСѓС‰СѓСЋ СЃРµРєС†РёСЋ
      *
      * @return string
      */
@@ -360,7 +360,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает текущее действие
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСѓС‰РµРµ РґРµР№СЃС‚РІРёРµ
      *
      * @return string
      */
@@ -370,7 +370,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает запрошенную секцию
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·Р°РїСЂРѕС€РµРЅРЅСѓСЋ СЃРµРєС†РёСЋ
      *
      * @return string
      */
@@ -380,7 +380,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает запрошенное действие
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·Р°РїСЂРѕС€РµРЅРЅРѕРµ РґРµР№СЃС‚РІРёРµ
      *
      * @return string
      */
@@ -390,7 +390,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Установка определенного параметра
+     * РЈСЃС‚Р°РЅРѕРІРєР° РѕРїСЂРµРґРµР»РµРЅРЅРѕРіРѕ РїР°СЂР°РјРµС‚СЂР°
      *
      * @param string $name
      * @param string $value
@@ -401,7 +401,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Установка массива параметров. Существующие параметры будут уничтожены
+     * РЈСЃС‚Р°РЅРѕРІРєР° РјР°СЃСЃРёРІР° РїР°СЂР°РјРµС‚СЂРѕРІ. РЎСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ РїР°СЂР°РјРµС‚СЂС‹ Р±СѓРґСѓС‚ СѓРЅРёС‡С‚РѕР¶РµРЅС‹
      *
      * @param array $params
      */
@@ -411,7 +411,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает массив параметров
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РјР°СЃСЃРёРІ РїР°СЂР°РјРµС‚СЂРѕРІ
      *
      * @return array
      */
@@ -421,7 +421,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Экспорт POST-данных
+     * Р­РєСЃРїРѕСЂС‚ POST-РґР°РЅРЅС‹С…
      *
      * @return array
      */
@@ -431,7 +431,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Инициализация
+     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
      *
      */
     public function initialize()
@@ -448,7 +448,7 @@ class httpRequest implements iRequest
 
         $this->urlHost = $host;
 
-        // @todo проверить на IIS
+        // @todo РїСЂРѕРІРµСЂРёС‚СЊ РЅР° IIS
         if (!isset($_SERVER['REQUEST_URI']) && isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) {
             if(isset($_SERVER['HTTP_X_REWRITE_URL'])) {
                 // Microsoft IIS with ISAPI_Rewrite
@@ -468,8 +468,8 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Поиск значения по ключу в массиве $_SERVER или $_ENV
-     * Если ничего не найдено, возвращает значение по умолчанию
+     * РџРѕРёСЃРє Р·РЅР°С‡РµРЅРёСЏ РїРѕ РєР»СЋС‡Сѓ РІ РјР°СЃСЃРёРІРµ $_SERVER РёР»Рё $_ENV
+     * Р•СЃР»Рё РЅРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ, РІРѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
      *
      * @param string|integer $key
      * @param mixed $default
@@ -487,7 +487,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * сохранение текущего состояния параметров
+     * СЃРѕС…СЂР°РЅРµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ
      *
      */
     public function save()
@@ -496,7 +496,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * восстановление сохранённого ранее состояния
+     * РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ СЃРѕС…СЂР°РЅС‘РЅРЅРѕРіРѕ СЂР°РЅРµРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ
      *
      */
     public function restore()
@@ -513,10 +513,10 @@ class httpRequest implements iRequest
 
 
     /**
-     * декодирует данные из кодировки UTF-8 в windows-1251
+     * РґРµРєРѕРґРёСЂСѓРµС‚ РґР°РЅРЅС‹Рµ РёР· РєРѕРґРёСЂРѕРІРєРё UTF-8 РІ windows-1251
      *
-     * @param string $value строка в UTF-8
-     * @return string строка в windows-1251
+     * @param string $value СЃС‚СЂРѕРєР° РІ UTF-8
+     * @return string СЃС‚СЂРѕРєР° РІ windows-1251
      */
     public function decodeUTF8(&$value)
     {

@@ -13,7 +13,7 @@
  */
 
 /**
- * faqViewController: контроллер для метода view модуля faq
+ * faqViewController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° view РјРѕРґСѓР»СЏ faq
  *
  * @package modules
  * @subpackage faq

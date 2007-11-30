@@ -24,41 +24,41 @@
 class mzzException extends Exception
 {
     /**
-     * Имя исключения
+     * РРјСЏ РёСЃРєР»СЋС‡РµРЅРёСЏ
      *
      * @var string
      */
     private $name;
 
     /**
-     * Строка, на которой брошено исключение
+     * РЎС‚СЂРѕРєР°, РЅР° РєРѕС‚РѕСЂРѕР№ Р±СЂРѕС€РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ
      *
      * @var string
      */
     protected $line;
 
     /**
-     * Файл, в котором брошено исключение
+     * Р¤Р°Р№Р», РІ РєРѕС‚РѕСЂРѕРј Р±СЂРѕС€РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ
      *
      * @var string
      */
     protected $file;
 
     /**
-     * Trace от предыдущего исключения
+     * Trace РѕС‚ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РёСЃРєР»СЋС‡РµРЅРёСЏ
      *
      * @var array
      */
     protected $prev_trace;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param string $message сообщение исключения
-     * @param integer $code код исключения
-     * @param string $line строка исключения
-     * @param string $file файл исключения
-     * @param array $prev_trace trace от предыдущего исключения
+     * @param string $message СЃРѕРѕР±С‰РµРЅРёРµ РёСЃРєР»СЋС‡РµРЅРёСЏ
+     * @param integer $code РєРѕРґ РёСЃРєР»СЋС‡РµРЅРёСЏ
+     * @param string $line СЃС‚СЂРѕРєР° РёСЃРєР»СЋС‡РµРЅРёСЏ
+     * @param string $file С„Р°Р№Р» РёСЃРєР»СЋС‡РµРЅРёСЏ
+     * @param array $prev_trace trace РѕС‚ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РёСЃРєР»СЋС‡РµРЅРёСЏ
      * @internal
      */
     public function __construct($message, $code = 0, $line = false, $file = false, $prev_trace = null)
@@ -77,7 +77,7 @@ class mzzException extends Exception
     }
 
     /**
-     * Устанавливает имя исключения
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РёРјСЏ РёСЃРєР»СЋС‡РµРЅРёСЏ
      *
      * @param string $name
      */
@@ -87,7 +87,7 @@ class mzzException extends Exception
     }
 
     /**
-     * Возвращает имя исключения
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРјСЏ РёСЃРєР»СЋС‡РµРЅРёСЏ
      *
      * @return string
      */
@@ -97,7 +97,7 @@ class mzzException extends Exception
     }
 
     /**
-     * Возвращает trace от предыдущего исключения
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ trace РѕС‚ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РёСЃРєР»СЋС‡РµРЅРёСЏ
      *
      * @return array|null
      */
@@ -107,7 +107,7 @@ class mzzException extends Exception
     }
 
     /**
-     * Конвертирует параметр $arg в строку
+     * РљРѕРЅРІРµСЂС‚РёСЂСѓРµС‚ РїР°СЂР°РјРµС‚СЂ $arg РІ СЃС‚СЂРѕРєСѓ
      *
      * @param mixed $arg
      */

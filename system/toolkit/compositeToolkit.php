@@ -17,7 +17,7 @@
 fileLoader::load('toolkit/iToolkit');
 
 /**
- * compositeToolkit: "смесь" Toolkits
+ * compositeToolkit: "СЃРјРµСЃСЊ" Toolkits
  *
  * @package system
  * @subpackage toolkit
@@ -26,16 +26,16 @@ fileLoader::load('toolkit/iToolkit');
 class compositeToolkit implements iToolkit
 {
     /**
-     * Массив c Toolkit
+     * РњР°СЃСЃРёРІ c Toolkit
      *
      * @var array
      */
     private $toolkits = array();
 
     /**
-     * Конструктор.
-     * Принимает любое количество Toolkit в виде аргументов
-     * и сохраняет их в массив
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
+     * РџСЂРёРЅРёРјР°РµС‚ Р»СЋР±РѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ Toolkit РІ РІРёРґРµ Р°СЂРіСѓРјРµРЅС‚РѕРІ
+     * Рё СЃРѕС…СЂР°РЅСЏРµС‚ РёС… РІ РјР°СЃСЃРёРІ
      *
      */
     public function __construct()
@@ -46,7 +46,7 @@ class compositeToolkit implements iToolkit
     }
 
     /**
-     * Добавление Toolkit в массив
+     * Р”РѕР±Р°РІР»РµРЅРёРµ Toolkit РІ РјР°СЃСЃРёРІ
      *
      * @param IToolkit $toolkit
      */
@@ -56,7 +56,7 @@ class compositeToolkit implements iToolkit
     }
 
     /**
-     * Возвращает toolkit
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ toolkit
      *
      * @param string $toolName
      * @return object|false

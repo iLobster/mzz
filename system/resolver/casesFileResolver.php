@@ -15,9 +15,9 @@
 require_once systemConfig::$pathToSystem  . '/resolver/partialFileResolver.php';
 
 /**
- * casesFileResolver: резолвит файлы с тестами
- * Примеры:
- * (запрос -> результат)
+ * casesFileResolver: СЂРµР·РѕР»РІРёС‚ С„Р°Р№Р»С‹ СЃ С‚РµСЃС‚Р°РјРё
+ * РџСЂРёРјРµСЂС‹:
+ * (Р·Р°РїСЂРѕСЃ -> СЂРµР·СѓР»СЊС‚Р°С‚)
  * sometest.case -> cases/sometest.case.php
  *
  * @package system
@@ -27,9 +27,9 @@ require_once systemConfig::$pathToSystem  . '/resolver/partialFileResolver.php';
 class casesFileResolver extends partialFileResolver
 {
     /**
-     * конструктор
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param object $resolver базовый резолвер
+     * @param object $resolver Р±Р°Р·РѕРІС‹Р№ СЂРµР·РѕР»РІРµСЂ
      */
     public function __construct(iResolver $resolver)
     {
@@ -37,11 +37,11 @@ class casesFileResolver extends partialFileResolver
     }
 
     /**
-     * проверка на соответствие запроса некоторому шаблону
-     * определяем что файл действительно тот, который требуется
+     * РїСЂРѕРІРµСЂРєР° РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ Р·Р°РїСЂРѕСЃР° РЅРµРєРѕС‚РѕСЂРѕРјСѓ С€Р°Р±Р»РѕРЅСѓ
+     * РѕРїСЂРµРґРµР»СЏРµРј С‡С‚Рѕ С„Р°Р№Р» РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С‚РѕС‚, РєРѕС‚РѕСЂС‹Р№ С‚СЂРµР±СѓРµС‚СЃСЏ
      *
-     * @param string $request строка запроса
-     * @return string|null переписанный запрос, если запрос совпадает с шаблоном, либо null
+     * @param string $request СЃС‚СЂРѕРєР° Р·Р°РїСЂРѕСЃР°
+     * @return string|null РїРµСЂРµРїРёСЃР°РЅРЅС‹Р№ Р·Р°РїСЂРѕСЃ, РµСЃР»Рё Р·Р°РїСЂРѕСЃ СЃРѕРІРїР°РґР°РµС‚ СЃ С€Р°Р±Р»РѕРЅРѕРј, Р»РёР±Рѕ null
      */
     protected function partialResolve($request)
     {

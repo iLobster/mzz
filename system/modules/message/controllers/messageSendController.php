@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * messageSendController: êîíòðîëëåð äëÿ ìåòîäà send ìîäóëÿ message
+ * messageSendController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° send Ð¼Ð¾Ð´ÑƒÐ»Ñ message
  *
  * @package modules
  * @subpackage message
@@ -33,7 +33,7 @@ class messageSendController extends simpleController
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $recipient_user = $userMapper->searchByLogin($recipient);
         if ($recipient && !$recipient_user) {
-            $controller = new messageController('Ïîëó÷àòåëÿ íå ñóùåñòâóåò', messageController::WARNING);
+            $controller = new messageController('ÐŸÐ¾Ð»ÑƒÑ‡Ð°Ñ‚ÐµÐ»Ñ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚', messageController::WARNING);
             return $controller->run();
         }
 
@@ -48,12 +48,12 @@ class messageSendController extends simpleController
         unset($usersArray[$me->getId()]);
 
         $validator = new formValidator();
-        $validator->add('required', 'message[title]', 'Íåîáõîäèìî óêàçàòü òåìó ñîîáùåíèÿ');
-        $validator->add('required', 'message[text]', 'Íåîáõîäèìî óêàçàòü òåêñò ñîîáùåíèÿ');
-        $validator->add('required', 'message[recipient]', 'Íåîáõîäèìî óêàçàòü ïîëó÷àòåëÿ ñîîáùåíèÿ');
-        $validator->add('callback', 'message[recipient]', 'Ïîëüçîâàòåëü íå íàéäåí', array('checkRecipient', $usersArray));
-        $validator->add('required', 'captcha', 'Ââåäèòå òåêñò, èçîáðàæåííûé íà êàðòèíêå');
-        $validator->add('captcha', 'captcha', 'Íåâåðíûé òåêñò');
+        $validator->add('required', 'message[title]', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ Ñ‚ÐµÐ¼Ñƒ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ');
+        $validator->add('required', 'message[text]', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ Ñ‚ÐµÐºÑÑ‚ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ');
+        $validator->add('required', 'message[recipient]', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ Ð¿Ð¾Ð»ÑƒÑ‡Ð°Ñ‚ÐµÐ»Ñ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ');
+        $validator->add('callback', 'message[recipient]', 'ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½', array('checkRecipient', $usersArray));
+        $validator->add('required', 'captcha', 'Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‚ÐµÐºÑÑ‚, Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð½Ñ‹Ð¹ Ð½Ð° ÐºÐ°Ñ€Ñ‚Ð¸Ð½ÐºÐµ');
+        $validator->add('captcha', 'captcha', 'ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ñ‚ÐµÐºÑÑ‚');
 
         if ($validator->validate()) {
             $msg = $this->request->get('message', 'array', SC_POST);

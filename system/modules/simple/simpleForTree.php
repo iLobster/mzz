@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.web/repository/mzz/system/modules/simple/simpleForTree.php $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/simple/simpleForTree.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,11 +9,11 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: simpleForTree.php 996 2007-08-12 21:23:54Z zerkms $
+ * @version $Id: simpleForTree.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 /**
- * simpleForTree: áàçîâûé ÄÎ äëÿ ðàáîòû ñ äðåâîâèäíûìè ñòðóêòóðàìè
+ * simpleForTree: Ð±Ð°Ð·Ð¾Ð²Ñ‹Ð¹ Ð”Ðž Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð´Ñ€ÐµÐ²Ð¾Ð²Ð¸Ð´Ð½Ñ‹Ð¼Ð¸ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð°Ð¼Ð¸
  *
  * @package system
  * @version 0.2
@@ -21,16 +21,16 @@
 class simpleForTree extends simple
 {
     /**
-     * Ïîëÿ ñî çíà÷åíèÿìè ïîëåé èç äåðåâà
+     * ÐŸÐ¾Ð»Ñ ÑÐ¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸ÑÐ¼Ð¸ Ð¿Ð¾Ð»ÐµÐ¹ Ð¸Ð· Ð´ÐµÑ€ÐµÐ²Ð°
      *
      * @var arrayDataspace
      */
     protected $treeFields;
 
     /**
-     * Êîíñòðóêòîð.
+     * ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€.
      *
-     * @param array $map ìàññèâ, ñîäåðæàùèé èíôîðìàöèþ î ïîëÿõ
+     * @param array $map Ð¼Ð°ÑÑÐ¸Ð², ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‰Ð¸Ð¹ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ð¾ Ð¿Ð¾Ð»ÑÑ…
      */
     public function __construct($mapper, Array $map)
     {
@@ -39,7 +39,7 @@ class simpleForTree extends simple
     }
 
     /**
-     * Ïîëó÷åíèå óðîâíÿ, íà êîòîðîì íàõîäèòñÿ ýëåìåíò.
+     * ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ ÑƒÑ€Ð¾Ð²Ð½Ñ, Ð½Ð° ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚.
      *
      * @return integer
      */
@@ -52,7 +52,7 @@ class simpleForTree extends simple
     }
 
     /**
-     * Ïîëó÷åíèå id óçëà â äåðåâå
+     * ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ id ÑƒÐ·Ð»Ð° Ð² Ð´ÐµÑ€ÐµÐ²Ðµ
      *
      * @return integer
      */
@@ -65,7 +65,7 @@ class simpleForTree extends simple
     }
 
     /**
-     * Ïîëó÷åíèå id äåðåâà
+     * ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ id Ð´ÐµÑ€ÐµÐ²Ð°
      *
      * @return integer
      */
@@ -78,7 +78,7 @@ class simpleForTree extends simple
     }
 
     /**
-     * Ïîëó÷åíèå ïðåäêà òåêóùåãî óçëà
+     * ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð¿Ñ€ÐµÐ´ÐºÐ° Ñ‚ÐµÐºÑƒÑ‰ÐµÐ³Ð¾ ÑƒÐ·Ð»Ð°
      *
      * @return simpleForTree
      */
@@ -88,7 +88,7 @@ class simpleForTree extends simple
     }
 
     /**
-     * Ìåòîä äëÿ èìïîðòèðîâàíèÿ äàííûõ èç äåðåâà
+     * ÐœÐµÑ‚Ð¾Ð´ Ð´Ð»Ñ Ð¸Ð¼Ð¿Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð¸Ð· Ð´ÐµÑ€ÐµÐ²Ð°
      *
      * @param array $data
      */
@@ -98,7 +98,7 @@ class simpleForTree extends simple
     }
 
     /**
-     * Ýêñïîðòèðîâàíèå äàííûõ èç äåðåâà
+     * Ð­ÐºÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð¸Ð· Ð´ÐµÑ€ÐµÐ²Ð°
      *
      * @return array
      */
@@ -108,9 +108,9 @@ class simpleForTree extends simple
     }
 
     /**
-     * Ïîëó÷åíèå ïóòè äî óçëà
+     * ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð¿ÑƒÑ‚Ð¸ Ð´Ð¾ ÑƒÐ·Ð»Ð°
      *
-     * @param boolean $simple ïîëó÷èòü â ñîêðàù¸ííîì (áåç êîðíåâîãî ýëåìåíòà) èëè ïîëíîì ôîðìàòå
+     * @param boolean $simple Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ Ð² ÑÐ¾ÐºÑ€Ð°Ñ‰Ñ‘Ð½Ð½Ð¾Ð¼ (Ð±ÐµÐ· ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°) Ð¸Ð»Ð¸ Ð¿Ð¾Ð»Ð½Ð¾Ð¼ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ðµ
      * @return string
      */
     public function getPath($simple = true)
@@ -129,7 +129,7 @@ class simpleForTree extends simple
     }
 
     /**
-     * Âîçâðàùàåò îáúåêòû, íàõîäÿùèåñÿ â äàííîé ïàïêå
+     * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð¾Ð±ÑŠÐµÐºÑ‚Ñ‹, Ð½Ð°Ñ…Ð¾Ð´ÑÑ‰Ð¸ÐµÑÑ Ð² Ð´Ð°Ð½Ð½Ð¾Ð¹ Ð¿Ð°Ð¿ÐºÐµ
      *
      * @return array
      */
@@ -142,7 +142,7 @@ class simpleForTree extends simple
     }
 
     /**
-     * Âîçâðàùàåò children-ïàïêè
+     * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ children-Ð¿Ð°Ð¿ÐºÐ¸
      *
      * @return array
      */

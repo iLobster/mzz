@@ -13,10 +13,10 @@
 */
 
 /**
- * Абсолютный путь до сайта.
- * Если mzz установлен в корень веб-сервера, оставьте поле пустым
- * Правильно: /mzz, /new/site
- * Неправильно: site1, site1/, /site1/
+ * РђР±СЃРѕР»СЋС‚РЅС‹Р№ РїСѓС‚СЊ РґРѕ СЃР°Р№С‚Р°.
+ * Р•СЃР»Рё mzz СѓСЃС‚Р°РЅРѕРІР»РµРЅ РІ РєРѕСЂРµРЅСЊ РІРµР±-СЃРµСЂРІРµСЂР°, РѕСЃС‚Р°РІСЊС‚Рµ РїРѕР»Рµ РїСѓСЃС‚С‹Рј
+ * РџСЂР°РІРёР»СЊРЅРѕ: /mzz, /new/site
+ * РќРµРїСЂР°РІРёР»СЊРЅРѕ: site1, site1/, /site1/
  *
  */
 define('SITE_PATH', '');
@@ -26,12 +26,12 @@ define('DEBUG_MODE', 1);
 define('SYSTEM_PATH', '../system/');
 
 /**
- * Идентификатор записи в БД для неавторизированных пользователей
+ * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·Р°РїРёСЃРё РІ Р‘Р” РґР»СЏ РЅРµР°РІС‚РѕСЂРёР·РёСЂРѕРІР°РЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
  */
 define('MZZ_USER_GUEST_ID', 1);
 
 /**
- * Идентификатор группы, для которой ACL всегда будет возвращать true (т.е. предоставит полный доступ)
+ * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹, РґР»СЏ РєРѕС‚РѕСЂРѕР№ ACL РІСЃРµРіРґР° Р±СѓРґРµС‚ РІРѕР·РІСЂР°С‰Р°С‚СЊ true (С‚.Рµ. РїСЂРµРґРѕСЃС‚Р°РІРёС‚ РїРѕР»РЅС‹Р№ РґРѕСЃС‚СѓРї)
  */
 define('MZZ_ROOT_GID', 3);
 
@@ -41,7 +41,7 @@ systemConfig::$db['default']['driver'] = 'pdo';
 systemConfig::$db['default']['dsn']  = 'mysql:host=localhost;dbname=mzz';
 systemConfig::$db['default']['user'] = 'root';
 systemConfig::$db['default']['password'] = '';
-systemConfig::$db['default']['charset'] = 'cp1251';
+systemConfig::$db['default']['charset'] = 'utf8';
 systemConfig::$db['default']['pdoOptions'] = array();
 
 systemConfig::$pathToApplication = dirname(__FILE__) . '';

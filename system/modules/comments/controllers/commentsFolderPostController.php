@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * commentsFolderPostController: êîíòðîëëåð äëÿ ìåòîäà post ìîäóëÿ comments
+ * commentsFolderPostController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° post Ð¼Ð¾Ð´ÑƒÐ»Ñ comments
  *
  * @package modules
  * @subpackage comments
@@ -31,7 +31,7 @@ class commentsFolderPostController extends simpleController
         $user = $this->toolkit->getUser();
 
         $validator = new formValidator();
-        $validator->add('required', 'text', 'Íåîáõîäèìî ââåñòè ñîîáùåíèå');
+        $validator->add('required', 'text', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð²Ð²ÐµÑÑ‚Ð¸ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ');
 
         $access = $this->request->get('access', 'boolean', SC_PATH);
 

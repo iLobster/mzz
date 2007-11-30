@@ -13,7 +13,7 @@
  */
 
 /**
- * adminAddClassToSectionController: êîíòğîëëåğ äëÿ ìåòîäà addClassToSection ìîäóëÿ admin
+ * adminAddClassToSectionController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° addClassToSection Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -31,7 +31,7 @@ class adminAddModuleToSectionController extends simpleController
         $data = $db->getRow('SELECT * FROM `sys_sections` WHERE `id` = ' . $id);
 
         if ($data === false) {
-            $controller = new messageController('Ğàçäåëà íå ñóùåñòâóåò', messageController::WARNING);
+            $controller = new messageController('Ğ Ğ°Ğ·Ğ´ĞµĞ»Ğ° Ğ½Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚', messageController::WARNING);
             return $controller->run();
         }
 

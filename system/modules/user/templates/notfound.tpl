@@ -1,6 +1,6 @@
 <table border="0" cellpadding="0" cellspacing="1" width="100%">
     <tr>
-        <td colspan="4">Пользователь не найден</td>
+        <td colspan="4">РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ</td>
     </tr>
     {*
     <tr>

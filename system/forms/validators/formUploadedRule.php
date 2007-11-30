@@ -13,7 +13,7 @@
  */
 
 /**
- * formUploadedRule: валидатор загружаемых файлов
+ * formUploadedRule: РІР°Р»РёРґР°С‚РѕСЂ Р·Р°РіСЂСѓР¶Р°РµРјС‹С… С„Р°Р№Р»РѕРІ
  *
  * @package system
  * @subpackage forms
@@ -32,11 +32,11 @@ class formUploadedRule extends formAbstractRule
             $error = $_FILES[$this->name]['error'];
             switch ($error) {
                 case UPLOAD_ERR_INI_SIZE:
-                    $this->errorMsg = 'Размер принятого файла превысил максимально допустимый размер, который задан директивой upload_max_filesize конфигурационного файла php.ini';
+                    $this->errorMsg = 'Р Р°Р·РјРµСЂ РїСЂРёРЅСЏС‚РѕРіРѕ С„Р°Р№Р»Р° РїСЂРµРІС‹СЃРёР» РјР°РєСЃРёРјР°Р»СЊРЅРѕ РґРѕРїСѓСЃС‚РёРјС‹Р№ СЂР°Р·РјРµСЂ, РєРѕС‚РѕСЂС‹Р№ Р·Р°РґР°РЅ РґРёСЂРµРєС‚РёРІРѕР№ upload_max_filesize РєРѕРЅС„РёРіСѓСЂР°С†РёРѕРЅРЅРѕРіРѕ С„Р°Р№Р»Р° php.ini';
                     break;
 
                 case UPLOAD_ERR_PARTIAL:
-                    $this->errorMsg = 'Загружаемый файл был получен только частично';
+                    $this->errorMsg = 'Р—Р°РіСЂСѓР¶Р°РµРјС‹Р№ С„Р°Р№Р» Р±С‹Р» РїРѕР»СѓС‡РµРЅ С‚РѕР»СЊРєРѕ С‡Р°СЃС‚РёС‡РЅРѕ';
                     break;
             }
         }

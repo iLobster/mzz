@@ -13,7 +13,7 @@
  */
 
 /**
- * categoryFolder: класс для работы c данными
+ * categoryFolder: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ c РґР°РЅРЅС‹РјРё
  *
  * @package modules
  * @subpackage forum

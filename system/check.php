@@ -58,9 +58,9 @@ if (!is_writable(systemConfig::$pathToTemp . '/templates_c')) {
 
 
 if (empty($errors)) {
-    file_put_contents(systemConfig::$pathToTemp . '/checked', 'превед!');
+    file_put_contents(systemConfig::$pathToTemp . '/checked', 'РїСЂРµРІРµРґ!');
 } else {
-    exit('<span style="font-size: 120%; font-weight: bold;">mzz не может быть запущен по причине:</span><br />' . implode('<br />', $errors));
+    exit('<span style="font-size: 120%; font-weight: bold;">mzz РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р·Р°РїСѓС‰РµРЅ РїРѕ РїСЂРёС‡РёРЅРµ:</span><br />' . implode('<br />', $errors));
 }
 
 ?>

@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * newsSaveController: êîíòğîëëåğ äëÿ ìåòîäà save ìîäóëÿ news
+ * newsSaveController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° save Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ news
  *
  * @package modules
  * @subpackage news
@@ -37,10 +37,10 @@ class newsSaveFolderController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Íåîáõîäèìî äàòü èäåíòèôèêàòîğ ïàïêå');
-        $validator->add('required', 'title', 'Íåîáõîäèìî íàçâàòü ïàïêó');
-        $validator->add('regex', 'name', 'Íåäîïóñòèìûå ñèìâîëû â èäåíòèôèêàòîğå', '/^[a-zà-ÿ0-9_\.\-! ]+$/i');
-        $validator->add('callback', 'name', 'Èäåíòèôèêàòîğ äîëæåí áûòü óíèêàëåí â ïğåäåëàõ êàòàëîãà', array('checkNewsFolderName', $path, $folderMapper, $isEdit));
+        $validator->add('required', 'name', 'ĞĞµĞ¾Ğ±Ñ…Ğ¾Ğ´Ğ¸Ğ¼Ğ¾ Ğ´Ğ°Ñ‚ÑŒ Ğ¸Ğ´ĞµĞ½Ñ‚Ğ¸Ñ„Ğ¸ĞºĞ°Ñ‚Ğ¾Ñ€ Ğ¿Ğ°Ğ¿ĞºĞµ');
+        $validator->add('required', 'title', 'ĞĞµĞ¾Ğ±Ñ…Ğ¾Ğ´Ğ¸Ğ¼Ğ¾ Ğ½Ğ°Ğ·Ğ²Ğ°Ñ‚ÑŒ Ğ¿Ğ°Ğ¿ĞºÑƒ');
+        $validator->add('regex', 'name', 'ĞĞµĞ´Ğ¾Ğ¿ÑƒÑÑ‚Ğ¸Ğ¼Ñ‹Ğµ ÑĞ¸Ğ¼Ğ²Ğ¾Ğ»Ñ‹ Ğ² Ğ¸Ğ´ĞµĞ½Ñ‚Ğ¸Ñ„Ğ¸ĞºĞ°Ñ‚Ğ¾Ñ€Ğµ', '/^[a-zĞ°-Ñ0-9_\.\-! ]+$/i');
+        $validator->add('callback', 'name', 'Ğ˜Ğ´ĞµĞ½Ñ‚Ğ¸Ñ„Ğ¸ĞºĞ°Ñ‚Ğ¾Ñ€ Ğ´Ğ¾Ğ»Ğ¶ĞµĞ½ Ğ±Ñ‹Ñ‚ÑŒ ÑƒĞ½Ğ¸ĞºĞ°Ğ»ĞµĞ½ Ğ² Ğ¿Ñ€ĞµĞ´ĞµĞ»Ğ°Ñ… ĞºĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³Ğ°', array('checkNewsFolderName', $path, $folderMapper, $isEdit));
 
 
         if ($validator->validate()) {

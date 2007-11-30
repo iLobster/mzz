@@ -13,7 +13,7 @@
  */
 
 /**
- * adminListCfgController: êîíòðîëëåð äëÿ ìåòîäà listCfg ìîäóëÿ admin
+ * adminListCfgController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° listCfg Ð¼Ð¾Ð´ÑƒÐ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -29,7 +29,7 @@ class adminListCfgController extends simpleController
         $db = DB::factory();
         $data = $db->getRow($qry = 'SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
         if (!$data) {
-            return 'Çàïðàøèâàåìûé âàìè ìîäóëü íå íàéäåí';
+            return 'Ð—Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÐ¼Ñ‹Ð¹ Ð²Ð°Ð¼Ð¸ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½';
         }
 
         $cfg_id = $db->getOne('SELECT `id` FROM `sys_cfg` WHERE `module` = ' . $id . ' AND `section` = 0');

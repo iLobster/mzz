@@ -13,7 +13,7 @@
  */
 
 /**
- * formEqualRule: ïðàâèëî, ïðîâåðÿþùåå, ðàâíû ëè äâà çàäàííûõ çíà÷åíèÿ
+ * formEqualRule: Ð¿Ñ€Ð°Ð²Ð¸Ð»Ð¾, Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÑŽÑ‰ÐµÐµ, Ñ€Ð°Ð²Ð½Ñ‹ Ð»Ð¸ Ð´Ð²Ð° Ð·Ð°Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ
  *
  * @package system
  * @subpackage forms
@@ -24,13 +24,13 @@ class formEqualRule extends formAbstractRule
     public function validate()
     {
         if (!isset($this->params[0])) {
-            throw new mzzRuntimeException('Îòñóòñòâóåò èìÿ âòîðîé ïåðåìåííîé äëÿ ñðàâíåíèÿ');
+            throw new mzzRuntimeException('ÐžÑ‚ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚ Ð¸Ð¼Ñ Ð²Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹ Ð´Ð»Ñ ÑÑ€Ð°Ð²Ð½ÐµÐ½Ð¸Ñ');
         }
 
         $second = systemToolkit::getInstance()->getRequest()->get($this->params[0], 'string', SC_REQUEST);
 
         if (is_null($second)) {
-            throw new mzzRuntimeException('Âòîðàÿ ïåðåìåííàÿ íå îïðåäåëåíà');
+            throw new mzzRuntimeException('Ð’Ñ‚Ð¾Ñ€Ð°Ñ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð°Ñ Ð½Ðµ Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð°');
         }
 
         return (!isset($this->params[1]) || $this->params[1]) ? $this->value == $second : $this->value != $second;

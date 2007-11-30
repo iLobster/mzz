@@ -15,7 +15,7 @@
 */
 
 /**
- * userFilter: фильтр для инициализации текущего пользователя
+ * userFilter: С„РёР»СЊС‚СЂ РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё С‚РµРєСѓС‰РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
  *
  * @package system
  * @subpackage filters
@@ -24,10 +24,10 @@
 class userFilter implements iFilter
 {
     /**
-     * запуск фильтра на исполнение
+     * Р·Р°РїСѓСЃРє С„РёР»СЊС‚СЂР° РЅР° РёСЃРїРѕР»РЅРµРЅРёРµ
      *
-     * @param filterChain $filter_chain объект, содержащий цепочку фильтров
-     * @param httpResponse $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param filterChain $filter_chain РѕР±СЉРµРєС‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ С†РµРїРѕС‡РєСѓ С„РёР»СЊС‚СЂРѕРІ
+     * @param httpResponse $response РѕР±СЉРµРєС‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ РёРЅС„РѕСЂРјР°С†РёСЋ, РІС‹РІРѕРґРёРјСѓСЋ РєР»РёРµРЅС‚Сѓ РІ Р±СЂР°СѓР·РµСЂ
      * @param iRequest $request
      */
     public function run(filterChain $filter_chain, $response, iRequest $request)
@@ -40,13 +40,13 @@ class userFilter implements iFilter
         if (is_null($user_id)) {
             $userAuthMapper = $toolkit->getMapper('user', 'userAuth', 'user');
             $userAuth = $userAuthMapper->get();
-            // если пользователь сохранил авторизацию, тогда восстанавливаем её
+            // РµСЃР»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃРѕС…СЂР°РЅРёР» Р°РІС‚РѕСЂРёР·Р°С†РёСЋ, С‚РѕРіРґР° РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РµС‘
             if (!is_null($userAuth)) {
                 $user_id = $userAuth->getUserId();
                 $userMapper->setUserId($user_id);
             }
 
-            // если авторизация пользователя не найдена - то устанавливаем user_id гостя
+            // РµСЃР»Рё Р°РІС‚РѕСЂРёР·Р°С†РёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµ РЅР°Р№РґРµРЅР° - С‚Рѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј user_id РіРѕСЃС‚СЏ
             if (is_null($user_id)) {
                 $user_id = MZZ_USER_GUEST_ID;
             }

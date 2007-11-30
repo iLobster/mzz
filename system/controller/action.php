@@ -13,7 +13,7 @@
  */
 
 /**
- * action: класс для работы с actions (действиями модуля)
+ * action: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ actions (РґРµР№СЃС‚РІРёСЏРјРё РјРѕРґСѓР»СЏ)
  *
  * @package system
  * @version 0.3
@@ -28,7 +28,7 @@ class action
     protected $action;
 
     /**
-     * Тип, в котором есть установленный Action
+     * РўРёРї, РІ РєРѕС‚РѕСЂРѕРј РµСЃС‚СЊ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Р№ Action
      *
      * @var string
      */
@@ -42,15 +42,15 @@ class action
     protected $actions = array();
 
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $module;
 
     /**
-     * Массив путей, по которым будут выполнен поиск
-     * ini-файлов с actions-конфигурацией
+     * РњР°СЃСЃРёРІ РїСѓС‚РµР№, РїРѕ РєРѕС‚РѕСЂС‹Рј Р±СѓРґСѓС‚ РІС‹РїРѕР»РЅРµРЅ РїРѕРёСЃРє
+     * ini-С„Р°Р№Р»РѕРІ СЃ actions-РєРѕРЅС„РёРіСѓСЂР°С†РёРµР№
      *
      * @var array
      * @see addPath()
@@ -58,9 +58,9 @@ class action
     protected $paths = array();
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param string $module имя модуля
+     * @param string $module РёРјСЏ РјРѕРґСѓР»СЏ
      */
     public function __construct($module)
     {
@@ -71,8 +71,8 @@ class action
     }
 
     /**
-     * Добавляет путь к массиву с путями, по которым будут выполнен поиск
-     * ini-файлов с actions-конфигурацией
+     * Р”РѕР±Р°РІР»СЏРµС‚ РїСѓС‚СЊ Рє РјР°СЃСЃРёРІСѓ СЃ РїСѓС‚СЏРјРё, РїРѕ РєРѕС‚РѕСЂС‹Рј Р±СѓРґСѓС‚ РІС‹РїРѕР»РЅРµРЅ РїРѕРёСЃРє
+     * ini-С„Р°Р№Р»РѕРІ СЃ actions-РєРѕРЅС„РёРіСѓСЂР°С†РёРµР№
      *
      * @param string $path
      */
@@ -85,7 +85,7 @@ class action
     }
 
     /**
-     * Установка действия
+     * РЈСЃС‚Р°РЅРѕРІРєР° РґРµР№СЃС‚РІРёСЏ
      *
      * @param string $action
      */
@@ -97,20 +97,20 @@ class action
     }
 
     /**
-     * Возвращает действие
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРµР№СЃС‚РІРёРµ
      *
      * @return string
      */
     public function getAction()
     {
         if (empty($this->actions) && empty($this->type)) {
-            throw new mzzSystemException('Action не установлен или у модуля "' . $this->module . '" их нет.');
+            throw new mzzSystemException('Action РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅ РёР»Рё Сѓ РјРѕРґСѓР»СЏ "' . $this->module . '" РёС… РЅРµС‚.');
         }
         return $this->actions[$this->type][$this->action];
     }
 
     /**
-     * Возвращает имя текущего экшна
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРјСЏ С‚РµРєСѓС‰РµРіРѕ СЌРєС€РЅР°
      *
      * @return string
      */
@@ -123,11 +123,11 @@ class action
     }
 
     /**
-     * Получение всех actions для JIP
-     * Actions для JIP отличаются от других наличием
-     * атрибута jip = true
+     * РџРѕР»СѓС‡РµРЅРёРµ РІСЃРµС… actions РґР»СЏ JIP
+     * Actions РґР»СЏ JIP РѕС‚Р»РёС‡Р°СЋС‚СЃСЏ РѕС‚ РґСЂСѓРіРёС… РЅР°Р»РёС‡РёРµРј
+     * Р°С‚СЂРёР±СѓС‚Р° jip = true
      *
-     * @param string $type тип
+     * @param string $type С‚РёРї
      * @return array
      */
     public function getJipActions($type)
@@ -135,7 +135,7 @@ class action
         $actions = $this->getActions();
 
         if (!isset($actions[$type])) {
-            throw new mzzSystemException('Тип "' . $type . '" у модуля "' . $this->module . '" не существует.');
+            throw new mzzSystemException('РўРёРї "' . $type . '" Сѓ РјРѕРґСѓР»СЏ "' . $this->module . '" РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.');
         }
 
         $jip_actions = $actions[$type];
@@ -151,10 +151,10 @@ class action
     }
 
     /**
-     * Добавляет actions к уже существующим. Если action уже занесен в список
-     * (имеет такое же тип и имя), то он будет переписан новым значением
+     * Р”РѕР±Р°РІР»СЏРµС‚ actions Рє СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРј. Р•СЃР»Рё action СѓР¶Рµ Р·Р°РЅРµСЃРµРЅ РІ СЃРїРёСЃРѕРє
+     * (РёРјРµРµС‚ С‚Р°РєРѕРµ Р¶Рµ С‚РёРї Рё РёРјСЏ), С‚Рѕ РѕРЅ Р±СѓРґРµС‚ РїРµСЂРµРїРёСЃР°РЅ РЅРѕРІС‹Рј Р·РЅР°С‡РµРЅРёРµРј
      *
-     * @param string $type тип
+     * @param string $type С‚РёРї
      * @param array $actions
      */
     protected function addActions($type, array $actions)
@@ -167,10 +167,10 @@ class action
     }
 
     /**
-     * Ищет действие у модуля. Бросает исключение если поиск не дал
-     * результатов
+     * РС‰РµС‚ РґРµР№СЃС‚РІРёРµ Сѓ РјРѕРґСѓР»СЏ. Р‘СЂРѕСЃР°РµС‚ РёСЃРєР»СЋС‡РµРЅРёРµ РµСЃР»Рё РїРѕРёСЃРє РЅРµ РґР°Р»
+     * СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
      *
-     * @param string $action действие
+     * @param string $action РґРµР№СЃС‚РІРёРµ
      * @return boolean
      */
     protected function findAction($action)
@@ -180,14 +180,14 @@ class action
                 return $type;
             }
         }
-        throw new mzzSystemException('Действие "' . $action . '" не найдено для модуля "' . $this->module. '"');
+        throw new mzzSystemException('Р”РµР№СЃС‚РІРёРµ "' . $action . '" РЅРµ РЅР°Р№РґРµРЅРѕ РґР»СЏ РјРѕРґСѓР»СЏ "' . $this->module. '"');
         return false;
     }
 
     /**
-     * Возвращает все допустимые действия модуля
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РґРѕРїСѓСЃС‚РёРјС‹Рµ РґРµР№СЃС‚РІРёСЏ РјРѕРґСѓР»СЏ
      *
-     * @param boolean $onlyACL выбрать только ACL действия
+     * @param boolean $onlyACL РІС‹Р±СЂР°С‚СЊ С‚РѕР»СЊРєРѕ ACL РґРµР№СЃС‚РІРёСЏ
      * @return array
      */
     public function getActions($onlyACL = false)
@@ -221,9 +221,9 @@ class action
     }
 
     /**
-     * Чтение INI-конфига c Actions
+     * Р§С‚РµРЅРёРµ INI-РєРѕРЅС„РёРіР° c Actions
      *
-     * @param string $filename путь до INI-файла
+     * @param string $filename РїСѓС‚СЊ РґРѕ INI-С„Р°Р№Р»Р°
      * @return array
      */
     private function iniRead($filename)
@@ -232,12 +232,12 @@ class action
             throw new mzzIoException($filename);
         }
         $action = parse_ini_file($filename, true);
-        $action['editACL'] = array('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => 'Права доступа');
+        $action['editACL'] = array('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => 'РџСЂР°РІР° РґРѕСЃС‚СѓРїР°');
         return $action;
     }
 
     /**
-     * возвращает тип доменного объекта, который обрабатывает текущий action
+     * РІРѕР·РІСЂР°С‰Р°РµС‚ С‚РёРї РґРѕРјРµРЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°, РєРѕС‚РѕСЂС‹Р№ РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ С‚РµРєСѓС‰РёР№ action
      *
      * @return string
      */
@@ -247,9 +247,9 @@ class action
     }
 
     /**
-     * возвращает true если у действия $action имеется атрибут jip = true
+     * РІРѕР·РІСЂР°С‰Р°РµС‚ true РµСЃР»Рё Сѓ РґРµР№СЃС‚РІРёСЏ $action РёРјРµРµС‚СЃСЏ Р°С‚СЂРёР±СѓС‚ jip = true
      *
-     * @param array $action массив с данными о действии
+     * @param array $action РјР°СЃСЃРёРІ СЃ РґР°РЅРЅС‹РјРё Рѕ РґРµР№СЃС‚РІРёРё
      * @return boolean
      */
     public function isJip(Array $action)

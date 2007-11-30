@@ -1,34 +1,34 @@
 <?php
 /**
- * подсветка для кода: <!-- тип code номер -->
- * для inline-кода: <<code тип>>код<</code>>
- * для отображения html-примеров: <<example>><strong>пример</strong><</example>>
- * Имеются следующие типы: apache, bash, css, html, ini, javascript, mysql, php, smarty, sql, xml
+ * РїРѕРґСЃРІРµС‚РєР° РґР»СЏ РєРѕРґР°: <!-- С‚РёРї code РЅРѕРјРµСЂ -->
+ * РґР»СЏ inline-РєРѕРґР°: <<code С‚РёРї>>РєРѕРґ<</code>>
+ * РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ html-РїСЂРёРјРµСЂРѕРІ: <<example>><strong>РїСЂРёРјРµСЂ</strong><</example>>
+ * РРјРµСЋС‚СЃСЏ СЃР»РµРґСѓСЋС‰РёРµ С‚РёРїС‹: apache, bash, css, html, ini, javascript, mysql, php, smarty, sql, xml
  *
  */
 
-$menu = array("intro.Предисловие" =>
+$menu = array("intro.РџСЂРµРґРёСЃР»РѕРІРёРµ" =>
                         array(
-                        "about.Введение",
-                        "philosophy.Философия мзз",
+                        "about.Р’РІРµРґРµРЅРёРµ",
+                        "philosophy.Р¤РёР»РѕСЃРѕС„РёСЏ РјР·Р·",
                         ),
-           "setup.Установка и настройка" =>
+           "setup.РЈСЃС‚Р°РЅРѕРІРєР° Рё РЅР°СЃС‚СЂРѕР№РєР°" =>
                         array(
-                        "system_requirements.Минимальные требования",
-                        "server.Установка на сервер",
-                        "configuration.Конфигурация"
-                                => array("system.Системная конфигурация проекта",
-                                         "apache.Настройки для http-сервера Apache"),
+                        "system_requirements.РњРёРЅРёРјР°Р»СЊРЅС‹Рµ С‚СЂРµР±РѕРІР°РЅРёСЏ",
+                        "server.РЈСЃС‚Р°РЅРѕРІРєР° РЅР° СЃРµСЂРІРµСЂ",
+                        "configuration.РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ"
+                                => array("system.РЎРёСЃС‚РµРјРЅР°СЏ РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ РїСЂРѕРµРєС‚Р°",
+                                         "apache.РќР°СЃС‚СЂРѕР№РєРё РґР»СЏ http-СЃРµСЂРІРµСЂР° Apache"),
                         ),
-           "structure.Структура mzz" =>
+           "structure.РЎС‚СЂСѓРєС‚СѓСЂР° mzz" =>
                         array(
-                        "templates.Шаблоны"
-                                => array("about.Общие сведения",
-                                         "load.Функция {load}",
-                                         "add.Функция {add}",
-                                         "url.Функция {url}",
+                        "templates.РЁР°Р±Р»РѕРЅС‹"
+                                => array("about.РћР±С‰РёРµ СЃРІРµРґРµРЅРёСЏ",
+                                         "load.Р¤СѓРЅРєС†РёСЏ {load}",
+                                         "add.Р¤СѓРЅРєС†РёСЏ {add}",
+                                         "url.Р¤СѓРЅРєС†РёСЏ {url}",
                                          ),
-                        "classes.Основные системные классы"
+                        "classes.РћСЃРЅРѕРІРЅС‹Рµ СЃРёСЃС‚РµРјРЅС‹Рµ РєР»Р°СЃСЃС‹"
                                 => array("toolkit.toolkit",
                                          "request.httpRequest",
                                          "response.httpResponse",
@@ -37,54 +37,54 @@ $menu = array("intro.Предисловие" =>
                                          "dataspace.arrayDataspace",
                                          "frontcontroller.frontController"
                                          ),
-                        "run.Процесс запуска приложения",
+                        "run.РџСЂРѕС†РµСЃСЃ Р·Р°РїСѓСЃРєР° РїСЂРёР»РѕР¶РµРЅРёСЏ",
                         "mvc.MVC",
-                        //"urls.Структура урлов, что какая часть значит",
+                        //"urls.РЎС‚СЂСѓРєС‚СѓСЂР° СѓСЂР»РѕРІ, С‡С‚Рѕ РєР°РєР°СЏ С‡Р°СЃС‚СЊ Р·РЅР°С‡РёС‚",
                         "orm.ORM"
-                                => array("overview.Общая информация",
-                                         "map.Map-файлы",
-                                         "hooks.Хуки",
+                                => array("overview.РћР±С‰Р°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ",
+                                         "map.Map-С„Р°Р№Р»С‹",
+                                         "hooks.РҐСѓРєРё",
                                          ),
                         "acl.ACL"
-                                => array("overview.Обзор",
-                                         "tables.Хранение прав в БД",
-                                         "overlay.Наложение прав",
-                                         "owners.Владельцы объектов",
-                                         "coding.Работа с ACL",
-                                         "module_running.Запуск модулей из шаблонов",
+                                => array("overview.РћР±Р·РѕСЂ",
+                                         "tables.РҐСЂР°РЅРµРЅРёРµ РїСЂР°РІ РІ Р‘Р”",
+                                         "overlay.РќР°Р»РѕР¶РµРЅРёРµ РїСЂР°РІ",
+                                         "owners.Р’Р»Р°РґРµР»СЊС†С‹ РѕР±СЉРµРєС‚РѕРІ",
+                                         "coding.Р Р°Р±РѕС‚Р° СЃ ACL",
+                                         "module_running.Р—Р°РїСѓСЃРє РјРѕРґСѓР»РµР№ РёР· С€Р°Р±Р»РѕРЅРѕРІ",
                                          "obj_id.obj_id",
-                                         "convertargstoobj.Метод convertArgsToObj()",
-                                         "getacl.Метод getAcl()"
+                                         "convertargstoobj.РњРµС‚РѕРґ convertArgsToObj()",
+                                         "getacl.РњРµС‚РѕРґ getAcl()"
                                          ),
-                        "folders.Структура каталогов mzz",
-                        "files.Назначение различных файлов (вроде реврайт-мапа итд)",
-                        "jip.JIP и AJAX",
-                        "forms.Хелперы и формы"
-                                => array("elements.Основные хелперы",
-                                         "create.Создание собственных элементов форм",
-                                         "validation.Валидация форм",
-                                         "create_rule.Создание собственных валидаторов"
+                        "folders.РЎС‚СЂСѓРєС‚СѓСЂР° РєР°С‚Р°Р»РѕРіРѕРІ mzz",
+                        "files.РќР°Р·РЅР°С‡РµРЅРёРµ СЂР°Р·Р»РёС‡РЅС‹С… С„Р°Р№Р»РѕРІ (РІСЂРѕРґРµ СЂРµРІСЂР°Р№С‚-РјР°РїР° РёС‚Рґ)",
+                        "jip.JIP Рё AJAX",
+                        "forms.РҐРµР»РїРµСЂС‹ Рё С„РѕСЂРјС‹"
+                                => array("elements.РћСЃРЅРѕРІРЅС‹Рµ С…РµР»РїРµСЂС‹",
+                                         "create.РЎРѕР·РґР°РЅРёРµ СЃРѕР±СЃС‚РІРµРЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ С„РѕСЂРј",
+                                         "validation.Р’Р°Р»РёРґР°С†РёСЏ С„РѕСЂРј",
+                                         "create_rule.РЎРѕР·РґР°РЅРёРµ СЃРѕР±СЃС‚РІРµРЅРЅС‹С… РІР°Р»РёРґР°С‚РѕСЂРѕРІ"
                                          ),
-                        "timer.Описание timer",
+                        "timer.РћРїРёСЃР°РЅРёРµ timer",
                         ),
-           "quick_start.Быстрый старт" =>
+           "quick_start.Р‘С‹СЃС‚СЂС‹Р№ СЃС‚Р°СЂС‚" =>
                         array(
-                        "project.Структура проекта",
-                        "config.Создание конфигурации для проекта",
-                        "modules.Использование стандартных модулей",
-                        "news_extend.Расширение модуля News для конкретного проекта",
-                        "code_generation.Автоматическая генерация кода",
+                        "project.РЎС‚СЂСѓРєС‚СѓСЂР° РїСЂРѕРµРєС‚Р°",
+                        "config.РЎРѕР·РґР°РЅРёРµ РєРѕРЅС„РёРіСѓСЂР°С†РёРё РґР»СЏ РїСЂРѕРµРєС‚Р°",
+                        "modules.РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЃС‚Р°РЅРґР°СЂС‚РЅС‹С… РјРѕРґСѓР»РµР№",
+                        "news_extend.Р Р°СЃС€РёСЂРµРЅРёРµ РјРѕРґСѓР»СЏ News РґР»СЏ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РїСЂРѕРµРєС‚Р°",
+                        "code_generation.РђРІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ РіРµРЅРµСЂР°С†РёСЏ РєРѕРґР°",
                         ),
-           "modules.Модули системы" =>
+           "modules.РњРѕРґСѓР»Рё СЃРёСЃС‚РµРјС‹" =>
                         array(
-                        "description.Описание структуры модуля"
-                                => array("folders.Структура каталогов",
+                        "description.РћРїРёСЃР°РЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹ РјРѕРґСѓР»СЏ"
+                                => array("folders.РЎС‚СЂСѓРєС‚СѓСЂР° РєР°С‚Р°Р»РѕРіРѕРІ",
                                          "actions.Actions",
                                          "controllers.Controllers",
                                          "mappers.Mappers",
                                          "maps.Maps",
                                          ),
-                        "simple.Базовые классы модуля"
+                        "simple.Р‘Р°Р·РѕРІС‹Рµ РєР»Р°СЃСЃС‹ РјРѕРґСѓР»СЏ"
                                 => array("simple.simple",
                                          "simpleForTree.simpleForTree",
                                          "simpleMapper.simpleMapper",
@@ -95,63 +95,63 @@ $menu = array("intro.Предисловие" =>
                                          "404controller.simple404Controller",
                                          "messageController.messageController"
                                          ),
-                        "news.Описание модуля News",
-                        "page.Описание модуля Page",
-                        'writing_module.Написание модуля "Комментарии"'
-                                => array("intro.Введение",
-                                         "planning.Планирование",
-                                         "db_structure.Структура БД",
-                                         "urls.Общий вид урлов",
-                                         "creating_folders.Создание структуры каталогов",
-                                         "creating_do.Создание сущностей",
-                                         "module_registration.Регистрация модуля в системе",
-                                         "programming.Программирование действий",
-                                         "round_up.Подведение итогов",
+                        "news.РћРїРёСЃР°РЅРёРµ РјРѕРґСѓР»СЏ News",
+                        "page.РћРїРёСЃР°РЅРёРµ РјРѕРґСѓР»СЏ Page",
+                        'writing_module.РќР°РїРёСЃР°РЅРёРµ РјРѕРґСѓР»СЏ "РљРѕРјРјРµРЅС‚Р°СЂРёРё"'
+                                => array("intro.Р’РІРµРґРµРЅРёРµ",
+                                         "planning.РџР»Р°РЅРёСЂРѕРІР°РЅРёРµ",
+                                         "db_structure.РЎС‚СЂСѓРєС‚СѓСЂР° Р‘Р”",
+                                         "urls.РћР±С‰РёР№ РІРёРґ СѓСЂР»РѕРІ",
+                                         "creating_folders.РЎРѕР·РґР°РЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹ РєР°С‚Р°Р»РѕРіРѕРІ",
+                                         "creating_do.РЎРѕР·РґР°РЅРёРµ СЃСѓС‰РЅРѕСЃС‚РµР№",
+                                         "module_registration.Р РµРіРёСЃС‚СЂР°С†РёСЏ РјРѕРґСѓР»СЏ РІ СЃРёСЃС‚РµРјРµ",
+                                         "programming.РџСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ РґРµР№СЃС‚РІРёР№",
+                                         "round_up.РџРѕРґРІРµРґРµРЅРёРµ РёС‚РѕРіРѕРІ",
                                          ),
-                        'writing_module_new.Написание модуля "Сообщения"'
-                                => array("intro.Введение",
-                                         "planning.Планирование",
-                                         "db_structure.Структура БД",
-                                         "programming.Программирование действий",
-                                         "round_up.Подведение итогов",
+                        'writing_module_new.РќР°РїРёСЃР°РЅРёРµ РјРѕРґСѓР»СЏ "РЎРѕРѕР±С‰РµРЅРёСЏ"'
+                                => array("intro.Р’РІРµРґРµРЅРёРµ",
+                                         "planning.РџР»Р°РЅРёСЂРѕРІР°РЅРёРµ",
+                                         "db_structure.РЎС‚СЂСѓРєС‚СѓСЂР° Р‘Р”",
+                                         "programming.РџСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ РґРµР№СЃС‚РІРёР№",
+                                         "round_up.РџРѕРґРІРµРґРµРЅРёРµ РёС‚РѕРіРѕРІ",
                                          ),
-                        "404handling.Обработка ошибки 404 в модулях",
-                        "pager.Постраничный вывод списков",
+                        "404handling.РћР±СЂР°Р±РѕС‚РєР° РѕС€РёР±РєРё 404 РІ РјРѕРґСѓР»СЏС…",
+                        "pager.РџРѕСЃС‚СЂР°РЅРёС‡РЅС‹Р№ РІС‹РІРѕРґ СЃРїРёСЃРєРѕРІ",
                         ),
-           "acl.Пользователи и Права" =>
+           "acl.РџРѕР»СЊР·РѕРІР°С‚РµР»Рё Рё РџСЂР°РІР°" =>
                         array(
-                        "users.Управление пользователями",
-                        "groups.Управление группами",
-                        "permissions.Управление правами",
+                        "users.РЈРїСЂР°РІР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРјРё",
+                        "groups.РЈРїСЂР°РІР»РµРЅРёРµ РіСЂСѓРїРїР°РјРё",
+                        "permissions.РЈРїСЂР°РІР»РµРЅРёРµ РїСЂР°РІР°РјРё",
                         ),
-           "db.Работа с БД" =>
+           "db.Р Р°Р±РѕС‚Р° СЃ Р‘Р”" =>
                         array(
-                        "queries.Генератор SQL-запросов",
-                        "sqlFunction.Функции в генераторе",
-                        "sqlOperator.Операторы в генераторе",
-                        "tree.Работа с древовидными структурами",
+                        "queries.Р“РµРЅРµСЂР°С‚РѕСЂ SQL-Р·Р°РїСЂРѕСЃРѕРІ",
+                        "sqlFunction.Р¤СѓРЅРєС†РёРё РІ РіРµРЅРµСЂР°С‚РѕСЂРµ",
+                        "sqlOperator.РћРїРµСЂР°С‚РѕСЂС‹ РІ РіРµРЅРµСЂР°С‚РѕСЂРµ",
+                        "tree.Р Р°Р±РѕС‚Р° СЃ РґСЂРµРІРѕРІРёРґРЅС‹РјРё СЃС‚СЂСѓРєС‚СѓСЂР°РјРё",
                         ),
-           "coding_standarts.Стандарты написания кода" =>
+           "coding_standarts.РЎС‚Р°РЅРґР°СЂС‚С‹ РЅР°РїРёСЃР°РЅРёСЏ РєРѕРґР°" =>
                         array(
-                        "basic.Основы",
-                        "naming.Соглашения об именах" => array("filenames.Имена файлов",
-                                         "classes.Классы",
-                                         "interfaces.Интерфейсы",
-                                         "functions.Функции и методы",
-                                         "variables.Переменные",
-                                         "constants.Константы",
+                        "basic.РћСЃРЅРѕРІС‹",
+                        "naming.РЎРѕРіР»Р°С€РµРЅРёСЏ РѕР± РёРјРµРЅР°С…" => array("filenames.РРјРµРЅР° С„Р°Р№Р»РѕРІ",
+                                         "classes.РљР»Р°СЃСЃС‹",
+                                         "interfaces.РРЅС‚РµСЂС„РµР№СЃС‹",
+                                         "functions.Р¤СѓРЅРєС†РёРё Рё РјРµС‚РѕРґС‹",
+                                         "variables.РџРµСЂРµРјРµРЅРЅС‹Рµ",
+                                         "constants.РљРѕРЅСЃС‚Р°РЅС‚С‹",
                                          ),
-                        "style.Стиль написания кода" => array("code_demarcation.Обрамление PHP-кода",
-                                         "strings.Строки",
-                                         "keywords.Ключевые слова",
-                                         "arrays.Массивы",
-                                         "classes.Классы",
-                                         "functions.Функции и методы",
-                                         "control_structures.Управляющие структуры",
-                                         "comments.Комментарии",
+                        "style.РЎС‚РёР»СЊ РЅР°РїРёСЃР°РЅРёСЏ РєРѕРґР°" => array("code_demarcation.РћР±СЂР°РјР»РµРЅРёРµ PHP-РєРѕРґР°",
+                                         "strings.РЎС‚СЂРѕРєРё",
+                                         "keywords.РљР»СЋС‡РµРІС‹Рµ СЃР»РѕРІР°",
+                                         "arrays.РњР°СЃСЃРёРІС‹",
+                                         "classes.РљР»Р°СЃСЃС‹",
+                                         "functions.Р¤СѓРЅРєС†РёРё Рё РјРµС‚РѕРґС‹",
+                                         "control_structures.РЈРїСЂР°РІР»СЏСЋС‰РёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹",
+                                         "comments.РљРѕРјРјРµРЅС‚Р°СЂРёРё",
                                          ),
                         ),
-            "glossary.Термины и определения" => array("common.Общие"
+            "glossary.РўРµСЂРјРёРЅС‹ Рё РѕРїСЂРµРґРµР»РµРЅРёСЏ" => array("common.РћР±С‰РёРµ"
                                          ),
             );
 
@@ -176,7 +176,7 @@ function render($id) {
     $content = str_replace(array('<<note>>', '<</note>>'), array($note, $end), $content);
     $content = str_replace(array('<<example>>', '<</example>>'), array($example, $end_example), $content);
 
-    // обрисовка дерева
+    // РѕР±СЂРёСЃРѕРІРєР° РґРµСЂРµРІР°
     $content = str_replace(array('<<c1>>', '<</c1>>'), array('<strong class="red">', '</strong>'), $content);
     $content = str_replace(array('<<c2>>', '<</c2>>'), array('<strong class="blue">', '</strong>'), $content);
     $content = str_replace(array('<<c3>>', '<</c3>>'), array('<strong class="orange">', '</strong>'), $content);
@@ -248,11 +248,11 @@ function getPaths($array, $path = '', $num = '') {
 $isOnePage = isset($_REQUEST['cat']) && $_REQUEST['cat'] == 'one-page';
 if (!isset($_REQUEST['cat']) && !$isOnePage) {
     require_once('header.php');
-    echo '<div id="onePageLink"><a href="one-page.html">Всё на одной странице</a></div>';
+    echo '<div id="onePageLink"><a href="one-page.html">Р’СЃС‘ РЅР° РѕРґРЅРѕР№ СЃС‚СЂР°РЅРёС†Рµ</a></div>';
 
-    echo '<p class="title"><strong>Содержание</strong></p><dl id="fullContent">';
+    echo '<p class="title"><strong>РЎРѕРґРµСЂР¶Р°РЅРёРµ</strong></p><dl id="fullContent">';
     $i = 1;
-    // Все категории
+    // Р’СЃРµ РєР°С‚РµРіРѕСЂРёРё
     foreach ($menu as $meta => $items) {
         $meta = explode('.', $meta, 2);
         $title = trim($meta[1]);
@@ -261,7 +261,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
         echo '<dt>' . $i . '. <a href="' . $link . '.html">' . $title . "</a></dt>\n";
 
         $n = 1;
-        // Все подкатегории
+        // Р’СЃРµ РїРѕРґРєР°С‚РµРіРѕСЂРёРё
         echo '<dd><dl>';
         foreach ($items as $submeta => $subitem) {
             $num = $i . '.' . $n;
@@ -274,7 +274,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $m = 1;
                 echo '<dt>' . $num . '. <a href="' . $sublink . '.html">' . $subtitle . "</a></dt>\n";
                 echo '<dd><dl>';
-                // Разделы в подкатегориях
+                // Р Р°Р·РґРµР»С‹ РІ РїРѕРґРєР°С‚РµРіРѕСЂРёСЏС…
                 foreach ($subitem as $subsubmeta) {
                     $num = $i . '.' . $n . '.' . $m;
 
@@ -308,12 +308,12 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
     echo '<div class="copyright_f">&nbsp;</div>';
 } elseif ($isOnePage) {
     require_once('header.php');
-    // @todo возможно надо сделать полноценное дерево
-    echo '<div id="sidebarOpener" onmouseover="showSidebar();" onmouseout="hideSidebar();">Разделы</div>';
+    // @todo РІРѕР·РјРѕР¶РЅРѕ РЅР°РґРѕ СЃРґРµР»Р°С‚СЊ РїРѕР»РЅРѕС†РµРЅРЅРѕРµ РґРµСЂРµРІРѕ
+    echo '<div id="sidebarOpener" onmouseover="showSidebar();" onmouseout="hideSidebar();">Р Р°Р·РґРµР»С‹</div>';
     echo '<div id="sidebar" onmouseout="hideSidebar();" onmouseover="showSidebar();">';
     echo '<ul class="itemsList">';
     $i = 1;
-    // Все категории
+    // Р’СЃРµ РєР°С‚РµРіРѕСЂРёРё
     foreach ($menu as $meta => $items) {
         $meta = explode('.', $meta, 2);
         $title = trim($meta[1]);
@@ -322,7 +322,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
         echo '<li>' . $i . '. <a href="#' . $link . '">' . $title . "</a>\n";
 
         $n = 1;
-        // Все подкатегории
+        // Р’СЃРµ РїРѕРґРєР°С‚РµРіРѕСЂРёРё
 
         echo '<ul>';
         foreach ($items as $submeta => $subitem) {
@@ -346,7 +346,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
         if (is_array($path)) {
             $cat = explode('.', $cat, 2);
-            echo '<p class="partTitleOnePage"><a name="' . $cat[0] . '"></a><span class="titleNumber">Часть ' . $catNum .'.</span> ' . $cat[1] . '</p>';
+            echo '<p class="partTitleOnePage"><a name="' . $cat[0] . '"></a><span class="titleNumber">Р§Р°СЃС‚СЊ ' . $catNum .'.</span> ' . $cat[1] . '</p>';
 
             $cat = $cat[0];
             $subCatNum = 0;
@@ -381,7 +381,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
     }
 
     echo '<div class="navigation_f">';
-    echo '<a href="index.html">Постраничная версия</a>';
+    echo '<a href="index.html">РџРѕСЃС‚СЂР°РЅРёС‡РЅР°СЏ РІРµСЂСЃРёСЏ</a>';
     echo '</div>';
 
 } else {
@@ -389,7 +389,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
     $paths = getPaths($menu);
     $tmp = $paths;
 
-    // Очищаем от разделов в субкатегориях
+    // РћС‡РёС‰Р°РµРј РѕС‚ СЂР°Р·РґРµР»РѕРІ РІ СЃСѓР±РєР°С‚РµРіРѕСЂРёСЏС…
     foreach($tmp as $path => $title) {
         $items = explode(".", $path);
         if(count($items) > 2) {
@@ -421,7 +421,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
         }
         $title = implode(' | ', array_reverse($title));
     } else {
-        // пробуем еще раз (для регистронезависимой WINDOWS)
+        // РїСЂРѕР±СѓРµРј РµС‰Рµ СЂР°Р· (РґР»СЏ СЂРµРіРёСЃС‚СЂРѕРЅРµР·Р°РІРёСЃРёРјРѕР№ WINDOWS)
         if(PHP_OS == 'WINNT' && isset($_SERVER['REQUEST_URI'])) {
             $pos = strrpos($_SERVER['REQUEST_URI'], '/') + 1;
             $_REQUEST['cat'] = substr($_SERVER['REQUEST_URI'], $pos, strrpos($_SERVER['REQUEST_URI'], '.') - $pos);
@@ -436,21 +436,21 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $title = implode(' | ', array_reverse($title));
             } else {
                 include('header.php');
-                exit('Этот раздел больше не существует в <a href="index.html">документации</a>.');
+                exit('Р­С‚РѕС‚ СЂР°Р·РґРµР» Р±РѕР»СЊС€Рµ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РІ <a href="index.html">РґРѕРєСѓРјРµРЅС‚Р°С†РёРё</a>.');
             }
         } else {
             include('header.php');
-            exit('Этот раздел больше не существует в <a href="index.html">документации</a>.');
+            exit('Р­С‚РѕС‚ СЂР°Р·РґРµР» Р±РѕР»СЊС€Рµ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РІ <a href="index.html">РґРѕРєСѓРјРµРЅС‚Р°С†РёРё</a>.');
         }
     }
     require_once('header.php');
-    echo '<div id="sidebarOpener" onmouseover="showSidebar();" onmouseout="hideSidebar();">Разделы</div>'
+    echo '<div id="sidebarOpener" onmouseover="showSidebar();" onmouseout="hideSidebar();">Р Р°Р·РґРµР»С‹</div>'
     .'<div id="sidebar" onmouseout="hideSidebar();" onmouseover="showSidebar();">';
 
     $paths_nums = explode('.', $paths[$_REQUEST['cat']][1]);
-    echo '<a href="index.html">Индекс</a><ul class="itemsList">';
+    echo '<a href="index.html">РРЅРґРµРєСЃ</a><ul class="itemsList">';
     $i = 1;
-    // Все категории
+    // Р’СЃРµ РєР°С‚РµРіРѕСЂРёРё
     foreach ($menu as $meta => $items) {
         $meta = explode('.', $meta, 2);
         $title = trim($meta[1]);
@@ -459,7 +459,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
         echo '<li>' . $i . '. <a href="' . $link . '.html">' . (($paths[$_REQUEST['cat']][1] === (string)$i) ? '<b>' . $title . '</b>': $title) . "</a>\n";
 
         $n = 1;
-        // Все подкатегории
+        // Р’СЃРµ РїРѕРґРєР°С‚РµРіРѕСЂРёРё
 
         if ($paths_nums[0] == $i) {
             echo '<ul>';
@@ -478,7 +478,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
                     if (isset($paths_nums[1]) && $paths_nums[0] == $i && $paths_nums[1] == $n) {
                         echo '<ul>';
-                        // Разделы в подкатегориях
+                        // Р Р°Р·РґРµР»С‹ РІ РїРѕРґРєР°С‚РµРіРѕСЂРёСЏС…
                         foreach ($subitem as $subsubmeta) {
                             $num = $i . '.' . $n . '.' . $m;
 
@@ -582,13 +582,13 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
     echo '<div class="navigation_f">';
 
     if($prev && $prev != $_REQUEST['cat']) {
-        echo '<a href="' . $prev . '.html"><span style="font-size: 120%;">&larr;</span> Назад</a> | ';
+        echo '<a href="' . $prev . '.html"><span style="font-size: 120%;">&larr;</span> РќР°Р·Р°Рґ</a> | ';
     }
 
-    echo '<a href="index.html">Индекс</a>';
+    echo '<a href="index.html">РРЅРґРµРєСЃ</a>';
 
     if($path != $_REQUEST['cat']) {
-        echo ' | <a href="' . $path . '.html">Вперед <span style="font-size: 120%;">&rarr;</span></a>';
+        echo ' | <a href="' . $path . '.html">Р’РїРµСЂРµРґ <span style="font-size: 120%;">&rarr;</span></a>';
     }
 
     echo '</div>';

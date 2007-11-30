@@ -13,7 +13,7 @@
  */
 
 /**
- * adminAdminController: êîíòðîëëåð äëÿ ìåòîäà admin ìîäóëÿ admin
+ * adminAdminController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° admin Ð¼Ð¾Ð´ÑƒÐ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -44,7 +44,7 @@ class adminAdminController extends simpleController
                 return $this->smarty->fetch('admin/main.tpl');
             }
 
-            // åñëè óêàçàí ëèøü ìîäóëü, è ýòîò ìîäóëü íàõîäèòñÿ ëèøü â îäíîé ñåêöèè - îòîáðàæàåì å¸
+            // ÐµÑÐ»Ð¸ ÑƒÐºÐ°Ð·Ð°Ð½ Ð»Ð¸ÑˆÑŒ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ, Ð¸ ÑÑ‚Ð¾Ñ‚ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð»Ð¸ÑˆÑŒ Ð² Ð¾Ð´Ð½Ð¾Ð¹ ÑÐµÐºÑ†Ð¸Ð¸ - Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶Ð°ÐµÐ¼ ÐµÑ‘
             if (isset($menu[$module]['sections']) && sizeof($menu[$module]['sections']) == 1) {
                 $section = key($menu[$module]['sections']);
                 $this->request->setParam('section_name', $section);

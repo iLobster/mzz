@@ -39,7 +39,7 @@ class requestRouterTest extends unitTestCase
         $name = 'name';
         try {
             $this->router->getRoute($name);
-            $this->fail('Не было брошено исключение');
+            $this->fail('РќРµ Р±С‹Р»Рѕ Р±СЂРѕС€РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ');
         } catch (Exception $e) {
             $this->assertPattern('/route with name \'' . $name . '\'/i', $e->getMessage());
         }
@@ -134,9 +134,9 @@ class requestRouterTest extends unitTestCase
         try {
             $this->router->addRoute('somename', $route);
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern("/somename.*уже добавлен/", $e->getMessage());
+            $this->assertPattern("/somename.*СѓР¶Рµ РґРѕР±Р°РІР»РµРЅ/", $e->getMessage());
         } catch (Exception $e) {
-            $this->fail('Не ожидаемый тип исключения');
+            $this->fail('РќРµ РѕР¶РёРґР°РµРјС‹Р№ С‚РёРї РёСЃРєР»СЋС‡РµРЅРёСЏ');
         }
     }
 

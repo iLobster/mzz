@@ -20,7 +20,7 @@ define('PDO_AUTOQUERY_UPDATE', 1);
 fileLoader::load('db/drivers/mzzPdoStatement');
 
 /**
- * mzzPdo: драйвер для работы с базой данных через PDO
+ * mzzPdo: РґСЂР°Р№РІРµСЂ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ Р±Р°Р·РѕР№ РґР°РЅРЅС‹С… С‡РµСЂРµР· PDO
  *
  * @package system
  * @subpackage db
@@ -36,41 +36,41 @@ class mzzPdo extends PDO
     private static $instances;
 
     /**
-     * число запросов к БД
+     * С‡РёСЃР»Рѕ Р·Р°РїСЂРѕСЃРѕРІ Рє Р‘Р”
      *
      * @var int
      */
     private $queriesNum = 0;
 
     /**
-     * общее время запросов к БД
+     * РѕР±С‰РµРµ РІСЂРµРјСЏ Р·Р°РїСЂРѕСЃРѕРІ Рє Р‘Р”
      *
      * @var float
      */
     private $queriesTime = 0;
 
     /**
-     * число "приготовленных" (prepared) запросов
+     * С‡РёСЃР»Рѕ "РїСЂРёРіРѕС‚РѕРІР»РµРЅРЅС‹С…" (prepared) Р·Р°РїСЂРѕСЃРѕРІ
      *
      * @var int
      */
     private $queriesPrepared = 0;
 
     /**
-     * Название текущего соединения
+     * РќР°Р·РІР°РЅРёРµ С‚РµРєСѓС‰РµРіРѕ СЃРѕРµРґРёРЅРµРЅРёСЏ
      *
      * @var string
      */
     private $alias;
 
     /**
-     * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
+     * Р”РµРєРѕСЂРёСЂСѓРµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ PDO: РїСЂРё СЃРѕРµРґРёРЅРµРЅРёРё СЃ Р‘Р” СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РєРѕРґРёСЂРѕРІРєР° SQL-Р±Р°Р·С‹.
      *
-     * @param string $alias     имя набора с данными о соединении
+     * @param string $alias     РёРјСЏ РЅР°Р±РѕСЂР° СЃ РґР°РЅРЅС‹РјРё Рѕ СЃРѕРµРґРёРЅРµРЅРёРё
      * @param string $dsn       DSN
-     * @param string $username  логин к БД
-     * @param string $password  пароль к БД
-     * @param string $charset   кодировка
+     * @param string $username  Р»РѕРіРёРЅ Рє Р‘Р”
+     * @param string $password  РїР°СЂРѕР»СЊ Рє Р‘Р”
+     * @param string $charset   РєРѕРґРёСЂРѕРІРєР°
      * @return void
      */
     public function __construct($alias, $dsn, $username='', $password='', $charset = '', $pdoOptions = array())
@@ -83,7 +83,7 @@ class mzzPdo extends PDO
     /**
      * The singleton method
      *
-     * @param string $alias ключ массива [systemConfig::$db] с данными о соединении
+     * @param string $alias РєР»СЋС‡ РјР°СЃСЃРёРІР° [systemConfig::$db] СЃ РґР°РЅРЅС‹РјРё Рѕ СЃРѕРµРґРёРЅРµРЅРёРё
      * @return object
      */
     public static function getInstance($alias = 'default')
@@ -109,7 +109,7 @@ class mzzPdo extends PDO
                 }
             }
 
-            if (substr($dsn, 0, 5) == 'mssql') {
+            if (in_array(substr($dsn, 0, 5), array('mssql', 'dblib'))) {
                 self::$instances[$alias]->query('SET ANSI_NULLS ON');
                 self::$instances[$alias]->query('SET ANSI_WARNINGS ON');
             }
@@ -119,9 +119,9 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Декорирует оригинальный метод для подсчета числа запросов
+     * Р”РµРєРѕСЂРёСЂСѓРµС‚ РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ РјРµС‚РѕРґ РґР»СЏ РїРѕРґСЃС‡РµС‚Р° С‡РёСЃР»Р° Р·Р°РїСЂРѕСЃРѕРІ
      *
-     * @param string $query запрос к БД
+     * @param string $query Р·Р°РїСЂРѕСЃ Рє Р‘Р”
      * @return object
      */
     public function query($query)
@@ -138,10 +138,10 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Декорирует оригинальный метод для подсчета числа запросов
+     * Р”РµРєРѕСЂРёСЂСѓРµС‚ РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ РјРµС‚РѕРґ РґР»СЏ РїРѕРґСЃС‡РµС‚Р° С‡РёСЃР»Р° Р·Р°РїСЂРѕСЃРѕРІ
      *
-     * @param string $query запрос к БД
-     * @param array $driver_options атрибуты для PDOStatement
+     * @param string $query Р·Р°РїСЂРѕСЃ Рє Р‘Р”
+     * @param array $driver_options Р°С‚СЂРёР±СѓС‚С‹ РґР»СЏ PDOStatement
      * @return object
      */
     public function prepare($query, $driver_options = array())
@@ -153,12 +153,12 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Автоматически генерирует insert или update запросы и передает его в prepare()
+     * РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё РіРµРЅРµСЂРёСЂСѓРµС‚ insert РёР»Рё update Р·Р°РїСЂРѕСЃС‹ Рё РїРµСЂРµРґР°РµС‚ РµРіРѕ РІ prepare()
      *
-     * @param string $table имя таблицы
-     * @param array $fields массив имен полей
-     * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
-     * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
+     * @param string $table РёРјСЏ С‚Р°Р±Р»РёС†С‹
+     * @param array $fields РјР°СЃСЃРёРІ РёРјРµРЅ РїРѕР»РµР№
+     * @param int $mode С‚РёРї Р·Р°РїСЂРѕСЃР°: PDO_AUTOQUERY_INSERT РёР»Рё PDO_AUTOQUERY_UPDATE
+     * @param string $where РґР»СЏ UPDATE Р·Р°РїСЂСЃРѕРѕРІ: РґРѕР±Р°РІР»СЏРµС‚ WHERE РІ Р·Р°РїСЂРѕСЃ
      * @return resource
      */
     public function autoPrepare($table, $fields, $mode = PDO_AUTOQUERY_INSERT, $where = false)
@@ -168,12 +168,12 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Возвращает запрос для autoPrepare()
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·Р°РїСЂРѕСЃ РґР»СЏ autoPrepare()
      *
-     * @param string $table имя таблицы
-     * @param array $fields массив имен полей
-     * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
-     * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
+     * @param string $table РёРјСЏ С‚Р°Р±Р»РёС†С‹
+     * @param array $fields РјР°СЃСЃРёРІ РёРјРµРЅ РїРѕР»РµР№
+     * @param int $mode С‚РёРї Р·Р°РїСЂРѕСЃР°: PDO_AUTOQUERY_INSERT РёР»Рё PDO_AUTOQUERY_UPDATE
+     * @param string $where РґР»СЏ UPDATE Р·Р°РїСЂСЃРѕРѕРІ: РґРѕР±Р°РІР»СЏРµС‚ WHERE РІ Р·Р°РїСЂРѕСЃ
      * @return string
      */
     protected function buildInsertUpdateQuery($table, $fields, $mode, $where = false)
@@ -206,13 +206,13 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Автоматически генерирует INSERT или UPDATE запрос,
-     * вызывает prepare() и execute()
+     * РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё РіРµРЅРµСЂРёСЂСѓРµС‚ INSERT РёР»Рё UPDATE Р·Р°РїСЂРѕСЃ,
+     * РІС‹Р·С‹РІР°РµС‚ prepare() Рё execute()
      *
-     * @param string $table имя таблицы
-     * @param array $values массив имен полей
-     * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
-     * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
+     * @param string $table РёРјСЏ С‚Р°Р±Р»РёС†С‹
+     * @param array $values РјР°СЃСЃРёРІ РёРјРµРЅ РїРѕР»РµР№
+     * @param int $mode С‚РёРї Р·Р°РїСЂРѕСЃР°: PDO_AUTOQUERY_INSERT РёР»Рё PDO_AUTOQUERY_UPDATE
+     * @param string $where РґР»СЏ UPDATE Р·Р°РїСЂСЃРѕРѕРІ: РґРѕР±Р°РІР»СЏРµС‚ WHERE РІ Р·Р°РїСЂРѕСЃ
      * @return mixed
      */
     function autoExecute($table, $values, $mode = PDO_AUTOQUERY_INSERT, $where = false)
@@ -229,9 +229,9 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Декорирует оригинальный метод для подсчета числа запросов
+     * Р”РµРєРѕСЂРёСЂСѓРµС‚ РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ РјРµС‚РѕРґ РґР»СЏ РїРѕРґСЃС‡РµС‚Р° С‡РёСЃР»Р° Р·Р°РїСЂРѕСЃРѕРІ
      *
-     * @param string $query запрос к БД
+     * @param string $query Р·Р°РїСЂРѕСЃ Рє Р‘Р”
      * @return integer
      */
     public function exec($query)
@@ -244,7 +244,7 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Возвращает значение первого поля из результата запроса
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ РїРµСЂРІРѕРіРѕ РїРѕР»СЏ РёР· СЂРµР·СѓР»СЊС‚Р°С‚Р° Р·Р°РїСЂРѕСЃР°
      *
      * @param string $query
      * @return mixed
@@ -258,7 +258,7 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Возвращает первую строку из результата запроса
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРµСЂРІСѓСЋ СЃС‚СЂРѕРєСѓ РёР· СЂРµР·СѓР»СЊС‚Р°С‚Р° Р·Р°РїСЂРѕСЃР°
      *
      * @param string $query
      * @return array
@@ -272,7 +272,7 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Возвращает все записи из результата запроса
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ Р·Р°РїРёСЃРё РёР· СЂРµР·СѓР»СЊС‚Р°С‚Р° Р·Р°РїСЂРѕСЃР°
      *
      * @param string $query
      * @return array
@@ -291,9 +291,9 @@ class mzzPdo extends PDO
     }
 
     /**
-     * метод для получения числа запросов
+     * РјРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ С‡РёСЃР»Р° Р·Р°РїСЂРѕСЃРѕРІ
      *
-     * @return int число запросов
+     * @return int С‡РёСЃР»Рѕ Р·Р°РїСЂРѕСЃРѕРІ
      */
     public function getQueriesNum()
     {
@@ -301,9 +301,9 @@ class mzzPdo extends PDO
     }
 
     /**
-     * метод для получения общего времени выполнения запроса
+     * РјРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РѕР±С‰РµРіРѕ РІСЂРµРјРµРЅРё РІС‹РїРѕР»РЅРµРЅРёСЏ Р·Р°РїСЂРѕСЃР°
      *
-     * @return float время в секундах
+     * @return float РІСЂРµРјСЏ РІ СЃРµРєСѓРЅРґР°С…
      */
     public function getQueriesTime()
     {
@@ -311,9 +311,9 @@ class mzzPdo extends PDO
     }
 
     /**
-     * метод для прибавления времени к общему времени выполнения запросов
+     * РјРµС‚РѕРґ РґР»СЏ РїСЂРёР±Р°РІР»РµРЅРёСЏ РІСЂРµРјРµРЅРё Рє РѕР±С‰РµРјСѓ РІСЂРµРјРµРЅРё РІС‹РїРѕР»РЅРµРЅРёСЏ Р·Р°РїСЂРѕСЃРѕРІ
      *
-     * @param float $time время в микросекундах в виде действительного числа
+     * @param float $time РІСЂРµРјСЏ РІ РјРёРєСЂРѕСЃРµРєСѓРЅРґР°С… РІ РІРёРґРµ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕРіРѕ С‡РёСЃР»Р°
      */
     public function addQueriesTime($time)
     {
@@ -321,9 +321,9 @@ class mzzPdo extends PDO
     }
 
     /**
-     * метод получения числа prepared запросов
+     * РјРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ С‡РёСЃР»Р° prepared Р·Р°РїСЂРѕСЃРѕРІ
      *
-     * @return int число запросов
+     * @return int С‡РёСЃР»Рѕ Р·Р°РїСЂРѕСЃРѕРІ
      */
     public function getPreparedNum()
     {
@@ -331,7 +331,7 @@ class mzzPdo extends PDO
     }
 
     /**
-     * метод получения названия текущего соединения
+     * РјРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ РЅР°Р·РІР°РЅРёСЏ С‚РµРєСѓС‰РµРіРѕ СЃРѕРµРґРёРЅРµРЅРёСЏ
      *
      * @return string
      */

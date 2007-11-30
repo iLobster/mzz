@@ -13,7 +13,7 @@
  */
 
 /**
- * votingAdminController: контроллер для метода admin модуля voting
+ * votingAdminController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° admin РјРѕРґСѓР»СЏ voting
  *
  * @package modules
  * @subpackage voting

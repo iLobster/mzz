@@ -70,9 +70,9 @@ class sqlOperatorTest extends unitTestCase
         try {
             $sqlOperator->toString($this->simpleSelect);
         } catch (mzzInvalidParameterException $e) {
-            $this->assertPattern("/оператора/i", $e->getMessage());
+            $this->assertPattern("/РѕРїРµСЂР°С‚РѕСЂР°/i", $e->getMessage());
         } catch (Exception $e) {
-            $this->fail('Исключение не ожидаемого типа');
+            $this->fail('РСЃРєР»СЋС‡РµРЅРёРµ РЅРµ РѕР¶РёРґР°РµРјРѕРіРѕ С‚РёРїР°');
         }
     }
 

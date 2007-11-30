@@ -1,26 +1,26 @@
 {if $isEdit}
-    {include file='jipTitle.tpl' title='Редактирование параметра'}
+    {include file='jipTitle.tpl' title='Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РїР°СЂР°РјРµС‚СЂР°'}
 {else}
-    {include file='jipTitle.tpl' title='Создание параметра'}
+    {include file='jipTitle.tpl' title='РЎРѕР·РґР°РЅРёРµ РїР°СЂР°РјРµС‚СЂР°'}
 {/if}
 
 <form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td style='width: 20%;'>{form->caption name="param" value="Параметр" onError="style=color: red;"}</td>
+            <td style='width: 20%;'>{form->caption name="param" value="РџР°СЂР°РјРµС‚СЂ" onError="style=color: red;"}</td>
             <td style='width: 80%;'>{form->text name="param" value=$configInfo.param size="60"}{$errors->get('param')}</td>
         </tr>
         <tr>
-            <td>{form->caption name="title" value="Заголовок" onError="style=color: red;"}</td>
+            <td>{form->caption name="title" value="Р—Р°РіРѕР»РѕРІРѕРє" onError="style=color: red;"}</td>
             <td>{form->text name="title" value=$configInfo.title size="60"}{$errors->get('title')}</td>
         </tr>
         <tr>
-            <td>{form->caption name="value" value="Значение" onError="style=color: red;"}</td>
+            <td>{form->caption name="value" value="Р—РЅР°С‡РµРЅРёРµ" onError="style=color: red;"}</td>
             <td>{form->text name="value" value=$configInfo.value size="60"}{$errors->get('value')}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td>{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

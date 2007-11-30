@@ -1,11 +1,11 @@
-<p class="pageTitle">Список категорий:{$folder->getJip()}</p>
+<p class="pageTitle">РЎРїРёСЃРѕРє РєР°С‚РµРіРѕСЂРёР№:{$folder->getJip()}</p>
 {foreach from=$categories item="category"}
 <a href="{url route="withAnyParam" action="list" name=$category->getName()}">{$category->getTitle()} ({$category->getName()})</a>{$category->getJip()}<br />
 <table cellspacing="0" cellpadding="3" class="tableList">
     <thead class="tableListHead">
         <tr>
             <td style="width: 30px;">ID</td>
-            <td style="text-align: left;">Вопрос</td>
+            <td style="text-align: left;">Р’РѕРїСЂРѕСЃ</td>
             <td style="width: 30px;">JIP</td>
         </tr>
     </thead>

@@ -24,7 +24,7 @@
 
 class mzzDONotFoundException extends mzzException
 {
-    public function __construct($message = 'Искомый ДО не найден')
+    public function __construct($message = 'РСЃРєРѕРјС‹Р№ Р”Рћ РЅРµ РЅР°Р№РґРµРЅ')
     {
         parent::__construct($message);
     }

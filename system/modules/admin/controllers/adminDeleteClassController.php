@@ -15,7 +15,7 @@
 fileLoader::load('codegenerator/classGenerator');
 
 /**
- * adminDeleteClassController: êîíòðîëëåð äëÿ ìåòîäà deleteClass ìîäóëÿ admin
+ * adminDeleteClassController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° deleteClass Ð¼Ð¾Ð´ÑƒÐ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -35,7 +35,7 @@ class adminDeleteClassController extends simpleController
         foreach ($modules as $val) {
             if (isset($val['classes'][$id])) {
                 if ($val['classes'][$id]['exists']) {
-                    $controller = new messageController('Íåëüçÿ óäàëèòü êëàññ', messageController::WARNING);
+                    $controller = new messageController('ÐÐµÐ»ÑŒÐ·Ñ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ ÐºÐ»Ð°ÑÑ', messageController::WARNING);
                     return $controller->run();
                 } else {
                     $not_found = false;
@@ -46,7 +46,7 @@ class adminDeleteClassController extends simpleController
         $class = $adminMapper->searchClassById($id);
 
         if (!$class) {
-            $controller = new messageController('Êëàññà íå ñóùåñòâóåò', messageController::WARNING);
+            $controller = new messageController('ÐšÐ»Ð°ÑÑÐ° Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚', messageController::WARNING);
             return $controller->run();
         }
 
@@ -56,7 +56,7 @@ class adminDeleteClassController extends simpleController
 
         if ($modules[$data['module_id']]['main_class'] == $data['id']) {
             if (sizeof($modules[$data['module_id']]['classes']) > 1) {
-                $controller = new messageController('Íåëüçÿ óäàëèòü êëàññ, îí ÿâëÿåòñÿ ãëàâíûì äëÿ ýòîãî ìîäóëÿ', messageController::WARNING);
+                $controller = new messageController('ÐÐµÐ»ÑŒÐ·Ñ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ ÐºÐ»Ð°ÑÑ, Ð¾Ð½ ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð³Ð»Ð°Ð²Ð½Ñ‹Ð¼ Ð´Ð»Ñ ÑÑ‚Ð¾Ð³Ð¾ Ð¼Ð¾Ð´ÑƒÐ»Ñ', messageController::WARNING);
                 return $controller->run();
             } else {
                 $stmt = $db->prepare('UPDATE `sys_modules` SET `main_class` = NULL WHERE `id` = :id');

@@ -24,13 +24,13 @@
 class mzzIoException extends mzzException
 {
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param string $filename имя файла
+     * @param string $filename РёРјСЏ С„Р°Р№Р»Р°
      */
     public function __construct($filename)
     {
-        $message = 'Файл не найден: <i>' . $filename . '</i>';
+        $message = 'Р¤Р°Р№Р» РЅРµ РЅР°Р№РґРµРЅ: <i>' . $filename . '</i>';
         parent::__construct($message);
         $this->setName('IO Exception');
     }

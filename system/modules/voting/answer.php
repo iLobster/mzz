@@ -13,7 +13,7 @@
  */
 
 /**
- * answer: класс для работы c данными
+ * answer: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ c РґР°РЅРЅС‹РјРё
  *
  * @package modules
  * @subpackage voting
@@ -36,7 +36,7 @@ class answer extends simple
         $types = $this->mapper->getAnswersTypes();
 
         if (!isset($types[$type_id])) {
-            throw new mzzRuntimeException('Неверное значение для типа ответа - ' . $type_id);
+            throw new mzzRuntimeException('РќРµРІРµСЂРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ С‚РёРїР° РѕС‚РІРµС‚Р° - ' . $type_id);
         }
         return $types[$type_id];
     }

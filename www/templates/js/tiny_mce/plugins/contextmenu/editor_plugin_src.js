@@ -1,8 +1,8 @@
 /**
- * $Id: editor_plugin_src.js 264 2007-04-26 20:53:09Z spocke $
+ * $Id: editor_plugin_src.js 1121 2007-11-30 04:31:39Z zerkms $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */

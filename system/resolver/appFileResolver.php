@@ -13,7 +13,7 @@
  */
 
 /**
- * appFileResolver: резолвит файлы из папки с приложением (APPLICATION_DIR)
+ * appFileResolver: СЂРµР·РѕР»РІРёС‚ С„Р°Р№Р»С‹ РёР· РїР°РїРєРё СЃ РїСЂРёР»РѕР¶РµРЅРёРµРј (APPLICATION_DIR)
  *
  * @package system
  * @subpackage resolver
@@ -22,7 +22,7 @@
 class appFileResolver extends fileResolver
 {
     /**
-     * конструктор
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      */
     public function __construct()

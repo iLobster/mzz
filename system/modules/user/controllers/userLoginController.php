@@ -13,7 +13,7 @@
  */
 
 /**
- * userLoginController: êîíòðîëëåð äëÿ ìåòîäà login ìîäóëÿ user
+ * userLoginController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° login Ð¼Ð¾Ð´ÑƒÐ»Ñ user
  *
  * @package modules
  * @subpackage user
@@ -56,13 +56,13 @@ class userLoginController extends simpleController
             $this->smarty->assign('form_action', $url->get());
             $this->smarty->assign('backURL', $this->request->getRequestUrl());
             $this->smarty->assign('user', null);
-            $this->response->setTitle('Ïîëüçîâàòåëü -> Àâòîðèçàöèÿ');
+            $this->response->setTitle('ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ -> ÐÐ²Ñ‚Ð¾Ñ€Ð¸Ð·Ð°Ñ†Ð¸Ñ');
 
             return $this->smarty->fetch('user/' . $prefix . 'login.tpl');
         }
 
         /*if (strtoupper($this->request->getMethod()) == 'POST') {
-            // @todo: åñëè íåò óðëà - ðåäèðåêòèòü íà ãëàâíóþ
+            // @todo: ÐµÑÐ»Ð¸ Ð½ÐµÑ‚ ÑƒÑ€Ð»Ð° - Ñ€ÐµÐ´Ð¸Ñ€ÐµÐºÑ‚Ð¸Ñ‚ÑŒ Ð½Ð° Ð³Ð»Ð°Ð²Ð½ÑƒÑŽ
             return $this->response->redirect($this->request->get('url', 'string', SC_POST));
         }*/
 

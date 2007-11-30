@@ -13,7 +13,7 @@
 */
 
 /**
- * fileManagerGetController: контроллер для отдачи файлов скриптом
+ * fileManagerGetController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РѕС‚РґР°С‡Рё С„Р°Р№Р»РѕРІ СЃРєСЂРёРїС‚РѕРј
  *
  * @package modules
  * @subpackage fileManager

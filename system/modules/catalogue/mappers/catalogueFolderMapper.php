@@ -17,7 +17,7 @@ fileLoader::load('simple/simpleMapperForTree');
 fileLoader::load('catalogue/catalogueFolder');
 
 /**
- * catalogueFolderMapper: ìàïïåð
+ * catalogueFolderMapper: Ð¼Ð°Ð¿Ð¿ÐµÑ€
  *
  * @package modules
  * @subpackage catalogue
@@ -27,14 +27,14 @@ fileLoader::load('catalogue/catalogueFolder');
 class catalogueFolderMapper extends simpleMapperForTree
 {
     /**
-     * Èìÿ ìîäóëÿ
+     * Ð˜Ð¼Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      *
      * @var string
      */
     protected $name = 'catalogue';
 
     /**
-     * Èìÿ êëàññà DataObject
+     * Ð˜Ð¼Ñ ÐºÐ»Ð°ÑÑÐ° DataObject
      *
      * @var string
      */
@@ -68,7 +68,7 @@ class catalogueFolderMapper extends simpleMapperForTree
 
     public function getFoldersByPath($path, $deep = 1)
     {
-        // âûáèðàåòñÿ òîëüêî íèæåëåæàùèé óðîâåíü
+        // Ð²Ñ‹Ð±Ð¸Ñ€Ð°ÐµÑ‚ÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð½Ð¸Ð¶ÐµÐ»ÐµÐ¶Ð°Ñ‰Ð¸Ð¹ ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ
         return $this->tree->getBranchByPath($path, $deep);
     }
 

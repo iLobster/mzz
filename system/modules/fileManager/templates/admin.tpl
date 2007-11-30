@@ -1,5 +1,5 @@
-<div class="pageTitle">Менеджер файлов</div>
-<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="jipLink">Загрузить файл</a></div>
+<div class="pageTitle">РњРµРЅРµРґР¶РµСЂ С„Р°Р№Р»РѕРІ</div>
+<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="jipLink">Р—Р°РіСЂСѓР·РёС‚СЊ С„Р°Р№Р»</a></div>
 <div style="height: 45px;"></div>
 
 {include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="fileManager"}
@@ -9,11 +9,11 @@
         <thead class="tableListHead">
             <tr>
                 <td style="width: 30px;">&nbsp;</td>
-                <td style="text-align: left;">Имя</td>
-                <td style="width: 75px; text-align: right;">Размер</td>
-                <td style="width: 50px;">Тип</td>
-                <td style="width: 60px;">md5-хэш</td>
-                <td style="width: 85px;">Скачано</td>
+                <td style="text-align: left;">РРјСЏ</td>
+                <td style="width: 75px; text-align: right;">Р Р°Р·РјРµСЂ</td>
+                <td style="width: 50px;">РўРёРї</td>
+                <td style="width: 60px;">md5-С…СЌС€</td>
+                <td style="width: 85px;">РЎРєР°С‡Р°РЅРѕ</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
         </thead>
@@ -57,7 +57,7 @@
 
         <tr class="tableListFoot">
             <td colspan="4">{$pager->toString('adminPager.tpl')}</td>
-            <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
+            <td colspan="2" style="text-align: right; color: #7A7A7A;">Р’СЃРµРіРѕ: {$pager->getItemsCount()}</td>
         </tr>
     </table>
 </div>

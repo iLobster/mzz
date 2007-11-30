@@ -24,29 +24,29 @@
 class mzzCallbackException extends mzzException
 {
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param array|string $callback
      */
     public function __construct($callback)
     {
-        $message = 'Ошибка при использоании callback-методов. ';
+        $message = 'РћС€РёР±РєР° РїСЂРё РёСЃРїРѕР»СЊР·РѕР°РЅРёРё callback-РјРµС‚РѕРґРѕРІ. ';
         if (is_array($callback)) {
             $objDescription = $this->getObjectName($callback[0], $callback[1]);
             if (!$this->isValidObject($callback[0])) {
-                $message .= 'Объект не того типа / неверное имя класса: <i>' . $objDescription;
+                $message .= 'РћР±СЉРµРєС‚ РЅРµ С‚РѕРіРѕ С‚РёРїР° / РЅРµРІРµСЂРЅРѕРµ РёРјСЏ РєР»Р°СЃСЃР°: <i>' . $objDescription;
             } else {
-                $message .= 'Неверное имя метода: <i>' . $objDescription . '</i>';
+                $message .= 'РќРµРІРµСЂРЅРѕРµ РёРјСЏ РјРµС‚РѕРґР°: <i>' . $objDescription . '</i>';
             }
         } else {
-            $message .= 'Неверное имя функции: <i>' . $callback . '</i>';
+            $message .= 'РќРµРІРµСЂРЅРѕРµ РёРјСЏ С„СѓРЅРєС†РёРё: <i>' . $callback . '</i>';
         }
         parent::__construct($message);
         $this->setName('Callback Exception');
     }
 
     /**
-     * Проверяет является ли $object объектом или именем класса
+     * РџСЂРѕРІРµСЂСЏРµС‚ СЏРІР»СЏРµС‚СЃСЏ Р»Рё $object РѕР±СЉРµРєС‚РѕРј РёР»Рё РёРјРµРЅРµРј РєР»Р°СЃСЃР°
      *
      * @param mixed $object
      * @return boolean
@@ -57,8 +57,8 @@ class mzzCallbackException extends mzzException
     }
 
     /**
-     * Возвращает строку вызова метода статически или объекта
-     * в зависимости от типа $object
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ РІС‹Р·РѕРІР° РјРµС‚РѕРґР° СЃС‚Р°С‚РёС‡РµСЃРєРё РёР»Рё РѕР±СЉРµРєС‚Р°
+     * РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С‚РёРїР° $object
      *
      * @param object|string $object
      * @param string $method

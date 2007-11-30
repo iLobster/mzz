@@ -13,7 +13,7 @@
  */
 
 /**
- * messageViewController: контроллер для метода view модуля message
+ * messageViewController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° view РјРѕРґСѓР»СЏ message
  *
  * @package modules
  * @subpackage message

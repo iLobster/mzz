@@ -1,5 +1,5 @@
 <?php
-    $validator->add('callback', 'email', 'Ââåä¸í íåïðàâèëüíûé e-mail', array('is_valid_email')); 
+    $validator->add('callback', 'email', 'Ð’Ð²ÐµÐ´Ñ‘Ð½ Ð½ÐµÐ¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ‹Ð¹ e-mail', array('is_valid_email')); 
     
     function is_valid_email($email)
     {

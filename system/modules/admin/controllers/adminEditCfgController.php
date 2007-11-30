@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * adminSaveCfgController: êîíòðîëëåð äëÿ ìåòîäà SaveCfg ìîäóëÿ admin
+ * adminSaveCfgController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° SaveCfg Ð¼Ð¾Ð´ÑƒÐ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -38,7 +38,7 @@ class adminSaveCfgController extends simpleController
         $params = $config->getDefaultValues();
 
         if ($isEdit && !isset($params[$name])) {
-            $controller = new messageController('Âûáðàííîãî ïàðàìåòðà â êîíôèãóðàöèè íå ñóùåñòâóåò', messageController::WARNING);
+            $controller = new messageController('Ð’Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð° Ð² ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚', messageController::WARNING);
             return $controller->run();
         }
 
@@ -49,8 +49,8 @@ class adminSaveCfgController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('required', 'param', 'Íåîáõîäèìî óêàçàòü èìÿ ïàðàìåòðà');
-        $validator->add('regex', 'param', 'Íåäîïóñòèìûå ñèìâîëû â èìåíè ïàðàìåòðà', '/^[a-z0-9_\-]+$/i');
+        $validator->add('required', 'param', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ Ð¸Ð¼Ñ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð°');
+        $validator->add('regex', 'param', 'ÐÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹ Ð² Ð¸Ð¼ÐµÐ½Ð¸ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð°', '/^[a-z0-9_\-]+$/i');
 
         if ($validator->validate()) {
             /*$values = $form->exportValues();

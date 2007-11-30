@@ -13,7 +13,7 @@
  */
 
 /**
- * newsListController: контроллер для метода list модуля news
+ * newsListController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° list РјРѕРґСѓР»СЏ news
  *
  * @package modules
  * @subpackage news

@@ -1,30 +1,30 @@
-<p>Тулкит предназначен для того, чтобы получать необходимыe для работы экземпляры классов. Тулкит является реализацией The Composite Pattern и The Registry Pattern. И в свою очередь его можно назвать своеобразным глобальным хранилищем для различных объектов. В стандартной поставке в состав тулкита (конкретнее - класс stdToolkit) входят следующие методы:</p>
+<p>РўСѓР»РєРёС‚ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РїРѕР»СѓС‡Р°С‚СЊ РЅРµРѕР±С…РѕРґРёРјС‹e РґР»СЏ СЂР°Р±РѕС‚С‹ СЌРєР·РµРјРїР»СЏСЂС‹ РєР»Р°СЃСЃРѕРІ. РўСѓР»РєРёС‚ СЏРІР»СЏРµС‚СЃСЏ СЂРµР°Р»РёР·Р°С†РёРµР№ The Composite Pattern Рё The Registry Pattern. Р РІ СЃРІРѕСЋ РѕС‡РµСЂРµРґСЊ РµРіРѕ РјРѕР¶РЅРѕ РЅР°Р·РІР°С‚СЊ СЃРІРѕРµРѕР±СЂР°Р·РЅС‹Рј РіР»РѕР±Р°Р»СЊРЅС‹Рј С…СЂР°РЅРёР»РёС‰РµРј РґР»СЏ СЂР°Р·Р»РёС‡РЅС‹С… РѕР±СЉРµРєС‚РѕРІ. Р’ СЃС‚Р°РЅРґР°СЂС‚РЅРѕР№ РїРѕСЃС‚Р°РІРєРµ РІ СЃРѕСЃС‚Р°РІ С‚СѓР»РєРёС‚Р° (РєРѕРЅРєСЂРµС‚РЅРµРµ - РєР»Р°СЃСЃ stdToolkit) РІС…РѕРґСЏС‚ СЃР»РµРґСѓСЋС‰РёРµ РјРµС‚РѕРґС‹:</p>
 <ul>
-    <li><em>getRequest()</em> - Возвращает объект Request</li>
-    <li><em>getResponse()</em> - Возвращает объект Response</li>
-    <li><em>getSession()</em> - Возвращает объект Session</li>
-    <li><em>getSmarty()</em> - Возвращает объект Smarty</li>
-    <li><em>getRouter($request = null)</em> - Возвращает объект requestRouter</li>
-    <li><em>getConfig($section, $module)</em> - Возвращает объект Config</li>
-    <li><em>getSectionMapper($path = null)</em> - Возвращает объект SectionMapper</li>
-    <li><em>getTimer()</em> - Возвращает объект Timer</li>
-    <li><em>getAction($module)</em> - Возвращает объект Action для модуля $module</li>
-    <li><em>getUser()</em> - Возвращает объект текущего пользователя</li>
-    <li><em>getObjectId($name = null)</em> - Возвращает уникальный идентификатор необходимый для <a href="structure.acl.html">ACL</a> (и <a href="structure.acl.html#structure.acl.obj_id">"фейковых" объектов</a> в частности)</li>
-    <li><em>getMapper($module, $do, $section)</em> - Возвращает необходимый маппер</li>
-    <li><em>getCache()</em> - Возвращает объект для работы с кэшем</li>
-    <li><em>getValidator()</em> - Получение текущего валидатора</li>
-    <li><em>setRequest($request)</em> - Устанавливает объект Request</li>
-    <li><em>setResponse($response)</em> - Устанавливает объект Response</li>
-    <li><em>setSession($session)</em> - Устанавливает объект Session</li>
-    <li><em>setSmarty($smarty)</em> - Устанавливает объект Smarty</li>
-    <li><em>setRouter($router)</em> - Устанавливает объект requestRouter</li>
-    <li><em>setSectionMapper($sectionMapper)</em> - Устанавливает объект SectionMapper</li>
-    <li><em>setUser($user)</em> - Устанавливает объект пользователя</li>
-    <li><em>setConfig($config)</em> - Устанавливает объект конфигурации</li>
-    <li><em>setValidator($validator)</em> - Установка валидатора</li>
+    <li><em>getRequest()</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Request</li>
+    <li><em>getResponse()</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Response</li>
+    <li><em>getSession()</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Session</li>
+    <li><em>getSmarty()</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Smarty</li>
+    <li><em>getRouter($request = null)</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ requestRouter</li>
+    <li><em>getConfig($section, $module)</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Config</li>
+    <li><em>getSectionMapper($path = null)</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ SectionMapper</li>
+    <li><em>getTimer()</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Timer</li>
+    <li><em>getAction($module)</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Action РґР»СЏ РјРѕРґСѓР»СЏ $module</li>
+    <li><em>getUser()</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ С‚РµРєСѓС‰РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</li>
+    <li><em>getObjectId($name = null)</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РЅРµРѕР±С…РѕРґРёРјС‹Р№ РґР»СЏ <a href="structure.acl.html">ACL</a> (Рё <a href="structure.acl.html#structure.acl.obj_id">"С„РµР№РєРѕРІС‹С…" РѕР±СЉРµРєС‚РѕРІ</a> РІ С‡Р°СЃС‚РЅРѕСЃС‚Рё)</li>
+    <li><em>getMapper($module, $do, $section)</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РЅРµРѕР±С…РѕРґРёРјС‹Р№ РјР°РїРїРµСЂ</li>
+    <li><em>getCache()</em> - Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РєСЌС€РµРј</li>
+    <li><em>getValidator()</em> - РџРѕР»СѓС‡РµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ РІР°Р»РёРґР°С‚РѕСЂР°</li>
+    <li><em>setRequest($request)</em> - РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ Request</li>
+    <li><em>setResponse($response)</em> - РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ Response</li>
+    <li><em>setSession($session)</em> - РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ Session</li>
+    <li><em>setSmarty($smarty)</em> - РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ Smarty</li>
+    <li><em>setRouter($router)</em> - РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ requestRouter</li>
+    <li><em>setSectionMapper($sectionMapper)</em> - РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ SectionMapper</li>
+    <li><em>setUser($user)</em> - РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</li>
+    <li><em>setConfig($config)</em> - РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ РєРѕРЅС„РёРіСѓСЂР°С†РёРё</li>
+    <li><em>setValidator($validator)</em> - РЈСЃС‚Р°РЅРѕРІРєР° РІР°Р»РёРґР°С‚РѕСЂР°</li>
 </ul>
-<p>Для получения инстанции тулкита необходимо воспользоваться следующей конструкцией:</p>
+<p>Р”Р»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РёРЅСЃС‚Р°РЅС†РёРё С‚СѓР»РєРёС‚Р° РЅРµРѕР±С…РѕРґРёРјРѕ РІРѕСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ СЃР»РµРґСѓСЋС‰РµР№ РєРѕРЅСЃС‚СЂСѓРєС†РёРµР№:</p>
 <<code php>>
 $toolkit = systemToolkit::getInstance();
 <</code>>

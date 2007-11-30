@@ -13,7 +13,7 @@
  */
 
 /**
- * menuItem: класс для работы c данными
+ * menuItem: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ c РґР°РЅРЅС‹РјРё
  *
  * @package modules
  * @subpackage menu

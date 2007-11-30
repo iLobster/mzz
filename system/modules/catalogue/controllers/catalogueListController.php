@@ -13,7 +13,7 @@
  */
 
 /**
- * catalogueListController: контроллер для метода list модуля catalogue
+ * catalogueListController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° list РјРѕРґСѓР»СЏ catalogue
  *
  * @package modules
  * @subpackage catalogue

@@ -13,7 +13,7 @@
  */
 
 /**
- * jip: класс для работы с jip
+ * jip: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ jip
  *
  * @package system
  * @version 0.1.3
@@ -22,7 +22,7 @@
 class jip
 {
     /**
-     * Имя JIP-шаблона по умолчанию
+     * РРјСЏ JIP-С€Р°Р±Р»РѕРЅР° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
      *
      * @var string
      */
@@ -36,63 +36,63 @@ class jip
     private $section;
 
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     private $module;
 
     /**
-     * Идентификатор
+     * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
      *
      * @var string
      */
     private $id;
 
     /**
-     * Тип
+     * РўРёРї
      *
      * @var string
      */
     private $type;
 
     /**
-     * Действия для JIP
+     * Р”РµР№СЃС‚РІРёСЏ РґР»СЏ JIP
      *
      * @var array
      */
     private $actions;
 
     /**
-     * Идентификатор объекта
+     * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РѕР±СЉРµРєС‚Р°
      *
      * @var integer
      */
     private $obj_id;
 
     /**
-     * Результат сборки массива элементов JIP-меню
+     * Р РµР·СѓР»СЊС‚Р°С‚ СЃР±РѕСЂРєРё РјР°СЃСЃРёРІР° СЌР»РµРјРµРЅС‚РѕРІ JIP-РјРµРЅСЋ
      *
      * @var array
      */
     private $result = array();
 
     /**
-     * Шаблон JIP-меню
+     * РЁР°Р±Р»РѕРЅ JIP-РјРµРЅСЋ
      *
      * @var string
      */
     private $tpl = null;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param string $section
-     * @param string $module имя модуля
-     * @param integer $id идентификатор
-     * @param string $type тип
-     * @param array $actions действия для JIP
-     * @param integer $obj_id идентификатор объекта
+     * @param string $module РёРјСЏ РјРѕРґСѓР»СЏ
+     * @param integer $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
+     * @param string $type С‚РёРї
+     * @param array $actions РґРµР№СЃС‚РІРёСЏ РґР»СЏ JIP
+     * @param integer $obj_id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РѕР±СЉРµРєС‚Р°
      */
     public function __construct($section, $module, $id, $type, Array $actions, $obj_id, $tpl = self::DEFAULT_TEMPLATE)
     {
@@ -107,9 +107,9 @@ class jip
     }
 
     /**
-     * Генерирует ссылку для JIP
+     * Р“РµРЅРµСЂРёСЂСѓРµС‚ СЃСЃС‹Р»РєСѓ РґР»СЏ JIP
      *
-     * @param string $action действие модуля
+     * @param string $action РґРµР№СЃС‚РІРёРµ РјРѕРґСѓР»СЏ
      * @return string
      */
     private function buildUrl($action)
@@ -122,9 +122,9 @@ class jip
     }
 
     /**
-     * Генерирует ссылку для JIP на редактирование ACL
+     * Р“РµРЅРµСЂРёСЂСѓРµС‚ СЃСЃС‹Р»РєСѓ РґР»СЏ JIP РЅР° СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ ACL
      *
-     * @param integer $obj_id идентификатор объекта
+     * @param integer $obj_id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РѕР±СЉРµРєС‚Р°
      * @return string
      */
     private function buildACLUrl($obj_id)
@@ -137,7 +137,7 @@ class jip
     }
 
     /**
-     * Генерирует массив JIP из названия и ссылки для действия модуля
+     * Р“РµРЅРµСЂРёСЂСѓРµС‚ РјР°СЃСЃРёРІ JIP РёР· РЅР°Р·РІР°РЅРёСЏ Рё СЃСЃС‹Р»РєРё РґР»СЏ РґРµР№СЃС‚РІРёСЏ РјРѕРґСѓР»СЏ
      *
      * @return array
      */
@@ -160,9 +160,9 @@ class jip
     }
 
     /**
-     * Проверяет присутствие элемента в JIP-меню
+     * РџСЂРѕРІРµСЂСЏРµС‚ РїСЂРёСЃСѓС‚СЃС‚РІРёРµ СЌР»РµРјРµРЅС‚Р° РІ JIP-РјРµРЅСЋ
      *
-     * @param string $name имя элемента
+     * @param string $name РёРјСЏ СЌР»РµРјРµРЅС‚Р°
      * @return boolean
      */
     public function hasItem($name)
@@ -171,7 +171,7 @@ class jip
     }
 
     /**
-     * Возвращает ссылку на массив данных элемента JIP-меню
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃСЃС‹Р»РєСѓ РЅР° РјР°СЃСЃРёРІ РґР°РЅРЅС‹С… СЌР»РµРјРµРЅС‚Р° JIP-РјРµРЅСЋ
      *
      * @return array
      */
@@ -180,12 +180,12 @@ class jip
         if (isset($this->result[$name])) {
             return $this->result[$name];
         } else {
-            throw new mzzRuntimeException('Не найден элемент "' . $name . '" в jip-меню для dataobject "' . $this->type . '"');
+            throw new mzzRuntimeException('РќРµ РЅР°Р№РґРµРЅ СЌР»РµРјРµРЅС‚ "' . $name . '" РІ jip-РјРµРЅСЋ РґР»СЏ dataobject "' . $this->type . '"');
         }
     }
 
     /**
-     * Возвращает идентификатор JIP-меню
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ JIP-РјРµРЅСЋ
      *
      * @return string
      */
@@ -195,7 +195,7 @@ class jip
     }
 
     /**
-     * Возвращает отображение JIP
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ JIP
      *
      * @return string
      */

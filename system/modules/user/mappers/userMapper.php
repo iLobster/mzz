@@ -15,7 +15,7 @@
 fileLoader::load('user');
 
 /**
- * userMapper: маппер для пользователей
+ * userMapper: РјР°РїРїРµСЂ РґР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
  *
  * @package modules
  * @subpackage user
@@ -24,14 +24,14 @@ fileLoader::load('user');
 class userMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'user';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
@@ -39,7 +39,7 @@ class userMapper extends simpleMapper
 
 
     /**
-     * Создает пустой объект DO
+     * РЎРѕР·РґР°РµС‚ РїСѓСЃС‚РѕР№ РѕР±СЉРµРєС‚ DO
      *
      * @return object
      */
@@ -49,9 +49,9 @@ class userMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объекта по идентификатору
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ
      *
-     * @param integer $id идентификатор
+     * @param integer $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
      * @return object
      */
     public function searchById($id)
@@ -62,16 +62,16 @@ class userMapper extends simpleMapper
             return $user;
         } else {
             if($id === MZZ_USER_GUEST_ID) {
-                throw new mzzSystemException('Отсутствует запись с ID: ' . MZZ_USER_GUEST_ID . ' для гостя в таблице ' . $this->table);
+                throw new mzzSystemException('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ Р·Р°РїРёСЃСЊ СЃ ID: ' . MZZ_USER_GUEST_ID . ' РґР»СЏ РіРѕСЃС‚СЏ РІ С‚Р°Р±Р»РёС†Рµ ' . $this->table);
             }
             return $this->getGuest();
         }
     }
 
     /**
-     * Выполняет поиск объекта по логину
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ Р»РѕРіРёРЅСѓ
      *
-     * @param string $login логин
+     * @param string $login Р»РѕРіРёРЅ
      * @return object
      */
     public function searchByLogin($login)
@@ -86,10 +86,10 @@ class userMapper extends simpleMapper
     }
 
     /**
-     * Возвращает список групп, в которых существует
-     * пользователь с идентификатором $id
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє РіСЂСѓРїРї, РІ РєРѕС‚РѕСЂС‹С… СЃСѓС‰РµСЃС‚РІСѓРµС‚
+     * РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј $id
      *
-     * @param string $id идентификатором
+     * @param string $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј
      * @return array
      */
     public function getGroupsList($id)
@@ -104,12 +104,12 @@ class userMapper extends simpleMapper
     }
 
     /**
-     * Идентифицирует пользователя по логину и паролю и
-     * в случае успеха устанавливает сессию
-     * идентифицированного пользователя
+     * РРґРµРЅС‚РёС„РёС†РёСЂСѓРµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РїРѕ Р»РѕРіРёРЅСѓ Рё РїР°СЂРѕР»СЋ Рё
+     * РІ СЃР»СѓС‡Р°Рµ СѓСЃРїРµС…Р° СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СЃРµСЃСЃРёСЋ
+     * РёРґРµРЅС‚РёС„РёС†РёСЂРѕРІР°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
      *
-     * @param string $login логин
-     * @param string $password пароль
+     * @param string $login Р»РѕРіРёРЅ
+     * @param string $password РїР°СЂРѕР»СЊ
      * @return object
      */
     public function login($login, $password)
@@ -139,7 +139,7 @@ class userMapper extends simpleMapper
     }
 
     /**
-     * Установка текущего user_id
+     * РЈСЃС‚Р°РЅРѕРІРєР° С‚РµРєСѓС‰РµРіРѕ user_id
      *
      * @param integer $user_id
      */
@@ -151,7 +151,7 @@ class userMapper extends simpleMapper
     }
 
     /**
-     * Получение текущего user_id
+     * РџРѕР»СѓС‡РµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ user_id
      *
      * @return integer
      */
@@ -163,7 +163,7 @@ class userMapper extends simpleMapper
     }
 
     /**
-     * Логаут пользователя
+     * Р›РѕРіР°СѓС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
      *
      */
     public function logout()
@@ -172,7 +172,7 @@ class userMapper extends simpleMapper
     }
 
     /**
-     * Возвращает объект для гостя (id = MZZ_USER_GUEST_ID)
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ РґР»СЏ РіРѕСЃС‚СЏ (id = MZZ_USER_GUEST_ID)
      *
      * @return object
      */

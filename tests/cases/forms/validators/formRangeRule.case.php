@@ -58,7 +58,7 @@ class formRangeRuleTest extends UnitTestCase
             $rule->validate();
             $this->fail();
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern("/2 ïàğàìåòğà/i", $e->getMessage());
+            $this->assertPattern("/2 Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ°/i", $e->getMessage());
         }
     }
 
@@ -73,7 +73,7 @@ class formRangeRuleTest extends UnitTestCase
             $rule->validate();
             $this->fail();
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern("/2 ïàğàìåòğà/i", $e->getMessage());
+            $this->assertPattern("/2 Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ°/i", $e->getMessage());
         }
     }
 }

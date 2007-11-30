@@ -1,8 +1,8 @@
  /**
- * $Id: editor_plugin_src.js 42 2006-08-08 14:32:24Z spocke $
+ * $Id: editor_plugin_src.js 1121 2007-11-30 04:31:39Z zerkms $
  *
  * @author Moxiecode - based on work by Andrew Tetlaw
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */

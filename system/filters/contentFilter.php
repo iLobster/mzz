@@ -13,7 +13,7 @@
  */
 
 /**
- * contentFilter: фильтр получения и отображения контента
+ * contentFilter: С„РёР»СЊС‚СЂ РїРѕР»СѓС‡РµРЅРёСЏ Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РєРѕРЅС‚РµРЅС‚Р°
  *
  * @package system
  * @subpackage filters
@@ -22,10 +22,10 @@
 class contentFilter implements iFilter
 {
     /**
-     * запуск фильтра на исполнение
+     * Р·Р°РїСѓСЃРє С„РёР»СЊС‚СЂР° РЅР° РёСЃРїРѕР»РЅРµРЅРёРµ
      *
-     * @param filterChain $filter_chain объект, содержащий цепочку фильтров
-     * @param httpResponse $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param filterChain $filter_chain РѕР±СЉРµРєС‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ С†РµРїРѕС‡РєСѓ С„РёР»СЊС‚СЂРѕРІ
+     * @param httpResponse $response РѕР±СЉРµРєС‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ РёРЅС„РѕСЂРјР°С†РёСЋ, РІС‹РІРѕРґРёРјСѓСЋ РєР»РёРµРЅС‚Сѓ РІ Р±СЂР°СѓР·РµСЂ
      * @param iRequest $request
      */
     public function run(filterChain $filter_chain, $response, iRequest $request)
@@ -54,13 +54,13 @@ class contentFilter implements iFilter
         }
 
         $smarty = $toolkit->getSmarty();
-        // @todo подумать нужны ли в шаблоне теперь эти переменные
-        //страйкер: конечно нужны. как без них? в большинстве {url используется section=$current_section. Но предлагаю просто передать объект $request в смарти.
+        // @todo РїРѕРґСѓРјР°С‚СЊ РЅСѓР¶РЅС‹ Р»Рё РІ С€Р°Р±Р»РѕРЅРµ С‚РµРїРµСЂСЊ СЌС‚Рё РїРµСЂРµРјРµРЅРЅС‹Рµ
+        //СЃС‚СЂР°Р№РєРµСЂ: РєРѕРЅРµС‡РЅРѕ РЅСѓР¶РЅС‹. РєР°Рє Р±РµР· РЅРёС…? РІ Р±РѕР»СЊС€РёРЅСЃС‚РІРµ {url РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ section=$current_section. РќРѕ РїСЂРµРґР»Р°РіР°СЋ РїСЂРѕСЃС‚Рѕ РїРµСЂРµРґР°С‚СЊ РѕР±СЉРµРєС‚ $request РІ СЃРјР°СЂС‚Рё.
         $smarty->assign('current_section', $request->getRequestedSection());
         $smarty->assign('current_action', $request->getRequestedAction());
         $smarty->assign('current_path', $request->getPath());
 
-        // если вывода ещё не было (не 404 страница), или был (404, но вернувшая false - что значит что должен быть запущен стандартный запуск через активный шаблон)
+        // РµСЃР»Рё РІС‹РІРѕРґР° РµС‰С‘ РЅРµ Р±С‹Р»Рѕ (РЅРµ 404 СЃС‚СЂР°РЅРёС†Р°), РёР»Рё Р±С‹Р» (404, РЅРѕ РІРµСЂРЅСѓРІС€Р°СЏ false - С‡С‚Рѕ Р·РЅР°С‡РёС‚ С‡С‚Рѕ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р·Р°РїСѓС‰РµРЅ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ Р·Р°РїСѓСЃРє С‡РµСЂРµР· Р°РєС‚РёРІРЅС‹Р№ С€Р°Р±Р»РѕРЅ)
         if (!isset($output) || $output === false) {
             $output = $smarty->fetch($template);
         }
@@ -71,7 +71,7 @@ class contentFilter implements iFilter
     }
 
     /**
-     * Вывод страницы 404
+     * Р’С‹РІРѕРґ СЃС‚СЂР°РЅРёС†С‹ 404
      *
      */
     private function get404()

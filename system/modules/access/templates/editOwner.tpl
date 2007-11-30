@@ -1,4 +1,4 @@
-{include file='jipTitle.tpl' title="Изменение прав на объект типа <b>$class</b> раздела <b>$section</b> для владельца объекта"}
+{include file='jipTitle.tpl' title="РР·РјРµРЅРµРЅРёРµ РїСЂР°РІ РЅР° РѕР±СЉРµРєС‚ С‚РёРїР° <b>$class</b> СЂР°Р·РґРµР»Р° <b>$section</b> РґР»СЏ РІР»Р°РґРµР»СЊС†Р° РѕР±СЉРµРєС‚Р°"}
 
 <form action="{url}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" width="99%" cellpadding="4" cellspacing="1" class="systemTable">

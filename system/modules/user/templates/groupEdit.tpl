@@ -1,28 +1,28 @@
 {if $isEdit}
     {assign var=name value=$group->getName()}
-    {include file='jipTitle.tpl' title="Редактирование группы $name"}
+    {include file='jipTitle.tpl' title="Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РіСЂСѓРїРїС‹ $name"}
 {else}
-    {include file='jipTitle.tpl' title='Создание группы'}
+    {include file='jipTitle.tpl' title='РЎРѕР·РґР°РЅРёРµ РіСЂСѓРїРїС‹'}
 {/if}
 <form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         {if $isEdit}
             <tr>
-                <td>Идентификатор:</td>
+                <td>РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ:</td>
                 <td><strong>{$group->getId()}</strong></td>
             </tr>
         {/if}
         <tr>
-            <td style='width: 30%;'>{form->caption name="name" value="Имя" onError="style=color: red;"}</td>
+            <td style='width: 30%;'>{form->caption name="name" value="РРјСЏ" onError="style=color: red;"}</td>
             <td style='width: 70%;'>{form->text name="name" value=$group->getName() size="40"}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td style='width: 30%;'>{form->caption name="is_default" value="Помещать в эту группу<br /> создаваемых пользователей:" onError="style=color: red;"}</td>
+            <td style='width: 30%;'>{form->caption name="is_default" value="РџРѕРјРµС‰Р°С‚СЊ РІ СЌС‚Сѓ РіСЂСѓРїРїСѓ<br /> СЃРѕР·РґР°РІР°РµРјС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№:" onError="style=color: red;"}</td>
             <td style='width: 70%;'>{form->checkbox name="is_default" value=$group->getIsDefault() size="40"}{$errors->get('is_default')}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td>{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

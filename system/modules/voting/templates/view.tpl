@@ -12,6 +12,6 @@
     {form->text name="answer_$id" value=""}<br />
 {/if}
 {/foreach}
-{form->submit name="submit" value="Проголосовать"}
+{form->submit name="submit" value="РџСЂРѕРіРѕР»РѕСЃРѕРІР°С‚СЊ"}
 </form>
-<a href="{url route="withId" action="results" id=$question->getId()}">Результаты</a>
+<a href="{url route="withId" action="results" id=$question->getId()}">Р РµР·СѓР»СЊС‚Р°С‚С‹</a>

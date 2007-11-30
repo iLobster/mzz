@@ -10,7 +10,7 @@
 // the GNU/GPL License (See /docs/GPL.txt).
 //
 /**
- * newsMapper: маппер для новостей
+ * newsMapper: РјР°РїРїРµСЂ РґР»СЏ РЅРѕРІРѕСЃС‚РµР№
  *
  * @package modules
  * @subpackage news
@@ -20,23 +20,23 @@
 class newsMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'news';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'news';
 
     /**
-     * Выполняет поиск объекта по идентификатору
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ
      *
-     * @param integer $id идентификатор
+     * @param integer $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
      * @return object|null
      */
     public function searchById($id)
@@ -45,9 +45,9 @@ class newsMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объектов по идентификатору папки
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚РѕРІ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ РїР°РїРєРё
      *
-     * @param integer $id идентификатор папки
+     * @param integer $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РїРєРё
      * @return array
      */
     public function searchByFolder($folder_id)
@@ -56,7 +56,7 @@ class newsMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РѕР±РЅРѕРІР»РµРЅРёРµРј РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -66,7 +66,7 @@ class newsMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РІСЃС‚Р°РІРєРѕР№ РІ Р‘Р”
      *
      * @param array $fields
      */

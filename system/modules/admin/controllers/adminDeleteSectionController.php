@@ -13,7 +13,7 @@
 */
 
 /**
- * adminDeleteSectionController: êîíòğîëëåğ äëÿ ìåòîäà deleteSection ìîäóëÿ admin
+ * adminDeleteSectionController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° deleteSection Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -29,12 +29,12 @@ class adminDeleteSectionController extends simpleController
         $sections = $adminMapper->getSectionsList();
 
         if (!isset($sections[$id])) {
-            $controller = new messageController('Ğàçäåëà íå ñóùåñòâóåò', messageController::WARNING);
+            $controller = new messageController('Ğ Ğ°Ğ·Ğ´ĞµĞ»Ğ° Ğ½Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚', messageController::WARNING);
             return $controller->run();
         }
 
         if (sizeof($sections[$id]['classes'])) {
-            $controller = new messageController('Íåëüçÿ óäàëèòü ğàçäåë', messageController::WARNING);
+            $controller = new messageController('ĞĞµĞ»ÑŒĞ·Ñ ÑƒĞ´Ğ°Ğ»Ğ¸Ñ‚ÑŒ Ñ€Ğ°Ğ·Ğ´ĞµĞ»', messageController::WARNING);
             return $controller->run();
         }
 

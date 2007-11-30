@@ -4,9 +4,9 @@
 {$answer->getTitle()}<br />
 {/foreach}
 *}
-Ваш голос принят:
+Р’Р°С€ РіРѕР»РѕСЃ РїСЂРёРЅСЏС‚:
 {foreach from=$votes item="vote"}
     {$answers[$vote.answer_id]->getTitle()}
     {if $answers[$vote.answer_id]->getTypeTitle() == 'text'} ({$vote.text|htmlspecialchars}){/if} 
 {/foreach}<br />
-<a href="{url route="withId" action="results" id=$question->getId()}">Результаты</a>
+<a href="{url route="withId" action="results" id=$question->getId()}">Р РµР·СѓР»СЊС‚Р°С‚С‹</a>

@@ -15,7 +15,7 @@
 fileLoader::load('forum/post');
 
 /**
- * postMapper: маппер
+ * postMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage forum
@@ -25,21 +25,21 @@ fileLoader::load('forum/post');
 class postMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'forum';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'post';
 
     /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РІСЃС‚Р°РІРєРѕР№ РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -62,7 +62,7 @@ class postMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РѕР±РЅРѕРІР»РµРЅРёРµРј РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -72,7 +72,7 @@ class postMapper extends simpleMapper
     }
 
     /**
-     * Возвращает доменный объект по аргументам
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРѕРјРµРЅРЅС‹Р№ РѕР±СЉРµРєС‚ РїРѕ Р°СЂРіСѓРјРµРЅС‚Р°Рј
      *
      * @return simple
      */

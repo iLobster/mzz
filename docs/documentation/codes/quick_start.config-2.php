@@ -15,7 +15,7 @@
 */
 
 /**
- * application: приложение
+ * application: РїСЂРёР»РѕР¶РµРЅРёРµ
  *
  * @package system
  * @subpackage application

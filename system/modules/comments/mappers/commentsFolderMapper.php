@@ -13,7 +13,7 @@
 */
 
 /**
- * commentsFolderMapper: маппер
+ * commentsFolderMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage comments
@@ -25,21 +25,21 @@ fileLoader::load('comments/commentsFolder');
 class commentsFolderMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'comments';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'commentsFolder';
 
     /**
-     * Удаление папки вместе с содержимым на основе id
+     * РЈРґР°Р»РµРЅРёРµ РїР°РїРєРё РІРјРµСЃС‚Рµ СЃ СЃРѕРґРµСЂР¶РёРјС‹Рј РЅР° РѕСЃРЅРѕРІРµ id
      *
      * @param string $id
      * @return void

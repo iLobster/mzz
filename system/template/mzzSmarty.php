@@ -19,7 +19,7 @@ fileLoader::load('template/IMzzSmarty');
 fileLoader::load('template/plugins/function.add');
 
 /**
- * mzzSmarty: модификация Smarty для работы с активными и пассивными шаблонами
+ * mzzSmarty: РјРѕРґРёС„РёРєР°С†РёСЏ Smarty РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ Р°РєС‚РёРІРЅС‹РјРё Рё РїР°СЃСЃРёРІРЅС‹РјРё С€Р°Р±Р»РѕРЅР°РјРё
  *
  * @package system
  * @subpackage template
@@ -28,40 +28,40 @@ fileLoader::load('template/plugins/function.add');
 class mzzSmarty extends Smarty
 {
     /**
-     * Хранение объекта для работы с ресурсом
+     * РҐСЂР°РЅРµРЅРёРµ РѕР±СЉРµРєС‚Р° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ СЂРµСЃСѓСЂСЃРѕРј
      *
      * @var array
      */
     protected $mzzResources = array();
 
     /**
-     * Обработанные шаблоны. Необходимо для предотвращении рекурсивного вложения шаблонов
+     * РћР±СЂР°Р±РѕС‚Р°РЅРЅС‹Рµ С€Р°Р±Р»РѕРЅС‹. РќРµРѕР±С…РѕРґРёРјРѕ РґР»СЏ РїСЂРµРґРѕС‚РІСЂР°С‰РµРЅРёРё СЂРµРєСѓСЂСЃРёРІРЅРѕРіРѕ РІР»РѕР¶РµРЅРёСЏ С€Р°Р±Р»РѕРЅРѕРІ
      *
      * @var array
      */
     protected $fetchedTemplates = array();
 
     /**
-     * Имя XML-шаблона и placeholder установленных runtime
+     * РРјСЏ XML-С€Р°Р±Р»РѕРЅР° Рё placeholder СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹С… runtime
      *
      * @var array
      */
     protected $activeXmlTemplate = false;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      */
     public function __construct()
     {
         parent::Smarty();
-        // инициализация массива media, используемого в функции {add}
+        // РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РјР°СЃСЃРёРІР° media, РёСЃРїРѕР»СЊР·СѓРµРјРѕРіРѕ РІ С„СѓРЅРєС†РёРё {add}
         smarty_function_add(array('init' => true), $this);
     }
 
     /**
-     * Выполняет шаблон и возвращает результат
-     * Декорирован для реализации вложенных шаблонов.
+     * Р’С‹РїРѕР»РЅСЏРµС‚ С€Р°Р±Р»РѕРЅ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚
+     * Р”РµРєРѕСЂРёСЂРѕРІР°РЅ РґР»СЏ СЂРµР°Р»РёР·Р°С†РёРё РІР»РѕР¶РµРЅРЅС‹С… С€Р°Р±Р»РѕРЅРѕРІ.
      *
      * @param string $resource_name
      * @param string $cache_id
@@ -99,7 +99,7 @@ class mzzSmarty extends Smarty
     }
 
     /**
-     * Выполняет пассивный шаблон и возвращает результат
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїР°СЃСЃРёРІРЅС‹Р№ С€Р°Р±Р»РѕРЅ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚
      *
      * @param string $resource_name
      * @param string $cache_id
@@ -114,13 +114,13 @@ class mzzSmarty extends Smarty
     }
 
     /**
-     * Выполняет активный шаблон, заменяет placeholder и возвращает результат
+     * Р’С‹РїРѕР»РЅСЏРµС‚ Р°РєС‚РёРІРЅС‹Р№ С€Р°Р±Р»РѕРЅ, Р·Р°РјРµРЅСЏРµС‚ placeholder Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚
      *
      * @param string $resource_name
      * @param string $cache_id
      * @param string $compile_id
      * @param boolean $display
-     * @param string $result начальный результат обработки активного шаблона как пассивного
+     * @param string $result РЅР°С‡Р°Р»СЊРЅС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚ РѕР±СЂР°Р±РѕС‚РєРё Р°РєС‚РёРІРЅРѕРіРѕ С€Р°Р±Р»РѕРЅР° РєР°Рє РїР°СЃСЃРёРІРЅРѕРіРѕ
      * @return string
      */
     public function fetchActive($template, $cache_id = null, $compile_id = null, $display = false, $result = null)
@@ -144,7 +144,7 @@ class mzzSmarty extends Smarty
     }
 
     /**
-     * Выполняет шаблон и отображает результат.
+     * Р’С‹РїРѕР»РЅСЏРµС‚ С€Р°Р±Р»РѕРЅ Рё РѕС‚РѕР±СЂР°Р¶Р°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚.
      *
      * @param string $resource_name
      * @param string $cache_id
@@ -156,7 +156,7 @@ class mzzSmarty extends Smarty
     }
 
     /**
-     * Разбор первой строки вложенных (активных) шаблонов
+     * Р Р°Р·Р±РѕСЂ РїРµСЂРІРѕР№ СЃС‚СЂРѕРєРё РІР»РѕР¶РµРЅРЅС‹С… (Р°РєС‚РёРІРЅС‹С…) С€Р°Р±Р»РѕРЅРѕРІ
      *
      * @param string $str
      * @return array
@@ -165,7 +165,7 @@ class mzzSmarty extends Smarty
     {
         if ($this->activeXmlTemplate !== false) {
             $activeXmlTemplate = $this->activeXmlTemplate;
-            // для предотвращения рекурсии
+            // РґР»СЏ РїСЂРµРґРѕС‚РІСЂР°С‰РµРЅРёСЏ СЂРµРєСѓСЂСЃРёРё
             $this->activeXmlTemplate = true;
             return $activeXmlTemplate;
         }
@@ -182,7 +182,7 @@ class mzzSmarty extends Smarty
     }
 
     /**
-     * Возвращает true если шаблон активный (вложен в другой)
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ true РµСЃР»Рё С€Р°Р±Р»РѕРЅ Р°РєС‚РёРІРЅС‹Р№ (РІР»РѕР¶РµРЅ РІ РґСЂСѓРіРѕР№)
      *
      * @param string $template
      * @return boolean
@@ -195,10 +195,10 @@ class mzzSmarty extends Smarty
     }
 
     /**
-     * Устанавливает активный XML-шаблон и placeholder для контента
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ Р°РєС‚РёРІРЅС‹Р№ XML-С€Р°Р±Р»РѕРЅ Рё placeholder РґР»СЏ РєРѕРЅС‚РµРЅС‚Р°
      *
-     * @param string $template_name имя XML-шаблона
-     * @param string $placeholder имя placeholder. По умолчанию <i>content</i>
+     * @param string $template_name РёРјСЏ XML-С€Р°Р±Р»РѕРЅР°
+     * @param string $placeholder РёРјСЏ placeholder. РџРѕ СѓРјРѕР»С‡Р°РЅРёСЋ <i>content</i>
      */
     public function setActiveXmlTemplate($template_name, $placeholder = 'content')
     {
@@ -208,7 +208,7 @@ class mzzSmarty extends Smarty
     }
 
     /**
-     * Возвращает true если установлен активный XML-шаблон
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ true РµСЃР»Рё СѓСЃС‚Р°РЅРѕРІР»РµРЅ Р°РєС‚РёРІРЅС‹Р№ XML-С€Р°Р±Р»РѕРЅ
      *
      * @return boolean
      * @see setActiveXmlTemplate()

@@ -13,7 +13,7 @@
 */
 
 /**
- * userAuth: класс для работы с ...
+ * userAuth: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ ...
  *
  * @package modules
  * @subpackage user

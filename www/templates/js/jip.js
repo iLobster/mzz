@@ -78,7 +78,7 @@ function buildJipLinks(elm) {
             return false;
         });
     }
-    // @todo сделать опции
+    // @todo СЃРґРµР»Р°С‚СЊ РѕРїС†РёРё
     if (elm) {
         $(elm).select('a.jipLink').each(jipLinkFunc);
     } else {
@@ -218,7 +218,7 @@ jipWindow = Class.create({
     {
         if(this.jip) {
             document.stopObserving("keypress", this.eventKeypress);
-            // избавляемся от "вспышки" в IE
+            // РёР·Р±Р°РІР»СЏРµРјСЃСЏ РѕС‚ "РІСЃРїС‹С€РєРё" РІ IE
             if(Prototype.Browser.IE) {
                 $A(this.jip.getElementsByTagName('select')).each(function (elm) {
                     $(elm).setStyle({visibility: "hidden"});
@@ -251,7 +251,7 @@ jipWindow = Class.create({
                     return this.open(prevUrl);
                 }
             } else {
-                // нужно?
+                // РЅСѓР¶РЅРѕ?
                 this.currentWindow--;
             }
             this.jip = $('jip' + (currentWin));
@@ -304,7 +304,7 @@ jipWindow = Class.create({
     {
         this.element = this.jip;
         if (Object.isUndefined(this.jip)) {
-            alert('Нет ни одно окна для открытия страницы.');
+            alert('РќРµС‚ РЅРё РѕРґРЅРѕ РѕРєРЅР° РґР»СЏ РѕС‚РєСЂС‹С‚РёСЏ СЃС‚СЂР°РЅРёС†С‹.');
             return false;
         }
         if (Object.isUndefined(transport.responseXML) && Object.isUndefined(transport.responseText)) {
@@ -312,7 +312,7 @@ jipWindow = Class.create({
             return false;
         }
 
-        this.jip.update('<div class="jipClose"><img class="jip" width="12" height="12" src="' + SITE_PATH + '/templates/images/jip/close.gif" onclick="javascript: jipWindow.close();" alt="Закрыть" title="Закрыть" /></div>');
+        this.jip.update('<div class="jipClose"><img class="jip" width="12" height="12" src="' + SITE_PATH + '/templates/images/jip/close.gif" onclick="javascript: jipWindow.close();" alt="Р—Р°РєСЂС‹С‚СЊ" title="Р—Р°РєСЂС‹С‚СЊ" /></div>');
 
         var tmp = '';
         var ctype = transport.getResponseHeader("content-type");
@@ -360,7 +360,7 @@ jipWindow = Class.create({
             this.jip.insert({top: jipTitle});
             this.jip.insert({top: jipClose});
 
-            var jipMoveDiv = new Element('div', {id: 'jip-' + jipTitle.parentNode.id, title: 'Переместить', 'class': 'jipMove'});
+            var jipMoveDiv = new Element('div', {id: 'jip-' + jipTitle.parentNode.id, title: 'РџРµСЂРµРјРµСЃС‚РёС‚СЊ', 'class': 'jipMove'});
             jipTitle.insert({top: jipMoveDiv});
             this.drag = new Draggable('jip' + jipWindow.currentWindow, {
             'handle': 'jip-' + jipTitle.parentNode.id,
@@ -601,21 +601,21 @@ jipWindow = Class.create({
     clean: function()
     {
         if (this.jip) {
-            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" width="32" height="32" /><br />Страница открывается...<br /><a href="javascript: void(jipWindow.close());">отменить</a></div>');
+            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" width="32" height="32" /><br />РЎС‚СЂР°РЅРёС†Р° РѕС‚РєСЂС‹РІР°РµС‚СЃСЏ...<br /><a href="javascript: void(jipWindow.close());">РѕС‚РјРµРЅРёС‚СЊ</a></div>');
         }
     },
 
     setRefreshMsg: function()
     {
         if (this.jip) {
-            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar3.gif" width="32" height="32" /><br />Перезагрузка страницы...</div>');
+            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar3.gif" width="32" height="32" /><br />РџРµСЂРµР·Р°РіСЂСѓР·РєР° СЃС‚СЂР°РЅРёС†С‹...</div>');
         }
     },
 
     setErrorMsg: function()
     {
         if (this.jip) {
-            this.jip.update('<p align=center>Невозможно выполнить запрос. Попробуйте еще раз.</p>');
+            this.jip.update('<p align=center>РќРµРІРѕР·РјРѕР¶РЅРѕ РІС‹РїРѕР»РЅРёС‚СЊ Р·Р°РїСЂРѕСЃ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·.</p>');
         }
     },
 

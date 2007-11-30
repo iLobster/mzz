@@ -1,10 +1,10 @@
 /**
- * $Id: mcwindows.js 18 2006-06-29 14:11:23Z spocke $
+ * $Id: mcwindows.js 1121 2007-11-30 04:31:39Z zerkms $
  *
  * Moxiecode DHTML Windows script.
  *
  * @author Moxiecode
- * @copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004, Moxiecode Systems AB, All rights reserved.
  */
 
 // Windows handler

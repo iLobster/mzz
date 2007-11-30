@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/controller.tpl $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/news/controllers/newsSearchByTagController.php $
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,11 +9,11 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: controller.tpl 1790 2007-06-07 09:48:45Z mz $
+ * @version $Id: newsSearchByTagController.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 /**
- * newsSearchByTagController: контроллер для метода searchByTag модуля news
+ * newsSearchByTagController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° searchByTag РјРѕРґСѓР»СЏ news
  *
  * @package modules
  * @subpackage news
@@ -33,18 +33,18 @@ class newsSearchByTagController extends simpleController
 
         $tag = urldecode($tag);
         $ua = $this->request->get('HTTP_USER_AGENT', 'string', SC_SERVER);
-        // декодируем для IE русские таги
+        // РґРµРєРѕРґРёСЂСѓРµРј РґР»СЏ IE СЂСѓСЃСЃРєРёРµ С‚Р°РіРё
         if(strpos($ua, 'MSIE')) {
             $tag = iconv('UTF-8', 'CP1251', $tag);
         }
-        //@todo вариант для Оперы
+        //@todo РІР°СЂРёР°РЅС‚ РґР»СЏ РћРїРµСЂС‹
 
-        // выбираем все obj_id у которых есть этот таг
+        // РІС‹Р±РёСЂР°РµРј РІСЃРµ obj_id Сѓ РєРѕС‚РѕСЂС‹С… РµСЃС‚СЊ СЌС‚РѕС‚ С‚Р°Рі
         $obj_ids =  $tagsMapper->searchObjIdByTag($tag);
 
 
-        // ВАРИАНТ1 Поиск с определением классов, модулей и секций. Подходит для глобального поиска.
-        // ищем классы и модули в которых находятся сущности с найденными obj_id
+        // Р’РђР РРђРќРў1 РџРѕРёСЃРє СЃ РѕРїСЂРµРґРµР»РµРЅРёРµРј РєР»Р°СЃСЃРѕРІ, РјРѕРґСѓР»РµР№ Рё СЃРµРєС†РёР№. РџРѕРґС…РѕРґРёС‚ РґР»СЏ РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ РїРѕРёСЃРєР°.
+        // РёС‰РµРј РєР»Р°СЃСЃС‹ Рё РјРѕРґСѓР»Рё РІ РєРѕС‚РѕСЂС‹С… РЅР°С…РѕРґСЏС‚СЃСЏ СЃСѓС‰РЅРѕСЃС‚Рё СЃ РЅР°Р№РґРµРЅРЅС‹РјРё obj_id
         /*$criteria = new criteria('tags_tagsItem', 'ti');
 
         $joinRegistry = new criterion('r.obj_id','ti.item_obj_id', criteria::EQUAL, true);
@@ -74,7 +74,7 @@ class newsSearchByTagController extends simpleController
         $s = new simpleSelect($criteria);
         //echo "<pre>";var_dump($s->toString());echo "</pre>";
 
-        // определив мапперы ищем сами сущности
+        // РѕРїСЂРµРґРµР»РёРІ РјР°РїРїРµСЂС‹ РёС‰РµРј СЃР°РјРё СЃСѓС‰РЅРѕСЃС‚Рё
         $db = DB::factory();
         $neededMappersInfo = $db->getAll($s->toString(), PDO::FETCH_ASSOC);
 
@@ -91,8 +91,8 @@ class newsSearchByTagController extends simpleController
         //$this->smarty->assign('news', $items);
         //return $this->smarty->fetch('news/tagged.tpl');
 
-        // ВАРИАНТ2 Поиск. Есть набор идентификаторов элементов у которых есть данные таги
-        // пользуясь уникальностью, просто выбираем, через нужные мапперы
+        // Р’РђР РРђРќРў2 РџРѕРёСЃРє. Р•СЃС‚СЊ РЅР°Р±РѕСЂ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРІ СЌР»РµРјРµРЅС‚РѕРІ Сѓ РєРѕС‚РѕСЂС‹С… РµСЃС‚СЊ РґР°РЅРЅС‹Рµ С‚Р°РіРё
+        // РїРѕР»СЊР·СѓСЏСЃСЊ СѓРЅРёРєР°Р»СЊРЅРѕСЃС‚СЊСЋ, РїСЂРѕСЃС‚Рѕ РІС‹Р±РёСЂР°РµРј, С‡РµСЂРµР· РЅСѓР¶РЅС‹Рµ РјР°РїРїРµСЂС‹
 
 
         $newsMapper = $this->toolkit->getMapper('news', 'news', 'news');

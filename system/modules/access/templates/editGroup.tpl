@@ -1,8 +1,8 @@
 {if $groups === false}
 {assign var="groupName" value=$group->getName()}
-{include file='jipTitle.tpl' title="Изменение прав на объект для группы <code>$groupName</code>"}
+{include file='jipTitle.tpl' title="РР·РјРµРЅРµРЅРёРµ РїСЂР°РІ РЅР° РѕР±СЉРµРєС‚ РґР»СЏ РіСЂСѓРїРїС‹ <code>$groupName</code>"}
 {else}
-{include file='jipTitle.tpl' title='Изменение прав на объект'}
+{include file='jipTitle.tpl' title='РР·РјРµРЅРµРЅРёРµ РїСЂР°РІ РЅР° РѕР±СЉРµРєС‚'}
 {/if}
 
 <form action="{url}" method="post" onsubmit="return jipWindow.sendForm(this);">
@@ -10,7 +10,7 @@
             <tr>
                 <td colspan="3">
             {if $groups !== false}
-                Выберите группу:
+                Р’С‹Р±РµСЂРёС‚Рµ РіСЂСѓРїРїСѓ:
                 <select name="user_id">
                     <option value="-1" selected="selected"></option>
                     {foreach from=$groups item=group}

@@ -15,17 +15,17 @@
 */
 
 /**
- * smarty_function_add: функция для смарти, загрузчик элементов сайта (например JS, CSS)
+ * smarty_function_add: С„СѓРЅРєС†РёСЏ РґР»СЏ СЃРјР°СЂС‚Рё, Р·Р°РіСЂСѓР·С‡РёРє СЌР»РµРјРµРЅС‚РѕРІ СЃР°Р№С‚Р° (РЅР°РїСЂРёРјРµСЂ JS, CSS)
  *
- * Примеры использования:<br />
+ * РџСЂРёРјРµСЂС‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ:<br />
  * <code>
  * {add file="styles.css"}
  * {add file="css:style_generator.php?print=1" tpl="css_print.tpl"}
  * </code>
  *
- * @param array $params входные аргументы функции
- * @param object $smarty объект смарти
- * @return null|void null если файл дубликат
+ * @param array $params РІС…РѕРґРЅС‹Рµ Р°СЂРіСѓРјРµРЅС‚С‹ С„СѓРЅРєС†РёРё
+ * @param object $smarty РѕР±СЉРµРєС‚ СЃРјР°СЂС‚Рё
+ * @return null|void null РµСЃР»Рё С„Р°Р№Р» РґСѓР±Р»РёРєР°С‚
  * @package system
  * @subpackage template
  * @version 0.2.3
@@ -36,29 +36,29 @@ function smarty_function_add($params, $smarty)
 
     $vars = $smarty->get_template_vars('media');
 
-    // инициализация массива media, выполняется один раз при инстанциации Smarty
+    // РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РјР°СЃСЃРёРІР° media, РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РѕРґРёРЅ СЂР°Р· РїСЂРё РёРЅСЃС‚Р°РЅС†РёР°С†РёРё Smarty
     if (isset($params['init']) && $vars === null) {
         $smarty->assign_by_ref('media', $medias[1]);
         return;
     }
 
     if (empty($params['file'])) {
-        throw new mzzInvalidParameterException('Пустой атрибут', 'file');
+        throw new mzzInvalidParameterException('РџСѓСЃС‚РѕР№ Р°С‚СЂРёР±СѓС‚', 'file');
     }
 
-    // определяем тип ресурса
+    // РѕРїСЂРµРґРµР»СЏРµРј С‚РёРї СЂРµСЃСѓСЂСЃР°
     if (strpos($params['file'], ':')) {
-        // Ресурс указан
+        // Р РµСЃСѓСЂСЃ СѓРєР°Р·Р°РЅ
         $tmp = explode(':', $params['file'], 2);
         $res = trim($tmp[0]);
         $filename = trim($tmp[1]);
     } else {
-        // Ресурс не указан, пытаемся определить ресурс по расширению
+        // Р РµСЃСѓСЂСЃ РЅРµ СѓРєР°Р·Р°РЅ, РїС‹С‚Р°РµРјСЃСЏ РѕРїСЂРµРґРµР»РёС‚СЊ СЂРµСЃСѓСЂСЃ РїРѕ СЂР°СЃС€РёСЂРµРЅРёСЋ
         $res = substr(strrchr($params['file'], '.'), 1);
         $filename = $params['file'];
     }
 
-    // Если шаблон не указан, то используем шаблон соответствующий расширению
+    // Р•СЃР»Рё С€Р°Р±Р»РѕРЅ РЅРµ СѓРєР°Р·Р°РЅ, С‚Рѕ РёСЃРїРѕР»СЊР·СѓРµРј С€Р°Р±Р»РѕРЅ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ СЂР°СЃС€РёСЂРµРЅРёСЋ
     $tpl = (!empty($params['tpl'])) ? $params['tpl'] : $res . '.tpl';
 
     if (isset($medias[0][$filename . $tpl])) {
@@ -67,14 +67,14 @@ function smarty_function_add($params, $smarty)
     $medias[0][$filename . $tpl] = true;
 
     if (!isset($medias[1][$res])) {
-        throw new mzzInvalidParameterException('Неверный тип ресурса', $res);
+        throw new mzzInvalidParameterException('РќРµРІРµСЂРЅС‹Р№ С‚РёРї СЂРµСЃСѓСЂСЃР°', $res);
     }
 
     if (!preg_match('/^[a-z0-9_\.?&=\/\-]+$/i', $filename)) {
-        throw new mzzInvalidParameterException('Неверное имя файла', $filename);
+        throw new mzzInvalidParameterException('РќРµРІРµСЂРЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°', $filename);
     }
 
-    // ищем - подключали ли мы уже данный файл
+    // РёС‰РµРј - РїРѕРґРєР»СЋС‡Р°Р»Рё Р»Рё РјС‹ СѓР¶Рµ РґР°РЅРЅС‹Р№ С„Р°Р№Р»
     if (is_array($vars[$res])) {
         foreach ($vars[$res] as $val) {
             if ($val['file'] == $filename && $val['tpl'] == $tpl) {

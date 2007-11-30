@@ -15,7 +15,7 @@
 fileLoader::load('user/group');
 
 /**
- * groupMapper: маппер для групп пользователей
+ * groupMapper: РјР°РїРїРµСЂ РґР»СЏ РіСЂСѓРїРї РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
  *
  * @package modules
  * @subpackage user
@@ -24,23 +24,23 @@ fileLoader::load('user/group');
 class groupMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'user';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'group';
 
     /**
-     * Выполняет поиск объекта по идентификатору
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ
      *
-     * @param integer $id идентификатор
+     * @param integer $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
      * @return object
      */
     public function searchById($id)
@@ -49,9 +49,9 @@ class groupMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объекта по имени
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РёРјРµРЅРё
      *
-     * @param string $name имя
+     * @param string $name РёРјСЏ
      * @return object|false
      */
     public function searchByName($name)

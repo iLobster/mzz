@@ -15,7 +15,7 @@
 fileLoader::load('message/messageCategory');
 
 /**
- * messageCategoryMapper: маппер
+ * messageCategoryMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage message
@@ -25,14 +25,14 @@ fileLoader::load('message/messageCategory');
 class messageCategoryMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'message';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */

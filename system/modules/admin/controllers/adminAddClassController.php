@@ -16,7 +16,7 @@ fileLoader::load('codegenerator/classGenerator');
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * adminAddClassController: êîíòğîëëåğ äëÿ ìåòîäà addClass ìîäóëÿ admin
+ * adminAddClassController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° addClass Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -43,13 +43,13 @@ class adminAddClassController extends simpleController
             $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
 
             if ($data === false) {
-                $controller = new messageController('Êëàññà íå ñóùåñòâóåò', messageController::WARNING);
+                $controller = new messageController('ĞšĞ»Ğ°ÑÑĞ° Ğ½Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚', messageController::WARNING);
                 return $controller->run();
             }
 
             /*
             if (isset($modules[$data['module_id']]['classes'][$data['id']]) && $modules[$data['module_id']]['classes'][$data['id']]['exists']) {
-                $controller = new messageController('Íåëüçÿ èçìåíèòü èìÿ êëàññà', messageController::WARNING);
+                $controller = new messageController('ĞĞµĞ»ÑŒĞ·Ñ Ğ¸Ğ·Ğ¼ĞµĞ½Ğ¸Ñ‚ÑŒ Ğ¸Ğ¼Ñ ĞºĞ»Ğ°ÑÑĞ°', messageController::WARNING);
                 return $controller->run();
             }*/
 
@@ -60,9 +60,9 @@ class adminAddClassController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Îáÿçàòåëüíîå äëÿ çàïîëíåíèÿ ïîëå');
-        $validator->add('callback', 'name', 'Íàçâàíèå äîëæíî áûòü óíèêàëüíî', array('checkUniqueClass', $db, $data['name'], $isEdit));
-        $validator->add('regex', 'name', 'Ğàçğåøåíî èñïîëüçîâàòü òîëüêî a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
+        $validator->add('required', 'name', 'ĞĞ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾Ğµ Ğ´Ğ»Ñ Ğ·Ğ°Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ¸Ñ Ğ¿Ğ¾Ğ»Ğµ');
+        $validator->add('callback', 'name', 'ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ Ğ´Ğ¾Ğ»Ğ¶Ğ½Ğ¾ Ğ±Ñ‹Ñ‚ÑŒ ÑƒĞ½Ğ¸ĞºĞ°Ğ»ÑŒĞ½Ğ¾', array('checkUniqueClass', $db, $data['name'], $isEdit));
+        $validator->add('regex', 'name', 'Ğ Ğ°Ğ·Ñ€ĞµÑˆĞµĞ½Ğ¾ Ğ¸ÑĞ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ÑŒ Ñ‚Ğ¾Ğ»ÑŒĞºĞ¾ a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
 
 
         if ($validator->validate()) {

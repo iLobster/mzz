@@ -13,7 +13,7 @@
 */
 
 /**
- * moduleGenerator: класс для генерации модуля
+ * moduleGenerator: РєР»Р°СЃСЃ РґР»СЏ РіРµРЅРµСЂР°С†РёРё РјРѕРґСѓР»СЏ
  *
  * @package modules
  * @subpackage admin
@@ -23,21 +23,21 @@
 class moduleGenerator
 {
     /**
-     * Массив для хранения сообщений
+     * РњР°СЃСЃРёРІ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЃРѕРѕР±С‰РµРЅРёР№
      *
      * @var array
      */
     private $log = array();
 
     /**
-     * Путь до каталога, в который будут сгенерированы файлы
+     * РџСѓС‚СЊ РґРѕ РєР°С‚Р°Р»РѕРіР°, РІ РєРѕС‚РѕСЂС‹Р№ Р±СѓРґСѓС‚ СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅС‹ С„Р°Р№Р»С‹
      *
      * @var string
      */
     private $dest;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param string $dest
      */
@@ -51,7 +51,7 @@ class moduleGenerator
     }
 
     /**
-     * Удаление модуля
+     * РЈРґР°Р»РµРЅРёРµ РјРѕРґСѓР»СЏ
      *
      * @param string $module
      */
@@ -62,7 +62,7 @@ class moduleGenerator
     }
 
     /**
-     * Метод рекурсивного удаления каталога с файлами и подкаталогами в нём
+     * РњРµС‚РѕРґ СЂРµРєСѓСЂСЃРёРІРЅРѕРіРѕ СѓРґР°Р»РµРЅРёСЏ РєР°С‚Р°Р»РѕРіР° СЃ С„Р°Р№Р»Р°РјРё Рё РїРѕРґРєР°С‚Р°Р»РѕРіР°РјРё РІ РЅС‘Рј
      *
      * @param string $path
      */
@@ -86,7 +86,7 @@ class moduleGenerator
     }
 
     /**
-     * Переименование модуля
+     * РџРµСЂРµРёРјРµРЅРѕРІР°РЅРёРµ РјРѕРґСѓР»СЏ
      *
      * @param string $oldName
      * @param string $newName
@@ -103,7 +103,7 @@ class moduleGenerator
     }
 
     /**
-     * Генерация модуля
+     * Р“РµРЅРµСЂР°С†РёСЏ РјРѕРґСѓР»СЏ
      *
      * @param string $module
      * @return array
@@ -121,13 +121,13 @@ class moduleGenerator
         $smarty->right_delimiter = '}}';
 
         if (!is_writeable(CUR)) {
-            throw new mzzRuntimeException('Нет доступа на запись в каталог ' . CUR);
+            throw new mzzRuntimeException('РќРµС‚ РґРѕСЃС‚СѓРїР° РЅР° Р·Р°РїРёСЃСЊ РІ РєР°С‚Р°Р»РѕРі ' . CUR);
         }
 
-        // создаем корневую папку модуля
+        // СЃРѕР·РґР°РµРј РєРѕСЂРЅРµРІСѓСЋ РїР°РїРєСѓ РјРѕРґСѓР»СЏ
         if (!is_dir(CUR . DIRECTORY_SEPARATOR . $module)) {
             mkdir($module, 0700);
-            $this->log[] = "Корневой каталог модуля создан успешно";
+            $this->log[] = "РљРѕСЂРЅРµРІРѕР№ РєР°С‚Р°Р»РѕРі РјРѕРґСѓР»СЏ СЃРѕР·РґР°РЅ СѓСЃРїРµС€РЅРѕ";
         }
         chdir($module);
 
@@ -138,43 +138,43 @@ class moduleGenerator
             throw new Exception('Error: factory file already exists');
         }
 
-        // создаем папку actions
+        // СЃРѕР·РґР°РµРј РїР°РїРєСѓ actions
         if (!is_dir('actions')) {
             mkdir('actions');
-            $this->log[] = "Каталог actions создан успешно";
+            $this->log[] = "РљР°С‚Р°Р»РѕРі actions СЃРѕР·РґР°РЅ СѓСЃРїРµС€РЅРѕ";
         }
 
-        // создаем папку controllers
+        // СЃРѕР·РґР°РµРј РїР°РїРєСѓ controllers
         if (!is_dir('controllers')) {
             mkdir('controllers');
-            $this->log[] = "Каталог controllers создан успешно";
+            $this->log[] = "РљР°С‚Р°Р»РѕРі controllers СЃРѕР·РґР°РЅ СѓСЃРїРµС€РЅРѕ";
         }
-        // создаем папку mappers
+        // СЃРѕР·РґР°РµРј РїР°РїРєСѓ mappers
         if (!is_dir('mappers')) {
             mkdir('mappers');
-            $this->log[] = "Каталог mappers создан успешно";
+            $this->log[] = "РљР°С‚Р°Р»РѕРі mappers СЃРѕР·РґР°РЅ СѓСЃРїРµС€РЅРѕ";
         }
-        // создаем папку maps
+        // СЃРѕР·РґР°РµРј РїР°РїРєСѓ maps
         if (!is_dir('maps')) {
             mkdir('maps');
-            $this->log[] = "Каталог maps создан успешно";
+            $this->log[] = "РљР°С‚Р°Р»РѕРі maps СЃРѕР·РґР°РЅ СѓСЃРїРµС€РЅРѕ";
         }
 
-        // создаём папку с активными шаблонами
+        // СЃРѕР·РґР°С‘Рј РїР°РїРєСѓ СЃ Р°РєС‚РёРІРЅС‹РјРё С€Р°Р±Р»РѕРЅР°РјРё
         if (!is_dir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module)) {
             mkdir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module);
-            $this->log[] = "Каталог для активных шаблонов создан";
+            $this->log[] = "РљР°С‚Р°Р»РѕРі РґР»СЏ Р°РєС‚РёРІРЅС‹С… С€Р°Р±Р»РѕРЅРѕРІ СЃРѕР·РґР°РЅ";
         }
 
-        // создаём папку с шаблонами
+        // СЃРѕР·РґР°С‘Рј РїР°РїРєСѓ СЃ С€Р°Р±Р»РѕРЅР°РјРё
         /*if (!is_dir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $module)) {
             mkdir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $module);
-            $this->log[] = "Каталог для шаблонов создан";
+            $this->log[] = "РљР°С‚Р°Р»РѕРі РґР»СЏ С€Р°Р±Р»РѕРЅРѕРІ СЃРѕР·РґР°РЅ";
         } */
-        // создаем папку controllers
+        // СЃРѕР·РґР°РµРј РїР°РїРєСѓ controllers
         if (!is_dir('templates')) {
             mkdir('templates');
-            $this->log[] = "Каталог templates создан успешно";
+            $this->log[] = "РљР°С‚Р°Р»РѕРі templates СЃРѕР·РґР°РЅ СѓСЃРїРµС€РЅРѕ";
         }
 
         $factoryData = array(
@@ -182,11 +182,11 @@ class moduleGenerator
         'module' => $module,
         );
 
-        // записываем данные в файл фабрики
+        // Р·Р°РїРёСЃС‹РІР°РµРј РґР°РЅРЅС‹Рµ РІ С„Р°Р№Р» С„Р°Р±СЂРёРєРё
         $smarty->assign('factory_data', $factoryData);
         $factory = $smarty->fetch('factory.tpl');
         file_put_contents($factoryFilename, $factory);
-        $this->log[] = 'Файл ' . $module . DIRECTORY_SEPARATOR . $factoryFilename . ' создан успешно';
+        $this->log[] = 'Р¤Р°Р№Р» ' . $module . DIRECTORY_SEPARATOR . $factoryFilename . ' СЃРѕР·РґР°РЅ СѓСЃРїРµС€РЅРѕ';
 
         chdir($current_dir);
 

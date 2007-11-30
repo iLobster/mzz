@@ -1,1 +1,1 @@
-<div><a href="{url route=default2 section=user action=exit}/?url={url}"><img src="{$SITE_PATH}/templates/images/admin/exit.gif" class="loginExit" width="13" height="15" alt="Выход" title="Выход" /></a>{$user->getLogin()} (ID: {$user->getId()})</div>
+<div><a href="{url route=default2 section=user action=exit}/?url={url}"><img src="{$SITE_PATH}/templates/images/admin/exit.gif" class="loginExit" width="13" height="15" alt="Р’С‹С…РѕРґ" title="Р’С‹С…РѕРґ" /></a>{$user->getLogin()} (ID: {$user->getId()})</div>

@@ -1,4 +1,4 @@
-<p>Вся конфигурация проекта содержится в следующих файлах в каталоге проекта:</p>
+<p>Р’СЃСЏ РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ РїСЂРѕРµРєС‚Р° СЃРѕРґРµСЂР¶РёС‚СЃСЏ РІ СЃР»РµРґСѓСЋС‰РёС… С„Р°Р№Р»Р°С… РІ РєР°С‚Р°Р»РѕРіРµ РїСЂРѕРµРєС‚Р°:</p>
 <<code>>
 configs/
   .htaccess
@@ -8,19 +8,19 @@ application.php
 config.php
 <</code>>
 
-<p>Файл <code>configs/.htaccess</code> содержит лишь одну строку, которая запрещает внешний просмотр и выполнение файлов в каталоге <code>configs/</code></p>
+<p>Р¤Р°Р№Р» <code>configs/.htaccess</code> СЃРѕРґРµСЂР¶РёС‚ Р»РёС€СЊ РѕРґРЅСѓ СЃС‚СЂРѕРєСѓ, РєРѕС‚РѕСЂР°СЏ Р·Р°РїСЂРµС‰Р°РµС‚ РІРЅРµС€РЅРёР№ РїСЂРѕСЃРјРѕС‚СЂ Рё РІС‹РїРѕР»РЅРµРЅРёРµ С„Р°Р№Р»РѕРІ РІ РєР°С‚Р°Р»РѕРіРµ <code>configs/</code></p>
 <<code apache>>
 Deny from all
 <</code>>
 
-<p>Файл <code>configs/routes.php</code> содержит <a href="doc.php?cat=2.4#2.4.2">настройку Routes для URL</a></p>
+<p>Р¤Р°Р№Р» <code>configs/routes.php</code> СЃРѕРґРµСЂР¶РёС‚ <a href="doc.php?cat=2.4#2.4.2">РЅР°СЃС‚СЂРѕР№РєСѓ Routes РґР»СЏ URL</a></p>
 <!-- php code 1 -->
 
-<p>Файл <code>application.php</code> (todo)</p>
+<p>Р¤Р°Р№Р» <code>application.php</code> (todo)</p>
 <!-- php code 2 -->
 
-<p>Файл <code>.htaccess</code> содержит <a href="doc.php?cat=2.4#2.4.3">настройки для http-сервера Apache</a></p>
+<p>Р¤Р°Р№Р» <code>.htaccess</code> СЃРѕРґРµСЂР¶РёС‚ <a href="doc.php?cat=2.4#2.4.3">РЅР°СЃС‚СЂРѕР№РєРё РґР»СЏ http-СЃРµСЂРІРµСЂР° Apache</a></p>
 <!-- apache code 3 -->
 
-<p>Файл <code>config.php</code> содержит <a href="doc.php?cat=2.4#2.4.1">системную конфигурацию</a></p>
+<p>Р¤Р°Р№Р» <code>config.php</code> СЃРѕРґРµСЂР¶РёС‚ <a href="doc.php?cat=2.4#2.4.1">СЃРёСЃС‚РµРјРЅСѓСЋ РєРѕРЅС„РёРіСѓСЂР°С†РёСЋ</a></p>
 <!-- php code 4 -->

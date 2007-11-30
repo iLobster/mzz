@@ -15,7 +15,7 @@
 */
 
 /**
- * iToolkit: интерфейс Toolkit
+ * iToolkit: РёРЅС‚РµСЂС„РµР№СЃ Toolkit
  *
  * @package system
  * @subpackage toolkit
@@ -25,7 +25,7 @@ interface iToolkit
 {
 
     /**
-     * Возвращает toolkit
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ toolkit
      *
      * @param string $toolName
      * @return object|false

@@ -1,9 +1,9 @@
-{include file='jipTitle.tpl' title="Модули, входящие в раздел '`$data.name`'"}
+{include file='jipTitle.tpl' title="РњРѕРґСѓР»Рё, РІС…РѕРґСЏС‰РёРµ РІ СЂР°Р·РґРµР» '`$data.name`'"}
 <form action="{url route="withId" section="admin" id=$data.id action="addModuleToSection"}" method="POST" onsubmit="return jipWindow.sendForm(this);">
     <table width="99%" cellpadding="4" cellspacing="0" class="systemTable">
         <tr>
             <td>&nbsp;</td>
-            <td><strong>Модуль</strong></td>
+            <td><strong>РњРѕРґСѓР»СЊ</strong></td>
         </tr>
         {foreach from=$list item=current key=key}
             <tr>
@@ -15,7 +15,7 @@
             </tr>
         {/foreach}
         <tr>
-            <td colspan="3"><input type="submit" value="Сохранить"> <input type="reset" value="Отмена" onclick="javascript: jipWindow.close();"></td>
+            <td colspan="3"><input type="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"> <input type="reset" value="РћС‚РјРµРЅР°" onclick="javascript: jipWindow.close();"></td>
         </tr>
     </table>
 </form>

@@ -13,7 +13,7 @@
 */
 
 /**
- * accessDeleteUserDefaultController: контроллер для метода deleteUserDefault модуля access
+ * accessDeleteUserDefaultController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deleteUserDefault РјРѕРґСѓР»СЏ access
  *
  * @package modules
  * @subpackage access

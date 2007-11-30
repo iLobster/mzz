@@ -13,7 +13,7 @@
  */
 
 /**
- * faqCategory: класс для работы c данными
+ * faqCategory: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ c РґР°РЅРЅС‹РјРё
  *
  * @package modules
  * @subpackage faq

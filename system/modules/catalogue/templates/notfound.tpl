@@ -1,7 +1,7 @@
-{title append="Ошибка. Запрашиваемый элемент или папка не найдены"}
+{title append="РћС€РёР±РєР°. Р—Р°РїСЂР°С€РёРІР°РµРјС‹Р№ СЌР»РµРјРµРЅС‚ РёР»Рё РїР°РїРєР° РЅРµ РЅР°Р№РґРµРЅС‹"}
 <table border="0" cellpadding="0" cellspacing="1" width="100%">
     <tr>
-        <td colspan="4">Запрашиваемый элемент или папка не найдены</td>
+        <td colspan="4">Р—Р°РїСЂР°С€РёРІР°РµРјС‹Р№ СЌР»РµРјРµРЅС‚ РёР»Рё РїР°РїРєР° РЅРµ РЅР°Р№РґРµРЅС‹</td>
     </tr>
     <tr>
         <td colspan="4"><a href="{url route="default2" action=""}"><img src="{$SITE_PATH}/templates/images/back.gif" width="16" height="16" /></a></td>

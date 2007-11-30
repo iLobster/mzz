@@ -13,7 +13,7 @@
  */
 
 /**
- * faqAdminController: контроллер для метода admin модуля faq
+ * faqAdminController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° admin РјРѕРґСѓР»СЏ faq
  *
  * @package modules
  * @subpackage faq

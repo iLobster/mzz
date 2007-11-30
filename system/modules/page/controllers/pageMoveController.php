@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * pageMoveController: êîíòðîëëåð äëÿ ìåòîäà move ìîäóëÿ page
+ * pageMoveController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° move Ð¼Ð¾Ð´ÑƒÐ»Ñ page
  *
  * @package modules
  * @subpackage page
@@ -45,8 +45,8 @@ class pageMoveController extends simpleController
         $folders = $pageFolderMapper->searchAll();
 
         $validator = new formValidator();
-        $validator->add('required', 'dest', 'Îáÿçàòåëüíîå äëÿ çàïîëíåíèÿ ïîëå');
-        $validator->add('callback', 'dest', 'Êàòàëîã íàçíà÷åíèÿ íå ñóùåñòâóåò', array('checkDestPageFolderExists', $pageFolderMapper));
+        $validator->add('required', 'dest', 'ÐžÐ±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð´Ð»Ñ Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»Ðµ');
+        $validator->add('callback', 'dest', 'ÐšÐ°Ñ‚Ð°Ð»Ð¾Ð³ Ð½Ð°Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚', array('checkDestPageFolderExists', $pageFolderMapper));
         if ($validator->validate()) {
             $destFolder = $pageFolderMapper->searchById($dest);
 

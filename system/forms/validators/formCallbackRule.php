@@ -13,7 +13,7 @@
  */
 
 /**
- * formCallbackRule: ïğàâèëî ïğîâåğêè ïî callback-ôóíêöèè
+ * formCallbackRule: Ğ¿Ñ€Ğ°Ğ²Ğ¸Ğ»Ğ¾ Ğ¿Ñ€Ğ¾Ğ²ĞµÑ€ĞºĞ¸ Ğ¿Ğ¾ callback-Ñ„ÑƒĞ½ĞºÑ†Ğ¸Ğ¸
  *
  * @package system
  * @subpackage forms
@@ -25,7 +25,7 @@ class formCallbackRule extends formAbstractRule
     {
         $funcName = array_shift($this->params);
         if (!is_callable($funcName)) {
-            throw new Exception('Óêàçàííàÿ ôóíêöèÿ ' . $funcName . ' íå ÿâëÿåòñÿ âàëèäíûì callback\'îì');
+            throw new Exception('Ğ£ĞºĞ°Ğ·Ğ°Ğ½Ğ½Ğ°Ñ Ñ„ÑƒĞ½ĞºÑ†Ğ¸Ñ ' . $funcName . ' Ğ½Ğµ ÑĞ²Ğ»ÑĞµÑ‚ÑÑ Ğ²Ğ°Ğ»Ğ¸Ğ´Ğ½Ñ‹Ğ¼ callback\'Ğ¾Ğ¼');
         }
         return call_user_func_array($funcName, array_merge(array($this->value), $this->params));
     }

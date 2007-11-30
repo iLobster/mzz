@@ -1,5 +1,5 @@
-{if $isEdit}<div class="jipTitle">Редактирование</div>{else}
-{if $type === null || !isset($smarty.get.type) || isset($smarty.post.type)}<div class="jipTitle">Добавление нового элемента</div>{/if}
+{if $isEdit}<div class="jipTitle">Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ</div>{else}
+{if $type === null || !isset($smarty.get.type) || isset($smarty.post.type)}<div class="jipTitle">Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р°</div>{/if}
 <div id="ajaxGetForm">
 {literal}<script language="javascript">
 function loadForm(id)
@@ -24,11 +24,11 @@ function loadForm(id)
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="99%">
         {if !$isEdit}<tr>
-            <td>Тип:</td>
+            <td>РўРёРї:</td>
             <td>{form->select name="type" options=$select id="type" onchange="javascript:loadForm(this.value);" onkeypress="this.onchange();"}{$errors->get('type')}</td>
         </tr>{/if}
         {if $type != 0}<tr>
-            <td>{form->caption name="title" value="Заголовок:"}</td>
+            <td>{form->caption name="title" value="Р—Р°РіРѕР»РѕРІРѕРє:"}</td>
             <td>{form->text name="title" size="60" value=$item->getTitle()}{$errors->get('title')}</td>
         </tr>{/if}
         {foreach from=$properties item="element"}
@@ -42,7 +42,7 @@ function loadForm(id)
                 {else}{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}{/if}</td>
             </tr>{/foreach}
         <tr>
-            <td style="text-align:left;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td style="text-align:left;">{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

@@ -13,7 +13,7 @@
  */
 
 /**
- * formTextField: однострочное поле редактирования
+ * formTextField: РѕРґРЅРѕСЃС‚СЂРѕС‡РЅРѕРµ РїРѕР»Рµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ
  *
  * @package system
  * @subpackage forms

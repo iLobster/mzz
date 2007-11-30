@@ -17,7 +17,7 @@
 fileLoader::load('session');
 
 /**
- * sessionFilter: фильтр для старта сессии
+ * sessionFilter: С„РёР»СЊС‚СЂ РґР»СЏ СЃС‚Р°СЂС‚Р° СЃРµСЃСЃРёРё
  *
  * @package system
  * @subpackage filters
@@ -26,10 +26,10 @@ fileLoader::load('session');
 class sessionFilter implements iFilter
 {
     /**
-     * запуск фильтра на исполнение
+     * Р·Р°РїСѓСЃРє С„РёР»СЊС‚СЂР° РЅР° РёСЃРїРѕР»РЅРµРЅРёРµ
      *
-     * @param filterChain $filter_chain объект, содержащий цепочку фильтров
-     * @param httpResponse $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param filterChain $filter_chain РѕР±СЉРµРєС‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ С†РµРїРѕС‡РєСѓ С„РёР»СЊС‚СЂРѕРІ
+     * @param httpResponse $response РѕР±СЉРµРєС‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ РёРЅС„РѕСЂРјР°С†РёСЋ, РІС‹РІРѕРґРёРјСѓСЋ РєР»РёРµРЅС‚Сѓ РІ Р±СЂР°СѓР·РµСЂ
      * @param iRequest $request
      */
     public function run(filterChain $filter_chain, $response, iRequest $request)

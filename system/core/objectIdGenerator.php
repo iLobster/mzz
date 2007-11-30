@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.web/repository/mzz/system/core/objectIdGenerator.php $
+ * $URL: http://svn.sandbox/repository/mzz/system/core/objectIdGenerator.php $
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -11,11 +11,11 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage core
- * @version $Id: objectIdGenerator.php 726 2007-03-19 01:21:20Z zerkms $
+ * @version $Id: objectIdGenerator.php 1121 2007-11-30 04:31:39Z zerkms $
 */
 
 /**
- * objectIdGenerator: êëàññ äëÿ ãåíåðàöèè óíèêàëüíîãî id äëÿ DAO îáúåêòîâ ñèñòåìû
+ * objectIdGenerator: ÐºÐ»Ð°ÑÑ Ð´Ð»Ñ Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸Ð¸ ÑƒÐ½Ð¸ÐºÐ°Ð»ÑŒÐ½Ð¾Ð³Ð¾ id Ð´Ð»Ñ DAO Ð¾Ð±ÑŠÐµÐºÑ‚Ð¾Ð² ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹
  *
  * @package system
  * @subpackage core
@@ -25,21 +25,21 @@
 class objectIdGenerator
 {
     /**
-     * Îáúåêò äëÿ ðàáîòû ñ ÁÄ
+     * ÐžÐ±ÑŠÐµÐºÑ‚ Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð‘Ð”
      *
      * @var object
      */
     private $db;
 
     /**
-     * ×èñëî çàïèñåé â òàáëèöå, ïîñëå êîòîðîãî ïðîèçîéä¸ò å¸ î÷èñòêà
+     * Ð§Ð¸ÑÐ»Ð¾ Ð·Ð°Ð¿Ð¸ÑÐµÐ¹ Ð² Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ðµ, Ð¿Ð¾ÑÐ»Ðµ ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾Ð¸Ð·Ð¾Ð¹Ð´Ñ‘Ñ‚ ÐµÑ‘ Ð¾Ñ‡Ð¸ÑÑ‚ÐºÐ°
      *
      * @var integer
      */
     private $clearEvery = 1000000;
 
     /**
-     * Êîíñòðóêòîð
+     * ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€
      *
      */
     public function __construct()
@@ -48,7 +48,7 @@ class objectIdGenerator
     }
 
     /**
-     * Ìåòîä, âîçâðàùàþùèé ñëåäóþùèé íîìåð
+     * ÐœÐµÑ‚Ð¾Ð´, Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÑŽÑ‰Ð¸Ð¹ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¹ Ð½Ð¾Ð¼ÐµÑ€
      *
      * @param string $name
      * @param boolean $generateNew
@@ -84,10 +84,10 @@ class objectIdGenerator
     }
 
     /**
-     * Ìåòîä, âûçûâàåìûé 1 ðàç â $clearEvery çàïèñåé
+     * ÐœÐµÑ‚Ð¾Ð´, Ð²Ñ‹Ð·Ñ‹Ð²Ð°ÐµÐ¼Ñ‹Ð¹ 1 Ñ€Ð°Ð· Ð² $clearEvery Ð·Ð°Ð¿Ð¸ÑÐµÐ¹
      *
      * @see objectIdGenerator::generate()
-     * @param integer $id èäåíòèôèêàòîð ïîñëåäíåé äîáàâëåííîé çàïèñè
+     * @param integer $id Ð¸Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½ÐµÐ¹ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð½Ð¾Ð¹ Ð·Ð°Ð¿Ð¸ÑÐ¸
      */
     private function clean($id)
     {
@@ -96,9 +96,9 @@ class objectIdGenerator
     }
 
     /**
-     * Äîáàâëåíèå î÷åðåäíîãî id â òàáëèöó
+     * Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð½Ð¾Ð³Ð¾ id Ð² Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñƒ
      *
-     * @param integer $id êîíêðåòíûé íîìåð, èñïîëüçóåòñÿ åñëè íóæíî äîáàâèòü çàïèñü íå ïî ïîðÿäêó
+     * @param integer $id ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€, Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾ Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð·Ð°Ð¿Ð¸ÑÑŒ Ð½Ðµ Ð¿Ð¾ Ð¿Ð¾Ñ€ÑÐ´ÐºÑƒ
      * @return integer
      */
     private function insert($id = 0)

@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/do.tpl $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/tags/tags.php $
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,11 +9,11 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: do.tpl 1790 2007-06-07 09:48:45Z mz $
+ * @version $Id: tags.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 /**
- * tags: êëàññ äëÿ ðàáîòû c äàííûìè
+ * tags: ÐºÐ»Ð°ÑÑ Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ c Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸
  *
  * @package modules
  * @subpackage tags
@@ -26,9 +26,9 @@ class tags extends simple
 
 
     /**
-     * Êîëè÷åñòâî âõîæäåíèé òåãà
+     * ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð²Ñ…Ð¾Ð¶Ð´ÐµÐ½Ð¸Ð¹ Ñ‚ÐµÐ³Ð°
      *
-     * @param array $row ìàññèâ ñ äàííûìè
+     * @param array $row Ð¼Ð°ÑÑÐ¸Ð² Ñ Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸
      * @return object
      */
     public function getCount()
@@ -37,9 +37,9 @@ class tags extends simple
         return $count;
     }
     /**
-     * Âåñ òåãà
+     * Ð’ÐµÑ Ñ‚ÐµÐ³Ð°
      *
-     * @param array $row ìàññèâ ñ äàííûìè
+     * @param array $row Ð¼Ð°ÑÑÐ¸Ð² Ñ Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸
      * @return object
      */
     public function getWeight()

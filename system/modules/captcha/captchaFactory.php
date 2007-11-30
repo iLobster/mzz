@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/factory.tpl $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/captcha/captchaFactory.php $
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,11 +9,11 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: factory.tpl 1790 2007-06-07 09:48:45Z mz $
+ * @version $Id: captchaFactory.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 /**
- * captchaFactory: ôàáðèêà äëÿ ïîëó÷åíèÿ êîíòðîëëåðîâ captcha
+ * captchaFactory: Ñ„Ð°Ð±Ñ€Ð¸ÐºÐ° Ð´Ð»Ñ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ñ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð¾Ð² captcha
  *
  * @package modules
  * @subpackage captcha
@@ -23,7 +23,7 @@
 class captchaFactory extends simpleFactory
 {
     /**
-     * Èìÿ ìîäóëÿ
+     * Ð˜Ð¼Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      *
      * @var string
      */

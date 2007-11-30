@@ -1,21 +1,21 @@
 <?php
 
-// примитивный оператор
+// РїСЂРёРјРёС‚РёРІРЅС‹Р№ РѕРїРµСЂР°С‚РѕСЂ
 $sqlOperator = new sqlOperator('+', array(1, 2));
 echo $sqlOperator->toString(); // 1 + 2
 
-// использование с несколькими операндами
+// РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЃ РЅРµСЃРєРѕР»СЊРєРёРјРё РѕРїРµСЂР°РЅРґР°РјРё
 $sqlOperator = new sqlOperator('-', array('table.field', 'field2', 1 , 2));
 echo $sqlOperator->toString(); // `table`.`field` - `field2` - 1 - 2
 
-// организация вложенности
+// РѕСЂРіР°РЅРёР·Р°С†РёСЏ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё
 $operatorNested = new sqlOperator('+', array(1, 2));
 $operatorNested2 = new sqlOperator('/', array($operatorNested, 'field'));
 
 $sqlOperator = new sqlOperator('*', array($operatorNested2, $operatorNested));
 echo $sqlOperator->toString(); // ((1 + 2) / `field`) * (1 + 2)
 
-// использование совместно с sqlFunction
+// РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЃРѕРІРјРµСЃС‚РЅРѕ СЃ sqlFunction
 $sqlOperator = new sqlOperator('-', array(new sqlFunction('NOW'), new sqlOperator('INTERVAL', array('1 DAY'))));
 echo $sqlOperator->toString(); // NOW() - INTERVAL 1 DAY
 

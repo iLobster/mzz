@@ -13,7 +13,7 @@
  */
 
 /**
- * adminListActionsController: контроллер для метода listActions модуля admin
+ * adminListActionsController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° listActions РјРѕРґСѓР»СЏ admin
  *
  * @package modules
  * @subpackage admin
@@ -30,7 +30,7 @@ class adminListActionsController extends simpleController
 
         $data = $this->db->getRow('SELECT `c`.`name` AS `c_name`, `c`.`id` AS `c_id`, `m`.`name` AS `m_name`, `m`.`id` AS `m_id` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);
         if ($data === false) {
-            $controller = new messageController('Класса не существует', messageController::WARNING);
+            $controller = new messageController('РљР»Р°СЃСЃР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚', messageController::WARNING);
             return $controller->run();
         }
 
@@ -39,7 +39,7 @@ class adminListActionsController extends simpleController
 
         $deleted = $inserted = array();
 
-        // выбираем все экшны для данного ДО из INI-файла
+        // РІС‹Р±РёСЂР°РµРј РІСЃРµ СЌРєС€РЅС‹ РґР»СЏ РґР°РЅРЅРѕРіРѕ Р”Рћ РёР· INI-С„Р°Р№Р»Р°
         $action = new action($data['m_name']);
         $tmp = $action->getActions(true);
 
@@ -50,16 +50,16 @@ class adminListActionsController extends simpleController
             $to_delete = array_diff($actions_db, $actions_ini);
             $to_insert = array_diff($actions_ini, $actions_db);
 
-            // удаляем из БД экшны, которых нет в ini
+            // СѓРґР°Р»СЏРµРј РёР· Р‘Р” СЌРєС€РЅС‹, РєРѕС‚РѕСЂС‹С… РЅРµС‚ РІ ini
             if (sizeof($to_delete)) {
                 $qry = "DELETE `ca` FROM `sys_classes_actions` `ca`, `sys_actions` `a` WHERE `a`.`id` = `ca`.`action_id` AND `ca`.`class_id` = " . $data['c_id'] . " AND `a`.`name` IN ('" . implode("', '", $to_delete) . "')";
                 $this->db->query($qry);
             }
 
             $exists_in_db = array();
-            // добавляем в БД экшны, которых в БД нет
+            // РґРѕР±Р°РІР»СЏРµРј РІ Р‘Р” СЌРєС€РЅС‹, РєРѕС‚РѕСЂС‹С… РІ Р‘Р” РЅРµС‚
             if (sizeof($to_insert)) {
-                // проверяем - существуют ли вообще добавляемые экшны
+                // РїСЂРѕРІРµСЂСЏРµРј - СЃСѓС‰РµСЃС‚РІСѓСЋС‚ Р»Рё РІРѕРѕР±С‰Рµ РґРѕР±Р°РІР»СЏРµРјС‹Рµ СЌРєС€РЅС‹
                 $names_needle = '';
                 foreach ($to_insert as $val) {
                     $names_needle .= "" . $this->db->quote($val) . ", ";
@@ -73,7 +73,7 @@ class adminListActionsController extends simpleController
                     $exists_in_db[$row['id']] = $row['name'];
                 }
 
-                // добавляем те, которые еще не существуют в sys_actions
+                // РґРѕР±Р°РІР»СЏРµРј С‚Рµ, РєРѕС‚РѕСЂС‹Рµ РµС‰Рµ РЅРµ СЃСѓС‰РµСЃС‚РІСѓСЋС‚ РІ sys_actions
                 $actions_to_add = array_diff($to_insert, $exists_in_db);
 
                 foreach ($actions_to_add as $val) {
@@ -82,7 +82,7 @@ class adminListActionsController extends simpleController
                     $exists_in_db[$this->db->lastInsertId()] = $val;
                 }
 
-                // добавляем экшны к классу
+                // РґРѕР±Р°РІР»СЏРµРј СЌРєС€РЅС‹ Рє РєР»Р°СЃСЃСѓ
                 $insert_string = '';
                 foreach (array_keys($exists_in_db) as $val) {
                     $insert_string .= '(' . $data['c_id'] . ', ' . $val . '), ';
@@ -103,7 +103,7 @@ class adminListActionsController extends simpleController
             $this->smarty->assign('delete', $to_delete);
             return $this->smarty->fetch('admin/listActions.tpl');
         } else {
-            return 'Для данного ДО не найден файл с экшнами';
+            return 'Р”Р»СЏ РґР°РЅРЅРѕРіРѕ Р”Рћ РЅРµ РЅР°Р№РґРµРЅ С„Р°Р№Р» СЃ СЌРєС€РЅР°РјРё';
         }
     }
 

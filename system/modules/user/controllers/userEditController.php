@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * userEditController: êîíòðîëëåð äëÿ ìåòîäà edit ìîäóëÿ user
+ * userEditController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° edit Ð¼Ð¾Ð´ÑƒÐ»Ñ user
  *
  * @package modules
  * @subpackage user
@@ -38,12 +38,12 @@ class userEditController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'user[login]', 'Îáÿçàòåëüíîå äëÿ çàïîëíåíèÿ ïîëå');
+        $validator->add('required', 'user[login]', 'ÐžÐ±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð´Ð»Ñ Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»Ðµ');
         if (!$isEdit) {
-            $validator->add('required', 'user[password]', 'Îáÿçàòåëüíîå äëÿ çàïîëíåíèÿ ïîëå');
+            $validator->add('required', 'user[password]', 'ÐžÐ±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð´Ð»Ñ Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»Ðµ');
         }
 
-        $validator->add('callback', 'user[login]', 'Ïîëüçîâàòåëü ñ òàêèì ëîãèíîì æå ñóùåñòâóåò', array('checkUniqueUserLogin', $editedUser, $userMapper));
+        $validator->add('callback', 'user[login]', 'ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ Ñ Ñ‚Ð°ÐºÐ¸Ð¼ Ð»Ð¾Ð³Ð¸Ð½Ð¾Ð¼ Ð¶Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚', array('checkUniqueUserLogin', $editedUser, $userMapper));
 
         if ($validator->validate()) {
             if (!$isEdit) {
@@ -58,7 +58,7 @@ class userEditController extends simpleController
             }
 
             if (!$isEdit) {
-                // äîáàâèì ñîçäàííîãî ïîëüçîâàòåëÿ â ãðóïïû ñ ôëàãîì 'is_default'
+                // Ð´Ð¾Ð±Ð°Ð²Ð¸Ð¼ ÑÐ¾Ð·Ð´Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ Ð² Ð³Ñ€ÑƒÐ¿Ð¿Ñ‹ Ñ Ñ„Ð»Ð°Ð³Ð¾Ð¼ 'is_default'
                 $groupMapper = $this->toolkit->getMapper('user', 'group');
                 $groups = $groupMapper->searchAllByField('is_default', 1);
 

@@ -13,7 +13,7 @@
  */
 
 /**
- * testFileResolver: резолвит файлы из папки с тестами
+ * testFileResolver: СЂРµР·РѕР»РІРёС‚ С„Р°Р№Р»С‹ РёР· РїР°РїРєРё СЃ С‚РµСЃС‚Р°РјРё
  *
  * @package system
  * @subpackage resolver
@@ -22,7 +22,7 @@
 class testFileResolver extends fileResolver
 {
     /**
-     * конструктор
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      */
     public function __construct()

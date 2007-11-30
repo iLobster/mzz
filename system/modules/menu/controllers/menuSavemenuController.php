@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * menuSavemenuController: êîíòðîëëåð äëÿ ìåòîäà create ìîäóëÿ menu
+ * menuSavemenuController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° create Ð¼Ð¾Ð´ÑƒÐ»Ñ menu
  *
  * @package modules
  * @subpackage menu
@@ -35,9 +35,9 @@ class menuSavemenuController extends simpleController
         $menu = $isEdit ? $menuMapper->searchByName($name) : $menuMapper->create();
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Íåîáõîäèìî èìÿ');
-        $validator->add('required', 'title', 'Íåîáõîäèì çàãîëîâîê');
-        $validator->add('callback', 'name', 'Èìÿ ìåíþ äîëæíî áûòü óíèêàëüíûì', array(array($this, 'checkName'), $menu));
+        $validator->add('required', 'name', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð¸Ð¼Ñ');
+        $validator->add('required', 'title', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼ Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº');
+        $validator->add('callback', 'name', 'Ð˜Ð¼Ñ Ð¼ÐµÐ½ÑŽ Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ ÑƒÐ½Ð¸ÐºÐ°Ð»ÑŒÐ½Ñ‹Ð¼', array(array($this, 'checkName'), $menu));
 
         if (!$validator->validate()) {
             $url = new url($isEdit ? 'withAnyParam' : 'default2');

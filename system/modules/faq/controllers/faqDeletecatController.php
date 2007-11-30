@@ -13,7 +13,7 @@
  */
 
 /**
- * faqDeletecatController: контроллер для метода deletecat модуля faq
+ * faqDeletecatController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deletecat РјРѕРґСѓР»СЏ faq
  *
  * @package modules
  * @subpackage faq

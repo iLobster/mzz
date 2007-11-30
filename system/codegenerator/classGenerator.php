@@ -13,7 +13,7 @@
 */
 
 /**
- * classGenerator: êëàññ äëÿ ãåíåðàöèè ÄÎ
+ * classGenerator: ÐºÐ»Ð°ÑÑ Ð´Ð»Ñ Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸Ð¸ Ð”Ðž
  *
  * @package modules
  * @subpackage admin
@@ -23,28 +23,28 @@
 class classGenerator
 {
     /**
-     * Ìàññèâ äëÿ õðàíåíèÿ ñîîáùåíèé
+     * ÐœÐ°ÑÑÐ¸Ð² Ð´Ð»Ñ Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹
      *
      * @var array
      */
     private $log = array();
 
     /**
-     * Èìÿ ìîäóëÿ
+     * Ð˜Ð¼Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      *
      * @var string
      */
     private $module;
 
     /**
-     * Ïóòü äî êàòàëîãà, â êîòîðûé áóäóò ñãåíåðèðîâàíû ôàéëû
+     * ÐŸÑƒÑ‚ÑŒ Ð´Ð¾ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð°, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð±ÑƒÐ´ÑƒÑ‚ ÑÐ³ÐµÐ½ÐµÑ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ñ‹ Ñ„Ð°Ð¹Ð»Ñ‹
      *
      * @var string
      */
     private $dest;
 
     /**
-     * Êîíñòðóêòîð
+     * ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€
      *
      * @param string $module
      * @param string $dest
@@ -60,10 +60,10 @@ class classGenerator
     }
 
     /**
-     * Ìåòîä èçìåíåíèÿ èìåíè ÄÎ
+     * ÐœÐµÑ‚Ð¾Ð´ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ Ð¸Ð¼ÐµÐ½Ð¸ Ð”Ðž
      *
-     * @param string $oldName ñòàðîå èìÿ
-     * @param string $newName íîâîå èìÿ
+     * @param string $oldName ÑÑ‚Ð°Ñ€Ð¾Ðµ Ð¸Ð¼Ñ
+     * @param string $newName Ð½Ð¾Ð²Ð¾Ðµ Ð¸Ð¼Ñ
      */
     public function rename($oldName, $newName)
     {
@@ -77,7 +77,7 @@ class classGenerator
     }
 
     /**
-     * Óäàëåíèå ÄÎ
+     * Ð£Ð´Ð°Ð»ÐµÐ½Ð¸Ðµ Ð”Ðž
      *
      * @param string $class
      */
@@ -93,7 +93,7 @@ class classGenerator
     }
 
     /**
-     * Ìåòîä äëÿ óäàëåíèÿ ôàéëîâ, ñ ïðîâåðêîé èõ ñóùåñòâîâàíèÿ
+     * ÐœÐµÑ‚Ð¾Ð´ Ð´Ð»Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ Ñ„Ð°Ð¹Ð»Ð¾Ð², Ñ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ¾Ð¹ Ð¸Ñ… ÑÑƒÑ‰ÐµÑÑ‚Ð²Ð¾Ð²Ð°Ð½Ð¸Ñ
      *
      * @param string $filename
      */
@@ -105,7 +105,7 @@ class classGenerator
     }
 
     /**
-     * Ìåòîä ãåíåðàöèè ÄÎ
+     * ÐœÐµÑ‚Ð¾Ð´ Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸Ð¸ Ð”Ðž
      *
      * @param string $class
      * @return array
@@ -145,7 +145,7 @@ class classGenerator
             throw new Exception('Error: actions ini file[' . $iniFileName . '] already exists');
         }
 
-        // ñîçäàåì ÄÎ êëàññ
+        // ÑÐ¾Ð·Ð´Ð°ÐµÐ¼ Ð”Ðž ÐºÐ»Ð°ÑÑ
         $doData = array(
         'doname' => $doName,
         'module' => $this->module,
@@ -158,7 +158,7 @@ class classGenerator
 
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . $doNameFile;
 
-        // ñîçäàåì ìàïïåð
+        // ÑÐ¾Ð·Ð´Ð°ÐµÐ¼ Ð¼Ð°Ð¿Ð¿ÐµÑ€
         $mapperData = array(
         'doname' => $doName,
         'module' => $this->module,
@@ -170,13 +170,13 @@ class classGenerator
         file_put_contents('mappers' . DIRECTORY_SEPARATOR . $mapperNameFile, $mapper);
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'mappers' . DIRECTORY_SEPARATOR . $mapperNameFile;
 
-        // ñîçäàåì ini ôàéë äëÿ ýêøíîâ
+        // ÑÐ¾Ð·Ð´Ð°ÐµÐ¼ ini Ñ„Ð°Ð¹Ð» Ð´Ð»Ñ ÑÐºÑˆÐ½Ð¾Ð²
         $f = fopen('actions' . DIRECTORY_SEPARATOR . $iniFileName, 'w');
         fwrite($f, "; " . $doName . " actions config\r\n");
         fclose($f);
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'actions' . DIRECTORY_SEPARATOR . $iniFileName;
 
-        // ñîçäàåì map ôàéë
+        // ÑÐ¾Ð·Ð´Ð°ÐµÐ¼ map Ñ„Ð°Ð¹Ð»
         $f = fopen('maps' . DIRECTORY_SEPARATOR . $mapFileName, 'w');
         fclose($f);
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'maps' . DIRECTORY_SEPARATOR . $mapFileName . "\n";

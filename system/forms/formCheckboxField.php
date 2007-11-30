@@ -13,7 +13,7 @@
  */
 
 /**
- * formCheckboxField: χεκαξκρ
+ * formCheckboxField: Ρ‡ΠµΠΊΠ±ΠΎΠΊΡ
  *
  * @package system
  * @subpackage forms

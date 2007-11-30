@@ -13,7 +13,7 @@
  */
 
 /**
- * userGroupDeleteController: êîíòðîëëåð äëÿ ìåòîäà groupDelete ìîäóëÿ user
+ * userGroupDeleteController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° groupDelete Ð¼Ð¾Ð´ÑƒÐ»Ñ user
  *
  * @package modules
  * @subpackage user
@@ -25,7 +25,7 @@ class userGroupDeleteController extends simpleController
     {
         $id = $this->request->get('id', 'integer');
 
-        // èñêëþ÷àåì ïîëüçîâàòåëåé èç ýòîé ãðóïïû
+        // Ð¸ÑÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹ Ð¸Ð· ÑÑ‚Ð¾Ð¹ Ð³Ñ€ÑƒÐ¿Ð¿Ñ‹
         $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
         $groups = $userGroupMapper->searchAllByField('group_id', $id);
 
@@ -33,7 +33,7 @@ class userGroupDeleteController extends simpleController
             $userGroupMapper->delete($val->getId());
         }
 
-        // óäàëÿåì ãðóïïó
+        // ÑƒÐ´Ð°Ð»ÑÐµÐ¼ Ð³Ñ€ÑƒÐ¿Ð¿Ñƒ
         $groupMapper = $this->toolkit->getMapper('user', 'group');
         $groupMapper->delete($id);
 

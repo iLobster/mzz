@@ -13,7 +13,7 @@
  */
 
 /**
- * votingDeletecategoryController: контроллер для метода deletecategory модуля voting
+ * votingDeletecategoryController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deletecategory РјРѕРґСѓР»СЏ voting
  *
  * @package modules
  * @subpackage voting

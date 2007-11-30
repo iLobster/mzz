@@ -13,7 +13,7 @@
 */
 
 /**
- * accessEditOwnerController: êîíòðîëëåð äëÿ ìåòîäà editOwner ìîäóëÿ access
+ * accessEditOwnerController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° editOwner Ð¼Ð¾Ð´ÑƒÐ»Ñ access
  *
  * @package modules
  * @subpackage access
@@ -52,7 +52,7 @@ class accessEditOwnerController extends simpleController
         $this->smarty->assign('class', $class);
         $this->smarty->assign('section', $section);
 
-        $this->response->setTitle('ACL -> Ïðàâà äëÿ âëàäåëüöà îáúåêòà');
+        $this->response->setTitle('ACL -> ÐŸÑ€Ð°Ð²Ð° Ð´Ð»Ñ Ð²Ð»Ð°Ð´ÐµÐ»ÑŒÑ†Ð° Ð¾Ð±ÑŠÐµÐºÑ‚Ð°');
 
         return $this->smarty->fetch('access/editOwner.tpl');
     }

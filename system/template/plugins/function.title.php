@@ -15,19 +15,19 @@
 */
 
 /**
- * smarty_function_title: функция для Smarty, сборка заголовка страницы
+ * smarty_function_title: С„СѓРЅРєС†РёСЏ РґР»СЏ Smarty, СЃР±РѕСЂРєР° Р·Р°РіРѕР»РѕРІРєР° СЃС‚СЂР°РЅРёС†С‹
  *
- * Примеры использования:<br />
+ * РџСЂРёРјРµСЂС‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ:<br />
  * <code>
- * {title append="Новости" separator=" - "}
+ * {title append="РќРѕРІРѕСЃС‚Рё" separator=" - "}
  * {title append="2007"}
- * {title append="Список"}
- * {title separator=" | "} // Новости - 2007 | Список
+ * {title append="РЎРїРёСЃРѕРє"}
+ * {title separator=" | "} // РќРѕРІРѕСЃС‚Рё - 2007 | РЎРїРёСЃРѕРє
  * </code>
  *
- * @param array $params входные аргументы функции
- * @param object $smarty объект смарти
- * @return string|void заголовок если не указан параметр append
+ * @param array $params РІС…РѕРґРЅС‹Рµ Р°СЂРіСѓРјРµРЅС‚С‹ С„СѓРЅРєС†РёРё
+ * @param object $smarty РѕР±СЉРµРєС‚ СЃРјР°СЂС‚Рё
+ * @return string|void Р·Р°РіРѕР»РѕРІРѕРє РµСЃР»Рё РЅРµ СѓРєР°Р·Р°РЅ РїР°СЂР°РјРµС‚СЂ append
  * @package system
  * @subpackage template
  * @version 0.1

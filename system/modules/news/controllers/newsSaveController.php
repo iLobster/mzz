@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * newsSaveController: êîíòðîëëåð äëÿ ìåòîäà save ìîäóëÿ news
+ * newsSaveController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° save Ð¼Ð¾Ð´ÑƒÐ»Ñ news
  *
  * @package modules
  * @subpackage news
@@ -43,11 +43,11 @@ class newsSaveController extends simpleController
 
         if (!empty($news) || (!$isEdit && isset($newsFolder) && !is_null($newsFolder))) {
             $validator = new formValidator();
-            $validator->add('required', 'title', 'Íåîáõîäèìî íàçâàòü íîâîñòü');
+            $validator->add('required', 'title', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð½Ð°Ð·Ð²Ð°Ñ‚ÑŒ Ð½Ð¾Ð²Ð¾ÑÑ‚ÑŒ');
 
             if (!$isEdit) {
-                $validator->add('required', 'created', 'Íåîáõîäèìî óêàçàòü äàòó');
-                $validator->add('regex', 'created', 'Íåïðàâèëüíûé ôîðìàò äàòû', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
+                $validator->add('required', 'created', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ Ð´Ð°Ñ‚Ñƒ');
+                $validator->add('regex', 'created', 'ÐÐµÐ¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ‹Ð¹ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ð´Ð°Ñ‚Ñ‹', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
             }
 
 
@@ -89,8 +89,8 @@ class newsSaveController extends simpleController
             $this->smarty->assign('news', $news);
             $this->smarty->assign('isEdit', $isEdit);
 
-            $title = $isEdit ? 'Ðåäàêòèðîâàíèå -> ' . $news->getTitle() : 'Ñîçäàíèå';
-            $this->response->setTitle('Íîâîñòè -> ' . $title);
+            $title = $isEdit ? 'Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ -> ' . $news->getTitle() : 'Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ';
+            $this->response->setTitle('ÐÐ¾Ð²Ð¾ÑÑ‚Ð¸ -> ' . $title);
 
             return $this->smarty->fetch('news/save.tpl');
         }

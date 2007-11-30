@@ -15,7 +15,7 @@
 fileLoader::load('fileManager/file');
 
 /**
- * fileMapper: маппер
+ * fileMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage fileManager
@@ -25,23 +25,23 @@ fileLoader::load('fileManager/file');
 class fileMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'fileManager';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'file';
 
     /**
-     * Выполняет поиск объектов по идентификатору папки
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚РѕРІ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ РїР°РїРєРё
      *
-     * @param integer $id идентификатор папки
+     * @param integer $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РїРєРё
      * @return array
      */
     public function searchByFolder($folder_id)
@@ -83,9 +83,9 @@ class fileMapper extends simpleMapper
     }
 
     /**
-     * Выполненяет поиск по маске имени
+     * Р’С‹РїРѕР»РЅРµРЅСЏРµС‚ РїРѕРёСЃРє РїРѕ РјР°СЃРєРµ РёРјРµРЅРё
      *
-     * @param string $mask маска для LIKE
+     * @param string $mask РјР°СЃРєР° РґР»СЏ LIKE
      */
     public function searchByNameMask($mask)
     {
@@ -97,7 +97,7 @@ class fileMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РѕР±РЅРѕРІР»РµРЅРёРµРј РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -129,7 +129,7 @@ class fileMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РІСЃС‚Р°РІРєРѕР№ РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -158,7 +158,7 @@ class fileMapper extends simpleMapper
 
     public function get404()
     {
-        return new messageController('Запрашиваемый вами файл не найден', messageController::WARNING);
+        return new messageController('Р—Р°РїСЂР°С€РёРІР°РµРјС‹Р№ РІР°РјРё С„Р°Р№Р» РЅРµ РЅР°Р№РґРµРЅ', messageController::WARNING);
         //fileLoader::load('fileManager/controllers/fileManager404Controller');
         //return new fileManager404Controller('file');
     }

@@ -13,7 +13,7 @@
  */
 
 /**
- * catalogueDeletePropertyController: контроллер для метода deleteProperty модуля catalogue
+ * catalogueDeletePropertyController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deleteProperty РјРѕРґСѓР»СЏ catalogue
  *
  * @package modules
  * @subpackage catalogue

@@ -13,7 +13,7 @@
  */
 
 /**
- * mzzIniFilterIterator: паттерн Iterator для "отборки" файлов с расширением 'ini'
+ * mzzIniFilterIterator: РїР°С‚С‚РµСЂРЅ Iterator РґР»СЏ "РѕС‚Р±РѕСЂРєРё" С„Р°Р№Р»РѕРІ СЃ СЂР°СЃС€РёСЂРµРЅРёРµРј 'ini'
  *
  * @package system
  * @version 0.1
@@ -22,7 +22,7 @@ class mzzIniFilterIterator extends FilterIterator
 {
 
     /**
-     * Возвращает true если текущий элемент имеет расширение ini и он файл
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ true РµСЃР»Рё С‚РµРєСѓС‰РёР№ СЌР»РµРјРµРЅС‚ РёРјРµРµС‚ СЂР°СЃС€РёСЂРµРЅРёРµ ini Рё РѕРЅ С„Р°Р№Р»
      *
      * @return boolean
      */

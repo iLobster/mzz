@@ -15,7 +15,7 @@
 fileLoader::load('user/userAuth');
 
 /**
- * userAuthMapper: маппер
+ * userAuthMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage user
@@ -25,14 +25,14 @@ fileLoader::load('user/userAuth');
 class userAuthMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'user';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
@@ -129,7 +129,7 @@ class userAuthMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РІСЃС‚Р°РІРєРѕР№ РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -139,7 +139,7 @@ class userAuthMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РѕР±РЅРѕРІР»РµРЅРёРµРј РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -150,7 +150,7 @@ class userAuthMapper extends simpleMapper
 
 
     /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РґР»СЏ Р”Рћ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёСЃС…РѕРґСЏ РёР· Р°СЂРіСѓРјРµРЅС‚РѕРІ Р·Р°РїСЂРѕСЃР°
      *
      * @return object
      */

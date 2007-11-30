@@ -1,4 +1,4 @@
-<div class="jipTitle">{if $isEdit}Редактирование типа "{$type.name}"{else}Создание типа{/if}</div>
+<div class="jipTitle">{if $isEdit}Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‚РёРїР° "{$type.name}"{else}РЎРѕР·РґР°РЅРёРµ С‚РёРїР°{/if}</div>
 {strip}
 {literal}<script language="javascript">
 function switchChckbox(id, self) {
@@ -17,12 +17,12 @@ function switchChckbox(id, self) {
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="100%">
         <tr>
-            <td><strong>{form->caption name="title" value="Заголовок:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+            <td><strong>{form->caption name="title" value="Р—Р°РіРѕР»РѕРІРѕРє:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
             <td>{form->text name="title" size="60" value=$type.title onError="style=border: red 1px solid;"}{$errors->get('title')}</td>
         </tr>
 
         <tr>
-            <td><strong>{form->caption name="name" value="Название:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+            <td><strong>{form->caption name="name" value="РќР°Р·РІР°РЅРёРµ:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
             <td>{form->text name="name" size="60" value=$type.name onError="style=border: red 1px solid;"}{$errors->get('name')}</td>
         </tr>
         <tr>
@@ -30,10 +30,10 @@ function switchChckbox(id, self) {
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td><strong>Параметр:</strong></td>
-            <td><strong>Сортировка:</strong></td>
-            <td><strong>Для полного:</strong></td>
-            <td><strong>Для краткого:</strong></td>
+            <td><strong>РџР°СЂР°РјРµС‚СЂ:</strong></td>
+            <td><strong>РЎРѕСЂС‚РёСЂРѕРІРєР°:</strong></td>
+            <td><strong>Р”Р»СЏ РїРѕР»РЅРѕРіРѕ:</strong></td>
+            <td><strong>Р”Р»СЏ РєСЂР°С‚РєРѕРіРѕ:</strong></td>
         </tr>
         {foreach from=$type.properties key="id" item="property"}
             <tr>
@@ -52,7 +52,7 @@ function switchChckbox(id, self) {
             </tr>
         {/foreach}
         <tr>
-            <td colspan="2" style="text-align:left;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td colspan="2" style="text-align:left;">{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

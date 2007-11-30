@@ -15,7 +15,7 @@
 fileLoader::load("forms/formElement");
 
 /**
- * form: хелпер для работы с формами
+ * form: С…РµР»РїРµСЂ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С„РѕСЂРјР°РјРё
  *
  * @package system
  * @subpackage forms
@@ -58,7 +58,7 @@ class form
     {
         $params['type'] = 'submit';
         if (!isset($params['name'])) {
-            throw new mzzRuntimeException('Элементу типа submit обязательно нужно указывать имя');
+            throw new mzzRuntimeException('Р­Р»РµРјРµРЅС‚Сѓ С‚РёРїР° submit РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РЅСѓР¶РЅРѕ СѓРєР°Р·С‹РІР°С‚СЊ РёРјСЏ');
         }
         $name = $params['name'];
         unset($params['name']);

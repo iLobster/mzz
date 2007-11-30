@@ -13,7 +13,7 @@
  */
 
 /**
- * voteMapper: маппер
+ * voteMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage vote

@@ -1,4 +1,4 @@
-Автоматически сгенерированный шаблон<br />
-Модуль: fileManager<br />
-Экшн: get<br />
-Путь до этого файла: D:\server\sites\mzz\www\templates\fileManager\get.tpl
+РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹Р№ С€Р°Р±Р»РѕРЅ<br />
+РњРѕРґСѓР»СЊ: fileManager<br />
+Р­РєС€РЅ: get<br />
+РџСѓС‚СЊ РґРѕ СЌС‚РѕРіРѕ С„Р°Р№Р»Р°: D:\server\sites\mzz\www\templates\fileManager\get.tpl

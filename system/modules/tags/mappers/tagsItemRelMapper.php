@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/mapper.tpl $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/tags/mappers/tagsItemRelMapper.php $
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,13 +9,13 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: mapper.tpl 1998 2007-07-28 20:41:57Z mz $
+ * @version $Id: tagsItemRelMapper.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 fileLoader::load('tags/tagsItemRel');
 
 /**
- * tagsItemRelMapper: ìàïïåð
+ * tagsItemRelMapper: Ð¼Ð°Ð¿Ð¿ÐµÑ€
  *
  * @package modules
  * @subpackage tags
@@ -25,23 +25,23 @@ fileLoader::load('tags/tagsItemRel');
 class tagsItemRelMapper extends simpleMapper
 {
     /**
-     * Èìÿ ìîäóëÿ
+     * Ð˜Ð¼Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      *
      * @var string
      */
     protected $name = 'tags';
 
     /**
-     * Èìÿ êëàññà DataObject
+     * Ð˜Ð¼Ñ ÐºÐ»Ð°ÑÑÐ° DataObject
      *
      * @var string
      */
     protected $className = 'tagsItemRel';
 
     /**
-     * Êîíñòðóêòîð
+     * ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€
      *
-     * @param string $section ñåêöèÿ
+     * @param string $section ÑÐµÐºÑ†Ð¸Ñ
      */
     public function __construct($section)
     {
@@ -79,7 +79,7 @@ class tagsItemRelMapper extends simpleMapper
     }
 
     /**
-     * Âîçâðàùàåò äîìåííûé îáúåêò ïî àðãóìåíòàì
+     * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð´Ð¾Ð¼ÐµÐ½Ð½Ñ‹Ð¹ Ð¾Ð±ÑŠÐµÐºÑ‚ Ð¿Ð¾ Ð°Ñ€Ð³ÑƒÐ¼ÐµÐ½Ñ‚Ð°Ð¼
      *
      * @return simple
      */

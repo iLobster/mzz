@@ -13,7 +13,7 @@
  */
 
 /**
- * galleryAdminController: контроллер для метода admin модуля gallery
+ * galleryAdminController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° admin РјРѕРґСѓР»СЏ gallery
  *
  * @package modules
  * @subpackage gallery

@@ -1,1 +1,1 @@
-Âğåìÿ: {$timer->getPeriod()|round:3} ñ., SQL {$timer->getQueriesNum()}/{$timer->getPreparedNum()}: {$timer->getQueriesTime()|number_format:3} ñ.
+Ğ’Ñ€ĞµĞ¼Ñ: {$timer->getPeriod()|round:3} Ñ., SQL {$timer->getQueriesNum()}/{$timer->getPreparedNum()}: {$timer->getQueriesTime()|number_format:3} Ñ.

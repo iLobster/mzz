@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * menuSaveController: êîíòðîëëåð äëÿ ìåòîäà create ìîäóëÿ menu
+ * menuSaveController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° create Ð¼Ð¾Ð´ÑƒÐ»Ñ menu
  *
  * @package modules
  * @subpackage menu
@@ -46,13 +46,13 @@ class menuSaveController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'title', 'Íåîáõîäèì çàãîëîâîê');
+        $validator->add('required', 'title', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼ Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº');
 
         if (!$isEdit) {
-            $validator->add('required', 'type', 'Íåîáõîäèìî óêàçàòü òèï');
+            $validator->add('required', 'type', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ Ñ‚Ð¸Ð¿');
             $types = $itemMapper->getAllTypes();
             if (empty($types)) {
-                $controller = new messageController('Îòñóòñòâóþò òèïû', messageController::WARNING);
+                $controller = new messageController('ÐžÑ‚ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‚ Ñ‚Ð¸Ð¿Ñ‹', messageController::WARNING);
                 return $controller->run();
             }
             $type = $this->request->get('type', 'integer', SC_GET | SC_POST);

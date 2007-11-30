@@ -1,12 +1,12 @@
 {add file="gallery.css"}
 {title append=$album->getName()}
 {title append=$user->getLogin()}
-{title append="Галерея"}
+{title append="Р“Р°Р»РµСЂРµСЏ"}
 
-<h3>Альбом «{$album->getName()}» {$album->getJip()}</h3>
+<h3>РђР»СЊР±РѕРј В«{$album->getName()}В» {$album->getJip()}</h3>
 
-<p class="photoCount">{$photos|@sizeof|word_ending:"фотографий,фотография,фотографии"},
-в <a href="{url route="withAnyParam" name=$user->getLogin()  action="viewGallery"}">галерее</a> пользователя {$user->getLogin()}</p>
+<p class="photoCount">{$photos|@sizeof|word_ending:"С„РѕС‚РѕРіСЂР°С„РёР№,С„РѕС‚РѕРіСЂР°С„РёСЏ,С„РѕС‚РѕРіСЂР°С„РёРё"},
+РІ <a href="{url route="withAnyParam" name=$user->getLogin()  action="viewGallery"}">РіР°Р»РµСЂРµРµ</a> РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ {$user->getLogin()}</p>
 
 
 {foreach from=$photos item=photo}
@@ -19,11 +19,11 @@
             </div>
         </div>
     {if false}
-        <p>0 комментариев{0|word_ending:"комментариев,комментарий,комментария"}</p>
+        <p>0 РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ{0|word_ending:"РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ,РєРѕРјРјРµРЅС‚Р°СЂРёР№,РєРѕРјРјРµРЅС‚Р°СЂРёСЏ"}</p>
     {/if}
     </div>
 {foreachelse}
-    В альбоме нет фотографий
+    Р’ Р°Р»СЊР±РѕРјРµ РЅРµС‚ С„РѕС‚РѕРіСЂР°С„РёР№
 {/foreach}
 
 <br clear="all" />

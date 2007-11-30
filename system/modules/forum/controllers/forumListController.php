@@ -13,7 +13,7 @@
  */
 
 /**
- * forumListController: контроллер для метода list модуля forum
+ * forumListController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° list РјРѕРґСѓР»СЏ forum
  *
  * @package modules
  * @subpackage forum

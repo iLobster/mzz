@@ -1,17 +1,17 @@
-<div class="jipTitle">{if $isEdit}Редактирование{else}Создание{/if}</div>
+<div class="jipTitle">{if $isEdit}Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ{else}РЎРѕР·РґР°РЅРёРµ{/if}</div>
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="99%">
         <tr>
-            <td>{form->caption name="title" value="Заголовок:"}</td>
+            <td>{form->caption name="title" value="Р—Р°РіРѕР»РѕРІРѕРє:"}</td>
             <td>{form->text name="title" size="60" value=$category->getTitle()}{$errors->get('title')}</td>
         <tr>
         <tr>
-            <td>{form->caption name="name" value="Имя:"}</td>
+            <td>{form->caption name="name" value="РРјСЏ:"}</td>
             <td>{form->text name="name" size="60" value=$category->getName()}{$errors->get('name')}</td>
         </tr>
     </table>
         <tr>
-            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset jip="true" name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"}</td><td>{form->reset jip="true" name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

@@ -8,7 +8,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
         }});
 }
 </script>{/literal}
-<p class="pageTitle">Список элементов</p>
+<p class="pageTitle">РЎРїРёСЃРѕРє СЌР»РµРјРµРЅС‚РѕРІ</p>
 <div class="pageContent">
 {include file="breadcrumbs.tpl" breadCrumbs=$chains section=$current_section module="catalogue"}
 <form action="" onsubmit="jipWindow.open((($('massAction').value == 'delete') ? massActionDelete : massActionMove), false, 'POST', $(this).serialize(true)); return false;">
@@ -17,10 +17,10 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
             <tr>
                 <td style="width: 30px;">&nbsp;</td>
                 <td style="width: 1px;">{if $pager->getPagesTotal() > 0}<input type="checkbox" onclick="javascript:selectAllItems(this.checked);"/>{/if}</td>
-                <td style="text-align: left;">Название</td>
-                <td style="text-align: center;">Тип</td>
-                <td style="width: 120px;">Дата создания</td>
-                <td style="width: 120px;">Автор</td>
+                <td style="text-align: left;">РќР°Р·РІР°РЅРёРµ</td>
+                <td style="text-align: center;">РўРёРї</td>
+                <td style="width: 120px;">Р”Р°С‚Р° СЃРѕР·РґР°РЅРёСЏ</td>
+                <td style="width: 120px;">РђРІС‚РѕСЂ</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
         {if $catalogueFolder->getTreeLevel() != 1}
@@ -62,25 +62,25 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
         <tr class="tableListFoot">
             <td>&nbsp;</td>
             <td colspan="2">{if $pager->getPagesTotal() > 1}{$pager->toString('adminPager.tpl')}{/if}</td>
-            <td colspan="3" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
+            <td colspan="3" style="text-align: right; color: #7A7A7A;">Р’СЃРµРіРѕ: {$pager->getItemsCount()}</td>
         </tr>
     </table>
     {if $pager->getPagesTotal() > 0}<select id="massAction">
-        <option value="move">Переместить</option>
-        <option value="delete">Удалить</option>
+        <option value="move">РџРµСЂРµРјРµСЃС‚РёС‚СЊ</option>
+        <option value="delete">РЈРґР°Р»РёС‚СЊ</option>
     </select>
     <input type="submit" value="ok">{/if}
 </form>
 </div>
 <br /><br /><br />
-<p class="pageTitle">Список типов</p>
+<p class="pageTitle">РЎРїРёСЃРѕРє С‚РёРїРѕРІ</p>
 <div class="pageContent">
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>
-                <td style="width: 30px;"><a href="{url route="default2" section=$current_section action="addType"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить тип" title="Добавить тип" align="texttop" border="0" /></a></td>
-                <td style="text-align: left;">Название</td>
-                <td style="text-align: left;">Тип</td>
+                <td style="width: 30px;"><a href="{url route="default2" section=$current_section action="addType"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="РґРѕР±Р°РІРёС‚СЊ С‚РёРї" title="Р”РѕР±Р°РІРёС‚СЊ С‚РёРї" align="texttop" border="0" /></a></td>
+                <td style="text-align: left;">РќР°Р·РІР°РЅРёРµ</td>
+                <td style="text-align: left;">РўРёРї</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
         </thead> 
@@ -98,15 +98,15 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
     </table>
 </div>
 <br /><br />
-<p class="pageTitle">Список параметров</p>
+<p class="pageTitle">РЎРїРёСЃРѕРє РїР°СЂР°РјРµС‚СЂРѕРІ</p>
 <div class="pageContent">
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>
-                <td style="width: 30px;"><a href="{url route="default2" section=$current_section action="addProperty"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить свойство" title="Добавить свойство" border="0" align="texttop" /></a></td>
-                <td style="text-align: left;">Название</td>
-                <td style="text-align: left;">Свойство</td>
-                <td style="text-align: left;">Тип</td>
+                <td style="width: 30px;"><a href="{url route="default2" section=$current_section action="addProperty"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="РґРѕР±Р°РІРёС‚СЊ СЃРІРѕР№СЃС‚РІРѕ" title="Р”РѕР±Р°РІРёС‚СЊ СЃРІРѕР№СЃС‚РІРѕ" border="0" align="texttop" /></a></td>
+                <td style="text-align: left;">РќР°Р·РІР°РЅРёРµ</td>
+                <td style="text-align: left;">РЎРІРѕР№СЃС‚РІРѕ</td>
+                <td style="text-align: left;">РўРёРї</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
         </thead> 

@@ -13,7 +13,7 @@
  */
 
 /**
- * faqListController: контроллер для метода list модуля faq
+ * faqListController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° list РјРѕРґСѓР»СЏ faq
  *
  * @package modules
  * @subpackage faq

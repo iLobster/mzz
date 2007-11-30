@@ -13,7 +13,7 @@
  */
 
 /**
- * catalogueAdminController: êîíòðîëëåð äëÿ ìåòîäà edit ìîäóëÿ catalogue
+ * catalogueAdminController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° edit Ð¼Ð¾Ð´ÑƒÐ»Ñ catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -48,14 +48,14 @@ class catalogueAdminController extends simpleController
 
             $url->setAction('editType');
             $jipTypes[$type['id']][] = array(
-                            "title" => 'Ðåäàêòèðîâàòü',
+                            "title" => 'Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ',
                             "url" => $url->get(),
                             "icon" => SITE_PATH . '/templates/images/edit.gif'
                         );
 
             $url->setAction('deleteType');
             $jipTypes[$type['id']][] = array(
-                            "title" => 'Óäàëèòü',
+                            "title" => 'Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ',
                             "url" => $url->get(),
                             "icon" => SITE_PATH . '/templates/images/delete.gif'
                         );
@@ -67,14 +67,14 @@ class catalogueAdminController extends simpleController
             $url->add('id', $property['id']);
             $url->setAction('editProperty');
             $jipProperties[$property['id']][] = array(
-                            "title" => 'Ðåäàêòèðîâàòü',
+                            "title" => 'Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ',
                             "url" => $url->get(),
                             "icon" => SITE_PATH . '/templates/images/edit.gif'
                         );
 
             $url->setAction('deleteProperty');
             $jipProperties[$property['id']][] = array(
-                            "title" => 'Óäàëèòü',
+                            "title" => 'Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ',
                             "url" => $url->get(),
                             "icon" => SITE_PATH . '/templates/images/delete.gif'
                         );

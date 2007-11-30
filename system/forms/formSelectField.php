@@ -13,7 +13,7 @@
  */
 
 /**
- * formSelectField: выпадающий список
+ * formSelectField: РІС‹РїР°РґР°СЋС‰РёР№ СЃРїРёСЃРѕРє
  *
  * @package system
  * @subpackage forms

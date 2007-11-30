@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * fileManagerUploadController: êîíòðîëëåð äëÿ ìåòîäà upload ìîäóëÿ fileManager
+ * fileManagerUploadController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° upload Ð¼Ð¾Ð´ÑƒÐ»Ñ fileManager
  *
  * @package modules
  * @subpackage fileManager
@@ -36,8 +36,8 @@ class fileManagerUploadController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('uploaded', 'file', 'Óêàæèòå ôàéë äëÿ çàãðóçêè');
-        $validator->add('regex', 'name', 'Íåäîïóñòèìûå ñèìâîëû â èìåíè', '/^[a-zà-ÿ0-9_\.\-! ]+$/i');
+        $validator->add('uploaded', 'file', 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ñ„Ð°Ð¹Ð» Ð´Ð»Ñ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸');
+        $validator->add('regex', 'name', 'ÐÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹ Ð² Ð¸Ð¼ÐµÐ½Ð¸', '/^[a-zÐ°-Ñ0-9_\.\-! ]+$/i');
 
         $errors = $validator->getErrors();
 

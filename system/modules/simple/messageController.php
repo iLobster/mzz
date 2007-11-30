@@ -13,7 +13,7 @@
  */
 
 /**
- * messageController: контроллер вывода стандартных сообщений
+ * messageController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РІС‹РІРѕРґР° СЃС‚Р°РЅРґР°СЂС‚РЅС‹С… СЃРѕРѕР±С‰РµРЅРёР№
  *
  * @package modules
  * @subpackage simple

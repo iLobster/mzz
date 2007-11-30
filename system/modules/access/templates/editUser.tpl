@@ -1,8 +1,8 @@
 {if $users === false}
 {assign var="userLogin" value=$user->getLogin()}
-{include file='jipTitle.tpl' title="Изменение прав на объект для пользователя <code>$userLogin</code>"}
+{include file='jipTitle.tpl' title="РР·РјРµРЅРµРЅРёРµ РїСЂР°РІ РЅР° РѕР±СЉРµРєС‚ РґР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ <code>$userLogin</code>"}
 {else}
-{include file='jipTitle.tpl' title="Изменение прав на объект"}
+{include file='jipTitle.tpl' title="РР·РјРµРЅРµРЅРёРµ РїСЂР°РІ РЅР° РѕР±СЉРµРєС‚"}
 {/if}
 
 <form action="{url}" method="post" onsubmit="return jipWindow.sendForm(this);">
@@ -10,7 +10,7 @@
             <tr>
                 <td colspan="3">
             {if $users !== false}
-                Выберите пользователя:
+                Р’С‹Р±РµСЂРёС‚Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ:
                 <select name="user_id">
                     <option value="-1" selected="selected"></option>
                     {foreach from=$users item=user}

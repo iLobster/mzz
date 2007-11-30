@@ -13,7 +13,7 @@
  */
 
 /**
- * simple404Controller: контроллер для метода 404 модуля simple
+ * simple404Controller: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° 404 РјРѕРґСѓР»СЏ simple
  *
  * @package modules
  * @subpackage simple
@@ -23,14 +23,14 @@
 class simple404Controller extends simpleController
 {
     /**
-     * Свойство, определяющее - отправлять контент или только заголовки
+     * РЎРІРѕР№СЃС‚РІРѕ, РѕРїСЂРµРґРµР»СЏСЋС‰РµРµ - РѕС‚РїСЂР°РІР»СЏС‚СЊ РєРѕРЅС‚РµРЅС‚ РёР»Рё С‚РѕР»СЊРєРѕ Р·Р°РіРѕР»РѕРІРєРё
      *
      * @var boolean
      */
     protected $onlyHeaders;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param boolean $onlyHeaders
      */

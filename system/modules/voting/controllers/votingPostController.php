@@ -13,7 +13,7 @@
  */
 
 /**
- * votingPostController: контроллер для метода post модуля voting
+ * votingPostController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° post РјРѕРґСѓР»СЏ voting
  *
  * @package modules
  * @subpackage voting

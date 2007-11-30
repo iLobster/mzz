@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * adminAddSectionController: êîíòğîëëåğ äëÿ ìåòîäà addSection ìîäóëÿ admin
+ * adminAddSectionController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° addSection Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -41,7 +41,7 @@ class adminAddSectionController extends simpleController
             $data = $db->getRow('SELECT * FROM `sys_sections` WHERE `id` = ' . $id);
 
             if ($data === false) {
-                $controller = new messageController('Ğàçäåëà íå ñóùåñòâóåò', messageController::WARNING);
+                $controller = new messageController('Ğ Ğ°Ğ·Ğ´ĞµĞ»Ğ° Ğ½Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚', messageController::WARNING);
                 return $controller->run();
             }
 
@@ -50,7 +50,7 @@ class adminAddSectionController extends simpleController
 
             if (sizeof($sections[$data['id']]['classes'])) {
                 /*
-                $controller = new messageController('Íåëüçÿ èçìåíèòü èìÿ ğàçäåëà', messageController::WARNING);
+                $controller = new messageController('ĞĞµĞ»ÑŒĞ·Ñ Ğ¸Ğ·Ğ¼ĞµĞ½Ğ¸Ñ‚ÑŒ Ğ¸Ğ¼Ñ Ñ€Ğ°Ğ·Ğ´ĞµĞ»Ğ°', messageController::WARNING);
                 return $controller->run();
                 */
                 $nameRO = true;
@@ -60,9 +60,9 @@ class adminAddSectionController extends simpleController
         $validator = new formValidator();
 
         if (!$nameRO) {
-            $validator->add('required', 'name', 'Îáÿçàòåëüíîå äëÿ çàïîëíåíèÿ ïîëå');
-            $validator->add('callback', 'name', 'Èìÿ ğàçäåëà äîëæíî áûòü óíèêàëüíî', array('checkUniqueSectionName', $db, $data['name'], $isEdit));
-            $validator->add('regex', 'name', 'Ğàçğåøåíî èñïîëüçîâàòü òîëüêî a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
+            $validator->add('required', 'name', 'ĞĞ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾Ğµ Ğ´Ğ»Ñ Ğ·Ğ°Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ¸Ñ Ğ¿Ğ¾Ğ»Ğµ');
+            $validator->add('callback', 'name', 'Ğ˜Ğ¼Ñ Ñ€Ğ°Ğ·Ğ´ĞµĞ»Ğ° Ğ´Ğ¾Ğ»Ğ¶Ğ½Ğ¾ Ğ±Ñ‹Ñ‚ÑŒ ÑƒĞ½Ğ¸ĞºĞ°Ğ»ÑŒĞ½Ğ¾', array('checkUniqueSectionName', $db, $data['name'], $isEdit));
+            $validator->add('regex', 'name', 'Ğ Ğ°Ğ·Ñ€ĞµÑˆĞµĞ½Ğ¾ Ğ¸ÑĞ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ÑŒ Ñ‚Ğ¾Ğ»ÑŒĞºĞ¾ a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
         }
 
         if ($validator->validate()) {

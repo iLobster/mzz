@@ -13,7 +13,7 @@
  */
 
 /**
- * thread: êëàññ äëÿ ðàáîòû c äàííûìè
+ * thread: ÐºÐ»Ð°ÑÑ Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ c Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸
  *
  * @package modules
  * @subpackage forum
@@ -26,7 +26,7 @@ class thread extends simple
 
     public function isPopular()
     {
-        // @todo: âûíåñòè â êîíôèã
+        // @todo: Ð²Ñ‹Ð½ÐµÑÑ‚Ð¸ Ð² ÐºÐ¾Ð½Ñ„Ð¸Ð³
         return $this->getViewCount() * 86400 / (time() - $this->getPostDate()) > 20;
     }
 

@@ -1,1 +1,1 @@
-<div id="uploadStatus">Фото {$photo_name} загружено.</div>
+<div id="uploadStatus">Р¤РѕС‚Рѕ {$photo_name} Р·Р°РіСЂСѓР¶РµРЅРѕ.</div>

@@ -13,7 +13,7 @@
  */
 
 /**
- * adminDeleteCfgController: êîíòðîëëåð äëÿ ìåòîäà deleteCfg ìîäóëÿ admin
+ * adminDeleteCfgController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° deleteCfg Ð¼Ð¾Ð´ÑƒÐ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -34,7 +34,7 @@ class adminDeleteCfgController extends simpleController
         $params = $config->getDefaultValues();
 
         if (!isset($params[$name])) {
-            return 'âûáðàííîãî ïàðàìåòðà â êîíôèãóðàöèè íå ñóùåñòâóåò';
+            return 'Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð° Ð² ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚';
         }
 
         $config->delete($name);

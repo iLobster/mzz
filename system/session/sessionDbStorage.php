@@ -17,7 +17,7 @@
 fileLoader::load('session/iSessionStorage');
 
 /**
- * sessionDbStorage: хранилище сессии в БД
+ * sessionDbStorage: С…СЂР°РЅРёР»РёС‰Рµ СЃРµСЃСЃРёРё РІ Р‘Р”
  *
  * @package system
  * @subpackage session
@@ -26,14 +26,14 @@ fileLoader::load('session/iSessionStorage');
 class sessionDbStorage implements iSessionStorage
 {
     /**
-     * Ссылка на объект DB
+     * РЎСЃС‹Р»РєР° РЅР° РѕР±СЉРµРєС‚ DB
      *
      * @var object
      */
     protected $db;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      */
     public function __construct()
@@ -42,7 +42,7 @@ class sessionDbStorage implements iSessionStorage
     }
 
     /**
-     * Открытие хранилища сессий
+     * РћС‚РєСЂС‹С‚РёРµ С…СЂР°РЅРёР»РёС‰Р° СЃРµСЃСЃРёР№
      *
      * @return bool
      */
@@ -52,7 +52,7 @@ class sessionDbStorage implements iSessionStorage
     }
 
     /**
-     * Закрытие хранилища сессий
+     * Р—Р°РєСЂС‹С‚РёРµ С…СЂР°РЅРёР»РёС‰Р° СЃРµСЃСЃРёР№
      *
      * @return bool
      */
@@ -62,9 +62,9 @@ class sessionDbStorage implements iSessionStorage
     }
 
     /**
-     * Чтение сессии из хранилища
+     * Р§С‚РµРЅРёРµ СЃРµСЃСЃРёРё РёР· С…СЂР°РЅРёР»РёС‰Р°
      *
-     * @param string $sid Идентификатор сессии
+     * @param string $sid РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРµСЃСЃРёРё
      * @return string
      */
     public function storageRead($sid)
@@ -82,10 +82,10 @@ class sessionDbStorage implements iSessionStorage
     }
 
     /**
-     * Запись значения сессии в хранилище
+     * Р—Р°РїРёСЃСЊ Р·РЅР°С‡РµРЅРёСЏ СЃРµСЃСЃРёРё РІ С…СЂР°РЅРёР»РёС‰Рµ
      *
-     * @param string $sid   Идентификатор сессии
-     * @param string $value Значение сессии
+     * @param string $sid   РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРµСЃСЃРёРё
+     * @param string $value Р—РЅР°С‡РµРЅРёРµ СЃРµСЃСЃРёРё
      * @return string
      */
     public function storageWrite($sid, $value)
@@ -97,9 +97,9 @@ class sessionDbStorage implements iSessionStorage
     }
 
     /**
-     * Уничтожение сессии из хранилища
+     * РЈРЅРёС‡С‚РѕР¶РµРЅРёРµ СЃРµСЃСЃРёРё РёР· С…СЂР°РЅРёР»РёС‰Р°
      *
-     * @param string $sid Идентификатор сессии
+     * @param string $sid РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРµСЃСЃРёРё
      * @return string
      */
     public function storageDestroy($sid)
@@ -111,9 +111,9 @@ class sessionDbStorage implements iSessionStorage
     }
 
     /**
-     * Установка продолжительности жизни сессии
+     * РЈСЃС‚Р°РЅРѕРІРєР° РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚Рё Р¶РёР·РЅРё СЃРµСЃСЃРёРё
      *
-     * @param string $maxLifeTime Время жизни сессии в секундах
+     * @param string $maxLifeTime Р’СЂРµРјСЏ Р¶РёР·РЅРё СЃРµСЃСЃРёРё РІ СЃРµРєСѓРЅРґР°С…
      * @return string
      */
     public function storageGc($maxLifeTime)

@@ -13,7 +13,7 @@
  */
 
 /**
- * captchaViewController: контроллер для метода view модуля captcha
+ * captchaViewController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° view РјРѕРґСѓР»СЏ captcha
  *
  * @package modules
  * @subpackage captcha

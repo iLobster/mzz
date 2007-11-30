@@ -15,7 +15,7 @@
 fileLoader::load('service/iniFile');
 
 /**
- * adminDeletemapController: êîíòğîëëåğ äëÿ óäàëåíèÿ ïîëÿ
+ * adminDeletemapController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ ÑƒĞ´Ğ°Ğ»ĞµĞ½Ğ¸Ñ Ğ¿Ğ¾Ğ»Ñ
  *
  * @package modules
  * @subpackage admin
@@ -33,7 +33,7 @@ class adminDeletemapController extends simpleController
         $class = $adminMapper->searchClassByName($class_name);
 
         if (!$class) {
-            $controller = new messageController('Êëàññà íå ñóùåñòâóåò', messageController::WARNING);
+            $controller = new messageController('ĞšĞ»Ğ°ÑÑĞ° Ğ½Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚', messageController::WARNING);
             return $controller->run();
         }
 
@@ -44,7 +44,7 @@ class adminDeletemapController extends simpleController
         $mapfile = $file->read();
 
         if (!isset($mapfile[$field_name])) {
-            $controller = new messageController('Ó âûáğàííîãî êëàññà íå ñóùåñòâóåò ïîëÿ ' . $field_name, messageController::WARNING);
+            $controller = new messageController('Ğ£ Ğ²Ñ‹Ğ±Ñ€Ğ°Ğ½Ğ½Ğ¾Ğ³Ğ¾ ĞºĞ»Ğ°ÑÑĞ° Ğ½Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚ Ğ¿Ğ¾Ğ»Ñ ' . $field_name, messageController::WARNING);
             return $controller->run();
         }
 
@@ -70,12 +70,12 @@ class adminDeletemapController extends simpleController
 
         $scheme = $schemas[0];
 
-        //@todo: ğåàëèçîâàòü ñèòóàöèş, êîãäà òàáëèöû íå ñîâïàäàşò ïî ïîëÿì
+        //@todo: Ñ€ĞµĞ°Ğ»Ğ¸Ğ·Ğ¾Ğ²Ğ°Ñ‚ÑŒ ÑĞ¸Ñ‚ÑƒĞ°Ñ†Ğ¸Ñ, ĞºĞ¾Ğ³Ğ´Ğ° Ñ‚Ğ°Ğ±Ğ»Ğ¸Ñ†Ñ‹ Ğ½Ğµ ÑĞ¾Ğ²Ğ¿Ğ°Ğ´Ğ°ÑÑ‚ Ğ¿Ğ¾ Ğ¿Ğ¾Ğ»ÑĞ¼
 
         $delete = array_diff(array_keys($mapfile), $scheme);
 
         if (!in_array($field_name, $delete)) {
-            $controller = new messageController('Íåâîçìîæíî óäàëèòü ïîëå ' . $field_name, messageController::WARNING);
+            $controller = new messageController('ĞĞµĞ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ ÑƒĞ´Ğ°Ğ»Ğ¸Ñ‚ÑŒ Ğ¿Ğ¾Ğ»Ğµ ' . $field_name, messageController::WARNING);
             return $controller->run();
         }
 

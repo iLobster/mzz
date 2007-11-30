@@ -1,24 +1,24 @@
 <?php
     
-    $user = $userMapper->searchByLogin('editor');       // ïîëó÷àåì ïîëüçîâàòåëÿ 'editor'
-    $news = $newsMapper->searchById(100);               // ïîëó÷àåì íîâîñòü ñ id = 100 (obj_id ıòîé íîâîñòè ïğèìåì òàêæå ğàâíûì 100)
+    $user = $userMapper->searchByLogin('editor');       // Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ Ğ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ĞµĞ»Ñ 'editor'
+    $news = $newsMapper->searchById(100);               // Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ Ğ½Ğ¾Ğ²Ğ¾ÑÑ‚ÑŒ Ñ id = 100 (obj_id ÑÑ‚Ğ¾Ğ¹ Ğ½Ğ¾Ğ²Ğ¾ÑÑ‚Ğ¸ Ğ¿Ñ€Ğ¸Ğ¼ĞµĞ¼ Ñ‚Ğ°ĞºĞ¶Ğµ Ñ€Ğ°Ğ²Ğ½Ñ‹Ğ¼ 100)
     
     $acl = new acl($user, $news->getObjId());
     
-    $access = $acl->get();                              // áóäåò âîçâğàù¸í ìàññèâ array('edit' => true, 'view' => true);
+    $access = $acl->get();                              // Ğ±ÑƒĞ´ĞµÑ‚ Ğ²Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰Ñ‘Ğ½ Ğ¼Ğ°ÑÑĞ¸Ğ² array('edit' => true, 'view' => true);
     $access = $acl->get('view');                        // true
     
-    $user2 = $userMapper->searchByLogin('visitor');     // ïîëó÷àåì ïîëüçîâàòåëÿ 'visitor'
+    $user2 = $userMapper->searchByLogin('visitor');     // Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ Ğ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ĞµĞ»Ñ 'visitor'
     $acl = new acl($user2, $news->getObjId());
     
-    $access = $acl->get();                              // áóäåò âîçâğàù¸í ìàññèâ array('edit' => false, 'view' => true);
+    $access = $acl->get();                              // Ğ±ÑƒĞ´ĞµÑ‚ Ğ²Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰Ñ‘Ğ½ Ğ¼Ğ°ÑÑĞ¸Ğ² array('edit' => false, 'view' => true);
     $access = $acl->get('view');                        // true
     $access = $acl->get('edit');                        // false
     
-    $user3 = $userMapper->searchByLogin('hacker');      // ïîëó÷àåì ïîëüçîâàòåëÿ 'hacker'
+    $user3 = $userMapper->searchByLogin('hacker');      // Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ Ğ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ĞµĞ»Ñ 'hacker'
     $acl = new acl($user3, $news->getObjId());
     
-    $access = $acl->get();                              // áóäåò âîçâğàù¸í ìàññèâ array('edit' => false, 'view' => false);
+    $access = $acl->get();                              // Ğ±ÑƒĞ´ĞµÑ‚ Ğ²Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰Ñ‘Ğ½ Ğ¼Ğ°ÑÑĞ¸Ğ² array('edit' => false, 'view' => false);
     $access = $acl->get('view');                        // false
     $access = $acl->get('edit');                        // false
     

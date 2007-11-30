@@ -15,7 +15,7 @@
 fileLoader::load('page');
 
 /**
- * pageMapper: маппер для страниц
+ * pageMapper: РјР°РїРїРµСЂ РґР»СЏ СЃС‚СЂР°РЅРёС†
  *
  * @package modules
  * @subpackage page
@@ -24,23 +24,23 @@ fileLoader::load('page');
 class pageMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'page';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'page';
 
     /**
-     * Выполняет поиск объекта по идентификатору
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ
      *
-     * @param integer $id идентификатор
+     * @param integer $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
      * @return object|null
      */
     public function searchById($id)
@@ -49,9 +49,9 @@ class pageMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объектов по идентификатору папки
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚РѕРІ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ РїР°РїРєРё
      *
-     * @param integer $id идентификатор папки
+     * @param integer $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РїРєРё
      * @return array
      */
     public function searchByFolder($folder_id)
@@ -60,9 +60,9 @@ class pageMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объекта по имени
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РёРјРµРЅРё
      *
-     * @param string $name имя
+     * @param string $name РёРјСЏ
      * @return object|null
      */
     public function searchByName($name)

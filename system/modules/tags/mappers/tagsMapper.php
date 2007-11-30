@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/mapper.tpl $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/tags/mappers/tagsMapper.php $
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,13 +9,13 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: mapper.tpl 1998 2007-07-28 20:41:57Z mz $
+ * @version $Id: tagsMapper.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 fileLoader::load('tags');
 
 /**
- * tagsMapper: маппер
+ * tagsMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage tags
@@ -25,23 +25,23 @@ fileLoader::load('tags');
 class tagsMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'tags';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'tags';
 
     /**
-     * Создание тагов
+     * РЎРѕР·РґР°РЅРёРµ С‚Р°РіРѕРІ
      *
-     * @param array $tags Таги, массив
+     * @param array $tags РўР°РіРё, РјР°СЃСЃРёРІ
      * @return array of tags
      */
     public function createTags($tags)
@@ -57,9 +57,9 @@ class tagsMapper extends simpleMapper
     }
 
     /**
-     * Поиск тагов
+     * РџРѕРёСЃРє С‚Р°РіРѕРІ
      *
-     * @param array $tags Таги
+     * @param array $tags РўР°РіРё
      * @return simple
      */
     public function searchTags($tags)
@@ -72,14 +72,14 @@ class tagsMapper extends simpleMapper
     }
 
     /**
-     * Поиск значений obj_id объектов имеющих данный тег/теги
+     * РџРѕРёСЃРє Р·РЅР°С‡РµРЅРёР№ obj_id РѕР±СЉРµРєС‚РѕРІ РёРјРµСЋС‰РёС… РґР°РЅРЅС‹Р№ С‚РµРі/С‚РµРіРё
      *
-     * @param array $tag Таги
+     * @param array $tag РўР°РіРё
      * @return array of obj_id values
      */
     public function searchObjIdByTag($tag)
     {
-        // ищем obj_id сущностей у которых есть этот таг
+        // РёС‰РµРј obj_id СЃСѓС‰РЅРѕСЃС‚РµР№ Сѓ РєРѕС‚РѕСЂС‹С… РµСЃС‚СЊ СЌС‚РѕС‚ С‚Р°Рі
         $criteria = new criteria('tags_tagsItem', 'ti');
 
         $joinTagItemRel= new criterion('ti.id','tir.item_id', criteria::EQUAL, true);
@@ -100,9 +100,9 @@ class tagsMapper extends simpleMapper
     }
 
     /**
-     * Присоединение к таблице с тегами таблицы связи и таблицы контейнера
+     * РџСЂРёСЃРѕРµРґРёРЅРµРЅРёРµ Рє С‚Р°Р±Р»РёС†Рµ СЃ С‚РµРіР°РјРё С‚Р°Р±Р»РёС†С‹ СЃРІСЏР·Рё Рё С‚Р°Р±Р»РёС†С‹ РєРѕРЅС‚РµР№РЅРµСЂР°
      *
-     * @param mixed $items Массив объектов или список obj_id
+     * @param mixed $items РњР°СЃСЃРёРІ РѕР±СЉРµРєС‚РѕРІ РёР»Рё СЃРїРёСЃРѕРє obj_id
      * @return array of tags
      */
     protected function joinTagsItem(criteria $criteria)
@@ -115,9 +115,9 @@ class tagsMapper extends simpleMapper
     }
 
     /**
-     * Поиск значения повторов самого распространенного тега
+     * РџРѕРёСЃРє Р·РЅР°С‡РµРЅРёСЏ РїРѕРІС‚РѕСЂРѕРІ СЃР°РјРѕРіРѕ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅРµРЅРЅРѕРіРѕ С‚РµРіР°
      *
-     * @param mixed $items Массив объектов или список obj_id
+     * @param mixed $items РњР°СЃСЃРёРІ РѕР±СЉРµРєС‚РѕРІ РёР»Рё СЃРїРёСЃРѕРє obj_id
      * @return array of tags
      */
     public function getMaxCount($obj_ids)
@@ -148,9 +148,9 @@ class tagsMapper extends simpleMapper
     }
 
     /**
-     * Поиск тегов по объектам
+     * РџРѕРёСЃРє С‚РµРіРѕРІ РїРѕ РѕР±СЉРµРєС‚Р°Рј
      *
-     * @param mixed $items Массив объектов или список obj_id
+     * @param mixed $items РњР°СЃСЃРёРІ РѕР±СЉРµРєС‚РѕРІ РёР»Рё СЃРїРёСЃРѕРє obj_id
      * @return array of tags
      */
     public function searchAllTagsByItems($items, $limit = null)
@@ -184,7 +184,7 @@ class tagsMapper extends simpleMapper
         $s = new simpleSelect($criteria);
 
         $maxCount = $this->getMaxCount($obj_ids);
-        // нет тегов, возвращаем сразу пустой массив
+        // РЅРµС‚ С‚РµРіРѕРІ, РІРѕР·РІСЂР°С‰Р°РµРј СЃСЂР°Р·Сѓ РїСѓСЃС‚РѕР№ РјР°СЃСЃРёРІ
         if($maxCount == 0) {
             return array();
         }
@@ -192,7 +192,7 @@ class tagsMapper extends simpleMapper
         $stmt = $this->searchByCriteria($criteria);
         $result = array();
 
-        //@fix так как fillArray режет все лишние поля
+        //@fix С‚Р°Рє РєР°Рє fillArray СЂРµР¶РµС‚ РІСЃРµ Р»РёС€РЅРёРµ РїРѕР»СЏ
         while ($row = $stmt->fetch()) {
             foreach ($row as $key => $field) {
                 if(strstr($key, self::TABLE_KEY_DELIMITER)) {
@@ -200,10 +200,10 @@ class tagsMapper extends simpleMapper
                 }
             }
 
-            // удельный вес тэга величина линейная, а правильно ли это?
-            // если тэг креведко упомянут 1000 раз, а ближайший тэг всего 100, то всё в единицу веса попадет
-            // облако потеряет воздушность и адекватность
-            //@todo $max(максимальный вес тега) вынести в конфиг
+            // СѓРґРµР»СЊРЅС‹Р№ РІРµСЃ С‚СЌРіР° РІРµР»РёС‡РёРЅР° Р»РёРЅРµР№РЅР°СЏ, Р° РїСЂР°РІРёР»СЊРЅРѕ Р»Рё СЌС‚Рѕ?
+            // РµСЃР»Рё С‚СЌРі РєСЂРµРІРµРґРєРѕ СѓРїРѕРјСЏРЅСѓС‚ 1000 СЂР°Р·, Р° Р±Р»РёР¶Р°Р№С€РёР№ С‚СЌРі РІСЃРµРіРѕ 100, С‚Рѕ РІСЃС‘ РІ РµРґРёРЅРёС†Сѓ РІРµСЃР° РїРѕРїР°РґРµС‚
+            // РѕР±Р»Р°РєРѕ РїРѕС‚РµСЂСЏРµС‚ РІРѕР·РґСѓС€РЅРѕСЃС‚СЊ Рё Р°РґРµРєРІР°С‚РЅРѕСЃС‚СЊ
+            //@todo $max(РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РІРµСЃ С‚РµРіР°) РІС‹РЅРµСЃС‚Рё РІ РєРѕРЅС„РёРі
             $max = 5;
             $row['weight'] = round($max * $row['count'] / $maxCount);
             $result[$row[$this->tableKey]] = $this->createItemFromRow($row);
@@ -213,7 +213,7 @@ class tagsMapper extends simpleMapper
     }
 
     /**
-     * Возвращает доменный объект по аргументам
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРѕРјРµРЅРЅС‹Р№ РѕР±СЉРµРєС‚ РїРѕ Р°СЂРіСѓРјРµРЅС‚Р°Рј
      *
      * @return simple
      */

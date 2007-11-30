@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * forumMoveThreadController: контроллер для метода moveThread модуля forum
+ * forumMoveThreadController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° moveThread РјРѕРґСѓР»СЏ forum
  *
  * @package modules
  * @subpackage forum
@@ -35,7 +35,7 @@ class forumMoveThreadController extends simpleController
         $categories = $categoryMapper->searchAll();
 
         $validator = new formValidator();
-        $validator->add('callback', 'forum', 'Выбранного раздела форума не существует, либо перенос в тот же раздел', array('checkForumExists', $thread));
+        $validator->add('callback', 'forum', 'Р’С‹Р±СЂР°РЅРЅРѕРіРѕ СЂР°Р·РґРµР»Р° С„РѕСЂСѓРјР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚, Р»РёР±Рѕ РїРµСЂРµРЅРѕСЃ РІ С‚РѕС‚ Р¶Рµ СЂР°Р·РґРµР»', array('checkForumExists', $thread));
 
         if ($validator->validate()) {
             $oldForum = $thread->getForum();
@@ -47,7 +47,7 @@ class forumMoveThreadController extends simpleController
 
             $oldForum->setThreadsCount($oldForum->getThreadsCount() - 1);
             $oldForum->setPostsCount($oldForum->getPostsCount() - $thread->getPostsCount());
-            // если в переносимом треде был последний пост
+            // РµСЃР»Рё РІ РїРµСЂРµРЅРѕСЃРёРјРѕРј С‚СЂРµРґРµ Р±С‹Р» РїРѕСЃР»РµРґРЅРёР№ РїРѕСЃС‚
             if ($oldForum->getLastPost()->getThread()->getId() == $thread->getId()) {
                 $criteria = new criteria();
                 $criteria->addJoin($forum->section() . '_post', new criterion('p.thread_id', 'thread.id', criteria::EQUAL, true), 'p', criteria::JOIN_INNER);

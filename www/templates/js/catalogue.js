@@ -6,7 +6,7 @@ function addOne()
     var tr = tbody.insertRow(tbody.rows.length);
     var td = tr.insertCell(tr.cells.length);
     td.width = '20%';
-    td.innerHTML = 'Значение';
+    td.innerHTML = 'Р—РЅР°С‡РµРЅРёРµ';
     td = tr.insertCell(tr.cells.length);
     td.width = '80%';
 
@@ -36,7 +36,7 @@ function mzzLoadTypeConfig(value)
         return false;
     }
     var loadingDiv = new Element('div', {className: 'jipAjaxLoading'});
-    loadingDiv.update('Загрузка данных...');
+    loadingDiv.update('Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С…...');
     $('catalogueTypeConfig').appendChild(loadingDiv);
     $('catalogueSubmitProperty').disable();
 
@@ -44,7 +44,7 @@ function mzzLoadTypeConfig(value)
         parameters: {loadType: value}, method: 'GET',
         onFailure: function () {
             loadingDiv.addClassName('jipAjaxLoadingError');
-            loadingDiv.update('Ошибка загрузки.');
+            loadingDiv.update('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё.');
         },
         onComplete: function(transport, param) {
             mzzCatalogue.autoloadSelects();
@@ -102,9 +102,9 @@ var mzzCatalogue = {
             this.setLoadingMode($('catalogue_extractMethods_list'));
         }
         if ($('methodArgsValues')) {
-            $('methodArgsValues').update('Загрузка данных...');
+            $('methodArgsValues').update('Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С…...');
         }
-        optList.options[0] = new Option('Загрузка...', '');
+        optList.options[0] = new Option('Р—Р°РіСЂСѓР·РєР°...', '');
 
         var params = $H({loadType: type, for_id: $F(select)});
         if (type == 'folders') {
@@ -159,10 +159,10 @@ var mzzCatalogue = {
                         if (m > 0) {
                             extractMethodsList.enable();
                         } else {
-                            extractMethodsList.options[0] = new Option('Данных нет', '');
+                            extractMethodsList.options[0] = new Option('Р”Р°РЅРЅС‹С… РЅРµС‚', '');
                         }
                     } else if (type == 'methods' && $('catalogue_extractMethods_list')) {
-                        $('catalogue_extractMethods_list').options[0] = new Option('Данные не получены.', '');
+                        $('catalogue_extractMethods_list').options[0] = new Option('Р”Р°РЅРЅС‹Рµ РЅРµ РїРѕР»СѓС‡РµРЅС‹.', '');
                     }
 
                     optList.selectedIndex = selectedIndex || 0;
@@ -178,14 +178,14 @@ var mzzCatalogue = {
                         }
                         optList.enable();
                     } else {
-                        optList.options[0] = new Option('Данных нет', '');
+                        optList.options[0] = new Option('Р”Р°РЅРЅС‹С… РЅРµС‚', '');
                     }
 
                 } else {
-                    optList.options[0] = new Option('Данные не получены.', '');
+                    optList.options[0] = new Option('Р”Р°РЅРЅС‹Рµ РЅРµ РїРѕР»СѓС‡РµРЅС‹.', '');
                 }
             }, onFailure: function(transport) {
-                optList.options[0] = new Option('Ошибка загрузки.', '');
+                optList.options[0] = new Option('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё.', '');
             }
         });
     },
@@ -195,7 +195,7 @@ var mzzCatalogue = {
         if (elm) {
             elm.disable();
             elm.options.length = 0;
-            elm.options[0] = new Option('Загрузка...');
+            elm.options[0] = new Option('Р—Р°РіСЂСѓР·РєР°...');
         }
     },
 
@@ -208,7 +208,7 @@ var mzzCatalogue = {
     getMethodInfo: function(select)
     {
         var classId = $F($('catalogue_classes_list'));
-        $('methodArgsValues').update('Загрузка данных...');
+        $('methodArgsValues').update('Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С…...');
         $('catalogueSubmitProperty').disable();
 
         new Ajax.Request(CATALOGUE_PATH, {
@@ -217,9 +217,9 @@ var mzzCatalogue = {
                     var methodInfo = $H(eval(transport.responseText));
 
                     if (!Object.isUndefined(methodInfo.get('notCallable'))) {
-                        $('methodArgsValues').update('<span style="color: #9C0303; font-weight: bold;">Данный метод не может быть вызван. Возможно, один из его обязательных аргументов нескалярного типа или отсутствует PHPDoc-комментарий к нему. Укажите другой метод.</span>');
+                        $('methodArgsValues').update('<span style="color: #9C0303; font-weight: bold;">Р”Р°РЅРЅС‹Р№ РјРµС‚РѕРґ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РІС‹Р·РІР°РЅ. Р’РѕР·РјРѕР¶РЅРѕ, РѕРґРёРЅ РёР· РµРіРѕ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹С… Р°СЂРіСѓРјРµРЅС‚РѕРІ РЅРµСЃРєР°Р»СЏСЂРЅРѕРіРѕ С‚РёРїР° РёР»Рё РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚ PHPDoc-РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє РЅРµРјСѓ. РЈРєР°Р¶РёС‚Рµ РґСЂСѓРіРѕР№ РјРµС‚РѕРґ.</span>');
                     } else {
-                        var description = methodInfo.get('description') || 'Описание не указано';
+                        var description = methodInfo.get('description') || 'РћРїРёСЃР°РЅРёРµ РЅРµ СѓРєР°Р·Р°РЅРѕ';
                         methodInfo.unset('description');
 
                         $('methodArgsValues').update(description);
@@ -251,8 +251,8 @@ var mzzCatalogue = {
                                 valueInput.writeAttribute('name', 'typeConfig[methodArgs][' + i + ']');
 
                                 if (pair.value.type == 'boolean') {
-                                    valueInput.options[0] = new Option('да','true');
-                                    valueInput.options[1] = new Option('нет','false');
+                                    valueInput.options[0] = new Option('РґР°','true');
+                                    valueInput.options[1] = new Option('РЅРµС‚','false');
 
                                     if (!Object.isUndefined(mzzCatalogue.values.get('methodArgs')) &&
                                         !Object.isUndefined(mzzCatalogue.values.get('methodArgs')['arg' + i])) {
@@ -265,9 +265,9 @@ var mzzCatalogue = {
 
                                     if (!Object.isUndefined(pair.value.defaultValue)) {
                                         if (pair.value.defaultValue == 'false') {
-                                            pair.value.defaultValue = 'нет';
+                                            pair.value.defaultValue = 'РЅРµС‚';
                                         } else if (pair.value.defaultValue == 'true') {
-                                            pair.value.defaultValue = 'да'
+                                            pair.value.defaultValue = 'РґР°'
                                         }
                                     }
                                 } else {
@@ -285,15 +285,15 @@ var mzzCatalogue = {
 
                             if (!Object.isUndefined(pair.value.defaultValue)) {
                                 if (pair.value.defaultValue != '') {
-                                    var defaultText = 'по умолчанию: ' + pair.value.defaultValue;
+                                    var defaultText = 'РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ: ' + pair.value.defaultValue;
                                 } else {
-                                    var defaultText = 'пустое значение по умолчанию';
+                                    var defaultText = 'РїСѓСЃС‚РѕРµ Р·РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ';
                                 }
 
                                 if (editable) {
                                     defaultText = ' (' + defaultText + ')';
                                 } else {
-                                   defaultText += ', нередактируемое значение';
+                                   defaultText += ', РЅРµСЂРµРґР°РєС‚РёСЂСѓРµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ';
                                 }
 
                                 var defaultValueSpan = new Element('span').setStyle({color: '#777777'});
@@ -305,7 +305,7 @@ var mzzCatalogue = {
                             var argDescRow   = descTable.insertRow(-1);
                             var descCell  = $(argDescRow.insertCell(-1));
                             descCell.setStyle({color: "#838383", fontSize: "90%"});
-                            descCell.innerHTML = 'Тип: <strong>' + pair.value.type + '</strong><br />' + pair.value.desc;
+                            descCell.innerHTML = 'РўРёРї: <strong>' + pair.value.type + '</strong><br />' + pair.value.desc;
 
                             i++;
                         });
@@ -314,10 +314,10 @@ var mzzCatalogue = {
                         $('methodArgsValues').appendChild(descTable);
                     }
                 } else {
-                    $('methodArgsValues').update('Данные не получены');
+                    $('methodArgsValues').update('Р”Р°РЅРЅС‹Рµ РЅРµ РїРѕР»СѓС‡РµРЅС‹');
                 }
             }, onFailure: function(transport) {
-                $('methodArgsValues').update('Данные не получены');
+                $('methodArgsValues').update('Р”Р°РЅРЅС‹Рµ РЅРµ РїРѕР»СѓС‡РµРЅС‹');
             }
         });
     },

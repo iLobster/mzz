@@ -13,7 +13,7 @@
  */
 
 /**
- * formFileField: поле выбора файла
+ * formFileField: РїРѕР»Рµ РІС‹Р±РѕСЂР° С„Р°Р№Р»Р°
  *
  * @package system
  * @subpackage forms

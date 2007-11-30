@@ -1,8 +1,8 @@
 <table border="0" width="100%" cellpadding="0" cellspacing="1">
     <tr>
         <td><b>ID</b></td>
-        <td><b>Название</b></td>
-        <td><b>Заголовок</b></td>
+        <td><b>РќР°Р·РІР°РЅРёРµ</b></td>
+        <td><b>Р—Р°РіРѕР»РѕРІРѕРє</b></td>
         <td><b>JIP</b></td>
     </tr>
     {foreach from=$pages item=page}
@@ -15,6 +15,6 @@
     {/foreach}
     <tr>
         <td align="center"><a href="{url route=default2 section=page action=create}"><img src="{$SITE_PATH}/templates/images/add.gif" width="16" height="16" /></a></td>
-        <td colspan="6"><a href="{url route=default2 section=page action=create}">Создать страницу</a></td>
+        <td colspan="6"><a href="{url route=default2 section=page action=create}">РЎРѕР·РґР°С‚СЊ СЃС‚СЂР°РЅРёС†Сѓ</a></td>
     </tr>
 </table>

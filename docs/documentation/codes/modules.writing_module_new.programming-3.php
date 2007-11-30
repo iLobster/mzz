@@ -4,28 +4,28 @@ class messageViewController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer'); // ïîëó÷àåì id ñîîáùåíèÿ
-        $messageMapper = $this->toolkit->getMapper('message', 'message'); // ïîëó÷àåì ìàïïåğ
-        $message = $messageMapper->searchByKey($id); // ïîëó÷àåì ñîîáùåíèå
+        $id = $this->request->get('id', 'integer'); // Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ id ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ñ
+        $messageMapper = $this->toolkit->getMapper('message', 'message'); // Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ Ğ¼Ğ°Ğ¿Ğ¿ĞµÑ€
+        $message = $messageMapper->searchByKey($id); // Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ğµ
 
-        // åñëè ñîîáùåíèå íå íàéäåíî - ïîêàçûâàåì îøèáêó
+        // ĞµÑĞ»Ğ¸ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ğµ Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½Ğ¾ - Ğ¿Ğ¾ĞºĞ°Ğ·Ñ‹Ğ²Ğ°ĞµĞ¼ Ğ¾ÑˆĞ¸Ğ±ĞºÑƒ
         if (!$message) {
             return $messageMapper->get404()->run();
         }
 
-        // åñëè ñîîáùåíèå åù¸ íå áûëî ïğîñìîòğåíî - óñòàíàâëèâàåì ôëàã "ïğîñìîòğà" â 1
+        // ĞµÑĞ»Ğ¸ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ğµ ĞµÑ‰Ñ‘ Ğ½Ğµ Ğ±Ñ‹Ğ»Ğ¾ Ğ¿Ñ€Ğ¾ÑĞ¼Ğ¾Ñ‚Ñ€ĞµĞ½Ğ¾ - ÑƒÑÑ‚Ğ°Ğ½Ğ°Ğ²Ğ»Ğ¸Ğ²Ğ°ĞµĞ¼ Ñ„Ğ»Ğ°Ğ³ "Ğ¿Ñ€Ğ¾ÑĞ¼Ğ¾Ñ‚Ñ€Ğ°" Ğ² 1
         if (!$message->getWatched()) {
             $message->setWatched(1);
             $messageMapper->save($message);
         }
 
-        $category = $message->getCategory(); // ïîëó÷àåì êàòåãîğèş ñîîáùåíèÿ
+        $category = $message->getCategory(); // Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ ĞºĞ°Ñ‚ĞµĞ³Ğ¾Ñ€Ğ¸Ñ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ñ
         $isSent = $category->getName() == 'sent';
 
-        $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory'); // ïîëó÷àåì ìàïïåğ êàòåãîğèé
-        $messageCategories = $messageCategoryMapper->searchAll(); // âûáèğàåì âñå êàòåãîğèè
+        $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory'); // Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ Ğ¼Ğ°Ğ¿Ğ¿ĞµÑ€ ĞºĞ°Ñ‚ĞµĞ³Ğ¾Ñ€Ğ¸Ğ¹
+        $messageCategories = $messageCategoryMapper->searchAll(); // Ğ²Ñ‹Ğ±Ğ¸Ñ€Ğ°ĞµĞ¼ Ğ²ÑĞµ ĞºĞ°Ñ‚ĞµĞ³Ğ¾Ñ€Ğ¸Ğ¸
         
-        // ïåğåäà¸ì äàííûå â øàáëîí
+        // Ğ¿ĞµÑ€ĞµĞ´Ğ°Ñ‘Ğ¼ Ğ´Ğ°Ğ½Ğ½Ñ‹Ğµ Ğ² ÑˆĞ°Ğ±Ğ»Ğ¾Ğ½
         $this->smarty->assign('categories', $messageCategories);
         $this->smarty->assign('messageCategory', $category);
         $this->smarty->assign('isSent', $isSent);

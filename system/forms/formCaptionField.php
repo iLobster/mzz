@@ -13,7 +13,7 @@
  */
 
 /**
- * formCaptionField: заголовок поля формы
+ * formCaptionField: Р·Р°РіРѕР»РѕРІРѕРє РїРѕР»СЏ С„РѕСЂРјС‹
  *
  * @package system
  * @subpackage forms

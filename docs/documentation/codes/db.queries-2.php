@@ -3,5 +3,5 @@
     $criteria->addSelectField('field1');
     $criteria->addSelectField('field2', 'alias');
     $select = new simpleSelect($criteria);
-    $select->toString(); // âåðí¸ò "SELECT `field1`, `field2` AS `alias` FROM `table`"
+    $select->toString(); // Ð²ÐµÑ€Ð½Ñ‘Ñ‚ "SELECT `field1`, `field2` AS `alias` FROM `table`"
 ?>

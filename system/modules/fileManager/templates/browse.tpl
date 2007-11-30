@@ -1,4 +1,4 @@
-{include file="jipTitle.tpl" title="Менеджер файлов"}
+{include file="jipTitle.tpl" title="РњРµРЅРµРґР¶РµСЂ С„Р°Р№Р»РѕРІ"}
 <script type="text/javascript">
 jipWindow.autoSize();
 {literal}
@@ -14,23 +14,23 @@ if (mzzFileBrowse.checkOptions()) {
 </script>
 
 <div class="fmBrowseInterfaceDetails">
-<div id="fmBrowseDetailsWrap"><div class="helpMessage">Выберите файл из правой части</div></div>
+<div id="fmBrowseDetailsWrap"><div class="helpMessage">Р’С‹Р±РµСЂРёС‚Рµ С„Р°Р№Р» РёР· РїСЂР°РІРѕР№ С‡Р°СЃС‚Рё</div></div>
 </div>
 <div class="fmBrowseMainInterface">
 
 <div class="fmBrowse">
 
 {if empty($files)}
-<div class="noticeMessage">Папка пуста. Выбирать нечего.</div>
+<div class="noticeMessage">РџР°РїРєР° РїСѓСЃС‚Р°. Р’С‹Р±РёСЂР°С‚СЊ РЅРµС‡РµРіРѕ.</div>
 {/if}
 {foreach from=$files item="file"}
     {if $file->extra() instanceof fmImageFile}
     <div class="fmBrowseThumbWrap" id="file-{$file->getId()}" ondblclick="mzzFileBrowse.selectFile(this, {$file->getId()});" onmousedown="mzzFileBrowse.makeSelected(this);">
         <div class="fmBrowseThumb"><img src="{$file->extra()->getThumbnail()}" title="{$file->getName()|htmlspecialchars}" alt="{$file->getName()}" /></div>
         <div class="fileDetails" style="display: none;">
-        <strong>Имя:</strong><span>{$file->getName()}</span>
-        <strong>Размер:</strong><span>{$file->getSize()|filesize}</span>
-        <strong>Изменено:</strong><span>{$file->getModified()|date_format:"%e/%m/%Y %T"}</span>
+        <strong>РРјСЏ:</strong><span>{$file->getName()}</span>
+        <strong>Р Р°Р·РјРµСЂ:</strong><span>{$file->getSize()|filesize}</span>
+        <strong>РР·РјРµРЅРµРЅРѕ:</strong><span>{$file->getModified()|date_format:"%e/%m/%Y %T"}</span>
         </div>
         <span title="{$file->getName()}">{$file->getName()|substr:0:14}{if strlen($file->getName()) > 14}...{/if}</span>
      </div>

@@ -1,4 +1,4 @@
-<div class="pageTitle">Список страниц</div>
+<div class="pageTitle">РЎРїРёСЃРѕРє СЃС‚СЂР°РЅРёС†</div>
 
 {include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="page"}
 
@@ -7,7 +7,7 @@
         <thead class="tableListHead">
             <tr>
                 <td style="width: 30px;">&nbsp;</td>
-                <td style="text-align: left;">Название</td>
+                <td style="text-align: left;">РќР°Р·РІР°РЅРёРµ</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
         </thead>
@@ -38,7 +38,7 @@
         {/foreach}
         <tr class="tableListFoot">
             <td>{$pager->toString('adminPager.tpl')}</td>
-            <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
+            <td colspan="2" style="text-align: right; color: #7A7A7A;">Р’СЃРµРіРѕ: {$pager->getItemsCount()}</td>
         </tr>
     </table>
 </div>

@@ -15,7 +15,7 @@
 fileLoader::load('db/criteria');
 
 /**
- * Класс для генерации простых SELECT SQL-запросов
+ * РљР»Р°СЃСЃ РґР»СЏ РіРµРЅРµСЂР°С†РёРё РїСЂРѕСЃС‚С‹С… SELECT SQL-Р·Р°РїСЂРѕСЃРѕРІ
  *
  * @package system
  * @subpackage db
@@ -25,21 +25,21 @@ fileLoader::load('db/criteria');
 class simpleSelect
 {
     /**
-     * Критерии выборки
+     * РљСЂРёС‚РµСЂРёРё РІС‹Р±РѕСЂРєРё
      *
      * @var criteria
      */
     private $criteria;
 
     /**
-     * Объект базы данных
+     * РћР±СЉРµРєС‚ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
      *
      * @var mzzPdo
      */
     private $db;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param criteria $criteria
      */
@@ -49,9 +49,9 @@ class simpleSelect
     }
 
     /**
-     * Возвращает SQL-запрос
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ SQL-Р·Р°РїСЂРѕСЃ
      *
-     * @return string SQL-запрос
+     * @return string SQL-Р·Р°РїСЂРѕСЃ
      */
     public function toString()
     {
@@ -67,7 +67,7 @@ class simpleSelect
             $alias = $this->criteria->getSelectFieldAlias($select);
 
             if($alias && in_array($alias, $aliases)) {
-                // если поле с таким алиасом уже есть - то старое заменяем новым
+                // РµСЃР»Рё РїРѕР»Рµ СЃ С‚Р°РєРёРј Р°Р»РёР°СЃРѕРј СѓР¶Рµ РµСЃС‚СЊ - С‚Рѕ СЃС‚Р°СЂРѕРµ Р·Р°РјРµРЅСЏРµРј РЅРѕРІС‹Рј
                 unset($selectClause[$alias]);
             } else {
                 $aliases[] = $alias;
@@ -160,7 +160,7 @@ class simpleSelect
     }
 
     /**
-     * Получение объекта для работы с БД
+     * РџРѕР»СѓС‡РµРЅРёРµ РѕР±СЉРµРєС‚Р° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ Р‘Р”
      *
      * @return mzzPdo
      */
@@ -173,7 +173,7 @@ class simpleSelect
     }
 
     /**
-     * Экранирование значений
+     * Р­РєСЂР°РЅРёСЂРѕРІР°РЅРёРµ Р·РЅР°С‡РµРЅРёР№
      *
      * @param mixed $value
      * @return mixed
@@ -190,7 +190,7 @@ class simpleSelect
     }
 
     /**
-     * Экранирование алиасов
+     * Р­РєСЂР°РЅРёСЂРѕРІР°РЅРёРµ Р°Р»РёР°СЃРѕРІ
      *
      * @param string $alias
      * @return string
@@ -201,7 +201,7 @@ class simpleSelect
     }
 
     /**
-     * Экранирование имён полей
+     * Р­РєСЂР°РЅРёСЂРѕРІР°РЅРёРµ РёРјС‘РЅ РїРѕР»РµР№
      *
      * @param string $field
      * @return string
@@ -212,7 +212,7 @@ class simpleSelect
     }
 
     /**
-     * Экранирование имён таблиц
+     * Р­РєСЂР°РЅРёСЂРѕРІР°РЅРёРµ РёРјС‘РЅ С‚Р°Р±Р»РёС†
      *
      * @param string $table
      * @return string

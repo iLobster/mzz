@@ -9,9 +9,9 @@
     {/foreach}
     </ul></div>
 {elseif isset($success) && isset($photo_name)}
-    <div id="galleryUploadStatus">Фотография "{$photo_name}" загружена.</div>
+    <div id="galleryUploadStatus">Р¤РѕС‚РѕРіСЂР°С„РёСЏ "{$photo_name}" Р·Р°РіСЂСѓР¶РµРЅР°.</div>
 {else}
-<div class="jipTitle">{if $isEdit}Редактирование "{$photo->getName()}" из альбома {$albumTitle}{else}Загрузка фото в альбом {$albumTitle}{/if}</div>
+<div class="jipTitle">{if $isEdit}Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ "{$photo->getName()}" РёР· Р°Р»СЊР±РѕРјР° {$albumTitle}{else}Р—Р°РіСЂСѓР·РєР° С„РѕС‚Рѕ РІ Р°Р»СЊР±РѕРј {$albumTitle}{/if}</div>
 {if !$isEdit}
     {form->open action=$form_action method="post" ajaxUpload="gallery"}
 {else}
@@ -19,25 +19,25 @@
 {/if}
 <table width="99%" border="0" cellpadding="5" cellspacing="0" class="systemTable" align="center">
             {if !$isEdit}<tr>
-                <td style="vertical-align: top;">{form->caption name="image" value="Файл"}</td>
+                <td style="vertical-align: top;">{form->caption name="image" value="Р¤Р°Р№Р»"}</td>
                 <td>{form->file name="image"}{$errors->get('image')}
                 {*<span style="text-align:center; color: #999; font-size: 90%;">
-                    {if $folder->getFilesize() > 0}<br />Ограничение на размер загружаемого файла: <b>{$folder->getFilesize()}</b> Мб{/if}
+                    {if $folder->getFilesize() > 0}<br />РћРіСЂР°РЅРёС‡РµРЅРёРµ РЅР° СЂР°Р·РјРµСЂ Р·Р°РіСЂСѓР¶Р°РµРјРѕРіРѕ С„Р°Р№Р»Р°: <b>{$folder->getFilesize()}</b> РњР±{/if}
                     {assign var=exts value=$folder->getExts()}
-                    {if not empty($exts)}<br />Ограничение на расширения файлов: <b>{$folder->getExts()}</b>{/if}
+                    {if not empty($exts)}<br />РћРіСЂР°РЅРёС‡РµРЅРёРµ РЅР° СЂР°СЃС€РёСЂРµРЅРёСЏ С„Р°Р№Р»РѕРІ: <b>{$folder->getExts()}</b>{/if}
                 </span> *}
                 </td>
             </tr>{/if}
             <tr>
-                <td>{form->caption name="name" value="Название фотки"}</td>
+                <td>{form->caption name="name" value="РќР°Р·РІР°РЅРёРµ С„РѕС‚РєРё"}</td>
                 <td>{form->text name="name" value="$photoName"}{$errors->get('name')}</td>
             </tr>
             <tr>
-                <td>{form->caption name="about" value="Описание фотки"}</td>
+                <td>{form->caption name="about" value="РћРїРёСЃР°РЅРёРµ С„РѕС‚РєРё"}</td>
                 <td>{form->textarea name="about" value=$photoAbout}{$errors->get('about')}</td>
             </tr>
             <tr>
-                <td colspan=2 style="text-align:center;">{form->submit id="galleryUploadSubmitButton" name="submit" value="Загрузить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+                <td colspan=2 style="text-align:center;">{form->submit id="galleryUploadSubmitButton" name="submit" value="Р—Р°РіСЂСѓР·РёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
             </tr>
             </tr>
         </table>

@@ -1,6 +1,6 @@
 {add file="menuTree.css"}
 {add file="menuTree.js"}
-<div class="pageTitle">Ñïèñîê ìåíþ {$folder->getJip()}</div>
+<div class="pageTitle">Ð¡Ð¿Ð¸ÑÐ¾Ðº Ð¼ÐµÐ½ÑŽ {$folder->getJip()}</div>
 <div class="pageContent">
 
 <p></p>

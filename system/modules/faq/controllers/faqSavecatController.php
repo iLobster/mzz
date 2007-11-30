@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * faqSavecatController: êîíòğîëëåğ äëÿ ìåòîäà createcat ìîäóëÿ faq
+ * faqSavecatController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° createcat Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ faq
  *
  * @package modules
  * @subpackage faq
@@ -36,8 +36,8 @@ class faqSavecatController extends simpleController
         $category = ($isEdit) ? $categoryMapper->searchByName($name) : $categoryMapper->create();
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Ââåäèòå âñå äàííûå');
-        $validator->add('required', 'title', 'Ââåäèòå âñå äàííûå');
+        $validator->add('required', 'name', 'Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ²ÑĞµ Ğ´Ğ°Ğ½Ğ½Ñ‹Ğµ');
+        $validator->add('required', 'title', 'Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ²ÑĞµ Ğ´Ğ°Ğ½Ğ½Ñ‹Ğµ');
 
 
         if (!$validator->validate()) {

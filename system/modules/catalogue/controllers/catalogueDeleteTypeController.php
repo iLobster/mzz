@@ -13,7 +13,7 @@
  */
 
 /**
- * catalogueDeleteTypeController: êîíòðîëëåð äëÿ ìåòîäà deleteType ìîäóëÿ catalogue
+ * catalogueDeleteTypeController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° deleteType Ð¼Ð¾Ð´ÑƒÐ»Ñ catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -29,7 +29,7 @@ class catalogueDeleteTypeController extends simpleController
 
         $item = $catalogueMapper->searchOneByField('type_id', $id);
         if($item){
-            return 'Òèï íå ìîæåò áûòü óäàë¸í';
+            return 'Ð¢Ð¸Ð¿ Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ ÑƒÐ´Ð°Ð»Ñ‘Ð½';
         }
 
         $catalogueMapper->deleteType($id);

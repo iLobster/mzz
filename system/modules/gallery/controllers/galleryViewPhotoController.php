@@ -13,7 +13,7 @@
  */
 
 /**
- * galleryViewPhotoController: контроллер для метода viewPhoto модуля gallery
+ * galleryViewPhotoController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° viewPhoto РјРѕРґСѓР»СЏ gallery
  *
  * @package modules
  * @subpackage gallery

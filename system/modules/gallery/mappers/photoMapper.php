@@ -15,7 +15,7 @@
 fileLoader::load('gallery/photo');
 
 /**
- * photoMapper: маппер
+ * photoMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage gallery
@@ -25,14 +25,14 @@ fileLoader::load('gallery/photo');
 class photoMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'gallery';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */

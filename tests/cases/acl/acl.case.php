@@ -116,12 +116,12 @@ class aclTest extends unitTestCase
         $this->db->query("INSERT INTO `user_user` (`id`, `login`) VALUES (1, 'Guest')");
         try {
             $acl = new acl('news', 'news', 'foo');
-            $this->fail('Не было брошено исключение');
+            $this->fail('РќРµ Р±С‹Р»Рѕ Р±СЂРѕС€РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ');
         } catch (mzzInvalidParameterException $e) {
-            $this->assertPattern('/объект не является инстанцией класса user/', $e->getMessage());
+            $this->assertPattern('/РѕР±СЉРµРєС‚ РЅРµ СЏРІР»СЏРµС‚СЃСЏ РёРЅСЃС‚Р°РЅС†РёРµР№ РєР»Р°СЃСЃР° user/', $e->getMessage());
             $this->pass();
         } catch (Exception $e) {
-            $this->fail('Брошено не ожидаемое исключение');
+            $this->fail('Р‘СЂРѕС€РµРЅРѕ РЅРµ РѕР¶РёРґР°РµРјРѕРµ РёСЃРєР»СЋС‡РµРЅРёРµ');
         }
     }
 
@@ -195,12 +195,12 @@ class aclTest extends unitTestCase
     {
         try {
             $this->acl->set('foo', 1);
-            $this->fail('Должно быть брошено исключение');
+            $this->fail('Р”РѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±СЂРѕС€РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ');
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern("/объекта 1 нет изменяемого действия 'foo'/", $e->getMessage());
+            $this->assertPattern("/РѕР±СЉРµРєС‚Р° 1 РЅРµС‚ РёР·РјРµРЅСЏРµРјРѕРіРѕ РґРµР№СЃС‚РІРёСЏ 'foo'/", $e->getMessage());
             $this->pass();
         } catch (Exception $e) {
-            $this->fail('Брошено не ожидаемое исключение');
+            $this->fail('Р‘СЂРѕС€РµРЅРѕ РЅРµ РѕР¶РёРґР°РµРјРѕРµ РёСЃРєР»СЋС‡РµРЅРёРµ');
         }
     }
 
@@ -209,12 +209,12 @@ class aclTest extends unitTestCase
         try {
             $acl = new acl(new userStub(), 666, 'news', 'news', $this->alias);
             $acl->set('foo', 1);
-            $this->fail('Должно быть брошено исключение');
+            $this->fail('Р”РѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±СЂРѕС€РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ');
         } catch (mzzRuntimeException $e) {
-            $this->assertEqual('Объект с идентификатором 666 не зарегистрирован в acl', $e->getMessage());
+            $this->assertEqual('РћР±СЉРµРєС‚ СЃ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј 666 РЅРµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ РІ acl', $e->getMessage());
             $this->pass();
         } catch (Exception $e) {
-            $this->fail('Брошено не ожидаемое исключение');
+            $this->fail('Р‘СЂРѕС€РµРЅРѕ РЅРµ РѕР¶РёРґР°РµРјРѕРµ РёСЃРєР»СЋС‡РµРЅРёРµ');
         }
     }
 

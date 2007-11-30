@@ -15,7 +15,7 @@
 */
 
 /**
- * userOnlineFilter: ôèëüòð äëÿ ôèêñèðîâàíèÿ ïîëüçîâàòåëåé îíëàéí
+ * userOnlineFilter: Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ Ð´Ð»Ñ Ñ„Ð¸ÐºÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹ Ð¾Ð½Ð»Ð°Ð¹Ð½
  *
  * @package system
  * @subpackage filters
@@ -24,16 +24,16 @@
 class userOnlineFilter implements iFilter
 {
     /**
-     * çàïóñê ôèëüòðà íà èñïîëíåíèå
+     * Ð·Ð°Ð¿ÑƒÑÐº Ñ„Ð¸Ð»ÑŒÑ‚Ñ€Ð° Ð½Ð° Ð¸ÑÐ¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ðµ
      *
-     * @param filterChain $filter_chain îáúåêò, ñîäåðæàùèé öåïî÷êó ôèëüòðîâ
-     * @param httpResponse $response îáúåêò, ñîäåðæàùèé èíôîðìàöèþ, âûâîäèìóþ êëèåíòó â áðàóçåð
+     * @param filterChain $filter_chain Ð¾Ð±ÑŠÐµÐºÑ‚, ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‰Ð¸Ð¹ Ñ†ÐµÐ¿Ð¾Ñ‡ÐºÑƒ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€Ð¾Ð²
+     * @param httpResponse $response Ð¾Ð±ÑŠÐµÐºÑ‚, ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‰Ð¸Ð¹ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ, Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ð¼ÑƒÑŽ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ñƒ Ð² Ð±Ñ€Ð°ÑƒÐ·ÐµÑ€
      * @param iRequest $request
      */
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
-        // îáíîâëÿåì ñåáÿ â ñïèñêå îíëàéí-ïîëüçîâàòåëåé
+        // Ð¾Ð±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ ÑÐµÐ±Ñ Ð² ÑÐ¿Ð¸ÑÐºÐµ Ð¾Ð½Ð»Ð°Ð¹Ð½-Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹
         $userOnlineMapper = $toolkit->getMapper('user', 'userOnline', 'user');
         $userOnlineMapper->refresh($toolkit->getUser());
 

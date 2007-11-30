@@ -13,7 +13,7 @@
 */
 
 /**
- * accessEditGroupController: êîíòðîëëåð äëÿ ìåòîäà editGroup ìîäóëÿ access
+ * accessEditGroupController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° editGroup Ð¼Ð¾Ð´ÑƒÐ»Ñ access
  *
  * @package modules
  * @subpackage access
@@ -78,8 +78,8 @@ class accessEditGroupController extends simpleController
         $this->smarty->assign('groups', $groups);
         $this->smarty->assign('actions', $actions);
 
-        $title = $group ? $group->getName() : 'äîáàâèòü ãðóïïó';
-        $this->response->setTitle('ACL -> îáúåêò ... -> ' . $title);
+        $title = $group ? $group->getName() : 'Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð³Ñ€ÑƒÐ¿Ð¿Ñƒ';
+        $this->response->setTitle('ACL -> Ð¾Ð±ÑŠÐµÐºÑ‚ ... -> ' . $title);
 
         return $this->smarty->fetch('access/editGroup.tpl');
     }

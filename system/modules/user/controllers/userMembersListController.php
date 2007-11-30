@@ -13,7 +13,7 @@
  */
 
 /**
- * userMembersListController: êîíòðîëëåð äëÿ ìåòîäà membersList ìîäóëÿ user
+ * userMembersListController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° membersList Ð¼Ð¾Ð´ÑƒÐ»Ñ user
  *
  * @package modules
  * @subpackage user
@@ -32,13 +32,13 @@ class userMembersListController extends simpleController
 
         $group = $groupMapper->searchById($id);
 
-        // ïðîâåðÿåì ÷òî íàéäåíà íóæíàÿ ãðóïïà
+        // Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‡Ñ‚Ð¾ Ð½Ð°Ð¹Ð´ÐµÐ½Ð° Ð½ÑƒÐ¶Ð½Ð°Ñ Ð³Ñ€ÑƒÐ¿Ð¿Ð°
         if (is_null($group)) {
             return $groupMapper->get404()->run();
         }
 
         if ($this->request->getMethod() == 'POST') {
-            // åñëè áûëà îòïðàâëåíà ôîðìà
+            // ÐµÑÐ»Ð¸ Ð±Ñ‹Ð»Ð° Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð° Ñ„Ð¾Ñ€Ð¼Ð°
             $users = $this->request->get('users', 'array', SC_POST);
 
             if (is_null($users)) {
@@ -47,7 +47,7 @@ class userMembersListController extends simpleController
 
             $usersArray = array();
 
-            // ôîðìèðóåì ìàññèâ ñ âûáðàííûìè ïîëüçîâàòåëÿìè
+            // Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€ÑƒÐµÐ¼ Ð¼Ð°ÑÑÐ¸Ð² Ñ Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑÐ¼Ð¸
             foreach (array_keys($users) as $val) {
                 $criteria = new criteria();
                 $criteria->add('group_id', $id)->add('user_id', $val);
@@ -66,7 +66,7 @@ class userMembersListController extends simpleController
 
             $this->smarty->assign('users', $users);
             $this->smarty->assign('group', $group);
-            $this->response->setTitle('Ãðóïïà -> ' . $group->getName() . ' -> ñïèñîê ïîëüçîâàòåëåé');
+            $this->response->setTitle('Ð“Ñ€ÑƒÐ¿Ð¿Ð° -> ' . $group->getName() . ' -> ÑÐ¿Ð¸ÑÐ¾Ðº Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹');
             return $this->smarty->fetch('user/membersList.tpl');
         }
     }

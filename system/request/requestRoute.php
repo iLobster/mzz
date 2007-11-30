@@ -17,14 +17,14 @@
 fileLoader::load('request/iRoute');
 
 /**
- * requestRoute: правило для маршрутизатора.
- * При совпадении PATH с шаблоном правила производит его декомпозицию.
+ * requestRoute: РїСЂР°РІРёР»Рѕ РґР»СЏ РјР°СЂС€СЂСѓС‚РёР·Р°С‚РѕСЂР°.
+ * РџСЂРё СЃРѕРІРїР°РґРµРЅРёРё PATH СЃ С€Р°Р±Р»РѕРЅРѕРј РїСЂР°РІРёР»Р° РїСЂРѕРёР·РІРѕРґРёС‚ РµРіРѕ РґРµРєРѕРјРїРѕР·РёС†РёСЋ.
  *
- * Примеры:
+ * РџСЂРёРјРµСЂС‹:
  * <code>
- * new requestRoute(':controller/:id/:action'); // совпадает с news/1/view
- * new requestRoute(':controller/:id', array('action' => 'view')); // совпадает с news/1
- * new requestRoute(':controller/{:id}some', array(), array('id' => '\d+')); // совпадает с news/1some
+ * new requestRoute(':controller/:id/:action'); // СЃРѕРІРїР°РґР°РµС‚ СЃ news/1/view
+ * new requestRoute(':controller/:id', array('action' => 'view')); // СЃРѕРІРїР°РґР°РµС‚ СЃ news/1
+ * new requestRoute(':controller/{:id}some', array(), array('id' => '\d+')); // СЃРѕРІРїР°РґР°РµС‚ СЃ news/1some
  * </code>
  *
  * @package system
@@ -34,88 +34,88 @@ fileLoader::load('request/iRoute');
 class requestRoute implements iRoute
 {
     /**
-     * Префикс для placeholder в шаблоне
+     * РџСЂРµС„РёРєСЃ РґР»СЏ placeholder РІ С€Р°Р±Р»РѕРЅРµ
      *
      */
     const VARIABLE_PREFIX = ':';
 
     /**
-     * Часть регулярного выражения, используемая по умолчанию
+     * Р§Р°СЃС‚СЊ СЂРµРіСѓР»СЏСЂРЅРѕРіРѕ РІС‹СЂР°Р¶РµРЅРёСЏ, РёСЃРїРѕР»СЊР·СѓРµРјР°СЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
      *
      */
     const DEFAULT_REGEX = '[^/]+';
 
     /**
-     * Разделить в регулярном выражении
+     * Р Р°Р·РґРµР»РёС‚СЊ РІ СЂРµРіСѓР»СЏСЂРЅРѕРј РІС‹СЂР°Р¶РµРЅРёРё
      *
      */
     const REGEX_DELIMITER = '#';
 
 
     /**
-     * Имя роута
+     * РРјСЏ СЂРѕСѓС‚Р°
      *
      * @var string
      */
     protected $name;
 
     /**
-     * Шаблон
+     * РЁР°Р±Р»РѕРЅ
      *
      * @var string
      */
     protected $pattern;
 
     /**
-     * Значения по умолчанию
+     * Р—РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
      *
      * @var array
      */
     protected $defaults;
 
     /**
-     * Иные требования к значению placeholder
+     * РРЅС‹Рµ С‚СЂРµР±РѕРІР°РЅРёСЏ Рє Р·РЅР°С‡РµРЅРёСЋ placeholder
      *
      * @var string
      */
     protected $requirements;
 
     /**
-     * Части полученные после декомпозиции PATH
+     * Р§Р°СЃС‚Рё РїРѕР»СѓС‡РµРЅРЅС‹Рµ РїРѕСЃР»Рµ РґРµРєРѕРјРїРѕР·РёС†РёРё PATH
      *
      * @var array
      */
     protected $parts;
 
     /**
-     * Регулярное выражение по которому шаблон сверяется с URL
+     * Р РµРіСѓР»СЏСЂРЅРѕРµ РІС‹СЂР°Р¶РµРЅРёРµ РїРѕ РєРѕС‚РѕСЂРѕРјСѓ С€Р°Р±Р»РѕРЅ СЃРІРµСЂСЏРµС‚СЃСЏ СЃ URL
      *
      * @var string
      */
     protected $regex;
 
     /**
-     * Результат декомпозиции. Ключом в массиве является имя placeholder
-     * или ключ, указанный в значениях по умолчанию
+     * Р РµР·СѓР»СЊС‚Р°С‚ РґРµРєРѕРјРїРѕР·РёС†РёРё. РљР»СЋС‡РѕРј РІ РјР°СЃСЃРёРІРµ СЏРІР»СЏРµС‚СЃСЏ РёРјСЏ placeholder
+     * РёР»Рё РєР»СЋС‡, СѓРєР°Р·Р°РЅРЅС‹Р№ РІ Р·РЅР°С‡РµРЅРёСЏС… РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
      *
      * @var array
      */
     protected $values;
 
     /**
-     * Debug информация
+     * Debug РёРЅС„РѕСЂРјР°С†РёСЏ
      *
      * @var boolean
      */
     protected $debug;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param string $pattern шаблон
-     * @param array $defaults значения по умолчанию
-     * @param array $requirements иные требования к значению placeholder
-     * @param boolean $debug при значении true отображается сгенерированное регулярное выражение
+     * @param string $pattern С€Р°Р±Р»РѕРЅ
+     * @param array $defaults Р·РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+     * @param array $requirements РёРЅС‹Рµ С‚СЂРµР±РѕРІР°РЅРёСЏ Рє Р·РЅР°С‡РµРЅРёСЋ placeholder
+     * @param boolean $debug РїСЂРё Р·РЅР°С‡РµРЅРёРё true РѕС‚РѕР±СЂР°Р¶Р°РµС‚СЃСЏ СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅРѕРµ СЂРµРіСѓР»СЏСЂРЅРѕРµ РІС‹СЂР°Р¶РµРЅРёРµ
      */
     public function __construct($pattern, array $defaults = array(), array $requirements = array(), $debug = false)
     {
@@ -126,20 +126,20 @@ class requestRoute implements iRoute
     }
 
     /**
-     * Установка имени роута. Устанавливается только один раз
+     * РЈСЃС‚Р°РЅРѕРІРєР° РёРјРµРЅРё СЂРѕСѓС‚Р°. РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РѕРґРёРЅ СЂР°Р·
      *
      * @param string $name
      */
     public function setName($name)
     {
         if (!empty($this->name)) {
-            throw new mzzRuntimeException('У Route уже есть имя - ' . $this->name);
+            throw new mzzRuntimeException('РЈ Route СѓР¶Рµ РµСЃС‚СЊ РёРјСЏ - ' . $this->name);
         }
         $this->name = $name;
     }
 
     /**
-     * Возвращение имени роута
+     * Р’РѕР·РІСЂР°С‰РµРЅРёРµ РёРјРµРЅРё СЂРѕСѓС‚Р°
      *
      * @return string
      */
@@ -149,10 +149,10 @@ class requestRoute implements iRoute
     }
 
     /**
-     * Проверка совпадения PATH с шаблоном.
+     * РџСЂРѕРІРµСЂРєР° СЃРѕРІРїР°РґРµРЅРёСЏ PATH СЃ С€Р°Р±Р»РѕРЅРѕРј.
      *
-     * @param string $path полученный path из URL
-     * @param boolean $debug режим отладки работы маршрутизатора
+     * @param string $path РїРѕР»СѓС‡РµРЅРЅС‹Р№ path РёР· URL
+     * @param boolean $debug СЂРµР¶РёРј РѕС‚Р»Р°РґРєРё СЂР°Р±РѕС‚С‹ РјР°СЂС€СЂСѓС‚РёР·Р°С‚РѕСЂР°
      * @return array|false
      */
     public function match($path, $debug = false)
@@ -178,8 +178,8 @@ class requestRoute implements iRoute
                 }
             }
 
-            // Если в конце шаблона содержится "*", то неизвестные параметры разбиваем
-            // по принципу нечетные - ключи, четные - значения
+            // Р•СЃР»Рё РІ РєРѕРЅС†Рµ С€Р°Р±Р»РѕРЅР° СЃРѕРґРµСЂР¶РёС‚СЃСЏ "*", С‚Рѕ РЅРµРёР·РІРµСЃС‚РЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ СЂР°Р·Р±РёРІР°РµРј
+            // РїРѕ РїСЂРёРЅС†РёРїСѓ РЅРµС‡РµС‚РЅС‹Рµ - РєР»СЋС‡Рё, С‡РµС‚РЅС‹Рµ - Р·РЅР°С‡РµРЅРёСЏ
             if (isset($this->values['*'])) {
                 $params = explode('/', trim($this->values['*'], '/'));
                 while ($key = current($params)) {
@@ -197,8 +197,8 @@ class requestRoute implements iRoute
     }
 
     /**
-     * Генерирует регулярное выражение, по которому будет выполнена проверка
-     * на совпадение PATH с шаблоном
+     * Р“РµРЅРµСЂРёСЂСѓРµС‚ СЂРµРіСѓР»СЏСЂРЅРѕРµ РІС‹СЂР°Р¶РµРЅРёРµ, РїРѕ РєРѕС‚РѕСЂРѕРјСѓ Р±СѓРґРµС‚ РІС‹РїРѕР»РЅРµРЅР° РїСЂРѕРІРµСЂРєР°
+     * РЅР° СЃРѕРІРїР°РґРµРЅРёРµ PATH СЃ С€Р°Р±Р»РѕРЅРѕРј
      *
      */
     protected function prepare()
@@ -248,10 +248,10 @@ class requestRoute implements iRoute
     }
 
     /**
-     * Собирает из массива параметров path для URL согласно данному Route
+     * РЎРѕР±РёСЂР°РµС‚ РёР· РјР°СЃСЃРёРІР° РїР°СЂР°РјРµС‚СЂРѕРІ path РґР»СЏ URL СЃРѕРіР»Р°СЃРЅРѕ РґР°РЅРЅРѕРјСѓ Route
      *
-     * @param array $values массив именованных параметров
-     * @return string готовый path для URL
+     * @param array $values РјР°СЃСЃРёРІ РёРјРµРЅРѕРІР°РЅРЅС‹С… РїР°СЂР°РјРµС‚СЂРѕРІ
+     * @return string РіРѕС‚РѕРІС‹Р№ path РґР»СЏ URL
      */
     public function assemble($values = array())
     {
@@ -262,11 +262,11 @@ class requestRoute implements iRoute
         foreach ($this->parts as $part) {
             if ($part['isVar']) {
                 if (array_key_exists($part['name'], $values)) {
-                    // @todo осталось лишь придумать что-то с роутом withId в JIP
+                    // @todo РѕСЃС‚Р°Р»РѕСЃСЊ Р»РёС€СЊ РїСЂРёРґСѓРјР°С‚СЊ С‡С‚Рѕ-С‚Рѕ СЃ СЂРѕСѓС‚РѕРј withId РІ JIP
                     $regex = isset($this->requirements[$part['name']]) ? self::REGEX_DELIMITER . $this->requirements[$part['name']] . self::REGEX_DELIMITER : false;
                     $regex = false;
                     if ($regex && !preg_match($regex, $values[$part['name']])) {
-                        throw new mzzRuntimeException('Значение "' . $values[$part['name']] . '" не соответствует регулярному выражению "' . $this->requirements[$part['name']] . '"');
+                        throw new mzzRuntimeException('Р—РЅР°С‡РµРЅРёРµ "' . $values[$part['name']] . '" РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ СЂРµРіСѓР»СЏСЂРЅРѕРјСѓ РІС‹СЂР°Р¶РµРЅРёСЋ "' . $this->requirements[$part['name']] . '"');
                     }
                     $url .= $values[$part['name']];
                     unset($values[$part['name']]);
@@ -277,7 +277,7 @@ class requestRoute implements iRoute
                 } elseif (isset($this->defaults[$part['name']])) {
                     $url = substr($url, 0, -1);
                 } else {
-                    throw new mzzRuntimeException('Отсутствует значение для Route: ' . $part['name']);
+                    throw new mzzRuntimeException('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ Route: ' . $part['name']);
                 }
             } else {
                 $url .= $part['name'];

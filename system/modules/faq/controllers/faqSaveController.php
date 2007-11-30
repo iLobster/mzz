@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * faqSaveController: контроллер для метода create модуля faq
+ * faqSaveController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° create РјРѕРґСѓР»СЏ faq
  *
  * @package modules
  * @subpackage faq
@@ -37,8 +37,8 @@ class faqSaveController extends simpleController
         $faq = ($isEdit) ? $faqMapper->searchById($id) : $faqMapper->create();
 
         $validator = new formValidator();
-        $validator->add('required', 'question', 'Введите все данные');
-        $validator->add('required', 'answer', 'Введите все данные');
+        $validator->add('required', 'question', 'Р’РІРµРґРёС‚Рµ РІСЃРµ РґР°РЅРЅС‹Рµ');
+        $validator->add('required', 'answer', 'Р’РІРµРґРёС‚Рµ РІСЃРµ РґР°РЅРЅС‹Рµ');
 
         if ($isEdit) {
             $url = new url('withId');

@@ -1,5 +1,5 @@
 {assign var=name value=$user->getLogin()}
-{include file='jipTitle.tpl' title="Список групп, в которые входит пользователь $name"}
+{include file='jipTitle.tpl' title="РЎРїРёСЃРѕРє РіСЂСѓРїРї, РІ РєРѕС‚РѕСЂС‹Рµ РІС…РѕРґРёС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ $name"}
 <form method="post" action="{url}" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" width="50%" cellpadding="4" cellspacing="1" class="systemTable">
         {foreach from=$groups item=group}
@@ -12,8 +12,8 @@
             </tr>
         {/foreach}
             <tr>
-                <td><input type="submit" value="Сохранить"></td>
-                <td colspan="2"><input type="reset" value="Отмена" onclick="javascript: jipWindow.close();"></td>
+                <td><input type="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"></td>
+                <td colspan="2"><input type="reset" value="РћС‚РјРµРЅР°" onclick="javascript: jipWindow.close();"></td>
             </tr>
     </table>
 </form>

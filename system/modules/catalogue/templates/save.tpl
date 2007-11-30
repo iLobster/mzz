@@ -1,10 +1,10 @@
-{if $isEdit}<div class="jipTitle">Редактирование</div>
+{if $isEdit}<div class="jipTitle">Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ</div>
 <script type="javascript">
 fileLoader.loadCSS(SITE_PATH + '/templates/css/catalogue.css');
 fileLoader.loadJS(SITE_PATH + '/templates/js/fileBrowser.js');
 </script>
 {else}
-{if $type === null || !isset($smarty.get.type) || isset($smarty.post.type)}<div class="jipTitle">Добавление нового элемента</div>{/if}
+{if $type === null || !isset($smarty.get.type) || isset($smarty.post.type)}<div class="jipTitle">Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р°</div>{/if}
 <div id="ajaxGetForm">
 <script type="javascript">
 fileLoader.loadCSS(SITE_PATH + '/templates/css/catalogue.css');
@@ -31,11 +31,11 @@ function loadForm(id)
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="4" cellspacing="1" width="99%">
         {if !$isEdit}<tr>
-            <td>Тип:</td>
+            <td>РўРёРї:</td>
             <td>{form->select name="type" options=$select id="type" value=$defType emptyFirst=1 onchange='javascript:loadForm($F(this));' onkeypress="this.onchange();"}{$errors->get('type')}</td>
         </tr>{/if}
         {if $type != 0}<tr>
-            <td>{form->caption name="name" value="Имя:"}</td>
+            <td>{form->caption name="name" value="РРјСЏ:"}</td>
             <td>{form->text name="name" size="60" value=$item->getName()}{$errors->get('name')}</td>
         </tr>{/if}
         {foreach from=$properties item="element"}
@@ -62,7 +62,7 @@ function loadForm(id)
                     {foreach from=$element.value item="file"}
 <div class="fmBrowseThumbWrap"><div class="fmBrowseThumb">
 <img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()}" alt="{$file->getName()}" /></div>
-<span><a href="#" onclick="return mzzFileBrowse.removeFile(this, '{$elementname}[]', {$file->getId()});">убрать</a></span></div>
+<span><a href="#" onclick="return mzzFileBrowse.removeFile(this, '{$elementname}[]', {$file->getId()});">СѓР±СЂР°С‚СЊ</a></span></div>
 
                         {form->hidden name=$elementname[] value=$file->getId()}
                     {/foreach}
@@ -70,7 +70,7 @@ function loadForm(id)
                 {else}{form->text name=$element.name size="60" value=$element.value}{$errors->get($element.name)}{/if}</td>
             </tr>{/foreach}
         <tr>
-            <td style="text-align:left;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td style="text-align:left;">{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

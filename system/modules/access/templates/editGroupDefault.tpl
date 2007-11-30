@@ -1,8 +1,8 @@
 {if $groups === false}
 {assign var="groupName" value=$group->getName()}
-{include file='jipTitle.tpl' title="Изменение прав по умолчанию на объект типа <b>$class</b> раздела <b>$section</b> для группы <b>$groupName</b>"}
+{include file='jipTitle.tpl' title="РР·РјРµРЅРµРЅРёРµ РїСЂР°РІ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РЅР° РѕР±СЉРµРєС‚ С‚РёРїР° <b>$class</b> СЂР°Р·РґРµР»Р° <b>$section</b> РґР»СЏ РіСЂСѓРїРїС‹ <b>$groupName</b>"}
 {else}
-{include file='jipTitle.tpl' title="Изменение прав по умолчанию на объект типа <b>$class</b> раздела <b>$section</b>"}
+{include file='jipTitle.tpl' title="РР·РјРµРЅРµРЅРёРµ РїСЂР°РІ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РЅР° РѕР±СЉРµРєС‚ С‚РёРїР° <b>$class</b> СЂР°Р·РґРµР»Р° <b>$section</b>"}
 {/if}
 
 <form action="{url}" method="post" onsubmit="return jipWindow.sendForm(this);">
@@ -10,7 +10,7 @@
         <tr>
             <td colspan="3">
         {if $groups !== false}
-            Выберите группу
+            Р’С‹Р±РµСЂРёС‚Рµ РіСЂСѓРїРїСѓ
             <select name="id">
                 <option value="-1" selected="selected"></option>
                 {foreach from=$groups item=group}

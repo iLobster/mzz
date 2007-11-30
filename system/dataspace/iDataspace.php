@@ -15,7 +15,7 @@
 */
 
 /**
- * iDataspace: интерфейс Dataspace
+ * iDataspace: РёРЅС‚РµСЂС„РµР№СЃ Dataspace
  *
  * @package system
  * @subpackage dataspace
@@ -24,34 +24,34 @@
 interface iDataspace
 {
     /**
-     * Сохранение значения
+     * РЎРѕС…СЂР°РЅРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ
      *
-     * @param string|integer $key ключ для доступа к значению
-     * @param mixed $value значение
+     * @param string|integer $key РєР»СЋС‡ РґР»СЏ РґРѕСЃС‚СѓРїР° Рє Р·РЅР°С‡РµРЅРёСЋ
+     * @param mixed $value Р·РЅР°С‡РµРЅРёРµ
      * @return true
      */
     public function set($key, $value);
 
     /**
-     * Возвращает значение по ключу
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ РїРѕ РєР»СЋС‡Сѓ
      *
-     * @param string|intger $key ключ
+     * @param string|intger $key РєР»СЋС‡
      * @return mixed
      */
     public function get($key);
 
     /**
-     * Удаляет значение с ключом $key
+     * РЈРґР°Р»СЏРµС‚ Р·РЅР°С‡РµРЅРёРµ СЃ РєР»СЋС‡РѕРј $key
      *
-     * @param string|integer $key ключ
+     * @param string|integer $key РєР»СЋС‡
      * @return true
      */
     public function delete($key);
 
     /**
-     * Проверяет существует ли значение с ключом $key
+     * РџСЂРѕРІРµСЂСЏРµС‚ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё Р·РЅР°С‡РµРЅРёРµ СЃ РєР»СЋС‡РѕРј $key
      *
-     * @param string|integer $key ключ
+     * @param string|integer $key РєР»СЋС‡
      * @return boolean
      */
     public function exists($key);

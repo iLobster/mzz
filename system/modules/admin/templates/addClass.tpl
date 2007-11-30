@@ -1,24 +1,24 @@
 {if $isEdit}
-{include file='jipTitle.tpl' title='Редактирование класса'}
+{include file='jipTitle.tpl' title='Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РєР»Р°СЃСЃР°'}
 {else}
-{include file='jipTitle.tpl' title='Добавление класса'}
+{include file='jipTitle.tpl' title='Р”РѕР±Р°РІР»РµРЅРёРµ РєР»Р°СЃСЃР°'}
 {/if}
 
 <form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td style='width: 20%;'>{form->caption name="name" value="Название" onError="style=color: red;"}</td>
+            <td style='width: 20%;'>{form->caption name="name" value="РќР°Р·РІР°РЅРёРµ" onError="style=color: red;"}</td>
             <td style='width: 80%;'>{form->text name="name" value=$data.name size="60"}{$errors->get('name')}</td>
         </tr>
         <tr>
         {*if !$isEdit*}
-            <td style='width: 20%;'>{form->caption name="dest" value="Каталог генерации" onError="style=color: red;"}</td>
+            <td style='width: 20%;'>{form->caption name="dest" value="РљР°С‚Р°Р»РѕРі РіРµРЅРµСЂР°С†РёРё" onError="style=color: red;"}</td>
             <td style='width: 80%;'>{form->select name="dest" options=$data.dest one_item_freeze=1}{$errors->get('dest')}</td>
         {*/if*}
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td>{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

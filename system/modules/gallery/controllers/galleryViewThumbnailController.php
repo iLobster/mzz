@@ -13,7 +13,7 @@
  */
 
 /**
- * galleryViewThumbnailController: контроллер для метода viewThumbnail модуля gallery
+ * galleryViewThumbnailController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° viewThumbnail РјРѕРґСѓР»СЏ gallery
  *
  * @package modules
  * @subpackage gallery

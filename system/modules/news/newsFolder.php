@@ -27,7 +27,7 @@ class newsFolder extends simpleForTree
     protected $name = 'news';
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param object $mapper
      * @param array $map
@@ -39,7 +39,7 @@ class newsFolder extends simpleForTree
     }
 
     /**
-     * Возвращает children-папки
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ children-РїР°РїРєРё
      *
      * @return array
      */

@@ -7,22 +7,22 @@
 {add file="jip.js"}
 
 {title append=$messageCategory->getTitle()|htmlspecialchars}
-{title append="Список сообщений"}
+{title append="РЎРїРёСЃРѕРє СЃРѕРѕР±С‰РµРЅРёР№"}
 
 {foreach from=$categories item=category name=cat}
     {if $messageCategory->getName() ne $category->getName()}<a href="{url route=withAnyParam action=list section=message name=$category->getName()}">{$category->getTitle()|htmlspecialchars}</a>{else}{$category->getTitle()|htmlspecialchars}{/if}
     {if not $smarty.foreach.cat.last} | {/if}
 {/foreach}
 <br /><br />
-<a href="{url route=default2 action=send section=message}" class="jipLink">отправить сообщение</a>
+<a href="{url route=default2 action=send section=message}" class="jipLink">РѕС‚РїСЂР°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ</a>
 <br /><br />
 
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
     <tr align="center">
         <td><strong>id</strong></td>
-        <td><strong>сообщение</strong></td>
-        <td><strong>{if $isSent}кому{else}от{/if}</strong></td>
-        <td><strong>дата</strong></td>
+        <td><strong>СЃРѕРѕР±С‰РµРЅРёРµ</strong></td>
+        <td><strong>{if $isSent}РєРѕРјСѓ{else}РѕС‚{/if}</strong></td>
+        <td><strong>РґР°С‚Р°</strong></td>
     </tr>
     {foreach from=$messages item=message}
         <tr align="center">

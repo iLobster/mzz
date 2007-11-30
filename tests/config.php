@@ -31,7 +31,7 @@ systemConfig::$db['default']['driver'] = 'pdo';
 systemConfig::$db['default']['dsn']  = "mysql:host=localhost;dbname=mzz_test";
 systemConfig::$db['default']['user'] = "root";
 systemConfig::$db['default']['password'] = "";
-systemConfig::$db['default']['charset'] = "cp1251";
+systemConfig::$db['default']['charset'] = "utf8";
 systemConfig::$db['default']['pdoOptions'] = array();
 
 systemConfig::$db['another']['dsn']  = "mysql:host=localhost;dbname=mzz_test";

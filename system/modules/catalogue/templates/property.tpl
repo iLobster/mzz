@@ -25,21 +25,21 @@ arg{$methodArgNumber}: "{$methodArgValue|addslashes}"{if $smarty.foreach.methodA
 mzzCatalogue.autoloadSelects();
 {rdelim});
 </script>
-<div class="jipTitle">{if $isEdit}Редактирование свойства{else}Создание свойства{/if}</div>
+<div class="jipTitle">{if $isEdit}Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ СЃРІРѕР№СЃС‚РІР°{else}РЎРѕР·РґР°РЅРёРµ СЃРІРѕР№СЃС‚РІР°{/if}</div>
 
 <div style="padding: 10px;">
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="3" width="100%">
         <tr>
-            <td><strong>{form->caption name="title" value="Название:" onRequired=false}</strong></td>
+            <td><strong>{form->caption name="title" value="РќР°Р·РІР°РЅРёРµ:" onRequired=false}</strong></td>
             <td><div class="errorText">{$errors->get('title')}</div>{form->text name="title" size="40" value=$propertyForm.title}</td>
         </tr>
         <tr>
-            <td><strong>{form->caption name="name" value="Имя (латиница):" onRequired=false}</strong></td>
+            <td><strong>{form->caption name="name" value="РРјСЏ (Р»Р°С‚РёРЅРёС†Р°):" onRequired=false}</strong></td>
             <td><div class="errorText">{$errors->get('name')}</div>{form->text name="name" size="40" value=$propertyForm.name}</td>
         </tr>
         <tr>
-            <td><strong>{form->caption name="type_id" value="Тип:" onRequired=false}</strong></td>
+            <td><strong>{form->caption name="type_id" value="РўРёРї:" onRequired=false}</strong></td>
             <td><div class="errorText">{$errors->get('type_id')}</div>{form->select name="type_id" options=$selectdata value=$propertyForm.type_id onchange="mzzLoadTypeConfig(this.value);"}</td>
         </tr>
     </table>
@@ -49,13 +49,13 @@ mzzCatalogue.autoloadSelects();
 {if $loadType == 'select'}
     <table border="0" cellpadding="0" cellspacing="3" width="100%">
         <tr>
-            <td colspan="2"><a href="javascript:addOne();" class="jsLink">Добавить вариант</a></td>
+            <td colspan="2"><a href="javascript:addOne();" class="jsLink">Р”РѕР±Р°РІРёС‚СЊ РІР°СЂРёР°РЅС‚</a></td>
         </tr>
         <tbody id="selectvariants">
         {if $isEdit && !empty($property)}
             {foreach from=$property.args item="val" key="key" name="variantsIterator"}
                 <tr>
-                <td width="20%">Значение:</td>
+                <td width="20%">Р—РЅР°С‡РµРЅРёРµ:</td>
                 <td width="80%"><input type="text" name="selectvalues[{$smarty.foreach.variantsIterator.iteration}]" value="{$val}" /><img src="{$SITE_PATH}/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" /></td>
                 </tr>
             {/foreach}
@@ -67,7 +67,7 @@ mzzCatalogue.autoloadSelects();
 {elseif $loadType == 'datetime'}
     <table border="0" cellpadding="0" cellspacing="3" width="100%">
         <tr>
-            <td width="20%">Формат:</td>
+            <td width="20%">Р¤РѕСЂРјР°С‚:</td>
             <td width="80%">{form->text name="datetimeformat" size="30" value=$propertyForm.typeConfig}</td>
         </tr>
     </table>
@@ -77,7 +77,7 @@ mzzCatalogue.autoloadSelects();
             <td width="40%" valign="top">
                 <table border="0" cellpadding="0" cellspacing="3" width="100%">
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[section]" value="Секция:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[section]" value="РЎРµРєС†РёСЏ:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[section]')}</div>
@@ -86,7 +86,7 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[module]" value="Модуль:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[module]" value="РњРѕРґСѓР»СЊ:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[module]')}</div>
@@ -95,7 +95,7 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[class]" value="Класс:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[class]" value="РљР»Р°СЃСЃ:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[class]')}</div>
@@ -104,7 +104,7 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[searchMethod]" value="Метод поиска:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[searchMethod]" value="РњРµС‚РѕРґ РїРѕРёСЃРєР°:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[searchMethod]')}</div>
@@ -113,7 +113,7 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[extractMethod]" value="Метод извлечения данных:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[extractMethod]" value="РњРµС‚РѕРґ РёР·РІР»РµС‡РµРЅРёСЏ РґР°РЅРЅС‹С…:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[extractMethod]')}</div>
@@ -122,13 +122,13 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td colspan="2"">{form->checkbox name="typeConfig[optional]" text="Добавить первым пустое значение" value=$propertyForm.typeConfig.optional}</td>
+                        <td colspan="2"">{form->checkbox name="typeConfig[optional]" text="Р”РѕР±Р°РІРёС‚СЊ РїРµСЂРІС‹Рј РїСѓСЃС‚РѕРµ Р·РЅР°С‡РµРЅРёРµ" value=$propertyForm.typeConfig.optional}</td>
                     </tr>
                 </table>
 
             </td>
             <td width="60%" valign="top">
-            <span style="font-size: 120%; font-weight: bold;">Параметры метода поиска:</span>
+            <span style="font-size: 120%; font-weight: bold;">РџР°СЂР°РјРµС‚СЂС‹ РјРµС‚РѕРґР° РїРѕРёСЃРєР°:</span>
             <div id="methodArgsValues"></div>
             </td>
         </tr>
@@ -137,15 +137,15 @@ mzzCatalogue.autoloadSelects();
 {elseif $loadType == 'img'}
     <table border="0" cellpadding="0" cellspacing="6" width="100%">
         <tr>
-            <td><strong>{form->caption name="typeConfig[section]" value="Секция:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+            <td><strong>{form->caption name="typeConfig[section]" value="РЎРµРєС†РёСЏ:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
             <td>
             {form->select name="typeConfig[section]" options=$sections value=$propertyForm.typeConfig.section emptyFirst=1 style="width: 270px;" id="catalogue_sections_list" onchange="mzzCatalogue.getList(this, 'folders');" onkeypress="this.onchange();"}
             </td>
         </tr>
         <tr>
             <td colspan="2">
-            <strong>{form->caption name="typeConfig[folder]" value="Папка:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br />
-            {form->select name="typeConfig[folder]" style="width: 450px;" size="8" id="catalogue_folders_list" options="Выберите секцию" disabled=1}
+            <strong>{form->caption name="typeConfig[folder]" value="РџР°РїРєР°:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br />
+            {form->select name="typeConfig[folder]" style="width: 450px;" size="8" id="catalogue_folders_list" options="Р’С‹Р±РµСЂРёС‚Рµ СЃРµРєС†РёСЋ" disabled=1}
             </td>
         </tr>
     </table>
@@ -192,7 +192,7 @@ description: '{$description}'{if !empty($data)},
 
 {if !$isAjax}
 </div>
-{form->submit name="submit" value="Сохранить" id="catalogueSubmitProperty"} {form->reset jip=true name="reset" value="Отмена"}
+{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ" id="catalogueSubmitProperty"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}
 </form>
 </div>
 {/if}

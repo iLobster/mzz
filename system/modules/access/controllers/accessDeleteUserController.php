@@ -13,7 +13,7 @@
 */
 
 /**
- * accessDeleteUserController: контроллер для метода deleteUser модуля access
+ * accessDeleteUserController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deleteUser РјРѕРґСѓР»СЏ access
  *
  * @package modules
  * @subpackage access

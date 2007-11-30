@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * fileManagerEditFolderController: êîíòðîëëåð äëÿ ìåòîäà editFolder ìîäóëÿ fileManager
+ * fileManagerEditFolderController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° editFolder Ð¼Ð¾Ð´ÑƒÐ»Ñ fileManager
  *
  * @package modules
  * @subpackage fileManager
@@ -37,12 +37,12 @@ class fileManagerEditFolderController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Íåîáõîäèìî äàòü èäåíòèôèêàòîð ïàïêå');
-        $validator->add('required', 'title', 'Íåîáõîäèìî íàçâàòü ïàïêó');
-        $validator->add('numeric', 'filesize', 'Ðàçìåð äîëæåí áûòü ÷èñëîâûì');
-        $validator->add('regex', 'exts', 'Íåäîïóñòèìûå ñèìâîëû â ðàñøèðåíèè', '/^[a-zà-ÿ0-9_;\-\.! ]+$/i');
-        $validator->add('regex', 'name', 'Íåäîïóñòèìûå ñèìâîëû â èäåíòèôèêàòîðå', '/^[a-zà-ÿ0-9_\.\-! ]+$/i');
-        $validator->add('callback', 'name', 'Èäåíòèôèêàòîð äîëæåí áûòü óíèêàëåí â ïðåäåëàõ êàòàëîãà', array('checkFileFolderName', $path, $folderMapper, $isEdit));
+        $validator->add('required', 'name', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð´Ð°Ñ‚ÑŒ Ð¸Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€ Ð¿Ð°Ð¿ÐºÐµ');
+        $validator->add('required', 'title', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð½Ð°Ð·Ð²Ð°Ñ‚ÑŒ Ð¿Ð°Ð¿ÐºÑƒ');
+        $validator->add('numeric', 'filesize', 'Ð Ð°Ð·Ð¼ÐµÑ€ Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ Ñ‡Ð¸ÑÐ»Ð¾Ð²Ñ‹Ð¼');
+        $validator->add('regex', 'exts', 'ÐÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹ Ð² Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸Ð¸', '/^[a-zÐ°-Ñ0-9_;\-\.! ]+$/i');
+        $validator->add('regex', 'name', 'ÐÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹ Ð² Ð¸Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€Ðµ', '/^[a-zÐ°-Ñ0-9_\.\-! ]+$/i');
+        $validator->add('callback', 'name', 'Ð˜Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€ Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ ÑƒÐ½Ð¸ÐºÐ°Ð»ÐµÐ½ Ð² Ð¿Ñ€ÐµÐ´ÐµÐ»Ð°Ñ… ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð°', array('checkFileFolderName', $path, $folderMapper, $isEdit));
 
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);

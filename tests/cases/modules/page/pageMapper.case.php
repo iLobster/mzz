@@ -135,7 +135,7 @@ class pageMapperTest extends unitTestCase
     }
 
     /**
-     * @todo заменить на обычные запросы
+     * @todo Р·Р°РјРµРЅРёС‚СЊ РЅР° РѕР±С‹С‡РЅС‹Рµ Р·Р°РїСЂРѕСЃС‹
      */
     private function fixture($mapper, $map)
     {

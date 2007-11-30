@@ -14,7 +14,7 @@
 */
 
 /**
- * frontController: фронтконтроллер проекта
+ * frontController: С„СЂРѕРЅС‚РєРѕРЅС‚СЂРѕР»Р»РµСЂ РїСЂРѕРµРєС‚Р°
  *
  * @package system
  * @version 0.5
@@ -23,13 +23,13 @@
 class frontController
 {
     /**
-     * Префикс имени шаблона
+     * РџСЂРµС„РёРєСЃ РёРјРµРЅРё С€Р°Р±Р»РѕРЅР°
      *
      */
     const TPL_PRE = "act/";
 
     /**
-     * Расширение шаблона
+     * Р Р°СЃС€РёСЂРµРЅРёРµ С€Р°Р±Р»РѕРЅР°
      *
      */
     const TPL_EXT = ".tpl";
@@ -41,17 +41,17 @@ class frontController
     protected $request;
 
     /**
-     * Путь до папки с шаблонами
+     * РџСѓС‚СЊ РґРѕ РїР°РїРєРё СЃ С€Р°Р±Р»РѕРЅР°РјРё
      *
      * @var string
      */
     protected $path;
 
     /**
-     * конструктор класса
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР°
      *
      * @param iRequest $request
-     * @param $path путь до папки с шаблонами
+     * @param $path РїСѓС‚СЊ РґРѕ РїР°РїРєРё СЃ С€Р°Р±Р»РѕРЅР°РјРё
      */
     public function __construct($request, $path)
     {
@@ -60,9 +60,9 @@ class frontController
     }
 
     /**
-     * получение имени шаблона
+     * РїРѕР»СѓС‡РµРЅРёРµ РёРјРµРЅРё С€Р°Р±Р»РѕРЅР°
      *
-     * @return string имя шаблона в соответствии с запрошенной секцией и экшном
+     * @return string РёРјСЏ С€Р°Р±Р»РѕРЅР° РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ Р·Р°РїСЂРѕС€РµРЅРЅРѕР№ СЃРµРєС†РёРµР№ Рё СЌРєС€РЅРѕРј
      */
     public function getTemplateName()
     {
@@ -73,7 +73,7 @@ class frontController
         if (file_exists($this->path . '/' . $tpl_name)) {
             return $tpl_name;
         }
-        throw new mzzRuntimeException('Не найден активный шаблон для section = <i>"' . $section . '"</i>, action = <i>"' . $action . '"</i>');
+        throw new mzzRuntimeException('РќРµ РЅР°Р№РґРµРЅ Р°РєС‚РёРІРЅС‹Р№ С€Р°Р±Р»РѕРЅ РґР»СЏ section = <i>"' . $section . '"</i>, action = <i>"' . $action . '"</i>');
     }
 }
 

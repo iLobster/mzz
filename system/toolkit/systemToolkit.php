@@ -15,7 +15,7 @@
 */
 
 /**
- * systemToolkit: системный Toolkit
+ * systemToolkit: СЃРёСЃС‚РµРјРЅС‹Р№ Toolkit
  *
  * @package system
  * @subpackage toolkit
@@ -54,10 +54,10 @@ class systemToolkit
     }
 
     /**
-     * Устанавливает новый toolkit
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РЅРѕРІС‹Р№ toolkit
      *
      * @param iToolkit $toolkit
-     * @return object возвращает старый toolkit
+     * @return object РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚Р°СЂС‹Р№ toolkit
      */
     public function setToolkit(iToolkit $toolkit)
     {
@@ -67,7 +67,7 @@ class systemToolkit
     }
 
     /**
-     * Добавляет Toolkit в Toolkit
+     * Р”РѕР±Р°РІР»СЏРµС‚ Toolkit РІ Toolkit
      *
      * @param iToolkit $toolkit
      */
@@ -77,7 +77,7 @@ class systemToolkit
     }
 
     /**
-     * Возвращает текущий Toolkit
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСѓС‰РёР№ Toolkit
      *
      * @return object
      */

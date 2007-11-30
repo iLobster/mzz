@@ -15,7 +15,7 @@
 */
 
 /**
- * application: демо-приложение
+ * application: РґРµРјРѕ-РїСЂРёР»РѕР¶РµРЅРёРµ
  *
  * @package system
  * @subpackage application

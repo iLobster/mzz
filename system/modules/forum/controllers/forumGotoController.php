@@ -13,7 +13,7 @@
  */
 
 /**
- * forumGotoController: контроллер для метода goto модуля forum
+ * forumGotoController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° goto РјРѕРґСѓР»СЏ forum
  *
  * @package modules
  * @subpackage forum
@@ -39,7 +39,7 @@ class forumGotoController extends simpleController
         $db = db::factory();
         $cnt = $db->getRow($select->toString());
 
-        // в конфиг закинуть число постов и тредов на странице
+        // РІ РєРѕРЅС„РёРі Р·Р°РєРёРЅСѓС‚СЊ С‡РёСЃР»Рѕ РїРѕСЃС‚РѕРІ Рё С‚СЂРµРґРѕРІ РЅР° СЃС‚СЂР°РЅРёС†Рµ
         $per_page = 5;
 
         $page = ceil($cnt['cnt'] / $per_page);

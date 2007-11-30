@@ -13,7 +13,7 @@
  */
 
 /**
- * galleryDeleteController: контроллер для метода delete модуля gallery
+ * galleryDeleteController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° delete РјРѕРґСѓР»СЏ gallery
  *
  * @package modules
  * @subpackage gallery

@@ -5,7 +5,7 @@ class commentsFolderMapper extends simpleMapper
     [...]
         
     /**
-     * Удаление папки вместе с содержимым на основе id
+     * РЈРґР°Р»РµРЅРёРµ РїР°РїРєРё РІРјРµСЃС‚Рµ СЃ СЃРѕРґРµСЂР¶РёРјС‹Рј РЅР° РѕСЃРЅРѕРІРµ id
      *
      * @param string $id
      * @return void

@@ -1,4 +1,4 @@
-{include file='jipTitle.tpl' title="Конфигурация для модуля $module в секции $section"}
+{include file='jipTitle.tpl' title="РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ РґР»СЏ РјРѕРґСѓР»СЏ $module РІ СЃРµРєС†РёРё $section"}
 <form method="post" action="{url section="config" action="editCfg" params="$section/$module"}" onsubmit="return jipWindow.sendForm(this);">
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
         {foreach from=$configs item=value key=key}
@@ -8,13 +8,13 @@
             </tr>
         {foreachelse}
             <tr>
-                <td>Доступных для конфигурирования параметров нет</td>
+                <td>Р”РѕСЃС‚СѓРїРЅС‹С… РґР»СЏ РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ РЅРµС‚</td>
             </tr>
         {/foreach}
         {if sizeof($configs)}
             <tr>
                 <td colspan="2">
-                    <input type="submit" value="Сохранить">
+                    <input type="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ">
                 </td>
             </tr>
         {/if}

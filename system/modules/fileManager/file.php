@@ -13,7 +13,7 @@
 */
 
 /**
- * file: класс для работы c данными
+ * file: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ c РґР°РЅРЅС‹РјРё
  *
  * @package modules
  * @subpackage fileManager
@@ -26,7 +26,7 @@ class file extends simple
     protected $extra = false;
 
     /**
-     * Получение объекта JIP
+     * РџРѕР»СѓС‡РµРЅРёРµ РѕР±СЉРµРєС‚Р° JIP
      *
      * @return jip
      */
@@ -77,9 +77,9 @@ class file extends simple
     }
 
     /**
-     * Загрузка файла
+     * Р—Р°РіСЂСѓР·РєР° С„Р°Р№Р»Р°
      *
-     * @param string $name (optional)Имя с которым будет отдан файл.
+     * @param string $name (optional)РРјСЏ СЃ РєРѕС‚РѕСЂС‹Рј Р±СѓРґРµС‚ РѕС‚РґР°РЅ С„Р°Р№Р».
      * @return file
      */
     public function download($name = null)
@@ -125,7 +125,7 @@ class file extends simple
                 }
             }
 
-            // @todo: а тут не надо response ?
+            // @todo: Р° С‚СѓС‚ РЅРµ РЅР°РґРѕ response ?
             header("Pragma: public");
             header("Expires: 0");
             header("Cache-Control: public, must-revalidate, max-age=0");

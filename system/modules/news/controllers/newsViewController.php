@@ -13,7 +13,7 @@
  */
 
 /**
- * NewsViewController: контроллер для метода list модуля news
+ * NewsViewController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° list РјРѕРґСѓР»СЏ news
  *
  * @package modules
  * @subpackage news

@@ -19,15 +19,15 @@ class commentsPostForm
             $form->setDefaults($defaultValues);
         }
 
-        $form->addElement('textarea', 'text', '¬‡¯ ÍÓÏÏÂÌÚ‡ËÈ', 'rows=7 cols=50');
+        $form->addElement('textarea', 'text', '–í–∞—à –∫–æ–º–º–µ–Ω—Ç–∞—Ä–∏–π', 'rows=7 cols=50');
 
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
 
         $form->addElement('hidden', 'url', $request->get('REQUEST_URI', 'string', SC_SERVER));
 
-        $form->addElement('reset', 'reset', 'ŒÚÏÂÌ‡', 'onclick="javascript: hideJip();');
-        $form->addElement('submit', 'submit', 'ŒÚÔ‡‚ËÚ¸');
+        $form->addElement('reset', 'reset', '–û—Ç–º–µ–Ω–∞', 'onclick="javascript: hideJip();');
+        $form->addElement('submit', 'submit', '–û—Ç–ø—Ä–∞–≤–∏—Ç—å');
 
         return $form;
     }

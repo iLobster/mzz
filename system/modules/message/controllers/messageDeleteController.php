@@ -13,7 +13,7 @@
  */
 
 /**
- * messageDeleteController: контроллер для метода delete модуля message
+ * messageDeleteController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° delete РјРѕРґСѓР»СЏ message
  *
  * @package modules
  * @subpackage message

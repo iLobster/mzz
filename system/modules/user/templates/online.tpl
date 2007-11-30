@@ -1,13 +1,13 @@
-{if not empty($guests)}Гостей он-лайн: <b>{$guests}</b><br />{/if}
+{if not empty($guests)}Р“РѕСЃС‚РµР№ РѕРЅ-Р»Р°Р№РЅ: <b>{$guests}</b><br />{/if}
 {if sizeof($users)}
-    Зарегистрированные пользователи (<b>{$total}</b>):
+    Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»Рё (<b>{$total}</b>):
 
     {if sizeof($users)}
         <table border="1" width="100%">
             <tr>
-                <td>логин</td>
-                <td>урл</td>
-                <td>время</td>
+                <td>Р»РѕРіРёРЅ</td>
+                <td>СѓСЂР»</td>
+                <td>РІСЂРµРјСЏ</td>
                 <td>ip</td>
             </tr>
             {foreach from=$users item=user name="online"}

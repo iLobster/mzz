@@ -1,12 +1,12 @@
-{include file='jipTitle.tpl' title="Права по умолчанию для раздела: <b>$section</b>, класса: <b>$class</b>."}
+{include file='jipTitle.tpl' title="РџСЂР°РІР° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РґР»СЏ СЂР°Р·РґРµР»Р°: <b>$section</b>, РєР»Р°СЃСЃР°: <b>$class</b>."}
 
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
     <tr>
-        <th colspan="3">Пользователи{if $usersExists} (<a href="{url route=withAnyParam section=access name="$section/$class" action=addUserDefault}" class="jipLink">добавить</a>){/if}</th>
+        <th colspan="3">РџРѕР»СЊР·РѕРІР°С‚РµР»Рё{if $usersExists} (<a href="{url route=withAnyParam section=access name="$section/$class" action=addUserDefault}" class="jipLink">РґРѕР±Р°РІРёС‚СЊ</a>){/if}</th>
     </tr>
     <tr>
         <td style="text-align: right; width: 15px; color: #999;">0</td>
-        <td><a href="{url route=withAnyParam section=access action=editOwner name="$section/$class"}" class="jipLink">Владелец объекта</a></td>
+        <td><a href="{url route=withAnyParam section=access action=editOwner name="$section/$class"}" class="jipLink">Р’Р»Р°РґРµР»РµС† РѕР±СЉРµРєС‚Р°</a></td>
         <td style="text-align: right;">&nbsp;</td>
     </tr>
     {foreach from=$users item=user}
@@ -19,7 +19,7 @@
     {/foreach}
 
     <tr>
-        <th colspan="3">Группы{if $groupsExists} (<a href="{url route=withAnyParam section=access name="$section/$class" action=addGroupDefault}" class="jipLink">добавить</a>){/if}</th>
+        <th colspan="3">Р“СЂСѓРїРїС‹{if $groupsExists} (<a href="{url route=withAnyParam section=access name="$section/$class" action=addGroupDefault}" class="jipLink">РґРѕР±Р°РІРёС‚СЊ</a>){/if}</th>
     </tr>
 
     {foreach from=$groups item=group}

@@ -13,7 +13,7 @@
  */
 
 /**
- * forumLastController: контроллер для метода last модуля forum
+ * forumLastController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° last РјРѕРґСѓР»СЏ forum
  *
  * @package modules
  * @subpackage forum
@@ -58,7 +58,7 @@ class forumLastController extends simpleController
             $last_post['id'] = $cnt['max_id'];
         }
 
-        // в конфиг закинуть число постов и тредов на странице
+        // РІ РєРѕРЅС„РёРі Р·Р°РєРёРЅСѓС‚СЊ С‡РёСЃР»Рѕ РїРѕСЃС‚РѕРІ Рё С‚СЂРµРґРѕРІ РЅР° СЃС‚СЂР°РЅРёС†Рµ
         $per_page = 5;
 
         $page = ceil($cnt['cnt'] / $per_page);

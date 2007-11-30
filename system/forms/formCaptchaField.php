@@ -30,7 +30,7 @@ class formCaptchaField extends formElement
         $url = new url('captcha');
         $captcha_src = $url->get() . '?rand=' . $captcha_id;
 
-        $image = self::createTag(array('src' => $captcha_src, 'width' => 120, 'height' => 40, 'alt' => 'Íàæìèòå íà èçîáğàæåíèå äëÿ îáíîâëåíèÿ', 'onclick' => 'javascript: this.src = "' . $captcha_src . '&refresh=" + Math.random();'), 'img');
+        $image = self::createTag(array('src' => $captcha_src, 'width' => 120, 'height' => 40, 'alt' => 'ĞĞ°Ğ¶Ğ¼Ğ¸Ñ‚Ğµ Ğ½Ğ° Ğ¸Ğ·Ğ¾Ğ±Ñ€Ğ°Ğ¶ĞµĞ½Ğ¸Ğµ Ğ´Ğ»Ñ Ğ¾Ğ±Ğ½Ğ¾Ğ²Ğ»ĞµĞ½Ğ¸Ñ', 'onclick' => 'javascript: this.src = "' . $captcha_src . '&refresh=" + Math.random();'), 'img');
         $hidden = self::createTag(array('type' => 'hidden', 'name' => $options['name'] . '_id', 'value' => $captcha_id), 'input');
 
         return $hidden . $image . '<br />' . self::createTag($options);

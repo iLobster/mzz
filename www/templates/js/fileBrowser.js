@@ -38,7 +38,7 @@ var mzzFileBrowse = {
 
         var newThumb = '<div class="fmBrowseThumbWrap">'
         + '<div class="fmBrowseThumb"><img src="' + fileThumb.src + '" title="' + fileThumb.title + '" alt="' + fileThumb.alt + '" /></div>'
-        + '<span><a href="#" onclick="return mzzFileBrowse.removeFile(this, mzzFileBrowse.options.hiddenName, ' + fileId + ');">убрать</a></span></div>';
+        + '<span><a href="#" onclick="return mzzFileBrowse.removeFile(this, mzzFileBrowse.options.hiddenName, ' + fileId + ');">СѓР±СЂР°С‚СЊ</a></span></div>';
 
         isMultiple ? $(mzzFileBrowse.options.target).insert(newThumb) : $(mzzFileBrowse.options.target).update(newThumb);
 
@@ -50,7 +50,7 @@ var mzzFileBrowse = {
     },
 
     removeFile: function(file, name, id) {
-        if (confirm('Вы уверены что хотите удалить этот файл?')) {
+        if (confirm('Р’С‹ СѓРІРµСЂРµРЅС‹ С‡С‚Рѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ СЌС‚РѕС‚ С„Р°Р№Р»?')) {
             var _elm = $(file).up('div.fmBrowseThumbWrap');
             new Effect.Fade(_elm, {afterFinish: function() {
                 _elm.remove();
@@ -89,23 +89,23 @@ var mzzFileBrowse = {
         if (this.options != null) return true;
 
         if (!mzzRegistry.has('fileBrowseOptions')) {
-            alert('Переменная "fileBrowseOptions", содержащая настройки менеджера файлов, не установлена в Registry.');
+            alert('РџРµСЂРµРјРµРЅРЅР°СЏ "fileBrowseOptions", СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РЅР°СЃС‚СЂРѕР№РєРё РјРµРЅРµРґР¶РµСЂР° С„Р°Р№Р»РѕРІ, РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР° РІ Registry.');
             return false;
         }
         this.options = mzzRegistry.get('fileBrowseOptions');
 
         if (Object.isUndefined(this.options.target)) {
-            alert('Опция "target" для менеджера файлов, содержащая идентификатор списка для вставки, не установлена.');
+            alert('РћРїС†РёСЏ "target" РґР»СЏ РјРµРЅРµРґР¶РµСЂР° С„Р°Р№Р»РѕРІ, СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРїРёСЃРєР° РґР»СЏ РІСЃС‚Р°РІРєРё, РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°.');
             this.options = null;
             return false;
         }
         if (Object.isUndefined(this.options.hiddenName)) {
-            alert('Опция "hiddenName" для менеджера файлов, содержащая имя скрытого поля формы с выбранными файлами, не установлена.');
+            alert('РћРїС†РёСЏ "hiddenName" РґР»СЏ РјРµРЅРµРґР¶РµСЂР° С„Р°Р№Р»РѕРІ, СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РёРјСЏ СЃРєСЂС‹С‚РѕРіРѕ РїРѕР»СЏ С„РѕСЂРјС‹ СЃ РІС‹Р±СЂР°РЅРЅС‹РјРё С„Р°Р№Р»Р°РјРё, РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°.');
             this.options = null;
             return false;
         }
         if (!$(this.options.target)) {
-            alert('Элемент с идентификатором "' + elmId + '" не найден.');
+            alert('Р­Р»РµРјРµРЅС‚ СЃ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј "' + elmId + '" РЅРµ РЅР°Р№РґРµРЅ.');
             this.options = null;
             return false;
         }

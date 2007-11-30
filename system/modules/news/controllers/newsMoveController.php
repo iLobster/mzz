@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * newsMoveController: êîíòğîëëåğ äëÿ ìåòîäà move ìîäóëÿ news
+ * newsMoveController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° move Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ news
  *
  * @package modules
  * @subpackage news
@@ -38,14 +38,14 @@ class newsMoveController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'dest', 'Íåîáõîäèìî óêàçàòü êàòàëîã íàçíà÷åíèÿ');
+        $validator->add('required', 'dest', 'ĞĞµĞ¾Ğ±Ñ…Ğ¾Ğ´Ğ¸Ğ¼Ğ¾ ÑƒĞºĞ°Ğ·Ğ°Ñ‚ÑŒ ĞºĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³ Ğ½Ğ°Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ñ');
 
         if ($validator->validate()) {
             $dest = $this->request->get('dest', 'integer', SC_POST);
             $destFolder = $newsFolderMapper->searchById($dest);
 
             if (!$destFolder) {
-                $controller = new messageController('Êàòàëîã íàçíà÷åíèÿ íå íàéäåí', messageController::WARNING);
+                $controller = new messageController('ĞšĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³ Ğ½Ğ°Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ñ Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½', messageController::WARNING);
                 return $controller->run();
             }
             

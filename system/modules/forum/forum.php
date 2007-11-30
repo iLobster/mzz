@@ -13,7 +13,7 @@
  */
 
 /**
- * forum: класс для работы c данными
+ * forum: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ c РґР°РЅРЅС‹РјРё
  *
  * @package modules
  * @subpackage forum

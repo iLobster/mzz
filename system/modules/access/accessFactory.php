@@ -13,7 +13,7 @@
 */
 
 /**
- * accessFactory: фабрика для получения контроллеров access
+ * accessFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ access
  *
  * @package modules
  * @subpackage access
@@ -23,7 +23,7 @@
 class accessFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

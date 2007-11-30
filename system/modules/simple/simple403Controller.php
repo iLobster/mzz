@@ -13,7 +13,7 @@
  */
 
 /**
- * simple403Controller: контроллер для метода 403 модуля simple
+ * simple403Controller: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° 403 РјРѕРґСѓР»СЏ simple
  *
  * @package modules
  * @subpackage simple

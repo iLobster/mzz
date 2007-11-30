@@ -17,7 +17,7 @@
 fileLoader::load('toolkit/iToolkit');
 
 /**
- * toolkit: абстрактный класс
+ * toolkit: Р°Р±СЃС‚СЂР°РєС‚РЅС‹Р№ РєР»Р°СЃСЃ
  *
  * @package system
  * @subpackage toolkit
@@ -26,14 +26,14 @@ fileLoader::load('toolkit/iToolkit');
 abstract class toolkit implements iToolkit
 {
     /**
-     * Методы Toolkit-ов
+     * РњРµС‚РѕРґС‹ Toolkit-РѕРІ
      *
      * @var array
      */
     private $tools = array();
 
     /**
-     * Конструктор. Сохраняет методы Toolkit-а
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ. РЎРѕС…СЂР°РЅСЏРµС‚ РјРµС‚РѕРґС‹ Toolkit-Р°
      *
      */
     public function __construct()
@@ -47,7 +47,7 @@ abstract class toolkit implements iToolkit
     }
 
     /**
-     * Возвращает данный toolkit если в нем содержится метод $toolName
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґР°РЅРЅС‹Р№ toolkit РµСЃР»Рё РІ РЅРµРј СЃРѕРґРµСЂР¶РёС‚СЃСЏ РјРµС‚РѕРґ $toolName
      *
      * @param string $toolName
      * @return object|false

@@ -13,7 +13,7 @@
  */
 
 /**
- * userLoginFormController: контроллер для метода loginForm модуля user
+ * userLoginFormController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° loginForm РјРѕРґСѓР»СЏ user
  *
  * @package modules
  * @subpackage user

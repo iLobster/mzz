@@ -15,7 +15,7 @@
 */
 
 /**
- * session: класс для работы с сессией
+ * session: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ СЃРµСЃСЃРёРµР№
  *
  * @package system
  * @subpackage session
@@ -24,14 +24,14 @@
 class session
 {
     /**
-     * Драйвер хранилища сессий
+     * Р”СЂР°Р№РІРµСЂ С…СЂР°РЅРёР»РёС‰Р° СЃРµСЃСЃРёР№
      *
      * @var iSessionStorage
      */
     protected $storageDriver;
 
     /**
-     * Запуск сессии
+     * Р—Р°РїСѓСЃРє СЃРµСЃСЃРёРё
      *
      */
     public function __construct(iSessionStorage $storageDriver = null)
@@ -42,7 +42,7 @@ class session
     }
 
     /**
-     * Запуск сессии
+     * Р—Р°РїСѓСЃРє СЃРµСЃСЃРёРё
      *
      */
     public function start()
@@ -59,7 +59,7 @@ class session
 
         session_start();
 
-        // исправление уязвимости 'session fixation'
+        // РёСЃРїСЂР°РІР»РµРЅРёРµ СѓСЏР·РІРёРјРѕСЃС‚Рё 'session fixation'
         $ip = substr($_SERVER['REMOTE_ADDR'], 0, strrpos($_SERVER['REMOTE_ADDR'], '.') - 1);
         $hash = md5((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'UA doesnt exists') . $ip . (isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : 'ie bug'));
         if (!$this->exists('mzz_session_fixation')) {
@@ -72,7 +72,7 @@ class session
     }
 
     /**
-     * Закрытие сессии
+     * Р—Р°РєСЂС‹С‚РёРµ СЃРµСЃСЃРёРё
      *
      */
     public function stop()
@@ -87,10 +87,10 @@ class session
     }
 
     /**
-     * Возвращает значение из сессии
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ РёР· СЃРµСЃСЃРёРё
      *
-     * @param string $name ключ
-     * @param string $get возвращаемое значение если значение с ключом $name не существует
+     * @param string $name РєР»СЋС‡
+     * @param string $get РІРѕР·РІСЂР°С‰Р°РµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ РµСЃР»Рё Р·РЅР°С‡РµРЅРёРµ СЃ РєР»СЋС‡РѕРј $name РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚
      * @return mixed
      */
     public function get($name, $default_value = null)
@@ -122,10 +122,10 @@ class session
     }
 
     /**
-     * Устанавливает значение в сессии
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ Р·РЅР°С‡РµРЅРёРµ РІ СЃРµСЃСЃРёРё
      *
-     * @param string $name ключ
-     * @param string $value значение
+     * @param string $name РєР»СЋС‡
+     * @param string $value Р·РЅР°С‡РµРЅРёРµ
      */
     public function set($name, $value)
     {
@@ -146,7 +146,7 @@ class session
     }
 
     /**
-     * Очищает текущую сессию
+     * РћС‡РёС‰Р°РµС‚ С‚РµРєСѓС‰СѓСЋ СЃРµСЃСЃРёСЋ
      *
      */
     public function reset()
@@ -155,9 +155,9 @@ class session
     }
 
     /**
-     * Проверяет существует ли значение с ключом $name в сессии
+     * РџСЂРѕРІРµСЂСЏРµС‚ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё Р·РЅР°С‡РµРЅРёРµ СЃ РєР»СЋС‡РѕРј $name РІ СЃРµСЃСЃРёРё
      *
-     * @param string $name ключ
+     * @param string $name РєР»СЋС‡
      * @return boolean
      */
     public function exists($name)
@@ -185,9 +185,9 @@ class session
     }
 
     /**
-     * Удаляет значение из сессии
+     * РЈРґР°Р»СЏРµС‚ Р·РЅР°С‡РµРЅРёРµ РёР· СЃРµСЃСЃРёРё
      *
-     * @param string $name ключ
+     * @param string $name РєР»СЋС‡
      */
     public function destroy($name)
     {
@@ -197,7 +197,7 @@ class session
     }
 
     /**
-     * Возвращает текущий идентификатор сессии
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСѓС‰РёР№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРµСЃСЃРёРё
      *
      * @return string
      */

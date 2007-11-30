@@ -15,7 +15,7 @@
 fileLoader::load('catalogue');
 
 /**
- * catalogueMapper: маппер
+ * catalogueMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage catalogue
@@ -25,14 +25,14 @@ fileLoader::load('catalogue');
 class catalogueMapper extends simpleCatalogueMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'catalogue';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */

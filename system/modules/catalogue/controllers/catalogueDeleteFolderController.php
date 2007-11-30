@@ -13,7 +13,7 @@
  */
 
 /**
- * catalogueDeleteFolderController: контроллер для метода deleteFolder модуля catalogue
+ * catalogueDeleteFolderController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deleteFolder РјРѕРґСѓР»СЏ catalogue
  *
  * @package modules
  * @subpackage catalogue

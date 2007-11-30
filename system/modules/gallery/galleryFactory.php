@@ -13,7 +13,7 @@
  */
 
 /**
- * galleryFactory: фабрика для получения контроллеров gallery
+ * galleryFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ gallery
  *
  * @package modules
  * @subpackage gallery
@@ -23,7 +23,7 @@
 class galleryFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

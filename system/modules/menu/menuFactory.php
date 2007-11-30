@@ -13,7 +13,7 @@
  */
 
 /**
- * menuFactory: фабрика для получения контроллеров menu
+ * menuFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ menu
  *
  * @package modules
  * @subpackage menu
@@ -23,7 +23,7 @@
 class menuFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

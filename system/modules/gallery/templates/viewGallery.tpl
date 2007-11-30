@@ -1,7 +1,7 @@
 {add file="gallery.css"}
 {title append=$user}
-{title append="Галерея"}
-<h3>Альбомы пользователя {$user}{$gallery->getJip()}</h3>
+{title append="Р“Р°Р»РµСЂРµСЏ"}
+<h3>РђР»СЊР±РѕРјС‹ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ {$user}{$gallery->getJip()}</h3>
 
 
 {foreach from=$albums item="album"}
@@ -14,10 +14,10 @@
             </div>
         </div>
         <h4><a href="{url route=galleryAlbum name=$user album=$album->getId() action=viewAlbum}" title="{$album->getName()|addslashes}">{if strlen($album->getName()) > 15}{$album->getName()|htmlspecialchars|substr:0:12}...{else}{$album->getName()|htmlspecialchars}{/if}</a></h4>
-        <p><b>{$album->getPicsNumber()}</b> фото {$album->getJip()}</p>
+        <p><b>{$album->getPicsNumber()}</b> С„РѕС‚Рѕ {$album->getJip()}</p>
     </div>
 {foreachelse}
-     Альбомов у пользователя нет.
+     РђР»СЊР±РѕРјРѕРІ Сѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµС‚.
 {/foreach}
 
 <br clear="all" />

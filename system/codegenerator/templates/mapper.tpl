@@ -19,7 +19,7 @@ fileLoader::load('{{$mapper_data.module}}');
 {{/if}}
 
 /**
- * {{$mapper_data.mapper_name}}: маппер
+ * {{$mapper_data.mapper_name}}: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage {{$mapper_data.module}}
@@ -29,21 +29,21 @@ fileLoader::load('{{$mapper_data.module}}');
 class {{$mapper_data.mapper_name}} extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = '{{$mapper_data.module}}';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = '{{$mapper_data.doname}}';
 
     /**
-     * Возвращает доменный объект по аргументам
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРѕРјРµРЅРЅС‹Р№ РѕР±СЉРµРєС‚ РїРѕ Р°СЂРіСѓРјРµРЅС‚Р°Рј
      *
      * @return simple
      */

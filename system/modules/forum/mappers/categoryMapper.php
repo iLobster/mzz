@@ -15,7 +15,7 @@
 fileLoader::load('forum/category');
 
 /**
- * categoryMapper: маппер
+ * categoryMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage forum
@@ -25,21 +25,21 @@ fileLoader::load('forum/category');
 class categoryMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'forum';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'category';
 
     /**
-     * Возвращает доменный объект по аргументам
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРѕРјРµРЅРЅС‹Р№ РѕР±СЉРµРєС‚ РїРѕ Р°СЂРіСѓРјРµРЅС‚Р°Рј
      *
      * @return simple
      */

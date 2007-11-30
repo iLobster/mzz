@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/mapper.tpl $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/captcha/mappers/captchaMapper.php $
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,13 +9,13 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: mapper.tpl 1998 2007-07-28 20:41:57Z mz $
+ * @version $Id: captchaMapper.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 fileLoader::load('captcha');
 
 /**
- * captchaMapper: ìàïïåð
+ * captchaMapper: Ð¼Ð°Ð¿Ð¿ÐµÑ€
  *
  * @package modules
  * @subpackage captcha
@@ -25,14 +25,14 @@ fileLoader::load('captcha');
 class captchaMapper extends simpleMapper
 {
     /**
-     * Èìÿ ìîäóëÿ
+     * Ð˜Ð¼Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      *
      * @var string
      */
     protected $name = 'captcha';
 
     /**
-     * Èìÿ êëàññà DataObject
+     * Ð˜Ð¼Ñ ÐºÐ»Ð°ÑÑÐ° DataObject
      *
      * @var string
      */
@@ -46,7 +46,7 @@ class captchaMapper extends simpleMapper
     }
 
     /**
-     * Âîçâðàùàåò óíèêàëüíûé äëÿ ÄÎ èäåíòèôèêàòîð èñõîäÿ èç àðãóìåíòîâ çàïðîñà
+     * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ ÑƒÐ½Ð¸ÐºÐ°Ð»ÑŒÐ½Ñ‹Ð¹ Ð´Ð»Ñ Ð”Ðž Ð¸Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€ Ð¸ÑÑ…Ð¾Ð´Ñ Ð¸Ð· Ð°Ñ€Ð³ÑƒÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð·Ð°Ð¿Ñ€Ð¾ÑÐ°
      *
      * @return integer
      */

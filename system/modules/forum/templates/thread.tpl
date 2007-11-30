@@ -1,20 +1,20 @@
-<a href="{url route=default2 action=forum}">Форум</a> / <a href="{url route=withId action=list id=$thread->getForum()->getId()}">{$thread->getForum()->getTitle()}</a> / {$thread->getTitle()}
-{if $thread->getACL('post')} (<a href="{url route=withId action=post id=$thread->getId()}">Ответить</a>){/if}<br /><br />
+<a href="{url route=default2 action=forum}">Р¤РѕСЂСѓРј</a> / <a href="{url route=withId action=list id=$thread->getForum()->getId()}">{$thread->getForum()->getTitle()}</a> / {$thread->getTitle()}
+{if $thread->getACL('post')} (<a href="{url route=withId action=post id=$thread->getId()}">РћС‚РІРµС‚РёС‚СЊ</a>){/if}<br /><br />
 
 {foreach from=$posts item=post name=post_cycle}
     <table border="1" width="100%">
         <tr>
             <td>
-                <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
+                <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, РѕС‚СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРѕ {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
                 {if $thread->getFirstPost()->getId() eq $post->getId()}
                     {if $thread->getAcl('editThread')}
-                        <a href="{url route=withId action=editThread id=$thread->getId()}">Редактировать</a>
+                        <a href="{url route=withId action=editThread id=$thread->getId()}">Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ</a>
                     {/if}
                     {if $thread->getAcl('moveThread')}
-                        <a href="{url route=withId action=moveThread id=$thread->getId()}">Перенести</a>
+                        <a href="{url route=withId action=moveThread id=$thread->getId()}">РџРµСЂРµРЅРµСЃС‚Рё</a>
                     {/if}
                 {else}
-                    {if $post->getAcl('edit')} <a href="{url route=withId action=edit id=$post->getId()}">Редактировать</a>{/if}
+                    {if $post->getAcl('edit')} <a href="{url route=withId action=edit id=$post->getId()}">Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ</a>{/if}
                 {/if}
             </td>
             <td align="right">

@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * userGroupEditController: êîíòðîëëåð äëÿ ìåòîäà groupEdit ìîäóëÿ user
+ * userGroupEditController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° groupEdit Ð¼Ð¾Ð´ÑƒÐ»Ñ user
  *
  * @package modules
  * @subpackage user
@@ -38,8 +38,8 @@ class userGroupEditController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Îáÿçàòåëüíîå äëÿ çàïîëíåíèÿ ïîëå');
-        $validator->add('callback', 'name', 'Ãðóïïà ñ òàêèì èìåíåì óæå ñóùåñòâóåò', array('checkUniqueGroupName', $group, $groupMapper));
+        $validator->add('required', 'name', 'ÐžÐ±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð´Ð»Ñ Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»Ðµ');
+        $validator->add('callback', 'name', 'Ð“Ñ€ÑƒÐ¿Ð¿Ð° Ñ Ñ‚Ð°ÐºÐ¸Ð¼ Ð¸Ð¼ÐµÐ½ÐµÐ¼ ÑƒÐ¶Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚', array('checkUniqueGroupName', $group, $groupMapper));
 
         if ($validator->validate()) {
             if (!$isEdit) {

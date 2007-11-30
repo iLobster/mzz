@@ -15,7 +15,7 @@
 fileLoader::load('codegenerator/moduleGenerator');
 
 /**
- * adminDeleteModuleController: êîíòğîëëåğ äëÿ ìåòîäà deleteModule ìîäóëÿ admin
+ * adminDeleteModuleController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° deleteModule Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -32,12 +32,12 @@ class adminDeleteModuleController extends simpleController
         $modules = $adminMapper->getModulesList();
 
         if (!isset($modules[$id])) {
-            $controller = new messageController('Ìîäóëÿ íå ñóùåñòâóåò', messageController::WARNING);
+            $controller = new messageController('ĞœĞ¾Ğ´ÑƒĞ»Ñ Ğ½Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚', messageController::WARNING);
             return $controller->run();
         }
 
         if (sizeof($modules[$id]['classes'])) {
-            $controller = new messageController('Íåëüçÿ óäàëèòü ìîäóëü', messageController::WARNING);
+            $controller = new messageController('ĞĞµĞ»ÑŒĞ·Ñ ÑƒĞ´Ğ°Ğ»Ğ¸Ñ‚ÑŒ Ğ¼Ğ¾Ğ´ÑƒĞ»ÑŒ', messageController::WARNING);
             return $controller->run();
         }
 

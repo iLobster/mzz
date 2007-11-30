@@ -6,7 +6,7 @@ class someMapper extends simpleMapper
 
     protected function selectDataModify(&$modifyFields)
     {
-        // â ðåçóëüòàòå â SELECT çàïðîñà äîáàâèòñÿ REVERSE(`some`.`foo`) AS `foo`
+        // Ð² Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ðµ Ð² SELECT Ð·Ð°Ð¿Ñ€Ð¾ÑÐ° Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑÑ REVERSE(`some`.`foo`) AS `foo`
         $modifyFields['foo'] = new sqlFunction('REVERSE', $this->className . '.foo', true);
     }
 }

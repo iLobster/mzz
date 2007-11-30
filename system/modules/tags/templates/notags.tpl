@@ -1,1 +1,1 @@
-нет тагов <a class="jipLink" href="{url route=withId id=$item_obj_id section=tags action=editTags}">Добавить тэги</a>
+РЅРµС‚ С‚Р°РіРѕРІ <a class="jipLink" href="{url route=withId id=$item_obj_id section=tags action=editTags}">Р”РѕР±Р°РІРёС‚СЊ С‚СЌРіРё</a>

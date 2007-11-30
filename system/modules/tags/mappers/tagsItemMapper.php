@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/codegenerator/templates/mapper.tpl $
+ * $URL: http://svn.sandbox/repository/mzz/system/modules/tags/mappers/tagsItemMapper.php $
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,13 +9,13 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: mapper.tpl 1998 2007-07-28 20:41:57Z mz $
+ * @version $Id: tagsItemMapper.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 fileLoader::load('tags/tagsItem');
 
 /**
- * itemMapper: ìàïïåð
+ * itemMapper: Ð¼Ð°Ð¿Ð¿ÐµÑ€
  *
  * @package modules
  * @subpackage tags
@@ -25,25 +25,25 @@ fileLoader::load('tags/tagsItem');
 class tagsItemMapper extends simpleMapper
 {
     /**
-     * Èìÿ ìîäóëÿ
+     * Ð˜Ð¼Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      *
      * @var string
      */
     protected $name = 'tags';
 
     /**
-     * Èìÿ êëàññà DataObject
+     * Ð˜Ð¼Ñ ÐºÐ»Ð°ÑÑÐ° DataObject
      *
      * @var string
      */
     protected $className = 'tagsItem';
 
     /**
-     * Ìåòîä äëÿ âîçâðàòà êîíòðîëëåðà, îáðàáàòûâàþùåãî îøèáêó 404
+     * ÐœÐµÑ‚Ð¾Ð´ Ð´Ð»Ñ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‚Ð° ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð°, Ð¾Ð±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÑŽÑ‰ÐµÐ³Ð¾ Ð¾ÑˆÐ¸Ð±ÐºÑƒ 404
      *
      * @return simpleController
      *
-     * @todo ïîäóìàòü - íàñêîëüêî ýòî ïëîõî
+     * @todo Ð¿Ð¾Ð´ÑƒÐ¼Ð°Ñ‚ÑŒ - Ð½Ð°ÑÐºÐ¾Ð»ÑŒÐºÐ¾ ÑÑ‚Ð¾ Ð¿Ð»Ð¾Ñ…Ð¾
      */
     public function get404()
     {
@@ -52,7 +52,7 @@ class tagsItemMapper extends simpleMapper
     }
 
     /**
-     * Âîçâðàùàåò äîìåííûé îáúåêò ïî àðãóìåíòàì
+     * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð´Ð¾Ð¼ÐµÐ½Ð½Ñ‹Ð¹ Ð¾Ð±ÑŠÐµÐºÑ‚ Ð¿Ð¾ Ð°Ñ€Ð³ÑƒÐ¼ÐµÐ½Ñ‚Ð°Ð¼
      *
      * @return simple
      */
@@ -65,7 +65,7 @@ class tagsItemMapper extends simpleMapper
             $parent_obj_id = isset($args['parent_id']) ? $args['parent_id'] : $args['id'];
 
         } elseif((isset($args['items']) && $action == 'itemsTagsCloud') || ($action == 'tagsCloud')) {
-            // åñëè ïåðåäàåòñÿ ñïèñîê îáúåêòîâ äëÿ îáëàêà
+            // ÐµÑÐ»Ð¸ Ð¿ÐµÑ€ÐµÐ´Ð°ÐµÑ‚ÑÑ ÑÐ¿Ð¸ÑÐ¾Ðº Ð¾Ð±ÑŠÐµÐºÑ‚Ð¾Ð² Ð´Ð»Ñ Ð¾Ð±Ð»Ð°ÐºÐ°
 
             $toolkit = systemToolkit::getInstance();
             $obj_id = $toolkit->getObjectId($this->section . '_' . $action);
@@ -84,7 +84,7 @@ class tagsItemMapper extends simpleMapper
         $tagsItem = $this->searchOneByField('item_obj_id', $parent_obj_id);
         if(is_null($tagsItem)) {
 
-            // toDo owner äîáàâèòü?
+            // toDo owner Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ?
 
             $tagsItem = $this->create();
             $tagsItem->setItemObjId($parent_obj_id);

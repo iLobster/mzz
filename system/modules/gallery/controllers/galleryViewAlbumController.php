@@ -13,7 +13,7 @@
  */
 
 /**
- * galleryViewAlbumController: контроллер для метода viewAlbum модуля gallery
+ * galleryViewAlbumController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° viewAlbum РјРѕРґСѓР»СЏ gallery
  *
  * @package modules
  * @subpackage gallery

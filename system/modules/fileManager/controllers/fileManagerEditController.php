@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * fileManagerEditController: êîíòðîëëåð äëÿ ìåòîäà edit ìîäóëÿ fileManager
+ * fileManagerEditController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° edit Ð¼Ð¾Ð´ÑƒÐ»Ñ fileManager
  *
  * @package modules
  * @subpackage fileManager
@@ -36,9 +36,9 @@ class fileManagerEditController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Îáÿçàòåëüíîå äëÿ çàïîëíåíèÿ ïîëå');
-        $validator->add('regex', 'name', 'Íåäîïóñòèìûå ñèìâîëû â èìåíè', '/^[a-zà-ÿ0-9_\.\-! ]+$/i');
-        $validator->add('callback', 'name', 'Èìÿ äîëæíî áûòü óíèêàëüíî â ïðåäåëàõ êàòàëîãà', array('checkFilename', $file));
+        $validator->add('required', 'name', 'ÐžÐ±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð´Ð»Ñ Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»Ðµ');
+        $validator->add('regex', 'name', 'ÐÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹ Ð² Ð¸Ð¼ÐµÐ½Ð¸', '/^[a-zÐ°-Ñ0-9_\.\-! ]+$/i');
+        $validator->add('callback', 'name', 'Ð˜Ð¼Ñ Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ ÑƒÐ½Ð¸ÐºÐ°Ð»ÑŒÐ½Ð¾ Ð² Ð¿Ñ€ÐµÐ´ÐµÐ»Ð°Ñ… ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð°', array('checkFilename', $file));
 
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);

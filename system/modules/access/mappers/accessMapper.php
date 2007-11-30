@@ -13,7 +13,7 @@
 */
 
 /**
- * accessMapper: маппер
+ * accessMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage access
@@ -25,14 +25,14 @@ fileLoader::load('access');
 class accessMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'access';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */

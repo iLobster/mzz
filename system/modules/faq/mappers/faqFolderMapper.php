@@ -15,7 +15,7 @@
 fileLoader::load('faq/faqFolder');
 
 /**
- * faqFolderMapper: маппер
+ * faqFolderMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage faq
@@ -25,14 +25,14 @@ fileLoader::load('faq/faqFolder');
 class faqFolderMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'faq';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
@@ -53,7 +53,7 @@ class faqFolderMapper extends simpleMapper
     }
 
     /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РґР»СЏ Р”Рћ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёСЃС…РѕРґСЏ РёР· Р°СЂРіСѓРјРµРЅС‚РѕРІ Р·Р°РїСЂРѕСЃР°
      *
      * @return integer
      */

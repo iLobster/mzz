@@ -13,7 +13,7 @@
  */
 
 /**
- * catalogueDeleteController: контроллер для метода delete модуля catalogue
+ * catalogueDeleteController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° delete РјРѕРґСѓР»СЏ catalogue
  *
  * @package modules
  * @subpackage catalogue

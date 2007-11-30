@@ -15,7 +15,7 @@
 fileLoader::load('codegenerator/actionGenerator');
 
 /**
- * adminDeleteActionController: контроллер для метода deleteAction модуля admin
+ * adminDeleteActionController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deleteAction РјРѕРґСѓР»СЏ admin
  *
  * @package modules
  * @subpackage admin
@@ -32,7 +32,7 @@ class adminDeleteActionController extends simpleController
         $data = $db->getRow('SELECT `c`.`id` AS `c_id`, `m`.`id` AS `m_id`, `c`.`name` AS `c_name`, `m`.`name` AS `m_name` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);
 
         if (!$data) {
-            return 'класс не найден';
+            return 'РєР»Р°СЃСЃ РЅРµ РЅР°Р№РґРµРЅ';
         }
 
         $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;

@@ -15,7 +15,7 @@
 fileLoader::load('faq/faqCategory');
 
 /**
- * faqCategoryMapper: маппер
+ * faqCategoryMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage faq
@@ -25,14 +25,14 @@ fileLoader::load('faq/faqCategory');
 class faqCategoryMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'faq';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
@@ -64,7 +64,7 @@ class faqCategoryMapper extends simpleMapper
     }
 
     /**
-     * Возвращает доменный объект по аргументам
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРѕРјРµРЅРЅС‹Р№ РѕР±СЉРµРєС‚ РїРѕ Р°СЂРіСѓРјРµРЅС‚Р°Рј
      *
      * @return simple
      */

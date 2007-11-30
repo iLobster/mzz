@@ -7,22 +7,22 @@
 {add file="jip.js"}
 
 {title append=$message->getTitle()|htmlspecialchars}
-{title append="Просмотр сообщения"}
+{title append="РџСЂРѕСЃРјРѕС‚СЂ СЃРѕРѕР±С‰РµРЅРёСЏ"}
 
 {foreach from=$categories item=category name=cat}
     <a href="{url route=withAnyParam action=list section=message name=$category->getName()}">{$category->getTitle()|htmlspecialchars}</a>
     {if not $smarty.foreach.cat.last} | {/if}
 {/foreach}
 <br /><br />
-<strong>Тема:</strong> {$message->getTitle()|htmlspecialchars}<br />
+<strong>РўРµРјР°:</strong> {$message->getTitle()|htmlspecialchars}<br />
 {if $isSent}
-    <strong>Получатель:</strong> {$message->getRecipient()->getLogin()}<br />
+    <strong>РџРѕР»СѓС‡Р°С‚РµР»СЊ:</strong> {$message->getRecipient()->getLogin()}<br />
 {else}
-    <strong>Отправитель:</strong> {$message->getSender()->getLogin()}<br />
+    <strong>РћС‚РїСЂР°РІРёС‚РµР»СЊ:</strong> {$message->getSender()->getLogin()}<br />
 {/if}
-<strong>Текст сообщения:</strong><br />{$message->getText()|htmlspecialchars|nl2br}<br />
+<strong>РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ:</strong><br />{$message->getText()|htmlspecialchars|nl2br}<br />
 <br />
 {if not $isSent}
-<a href="{url route=withAnyParam section=message action=send name=$message->getSender()->getLogin()}">ответить</a> | 
+<a href="{url route=withAnyParam section=message action=send name=$message->getSender()->getLogin()}">РѕС‚РІРµС‚РёС‚СЊ</a> | 
 {/if}
-<a href="{url route=withId section=message action=delete id=$message->getId()}" class="jipLink">удалить</a>
+<a href="{url route=withId section=message action=delete id=$message->getId()}" class="jipLink">СѓРґР°Р»РёС‚СЊ</a>

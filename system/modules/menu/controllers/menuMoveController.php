@@ -13,7 +13,7 @@
  */
 
 /**
- * menuMoveController: контроллер для метода move модуля menu
+ * menuMoveController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° move РјРѕРґСѓР»СЏ menu
  *
  * @package modules
  * @subpackage menu

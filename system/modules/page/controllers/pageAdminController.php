@@ -13,7 +13,7 @@
 */
 
 /**
- * pageAdminController: контроллер для метода admin модуля page
+ * pageAdminController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° admin РјРѕРґСѓР»СЏ page
  *
  * @package modules
  * @subpackage page

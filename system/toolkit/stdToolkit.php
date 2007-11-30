@@ -15,7 +15,7 @@
  */
 
 /**
- * stdToolkit: стандартный Toolkit
+ * stdToolkit: СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ Toolkit
  *
  * @package system
  * @subpackage toolkit
@@ -50,7 +50,7 @@ class stdToolkit extends toolkit
     /**#@-*/
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      */
     public function __construct()
@@ -62,7 +62,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект Request
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Request
      *
      * @return object
      */
@@ -77,7 +77,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект arrayDataspace
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ arrayDataspace
      *
      * @return arrayDataspace
      */
@@ -91,7 +91,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект Response
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Response
      *
      * @return object
      */
@@ -106,7 +106,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект Session
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Session
      *
      * @return object
      */
@@ -121,7 +121,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект Smarty
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Smarty
      *
      * @return object
      */
@@ -151,7 +151,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект requestRouter
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ requestRouter
      *
      * @param iRequest $request
      * @return object
@@ -171,7 +171,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект Config
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Config
      *
      * @return object
      */
@@ -190,7 +190,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект Timer
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Timer
      *
      * @return object
      */
@@ -206,9 +206,9 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект с описанием действий конкретного модуля
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ СЃ РѕРїРёСЃР°РЅРёРµРј РґРµР№СЃС‚РІРёР№ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РјРѕРґСѓР»СЏ
      *
-     * @param string $module имя модуля
+     * @param string $module РёРјСЏ РјРѕРґСѓР»СЏ
      * @return object
      */
     public function getAction($module)
@@ -221,7 +221,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект текущего пользователя
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ С‚РµРєСѓС‰РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
      *
      * @return user
      */
@@ -236,7 +236,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает уникальный идентификатор необходимый для идентификации объектов
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РЅРµРѕР±С…РѕРґРёРјС‹Р№ РґР»СЏ РёРґРµРЅС‚РёС„РёРєР°С†РёРё РѕР±СЉРµРєС‚РѕРІ
      *
      * @param string $name
      * @param boolean $generateNew
@@ -252,11 +252,11 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает необходимый маппер
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РЅРµРѕР±С…РѕРґРёРјС‹Р№ РјР°РїРїРµСЂ
      *
-     * @param string $module имя модуля
-     * @param string $do имя доменного объекта
-     * @param string $section имя раздела
+     * @param string $module РёРјСЏ РјРѕРґСѓР»СЏ
+     * @param string $do РёРјСЏ РґРѕРјРµРЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°
+     * @param string $section РёРјСЏ СЂР°Р·РґРµР»Р°
      * @return simpleMapper
      */
     public function getMapper($module, $do, $section = null)
@@ -278,7 +278,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект для работы с кэшем
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РєСЌС€РµРј
      *
      * @return cache
      */
@@ -293,7 +293,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Получение валидатора
+     * РџРѕР»СѓС‡РµРЅРёРµ РІР°Р»РёРґР°С‚РѕСЂР°
      *
      * @return formValidator
      */
@@ -303,7 +303,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Установка валидатора
+     * РЈСЃС‚Р°РЅРѕРІРєР° РІР°Р»РёРґР°С‚РѕСЂР°
      *
      * @param formValidator $value
      */
@@ -313,7 +313,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Устанавливает объект пользователя и возвращает установленный ранее
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Р№ СЂР°РЅРµРµ
      *
      * @param user $user
      * @return user
@@ -326,7 +326,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Устанавливает объект Request
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЉРµРєС‚ Request
      *
      * @param iRequest $request
      * @return iRequest

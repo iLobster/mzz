@@ -17,8 +17,8 @@
 fileLoader::load('dataspace/iValueFilter');
 
 /**
- * dateFormatValueFilter: ôèëüòð äëÿ dataspace.
- * Ïðèâîäèò unix timestamp ê íîðìàëüíîìó ôîðìàòó
+ * dateFormatValueFilter: Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ Ð´Ð»Ñ dataspace.
+ * ÐŸÑ€Ð¸Ð²Ð¾Ð´Ð¸Ñ‚ unix timestamp Ðº Ð½Ð¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¾Ð¼Ñƒ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ñƒ
  *
  * @package system
  * @subpackage dataspace
@@ -27,34 +27,34 @@ fileLoader::load('dataspace/iValueFilter');
 class dateFormatValueFilter implements iValueFilter
 {
     /**
-     * Ôîðìàò äàòû
+     * Ð¤Ð¾Ñ€Ð¼Ð°Ñ‚ Ð´Ð°Ñ‚Ñ‹
      *
      * @var string
      */
     private $format;
 
     /**
-     * Êîíñòðóêòîð
+     * ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€
      *
-     * @param string $format ôîðìàò äàòû
+     * @param string $format Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ð´Ð°Ñ‚Ñ‹
      */
     public function __construct($format = 'd M Y / H:i:s')
     {
-        // âîçìîæíî âîòêíóòü êàêóþ òî ïðîâåðêó íà ôîðìàò ïåðåìåííîé $format
-        // äåôîëòíûé ôîðìàò âîçìîæíî áóäåò áðàòüñÿ èç êîíôèãà
+        // Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð²Ð¾Ñ‚ÐºÐ½ÑƒÑ‚ÑŒ ÐºÐ°ÐºÑƒÑŽ Ñ‚Ð¾ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÑƒ Ð½Ð° Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹ $format
+        // Ð´ÐµÑ„Ð¾Ð»Ñ‚Ð½Ñ‹Ð¹ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð±ÑƒÐ´ÐµÑ‚ Ð±Ñ€Ð°Ñ‚ÑŒÑÑ Ð¸Ð· ÐºÐ¾Ð½Ñ„Ð¸Ð³Ð°
         $this->format = $format;
     }
 
     /**
-     * Ïðèìåíÿåò ôèëüòð ê çíà÷åíèþ è âîçâðàùàåò åãî
+     * ÐŸÑ€Ð¸Ð¼ÐµÐ½ÑÐµÑ‚ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ Ðº Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸ÑŽ Ð¸ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ ÐµÐ³Ð¾
      *
-     * @param string|intger $value çíà÷åíèå
+     * @param string|intger $value Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ
      * @return string
      */
     public function filter($value)
     {
-        // ìîæåò åù¸ ïðîâåðÿòü ÷òî çàïðàøèâàåòñÿ èìåííî timestamp (is_int)
-        // èëè ôîðìàòèðîâàòü ïðè âûâîäå.. õîòÿ õç
+        // Ð¼Ð¾Ð¶ÐµÑ‚ ÐµÑ‰Ñ‘ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÑ‚ÑŒ Ñ‡Ñ‚Ð¾ Ð·Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÑ‚ÑÑ Ð¸Ð¼ÐµÐ½Ð½Ð¾ timestamp (is_int)
+        // Ð¸Ð»Ð¸ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð¿Ñ€Ð¸ Ð²Ñ‹Ð²Ð¾Ð´Ðµ.. Ñ…Ð¾Ñ‚Ñ Ñ…Ð·
 
         return date($this->format, $value);
     }

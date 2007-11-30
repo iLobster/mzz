@@ -13,7 +13,7 @@
  */
 
 /**
- * fileManagerDeleteController: êîíòðîëëåð äëÿ ìåòîäà delete ìîäóëÿ fileManager
+ * fileManagerDeleteController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° delete Ð¼Ð¾Ð´ÑƒÐ»Ñ fileManager
  *
  * @package modules
  * @subpackage fileManager
@@ -29,7 +29,7 @@ class fileManagerDeleteController extends simpleController
         $file = $fileMapper->searchByPath($name);
 
         if (!$file) {
-            return 'ôàéë íå íàéäåí';
+            return 'Ñ„Ð°Ð¹Ð» Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½';
         }
 
         $fileMapper->delete($file);

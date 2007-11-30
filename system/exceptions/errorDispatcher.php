@@ -15,7 +15,7 @@
 */
 
 /**
- * errorDispatcher: класс для работы с PHP-ошибками и исключениями
+ * errorDispatcher: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ PHP-РѕС€РёР±РєР°РјРё Рё РёСЃРєР»СЋС‡РµРЅРёСЏРјРё
  *
  * @package system
  * @subpackage exceptions
@@ -26,7 +26,7 @@ class errorDispatcher
     protected $exception;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      */
     public function __construct()
@@ -34,12 +34,12 @@ class errorDispatcher
     }
 
     /**
-     * Обработчик PHP-ошибок.
+     * РћР±СЂР°Р±РѕС‚С‡РёРє PHP-РѕС€РёР±РѕРє.
      *
-     * @param integer $errno номер ошибки
-     * @param string $errstr текст ошибки
-     * @param string $errfile имя файла, в котором обнаружена ошибка
-     * @param integer $errline номер строки, в которой обнаружена ошибка
+     * @param integer $errno РЅРѕРјРµСЂ РѕС€РёР±РєРё
+     * @param string $errstr С‚РµРєСЃС‚ РѕС€РёР±РєРё
+     * @param string $errfile РёРјСЏ С„Р°Р№Р»Р°, РІ РєРѕС‚РѕСЂРѕРј РѕР±РЅР°СЂСѓР¶РµРЅР° РѕС€РёР±РєР°
+     * @param integer $errline РЅРѕРјРµСЂ СЃС‚СЂРѕРєРё, РІ РєРѕС‚РѕСЂРѕР№ РѕР±РЅР°СЂСѓР¶РµРЅР° РѕС€РёР±РєР°
      * @throws phpErrorException
      */
     public function errorHandler($errno, $errstr, $errfile, $errline)
@@ -50,7 +50,7 @@ class errorDispatcher
     }
 
     /**
-     * Обработчик исключений
+     * РћР±СЂР°Р±РѕС‚С‡РёРє РёСЃРєР»СЋС‡РµРЅРёР№
      *
      * @param exception $exception
      */
@@ -61,9 +61,9 @@ class errorDispatcher
     }
 
     /**
-     * Устанавливает обработчик PHP-ошибок и исключений
+     * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕР±СЂР°Р±РѕС‚С‡РёРє PHP-РѕС€РёР±РѕРє Рё РёСЃРєР»СЋС‡РµРЅРёР№
      *
-     * @param errorDispatcher $dispatcher обработчик
+     * @param errorDispatcher $dispatcher РѕР±СЂР°Р±РѕС‚С‡РёРє
      */
     public function setDispatcher($dispatcher)
     {
@@ -72,7 +72,7 @@ class errorDispatcher
     }
 
     /**
-     * Восстанавливает стандартные обработчики PHP-ошибок и исключений
+     * Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РѕР±СЂР°Р±РѕС‚С‡РёРєРё PHP-РѕС€РёР±РѕРє Рё РёСЃРєР»СЋС‡РµРЅРёР№
      *
      */
     public function restroreDispatcher()
@@ -82,7 +82,7 @@ class errorDispatcher
     }
 
     /**
-     * Вывод исключения в виде HTML
+     * Р’С‹РІРѕРґ РёСЃРєР»СЋС‡РµРЅРёСЏ РІ РІРёРґРµ HTML
      *
      */
     public function printHtml()
@@ -106,7 +106,7 @@ class errorDispatcher
             $trace_msg = '';
             $count = $total = count($traces);
             if ($total > 3) {
-                $trace_msg = "<p><a style='cursor: pointer; padding: 1px; border-bottom: 1px dashed #555;' onclick=\"javascript: if (document.getElementById('debugTrace').style.display != 'block') document.getElementById('debugTrace').style.display ='block'; else document.getElementById('debugTrace').style.display='none';\"><strong>Показать/скрыть весь trace</strong></a></p>\r\n";
+                $trace_msg = "<p><a style='cursor: pointer; padding: 1px; border-bottom: 1px dashed #555;' onclick=\"javascript: if (document.getElementById('debugTrace').style.display != 'block') document.getElementById('debugTrace').style.display ='block'; else document.getElementById('debugTrace').style.display='none';\"><strong>РџРѕРєР°Р·Р°С‚СЊ/СЃРєСЂС‹С‚СЊ РІРµСЃСЊ trace</strong></a></p>\r\n";
             }
             foreach ($traces as $trace) {
                 if (!isset($trace['file'])) {
@@ -145,27 +145,27 @@ class errorDispatcher
             $html .= '<p>SAPI: <strong>' . php_sapi_name() . '</strong>, ';
             $html .= 'Software: <strong>' . (!empty($_SERVER["SERVER_SOFTWARE"]) ? $_SERVER["SERVER_SOFTWARE"] : "unknown") . '</strong>, ';
             $html .= 'PHP: <strong>' . PHP_VERSION . ' on ' . PHP_OS . '</strong>, ';
-            $html .= 'Версия mzz: <strong>' . MZZ_VERSION . ' (Rev. ' . MZZ_REVISION . ')</strong>.</p>';
+            $html .= 'Р’РµСЂСЃРёСЏ mzz: <strong>' . MZZ_VERSION . ' (Rev. ' . MZZ_REVISION . ')</strong>.</p>';
         } else {
-            $html .= '<p><strong>Debug-mode выключен.</strong></p>';
+            $html .= '<p><strong>Debug-mode РІС‹РєР»СЋС‡РµРЅ.</strong></p>';
         }
         $html .= $this->getHtmlFooter();
         echo $html;
     }
 
     /**
-     * Верх HTML кода
+     * Р’РµСЂС… HTML РєРѕРґР°
      *
      * @return string
      */
     protected function getHtmlHeader()
     {
         return "\r\n<div style='width: 700px; border: 1px solid #D6D6D6; background-color: #FAFAFA; font-family: tahoma, arial, verdana; font-size: 70%; padding: 10px; line-height: 120%;'>
-        <span style='font-weight: bold; color: #AA0000; font-size: 130%;'>Выполнение прервано из-за непредвиденной ситуации.</span>\r\n";
+        <span style='font-weight: bold; color: #AA0000; font-size: 130%;'>Р’С‹РїРѕР»РЅРµРЅРёРµ РїСЂРµСЂРІР°РЅРѕ РёР·-Р·Р° РЅРµРїСЂРµРґРІРёРґРµРЅРЅРѕР№ СЃРёС‚СѓР°С†РёРё.</span>\r\n";
     }
 
     /**
-     * Низ HTML кода
+     * РќРёР· HTML РєРѕРґР°
      *
      * @return string
      */

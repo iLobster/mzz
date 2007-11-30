@@ -16,7 +16,7 @@ fileLoader::load('db/dbTreeNS');
 fileLoader::load('simple/simpleForTree');
 
 /**
- * simpleMapperForTree: маппер для работы с древовидными структурами
+ * simpleMapperForTree: РјР°РїРїРµСЂ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РґСЂРµРІРѕРІРёРґРЅС‹РјРё СЃС‚СЂСѓРєС‚СѓСЂР°РјРё
  *
  * @package system
  * @version 0.2.1
@@ -25,23 +25,23 @@ fileLoader::load('simple/simpleForTree');
 abstract class simpleMapperForTree extends simpleMapper
 {
     /**
-     * Массив для хранения временных данных о дереве (до добавления их в объект)
+     * РњР°СЃСЃРёРІ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РІСЂРµРјРµРЅРЅС‹С… РґР°РЅРЅС‹С… Рѕ РґРµСЂРµРІРµ (РґРѕ РґРѕР±Р°РІР»РµРЅРёСЏ РёС… РІ РѕР±СЉРµРєС‚)
      *
      * @var array
      */
     protected $treeTmp = array();
 
     /**
-     * Параметры дерева (имя таблицы, имя поле по которому происходит связывание, имя поля для указания пути, имя узла)
+     * РџР°СЂР°РјРµС‚СЂС‹ РґРµСЂРµРІР° (РёРјСЏ С‚Р°Р±Р»РёС†С‹, РёРјСЏ РїРѕР»Рµ РїРѕ РєРѕС‚РѕСЂРѕРјСѓ РїСЂРѕРёСЃС…РѕРґРёС‚ СЃРІСЏР·С‹РІР°РЅРёРµ, РёРјСЏ РїРѕР»СЏ РґР»СЏ СѓРєР°Р·Р°РЅРёСЏ РїСѓС‚Рё, РёРјСЏ СѓР·Р»Р°)
      *
      * @var array
      */
     protected $treeParams = array();
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param string $section имя раздела
+     * @param string $section РёРјСЏ СЂР°Р·РґРµР»Р°
      */
     public function __construct($section)
     {
@@ -51,7 +51,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Установка id дерева (в случае если в таблицах хранится несколько древовидных структур одновременно)
+     * РЈСЃС‚Р°РЅРѕРІРєР° id РґРµСЂРµРІР° (РІ СЃР»СѓС‡Р°Рµ РµСЃР»Рё РІ С‚Р°Р±Р»РёС†Р°С… С…СЂР°РЅРёС‚СЃСЏ РЅРµСЃРєРѕР»СЊРєРѕ РґСЂРµРІРѕРІРёРґРЅС‹С… СЃС‚СЂСѓРєС‚СѓСЂ РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ)
      *
      * @param integer $tree_id
      */
@@ -61,7 +61,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Получение параметров дерева
+     * РџРѕР»СѓС‡РµРЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ РґРµСЂРµРІР°
      *
      * @return array
      */
@@ -71,7 +71,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Получение корневого элемента дерева
+     * РџРѕР»СѓС‡РµРЅРёРµ РєРѕСЂРЅРµРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РґРµСЂРµРІР°
      *
      * @return simpleForTree
      */
@@ -83,7 +83,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Поиск узла по пути
+     * РџРѕРёСЃРє СѓР·Р»Р° РїРѕ РїСѓС‚Рё
      *
      * @param string $path
      * @return simpleForTree
@@ -110,7 +110,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Поиск узла по критерию
+     * РџРѕРёСЃРє СѓР·Р»Р° РїРѕ РєСЂРёС‚РµСЂРёСЋ
      *
      * @param criteria $criteria
      * @return simpleForTree
@@ -123,10 +123,10 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Получение наследников
+     * РџРѕР»СѓС‡РµРЅРёРµ РЅР°СЃР»РµРґРЅРёРєРѕРІ
      *
-     * @param simpleForTree $id испомый узел
-     * @param integer $level глубина выборки
+     * @param simpleForTree $id РёСЃРїРѕРјС‹Р№ СѓР·РµР»
+     * @param integer $level РіР»СѓР±РёРЅР° РІС‹Р±РѕСЂРєРё
      * @return array
      */
     public function getFolders(simpleForTree $id, $level = 1)
@@ -135,11 +135,11 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Получение ветки дерева, начиная с искомого узла
+     * РџРѕР»СѓС‡РµРЅРёРµ РІРµС‚РєРё РґРµСЂРµРІР°, РЅР°С‡РёРЅР°СЏ СЃ РёСЃРєРѕРјРѕРіРѕ СѓР·Р»Р°
      *
-     * @param simpleForTree $target искомый узел дерева
-     * @param integer $level число выбираемых уровней
-     * @return array массив найденных элементов
+     * @param simpleForTree $target РёСЃРєРѕРјС‹Р№ СѓР·РµР» РґРµСЂРµРІР°
+     * @param integer $level С‡РёСЃР»Рѕ РІС‹Р±РёСЂР°РµРјС‹С… СѓСЂРѕРІРЅРµР№
+     * @return array РјР°СЃСЃРёРІ РЅР°Р№РґРµРЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ
      */
     public function getBranch(simpleForTree $target, $level = 0)
     {
@@ -161,7 +161,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Получение всех предков искомого узла
+     * РџРѕР»СѓС‡РµРЅРёРµ РІСЃРµС… РїСЂРµРґРєРѕРІ РёСЃРєРѕРјРѕРіРѕ СѓР·Р»Р°
      *
      * @param simpleForTree $node
      * @return array
@@ -186,7 +186,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Получение предка искомого узла
+     * РџРѕР»СѓС‡РµРЅРёРµ РїСЂРµРґРєР° РёСЃРєРѕРјРѕРіРѕ СѓР·Р»Р°
      *
      * @param simpleForTree $child
      * @return simpleForTree
@@ -212,41 +212,41 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Сохранение объекта
+     * РЎРѕС…СЂР°РЅРµРЅРёРµ РѕР±СЉРµРєС‚Р°
      *
      * @param simpleForTree $object
-     * @param simpleForTree $target узел, в который сохраняется объект (в случае - если происходит создание)
+     * @param simpleForTree $target СѓР·РµР», РІ РєРѕС‚РѕСЂС‹Р№ СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ РѕР±СЉРµРєС‚ (РІ СЃР»СѓС‡Р°Рµ - РµСЃР»Рё РїСЂРѕРёСЃС…РѕРґРёС‚ СЃРѕР·РґР°РЅРёРµ)
      * @param user $user
      */
     public function save(simpleForTree $object, $target = null, $user = null)
     {
-        // получаем сохраняемую инфу
+        // РїРѕР»СѓС‡Р°РµРј СЃРѕС…СЂР°РЅСЏРµРјСѓСЋ РёРЅС„Сѓ
         $data = $object->export();
 
         $mutator = $this->map[$this->treeParams['joinField']]['mutator'];
         $accessor = $this->map[$this->treeParams['joinField']]['accessor'];
 
-        // если объект создаётся - ищем узел, в который он будет вложен
+        // РµСЃР»Рё РѕР±СЉРµРєС‚ СЃРѕР·РґР°С‘С‚СЃСЏ - РёС‰РµРј СѓР·РµР», РІ РєРѕС‚РѕСЂС‹Р№ РѕРЅ Р±СѓРґРµС‚ РІР»РѕР¶РµРЅ
         if (!$object->getId()) {
             //$node = $this->tree->getNodeInfo($target);
             $id = $this->tree->insert($target);
             $object->$mutator($id);
         } else {
-            // иначе получаем родительский узел
+            // РёРЅР°С‡Рµ РїРѕР»СѓС‡Р°РµРј СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ СѓР·РµР»
             $target = $this->getTreeParent($object);
         }
 
         $result = parent::save($object, $user);
 
-        // получаем информацию об узле из дерева
+        // РїРѕР»СѓС‡Р°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± СѓР·Р»Рµ РёР· РґРµСЂРµРІР°
         $node = $this->tree->getNodeInfo($object->$accessor());
 
-        // импортируем эту информацию
+        // РёРјРїРѕСЂС‚РёСЂСѓРµРј СЌС‚Сѓ РёРЅС„РѕСЂРјР°С†РёСЋ
         $object->importTreeFields($node);
 
-        // если поле, являющееся именем узла, было изменено - модифицируем пути этого узла и всех вложенных в него
+        // РµСЃР»Рё РїРѕР»Рµ, СЏРІР»СЏСЋС‰РµРµСЃСЏ РёРјРµРЅРµРј СѓР·Р»Р°, Р±С‹Р»Рѕ РёР·РјРµРЅРµРЅРѕ - РјРѕРґРёС„РёС†РёСЂСѓРµРј РїСѓС‚Рё СЌС‚РѕРіРѕ СѓР·Р»Р° Рё РІСЃРµС… РІР»РѕР¶РµРЅРЅС‹С… РІ РЅРµРіРѕ
         if (isset($data[$this->treeParams['nameField']])) {
-            // получаем всех предков данного узла, вложенность 1 уровень
+            // РїРѕР»СѓС‡Р°РµРј РІСЃРµС… РїСЂРµРґРєРѕРІ РґР°РЅРЅРѕРіРѕ СѓР·Р»Р°, РІР»РѕР¶РµРЅРЅРѕСЃС‚СЊ 1 СѓСЂРѕРІРµРЅСЊ
             $branch = $this->getBranch($object, 1);
 
             $pathAccessor = $this->map[$this->treeParams['pathField']]['accessor'];
@@ -254,17 +254,17 @@ abstract class simpleMapperForTree extends simpleMapper
             $nameAccessor = $this->map[$this->treeParams['nameField']]['accessor'];
             $nameMutator = $this->map[$this->treeParams['nameField']]['mutator'];
 
-            // модифицируем путь текущего узла
+            // РјРѕРґРёС„РёС†РёСЂСѓРµРј РїСѓС‚СЊ С‚РµРєСѓС‰РµРіРѕ СѓР·Р»Р°
             $baseName = ($object->getTreeLevel() > 1 ? $target->$pathAccessor(false) . '/' : '') . $object->$nameAccessor();
             $object->$pathMutator($baseName);
-            // сохраняем текущий объект
+            // СЃРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰РёР№ РѕР±СЉРµРєС‚
             $this->save($object);
 
-            // удаляем текущий объект из массива
+            // СѓРґР°Р»СЏРµРј С‚РµРєСѓС‰РёР№ РѕР±СЉРµРєС‚ РёР· РјР°СЃСЃРёРІР°
             array_shift($branch);
-            // обходим всех предков
+            // РѕР±С…РѕРґРёРј РІСЃРµС… РїСЂРµРґРєРѕРІ
             foreach ($branch as $key => $val) {
-                // рекурсивно вызываем функцию модификации путей и для всех предков
+                // СЂРµРєСѓСЂСЃРёРІРЅРѕ РІС‹Р·С‹РІР°РµРј С„СѓРЅРєС†РёСЋ РјРѕРґРёС„РёРєР°С†РёРё РїСѓС‚РµР№ Рё РґР»СЏ РІСЃРµС… РїСЂРµРґРєРѕРІ
                 $val->$nameMutator($val->$nameAccessor());
                 $this->save($val);
             }
@@ -272,10 +272,10 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Перемещение узла
+     * РџРµСЂРµРјРµС‰РµРЅРёРµ СѓР·Р»Р°
      *
-     * @param simpleForTree $node переносимый узел
-     * @param simpleForTree $target узел, в который переносим
+     * @param simpleForTree $node РїРµСЂРµРЅРѕСЃРёРјС‹Р№ СѓР·РµР»
+     * @param simpleForTree $target СѓР·РµР», РІ РєРѕС‚РѕСЂС‹Р№ РїРµСЂРµРЅРѕСЃРёРј
      * @return boolean
      */
     public function move(simpleForTree $node, simpleForTree $target)
@@ -294,22 +294,22 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Удаление узла
+     * РЈРґР°Р»РµРЅРёРµ СѓР·Р»Р°
      *
      * @param simpleForTree $id
      */
     public function delete(simpleForTree $id)
     {
-        // получаем всех предков узла
+        // РїРѕР»СѓС‡Р°РµРј РІСЃРµС… РїСЂРµРґРєРѕРІ СѓР·Р»Р°
         $branch = $this->getBranch($id);
 
         $mapper = systemToolkit::getInstance()->getMapper($this->name, $this->itemName);
 
         foreach ($branch as $do) {
-            // получаем всех элементы, содержащиеся в узле дерева
+            // РїРѕР»СѓС‡Р°РµРј РІСЃРµС… СЌР»РµРјРµРЅС‚С‹, СЃРѕРґРµСЂР¶Р°С‰РёРµСЃСЏ РІ СѓР·Р»Рµ РґРµСЂРµРІР°
             $items = (array) $do->getItems();
             foreach ($items as $item) {
-                // удаляем их
+                // СѓРґР°Р»СЏРµРј РёС…
                 $mapper->delete($item);
             }
             parent::delete($do);
@@ -318,7 +318,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Получение дерева, исключая искомый узел и всех его наследников
+     * РџРѕР»СѓС‡РµРЅРёРµ РґРµСЂРµРІР°, РёСЃРєР»СЋС‡Р°СЏ РёСЃРєРѕРјС‹Р№ СѓР·РµР» Рё РІСЃРµС… РµРіРѕ РЅР°СЃР»РµРґРЅРёРєРѕРІ
      *
      * @param simpleForTree $folder
      * @return array
@@ -337,9 +337,9 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Получение дерево с наследниками текущего узла следующего уровня вложенности, предками и всем первым уровнем дерева
+     * РџРѕР»СѓС‡РµРЅРёРµ РґРµСЂРµРІРѕ СЃ РЅР°СЃР»РµРґРЅРёРєР°РјРё С‚РµРєСѓС‰РµРіРѕ СѓР·Р»Р° СЃР»РµРґСѓСЋС‰РµРіРѕ СѓСЂРѕРІРЅСЏ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё, РїСЂРµРґРєР°РјРё Рё РІСЃРµРј РїРµСЂРІС‹Рј СѓСЂРѕРІРЅРµРј РґРµСЂРµРІР°
      *
-     * @param simpleForTree $id искомый узел
+     * @param simpleForTree $id РёСЃРєРѕРјС‹Р№ СѓР·РµР»
      * @return array
      */
     public function getTreeForMenu(simpleForTree $node)
@@ -373,7 +373,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Загрузка данных об узле в объект
+     * Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С… РѕР± СѓР·Р»Рµ РІ РѕР±СЉРµРєС‚
      *
      * @param simpleForTree $object
      */
@@ -386,9 +386,9 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Заполняет данными из массива доменный объект
+     * Р—Р°РїРѕР»РЅСЏРµС‚ РґР°РЅРЅС‹РјРё РёР· РјР°СЃСЃРёРІР° РґРѕРјРµРЅРЅС‹Р№ РѕР±СЉРµРєС‚
      *
-     * @param array $row массив с данными
+     * @param array $row РјР°СЃСЃРёРІ СЃ РґР°РЅРЅС‹РјРё
      * @return object
      */
     public function createItemFromRow($row)
@@ -401,10 +401,10 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Метод парсинга исходного массива в форму, удобную для заполнения объекта данными
+     * РњРµС‚РѕРґ РїР°СЂСЃРёРЅРіР° РёСЃС…РѕРґРЅРѕРіРѕ РјР°СЃСЃРёРІР° РІ С„РѕСЂРјСѓ, СѓРґРѕР±РЅСѓСЋ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ РѕР±СЉРµРєС‚Р° РґР°РЅРЅС‹РјРё
      *
-     * @param array $array искомый массив
-     * @param string $name имя получаемого вложенного массива
+     * @param array $array РёСЃРєРѕРјС‹Р№ РјР°СЃСЃРёРІ
+     * @param string $name РёРјСЏ РїРѕР»СѓС‡Р°РµРјРѕРіРѕ РІР»РѕР¶РµРЅРЅРѕРіРѕ РјР°СЃСЃРёРІР°
      * @return array
      */
     public function fillArray(&$array, $name = null)
@@ -414,7 +414,7 @@ abstract class simpleMapperForTree extends simpleMapper
     }
 
     /**
-     * Установка во временный массив данных из дерева о текущем узле
+     * РЈСЃС‚Р°РЅРѕРІРєР° РІРѕ РІСЂРµРјРµРЅРЅС‹Р№ РјР°СЃСЃРёРІ РґР°РЅРЅС‹С… РёР· РґРµСЂРµРІР° Рѕ С‚РµРєСѓС‰РµРј СѓР·Р»Рµ
      *
      * @param array $array
      * @param string $name

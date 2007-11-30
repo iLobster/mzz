@@ -13,7 +13,7 @@
 */
 
 /**
- * fileManagerFactory: фабрика для получения контроллеров fileManager
+ * fileManagerFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ fileManager
  *
  * @package modules
  * @subpackage fileManager
@@ -22,7 +22,7 @@
 class fileManagerFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

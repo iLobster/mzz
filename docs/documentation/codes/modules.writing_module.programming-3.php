@@ -13,15 +13,15 @@ class commentsPostForm
 
         $form = new HTML_QuickForm('post', 'POST', $url->get());
 
-        $form->addElement('textarea', 'text', '¬‡¯ ÍÓÏÏÂÌÚ‡ËÈ', 'rows=7 cols=50');
+        $form->addElement('textarea', 'text', '–í–∞—à –∫–æ–º–º–µ–Ω—Ç–∞—Ä–∏–π', 'rows=7 cols=50');
 
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
 
         $form->addElement('hidden', 'url', $request->get('REQUEST_URI', 'string', SC_SERVER));
 
-        $form->addElement('reset', 'reset', '—·ÓÒ');
-        $form->addElement('submit', 'submit', 'ŒÚÔ‡‚ËÚ¸');
+        $form->addElement('reset', 'reset', '–°–±—Ä–æ—Å');
+        $form->addElement('submit', 'submit', '–û—Ç–ø—Ä–∞–≤–∏—Ç—å');
 
         return $form;
     }

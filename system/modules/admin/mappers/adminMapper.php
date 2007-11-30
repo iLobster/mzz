@@ -13,7 +13,7 @@
 */
 
 /**
- * adminMapper: маппер
+ * adminMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage admin
@@ -25,21 +25,21 @@ fileLoader::load('admin');
 class adminMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'admin';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'admin';
 
     /**
-     * Метод получения общей инормации об установленных модулях, разделах и их отношений
+     * РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ РѕР±С‰РµР№ РёРЅРѕСЂРјР°С†РёРё РѕР± СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹С… РјРѕРґСѓР»СЏС…, СЂР°Р·РґРµР»Р°С… Рё РёС… РѕС‚РЅРѕС€РµРЅРёР№
      *
      * @return array
      */
@@ -93,7 +93,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Метод получения общей инормации об установленных модулях, разделах имеющих свои админки
+     * РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ РѕР±С‰РµР№ РёРЅРѕСЂРјР°С†РёРё РѕР± СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹С… РјРѕРґСѓР»СЏС…, СЂР°Р·РґРµР»Р°С… РёРјРµСЋС‰РёС… СЃРІРѕРё Р°РґРјРёРЅРєРё
      *
      * @return array
      */
@@ -139,7 +139,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Поиск класса по id
+     * РџРѕРёСЃРє РєР»Р°СЃСЃР° РїРѕ id
      *
      * @param integer $id
      * @return array|boolean
@@ -150,7 +150,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Поиск класса и модуля, которому принадлежит он, по идентификатору класса
+     * РџРѕРёСЃРє РєР»Р°СЃСЃР° Рё РјРѕРґСѓР»СЏ, РєРѕС‚РѕСЂРѕРјСѓ РїСЂРёРЅР°РґР»РµР¶РёС‚ РѕРЅ, РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ РєР»Р°СЃСЃР°
      *
      * @param integer $id
      * @return array|boolean
@@ -163,7 +163,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Возвращает имя класса, модуля, секции в которых он находится по идентификаторам
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРјСЏ РєР»Р°СЃСЃР°, РјРѕРґСѓР»СЏ, СЃРµРєС†РёРё РІ РєРѕС‚РѕСЂС‹С… РѕРЅ РЅР°С…РѕРґРёС‚СЃСЏ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР°Рј
      *
      * @param integer $section
      * @param integer $module
@@ -182,7 +182,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Поиск классов, входящих в модуль, по id модуля
+     * РџРѕРёСЃРє РєР»Р°СЃСЃРѕРІ, РІС…РѕРґСЏС‰РёС… РІ РјРѕРґСѓР»СЊ, РїРѕ id РјРѕРґСѓР»СЏ
      *
      * @param integer $id
      * @return array|boolean
@@ -193,7 +193,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Поиск класса по имени
+     * РџРѕРёСЃРє РєР»Р°СЃСЃР° РїРѕ РёРјРµРЅРё
      *
      * @param string $name
      * @return array|boolean
@@ -204,9 +204,9 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Поиск модуля, которому принадлежит класс
+     * РџРѕРёСЃРє РјРѕРґСѓР»СЏ, РєРѕС‚РѕСЂРѕРјСѓ РїСЂРёРЅР°РґР»РµР¶РёС‚ РєР»Р°СЃСЃ
      *
-     * @param integer $id id класса
+     * @param integer $id id РєР»Р°СЃСЃР°
      * @return array|boolean
      */
     public function searchModuleByClassId($id)
@@ -217,9 +217,9 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Поиск модулей, которые зарегистрированы в секции
+     * РџРѕРёСЃРє РјРѕРґСѓР»РµР№, РєРѕС‚РѕСЂС‹Рµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅС‹ РІ СЃРµРєС†РёРё
      *
-     * @param integer $id id секции
+     * @param integer $id id СЃРµРєС†РёРё
      * @return array|boolean
      */
     public function searchModulesBySection($id)
@@ -231,7 +231,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Регистрация класса в секциях, в которых зарегистрирован модуль, в который входит класс. Происходит при создании нового класса
+     * Р РµРіРёСЃС‚СЂР°С†РёСЏ РєР»Р°СЃСЃР° РІ СЃРµРєС†РёСЏС…, РІ РєРѕС‚РѕСЂС‹С… Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ РјРѕРґСѓР»СЊ, РІ РєРѕС‚РѕСЂС‹Р№ РІС…РѕРґРёС‚ РєР»Р°СЃСЃ. РџСЂРѕРёСЃС…РѕРґРёС‚ РїСЂРё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ РєР»Р°СЃСЃР°
      *
      * @param integer $class_id
      */
@@ -253,7 +253,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Удаление класса из всех секций, в которых он был зарегистрирован
+     * РЈРґР°Р»РµРЅРёРµ РєР»Р°СЃСЃР° РёР· РІСЃРµС… СЃРµРєС†РёР№, РІ РєРѕС‚РѕСЂС‹С… РѕРЅ Р±С‹Р» Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ
      *
      * @param integer $class_id
      */
@@ -273,9 +273,9 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Список секций, в которых зарегистрирован модуль
+     * РЎРїРёСЃРѕРє СЃРµРєС†РёР№, РІ РєРѕС‚РѕСЂС‹С… Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ РјРѕРґСѓР»СЊ
      *
-     * @param integer|string $module если значение не число, то поиск производится по имени модуля
+     * @param integer|string $module РµСЃР»Рё Р·РЅР°С‡РµРЅРёРµ РЅРµ С‡РёСЃР»Рѕ, С‚Рѕ РїРѕРёСЃРє РїСЂРѕРёР·РІРѕРґРёС‚СЃСЏ РїРѕ РёРјРµРЅРё РјРѕРґСѓР»СЏ
      * @return array
      */
     public function getSectionsModuleRegistered($module)
@@ -290,7 +290,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Список модулей, которые зарегистрированы в секции
+     * РЎРїРёСЃРѕРє РјРѕРґСѓР»РµР№, РєРѕС‚РѕСЂС‹Рµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅС‹ РІ СЃРµРєС†РёРё
      *
      * @param integer $section_id
      * @return array
@@ -312,9 +312,9 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Метод возвращает главный класс модуля
+     * РњРµС‚РѕРґ РІРѕР·РІСЂР°С‰Р°РµС‚ РіР»Р°РІРЅС‹Р№ РєР»Р°СЃСЃ РјРѕРґСѓР»СЏ
      *
-     * @param string $module имя модуля
+     * @param string $module РёРјСЏ РјРѕРґСѓР»СЏ
      * @return string
      */
     public function getMainClass($module)
@@ -326,7 +326,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Метод получения списка модулей и классов, которые им принадлежат
+     * РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ СЃРїРёСЃРєР° РјРѕРґСѓР»РµР№ Рё РєР»Р°СЃСЃРѕРІ, РєРѕС‚РѕСЂС‹Рµ РёРј РїСЂРёРЅР°РґР»РµР¶Р°С‚
      *
      * @return array
      */
@@ -366,7 +366,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Метод получения списка модулей, секций и классов, которые им принадлежат
+     * РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ СЃРїРёСЃРєР° РјРѕРґСѓР»РµР№, СЃРµРєС†РёР№ Рё РєР»Р°СЃСЃРѕРІ, РєРѕС‚РѕСЂС‹Рµ РёРј РїСЂРёРЅР°РґР»РµР¶Р°С‚
      *
      * @return array
      */
@@ -395,7 +395,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Получение списка секций и классов для конкретного модуля
+     * РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° СЃРµРєС†РёР№ Рё РєР»Р°СЃСЃРѕРІ РґР»СЏ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РјРѕРґСѓР»СЏ
      *
      * @return array
      */
@@ -419,7 +419,7 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Метод получения списка разделов и классов, принадлежащих им
+     * РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ СЃРїРёСЃРєР° СЂР°Р·РґРµР»РѕРІ Рё РєР»Р°СЃСЃРѕРІ, РїСЂРёРЅР°РґР»РµР¶Р°С‰РёС… РёРј
      *
      * @return array
      */
@@ -457,7 +457,7 @@ class adminMapper extends simpleMapper
     }*/
 
     /**
-     * Получение списка классов в секциях
+     * РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РєР»Р°СЃСЃРѕРІ РІ СЃРµРєС†РёСЏС…
      *
      * @return array
      */
@@ -475,9 +475,9 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Получение списка get* и search* методов маппера
+     * РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° get* Рё search* РјРµС‚РѕРґРѕРІ РјР°РїРїРµСЂР°
      *
-     * @param integer $class_id идентификатор класса
+     * @param integer $class_id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєР»Р°СЃСЃР°
      * @return array
      */
     public function getSearchMethods($class_id)
@@ -500,9 +500,9 @@ class adminMapper extends simpleMapper
         $methods = get_class_methods($mapper);
         $result = array();
         foreach ($methods as $method) {
-            // @todo возможно нужно использовать stripos
+            // @todo РІРѕР·РјРѕР¶РЅРѕ РЅСѓР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ stripos
             if (strpos($method, 'search') === 0 || strpos($method, 'get') === 0) {
-                // убрано в отдельное условие
+                // СѓР±СЂР°РЅРѕ РІ РѕС‚РґРµР»СЊРЅРѕРµ СѓСЃР»РѕРІРёРµ
                 $reflect = new ReflectionMethod($mapper, $method);
                 if ($reflect->isPublic()) {
                     $valid = true;
@@ -523,9 +523,9 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Получение геттеров (методы для получения данных) доменного объекта
+     * РџРѕР»СѓС‡РµРЅРёРµ РіРµС‚С‚РµСЂРѕРІ (РјРµС‚РѕРґС‹ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РґР°РЅРЅС‹С…) РґРѕРјРµРЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°
      *
-     * @param string|integer $class_id идентификатор или имя класса
+     * @param string|integer $class_id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёР»Рё РёРјСЏ РєР»Р°СЃСЃР°
      * @return array
      */
     public function getClassExtractMethods($class)
@@ -592,8 +592,8 @@ class adminMapper extends simpleMapper
         $mapper = $class['class_name'] . 'Mapper';
         fileLoader::load($class['module_name'] . '/mappers/' . $mapper);
 
-        // @todo функция method_exists может принимать первым аргументом имя класса, а не объект, но
-        // в php-документации это пока не отражено
+        // @todo С„СѓРЅРєС†РёСЏ method_exists РјРѕР¶РµС‚ РїСЂРёРЅРёРјР°С‚СЊ РїРµСЂРІС‹Рј Р°СЂРіСѓРјРµРЅС‚РѕРј РёРјСЏ РєР»Р°СЃСЃР°, Р° РЅРµ РѕР±СЉРµРєС‚, РЅРѕ
+        // РІ php-РґРѕРєСѓРјРµРЅС‚Р°С†РёРё СЌС‚Рѕ РїРѕРєР° РЅРµ РѕС‚СЂР°Р¶РµРЅРѕ
         if (!class_exists($mapper) || !method_exists($mapper, $method)) {
             return false;
         }
@@ -628,12 +628,12 @@ class adminMapper extends simpleMapper
                 if (isset($docParams[$param->getName()])) {
                     $docParam = $docParams[$param->getName()];
                 } else {
-                    $docParam = array('unknown', 'описание не указано');
+                    $docParam = array('unknown', 'РѕРїРёСЃР°РЅРёРµ РЅРµ СѓРєР°Р·Р°РЅРѕ');
                 }
                 $isScalar = !($param->isArray() || $param->getClass() != null || $param->isPassedByReference());
                 $isScalarType = in_array($docParam[0], array('string', 'integer', 'boolean', 'float'));
 
-                // один из параметров не скалярный и обязательный, вызов невозможен
+                // РѕРґРёРЅ РёР· РїР°СЂР°РјРµС‚СЂРѕРІ РЅРµ СЃРєР°Р»СЏСЂРЅС‹Р№ Рё РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Р№, РІС‹Р·РѕРІ РЅРµРІРѕР·РјРѕР¶РµРЅ
                 if (!$param->isOptional() && (!$isScalar || !$isScalarType)) {
                     $params = null;
                     break;
@@ -664,9 +664,9 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Получение последних зарегистрированных в ACL объектов
+     * РџРѕР»СѓС‡РµРЅРёРµ РїРѕСЃР»РµРґРЅРёС… Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹С… РІ ACL РѕР±СЉРµРєС‚РѕРІ
      *
-     * @param integer $items число элементов
+     * @param integer $items С‡РёСЃР»Рѕ СЌР»РµРјРµРЅС‚РѕРІ
      * @return array
      */
     public function getLatestRegisteredObj($items = 5)
@@ -680,10 +680,10 @@ class adminMapper extends simpleMapper
     }
 
     /**
-     * Получение списка каталогов, используемых для генерации модулей
+     * РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РєР°С‚Р°Р»РѕРіРѕРІ, РёСЃРїРѕР»СЊР·СѓРµРјС‹С… РґР»СЏ РіРµРЅРµСЂР°С†РёРё РјРѕРґСѓР»РµР№
      *
-     * @param boolean $onlyWritable показывать только те, для которых есть права на запись
-     * @param string $subfolder подкаталог в каталоге modules, права на запись в который будет проверяться
+     * @param boolean $onlyWritable РїРѕРєР°Р·С‹РІР°С‚СЊ С‚РѕР»СЊРєРѕ С‚Рµ, РґР»СЏ РєРѕС‚РѕСЂС‹С… РµСЃС‚СЊ РїСЂР°РІР° РЅР° Р·Р°РїРёСЃСЊ
+     * @param string $subfolder РїРѕРґРєР°С‚Р°Р»РѕРі РІ РєР°С‚Р°Р»РѕРіРµ modules, РїСЂР°РІР° РЅР° Р·Р°РїРёСЃСЊ РІ РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РїСЂРѕРІРµСЂСЏС‚СЊСЃСЏ
      * @return array
      */
     public function getDests($onlyWritable = false, $subfolder = '')

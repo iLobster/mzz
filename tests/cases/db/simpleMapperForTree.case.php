@@ -21,7 +21,7 @@ class simpleMapperForTreeTest extends unitTestCase
         'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
         'path' => array ('name' => 'path','accessor' => 'getPath', 'mutator' => 'setPath'),
         'obj_id' => array ('name' => 'obj_id','accessor' => 'getObjId', 'mutator' => 'setObjId'),
-        'some_id' => array ('name' => 'some_id','accessor' => 'getSomeId', 'mutator' => 'setSomeId'), // ïîëå, ñâÿçûâàþùåå ñòðóêòóðó è äàííûå â äåðåâå
+        'some_id' => array ('name' => 'some_id','accessor' => 'getSomeId', 'mutator' => 'setSomeId'), // Ð¿Ð¾Ð»Ðµ, ÑÐ²ÑÐ·Ñ‹Ð²Ð°ÑŽÑ‰ÐµÐµ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñƒ Ð¸ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ
         );
 
         $this->mapper = new StubSimpleMapperForTree('simple');
@@ -75,7 +75,7 @@ class simpleMapperForTreeTest extends unitTestCase
         $this->db->query('INSERT INTO `simple_stubSimple2` (`foo`, `bar`, `path`, `some_id`) VALUES ' . $data);
     }
 
-    #        Âîò íà òàêîì äåðåâîì è áóäåì òåñòèðîâàòü
+    #        Ð’Ð¾Ñ‚ Ð½Ð° Ñ‚Ð°ÐºÐ¾Ð¼ Ð´ÐµÑ€ÐµÐ²Ð¾Ð¼ Ð¸ Ð±ÑƒÐ´ÐµÐ¼ Ñ‚ÐµÑÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ
     #
     #
     #                                   1
@@ -249,7 +249,7 @@ class simpleMapperForTreeTest extends unitTestCase
 
     public function testMoveNested()
     {
-        $this->expectException(new mzzRuntimeException('Íåâîçìîæíî ïåðåíåñòè óçåë âî âëîæåííóþ âåòêó'));
+        $this->expectException(new mzzRuntimeException('ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð¿ÐµÑ€ÐµÐ½ÐµÑÑ‚Ð¸ ÑƒÐ·ÐµÐ» Ð²Ð¾ Ð²Ð»Ð¾Ð¶ÐµÐ½Ð½ÑƒÑŽ Ð²ÐµÑ‚ÐºÑƒ'));
 
         $node = $this->mapper->searchByKey(2);
         $target = $this->mapper->searchByKey(5);

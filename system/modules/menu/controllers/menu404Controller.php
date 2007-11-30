@@ -13,7 +13,7 @@
  */
 
 /**
- * menu404Controller: контроллер для метода 404 модуля menu
+ * menu404Controller: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° 404 РјРѕРґСѓР»СЏ menu
  *
  * @package modules
  * @subpackage menu

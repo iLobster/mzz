@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/forms/validators/formCaptchaRule.php $
+ * $URL: http://svn.sandbox/repository/mzz/system/forms/validators/formCaptchaRule.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,11 +9,11 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: formCaptchaRule.php 1866 2007-07-05 05:07:45Z zerkms $
+ * @version $Id: formCaptchaRule.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 /**
- * formCaptiondRule: ïðàâèëî êàïò÷è
+ * formCaptiondRule: Ð¿Ñ€Ð°Ð²Ð¸Ð»Ð¾ ÐºÐ°Ð¿Ñ‚Ñ‡Ð¸
  *
  * @package system
  * @subpackage forms

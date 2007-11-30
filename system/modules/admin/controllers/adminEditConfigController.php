@@ -13,7 +13,7 @@
  */
 
 /**
- * adminEditConfigController: контроллер для метода editConfig модуля admin
+ * adminEditConfigController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° editConfig РјРѕРґСѓР»СЏ admin
  *
  * @package modules
  * @subpackage admin

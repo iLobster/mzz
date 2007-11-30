@@ -13,7 +13,7 @@
 */
 
 /**
- * commentsFactory: фабрика для получения контроллеров comments
+ * commentsFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ comments
  *
  * @package modules
  * @subpackage comments
@@ -23,7 +23,7 @@
 class commentsFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

@@ -13,7 +13,7 @@
  */
 
 /**
- * pageListController: êîíòğîëëåğ äëÿ ìåòîäà list ìîäóëÿ page
+ * pageListController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° list Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ page
  *
  * @package modules
  * @subpackage page
@@ -31,7 +31,7 @@ class pageListController extends simpleController
         }
 
         $this->smarty->assign('pages', $pages);
-        $this->response->setTitle('Ñòğàíèöû -> Ñïèñîê');
+        $this->response->setTitle('Ğ¡Ñ‚Ñ€Ğ°Ğ½Ğ¸Ñ†Ñ‹ -> Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº');
         return $this->smarty->fetch('page/list.tpl');
     }
 }

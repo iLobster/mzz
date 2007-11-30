@@ -16,7 +16,7 @@ fileLoader::load('forms/validators/formValidator');
 fileLoader::load('codegenerator/moduleGenerator');
 
 /**
- * adminAddModuleController: êîíòğîëëåğ äëÿ ìåòîäà addModule ìîäóëÿ admin
+ * adminAddModuleController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° addModule Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -48,7 +48,7 @@ class adminAddModuleController extends simpleController
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
 
             if ($data === false) {
-                $controller = new messageController('Ìîäóëÿ íå ñóùåñòâóåò', messageController::WARNING);
+                $controller = new messageController('ĞœĞ¾Ğ´ÑƒĞ»Ñ Ğ½Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚', messageController::WARNING);
                 return $controller->run();
             }
 
@@ -56,7 +56,7 @@ class adminAddModuleController extends simpleController
 
             if (sizeof($modules[$data['id']]['classes'])) {
                 /*
-                $controller = new messageController('Íåëüçÿ èçìåíèòü èìÿ ìîäóëÿ', messageController::WARNING);
+                $controller = new messageController('ĞĞµĞ»ÑŒĞ·Ñ Ğ¸Ğ·Ğ¼ĞµĞ½Ğ¸Ñ‚ÑŒ Ğ¸Ğ¼Ñ Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ', messageController::WARNING);
                 return $controller->run();
                 */
                 $nameRO = true;
@@ -75,13 +75,13 @@ class adminAddModuleController extends simpleController
 
 
         if (!$nameRO) {
-            $validator->add('required', 'name', 'ïîëå îáÿçàòåëüíî ê çàïîëíåíèş');
-            $validator->add('regex', 'name', 'Ğàçğåøåíî èñïîëüçîâàòü òîëüêî a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
-            $validator->add('callback', 'name', 'Èìÿ ìîäóëÿ äîëæíî áûòü óíèêàëüíî', array('checkUniqueModuleName', $db, $data['name']));
+            $validator->add('required', 'name', 'Ğ¿Ğ¾Ğ»Ğµ Ğ¾Ğ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾ Ğº Ğ·Ğ°Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ¸Ñ');
+            $validator->add('regex', 'name', 'Ğ Ğ°Ğ·Ñ€ĞµÑˆĞµĞ½Ğ¾ Ğ¸ÑĞ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ÑŒ Ñ‚Ğ¾Ğ»ÑŒĞºĞ¾ a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
+            $validator->add('callback', 'name', 'Ğ˜Ğ¼Ñ Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ Ğ´Ğ¾Ğ»Ğ¶Ğ½Ğ¾ Ğ±Ñ‹Ñ‚ÑŒ ÑƒĞ½Ğ¸ĞºĞ°Ğ»ÑŒĞ½Ğ¾', array('checkUniqueModuleName', $db, $data['name']));
         }
 
         if ($isEdit) {
-            $validator->add('callback', 'main_class', 'âûáğàííûé êëàññ íå ñóùåñòâóåò èëè ïğèíàäëåæèò äğóãîìó ìîäóëş', array('checkValidMainClass', $db, $data));
+            $validator->add('callback', 'main_class', 'Ğ²Ñ‹Ğ±Ñ€Ğ°Ğ½Ğ½Ñ‹Ğ¹ ĞºĞ»Ğ°ÑÑ Ğ½Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚ Ğ¸Ğ»Ğ¸ Ğ¿Ñ€Ğ¸Ğ½Ğ°Ğ´Ğ»ĞµĞ¶Ğ¸Ñ‚ Ğ´Ñ€ÑƒĞ³Ğ¾Ğ¼Ñƒ Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ', array('checkValidMainClass', $db, $data));
         }
 
         if ($validator->validate()) {
@@ -143,7 +143,7 @@ class adminAddModuleController extends simpleController
         $dest = $adminMapper->getDests(true);
 
         if (!sizeof($dest)) {
-            $controller = new messageController('Íåò äîñòóïà íà çàïèñü â êàòàëîãè äëÿ ñîçäàíèÿ ìîäóëÿ', messageController::WARNING);
+            $controller = new messageController('ĞĞµÑ‚ Ğ´Ğ¾ÑÑ‚ÑƒĞ¿Ğ° Ğ½Ğ° Ğ·Ğ°Ğ¿Ğ¸ÑÑŒ Ğ² ĞºĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³Ğ¸ Ğ´Ğ»Ñ ÑĞ¾Ğ·Ğ´Ğ°Ğ½Ğ¸Ñ Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ', messageController::WARNING);
             return $controller->run();
         }
 

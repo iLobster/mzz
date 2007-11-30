@@ -1,6 +1,6 @@
 <p class="sideBlockTitle">{$user->getLogin()}</p>
 <div class="sideBlockContent">
 
-<a href="{url route="withAnyParam" section="message" name="incoming" action="list"}">Личные сообщения</a><br />
-<a href="{url route="default2" section="user" action="exit"}/?url={url}">выход</a>
+<a href="{url route="withAnyParam" section="message" name="incoming" action="list"}">Р›РёС‡РЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ</a><br />
+<a href="{url route="default2" section="user" action="exit"}/?url={url}">РІС‹С…РѕРґ</a>
 </div>

@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.web/repository/mzz/system/service/sha1PasswordHash.php $
+ * $URL: http://svn.sandbox/repository/mzz/system/service/sha1PasswordHash.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,13 +9,13 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: sha1PasswordHash.php 627 2007-02-28 22:30:42Z zerkms $
+ * @version $Id: sha1PasswordHash.php 1121 2007-11-30 04:31:39Z zerkms $
  */
 
 fileLoader::load('service/passwordHash');
 
 /**
- * sha1PasswordHash: êëàññ äëÿ õýøèðîâàíèÿ ïàðîëÿ ñ ïîìîùüþ SHA1
+ * sha1PasswordHash: ÐºÐ»Ð°ÑÑ Ð´Ð»Ñ Ñ…ÑÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¿Ð°Ñ€Ð¾Ð»Ñ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ SHA1
  *
  * @package system
  * @version 0.1
@@ -23,10 +23,10 @@ fileLoader::load('service/passwordHash');
 class sha1PasswordHash extends PasswordHash
 {
     /**
-     * Ïðèìåíåíèå sha1-õýøèðîâàíèÿ
+     * ÐŸÑ€Ð¸Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ sha1-Ñ…ÑÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ
      *
-     * @param string $value çíà÷åíèå ïàðîëÿ
-     * @return string ðåçóëüòàò ïðèìåíåíèÿ sha1-õýøèðîâàíèÿ ê $value
+     * @param string $value Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð°Ñ€Ð¾Ð»Ñ
+     * @return string Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ð¿Ñ€Ð¸Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ sha1-Ñ…ÑÑˆÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ðº $value
      */
     public function apply($value)
     {

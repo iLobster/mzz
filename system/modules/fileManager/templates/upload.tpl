@@ -6,40 +6,40 @@
 {/foreach}
 </ul></div>
 {elseif isset($success) && isset($file_name)}
-<div id="fmUploadStatus">Файл {$file_name} загружен.</div>
+<div id="fmUploadStatus">Р¤Р°Р№Р» {$file_name} Р·Р°РіСЂСѓР¶РµРЅ.</div>
 {else}
 {assign var="folderTitle" value=$folder->getTitle()}
-{include file='jipTitle.tpl' title="Загрузка файла в каталог $folderTitle"}
+{include file='jipTitle.tpl' title="Р—Р°РіСЂСѓР·РєР° С„Р°Р№Р»Р° РІ РєР°С‚Р°Р»РѕРі $folderTitle"}
 
 {form->open action=$form_action method="post" ajaxUpload="fm"}
     <table width="99%" border="0" cellpadding="5" cellspacing="0" class="systemTable" align="center">
         <tr>
-            <td width="25%">Системный путь</td>
+            <td width="25%">РЎРёСЃС‚РµРјРЅС‹Р№ РїСѓС‚СЊ</td>
             <td width="75%">{$folder->getPath()}</td>
         </tr>
         <tr>
-            <td style="vertical-align: top;">{form->caption name="file" value="Файл"}</td>
+            <td style="vertical-align: top;">{form->caption name="file" value="Р¤Р°Р№Р»"}</td>
             <td>{form->file name="file"}{$errors->get('file')}
             <span style="text-align:center; color: #999; font-size: 90%;">
-                {if $folder->getFilesize() > 0}<br />Ограничение на размер загружаемого файла: <b>{$folder->getFilesize()}</b> Мб{/if}
+                {if $folder->getFilesize() > 0}<br />РћРіСЂР°РЅРёС‡РµРЅРёРµ РЅР° СЂР°Р·РјРµСЂ Р·Р°РіСЂСѓР¶Р°РµРјРѕРіРѕ С„Р°Р№Р»Р°: <b>{$folder->getFilesize()}</b> РњР±{/if}
                 {assign var=exts value=$folder->getExts()}
-                {if not empty($exts)}<br />Ограничение на расширения файлов: <b>{$folder->getExts()}</b>{/if}
+                {if not empty($exts)}<br />РћРіСЂР°РЅРёС‡РµРЅРёРµ РЅР° СЂР°СЃС€РёСЂРµРЅРёСЏ С„Р°Р№Р»РѕРІ: <b>{$folder->getExts()}</b>{/if}
             </span></td>
         </tr>
         <tr>
-            <td>{form->caption name="name" value="Новое имя"}</td>
+            <td>{form->caption name="name" value="РќРѕРІРѕРµ РёРјСЏ"}</td>
             <td>{form->text name="name"}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td>{form->caption name="about" value="Описание"}</td>
+            <td>{form->caption name="about" value="РћРїРёСЃР°РЅРёРµ"}</td>
             <td>{form->textarea name="about"}{$errors->get('about')}</td>
         </tr>
         <tr>
-            <td>{form->caption name="header" value="Отдавать с нужными заголовками"}</td>
+            <td>{form->caption name="header" value="РћС‚РґР°РІР°С‚СЊ СЃ РЅСѓР¶РЅС‹РјРё Р·Р°РіРѕР»РѕРІРєР°РјРё"}</td>
             <td>{form->checkbox name="header" value=0}{$errors->get('header')}</td>
         </tr>
         <tr>
-            <td colspan="2" style="text-align:center;">{form->submit id="fmUploadSubmitButton" name="submit" value="Загрузить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td colspan="2" style="text-align:center;">{form->submit id="fmUploadSubmitButton" name="submit" value="Р—Р°РіСЂСѓР·РёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

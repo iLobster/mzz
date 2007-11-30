@@ -1,17 +1,17 @@
 {if !isset($filter)}
-    <div class="jipTitle">Добавление пользователей в группу <b>{$group->getName()}</b></div>
+    <div class="jipTitle">Р”РѕР±Р°РІР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РІ РіСЂСѓРїРїСѓ <b>{$group->getName()}</b></div>
     <div style="padding: 15px;">
         <form action="{url}" id='filterForm' method="get" onsubmit="new Ajax.Updater('users', this.action, {literal}{'method': 'get', 'parameters': this.serialize(true)}{/literal}); return false;">
-            Имя пользователя: <input type="text" value="" name="filter"> <input type="image" src="{$SITE_PATH}/templates/images/search.gif">
+            РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ: <input type="text" value="" name="filter"> <input type="image" src="{$SITE_PATH}/templates/images/search.gif">
         </form>
     </div>
     <div id='users' style='padding: 15px;'>
     </div>
 {else}
     {if not empty($too_much)}
-        Найдено слишком много совпадений. Уточните запрос.
+        РќР°Р№РґРµРЅРѕ СЃР»РёС€РєРѕРј РјРЅРѕРіРѕ СЃРѕРІРїР°РґРµРЅРёР№. РЈС‚РѕС‡РЅРёС‚Рµ Р·Р°РїСЂРѕСЃ.
     {else}
-        <span style="font-size: 110%;">Результат поиска (найдено: {$users|@count})</span>
+        <span style="font-size: 110%;">Р РµР·СѓР»СЊС‚Р°С‚ РїРѕРёСЃРєР° (РЅР°Р№РґРµРЅРѕ: {$users|@count})</span>
         <div style="border-top: 2px solid #BABABA; padding: 10px;">
             <form method="post" action="{url}" onsubmit="return jipWindow.sendForm(this);">
                 <table border="0" width="100%" cellpadding="2" cellspacing="0" class="systemTable">
@@ -23,7 +23,7 @@
                         </tr>
                     {/foreach}
                     <tr>
-                        <td colspan="3"><input type="submit" value="Добавить"{if $users|@count eq 0} disabled="disabled"{/if}> <input type="reset" value="Отмена" onclick="javascript: jipWindow.close();"></td>
+                        <td colspan="3"><input type="submit" value="Р”РѕР±Р°РІРёС‚СЊ"{if $users|@count eq 0} disabled="disabled"{/if}> <input type="reset" value="РћС‚РјРµРЅР°" onclick="javascript: jipWindow.close();"></td>
                     </tr>
                 </table>
             </form>

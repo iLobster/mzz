@@ -27,12 +27,12 @@ if (!defined("E_RECOVERABLE_ERROR")) {
 class phpErrorException extends mzzException
 {
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param integer $errno номер ошибки
-     * @param string $errstr текст ошибки
-     * @param string $errfile имя файла, в котором обнаружена ошибка
-     * @param integer $errline номер строки, в которой обнаружена ошибка
+     * @param integer $errno РЅРѕРјРµСЂ РѕС€РёР±РєРё
+     * @param string $errstr С‚РµРєСЃС‚ РѕС€РёР±РєРё
+     * @param string $errfile РёРјСЏ С„Р°Р№Р»Р°, РІ РєРѕС‚РѕСЂРѕРј РѕР±РЅР°СЂСѓР¶РµРЅР° РѕС€РёР±РєР°
+     * @param integer $errline РЅРѕРјРµСЂ СЃС‚СЂРѕРєРё, РІ РєРѕС‚РѕСЂРѕР№ РѕР±РЅР°СЂСѓР¶РµРЅР° РѕС€РёР±РєР°
      */
     public function __construct($errno, $errstr, $errfile, $errline)
     {

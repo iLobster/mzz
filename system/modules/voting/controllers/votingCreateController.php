@@ -13,7 +13,7 @@
  */
 
 /**
- * votingCreateController: контроллер для метода create модуля voting
+ * votingCreateController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° create РјРѕРґСѓР»СЏ voting
  *
  * @package modules
  * @subpackage voting

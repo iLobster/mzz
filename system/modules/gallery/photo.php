@@ -13,7 +13,7 @@
  */
 
 /**
- * photo: êëàññ äëÿ ğàáîòû c äàííûìè
+ * photo: ĞºĞ»Ğ°ÑÑ Ğ´Ğ»Ñ Ñ€Ğ°Ğ±Ğ¾Ñ‚Ñ‹ c Ğ´Ğ°Ğ½Ğ½Ñ‹Ğ¼Ğ¸
  *
  * @package modules
  * @subpackage gallery
@@ -63,7 +63,7 @@ class photo extends simple
     /*
     public function setName($name)
     {
-        // @todo ïîäóìàòü, òàêîå ğåøåíèå íåóäîáíî òåì, ÷òî ïåğåä setName() îáÿçàòåëüíî íàäî äåëàòü save()
+        // @todo Ğ¿Ğ¾Ğ´ÑƒĞ¼Ğ°Ñ‚ÑŒ, Ñ‚Ğ°ĞºĞ¾Ğµ Ñ€ĞµÑˆĞµĞ½Ğ¸Ğµ Ğ½ĞµÑƒĞ´Ğ¾Ğ±Ğ½Ğ¾ Ñ‚ĞµĞ¼, Ñ‡Ñ‚Ğ¾ Ğ¿ĞµÑ€ĞµĞ´ setName() Ğ¾Ğ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾ Ğ½Ğ°Ğ´Ğ¾ Ğ´ĞµĞ»Ğ°Ñ‚ÑŒ save()
         parent::__call('setName', array($name));
         $file = $this->getFile();
         $fileMapper = $this->getFileMapper();

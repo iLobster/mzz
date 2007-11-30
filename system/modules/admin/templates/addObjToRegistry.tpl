@@ -1,7 +1,7 @@
 {if $action eq 'addObjToRegistry'}
-{include file='jipTitle.tpl' title='Добавление объекта в реестр доступа'}
+{include file='jipTitle.tpl' title='Р”РѕР±Р°РІР»РµРЅРёРµ РѕР±СЉРµРєС‚Р° РІ СЂРµРµСЃС‚СЂ РґРѕСЃС‚СѓРїР°'}
 {else}
-{include file='jipTitle.tpl' title='Редактирование объекта в реестре доступа'}
+{include file='jipTitle.tpl' title='Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РѕР±СЉРµРєС‚Р° РІ СЂРµРµСЃС‚СЂРµ РґРѕСЃС‚СѓРїР°'}
 {/if}
 
 <script type="text/javascript">
@@ -40,16 +40,16 @@ function addObjChangeClass(select) {
 <form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td>{form->caption name="section" value="Секция" onError="style=color: red;"}</td>
+            <td>{form->caption name="section" value="РЎРµРєС†РёСЏ" onError="style=color: red;"}</td>
             <td>{form->select name="section" options=$sections emptyFirst=true id="addobj_section" onchange="addObjChangeClass(this)" onkeypress="this.onchange()"}</td>
-            <td>{form->caption name="class" value="Класс" onError="style=color: red;"}</td>
+            <td>{form->caption name="class" value="РљР»Р°СЃСЃ" onError="style=color: red;"}</td>
             <td>{form->select name="class" emptyFirst=true id="addobj_class" style="width: 150px;" disabled="disabled"}</td>
         </tr>
         <tr>
             <td colspan="4">{$errors->get('section')}<br />{$errors->get('class')}</td>
         </tr>
         <tr>
-            <td colspan=4 style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td colspan=4 style="text-align:center;">{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

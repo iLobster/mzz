@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * catalogueSaveTypeController: êîíòðîëëåð äëÿ ìåòîäà saveType ìîäóëÿ catalogue
+ * catalogueSaveTypeController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° saveType Ð¼Ð¾Ð´ÑƒÐ»Ñ catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -44,8 +44,8 @@ class catalogueSaveTypeController extends simpleController
         );
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Íåîáõîäèìî íàçâàòü ýòîò òèï');
-        $validator->add('required', 'title', 'Íåîáõîäèìî äàòü ìåòêó ýòîìó òèïó');
+        $validator->add('required', 'name', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð½Ð°Ð·Ð²Ð°Ñ‚ÑŒ ÑÑ‚Ð¾Ñ‚ Ñ‚Ð¸Ð¿');
+        $validator->add('required', 'title', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð´Ð°Ñ‚ÑŒ Ð¼ÐµÑ‚ÐºÑƒ ÑÑ‚Ð¾Ð¼Ñƒ Ñ‚Ð¸Ð¿Ñƒ');
 
         if ($isEdit) {
             $type_id = $this->request->get('id', 'integer', SC_PATH);

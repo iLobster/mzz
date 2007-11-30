@@ -1,13 +1,13 @@
-<a href="{url route=default2 action=forum}">Форум</a> / {$forum->getTitle()}
-{if $forum->getAcl('newThread')} (<a href="{url route=withId action=newThread id=$forum->getId()}">Начать новую тему</a>){/if}<br />
+<a href="{url route=default2 action=forum}">Р¤РѕСЂСѓРј</a> / {$forum->getTitle()}
+{if $forum->getAcl('newThread')} (<a href="{url route=withId action=newThread id=$forum->getId()}">РќР°С‡Р°С‚СЊ РЅРѕРІСѓСЋ С‚РµРјСѓ</a>){/if}<br />
 <table border="1" width="100%">
     <tr>
         <td>&nbsp;</td>
-        <td>Название</td>
-        <td>Автор</td>
-        <td>Постов</td>
-        <td>Просмотров</td>
-        <td>Последнее сообщение</td>
+        <td>РќР°Р·РІР°РЅРёРµ</td>
+        <td>РђРІС‚РѕСЂ</td>
+        <td>РџРѕСЃС‚РѕРІ</td>
+        <td>РџСЂРѕСЃРјРѕС‚СЂРѕРІ</td>
+        <td>РџРѕСЃР»РµРґРЅРµРµ СЃРѕРѕР±С‰РµРЅРёРµ</td>
     </tr>
     {foreach from=$threads item=thread}
         <tr>

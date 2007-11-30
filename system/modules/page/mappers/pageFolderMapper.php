@@ -16,7 +16,7 @@ fileLoader::load('page/pageFolder');
 fileLoader::load('simple/simpleMapperForTree');
 
 /**
- * pageFolderMapper: маппер
+ * pageFolderMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage page
@@ -26,14 +26,14 @@ fileLoader::load('simple/simpleMapperForTree');
 class pageFolderMapper extends simpleMapperForTree
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'page';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
@@ -42,7 +42,7 @@ class pageFolderMapper extends simpleMapperForTree
     protected $itemName = 'page';
 
     /**
-     * Возвращает Доменный Объект, который обслуживает запрашиваемый маппер
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р”РѕРјРµРЅРЅС‹Р№ РћР±СЉРµРєС‚, РєРѕС‚РѕСЂС‹Р№ РѕР±СЃР»СѓР¶РёРІР°РµС‚ Р·Р°РїСЂР°С€РёРІР°РµРјС‹Р№ РјР°РїРїРµСЂ
      *
      * @return object
      */
@@ -62,7 +62,7 @@ class pageFolderMapper extends simpleMapperForTree
         return $this->searchOneByField('id', $id);
     }
     /**
-     * Метод поиска страницы в каталоге
+     * РњРµС‚РѕРґ РїРѕРёСЃРєР° СЃС‚СЂР°РЅРёС†С‹ РІ РєР°С‚Р°Р»РѕРіРµ
      *
      * @param string $name
      * @return page|null
@@ -89,7 +89,7 @@ class pageFolderMapper extends simpleMapperForTree
     }
 
     /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РґР»СЏ Р”Рћ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёСЃС…РѕРґСЏ РёР· Р°СЂРіСѓРјРµРЅС‚РѕРІ Р·Р°РїСЂРѕСЃР°
      *
      * @return integer
      */

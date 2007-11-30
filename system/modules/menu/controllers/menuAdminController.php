@@ -13,7 +13,7 @@
  */
 
 /**
- * menuAdminController: контроллер для метода admin модуля menu
+ * menuAdminController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° admin РјРѕРґСѓР»СЏ menu
  *
  * @package modules
  * @subpackage menu

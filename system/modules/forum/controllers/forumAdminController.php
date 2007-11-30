@@ -13,7 +13,7 @@
  */
 
 /**
- * forumAdminController: контроллер для метода admin модуля forum
+ * forumAdminController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° admin РјРѕРґСѓР»СЏ forum
  *
  * @package modules
  * @subpackage forum

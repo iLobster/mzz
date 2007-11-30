@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * gallerySavePhotoController: контроллер для метода savePhoto модуля gallery
+ * gallerySavePhotoController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° savePhoto РјРѕРґСѓР»СЏ gallery
  *
  * @package modules
  * @subpackage gallery
@@ -34,7 +34,7 @@ class gallerySavePhotoController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('required', 'name', 'Укажите имя фотографии');
+        $validator->add('required', 'name', 'РЈРєР°Р¶РёС‚Рµ РёРјСЏ С„РѕС‚РѕРіСЂР°С„РёРё');
 
         if ($isEdit) {
             $photo_id = $this->request->get('id', 'integer');
@@ -49,7 +49,7 @@ class gallerySavePhotoController extends simpleController
             $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', $config->get('filemanager_section'));
             $folder = $folderMapper->searchByPath('root/gallery');
 
-            $validator->add('uploaded', 'image', 'Укажите файл для загрузки');
+            $validator->add('uploaded', 'image', 'РЈРєР°Р¶РёС‚Рµ С„Р°Р№Р» РґР»СЏ Р·Р°РіСЂСѓР·РєРё');
         }
 
 

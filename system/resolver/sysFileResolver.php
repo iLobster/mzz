@@ -13,7 +13,7 @@
  */
 
 /**
- * sysFileResolver: резолвит файлы из папки с системой (SYSTEM_DIR)
+ * sysFileResolver: СЂРµР·РѕР»РІРёС‚ С„Р°Р№Р»С‹ РёР· РїР°РїРєРё СЃ СЃРёСЃС‚РµРјРѕР№ (SYSTEM_DIR)
  *
  * @package system
  * @subpackage resolver
@@ -22,7 +22,7 @@
 class sysFileResolver extends fileResolver
 {
     /**
-     * конструктор
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      */
     public function __construct()

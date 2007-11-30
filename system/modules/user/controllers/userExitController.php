@@ -13,7 +13,7 @@
  */
 
 /**
- * userExitController: контроллер для метода exit модуля user
+ * userExitController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° exit РјРѕРґСѓР»СЏ user
  *
  * @package modules
  * @subpackage user

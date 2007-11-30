@@ -13,7 +13,7 @@
  */
 
 /**
- * mzzCacheFilterIterator: паттерн Iterator для "отборки" файлов с префиксом 'cache_'
+ * mzzCacheFilterIterator: РїР°С‚С‚РµСЂРЅ Iterator РґР»СЏ "РѕС‚Р±РѕСЂРєРё" С„Р°Р№Р»РѕРІ СЃ РїСЂРµС„РёРєСЃРѕРј 'cache_'
  *
  * @package system
  * @version 0.1
@@ -22,7 +22,7 @@ class mzzCacheFilterIterator extends FilterIterator
 {
 
     /**
-     * Возвращает true если текущий элемент файл и имеет префикс cache_
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ true РµСЃР»Рё С‚РµРєСѓС‰РёР№ СЌР»РµРјРµРЅС‚ С„Р°Р№Р» Рё РёРјРµРµС‚ РїСЂРµС„РёРєСЃ cache_
      *
      * @return boolean
      */

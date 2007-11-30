@@ -34,7 +34,7 @@ class actionTest extends unitTestCase
             $this->action->setAction('_unknown_action_');
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/Äåéñòâèå \"_unknown_action_\" íå íàéäåíî/i", $e->getMessage());
+            $this->assertPattern("/Ğ”ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ğµ \"_unknown_action_\" Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½Ğ¾/i", $e->getMessage());
             $this->pass();
         }
 
@@ -46,7 +46,7 @@ class actionTest extends unitTestCase
             $this->action->getAction();
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/Action íå óñòàíîâëåí/i", $e->getMessage());
+            $this->assertPattern("/Action Ğ½Ğµ ÑƒÑÑ‚Ğ°Ğ½Ğ¾Ğ²Ğ»ĞµĞ½/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -55,13 +55,13 @@ class actionTest extends unitTestCase
     {
         $jipActions = array(
         'jipAction' => array ('controller' => 'foo'),
-        'editACL' => array('controller' => 'editACL', 'title' => 'Ïğàâà äîñòóïà', 'icon' => '/templates/images/acl.gif'),
+        'editACL' => array('controller' => 'editACL', 'title' => 'ĞŸÑ€Ğ°Ğ²Ğ° Ğ´Ğ¾ÑÑ‚ÑƒĞ¿Ğ°', 'icon' => '/templates/images/acl.gif'),
         );
         $this->assertEqual($this->action->getJipActions('firstActions'), $jipActions);
 
         $jipActions = array(
         'jipActionFull' => array ('controller' => 'bar', 'title' => 'someTitle', 'confirm' => 'confirm message'),
-        'editACL' => array('controller' => 'editACL', 'title' => 'Ïğàâà äîñòóïà',  'icon' => '/templates/images/acl.gif'),
+        'editACL' => array('controller' => 'editACL', 'title' => 'ĞŸÑ€Ğ°Ğ²Ğ° Ğ´Ğ¾ÑÑ‚ÑƒĞ¿Ğ°',  'icon' => '/templates/images/acl.gif'),
         );
 
         $this->assertEqual($this->action->getJipActions('secondActions'), $jipActions);
@@ -82,7 +82,7 @@ class actionTest extends unitTestCase
             $this->action->getJipActions('_unknown_type_');
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/Òèï \"_unknown_type_\" ó ìîäóëÿ/i", $e->getMessage());
+            $this->assertPattern("/Ğ¢Ğ¸Ğ¿ \"_unknown_type_\" Ñƒ Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ/i", $e->getMessage());
             $this->pass();
         }
     }

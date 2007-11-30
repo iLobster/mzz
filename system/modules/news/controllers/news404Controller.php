@@ -13,7 +13,7 @@
  */
 
 /**
- * news404Controller: êîíòðîëëåð äëÿ ìåòîäà 404 ìîäóëÿ news
+ * news404Controller: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° 404 Ð¼Ð¾Ð´ÑƒÐ»Ñ news
  *
  * @package modules
  * @subpackage news
@@ -24,7 +24,7 @@ class news404Controller extends simpleController
 {
     protected function getView()
     {
-        $this->response->setTitle('Îøèáêà. Çàïðàøèâàåìàÿ íîâîñòü èëè ïàïêà íå íàéäåíà.');
+        $this->response->setTitle('ÐžÑˆÐ¸Ð±ÐºÐ°. Ð—Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÐ¼Ð°Ñ Ð½Ð¾Ð²Ð¾ÑÑ‚ÑŒ Ð¸Ð»Ð¸ Ð¿Ð°Ð¿ÐºÐ° Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð°.');
         return $this->smarty->fetch('news/notfound.tpl');
     }
 }

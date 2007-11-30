@@ -13,7 +13,7 @@
 */
 
 /**
- * access: класс для работы с ...
+ * access: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ ...
  *
  * @package modules
  * @subpackage access

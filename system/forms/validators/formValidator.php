@@ -23,28 +23,28 @@
 class formValidator
 {
     /**
-     * Массив валидаторов формы
+     * РњР°СЃСЃРёРІ РІР°Р»РёРґР°С‚РѕСЂРѕРІ С„РѕСЂРјС‹
      *
      * @var array
      */
     private $validators = array();
 
     /**
-     * Датаспейс для хранения ошибок валидации
+     * Р”Р°С‚Р°СЃРїРµР№СЃ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РѕС€РёР±РѕРє РІР°Р»РёРґР°С†РёРё
      *
      * @var arrayDataspace
      */
     private $errors;
 
     /**
-     * Имя submit'а формы. Именно по нему определяется, что форма уже была отправлена
+     * РРјСЏ submit'Р° С„РѕСЂРјС‹. РРјРµРЅРЅРѕ РїРѕ РЅРµРјСѓ РѕРїСЂРµРґРµР»СЏРµС‚СЃСЏ, С‡С‚Рѕ С„РѕСЂРјР° СѓР¶Рµ Р±С‹Р»Р° РѕС‚РїСЂР°РІР»РµРЅР°
      *
      * @var string
      */
     private $submit;
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param string $submit
      */
@@ -53,7 +53,7 @@ class formValidator
         $this->errors = new arrayDataspace();
 
         if (!is_string($submit)) {
-            throw new mzzInvalidParameterException('Параметр submit должен быть строковым', $submit);
+            throw new mzzInvalidParameterException('РџР°СЂР°РјРµС‚СЂ submit РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃС‚СЂРѕРєРѕРІС‹Рј', $submit);
         }
 
         $this->submit = $submit;
@@ -63,12 +63,12 @@ class formValidator
     }
 
     /**
-     * Добавление правила
+     * Р”РѕР±Р°РІР»РµРЅРёРµ РїСЂР°РІРёР»Р°
      *
-     * @param string $validator имя валидатора
-     * @param string $name имя проверяемого поля
-     * @param string $errorMsg сообщение об ошибке
-     * @param mixed $params набор дополнительных параметров для валидтора
+     * @param string $validator РёРјСЏ РІР°Р»РёРґР°С‚РѕСЂР°
+     * @param string $name РёРјСЏ РїСЂРѕРІРµСЂСЏРµРјРѕРіРѕ РїРѕР»СЏ
+     * @param string $errorMsg СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ
+     * @param mixed $params РЅР°Р±РѕСЂ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… РїР°СЂР°РјРµС‚СЂРѕРІ РґР»СЏ РІР°Р»РёРґС‚РѕСЂР°
      */
     public function add($validator, $name, $errorMsg = '', $params = '')
     {
@@ -79,9 +79,9 @@ class formValidator
     }
 
     /**
-     * Запуск валидаторов
+     * Р—Р°РїСѓСЃРє РІР°Р»РёРґР°С‚РѕСЂРѕРІ
      *
-     * @return boolean true - в случае, если ни один из валидаторов не возвратил ошибку, false - в противном случае
+     * @return boolean true - РІ СЃР»СѓС‡Р°Рµ, РµСЃР»Рё РЅРё РѕРґРёРЅ РёР· РІР°Р»РёРґР°С‚РѕСЂРѕРІ РЅРµ РІРѕР·РІСЂР°С‚РёР» РѕС€РёР±РєСѓ, false - РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ
      */
     public function validate()
     {
@@ -108,10 +108,10 @@ class formValidator
     }
 
     /**
-     * Определение, является ли поле обязательным к заполнению
+     * РћРїСЂРµРґРµР»РµРЅРёРµ, СЏРІР»СЏРµС‚СЃСЏ Р»Рё РїРѕР»Рµ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рј Рє Р·Р°РїРѕР»РЅРµРЅРёСЋ
      *
-     * @param string $name имя поля
-     * @return boolean true - является обязательным, false - не является обязательным
+     * @param string $name РёРјСЏ РїРѕР»СЏ
+     * @return boolean true - СЏРІР»СЏРµС‚СЃСЏ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рј, false - РЅРµ СЏРІР»СЏРµС‚СЃСЏ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рј
      */
     public function isFieldRequired($name)
     {
@@ -125,7 +125,7 @@ class formValidator
     }
 
     /**
-     * Получение ошибок валидации
+     * РџРѕР»СѓС‡РµРЅРёРµ РѕС€РёР±РѕРє РІР°Р»РёРґР°С†РёРё
      *
      * @return arrayDataspace
      */

@@ -27,9 +27,9 @@
     </script>{/literal}
 
     <tr>
-        <td><a class="jsLink" href="#" onclick="return setPermissionForAllActions(1, this);">Разрешить</a></td>
-        <td><a class="jsLink" href="#" onclick="return setPermissionForAllActions(0, this);">Запретить</a></td>
-        <td style="width: 100%;"><strong>Действие</strong></td>
+        <td><a class="jsLink" href="#" onclick="return setPermissionForAllActions(1, this);">Р Р°Р·СЂРµС€РёС‚СЊ</a></td>
+        <td><a class="jsLink" href="#" onclick="return setPermissionForAllActions(0, this);">Р—Р°РїСЂРµС‚РёС‚СЊ</a></td>
+        <td style="width: 100%;"><strong>Р”РµР№СЃС‚РІРёРµ</strong></td>
     </tr>
 {foreach from=$actions item=action key=key}
     <tr>
@@ -39,5 +39,5 @@
     </tr>
 {/foreach}
 <tr>
-    <td colspan="3"><input type="submit" value="Сохранить"> <input type="reset" value="Сбросить"> <input type="reset" value="Отмена" onclick="javascript: jipWindow.close();"></td>
+    <td colspan="3"><input type="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"> <input type="reset" value="РЎР±СЂРѕСЃРёС‚СЊ"> <input type="reset" value="РћС‚РјРµРЅР°" onclick="javascript: jipWindow.close();"></td>
 </tr>

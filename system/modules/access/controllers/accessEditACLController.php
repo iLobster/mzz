@@ -13,7 +13,7 @@
 */
 
 /**
- * accessEditController: êîíòðîëëåð äëÿ ìåòîäà edit ìîäóëÿ access
+ * accessEditController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° edit Ð¼Ð¾Ð´ÑƒÐ»Ñ access
  *
  * @package modules
  * @subpackage access
@@ -30,17 +30,17 @@ class accessEditACLController extends simpleController
         $acl = new acl($this->toolkit->getUser(), $id);
 
         if (!$acl->isRegistered()) {
-            $controller = new messageController('Çàïðàøèâàåìûé âàìè îáúåêò íå çàðåãèñòðèðîâàí â ñèñòåìå', messageController::WARNING);
+            $controller = new messageController('Ð—Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÐ¼Ñ‹Ð¹ Ð²Ð°Ð¼Ð¸ Ð¾Ð±ÑŠÐµÐºÑ‚ Ð½Ðµ Ð·Ð°Ñ€ÐµÐ³Ð¸ÑÑ‚Ñ€Ð¸Ñ€Ð¾Ð²Ð°Ð½ Ð² ÑÐ¸ÑÑ‚ÐµÐ¼Ðµ', messageController::WARNING);
             return $controller->run();
         }
 
-        // ïîëó÷àåì ïîëüçîâàòåëåé è ãðóïïû, íà êîòîðûå óæå óñòàíîâëåíû ïðàâà
+        // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹ Ð¸ Ð³Ñ€ÑƒÐ¿Ð¿Ñ‹, Ð½Ð° ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ ÑƒÐ¶Ðµ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ñ‹ Ð¿Ñ€Ð°Ð²Ð°
         $users = $acl->getUsersList();
         $groups = $acl->getGroupsList();
 
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
 
-        // ïîëó÷àåì ÷èñëî ïîëüçîâàòåëåé, êîòîðûå åù¸ íå äîáàâëåíû â ACL äëÿ ýòîãî îáúåêòà
+        // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ñ‡Ð¸ÑÐ»Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ ÐµÑ‰Ñ‘ Ð½Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ñ‹ Ð² ACL Ð´Ð»Ñ ÑÑ‚Ð¾Ð³Ð¾ Ð¾Ð±ÑŠÐµÐºÑ‚Ð°
         $criterion = new criterion('a.uid', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true);
         $criterion->addAnd(new criterion('a.obj_id', $id));
 
@@ -55,7 +55,7 @@ class accessEditACLController extends simpleController
 
         $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
 
-        // ïîëó÷àåì ÷èñëî ãðóïï, êîòîðûå åù¸ íå äîáàâëåíû â ACL äëÿ ýòîãî îáúåêòà
+        // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ñ‡Ð¸ÑÐ»Ð¾ Ð³Ñ€ÑƒÐ¿Ð¿, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ ÐµÑ‰Ñ‘ Ð½Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ñ‹ Ð² ACL Ð´Ð»Ñ ÑÑ‚Ð¾Ð³Ð¾ Ð¾Ð±ÑŠÐµÐºÑ‚Ð°
         $criterion = new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
         $criterion->addAnd(new criterion('a.obj_id', $id));
 

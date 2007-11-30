@@ -15,7 +15,7 @@
 fileLoader::load('service/iniFile');
 
 /**
- * adminReadmapController: контроллер для просмотра содержимого map-файлов
+ * adminReadmapController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РїСЂРѕСЃРјРѕС‚СЂР° СЃРѕРґРµСЂР¶РёРјРѕРіРѕ map-С„Р°Р№Р»РѕРІ
  *
  * @package modules
  * @subpackage admin
@@ -32,7 +32,7 @@ class adminReadmapController extends simpleController
         $class = $adminMapper->searchClassByName($class_name);
 
         if (!$class) {
-            $controller = new messageController('Класса не существует', messageController::WARNING);
+            $controller = new messageController('РљР»Р°СЃСЃР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚', messageController::WARNING);
             return $controller->run();
         }
 
@@ -56,7 +56,7 @@ class adminReadmapController extends simpleController
 
             $schemas[] = $tmp;
         }
-        //@todo: реализовать ситуацию, когда таблицы не совпадают по полям
+        //@todo: СЂРµР°Р»РёР·РѕРІР°С‚СЊ СЃРёС‚СѓР°С†РёСЋ, РєРѕРіРґР° С‚Р°Р±Р»РёС†С‹ РЅРµ СЃРѕРІРїР°РґР°СЋС‚ РїРѕ РїРѕР»СЏРј
 
         if (isset($schemas[0])) {
             $scheme = $schemas[0];

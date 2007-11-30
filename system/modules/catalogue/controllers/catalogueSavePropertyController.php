@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * catalogueSavePropertyController: êîíòðîëëåð äëÿ ìåòîäà saveProperty ìîäóëÿ catalogue
+ * catalogueSavePropertyController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° saveProperty Ð¼Ð¾Ð´ÑƒÐ»Ñ catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -58,20 +58,20 @@ class catalogueSavePropertyController extends simpleController
         $loadType = !empty($loadType) ? (is_numeric($loadType) ? $types[$loadType] : $loadType) : null;
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Ó ñâîéñòâà äîëæíî áûòü èìÿ èç äîïóñòèìûõ ñèìâîëîâ (a-Z0-9)');
-        $validator->add('required', 'title', 'Óêàæèòå íàçâàíèå ñâîéñòâà (èìÿ äëÿ îòîáðàæåíèÿ)');
-        $validator->add('required', 'type_id', 'Óêàæèòå òèï çíà÷åíèÿ ñâîéñòâà');
+        $validator->add('required', 'name', 'Ð£ ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð° Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ð¸Ð¼Ñ Ð¸Ð· Ð´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ñ… ÑÐ¸Ð¼Ð²Ð¾Ð»Ð¾Ð² (a-Z0-9)');
+        $validator->add('required', 'title', 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð° (Ð¸Ð¼Ñ Ð´Ð»Ñ Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ)');
+        $validator->add('required', 'type_id', 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ñ‚Ð¸Ð¿ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð°');
 
         if ($loadType == 'dynamicselect') {
-            $validator->add('required', 'typeConfig[section]', 'Óêàæèòå ñåêöèþ');
-            $validator->add('required', 'typeConfig[module]', 'Óêàæèòå ìîäóëü');
-            $validator->add('required', 'typeConfig[class]', 'Óêàæèòå êëàññ äîìåííîãî îáúåêòà');
-            $validator->add('required', 'typeConfig[searchMethod]', 'Óêàæèòå ìåòîä ïîèñêà äàííûõ');
-            $validator->add('required', 'typeConfig[extractMethod]', 'Óêàæèòå ìåòîä èçâëå÷åíèÿ äàííûõ èç äîìåííîãî îáúåêòà');
+            $validator->add('required', 'typeConfig[section]', 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ ÑÐµÐºÑ†Ð¸ÑŽ');
+            $validator->add('required', 'typeConfig[module]', 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ');
+            $validator->add('required', 'typeConfig[class]', 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ ÐºÐ»Ð°ÑÑ Ð´Ð¾Ð¼ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð¾Ð±ÑŠÐµÐºÑ‚Ð°');
+            $validator->add('required', 'typeConfig[searchMethod]', 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ð¼ÐµÑ‚Ð¾Ð´ Ð¿Ð¾Ð¸ÑÐºÐ° Ð´Ð°Ð½Ð½Ñ‹Ñ…');
+            $validator->add('required', 'typeConfig[extractMethod]', 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ð¼ÐµÑ‚Ð¾Ð´ Ð¸Ð·Ð²Ð»ÐµÑ‡ÐµÐ½Ð¸Ñ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð¸Ð· Ð´Ð¾Ð¼ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð¾Ð±ÑŠÐµÐºÑ‚Ð°');
 
             $fieldNames = array('section', 'module', 'class', 'searchMethod', 'extractMethod');
             foreach ($fieldNames as $fieldName) {
-                $validator->add('regex', 'typeConfig[' . $fieldName . ']', 'Â çíà÷åíèè äîïóñòèìû òîëüêî [a-z0-9_]', '/^[a-z0-9_]+$/i');
+                $validator->add('regex', 'typeConfig[' . $fieldName . ']', 'Ð’ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ð¸ Ð´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ [a-z0-9_]', '/^[a-z0-9_]+$/i');
             }
         }
 
@@ -148,7 +148,7 @@ class catalogueSavePropertyController extends simpleController
                             $class_id = $this->request->get('for_id', 'integer', SC_REQUEST);
                             $searchMethods = $adminMapper->getSearchMethods($class_id);
                             $this->smarty->assign('searchMethods', $searchMethods);
-                            // ìåòîäû èçâëå÷åíèÿ äàííûõ
+                            // Ð¼ÐµÑ‚Ð¾Ð´Ñ‹ Ð¸Ð·Ð²Ð»ÐµÑ‡ÐµÐ½Ð¸Ñ Ð´Ð°Ð½Ð½Ñ‹Ñ…
                             $extactMethods = $adminMapper->getClassExtractMethods($class_id);
                             $this->smarty->assign('extractMethods', $extactMethods);
                             break;
@@ -242,7 +242,7 @@ class catalogueSavePropertyController extends simpleController
 
                     $names = $adminMapper->getNamesOfSectionModuleClass($typeConfig['section'], $typeConfig['module'], $typeConfig['class']);
                     if (empty($names)) {
-                        $controller = new messageController('Îòñóòñòâóåò èíôîðìàöèÿ î ïàðàìåòðàõ äëÿ äèíàìè÷åñêîãî ñïèñêà â ÁÄ', messageController::WARNING);
+                        $controller = new messageController('ÐžÑ‚ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð°Ñ… Ð´Ð»Ñ Ð´Ð¸Ð½Ð°Ð¼Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ ÑÐ¿Ð¸ÑÐºÐ° Ð² Ð‘Ð”', messageController::WARNING);
                         return $controller->run();
                     }
                     $names = $names[0];

@@ -1,4 +1,4 @@
-﻿/*  Prototype JavaScript framework, version 1.6.0
+п»ї/*  Prototype JavaScript framework, version 1.6.0
  *  (c) 2005-2007 Sam Stephenson
  *
  *  Prototype is freely distributable under the terms of an MIT-style license.
@@ -2709,7 +2709,7 @@ document.viewport = {
       window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop);
   }
 };
-/* Portions of the Selector class are derived from Jack SlocumтАЩs DomQuery,
+/* Portions of the Selector class are derived from Jack SlocumС‚РђР©s DomQuery,
  * part of YUI-Ext version 0.40, distributed under the terms of an MIT-style
  * license.  Please see http://www.yui-ext.com/ for more information. */
 

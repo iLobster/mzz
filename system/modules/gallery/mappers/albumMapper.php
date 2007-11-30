@@ -15,7 +15,7 @@
 fileLoader::load('gallery/album');
 
 /**
- * albumMapper: маппер
+ * albumMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage gallery
@@ -25,23 +25,23 @@ fileLoader::load('gallery/album');
 class albumMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'gallery';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
     protected $className = 'album';
 
     /**
-     * Выполняет поиск объекта по идентификатору
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ
      *
-     * @param integer $id идентификатор
+     * @param integer $id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
      * @return object|null
      */
     public function searchById($id)
@@ -50,9 +50,9 @@ class albumMapper extends simpleMapper
     }
 
     /**
-     * Выполняет поиск объекта по идентификатору галереи
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ РіР°Р»РµСЂРµРё
      *
-     * @param integer $gallery_id идентификатор галереи
+     * @param integer $gallery_id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіР°Р»РµСЂРµРё
      * @return object|null
      */
     public function searchByGalleryId($gallery_id)
@@ -61,7 +61,7 @@ class albumMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РІСЃС‚Р°РІРєРѕР№ РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -81,7 +81,7 @@ class albumMapper extends simpleMapper
     }
 
     /**
-     * Возвращает самую популярную (скачиваемую) фотографию из альбома
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃР°РјСѓСЋ РїРѕРїСѓР»СЏСЂРЅСѓСЋ (СЃРєР°С‡РёРІР°РµРјСѓСЋ) С„РѕС‚РѕРіСЂР°С„РёСЋ РёР· Р°Р»СЊР±РѕРјР°
      *
      * @param album $album DO
      * @return array|null

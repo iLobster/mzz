@@ -13,7 +13,7 @@
  */
 
 /**
- * votingViewActualController: контроллер для метода viewActual модуля voting
+ * votingViewActualController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° viewActual РјРѕРґСѓР»СЏ voting
  *
  * @package modules
  * @subpackage voting

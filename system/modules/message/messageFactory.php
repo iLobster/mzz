@@ -13,7 +13,7 @@
  */
 
 /**
- * messageFactory: фабрика для получения контроллеров message
+ * messageFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ message
  *
  * @package modules
  * @subpackage message
@@ -23,7 +23,7 @@
 class messageFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

@@ -13,7 +13,7 @@
  */
 
 /**
- * catalogueFactory: фабрика для получения контроллеров catalogue
+ * catalogueFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -23,7 +23,7 @@
 class catalogueFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * forumPostController: êîíòðîëëåð äëÿ ìåòîäà post ìîäóëÿ forum
+ * forumPostController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° post Ð¼Ð¾Ð´ÑƒÐ»Ñ forum
  *
  * @package modules
  * @subpackage forum
@@ -57,19 +57,19 @@ class forumPostController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('required', 'text', 'Íåîáõîäèìî íàïèñàòü ñîîáùåíèå');
+        $validator->add('required', 'text', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð½Ð°Ð¿Ð¸ÑÐ°Ñ‚ÑŒ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ');
 
         if ($validator->validate()) {
             $text = $this->request->get('text', 'string', SC_POST);
 
             if (!$isEdit) {
-                // @todo: èíòåðâàë â êîíôèã
+                // @todo: Ð¸Ð½Ñ‚ÐµÑ€Ð²Ð°Ð» Ð² ÐºÐ¾Ð½Ñ„Ð¸Ð³
                 if ($thread->getLastPost()->getPostDate() >= strtotime('-15 minutes')) {
                     $post = $thread->getLastPost();
                     $post->setPostDate(new sqlFunction('UNIX_TIMESTAMP'));
                     $isEdit = true;
-                    // @todo: ñäåëàòü ïî-÷åëîâå÷åñêè
-                    $text = $post->getText() . "\r\n\r\näîáàâëåíî\r\n\r\n" . $text;
+                    // @todo: ÑÐ´ÐµÐ»Ð°Ñ‚ÑŒ Ð¿Ð¾-Ñ‡ÐµÐ»Ð¾Ð²ÐµÑ‡ÐµÑÐºÐ¸
+                    $text = $post->getText() . "\r\n\r\nÐ´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾\r\n\r\n" . $text;
                 } else {
                     $post = $postMapper->create();
                     $post->setAuthor($user);

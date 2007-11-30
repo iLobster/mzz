@@ -13,7 +13,7 @@
  */
 
 /**
- * userGroupsListController: êîíòðîëëåð äëÿ ìåòîäà groupsList ìîäóëÿ user
+ * userGroupsListController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° groupsList Ð¼Ð¾Ð´ÑƒÐ»Ñ user
  *
  * @package modules
  * @subpackage user
@@ -43,7 +43,7 @@ class userGroupsListController extends simpleController
         $this->smarty->assign('usersGroups', $usersGroups);
         $this->smarty->assign('obj_id', $groupMapper->convertArgsToObj(null)->getObjId());
 
-        $this->response->setTitle('Ïîëüçîâàòåëü -> Ñïèñîê ãðóïï');
+        $this->response->setTitle('ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ -> Ð¡Ð¿Ð¸ÑÐ¾Ðº Ð³Ñ€ÑƒÐ¿Ð¿');
 
         return $this->smarty->fetch('user/groupsList.tpl');
     }

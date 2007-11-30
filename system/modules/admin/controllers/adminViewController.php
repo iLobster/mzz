@@ -13,7 +13,7 @@
 */
 
 /**
- * adminViewController: êîíòðîëëåð äëÿ ìåòîäà view ìîäóëÿ admin
+ * adminViewController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° view Ð¼Ð¾Ð´ÑƒÐ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -31,7 +31,7 @@ class adminViewController extends simpleController
         $this->smarty->assign('cfgAccess', $info['cfgAccess']);
         $this->smarty->assign('main_class', $info['main_class']);
         $this->smarty->assign('admin', $info['admin']);
-        $this->smarty->assign('title', 'Ïàíåëü óïðàâëåíèÿ');
+        $this->smarty->assign('title', 'ÐŸÐ°Ð½ÐµÐ»ÑŒ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ñ');
         return $this->smarty->fetch('admin/view.tpl');
     }
 }

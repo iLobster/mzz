@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * forumCreateForumController: êîíòðîëëåð äëÿ ìåòîäà createForum ìîäóëÿ forum
+ * forumCreateForumController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° createForum Ð¼Ð¾Ð´ÑƒÐ»Ñ forum
  *
  * @package modules
  * @subpackage forum
@@ -41,8 +41,8 @@ class forumSaveForumController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('required', 'title', 'Íåîáõîäèìî äàòü íàçâàíèå ôîðóìó');
-        $validator->add('numeric', 'order', 'Çíà÷åíèå ïîðÿäêà ñîðòèðîâêè äîëæíî áûòü ÷èñëîâûì');
+        $validator->add('required', 'title', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð´Ð°Ñ‚ÑŒ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ Ñ„Ð¾Ñ€ÑƒÐ¼Ñƒ');
+        $validator->add('numeric', 'order', 'Ð—Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ñ€ÑÐ´ÐºÐ° ÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²ÐºÐ¸ Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ñ‡Ð¸ÑÐ»Ð¾Ð²Ñ‹Ð¼');
 
         if ($validator->validate()) {
             if (!$isEdit) {

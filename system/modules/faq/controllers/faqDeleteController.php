@@ -13,7 +13,7 @@
  */
 
 /**
- * faqDeleteController: контроллер для метода delete модуля faq
+ * faqDeleteController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° delete РјРѕРґСѓР»СЏ faq
  *
  * @package modules
  * @subpackage faq

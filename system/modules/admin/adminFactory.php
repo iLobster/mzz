@@ -13,7 +13,7 @@
 */
 
 /**
- * adminFactory: фабрика для получения контроллеров admin
+ * adminFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ admin
  *
  * @package modules
  * @subpackage admin
@@ -23,7 +23,7 @@
 class adminFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

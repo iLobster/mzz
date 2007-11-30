@@ -10,7 +10,7 @@
             $resolver->addResolver(new libResolver($baseresolver));
             $cachingResolver = new cachingResolver($resolver);
 
-            fileLoader::setResolver($cachingResolver); // óñòàíîâêà ðåçîëâåðà
+            fileLoader::setResolver($cachingResolver); // ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ñ€ÐµÐ·Ð¾Ð»Ð²ÐµÑ€Ð°
             
-            fileLoader::load('exceptions/init'); // èñïîëüçîâàíèå
+            fileLoader::load('exceptions/init'); // Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ðµ
 ?>

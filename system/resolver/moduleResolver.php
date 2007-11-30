@@ -15,7 +15,7 @@
 require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
 
 /**
- * moduleResolver: резолвит файлы модулей
+ * moduleResolver: СЂРµР·РѕР»РІРёС‚ С„Р°Р№Р»С‹ РјРѕРґСѓР»РµР№
  *
  * @package system
  * @subpackage resolver
@@ -24,9 +24,9 @@ require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
 class moduleResolver extends partialFileResolver
 {
     /**
-     * конструктор
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param object $resolver базовый резолвер
+     * @param object $resolver Р±Р°Р·РѕРІС‹Р№ СЂРµР·РѕР»РІРµСЂ
      */
     public function __construct(iResolver $resolver)
     {
@@ -34,17 +34,17 @@ class moduleResolver extends partialFileResolver
     }
 
     /**
-     * проверка на соответствие запроса некоторому шаблону
-     * определяем что файл действительно тот, который требуется
+     * РїСЂРѕРІРµСЂРєР° РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ Р·Р°РїСЂРѕСЃР° РЅРµРєРѕС‚РѕСЂРѕРјСѓ С€Р°Р±Р»РѕРЅСѓ
+     * РѕРїСЂРµРґРµР»СЏРµРј С‡С‚Рѕ С„Р°Р№Р» РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С‚РѕС‚, РєРѕС‚РѕСЂС‹Р№ С‚СЂРµР±СѓРµС‚СЃСЏ
      *
-     * @param string $request строка запроса
-     * @return string|null переписанный запрос, если запрос совпадает с шаблоном, либо null
+     * @param string $request СЃС‚СЂРѕРєР° Р·Р°РїСЂРѕСЃР°
+     * @return string|null РїРµСЂРµРїРёСЃР°РЅРЅС‹Р№ Р·Р°РїСЂРѕСЃ, РµСЃР»Рё Р·Р°РїСЂРѕСЃ СЃРѕРІРїР°РґР°РµС‚ СЃ С€Р°Р±Р»РѕРЅРѕРј, Р»РёР±Рѕ null
      */
     protected function partialResolve($request)
     {
         $result = null;
 
-        // короткий вид nameFactory переписываем в name/nameFactory
+        // РєРѕСЂРѕС‚РєРёР№ РІРёРґ nameFactory РїРµСЂРµРїРёСЃС‹РІР°РµРј РІ name/nameFactory
         if (preg_match('/^([a-z0-9_]+)Factory$/i', $request, $matches)) {
             $request = $matches[1] . '/' . $request;
         }

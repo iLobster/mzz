@@ -15,7 +15,7 @@
 */
 
 /**
- * mzzPdoStatement: класс, заменяющий стандартный Statement в PDO
+ * mzzPdoStatement: РєР»Р°СЃСЃ, Р·Р°РјРµРЅСЏСЋС‰РёР№ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ Statement РІ PDO
  *
  * @package system
  * @subpackage db
@@ -24,9 +24,9 @@
 class mzzPdoStatement extends PDOStatement
 {
     /**
-     * Метод для бинда массива значений
+     * РњРµС‚РѕРґ РґР»СЏ Р±РёРЅРґР° РјР°СЃСЃРёРІР° Р·РЅР°С‡РµРЅРёР№
      *
-     * @param array $data массив с данными
+     * @param array $data РјР°СЃСЃРёРІ СЃ РґР°РЅРЅС‹РјРё
      */
     public function bindValues($data)
     {
@@ -53,7 +53,7 @@ class mzzPdoStatement extends PDOStatement
     }
 
     /**
-     * Метод fetch, изменяющий вид результата на ассоциативный массив
+     * РњРµС‚РѕРґ fetch, РёР·РјРµРЅСЏСЋС‰РёР№ РІРёРґ СЂРµР·СѓР»СЊС‚Р°С‚Р° РЅР° Р°СЃСЃРѕС†РёР°С‚РёРІРЅС‹Р№ РјР°СЃСЃРёРІ
      *
      * @param integer $how
      * @param integer $orientation
@@ -66,13 +66,13 @@ class mzzPdoStatement extends PDOStatement
     }
 
     /**
-     * Альтернатива стандартному PDOStatement::execute
+     * РђР»СЊС‚РµСЂРЅР°С‚РёРІР° СЃС‚Р°РЅРґР°СЂС‚РЅРѕРјСѓ PDOStatement::execute
      *
-     * В случае удачного insert возвращает id последней вставленно записи
-     * В противном случае - результат выполнения запроса
+     * Р’ СЃР»СѓС‡Р°Рµ СѓРґР°С‡РЅРѕРіРѕ insert РІРѕР·РІСЂР°С‰Р°РµС‚ id РїРѕСЃР»РµРґРЅРµР№ РІСЃС‚Р°РІР»РµРЅРЅРѕ Р·Р°РїРёСЃРё
+     * Р’ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ - СЂРµР·СѓР»СЊС‚Р°С‚ РІС‹РїРѕР»РЅРµРЅРёСЏ Р·Р°РїСЂРѕСЃР°
      *
-     * @param array $parameters в мануале не продокументированные параметры ?!
-     * @return integer|boolean id последней записи или результат выполнения запроса
+     * @param array $parameters РІ РјР°РЅСѓР°Р»Рµ РЅРµ РїСЂРѕРґРѕРєСѓРјРµРЅС‚РёСЂРѕРІР°РЅРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ ?!
+     * @return integer|boolean id РїРѕСЃР»РµРґРЅРµР№ Р·Р°РїРёСЃРё РёР»Рё СЂРµР·СѓР»СЊС‚Р°С‚ РІС‹РїРѕР»РЅРµРЅРёСЏ Р·Р°РїСЂРѕСЃР°
      */
     public function execute($parameters = null)
     {
@@ -94,9 +94,9 @@ class mzzPdoStatement extends PDOStatement
     }
 
     /**
-     * Установка соответствия mzzPdo для конкретного mzzPdoStatement
+     * РЈСЃС‚Р°РЅРѕРІРєР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ mzzPdo РґР»СЏ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ mzzPdoStatement
      *
-     * @param mzzPdo $db экземпляр драйвера соединения с базой
+     * @param mzzPdo $db СЌРєР·РµРјРїР»СЏСЂ РґСЂР°Р№РІРµСЂР° СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ Р±Р°Р·РѕР№
      * @return void
      */
     public function setDbConnection(mzzPdo $db)

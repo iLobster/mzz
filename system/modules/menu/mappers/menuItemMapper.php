@@ -15,7 +15,7 @@
 fileLoader::load('menu/menuItem');
 
 /**
- * itemMapper: ìàïïåð
+ * itemMapper: Ð¼Ð°Ð¿Ð¿ÐµÑ€
  *
  * @package modules
  * @subpackage menu
@@ -25,14 +25,14 @@ fileLoader::load('menu/menuItem');
 class menuItemMapper extends simpleCatalogueMapper
 {
     /**
-     * Èìÿ ìîäóëÿ
+     * Ð˜Ð¼Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      *
      * @var string
      */
     protected $name = 'menu';
 
     /**
-     * Èìÿ êëàññà DataObject
+     * Ð˜Ð¼Ñ ÐºÐ»Ð°ÑÑÐ° DataObject
      *
      * @var string
      */
@@ -135,7 +135,7 @@ class menuItemMapper extends simpleCatalogueMapper
     1 => array(
     'id' => 1,
     'name' => 'simple',
-    'title' => 'Ïðîñòîé'
+    'title' => 'ÐŸÑ€Ð¾ÑÑ‚Ð¾Ð¹'
     ),
     2 => array(
     'id' => 2,

@@ -15,7 +15,7 @@
 */
 
 /**
- * DB: класс, обеспечивающий доступ к драйверам баз данных
+ * DB: РєР»Р°СЃСЃ, РѕР±РµСЃРїРµС‡РёРІР°СЋС‰РёР№ РґРѕСЃС‚СѓРї Рє РґСЂР°Р№РІРµСЂР°Рј Р±Р°Р· РґР°РЅРЅС‹С…
  *
  * @package system
  * @subpackage db
@@ -31,7 +31,7 @@ class DB
     /**
      * The factory method
      *
-     * @param string $alias ключ массива [systemConfig::$dbMulti] с данными о доп. соединении
+     * @param string $alias РєР»СЋС‡ РјР°СЃСЃРёРІР° [systemConfig::$dbMulti] СЃ РґР°РЅРЅС‹РјРё Рѕ РґРѕРї. СЃРѕРµРґРёРЅРµРЅРёРё
      *
      * @return object
      */

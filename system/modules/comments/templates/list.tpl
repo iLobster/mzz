@@ -1,5 +1,5 @@
 {add file='comment.css'}
-<div class="commentsTitle">Êîììåíòàðèè ({$comments|@count}) {$folder->getJip()}</div>
+<div class="commentsTitle">ÐšÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¸ ({$comments|@count}) {$folder->getJip()}</div>
 {foreach from=$comments item=comment}
     <div class="commentTitle">{$comment->getAuthor()->getLogin()} {$comment->getTime()|date_format:"%e %B %Y / %H:%M"} {$comment->getJip()}</div>
     <div class="commentText">{$comment->getText()|htmlspecialchars|nl2br}</div>

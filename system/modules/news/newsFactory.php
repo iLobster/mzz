@@ -13,7 +13,7 @@
  */
 
 /**
- * NewsFactory: фабрика для получения контроллеров новостей
+ * NewsFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ РЅРѕРІРѕСЃС‚РµР№
  *
  * @package modules
  * @subpackage news
@@ -22,7 +22,7 @@
 class newsFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

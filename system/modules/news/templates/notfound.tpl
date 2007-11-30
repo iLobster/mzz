@@ -1,6 +1,6 @@
 <table border="0" cellpadding="0" cellspacing="1" width="100%">
     <tr>
-        <td colspan="4">Новость или папка не найдена</td>
+        <td colspan="4">РќРѕРІРѕСЃС‚СЊ РёР»Рё РїР°РїРєР° РЅРµ РЅР°Р№РґРµРЅР°</td>
     </tr>
     <tr>
         <td colspan="4"><a href="{url route="default2" section="news" action="list"}"><img src="{$SITE_PATH}/templates/images/back.gif" width="16" height="16" /></a></td>

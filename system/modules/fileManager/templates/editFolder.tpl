@@ -1,30 +1,30 @@
 {if $isEdit}
-    <div class="jipTitle">Редактирование каталога</div>
+    <div class="jipTitle">Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РєР°С‚Р°Р»РѕРіР°</div>
 {else}
-    <div class="jipTitle">Создание каталога</div>
+    <div class="jipTitle">РЎРѕР·РґР°РЅРёРµ РєР°С‚Р°Р»РѕРіР°</div>
 {/if}
 
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td style='width: 30%;'>{form->caption name="name" value="Идентификатор" onError="style=color: red;"}</td>
+            <td style='width: 30%;'>{form->caption name="name" value="РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ" onError="style=color: red;"}</td>
             <td style='width: 70%;'>{form->text name="name" value=$folder->getName() size="40"}{$errors->get('name')}</td>
         </tr>
         <tr>
-            <td style='width: 30%;'>{form->caption name="title" value="Название" onError="style=color: red;"}</td>
+            <td style='width: 30%;'>{form->caption name="title" value="РќР°Р·РІР°РЅРёРµ" onError="style=color: red;"}</td>
             <td style='width: 70%;'>{form->text name="title" value=$folder->getTitle() size="40"}{$errors->get('title')}</td>
         </tr>
         <tr>
-            <td style='width: 30%;'>{form->caption name="filesize" value="Максимальный размер файла (в Мб)" onError="style=color: red;"}</td>
+            <td style='width: 30%;'>{form->caption name="filesize" value="РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ С„Р°Р№Р»Р° (РІ РњР±)" onError="style=color: red;"}</td>
             <td style='width: 70%;'>{form->text name="filesize" value=$folder->getFilesize() size="40"}{$errors->get('filesize')}</td>
         </tr>
         <tr>
-            <td style='width: 30%;'>{form->caption name="exts" value='Разрешённые расширения:<br /><span style="font-size: 90%; color: #777;">(разделённые знаком ";")</span>' onError="style=color: red;"}</td>
+            <td style='width: 30%;'>{form->caption name="exts" value='Р Р°Р·СЂРµС€С‘РЅРЅС‹Рµ СЂР°СЃС€РёСЂРµРЅРёСЏ:<br /><span style="font-size: 90%; color: #777;">(СЂР°Р·РґРµР»С‘РЅРЅС‹Рµ Р·РЅР°РєРѕРј ";")</span>' onError="style=color: red;"}</td>
             <td style='width: 70%;'>{form->text name="exts" value=$folder->getExts() size="40"}{$errors->get('exts')}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td>{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="РЎРѕС…СЂР°РЅРёС‚СЊ"} {form->reset jip=true name="reset" value="РћС‚РјРµРЅР°"}</td>
         </tr>
     </table>
 </form>

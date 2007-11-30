@@ -13,7 +13,7 @@
 */
 
 /**
- * adminDevToolbarController: контроллер для метода devToolbar модуля admin
+ * adminDevToolbarController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° devToolbar РјРѕРґСѓР»СЏ admin
  *
  * @package modules
  * @subpackage admin

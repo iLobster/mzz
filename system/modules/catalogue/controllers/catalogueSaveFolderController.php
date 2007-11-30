@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * catalogueSaveFolderController: êîíòðîëëåð äëÿ ìåòîäà saveFolder ìîäóëÿ catalogue
+ * catalogueSaveFolderController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° saveFolder Ð¼Ð¾Ð´ÑƒÐ»Ñ catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -46,9 +46,9 @@ class catalogueSaveFolderController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Íåîáõîäèìî íàçâàòü ïàïêó');
-        $validator->add('regex', 'name', 'Òîëüêî àëôàâèòíî-öèôðîâûå ñèìâîëû', '/[^\W\d][\w\d_]*/');
-        $validator->add('callback', 'name', 'Óíèêàëüíîå èìÿ â ïðåäåëàõ êàòàëîãà', array('checkCatalogueFolderName', $path, $catalogueFolderMapper, $isEdit));
+        $validator->add('required', 'name', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð½Ð°Ð·Ð²Ð°Ñ‚ÑŒ Ð¿Ð°Ð¿ÐºÑƒ');
+        $validator->add('regex', 'name', 'Ð¢Ð¾Ð»ÑŒÐºÐ¾ Ð°Ð»Ñ„Ð°Ð²Ð¸Ñ‚Ð½Ð¾-Ñ†Ð¸Ñ„Ñ€Ð¾Ð²Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹', '/[^\W\d][\w\d_]*/');
+        $validator->add('callback', 'name', 'Ð£Ð½Ð¸ÐºÐ°Ð»ÑŒÐ½Ð¾Ðµ Ð¸Ð¼Ñ Ð² Ð¿Ñ€ÐµÐ´ÐµÐ»Ð°Ñ… ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð°', array('checkCatalogueFolderName', $path, $catalogueFolderMapper, $isEdit));
 
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);

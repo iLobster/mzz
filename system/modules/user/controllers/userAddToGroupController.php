@@ -13,7 +13,7 @@
  */
 
 /**
- * userAddToGroupController: êîíòðîëëåð äëÿ ìåòîäà addToGroup ìîäóëÿ user
+ * userAddToGroupController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° addToGroup Ð¼Ð¾Ð´ÑƒÐ»Ñ user
  *
  * @package modules
  * @subpackage user
@@ -30,7 +30,7 @@ class userAddToGroupController extends simpleController
         $groupMapper = $this->toolkit->getMapper('user', 'group');
         $group = $groupMapper->searchById($id);
 
-        // ïðîâåðÿåì ÷òî íàéäåíà íóæíàÿ ãðóïïà
+        // Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‡Ñ‚Ð¾ Ð½Ð°Ð¹Ð´ÐµÐ½Ð° Ð½ÑƒÐ¶Ð½Ð°Ñ Ð³Ñ€ÑƒÐ¿Ð¿Ð°
         if (is_null($group)) {
             return $groupMapper->get404()->run();
         }
@@ -73,11 +73,11 @@ class userAddToGroupController extends simpleController
                 $criteria->addJoin($userGroupMapper->getTable(), $criterion, 'r');
                 $criteria->add('login', '%' . $filter . '%', criteria::LIKE)->add('r.id', null, criteria::IS_NULL);
 
-                // @todo: âåðîÿòíî ýòîò ëèìèò íóæíî ïåðåíåñòè â êîíôèã?
+                // @todo: Ð²ÐµÑ€Ð¾ÑÑ‚Ð½Ð¾ ÑÑ‚Ð¾Ñ‚ Ð»Ð¸Ð¼Ð¸Ñ‚ Ð½ÑƒÐ¶Ð½Ð¾ Ð¿ÐµÑ€ÐµÐ½ÐµÑÑ‚Ð¸ Ð² ÐºÐ¾Ð½Ñ„Ð¸Ð³?
                 $limit = 25;
                 $criteria->setLimit($limit + 1);
 
-                // âûáèðàåì âñåõ ïîëüçîâàòåëåé, êîòîðûå åù¸ íå äîáàâëåíû â ýòó ãðóïïó è óäîâëåòâîðÿþò ìàñêå
+                // Ð²Ñ‹Ð±Ð¸Ñ€Ð°ÐµÐ¼ Ð²ÑÐµÑ… Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ ÐµÑ‰Ñ‘ Ð½Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ñ‹ Ð² ÑÑ‚Ñƒ Ð³Ñ€ÑƒÐ¿Ð¿Ñƒ Ð¸ ÑƒÐ´Ð¾Ð²Ð»ÐµÑ‚Ð²Ð¾Ñ€ÑÑŽÑ‚ Ð¼Ð°ÑÐºÐµ
                 $users = $userMapper->searchAllByCriteria($criteria);
 
                 if (sizeof($users) > $limit) {
@@ -95,7 +95,7 @@ class userAddToGroupController extends simpleController
             $this->smarty->assign('users', $users);
             $this->smarty->assign('group', $group);
 
-            $this->response->setTitle('Ãðóïïà -> ' . $group->getName() . ' -> äîáàâëåíèå ïîëüçîâàòåëåé');
+            $this->response->setTitle('Ð“Ñ€ÑƒÐ¿Ð¿Ð° -> ' . $group->getName() . ' -> Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹');
             return $this->smarty->fetch('user/addToGroup.tpl');
         }
     }

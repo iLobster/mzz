@@ -13,7 +13,7 @@
  */
 
 /**
- * {{$do_data.doname}}: класс для работы c данными
+ * {{$do_data.doname}}: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ c РґР°РЅРЅС‹РјРё
  *
  * @package modules
  * @subpackage {{$do_data.module}}

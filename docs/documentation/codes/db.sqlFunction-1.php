@@ -1,18 +1,18 @@
 <?php
 
-// ïðîñòûå ôóíêöèè áåç àðãóìåíòîâ:
+// Ð¿Ñ€Ð¾ÑÑ‚Ñ‹Ðµ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ð±ÐµÐ· Ð°Ñ€Ð³ÑƒÐ¼ÐµÐ½Ñ‚Ð¾Ð²:
 $sqlFunction = new sqlFunction('Unix_Timestamp');
 echo $sqlFunction->toString(); // UNIX_TIMESTAMP()
 
-// ôóíêöèè ñ íåñêîëüêèìè àðãóìåíòàìè
+// Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ñ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¸Ð¼Ð¸ Ð°Ñ€Ð³ÑƒÐ¼ÐµÐ½Ñ‚Ð°Ð¼Ð¸
 $sqlFunction = new sqlFunction('Function', array('field' => true, "value", 3));
 echo $sqlFunction->toString(); // FUNCTION(`field`, 'value', 3)
 
-// àâòîìàòè÷åñêîå äîáàâëåíèå ` äëÿ èì¸í òàáëèö è ïîëåé:
+// Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ` Ð´Ð»Ñ Ð¸Ð¼Ñ‘Ð½ Ñ‚Ð°Ð±Ð»Ð¸Ñ† Ð¸ Ð¿Ð¾Ð»ÐµÐ¹:
 $sqlFunction = new sqlFunction('Function', 'table.field', true);
 echo $sqlFunction->toString(); // FUNCTION(`table`.`field`)"
 
-// ñîñòàâëåíèå êîìïîçèöèé èç íåñêîëüêèõ ôóíêöèé
+// ÑÐ¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÐºÐ¾Ð¼Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¹ Ð¸Ð· Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¸Ñ… Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¹
 $function1 = new sqlFunction('Function_1', 'table.field', true);
 
 $function2_arguments = array('table.field' => true, 'value');

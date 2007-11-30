@@ -37,7 +37,7 @@
             <!-- right column -->
             <div id="col3">
                 <div class="sideBlock">
-                    <p class="sideBlockTitle">Опрос</p>
+                    <p class="sideBlockTitle">РћРїСЂРѕСЃ</p>
                     <div class="sideBlockContent">
                         {load module="voting" section="voting" action="viewActual" name="simple" 403handle="none"}
                     </div>

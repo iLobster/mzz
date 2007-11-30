@@ -13,7 +13,7 @@
  */
 
 /**
- * fileManagerListController: контроллер для метода list модуля fileManager
+ * fileManagerListController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° list РјРѕРґСѓР»СЏ fileManager
  *
  * @package modules
  * @subpackage fileManager

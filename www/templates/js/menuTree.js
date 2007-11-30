@@ -87,7 +87,7 @@ function buildMenuTree()
                     new Ajax.Request(SITE_PATH + '/menu/' + dragged.id.match(/treeItem-([0-9]+)$/)[1] + '/' + (droppedId && droppedId[1] || 0) + '/move', {
                         method: 'get',
                         onFailure: function(transport) {
-                            alert('Перемещение не выполнено');
+                            alert('РџРµСЂРµРјРµС‰РµРЅРёРµ РЅРµ РІС‹РїРѕР»РЅРµРЅРѕ');
                         }
                     });
 

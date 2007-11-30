@@ -33,11 +33,11 @@ class frontControllerTest extends unitTestCase
 
         try {
             $this->frontController->getTemplateName($section, $action);
-            $this->fail('Не было брошено исключение');
+            $this->fail('РќРµ Р±С‹Р»Рѕ Р±СЂРѕС€РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ');
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern('/Не найден активный шаблон/', $e->getMessage());
+            $this->assertPattern('/РќРµ РЅР°Р№РґРµРЅ Р°РєС‚РёРІРЅС‹Р№ С€Р°Р±Р»РѕРЅ/', $e->getMessage());
         } catch (Exception $e) {
-            $this->fail('Брошено не ожидаемое исключение');
+            $this->fail('Р‘СЂРѕС€РµРЅРѕ РЅРµ РѕР¶РёРґР°РµРјРѕРµ РёСЃРєР»СЋС‡РµРЅРёРµ');
         }
 
         $section = "test";
@@ -45,11 +45,11 @@ class frontControllerTest extends unitTestCase
 
         try {
             $this->frontController->getTemplateName($section, $action);
-            $this->fail('Не было брошено исключение');
+            $this->fail('РќРµ Р±С‹Р»Рѕ Р±СЂРѕС€РµРЅРѕ РёСЃРєР»СЋС‡РµРЅРёРµ');
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern('/Не найден активный шаблон/', $e->getMessage());
+            $this->assertPattern('/РќРµ РЅР°Р№РґРµРЅ Р°РєС‚РёРІРЅС‹Р№ С€Р°Р±Р»РѕРЅ/', $e->getMessage());
         } catch (Exception $e) {
-            $this->fail('Брошено не ожидаемое исключение');
+            $this->fail('Р‘СЂРѕС€РµРЅРѕ РЅРµ РѕР¶РёРґР°РµРјРѕРµ РёСЃРєР»СЋС‡РµРЅРёРµ');
         }
     }
 

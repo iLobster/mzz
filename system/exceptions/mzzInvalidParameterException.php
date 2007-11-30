@@ -25,7 +25,7 @@ class mzzInvalidParameterException extends mzzException
 {
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param string $message
      * @param mixed $param

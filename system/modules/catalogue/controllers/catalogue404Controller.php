@@ -13,7 +13,7 @@
  */
 
 /**
- * catalogue404Controller: контроллер для метода 404 модуля catalogue
+ * catalogue404Controller: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° 404 РјРѕРґСѓР»СЏ catalogue
  *
  * @package modules
  * @subpackage catalogue

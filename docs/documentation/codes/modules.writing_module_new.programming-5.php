@@ -4,22 +4,22 @@ class messageSendController extends simpleController
 {
     public function getView()
     {
-        // получаем текущего пользователя
+        // РїРѕР»СѓС‡Р°РµРј С‚РµРєСѓС‰РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         $me = $this->toolkit->getUser();
 
-        // из запроса - получаем имя получателя
+        // РёР· Р·Р°РїСЂРѕСЃР° - РїРѕР»СѓС‡Р°РµРј РёРјСЏ РїРѕР»СѓС‡Р°С‚РµР»СЏ
         $recipient = $this->request->get('name', 'string');
 
-        // ищем получателя
+        // РёС‰РµРј РїРѕР»СѓС‡Р°С‚РµР»СЏ
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $recipient_user = $userMapper->searchByLogin($recipient);
-        // если получатель был указан в УРЛе, но такого пользователя не существует - показываем ошибку
+        // РµСЃР»Рё РїРѕР»СѓС‡Р°С‚РµР»СЊ Р±С‹Р» СѓРєР°Р·Р°РЅ РІ РЈР Р›Рµ, РЅРѕ С‚Р°РєРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ - РїРѕРєР°Р·С‹РІР°РµРј РѕС€РёР±РєСѓ
         if ($recipient && !$recipient_user) {
-            $controller = new messageController('Получателя не существует', messageController::WARNING);
+            $controller = new messageController('РџРѕР»СѓС‡Р°С‚РµР»СЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚', messageController::WARNING);
             return $controller->run();
         }
 
-        // ищем пользователей, которым можно отправить сообщение (все, кроме текущего пользователя и гостя)
+        // РёС‰РµРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, РєРѕС‚РѕСЂС‹Рј РјРѕР¶РЅРѕ РѕС‚РїСЂР°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ (РІСЃРµ, РєСЂРѕРјРµ С‚РµРєСѓС‰РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Рё РіРѕСЃС‚СЏ)
         $criteria = new criteria();
         $criteria->add('id', MZZ_USER_GUEST_ID, criteria::NOT_EQUAL);
         $criteria->setOrderByFieldAsc('login');
@@ -30,27 +30,27 @@ class messageSendController extends simpleController
         }
         unset($usersArray[$me->getId()]);
 
-        // составляем валидатор для формы
+        // СЃРѕСЃС‚Р°РІР»СЏРµРј РІР°Р»РёРґР°С‚РѕСЂ РґР»СЏ С„РѕСЂРјС‹
         $validator = new formValidator();
-        $validator->add('required', 'message[title]', 'Необходимо указать тему сообщения');
-        $validator->add('required', 'message[text]', 'Необходимо указать текст сообщения');
-        $validator->add('required', 'message[recipient]', 'Необходимо указать получателя сообщения');
-        $validator->add('callback', 'message[recipient]', 'Пользователь не найден', array('checkRecipient', $usersArray));
+        $validator->add('required', 'message[title]', 'РќРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ С‚РµРјСѓ СЃРѕРѕР±С‰РµРЅРёСЏ');
+        $validator->add('required', 'message[text]', 'РќРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ С‚РµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ');
+        $validator->add('required', 'message[recipient]', 'РќРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ РїРѕР»СѓС‡Р°С‚РµР»СЏ СЃРѕРѕР±С‰РµРЅРёСЏ');
+        $validator->add('callback', 'message[recipient]', 'РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ', array('checkRecipient', $usersArray));
 
-        // валидируем форму
+        // РІР°Р»РёРґРёСЂСѓРµРј С„РѕСЂРјСѓ
         if ($validator->validate()) {
-            // получаем данные сообщения
+            // РїРѕР»СѓС‡Р°РµРј РґР°РЅРЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ
             $msg = $this->request->get('message', 'array', SC_POST);
 
-            // получаем необходимые мапперы
+            // РїРѕР»СѓС‡Р°РµРј РЅРµРѕР±С…РѕРґРёРјС‹Рµ РјР°РїРїРµСЂС‹
             $messageMapper = $this->toolkit->getMapper('message', 'message');
             $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');
 
-            // ищем категории сообщений для отправленного и входящего сообщений
+            // РёС‰РµРј РєР°С‚РµРіРѕСЂРёРё СЃРѕРѕР±С‰РµРЅРёР№ РґР»СЏ РѕС‚РїСЂР°РІР»РµРЅРЅРѕРіРѕ Рё РІС…РѕРґСЏС‰РµРіРѕ СЃРѕРѕР±С‰РµРЅРёР№
             $incoming = $messageCategoryMapper->searchOneByField('name', 'incoming');
             $sent = $messageCategoryMapper->searchOneByField('name', 'sent');
 
-            // составляем сообщение, которое будет отправлено пользователю
+            // СЃРѕСЃС‚Р°РІР»СЏРµРј СЃРѕРѕР±С‰РµРЅРёРµ, РєРѕС‚РѕСЂРѕРµ Р±СѓРґРµС‚ РѕС‚РїСЂР°РІР»РµРЅРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ
             $message = $messageMapper->create();
             $message->setTitle($msg['title']);
             $message->setText($msg['text']);
@@ -59,7 +59,7 @@ class messageSendController extends simpleController
             $message->setWatched(0);
             $message->setCategory($incoming);
 
-            // делаем копию, помещаем её в "отправленные"
+            // РґРµР»Р°РµРј РєРѕРїРёСЋ, РїРѕРјРµС‰Р°РµРј РµС‘ РІ "РѕС‚РїСЂР°РІР»РµРЅРЅС‹Рµ"
             $messageSent = $messageMapper->create();
             $messageSent->setTitle($msg['title']);
             $messageSent->setText($msg['text']);
@@ -68,27 +68,27 @@ class messageSendController extends simpleController
             $messageSent->setWatched(1);
             $messageSent->setCategory($sent);
 
-            // сохраняем оба сообщения
+            // СЃРѕС…СЂР°РЅСЏРµРј РѕР±Р° СЃРѕРѕР±С‰РµРЅРёСЏ
             $messageMapper->save($message);
             $messageMapper->save($messageSent);
 
-            // закрываем jip-окно
+            // Р·Р°РєСЂС‹РІР°РµРј jip-РѕРєРЅРѕ
             return jipTools::redirect();
         }
 
-        // генерируем урл
+        // РіРµРЅРµСЂРёСЂСѓРµРј СѓСЂР»
         if ($recipient) {
-            // если пользователь был указан, то урл будет вида: site/message/USERNAME/send
+            // РµСЃР»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р±С‹Р» СѓРєР°Р·Р°РЅ, С‚Рѕ СѓСЂР» Р±СѓРґРµС‚ РІРёРґР°: site/message/USERNAME/send
             $url = new url('withAnyParam');
             $url->add('name', $recipient);
         } else {
-            // иначе: site/message/send
+            // РёРЅР°С‡Рµ: site/message/send
             $url = new url('default2');
         }
         $url->setSection('message');
         $url->setAction('send');
 
-        // передаём в шаблон данные
+        // РїРµСЂРµРґР°С‘Рј РІ С€Р°Р±Р»РѕРЅ РґР°РЅРЅС‹Рµ
         $this->smarty->assign('recipient', $recipient_user->getId());
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
@@ -97,7 +97,7 @@ class messageSendController extends simpleController
     }
 }
 
-// функция-валидатор, проверяющая что выбранный пользователь может являться получателем сообщения
+// С„СѓРЅРєС†РёСЏ-РІР°Р»РёРґР°С‚РѕСЂ, РїСЂРѕРІРµСЂСЏСЋС‰Р°СЏ С‡С‚Рѕ РІС‹Р±СЂР°РЅРЅС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РјРѕР¶РµС‚ СЏРІР»СЏС‚СЊСЃСЏ РїРѕР»СѓС‡Р°С‚РµР»РµРј СЃРѕРѕР±С‰РµРЅРёСЏ
 function checkRecipient($user_id, $users)
 {
     return isset($users[$user_id]);

@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * catalogueMoveFolderController: контроллер для метода moveFolder модуля catalogue
+ * catalogueMoveFolderController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° moveFolder РјРѕРґСѓР»СЏ catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -32,22 +32,22 @@ class catalogueMoveFolderController extends simpleController
 
         $folder = $folderMapper->searchByPath($path);
         if (!$folder) {
-            $controller = new messageController('Каталог не найден');
+            $controller = new messageController('РљР°С‚Р°Р»РѕРі РЅРµ РЅР°Р№РґРµРЅ');
             return $controller->run();
         }
 
         $folders = $folderMapper->getTreeExceptNode($folder);
         if (sizeof($folders) <= 1) {
-            $controller = new messageController('Невозможно перемещать данный каталог');
+            $controller = new messageController('РќРµРІРѕР·РјРѕР¶РЅРѕ РїРµСЂРµРјРµС‰Р°С‚СЊ РґР°РЅРЅС‹Р№ РєР°С‚Р°Р»РѕРі');
             return $controller->run();
         }
 
         $validator = new formValidator();
 
-        $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestCatalogueFolderExists', $folderMapper));
-        $validator->add('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array('checkUniqueCatalogueFolderName', $folderMapper, $folder));
-        $validator->add('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array('checkDestCatalogueFolderIsNotChildren', $folders));
+        $validator->add('required', 'dest', 'РћР±СЏР·Р°С‚РµР»СЊРЅРѕРµ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ РїРѕР»Рµ');
+        $validator->add('callback', 'dest', 'РљР°С‚Р°Р»РѕРі РЅР°Р·РЅР°С‡РµРЅРёСЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚', array('checkDestCatalogueFolderExists', $folderMapper));
+        $validator->add('callback', 'dest', 'Р’ РєР°С‚Р°Р»РѕРіРµ РЅР°Р·РЅР°С‡РµРЅРёСЏ СѓР¶Рµ РµСЃС‚СЊ РєР°С‚Р°Р»РѕРі СЃ С‚Р°РєРёРј РёРјРµРЅРµРј', array('checkUniqueCatalogueFolderName', $folderMapper, $folder));
+        $validator->add('callback', 'dest', 'РќРµР»СЊР·СЏ РїРµСЂРµРЅРµСЃС‚Рё РєР°С‚Р°Р»РѕРі РІРѕ РІР»РѕР¶РµРЅРЅС‹Рµ РєР°С‚Р°Р»РѕРіРё', array('checkDestCatalogueFolderIsNotChildren', $folders));
 
         $errors = $validator->getErrors();
 
@@ -57,7 +57,7 @@ class catalogueMoveFolderController extends simpleController
             if ($result) {
                 return jipTools::redirect();
             }
-            $errors->set('dest', 'Невозможно осуществить требуемое перемещение');
+            $errors->set('dest', 'РќРµРІРѕР·РјРѕР¶РЅРѕ РѕСЃСѓС‰РµСЃС‚РІРёС‚СЊ С‚СЂРµР±СѓРµРјРѕРµ РїРµСЂРµРјРµС‰РµРЅРёРµ');
         }
 
         $url = new url('withAnyParam');

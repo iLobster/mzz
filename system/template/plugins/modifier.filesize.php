@@ -13,15 +13,15 @@
  */
 
 /**
- * smarty_modifier_filesize: конвертируем байты в необходимые единицы измерения:
- * байты, килобайты, мегабайты, гигабайты, терабайты, петабайты
+ * smarty_modifier_filesize: РєРѕРЅРІРµСЂС‚РёСЂСѓРµРј Р±Р°Р№С‚С‹ РІ РЅРµРѕР±С…РѕРґРёРјС‹Рµ РµРґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ:
+ * Р±Р°Р№С‚С‹, РєРёР»РѕР±Р°Р№С‚С‹, РјРµРіР°Р±Р°Р№С‚С‹, РіРёРіР°Р±Р°Р№С‚С‹, С‚РµСЂР°Р±Р°Р№С‚С‹, РїРµС‚Р°Р±Р°Р№С‚С‹
  *
- * Примеры использования:<br />
+ * РџСЂРёРјРµСЂС‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ:<br />
  * <code>
  * {$size|filesize}
  * </code>
  *
- * @param integer $bytes размер в байтах
+ * @param integer $bytes СЂР°Р·РјРµСЂ РІ Р±Р°Р№С‚Р°С…
  * @return string
  * @package system
  * @subpackage template
@@ -30,7 +30,7 @@
 function smarty_modifier_filesize($bytes)
 {
     $bytes = max(0, (int) $bytes);
-    $units = array('б', 'Кб', 'Мб', 'Гб', 'Тб', 'Пб');
+    $units = array('Р±', 'РљР±', 'РњР±', 'Р“Р±', 'РўР±', 'РџР±');
     $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
     return round($bytes / pow(1024, $power),2) . ' ' .$units[$power];
 }

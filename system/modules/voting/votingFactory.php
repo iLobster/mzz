@@ -13,7 +13,7 @@
  */
 
 /**
- * votingFactory: фабрика для получения контроллеров voting
+ * votingFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ voting
  *
  * @package modules
  * @subpackage voting
@@ -23,7 +23,7 @@
 class votingFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

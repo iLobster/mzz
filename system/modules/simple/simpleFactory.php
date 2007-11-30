@@ -13,7 +13,7 @@
  */
 
 /**
- * simpleFactory: фабрика
+ * simpleFactory: С„Р°Р±СЂРёРєР°
  *
  * @package modules
  * @subpackage simple
@@ -29,7 +29,7 @@ abstract class simpleFactory
     protected $action;
 
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
@@ -46,7 +46,7 @@ abstract class simpleFactory
     }
 
     /**
-     * Загрузка и создание необходимого контроллера
+     * Р—Р°РіСЂСѓР·РєР° Рё СЃРѕР·РґР°РЅРёРµ РЅРµРѕР±С…РѕРґРёРјРѕРіРѕ РєРѕРЅС‚СЂРѕР»Р»РµСЂР°
      *
      * @return object
      */

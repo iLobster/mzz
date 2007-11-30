@@ -1,8 +1,8 @@
-{include file='jipTitle.tpl' title='Права доступа'}
+{include file='jipTitle.tpl' title='РџСЂР°РІР° РґРѕСЃС‚СѓРїР°'}
 
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
     <tr>
-        <th colspan="3">Пользователи{if $usersExists} (<a href="{url route=withId section=access id=$id action=addUser}" class="jipLink">добавить</a>){/if}</th>
+        <th colspan="3">РџРѕР»СЊР·РѕРІР°С‚РµР»Рё{if $usersExists} (<a href="{url route=withId section=access id=$id action=addUser}" class="jipLink">РґРѕР±Р°РІРёС‚СЊ</a>){/if}</th>
     </tr>
 
     {foreach from=$users item=user}
@@ -15,7 +15,7 @@
     {/foreach}
 
     <tr>
-        <th colspan="3">Группы{if $groupsExists} (<a href="{url route=withId section=access id=$id action=addGroup}" class="jipLink">добавить</a>){/if}</th>
+        <th colspan="3">Р“СЂСѓРїРїС‹{if $groupsExists} (<a href="{url route=withId section=access id=$id action=addGroup}" class="jipLink">РґРѕР±Р°РІРёС‚СЊ</a>){/if}</th>
     </tr>
 
     {foreach from=$groups item=group}

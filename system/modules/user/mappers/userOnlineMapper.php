@@ -15,7 +15,7 @@
 fileLoader::load('user/userOnline');
 
 /**
- * userOnlineMapper: маппер
+ * userOnlineMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage user
@@ -25,14 +25,14 @@ fileLoader::load('user/userOnline');
 class userOnlineMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'user';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
@@ -41,7 +41,7 @@ class userOnlineMapper extends simpleMapper
     protected $obj_id_field = null;
 
     /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РѕР±РЅРѕРІР»РµРЅРёРµРј РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -51,7 +51,7 @@ class userOnlineMapper extends simpleMapper
     }
 
     /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
+     * Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ РјР°СЃСЃРёРІРѕРј $fields РїРµСЂРµРґ РІСЃС‚Р°РІРєРѕР№ РІ Р‘Р”
      *
      * @param array $fields
      */
@@ -61,8 +61,8 @@ class userOnlineMapper extends simpleMapper
     }
 
     /**
-     * Обновление информации о пользователях онлайн
-     * Запускается лишь один раз
+     * РћР±РЅРѕРІР»РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏС… РѕРЅР»Р°Р№РЅ
+     * Р—Р°РїСѓСЃРєР°РµС‚СЃСЏ Р»РёС€СЊ РѕРґРёРЅ СЂР°Р·
      *
      * @param user $me
      */
@@ -89,8 +89,8 @@ class userOnlineMapper extends simpleMapper
             $exists->setUrl($request->getRequestUrl());
             $this->save($exists);
 
-            // удаляем по таймауту, а также пользователей, с такой же сессией но другим user_id (при смене логина)
-            // @todo: таймаут переносить в конфиг
+            // СѓРґР°Р»СЏРµРј РїРѕ С‚Р°Р№РјР°СѓС‚Сѓ, Р° С‚Р°РєР¶Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, СЃ С‚Р°РєРѕР№ Р¶Рµ СЃРµСЃСЃРёРµР№ РЅРѕ РґСЂСѓРіРёРј user_id (РїСЂРё СЃРјРµРЅРµ Р»РѕРіРёРЅР°)
+            // @todo: С‚Р°Р№РјР°СѓС‚ РїРµСЂРµРЅРѕСЃРёС‚СЊ РІ РєРѕРЅС„РёРі
             $criteria = new criteria();
             $criteria->add('last_activity', new sqlOperator('-', array(new sqlFunction('unix_timestamp'), 15 * 60)), criteria::LESS);
             $users = $this->searchAllByCriteria($criteria);
@@ -117,7 +117,7 @@ class userOnlineMapper extends simpleMapper
     }
 
     /**
-     * Удаление старой записи при смене логина
+     * РЈРґР°Р»РµРЅРёРµ СЃС‚Р°СЂРѕР№ Р·Р°РїРёСЃРё РїСЂРё СЃРјРµРЅРµ Р»РѕРіРёРЅР°
      *
      * @param user $me
      * @param session $session
@@ -137,7 +137,7 @@ class userOnlineMapper extends simpleMapper
     }
 
     /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РґР»СЏ Р”Рћ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёСЃС…РѕРґСЏ РёР· Р°СЂРіСѓРјРµРЅС‚РѕРІ Р·Р°РїСЂРѕСЃР°
      *
      * @return integer
      */

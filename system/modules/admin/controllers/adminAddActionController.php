@@ -16,7 +16,7 @@ fileLoader::load('codegenerator/actionGenerator');
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * adminAddActionController: êîíòðîëëåð äëÿ ìåòîäà addAction ìîäóëÿ admin
+ * adminAddActionController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° addAction Ð¼Ð¾Ð´ÑƒÐ»Ñ admin
  *
  * @package modules
  * @subpackage admin
@@ -36,7 +36,7 @@ class adminAddActionController extends simpleController
 
         $data = $db->getRow('SELECT `c`.`id` AS `c_id`, `m`.`id` AS `m_id`, `c`.`name` AS `c_name`, `m`.`name` AS `m_name` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);
         if ($data === false) {
-            $controller = new messageController('Êëàññà íå ñóùåñòâóåò', messageController::WARNING);
+            $controller = new messageController('ÐšÐ»Ð°ÑÑÐ° Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚', messageController::WARNING);
             return $controller->run();
         }
 
@@ -44,15 +44,15 @@ class adminAddActionController extends simpleController
         $info = $act->getActions();
 
         if ($action == 'editAction' && !isset($info[$data['c_name']][$action_name])) {
-            $controller = new messageController('Ó âûáðàííîãî êëàññà íåò çàïðàøèâàåìîãî ýêøíà', messageController::WARNING);
+            $controller = new messageController('Ð£ Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð³Ð¾ ÐºÐ»Ð°ÑÑÐ° Ð½ÐµÑ‚ Ð·Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÐ¼Ð¾Ð³Ð¾ ÑÐºÑˆÐ½Ð°', messageController::WARNING);
             return $controller->run();
         }
 
         $isEdit = $action == 'editAction';
 
         $actionsInfo = $info[$data['c_name']];
-        //@todo ïðåäëàãàþ ýòîò êîä òàêæå âûíåñòè â îòäåëüíûé êëàññ êàê ýòî ðàíüøå áûëî ñ QF
-        // ÍÀ×ÀËÎ ÂÀËÈÄÀÒÎÐÀ
+        //@todo Ð¿Ñ€ÐµÐ´Ð»Ð°Ð³Ð°ÑŽ ÑÑ‚Ð¾Ñ‚ ÐºÐ¾Ð´ Ñ‚Ð°ÐºÐ¶Ðµ Ð²Ñ‹Ð½ÐµÑÑ‚Ð¸ Ð² Ð¾Ñ‚Ð´ÐµÐ»ÑŒÐ½Ñ‹Ð¹ ÐºÐ»Ð°ÑÑ ÐºÐ°Ðº ÑÑ‚Ð¾ Ñ€Ð°Ð½ÑŒÑˆÐµ Ð±Ñ‹Ð»Ð¾ Ñ QF
+        // ÐÐÐ§ÐÐ›Ðž Ð’ÐÐ›Ð˜Ð”ÐÐ¢ÐžÐ Ð
         $url = new url('withId');
         $url->setAction($action);
         $url->add('id', $data['c_id']);
@@ -97,10 +97,10 @@ class adminAddActionController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'action[name]', 'Ïîëå îáÿçàòåëüíî ê çàïîëíåíèþ');
-        $validator->add('callback', 'action[name]', 'Òàêîå äåéñòâèå ó êëàññà óæå åñòü èëè ââåä¸ííîå âàìè èìÿ ñîäåðæèò çàïðåù¸ííûå ñèìâîëû', array('addClassValidate', $db, $action_name, $data));
+        $validator->add('required', 'action[name]', 'ÐŸÐ¾Ð»Ðµ Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ðº Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸ÑŽ');
+        $validator->add('callback', 'action[name]', 'Ð¢Ð°ÐºÐ¾Ðµ Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ Ñƒ ÐºÐ»Ð°ÑÑÐ° ÑƒÐ¶Ðµ ÐµÑÑ‚ÑŒ Ð¸Ð»Ð¸ Ð²Ð²ÐµÐ´Ñ‘Ð½Ð½Ð¾Ðµ Ð²Ð°Ð¼Ð¸ Ð¸Ð¼Ñ ÑÐ¾Ð´ÐµÑ€Ð¶Ð¸Ñ‚ Ð·Ð°Ð¿Ñ€ÐµÑ‰Ñ‘Ð½Ð½Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹', array('addClassValidate', $db, $action_name, $data));
 
-        // ÊÎÍÅÖ ÂÀËÈÄÀÒÎÐÀ
+        // ÐšÐžÐÐ•Ð¦ Ð’ÐÐ›Ð˜Ð”ÐÐ¢ÐžÐ Ð
 
         if ($validator->validate()) {
             $values = $this->request->get('action', 'array', SC_POST);

@@ -13,7 +13,7 @@
  */
 
 /**
- * formRangeRule: âàëèäàòîð ïðîâåðêè âõîæäåíèÿ ÷èñëà â äèàïàçîí
+ * formRangeRule: Ð²Ð°Ð»Ð¸Ð´Ð°Ñ‚Ð¾Ñ€ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ¸ Ð²Ñ…Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ Ñ‡Ð¸ÑÐ»Ð° Ð² Ð´Ð¸Ð°Ð¿Ð°Ð·Ð¾Ð½
  *
  * @package system
  * @subpackage forms
@@ -24,7 +24,7 @@ class formRangeRule extends formAbstractRule
     public function validate()
     {
         if (!is_array($this->params)|| !array_key_exists(0, $this->params) || !array_key_exists(1, $this->params) || (is_null($this->params[0]) && is_null($this->params[1]))) {
-            throw new mzzRuntimeException('Â ìàññèâå íóæíî óêàçàòü 2 ïàðàìåòðà, îáîçíà÷àþùèõ íà÷àëî è êîíåö èíòåðâàëà');
+            throw new mzzRuntimeException('Ð’ Ð¼Ð°ÑÑÐ¸Ð²Ðµ Ð½ÑƒÐ¶Ð½Ð¾ ÑƒÐºÐ°Ð·Ð°Ñ‚ÑŒ 2 Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð°, Ð¾Ð±Ð¾Ð·Ð½Ð°Ñ‡Ð°ÑŽÑ‰Ð¸Ñ… Ð½Ð°Ñ‡Ð°Ð»Ð¾ Ð¸ ÐºÐ¾Ð½ÐµÑ† Ð¸Ð½Ñ‚ÐµÑ€Ð²Ð°Ð»Ð°');
         }
 
         if (is_null($this->value) || $this->value === '') {

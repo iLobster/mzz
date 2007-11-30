@@ -13,7 +13,7 @@
 */
 
 /**
- * accessEditUserController: êîíòðîëëåð äëÿ ìåòîäà editUser ìîäóëÿ access
+ * accessEditUserController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° editUser Ð¼Ð¾Ð´ÑƒÐ»Ñ access
  *
  * @package modules
  * @subpackage access
@@ -76,8 +76,8 @@ class accessEditUserController extends simpleController
         $this->smarty->assign('users', $users);
         $this->smarty->assign('actions', $actions);
 
-        $title = $this->request->getAction() == 'editUser' ? $user->getLogin() : 'äîáàâèòü ïîëüçîâàòåëÿ';
-        $this->response->setTitle('ACL -> îáúåêò ... -> ' . $title);
+        $title = $this->request->getAction() == 'editUser' ? $user->getLogin() : 'Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ';
+        $this->response->setTitle('ACL -> Ð¾Ð±ÑŠÐµÐºÑ‚ ... -> ' . $title);
 
         return $this->smarty->fetch('access/editUser.tpl');
     }

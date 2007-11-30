@@ -1,3 +1,3 @@
 <?php
-        $resolver->resolve('news'); // âåðí¸ò system/modules/news/news.php
+        $resolver->resolve('news'); // Ð²ÐµÑ€Ð½Ñ‘Ñ‚ system/modules/news/news.php
 ?>

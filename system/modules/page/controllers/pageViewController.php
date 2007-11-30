@@ -13,7 +13,7 @@
  */
 
 /**
- * pageViewController: êîíòðîëëåð äëÿ ìåòîäà view ìîäóëÿ page
+ * pageViewController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° view Ð¼Ð¾Ð´ÑƒÐ»Ñ page
  *
  * @package modules
  * @subpackage page
@@ -38,7 +38,7 @@ class pageViewController extends simpleController
         }
 
         $this->smarty->assign('page', $page);
-        $this->response->setTitle('Ñòðàíèöû -> ' . $page->getTitle());
+        $this->response->setTitle('Ð¡Ñ‚Ñ€Ð°Ð½Ð¸Ñ†Ñ‹ -> ' . $page->getTitle());
         return $this->smarty->fetch('page/view.tpl');
     }
 }

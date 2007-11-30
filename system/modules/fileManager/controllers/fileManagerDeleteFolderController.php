@@ -13,7 +13,7 @@
 */
 
 /**
- * fileManagerDeleteFolderController: контроллер для метода deleteFolder модуля fileManager
+ * fileManagerDeleteFolderController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deleteFolder РјРѕРґСѓР»СЏ fileManager
  *
  * @package modules
  * @subpackage fileManager
@@ -30,7 +30,7 @@ class fileManagerDeleteFolderController extends simpleController
         $folder = $folderMapper->searchByPath($name);
 
         if (!$folder) {
-            return 'каталог не найден';
+            return 'РєР°С‚Р°Р»РѕРі РЅРµ РЅР°Р№РґРµРЅ';
         }
 
         $folderMapper->delete($folder);

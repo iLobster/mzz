@@ -1,19 +1,19 @@
 <?php
 
-// $news        - Äîìåííûé Îáúåêò
-// $newsMapper  - åãî ìàïïåð
+// $news        - Ð”Ð¾Ð¼ÐµÐ½Ð½Ñ‹Ð¹ ÐžÐ±ÑŠÐµÐºÑ‚
+// $newsMapper  - ÐµÐ³Ð¾ Ð¼Ð°Ð¿Ð¿ÐµÑ€
 
 $news = $newsMapper->searchById(1);
 
 echo $news->getId();                    // 1
-echo $news->getTitle();                 // "Çàãîëîâîê äëÿ íîâîñòè 1"
+echo $news->getTitle();                 // "Ð—Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº Ð´Ð»Ñ Ð½Ð¾Ð²Ð¾ÑÑ‚Ð¸ 1"
 
-$news->setTitle('Íîâûé çàãîëîâîê');
+$news->setTitle('ÐÐ¾Ð²Ñ‹Ð¹ Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº');
 
-echo $news->getTitle();                 // "Çàãîëîâîê äëÿ íîâîñòè 1"
+echo $news->getTitle();                 // "Ð—Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº Ð´Ð»Ñ Ð½Ð¾Ð²Ð¾ÑÑ‚Ð¸ 1"
 
 $newsMapper->save($news);
 
-echo $news->getTitle();                 // "Íîâûé çàãîëîâîê"
+echo $news->getTitle();                 // "ÐÐ¾Ð²Ñ‹Ð¹ Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº"
 
 ?>

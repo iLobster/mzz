@@ -15,7 +15,7 @@
 */
 
 /**
- * iSessionStorage: интрефейс хранилища сессии
+ * iSessionStorage: РёРЅС‚СЂРµС„РµР№СЃ С…СЂР°РЅРёР»РёС‰Р° СЃРµСЃСЃРёРё
  *
  * @package system
  * @subpackage session
@@ -24,48 +24,48 @@
 interface iSessionStorage
 {
     /**
-     * Открытие хранилища сессий
+     * РћС‚РєСЂС‹С‚РёРµ С…СЂР°РЅРёР»РёС‰Р° СЃРµСЃСЃРёР№
      *
      * @return bool
      */
     function storageOpen();
 
     /**
-     * Закрытие хранилища сессий
+     * Р—Р°РєСЂС‹С‚РёРµ С…СЂР°РЅРёР»РёС‰Р° СЃРµСЃСЃРёР№
      *
      * @return bool
      */
     function storageClose();
 
     /**
-     * Чтение сессии из хранилища
+     * Р§С‚РµРЅРёРµ СЃРµСЃСЃРёРё РёР· С…СЂР°РЅРёР»РёС‰Р°
      *
-     * @param string $sid Идентификатор сессии
+     * @param string $sid РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРµСЃСЃРёРё
      * @return string
      */
     function storageRead($sid);
 
     /**
-     * Запись значения сессии в хранилище
+     * Р—Р°РїРёСЃСЊ Р·РЅР°С‡РµРЅРёСЏ СЃРµСЃСЃРёРё РІ С…СЂР°РЅРёР»РёС‰Рµ
      *
-     * @param string $sid   Идентификатор сессии
-     * @param string $value Значение сессии
+     * @param string $sid   РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРµСЃСЃРёРё
+     * @param string $value Р—РЅР°С‡РµРЅРёРµ СЃРµСЃСЃРёРё
      * @return string
      */
     function storageWrite($sid, $value);
 
     /**
-     * Уничтожение сессии из хранилища
+     * РЈРЅРёС‡С‚РѕР¶РµРЅРёРµ СЃРµСЃСЃРёРё РёР· С…СЂР°РЅРёР»РёС‰Р°
      *
-     * @param string $sid Идентификатор сессии
+     * @param string $sid РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРµСЃСЃРёРё
      * @return string
      */
     function storageDestroy($sid);
 
     /**
-     * Установка продолжительности жизни сессии
+     * РЈСЃС‚Р°РЅРѕРІРєР° РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚Рё Р¶РёР·РЅРё СЃРµСЃСЃРёРё
      *
-     * @param string $maxLifeTime Время жизни сессии в секундах
+     * @param string $maxLifeTime Р’СЂРµРјСЏ Р¶РёР·РЅРё СЃРµСЃСЃРёРё РІ СЃРµРєСѓРЅРґР°С…
      * @return string
      */
     function storageGc($maxLifeTime);

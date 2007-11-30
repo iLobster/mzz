@@ -1,15 +1,15 @@
 {foreach from=$galleries item="gallery"}
-<p class="pageTitle">Галерея юзера <strong>{$gallery->getOwner()->getLogin()}{$gallery->getJip()}</strong>:</p>
+<p class="pageTitle">Р“Р°Р»РµСЂРµСЏ СЋР·РµСЂР° <strong>{$gallery->getOwner()->getLogin()}{$gallery->getJip()}</strong>:</p>
 {foreach from=$gallery->getAlbums() item="album"}
-    Альбом "{$album->getName()}" ({$album->getPicsNumber()} фото){$album->getJip()}
+    РђР»СЊР±РѕРј "{$album->getName()}" ({$album->getPicsNumber()} С„РѕС‚Рѕ){$album->getJip()}
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>
                 <td style="width: 30px;"></td>
-                <td style="text-align: left;">Название</td>
-                <td style="text-align: left;">Описание</td>
-                <td style="width: 30px;">Просмотров</td>
-                <td style="width: 120px;">Уменьшенное изображение</td>
+                <td style="text-align: left;">РќР°Р·РІР°РЅРёРµ</td>
+                <td style="text-align: left;">РћРїРёСЃР°РЅРёРµ</td>
+                <td style="width: 30px;">РџСЂРѕСЃРјРѕС‚СЂРѕРІ</td>
+                <td style="width: 120px;">РЈРјРµРЅСЊС€РµРЅРЅРѕРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
         </thead>

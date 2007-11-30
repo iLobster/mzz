@@ -13,7 +13,7 @@
  */
 
 /**
- * userListController: êîíòğîëëåğ äëÿ ìåòîäà list ìîäóëÿ user
+ * userListController: ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ğ»ĞµÑ€ Ğ´Ğ»Ñ Ğ¼ĞµÑ‚Ğ¾Ğ´Ğ° list Ğ¼Ğ¾Ğ´ÑƒĞ»Ñ user
  *
  * @package modules
  * @subpackage user
@@ -31,7 +31,7 @@ class userListController extends simpleController
         $this->smarty->assign('users', $userMapper->searchAll());
         $this->smarty->assign('obj_id', $userMapper->convertArgsToObj(null)->getObjId());
 
-        $this->response->setTitle('Ïîëüçîâàòåëü -> Ñïèñîê');
+        $this->response->setTitle('ĞŸĞ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ĞµĞ»ÑŒ -> Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº');
 
         return $this->smarty->fetch('user/list.tpl');
     }

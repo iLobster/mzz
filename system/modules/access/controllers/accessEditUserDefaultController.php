@@ -13,7 +13,7 @@
 */
 
 /**
- * accessEditUserDefaultController: êîíòðîëëåð äëÿ ìåòîäà editUserDefault ìîäóëÿ access
+ * accessEditUserDefaultController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° editUserDefault Ð¼Ð¾Ð´ÑƒÐ»Ñ access
  *
  * @package modules
  * @subpackage access
@@ -79,8 +79,8 @@ class accessEditUserDefaultController extends simpleController
         $this->smarty->assign('class', $class);
         $this->smarty->assign('section', $section);
 
-        $title = $user ? $user->getLogin() : 'äîáàâèòü ïîëüçîâàòåëÿ';
-        $this->response->setTitle('ACL -> îáúåêò ... -> ïðàâà ïî óìîë÷àíèþ -> ' . $title);
+        $title = $user ? $user->getLogin() : 'Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ';
+        $this->response->setTitle('ACL -> Ð¾Ð±ÑŠÐµÐºÑ‚ ... -> Ð¿Ñ€Ð°Ð²Ð° Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ -> ' . $title);
 
         return $this->smarty->fetch('access/editUserDefault.tpl');
     }

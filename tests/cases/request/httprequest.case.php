@@ -6,7 +6,7 @@ fileLoader::load('dataspace/arrayDataspace');
 class httpRequestTest extends unitTestCase
 {
     protected $httprequest;
-    // Ñóïåðãëîáàëüíûå ïåðåìåííûå äî çàïóñêà òåñòà
+    // Ð¡ÑƒÐ¿ÐµÑ€Ð³Ð»Ð¾Ð±Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ðµ Ð´Ð¾ Ð·Ð°Ð¿ÑƒÑÐºÐ° Ñ‚ÐµÑÑ‚Ð°
     protected $SERVER = array();
     protected $GET = array();
     protected $POST = array();
@@ -24,7 +24,7 @@ class httpRequestTest extends unitTestCase
         $this->REQUEST = $_REQUEST;
 
 
-        $_GET['path'] = "/news/ðóññêèé/18/10//2005/list";
+        $_GET['path'] = "/news/Ñ€ÑƒÑÑÐºÐ¸Ð¹/18/10//2005/list";
         $_POST['_TEST_FOO'] = "post_foo";
         $_COOKIE['_TEST_BAR'] = "cookie_bar";
 
@@ -151,13 +151,13 @@ class httpRequestTest extends unitTestCase
         $_SERVER['SERVER_PORT'] = '80';
         $_SERVER['HTTP_HOST'] = 'www.mzz.ru';
         $this->httprequest->refresh();
-        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru' . SITE_PATH . '/news/%F0%F3%F1%F1%EA%E8%E9/18/10/2005/list?_TEST_INTEGER=2006');
+        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru' . SITE_PATH . '/news/%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/18/10/2005/list?_TEST_INTEGER=2006');
     }
 
 
     public function testGetPath()
     {
-        $this->assertEqual($this->httprequest->getPath(), 'news/%F0%F3%F1%F1%EA%E8%E9/18/10/2005/list');
+        $this->assertEqual($this->httprequest->getPath(), 'news/%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/18/10/2005/list');
     }
 
     public function testGetSection()

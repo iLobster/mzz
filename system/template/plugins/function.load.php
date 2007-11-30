@@ -17,16 +17,16 @@
 fileLoader::load('acl');
 
 /**
- * smarty_function_load: функция для смарти, загрузчик модулей
+ * smarty_function_load: С„СѓРЅРєС†РёСЏ РґР»СЏ СЃРјР°СЂС‚Рё, Р·Р°РіСЂСѓР·С‡РёРє РјРѕРґСѓР»РµР№
  *
- * Примеры использования:<br />
+ * РџСЂРёРјРµСЂС‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ:<br />
  * <code>
  * {load module="some_module_name" action="some_action"}
  * </code>
  *
- * @param array $params входные аргументы функции
- * @param object $smarty объект смарти
- * @return string результат работы модуля
+ * @param array $params РІС…РѕРґРЅС‹Рµ Р°СЂРіСѓРјРµРЅС‚С‹ С„СѓРЅРєС†РёРё
+ * @param object $smarty РѕР±СЉРµРєС‚ СЃРјР°СЂС‚Рё
+ * @return string СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°Р±РѕС‚С‹ РјРѕРґСѓР»СЏ
  *
  * @package system
  * @subpackage template
@@ -39,7 +39,7 @@ function smarty_function_load($params, $smarty)
         throw new mzzRuntimeException($error);
     }
 
-    // получаем необходимые для запуска модуля и аутентификации данные
+    // РїРѕР»СѓС‡Р°РµРј РЅРµРѕР±С…РѕРґРёРјС‹Рµ РґР»СЏ Р·Р°РїСѓСЃРєР° РјРѕРґСѓР»СЏ Рё Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РґР°РЅРЅС‹Рµ
     $module = $params['module'];
     unset($params['module']);
 
@@ -68,7 +68,7 @@ function smarty_function_load($params, $smarty)
 
     $access = true;
 
-    // проверяем - не отключена ли в данном запуске модуля проверка прав
+    // РїСЂРѕРІРµСЂСЏРµРј - РЅРµ РѕС‚РєР»СЋС‡РµРЅР° Р»Рё РІ РґР°РЅРЅРѕРј Р·Р°РїСѓСЃРєРµ РјРѕРґСѓР»СЏ РїСЂРѕРІРµСЂРєР° РїСЂР°РІ
     if (!isset($params['403handle']) || $params['403handle'] != 'none') {
 
         $mappername = $action->getType() . 'Mapper';
@@ -98,17 +98,17 @@ function smarty_function_load($params, $smarty)
         }
     }
 
-    // проверяем, включен ли ручной режим проверки прав
+    // РїСЂРѕРІРµСЂСЏРµРј, РІРєР»СЋС‡РµРЅ Р»Рё СЂСѓС‡РЅРѕР№ СЂРµР¶РёРј РїСЂРѕРІРµСЂРєРё РїСЂР°РІ
     if (isset($params['403handle']) && $params['403handle'] == 'manual') {
         $request->setParam('access', $access);
         $access = true;
     }
 
     if ($access) {
-        // если права на запуск модуля есть - запускаем
+        // РµСЃР»Рё РїСЂР°РІР° РЅР° Р·Р°РїСѓСЃРє РјРѕРґСѓР»СЏ РµСЃС‚СЊ - Р·Р°РїСѓСЃРєР°РµРј
         $factory = new $modulename($action);
     } else {
-        // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
+        // РµСЃР»Рё РїСЂР°РІ РЅРµС‚ - Р·Р°РїСѓСЃРєР°РµРј Р»РёР±Рѕ СЃС‚Р°РЅРґР°СЂС‚РЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ Рѕ 403 РѕС€РёР±РєРµ, Р»РёР±Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРµ
         if (!isset($params['403tpl'])) {
             fileLoader::load('simple/simple403Controller');
             $controller = new simple403Controller();
@@ -124,7 +124,7 @@ function smarty_function_load($params, $smarty)
         $controller = $factory->getController();
     }
 
-    // отдаём контент в вызывающий шаблон
+    // РѕС‚РґР°С‘Рј РєРѕРЅС‚РµРЅС‚ РІ РІС‹Р·С‹РІР°СЋС‰РёР№ С€Р°Р±Р»РѕРЅ
     $view = $controller->run();
     $request->restore();
     return $view;

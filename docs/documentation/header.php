@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
     <head>
-        <title><?php echo isset($title) ? $title : 'Документация'; ?> | MZZ.Framework</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+        <title><?php echo isset($title) ? $title : 'Р”РѕРєСѓРјРµРЅС‚Р°С†РёСЏ'; ?> | MZZ.Framework</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" type="text/css" href="basic.css" />
         <link rel="shortcut icon" href="favicon.ico" />
         <script type="text/javascript">
@@ -25,5 +25,5 @@
 <body>
 
 
-<div id="title"><a href="index.html">MZZ.Framework 0.1.x: Документация</a></div>
+<div id="title"><a href="index.html">MZZ.Framework 0.1.x: Р”РѕРєСѓРјРµРЅС‚Р°С†РёСЏ</a></div>
 <div id="content">

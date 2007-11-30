@@ -70,7 +70,7 @@ class fmImageFile extends fmSimpleFile
 
         if (!is_dir($folderName)) {
             if (!mkdir($folderName)) {
-                throw new mzzRuntimeException('Не удалось создать папку thumbnails для изображения');
+                throw new mzzRuntimeException('РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ РїР°РїРєСѓ thumbnails РґР»СЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ');
             }
         }
 

@@ -15,7 +15,7 @@
 fileLoader::load('simple/simpleForTree');
 
 /**
- * folder: êëàññ äëÿ ðàáîòû c äàííûìè
+ * folder: ÐºÐ»Ð°ÑÑ Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ c Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸
  *
  * @package modules
  * @subpackage fileManager
@@ -28,7 +28,7 @@ class folder extends simpleForTree
     protected $mapper;
 
     /**
-     * Êîíñòðóêòîð
+     * ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€
      *
      * @param object $mapper
      * @param array $map
@@ -53,7 +53,7 @@ class folder extends simpleForTree
             if (is_file($upload_name)) {
                 $info = array('name' => basename($upload_name), 'size' => filesize($upload_name), 'tmp_name' => $upload_name);
             } else {
-                throw new mzzRuntimeException('Óêàæèòå ôàéë äëÿ çàãðóçêè');
+                throw new mzzRuntimeException('Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ñ„Ð°Ð¹Ð» Ð´Ð»Ñ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸');
             }
         } else {
             $info = array('name' => $_FILES[$upload_name]['name'], 'size' => $_FILES[$upload_name]['size'], 'tmp_name' => $_FILES[$upload_name]['tmp_name']);
@@ -63,7 +63,7 @@ class folder extends simpleForTree
             $name = $info['name'];
         }
 
-        $name = preg_replace('/[^a-zà-ÿ0-9!_. \-\[\]()]/i', '', $name);
+        $name = preg_replace('/[^a-zÐ°-Ñ0-9!_. \-\[\]()]/i', '', $name);
 
         $criteria = new criteria();
         $criteria->add('folder_id', $this->getId())->add('name', $name);
@@ -91,7 +91,7 @@ class folder extends simpleForTree
         }
 
         if (!isset($name_wo_ext)) {
-            // ïîëó÷àåì èìÿ áåç ðàñøèðåíèÿ
+            // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð¸Ð¼Ñ Ð±ÐµÐ· Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸Ñ
             $name_wo_ext = $name; $ext = '';
             if ($dot = strrpos($name, '.')) {
                 $name_wo_ext = substr($name, 0, $dot);
@@ -99,7 +99,7 @@ class folder extends simpleForTree
             }
         }
         if ($file) {
-            // èùåì âñå ôàéëû êîòîðûå ïîäïàäàþò ïîä ìàñêó: filename*.ext
+            // Ð¸Ñ‰ÐµÐ¼ Ð²ÑÐµ Ñ„Ð°Ð¹Ð»Ñ‹ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð¿Ð¾Ð´Ð¿Ð°Ð´Ð°ÑŽÑ‚ Ð¿Ð¾Ð´ Ð¼Ð°ÑÐºÑƒ: filename*.ext
             $criterion = new criterion('name', $name, criteria::NOT_EQUAL);
             $criterion->addAnd(new criterion('name', $name_wo_ext . '\_%' . ($ext ? '.' . $ext : ''), criteria::LIKE));
 
@@ -108,7 +108,7 @@ class folder extends simpleForTree
             $criteria->setOrderByFieldAsc('name');
             $files = $fileMapper->searchAllByCriteria($criteria);
 
-            // èùåì ïåðâûé "ïðîáåë" â íóìåðàöèè ôàéëîâ ñ îäèíàêîâûìè èìåíàìè
+            // Ð¸Ñ‰ÐµÐ¼ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ "Ð¿Ñ€Ð¾Ð±ÐµÐ»" Ð² Ð½ÑƒÐ¼ÐµÑ€Ð°Ñ†Ð¸Ð¸ Ñ„Ð°Ð¹Ð»Ð¾Ð² Ñ Ð¾Ð´Ð¸Ð½Ð°ÐºÐ¾Ð²Ñ‹Ð¼Ð¸ Ð¸Ð¼ÐµÐ½Ð°Ð¼Ð¸
             $i = 2;
             foreach ($files as $file) {
                 if (strpos($file->getName(), $name_wo_ext . '_' . $i) !== 0) {
@@ -117,7 +117,7 @@ class folder extends simpleForTree
                 $i++;
             }
 
-            // äîáàâëÿåì ê èìåíè íàéäåííûé èíäåêñ
+            // Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ Ðº Ð¸Ð¼ÐµÐ½Ð¸ Ð½Ð°Ð¹Ð´ÐµÐ½Ð½Ñ‹Ð¹ Ð¸Ð½Ð´ÐµÐºÑ
             $name = substr_replace($name, $name_wo_ext . '_' . $i, 0, strlen($name_wo_ext));
             $file = false;
         }
@@ -125,7 +125,7 @@ class folder extends simpleForTree
         if ($filesize = $this->getFilesize()) {
             $size_in_mb = round($info['size'] / 1024 / 1024, 3);
             if ($size_in_mb > $filesize) {
-                throw new mzzRuntimeException('Îãðàíè÷åíèå íà çàãðóçêó ôàéëà: ' . $filesize . ' Ìá. Ó çàãðóæàåìîãî ôàéëà ðàçìåð: ' . $size_in_mb . ' Ìá');
+                throw new mzzRuntimeException('ÐžÐ³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ðµ Ð½Ð° Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÑƒ Ñ„Ð°Ð¹Ð»Ð°: ' . $filesize . ' ÐœÐ±. Ð£ Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÐ¼Ð¾Ð³Ð¾ Ñ„Ð°Ð¹Ð»Ð° Ñ€Ð°Ð·Ð¼ÐµÑ€: ' . $size_in_mb . ' ÐœÐ±');
             }
         }
 
@@ -133,7 +133,7 @@ class folder extends simpleForTree
             $exts = explode(';', $exts);
 
             if (!in_array($ext, $exts)) {
-                throw new mzzRuntimeException('Îãðàíè÷åíèå íà ðàñøèðåíèå ôàéëà: ' . $this->getExts() . '. Ó çàãðóæàåìîãî ôàéëà ðàñøèðåíèå: "' . $ext . '"');
+                throw new mzzRuntimeException('ÐžÐ³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ðµ Ð½Ð° Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸Ðµ Ñ„Ð°Ð¹Ð»Ð°: ' . $this->getExts() . '. Ð£ Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÐ¼Ð¾Ð³Ð¾ Ñ„Ð°Ð¹Ð»Ð° Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸Ðµ: "' . $ext . '"');
             }
         }
 
@@ -150,7 +150,7 @@ class folder extends simpleForTree
                     break;
                 }
 
-                throw new mzzRuntimeException('Ôàéë "' . $info['tmp_name'] . '" íå áûë ïåðåìåù¸í  â êàòàëîã "' . $path . '/' . $file->getRealname() . '"');
+                throw new mzzRuntimeException('Ð¤Ð°Ð¹Ð» "' . $info['tmp_name'] . '" Ð½Ðµ Ð±Ñ‹Ð» Ð¿ÐµÑ€ÐµÐ¼ÐµÑ‰Ñ‘Ð½  Ð² ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³ "' . $path . '/' . $file->getRealname() . '"');
             } catch (PDOException $e) {
             }
         }

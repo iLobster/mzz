@@ -13,7 +13,7 @@
  */
 
 /**
- * forumForumController: контроллер для метода forum модуля forum
+ * forumForumController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° forum РјРѕРґСѓР»СЏ forum
  *
  * @package modules
  * @subpackage forum

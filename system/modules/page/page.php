@@ -31,7 +31,7 @@ class page extends simple
 
 
     /**
-     * Получение объекта JIP
+     * РџРѕР»СѓС‡РµРЅРёРµ РѕР±СЉРµРєС‚Р° JIP
      *
      * @return jip
      */

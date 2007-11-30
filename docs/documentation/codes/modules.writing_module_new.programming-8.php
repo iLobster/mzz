@@ -4,28 +4,28 @@ class messageDeleteController extends simpleController
 {
     public function getView()
     {
-        // получаем id удаляемого сообщения и само сообщение
+        // РїРѕР»СѓС‡Р°РµРј id СѓРґР°Р»СЏРµРјРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ Рё СЃР°РјРѕ СЃРѕРѕР±С‰РµРЅРёРµ
         $id = $this->request->get('id', 'integer');
         $messageMapper = $this->toolkit->getMapper('message', 'message');
         $message = $messageMapper->searchByKey($id);
 
-        // если сообщение не найдено - показываем ошибку
+        // РµСЃР»Рё СЃРѕРѕР±С‰РµРЅРёРµ РЅРµ РЅР°Р№РґРµРЅРѕ - РїРѕРєР°Р·С‹РІР°РµРј РѕС€РёР±РєСѓ
         if (!$message) {
             return $messageMapper->get404()->run();
         }
 
-        // если сообщение находится не в категории "удалённые" - перемещаем его туда
+        // РµСЃР»Рё СЃРѕРѕР±С‰РµРЅРёРµ РЅР°С…РѕРґРёС‚СЃСЏ РЅРµ РІ РєР°С‚РµРіРѕСЂРёРё "СѓРґР°Р»С‘РЅРЅС‹Рµ" - РїРµСЂРµРјРµС‰Р°РµРј РµРіРѕ С‚СѓРґР°
         if ($message->getCategory()->getName() != 'recycle') {
             $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');
             $recycle = $messageCategoryMapper->searchOneByField('name', 'recycle');
             $message->setCategory($recycle);
             $messageMapper->save($message);
         } else {
-            // если уже в "удалённых" - тогда удаляем окончательно
+            // РµСЃР»Рё СѓР¶Рµ РІ "СѓРґР°Р»С‘РЅРЅС‹С…" - С‚РѕРіРґР° СѓРґР°Р»СЏРµРј РѕРєРѕРЅС‡Р°С‚РµР»СЊРЅРѕ
             $messageMapper->delete($message->getId());
         }
 
-        // закрываем jip-окно
+        // Р·Р°РєСЂС‹РІР°РµРј jip-РѕРєРЅРѕ
         return jipTools::redirect();
     }
 }

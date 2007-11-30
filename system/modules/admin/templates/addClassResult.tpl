@@ -1,4 +1,4 @@
-Были созданы файлы:<br />
+Р‘С‹Р»Рё СЃРѕР·РґР°РЅС‹ С„Р°Р№Р»С‹:<br />
 {foreach from=$log item=item key=id}
     {$item}<br />
 {/foreach}

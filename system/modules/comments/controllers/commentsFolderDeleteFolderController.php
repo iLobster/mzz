@@ -13,7 +13,7 @@
 */
 
 /**
- * commentsFolderDeleteFolderController: контроллер для метода deleteFolder модуля comments
+ * commentsFolderDeleteFolderController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deleteFolder РјРѕРґСѓР»СЏ comments
  *
  * @package modules
  * @subpackage comments

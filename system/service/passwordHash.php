@@ -13,7 +13,7 @@
  */
 
 /**
- * PasswordHash: абстрактный класс PasswordHash
+ * PasswordHash: Р°Р±СЃС‚СЂР°РєС‚РЅС‹Р№ РєР»Р°СЃСЃ PasswordHash
  *
  * @package system
  * @version 0.1
@@ -21,10 +21,10 @@
 abstract class passwordHash
 {
     /**
-     * Применение хэширования
+     * РџСЂРёРјРµРЅРµРЅРёРµ С…СЌС€РёСЂРѕРІР°РЅРёСЏ
      *
-     * @param string $value значение пароля
-     * @return string результат применения хэширования к $value
+     * @param string $value Р·РЅР°С‡РµРЅРёРµ РїР°СЂРѕР»СЏ
+     * @return string СЂРµР·СѓР»СЊС‚Р°С‚ РїСЂРёРјРµРЅРµРЅРёСЏ С…СЌС€РёСЂРѕРІР°РЅРёСЏ Рє $value
      */
     public function apply($value)
     {

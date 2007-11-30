@@ -1,5 +1,5 @@
 <?php
     $criteria = new criteria('table');
     $select = new simpleSelect($criteria);
-    $select->toString(); // âåðí¸ò "SELECT * FROM `table`"
+    $select->toString(); // Ð²ÐµÑ€Ð½Ñ‘Ñ‚ "SELECT * FROM `table`"
 ?>

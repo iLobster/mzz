@@ -15,7 +15,7 @@
 */
 
 /**
- * mzzFileSmarty: модификация Smarty для работы с файлами-шаблонами
+ * mzzFileSmarty: РјРѕРґРёС„РёРєР°С†РёСЏ Smarty РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С„Р°Р№Р»Р°РјРё-С€Р°Р±Р»РѕРЅР°РјРё
  *
  * @version 0.6
  * @package system
@@ -31,7 +31,7 @@ class mzzFileSmarty implements IMzzSmarty
     private $smarty;
 
     /**
-     * конструктор
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param object $smarty
      */
@@ -41,7 +41,7 @@ class mzzFileSmarty implements IMzzSmarty
     }
 
     /**
-     * Выполняет шаблон и возвращает результат
+     * Р’С‹РїРѕР»РЅСЏРµС‚ С€Р°Р±Р»РѕРЅ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚
      *
      * @param string $resource
      * @param string $cache_id
@@ -50,7 +50,7 @@ class mzzFileSmarty implements IMzzSmarty
      */
     public function fetch($resource, $cache_id = null, $compile_id = null, $display = false)
     {
-        // Для определения активного шаблоного достаточно прочитать первые 256 байтов из шаблона
+        // Р”Р»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ Р°РєС‚РёРІРЅРѕРіРѕ С€Р°Р±Р»РѕРЅРѕРіРѕ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РїСЂРѕС‡РёС‚Р°С‚СЊ РїРµСЂРІС‹Рµ 256 Р±Р°Р№С‚РѕРІ РёР· С€Р°Р±Р»РѕРЅР°
         //$fileName = $this->getTemplateDir() . DIRECTORY_SEPARATOR . $resource[1];
         $resource['resource_name'] = $resource[1];
         $resource['resource_base_path'] = $this->smarty->template_dir;
@@ -59,14 +59,14 @@ class mzzFileSmarty implements IMzzSmarty
         $fileName = $resource['resource_name'];
 
         if (!file_exists($fileName)) {
-            throw new mzzRuntimeException("Шаблон <em>'" . $fileName . "'</em> отсутствует.");
+            throw new mzzRuntimeException("РЁР°Р±Р»РѕРЅ <em>'" . $fileName . "'</em> РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚.");
         }
         $template = new SplFileObject($fileName, 'r');
         $template = $template->fgets(256);
 
         $result = $this->smarty->fetchPassive($resource[1], $cache_id, $compile_id, $display);
 
-        // Если шаблон вложен, обработать получателя
+        // Р•СЃР»Рё С€Р°Р±Р»РѕРЅ РІР»РѕР¶РµРЅ, РѕР±СЂР°Р±РѕС‚Р°С‚СЊ РїРѕР»СѓС‡Р°С‚РµР»СЏ
         if ($this->smarty->isActive($template)) {
             $result = $this->smarty->fetchActive($template, $cache_id, $compile_id, $display, $result);
         }
@@ -76,9 +76,9 @@ class mzzFileSmarty implements IMzzSmarty
 
 
     /**
-     * Возвращает директорию с исходниками шаблонов
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРёСЂРµРєС‚РѕСЂРёСЋ СЃ РёСЃС…РѕРґРЅРёРєР°РјРё С€Р°Р±Р»РѕРЅРѕРІ
      *
-     * @return string абсолютный путь
+     * @return string Р°Р±СЃРѕР»СЋС‚РЅС‹Р№ РїСѓС‚СЊ
      */
     public function getTemplateDir()
     {

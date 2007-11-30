@@ -15,7 +15,7 @@
 fileLoader::load('voting/voteFolder');
 
 /**
- * voteFolderMapper: маппер
+ * voteFolderMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage voting
@@ -25,14 +25,14 @@ fileLoader::load('voting/voteFolder');
 class voteFolderMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'voting';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
@@ -53,7 +53,7 @@ class voteFolderMapper extends simpleMapper
     }
 
     /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РґР»СЏ Р”Рћ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёСЃС…РѕРґСЏ РёР· Р°СЂРіСѓРјРµРЅС‚РѕРІ Р·Р°РїСЂРѕСЃР°
      *
      * @return integer
      */

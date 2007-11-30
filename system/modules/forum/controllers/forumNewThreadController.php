@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * forumNewThreadController: êîíòðîëëåð äëÿ ìåòîäà newThread ìîäóëÿ forum
+ * forumNewThreadController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° newThread Ð¼Ð¾Ð´ÑƒÐ»Ñ forum
  *
  * @package modules
  * @subpackage forum
@@ -32,8 +32,8 @@ class forumNewThreadController extends simpleController
         $forum = $forumMapper->searchByKey($id);
 
         $validator = new formValidator();
-        $validator->add('required', 'title', 'Íåîáõîäèìî íàçâàíèå òðåäó');
-        $validator->add('required', 'text', 'Íåîáõîäèìî íàïèñàòü ñîîáùåíèå');
+        $validator->add('required', 'title', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ Ñ‚Ñ€ÐµÐ´Ñƒ');
+        $validator->add('required', 'text', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð½Ð°Ð¿Ð¸ÑÐ°Ñ‚ÑŒ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ');
 
         if ($validator->validate()) {
             $title = $this->request->get('title', 'string', SC_POST);

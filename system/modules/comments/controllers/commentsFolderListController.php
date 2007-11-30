@@ -13,7 +13,7 @@
 */
 
 /**
- * commentsFolderListController: контроллер для метода list модуля comments
+ * commentsFolderListController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° list РјРѕРґСѓР»СЏ comments
  *
  * @package modules
  * @subpackage comments

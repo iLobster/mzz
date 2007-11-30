@@ -13,7 +13,7 @@
  */
 
 /**
- * forumNewController: контроллер для метода new модуля forum
+ * forumNewController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° new РјРѕРґСѓР»СЏ forum
  *
  * @package modules
  * @subpackage forum

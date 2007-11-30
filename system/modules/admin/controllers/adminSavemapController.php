@@ -16,7 +16,7 @@ fileLoader::load('forms/validators/formValidator');
 fileLoader::load('service/iniFile');
 
 /**
- * adminSavemapController: êîíòðîëëåð äëÿ ðåäàêòèðîâàíèÿ ïîëåé map-ôàéëà
+ * adminSavemapController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¿Ð¾Ð»ÐµÐ¹ map-Ñ„Ð°Ð¹Ð»Ð°
  *
  * @package modules
  * @subpackage admin
@@ -37,7 +37,7 @@ class adminSavemapController extends simpleController
         $class = $adminMapper->searchClassByName($class_name);
 
         if (!$class) {
-            $controller = new messageController('Êëàññà íå ñóùåñòâóåò', messageController::WARNING);
+            $controller = new messageController('ÐšÐ»Ð°ÑÑÐ° Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚', messageController::WARNING);
             return $controller->run();
         }
 
@@ -49,26 +49,26 @@ class adminSavemapController extends simpleController
         $mapfile = $file->read();
 
         if ($isEdit && !isset($mapfile[$field_name])) {
-            $controller = new messageController('Ó âûáðàííîãî êëàññà íå ñóùåñòâóåò ïîëÿ ' . $field_name, messageController::WARNING);
+            $controller = new messageController('Ð£ Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð³Ð¾ ÐºÐ»Ð°ÑÑÐ° Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚ Ð¿Ð¾Ð»Ñ ' . $field_name, messageController::WARNING);
             return $controller->run();
         }
 
-        $directions = array('asc' => 'À-ß', 'desc' => 'ß-À');
+        $directions = array('asc' => 'Ð-Ð¯', 'desc' => 'Ð¯-Ð');
 
         $validator = new formValidator();
 
         if (!$isEdit) {
-            $validator->add('required', 'field[name]', 'Ïîëå îáÿçàòåëüíî ê çàïîëíåíèþ');
-            $validator->add('regex', 'field[name]', 'Íåäîïóñòèìûå ñèìâîëû â èìåíè', '/^[a-z0-9_]+$/i');
-            $validator->add('callback', 'field[name]', 'Ïîëå ñ òàêèì èìåíåì óæå åñòü ó äàííîãî ÄÎ', array('addMapNameValidate', $mapfile));
+            $validator->add('required', 'field[name]', 'ÐŸÐ¾Ð»Ðµ Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ðº Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸ÑŽ');
+            $validator->add('regex', 'field[name]', 'ÐÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹ Ð² Ð¸Ð¼ÐµÐ½Ð¸', '/^[a-z0-9_]+$/i');
+            $validator->add('callback', 'field[name]', 'ÐŸÐ¾Ð»Ðµ Ñ Ñ‚Ð°ÐºÐ¸Ð¼ Ð¸Ð¼ÐµÐ½ÐµÐ¼ ÑƒÐ¶Ðµ ÐµÑÑ‚ÑŒ Ñƒ Ð´Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð”Ðž', array('addMapNameValidate', $mapfile));
         }
 
-        $validator->add('required', 'field[accessor]', 'Ïîëå îáÿçàòåëüíî ê çàïîëíåíèþ');
-        $validator->add('callback', 'field[accessor]', 'Òàêîå èìÿ àêöåññîðà óæå èñïîëüçóåòñÿ', array('addMapMethodValidate', $mapfile, $isEdit ? $field_name : ''));
-        $validator->add('equal', 'field[accessor]', 'Èìåíà àêöåññîðà è ìóòàòîðà äîëæíû áûòü ðàçíûìè', array('field[mutator]', false));
-        $validator->add('required', 'field[mutator]', 'Ïîëå îáÿçàòåëüíî ê çàïîëíåíèþ');
-        $validator->add('callback', 'field[mutator]', 'Òàêîå èìÿ ìóòàòîðà óæå èñïîëüçóåòñÿ', array('addMapMethodValidate', $mapfile, $isEdit ? $field_name : ''));
-        $validator->add('range', 'field[orderBy]', 'Çíà÷åíèå äîëæíî áûòü ïîëîæèòåëüíûì', range(1, null));
+        $validator->add('required', 'field[accessor]', 'ÐŸÐ¾Ð»Ðµ Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ðº Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸ÑŽ');
+        $validator->add('callback', 'field[accessor]', 'Ð¢Ð°ÐºÐ¾Ðµ Ð¸Ð¼Ñ Ð°ÐºÑ†ÐµÑÑÐ¾Ñ€Ð° ÑƒÐ¶Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ', array('addMapMethodValidate', $mapfile, $isEdit ? $field_name : ''));
+        $validator->add('equal', 'field[accessor]', 'Ð˜Ð¼ÐµÐ½Ð° Ð°ÐºÑ†ÐµÑÑÐ¾Ñ€Ð° Ð¸ Ð¼ÑƒÑ‚Ð°Ñ‚Ð¾Ñ€Ð° Ð´Ð¾Ð»Ð¶Ð½Ñ‹ Ð±Ñ‹Ñ‚ÑŒ Ñ€Ð°Ð·Ð½Ñ‹Ð¼Ð¸', array('field[mutator]', false));
+        $validator->add('required', 'field[mutator]', 'ÐŸÐ¾Ð»Ðµ Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ðº Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸ÑŽ');
+        $validator->add('callback', 'field[mutator]', 'Ð¢Ð°ÐºÐ¾Ðµ Ð¸Ð¼Ñ Ð¼ÑƒÑ‚Ð°Ñ‚Ð¾Ñ€Ð° ÑƒÐ¶Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ', array('addMapMethodValidate', $mapfile, $isEdit ? $field_name : ''));
+        $validator->add('range', 'field[orderBy]', 'Ð—Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ð¿Ð¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼', range(1, null));
 
         if ($validator->validate()) {
             $values = $this->request->get('field', 'array', SC_POST);

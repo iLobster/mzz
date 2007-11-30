@@ -15,7 +15,7 @@
 fileLoader::load('simple/simpleCatalogue');
 
 /**
- * simpleCatalogueMapper: маппер
+ * simpleCatalogueMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage simple
@@ -112,7 +112,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                         $tmpMapper = $toolkit->getMapper('fileManager', 'folder', $tmp['section']);
 
                         if (!is_object($tmpMapper)) {
-                            throw new mzzRuntimeException('Не получен маппер для получения каталога изображений');
+                            throw new mzzRuntimeException('РќРµ РїРѕР»СѓС‡РµРЅ РјР°РїРїРµСЂ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєР°С‚Р°Р»РѕРіР° РёР·РѕР±СЂР°Р¶РµРЅРёР№');
                         }
 
                         $tmpData = $tmpMapper->searchByKey($tmp['folderId']);
@@ -333,7 +333,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $properties->addSelectField('d.*')->addSelectField($this->className . '.id', 'id')->addSelectField('p.name')->addSelectField('p.title')->addSelectField('p.args')->addSelectField('tp.isFull')->addSelectField('tp.isShort');
         //$properties->setOrderByFieldAsc('tp.sort');
 
-        // критерий для подзапроса, с помощью которого будут выбираться данные только для необходимых объектов
+        // РєСЂРёС‚РµСЂРёР№ РґР»СЏ РїРѕРґР·Р°РїСЂРѕСЃР°, СЃ РїРѕРјРѕС‰СЊСЋ РєРѕС‚РѕСЂРѕРіРѕ Р±СѓРґСѓС‚ РІС‹Р±РёСЂР°С‚СЊСЃСЏ РґР°РЅРЅС‹Рµ С‚РѕР»СЊРєРѕ РґР»СЏ РЅРµРѕР±С…РѕРґРёРјС‹С… РѕР±СЉРµРєС‚РѕРІ
         $properties_needed = clone $properties;
         $properties_needed->setDistinct();
         $properties_needed->clearSelectFields()->addSelectField($this->className . '.' . $this->tableKey);
@@ -362,7 +362,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                             $tmpMapper = $toolkit->getMapper('fileManager', 'file', $tmp['section']);
 
                             if (!is_object($tmpMapper)) {
-                                throw new mzzRuntimeException('Не получен маппер для получения изображений');
+                                throw new mzzRuntimeException('РќРµ РїРѕР»СѓС‡РµРЅ РјР°РїРїРµСЂ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёР№');
                             }
 
                             $images = array();

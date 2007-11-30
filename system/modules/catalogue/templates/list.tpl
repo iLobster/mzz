@@ -1,5 +1,5 @@
 {assign var="catalogueFolderName" value=$catalogueFolder->getTitle()}
-{title append="Каталог"}
+{title append="РљР°С‚Р°Р»РѕРі"}
 {add file="catalogue.css"}
 {include file="catalogue/tree.tpl" source=$catalogueFolder}
 <div class="catalogueList">

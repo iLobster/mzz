@@ -13,7 +13,7 @@
  */
 
 /**
- * menuViewController: контроллер для метода view модуля menu
+ * menuViewController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° view РјРѕРґСѓР»СЏ menu
  *
  * @package modules
  * @subpackage menu

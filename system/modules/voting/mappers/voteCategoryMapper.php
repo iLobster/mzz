@@ -15,7 +15,7 @@
 fileLoader::load('voting/voteCategory');
 
 /**
- * voteCategoryMapper: маппер
+ * voteCategoryMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage voting
@@ -25,14 +25,14 @@ fileLoader::load('voting/voteCategory');
 class voteCategoryMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'voting';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */
@@ -104,7 +104,7 @@ class voteCategoryMapper extends simpleMapper
     }
 
     /**
-     * Возвращает доменный объект по аргументам
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРѕРјРµРЅРЅС‹Р№ РѕР±СЉРµРєС‚ РїРѕ Р°СЂРіСѓРјРµРЅС‚Р°Рј
      *
      * @return simple
      */

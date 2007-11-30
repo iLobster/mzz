@@ -13,7 +13,7 @@
  */
 
 /**
- * votingViewController: контроллер для метода view модуля voting
+ * votingViewController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° view РјРѕРґСѓР»СЏ voting
  *
  * @package modules
  * @subpackage voting

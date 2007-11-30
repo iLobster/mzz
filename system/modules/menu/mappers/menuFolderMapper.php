@@ -15,7 +15,7 @@
 fileLoader::load('menu/menuFolder');
 
 /**
- * menuFolderMapper: маппер
+ * menuFolderMapper: РјР°РїРїРµСЂ
  *
  * @package modules
  * @subpackage menu
@@ -25,14 +25,14 @@ fileLoader::load('menu/menuFolder');
 class menuFolderMapper extends simpleMapper
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */
     protected $name = 'menu';
 
     /**
-     * Имя класса DataObject
+     * РРјСЏ РєР»Р°СЃСЃР° DataObject
      *
      * @var string
      */

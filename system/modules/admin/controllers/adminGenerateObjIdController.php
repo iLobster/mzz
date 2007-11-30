@@ -13,7 +13,7 @@
 */
 
 /**
- * adminGenerateObjIdController: контроллер для метода generateObjId модуля admin
+ * adminGenerateObjIdController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° generateObjId РјРѕРґСѓР»СЏ admin
  *
  * @package modules
  * @subpackage admin

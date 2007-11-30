@@ -1,6 +1,6 @@
 
 ----------------------- core ----------------------------------
-* tiny_mce_src.js (äëÿ tiny_mce.js òàêèå æå èçìåíåíèÿ)
+* tiny_mce_src.js (Ð´Ð»Ñ tiny_mce.js Ñ‚Ð°ÐºÐ¸Ðµ Ð¶Ðµ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ)
 > comment line 471, 480, 481 in:
 					if (tinyMCE.settings.strict_loading_mode) {
 						nl = document.getElementsByTagName("head");

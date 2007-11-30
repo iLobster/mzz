@@ -19,7 +19,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
     private function setUpExpectOnce($tpl)
     {
         $this->assertNotNull($statics = $this->function->getStaticVariables());
-        $this->assertTrue(isset($statics['medias']), 'изменено имя static-переменной');
+        $this->assertTrue(isset($statics['medias']), 'РёР·РјРµРЅРµРЅРѕ РёРјСЏ static-РїРµСЂРµРјРµРЅРЅРѕР№');
 
         $this->smarty->expectOnce('assign_by_ref', array('media', $statics['medias'][1]));
     }
@@ -96,7 +96,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
             smarty_function_add($params, $this->smarty);
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/имя файла.*:style\.css.*$/i", $e->getMessage());
+            $this->assertPattern("/РёРјСЏ С„Р°Р№Р»Р°.*:style\.css.*$/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -108,7 +108,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
             smarty_function_add($params, $this->smarty);
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/имя файла.*sty:le\.css.*$/i", $e->getMessage());
+            $this->assertPattern("/РёРјСЏ С„Р°Р№Р»Р°.*sty:le\.css.*$/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -120,7 +120,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
             smarty_function_add($params, $this->smarty);
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/тип ресурса.*wrong.*$/i", $e->getMessage());
+            $this->assertPattern("/С‚РёРї СЂРµСЃСѓСЂСЃР°.*wrong.*$/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -132,7 +132,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
             smarty_function_add($params, $this->smarty);
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/атрибут.*file.*$/i", $e->getMessage());
+            $this->assertPattern("/Р°С‚СЂРёР±СѓС‚.*file.*$/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -144,7 +144,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
             smarty_function_add($params, $this->smarty);
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/атрибут.*file.*$/i", $e->getMessage());
+            $this->assertPattern("/Р°С‚СЂРёР±СѓС‚.*file.*$/i", $e->getMessage());
             $this->pass();
         }
     }
@@ -180,7 +180,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $params = array('file' => 'css:' . $name, 'tpl' => 'css.tpl');
         smarty_function_add($params, $this->smarty);
         $after = $this->findMatches('css', array('file' => $name, 'tpl' => 'css.tpl'));
-        $this->assertEqual($after, 1, 'Сохранено более чем одной записи о ресурсе ' . $name);
+        $this->assertEqual($after, 1, 'РЎРѕС…СЂР°РЅРµРЅРѕ Р±РѕР»РµРµ С‡РµРј РѕРґРЅРѕР№ Р·Р°РїРёСЃРё Рѕ СЂРµСЃСѓСЂСЃРµ ' . $name);
     }
 }
 

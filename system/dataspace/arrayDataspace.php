@@ -17,7 +17,7 @@
 fileLoader::load('dataspace/iDataspace');
 
 /**
- * arrayDataspace: класс для сохранение и доступа к данным через массив
+ * arrayDataspace: РєР»Р°СЃСЃ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёРµ Рё РґРѕСЃС‚СѓРїР° Рє РґР°РЅРЅС‹Рј С‡РµСЂРµР· РјР°СЃСЃРёРІ
  *
  * @package system
  * @subpackage dataspace
@@ -26,14 +26,14 @@ fileLoader::load('dataspace/iDataspace');
 class arrayDataspace implements iDataspace, ArrayAccess
 {
     /**
-     * Массив для хранения данных
+     * РњР°СЃСЃРёРІ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РґР°РЅРЅС‹С…
      *
      * @var array
      */
     protected $data;
 
     /**
-     * Конструктор. Принимает массив $data с данными
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ. РџСЂРёРЅРёРјР°РµС‚ РјР°СЃСЃРёРІ $data СЃ РґР°РЅРЅС‹РјРё
      *
      * @param array $data
      */
@@ -43,10 +43,10 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-     * Сохранение значения
+     * РЎРѕС…СЂР°РЅРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ
      *
-     * @param string|integer $key ключ для доступа к значению
-     * @param mixed $value значение
+     * @param string|integer $key РєР»СЋС‡ РґР»СЏ РґРѕСЃС‚СѓРїР° Рє Р·РЅР°С‡РµРЅРёСЋ
+     * @param mixed $value Р·РЅР°С‡РµРЅРёРµ
      * @return true
      */
     public function set($key, $value)
@@ -60,9 +60,9 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-     * Возвращает значение по ключу
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ РїРѕ РєР»СЋС‡Сѓ
      *
-     * @param string|integer $key ключ
+     * @param string|integer $key РєР»СЋС‡
      * @return mixed
      */
     public function get($key)
@@ -95,9 +95,9 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-     * Удаляет значение с ключом $key
+     * РЈРґР°Р»СЏРµС‚ Р·РЅР°С‡РµРЅРёРµ СЃ РєР»СЋС‡РѕРј $key
      *
-     * @param string|integer $key ключ
+     * @param string|integer $key РєР»СЋС‡
      * @return true
      */
     public function delete($key)
@@ -107,9 +107,9 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-     * Проверяет существует ли значение с ключом $key
+     * РџСЂРѕРІРµСЂСЏРµС‚ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё Р·РЅР°С‡РµРЅРёРµ СЃ РєР»СЋС‡РѕРј $key
      *
-     * @param string|integer $key ключ
+     * @param string|integer $key РєР»СЋС‡
      * @return boolean
      */
     public function exists($key)
@@ -121,9 +121,9 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-     * Алиас arrayDataspace::exists()
+     * РђР»РёР°СЃ arrayDataspace::exists()
      *
-     * @param string|integer $key ключ
+     * @param string|integer $key РєР»СЋС‡
      * @see arrayDataspace::exists()
      * @return boolean
      */
@@ -133,7 +133,7 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-     * Импорт массива в Dataspace
+     * РРјРїРѕСЂС‚ РјР°СЃСЃРёРІР° РІ Dataspace
      *
      * @param array $data
      */
@@ -143,7 +143,7 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-     * Экспорт массива из Dataspace
+     * Р­РєСЃРїРѕСЂС‚ РјР°СЃСЃРёРІР° РёР· Dataspace
      *
      * @return array
      */
@@ -153,7 +153,7 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-    * Очистка Dataspace
+    * РћС‡РёСЃС‚РєР° Dataspace
     *
     */
     public function clear()
@@ -162,7 +162,7 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-    * Проверяет является ли Dataspace пустым
+    * РџСЂРѕРІРµСЂСЏРµС‚ СЏРІР»СЏРµС‚СЃСЏ Р»Рё Dataspace РїСѓСЃС‚С‹Рј
     *
     */
     public function isEmpty()

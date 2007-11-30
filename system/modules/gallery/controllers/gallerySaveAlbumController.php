@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * gallerySaveAlbumController: êîíòðîëëåð äëÿ ìåòîäà saveAlbum ìîäóëÿ gallery
+ * gallerySaveAlbumController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° saveAlbum Ð¼Ð¾Ð´ÑƒÐ»Ñ gallery
  *
  * @package modules
  * @subpackage gallery
@@ -49,7 +49,7 @@ class gallerySaveAlbumController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Íåîáõîäèìî íàçâàòü àëüáîì');
+        $validator->add('required', 'name', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð½Ð°Ð·Ð²Ð°Ñ‚ÑŒ Ð°Ð»ÑŒÐ±Ð¾Ð¼');
 
         if ($validator->validate()) {
             $name = $this->request->get('name', 'string', SC_POST);

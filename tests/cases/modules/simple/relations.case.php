@@ -4,7 +4,7 @@ fileLoader::load('simple/simpleMapperForTree');
 fileLoader::load('cases/modules/simple/stubMapper.class');
 fileLoader::load('cases/modules/simple/stubSimple.class');
 
-// simpleTest есть класс
+// simpleTest РµСЃС‚СЊ РєР»Р°СЃСЃ
 class testRelations extends unitTestCase
 {
     private $simple;
@@ -20,7 +20,7 @@ class testRelations extends unitTestCase
     'bar' => array ('name' => 'bar','accessor' => 'getBar', 'mutator' => 'setBar'),
     'path' => array ('name' => 'path','accessor' => 'getPath', 'mutator' => 'setPath'),
     'obj_id' => array ('name' => 'obj_id','accessor' => 'getObjId', 'mutator' => 'setObjId'),
-    'some_id' => array ('name' => 'some_id','accessor' => 'getSomeId', 'mutator' => 'setSomeId'), // поле, связывающее структуру и данные в дереве
+    'some_id' => array ('name' => 'some_id','accessor' => 'getSomeId', 'mutator' => 'setSomeId'), // РїРѕР»Рµ, СЃРІСЏР·С‹РІР°СЋС‰РµРµ СЃС‚СЂСѓРєС‚СѓСЂСѓ Рё РґР°РЅРЅС‹Рµ РІ РґРµСЂРµРІРµ
     );
 
     public function __construct()
@@ -114,7 +114,7 @@ class testRelations extends unitTestCase
         $this->db->query('INSERT INTO `simple_stubSimple` (`foo`, `bar`, `path`, `tree_id`) VALUES ("f", "b", "p", 7)');
     }
 
-    #        Вот на таком деревом и будем тестировать
+    #        Р’РѕС‚ РЅР° С‚Р°РєРѕРј РґРµСЂРµРІРѕРј Рё Р±СѓРґРµРј С‚РµСЃС‚РёСЂРѕРІР°С‚СЊ
     #
     #
     #                                   1

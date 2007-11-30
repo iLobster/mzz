@@ -13,7 +13,7 @@
  */
 
 /**
- * fileManager404Controller: êîíòðîëëåð äëÿ ìåòîäà 404 ìîäóëÿ fileManager
+ * fileManager404Controller: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° 404 Ð¼Ð¾Ð´ÑƒÐ»Ñ fileManager
  *
  * @package modules
  * @subpackage fileManager
@@ -31,7 +31,7 @@ class fileManager404Controller extends simpleController
 
     public function getView()
     {
-        $this->response->setTitle('Îøèáêà. Çàïðàøèâàåìûé âàìè ôàéë íå íàéäåí');
+        $this->response->setTitle('ÐžÑˆÐ¸Ð±ÐºÐ°. Ð—Ð°Ð¿Ñ€Ð°ÑˆÐ¸Ð²Ð°ÐµÐ¼Ñ‹Ð¹ Ð²Ð°Ð¼Ð¸ Ñ„Ð°Ð¹Ð» Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½');
         $this->smarty->assign('type', $this->type);
         return $this->smarty->fetch('fileManager/notfound.tpl');
     }

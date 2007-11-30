@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.web/repository/mzz/system/db/dbDumpCheck.php $
+ * $URL: http://svn.sandbox/repository/mzz/system/db/dbDumpCheck.php $
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -11,21 +11,21 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage db
- * @version $Id: dbDumpCheck.php 674 2007-03-11 22:27:52Z zerkms $
+ * @version $Id: dbDumpCheck.php 1121 2007-11-30 04:31:39Z zerkms $
 */
 
 /**
- * Îáíîâëÿåò áàçó, åñëè åñòü áîëåå íîâûé äàìï
+ * ÐžÐ±Ð½Ð¾Ð²Ð»ÑÐµÑ‚ Ð±Ð°Ð·Ñƒ, ÐµÑÐ»Ð¸ ÐµÑÑ‚ÑŒ Ð±Ð¾Ð»ÐµÐµ Ð½Ð¾Ð²Ñ‹Ð¹ Ð´Ð°Ð¼Ð¿
  *
  * @package system
  * @subpackage db
  * @version 0.1
- * @deprecated çàãðóæàéòå äàìïû ðó÷êàìè
+ * @deprecated Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°Ð¹Ñ‚Ðµ Ð´Ð°Ð¼Ð¿Ñ‹ Ñ€ÑƒÑ‡ÐºÐ°Ð¼Ð¸
  */
 class dbDumpCheck
 {
     /**
-     * Çàïóñê ïðîâåðêè è çàãðóçêè äàìïîâ â MySQL åñëè îíè îáíîâèëèñü.
+     * Ð—Ð°Ð¿ÑƒÑÐº Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ¸ Ð¸ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Ð´Ð°Ð¼Ð¿Ð¾Ð² Ð² MySQL ÐµÑÐ»Ð¸ Ð¾Ð½Ð¸ Ð¾Ð±Ð½Ð¾Ð²Ð¸Ð»Ð¸ÑÑŒ.
      *
      * @return boolean
      */

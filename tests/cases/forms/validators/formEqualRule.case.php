@@ -48,9 +48,9 @@ class formEqualRuleTest extends UnitTestCase
 
         try {
             $rule->validate();
-            $this->fail('Äîëæíî áûòü áğîøåíî èñêëş÷åíèå');
+            $this->fail('Ğ”Ğ¾Ğ»Ğ¶Ğ½Ğ¾ Ğ±Ñ‹Ñ‚ÑŒ Ğ±Ñ€Ğ¾ÑˆĞµĞ½Ğ¾ Ğ¸ÑĞºĞ»ÑÑ‡ĞµĞ½Ğ¸Ğµ');
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern("/Îòñóòñòâóåò èìÿ/i", $e->getMessage());
+            $this->assertPattern("/ĞÑ‚ÑÑƒÑ‚ÑÑ‚Ğ²ÑƒĞµÑ‚ Ğ¸Ğ¼Ñ/i", $e->getMessage());
         }
     }
 

@@ -8,13 +8,13 @@ function mzzReadUploadStatus(name) {
     var mzzUploadFile = $(name + 'UploadFile');
     $(name + 'UploadSubmitButton').disable();;
     mzzUploadFileSubmitValue[name] = $(name + 'UploadSubmitButton').value;
-    $(name + 'UploadSubmitButton').value = "Загрузка...";
+    $(name + 'UploadSubmitButton').value = "Р—Р°РіСЂСѓР·РєР°...";
 
     var frameOnLoadFunction = mzzUploadFile.onload = function () {
         var statusDivId = name + (mzzUploadFile.contentWindow.document.getElementById(name + 'UploadStatusError') ? 'UploadStatusError' : 'UploadStatus');
         $(statusDivId).style.display = 'block';
         if (!mzzUploadFile.contentWindow.document.getElementById(statusDivId)) {
-            alert('Ошибка: не найден контейнер с идентификатором "' + statusDivId + '"');
+            alert('РћС€РёР±РєР°: РЅРµ РЅР°Р№РґРµРЅ РєРѕРЅС‚РµР№РЅРµСЂ СЃ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј "' + statusDivId + '"');
             return;
         }
         $(statusDivId).innerHTML = mzzUploadFile.contentWindow.document.getElementById(statusDivId).innerHTML;

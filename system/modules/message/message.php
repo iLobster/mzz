@@ -13,7 +13,7 @@
  */
 
 /**
- * message: класс для работы c данными
+ * message: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ c РґР°РЅРЅС‹РјРё
  *
  * @package modules
  * @subpackage message

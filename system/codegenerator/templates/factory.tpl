@@ -13,7 +13,7 @@
  */
 
 /**
- * {{$factory_data.factory_name}}: фабрика для получения контроллеров {{$factory_data.module}}
+ * {{$factory_data.factory_name}}: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ {{$factory_data.module}}
  *
  * @package modules
  * @subpackage {{$factory_data.module}}
@@ -23,7 +23,7 @@
 class {{$factory_data.factory_name}} extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

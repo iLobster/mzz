@@ -4,27 +4,27 @@ class messageListController extends simpleController
 {
     public function getView()
     {
-        $name = $this->request->get('name', 'string'); // ïîëó÷àåì èìÿ êàòåãîðèè
+        $name = $this->request->get('name', 'string'); // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð¸Ð¼Ñ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸
         $isSent = $name == 'sent';
 
-        $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory'); // ïîëó÷àåì ìàïïåð
-        $messageCategory = $messageCategoryMapper->searchOneByField('name', $name); // èùåì êàòåãîðèþ
+        $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory'); // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð¼Ð°Ð¿Ð¿ÐµÑ€
+        $messageCategory = $messageCategoryMapper->searchOneByField('name', $name); // Ð¸Ñ‰ÐµÐ¼ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸ÑŽ
 
-        if (empty($messageCategory)) { // åñëè íå íàøëè - îòîáðàæàåì 404 îøèáêó
+        if (empty($messageCategory)) { // ÐµÑÐ»Ð¸ Ð½Ðµ Ð½Ð°ÑˆÐ»Ð¸ - Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶Ð°ÐµÐ¼ 404 Ð¾ÑˆÐ¸Ð±ÐºÑƒ
             return $messageCategoryMapper->get404()->run();
         }
 
-        $me = $this->toolkit->getUser(); // ïîëó÷àåì òåêóùåãî ïîëüçîâàòåëÿ
+        $me = $this->toolkit->getUser(); // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ³Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ
 
-        $messageMapper = $this->toolkit->getMapper('message', 'message'); // ïîëó÷àåì ìàïïåð
-        $criteria = new criteria(); // ñîñòàâëÿåì êðèòåðèé ïîèñêà
-        $criteria->add('category_id', $messageCategory->getId()); // ñîîáùåíèÿ èç òåêóùåé êàòåãîðèè
-        $criteria->add($isSent ? 'sender' : 'recipient', $me->getId()); // äëÿ òåêóùåãî ïîëüçîâàòåëÿ (åñëè êàòåãîðèÿ "èñõîäÿùèå", òî òåêóùèé ïîëüçîâàòåëü ÿâëÿåòñÿ îòïðàâèòåëåì)
-        $messages = $messageMapper->searchAllByCriteria($criteria); // èùåì âñå ñîîáùåíèÿ
+        $messageMapper = $this->toolkit->getMapper('message', 'message'); // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð¼Ð°Ð¿Ð¿ÐµÑ€
+        $criteria = new criteria(); // ÑÐ¾ÑÑ‚Ð°Ð²Ð»ÑÐµÐ¼ ÐºÑ€Ð¸Ñ‚ÐµÑ€Ð¸Ð¹ Ð¿Ð¾Ð¸ÑÐºÐ°
+        $criteria->add('category_id', $messageCategory->getId()); // ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð¸Ð· Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸
+        $criteria->add($isSent ? 'sender' : 'recipient', $me->getId()); // Ð´Ð»Ñ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ³Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ (ÐµÑÐ»Ð¸ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ "Ð¸ÑÑ…Ð¾Ð´ÑÑ‰Ð¸Ðµ", Ñ‚Ð¾ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ð¹ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÐµÐ»ÐµÐ¼)
+        $messages = $messageMapper->searchAllByCriteria($criteria); // Ð¸Ñ‰ÐµÐ¼ Ð²ÑÐµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ
 
-        $messageCategories = $messageCategoryMapper->searchAll(); // èùåì âñå êàòåãîðèè
+        $messageCategories = $messageCategoryMapper->searchAll(); // Ð¸Ñ‰ÐµÐ¼ Ð²ÑÐµ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸
 
-        // ïåðåäà¸ì ïîëó÷åííûå äàííûå â øàáëîí
+        // Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‘Ð¼ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð² ÑˆÐ°Ð±Ð»Ð¾Ð½
         $this->smarty->assign('messages', $messages);
         $this->smarty->assign('isSent', $isSent);
         $this->smarty->assign('categories', $messageCategories);

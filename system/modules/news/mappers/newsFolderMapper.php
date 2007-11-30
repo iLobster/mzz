@@ -17,7 +17,7 @@ fileLoader::load('news/newsFolder');
 fileLoader::load('simple/simpleMapperForTree');
 
 /**
- * newsFolderMapper: ìàïïåð äëÿ ïàïîê íîâîñòåé
+ * newsFolderMapper: Ð¼Ð°Ð¿Ð¿ÐµÑ€ Ð´Ð»Ñ Ð¿Ð°Ð¿Ð¾Ðº Ð½Ð¾Ð²Ð¾ÑÑ‚ÐµÐ¹
  *
  * @package modules
  * @subpackage news
@@ -28,14 +28,14 @@ class newsFolderMapper extends simpleMapperForTree
 {
 
     /**
-     * Èìÿ ìîäóëÿ
+     * Ð˜Ð¼Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      *
      * @var string
      */
     protected $name = 'news';
 
     /**
-     * Èìÿ êëàññà DataObject
+     * Ð˜Ð¼Ñ ÐºÐ»Ð°ÑÑÐ° DataObject
      *
      * @var string
      */
@@ -44,7 +44,7 @@ class newsFolderMapper extends simpleMapperForTree
     protected $itemName = 'news';
 
     /**
-     * Ïîèñê newsFolder ïî id
+     * ÐŸÐ¾Ð¸ÑÐº newsFolder Ð¿Ð¾ id
      *
      * @param integer $id
      * @return newsFolder
@@ -60,9 +60,9 @@ class newsFolderMapper extends simpleMapperForTree
     }
 
     /**
-     * Âûïîëíÿåò ïîèñê îáúåêòà ïî èìåíè
+     * Ð’Ñ‹Ð¿Ð¾Ð»Ð½ÑÐµÑ‚ Ð¿Ð¾Ð¸ÑÐº Ð¾Ð±ÑŠÐµÐºÑ‚Ð° Ð¿Ð¾ Ð¸Ð¼ÐµÐ½Ð¸
      *
-     * @param string $name èìÿ
+     * @param string $name Ð¸Ð¼Ñ
      * @return object|null
      */
     public function searchByName($name)
@@ -74,15 +74,15 @@ class newsFolderMapper extends simpleMapperForTree
     }
 
     /**
-     * Âûáîðêà âåòêè(íèæåëåæàùèõ ïàïîê) íà îñíîâå ïóòè
+     * Ð’Ñ‹Ð±Ð¾Ñ€ÐºÐ° Ð²ÐµÑ‚ÐºÐ¸(Ð½Ð¸Ð¶ÐµÐ»ÐµÐ¶Ð°Ñ‰Ð¸Ñ… Ð¿Ð°Ð¿Ð¾Ðº) Ð½Ð° Ð¾ÑÐ½Ð¾Ð²Ðµ Ð¿ÑƒÑ‚Ð¸
      *
-     * @param  string     $path          Ïóòü
-     * @param  string     $deep          Ãëóáèíà âûáîðêè
+     * @param  string     $path          ÐŸÑƒÑ‚ÑŒ
+     * @param  string     $deep          Ð“Ð»ÑƒÐ±Ð¸Ð½Ð° Ð²Ñ‹Ð±Ð¾Ñ€ÐºÐ¸
      * @return array with nodes
      */
     public function getFoldersByPath($path, $deep = 1)
     {
-        // âûáèðàåòñÿ òîëüêî íèæåëåæàùèé óðîâåíü
+        // Ð²Ñ‹Ð±Ð¸Ñ€Ð°ÐµÑ‚ÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð½Ð¸Ð¶ÐµÐ»ÐµÐ¶Ð°Ñ‰Ð¸Ð¹ ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ
         return $this->tree->getBranchByPath($path, $deep);
     }
 

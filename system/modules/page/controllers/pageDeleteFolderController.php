@@ -13,7 +13,7 @@
 */
 
 /**
- * pageDeleteFolderController: контроллер для метода deleteFolder модуля page
+ * pageDeleteFolderController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deleteFolder РјРѕРґСѓР»СЏ page
  *
  * @package modules
  * @subpackage page

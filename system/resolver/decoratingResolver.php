@@ -13,8 +13,8 @@
  */
 
 /**
- * decoratingResolver: реализация паттерна decorator для резолверов
- * от него наследуются все декорирующий резолверы
+ * decoratingResolver: СЂРµР°Р»РёР·Р°С†РёСЏ РїР°С‚С‚РµСЂРЅР° decorator РґР»СЏ СЂРµР·РѕР»РІРµСЂРѕРІ
+ * РѕС‚ РЅРµРіРѕ РЅР°СЃР»РµРґСѓСЋС‚СЃСЏ РІСЃРµ РґРµРєРѕСЂРёСЂСѓСЋС‰РёР№ СЂРµР·РѕР»РІРµСЂС‹
  *
  * @package system
  * @subpackage resolver
@@ -23,16 +23,16 @@
 abstract class decoratingResolver implements iResolver
 {
     /**
-     * резолвер, который будет декорироваться
+     * СЂРµР·РѕР»РІРµСЂ, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РґРµРєРѕСЂРёСЂРѕРІР°С‚СЊСЃСЏ
      *
      * @var object
      */
     protected $resolver = null;
 
     /**
-     * конструктор
+     * РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
-     * @param object $resolver резолвер, который будет декорироваться
+     * @param object $resolver СЂРµР·РѕР»РІРµСЂ, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РґРµРєРѕСЂРёСЂРѕРІР°С‚СЊСЃСЏ
      */
     public function __construct(iResolver $resolver)
     {
@@ -40,11 +40,11 @@ abstract class decoratingResolver implements iResolver
     }
 
     /**
-     * замещаем метод resolve для декорируемого резолвера
-     * в наследниках также будет происходить декорирование
+     * Р·Р°РјРµС‰Р°РµРј РјРµС‚РѕРґ resolve РґР»СЏ РґРµРєРѕСЂРёСЂСѓРµРјРѕРіРѕ СЂРµР·РѕР»РІРµСЂР°
+     * РІ РЅР°СЃР»РµРґРЅРёРєР°С… С‚Р°РєР¶Рµ Р±СѓРґРµС‚ РїСЂРѕРёСЃС…РѕРґРёС‚СЊ РґРµРєРѕСЂРёСЂРѕРІР°РЅРёРµ
      *
-     * @param string $request запрос
-     * @return string|null путь до файла если найден, либо null в противном случае
+     * @param string $request Р·Р°РїСЂРѕСЃ
+     * @return string|null РїСѓС‚СЊ РґРѕ С„Р°Р№Р»Р° РµСЃР»Рё РЅР°Р№РґРµРЅ, Р»РёР±Рѕ null РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ
      */
     public function resolve($request)
     {
@@ -52,11 +52,11 @@ abstract class decoratingResolver implements iResolver
     }
 
     /**
-     * замещаем все методы декорируемого резолвера
+     * Р·Р°РјРµС‰Р°РµРј РІСЃРµ РјРµС‚РѕРґС‹ РґРµРєРѕСЂРёСЂСѓРµРјРѕРіРѕ СЂРµР·РѕР»РІРµСЂР°
      *
-     * @param string $callname имя метода
-     * @param array $args аргументы
-     * @return mixed результаты выполнения замещаемого метода
+     * @param string $callname РёРјСЏ РјРµС‚РѕРґР°
+     * @param array $args Р°СЂРіСѓРјРµРЅС‚С‹
+     * @return mixed СЂРµР·СѓР»СЊС‚Р°С‚С‹ РІС‹РїРѕР»РЅРµРЅРёСЏ Р·Р°РјРµС‰Р°РµРјРѕРіРѕ РјРµС‚РѕРґР°
      */
     public function __call($callname, $args)
     {

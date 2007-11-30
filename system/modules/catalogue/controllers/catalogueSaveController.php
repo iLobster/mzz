@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * catalogueSaveController: контроллер для метода save модуля catalogue
+ * catalogueSaveController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° save РјРѕРґСѓР»СЏ catalogue
  *
  * @package modules
  * @subpackage catalogue
@@ -44,13 +44,13 @@ class catalogueSaveController extends simpleController
         $defType = $isEdit ? $item->getFolder()->getDefType() : $catalogueFolder->getDefType();
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Необходимо назвать новый элемент');
+        $validator->add('required', 'name', 'РќРµРѕР±С…РѕРґРёРјРѕ РЅР°Р·РІР°С‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚');
 
         if (!$isEdit) {
-            $validator->add('required', 'type', 'Необходимо указать тип');
+            $validator->add('required', 'type', 'РќРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ С‚РёРї');
             $types = $catalogueMapper->getAllTypes();
             if (empty($types)) {
-                $controller = new messageController('Отсутствуют типы', messageController::WARNING);
+                $controller = new messageController('РћС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ С‚РёРїС‹', messageController::WARNING);
                 return $controller->run();
             }
             $type = $this->request->get('type', 'integer', SC_GET | SC_POST);
@@ -65,15 +65,15 @@ class catalogueSaveController extends simpleController
         foreach ($properties as $property) {
             switch ($property['type']) {
                 case 'int':
-                    $validator->add('numeric', $property['name'], 'Нужен int');
+                    $validator->add('numeric', $property['name'], 'РќСѓР¶РµРЅ int');
                     break;
 
                 case 'float':
-                    $validator->add('numeric', $property['name'], 'Нужен float');
+                    $validator->add('numeric', $property['name'], 'РќСѓР¶РµРЅ float');
                     break;
 
                 case 'datetime':
-                    $validator->add('regex', $property['name'], 'Неправильный формат даты', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
+                    $validator->add('regex', $property['name'], 'РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ С„РѕСЂРјР°С‚ РґР°С‚С‹', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
                     break;
             }
         }

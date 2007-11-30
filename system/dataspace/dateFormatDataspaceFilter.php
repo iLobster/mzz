@@ -17,7 +17,7 @@
 fileLoader::load('dataspace/dataspaceFilter');
 
 /**
- * dateFormatDataspaceFilter: ôèëüòğ äëÿ dataspace
+ * dateFormatDataspaceFilter: Ñ„Ğ¸Ğ»ÑŒÑ‚Ñ€ Ğ´Ğ»Ñ dataspace
  *
  * @package system
  * @subpackage dataspace
@@ -26,47 +26,47 @@ fileLoader::load('dataspace/dataspaceFilter');
 class dateFormatDataspaceFilter extends dataspaceFilter
 {
     /**
-     * Ôîğìàò äàòû
+     * Ğ¤Ğ¾Ñ€Ğ¼Ğ°Ñ‚ Ğ´Ğ°Ñ‚Ñ‹
      *
      * @var string
      */
     private $format;
 
     /**
-     * Èíäåêñû
+     * Ğ˜Ğ½Ğ´ĞµĞºÑÑ‹
      *
      * @var array
      */
     private $keys;
 
     /**
-     * Êîíñòğóêòîğ
+     * ĞšĞ¾Ğ½ÑÑ‚Ñ€ÑƒĞºÑ‚Ğ¾Ñ€
      *
      * @param iDataspace $dataspace
      * @param array $keys
-     * @param string $format ôîğìàò äàòû
+     * @param string $format Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚ Ğ´Ğ°Ñ‚Ñ‹
      */
     public function __construct(iDataspace $dataspace, Array $keys, $format = 'd M Y / H:i:s')
     {
-        // âîçìîæíî âîòêíóòü êàêóş òî ïğîâåğêó íà ôîğìàò ïåğåìåííîé $format
-        // äåôîëòíûé ôîğìàò âîçìîæíî áóäåò áğàòüñÿ èç êîíôèãà
+        // Ğ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ Ğ²Ğ¾Ñ‚ĞºĞ½ÑƒÑ‚ÑŒ ĞºĞ°ĞºÑƒÑ Ñ‚Ğ¾ Ğ¿Ñ€Ğ¾Ğ²ĞµÑ€ĞºÑƒ Ğ½Ğ° Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚ Ğ¿ĞµÑ€ĞµĞ¼ĞµĞ½Ğ½Ğ¾Ğ¹ $format
+        // Ğ´ĞµÑ„Ğ¾Ğ»Ñ‚Ğ½Ñ‹Ğ¹ Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚ Ğ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ Ğ±ÑƒĞ´ĞµÑ‚ Ğ±Ñ€Ğ°Ñ‚ÑŒÑÑ Ğ¸Ğ· ĞºĞ¾Ğ½Ñ„Ğ¸Ğ³Ğ°
         $this->format = $format;
         $this->keys = $keys;
         parent::__construct($dataspace);
     }
 
     /**
-     * Âîçâğàùàåò çíà÷åíèå ïî êëş÷ó
+     * Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰Ğ°ĞµÑ‚ Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ğµ Ğ¿Ğ¾ ĞºĞ»ÑÑ‡Ñƒ
      *
-     * @param string|intger $key êëş÷
+     * @param string|intger $key ĞºĞ»ÑÑ‡
      * @return mixed
      */
     public function get($key)
     {
-        // ìîæåò åù¸ ïğîâåğÿòü ÷òî çàïğàøèâàåòñÿ èìåííî timestamp (is_int)
-        // èëè ôîğìàòèğîâàòü ïğè âûâîäå.. õîòÿ õç
+        // Ğ¼Ğ¾Ğ¶ĞµÑ‚ ĞµÑ‰Ñ‘ Ğ¿Ñ€Ğ¾Ğ²ĞµÑ€ÑÑ‚ÑŒ Ñ‡Ñ‚Ğ¾ Ğ·Ğ°Ğ¿Ñ€Ğ°ÑˆĞ¸Ğ²Ğ°ĞµÑ‚ÑÑ Ğ¸Ğ¼ĞµĞ½Ğ½Ğ¾ timestamp (is_int)
+        // Ğ¸Ğ»Ğ¸ Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğ¸Ñ€Ğ¾Ğ²Ğ°Ñ‚ÑŒ Ğ¿Ñ€Ğ¸ Ğ²Ñ‹Ğ²Ğ¾Ğ´Ğµ.. Ñ…Ğ¾Ñ‚Ñ Ñ…Ğ·
 
-        // ÷òî äåëàòü åñëè çíà÷åíèå == 0?
+        // Ñ‡Ñ‚Ğ¾ Ğ´ĞµĞ»Ğ°Ñ‚ÑŒ ĞµÑĞ»Ğ¸ Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ğµ == 0?
         if (in_array($key, $this->keys) && $this->dataspace->get($key) != 0) {
             return date($this->format, $this->dataspace->get($key));
         } else {

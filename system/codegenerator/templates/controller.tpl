@@ -13,7 +13,7 @@
  */
 
 /**
- * {{$controller_data.controllername}}: контроллер для метода {{$controller_data.action}} модуля {{$controller_data.module}}
+ * {{$controller_data.controllername}}: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° {{$controller_data.action}} РјРѕРґСѓР»СЏ {{$controller_data.module}}
  *
  * @package modules
  * @subpackage {{$controller_data.module}}

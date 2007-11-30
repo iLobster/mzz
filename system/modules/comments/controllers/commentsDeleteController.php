@@ -13,7 +13,7 @@
  */
 
 /**
- * commentsDeleteController: контроллер для метода delete модуля comments
+ * commentsDeleteController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° delete РјРѕРґСѓР»СЏ comments
  *
  * @package modules
  * @subpackage comments

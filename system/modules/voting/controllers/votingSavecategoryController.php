@@ -15,7 +15,7 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * votingSavecategoryController: êîíòðîëëåð äëÿ ìåòîäà savecategory ìîäóëÿ voting
+ * votingSavecategoryController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° savecategory Ð¼Ð¾Ð´ÑƒÐ»Ñ voting
  *
  * @package modules
  * @subpackage voting
@@ -33,8 +33,8 @@ class votingSavecategoryController extends simpleController
         $category = ($isEdit) ? $categoryMapper->searchById($id) : $categoryMapper->create();
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Íåîáõîäèìî çàäàòü èìÿ êàòåãîðèè');
-        $validator->add('callback', 'name', 'Èìÿ êàòåãîðèè äîëæíî áûòü óíèêàëüíûì', array(array($this, 'checkName'), $category));
+        $validator->add('required', 'name', 'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð·Ð°Ð´Ð°Ñ‚ÑŒ Ð¸Ð¼Ñ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸');
+        $validator->add('callback', 'name', 'Ð˜Ð¼Ñ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸ Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ ÑƒÐ½Ð¸ÐºÐ°Ð»ÑŒÐ½Ñ‹Ð¼', array(array($this, 'checkName'), $category));
 
         if (!$validator->validate()) {
             $url = new url(($isEdit) ? 'withId' : 'default2');

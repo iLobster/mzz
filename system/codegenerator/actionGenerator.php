@@ -13,7 +13,7 @@
 */
 
 /**
- * actionGenerator: êëàññ äëÿ ãåíåðàöèè ýêøíîâ
+ * actionGenerator: ÐºÐ»Ð°ÑÑ Ð´Ð»Ñ Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸Ð¸ ÑÐºÑˆÐ½Ð¾Ð²
  *
  * @package modules
  * @subpackage admin
@@ -23,42 +23,42 @@
 class actionGenerator
 {
     /**
-     * Ìàññèâ äëÿ õðàíåíèÿ ñîîáùåíèé
+     * ÐœÐ°ÑÑÐ¸Ð² Ð´Ð»Ñ Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹
      *
      * @var array
      */
     private $log = array();
 
     /**
-     * Èìÿ ìîäóëÿ
+     * Ð˜Ð¼Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      *
      * @var string
      */
     private $module;
 
     /**
-     * Ïóòü äî êàòàëîãà, â êîòîðûé áóäóò ñãåíåðèðîâàíû ôàéëû
+     * ÐŸÑƒÑ‚ÑŒ Ð´Ð¾ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð°, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð±ÑƒÐ´ÑƒÑ‚ ÑÐ³ÐµÐ½ÐµÑ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ñ‹ Ñ„Ð°Ð¹Ð»Ñ‹
      *
      * @var string
      */
     private $dest;
 
     /**
-     * Èìÿ êëàññà
+     * Ð˜Ð¼Ñ ÐºÐ»Ð°ÑÑÐ°
      *
      * @var string
      */
     private $class;
 
     /**
-     * Êëàññ ðàáîòû ñ ÁÄ
+     * ÐšÐ»Ð°ÑÑ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð‘Ð”
      *
      * @var mzzPDO
      */
     private $db;
 
     /**
-     * Êîíñòðóêòîð
+     * ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€
      *
      * @param string $module
      * @param string $dest
@@ -77,7 +77,7 @@ class actionGenerator
     }
 
     /**
-     * Ìåòîä ïîëó÷åíèÿ èíôîðìàöèè îá ýêøíå ïî èìåíè
+     * ÐœÐµÑ‚Ð¾Ð´ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ Ð¾Ð± ÑÐºÑˆÐ½Ðµ Ð¿Ð¾ Ð¸Ð¼ÐµÐ½Ð¸
      *
      * @param string $name
      * @return array
@@ -88,7 +88,7 @@ class actionGenerator
     }
 
     /**
-     * Ìåòîä ïîëó÷åíèÿ èíôîðìàöè î êëàññå ïî èìåíè
+     * ÐœÐµÑ‚Ð¾Ð´ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ Ð¾ ÐºÐ»Ð°ÑÑÐµ Ð¿Ð¾ Ð¸Ð¼ÐµÐ½Ð¸
      *
      * @param string $name
      * @return array
@@ -99,7 +99,7 @@ class actionGenerator
     }
 
     /**
-     * Äîáàâëåíèå â ÁÄ èíôîðìàöèè îá ýêøíå
+     * Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð² Ð‘Ð” Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ Ð¾Ð± ÑÐºÑˆÐ½Ðµ
      *
      * @param string $action
      */
@@ -120,7 +120,7 @@ class actionGenerator
     }
 
     /**
-     * Óäàëåíèå ýêøíà
+     * Ð£Ð´Ð°Ð»ÐµÐ½Ð¸Ðµ ÑÐºÑˆÐ½Ð°
      *
      * @param string $action
      */
@@ -157,9 +157,9 @@ class actionGenerator
 
             file_put_contents($actionsfile, $actions_output);
 
-            // óäàëÿåì êîíòðîëëåð
+            // ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€
             $this->safeUnlink('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'Controller.php');
-            // óäàëÿåì øàáëîí
+            // ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÑˆÐ°Ð±Ð»Ð¾Ð½
             $this->safeUnlink('templates' . DIRECTORY_SEPARATOR . $action . '.tpl');
             //$this->safeUnlink('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'View.php');
 
@@ -171,7 +171,7 @@ class actionGenerator
     }
 
     /**
-     * Ìåòîä äëÿ óäàëåíèÿ ôàéëîâ, ñ ïðîâåðêîé èõ ñóùåñòâîâàíèÿ
+     * ÐœÐµÑ‚Ð¾Ð´ Ð´Ð»Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ Ñ„Ð°Ð¹Ð»Ð¾Ð², Ñ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ¾Ð¹ Ð¸Ñ… ÑÑƒÑ‰ÐµÑÑ‚Ð²Ð¾Ð²Ð°Ð½Ð¸Ñ
      *
      * @param string $filename
      */
@@ -183,11 +183,11 @@ class actionGenerator
     }
 
     /**
-     * Ìåòîä èçìåíåíèÿ èìåíè äëÿ ýêøíà
+     * ÐœÐµÑ‚Ð¾Ð´ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ Ð¸Ð¼ÐµÐ½Ð¸ Ð´Ð»Ñ ÑÐºÑˆÐ½Ð°
      *
-     * @param string $oldName ñòàðîå èìÿ
-     * @param string $newName íîâîå èìÿ
-     * @param array $params ìàññèâ äîïîëíèòåëüíûõ ñâîéñòâ ýêøíà
+     * @param string $oldName ÑÑ‚Ð°Ñ€Ð¾Ðµ Ð¸Ð¼Ñ
+     * @param string $newName Ð½Ð¾Ð²Ð¾Ðµ Ð¸Ð¼Ñ
+     * @param array $params Ð¼Ð°ÑÑÐ¸Ð² Ð´Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ñ… ÑÐ²Ð¾Ð¹ÑÑ‚Ð² ÑÐºÑˆÐ½Ð°
      */
     public function rename($oldName, $newName, $params)
     {
@@ -226,13 +226,13 @@ class actionGenerator
     }
 
     /**
-     * Ìåòîä ôîðìèðîâàíèÿ äàííûõ ini-ôàéëà
+     * ÐœÐµÑ‚Ð¾Ð´ Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð´Ð°Ð½Ð½Ñ‹Ñ… ini-Ñ„Ð°Ð¹Ð»Ð°
      *
-     * @param array $data ìàññèâ ñ äàííûìè äëÿ ôàéëà
-     * @param array $params ìàññèâ ñ äîïîëíèòåëüíûìè ïàðàìåòðàìè
-     * @param string $newName ñòàðîå èìÿ ýêøíà
-     * @param string $oldName íîâîå èìÿ ýêøíà
-     * @return string ðåçóëüòèðóþùàÿ ñòðîêà
+     * @param array $data Ð¼Ð°ÑÑÐ¸Ð² Ñ Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ð´Ð»Ñ Ñ„Ð°Ð¹Ð»Ð°
+     * @param array $params Ð¼Ð°ÑÑÐ¸Ð² Ñ Ð´Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼Ð¸ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð°Ð¼Ð¸
+     * @param string $newName ÑÑ‚Ð°Ñ€Ð¾Ðµ Ð¸Ð¼Ñ ÑÐºÑˆÐ½Ð°
+     * @param string $oldName Ð½Ð¾Ð²Ð¾Ðµ Ð¸Ð¼Ñ ÑÐºÑˆÐ½Ð°
+     * @return string Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð¸Ñ€ÑƒÑŽÑ‰Ð°Ñ ÑÑ‚Ñ€Ð¾ÐºÐ°
      */
     private function composeIniData($data, $params, $newName, $oldName)
     {
@@ -285,7 +285,7 @@ class actionGenerator
     }
 
     /**
-     * Ìåòîä ãåíåðàöè ýêøíà
+     * ÐœÐµÑ‚Ð¾Ð´ Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸ ÑÐºÑˆÐ½Ð°
      *
      * @param string $action
      * @param array $params
@@ -376,30 +376,30 @@ class actionGenerator
             throw new Exception('Error: template already exists');
         }
 
-        // çàïèñûâàåì äàííûå â actions ôàéë
+        // Ð·Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÐ¼ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð² actions Ñ„Ð°Ð¹Ð»
         file_put_contents($actionsfile, $actions_output);
         $this->log[] = $actionsfile;
 
-        // çàïèñûâàåì äàííûå â ôàéë êîíòðîëëåðà
+        // Ð·Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÐ¼ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð² Ñ„Ð°Ð¹Ð» ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð°
         $smarty->assign('controller_data', $controller_data);
         $controller = $smarty->fetch('controller.tpl');
         file_put_contents($controller_filename, $controller);
         $this->log[] = $controller_filename;
 
-        // çàïèñûâàåì äàííûå â ôàéë âèäà
+        // Ð·Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÐ¼ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð² Ñ„Ð°Ð¹Ð» Ð²Ð¸Ð´Ð°
         /*$smarty->assign('view_data', $view_data);
         $view = $smarty->fetch('view.tpl');
         file_put_contents($view_filename, $view);
         $this->log[] = $view_filename;*/
 
-        // çàïèñûâàåì äàííûå â àêòèâíûé øàáëîí
+        // Ð·Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÐ¼ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð² Ð°ÐºÑ‚Ð¸Ð²Ð½Ñ‹Ð¹ ÑˆÐ°Ð±Ð»Ð¾Ð½
         $smarty->assign('action', $action);
         $smarty->assign('module', $this->module);
         $act_tpl = $smarty->fetch('act.tpl');
         file_put_contents($act_tpl_filename, $act_tpl);
         $this->log[] = $act_tpl_filename;
 
-        // çàïèñûâàåì äàííûå â àêòèâíûé øàáëîí
+        // Ð·Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÐ¼ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð² Ð°ÐºÑ‚Ð¸Ð²Ð½Ñ‹Ð¹ ÑˆÐ°Ð±Ð»Ð¾Ð½
         $smarty->assign('action', $action);
         $smarty->assign('module', $this->module);
         $smarty->assign('path', $tpl_filename);

@@ -4,9 +4,9 @@ class userMapper extends simpleMapper
 {
     [...]
     /**
-     * Выполняет поиск объекта по логину
+     * Р’С‹РїРѕР»РЅСЏРµС‚ РїРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ Р»РѕРіРёРЅСѓ
      *
-     * @param string $login логин
+     * @param string $login Р»РѕРіРёРЅ
      * @return object
      */
     public function searchByLogin($login)

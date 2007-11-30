@@ -13,7 +13,7 @@
 */
 
 /**
- * accessEditGroupDefaultController: êîíòðîëëåð äëÿ ìåòîäà editGroupDefault ìîäóëÿ access
+ * accessEditGroupDefaultController: ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð»Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° editGroupDefault Ð¼Ð¾Ð´ÑƒÐ»Ñ access
  *
  * @package modules
  * @subpackage access
@@ -79,8 +79,8 @@ class accessEditGroupDefaultController extends simpleController
         $this->smarty->assign('class', $class);
         $this->smarty->assign('section', $section);
 
-        $title = $group ? $group->getName() : 'äîáàâèòü ãðóïïó';
-        $this->response->setTitle('ACL -> Ïðàâà ïî óìîë÷àíèþ -> ' . $title);
+        $title = $group ? $group->getName() : 'Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð³Ñ€ÑƒÐ¿Ð¿Ñƒ';
+        $this->response->setTitle('ACL -> ÐŸÑ€Ð°Ð²Ð° Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ -> ' . $title);
 
         return $this->smarty->fetch('access/editGroupDefault.tpl');
     }

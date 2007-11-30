@@ -1,11 +1,11 @@
 <?php
-    $validator->add('callback', 'name', 'Введённое значение ошибочно', array('sample_callback', time(), mt_rand(1, 10)));
+    $validator->add('callback', 'name', 'Р’РІРµРґС‘РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РѕС€РёР±РѕС‡РЅРѕ', array('sample_callback', time(), mt_rand(1, 10)));
 
     function sample_callback($value, $time, $rand)
     {
-        echo 'Введено значение: ' . $value . '<br />';
-        echo 'Время и дата вызова: ' . date('H:i:s d.m.Y', $time) . '<br />';
-        echo 'Случайное число в интервале от 1 до 10: ' . $rand;
+        echo 'Р’РІРµРґРµРЅРѕ Р·РЅР°С‡РµРЅРёРµ: ' . $value . '<br />';
+        echo 'Р’СЂРµРјСЏ Рё РґР°С‚Р° РІС‹Р·РѕРІР°: ' . date('H:i:s d.m.Y', $time) . '<br />';
+        echo 'РЎР»СѓС‡Р°Р№РЅРѕРµ С‡РёСЃР»Рѕ РІ РёРЅС‚РµСЂРІР°Р»Рµ РѕС‚ 1 РґРѕ 10: ' . $rand;
         return true;
     }
 ?>

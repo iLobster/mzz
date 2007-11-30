@@ -15,7 +15,7 @@
 fileLoader::load('simple/simpleForTree');
 
 /**
- * pageFolder: класс для работы c данными
+ * pageFolder: РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ c РґР°РЅРЅС‹РјРё
  *
  * @package modules
  * @subpackage page
@@ -26,7 +26,7 @@ class pageFolder extends simpleForTree
     protected $name = 'page';
 
     /**
-     * Конструктор
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
      *
      * @param object $mapper
      * @param array $map

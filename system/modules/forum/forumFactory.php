@@ -13,7 +13,7 @@
  */
 
 /**
- * forumFactory: фабрика для получения контроллеров forum
+ * forumFactory: С„Р°Р±СЂРёРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ forum
  *
  * @package modules
  * @subpackage forum
@@ -23,7 +23,7 @@
 class forumFactory extends simpleFactory
 {
     /**
-     * Имя модуля
+     * РРјСЏ РјРѕРґСѓР»СЏ
      *
      * @var string
      */

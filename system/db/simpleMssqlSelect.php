@@ -13,7 +13,7 @@
  */
 
 /**
- * Класс для генерации простых SELECT SQL-запросов для MSSQL
+ * РљР»Р°СЃСЃ РґР»СЏ РіРµРЅРµСЂР°С†РёРё РїСЂРѕСЃС‚С‹С… SELECT SQL-Р·Р°РїСЂРѕСЃРѕРІ РґР»СЏ MSSQL
  *
  * @package system
  * @subpackage db
@@ -23,7 +23,7 @@
 class simpleMssqlSelect extends simpleSelect
 {
     /**
-     * Экранирование алиасов
+     * Р­РєСЂР°РЅРёСЂРѕРІР°РЅРёРµ Р°Р»РёР°СЃРѕРІ
      *
      * @param string $alias
      * @return string
@@ -34,7 +34,7 @@ class simpleMssqlSelect extends simpleSelect
     }
 
     /**
-     * Экранирование имён полей
+     * Р­РєСЂР°РЅРёСЂРѕРІР°РЅРёРµ РёРјС‘РЅ РїРѕР»РµР№
      *
      * @param string $field
      * @return string
@@ -45,7 +45,7 @@ class simpleMssqlSelect extends simpleSelect
     }
 
     /**
-     * Экранирование имён таблиц
+     * Р­РєСЂР°РЅРёСЂРѕРІР°РЅРёРµ РёРјС‘РЅ С‚Р°Р±Р»РёС†
      *
      * @param string $table
      * @return string

@@ -13,7 +13,7 @@
 */
 
 /**
- * accessDeleteGroupController: контроллер для метода deleteGroup модуля access
+ * accessDeleteGroupController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° deleteGroup РјРѕРґСѓР»СЏ access
  *
  * @package modules
  * @subpackage access

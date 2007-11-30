@@ -29,17 +29,17 @@ class fileLoaderTest extends unitTestCase
     {
         $this->assertFalse(
         class_exists('someclassStub'),
-        'класс someclassStub не должен быть загружен'
+        'РєР»Р°СЃСЃ someclassStub РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р·Р°РіСЂСѓР¶РµРЅ'
         );
 
         $this->assertTrue(
         fileLoader::load('core/someclassStub'),
-        'класс someclassStub не загружен'
+        'РєР»Р°СЃСЃ someclassStub РЅРµ Р·Р°РіСЂСѓР¶РµРЅ'
         );
 
         $this->assertTrue(
         fileLoader::load('core/someclassStub'),
-        'второй раз тоже должно быть всё хорошо'
+        'РІС‚РѕСЂРѕР№ СЂР°Р· С‚РѕР¶Рµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РІСЃС‘ С…РѕСЂРѕС€Рѕ'
         );
     }
 }

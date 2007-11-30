@@ -1,1 +1,1 @@
-<b>404</b> тэги не заданы. <a class="jipLink" href="{url route=withId id=5 section=tags action=addTags}">Добавить тэги</a>
+<b>404</b> С‚СЌРіРё РЅРµ Р·Р°РґР°РЅС‹. <a class="jipLink" href="{url route=withId id=5 section=tags action=addTags}">Р”РѕР±Р°РІРёС‚СЊ С‚СЌРіРё</a>

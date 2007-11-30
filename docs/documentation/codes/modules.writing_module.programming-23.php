@@ -2,5 +2,5 @@
 controller = "delete"
 jip = "1"
 icon = "/templates/images/delete.gif"
-title = "Удалить"
-confirm = "Вы хотите удалить этот комментарий?"
+title = "РЈРґР°Р»РёС‚СЊ"
+confirm = "Р’С‹ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ СЌС‚РѕС‚ РєРѕРјРјРµРЅС‚Р°СЂРёР№?"

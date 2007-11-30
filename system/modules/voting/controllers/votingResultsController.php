@@ -13,7 +13,7 @@
  */
 
 /**
- * votingResultsController: контроллер для метода results модуля voting
+ * votingResultsController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° results РјРѕРґСѓР»СЏ voting
  *
  * @package modules
  * @subpackage voting

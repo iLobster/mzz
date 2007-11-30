@@ -13,7 +13,7 @@
  */
 
 /**
- * catalogueViewController: контроллер для метода view модуля catalogue
+ * catalogueViewController: РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РјРµС‚РѕРґР° view РјРѕРґСѓР»СЏ catalogue
  *
  * @package modules
  * @subpackage catalogue
