@@ -42,11 +42,11 @@ class mzzSmarty extends Smarty
     protected $fetchedTemplates = array();
 
     /**
-     * Имя XML-шаблона и placeholder установленных runtime
+     * Массив из имени XML-шаблона и имени placeholder-а в нем
      *
      * @var array
      */
-    protected $activeXmlTemplate = false;
+    protected $xmlTemplate = false;
 
     /**
      * Конструктор
@@ -163,11 +163,11 @@ class mzzSmarty extends Smarty
      */
     public function parse($str)
     {
-        if ($this->activeXmlTemplate !== false) {
-            $activeXmlTemplate = $this->activeXmlTemplate;
+        if ($this->xmlTemplate !== false) {
+            $xmlTemplate = $this->xmlTemplate;
             // для предотвращения рекурсии
-            $this->activeXmlTemplate = true;
-            return $activeXmlTemplate;
+            $this->xmlTemplate = true;
+            return $xmlTemplate;
         }
         $params = array();
         if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $matches)) {
@@ -190,20 +190,20 @@ class mzzSmarty extends Smarty
     public function isActive($template)
     {
         $isActive = (strpos($template, "{* main=") === false);
-        return ($this->activeXmlTemplate !== true && !$isActive)
-        || (is_array($this->activeXmlTemplate));
+        return ($this->xmlTemplate !== true && !$isActive)
+        || (is_array($this->xmlTemplate));
     }
 
     /**
-     * Устанавливает активный XML-шаблон и placeholder для контента
+     * Устанавливает XML-шаблон и имя placeholder-а
      *
      * @param string $template_name имя XML-шаблона
-     * @param string $placeholder имя placeholder. По умолчанию <i>content</i>
+     * @param string $placeholder имя placeholder-а. По умолчанию <i>content</i>
      */
-    public function setActiveXmlTemplate($template_name, $placeholder = 'content')
+    public function setXmlTemplate($template_name, $placeholder = 'content')
     {
-        if (!$this->activeXmlTemplate) {
-            $this->activeXmlTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
+        if (!$this->xmlTemplate) {
+            $this->xmlTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
         }
     }
 
@@ -211,11 +211,11 @@ class mzzSmarty extends Smarty
      * Возвращает true если установлен активный XML-шаблон
      *
      * @return boolean
-     * @see setActiveXmlTemplate()
+     * @see setXmlTemplate()
      */
     public function isXml()
     {
-        return $this->activeXmlTemplate !== false;
+        return $this->xmlTemplate !== false;
     }
 
     function _parse_resource_name(&$params)

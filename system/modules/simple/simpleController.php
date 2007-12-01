@@ -63,7 +63,7 @@ abstract class simpleController
         $this->response = $this->toolkit->getResponse();
 
         if ($this->toolkit->getRegistry()->get('isJip') && $this->request->isAjax()) {
-            $this->smarty->setActiveXmlTemplate('main.xml.tpl');
+            $this->smarty->setXmlTemplate('main.xml.tpl');
             $this->response->setHeader('Content-Type', 'text/xml');
         }
     }
