@@ -161,6 +161,7 @@ div#jipLoad img {
     border-collapse: separate !important;
     border-width: medium !important;
     border-spacing: 0 !important;
+    padding: 3px !important;
 }
 
 table.jipItems {

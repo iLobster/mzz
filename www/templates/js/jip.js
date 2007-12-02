@@ -335,7 +335,7 @@ jipWindow = Class.create({
         }
 
         this.jip.update(this.jip.innerHTML + tmp);
-        
+
         var jipTitle = '';
         var jipClose = '';
         var currentElement = '';
@@ -656,7 +656,7 @@ jipMenu = Class.create({
         this.current = $H({"menu": false, "button": false});
         this.eventKeypress  = this.keyPress.bindAsEventListener(this);
         this.jipMenu = false;
-        this.closeTimer = false;
+        //this.closeTimer = false;
     },
 
     keyPress: function(event) {
@@ -672,11 +672,11 @@ jipMenu = Class.create({
             if (this.current.get('menu') != false && this.current.get('button') != false) {
                 this.close();
             }
-            (function () {
-                jipMenu.current.set('menu', id);
-                jipMenu.current.set('button', button);
-                jipMenu.draw(button, id, items);
-            }).delay(this.closeTimer ? 11 : 0);
+            //(function () {
+            jipMenu.current.set('menu', id);
+            jipMenu.current.set('button', button);
+            jipMenu.draw(button, id, items);
+            //}).delay(this.closeTimer ? 11 : 0);
         } else {
             this.close();
         }
@@ -741,7 +741,8 @@ jipMenu = Class.create({
 
             jipMenuTable.appendChild(jipMenuTbody);
             jipMenuDiv.appendChild(jipMenuTable);
-            $(button.parentNode).insert({top: jipMenuDiv});
+            //$(button.parentNode).insert({top: jipMenuDiv});
+            $(document.body).insert({bottom: jipMenuDiv});
         } else {
             var jipMenuDiv = $(id);
             jipMenuDiv.setStyle({display: 'inline'});
@@ -750,7 +751,7 @@ jipMenu = Class.create({
         jipMenuDiv.observe("mouseover", this.eventMouseIn);
         document.observe("keypress", this.eventKeypress);
 
-        this.mouseOut();
+        //this.mouseOut();
 
         this.jipButton = $(button);
         this.jipMenu = jipMenuDiv;
@@ -766,7 +767,7 @@ jipMenu = Class.create({
         var size = Element.getDimensions(this.jipMenu);
         var buttonSize = Element.getDimensions(this.jipButton);
 
-        var pos = Position.positionedOffset(this.jipButton);
+        var pos = Position.cumulativeOffset(this.jipButton);
         var posScroll = Position.realOffset(document.documentElement);
         if (Position.within(body, pos[0] + size.width - posScroll[0], 0)) {
             var x = pos[0] + 1;
