@@ -1,4 +1,4 @@
-AddDefaultCharset windows-1251
+AddDefaultCharset UTF-8
 RewriteEngine on
 Options +FollowSymlinks -Indexes -Includes -MultiViews
 # +MultiViews

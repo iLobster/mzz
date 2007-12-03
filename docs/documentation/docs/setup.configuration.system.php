@@ -30,7 +30,7 @@
 <div class="options_name">systemConfig::$db['default']['password'] <span class="options_value">= null</span></div>
 <div class="options_desc">Пароль для доступа к БД, указанной в DSN</div>
 
-<div class="options_name">systemConfig::$db['default']['charset'] <span class="options_value">= cp1251</span></div>
+<div class="options_name">systemConfig::$db['default']['charset'] <span class="options_value">= utf8</span></div>
 <div class="options_desc">Кодировка БД. После успешного соединения с БД выполняется запрос: <code>SET NAMES `кодировка`</code></div>
 
 <div class="options_name">systemConfig::$db['default']['pdoOptions'] <span class="options_value">= array()</span></div>

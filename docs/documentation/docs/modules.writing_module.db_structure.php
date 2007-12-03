@@ -17,7 +17,7 @@ CREATE TABLE `comments_comments` (
   `time` int(11) unsigned default NULL,
   `folder_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 <</code>>
 <p>Эту же структуру опишем в файле comments.map.ini:</p>
 <<code ini>>
@@ -56,7 +56,7 @@ CREATE TABLE `comments_commentsfolder` (
   `parent_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 <</code>>
 <p>Эту структуру также опишем в файле commentsFolder.map.ini:</p>
 <<code ini>>

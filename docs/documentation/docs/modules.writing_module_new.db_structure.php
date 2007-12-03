@@ -22,7 +22,7 @@ CREATE TABLE `message_message` (
   `category_id` int(11) default NULL,
   `obj_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 <</code>>
 <p>Для сущности <code>messageCategory</code> таблица будет несколько проще:</p>
 <ul>
@@ -38,7 +38,7 @@ CREATE TABLE `message_messageCategory` (
   `name` char(20) default NULL,
   `obj_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 <</code>>
 <p>Теперь вернёмся снова в devToolbar, и для каждой из сущностей откроем редактор map-файла. В результате <code>message.map.ini</code> и <code>messageCategory.map.ini</code> будут сгенерированы на основе таблиц в БД. Если всё выполнено верно, то файлы будут выглядеть так:</p>
 <<code ini>>
