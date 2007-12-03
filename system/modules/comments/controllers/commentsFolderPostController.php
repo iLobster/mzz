@@ -31,7 +31,7 @@ class commentsFolderPostController extends simpleController
         $user = $this->toolkit->getUser();
 
         $validator = new formValidator();
-        $validator->add('required', 'text', 'Необходимо ввести сообщение');
+        $validator->add('required', 'text', 'Введите комментарий');
 
         $access = $this->request->get('access', 'boolean', SC_PATH);
 
@@ -79,6 +79,7 @@ class commentsFolderPostController extends simpleController
 
                 $this->smarty->assign('action', $url->get());
                 $this->smarty->assign('url', $this->request->get('REQUEST_URI', 'string', SC_SERVER));
+                $this->smarty->assign('userLogin', $user->getLogin());
 
                 return $this->smarty->fetch('comments/post.tpl');
             }

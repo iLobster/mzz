@@ -26,4 +26,4 @@
     В альбоме нет фотографий
 {/foreach}
 
-<br clear="all" />
+<div class="clear"></div>

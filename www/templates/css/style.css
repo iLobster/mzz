@@ -1,3 +1,23 @@
+h1, h2, h3, h4, h5, h6 {
+    font-size: 1.1em;
+}
+
+/* reset */
+form, table, tbody, tfoot, thead, tr, th, td {
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    font-family: inherit;
+    margin: 0;
+}
+
+form {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -19,11 +39,11 @@ html, body {
 }
 
 a {
-	color: #003379;
+    color: #004BB0;
 }
 
 a:hover {
-	color: #B30000;
+    color: #B30000;
 }
 
 img {
@@ -31,153 +51,151 @@ img {
 }
 
 #siteTitle {
-	float: left;
-	top: 10px;
-	left: 20px;
-	display: block;
-	position: relative;
-	color: #777;
-	font-size: 85%;
+    float: left;
+    top: 10px;
+    left: 20px;
+    display: block;
+    position: relative;
+    color: #777;
+    font-size: 85%;
 }
 
 #navMenu a {
-	color: #FFFFFF;
-	text-decoration: none;
+    color: #FFFFFF;
+    text-decoration: none;
 }
 
 #navMenu a:hover {
-	text-decoration: underline;
-	color: #E3ECEE;
+    text-decoration: underline;
+    color: #E3ECEE;
 }
 
 #navMenu ul,#navMenu li {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #navMenu ul {
-	text-align: center;
-	margin: auto auto;
-	/*width: 470px;*/
-	float: right;
-	padding-left: 14px;
-	margin-top: 9px;
+    text-align: center;
+    margin: auto auto;
+    /*width: 470px;*/
+    float: right;
+    padding-left: 14px;
+    margin-top: 9px;
         margin-right: 20px;
 }
 
 #navMenu li {
-	display: block;
-	float: left;
-	height: 27px;
-	margin: 0 15px;
-	padding: 0;
-	line-height: 24px;
+    display: block;
+    float: left;
+    height: 27px;
+    margin: 0 15px;
+    padding: 0;
+    line-height: 24px;
 }
 
 #navMenu li.activeNavElement {
-	background: url("../images/nav-highlight-bg.gif") no-repeat bottom left;
-	padding: 0px 0 0px 14px;
-	height: 31px;
-	margin: 0;
+    background: url("../images/nav-highlight-bg.gif") no-repeat bottom left;
+    padding: 0px 0 0px 14px;
+    height: 31px;
+    margin: 0;
         margin-top: 0px;
 }
 
 #navMenu li.activeNavElement a {
-	background: url("../images/nav-highlight-bg2.gif") no-repeat bottom right;
-	display: block;
-	float: left;
-	height: 31px;
-	line-height: 27px;
-	color: #fff;
-	padding: 0px 14px 0px 0;
+    background: url("../images/nav-highlight-bg2.gif") no-repeat bottom right;
+    display: block;
+    float: left;
+    height: 31px;
+    line-height: 27px;
+    color: #fff;
+    padding: 0px 14px 0px 0;
         padding-top: 0px;
-	margin: 0;
+    margin: 0;
 }
 
 #footer {
-	position: relative;
-	margin: -46px auto 0 auto !important;
-	width: 100%;
-	height: 35px;
-	border-top: 0;
-	padding: 0;
-	/*border-top: 1px solid #E3E3DB;
+    position: relative;
+    margin: -46px auto 0 auto !important;
+    width: 100%;
+    height: 35px;
+    border-top: 0;
+    padding: 0;
+    /*border-top: 1px solid #E3E3DB;
   background-color: #F3F3EF;*/
-	/*border-top: 1px solid #D2D3C7;
-	background-color: #F0F1ED;*/
+    /*border-top: 1px solid #D2D3C7;
+    background-color: #F0F1ED;*/
         background-color: #F5F5F3;
         border-top: 1px solid #D7D7D7;
-	font-size: 85%;
-	color: #535353;
-	padding-top: 10px;
-	text-align: right;
+    font-size: 85%;
+    color: #535353;
+    padding-top: 10px;
+    text-align: right;
 }
 
 #footer span {
-	padding-right: 7px;
-	display: block;
+    padding-right: 7px;
+    display: block;
 }
 
 #hcontainer {
-	width: 100%;
-	height: 96px;
-	margin: 0 auto;
-	position: relative;
-	z-index: 2;
+    width: 100%;
+    height: 96px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
         background-image: url("../images/header_background_lines.gif");
         background-repeat: no-repeat;
 }
 
 #hbackground {
-	background: #333D44 url("../images/header_background.png");
+       /* background-color: #1D3138;*/
+    background: #333D44 url("../images/header_background.png");
 }
 
 #hcontainer img {
-	margin-left: 39px;
-	margin-top: 27px;
-	border: 0;
+    margin-left: 39px;
+    margin-top: 27px;
+    border: 0;
 }
 
 .headerBorderLine {
     background-color: #EFEFEA;
     border-bottom: 1px solid #E3E2DA;
     height: 2px;
-    margin-top: 6px;
 }
 
 #menucontainer {
-	width: 100%;
-	height: 34px;
-	margin: 0 auto;
-	position: relative;
-	z-index: 3;
-        margin-top: -40px;
+    width: 100%;
+    height: 40px;
+    position: relative;
+    z-index: 3;
+    margin-top: -40px;
 }
 
 #wrapper {
-	margin: 0 auto;
-	width: 100%;
-	text-align: left;
-	min-height: 100%;
-	background: white;
+    margin: 0 auto;
+    width: 100%;
+    text-align: left;
+    min-height: 100%;
+    background: white;
 }
 
 
 #hcontainer div {
-	float: left;
+    float: left;
 }
 
 #content {
-	min-height: 100%;
-	line-height: 140%;
-	margin: 15px;
-	margin-bottom: 80px;
+    min-height: 100%;
+    line-height: 140%;
+    margin: 12px 15px 80px;
 }
 
 #nonFooter {
-	position: relative;
-	min-height: 100%;
-	padding-bottom: 34px;
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 34px;
 }
 
 #loginForm {
@@ -193,110 +211,116 @@ img {
 }
 */
 #col2 {
-	margin-left: 185px;
+    margin-left: 185px;
 }
 
 #col1 {
-	width: 160px;
-	float: left;
+    width: 160px;
+    float: left;
 }
 
 #col3 {
-	width: 175px;
-	float: right;
+    width: 175px;
+    float: right;
 }
 
 div.sideBlock {
     /* если нужно будет явно выделить блоки
     background-color: #F6F6F3;
     padding: 5px;*/
-	width: 100%;
-	line-height: 160%;
-	margin-bottom: 20px;
+    width: 100%;
+    line-height: 160%;
+    margin-bottom: 20px;
 }
 
 div.sideBlock p.sideBlockTitle {
-	border-bottom: 1px solid #D6D6D6;
-	padding: 0 0 4px 4px;
-	font-size: 120%;
-	margin: 5px 0;
-	font-weight: bold;
+    border-bottom: 1px solid #D6D6D6;
+    padding: 0 0 4px 4px;
+    font-size: 120%;
+    margin: 5px 0;
+    font-weight: bold;
+    color: #444;
 }
 
 div.sideBlock div.sideBlockContent {
-	font-size: 90%;
-	padding-left: 10px;
+    font-size: 90%;
+    padding-left: 10px;
 }
 
 #container {
-	width: 100%;
-	float: left;
-	margin-right: -190px;
+    width: 100%;
+    float: left;
+}
+
+#leftMainCol #container {
+    margin-right: -190px;
 }
 
 #leftMainCol {
-	margin-right: 190px;
+    margin-right: 190px;
 }
 
 ul.sideMenu {
-	margin: 0px;
-	padding: 10px 0px;
-	margin-bottom: 15px;
+    margin: 0px;
+    padding: 9px 0px;
+    margin-bottom: 15px;
 }
 
 ul.sideMenu ul {
-	margin-left: 0px;
-	padding-left: 10px;
+    margin-left: 5px;
+    padding-left: 15px;
 }
 
 ul.sideMenu li {
-	list-style: none;
-	display: block;
-	line-height: 160%;
-	margin-left: 0px;
-	padding-left: 15px;
-	/*background: #fff url("arrow.gif") no-repeat 3px 8px;*/
+    list-style: none;
+    display: block;
+    line-height: 160%;
+    margin-left: 0px;
+    padding-left: 9px;
+    font-size: 10pt;
+    color: #003379;
+    /*background: #fff url("arrow.gif") no-repeat 3px 8px;*/
 }
 
 ul.sideMenu li ul {
-	margin-left: -15px;
+    margin-left: -10px;
+    font-size: 95%;
 }
 
 ul.sideMenu li ul li {
-	background: #fff url("../images/submenu_arrow.gif") no-repeat 6px 9px;
+    background: #fff url("../images/submenu_arrow.gif") no-repeat 0px 3px;
+    font-size: 9pt;
 }
 
 ul.sideMenu li a {
-	/*color: #003379;*/
-        /*color: #033F63;*/
-        color: #1A2D53;
-	text-decoration: none;
+    text-decoration: none;
+    color: #003379;
 }
 
 ul.sideMenu li a:hover {
-	text-decoration: underline;
-	color: #B30000;
+    text-decoration: underline;
+    color: #B30000;
 }
 
 div.newsItem p.newsItemTitle {
-	margin-bottom: 0px;
-	margin-top: 10px;
+    margin-bottom: 0px;
+    margin-top: 10px;
 }
 
 div.newsItem p.newsItemTitle span {
-	color: #999;
-	font-size: 80%;
+    color: #999;
+    font-size: 80%;
 }
 
 .contentBlockTitle {
-	font-size: 140%;
-	margin-top: 15px;
-	margin-bottom: 10px;
-	padding: 0 0 5px 0;
-	background: #fff url("../images/separator_bg.gif") left bottom repeat-x;
+    font-size: 140%;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding: 0 0 5px 0;
+    background: #fff url("../images/separator_bg.gif") left bottom repeat-x;
 }
 
 .clear {
-	clear: both;
-	height: 1%;
+    clear: both;
+    height: 1%;
 }
