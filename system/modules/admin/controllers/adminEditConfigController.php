@@ -24,6 +24,7 @@ class adminEditConfigController extends simpleController
 {
     public function getView()
     {
+        /*
         $module_name = $this->request->get('module_name', 'string', SC_PATH);
         $section_name = $this->request->get('section_name', 'string', SC_PATH);
 
@@ -40,6 +41,23 @@ class adminEditConfigController extends simpleController
         $this->smarty->assign('configs', $config->getValues());
         $this->smarty->assign('section', $section_name);
         $this->smarty->assign('module', $module_name);
+        */
+
+        $module_name = $this->request->get('module_name', 'string', SC_PATH);
+        $section_name = $this->request->get('section_name', 'string', SC_PATH);
+
+        $name = $this->request->get('name', 'string');
+        $configMapper = $this->toolkit->getMapper('config', 'config', 'config');
+
+        $type = $configMapper->searchTypeByName($module_name);
+
+        if (!$type) {
+            return 'для этого модуля конфиг отсутствует';
+        }
+
+        $config = $configMapper->searchBySection($type['id'], $section_name);
+
+        return $config;
 
         return $this->smarty->fetch('admin/editConfig.tpl');
     }

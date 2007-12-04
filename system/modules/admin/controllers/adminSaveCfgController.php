@@ -102,27 +102,29 @@ class adminSaveCfgController extends simpleController
         if ($validator->validate()) {
             $type = $configMapper->searchTypeByName($name);
 
+            $typesProperties = $configMapper->getProperties($type['id']);
+
             $proptype = 1;
             $propname = $this->request->get('propname', 'string', SC_POST);
             $proptitle = $this->request->get('proptitle', 'string', SC_POST);
+            $propdefault = $this->request->get('propdefault', 'string', SC_POST);
 
-            $newPropId = $configMapper->addProperty($propname, $proptitle, $proptype, array());
+            $newPropId = $configMapper->addProperty($propname, $proptitle, $propdefault, $proptype, array());
+            $typesProperties = array();
+            $typesProperties[$newPropId] = array(
+                'default' => $propdefault,
+                'sort' => 0
+            );
 
             if ($type) {
-                $typesProperties = $configMapper->getProperties($type['id']);
-                $typesProperties[$newPropId] = array(
-                    'sort' => 0,
-                    'isFull' => 0,
-                    'isShort' => 0
-                );
+                $typesProperties_tmp = $configMapper->getProperties($type['id']);
+                foreach ($typesProperties_tmp as $tmp) {
+                    $typesProperties[$tmp['id']] = $tmp;
+                }
+
                 $configMapper->updateType($type['id'], $type['name'], $type['title'], $typesProperties);
             } else {
-                $typesProperties[$newPropId] = array(
-                    'sort' => 0,
-                    'isFull' => 0,
-                    'isShort' => 0
-                );
-                $configMapper->addType($name, 'Модуль ' . $name, array($newPropId));
+                $configMapper->addType($name, 'Модуль ' . $name, $typesProperties);
             }
 
             return jipTools::closeWindow();

@@ -239,7 +239,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         $this->db->query($query);
     }
 
-    private function updatePropertiesSelection($typeId, Array $properties)
+    protected function updatePropertiesSelection($typeId, Array $properties)
     {
         foreach ($properties as $id => $values) {
             $stmt = $this->db->prepare('UPDATE `' . $this->tableTypesProps . '` SET `isFull` = :isFull, `isShort` = :isShort, `sort` = :sort WHERE `type_id` = :type_id AND `property_id` = :prop_id');
@@ -274,12 +274,12 @@ abstract class simpleCatalogueMapper extends simpleMapper
         return $this->db->getAll('SELECT * FROM `' . $this->tablePropertiesTypes . '`', PDO::FETCH_ASSOC);
     }
 
-    private function getPropertyType($name)
+    protected function getPropertyType($name)
     {
         return $this->db->getRow($qry = 'SELECT `t`.`id`, `t`.`name` FROM `' . $this->tableProperties . '` `p` INNER JOIN `' . $this->tablePropertiesTypes . '` `t` ON `t`.`id` = `p`.`type_id` WHERE `p`.`name` = ' . $this->db->quote($name));
     }
 
-    private function getPropertyTypeByTypeprop($id)
+    protected function getPropertyTypeByTypeprop($id)
     {
         if (!isset($this->tmpPropsTypes[$id])) {
             $this->tmpPropsTypes[$id] = $this->db->getOne($qry = 'SELECT `t`.`name` FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `tp`.`property_id` = `p`.`id` INNER JOIN `' . $this->tablePropertiesTypes .'` `t` ON `t`.`id` = `p`.`type_id` WHERE `tp`.`id` = ' . (int)$id);
@@ -287,7 +287,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
         return $this->tmpPropsTypes[$id];
     }
 
-    private function prepareType($type)
+    protected function prepareType($type)
     {
         if ($type == 'select' || $type == 'dynamicselect' || $type == 'datetime') {
             $type = 'int';

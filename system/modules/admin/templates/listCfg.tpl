@@ -8,20 +8,21 @@
         <td><strong>Имя</strong></td>
         <td><strong>Заголовок</strong></td>
         <td><strong>Тип</strong></td>
-        <td colspan="2"><strong>Значение по-умолчанию</strong></td>
+        <td><strong>Значение по-умолчанию</strong></td>
+        <td colspan="2"></td>
     </tr>
     {foreach from=$properties item="value" key="param"}
         <tr>
             <td width="20%">{$param}</td>
             <td width="70%">{$value.title}</td>
             <td width="70%">{$value.type}</td>
-            <td width="70%">{$value.value}</td>
-            {*
+            <td width="70%">{$value.default}</td>
             <td width="10%" style="text-align: right;">
+            {*
                 <a href="{url route="adminCfgEdit" section="admin" id=$data.id name=$param action=editCfg}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="Редактировать параметр" title="Редактировать параметр" /></a>
                 <a href="{url route="adminCfgEdit" section="admin" id=$data.id name=$param action=deleteCfg}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="Удалить параметр" title="Удалить параметр" /></a>
-            </td>
             *}
+            </td>
         </tr>
     {foreachelse}
         <tr>

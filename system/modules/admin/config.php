@@ -23,6 +23,11 @@
 class config extends simpleCatalogue
 {
     protected $name = 'admin';
+
+    public function getObjId()
+    {
+        return $this->mapper->getObjId();
+    }
 }
 
 ?>

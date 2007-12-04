@@ -16,7 +16,7 @@
         </tr>
         <tr>
             <td>{form->caption name="propdefault" value="Значение по-умолчанию" onError="style=color: red;"}</td>
-            <td>{form->text name="propdefault" disabled="true"} {$errors->get('propdefault')}</td>
+            <td>{form->text name="propdefault"} {$errors->get('propdefault')}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
