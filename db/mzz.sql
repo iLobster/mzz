@@ -36,7 +36,7 @@ CREATE TABLE `catalogue_catalogue` (
   `folder_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `folder_id` (`folder_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `catalogue_catalogue` table  (LIMIT 0,500)
@@ -72,7 +72,7 @@ CREATE TABLE `catalogue_catalogueFolder` (
   `parent` int(11) default '0',
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `catalogue_catalogueFolder` table  (LIMIT 0,500)
@@ -102,7 +102,7 @@ CREATE TABLE `catalogue_catalogueFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `catalogue_catalogueFolder_tree` table  (LIMIT 0,500)
@@ -191,7 +191,7 @@ CREATE TABLE `catalogue_catalogue_properties` (
   `args` text,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `catalogue_catalogue_properties` table  (LIMIT 0,500)
@@ -224,7 +224,7 @@ CREATE TABLE `catalogue_catalogue_properties_types` (
   `name` varchar(255) default NULL,
   `title` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `catalogue_catalogue_properties_types` table  (LIMIT 0,500)
@@ -253,7 +253,7 @@ CREATE TABLE `catalogue_catalogue_types` (
   `name` char(255) default NULL,
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `catalogue_catalogue_types` table  (LIMIT 0,500)
@@ -283,7 +283,7 @@ CREATE TABLE `catalogue_catalogue_types_props` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`),
   KEY `property_id` (`property_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `catalogue_catalogue_types_props` table  (LIMIT 0,500)
@@ -319,7 +319,7 @@ CREATE TABLE `comments_comments` (
   `time` int(11) unsigned default NULL,
   `folder_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `comments_comments` table  (LIMIT 0,500)
@@ -342,7 +342,7 @@ CREATE TABLE `comments_commentsFolder` (
   `parent_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `comments_commentsFolder` table  (LIMIT 0,500)
@@ -396,7 +396,7 @@ CREATE TABLE `faq_faq` (
   `category_id` int(10) unsigned default NULL,
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `faq_faq` table  (LIMIT 0,500)
@@ -420,7 +420,7 @@ CREATE TABLE `faq_faqCategory` (
   `title` char(255) default NULL,
   `obj_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `faq_faqCategory` table  (LIMIT 0,500)
@@ -452,7 +452,7 @@ CREATE TABLE `fileManager_file` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`,`name`,`ext`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `fileManager_file` table  (LIMIT 0,500)
@@ -485,7 +485,7 @@ CREATE TABLE `fileManager_folder` (
   `filesize` int(11) unsigned default NULL,
   `exts` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `fileManager_folder` table  (LIMIT 0,500)
@@ -513,7 +513,7 @@ CREATE TABLE `fileManager_folder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
@@ -538,7 +538,7 @@ CREATE TABLE `forum_category` (
   `order` int(11) default NULL,
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `forum_category` table  (LIMIT 0,500)
@@ -567,7 +567,7 @@ CREATE TABLE `forum_forum` (
   `last_post` int(11) default NULL,
   `description` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `forum_forum` table  (LIMIT 0,500)
@@ -597,7 +597,7 @@ CREATE TABLE `forum_post` (
   PRIMARY KEY  (`id`),
   KEY `thread_id` (`thread_id`,`id`),
   KEY `post_date` (`post_date`,`thread_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `forum_post` table  (LIMIT 0,500)
@@ -710,7 +710,7 @@ CREATE TABLE `forum_thread` (
   `view_count` int(11) default '0',
   PRIMARY KEY  (`id`),
   KEY `post_date` (`post_date`,`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `forum_thread` table  (LIMIT 0,500)
@@ -754,7 +754,7 @@ CREATE TABLE `gallery_album` (
   `main_photo` int(11) NOT NULL default '0',
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `gallery_album` table  (LIMIT 0,500)
@@ -780,7 +780,7 @@ CREATE TABLE `gallery_gallery` (
   `updated` int(11) default NULL,
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `gallery_gallery` table  (LIMIT 0,500)
@@ -806,7 +806,7 @@ CREATE TABLE `gallery_photo` (
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `album_id` (`album_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `gallery_photo` table  (LIMIT 0,500)
@@ -835,7 +835,7 @@ CREATE TABLE `menu_menu` (
   `title` varchar(255) NOT NULL default '',
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `menu_menu` table  (LIMIT 0,500)
@@ -863,7 +863,7 @@ CREATE TABLE `menu_menuItem` (
   `order` int(10) unsigned default '0',
   `obj_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 PACK_KEYS=0;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=0;
 
 #
 # Data for the `menu_menuItem` table  (LIMIT 0,500)
@@ -979,7 +979,7 @@ CREATE TABLE `menu_menuItem_properties` (
   `args` text,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `menu_menuItem_properties` table  (LIMIT 0,500)
@@ -1004,7 +1004,7 @@ CREATE TABLE `menu_menuItem_properties_types` (
   `name` varchar(255) default NULL,
   `title` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `menu_menuItem_properties_types` table  (LIMIT 0,500)
@@ -1026,7 +1026,7 @@ CREATE TABLE `menu_menuItem_types` (
   `name` char(255) default NULL,
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `menu_menuItem_types` table  (LIMIT 0,500)
@@ -1054,7 +1054,7 @@ CREATE TABLE `menu_menuItem_types_props` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`),
   KEY `property_id` (`property_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `menu_menuItem_types_props` table  (LIMIT 0,500)
@@ -1085,7 +1085,7 @@ CREATE TABLE `message_message` (
   `category_id` int(11) default NULL,
   `obj_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `message_message` table  (LIMIT 0,500)
@@ -1109,7 +1109,7 @@ CREATE TABLE `message_messageCategory` (
   `name` char(20) default NULL,
   `obj_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `message_messageCategory` table  (LIMIT 0,500)
@@ -1141,7 +1141,7 @@ CREATE TABLE `news_news` (
   PRIMARY KEY  (`id`),
   KEY `id` (`id`),
   KEY `folder_id` (`folder_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=169 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `news_news` table  (LIMIT 0,500)
@@ -1326,7 +1326,7 @@ CREATE TABLE `news_newsFolder` (
   PRIMARY KEY  (`id`),
   KEY `name` (`name`),
   KEY `parent` (`parent`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `news_newsFolder` table  (LIMIT 0,500)
@@ -1366,7 +1366,7 @@ CREATE TABLE `news_newsFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
@@ -1406,7 +1406,7 @@ CREATE TABLE `page_page` (
   `folder_id` int(11) unsigned default NULL,
   `compiled` int(11) default NULL,
   KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `page_page` table  (LIMIT 0,500)
@@ -1414,7 +1414,7 @@ CREATE TABLE `page_page` (
 
 INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `compiled`) VALUES 
   (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n',1,0),
-  (2,10,'404','404 Not Found','Запра',1,NULL),
+  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена',1,0),
   (3,11,'test','test','test',1,NULL),
   (4,57,'403','Доступ запрещён','Доступ запрещён',1,NULL),
   (5,164,'pagename','123','234',2,NULL),
@@ -1442,7 +1442,7 @@ CREATE TABLE `page_pageFolder` (
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `page_pageFolder` table  (LIMIT 0,500)
@@ -1470,7 +1470,7 @@ CREATE TABLE `page_pageFolder_tree` (
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
@@ -1502,7 +1502,7 @@ CREATE TABLE `sys_access` (
   KEY `class_action_id` (`class_section_id`,`obj_id`,`uid`,`gid`),
   KEY `obj_id_gid` (`obj_id`,`gid`),
   KEY `obj_id_uid` (`obj_id`,`uid`)
-) ENGINE=MyISAM AUTO_INCREMENT=5011 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
@@ -5581,7 +5581,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1240,21),
   (1241,21),
   (1242,21),
-  (1243,21);
+  (1243,21),
+  (1244,45),
+  (1245,7);
 
 COMMIT;
 
@@ -5596,7 +5598,7 @@ CREATE TABLE `sys_actions` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_actions` table  (LIMIT 0,500)
@@ -5689,7 +5691,7 @@ CREATE TABLE `sys_cfg` (
   `module` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `section_module` (`section`,`module`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_cfg` table  (LIMIT 0,500)
@@ -5725,7 +5727,7 @@ CREATE TABLE `sys_cfg_titles` (
   `title` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_cfg_titles` table  (LIMIT 0,500)
@@ -5760,7 +5762,7 @@ CREATE TABLE `sys_cfg_values` (
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
@@ -5801,7 +5803,7 @@ CREATE TABLE `sys_cfg_vars` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_cfg_vars` table  (LIMIT 0,500)
@@ -5833,7 +5835,7 @@ CREATE TABLE `sys_classes` (
   `module_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_classes` table  (LIMIT 0,500)
@@ -5880,7 +5882,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (44,'tags',17),
   (45,'tagsItem',17),
   (46,'tagsItemRel',17),
-  (47,'captcha',18);
+  (47,'captcha',18),
+  (48,'config',6);
 
 COMMIT;
 
@@ -5896,7 +5899,7 @@ CREATE TABLE `sys_classes_actions` (
   `action_id` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `class_id` (`class_id`,`action_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=256 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -6077,7 +6080,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (252,45,5),
   (253,1,97),
   (254,47,9),
-  (255,47,3);
+  (255,47,3),
+  (256,48,9);
 
 COMMIT;
 
@@ -6094,7 +6098,7 @@ CREATE TABLE `sys_classes_sections` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `module_section` (`section_id`,`class_id`),
   KEY `class_id` (`class_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_classes_sections` table  (LIMIT 0,500)
@@ -6142,9 +6146,115 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (40,45,17),
   (41,44,17),
   (42,46,17),
-  (43,47,18);
+  (43,47,18),
+  (44,48,7),
+  (45,48,6);
 
 COMMIT;
+
+#
+# Structure for the `sys_config` table : 
+#
+
+DROP TABLE IF EXISTS `sys_config`;
+
+CREATE TABLE `sys_config` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `name` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Structure for the `sys_config_data` table : 
+#
+
+DROP TABLE IF EXISTS `sys_config_data`;
+
+CREATE TABLE `sys_config_data` (
+  `id` int(11) NOT NULL default '0',
+  `property_type` int(11) unsigned default NULL,
+  `text` text,
+  `char` varchar(255) default NULL,
+  `int` int(11) default NULL,
+  `float` float(9,3) default NULL,
+  UNIQUE KEY `id` (`id`,`property_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+
+#
+# Structure for the `sys_config_properties` table : 
+#
+
+DROP TABLE IF EXISTS `sys_config_properties`;
+
+CREATE TABLE `sys_config_properties` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) default NULL,
+  `type_id` int(11) unsigned default NULL,
+  `args` text,
+  PRIMARY KEY  (`id`),
+  KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Structure for the `sys_config_properties_types` table : 
+#
+
+DROP TABLE IF EXISTS `sys_config_properties_types`;
+
+CREATE TABLE `sys_config_properties_types` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Data for the `sys_config_properties_types` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_config_properties_types` (`id`, `name`, `title`) VALUES 
+  (1,'char','строка'),
+  (2,'float','число с плавающей точкой'),
+  (3,'int','целое число'),
+  (4,'text','текст'),
+  (5,'select','обычный список'),
+  (6,'datetime','дата и время'),
+  (7,'dynamicselect','динамический список'),
+  (8,'img','изображение');
+
+COMMIT;
+
+#
+# Structure for the `sys_config_types` table : 
+#
+
+DROP TABLE IF EXISTS `sys_config_types`;
+
+CREATE TABLE `sys_config_types` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Structure for the `sys_config_types_props` table : 
+#
+
+DROP TABLE IF EXISTS `sys_config_types_props`;
+
+CREATE TABLE `sys_config_types_props` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `property_id` int(11) unsigned default NULL,
+  `sort` int(11) unsigned default '0',
+  `isFull` tinyint(1) NOT NULL default '1',
+  `isShort` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `property_id` (`property_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `sys_modules` table : 
@@ -6160,7 +6270,7 @@ CREATE TABLE `sys_modules` (
   `icon` char(255) default NULL,
   `order` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_modules` table  (LIMIT 0,500)
@@ -6195,7 +6305,7 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1244 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -7446,7 +7556,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1240),
   (1241),
   (1242),
-  (1243);
+  (1243),
+  (1244),
+  (1245);
 
 COMMIT;
 
@@ -7519,7 +7631,9 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (1169,'news_tagsCloud'),
   (1184,'access_tags_tagsItem'),
   (1230,'captcha_captcha'),
-  (1231,'access_captcha_captcha');
+  (1231,'access_captcha_captcha'),
+  (1244,'sys_catalogue'),
+  (1245,'access_sys_admin');
 
 COMMIT;
 
@@ -7536,7 +7650,7 @@ CREATE TABLE `sys_sections` (
   `order` int(11) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`,`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_sections` table  (LIMIT 0,500)
@@ -7574,7 +7688,7 @@ CREATE TABLE `tags_item_rel` (
   `item_id` int(10) unsigned default NULL,
   `obj_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `tags_item_rel` table  (LIMIT 0,500)
@@ -7601,7 +7715,7 @@ CREATE TABLE `tags_tags` (
   `tag` varchar(255) default NULL,
   `obj_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `tags_tags` table  (LIMIT 0,500)
@@ -7629,7 +7743,7 @@ CREATE TABLE `tags_tagsItem` (
   `obj_id` int(10) unsigned default NULL,
   `owner` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `tags_tagsItem` table  (LIMIT 0,500)
@@ -7655,7 +7769,7 @@ CREATE TABLE `user_group` (
   `name` char(255) default NULL,
   `is_default` tinyint(4) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `user_group` table  (LIMIT 0,500)
@@ -7684,7 +7798,7 @@ CREATE TABLE `user_user` (
   `last_login` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `login` (`login`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `user_user` table  (LIMIT 0,500)
@@ -7692,7 +7806,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1193226088),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1195194065),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1196683978),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7711,7 +7825,7 @@ CREATE TABLE `user_userAuth` (
   `obj_id` int(11) unsigned default NULL,
   `time` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -7746,7 +7860,7 @@ CREATE TABLE `user_userGroup_rel` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `group_id` (`group_id`,`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `user_userGroup_rel` table  (LIMIT 0,500)
@@ -7776,14 +7890,14 @@ CREATE TABLE `user_userOnline` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `user_id` (`user_id`,`session`),
   KEY `last_activity` (`last_activity`)
-) ENGINE=MyISAM AUTO_INCREMENT=211 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (210,2,'188f70748fda6b58213756f4bfc86a43',1196683978,'http://mzz/templates/images/admin','127.0.0.1');
+  (211,2,'935ac4062870912b195fae50ff14f068',1196765258,'http://mzz/admin/catalogue/listCfg?ajax=1','127.0.0.1');
 
 COMMIT;
 
@@ -7800,7 +7914,7 @@ CREATE TABLE `voting_answer` (
   `question_id` int(11) NOT NULL default '0',
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `voting_answer` table  (LIMIT 0,500)
@@ -7828,7 +7942,7 @@ CREATE TABLE `voting_question` (
   `obj_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `category_id` (`category_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `voting_question` table  (LIMIT 0,500)
@@ -7867,7 +7981,7 @@ CREATE TABLE `voting_voteCategory` (
   `title` char(255) default NULL,
   `obj_id` int(11) default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for the `voting_voteCategory` table  (LIMIT 0,500)

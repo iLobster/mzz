@@ -196,7 +196,9 @@ abstract class simpleCatalogueMapper extends simpleMapper
 
         $args = isset($params['args']) ? $params['args'] : null;
         $stmt->bindParam('args', $args);
-        return $stmt->execute();
+
+        $propId = $stmt->execute();
+        return $propId;
     }
 
     public function updateProperty($id, $name, $title, $type_id, $params = array())

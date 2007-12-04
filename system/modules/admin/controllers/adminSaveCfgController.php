@@ -26,6 +26,7 @@ class adminSaveCfgController extends simpleController
 {
     protected function getView()
     {
+        /*
         $id = $this->request->get('id', 'integer', SC_PATH);
         $name = $this->request->get('name', 'string', SC_PATH);
         $action = $this->request->getAction();
@@ -82,6 +83,74 @@ class adminSaveCfgController extends simpleController
 
         $this->smarty->assign('configInfo', $configInfo);
         $this->smarty->assign('isEdit', $isEdit);
+        */
+
+        $isEdit = false;
+        $action = $this->request->getAction();
+
+        $name = $this->request->get('name', 'string');
+        $configMapper = $this->toolkit->getMapper('config', 'config', 'config');
+
+        $validator = new formValidator();
+
+        $validator->add('required', 'proptitle', 'Необходимо указать название параметра');
+        $validator->add('required', 'propname', 'Необходимо указать имя параметра');
+        $validator->add('regex', 'propname', 'Недопустимые символы в имени параметра', '/^[a-z0-9_\-]+$/i');
+
+        //$validator->add('callback', 'param', 'Такой параметр уже есть у этого модуля', array('checkParamNotExists', $name, $params));
+
+        if ($validator->validate()) {
+            $type = $configMapper->searchTypeByName($name);
+
+            $proptype = 1;
+            $propname = $this->request->get('propname', 'string', SC_POST);
+            $proptitle = $this->request->get('proptitle', 'string', SC_POST);
+
+            $newPropId = $configMapper->addProperty($propname, $proptitle, $proptype, array());
+
+            if ($type) {
+                $typesProperties = $configMapper->getProperties($type['id']);
+                $typesProperties[$newPropId] = array(
+                    'sort' => 0,
+                    'isFull' => 0,
+                    'isShort' => 0
+                );
+                $configMapper->updateType($type['id'], $type['name'], $type['title'], $typesProperties);
+            } else {
+                $typesProperties[$newPropId] = array(
+                    'sort' => 0,
+                    'isFull' => 0,
+                    'isShort' => 0
+                );
+                $configMapper->addType($name, 'Модуль ' . $name, array($newPropId));
+            }
+
+            return jipTools::closeWindow();
+        }
+
+        $properties_types_tmp = $configMapper->getAllPropertiesTypes();
+
+        $properties = array();
+        foreach ($properties_types_tmp as $prop) {
+            $properties[$prop['id']] = $prop['title'] . ' (' . $prop['name'] . ')';
+        }
+
+        if ($isEdit) {
+            $url = new url('adminCfgEdit');
+            $url->add('name', $name);
+        } else {
+            $url = new url('withAnyParam');
+            $url->setSection('admin');
+        }
+        $url->setAction($action);
+        $url->add('name', $name);
+
+        $this->smarty->assign('name', $name);
+        $this->smarty->assign('properties', $properties);
+
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('isEdit', $isEdit);
+        $this->smarty->assign('form_action', $url->get());
 
         return $this->smarty->fetch('admin/saveCfg.tpl');
     }
