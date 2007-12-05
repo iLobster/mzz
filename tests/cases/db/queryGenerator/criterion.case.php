@@ -167,6 +167,16 @@ class criterionTest extends unitTestCase
         $criterion = new criterion(new sqlFunction('FUNCTION', 'value'), new sqlFunction('FUNCTION', 'value', true));
         $this->assertEqual($criterion->generate($this->simpleSelect), "FUNCTION('value') = FUNCTION(`value`)");
     }
+
+    public function testCriteriaAsFunction()
+    {
+        $criteria = new criteria('instruction');
+
+        $greatest = new sqlFunction('greatest', array('controldate' => true, 'last_prolongation' => true));
+        $criterion = new criterion($greatest, array(123, 456), criteria::BETWEEN);
+
+        $this->assertEqual($criterion->generate($this->simpleSelect), "GREATEST(`controldate`, `last_prolongation`) BETWEEN 123 AND 456");
+    }
 }
 
 ?>

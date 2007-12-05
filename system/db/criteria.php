@@ -19,7 +19,7 @@ fileLoader::load('db/criterion');
  *
  * @package system
  * @subpackage db
- * @version 0.2
+ * @version 0.2.1
  */
 
 class criteria
@@ -248,8 +248,11 @@ class criteria
     public function add($field, $value = null, $comparsion = null)
     {
         if ($field instanceof criterion) {
-            if (!is_null($field->getField())) {
-                $this->map[$field->getField()] = $field;
+            if (!is_null($name = $field->getField())) {
+                if ($name instanceof sqlFunction) {
+                    $name = $name->getFieldName();
+                }
+                $this->map[$name] = $field;
             } else {
                 $this->map[] = $field;
             }

@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.2
+ * @version 0.2.1
 */
 
 class sqlFunction
@@ -120,7 +120,6 @@ class sqlFunction
 
         $this->argumentsString = substr($this->argumentsString, 0, -2);
 
-
         if(!empty($this->function)) {
             return strtoupper($this->function) . '(' . $this->argumentsString . ')';
         }
@@ -151,6 +150,8 @@ class sqlFunction
             foreach ($this->arguments as $argument) {
                 if ($argument instanceof sqlFunction || $argument instanceof sqlOperator) {
                     $name .= '_' . implode('_', $argument->getArguments());
+                } else {
+                    $name .= '_' . $argument;
                 }
             }
         } else {

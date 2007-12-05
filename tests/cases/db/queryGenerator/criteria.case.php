@@ -111,6 +111,13 @@ class criteriaTest extends unitTestCase
         $this->criteria->setDistinct(false);
         $this->assertFalse($this->criteria->getDistinct());
     }
+
+    public function testCriterionWithFunction()
+    {
+        $criterion = new criterion(new sqlFunction('foo', array(2, 3)), 'bar');
+        $this->criteria->add($criterion);
+        $this->assertEqual($this->criteria->getCriterion('foo_2_3'), $criterion);
+    }
 }
 
 ?>

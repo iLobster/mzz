@@ -19,7 +19,7 @@
  * @see criteria
  * @package system
  * @subpackage db
- * @version 0.2
+ * @version 0.2.1
  */
 
 class criterion
@@ -274,13 +274,15 @@ class criterion
      */
     private function getQuoutedAlias()
     {
-        if (!empty($this->alias)) {
-            return $this->simpleSelect->quoteAlias($this->alias) . '.';
-        } elseif (!empty($this->defaultTable)) {
-            if (is_array($this->defaultTable) && isset($this->defaultTable['alias'])) {
-                return $this->simpleSelect->quoteAlias($this->defaultTable['alias']) . '.';
-            } else {
-                return $this->simpleSelect->quoteAlias($this->defaultTable) . '.';
+        if (!$this->fieldIsFunction) {
+            if (!empty($this->alias)) {
+                return $this->simpleSelect->quoteAlias($this->alias) . '.';
+            } elseif (!empty($this->defaultTable)) {
+                if (is_array($this->defaultTable) && isset($this->defaultTable['alias'])) {
+                    return $this->simpleSelect->quoteAlias($this->defaultTable['alias']) . '.';
+                } else {
+                    return $this->simpleSelect->quoteAlias($this->defaultTable) . '.';
+                }
             }
         }
 
