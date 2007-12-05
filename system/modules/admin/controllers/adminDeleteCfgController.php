@@ -25,21 +25,10 @@ class adminDeleteCfgController extends simpleController
     protected function getView()
     {
         $id = $this->request->get('id', 'integer', SC_PATH);
-        $name = $this->request->get('name', 'string', SC_PATH);
+        $configMapper = $this->toolkit->getMapper('config', 'config', 'config');
+        $configMapper->deleteProperty($id);
 
-        $db = DB::factory();
-
-        $module = $db->getRow($qry = 'SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
-        $config = new config('', $module['name']);
-        $params = $config->getDefaultValues();
-
-        if (!isset($params[$name])) {
-            return 'выбранного параметра в конфигурации не существует';
-        }
-
-        $config->delete($name);
-
-        return jipTools::closeWindow(2);
+        return jipTools::closeWindow();
     }
 }
 

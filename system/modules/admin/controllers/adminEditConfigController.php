@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('forms/validators/formValidator');
+
 /**
  * adminEditConfigController: контроллер для метода editConfig модуля admin
  *
@@ -24,25 +26,6 @@ class adminEditConfigController extends simpleController
 {
     public function getView()
     {
-        /*
-        $module_name = $this->request->get('module_name', 'string', SC_PATH);
-        $section_name = $this->request->get('section_name', 'string', SC_PATH);
-
-        if ($this->request->getMethod() == 'POST') {
-            $cfg = $this->request->get('config', 'array', SC_POST);
-            $config = $this->toolkit->getConfig($section_name, $module_name);
-            $config->set($cfg);
-
-            return jipTools::closeWindow();
-        }
-
-        $config = $this->toolkit->getConfig($module_name, $section_name);
-
-        $this->smarty->assign('configs', $config->getValues());
-        $this->smarty->assign('section', $section_name);
-        $this->smarty->assign('module', $module_name);
-        */
-
         $module_name = $this->request->get('module_name', 'string', SC_PATH);
         $section_name = $this->request->get('section_name', 'string', SC_PATH);
 
@@ -57,8 +40,37 @@ class adminEditConfigController extends simpleController
 
         $config = $configMapper->searchBySection($type['id'], $section_name);
 
-        return $config;
+        if (!$config) {
+            $properties = $configMapper->getProperties($type['id']);
+        } else {
+            $properties = $config->exportOldProperties();
+        }
 
+        $validator = new formValidator();
+
+        if ($validator->validate()) {
+            if (!$config) {
+                $config = $configMapper->create();
+                $config->setType($type['id']);
+                $config->setName($section_name);
+                $configMapper->save($config);
+            }
+
+            $cfg = $this->request->get('config', 'array', SC_POST);
+
+            foreach ($cfg as $key => $value) {
+                $config->setProperty($key, $value);
+            }
+
+            $configMapper->save($config);
+
+            return jipTools::redirect();
+        }
+
+        $this->smarty->assign('properties', $properties);
+        $this->smarty->assign('section', $section_name);
+        $this->smarty->assign('module', $module_name);
+        $this->smarty->assign('errors', $validator->getErrors());
         return $this->smarty->fetch('admin/editConfig.tpl');
     }
 }

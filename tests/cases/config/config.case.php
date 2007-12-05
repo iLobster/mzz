@@ -24,46 +24,46 @@ class configTest extends unitTestCase
 
     public function testConfigGet()
     {
-        $config = new config('someSection', 'someModule');
+        $config = new oldconfig('someSection', 'someModule');
         $this->assertEqual($config->get('someParam'), 'someValueOfParam');
         $this->assertEqual($config->getTitle('someParam'), 'параметр');
 
-        $config = new config('someAnotherSection', 'someAnotherModule');
+        $config = new oldconfig('someAnotherSection', 'someAnotherModule');
         $this->assertEqual($config->get('someAnotherParam'), 'someValueOfAnotherParam');
         $this->assertEqual($config->getTitle('someAnotherParam'), 'параметр2');
     }
 
     public function testConfigGetOnlyDefault()
     {
-        $config = new config(null, 'someModule');
+        $config = new oldconfig(null, 'someModule');
         $this->assertEqual($config->get('someParam'), 'defaultValueOfParam');
     }
 
     public function testConfigGetDefault()
     {
-        $config = new config('someSection', 'someModule');
+        $config = new oldconfig('someSection', 'someModule');
         $this->assertEqual($config->get('someDefaultParam'), 'someValueOfDefaultParam');
     }
 
     public function testConfigGetFalse()
     {
-        $config = new config('someSection', 'someModule');
+        $config = new oldconfig('someSection', 'someModule');
         $this->assertFalse($config->get('non_exists'));
 
-        $config = new config('someAnotherSection', 'someModule');
+        $config = new oldconfig('someAnotherSection', 'someModule');
         $this->assertEqual($config->get('someParam'), 'defaultValueOfParam');
     }
 
     public function testSetValue()
     {
-        $config = new config('someSection', 'someModule');
+        $config = new oldconfig('someSection', 'someModule');
         $config->set(array('someParam' => $value = 'new value'));
         $this->assertEqual($config->get('someParam'), $value);
     }
 
     public function testCreateUpdateDeleteParam()
     {
-        $config = new config('someSection', 'someModule');
+        $config = new oldconfig('someSection', 'someModule');
         $config->create('name', 'value', 'title');
 
         $this->assertEqual($config->get('name'), 'value');
@@ -71,13 +71,13 @@ class configTest extends unitTestCase
 
         $config->update('name', 'new_name', 'new_value', 'new_title');
 
-        $config = new config('someSection', 'someModule');
+        $config = new oldconfig('someSection', 'someModule');
         $this->assertEqual($config->get('new_name'), 'new_value');
         $this->assertEqual($config->getTitle('new_name'), 'new_title');
 
         $config->delete('new_name');
 
-        $config = new config('someSection', 'someModule');
+        $config = new oldconfig('someSection', 'someModule');
         $this->assertNull($config->get('new_name'));
     }
 
