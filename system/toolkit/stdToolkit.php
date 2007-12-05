@@ -183,7 +183,7 @@ class stdToolkit extends toolkit
         }
 
         if (empty($this->config[$module][$section])) {
-            $this->config[$module][$section] = new config($section, $module);
+            $this->config[$module][$section] = new oldconfig($section, $module);
         }
 
         return $this->config[$module][$section];

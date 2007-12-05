@@ -19,7 +19,7 @@
  * @version 0.5.5
  */
 
-class config2
+class oldconfig
 {
     /**
      * Секция, для которой будет получена конфигурация

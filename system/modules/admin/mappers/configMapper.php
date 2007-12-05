@@ -73,7 +73,7 @@ class configMapper extends simpleCatalogueMapper
     public function getProperties($id)
     {
         if (!isset($this->tmpTypesProps[$id])) {
-            $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`isFull`, `tp`.`isShort`, `tp`.`sort`, NULL as value FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id ORDER BY `tp`.`sort` ASC';
+            $query = 'SELECT `p`.*, `pt`.`name` as `type`, `tp`.`sort`, NULL as value FROM `' . $this->tableTypesProps . '` `tp` INNER JOIN `' . $this->tableProperties . '` `p` ON `p`.`id` = `tp`.`property_id` INNER JOIN  `' . $this->tablePropertiesTypes . '` `pt` ON `p`.`type_id` = `pt`.`id` WHERE `tp`.`type_id` = :type_id ORDER BY `tp`.`sort` ASC';
             $stmt = $this->db->prepare($query);
             $stmt->bindParam('type_id', $id);
             $stmt->execute();
@@ -164,6 +164,7 @@ class configMapper extends simpleCatalogueMapper
         }
     }
 
+    /*
     protected function searchByCriteria(criteria $criteria)
     {
         $keys = $criteria->keys();
@@ -248,6 +249,7 @@ class configMapper extends simpleCatalogueMapper
         }
         return $result;
     }
+    */
 
     /**
      * Возвращает доменный объект по аргументам

@@ -127,7 +127,7 @@ class core
 
         fileLoader::load('filters/init');
 
-        fileLoader::load('admin/config');
+        fileLoader::load('config');
         fileLoader::load('controller/frontController');
 
         fileLoader::load('db/DB');
