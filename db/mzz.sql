@@ -1117,7 +1117,7 @@ CREATE TABLE `message_messageCategory` (
 
 INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES 
   (1,'Входящие','incoming',809),
-  (2,'','sent',810),
+  (2,'Исходящие','sent',810),
   (3,'Корзина','recycle',811);
 
 COMMIT;
@@ -7856,7 +7856,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1196821868),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1195194065),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1196825966),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7948,7 +7948,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (211,2,'5d94553cae7d437c13772540019bc8ef',1196825966,'http://mzz/admin/catalogue/catalogue/editConfig?ajax=1','127.0.0.1');
+  (212,2,'6fff0e92bfea9db9b2667060ce15d463',1196934318,'http://mzz/message/sent/list','127.0.0.1');
 
 COMMIT;
 
