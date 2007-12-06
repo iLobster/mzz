@@ -35,7 +35,7 @@ class ldapReader
 
     public function getChild()
     {
-        $child = $this->ldapProxy->getList($this->rdn, '(OU=*)');
+        $child = $this->ldapProxy->getList($this->rdn, '(objectclass=organizationalUnit)');
 
         $result = array();
 
@@ -47,6 +47,13 @@ class ldapReader
         }
 
         return $result;
+    }
+
+    public function getParent()
+    {
+        $parent_rdn = substr(strstr($this->rdn, ','), 1);
+
+        return new ldapReader($parent_rdn, $this->ldapProxy);
     }
 }
 

@@ -119,7 +119,7 @@ class url
         if (!$get) {
             $this->params[$name] = $value;
         } else {
-            $this->getParams[$name] = $value;
+            $this->getParams[$name] = rawurlencode($value);
         }
     }
 

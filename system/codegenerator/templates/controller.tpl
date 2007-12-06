@@ -22,7 +22,7 @@
 
 class {{$controller_data.controllername}} extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         return $this->smarty->fetch('{{$controller_data.module}}/{{$controller_data.action}}.tpl');
     }

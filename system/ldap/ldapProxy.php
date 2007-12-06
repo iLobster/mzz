@@ -10,52 +10,35 @@ class ldapProxy
         $this->encoding = $encoding;
         $this->ldap = ldap_connect($host, $port);
 
-        /*ldap_set_option($this->ldap,LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($this->ldap,LDAP_OPT_REFERRALS, 0);*/
+        ldap_set_option($this->ldap,LDAP_OPT_PROTOCOL_VERSION, 3);
+        ldap_set_option($this->ldap,LDAP_OPT_REFERRALS, 0);
 
-        ldap_bind($this->ldap, $this->encode($rdn), $this->encode($pass));
+        ldap_bind($this->ldap, $rdn, $pass);
     }
 
     public function getList($srdn, $filter)
     {
-        $result = ldap_list($this->ldap, $this->encode($srdn), $this->encode($filter));
-        $entries = $this->decode(ldap_get_entries($this->ldap, $result));
-        unset($entries['count']);
-        return $entries;
+        $result = ldap_list($this->ldap, $srdn, $filter);
+        return $this->parseResults($result);
     }
 
     public function search($srdn, $filter)
     {
-        $result = ldap_search($this->ldap, $this->encode($srdn), $this->encode($filter));
-        $entries = $this->decode(ldap_get_entries($this->ldap, $result));
-        unset($entries['count']);
-        return $entries;
+        $result = ldap_search($this->ldap, $srdn, $filter);
+        return $this->parseResults($result);
     }
 
     public function read($srdn, $filter)
     {
-        $result = ldap_read($this->ldap, $this->encode($srdn), $this->encode($filter));
-        $entries = $this->decode(ldap_get_entries($this->ldap, $result));
+        $result = ldap_read($this->ldap, $srdn, $filter);
+        return $this->parseResults($result);
+    }
+
+    private function parseResults($result)
+    {
+        $entries = ldap_get_entries($this->ldap, $result);
         unset($entries['count']);
         return $entries;
-    }
-
-    private function encode($str)
-    {
-        return iconv($this->encoding, 'cp1251', $str);
-    }
-
-    private function decode($str)
-    {
-        if (is_array($str)) {
-            $new = array();
-            foreach ($str as $key => $val) {
-                $new[$this->decode($key)] = $this->decode($val);
-            }
-            return $new;
-        }
-
-        return @iconv('cp1251', $this->encoding, $str);
     }
 }
 

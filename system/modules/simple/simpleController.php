@@ -37,6 +37,13 @@ abstract class simpleController
     protected $request;
 
     /**
+     * Объект Request
+     *
+     * @var httpResponse
+     */
+    protected $response;
+
+    /**
      * Объект шаблонного движка
      *
      * @var mzzSmarty
