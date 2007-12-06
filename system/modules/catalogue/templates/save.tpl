@@ -50,20 +50,13 @@ function loadForm(id)
                     {if $isEdit}{assign var="calendarvalue" value=$element.value}{else}{assign var="calendarvalue" value=$smarty.now}{/if}
                     {form->text name=$element.name size="20" id="calendar-field-created" value=$calendarvalue|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button>{$errors->get($element.name)}
                 {elseif $element.type == 'img'}
-                {*
-                    {form->hidden name="images" id="catalogueFormImages"}
-<a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {literal}{target: 'catalogueImagesList', formElementId: 'catalogueFormImages'}{/literal}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
-                    <div id="catalogueImagesList"></div>
-                *}
-
                     {assign var="elementname" value=$element.name}
                     <a href="/browser" onclick="mzzRegistry.set('fileBrowseOptions', {ldelim}target: 'catalogueImagesList_{$elementname}', hiddenName: '{$elementname}[]'{rdelim}); jipWindow.open(this.href, 1); return false;"><img src="{$SITE_PATH}/templates/images/buttonAdd.gif" border="1"></a>
                     <div id="catalogueImagesList_{$elementname}">
                     {foreach from=$element.value item="file"}
 <div class="fmBrowseThumbWrap"><div class="fmBrowseThumb">
-<img src="{url route="fmFolder" name=$file->extra()->getThumbnail()->getFullPath()}" title="{$file->getName()}" alt="{$file->getName()}" /></div>
+<img src="{$file->extra()->getThumbnail()}" title="{$file->getName()}" alt="{$file->getName()}" /></div>
 <span><a href="#" onclick="return mzzFileBrowse.removeFile(this, '{$elementname}[]', {$file->getId()});">убрать</a></span></div>
-
                         {form->hidden name=$elementname[] value=$file->getId()}
                     {/foreach}
                     </div>

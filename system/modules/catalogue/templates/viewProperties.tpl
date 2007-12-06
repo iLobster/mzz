@@ -10,8 +10,7 @@
 {elseif $property.type == 'img'}
     <strong>{$property.title}:</strong><br />
     {foreach from=$property.value item="item"}
-        {if $action == 'view'}{assign var="imageFile" value=$item}{else}{assign var="imageFile" value=$item->extra()->getThumbnail()}{/if}
-        <img src="{url route="fmFolder" name=$imageFile->getFullPath()}" title="{$item->getName()|htmlspecialchars}" alt="{$item->getName()}" /><br />
+        <img src="{if $action == 'view'}{url route="fmFolder" name=$imageFile->getFullPath()}{else}{$item->extra()->getThumbnail()}{/if}" title="{$item->getName()|htmlspecialchars}" alt="{$item->getName()}" /><br />
     {/foreach}
 {else}<strong>{$property.title}:</strong> {$property.value}<br/>{/if}
 
