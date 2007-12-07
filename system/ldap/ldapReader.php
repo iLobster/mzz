@@ -15,8 +15,14 @@ class ldapReader
         if ($alias instanceof ldapProxy) {
             $this->ldapProxy = $alias;
         } else {
-            $this->ldapProxy = new ldapProxy(systemConfig::$db[$alias]['dsn'], systemConfig::$db[$alias]['user'], systemConfig::$db[$alias]['password'], systemConfig::$db[$alias]['charset']);
+            $this->ldapProxy = new ldapProxy(systemConfig::$db[$alias]['dsn'], systemConfig::$db[$alias]['user'], systemConfig::$db[$alias]['password'], systemConfig::$db[$alias]['charset'], systemConfig::$db[$alias]['port']);
         }
+    }
+
+    static public function search($srdn, $filter, $alias = 'ldap')
+    {
+        $ldapProxy = new ldapProxy(systemConfig::$db[$alias]['dsn'], systemConfig::$db[$alias]['user'], systemConfig::$db[$alias]['password'], systemConfig::$db[$alias]['charset'], systemConfig::$db[$alias]['port']);
+        return $ldapProxy->search($srdn, $filter);
     }
 
     public function getData()
@@ -28,6 +34,11 @@ class ldapReader
         return $this->data;
     }
 
+    public function getRdn()
+    {
+        return $this->rdn;
+    }
+
     private function setData($data)
     {
         $this->data = $data;
@@ -35,7 +46,7 @@ class ldapReader
 
     public function getChild()
     {
-        $child = $this->ldapProxy->getList($this->rdn, '(objectclass=organizationalUnit)');
+        $child = $this->ldapProxy->getList($this->rdn, '(|(objectclass=organizationalUnit)(objectclass=domain))');
 
         $result = array();
 
