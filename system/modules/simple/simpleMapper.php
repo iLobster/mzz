@@ -103,6 +103,10 @@ abstract class simpleMapper
 
     private $langIdField = 'lang_id';
 
+    private $langId;
+
+    private $forceLangId = false;
+
     /**
      * Свойство для хранения информации об отношениях
      *
@@ -407,6 +411,11 @@ abstract class simpleMapper
             }
 
             if ($lang_fields) {
+                $stmt_check = $this->db->query('SELECT COUNT(*) FROM ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = ' . $object->getId() . ' AND ' . $this->simpleSelect->quoteField($this->langIdField) . ' = ' . $this->getLangId());
+                if (!$stmt_check->fetchColumn()) {
+                    $this->db->query('INSERT INTO ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' (' . $this->simpleSelect->quoteField($this->tableKey) . ', ' . $this->simpleSelect->quoteField($this->langIdField) . ') VALUES (' . $object->getId() . ', ' . $this->getLangId() . ')');
+                }
+
                 $query_lang = substr($query_lang, 0, -2);
 
                 $fields_lang_dependent[$this->langIdField] = $this->getLangId();
@@ -620,7 +629,9 @@ abstract class simpleMapper
             $criterion = new criterion($this->className . '.' . $this->tableKey, $alias . '.' . $this->tableKey, criteria::EQUAL, true);
             $criterion->addAnd(new criterion($alias . '.' . $this->langIdField, $lang_id));
 
-            $criteria->addJoin($lang_tablename, $criterion, $alias, criteria::JOIN_INNER);
+            $join_type = $this->forceLangId ? criteria::JOIN_LEFT : criteria::JOIN_INNER;
+            //echo '<pre>'; var_dump($this->forceLangId); echo '</pre>';
+            $criteria->addJoin($lang_tablename, $criterion, $alias, $join_type);
         }
     }
 
@@ -693,6 +704,8 @@ abstract class simpleMapper
     {
         $object = $this->create();
         $object->import($row);
+        $object->setLangId($this->getLangId());
+        $object->setForceLang($this->forceLangId);
         return $object;
     }
 
@@ -828,7 +841,19 @@ abstract class simpleMapper
 
     protected function getLangId()
     {
-        return systemToolkit::getInstance()->getLang();
+        if (empty($this->langId)) {
+            $this->langId = systemToolkit::getInstance()->getLang();
+        }
+
+        return $this->langId;
+    }
+
+    public function setLangId($lang_id)
+    {
+        $tmp = $this->langId;
+        $this->langId = $lang_id;
+        $this->forceLangId = true;
+        return $tmp;
     }
 
     public function getLangFields()

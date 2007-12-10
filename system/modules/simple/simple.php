@@ -73,6 +73,10 @@ abstract class simple
      */
     protected $section;
 
+    protected $langId;
+
+    protected $forceLangId = false;
+
     /**
      * Конструктор.
      *
@@ -386,6 +390,28 @@ abstract class simple
     {
         $acl = new acl(systemToolkit::getInstance()->getUser(), $this->getObjId());
         return $acl->get($name);
+    }
+
+    public function setLangId($lang_id)
+    {
+        $tmp = $this->langId;
+        $this->langId = $lang_id;
+        return $tmp;
+    }
+
+    public function getLangId()
+    {
+        return $this->langId;
+    }
+
+    public function setForceLang($force)
+    {
+        $this->forceLangId = (bool)$force;
+    }
+
+    public function getForceLang()
+    {
+        return $this->forceLangId;
     }
 }
 
