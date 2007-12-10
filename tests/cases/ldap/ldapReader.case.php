@@ -35,7 +35,7 @@ class ldapReaderTest extends UnitTestCase
 
     public function testGetChild()
     {
-        $this->ldapProxy->expectOnce('getList', array($rdn = 'OU=КнААПО,DC=asu,DC=knaapo,DC=ru', '(objectclass=organizationalUnit)'));
+        $this->ldapProxy->expectOnce('getList', array($rdn = 'OU=КнААПО,DC=asu,DC=knaapo,DC=ru', '(|(objectclass=organizationalUnit)(objectclass=domain))'));
         $this->ldapProxy->setReturnValue('getList', $data = array());
 
         $reader = new ldapReader($rdn, $this->ldapProxy);
@@ -44,7 +44,7 @@ class ldapReaderTest extends UnitTestCase
 
     public function testGetParent()
     {
-        $this->ldapProxy->expectOnce('getList', array('DC=asu,DC=knaapo,DC=ru', '(objectclass=organizationalUnit)'));
+        $this->ldapProxy->expectOnce('getList', array('DC=asu,DC=knaapo,DC=ru', '(|(objectclass=organizationalUnit)(objectclass=domain))'));
         $this->ldapProxy->setReturnValue('getList', $data = array());
 
         $reader = new ldapReader('OU=КнААПО,DC=asu,DC=knaapo,DC=ru', $this->ldapProxy);

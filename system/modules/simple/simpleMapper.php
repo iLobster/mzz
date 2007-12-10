@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.13
+ * @version 0.3.14
  */
 
 abstract class simpleMapper
@@ -97,14 +97,39 @@ abstract class simpleMapper
      */
     protected $map;
 
+    /**
+     * Массив для хранения имён языкозависимых полей
+     *
+     * @var array
+     */
     private $langFields = array();
 
+    /**
+     * Постфикс для таблицы, в которой хранятся переводы
+     *
+     * @var string
+     */
     private $langTablePostfix = '_lang';
 
+    /**
+     * Имя поля в таблице переводов, в котором хранится идентификатор языка
+     *
+     * @var unknown_type
+     */
     private $langIdField = 'lang_id';
 
+    /**
+     * Текущий идентификатор языка, с которым работает маппер
+     *
+     * @var integer
+     */
     private $langId;
 
+    /**
+     * Флаг, обозначающий что текущий язык был установлен извне, а не получен из тулкита
+     *
+     * @var boolean
+     */
     private $forceLangId = false;
 
     /**
@@ -267,6 +292,7 @@ abstract class simpleMapper
             $markers_lang = '';
             $field_names = '';
             $field_names_lang = '';
+            // перебираем все поля
             foreach (array_keys($fields_lang_independent) as $val) {
                 if (in_array($val, $lang_fields)) {
                     $markers_string =& $markers_lang;
@@ -275,9 +301,10 @@ abstract class simpleMapper
                     $markers_string =& $markers;
                     $field_names_link =& $field_names;
                 }
-
+                // ... и строим из них список полей для вставки
                 $field_names_link .= $this->simpleSelect->quoteField($val) . ', ';
 
+                // если значение является функцией или оператором - приводим к строке
                 if($fields_lang_independent[$val] instanceof sqlFunction || $fields_lang_independent[$val] instanceof sqlOperator) {
                     $fields_lang_independent[$val] = $fields_lang_independent[$val]->toString($this->simpleSelect);
                     $markers_string .= $fields_lang_independent[$val] . ', ';
@@ -298,18 +325,15 @@ abstract class simpleMapper
                 unset($fields_lang_independent[$item]);
             }
 
-            //$field_names = implode(', ', array_map(array($this->simpleSelect, 'quoteField'), array_keys($fields_lang_independent)));
-
             // вставляем языконезависимые данные
             $stmt = $this->db->prepare('INSERT INTO ' . $this->simpleSelect->quoteTable($this->table) . ' (' . $field_names . ') VALUES (' . $markers . ')');
             $stmt->bindValues($fields_lang_independent);
             $id = $stmt->execute();
 
+            // если в ДО присутствуют языкозависимые поля
             if ($lang_fields) {
                 $fields_lang_dependent[$this->langIdField] = $this->getLangId();
                 $fields_lang_dependent[$this->tableKey] = $id;
-
-                //$field_names_lang .= $this->simpleSelect->quoteField($this->langIdField);
 
                 $markers_lang .= ':' . $this->langIdField . ', :' . $this->tableKey;
 
@@ -410,7 +434,9 @@ abstract class simpleMapper
                 $result = $stmt->execute();
             }
 
+            // если есть изменённые языкозависимые поля
             if ($lang_fields) {
+                // если текущей языковой версии ещё не существует - удаляем её
                 $stmt_check = $this->db->query('SELECT COUNT(*) FROM ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = ' . $object->getId() . ' AND ' . $this->simpleSelect->quoteField($this->langIdField) . ' = ' . $this->getLangId());
                 if (!$stmt_check->fetchColumn()) {
                     $this->db->query('INSERT INTO ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' (' . $this->simpleSelect->quoteField($this->tableKey) . ', ' . $this->simpleSelect->quoteField($this->langIdField) . ') VALUES (' . $object->getId() . ', ' . $this->getLangId() . ')');
@@ -428,7 +454,7 @@ abstract class simpleMapper
             $criteria = new criteria();
             $this->selectDataModify($selectFields);
 
-            if(is_array($selectFields)) {
+            if (is_array($selectFields)) {
                 foreach ($selectFields as $key => $val) {
                     $criteria->addSelectField($val, $key);
                 }
@@ -705,7 +731,6 @@ abstract class simpleMapper
         $object = $this->create();
         $object->import($row);
         $object->setLangId($this->getLangId());
-        $object->setForceLang($this->forceLangId);
         return $object;
     }
 
@@ -793,6 +818,14 @@ abstract class simpleMapper
         return $this->searchAllByCriteria($criteria);
     }
 
+    /**
+     * Добавление в запрос полей на выборку
+     *
+     * @param criteria $criteria
+     * @param array $map
+     * @param string $table
+     * @param string $alias
+     */
     private function addSelectFields(criteria $criteria, $map, $table, $alias)
     {
         $lang_fields = $this->getLangFields();
@@ -839,6 +872,11 @@ abstract class simpleMapper
         return $this->map;
     }
 
+    /**
+     * Получение текущего идентификатора языка
+     *
+     * @return integer
+     */
     protected function getLangId()
     {
         if (empty($this->langId)) {
@@ -848,6 +886,12 @@ abstract class simpleMapper
         return $this->langId;
     }
 
+    /**
+     * Установка текущего идентификатора языка
+     *
+     * @param integer $lang_id
+     * @return integer предыдущее значение
+     */
     public function setLangId($lang_id)
     {
         $tmp = $this->langId;
@@ -856,6 +900,21 @@ abstract class simpleMapper
         return $tmp;
     }
 
+    /**
+     * Сброс идентификатора языка
+     *
+     */
+    public function resetLangId()
+    {
+        $this->forceLangId = false;
+        $this->langId = null;
+    }
+
+    /**
+     * Получение языкозависимых полей
+     *
+     * @return array
+     */
     public function getLangFields()
     {
         if (empty($this->langFields)) {

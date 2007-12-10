@@ -83,10 +83,10 @@ class simpleMapperi18nTest extends unitTestCase
         $toolkit->setLang(1);
         $this->assertEqual($toolkit->getLang(), 1);
 
-        $mapper = clone $this->mapper;
-        $item = $mapper->searchByKey(1);
+        $item = $this->mapper->searchByKey(1);
         $this->assertEqual($item->getFoo(), $this->fixture_i18n['1_1']['foo']);
         $this->assertEqual($item->getLangId(), 1);
+        $this->mapper->resetLangId();
 
         $toolkit->setLang(2);
         $item = $this->mapper->searchByKey(1);
@@ -151,25 +151,24 @@ class simpleMapperi18nTest extends unitTestCase
         $toolkit = systemToolkit::getInstance();
         $toolkit->setLang(1);
 
-        $mapper1 = clone $this->mapper;
-        $item = $mapper1->searchByKey(2);
+        $item = $this->mapper->searchByKey(2);
         $this->assertEqual($item->getFoo(), $this->fixture_i18n['2_1']['foo']);
+        $this->mapper->resetLangId();
 
-        $mapper2 = clone $this->mapper;
         $toolkit->setLang(2);
         $item2 = $this->mapper->searchByKey(2);
         $this->assertNull($item2);
+        $this->mapper->resetLangId();
 
-        $mapper3 = clone $this->mapper;
-        $mapper3->setLangId(2);
-        $item3 = $mapper3->searchByKey(2);
+        $this->mapper->setLangId(2);
+        $item3 = $this->mapper->searchByKey(2);
         $item3->setFoo($foo = 'new_foo_lang_2');
         $item3->setBar($bar = 'new_bar');
-        $mapper3->save($item3);
+        $this->mapper->save($item3);
+        $this->mapper->resetLangId();
 
-        $mapper4 = clone $this->mapper;
         $toolkit->setLang(2);
-        $item4 = $mapper4->searchByKey(2);
+        $item4 = $this->mapper->searchByKey(2);
         $this->assertEqual($item4->getFoo(), $foo);
         $this->assertEqual($item4->getBar(), $bar);
     }

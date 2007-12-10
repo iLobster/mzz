@@ -19,7 +19,7 @@ fileLoader::load('jip/jip');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.5
+ * @version 0.1.6
  */
 
 abstract class simple
@@ -73,9 +73,12 @@ abstract class simple
      */
     protected $section;
 
+    /**
+     * Идентификатор языка
+     *
+     * @var integer
+     */
     protected $langId;
-
-    protected $forceLangId = false;
 
     /**
      * Конструктор.
@@ -392,6 +395,12 @@ abstract class simple
         return $acl->get($name);
     }
 
+    /**
+     * Установка идентификтора языка
+     *
+     * @param integer $lang_id
+     * @return integer предыдущее значение
+     */
     public function setLangId($lang_id)
     {
         $tmp = $this->langId;
@@ -399,19 +408,14 @@ abstract class simple
         return $tmp;
     }
 
+    /**
+     * Получение идентификатора языка
+     *
+     * @return integer
+     */
     public function getLangId()
     {
         return $this->langId;
-    }
-
-    public function setForceLang($force)
-    {
-        $this->forceLangId = (bool)$force;
-    }
-
-    public function getForceLang()
-    {
-        return $this->forceLangId;
     }
 }
 
