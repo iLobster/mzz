@@ -139,6 +139,7 @@ class core
         fileLoader::load('toolkit/systemToolkit');
 
         fileLoader::load('controller/action');
+        fileLoader::load('forms/validators/formValidator');
     }
 
     /**
