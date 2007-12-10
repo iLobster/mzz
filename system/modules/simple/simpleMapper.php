@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.12
+ * @version 0.3.13
  */
 
 abstract class simpleMapper
@@ -96,6 +96,12 @@ abstract class simpleMapper
      * @var array
      */
     protected $map;
+
+    private $langFields = array();
+
+    private $langTablePostfix = '_lang';
+
+    private $langIdField = 'lang_id';
 
     /**
      * Свойство для хранения информации об отношениях
@@ -246,35 +252,58 @@ abstract class simpleMapper
             $object->setObjId($toolkit->getObjectId());
         }
 
-        $fields =& $object->export();
+        $fields_lang_independent =& $object->export();
 
-        if (sizeof($fields) > 1) {
-            $this->replaceRelated($fields, $object);
-            $this->insertDataModify($fields);
+        if (sizeof($fields_lang_independent) > 1) {
+            $this->replaceRelated($fields_lang_independent, $object);
+            $this->insertDataModify($fields_lang_independent);
 
-            $field_names = implode(', ', array_map(array($this->simpleSelect, 'quoteField'), array_keys($fields)));
-            $markers = "";
-
-            foreach (array_keys($fields) as $val) {
-                if($fields[$val] instanceof sqlFunction) {
-                    $fields[$val] = $fields[$val]->toString($this->simpleSelect);
-                    $markers .= $fields[$val] . ', ';
-                    unset($fields[$val]);
-                } elseif($fields[$val] instanceof sqlOperator){
-                    $fields[$val] = $fields[$val]->toString($this->simpleSelect);
-                    $markers .= $fields[$val] . ', ';
-                    unset($fields[$val]);
+            $lang_fields = $this->getLangFields();
+            $markers = '';
+            $markers_lang = '';
+            foreach (array_keys($fields_lang_independent) as $val) {
+                if (in_array($val, $lang_fields)) {
+                    $markers_string =& $markers_lang;
                 } else {
-                    $markers .= ':' . $val . ', ';
+                    $markers_string =& $markers;
+                }
+
+                if($fields_lang_independent[$val] instanceof sqlFunction || $fields_lang_independent[$val] instanceof sqlOperator) {
+                    $fields_lang_independent[$val] = $fields_lang_independent[$val]->toString($this->simpleSelect);
+                    $markers_string .= $fields_lang_independent[$val] . ', ';
+                    unset($fields_lang_independent[$val]);
+                } else {
+                    $markers_string .= ':' . $val . ', ';
                 }
             }
+
             $markers = substr($markers, 0, -2);
 
+            $fields_lang_dependent = array();
+            foreach ($lang_fields as $item) {
+                $fields_lang_dependent[$item] = $fields_lang_independent[$item];
+                unset($fields_lang_independent[$item]);
+            }
+
+            $field_names = implode(', ', array_map(array($this->simpleSelect, 'quoteField'), array_keys($fields_lang_independent)));
+
+            // вставляем языконезависимые данные
             $stmt = $this->db->prepare('INSERT INTO ' . $this->simpleSelect->quoteTable($this->table) . ' (' . $field_names . ') VALUES (' . $markers . ')');
-
-            $stmt->bindValues($fields);
-
+            $stmt->bindValues($fields_lang_independent);
             $id = $stmt->execute();
+
+            if ($lang_fields) {
+                $markers_lang .= ':' . $this->langIdField;
+
+                $fields_lang_dependent[$this->langIdField] = $this->getLangId();
+
+                $field_names_lang = implode(', ', array_map(array($this->simpleSelect, 'quoteField'), array_keys($fields_lang_dependent)));
+
+                // вставляем языкозависимые данные
+                $stmt_i18n = $this->db->prepare('INSERT INTO ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' (' . $field_names_lang . ') VALUES (' . $markers_lang . ')');
+                $stmt_i18n->bindValues($fields_lang_dependent);
+                $stmt_i18n->execute();
+            }
 
             $criteria = new criteria();
             $this->selectDataModify($selectFields);
@@ -426,6 +455,13 @@ abstract class simpleMapper
         $stmt = $this->db->prepare('DELETE FROM ' . $this->simpleSelect->quoteTable($this->table) . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
+        // если есть языкозависимые поля - то удаляем и их из связанной таблицы
+        if ($this->getLangFields()) {
+            $stmt_i18n = $this->db->prepare('DELETE FROM ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = :id');
+            $stmt_i18n->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt_i18n->execute();
+        }
+
         return $stmt->execute();
     }
 
@@ -526,6 +562,8 @@ abstract class simpleMapper
             $this->count($criteria);
         }
 
+        $this->addLangCriteria($criteria);
+
         $this->addOrderBy($criteria);
 
         $select = new $this->simpleSelectName($criteria);
@@ -533,6 +571,23 @@ abstract class simpleMapper
         $stmt = $this->db->query($select->toString());
 
         return $stmt;
+    }
+
+    private function addLangCriteria(criteria $criteria)
+    {
+        $lang_id = $this->getLangId();
+        $lang_fields = $this->getLangFields();
+        // если есть языкозависимые поля
+        if (sizeof($lang_fields)) {
+            $lang_tablename = $this->table . $this->langTablePostfix;
+            $alias = $this->className . $this->langTablePostfix;
+
+            // добавляем объединение с таблицей интернационализации
+            $criterion = new criterion($this->className . '.' . $this->tableKey, $alias . '.' . $this->tableKey, criteria::EQUAL, true);
+            $criterion->addAnd(new criterion($alias . '.' . $this->langIdField, $lang_id));
+
+            $criteria->addJoin($lang_tablename, $criterion, $alias, criteria::JOIN_INNER);
+        }
     }
 
     protected function count($criteria)
@@ -655,7 +710,22 @@ abstract class simpleMapper
 
         while ($row = $stmt->fetch()) {
             $data = $this->fillArray($row);
-            $result[$data[$this->tableKey]] = $this->createItemFromRow($data);
+            $this->createItemFromRow($data);
+
+            $key = $data[$this->tableKey];
+
+            if ($key instanceof simple) {
+                $owns = $this->getOwns();
+                if (isset($owns[$this->tableKey])) {
+                    $foreign_key = $owns[$this->tableKey]['key'];
+                    $foreign_map = $key->getMap();
+                    $accessor = $foreign_map[$foreign_key]['accessor'];
+
+                    $key = $key->$accessor();
+                }
+            }
+
+            $result[$key] = $this->createItemFromRow($data);
         }
 
         return $result;
@@ -678,9 +748,15 @@ abstract class simpleMapper
 
     private function addSelectFields(criteria $criteria, $map, $table, $alias)
     {
+        $lang_fields = $this->getLangFields();
+
         foreach ($map as $key => $val) {
             if (!isset($val['hasMany'])) {
-                $criteria->addSelectField($alias . '.' . $key, $alias . self::TABLE_KEY_DELIMITER . $key);
+                if (in_array($key, $lang_fields)) {
+                    $criteria->addSelectField($alias . $this->langTablePostfix . '.' . $key, $alias . self::TABLE_KEY_DELIMITER . $key);
+                } else {
+                    $criteria->addSelectField($alias . '.' . $key, $alias . self::TABLE_KEY_DELIMITER . $key);
+                }
             }
         }
     }
@@ -714,6 +790,25 @@ abstract class simpleMapper
             $this->addObjId($this->map);
         }
         return $this->map;
+    }
+
+    protected function getLangId()
+    {
+        return systemToolkit::getInstance()->getLang();
+    }
+
+    public function getLangFields()
+    {
+        if (empty($this->langFields)) {
+            $map = $this->getMap();
+            foreach ($map as $item) {
+                if (!empty($item['lang'])) {
+                    $this->langFields[] = $item['name'];
+                }
+            }
+        }
+
+        return $this->langFields;
     }
 
     /**

@@ -6,8 +6,6 @@ fileLoader::load('simple');
 fileLoader::load('cases/modules/simple/stubMapper.class');
 fileLoader::load('cases/modules/simple/stubMapperDataModify.class');
 fileLoader::load('cases/modules/simple/stubMapperSelectDataModify.class');
-fileLoader::load('cases/modules/simple/stubSimple.class');
-
 
 class simpleMapperTest extends unitTestCase
 {

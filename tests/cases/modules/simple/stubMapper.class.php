@@ -1,6 +1,7 @@
 <?php
 
 fileLoader::load('simple/simpleCatalogueMapper');
+fileLoader::load('cases/modules/simple/stubSimple.class');
 
 class stubMapper extends simpleMapper
 {

@@ -50,6 +50,13 @@ class stdToolkit extends toolkit
     /**#@-*/
 
     /**
+     * Идентификатор языка
+     *
+     * @var integer
+     */
+    private $langId;
+
+    /**
      * Конструктор
      *
      */
@@ -336,6 +343,19 @@ class stdToolkit extends toolkit
         $tmp = $this->request;
         $this->request = $request;
         return $tmp;
+    }
+
+    public function getLang()
+    {
+        return $this->langId;
+    }
+
+    public function setLang($langId)
+    {
+        $prev = $this->langId;
+        // @todo: добавить валидатор
+        $this->langId = $langId;
+        return $prev;
     }
 }
 
