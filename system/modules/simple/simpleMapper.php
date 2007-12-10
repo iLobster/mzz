@@ -261,12 +261,18 @@ abstract class simpleMapper
             $lang_fields = $this->getLangFields();
             $markers = '';
             $markers_lang = '';
+            $field_names = '';
+            $field_names_lang = '';
             foreach (array_keys($fields_lang_independent) as $val) {
                 if (in_array($val, $lang_fields)) {
                     $markers_string =& $markers_lang;
+                    $field_names_link =& $field_names_lang;
                 } else {
                     $markers_string =& $markers;
+                    $field_names_link =& $field_names;
                 }
+
+                $field_names_link .= $this->simpleSelect->quoteField($val) . ', ';
 
                 if($fields_lang_independent[$val] instanceof sqlFunction || $fields_lang_independent[$val] instanceof sqlOperator) {
                     $fields_lang_independent[$val] = $fields_lang_independent[$val]->toString($this->simpleSelect);
@@ -277,15 +283,18 @@ abstract class simpleMapper
                 }
             }
 
+            $field_names = substr($field_names, 0, -2);
+
             $markers = substr($markers, 0, -2);
 
+            // перемещаем языкозависимые поля из общего массива
             $fields_lang_dependent = array();
             foreach ($lang_fields as $item) {
                 $fields_lang_dependent[$item] = $fields_lang_independent[$item];
                 unset($fields_lang_independent[$item]);
             }
 
-            $field_names = implode(', ', array_map(array($this->simpleSelect, 'quoteField'), array_keys($fields_lang_independent)));
+            //$field_names = implode(', ', array_map(array($this->simpleSelect, 'quoteField'), array_keys($fields_lang_independent)));
 
             // вставляем языконезависимые данные
             $stmt = $this->db->prepare('INSERT INTO ' . $this->simpleSelect->quoteTable($this->table) . ' (' . $field_names . ') VALUES (' . $markers . ')');
@@ -293,9 +302,12 @@ abstract class simpleMapper
             $id = $stmt->execute();
 
             if ($lang_fields) {
-                $markers_lang .= ':' . $this->langIdField;
-
                 $fields_lang_dependent[$this->langIdField] = $this->getLangId();
+                $fields_lang_dependent[$this->tableKey] = $id;
+
+                //$field_names_lang .= $this->simpleSelect->quoteField($this->langIdField);
+
+                $markers_lang .= ':' . $this->langIdField . ', :' . $this->tableKey;
 
                 $field_names_lang = implode(', ', array_map(array($this->simpleSelect, 'quoteField'), array_keys($fields_lang_dependent)));
 
@@ -358,28 +370,50 @@ abstract class simpleMapper
         if (sizeof($fields) > 0) {
             $this->updateDataModify($fields);
 
+            $lang_fields = $this->getLangFields();
+
             $query = '';
+            $query_lang = '';
             foreach (array_keys($fields) as $val) {
-                if($fields[$val] instanceof sqlFunction) {
+                if (in_array($val, $lang_fields)) {
+                    $query_string =& $query_lang;
+                } else {
+                    $query_string =& $query;
+                }
+
+                if($fields[$val] instanceof sqlFunction || $fields[$val] instanceof sqlOperator) {
                     $fields[$val] = $fields[$val]->toString($this->simpleSelect);
-                    $query .= $this->simpleSelect->quoteField($val) . ' = ' . $fields[$val] . ', ';
-                    unset($fields[$val]);
-                } else if($fields[$val] instanceof sqlOperator){
-                    $fields[$val] = $fields[$val]->toString($this->simpleSelect);
-                    $query .= $this->simpleSelect->quoteField($val) . ' = ' . $fields[$val] . ', ';
+                    $query_string .= $this->simpleSelect->quoteField($val) . ' = ' . $fields[$val] . ', ';
                     unset($fields[$val]);
                 } else {
-                    $query .= $this->simpleSelect->quoteField($val) . ' = :' . $val . ', ';
+                    $query_string .= $this->simpleSelect->quoteField($val) . ' = :' . $val . ', ';
                 }
             }
             $query = substr($query, 0, -2);
 
+            // перемещаем языкозависимые поля из общего массива
+            $fields_lang_dependent = array();
+            foreach ($lang_fields as $item) {
+                $fields_lang_dependent[$item] = $fields[$item];
+                unset($fields[$item]);
+            }
+
             if ($query) {
-                $stmt = $this->db->prepare('UPDATE  ' . $this->simpleSelect->quoteTable($this->table) . ' SET ' . $query . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = :id');
+                $stmt = $this->db->prepare('UPDATE ' . $this->simpleSelect->quoteTable($this->table) . ' SET ' . $query . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = :id');
 
                 $stmt->bindValues($fields);
                 $stmt->bindValue(':id', $object->getId(), PDO::PARAM_INT);
                 $result = $stmt->execute();
+            }
+
+            if ($lang_fields) {
+                $query_lang = substr($query_lang, 0, -2);
+
+                $fields_lang_dependent[$this->langIdField] = $this->getLangId();
+                $fields_lang_dependent[$this->tableKey] = $object->getId();
+                $stmt_i18n = $this->db->prepare('UPDATE ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' SET ' . $query_lang . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = :id AND ' . $this->simpleSelect->quoteField($this->langIdField) . ' = :lang_id');
+                $stmt_i18n->bindValues($fields_lang_dependent);
+                $stmt_i18n->execute();
             }
 
             $criteria = new criteria();

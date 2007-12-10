@@ -76,48 +76,86 @@ class simpleMapperi18nTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `sys_classes`');
     }
 
-   /* public function testSearchByKey()
+    /*public function testSearchByKey()
     {
-        $this->fixture();
-        $toolkit = systemToolkit::getInstance();
-        $toolkit->setLang(1);
-        $this->assertEqual($toolkit->getLang(), 1);
+    $this->fixture();
+    $toolkit = systemToolkit::getInstance();
+    $toolkit->setLang(1);
+    $this->assertEqual($toolkit->getLang(), 1);
 
-        $item = $this->mapper->searchByKey(1);
-        $this->assertEqual($item->getFoo(), $this->fixture_i18n['1_1']['foo']);
+    $item = $this->mapper->searchByKey(1);
+    $this->assertEqual($item->getFoo(), $this->fixture_i18n['1_1']['foo']);
 
-        $toolkit->setLang(2);
-        $item = $this->mapper->searchByKey(1);
-        $this->assertEqual($item->getFoo(), $this->fixture_i18n['1_2']['foo']);
+    $toolkit->setLang(2);
+    $item = $this->mapper->searchByKey(1);
+    $this->assertEqual($item->getFoo(), $this->fixture_i18n['1_2']['foo']);
 
-        $item = $this->mapper->searchByKey(2);
-        $this->assertNull($item);
+    $item = $this->mapper->searchByKey(2);
+    $this->assertNull($item);
 
-        $item = $this->mapper->searchByKey(3);
-        $this->assertEqual($item->getFoo(), $this->fixture_i18n['3_2']['foo']);
+    $item = $this->mapper->searchByKey(3);
+    $this->assertEqual($item->getFoo(), $this->fixture_i18n['3_2']['foo']);
     }
 
     public function testDelete()
     {
-        $this->fixture();
-        $this->assertEqual($this->countRecord(), array(3, 4));
+    $this->fixture();
+    $this->assertEqual($this->countRecord(), array(3, 4));
 
-        $this->mapper->delete(2);
-        $this->assertEqual($this->countRecord(), array(2, 3));
+    $this->mapper->delete(2);
+    $this->assertEqual($this->countRecord(), array(2, 3));
 
-        $this->mapper->delete(1);
-        $this->assertEqual($this->countRecord(), array(1, 1));
-    }*/
+    $this->mapper->delete(1);
+    $this->assertEqual($this->countRecord(), array(1, 1));
+    }
 
     public function testInsertSave()
     {
+    $toolkit = systemToolkit::getInstance();
+    $toolkit->setLang(1);
+
+    $simple = $this->mapper->create();
+    $simple->setBar($bar = 'bar');
+    $simple->setFoo($foo = 'foo_1');
+    $this->mapper->save($simple);
+
+    $this->assertEqual($this->countRecord(), array(1, 1));
+    $item = $this->mapper->searchByKey(1);
+    $this->assertEqual($item->getId(), 1);
+    $this->assertEqual($item->getFoo(), $foo);
+    }
+
+    public function testUpdateSameLang()
+    {
+    $this->fixture();
+    $toolkit = systemToolkit::getInstance();
+    $toolkit->setLang(1);
+
+    $item = $this->mapper->searchByKey(1);
+
+    $item->setFoo($foo = 'new_i18n_foo');
+    $item->setBar($bar = 'new_bar');
+    $this->mapper->save($item);
+
+    $new_item = $this->mapper->searchByKey(1);
+    $this->assertEqual($new_item->getFoo(), $foo);
+    $this->assertEqual($new_item->getBar(), $bar);
+    }*/
+
+    public function testUpdateWithNewLang()
+    {
+        $this->fixture();
         $toolkit = systemToolkit::getInstance();
         $toolkit->setLang(1);
 
-        $simple = $this->mapper->create();
-        $simple->setBar($bar = 'bar');
-        $simple->setFoo($foo = 'foo_1');
-        $this->mapper->save($simple);
+        $item = $this->mapper->searchByKey(2);
+        $this->assertEqual($item->getFoo(), $this->fixture_i18n['2_1']['foo']);
+
+        $toolkit->setLang(2);
+        $item2 = $this->mapper->searchByKey(2);
+        $this->assertNull($item2);
+
+
     }
 
     private function countRecord()
