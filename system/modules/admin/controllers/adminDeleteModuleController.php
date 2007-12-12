@@ -19,7 +19,7 @@ fileLoader::load('codegenerator/moduleGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class adminDeleteModuleController extends simpleController
@@ -47,7 +47,12 @@ class adminDeleteModuleController extends simpleController
         $dest = (file_exists(systemConfig::$pathToApplication . $const . $modules[$id]['name'])) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
 
         $moduleGenerator = new moduleGenerator($dest);
-        $moduleGenerator->delete($modules[$id]['name']);
+        try {
+            $moduleGenerator->delete($modules[$id]['name']);
+        } catch (Exception $e) {
+            $controller = new messageController('Во время удаления модуля произошла непредвиденная ошибка. Один из каталогов не может быть удалён: ' . $e->getMessage(), messageController::WARNING);
+            return $controller->run();
+        }
 
         $db->query('DELETE FROM `sys_modules` WHERE `id` = ' .$id);
 

@@ -19,7 +19,7 @@ fileLoader::load('service/iniFile');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
 
 class adminDeletemapController extends simpleController
@@ -53,6 +53,7 @@ class adminDeletemapController extends simpleController
         $sections = $adminMapper->getSectionsModuleRegistered($module['id']);
 
         $schemas = array();
+        $scheme = array();
         foreach ($sections as $section) {
             $mapper = systemToolkit::getInstance()->getMapper($module['name'], $class['name'], $section['name']);
             $table = $mapper->getTable();
@@ -68,7 +69,9 @@ class adminDeletemapController extends simpleController
             $schemas[] = $tmp;
         }
 
-        $scheme = $schemas[0];
+        if (isset($schemas[0])) {
+            $scheme = $schemas[0];
+        }
 
         //@todo: реализовать ситуацию, когда таблицы не совпадают по полям
 
