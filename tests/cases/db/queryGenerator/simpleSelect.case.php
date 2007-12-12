@@ -12,54 +12,6 @@ class simpleSelectTest extends unitTestCase
         $this->select = new simpleSelect($this->criteria);
     }
 
-    public function testSelectFunctionObject()
-    {
-        $function = new sqlFunction('INET_ATON', 'table.field', true);
-        $function2 = new sqlFunction('MAX', 'table.field', true);
-        $this->criteria->addSelectField($function, 'alias')->addSelectField($function2, 'alias2');
-        $this->assertEqual($this->select->toString(), 'SELECT INET_ATON(`table`.`field`) AS `alias`, MAX(`table`.`field`) AS `alias2`');
-    }
-
-    public function testSelectOperator()
-    {
-        $operator = new sqlOperator('+', array('table.field2', 100));
-        $this->criteria->setTable('table');
-        $this->criteria->add('field', $operator);
-        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` WHERE `table`.`field` = `table`.`field2` + 100');
-    }
-
-    public function testSelectFunctionsAndOperators()
-    {
-        $function = new sqlFunction('count', '*', true);
-        $this->criteria->addSelectField($function, 'cnt');
-        $this->assertEqual($this->select->toString(), 'SELECT COUNT(*) AS `cnt`');
-
-        $function = new sqlFunction('count', new sqlOperator('DISTINCT', 'field'));
-        $this->criteria->addSelectField($function, 'cnt');
-        $this->assertEqual($this->select->toString(), 'SELECT COUNT(DISTINCT `field`) AS `cnt`');
-    }
-
-    public function testSelectAllNoConditions()
-    {
-        $this->criteria->setTable('table');
-        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
-    }
-
-    public function testSelectAllWithTableAliasNoConditions()
-    {
-        $this->criteria->setTable('table', 'tbl');
-        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` `tbl`');
-    }
-
-    public function testSelectConcreteFieldsNoConditionsSelectFieldsAlias()
-    {
-        $this->criteria->setTable('table');
-        $this->criteria->addSelectField('field1');
-        $this->criteria->addSelectField('field2', 'alias');
-        $this->criteria->addSelectField('field3');
-        $this->assertEqual($this->select->toString(), 'SELECT `field1`, `field2` AS `alias`, `field3` FROM `table`');
-    }
-
     public function testSelectAllEqualsCondition()
     {
         $this->criteria->setTable('table');
@@ -165,6 +117,54 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->addJoin($criteria, new criterion('x.id', 'table.id', criteria::EQUAL, true), 'x');
 
         $this->assertEqual($this->select->toString(), "SELECT `table`.*, `foo`.`id` AS `foo_id` FROM `table` LEFT JOIN (SELECT * FROM `zzz` WHERE `zzz`.`asd` = 666) `x` ON `x`.`id` = `table`.`id`");
+    }
+    
+    public function testSelectFunctionObject()
+    {
+        $function = new sqlFunction('INET_ATON', 'table.field', true);
+        $function2 = new sqlFunction('MAX', 'table.field', true);
+        $this->criteria->addSelectField($function, 'alias')->addSelectField($function2, 'alias2');
+        $this->assertEqual($this->select->toString(), 'SELECT INET_ATON(`table`.`field`) AS `alias`, MAX(`table`.`field`) AS `alias2`');
+    }
+
+    public function testSelectOperator()
+    {
+        $operator = new sqlOperator('+', array('table.field2', 100));
+        $this->criteria->setTable('table');
+        $this->criteria->add('field', $operator);
+        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` WHERE `table`.`field` = `table`.`field2` + 100');
+    }
+
+    public function testSelectFunctionsAndOperators()
+    {
+        $function = new sqlFunction('count', '*', true);
+        $this->criteria->addSelectField($function, 'cnt');
+        $this->assertEqual($this->select->toString(), 'SELECT COUNT(*) AS `cnt`');
+
+        $function = new sqlFunction('count', new sqlOperator('DISTINCT', 'field'));
+        $this->criteria->addSelectField($function, 'cnt');
+        $this->assertEqual($this->select->toString(), 'SELECT COUNT(DISTINCT `field`) AS `cnt`');
+    }
+
+    public function testSelectAllNoConditions()
+    {
+        $this->criteria->setTable('table');
+        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
+    }
+
+    public function testSelectAllWithTableAliasNoConditions()
+    {
+        $this->criteria->setTable('table', 'tbl');
+        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` `tbl`');
+    }
+
+    public function testSelectConcreteFieldsNoConditionsSelectFieldsAlias()
+    {
+        $this->criteria->setTable('table');
+        $this->criteria->addSelectField('field1');
+        $this->criteria->addSelectField('field2', 'alias');
+        $this->criteria->addSelectField('field3');
+        $this->assertEqual($this->select->toString(), 'SELECT `field1`, `field2` AS `alias`, `field3` FROM `table`');
     }
 }
 
