@@ -29,7 +29,7 @@ fileLoader::load('request/iRoute');
  *
  * @package system
  * @subpackage request
- * @version 0.1.1
+ * @version 0.1.2
  */
 class requestRoute implements iRoute
 {
@@ -110,6 +110,13 @@ class requestRoute implements iRoute
     protected $debug;
 
     /**
+     * Если true, то учитывается информация о языке
+     *
+     * @var boolean
+     */
+    protected $withLang = false;
+
+    /**
      * Конструктор
      *
      * @param string $pattern шаблон
@@ -157,11 +164,11 @@ class requestRoute implements iRoute
      */
     public function match($path, $debug = false)
     {
-        $this->values = $this->defaults;
-
         if (empty($this->regex)) {
             $this->prepare();
         }
+
+        $this->values = $this->defaults;
 
         if ($debug) {
             echo '<span style="background-color: #FCF4DA; padding: 0 3px;">' . $this->getName() . '</span>, ';
@@ -204,8 +211,14 @@ class requestRoute implements iRoute
     protected function prepare()
     {
         $this->parts = preg_split('#(?:\{?(\\\?\:[a-z_]*)\}?)|(/\*$)#i', $this->pattern, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-
         $this->regex = self::REGEX_DELIMITER . '^';
+
+        if ($this->withLang) {
+            array_unshift($this->parts, '/');
+            array_unshift($this->parts, ':lang');
+            $this->requirements['lang'] = '^[a-z]{2}(?=/)|^[a-z]{2}(?=/?)$';
+            $this->defaults['lang'] = 'en';
+        }
 
         foreach ($this->parts as $i => $part) {
             if($part[0] === self::VARIABLE_PREFIX) {
@@ -238,13 +251,22 @@ class requestRoute implements iRoute
                 }
                 $this->parts[$i] = array('name'=> $part, 'isVar' => false, 'regex' => preg_quote($part, self::REGEX_DELIMITER));
                 $prefix = '(';
-                $postfix = ')';
+                $postfix = ($this->withLang && $i === 1) ? ')?' : ')';
             }
 
             $this->regex .= $prefix . $this->parts[$i]['regex'] . $postfix;
         }
 
         $this->regex .= '$' . self::REGEX_DELIMITER . 'i';
+    }
+
+    /**
+     * Включение учета языка
+     *
+     */
+    public function enableLang()
+    {
+        $this->withLang = true;
     }
 
     /**
@@ -275,7 +297,11 @@ class requestRoute implements iRoute
                         $url .= '/' . $key . '/' . $value;
                     }
                 } elseif (isset($this->defaults[$part['name']])) {
-                    $url = substr($url, 0, -1);
+                    if ($part['name'] == 'lang') {
+                        $url = $this->defaults[$part['name']] . $url;
+                    } else {
+                        $url = substr($url, 0, -1);
+                    }
                 } else {
                     throw new mzzRuntimeException('Отсутствует значение для Route: ' . $part['name']);
                 }

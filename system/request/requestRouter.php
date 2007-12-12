@@ -60,6 +60,13 @@ class requestRouter
     private $request;
 
     /**
+     * Если true, то учитывается информация о языке
+     *
+     * @var boolean
+     */
+    protected $withLang = false;
+
+    /**
      * Конструктор
      *
      * @param iRequest $request
@@ -82,6 +89,9 @@ class requestRouter
         }
         $route->setName($name);
         $this->routes[$name] = $route;
+        if ($this->withLang) {
+            $route->enableLang();
+        }
     }
 
     /**
@@ -144,6 +154,15 @@ class requestRouter
         }
 
         $this->request->setParams($params);
+    }
+
+    /**
+     * Включение учета языка
+     *
+     */
+    public function enableLang()
+    {
+        $this->withLang = true;
     }
 
     /**

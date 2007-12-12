@@ -102,7 +102,20 @@ class requestRouteTest extends unitTestCase
             $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view')),
             'somepath/news/1-view'
         );
+    }
 
+    public function testAssembleWithLang()
+    {
+        $route = new requestRoute('somepath/:controller/{:id}-:action/:default', array('default' => 'default'));
+        $route->enableLang();
+        $this->assertEqual(
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view')),
+            'en/somepath/news/1-view'
+        );
+        $this->assertEqual(
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'lang' => 'ru')),
+            'ru/somepath/news/1-view'
+        );
     }
 
     public function testAssembleException()
@@ -115,9 +128,47 @@ class requestRouteTest extends unitTestCase
             $this->assertPattern("/req_param/i", $e->getMessage());
             $this->pass();
         }
-
     }
 
+    public function testRouteWithLang()
+    {
+        $route = new requestRoute(':controller/:action', array('controller' => 'page', 'action' => 'list'));
+        $route->enableLang();
+        $this->assertEqual(
+            $route->match('ru/news/view'),
+            array('action' => 'view', 'controller' => 'news', 'lang' => 'ru')
+        );
+        $this->assertEqual(
+            $route->match('news/view'),
+            array('action' => 'view', 'controller' => 'news', 'lang' => 'en')
+        );
+        $this->assertEqual(
+            $route->match('ru/ru/ru'),
+            array('action' => 'ru', 'controller' => 'ru', 'lang' => 'ru')
+        );
+        $this->assertEqual(
+            $route->match('ru'),
+            array('action' => 'list', 'controller' => 'page', 'lang' => 'ru')
+        );
+
+        $route = new requestRoute('');
+        $route->enableLang();
+        $this->assertEqual(
+            $route->match(''),
+            array('lang' => 'en')
+        );
+
+        $route = new requestRoute('somepath/:action', array('action' => 'list'));
+        $route->enableLang();
+        $this->assertEqual(
+            $route->match('somepath'),
+            array('action' => 'list', 'lang' => 'en')
+        );
+        $this->assertEqual(
+            $route->match('ru/somepath/list'),
+            array('action' => 'list', 'lang' => 'ru')
+        );
+    }
 }
 
 ?>
