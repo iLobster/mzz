@@ -12,6 +12,18 @@ class simpleSelectTest extends unitTestCase
         $this->select = new simpleSelect($this->criteria);
     }
 
+    public function testSelectAllNoConditions()
+    {
+        $this->criteria->setTable('table');
+        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
+    }
+
+    public function testSelectAllWithTableAliasNoConditions()
+    {
+        $this->criteria->setTable('table', 'tbl');
+        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` `tbl`');
+    }
+
     public function testSelectAllEqualsCondition()
     {
         $this->criteria->setTable('table');
@@ -144,18 +156,6 @@ class simpleSelectTest extends unitTestCase
         $function = new sqlFunction('count', new sqlOperator('DISTINCT', 'field'));
         $this->criteria->addSelectField($function, 'cnt');
         $this->assertEqual($this->select->toString(), 'SELECT COUNT(DISTINCT `field`) AS `cnt`');
-    }
-
-    public function testSelectAllNoConditions()
-    {
-        $this->criteria->setTable('table');
-        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
-    }
-
-    public function testSelectAllWithTableAliasNoConditions()
-    {
-        $this->criteria->setTable('table', 'tbl');
-        $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` `tbl`');
     }
 
     public function testSelectConcreteFieldsNoConditionsSelectFieldsAlias()
