@@ -23,20 +23,10 @@ require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
  *
  * @package system
  * @subpackage resolver
- * @version 0.1
+ * @version 0.1.1
  */
 class classFileResolver extends partialFileResolver
 {
-    /**
-     * конструктор
-     *
-     * @param object $resolver базовый резолвер
-     */
-    public function __construct(iResolver $resolver)
-    {
-        parent::__construct($resolver);
-    }
-
     /**
      * проверка на соответствие запроса некоторому шаблону
      * определяем что файл действительно тот, который требуется
@@ -50,6 +40,11 @@ class classFileResolver extends partialFileResolver
         if (strpos($request, '/') === false) {
             $result = $request . '/' . $request;
         }
+
+        if (strpos($result, '.ini') !== false) {
+            return $result;
+        }
+
         return $result . '.php';
     }
 }

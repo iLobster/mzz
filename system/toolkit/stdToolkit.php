@@ -55,6 +55,7 @@ class stdToolkit extends toolkit
      * @var integer
      */
     private $langId;
+    private $locale;
 
     /**
      * Конструктор
@@ -348,6 +349,16 @@ class stdToolkit extends toolkit
     public function getLang()
     {
         return $this->langId;
+    }
+
+    public function setLocale($name)
+    {
+        $this->locale = new locale($name);
+    }
+
+    public function getLocale()
+    {
+        return $this->locale;
     }
 
     public function setLang($langId)
