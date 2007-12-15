@@ -21,7 +21,7 @@ CREATE DATABASE `mzz`
 USE `mzz`;
 
 #
-# Structure for the `catalogue_catalogue` table :
+# Structure for the `catalogue_catalogue` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue`;
@@ -42,7 +42,7 @@ CREATE TABLE `catalogue_catalogue` (
 # Data for the `catalogue_catalogue` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`, `obj_id`, `folder_id`) VALUES
+INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
   (6,8,'Delphi: программирование на языке высокого уровня',2,1175235587,489,12),
   (7,8,'Учебник английского языка для технических университетов и вузов',2,1175237052,490,12),
   (8,7,'Nokia 6300',2,1175871646,501,5),
@@ -58,7 +58,7 @@ INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`,
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogueFolder` table :
+# Structure for the `catalogue_catalogueFolder` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogueFolder`;
@@ -78,7 +78,7 @@ CREATE TABLE `catalogue_catalogueFolder` (
 # Data for the `catalogue_catalogueFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `default_type`, `parent`, `path`) VALUES
+INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `default_type`, `parent`, `path`) VALUES 
   (1,241,'root','Основной',0,1,'root'),
   (5,481,'mobile','Телефоны',7,5,'root/mobile'),
   (10,486,'books','Книги',0,10,'root/books'),
@@ -88,7 +88,7 @@ INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `defau
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogueFolder_tree` table :
+# Structure for the `catalogue_catalogueFolder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogueFolder_tree`;
@@ -108,7 +108,7 @@ CREATE TABLE `catalogue_catalogueFolder_tree` (
 # Data for the `catalogue_catalogueFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
+INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,10,1),
   (5,2,3,2),
   (10,4,9,2),
@@ -118,7 +118,7 @@ INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VAL
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_data` table :
+# Structure for the `catalogue_catalogue_data` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_data`;
@@ -137,7 +137,7 @@ CREATE TABLE `catalogue_catalogue_data` (
 # Data for the `catalogue_catalogue_data` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
   (6,27,'Книга посвящена новейшей версии Delphi  7 Studio. Здесь изложены как приёмы программирования в среде Delphi, её главные составные части - галереи компонентов, хранилища объектов, вспомогательный инструментарий, так и сам язык программирования Delphi',NULL,NULL,NULL),
   (6,24,NULL,'В.В. Фаронов',NULL,NULL),
   (6,25,NULL,NULL,640,NULL),
@@ -178,7 +178,7 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_properties` table :
+# Structure for the `catalogue_catalogue_properties` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_properties`;
@@ -197,7 +197,7 @@ CREATE TABLE `catalogue_catalogue_properties` (
 # Data for the `catalogue_catalogue_properties` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
   (10,'author','Автор',1,''),
   (11,'pagescount','Количество страниц',3,NULL),
   (12,'izdat','Издатель',1,''),
@@ -214,7 +214,7 @@ INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, 
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_properties_types` table :
+# Structure for the `catalogue_catalogue_properties_types` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_properties_types`;
@@ -230,7 +230,7 @@ CREATE TABLE `catalogue_catalogue_properties_types` (
 # Data for the `catalogue_catalogue_properties_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUES
+INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUES 
   (1,'char','строка'),
   (2,'float','число с плавающей точкой'),
   (3,'int','целое число'),
@@ -243,7 +243,7 @@ INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUE
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_types` table :
+# Structure for the `catalogue_catalogue_types` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_types`;
@@ -259,7 +259,7 @@ CREATE TABLE `catalogue_catalogue_types` (
 # Data for the `catalogue_catalogue_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES
+INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
   (7,'mobile','Мобильный телефон'),
   (8,'books','Книги'),
   (9,'childrens','Детский мир'),
@@ -268,7 +268,7 @@ INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_types_props` table :
+# Structure for the `catalogue_catalogue_types_props` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_types_props`;
@@ -289,7 +289,7 @@ CREATE TABLE `catalogue_catalogue_types_props` (
 # Data for the `catalogue_catalogue_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES 
   (24,8,10,2,0,1),
   (25,8,11,5,0,0),
   (26,8,12,1,0,1),
@@ -306,7 +306,7 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `
 COMMIT;
 
 #
-# Structure for the `comments_comments` table :
+# Structure for the `comments_comments` table : 
 #
 
 DROP TABLE IF EXISTS `comments_comments`;
@@ -325,13 +325,13 @@ CREATE TABLE `comments_comments` (
 # Data for the `comments_comments` table  (LIMIT 0,500)
 #
 
-INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `folder_id`) VALUES
+INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `folder_id`) VALUES 
   (25,135,'asdfsdfg',2,1164000450,14);
 
 COMMIT;
 
 #
-# Structure for the `comments_commentsFolder` table :
+# Structure for the `comments_commentsFolder` table : 
 #
 
 DROP TABLE IF EXISTS `comments_commentsFolder`;
@@ -348,7 +348,7 @@ CREATE TABLE `comments_commentsFolder` (
 # Data for the `comments_commentsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
+INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES 
   (14,134,9),
   (16,145,10),
   (18,171,164),
@@ -385,7 +385,7 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `faq_faq` table :
+# Structure for the `faq_faq` table : 
 #
 
 DROP TABLE IF EXISTS `faq_faq`;
@@ -403,14 +403,14 @@ CREATE TABLE `faq_faq` (
 # Data for the `faq_faq` table  (LIMIT 0,500)
 #
 
-INSERT INTO `faq_faq` (`id`, `question`, `answer`, `category_id`, `obj_id`) VALUES
+INSERT INTO `faq_faq` (`id`, `question`, `answer`, `category_id`, `obj_id`) VALUES 
   (1,'Надо ли мне верить в розового жирафика, чтобы пользоваться mzz?','Желательно, но вовсе необязательно',1,872),
   (2,'Вопрос','ответ',1,878);
 
 COMMIT;
 
 #
-# Structure for the `faq_faqCategory` table :
+# Structure for the `faq_faqCategory` table : 
 #
 
 DROP TABLE IF EXISTS `faq_faqCategory`;
@@ -427,13 +427,13 @@ CREATE TABLE `faq_faqCategory` (
 # Data for the `faq_faqCategory` table  (LIMIT 0,500)
 #
 
-INSERT INTO `faq_faqCategory` (`id`, `name`, `title`, `obj_id`) VALUES
+INSERT INTO `faq_faqCategory` (`id`, `name`, `title`, `obj_id`) VALUES 
   (1,'demo','Демо',870);
 
 COMMIT;
 
 #
-# Structure for the `fileManager_file` table :
+# Structure for the `fileManager_file` table : 
 #
 
 DROP TABLE IF EXISTS `fileManager_file`;
@@ -459,19 +459,19 @@ CREATE TABLE `fileManager_file` (
 # Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
   (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1189865423,28,1,'По фамилии Fernandes',5,611),
   (15,'a0494eeadea195b23bc2947780346d47','2.jpg','jpg',28565,1193874091,NULL,1,'',5,1195),
-  (16,'10fb1fa8b1d8cc73842511e6d77fb441','3.jpg','jpg',36957,1193988649,2,1,'',5,1199),
-  (17,'f7566302d872ec98768bfa775b5c7dce','4.jpg','jpg',32557,1193988652,2,1,'',5,1203),
-  (18,'eca188a35070342d2daa3d11b904d32f','5.jpg','jpg',31552,1193988032,3,1,'',5,1207),
+  (16,'10fb1fa8b1d8cc73842511e6d77fb441','3.jpg','jpg',36957,1197724921,3,1,'',5,1199),
+  (17,'f7566302d872ec98768bfa775b5c7dce','4.jpg','jpg',32557,1197724219,3,1,'',5,1203),
+  (18,'eca188a35070342d2daa3d11b904d32f','5.jpg','jpg',31552,1197726704,7,1,'',5,1207),
   (23,'fc6bfaf392fd56f0c1353a304ee609f0','6.jpg','jpg',33454,1193874183,NULL,1,'',5,1215),
   (24,'c77d18916bbfc6c1b7e25fd66d1055ae','7.jpg','jpg',28233,1193988674,2,1,'',5,1219);
 
 COMMIT;
 
 #
-# Structure for the `fileManager_folder` table :
+# Structure for the `fileManager_folder` table : 
 #
 
 DROP TABLE IF EXISTS `fileManager_folder`;
@@ -492,7 +492,7 @@ CREATE TABLE `fileManager_folder` (
 # Data for the `fileManager_folder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES
+INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
   (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg'),
   (7,'extras','extras',7,'root/extras',1093,0,'');
@@ -500,7 +500,7 @@ INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_
 COMMIT;
 
 #
-# Structure for the `fileManager_folder_tree` table :
+# Structure for the `fileManager_folder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `fileManager_folder_tree`;
@@ -520,7 +520,7 @@ CREATE TABLE `fileManager_folder_tree` (
 # Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
+INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,6,1),
   (5,2,3,2),
   (7,4,5,2);
@@ -528,7 +528,7 @@ INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
 COMMIT;
 
 #
-# Structure for the `forum_category` table :
+# Structure for the `forum_category` table : 
 #
 
 DROP TABLE IF EXISTS `forum_category`;
@@ -545,14 +545,14 @@ CREATE TABLE `forum_category` (
 # Data for the `forum_category` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_category` (`id`, `title`, `order`, `obj_id`) VALUES
+INSERT INTO `forum_category` (`id`, `title`, `order`, `obj_id`) VALUES 
   (1,'main',1,880),
   (2,'новая категория2',100,935);
 
 COMMIT;
 
 #
-# Structure for the `forum_forum` table :
+# Structure for the `forum_forum` table : 
 #
 
 DROP TABLE IF EXISTS `forum_forum`;
@@ -574,7 +574,7 @@ CREATE TABLE `forum_forum` (
 # Data for the `forum_forum` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_forum` (`id`, `title`, `category_id`, `order`, `obj_id`, `threads_count`, `posts_count`, `last_post`, `description`) VALUES
+INSERT INTO `forum_forum` (`id`, `title`, `category_id`, `order`, `obj_id`, `threads_count`, `posts_count`, `last_post`, `description`) VALUES 
   (1,'Новый форум',1,100,881,2,7,59,'Описание'),
   (2,'lol2? :)',1,10,936,9,50,83,NULL),
   (3,'ещё один тупой форум',2,0,937,1,1,58,NULL);
@@ -582,7 +582,7 @@ INSERT INTO `forum_forum` (`id`, `title`, `category_id`, `order`, `obj_id`, `thr
 COMMIT;
 
 #
-# Structure for the `forum_post` table :
+# Structure for the `forum_post` table : 
 #
 
 DROP TABLE IF EXISTS `forum_post`;
@@ -604,7 +604,7 @@ CREATE TABLE `forum_post` (
 # Data for the `forum_post` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thread_id`, `obj_id`) VALUES
+INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thread_id`, `obj_id`) VALUES 
   (1,'Пост 1',2,10,NULL,1,886),
   (2,'Пост 2',2,231654,NULL,1,887),
   (3,'adfwqer',2,1187931976,NULL,4,896),
@@ -692,7 +692,7 @@ INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thr
 COMMIT;
 
 #
-# Structure for the `forum_thread` table :
+# Structure for the `forum_thread` table : 
 #
 
 DROP TABLE IF EXISTS `forum_thread`;
@@ -717,7 +717,7 @@ CREATE TABLE `forum_thread` (
 # Data for the `forum_thread` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `first_post`, `view_count`) VALUES
+INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `first_post`, `view_count`) VALUES 
   (1,'новый тред',7,15,2,1,885,39,NULL,NULL,NULL),
   (4,'sadfsadf',1,1187931976,2,1,895,11,NULL,NULL,NULL),
   (5,'q',1,1187932074,2,1,899,11,NULL,NULL,NULL),
@@ -741,7 +741,7 @@ INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`,
 COMMIT;
 
 #
-# Structure for the `gallery_album` table :
+# Structure for the `gallery_album` table : 
 #
 
 DROP TABLE IF EXISTS `gallery_album`;
@@ -761,7 +761,7 @@ CREATE TABLE `gallery_album` (
 # Data for the `gallery_album` table  (LIMIT 0,500)
 #
 
-INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `main_photo`, `obj_id`) VALUES
+INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `main_photo`, `obj_id`) VALUES 
   (1,1,'Женщина',1,NULL,0,537),
   (2,1,'Автомобили',4,1193874063,0,1193),
   (3,1,'Автомобили Audi',2,1193874075,0,1194);
@@ -769,7 +769,7 @@ INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created
 COMMIT;
 
 #
-# Structure for the `gallery_gallery` table :
+# Structure for the `gallery_gallery` table : 
 #
 
 DROP TABLE IF EXISTS `gallery_gallery`;
@@ -787,13 +787,13 @@ CREATE TABLE `gallery_gallery` (
 # Data for the `gallery_gallery` table  (LIMIT 0,500)
 #
 
-INSERT INTO `gallery_gallery` (`id`, `owner`, `created`, `updated`, `obj_id`) VALUES
+INSERT INTO `gallery_gallery` (`id`, `owner`, `created`, `updated`, `obj_id`) VALUES 
   (1,2,1179050922,1179050922,536);
 
 COMMIT;
 
 #
-# Structure for the `gallery_photo` table :
+# Structure for the `gallery_photo` table : 
 #
 
 DROP TABLE IF EXISTS `gallery_photo`;
@@ -813,7 +813,7 @@ CREATE TABLE `gallery_photo` (
 # Data for the `gallery_photo` table  (LIMIT 0,500)
 #
 
-INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES
+INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES 
   (1,1,'Collien',NULL,NULL,612),
   (2,2,'BMW 7',NULL,NULL,1196),
   (3,2,'BMW X5',NULL,NULL,1200),
@@ -825,7 +825,7 @@ INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_
 COMMIT;
 
 #
-# Structure for the `menu_menu` table :
+# Structure for the `menu_menu` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menu`;
@@ -842,7 +842,7 @@ CREATE TABLE `menu_menu` (
 # Data for the `menu_menu` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES
+INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES 
   (5,'demo','Демо-меню',660),
   (6,'hmenu','Верхнее меню',1185),
   (7,'smenu','Боковое меню',1234);
@@ -850,7 +850,7 @@ INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `menu_menuItem` table :
+# Structure for the `menu_menuItem` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menuItem`;
@@ -870,7 +870,7 @@ CREATE TABLE `menu_menuItem` (
 # Data for the `menu_menuItem` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES
+INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `order`, `obj_id`) VALUES 
   (1,0,2,5,'Новости',1,661),
   (2,0,2,5,'Страницы',1,662),
   (3,0,2,5,'Каталог',1,663),
@@ -895,7 +895,7 @@ INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_data` table :
+# Structure for the `menu_menuItem_data` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_data`;
@@ -914,7 +914,7 @@ CREATE TABLE `menu_menuItem_data` (
 # Data for the `menu_menuItem_data` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES
+INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
   (2,2,NULL,'/page',NULL,NULL),
   (1,4,NULL,'',NULL,NULL),
   (1,2,NULL,'/news',NULL,NULL),
@@ -967,7 +967,7 @@ INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, 
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_properties` table :
+# Structure for the `menu_menuItem_properties` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_properties`;
@@ -986,7 +986,7 @@ CREATE TABLE `menu_menuItem_properties` (
 # Data for the `menu_menuItem_properties` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES
+INSERT INTO `menu_menuItem_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
   (1,'url','Ссылка',1,NULL),
   (2,'url','Ссылка',1,NULL),
   (3,'section','section',1,NULL),
@@ -995,7 +995,7 @@ INSERT INTO `menu_menuItem_properties` (`id`, `name`, `title`, `type_id`, `args`
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_properties_types` table :
+# Structure for the `menu_menuItem_properties_types` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_properties_types`;
@@ -1011,13 +1011,13 @@ CREATE TABLE `menu_menuItem_properties_types` (
 # Data for the `menu_menuItem_properties_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem_properties_types` (`id`, `name`, `title`) VALUES
+INSERT INTO `menu_menuItem_properties_types` (`id`, `name`, `title`) VALUES 
   (1,'char','Строка');
 
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_types` table :
+# Structure for the `menu_menuItem_types` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_types`;
@@ -1033,14 +1033,14 @@ CREATE TABLE `menu_menuItem_types` (
 # Data for the `menu_menuItem_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem_types` (`id`, `name`, `title`) VALUES
+INSERT INTO `menu_menuItem_types` (`id`, `name`, `title`) VALUES 
   (1,'simple','Простой'),
   (2,'advanced','Advanced');
 
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_types_props` table :
+# Structure for the `menu_menuItem_types_props` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_types_props`;
@@ -1061,7 +1061,7 @@ CREATE TABLE `menu_menuItem_types_props` (
 # Data for the `menu_menuItem_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES
+INSERT INTO `menu_menuItem_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES 
   (1,1,1,0,1,0),
   (2,2,2,0,1,0),
   (3,2,3,0,1,0),
@@ -1070,7 +1070,7 @@ INSERT INTO `menu_menuItem_types_props` (`id`, `type_id`, `property_id`, `sort`,
 COMMIT;
 
 #
-# Structure for the `message_message` table :
+# Structure for the `message_message` table : 
 #
 
 DROP TABLE IF EXISTS `message_message`;
@@ -1092,14 +1092,14 @@ CREATE TABLE `message_message` (
 # Data for the `message_message` table  (LIMIT 0,500)
 #
 
-INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `time`, `watched`, `category_id`, `obj_id`) VALUES
+INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `time`, `watched`, `category_id`, `obj_id`) VALUES 
   (1,'Превед','Превед медвед',1,2,1184625784,1,1,812),
   (2,'test','test',2,3,1194418216,0,1,1232);
 
 COMMIT;
 
 #
-# Structure for the `message_messageCategory` table :
+# Structure for the `message_messageCategory` table : 
 #
 
 DROP TABLE IF EXISTS `message_messageCategory`;
@@ -1116,7 +1116,7 @@ CREATE TABLE `message_messageCategory` (
 # Data for the `message_messageCategory` table  (LIMIT 0,500)
 #
 
-INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES
+INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES 
   (1,'Входящие','incoming',809),
   (2,'Исходящие','sent',810),
   (3,'Корзина','recycle',811);
@@ -1124,7 +1124,7 @@ INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `news_news` table :
+# Structure for the `news_news` table : 
 #
 
 DROP TABLE IF EXISTS `news_news`;
@@ -1147,7 +1147,7 @@ CREATE TABLE `news_news` (
 # Data for the `news_news` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `annotation`, `text`, `folder_id`, `created`, `updated`) VALUES
+INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `annotation`, `text`, `folder_id`, `created`, `updated`) VALUES 
   (9,309,'Приостановлена деятельность НБП',2,'Прокуратура Москвы приостановила деятельность НБП вплоть до решения суда, который должен вынести окончательное решение по этому вопросу и признать или не признать НБП экстремистской организацией. НБП запрещается организовывать и проводить собрания, митинги, демонстрации и иные массовые акции или публичные мероприятия.','Прокуратура Москвы в четверг, 22 марта, приостановила деятельность НБП вплоть до решения суда, который должен вынести окончательное решение по этому вопросу и признать или не признать НБП экстремистской организацией, сообщается на сайте Генпрокуратуры. Как отмечается в постановлении прокуратуры, в соответствии с требованиями ч. 3 ст. 10 Федерального закона \"О противодействии экстремистской деятельности\" приостанавливаются все права НБП, а также региональных и других структурных подразделений этой организации. НБП, в частности, запрещается организовывать и проводить собрания, митинги, демонстрации, шествия, пикетирование и иные массовые акции или публичные мероприятия, а также использовать банковские вклады, за исключением проведения расчетов, связанных с их хозяйственной деятельностью. Несмотря на то, что НБП 29 июня 2005 года была ликвидирована и исключена из Единого государственного реестра юридических лиц, организация продолжила свою деятельность. В марте 2007 года прокуратуры Санкт-Петербурга, Челябинской области и Одинцовского района Московской области вынесли НБП предупреждения о недопустимости экстремистских действий. Неоднократные предупреждения, как отмечается в постановлении прокуратуры, являются достаточным основанием для признания НБП экстремистской организацией и запрета её деятельности. Лидер нацболов Эдуард Лимонов сообщил корреспонденту \"Ленты.ру\", что представление прокуратуры о запрете НБП будет рассмотрено в Мосгорсуде 29 марта 2007 года. Самому Лимонову представителем прокуратуры была вручена повестка в суд. Он оказался единственным фигурантом этого дела, так как прокуратура заявляет, что \"личности других лидеров установить не удалось\". Лидер НБП отметил, что действия прокуратуры являются первой попыткой применить новый закон об экстремизме, что, по его мнению, является сигналом о скором начале \"массовых репрессий в отношении оппозиции\".',29,1174588081,1174588081),
   (10,310,'Задержаны трое подозреваемых в причастности к терактам в лондонском метро',2,'В ходе полицейской спецоперации 22 марта в Великобритании арестованы три человека, подозреваемых в причастности к планированию и осуществлению терактов в лондонском метро. Двое были схвачены перед посадкой в направляющийся в Пакистан самолет, за третьим полицейские пришли в его дом в городе Лидс.','В ходе полицейской спецоперации 22 марта в Великобритании арестованы три человека, подозреваемых в причастности к планированию и осуществлению терактов в лондонском метро 7 июля 2005 года, сообщает Sky News. Двое (23 и 30 лет) были схвачены перед посадкой в направляющийся в Пакистан самолет, за третьим (26 лет) полицейские пришли в его дом в городе Лидс. В рамках этой же операции были проведены обыски в пяти домах в Лидсе. Все подозреваемые доставлены в центральное полицейское управление Лондона, их уже допрашивают следователи. По словам стражей порядка, целью их работы является выявление лиц, не только причастных к совершению этих терактов, но и тех людей, кто знал об их подготовке, сочувствовал исполнителям и призывал террористов к совершению преступлений. Расследование, отмечают в полиции, отнюдь не закончилось и будет продолжаться и далее. Напомним, что 7 июля 2005 года террористы-смертники пытались привести в действие спрятанные в рюкзаках бомбы, однако из-за недостатков конструкции взрывные устройства не сработали, что сохранило жизни многим людям.',18,1174588081,1174588081),
   (11,311,'Иран отрабатывает блокаду Персидского залива',2,'Военно-морские силы Ирана проводят маневры в Персидском заливе. В маневрах, начавшихся 21 марта, участвуют корветы, ракетные катера и подводные лодки. Целью учений является отработка действий по блокированию Ормузского пролива - \"торговых ворот\" ближневосточного региона.','Военно-морские силы Ирана проводят крупномасштабные учения в Персидском заливе, сообщает MIGnews. В маневрах принимают участие ракетные корветы, катера и подводные лодки. По сообщениям СМИ, иранский флот отрабатывает на учениях блокаду Ормузского пролива - \"торговых ворот\" ближневосточного региона. Ормузский пролив соединяет Персидский залив с Индийским океаном. Через него обеспечивается до 25 процентов мировых поставок нефти. Учения, начавшиеся в среду, 21 марта, продлятся до 30 марта 2007 года. По мнению экспертов, цель учений - демонстрация силы в условиях предполагаемой военной операции США. Следует отметить, что США официально опровергают все сообщения о подготовке военной операции против Ирана. Военно-морские силы Ирана насчитывают пять патрульных корветов водоизмещением менее 1500 тонн и 23 ракетных катера. Наиболее боеспособной частью ВМС являются подводные силы, располагающие тремя подлодками проекта 877ЭКМ российской постройки, по своим ТТХ сравнимыми с израильскими подводными лодками типа Dolphin.',18,1174588081,1174588081),
@@ -1311,7 +1311,7 @@ INSERT INTO `news_news` (`id`, `obj_id`, `title`, `editor`, `annotation`, `text`
 COMMIT;
 
 #
-# Structure for the `news_newsFolder` table :
+# Structure for the `news_newsFolder` table : 
 #
 
 DROP TABLE IF EXISTS `news_newsFolder`;
@@ -1332,7 +1332,7 @@ CREATE TABLE `news_newsFolder` (
 # Data for the `news_newsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES
+INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (2,6,'root','Новости',1,'root'),
   (18,295,'main','Главное',17,'root/main'),
   (19,296,'comments','Комментарии',18,'root/comments'),
@@ -1352,7 +1352,7 @@ INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`
 COMMIT;
 
 #
-# Structure for the `news_newsFolder_tree` table :
+# Structure for the `news_newsFolder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `news_newsFolder_tree`;
@@ -1372,7 +1372,7 @@ CREATE TABLE `news_newsFolder_tree` (
 # Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
+INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,30,1),
   (17,2,3,2),
   (18,4,5,2),
@@ -1392,7 +1392,7 @@ INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
 COMMIT;
 
 #
-# Structure for the `page_page` table :
+# Structure for the `page_page` table : 
 #
 
 DROP TABLE IF EXISTS `page_page`;
@@ -1412,7 +1412,7 @@ CREATE TABLE `page_page` (
 # Data for the `page_page` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `compiled`) VALUES
+INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `compiled`) VALUES 
   (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n',1,0),
   (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1,NULL),
   (3,11,'test','test','test',1,NULL),
@@ -1428,7 +1428,7 @@ INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`
 COMMIT;
 
 #
-# Structure for the `page_pageFolder` table :
+# Structure for the `page_pageFolder` table : 
 #
 
 DROP TABLE IF EXISTS `page_pageFolder`;
@@ -1448,7 +1448,7 @@ CREATE TABLE `page_pageFolder` (
 # Data for the `page_pageFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES
+INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (1,161,'root','/',1,'root'),
   (2,163,'foo','foo',2,'root/foo'),
   (3,234,'zz','zz',3,'root/foo/zz');
@@ -1456,7 +1456,7 @@ INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`
 COMMIT;
 
 #
-# Structure for the `page_pageFolder_tree` table :
+# Structure for the `page_pageFolder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `page_pageFolder_tree`;
@@ -1476,7 +1476,7 @@ CREATE TABLE `page_pageFolder_tree` (
 # Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
+INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,6,1),
   (2,2,5,2),
   (3,3,4,3);
@@ -1484,7 +1484,7 @@ INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_access` table :
+# Structure for the `sys_access` table : 
 #
 
 DROP TABLE IF EXISTS `sys_access`;
@@ -1508,7 +1508,7 @@ CREATE TABLE `sys_access` (
 # Data for the `sys_access` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (428,3,5,19,NULL,1,1,0),
   (429,3,5,19,NULL,2,1,0),
   (436,4,2,6,2,NULL,1,0),
@@ -2016,7 +2016,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (2037,9,2,296,2,NULL,0,0),
   (2038,9,2,297,NULL,1,0,0),
   (2039,8,2,297,NULL,1,0,0),
@@ -2524,7 +2524,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 1000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (2537,2,1,320,2,NULL,1,0),
   (2538,29,1,320,2,NULL,1,0),
   (2539,1,1,320,2,NULL,1,0),
@@ -3032,7 +3032,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 1500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (3052,29,1,355,NULL,1,0,0),
   (3053,1,1,355,NULL,1,0,0),
   (3054,3,1,355,NULL,1,1,0),
@@ -3540,7 +3540,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 2000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (3557,2,1,388,2,NULL,1,0),
   (3558,29,1,388,2,NULL,1,0),
   (3559,1,1,388,2,NULL,1,0),
@@ -4048,7 +4048,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 2500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (4057,29,1,422,NULL,1,0,0),
   (4058,1,1,422,NULL,1,0,0),
   (4059,3,1,422,NULL,1,1,0),
@@ -4556,7 +4556,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 3000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (4557,9,1,455,NULL,2,1,0),
   (4558,2,1,455,NULL,2,1,0),
   (4559,29,1,455,NULL,2,1,0),
@@ -4990,7 +4990,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
 COMMIT;
 
 #
-# Structure for the `sys_access_registry` table :
+# Structure for the `sys_access_registry` table : 
 #
 
 DROP TABLE IF EXISTS `sys_access_registry`;
@@ -5005,7 +5005,7 @@ CREATE TABLE `sys_access_registry` (
 # Data for the `sys_access_registry` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
+INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
   (6,2),
   (46,1),
   (298,2),
@@ -5513,7 +5513,7 @@ COMMIT;
 # Data for the `sys_access_registry` table  (LIMIT 500,500)
 #
 
-INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
+INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
   (1077,35),
   (1081,35),
   (1085,35),
@@ -5594,7 +5594,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_actions` table :
+# Structure for the `sys_actions` table : 
 #
 
 DROP TABLE IF EXISTS `sys_actions`;
@@ -5610,7 +5610,7 @@ CREATE TABLE `sys_actions` (
 # Data for the `sys_actions` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_actions` (`id`, `name`) VALUES
+INSERT INTO `sys_actions` (`id`, `name`) VALUES 
   (1,'edit'),
   (2,'delete'),
   (3,'view'),
@@ -5686,7 +5686,7 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg` table :
+# Structure for the `sys_cfg` table : 
 #
 
 DROP TABLE IF EXISTS `sys_cfg`;
@@ -5703,7 +5703,7 @@ CREATE TABLE `sys_cfg` (
 # Data for the `sys_cfg` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
+INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES 
   (1,0,0),
   (2,0,1),
   (3,0,2),
@@ -5723,7 +5723,7 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg_titles` table :
+# Structure for the `sys_cfg_titles` table : 
 #
 
 DROP TABLE IF EXISTS `sys_cfg_titles`;
@@ -5739,7 +5739,7 @@ CREATE TABLE `sys_cfg_titles` (
 # Data for the `sys_cfg_titles` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
+INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES 
   (1,'Элементов на странице'),
   (2,'Каталог загрузки'),
   (3,'Кэ'),
@@ -5755,7 +5755,7 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg_values` table :
+# Structure for the `sys_cfg_values` table : 
 #
 
 DROP TABLE IF EXISTS `sys_cfg_values`;
@@ -5774,7 +5774,7 @@ CREATE TABLE `sys_cfg_values` (
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES
+INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES 
   (1,1,3,3,'true'),
   (2,2,1,1,'10'),
   (3,3,1,1,'20'),
@@ -5799,7 +5799,7 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg_vars` table :
+# Structure for the `sys_cfg_vars` table : 
 #
 
 DROP TABLE IF EXISTS `sys_cfg_vars`;
@@ -5815,7 +5815,7 @@ CREATE TABLE `sys_cfg_vars` (
 # Data for the `sys_cfg_vars` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
+INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES 
   (1,'items_per_page'),
   (2,'upload_path'),
   (3,'cache'),
@@ -5830,7 +5830,7 @@ INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_classes` table :
+# Structure for the `sys_classes` table : 
 #
 
 DROP TABLE IF EXISTS `sys_classes`;
@@ -5847,7 +5847,7 @@ CREATE TABLE `sys_classes` (
 # Data for the `sys_classes` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
+INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES 
   (1,'news',1),
   (2,'newsFolder',1),
   (3,'user',2),
@@ -5888,13 +5888,12 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (44,'tags',17),
   (45,'tagsItem',17),
   (46,'tagsItemRel',17),
-  (47,'captcha',18),
-  (49,'config',6);
+  (47,'captcha',18);
 
 COMMIT;
 
 #
-# Structure for the `sys_classes_actions` table :
+# Structure for the `sys_classes_actions` table : 
 #
 
 DROP TABLE IF EXISTS `sys_classes_actions`;
@@ -5911,7 +5910,7 @@ CREATE TABLE `sys_classes_actions` (
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
+INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES 
   (1,1,1),
   (2,1,2),
   (3,1,3),
@@ -6093,7 +6092,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_classes_sections` table :
+# Structure for the `sys_classes_sections` table : 
 #
 
 DROP TABLE IF EXISTS `sys_classes_sections`;
@@ -6111,7 +6110,7 @@ CREATE TABLE `sys_classes_sections` (
 # Data for the `sys_classes_sections` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
+INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
   (1,1,1),
   (2,2,1),
   (3,3,2),
@@ -6161,7 +6160,7 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_config` table :
+# Structure for the `sys_config` table : 
 #
 
 DROP TABLE IF EXISTS `sys_config`;
@@ -6177,13 +6176,13 @@ CREATE TABLE `sys_config` (
 # Data for the `sys_config` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_config` (`id`, `type_id`, `name`) VALUES
+INSERT INTO `sys_config` (`id`, `type_id`, `name`) VALUES 
   (1,1,'catalogue');
 
 COMMIT;
 
 #
-# Structure for the `sys_config_data` table :
+# Structure for the `sys_config_data` table : 
 #
 
 DROP TABLE IF EXISTS `sys_config_data`;
@@ -6202,13 +6201,13 @@ CREATE TABLE `sys_config_data` (
 # Data for the `sys_config_data` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_config_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES
+INSERT INTO `sys_config_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
   (1,1,NULL,'10',NULL,NULL);
 
 COMMIT;
 
 #
-# Structure for the `sys_config_properties` table :
+# Structure for the `sys_config_properties` table : 
 #
 
 DROP TABLE IF EXISTS `sys_config_properties`;
@@ -6228,13 +6227,13 @@ CREATE TABLE `sys_config_properties` (
 # Data for the `sys_config_properties` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_config_properties` (`id`, `name`, `title`, `type_id`, `default`, `args`) VALUES
+INSERT INTO `sys_config_properties` (`id`, `name`, `title`, `type_id`, `default`, `args`) VALUES 
   (1,'items_per_page','Элементов на страницу',3,'10',NULL);
 
 COMMIT;
 
 #
-# Structure for the `sys_config_properties_types` table :
+# Structure for the `sys_config_properties_types` table : 
 #
 
 DROP TABLE IF EXISTS `sys_config_properties_types`;
@@ -6250,7 +6249,7 @@ CREATE TABLE `sys_config_properties_types` (
 # Data for the `sys_config_properties_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_config_properties_types` (`id`, `name`, `title`) VALUES
+INSERT INTO `sys_config_properties_types` (`id`, `name`, `title`) VALUES 
   (1,'char','строка'),
   (2,'float','число с плавающей точкой'),
   (3,'int','целое число'),
@@ -6263,7 +6262,7 @@ INSERT INTO `sys_config_properties_types` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_config_types` table :
+# Structure for the `sys_config_types` table : 
 #
 
 DROP TABLE IF EXISTS `sys_config_types`;
@@ -6279,13 +6278,13 @@ CREATE TABLE `sys_config_types` (
 # Data for the `sys_config_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_config_types` (`id`, `name`, `title`) VALUES
+INSERT INTO `sys_config_types` (`id`, `name`, `title`) VALUES 
   (1,'catalogue','Модуль catalogue');
 
 COMMIT;
 
 #
-# Structure for the `sys_config_types_props` table :
+# Structure for the `sys_config_types_props` table : 
 #
 
 DROP TABLE IF EXISTS `sys_config_types_props`;
@@ -6305,13 +6304,13 @@ CREATE TABLE `sys_config_types_props` (
 # Data for the `sys_config_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_config_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES
+INSERT INTO `sys_config_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES 
   (1,1,1,0,1,0);
 
 COMMIT;
 
 #
-# Structure for the `sys_lang` table :
+# Structure for the `sys_lang` table : 
 #
 
 DROP TABLE IF EXISTS `sys_lang`;
@@ -6327,13 +6326,13 @@ CREATE TABLE `sys_lang` (
 # Data for the `sys_lang` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_lang` (`id`, `name`, `title`) VALUES
+INSERT INTO `sys_lang` (`id`, `name`, `title`) VALUES 
   (1,'ru','ру');
 
 COMMIT;
 
 #
-# Structure for the `sys_modules` table :
+# Structure for the `sys_modules` table : 
 #
 
 DROP TABLE IF EXISTS `sys_modules`;
@@ -6352,7 +6351,7 @@ CREATE TABLE `sys_modules` (
 # Data for the `sys_modules` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`) VALUES
+INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`) VALUES 
   (1,'news',1,'Новости','news.gif',10),
   (2,'user',3,'Пользователи','users.gif',90),
   (4,'page',6,'Страницы','pages.gif',20),
@@ -6373,7 +6372,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
 COMMIT;
 
 #
-# Structure for the `sys_obj_id` table :
+# Structure for the `sys_obj_id` table : 
 #
 
 DROP TABLE IF EXISTS `sys_obj_id`;
@@ -6387,7 +6386,7 @@ CREATE TABLE `sys_obj_id` (
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_obj_id` (`id`) VALUES
+INSERT INTO `sys_obj_id` (`id`) VALUES 
   (15),
   (16),
   (17),
@@ -6895,7 +6894,7 @@ COMMIT;
 # Data for the `sys_obj_id` table  (LIMIT 500,500)
 #
 
-INSERT INTO `sys_obj_id` (`id`) VALUES
+INSERT INTO `sys_obj_id` (`id`) VALUES 
   (515),
   (516),
   (517),
@@ -7403,7 +7402,7 @@ COMMIT;
 # Data for the `sys_obj_id` table  (LIMIT 1000,500)
 #
 
-INSERT INTO `sys_obj_id` (`id`) VALUES
+INSERT INTO `sys_obj_id` (`id`) VALUES 
   (1015),
   (1016),
   (1017),
@@ -7642,7 +7641,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_obj_id_named` table :
+# Structure for the `sys_obj_id_named` table : 
 #
 
 DROP TABLE IF EXISTS `sys_obj_id_named`;
@@ -7656,7 +7655,7 @@ CREATE TABLE `sys_obj_id_named` (
 # Data for the `sys_obj_id_named` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
+INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES 
   (55,'user_userFolder'),
   (56,'user_groupFolder'),
   (58,'access_groupFolder'),
@@ -7718,7 +7717,7 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_sections` table :
+# Structure for the `sys_sections` table : 
 #
 
 DROP TABLE IF EXISTS `sys_sections`;
@@ -7736,7 +7735,7 @@ CREATE TABLE `sys_sections` (
 # Data for the `sys_sections` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
+INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES 
   (1,'news','Новости',50),
   (2,'user','Пользователи',80),
   (4,'page','Страницы',60),
@@ -7757,7 +7756,7 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
 COMMIT;
 
 #
-# Structure for the `tags_item_rel` table :
+# Structure for the `tags_item_rel` table : 
 #
 
 DROP TABLE IF EXISTS `tags_item_rel`;
@@ -7774,7 +7773,7 @@ CREATE TABLE `tags_item_rel` (
 # Data for the `tags_item_rel` table  (LIMIT 0,500)
 #
 
-INSERT INTO `tags_item_rel` (`id`, `tag_id`, `item_id`, `obj_id`) VALUES
+INSERT INTO `tags_item_rel` (`id`, `tag_id`, `item_id`, `obj_id`) VALUES 
   (1,1,11,1164),
   (2,1,12,1168),
   (3,2,13,1173),
@@ -7785,7 +7784,7 @@ INSERT INTO `tags_item_rel` (`id`, `tag_id`, `item_id`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `tags_tags` table :
+# Structure for the `tags_tags` table : 
 #
 
 DROP TABLE IF EXISTS `tags_tags`;
@@ -7801,7 +7800,7 @@ CREATE TABLE `tags_tags` (
 # Data for the `tags_tags` table  (LIMIT 0,500)
 #
 
-INSERT INTO `tags_tags` (`id`, `tag`, `obj_id`) VALUES
+INSERT INTO `tags_tags` (`id`, `tag`, `obj_id`) VALUES 
   (1,'Путин',1162),
   (2,'Google',1172),
   (3,'google mzz zerkms',1175),
@@ -7812,7 +7811,7 @@ INSERT INTO `tags_tags` (`id`, `tag`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `tags_tagsItem` table :
+# Structure for the `tags_tagsItem` table : 
 #
 
 DROP TABLE IF EXISTS `tags_tagsItem`;
@@ -7829,7 +7828,7 @@ CREATE TABLE `tags_tagsItem` (
 # Data for the `tags_tagsItem` table  (LIMIT 0,500)
 #
 
-INSERT INTO `tags_tagsItem` (`id`, `item_obj_id`, `obj_id`, `owner`) VALUES
+INSERT INTO `tags_tagsItem` (`id`, `item_obj_id`, `obj_id`, `owner`) VALUES 
   (11,331,1161,NULL),
   (12,459,1166,NULL),
   (13,445,1170,NULL),
@@ -7839,7 +7838,7 @@ INSERT INTO `tags_tagsItem` (`id`, `item_obj_id`, `obj_id`, `owner`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_group` table :
+# Structure for the `user_group` table : 
 #
 
 DROP TABLE IF EXISTS `user_group`;
@@ -7856,7 +7855,7 @@ CREATE TABLE `user_group` (
 # Data for the `user_group` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_group` (`id`, `obj_id`, `name`, `is_default`) VALUES
+INSERT INTO `user_group` (`id`, `obj_id`, `name`, `is_default`) VALUES 
   (1,14,'unauth',NULL),
   (2,15,'auth',1),
   (3,225,'root',0);
@@ -7864,7 +7863,7 @@ INSERT INTO `user_group` (`id`, `obj_id`, `name`, `is_default`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_user` table :
+# Structure for the `user_user` table : 
 #
 
 DROP TABLE IF EXISTS `user_user`;
@@ -7885,15 +7884,15 @@ CREATE TABLE `user_user` (
 # Data for the `user_user` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES
+INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1196821868),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1196934318),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1197241396),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
 
 #
-# Structure for the `user_userAuth` table :
+# Structure for the `user_userAuth` table : 
 #
 
 DROP TABLE IF EXISTS `user_userAuth`;
@@ -7912,7 +7911,7 @@ CREATE TABLE `user_userAuth` (
 # Data for the `user_userAuth` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES
+INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
   (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1187831447),
   (72,2,'127.0.0.1','4f9252b570591bcf33d0bc3224b12de8',NULL,1187925555),
   (81,2,'127.0.0.1','be504534880ccf8dd7c6e1e620c90479',NULL,1188427749),
@@ -7930,7 +7929,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
 COMMIT;
 
 #
-# Structure for the `user_userGroup_rel` table :
+# Structure for the `user_userGroup_rel` table : 
 #
 
 DROP TABLE IF EXISTS `user_userGroup_rel`;
@@ -7949,7 +7948,7 @@ CREATE TABLE `user_userGroup_rel` (
 # Data for the `user_userGroup_rel` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
+INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES 
   (1,1,1,50),
   (23,2,2,47),
   (24,3,2,226),
@@ -7958,7 +7957,7 @@ INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_userOnline` table :
+# Structure for the `user_userOnline` table : 
 #
 
 DROP TABLE IF EXISTS `user_userOnline`;
@@ -7979,13 +7978,13 @@ CREATE TABLE `user_userOnline` (
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (214,2,'ce549346dc2e62ef1ad9fa4e44eac527',1197241396,'http://mzz/news/160/view','127.0.0.1');
+INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
+  (215,2,'97e3d5f5d14f1cffa20d5310c26fa298',1197726890,'http://mzz/catalogue','127.0.0.1');
 
 COMMIT;
 
 #
-# Structure for the `voting_answer` table :
+# Structure for the `voting_answer` table : 
 #
 
 DROP TABLE IF EXISTS `voting_answer`;
@@ -8003,7 +8002,7 @@ CREATE TABLE `voting_answer` (
 # Data for the `voting_answer` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_answer` (`id`, `title`, `type`, `question_id`, `obj_id`) VALUES
+INSERT INTO `voting_answer` (`id`, `title`, `type`, `question_id`, `obj_id`) VALUES 
   (2,'Да',0,1,799),
   (5,'Нет',0,1,823),
   (10,'Свой вариант',2,1,854);
@@ -8011,7 +8010,7 @@ INSERT INTO `voting_answer` (`id`, `title`, `type`, `question_id`, `obj_id`) VAL
 COMMIT;
 
 #
-# Structure for the `voting_question` table :
+# Structure for the `voting_question` table : 
 #
 
 DROP TABLE IF EXISTS `voting_question`;
@@ -8031,13 +8030,13 @@ CREATE TABLE `voting_question` (
 # Data for the `voting_question` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_question` (`id`, `question`, `category_id`, `created`, `expired`, `obj_id`) VALUES
+INSERT INTO `voting_question` (`id`, `question`, `category_id`, `created`, `expired`, `obj_id`) VALUES 
   (1,'Вы верите в розового жирафика?',1,1186015080,1217810460,796);
 
 COMMIT;
 
 #
-# Structure for the `voting_vote` table :
+# Structure for the `voting_vote` table : 
 #
 
 DROP TABLE IF EXISTS `voting_vote`;
@@ -8053,7 +8052,7 @@ CREATE TABLE `voting_vote` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
-# Structure for the `voting_voteCategory` table :
+# Structure for the `voting_voteCategory` table : 
 #
 
 DROP TABLE IF EXISTS `voting_voteCategory`;
@@ -8070,7 +8069,7 @@ CREATE TABLE `voting_voteCategory` (
 # Data for the `voting_voteCategory` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_voteCategory` (`id`, `name`, `title`, `obj_id`) VALUES
+INSERT INTO `voting_voteCategory` (`id`, `name`, `title`, `obj_id`) VALUES 
   (1,'simple','Простая',837);
 
 COMMIT;

@@ -24,11 +24,12 @@ class adminListCfgController extends simpleController
 {
     protected function getView()
     {
-        /*
+        $id = $this->request->get('id', 'string', SC_PATH);
+
         $db = DB::factory();
         $data = $db->getRow($qry = 'SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
         if (!$data) {
-            return 'Запрашиваемый вами модуль не найден';
+            return 'Запрашиваемый Вами модуль не найден';
         }
 
         $cfg_id = $db->getOne('SELECT `id` FROM `sys_cfg` WHERE `module` = ' . $id . ' AND `section` = 0');
@@ -42,16 +43,6 @@ class adminListCfgController extends simpleController
         $this->smarty->assign('data', $data);
         $this->smarty->assign('params', $params);
 
-        */
-
-        $name = $this->request->get('name', 'string');
-        $configMapper = $this->toolkit->getMapper('config', 'config', 'config');
-
-        $type = $configMapper->searchTypeByName($name);
-        $properties = $configMapper->getProperties($type['id']);
-
-        $this->smarty->assign('name', $name);
-        $this->smarty->assign('properties', $properties);
         return $this->smarty->fetch('admin/listCfg.tpl');
     }
 }

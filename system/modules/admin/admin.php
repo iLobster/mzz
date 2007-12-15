@@ -13,7 +13,7 @@
 */
 
 /**
- * admin: класс для работы с ...
+ * admin: класс для работы c данными
  *
  * @package modules
  * @subpackage admin
@@ -23,7 +23,7 @@
 
 class admin extends simple
 {
-        protected $name = 'admin';
+    protected $name = 'admin';
 }
 
 ?>
