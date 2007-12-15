@@ -3,8 +3,8 @@
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
         {foreach from=$configs item=value key=key}
             <tr>
-                <td>{$value.title}</td>
-                <td><input type="text" name="config[{$key}]" value="{$value.value}"></td>
+                <td>{form->caption name=key value=$value.title}</td>
+                <td>{form->text name="config[$key]" value=$value.value} {$errors->get("config[$key]")}</td>
             </tr>
         {foreachelse}
             <tr>
@@ -14,7 +14,7 @@
         {if sizeof($configs)}
             <tr>
                 <td colspan="2">
-                    <input type="submit" value="Сохранить">
+                    {form->submit name="submit" value="Сохранить"}
                 </td>
             </tr>
         {/if}

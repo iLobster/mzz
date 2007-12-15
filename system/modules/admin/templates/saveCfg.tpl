@@ -17,6 +17,10 @@
             <td>{form->text name="title" value=$configInfo.title size="60"}{$errors->get('title')}</td>
         </tr>
         <tr>
+            <td>{form->caption name="type" value="Тип" onError="style=color: red;"}</td>
+            <td>{form->select name="type" options=$types value=$configInfo.type.id emptyFirst="true"} {$errors->get('type')}</td>
+        </tr>
+        <tr>
             <td>{form->caption name="value" value="Значение" onError="style=color: red;"}</td>
             <td>{form->text name="value" value=$configInfo.value size="60"}{$errors->get('value')}</td>
         </tr>

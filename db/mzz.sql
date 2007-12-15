@@ -5718,7 +5718,8 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (21,0,11),
   (22,0,12),
   (23,0,17),
-  (24,0,18);
+  (24,0,18),
+  (25,0,16);
 
 COMMIT;
 
@@ -5755,6 +5756,29 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
 COMMIT;
 
 #
+# Structure for the `sys_cfg_types` table : 
+#
+
+DROP TABLE IF EXISTS `sys_cfg_types`;
+
+CREATE TABLE `sys_cfg_types` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Data for the `sys_cfg_types` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_cfg_types` (`id`, `name`, `title`) VALUES 
+  (1,'char','Строка'),
+  (2,'int','Целое');
+
+COMMIT;
+
+#
 # Structure for the `sys_cfg_values` table : 
 #
 
@@ -5765,6 +5789,7 @@ CREATE TABLE `sys_cfg_values` (
   `cfg_id` int(11) NOT NULL default '0',
   `name` int(11) NOT NULL default '0',
   `title` int(11) default NULL,
+  `type_id` int(11) NOT NULL default '1',
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
@@ -5774,27 +5799,27 @@ CREATE TABLE `sys_cfg_values` (
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `value`) VALUES 
-  (1,1,3,3,'true'),
-  (2,2,1,1,'10'),
-  (3,3,1,1,'20'),
-  (14,6,1,1,'20'),
-  (21,7,2,2,'../tmp'),
-  (23,9,1,1,'60'),
-  (28,4,1,1,'10'),
-  (29,10,1,1,'10'),
-  (30,8,2,2,'../files'),
-  (31,11,1,1,'60'),
-  (34,7,1,1,'10'),
-  (40,15,1,1,'60'),
-  (41,17,1,1,'10'),
-  (44,21,4,6,'80'),
-  (45,21,5,5,'60'),
-  (46,21,6,7,'fileManager'),
-  (47,21,7,8,'5'),
-  (48,18,1,1,'10'),
-  (49,18,2,2,'../files'),
-  (50,7,8,10,'/files');
+INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `type_id`, `value`) VALUES 
+  (1,1,3,3,1,'true'),
+  (2,2,1,1,1,'10'),
+  (3,3,1,1,1,'20'),
+  (14,6,1,1,1,'20'),
+  (21,7,2,2,1,'../tmp'),
+  (23,9,1,1,2,'10'),
+  (28,4,1,1,1,'10'),
+  (29,10,1,1,1,'10'),
+  (30,8,2,2,1,'../files'),
+  (31,11,1,1,1,'60'),
+  (34,7,1,1,1,'10'),
+  (51,15,1,1,1,'60'),
+  (41,17,1,1,1,'10'),
+  (44,21,4,6,1,'80'),
+  (45,21,5,5,1,'60'),
+  (46,21,6,7,1,'fileManager'),
+  (47,21,7,8,1,'5'),
+  (48,18,1,1,1,'10'),
+  (49,18,2,2,1,'../files'),
+  (50,7,8,10,1,'/files');
 
 COMMIT;
 
@@ -6156,156 +6181,6 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (44,48,7),
   (45,49,7),
   (46,49,6);
-
-COMMIT;
-
-#
-# Structure for the `sys_config` table : 
-#
-
-DROP TABLE IF EXISTS `sys_config`;
-
-CREATE TABLE `sys_config` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `type_id` int(11) unsigned default NULL,
-  `name` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Data for the `sys_config` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_config` (`id`, `type_id`, `name`) VALUES 
-  (1,1,'catalogue');
-
-COMMIT;
-
-#
-# Structure for the `sys_config_data` table : 
-#
-
-DROP TABLE IF EXISTS `sys_config_data`;
-
-CREATE TABLE `sys_config_data` (
-  `id` int(11) NOT NULL default '0',
-  `property_type` int(11) unsigned default NULL,
-  `text` text,
-  `char` varchar(255) default NULL,
-  `int` int(11) default NULL,
-  `float` float(9,3) default NULL,
-  UNIQUE KEY `id` (`id`,`property_type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
-
-#
-# Data for the `sys_config_data` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_config_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
-  (1,1,NULL,'10',NULL,NULL);
-
-COMMIT;
-
-#
-# Structure for the `sys_config_properties` table : 
-#
-
-DROP TABLE IF EXISTS `sys_config_properties`;
-
-CREATE TABLE `sys_config_properties` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `title` varchar(255) default NULL,
-  `type_id` int(11) unsigned default NULL,
-  `default` varchar(255) NOT NULL default '',
-  `args` text,
-  PRIMARY KEY  (`id`),
-  KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Data for the `sys_config_properties` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_config_properties` (`id`, `name`, `title`, `type_id`, `default`, `args`) VALUES 
-  (1,'items_per_page','Элементов на страницу',3,'10',NULL);
-
-COMMIT;
-
-#
-# Structure for the `sys_config_properties_types` table : 
-#
-
-DROP TABLE IF EXISTS `sys_config_properties_types`;
-
-CREATE TABLE `sys_config_properties_types` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `title` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Data for the `sys_config_properties_types` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_config_properties_types` (`id`, `name`, `title`) VALUES 
-  (1,'char','строка'),
-  (2,'float','число с плавающей точкой'),
-  (3,'int','целое число'),
-  (4,'text','текст'),
-  (5,'select','обычный список'),
-  (6,'datetime','дата и время'),
-  (7,'dynamicselect','динамический список'),
-  (8,'img','Изображение');
-
-COMMIT;
-
-#
-# Structure for the `sys_config_types` table : 
-#
-
-DROP TABLE IF EXISTS `sys_config_types`;
-
-CREATE TABLE `sys_config_types` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `name` char(255) default NULL,
-  `title` char(255) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Data for the `sys_config_types` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_config_types` (`id`, `name`, `title`) VALUES 
-  (1,'catalogue','Модуль catalogue');
-
-COMMIT;
-
-#
-# Structure for the `sys_config_types_props` table : 
-#
-
-DROP TABLE IF EXISTS `sys_config_types_props`;
-
-CREATE TABLE `sys_config_types_props` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `type_id` int(11) unsigned default NULL,
-  `property_id` int(11) unsigned default NULL,
-  `sort` int(11) unsigned default '0',
-  `isFull` tinyint(1) NOT NULL default '1',
-  `isShort` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `property_id` (`property_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Data for the `sys_config_types_props` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_config_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES 
-  (1,1,1,0,1,0);
 
 COMMIT;
 
@@ -7979,7 +7854,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (215,2,'97e3d5f5d14f1cffa20d5310c26fa298',1197726890,'http://mzz/catalogue','127.0.0.1');
+  (215,2,'97e3d5f5d14f1cffa20d5310c26fa298',1197732747,'http://mzz/en/admin/catalogue/catalogue/editConfig?ajax=1','127.0.0.1');
 
 COMMIT;
 

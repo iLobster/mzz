@@ -44,14 +44,25 @@ class adminSaveCfgController extends simpleController
 
         $configInfo = array();
         $configInfo['param'] = $isEdit ? $name : '';
-        $configInfo['value'] = $isEdit ? $params[$name] : '';
+        $configInfo['value'] = $isEdit ? $params[$name]['value'] : '';
         $configInfo['title'] = $isEdit ? $config->getTitle($name) : '';
+        $configInfo['type'] = $isEdit ? $params[$name]['type'] : array('id' => 0);
+
+        $types_tmp = $config->getTypes();
+        $types = array();
+        foreach ($types_tmp as $t) {
+            $types[$t['id']] = $t['title'] . '(' . $t['name'] . ')';
+        }
+
+        $type = $this->request->get('type', 'integer', SC_POST);
 
         $validator = new formValidator();
 
         $validator->add('required', 'param', 'Необходимо указать имя параметра');
+        $validator->add('required', 'type', 'Необходимо указать тип параметра');
         $validator->add('regex', 'param', 'Недопустимые символы в имени параметра', '/^[a-z0-9_\-]+$/i');
         $validator->add('callback', 'param', 'Такой параметр уже есть у этого модуля', array('checkParamNotExists', $name, $params));
+        $validator->add('callback', 'type', 'Неверный тип', array('checkIsset', $types));
 
         if ($validator->validate()) {
             $param = $this->request->get('param', 'string', SC_POST);
@@ -59,9 +70,9 @@ class adminSaveCfgController extends simpleController
             $title = $this->request->get('title', 'string', SC_POST);
 
             if ($isEdit) {
-                $config->update($name, $param, $value, $title);
+                $config->update($name, $param, $value, null, $type);
             } else {
-                $config->create($param, $value, $title);
+                $config->create($param, $value, $title, $type);
             }
 
             return jipTools::closeWindow();
@@ -81,6 +92,7 @@ class adminSaveCfgController extends simpleController
         $this->smarty->assign('errors', $validator->getErrors());
 
         $this->smarty->assign('configInfo', $configInfo);
+        $this->smarty->assign('types', $types);
         $this->smarty->assign('isEdit', $isEdit);
 
         return $this->smarty->fetch('admin/saveCfg.tpl');
@@ -94,5 +106,11 @@ function checkParamNotExists($param, $name, $params)
     }
 
     return !isset($params[$param]);
+}
+
+
+function checkIsset($param, $params)
+{
+    return isset($params[$param]);
 }
 ?>

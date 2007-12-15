@@ -85,7 +85,7 @@ class config
     public function getValues()
     {
         $this->db = db::factory();
-        $stmt = $this->db->prepare("SELECT `t`.`title`, `v`.`name`,
+        $stmt = $this->db->prepare("SELECT `t`.`title`, `v`.`name`, `ts`.`id` AS `type_id`, `ts`.`name` AS `type`, `ts`.`title` AS `typetitle`,
                                      IFNULL(`val`.`value`, `val_def`.`value`) as `value` FROM `sys_cfg` `cfg_def`
                                       INNER JOIN `sys_cfg_values` `val_def` ON `val_def`.`cfg_id` = `cfg_def`.`id` AND `cfg_def`.`section` = 0
                                        LEFT JOIN `sys_sections` `s` ON `s`.`name` = :section
@@ -94,7 +94,8 @@ class config
                                           LEFT JOIN `sys_cfg_values` `val` ON `val`.`cfg_id` = `cfg`.`id` AND `val`.`name` = `val_def`.`name`
                                            INNER JOIN `sys_cfg_vars` `v` ON `v`.`id` = `val_def`.`name`
                                             LEFT JOIN `sys_cfg_titles` `t` ON `t`.`id` = `val_def`.`title`
-                                             WHERE `cfg_def`.`module` = `m`.`id`");
+                                             LEFT JOIN `sys_cfg_types` `ts` ON `ts`.`id` = `val_def`.`type_id`
+                                              WHERE `cfg_def`.`module` = `m`.`id`");
 
         $stmt->bindParam(':section', $this->section);
         $stmt->bindParam(':module', $this->module);
@@ -103,7 +104,7 @@ class config
         $result = array();
 
         while ($row = $stmt->fetch()) {
-            $result[$row['name']] = array('title' => $row['title'], 'value' => $row['value']);
+            $result[$row['name']] = array('title' => $row['title'], 'value' => $row['value'], 'type' => array('id' => $row['type_id'], 'name' => $row['type'], 'title' => $row['typetitle']));
             $this->titles[$row['name']] = $row['title'];
         }
 
@@ -209,18 +210,19 @@ class config
     public function getDefaultValues()
     {
         $this->db = db::factory();
-        $stmt = $this->db->prepare("SELECT `vars`.`name`, `v`.`value`, `t`.`title` AS `title` FROM `sys_modules` `m`
+        $stmt = $this->db->prepare("SELECT `vars`.`name`, `v`.`value`, `t`.`title` AS `title`, `ts`.`id` AS `type_id`, `ts`.`name` AS `type`, `ts`.`title` AS `typetitle` FROM `sys_modules` `m`
                                      INNER JOIN `sys_cfg` `c` ON `c`.`module` = `m`.`id` AND `section` = 0
                                       INNER JOIN `sys_cfg_values` `v` ON `v`.`cfg_id` = `c`.`id`
                                        INNER JOIN `sys_cfg_vars` `vars` ON `vars`.`id` = `v`.`name`
                                         LEFT JOIN `sys_cfg_titles` `t` ON `t`.`id` = `v`.`title`
-                                         WHERE `m`.`name` = :module");
+                                         LEFT JOIN `sys_cfg_types` `ts` ON `ts`.`id` = `v`.`type_id`
+                                          WHERE `m`.`name` = :module");
         $stmt->bindParam(':module', $this->module);
         $stmt->execute();
 
         $result = array();
         while ($row = $stmt->fetch()) {
-            $result[$row['name']] = $row['value'];
+            $result[$row['name']] = array('title' => $row['title'], 'value' => $row['value'], 'type' => array('id' => $row['type_id'], 'name' => $row['type'], 'title' => $row['typetitle']));
             $this->titles[$row['name']] = $row['title'];
         }
 
@@ -235,7 +237,7 @@ class config
      * @param string $value новое значение
      * @param string $title новое обозначение
      */
-    public function update($oldname, $name, $value = null, $title = null)
+    public function update($oldname, $name, $value = null, $title = null, $type = null)
     {
         $old_name_id = $this->findVar($oldname);
         $cfg_id = $this->db->getOne('SELECT `s`.`id` FROM `sys_cfg` `s` INNER JOIN `sys_modules` `m` ON `m`.`id` = `s`.`module` WHERE `m`.`name` = ' . $this->db->quote($this->module) . ' AND `section` = 0');
@@ -261,6 +263,10 @@ class config
             $this->db->query('UPDATE `sys_cfg_values` SET `value` = ' . $this->db->quote($value) . ' WHERE `cfg_id` = ' . $cfg_id . ' AND `name` = ' . $old_name_id);
         }
 
+        if (!is_null($type)) {
+            $this->db->query('UPDATE `sys_cfg_values` SET `type_id` = ' . $this->db->quote($type) . ' WHERE `cfg_id` = ' . $cfg_id . ' AND `name` = ' . $old_name_id);
+        }
+
         if (!is_null($title)) {
             if ($title == '') {
                 $title = $name;
@@ -278,7 +284,7 @@ class config
      * @param string $value
      * @param string $title
      */
-    public function create($name, $value, $title)
+    public function create($name, $value, $title, $type)
     {
         $this->db = db::factory();
         $cfg_id = $this->db->getOne('SELECT `s`.`id` FROM `sys_cfg` `s` INNER JOIN `sys_modules` `m` ON `m`.`id` = `s`.`module` WHERE `m`.`name` = ' . $this->db->quote($this->module) . ' AND `section` = 0');
@@ -286,7 +292,7 @@ class config
         $name = $this->findVar($name, true);
         $title = $this->findTitle($title, true);
 
-        $this->db->query('INSERT INTO `sys_cfg_values` (`cfg_id`, `name`, `value`, `title`) VALUES (' . $cfg_id . ', ' . $name . ', ' . $this->db->quote($value) . ', ' . $title . ')');
+        $this->db->query('INSERT INTO `sys_cfg_values` (`cfg_id`, `name`, `value`, `title`, `type_id`) VALUES (' . $cfg_id . ', ' . $name . ', ' . $this->db->quote($value) . ', ' . $title . ', ' . $type . ')');
     }
 
     /**
@@ -391,6 +397,21 @@ class config
                 throw new mzzRuntimeException('Config for section: ' . $section . ', module: ' . $module . ' not found.');
             }
         }
+    }
+
+    /**
+     * Получает список всех типов
+     *
+     * @return array
+     */
+    public function getTypes()
+    {
+        $this->db = db::factory();
+
+        $stmt = $this->db->prepare('SELECT * FROM `sys_cfg_types`');
+        $stmt->execute();
+
+        return $stmt->fetchAll();
     }
 }
 
