@@ -215,8 +215,7 @@ class requestRoute implements iRoute
         $this->regex = self::REGEX_DELIMITER . '^';
 
         if ($this->withLang) {
-            array_unshift($this->parts, '/');
-            array_unshift($this->parts, ':lang');
+            array_unshift($this->parts, ':lang', '/');
             $this->requirements['lang'] = '^[a-z]{2}(?=/)|^[a-z]{2}(?=/?)$';
             // @todo: определить в конфиге дефолтный язык
             $this->defaults['lang'] = 'en';

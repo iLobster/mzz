@@ -50,7 +50,7 @@ class action
 
     /**
      * Массив путей, по которым будут выполнен поиск
-     * ini-файлов с actions-конфигурацией
+     * ini-файлов с описанием действий модуля
      *
      * @var array
      * @see addPath()
@@ -72,14 +72,14 @@ class action
 
     /**
      * Добавляет путь к массиву с путями, по которым будут выполнен поиск
-     * ini-файлов с actions-конфигурацией
+     * ini-файлов с описанием действий модуля
      *
      * @param string $path
      */
     public function addPath($path)
     {
         if (in_array($path, $this->paths)) {
-            throw new mzzRuntimeException('Path "' . $path . '" already in Action.');
+            throw new mzzRuntimeException('Path "' . $path . '" already added.');
         }
         $this->paths[] = $path;
     }
@@ -104,7 +104,7 @@ class action
     public function getAction()
     {
         if (empty($this->actions) && empty($this->type)) {
-            throw new mzzSystemException('Action не установлен или у модуля "' . $this->module . '" их нет.');
+            throw new mzzSystemException('Action не установлен или у модуля "' . $this->module . '" нет такого действия.');
         }
         return $this->actions[$this->type][$this->action];
     }

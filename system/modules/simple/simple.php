@@ -208,7 +208,7 @@ abstract class simple
     }
 
     /**
-     * Получение объекта JIP.
+     * Возвращает JIP-меню
      *
      * @param string $module
      * @param string $id
@@ -226,7 +226,7 @@ abstract class simple
     }
 
     /**
-     * Получение объекта JIP.
+     * Возвращает JIP-меню
      * Переопределяется если требуется использовать другие данные для построения JIP-меню
      *
      * @param string $tpl шаблон JIP-меню

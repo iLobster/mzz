@@ -126,9 +126,38 @@ dl#fullContent a:hover {
   text-decoration: underline;
 }
 
+#sectionList dt, #sectionList dl {
+  color: #9F9F9F;
+}
 
-dt, dl {
-  color: #555;
+#sectionList dt {
+    font-size: 120%;
+    color: #000;
+    font-family: Arial;
+    font-style: italic;
+}
+
+span.sectionNumber {
+    color: #D8D8D8;
+}
+
+dd {
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+#sectionList dl dl dt {
+    font-size: 90%;
+    font-style: normal;
+}
+
+
+#sectionList dl {
+  font-weight: bold;
+}
+
+#sectionList dl dl {
+  font-weight: normal;
 }
 
 .navigation {
@@ -148,7 +177,7 @@ dt, dl {
 }
 
 .title {
- font-size: 170%;
+  font-size: 170%;
 }
 
 .titleOnePage {

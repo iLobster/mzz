@@ -500,9 +500,7 @@ class adminMapper extends simpleMapper
         $methods = get_class_methods($mapper);
         $result = array();
         foreach ($methods as $method) {
-            // @todo возможно нужно использовать stripos
             if (strpos($method, 'search') === 0 || strpos($method, 'get') === 0) {
-                // убрано в отдельное условие
                 $reflect = new ReflectionMethod($mapper, $method);
                 if ($reflect->isPublic()) {
                     $valid = true;
@@ -592,8 +590,6 @@ class adminMapper extends simpleMapper
         $mapper = $class['class_name'] . 'Mapper';
         fileLoader::load($class['module_name'] . '/mappers/' . $mapper);
 
-        // @todo функция method_exists может принимать первым аргументом имя класса, а не объект, но
-        // в php-документации это пока не отражено
         if (!class_exists($mapper) || !method_exists($mapper, $method)) {
             return false;
         }

@@ -12,17 +12,8 @@
 </dl>
 </p>
 
-<p><strong>Пример 1.</strong> Подключения CSS файла:</p>
-<<code smarty>>
-    {add file="style.css"}
-<</code>>
 
-<p><strong>Пример 2.</strong> Подключение JS файла используя формат, определенный в шаблоне "some_template.tpl":</p>
-<<code smarty>>
-    {add file="script.js" tpl="some_template.tpl"}
-<</code>>
-
-<p>В необходимом месте шаблона (например, header.tpl) размещается код, который подключит все добавленные внешние файлы:</p>
+<p>В необходимом месте шаблона (например, header.tpl) размещается код, который подключит все добавленные ранее файлы:</p>
 <<code smarty>>
 ...
 <head>
@@ -31,4 +22,14 @@
 {include file='include.js.tpl'}
 </head>
 ...
+<</code>>
+
+<p><strong>Пример 1.</strong> Подключение CSS файла:</p>
+<<code smarty>>
+    {add file="style.css"}
+<</code>>
+
+<p><strong>Пример 2.</strong> Подключение JS файла, используя шаблон "some_template.tpl":</p>
+<<code smarty>>
+    {add file="script.js" tpl="some_template.tpl"}
 <</code>>

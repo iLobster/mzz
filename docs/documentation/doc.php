@@ -250,7 +250,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
     require_once('header.php');
     echo '<div id="onePageLink"><a href="one-page.html">Всё на одной странице</a></div>';
 
-    echo '<p class="title"><strong>Содержание</strong></p><dl id="fullContent">';
+    echo '<p class="title"><strong>Содержание</strong></p><div id="sectionList"><dl id="fullContent">';
     $i = 1;
     // Все категории
     foreach ($menu as $meta => $items) {
@@ -258,32 +258,34 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
         $title = trim($meta[1]);
         $link = trim($meta[0]);
 
-        echo '<dt>' . $i . '. <a href="' . $link . '.html">' . $title . "</a></dt>\n";
+        //echo '<dt>' . $i . '. <a href="' . $link . '.html">' . $title . "</a></dt>\n";
+        echo '<dt><span class="sectionNumber">' . $i . '.</span> ' . $title . '</dt>';
+        echo "\n";
 
         $n = 1;
         // Все подкатегории
         echo '<dd><dl>';
         foreach ($items as $submeta => $subitem) {
-            $num = $i . '.' . $n;
+            $num =  $n;
             if (is_array($subitem)) {
 
                 $submeta = explode('.', $submeta, 2);
                 $subtitle = trim($submeta[1]);
                 $sublink = $link . '.' .trim($submeta[0]);
 
-                $m = 1;
-                echo '<dt>' . $num . '. <a href="' . $sublink . '.html">' . $subtitle . "</a></dt>\n";
+                $m = 'a';
+                echo '<dt><span class="sectionNumber">' . $num . '.</span> <a href="' . $sublink . '.html">' . $subtitle . "</a></dt>\n";
                 echo '<dd><dl>';
                 // Разделы в подкатегориях
                 foreach ($subitem as $subsubmeta) {
-                    $num = $i . '.' . $n . '.' . $m;
+                    $num = $m;
 
                     $subsubmeta = explode('.', $subsubmeta, 2);
                     $subsubtitle = trim($subsubmeta[1]);
 
                     $subsublink = $sublink . '.' .trim($subsubmeta[0]);
 
-                    echo '<dt>' . $num . '. <a href="' . $sublink . '.html#' . $subsublink .'">';
+                    echo '<dt><span class="sectionNumber">' . $num . '.</span> <a href="' . $sublink . '.html#' . $subsublink .'">';
                     echo $subsubtitle . "</a> " . checkFile($subsublink) . "</dt>\n";
 
                     $m++;
@@ -295,7 +297,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $subtitle = trim($subitem[1]);
                 $sublink = $link . '.' .trim($subitem[0]);
 
-                echo '<dt>' . $num . '. <a href="' . $sublink . '.html">' . $subtitle . "</a>" . checkFile($sublink) . "</dt>\n";
+                echo '<dt><span class="sectionNumber">' . $num . '.</span> <a href="' . $sublink . '.html">' . $subtitle . "</a>" . checkFile($sublink) . "</dt>\n";
             }
             $n++;
 
@@ -304,7 +306,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
         $i++;
     }
-    echo "</dl>\n";
+    echo "</dl></div>\n";
     echo '<div class="copyright_f">&nbsp;</div>';
 } elseif ($isOnePage) {
     require_once('header.php');
@@ -352,7 +354,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
             $subCatNum = 0;
             foreach ($path as $subcat => $subpath) {
                 $subCatNum++;
-                
+
                 $subcat = explode('.', (is_array($subpath) ? $subcat : $subpath), 2);
                 echo '<p class="title' . (is_array($subpath) ? 'Cat' : '') . 'OnePage"><a name="' . $cat . '.' . $subcat[0] . '"></a><span class="titleNumber">' . $catNum .'.' . $subCatNum .'.</span> ' . $subcat[1] . '</p>';
 
@@ -471,7 +473,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                     $subtitle = trim($submeta[1]);
                     $sublink = $link . '.' .trim($submeta[0]);
 
-                    $m = 1;
+                    $m = 'a';
                     $isCurrent = $paths[$_REQUEST['cat']][1] === $i . '.' . $n;
 
                     echo '<li>' . $num . '. <a href="' . $sublink . '.html">' . ($isCurrent ? '<b>' . $subtitle . '</b>': $subtitle) . "</a>\n";
@@ -480,7 +482,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                         echo '<ul>';
                         // Разделы в подкатегориях
                         foreach ($subitem as $subsubmeta) {
-                            $num = $i . '.' . $n . '.' . $m;
+                            $num = $m;
 
                             $subsubmeta = explode('.', $subsubmeta, 2);
                             $subsubtitle = trim($subsubmeta[1]);
@@ -522,7 +524,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
         echo '<p class="title"><a name="' . $_REQUEST['cat'] . '"></a><span class="titleNumber">' . $paths[$_REQUEST['cat']][1] . '</span> ' . $paths[$_REQUEST['cat']][2] . '</p>';
         if (isset($menu[$category][$tmp]) && is_array($menu[$category][$tmp])) {
-            $i = 1;
+            $i = 'A';
             echo "<dl>";
             foreach($menu[$category][$tmp] as $title => $value) {
                 $meta = (is_array($value)) ? $title : $value;
@@ -531,25 +533,22 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $name = $_REQUEST['cat'];
                 $linkname = $_REQUEST['cat'] . '.' . trim($meta[0]);
 
-                $num = $paths[$_REQUEST['cat']][1];
-
-                echo '<dt><a href="' . $name . '.html#' . $linkname . '">' . $num . '.' . $i . ' ';
+                echo '<dt><span class="titleNumber">' . $i++ . '.</span> <a href="' . $name . '.html#' . $linkname . '">';
                 echo $title . "</a></dt>\n";
-                $i++;
             }
             echo "</dl>";
         }
 
 
         if(isset($menu[$category][$tmp]) && is_array($menu[$category][$tmp])) {
+            $i = 'A';
             foreach ($menu[$category][$tmp] as $key => $title) {
                 $meta = explode('.', $title, 2);
                 $title = trim($meta[1]);
                 $link = trim($meta[0]);
-
                 $id = $_REQUEST['cat'] . '.' . $link;
-                $num = $paths[$_REQUEST['cat']][1] . '.' . ($key + 1);
-                echo '<div class="subtitle"><a name="' . $id . '"></a>' . $num . ' ' . $title . '</div>';
+                $num = $i++;
+                echo '<div class="subtitle"><a name="' . $id . '"></a><span class="titleNumber">' . $num . '.</span> ' . $title . '</div>';
                 echo render($id);
             }
         } else {
@@ -569,10 +568,10 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
             $link = trim($meta[0]);
 
 
-            $num = $paths[$cat[0]][1] . "." . $i;
+            $num = $i;
             $link = $cat[0] . '.' . $link;
 
-            echo '<dt>' . $num . '. <a href="' . $link . '.html#' . $link . '">';
+            echo '<dt><span class="titleNumber">' . $num . '.</span> <a href="' . $link . '.html#' . $link . '">';
             echo $title . "</a></dt>\n";
             $i++;
         }
