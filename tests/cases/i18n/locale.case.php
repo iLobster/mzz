@@ -7,7 +7,7 @@ class localeTest extends UnitTestCase
     public function testA()
     {
         $locale = new locale('ru');
-        $this->assertTrue($locale->getCountry(), 'Russian Federation');
+        $this->assertEqual($locale->getCountry(), 'Russian Federation');
     }
 }
 /*

@@ -67,6 +67,13 @@ class systemConfig
     public static $pathToTests;
 
     /**
+     * Приложение с i18n или без
+     *
+     * @var boolean|string
+     */
+    public static $i18n = false;
+
+    /**
      * При вызове определяет и устанавливает путь до ядра
      *
      */

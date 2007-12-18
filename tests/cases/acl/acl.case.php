@@ -2,6 +2,7 @@
 
 fileLoader::load('acl');
 fileLoader::load('user');
+fileLoader::load('i18n/locale');
 
 class userStub extends user
 {

@@ -37,6 +37,8 @@ define('MZZ_ROOT_GID', 3);
 
 require_once(SYSTEM_PATH . 'systemConfig.php');
 
+systemConfig::$i18n = 'ru';
+
 systemConfig::$db['default']['driver'] = 'pdo';
 systemConfig::$db['default']['dsn']  = 'mysql:host=localhost;dbname=mzz';
 systemConfig::$db['default']['user'] = 'root';

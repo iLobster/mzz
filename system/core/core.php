@@ -127,6 +127,8 @@ class core
 
         fileLoader::load('filters/init');
 
+        fileLoader::load('i18n/locale');
+
         fileLoader::load('config');
         fileLoader::load('controller/frontController');
 

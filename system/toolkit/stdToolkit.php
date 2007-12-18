@@ -348,6 +348,13 @@ class stdToolkit extends toolkit
 
     public function getLang()
     {
+        if (!$this->langId) {
+            if (!$this->locale) {
+                $this->setLocale(systemConfig::$i18n);
+            }
+
+            $this->langId = $this->locale->getId();
+        }
         return $this->langId;
     }
 

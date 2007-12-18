@@ -34,7 +34,7 @@ class locale
         if (empty($this->langId)) {
             $db = db::factory();
             $stmt = $db->query('SELECT `id` FROM `sys_lang` WHERE `name` = ' . $db->quote($this->name));
-            $this->langId = $stmt->fetchCol();
+            $this->langId = $stmt->fetchColumn();
         }
 
         return $this->langId;

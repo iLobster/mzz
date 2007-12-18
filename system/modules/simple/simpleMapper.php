@@ -644,10 +644,11 @@ abstract class simpleMapper
 
     private function addLangCriteria(criteria $criteria)
     {
-        $lang_id = $this->getLangId();
         $lang_fields = $this->getLangFields();
         // если есть языкозависимые поля
         if (sizeof($lang_fields)) {
+            $lang_id = $this->getLangId();
+
             $lang_tablename = $this->table . $this->langTablePostfix;
             $alias = $this->className . $this->langTablePostfix;
 

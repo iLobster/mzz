@@ -130,7 +130,7 @@ class requestRoute implements iRoute
         $this->defaults = $defaults;
         $this->requirements = $requirements;
         $this->debug = $debug;
-        $this->withLang = true;
+        $this->withLang = systemConfig::$i18n;
     }
 
     /**
