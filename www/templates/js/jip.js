@@ -656,6 +656,10 @@ jipMenu = Class.create({
         this.current = $H({"menu": false, "button": false});
         this.eventKeypress  = this.keyPress.bindAsEventListener(this);
         this.jipMenu = false;
+        this.langs = {};
+        this.jipLangMenu = false;
+        this.langTimer = $H({});
+        this.langParent = null;
         //this.closeTimer = false;
     },
 
@@ -665,7 +669,7 @@ jipMenu = Class.create({
         }
     },
 
-    show: function(button, menuId, items) {
+    show: function(button, menuId, items, langs) {
         id = 'jip_menu_' + menuId;
         // open if closed
         if(!$(id) || $(id).getStyle('display') == 'none') {
@@ -673,6 +677,7 @@ jipMenu = Class.create({
                 this.close();
             }
             //(function () {
+            if (langs) this.langs = langs;
             jipMenu.current.set('menu', id);
             jipMenu.current.set('button', button);
             jipMenu.draw(button, id, items);
@@ -699,6 +704,7 @@ jipMenu = Class.create({
     },
 
     close: function() {
+        this.closeLang();
         this.jipMenu.setStyle({'display': 'none'});
 
         this.jipMenu.stopObserving("mouseout", this.eventMouseOut);
@@ -709,29 +715,85 @@ jipMenu = Class.create({
         this.current = $H({'menu': false, 'button': false});
         //this.closeTimer = setTimeout(function () { jipMenu.jipMenu.parentNode.removeChild(jipMenu.jipMenu); jipMenu.jipMenu = false; }, 10);
         //this.jipMenu.parentNode.removeChild(jipMenu.jipMenu);
-        this.jipMenu = false;;
+        this.jipMenu = false;
         this.jipButton = false;
+    },
+
+    closeLang: function() {
+        if (!this.jipLangMenu) return;
+
+        $(this.langParent).cells[1].removeClassName('jipItemTextWithLanguage');
+        $(this.langParent).cells[1].removeClassName('jipItemTextActive');
+        this.langParent = null;
+        //this.jipLangMenu.setStyle({'display': 'none'});
+        Effect.Fade(this.jipLangMenu.identify(), { duration: 0.2 });
+        this.jipLangMenu.stopObserving("mouseout", this.eventMouseOut);
+        this.jipLangMenu.stopObserving("mouseover", this.eventMouseIn);
+        this.jipLangMenu = false;
+    },
+
+    setLangTimer: function (type, id)
+    {
+        var timer = this.langTimer.get(type);
+        if (timer) {
+            window.clearTimeout(timer);
+            this.langTimer.set(type, null)
+        }
+        this.langTimer.set(type, id)
     },
 
     draw: function(button, id, items) {
         var jip_win = $('jip' + jipWindow.currentWindow);
 
         if (!$(id)) {
-            var jipMenuDiv = new Element('div', {id: id, 'class': 'jipMenu'});
+            var jipMenuDiv = new Element('div', {id: id, 'class': 'jipMenu', style: 'display: none;'});
             var jipMenuTable = new Element('table', {'class': 'jipItems', cellPadding: 3, cellSpacing: 0});
             var jipMenuTbody = new Element('tbody');
             $A(items).each(function (elm, i) {
-                var jipMenuTableTR = new Element('tr');
-                jipMenuTableTR.observe('click', function () { jipMenu.close(); return jipWindow.open(elm[1]); });
-                jipMenuTableTR.observe('mouseout', function () { jipMenuTableTR.cells[1].removeClassName('jipItemTextActive'); });
-                jipMenuTableTR.observe('mouseover', function () { jipMenuTableTR.cells[1].addClassName('jipItemTextActive'); });
-                var jipMenuTdTitle = new Element('td', {'class': 'jipItemText'});
-                var jipMenuItemTitle = document.createTextNode(elm[0]);
-                jipMenuTdTitle.appendChild(jipMenuItemTitle);
+                var jipMenuTableTR = new Element('tr', {id: id + '_' + i});
+
+                jipMenuTableTR.observe('click', function (event) {
+                    if (elm[3] == true) {
+                        jipMenu.drawLang(jipMenuTableTR, elm[1]);
+                        jipMenu.setLangTimer('open', null);
+                        return false;
+                    } else {
+                        jipMenu.close();
+                        return jipWindow.open(elm[1]);
+                    }
+                });
+
+                jipMenuTableTR.observe('mouseout', function () {
+                    jipMenuTableTR.cells[1].removeClassName('jipItemTextActive');
+                    if (jipMenu.langParent) {
+                        $(jipMenu.langParent).cells[1].addClassName('jipItemTextActive');
+                    }
+                    jipMenu.setLangTimer('open', null);
+                });
+
+                jipMenuTableTR.observe('mouseover', function (event) {
+                    jipMenuTableTR.cells[1].addClassName('jipItemTextActive');
+                    if (jipMenu.langParent && $(jipMenu.langParent).identify() != jipMenuTableTR.identify()) {
+                        $(jipMenu.langParent).cells[1].removeClassName('jipItemTextActive');
+                    }
+                    if (elm[3] == true) {
+                        jipMenu.setLangTimer('open', (function () { jipMenu.drawLang(jipMenuTableTR, elm[1]); }).delay(0.5));
+                    } else {
+                        jipMenu.closeLang();
+                    }
+                });
+
+                var jipMenuTdTitle = new Element('td', {'class': 'jipItemText' + (elm[3] == true ? ' jipItemTextWithLang': '')});
+                jipMenuTdTitle.update(elm[0]);
                 var jipMenuTdIcon = new Element('td', {'class': 'jipItemIcon'});
                 var jipMenuItemImg = new Element('img', {src: elm[2], height: 16, width: 16});
                 var jipMenuItemA = new Element('a', {href: elm[1]});
-                jipMenuItemA.observe('click', function(event) { jipMenu.close(); event.stop(); return jipWindow.open(elm[1]); });
+                jipMenuItemA.observe('click', function(event) {
+                    jipMenu.close();
+                    event.stop();
+                    return jipWindow.open(elm[1]);
+                });
+
                 jipMenuItemA.appendChild(jipMenuItemImg);
                 jipMenuTdIcon.appendChild(jipMenuItemA);
                 jipMenuTableTR.appendChild(jipMenuTdIcon);
@@ -741,7 +803,6 @@ jipMenu = Class.create({
 
             jipMenuTable.appendChild(jipMenuTbody);
             jipMenuDiv.appendChild(jipMenuTable);
-            //$(button.parentNode).insert({top: jipMenuDiv});
             $(document.body).insert({bottom: jipMenuDiv});
         } else {
             var jipMenuDiv = $(id);
@@ -756,11 +817,7 @@ jipMenu = Class.create({
         this.jipButton = $(button);
         this.jipMenu = jipMenuDiv;
         this.jipButton.writeAttribute('src', SITE_PATH + '/templates/images/jip_active.gif');
-        this.jipMenu.setStyle({
-            top: '-500px',
-            left: '-500px',
-            display: 'block'
-        });
+        this.prepareDiv(jipMenuDiv);
 
         var body = (jip_win && jip_win.getStyle('display') == 'block') ? jip_win : document.documentElement;
 
@@ -782,10 +839,129 @@ jipMenu = Class.create({
         }
 
         x = (x < 0) ? 0 : x;
-        y = ((y < 0) ? 0 : y) + 1;
+        y = (y < 0) ? 0 : y;
 
         this.jipMenu.setStyle({
-            left: x + 'px', top: y + 'px'
+            left: x + 'px', top: y + 1 + 'px'
+        });
+    },
+
+    drawLang: function(parentItem, link) {
+        var id = parentItem.identify();
+        //parentItem.stopObserving('mouseout');
+
+        //id = id.sub(/(\d+)$/, 'lang_#{1}');
+        var itemNumber = 0;
+        id = id.sub(/(\d+)$/, function(match){
+            itemOrder = match[1];
+            return 'lang_' + match[1];
+        });
+
+        if (this.jipLangMenu) {
+            if (this.jipLangMenu.identify() == id) return;
+            else jipMenu.closeLang();
+        }
+
+        this.langParent = parentItem.identify();
+        parentItem.cells[1].addClassName('jipItemTextWithLanguage');
+
+        if(!$(id)) {
+            var jipMenuDiv = new Element('div', {id: id, 'class': 'jipMenu', style: 'display: none;'});
+            var jipMenuTable = new Element('table', {'class': 'jipItems', cellPadding: 3, cellSpacing: 0});
+            var jipMenuTbody = new Element('tbody');
+            $H(this.langs).each(function (pair) {
+                var linkWithLang = link + '?lang_id=' + pair.key;
+                var jipMenuTableTR = new Element('tr');
+
+                jipMenuTableTR.observe('click', function () {
+                    jipMenu.close();
+                    return jipWindow.open(linkWithLang);
+                });
+
+                jipMenuTableTR.observe('mouseout', function () {
+                    //parentItem.cells[1].removeClassName('jipItemTextActive');
+                    jipMenuTableTR.cells[1].removeClassName('jipItemTextActive');
+                });
+
+                jipMenuTableTR.observe('mouseover', function () {
+                    //parentItem.cells[1].addClassName('jipItemTextActive');
+                    jipMenuTableTR.cells[1].addClassName('jipItemTextActive');
+                });
+
+                var jipMenuTdTitle = new Element('td', {'class': 'jipItemText'});
+                jipMenuTdTitle.update(pair.value[1]);
+
+                var jipMenuTdIcon = new Element('td', {'class': 'jipItemIcon', style: 'height: 22px;'});
+                var jipMenuItemImg = new Element('img', {
+                    src: SITE_PATH + '/templates/images/langs/' + pair.value[0] + '.png',
+                    height: 11,
+                    width: 16
+                });
+                var jipMenuItemA = new Element('a', {href: linkWithLang});
+                jipMenuItemA.observe('click', function(event) {
+                    jipMenu.close();
+                    event.stop();
+                    return jipWindow.open(linkWithLang);
+                });
+
+                jipMenuItemA.appendChild(jipMenuItemImg);
+                jipMenuTdIcon.appendChild(jipMenuItemA);
+                jipMenuTableTR.appendChild(jipMenuTdIcon);
+                jipMenuTableTR.appendChild(jipMenuTdTitle);
+                jipMenuTbody.appendChild(jipMenuTableTR);
+            });
+            jipMenuTable.appendChild(jipMenuTbody);
+            jipMenuDiv.appendChild(jipMenuTable);
+            $(document.body).insert({bottom: jipMenuDiv});
+        } else {
+            var jipMenuDiv = $(id);
+            if (jipMenuDiv.getStyle('display') != 'none') return;
+            //jipMenuDiv.setStyle({display: 'inline'});
+        }
+
+        this.prepareDiv(jipMenuDiv);
+
+
+
+
+        var jip_win = $('jip' + jipWindow.currentWindow);
+        var body = (jip_win && jip_win.getStyle('display') == 'block') ? jip_win : document.documentElement;
+
+
+
+        var leftOffset = parseInt(this.jipMenu.getStyle('left'));
+        var y = parseInt(this.jipMenu.getStyle('top')) + (parentItem.getHeight() + 3) * itemOrder;
+
+        var posScroll = Position.realOffset(document.documentElement);
+
+        if (Position.within(body, leftOffset + this.jipMenu.getWidth() + jipMenuDiv.getWidth() + 2 - posScroll[0], 0)) {
+            var x = leftOffset + this.jipMenu.getWidth() + 2;
+        } else {
+            var x = leftOffset - this.jipMenu.getWidth() - 2;
+        }
+
+
+/*
+        var x = parseInt(this.jipMenu.getStyle('left')) + this.jipMenu.getWidth() + 2;
+        var y = parseInt(this.jipMenu.getStyle('top')) + (parentItem.getHeight() + 3) * itemOrder;
+*/
+        jipMenuDiv.setStyle({
+            left: x + 'px', top: y + 'px', display: 'none'
+        });
+        jipMenuDiv.observe("mouseout", this.eventMouseOut);
+        jipMenuDiv.observe("mouseover", this.eventMouseIn);
+
+
+        this.jipLangMenu = jipMenuDiv;
+        new Effect.Appear(jipMenuDiv, { duration: 0.2 });
+    },
+
+    prepareDiv: function (elm)
+    {
+        elm.setStyle({
+            top: '-500px',
+            left: '-500px',
+            display: 'block'
         });
     }
 });

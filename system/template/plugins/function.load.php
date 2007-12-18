@@ -88,7 +88,7 @@ function smarty_function_load($params, $smarty)
             //$object_id = $obj->getObjId();
             //$acl = new acl($toolkit->getUser(), $object_id);
 
-            //var_dump($actionName); var_dump($object_id);
+            //var_dump($actionName, $obj->getObjId());
 
             //$access = $acl->get($actionName);
             $access = $obj->getAcl($actionName);

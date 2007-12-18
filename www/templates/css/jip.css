@@ -127,7 +127,7 @@ div#jipLoad img {
     font-weight: normal !important;
     font-size: 12px !important;
     color: #000 !important;
-    display: none;
+    /*display: none;*/
     background-color: #F9F9F9 !important;
     border: 2px solid #B6B6B6 !important;
     width: 180px !important;
@@ -161,7 +161,6 @@ div#jipLoad img {
     border-collapse: separate !important;
     border-width: medium !important;
     border-spacing: 0 !important;
-    padding: 3px !important;
 }
 
 table.jipItems {
@@ -172,14 +171,15 @@ table.jipItems {
 
 td.jipItemIcon {
     width: 20px;
+    border-width: 0 1px 0 0 !important;
+    border-color: #D4D4D4 !important;
+    border-style: solid !important;
     border-right: 1px solid #D4D4D4  !important;
-    border-left: 0 !important;
-    border-top: 0 !important;
-    border-bottom: 0 !important;
     background-image: url(../images/jip_bg.png) !important;
     background-position: top left !important;
     background-color: #ECECEC !important;
     text-align: center !important;
+    padding: 3px !important;
 }
 
 td.jipItemText {
@@ -187,10 +187,16 @@ td.jipItemText {
     border-bottom: 1px solid #F9F9F9 !important;
     border-left: 0 !important;
     border-right: 1px solid #F9F9F9 !important;
-    padding-left: 8px;
+    padding: 3px 8px !important;
     background-color: #F9F9F9 !important;
     font-family: tahoma, verdana, arial !important;
     color: black !important;
+}
+
+td.jipItemTextWithLang {
+    background-image: url("../images/jip/arrow.gif");
+    background-repeat: no-repeat;
+    background-position: 96% center;
 }
 
 td.jipItemTextActive {
@@ -198,8 +204,19 @@ td.jipItemTextActive {
     border-bottom: 1px solid #D4D4D4 !important;
     border-left: 0 !important;
     border-right: 1px solid #D4D4D4 !important;
-    padding-left: 8px;
+    padding: 3px 8px !important;
     background-color: #FFF !important;
+    font-family: tahoma, verdana, arial !important;
+    color: black !important;
+}
+
+td.jipItemTextWithLanguage {
+    /*border-top: 1px solid #C0E6ED !important;
+    border-bottom: 1px solid #C0E6ED !important;
+    border-left: 0 !important;
+    border-right: 1px solid #C0E6ED !important;-*/
+    padding: 3px 8px !important;
+    background-color: #EFEFEF !important;
     font-family: tahoma, verdana, arial !important;
     color: black !important;
 }

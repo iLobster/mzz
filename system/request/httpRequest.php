@@ -211,7 +211,7 @@ class httpRequest implements iRequest
     public function convertToType($result, $type)
     {
         $validTypes = array('array' => 1, 'integer' => 1, 'boolean' => 1, 'string' => 1);
-        if (gettype($result) == 'array' && $type != 'array') {
+        if (is_array($result) && $type != 'array') {
             $result = array_shift($result);
             if (!is_scalar($result)) {
                 $result = null;
@@ -222,7 +222,7 @@ class httpRequest implements iRequest
             throw new mzzRuntimeException('Неверный тип для переменной: ' . $type);
         }
 
-        if (gettype($result) != $type && $valid && !is_null($result)) {
+        if ($valid && !is_null($result) && gettype($result) != $type) {
             settype($result, $type);
         }
         return $result;

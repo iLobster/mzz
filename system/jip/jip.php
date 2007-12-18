@@ -87,12 +87,13 @@ class jip
     /**
      * Конструктор
      *
-     * @param string $section
+     * @param string $section секция модуля
      * @param string $module имя модуля
      * @param integer $id идентификатор
-     * @param string $type тип
+     * @param string $type тип доменного объекта
      * @param array $actions действия для JIP
      * @param integer $obj_id идентификатор объекта
+     * @param string $tpl шаблон JIP-меню
      */
     public function __construct($section, $module, $id, $type, Array $actions, $obj_id, $tpl = self::DEFAULT_TEMPLATE)
     {
@@ -154,6 +155,7 @@ class jip
                 $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id));
                 $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
                 $item['icon'] = isset($item['icon']) ? SITE_PATH . $item['icon'] : '';
+                $item['lang'] = isset($item['lang']) ? (boolean)$item['lang'] : false;
                 $this->result[$key] = new arrayDataspace($item);
             }
         }
@@ -209,6 +211,10 @@ class jip
             $toolkit = systemToolkit::getInstance();
             $smarty = $toolkit->getSmarty();
 
+            $smarty->assign('langs', array(
+            1 => array('ru', 'Русский'),
+            2 => array('en', 'Английский'),
+            ));
             $smarty->assign('jip', $this->result);
             $smarty->assign('jipMenuId', str_replace('/', '_', $this->getJipMenuId()));
             $this->result = array();
