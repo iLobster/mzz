@@ -64,7 +64,7 @@ class configTest extends unitTestCase
     public function testCreateUpdateDeleteParam()
     {
         $config = new config('someSection', 'someModule');
-        $config->create('name', 'value', 'title');
+        $config->create('name', 'value', 'title', 2);
 
         $this->assertEqual($config->get('name'), 'value');
         $this->assertEqual($config->getTitle('name'), 'title');
@@ -102,14 +102,17 @@ class configTest extends unitTestCase
         $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'параметр2')");
         $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'дефолтный_параметр')");
 
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 1, 1, 1, 'defaultValueOfParam')");
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 3, 1, 1, 'someValueOfParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_types` VALUES (0, 'char', 'Строка')");
+        $this->db->exec("INSERT INTO `sys_cfg_types` VALUES (0, 'int', 'Целое')");
 
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 2, 1, 1, 'valueForAnotherSection')");
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 2, 2, 2, 'someDefaultValueOfAnotherParam')");
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 4, 2, 2, 'someValueOfAnotherParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 1, 1, 1, 1, 'defaultValueOfParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 3, 1, 1, 2, 'someValueOfParam')");
 
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 1, 3, 3, 'someValueOfDefaultParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 2, 1, 1, 1, 'valueForAnotherSection')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 2, 2, 2, 2, 'someDefaultValueOfAnotherParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 4, 2, 2, 1, 'someValueOfAnotherParam')");
+
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 1, 3, 3, 2, 'someValueOfDefaultParam')");
     }
 
     private function clearDb()
@@ -118,6 +121,7 @@ class configTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `sys_cfg_vars`');
         $this->db->query('TRUNCATE TABLE `sys_cfg_titles`');
         $this->db->query('TRUNCATE TABLE `sys_cfg_values`');
+        $this->db->query('TRUNCATE TABLE `sys_cfg_types`');
         $this->db->query('TRUNCATE TABLE `sys_sections`');
         $this->db->query('TRUNCATE TABLE `sys_modules`');
     }

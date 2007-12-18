@@ -334,20 +334,6 @@ CREATE TABLE `sys_access_registry` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
-# Data for the `sys_access_registry` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
-  (67,1),
-  (68,1),
-  (69,1),
-  (1,2),
-  (2,1),
-  (3,1);
-
-COMMIT;
-
-#
 # Structure for the `sys_actions` table : 
 #
 
@@ -388,6 +374,19 @@ CREATE TABLE `sys_cfg_titles` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
+# Structure for the `sys_cfg_types` table : 
+#
+
+DROP TABLE IF EXISTS `sys_cfg_types`;
+
+CREATE TABLE `sys_cfg_types` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
 # Structure for the `sys_cfg_values` table : 
 #
 
@@ -398,6 +397,7 @@ CREATE TABLE `sys_cfg_values` (
   `cfg_id` int(11) NOT NULL default '0',
   `name` int(11) NOT NULL default '0',
   `title` int(11) unsigned default NULL,
+  `type_id` int(11) NOT NULL,
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
@@ -431,15 +431,6 @@ CREATE TABLE `sys_classes` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
-# Data for the `sys_classes` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES 
-  (1,'stubsimple',1);
-
-COMMIT;
-
-#
 # Structure for the `sys_classes_actions` table : 
 #
 
@@ -466,16 +457,6 @@ CREATE TABLE `sys_classes_sections` (
   PRIMARY KEY  (`id`),
   KEY `module_section` (`section_id`,`class_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Data for the `sys_classes_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,1,1),
-  (2,2,1);
-
-COMMIT;
 
 #
 # Structure for the `sys_lang` table : 
@@ -512,6 +493,80 @@ CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Data for the `sys_obj_id` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_obj_id` (`id`) VALUES 
+  (1),
+  (2),
+  (3),
+  (4),
+  (5),
+  (6),
+  (7),
+  (8),
+  (9),
+  (10),
+  (11),
+  (12),
+  (13),
+  (14),
+  (15),
+  (16),
+  (17),
+  (18),
+  (19),
+  (20),
+  (21),
+  (22),
+  (23),
+  (24),
+  (25),
+  (26),
+  (27),
+  (28),
+  (29),
+  (30),
+  (31),
+  (32),
+  (33),
+  (34),
+  (35),
+  (36),
+  (37),
+  (38),
+  (39),
+  (40),
+  (41),
+  (42),
+  (43),
+  (44),
+  (45),
+  (46),
+  (47),
+  (48),
+  (49),
+  (50),
+  (51),
+  (52),
+  (53),
+  (54),
+  (55),
+  (56),
+  (57),
+  (58),
+  (59),
+  (60),
+  (61),
+  (62),
+  (63),
+  (64),
+  (65),
+  (66);
+
+COMMIT;
 
 #
 # Structure for the `sys_obj_id_named` table : 
@@ -609,15 +664,6 @@ CREATE TABLE `user_user` (
   `last_login` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Data for the `user_user` table  (LIMIT 0,500)
-#
-
-INSERT INTO `user_user` (`id`, `login`, `password`, `obj_id`, `created`, `confirmed`, `last_login`) VALUES 
-  (1,'GUEST','',NULL,NULL,NULL,NULL);
-
-COMMIT;
 
 #
 # Structure for the `user_userGroup_rel` table : 
