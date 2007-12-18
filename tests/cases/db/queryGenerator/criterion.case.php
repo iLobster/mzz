@@ -60,6 +60,9 @@ class criterionTest extends unitTestCase
     {
         $criterion = new criterion('field', 'foo', criteria::FULLTEXT);
         $this->assertEqual($criterion->generate($this->simpleSelect), "MATCH (`field`) AGAINST ('foo')");
+
+        $criterion = new criterion(array('t1.field1', 't2.field2', 'field3'), 'foo', criteria::FULLTEXT);
+        $this->assertEqual($criterion->generate($this->simpleSelect), "MATCH (`t1`.`field1`, `t2`.`field2`, `field3`) AGAINST ('foo')");
     }
 
     public function testAddAndCondition()

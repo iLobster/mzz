@@ -19,7 +19,7 @@
  * @see criteria
  * @package system
  * @subpackage db
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 class criterion
@@ -130,15 +130,29 @@ class criterion
      */
     public function __construct($field = null, $value = null, $comparsion = null, $isField = null)
     {
-        if (is_string($field) && ($dotpos = strpos($field, '.')) !== false) {
-            $this->alias = substr($field, 0, $dotpos);
-            $this->field = substr($field, $dotpos + 1);
-        } else {
-            $this->field = $field;
-        }
+        list($this->field, $this->alias) = $this->splitNameAndAlias($field);
+
         $this->isField = $isField;
         $this->value = $value;
         $this->comparsion = !empty($comparsion) ? $comparsion : criteria::EQUAL;
+    }
+
+    /**
+     * Разделение на алиас и имя
+     *
+     * @param string $name
+     * @return array
+     */
+    private function splitNameAndAlias($name)
+    {
+        $alias = null;
+
+        if (is_string($name) && ($dotpos = strpos($name, '.')) !== false) {
+            $alias = substr($name, 0, $dotpos);
+            $name = substr($name, $dotpos + 1);
+        }
+
+        return array($name, $alias);
     }
 
     /**
@@ -184,7 +198,18 @@ class criterion
             } elseif ($this->comparsion === criteria::BETWEEN || $this->comparsion === criteria::NOT_BETWEEN) {
                 $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' ' . $this->simpleSelect->quote($this->value[0]) . ' AND ' . $this->simpleSelect->quote($this->value[1]);
             } elseif ($this->comparsion === criteria::FULLTEXT) {
-                $result = sprintf($this->comparsion, $this->getQuoutedAlias() . $this->getQuotedField(), $this->simpleSelect->quote($this->value));
+                if (is_array($this->field)) {
+                    $fields_str = '';
+                    foreach ($this->field as $field) {
+                        $field = $this->splitNameAndAlias($field);
+                        $fields_str .= $this->getQuoutedAlias($field[1]) . $this->simpleSelect->quoteField($field[0]) . ', ';
+                    }
+                    $fields_str = substr($fields_str, 0, -2);
+                } else {
+                    $fields_str = $this->getQuoutedAlias(). $this->getQuotedField();
+                }
+
+                $result = sprintf($this->comparsion, $fields_str, $this->simpleSelect->quote($this->value));
             } else {
                 $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' ' . $this->getQuotedValue();
             }
@@ -270,13 +295,18 @@ class criterion
     /**
      * Метод для получения экранированного алиаса
      *
+     * @param string $alias
      * @return string
      */
-    private function getQuoutedAlias()
+    private function getQuoutedAlias($alias = null)
     {
+        if (is_null($alias)) {
+            $alias = $this->alias;
+        }
+
         if (!$this->fieldIsFunction) {
-            if (!empty($this->alias)) {
-                return $this->simpleSelect->quoteAlias($this->alias) . '.';
+            if (!empty($alias)) {
+                return $this->simpleSelect->quoteAlias($alias) . '.';
             } elseif (!empty($this->defaultTable)) {
                 if (is_array($this->defaultTable) && isset($this->defaultTable['alias'])) {
                     return $this->simpleSelect->quoteAlias($this->defaultTable['alias']) . '.';
