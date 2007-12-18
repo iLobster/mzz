@@ -62,6 +62,7 @@ fileLoader::load('iterators/mzzIniFilterIterator');
 
 fileLoader::load('controller/action');
 fileLoader::load('timer');
+fileLoader::load('i18n/locale');
 
 $toolkit = systemToolkit::getInstance();
 $toolkit->addToolkit(new stdToolkit());
