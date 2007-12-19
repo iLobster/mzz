@@ -50,14 +50,16 @@ class catalogueAdminController extends simpleController
             $jipTypes[$type['id']][] = array(
                             "title" => 'Редактировать',
                             "url" => $url->get(),
-                            "icon" => SITE_PATH . '/templates/images/edit.gif'
+                            "icon" => SITE_PATH . '/templates/images/edit.gif',
+                            'lang' => false,
                         );
 
             $url->setAction('deleteType');
             $jipTypes[$type['id']][] = array(
                             "title" => 'Удалить',
                             "url" => $url->get(),
-                            "icon" => SITE_PATH . '/templates/images/delete.gif'
+                            "icon" => SITE_PATH . '/templates/images/delete.gif',
+                            'lang' => false,
                         );
         }
 
@@ -69,14 +71,16 @@ class catalogueAdminController extends simpleController
             $jipProperties[$property['id']][] = array(
                             "title" => 'Редактировать',
                             "url" => $url->get(),
-                            "icon" => SITE_PATH . '/templates/images/edit.gif'
+                            "icon" => SITE_PATH . '/templates/images/edit.gif',
+                            'lang' => false,
                         );
 
             $url->setAction('deleteProperty');
             $jipProperties[$property['id']][] = array(
                             "title" => 'Удалить',
                             "url" => $url->get(),
-                            "icon" => SITE_PATH . '/templates/images/delete.gif'
+                            "icon" => SITE_PATH . '/templates/images/delete.gif',
+                            'lang' => false,
                         );
         }
 
