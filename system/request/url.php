@@ -80,6 +80,10 @@ class url
         $address = $request->getUrl();
         $this->params  = $this->getParams();
 
+        if ($lang_id = $request->get('lang_id', 'integer', SC_GET)) {
+            $this->getParams['lang_id'] = $lang_id;
+        }
+
         $params = $this->params;
         if (empty($params['section'])) {
             $params['section'] = $this->getCurrentSection();

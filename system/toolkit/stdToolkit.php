@@ -350,6 +350,9 @@ class stdToolkit extends toolkit
     {
         if (!$this->langId) {
             if (!$this->locale) {
+                if (!($lang = $this->getRequest()->get('lang', 'string'))) {
+                    $lang = systemConfig::$i18n;
+                }
                 $this->setLocale(systemConfig::$i18n);
             }
 

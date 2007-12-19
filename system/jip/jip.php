@@ -203,6 +203,12 @@ class jip
      */
     public function draw()
     {
+        static $langs = array();
+
+        if (empty($langs)) {
+            $langs = locale::searchAll();
+        }
+
         if (empty($this->result)) {
             $this->generate();
         }
@@ -211,10 +217,13 @@ class jip
             $toolkit = systemToolkit::getInstance();
             $smarty = $toolkit->getSmarty();
 
-            $smarty->assign('langs', array(
+            /*$smarty->assign('langs', array(
             1 => array('ru', 'Русский'),
             2 => array('en', 'Английский'),
-            ));
+            ));*/
+
+            $smarty->assign('langs', $langs);
+
             $smarty->assign('jip', $this->result);
             $smarty->assign('jipMenuId', str_replace('/', '_', $this->getJipMenuId()));
             $this->result = array();

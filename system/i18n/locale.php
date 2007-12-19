@@ -29,6 +29,16 @@ class locale
         return $this->data['regional_settings']['country'];
     }
 
+    public function getLanguageName()
+    {
+        return $this->data['regional_settings']['language_name'];
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
     public function getId()
     {
         if (empty($this->langId)) {
@@ -39,4 +49,28 @@ class locale
 
         return $this->langId;
     }
+
+    protected function setId($id)
+    {
+        $this->langId = $id;
+    }
+
+    public static function searchAll()
+    {
+        $db = db::factory();
+        $stmt = $db->query('SELECT * FROM `sys_lang` ORDER BY `id`');
+
+        $result = array();
+
+        while ($row = $stmt->fetch()) {
+            $tmp = new locale($row['name']);
+            $tmp->setId($row['id']);
+            $result[$row['id']] = $tmp;
+        }
+
+        return $result;
+
+    }
+
+    //зг
 }

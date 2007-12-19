@@ -57,6 +57,7 @@ class simpleMapperi18nTest extends unitTestCase
     public function tearDown()
     {
         $this->cleardb();
+        systemConfig::$i18n = false;
     }
 
     public function setUp()
@@ -65,6 +66,8 @@ class simpleMapperi18nTest extends unitTestCase
         $this->mapper->setMap($this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
         $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('stubsimple', 1)");
+
+        systemConfig::$i18n = 'ru';
     }
 
     public function cleardb()

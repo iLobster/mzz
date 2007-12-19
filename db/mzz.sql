@@ -1335,7 +1335,7 @@ CREATE TABLE `news_newsFolder` (
 INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
   (2,6,'root','Новости',1,'root'),
   (18,295,'main','Главное',17,'root/main'),
-  (19,296,'comments','Комментарии',18,'root/comments'),
+  (19,296,'comments','Комментарие',18,'root/comments'),
   (20,297,'story','Сюжеты',19,'root/story'),
   (21,298,'russia','В России',20,'root/russia'),
   (22,299,'xussr','б.СССР',21,'root/xussr'),
@@ -1348,6 +1348,31 @@ INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`
   (29,306,'politic','Политика',28,'root/politic'),
   (30,307,'internet','Интернет',29,'root/internet'),
   (31,308,'tehnology','Технологии',30,'root/tehnology');
+
+COMMIT;
+
+#
+# Structure for the `news_newsFolder_lang` table : 
+#
+
+DROP TABLE IF EXISTS `news_newsFolder_lang`;
+
+CREATE TABLE `news_newsFolder_lang` (
+  `id` int(11) default NULL,
+  `lang_id` int(11) default NULL,
+  `title` char(255) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Data for the `news_newsFolder_lang` table  (LIMIT 0,500)
+#
+
+INSERT INTO `news_newsFolder_lang` (`id`, `lang_id`, `title`) VALUES 
+  (2,1,'aaaaa'),
+  (18,1,'russian'),
+  (18,2,'english'),
+  (19,1,'19_1'),
+  (19,2,'19_2');
 
 COMMIT;
 
@@ -6202,7 +6227,8 @@ CREATE TABLE `sys_lang` (
 #
 
 INSERT INTO `sys_lang` (`id`, `name`, `title`) VALUES 
-  (1,'ru','ру');
+  (1,'ru','ру'),
+  (2,'en','en');
 
 COMMIT;
 
@@ -7760,8 +7786,8 @@ CREATE TABLE `user_user` (
 #
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
-  (1,12,'guest','',NULL,NULL,1196821868),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1197241396),
+  (1,12,'guest','',NULL,NULL,1198040969),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1198040971),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7787,19 +7813,8 @@ CREATE TABLE `user_userAuth` (
 #
 
 INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
-  (71,2,'127.0.0.1','0c0b80d11079f5a7a0b2381ff05abc10',NULL,1187831447),
-  (72,2,'127.0.0.1','4f9252b570591bcf33d0bc3224b12de8',NULL,1187925555),
-  (81,2,'127.0.0.1','be504534880ccf8dd7c6e1e620c90479',NULL,1188427749),
-  (82,3,'127.0.0.1','b11d08d01d8d43d4a13af69894287094',NULL,1188430535),
-  (84,2,'127.0.0.1','0c7731ab2cbc019466ed8b4962bc20f4',NULL,1189865442),
-  (85,2,'127.0.0.1','923419062bc5d8b61cd739a18a0bcc7b',NULL,1189980243),
-  (87,3,'127.0.0.1','27795bb192fb7db9b9d1956a5ab64695',NULL,1190000095),
-  (88,2,'127.0.0.1','2cb55a1503611b24dd8bd14c0dfddd28',NULL,1193226125),
-  (89,2,'127.0.0.1','83d75d9a718c75e0d30977be9182e8d9',NULL,1195194065),
-  (90,2,'127.0.0.1','d362454ed43a871c97c859ebd9f3bfc6',NULL,1193986007),
-  (91,2,'127.0.0.1','84bf2d010202708157191906c06e990f',NULL,1194405647),
-  (92,2,'127.0.0.1','6bd1efd64e318d5f4fd08f1d267e7319',NULL,1196820540),
-  (93,2,'127.0.0.1','cbecbd00c762c6c645deb29a24f1f738',NULL,1197240745);
+  (99,2,'127.0.0.1','dce90074dbaf9f432b382f1e7a7a6d56',NULL,1198043298),
+  (92,2,'127.0.0.1','6bd1efd64e318d5f4fd08f1d267e7319',NULL,1196820540);
 
 COMMIT;
 
@@ -7854,7 +7869,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (215,2,'97e3d5f5d14f1cffa20d5310c26fa298',1197732747,'http://mzz/en/admin/catalogue/catalogue/editConfig?ajax=1','127.0.0.1');
+  (229,2,'e9500912f5c2798518011db472e8f120',1198044039,'http://mzz/en/news/main/editFolder?lang_id=2%5C','127.0.0.1');
 
 COMMIT;
 

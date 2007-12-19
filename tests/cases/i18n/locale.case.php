@@ -4,10 +4,39 @@ fileLoader::load('i18n/locale');
 
 class localeTest extends UnitTestCase
 {
-    public function testA()
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = DB::factory();
+        $this->tearDown();
+    }
+
+    public function setUp()
+    {
+        $this->db->query("INSERT INTO `sys_lang` (`id`, `name`, `title`) VALUES (1, 'ru', 'ру'), (2, 'en', 'en')");
+    }
+
+    public function tearDown()
+    {
+        $this->db->query('TRUNCATE TABLE `sys_lang`');
+    }
+
+    public function testGetLocale()
     {
         $locale = new locale('ru');
         $this->assertEqual($locale->getCountry(), 'Russian Federation');
+        $this->assertEqual($locale->getLanguageName(), 'Russian');
+        $this->assertEqual($locale->getName(), 'ru');
+    }
+
+    public function testGetAllLocales()
+    {
+        $locales = locale::searchAll();
+        $this->assertEqual(sizeof($locales), 2);
+
+        $this->assertEqual($locales[1]->getCountry(), 'Russian Federation');
+        $this->assertEqual($locales[2]->getCountry(), 'USA');
     }
 }
 /*

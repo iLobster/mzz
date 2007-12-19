@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.14
+ * @version 0.3.15
  */
 
 abstract class simpleMapper
@@ -109,14 +109,14 @@ abstract class simpleMapper
      *
      * @var string
      */
-    private $langTablePostfix = '_lang';
+    protected $langTablePostfix = '_lang';
 
     /**
      * Имя поля в таблице переводов, в котором хранится идентификатор языка
      *
      * @var unknown_type
      */
-    private $langIdField = 'lang_id';
+    protected $langIdField = 'lang_id';
 
     /**
      * Текущий идентификатор языка, с которым работает маппер
@@ -421,9 +421,12 @@ abstract class simpleMapper
 
             // перемещаем языкозависимые поля из общего массива
             $fields_lang_dependent = array();
-            foreach ($lang_fields as $item) {
-                $fields_lang_dependent[$item] = $fields[$item];
-                unset($fields[$item]);
+
+            foreach ($lang_fields as $key => $item) {
+                if (isset($fields[$item])) {
+                    $fields_lang_dependent[$item] = $fields[$item];
+                    unset($fields[$item]);
+                }
             }
 
             if ($query) {
@@ -436,7 +439,7 @@ abstract class simpleMapper
 
             // если есть изменённые языкозависимые поля
             if ($lang_fields) {
-                // если текущей языковой версии ещё не существует - удаляем её
+                // если текущей языковой версии ещё не существует - создаём её
                 $stmt_check = $this->db->query('SELECT COUNT(*) FROM ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = ' . $object->getId() . ' AND ' . $this->simpleSelect->quoteField($this->langIdField) . ' = ' . $this->getLangId());
                 if (!$stmt_check->fetchColumn()) {
                     $this->db->query('INSERT INTO ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' (' . $this->simpleSelect->quoteField($this->tableKey) . ', ' . $this->simpleSelect->quoteField($this->langIdField) . ') VALUES (' . $object->getId() . ', ' . $this->getLangId() . ')');
@@ -444,11 +447,13 @@ abstract class simpleMapper
 
                 $query_lang = substr($query_lang, 0, -2);
 
-                $fields_lang_dependent[$this->langIdField] = $this->getLangId();
-                $fields_lang_dependent[$this->tableKey] = $object->getId();
-                $stmt_i18n = $this->db->prepare('UPDATE ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' SET ' . $query_lang . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = :id AND ' . $this->simpleSelect->quoteField($this->langIdField) . ' = :lang_id');
-                $stmt_i18n->bindValues($fields_lang_dependent);
-                $stmt_i18n->execute();
+                if ($fields_lang_dependent) {
+                    $fields_lang_dependent[$this->langIdField] = $this->getLangId();
+                    $fields_lang_dependent[$this->tableKey] = $object->getId();
+                    $stmt_i18n = $this->db->prepare('UPDATE ' . $this->simpleSelect->quoteTable($this->table . $this->langTablePostfix) . ' SET ' . $query_lang . ' WHERE ' . $this->simpleSelect->quoteField($this->tableKey) . ' = :id AND ' . $this->simpleSelect->quoteField($this->langIdField) . ' = :lang_id');
+                    $stmt_i18n->bindValues($fields_lang_dependent);
+                    $stmt_i18n->execute();
+                }
             }
 
             $criteria = new criteria();
@@ -880,6 +885,10 @@ abstract class simpleMapper
      */
     protected function getLangId()
     {
+        if (!systemConfig::$i18n) {
+            return 0;
+        }
+
         if (empty($this->langId)) {
             $this->langId = systemToolkit::getInstance()->getLang();
         }
@@ -920,9 +929,9 @@ abstract class simpleMapper
     {
         if (empty($this->langFields)) {
             $map = $this->getMap();
-            foreach ($map as $item) {
+            foreach ($map as $key => $item) {
                 if (!empty($item['lang'])) {
-                    $this->langFields[] = $item['name'];
+                    $this->langFields[] = $key;
                 }
             }
         }

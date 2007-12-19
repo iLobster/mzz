@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleForTree');
  * simpleMapperForTree: маппер для работы с древовидными структурами
  *
  * @package system
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 abstract class simpleMapperForTree extends simpleMapper
@@ -351,11 +351,25 @@ abstract class simpleMapperForTree extends simpleMapper
         $criterion->addAnd(new criterion('tree2.level', new sqlOperator('+', array('tree.level', 1)), criteria::LESS_EQUAL));
 
         $criteria = new criteria();
-        $criteria->clearSelectFields()->addSelectField('data2.*');
+        $criteria->clearSelectFields();//->addSelectField('data2.*');
+
+        foreach (array_keys($this->getMap()) as $field) {
+            if (in_array($field, $this->getLangFields())) {
+                $criteria->addSelectField('lang2.' . $field);
+            } else {
+                $criteria->addSelectField('data2.' . $field);
+            }
+        }
+
         $this->tree->addSelect($criteria, 'tree2');
         $this->tree->addJoin($criteria);
         $criteria->addJoin($this->treeParams['tableName'], $criterion, 'tree2', criteria::JOIN_INNER);
         $criteria->addJoin($this->table, new criterion('data2.' . $this->treeParams['joinField'], 'tree2.id', criteria::EQUAL, true), 'data2', criteria::JOIN_INNER);
+        // добавляем объекдинение для выборки языкозависимых данных
+        $lang_criterion = new criterion('data2.' . $this->tableKey, 'lang2.' . $this->tableKey, criteria::EQUAL, true);
+        $lang_criterion->addAnd(new criterion('lang2.' . $this->langIdField, $this->getLangId()));
+        $criteria->addJoin($this->table . $this->langTablePostfix, $lang_criterion, 'lang2', criteria::JOIN_INNER);
+
         $criteria->add('tree.lkey', $node['lkey'], criteria::LESS_EQUAL);
         $criteria->add('tree.rkey', $node['rkey'], criteria::GREATER_EQUAL);
         $criteria->setOrderByFieldAsc('tree2.lkey');

@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2.4
+ * @version 0.2.5
  */
 
 abstract class simpleController
@@ -59,6 +59,13 @@ abstract class simpleController
     protected $confirm = null;
 
     /**
+     * Свойство для хранения языка (берётся из SC_GET)
+     *
+     * @var integer
+     */
+    protected $lang_id = null;
+
+    /**
      * Конструктор
      *
      */
@@ -69,10 +76,22 @@ abstract class simpleController
         $this->smarty = $this->toolkit->getSmarty();
         $this->response = $this->toolkit->getResponse();
 
+        $this->lang_id = $this->request->get('lang_id', 'integer', SC_GET);
+
         if ($this->toolkit->getRegistry()->get('isJip') && $this->request->isAjax()) {
             $this->smarty->setXmlTemplate('main.xml.tpl');
             $this->response->setHeader('Content-Type', 'text/xml');
         }
+    }
+
+    /**
+     * Применение к мапперу текущего языка
+     *
+     * @param simpleMapper $mapper
+     */
+    final protected function acceptLang(simpleMapper $mapper)
+    {
+        $mapper->setLangId($this->lang_id);
     }
 
     /**

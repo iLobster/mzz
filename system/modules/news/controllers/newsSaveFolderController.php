@@ -19,7 +19,7 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage news
- * @version 0.2
+ * @version 0.2.1
  */
 class newsSaveFolderController extends simpleController
 {
@@ -30,6 +30,9 @@ class newsSaveFolderController extends simpleController
         $isEdit = ($action == 'editFolder');
 
         $folderMapper = $this->toolkit->getMapper('news', 'newsFolder');
+
+        $this->acceptLang($folderMapper);
+
         $targetFolder = $folderMapper->searchByPath($path);
 
         if (empty($targetFolder)) {
