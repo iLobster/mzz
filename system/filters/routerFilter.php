@@ -33,8 +33,13 @@ class routerFilter implements iFilter
         $toolkit = systemToolkit::getInstance();
         $router = $toolkit->getRouter($request);
         require_once fileLoader::resolve('configs/routes');
-        $router->route($request->getPath());
-
+        try {
+            $router->route($request->getPath());
+        } catch (mzzRuntimeException $e) {
+            if (DEBUG_MODE && !($e instanceof mzzRouteException)) {
+                throw $e;
+            }
+        }
         $filter_chain->next();
     }
 }
