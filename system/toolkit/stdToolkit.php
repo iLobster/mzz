@@ -349,25 +349,32 @@ class stdToolkit extends toolkit
     public function getLang()
     {
         if (!$this->langId) {
-            if (!$this->locale) {
-                if (!($lang = $this->getRequest()->get('lang', 'string'))) {
-                    $lang = systemConfig::$i18n;
-                }
-                $this->setLocale(systemConfig::$i18n);
-            }
 
-            $this->langId = $this->locale->getId();
+
+            $this->langId = $this->getLocale()->getId();
         }
         return $this->langId;
     }
 
-    public function setLocale($name)
+    public function setLocale($name = null)
     {
+        if (is_null($name)) {
+            $this->locale = null;
+            return;
+        }
+
         $this->locale = new locale($name);
     }
 
     public function getLocale()
     {
+        if (!$this->locale) {
+            if (!($lang = $this->getRequest()->get('lang', 'string'))) {
+                $lang = systemConfig::$i18n;
+            }
+            $this->setLocale(systemConfig::$i18n);
+        }
+
         return $this->locale;
     }
 
