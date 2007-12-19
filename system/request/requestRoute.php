@@ -217,8 +217,7 @@ class requestRoute implements iRoute
         if ($this->withLang) {
             array_unshift($this->parts, ':lang', '/');
             $this->requirements['lang'] = '^[a-z]{2}(?=/)|^[a-z]{2}(?=/?)$';
-            // @todo: определить в конфиге дефолтный язык
-            $this->defaults['lang'] = 'en';
+            $this->defaults['lang'] = systemToolkit::getInstance()->getLocale()->getName();
         }
 
         foreach ($this->parts as $i => $part) {
