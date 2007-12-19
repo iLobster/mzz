@@ -5,12 +5,21 @@ fileLoader::load('request/requestRoute');
 
 class requestRouteTest extends unitTestCase
 {
-    function setUp()
+    private $i18n_default;
+
+    public function __construct()
     {
+        $this->i18n_default = systemConfig::$i18n;
+    }
+
+    public function setUp()
+    {
+        systemConfig::$i18n = false;
     }
 
     public function tearDown()
     {
+        systemConfig::$i18n = $this->i18n_default;
     }
 
     public function testSampleRoute()
