@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * $URL$
  *
@@ -38,10 +38,6 @@ class contentFilter implements iFilter
         try {
             $template = $frontcontroller->getTemplateName();
         } catch (mzzRuntimeException $e) {
-            if (DEBUG_MODE && !($e instanceof mzzRouteException)) {
-                throw $e;
-            }
-
             $output = $this->get404();
             if ($output === false) {
                 $template = $frontcontroller->getTemplateName();
