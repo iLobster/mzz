@@ -35,9 +35,18 @@ class contentFilter implements iFilter
         $tplPath = systemConfig::$pathToApplication . '/templates';
         $frontcontroller = new frontController($request, $tplPath);
 
+        $router = $toolkit->getRouter($request);
+
+        require_once fileLoader::resolve('configs/routes');
+
         try {
+            $router->route($request->getPath());
             $template = $frontcontroller->getTemplateName();
         } catch (mzzRuntimeException $e) {
+            if (DEBUG_MODE && !($e instanceof mzzRouteException)) {
+                throw $e;
+            }
+
             $output = $this->get404();
             if ($output === false) {
                 $template = $frontcontroller->getTemplateName();

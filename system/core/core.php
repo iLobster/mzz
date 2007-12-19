@@ -162,7 +162,6 @@ class core
      */
     protected function composeFilters($filter_chain)
     {
-        $filter_chain->registerFilter(new routerFilter());
         $filter_chain->registerFilter(new timingFilter());
         $filter_chain->registerFilter(new sessionFilter());
         $filter_chain->registerFilter(new userFilter());

@@ -139,7 +139,7 @@ class requestRouter
             }
         }
 
-        if (!is_array($params)) {
+        if (!isset($params) || !is_array($params)) {
             fileLoader::load('exceptions/mzzRouteException');
             throw new mzzRouteException(404);
         }
