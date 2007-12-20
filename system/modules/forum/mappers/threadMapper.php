@@ -48,6 +48,17 @@ class threadMapper extends simpleMapper
         $fields['post_date'] = new sqlFunction('UNIX_TIMESTAMP');
     }
 
+    public function delete(thread $thread)
+    {
+        $postMapper = systemToolkit::getInstance()->getMapper('forum', 'post', $this->section);
+
+        foreach ($thread->getPosts() as $post) {
+            $postMapper->delete($post);
+        }
+
+        parent::delete($thread);
+    }
+
     /**
      * Возвращает доменный объект по аргументам
      *

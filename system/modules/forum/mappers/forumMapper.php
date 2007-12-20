@@ -138,6 +138,17 @@ class forumMapper extends simpleMapper
         return $result;
     }
 
+    public function delete(forum $forum)
+    {
+        $threadMapper = systemToolkit::getInstance()->getMapper('forum', 'thread', $this->section);
+
+        foreach ($forum->getThreads() as $thread) {
+            $threadMapper->delete($thread);
+        }
+
+        parent::delete($forum);
+    }
+
     /**
      * Возвращает доменный объект по аргументам
      *

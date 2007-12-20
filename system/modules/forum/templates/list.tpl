@@ -9,7 +9,23 @@
         <td style="padding: 5px; text-align: center; border-bottom: 1px solid #DEE4EB;">Просмотров</td>
         <td style="padding: 5px; text-align: center; border-bottom: 1px solid #DEE4EB;">Последнее сообщение</td>
     </tr>
-    {foreach from=$threads item=thread}
+    {foreach from=$stickys item="thread"}
+        <tr bgcolor="#FFF000">
+            <td>Важно!!!</td>
+            <td style="padding: 5px;">
+                <a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a>
+                {assign var=id value=$thread->getId()}
+                {if not empty($pagers.$id)}
+                    {$pagers.$id->toString('forum/pager.tpl')}
+                {/if}
+            </td>
+            <td style="padding: 5px; text-align: center;">{$thread->getAuthor()->getLogin()}</td>
+            <td style="padding: 5px; text-align: center;">{$thread->getPostsCount()}</td>
+            <td style="padding: 5px; text-align: center;">{if $thread->getViewCount()}{$thread->getViewCount()}{else}0{/if}</td>
+            <td>{$thread->getLastPost()->getAuthor()->getLogin()}, <a href="{url route=withId action=last id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
+        </tr>
+    {/foreach}
+    {foreach from=$threads item="thread"}
         <tr>
             <td>
                 {if $thread->isNew()}

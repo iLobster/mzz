@@ -33,7 +33,7 @@ class forumListController extends simpleController
         $forum = $forumMapper->searchByKey($id);
 
         $criteria = new criteria();
-        $criteria->add('forum_id', $id);
+        $criteria->add('forum_id', $id)->add('sticky', 0);
         $criteria->setOrderByFieldDesc('last_post.id');
 
         $threadMapper = $this->toolkit->getMapper('forum', 'thread');
@@ -41,6 +41,15 @@ class forumListController extends simpleController
         $this->setPager($threadMapper, $threads_per_page);
 
         $threads = $threadMapper->searchAllByCriteria($criteria);
+
+        $stickys = array();
+        if ($this->request->get('page', 'integer', SC_GET) < 2) {
+            $criteria = new criteria();
+            $criteria->add('forum_id', $id)->add('sticky', 1);
+            $criteria->setOrderByFieldDesc('last_post.id');
+
+            $stickys = $threadMapper->searchAllByCriteria($criteria);
+        }
 
         $pagers = array();
         $url = new url('withId');
@@ -55,6 +64,7 @@ class forumListController extends simpleController
 
         $this->smarty->assign('pagers', $pagers);
         $this->smarty->assign('threads', $threads);
+        $this->smarty->assign('stickys', $stickys);
         $this->smarty->assign('forum', $forum);
         return $this->smarty->fetch('forum/list.tpl');
     }

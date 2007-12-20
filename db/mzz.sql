@@ -1,4 +1,4 @@
-﻿# SQL Manager 2007 for MySQL 4.1.2.1
+# SQL Manager 2007 for MySQL 4.1.2.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -8,7 +8,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
+/*!40101 SET NAMES utf8 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -707,6 +707,7 @@ CREATE TABLE `forum_thread` (
   `obj_id` int(11) default NULL,
   `last_post` int(11) default NULL,
   `closed` tinyint(4) default NULL,
+  `sticky` tinyint(1) NOT NULL default '0',
   `first_post` int(11) default NULL,
   `view_count` int(11) default '0',
   PRIMARY KEY  (`id`),
@@ -717,26 +718,26 @@ CREATE TABLE `forum_thread` (
 # Data for the `forum_thread` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `first_post`, `view_count`) VALUES 
-  (1,'новый тред',7,15,2,1,885,39,NULL,NULL,NULL),
-  (4,'sadfsadf',1,1187931976,2,1,895,11,NULL,NULL,NULL),
-  (5,'q',1,1187932074,2,1,899,11,NULL,NULL,NULL),
-  (6,'fdhd',0,1187932122,2,1,903,11,NULL,NULL,NULL),
-  (7,'стас кобан',0,1187932173,2,1,907,12,NULL,NULL,NULL),
-  (8,'уцкецуе',1,1188185213,2,1,923,20,NULL,NULL,NULL),
-  (9,'ааа',1,1188185309,2,1,927,19,NULL,NULL,NULL),
-  (10,'тред в тупом форуме',0,1188188069,2,3,938,23,NULL,NULL,NULL),
-  (11,'asf2',16,1188258626,2,2,942,55,0,24,2),
-  (13,'ewrt',0,1188258769,2,2,950,26,NULL,NULL,NULL),
-  (14,'qwerqwe',0,1188258878,2,2,954,27,NULL,NULL,NULL),
-  (15,'хыхы',2,1188259934,2,1,960,41,NULL,NULL,NULL),
-  (16,'ывп',0,1188260003,2,2,965,29,NULL,NULL,NULL),
-  (17,'ещё тема',1,1188261500,2,2,973,82,NULL,NULL,1),
-  (18,'и ещё тема',22,1188261508,2,2,977,80,NULL,76,1006),
-  (21,'first post',2,1188271395,2,2,996,83,0,44,3),
-  (22,'wetwe',0,1188433629,2,3,1024,58,NULL,58,NULL),
-  (23,'etw',0,1188434684,2,1,1031,59,NULL,59,NULL),
-  (24,'qwrw',1,1189555660,2,2,1116,81,NULL,76,8);
+INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `sticky`, `first_post`, `view_count`) VALUES 
+  (1,'новый тред',7,15,2,1,885,39,NULL,0,NULL,NULL),
+  (4,'sadfsadf',1,1187931976,2,1,895,11,NULL,0,NULL,NULL),
+  (5,'q',1,1187932074,2,1,899,11,NULL,0,NULL,NULL),
+  (6,'fdhd',0,1187932122,2,1,903,11,NULL,0,NULL,NULL),
+  (7,'стас кобан',0,1187932173,2,1,907,12,NULL,0,NULL,NULL),
+  (8,'уцкецуе',1,1188185213,2,1,923,20,NULL,0,NULL,NULL),
+  (9,'ааа',1,1188185309,2,1,927,19,NULL,0,NULL,NULL),
+  (10,'тред в тупом форуме',0,1188188069,2,3,938,23,NULL,0,NULL,NULL),
+  (11,'asf2',16,1188258626,2,2,942,55,0,0,24,2),
+  (13,'ewrt',0,1188258769,2,2,950,26,NULL,0,NULL,NULL),
+  (14,'qwerqwe',0,1188258878,2,2,954,27,NULL,0,NULL,NULL),
+  (15,'хыхы',2,1188259934,2,1,960,41,NULL,0,NULL,NULL),
+  (16,'ывп',0,1188260003,2,2,965,29,NULL,0,NULL,NULL),
+  (17,'ещё тема',1,1188261500,2,2,973,82,NULL,0,NULL,1),
+  (18,'и ещё тема',22,1188261508,2,2,977,80,NULL,0,76,1006),
+  (21,'first post',2,1188271395,2,2,996,83,0,0,44,3),
+  (22,'wetwe',0,1188433629,2,3,1024,58,NULL,0,58,NULL),
+  (23,'etw',0,1188434684,2,1,1031,59,NULL,1,59,NULL),
+  (24,'qwrw',1,1189555660,2,2,1116,81,NULL,0,76,8);
 
 COMMIT;
 
@@ -7812,7 +7813,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1198040969),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1198124103),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1198126451),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7894,7 +7895,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (230,2,'15e7b0d514cac1e8e05d7731bb140134',1198126451,'http://mzz/en/news/168/view','127.0.0.1');
+  (231,2,'b00fa66a6c1562bd0b74de5c748a0c10',1198142139,'http://mzz/ru/forum/1/list?page=1','127.0.0.1');
 
 COMMIT;
 

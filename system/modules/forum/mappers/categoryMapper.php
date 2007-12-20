@@ -38,6 +38,17 @@ class categoryMapper extends simpleMapper
      */
     protected $className = 'category';
 
+    public function delete(category $category)
+    {
+        $forumMapper = systemToolkit::getInstance()->getMapper('forum', 'forum', $this->section);
+
+        foreach ($category->getForums() as $forum) {
+            $forumMapper->delete($forum);
+        }
+
+        parent::delete($category);
+    }
+
     /**
      * Возвращает доменный объект по аргументам
      *
