@@ -7,5 +7,6 @@ fileLoader::load('filters/contentFilter');
 fileLoader::load('filters/sessionFilter');
 fileLoader::load('filters/userFilter');
 fileLoader::load('filters/userOnlineFilter');
+fileLoader::load('filters/routingFilter');
 
 ?>

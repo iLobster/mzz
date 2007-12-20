@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.1.2.1
+﻿# SQL Manager 2007 for MySQL 4.1.2.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -8,7 +8,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -1368,11 +1368,36 @@ CREATE TABLE `news_newsFolder_lang` (
 #
 
 INSERT INTO `news_newsFolder_lang` (`id`, `lang_id`, `title`) VALUES 
-  (2,1,'aaaaa'),
-  (18,1,'russian'),
-  (18,2,'english'),
-  (19,1,'19_1'),
-  (19,2,'19_2');
+  (2,1,'Новости'),
+  (18,1,'Главное'),
+  (19,1,'Комментарие'),
+  (20,1,'Сюжеты'),
+  (21,1,'В России'),
+  (22,1,'б.СССР'),
+  (23,1,'В мире'),
+  (24,1,'Америка'),
+  (25,1,'Экономика'),
+  (26,1,'Бизнес'),
+  (27,1,'Финансы'),
+  (28,1,'Недвижимость'),
+  (29,1,'Политика'),
+  (30,1,'Интернет'),
+  (31,1,'Технологии'),
+  (18,2,'Main'),
+  (19,2,'Commentaries'),
+  (2,2,'News'),
+  (20,2,'Stories'),
+  (21,2,'Russia'),
+  (22,2,'xUssr'),
+  (23,2,'World'),
+  (24,2,'America'),
+  (26,2,'Business'),
+  (27,2,'Finance'),
+  (28,2,'Realty'),
+  (29,2,'Politics'),
+  (30,2,'Internet'),
+  (31,2,'Technologies'),
+  (25,2,'Economics');
 
 COMMIT;
 
@@ -7787,7 +7812,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1198040969),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1198040971),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1198124103),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7813,7 +7838,7 @@ CREATE TABLE `user_userAuth` (
 #
 
 INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
-  (99,2,'127.0.0.1','dce90074dbaf9f432b382f1e7a7a6d56',NULL,1198043298),
+  (99,2,'127.0.0.1','dce90074dbaf9f432b382f1e7a7a6d56',NULL,1198124103),
   (92,2,'127.0.0.1','6bd1efd64e318d5f4fd08f1d267e7319',NULL,1196820540);
 
 COMMIT;
@@ -7869,7 +7894,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (229,2,'e9500912f5c2798518011db472e8f120',1198044039,'http://mzz/en/news/main/editFolder?lang_id=2%5C','127.0.0.1');
+  (230,2,'15e7b0d514cac1e8e05d7731bb140134',1198126451,'http://mzz/en/news/168/view','127.0.0.1');
 
 COMMIT;
 

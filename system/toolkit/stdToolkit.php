@@ -349,8 +349,6 @@ class stdToolkit extends toolkit
     public function getLang()
     {
         if (!$this->langId) {
-
-
             $this->langId = $this->getLocale()->getId();
         }
         return $this->langId;
@@ -372,7 +370,7 @@ class stdToolkit extends toolkit
             if (!($lang = $this->getRequest()->get('lang', 'string'))) {
                 $lang = systemConfig::$i18n;
             }
-            $this->setLocale(systemConfig::$i18n);
+            $this->setLocale($lang);
         }
 
         return $this->locale;
