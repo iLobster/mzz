@@ -44,6 +44,10 @@ class formRadioField extends formElement
             $options['checked'] = true;
         } elseif ($requestValue !== false) {
             unset($options['checked']);
+        } else {
+            if (isset($options['checked']) && !is_bool($options['checked'])) {
+                $options['checked'] = $options['checked'] == $value;
+            }
         }
 
         if (isset($options['values'])) {
