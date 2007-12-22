@@ -277,6 +277,11 @@ class requestRoute implements iRoute
      */
     public function assemble($values = array())
     {
+        static $lang;
+        if (empty($lang)) {
+            $lang = systemToolkit::getInstance()->getLocale()->getName();
+        }
+
         if (empty($this->parts)) {
             $this->prepare();
         }
@@ -298,7 +303,7 @@ class requestRoute implements iRoute
                     }
                 } elseif (isset($this->defaults[$part['name']])) {
                     if ($part['name'] == 'lang') {
-                        $url = $this->defaults[$part['name']] . $url;
+                        $url = $lang . $url;
                     } else {
                         $url = substr($url, 0, -1);
                     }
