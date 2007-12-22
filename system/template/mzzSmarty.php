@@ -27,6 +27,8 @@ fileLoader::load('template/plugins/function.add');
  */
 class mzzSmarty extends Smarty
 {
+    protected $lang;
+
     /**
      * Хранение объекта для работы с ресурсом
      *
@@ -228,6 +230,14 @@ class mzzSmarty extends Smarty
         $params['resource_name'] = $name;
         $params['resource_type'] = 'file';
         return true;
+    }
+
+    function _get_auto_filename($auto_base, $auto_source = null, $auto_id = null)
+    {
+        if (empty($this->lang)) {
+            $this->lang = systemToolkit::getInstance()->getLocale()->getName();
+        }
+        return parent::_get_auto_filename($auto_base, $auto_source, $auto_id) . '-' . $this->lang;
     }
 }
 

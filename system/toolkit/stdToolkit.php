@@ -153,6 +153,9 @@ class stdToolkit extends toolkit
 
             fileLoader::load('forms/form');
             $this->smarty->register_object('form', new form());
+
+            fileLoader::load('template/plugins/prefilter.i18n');
+            $this->smarty->register_prefilter('smarty_prefilter_i18n');
         }
 
         return $this->smarty;
