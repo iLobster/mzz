@@ -35,9 +35,13 @@ define('MZZ_USER_GUEST_ID', 1);
  */
 define('MZZ_ROOT_GID', 3);
 
-require_once(SYSTEM_PATH . 'systemConfig.php');
+require_once SYSTEM_PATH . 'systemConfig.php';
 
+// дефолтный язык приложения
 systemConfig::$i18n = 'ru';
+
+// устанавливаем дефолтную кодировку для выдачи
+ini_set('default_charset', 'utf-8');
 
 systemConfig::$db['default']['driver'] = 'pdo';
 systemConfig::$db['default']['dsn']  = 'mysql:host=localhost;dbname=mzz';
