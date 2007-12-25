@@ -1,4 +1,4 @@
-{if $action eq 'addObjToRegistry'}
+﻿{if $action eq 'addObjToRegistry'}
 {include file='jipTitle.tpl' title='Добавление объекта в реестр доступа'}
 {else}
 {include file='jipTitle.tpl' title='Редактирование объекта в реестре доступа'}
@@ -26,14 +26,15 @@ function addObjChangeClass(select) {
     var addobjClass = $('addobj_class');
     addobjClass.options.length = 0;
 
-   var i = 0;
-   $H(classes[$F(select)]).each(function(pair) {
-       addobjClass.options[i++] = new Option(pair.value, pair.key);
-   });
-   (i > 0) ? addobjClass.enable() : addobjClass.disable();
-   addobjClass.selectedIndex = 0;
-   addobjClass.activate();
+    var i = 0;
+    $H(classes.get($F(select))).each(function(pair) {
+        addobjClass.options[i++] = new Option(pair.value, pair.key);
+    });
+    
+    i ? addobjClass.enable() : addobjClass.disable();
 
+    addobjClass.selectedIndex = 0;
+    addobjClass.activate();
 }
 {/literal}
 </script>
@@ -46,7 +47,7 @@ function addObjChangeClass(select) {
             <td>{form->select name="class" emptyFirst=true id="addobj_class" style="width: 150px;" disabled="disabled"}</td>
         </tr>
         <tr>
-            <td colspan="4">{$errors->get('section')}<br />{$errors->get('class')}</td>
+            <td colspan="4">{$errors->get('section')}{if $errors->has('class')}<br />{$errors->get('class')}{/if}</td>
         </tr>
         <tr>
             <td colspan=4 style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>

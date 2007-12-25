@@ -1,4 +1,4 @@
-/**
+﻿/**
  *  CSS and Javascript Loader
  */
 fileLoader = Class.create({
@@ -73,16 +73,22 @@ var fileLoader = new fileLoader;
 function buildJipLinks(elm) {
     var jipLinkFunc = function(link) {
         $(link).observe('click', function(event) {
-            jipWindow.open(link.href);
+            if (link.hasClassName('jipLink')) {
+                jipWindow.open(link.href);
+            } else {
+                var args = link.onmouseup();
+                jipMenu.show(args[0], args[1], args[2], args[3]);;
+            }
             Event.stop(event);
             return false;
         });
+
     }
     // @todo сделать опции
     if (elm) {
-        $(elm).select('a.jipLink').each(jipLinkFunc);
+        $(elm).select('a.jipLink', 'img.jip').each(jipLinkFunc);
     } else {
-        $$('a.jipLink').each(jipLinkFunc);
+        $$('a.jipLink', 'img.jip').each(jipLinkFunc);
     }
 }
 
