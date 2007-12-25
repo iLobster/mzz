@@ -24,4 +24,6 @@
 {load module=tags action=tagsCloud tmodule=news tclass=news section=tags}
 </div>
 
-{_ MESS}
+{assign var=a value="value_a"}
+{assign var=b value="value_b"}
+{_ mess $a $b 3}

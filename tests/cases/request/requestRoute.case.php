@@ -141,6 +141,7 @@ class requestRouteTest extends unitTestCase
 
     public function testRouteWithLang()
     {
+        systemConfig::$i18n = 'en';
         $route = new requestRoute(':controller/:action', array('controller' => 'page', 'action' => 'list'));
         $route->enableLang();
         $this->assertEqual(
