@@ -73,22 +73,16 @@ var fileLoader = new fileLoader;
 function buildJipLinks(elm) {
     var jipLinkFunc = function(link) {
         $(link).observe('click', function(event) {
-            if (link.hasClassName('jipLink')) {
-                jipWindow.open(link.href);
-            } else {
-                var args = link.onmouseup();
-                jipMenu.show(args[0], args[1], args[2], args[3]);;
-            }
+            jipWindow.open(link.href);
             Event.stop(event);
             return false;
         });
-
     }
     // @todo сделать опции
     if (elm) {
-        $(elm).select('a.jipLink', 'img.jip').each(jipLinkFunc);
+        $(elm).select('a.jipLink').each(jipLinkFunc);
     } else {
-        $$('a.jipLink', 'img.jip').each(jipLinkFunc);
+        $$('a.jipLink').each(jipLinkFunc);
     }
 }
 
