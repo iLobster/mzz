@@ -34,6 +34,16 @@ class locale
         return $this->data['regional_settings']['language_name'];
     }
 
+    public function getPluralsCount()
+    {
+        return $this->data['plural']['count'];
+    }
+
+    public function getPluralAlgo()
+    {
+        return $this->data['plural']['algo'];
+    }
+
     public function getName()
     {
         return $this->name;

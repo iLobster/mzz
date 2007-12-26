@@ -1,9 +1,13 @@
 <?php
 
+fileLoader::load('i18n/i18nStorageIni');
+
 class i18n
 {
     private $phrases = array();
     private $default_language;
+    private $lang;
+    private $storages;
 
     public function translate($name, $module, $lang, $args = '', $generatorCallback = '')
     {
@@ -15,6 +19,8 @@ class i18n
             return $this->translate($name, $module, $this->getDefaultLang(), $args);
         }
 
+        $this->lang = $lang;
+
         $phrase = $this->replacePlaceholders($phrase, $args, $generatorCallback);
 
         return $phrase;
@@ -25,13 +31,22 @@ class i18n
         return (bool)$generatorCallback && strpos($var, '$') !== false;
     }
 
+    public function splitArguments($args)
+    {
+        return explode(' ', $args);
+    }
+
     public function replacePlaceholders($phrase, $args_str, $generatorCallback = false)
     {
-        if (!strlen($args_str)) {
-            return $phrase;
-        }
+        if (!is_array($args_str)) {
+            if (!strlen($args_str)) {
+                return $phrase;
+            }
 
-        $args = explode(' ', $args_str);
+            $args = $this->splitArguments($args_str);
+        } else {
+            $args = $args_str;
+        }
 
         $variables = array();
 
@@ -66,10 +81,36 @@ class i18n
         }
 
         if ($variables) {
-            $phrase = call_user_func_array($generatorCallback, array($phrase, $variables));
+            $phrase = call_user_func_array($generatorCallback, array($phrase, $variables, $this->lang));
         }
 
         return $phrase;
+    }
+
+    public function morph($number, $morphs, $lang)
+    {
+        if (!is_array($morphs)) {
+            $morphs = array($morphs);
+        }
+
+        $locale = new locale($lang);
+        $plural = $this->calculatePlural($number, $locale);
+        return $morphs[$plural];
+    }
+
+    private function calculatePlural($number, $locale)
+    {
+        if (is_string($number)) {
+            return 0;
+        }
+
+        if (is_string($locale)) {
+            $locale = new locale($locale);
+        }
+
+        $algo = $locale->getPluralAlgo();
+        eval('$i = ' . $number . '; $plural = ' . $algo . ';');
+        return $plural;
     }
 
     private function search($name, $module, $lang)
@@ -78,7 +119,17 @@ class i18n
             return $this->phrases[$module][$lang][$name];
         }
 
-        return false;
+        if (empty($this->storages[$module][$lang])) {
+            try {
+                $this->storages[$module][$lang] = new i18nStorageIni($module, $lang);
+            } catch (mzzIoException $e) {
+                return false;
+            }
+        }
+
+        $this->phrases[$module][$lang][$name] = $this->storages[$module][$lang]->read($name);
+
+        return $this->phrases[$module][$lang][$name];
     }
 
     public function setPhrases($module, $language, $data)
@@ -102,7 +153,17 @@ class i18n
             $i18n = new i18n();
         }
 
+        if (($slashpos = strpos($name, '/')) !== false) {
+            $module = substr($name, 0, $slashpos);
+            $name = substr($name, $slashpos + 1);
+        }
+
         return $i18n->translate($name, $module, $lang, $args, $generatorCalback);
+    }
+
+    public static function isName($name)
+    {
+        return strpos($name, '_ ') === 0;
     }
 }
 

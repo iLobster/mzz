@@ -23,6 +23,10 @@ class formCaptionField extends formElement
 {
     static public function toString($options = array())
     {
+        if (i18n::isName($options['value'])) {
+            $options['value'] = smarty_prefilter_i18n('{' . $options['value'] . '}');
+        }
+
         $result = $options['value'];
         $required = '';
 

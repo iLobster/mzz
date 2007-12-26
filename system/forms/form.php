@@ -23,7 +23,6 @@ fileLoader::load("forms/formElement");
  */
 class form
 {
-
     public function open($params, $smarty)
     {
         fileLoader::load('forms/formTag');
@@ -63,6 +62,10 @@ class form
         $name = $params['name'];
         unset($params['name']);
 
+        if (i18n::isName($params['value'])) {
+            $params['value'] = smarty_prefilter_i18n('{' . $params['value'] . '}');
+        }
+
         $submit = $this->text($params, $smarty);
 
         $hiddenParams = array();
@@ -73,6 +76,10 @@ class form
 
     public function reset($params, $smarty)
     {
+        if (i18n::isName($params['value'])) {
+            $params['value'] = smarty_prefilter_i18n('{' . $params['value'] . '}');
+        }
+
         $params['type'] = 'reset';
         if (isset($params['jip']) && $params['jip']) {
             $params['onclick'] = (empty($params['onclick']) ? 'javascript:' : '') . ' jipWindow.close();';

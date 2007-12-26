@@ -38,6 +38,13 @@ class localeTest extends UnitTestCase
         $this->assertEqual($locales[1]->getCountry(), 'Russian Federation');
         $this->assertEqual($locales[2]->getCountry(), 'USA');
     }
+
+    public function testMorphs()
+    {
+        $locale = new locale('ru');
+        $this->assertEqual($locale->getPluralsCount(), 3);
+        $this->assertEqual($locale->getPluralAlgo(), '($i % 10 == 1 && $i % 100 != 11 ? 0 : ($i % 10 >= 2 && $i % 10 <= 4 && ($i % 100 < 10 || $i % 100 >= 20) ? 1 : 2))');
+    }
 }
 /*
 * Limb PHP Framework

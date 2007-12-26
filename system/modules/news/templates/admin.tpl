@@ -1,9 +1,8 @@
 <div style='width: 99%;'>
 <div style="padding: 4px 10px; text-align: right; float: right; margin-top: -2px; background-image: url('{$SITE_PATH}/templates/images/submenu_background.png');"><img src="{$SITE_PATH}/templates/images/filter.gif" align=absmiddle /> Поиск</div>
 
-<div class="pageTitle">Список новостей</div>
+<div class="pageTitle">{_ news_list}</div>
 </div>
-
 
 {include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="news"}
 
@@ -12,8 +11,8 @@
         <thead class="tableListHead">
             <tr>
                 <td style="width: 30px;">&nbsp;</td>
-                <td style="text-align: left;">Название</td>
-                <td style="width: 120px;">Дата создания</td>
+                <td style="text-align: left;">{_ title}</td>
+                <td style="width: 120px;">{_ creating_date}</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
         </thead>
@@ -38,7 +37,7 @@
 
         {foreach from=$news item=current_news}
             <tr align="center">
-                <td style="width: 30px; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" alt="" title="Автор: {$current_news->getEditor()->getLogin()}" /></td>
+                <td style="width: 30px; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" alt="" title="{_ author}: {$current_news->getEditor()->getLogin()}" /></td>
                 <td style="text-align: left;"><a href="{url route='withId' id=$current_news->getId()}">{$current_news->getTitle()|htmlspecialchars}</a></td>
                 <td>{$current_news->getUpdated()|date_format:"%d/%m/%Y %H:%M"}</td>
                 <td>{$current_news->getJip()}</td>

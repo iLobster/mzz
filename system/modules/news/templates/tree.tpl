@@ -1,6 +1,6 @@
 <div>
     <div id="newsFolders">
-        <span class="title">Разделы</span><br />
+        <span class="title">{_ categories}</span><br />
 
         {foreach from=$source->getTreeForMenu() item=current_folder name=folders}
             {'&nbsp;&nbsp;'|str_repeat:$current_folder->getTreeLevel()}

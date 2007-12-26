@@ -30,12 +30,16 @@
  * @return string|void заголовок если не указан параметр append
  * @package system
  * @subpackage template
- * @version 0.1
+ * @version 0.1.1
  */
 function smarty_function_title($params, $smarty)
 {
     static $titles = array();
     if (isset($params['append'])) {
+        if (i18n::isName($params['append'])) {
+            $params['append'] = smarty_prefilter_i18n('{' . $params['append'] . '}', $smarty);
+        }
+
         $titles[] = array($params['append'], isset($params['separator']) ? $params['separator'] : false);
     } else {
         $title = '';
@@ -46,8 +50,9 @@ function smarty_function_title($params, $smarty)
                 $title .= $t[0] . $separator;
             }
         }
-        //return substr($title, 0, -(strlen($separator)));
+
         return $title;
     }
 }
+
 ?>

@@ -76,6 +76,14 @@ class i18nTest extends UnitTestCase
         $this->assertEqual($this->i18n->translate('foo', 'module6', 'en', '$a b $c', array($this, 'stub_callback')), 'b foo :1 bar :3-a, c');
     }
 
+    public function testMorph()
+    {
+        $morphs = array('слово', 'слова', 'слов');
+        $this->assertEqual($this->i18n->morph(1, $morphs, 'ru'), $morphs[0]);
+        $this->assertEqual($this->i18n->morph(2, $morphs, 'ru'), $morphs[1]);
+        $this->assertEqual($this->i18n->morph(5, $morphs, 'ru'), $morphs[2]);
+    }
+
     public function stub_callback($phrase, $variables)
     {
         return $phrase . '-' . implode(', ', $variables);
