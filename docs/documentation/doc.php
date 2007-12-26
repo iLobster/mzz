@@ -273,7 +273,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $subtitle = trim($submeta[1]);
                 $sublink = $link . '.' .trim($submeta[0]);
 
-                $m = 'a';
+                $m = 'A';
                 echo '<dt><span class="sectionNumber">' . $num . '.</span> <a href="' . $sublink . '.html">' . $subtitle . "</a></dt>\n";
                 echo '<dd><dl>';
                 // Разделы в подкатегориях

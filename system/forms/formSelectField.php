@@ -35,11 +35,12 @@ class formSelectField extends formElement
         if (!isset($options['options'])) {
             $options['options'] = array();
         }
-        if (!isset($options['styles']) || !is_array($options['styles'])) {
+        /*if (!isset($options['styles']) || !is_array($options['styles'])) {
             $options['styles'] = array();
-        }
+        }*/
         if (isset($options['emptyFirst']) && $options['emptyFirst']) {
-            $options['options'] = array('' => '&nbsp;') + $options['options'];
+            $firstText = is_bool($options['emptyFirst']) ? '&nbsp;' : htmlspecialchars($options['emptyFirst']);
+            $options['options'] = array('' => $firstText) + $options['options'];
         }
 
         if (sizeof($options['options']) < 2 && isset($options['one_item_freeze']) && $options['one_item_freeze']) {
@@ -58,11 +59,8 @@ class formSelectField extends formElement
                 if ($selected) {
                     $value_selected = array($key, $text);
                 }
-                $style = isset($options['styles'][$key]) ? $options['styles'][$key] : false;
-                if ($selected) {
-                    $style = "font-weight: bold;";
-                }
 
+                $style = $selected ? 'font-weight: bold;' : null;
                 $options_for_tag = array('content' => $text, 'style' => $style, 'value' => $key, 'selected' => $selected);
 
                 foreach ($text_array as $key => $value2) {
@@ -110,7 +108,7 @@ class formSelectField extends formElement
             unset($options['options']);
             unset($options['value']);
             unset($options['emptyFirst']);
-            unset($options['styles']);
+            //unset($options['styles']);
 
             $options = array_merge($options, array('content' => $html));
             $select = self::createTag($options, 'select');

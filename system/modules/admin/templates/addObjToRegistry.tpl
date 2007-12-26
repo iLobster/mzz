@@ -1,4 +1,4 @@
-﻿{if $action eq 'addObjToRegistry'}
+{if $action eq 'addObjToRegistry'}
 {include file='jipTitle.tpl' title='Добавление объекта в реестр доступа'}
 {else}
 {include file='jipTitle.tpl' title='Редактирование объекта в реестре доступа'}
@@ -30,7 +30,7 @@ function addObjChangeClass(select) {
     $H(classes.get($F(select))).each(function(pair) {
         addobjClass.options[i++] = new Option(pair.value, pair.key);
     });
-    
+
     i ? addobjClass.enable() : addobjClass.disable();
 
     addobjClass.selectedIndex = 0;
