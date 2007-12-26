@@ -274,6 +274,7 @@ jipWindow = Class.create({
 
                 if (this.drag) {
                     this.drag.destroy();
+                    this.drag = false;
                 }
                 this.windowExists = false;
                 this.unlockContent();
@@ -600,6 +601,10 @@ jipWindow = Class.create({
 
     clean: function()
     {
+        if (this.drag) {
+            this.drag.destroy();
+            this.drag = false;
+        }
         if (this.jip) {
             this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" width="32" height="32" /><br />Страница открывается...<br /><a href="javascript: void(jipWindow.close());">отменить</a></div>');
         }

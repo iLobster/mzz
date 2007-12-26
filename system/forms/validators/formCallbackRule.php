@@ -23,6 +23,9 @@ class formCallbackRule extends formAbstractRule
 {
     public function validate()
     {
+        if (empty($this->value)) {
+            return true;
+        }
         $funcName = array_shift($this->params);
         if (!is_callable($funcName)) {
             throw new Exception('Указанная функция ' . $funcName . ' не является валидным callback\'ом');

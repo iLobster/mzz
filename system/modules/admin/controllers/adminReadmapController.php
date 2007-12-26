@@ -68,15 +68,17 @@ class adminReadmapController extends simpleController
         $file = new iniFile(fileLoader::resolve($mapfile_name));
         $mapfile = $file->read();
 
-        $key = array_search('obj_id', $scheme);
-        unset($scheme[$key]);
+        if (($key = array_search('obj_id', $scheme)) !== false) {
+            unset($scheme[$key]);
+        }
 
         $delete = array_diff(array_keys($mapfile), $scheme);
         $insert = array_diff($scheme, array_keys($mapfile));
 
         foreach ($insert as $field) {
             $changed = true;
-            $mapfile[$field] = array('accessor' => 'get' . ucfirst(strtolower($field)), 'mutator' => 'set' . ucfirst(strtolower($field)));
+            $name = ucfirst(preg_replace('/_([a-z])/ie', 'strtoupper("$1")', strtolower($field)));
+            $mapfile[$field] = array('accessor' => 'get' . $name, 'mutator' => 'set' . $name);
         }
 
         if (isset($changed)) {
