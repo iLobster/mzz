@@ -5862,7 +5862,7 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `type_id`, `value
   (30,8,2,2,1,'../files'),
   (31,11,1,1,1,'60'),
   (34,7,1,1,1,'10'),
-  (51,15,1,1,1,'60'),
+  (53,15,1,1,1,'60'),
   (41,17,1,1,1,'10'),
   (44,21,4,6,1,'80'),
   (45,21,5,5,1,'60'),
@@ -7813,7 +7813,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1198040969),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1198126451),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1198142139),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7895,7 +7895,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (231,2,'b00fa66a6c1562bd0b74de5c748a0c10',1198142139,'http://mzz/ru/forum/1/list?page=1','127.0.0.1');
+  (232,2,'4e15f27b4c8dcd95770b8a1b40e7c3f9',1198726147,'http://mzz/ru/admin/9/listActions?ajax=1','127.0.0.1');
 
 COMMIT;
 

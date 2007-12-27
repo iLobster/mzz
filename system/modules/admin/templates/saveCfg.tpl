@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td>{form->caption name="type" value="Тип" onError="style=color: red;"}</td>
-            <td>{form->select name="type" options=$types value=$configInfo.type.id emptyFirst="true"} {$errors->get('type')}</td>
+            <td>{form->select name="type" options=$types value=$configInfo.type.id emptyFirst=true} {$errors->get('type')}</td>
         </tr>
         <tr>
             <td>{form->caption name="value" value="Значение" onError="style=color: red;"}</td>
