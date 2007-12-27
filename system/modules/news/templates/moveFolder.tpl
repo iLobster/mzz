@@ -1,4 +1,4 @@
-{include file='jipTitle.tpl' title="Перемещение каталога"}
+{include file='jipTitle.tpl' title="_ move_folder"}
 <form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>

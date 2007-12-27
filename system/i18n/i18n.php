@@ -1,14 +1,66 @@
 <?php
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
 
 fileLoader::load('i18n/i18nStorageIni');
 
+/**
+ * i18n: класс для работы переводами
+ *
+ * @package system
+ * @subpackage i18n
+ * @version 0.1
+ */
 class i18n
 {
+    /**
+     * Массив уже полученных фраз
+     *
+     * @var array
+     */
     private $phrases = array();
-    private $default_language;
-    private $lang;
-    private $storages;
 
+    /**
+     * Значение языка по-умолчанию
+     *
+     * @var string
+     */
+    private $default_language;
+
+    /**
+     * Текущий язык
+     *
+     * @var string
+     */
+    private $lang;
+
+    /**
+     * Массив стораджей, из которых производится выборка фраз
+     *
+     * @var array
+     */
+    private $storages = array();
+
+    /**
+     * Перевод фразы
+     *
+     * @param string $name идентификатор фразы
+     * @param string $module имя модуля
+     * @param string $lang язык
+     * @param string|array $args аргументы
+     * @param callback $generatorCallback callback на функцию-генератор кода, в случае когда в числе аргументов есть переменные
+     * @return string результирующий перевод
+     */
     public function translate($name, $module, $lang, $args = '', $generatorCallback = '')
     {
         if (is_bool($phrase = $this->search($name, $module, $lang))) {
@@ -26,16 +78,37 @@ class i18n
         return $phrase;
     }
 
+    /**
+     * Определение - является ли аргумент переменной
+     *
+     * @param string $var
+     * @param callback $generatorCallback
+     * @return boolean
+     */
     private function isVariable($var, $generatorCallback)
     {
         return (bool)$generatorCallback && strpos($var, '$') !== false;
     }
 
+    /**
+     * Разбиение строки аргументов в массив
+     *
+     * @param string $args
+     * @return array
+     */
     public function splitArguments($args)
     {
         return explode(' ', $args);
     }
 
+    /**
+     * Замена плейсхолдеров на конкретные значения
+     *
+     * @param string $phrase
+     * @param string|array $args_str
+     * @param callback $generatorCallback
+     * @return string
+     */
     public function replacePlaceholders($phrase, $args_str, $generatorCallback = false)
     {
         if (!is_array($args_str)) {
@@ -87,6 +160,14 @@ class i18n
         return $phrase;
     }
 
+    /**
+     * Определение формы фразы
+     *
+     * @param integer $number аргумент, от которого зависит форма
+     * @param array $morphs массив форм
+     * @param string $lang язык
+     * @return string
+     */
     public function morph($number, $morphs, $lang)
     {
         if (!is_array($morphs)) {
@@ -98,6 +179,13 @@ class i18n
         return $morphs[$plural];
     }
 
+    /**
+     * Вычисление номера формы по аргументу
+     *
+     * @param integer $number аргумент
+     * @param string $locale имя локали
+     * @return integer номер формы
+     */
     private function calculatePlural($number, $locale)
     {
         if (is_string($number)) {
@@ -113,6 +201,14 @@ class i18n
         return $plural;
     }
 
+    /**
+     * Поиск фразы
+     *
+     * @param string $name
+     * @param string $module
+     * @param string $lang
+     * @return string
+     */
     private function search($name, $module, $lang)
     {
         if (isset($this->phrases[$module][$lang][$name])) {
@@ -132,11 +228,24 @@ class i18n
         return $this->phrases[$module][$lang][$name];
     }
 
+    /**
+     * Установка массива фраз, в обход метода search
+     *
+     * @param string $module
+     * @param string $language
+     * @param array $data
+     * @see i18n::search()
+     */
     public function setPhrases($module, $language, $data)
     {
         $this->phrases[$module][$language] = $data;
     }
 
+    /**
+     * Получение языка по умолчанию в приложении
+     *
+     * @return string
+     */
     private function getDefaultLang()
     {
         if (empty($this->default_language)) {
@@ -146,6 +255,16 @@ class i18n
         return $this->default_language;
     }
 
+    /**
+     * Перевод фразы
+     *
+     * @param string $name
+     * @param string $module
+     * @param string $lang
+     * @param string|array $args
+     * @param callback $generatorCalback
+     * @return unknown
+     */
     public static function getMessage($name, $module, $lang, $args, $generatorCalback)
     {
         static $i18n;
@@ -161,6 +280,12 @@ class i18n
         return $i18n->translate($name, $module, $lang, $args, $generatorCalback);
     }
 
+    /**
+     * Определение, является ли аргумент идентификатором фразы
+     *
+     * @param string $name
+     * @return boolean
+     */
     public static function isName($name)
     {
         return strpos($name, '_ ') === 0;

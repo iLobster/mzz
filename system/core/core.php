@@ -72,10 +72,10 @@ class core
      * Может быть использован для различной настройки приложения непосредственно перед запуском.
      *
      */
-     protected function preprocess()
-     {
+    protected function preprocess()
+    {
 
-     }
+    }
 
     /**
      * "Сборка" композитного резолвера
@@ -127,6 +127,7 @@ class core
 
         fileLoader::load('filters/init');
 
+        fileLoader::load('i18n');
         fileLoader::load('i18n/locale');
 
         fileLoader::load('config');

@@ -36,9 +36,9 @@ function smarty_function_title($params, $smarty)
 {
     static $titles = array();
     if (isset($params['append'])) {
-        if (i18n::isName($params['append'])) {
+        /*if (i18n::isName($params['append'])) {
             $params['append'] = smarty_prefilter_i18n('{' . $params['append'] . '}', $smarty);
-        }
+        }*/
 
         $titles[] = array($params['append'], isset($params['separator']) ? $params['separator'] : false);
     } else {

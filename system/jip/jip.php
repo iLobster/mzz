@@ -16,6 +16,7 @@
  * jip: класс для работы с jip
  *
  * @package system
+ * @subpackage jip
  * @version 0.1.3
  */
 

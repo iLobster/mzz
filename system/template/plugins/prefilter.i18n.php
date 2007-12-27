@@ -1,7 +1,5 @@
 <?php
 
-fileLoader::load('i18n');
-
 function smarty_prefilter_i18n($tpl_source, &$smartyCompiler = null)
 {
     static $callback = 'i18n::getMessage';

@@ -927,7 +927,7 @@ abstract class simpleMapper
      */
     public function getLangFields()
     {
-        if (empty($this->langFields)) {
+        if (systemConfig::$i18n && empty($this->langFields)) {
             $map = $this->getMap();
             foreach ($map as $key => $item) {
                 if (!empty($item['lang'])) {

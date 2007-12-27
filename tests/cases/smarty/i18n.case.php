@@ -36,7 +36,7 @@ class mzzSmartyI18nFunctionTest extends unitTestCase
 
     public function testVariablePlaceholders()
     {
-        $this->assertEqual(mzz_smarty_i18n_morph('foo ? bar ?', array('a', 'b'), 'en'), "{php}\$i18n = new i18n(); \$arg = \$this->_tpl_vars[\"a\"]; \$morphs = array (\n  0 => 'foo ? bar ?',\n); \$morph = \$i18n->morph(\$arg, \$morphs, 'en'); echo \$i18n->replacePlaceholders(\$morph, \$this->_tpl_vars[\"a\"] . ' ' . \$this->_tpl_vars[\"b\"]);{/php}");
+        $this->assertEqual(mzz_smarty_i18n_morph('foo ? bar ?', array('a', 'b'), 'en'), "{php}\$i18n = new i18n(); \$arg = \$this->_tpl_vars[\"a\"]; \$morphs = array (\n  0 => 'foo ? bar ?',\n); \$morph = \$i18n->morph(\$arg, \$morphs, 'en'); echo \$i18n->replacePlaceholders(\$morph, array(\$this->_tpl_vars[\"a\"], \$this->_tpl_vars[\"b\"]));{/php}");
     }
 
     public function stub_callback($name, $module, $lang, $args, $generatorCallback)
