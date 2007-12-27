@@ -29,6 +29,10 @@ class votingViewController extends simpleController
 
         $question = $questionMapper->searchById($id);
 
+        if (!$question) {
+            return $questionMapper->get404()->run();
+        }
+
         if ($question->isExpired()) {
             fileLoader::load('voting/controllers/votingResultsController');
             $controller = new votingResultsController();

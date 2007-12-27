@@ -39,7 +39,7 @@ class votingPostController extends simpleController
             return 'Not allowed';
         }
 
-        $answers = $this->request->get('answer', 'array', SC_POST);
+        $answers = (array)$this->request->get('answer', 'array', SC_POST);
         $validAnswers = array_keys($question->getAnswers());
 
         foreach ($answers as $answer_id) {
