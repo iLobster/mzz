@@ -37,6 +37,8 @@ class newsSaveController extends simpleController
             $newsFolder = $newsFolderMapper->searchByPath($path);
         }
 
+        $this->acceptLang($newsMapper);
+
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
         $news = ($isEdit) ? $newsMapper->searchById($id) : $newsMapper->create();

@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage db
- * @version 0.2.1
+ * @version 0.2.2
 */
 
 class sqlFunction
@@ -93,35 +93,36 @@ class sqlFunction
 
         $arguments = $this->arguments;
         $isField = $this->isField;
+        $argumentsString = $this->argumentsString;
 
         if(is_array($arguments)) {
             foreach ($arguments as $key => $arg) {
                 if($arg !== true) {
                     if (($arg instanceof sqlFunction) || ($arg instanceof sqlOperator)) {
-                        $this->argumentsString .= $arg->toString($this->simpleSelect) . ', ';
+                        $argumentsString .= $arg->toString($this->simpleSelect) . ', ';
                     } else {
-                        $this->argumentsString .= $this->quote($arg) . ', ';
+                        $argumentsString .= $this->quote($arg) . ', ';
                     }
                 } else {
-                    $this->argumentsString .= $this->simpleSelect->quoteField($key) . ', ';
+                    $argumentsString .= $this->simpleSelect->quoteField($key) . ', ';
                 }
             }
         } elseif($arguments) {
             if($isField) {
                 if ($arguments == '*') {
-                    $this->argumentsString .= '*  ';
+                    $argumentsString .= '*  ';
                 } else {
-                    $this->argumentsString .= $this->simpleSelect->quoteField($arguments) . ', ';
+                    $argumentsString .= $this->simpleSelect->quoteField($arguments) . ', ';
                 }
             } else {
-                $this->argumentsString .= $this->quote($arguments) . ", ";
+                $argumentsString .= $this->quote($arguments) . ", ";
             }
         }
 
-        $this->argumentsString = substr($this->argumentsString, 0, -2);
+        $argumentsString = substr($argumentsString, 0, -2);
 
         if(!empty($this->function)) {
-            return strtoupper($this->function) . '(' . $this->argumentsString . ')';
+            return strtoupper($this->function) . '(' . $argumentsString . ')';
         }
         return null;
     }

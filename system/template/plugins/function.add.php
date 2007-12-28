@@ -46,42 +46,6 @@ function smarty_function_add($params, $smarty)
         throw new mzzInvalidParameterException('Пустой атрибут', 'file');
     }
 
-    if ($params['file'] == 'jips') {
-        $jips = array(
-            'prototype.js' => 'js',
-            'prototype_improvements.js' => 'js',
-            'effects.js' => 'js',
-            'dragdrop.js' => 'js',
-            'jip.css' => 'css',
-            'dtree.css' => 'css',
-            'dtree.js' => 'js',
-            'jip.js' => 'js',
-            'calendar-blue.css' => 'css',
-            'jscalendar/calendar.js' => 'js',
-            'jscalendar/calendar-ru.js' => 'js',
-            'jscalendar/calendar-ru.js' => 'js',
-            'jscalendar/calendar-setup.js' => 'js',
-            'tiny_mce/tiny_mce.js' => 'js'
-        );
-
-        foreach ($jips as $filename => $res) {
-            if (!isset($medias[0][$filename . $res . '.tpl']) && isset($medias[1][$res])) {
-                $medias[0][$filename . $res . '.tpl'] = true;
-
-                if (is_array($vars[$res])) {
-                    foreach ($vars[$res] as $val) {
-                        if ($val['file'] == $filename && $val['tpl'] == $res . '.tpl') {
-                            return null;
-                        }
-                    }
-                }
-                $medias[1][$res][] = array('file' => $filename, 'tpl' => $res . '.tpl');
-            }
-        }
-
-        return null;
-    }
-
     // определяем тип ресурса
     if (strpos($params['file'], ':')) {
         // Ресурс указан

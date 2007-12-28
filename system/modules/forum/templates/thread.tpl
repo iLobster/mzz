@@ -1,5 +1,5 @@
-<a href="{url route="default2" action="forum"}">Форум</a> / <a href="{url route="withId" action="list" id=$thread->getForum()->getId()}">{$thread->getForum()->getTitle()}</a> / {$thread->getTitle()}
-{if $thread->getACL('post')} (<a href="{url route="withId" action="post" id=$thread->getId()}">Ответить</a>){/if}<br /><br />
+<a href="{url route=default2 action=forum}">Форум</a> / <a href="{url route=withId action=list id=$thread->getForum()->getId()}">{$thread->getForum()->getTitle()}</a> / {$thread->getTitle()}
+{if $thread->getACL('post')} (<a href="{url route=withId action=post id=$thread->getId()}">Ответить</a>){/if}<br /><br />
 
 {foreach from=$posts item="post" name="post_cycle"}
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -14,7 +14,7 @@
                         <a href="{url route=withId action=moveThread id=$thread->getId()}">Перенести</a>
                     {/if}
                 {else}
-                    {if $post->getAcl('edit')} <a href="{url route="withId" action="edit" id=$post->getId()}">Редактировать</a>{/if}
+                    {if $post->getAcl('edit')} <a href="{url route=withId action=edit id=$post->getId()}">Редактировать</a>{/if}
                 {/if}
             </td>
             <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;" align="right">

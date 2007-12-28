@@ -49,6 +49,10 @@ class i18nStorageIni implements i18nStorage
      */
     public function read($name)
     {
+        if (!isset($this->data[$name])) {
+            return $name;
+        }
+
         if (sizeof($this->data[$name]) == 1) {
             return $this->data[$name][0];
         }

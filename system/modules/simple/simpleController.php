@@ -120,6 +120,11 @@ abstract class simpleController
             $url = $url . (strpos($url, '?') ? '&' : '?') . '_confirm=' . $code;
 
             $this->smarty->assign('url', $url);
+
+            if (i18n::isName($confirm)) {
+                $confirm = i18n::getMessage($confirm);
+            }
+
             $confirm = empty($this->confirm) ? $confirm : $this->confirm;
             $this->smarty->assign('message', $confirm);
             $this->smarty->assign('method', $this->request->getMethod());

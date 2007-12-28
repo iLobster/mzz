@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.15
+ * @version 0.3.16
  */
 
 abstract class simpleMapper
@@ -578,17 +578,19 @@ abstract class simpleMapper
     {
         $toolkit = systemToolkit::getInstance();
 
-        $this->addSelectFields($criteria, $this->getMap(), $this->table, $this->className);
+        $this->addSelectFields($criteria, $this, $this->table, $this->className);
 
         foreach ($this->getOwns() as $key => $val) {
             $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
 
-            $this->addSelectFields($criteria, $mapper->getMap(), $val['class'], $key);
+            $this->addSelectFields($criteria, $mapper, $val['class'], $key);
 
             $joinCriterion = new criterion($this->className . '.' . $key, $key . '.' . $val['key'], criteria::EQUAL, true);
 
             //$criteria->addJoin($val['table'], $joinCriterion, $key, $val['join_type']);
             $criteria->addJoin($mapper->getTable(), $joinCriterion, $key, $val['join_type']);
+
+            $this->addLangCriteria($criteria, $mapper, $key);
         }
     }
 
@@ -631,12 +633,12 @@ abstract class simpleMapper
 
         $criteria->append($criteria_outer);
 
+        $this->addLangCriteria($criteria);
+
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
         if ($this->pager) {
             $this->count($criteria);
         }
-
-        $this->addLangCriteria($criteria);
 
         $this->addOrderBy($criteria);
 
@@ -647,23 +649,34 @@ abstract class simpleMapper
         return $stmt;
     }
 
-    private function addLangCriteria(criteria $criteria)
+    private function addLangCriteria(criteria $criteria, simpleMapper $mapper = null, $alias = null)
     {
-        $lang_fields = $this->getLangFields();
+        // если не передан маппер - используем текущую инстанцию
+        if (is_null($mapper)) {
+            $mapper = $this;
+        }
+
+        $lang_fields = $mapper->getLangFields();
         // если есть языкозависимые поля
         if (sizeof($lang_fields)) {
-            $lang_id = $this->getLangId();
+            $lang_id = $mapper->getLangId();
 
-            $lang_tablename = $this->table . $this->langTablePostfix;
-            $alias = $this->className . $this->langTablePostfix;
+            $lang_tablename = $mapper->table . $mapper->langTablePostfix;
+            // если не передан алиас - используем имя класса маппера
+            // алиас используется для присоединения языкозависимых таблиц в случае отработки реляций
+            if (is_null($alias)) {
+                $alias = $mapper->className;
+            }
+
+            $alias_lang = $alias . $mapper->langTablePostfix;
 
             // добавляем объединение с таблицей интернационализации
-            $criterion = new criterion($this->className . '.' . $this->tableKey, $alias . '.' . $this->tableKey, criteria::EQUAL, true);
-            $criterion->addAnd(new criterion($alias . '.' . $this->langIdField, $lang_id));
+            $criterion = new criterion($alias . '.' . $mapper->tableKey, $alias_lang . '.' . $mapper->tableKey, criteria::EQUAL, true);
+            $criterion->addAnd(new criterion($alias_lang . '.' . $mapper->langIdField, $lang_id));
 
-            $join_type = $this->forceLangId ? criteria::JOIN_LEFT : criteria::JOIN_INNER;
+            $join_type = $mapper->forceLangId ? criteria::JOIN_LEFT : criteria::JOIN_INNER;
             //echo '<pre>'; var_dump($this->forceLangId); echo '</pre>';
-            $criteria->addJoin($lang_tablename, $criterion, $alias, $join_type);
+            $criteria->addJoin($lang_tablename, $criterion, $alias_lang, $join_type);
         }
     }
 
@@ -832,9 +845,10 @@ abstract class simpleMapper
      * @param string $table
      * @param string $alias
      */
-    private function addSelectFields(criteria $criteria, $map, $table, $alias)
+    private function addSelectFields(criteria $criteria, simpleMapper $mapper, $table, $alias)
     {
-        $lang_fields = $this->getLangFields();
+        $map = $mapper->getMap();
+        $lang_fields = $mapper->getLangFields();
 
         foreach ($map as $key => $val) {
             if (!isset($val['hasMany'])) {

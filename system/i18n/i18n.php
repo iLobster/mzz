@@ -265,16 +265,26 @@ class i18n
      * @param callback $generatorCalback
      * @return unknown
      */
-    public static function getMessage($name, $module, $lang, $args, $generatorCalback)
+    public static function getMessage($name, $module = null, $lang = null, $args = array(), $generatorCalback = null)
     {
         static $i18n;
         if (empty($i18n)) {
             $i18n = new i18n();
         }
 
+        if (empty($lang)) {
+            $lang = systemToolkit::getInstance()->getLocale()->getName();
+        }
+
+        $name = self::extractName($name);
+
         if (($slashpos = strpos($name, '/')) !== false) {
             $module = substr($name, 0, $slashpos);
             $name = substr($name, $slashpos + 1);
+        }
+
+        if (is_null($module)) {
+            throw new mzzInvalidParameterException('Аргумент $module не указан', $module);
         }
 
         return $i18n->translate($name, $module, $lang, $args, $generatorCalback);
@@ -289,6 +299,21 @@ class i18n
     public static function isName($name)
     {
         return strpos($name, '_ ') === 0;
+    }
+
+    /**
+     * Удаление служебного из идентификатора фразы спецсимволов
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function extractName($name)
+    {
+        if (self::isName($name)) {
+            $name = substr($name, 2);
+        }
+
+        return $name;
     }
 }
 
