@@ -30,6 +30,8 @@ class forumAdminController extends simpleController
         $categoryFolderMapper = $this->toolkit->getMapper('forum', 'categoryFolder');
         $categoryFolder = $categoryFolderMapper->convertArgsToObj(array());
 
+
+
         $this->smarty->assign('categoryFolder', $categoryFolder);
         $this->smarty->assign('categories', $categories);
         return $this->smarty->fetch('forum/admin.tpl');

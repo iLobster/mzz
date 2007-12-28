@@ -63,13 +63,15 @@ class forumPostController extends simpleController
             $text = $this->request->get('text', 'string', SC_POST);
 
             if (!$isEdit) {
-                // @todo: интервал в конфиг
-                if ($thread->getLastPost()->getPostDate() >= strtotime('-15 minutes')) {
+                $time = (($thread->getLastPost()->getPostDate() - $thread->getFirstPost()->getPostDate()) / ($thread->getPostsCount() + 1));
+                $time = time();
+                if ($thread->getLastPost()->getPostDate() >= $time) {
                     $post = $thread->getLastPost();
                     $post->setPostDate(new sqlFunction('UNIX_TIMESTAMP'));
                     $isEdit = true;
-                    // @todo: сделать по-человечески
-                    $text = $post->getText() . "\r\n\r\nдобавлено\r\n\r\n" . $text;
+                    $this->smarty->assign('post', $post);
+                    $this->smarty->assign('text', $text);
+                    $text = $this->smarty->fetch('forum/append.tpl');
                 } else {
                     $post = $postMapper->create();
                     $post->setAuthor($user);

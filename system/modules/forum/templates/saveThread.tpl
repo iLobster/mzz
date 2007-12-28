@@ -6,7 +6,7 @@
 {/if}
 </div>
 
-<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+<form action="{$action}" method="post">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td style='width: 20%;'>{form->caption name="title" value="Название" onError="style=color: red;"}</td>
@@ -20,6 +20,10 @@
         <tr>
             <td style='width: 20%;'>{form->caption name="sticky" value="Важная тема" onError="style=color: red;"}</td>
             <td style='width: 80%;'>{form->checkbox name="sticky" value=$thread->getIsSticky()} {$errors->get('sticky')}</td>
+        </tr>
+        <tr>
+            <td style='width: 20%;'>{form->caption name="stickyfirst" value="Закрепить первый пост" onError="style=color: red;"}</td>
+            <td style='width: 80%;'>{form->checkbox name="stickyfirst" value=$thread->getIsStickyFirst()} {$errors->get('stickyfirst')}</td>
         </tr>
         {if $isEdit}<tr>
             <td style='width: 20%;'>{form->caption name="closed" value="Тема закрыта" onError="style=color: red;"}</td>

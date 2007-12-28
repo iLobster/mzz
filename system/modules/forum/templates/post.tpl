@@ -2,7 +2,7 @@
     <div class="jipTitle">Редактирование поста</div>
 {/if}
 
-<form action="{$action}" method="post"{if $isEdit} onsubmit="return jipWindow.sendForm(this);"{/if}>
+<form action="{$action}" method="post">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td style='vertical-align: top;'>{form->caption name="text" value="Текст сообщения" onError="style=color: red;"}</td>

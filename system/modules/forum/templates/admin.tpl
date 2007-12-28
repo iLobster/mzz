@@ -1,23 +1,33 @@
+<p class="pageTitle">Список категорий: {$categoryFolder->getJip()}</p>
 <div class="pageContent">
-    <a href="{url route=default2 section=$current_section action=createCategory}" class="jipLink">Создать категорию</a>
-    <a href="{url route=withId section=access action=editACL id=$categoryFolder->getObjId()}" class="jipLink">Права доступа к форуму</a>
-    <br /><br />
-
-    <table border="1" width="100%">
-        {foreach from=$categories item=category name=cat}
-            <tr>
-                <td>Категория: {$category->getTitle()} {$category->getJip()}</td>
-            </tr>
-            {foreach from=$category->getForums() item=forum}
+{foreach from=$categories item="category" name="cat"}
+    Категория <strong>{$category->getTitle()} {$category->getJip()}</strong>
+    {foreach from=$category->getForums() item="forum" name="forums"}
+    {if $smarty.foreach.forums.first}
+        <table cellspacing="0" cellpadding="3" class="tableList" style="padding-left: 25px;">
+            <thead class="tableListHead">
                 <tr>
-                    <td>{$forum->getTitle()} {$forum->getJip()}</td>
+                    <td style="text-align: left;">Название</td>
+                    <td style="width: 120px;text-align: center;">Количество тем</td>
+                    <td style="width: 30px;">JIP</td>
                 </tr>
-            {/foreach}
-            {if not $smarty.foreach.cat.last}
-                <tr>
-                    <td>&nbsp;</td>
-                <tr>
-            {/if}
-        {/foreach}
-    </table>
+            </thead>
+    {/if}
+        <tr>
+            <td>{$forum->getTitle()}</td>
+            <td style="text-align: center;">{$forum->getThreadsCount()}</td>
+            <td style="text-align: center;">{$forum->getJip()}</td>
+        </tr>
+    {if $smarty.foreach.forums.last}
+        </table>
+    {/if}
+    {foreachelse}
+        <div style="padding-left: 25px;">Нет форумов в этой категории</div>
+    {/foreach}
+{if not $smarty.foreach.cat.last}
+    <br /><br />
+{/if}
+{foreachelse}
+    Нет категорий
+{/foreach}
 </div>

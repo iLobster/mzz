@@ -53,6 +53,7 @@ class forumSaveThreadController extends simpleController
             $title = $this->request->get('title', 'string', SC_POST);
             $text = $this->request->get('text', 'string', SC_POST);
             $sticky = $this->request->get('sticky', 'boolean', SC_POST);
+            $stickyfirst = $this->request->get('stickyfirst', 'boolean', SC_POST);
 
             $postMapper = $this->toolkit->getMapper('forum', 'post');
 
@@ -84,6 +85,7 @@ class forumSaveThreadController extends simpleController
             }
 
             $thread->setIsSticky($sticky);
+            $thread->setIsStickyFirst($stickyfirst);
             $thread->setTitle($title);
             $threadMapper->save($thread);
 
