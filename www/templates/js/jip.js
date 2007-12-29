@@ -1,4 +1,4 @@
-﻿/**
+/**
  *  CSS and Javascript Loader
  */
 fileLoader = Class.create({
@@ -660,6 +660,7 @@ jipMenu = Class.create({
         this.layertimer = false;
         this.current = $H({"menu": false, "button": false});
         this.eventKeypress  = this.keyPress.bindAsEventListener(this);
+        this.eventResize  = this.setPosition.bindAsEventListener(this);
         this.jipMenu = false;
         this.langs = {};
         this.jipLangMenu = false;
@@ -715,6 +716,7 @@ jipMenu = Class.create({
         this.jipMenu.stopObserving("mouseout", this.eventMouseOut);
         this.jipMenu.stopObserving("mouseover", this.eventMouseIn);
         document.stopObserving("keypress", this.eventKeypress);
+        Event.stopObserving(window, "resize", this.eventResize);
         this.current.get('button').writeAttribute('src',  SITE_PATH + '/templates/images/jip.gif');
         this.mouseIn();
         this.current = $H({'menu': false, 'button': false});
@@ -748,7 +750,7 @@ jipMenu = Class.create({
     },
 
     draw: function(button, id, items) {
-        var jip_win = $('jip' + jipWindow.currentWindow);
+        //var jip_win = $('jip' + jipWindow.currentWindow);
 
         if (!$(id)) {
             var jipMenuDiv = new Element('div', {id: id, 'class': 'jipMenu', style: 'display: none;'});
@@ -816,6 +818,8 @@ jipMenu = Class.create({
         jipMenuDiv.observe("mouseout", this.eventMouseOut);
         jipMenuDiv.observe("mouseover", this.eventMouseIn);
         document.observe("keypress", this.eventKeypress);
+        //window.observe("resize", this.eventResize());
+        Event.observe(window, "resize", this.eventResize);
 
         //this.mouseOut();
 
@@ -823,14 +827,18 @@ jipMenu = Class.create({
         this.jipMenu = jipMenuDiv;
         this.jipButton.writeAttribute('src', SITE_PATH + '/templates/images/jip_active.gif');
         this.prepareDiv(jipMenuDiv);
+        this.setPosition();
+    },
 
+    setPosition: function()
+    {
+        var jip_win = $('jip' + jipWindow.currentWindow);
         var body = (jip_win && jip_win.getStyle('display') == 'block') ? jip_win : document.documentElement;
+        var posScroll = Position.realOffset(document.documentElement);
 
         var size = Element.getDimensions(this.jipMenu);
         var buttonSize = Element.getDimensions(this.jipButton);
-
         var pos = Position.cumulativeOffset(this.jipButton);
-        var posScroll = Position.realOffset(document.documentElement);
         if (Position.within(body, pos[0] + size.width - posScroll[0], 0)) {
             var x = pos[0] + 1;
         } else {
@@ -926,13 +934,8 @@ jipMenu = Class.create({
 
         this.prepareDiv(jipMenuDiv);
 
-
-
-
         var jip_win = $('jip' + jipWindow.currentWindow);
         var body = (jip_win && jip_win.getStyle('display') == 'block') ? jip_win : document.documentElement;
-
-
 
         var leftOffset = parseInt(this.jipMenu.getStyle('left'));
         var y = parseInt(this.jipMenu.getStyle('top')) + (parentItem.getHeight() + 3) * itemOrder;
@@ -945,20 +948,14 @@ jipMenu = Class.create({
             var x = leftOffset - this.jipMenu.getWidth() - 2;
         }
 
-
-/*
-        var x = parseInt(this.jipMenu.getStyle('left')) + this.jipMenu.getWidth() + 2;
-        var y = parseInt(this.jipMenu.getStyle('top')) + (parentItem.getHeight() + 3) * itemOrder;
-*/
-        jipMenuDiv.setStyle({
+        this.jipLangMenu = jipMenuDiv;
+        this.jipLangMenu.setStyle({
             left: x + 'px', top: y + 'px', display: 'none'
         });
-        jipMenuDiv.observe("mouseout", this.eventMouseOut);
-        jipMenuDiv.observe("mouseover", this.eventMouseIn);
+        this.jipLangMenu.observe("mouseout", this.eventMouseOut);
+        this.jipLangMenu.observe("mouseover", this.eventMouseIn);
 
-
-        this.jipLangMenu = jipMenuDiv;
-        new Effect.Appear(jipMenuDiv, { duration: 0.2 });
+        new Effect.Appear(this.jipLangMenu, { duration: 0.2 });
     },
 
     prepareDiv: function (elm)
