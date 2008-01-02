@@ -128,13 +128,13 @@ class criterion
      * @param string $comparsion тип сравнения
      * @param boolean $isField флаг, обозначающий, что $value - это имя поля, а не строковая константа
      */
-    public function __construct($field = null, $value = null, $comparsion = null, $isField = null)
+    public function __construct($field = null, $value = null, $comparsion = criteria::EQUAL, $isField = null)
     {
         list($this->field, $this->alias) = $this->splitNameAndAlias($field);
 
         $this->isField = $isField;
         $this->value = $value;
-        $this->comparsion = !empty($comparsion) ? $comparsion : criteria::EQUAL;
+        $this->comparsion = $comparsion;
     }
 
     /**

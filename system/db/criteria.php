@@ -245,7 +245,7 @@ class criteria
      * @param string $comparsion тип сравнения. не используется если в качестве $field передаётся criterion
      * @return criteria текущий объект
      */
-    public function add($field, $value = null, $comparsion = null)
+    public function add($field, $value = null, $comparsion = criteria::EQUAL)
     {
         if ($field instanceof criterion) {
             if (!is_null($name = $field->getField())) {
