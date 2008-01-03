@@ -232,7 +232,7 @@ class action
             throw new mzzIoException($filename);
         }
         $action = parse_ini_file($filename, true);
-        $action['editACL'] = array('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => 'Права доступа');
+        $action['editACL'] = array('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL');
         return $action;
     }
 

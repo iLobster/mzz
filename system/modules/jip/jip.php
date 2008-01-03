@@ -15,9 +15,9 @@
 /**
  * jip: класс для работы с jip
  *
- * @package system
+ * @package modules
  * @subpackage jip
- * @version 0.1.3
+ * @version 0.1.4
  */
 
 class jip
@@ -148,7 +148,6 @@ class jip
         $toolkit = systemToolkit::getInstance();
 
         $acl = new acl($toolkit->getUser(), $this->obj_id);
-        //$access = $acl->get();
 
         foreach ($this->actions as $key => $item) {
             $action = isset($item['alias']) ? $item['alias'] : $key;
@@ -157,6 +156,15 @@ class jip
                 $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
                 $item['icon'] = isset($item['icon']) ? SITE_PATH . $item['icon'] : '';
                 $item['lang'] = isset($item['lang']) ? (boolean)$item['lang'] : false;
+
+                if (!isset($item['title'])) {
+                    $item['title'] = '_ ' . $key;
+                }
+
+                if (i18n::isName($item['title'])) {
+                    $item['title'] = i18n::getMessage(i18n::extractName($item['title']), 'jip');
+                }
+
                 $this->result[$key] = new arrayDataspace($item);
             }
         }
@@ -217,11 +225,6 @@ class jip
         if (sizeof($this->result)) {
             $toolkit = systemToolkit::getInstance();
             $smarty = $toolkit->getSmarty();
-
-            /*$smarty->assign('langs', array(
-            1 => array('ru', 'Русский'),
-            2 => array('en', 'Английский'),
-            ));*/
 
             $smarty->assign('langs', $langs);
 
