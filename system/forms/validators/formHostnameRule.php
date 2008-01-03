@@ -74,7 +74,7 @@ class formHostnameRule extends formAbstractRule
 
         $validChars = 'a-z0-9\-';
         foreach ($domainParts as $part) {
-            if (strpos($part, '-') === 0 || strpos($part, '-', 2) === 2 || strpos($part, '-', 3) === 3 || substr($part, -1) === '-') {
+            if (strpos($part, '-') === 0 || (strlen($part) > 2 && strpos($part, '-', 2) === 2) || (strlen($part) > 3 && strpos($part, '-', 3) === 3) || substr($part, -1) === '-') {
                 return false;
             }
 

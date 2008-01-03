@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('forms/validators/formHostnameRule');
+
 /**
  * formEmailRule: правило, проверяющее имя хоста
  *
