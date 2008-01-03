@@ -55,13 +55,13 @@ class actionTest extends unitTestCase
     {
         $jipActions = array(
         'jipAction' => array ('controller' => 'foo'),
-        'editACL' => array('controller' => 'editACL', 'title' => 'Права доступа', 'icon' => '/templates/images/acl.gif'),
+        'editACL' => array('controller' => 'editACL', 'title' => '_ editACL', 'icon' => '/templates/images/acl.gif'),
         );
         $this->assertEqual($this->action->getJipActions('firstActions'), $jipActions);
 
         $jipActions = array(
         'jipActionFull' => array ('controller' => 'bar', 'title' => 'someTitle', 'confirm' => 'confirm message'),
-        'editACL' => array('controller' => 'editACL', 'title' => 'Права доступа',  'icon' => '/templates/images/acl.gif'),
+        'editACL' => array('controller' => 'editACL', 'title' => '_ editACL',  'icon' => '/templates/images/acl.gif'),
         );
 
         $this->assertEqual($this->action->getJipActions('secondActions'), $jipActions);

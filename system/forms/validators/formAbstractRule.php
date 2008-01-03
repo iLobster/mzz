@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 abstract class formAbstractRule
 {
@@ -56,7 +56,7 @@ abstract class formAbstractRule
      * @param string $errorMsg
      * @param array $params
      */
-    public function __construct($name, $errorMsg = '', $params = '')
+    public function __construct($name = '', $errorMsg = '', $params = '')
     {
         $this->name = $name;
         $this->errorMsg = $errorMsg;
@@ -80,6 +80,16 @@ abstract class formAbstractRule
     public function getErrorMsg()
     {
         return $this->errorMsg;
+    }
+
+    /**
+     * Установка валидируемого значения
+     *
+     * @param mixed $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
     }
 
     /**
