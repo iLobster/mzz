@@ -15,7 +15,7 @@
 /**
  * pager: класс генерации списка страниц для постраничного вывода информации
  *
- * @package system
+ * @package modules
  * @subpackage pager
  * @version 0.2.2
  */
@@ -305,7 +305,7 @@ class pager
      * @param string $tpl имя шаблона отображения страниц
      * @return string
      */
-    public function toString($tpl = 'pager.tpl')
+    public function toString($tpl = 'pager/pager.tpl')
     {
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();
