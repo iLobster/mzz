@@ -135,8 +135,8 @@ class pager
      */
     public function getRealPage()
     {
-        $page = $this->page > 0 ? $this->page : 1;
-        return $this->reverse ? $this->getPagesTotal() - $page + 1 : $page;
+        $this->detectPageNumber();
+        return $this->reverse ? $this->getPagesTotal() - $this->page + 1 : $this->page;
     }
 
     /**
@@ -146,6 +146,7 @@ class pager
      */
     public function getPage()
     {
+        $this->detectPageNumber();
         return $this->page;
     }
 
@@ -238,6 +239,17 @@ class pager
     }
 
     /**
+     * Определение текущего номера страницы
+     *
+     */
+    private function detectPageNumber()
+    {
+        if ($this->page <= 0) {
+            $this->page = $this->reverse ? $this->getPagesTotal() : 1;
+        }
+    }
+
+    /**
      * метод получения сгенерированного "пейджинга" в массив
      * во избежание повторного проведения аналогичных вычислений результаты кешируются в памяти
      *
@@ -252,9 +264,7 @@ class pager
 
             $pagesTotal = $this->getPagesTotal();
 
-            if ($this->page <= 0) {
-                $this->page = $this->reverse ? $pagesTotal : 1;
-            }
+            $this->detectPageNumber();
 
             if ($this->itemsCount > 0) {
                 $firstPage = $this->reverse ? $pagesTotal : 1;
