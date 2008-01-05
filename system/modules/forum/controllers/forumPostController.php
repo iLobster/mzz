@@ -19,7 +19,7 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage forum
- * @version 0.1
+ * @version 0.1.1
  */
 
 class forumPostController extends simpleController
@@ -71,7 +71,7 @@ class forumPostController extends simpleController
                 // в этом случае - добавляем текущее сообщение к предыдущему
                 if ($thread->getLastPost()->getPostDate() >= $time && $thread->getLastPost()->getAuthor()->getId() == $user->getId()) {
                     $post = $thread->getLastPost();
-                    $post->setPostDate(new sqlFunction('UNIX_TIMESTAMP'));
+                    $post->setEditDate(new sqlFunction('UNIX_TIMESTAMP'));
                     $isEdit = true;
                     $this->smarty->assign('post', $post);
                     $this->smarty->assign('text', $text);
