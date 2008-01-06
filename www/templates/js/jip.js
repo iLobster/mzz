@@ -709,8 +709,8 @@ jipMenu = Class.create({
         }
     },
 
-    close: function() {
-        this.closeLang();
+    close: function(immediately) {
+        this.closeLang(immediately);
         this.jipMenu.setStyle({'display': 'none'});
 
         this.jipMenu.stopObserving("mouseout", this.eventMouseOut);
@@ -726,14 +726,15 @@ jipMenu = Class.create({
         this.jipButton = false;
     },
 
-    closeLang: function() {
+    closeLang: function(immediately) {
         if (!this.jipLangMenu) return;
 
         $(this.langParent).cells[1].removeClassName('jipItemTextWithLanguage');
         $(this.langParent).cells[1].removeClassName('jipItemTextActive');
         this.langParent = null;
-        //this.jipLangMenu.setStyle({'display': 'none'});
-        Effect.Fade(this.jipLangMenu.identify(), { duration: 0.2 });
+        if (immediately) this.jipLangMenu.setStyle({'display': 'none'});
+        else Effect.Fade(this.jipLangMenu.identify(), { duration: 0.2 });
+
         this.jipLangMenu.stopObserving("mouseout", this.eventMouseOut);
         this.jipLangMenu.stopObserving("mouseover", this.eventMouseIn);
         this.jipLangMenu = false;
@@ -887,7 +888,7 @@ jipMenu = Class.create({
                 var jipMenuTableTR = new Element('tr');
 
                 jipMenuTableTR.observe('click', function () {
-                    jipMenu.close();
+                    jipMenu.close(true);
                     return jipWindow.open(linkWithLang);
                 });
 
@@ -912,7 +913,7 @@ jipMenu = Class.create({
                 });
                 var jipMenuItemA = new Element('a', {href: linkWithLang});
                 jipMenuItemA.observe('click', function(event) {
-                    jipMenu.close();
+                    jipMenu.close(true);
                     event.stop();
                     return jipWindow.open(linkWithLang);
                 });

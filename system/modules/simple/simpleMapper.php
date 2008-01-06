@@ -1146,7 +1146,7 @@ abstract class simpleMapper
                 // проверяем что передан объект нужного типа
                 if (!($val instanceof $className)) {
                     $mutator = $map[$key]['mutator'];
-                    throw new mzzInvalidParameterException('С помощью мутатора ' . $mutator . ' должен быть передан объект типа ' . $className . ', однако передан объект', $val);
+                    throw new mzzInvalidParameterException('Мутатор ' . get_class($object) . '::' . $mutator . '() может принимать в качестве аргумента только объект типа ' . $className . ', а передано:', $val);
                 }
 
                 // получаем нужный маппер

@@ -524,7 +524,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
         echo '<p class="title"><a name="' . $_REQUEST['cat'] . '"></a><span class="titleNumber">' . $paths[$_REQUEST['cat']][1] . '</span> ' . $paths[$_REQUEST['cat']][2] . '</p>';
         if (isset($menu[$category][$tmp]) && is_array($menu[$category][$tmp])) {
-            $i = 'A';
+            $i = '1';
             echo "<dl>";
             foreach($menu[$category][$tmp] as $title => $value) {
                 $meta = (is_array($value)) ? $title : $value;
@@ -541,14 +541,14 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
 
         if(isset($menu[$category][$tmp]) && is_array($menu[$category][$tmp])) {
-            $i = 'A';
+            $i = '1';
             foreach ($menu[$category][$tmp] as $key => $title) {
                 $meta = explode('.', $title, 2);
                 $title = trim($meta[1]);
                 $link = trim($meta[0]);
                 $id = $_REQUEST['cat'] . '.' . $link;
                 $num = $i++;
-                echo '<div class="subtitle"><a name="' . $id . '"></a><span class="titleNumber">' . $num . '.</span> ' . $title . '</div>';
+                echo '<div class="subtitle"><a name="' . $id . '"></a><span class="titleNumber">Part ' . $num . '.</span> ' . $title . '</div>';
                 echo render($id);
             }
         } else {

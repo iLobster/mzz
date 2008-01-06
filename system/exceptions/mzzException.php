@@ -130,6 +130,10 @@ class mzzException extends Exception
                 $str = '\'' . $arg . '\'';
                 break;
 
+            case is_null($arg):
+                $str = 'NULL';
+                break;
+
             case is_scalar($arg):
                 if (is_bool($arg)) {
                     $str = $arg ? 'true' : 'false';

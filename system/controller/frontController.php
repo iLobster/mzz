@@ -23,16 +23,17 @@
 class frontController
 {
     /**
-     * Префикс имени шаблона
+     * Префикс имени активного шаблона
      *
      */
     const TPL_PRE = "act/";
 
     /**
-     * Расширение шаблона
+     * Расширение активного шаблона
      *
      */
     const TPL_EXT = ".tpl";
+
     /**
      * iRequest
      *
@@ -51,7 +52,7 @@ class frontController
      * конструктор класса
      *
      * @param iRequest $request
-     * @param $path путь до папки с шаблонами
+     * @param string $path путь до папки с шаблонами
      */
     public function __construct($request, $path)
     {
@@ -73,7 +74,7 @@ class frontController
         if (file_exists($this->path . '/' . $tpl_name)) {
             return $tpl_name;
         }
-        throw new mzzRuntimeException('Не найден активный шаблон для section = <i>"' . $section . '"</i>, action = <i>"' . $action . '"</i>');
+        throw new mzzRuntimeException('Не найден активный шаблон: <i>' . $this->path . '/' . $tpl_name . '</i>');
     }
 }
 

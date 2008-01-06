@@ -7,7 +7,7 @@
 /**
 &nbsp;* &#036;URL&#036;
 &nbsp;*
-&nbsp;* MZZ Content Management System (c) 2005-2007
+&nbsp;* MZZ Content Management System (c) 2005-2008
 &nbsp;* Website : http://www.mzz.ru
 &nbsp;*
 &nbsp;* This program is free software and released under
