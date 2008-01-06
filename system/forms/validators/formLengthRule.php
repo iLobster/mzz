@@ -42,17 +42,6 @@ class formLengthRule extends formAbstractRule
         }
 
         throw new mzzRuntimeException('Отствуют необходимые аргументы');
-        /*if (!isset($this->params[0])) {
-        throw new mzzRuntimeException('Отсутствует имя второй переменной для сравнения');
-        }
-
-        $second = systemToolkit::getInstance()->getRequest()->get($this->params[0], 'string', SC_REQUEST);
-
-        if (is_null($second)) {
-        throw new mzzRuntimeException('Вторая переменная не определена');
-        }
-
-        return (!isset($this->params[1]) || $this->params[1]) ? $this->value == $second : $this->value != $second;*/
     }
 }
 
