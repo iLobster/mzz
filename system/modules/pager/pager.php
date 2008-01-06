@@ -201,9 +201,7 @@ class pager
 
         if ($this->page <= 0) {
             $this->page = $this->reverse ? $this->getPagesTotal() : 1;
-        }
-
-        if ($this->page > $this->getPagesTotal()) {
+        } elseif ($this->page > $this->getPagesTotal()) {
             $this->page = $this->getPagesTotal();
         }
     }
