@@ -56,12 +56,14 @@ class forumLastController extends simpleController
 
         if (!$last_post) {
             $last_post['id'] = $cnt['max_id'];
+        } else {
+            $cnt['cnt']++;
         }
 
         // в конфиг закинуть число постов и тредов на странице
         $per_page = 5;
 
-        $page = ceil(($cnt['cnt'] + 1) / $per_page);
+        $page = ceil($cnt['cnt'] / $per_page);
 
         $url = new url('withId');
         $url->setAction('thread');
