@@ -91,6 +91,20 @@ class formLengthRuleTest extends UnitTestCase
         $rule = new formLengthRule('string', '', array(null, 1));
         $this->assertFalse($rule->validate());
     }
+
+    public function testUnexpectedArgs()
+    {
+        $_POST['string'] = 'string';
+        $this->request->refresh();
+
+        $rule = new formLengthRule('string', '', array(666));
+        try {
+            $rule->validate();
+            $this->fail('Должно быть брошено исключение');
+        } catch (mzzRuntimeException $e) {
+            $this->pass();
+        }
+    }
 }
 
 ?>
