@@ -36,7 +36,7 @@ class forumLastController extends simpleController
         $criteria->addSelectField(new sqlFunction('count', '*', true), 'cnt');
         $criteria->addSelectField(new sqlFunction('max', 'id', true), 'max_id');
         $criteria->add('thread_id', $id);
-        $criteria->add('post_date', $time, criteria::LESS);
+        $criteria->add('post_date', $time, criteria::LESS_EQUAL);
 
         $select = new simpleSelect($criteria);
 
@@ -61,7 +61,7 @@ class forumLastController extends simpleController
         // в конфиг закинуть число постов и тредов на странице
         $per_page = 5;
 
-        $page = ceil($cnt['cnt'] / $per_page);
+        $page = ceil(($cnt['cnt'] + 1) / $per_page);
 
         $url = new url('withId');
         $url->setAction('thread');
