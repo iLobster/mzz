@@ -24,6 +24,7 @@
         </tr>
     </table>
 </form>
+{if !$isEdit}
 <br />
 Обзор темы (новые сверху)
 {foreach from=$posts item="ppost"}
@@ -32,13 +33,10 @@
             <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;">
                 <a name="post_{$ppost->getId()}"></a>{$ppost->getAuthor()->getLogin()}, {$ppost->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $ppost->getEditDate()}, отредактировано {$ppost->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
             </td>
-            <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;" align="right">
-            {*{math equation="(page - 1)* per_page + number" page=$pager->getRealPage() per_page=$pager->getPerPage() number=$smarty.foreach.post_cycle.iteration assign=post_number}
-                <a href="{url route="withId" id=$post->getId() action="goto"}">#{$post_number}</a>*}
-            </td>
         </tr>
         <tr>
             <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px" colspan="2">{$ppost->getText()|htmlspecialchars|nl2br}</td>
         </tr>
     </table>
 {/foreach}
+{/if}
