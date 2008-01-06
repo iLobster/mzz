@@ -63,7 +63,7 @@ class forumPostController extends simpleController
             $text = $this->request->get('text', 'string', SC_POST);
 
             if (!$isEdit) {
-                $time = time('tomorrow');
+                $time = strtotime('tomorrow');
                 if ($thread->getLastPost()->getAuthor()->getId() == $user->getId() && $thread->getPostsCount()) {
                     $time = time() - (($thread->getLastPost()->getPostDate() - $thread->getFirstPost()->getPostDate()) / $thread->getPostsCount());
                 }
