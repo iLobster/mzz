@@ -31,7 +31,8 @@ class forumThreadController extends simpleController
 
         $thread = $threadMapper->searchByKey($id);
 
-        $this->setPager($postsMapper, 5);
+        $config = $this->toolkit->getConfig('forum');
+        $this->setPager($postsMapper, $config->get('posts_per_page'));
 
         $posts = $postsMapper->searchAllByField('thread_id', $id);
 

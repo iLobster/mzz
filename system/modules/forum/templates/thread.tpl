@@ -67,5 +67,5 @@
 {if $pager->getPagesTotal() > 1}
     <div class="pages">{$pager->toString()}</div>
 {/if}
-
-{load module="forum" action="post" id=$thread->getId() 403handle="manual"}
+<br /><br />
+{load module="forum" action="post" id=$thread->getId() 403handle="manual" quickpost="true"}

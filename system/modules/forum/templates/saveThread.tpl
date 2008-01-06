@@ -1,10 +1,13 @@
-<div class="jipTitle">
+<a href="{url route="default2" action="forum"}">Форум</a> / <a href="{url route="withId" action="list" id=$forum->getId()}">{$forum->getTitle()}</a> /
 {if $isEdit}
+    {title append="Редактирование треда"}
+    {title append=$thread->getTitle()}
     Редактирование треда "<strong>{$thread->getTitle()}</strong>"
 {else}
-    Создание нового треда в форуме "<strong>{$forum->getTitle()}</strong>"
+    {title append="Создание нового треда в форуме"}
+    {title append=$forum->getTitle()}
+    Создание нового треда
 {/if}
-</div>
 
 <form action="{$action}" method="post">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
@@ -30,7 +33,7 @@
             <td style='width: 80%;'>{form->checkbox name="closed" value=$thread->getIsClosed()} {$errors->get('closed')}</td>
         </tr>{/if}
         <tr>
-            <td>{form->submit name="submit" value="Отправить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="Отправить"}</td>
         </tr>
     </table>
 </form>

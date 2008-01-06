@@ -106,10 +106,7 @@ class forumSaveThreadController extends simpleController
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('thread', $thread);
 
-        if (!$isEdit) {
-            $this->smarty->assign('forum', $forum);
-        }
-
+        $this->smarty->assign('forum', (!$isEdit ? $forum : $thread->getForum()));
         return $this->smarty->fetch('forum/saveThread.tpl');
     }
 }

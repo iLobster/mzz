@@ -32,6 +32,7 @@ class forumPostController extends simpleController
         $user = $this->toolkit->getUser();
 
         $id = $this->request->get('id', 'integer');
+        $isQuickPost = $this->request->get('quickpost', 'boolean');
 
         $threadMapper = $this->toolkit->getMapper('forum', 'thread');
         $postMapper = $this->toolkit->getMapper('forum', 'post');
@@ -109,11 +110,22 @@ class forumPostController extends simpleController
         $url->setAction($action);
         $url->add('id', $id);
 
+        if (!$isQuickPost) {
+            $config = $this->toolkit->getConfig('forum');
+            $criteria = new criteria;
+            $criteria->add('thread_id', $thread->getId())->setOrderByFieldDesc('id')->setLimit($config->get('posts_per_page'));
+
+            $posts = $postMapper->searchAllByCriteria($criteria);
+            $this->smarty->assign('posts', $posts);
+        }
+
         $this->smarty->assign('post', $post);
+        $this->smarty->assign('thread', $thread);
         $this->smarty->assign('isEdit', $isEdit);
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('action', $url->get());
-        return $this->smarty->fetch('forum/post.tpl');
+
+        return $this->smarty->fetch($isQuickPost ? 'forum/quickpost.tpl' : 'forum/post.tpl');
     }
 }
 

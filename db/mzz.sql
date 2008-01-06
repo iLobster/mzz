@@ -577,7 +577,7 @@ CREATE TABLE `forum_forum` (
 INSERT INTO `forum_forum` (`id`, `title`, `category_id`, `order`, `obj_id`, `threads_count`, `posts_count`, `last_post`, `description`) VALUES 
   (5,'Игры',3,2,1252,0,0,NULL,''),
   (6,'Web-программирование',4,1,1254,0,0,NULL,'Perl, PHP, JavaScript, HTML и другие языки под веб.'),
-  (4,'Операционные системы',3,1,1251,1,7,90,'Выбор, установка, настройка, решение проблем с операционными системами.');
+  (4,'Операционные системы',3,1,1251,1,8,91,'Выбор, установка, настройка, решение проблем с операционными системами.');
 
 COMMIT;
 
@@ -611,9 +611,10 @@ INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thr
   (89,'Давно ты разговариваешь сам с собой?',2,1198826567,NULL,25,1264),
   (42,'фывафывф',2,1188271348,NULL,19,989),
   (43,'фывафывф',2,1188271367,NULL,20,993),
-  (84,'Не придумали',2,1198826477,1198826488,25,1255),
+  (84,'Не придумали',2,1198826477,1199548387,25,1255),
   (85,'Я тока за!',2,1198826529,NULL,25,1260),
-  (86,'Голосуй, а то проиграешь',2,1198826540,NULL,25,1261);
+  (86,'Голосуй, а то проиграешь',2,1198826540,NULL,25,1261),
+  (91,'херассе',2,1199549454,NULL,25,1266);
 
 COMMIT;
 
@@ -646,7 +647,7 @@ CREATE TABLE `forum_thread` (
 #
 
 INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `sticky`, `stickyfirst`, `first_post`, `view_count`) VALUES 
-  (25,'Правила раздела',6,1198826221,2,4,1256,90,0,1,1,84,0);
+  (25,'Правила раздела',7,1198826221,2,4,1256,91,0,1,1,84,2);
 
 COMMIT;
 
@@ -5580,7 +5581,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1245,7),
   (1246,40),
   (1247,40),
-  (1248,11);
+  (1248,11),
+  (1266,35);
 
 COMMIT;
 
@@ -5710,7 +5712,8 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
   (22,0,12),
   (23,0,17),
   (24,0,18),
-  (25,0,16);
+  (25,0,16),
+  (26,0,15);
 
 COMMIT;
 
@@ -5742,7 +5745,8 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
   (8,'Количество последних фотографий'),
   (9,''),
   (10,'public_path'),
-  (11,'Длина строки');
+  (11,'Длина строки'),
+  (12,'Количество постов на странице');
 
 COMMIT;
 
@@ -5810,7 +5814,8 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `type_id`, `value
   (47,21,7,8,1,'5'),
   (48,18,1,1,1,'10'),
   (49,18,2,2,1,'../files'),
-  (50,7,8,10,1,'/files');
+  (50,7,8,10,1,'/files'),
+  (54,26,11,12,2,'30');
 
 COMMIT;
 
@@ -5841,7 +5846,8 @@ INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
   (7,'last_photo_number'),
   (8,'public_path'),
   (9,'strlen'),
-  (10,'length');
+  (10,'length'),
+  (11,'posts_per_page');
 
 COMMIT;
 
@@ -7520,7 +7526,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1262),
   (1263),
   (1264),
-  (1265);
+  (1265),
+  (1266);
 
 COMMIT;
 
@@ -7770,7 +7777,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1198040969),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1198818024),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1199541490),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7797,7 +7804,8 @@ CREATE TABLE `user_userAuth` (
 
 INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
   (99,2,'127.0.0.1','dce90074dbaf9f432b382f1e7a7a6d56',NULL,1198124103),
-  (92,2,'127.0.0.1','6bd1efd64e318d5f4fd08f1d267e7319',NULL,1196820540);
+  (92,2,'127.0.0.1','6bd1efd64e318d5f4fd08f1d267e7319',NULL,1196820540),
+  (100,2,'127.0.0.1','11b46a73d07132b189997ff55ede1731',NULL,1199541613);
 
 COMMIT;
 
@@ -7852,7 +7860,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (234,2,'4e15f27b4c8dcd95770b8a1b40e7c3f9',1198827131,'http://mzz/ru/forum/25/thread?page=2','127.0.0.1');
+  (237,2,'1c4179f1c6767b379651409488a10ae0',1199549713,'http://mzz/ru/forum/25/post','127.0.0.1');
 
 COMMIT;
 
