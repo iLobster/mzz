@@ -1,7 +1,11 @@
+{title append="Форум"}
+{title append=$thread->getForum()->getTitle()}
+{title append=$thread->getTitle()}
+
 <a href="{url route="default2" action="forum"}">Форум</a> / <a href="{url route="withId" action="list" id=$thread->getForum()->getId()}">{$thread->getForum()->getTitle()}</a> / {$thread->getTitle()}
 {if $thread->getACL('post')} (<a href="{url route="withId" action="post" id=$thread->getId()}">Ответить</a>){/if}<br /><br />
 
-{if $thread->getIsStickyFirst() && $pager->getPage() != 1}
+{if $thread->getIsStickyFirst() && $pager->getRealPage() != 1}
 {assign var="post" value=$thread->getFirstPost()}
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr style="background-color: #EFF2F5;">

@@ -1,3 +1,6 @@
+{title append="Форум"}
+{title append=$forum->getTitle()}
+
 <a href="{url route=default2 action=forum}">Форум</a> / {$forum->getTitle()}
 {if $forum->getAcl('newThread')} (<a href="{url route=withId action=newThread id=$forum->getId()}">Начать новую тему</a>){/if}<br />
 <table border="0" cellpadding="0" cellspacing="0" width="100%">

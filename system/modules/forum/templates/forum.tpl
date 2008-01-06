@@ -1,3 +1,5 @@
+{title append="Форум"}
+
 <a href="{url route=default2 action=new}">показать новые сообщения</a>
 {foreach from=$categories item=category name=cat}
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
