@@ -18,7 +18,7 @@ class formLengthRuleTest extends UnitTestCase
         $this->request->restore();
     }
 
-    public function testLongerThan()
+    public function testLengthEqual()
     {
         $_POST['string'] = 'string';
         $this->request->refresh();
@@ -27,12 +27,32 @@ class formLengthRuleTest extends UnitTestCase
         $this->assertTrue($rule->validate());
     }
 
-    public function testNotLongerThan()
+    public function testLengthNotEqual()
     {
         $_POST['string'] = 'string';
         $this->request->refresh();
 
         $rule = new formLengthRule('string', '', 7);
+        $this->assertFalse($rule->validate());
+        $rule = new formLengthRule('string', '', 5);
+        $this->assertFalse($rule->validate());
+    }
+
+    public function testLongerThan()
+    {
+        $_POST['string'] = 'string';
+        $this->request->refresh();
+
+        $rule = new formLengthRule('string', '', array(3, null));
+        $this->assertTrue($rule->validate());
+    }
+
+    public function testNotLongerThan()
+    {
+        $_POST['string'] = 'string';
+        $this->request->refresh();
+
+        $rule = new formLengthRule('string', '', array(7, null));
         $this->assertFalse($rule->validate());
     }
 

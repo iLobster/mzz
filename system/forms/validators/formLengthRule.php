@@ -30,12 +30,16 @@ class formLengthRule extends formAbstractRule
         $length = strlen($this->value);
 
         if (is_integer($this->params)) {
-            return $length >= $this->params;
+            return $length == $this->params;
         }
 
         if (is_array($this->params) && array_key_exists(0, $this->params) && array_key_exists(1, $this->params)) {
             if (is_null($this->params[0])) {
                 return $length <= $this->params[1];
+            }
+
+            if (is_null($this->params[1])) {
+                return $length >= $this->params[0];
             }
 
             return $length >= $this->params[0] && $length <= $this->params[1];
