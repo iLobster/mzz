@@ -63,13 +63,13 @@ class forumPostController extends simpleController
             $text = $this->request->get('text', 'string', SC_POST);
 
             if (!$isEdit) {
-                $time = 0;
-                if ($thread->getPostsCount()) {
+                $time = time('tomorrow');
+                if ($thread->getLastPost()->getAuthor()->getId() == $user->getId() && $thread->getPostsCount()) {
                     $time = time() - (($thread->getLastPost()->getPostDate() - $thread->getFirstPost()->getPostDate()) / $thread->getPostsCount());
                 }
                 // проверяем - что предыдущий пост был того же автора и время между последним постом и текущим - меньше среднего времени между постами
                 // в этом случае - добавляем текущее сообщение к предыдущему
-                if ($thread->getLastPost()->getPostDate() >= $time && $thread->getLastPost()->getAuthor()->getId() == $user->getId()) {
+                if ($thread->getLastPost()->getPostDate() >= $time) {
                     $post = $thread->getLastPost();
                     $post->setEditDate(new sqlFunction('UNIX_TIMESTAMP'));
                     $isEdit = true;

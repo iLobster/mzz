@@ -14,7 +14,15 @@
     </tr>
     {foreach from=$stickys item="thread"}
         <tr bgcolor="#FFF000">
-            <td>Важно!!!</td>
+            <td>
+                Важно!!!
+                {if $thread->isNew()}
+                    <span style="color: red;">new!!!</span>
+                {/if}
+                {if $thread->isPopular()}
+                    <span style="color: blue;">popular!!!</span>
+                {/if}
+            </td>
             <td style="padding: 5px;">
                 <a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a>
                 {assign var=id value=$thread->getId()}
