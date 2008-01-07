@@ -109,16 +109,14 @@ class i18n
      * @param callback $generatorCallback
      * @return string
      */
-    public function replacePlaceholders($phrase, $args_str, $generatorCallback = false)
+    public function replacePlaceholders($phrase, $args, $generatorCallback = false)
     {
-        if (!is_array($args_str)) {
-            if (!strlen($args_str)) {
+        if (!is_array($args)) {
+            if (!strlen($args)) {
                 return $phrase;
             }
 
-            $args = $this->splitArguments($args_str);
-        } else {
-            $args = $args_str;
+            $args = $this->splitArguments($args);
         }
 
         $variables = array();
