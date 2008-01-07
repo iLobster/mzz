@@ -614,7 +614,29 @@ INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thr
   (84,'Не придумали',2,1198826477,1199548387,25,1255),
   (85,'Я тока за!',2,1198826529,NULL,25,1260),
   (86,'Голосуй, а то проиграешь',2,1198826540,NULL,25,1261),
-  (91,'херассе',2,1199549454,NULL,25,1266);
+  (91,'херассе\r\n\r\nдобавлено ( 6 January 2008 / 15:31:38)\r\n\r\ntest\r\n\r\nдобавлено ( 6 January 2008 / 15:32:41)\r\n\r\ntest\r\n\r\nдобавлено ( 6 January 2008 / 15:32:47)\r\n\r\nsdf\r\n\r\nдобавлено ( 6 January 2008 / 15:49:24)\r\n\r\nfasdf',2,1199549454,1199594964,25,1266);
+
+COMMIT;
+
+#
+# Structure for the `forum_profile` table : 
+#
+
+DROP TABLE IF EXISTS `forum_profile`;
+
+CREATE TABLE `forum_profile` (
+  `user_id` int(11) NOT NULL default '0',
+  `messages` int(11) NOT NULL default '0',
+  `signature` text NOT NULL,
+  UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Data for the `forum_profile` table  (LIMIT 0,500)
+#
+
+INSERT INTO `forum_profile` (`user_id`, `messages`, `signature`) VALUES 
+  (2,0,'');
 
 COMMIT;
 
@@ -647,7 +669,7 @@ CREATE TABLE `forum_thread` (
 #
 
 INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `sticky`, `stickyfirst`, `first_post`, `view_count`) VALUES 
-  (25,'Правила раздела',7,1198826221,2,4,1256,91,0,1,1,84,2);
+  (25,'Правила раздела',7,1198826221,2,4,1256,91,0,1,1,84,3);
 
 COMMIT;
 
@@ -5910,7 +5932,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (44,'tags',17),
   (45,'tagsItem',17),
   (46,'tagsItemRel',17),
-  (47,'captcha',18);
+  (47,'captcha',18),
+  (48,'profile',15);
 
 COMMIT;
 
@@ -6108,8 +6131,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (253,1,97),
   (254,47,9),
   (255,47,3),
-  (256,48,9),
-  (257,49,9);
+  (258,48,9);
 
 COMMIT;
 
@@ -6175,9 +6197,7 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (41,44,17),
   (42,46,17),
   (43,47,18),
-  (44,48,7),
-  (45,49,7),
-  (46,49,6);
+  (47,48,15);
 
 COMMIT;
 
@@ -7777,7 +7797,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1198040969),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1199541490),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1199549713),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1190001055);
 
 COMMIT;
@@ -7860,7 +7880,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (237,2,'1c4179f1c6767b379651409488a10ae0',1199549713,'http://mzz/ru/forum/25/post','127.0.0.1');
+  (238,2,'a12394b66ed1f26e0c914905b7e55fca',1199595961,'http://mzz/ru/forum/forum','127.0.0.1');
 
 COMMIT;
 
