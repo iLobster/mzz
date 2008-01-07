@@ -1,5 +1,12 @@
-*
+* Smarty_Compiler.class.php:
 метод Smarty_Compiler::_parse_attrs(), строки 1577-1579:
                         if (i18n::isName($trimmed = trim($token, '"'))) {
                             $token = '"' . smarty_prefilter_i18n('{' . $trimmed . '}', $smarty) . '"';
                         }
+
+строки 163-164:
+        $this->_obj_start_regexp = '(?:' . $this->_dvar_regexp . '(?:' . $this->_obj_ext_regexp . ')+)';
+        $this->_obj_call_regexp = '(?:' . $this->_obj_start_regexp . '(?:' . $this->_obj_params_regexp . ')?(?:' . $this->_dvar_math_regexp . '(?:' . $this->_num_const_regexp . '|' . $this->_dvar_math_var_regexp . ')*)?)';
+заменены для поддержки вызова метода через другие объекты (*->*->*...) на:
+        $this->_obj_start_regexp = '(?:' . $this->_dvar_regexp . '(?:' . $this->_obj_ext_regexp . '(?:'.$this->_obj_params_regexp.')?)+)';
+        $this->_obj_call_regexp = '(?:' . $this->_obj_start_regexp . '(?:' . $this->_dvar_math_regexp . '(?:' . $this->_num_const_regexp .'|' . $this->_dvar_math_var_regexp . ')*)?)';

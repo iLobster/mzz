@@ -27,9 +27,12 @@ class formTextField extends formElement
             $options['type'] = 'text';
         }
 
-        $value = isset($options['value']) ? $options['value'] : '';
-        if (isset($options['name']) && $options['type'] != 'password') {
-            $options['value'] = self::getValue($options['name'], $value);
+        if (!isset($options['value']) || $options['type'] == 'password') {
+            $options['value'] = '';
+        }
+
+        if (isset($options['name'])) {
+            $options['value'] = self::getValue($options['name'], $options['value']);
         }
 
         return self::createTag($options);
