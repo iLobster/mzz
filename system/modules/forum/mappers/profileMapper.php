@@ -38,7 +38,31 @@ class profileMapper extends simpleMapper
      */
     protected $className = 'profile';
 
+    protected $tableKey = 'user_id';
+
     protected $obj_id_field = null;
+
+    public function searchByUser(user $user)
+    {
+        $profile = $this->searchByKey((int)$user->getId());
+
+        if (!$profile) {
+            $profile = $this->createNewProfile($user);
+        }
+
+        return $profile;
+    }
+
+    public function createNewProfile(user $user)
+    {
+        $profile = $this->create();
+        $profile->setUser($user);
+        $profile->setMessages(0);
+
+        $this->save($profile);
+
+        return $profile;
+    }
 
     /**
      * Возвращает доменный объект по аргументам

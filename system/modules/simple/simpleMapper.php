@@ -356,6 +356,9 @@ abstract class simpleMapper
 
             $criteria->add($this->className . '.' . $this->tableKey, $id);
 
+            $simple = new simpleSelect($criteria);
+            echo $simple->toString();
+
             $stmt = $this->searchByCriteria($criteria);
 
             $fields = $stmt->fetch();

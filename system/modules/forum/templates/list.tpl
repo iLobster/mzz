@@ -1,8 +1,8 @@
 {title append="Форум"}
 {title append=$forum->getTitle()}
 
-<a href="{url route=default2 action=forum}">Форум</a> / {$forum->getTitle()}
-{if $forum->getAcl('newThread')} (<a href="{url route=withId action=newThread id=$forum->getId()}">Начать новую тему</a>){/if}<br />
+<a href="{url route="default2" action="forum"}">Форум</a> / {$forum->getTitle()}
+{if $forum->getAcl('newThread')} (<a href="{url route="withId" action="newThread" id=$forum->getId()}">Начать новую тему</a>){/if}<br />
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr style="background-color: #EFF2F5;">
         <td style="padding: 5px; text-align: center; border-bottom: 1px solid #DEE4EB;">&nbsp;</td>
@@ -24,8 +24,8 @@
                 {/if}
             </td>
             <td style="padding: 5px;">
-                <a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a>
-                {assign var=id value=$thread->getId()}
+                <a href="{url route="withId" action="thread" id=$thread->getId()}">{$thread->getTitle()}</a>
+                {assign var="id" value=$thread->getId()}
                 {if not empty($pagers.$id)}
                     {$pagers.$id->toString('forum/pager.tpl')}
                 {/if}
@@ -33,7 +33,7 @@
             <td style="padding: 5px; text-align: center;">{$thread->getAuthor()->getLogin()}</td>
             <td style="padding: 5px; text-align: center;">{$thread->getPostsCount()}</td>
             <td style="padding: 5px; text-align: center;">{if $thread->getViewCount()}{$thread->getViewCount()}{else}0{/if}</td>
-            <td>{$thread->getLastPost()->getAuthor()->getLogin()}, <a href="{url route=withId action=last id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
+            <td>{$thread->getLastPost()->getAuthor()->getLogin()}, <a href="{url route="withId" action="last" id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
         </tr>
     {/foreach}
     {foreach from=$threads item="thread"}

@@ -24,22 +24,21 @@ class profile extends simple
 {
     protected $name = 'forum';
 
+    public function getAuthorId()
+    {
+        $user = parent::__call('getUser', array());
+        return $user->getId();
+    }
+
     public function __call($name, $args)
     {
         try {
             parent::__call($name, $args);
         } catch (mzzRuntimeException $e) {
             $user = parent::__call('getUser', array());
-            return $user->__call($name, $args);
-        }
-    }
-
-    public function getAuthor()
-    {
-        $profile = parent::__call('getAuthor', array());
-        if (!$profile) {
-            $profile = $this->mapper->create();
-            $profile->setUser(systemToolkit::getInstance()->getUser());
+            if ($user) {
+                return $user->__call($name, $args);
+            }
         }
     }
 }
