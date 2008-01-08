@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.16
+ * @version 0.3.17
  */
 
 abstract class simpleMapper
@@ -330,6 +330,18 @@ abstract class simpleMapper
             $stmt->bindValues($fields_lang_independent);
             $id = $stmt->execute();
 
+            // если в таблице отсутствует автоинкрементный первичный ключ
+            if (is_bool($id)) {
+                // но он есть в списке полей
+                if (isset($fields_lang_independent[$this->tableKey])) {
+                    // присваиваем id значение из массива добавляемых данных
+                    $id = $fields_lang_independent[$this->tableKey];
+                } else {
+                    // иначе - кидаем исключение
+                    throw new mzzRuntimeException('Отсутствует первичный ключ');
+                }
+            }
+
             // если в ДО присутствуют языкозависимые поля
             if ($lang_fields) {
                 $fields_lang_dependent[$this->langIdField] = $this->getLangId();
@@ -355,9 +367,6 @@ abstract class simpleMapper
             }
 
             $criteria->add($this->className . '.' . $this->tableKey, $id);
-
-            $simple = new simpleSelect($criteria);
-            echo $simple->toString();
 
             $stmt = $this->searchByCriteria($criteria);
 
