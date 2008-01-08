@@ -37,7 +37,7 @@ class fileManagerUploadController extends simpleController
 
         $validator = new formValidator();
         $validator->add('uploaded', 'file', 'Укажите файл для загрузки');
-        $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-zа-я0-9_\.\-! ]+$/i');
+        $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-zа-я0-9_\.\-! ]+$/ui');
 
         $errors = $validator->getErrors();
 

@@ -37,7 +37,7 @@ class file extends simple
 
     public function getFullPath()
     {
-        return $this->getFolder()->getPath() . '/' . urlencode($this->getName());
+        return $this->getFolder()->getPath() . '/' . rawurlencode($this->getName());
     }
 
     public function getRealFullPath()
@@ -138,7 +138,7 @@ class file extends simple
 
             $mimetypes = $this->mapper->getMimetypes();
             if (!$this->getRightHeader() || !isset($mimetypes[$this->getExt()])) {
-                header("Content-Disposition: attachment; filename=\"" . $name . "\"");
+                header("Content-Disposition: attachment;"); // filename=\"" . rawurlencode($name) . "\"");
                 header("Content-Type: application/x-octetstream");
             } else {
                 header("Content-Type: " . $mimetypes[$this->getExt()]);

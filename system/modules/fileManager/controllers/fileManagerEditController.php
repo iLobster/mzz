@@ -37,7 +37,7 @@ class fileManagerEditController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Обязательное для заполнения поле');
-        $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-zа-я0-9_\.\-! ]+$/i');
+        $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-zа-я0-9_\.\-! ]+$/ui');
         $validator->add('callback', 'name', 'Имя должно быть уникально в пределах каталога', array('checkFilename', $file));
 
         if ($validator->validate()) {
