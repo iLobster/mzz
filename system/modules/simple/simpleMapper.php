@@ -22,11 +22,18 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.17
+ * @version 0.3.18
  */
 
 abstract class simpleMapper
 {
+    /**
+     * Имя для ключа массива, в котором будут храниться скалярные значения связанных объектов
+     *
+     * @var string
+     */
+    public $SCALAR = 'scalar';
+
     /**
      * Константа, определяющая разделитель между именем сущности и именем поля в алиасах для полей в запросах
      *
@@ -573,6 +580,7 @@ abstract class simpleMapper
         $toolkit = systemToolkit::getInstance();
 
         foreach ($this->getOwns() as $key => $val) {
+            $tmp[$this->className][$this->SCALAR][$key] = $tmp[$this->className][$key];
             $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
             $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$key]);
         }
@@ -778,9 +786,9 @@ abstract class simpleMapper
         $row = $stmt->fetch();
 
         if ($row) {
-            $data = $this->fillArray($row);
+            $row = $this->fillArray($row);
 
-            return $this->createItemFromRow($data);
+            return $this->createItemFromRow($row);
         }
         return null;
     }
@@ -1177,6 +1185,10 @@ abstract class simpleMapper
 
                 // делаем вызов полученного акцессора и заменяем объект на строку
                 $fields[$key] = $val->$accessor();
+
+                if (!is_scalar($fields[$key])) {
+                    $fields[$key] = $val->getScalar($fieldName);
+                }
 
                 // отмечаем, что это поле уже было сохранено
                 $saved[$key] = true;

@@ -19,11 +19,18 @@ fileLoader::load('jip/jip');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.6
+ * @version 0.1.7
  */
 
 abstract class simple
 {
+    /**
+     * Свойство для хранения скаляров
+     *
+     * @var array
+     */
+    protected $scalars;
+
     /**
      * Имя модуля
      *
@@ -416,6 +423,21 @@ abstract class simple
     public function getLangId()
     {
         return $this->langId;
+    }
+
+    /**
+     * Возвращение скалярных значений полей, по которым связываются объекты
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function getScalar($name)
+    {
+        if (empty($this->scalars)) {
+            $this->scalars = $this->fakeFields->get($this->mapper->SCALAR);
+        }
+
+        return isset($this->scalars[$name]) ? $this->scalars[$name] : null;
     }
 }
 
