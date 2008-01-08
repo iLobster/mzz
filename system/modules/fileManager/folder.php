@@ -63,7 +63,7 @@ class folder extends simpleForTree
             $name = $info['name'];
         }
 
-        $name = preg_replace('/[^a-zа-я0-9!_. \-\[\]()]/i', '', $name);
+        $name = preg_replace('/[^a-zа-я0-9!_. \-\[\]()]/ui', '', $name);
 
         $criteria = new criteria();
         $criteria->add('folder_id', $this->getId())->add('name', $name);
