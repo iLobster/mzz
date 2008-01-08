@@ -29,6 +29,9 @@ class forumSaveThreadController extends simpleController
         $action = $this->request->getAction();
         $isEdit = ($action == 'editThread');
 
+        $forumProfileMapper = $this->toolkit->getMapper('forum', 'profile');
+        $profile = $forumProfileMapper->searchByUser($this->toolkit->getUser());
+
         $threadMapper = $this->toolkit->getMapper('forum', 'thread');
 
         $id = $this->request->get('id', 'integer');
@@ -65,12 +68,12 @@ class forumSaveThreadController extends simpleController
                 $post->setText($text);
                 $postMapper->save($post);
             } else {
-                $thread->setAuthor($me = $this->toolkit->getUser());
+                $thread->setAuthor($profile);
                 $thread->setForum($forum);
 
                 $post = $postMapper->create();
                 $post->setText($text);
-                $post->setAuthor($me);
+                $post->setAuthor($profile);
                 $post->setThread($thread);
 
                 $postMapper->save($post);

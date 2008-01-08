@@ -30,10 +30,10 @@
                     {$pagers.$id->toString('forum/pager.tpl')}
                 {/if}
             </td>
-            <td style="padding: 5px; text-align: center;">{$thread->getAuthor()->getLogin()}</td>
+            <td style="padding: 5px; text-align: center;">{$thread->getAuthor()->getUser()->getLogin()}</td>
             <td style="padding: 5px; text-align: center;">{$thread->getPostsCount()}</td>
             <td style="padding: 5px; text-align: center;">{if $thread->getViewCount()}{$thread->getViewCount()}{else}0{/if}</td>
-            <td>{$thread->getLastPost()->getAuthor()->getLogin()}, <a href="{url route="withId" action="last" id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
+            <td>{$thread->getLastPost()->getAuthor()->getUser()->getLogin()}, <a href="{url route="withId" action="last" id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
         </tr>
     {/foreach}
     {foreach from=$threads item="thread"}
@@ -57,10 +57,10 @@
                     {$pagers.$id->toString('forum/pager.tpl')}
                 {/if}
             </td>
-            <td style="padding: 5px; text-align: center;">{$thread->getAuthor()->getLogin()}</td>
+            <td style="padding: 5px; text-align: center;">{$thread->getAuthor()->getUser()->getLogin()}</td>
             <td style="padding: 5px; text-align: center;">{$thread->getPostsCount()}</td>
             <td style="padding: 5px; text-align: center;">{if $thread->getViewCount()}{$thread->getViewCount()}{else}0{/if}</td>
-            <td>{$thread->getLastPost()->getAuthor()->getLogin()}, <a href="{url route=withId action=last id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
+            <td>{$thread->getLastPost()->getAuthor()->getUser()->getLogin()}, <a href="{url route="withId" action="last" id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
         </tr>
     {/foreach}
 </table>

@@ -10,7 +10,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr style="background-color: #EFF2F5;">
             <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;">
-                <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
+                <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getUser()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
                 {if $thread->getFirstPost()->getId() eq $post->getId()}
                     {if $thread->getAcl('editThread')}
                         <a href="{url route="withId" action="editThread" id=$thread->getId()}">Редактировать</a>
@@ -39,7 +39,7 @@
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr style="background-color: #EFF2F5;">
             <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;">
-                <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
+                <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getUser()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
                 {if $thread->getFirstPost()->getId() eq $post->getId()}
                     {if $thread->getAcl('editThread')}
                         <a href="{url route="withId" action="editThread" id=$thread->getId()}">Редактировать</a>

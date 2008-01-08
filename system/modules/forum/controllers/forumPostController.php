@@ -39,9 +39,6 @@ class forumPostController extends simpleController
         $profileMapper = $this->toolkit->getMapper('forum', 'profile');
 
         $profile = $profileMapper->searchByUser($user);
-        var_dump($profile);
-        echo $profile->getId();
-        exit;
 
         if ($isEdit) {
             $post = $postMapper->searchByKey($id);
@@ -71,7 +68,7 @@ class forumPostController extends simpleController
 
             if (!$isEdit) {
                 $time = strtotime('tomorrow');
-                if ($thread->getLastPost()->getAuthor()->getAuthorId() == $user->getId() && $thread->getPostsCount()) {
+                if ($thread->getLastPost()->getAuthor()->getId() == $user->getId() && $thread->getPostsCount()) {
                     $time = time() - (($thread->getLastPost()->getPostDate() - $thread->getFirstPost()->getPostDate()) / $thread->getPostsCount());
                 }
                 // проверяем - что предыдущий пост был того же автора и время между последним постом и текущим - меньше среднего времени между постами

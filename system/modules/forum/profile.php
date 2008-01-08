@@ -24,12 +24,18 @@ class profile extends simple
 {
     protected $name = 'forum';
 
-    public function getAuthorId()
+    public function getId()
     {
         $user = parent::__call('getUser', array());
-        return $user->getId();
+
+        if ($user) {
+            return $user->getId();
+        }
+
+        return false;
     }
 
+    /*
     public function __call($name, $args)
     {
         try {
@@ -41,6 +47,7 @@ class profile extends simple
             }
         }
     }
+    */
 }
 
 ?>
