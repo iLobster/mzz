@@ -42,6 +42,14 @@ class profileMapper extends simpleMapper
 
     protected $obj_id_field = null;
 
+    public function searchById($id)
+    {
+        $userMapper = systemToolkit::getInstance()->getMapper('user', 'user', 'user');
+        $user = $userMapper->searchByKey($id);
+
+        return $this->searchByUser($user);
+    }
+
     public function searchByUser(user $user)
     {
         $profile = $this->searchByKey((int)$user->getId());
@@ -64,6 +72,13 @@ class profileMapper extends simpleMapper
         return $profile;
     }
 
+    public function getObjId()
+    {
+        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_profile');
+        $this->register($obj_id);
+        return $obj_id;
+    }
+
     /**
      * Возвращает доменный объект по аргументам
      *
@@ -71,6 +86,14 @@ class profileMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
+        if (isset($args['id'])) {
+            $do = $this->searchById($args['id']);
+
+            if ($do) {
+                return $do;
+            }
+        }
+
         throw new mzzDONotFoundException();
     }
 }

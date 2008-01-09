@@ -10,7 +10,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr style="background-color: #EFF2F5;">
             <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;">
-                <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getUser()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
+                <a name="post_{$post->getId()}"></a>{$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
                 {if $thread->getFirstPost()->getId() eq $post->getId()}
                     {if $thread->getAcl('editThread')}
                         <a href="{url route="withId" action="editThread" id=$thread->getId()}">Редактировать</a>
@@ -27,7 +27,23 @@
             </td>
         </tr>
         <tr>
-            <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px" colspan="2">{$post->getText()|htmlspecialchars|nl2br}</td>
+            <td colspan="2">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="border: 1px solid #DEE4EB; width: 15%; padding: 10px 10px 10px 10px; vertical-align: top;">
+                            <strong><a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}">{$post->getAuthor()->getUser()->getLogin()}</a></strong><br />
+                            Сообщений: {$post->getAuthor()->getMessages()}
+                        </td>
+                        <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px;">
+                            {$post->getText()|htmlspecialchars|nl2br}
+                            {if $post->getAuthor()->getSignature()}
+                                <br /><br /><hr />
+                                {$post->getAuthor()->getSignature()|htmlspecialchars|nl2br}
+                            {/if}
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
     <br />
@@ -39,7 +55,7 @@
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr style="background-color: #EFF2F5;">
             <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;">
-                <a name="post_{$post->getId()}"></a>{$post->getAuthor()->getUser()->getLogin()}, {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
+                <a name="post_{$post->getId()}"></a>{$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
                 {if $thread->getFirstPost()->getId() eq $post->getId()}
                     {if $thread->getAcl('editThread')}
                         <a href="{url route="withId" action="editThread" id=$thread->getId()}">Редактировать</a>
@@ -57,7 +73,26 @@
             </td>
         </tr>
         <tr>
+            <td colspan="2">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="border: 1px solid #DEE4EB; width: 15%; padding: 10px 10px 10px 10px; vertical-align: top;">
+                            <strong><a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}">{$post->getAuthor()->getUser()->getLogin()}</a></strong><br />
+                            Сообщений: {$post->getAuthor()->getMessages()}
+                        </td>
+                        <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px;">
+                            {$post->getText()|htmlspecialchars|nl2br}
+                            {if $post->getAuthor()->getSignature()}
+                                <br /><br /><hr />
+                                {$post->getAuthor()->getSignature()|htmlspecialchars|nl2br}
+                            {/if}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        {*
             <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px" colspan="2">{$post->getText()|htmlspecialchars|nl2br}</td>
+            *}
         </tr>
     </table>
     <br />

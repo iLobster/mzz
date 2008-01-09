@@ -17,10 +17,10 @@
             <td style='vertical-align: top;'>{form->caption name="text" value="Текст сообщения" onError="style=color: red;"}</td>
         </tr>
         <tr>
-            <td>{form->textarea name="text" rows="7" cols="50" value=$post->getText()}{$errors->get('text')}</td>
+            <td>{form->textarea name="text" rows="7" cols="50" value=$post->getText()} {$errors->get('text')}</td>
         </tr>
         <tr>
-            <td>{form->submit name="submit" value="Отправить"} {form->reset jip="true" name="reset" value="Отмена"}</td>
+            <td>{form->submit name="submit" value="Отправить"} {form->reset name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>
@@ -31,11 +31,27 @@
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr style="background-color: #EFF2F5;">
             <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;">
-                <a name="post_{$ppost->getId()}"></a>{$ppost->getAuthor()->getLogin()}, {$ppost->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $ppost->getEditDate()}, отредактировано {$ppost->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
+                <a name="post_{$ppost->getId()}"></a>{$ppost->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $ppost->getEditDate()}, отредактировано {$ppost->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
             </td>
         </tr>
         <tr>
-            <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px" colspan="2">{$ppost->getText()|htmlspecialchars|nl2br}</td>
+            <td>
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="border: 1px solid #DEE4EB; width: 15%; padding: 10px 10px 10px 10px; vertical-align: top;">
+                            <strong>{$ppost->getAuthor()->getUser()->getLogin()}</strong><br />
+                            Сообщений: {$ppost->getAuthor()->getMessages()}
+                        </td>
+                        <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px;">
+                            {$ppost->getText()|htmlspecialchars|nl2br}
+                            {if $ppost->getAuthor()->getSignature()}
+                                <br /><br /><hr />
+                                {$ppost->getAuthor()->getSignature()|htmlspecialchars|nl2br}
+                            {/if}
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 {/foreach}

@@ -47,7 +47,15 @@ class postMapper extends simpleMapper
     {
         $fields['post_date'] = new sqlFunction('UNIX_TIMESTAMP');
 
-        $threadMapper = systemToolkit::getInstance()->getMapper('forum', 'thread');
+        $toolkit = systemToolkit::getInstance();
+
+        $profileMapper = $toolkit->getMapper('forum', 'profile');
+        $profile = $profileMapper->searchByUser($toolkit->getUser());
+
+        $profile->setMessages($profile->getMessages() + 1);
+        $profileMapper->save($profile);
+
+        $threadMapper = $toolkit->getMapper('forum', 'thread');
         $thread = $threadMapper->searchByKey($fields['thread_id']);
 
         $thread->setPostsCount($thread->getPostsCount() + 1);

@@ -1,26 +1,31 @@
-<table border="1" width="100%">
+{title append="Форум"}
+{title append="Новые сообщения"}
+
+<a href="{url route="default2" action="forum"}">Форум</a> / Новые сообщения
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
     {if not empty($threads)}
-        <tr>
-            <td>Название</td>
-            <td>Автор</td>
-            <td>Постов</td>
-            <td>Просмотров</td>
-            <td>Последнее сообщение</td>
+        <tr style="background-color: #EFF2F5;">
+            <td style="padding: 5px; text-align: center; border-bottom: 1px solid #DEE4EB;">Название</td>
+            <td style="padding: 5px; text-align: center; border-bottom: 1px solid #DEE4EB;">Автор</td>
+            <td style="padding: 5px; text-align: center; border-bottom: 1px solid #DEE4EB;">Постов</td>
+            <td style="padding: 5px; text-align: center; border-bottom: 1px solid #DEE4EB;">Просмотров</td>
+            <td style="padding: 5px; text-align: center; border-bottom: 1px solid #DEE4EB;">Последнее сообщение</td>
         </tr>
     {/if}
-    {foreach from=$threads item=thread}
+    {foreach from=$threads item="thread"}
         <tr>
-            <td>
-                <a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a>
-                {assign var=id value=$thread->getId()}
+            <td style="padding: 5px; text-align: center;">
+                <a href="{url route="withId" action="thread" id=$thread->getId()}">{$thread->getTitle()}</a>
+                {assign var="id" value=$thread->getId()}
                 {if not empty($pagers.$id)}
                     {$pagers.$id->toString('forum/pager.tpl')}
                 {/if}
             </td>
-            <td>{$thread->getAuthor()->getLogin()}</td>
-            <td>{$thread->getPostsCount()}</td>
-            <td>{if $thread->getViewCount()}{$thread->getViewCount()}{else}0{/if}</td>
-            <td>{$thread->getLastPost()->getAuthor()->getLogin()}, <a href="{url route=withId action=last id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a><br />{$thread->getLastPost()->getText()|nl2br}</td>
+            <td style="padding: 5px; text-align: center;">{$thread->getAuthor()->getUser()->getLogin()}</td>
+            <td style="padding: 5px; text-align: center;">{$thread->getPostsCount()}</td>
+            <td style="padding: 5px; text-align: center;">{if $thread->getViewCount()}{$thread->getViewCount()}{else}0{/if}</td>
+            <td style="padding: 5px; text-align: center;">{$thread->getLastPost()->getAuthor()->getUser()->getLogin()}, <a href="{url route="withId" action="last" id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a><br />{$thread->getLastPost()->getText()|nl2br}</td>
         </tr>
     {foreachelse}
         <tr>
@@ -28,6 +33,6 @@
         </tr>
     {/foreach}
 </table>
-{if $pager->getPagesTotal() > 0}
+{if $pager->getPagesTotal() > 1}
     <div class="pages">{$pager->toString()}</div>
 {/if}

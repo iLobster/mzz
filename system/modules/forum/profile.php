@@ -35,6 +35,11 @@ class profile extends simple
         return false;
     }
 
+    public function getObjId()
+    {
+        return $this->mapper->getObjId();
+    }
+
     /*
     public function __call($name, $args)
     {
