@@ -34,7 +34,7 @@ class thread extends simple
     {
         $forumMapper = $this->getForum()->getMapper();
         $user = systemToolkit::getInstance()->getUser();
-        return ($user->isLoggedIn() && $user->getLastLogin() < $this->getLastPost()->getPostDate()) && ($forumMapper->retrieveView($this->getId()) < $this->getLastPost()->getPostDate());
+        return ($user->isLoggedIn() && $user->getId() != $this->getLastPost()->getAuthor()->getUser()->getId() && $user->getLastLogin() < $this->getLastPost()->getPostDate()) && ($forumMapper->retrieveView($this->getId()) < $this->getLastPost()->getPostDate());
     }
 
     public function getAcl($name = null)
