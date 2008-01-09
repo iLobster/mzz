@@ -7,7 +7,7 @@
 
 {if $thread->getIsStickyFirst() && $pager->getRealPage() != 1}
 {assign var="post" value=$thread->getFirstPost()}
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr style="background-color: #EFF2F5;">
             <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;">
                 <a name="post_{$post->getId()}"></a>{$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
@@ -32,6 +32,7 @@
                     <tr>
                         <td style="border: 1px solid #DEE4EB; width: 15%; padding: 10px 10px 10px 10px; vertical-align: top;">
                             <strong><a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}">{$post->getAuthor()->getUser()->getLogin()}</a></strong><br />
+                            {if $post->getAuthor()->getAvatar()}<img src="{url route="fmFolder" name=$post->getAuthor()->getAvatar()->getFullPath()}" /><br />{/if}
                             Сообщений: {$post->getAuthor()->getMessages()}
                         </td>
                         <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px;">
@@ -78,6 +79,7 @@
                     <tr>
                         <td style="border: 1px solid #DEE4EB; width: 15%; padding: 10px 10px 10px 10px; vertical-align: top;">
                             <strong><a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}">{$post->getAuthor()->getUser()->getLogin()}</a></strong><br />
+                            {if $post->getAuthor()->getAvatar()}<img src="{url route="fmFolder" name=$post->getAuthor()->getAvatar()->getFullPath()}" /><br />{/if}
                             Сообщений: {$post->getAuthor()->getMessages()}
                         </td>
                         <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px;">
@@ -90,9 +92,6 @@
                     </tr>
                 </table>
             </td>
-        {*
-            <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px" colspan="2">{$post->getText()|htmlspecialchars|nl2br}</td>
-            *}
         </tr>
     </table>
     <br />
