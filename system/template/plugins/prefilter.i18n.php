@@ -48,6 +48,10 @@ function mzz_smarty_i18n_morph($phrase, $variables, $lang)
             $val = substr($val, 0, $arrowpos);
         }
 
+        if (strpos($val, '$') === 0) {
+            $val = substr($val, 1);
+        }
+
         $replacement[$key] = "\$this->_tpl_vars[\"" . $val . "\"]" . $method;
     }
 

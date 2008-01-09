@@ -119,6 +119,10 @@ class i18n
             $args = $this->splitArguments($args);
         }
 
+        if (is_array($phrase)) {
+            return call_user_func_array($generatorCallback, array($phrase, $args, $this->lang));
+        }
+
         $variables = array();
 
         if (strpos($phrase, ':1')) {
