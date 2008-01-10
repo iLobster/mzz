@@ -35,7 +35,7 @@
                             {if $post->getAuthor()->getAvatar()}<img src="{url route="fmFolder" name=$post->getAuthor()->getAvatar()->getFullPath()}" /><br />{/if}
                             Сообщений: {$post->getAuthor()->getMessages()}
                         </td>
-                        <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px;">
+                        <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px; vertical-align: top;">
                             {$post->getText()|htmlspecialchars|nl2br}
                             {if $post->getAuthor()->getSignature()}
                                 <br /><br /><hr />
@@ -82,7 +82,7 @@
                             {if $post->getAuthor()->getAvatar()}<img src="{url route="fmFolder" name=$post->getAuthor()->getAvatar()->getFullPath()}" /><br />{/if}
                             Сообщений: {$post->getAuthor()->getMessages()}
                         </td>
-                        <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px;">
+                        <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px; vertical-align: top;">
                             {$post->getText()|htmlspecialchars|nl2br}
                             {if $post->getAuthor()->getSignature()}
                                 <br /><br /><hr />
