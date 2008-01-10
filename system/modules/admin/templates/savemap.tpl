@@ -32,7 +32,7 @@ function mapAutoCompleteMethods(input)
     <table width="99%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td width="30%">{form->caption name="field[name]" value="Имя"}</td>
-            <td>{form->text name="field[name]" size="30" value=$defaults->get('name') onkeyup="mapAutoCompleteMethods(this);" freeze=$isEdit}{$errors->get('field[name]')}</td>
+            <td>{form->text name="field[name]" size="30" value=$defaults->get('name') onkeyup="mapAutoCompleteMethods(this);" freeze=$isEdit}{if $isEdit && $defaults.lang}<span style="color: #999; font-size: 95%;"> (lang)</span>{/if}{$errors->get('field[name]')}</td>
         </tr>
         <tr>
             <td>{form->caption name="field[accessor]" value="Accessor (получение)"}</td>

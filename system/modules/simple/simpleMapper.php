@@ -195,13 +195,34 @@ abstract class simpleMapper
     }
 
     /**
-     * Возвращает таблицу
+     * Возвращает имя основной таблицы
      *
      * @return string
      */
     public function getTable()
     {
         return $this->table;
+    }
+
+    /**
+     * Возвращает имя таблицы, в которой хранятся языкозависимые данные
+     * Состоит из имени таблицы и специального постфикса
+     *
+     * @return string
+     */
+    public function getLangTable()
+    {
+        return $this->getTable() . $this->langTablePostfix;
+    }
+
+    /**
+     * Возвращает имя поля в таблице переводов, в которой хранится идентификатор языка
+     *
+     * @return string
+     */
+    public function getLangIdField()
+    {
+        return $this->langIdField;
     }
 
     /**

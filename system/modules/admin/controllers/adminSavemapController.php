@@ -116,20 +116,19 @@ class adminSavemapController extends simpleController
         if ($isEdit) {
             $defaults->import($mapfile[$field_name]);
             $defaults->set('name', $field_name);
-        } else {
-            $defaults->set('mutator', 'set');
-            $defaults->set('accessor', 'get');
-        }
 
-        if ($isEdit) {
             $url = new url('adminMap');
             $url->add('class', $class_name);
             $url->add('field', $field_name);
         } else {
+            $defaults->set('mutator', 'set');
+            $defaults->set('accessor', 'get');
+
             $url = new url('withAnyParam');
             $url->setSection('admin');
             $url->add('name', $class_name);
         }
+
         $url->setAction($action);
 
         $this->smarty->assign('errors', $validator->getErrors());
