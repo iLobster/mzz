@@ -1,13 +1,13 @@
 {add file="gallery.css"}
 {title append=$album->getName()}
 {title append=$user->getLogin()}
-{title append="Галерея"}
+{title append="_ gallery"}
 
-<h3>Альбом «{$album->getName()}» {$album->getJip()}</h3>
+<h3>{_ album} «{$album->getName()}» {$album->getJip()}</h3>
 
 {assign var=count value=$photos|@sizeof}
 
-<p class="photoCount">{_ photos_count $count} в <a href="{url route="withAnyParam" name=$user->getLogin()  action="viewGallery"}">галерее</a> пользователя {$user->getLogin()}</p>
+<p class="photoCount">{_ photos_count $count} в <a href="{url route="withAnyParam" name=$user->getLogin() action="viewGallery"}">галерее</a> пользователя {$user->getLogin()}</p>
 
 
 {foreach from=$photos item=photo}
@@ -24,7 +24,7 @@
     {/if}
     </div>
 {foreachelse}
-    В альбоме нет фотографий
+    {_ no_photos}
 {/foreach}
 
 <div class="clear"></div>

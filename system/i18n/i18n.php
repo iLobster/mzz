@@ -190,7 +190,7 @@ class i18n
      */
     private function calculatePlural($number, $locale)
     {
-        if (is_string($number)) {
+        if (!is_numeric($number)) {
             return 0;
         }
 

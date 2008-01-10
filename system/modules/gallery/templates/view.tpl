@@ -15,7 +15,7 @@
         <td>
 
         <div class="photoAlbumName">
-        Альбом <a href="{url route="galleryAlbum" name=$user->getLogin() album=$album->getId() action="viewAlbum"}">{$album->getName()}</a>{$album->getJip()}
+        {_ album} <a href="{url route="galleryAlbum" name=$user->getLogin() album=$album->getId() action="viewAlbum"}">{$album->getName()}</a>{$album->getJip()}
         </div>
 
         <div class="albumPhotoThumbs">
@@ -36,10 +36,10 @@
         <div class="clear"></div>
         <div class="photoDescription">{$photo->getAbout()}</div>
         <div class="photoAddonDescription">
-            <strong>Дополнительная информация</strong><br />
+            <strong>{_ additional_info}</strong><br />
             <ul>
-              <li>Загружено: {$photo->getFile()->getModified()|date_format:"%e %B %Y, %H:%M"}</li>
-              <li>Просмотрено: {$photo->getFile()->getDownloads()}</li>
+              <li>{_ date_of_uploading}: {$photo->getFile()->getModified()|date_format:"%e %B %Y, %H:%M"}</li>
+              <li>{_ viewed}: {$photo->getFile()->getDownloads()}</li>
             </ul>
         </div>
         </td>
