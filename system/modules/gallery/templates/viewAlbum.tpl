@@ -5,8 +5,9 @@
 
 <h3>Альбом «{$album->getName()}» {$album->getJip()}</h3>
 
-<p class="photoCount">{$photos|@sizeof|word_ending:"фотографий,фотография,фотографии"},
-в <a href="{url route="withAnyParam" name=$user->getLogin()  action="viewGallery"}">галерее</a> пользователя {$user->getLogin()}</p>
+{assign var=count value=$photos|@sizeof}
+
+<p class="photoCount">{_ photos_count $count} в <a href="{url route="withAnyParam" name=$user->getLogin()  action="viewGallery"}">галерее</a> пользователя {$user->getLogin()}</p>
 
 
 {foreach from=$photos item=photo}
@@ -19,7 +20,7 @@
             </div>
         </div>
     {if false}
-        <p>0 комментариев{0|word_ending:"комментариев,комментарий,комментария"}</p>
+        <p>{* 0 комментариев{0|word_ending:"комментариев,комментарий,комментария"} *}</p>
     {/if}
     </div>
 {foreachelse}
