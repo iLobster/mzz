@@ -1,4 +1,4 @@
-// script.aculo.us dragdrop.js v1.8.0, Tue Nov 06 15:01:40 +0300 2007
+// script.aculo.us dragdrop.js v1.8.1, Thu Jan 03 22:07:12 -0500 2008
 
 // Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //           (c) 2005-2007 Sammi Williams (http://www.oriontransfer.co.nz, sammi@oriontransfer.co.nz)
@@ -134,15 +134,10 @@ var Draggables = {
       this.eventMouseUp   = this.endDrag.bindAsEventListener(this);
       this.eventMouseMove = this.updateDrag.bindAsEventListener(this);
       this.eventKeypress  = this.keyPress.bindAsEventListener(this);
-      if (draggable.options.handle) {
-        Event.observe(draggable.options.handle, "mouseup", this.eventMouseUp);
-        Event.observe(draggable.options.handle, "mousemove", this.eventMouseMove);
-        Event.observe(draggable.options.handle, "keypress", this.eventKeypress);
-      } else {
-        Event.observe(document, "mouseup", this.eventMouseUp);
-        Event.observe(document, "mousemove", this.eventMouseMove);
-        Event.observe(document, "keypress", this.eventKeypress);
-      }
+      
+      Event.observe(document, "mouseup", this.eventMouseUp);
+      Event.observe(document, "mousemove", this.eventMouseMove);
+      Event.observe(document, "keypress", this.eventKeypress);
     }
     this.drags.push(draggable);
   },
@@ -150,24 +145,13 @@ var Draggables = {
   unregister: function(draggable) {
     this.drags = this.drags.reject(function(d) { return d==draggable });
     if(this.drags.length == 0) {
-      if (draggable.options.handle) {
-        Event.stopObserving(draggable.options.handle, "mouseup", this.eventMouseUp);
-        Event.stopObserving(draggable.options.handle, "mousemove", this.eventMouseMove);
-        Event.stopObserving(draggable.options.handle, "keypress", this.eventKeypress);
-      } else {
-        Event.stopObserving(document, "mouseup", this.eventMouseUp);
-        Event.stopObserving(document, "mousemove", this.eventMouseMove);
-        Event.stopObserving(document, "keypress", this.eventKeypress);
-      }
+      Event.stopObserving(document, "mouseup", this.eventMouseUp);
+      Event.stopObserving(document, "mousemove", this.eventMouseMove);
+      Event.stopObserving(document, "keypress", this.eventKeypress);
     }
   },
   
   activate: function(draggable) {
-    if (draggable.options.handle) {
-      Event.observe(document, "mouseup", this.eventMouseUp);
-      Event.observe(document, "mousemove", this.eventMouseMove);
-      Event.observe(document, "keypress", this.eventKeypress);
-    }
     if(draggable.options.delay) { 
       this._timeout = setTimeout(function() { 
         Draggables._timeout = null; 
@@ -181,11 +165,6 @@ var Draggables = {
   },
   
   deactivate: function() {
-    if (this.activeDraggable.options.handle) {
-      Event.stopObserving(document, "mouseup", this.eventMouseUp);
-      Event.stopObserving(document, "mousemove", this.eventMouseMove);
-      Event.stopObserving(document, "keypress", this.eventKeypress);
-    }
     this.activeDraggable = null;
   },
   
