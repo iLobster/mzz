@@ -210,7 +210,7 @@ class httpRequest implements iRequest
      */
     public function convertToType($result, $type)
     {
-        $validTypes = array('array' => 1, 'integer' => 1, 'boolean' => 1, 'string' => 1);
+        $validTypes = array('array' => 1, 'integer' => 1, 'boolean' => 1, 'string' => 1, 'float' => 1);
         if (is_array($result) && $type != 'array') {
             $result = array_shift($result);
             if (!is_scalar($result)) {

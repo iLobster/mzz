@@ -58,12 +58,23 @@ abstract class formAbstractRule
      */
     public function __construct($name = '', $errorMsg = '', $params = '')
     {
+        $name = explode(':', $name, 2);
+        $type = 'string';
+        if (sizeof($name) > 1) {
+           if (in_array($name[0], array('array', 'integer', 'float', 'string', 'boolean'))) {
+               $type = $name[0];
+           }
+           $name = $name[1];
+        } else {
+           $name = $name[0];
+        }
+
         $this->name = $name;
         $this->errorMsg = $errorMsg;
         $this->params = $params;
 
         $request = systemToolkit::getInstance()->getRequest();
-        $this->value = $request->get($name, 'string', SC_REQUEST);
+        $this->value = $request->get($name, $type, SC_REQUEST);
     }
 
     /**
