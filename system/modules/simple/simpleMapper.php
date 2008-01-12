@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.18
+ * @version 0.3.19
  */
 
 abstract class simpleMapper
@@ -675,6 +675,21 @@ abstract class simpleMapper
         $criteria->append($criteria_outer);
 
         $this->addLangCriteria($criteria);
+
+        // определяем - если в критериях ссылаемся на языкозависимые поля
+        $keys = $criteria->keys();
+        $langFields = $this->getLangFields();
+
+        foreach ($keys as $val) {
+            if (!strpos($val, '.') && in_array($val, $langFields)) {
+                // если поле зависит от языка - меняем таблицу на соответствующую
+                $criterion = $criteria->getCriterion($val);
+                $value = $criterion->getValue();
+
+                $criteria->add($this->className . $this->langTablePostfix . '.' . $val, $value, $criterion->getComparsion());
+                $criteria->remove($val);
+            }
+        }
 
         // если есть пейджер - то посчитать записи без LIMIT и передать найденное число записей в пейджер
         if ($this->pager) {

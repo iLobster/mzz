@@ -103,6 +103,19 @@ class simpleMapperi18nTest extends unitTestCase
         $this->assertEqual($item->getLangId(), 2);
     }
 
+    public function testSearchByLangField()
+    {
+        $this->fixture();
+        $toolkit = systemToolkit::getInstance();
+        $toolkit->setLang(1);
+        $this->assertEqual($toolkit->getLang(), 1);
+
+        $item = $this->mapper->searchOneByField('foo', $value = 'foo_i18n_1_lang_1');
+
+        $this->assertEqual(1, $item->getId());
+        $this->assertEqual($value, $item->getFoo());
+    }
+
     public function testDelete()
     {
         $this->fixture();
