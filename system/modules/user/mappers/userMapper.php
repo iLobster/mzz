@@ -110,9 +110,10 @@ class userMapper extends simpleMapper
      *
      * @param string $login логин
      * @param string $password пароль
+     * @param string $loginField имя поля, которое используется в качестве логина
      * @return object
      */
-    public function login($login, $password)
+    public function login($login, $password, $loginField = 'login')
     {
         $map = $this->getMap();
 
@@ -124,7 +125,7 @@ class userMapper extends simpleMapper
         }
 
         $criteria = new criteria();
-        $criteria->add('login', $login)->add('password', $password);
+        $criteria->add($loginField, $login)->add('password', $password);
 
         $user = $this->searchOneByCriteria($criteria);
 
