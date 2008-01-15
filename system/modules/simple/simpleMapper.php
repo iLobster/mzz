@@ -311,7 +311,7 @@ abstract class simpleMapper
 
         $fields_lang_independent =& $object->export();
 
-        if (sizeof($fields_lang_independent) > 1) {
+        if (sizeof($fields_lang_independent) >= 1) {
             $this->replaceRelated($fields_lang_independent, $object);
             $this->insertDataModify($fields_lang_independent);
 
