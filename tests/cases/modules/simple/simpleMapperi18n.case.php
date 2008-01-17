@@ -144,6 +144,22 @@ class simpleMapperi18nTest extends unitTestCase
         $this->assertEqual($item->getFoo(), $foo);
     }
 
+    public function testInsertWithoutLangFields()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $toolkit->setLang(1);
+
+        $simple = $this->mapper->create();
+        $simple->setBar($bar = 'bar');
+        //$simple->setFoo($foo = 'foo_1');
+        $this->mapper->save($simple);
+
+        $this->assertEqual($this->countRecord(), array(1, 1));
+        $item = $this->mapper->searchByKey(1);
+        $this->assertEqual($item->getId(), 1);
+        $this->assertNull($item->getFoo());
+    }
+
     public function testUpdateSameLang()
     {
         $this->fixture();

@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.19
+ * @version 0.3.20
  */
 
 abstract class simpleMapper
@@ -349,8 +349,10 @@ abstract class simpleMapper
             // перемещаем языкозависимые поля из общего массива
             $fields_lang_dependent = array();
             foreach ($lang_fields as $item) {
-                $fields_lang_dependent[$item] = $fields_lang_independent[$item];
-                unset($fields_lang_independent[$item]);
+                if (isset($fields_lang_independent[$item])) {
+                    $fields_lang_dependent[$item] = $fields_lang_independent[$item];
+                    unset($fields_lang_independent[$item]);
+                }
             }
 
             // вставляем языконезависимые данные
