@@ -53,6 +53,33 @@ class formHostnamelRuleTest extends UnitTestCase
         $rule = new formHostnameRule('host', '');
         $this->assertFalse($rule->validate());
     }
+    
+    public function testDashFirst()
+    {
+        $_POST['host'] = '-domain.ru';
+        $this->request->refresh();
+
+        $rule = new formHostnameRule('host', '');
+        $this->assertFalse($rule->validate());
+    }
+
+    public function testDashLast()
+    {
+        $_POST['host'] = 'domain-.ru';
+        $this->request->refresh();
+
+        $rule = new formHostnameRule('host', '');
+        $this->assertFalse($rule->validate());
+    }
+
+    public function testDash3And4()
+    {
+        $_POST['host'] = 'do--main.ru';
+        $this->request->refresh();
+
+        $rule = new formHostnameRule('host', '');
+        $this->assertFalse($rule->validate());
+    }
 
     public function testInvalidTLD()
     {
