@@ -32,7 +32,7 @@ class testsHtmlRunner implements iFilter
             $test->addTestFile($case);
         }
 
-        $test->run(new mzzHtmlReporter('windows-1251'));
+        $test->run(new mzzHtmlReporter('utf-8'));
 
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();
