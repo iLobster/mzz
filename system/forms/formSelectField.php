@@ -49,6 +49,10 @@ class formSelectField extends formElement
         if (is_array($options['options'])) {
             $value = self::getValue($name, $value);
             foreach ($options['options'] as $key => $text) {
+                if (is_object($text) && isset($options['keyMethod']) && isset($options['valueMethod'])) {
+                    $key = $text->$options['keyMethod']();
+                    $text = $text->$options['valueMethod']();
+                }
                 $text_array = array();
                 if (is_array($text)) {
                     $text_array = $text;
@@ -60,8 +64,11 @@ class formSelectField extends formElement
                     $value_selected = array($key, $text);
                 }
 
-                $style = $selected ? 'font-weight: bold;' : null;
-                $options_for_tag = array('content' => $text, 'style' => $style, 'value' => $key, 'selected' => $selected);
+                $options_for_tag = array('content' => $text, 'value' => $key, 'selected' => $selected);
+
+                if ($selected) {
+                    $options_for_tag['style'] = 'font-weight: bold;';
+                }
 
                 foreach ($text_array as $key => $value2) {
                     if ($key == 'items') {
