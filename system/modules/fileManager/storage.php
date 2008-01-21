@@ -28,6 +28,14 @@ class storage extends simple
     {
         return rename($oldname, $this->getPath() . $newname);
     }
+
+    public function delete($file)
+    {
+        file_put_contents('c:/q', $this->getPath() . $file->getRealname());
+        if (file_exists($filename = $this->getPath() . $file->getRealname())) {
+            return unlink($filename);
+        }
+    }
 }
 
 ?>

@@ -87,6 +87,11 @@ class file extends simple
         return $this->extra;
     }
 
+    public function delete()
+    {
+        return $this->getStorage()->delete($this);
+    }
+
     /**
      * Загрузка файла
      *

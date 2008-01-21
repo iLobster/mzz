@@ -121,9 +121,7 @@ class fileMapper extends simpleMapper
             $file->extra()->delete();
         }
 
-        if ($file && file_exists($file = $file->getUploadPath() . DIRECTORY_SEPARATOR . $file->getRealname())) {
-            unlink($file);
-        }
+        $file->delete();
 
         parent::delete($id);
     }
