@@ -46,8 +46,8 @@ class folder extends simpleForTree
 
     public function upload($upload_name, $name = null)
     {
-        $config = systemToolkit::getInstance()->getConfig('fileManager', $this->section);
-        $path = $config->get('upload_path');
+        /*$config = systemToolkit::getInstance()->getConfig('fileManager', $this->section);
+        $path = $config->get('upload_path');*/
 
         if (!isset($_FILES[$upload_name])) {
             if (is_file($upload_name)) {
@@ -137,20 +137,25 @@ class folder extends simpleForTree
             }
         }
 
+        $storageMapper = systemToolkit::getInstance()->getMapper('fileManager', 'storage', $this->section);
+        $storage = $storageMapper->getStorage();
+
         while (true) {
             try {
                 $file = $fileMapper->create();
-                $file->setRealname($realname = md5(microtime(true)));
+                $file->setRealname($realname = md5(microtime(true)) . '.' . $ext);
                 $file->setName($name);
                 $file->setExt($ext);
                 $file->setSize($info['size']);
                 $file->setFolder($this);
+                $file->setStorage($storage);
                 $fileMapper->save($file);
-                if (rename($info['tmp_name'], $path . '/' . $file->getRealname())) {
+
+                if ($storage->rename($info['tmp_name'], $file->getRealname())) {
                     break;
                 }
 
-                throw new mzzRuntimeException('Файл "' . $info['tmp_name'] . '" не был перемещён  в каталог "' . $path . '/' . $file->getRealname() . '"');
+                throw new mzzRuntimeException('Файл "' . $info['tmp_name'] . '" не был перемещён  в каталог "' . $storage->getPath() . '"');
             } catch (PDOException $e) {
             }
         }

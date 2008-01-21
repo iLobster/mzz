@@ -1,4 +1,4 @@
-﻿# SQL Manager 2007 for MySQL 4.1.2.1
+# SQL Manager 2007 for MySQL 4.1.2.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -8,7 +8,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES cp1251 */;
+/*!40101 SET NAMES utf8 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -450,7 +450,7 @@ CREATE TABLE `fileManager_file` (
   `about` text,
   `folder_id` int(11) unsigned default NULL,
   `obj_id` int(11) unsigned default NULL,
-  `server_id` int(11) default NULL,
+  `storage_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`,`name`,`ext`)
@@ -460,8 +460,8 @@ CREATE TABLE `fileManager_file` (
 # Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`, `server_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1189865423,28,1,'По фамилии Fernandes',5,611,1),
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`, `storage_id`) VALUES 
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1200893586,29,1,'По фамилии Fernandes',5,611,1),
   (15,'a0494eeadea195b23bc2947780346d47','2.jpg','jpg',28565,1193874091,NULL,1,'',5,1195,1),
   (16,'10fb1fa8b1d8cc73842511e6d77fb441','3.jpg','jpg',36957,1197724921,3,1,'',5,1199,1),
   (17,'f7566302d872ec98768bfa775b5c7dce','4.jpg','jpg',32557,1197724219,3,1,'',5,1203,1),
@@ -543,6 +543,15 @@ CREATE TABLE `fileManager_storage` (
   `path` char(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Data for the `fileManager_storage` table  (LIMIT 0,500)
+#
+
+INSERT INTO `fileManager_storage` (`id`, `name`, `path`) VALUES 
+  (1,'local','../files/');
+
+COMMIT;
 
 #
 # Structure for the `forum_category` table : 
@@ -5639,7 +5648,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1272,35),
   (1273,47),
   (1274,15),
-  (1275,14);
+  (1275,14),
+  (1276,48);
 
 COMMIT;
 
@@ -5857,11 +5867,9 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `type_id`, `value
   (2,2,1,1,1,'10'),
   (3,3,1,1,1,'20'),
   (14,6,1,1,1,'20'),
-  (21,7,2,2,1,'../tmp'),
   (23,9,1,1,2,'10'),
   (28,4,1,1,1,'10'),
   (29,10,1,1,1,'10'),
-  (30,8,2,2,1,'../files'),
   (31,11,1,1,1,'60'),
   (34,7,1,1,1,'10'),
   (53,15,1,1,1,'60'),
@@ -5871,7 +5879,6 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `type_id`, `value
   (46,21,6,7,1,'fileManager'),
   (47,21,7,8,1,'5'),
   (48,18,1,1,1,'10'),
-  (49,18,2,2,1,'../files'),
   (50,7,8,10,1,'/files'),
   (54,26,11,12,2,'30');
 
@@ -7596,7 +7603,14 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1272),
   (1273),
   (1274),
-  (1275);
+  (1275),
+  (1276),
+  (1277),
+  (1278),
+  (1279),
+  (1280),
+  (1281),
+  (1282);
 
 COMMIT;
 
@@ -7933,7 +7947,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (247,2,'b56d5744969136bc5c9469c1ba1751de',1200888975,'http://mzz/ru/admin/devToolbar','127.0.0.1');
+  (247,2,'b56d5744969136bc5c9469c1ba1751de',1200893650,'http://mzz/templates/images/admin','127.0.0.1');
 
 COMMIT;
 

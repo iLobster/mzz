@@ -152,7 +152,7 @@ abstract class simpleMapper
      *
      * @var string
      */
-    protected $obj_id_field = "obj_id";
+    protected $obj_id_field = 'obj_id';
 
     /**
      * Объект класса simpleSelect, через который происходит экранирование полей, таблиц, алиасов и значений

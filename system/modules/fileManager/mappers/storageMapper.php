@@ -38,6 +38,8 @@ class storageMapper extends simpleMapper
      */
     protected $className = 'storage';
 
+    protected $obj_id_field = null;
+
     /**
      * Возвращает доменный объект по аргументам
      *
@@ -46,6 +48,11 @@ class storageMapper extends simpleMapper
     public function convertArgsToObj($args)
     {
         throw new mzzDONotFoundException();
+    }
+
+    public function getStorage()
+    {
+        return $this->searchOneByField('id', 1);
     }
 }
 

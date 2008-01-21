@@ -23,6 +23,11 @@
 class storage extends simple
 {
     protected $name = 'fileManager';
+
+    public function rename($oldname, $newname)
+    {
+        return rename($oldname, $this->getPath() . $newname);
+    }
 }
 
 ?>
