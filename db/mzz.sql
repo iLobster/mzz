@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.1.2.1
+﻿# SQL Manager 2007 for MySQL 4.1.2.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -8,7 +8,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -450,6 +450,7 @@ CREATE TABLE `fileManager_file` (
   `about` text,
   `folder_id` int(11) unsigned default NULL,
   `obj_id` int(11) unsigned default NULL,
+  `server_id` int(11) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`,`name`,`ext`)
@@ -459,15 +460,15 @@ CREATE TABLE `fileManager_file` (
 # Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1189865423,28,1,'По фамилии Fernandes',5,611),
-  (15,'a0494eeadea195b23bc2947780346d47','2.jpg','jpg',28565,1193874091,NULL,1,'',5,1195),
-  (16,'10fb1fa8b1d8cc73842511e6d77fb441','3.jpg','jpg',36957,1197724921,3,1,'',5,1199),
-  (17,'f7566302d872ec98768bfa775b5c7dce','4.jpg','jpg',32557,1197724219,3,1,'',5,1203),
-  (18,'eca188a35070342d2daa3d11b904d32f','5.jpg','jpg',31552,1197726704,7,1,'',5,1207),
-  (23,'fc6bfaf392fd56f0c1353a304ee609f0','6.jpg','jpg',33454,1193874183,NULL,1,'',5,1215),
-  (24,'c77d18916bbfc6c1b7e25fd66d1055ae','7.jpg','jpg',28233,1193988674,2,1,'',5,1219),
-  (25,'b09b5fb89d1399ba4f66c1f5b5940981','avatar_1.jpg','jpg',4545,1199847233,7,1,'',8,1275);
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `about`, `folder_id`, `obj_id`, `server_id`) VALUES 
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1189865423,28,1,'По фамилии Fernandes',5,611,1),
+  (15,'a0494eeadea195b23bc2947780346d47','2.jpg','jpg',28565,1193874091,NULL,1,'',5,1195,1),
+  (16,'10fb1fa8b1d8cc73842511e6d77fb441','3.jpg','jpg',36957,1197724921,3,1,'',5,1199,1),
+  (17,'f7566302d872ec98768bfa775b5c7dce','4.jpg','jpg',32557,1197724219,3,1,'',5,1203,1),
+  (18,'eca188a35070342d2daa3d11b904d32f','5.jpg','jpg',31552,1197726704,7,1,'',5,1207,1),
+  (23,'fc6bfaf392fd56f0c1353a304ee609f0','6.jpg','jpg',33454,1193874183,NULL,1,'',5,1215,1),
+  (24,'c77d18916bbfc6c1b7e25fd66d1055ae','7.jpg','jpg',28233,1193988674,2,1,'',5,1219,1),
+  (25,'b09b5fb89d1399ba4f66c1f5b5940981','avatar_1.jpg','jpg',4545,1199847233,7,1,'',8,1275,1);
 
 COMMIT;
 
@@ -529,6 +530,19 @@ INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
   (8,6,7,2);
 
 COMMIT;
+
+#
+# Structure for the `fileManager_storage` table : 
+#
+
+DROP TABLE IF EXISTS `fileManager_storage`;
+
+CREATE TABLE `fileManager_storage` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `path` char(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `forum_category` table : 
@@ -634,7 +648,7 @@ CREATE TABLE `forum_profile` (
   `user_id` int(11) NOT NULL default '0',
   `messages` int(11) NOT NULL default '0',
   `signature` text NOT NULL,
-  `avatar_id` int(11) NOT NULL,
+  `avatar_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -1079,6 +1093,8 @@ CREATE TABLE `news_news` (
   `folder_id` int(11) default NULL,
   `created` int(11) default NULL,
   `updated` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id_2` (`id`),
   KEY `id` (`id`),
   KEY `folder_id` (`folder_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -1297,9 +1313,10 @@ COMMIT;
 DROP TABLE IF EXISTS `news_newsFolder_lang`;
 
 CREATE TABLE `news_newsFolder_lang` (
-  `id` int(11) default NULL,
-  `lang_id` int(11) default NULL,
-  `title` char(255) default NULL
+  `id` int(11) NOT NULL default '0',
+  `lang_id` int(11) NOT NULL default '0',
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`,`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
@@ -1387,11 +1404,12 @@ COMMIT;
 DROP TABLE IF EXISTS `news_news_lang`;
 
 CREATE TABLE `news_news_lang` (
-  `id` int(11) default NULL,
-  `lang_id` int(11) default NULL,
+  `id` int(11) NOT NULL default '0',
+  `lang_id` int(11) NOT NULL default '0',
   `title` varchar(255) default NULL,
   `annotation` text,
-  `text` text
+  `text` text,
+  PRIMARY KEY  (`id`,`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
@@ -1576,7 +1594,7 @@ CREATE TABLE `page_page` (
   `content` text NOT NULL,
   `folder_id` int(11) unsigned default NULL,
   `compiled` int(11) default NULL,
-  KEY `id` (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
@@ -5120,9 +5138,9 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_access_registry`;
 
 CREATE TABLE `sys_access_registry` (
-  `obj_id` int(11) unsigned default NULL,
+  `obj_id` int(11) unsigned NOT NULL auto_increment,
   `class_section_id` int(11) unsigned default NULL,
-  KEY `obj_id` (`obj_id`)
+  PRIMARY KEY  (`obj_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
@@ -5951,7 +5969,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (45,'tagsItem',17),
   (46,'tagsItemRel',17),
   (47,'captcha',18),
-  (48,'profile',15);
+  (48,'profile',15),
+  (49,'storage',9);
 
 COMMIT;
 
@@ -6150,7 +6169,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (254,47,9),
   (255,47,3),
   (258,48,9),
-  (259,48,98);
+  (259,48,98),
+  (260,49,9);
 
 COMMIT;
 
@@ -6216,7 +6236,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (41,44,17),
   (42,46,17),
   (43,47,18),
-  (47,48,15);
+  (47,48,15),
+  (48,49,9);
 
 COMMIT;
 
@@ -7586,8 +7607,10 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_obj_id_named`;
 
 CREATE TABLE `sys_obj_id_named` (
-  `obj_id` int(11) unsigned default NULL,
-  `name` char(255) default NULL
+  `obj_id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`obj_id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
@@ -7825,9 +7848,9 @@ CREATE TABLE `user_user` (
 #
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
-  (1,12,'guest','',NULL,NULL,1198040969),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1199595961),
-  (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1199842206);
+  (1,12,'guest','',NULL,NULL,1199847239),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1199847233),
+  (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1199847249);
 
 COMMIT;
 
@@ -7854,7 +7877,8 @@ CREATE TABLE `user_userAuth` (
 INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
   (99,2,'127.0.0.1','dce90074dbaf9f432b382f1e7a7a6d56',NULL,1198124103),
   (92,2,'127.0.0.1','6bd1efd64e318d5f4fd08f1d267e7319',NULL,1196820540),
-  (100,2,'127.0.0.1','11b46a73d07132b189997ff55ede1731',NULL,1199541613);
+  (100,2,'127.0.0.1','11b46a73d07132b189997ff55ede1731',NULL,1199541613),
+  (101,2,'127.0.0.1','18220b2e8aa81346e36197a4315ab17d',NULL,1200886538);
 
 COMMIT;
 
@@ -7909,11 +7933,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (242,3,'4d31e2102d02f0b6f316ed88f77c1eb9',1199847249,'http://mzz/ru/fileManager/avatars/avatar_1.jpg','127.0.0.1'),
-  (239,2,'e6945042c1c1a6236cecccfe95a39144',1199847233,'http://mzz/ru/fileManager/avatars/avatar_1.jpg','127.0.0.1'),
-  (243,1,'636216dc28e33ca9bcd8b6d64865b69b',1199846834,'http://mzz/favicon.ico','127.0.0.1'),
-  (244,1,'18a24e9f4c70889fc682e280fce5bfc7',1199846867,'http://mzz/favicon.ico','127.0.0.1'),
-  (245,1,'cb39be5c5a6690899e2b3c1ef27a6a04',1199847239,'http://mzz/favicon.ico','127.0.0.1');
+  (247,2,'b56d5744969136bc5c9469c1ba1751de',1200888975,'http://mzz/ru/admin/devToolbar','127.0.0.1');
 
 COMMIT;
 
