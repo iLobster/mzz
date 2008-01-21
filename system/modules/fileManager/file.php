@@ -45,6 +45,17 @@ class file extends simple
         return $this->getStorage()->getPath() . DIRECTORY_SEPARATOR . $this->getRealname();
     }
 
+    public function getDownloadLink()
+    {
+        if ($this->getDirectLink()) {
+            return $this->getStorage()->getWebPath() . '/' . $this->getRealname();
+        }
+
+        $url = new url('withAnyParam');
+        $url->add('name', $this->getFullPath());
+        return $url->get();
+    }
+
     public function getUploadPath()
     {
         $toolkit = systemToolkit::getInstance();

@@ -43,10 +43,9 @@
         {/foreach}
 
         {foreach from=$files item=file}
-            {assign var="filename" value=$file->getFullPath()}
             <tr align="center">
                 <td style="width: 30px;"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" /></td>
-                <td style="text-align: left;"><a href="{url route=withAnyParam name=$filename}">{$file->getName()}</a></td>
+                <td style="text-align: left;"><a href="{$file->getDownloadLink()}">{$file->getName()}</a></td>
                 <td style="text-align: right;">{$file->getSize()|filesize}</td>
                 <td>{$file->getExt()}</td>
                 <td>{$file->getMd5()}</td>

@@ -44,9 +44,13 @@ class fileManagerEditController extends simpleController
             $name = $this->request->get('name', 'string', SC_POST);
             $about = $this->request->get('about', 'string', SC_POST);
             $header = $this->request->get('header', 'string', SC_POST);
+            $direct_link = $this->request->get('direct_link', 'string', SC_POST);
+
             $file->setName($name);
             $file->setAbout($about);
             $file->setRightHeader($header);
+            $file->setDirectLink($direct_link);
+
             $fileMapper->save($file);
 
             return jipTools::redirect();

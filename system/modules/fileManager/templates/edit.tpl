@@ -16,6 +16,10 @@
             <td>{form->checkbox name="header" value=$file->getRightHeader()}{$errors->get('header')}</td>
         </tr>
         <tr>
+            <td>{form->caption name="direct_link" value="Давать прямую ссылку на скачивание"}</td>
+            <td>{form->checkbox name="direct_link" value=$file->getDirectLink()}{$errors->get('direct_link')}</td>
+        </tr>
+        <tr>
             <td colspan=2 style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>

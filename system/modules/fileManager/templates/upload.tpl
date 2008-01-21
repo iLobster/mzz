@@ -39,6 +39,10 @@
             <td>{form->checkbox name="header" value=0}{$errors->get('header')}</td>
         </tr>
         <tr>
+            <td>{form->caption name="direct_link" value="Давать прямую ссылку на скачивание"}</td>
+            <td>{form->checkbox name="direct_link" value=0}{$errors->get('direct_link')}</td>
+        </tr>
+        <tr>
             <td colspan="2" style="text-align:center;">{form->submit id="fmUploadSubmitButton" name="submit" value="Загрузить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
     </table>
