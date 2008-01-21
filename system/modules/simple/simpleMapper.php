@@ -349,7 +349,7 @@ abstract class simpleMapper
             // перемещаем языкозависимые поля из общего массива
             $fields_lang_dependent = array();
             foreach ($lang_fields as $item) {
-                if (isset($fields_lang_independent[$item])) {
+                if (array_key_exists($item, $fields_lang_independent)) {
                     $fields_lang_dependent[$item] = $fields_lang_independent[$item];
                     unset($fields_lang_independent[$item]);
                 }
