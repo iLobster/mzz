@@ -1,3 +1,5 @@
+SET NAMES `utf8`;
+
 ALTER TABLE `page_page` DROP INDEX `id`;
 ALTER TABLE `sys_access_registry` DROP INDEX `obj_id`;
 CREATE TABLE `fileManager_storage` (
@@ -40,17 +42,4 @@ COMMIT;
 
 INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) 
 VALUES (48, 49, 9);
-COMMIT;
-
-# Synchronize for "user_user" Type: Source to target
-
-UPDATE `user_user` 
-SET `obj_id`=12, `login`='guest', `password`='', `created`=NULL, `confirmed`=NULL, `last_login`=1199847239 
-WHERE `id`=1 AND `obj_id`=12 AND `login`='guest' AND `password`='' AND IsNull(`created`) AND IsNull(`confirmed`) AND `last_login`=1198040969;
-UPDATE `user_user` 
-SET `obj_id`=13, `login`='admin', `password`='098f6bcd4621d373cade4e832627b4f6', `created`=NULL, `confirmed`=NULL, `last_login`=1199847233 
-WHERE `id`=2 AND `obj_id`=13 AND `login`='admin' AND `password`='098f6bcd4621d373cade4e832627b4f6' AND IsNull(`created`) AND IsNull(`confirmed`) AND `last_login`=1199595961;
-UPDATE `user_user` 
-SET `obj_id`=472, `login`='pedro', `password`='098f6bcd4621d373cade4e832627b4f6', `created`=1188187851, `confirmed`=NULL, `last_login`=1199847249 
-WHERE `id`=3 AND `obj_id`=472 AND `login`='pedro' AND `password`='098f6bcd4621d373cade4e832627b4f6' AND `created`=1188187851 AND IsNull(`confirmed`) AND `last_login`=1199842206;
 COMMIT;
