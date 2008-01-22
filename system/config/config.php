@@ -153,16 +153,16 @@ class config
             }
         }
 
-        $namesAndTitles = $this->getNamesAndTitles();
+        $vars = $this->getNamesAndTitlesAndTypes();
 
         $data = '';
         foreach ($name as $key => $val) {
-            $data .= '(' . $this->db->quote($val) . ', ' . $this->cfg_id . ', ' . $namesAndTitles[$key]['name'] . ', ' . $namesAndTitles[$key]['title'] . '), ';
+            $data .= '(' . $this->db->quote($val) . ', ' . $this->cfg_id . ', ' . $vars[$key]['name'] . ', ' . $vars[$key]['title'] . ', ' . $vars[$key]['type'] . '), ';
         }
         $data = substr($data, 0, -2);
 
         if ($data) {
-            $this->db->query('REPLACE INTO `sys_cfg_values` (`value`, `cfg_id`, `name`, `title`) VALUES ' . $data);
+            $this->db->query('REPLACE INTO `sys_cfg_values` (`value`, `cfg_id`, `name`, `title`, `type_id`) VALUES ' . $data);
             $this->values = null;
         }
     }
@@ -183,12 +183,13 @@ class config
      *
      * @return array
      */
-    private function getNamesAndTitles()
+    private function getNamesAndTitlesAndTypes()
     {
         $this->db = db::factory();
-        $stmt = $this->db->prepare("SELECT `vars`.`name`, `v`.`name` AS `name_id`, `v`.`title` AS `title_id` FROM `sys_modules` `m`
-                                     INNER JOIN `sys_cfg` `c` ON `c`.`module` = `m`.`id` AND `section` = 0
-                                      INNER JOIN `sys_cfg_values` `v` ON `v`.`cfg_id` = `c`.`id`
+        $stmt = $this->db->prepare("SELECT `vars`.`name`, `v`.`name` AS `name_id`, `v`.`title` AS `title_id`, `v`.`type_id` as `type_id`
+                                     FROM `sys_modules` `m`
+                                      INNER JOIN `sys_cfg` `c` ON `c`.`module` = `m`.`id` AND `section` = 0
+                                       INNER JOIN `sys_cfg_values` `v` ON `v`.`cfg_id` = `c`.`id`
                                         INNER JOIN `sys_cfg_vars` `vars` ON `vars`.`id` = `v`.`name`
                                          WHERE `m`.`name` = :module");
         $stmt->bindParam(':module', $this->module);
@@ -196,7 +197,7 @@ class config
 
         $result = array();
         while ($row = $stmt->fetch()) {
-            $result[$row['name']] = array('name' => $row['name_id'], 'title' => $row['title_id']);
+            $result[$row['name']] = array('name' => $row['name_id'], 'title' => $row['title_id'], 'type' => $row['type_id']);
         }
 
         return $result;

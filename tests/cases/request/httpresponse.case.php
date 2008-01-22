@@ -53,14 +53,6 @@ class httpResponseTest extends unitTestCase
         $this->assertEqual($this->response->getHeaders(), $headers);
     }
 
-    public function testAutoSetHeaderIfXmlOnSend()
-    {
-        $this->smarty->expectOnce('isXml', array());
-        ob_start();
-        $this->response->send();
-        ob_end_clean();
-    }
-
     public function testSetCookies()
     {
 
