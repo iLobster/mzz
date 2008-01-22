@@ -79,7 +79,6 @@ class image
         $aspect_w = $width_orig / $width;
         $aspect_h = $height_orig / $height;
 
-        $aspect = ($aspect_h > $aspect_w) ? $aspect_h : $aspect_w;
         $aspect = max($aspect_h, $aspect_w);
 
         if ($aspect <= 1) {
@@ -112,6 +111,8 @@ class image
             throw new mzzRuntimeException('imagecopyresampled failed');
         }
 
+        $this->width = $width;
+        $this->height = $height;
         $this->image = $image_resized;
     }
 
