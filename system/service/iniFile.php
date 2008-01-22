@@ -2,22 +2,30 @@
 
 class iniFile
 {
-    private $filename;
+    private $options;
     private $content;
 
-    public function __construct($filename)
+    public function __construct($filename, $process_sections = true, $scan_mode = null)
     {
-        $this->filename = $filename;
+        $this->options = array('filename' => $filename, 'process_sections' => $process_sections);
+        if (is_null($scan_mode) && defined('INI_SCANNER_NORMAL')) {
+            $scan_mode = INI_SCANNER_NORMAL;
+        }
+        $this->options['scan_mode'] = $scan_mode;
     }
 
     public function read()
     {
+        $filename = $this->options['filename'];
         if (!$this->content) {
-            if (!is_file($this->filename)) {
-                throw new mzzIoException($this->filename);
+            if (!is_file($filename)) {
+                throw new mzzIoException($filename);
             }
-
-            $this->content = parse_ini_file($this->filename, true);
+            if (defined('INI_SCANNER_RAW')) {
+                $this->content = parse_ini_file($filename, $this->options['process_sections'], $this->options['scan_mode']);
+            } else {
+                $this->content = parse_ini_file($filename, $this->options['process_sections']);
+            }
         }
 
         return $this->content;
@@ -34,7 +42,7 @@ class iniFile
             $content .= "\r\n";
         }
         $content = substr($content, 0, -2);
-        file_put_contents($this->filename, $content);
+        file_put_contents($this->options['filename'], $content);
 
         $this->content = $array;
 

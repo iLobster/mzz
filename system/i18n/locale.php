@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('service/iniFile');
+
 /**
  * locale: класс для работы с локалями
  *
@@ -63,7 +65,8 @@ class locale
             $this->locale_file = $this->resolve($this->name = 'en');
         }
 
-        $this->data = parse_ini_file($this->locale_file, true);
+        $file = new iniFile($this->locale_file);
+        $this->data = $file->read();
     }
 
     /**

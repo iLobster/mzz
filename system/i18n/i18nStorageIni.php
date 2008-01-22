@@ -13,6 +13,7 @@
  */
 
 fileLoader::load('i18n/i18nStorage');
+fileLoader::load('service/iniFile');
 
 /**
  * i18nStorageIni: класс для получения переводов из ini-файлов
@@ -39,7 +40,8 @@ class i18nStorageIni implements i18nStorage
     public function __construct($module, $lang)
     {
         $file = fileLoader::resolve($module . '/i18n/' . $lang . '.ini');
-        $this->data = parse_ini_file($file, true);
+        $file = new iniFile($file);
+        $this->data = $file->read();
     }
 
     /**
