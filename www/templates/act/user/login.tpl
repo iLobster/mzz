@@ -1,1 +1,1 @@
-{load module="user" action="login" section="user" 403handle="none"}
+{load module="user" action="login" section="user"}

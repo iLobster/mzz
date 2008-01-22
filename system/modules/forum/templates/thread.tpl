@@ -102,4 +102,4 @@
     <div class="pages">{$pager->toString()}</div>
 {/if}
 <br /><br />
-{load module="forum" action="post" id=$thread->getId() 403handle="manual" quickpost="true"}
+{load module="forum" action="post" id=$thread->getId() quickpost="true"}

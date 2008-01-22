@@ -9,7 +9,7 @@
         </div>
         <div id="menucontainer">
             <div id="navMenu">
-                {load module="menu" section="menu" action="view" name="hmenu" tplPrefix="header" 403handle="none"}
+                {load module="menu" section="menu" action="view" name="hmenu" tplPrefix="header"}
             </div>
         </div>
 
@@ -20,9 +20,9 @@
                 <div id="container">
                     <!--  left column  -->
                     <div id="col1">
-                        {load module="menu" section="menu" action="view" name="smenu" tplPrefix="side" 403handle="none"}
+                        {load module="menu" section="menu" action="view" name="smenu" tplPrefix="side"}
                         <div class="sideBlock">
-                            {load module="user" action="loginForm" section="user" id=0 403handle="none"}
+                            {load module="user" action="loginForm" section="user" id=0}
                         </div>
                     </div>
 

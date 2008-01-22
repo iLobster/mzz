@@ -1,1 +1,1 @@
-{load module="captcha" action="view" 403handle="none"}
+{load module="captcha" action="view"}

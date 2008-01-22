@@ -1,1 +1,1 @@
-{load module="comments" action="post" 403handle="manual"}
+{load module="comments" action="post"}

@@ -12,4 +12,4 @@
     </div>
 {/if}
 <br />
-{load module="comments" section="comments" action="post" parent_id=$parent_id 403handle="manual"}
+{load module="comments" section="comments" action="post" parent_id=$parent_id}

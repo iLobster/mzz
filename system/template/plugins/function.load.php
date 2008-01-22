@@ -67,9 +67,10 @@ function smarty_function_load($params, $smarty)
     }
 
     $access = true;
+    $actionConfig = $action->getAction();
 
     // проверяем - не отключена ли в данном запуске модуля проверка прав
-    if (!isset($params['403handle']) || $params['403handle'] != 'none') {
+    if (!isset($actionConfig['403handle']) || $actionConfig['403handle'] != 'none') {
 
         $mappername = $action->getType() . 'Mapper';
         $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
@@ -99,7 +100,7 @@ function smarty_function_load($params, $smarty)
     }
 
     // проверяем, включен ли ручной режим проверки прав
-    if (isset($params['403handle']) && $params['403handle'] == 'manual') {
+    if (isset($actionConfig['403handle']) && $actionConfig['403handle'] == 'manual') {
         $request->setParam('access', $access);
         $access = true;
     }

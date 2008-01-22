@@ -1,7 +1,7 @@
 {* main="adminHeader.tpl" placeholder="content" *}
 <div id="page">
     <div id="header">
-        <div class="loginInfo">{load module="user" action="login" section="user" id=0 403handle="none" tplPrefix="admin"}</div>
+        <div class="loginInfo">{load module="user" action="login" section="user" id=0 tplPrefix="admin"}</div>
         <div class="siteName"><div>www.mzz.ru</div></div>
         <div class="favorite">
             <div>
