@@ -73,10 +73,10 @@ class photoMapper extends simpleMapper
         $file = $do->getFile();
 
         if ($file) {
-            $config = systemToolkit::getInstance()->getConfig('gallery', $this->section);
-            if ($config->get('fileManager_path') == $file->getFolder()->getPath()) {
-                $fileMapper->delete($file);
+            if ($file->extra()) {
+                $file->extra()->delete();
             }
+            $fileMapper->delete($file);
         }
 
         parent::delete($do->getId());

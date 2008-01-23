@@ -30,26 +30,26 @@ class photo extends simple
         $width = $config->get('thmb_width');
         $height = $config->get('thmb_height');
 
-        return $this->getFile()->extra()->getThumbnail($width, $height);
+        $file = $this->getFile();
+        if ($file) {
+            return $file->extra()->getThumbnail($width, $height);
+        }
+
+        $file = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'gallery' . DIRECTORY_SEPARATOR . 'notfound_' . $width . 'x' . $height . '.jpg';
+        if (!is_file($file)) {
+            fileLoader::load('service/image');
+            $image = new image(dirname($file) . DIRECTORY_SEPARATOR . 'notfound.jpg');
+            $image->resize($width, $height);
+            $image->save($file);
+        }
+
+        return SITE_PATH . '/files/gallery/' . basename($file);
     }
 
     public function getFile()
     {
         $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getFolderId();
-        $file = $this->getFromFM($folder_id);
-
-        if (!$file) {
-            $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getSystemFolderId();
-
-            $fileMapper = $this->getFileMapper();
-
-            $criteria = new criteria();
-            $criteria->add('name', 'notfound.jpg')->add('folder_id', $folder_id);
-
-            $file = $fileMapper->searchOneByCriteria($criteria);
-        }
-
-        return $file;
+        return $this->getFromFM($folder_id);
     }
 
     protected function getFromFM($folder_id)
@@ -93,7 +93,6 @@ class photo extends simple
         $file = $this->getFile();
         return (is_null($file)) ? null : $file->getAbout();
     }
-
 
     public function getAcl($name = null)
     {

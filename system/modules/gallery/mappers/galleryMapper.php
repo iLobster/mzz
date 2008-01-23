@@ -89,41 +89,6 @@ class galleryMapper extends simpleMapper
         return $folder_id;
     }
 
-    public function getSystemFolderId()
-    {
-        static $folder_id = 0;
-
-        if (!$folder_id) {
-            $config = systemToolkit::getInstance()->getConfig('gallery', $this->section);
-            $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', $config->get('filemanager_section'));
-            $folder = $folderMapper->searchOneByField('path', 'root/system');
-
-            if (!$folder) {
-                throw new mzzRuntimeException('Не найден путь "root/system" в секции ' . $config->get('filemanager_section') . ' модуля fileManager');
-            }
-
-            $folder_id = $folder->getId();
-        }
-
-        return $folder_id;
-    }
-
-    /*
-    public function getThumbFolderId()
-    {
-        static $thumb_folder_id = 0;
-
-        if (!$thumb_folder_id) {
-            $config = systemToolkit::getInstance()->getConfig('gallery', $this->section);
-            $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', $config->get('filemanager_section'));
-            $folder = $folderMapper->searchOneByField('path', 'root/gallery/thumbnails');
-            $thumb_folder_id = $folder->getId();
-        }
-
-        return $thumb_folder_id;
-    }
-    */
-
     public function convertArgsToObj($args)
     {
         $gallery = $this->searchOneByField('owner.login', $args['name']);

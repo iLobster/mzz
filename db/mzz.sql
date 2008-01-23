@@ -462,15 +462,14 @@ CREATE TABLE `fileManager_file` (
 #
 
 INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `direct_link`, `about`, `folder_id`, `obj_id`, `storage_id`) VALUES 
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1200916988,29,1,0,'По фамилии Fernandes',5,611,1),
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1201062605,46,1,0,'По фамилии Fernandes',5,611,1),
   (15,'a0494eeadea195b23bc2947780346d47','2.jpg','jpg',28565,1193874091,NULL,1,0,'',5,1195,1),
   (16,'10fb1fa8b1d8cc73842511e6d77fb441','3.jpg','jpg',36957,1200917090,4,1,0,'',5,1199,1),
   (17,'f7566302d872ec98768bfa775b5c7dce','4.jpg','jpg',32557,1200916924,4,1,0,'',5,1203,1),
   (18,'eca188a35070342d2daa3d11b904d32f','5.jpg','jpg',31552,1197726704,7,1,0,'',5,1207,1),
   (23,'fc6bfaf392fd56f0c1353a304ee609f0','6.jpg','jpg',33454,1193874183,NULL,1,0,'',5,1215,1),
   (24,'c77d18916bbfc6c1b7e25fd66d1055ae','7.jpg','jpg',28233,1193988674,2,1,0,'',5,1219,1),
-  (25,'b09b5fb89d1399ba4f66c1f5b5940981','avatar_1.jpg','jpg',4545,1199847233,7,1,0,'',8,1275,1),
-  (26,'21e111e33fcaee9b0371405f94b2e5a6.jpg','notfound.jpg','jpg',40260,1201056438,NULL,1,0,'',7,1283,1);
+  (25,'b09b5fb89d1399ba4f66c1f5b5940981','avatar_1.jpg','jpg',4545,1199847233,7,1,0,'',8,1275,1);
 
 COMMIT;
 
@@ -499,7 +498,6 @@ CREATE TABLE `fileManager_folder` (
 INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`) VALUES 
   (1,'root','/',1,'root',195,NULL,NULL),
   (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg'),
-  (7,'system','Системный каталог',7,'root/system',1093,0,''),
   (8,'avatars','Аватары',8,'root/avatars',1274,0,'jpg;gif');
 
 COMMIT;
@@ -526,10 +524,9 @@ CREATE TABLE `fileManager_folder_tree` (
 #
 
 INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
-  (1,1,8,1),
+  (1,1,6,1),
   (5,2,3,2),
-  (7,4,5,2),
-  (8,6,7,2);
+  (8,4,5,2);
 
 COMMIT;
 
@@ -5583,7 +5580,6 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1252,32),
   (1261,35),
   (1262,35),
-  (1093,15),
   (1160,11),
   (1161,40),
   (1162,41),
@@ -5652,8 +5648,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1273,47),
   (1274,15),
   (1275,14),
-  (1276,48),
-  (1283,14);
+  (1276,48);
 
 COMMIT;
 
@@ -7957,7 +7952,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (250,2,'ddece11c6168f35099a3548658110ed7',1201056512,'http://mzz/ru/gallery/admin/viewGallery','127.0.0.1');
+  (250,2,'ddece11c6168f35099a3548658110ed7',1201064402,'http://mzz/templates/images/admin','127.0.0.1');
 
 COMMIT;
 

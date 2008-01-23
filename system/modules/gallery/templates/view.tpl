@@ -9,7 +9,7 @@
     </tr>
     <tr valign="top">
         <td class="photoMainView">
-            <img src="{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo->getId() action="viewPhoto"}" alt="" /><br />
+            <img src="{if !$photo->getFile()}{$SITE_PATH}/files/gallery/notfound.jpg{else}{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo->getId() action="viewPhoto"}{/if}" alt="" /><br />
             {load module="comments" section="comments" action="list" id=$photo->getObjId() owner=$album->getGallery()->getOwner()->getId()}
         </td>
         <td>
@@ -24,7 +24,7 @@
         <tr>
          {foreach from=$photos item="photo_thmb"}
             <td><a href="{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo_thmb->getId() action="view"}">
-            <img {if $photo->getId() == $photo_thmb->getId()}class="currentPhoto"{/if}src="{$SITE_PATH}{$photo_thmb->getThumbnail()}" alt="{$photo_thmb->getName()} ({$photo_thmb->getFile()->getSize()|filesize})" /></a>
+            <img {if $photo->getId() == $photo_thmb->getId()}class="currentPhoto"{/if}src="{$SITE_PATH}{$photo_thmb->getThumbnail()}" alt="{$photo_thmb->getName()} {if $photo_thmb->getFile()}({$photo_thmb->getFile()->getSize()|filesize}){/if}" /></a>
             </td>
         {/foreach}
         </tr>
@@ -38,8 +38,8 @@
         <div class="photoAddonDescription">
             <strong>{_ additional_info}</strong><br />
             <ul>
-              <li>{_ date_of_uploading}: {$photo->getFile()->getModified()|date_format:"%e %B %Y, %H:%M"}</li>
-              <li>{_ viewed}: {$photo->getFile()->getDownloads()}</li>
+              {if $photo->getFile()}<li>{_ date_of_uploading}: {$photo->getFile()->getModified()|date_format:"%e %B %Y, %H:%M"}</li>
+              <li>{_ viewed}: {$photo->getFile()->getDownloads()}</li>{/if}
             </ul>
         </div>
         </td>

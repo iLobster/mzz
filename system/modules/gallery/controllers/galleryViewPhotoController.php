@@ -34,10 +34,12 @@ class galleryViewPhotoController extends simpleController
         $photo = $photoMapper->searchById($photo_id);
 
         $file = $photo->getFile();
-        try {
-            $file->download();
-        } catch (mzzIoException $e) {
-            return $e->getMessage();
+        if ($file) {
+            try {
+                $file->download();
+            } catch (mzzIoException $e) {
+                return $e->getMessage();
+            }
         }
     }
 }
