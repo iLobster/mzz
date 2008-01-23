@@ -149,5 +149,11 @@ class image
 
         return $types[$type];
     }
+
+    public function getExt()
+    {
+        return $this->ext == 'jpeg' ? 'jpg' : $this->ext;
+    }
 }
+
 ?>
