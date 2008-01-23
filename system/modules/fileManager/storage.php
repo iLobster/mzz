@@ -26,15 +26,37 @@ class storage extends simple
 
     public function rename($oldname, $newname)
     {
-        return rename($oldname, $this->getPath() . $newname);
+        $newname = $this->getPath() . $this->explode($newname);
+
+        $dir = dirname($newname);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0666, true);
+        }
+
+        return rename($oldname, $newname);
     }
 
     public function delete($file)
     {
-        file_put_contents('c:/q', $this->getPath() . $file->getRealname());
-        if (file_exists($filename = $this->getPath() . $file->getRealname())) {
+        if ($file instanceof file) {
+            $name = $file->getRealname();
+        } else {
+            $name = $file;
+        }
+
+        if (file_exists($filename = $this->getPath() . $this->explode($name))) {
             return unlink($filename);
         }
+    }
+
+    private function explode($name)
+    {
+        return $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name[3] . '/' . substr($name, 4);
+    }
+
+    public function getDownloadLink(file $file)
+    {
+        return $this->getWebPath() . $this->explode($file->getRealname());
     }
 }
 

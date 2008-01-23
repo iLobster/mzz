@@ -48,7 +48,7 @@ class file extends simple
     public function getDownloadLink()
     {
         if ($this->getDirectLink()) {
-            return $this->getStorage()->getWebPath() . '/' . $this->getRealname();
+            return $this->getStorage()->getDownloadLink($this);
         }
 
         $url = new url('withAnyParam');
