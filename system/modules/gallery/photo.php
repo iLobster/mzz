@@ -28,20 +28,28 @@ class photo extends simple
     {
         $config = systemToolkit::getInstance()->getConfig('gallery');
         $width = $config->get('thmb_width');
-        $height = $config->get('thmb_height');;
+        $height = $config->get('thmb_height');
 
         return $this->getFile()->extra()->getThumbnail($width, $height);
-
-        /*
-        $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getThumbFolderId();
-        return $this->getFromFM($folder_id);
-        */
     }
 
     public function getFile()
     {
         $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getFolderId();
-        return $this->getFromFM($folder_id);
+        $file = $this->getFromFM($folder_id);
+
+        if (!$file) {
+            $folder_id = systemToolkit::getInstance()->getMapper('gallery', 'gallery')->getSystemFolderId();
+
+            $fileMapper = $this->getFileMapper();
+
+            $criteria = new criteria();
+            $criteria->add('name', 'notfound.jpg')->add('folder_id', $folder_id);
+
+            $file = $fileMapper->searchOneByCriteria($criteria);
+        }
+
+        return $file;
     }
 
     protected function getFromFM($folder_id)

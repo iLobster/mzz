@@ -77,13 +77,38 @@ class galleryMapper extends simpleMapper
         if (!$folder_id) {
             $config = systemToolkit::getInstance()->getConfig('gallery', $this->section);
             $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', $config->get('filemanager_section'));
-            $folder = $folderMapper->searchOneByField('path', 'root/gallery');
+            $folder = $folderMapper->searchOneByField('path', $config->get('fileManager_path'));
+
+            if (!$folder) {
+                throw new mzzRuntimeException('Не найден путь "' . $config->get('fileManager_path') . '" в секции ' . $config->get('filemanager_section') . ' модуля fileManager');
+            }
+
             $folder_id = $folder->getId();
         }
 
         return $folder_id;
     }
 
+    public function getSystemFolderId()
+    {
+        static $folder_id = 0;
+
+        if (!$folder_id) {
+            $config = systemToolkit::getInstance()->getConfig('gallery', $this->section);
+            $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder', $config->get('filemanager_section'));
+            $folder = $folderMapper->searchOneByField('path', 'root/system');
+
+            if (!$folder) {
+                throw new mzzRuntimeException('Не найден путь "root/system" в секции ' . $config->get('filemanager_section') . ' модуля fileManager');
+            }
+
+            $folder_id = $folder->getId();
+        }
+
+        return $folder_id;
+    }
+
+    /*
     public function getThumbFolderId()
     {
         static $thumb_folder_id = 0;
@@ -97,6 +122,7 @@ class galleryMapper extends simpleMapper
 
         return $thumb_folder_id;
     }
+    */
 
     public function convertArgsToObj($args)
     {

@@ -32,44 +32,38 @@ class image
 
     protected $height;
 
-    public function __construct($image_src)
+    public function __construct($image_src, $type = null, $width = null, $height = null)
     {
-        if (!is_file($image_src) && is_writable($image_src)) {
-            throw new mzzIoException($image_src);
-        }
+        if (is_resource($image_src)) {
+            /*
+            почему-то тут не получается взять нормальные размеры изображения по ресурсу
+            if (!($this->width = imagesx($image_src) || !($this->height = imagesy($image_src)))) {
+                throw new mzzRuntimeException('Не удалось получить данные о размере изображения');
+            }
+            */
+            $this->image = $image_src;
+            $this->type = $type;
+            $this->ext = $this->getExtByType($type);
+            $this->width = $width;
+            $this->height = $height;
+        } else {
+            if (!is_file($image_src) && is_writable($image_src)) {
+                throw new mzzIoException($image_src);
+            }
 
-        $this->path = $image_src;
+            $this->path = $image_src;
+            list($this->width, $this->height, $this->type) = getimagesize($image_src);
+            $this->ext = $this->getExtByType($this->type);
 
-        list($this->width, $this->height, $this->type) = getimagesize($image_src);
-
-        switch ($this->type) {
-            case IMAGETYPE_GIF:
-                $ext = 'gif';
-                break;
-
-            case IMAGETYPE_JPEG:
-                $ext = 'jpeg';
-                break;
-
-            case IMAGETYPE_PNG:
-                $ext = 'png';
-                break;
-
-            default:
-                throw new mzzRuntimeException('Неверный тип файла');
-                break;
-        }
-
-        $this->ext = $ext;
-
-        if (!($this->image = call_user_func('imagecreatefrom' . $ext, $image_src))) {
-            throw new mzzRuntimeException('imagecreatefrom' . $ext . ' failed');
+            if (!($this->image = call_user_func('imagecreatefrom' . $this->ext, $image_src))) {
+                throw new mzzRuntimeException('imagecreatefrom' . $this->ext . ' failed');
+            }
         }
     }
 
     public function resize($width, $height)
     {
-        if (!in_array($this->ext, array('gif', 'jpeg', 'png'))) {
+        if (!in_array($this->type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG))) {
             throw new mzzRuntimeException('Неверный тип файла для изменения размера');
         }
 
@@ -114,6 +108,8 @@ class image
         $this->width = $width;
         $this->height = $height;
         $this->image = $image_resized;
+
+        return new image($this->image, $this->type, $this->width, $this->height);
     }
 
     public function save($filename = null)
@@ -127,7 +123,30 @@ class image
 
         if (call_user_func('image' . $this->ext, $this->image, $filename)) {
             return $filename;
+        } else {
+            throw new mzzRuntimeException('image' . $this->ext . ' failed');
         }
+    }
+
+    protected function getExtByType($type)
+    {
+        //@todo: подумать над поддержкой всех типов
+        $types = array(
+            IMAGETYPE_GIF => 'gif',
+            IMAGETYPE_JPEG => 'jpeg',
+            IMAGETYPE_PNG => 'png',
+            IMAGETYPE_SWF => 'swf',
+            IMAGETYPE_PSD => 'psd',
+            IMAGETYPE_BMP => 'bmp',
+            IMAGETYPE_TIFF_II => 'tiff',
+            IMAGETYPE_TIFF_MM => 'tiff'
+        );
+
+        if (!isset($types[$type])) {
+            throw new mzzRuntimeException('Неверный тип файла');
+        }
+
+        return $types[$type];
     }
 }
 ?>

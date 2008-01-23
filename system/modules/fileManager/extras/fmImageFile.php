@@ -27,7 +27,7 @@ class fmImageFile extends fmSimpleFile
 
                 fileLoader::load('service/image');
                 $image = new image($filename);
-                $resized = $image->resize($width, $height);
+                $image->resize($width, $height);
                 $image->save($file);
 
                 /*
