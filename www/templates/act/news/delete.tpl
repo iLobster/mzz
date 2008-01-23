@@ -1,2 +1,2 @@
 {load module="news" action="delete"}
-{load module="comments" section="comments" action="deleteFolder" 403handle="none"}
+{load module="comments" section="comments" action="deleteFolder"}

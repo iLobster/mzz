@@ -1,1 +1,1 @@
-{load module="message" action="send" 403handle="none"}
+{load module="message" action="send"}
