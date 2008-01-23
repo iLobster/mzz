@@ -303,15 +303,15 @@ abstract class simpleMapper
      */
     protected function insert(simple $object, $user = null)
     {
-        $toolkit = systemToolkit::getInstance();
-
-        if ($this->isObjIdEnabled()) {
-            $object->setObjId($toolkit->getObjectId());
-        }
-
         $fields_lang_independent =& $object->export();
 
         if (sizeof($fields_lang_independent) >= 1) {
+            $toolkit = systemToolkit::getInstance();
+
+            if ($this->isObjIdEnabled()) {
+                $object->setObjId($toolkit->getObjectId());
+            }
+
             $this->replaceRelated($fields_lang_independent, $object);
             $this->insertDataModify($fields_lang_independent);
 
