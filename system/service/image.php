@@ -32,15 +32,16 @@ class image
 
     protected $height;
 
-    public function __construct($image_src, $type = null, $width = null, $height = null)
+    public function __construct($image_src, $type = null)
     {
         if (is_resource($image_src)) {
-            /*
-            почему-то тут не получается взять нормальные размеры изображения по ресурсу
-            if (!($this->width = imagesx($image_src) || !($this->height = imagesy($image_src)))) {
+            $width = imagesx($image_src);
+            $height = imagesy($image_src);
+
+            if ($width === false || $height === false) {
                 throw new mzzRuntimeException('Не удалось получить данные о размере изображения');
             }
-            */
+
             $this->image = $image_src;
             $this->type = $type;
             $this->ext = $this->getExtByType($type);
