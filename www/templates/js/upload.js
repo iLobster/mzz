@@ -14,7 +14,7 @@ function mzzReadUploadStatus(name) {
         var statusDivId = name + (mzzUploadFile.contentWindow.document.getElementById(name + 'UploadStatusError') ? 'UploadStatusError' : 'UploadStatus');
         $(statusDivId).style.display = 'block';
         if (!mzzUploadFile.contentWindow.document.getElementById(statusDivId)) {
-            alert('Ошибка: не найден контейнер с идентификатором "' + statusDivId + '"');
+            alert('Ошибка: не найден контейнер с идентификатором "' + statusDivId + '". ' + "Ответ сервера: \n" + mzzUploadFile.contentWindow.document.body.innerHTML);
             return;
         }
         $(statusDivId).innerHTML = mzzUploadFile.contentWindow.document.getElementById(statusDivId).innerHTML;
