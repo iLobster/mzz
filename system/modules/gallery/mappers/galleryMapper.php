@@ -97,6 +97,17 @@ class galleryMapper extends simpleMapper
             return $gallery;
         }
 
+        $toolkit = systemToolkit::getInstance();
+        $user = $toolkit->getUser();
+        $action = $toolkit->getRequest()->getAction();
+        if ($args['name'] == $user->getLogin() && $action == 'viewGallery') {
+            $gallery = $this->create();
+            $gallery->setOwner($user);
+            $this->save($gallery);
+
+            return $gallery;
+        }
+
         throw new mzzDONotFoundException();
     }
 }

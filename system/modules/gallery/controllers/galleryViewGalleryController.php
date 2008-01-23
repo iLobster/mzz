@@ -33,13 +33,14 @@ class galleryViewGalleryController extends simpleController
             return $galleryMapper->get404()->run();
         }
 
-        //@todo: сделать проверку на возможность создания галереи
-
         $gallery = $galleryMapper->searchOneByField('owner', $user->getId());
         if (is_null($gallery)) {
+            return $galleryMapper->get404()->run();
+            /*
             $gallery = $galleryMapper->create();
             $gallery->setOwner($user);
             $galleryMapper->save($gallery);
+            */
         }
 
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');

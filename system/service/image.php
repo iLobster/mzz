@@ -15,7 +15,8 @@
 /**
  * image: класс для работы с изображениями
  *
- * @package systen
+ * @package system
+ * @subpackage service
  * @version 0.1
  */
 class image
