@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 
 class formValidator
@@ -81,9 +81,10 @@ class formValidator
     /**
      * Запуск валидаторов
      *
+     * @param array $data массив с валидируемыми данными
      * @return boolean true - в случае, если ни один из валидаторов не возвратил ошибку, false - в противном случае
      */
-    public function validate()
+    public function validate($data = array())
     {
         if (systemToolkit::getInstance()->getRequest()->get($this->submit, 'string', SC_REQUEST)) {
             $valid = true;
@@ -92,6 +93,13 @@ class formValidator
                 if ($this->errors->exists($name = $validator->getName())) {
                     continue;
                 }
+
+                if (isset($data[$name])) {
+                    $validator->setValue($data[$name]);
+                } elseif (!empty($data)) {
+                    $validator->setValue(null);
+                }
+
                 $result = $validator->validate();
 
                 if (!$result) {

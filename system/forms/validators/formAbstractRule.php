@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1.1
+ * @version 0.1.2
  */
 abstract class formAbstractRule
 {
@@ -61,12 +61,12 @@ abstract class formAbstractRule
         $name = explode(':', $name, 2);
         $type = 'string';
         if (sizeof($name) > 1) {
-           if (in_array($name[0], array('array', 'integer', 'float', 'string', 'boolean'))) {
-               $type = $name[0];
-           }
-           $name = $name[1];
+            if (in_array($name[0], array('array', 'integer', 'float', 'string', 'boolean'))) {
+                $type = $name[0];
+            }
+            $name = $name[1];
         } else {
-           $name = $name[0];
+            $name = $name[0];
         }
 
         $this->name = $name;

@@ -52,6 +52,22 @@ class formValidatorTest extends UnitTestCase
         $errors = $this->validator->getErrors();
         $this->assertEqual($errors->get($field), $errorMsg);
     }
+
+    public function testValidateFromArg()
+    {
+        $data = array('foo'=> true);
+
+        $this->validator->add('required', 'foo');
+        $this->validator->add('required', 'bar', $errorMsg = 'Some error message');
+
+        $this->assertFalse($this->validator->validate($data));
+        $errors = $this->validator->getErrors();
+        $this->assertEqual($errors->get('bar'), $errorMsg);
+
+        $data['bar'] = 10;
+        $this->validator->add('numeric', 'bar');
+        $this->assertTrue($this->validator->validate($data));
+    }
 }
 
 ?>
