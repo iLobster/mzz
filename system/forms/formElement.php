@@ -65,9 +65,6 @@ abstract class formElement
         $html = '<' . $name . self::optionsToString($options);
         if ($content !== false) {
             $content = is_scalar($content) ? $content : '';
-            if ($name == 'script') {
-                $content = "\r\n<!--\r\n" . $content . "\r\n//-->\r\n";
-            }
             $html .= '>' . $content . '</' . $name . '>';
         } else {
             $html .= ($name == 'form') ? '>' : ' />';
