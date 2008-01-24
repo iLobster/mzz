@@ -17,12 +17,13 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 class formTextField extends formElement
 {
     static public function toString($options = array())
     {
+        static $i = 0;
         if (!isset($options['type'])) {
             $options['type'] = 'text';
         }
@@ -35,7 +36,18 @@ class formTextField extends formElement
             $options['value'] = self::getValue($options['name'], $options['value']);
         }
 
-        return self::createTag($options);
+        $autocomplete = '';
+        if (isset($options['autocomplete']) && $options['autocomplete']) {
+            $id = isset($options['id']) ? $options['id'] : '__autocompleter_' . $i++;
+            $div = array('id' => $id . '_autocompleter', 'class' => 'autocomplete');
+            $autocomplete .= self::buildTag($div, 'div', '');
+            $content = 'var ' . $id . "_autocompleter = new Ajax.Autocompleter('" . $id . "', '" . $id . "_autocompleter', '" . SITE_PATH . $options['autocomplete'] . "', (autocompleterOptions && autocompleterOptions." . $id . ") ? autocompleterOptions." . $id . ' : {});';
+            $js = array('type' => 'text/javascript');
+            $autocomplete .= self::buildTag($js, 'script', $content);
+            unset($options['autocomplete']);
+        }
+
+        return self::createTag($options) . $autocomplete;
     }
 }
 

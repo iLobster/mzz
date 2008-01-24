@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1.1
+ * @version 0.1.2
  */
 abstract class formElement
 {
@@ -54,15 +54,24 @@ abstract class formElement
         if (self::isFreeze($options)) {
             $html = $options['value'];
         } else {
-            $html = '<' . $name . self::optionsToString($options);
-            if ($content !== false) {
-                $content = is_scalar($content) ? $content : '';
-                $html .= '>' . $content . '</' . $name . '>';
-            } else {
-                $html .= ($name == 'form') ? '>' : ' />';
-            }
+            $html = self::buildTag($options, $name, $content);
         }
 
+        return $html;
+    }
+
+    static public function buildTag($options, $name = 'input', $content = false)
+    {
+        $html = '<' . $name . self::optionsToString($options);
+        if ($content !== false) {
+            $content = is_scalar($content) ? $content : '';
+            if ($name == 'script') {
+                $content = "\r\n<!--\r\n" . $content . "\r\n//-->\r\n";
+            }
+            $html .= '>' . $content . '</' . $name . '>';
+        } else {
+            $html .= ($name == 'form') ? '>' : ' />';
+        }
         return $html;
     }
 
