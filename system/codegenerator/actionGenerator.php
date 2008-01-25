@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.5
+ * @version 0.1.6
  */
 
 class actionGenerator
@@ -369,7 +369,7 @@ class actionGenerator
         }
 
         if (!is_dir($tpl_filename = 'templates')) {
-            $tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $action . '.tpl';
+            $tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module;
         }
 
         if (is_file($tpl_filename = $tpl_filename . DIRECTORY_SEPARATOR . $action . '.tpl')) {
