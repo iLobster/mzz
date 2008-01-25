@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.20
+ * @version 0.3.21
  */
 
 abstract class simpleMapper
@@ -633,7 +633,7 @@ abstract class simpleMapper
             //$criteria->addJoin($val['table'], $joinCriterion, $key, $val['join_type']);
             $criteria->addJoin($mapper->getTable(), $joinCriterion, $key, $val['join_type']);
 
-            $this->addLangCriteria($criteria, $mapper, $key);
+            $this->addLangCriteria($criteria, $mapper, $key, $val['join_type']);
         }
     }
 
@@ -707,7 +707,15 @@ abstract class simpleMapper
         return $stmt;
     }
 
-    private function addLangCriteria(criteria $criteria, simpleMapper $mapper = null, $alias = null)
+    /**
+     * Добавление критерия, присоединяющего таблицу с языкозависимыми данными
+     *
+     * @param criteria $criteria
+     * @param simpleMapper $mapper
+     * @param string $alias
+     * @param string $langJoinType
+     */
+    private function addLangCriteria(criteria $criteria, simpleMapper $mapper = null, $alias = null, $langJoinType = criteria::JOIN_INNER)
     {
         // если не передан маппер - используем текущую инстанцию
         if (is_null($mapper)) {
@@ -732,13 +740,18 @@ abstract class simpleMapper
             $criterion = new criterion($alias . '.' . $mapper->tableKey, $alias_lang . '.' . $mapper->tableKey, criteria::EQUAL, true);
             $criterion->addAnd(new criterion($alias_lang . '.' . $mapper->langIdField, $lang_id));
 
-            $join_type = $mapper->forceLangId ? criteria::JOIN_LEFT : criteria::JOIN_INNER;
-            //echo '<pre>'; var_dump($this->forceLangId); echo '</pre>';
+            $join_type = ($mapper->forceLangId || $langJoinType == criteria::JOIN_LEFT) ? criteria::JOIN_LEFT : criteria::JOIN_INNER;
+
             $criteria->addJoin($lang_tablename, $criterion, $alias_lang, $join_type);
         }
     }
 
-    protected function count($criteria)
+    /**
+     * Передача в пейджер числа найденных записей
+     *
+     * @param criteria $criteria
+     */
+    protected function count(criteria $criteria)
     {
         $criteriaForCount = clone $criteria;
         $criteriaForCount->clearSelectFields()->addSelectField(new sqlFunction('count', '*', true), 'cnt');
@@ -756,14 +769,21 @@ abstract class simpleMapper
      *
      * @param criteria $criteria
      */
-    protected function addOrderBy($criteria)
+    protected function addOrderBy(criteria $criteria)
     {
+        $langFields = $this->getLangFields();
+
         // добавляем сортировку
         $orderBy = array();
         foreach ($this->map as $key => $val) {
             if (isset($val['orderBy'])) {
                 if (!is_numeric($val['orderBy'])) {
                     throw new mzzInvalidParameterException('Параметр orderBy в ' . $this->className . '.ini должен быть целым числом', $val['orderBy']);
+                }
+
+                // если поле языкозависимое и по нему происходит сортировка - добавляем префикс нужной таблицы
+                if (in_array($key, $langFields)) {
+                    $key = $this->className . $this->langTablePostfix . '.' . $key;
                 }
 
                 $orderBy[$val['orderBy']] = array('field' => $key, 'direction' => (isset($val['orderByDirection']) ? strtolower($val['orderByDirection']) : 'asc'));
@@ -819,6 +839,9 @@ abstract class simpleMapper
      */
     public function searchOneByCriteria(criteria $criteria)
     {
+        // добавляем пользовательские поля в запрос
+        $this->addFields($criteria);
+
         $stmt = $this->searchByCriteria($criteria);
 
         $row = $stmt->fetch();
@@ -854,6 +877,9 @@ abstract class simpleMapper
      */
     public function searchAllByCriteria(criteria $criteria)
     {
+        // добавляем пользовательские поля в запрос
+        $this->addFields($criteria);
+
         $stmt = $this->searchByCriteria($criteria);
         $result = array();
 
@@ -1021,6 +1047,15 @@ abstract class simpleMapper
         if (!isset($map[$this->obj_id_field]) && $this->isObjIdEnabled()) {
             $map[$this->obj_id_field] = array('name' => $this->obj_id_field, 'accessor' => 'getObjId', 'mutator' => 'setObjId', 'once' => 'true');
         }
+    }
+
+    /**
+     * Добавление/изменение полей в выборке при выполнении запросов
+     *
+     * @param criteria $criteria
+     */
+    protected function addFields(&$criteria)
+    {
     }
 
     /**

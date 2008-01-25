@@ -6,6 +6,7 @@ fileLoader::load('simple');
 fileLoader::load('cases/modules/simple/stubMapper.class');
 fileLoader::load('cases/modules/simple/stubMapperDataModify.class');
 fileLoader::load('cases/modules/simple/stubMapperSelectDataModify.class');
+fileLoader::load('cases/modules/simple/stubMapperAddFields.class');
 
 class simpleMapperTest extends unitTestCase
 {
@@ -219,6 +220,18 @@ class simpleMapperTest extends unitTestCase
             $this->assertEqual($val->getBar(), 'bar' . $i);
             $i--;
         }
+    }
+
+    public function testAddFields()
+    {
+        $this->fixture();
+
+        $this->mapper = new stubMapperAddFields('simple');
+        $this->mapper->setMap($this->map);
+
+        $simple = $this->mapper->searchByKey(3);
+
+        $this->assertEqual('3oof', $simple->getFoo());
     }
 
     private function countRecord()

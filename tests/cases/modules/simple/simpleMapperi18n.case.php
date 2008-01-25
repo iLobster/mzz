@@ -39,11 +39,11 @@ class simpleMapperi18nTest extends unitTestCase
     {
         $valString = '';
         foreach ($this->fixture as $id => $data) {
-            $valString .= "('" . $data['foo'] . "', '" . $data['bar']. "'),";
+            $valString .= "('" . $data['bar']. "'),";
         }
         $valString = substr($valString, 0,  -1);
 
-        $this->db->query('INSERT INTO `simple_stubSimple` (`foo`,`bar`) VALUES ' . $valString);
+        $this->db->query('INSERT INTO `simple_stubSimple` (`bar`) VALUES ' . $valString);
 
         $valString = '';
         foreach ($this->fixture_i18n as $data) {
@@ -203,6 +203,27 @@ class simpleMapperi18nTest extends unitTestCase
         $item4 = $this->mapper->searchByKey(2);
         $this->assertEqual($item4->getFoo(), $foo);
         $this->assertEqual($item4->getBar(), $bar);
+    }
+
+    public function testSortingByLangFields()
+    {
+        $map = $this->map;
+        $map['foo']['orderBy'] = '1';
+        $map['foo']['orderByDirection'] = 'DESC';
+
+        $this->fixture();
+        $this->mapper->setMap($map);
+        $res = $this->mapper->searchAll();
+
+        $i = count($res);
+
+        $this->assertEqual($i, 2);
+
+        $first = reset($res);
+        $this->assertEqual($first->getId(), 3);
+
+        $next = next($res);
+        $this->assertEqual($next->getId(), 1);
     }
 
     private function countRecord()
