@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.1.1
  */
 
 class storage extends simple
@@ -52,6 +52,11 @@ class storage extends simple
     private function explode($name)
     {
         return $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name[3] . '/' . substr($name, 4);
+    }
+
+    public function getLinkToFile(file $file)
+    {
+        return $this->getPath() . $this->explode($file->getRealname());
     }
 
     public function getDownloadLink(file $file)

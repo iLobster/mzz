@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.2
+ * @version 0.1.3
  */
 class file extends simple
 {
@@ -42,7 +42,7 @@ class file extends simple
 
     public function getRealFullPath()
     {
-        return $this->getStorage()->getPath() . DIRECTORY_SEPARATOR . $this->getRealname();
+        return $this->getStorage()->getLinkToFile($this);
     }
 
     public function getDownloadLink()
