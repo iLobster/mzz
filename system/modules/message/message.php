@@ -28,7 +28,7 @@ class message extends simple
     {
         if ($name == 'view' || $name == 'delete') {
             $user_id = ($this->getCategory()->getName() == 'sent') ? $this->getSender()->getId() : $this->getRecipient()->getId();
-            return $user_id == systemToolkit::getInstance()->getUser()->getId();
+            return $user_id == systemToolkit::getInstance()->getUser()->getId() && systemToolkit::getInstance()->getUser()->isLoggedIn();
         }
 
         return parent::getAcl($name);

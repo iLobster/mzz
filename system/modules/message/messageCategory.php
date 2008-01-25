@@ -23,6 +23,11 @@
 class messageCategory extends simple
 {
     protected $name = 'message';
+
+    public function getAcl($name = null)
+    {
+        return systemToolkit::getInstance()->getUser()->isLoggedIn();
+    }
 }
 
 ?>
