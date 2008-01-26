@@ -22,6 +22,11 @@
 class group extends simple
 {
     protected $name = 'user';
+
+    public function getUsersCount()
+    {
+        return $this->mapper->getUsersCount($this);
+    }
 }
 
 ?>

@@ -5648,7 +5648,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1273,47),
   (1274,15),
   (1275,14),
-  (1276,48);
+  (1276,48),
+  (1284,7);
 
 COMMIT;
 
@@ -5741,7 +5742,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (95,'tagsCloud'),
   (96,'itemsTagsCloud'),
   (97,'searchByTag'),
-  (98,'profile');
+  (98,'profile'),
+  (99,'groupAdmin');
 
 COMMIT;
 
@@ -5979,7 +5981,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (46,'tagsItemRel',17),
   (47,'captcha',18),
   (48,'profile',15),
-  (49,'storage',9);
+  (49,'storage',9),
+  (50,'userFolder',2);
 
 COMMIT;
 
@@ -6079,8 +6082,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (115,20,9),
   (116,6,29),
   (121,19,20),
-  (126,3,4),
-  (127,4,51),
+  (270,50,4),
+  (271,50,51),
   (129,19,3),
   (130,21,9),
   (131,22,9),
@@ -6106,7 +6109,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (158,26,20),
   (160,26,63),
   (161,25,64),
-  (167,3,69),
+  (276,50,99),
   (168,21,20),
   (169,28,9),
   (170,29,9),
@@ -6180,7 +6183,11 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (258,48,9),
   (259,48,98),
   (260,49,9),
-  (261,36,73);
+  (261,36,73),
+  (272,51,9),
+  (263,50,9),
+  (264,50,20),
+  (266,50,69);
 
 COMMIT;
 
@@ -6247,7 +6254,9 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (42,46,17),
   (43,47,18),
   (47,48,15),
-  (48,49,9);
+  (48,49,9),
+  (49,50,2),
+  (50,51,2);
 
 COMMIT;
 
@@ -6296,7 +6305,7 @@ CREATE TABLE `sys_modules` (
 
 INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`) VALUES 
   (1,'news',1,'Новости','news.gif',10),
-  (2,'user',3,'Пользователи','users.gif',90),
+  (2,'user',50,'Пользователи','users.gif',90),
   (4,'page',6,'Страницы','pages.gif',20),
   (5,'access',7,'Права доступа','access.gif',10),
   (6,'admin',9,'Администрирование','admin.gif',20),
@@ -7614,7 +7623,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1280),
   (1281),
   (1282),
-  (1283);
+  (1283),
+  (1284);
 
 COMMIT;
 
@@ -7693,7 +7703,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (1244,'sys_catalogue'),
   (1245,'access_sys_admin'),
   (1246,'tags_tagsCloud'),
-  (1273,'forum_profile');
+  (1273,'forum_profile'),
+  (1284,'access_user_userFolder');
 
 COMMIT;
 
@@ -7866,8 +7877,8 @@ CREATE TABLE `user_user` (
 #
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
-  (1,12,'guest','',NULL,NULL,1199847239),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1200917137),
+  (1,12,'guest','',NULL,NULL,1201323712),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1201064402),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1199847248);
 
 COMMIT;
@@ -7897,7 +7908,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (92,2,'127.0.0.1','6bd1efd64e318d5f4fd08f1d267e7319',NULL,1196820540),
   (100,2,'127.0.0.1','11b46a73d07132b189997ff55ede1731',NULL,1199541613),
   (101,2,'127.0.0.1','18220b2e8aa81346e36197a4315ab17d',NULL,1200886538),
-  (102,2,'127.0.0.1','5c91b80a92487311be904b7fb5b72c0d',NULL,1200912518);
+  (102,2,'127.0.0.1','5c91b80a92487311be904b7fb5b72c0d',NULL,1200912518),
+  (103,2,'127.0.0.1','eb2b67263c46d4f8146217c77cdffe42',NULL,1201312783);
 
 COMMIT;
 
@@ -7952,7 +7964,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (250,2,'ddece11c6168f35099a3548658110ed7',1201064402,'http://mzz/templates/images/admin','127.0.0.1');
+  (252,2,'6e9bf7c98c4f6d6338666f5c0915fef4',1201327621,'http://mzz/ru/admin/27/listActions?ajax=1','127.0.0.1');
 
 COMMIT;
 

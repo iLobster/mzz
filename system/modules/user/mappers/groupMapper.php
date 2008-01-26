@@ -37,6 +37,8 @@ class groupMapper extends simpleMapper
      */
     protected $className = 'group';
 
+    protected $users_count = false;
+
     /**
      * Выполняет поиск объекта по идентификатору
      *
@@ -57,6 +59,26 @@ class groupMapper extends simpleMapper
     public function searchByName($name)
     {
         return $this->searchOneByField('name', $name);
+    }
+
+    public function getUsersCount(group $group)
+    {
+        if ($this->users_count === false) {
+            $userGroupMapper = systemToolkit::getInstance()->getMapper('user', 'userGroup', $this->section);
+
+            $criteria = new criteria();
+            $criteria->addSelectField(new sqlFunction('count', '*', true), $userGroupMapper->getClassName() . simpleMapper::TABLE_KEY_DELIMITER . 'cnt');
+            $criteria->addGroupBy('group_id');
+
+            $usersGroups = array();
+            foreach ($userGroupMapper->searchAllByCriteria($criteria) as $val) {
+                $usersGroups[$val->getGroup()->getId()] = $val->fakeField('cnt');
+            }
+
+            $this->users_count = $usersGroups;
+        }
+
+        return (isset($this->users_count[$group->getId()]) ? $this->users_count[$group->getId()] : 0);
     }
 
     public function convertArgsToObj($args)

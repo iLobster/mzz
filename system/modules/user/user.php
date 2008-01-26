@@ -23,6 +23,8 @@ class user extends simple
 {
     protected $name = 'user';
 
+    protected $online = false;
+
     /**
      * Проверяет является ли пользователь авторизированным
      * Пользователь считается таковым, если у него установлен
@@ -38,6 +40,20 @@ class user extends simple
     public function isConfirmed()
     {
         return is_null($this->getConfirmed());
+    }
+
+    public function getOnline()
+    {
+        if ($this->online === false) {
+            $this->online = $this->mapper->getOnline($this->getId());
+        }
+
+        return $this->online;
+    }
+
+    public function isActive()
+    {
+        return !is_null($this->getOnline());
     }
 
     /**

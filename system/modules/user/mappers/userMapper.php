@@ -85,6 +85,12 @@ class userMapper extends simpleMapper
         }
     }
 
+    public function getOnline($id)
+    {
+        $userOnlineMapper = systemToolkit::getInstance()->getMapper('user', 'userOnline', $this->section);
+        return $userOnlineMapper->searchOneByField('user_id', $id);
+    }
+
     /**
      * Возвращает список групп, в которых существует
      * пользователь с идентификатором $id
@@ -194,10 +200,11 @@ class userMapper extends simpleMapper
             if ($user) {
                 return $user;
             }
-
-            throw new mzzDONotFoundException();
         }
 
+        throw new mzzDONotFoundException();
+
+        /*
         $toolkit = systemToolkit::getInstance();
         $obj_id = $toolkit->getObjectId($this->section . '_userFolder');
         $this->register($obj_id);
@@ -206,6 +213,7 @@ class userMapper extends simpleMapper
         $user->import(array('obj_id' => $obj_id));
 
         return $user;
+        */
     }
 }
 
