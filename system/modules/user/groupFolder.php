@@ -13,19 +13,16 @@
  */
 
 /**
- * userGroupAdminController: контроллер для метода groupAdmin модуля user
+ * groupFolder: класс для работы c данными
  *
  * @package modules
  * @subpackage user
  * @version 0.1
  */
 
-class userGroupAdminController extends simpleController
+class groupFolder extends simple
 {
-    protected function getView()
-    {
-        return $this->smarty->fetch('user/groupAdmin.tpl');
-    }
+    protected $name = 'user';
 }
 
 ?>

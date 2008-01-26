@@ -23,27 +23,21 @@ class userGroupsListController extends simpleController
 {
     protected function getView()
     {
+        $groupFolderMapper = $this->toolkit->getMapper('user', 'groupFolder');
+        $groupFolder = $groupFolderMapper->getFolder();
+
+        $userFolderMapper = $this->toolkit->getMapper('user', 'userFolder');
+        $userFolder = $userFolderMapper->getFolder();
+
         $groupMapper = $this->toolkit->getMapper('user', 'group');
         $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
 
-        $criteria = new criteria();
-        $criteria->addSelectField(new sqlFunction('count', '*', true), $userGroupMapper->getClassName() . simpleMapper::TABLE_KEY_DELIMITER . 'cnt');
-        $criteria->addGroupBy('group_id');
-
-        $usersGroups = array();
-        foreach ($userGroupMapper->searchAllByCriteria($criteria) as $val) {
-            $usersGroups[$val->getGroup()->getId()] = $val->fakeField('cnt');
-        }
-
         $config = $this->toolkit->getConfig('user', $this->request->getSection());
-
         $this->setPager($groupMapper, $config->get('items_per_page'), true);
 
         $this->smarty->assign('groups', $groupMapper->searchAll());
-        $this->smarty->assign('usersGroups', $usersGroups);
-        $this->smarty->assign('obj_id', $groupMapper->convertArgsToObj(null)->getObjId());
-
-        $this->response->setTitle('Пользователь -> Список групп');
+        $this->smarty->assign('userFolder', $userFolder);
+        $this->smarty->assign('groupFolder', $groupFolder);
 
         return $this->smarty->fetch('user/groupsList.tpl');
     }

@@ -25,29 +25,19 @@ class userAdminController extends simpleController
     protected function getView()
     {
         $userFolderMapper = $this->toolkit->getMapper('user', 'userFolder');
-        $folder = $userFolderMapper->getFolder();
-        $this->smarty->assign('folder', $folder);
+        $groupFolderMapper = $this->toolkit->getMapper('user', 'groupFolder');
 
-        $params = $this->request->get('params', 'string');
-        if (empty($params)) {
-            $params = 'users';
-        }
+        $userFolder = $userFolderMapper->getFolder();
+        $groupFolder = $groupFolderMapper->getFolder();
 
-        if ($params == 'groups') {
-            $groupMapper = $this->toolkit->getMapper('user', 'group');
-            $this->setPager($groupMapper);
+        $userMapper = $this->toolkit->getMapper('user', 'user');
+        $this->setPager($userMapper);
 
-            $this->smarty->assign('groups', $groupMapper->searchAll());
-            return $this->smarty->fetch('user/admin_groups.tpl');
-        } else if ($params == 'users') {
-            $userMapper = $this->toolkit->getMapper('user', 'user');
-            $this->setPager($userMapper);
-
-            $this->smarty->assign('users', $userMapper->searchAll());
-            return $this->smarty->fetch('user/admin.tpl');
-        }
-
-        return $userFolderMapper->get404()->run();
+        $this->smarty->assign('userFolder', $userFolder);
+        $this->smarty->assign('groupFolder', $groupFolder);
+        $this->smarty->assign('section_name', $this->request->get('section_name', 'string'));
+        $this->smarty->assign('users', $userMapper->searchAll());
+        return $this->smarty->fetch('user/admin.tpl');
     }
 }
 

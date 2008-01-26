@@ -49,7 +49,7 @@ COMMIT;
 # Synchronize for "sys_modules" Type: Source to target
 
 UPDATE `sys_modules` 
-SET `name`='user', `main_class`=50, `title`='Пользователи', `icon`='users.gif', `order`=90 
+SET `name`='user', `main_class`=50, `title`='РџРѕР»СЊР·РѕРІР°С‚РµР»Рё', `icon`='users.gif', `order`=90 
 WHERE `id`=2;
 COMMIT;
 

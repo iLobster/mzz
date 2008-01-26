@@ -83,6 +83,7 @@ class groupMapper extends simpleMapper
 
     public function convertArgsToObj($args)
     {
+        /*
         if (sizeof($args) == 0) {
             $toolkit = systemToolkit::getInstance();
             $obj_id = $toolkit->getObjectId($this->section . '_groupFolder');
@@ -93,8 +94,9 @@ class groupMapper extends simpleMapper
 
             return $group;
         }
+        */
 
-        if (isset($args['id']) && $group = $this->searchOneByField('id', $args['id'])) {
+        if (isset($args['id']) && $group = $this->searchByKey($args['id'])) {
             return $group;
         }
 

@@ -5649,7 +5649,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1274,15),
   (1275,14),
   (1276,48),
-  (1284,7);
+  (1284,7),
+  (1285,40);
 
 COMMIT;
 
@@ -5982,7 +5983,8 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (47,'captcha',18),
   (48,'profile',15),
   (49,'storage',9),
-  (50,'userFolder',2);
+  (50,'userFolder',2),
+  (52,'groupFolder',2);
 
 COMMIT;
 
@@ -6022,7 +6024,6 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (15,3,12),
   (16,3,2),
   (17,4,13),
-  (18,4,14),
   (19,4,15),
   (20,4,16),
   (21,4,17),
@@ -6109,7 +6110,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (158,26,20),
   (160,26,63),
   (161,25,64),
-  (276,50,99),
+  (279,52,51),
   (168,21,20),
   (169,28,9),
   (170,29,9),
@@ -6187,7 +6188,9 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (272,51,9),
   (263,50,9),
   (264,50,20),
-  (266,50,69);
+  (266,50,69),
+  (277,52,9),
+  (280,52,14);
 
 COMMIT;
 
@@ -6256,7 +6259,8 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (47,48,15),
   (48,49,9),
   (49,50,2),
-  (50,51,2);
+  (50,51,2),
+  (51,52,2);
 
 COMMIT;
 
@@ -7624,7 +7628,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1281),
   (1282),
   (1283),
-  (1284);
+  (1284),
+  (1285);
 
 COMMIT;
 
@@ -7825,7 +7830,8 @@ INSERT INTO `tags_tagsItem` (`id`, `item_obj_id`, `obj_id`, `owner`) VALUES
   (12,459,1166,NULL),
   (13,445,1170,NULL),
   (14,468,1174,NULL),
-  (15,460,1247,NULL);
+  (15,460,1247,NULL),
+  (16,463,1285,NULL);
 
 COMMIT;
 
@@ -7877,7 +7883,7 @@ CREATE TABLE `user_user` (
 #
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
-  (1,12,'guest','',NULL,NULL,1201323712),
+  (1,12,'guest','',NULL,NULL,1201330723),
   (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1201064402),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1199847248);
 
@@ -7964,7 +7970,9 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (252,2,'6e9bf7c98c4f6d6338666f5c0915fef4',1201327621,'http://mzz/ru/admin/27/listActions?ajax=1','127.0.0.1');
+  (252,2,'6e9bf7c98c4f6d6338666f5c0915fef4',1201331781,'http://mzz/templates/images/admin','127.0.0.1'),
+  (259,1,'c08b5949dc66137a1a1af3b97ec01e2e',1201330989,'http://mzz/ru/user/groupsList','127.0.0.1'),
+  (265,1,'1e18c1aa9520219f447e33f45f8177d5',1201330990,'http://mzz/favicon.ico','127.0.0.1');
 
 COMMIT;
 

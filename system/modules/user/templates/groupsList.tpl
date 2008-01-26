@@ -1,25 +1,28 @@
-{add file="popup.js"}
-<a href="{url route=withId section=access id=$obj_id action=editACL}" class="jipLink"><img src="{$SITE_PATH}/templates/images/acl.gif" /></a>
-<div id="submenu"><a href="{url route=default2 section=user action=list}">Пользователи</a></div>
+<div class="pageTitle">{if $userFolder->getAcl('admin')}<a href="{url route="admin" section_name=$current_section module_name="user" params="" action="admin"}">Пользователи</a> / {/if}<strong>Группы</strong>{$groupFolder->getJip()}</div>
 
-<table border="0" width="99%" cellpadding="4" cellspacing="1" class="systemTable">
-    <tr>
-        <td><strong>Id</strong></td>
-        <td><strong>Имя</strong></td>
-        <td><strong>Пользователей в группе</strong></td>
-        <td><strong>Jip</strong></td>
-    </tr>
-    {foreach from=$groups item=group key=key}
+<div class="pageContent">
+<table cellspacing="0" cellpadding="3" class="tableList">
+        <thead class="tableListHead">
+            <tr>
+                <td style="width: 30px;">ID:</td>
+                <td style="text-align: left;">Имя:</td>
+                <td style="width: 200px;">Пользователей в группе:</td>
+                <td style="width: 100px;">is default:</td>
+                <td style="width: 30px;">JIP</td>
+            </tr>
+        </thead>
+    {foreach from=$groups item="group"}
         <tr>
-            <td align="center">{$group->getId()}</td>
+            <td style="text-align: center;">{$group->getId()}</td>
             <td>{$group->getName()}</td>
-            <td>{$usersGroups.$key|default:0}</td>
-            <td>{$group->getJip()}</td>
+            <td style="text-align: center;">{$group->getUsersCount()}</td>
+            <td style="text-align: center;">{if $group->getIsDefault()}Да{else}Нет{/if}</td>
+            <td style="text-align: center;">{$group->getJip()}</td>
         </tr>
     {/foreach}
-    <tr>
-        <td align="center"><a href="{url section=user action=groupCreate}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" width="16" height="16" /></a></td>
-        <td colspan="3"><a href="{url route=default2 section=user action=groupCreate}" class="jipLink">Добавить группу</a></td>
+    <tr class="tableListFoot">
+        <td colspan="3">{$pager->toString('adminPager.tpl')}</td>
+        <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
     </tr>
 </table>
-<div class="pages">{$pager->toString()}</div>
+</div>
