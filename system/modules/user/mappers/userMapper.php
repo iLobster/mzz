@@ -188,6 +188,11 @@ class userMapper extends simpleMapper
         return $this->searchById(MZZ_USER_GUEST_ID);
     }
 
+    protected function insertDataModify(&$fields)
+    {
+        $fields['created'] = time();
+    }
+
     public function convertArgsToObj($args)
     {
         if (isset($args['id'])) {
