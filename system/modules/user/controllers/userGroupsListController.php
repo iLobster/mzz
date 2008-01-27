@@ -35,6 +35,15 @@ class userGroupsListController extends simpleController
         $config = $this->toolkit->getConfig('user', $this->request->getSection());
         $this->setPager($groupMapper, $config->get('items_per_page'), true);
 
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+
+        $this->smarty->assign('current_section', $this->request->getSection());
+        $this->smarty->assign('current_module', 'user');
+
+        $menu = $adminMapper->getAdminInfo();
+        unset($menu['admin'], $menu['access']);
+        $this->smarty->assign('admin_menu', $menu);
+
         $this->smarty->assign('groups', $groupMapper->searchAll());
         $this->smarty->assign('userFolder', $userFolder);
         $this->smarty->assign('groupFolder', $groupFolder);
