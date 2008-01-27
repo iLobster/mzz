@@ -67,7 +67,7 @@ class profileMapper extends simpleMapper
         $profile->setUser($user);
         $profile->setMessages(0);
 
-        $this->save($profile);
+        $this->save($profile, $user);
 
         return $profile;
     }

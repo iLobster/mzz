@@ -668,7 +668,7 @@ CREATE TABLE `forum_profile` (
 
 INSERT INTO `forum_profile` (`user_id`, `messages`, `signature`, `avatar_id`) VALUES 
   (2,8,'MZZ: opensource php5 framework',25),
-  (3,2,'',0);
+  (3,2,'Я педро!',0);
 
 COMMIT;
 
@@ -702,7 +702,7 @@ CREATE TABLE `forum_thread` (
 
 INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `sticky`, `stickyfirst`, `first_post`, `view_count`) VALUES 
   (25,'Правила раздела',8,1198826221,2,4,1256,93,0,1,1,84,6),
-  (26,'Я педро!',1,1199840852,3,4,1268,94,NULL,0,0,92,2);
+  (26,'Я педро!',1,1199840852,3,4,1268,94,NULL,0,0,92,3);
 
 COMMIT;
 
@@ -5136,7 +5136,9 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
   (5010,9,11,1229,2,NULL,1,0),
   (5011,5,11,1248,2,NULL,0,0),
   (5012,19,11,1248,2,NULL,0,0),
-  (5013,9,11,1248,2,NULL,1,0);
+  (5013,9,11,1248,2,NULL,1,0),
+  (5014,98,47,0,NULL,1,1,0),
+  (5015,98,47,0,NULL,2,1,0);
 
 COMMIT;
 
@@ -5650,7 +5652,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1275,14),
   (1276,48),
   (1284,7),
-  (1285,40);
+  (1285,40),
+  (1286,7);
 
 COMMIT;
 
@@ -5744,7 +5747,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (96,'itemsTagsCloud'),
   (97,'searchByTag'),
   (98,'profile'),
-  (99,'groupAdmin');
+  (99,'groupAdmin'),
+  (100,'editProfile');
 
 COMMIT;
 
@@ -6190,7 +6194,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (264,50,20),
   (266,50,69),
   (277,52,9),
-  (280,52,14);
+  (280,52,14),
+  (281,48,100);
 
 COMMIT;
 
@@ -7629,7 +7634,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1282),
   (1283),
   (1284),
-  (1285);
+  (1285),
+  (1286);
 
 COMMIT;
 
@@ -7709,7 +7715,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (1245,'access_sys_admin'),
   (1246,'tags_tagsCloud'),
   (1273,'forum_profile'),
-  (1284,'access_user_userFolder');
+  (1284,'access_user_userFolder'),
+  (1286,'access_forum_profile');
 
 COMMIT;
 
@@ -7883,8 +7890,8 @@ CREATE TABLE `user_user` (
 #
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
-  (1,12,'guest','',NULL,NULL,1201330723),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1201064402),
+  (1,12,'guest','',NULL,NULL,1201330990),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1201331781),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1199847248);
 
 COMMIT;
@@ -7915,7 +7922,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (100,2,'127.0.0.1','11b46a73d07132b189997ff55ede1731',NULL,1199541613),
   (101,2,'127.0.0.1','18220b2e8aa81346e36197a4315ab17d',NULL,1200886538),
   (102,2,'127.0.0.1','5c91b80a92487311be904b7fb5b72c0d',NULL,1200912518),
-  (103,2,'127.0.0.1','eb2b67263c46d4f8146217c77cdffe42',NULL,1201312783);
+  (103,2,'127.0.0.1','eb2b67263c46d4f8146217c77cdffe42',NULL,1201312783),
+  (104,3,'127.0.0.1','bfec7b933d293c744dc53e83f6539f60',NULL,1201401835);
 
 COMMIT;
 
@@ -7970,9 +7978,11 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (252,2,'6e9bf7c98c4f6d6338666f5c0915fef4',1201331781,'http://mzz/templates/images/admin','127.0.0.1'),
-  (259,1,'c08b5949dc66137a1a1af3b97ec01e2e',1201330989,'http://mzz/ru/user/groupsList','127.0.0.1'),
-  (265,1,'1e18c1aa9520219f447e33f45f8177d5',1201330990,'http://mzz/favicon.ico','127.0.0.1');
+  (270,1,'0154ad744f0846fa1a90253e23c5852c',1201401866,'http://mzz/favicon.ico','127.0.0.1'),
+  (269,3,'566c6f434769471711f7fa3e6b552264',1201402355,'http://mzz/ru/forum/3/editProfile','127.0.0.1'),
+  (268,1,'ad86aeb01aee19f2e570dbead548f183',1201401828,'http://mzz/favicon.ico','127.0.0.1'),
+  (266,2,'c8f78dd27764c0d9b0d99d8b179176da',1201402312,'http://mzz/ru/forum/2/profile','127.0.0.1'),
+  (271,1,'a336ffb1ca8c1afe42d052814751d0de',1201402108,'http://mzz/favicon.ico','127.0.0.1');
 
 COMMIT;
 

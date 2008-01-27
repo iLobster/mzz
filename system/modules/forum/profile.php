@@ -53,6 +53,18 @@ class profile extends simple
         }
     }
     */
+
+    public function getAcl($name = null)
+    {
+        if ($name == 'editProfile') {
+            if (systemToolkit::getInstance()->getUser()->getId() == $this->getId()) {
+                return true;
+            }
+        }
+
+        $access = parent::getAcl($name);
+        return $access;
+    }
 }
 
 ?>
