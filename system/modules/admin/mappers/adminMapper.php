@@ -702,6 +702,13 @@ class adminMapper extends simpleMapper
         );
     }
 
+    public function getMenu()
+    {
+        $menu = $this->getAdminInfo();
+        unset($menu['admin'], $menu['access']);
+        return $menu;
+    }
+
     public function convertArgsToObj($args)
     {
         $toolkit = systemToolkit::getInstance();
