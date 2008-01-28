@@ -28,9 +28,6 @@ class formSelectField extends formElement
 
         if (isset($options['multiple']) && $options['multiple'] && substr($options['name'], -2) !== '[]') {
             $options['name'] .= '[]';
-            $options['multiple'] = true;
-        } else {
-            $options['multiple'] = false;
         }
 
         $name = $options['name'];
@@ -62,7 +59,7 @@ class formSelectField extends formElement
                     $text = $text['content'];
                     unset($text_array['content']);
                 }
-                if ($options['multiple']) {
+                if (isset($options['multiple']) && $options['multiple']) {
                     if ($value == null) {
                         $value = array();
                     } else {
