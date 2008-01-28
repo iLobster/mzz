@@ -38,10 +38,19 @@ class formTextField extends formElement
 
         $autocomplete = '';
         if (isset($options['autocomplete']) && $options['autocomplete']) {
+            $type = substr($options['autocomplete'], 0, 1) == '[' ? 'local' : 'ajax';
             $id = isset($options['id']) ? $options['id'] : '__autocompleter_' . $i++;
             $div = array('id' => $id . '_autocompleter', 'class' => 'autocomplete');
             $autocomplete .= self::buildTag($div, 'div', '');
-            $content = 'var ' . $id . "_autocompleter = new Ajax.Autocompleter('" . $id . "', '" . $id . "_autocompleter', '" . SITE_PATH . $options['autocomplete'] . "', (autocompleterOptions && autocompleterOptions." . $id . ") ? autocompleterOptions." . $id . ' : {});';
+            $content = 'var ' . $id . "_autocompleter = new ";
+            $content .= $type == 'local' ? 'Autocompleter.Local' : 'Ajax.Autocompleter';
+            $content .= "('" . $id . "', '" . $id . "_autocompleter', ";
+            if ($type == 'local') {
+                $content .= $options['autocomplete'];
+            } else {
+                $content .= "'" . SITE_PATH . $options['autocomplete'] . "'";
+            }
+            $content .= ", (autocompleterOptions && autocompleterOptions." . $id . ") ? autocompleterOptions." . $id . ' : {});';
             $js = array('type' => 'text/javascript');
             $autocomplete .= self::buildTag($js, 'script', $content);
             unset($options['autocomplete']);

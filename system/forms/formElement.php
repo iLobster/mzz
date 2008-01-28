@@ -177,12 +177,12 @@ abstract class formElement
      * @param string $default значение по умолчанию, используется в случае, когда значение поля не найдено в суперглобальных массивах $_POST или $_GET
      * @return string
      */
-    static public function getValue($name, $default = false)
+    static public function getValue($name, $default = false, $array = false)
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
 
-        if($pos = strpos($name, '[]')) {
+        if(!$array && $pos = strpos($name, '[]')) {
             if (!isset(self::$counts[$name])) {
                 self::$counts[$name] = 0;
             } else {
@@ -190,6 +190,8 @@ abstract class formElement
             }
             $pos += 2;
             $name = str_replace('[]', '[' . self::$counts[$name] . ']', substr($name, 0, $pos)) . str_replace('[]', '[0]', substr($name, $pos));
+        } elseif ($array && substr($name, -2) == '[]') {
+            $name = substr($name, 0, strlen($name) - 2);
         }
         $value = $request->get($name, 'mixed', SC_REQUEST);
 

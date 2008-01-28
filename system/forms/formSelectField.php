@@ -28,6 +28,9 @@ class formSelectField extends formElement
 
         if (isset($options['multiple']) && $options['multiple'] && substr($options['name'], -2) !== '[]') {
             $options['name'] .= '[]';
+            $options['multiple'] = true;
+        } else {
+            $options['multiple'] = false;
         }
 
         $name = $options['name'];
@@ -47,7 +50,7 @@ class formSelectField extends formElement
             $options['freeze'] = true;
         }
         if (is_array($options['options'])) {
-            $value = self::getValue($name, $value);
+            $value = self::getValue($name, $value, true);
             foreach ($options['options'] as $key => $text) {
                 if (is_object($text) && isset($options['keyMethod']) && isset($options['valueMethod'])) {
                     $key = $text->$options['keyMethod']();
@@ -59,7 +62,16 @@ class formSelectField extends formElement
                     $text = $text['content'];
                     unset($text_array['content']);
                 }
-                $selected = ((string)$key == (string)$value);
+                if ($options['multiple']) {
+                    if ($value == null) {
+                        $value = array();
+                    } else {
+                        $value = (array)$value;
+                    }
+                    $selected = in_array($key, $value);
+                } else {
+                    $selected = ((string)$key == (string)$value);
+                }
                 if ($selected) {
                     $value_selected = array($key, $text);
                 }
@@ -74,7 +86,7 @@ class formSelectField extends formElement
                     if ($key == 'items') {
                         continue;
                     }
-                    $options_for_tag[$key] = $valu2;
+                    $options_for_tag[$key] = $value2;
                 }
 
                 if (isset($text_array['items'])) {
@@ -85,7 +97,7 @@ class formSelectField extends formElement
                     foreach ($text_array['items'] as $key => $item) {
                         $item['value'] = $key;
 
-                        if ($key == $value) {
+                        if ((string)$key == (string)$value || ($options['multiple'] && $selected = in_array($key, $value))) {
                             $item['selected'] = 'selected';
                         }
 
