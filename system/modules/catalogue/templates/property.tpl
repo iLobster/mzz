@@ -81,7 +81,7 @@ mzzCatalogue.autoloadSelects();
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[section]')}</div>
-                        {form->select name="typeConfig[section]" options=$sections value=$propertyForm.typeConfig.section emptyFirst=1 style="width: 270px;" id="catalogue_sections_list" onchange="mzzCatalogue.getList(this);" onkeypress="this.onchange();"}
+                        {form->select name="typeConfig[section]" options=$sections value=$propertyForm.typeConfig.section emptyFirst=true style="width: 270px;" id="catalogue_sections_list" onchange="mzzCatalogue.getList(this);" onkeypress="this.onchange();"}
                         </td>
                     </tr>
 
@@ -139,7 +139,7 @@ mzzCatalogue.autoloadSelects();
         <tr>
             <td><strong>{form->caption name="typeConfig[section]" value="Секция:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
             <td>
-            {form->select name="typeConfig[section]" options=$sections value=$propertyForm.typeConfig.section emptyFirst=1 style="width: 270px;" id="catalogue_sections_list" onchange="mzzCatalogue.getList(this, 'folders');" onkeypress="this.onchange();"}
+            {form->select name="typeConfig[section]" options=$sections value=$propertyForm.typeConfig.section emptyFirst=true style="width: 270px;" id="catalogue_sections_list" onchange="mzzCatalogue.getList(this, 'folders');" onkeypress="this.onchange();"}
             </td>
         </tr>
         <tr>
