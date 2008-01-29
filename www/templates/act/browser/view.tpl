@@ -1,1 +1,1 @@
-{load module="fileManager" action="browse" section="fileManager" params=""}
+{load module="fileManager" action="browse" section="fileManager" params="gallery"}
