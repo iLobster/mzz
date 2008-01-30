@@ -51,7 +51,7 @@ class locale
      */
     private $langId;
 
-    private $langs = false;
+    private static $langs = false;
 
     /**
      * Конструктор
@@ -165,7 +165,7 @@ class locale
      */
     public static function searchAll()
     {
-        if ($this->langs === false) {
+        if (self::$langs === false) {
             $db = db::factory();
             $stmt = $db->query('SELECT * FROM `sys_lang` ORDER BY `id`');
 
@@ -177,9 +177,9 @@ class locale
                 $result[$row['id']] = $tmp;
             }
 
-            $this->langs = $result;
+            self::$langs = $result;
         }
 
-        return $this->langs;
+        return self::$langs;
     }
 }
