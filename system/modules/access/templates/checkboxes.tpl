@@ -35,7 +35,7 @@
     <tr>
         <td style='text-align: center;'><input type="checkbox" name="access[{$key}][allow]" id="access_{$key}_allow" onclick="checkPermissionsForm('{$key}', 1)" value="1" {if not empty($acl.$key.allow)}{if $adding === false}checked="checked"{/if}{/if} /></td>
         <td style='text-align: center;'><input type="checkbox" name="access[{$key}][deny]" id="access_{$key}_deny" onclick="checkPermissionsForm('{$key}', 0)" value="1" {if not empty($acl.$key.deny)}{if $adding === false}checked="checked"{/if}{/if} /></td>
-        <td style="width: 100%;{if $adding === false}{if not empty($acl.$key.allow)}color: #00AA00;{elseif not empty($acl.$key.deny)}color: #BF0000;{/if}{/if}"><label for="access[{$key}]">{if not empty($action.title)}{$action.title}{else}{$key}{/if}</label></td>
+        <td style="width: 100%;{if $adding === false}{if not empty($acl.$key.allow)}color: #00AA00;{elseif not empty($acl.$key.deny)}color: #BF0000;{/if}{/if}"><label for="access[{$key}]">{if not empty($action.title)}{$action.title|i18n:"jip"}{else}{$key|i18n:"jip"}{/if}</label></td>
     </tr>
 {/foreach}
 <tr>
