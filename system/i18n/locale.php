@@ -51,6 +51,8 @@ class locale
      */
     private $langId;
 
+    private $langs = false;
+
     /**
      * Конструктор
      *
@@ -163,18 +165,21 @@ class locale
      */
     public static function searchAll()
     {
-        $db = db::factory();
-        $stmt = $db->query('SELECT * FROM `sys_lang` ORDER BY `id`');
+        if ($this->langs === false) {
+            $db = db::factory();
+            $stmt = $db->query('SELECT * FROM `sys_lang` ORDER BY `id`');
 
-        $result = array();
+            $result = array();
 
-        while ($row = $stmt->fetch()) {
-            $tmp = new locale($row['name']);
-            $tmp->setId($row['id']);
-            $result[$row['id']] = $tmp;
+            while ($row = $stmt->fetch()) {
+                $tmp = new locale($row['name']);
+                $tmp->setId($row['id']);
+                $result[$row['id']] = $tmp;
+            }
+
+            $this->langs = $result;
         }
 
-        return $result;
-
+        return $this->langs;
     }
 }

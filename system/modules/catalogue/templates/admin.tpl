@@ -65,7 +65,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
             <td colspan="3" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
         </tr>
     </table>
-    {if $pager->getPagesTotal() > 0}<select id="massAction">
+    {if $pager->getItemsCount() > 0}<select id="massAction">
         <option value="move">Переместить</option>
         <option value="delete">Удалить</option>
     </select>
@@ -83,7 +83,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
                 <td style="text-align: left;">Тип</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
-        </thead> 
+        </thead>
     {foreach from=$types item="type"}
         <tr>
             <td>&nbsp;</td>
@@ -109,7 +109,7 @@ var massActionMove = "{url route="default2" section=$current_section action="mov
                 <td style="text-align: left;">Тип</td>
                 <td style="width: 30px;">JIP</td>
             </tr>
-        </thead> 
+        </thead>
     {foreach from=$properties item="property"}
         <tr>
             <td>&nbsp;</td>

@@ -41,6 +41,9 @@ class catalogueAdminController extends simpleController
         $types = $catalogueMapper->getAllTypes();
         $properties = $catalogueMapper->getAllProperties();
 
+        $langs = locale::searchAll();
+        $this->smarty->assign('langs', $langs);
+
         $jipTypes = array();
         $url = new url('withId');
         foreach($types as $type){
@@ -48,17 +51,17 @@ class catalogueAdminController extends simpleController
 
             $url->setAction('editType');
             $jipTypes[$type['id']][] = array(
-                            "title" => 'Редактировать',
-                            "url" => $url->get(),
-                            "icon" => SITE_PATH . '/templates/images/edit.gif',
+                            'title' => 'Редактировать',
+                            'url' => $url->get(),
+                            'icon' => SITE_PATH . '/templates/images/edit.gif',
                             'lang' => false,
                         );
 
             $url->setAction('deleteType');
             $jipTypes[$type['id']][] = array(
-                            "title" => 'Удалить',
-                            "url" => $url->get(),
-                            "icon" => SITE_PATH . '/templates/images/delete.gif',
+                            'title' => 'Удалить',
+                            'url' => $url->get(),
+                            'icon' => SITE_PATH . '/templates/images/delete.gif',
                             'lang' => false,
                         );
         }
@@ -69,17 +72,17 @@ class catalogueAdminController extends simpleController
             $url->add('id', $property['id']);
             $url->setAction('editProperty');
             $jipProperties[$property['id']][] = array(
-                            "title" => 'Редактировать',
-                            "url" => $url->get(),
-                            "icon" => SITE_PATH . '/templates/images/edit.gif',
+                            'title' => 'Редактировать',
+                            'url' => $url->get(),
+                            'icon' => SITE_PATH . '/templates/images/edit.gif',
                             'lang' => false,
                         );
 
             $url->setAction('deleteProperty');
             $jipProperties[$property['id']][] = array(
-                            "title" => 'Удалить',
-                            "url" => $url->get(),
-                            "icon" => SITE_PATH . '/templates/images/delete.gif',
+                            'title' => 'Удалить',
+                            'url' => $url->get(),
+                            'icon' => SITE_PATH . '/templates/images/delete.gif',
                             'lang' => false,
                         );
         }
