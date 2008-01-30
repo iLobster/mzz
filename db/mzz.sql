@@ -5720,8 +5720,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (69,'register'),
   (70,'results'),
   (71,'send'),
-  (72,'addcategory'),
-  (73,'deletecategory'),
+  (72,'addCategory'),
+  (73,'deleteCategory'),
   (74,'editCategory'),
   (75,'viewActual'),
   (76,'deleteAlbum'),
@@ -7890,9 +7890,9 @@ CREATE TABLE `user_user` (
 #
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
-  (1,12,'guest','',NULL,NULL,1201330990),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1201331781),
-  (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1199847248);
+  (1,12,'guest','',NULL,NULL,1201401828),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1201402312),
+  (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1201402355);
 
 COMMIT;
 
@@ -7978,11 +7978,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (270,1,'0154ad744f0846fa1a90253e23c5852c',1201401866,'http://mzz/favicon.ico','127.0.0.1'),
-  (269,3,'566c6f434769471711f7fa3e6b552264',1201402355,'http://mzz/ru/forum/3/editProfile','127.0.0.1'),
-  (268,1,'ad86aeb01aee19f2e570dbead548f183',1201401828,'http://mzz/favicon.ico','127.0.0.1'),
-  (266,2,'c8f78dd27764c0d9b0d99d8b179176da',1201402312,'http://mzz/ru/forum/2/profile','127.0.0.1'),
-  (271,1,'a336ffb1ca8c1afe42d052814751d0de',1201402108,'http://mzz/favicon.ico','127.0.0.1');
+  (272,2,'b69a1135092bfdb555f34f73ce80412d',1201685115,'http://mzz/ru/admin/28/listActions?ajax=1','127.0.0.1');
 
 COMMIT;
 

@@ -13,14 +13,14 @@
  */
 
 /**
- * votingDeletecategoryController: контроллер для метода deletecategory модуля voting
+ * votingDeleteCategoryController: контроллер для метода deletecategory модуля voting
  *
  * @package modules
  * @subpackage voting
  * @version 0.1
  */
 
-class votingDeletecategoryController extends simpleController
+class votingDeleteCategoryController extends simpleController
 {
     public function getView()
     {

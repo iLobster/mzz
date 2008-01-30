@@ -15,20 +15,20 @@
 fileLoader::load('forms/validators/formValidator');
 
 /**
- * votingSavecategoryController: контроллер для метода savecategory модуля voting
+ * votingSaveCategoryController: контроллер для метода savecategory модуля voting
  *
  * @package modules
  * @subpackage voting
  * @version 0.1
  */
 
-class votingSavecategoryController extends simpleController
+class votingSaveCategoryController extends simpleController
 {
     public function getView()
     {
         $categoryMapper = $this->toolkit->getMapper('voting', 'voteCategory');
         $action = $this->request->getAction();
-        $isEdit = ($action == 'editcategory');
+        $isEdit = ($action == 'editCategory');
         $id = $this->request->get('id', 'integer');
         $category = ($isEdit) ? $categoryMapper->searchById($id) : $categoryMapper->create();
 
@@ -45,7 +45,7 @@ class votingSavecategoryController extends simpleController
             $this->smarty->assign('action', $url->get());
             $this->smarty->assign('errors', $validator->getErrors());
             $this->smarty->assign('isEdit', $isEdit);
-            return $this->smarty->fetch('voting/savecategory.tpl');
+            return $this->smarty->fetch('voting/saveCategory.tpl');
         } else {
             $name = $this->request->get('name', 'string', SC_POST);
             $title = $this->request->get('title', 'string', SC_POST);

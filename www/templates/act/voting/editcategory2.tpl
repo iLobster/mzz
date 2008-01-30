@@ -1,2 +1,2 @@
 {* main="main.tpl" placeholder="content" *}
-{load module="voting" action="editcategory"}
+{load module="voting" action="editCategory"}
