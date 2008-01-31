@@ -1,6 +1,5 @@
 {if !$isAjax}
 <script type="text/javascript">
-var count = 0;
 var CATALOGUE_PATH = '{url onlyPath=true}';
 var CATALOGUE_TYPES_WITH_CONFIG = [5, 6, 7, 8];
 
@@ -59,7 +58,6 @@ mzzCatalogue.autoloadSelects();
                 <td width="80%"><input type="text" name="selectvalues[{$smarty.foreach.variantsIterator.iteration}]" value="{$val}" /><img src="{$SITE_PATH}/templates/images/delete.gif" onclick="javascript:deleteOne(this.parentNode.parentNode);" /></td>
                 </tr>
             {/foreach}
-            <script type="text/javascript">count = {$smarty.foreach.variantsIterator.total+1};</script>
         {/if}
         </tbody>
     </table>

@@ -1,5 +1,3 @@
-var count = 0;
-
 function addOne()
 {
     var tbody = $('selectvariants');
@@ -10,7 +8,7 @@ function addOne()
     td = tr.insertCell(tr.cells.length);
     td.width = '80%';
 
-    var newInput = new Element('input', {name: 'selectvalues[' + count + ']', type: 'text'});
+    var newInput = new Element('input', {name: 'selectvalues[]', type: 'text'});
     var newImg = new Element('img', {src: SITE_PATH + '/templates/images/delete.gif'});
     newImg.observe('click', function () {
         deleteOne(this.parentNode.parentNode);
@@ -18,7 +16,6 @@ function addOne()
 
     td.appendChild(newInput);
     td.appendChild(newImg);
-    count++;
     jipWindow.lockContent();
 }
 
