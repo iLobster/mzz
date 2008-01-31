@@ -50,7 +50,18 @@ class form
     public function image($params, $smarty)
     {
         $params['type'] = 'image';
-        return $this->text($params, $smarty);
+        if (!isset($params['name'])) {
+            throw new mzzRuntimeException('Элементу типа image обязательно нужно указывать имя');
+        }
+        $name = $params['name'];
+        unset($params['name']);
+
+        $image = $this->text($params, $smarty);
+
+        $hiddenParams = array();
+        $hiddenParams['value'] = array_key_exists('value', $params) ? $params['value'] : 1;
+        $hiddenParams['name'] = $name;
+        return $this->hidden($hiddenParams, $smarty) . $image;
     }
 
     public function submit($params, $smarty)

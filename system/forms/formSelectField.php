@@ -38,7 +38,10 @@ class formSelectField extends formElement
         /*if (!isset($options['styles']) || !is_array($options['styles'])) {
             $options['styles'] = array();
         }*/
-        if (isset($options['emptyFirst']) && $options['emptyFirst']) {
+
+        $first = isset($options['emptyFirst']) && $options['emptyFirst'];
+
+        if ($first) {
             $firstText = is_bool($options['emptyFirst']) ? '&nbsp;' : htmlspecialchars($options['emptyFirst']);
             $options['options'] = array('' => $firstText) + $options['options'];
         }
@@ -59,16 +62,18 @@ class formSelectField extends formElement
                     $text = $text['content'];
                     unset($text_array['content']);
                 }
+
                 if (isset($options['multiple']) && $options['multiple']) {
                     if ($value == null) {
                         $value = array();
                     } else {
                         $value = (array)$value;
                     }
-                    $selected = in_array($key, $value);
+                    $selected = (($first && $key !== '') || !$first) && in_array($key, $value);
                 } else {
-                    $selected = ((string)$key == (string)$value);
+                    $selected = (($first && $key !== '') || !$first) && ((string)$key == (string)$value);
                 }
+
                 if ($selected) {
                     $value_selected = array($key, $text);
                 }

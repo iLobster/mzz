@@ -35,7 +35,11 @@
             <td>{form->text name="action[confirm]" size="30" value=$defaults->get('confirm')}</td>
         </tr>
         <tr>
-            <td>{form->caption name="action[alias]" value="Алиас"}</td>
+            <td>{form->caption name="action[403handle]" value="Метод проверки прав"}</td>
+            <td>{form->select name="action[403handle]" emptyFirst="default (обычный)" options=$aclMethods value=$defaults->get('403handle')}</td>
+        </tr>
+        <tr>
+            <td>{form->caption name="action[alias]" value="Алиас для ACL"}</td>
             <td>{form->select name="action[alias]" emptyFirst=true options=$aliases value=$defaults->get('alias')}</td>
         </tr>
         <tr>

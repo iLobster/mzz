@@ -267,6 +267,10 @@ class actionGenerator
                     $section_val['confirm'] = $params['confirm'];
                 }
 
+                if (!empty($params['403handle'])) {
+                    $section_val['403handle'] = $params['403handle'];
+                }
+
                 if (isset($params['inACL']) && $params['inACL'] == '0') {
                     $section_val['inACL'] = 0;
                 }

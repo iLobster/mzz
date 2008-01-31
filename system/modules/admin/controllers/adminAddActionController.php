@@ -66,7 +66,7 @@ class adminAddActionController extends simpleController
         if ($isEdit) {
             $defaults->set('name', $action_name);
 
-            $default = array('title' => '', 'info' => '', 'icon' => '');
+            $default = array('title' => '', 'info' => '', 'icon' => '', '403handle' => '');
 
             $info = $actionsInfo[$action_name];
             $info = array_merge($default, $info);
@@ -74,6 +74,7 @@ class adminAddActionController extends simpleController
             $defaults->set('controller', $info['controller']);
             $defaults->set('title', $info['title']);
             $defaults->set('icon', $info['icon']);
+            $defaults->set('403handle', $info['403handle']);
 
             if (isset($info['confirm'])) {
                 $defaults->set('confirm', $info['confirm']);
@@ -95,6 +96,8 @@ class adminAddActionController extends simpleController
                 $aliases[$key] = isset($val['title']) ? $val['title'] : $key;
             }
         }
+
+        $aclMethods = array('manual' => 'manual (ручной)', 'none' => 'none (отключить)');
 
         $validator = new formValidator();
         $validator->add('required', 'action[name]', 'Поле обязательно к заполнению');
@@ -143,6 +146,7 @@ class adminAddActionController extends simpleController
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('aliases', $aliases);
+        $this->smarty->assign('aclMethods', $aclMethods);
         $this->smarty->assign('dests', $dest);
         $this->smarty->assign('defaults', $defaults);
 

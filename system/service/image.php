@@ -123,7 +123,11 @@ class image
             $filename = $this->path;
         }
 
-        if (call_user_func('image' . $this->ext, $this->image, $filename)) {
+        $args = array($this->image, $filename);
+        if ($this->ext == 'jpeg') {
+            $args[] = 100;
+        }
+        if (call_user_func_array('image' . $this->ext, $args)) {
             return $filename;
         } else {
             throw new mzzRuntimeException('image' . $this->ext . ' failed');
