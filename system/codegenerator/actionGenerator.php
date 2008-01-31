@@ -329,7 +329,7 @@ class actionGenerator
             throw new Exception("Error: Controllers directory '" . $controllers_dir . "' not found");
         }
 
-        $prefix = $this->module . ucfirst($action);
+        $prefix = $this->module . ucfirst((isset($params['controller']) && !empty($params['controller'])) ? $params['controller']  : $action);
         $controller_data = array(
         'action' => $action,
         'controllername' => $prefix . 'Controller',
@@ -337,11 +337,7 @@ class actionGenerator
         'viewname' => $prefix . 'View',
         );
 
-        $controller_filename = $controllers_dir . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'Controller.php';
-
-        if (is_file($controller_filename)) {
-            throw new Exception('Error: controller file already exists');
-        }
+        $controller_filename = $controllers_dir . DIRECTORY_SEPARATOR . $prefix . 'Controller.php';
 
         /*$views_dir = 'views';
 
@@ -380,11 +376,13 @@ class actionGenerator
         file_put_contents($actionsfile, $actions_output);
         $this->log[] = $actionsfile;
 
-        // записываем данные в файл контроллера
-        $smarty->assign('controller_data', $controller_data);
-        $controller = $smarty->fetch('controller.tpl');
-        file_put_contents($controller_filename, $controller);
-        $this->log[] = $controller_filename;
+        // записываем данные в файл контроллера, предварительно проверив, не был ли создан этот контроллер ранее
+        if (!is_file($controller_filename)) {
+            $smarty->assign('controller_data', $controller_data);
+            $controller = $smarty->fetch('controller.tpl');
+            file_put_contents($controller_filename, $controller);
+            $this->log[] = $controller_filename;
+        }
 
         // записываем данные в файл вида
         /*$smarty->assign('view_data', $view_data);
