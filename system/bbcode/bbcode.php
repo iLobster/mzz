@@ -1,8 +1,7 @@
 <?php
+
 class bbcode
 {
-    protected $content;
-
     protected $bbcodes = array(
         'b' => array(
                     'tag' => 'strong',
@@ -10,6 +9,10 @@ class bbcode
                 ),
         'i' => array(
                     'tag' => 'em',
+                    'attributes' => array()
+                ),
+        'u' => array(
+                    'tag' => 'span style="text-decoration:underline;"',
                     'attributes' => array()
                 ),
         'font' => array(
@@ -35,9 +38,12 @@ class bbcode
     public function parse()
     {
         $content = htmlspecialchars($this->content);
-        //$content = preg_replace_callback('!\[(\/?)(' . join('|', array_keys($this->bbcodes)) .')([^\]]*)\]!Uu', array('self', 'parseTag'), $content);
+        $patterns = array();
+        foreach ($this->bbcodes as $key => $bb) {
+            $patterns[] = '!\[(' . $key .')([^\]]*)\](.*)\[/(' . $key .')\]!Uiu';
+        }
 
-        $content = preg_replace_callback('!\[(' . join('|', array_keys($this->bbcodes)) .')([^\]]*)\](.*)\[/\\1\]!Uiu', array('self', 'parseTag'), $content);
+        $content = preg_replace_callback($patterns, array('self', 'parseTag'), $content);
         //echo htmlspecialchars($content) . '<br />';
 
         return $content;
@@ -68,7 +74,9 @@ class bbcode
             $validatedAttributes = trim($validatedAttributes);
         }
 
-        return htmlspecialchars_decode('<' . $this->bbcodes[$tag]['tag'] . ($validatedAttributes ? ' ' . $validatedAttributes : null) .'>' . $content . '</' . $this->bbcodes[$tag]['tag'] . '>');
+        $tagClose = explode(' ', $this->bbcodes[$tag]['tag']);
+
+        return htmlspecialchars_decode('<' . $this->bbcodes[$tag]['tag'] . ($validatedAttributes ? ' ' . $validatedAttributes : null) .'>' . $content . '</' . $tagClose[0] . '>');
     }
 
     protected function parseAttributes($tag, $attributes)

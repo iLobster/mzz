@@ -10,6 +10,6 @@
     {if $errors->has('text')}<span style="color: red; font-weight: bold;">{$errors->get('text')}</span><br />{/if}
     {form->textarea name="text" style="width: 99%;" value=$text rows="6" cols="20"}
     <br />
-    {form->submit name="submit" value="_ send" style="font-size: 90%; width: auto;  overflow:visible;"} {form->reset name="reset" value="_ simple/cancel" style="font-size: 90%;"}
+    {form->submit name="submit" value="_ send" style="font-size: 90%; width: auto;  overflow:visible;"} {if $isEdit}{form->reset jip=true name="reset" value="_ simple/cancel" style="font-size: 90%;"}{else}{form->reset name="reset" value="_ simple/cancel" style="font-size: 90%;"}{/if}
 </div>
 </form>

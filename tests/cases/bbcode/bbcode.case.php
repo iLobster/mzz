@@ -16,8 +16,8 @@ class bbcodeTest extends unitTestCase
 
     public function testParseBBCode()
     {
-        $bbcode_parser = new bbcode('[b]test[/b]');
-        $this->assertEqual('<strong>test</strong>', $bbcode_parser->parse());
+        $bbcode_parser = new bbcode('[b][i]test[/i][/b][u][i]test[/i][/u]');
+        $this->assertEqual('<strong><em>test</em></strong><span style="text-decoration:underline;"><em>test</em></span>', $bbcode_parser->parse());
 
         $bbcode_parser = new bbcode('[batr="test"]test[/b]');
         $this->assertEqual('[batr="test"]test[/b]', $bbcode_parser->parse());
