@@ -1,3 +1,5 @@
+{* main="main.tpl" placeholder="content" *}
+
 {if $isEdit}
     <div class="jipTitle">Редактирование страницы "{$page->getName()|htmlspecialchars}"</div>
 {else}
@@ -28,7 +30,6 @@ tinyMCE.init({
         media_external_list_url : "example_media_list.js",*/
         theme_advanced_resize_horizontal : false,
         theme_advanced_resizing : true,
-        language: 'ru',
         nonbreaking_force_tab : true,
         apply_source_formatting : true,
         add_unload_trigger : false,
@@ -37,21 +38,16 @@ tinyMCE.init({
 
 function toggleEditor(id) {
     var elm = $(id);
-    var tinyMCEInterval = false;
     var removeEditorLoadingStatus = function () {
-            tinyMCEInterval ? clearInterval(tinyMCEInterval) : false;
             var editorLoadingText = $('editorLoadingText');
             editorLoadingText ? editorLoadingText.parentNode.removeChild(editorLoadingText) : false;
     };
 
-    if (tinyMCE.getInstanceById(id) == null && tinyMCEInterval == false) {
+    if (tinyMCE.getInstanceById(id) == null) {
         new Insertion.Before(elm, '<div id="editorLoadingText"><strong>Загрузка редактора...</strong></div>');
-        tinyMCEInterval = setInterval(function() {
-            if (tinyMCE.loadingIndex == -1) {
-                tinyMCE.execCommand('mceAddControl', false, id);
-                removeEditorLoadingStatus();
-                jipWindow.addTinyMCEId(id);
-            }}, 100);
+        tinyMCE.execCommand('mceAddControl', false, id);
+        removeEditorLoadingStatus();
+        jipWindow.addTinyMCEId(id);
         $('editorStatus').innerHTML = 'Выключить WYSIWYG-редактор';
     } else {
         removeEditorLoadingStatus();

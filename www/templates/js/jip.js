@@ -225,7 +225,7 @@ jipWindow = Class.create({
                 });
             }
             //this.savePosition(this.jip);
-            this.tinyMCEIds.each(function(id) { tinyMCE.execCommand('mceRemoveControl', false, id); });
+            this.tinyMCEIds.each(function(id) { tinyMCE.execCommand('mceRemoveControl', false, id); jipWindow.deleteTinyMCEId(id); });
             this.oncloseEvents = new Array();
             windows = (windows >= 0) ? windows : 1;
             var currentWin = this.currentWindow;
