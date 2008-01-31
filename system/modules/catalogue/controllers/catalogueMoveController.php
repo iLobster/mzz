@@ -26,55 +26,31 @@ class catalogueMoveController extends simpleController
 {
     protected function getView()
     {
-        $user = $this->toolkit->getUser();
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
         $id = $this->request->get('id', 'integer', SC_PATH);
-        $dest = $this->request->get('dest', 'integer', SC_POST);
 
-        $isMassAction = false;
-        if ($id) {
-            $items = array($id);
-            $item = $catalogueMapper->searchById($id);
-        } else {
-            $isMassAction = true;
-            $items = array_keys((array) $this->request->get('items', 'mixed', SC_POST));
+        $item = $catalogueMapper->searchByKey($id);
+
+        if (!$item) {
+            return $catalogueMapper->get404()->run();
         }
 
-        if (empty($items)) {
-            return jipTools::redirect();
-        }
-
-        $folder = $catalogueMapper->searchById(current($items))->getFolder();
+        $folder = $item->getFolder();
 
         $validator = new formValidator();
         $validator->add('required', 'dest', 'Необходимо указать каталог назначения');
         $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestCatalogueFolderExists', $catalogueFolderMapper));
 
         if ($validator->validate()) {
-            $destFolder = $catalogueFolderMapper->searchById($dest);
+            $dest = $this->request->get('dest', 'integer', SC_POST);
+            $destFolder = $catalogueFolderMapper->searchByKey($dest);
 
-            $nonAccessible = array();
-            foreach ($items as $id) {
-                $catalogue = $catalogueMapper->searchById($id);
-                if ($catalogue) {
-                    $acl = new acl($user, $catalogue->getObjId());
-                    if ($acl->get($this->request->getAction())) {
-                        $catalogue->setFolder($destFolder);
-                        $catalogueMapper->save($catalogue);
-                    } else {
-                        $nonAccessible[] = $id;
-                    }
-                }
-            }
+            $item->setFolder($destFolder);
+            $catalogueMapper->save($item);
 
-            if (empty($nonAccessible)) {
-                return jipTools::redirect();
-            } else {
-                $this->smarty->assign('nonAccess', $nonAccessible);
-                return $this->smarty->fetch('catalogue/nonAccess.tpl');
-            }
+            return jipTools::redirect();
         }
 
         $folders = $catalogueFolderMapper->searchAll();
@@ -85,20 +61,16 @@ class catalogueMoveController extends simpleController
             $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
         }
 
-        $url = new url('withAnyParam');
+        $url = new url('withId');
         $url->setAction($this->request->getAction());
-        $url->add('name', $isMassAction ? '' : $id);
+        $url->add('id', $id);
 
-        if (!$isMassAction) {
-            $this->smarty->assign('item', $item);
-        }
-
-        $this->smarty->assign('items', $items);
-        $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('item', $item);
+        $this->smarty->assign('isMass', false);
+        $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('dests', $dests);
         $this->smarty->assign('styles', $styles);
-        $this->smarty->assign('isMass', $isMassAction);
         $this->smarty->assign('folder', $folder);
         return $this->smarty->fetch('catalogue/move.tpl');
     }

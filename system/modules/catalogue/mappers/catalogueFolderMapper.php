@@ -74,10 +74,12 @@ class catalogueFolderMapper extends simpleMapperForTree
 
     public function convertArgsToObj($args)
     {
-        $folder = $this->searchByPath($args['name']);
+        if (isset($args['name'])) {
+            $folder = $this->searchByPath($args['name']);
 
-        if ($folder) {
-            return $folder;
+            if ($folder) {
+                return $folder;
+            }
         }
 
         throw new mzzDONotFoundException();

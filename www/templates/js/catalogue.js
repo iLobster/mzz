@@ -10,7 +10,7 @@ function addOne()
     td = tr.insertCell(tr.cells.length);
     td.width = '80%';
 
-    var newInput = new Element('input', {maxLength: 10, name: 'selectvalues[' + count + ']', type: 'text'});
+    var newInput = new Element('input', {name: 'selectvalues[' + count + ']', type: 'text'});
     var newImg = new Element('img', {src: SITE_PATH + '/templates/images/delete.gif'});
     newImg.observe('click', function () {
         deleteOne(this.parentNode.parentNode);

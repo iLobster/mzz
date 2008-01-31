@@ -5748,7 +5748,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (97,'searchByTag'),
   (98,'profile'),
   (99,'groupAdmin'),
-  (100,'editProfile');
+  (100,'editProfile'),
+  (101,'massAction');
 
 COMMIT;
 
@@ -6195,7 +6196,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (266,50,69),
   (277,52,9),
   (280,52,14),
-  (281,48,100);
+  (281,48,100),
+  (282,20,101);
 
 COMMIT;
 
@@ -7978,7 +7980,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (272,2,'b69a1135092bfdb555f34f73ce80412d',1201685115,'http://mzz/ru/admin/28/listActions?ajax=1','127.0.0.1');
+  (272,2,'b69a1135092bfdb555f34f73ce80412d',1201754581,'http://mzz/ru/admin/20/listActions?ajax=1','127.0.0.1');
 
 COMMIT;
 
