@@ -198,6 +198,7 @@ function include_code($id, $type) {
     include_once 'highlighter/geshi.php';
     if ($type == 'html') { $type = 'html4strict'; }
     $geshi = new GeSHi(file_get_contents($path), $type);
+    $geshi->set_encoding("utf-8");
     return '<div class="code"><div class="code_border">' . $geshi->parse_code() . '</div></div>';
 }
 
@@ -208,6 +209,7 @@ function highlightInlineCode($type, $code) {
     include_once 'highlighter/geshi.php';
     if ($type == 'html') { $type = 'html4strict'; }
     $geshi = new GeSHi($code, $type);
+    $geshi->set_encoding("utf-8");
     return '<div class="code"><div class="code_border">' . $geshi->parse_code() . '</div></div>';
 }
 

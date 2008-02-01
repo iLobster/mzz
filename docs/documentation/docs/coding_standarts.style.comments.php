@@ -5,15 +5,15 @@
 <p>Все PHP-файлы должны содержать минимальный блок комментариев в качестве заголовка:</p>
 <<code php>>
 /**
-&nbsp;* &#036;URL&#036;
-&nbsp;*
-&nbsp;* MZZ Content Management System (c) 2005-2008
-&nbsp;* Website : http://www.mzz.ru
-&nbsp;*
-&nbsp;* This program is free software and released under
-&nbsp;* the GNU Lesser General Public License (See /docs/LGPL.txt).
-&nbsp;*
-&nbsp;* @link http://www.mzz.ru
-&nbsp;* @version &#036;Id&#036;
-&nbsp;*/
+ * &#036;URL&#036;
+ *
+ * MZZ Content Management System (c) 2005-2008
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU Lesser General Public License (See /docs/LGPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version &#036;Id&#036;
+ */
 <</code>>

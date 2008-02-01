@@ -6,15 +6,15 @@
 
 <<code php>>
 if ($a != 2) {
-&nbsp;&nbsp;&nbsp;&nbsp;$a = 2;
+    $a = 2;
 }
 
 if ($a != 2 && $b == 'value') {
-&nbsp;&nbsp;&nbsp;&nbsp;$a = 2;
+    $a = 2;
 } elseif ($a == 3) {
-&nbsp;&nbsp;&nbsp;&nbsp;$a = 4;
+    $a = 4;
 } else {
-&nbsp;&nbsp;&nbsp;&nbsp;$a = 7;
+    $a = 7;
 }
 <</code>>
 
@@ -25,14 +25,14 @@ if ($a != 2 && $b == 'value') {
 <p>Содержимое каждого "case" выражения должно писаться с отступом в дополнительные четыре пробела.</p>
 <<code php>>
 switch ($value) {
-&nbsp;&nbsp;&nbsp;&nbsp;case 1:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$a = 'b';
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+    case 1:
+        $a = 'b';
+        break;
 
-&nbsp;&nbsp;&nbsp;&nbsp;case 2:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+    case 2:
+        break;
 
-&nbsp;&nbsp;&nbsp;&nbsp;default:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+    default:
+        break;
 }
 <</code>>

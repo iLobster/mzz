@@ -7,17 +7,17 @@
 <p>Пример определения метода:</p>
 <<code php>>
 /**
-&nbsp;* Блок комментариев
-&nbsp;*/
+ * Блок комментариев
+ */
 class Foo
 {
-&nbsp;&nbsp;&nbsp;&nbsp;/**
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Блок комментариев
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/
-&nbsp;&nbsp;&nbsp;&nbsp;public function bar($arg, $name, $value = 'default')
-&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// содержимое класса
-&nbsp;&nbsp;&nbsp;&nbsp;}
+    /**
+     * Блок комментариев
+     */
+    public function bar($arg, $name, $value = 'default')
+    {
+        // содержимое класса
+    }
 }
 <</code>>
 
