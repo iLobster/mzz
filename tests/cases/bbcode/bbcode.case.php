@@ -16,27 +16,20 @@ class bbcodeTest extends unitTestCase
 
     public function testParseBBCode()
     {
-        $bbcode_parser = new bbcode('[b][i]test[/i][/b][u][i]test[/i][/u]');
-        $this->assertEqual('<strong><em>test</em></strong><span style="text-decoration: underline;"><em>test</em></span>', $bbcode_parser->parse());
-
-        $bbcode_parser = new bbcode('[batr="test"]test[/b]');
-        $this->assertEqual('[batr="test"]test[/b]', $bbcode_parser->parse());
-
         $bbcode_parser = new bbcode('[i]test[/i]');
         $this->assertEqual('<em>test</em>', $bbcode_parser->parse());
+
+        $bbcode_parser = new bbcode('[b][i]test[/i][/b][u][i]test[/i][/u]');
+        $this->assertEqual('<strong><em>test</em></strong><span style="text-decoration: underline;"><em>test</em></span>', $bbcode_parser->parse());
     }
 
-    /*
     public function testParseBBCodeWithAttributes()
     {
-        $bbcode_parser = new bbcode('[font size="+1"]test[/font]');
+        $bbcode_parser = new bbcode('[color="red"]test[/color]');
+        $this->assertEqual('<font color="red">test</font>', $bbcode_parser->parse());
+
+        $bbcode_parser = new bbcode('[size="+1"]test[/size]');
         $this->assertEqual('<font size="+1">test</font>', $bbcode_parser->parse());
-
-        $bbcode_parser = new bbcode('[font size="+1" font-family="Verdana"]test[/font]');
-        $this->assertEqual('<font size="+1" font-family="Verdana">test</font>', $bbcode_parser->parse());
-
-        $bbcode_parser = new bbcode('[font font-family="Verdana" size="+1"]test[/font]');
-        $this->assertEqual('<font font-family="Verdana" size="+1">test</font>', $bbcode_parser->parse());
     }
 
     public function testParseBBCodeWithWrongAttributes()
@@ -59,7 +52,5 @@ class bbcodeTest extends unitTestCase
         $bbcode_parser = new bbcode('test[/b]');
         $this->assertEqual('test[/b]', $bbcode_parser->parse());
     }
-
-    */
 }
 ?>
