@@ -1,7 +1,7 @@
 {if !$isAjax}
 <script type="text/javascript">
 var CATALOGUE_PATH = '{url onlyPath=true}';
-var CATALOGUE_TYPES_WITH_CONFIG = [5, 6, 7, 8];
+var CATALOGUE_TYPES_WITH_CONFIG = [5, 6, 7, 8, 9];
 
 fileLoader.loadJS(SITE_PATH + '/templates/js/catalogue.js');
 
@@ -45,7 +45,7 @@ mzzCatalogue.autoloadSelects();
 
 <div id="catalogueTypeConfig" style="border-top: 1px solid #EBEBEB; margin: 10px 5px 5px; padding: 5px;">
 {/if}
-{if $loadType == 'select'}
+{if $loadType == 'select' || $loadType == 'multiselect'}
     <table border="0" cellpadding="0" cellspacing="3" width="100%">
         <tr>
             <td colspan="2"><a href="javascript:addOne();" class="jsLink">Добавить вариант</a></td>
@@ -61,7 +61,6 @@ mzzCatalogue.autoloadSelects();
         {/if}
         </tbody>
     </table>
-
 {elseif $loadType == 'datetime'}
     <table border="0" cellpadding="0" cellspacing="3" width="100%">
         <tr>

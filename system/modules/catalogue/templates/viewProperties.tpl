@@ -12,7 +12,11 @@
     {foreach from=$property.value item="item"}
         <img src="{if $action == 'view'}{url route="fmFolder" name=$item->getFullPath()}{else}{$item->extra()->getThumbnail()}{/if}" title="{$item->getName()|htmlspecialchars}" alt="{$item->getName()}" /><br />
     {/foreach}
+{elseif $property.type == 'multiselect'}
+    <strong>{$property.title}:</strong>
+    {foreach from=$property.value item="item" name="msIterator"}
+        {$property.args.$item}{if !$smarty.foreach.msIterator.last}, {/if}
+    {/foreach}
 {else}<strong>{$property.title}:</strong> {$property.value}<br/>{/if}
-
     {/if}
 {/foreach}

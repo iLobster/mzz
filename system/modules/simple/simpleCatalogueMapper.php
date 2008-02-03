@@ -87,8 +87,10 @@ abstract class simpleCatalogueMapper extends simpleMapper
             foreach ($properties_tmp as $props) {
                 switch ($props['type']) {
                     case 'select':
+                        case 'multiselect':
                         $props['args'] = unserialize($props['args']);
                         break;
+
                     case 'dynamicselect':
                         $tmp = unserialize($props['args']);
                         $toolkit = systemToolkit::getInstance();
@@ -291,7 +293,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
     {
         if ($type == 'select' || $type == 'dynamicselect' || $type == 'datetime') {
             $type = 'int';
-        } elseif ($type == 'img') {
+        } elseif ($type == 'img' || $type == 'multiselect') {
             $type = 'text';
         }
         return $type;
@@ -372,6 +374,10 @@ abstract class simpleCatalogueMapper extends simpleMapper
                                 $images[] = $tmpMapper->searchById($img_id);
                             }
                             $row[$type] = $images;
+                            break;
+
+                        case 'multiselect':
+                            $row[$type] = (array)unserialize($row[$type]);
                             break;
                     }
                 }

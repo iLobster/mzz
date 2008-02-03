@@ -172,8 +172,9 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
   (15,49,NULL,NULL,0,NULL),
   (15,50,NULL,NULL,1181014750,NULL),
   (15,51,'Бархатная раскраска выгодно отличается от обычных раскрасок. Ее бархатная поверхность вокруг раскрашиваемых участков рисунка, помогает ребенку аккуратно и красиво раскрасить, а блестящие гелевые краски, создают неповторимый мерцающий эффект. Рисунок раскрашенный своими руками, станет уникальным украшением для детской комнаты.',NULL,NULL,NULL),
-  (17,55,NULL,NULL,0,NULL),
-  (17,56,NULL,NULL,1,NULL);
+  (17,55,NULL,NULL,1,NULL),
+  (17,56,'N;',NULL,NULL,NULL),
+  (17,59,'a:3:{i:0;s:1:\"0\";i:1;s:1:\"2\";i:2;s:1:\"3\";}',NULL,NULL,NULL);
 
 COMMIT;
 
@@ -209,7 +210,8 @@ INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, 
   (25,'storedata','Дата поступления на склад',6,'%H:%M:%S %d/%B/%Y'),
   (26,'about','Описание',4,NULL),
   (31,'test1','Динамический селект',7,'a:7:{s:7:\"section\";s:4:\"user\";s:6:\"module\";s:4:\"user\";s:2:\"do\";s:4:\"user\";s:12:\"searchMethod\";s:9:\"searchAll\";s:13:\"extractMethod\";s:8:\"getLogin\";s:4:\"args\";N;s:8:\"optional\";b:1;}'),
-  (32,'img','Изображение',8,'a:2:{s:7:\"section\";s:11:\"fileManager\";s:8:\"folderId\";i:1;}');
+  (32,'img','Изображение',8,'a:2:{s:7:\"section\";s:11:\"fileManager\";s:8:\"folderId\";i:1;}'),
+  (33,'complect','Комплектация',9,'a:4:{i:0;s:16:\"Упаковка\";i:1;s:23:\"Шнур питания\";i:2;s:14:\"Розетка\";i:3;s:22:\"Плоскогубцы\";}');
 
 COMMIT;
 
@@ -238,7 +240,8 @@ INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUE
   (5,'select','обычный список'),
   (6,'datetime','дата и время'),
   (7,'dynamicselect','динамический список'),
-  (8,'img','изображение');
+  (8,'img','изображение'),
+  (9,'multiselect','Мультиселект');
 
 COMMIT;
 
@@ -300,8 +303,9 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `
   (49,9,24,0,0,0),
   (50,9,25,0,0,0),
   (51,9,26,0,0,1),
-  (55,11,31,0,0,0),
-  (56,11,32,0,0,0);
+  (55,11,31,0,1,1),
+  (56,11,32,0,1,1),
+  (59,11,33,0,1,1);
 
 COMMIT;
 
@@ -7893,7 +7897,7 @@ CREATE TABLE `user_user` (
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`) VALUES 
   (1,12,'guest','',NULL,NULL,1201401828),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1201402312),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1201754581),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1201402355);
 
 COMMIT;
@@ -7980,7 +7984,7 @@ CREATE TABLE `user_userOnline` (
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (272,2,'b69a1135092bfdb555f34f73ce80412d',1201754581,'http://mzz/ru/admin/20/listActions?ajax=1','127.0.0.1');
+  (273,2,'6d5c99ee38e145a16802a49fc5056d42',1202048315,'http://mzz/ru/catalogue/17/view','127.0.0.1');
 
 COMMIT;
 

@@ -112,7 +112,7 @@ class menuItemMapper extends simpleCatalogueMapper
     {
         $childrens = $this->getMenuChildrens($item->getId(), $item->getMenu());
         foreach ($childrens as $child) {
-            parent::delete($child->getId());
+            $this->delete($child);
         }
 
         $this->shift($item->getParent(), $item->getOrder());

@@ -123,6 +123,8 @@ class catalogueSaveController extends simpleController
                         }
                     } elseif ($prop['type'] == 'img') {
                         $propValue = serialize($propValue);
+                    } elseif ($prop['type'] == 'multiselect') {
+                        $propValue = serialize($propValue);
                     }
 
                     $item->setProperty($prop['name'], $propValue);

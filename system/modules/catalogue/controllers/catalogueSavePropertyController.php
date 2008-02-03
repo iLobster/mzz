@@ -80,6 +80,9 @@ class catalogueSavePropertyController extends simpleController
                 case 'select':
                     $property['args'] = unserialize($property['args']);
                     break;
+                case 'multiselect':
+                    $property['args'] = unserialize($property['args']);
+                    break;
                 case 'dynamicselect':
                     $property['args'] = unserialize($property['args']);
                     break;
@@ -225,6 +228,7 @@ class catalogueSavePropertyController extends simpleController
             $params = array();
             switch ($types[$type]) {
                 case 'select':
+                case 'multiselect':
                     $values = (array) $this->request->get('selectvalues', 'mixed', SC_POST);
                     $selectvalues = array();
                     foreach ($values as $val) {

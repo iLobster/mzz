@@ -45,6 +45,8 @@ function loadForm(id)
                 {form->textarea name=$element.name value=$element.value style="width:500px;height:300px;"}{$errors->get($element.name)}
                 {elseif $element.type eq 'select' || $element.type == 'dynamicselect'}
                     {form->select name=$element.name options=$element.args value=$element.value}
+                {elseif $element.type eq 'multiselect'}
+                    {form->select name=$element.name options=$element.args value=$element.value multiple="true"}
                 {elseif $element.type == 'datetime'}
                     {literal}<script type="text/javascript">Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":1,"showsTime":true,"showOthers":true,"timeFormat":24, "align":"BR", "inputField":"calendar-field-created","button":"calendar-trigger-created","cache":"false"});</script>{/literal}
                     {if $isEdit}{assign var="calendarvalue" value=$element.value}{else}{assign var="calendarvalue" value=$smarty.now}{/if}
