@@ -79,6 +79,16 @@ class menuMapper extends simpleMapper
         return new menu404Controller();
     }
 
+    public function delete(menu $menu)
+    {
+        $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'menuItem', $this->section);
+        foreach ($menu->getItems() as $item) {
+            $itemMapper->delete($item);
+        }
+
+        parent::delete($menu);
+    }
+
     public function convertArgsToObj($args)
     {
         $menu = $this->searchByName($args['name']);

@@ -127,32 +127,6 @@ class menuItemMapper extends simpleCatalogueMapper
         $stmt->execute();
     }
 
-    /*
-    public function getAllTypes()
-    {
-    if (empty($this->tmptypes)) {
-    $this->tmptypes = array(
-    1 => array(
-    'id' => 1,
-    'name' => 'simple',
-    'title' => 'Простой'
-    ),
-    2 => array(
-    'id' => 2,
-    'name' => 'advanced',
-    'title' => 'Advanced'
-    )
-    );
-    }
-    return $this->tmptypes;
-    }
-
-    public function getType($id)
-    {
-    return $this->tmptypes[$id];
-    }
-    */
-
     private function getObjId()
     {
         $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_menuItem');
