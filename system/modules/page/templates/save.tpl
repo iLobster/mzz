@@ -48,12 +48,12 @@ function toggleEditor(id) {
         tinyMCE.execCommand('mceAddControl', false, id);
         removeEditorLoadingStatus();
         jipWindow.addTinyMCEId(id);
-        $('editorStatus').innerHTML = 'Выключить WYSIWYG-редактор';
+        $(id + '_editorStatus').innerHTML = 'Выключить WYSIWYG-редактор';
     } else {
         removeEditorLoadingStatus();
         tinyMCE.execCommand('mceRemoveControl', false, id);
         jipWindow.deleteTinyMCEId(id);
-        $('editorStatus').innerHTML = 'Включить WYSIWYG-редактор';
+        $(id + '_editorStatus').innerHTML = 'Включить WYSIWYG-редактор';
     }
 }
 </script>{/literal}
@@ -73,11 +73,11 @@ function toggleEditor(id) {
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" id="editorStatus" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></td>
+        <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" id="contentArea_editorStatus" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></td>
     </tr>
     <tr>
         <td style='vertical-align: top;'>{form->caption name="contentArea" value="Содержимое" onError="style=color: red;"}</td>
-        <td>{form->textarea name="contentArea" value=$page->getContent() rows="4" style="width: 100%;" id="contentArea" cols="50"}{$errors->get('contentArea')}</td>
+        <td>{form->textarea name="contentArea" value=$page->getContent() rows="20" style="width: 100%;" id="contentArea" cols="50"}{$errors->get('contentArea')}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>

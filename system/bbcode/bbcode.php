@@ -24,6 +24,7 @@ class bbcode
         'color' => array(
                 'html' => '<font color="%2$s">%1$s</font>',
                 'strip_empty' => true,
+                'withAttributes' => true,
                 'attributes' => array('red', 'blue', 'green')
             ),
         'size' => array(
@@ -475,6 +476,10 @@ class bbcode
             if (isset($this->tags[$tag])) {
                 if ($isClosed) {
                     return true;
+                }
+
+                if (isset($this->tags['withAttributes']) && $this->tags['withAttributes'] === true && $option === false) {
+                    return false;
                 }
 
                 if (!$isClosed && $option !== false && isset($this->tags[$tag]['attributes'])) {

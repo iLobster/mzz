@@ -25,6 +25,9 @@ class bbcodeTest extends unitTestCase
 
     public function testParseBBCodeWithAttributes()
     {
+        //$bbcode_parser = new bbcode('[color]test[/color]');
+        //$this->assertEqual('<font color="red">test</font>', $bbcode_parser->parse());
+
         $bbcode_parser = new bbcode('[color="red"]test[/color]');
         $this->assertEqual('<font color="red">test</font>', $bbcode_parser->parse());
 

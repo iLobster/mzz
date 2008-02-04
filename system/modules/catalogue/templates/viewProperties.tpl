@@ -16,7 +16,7 @@
     <strong>{$property.title}:</strong>
     {foreach from=$property.value item="item" name="msIterator"}
         {$property.args.$item}{if !$smarty.foreach.msIterator.last}, {/if}
-    {/foreach}
+    {/foreach}<br />
 {else}<strong>{$property.title}:</strong> {$property.value}<br/>{/if}
     {/if}
 {/foreach}
