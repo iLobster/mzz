@@ -158,7 +158,7 @@ abstract class simpleController
     protected function setPager($item, $per_page = 20, $reverse = false, $roundItems = 2)
     {
         fileLoader::load('pager');
-        $pager = new pager($this->request->getRequestUrl(), $this->request->get('page', 'integer', SC_GET), $per_page, $roundItems, $reverse);
+        $pager = new pager($this->request->getRequestUrl(), $this->request->get('page', 'integer', SC_REQUEST), $per_page, $roundItems, $reverse);
         $item->setPager($pager);
 
         $this->smarty->assign('pager', $pager);

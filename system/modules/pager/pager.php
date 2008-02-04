@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage pager
- * @version 0.2.2
+ * @version 0.2.3
  */
 class pager
 {
@@ -96,7 +96,7 @@ class pager
     {
         $baseurl = preg_replace('/([&?])page=.*?($|&)/i', '$1', $baseurl);
 
-        if (($end = strrpos($baseurl, '&') || ($end = strrpos($baseurl, '?'))) && $end === strlen($baseurl) - 1) {
+        if ((($end = strrpos($baseurl, '&')) || ($end = strrpos($baseurl, '?'))) && $end === strlen($baseurl) - 1) {
             $baseurl = substr($baseurl, 0, -1);
         }
 
@@ -129,7 +129,7 @@ class pager
     }
 
     /**
-     * Получение фактического номера страницы
+     * Возвращает фактический номер страницы
      *
      * @return integer
      */
@@ -139,7 +139,7 @@ class pager
     }
 
     /**
-     * метод получения номера текущей страницы
+     * Получение номера текущей страницы
      *
      * @return integer
      */
@@ -149,11 +149,12 @@ class pager
     }
 
     /**
-     * Метод получения ссылки на следующую страницу
+     * Возвращает ссылку или номер следующей страницы
      *
+     * @param boolean $withUrl если false, то возвращает только номер страницы
      * @return string|null ссылка на предыдущую страницу либо null, в случае если текущая страница последняя
      */
-    public function getNext()
+    public function getNext($withUrl = true)
     {
         if ($this->reverse && $this->page > 1) {
             $page = $this->page - 1;
@@ -161,15 +162,16 @@ class pager
             $page = $this->page + 1;
         }
 
-        return isset($page) ? $this->baseurl . $page : null;
+        return isset($page) ? ($withUrl ? $this->baseurl . $page : $page): null;
     }
 
     /**
-     * Метод получения ссылки на предыдущую страницу
+     * Возвращает ссылку или номер предыдущей страницы
      *
+     * @param boolean $withUrl если false, то возвращает только номер страницы
      * @return string|null ссылка на предыдущую страницу либо null, в случае если текущая страница первая
      */
-    public function getPrev()
+    public function getPrev($withUrl = true)
     {
         if ($this->reverse && $this->page < $this->getPagesTotal()) {
             $page = $this->page + 1;
@@ -177,17 +179,31 @@ class pager
             $page = $this->page - 1;
         }
 
-        return isset($page) ? $this->baseurl . $page : null;
+        return isset($page) ? ($withUrl ? $this->baseurl . $page : $page): null;
     }
 
     /**
-     * метод получения общего числа объектов
+     * Возвращает общее количество объектов
      *
      * @return integer
      */
     public function getItemsCount()
     {
         return $this->itemsCount;
+    }
+
+    /**
+     * Возвращает количество уже пролистанных объектов
+     *
+     * @return integer
+     */
+    public function getOffset()
+    {
+        $offset = $this->getRealPage() * $this->getPerPage();
+        if ((!$this->reverse && $this->page == $this->getPagesTotal()) || ($this->reverse && $this->page == 1)) {
+            $offset -= (($this->getPagesTotal()) * $this->getPerPage()) - $this->itemsCount;
+        }
+        return $offset;
     }
 
     /**
