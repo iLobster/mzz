@@ -45,6 +45,7 @@ class fileManagerUploadController extends simpleController
             $name = $this->request->get('name', 'string', SC_POST);
             $header = $this->request->get('header', 'string', SC_POST);
             $about = $this->request->get('about', 'string', SC_POST);
+            $direct_link = $this->request->get('direct_link', 'string', SC_POST);
 
             $config = $this->toolkit->getConfig('fileManager');
 
@@ -52,6 +53,7 @@ class fileManagerUploadController extends simpleController
                 $file = $folder->upload('file', $name);
                 $file->setRightHeader($header);
                 $file->setAbout($about);
+                $file->setDirectLink($direct_link);
 
                 $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
                 $fileMapper->save($file);
