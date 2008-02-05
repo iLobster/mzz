@@ -56,7 +56,7 @@ class timer
     {
         $toolkit = systemToolkit::getInstance();
         $this->smarty = $toolkit->getSmarty();
-        $this->db = Db::factory();
+        $this->db = DB::factory();
     }
 
     /**

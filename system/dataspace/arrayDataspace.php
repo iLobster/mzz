@@ -17,7 +17,7 @@
 fileLoader::load('dataspace/iDataspace');
 
 /**
- * arrayDataspace: класс для сохранение и доступа к данным через массив
+ * arrayDataspace: контейнер для удобной работы с массивами
  *
  * @package system
  * @subpackage dataspace
@@ -33,7 +33,8 @@ class arrayDataspace implements iDataspace, ArrayAccess
     protected $data;
 
     /**
-     * Конструктор. Принимает массив $data с данными
+     * Принимает обычный массив $data с данными по умолчанию и
+     * импортирует их в dataspace
      *
      * @param array $data
      */
@@ -43,7 +44,7 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-     * Сохранение значения
+     * Устанавливает значение
      *
      * @param string|integer $key ключ для доступа к значению
      * @param mixed $value значение
@@ -74,21 +75,55 @@ class arrayDataspace implements iDataspace, ArrayAccess
         return (isset($this->data[$key])) ? $this->data[$key] : null;
     }
 
+    /**
+     * Проверяет существует ли значение с ключом $offset
+     * с помощью операторов для массивов
+     *
+     * @param string|integer $offset
+     * @return boolean
+     * @see ArrayAccess::offsetExists()
+     * @see exists()
+     */
     public function offsetExists($offset)
     {
         return $this->exists($offset);
     }
 
+    /**
+     * Возвращает значение с ключом $offset с помощью операторов для массивов
+     *
+     * @param string|integer $offset
+     * @return mixed
+     * @see ArrayAccess::offsetGet()
+     * @see get()
+     */
     public function offsetGet($offset)
     {
         return $this->get($offset);
     }
 
+    /**
+     * Устанавливает значение с ключом $offset с помощью операторов для массивов
+     *
+     * @param string|integer $offset
+     * @param mixed $value
+     * @return boolean
+     * @see ArrayAccess::offsetSet()
+     * @see set()
+     */
     public function offsetSet($offset, $value)
     {
         return $this->set($offset, $value);
     }
 
+    /**
+     * Удаляет значение с ключом $offset с помощью операторов для массивов
+     *
+     * @param string|integer $offset
+     * @return boolean
+     * @see ArrayAccess::offsetUnset()
+     * @see delete()
+     */
     public function offsetUnset($offset)
     {
         return $this->delete($offset);
@@ -153,7 +188,7 @@ class arrayDataspace implements iDataspace, ArrayAccess
     }
 
     /**
-    * Очистка Dataspace
+    * Очищает все установленные данные
     *
     */
     public function clear()
@@ -164,6 +199,7 @@ class arrayDataspace implements iDataspace, ArrayAccess
     /**
     * Проверяет является ли Dataspace пустым
     *
+    * @return boolean
     */
     public function isEmpty()
     {

@@ -60,10 +60,8 @@ class core
                 $name = get_class($e);
                 $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile(), $e->getTrace());
                 $e->setName($name);
-                throw $e;
-            } else {
-                throw $e;
             }
+            throw $e;
         }
     }
 

@@ -68,9 +68,9 @@ class httpResponse
      * @param $name
      * @param $value
      */
-    public function setHeader($name, $value)
+    public function setHeader($name, $value, $replaced = true, $code = null)
     {
-        $this->headers[$name] = $value;
+        $this->headers[$name] = array('value' => $value, 'replaced' => $replaced, 'code' => $code);
     }
 
     /**
@@ -110,10 +110,17 @@ class httpResponse
      * Уставливает перенаправление на другую страницу
      *
      * @param string $url
+     * @param boolean $exit
+     * @param integer $code
      */
-    public function redirect($url)
+    public function redirect($url, $exit = false, $code = 302)
     {
-        $this->setHeader('Location', $url);
+        $code = (int)$code;
+        if ($code < 300 || $code > 307) {
+            throw new mzzRuntimeException('Invalid HTTP Redirection status code: ' . $code);
+        }
+
+        $this->setHeader('Location', $url, true, $code);
     }
 
     /**
@@ -144,7 +151,7 @@ class httpResponse
     {
         $this->sendCookies();
         /*if ($this->smarty->isXml()) {
-            $this->setHeader('Content-type', 'text/xml');
+        $this->setHeader('Content-type', 'text/xml');
         }*/
         $this->sendHeaders();
         $this->sendText();
@@ -187,11 +194,13 @@ class httpResponse
         $headers = $this->getHeaders();
         if (!empty($headers)) {
             if (!$this->isHeadersSent()) {
-                foreach ($headers as $name => $value) {
-                    if ($name) {
-                        header($name . ": " . $value);
+                foreach ($headers as $name => $params) {
+                    if (!$name) {
+                        header($params['value']);
+                    } elseif (is_null($params['code'])) {
+                        header($name . ": " . $params['value'], $params['replaced']);
                     } else {
-                        header($value);
+                        header($name . ": " . $params['value'], $params['replaced'], $params['code']);
                     }
                 }
             }
