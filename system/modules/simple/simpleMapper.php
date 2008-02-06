@@ -1230,7 +1230,7 @@ abstract class simpleMapper
             $owns = $this->getOwns();
             $hasMany = $this->getHasMany();
             // если по данному полю есть связь
-            if (!is_scalar($val) && isset($owns[$key])) {
+            if ($val !== null && !is_scalar($val) && isset($owns[$key])) {
                 $sectionName = $owns[$key]['section'];
                 $className = $owns[$key]['class'];
                 $fieldName = $owns[$key]['key'];

@@ -182,6 +182,17 @@ class pager
         return isset($page) ? ($withUrl ? $this->baseurl . $page : $page): null;
     }
 
+    public function getLast($withUrl = true)
+    {
+        return ($withUrl ? $this->baseurl : null) . ($this->reverse ? 1 : $this->getPagesTotal());
+    }
+
+    public function getFirst($withUrl = true)
+    {
+        return ($withUrl ? $this->baseurl : null) . ($this->reverse ? $this->getPagesTotal() : 1);
+    }
+
+
     /**
      * Возвращает общее количество объектов
      *

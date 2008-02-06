@@ -23,7 +23,7 @@ class formRequiredRule extends formAbstractRule
 {
     public function validate()
     {
-        return $this->value != '';
+        return trim($this->value) != '';
     }
 }
 
