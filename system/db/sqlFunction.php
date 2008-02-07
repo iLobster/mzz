@@ -148,11 +148,11 @@ class sqlFunction
         $name = $this->function;
 
         if (is_array($this->arguments)) {
-            foreach ($this->arguments as $argument) {
+            foreach ($this->arguments as $key => $argument) {
                 if ($argument instanceof sqlFunction || $argument instanceof sqlOperator) {
                     $name .= '_' . implode('_', $argument->getArguments());
                 } else {
-                    $name .= '_' . $argument;
+                    $name .= '_' . (is_int($key) ? '' :  $key . '_') . $argument;
                 }
             }
         } else {
