@@ -29,6 +29,7 @@ class storage extends simple
         $newname = $this->getPath() . $this->explode($newname);
 
         $dir = dirname($newname);
+        $dir = DIRECTORY_SEPARATOR == '\\' ? str_replace('/', DIRECTORY_SEPARATOR, $dir) : $dir;
         if (!is_dir($dir)) {
             mkdir($dir, 0666, true);
         }
