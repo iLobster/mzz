@@ -36,7 +36,7 @@
                             Сообщений: {$post->getAuthor()->getMessages()}
                         </td>
                         <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px; vertical-align: top;">
-                            {$post->getText()|htmlspecialchars|nl2br}
+                            {$post->getText()|bbcode|htmlspecialchars|nl2br}
                             {if $post->getAuthor()->getSignature()}
                                 <br /><br /><hr />
                                 {$post->getAuthor()->getSignature()|htmlspecialchars|nl2br}
@@ -83,7 +83,7 @@
                             Сообщений: {$post->getAuthor()->getMessages()}
                         </td>
                         <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px; vertical-align: top;">
-                            {$post->getText()|htmlspecialchars|nl2br}
+                            {$post->getText()|htmlspecialchars|nl2br|bbcode}
                             {if $post->getAuthor()->getSignature()}
                                 <br /><br /><hr />
                                 {$post->getAuthor()->getSignature()|htmlspecialchars|nl2br}

@@ -25,8 +25,8 @@ class bbcodeTest extends unitTestCase
 
     public function testParseBBCodeWithAttributes()
     {
-        //$bbcode_parser = new bbcode('[color]test[/color]');
-        //$this->assertEqual('<font color="red">test</font>', $bbcode_parser->parse());
+        $bbcode_parser = new bbcode('[quote=zerkms]test[/quote]');
+        $this->assertEqual('<span>quote:"zerkms" - test</span>', $bbcode_parser->parse());
 
         $bbcode_parser = new bbcode('[color="red"]test[/color]');
         $this->assertEqual('<font color="red">test</font>', $bbcode_parser->parse());
@@ -39,6 +39,9 @@ class bbcodeTest extends unitTestCase
     {
         $bbcode_parser = new bbcode('[font not_exist="+1"]test[/font]');
         $this->assertEqual('[font not_exist="+1"]test[/font]', $bbcode_parser->parse());
+
+        $bbcode_parser = new bbcode('[color]test[/color]');
+        $this->assertEqual('[color]test[/color]', $bbcode_parser->parse());
     }
 
     public function testParseBBCodeWithWrongAttributesValues()

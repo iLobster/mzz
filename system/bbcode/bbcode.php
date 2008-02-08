@@ -30,6 +30,12 @@ class bbcode
         'size' => array(
                 'html' => '<font size="%2$s">%1$s</font>',
                 'strip_empty' => true,
+                'withAttributes' => true,
+                'attributes' => array('+1', '+2', '+3')
+            ),
+        'quote' => array(
+                'html' => '<span>quote:"%2$s" - %1$s</span>',
+                'strip_empty' => true,
                 'attributes' => array('+1', '+2', '+3')
             ),
     );
@@ -49,8 +55,6 @@ class bbcode
 
         return $this->parse_array($this->fixTags($this->buildBBData($this->content)));
     }
-
-
 
     protected function buildBBData($text)
     {
@@ -127,7 +131,7 @@ class bbcode
                     if ($closing_tag || $tagOptStartPos === false || $tagOptStartPos > $tagClosePos) {
                         $tagName = strtolower(substr($text, $startPos, $tagClosePos - $startPos));
 
-                        if ($this->isValidTag($tagName, true)) {
+                        if ($this->isValidTag($tagName, $closing_tag)) {
                             $output[] = array(
                                 'type' => 'tag',
                                 'name' => $tagName,
@@ -259,9 +263,9 @@ class bbcode
                         $max_key = key($output);
 
                         for ($i = 0; $i < $key; $i++) {
-                            $output[] = array('type' => 'tag', 'name' => $stack["$i"]['name'], 'closing' => true);
+                            $output[] = array('type' => 'tag', 'name' => $stack[$i]['name'], 'closing' => true);
                             $max_key++;
-                            $stack["$i"]['added_list'][] = $max_key;
+                            $stack[$i]['added_list'][] = $max_key;
                         }
                     }
 
@@ -271,13 +275,13 @@ class bbcode
                         $max_key++;
                         for ($i = $key - 1; $i >= 0; $i--)
                         {
-                            $output[] = $stack["$i"];
+                            $output[] = $stack[$i];
                             $max_key++;
-                            $stack["$i"]['added_list'][] = $max_key;
+                            $stack[$i]['added_list'][] = $max_key;
                         }
                     }
 
-                    unset($stack["$key"]);
+                    unset($stack[$key]);
                     $stack = array_values($stack);
                 } else {
                     $output[] = array(
@@ -309,108 +313,44 @@ class bbcode
         $this->stack = array();
         $stack_size = 0;
 
-        // holds options to disable certain aspects of parsing
-        $parse_options = array(
-            'no_parse' => 0,
-            'no_wordwrap' => 1,
-            'no_smilies' => 0,
-            'strip_space_after' => 0
-        );
-
         $this->node_max = count($preparsed);
         $this->node_cur = 0;
 
-        foreach ($preparsed AS $node)
-        {
+        foreach ($preparsed AS $node) {
             $this->node_num++;
+            $pending_text = null;
 
-            $pending_text = '';
             if ($node['type'] == 'text') {
                 $pending_text =& $node['data'];
+            } elseif ($node['closing'] == false) {
+                $node['data'] = '';
+                array_unshift($this->stack, $node);
+                ++$stack_size;
 
-                // remove leading space after a tag
-                if ($parse_options['strip_space_after']) {
-                    $pending_text = $this->strip_front_back_whitespace($pending_text, $parse_options['strip_space_after'], true, false);
-                    $parse_options['strip_space_after'] = 0;
-                }
-
-                // do word wrap
-                if (!$parse_options['no_wordwrap']) {
-                    //$pending_text = $this->do_word_wrap($pending_text);
-                }
-
-                // parse smilies
-                if ($do_smilies && !$parse_options['no_smilies']) {
-                    $pending_text = $this->parse_smilies($pending_text, $do_html);
-                }
-
-                if ($parse_options['no_parse']) {
-                    $pending_text = str_replace(array('[', ']'), array('&#91;', '&#93;'), $pending_text);
-                }
-            } else if ($node['closing'] == false) {
-                $parse_options['strip_space_after'] = 0;
-
-                if ($parse_options['no_parse'] == 0) {
-                    // opening a tag
-                    // initialize data holder and push it onto the stack
-                    $node['data'] = '';
-                    array_unshift($this->stack, $node);
-                    ++$stack_size;
-
-                    $has_option = $node['option'] !== false ? 'option' : 'no_option';
-                    $tag_info =& $this->tags["$has_option"]["$node[name]"];
-
-                    // setup tag options
-                    if (!empty($tag_info['stop_parse'])) {
-                        $parse_options['no_parse'] = 1;
-                    }
-                    if (!empty($tag_info['disable_smilies'])) {
-                        $parse_options['no_smilies']++;
-                    }
-                    if (!empty($tag_info['disable_wordwrap'])) {
-                        $parse_options['no_wordwrap']++;
-                    }
-                } else {
-                    $pending_text = '&#91;' . $node['name'] . ($node['option'] !== false ? "=$node[delimiter]$node[option]$node[delimiter]" : '') . '&#93;';
-                }
+                $has_option = $node['option'] !== false ? 'option' : 'no_option';
+                $tag_info =& $this->tags[$has_option][$node['name']];
             } else {
-                $parse_options['strip_space_after'] = 0;
-
-                // closing a tag
-                // look for this tag on the stack
                 if (($key = $this->findFirstTag($node['name'], $this->stack)) !== false) {
-                    // found it
-                    $open =& $this->stack["$key"];
+                    $open =& $this->stack[$key];
                     $this->current_tag =& $open;
 
-                    $has_option = $open['option'] !== false ? 'option' : 'no_option';
-
-                    // check to see if this version of the tag is valid
                     if (isset($this->tags[$open['name']])) {
                         $tag_info =& $this->tags[$open['name']];
-
-                        // make sure we have data between the tags
-                        if ((isset($tag_info['strip_empty']) AND $tag_info['strip_empty'] == false) OR trim($open['data']) != '') {
-                            // make sure our data matches our pattern if there is one
-                            if (empty($tag_info['data_regex']) OR preg_match($tag_info['data_regex'], $open['data'])) {
-                                // see if the option might have a tag, and if it might, run a parser on it
-                                if (!empty($tag_info['parse_option']) AND strpos($open['option'], '[') !== false) {
+                        if ((isset($tag_info['strip_empty']) && $tag_info['strip_empty'] == false) || trim($open['data']) != '') {
+                            if (empty($tag_info['data_regex']) || preg_match($tag_info['data_regex'], $open['data'])) {
+                                if (!empty($tag_info['parse_option']) && strpos($open['option'], '[') !== false) {
                                     $old_stack = $this->stack;
                                     $open['option'] = $this->parse_bbcode($open['option'], $do_smilies);
                                     $this->stack = $old_stack;
                                     unset($old_stack);
                                 }
 
-                                // now do the actual replacement
                                 if (isset($tag_info['html'])) {
-                                    // this is a simple HTML replacement
                                     $pending_text = sprintf($tag_info['html'], $open['data'], $open['option']);
                                 } else if (isset($tag_info['callback'])) {
-                                    // call a callback function
                                     $pending_text = $this->$tag_info['callback']($open['data'], $open['option']);
                                 }
                             } else {
-                                // oh, we didn't match our regex, just print the tag out raw
                                 $pending_text =
                                     '&#91;' . $open['name'] .
                                     ($open['option'] !== false ? "=$open[delimiter]$open[option]$open[delimiter]" : '') .
@@ -418,32 +358,13 @@ class bbcode
                                 ;
                             }
                         }
-
-                        // undo effects of various tag options
-                        if (!empty($tag_info['strip_space_after'])) {
-                            $parse_options['strip_space_after'] = $tag_info['strip_space_after'];
-                        }
-                        if (!empty($tag_info['stop_parse'])) {
-                            $parse_options['no_parse'] = 0;
-                        }
-                        if (!empty($tag_info['disable_smilies'])) {
-                            $parse_options['no_smilies']--;
-                        }
-                        if (!empty($tag_info['disable_wordwrap'])) {
-                            $parse_options['no_wordwrap']--;
-                        }
                     } else {
-                        // this tag appears to be invalid, so just print it out as text
-                        $pending_text = '&#91;' . $open['name'] . ($open['option'] !== false ? "=$open[delimiter]$open[option]$open[delimiter]" : '') . '&#93;';
+                        $pending_text = '&#91;' . $open['name'] . (($open['option'] !== false && $open['option'] != '') ? '=' . $open['delimiter'] . $open['option'] . $open['delimiter'] : '') . '&#93;';
                     }
-
-                    // pop the tag off the stack
-
                     unset($this->stack["$key"]);
                     --$stack_size;
-                    $this->stack = array_values($this->stack); // this is a tricky way to renumber the stack's keys
+                    $this->stack = array_values($this->stack);
                 } else {
-                    // wasn't there - we tried to close a tag which wasn't open, so just output the text
                     $pending_text = '&#91;/' . $node['name'] . '&#93;';
                 }
             }
@@ -478,16 +399,17 @@ class bbcode
                     return true;
                 }
 
-                if (isset($this->tags['withAttributes']) && $this->tags['withAttributes'] === true && $option === false) {
+                if (isset($this->tags[$tag]['withAttributes']) && $this->tags[$tag]['withAttributes']) {
+                    if ($option) {
+                        if (isset($this->tags[$tag]['attributes']) && is_array($this->tags[$tag]['attributes'])) {
+                            return in_array($option, $this->tags[$tag]['attributes']);
+                        }
+                    }
+
                     return false;
                 }
 
-                if (!$isClosed && $option !== false && isset($this->tags[$tag]['attributes'])) {
-                    $attributes = $this->tags[$tag]['attributes'];
-                    if (is_array($attributes)) {
-                        return in_array($option, $attributes);
-                    }
-                }
+                return true;
             }
         }
 
