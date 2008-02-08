@@ -83,6 +83,13 @@ class sqlFunctionTest extends unitTestCase
         $function = new sqlFunction('count', new sqlOperator('DISTINCT', 'field'));
         $this->assertEqual($function->toString($this->simpleSelect), "COUNT(DISTINCT `field`)");
     }
+
+    public function testNotEqualFieldNames()
+    {
+        $func_foo = new sqlFunction('foo', array('table.foo' => true, 'value'));
+        $func_bar = new sqlFunction('foo', array('table.bar' => true, 'value'));
+        $this->assertNotEqual($func_foo->getFieldName(), $func_bar->getFieldName());
+    }
 }
 
 ?>
