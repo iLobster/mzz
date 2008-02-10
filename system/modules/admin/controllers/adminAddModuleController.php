@@ -31,7 +31,7 @@ class adminAddModuleController extends simpleController
 
         $dest = $adminMapper->getDests();
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
         $action = $this->request->getAction();
 
         $db = DB::factory();
@@ -85,12 +85,12 @@ class adminAddModuleController extends simpleController
         }
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $icon = $this->request->get('icon', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
-            $order = $this->request->get('order', 'integer', SC_POST);
-            $newDest = $this->request->get('dest', 'string', SC_POST);
-            $main_class = $this->request->get('main_class', 'integer', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $icon = $this->request->getString('icon', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
+            $order = $this->request->getString('order', SC_POST);
+            $newDest = $this->request->getString('dest', SC_POST);
+            $main_class = $this->request->getInteger('main_class', SC_POST);
 
             $moduleGenerator = new moduleGenerator($dest[$newDest]);
 

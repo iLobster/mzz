@@ -26,7 +26,7 @@ class userGroupEditController extends simpleController
     protected function getView()
     {
         $groupMapper = $this->toolkit->getMapper('user', 'group');
-        $id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
+        $id = $this->request->getInteger('id', SC_PATH | SC_POST);
 
         $group = $groupMapper->searchById($id);
 
@@ -46,8 +46,8 @@ class userGroupEditController extends simpleController
                 $group = $groupMapper->create();
             }
 
-            $name = $this->request->get('name', 'string', SC_POST);
-            $is_default = $this->request->get('is_default', 'boolean', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $is_default = $this->request->getBoolean('is_default', SC_POST);
             $group->setName($name);
             $group->setIsDefault($is_default);
             $groupMapper->save($group);

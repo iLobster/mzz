@@ -25,7 +25,7 @@ class userLoginFormController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
-        $prefix = $this->request->get('tplPrefix', 'string');
+        $prefix = $this->request->getString('tplPrefix');
         if (!empty($prefix)) {
             $prefix .= '/';
         }

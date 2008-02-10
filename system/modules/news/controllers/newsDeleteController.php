@@ -24,7 +24,7 @@ class newsDeleteController extends simpleController
     protected function getView()
     {
         $newsMapper = $this->toolkit->getMapper('news', 'news');
-        $newsMapper->delete($this->request->get('id', 'integer', SC_PATH));
+        $newsMapper->delete($this->request->getInteger('id'));
 
         return jipTools::redirect();
     }

@@ -25,7 +25,7 @@ class commentsDeleteController extends simpleController
     protected function getView()
     {
         $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');
-        $commentsMapper->delete($this->request->get('id', 'integer', SC_PATH));
+        $commentsMapper->delete($this->request->getInteger('id'));
 
         return jipTools::redirect();
     }

@@ -25,7 +25,7 @@ class faqDeleteController extends simpleController
     public function getView()
     {
         $faqMapper = $this->toolkit->getMapper('faq', 'faq');
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $faq = $faqMapper->searchById($id);
 

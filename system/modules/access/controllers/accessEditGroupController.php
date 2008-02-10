@@ -23,8 +23,8 @@ class accessEditGroupController extends simpleController
 {
     protected function getView()
     {
-        $obj_id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
-        $group_id = $this->request->get('user_id', 'integer', SC_PATH | SC_POST);
+        $obj_id = $this->request->getInteger('id', SC_PATH | SC_POST);
+        $group_id = $this->request->getInteger('user_id', SC_PATH | SC_POST);
 
         $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
         $group = $groupMapper->searchById($group_id);
@@ -43,7 +43,7 @@ class accessEditGroupController extends simpleController
         $actions = $actions[$acl->getClass()];
 
         if ($this->request->getMethod() == 'POST' && $group) {
-            $setted = $this->request->get('access', 'array', SC_POST);
+            $setted = $this->request->getArray('access', SC_POST);
 
             $result = array();
             foreach ($actions as $key => $val) {

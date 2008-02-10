@@ -26,7 +26,7 @@ class formCaptchaRule extends formAbstractRule
         $session = systemToolkit::getInstance()->getSession();
         $request = systemToolkit::getInstance()->getRequest();
 
-        $captcha_id = $request->get($this->name . '_id', 'string', SC_POST);
+        $captcha_id = $request->getString($this->name . '_id', SC_POST);
 
         $captcha_sessionkey = 'captcha_' . $captcha_id;
 

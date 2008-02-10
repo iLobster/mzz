@@ -24,12 +24,12 @@ class fileManagerDeleteController extends simpleController
 {
     protected function getView()
     {
-        $name = $this->request->get('name', 'string', SC_PATH);
+        $name = $this->request->getString('name');
         $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
         $file = $fileMapper->searchByPath($name);
 
         if (!$file) {
-            return 'файл не найден';
+            return $fileMapper->get404()->run();
         }
 
         $fileMapper->delete($file);

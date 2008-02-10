@@ -24,7 +24,7 @@ class votingDeleteCategoryController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
         $categoryMapper = $this->toolkit->getMapper('voting', 'voteCategory');
 
         $category = $categoryMapper->searchById($id);

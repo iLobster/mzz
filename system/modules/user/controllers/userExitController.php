@@ -35,7 +35,7 @@ class userExitController extends simpleController
         $userAuthMapper->clear();
         $userAuthMapper->clearExpired(strtotime('-1 month'));
 
-        $this->response->redirect($this->request->get('url', 'string', SC_GET));
+        $this->response->redirect($this->request->getString('url', SC_GET));
     }
 }
 

@@ -27,10 +27,10 @@ class galleryViewPhotoController extends simpleController
         $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');
 
-        $album_id = $this->request->get('album', 'integer');
+        $album_id = $this->request->getInteger('album');
         $album = $albumMapper->searchById($album_id);
 
-        $photo_id = $this->request->get('id', 'integer', SC_PATH);
+        $photo_id = $this->request->getInteger('id');
         $photo = $photoMapper->searchById($photo_id);
 
         $file = $photo->getFile();

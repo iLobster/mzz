@@ -23,8 +23,8 @@ class userMemberOfController extends simpleController
 {
     protected function getView()
     {
-        if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
-            $id = $this->request->get('id', 'integer', SC_POST);
+        if (($id = $this->request->getInteger('id')) == null) {
+            $id = $this->request->getInteger('id', SC_POST);
         }
 
         $userMapper = $this->toolkit->getMapper('user', 'user');
@@ -39,7 +39,7 @@ class userMemberOfController extends simpleController
 
         if ($this->request->getMethod() == 'POST') {
             // если была отправлена форма
-            $groups = $this->request->get('groups', 'array', SC_POST);
+            $groups = $this->request->getArray('groups', SC_POST);
 
             if (is_null($groups)) {
                 $groups = array();

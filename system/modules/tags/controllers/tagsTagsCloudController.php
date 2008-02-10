@@ -25,8 +25,8 @@ class tagsTagsCloudController extends simpleController
     public function getView()
     {
         $section = $this->request->getRequestedSection();
-        $class = $this->request->get('tclass', 'string', SC_PATH);
-        $module = $this->request->get('tmodule', 'string', SC_PATH);
+        $class = $this->request->getString('tclass');
+        $module = $this->request->getString('tmodule');
 
         $itemsMapper = $this->toolkit->getMapper($module, $class, $section);
 

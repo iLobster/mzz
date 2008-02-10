@@ -120,12 +120,12 @@ class userAuthMapper extends simpleMapper
 
     private function getHash()
     {
-        return $this->request->get('auth', 'string', SC_COOKIE);
+        return $this->request->getString('auth', SC_COOKIE);
     }
 
     private function getIp()
     {
-        return $this->request->get('REMOTE_ADDR', 'string', SC_SERVER);
+        return $this->request->getServer('REMOTE_ADDR');
     }
 
     /**

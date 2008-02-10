@@ -25,7 +25,7 @@ class fileManagerBrowseController extends simpleController
     public function getView()
     {
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
-        $path = $this->request->get('params', 'string');
+        $path = $this->request->getString('params');
 
         $folder = $folderMapper->searchByPath($path);
 

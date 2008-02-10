@@ -26,7 +26,7 @@ class newsAdminController extends simpleController
     {
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
 
-        $path = $this->request->get('params', 'string', SC_PATH);
+        $path = $this->request->getString('params');
 
         $newsFolder = $newsFolderMapper->searchByPath($path);
         if (empty($newsFolder)) {
@@ -37,7 +37,7 @@ class newsAdminController extends simpleController
 
         $pager = $this->setPager($newsFolder);
 
-        $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
+        $this->smarty->assign('section_name', $this->request->getString('section_name'));
         $this->smarty->assign('news', $newsFolder->getItems());
         $this->smarty->assign('newsFolder', $newsFolder);
         $this->smarty->assign('breadCrumbs', $breadCrumbs);

@@ -26,7 +26,7 @@ class votingPostController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $questionMapper = $this->toolkit->getMapper('voting', 'question');
         $answerMapper = $this->toolkit->getMapper('voting', 'answer');
@@ -39,18 +39,18 @@ class votingPostController extends simpleController
             return 'Not allowed';
         }
 
-        $answers = (array)$this->request->get('answer', 'array', SC_POST);
+        $answers = (array)$this->request->getArray('answer', SC_POST);
         $validAnswers = array_keys($question->getAnswers());
 
         foreach ($answers as $answer_id) {
             if (in_array($answer_id, $validAnswers)) {
                 $answer = $answerMapper->searchById($answer_id);
 
-                $text = (($answer->getTypeTitle() == 'text')) ? $this->request->get('answer_' . $answer_id, 'string', SC_POST) : null;
+                $text = (($answer->getTypeTitle() == 'text')) ? $this->request->getString('answer_' . $answer_id, SC_POST) : null;
                 $voteMapper->create($question, $answer, $user, $text);
             }
         }
-        $backurl = $this->request->get('url', 'string', SC_POST);
+        $backurl = $this->request->getString('url', SC_POST);
         if (!$backurl) {
             $url = new url('default');
             $backurl = $url->get();

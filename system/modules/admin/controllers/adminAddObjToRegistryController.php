@@ -40,7 +40,7 @@ class adminAddObjToRegistryController extends simpleController
         $validator->add('callback', 'class', 'Укажите существующий класс', array('checkClassSectionExists', $db));
 
         if ($validator->validate()) {
-            $class = $this->request->get('class', 'integer', SC_POST);
+            $class = $this->request->getInteger('class', SC_POST);
 
             $obj_id = $this->toolkit->getObjectId();
             $stmt = $db->prepare('INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (:obj_id, :class_section)');

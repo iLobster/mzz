@@ -22,8 +22,9 @@ fileLoader::load('request/iRequest');
  *
  * Examples:
  * <code>
- * $httprequest->get('var', 'integer', SC_GET | SC_COOKIE);
- * $httprequest->get('var2');
+ * $httpRequest->getBoolean('var', SC_GET | SC_COOKIE);
+ * $httpRequest->getString('var2', SC_POST);
+ * $httpRequest->getInteger('var2');
  * </code>
  *
  * @package system

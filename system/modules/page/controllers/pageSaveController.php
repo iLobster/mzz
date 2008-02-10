@@ -27,7 +27,7 @@ class pageSaveController extends simpleController
     protected function getView()
     {
         $pageMapper = $this->toolkit->getMapper('page', 'page');
-        $name = $this->request->get('name', 'string', SC_PATH);
+        $name = $this->request->getString('name');
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
 
         $action = $this->request->getAction();
@@ -50,10 +50,10 @@ class pageSaveController extends simpleController
             $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkPageName', $page, $pageFolder));
 
             if ($validator->validate()) {
-                $name = $this->request->get('name', 'string', SC_POST);
-                $title = $this->request->get('title', 'string', SC_POST);
-                $contentArea = $this->request->get('contentArea', 'string', SC_POST);
-                $compiled = $this->request->get('compiled', 'integer', SC_POST);
+                $name = $this->request->getString('name', SC_POST);
+                $title = $this->request->getString('title', SC_POST);
+                $contentArea = $this->request->getString('contentArea', SC_POST);
+                $compiled = $this->request->getBoolean('compiled', SC_POST);
 
                 $page->setName($name);
                 $page->setTitle($title);

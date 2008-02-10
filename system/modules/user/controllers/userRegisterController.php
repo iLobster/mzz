@@ -34,8 +34,8 @@ class userRegisterController extends simpleController
             //return $controller->run();
         //}
 
-        $userId = $this->request->get('user', 'integer', SC_GET);
-        $confirm = $this->request->get('confirm', 'string', SC_GET);
+        $userId = $this->request->getInteger('user', SC_GET);
+        $confirm = $this->request->getString('confirm', SC_GET);
 
         if (empty($userId) || empty($confirm)) {
             $validator = new formValidator();
@@ -45,7 +45,7 @@ class userRegisterController extends simpleController
             $validator->add('Regex', 'email', 'Необходимо указать правильный e-mail', '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/');
             $validator->add('required', 'repassword', 'Необходимо указать повтор пароль');
             $validator->add('callback', 'login', 'Пользователь с таким логином уже существует', array('checkUniqueUserLogin', $userMapper));
-            $validator->add('callback', 'repassword', 'Повтор пароля не совпадает', array('checkRepass', $this->request->get('password', 'string', SC_POST)));
+            $validator->add('callback', 'repassword', 'Повтор пароля не совпадает', array('checkRepass', $this->request->getString('password', SC_POST)));
 
             $url = new url('default2');
             $url->setAction('register');
@@ -55,9 +55,9 @@ class userRegisterController extends simpleController
                 $this->smarty->assign('errors', $validator->getErrors());
                 return $this->smarty->fetch('user/register.tpl');
             } else {
-                $login = $this->request->get('login', 'string', SC_POST);
-                $password = $this->request->get('password', 'string', SC_POST);
-                $email = $this->request->get('email', 'string', SC_POST);
+                $login = $this->request->getString('login', SC_POST);
+                $password = $this->request->getString('password', SC_POST);
+                $email = $this->request->getString('email', SC_POST);
 
                 $user = $userMapper->create();
                 $user->setLogin($login);

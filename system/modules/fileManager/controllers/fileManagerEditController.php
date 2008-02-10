@@ -26,7 +26,7 @@ class fileManagerEditController extends simpleController
 {
     protected function getView()
     {
-        $name = $this->request->get('name', 'string', SC_PATH);
+        $name = $this->request->getString('name');
 
         $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
         $file = $fileMapper->searchByPath($name);
@@ -41,10 +41,10 @@ class fileManagerEditController extends simpleController
         $validator->add('callback', 'name', 'Имя должно быть уникально в пределах каталога', array('checkFilename', $file));
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $about = $this->request->get('about', 'string', SC_POST);
-            $header = $this->request->get('header', 'string', SC_POST);
-            $direct_link = $this->request->get('direct_link', 'string', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $about = $this->request->getString('about', SC_POST);
+            $header = $this->request->getString('header', SC_POST);
+            $direct_link = $this->request->getString('direct_link', SC_POST);
 
             $file->setName($name);
             $file->setAbout($about);

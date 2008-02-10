@@ -27,8 +27,8 @@ class fileManagerMoveFolderController extends simpleController
     protected function getView()
     {
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
-        $path = $this->request->get('name', 'string', SC_PATH);
-        $dest = $this->request->get('dest', 'integer', SC_POST);
+        $path = $this->request->getString('name');
+        $dest = $this->request->getInteger('dest', SC_POST);
 
         $folder = $folderMapper->searchByPath($path);
         if (!$folder) {

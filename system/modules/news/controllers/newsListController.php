@@ -25,7 +25,7 @@ class newsListController extends simpleController
     protected function getView()
     {
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
-        $path = $this->request->get('name', 'string', SC_PATH);
+        $path = $this->request->getString('name');
         $newsFolder = $newsFolderMapper->searchByPath($path);
 
         if (empty($newsFolder)) {

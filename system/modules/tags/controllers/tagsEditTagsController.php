@@ -26,7 +26,7 @@ class tagsEditTagsController extends simpleController
 {
     public function getView()
     {
-        $obj_id = $this->request->get('id', 'integer', SC_PATH);
+        $obj_id = $this->request->getInteger('id');
 
         $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
         $tagsItem = $tagsItemMapper->searchOneByField('item_obj_id', $obj_id);
@@ -41,7 +41,7 @@ class tagsEditTagsController extends simpleController
 
             if ($validator->validate()) {
 
-                $tags = $this->request->get('tags', 'string', SC_POST);
+                $tags = $this->request->getString('tags', SC_POST);
                 /* парсим тэги */
                 $tags = explode(',', $tags);
                 $tags = array_map('trim', $tags);

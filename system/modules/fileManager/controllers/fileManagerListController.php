@@ -25,7 +25,7 @@ class fileManagerListController extends simpleController
     protected function getView()
     {
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
-        $path = $this->request->get('path', 'string', SC_PATH);
+        $path = $this->request->getString('path');
 
         $folder = $folderMapper->searchByPath($path);
 

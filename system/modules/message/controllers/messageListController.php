@@ -24,7 +24,7 @@ class messageListController extends simpleController
 {
     public function getView()
     {
-        $name = $this->request->get('name', 'string');
+        $name = $this->request->getString('name');
         $isSent = $name == 'sent';
 
         $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');

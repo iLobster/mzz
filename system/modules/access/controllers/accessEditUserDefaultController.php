@@ -23,10 +23,10 @@ class accessEditUserDefaultController extends simpleController
 {
     protected function getView()
     {
-        $user_id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
+        $user_id = $this->request->getInteger('id', SC_PATH | SC_POST);
 
-        $class = $this->request->get('class_name', 'string');
-        $section = $this->request->get('section_name', 'string');
+        $class = $this->request->getString('class_name');
+        $section = $this->request->getString('section_name');
 
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $user = $userMapper->searchById($user_id);
@@ -39,7 +39,7 @@ class accessEditUserDefaultController extends simpleController
         $actions = $actions[$class];
 
         if ($this->request->getMethod() == 'POST' && $user) {
-            $setted = $this->request->get('access', 'array', SC_POST);
+            $setted = $this->request->getArray('access', SC_POST);
 
             $result = array();
             foreach ($actions as $key => $val) {

@@ -24,7 +24,7 @@ class tagsListController extends simpleController
 {
     public function getView()
     {
-        $obj_id = $this->request->get('parent_id', 'integer', SC_PATH);
+        $obj_id = $this->request->getInteger('parent_id');
 
         $section = $this->request->getRequestedSection();
 

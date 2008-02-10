@@ -24,8 +24,8 @@ class galleryViewAlbumController extends simpleController
 {
     protected function getView()
     {
-        $user_name = $this->request->get('name', 'string');
-        $album_id = $this->request->get('album', 'integer');
+        $user_name = $this->request->getString('name');
+        $album_id = $this->request->getInteger('album');
 
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');

@@ -35,7 +35,7 @@ class userAdminController extends simpleController
 
         $this->smarty->assign('userFolder', $userFolder);
         $this->smarty->assign('groupFolder', $groupFolder);
-        $this->smarty->assign('section_name', $this->request->get('section_name', 'string'));
+        $this->smarty->assign('section_name', $this->request->getString('section_name'));
         $this->smarty->assign('users', $userMapper->searchAll());
         return $this->smarty->fetch('user/admin.tpl');
     }

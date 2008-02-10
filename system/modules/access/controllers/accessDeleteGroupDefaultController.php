@@ -24,9 +24,9 @@ class accessDeleteGroupDefaultController extends simpleController
 {
     protected function getView()
     {
-        if (($group_id = $this->request->get('id', 'integer')) != null) {
-            $class = $this->request->get('class_name', 'string');
-            $section = $this->request->get('section_name', 'string');
+        if (($group_id = $this->request->getInteger('id')) != null) {
+            $class = $this->request->getString('class_name');
+            $section = $this->request->getString('section_name');
 
             $acl = new acl($this->toolkit->getUser(), 0, $class, $section);
             $acl->deleteGroupDefault($group_id);

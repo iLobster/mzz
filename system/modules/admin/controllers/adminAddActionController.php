@@ -27,8 +27,8 @@ class adminAddActionController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer', SC_PATH);
-        $action_name = $this->request->get('action_name', 'string', SC_PATH);
+        $id = $this->request->getInteger('id');
+        $action_name = $this->request->getString('action_name');
 
         $action = $this->request->getAction();
 
@@ -106,7 +106,7 @@ class adminAddActionController extends simpleController
         // КОНЕЦ ВАЛИДАТОРА
 
         if ($validator->validate()) {
-            $values = $this->request->get('action', 'array', SC_POST);
+            $values = $this->request->getArray('action', SC_POST);
 
             $modules = $adminMapper->getModulesList();
 

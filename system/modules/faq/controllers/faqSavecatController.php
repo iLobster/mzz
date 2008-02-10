@@ -28,7 +28,7 @@ class faqSavecatController extends simpleController
     {
         $categoryMapper = $this->toolkit->getMapper('faq', 'faqCategory');
 
-        $name = $this->request->get('name', 'integer');
+        $name = $this->request->getInteger('name');
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'editcat');
@@ -52,8 +52,8 @@ class faqSavecatController extends simpleController
             $this->smarty->assign('errors', $validator->getErrors());
             return $this->smarty->fetch('faq/savecat.tpl');
         } else {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
 
             $category->setName($name);
             $category->setTitle($title);

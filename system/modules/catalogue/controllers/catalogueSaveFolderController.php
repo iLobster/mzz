@@ -28,7 +28,7 @@ class catalogueSaveFolderController extends simpleController
     {
         $user = $this->toolkit->getUser();
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
-        $path = $this->request->get('name', 'string', SC_PATH);
+        $path = $this->request->getString('name');
         $targetFolder = $catalogueFolderMapper->searchByPath($path);
 
         $action = $this->request->getAction();
@@ -51,9 +51,9 @@ class catalogueSaveFolderController extends simpleController
         $validator->add('callback', 'name', 'Уникальное имя в пределах каталога', array('checkCatalogueFolderName', $path, $catalogueFolderMapper, $isEdit));
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
-            $defaultType = $this->request->get('defaultType', 'integer', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
+            $defaultType = $this->request->getInteger('defaultType', SC_POST);
 
             $folder->setName($name);
             $folder->setTitle($title);

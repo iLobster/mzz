@@ -29,7 +29,7 @@ class newsMoveController extends simpleController
         $newsMapper = $this->toolkit->getMapper('news', 'news');
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
 
         $news = $newsMapper->searchById($id);
 
@@ -41,14 +41,14 @@ class newsMoveController extends simpleController
         $validator->add('required', 'dest', 'Необходимо указать каталог назначения');
 
         if ($validator->validate()) {
-            $dest = $this->request->get('dest', 'integer', SC_POST);
+            $dest = $this->request->getInteger('dest', SC_POST);
             $destFolder = $newsFolderMapper->searchById($dest);
 
             if (!$destFolder) {
                 $controller = new messageController('Каталог назначения не найден', messageController::WARNING);
                 return $controller->run();
             }
-            
+
             $news->setFolder($destFolder);
             $newsMapper->save($news);
 

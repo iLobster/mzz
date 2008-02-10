@@ -25,7 +25,7 @@ class menuDeletemenuController extends simpleController
     protected function getView()
     {
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
-        $name = $this->request->get('name', 'string');
+        $name = $this->request->getString('name');
 
         $menu = $menuMapper->searchByName($name);
 

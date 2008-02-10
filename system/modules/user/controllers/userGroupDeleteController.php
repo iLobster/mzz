@@ -23,7 +23,7 @@ class userGroupDeleteController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         // исключаем пользователей из этой группы
         $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');

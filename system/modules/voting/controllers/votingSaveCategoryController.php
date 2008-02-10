@@ -29,7 +29,7 @@ class votingSaveCategoryController extends simpleController
         $categoryMapper = $this->toolkit->getMapper('voting', 'voteCategory');
         $action = $this->request->getAction();
         $isEdit = ($action == 'editCategory');
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
         $category = ($isEdit) ? $categoryMapper->searchById($id) : $categoryMapper->create();
 
         $validator = new formValidator();
@@ -47,8 +47,8 @@ class votingSaveCategoryController extends simpleController
             $this->smarty->assign('isEdit', $isEdit);
             return $this->smarty->fetch('voting/saveCategory.tpl');
         } else {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
 
             $category->setName($name);
             $category->setTitle($title);

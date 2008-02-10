@@ -24,7 +24,7 @@ class galleryDeleteAlbumController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');
 
         $album = $albumMapper->searchById($id);

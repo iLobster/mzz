@@ -27,12 +27,12 @@ class pageMoveController extends simpleController
     protected function getView()
     {
         // @todo ???
-        if (($name = $this->request->get('name', 'string', SC_PATH)) == false) {
-            if (($name = $this->request->get('id', 'string', SC_PATH)) == false) {
+        if (($name = $this->request->getString('name')) == false) {
+            if (($name = $this->request->getString('id')) == false) {
                 $name = 'main';
             }
         }
-        $dest = $this->request->get('dest', 'integer', SC_POST);
+        $dest = $this->request->getInteger('dest', SC_POST);
 
         $pageMapper = $this->toolkit->getMapper('page', 'page');
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');

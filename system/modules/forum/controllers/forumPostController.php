@@ -31,8 +31,8 @@ class forumPostController extends simpleController
 
         $user = $this->toolkit->getUser();
 
-        $id = $this->request->get('id', 'integer');
-        $isQuickPost = $this->request->get('quickpost', 'boolean');
+        $id = $this->request->getInteger('id');
+        $isQuickPost = $this->request->getBoolean('quickpost');
 
         $threadMapper = $this->toolkit->getMapper('forum', 'thread');
         $postMapper = $this->toolkit->getMapper('forum', 'post');
@@ -48,7 +48,7 @@ class forumPostController extends simpleController
             $post = $postMapper->create();
         }
 
-        $access = $this->request->get('access', 'boolean', SC_PATH);
+        $access = $this->request->getBoolean('access', SC_PATH);
 
         if (!is_null($access) && !$access) {
             if (!$user->isLoggedIn()) {
@@ -64,7 +64,7 @@ class forumPostController extends simpleController
         $validator->add('required', 'text', 'Необходимо написать сообщение');
 
         if ($validator->validate()) {
-            $text = $this->request->get('text', 'string', SC_POST);
+            $text = $this->request->getString('text', SC_POST);
 
             if (!$isEdit) {
                 $time = strtotime('tomorrow');

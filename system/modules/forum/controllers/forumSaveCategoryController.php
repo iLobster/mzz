@@ -29,7 +29,7 @@ class forumSaveCategoryController extends simpleController
         $action = $this->request->getAction();
         $isEdit = $action == 'editcategory';
 
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $categoryMapper = $this->toolkit->getMapper('forum', 'category');
 
@@ -45,8 +45,8 @@ class forumSaveCategoryController extends simpleController
         $validator->add('numeric', 'order', 'Значение порядка сортировки должно быть числовым');
 
         if ($validator->validate()) {
-            $category->setTitle($this->request->get('title', 'string', SC_POST));
-            $category->setOrder($this->request->get('order', 'integer', SC_POST));
+            $category->setTitle($this->request->getString('title', SC_POST));
+            $category->setOrder($this->request->getInteger('order', SC_POST));
             $categoryMapper->save($category);
 
             return jipTools::redirect();

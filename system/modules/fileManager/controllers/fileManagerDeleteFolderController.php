@@ -24,13 +24,13 @@ class fileManagerDeleteFolderController extends simpleController
 {
     protected function getView()
     {
-        $name = $this->request->get('name', 'string', SC_PATH);
+        $name = $this->request->getString('name');
 
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
         $folder = $folderMapper->searchByPath($name);
 
         if (!$folder) {
-            return 'каталог не найден';
+            return $folderMapper->get404()->run();
         }
 
         $folderMapper->delete($folder);

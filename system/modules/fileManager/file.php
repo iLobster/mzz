@@ -103,7 +103,7 @@ class file extends simple
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
 
-        $range = $request->get('HTTP_RANGE', 'string', SC_SERVER);
+        $range = $request->getServer('HTTP_RANGE');
         if (empty($range)) {
             $this->setDownloads($this->getDownloads() + 1);
             $this->mapper->save($this);

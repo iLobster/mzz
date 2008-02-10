@@ -23,9 +23,9 @@ class userAddToGroupController extends simpleController
 {
     protected function getView()
     {
-        $filter = $this->request->get('filter', 'string', SC_GET);
+        $filter = $this->request->getString('filter', SC_GET);
 
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $groupMapper = $this->toolkit->getMapper('user', 'group');
         $group = $groupMapper->searchById($id);
@@ -38,7 +38,7 @@ class userAddToGroupController extends simpleController
         if ($this->request->getMethod() == 'POST') {
             $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
 
-            $users = $this->request->get('users', 'array', SC_POST);
+            $users = $this->request->getArray('users', SC_POST);
 
             if (is_null($users)) {
                 $users = array();
@@ -88,7 +88,7 @@ class userAddToGroupController extends simpleController
             }
 
             $url = new url('withId');
-            $url->add('id', $this->request->get('id', 'integer'));
+            $url->add('id', $this->request->getInteger('id'));
             $url->setAction('addToGroupList');
 
 

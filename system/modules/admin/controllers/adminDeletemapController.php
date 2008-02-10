@@ -26,8 +26,8 @@ class adminDeletemapController extends simpleController
 {
     protected function getView()
     {
-        $class_name = $this->request->get('class', 'string');
-        $field_name = $this->request->get('field', 'string');
+        $class_name = $this->request->getString('class');
+        $field_name = $this->request->getString('field');
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $class = $adminMapper->searchClassByName($class_name);

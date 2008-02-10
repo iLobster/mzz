@@ -24,7 +24,7 @@ class forumLastController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $postMapper = $this->toolkit->getMapper('forum', 'post');
         $user = $this->toolkit->getUser();

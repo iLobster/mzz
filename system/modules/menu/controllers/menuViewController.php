@@ -26,12 +26,12 @@ class menuViewController extends simpleController
     {
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
 
-        $prefix = $this->request->get('tplPrefix', 'string');
+        $prefix = $this->request->getString('tplPrefix');
         if (!empty($prefix)) {
             $prefix .= '/';
         }
 
-        $name = $this->request->get('name', 'string');
+        $name = $this->request->getString('name');
         $menu = $menuMapper->searchByName($name);
         if (empty($menu)) {
             return $menuMapper->get404()->run();

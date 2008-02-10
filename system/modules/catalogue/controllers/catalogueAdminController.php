@@ -27,7 +27,7 @@ class catalogueAdminController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
-        $path = $this->request->get('params', 'string', SC_PATH);
+        $path = $this->request->getString('params', SC_PATH);
 
         if (is_null($path)) {
             $path = 'root';

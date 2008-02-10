@@ -26,8 +26,8 @@ class adminSaveCfgController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer', SC_PATH);
-        $name = $this->request->get('name', 'string', SC_PATH);
+        $id = $this->request->getInteger('id');
+        $name = $this->request->getString('name');
         $action = $this->request->getAction();
         $isEdit = ($action == 'editCfg');
 
@@ -54,7 +54,7 @@ class adminSaveCfgController extends simpleController
             $types[$t['id']] = $t['title'] . '(' . $t['name'] . ')';
         }
 
-        $type = $this->request->get('type', 'integer', SC_POST);
+        $type = $this->request->getInteger('type', SC_POST);
 
         $validator = new formValidator();
 
@@ -65,9 +65,9 @@ class adminSaveCfgController extends simpleController
         $validator->add('callback', 'type', 'Неверный тип', array('checkIsset', $types));
 
         if ($validator->validate()) {
-            $param = $this->request->get('param', 'string', SC_POST);
-            $value = $this->request->get('value', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
+            $param = $this->request->getString('param', SC_POST);
+            $value = $this->request->getString('value', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
 
             if ($isEdit) {
                 $config->update($name, $param, $value, null, $type);

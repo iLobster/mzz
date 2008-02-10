@@ -25,8 +25,8 @@ class adminDeleteActionController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer', SC_PATH);
-        $action_name = $this->request->get('action_name', 'string', SC_PATH);
+        $id = $this->request->getInteger('id');
+        $action_name = $this->request->getString('action_name');
 
         $db = DB::factory();
         $data = $db->getRow('SELECT `c`.`id` AS `c_id`, `m`.`id` AS `m_id`, `c`.`name` AS `c_name`, `m`.`name` AS `m_name` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);

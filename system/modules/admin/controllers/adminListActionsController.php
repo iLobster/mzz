@@ -26,7 +26,7 @@ class adminListActionsController extends simpleController
     {
         $this->db = DB::factory();
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
 
         $data = $this->db->getRow('SELECT `c`.`name` AS `c_name`, `c`.`id` AS `c_id`, `m`.`name` AS `m_name`, `m`.`id` AS `m_id` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);
         if ($data === false) {

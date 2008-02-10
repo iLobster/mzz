@@ -28,22 +28,21 @@ class catalogueSavePropertyController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $action = $this->request->getAction();
         $isEdit = ($action == 'editProperty');
-        ///$isAjax = $this->request->get('_ajax', 'string', SC_REQUEST);
 
         $property = array();
         $isAjax = false;
 
         if ($isEdit) {
-            $id = $this->request->get('id', 'integer', SC_PATH);
+            $id = $this->request->getInteger('id');
             $property = $catalogueMapper->getProperty($id);
         }
 
-        if (($loadType = $this->request->get('loadType', 'string', SC_REQUEST)) !== null) {
+        if (($loadType = $this->request->getString('loadType', SC_REQUEST)) !== null) {
             $isAjax = true;
         } elseif ($isEdit) {
             $loadType = $property['type_id'];
         } else {
-            $loadType = $this->request->get('type_id', 'integer', SC_REQUEST);
+            $loadType = $this->request->getInteger('type_id', SC_REQUEST);
             $property['type_id'] = $loadType;
         }
 
@@ -136,19 +135,19 @@ class catalogueSavePropertyController extends simpleController
                     switch ($loadType) {
                         case 'modules':
 
-                            $section_id = $this->request->get('for_id', 'integer', SC_REQUEST);
+                            $section_id = $this->request->getInteger('for_id', SC_REQUEST);
                             $modules = $adminMapper->searchModulesBySection($section_id);
                             $this->smarty->assign('data', $modules);
                             break;
                         case 'classes':
 
-                            $module_id = $this->request->get('for_id', 'integer', SC_REQUEST);
+                            $module_id = $this->request->getInteger('for_id', SC_REQUEST);
                             $classes = $adminMapper->searchClassesByModuleId($module_id);
                             $this->smarty->assign('data', $classes);
                             break;
 
                         case 'methods':
-                            $class_id = $this->request->get('for_id', 'integer', SC_REQUEST);
+                            $class_id = $this->request->getInteger('for_id', SC_REQUEST);
                             $searchMethods = $adminMapper->getSearchMethods($class_id);
                             $this->smarty->assign('searchMethods', $searchMethods);
                             // методы извлечения данных
@@ -157,7 +156,7 @@ class catalogueSavePropertyController extends simpleController
                             break;
 
                         case 'folders':
-                            $section = $this->request->get('for_id', 'string', SC_REQUEST);
+                            $section = $this->request->getString('for_id', SC_REQUEST);
 
                             $folderMapper = $this->toolkit->getMapper('fileManager', 'folder', $section);
                             $folders = $folderMapper->searchAll();
@@ -170,8 +169,8 @@ class catalogueSavePropertyController extends simpleController
                             break;
 
                         case 'method':
-                            $method_name = $this->request->get('method_name', 'string', SC_REQUEST);
-                            $class_id = $this->request->get('class_id', 'integer', SC_REQUEST);
+                            $method_name = $this->request->getString('method_name', SC_REQUEST);
+                            $class_id = $this->request->getInteger('class_id', SC_REQUEST);
                             $data = $adminMapper->getMethodInfo($class_id, $method_name);
                             if ($data) {
                                 $description = $data['description'];
@@ -185,7 +184,7 @@ class catalogueSavePropertyController extends simpleController
             }
 
             $propertyForm = $property;
-            if (($typeConfig = $this->request->get('typeConfig', 'array', SC_POST)) !== null) {
+            if (($typeConfig = $this->request->getArray('typeConfig', SC_POST)) !== null) {
                 $propertyForm['typeConfig'] = $typeConfig;
             }
 
@@ -221,15 +220,15 @@ class catalogueSavePropertyController extends simpleController
             }
             return $this->smarty->fetch('catalogue/property.tpl');
         } else {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
-            $type = $this->request->get('type_id', 'integer', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
+            $type = $this->request->getInteger('type_id', SC_POST);
 
             $params = array();
             switch ($types[$type]) {
                 case 'select':
                 case 'multiselect':
-                    $values = (array) $this->request->get('selectvalues', 'mixed', SC_POST);
+                    $values = $this->request->getArray('selectvalues', SC_POST);
                     $selectvalues = array();
                     foreach ($values as $val) {
                         $selectvalues[] = $val;
@@ -238,11 +237,11 @@ class catalogueSavePropertyController extends simpleController
                     break;
 
                 case 'datetime':
-                    $params['args'] = $this->request->get('datetimeformat', 'string', SC_POST);
+                    $params['args'] = $this->request->getString('datetimeformat', SC_POST);
                     break;
 
                 case 'dynamicselect':
-                    $typeConfig = new arrayDataspace($this->request->get('typeConfig', 'array', SC_POST));
+                    $typeConfig = new arrayDataspace($this->request->getArray('typeConfig', SC_POST));
 
                     $names = $adminMapper->getNamesOfSectionModuleClass($typeConfig['section'], $typeConfig['module'], $typeConfig['class']);
                     if (empty($names)) {
@@ -263,8 +262,8 @@ class catalogueSavePropertyController extends simpleController
                     break;
 
                 case 'img':
-                    $sectionName = $this->request->get('typeConfig[section]', 'string', SC_POST);
-                    $folderId = $this->request->get('typeConfig[folder]', 'integer', SC_POST);
+                    $sectionName = $this->request->getString('typeConfig[section]', SC_POST);
+                    $folderId = $this->request->getInteger('typeConfig[folder]', SC_POST);
 
                     $params['args'] = serialize(array(
                     'section'   =>  $sectionName,

@@ -25,7 +25,7 @@ class catalogueListController extends simpleController
     protected function getView()
     {
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
-        $path = $this->request->get('name', 'string', SC_PATH);
+        $path = $this->request->getString('name');
 
         $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
 
@@ -50,7 +50,7 @@ class catalogueListController extends simpleController
 
     private function getPageNumber()
     {
-        return ($page = $this->request->get('page', 'integer', SC_GET)) > 0 ? $page : 1;
+        return ($page = $this->request->getInteger('page', SC_GET)) > 0 ? $page : 1;
     }
 }
 

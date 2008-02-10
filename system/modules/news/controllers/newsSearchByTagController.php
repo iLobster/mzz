@@ -28,11 +28,11 @@ class newsSearchByTagController extends simpleController
         $tagsMapper = $this->toolkit->getMapper('tags', 'tags', 'tags');
 
         $section = $this->request->getRequestedSection();
-        $tag = $this->request->get('tag', 'string', SC_PATH);
+        $tag = $this->request->getString('tag');
         $db = DB::factory();
 
         $tag = urldecode($tag);
-        $ua = $this->request->get('HTTP_USER_AGENT', 'string', SC_SERVER);
+        $ua = $this->request->getServer('HTTP_USER_AGENT');
         // декодируем для IE русские таги
         if(strpos($ua, 'MSIE')) {
             $tag = iconv('UTF-8', 'CP1251', $tag);

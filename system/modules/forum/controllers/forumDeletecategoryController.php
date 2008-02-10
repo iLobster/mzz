@@ -24,7 +24,7 @@ class forumDeletecategoryController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
         $categoryMapper = $this->toolkit->getMapper('forum', 'category');
 
         $category = $categoryMapper->searchByKey($id);

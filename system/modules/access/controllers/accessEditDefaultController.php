@@ -25,8 +25,8 @@ class accessEditDefaultController extends simpleController
     {
         $db = db::factory();
 
-        $class = $this->request->get('class_name', 'string');
-        $section = $this->request->get('section_name', 'string');
+        $class = $this->request->getString('class_name');
+        $section = $this->request->getString('section_name');
 
         $acl = new acl($this->toolkit->getUser());
         // получаем пользователей и группы, на которые уже установлены права

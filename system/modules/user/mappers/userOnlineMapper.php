@@ -83,7 +83,7 @@ class userOnlineMapper extends simpleMapper
                 $exists = $this->create();
                 $exists->setUser($me);
                 $exists->setSession($session->getId());
-                $exists->setIp($request->get('REMOTE_ADDR', 'string', SC_SERVER));
+                $exists->setIp($request->getServer('REMOTE_ADDR'));
             }
             $exists->setLastActivity('refresh please :)');
             $exists->setUrl($request->getRequestUrl());

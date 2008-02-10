@@ -24,10 +24,14 @@ class faqListController extends simpleController
 {
     public function getView()
     {
-        $name = $this->request->get('name', 'string');
+        $name = $this->request->getString('name');
 
         $categoryMapper = $this->toolkit->getMapper('faq', 'faqCategory');
         $category = $categoryMapper->searchByName($name);
+
+        if (!$category) {
+            return $categoryMapper->get404()->run();
+        }
 
         $this->smarty->assign('faqCategory', $category);
         $this->smarty->assign('categories', $categoryMapper->searchAll());

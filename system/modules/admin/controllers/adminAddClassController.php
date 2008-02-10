@@ -31,7 +31,7 @@ class adminAddClassController extends simpleController
 
         $dest = $adminMapper->getDests();
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
         $action = $this->request->getAction();
         $isEdit = ($action == 'editClass');
 
@@ -66,8 +66,8 @@ class adminAddClassController extends simpleController
 
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $newDest = $this->request->get('dest', 'string', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $newDest = $this->request->getString('dest', SC_POST);
 
             if (!$isEdit) {
                 $classGenerator = new classGenerator($data['name'], $dest[$newDest]);

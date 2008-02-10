@@ -31,7 +31,7 @@ class menuSavemenuController extends simpleController
         $action = $this->request->getAction();
         $isEdit = ($action == 'editmenu');
 
-        $name = $this->request->get('name', 'string');
+        $name = $this->request->getString('name');
         $menu = $isEdit ? $menuMapper->searchByName($name) : $menuMapper->create();
 
         $validator = new formValidator();
@@ -52,8 +52,8 @@ class menuSavemenuController extends simpleController
             $this->smarty->assign('isEdit', $isEdit);
             return $this->smarty->fetch('menu/savemenu.tpl');
         } else {
-            $title = $this->request->get('title', 'string', SC_POST);
-            $name = $this->request->get('name', 'string', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
 
             $menu->setTitle($title);
             $menu->setName($name);

@@ -29,7 +29,7 @@ class catalogueMoveController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
 
         $item = $catalogueMapper->searchByKey($id);
 
@@ -44,7 +44,7 @@ class catalogueMoveController extends simpleController
         $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestCatalogueFolderExists', $catalogueFolderMapper));
 
         if ($validator->validate()) {
-            $dest = $this->request->get('dest', 'integer', SC_POST);
+            $dest = $this->request->getInteger('dest', SC_POST);
             $destFolder = $catalogueFolderMapper->searchByKey($dest);
 
             $item->setFolder($destFolder);

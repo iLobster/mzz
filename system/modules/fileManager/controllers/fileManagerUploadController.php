@@ -27,7 +27,7 @@ class fileManagerUploadController extends simpleController
     protected function getView()
     {
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
-        $path = $this->request->get('name', 'string', SC_PATH);
+        $path = $this->request->getString('name');
 
         $folder = $folderMapper->searchByPath($path);
 
@@ -42,10 +42,10 @@ class fileManagerUploadController extends simpleController
         $errors = $validator->getErrors();
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $header = $this->request->get('header', 'string', SC_POST);
-            $about = $this->request->get('about', 'string', SC_POST);
-            $direct_link = $this->request->get('direct_link', 'string', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $header = $this->request->getString('header', SC_POST);
+            $about = $this->request->getString('about', SC_POST);
+            $direct_link = $this->request->getString('direct_link', SC_POST);
 
             $config = $this->toolkit->getConfig('fileManager');
 

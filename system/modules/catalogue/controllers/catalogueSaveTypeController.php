@@ -48,7 +48,7 @@ class catalogueSaveTypeController extends simpleController
         $validator->add('required', 'title', 'Необходимо дать метку этому типу');
 
         if ($isEdit) {
-            $type_id = $this->request->get('id', 'integer', SC_PATH);
+            $type_id = $this->request->getInteger('id');
             $type = $catalogueMapper->getType($type_id);
 
             $props_tmp = $catalogueMapper->getProperties($type_id);
@@ -75,13 +75,13 @@ class catalogueSaveTypeController extends simpleController
             $this->smarty->assign('errors', $validator->getErrors());
             return $this->smarty->fetch('catalogue/type.tpl');
         } else {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
 
-            $newProperties_tmp = (array) $this->request->get('properties', 'mixed', SC_POST);
-            $newPropertiesIsFull = (array) $this->request->get('full', 'mixed', SC_POST);
-            $newPropertiesIsShort = (array) $this->request->get('short', 'mixed', SC_POST);
-            $newPropertiesSort = (array) $this->request->get('sort', 'mixed', SC_POST);
+            $newProperties_tmp = (array) $this->request->getArray('properties', SC_POST);
+            $newPropertiesIsFull = (array) $this->request->getArray('full', SC_POST);
+            $newPropertiesIsShort = (array) $this->request->getArray('short', SC_POST);
+            $newPropertiesSort = (array) $this->request->getArray('sort', SC_POST);
 
             $newProperties = array();
             foreach ($newProperties_tmp as $id => $value) {

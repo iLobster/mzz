@@ -25,7 +25,7 @@ class pageSaveFolderController extends simpleController
 {
     protected function getView()
     {
-        $path = $this->request->get('name', 'string', SC_PATH);
+        $path = $this->request->getString('name');
         $action = $this->request->getAction();
         $isEdit = ($action == 'editFolder');
 
@@ -44,8 +44,8 @@ class pageSaveFolderController extends simpleController
 
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
 
             if ($isEdit) {
                 $folder = $targetFolder;

@@ -28,7 +28,7 @@ class messageSendController extends simpleController
     {
         $me = $this->toolkit->getUser();
 
-        $recipient = $this->request->get('name', 'string');
+        $recipient = $this->request->getString('name');
 
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $recipient_user = $userMapper->searchByLogin($recipient);
@@ -56,7 +56,7 @@ class messageSendController extends simpleController
         $validator->add('captcha', 'captcha', 'Неверный текст');
 
         if ($validator->validate()) {
-            $msg = $this->request->get('message', 'array', SC_POST);
+            $msg = $this->request->getArray('message', SC_POST);
 
             $messageMapper = $this->toolkit->getMapper('message', 'message');
             $messageCategoryMapper = $this->toolkit->getMapper('message', 'messageCategory');

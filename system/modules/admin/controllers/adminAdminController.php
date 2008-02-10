@@ -24,8 +24,8 @@ class adminAdminController extends simpleController
 {
     protected function getView()
     {
-        $section = $this->request->get('section_name', 'string');
-        $module = $this->request->get('module_name', 'string');
+        $section = $this->request->getString('section_name');
+        $module = $this->request->getString('module_name');
 
         $user = $this->toolkit->getUser();
 
@@ -38,7 +38,7 @@ class adminAdminController extends simpleController
         $this->smarty->assign('current_module', $module);
 
         if (is_null($module) && is_null($section)) {
-            $module = $this->request->get('name', 'string');
+            $module = $this->request->getString('name');
             if (empty($module)) {
                 return $this->smarty->fetch('admin/main.tpl');
             }

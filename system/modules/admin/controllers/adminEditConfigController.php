@@ -26,8 +26,8 @@ class adminEditConfigController extends simpleController
 {
     public function getView()
     {
-        $module_name = $this->request->get('module_name', 'string', SC_PATH);
-        $section_name = $this->request->get('section_name', 'string', SC_PATH);
+        $module_name = $this->request->getString('module_name');
+        $section_name = $this->request->getString('section_name');
 
         $validator = new formValidator();
 
@@ -43,7 +43,7 @@ class adminEditConfigController extends simpleController
         }
 
         if ($validator->validate() /*$this->request->getMethod() == 'POST'*/) {
-            $cfg = $this->request->get('config', 'array', SC_POST);
+            $cfg = $this->request->getArray('config', SC_POST);
             $config = $this->toolkit->getConfig($section_name, $module_name);
             $config->set($cfg);
 

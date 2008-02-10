@@ -27,7 +27,7 @@ class userEditController extends simpleController
     protected function getView()
     {
         $userMapper = $this->toolkit->getMapper('user', 'user');
-        $id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
+        $id = $this->request->getInteger('id', SC_PATH | SC_POST);
         $editedUser = $userMapper->searchById($id);
 
         $action = $this->request->getAction();
@@ -50,7 +50,7 @@ class userEditController extends simpleController
                 $editedUser = $userMapper->create();
             }
 
-            $info = $this->request->get('user', 'array', SC_POST);
+            $info = $this->request->getArray('user', SC_POST);
 
             $editedUser->setLogin((string)$info['login']);
             if (!empty($info['password'])) {

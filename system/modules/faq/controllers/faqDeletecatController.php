@@ -25,7 +25,7 @@ class faqDeletecatController extends simpleController
     public function getView()
     {
         $faqCategoryMapper = $this->toolkit->getMapper('faq', 'faqCategory');
-        $name = $this->request->get('name', 'string');
+        $name = $this->request->getString('name');
 
         $category = $faqCategoryMapper->searchByName($name);
 

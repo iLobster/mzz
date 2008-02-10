@@ -29,7 +29,7 @@ class forumSaveForumController extends simpleController
         $action = $this->request->getAction();
         $isEdit = $action == 'editForum';
 
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $forumMapper = $this->toolkit->getMapper('forum', 'forum');
 
@@ -51,9 +51,9 @@ class forumSaveForumController extends simpleController
                 $forum->setCategory($category);
             }
 
-            $forum->setTitle($this->request->get('title', 'string', SC_POST));
-            $forum->setOrder($this->request->get('order', 'integer', SC_POST));
-            $forum->setDescription($this->request->get('description', 'string', SC_POST));
+            $forum->setTitle($this->request->getString('title', SC_POST));
+            $forum->setOrder($this->request->getInteger('order', SC_POST));
+            $forum->setDescription($this->request->getString('description', SC_POST));
             $forumMapper->save($forum);
 
             return jipTools::redirect();

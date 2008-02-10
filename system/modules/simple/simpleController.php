@@ -76,7 +76,7 @@ abstract class simpleController
         $this->smarty = $this->toolkit->getSmarty();
         $this->response = $this->toolkit->getResponse();
 
-        $this->lang_id = $this->request->get('lang_id', 'integer', SC_GET);
+        $this->lang_id = $this->request->getInteger('lang_id', SC_GET);
 
         if ($this->toolkit->getRegistry()->get('isJip') && $this->request->isAjax()) {
             $this->smarty->setXmlTemplate('main.xml.tpl');
@@ -111,7 +111,7 @@ abstract class simpleController
     public function run()
     {
         $confirm = $this->toolkit->getRegistry()->get('confirm');
-        $confirmCode = $this->request->get('_confirm', 'string', SC_GET);
+        $confirmCode = $this->request->getString('_confirm', SC_GET);
         $session = $this->toolkit->getSession();
 
         if (!empty($confirm) && (empty($confirmCode) || $confirmCode != $session->get('confirm_code'))) {
@@ -158,7 +158,7 @@ abstract class simpleController
     protected function setPager($item, $per_page = 20, $reverse = false, $roundItems = 2)
     {
         fileLoader::load('pager');
-        $pager = new pager($this->request->getRequestUrl(), $this->request->get('page', 'integer', SC_REQUEST), $per_page, $roundItems, $reverse);
+        $pager = new pager($this->request->getRequestUrl(), $this->request->getInteger('page', SC_REQUEST), $per_page, $roundItems, $reverse);
         $item->setPager($pager);
 
         $this->smarty->assign('pager', $pager);

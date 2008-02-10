@@ -29,7 +29,7 @@ class faqSaveController extends simpleController
         $faqMapper = $this->toolkit->getMapper('faq', 'faq');
         $categoryMapper = $this->toolkit->getMapper('faq', 'faqCategory');
 
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
@@ -46,7 +46,7 @@ class faqSaveController extends simpleController
             $url->setAction($action);
             $url->add('id', $faq->getId());
         } else {
-            $name = $this->request->get('name', 'string');
+            $name = $this->request->getString('name');
             $category = $categoryMapper->searchByName($name);
             $this->smarty->assign('category', $category);
 
@@ -64,8 +64,8 @@ class faqSaveController extends simpleController
             $this->smarty->assign('errors', $validator->getErrors());
             return $this->smarty->fetch('faq/save.tpl');
         } else {
-            $question = $this->request->get('question', 'string', SC_POST);
-            $answer = $this->request->get('answer', 'string', SC_POST);
+            $question = $this->request->getString('question', SC_POST);
+            $answer = $this->request->getString('answer', SC_POST);
 
             $faq->setQuestion($question);
             $faq->setAnswer($answer);

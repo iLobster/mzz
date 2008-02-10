@@ -25,27 +25,27 @@ class userLoginController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
-        $prefix = $this->request->get('tplPrefix', 'string');
+        $prefix = $this->request->getString('tplPrefix');
         if (!empty($prefix)) {
             $prefix .= '/';
         }
 
         if (!$user->isLoggedIn()) {
             if (strtoupper($this->request->getMethod()) == 'POST') {
-                $login = $this->request->get('login', 'string', SC_POST);
-                $password = $this->request->get('password', 'string', SC_POST);
+                $login = $this->request->getString('login', SC_POST);
+                $password = $this->request->getString('password', SC_POST);
 
                 $userMapper = $this->toolkit->getMapper('user', 'user');
                 $user = $userMapper->login($login, $password);
 
                 if ($user->isLoggedIn()) {
-                    $save = $this->request->get('save', 'string', SC_POST);
+                    $save = $this->request->getBoolean('save', SC_POST);
                     if ($save) {
                         $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
                         $userAuthMapper->set($user->getId());
                     }
 
-                    return $this->response->redirect($this->request->get('url', 'string', SC_POST));
+                    return $this->response->redirect($this->request->getString('url', SC_POST));
                 }
             }
 
@@ -63,7 +63,7 @@ class userLoginController extends simpleController
 
         /*if (strtoupper($this->request->getMethod()) == 'POST') {
             // @todo: если нет урла - редиректить на главную
-            return $this->response->redirect($this->request->get('url', 'string', SC_POST));
+            return $this->response->redirect($this->request->getString('url', SC_POST));
         }*/
 
         $this->smarty->assign('user', $user);

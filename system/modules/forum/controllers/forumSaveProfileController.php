@@ -29,7 +29,7 @@ class forumSaveProfileController extends simpleController
         $action = $this->request->getAction();
         $isEdit = ($action == 'editProfile');
 
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $profileMapper = $this->toolkit->getMapper('forum', 'profile');
         $profile = $profileMapper->searchById($id);
@@ -40,7 +40,7 @@ class forumSaveProfileController extends simpleController
 
         $validator = new formValidator();
         if ($validator->validate()) {
-            $signature = $this->request->get('signature', 'string', SC_POST);
+            $signature = $this->request->getString('signature', SC_POST);
 
             $profile->setSignature($signature);
             $profileMapper->save($profile);

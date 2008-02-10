@@ -27,7 +27,7 @@ class galleryViewController extends simpleController
         $albumMapper = $this->toolkit->getMapper('gallery', 'album');
         $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
 
-        $user_name = $this->request->get('name', 'string');
+        $user_name = $this->request->getString('name');
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
 
         $user = $userMapper->searchByLogin($user_name);
@@ -35,10 +35,10 @@ class galleryViewController extends simpleController
             return $albumMapper->get404()->run();
         }
 
-        $album_id = $this->request->get('album', 'integer');
+        $album_id = $this->request->getInteger('album');
         $album = $albumMapper->searchById($album_id);
 
-        $photo_id = $this->request->get('id', 'integer', SC_PATH);
+        $photo_id = $this->request->getInteger('id');
         $photo = $photoMapper->searchById($photo_id);
 
         $photos = $album->getPhotos();

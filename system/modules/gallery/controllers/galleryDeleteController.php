@@ -25,7 +25,7 @@ class galleryDeleteController extends simpleController
     protected function getView()
     {
         $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
         $photo = $photoMapper->searchById($id);
         $url = null;
         if ($photo) {

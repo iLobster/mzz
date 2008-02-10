@@ -24,7 +24,7 @@ class adminListCfgController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'string', SC_PATH);
+        $id = $this->request->getInteger('id');
 
         $db = DB::factory();
         $data = $db->getRow($qry = 'SELECT * FROM `sys_modules` WHERE `id` = ' . $id);

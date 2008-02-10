@@ -24,7 +24,7 @@ class userDeleteController extends simpleController
     protected function getView()
     {
         // удаляем пользователя
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $userMapper->delete($id);
 

@@ -26,14 +26,14 @@ class commentsFolderPostController extends simpleController
 {
     protected function getView()
     {
-        $parent_id = $this->request->get('id', 'integer', SC_PATH);
+        $parent_id = $this->request->getInteger('id');
 
         $user = $this->toolkit->getUser();
 
         $validator = new formValidator();
         $validator->add('required', 'text', 'Введите комментарий');
 
-        $access = $this->request->get('access', 'boolean', SC_PATH);
+        $access = $this->request->getBoolean('access');
 
         if (!is_null($access) && !$access) {
             return $user->getId() == MZZ_USER_GUEST_ID ? $this->smarty->fetch('comments/onlyAuth.tpl') : $this->smarty->fetch('comments/deny.tpl');
@@ -42,7 +42,7 @@ class commentsFolderPostController extends simpleController
         $action = $this->request->getAction();
         $isEdit = $action == 'edit';
 
-        $text = $this->request->get('text', 'string', SC_POST);
+        $text = $this->request->getString('text', SC_POST);
 
         if (!$validator->validate()) {
             $section = $this->request->getSection();
@@ -78,13 +78,13 @@ class commentsFolderPostController extends simpleController
                 $url->add('id', $parent_id);
 
                 $this->smarty->assign('action', $url->get());
-                $this->smarty->assign('url', $this->request->get('REQUEST_URI', 'string', SC_SERVER));
+                $this->smarty->assign('url', $this->request->getServer('REQUEST_URI'));
                 $this->smarty->assign('userLogin', $user->getLogin());
 
                 return $this->smarty->fetch('comments/post.tpl');
             }
 
-            $text = $this->request->get('text', 'string', SC_POST);
+            $text = $this->request->getString('text', SC_POST);
             $session->set($sess_name, array('text' => $text, 'validator' => $validator));
 
         } else {
@@ -111,7 +111,7 @@ class commentsFolderPostController extends simpleController
             }
         }
 
-        $url = $this->request->get('url', 'string', SC_POST);
+        $url = $this->request->getString('url', SC_POST);
         $this->response->redirect($url);
     }
 }

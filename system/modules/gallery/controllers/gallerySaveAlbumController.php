@@ -34,13 +34,13 @@ class gallerySaveAlbumController extends simpleController
         $isEdit = ($action == 'editAlbum');
 
         if ($isEdit) {
-            $id = $this->request->get('id', 'integer', SC_PATH);
+            $id = $this->request->getInteger('id');
             $album = $albumMapper->searchById($id);
             if (!$album) {
                 return $albumMapper->get404()->run();
             }
         } else {
-            $user_name = $this->request->get('name', 'string', SC_PATH);
+            $user_name = $this->request->getString('name');
             $user = $userMapper->searchByLogin($user_name);
             if ($user->getId() == MZZ_USER_GUEST_ID) {
                 return $albumMapper->get404()->run();
@@ -52,8 +52,8 @@ class gallerySaveAlbumController extends simpleController
         $validator->add('required', 'name', 'Необходимо назвать альбом');
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $main_photo = $this->request->get('main_photo', 'integer', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $main_photo = $this->request->getInteger('main_photo', SC_POST);
 
             $album->setName($name);
             if ($isEdit) {

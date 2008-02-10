@@ -24,7 +24,7 @@ class adminAddModuleToSectionController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
 
         $db = DB::factory();
 
@@ -49,7 +49,7 @@ class adminAddModuleToSectionController extends simpleController
         }
 
         if ($this->request->getMethod() == 'POST') {
-        $checkboxes = $this->request->get('class', 'array', SC_POST);
+        $checkboxes = $this->request->getArray('class', SC_POST);
 
         $insert = ''; $delete = array();
         foreach ($result as $key => $val) {
@@ -82,7 +82,7 @@ class adminAddModuleToSectionController extends simpleController
         $result = $adminMapper->getModulesAtSection($data['id']);
 
         if ($this->request->getMethod() == 'POST') {
-            $checkboxes = $this->request->get('module', 'array', SC_POST);
+            $checkboxes = $this->request->getArray('module', SC_POST);
 
             $insert = array();
             $delete = array();

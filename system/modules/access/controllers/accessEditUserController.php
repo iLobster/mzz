@@ -23,8 +23,8 @@ class accessEditUserController extends simpleController
 {
     protected function getView()
     {
-        $obj_id = $this->request->get('id', 'integer', SC_PATH | SC_POST);
-        $user_id = $this->request->get('user_id', 'integer', SC_PATH | SC_POST);
+        $obj_id = $this->request->getInteger('id', SC_PATH | SC_POST);
+        $user_id = $this->request->getInteger('user_id', SC_PATH | SC_POST);
 
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $user = $userMapper->searchById($user_id);
@@ -44,7 +44,7 @@ class accessEditUserController extends simpleController
         $actions = $actions[$acl->getClass()];
 
         if ($this->request->getMethod() == 'POST' && $user_id == $user->getId()) {
-            $setted = $this->request->get('access', 'array', SC_POST);
+            $setted = $this->request->getArray('access', SC_POST);
 
             $result = array();
             foreach ($actions as $key => $val) {

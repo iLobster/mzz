@@ -24,16 +24,15 @@ class menuMoveController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer');
-        $target = $this->request->get('target', 'string');
+        $id = $this->request->getInteger('id');
+        $target = $this->request->getString('target');
 
         $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');
 
         $item = $menuItemMapper->searchById($id);
 
         if (!$item) {
-            $menuMapper = $this->toolkit->getMapper('menu', 'menu');
-            return $menuMapper->get404()->run();
+            return $menuItemMapper->get404()->run();
         }
 
         $item->move($target);

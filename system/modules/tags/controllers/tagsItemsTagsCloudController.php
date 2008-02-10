@@ -24,7 +24,7 @@ class tagsItemsTagsCloudController extends simpleController
 {
     public function getView()
     {
-        $items = $this->request->get('items', 'array', SC_PATH);
+        $items = $this->request->getArray('items');
 
         $tagsMapper = $this->toolkit->getMapper('tags', 'tags', 'tags');
 

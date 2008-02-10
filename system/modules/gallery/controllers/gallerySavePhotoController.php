@@ -37,12 +37,12 @@ class gallerySavePhotoController extends simpleController
         $validator->add('required', 'name', 'Укажите имя фотографии');
 
         if ($isEdit) {
-            $photo_id = $this->request->get('id', 'integer');
+            $photo_id = $this->request->getInteger('id');
             $photo = $photoMapper->searchById($photo_id);
             $album = $photo->getAlbum();
         } else {
             $photo = $photoMapper->create();
-            $album_id = $this->request->get('id', 'integer');
+            $album_id = $this->request->getInteger('id');
             $album = $albumMapper->searchById($album_id);
 
             $config = systemToolkit::getInstance()->getConfig('gallery', $photoMapper->section());
@@ -56,8 +56,8 @@ class gallerySavePhotoController extends simpleController
         $errors = $validator->getErrors();
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $about = $this->request->get('about', 'string', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $about = $this->request->getString('about', SC_POST);
 
             if ($isEdit) {
                 $photo->setName($name);

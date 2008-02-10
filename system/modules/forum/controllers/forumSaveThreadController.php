@@ -34,7 +34,7 @@ class forumSaveThreadController extends simpleController
 
         $threadMapper = $this->toolkit->getMapper('forum', 'thread');
 
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         if ($isEdit) {
             $thread = $threadMapper->searchByKey($id);
@@ -53,16 +53,16 @@ class forumSaveThreadController extends simpleController
         $validator->add('required', 'text', 'Необходимо написать сообщение');
 
         if ($validator->validate()) {
-            $title = $this->request->get('title', 'string', SC_POST);
-            $text = $this->request->get('text', 'string', SC_POST);
-            $sticky = $this->request->get('sticky', 'boolean', SC_POST);
-            $stickyfirst = $this->request->get('stickyfirst', 'boolean', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
+            $text = $this->request->getString('text', SC_POST);
+            $sticky = $this->request->getBoolean('sticky', SC_POST);
+            $stickyfirst = $this->request->getBoolean('stickyfirst', SC_POST);
 
             $postMapper = $this->toolkit->getMapper('forum', 'post');
 
             if ($isEdit) {
-                $closed = $this->request->get('closed', 'boolean', SC_POST);
-                $thread->setIsClosed($this->request->get('closed', 'boolean', SC_POST));
+                $closed = $this->request->getBoolean('closed', SC_POST);
+                $thread->setIsClosed($this->request->getBoolean('closed', SC_POST));
 
                 $post = $thread->getFirstPost();
                 $post->setText($text);

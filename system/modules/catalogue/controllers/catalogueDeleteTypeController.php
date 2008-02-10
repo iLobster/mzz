@@ -25,7 +25,7 @@ class catalogueDeleteTypeController extends simpleController
     protected function getView()
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
 
         $item = $catalogueMapper->searchOneByField('type_id', $id);
         if($item){

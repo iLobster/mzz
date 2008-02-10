@@ -25,7 +25,7 @@ class fileManagerEditFolderController extends simpleController
 {
     protected function getView()
     {
-        $path = $this->request->get('name', 'string', SC_PATH);
+        $path = $this->request->getString('name');
         $action = $this->request->getAction();
         $isEdit = ($action == 'editFolder');
 
@@ -45,10 +45,10 @@ class fileManagerEditFolderController extends simpleController
         $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkFileFolderName', $path, $folderMapper, $isEdit));
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
-            $exts = $this->request->get('exts', 'string', SC_POST);
-            $filesize = $this->request->get('filesize', 'integer', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $title = $this->request->getString('title', 'string', SC_POST);
+            $exts = $this->request->getString('exts', SC_POST);
+            $filesize = $this->request->getInteger('filesize', SC_POST);
 
             if ($isEdit) {
                 $folder = $targetFolder;

@@ -24,7 +24,7 @@ class forumThreadController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $threadMapper = $this->toolkit->getMapper('forum', 'thread');
         $postsMapper = $this->toolkit->getMapper('forum', 'post');

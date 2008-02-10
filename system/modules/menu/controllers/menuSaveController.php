@@ -33,9 +33,9 @@ class menuSaveController extends simpleController
         $isEdit = ($action == 'edit');
         $isRoot = ($action == 'createRoot');
 
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
         if ($isRoot) {
-            $menuName = $this->request->get('name', 'string');
+            $menuName = $this->request->getString('name');
         }
 
         $item = $isEdit ? $itemMapper->searchById($id) : $itemMapper->create();
@@ -55,7 +55,7 @@ class menuSaveController extends simpleController
                 $controller = new messageController('Отсутствуют типы', messageController::WARNING);
                 return $controller->run();
             }
-            $type = $this->request->get('type', 'integer', SC_GET | SC_POST);
+            $type = $this->request->getInteger('type', SC_GET | SC_POST);
             $properties = $itemMapper->getProperties($type);
         } else {
             $properties = $item->exportOldProperties();
@@ -91,7 +91,7 @@ class menuSaveController extends simpleController
             $this->smarty->assign('isRoot', $isRoot);
             return $this->smarty->fetch('menu/save.tpl');
         } else {
-            $title = $this->request->get('title', 'string', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
 
             $item->setTitle($title);
 
@@ -103,7 +103,7 @@ class menuSaveController extends simpleController
             }
 
             foreach ($properties as $prop) {
-                $propValue = $this->request->get($prop['name'], 'mixed', SC_POST);
+                $propValue = $this->request->getRaw($prop['name'], SC_POST);
                 $item->setProperty($prop['name'], $propValue);
             }
 

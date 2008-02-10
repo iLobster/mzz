@@ -23,8 +23,8 @@ class accessEditOwnerController extends simpleController
 {
     protected function getView()
     {
-        $class = $this->request->get('class_name', 'string');
-        $section = $this->request->get('section_name', 'string');
+        $class = $this->request->getString('class_name');
+        $section = $this->request->getString('section_name');
 
         $acl = new acl($this->toolkit->getUser(), 0, $class, $section);
 
@@ -34,7 +34,7 @@ class accessEditOwnerController extends simpleController
         $actions = $actions[$class];
 
         if ($this->request->getMethod() == 'POST') {
-            $setted = $this->request->get('access', 'array', SC_POST);
+            $setted = $this->request->getArray('access', SC_POST);
 
             $result = array();
             foreach ($actions as $key => $val) {

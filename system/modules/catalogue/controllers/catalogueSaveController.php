@@ -30,10 +30,10 @@ class catalogueSaveController extends simpleController
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
 
         if (empty($id)) {
-            $path = $this->request->get('name', 'string', SC_PATH);
+            $path = $this->request->getString('name');
             $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
         }
 
@@ -53,7 +53,7 @@ class catalogueSaveController extends simpleController
                 $controller = new messageController('Отсутствуют типы', messageController::WARNING);
                 return $controller->run();
             }
-            $type = $this->request->get('type', 'integer', SC_GET | SC_POST);
+            $type = $this->request->getInteger('type', SC_GET | SC_POST);
             if (empty($type)) {
                 $type = $defType;
             }
@@ -101,7 +101,7 @@ class catalogueSaveController extends simpleController
                 $this->smarty->assign('isEdit', $isEdit);
                 return $this->smarty->fetch('catalogue/save.tpl');
             } else {
-                $name = $this->request->get('name', 'string', SC_POST);
+                $name = $this->request->getString('name', SC_POST);
                 $item->setName($name);
 
                 if (!$isEdit) {
@@ -112,7 +112,7 @@ class catalogueSaveController extends simpleController
                 }
 
                 foreach ($properties as $prop) {
-                    $propValue = $this->request->get($prop['name'], 'mixed', SC_POST);
+                    $propValue = $this->request->getRaw($prop['name'], SC_POST);
 
                     if ($prop['type'] == 'datetime') {
                         if (!empty($propValue)) {

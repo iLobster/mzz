@@ -28,7 +28,7 @@ class forumListController extends simpleController
         $posts_per_page = 5;
 
         $forumMapper = $this->toolkit->getMapper('forum', 'forum');
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $forum = $forumMapper->searchByKey($id);
 
@@ -43,7 +43,7 @@ class forumListController extends simpleController
         $threads = $threadMapper->searchAllByCriteria($criteria);
 
         $stickys = array();
-        if ($this->request->get('page', 'integer', SC_GET) < 2) {
+        if ($this->request->getInteger('page', SC_GET) < 2) {
             $criteria = new criteria();
             $criteria->add('forum_id', $id)->add('sticky', 1);
             $criteria->setOrderByFieldDesc('last_post.id');

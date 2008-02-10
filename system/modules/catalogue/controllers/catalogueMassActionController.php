@@ -24,8 +24,8 @@ class catalogueMassActionController extends simpleController
 {
     protected function getView()
     {
-        $action = $this->request->get('action', 'string', SC_GET);
-        $name = $this->request->get('name', 'string');
+        $action = $this->request->getString('action', SC_GET);
+        $name = $this->request->getString('name');
 
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
         $catalogueFolder = $catalogueFolderMapper->searchByPath($name);
@@ -34,7 +34,7 @@ class catalogueMassActionController extends simpleController
             return $catalogueFolderMapper->get404()->run();
         }
 
-        $items = array_keys((array) $this->request->get('items', 'mixed', SC_POST));
+        $items = array_keys((array)$this->request->getRaw('items', SC_POST));
 
         $validItems = array();
         $deniedItems = array();
@@ -67,7 +67,7 @@ class catalogueMassActionController extends simpleController
 
 
                 if ($validator->validate()) {
-                    $dest = $this->request->get('dest', 'integer', SC_POST);
+                    $dest = $this->request->getInteger('dest', SC_POST);
                     $destFolder = $catalogueFolderMapper->searchByKey($dest);
 
                     foreach ($validItems as $item) {

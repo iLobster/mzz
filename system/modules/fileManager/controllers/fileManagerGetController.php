@@ -23,7 +23,7 @@ class fileManagerGetController extends simpleController
 {
     protected function getView()
     {
-        $name = rawurldecode($this->request->get('name', 'string', SC_PATH));
+        $name = rawurldecode($this->request->getString('name'));
 
         $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
         $file = $fileMapper->searchByPath($name);

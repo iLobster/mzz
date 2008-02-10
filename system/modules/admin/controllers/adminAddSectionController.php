@@ -26,7 +26,7 @@ class adminAddSectionController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
         $action = $this->request->getAction();
 
         $db = DB::factory();
@@ -66,9 +66,9 @@ class adminAddSectionController extends simpleController
         }
 
         if ($validator->validate()) {
-            $name = $this->request->get('name', 'string', SC_POST);
-            $title = $this->request->get('title', 'string', SC_POST);
-            $order = $this->request->get('order', 'integer', SC_POST);
+            $name = $this->request->getString('name', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
+            $order = $this->request->getInteger('order', SC_POST);
 
             if (!$isEdit) {
                 $stmt = $db->prepare('INSERT INTO `sys_sections` (`name`) VALUES (:name)');

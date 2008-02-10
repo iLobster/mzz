@@ -24,7 +24,7 @@ class votingDeleteController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
         $questionMapper = $this->toolkit->getMapper('voting', 'question');
 
         $question = $questionMapper->searchById($id);

@@ -193,7 +193,7 @@ abstract class formElement
         } elseif ($array && substr($name, -2) == '[]') {
             $name = substr($name, 0, strlen($name) - 2);
         }
-        $value = $request->get($name, 'mixed', SC_REQUEST);
+        $value = $request->getRaw($name, SC_REQUEST);
 
         return !is_null($value) ? $value : $default;
     }

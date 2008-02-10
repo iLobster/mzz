@@ -27,7 +27,7 @@ class galleryViewGalleryController extends simpleController
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
         $galleryMapper = $this->toolkit->getMapper('gallery', 'gallery');
 
-        $user_name = $this->request->get('name', 'string', SC_PATH);
+        $user_name = $this->request->getString('name');
         $user = $userMapper->searchByLogin($user_name);
         if ($user->getId() == MZZ_USER_GUEST_ID) {
             return $galleryMapper->get404()->run();

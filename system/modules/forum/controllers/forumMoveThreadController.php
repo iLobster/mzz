@@ -26,7 +26,7 @@ class forumMoveThreadController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $threadMapper = $this->toolkit->getMapper('forum', 'thread');
         $categoryMapper = $this->toolkit->getMapper('forum', 'category');
@@ -41,7 +41,7 @@ class forumMoveThreadController extends simpleController
             $oldForum = $thread->getForum();
             $forumMapper = $oldForum->getMapper();
 
-            $forum = $forumMapper->searchByKey($this->request->get('forum', 'integer', SC_POST));
+            $forum = $forumMapper->searchByKey($this->request->getInteger('forum', SC_POST));
             $thread->setForum($forum);
             $threadMapper->save($thread);
 

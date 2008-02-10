@@ -25,7 +25,7 @@ class accessEditACLController extends simpleController
     {
         $db = db::factory();
 
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $acl = new acl($this->toolkit->getUser(), $id);
 

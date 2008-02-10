@@ -24,7 +24,7 @@ class forumProfileController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         $profileMapper = $this->toolkit->getMapper('forum', 'profile');
         $profile = $profileMapper->searchById($id);

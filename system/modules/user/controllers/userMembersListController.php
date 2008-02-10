@@ -23,8 +23,8 @@ class userMembersListController extends simpleController
 {
     protected function getView()
     {
-        if (($id = $this->request->get('id', 'integer', SC_PATH)) == null) {
-            $id = $this->request->get('id', 'integer', SC_POST);
+        if (($id = $this->request->getInteger('id')) == null) {
+            $id = $this->request->getInteger('id', SC_POST);
         }
 
         $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
@@ -39,7 +39,7 @@ class userMembersListController extends simpleController
 
         if ($this->request->getMethod() == 'POST') {
             // если была отправлена форма
-            $users = $this->request->get('users', 'array', SC_POST);
+            $users = $this->request->getArray('users', SC_POST);
 
             if (is_null($users)) {
                 $users = array();

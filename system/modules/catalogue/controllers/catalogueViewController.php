@@ -26,7 +26,7 @@ class catalogueViewController extends simpleController
     {
         $catalogueMapper = $this->toolkit->getMapper('catalogue', 'catalogue');
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
         $item = $catalogueMapper->searchById($id);
 
         if (!$item) {

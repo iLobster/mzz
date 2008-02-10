@@ -26,7 +26,7 @@ class pageDeleteFolderController extends simpleController
     {
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
 
-        $name = $this->request->get('name', 'string', SC_PATH);
+        $name = $this->request->getString('name');
 
         $folder = $pageFolderMapper->searchByPath($name);
 

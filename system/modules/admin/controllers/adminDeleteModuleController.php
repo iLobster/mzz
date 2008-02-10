@@ -26,7 +26,7 @@ class adminDeleteModuleController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $modules = $adminMapper->getModulesList();

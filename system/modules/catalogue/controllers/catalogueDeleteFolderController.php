@@ -26,7 +26,7 @@ class catalogueDeleteFolderController extends simpleController
     {
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
 
-        $name = $this->request->get('name', 'string', SC_PATH);
+        $name = $this->request->getString('name');
 
         $folder = $catalogueFolderMapper->searchByPath($name);
 

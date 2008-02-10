@@ -30,7 +30,7 @@ class votingSaveController extends simpleController
         $questionMapper = $this->toolkit->getMapper('voting', 'question');
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
-        $id = $this->request->get('id', 'integer');
+        $id = $this->request->getInteger('id');
 
         if ($isEdit) {
             $question = $questionMapper->searchById($id);
@@ -62,15 +62,15 @@ class votingSaveController extends simpleController
             if (!$isEdit) {
                 $question->setCategory($category);
             }
-            $question_name = $this->request->get('question', 'string', SC_POST);
-            $created = $this->request->get('created', 'string', SC_POST);
-            $expired = $this->request->get('expired', 'string', SC_POST);
+            $question_name = $this->request->getString('question', SC_POST);
+            $created = $this->request->getString('created', SC_POST);
+            $expired = $this->request->getString('expired', SC_POST);
 
             $question->setCreated($this->getTimestampByField($created));
             $question->setExpired($this->getTimestampByField($expired));
 
-            $titles = (array)$this->request->get('answers', 'array', SC_POST);
-            $types = (array)$this->request->get('answers_type', 'array', SC_POST);
+            $titles = (array)$this->request->getArray('answers', SC_POST);
+            $types = (array)$this->request->getArray('answers_type', SC_POST);
 
             $question->setQuestion($question_name);
             $question->setAnswers($titles, $types);
@@ -91,7 +91,7 @@ class votingSaveController extends simpleController
 
     public function checkExpiredDate($expired, $question)
     {
-        $stamp = (is_null($question->getCreated())) ? $this->getTimestampByField($this->request->get('created', 'string', SC_POST)) : $question->getCreated();
+        $stamp = (is_null($question->getCreated())) ? $this->getTimestampByField($this->request->getString('created', SC_POST)) : $question->getCreated();
         return ($this->getTimestampByField($expired) > $stamp);
     }
 }

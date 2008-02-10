@@ -30,8 +30,8 @@ class adminSavemapController extends simpleController
         $action = $this->request->getAction();
         $isEdit = $action == 'editmap';
 
-        $class_name = $this->request->get(!$isEdit ? 'name' : 'class', 'string');
-        $field_name = $this->request->get('field', 'string');
+        $class_name = $this->request->getString(!$isEdit ? 'name' : 'class');
+        $field_name = $this->request->getString('field');
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $class = $adminMapper->searchClassByName($class_name);
@@ -71,7 +71,7 @@ class adminSavemapController extends simpleController
         $validator->add('range', 'field[orderBy]', 'Значение должно быть положительным', array(1, null));
 
         if ($validator->validate()) {
-            $values = $this->request->get('field', 'array', SC_POST);
+            $values = $this->request->getArray('field', SC_POST);
 
             if (!$isEdit) {
                 $mapfile[$values['name']] = array();

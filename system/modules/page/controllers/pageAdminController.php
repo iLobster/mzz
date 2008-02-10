@@ -26,7 +26,7 @@ class pageAdminController extends simpleController
     {
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
 
-        $path = $this->request->get('params', 'string', SC_PATH);
+        $path = $this->request->getString('params');
 
         if (is_null($path)) {
             $path = 'root';
@@ -37,7 +37,7 @@ class pageAdminController extends simpleController
             $breadCrumbs = $pageFolderMapper->getParentBranch($pageFolder);
 
             $pager = $this->setPager($pageFolder);
-            $this->smarty->assign('section_name', $this->request->get('section_name', 'string', SC_PATH));
+            $this->smarty->assign('section_name', $this->request->getString('section_name'));
             $this->smarty->assign('pages', $pageFolder->getItems());
             $this->smarty->assign('breadCrumbs', $breadCrumbs);
             $this->smarty->assign('pageFolder', $pageFolder);

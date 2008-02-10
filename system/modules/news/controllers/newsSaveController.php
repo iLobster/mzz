@@ -28,11 +28,11 @@ class newsSaveController extends simpleController
     {
         $user = $this->toolkit->getUser();
         $newsMapper = $this->toolkit->getMapper('news', 'news');
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
         $newsFolder = null;
 
         if (empty($id)) {
-            $path = $this->request->get('name', 'string', SC_PATH);
+            $path = $this->request->getString('name');
             $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
             $newsFolder = $newsFolderMapper->searchByPath($path);
         }
@@ -54,15 +54,15 @@ class newsSaveController extends simpleController
 
 
             if ($validator->validate()) {
-                $title = $this->request->get('title', 'string', SC_POST);
-                $annotation = $this->request->get('annotation', 'string', SC_POST);
-                $text = $this->request->get('text', 'string', SC_POST);
+                $title = $this->request->getString('title', SC_POST);
+                $annotation = $this->request->getString('annotation', SC_POST);
+                $text = $this->request->getString('text', SC_POST);
 
                 $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
-                $folder = $newsFolderMapper->searchByPath($this->request->get('name', 'string', SC_PATH));
+                $folder = $newsFolderMapper->searchByPath($this->request->getString('name'));
 
                 if (!$isEdit) {
-                    $created = $this->request->get('created', 'string', SC_POST);
+                    $created = $this->request->getString('created', SC_POST);
                     $news = $newsMapper->create();
                     $news->setFolder($folder->getId());
 

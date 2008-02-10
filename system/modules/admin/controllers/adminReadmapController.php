@@ -26,7 +26,7 @@ class adminReadmapController extends simpleController
 {
     protected function getView()
     {
-        $class_name = $this->request->get('name', 'string');
+        $class_name = $this->request->getString('name');
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $class = $adminMapper->searchClassByName($class_name);
