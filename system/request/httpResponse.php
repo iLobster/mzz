@@ -52,6 +52,8 @@ class httpResponse
      */
     private $smarty;
 
+    private $notReplacedCount = 0;
+
     /**
      * конструктор класса
      *
@@ -63,13 +65,20 @@ class httpResponse
     }
 
     /**
-     * Уставливает заголовки для клиента
+     * Уставливает заголовки для клиента.
+     * Удаление заголовка, заголовков с одинаковыми именами не реализовано.
      *
-     * @param $name
-     * @param $value
+     * @param string $name имя заголовка. Может быть пустым, например, для установки заголовка "HTTP/1.0 404 Not Found"
+     * @param string $value значение для заголовка
+     * @param boolean $replaced указывает что заголовок должен "затирать" предыдущий с таким же именем
+     *                          (например, "WWW-Authenticate" можно указывать более одного раза)
+     * @param integer|null $code
      */
     public function setHeader($name, $value, $replaced = true, $code = null)
     {
+        if ($replaced == false) {
+            $name .= str_repeat('#', ++$this->notReplacedCount);
+        }
         $this->headers[$name] = array('value' => $value, 'replaced' => $replaced, 'code' => $code);
     }
 
@@ -195,6 +204,7 @@ class httpResponse
         if (!empty($headers)) {
             if (!$this->isHeadersSent()) {
                 foreach ($headers as $name => $params) {
+                    $name = rtrim($name, '#');
                     if (!$name) {
                         header($params['value']);
                     } elseif (is_null($params['code'])) {

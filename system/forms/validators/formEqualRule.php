@@ -27,7 +27,7 @@ class formEqualRule extends formAbstractRule
             throw new mzzRuntimeException('Отсутствует имя второй переменной для сравнения');
         }
 
-        $second = systemToolkit::getInstance()->getRequest()->get($this->params[0], 'string', SC_REQUEST);
+        $second = systemToolkit::getInstance()->getRequest()->getString($this->params[0], SC_REQUEST);
 
         if (is_null($second)) {
             throw new mzzRuntimeException('Вторая переменная не определена');

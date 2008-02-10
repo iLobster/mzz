@@ -28,15 +28,14 @@ fileLoader::load('request/iRequest');
  *
  * @package system
  * @subpackage request
- * @version 0.8
+ * @version 0.9
  */
 
 define('SC_GET', 1);
 define('SC_POST', 2);
 define('SC_REQUEST', SC_GET | SC_POST);
 define('SC_COOKIE', 4);
-define('SC_SERVER', 8);
-define('SC_PATH', 16);
+define('SC_PATH', 8);
 
 class httpRequest implements iRequest
 {
@@ -46,17 +45,17 @@ class httpRequest implements iRequest
     /**
      * POST-данные
      */
-    protected $postVars;
+    protected $post;
 
     /**
      * GET-данные
      */
-    protected $getVars;
+    protected $get;
 
     /**
      * Cookie
      */
-    protected $cookieVars;
+    protected $cookie;
 
     /**
      * свойство для временного хранения сохранённых параметров
@@ -65,10 +64,10 @@ class httpRequest implements iRequest
     protected $saved;
 
     /**
-     * Параметры
+     * Параметры из пути
      *
      */
-    protected $params = null;
+    protected $path = null;
     /**#@-*/
 
     /**
@@ -130,102 +129,171 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Метод получения переменной из суперглобального массива
+     * Возвращает строковое значение из определенных областей
      *
-     * @param string  $name  имя переменной
-     * @param string  $type  тип, в который будет преобразовано значение
+     * @param string $name
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
-    public function get($name, $type = 'mixed', $scope = SC_PATH)
+    public function getString($name, $scope = SC_PATH)
+    {
+        return $this->readScope($name, $scope, 'string');
+    }
+
+    /**
+     * Возвращает целочисленное значение из определенных областей
+     *
+     * @param string $name
+     * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
+     * @return integer|null
+     */
+    public function getInteger($name, $scope = SC_PATH)
+    {
+        return $this->readScope($name, $scope, 'integer');
+    }
+
+    /**
+     * Возвращает любое числовое значение из определенных областей
+     *
+     * @param string $name
+     * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
+     * @return integer|float|null
+     */
+    public function getNumeric($name, $scope = SC_PATH)
+    {
+        return $this->readScope($name, $scope, 'numeric');
+    }
+
+    /**
+     * Возвращает массив из определенных областей
+     *
+     * @param string $name
+     * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
+     * @return array|null
+     */
+    public function getArray($name, $scope = SC_PATH)
+    {
+        return $this->readScope($name, $scope, 'array');
+    }
+
+    /**
+     * Возвращает булево значение из определенных областей
+     *
+     * @param string $name
+     * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
+     * @return boolean|null
+     */
+    public function getBoolean($name, $scope = SC_PATH)
+    {
+        return $this->readScope($name, $scope, 'boolean');
+    }
+
+    /**
+     * Возвращает значение любого типа из определенных областей
+     *
+     * @param string $name
+     * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
+     * @return mixed
+     */
+    public function getRaw($name, $scope = SC_PATH)
+    {
+        return $this->readScope($name, $scope, 'mixed');
+    }
+
+    /**
+     * Метод получения переменной из суперглобального массива
+     *
+     * @param string  $name  имя переменной
+     * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
+     * @param string  $type  тип, в который будет преобразовано значение
+     * @return string|null
+     */
+    protected function readScope($name, $scope = SC_PATH, $type = 'mixed')
     {
         $result = null;
-        $originalName = false;
+
         if ($bracket = strpos($name, '[')) {
-            $originalName = $name;
+            $indexName = substr($name, $bracket);
             $name = substr($name, 0, $bracket);
         }
-        $done = false;
 
-        if (!$done && $scope & SC_PATH && !is_null($result = $this->params->get($name))) {
-            $done = true;
-        }
-
-        if (!$done && $scope & SC_SERVER && !is_null($result = $this->getServerValue($name))) {
-            $done = true;
-        }
-
-        if (!$done && $scope & SC_COOKIE && !is_null($result = $this->cookieVars->get($name))) {
-            $done = true;
-        }
-
-        if (!$done && $scope & SC_POST && !is_null($result = $this->postVars->get($name))) {
-            $done = true;
-        }
-
-        if (!$done && $scope & SC_GET && !is_null($result = $this->getVars->get($name))) {
-            $done = true;
-        }
-
-        if ($originalName) {
-            $name = $originalName;
-            $name = str_replace('[]', '[0]', $name);
-            preg_match_all('/\[["\']?(.*?)["\']?\]/', $name, $indexes);
-            // or str_replace(array('[]', '][', '[', ']'), array('', '[', '[', ''), substr($name, strpos($name, '[') + 1));
-            $indexes = $indexes[1];
-
-            foreach($indexes as $index) {
-                if (!isset($result[$index])) {
-                    $result = null;
+        $scopes = array(SC_PATH => 'path', SC_COOKIE => 'cookie', SC_POST => 'post', SC_GET => 'get');
+        foreach ($scopes as $key => $scope_name) {
+            if ($scope & $key) {
+                $result = $this->$scope_name->get($name);
+                if (!is_null($result)) {
                     break;
                 }
-                $result = $result[$index];
             }
         }
-        /*
-        if (!empty($result) && $this->isAjax()) {
-            if (is_array($result)) {
-                array_walk_recursive($result, array($this, 'decodeUTF8'));
-            } else {
-                $result = $this->decodeUTF8($result);
-            }
+
+        if (isset($indexName)) {
+            $result = $this->extractFromArray($indexName, $result);
         }
-        */
 
         if (empty($type) || $type == 'mixed') {
             return $result;
         } else {
-            return $this->convertToType($result, $type);
+            return $this->setType($result, $type);
         }
     }
 
     /**
-     * Преобразователь значения переменной $result к типу $type
-     * Если $result массив, то из него извлекается первый элемент и
-     * дальнейшие преобразования происходят только с этим элементом
+     * Извлекает элемент массива, имя которого задано через квадратные скобки. Пример:
+     * [first], [last], [phone][1], ...
      *
-     * @param mixed $result значение полученное из URI
-     * @param string $type тип, в который будет преобразовано значение
+     * @param string $name имя с "адресом" элемента массива
+     * @param array $array массив
+     * @return mixed|null
+     */
+    protected function extractFromArray($name, $array)
+    {
+        if (!is_array($array)) {
+            return null;
+        }
+        // извлекаем индексы (пустой индекс - 0)
+        $name = str_replace('[]', '[0]', $name);
+        preg_match_all('/\[["\']?(.*?)["\']?\]/', $name, $indexes);
+        // or str_replace(array('[]', '][', '[', ']'), array('', '[', '[', ''), substr($name, strpos($name, '[') + 1));
+        $indexes = $indexes[1];
+
+        // последовательно "пробираемся" к элементу
+        foreach($indexes as $index) {
+            if (!isset($array[$index])) {
+                $result = null;
+                break;
+            }
+            $array = $array[$index];
+        }
+        // возможно что уже не массив :)
+        return $array;
+    }
+
+    /**
+     * Приведение к определенному типу значения
+     * Если $value массив, а требуется скалярное значение, то из него извлекается первый элемент и
+     * дальнейшие преобразования происходят только с этим элементом.
+     *
+     * @param mixed $value значение
+     * @param string $type тип, к которому будет приведено значение
      * @return mixed
      */
-    public function convertToType($result, $type)
+    protected function setType($value, $type)
     {
-        $validTypes = array('array' => 1, 'integer' => 1, 'boolean' => 1, 'string' => 1, 'float' => 1);
-        if (is_array($result) && $type != 'array') {
-            $result = array_shift($result);
-            if (!is_scalar($result)) {
-                $result = null;
+        if (is_array($value) && $type != 'array') {
+            $value = array_shift($value);
+            if (!is_scalar($value)) {
+                $value = null;
             }
         }
 
-        if (!($valid = isset($validTypes[$type]))) {
-            throw new mzzRuntimeException('Неверный тип для переменной: ' . $type);
+        if ($type == 'numeric') {
+            return 0 + $value;
         }
-
-        if ($valid && !is_null($result) && gettype($result) != $type) {
-            settype($result, $type);
+        if (!is_null($value) && gettype($value) != $type) {
+            settype($value, $type);
         }
-        return $result;
+        return $value;
     }
 
     /**
@@ -235,8 +303,7 @@ class httpRequest implements iRequest
      */
     public function isSecure()
     {
-        $protocol = $this->getServerValue('HTTPS');
-        return ($protocol === 'on');
+        return ($this->getServer('HTTPS') === 'on');
     }
 
     /**
@@ -256,7 +323,7 @@ class httpRequest implements iRequest
      */
     public function getMethod()
     {
-        return $this->getServerValue('REQUEST_METHOD');
+        return $this->getServer('REQUEST_METHOD');
     }
 
     /**
@@ -287,7 +354,7 @@ class httpRequest implements iRequest
      */
     public function getRequestUrl()
     {
-        $get = $this->getVars->export();
+        $get = $this->get->export();
         unset($get['path']);
         return $this->getUrl() . '/' . $this->getPath() . (!empty($get) ? '?' . http_build_query($get) : '');
     }
@@ -398,17 +465,17 @@ class httpRequest implements iRequest
      */
     public function setParam($name, $value)
     {
-        $this->params->set($name, $value);
+        $this->path->set($name, $value);
     }
 
     /**
      * Установка массива параметров. Существующие параметры будут уничтожены
      *
-     * @param array $params
+     * @param array $path_values
      */
-    public function setParams(Array $params)
+    public function setParams(Array $path_values)
     {
-        $this->params = new arrayDataspace($params);
+        $this->path = new arrayDataspace($path_values);
     }
 
     /**
@@ -418,7 +485,7 @@ class httpRequest implements iRequest
      */
     public function & getParams()
     {
-        return $this->params->export();
+        return $this->path->export();
     }
 
     /**
@@ -428,7 +495,7 @@ class httpRequest implements iRequest
      */
     public function exportPost()
     {
-        return $this->postVars->export();
+        return $this->post->export();
     }
 
     /**
@@ -437,13 +504,13 @@ class httpRequest implements iRequest
      */
     public function initialize()
     {
-        $this->urlPort = (int)$this->getServerValue('SERVER_PORT');
+        $this->urlPort = (int)$this->getServer('SERVER_PORT');
         $port = $this->getUrlPort();
 
         $host = 'localhost';
-        if ($http_host = $this->getServerValue('HTTP_HOST')) {
+        if ($http_host = $this->getServer('HTTP_HOST')) {
             list($host) = explode(':', $http_host);
-        } elseif ($server_name = $this->getServerValue('SERVER_NAME')) {
+        } elseif ($server_name = $this->getServer('SERVER_NAME')) {
             list($host) = explode(':', $server_name);
         }
 
@@ -465,7 +532,7 @@ class httpRequest implements iRequest
             $_SERVER['QUERY_STRING'] = '';
         }
 
-        $this->urlPath = trim(preg_replace('/(%2F)+/', '/', urlencode($this->get('path', 'mixed', SC_REQUEST))), '/');
+        $this->urlPath = trim(preg_replace('/(%2F)+/', '/', urlencode($this->readScope('path', SC_REQUEST))), '/');
     }
 
     /**
@@ -476,7 +543,7 @@ class httpRequest implements iRequest
      * @param mixed $default
      * @return mixed
      */
-    protected function getServerValue($key, $default = null)
+    public function getServer($key, $default = null)
     {
         if (array_key_exists($key, $_SERVER)) {
             return $_SERVER[$key];
@@ -493,7 +560,7 @@ class httpRequest implements iRequest
      */
     public function save()
     {
-        $this->saved[] = array('params' => $this->params->export(), 'section' => $this->getSection(), 'action' => $this->getAction());
+        $this->saved[] = array('path' => $this->path->export(), 'section' => $this->getSection(), 'action' => $this->getAction());
     }
 
     /**
@@ -504,7 +571,7 @@ class httpRequest implements iRequest
     {
         if (!empty($this->saved)) {
             $saved = array_pop($this->saved);
-            $this->params->import($saved['params']);
+            $this->path->import($saved['path']);
             $this->setSection($saved['section']);
             $this->setAction($saved['action']);
             return true;
@@ -585,10 +652,10 @@ class httpRequest implements iRequest
 
     public function refresh()
     {
-        $this->postVars = new arrayDataspace($_POST);
-        $this->getVars = new arrayDataspace($_GET);
-        $this->cookieVars = new arrayDataspace($_COOKIE);
-        $this->params = new arrayDataspace();
+        $this->post = new arrayDataspace($_POST);
+        $this->get = new arrayDataspace($_GET);
+        $this->cookie = new arrayDataspace($_COOKIE);
+        $this->path = new arrayDataspace();
         $this->initialize();
     }
 }

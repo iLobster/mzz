@@ -45,10 +45,36 @@ class httpResponseTest extends unitTestCase
 
     public function testSetHeaders()
     {
-        $headers = array('name1' => 'value_1', 'name2' => 'value_2', 'name3' => 'value_3', '' => 'value_4');
-        foreach ($headers as $name => $value) {
-            $this->response->setHeader($name, $value);
+        $headers = array(
+        'name1' => array('value' => 'value_1', 'replaced' => 1, 'code' => null),
+        'name2' => array('value' => 'value_2', 'replaced' => 1, 'code' => null),
+        '' => array('value' => 'value3', 'replaced' => 1, 'code' => 403)
+        );
+
+
+        foreach ($headers as $name => $values) {
+            $this->response->setHeader($name, $values['value'], $values['replaced'], $values['code']);
         }
+
+        $this->assertEqual($this->response->getHeaders(), $headers);
+    }
+
+    public function testSetHeadersWithoutReplace()
+    {
+        $headers = array(
+        'name1' => array('value' => 'value_1', 'replaced' => 1, 'code' => null),
+        'name2' => array('value' => 'value_2', 'replaced' => 1, 'code' => null),
+        );
+
+        foreach ($headers as $name => $values) {
+            $this->response->setHeader($name, $values['value'], $values['replaced'], $values['code']);
+        }
+        for ($i = 3; $i <= 4; $i++) {
+            $this->response->setHeader($name, 'value_' . $i, 0, $values['code']);
+        }
+
+        $headers['name2#'] = array('value' => 'value_3', 'replaced' => 0, 'code' => null);
+        $headers['name2##'] = array('value' => 'value_4', 'replaced' => 0, 'code' => null);
 
         $this->assertEqual($this->response->getHeaders(), $headers);
     }
@@ -79,8 +105,16 @@ class httpResponseTest extends unitTestCase
     {
         $url = 'http://example.com/path';
         $this->response->redirect($url);
+        $this->assertEqual($this->response->getHeaders(), array('Location' => array('value' => $url, 'replaced' => 1, 'code' => 302)));
+        $this->response->redirect($url, false, 304);
+        $this->assertEqual($this->response->getHeaders(), array('Location' => array('value' => $url, 'replaced' => 1, 'code' => 304)));
 
-        $this->assertEqual($this->response->getHeaders(), array('Location' => $url));
+        try {
+            $this->response->redirect($url, false, 404);
+            $this->fail();
+        } catch (mzzRuntimeException $e) {
+            $this->pass();
+        }
     }
 
     public function testClear()

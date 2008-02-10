@@ -24,7 +24,7 @@ class formCheckboxField extends formElement
     static public function toString($options = array())
     {
         static $i = 0;
-        
+
         $options['type'] = 'checkbox';
         $value = self::getValue($options['name'], $options['value']);
 

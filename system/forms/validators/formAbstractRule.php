@@ -61,7 +61,7 @@ abstract class formAbstractRule
         $name = explode(':', $name, 2);
         $type = 'string';
         if (sizeof($name) > 1) {
-            if (in_array($name[0], array('array', 'integer', 'float', 'string', 'boolean'))) {
+            if (in_array($name[0], array('array', 'integer', 'numeric', 'string', 'boolean'))) {
                 $type = $name[0];
             }
             $name = $name[1];
@@ -74,7 +74,8 @@ abstract class formAbstractRule
         $this->params = $params;
 
         $request = systemToolkit::getInstance()->getRequest();
-        $this->value = $request->get($name, $type, SC_REQUEST);
+        $funcName = 'get' . ucfirst(strtolower($type));
+        $this->value = $request->$funcName($name, SC_REQUEST);
     }
 
     /**

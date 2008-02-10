@@ -86,7 +86,7 @@ class formValidator
      */
     public function validate($data = array())
     {
-        if (systemToolkit::getInstance()->getRequest()->get($this->submit, 'string', SC_REQUEST)) {
+        if (systemToolkit::getInstance()->getRequest()->getString($this->submit, SC_REQUEST)) {
             $valid = true;
 
             foreach ($this->validators as $validator) {

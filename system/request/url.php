@@ -80,7 +80,7 @@ class url
         $address = $request->getUrl();
         $this->params  = $this->getParams();
 
-        if ($lang_id = $request->get('lang_id', 'integer', SC_GET)) {
+        if ($lang_id = $request->getInteger('lang_id', SC_GET)) {
             $this->getParams['lang_id'] = $lang_id;
         }
 

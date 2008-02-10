@@ -370,7 +370,7 @@ class stdToolkit extends toolkit
     public function getLocale()
     {
         if (!$this->locale) {
-            if (!($lang = $this->getRequest()->get('lang', 'string'))) {
+            if (!($lang = $this->getRequest()->getString('lang'))) {
                 $lang = systemConfig::$i18n;
             }
             $this->setLocale($lang);

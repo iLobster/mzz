@@ -32,7 +32,6 @@ interface iRequest
      * @param boolean $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
-    public function get($name, $type = 'mixed', $scope = null);
 
     /**
      * Метод возвращает протокол, который был использован для передачи данных.
