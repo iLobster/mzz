@@ -29,7 +29,7 @@ fileLoader::load('request/iRequest');
  *
  * @package system
  * @subpackage request
- * @version 0.9
+ * @version 0.9.1
  */
 
 define('SC_GET', 1);
@@ -37,6 +37,7 @@ define('SC_POST', 2);
 define('SC_REQUEST', SC_GET | SC_POST);
 define('SC_COOKIE', 4);
 define('SC_PATH', 8);
+define('SC_SERVER', 16);
 
 class httpRequest implements iRequest
 {
@@ -199,6 +200,20 @@ class httpRequest implements iRequest
     public function getRaw($name, $scope = SC_PATH)
     {
         return $this->readScope($name, $scope, 'mixed');
+    }
+
+    /**
+     * Метод для обратной совместимости с предыдущей версией класса, обёртка над readScope
+     *
+     * @param string $name
+     * @param string $type
+     * @param integer $scope
+     * @return mixed
+     * @see httpRequest::readScope()
+     */
+    public function get($name, $type = 'mixed', $scope = SC_PATH)
+    {
+        return $this->readScope($name, $scope, $type);
     }
 
     /**
