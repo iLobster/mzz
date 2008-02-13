@@ -39,9 +39,9 @@ class tagsMapper extends simpleMapper
     protected $className = 'tags';
 
     /**
-     * Создание тагов
+     * Создание тегов
      *
-     * @param array $tags Таги, массив
+     * @param array $tags теги, массив
      * @return array of tags
      */
     public function createTags($tags)
@@ -57,9 +57,9 @@ class tagsMapper extends simpleMapper
     }
 
     /**
-     * Поиск тагов
+     * Поиск тегов
      *
-     * @param array $tags Таги
+     * @param array $tags теги
      * @return simple
      */
     public function searchTags($tags)
@@ -74,12 +74,12 @@ class tagsMapper extends simpleMapper
     /**
      * Поиск значений obj_id объектов имеющих данный тег/теги
      *
-     * @param array $tag Таги
+     * @param array $tag теги
      * @return array of obj_id values
      */
     public function searchObjIdByTag($tag)
     {
-        // ищем obj_id сущностей у которых есть этот таг
+        // ищем obj_id сущностей у которых есть этот тег
         $criteria = new criteria('tags_tagsItem', 'ti');
 
         $joinTagItemRel= new criterion('ti.id','tir.item_id', criteria::EQUAL, true);

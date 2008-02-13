@@ -23,8 +23,29 @@ class tagsItem extends simple
 {
     protected $name = 'tags';
 
+    protected $tags = null;
 
-    function getTags()
+    public function setTags($tags)
+    {
+        if (!is_null($tags)) {
+            // парсим тэги
+            $tags = explode(',', $tags);
+            $tags = array_map('trim', $tags);
+            foreach ($tags as $i => $t) {
+                if(strlen($t) == 0) {
+                    unset($tags[$i]);
+                }
+            }
+        }
+        $this->tags = $tags;
+    }
+
+    public function getNewTags()
+    {
+        return $this->tags;
+    }
+
+    public function getTags()
     {
         $tagsMapper = systemToolkit::getInstance()->getMapper('tags', 'tags');
         $criteria = new criteria('tags_tags', 'tags');
