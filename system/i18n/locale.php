@@ -19,7 +19,7 @@ fileLoader::load('service/iniFile');
  *
  * @package system
  * @subpackage i18n
- * @version 0.1
+ * @version 0.1.1
  */
 class locale
 {
@@ -161,9 +161,10 @@ class locale
     /**
      * Получение всех языков, определённых в системе
      *
+     * @param string $id Поиск по id конкретного языка
      * @return array
      */
-    public static function searchAll()
+    public static function searchAll($id = null)
     {
         if (self::$langs === false) {
             $db = db::factory();
@@ -178,6 +179,10 @@ class locale
             }
 
             self::$langs = $result;
+        }
+
+        if ($id) {
+            return isset(self::$langs[$id]) ? self::$langs[$id] : null;
         }
 
         return self::$langs;

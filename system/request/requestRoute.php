@@ -29,7 +29,7 @@ fileLoader::load('request/iRoute');
  *
  * @package system
  * @subpackage request
- * @version 0.1.2
+ * @version 0.1.3
  */
 class requestRoute implements iRoute
 {
@@ -217,7 +217,7 @@ class requestRoute implements iRoute
         if ($this->withLang) {
             array_unshift($this->parts, ':lang', '/');
             $this->requirements['lang'] = '^[a-z]{2}(?=/)|^[a-z]{2}(?=/?)$';
-            $this->defaults['lang'] = systemConfig::$i18n;
+            $this->defaults['lang'] = '';
         }
 
         foreach ($this->parts as $i => $part) {

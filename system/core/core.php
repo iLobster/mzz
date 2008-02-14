@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage core
- * @version 0.1.6
+ * @version 0.1.7
  */
 class core
 {
@@ -165,6 +165,7 @@ class core
         $filter_chain->registerFilter(new sessionFilter());
         $filter_chain->registerFilter(new routingFilter());
         $filter_chain->registerFilter(new userFilter());
+        $filter_chain->registerFilter(new i18nFilter());
         $filter_chain->registerFilter(new userOnlineFilter());
         $filter_chain->registerFilter(new contentFilter());
         return $filter_chain;
