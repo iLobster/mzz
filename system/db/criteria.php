@@ -19,7 +19,7 @@ fileLoader::load('db/criterion');
  *
  * @package system
  * @subpackage db
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 class criteria
@@ -140,6 +140,13 @@ class criteria
      * @var array
      */
     private $map = array();
+
+    /**
+     * Массив в котором хранятся данные об условиях в HAVING
+     *
+     * @var array
+     */
+    private $havingMap = array();
 
     /**
      * Массив для хранения правил сортировки выборки
@@ -264,6 +271,38 @@ class criteria
     }
 
     /**
+     * Метод для добавления ещё одного условия в HAVING
+     *
+     * @see criterion
+     * @param string|object $field имя поля или объект класса criterion
+     * @param string $value значение. не используется если в качестве $field передаётся criterion
+     * @param string $comparsion тип сравнения. не используется если в качестве $field передаётся criterion
+     * @return criteria текущий объект
+     */
+    public function addHaving($field, $value = null, $comparsion = criteria::EQUAL)
+    {
+        if ($field instanceof criterion) {
+            if (!is_null($name = $field->getField())) {
+                if ($name instanceof sqlFunction) {
+                    $name = $name->getFieldName();
+                }
+                $this->havingMap[$name] = $field;
+            } else {
+                $this->havingMap[] = $field;
+            }
+        } else {
+            if ($field instanceof sqlFunction ) {
+                $fieldname = $field->getFieldName();
+            } else {
+                $fieldname = $field;
+            }
+            $this->havingMap[$fieldname] = new criterion($field, $value, $comparsion);
+        }
+
+        return $this;
+    }
+
+    /**
      * Метод для добавления данных из передаваемого объекта criteria к текущему<br>
      * Часть данных добавляется, часть заменяется
      *
@@ -285,6 +324,10 @@ class criteria
 
         if ($map = $criteria->getCriterion()) {
             $this->map = array_merge($this->map, $map);
+        }
+
+        if ($havingMap = $criteria->getHaving()) {
+            $this->havingMap = array_merge($this->havingMap, $havingMap);
         }
 
         if ($limit = $criteria->getLimit()) {
@@ -342,6 +385,20 @@ class criteria
             return $this->map[$key];
         }
         return $this->map;
+    }
+
+    /**
+     * Метод получения конкретного объекта criterion в having по имени ключа
+     *
+     * @param string $key имя ключа
+     * @return object|null искомый объект, либо null в противном случае
+     */
+    public function getHaving($key = null)
+    {
+        if (isset($this->havingMap[$key])) {
+            return $this->havingMap[$key];
+        }
+        return $this->havingMap;
     }
 
     /**

@@ -19,7 +19,7 @@ fileLoader::load('db/criteria');
  *
  * @package system
  * @subpackage db
- * @version 0.2.2
+ * @version 0.2.3
  */
 
 class simpleSelect
@@ -59,6 +59,8 @@ class simpleSelect
         $joinClause = array();
         $whereClause = array();
         $orderByClause = array();
+        $havingClause = array();
+        $groupByClause = array();
         $aliases = array();
 
         $i = 0;
@@ -146,6 +148,10 @@ class simpleSelect
 
         $groupByClause = $this->criteria->getGroupBy();
 
+        foreach ($this->criteria->getHaving() as $key => $val) {
+            $havingClause[] = $val->generate($this, $this->criteria->getTable());
+        }
+
         $qry = 'SELECT ' .
         ($this->criteria->getDistinct() ? 'DISTINCT ' : '') .
         ($selectClause ? implode(', ', $selectClause) : '*') .
@@ -153,6 +159,7 @@ class simpleSelect
         ($joinClause ? implode($joinClause) : '') .
         ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '') .
         ($groupByClause ? ' GROUP BY ' . implode(', ', $groupByClause) : '') .
+        ($havingClause ? ' HAVING ' . implode(' AND ', $havingClause) : '') .
         ($orderByClause ? ' ORDER BY ' . implode(', ', $orderByClause) : '') .
         (($limit = $this->criteria->getLimit()) ? ' LIMIT ' . (($offset = $this->criteria->getOffset()) ? $offset . ', ' : '') . $limit : '');
 

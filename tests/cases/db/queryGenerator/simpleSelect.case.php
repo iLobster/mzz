@@ -32,6 +32,14 @@ class simpleSelectTest extends unitTestCase
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value' AND `table`.`field2` = 'value2'");
     }
 
+    public function testSelectAllWithCompexHaving()
+    {
+        $this->criteria->setTable('table');
+        $this->criteria->addGroupBy('field');
+        $this->criteria->addHaving(new sqlFunction('count', '*', true), 666, criteria::GREATER);
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` GROUP BY `field` HAVING COUNT(*) > 666");
+    }
+
     public function testSelectConditionOrderLimit()
     {
         $this->criteria->setTable('table')->add('field', 'value')->setLimit(10)->setOffset(15)->setOrderByFieldDesc('field');
@@ -130,7 +138,7 @@ class simpleSelectTest extends unitTestCase
 
         $this->assertEqual($this->select->toString(), "SELECT `table`.*, `foo`.`id` AS `foo_id` FROM `table` LEFT JOIN (SELECT * FROM `zzz` WHERE `zzz`.`asd` = 666) `x` ON `x`.`id` = `table`.`id`");
     }
-    
+
     public function testSelectFunctionObject()
     {
         $function = new sqlFunction('INET_ATON', 'table.field', true);

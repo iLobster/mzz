@@ -34,6 +34,15 @@ class criteriaTest extends unitTestCase
         $this->assertEqual($this->criteria->keys(), array('field2', 0, 1));
     }
 
+    public function testAddHaving()
+    {
+        $this->criteria->addHaving('field', 'value')->addHaving(new sqlFunction('count', '*', true), 10, criteria::GREATER);
+        $having = $this->criteria->getHaving();
+        $this->assertEqual(2, sizeof($having));
+        $this->assertTrue(isset($having['count_*']));
+        $this->assertTrue(isset($having['field']));
+    }
+
     public function testOverwriteKeys()
     {
         $this->criteria->add('field', 'value')->add('field', 'value2');
