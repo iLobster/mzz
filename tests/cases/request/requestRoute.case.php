@@ -150,7 +150,7 @@ class requestRouteTest extends unitTestCase
         );
         $this->assertEqual(
             $route->match('news/view'),
-            array('action' => 'view', 'controller' => 'news', 'lang' => 'en')
+            array('action' => 'view', 'controller' => 'news', 'lang' => '')
         );
         $this->assertEqual(
             $route->match('ru/ru/ru'),
@@ -165,14 +165,14 @@ class requestRouteTest extends unitTestCase
         $route->enableLang();
         $this->assertEqual(
             $route->match(''),
-            array('lang' => 'en')
+            array('lang' => '')
         );
 
         $route = new requestRoute('somepath/:action', array('action' => 'list'));
         $route->enableLang();
         $this->assertEqual(
             $route->match('somepath'),
-            array('action' => 'list', 'lang' => 'en')
+            array('action' => 'list', 'lang' => '')
         );
         $this->assertEqual(
             $route->match('ru/somepath/list'),
