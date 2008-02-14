@@ -1,9 +1,8 @@
-# SQL Manager 2007 for MySQL 4.1.2.1
+# SQL Manager 2007 for MySQL 4.2.1.1
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
 # Database : mzz_test
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -397,7 +396,7 @@ CREATE TABLE `sys_cfg_values` (
   `cfg_id` int(11) NOT NULL default '0',
   `name` int(11) NOT NULL default '0',
   `title` int(11) unsigned default NULL,
-  `type_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL default '0',
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
@@ -492,7 +491,7 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -590,7 +589,7 @@ CREATE TABLE `sys_sections` (
   `name` char(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
 # Data for the `sys_sections` table  (LIMIT 0,500)
@@ -618,7 +617,7 @@ CREATE TABLE `sys_sessions` (
   PRIMARY KEY  (`id`),
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 #
 # Structure for the `treeNS` table : 
@@ -662,6 +661,7 @@ CREATE TABLE `user_user` (
   `created` int(11) default NULL,
   `confirmed` int(11) default NULL,
   `last_login` int(11) default NULL,
+  `language_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -697,8 +697,3 @@ CREATE TABLE `user_userOnline` (
   KEY `last_activity` (`last_activity`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
