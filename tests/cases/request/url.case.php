@@ -88,9 +88,11 @@ class urlTest extends unitTestCase
     public function testAddGetVariables()
     {
         $url = new url('default');
+        $this->assertEqual($url->get(), $_url = 'http://localhost' . SITE_PATH);
         $url->add('name', 'value', true);
+        $this->assertEqual($url->get(), $_url = $_url .'/?name=value');
         $url->add('name2', 'value2', true);
-        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH .'/?name=value&name2=value2');
+        $this->assertEqual($url->get(), $_url = $_url .'&name2=value2');
     }
 
     public function testHttpsWithoutGet()

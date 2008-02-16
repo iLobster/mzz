@@ -49,9 +49,13 @@ function smarty_function_url($params, $smarty)
     }
 
     $url = new url($params['route']);
+    unset($params['route']);
 
     foreach ($params as $name => $value) {
-        $url->add($name, $value);
+        if ($isGet = $name[0] == '_') {
+            $name = substr($name, 1);
+        }
+        $url->add($name, $value, $isGet);
     }
 
     if ($getUrl == true) {
