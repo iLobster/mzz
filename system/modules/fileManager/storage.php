@@ -31,7 +31,7 @@ class storage extends simple
         $dir = dirname($newname);
         $dir = DIRECTORY_SEPARATOR == '\\' ? str_replace('/', DIRECTORY_SEPARATOR, $dir) : $dir;
         if (!is_dir($dir)) {
-            mkdir($dir, 0666, true);
+            mkdir($dir, 0777, true);
         }
 
         return rename($oldname, $newname);
