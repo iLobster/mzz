@@ -43,8 +43,8 @@ class form
 
     public function hidden($params, $smarty)
     {
-        $params['type'] = 'hidden';
-        return $this->text($params, $smarty);
+        fileLoader::load('forms/formHiddenField');
+        return formHiddenField::toString($params);
     }
 
     public function image($params, $smarty)
