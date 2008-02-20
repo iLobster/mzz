@@ -183,9 +183,13 @@ class tagsItemMapper extends simpleMapper
             return $obj;
 
         } else {
-            //
-            throw new Exception();
-            return 1;
+            $toolkit = systemToolkit::getInstance();
+            $obj_id = $toolkit->getObjectId($this->section . '_' . $this->className);
+            $this->register($obj_id, 'tags');
+
+            $obj = $this->create();
+            $obj->import(array('obj_id' => $obj_id));
+            return $obj;
         }
 
         $tagsItem = $this->searchOneByField('item_obj_id', $parent_obj_id);

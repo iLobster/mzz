@@ -48,6 +48,17 @@ class userGroupMapper extends simpleMapper
         $this->table = $this->table . '_rel';
     }
 
+    public function searchGroupsIdsByUser($user)
+    {
+        $criteria = new criteria();
+        $criteria->setTable($this->table, $this->className);
+        $criteria->add('user_id', (int)$user);
+        $criteria->clearSelectFields()->addSelectField('group_id');
+        $select = new $this->simpleSelectName($criteria);
+        $stmt = $this->db->query($select->toString());
+        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
     /**
      *
      * @param integer $args

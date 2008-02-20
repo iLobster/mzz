@@ -54,6 +54,7 @@ class formTextField extends formElement
             $js = array('type' => 'text/javascript');
             $autocomplete .= self::buildTag($js, 'script', $content);
             unset($options['autocomplete']);
+            $options['id'] = $id;
         }
 
         return self::createTag($options) . $autocomplete;

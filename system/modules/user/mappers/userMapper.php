@@ -100,13 +100,8 @@ class userMapper extends simpleMapper
      */
     public function getGroupsList($id)
     {
-        $user = $this->searchById($id);
-        $groups = $user->getGroups();
-        $result = array();
-        foreach ($groups as $group) {
-            $result[] = $group->getGroup()->getId();
-        }
-        return $result;
+        $userRel = systemToolkit::getInstance()->getMapper('user', 'userGroup', $this->section);
+        return $userRel->searchGroupsIdsByUser($id);
     }
 
     /**

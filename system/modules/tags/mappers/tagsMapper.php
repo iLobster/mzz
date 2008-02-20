@@ -56,6 +56,13 @@ class tagsMapper extends simpleMapper
         return $newTags;
     }
 
+    public function searchByNameLike($name)
+    {
+        $criteria = new criteria();
+        $criteria->add('tag', $name, criteria::LIKE);
+        return $this->searchAllByCriteria($criteria);
+    }
+
     /**
      * Поиск тегов
      *
