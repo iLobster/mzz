@@ -8,44 +8,34 @@ class bbcode
 
     const PARSER_TAG_OPENED = 3;
 
-    protected $stack = array();
-
     protected $tags = array(
         'b' => array(
                 'html' => '<strong>%1$s</strong>',
-                'strip_empty' => true,
             ),
         'i' => array(
                 'html' => '<em>%1$s</em>',
-                'strip_empty' => true,
             ),
         'u' => array(
                 'html' => '<span style="text-decoration: underline;">%1$s</span>',
-                'strip_empty' => true,
             ),
         's' => array(
                 'html' => '<strike>%1$s</strike>',
-                'strip_empty' => false,
             ),
         'color' => array(
                 'html' => '<font color="%2$s">%1$s</font>',
-                'strip_empty' => true,
-                'withAttributes' => true,
+                'permanentWithAttributes' => true,
                 'attributes' => array('red', 'blue', 'green')
             ),
         'size' => array(
                 'html' => '<font size="+%2$s">%1$s</font>',
-                'strip_empty' => true,
-                'withAttributes' => true,
+                'permanentWithAttributes' => true,
                 'attributes' => array('1', '2', '3')
             ),
         'quote' => array(
                 'html' => '<span>quote:"%2$s" - %1$s</span>',
-                'strip_empty' => true,
             ),
         'img' => array(
                 'html' => '<img src="%1$s" title="%2$s" alt="%2$s" />',
-                'strip_empty' => true
             ),
     );
 
@@ -67,12 +57,13 @@ class bbcode
 
     protected function buildBBData($text)
     {
-        $state = self::PARSER_START;
         $startPos = 0;
         $strlen = strlen($text);
 
         $output = array();
         $tmpData = array();
+
+        $state = self::PARSER_START;
 
         while ($strlen > $startPos) {
             switch ($state) {
@@ -322,66 +313,51 @@ class bbcode
     {
         $output = '';
 
-        $this->stack = array();
+        $stack = array();
         $stack_size = 0;
 
-        $this->node_max = count($preparsed);
-        $this->node_cur = 0;
+        $current = null;
+        $node_num = 0;
+        $node_max = count($preparsed);
 
         foreach ($preparsed AS $node) {
-            $this->node_num++;
-            $pending_text = null;
+            $node_num++;
+            $pending = null;
 
             if ($node['type'] == 'text') {
-                $pending_text =& $node['data'];
+                $pending =& $node['data'];
             } elseif ($node['closing'] == false) {
                 $node['data'] = '';
-                array_unshift($this->stack, $node);
+                array_unshift($stack, $node);
                 ++$stack_size;
 
-                $has_option = $node['option'] !== false ? 'option' : 'no_option';
-                $tag_info =& $this->tags[$has_option][$node['name']];
+                $tag = &$this->tags[$node['name']];
             } else {
-                if (($key = $this->findFirstTag($node['name'], $this->stack)) !== false) {
-                    $open =& $this->stack[$key];
-                    $this->current_tag =& $open;
+                if (($key = $this->findFirstTag($node['name'], $stack)) !== false) {
+                    $open = &$stack[$key];
+                    $current = &$open;
 
                     if (isset($this->tags[$open['name']])) {
-                        $tag_info =& $this->tags[$open['name']];
-                        if ((isset($tag_info['strip_empty']) && $tag_info['strip_empty'] == false) || trim($open['data']) != '') {
-                            if (empty($tag_info['data_regex']) || preg_match($tag_info['data_regex'], $open['data'])) {
-                                if (!empty($tag_info['parse_option']) && strpos($open['option'], '[') !== false) {
-                                    $old_stack = $this->stack;
-                                    $open['option'] = $this->parse_bbcode($open['option'], $do_smilies);
-                                    $this->stack = $old_stack;
-                                    unset($old_stack);
-                                }
+                        $tag = &$this->tags[$open['name']];
 
-                                if (isset($tag_info['html'])) {
-                                    $pending_text = sprintf($tag_info['html'], $open['data'], $open['option']);
-                                } else if (isset($tag_info['callback'])) {
-                                    $pending_text = $this->$tag_info['callback']($open['data'], $open['option']);
-                                }
-                            } else {
-                                $pending_text = '&#91;' . $open['name'] . (($open['option']) ? '=' . $open['delimiter'] . $open['option'] . $open['delimiter'] : '') . '&#93;' . $open['data'] . '&#91;/' . $node['name'] . '&#93;';
-                            }
+                        if (trim($open['data'])) {
+                            $pending = sprintf($tag['html'], $open['data'], $open['option']);
                         }
                     } else {
-                        $pending_text = '&#91;' . $open['name'] . (($open['option'] && $open['option'] != '') ? '=' . $open['delimiter'] . $open['option'] . $open['delimiter'] : '') . '&#93;';
+                        $pending = '&#91;' . $open['name'] . (($open['option'] && $open['option'] != '') ? '=' . $open['delimiter'] . $open['option'] . $open['delimiter'] : '') . '&#93;';
                     }
-                    unset($this->stack[$key]);
+                    unset($stack[$key]);
                     --$stack_size;
-                    $this->stack = array_values($this->stack);
+                    $stack = array_values($stack);
                 } else {
-                    $pending_text = '&#91;/' . $node['name'] . '&#93;';
+                    $pending = '&#91;/' . $node['name'] . '&#93;';
                 }
             }
 
-
             if ($stack_size == 0) {
-                $output .= $pending_text;
+                $output .= $pending;
             } else {
-                $this->stack[0]['data'] .= $pending_text;
+                $stack[0]['data'] .= $pending;
             }
         }
 
@@ -407,7 +383,7 @@ class bbcode
                     return true;
                 }
 
-                if (isset($this->tags[$tag]['withAttributes']) && $this->tags[$tag]['withAttributes']) {
+                if (isset($this->tags[$tag]['permanentWithAttributes']) && $this->tags[$tag]['permanentWithAttributes']) {
                     if ($option) {
                         if (isset($this->tags[$tag]['attributes']) && is_array($this->tags[$tag]['attributes'])) {
                             return in_array($option, $this->tags[$tag]['attributes']);
