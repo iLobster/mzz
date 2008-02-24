@@ -515,6 +515,23 @@ class httpRequest implements iRequest
     }
 
     /**
+     * Экспорт GET-данных.
+     * Из результата исключен зарезервированный системный GET-параметр с индексом "path"
+     * При необходимости получить значение этого параметра можно через
+     * метод httpRequest::getPath()
+     *
+     * @return array
+     */
+    public function exportGet()
+    {
+        $get = $this->get->export();
+        if (isset($get['path'])) {
+            unset($get['path']);
+        }
+        return $get;
+    }
+
+    /**
      * Инициализация
      *
      */

@@ -36,6 +36,12 @@ function smarty_function_url($params, $smarty)
     $toolkit = systemToolkit::getInstance();
     $request = $toolkit->getRequest();
     $getUrl = false;
+    $appendGet = false;
+
+    if (isset($params['appendGet'])) {
+        $appendGet = (bool)$params['appendGet'];
+        unset($params['appendGet']);
+    }
 
     if(!isset($params['route'])){
         $getUrl = true;
@@ -50,6 +56,12 @@ function smarty_function_url($params, $smarty)
 
     $url = new url($params['route']);
     unset($params['route']);
+
+    if ($appendGet) {
+        foreach ($request->exportGet() as $get_key => $get_value) {
+            $url->add($get_key, $get_value, true);
+        }
+    }
 
     foreach ($params as $name => $value) {
         if ($isGet = $name[0] == '_') {
