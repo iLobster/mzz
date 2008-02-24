@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage request
- * @version 0.2.1
+ * @version 0.2
  */
 class url
 {
@@ -52,6 +52,13 @@ class url
     protected $anchor;
 
     /**
+     * Включать в генерируемый URL адрес сайта
+     *
+     * @var boolean
+     */
+    protected $withAddress = true;
+
+    /**
      * Конструктор.
      *
      */
@@ -77,7 +84,7 @@ class url
             throw new mzzRuntimeException($error);
         }
 
-        $address = $request->getUrl();
+        $address = $this->withAddress ? $request->getUrl() : '';
         $this->params  = $this->getParams();
 
         if ($lang_id = $request->getInteger('lang_id', SC_GET)) {
@@ -104,6 +111,15 @@ class url
             $url .= (empty($path) ? '/' : '') . '#' . $this->anchor;
         }
         return $url;
+    }
+
+    /**
+     * Предотвращает добавления полного адреса к генерируемому URL
+     *
+     */
+    public function disableAddress()
+    {
+        $this->withAddress = false;
     }
 
     /**

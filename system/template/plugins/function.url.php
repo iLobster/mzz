@@ -17,19 +17,33 @@
 /**
  * smarty_function_url: функция для смарти, генератор URL
  *
+ * При вызове без аргументов возвращает текущий URL. При вызове с аргументом onlyPath,
+ * только текущий путь от корня (может быть удобно в случае использования AJAX)
+ *
+ *
  * Примеры использования:<br />
  * <code>
  * {url route="default" section="news" action="list"}
+ * {url onlyPath=true}
  * {url route="guestbookActions" section="guestbook" action="delete" params="41"}
  * {url route="newsActions" section="news" params="2006/08/12"}
  * </code>
+ *
+ * GET-параметры задаются с префиксом "_". Примеры
+ * <code>
+ * {url route="default" section="news" action="list" _order="desc" _orderField="id"}
+ * {url route="default" section="news" action="list" _order="desc" _orderField="id" appendGet=true}
+ * </code>
+ * сгенерирует /news/list/?order=desc&orderField=id и /news/list/?order=desc&orderField=id&page=3 соответственно
+ * (page=3 как пример того, что может уже содержаться в GET-параметрах)
+ * Текущие GET-параметры позволяет сохранить параметр appendGet
  *
  * @param array $params входные аргументы функции
  * @param object $smarty объект смарти
  * @return string результат работы модуля
  * @package system
  * @subpackage template
- * @version 0.2
+ * @version 0.2.1
  */
 function smarty_function_url($params, $smarty)
 {
@@ -73,6 +87,9 @@ function smarty_function_url($params, $smarty)
     if ($getUrl == true) {
         return $onlyPath ? SITE_PATH . '/' . $request->getPath() : $request->getRequestUrl();
     } else {
+        if ($onlyPath) {
+            $url->disableAddress();
+        }
         return $url->get();
     }
 }
