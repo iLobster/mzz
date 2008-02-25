@@ -140,7 +140,6 @@ class pageMapperTest extends unitTestCase
     private function fixture($mapper, $map)
     {
         $folderMapper = new pageFolderMapper('page');
-        $folder = $folderMapper->searchByKey(1);
 
         for($i = 0; $i < 4; $i++) {
             $folders = array(11, 11, 13, 13);
@@ -148,7 +147,7 @@ class pageMapperTest extends unitTestCase
             $page->setName('name' . ($i + 1));
             $page->setTitle('title' . ($i + 1));
             $page->setContent('content' . ($i + 1));
-            $page->setFolder($folder);
+            $page->setFolder(1);
             $mapper->save($page);
         }
     }

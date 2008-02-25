@@ -139,7 +139,7 @@ class simpleCatalogueMapperTest extends unitTestCase
         $criteria = new criteria();
         $criteria->add('property_4', 666);
         $criteria->add('id', 2);
-        
+
         $object = $this->mapper->searchAllByCriteria($criteria);
 
         $this->assertEqual(sizeof($object), 1);

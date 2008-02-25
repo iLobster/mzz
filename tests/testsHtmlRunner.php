@@ -29,8 +29,15 @@ class testsHtmlRunner implements iFilter
         $test = new GroupTest($casesName . ' tests');
 
         foreach (testsFinder::find($casesDirGroup) as $case) {
+            if (isset($_GET['without']) && strpos($case, '/' . $_GET['without'] . '/')) {
+                continue;
+            }
             $test->addTestFile($case);
         }
+
+        $_GET = array();
+        $_POST = array();
+        $_REQUEST = array();
 
         $test->run(new mzzHtmlReporter('utf-8'));
 

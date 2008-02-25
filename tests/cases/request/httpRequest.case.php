@@ -34,7 +34,6 @@ class httpRequestTest extends unitTestCase
         $_GET['_TEST_INTEGER'] = $this->integer;
         $_COOKIE['_TEST_FLOAT'] = $this->float;
 
-        unset($_GET['group']);
         $this->httprequest = new httpRequest();
     }
 

@@ -83,36 +83,22 @@ class configTest extends unitTestCase
 
     public function fixture()
     {
-        $this->db->exec("INSERT INTO `sys_modules` VALUES(1, 'someModule')");
-        $this->db->exec("INSERT INTO `sys_modules` VALUES(2, 'someAnotherModule')");
-        $this->db->exec("INSERT INTO `sys_sections` VALUES(1, 'someSection')");
-        $this->db->exec("INSERT INTO `sys_sections` VALUES(2, 'someAnotherSection')");
+        $this->db->exec("INSERT INTO `sys_modules` VALUES(1, 'someModule'), (2, 'someAnotherModule')");
+        $this->db->exec("INSERT INTO `sys_sections` VALUES(1, 'someSection'), (2, 'someAnotherSection')");
 
 
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(1, 0, 1)");
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(2, 0, 2)");
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(3, 1, 1)");
-        $this->db->exec("INSERT INTO `sys_cfg` VALUES(4, 2, 2)");
+        $this->db->exec("INSERT INTO `sys_cfg` VALUES(1, 0, 1), (2, 0, 2), (3, 1, 1), (4, 2, 2)");
+        $this->db->exec("INSERT INTO `sys_cfg_vars` VALUES (0, 'someParam'), (0, 'someAnotherParam'), (0, 'someDefaultParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'параметр'), (0, 'параметр2'), (0, 'дефолтный_параметр')");
 
-        $this->db->exec("INSERT INTO `sys_cfg_vars` VALUES (0, 'someParam')");
-        $this->db->exec("INSERT INTO `sys_cfg_vars` VALUES (0, 'someAnotherParam')");
-        $this->db->exec("INSERT INTO `sys_cfg_vars` VALUES (0, 'someDefaultParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_types` VALUES (0, 'char', 'Строка'), (0, 'int', 'Целое')");
 
-        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'параметр')");
-        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'параметр2')");
-        $this->db->exec("INSERT INTO `sys_cfg_titles` VALUES (0, 'дефолтный_параметр')");
-
-        $this->db->exec("INSERT INTO `sys_cfg_types` VALUES (0, 'char', 'Строка')");
-        $this->db->exec("INSERT INTO `sys_cfg_types` VALUES (0, 'int', 'Целое')");
-
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 1, 1, 1, 1, 'defaultValueOfParam')");
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 3, 1, 1, 2, 'someValueOfParam')");
-
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 2, 1, 1, 1, 'valueForAnotherSection')");
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 2, 2, 2, 2, 'someDefaultValueOfAnotherParam')");
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 4, 2, 2, 1, 'someValueOfAnotherParam')");
-
-        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 1, 3, 3, 2, 'someValueOfDefaultParam')");
+        $this->db->exec("INSERT INTO `sys_cfg_values` VALUES (0, 1, 1, 1, 1, 'defaultValueOfParam'),
+        (0, 3, 1, 1, 2, 'someValueOfParam'),
+        (0, 2, 1, 1, 1, 'valueForAnotherSection'),
+        (0, 2, 2, 2, 2, 'someDefaultValueOfAnotherParam'),
+        (0, 4, 2, 2, 1, 'someValueOfAnotherParam'),
+        (0, 1, 3, 3, 2, 'someValueOfDefaultParam')");
     }
 
     private function clearDb()

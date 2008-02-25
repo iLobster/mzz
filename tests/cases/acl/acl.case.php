@@ -38,9 +38,11 @@ class aclTest extends unitTestCase
     public function setUp()
     {
         $this->clearDb();
-        $this->db->query("INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `uid`, `gid`, `allow`, `obj_id`) VALUES (1,1,1,1,NULL,1,1), (2,2,1,1,NULL,1,1), (3,1,1,NULL,1,0,1)");
-        $this->db->query("INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `uid`, `gid`, `allow`, `obj_id`) VALUES (4,1,1,3,NULL,1,0), (5,2,1,3,NULL,1,0), (6,2,1,NULL,4,1,0)");
-        $this->db->query("INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `uid`, `gid`, `allow`, `obj_id`) VALUES (7,1,1,0,NULL,1,0), (8,2,1,0,NULL,1,0)");
+        $this->db->query("INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES
+        (1,1,1,1,NULL,1,0,1), (2,2,1,1,NULL,1,0,1), (3,1,1,NULL,1,0,1,1),
+        (4,1,1,3,NULL,1,0,0), (5,2,1,3,NULL,1,0,0), (6,2,1,NULL,4,1,0,0),
+        (7,1,1,0,NULL,1,0,0), (8,2,1,0,NULL,1,0,0)");
+
         $this->db->query("INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES (1, 'news', 1)");
         $this->db->query("INSERT INTO `sys_sections` (`id`, `name`) VALUES (1, 'news')");
         $this->db->query("INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES (1,1,1)");
@@ -48,7 +50,6 @@ class aclTest extends unitTestCase
         $this->db->query("INSERT INTO `sys_actions` (`id`, `name`) VALUES (1,'edit'), (2,'delete')");
         $this->db->query("INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (1, 1)");
 
-        $this->db->query("UPDATE `sys_access` SET `deny` = 1 - `allow`");
 
         $this->acl = new acl($user = new userStub(), $object_id = 1, $class = null, $section = null, $alias = $this->alias);
     }
