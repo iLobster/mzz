@@ -123,6 +123,16 @@ class locale
     }
 
     /**
+     * Возвращает алфавит
+     *
+     * @return string
+     */
+    public function getAlphabet()
+    {
+        return $this->data['regional_settings']['alphabet'];
+    }
+
+    /**
      * Получение имени локали
      *
      * @return string
