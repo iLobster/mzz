@@ -40,9 +40,7 @@ class groupFolderMapper extends simpleMapper
 
     public function getFolder()
     {
-        $folder = $this->create();
-        $folder->import(array('obj_id' => $this->getObjId()));
-        return $folder;
+        return $this->convertArgsToObj(array());
     }
 
     private function getObjId()
