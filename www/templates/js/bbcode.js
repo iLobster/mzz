@@ -18,7 +18,7 @@ function insertBbCode(open, close, textarea) {
         scrollPos = textarea.scrollTop;
     }
 
-    if ((selected.length - 1) >= 0 && this.lastIndexOf(' ') === (selected.length - 1)) {
+    if ((selected.length - 1) >= 0 && selected.lastIndexOf(' ') === (selected.length - 1)) {
         selected = selected.substring(0, selected.length - 1);
         close += ' ';
     }
