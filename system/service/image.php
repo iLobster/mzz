@@ -155,16 +155,18 @@ class image
         }
 
         $startX = 0;
-        if ($width != $thmb_width) {
-            $startX = (($width_orig - $thmb_width / $aspect_w) / 2) - ($thmb_width / $aspect_w);
+        if ($thmb_width > $width) {
+            //$startX = (($width_orig - $thmb_width / $aspect_w) / 2) - ($thmb_width / $aspect_w);
+            $startX = ($width - $thmb_width) / 2;
         }
 
         $startY = 0;
-        if ($height != $thmb_height) {
-            $startY = (($height_orig - $thmb_height / $aspect_h) / 2) - ($thmb_height / $aspect_h);
+        if ($thmb_height > $height) {
+            //$startY = (($height_orig - $thmb_height / $aspect_h) / 2) - ($thmb_height / $aspect_h);
+            $startY = ($height - $thmb_height) / 2;
         }
 
-        if (!imagecopyresampled($image_resized, $this->image, 0, 0, $startX, $startY, $thmb_width, $thmb_height, $width_orig, $height_orig)) {
+        if (!imagecopyresampled($image_resized, $this->image, $startX, $startY, 0, 0, $thmb_width, $thmb_height, $width_orig, $height_orig)) {
             throw new mzzRuntimeException('imagecopyresampled failed');
         }
 
