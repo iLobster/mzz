@@ -114,6 +114,67 @@ class image
         return new image($this->image, $this->type, $this->width, $this->height);
     }
 
+    public function resizeWithCrop($width, $height)
+    {
+        if (!in_array($this->type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG))) {
+            throw new mzzRuntimeException('Неверный тип файла для изменения размера');
+        }
+
+        $width_orig = $this->width;
+        $height_orig = $this->height;
+
+        $aspect_w = $width_orig / $width;
+        $aspect_h = $height_orig / $height;
+
+        $aspect = min($aspect_h, $aspect_w);
+
+        if ($aspect <= 1) {
+            $thmb_width = $width_orig;
+            $thmb_height = $height_orig;
+        } else {
+            $thmb_width = round($width_orig / $aspect);
+            $thmb_height = round($height_orig / $aspect);
+        }
+
+        if (!($image_resized = imagecreatetruecolor($width, $height))) {
+            throw new mzzRuntimeException('imagecreatetruecolor failed');
+        }
+
+        if ($this->ext == 'png') {
+            if (!imagealphablending($image_resized, false)) {
+                throw new mzzRuntimeException('imagealphablending failed');
+            }
+            if (!imagesavealpha($image_resized, true)) {
+                throw new mzzRuntimeException('imagesavealpha failed');
+            }
+        } elseif ($this->ext == 'gif') {
+            if (!($trans_color = imagecolorallocate($this->image, 255, 255, 255))) {
+                throw new mzzRuntimeException('imagecolorallocate failed');
+            }
+            imagecolortransparent($this->image, $trans_color);
+        }
+
+        $startX = 0;
+        if ($width != $thmb_width) {
+            $startX = (($width_orig - $thmb_width / $aspect_w) / 2) - ($thmb_width / $aspect_w);
+        }
+
+        $startY = 0;
+        if ($height != $thmb_height) {
+            $startY = (($height_orig - $thmb_height / $aspect_h) / 2) - ($thmb_height / $aspect_h);
+        }
+
+        if (!imagecopyresampled($image_resized, $this->image, 0, 0, $startX, $startY, $thmb_width, $thmb_height, $width_orig, $height_orig)) {
+            throw new mzzRuntimeException('imagecopyresampled failed');
+        }
+
+        $this->width = $width;
+        $this->height = $height;
+        $this->image = $image_resized;
+
+        return new image($this->image, $this->type, $this->width, $this->height);
+    }
+
     public function save($filename = null)
     {
         if (!$filename) {
