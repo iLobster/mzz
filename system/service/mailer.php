@@ -21,6 +21,8 @@
  */
 class mailer
 {
+    protected $nativeMail = null;
+
     /**
      * Отправляет письмо как plain-text (обычный текст)
      *
@@ -47,7 +49,7 @@ class mailer
         }
 
         $mailer->Subject = $subject;
-        $mailer->Body    = $body;
+        $mailer->Body = $body;
         $mailer->From = $sender['address'];
         $mailer->FromName = $sender['name'];
         $mailer->CharSet = $charset;
@@ -106,7 +108,29 @@ class mailer
         fileLoader::load('libs/phpmailer/class.phpmailer');
         $mailer = new PHPMailer();
         $mailer->setLE("\r\n");
+
+        if ($this->nativeMail !== true && (!defined('USE_PHPMAIL') || USE_PHPMAIL == false)) {
+            $mailer->IsSMTP();
+            $mailer->Host = SMTP_HOST;
+            $mailer->Port = SMTP_PORT;
+            if(SMTP_AUTH == true) {
+                $mailer->SMTPAuth = true;
+                $mailer->Username = SMTP_USER;
+                $mailer->Password = SMTP_PASSWORD;
+            }
+        }
+
         return $mailer;
+    }
+
+    /**
+     * Устанавливает принудительную отправку через обычную PHP-функцию mail,
+     * не смотря на настройку USE_PHPMAIL
+     *
+     */
+    public function setByNativeMail()
+    {
+        $this->nativeMail = true;
     }
 }
 
