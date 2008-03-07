@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.21
+ * @version 0.3.22
  */
 
 abstract class simpleMapper
@@ -688,8 +688,25 @@ abstract class simpleMapper
                 $criterion = $criteria->getCriterion($val);
                 $value = $criterion->getValue();
 
-                $criteria->add($this->className . $this->langTablePostfix . '.' . $val, $value, $criterion->getComparsion());
+                $new_criterion = new criterion($this->className . $this->langTablePostfix . '.' . $val, $value, $criterion->getComparsion());
+
+                if ($clauses = $criterion->getClauses()) {
+                    foreach ($clauses[0] as $clause_key => $clause) {
+                        $clause_name = $clause->getField();
+                        if (!strpos($clause_name, '.') && in_array($clause_name, $langFields)) {
+                            $clause_name = $this->className . $this->langTablePostfix . '.' . $clause_name;
+                            $clause = new criterion($clause_name, $clause->getValue(), $clause->getComparsion());
+                        }
+
+                        if ($clauses[1][$clause_key] == criterion::C_AND) {
+                            $new_criterion->addAnd($clause);
+                        } else {
+                            $new_criterion->addOr($clause);
+                        }
+                    }
+                }
                 $criteria->remove($val);
+                $criteria->add($new_criterion);
             }
         }
 
