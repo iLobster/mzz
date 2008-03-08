@@ -85,6 +85,23 @@ class userMapper extends simpleMapper
         }
     }
 
+    /**
+     * Выполняет поиск объекта по email
+     *
+     * @param string $email
+     * @return object
+     */
+    public function searchByEmail($email)
+    {
+        $user = $this->searchOneByField('email', $email);
+
+        if ($user) {
+            return $user;
+        } else {
+            return $this->getGuest();
+        }
+    }
+
     public function getOnline($id)
     {
         $userOnlineMapper = systemToolkit::getInstance()->getMapper('user', 'userOnline', $this->section);
