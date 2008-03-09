@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.22
+ * @version 0.3.23
  */
 
 abstract class simpleMapper
@@ -998,7 +998,7 @@ abstract class simpleMapper
      *
      * @return integer
      */
-    protected function getLangId()
+    public function getLangId()
     {
         if (!systemConfig::$i18n) {
             return 0;
