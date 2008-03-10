@@ -1,6 +1,6 @@
 <?php
 
-fileLoader::load('bbcode');
+fileLoader::load('service/bbcode');
 
 class bbcodeTest extends unitTestCase
 {

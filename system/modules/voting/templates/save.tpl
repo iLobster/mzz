@@ -60,7 +60,7 @@ Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":
             {foreach from=$question->getAnswers() item="answer" name="variantsIterator"}
                 {assign var="answerId" value=$answer->getId()}
                 <tr>
-                    <td width="20%">{form->text name="answers[$answerId]" value=$answer->getTitle()}</td>
+                    <td width="20%">{form->text name="answers[$answerId]" value=$answer->getTitle() style="width:95%;"}</td>
                     <td width="80%">{form->select name="answers_type[$answerId]" value=$answer->getType() options=$answers_types}<img src="{$SITE_PATH}/templates/images/delete.gif" onclick="javascript: voteDeleteVariant(this);" /></td>
                 </tr>
             {/foreach}
