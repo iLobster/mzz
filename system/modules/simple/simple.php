@@ -19,7 +19,7 @@ fileLoader::load('jip/jip');
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.7
+ * @version 0.1.8
  */
 
 abstract class simple
@@ -133,7 +133,10 @@ abstract class simple
             if ('accessor' == $method) {
                 // если свойство ещё является скаляром (строка, число) - то пробуем загрузить относящийся к нему объект
                 if (is_scalar($this->fields->get($field)) || is_null($this->fields->get($field))) {
-                    $this->doLazyLoading($field, $args);
+                    // меняем значение поля на скаляр только в случае, если отношение 1:М, или если в отношении 1:1 значение не равно null
+                    if (!isset($this->map[$field]['join_type']) || !isset($this->map[$field]['owns']) || $this->map[$field]['join_type'] != 'left' || !is_null($this->fields->get($field))) {
+                        $this->doLazyLoading($field, $args);
+                    }
                 }
                 return $this->fields->get($field);
             } else {

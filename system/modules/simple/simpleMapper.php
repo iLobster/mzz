@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.23
+ * @version 0.3.24
  */
 
 abstract class simpleMapper
@@ -605,7 +605,12 @@ abstract class simpleMapper
         foreach ($this->getOwns() as $key => $val) {
             $tmp[$this->className][$this->SCALAR][$key] = $tmp[$this->className][$key];
             $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
-            $tmp[$this->className][$key] = $mapper->createItemFromRow($tmp[$key]);
+            if ($val['join_type'] == 'LEFT' && is_null($tmp[$key][$val['key']])) {
+                $row = null;
+            } else {
+                $row = $mapper->createItemFromRow($tmp[$key]);
+            }
+            $tmp[$this->className][$key] = $row;
         }
 
         return is_null($name) ? $tmp[$this->className] : $tmp[$name];
@@ -792,6 +797,7 @@ abstract class simpleMapper
 
         // добавляем сортировку
         $orderBy = array();
+
         foreach ($this->map as $key => $val) {
             if (isset($val['orderBy'])) {
                 if (!is_numeric($val['orderBy'])) {
@@ -1154,6 +1160,11 @@ abstract class simpleMapper
     private function explodeRelateData($val)
     {
         list($tableName, $fieldName) = explode('.', $val['relate'], 2);
+
+        if (!$fieldName) {
+            throw new mzzRuntimeException('Вы должны указать поле, по которому происходит связывание объектов. Указано: "' . $val['relate'] . '"');
+        }
+
         $className = $tableName;
 
         if (isset($val['do'])) {
