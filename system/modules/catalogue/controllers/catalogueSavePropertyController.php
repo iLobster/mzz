@@ -134,7 +134,6 @@ class catalogueSavePropertyController extends simpleController
                 } else {
                     switch ($loadType) {
                         case 'modules':
-
                             $section_id = $this->request->getInteger('for_id', SC_REQUEST);
                             $modules = $adminMapper->searchModulesBySection($section_id);
                             $this->smarty->assign('data', $modules);
@@ -230,8 +229,9 @@ class catalogueSavePropertyController extends simpleController
                 case 'multiselect':
                     $values = $this->request->getArray('selectvalues', SC_POST);
                     $selectvalues = array();
+                    $k = 1;
                     foreach ($values as $val) {
-                        $selectvalues[] = $val;
+                        $selectvalues[$k++] = $val;
                     }
                     $params['args'] = serialize($selectvalues);
                     break;
