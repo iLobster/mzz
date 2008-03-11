@@ -57,5 +57,8 @@ function mapAutoCompleteMethods(input)
         <tr>
             <td colspan="2">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>
+        <tr>
+            <td colspan="2" style="font-size: 90%; color: #999;">Примечание: поле создается только в map-файле, в БД необходимо создать его отдельно. Однако, обратный процесс возможен (map восстанавливается по структуре БД при просмотре структуры объекта)</td>
+        </tr>
     </table>
 </form>
