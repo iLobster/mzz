@@ -8,6 +8,8 @@ class bbcode
 
     const PARSER_TAG_OPENED = 3;
 
+    protected $smiles = array();
+
     protected $tags = array(
         'b' => array(
                 'html' => '<strong>%1$s</strong>',
@@ -397,6 +399,18 @@ class bbcode
         }
 
         return false;
+    }
+
+    protected function parseSmiles($content = null)
+    {
+        if (!$content) {
+            $content = $this->content;
+        }
+
+        $smileys = array_keys($this->smileys);
+        $pics = array_values($this->smileys);
+
+        return str_replace($smileys, $pics, $content);
     }
 }
 ?>

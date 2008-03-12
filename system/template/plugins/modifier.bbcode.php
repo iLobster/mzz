@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('bbcode');
+fileLoader::load('service/bbcode');
 
 /**
  * smarty_modifier_bbcode: смарти плагин для преобразования bbcode
