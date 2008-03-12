@@ -91,6 +91,64 @@ class captchaViewController extends simpleController
                 $pos_x += $char_width;
             }
 
+            //частоты
+            $rand1 = mt_rand(7, 1000) / 150000;
+            $rand2 = mt_rand(7000, 100000) / 1500000;
+            $rand3 = mt_rand(7000, 100000) / 1500000;
+            $rand4 = mt_rand(7000, 100000) / 1500000;
+            // фазы
+            $rand5 = mt_rand(0, 3141592) / 1000000;
+            $rand6 = mt_rand(0, 3141592) / 1000000;
+            $rand7 = mt_rand(0, 3141592) / 1000000;
+            $rand8 = mt_rand(0, 3141592) / 1000000;
+            // амплитуды
+            $rand9 = mt_rand(400, 600) / 100;
+            $rand10 = mt_rand(400, 600) / 100;
+
+            for ($x = 0; $x < $width; $x++) {
+                for ($y = 0; $y < $height; $y++) {
+                    $sx = $x + (sin($x * $rand1 + $rand5) + sin($y * $rand3 + $rand6)) * $rand9;
+                    $sy = $y + (sin($x * $rand2 + $rand7) + sin($y * $rand4 + $rand8)) * $rand10;
+
+                    if ($sx < 0 || $sy < 0 || $sx >= $width - 1 || $sy >= $height - 1) {
+                        $red = 238;
+                        $green = 236;
+                        $blue = 219;
+
+                        $color = $background;
+                        $color_x = $background;
+                        $color_y = $background;
+                        $color_xy = $background;
+                    } else {
+                        $color = (imagecolorat($im, $sx, $sy) >> 16) & 0xFF;
+
+                        $colorindex = imagecolorat($im, $sx, $sy);
+                        $red = ($colorindex >> 16) & 0xFF;
+                        $green = ($colorindex >> 8) & 0xFF;
+                        $blue = $colorindex & 0xFF;
+
+                        $color_x = (imagecolorat($im, $sx + 1, $sy) >> 16) & 0xFF;
+                        $color_y = (imagecolorat($im, $sx, $sy + 1) >> 16) & 0xFF;
+                        $color_xy = (imagecolorat($im, $sx + 1, $sy + 1) >> 16) & 0xFF;
+                    }
+
+                    if ($color != $color_x || $color != $color_y || $color != $color_xy) {
+                        $frsx = $sx - floor($sx); //отклонение координат первообраза от целого
+                        $frsy = $sy - floor($sy);
+                        $frsx1 = 1 - $frsx;
+                        $frsy1 = 1 - $frsy;
+
+                        $koef = $color_x  * $frsx  * $frsy1 + $color_y  * $frsx1 * $frsy  + $color_xy * $frsx  * $frsy;
+
+                        $red = floor($red * $frsx1 * $frsy1 + $koef);
+                        $green = floor($green * $frsx1 * $frsy1 + $koef);
+                        $blue = floor($blue * $frsx1 * $frsy1 + $koef);
+                    }
+                    $color = imagecolorallocate($im, $red, $green, $blue);
+                    imagesetpixel($im, $x, $y, $color);
+                }
+            }
+
             imagerectangle($im, 0, 0, $width - 1, $height - 1, $border);
 
             ob_start();
