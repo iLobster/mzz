@@ -92,23 +92,23 @@ class captchaViewController extends simpleController
             }
 
             //частоты
-            $rand1 = mt_rand(7, 1000) / 150000;
-            $rand2 = mt_rand(7000, 100000) / 1500000;
-            $rand3 = mt_rand(7000, 100000) / 1500000;
-            $rand4 = mt_rand(7000, 100000) / 1500000;
+            $freqX_1 = mt_rand(7, 1000) / 150000;
+            $freqY_1 = mt_rand(7000, 100000) / 1000000;
+            $freqX_2 = mt_rand(7000, 100000) / 1000000;
+            $freqY_2 = mt_rand(7000, 100000) / 1500000;
             // фазы
-            $rand5 = mt_rand(0, 3141592) / 1000000;
-            $rand6 = mt_rand(0, 3141592) / 1000000;
-            $rand7 = mt_rand(0, 3141592) / 1000000;
-            $rand8 = mt_rand(0, 3141592) / 1000000;
+            $phaseX_1 = mt_rand(0, 314159) / 1000000;
+            $phaseX_2 = mt_rand(0, 314159) / 1000000;
+            $phaseY_1 = mt_rand(0, 314159) / 100000;
+            $phaseY_2 = mt_rand(0, 3141592) / 10000;
             // амплитуды
-            $rand9 = mt_rand(400, 600) / 100;
-            $rand10 = mt_rand(400, 600) / 100;
+            $amplitudesX = mt_rand(400, 600) / 100;
+            $amplitudesY = mt_rand(400, 600) / 100;
 
             for ($x = 0; $x < $width; $x++) {
                 for ($y = 0; $y < $height; $y++) {
-                    $sx = $x + (sin($x * $rand1 + $rand5) + sin($y * $rand3 + $rand6)) * $rand9;
-                    $sy = $y + (sin($x * $rand2 + $rand7) + sin($y * $rand4 + $rand8)) * $rand10;
+                    $sx = $x + (sin($x * $freqX_1 + $phaseX_1) + sin($y * $freqX_2 + $phaseX_2)) * $amplitudesX;
+                    $sy = $y + (sin($x * $freqY_1 + $phaseY_1) + sin($y * $freqY_2 + $phaseY_2)) * $amplitudesY;
 
                     if ($sx < 0 || $sy < 0 || $sx >= $width - 1 || $sy >= $height - 1) {
                         $red = 238;
