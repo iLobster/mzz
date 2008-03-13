@@ -34,7 +34,7 @@ class album extends simple
     {
         $photo = parent::__call('getMainPhoto', array());
 
-        if (!$real_data && !$photo->getId()) {
+        if (!$real_data && (!($photo instanceof simple) || !$photo->getId())) {
             return $this->getBestPhoto();
         }
 

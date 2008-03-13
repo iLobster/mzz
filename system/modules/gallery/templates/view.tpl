@@ -2,6 +2,31 @@
 {add file="prototype.js"}
 {add file="prototype_improvements.js"}
 {add file="scroller.js"}
+{add file="marker.css"}
+{add file="rectmarquee.js"}
+
+
+{literal}
+<script type="text/javascript">
+Event.observe(window, 'load', function () {
+    new Marquee('galleryPhoto', {toolbar: 'galleryPhotoTag', color: '#99f', opacity: 0.4});
+});
+</script>
+{/literal}
+
+<div id="galleryPhotoTag" style="z-index: 999; display: none; position: absolute; width: 180px;">
+    <img src="{$SITE_PATH}/templates/images/arrow_left.gif" width="9" height="17" alt="" style="float: left; margin-top: 8px;" />
+    <div style="float: right;border: 2px solid #555555; background-color: #FBFBFB; width: 167px;">
+        <div style="padding: 5px; background-color: #FCF8C9; border-bottom: 1px solid #F4E846;">Введите метку</div>
+            <div style="padding: 10px;">
+            Привет<br />
+            Мир<br />
+            </div>
+    </div>
+    <img src="{$SITE_PATH}/templates/images/arrow_right.gif" width="9" height="17" alt="" style="display: none; float: right; margin-top: 8px;" />
+    <div class="clear"></div>
+</div>
+
 <table border="0" cellpadding="0" cellspacing="5" width="99%">
     <tr valign="top">
         <td class="photoMainView"><h2 class="photoName">{$photo->getName()}{$photo->getJip()}</h2></td>
@@ -9,7 +34,7 @@
     </tr>
     <tr valign="top">
         <td class="photoMainView">
-            <img src="{if !$photo->getFile()}{$SITE_PATH}/files/gallery/notfound.jpg{else}{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo->getId() action="viewPhoto"}{/if}" alt="" /><br />
+            <img id="galleryPhoto" src="{if !$photo->getFile()}{$SITE_PATH}/files/gallery/notfound.jpg{else}{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo->getId() action="viewPhoto"}{/if}" alt="" /><br />
             {load module="comments" section="comments" action="list" id=$photo->getObjId() owner=$album->getGallery()->getOwner()->getId()}
         </td>
         <td>
