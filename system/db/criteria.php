@@ -675,6 +675,19 @@ class criteria
     {
         $this->distinct = (bool)$value;
     }
+
+    /**
+     * Отладка критерии
+     * Критерия конвертируется в SQL-запрос
+     *
+     */
+    public function debug()
+    {
+        $s = new simpleSelect($this);
+        echo "<pre>";
+        var_dump($s->toString());
+        echo "</pre>";
+    }
 }
 
 ?>

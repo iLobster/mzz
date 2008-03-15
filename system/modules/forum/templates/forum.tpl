@@ -22,7 +22,7 @@
                 <td style="width: 50%; border-bottom: 1px solid #EBEBEB;"><a href="{url route="withId" action="list" id=$forum->getId()}">{$forum->getTitle()}</a>{if $forum->getDescription()}<br /><font size="1px"><b>{$forum->getDescription()}</b></font>{/if}</td>
                 <td style="width: 7%;text-align: center; border-bottom: 1px solid #EBEBEB;">{$forum->getThreadsCount()}</td>
                 <td style="width: 7%;text-align: center; border-bottom: 1px solid #EBEBEB;">{$forum->getPostsCount()}</td>
-                <td style="width: 32%;border-bottom: 1px solid #EBEBEB;">{if $forum->getLastPost()->getId()}<a href="{url route="withId" action="last" id=$forum->getLastPost()->getThread()->getId()}">{$forum->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a><br />{$forum->getLastPost()->getAuthor()->getUser()->getLogin()}{else}Постов нет{/if}</td>
+                <td style="width: 32%;border-bottom: 1px solid #EBEBEB;">{if $forum->getLastPost()}<a href="{url route="withId" action="last" id=$forum->getLastPost()->getThread()->getId()}">{$forum->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a><br />{$forum->getLastPost()->getAuthor()->getUser()->getLogin()}{else}Постов нет{/if}</td>
             </tr>
         {/foreach}
     </table>
