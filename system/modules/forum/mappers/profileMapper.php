@@ -66,6 +66,7 @@ class profileMapper extends simpleMapper
         $profile = $this->create();
         $profile->setUser($user);
         $profile->setMessages(0);
+        $profile->setSignature('');
 
         $this->save($profile, $user);
 
