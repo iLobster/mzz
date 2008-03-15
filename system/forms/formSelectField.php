@@ -26,7 +26,7 @@ class formSelectField extends formElement
         $html = '';
         $value = isset($options['value']) ? $options['value'] : '';
 
-        if (isset($options['multiple']) && $options['multiple'] && substr($options['name'], -2) !== '[]') {
+        if (!empty($options['multiple']) && substr($options['name'], -2) !== '[]') {
             $options['name'] .= '[]';
         }
 
@@ -63,7 +63,7 @@ class formSelectField extends formElement
                     unset($text_array['content']);
                 }
 
-                if (isset($options['multiple']) && $options['multiple']) {
+                if (!empty($options['multiple'])) {
                     if ($value == null) {
                         $value = array();
                     } else {
@@ -99,7 +99,7 @@ class formSelectField extends formElement
                     foreach ($text_array['items'] as $key => $item) {
                         $item['value'] = $key;
 
-                        if ((string)$key == (string)$value || (isset($options['multiple']) && $options['multiple'] && $selected = in_array($key, $value))) {
+                        if ((string)$key == (string)$value || (!empty($options['multiple']) && $selected = in_array($key, $value))) {
                             $item['selected'] = 'selected';
                         }
 
