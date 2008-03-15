@@ -99,7 +99,7 @@ class formSelectField extends formElement
                     foreach ($text_array['items'] as $key => $item) {
                         $item['value'] = $key;
 
-                        if ((string)$key == (string)$value || ($options['multiple'] && $selected = in_array($key, $value))) {
+                        if ((string)$key == (string)$value || (isset($options['multiple']) && $options['multiple'] && $selected = in_array($key, $value))) {
                             $item['selected'] = 'selected';
                         }
 
