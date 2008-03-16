@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 class formCheckboxField extends formElement
 {
@@ -59,10 +59,16 @@ class formCheckboxField extends formElement
 
         $options['value'] = $values[1];
 
-        $checkbox = self::createTag($options);
+        $hidden = '';
+        if (!isset($options['nodefault']) || !$options['nodefault']) {
+            $optionsHidden = array('type' => 'hidden', 'name' => $options['name'], 'value' => $values[0]);
+            $hidden = self::createTag($optionsHidden);
+        }
+        if (isset($options['nodefault'])) {
+            unset($options['nodefault']);
+        }
 
-        $optionsHidden = array('type' => 'hidden', 'name' => $options['name'], 'value' => $values[0]);
-        $hidden = self::createTag($optionsHidden);
+        $checkbox = self::createTag($options);
 
         return $hidden . $checkbox . (isset($label) ? $label : '');
     }
