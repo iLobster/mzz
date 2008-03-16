@@ -155,7 +155,7 @@ abstract class simpleController
      * @param integer $roundItems число выводимых номеров страниц рядом с текущим (Например: ... 4 5 6 _7_ 8 9 10 ... -> $roundItems = 3)
      * @return pager
      */
-    protected function setPager($item, $per_page = 20, $reverse = false, $roundItems = 2)
+    public function setPager($item, $per_page = 20, $reverse = false, $roundItems = 2)
     {
         fileLoader::load('pager');
         $pager = new pager($this->request->getRequestUrl(), $this->request->getInteger('page', SC_REQUEST), $per_page, $roundItems, $reverse);

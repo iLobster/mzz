@@ -17,12 +17,15 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 class formRequiredRule extends formAbstractRule
 {
     public function validate()
     {
+        if (is_array($this->value)) {
+            return count($this->value) > 0;
+        }
         return trim($this->value) != '';
     }
 }
