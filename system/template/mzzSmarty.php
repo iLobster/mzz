@@ -27,7 +27,12 @@ fileLoader::load('template/plugins/function.add');
  */
 class mzzSmarty extends Smarty
 {
-    protected $lang;
+    /**
+     * Язык шаблона
+     *
+     * @var string
+     */
+    protected $lang = null;
 
     /**
      * Хранение объекта для работы с ресурсом
@@ -234,10 +239,10 @@ class mzzSmarty extends Smarty
 
     function _get_auto_filename($auto_base, $auto_source = null, $auto_id = null)
     {
-        if (empty($this->lang)) {
+        if (empty($this->lang) && systemConfig::$i18n) {
             $this->lang = systemToolkit::getInstance()->getLocale()->getName();
         }
-        return parent::_get_auto_filename($auto_base, $auto_source, $auto_id) . '-' . $this->lang;
+        return parent::_get_auto_filename($auto_base, $auto_source, $auto_id) . ($this->lang ? '-' . $this->lang : '');
     }
 }
 

@@ -5,8 +5,8 @@ function smarty_prefilter_i18n($tpl_source, &$smartyCompiler = null)
     static $callback = 'i18n::getMessage';
     static $generatorCallback = 'mzz_smarty_i18n_morph';
 
-    static $lang;
-    if (empty($lang)) {
+    static $lang = null;
+    if (empty($lang) && systemConfig::$i18n) {
         $lang = systemToolkit::getInstance()->getLocale()->getName();
     }
 
