@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage jip
- * @version 0.1.4
+ * @version 0.1.5
  */
 
 class jip
@@ -155,7 +155,7 @@ class jip
                 $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id));
                 $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
                 $item['icon'] = isset($item['icon']) ? SITE_PATH . $item['icon'] : '';
-                $item['lang'] = isset($item['lang']) ? (boolean)$item['lang'] : false;
+                $item['lang'] = (isset($item['lang']) && systemConfig::$i18nEnable) ? (boolean)$item['lang'] : false;
 
                 if (!isset($item['title'])) {
                     $item['title'] = '_ ' . $key;

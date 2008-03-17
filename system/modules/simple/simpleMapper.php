@@ -1006,9 +1006,9 @@ abstract class simpleMapper
      */
     public function getLangId()
     {
-        if (!systemConfig::$i18n) {
+        /*if (!systemConfig::$i18n) {
             return 0;
-        }
+        }*/
 
         if (empty($this->langId)) {
             $this->langId = systemToolkit::getInstance()->getLang();

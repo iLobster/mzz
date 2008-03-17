@@ -16,7 +16,7 @@
  * systemConfig: статический класс для хранения путей
  *
  * @package system
- * @version 0.2.1
+ * @version 0.2.2
  */
 class systemConfig
 {
@@ -67,11 +67,18 @@ class systemConfig
     public static $pathToTests;
 
     /**
-     * Приложение с i18n или без
+     * Дефолтный язык приложения
      *
-     * @var boolean|string
+     * @var string
      */
-    public static $i18n = false;
+    public static $i18n = 'en';
+
+    /**
+     * Мультиязычное приложение или нет
+     *
+     * @var boolean
+     */
+    public static $i18nEnable = false;
 
     /**
      * При вызове определяет и устанавливает путь до ядра

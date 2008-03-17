@@ -17,7 +17,7 @@ class urlTest extends unitTestCase
         $this->toolkit = systemToolkit::getInstance();
         $this->i18n_default = systemConfig::$i18n;
         $this->toolkit->setLocale();
-        systemConfig::$i18n = false;
+        systemConfig::$i18nEnable = false;
 
         $this->router = $this->toolkit->getRouter();
 
@@ -39,7 +39,7 @@ class urlTest extends unitTestCase
         $_SERVER['HTTP_HOST'] = 'localhost';
         $this->request = $this->toolkit->setRequest(new HttpRequest());
 
-        systemConfig::$i18n = false;
+        systemConfig::$i18nEnable = false;
     }
 
     public function tearDown()
@@ -47,7 +47,7 @@ class urlTest extends unitTestCase
         $_SERVER = $this->SERVER;
         $this->toolkit->setRequest($this->request);
 
-        systemConfig::$i18n = $this->i18n_default;
+        systemConfig::$i18nEnable = $this->i18n_default;
     }
 
     public function testUrlRoute()

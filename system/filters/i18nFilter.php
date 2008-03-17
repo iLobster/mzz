@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage filters
- * @version 0.1
+ * @version 0.1.1
  */
 class i18nFilter implements iFilter
 {
@@ -44,23 +44,28 @@ class i18nFilter implements iFilter
             $session->set($lastUserIdVarName, $me->getId());
         }
 
-        // смотрим в урле
-        if (!($language = $request->getString('lang'))) {
-            // смотрим в сессии
-            if (!($language = $session->get($sessionVarName))) {
-                // смотрим, есть ли в профиле пользователя
-                if ($language_id = $me->getLanguageId()) {
-                    $locale = locale::searchAll($language_id);
-                    $language = $locale->getName();
-                } else {
-                    // смотрим в куках
-                    if (!($language = $request->getString($sessionVarName, SC_COOKIE))) {
-                        // смотрим в заголовках
-                        // @todo: реализовать
-                        $language = systemConfig::$i18n;
+        // если приложение мультиязычное
+        if (systemConfig::$i18nEnable) {
+            // смотрим в урле
+            if (!($language = $request->getString('lang'))) {
+                // смотрим в сессии
+                if (!($language = $session->get($sessionVarName))) {
+                    // смотрим, есть ли в профиле пользователя
+                    if ($language_id = $me->getLanguageId()) {
+                        $locale = locale::searchAll($language_id);
+                        $language = $locale->getName();
+                    } else {
+                        // смотрим в куках
+                        if (!($language = $request->getString($sessionVarName, SC_COOKIE))) {
+                            // смотрим в заголовках
+                            // @todo: реализовать
+                            $language = systemConfig::$i18n;
+                        }
                     }
                 }
             }
+        } else {
+            $language = systemConfig::$i18n;
         }
 
         if ($session->get($sessionVarName) != $language) {

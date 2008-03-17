@@ -9,17 +9,17 @@ class requestRouteTest extends unitTestCase
 
     public function __construct()
     {
-        $this->i18n_default = systemConfig::$i18n;
+        $this->i18n_default = systemConfig::$i18nEnable;
     }
 
     public function setUp()
     {
-        systemConfig::$i18n = false;
+        systemConfig::$i18nEnable = false;
     }
 
     public function tearDown()
     {
-        systemConfig::$i18n = $this->i18n_default;
+        systemConfig::$i18nEnable = $this->i18n_default;
     }
 
     public function testSampleRoute()

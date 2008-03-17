@@ -29,7 +29,7 @@ fileLoader::load('request/iRoute');
  *
  * @package system
  * @subpackage request
- * @version 0.1.3
+ * @version 0.1.4
  */
 class requestRoute implements iRoute
 {
@@ -130,7 +130,7 @@ class requestRoute implements iRoute
         $this->defaults = $defaults;
         $this->requirements = $requirements;
         $this->debug = $debug;
-        $this->withLang = systemConfig::$i18n;
+        $this->withLang = systemConfig::$i18nEnable;
     }
 
     /**
@@ -302,7 +302,7 @@ class requestRoute implements iRoute
                         $url .= '/' . $key . '/' . $value;
                     }
                 } elseif (isset($this->defaults[$part['name']])) {
-                    if ($part['name'] == 'lang') {
+                    if ($part['name'] == 'lang' && $this->withLang) {
                         $url = $lang . $url;
                     } else {
                         $url = substr($url, 0, -1);
