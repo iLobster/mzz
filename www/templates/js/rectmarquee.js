@@ -54,7 +54,7 @@ Marquee.prototype = {
 			opacity: 0.75,
 			type:	'crop',		// window or crop, marquee or rect, other
 			allowResize: true,
-			allowHotKeys: true,
+			allowHotKeys: false,
 			hideEdges: false,
 			coords: {x1: 0, y1: 0, x2: 0, y2: 0, width: 0, height: 0}
 		}, arguments[1] || {});
@@ -93,9 +93,6 @@ Marquee.prototype = {
 		wind.onselectstart = this._bibb;
 		marquee.appendChild(wind);
 
-		// mzz modification
-
-		// end of mzz modification
 		var o1 = document.createElement('DIV');
 		o1.className = "marquee-opacity";
 		o1.mtype = this.OPACITY;
@@ -242,7 +239,8 @@ Marquee.prototype = {
 
 	    var toolbar = $(options.toolbar);
 	    if (toolbar) {
-	        this.toolbar = toolbar.remove();
+	        this.toolbar = toolbar.cloneNode(true);
+	        this.toolbar.id += id;
 	        marquee.parentNode.insert({after: this.toolbar});
 	    }
 	},
@@ -827,6 +825,9 @@ Marquee.prototype = {
 		var marquee = this.getMarquee(id);
 		Element.hide(marquee.parentNode);
 		this.setOption(id, 'hidden', true);
+
+		//var toolbar = $(this.getOption(id, 'toolbar') + id);
+	    if (this.toolbar) this.toolbar.remove();
 	},
 
 	show: function(id) {
