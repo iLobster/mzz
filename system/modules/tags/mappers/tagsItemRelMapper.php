@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.sandbox/repository/mzz/system/modules/tags/mappers/tagsItemRelMapper.php $
+ * $URL$
  *
  * MZZ Content Management System (c) 2007
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: tagsItemRelMapper.php 1121 2007-11-30 04:31:39Z zerkms $
+ * @version $Id$
  */
 
 fileLoader::load('tags/tagsItemRel');
