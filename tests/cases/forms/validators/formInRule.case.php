@@ -36,6 +36,24 @@ class formInRuleTest extends UnitTestCase
         $this->assertTrue($rule->validate());
     }
 
+    public function testInWithArray()
+    {
+        $_POST['foo'] = array('bar', 'baz');
+        $this->request->refresh();
+
+        $rule = new formInRule('array:foo', '', array('bar', 'baz'));
+        $this->assertTrue($rule->validate());
+    }
+
+    public function testNotInWithArray()
+    {
+        $_POST['foo'] = array('bar', 'baz');
+        $this->request->refresh();
+
+        $rule = new formInRule('array:foo', '', array('baz'));
+        $this->assertFalse($rule->validate());
+    }
+
     public function testNotIn()
     {
         $_POST['foo'] = 'foobar';

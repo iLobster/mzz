@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.1.1
  */
 class formInRule extends formAbstractRule
 {
@@ -31,7 +31,17 @@ class formInRule extends formAbstractRule
             throw new mzzInvalidParameterException('Ожидается массив', $this->params);
         }
 
-        return in_array($this->value, array_values($this->params));
+        if (!is_array($this->value)) {
+            $this->value = array($this->value);
+        }
+
+        foreach ($this->value as $value) {
+            if (!in_array($value, array_values($this->params))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 
