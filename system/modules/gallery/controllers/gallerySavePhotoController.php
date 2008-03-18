@@ -26,8 +26,31 @@ class gallerySavePhotoController extends simpleController
 {
     protected function getView()
     {
-        $albumMapper = $this->toolkit->getMapper('gallery', 'album');
         $photoMapper = $this->toolkit->getMapper('gallery', 'photo');
+        if ($this->request->getString('ajaxAction', SC_POST) === 'tag') {
+            $photo = $photoMapper->searchById($this->request->getInteger('id'));
+
+            if (!$photo) {
+                $photoMapper->get404()->run();
+            }
+
+            $obj_id = $photo->getObjId();
+            $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
+            $tagsItem = $tagsItemMapper->searchOneByField('item_obj_id', $obj_id);
+
+            if(!empty($tagsItem)) {
+                $tag = str_replace(',', ' ', $this->request->getString('tag', SC_POST)); // only one
+                $coords = $this->request->getString('coords', SC_POST);
+                $tagsItem->setTag($tag);
+                $tagsItem->setCoords($coords);
+                $tagsItemMapper->save($tagsItem);
+                return 1;
+            }
+
+            return $tagsItemMapper->get404()->run();
+        }
+
+        $albumMapper = $this->toolkit->getMapper('gallery', 'album');
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'editPhoto');

@@ -185,7 +185,7 @@ abstract class simpleMapper
         $this->db = DB::factory($this->dbAlias);
         $this->section = $section;
 
-        $this->table = $this->section . '_' .$this->className;
+        $this->table = $this->section . '_' . $this->className;
 
         if (!class_exists($this->simpleSelectName)) {
             fileLoader::load('db/' . $this->simpleSelectName);

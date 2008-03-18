@@ -40,9 +40,117 @@ class tagsItemMapper extends simpleMapper
 
     public function save($tagsItem, $user = null)
     {
+        $tag = $tagsItem->getTag();
+        if (!empty($tag)) {
+            $toolkit = systemToolkit::getInstance();
+            $tagsMapper = $toolkit->getMapper('tags', 'tags', 'tags');
+            $tagsItemRelMapper = $toolkit->getMapper('tags', 'tagsItemRel', 'tags');
+
+            // учитывается что если в базе iPod, ввели ipod, IPOD, сохраняется как iPod
+            $existed = $tagsMapper->searchTags((array)strtolower($tag));
+
+            if(!empty($existed)) {
+                $tags = $existed;
+            } else {
+                // создаем новые для базы теги
+                $tags = $tagsMapper->createTags($tag);
+            }
+
+            $tag = array_pop($tags);
+
+            // готовим массив с текущими тегами
+            $currentTags = $tagsItem->getTags();
+            foreach ($currentTags as $t) {
+                $currentTagsPlain[] = strtolower($t->getTag());
+            }
+
+            $coords = $tagsItem->getCoords();
+            if (!in_array(strtolower($tag->getTag()), $currentTagsPlain)) {
+                $tagItemRel = $tagsItemRelMapper->create();
+                $tagItemRel->setTag($tag);
+                $tagItemRel->setItem($tagsItem->getId());
+                $tagsItemRelMapper->save($tagItemRel);
+
+
+            }
+
+            if (!empty($coords)) {
+                if (!($tagItemRel instanceof simple)) {
+                    $tagItemRel = $tagsItemRelMapper->searchByTagAndItem($tag->getId(), $tagsItem->getId());
+                }
+                $qry = 'INSERT INTO `' . $this->section() . '_tagCoords` (`rel_id`, `x`, `y`, `w`, `h`) VALUES ';
+                $qry .= '(' . $tagItemRel->getId() . ', ' . $coords['x'] . ', ' . $coords['y'] . ', ' . $coords['w'] . ', ' . $coords['h'] . ')';
+                if (!$this->db->query($qry)) {
+                    throw new mzzRuntimeException("Can't save the tag's coords");
+                }
+            }
+
+        } else {
+            parent::save($tagsItem, $user);
+        }
+    }
+
+    /*
+
+
+
+
+
+
+
+
+            $currentTagsPlainLowString = array_map('strtolower', $currentTagsPlain);
+
+
+            // новые для объекта теги
+            $newTagsPlainLowString = array_diff($tagsPlainLowString, $currentTagsPlainLowString);
+            foreach(array_keys($newTagsPlainLowString) as $key) {
+                $newTagsPlain[$key] = $tags[$key];
+            }
+
+
+            // ищем новые для объекта теги и переводим их в объекты
+            $newTags = array();
+            if(!empty($newTagsPlain)) {
+                foreach ($existedTags as $key => $t) {
+                    if(in_array(strtolower($t->getTag()), $newTagsPlainLowString)) {
+                        $newTags[$key] = $t;
+                    }
+                }
+            }
+
+            $currentUser = $toolkit->getUser();
+
+            // новые теги = $newInBaseTags + $newTags
+            // связываем теги с сущностью
+            $allNewTags = array_merge($newInBaseTags, $newTags);
+            $coords = $tagsItem->getCoords();
+            foreach ($allNewTags as $tag) {
+                $tagItemRel = $tagsItemRelMapper->create();
+                $tagItemRel->setTag($tag);
+                $tagItemRel->setItem($tagsItem);
+                $tagsItemRelMapper->save($tagItemRel);
+
+                if (!empty($coords)) {
+                    $qry = 'INSERT INTO `' . $this->section() . '_tagCoords` (`rel_id`, `x`, `y`, `w`, `h`) VALUES ';
+                    $qry .= '(' . $tagItemRel->getId() . ', ' . $coords['x'] . ', ' . $coords['y'] . ', ' . $coords['w'] . ', ' . $coords['h'] . ')';
+                    if (!$this->db->query($qry)) {
+                        throw new mzzRuntimeException("Can't save the tag's coords");
+                    }
+                }
+            }
+
+    }*/
+
+
+
+    public function save______________________________________________________________($tagsItem, $user = null)
+    {
         $tags = $tagsItem->getNewTags();
         if (!is_null($tags)) {
-            $tagsItem->setTags(null);
+            if (!$tagsItem->isSingle()) {
+                $tagsItem->setTags(null);
+            }
             $toolkit = systemToolkit::getInstance();
             $tagsPlainLowString = array_map('strtolower', $tags);
             $tagsMapper = $toolkit->getMapper('tags', 'tags', 'tags');
@@ -119,24 +227,35 @@ class tagsItemMapper extends simpleMapper
             // новые теги = $newInBaseTags + $newTags
             // связываем теги с сущностью
             $allNewTags = array_merge($newInBaseTags, $newTags);
+            $coords = $tagsItem->getCoords();
             foreach ($allNewTags as $tag) {
                 $tagItemRel = $tagsItemRelMapper->create();
                 $tagItemRel->setTag($tag);
                 $tagItemRel->setItem($tagsItem);
                 $tagsItemRelMapper->save($tagItemRel);
+
+                if (!empty($coords)) {
+                    $qry = 'INSERT INTO `' . $this->section() . '_tagCoords` (`rel_id`, `x`, `y`, `w`, `h`) VALUES ';
+                    $qry .= '(' . $tagItemRel->getId() . ', ' . $coords['x'] . ', ' . $coords['y'] . ', ' . $coords['w'] . ', ' . $coords['h'] . ')';
+                    if (!$this->db->query($qry)) {
+                        throw new mzzRuntimeException("Can't save the tag's coords");
+                    }
+                }
             }
 
-            // вычисляем удаленные теги
-            // удаляем связи
-            $currentTagsKeys = array_keys($currentTags);
-            $existedTagsKeys = array_keys($existedTags);
-            $deletedTagsKeys = array_diff($currentTagsKeys, $existedTagsKeys);
+            if (!$tagsItem->isSingle()) {
+                // вычисляем удаленные теги
+                // удаляем связи
+                $currentTagsKeys = array_keys($currentTags);
+                $existedTagsKeys = array_keys($existedTags);
+                $deletedTagsKeys = array_diff($currentTagsKeys, $existedTagsKeys);
 
-            // @todo подумать о личных, общих тэгах. Что удалять, как удалять?
+                // @todo подумать о личных, общих тэгах. Что удалять, как удалять?
 
-            if(!empty($deletedTagsKeys)) {
-                foreach($deletedTagsKeys as $key) {
-                    $tagsItemRelMapper->deleteByTagAndItem($key, $tagsItem);
+                if(!empty($deletedTagsKeys)) {
+                    foreach($deletedTagsKeys as $key) {
+                        $tagsItemRelMapper->deleteByTagAndItem($key, $tagsItem);
+                    }
                 }
             }
 

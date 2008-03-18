@@ -46,7 +46,7 @@ class tagsMapper extends simpleMapper
      */
     public function createTags($tags)
     {
-        foreach($tags as $tagName) {
+        foreach((array)$tags as $tagName) {
             $t = $this->create();
             $t->setTag(trim($tagName));
             $this->save($t);
@@ -74,7 +74,6 @@ class tagsMapper extends simpleMapper
         $criteria = new criteria();
         $criterion = new criterion('tag', $tags, criteria::IN);
         $criteria->add($criterion);
-        $s = new simpleSelect($criteria);
         return $this->searchAllByCriteria($criteria);
     }
 

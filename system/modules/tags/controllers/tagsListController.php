@@ -25,6 +25,7 @@ class tagsListController extends simpleController
     public function getView()
     {
         $obj_id = $this->request->getInteger('parent_id');
+        $coords = $this->request->getBoolean('coords');
         $search = $this->request->getString('tags', SC_POST);
         $section = $this->request->getRequestedSection();
 
@@ -35,7 +36,7 @@ class tagsListController extends simpleController
         } else {
             $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
             $tagsItem = $tagsItemMapper->searchOneByField('item_obj_id', $obj_id);
-            $tags = $tagsItem->getTags();
+            $tags = $tagsItem->getTags($coords);
         }
 
 

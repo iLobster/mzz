@@ -41,12 +41,17 @@ class galleryViewController extends simpleController
         $photo_id = $this->request->getInteger('id');
         $photo = $photoMapper->searchById($photo_id);
 
+        $url = new url('withId');
+        $url->setAction('editPhoto');
+        $url->add('id', $photo_id);
+
         $photos = $album->getPhotos();
 
         $this->smarty->assign('photo', $photo);
         $this->smarty->assign('album', $album);
         $this->smarty->assign('user', $user);
         $this->smarty->assign('photos', $photos);
+        $this->smarty->assign('tagLink', $url->get());
         return $this->smarty->fetch('gallery/view.tpl');
     }
 }

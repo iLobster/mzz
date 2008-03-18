@@ -78,6 +78,36 @@ class tagsItemRelMapper extends simpleMapper
 
     }
 
+    public function searchByTagAndItem($tag_id, $item_id)
+    {
+        if ($tag_id instanceof simple) {
+            $tag_id = $tag_id->getId();
+        }
+
+        if ($item_id instanceof simple) {
+            $item_id = $item_id->getId();
+        }
+
+        $criteria = new criteria();
+        $criteria->add('tag_id', $tag_id);
+        $criteria->add('item_id', $item_id);
+        return $this->searchOneByCriteria($criteria);
+    }
+
+    public function getTagCoords($rel_id)
+    {
+        $criteria = new criteria($this->section . '_' . $this->className);
+        $criteria->add('rel_id', (int)$rel_id);
+
+        $select = new $this->simpleSelectName($criteria);
+        $stmt = $this->db->query($select->toString());
+        $row = $stmt->fetch();
+
+        $criteria->debug();
+        //echo '<br><pre>'; var_dump($select->toString()); echo '<br></pre>';
+        return $row;
+    }
+
     /**
      * Возвращает доменный объект по аргументам
      *

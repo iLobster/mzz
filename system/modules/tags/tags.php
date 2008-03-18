@@ -23,7 +23,7 @@
 class tags extends simple
 {
     protected $name = 'tags';
-
+    protected $coords = array();
 
     /**
      * Количество вхождений тега
@@ -48,6 +48,15 @@ class tags extends simple
         return $weight;
     }
 
+    public function setCoords(array $coords)
+    {
+        $this->coords = $coords;
+    }
+
+    public function getCoords()
+    {
+        return $this->coords;
+    }
 
 }
 
