@@ -47,7 +47,7 @@ class tagsItemMapper extends simpleMapper
             $tagsItemRelMapper = $toolkit->getMapper('tags', 'tagsItemRel', 'tags');
 
             // учитывается что если в базе iPod, ввели ipod, IPOD, сохраняется как iPod
-            $existed = $tagsMapper->searchTags((array)strtolower($tag));
+            $existed = $tagsMapper->searchTags($tag);
 
             if(!empty($existed)) {
                 $tags = $existed;
@@ -60,25 +60,24 @@ class tagsItemMapper extends simpleMapper
 
             // готовим массив с текущими тегами
             $currentTags = $tagsItem->getTags();
+            $currentTagsPlain = array();
             foreach ($currentTags as $t) {
-                $currentTagsPlain[] = strtolower($t->getTag());
+                $currentTagsPlain[$t->getId()] = strtolower($t->getTag());
             }
 
             $coords = $tagsItem->getCoords();
-            if (!in_array(strtolower($tag->getTag()), $currentTagsPlain)) {
+            if (($tagId = array_search(strtolower($tag->getTag()), $currentTagsPlain)) === false) {
                 $tagItemRel = $tagsItemRelMapper->create();
                 $tagItemRel->setTag($tag);
                 $tagItemRel->setItem($tagsItem->getId());
                 $tagsItemRelMapper->save($tagItemRel);
-
-
             }
 
             if (!empty($coords)) {
-                if (!($tagItemRel instanceof simple)) {
-                    $tagItemRel = $tagsItemRelMapper->searchByTagAndItem($tag->getId(), $tagsItem->getId());
+                if (empty($tagItemRel) || !($tagItemRel instanceof simple)) {
+                    $tagItemRel = $tagsItemRelMapper->searchByTagAndItem($tagId, $tagsItem->getId());
                 }
-                $qry = 'INSERT INTO `' . $this->section() . '_tagCoords` (`rel_id`, `x`, `y`, `w`, `h`) VALUES ';
+                $qry = 'REPLACE INTO `' . $this->section() . '_tagCoords` (`rel_id`, `x`, `y`, `w`, `h`) VALUES ';
                 $qry .= '(' . $tagItemRel->getId() . ', ' . $coords['x'] . ', ' . $coords['y'] . ', ' . $coords['w'] . ', ' . $coords['h'] . ')';
                 if (!$this->db->query($qry)) {
                     throw new mzzRuntimeException("Can't save the tag's coords");
@@ -90,61 +89,10 @@ class tagsItemMapper extends simpleMapper
         }
     }
 
-    /*
 
 
 
-
-
-
-
-
-            $currentTagsPlainLowString = array_map('strtolower', $currentTagsPlain);
-
-
-            // новые для объекта теги
-            $newTagsPlainLowString = array_diff($tagsPlainLowString, $currentTagsPlainLowString);
-            foreach(array_keys($newTagsPlainLowString) as $key) {
-                $newTagsPlain[$key] = $tags[$key];
-            }
-
-
-            // ищем новые для объекта теги и переводим их в объекты
-            $newTags = array();
-            if(!empty($newTagsPlain)) {
-                foreach ($existedTags as $key => $t) {
-                    if(in_array(strtolower($t->getTag()), $newTagsPlainLowString)) {
-                        $newTags[$key] = $t;
-                    }
-                }
-            }
-
-            $currentUser = $toolkit->getUser();
-
-            // новые теги = $newInBaseTags + $newTags
-            // связываем теги с сущностью
-            $allNewTags = array_merge($newInBaseTags, $newTags);
-            $coords = $tagsItem->getCoords();
-            foreach ($allNewTags as $tag) {
-                $tagItemRel = $tagsItemRelMapper->create();
-                $tagItemRel->setTag($tag);
-                $tagItemRel->setItem($tagsItem);
-                $tagsItemRelMapper->save($tagItemRel);
-
-                if (!empty($coords)) {
-                    $qry = 'INSERT INTO `' . $this->section() . '_tagCoords` (`rel_id`, `x`, `y`, `w`, `h`) VALUES ';
-                    $qry .= '(' . $tagItemRel->getId() . ', ' . $coords['x'] . ', ' . $coords['y'] . ', ' . $coords['w'] . ', ' . $coords['h'] . ')';
-                    if (!$this->db->query($qry)) {
-                        throw new mzzRuntimeException("Can't save the tag's coords");
-                    }
-                }
-            }
-
-    }*/
-
-
-
-    public function save______________________________________________________________($tagsItem, $user = null)
+    public function save_($tagsItem, $user = null)
     {
         $tags = $tagsItem->getNewTags();
         if (!is_null($tags)) {

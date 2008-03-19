@@ -43,12 +43,12 @@ class tagsListController extends simpleController
         $this->smarty->assign('section', $section);
         $this->smarty->assign('item_obj_id', $obj_id);
 
-        if(empty($tags)) {
-            return $this->smarty->fetch('tags/notags.tpl');
-        } else {
+        //if(empty($tags)) {
+            //return $this->smarty->fetch('tags/notags.tpl');
+        //} else {
             $this->smarty->assign('tags', $tags);
             return $this->smarty->fetch('tags/list' . ($obj_id ? '' : 'All') . '.tpl');
-        }
+        //}
 
     }
 }

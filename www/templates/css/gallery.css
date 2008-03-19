@@ -106,3 +106,9 @@ div.photoAddonDescription ul {
   margin: 0;
   padding-left: 20px;
 }
+
+#tagDoneButton {
+  background-color: #E8FFE8;
+  border: 1px solid #009B00;
+  padding: 4px;
+}

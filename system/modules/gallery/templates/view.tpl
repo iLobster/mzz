@@ -8,9 +8,12 @@
 
 {literal}
 <script type="text/javascript">
-
-function createMarqueeTool()  {
-    MarqueeTool = new Marquee('galleryPhoto', {toolbar: 'galleryPhotoTag', color: '#444', opacity: 0.4});
+var imageId = 'galleryPhoto';
+var MarqueeTool = null;
+function createMarqueeTool()
+{
+    $('tagDoneButton').show();
+    MarqueeTool = new Marquee(imageId, {toolbar: imageId + 'Tag', color: '#444', opacity: 0.4});
 
     MarqueeTool.setOnUpdateCallback(function () {
         var coords = MarqueeTool.getCoords();
@@ -20,17 +23,36 @@ function createMarqueeTool()  {
         }
     });
 }
-var MarqueeTool = null;
+
+function destroyMarqueeTool()
+{
+    if (!MarqueeTool) return;
+    MarqueeTool.hide();
+    MarqueeTool = null;
+}
+
 //Event.observe(window, 'load', createMarqueeTool);
 function gallerySaveTag(form)
 {
+    form = $(form);
+    var coords = $F('tagCoords').split(',');
     $('tagSaveError').update('');
     var div = form.up('div');
     var content = div.innerHTML;
     div.update('Подождите...');
-    $(form).request({
-        onComplete: function(transport){ //alert(transport.responseText);
-            if (transport.responseText.match(/^1$/)) { MarqueeTool.hide(); MarqueeTool = null; }
+    form.request({
+        onComplete: function(transport) {// alert(transport.responseText);
+            if (transport.responseText.match(/^1$/)) {
+
+                tagCoords[tagCoords.length] = [parseInt(coords[0]), parseInt(coords[1]), parseInt(coords[0]) + parseInt(coords[2]), parseInt(coords[1]) + parseInt(coords[3]), $F(form.getInputs('text', 'tag')[0])];
+                //alert(tagCoords[tagCoords.length-1]);
+
+                var newTag = new Template(newTagTpl);
+                var vars = {x: coords[0], y: coords[1], w: coords[2], h: coords[3], tag: $F(form.getInputs('text', 'tag')[0])};
+                $($$('div.tagList')[0]).insert((tagCoords.length > 1 ? ', ' : '') + newTag.evaluate(vars));
+                destroyMarqueeTool();
+                createMarqueeTool();
+            }
             else {
                 div.update(content);
                 $('tagSaveError').update('Ошибка! Метка не сохранена. <br />');
@@ -48,8 +70,12 @@ function gallerySaveTag(form)
         <td>&nbsp;</td>
     </tr>
     <tr valign="top">
+        <td id="tagDoneButton" style="display: none;">Когда закончите отмечать нажмите <input type="button" value="Готово" onclick="destroyMarqueeTool(); $('tagDoneButton').hide();" /></td>
+        <td></td>
+    </tr>
+    <tr valign="top">
         <td class="photoMainView">
-        <span style="position: absolute; display: none; background-color: #fff; border: 1px solid black; padding: 3px;"></span>
+            <span style="position: absolute; display: none; background-color: #fff; border: 1px solid black; padding: 3px;" ></span>
             <img id="galleryPhoto" src="{if !$photo->getFile()}{$SITE_PATH}/files/gallery/notfound.jpg{else}{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo->getId() action="viewPhoto"}{/if}" alt="" /><br />
 
             {load module="comments" section="comments" action="list" id=$photo->getObjId() owner=$album->getGallery()->getOwner()->getId()}
