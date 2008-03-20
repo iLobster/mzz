@@ -46,7 +46,7 @@ class fileManagerEditFolderController extends simpleController
 
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);
-            $title = $this->request->getString('title', 'string', SC_POST);
+            $title = $this->request->getString('title', SC_POST);
             $exts = $this->request->getString('exts', SC_POST);
             $filesize = $this->request->getInteger('filesize', SC_POST);
 

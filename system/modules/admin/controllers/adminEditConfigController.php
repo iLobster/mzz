@@ -44,7 +44,7 @@ class adminEditConfigController extends simpleController
 
         if ($validator->validate() /*$this->request->getMethod() == 'POST'*/) {
             $cfg = $this->request->getArray('config', SC_POST);
-            $config = $this->toolkit->getConfig($section_name, $module_name);
+            $config = $this->toolkit->getConfig($module_name, $section_name);
             $config->set($cfg);
 
             return jipTools::closeWindow();
