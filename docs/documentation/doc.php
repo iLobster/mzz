@@ -2,8 +2,8 @@
 /**
  * подсветка для кода: <!-- тип code номер -->
  * для inline-кода: <<code тип>>код<</code>>
- * для отображения html-примеров: <<example>><strong>пример</strong><</example>>
  * Имеются следующие типы: apache, bash, css, html, ini, javascript, mysql, php, smarty, sql, xml
+ * для отображения html-примеров: <<example>><strong>пример</strong><</example>>
  *
  */
 
@@ -550,7 +550,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $link = trim($meta[0]);
                 $id = $_REQUEST['cat'] . '.' . $link;
                 $num = $i++;
-                echo '<div class="subtitle"><a name="' . $id . '"></a><span class="titleNumber">Part ' . $num . '.</span> ' . $title . '</div>';
+                echo '<div class="subtitle"><a name="' . $id . '"></a><span class="titleNumber">' . $num . '.</span> ' . $title . '</div>';
                 echo render($id);
             }
         } else {
