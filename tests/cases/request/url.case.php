@@ -61,6 +61,13 @@ class urlTest extends unitTestCase
         $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/foo/val1/val2/bar');
     }
 
+    public function testWithoutAddress()
+    {
+        $url = new url('default');
+        $url->disableAddress();
+        $this->assertEqual($url->get(),  SITE_PATH);
+    }
+
     public function testUrlHttpsWithoutParams()
     {
         $_SERVER['HTTPS'] = 'on';
