@@ -70,7 +70,7 @@ class formCheckboxField extends formElement
 
         $checkbox = self::createTag($options);
 
-        return $hidden . $checkbox . (isset($label) ? $label : '');
+        return $hidden . $checkbox . (isset($label) ? ' ' . $label : '');
     }
 }
 

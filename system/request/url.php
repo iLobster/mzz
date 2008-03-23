@@ -84,7 +84,7 @@ class url
             throw new mzzRuntimeException($error);
         }
 
-        $address = $this->withAddress ? $request->getUrl() : '';
+        $address = $this->withAddress ? $request->getUrl() : SITE_PATH;
         $this->params  = $this->getParams();
 
         if ($lang_id = $request->getInteger('lang_id', SC_GET)) {
