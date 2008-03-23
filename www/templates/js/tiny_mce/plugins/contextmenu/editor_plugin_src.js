@@ -16,8 +16,10 @@
 			t.onContextMenu = new tinymce.util.Dispatcher(this);
 
 			ed.onContextMenu.add(function(ed, e) {
-				t._getMenu(ed).showMenu(e.clientX, e.clientY);
-				Event.cancel(e);
+				if (!e.ctrlKey) {
+					t._getMenu(ed).showMenu(e.clientX, e.clientY);
+					Event.cancel(e);
+				}
 			});
 
 			function hide() {
@@ -33,7 +35,7 @@
 		},
 
 		_getMenu : function(ed) {
-			var t = this, m = t._menu, se = ed.selection, col = se.isCollapsed(), el = se.getNode() || ed.getBody(), am;
+			var t = this, m = t._menu, se = ed.selection, col = se.isCollapsed(), el = se.getNode() || ed.getBody(), am, p1, p2;
 
 			if (m) {
 				m.removeAll();

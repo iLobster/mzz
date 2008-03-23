@@ -160,12 +160,11 @@
 				// Cleanup Word content
 				var bull = String.fromCharCode(8226);
 				var middot = String.fromCharCode(183);
-				var cb;
 
-				if ((cb = this.editor.getParam("paste_insert_word_content_callback", "")) != "")
-					content = eval(cb + "('before', content)");
+				if (ed.getParam('paste_insert_word_content_callback'))
+					content = ed.execCallback('paste_insert_word_content_callback', 'before', content);
 
-				var rl = this.editor.getParam("paste_replace_list", '\u2122,<sup>TM</sup>,\u2026,...,\u201c|\u201d,",\u2019,\',\u2013|\u2014|\u2015|\u2212,-').split(',');
+				var rl = ed.getParam("paste_replace_list", '\u2122,<sup>TM</sup>,\u2026,...,\u201c|\u201d,",\u2019,\',\u2013|\u2014|\u2015|\u2212,-').split(',');
 				for (var i=0; i<rl.length; i+=2)
 					content = content.replace(new RegExp(rl[i], 'gi'), rl[i+1]);
 
@@ -245,8 +244,8 @@
 
 				content = content.replace(/--list--/gi, ""); // Remove --list--
 
-				if ((cb = this.editor.getParam("paste_insert_word_content_callback", "")) != "")
-					content = eval(cb + "('after', content)");
+				if (ed.getParam('paste_insert_word_content_callback'))
+					content = ed.execCallback('paste_insert_word_content_callback', 'after', content);
 
 				// Insert cleaned content
 				this.editor.execCommand("mceInsertContent", false, content);
@@ -278,28 +277,27 @@
 		},
 
 		_convertMiddots : function(div, search, class_name) {
-			var mdot = String.fromCharCode(183);
-			var bull = String.fromCharCode(8226);
+			var ed = this.editor, mdot = String.fromCharCode(183), bull = String.fromCharCode(8226);
+			var nodes, prevul, i, p, ul, li, np, cp, li;
 
-			var nodes = div.getElementsByTagName("p");
-			var prevul;
-			for (var i=0; i<nodes.length; i++) {
-				var p = nodes[i];
+			nodes = div.getElementsByTagName("p");
+			for (i=0; i<nodes.length; i++) {
+				p = nodes[i];
 
 				// Is middot
 				if (p.innerHTML.indexOf(search) == 0) {
-					var ul = document.createElement("ul");
+					ul = ed.dom.create("ul");
 
 					if (class_name)
 						ul.className = class_name;
 
 					// Add the first one
-					var li = document.createElement("li");
+					li = ed.dom.create("li");
 					li.innerHTML = p.innerHTML.replace(new RegExp('' + mdot + '|' + bull + '|--list--|&nbsp;', "gi"), '');
 					ul.appendChild(li);
 
 					// Add the rest
-					var np = p.nextSibling;
+					np = p.nextSibling;
 					while (np) {
 						// If the node is whitespace, then
 						// ignore it and continue on.
@@ -313,7 +311,7 @@
 										// Second level of nesting
 										if (!prevul) {
 												prevul = ul;
-												ul = document.createElement("ul");
+												ul = ed.dom.create("ul");
 												prevul.appendChild(ul);
 										}
 										np.innerHTML = np.innerHTML.replace(/^o/, '');
@@ -333,8 +331,8 @@
 										break;
 							}
 
-						var cp = np.nextSibling;
-						var li = document.createElement("li");
+						cp = np.nextSibling;
+						li = ed.dom.create("li");
 						li.innerHTML = np.innerHTML.replace(new RegExp('' + mdot + '|' + bull + '|--list--|&nbsp;', "gi"), '');
 						np.parentNode.removeChild(np);
 						ul.appendChild(li);

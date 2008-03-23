@@ -9,6 +9,8 @@
 {literal}<script type="text/javascript">
 tinyMCE.init({
         theme : "advanced",
+        skin : 'o2k7',
+        skin_variant : "silver",
         mode : "none",
         plugins : "style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
         language : "ru",
