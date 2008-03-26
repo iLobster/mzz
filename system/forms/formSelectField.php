@@ -113,6 +113,8 @@ class formSelectField extends formElement
                     $html .= self::createTag($options_for_tag, 'option');
                 }
             }
+            unset($options['keyMethod']);
+            unset($options['valueMethod']);
         } elseif (!empty($options['options']) && is_scalar($options['options'])) {
             $html .= self::createTag(array('content' => $options['options'], 'value' => null), 'option');
         }

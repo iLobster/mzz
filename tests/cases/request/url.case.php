@@ -65,7 +65,7 @@ class urlTest extends unitTestCase
     {
         $url = new url('default');
         $url->disableAddress();
-        $this->assertEqual($url->get(),  SITE_PATH);
+        $this->assertEqual($url->get(), SITE_PATH);
     }
 
     public function testUrlHttpsWithoutParams()
