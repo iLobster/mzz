@@ -27,14 +27,14 @@ USE `mzz`;
 DROP TABLE IF EXISTS `catalogue_catalogue`;
 
 CREATE TABLE `catalogue_catalogue` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `type_id` int(11) unsigned DEFAULT NULL,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `editor` int(11) DEFAULT NULL,
-  `created` int(11) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  `folder_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `name` varchar(255) NOT NULL default '',
+  `editor` int(11) default NULL,
+  `created` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  `folder_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
   KEY `folder_id` (`folder_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
@@ -64,14 +64,14 @@ COMMIT;
 DROP TABLE IF EXISTS `catalogue_catalogueFolder`;
 
 CREATE TABLE `catalogue_catalogueFolder` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` int(11) NOT NULL DEFAULT '0',
-  `name` char(255) DEFAULT NULL,
-  `title` char(255) DEFAULT NULL,
-  `default_type` int(10) unsigned NOT NULL DEFAULT '0',
-  `parent` int(11) DEFAULT '0',
-  `path` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) NOT NULL default '0',
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `default_type` int(10) unsigned NOT NULL default '0',
+  `parent` int(11) default '0',
+  `path` char(255) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 #
@@ -94,11 +94,11 @@ COMMIT;
 DROP TABLE IF EXISTS `catalogue_catalogueFolder_tree`;
 
 CREATE TABLE `catalogue_catalogueFolder_tree` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `lkey` int(10) NOT NULL DEFAULT '0',
-  `rkey` int(10) NOT NULL DEFAULT '0',
-  `level` int(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
@@ -124,13 +124,13 @@ COMMIT;
 DROP TABLE IF EXISTS `catalogue_catalogue_data`;
 
 CREATE TABLE `catalogue_catalogue_data` (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `property_type` int(11) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL default '0',
+  `property_type` int(11) unsigned NOT NULL,
   `text` text,
-  `char` varchar(255) DEFAULT NULL,
-  `int` int(11) DEFAULT NULL,
-  `float` float(9,3) DEFAULT NULL,
-  UNIQUE KEY `id` (`id`,`property_type`)
+  `char` varchar(255) default NULL,
+  `int` int(11) default NULL,
+  `float` float(9,3) default NULL,
+  PRIMARY KEY  (`id`,`property_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
@@ -185,12 +185,12 @@ COMMIT;
 DROP TABLE IF EXISTS `catalogue_catalogue_properties`;
 
 CREATE TABLE `catalogue_catalogue_properties` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `type_id` int(11) unsigned DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) default NULL,
+  `type_id` int(11) unsigned default NULL,
   `args` text,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY  (`id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
@@ -222,10 +222,10 @@ COMMIT;
 DROP TABLE IF EXISTS `catalogue_catalogue_properties_types`;
 
 CREATE TABLE `catalogue_catalogue_properties_types` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 #
@@ -252,10 +252,10 @@ COMMIT;
 DROP TABLE IF EXISTS `catalogue_catalogue_types`;
 
 CREATE TABLE `catalogue_catalogue_types` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  `title` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 #
@@ -277,13 +277,13 @@ COMMIT;
 DROP TABLE IF EXISTS `catalogue_catalogue_types_props`;
 
 CREATE TABLE `catalogue_catalogue_types_props` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `type_id` int(11) unsigned DEFAULT NULL,
-  `property_id` int(11) unsigned DEFAULT NULL,
-  `sort` int(11) unsigned DEFAULT '0',
-  `isFull` tinyint(1) NOT NULL DEFAULT '1',
-  `isShort` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `property_id` int(11) unsigned default NULL,
+  `sort` int(11) unsigned default '0',
+  `isFull` tinyint(1) NOT NULL default '1',
+  `isShort` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`),
   KEY `property_id` (`property_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
@@ -316,13 +316,13 @@ COMMIT;
 DROP TABLE IF EXISTS `comments_comments`;
 
 CREATE TABLE `comments_comments` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `obj_id` int(11) unsigned DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `obj_id` int(11) unsigned default NULL,
   `text` text,
-  `author` int(11) unsigned DEFAULT NULL,
-  `time` int(11) unsigned DEFAULT NULL,
-  `folder_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `author` int(11) unsigned default NULL,
+  `time` int(11) unsigned default NULL,
+  `folder_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 #
@@ -341,10 +341,10 @@ COMMIT;
 DROP TABLE IF EXISTS `comments_commentsFolder`;
 
 CREATE TABLE `comments_commentsFolder` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `obj_id` int(11) unsigned DEFAULT NULL,
-  `parent_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `obj_id` int(11) unsigned default NULL,
+  `parent_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
   KEY `parent_id` (`parent_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
@@ -395,12 +395,12 @@ COMMIT;
 DROP TABLE IF EXISTS `faq_faq`;
 
 CREATE TABLE `faq_faq` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `question` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `question` varchar(255) default NULL,
   `answer` text,
-  `category_id` int(10) unsigned DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `category_id` int(10) unsigned default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
@@ -420,11 +420,11 @@ COMMIT;
 DROP TABLE IF EXISTS `faq_faqCategory`;
 
 CREATE TABLE `faq_faqCategory` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  `title` char(255) DEFAULT NULL,
-  `obj_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `obj_id` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
@@ -443,20 +443,20 @@ COMMIT;
 DROP TABLE IF EXISTS `fileManager_file`;
 
 CREATE TABLE `fileManager_file` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `realname` varchar(255) DEFAULT 'имя в фс в каталоге на сервере',
-  `name` varchar(255) DEFAULT 'имя с которым файл будет отдаваться клиенту',
-  `ext` varchar(20) DEFAULT NULL,
-  `size` int(11) DEFAULT NULL,
-  `modified` int(11) DEFAULT NULL,
-  `downloads` int(11) DEFAULT NULL,
-  `right_header` tinyint(4) DEFAULT NULL,
-  `direct_link` int(11) DEFAULT '0',
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `realname` varchar(255) default 'имя в фс в каталоге на сервере',
+  `name` varchar(255) default 'имя с которым файл будет отдаваться клиенту',
+  `ext` varchar(20) default NULL,
+  `size` int(11) default NULL,
+  `modified` int(11) default NULL,
+  `downloads` int(11) default NULL,
+  `right_header` tinyint(4) default NULL,
+  `direct_link` int(11) default '0',
   `about` text,
-  `folder_id` int(11) unsigned DEFAULT NULL,
-  `obj_id` int(11) unsigned DEFAULT NULL,
-  `storage_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `folder_id` int(11) unsigned default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  `storage_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`,`name`,`ext`)
 ) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
@@ -484,15 +484,15 @@ COMMIT;
 DROP TABLE IF EXISTS `fileManager_folder`;
 
 CREATE TABLE `fileManager_folder` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  `title` char(255) DEFAULT NULL,
-  `parent` int(11) unsigned DEFAULT NULL,
-  `path` char(255) DEFAULT NULL,
-  `obj_id` int(11) unsigned DEFAULT NULL,
-  `filesize` int(11) unsigned DEFAULT NULL,
-  `exts` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `parent` int(11) unsigned default NULL,
+  `path` char(255) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  `filesize` int(11) unsigned default NULL,
+  `exts` char(255) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 #
@@ -513,11 +513,11 @@ COMMIT;
 DROP TABLE IF EXISTS `fileManager_folder_tree`;
 
 CREATE TABLE `fileManager_folder_tree` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `lkey` int(10) NOT NULL DEFAULT '0',
-  `rkey` int(10) NOT NULL DEFAULT '0',
-  `level` int(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
@@ -541,11 +541,11 @@ COMMIT;
 DROP TABLE IF EXISTS `fileManager_storage`;
 
 CREATE TABLE `fileManager_storage` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  `path` char(255) DEFAULT NULL,
-  `web_path` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `path` char(255) default NULL,
+  `web_path` char(255) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
@@ -564,11 +564,11 @@ COMMIT;
 DROP TABLE IF EXISTS `forum_category`;
 
 CREATE TABLE `forum_category` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` char(255) DEFAULT NULL,
-  `order` int(11) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  `order` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 #
@@ -588,16 +588,16 @@ COMMIT;
 DROP TABLE IF EXISTS `forum_forum`;
 
 CREATE TABLE `forum_forum` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` char(255) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `order` int(11) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  `threads_count` int(11) DEFAULT '0',
-  `posts_count` int(11) DEFAULT '0',
-  `last_post` int(11) DEFAULT NULL,
-  `description` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  `category_id` int(11) default NULL,
+  `order` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  `threads_count` int(11) default '0',
+  `posts_count` int(11) default '0',
+  `last_post` int(11) default NULL,
+  `description` char(255) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 #
@@ -618,14 +618,14 @@ COMMIT;
 DROP TABLE IF EXISTS `forum_post`;
 
 CREATE TABLE `forum_post` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL auto_increment,
   `text` text,
-  `author` int(11) DEFAULT NULL,
-  `post_date` int(11) DEFAULT NULL,
-  `edit_date` int(11) DEFAULT NULL,
-  `thread_id` int(11) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `author` int(11) default NULL,
+  `post_date` int(11) default NULL,
+  `edit_date` int(11) default NULL,
+  `thread_id` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `thread_id` (`thread_id`,`id`),
   KEY `post_date` (`post_date`,`thread_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
@@ -658,11 +658,11 @@ COMMIT;
 DROP TABLE IF EXISTS `forum_profile`;
 
 CREATE TABLE `forum_profile` (
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `messages` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL default '0',
+  `messages` int(11) NOT NULL default '0',
   `signature` text NOT NULL,
-  `avatar_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`),
+  `avatar_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -683,20 +683,20 @@ COMMIT;
 DROP TABLE IF EXISTS `forum_thread`;
 
 CREATE TABLE `forum_thread` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` char(255) DEFAULT NULL,
-  `posts_count` int(11) DEFAULT '-1',
-  `post_date` int(11) DEFAULT NULL,
-  `author` int(11) DEFAULT NULL,
-  `forum_id` int(11) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  `last_post` int(11) DEFAULT NULL,
-  `closed` tinyint(4) DEFAULT NULL,
-  `sticky` tinyint(1) NOT NULL DEFAULT '0',
-  `stickyfirst` tinyint(1) DEFAULT '0',
-  `first_post` int(11) DEFAULT NULL,
-  `view_count` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  `posts_count` int(11) default '-1',
+  `post_date` int(11) default NULL,
+  `author` int(11) default NULL,
+  `forum_id` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  `last_post` int(11) default NULL,
+  `closed` tinyint(4) default NULL,
+  `sticky` tinyint(1) NOT NULL default '0',
+  `stickyfirst` tinyint(1) default '0',
+  `first_post` int(11) default NULL,
+  `view_count` int(11) default '0',
+  PRIMARY KEY  (`id`),
   KEY `post_date` (`post_date`,`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
@@ -717,14 +717,14 @@ COMMIT;
 DROP TABLE IF EXISTS `gallery_album`;
 
 CREATE TABLE `gallery_album` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `gallery_id` int(11) unsigned DEFAULT NULL,
-  `name` char(255) DEFAULT NULL,
-  `pics_number` int(11) DEFAULT NULL,
-  `created` int(11) DEFAULT NULL,
-  `main_photo` int(11) NOT NULL DEFAULT '0',
-  `obj_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `gallery_id` int(11) unsigned default NULL,
+  `name` char(255) default NULL,
+  `pics_number` int(11) default NULL,
+  `created` int(11) default NULL,
+  `main_photo` int(11) NOT NULL default '0',
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
@@ -745,12 +745,12 @@ COMMIT;
 DROP TABLE IF EXISTS `gallery_gallery`;
 
 CREATE TABLE `gallery_gallery` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `owner` int(11) unsigned DEFAULT NULL,
-  `created` int(11) DEFAULT NULL,
-  `updated` int(11) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `owner` int(11) unsigned default NULL,
+  `created` int(11) default NULL,
+  `updated` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
@@ -769,13 +769,13 @@ COMMIT;
 DROP TABLE IF EXISTS `gallery_photo`;
 
 CREATE TABLE `gallery_photo` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `album_id` int(11) DEFAULT NULL,
-  `name` char(255) DEFAULT NULL,
-  `size_x` int(11) DEFAULT NULL,
-  `size_y` int(11) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `album_id` int(11) default NULL,
+  `name` char(255) default NULL,
+  `size_x` int(11) default NULL,
+  `size_y` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `album_id` (`album_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
@@ -801,11 +801,11 @@ COMMIT;
 DROP TABLE IF EXISTS `menu_menu`;
 
 CREATE TABLE `menu_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `obj_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 #
@@ -826,14 +826,14 @@ COMMIT;
 DROP TABLE IF EXISTS `menu_menuItem`;
 
 CREATE TABLE `menu_menuItem` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `type_id` int(10) unsigned DEFAULT NULL,
-  `menu_id` int(10) unsigned DEFAULT NULL,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `order` int(10) unsigned DEFAULT '0',
-  `obj_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `parent_id` int(10) unsigned NOT NULL default '0',
+  `type_id` int(10) unsigned default NULL,
+  `menu_id` int(10) unsigned default NULL,
+  `title` varchar(255) NOT NULL default '',
+  `order` int(10) unsigned default '0',
+  `obj_id` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 PACK_KEYS=0;
 
 #
@@ -871,13 +871,13 @@ COMMIT;
 DROP TABLE IF EXISTS `menu_menuItem_data`;
 
 CREATE TABLE `menu_menuItem_data` (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `property_type` int(11) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL default '0',
+  `property_type` int(11) unsigned NOT NULL,
   `text` text,
-  `char` varchar(255) DEFAULT NULL,
-  `int` int(11) DEFAULT NULL,
-  `float` float(9,3) DEFAULT NULL,
-  UNIQUE KEY `id` (`id`,`property_type`)
+  `char` varchar(255) default NULL,
+  `int` int(11) default NULL,
+  `float` float(9,3) default NULL,
+  PRIMARY KEY  (`id`,`property_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
@@ -943,12 +943,12 @@ COMMIT;
 DROP TABLE IF EXISTS `menu_menuItem_properties`;
 
 CREATE TABLE `menu_menuItem_properties` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `type_id` int(11) unsigned DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) default NULL,
+  `type_id` int(11) unsigned default NULL,
   `args` text,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY  (`id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -971,10 +971,10 @@ COMMIT;
 DROP TABLE IF EXISTS `menu_menuItem_properties_types`;
 
 CREATE TABLE `menu_menuItem_properties_types` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `title` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
@@ -993,10 +993,10 @@ COMMIT;
 DROP TABLE IF EXISTS `menu_menuItem_types`;
 
 CREATE TABLE `menu_menuItem_types` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  `title` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
@@ -1016,13 +1016,13 @@ COMMIT;
 DROP TABLE IF EXISTS `menu_menuItem_types_props`;
 
 CREATE TABLE `menu_menuItem_types_props` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `type_id` int(11) unsigned DEFAULT NULL,
-  `property_id` int(11) unsigned DEFAULT NULL,
-  `sort` int(11) unsigned DEFAULT '0',
-  `isFull` tinyint(1) NOT NULL DEFAULT '1',
-  `isShort` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `type_id` int(11) unsigned default NULL,
+  `property_id` int(11) unsigned default NULL,
+  `sort` int(11) unsigned default '0',
+  `isFull` tinyint(1) NOT NULL default '1',
+  `isShort` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `type_id` (`type_id`,`property_id`),
   KEY `property_id` (`property_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -1046,16 +1046,16 @@ COMMIT;
 DROP TABLE IF EXISTS `message_message`;
 
 CREATE TABLE `message_message` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` varchar(255) default NULL,
   `text` text,
-  `sender` int(11) DEFAULT NULL,
-  `recipient` int(11) DEFAULT NULL,
-  `time` int(11) DEFAULT NULL,
-  `watched` tinyint(4) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `obj_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `sender` int(11) default NULL,
+  `recipient` int(11) default NULL,
+  `time` int(11) default NULL,
+  `watched` tinyint(4) default NULL,
+  `category_id` int(11) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
@@ -1075,11 +1075,11 @@ COMMIT;
 DROP TABLE IF EXISTS `message_messageCategory`;
 
 CREATE TABLE `message_messageCategory` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` char(255) DEFAULT NULL,
-  `name` char(20) DEFAULT NULL,
-  `obj_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  `name` char(20) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
@@ -1100,13 +1100,13 @@ COMMIT;
 DROP TABLE IF EXISTS `news_news`;
 
 CREATE TABLE `news_news` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `editor` int(11) NOT NULL DEFAULT '0',
-  `folder_id` int(11) DEFAULT NULL,
-  `created` int(11) DEFAULT NULL,
-  `updated` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(10) unsigned NOT NULL default '0',
+  `editor` int(11) NOT NULL default '0',
+  `folder_id` int(11) default NULL,
+  `created` int(11) default NULL,
+  `updated` int(11) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `id_2` (`id`),
   KEY `id` (`id`),
   KEY `folder_id` (`folder_id`)
@@ -1286,12 +1286,12 @@ COMMIT;
 DROP TABLE IF EXISTS `news_newsFolder`;
 
 CREATE TABLE `news_newsFolder` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `name` char(255) DEFAULT NULL,
-  `parent` int(11) DEFAULT '0',
-  `path` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) unsigned NOT NULL default '0',
+  `name` char(255) default NULL,
+  `parent` int(11) default '0',
+  `path` char(255) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `name` (`name`),
   KEY `parent` (`parent`)
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
@@ -1326,10 +1326,10 @@ COMMIT;
 DROP TABLE IF EXISTS `news_newsFolder_lang`;
 
 CREATE TABLE `news_newsFolder_lang` (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `lang_id` int(11) NOT NULL DEFAULT '0',
-  `title` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`,`lang_id`)
+  `id` int(11) NOT NULL default '0',
+  `lang_id` int(11) NOT NULL default '0',
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`,`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
@@ -1377,11 +1377,11 @@ COMMIT;
 DROP TABLE IF EXISTS `news_newsFolder_tree`;
 
 CREATE TABLE `news_newsFolder_tree` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `lkey` int(10) NOT NULL DEFAULT '0',
-  `rkey` int(10) NOT NULL DEFAULT '0',
-  `level` int(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
@@ -1417,12 +1417,12 @@ COMMIT;
 DROP TABLE IF EXISTS `news_news_lang`;
 
 CREATE TABLE `news_news_lang` (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `lang_id` int(11) NOT NULL DEFAULT '0',
-  `title` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL default '0',
+  `lang_id` int(11) NOT NULL default '0',
+  `title` varchar(255) default NULL,
   `annotation` text,
   `text` text,
-  PRIMARY KEY (`id`,`lang_id`)
+  PRIMARY KEY  (`id`,`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
@@ -1600,14 +1600,14 @@ COMMIT;
 DROP TABLE IF EXISTS `page_page`;
 
 CREATE TABLE `page_page` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL DEFAULT '',
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(10) unsigned NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
   `content` text NOT NULL,
-  `folder_id` int(11) unsigned DEFAULT NULL,
-  `compiled` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `folder_id` int(11) unsigned default NULL,
+  `compiled` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 #
@@ -1636,13 +1636,13 @@ COMMIT;
 DROP TABLE IF EXISTS `page_pageFolder`;
 
 CREATE TABLE `page_pageFolder` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `name` char(255) DEFAULT NULL,
-  `title` char(255) DEFAULT NULL,
-  `parent` int(11) DEFAULT '0',
-  `path` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) unsigned NOT NULL default '0',
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `parent` int(11) default '0',
+  `path` char(255) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -1664,11 +1664,11 @@ COMMIT;
 DROP TABLE IF EXISTS `page_pageFolder_tree`;
 
 CREATE TABLE `page_pageFolder_tree` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `lkey` int(10) NOT NULL DEFAULT '0',
-  `rkey` int(10) NOT NULL DEFAULT '0',
-  `level` int(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(10) NOT NULL auto_increment,
+  `lkey` int(10) NOT NULL default '0',
+  `rkey` int(10) NOT NULL default '0',
+  `level` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
   KEY `left_key` (`lkey`,`rkey`,`level`),
   KEY `level` (`level`,`lkey`),
   KEY `rkey` (`rkey`)
@@ -1692,15 +1692,15 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_access`;
 
 CREATE TABLE `sys_access` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `action_id` int(11) unsigned DEFAULT NULL,
-  `class_section_id` int(11) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  `uid` int(11) DEFAULT NULL,
-  `gid` int(11) DEFAULT NULL,
-  `allow` tinyint(1) unsigned DEFAULT '0',
-  `deny` tinyint(1) unsigned DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `action_id` int(11) unsigned default NULL,
+  `class_section_id` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  `uid` int(11) default NULL,
+  `gid` int(11) default NULL,
+  `allow` tinyint(1) unsigned default '0',
+  `deny` tinyint(1) unsigned default '0',
+  PRIMARY KEY  (`id`),
   KEY `class_action_id` (`class_section_id`,`obj_id`,`uid`,`gid`),
   KEY `obj_id_gid` (`obj_id`,`gid`),
   KEY `obj_id_uid` (`obj_id`,`uid`)
@@ -5133,9 +5133,9 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_access_registry`;
 
 CREATE TABLE `sys_access_registry` (
-  `obj_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `class_section_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`obj_id`)
+  `obj_id` int(11) unsigned NOT NULL auto_increment,
+  `class_section_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`obj_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1288 DEFAULT CHARSET=utf8;
 
 #
@@ -5649,9 +5649,9 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_actions`;
 
 CREATE TABLE `sys_actions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
 
@@ -5745,10 +5745,10 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_cfg`;
 
 CREATE TABLE `sys_cfg` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `section` int(11) NOT NULL DEFAULT '0',
-  `module` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `section` int(11) NOT NULL default '0',
+  `module` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `section_module` (`section`,`module`)
 ) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
@@ -5784,9 +5784,9 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_cfg_titles`;
 
 CREATE TABLE `sys_cfg_titles` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` char(255) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`)
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
@@ -5818,10 +5818,10 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_cfg_types`;
 
 CREATE TABLE `sys_cfg_types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
@@ -5841,13 +5841,13 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_cfg_values`;
 
 CREATE TABLE `sys_cfg_values` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cfg_id` int(11) NOT NULL DEFAULT '0',
-  `name` int(11) NOT NULL DEFAULT '0',
-  `title` int(11) DEFAULT NULL,
-  `type_id` int(11) NOT NULL DEFAULT '1',
-  `value` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `cfg_id` int(11) NOT NULL default '0',
+  `name` int(11) NOT NULL default '0',
+  `title` int(11) default NULL,
+  `type_id` int(11) NOT NULL default '1',
+  `value` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`,`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
@@ -5885,9 +5885,9 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_cfg_vars`;
 
 CREATE TABLE `sys_cfg_vars` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
@@ -5918,10 +5918,10 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_classes`;
 
 CREATE TABLE `sys_classes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  `module_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `module_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
@@ -5985,10 +5985,10 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_classes_actions`;
 
 CREATE TABLE `sys_classes_actions` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `class_id` int(11) unsigned DEFAULT NULL,
-  `action_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `class_id` int(11) unsigned default NULL,
+  `action_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `class_id` (`class_id`,`action_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=283 DEFAULT CHARSET=utf8;
 
@@ -6193,10 +6193,10 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_classes_sections`;
 
 CREATE TABLE `sys_classes_sections` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `class_id` int(11) DEFAULT NULL,
-  `section_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `class_id` int(11) default NULL,
+  `section_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `module_section` (`section_id`,`class_id`),
   KEY `class_id` (`class_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
@@ -6263,10 +6263,10 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_lang`;
 
 CREATE TABLE `sys_lang` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(20) DEFAULT NULL,
-  `title` char(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(20) default NULL,
+  `title` char(20) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
@@ -6280,19 +6280,44 @@ INSERT INTO `sys_lang` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
+# Structure for the `sys_lang_lang` table : 
+#
+
+DROP TABLE IF EXISTS `sys_lang_lang`;
+
+CREATE TABLE `sys_lang_lang` (
+  `id` int(11) unsigned NOT NULL,
+  `lang_id` int(11) unsigned NOT NULL,
+  `name` char(32) default NULL,
+  PRIMARY KEY  (`id`,`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Data for the `sys_lang_lang` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_lang_lang` (`id`, `lang_id`, `name`) VALUES 
+  (1,1,'русский'),
+  (1,2,'russian'),
+  (2,1,'английский'),
+  (2,2,'english');
+
+COMMIT;
+
+#
 # Structure for the `sys_modules` table : 
 #
 
 DROP TABLE IF EXISTS `sys_modules`;
 
 CREATE TABLE `sys_modules` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  `main_class` int(11) unsigned DEFAULT NULL,
-  `title` char(255) DEFAULT NULL,
-  `icon` char(255) DEFAULT NULL,
-  `order` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `main_class` int(11) unsigned default NULL,
+  `title` char(255) default NULL,
+  `icon` char(255) default NULL,
+  `order` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 #
@@ -6326,8 +6351,8 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_obj_id`;
 
 CREATE TABLE `sys_obj_id` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1288 DEFAULT CHARSET=utf8;
 
 #
@@ -7634,9 +7659,9 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_obj_id_named`;
 
 CREATE TABLE `sys_obj_id_named` (
-  `obj_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  PRIMARY KEY (`obj_id`),
+  `obj_id` int(11) unsigned NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  PRIMARY KEY  (`obj_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1288 DEFAULT CHARSET=utf8;
 
@@ -7716,11 +7741,11 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_sections`;
 
 CREATE TABLE `sys_sections` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  `title` char(255) DEFAULT NULL,
-  `order` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `order` int(11) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`,`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
@@ -7755,11 +7780,11 @@ COMMIT;
 DROP TABLE IF EXISTS `tags_item_rel`;
 
 CREATE TABLE `tags_item_rel` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `tag_id` int(10) unsigned DEFAULT NULL,
-  `item_id` int(10) unsigned DEFAULT NULL,
-  `obj_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `tag_id` int(10) unsigned default NULL,
+  `item_id` int(10) unsigned default NULL,
+  `obj_id` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`),
   KEY `item_id` (`item_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
@@ -7789,7 +7814,7 @@ CREATE TABLE `tags_tagCoords` (
   `y` int(11) NOT NULL,
   `w` int(11) NOT NULL,
   `h` int(11) NOT NULL,
-  PRIMARY KEY (`rel_id`)
+  PRIMARY KEY  (`rel_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
@@ -7799,10 +7824,10 @@ CREATE TABLE `tags_tagCoords` (
 DROP TABLE IF EXISTS `tags_tags`;
 
 CREATE TABLE `tags_tags` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `tag` varchar(255) DEFAULT NULL,
-  `obj_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `tag` varchar(255) default NULL,
+  `obj_id` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 #
@@ -7826,11 +7851,11 @@ COMMIT;
 DROP TABLE IF EXISTS `tags_tagsItem`;
 
 CREATE TABLE `tags_tagsItem` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `item_obj_id` int(10) unsigned DEFAULT NULL,
-  `obj_id` int(10) unsigned DEFAULT NULL,
-  `owner` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `item_obj_id` int(10) unsigned default NULL,
+  `obj_id` int(10) unsigned default NULL,
+  `owner` int(10) unsigned default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 #
@@ -7854,11 +7879,11 @@ COMMIT;
 DROP TABLE IF EXISTS `user_group`;
 
 CREATE TABLE `user_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `name` char(255) DEFAULT NULL,
-  `is_default` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(10) unsigned NOT NULL default '0',
+  `name` char(255) default NULL,
+  `is_default` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
@@ -7879,15 +7904,15 @@ COMMIT;
 DROP TABLE IF EXISTS `user_user`;
 
 CREATE TABLE `user_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `login` varchar(255) NOT NULL DEFAULT '',
-  `password` varchar(32) NOT NULL DEFAULT '',
-  `created` int(11) DEFAULT NULL,
-  `confirmed` varchar(32) DEFAULT NULL,
-  `last_login` int(11) DEFAULT NULL,
-  `language_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `obj_id` int(10) unsigned NOT NULL default '0',
+  `login` varchar(255) NOT NULL default '',
+  `password` varchar(32) NOT NULL default '',
+  `created` int(11) default NULL,
+  `confirmed` varchar(32) default NULL,
+  `last_login` int(11) default NULL,
+  `language_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `login` (`login`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -7909,13 +7934,13 @@ COMMIT;
 DROP TABLE IF EXISTS `user_userAuth`;
 
 CREATE TABLE `user_userAuth` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned DEFAULT NULL,
-  `ip` char(15) DEFAULT NULL,
-  `hash` char(32) DEFAULT NULL,
-  `obj_id` int(11) unsigned DEFAULT NULL,
-  `time` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) unsigned default NULL,
+  `ip` char(15) default NULL,
+  `hash` char(32) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  `time` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
 
 #
@@ -7938,11 +7963,11 @@ COMMIT;
 DROP TABLE IF EXISTS `user_userGroup_rel`;
 
 CREATE TABLE `user_userGroup_rel` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `obj_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `group_id` int(11) default NULL,
+  `user_id` int(11) default NULL,
+  `obj_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `group_id` (`group_id`,`user_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
@@ -7966,13 +7991,13 @@ COMMIT;
 DROP TABLE IF EXISTS `user_userOnline`;
 
 CREATE TABLE `user_userOnline` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `session` char(32) DEFAULT NULL,
-  `last_activity` int(11) DEFAULT NULL,
-  `url` char(255) DEFAULT NULL,
-  `ip` char(15) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) default NULL,
+  `session` char(32) default NULL,
+  `last_activity` int(11) default NULL,
+  `url` char(255) default NULL,
+  `ip` char(15) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `user_id` (`user_id`,`session`),
   KEY `last_activity` (`last_activity`)
 ) ENGINE=MyISAM AUTO_INCREMENT=295 DEFAULT CHARSET=utf8;
@@ -7993,12 +8018,12 @@ COMMIT;
 DROP TABLE IF EXISTS `voting_answer`;
 
 CREATE TABLE `voting_answer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` char(255) NOT NULL DEFAULT '',
-  `type` smallint(6) DEFAULT '0',
-  `question_id` int(11) NOT NULL DEFAULT '0',
-  `obj_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `title` char(255) NOT NULL default '',
+  `type` smallint(6) default '0',
+  `question_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 #
@@ -8019,13 +8044,13 @@ COMMIT;
 DROP TABLE IF EXISTS `voting_question`;
 
 CREATE TABLE `voting_question` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `question` char(255) NOT NULL DEFAULT '',
-  `category_id` int(11) DEFAULT '0',
-  `created` int(11) DEFAULT NULL,
-  `expired` int(11) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `question` char(255) NOT NULL default '',
+  `category_id` int(11) default '0',
+  `created` int(11) default NULL,
+  `expired` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `category_id` (`category_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -8045,12 +8070,12 @@ COMMIT;
 DROP TABLE IF EXISTS `voting_vote`;
 
 CREATE TABLE `voting_vote` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `answer_id` int(11) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `question_id` int(11) NOT NULL DEFAULT '0',
-  `text` char(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `answer_id` int(11) NOT NULL default '0',
+  `user_id` int(11) NOT NULL default '0',
+  `question_id` int(11) NOT NULL default '0',
+  `text` char(255) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `question` (`question_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -8061,11 +8086,11 @@ CREATE TABLE `voting_vote` (
 DROP TABLE IF EXISTS `voting_voteCategory`;
 
 CREATE TABLE `voting_voteCategory` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(255) DEFAULT NULL,
-  `title` char(255) DEFAULT NULL,
-  `obj_id` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `name` char(255) default NULL,
+  `title` char(255) default NULL,
+  `obj_id` int(11) default '0',
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #

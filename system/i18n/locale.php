@@ -45,6 +45,13 @@ class locale
     private $name;
 
     /**
+     * Переведённое имя локали
+     *
+     * @var string
+     */
+    private $translated_name;
+
+    /**
      * Идентификатор языка
      *
      * @var integer
@@ -168,6 +175,16 @@ class locale
         $this->langId = $id;
     }
 
+    protected function setTranslatedName($name)
+    {
+        $this->translated_name = $name;
+    }
+
+    public function getTranslatedName()
+    {
+        return $this->translated_name;
+    }
+
     /**
      * Получение всех языков, определённых в системе
      *
@@ -178,13 +195,14 @@ class locale
     {
         if (self::$langs === false) {
             $db = db::factory();
-            $stmt = $db->query('SELECT * FROM `sys_lang` ORDER BY `id`');
+            $stmt = $db->query('SELECT `d`.`id`, `d`.`name`, `l`.`name` AS `title` FROM `sys_lang` `d` LEFT JOIN `sys_lang_lang` `l` ON `l`.`id` = `d`.`id` AND `l`.`lang_id` = ' . systemToolkit::getInstance()->getLang() . ' ORDER BY `id`');
 
             $result = array();
 
             while ($row = $stmt->fetch()) {
                 $tmp = new locale($row['name']);
                 $tmp->setId($row['id']);
+                $tmp->setTranslatedName($row['title'] ? $row['title'] : $tmp->getLanguageName());
                 $result[$row['id']] = $tmp;
             }
 
