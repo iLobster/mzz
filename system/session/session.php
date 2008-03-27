@@ -172,7 +172,7 @@ class session
             $var =& $_SESSION[$matches['name']];
 
             foreach ($matches['keys'] as $key) {
-                if (!isset($var[$key])) {
+                if (!array_key_exists($key, $var)) {
                     return false;
                 }
                 $var =& $var[$key];
@@ -181,19 +181,21 @@ class session
             return true;
         }
 
-        return isset($_SESSION[$name]);
+        return array_key_exists($name, $_SESSION);
     }
 
     /**
      * Удаляет значение из сессии
      *
      * @param string $name ключ
+     * @return boolean true если в сессии была запись для указанного ключа
      */
     public function destroy($name)
     {
-        if ($this->exists($name)) {
+        if ($exists = $this->exists($name)) {
             unset($_SESSION[$name]);
         }
+        return $exists;
     }
 
     /**

@@ -32,7 +32,7 @@ class formCheckboxField extends formElement
             $values = explode('|', $options['values']);
             unset($options['values']);
         } else {
-            $values = array(0, 1);
+            $values = array(0, !empty($options['value']) ? $options['value'] : 1);
         }
 
         if (isset($options['text'])) {
@@ -53,7 +53,7 @@ class formCheckboxField extends formElement
             $value = $values[0];
         }
 
-        if ($value == $values[1]) {
+        if ($value == $values[1] && (!isset($options['checked']) || $options['checked'] != false)) {
             $options['checked'] = true;
         }
 
