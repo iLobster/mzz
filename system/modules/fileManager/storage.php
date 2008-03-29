@@ -50,7 +50,12 @@ class storage extends simple
         }
     }
 
-    private function explode($name)
+    public function is_file($name)
+    {
+        return is_file($this->getPath() . $name);
+    }
+
+    public function explode($name)
     {
         return $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name[3] . '/' . substr($name, 4);
     }
