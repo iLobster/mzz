@@ -471,6 +471,17 @@ CREATE TABLE `sys_lang` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
+# Structure for the `sys_lang_lang` table : 
+#
+
+CREATE TABLE `sys_lang_lang` (
+  `id` int(11) unsigned NOT NULL,
+  `lang_id` int(11) unsigned NOT NULL,
+  `name` char(32) default NULL,
+  PRIMARY KEY  (`id`,`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
 # Structure for the `sys_modules` table : 
 #
 
