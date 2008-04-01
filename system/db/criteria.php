@@ -494,7 +494,7 @@ class criteria
      * Метод для установки числа выбираемых записей
      *
      * @param integer $limit
-     * @return object сам объект
+     * @return criteria сам объект
      */
     public function setLimit($limit)
     {
@@ -506,7 +506,7 @@ class criteria
      * Метод установки сдвига
      *
      * @param integer $offset
-     * @return object сам объект
+     * @return criteria сам объект
      */
     public function setOffset($offset)
     {
@@ -517,7 +517,7 @@ class criteria
     /**
      * Метод очистки числа выбираемых записей
      *
-     * @return object сам объект
+     * @return criteria сам объект
      */
     public function clearLimit()
     {
@@ -528,11 +528,23 @@ class criteria
     /**
      * Метод очистки сдвига
      *
-     * @return object сам объект
+     * @return criteria сам объект
      */
     public function clearOffset()
     {
         $this->offset = 0;
+        return $this;
+    }
+
+    /**
+     * Метод очистки правил сортировок
+     *
+     * @return criteria сам объект
+     */
+    public function clearOrder()
+    {
+        $this->orderBy = array();
+        $this->orderBySettings = array();
         return $this;
     }
 
