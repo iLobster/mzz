@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1.1
+ * @version 0.1.2
  */
 class formCheckboxField extends formElement
 {
@@ -26,14 +26,18 @@ class formCheckboxField extends formElement
         static $i = 0;
 
         $options['type'] = 'checkbox';
-        $value = self::getValue($options['name'], $options['value']);
 
         if (isset($options['values'])) {
             $values = explode('|', $options['values']);
             unset($options['values']);
+            if (!isset($options['value'])) {
+                $options['value'] = $values[1];
+            }
         } else {
             $values = array(0, !empty($options['value']) ? $options['value'] : 1);
         }
+
+        $value = self::getValue($options['name'], $options['value']);
 
         if (isset($options['text'])) {
             $text = $options['text'];
