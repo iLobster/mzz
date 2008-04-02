@@ -317,6 +317,19 @@ class i18n
 
         return $name;
     }
+
+    public static function date($date, $format = 'short_date_time', $lang = null)
+    {
+        if (empty($lang)) {
+            $lang = systemToolkit::getInstance()->getLocale()->getName();
+        }
+        //$lang = 'ru';
+        //setlocale (LC_ALL, 'ru_RU.UTF-8', 'ru_RU', 'russian');
+
+        $locale = new locale($lang);
+
+        return strftime($locale->getDateTimeFormatDirectly($format), $date);
+    }
 }
 
 ?>

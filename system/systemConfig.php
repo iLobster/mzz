@@ -81,6 +81,13 @@ class systemConfig
     public static $i18nEnable = false;
 
     /**
+     * GMT сервера
+     *
+     * @var integer
+     */
+    public static $serverTimezone = 3;
+
+    /**
      * При вызове определяет и устанавливает путь до ядра
      *
      */

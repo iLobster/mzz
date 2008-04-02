@@ -185,6 +185,32 @@ class locale
         return $this->translated_name;
     }
 
+    public function getTimeFormat($long = false)
+    {
+        return $long ? $this->data['date_time']['time_format'] : $this->data['date_time']['short_time_format'];
+    }
+
+    public function getDateFormat($long = false)
+    {
+        return $long ? $this->data['date_time']['date_format'] : $this->data['date_time']['short_date_format'];
+    }
+
+    public function getDateTimeFormat($longDate = false, $longTime = false)
+    {
+        if ($longDate && $longTime) {
+            return $this->data['date_time']['date_time_format'];
+        } elseif (!$longDate && $longTime) {
+            return $this->data['date_time']['short_date_time_format'];
+        }
+
+        return $this->data['date_time']['short_date_short_time_format'];
+    }
+
+    public function getDateTimeFormatDirectly($name)
+    {
+        return isset($this->data['date_time'][$name . '_format']) ? $this->data['date_time'][$name . '_format'] : $this->getDateTimeFormat();
+    }
+
     /**
      * Получение всех языков, определённых в системе
      *

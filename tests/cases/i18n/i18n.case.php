@@ -88,6 +88,15 @@ class i18nTest extends UnitTestCase
     {
         return $phrase . '-' . implode(', ', $variables);
     }
+
+
+    public function testDate()
+    {
+        $time = 1207110245;
+        $this->assertEqual(i18n::date($time), '04/02/2008 03:24:05 PM');
+        $this->assertEqual(i18n::date($time, 'short_time'), '03:24 PM');
+        $this->assertEqual(i18n::date($time, 'short_time', 'ru'), '15:24');
+    }
 }
 
 ?>
