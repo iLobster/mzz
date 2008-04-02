@@ -78,12 +78,12 @@ var massActionMove = "{url route="withAnyParam" name=$catalogueFolder->getPath()
 </form>{/if}
 </div>
 <br /><br /><br />
-<p class="pageTitle">Список типов</p>
+<p class="pageTitle">Список типов <a href="{url route="default2" section=$current_section action="addType"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить тип" title="Добавить тип" /></a></p>
 <div class="pageContent">
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>
-                <td style="width: 30px;"><a href="{url route="default2" section=$current_section action="addType"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить тип" title="Добавить тип" style="border: 0px;" /></a></td>
+                <td style="width: 30px;">&nbsp;</td>
                 <td style="text-align: left;">Название</td>
                 <td style="text-align: left;">Тип</td>
                 <td style="width: 30px;">JIP</td>
@@ -103,12 +103,12 @@ var massActionMove = "{url route="withAnyParam" name=$catalogueFolder->getPath()
     </table>
 </div>
 <br /><br />
-<p class="pageTitle">Список параметров</p>
+<p class="pageTitle">Список параметров <a href="{url route="default2" section=$current_section action="addProperty"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить свойство" title="Добавить свойство" /></a></p>
 <div class="pageContent">
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>
-                <td style="width: 30px;"><a href="{url route="default2" section=$current_section action="addProperty"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="добавить свойство" title="Добавить свойство" border="0" align="texttop" /></a></td>
+                <td style="width: 30px;">&nbsp;</td>
                 <td style="text-align: left;">Название</td>
                 <td style="text-align: left;">Свойство</td>
                 <td style="text-align: left;">Тип</td>

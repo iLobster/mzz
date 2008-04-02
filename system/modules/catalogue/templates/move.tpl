@@ -3,7 +3,7 @@
 {if $isMass}
 {foreach from=$items item="item"}
     {assign var="item_id" value=$item->getId()}
-    {form->hidden name="items[$item_id]"}
+    {form->hidden name="items[$item_id]" value=""}
 {/foreach}
 {/if}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
