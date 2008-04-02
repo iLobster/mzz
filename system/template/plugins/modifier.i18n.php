@@ -18,6 +18,7 @@
  * smarty_modifier_i18n: модификатор для вызова i18n
 
  * @param string $params строка для перевода
+ * @param string $module имя модуля
  * @return string переведённая строка
  * @package system
  * @subpackage template

@@ -23,6 +23,10 @@
  */
 class i18nFilter implements iFilter
 {
+    static public $sessionVarName = 'mzz_i18n_language';
+
+    static public $timezoneVarName = 'mzz_i18n_timezone';
+
     /**
      * запуск фильтра на исполнение
      *
@@ -32,15 +36,15 @@ class i18nFilter implements iFilter
      */
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
-        $sessionVarName = 'mzz_language';
-        $lastUserIdVarName = $sessionVarName . '_last_user_id';
+        $lastUserIdVarName = self::$sessionVarName . '_last_user_id';
 
         $session = systemToolkit::getInstance()->getSession();
         $me = systemToolkit::getInstance()->getUser();
 
         if ($me->getId() != $session->get($lastUserIdVarName)) {
             // если поменялся id пользователя - стираем значение в сессии
-            $session->destroy($sessionVarName);
+            $session->destroy(self::$sessionVarName);
+            $session->destroy(self::$timezoneVarName);
             $session->set($lastUserIdVarName, $me->getId());
         }
 
@@ -49,14 +53,14 @@ class i18nFilter implements iFilter
             // смотрим в урле
             if (!($language = $request->getString('lang'))) {
                 // смотрим в сессии
-                if (!($language = $session->get($sessionVarName))) {
+                if (!($language = $session->get(self::$sessionVarName))) {
                     // смотрим, есть ли в профиле пользователя
                     if ($language_id = $me->getLanguageId()) {
                         $locale = locale::searchAll($language_id);
                         $language = $locale->getName();
                     } else {
                         // смотрим в куках
-                        if (!($language = $request->getString($sessionVarName, SC_COOKIE))) {
+                        if (!($language = $request->getString(self::$sessionVarName, SC_COOKIE))) {
                             // смотрим в заголовках
                             // @todo: реализовать
                             $language = systemConfig::$i18n;
@@ -68,9 +72,9 @@ class i18nFilter implements iFilter
             $language = systemConfig::$i18n;
         }
 
-        if ($session->get($sessionVarName) != $language) {
+        if ($session->get(self::$sessionVarName) != $language) {
             // устанавливаем язык в куку
-            $response->setCookie($sessionVarName, $language, strtotime('+1 year'));
+            $response->setCookie(self::$sessionVarName, $language, strtotime('+1 year'));
 
             // если текущее значение языка не совпадает с тем, которое в профиле - заменяем его
             $me = systemToolkit::getInstance()->getUser();
@@ -82,7 +86,13 @@ class i18nFilter implements iFilter
                 }
             }
 
-            $session->set($sessionVarName, $language);
+            $session->set(self::$sessionVarName, $language);
+
+            $tz = $me->getTimezone();
+            if (strtotime('last sunday april 2008') < strtotime('today') && strtotime('last sunday november 2008') > strtotime('today')) {
+                $tz++;
+            }
+            $session->set(self::$timezoneVarName, $tz);
         }
 
         systemConfig::$i18n = $language;

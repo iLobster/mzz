@@ -252,4 +252,10 @@ class locale
 
         return self::$langs;
     }
+
+    public function getGmtList()
+    {
+        $array = range(-12, 12);
+        return array_combine($array, $array);
+    }
 }

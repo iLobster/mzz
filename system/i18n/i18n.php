@@ -328,7 +328,10 @@ class i18n
 
         $locale = new locale($lang);
 
-        return strftime($locale->getDateTimeFormatDirectly($format), $date);
+        $tz = systemToolkit::getInstance()->getSession()->get(i18nFilter::$timezoneVarName);
+        $offset = $tz * 3600 - date('Z');
+
+        return strftime($locale->getDateTimeFormatDirectly($format), $date + $offset);
     }
 }
 
