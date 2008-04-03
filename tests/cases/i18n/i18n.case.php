@@ -92,10 +92,12 @@ class i18nTest extends UnitTestCase
 
     public function testDate()
     {
+        systemToolkit::getInstance()->getSession()->start();
+
         $time = 1207110245;
-        $this->assertEqual(i18n::date($time), '04/02/2008 03:24:05 PM');
-        $this->assertEqual(i18n::date($time, 'short_time'), '03:24 PM');
-        $this->assertEqual(i18n::date($time, 'short_time', 'ru'), '15:24');
+        $this->assertEqual(i18n::date($time), '04/02/2008 04:24:05 AM');
+        $this->assertEqual(i18n::date($time, 'short_time'), '04:24 AM');
+        $this->assertEqual(i18n::date($time, 'short_time', 'ru'), '04:24');
     }
 }
 
