@@ -60,9 +60,12 @@ class storage extends simple
         return $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name[3] . '/' . substr($name, 4);
     }
 
-    public function getLinkToFile(file $file)
+    public function getLinkToFile($file)
     {
-        return $this->getPath() . $this->explode($file->getRealname());
+        if ($file instanceof file) {
+            $file = $file->getRealname();
+        }
+        return $this->getPath() . $this->explode($file);
     }
 
     public function getDownloadLink(file $file)

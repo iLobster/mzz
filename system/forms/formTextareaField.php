@@ -28,7 +28,7 @@ class formTextareaField extends formElement
             $options['content'] = self::getValue($options['name'], $value);
         }
         unset($options['value']);
-        if (is_null($options['content'])) {
+        if (empty($options['content'])) {
             $options['content'] = '';
         }
         return self::createTag($options, 'textarea');
