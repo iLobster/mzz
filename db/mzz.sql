@@ -5692,7 +5692,7 @@ CREATE TABLE `sys_actions` (
   UNIQUE KEY `name` (`name`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=102 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=103 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_actions` table  (LIMIT 0,500)
@@ -5773,7 +5773,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (98,'profile'),
   (99,'groupAdmin'),
   (100,'editProfile'),
-  (101,'massAction');
+  (101,'massAction'),
+  (102,'translate');
 COMMIT;
 
 #
@@ -6036,7 +6037,7 @@ CREATE TABLE `sys_classes_actions` (
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=283 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=284 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -6228,7 +6229,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (279,52,51),
   (280,52,14),
   (281,48,100),
-  (282,20,101);
+  (282,20,101),
+  (283,9,102);
 COMMIT;
 
 #
@@ -6368,7 +6370,7 @@ CREATE TABLE `sys_modules` (
   PRIMARY KEY (`id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=19 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=21 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_modules` table  (LIMIT 0,500)
@@ -6390,7 +6392,9 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (15,'forum',35,'Форум','',0),
   (16,'faq',42,'FAQ','',0),
   (17,'tags',45,'','',0),
-  (18,'captcha',47,'Captcha','',0);
+  (18,'captcha',47,'Captcha','',0),
+  (19,'pager',NULL,'Пейджер',NULL,NULL),
+  (20,'simple',NULL,'simple',NULL,NULL);
 COMMIT;
 
 #
@@ -7981,7 +7985,7 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`) VALUES
   (1,12,'guest','',NULL,NULL,1203767612,NULL,3),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1203767687,2,3),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1204027398,2,3),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3);
 COMMIT;
 
@@ -8001,7 +8005,7 @@ CREATE TABLE `user_userAuth` (
   PRIMARY KEY (`id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=109 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=110 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -8012,7 +8016,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (105,2,'127.0.0.1','1ea05398647d479b131bd5330bb31438',NULL,1202969834),
   (106,2,'127.0.0.1','6e7c6dfe4a14ba6075c8bc83f647877e',NULL,1204026491),
   (107,2,'127.0.0.1','35ceae055495b7779742cae2e4538fa7',NULL,1203767634),
-  (108,2,'127.0.0.1','3975d51e7376dcd60beb9579cc486629',NULL,1203767672);
+  (108,2,'127.0.0.1','3975d51e7376dcd60beb9579cc486629',NULL,1203767672),
+  (109,2,'127.0.0.1','af345a7c47151521536239c1a9f7f673',NULL,1207535424);
 COMMIT;
 
 #
@@ -8062,14 +8067,14 @@ CREATE TABLE `user_userOnline` (
   KEY `last_activity` (`last_activity`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=295 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=297 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (294,2,'c3dadb7f7d1de568a3e0ab2abe49912a',1204027398,'http://mzz/en/access/55/editACL?ajax=1','127.0.0.1');
+  (296,2,'5721ce57de4952e0c1d579f44c22138a',1207536349,'http://mzz/admin/translate','127.0.0.1');
 COMMIT;
 
 #

@@ -20,7 +20,7 @@ fileLoader::load('service/iniFile');
  *
  * @package system
  * @subpackage i18n
- * @version 0.1
+ * @version 0.1.1
  */
 class i18nStorageIni implements i18nStorage
 {
@@ -42,6 +42,7 @@ class i18nStorageIni implements i18nStorage
         $file = fileLoader::resolve($module . '/i18n/' . $lang . '.ini');
         $file = new iniFile($file);
         $this->data = $file->read();
+        ksort($this->data);
     }
 
     /**
@@ -60,5 +61,15 @@ class i18nStorageIni implements i18nStorage
         }
 
         return $this->data[$name];
+    }
+
+    /**
+     * Экспорт всех переменных
+     *
+     * @return array
+     */
+    public function export()
+    {
+        return $this->data;
     }
 }
