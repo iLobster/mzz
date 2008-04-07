@@ -19,7 +19,7 @@ fileLoader::load('service/iniFile');
  *
  * @package system
  * @subpackage i18n
- * @version 0.1.2
+ * @version 0.1.3
  */
 class locale
 {
@@ -58,6 +58,11 @@ class locale
      */
     private $langId;
 
+    /**
+     * Массив для хранения найденных локалей
+     *
+     * @var array
+     */
     private static $langs = false;
 
     /**
@@ -175,26 +180,60 @@ class locale
         $this->langId = $id;
     }
 
+    /**
+     * Установка переведённого названия языка
+     *
+     * @param string $name
+     */
     protected function setTranslatedName($name)
     {
         $this->translated_name = $name;
     }
 
+    /**
+     * Получение переведённого названия языка
+     *
+     * @return string
+     */
     public function getTranslatedName()
     {
+        if (empty($this->translated_name)) {
+            $locale = self::searchAll($this->getId());
+            $this->setTranslatedName($locale->getTranslatedName());
+        }
+
         return $this->translated_name;
     }
 
+    /**
+     * Получение формата времени
+     *
+     * @param boolean $long
+     * @return string
+     */
     public function getTimeFormat($long = false)
     {
         return $long ? $this->data['date_time']['time_format'] : $this->data['date_time']['short_time_format'];
     }
 
+    /**
+     * Получение формата даты
+     *
+     * @param boolean $long
+     * @return string
+     */
     public function getDateFormat($long = false)
     {
         return $long ? $this->data['date_time']['date_format'] : $this->data['date_time']['short_date_format'];
     }
 
+    /**
+     * Получение формата даты и времени
+     *
+     * @param boolean $longDate
+     * @param boolean $longTime
+     * @return string
+     */
     public function getDateTimeFormat($longDate = false, $longTime = false)
     {
         if ($longDate && $longTime) {
@@ -206,6 +245,12 @@ class locale
         return $this->data['date_time']['short_date_short_time_format'];
     }
 
+    /**
+     * Получение формата напрямую из массива данных
+     *
+     * @param string $name
+     * @return string
+     */
     public function getDateTimeFormatDirectly($name)
     {
         return isset($this->data['date_time'][$name . '_format']) ? $this->data['date_time'][$name . '_format'] : $this->getDateTimeFormat();
@@ -253,6 +298,11 @@ class locale
         return self::$langs;
     }
 
+    /**
+     * Получение списка временных зон
+     *
+     * @return array
+     */
     public function getGmtList()
     {
         $array = range(-12, 12);

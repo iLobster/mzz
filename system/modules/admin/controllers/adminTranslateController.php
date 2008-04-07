@@ -46,6 +46,15 @@ class adminTranslateController extends simpleController
                 $storage = new i18nStorageIni($module_name, $language);
                 $locale = new locale($language);
 
+                if ($language != systemConfig::$i18n) {
+                    $storage_default = new i18nStorageIni($module_name, systemConfig::$i18n);
+                    $this->smarty->assign('not_default', true);
+                    $this->smarty->assign('variables_default', $storage_default->export());
+
+                    $locale_default = new locale(systemConfig::$i18n);
+                    $this->smarty->assign('locale_default', $locale_default);
+                }
+
                 $this->smarty->assign('locale', $locale);
                 $this->smarty->assign('plurals', range(0, $locale->getPluralsCount() - 1));
                 $this->smarty->assign('variables', $storage->export());
