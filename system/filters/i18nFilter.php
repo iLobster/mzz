@@ -95,7 +95,7 @@ class i18nFilter implements iFilter
             $session->set(self::$timezoneVarName, $tz);
         }
 
-        systemConfig::$i18n = $language;
+        //systemConfig::$i18n = $language;
         systemToolkit::getInstance()->setLocale($language);
 
         $filter_chain->next();

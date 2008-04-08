@@ -1,4 +1,4 @@
-<form>
+<form action="{$form_action}" method="post">
     <table border="1">
         <tr>
             <td rowspan="2">Имя переменной</td>
@@ -6,6 +6,7 @@
             {if not empty($not_default)}
                 <td align="center">Язык по умолчанию</td>
             {/if}
+            <td align="center" rowspan="2">Комментарий</td>
         </tr>
         <tr>
             {foreach from=$plurals item=plural}
@@ -30,7 +31,7 @@
                         {else}
                             {assign var=value value=""}
                         {/if}
-                        {form->text name="variable[`$name`]" value=$value}
+                        {form->text name="variable[`$name`][`$plural`]" value=$value}
                     </td>
                 {/foreach}
                 {if not empty($not_default)}
@@ -38,7 +39,11 @@
                         {$variables_default.$name.0}
                     </td>
                 {/if}
+                <td>
+                    {form->text name="comment[`$name`]" value=$storage_default->getComment($name)}
+                </td>
             </tr>
         {/foreach}
     </table>
+    {form->submit name="submit" value="_ simple/save"} {form->reset name="reset" value="_ simple/cancel"}
 </form>

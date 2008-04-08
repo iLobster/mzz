@@ -36,7 +36,6 @@ class adminTranslateController extends simpleController
                 $modules[] = $module['name'];
             } catch (mzzIoException $e) {
             }
-
         }
 
         $langs = locale::searchAll();
@@ -53,8 +52,42 @@ class adminTranslateController extends simpleController
 
                     $locale_default = new locale(systemConfig::$i18n);
                     $this->smarty->assign('locale_default', $locale_default);
+                } else {
+                    $storage_default = $storage;
                 }
 
+                $validator = new formValidator();
+
+                if ($validator->validate()) {
+                    $variables = $this->request->getArray('variable', SC_POST);
+                    $comments = $this->request->getArray('comment', SC_POST);
+
+                    $comments = array_filter($comments, array($this, 'notEmpty'));
+
+                    foreach ($variables as $name => $variable) {
+                        $variable = array_filter($variable, array($this, 'notEmpty'));
+                        $storage->write($name, $variable);
+                    }
+
+                    foreach ($comments as $name => $comment) {
+                        $storage_default->setComment($name, $comment);
+                    }
+
+                    $storage_default->save();
+                    $storage->save();
+
+                    $url = new url('default2');
+                    $url->setAction($this->request->getAction());
+
+                    return $this->response->redirect($url->get());
+                }
+
+                $url = new url('adminTranslate');
+                $url->add('module_name', $module_name);
+                $url->add('language', $language);
+
+                $this->smarty->assign('storage_default', $storage_default);
+                $this->smarty->assign('form_action', $url->get());
                 $this->smarty->assign('locale', $locale);
                 $this->smarty->assign('plurals', range(0, $locale->getPluralsCount() - 1));
                 $this->smarty->assign('variables', $storage->export());
@@ -68,6 +101,11 @@ class adminTranslateController extends simpleController
         $this->smarty->assign('modules', $modules);
 
         return $this->smarty->fetch('admin/translateList.tpl');
+    }
+
+    public function notEmpty($value)
+    {
+        return $value != '';
     }
 }
 
