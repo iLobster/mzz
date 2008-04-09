@@ -24,7 +24,7 @@ class formRequiredRule extends formAbstractRule
     public function validate()
     {
         if (is_array($this->value)) {
-            return count($this->value) > 0;
+            return count($this->value) > 0 && array_sum($this->value) > 0;
         }
         return trim($this->value) != '';
     }
