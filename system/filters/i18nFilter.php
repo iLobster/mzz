@@ -27,6 +27,8 @@ class i18nFilter implements iFilter
 
     static public $timezoneVarName = 'mzz_i18n_timezone';
 
+    static public $skinVarName = 'mzz_skin';
+
     /**
      * запуск фильтра на исполнение
      *
@@ -46,6 +48,7 @@ class i18nFilter implements iFilter
             $session->destroy(self::$sessionVarName);
             $session->destroy(self::$timezoneVarName);
             $session->set($lastUserIdVarName, $me->getId());
+            $session->set(self::$skinVarName, $me->getSkin()->getName());
         }
 
         // если приложение мультиязычное

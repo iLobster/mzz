@@ -7828,6 +7828,30 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
 COMMIT;
 
 #
+# Structure for the `sys_skins` table : 
+#
+
+DROP TABLE IF EXISTS `sys_skins`;
+
+CREATE TABLE `sys_skins` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` CHAR(32) COLLATE utf8_general_ci DEFAULT NULL,
+  `title` CHAR(32) COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+
+)ENGINE=MyISAM
+AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `sys_skins` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_skins` (`id`, `name`, `title`) VALUES
+  (1,'default','default'),
+  (2,'light','light');
+COMMIT;
+
+#
 # Structure for the `tags_item_rel` table : 
 #
 
@@ -7973,6 +7997,7 @@ CREATE TABLE `user_user` (
   `last_login` INTEGER(11) DEFAULT NULL,
   `language_id` INTEGER(11) DEFAULT NULL,
   `timezone` INTEGER(11) DEFAULT '3',
+  `skin` INTEGER(11) UNSIGNED DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `login` (`login`)
 
@@ -7983,10 +8008,10 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `user_user` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`) VALUES
-  (1,12,'guest','',NULL,NULL,1203767612,NULL,3),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1204027398,2,3),
-  (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3);
+INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
+  (1,12,'guest','',NULL,NULL,1203767612,NULL,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1204027398,2,3,1),
+  (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
 #

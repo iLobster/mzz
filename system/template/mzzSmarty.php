@@ -56,6 +56,13 @@ class mzzSmarty extends Smarty
     protected $xmlTemplate = false;
 
     /**
+     * Используемый скин
+     *
+     * @var string
+     */
+    protected $skin;
+
+    /**
      * Конструктор
      *
      */
@@ -227,6 +234,18 @@ class mzzSmarty extends Smarty
 
     function _parse_resource_name(&$params)
     {
+        if (empty($this->skin)) {
+            $this->skin = systemToolkit::getInstance()->getSession()->get(i18nFilter::$skinVarName);
+        }
+
+        $params_skinned = $params;
+        $params_skinned['resource_name'] = $this->skin . '/' . $params_skinned['resource_name'];
+
+        if (parent::_parse_resource_name($params_skinned)) {
+            $params = $params_skinned;
+            return true;
+        }
+
         if (parent::_parse_resource_name($params)) {
             return true;
         }

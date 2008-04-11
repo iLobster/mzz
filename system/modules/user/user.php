@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('service/skin');
+
 /**
  * user: user
  *
@@ -83,6 +85,12 @@ class user extends simple
     public function __wakeup()
     {
         $this->mapper = systemToolkit::getInstance()->getmapper('user', 'user', $this->section());
+    }
+
+    public function getSkin()
+    {
+        $id = parent::__call('getSkin', array());
+        return new skin($id);
     }
 }
 

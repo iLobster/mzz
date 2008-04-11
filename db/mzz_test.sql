@@ -752,6 +752,7 @@ CREATE TABLE `user_user` (
   `last_login` INTEGER(11) DEFAULT NULL,
   `language_id` INTEGER(11) DEFAULT NULL,
   `timezone` INTEGER(11) DEFAULT '3',
+  `skin` INTEGER(11) UNSIGNED DEFAULT '1',
   PRIMARY KEY (`id`)
 
 )ENGINE=MyISAM

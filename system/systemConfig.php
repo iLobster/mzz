@@ -81,6 +81,13 @@ class systemConfig
     public static $i18nEnable = false;
 
     /**
+     * id скина по умолчанию
+     *
+     * @var integer
+     */
+    public static $defaultSkin = 1;
+
+    /**
      * При вызове определяет и устанавливает путь до ядра
      *
      */
