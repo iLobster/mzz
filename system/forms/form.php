@@ -70,15 +70,22 @@ class form
         if (!isset($params['name'])) {
             throw new mzzRuntimeException('Элементу типа submit обязательно нужно указывать имя');
         }
+
         $name = $params['name'];
-        unset($params['name']);
+
+        $hidden = '';
+        if (empty($params['nodefault'])) {
+            $hiddenParams = array();
+            $hiddenParams['value'] = $params['value'];
+            $hiddenParams['name'] = $name;
+            $hidden = $this->hidden($hiddenParams, $smarty);
+        } else {
+            unset($params['nodefault']);
+        }
 
         $submit = $this->text($params, $smarty);
 
-        $hiddenParams = array();
-        $hiddenParams['value'] = $params['value'];
-        $hiddenParams['name'] = $name;
-        return $this->hidden($hiddenParams, $smarty) . $submit;
+        return $hidden . $submit;
     }
 
     public function reset($params, $smarty)

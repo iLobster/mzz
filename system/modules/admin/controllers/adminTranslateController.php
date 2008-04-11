@@ -59,6 +59,8 @@ class adminTranslateController extends simpleController
                 $validator = new formValidator();
 
                 if ($validator->validate()) {
+                    $apply = $this->request->getString('apply', SC_POST);
+
                     $variables = $this->request->getArray('variable', SC_POST);
                     $comments = $this->request->getArray('comment', SC_POST);
 
@@ -76,8 +78,14 @@ class adminTranslateController extends simpleController
                     $storage_default->save();
                     $storage->save();
 
-                    $url = new url('default2');
-                    $url->setAction($this->request->getAction());
+                    if (!is_null($apply)) {
+                        $url = new url('adminTranslate');
+                        $url->add('module_name', $module_name);
+                        $url->add('language', $language);
+                    } else {
+                        $url = new url('default2');
+                        $url->setAction($this->request->getAction());
+                    }
 
                     return $this->response->redirect($url->get());
                 }
