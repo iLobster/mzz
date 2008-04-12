@@ -81,6 +81,10 @@ class pageFolderMapper extends simpleMapperForTree
 
         $pageFolder = $this->searchByPath($folder);
 
+        if (!$pageFolder) {
+            return null;
+        }
+
         $criteria = new criteria();
         $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
         $page = $pageMapper->searchOneByCriteria($criteria);
