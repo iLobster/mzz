@@ -261,7 +261,7 @@ class mzzSmarty extends Smarty
         if (empty($this->lang) && systemConfig::$i18n) {
             $this->lang = systemToolkit::getInstance()->getLocale()->getName();
         }
-        return parent::_get_auto_filename($auto_base, $auto_source, $auto_id) . ($this->lang ? '-' . $this->lang : '') . $this->skin;
+        return parent::_get_auto_filename($auto_base, $auto_source, $auto_id) . ($this->lang ? '-' . $this->lang : '') . '-' . $this->skin;
     }
 }
 
