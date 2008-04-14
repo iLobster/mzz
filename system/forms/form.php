@@ -19,7 +19,7 @@ fileLoader::load("forms/formElement");
  *
  * @package system
  * @subpackage forms
- * @version 0.1.2
+ * @version 0.1.3
  */
 class form
 {
@@ -66,26 +66,8 @@ class form
 
     public function submit($params, $smarty)
     {
-        $params['type'] = 'submit';
-        if (!isset($params['name'])) {
-            throw new mzzRuntimeException('Элементу типа submit обязательно нужно указывать имя');
-        }
-
-        $name = $params['name'];
-
-        $hidden = '';
-        if (empty($params['nodefault'])) {
-            $hiddenParams = array();
-            $hiddenParams['value'] = $params['value'];
-            $hiddenParams['name'] = $name;
-            $hidden = $this->hidden($hiddenParams, $smarty);
-        } else {
-            unset($params['nodefault']);
-        }
-
-        $submit = $this->text($params, $smarty);
-
-        return $hidden . $submit;
+        fileLoader::load('forms/formSubmitField');
+        return formSubmitField::toString($params);
     }
 
     public function reset($params, $smarty)
