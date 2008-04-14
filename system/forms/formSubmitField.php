@@ -33,6 +33,7 @@ class formSubmitField extends formElement
         $hidden = '';
         if (empty($options['nodefault'])) {
             $hiddenParams = array();
+            $hiddenParams['type'] = 'hidden';
             $hiddenParams['value'] = $options['value'];
             $hiddenParams['name'] = $name;
             $hidden = self::createTag($hiddenParams);
