@@ -19,7 +19,7 @@ fileLoader::load('i18n/i18nStorageIni');
  *
  * @package system
  * @subpackage i18n
- * @version 0.1
+ * @version 0.1.1
  */
 class i18n
 {
@@ -120,6 +120,10 @@ class i18n
         }
 
         if (is_array($phrase)) {
+            if (!$generatorCallback) {
+                $phrase = $this->morph(reset($args), $phrase, $this->lang);
+                $generatorCallback = array($this, 'replacePlaceholders');
+            }
             return call_user_func_array($generatorCallback, array($phrase, $args, $this->lang));
         }
 
