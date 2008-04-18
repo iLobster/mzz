@@ -4,6 +4,8 @@
 
 {if $page->getName() ne '403'}
     {if $page->getName() ne '404'}
-        {load module="comments" section="comments" action="list" id=$page->getObjId()}
+        {if $page->getAllowComment() == 1} 
+            {load module="comments" section="comments" action="list" id=$page->getObjId()}
+        {/if}
     {/if}
 {/if}

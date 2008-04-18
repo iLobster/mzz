@@ -1644,6 +1644,7 @@ CREATE TABLE `page_page` (
   `title` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `content` TEXT COLLATE utf8_general_ci NOT NULL,
   `folder_id` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `allow_comment` TINYINT(4) DEFAULT '1',
   `compiled` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 
@@ -1654,18 +1655,18 @@ AUTO_INCREMENT=12 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `page_page` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `compiled`) VALUES
-  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n',1,0),
-  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1,NULL),
-  (3,11,'test','test','test',1,NULL),
-  (4,57,'403','Доступ запрещён','Доступ запрещён',1,NULL),
-  (5,164,'pagename','123','234',2,NULL),
-  (6,165,'asd','qwe','asd',2,NULL),
-  (7,166,'12345','1','qwe',2,NULL),
-  (8,167,'1236','2','asd',2,NULL),
-  (9,168,'1237','3','qwe',2,NULL),
-  (10,169,'1234','ffffff','f',2,NULL),
-  (11,170,'ss','ква','sdaf',2,NULL);
+INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `allow_comment`, `compiled`) VALUES
+  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n',1,1,0),
+  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1,1,NULL),
+  (3,11,'test','test','test',1,1,NULL),
+  (4,57,'403','Доступ запрещён','Доступ запрещён',1,1,NULL),
+  (5,164,'pagename','123','234',2,1,NULL),
+  (6,165,'asd','qwe','asd',2,1,NULL),
+  (7,166,'12345','1','qwe',2,1,NULL),
+  (8,167,'1236','2','asd',2,1,NULL),
+  (9,168,'1237','3','qwe',2,1,NULL),
+  (10,169,'1234','ffffff','f',2,1,NULL),
+  (11,170,'ss','ква','sdaf',2,1,NULL);
 COMMIT;
 
 #
@@ -8010,7 +8011,7 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
   (1,12,'guest','',NULL,NULL,1203767612,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1204027398,2,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1207536349,2,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
@@ -8092,14 +8093,14 @@ CREATE TABLE `user_userOnline` (
   KEY `last_activity` (`last_activity`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=297 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=298 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (296,2,'5721ce57de4952e0c1d579f44c22138a',1207536349,'http://mzz/admin/translate','127.0.0.1');
+  (297,2,'3553c4296813cc62238c9d993688d38b',1208486177,'http://mzz/en/news/168/view','127.0.0.1');
 COMMIT;
 
 #
