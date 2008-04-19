@@ -92,10 +92,22 @@
 					ed.undoManager.add();
 			});
 
+			// Select whole table is a table border is clicked
+			if (!tinymce.isIE) {
+				if (ed.getParam('table_selection', true)) {
+					ed.onClick.add(function(ed, e) {
+						e = e.target;
+
+						if (e.nodeName === 'TABLE')
+							ed.selection.select(e);
+					});
+				}
+			}
+
 			ed.onNodeChange.add(function(ed, cm, n) {
 				var p = ed.dom.getParent(n, 'td,th,caption');
 
-				cm.setActive('table', !!p);
+				cm.setActive('table', n.nodeName === 'TABLE' || !!p);
 				if (p && p.nodeName === 'CAPTION')
 					p = null;
 
@@ -892,7 +904,7 @@
 									if (!tdElm)
 										break;
 
-									if (tdElm.nodeName == "TD")
+									if (tdElm.nodeName == "TD" || tdElm.nodeName == "TH")
 										cells[cells.length] = tdElm;
 								}
 
