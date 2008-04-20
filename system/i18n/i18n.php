@@ -332,10 +332,23 @@ class i18n
 
         $locale = new locale($lang);
 
-        $tz = systemToolkit::getInstance()->getSession()->get(i18nFilter::$timezoneVarName);
-        $offset = $tz * 3600 - date('Z');
+        if ($format == 'relative_day') {
+            if ($date >= strtotime('today')) {
+                return self::getMessage('today', 'i18n');
+            } elseif ($date >= strtotime('yesterday')) {
+                return self::getMessage('yesterday', 'i18n');
+            } elseif ($date >= strtotime('-2 days 00:00')) {
+                return self::getMessage('before_yesterday', 'i18n');
+            } else {
+                $days = ceil((strtotime('today') - strtotime(date('d-m-Y', $date))) / 86400);
+                return self::getMessage('days_ago', 'i18n', null, $days);
+            }
+        }
 
-        return strftime($locale->getDateTimeFormatDirectly($format), $date + $offset);
+        $tz = systemToolkit::getInstance()->getSession()->get(i18nFilter::$timezoneVarName);
+        $date += $tz * 3600 - date('Z');
+
+        return strftime($locale->getDateTimeFormatDirectly($format), $date);
     }
 }
 
