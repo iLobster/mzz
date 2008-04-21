@@ -65,11 +65,11 @@ class jip
     private $actions;
 
     /**
-     * Идентификатор объекта
+     * Объект, для которого строится JIP-меню
      *
-     * @var integer
+     * @var simple
      */
-    private $obj_id;
+    private $obj;
 
     /**
      * Результат сборки массива элементов JIP-меню
@@ -93,17 +93,17 @@ class jip
      * @param integer $id идентификатор
      * @param string $type тип доменного объекта
      * @param array $actions действия для JIP
-     * @param integer $obj_id идентификатор объекта
+     * @param simple $obj объект
      * @param string $tpl шаблон JIP-меню
      */
-    public function __construct($section, $module, $id, $type, Array $actions, $obj_id, $tpl = self::DEFAULT_TEMPLATE)
+    public function __construct($section, $module, $id, $type, Array $actions, simple $obj, $tpl = self::DEFAULT_TEMPLATE)
     {
         $this->section = $section;
         $this->module = $module;
         $this->id = $id;
         $this->type = $type;
         $this->actions = $actions;
-        $this->obj_id = $obj_id;
+        $this->obj = $obj;
         $this->tpl = $tpl;
         $this->generate();
     }
@@ -147,12 +147,10 @@ class jip
     {
         $toolkit = systemToolkit::getInstance();
 
-        $acl = new acl($toolkit->getUser(), $this->obj_id);
-
         foreach ($this->actions as $key => $item) {
             $action = isset($item['alias']) ? $item['alias'] : $key;
-            if ($acl->get($action)) {
-                $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj_id));
+            if ($this->obj->getAcl($action)) {
+                $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj->getObjId()));
                 $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
                 $item['icon'] = isset($item['icon']) ? SITE_PATH . $item['icon'] : '';
                 $item['lang'] = (isset($item['lang']) && systemConfig::$i18nEnable) ? (boolean)$item['lang'] : false;
