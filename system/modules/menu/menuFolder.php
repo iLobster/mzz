@@ -30,7 +30,7 @@ class menuFolder extends simple
         $action = $toolkit->getAction($module);
         $request = $toolkit->getRequest();
 
-        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId());
+        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this);
 
         $url = new url('default2');
         $url->setAction('addmenu');
@@ -38,6 +38,11 @@ class menuFolder extends simple
         $createAction = &$jip->getItem('addmenu');
         $createAction['url'] = $url->get();
         return $jip->draw();
+    }
+
+    public function getAcl($name = null)
+    {
+        return true;
     }
 }
 

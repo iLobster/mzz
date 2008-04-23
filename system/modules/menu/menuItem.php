@@ -103,7 +103,7 @@ class menuItem extends simpleCatalogue
         $action = $toolkit->getAction($module);
         $request = $toolkit->getRequest();
 
-        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this->getObjId(), $tpl);
+        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this, $tpl);
 
         $url = new url('menuMoveAction');
         $url->add('id', $id);
