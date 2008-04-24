@@ -92,6 +92,16 @@ class user extends simple
         $id = parent::__call('getSkin', array());
         return new skin($id);
     }
+
+    public function getTimezone()
+    {
+        $tz = parent::__call('getTimezone', array());
+        if (strtotime('last sunday april 2008') < strtotime('today') && strtotime('last sunday november 2008') > strtotime('today')) {
+            $tz++;
+        }
+
+        return $tz;
+    }
 }
 
 ?>

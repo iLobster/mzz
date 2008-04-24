@@ -92,9 +92,7 @@ class i18nFilter implements iFilter
             $session->set(self::$sessionVarName, $language);
 
             $tz = $me->getTimezone();
-            if (strtotime('last sunday april 2008') < strtotime('today') && strtotime('last sunday november 2008') > strtotime('today')) {
-                $tz++;
-            }
+
             $session->set(self::$timezoneVarName, $tz);
         }
 
