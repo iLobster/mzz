@@ -19,7 +19,7 @@ fileLoader::load('service/iniFile');
  *
  * @package system
  * @subpackage i18n
- * @version 0.1.4
+ * @version 0.1.5
  */
 class locale
 {
@@ -142,6 +142,16 @@ class locale
     public function getAlphabet()
     {
         return $this->data['regional_settings']['alphabet'];
+    }
+
+    /**
+     * Является ли язык с направлением письма "справа налево"
+     *
+     * @return boolean
+     */
+    public function isRtl()
+    {
+        return $this->data['regional_settings']['text_direction'] == 'rtl';
     }
 
     /**
