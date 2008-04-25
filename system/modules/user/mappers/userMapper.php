@@ -19,10 +19,22 @@ fileLoader::load('user');
  *
  * @package modules
  * @subpackage user
- * @version 0.2.2
+ * @version 0.2.3
  */
 class userMapper extends simpleMapper
 {
+    /**
+     * Учётная запись не подтверждена
+     *
+     */
+    const NOT_CONFIRMED = 1;
+
+    /**
+     * Неверные аутентификационные данные
+     *
+     */
+    const WRONG_AUTH_DATA = 2;
+
     /**
      * Имя модуля
      *
@@ -37,6 +49,12 @@ class userMapper extends simpleMapper
      */
     protected $className = 'user';
 
+    /**
+     * Причина неудачной авторизации
+     *
+     * @var unknown_type
+     */
+    protected $reason;
 
     /**
      * Создает пустой объект DO
@@ -150,11 +168,23 @@ class userMapper extends simpleMapper
         if ($user && $user->isConfirmed()) {
             $this->setUserId($user->getId());
         } else {
+            $this->reason = $user ? self::NOT_CONFIRMED : self::WRONG_AUTH_DATA;
+
             $this->setUserId(MZZ_USER_GUEST_ID);
             $user = $this->getGuest();
         }
 
         return $user;
+    }
+
+    /**
+     * Получение причины неудачной авторизации
+     *
+     * @return integer
+     */
+    public function getReason()
+    {
+        return $this->reason;
     }
 
     /**
