@@ -235,6 +235,25 @@ class userMapper extends simpleMapper
         $fields['created'] = time();
     }
 
+    public function delete($id)
+    {
+        if ($id instanceof user) {
+            $id = $id->getId();
+        } elseif (!is_scalar($id)) {
+            throw new mzzRuntimeException('Wrong id or object');
+        }
+
+        // исключаем пользователя из групп, в которых он состоял
+        $userGroupMapper = systemToolkit::getInstance()->getMapper('user', 'userGroup', $this->section);
+        $groups = $userGroupMapper->searchAllByField('user_id', $id);
+
+        foreach ($groups as $val) {
+            $userGroupMapper->delete($val->getId());
+        }
+
+        parent::delete($id);
+    }
+
     public function convertArgsToObj($args)
     {
         if (isset($args['id'])) {

@@ -26,16 +26,14 @@ class userDeleteController extends simpleController
         // удаляем пользователя
         $id = $this->request->getInteger('id');
         $userMapper = $this->toolkit->getMapper('user', 'user');
-        $userMapper->delete($id);
 
-        // исключаем пользователя из групп, в которых он состоял
-        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
-        $groups = $userGroupMapper->searchAllByField('user_id', $id);
+        $user = $userMapper->searchByKey($id);
 
-        foreach ($groups as $val) {
-            $userGroupMapper->delete($val->getId());
+        if (!$user) {
+            return $userMapper->get404()->run();
         }
 
+        $userMapper->delete($user);
         return jipTools::redirect();
     }
 }

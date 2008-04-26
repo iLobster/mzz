@@ -33,7 +33,7 @@ class userMemberOfController extends simpleController
         $user = $userMapper->searchById($id);
 
         // проверяем что найден нужный пользователь
-        if ($id != $user->getId()) {
+        if ($user && $id != $user->getId()) {
             return $userMapper->get404()->run();
         }
 

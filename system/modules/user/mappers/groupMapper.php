@@ -81,6 +81,25 @@ class groupMapper extends simpleMapper
         return (isset($this->users_count[$group->getId()]) ? $this->users_count[$group->getId()] : 0);
     }
 
+    public function delete($id)
+    {
+        if ($id instanceof group) {
+            $id = $id->getId();
+        } elseif (!is_scalar($id)) {
+            throw new mzzRuntimeException('Wrong id or object');
+        }
+
+        // исключаем пользователей из этой группы
+        $userGroupMapper = systemToolkit::getInstance()->getMapper('user', 'userGroup', $this->section);
+        $groups = $userGroupMapper->searchAllByField('group_id', $id);
+
+        foreach ($groups as $val) {
+            $userGroupMapper->delete($val->getId());
+        }
+
+        parent::delete($id);
+    }
+
     public function convertArgsToObj($args)
     {
         /*

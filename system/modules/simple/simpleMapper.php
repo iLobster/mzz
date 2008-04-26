@@ -659,7 +659,7 @@ abstract class simpleMapper
      * @param array $keys идентификатор записи
      * @return object simple
      */
-    public function searchByKeys($ids)
+    public function searchByKeys(Array $ids)
     {
         $criteria = new criteria();
         $criteria->add($this->tableKey, $ids, criteria::IN);
