@@ -22,6 +22,11 @@ function smarty_compiler_assign($tag_attrs, &$compiler)
 {
     $_params = $compiler->_parse_attrs($tag_attrs);
 
+    if (sizeof($_params) === 1 && !isset($_params['var']) && !isset($_params['value'])) {
+        $value = reset($_params);
+        return "\$this->assign('" . key($_params) . "', " . $value . ");";
+    }
+
     if (!isset($_params['var'])) {
         $compiler->_syntax_error("assign: missing 'var' parameter", E_USER_WARNING);
         return;
