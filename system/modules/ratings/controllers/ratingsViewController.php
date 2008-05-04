@@ -41,6 +41,8 @@ class ratingsViewController extends simpleController
 
         $stars = range(1, ratingsFolderMapper::STARS_COUNT);
 
+        $this->smarty->assign('errors', new arrayDataspace());
+
         if (!$myrate) {
             $validator = new formValidator('rate_subm');
             $validator->add('required', 'rate', 'Неверная оценка');
