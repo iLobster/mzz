@@ -36,11 +36,7 @@
         {/section}
     </ul>
     <div style="display: block;">
-        {if $errors->get('rate')}
-            <div class="voted_error">{$errors->get('rate')}</div>
-        {elseif $myrate}
-            <div class="voted">Ваша оценка {$myrate->getRate()}</div>
-        {/if}
+        {if $errors->get('rate')}<div class="voted_error">{$errors->get('rate')}</div>{/if}
     </div>
 
 {if !$myrate && $errors->isEmpty()}
