@@ -32,6 +32,11 @@ class ratingsFolder extends simple
 
         return $this->getRateSum() / $this->getRateCount();
     }
+
+    public function getPercentRate()
+    {
+        return ($this->getRate() * 100) / ratingsFolderMapper::STARS_COUNT;
+    }
 }
 
 ?>

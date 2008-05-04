@@ -40,6 +40,13 @@ class ratingsViewController extends simpleController
         $myrate = $ratingsMapper->searchOneByCriteria($criteria);
 
         $stars = range(1, ratingsFolderMapper::STARS_COUNT);
+        $starsNames = array(
+            1 => 'one-star',
+            2 => 'two-stars',
+            3 => 'three-stars',
+            4 => 'four-stars',
+            5 => 'five-stars'
+        );
 
         $this->smarty->assign('errors', new arrayDataspace());
 
@@ -69,6 +76,8 @@ class ratingsViewController extends simpleController
         }
 
         $this->smarty->assign('stars', $stars);
+        $this->smarty->assign('starsNames', $starsNames);
+        $this->smarty->assign('starsCount', ratingsFolderMapper::STARS_COUNT);
         $this->smarty->assign('myrate', $myrate);
         $this->smarty->assign('folder', $ratingsFolder);
         return $this->smarty->fetch('ratings/view.tpl');
