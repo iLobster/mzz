@@ -5,10 +5,9 @@
 {if $page->getName() ne '403'}
     {if $page->getName() ne '404'}
         {if $page->getAllowComment() == 1}
+            <br /><br />
+            {load module="ratings" section="ratings" action="view" id=$page->getObjId() owner=2}
             {load module="comments" section="comments" action="list" id=$page->getObjId()}
         {/if}
     {/if}
 {/if}
-
-<br /><br />
-{load module="ratings" section="ratings" action="view" id=$page->getObjId() owner=2}
