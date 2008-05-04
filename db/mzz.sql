@@ -20,6 +20,8 @@ CREATE DATABASE `mzz`
 
 USE `mzz`;
 
+SET sql_mode = '';
+
 #
 # Structure for the `catalogue_catalogue` table : 
 #
@@ -1725,6 +1727,48 @@ INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
   (1,1,6,1),
   (2,2,5,2),
   (3,3,4,3);
+COMMIT;
+
+#
+# Structure for the `ratings_ratings` table : 
+#
+
+DROP TABLE IF EXISTS `ratings_ratings`;
+
+CREATE TABLE `ratings_ratings` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `folder_id` INTEGER(11) NOT NULL,
+  `user_id` INTEGER(11) NOT NULL,
+  `rate` INTEGER(11) NOT NULL,
+  PRIMARY KEY (`id`)
+
+)ENGINE=MyISAM
+AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Structure for the `ratings_ratingsFolder` table : 
+#
+
+DROP TABLE IF EXISTS `ratings_ratingsFolder`;
+
+CREATE TABLE `ratings_ratingsFolder` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `obj_id` INTEGER(11) NOT NULL,
+  `parent_id` INTEGER(11) NOT NULL,
+  `ratesum` INTEGER(11) DEFAULT '0',
+  `ratecount` INTEGER(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`)
+
+)ENGINE=MyISAM
+AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `ratings_ratingsFolder` table  (LIMIT 0,500)
+#
+
+INSERT INTO `ratings_ratingsFolder` (`id`, `obj_id`, `parent_id`, `ratesum`, `ratecount`) VALUES
+  (1,1300,9,0,0);
 COMMIT;
 
 #
@@ -5175,7 +5219,7 @@ CREATE TABLE `sys_access_registry` (
   PRIMARY KEY (`obj_id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=1288 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1301 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access_registry` table  (LIMIT 0,500)
@@ -5677,7 +5721,27 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
   (1284,7),
   (1285,40),
   (1286,7),
-  (1287,7);
+  (1287,7),
+  (1288,7),
+  (1289,52),
+  (1290,52),
+  (1291,52);
+COMMIT;
+
+#
+# Data for the `sys_access_registry` table  (LIMIT 500,500)
+#
+
+INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
+  (1292,52),
+  (1293,52),
+  (1294,52),
+  (1295,52),
+  (1296,52),
+  (1297,52),
+  (1298,52),
+  (1299,52),
+  (1300,52);
 COMMIT;
 
 #
@@ -5970,7 +6034,7 @@ CREATE TABLE `sys_classes` (
   UNIQUE KEY `name` (`name`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=53 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=55 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes` table  (LIMIT 0,500)
@@ -6021,7 +6085,9 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (48,'profile',15),
   (49,'storage',9),
   (50,'userFolder',2),
-  (52,'groupFolder',2);
+  (52,'groupFolder',2),
+  (53,'ratingsFolder',21),
+  (54,'ratings',21);
 COMMIT;
 
 #
@@ -6038,7 +6104,7 @@ CREATE TABLE `sys_classes_actions` (
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=284 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=287 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -6231,7 +6297,10 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (280,52,14),
   (281,48,100),
   (282,20,101),
-  (283,9,102);
+  (283,9,102),
+  (284,53,9),
+  (285,54,9),
+  (286,53,3);
 COMMIT;
 
 #
@@ -6249,7 +6318,7 @@ CREATE TABLE `sys_classes_sections` (
   KEY `class_id` (`class_id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=52 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=54 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_sections` table  (LIMIT 0,500)
@@ -6302,7 +6371,9 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
   (48,49,9),
   (49,50,2),
   (50,51,2),
-  (51,52,2);
+  (51,52,2),
+  (52,53,19),
+  (53,54,19);
 COMMIT;
 
 #
@@ -6371,7 +6442,7 @@ CREATE TABLE `sys_modules` (
   PRIMARY KEY (`id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=21 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=22 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_modules` table  (LIMIT 0,500)
@@ -6395,7 +6466,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (17,'tags',45,'','',0),
   (18,'captcha',47,'Captcha','',0),
   (19,'pager',NULL,'Пейджер',NULL,NULL),
-  (20,'simple',NULL,'simple',NULL,NULL);
+  (20,'simple',NULL,'simple',NULL,NULL),
+  (21,'ratings',53,'Рейтинги','',0);
 COMMIT;
 
 #
@@ -6409,7 +6481,7 @@ CREATE TABLE `sys_obj_id` (
   PRIMARY KEY (`id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=1288 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1301 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -7702,7 +7774,20 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1284),
   (1285),
   (1286),
-  (1287);
+  (1287),
+  (1288),
+  (1289),
+  (1290),
+  (1291),
+  (1292),
+  (1293),
+  (1294),
+  (1295),
+  (1296),
+  (1297),
+  (1298),
+  (1299),
+  (1300);
 COMMIT;
 
 #
@@ -7718,7 +7803,7 @@ CREATE TABLE `sys_obj_id_named` (
   UNIQUE KEY `name` (`name`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=1288 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1289 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id_named` table  (LIMIT 0,500)
@@ -7785,7 +7870,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (1273,'forum_profile'),
   (1284,'access_user_userFolder'),
   (1286,'access_forum_profile'),
-  (1287,'access_user_groupFolder');
+  (1287,'access_user_groupFolder'),
+  (1288,'access_ratings_ratingsFolder');
 COMMIT;
 
 #
@@ -7803,7 +7889,7 @@ CREATE TABLE `sys_sections` (
   UNIQUE KEY `name` (`name`, `id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=19 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=20 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_sections` table  (LIMIT 0,500)
@@ -7825,7 +7911,8 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
   (15,'forum','Форум',0),
   (16,'faq','FAQ',0),
   (17,'tags',NULL,NULL),
-  (18,'captcha',NULL,NULL);
+  (18,'captcha',NULL,NULL),
+  (19,'ratings','',0);
 COMMIT;
 
 #
@@ -8011,7 +8098,7 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
   (1,12,'guest','',NULL,NULL,1203767612,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1207536349,2,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1208486177,2,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
@@ -8031,7 +8118,7 @@ CREATE TABLE `user_userAuth` (
   PRIMARY KEY (`id`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=110 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=111 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -8043,7 +8130,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (106,2,'127.0.0.1','6e7c6dfe4a14ba6075c8bc83f647877e',NULL,1204026491),
   (107,2,'127.0.0.1','35ceae055495b7779742cae2e4538fa7',NULL,1203767634),
   (108,2,'127.0.0.1','3975d51e7376dcd60beb9579cc486629',NULL,1203767672),
-  (109,2,'127.0.0.1','af345a7c47151521536239c1a9f7f673',NULL,1207535424);
+  (109,2,'127.0.0.1','af345a7c47151521536239c1a9f7f673',NULL,1207535424),
+  (110,2,'127.0.0.1','a9d2342a0b234d6bcbc174a9f1b08964',NULL,1209854243);
 COMMIT;
 
 #
@@ -8093,14 +8181,14 @@ CREATE TABLE `user_userOnline` (
   KEY `last_activity` (`last_activity`)
 
 )ENGINE=MyISAM
-AUTO_INCREMENT=298 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=300 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (297,2,'3553c4296813cc62238c9d993688d38b',1208486177,'http://mzz/en/news/168/view','127.0.0.1');
+  (299,2,'559864ca0d9346396194a2d3c3d67b36',1209859110,'http://mzz/page','127.0.0.1');
 COMMIT;
 
 #
