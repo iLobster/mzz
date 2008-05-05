@@ -474,6 +474,20 @@ class adminMapper extends simpleMapper
         return $result;
     }
 
+    public static function getInfoByObjId($obj_id)
+    {
+        $db = DB::factory();
+
+        $sql = 'SELECT `c`.`name` AS `class`, `m`.`name` AS `module`, `s`.`name` AS `section` FROM `sys_access_registry` `r`
+                 INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                  INNER JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                   INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                    INNER JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+                     WHERE `r`.`obj_id` = ' . (int)$obj_id;
+
+        return $db->getRow($sql);
+    }
+
     /**
      * Получение списка get* и search* методов маппера
      *
