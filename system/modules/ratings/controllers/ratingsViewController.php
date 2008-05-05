@@ -28,6 +28,8 @@ class ratingsViewController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
+        $access = $this->request->getBoolean('access');
+
         $action = $this->request->getAction();
         $isPost = ($action == 'post');
         $isSaved = false;
