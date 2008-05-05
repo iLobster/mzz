@@ -15,7 +15,7 @@
         {/section}
     </ul>
     {if $isPost}
-        {if $isSaved}<div class="voted">Спасибо за Ваш голос ({$myrate->getRate()})</div>{/if}
+        {if $isSaved}<div class="voted">Ваш голос ({$myrate->getRate()}) принят</div>{/if}
         {if $errors->get('rate')}<div class="voted_error">{$errors->get('rate')}</div>{/if}
     {/if}
 {if !$isPost}</div>{/if}
