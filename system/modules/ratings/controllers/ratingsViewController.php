@@ -28,58 +28,65 @@ class ratingsViewController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
+        $action = $this->request->getAction();
+        $isPost = ($action == 'post');
+        $isSaved = false;
+
         $ratingsMapper = $this->toolkit->getMapper('ratings', 'ratings');
         $ratingsFolderMapper = $this->toolkit->getMapper('ratings', 'ratingsFolder');
 
-        $parent_id = $this->request->getInteger('id');
+        if (!$isPost) {
+            $parent_id = $this->request->getInteger('id');
+            $ratingsFolder = $ratingsFolderMapper->searchOneByField('parent_id', $parent_id);
+        } else {
+            $id = $this->request->getInteger('id');
 
-        $ratingsFolder = $ratingsFolderMapper->searchOneByField('parent_id', $parent_id);
+            $ratingsFolder = $ratingsFolderMapper->searchByKey($id);
+            if (!$ratingsFolder) {
+                return $ratingsFolderMapper->get404()->run();
+            }
+        }
 
         $criteria = new criteria;
         $criteria->add('folder_id', $ratingsFolder->getId())->add('user_id', $user->getId());
         $myrate = $ratingsMapper->searchOneByCriteria($criteria);
 
         $stars = range(1, ratingsFolderMapper::STARS_COUNT);
-        $starsNames = array(
-            1 => 'one-star',
-            2 => 'two-stars',
-            3 => 'three-stars',
-            4 => 'four-stars',
-            5 => 'five-stars'
-        );
 
-        $this->smarty->assign('errors', new arrayDataspace());
+        $validator = new formValidator('rate');
+        $validator->add('required', 'rate', 'Неверная оценка');
+        $validator->add('in', 'rate', 'Неверная оценка', $stars);
 
-        if (!$myrate) {
-            $validator = new formValidator('rate_subm');
-            $validator->add('required', 'rate', 'Неверная оценка');
-            $validator->add('in', 'rate', 'Неверная оценка', $stars);
+        $errors = $validator->getErrors();
+        if ($isPost && $myrate) {
+            $errors->set('rate', 'Уже голосовали');
+        }
 
-            if ($validator->validate()) {
-                $rate = $this->request->getInteger('rate', SC_REQUEST);
-                $myrate = $ratingsMapper->create();
-                $myrate->setFolder($ratingsFolder);
-                $myrate->setUser($user);
-                $myrate->setRate($rate);
+        if (!$myrate && $validator->validate()) {
+            $rate = $this->request->getInteger('rate', SC_REQUEST);
+            $myrate = $ratingsMapper->create();
+            $myrate->setFolder($ratingsFolder);
+            $myrate->setUser($user);
+            $myrate->setRate($rate);
 
-                $ratingsMapper->save($myrate);
+            $ratingsMapper->save($myrate);
 
-                $rateCount = $ratingsFolder->getRateCount() + 1;
-                $rateSum = $ratingsFolder->getRateSum() + $rate;
+            $rateCount = $ratingsFolder->getRateCount() + 1;
+            $rateSum = $ratingsFolder->getRateSum() + $rate;
 
-                $ratingsFolder->setRateCount($rateCount);
-                $ratingsFolder->setRateSum($rateSum);
-                $ratingsFolderMapper->save($ratingsFolder);
-            }
-
-            $this->smarty->assign('errors', $validator->getErrors());
+            $ratingsFolder->setRateCount($rateCount);
+            $ratingsFolder->setRateSum($rateSum);
+            $ratingsFolderMapper->save($ratingsFolder);
+            $isSaved = true;
         }
 
         $this->smarty->assign('stars', $stars);
-        $this->smarty->assign('starsNames', $starsNames);
         $this->smarty->assign('starsCount', ratingsFolderMapper::STARS_COUNT);
         $this->smarty->assign('myrate', $myrate);
         $this->smarty->assign('folder', $ratingsFolder);
+        $this->smarty->assign('isPost', $isPost);
+        $this->smarty->assign('isSaved', $isSaved);
+        $this->smarty->assign('errors', $errors);
         return $this->smarty->fetch('ratings/view.tpl');
     }
 }

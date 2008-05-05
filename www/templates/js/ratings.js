@@ -1,11 +1,9 @@
-function sendRate(formObj, divObj)
+function rate(url, container)
 {
-    var url = formObj.action;
     new Ajax.Request(url, {
-        method: formObj.method,
-        parameters: formObj.serialize(),
+        method: 'get',
         onSuccess: function(transport) {
-            divObj.update(transport.responseText);
+            container.update(transport.responseText);
         }
     });
 }

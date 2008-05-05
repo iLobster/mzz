@@ -1,0 +1,1 @@
+{load module="ratings" action="post"}

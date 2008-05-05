@@ -52,27 +52,33 @@ class ratingsFolderMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+        $action = $request->getAction();
+
         if (isset($args['id'])) {
-            $folder = $this->searchOneByField('parent_id', $args['id']);
+            if ($action == 'view') {
+                $folder = $this->searchOneByField('parent_id', $args['id']);
 
-            if (is_null($folder)) {
-                $toolkit = systemToolkit::getInstance();
-                $request = $toolkit->getRequest();
-                $ownerId = $request->getRaw('owner');
+                if (is_null($folder)) {
+                    $ownerId = $request->getRaw('owner');
 
-                $owner = null;
-                if (is_a($ownerId, 'user')) {
-                    $owner = $ownerId;
-                } else {
-                    $userMapper = $toolkit->getMapper('user', 'user', 'user');
-                    $owner = $userMapper->searchById((int)$ownerId);
+                    $owner = null;
+                    if (is_a($ownerId, 'user')) {
+                        $owner = $ownerId;
+                    } else {
+                        $userMapper = $toolkit->getMapper('user', 'user', 'user');
+                        $owner = $userMapper->searchById((int)$ownerId);
+                    }
+
+                    if ($owner) {
+                        $folder = $this->create();
+                        $folder->setParentId($args['id']);
+                        $this->save($folder, $owner);
+                    }
                 }
-
-                if ($owner) {
-                    $folder = $this->create();
-                    $folder->setParentId($args['id']);
-                    $this->save($folder, $owner);
-                }
+            } else {
+                $folder = $this->searchByKey($args['id']);
             }
 
             if ($folder) {
