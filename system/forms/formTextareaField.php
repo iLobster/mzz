@@ -25,7 +25,7 @@ class formTextareaField extends formElement
     {
         $value = isset($options['value']) ? $options['value'] : '';
         if (isset($options['name'])) {
-            $options['content'] = htmlspecialchars(self::getValue($options['name'], $value));
+            $options['content'] = self::escapeOnce((self::getValue($options['name'], $value)));
         }
         unset($options['value']);
         if (empty($options['content'])) {
