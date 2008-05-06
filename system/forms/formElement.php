@@ -194,7 +194,7 @@ abstract class formElement
             $name = substr($name, 0, strlen($name) - 2);
         }
         $value = $request->getRaw($name, SC_REQUEST);
-        return htmlspecialchars((!is_null($value) ? $value : $default));
+        return !is_null($value) ? $value : $default;
     }
 
     /**
