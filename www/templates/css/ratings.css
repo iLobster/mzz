@@ -40,12 +40,12 @@
 /* SECOND STAR (ALREADY VOTED */
 
 
-.star-rating-voted,
-.star-rating-voted a:active,
-.star-rating-voted .current-rating{
-	background: url(../images/ratings/rating_star_2.gif) left -1000px repeat-x;
+.star-rating-inactive,
+.star-rating-inactive a:active,
+.star-rating-inactive .current-rating{
+	background: url(../images/ratings/rating_star.gif) left -1000px repeat-x;
 }
-.star-rating-voted{
+.star-rating-inactive{
 	position:relative;
 	width:125px;
 	height:25px;
@@ -55,11 +55,11 @@
 	padding:0;
 	background-position: left top;
 }
-.star-rating-voted li{
+.star-rating-inactive li{
 	display: inline;
 }
-.star-rating-voted a,
-.star-rating-voted .current-rating {
+.star-rating-inactive a,
+.star-rating-inactive .current-rating {
 	position:absolute;
 	top:0;
 	left:0;
@@ -72,7 +72,7 @@
 	cursor:default;
 }
 
-.star-rating-voted .current-rating{
+.star-rating-inactive .current-rating{
 	z-index:1;
 	background-position: left center;
 }

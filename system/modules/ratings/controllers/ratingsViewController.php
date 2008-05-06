@@ -26,6 +26,9 @@ class ratingsViewController extends simpleController
 {
     protected function getView()
     {
+        $ratingsMapper = $this->toolkit->getMapper('ratings', 'ratings');
+        $ratingsFolderMapper = $this->toolkit->getMapper('ratings', 'ratingsFolder');
+
         $user = $this->toolkit->getUser();
 
         $access = $this->request->getBoolean('access');
@@ -34,15 +37,18 @@ class ratingsViewController extends simpleController
         $isPost = ($action == 'post');
         $isSaved = false;
 
-        $ratingsMapper = $this->toolkit->getMapper('ratings', 'ratings');
-        $ratingsFolderMapper = $this->toolkit->getMapper('ratings', 'ratingsFolder');
+        $isStatic = $this->request->getBoolean('static');
+
+        $prefix = $this->request->getString('tplPrefix');
+        if (!empty($prefix)) {
+            $prefix .= '/';
+        }
+
+        $id = $this->request->getInteger('id');
 
         if (!$isPost) {
-            $parent_id = $this->request->getInteger('id');
-            $ratingsFolder = $ratingsFolderMapper->searchOneByField('parent_id', $parent_id);
+            $ratingsFolder = $ratingsFolderMapper->searchOneByField('parent_id', $id);
         } else {
-            $id = $this->request->getInteger('id');
-
             $ratingsFolder = $ratingsFolderMapper->searchByKey($id);
             if (!$ratingsFolder) {
                 return $ratingsFolderMapper->get404()->run();
@@ -53,18 +59,25 @@ class ratingsViewController extends simpleController
         $criteria->add('folder_id', $ratingsFolder->getId())->add('user_id', $user->getId());
         $myrate = $ratingsMapper->searchOneByCriteria($criteria);
 
-        $stars = range(1, ratingsFolderMapper::STARS_COUNT);
+        $starsCount = ratingsFolderMapper::STARS_COUNT;
+        $stars = range(1, $starsCount);
 
         $validator = new formValidator('rate');
-        $validator->add('required', 'rate', 'Неверная оценка');
+        $validator->add('required', 'rate', 'Вы должны указать оценку');
         $validator->add('in', 'rate', 'Неверная оценка', $stars);
 
         $errors = $validator->getErrors();
+
+        $access = $this->request->getBoolean('access');
+        if ($isPost && !is_null($access) && !$access) {
+            $errors->set('rate', ($user->getId() == MZZ_USER_GUEST_ID) ? 'Оценивать разрешено только зарегестрированным и авторизованным пользователям' : 'Запрещено');
+        }
+
         if ($isPost && $myrate) {
             $errors->set('rate', 'Уже голосовали');
         }
 
-        if (!$myrate && $validator->validate()) {
+        if (!$myrate && $validator->validate() && $errors->isEmpty()) {
             $rate = $this->request->getInteger('rate', SC_REQUEST);
             $myrate = $ratingsMapper->create();
             $myrate->setFolder($ratingsFolder);
@@ -83,13 +96,19 @@ class ratingsViewController extends simpleController
         }
 
         $this->smarty->assign('stars', $stars);
-        $this->smarty->assign('starsCount', ratingsFolderMapper::STARS_COUNT);
+        $this->smarty->assign('starsCount', $starsCount);
         $this->smarty->assign('myrate', $myrate);
         $this->smarty->assign('folder', $ratingsFolder);
         $this->smarty->assign('isPost', $isPost);
         $this->smarty->assign('isSaved', $isSaved);
+        $this->smarty->assign('isStatic', $isStatic);
         $this->smarty->assign('errors', $errors);
-        return $this->smarty->fetch('ratings/view.tpl');
+
+        if (!$isStatic) {
+            return $this->smarty->fetch('ratings/' . $prefix . 'view.tpl');
+        } else {
+            return $this->smarty->fetch('ratings/' . $prefix . 'view_static.tpl');
+        }
     }
 }
 
