@@ -6,9 +6,20 @@ class i18nTest extends UnitTestCase
 {
     private $i18n;
 
+    private $tz;
+
     public function setUp()
     {
         $this->i18n = new i18n();
+
+        $this->tz = systemToolkit::getInstance()->getSession()->get(i18nFilter::$timezoneVarName);
+
+        systemToolkit::getInstance()->getSession()->set(i18nFilter::$timezoneVarName, 0);
+    }
+
+    public function tearDown()
+    {
+        systemToolkit::getInstance()->getSession()->set(i18nFilter::$timezoneVarName, $this->tz);
     }
 
     private function injectPhrases($phrases)
@@ -92,8 +103,6 @@ class i18nTest extends UnitTestCase
 
     public function testDate()
     {
-        systemToolkit::getInstance()->getSession()->start();
-
         $time = 1207110245;
         $this->assertEqual(i18n::date($time), '04/02/2008 04:24:05 AM');
         $this->assertEqual(i18n::date($time, 'short_time'), '04:24 AM');

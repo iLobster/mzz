@@ -19,6 +19,7 @@ try {
 
     $filter_chain = new filterChain($response, $request);
     $filter_chain->registerFilter(new timingFilter());
+    $filter_chain->registerFilter(new sessionFilter());
     $filter_chain->registerFilter(new testsHtmlRunner());
     $filter_chain->process();
 
