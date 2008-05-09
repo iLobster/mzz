@@ -112,6 +112,20 @@ class criteriaTest extends unitTestCase
         $this->assertEqual($this->criteria->getOffset(), $offset);
     }
 
+    public function testAppendWithFromSubquery()
+    {
+        $newCriteria = new criteria('table2');
+        $newCriteria->add('q', 2);
+        $this->criteria->setTable($newCriteria, 'alias');
+
+        $this->criteria->add('a', 3);
+        
+        $c2 = new criteria('table', 'alias');
+        $c2->append($this->criteria);
+        
+        $this->assertEqual($c2->debug(true), 'SELECT * FROM (SELECT * FROM `table2` WHERE `table2`.`q` = 2) `alias` WHERE `alias`.`a` = 3');
+    }
+
     public function testDistinct()
     {
         $this->assertFalse($this->criteria->getDistinct());

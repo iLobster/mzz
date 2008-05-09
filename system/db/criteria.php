@@ -19,7 +19,7 @@ fileLoader::load('db/criterion');
  *
  * @package system
  * @subpackage db
- * @version 0.2.2
+ * @version 0.2.3
  */
 
 class criteria
@@ -348,6 +348,13 @@ class criteria
 
         if ($groupBy = $criteria->getGroupBy()) {
             $this->groupBy = array_merge($this->groupBy, $groupBy);
+        }
+
+        $base = $this->getTable();
+        $outer = $criteria->getTable();
+        if (!is_scalar($outer['table']) && !is_null($outer['table'])) {
+            $this->setTable($outer['table'], $base['alias']);
+            //алиас не трогаем
         }
     }
 
@@ -693,12 +700,17 @@ class criteria
      * Критерия конвертируется в SQL-запрос
      *
      */
-    public function debug()
+    public function debug($as_string = false)
     {
         $s = new simpleSelect($this);
-        echo "<pre>";
-        var_dump($s->toString());
-        echo "</pre>";
+
+        if (!$as_string) {
+            echo "<pre>";
+            var_dump($s->toString());
+            echo "</pre>";
+        }
+
+        return $s->toString();
     }
 }
 
