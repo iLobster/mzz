@@ -401,13 +401,17 @@ class actionGenerator
         file_put_contents($act_tpl_filename, $act_tpl);
         $this->log[] = $act_tpl_filename;
 
-        // записываем данные в активный шаблон
-        $smarty->assign('action', $action);
-        $smarty->assign('module', $this->module);
-        $smarty->assign('path', $tpl_filename);
-        $tpl = $smarty->fetch('template.tpl');
-        file_put_contents($tpl_filename, $tpl);
-        $this->log[] = $tpl_filename;
+        if (!isset($params['create_tpl']) || $params['create_tpl'] != 0) {
+            // записываем данные в пассивный шаблон
+            $smarty->assign('action', $action);
+            $smarty->assign('module', $this->module);
+            $smarty->assign('path', $tpl_filename);
+            $tpl = $smarty->fetch('template.tpl');
+            file_put_contents($tpl_filename, $tpl);
+            $this->log[] = $tpl_filename;
+        } else {
+            $this->log[] = $tpl_filename . ' <strong>[skipped]</strong>';
+        }
 
         chdir($current_dir);
 

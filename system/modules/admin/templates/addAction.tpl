@@ -5,7 +5,7 @@
 {/if}
 
 <form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
-    <table width="99%" border="0" cellpadding="5" cellspacing="0" align="center">
+    <table width="99%" border="0" cellpadding="4" cellspacing="0" align="center">
         <tr>
             <td width="40%">{form->caption name="action[name]" value="Название"}</td>
             <td>{form->text name="action[name]" size="30" value=$defaults->get('name')}{$errors->get('action[name]')}</td>
@@ -44,12 +44,18 @@
         </tr>
         <tr>
             <td>{form->caption name="action[inACL]" value="Не регистрировать в ACL"}</td>
-            <td>{form->checkbox name="action[inACL]" value=$defaults->get('inACL') values="1|0"}</td>
+            <td>{form->checkbox name="action[inACL]" value=$defaults->get('inACL') values="0|1"}</td>
         </tr>
         <tr>
             <td>{form->caption name="action[jip]" value="Добавить в JIP"}</td>
             <td>{form->checkbox name="action[jip]" value=$defaults->get('jip')}</td>
         </tr>
+        {if $action eq 'addAction'}
+        <tr>
+            <td>{form->caption name="action[create_tpl]" value="Создать пассивный шаблон"}</td>
+            <td>{form->checkbox name="action[create_tpl]" value=1}</td>
+        </tr>
+        {/if}
         <tr>
             <td colspan="2" style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>

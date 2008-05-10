@@ -31,7 +31,7 @@ class formCheckboxField extends formElement
             $values = explode('|', $options['values']);
             unset($options['values']);
             if (!isset($options['value'])) {
-                $options['value'] = $values[1];
+                $options['value'] = $values[0];
             }
         } else {
             $values = array(0, !empty($options['value']) ? $options['value'] : 1);
