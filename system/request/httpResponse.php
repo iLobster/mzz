@@ -54,6 +54,8 @@ class httpResponse
 
     private $notReplacedCount = 0;
 
+    protected $isRedirected = false;
+
     protected static $messages = array(
     // Informational 1xx
     100 => 'Continue',
@@ -182,6 +184,8 @@ class httpResponse
             throw new mzzRuntimeException('Invalid HTTP Redirection status code: ' . $code);
         }
 
+        $this->isRedirected = true;
+
         $this->setHeader('Location', $url, true, $code);
     }
 
@@ -260,7 +264,7 @@ class httpResponse
 
         foreach ($headers as $name => $params) {
             $name = rtrim($name, '#');
-            if (!$name) {
+            if (!$name && !$this->isRedirected) { // при редиректе устанавливается свой статус код автоматически
                 header($params['value']);
             } elseif (is_null($params['code'])) {
                 header($name . ": " . $params['value'], $params['replaced']);
