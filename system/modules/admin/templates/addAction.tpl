@@ -52,8 +52,8 @@
         </tr>
         {if $action eq 'addAction'}
         <tr>
-            <td>{form->caption name="action[create_tpl]" value="Создать пассивный шаблон"}</td>
-            <td>{form->checkbox name="action[create_tpl]" value=1}</td>
+            <td>{form->caption name="action[tpl_as_controller]" value="Назвать пассивный шаблон как контроллер"}</td>
+            <td>{form->checkbox name="action[tpl_as_controller]" value=0}</td>
         </tr>
         {/if}
         <tr>

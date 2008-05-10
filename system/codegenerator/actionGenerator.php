@@ -333,7 +333,8 @@ class actionGenerator
             throw new Exception("Error: Controllers directory '" . $controllers_dir . "' not found");
         }
 
-        $prefix = $this->module . ucfirst((isset($params['controller']) && !empty($params['controller'])) ? $params['controller']  : $action);
+        $controller_name = (isset($params['controller']) && !empty($params['controller']) ? $params['controller']  : $action);
+        $prefix = $this->module . ucfirst($controller_name);
         $controller_data = array(
         'action' => $action,
         'controllername' => $prefix . 'Controller',
@@ -372,8 +373,15 @@ class actionGenerator
             $tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module;
         }
 
-        if (is_file($tpl_filename = $tpl_filename . DIRECTORY_SEPARATOR . $action . '.tpl')) {
-            throw new Exception('Error: template already exists');
+        $skip_tpl = false;
+        if (isset($params['tpl_as_controller']) && $params['tpl_as_controller']) {
+            if (is_file($tpl_filename = $tpl_filename . DIRECTORY_SEPARATOR . $controller_name . '.tpl')) {
+                $skip_tpl = true;
+            }
+        } else {
+            if (is_file($tpl_filename = $tpl_filename . DIRECTORY_SEPARATOR . $action . '.tpl')) {
+                throw new Exception('Error: template already exists');
+            }
         }
 
         // записываем данные в actions файл
@@ -401,7 +409,7 @@ class actionGenerator
         file_put_contents($act_tpl_filename, $act_tpl);
         $this->log[] = $act_tpl_filename;
 
-        if (!isset($params['create_tpl']) || $params['create_tpl'] != 0) {
+        if (!$skip_tpl) {
             // записываем данные в пассивный шаблон
             $smarty->assign('action', $action);
             $smarty->assign('module', $this->module);
