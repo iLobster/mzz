@@ -63,6 +63,13 @@ class mzzSmarty extends Smarty
     protected $skin;
 
     /**
+     * Включена вставка в main шаблон?
+     *
+     * @var unknown_type
+     */
+    protected $withMain = true;
+
+    /**
      * Конструктор
      *
      */
@@ -152,6 +159,10 @@ class mzzSmarty extends Smarty
         }
         $this->fetchedTemplates[$params['main']] = true;
 
+        if (!$this->withMain) {
+            return $result;
+        }
+
         $this->assign($params['placeholder'], $result);
         $result = $this->fetch($params['main'], $cache_id, $compile_id, $display);
         return $result;
@@ -230,6 +241,15 @@ class mzzSmarty extends Smarty
     public function isXml()
     {
         return $this->xmlTemplate !== false;
+    }
+
+    /**
+     * Отключает вставку шаблона в main шаблон
+     *
+     */
+    public function disableMain()
+    {
+        $this->withMain = false;
     }
 
     function _parse_resource_name(&$params)
