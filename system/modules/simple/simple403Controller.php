@@ -36,7 +36,7 @@ class simple403Controller extends simpleController
         $factory = new pageFactory($action);
         $controller = $factory->getController();
 
-        $this->toolkit->getResponse()->setHeader('', 'HTTP/1.x 403 Forbidden');
+        $this->toolkit->getResponse()->setHeader('', 'HTTP/1.1 403 Forbidden');
 
         return $controller->run();
     }

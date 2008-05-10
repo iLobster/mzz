@@ -45,7 +45,7 @@ class userLoginController extends simpleController
                         $userAuthMapper->set($user->getId());
                     }
 
-                    return $this->response->redirect($this->request->getString('url', SC_POST));
+                    return $this->redirect($this->request->getString('url', SC_POST));
                 }
             }
 

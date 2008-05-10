@@ -54,6 +54,60 @@ class httpResponse
 
     private $notReplacedCount = 0;
 
+    protected static $messages = array(
+    // Informational 1xx
+    100 => 'Continue',
+    101 => 'Switching Protocols',
+
+    // Success 2xx
+    200 => 'OK',
+    201 => 'Created',
+    202 => 'Accepted',
+    203 => 'Non-Authoritative Information',
+    204 => 'No Content',
+    205 => 'Reset Content',
+    206 => 'Partial Content',
+
+    // Redirection 3xx
+    300 => 'Multiple Choices',
+    301 => 'Moved Permanently',
+    302 => 'Found',  // 1.1
+    303 => 'See Other',
+    304 => 'Not Modified',
+    305 => 'Use Proxy',
+    // 306 is deprecated but reserved
+    307 => 'Temporary Redirect',
+
+    // Client Error 4xx
+    400 => 'Bad Request',
+    401 => 'Unauthorized',
+    402 => 'Payment Required',
+    403 => 'Forbidden',
+    404 => 'Not Found',
+    405 => 'Method Not Allowed',
+    406 => 'Not Acceptable',
+    407 => 'Proxy Authentication Required',
+    408 => 'Request Timeout',
+    409 => 'Conflict',
+    410 => 'Gone',
+    411 => 'Length Required',
+    412 => 'Precondition Failed',
+    413 => 'Request Entity Too Large',
+    414 => 'Request-URI Too Long',
+    415 => 'Unsupported Media Type',
+    416 => 'Requested Range Not Satisfiable',
+    417 => 'Expectation Failed',
+
+    // Server Error 5xx
+    500 => 'Internal Server Error',
+    501 => 'Not Implemented',
+    502 => 'Bad Gateway',
+    503 => 'Service Unavailable',
+    504 => 'Gateway Timeout',
+    505 => 'HTTP Version Not Supported',
+    509 => 'Bandwidth Limit Exceeded'
+    );
+
     /**
      * конструктор класса
      *
@@ -68,10 +122,10 @@ class httpResponse
      * Уставливает заголовки для клиента.
      * Удаление заголовка, заголовков с одинаковыми именами не реализовано.
      *
-     * @param string $name имя заголовка. Может быть пустым, например, для установки заголовка "HTTP/1.0 404 Not Found"
+     * @param string $name имя заголовка. Может быть пустым (например, для установки заголовка "HTTP/1.1 404 Not Found")
      * @param string $value значение для заголовка
-     * @param boolean $replaced указывает что заголовок должен "затирать" предыдущий с таким же именем
-     *                          (например, "WWW-Authenticate" можно указывать более одного раза)
+     * @param boolean $replaced указывает что заголовок должен замещать предыдущий с таким же именем
+     *                          (например, для отправки "WWW-Authenticate" заголовков необходимо указать false)
      * @param integer|null $code
      */
     public function setHeader($name, $value, $replaced = true, $code = null)
@@ -119,13 +173,12 @@ class httpResponse
      * Уставливает перенаправление на другую страницу
      *
      * @param string $url
-     * @param boolean $exit
-     * @param integer $code
+     * @param integer $code 302...307
      */
-    public function redirect($url, $exit = false, $code = 302)
+    public function redirect($url, $code = 302)
     {
         $code = (int)$code;
-        if ($code < 300 || $code > 307) {
+        if ($code < 300 || $code > 307 || $code == 306) {
             throw new mzzRuntimeException('Invalid HTTP Redirection status code: ' . $code);
         }
 
@@ -201,18 +254,18 @@ class httpResponse
     private function sendHeaders()
     {
         $headers = $this->getHeaders();
-        if (!empty($headers)) {
-            if (!$this->isHeadersSent()) {
-                foreach ($headers as $name => $params) {
-                    $name = rtrim($name, '#');
-                    if (!$name) {
-                        header($params['value']);
-                    } elseif (is_null($params['code'])) {
-                        header($name . ": " . $params['value'], $params['replaced']);
-                    } else {
-                        header($name . ": " . $params['value'], $params['replaced'], $params['code']);
-                    }
-                }
+        if (empty($headers) || $this->isHeadersSent()) {
+            return;
+        }
+
+        foreach ($headers as $name => $params) {
+            $name = rtrim($name, '#');
+            if (!$name) {
+                header($params['value']);
+            } elseif (is_null($params['code'])) {
+                header($name . ": " . $params['value'], $params['replaced']);
+            } else {
+                header($name . ": " . $params['value'], $params['replaced'], $params['code']);
             }
         }
     }

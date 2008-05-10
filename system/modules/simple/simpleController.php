@@ -95,6 +95,18 @@ abstract class simpleController
     }
 
     /**
+     * Перенаправление пользователя на другую страницу
+     *
+     * @param string $url
+     * @param integer $code 302...307
+     */
+    public function redirect($url, $code = 302)
+    {
+        $this->smarty->disableMain();
+        $this->response->redirect($url, $code);
+    }
+
+    /**
      * Возвращает объект отображения
      *
      */
