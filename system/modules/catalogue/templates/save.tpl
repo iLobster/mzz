@@ -32,7 +32,7 @@ function loadForm(id)
     <table border="0" cellpadding="4" cellspacing="1" width="99%">
         {if !$isEdit}<tr>
             <td>Тип:</td>
-            <td>{form->select name="type" options=$select id="type" value=$defType emptyFirst=1 onchange='javascript:loadForm($F(this));' onkeypress="this.onchange();"}{$errors->get('type')}</td>
+            <td>{form->select name="type" options=$select id="type" value=$defType emptyFirst=true onchange='javascript:loadForm($F(this));' onkeypress="this.onchange();"}{$errors->get('type')}</td>
         </tr>{/if}
         {if $type != 0}<tr>
             <td>{form->caption name="name" value="Имя:"}</td>

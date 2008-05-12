@@ -79,7 +79,7 @@ class catalogueMassActionController extends simpleController
                     $dests = array();
                     $styles = array();
                     foreach ($folders as $val) {
-                        $dests[$val->getId()] = $val->getTitle();
+                        $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
                         $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
                     }
 
@@ -87,6 +87,8 @@ class catalogueMassActionController extends simpleController
                     $url->setAction('massAction');
                     $url->add('name', $catalogueFolder->getPath());
                     $url->add('action', $action, true);
+
+                    $this->smarty->disableMain();
 
                     $this->smarty->assign('isMass', true);
                     $this->smarty->assign('items', $items);
