@@ -154,6 +154,44 @@ class tagsMapper extends simpleMapper
     }
 
     /**
+     * Количество повторов каждого тега для коллекции объектов
+     *
+     * @param mixed $items Массив объектов или список obj_id
+     * @return array of counts
+     */
+    public function getWeights($obj_ids)
+    {
+        sort($obj_ids);
+        $identifier = 'tagCount_' . md5(implode('', $obj_ids));
+        $cache = systemToolkit::getInstance()->getCache();
+        if(is_null($maxCount = $cache->load($identifier))) {
+
+            $criteria = new criteria($this->table, 'tags');
+
+            $this->joinTagsItem($criteria);
+
+            $objCriterion = new criterion('ti.item_obj_id', $obj_ids, criteria::IN);
+            $criteria->add($objCriterion);
+
+            $criteria->addSelectField('tags.id');
+            $criteria->addSelectField(new sqlFunction('count', 'tags.id', true), 'count');
+            $criteria->addGroupBy('tags.id');
+            $criteria->setOrderByFieldDesc('count', false);
+
+            $s = new simpleSelect($criteria);
+
+            $weights_raw = $this->db->getAll($s->toString());
+            $weights = array();
+            foreach ($weights_raw as $weight) {
+                $weights[$weight['id']] = $weight['count'];
+            }
+
+        }
+
+        return $weights;
+    }
+
+    /**
      * Поиск тегов по объектам
      *
      * @param mixed $items Массив объектов или список obj_id
@@ -189,10 +227,22 @@ class tagsMapper extends simpleMapper
 
         $s = new simpleSelect($criteria);
 
-        $maxCount = $this->getMaxCount($obj_ids);
+        //$maxCount = $this->getMaxCount($obj_ids); //linear
+        $weights = $this->getWeights($obj_ids); // logarithmic
+
         // нет тегов, возвращаем сразу пустой массив
-        if($maxCount == 0) {
+        if(empty($weights)) {
             return array();
+        }
+
+        $min_weight = min($weights);
+        $max_weight = max($weights);
+
+        //@todo $max(максимальный вес тега) вынести в конфиг
+        $max = 5;
+        $thresholds = array();
+        foreach (range(0, $max) as $i) {
+            $thresholds[] = pow($max_weight - $min_weight + 1, $i / $max);
         }
 
         $stmt = $this->searchByCriteria($criteria);
@@ -209,13 +259,26 @@ class tagsMapper extends simpleMapper
             // удельный вес тэга величина линейная, а правильно ли это?
             // если тэг креведко упомянут 1000 раз, а ближайший тэг всего 100, то всё в единицу веса попадет
             // облако потеряет воздушность и адекватность
-            //@todo $max(максимальный вес тега) вынести в конфиг
-            $max = 5;
-            $row['weight'] = round($max * $row['count'] / $maxCount);
+            //$row['weight'] = round($max * $row['count'] / $maxCount);
+
+            // логарифмический вариант
+            $row['weight'] = $this->convertWeight($row['count'], $thresholds);
             $result[$row[$this->tableKey]] = $this->createItemFromRow($row);
         }
 
         return $result;
+    }
+
+    protected function convertWeight($weight, $thresholds)
+    {
+        $i = 0;
+        foreach ($thresholds as $t) {
+            if ($weight <= $t) {
+                return $i;
+            }
+            $i++;
+        }
+        return $i;
     }
 
     /**
