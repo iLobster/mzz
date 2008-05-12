@@ -19,7 +19,7 @@ fileLoader::load('tags');
  *
  * @package modules
  * @subpackage tags
- * @version 0.1
+ * @version 0.1.1
  */
 
 class tagsMapper extends simpleMapper
@@ -162,9 +162,9 @@ class tagsMapper extends simpleMapper
     public function getWeights($obj_ids)
     {
         sort($obj_ids);
-        $identifier = 'tagCount_' . md5(implode('', $obj_ids));
+        $identifier = 'tagWeights' . md5(implode('', $obj_ids));
         $cache = systemToolkit::getInstance()->getCache();
-        if(is_null($maxCount = $cache->load($identifier))) {
+        if(is_null($weights = $cache->load($identifier))) {
 
             $criteria = new criteria($this->table, 'tags');
 
@@ -185,7 +185,9 @@ class tagsMapper extends simpleMapper
             foreach ($weights_raw as $weight) {
                 $weights[$weight['id']] = $weight['count'];
             }
-
+            $cache->save($identifier, serialize($weights));
+        } else {
+            $weights = unserialize($weights);
         }
 
         return $weights;
