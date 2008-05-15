@@ -97,6 +97,12 @@ class criteria
     const FULLTEXT = 'MATCH (%s) AGAINST (%s)';
 
     /**
+     * Константа, определяющая конструкцию для полнотекстового поиска в булевом режиме
+     *
+     */
+    const FULLTEXT_BOOLEAN = 'MATCH (%s) AGAINST (%s IN BOOLEAN MODE)';
+
+    /**
      * Константа, определяющая сравнение "IS NULL"
      *
      */

@@ -197,7 +197,7 @@ class criterion
                 $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion;
             } elseif ($this->comparsion === criteria::BETWEEN || $this->comparsion === criteria::NOT_BETWEEN) {
                 $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' ' . $this->simpleSelect->quote($this->value[0]) . ' AND ' . $this->simpleSelect->quote($this->value[1]);
-            } elseif ($this->comparsion === criteria::FULLTEXT) {
+            } elseif ($this->comparsion === criteria::FULLTEXT || $this->comparsion === criteria::FULLTEXT_BOOLEAN) {
                 if (is_array($this->field)) {
                     $fields_str = '';
                     foreach ($this->field as $field) {
