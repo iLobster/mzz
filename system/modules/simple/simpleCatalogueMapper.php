@@ -106,7 +106,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                             $props['args'][$tmp_do->getId()] = $tmp_do->$tmp['extractMethod']();
                         }
                         break;
-
+                    /*
                     case 'img':
                         $tmp = unserialize($props['args']);
                         //$tmp = array('section' => 'fileManager', 'folderId' => 1);
@@ -123,6 +123,7 @@ abstract class simpleCatalogueMapper extends simpleMapper
                             $props['args'][$tmp_do->getId()] = $tmp_do;
                         }
                         break;
+                    */
                 }
                 $properties[$props['name']] = $props;
             }
