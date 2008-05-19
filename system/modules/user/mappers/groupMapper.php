@@ -102,21 +102,12 @@ class groupMapper extends simpleMapper
 
     public function convertArgsToObj($args)
     {
-        /*
-        if (sizeof($args) == 0) {
-            $toolkit = systemToolkit::getInstance();
-            $obj_id = $toolkit->getObjectId($this->section . '_groupFolder');
-            $this->register($obj_id);
+        if (isset($args['id'])) {
+            $group = $group = $this->searchByKey($args['id']);
 
-            $group = $this->create();
-            $group->import(array('obj_id' => $obj_id));
-
-            return $group;
-        }
-        */
-
-        if (isset($args['id']) && $group = $this->searchByKey($args['id'])) {
-            return $group;
+            if ($group) {
+                return $group;
+            }
         }
 
         throw new mzzDONotFoundException();

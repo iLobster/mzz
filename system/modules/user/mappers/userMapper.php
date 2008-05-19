@@ -269,17 +269,6 @@ class userMapper extends simpleMapper
         }
 
         throw new mzzDONotFoundException();
-
-        /*
-        $toolkit = systemToolkit::getInstance();
-        $obj_id = $toolkit->getObjectId($this->section . '_userFolder');
-        $this->register($obj_id);
-
-        $user = $this->create();
-        $user->import(array('obj_id' => $obj_id));
-
-        return $user;
-        */
     }
 }
 

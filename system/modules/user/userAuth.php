@@ -23,7 +23,7 @@
 
 class userAuth extends simple
 {
-        protected $name = 'user';
+    protected $name = 'user';
 }
 
 ?>

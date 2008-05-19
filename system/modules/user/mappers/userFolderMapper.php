@@ -57,8 +57,6 @@ class userFolderMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
-        $acl = new acl(systemToolkit::getInstance()->getUser());
-        $acl->delete($this->getObjId());
         $obj = $this->create();
         $obj->import(array('obj_id' => $this->getObjId()));
         return $obj;
