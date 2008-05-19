@@ -79,6 +79,12 @@ class criteria
     const LIKE = 'LIKE';
 
     /**
+     * Константа, определяющая оператор "NOT LIKE"
+     *
+     */
+    const NOT_LIKE = 'NOT LIKE';
+
+    /**
      * Константа, определяющая оператор "BETWEEN"
      *
      */
@@ -354,6 +360,10 @@ class criteria
 
         if ($groupBy = $criteria->getGroupBy()) {
             $this->groupBy = array_merge($this->groupBy, $groupBy);
+        }
+
+        if ($distinct = $criteria->getDistinct()) {
+            $this->distinct = $distinct;
         }
 
         $base = $this->getTable();
@@ -718,6 +728,8 @@ class criteria
 
         return $s->toString();
     }
+
+
 }
 
 ?>
