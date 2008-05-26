@@ -119,10 +119,10 @@ class criteriaTest extends unitTestCase
         $this->criteria->setTable($newCriteria, 'alias');
 
         $this->criteria->add('a', 3);
-        
+
         $c2 = new criteria('table', 'alias');
         $c2->append($this->criteria);
-        
+
         $this->assertEqual($c2->debug(true), 'SELECT * FROM (SELECT * FROM `table2` WHERE `table2`.`q` = 2) `alias` WHERE `alias`.`a` = 3');
     }
 

@@ -210,6 +210,20 @@ class criterion
                 }
 
                 $result = sprintf($this->comparsion, $fields_str, $this->simpleSelect->quote($this->value));
+            } elseif ($this->comparsion === criteria::CASEWHERE) {
+                $result = $this->comparsion . ' ' . $this->getQuotedField();
+                foreach ($this->value as $key => $val) {
+                    $result .= ' WHEN ' . $this->simpleSelect->quote($key) . ' THEN ';
+                    if ($val instanceof criterion) {
+                        $result .= $val->generate($this->simpleSelect);
+                    } elseif ($val instanceof sqlOperator) {
+                        $result .= $val->toString($this->simpleSelect);
+                    } else {
+                        $result .= $this->simpleSelect->quote($val);
+                    }
+                }
+
+                $result .= ' END';
             } else {
                 $result = $this->getQuoutedAlias() . $this->getQuotedField() . ' ' . $this->comparsion . ' ' . $this->getQuotedValue();
             }

@@ -133,6 +133,12 @@ class criteria
     const JOIN_LEFT = 'LEFT';
 
     /**
+     * Константы, определяющая конструкцию CASE WHERE ... THEN ... END
+     *
+     */
+    const CASEWHERE = 'CASE';
+
+    /**
      * Массив для хранения присоединяемых к основной таблиц
      *
      * @var array

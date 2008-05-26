@@ -180,6 +180,12 @@ class criterionTest extends unitTestCase
 
         $this->assertEqual($criterion->generate($this->simpleSelect), "GREATEST(`controldate`, `last_prolongation`) BETWEEN 123 AND 456");
     }
+
+    public function testCaseWhereCondition()
+    {
+        $criterion = new criterion('field', array(1 => 'one', 2 => 'two'), criteria::CASEWHERE);
+        $this->assertEqual($criterion->generate($this->simpleSelect), "CASE `field` WHEN 1 THEN 'one' WHEN 2 THEN 'two' END");
+    }
 }
 
 ?>
