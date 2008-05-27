@@ -136,7 +136,7 @@ class criteria
      * Константы, определяющая конструкцию CASE WHERE ... THEN ... END
      *
      */
-    const CASEWHERE = 'CASE';
+    const CASEWHERE = 'CASE %s %s END';
 
     /**
      * Массив для хранения присоединяемых к основной таблиц
