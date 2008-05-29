@@ -129,7 +129,7 @@ class i18n
 
         $variables = array();
 
-        if (strpos($phrase, ':1')) {
+        if (preg_match('/:\d+/', $phrase)) {
             $placeholders = array();
             $count = sizeof($args);
 
