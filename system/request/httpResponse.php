@@ -162,16 +162,6 @@ class httpResponse
     }
 
     /**
-     * Уставливает заголовок страницы
-     *
-     * @param string $value
-     */
-    public function setTitle($value)
-    {
-        $this->smarty->assign('title', $value);
-    }
-
-    /**
      * Уставливает перенаправление на другую страницу
      *
      * @param string $url
