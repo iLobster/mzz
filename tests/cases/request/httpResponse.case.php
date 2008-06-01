@@ -95,12 +95,6 @@ class httpResponseTest extends unitTestCase
         $this->assertEqual($this->response->getCookies(), array($name => $cookie));
     }
 
-    public function testSetTitle()
-    {
-        $this->smarty->expectOnce('assign', array('title', 'test_title_value'));
-        $this->response->setTitle('test_title_value');
-    }
-
     public function testRedirect()
     {
         $url = 'http://example.com/path';
