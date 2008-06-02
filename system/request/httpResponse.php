@@ -46,16 +46,24 @@ class httpResponse
     private $cookies = array();
 
     /**
-     * Template Engine
+     * Counter for headers with equal name
      *
-     * @var object
+     * @var integer
      */
-    private $smarty;
-
     private $notReplacedCount = 0;
 
+    /**
+     * The response is a redirection
+     *
+     * @var boolean
+     */
     protected $isRedirected = false;
 
+    /**
+     * List of HTTP response codes
+     *
+     * @var array
+     */
     protected static $messages = array(
     // Informational 1xx
     100 => 'Continue',
@@ -111,13 +119,11 @@ class httpResponse
     );
 
     /**
-     * конструктор класса
+     * конструктор
      *
-     * @param object $smarty объект Template Engine
      */
-    public function __construct($smarty)
+    public function __construct()
     {
-        $this->smarty = $smarty;
     }
 
     /**
@@ -206,9 +212,6 @@ class httpResponse
     public function send()
     {
         $this->sendCookies();
-        /*if ($this->smarty->isXml()) {
-        $this->setHeader('Content-type', 'text/xml');
-        }*/
         $this->sendHeaders();
         $this->sendText();
     }
@@ -271,21 +274,22 @@ class httpResponse
     private function sendCookies()
     {
         $cookies = $this->getCookies();
-        if (!empty($cookies)) {
-            if (!$this->isHeadersSent()) {
-                foreach ($cookies as $name => $values) {
-                    if(version_compare(phpversion(), '5.2', 'ge')) {
-                        setcookie($name, $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure'], $values['httponly']);
-                    } else {
-                        setcookie($name, $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure']);
-                    }
-                }
+
+        if (empty($cookies) || $this->isHeadersSent()) {
+            return;
+        }
+
+        foreach ($cookies as $name => $values) {
+            if(version_compare(phpversion(), '5.2', 'ge')) {
+                setcookie($name, $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure'], $values['httponly']);
+            } else {
+                setcookie($name, $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure']);
             }
         }
     }
 
     /**
-     * Бросает исключение если заголовки были отправлены
+     * Бросает исключение если заголовки уже были отправлены
      *
      * @return boolean
      */

@@ -31,7 +31,6 @@ class fileManager404Controller extends simpleController
 
     public function getView()
     {
-        $this->response->setTitle('Ошибка. Запрашиваемый вами файл не найден');
         $this->smarty->assign('type', $this->type);
         return $this->smarty->fetch('fileManager/notfound.tpl');
     }

@@ -56,7 +56,6 @@ class userLoginController extends simpleController
             $this->smarty->assign('form_action', $url->get());
             $this->smarty->assign('backURL', $this->request->getRequestUrl());
             $this->smarty->assign('user', null);
-            $this->response->setTitle('Пользователь -> Авторизация');
 
             return $this->smarty->fetch('user/' . $prefix . 'login.tpl');
         }

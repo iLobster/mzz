@@ -721,6 +721,8 @@ class criteria
      * Отладка критерии
      * Критерия конвертируется в SQL-запрос
      *
+     * @param boolean $as_string возвращать строку SQL-запроса, но не выводить на экран
+     * @return string SQL-запрос
      */
     public function debug($as_string = false)
     {

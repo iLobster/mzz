@@ -83,8 +83,6 @@ class userMemberOfController extends simpleController
             $this->smarty->assign('selected', $selected);
             $this->smarty->assign('user', $user);
 
-            $this->response->setTitle('Пользователь -> ' . $user->getLogin() . ' -> список групп');
-
             return $this->smarty->fetch('user/memberOf.tpl');
         }
     }

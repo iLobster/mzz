@@ -91,9 +91,6 @@ class newsSaveController extends simpleController
             $this->smarty->assign('news', $news);
             $this->smarty->assign('isEdit', $isEdit);
 
-            $title = $isEdit ? 'Редактирование -> ' . $news->getTitle() : 'Создание';
-            $this->response->setTitle('Новости -> ' . $title);
-
             return $this->smarty->fetch('news/save.tpl');
         }
 

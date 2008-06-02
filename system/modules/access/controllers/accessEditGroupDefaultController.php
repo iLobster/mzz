@@ -79,9 +79,6 @@ class accessEditGroupDefaultController extends simpleController
         $this->smarty->assign('class', $class);
         $this->smarty->assign('section', $section);
 
-        $title = $group ? $group->getName() : 'добавить группу';
-        $this->response->setTitle('ACL -> Права по умолчанию -> ' . $title);
-
         return $this->smarty->fetch('access/editGroupDefault.tpl');
     }
 }

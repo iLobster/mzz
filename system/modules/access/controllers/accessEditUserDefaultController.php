@@ -79,9 +79,6 @@ class accessEditUserDefaultController extends simpleController
         $this->smarty->assign('class', $class);
         $this->smarty->assign('section', $section);
 
-        $title = $user ? $user->getLogin() : 'добавить пользователя';
-        $this->response->setTitle('ACL -> объект ... -> права по умолчанию -> ' . $title);
-
         return $this->smarty->fetch('access/editUserDefault.tpl');
     }
 }

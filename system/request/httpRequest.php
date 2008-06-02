@@ -343,6 +343,17 @@ class httpRequest implements iRequest
     }
 
     /**
+     * Проверяет что метода запроса такой же как переданный
+     *
+     * @param string $method имя метода
+     * @return boolean true если методы одинаковые, иначе false
+     */
+    public function isMethod($method)
+    {
+        return strtolower($method) == strtolower($this->getMethod());
+    }
+
+    /**
      * Получение текущего URL без запрошенного пути (но с SITE_PATH).
      * Пример: http://example.com:8080/mzz
      *

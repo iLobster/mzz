@@ -78,9 +78,6 @@ class accessEditGroupController extends simpleController
         $this->smarty->assign('groups', $groups);
         $this->smarty->assign('actions', $actions);
 
-        $title = $group ? $group->getName() : 'добавить группу';
-        $this->response->setTitle('ACL -> объект ... -> ' . $title);
-
         return $this->smarty->fetch('access/editGroup.tpl');
     }
 }

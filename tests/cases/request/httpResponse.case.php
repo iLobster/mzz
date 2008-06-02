@@ -1,25 +1,13 @@
 <?php
 fileLoader::load('request/httpResponse');
 
-class stubTemplateEngine
-{
-    function assign($name, $value) {}
-    function isXml()
-    {
-        return false;
-    }
-}
-mock::generate('stubTemplateEngine');
-
 class httpResponseTest extends unitTestCase
 {
     protected $response;
-    protected $smarty;
 
     function setUp()
     {
-        $this->smarty = new mockstubTemplateEngine;
-        $this->response = new httpResponse($this->smarty);
+        $this->response = new httpResponse();
     }
 
     public function tearDown()

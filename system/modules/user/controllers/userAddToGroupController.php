@@ -95,7 +95,6 @@ class userAddToGroupController extends simpleController
             $this->smarty->assign('users', $users);
             $this->smarty->assign('group', $group);
 
-            $this->response->setTitle('Группа -> ' . $group->getName() . ' -> добавление пользователей');
             return $this->smarty->fetch('user/addToGroup.tpl');
         }
     }

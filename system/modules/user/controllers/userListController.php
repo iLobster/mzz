@@ -31,8 +31,6 @@ class userListController extends simpleController
         $this->smarty->assign('users', $userMapper->searchAll());
         $this->smarty->assign('obj_id', $userMapper->convertArgsToObj(null)->getObjId());
 
-        $this->response->setTitle('Пользователь -> Список');
-
         return $this->smarty->fetch('user/list.tpl');
     }
 }

@@ -31,7 +31,6 @@ class pageListController extends simpleController
         }
 
         $this->smarty->assign('pages', $pages);
-        $this->response->setTitle('Страницы -> Список');
         return $this->smarty->fetch('page/list.tpl');
     }
 }

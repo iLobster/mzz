@@ -76,9 +76,6 @@ class accessEditUserController extends simpleController
         $this->smarty->assign('users', $users);
         $this->smarty->assign('actions', $actions);
 
-        $title = $this->request->getAction() == 'editUser' ? $user->getLogin() : 'добавить пользователя';
-        $this->response->setTitle('ACL -> объект ... -> ' . $title);
-
         return $this->smarty->fetch('access/editUser.tpl');
     }
 }

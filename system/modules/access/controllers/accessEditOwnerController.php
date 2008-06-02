@@ -52,8 +52,6 @@ class accessEditOwnerController extends simpleController
         $this->smarty->assign('class', $class);
         $this->smarty->assign('section', $section);
 
-        $this->response->setTitle('ACL -> Права для владельца объекта');
-
         return $this->smarty->fetch('access/editOwner.tpl');
     }
 }

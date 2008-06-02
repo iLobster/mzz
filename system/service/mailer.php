@@ -22,6 +22,7 @@
 class mailer
 {
     protected $nativeMail = null;
+    protected $error = null;
 
     /**
      * Отправляет письмо как plain-text (обычный текст)
@@ -54,7 +55,11 @@ class mailer
         $mailer->FromName = $sender['name'];
         $mailer->CharSet = $charset;
 
-        return $mailer->Send();
+        $result = $mailer->Send();
+        if ($mailer->IsError()) {
+            $this->error = $mailer->ErrorInfo;
+        }
+        return $result;
     }
 
     /**
@@ -131,6 +136,11 @@ class mailer
     public function setByNativeMail()
     {
         $this->nativeMail = true;
+    }
+
+    public function getError()
+    {
+        return $this->error;
     }
 }
 

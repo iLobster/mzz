@@ -66,7 +66,6 @@ class userMembersListController extends simpleController
 
             $this->smarty->assign('users', $users);
             $this->smarty->assign('group', $group);
-            $this->response->setTitle('Группа -> ' . $group->getName() . ' -> список пользователей');
             return $this->smarty->fetch('user/membersList.tpl');
         }
     }

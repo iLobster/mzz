@@ -38,7 +38,6 @@ class pageViewController extends simpleController
         }
 
         $this->smarty->assign('page', $page);
-        $this->response->setTitle('Страницы -> ' . $page->getTitle());
         return $this->smarty->fetch('page/view.tpl');
     }
 }
