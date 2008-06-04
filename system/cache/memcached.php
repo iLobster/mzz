@@ -1,5 +1,5 @@
 <?php
-fileLoader::load('cache/iCache');
+require_once systemConfig::$pathToSystem . '/cache/iCache.php';
 
 class memcached implements iCache
 {
@@ -50,7 +50,7 @@ class memcached implements iCache
     {
         if ($this->isConnected()) {
             $timeout = isset($params['timeout']) ? $params['timeout'] : null;
-            return $this->memcache->get($key, $timeout);
+            return $this->memcache->delete($key, $timeout);
         }
 
         return false;
