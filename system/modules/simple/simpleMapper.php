@@ -776,7 +776,7 @@ abstract class simpleMapper
     protected function count(criteria $criteria)
     {
         $criteriaForCount = clone $criteria;
-        $criteriaForCount->clearSelectFields()->addSelectField(new sqlFunction('count', '*', true), 'cnt');
+        $criteriaForCount->clearSelectFields()->addSelectField(new sqlFunction('count', new sqlOperator('DISTINCT', $this->className . '.' . $this->tableKey)), 'cnt');
         $selectForCount = new simpleSelect($criteriaForCount);
 
         $this->pager->setCount($this->db->getOne($selectForCount->toString()));
