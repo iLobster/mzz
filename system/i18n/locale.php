@@ -318,11 +318,22 @@ class locale
         return $this->data['http']['content_language'] . '.' . $this->data['charset']['preferred'];
     }
 
+    /**
+     * Получение локализованных имён месяцев
+     *
+     * @return array
+     */
     public function getLongMonthNames()
     {
         return $this->data['long_month_names'];
     }
 
+    /**
+     * Получение склонённых локализованных имён месяцев, либо конкретного месяца
+     *
+     * @param integer $number
+     * @return string|array
+     */
     public function getLongMonthNamesDecline($number = 0)
     {
         if ($number >= 1 && $number <= 12) {
