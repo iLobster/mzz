@@ -374,6 +374,8 @@ class stdToolkit extends toolkit
                 $lang = systemConfig::$i18n;
             }
             $this->setLocale($lang);
+
+            setlocale(LC_ALL, $this->locale->getForSetlocale(), $this->locale->getLanguageName());
         }
 
         return $this->locale;

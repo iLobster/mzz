@@ -327,10 +327,26 @@ class i18n
         if (empty($lang)) {
             $lang = systemToolkit::getInstance()->getLocale()->getName();
         }
-        //$lang = 'ru';
-        //setlocale (LC_ALL, 'ru_RU.UTF-8', 'ru_RU', 'russian');
 
         $locale = new locale($lang);
+
+        if ($format == 'relative_hour') {
+            $hours = ceil((time() - $date) / 3600);
+
+            if ($hours == 1) {
+                $minutes = ceil((time() - $date) / 60);
+
+                if ($minutes <= 5) {
+                    return self::getMessage('right_now', 'i18n');
+                }
+
+                return self::getMessage('minutes_ago', 'i18n', null, $minutes);
+            } elseif ($hours < 24 * 3600) {
+                return self::getMessage('hours_ago', 'i18n', null, $hours);
+            }
+
+            $format = 'relative_day';
+        }
 
         if ($format == 'relative_day') {
             if ($date >= strtotime('today')) {
@@ -348,7 +364,14 @@ class i18n
         $tz = systemToolkit::getInstance()->getSession()->get(i18nFilter::$timezoneVarName);
         $date += $tz * 3600 - date('Z');
 
-        return strftime($locale->getDateTimeFormatDirectly($format), $date);
+        $formatted_time = strftime($locale->getDateTimeFormatDirectly($format), $date);
+
+        // если убогая винда, которая не умеет utf8 в strftime - то конвертим принудительно
+        if (isset($_SERVER['WINDIR'])) {
+            $formatted_time = iconv('cp1251', 'utf-8', $formatted_time);
+        }
+
+        return $formatted_time;
     }
 }
 

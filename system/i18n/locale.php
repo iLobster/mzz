@@ -309,6 +309,16 @@ class locale
     }
 
     /**
+     * Строка локали, формируемая для функции setlocale()
+     *
+     * @return string
+     */
+    public function getForSetlocale()
+    {
+        return $this->data['http']['content_language'] . '.' . $this->data['charset']['preferred'];
+    }
+
+    /**
      * Получение списка временных зон
      *
      * @return array
