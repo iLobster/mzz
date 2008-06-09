@@ -318,6 +318,20 @@ class locale
         return $this->data['http']['content_language'] . '.' . $this->data['charset']['preferred'];
     }
 
+    public function getLongMonthNames()
+    {
+        return $this->data['long_month_names'];
+    }
+
+    public function getLongMonthNamesDecline($number = 0)
+    {
+        if ($number >= 1 && $number <= 12) {
+            return $this->data['long_month_names_decline'][$number];
+        }
+
+        return $this->data['long_month_names_decline'];
+    }
+
     /**
      * Получение списка временных зон
      *
