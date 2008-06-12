@@ -341,7 +341,7 @@ class i18n
                 }
 
                 return self::getMessage('minutes_ago', 'i18n', null, $minutes);
-            } elseif ($hours < 24 * 3600) {
+            } elseif ($hours < 24) {
                 return self::getMessage('hours_ago', 'i18n', null, $hours);
             }
 
@@ -355,10 +355,12 @@ class i18n
                 return self::getMessage('yesterday', 'i18n');
             } elseif ($date >= strtotime('-2 days 00:00')) {
                 return self::getMessage('before_yesterday', 'i18n');
-            } else {
+            } elseif ($date >= strtotime('-10 days 00:00')) {
                 $days = ceil((strtotime('today') - strtotime(date('d-m-Y', $date))) / 86400);
                 return self::getMessage('days_ago', 'i18n', null, $days);
             }
+
+            $format = 'date';
         }
 
         $tz = systemToolkit::getInstance()->getSession()->get(i18nFilter::$timezoneVarName);
@@ -370,6 +372,8 @@ class i18n
         if (isset($_SERVER['WINDIR'])) {
             $formatted_time = iconv('cp1251', 'utf-8', $formatted_time);
         }
+
+        $formatted_time = str_replace($locale->getLongMonthNames(), $locale->getLongMonthNamesDecline(), $formatted_time);
 
         return $formatted_time;
     }
