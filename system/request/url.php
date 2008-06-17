@@ -99,11 +99,11 @@ class url
         $path = $this->route->assemble($params);
 
         if (sizeof($this->getParams)) {
-            $path .= '?';
-            foreach ($this->getParams as $key => $val) {
+            $path .= '?' . http_build_query($this->getParams);
+            /*foreach ($this->getParams as $key => $val) {
                 $path .= $key . '=' . $val . '&';
             }
-            $path = substr($path, 0, -1);
+            $path = substr($path, 0, -1);*/
         }
 
         $url = $address . (!empty($path) ? '/' . $path : '');
@@ -124,6 +124,7 @@ class url
 
     /**
      * Добавление параметра
+     * Т.к. http_build_query кодирует и имена, массивы в GET-параметрах не поддерживаются
      *
      * @param string $name
      * @param string $value
@@ -139,7 +140,7 @@ class url
         if (!$get) {
             $this->params[$name] = $value;
         } else {
-            $this->getParams[$name] = rawurlencode($value);
+            $this->getParams[$name] = $value;
         }
     }
 
