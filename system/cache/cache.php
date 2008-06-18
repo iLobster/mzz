@@ -27,8 +27,14 @@ class cache
     //@todo подумать над видом мапы и вынести в конфиг
     protected static $map = array(
         'default' => array(
+            'driver' => 'memcached',
+            'params' => array(
+                'host' => 'localhost'
+            )
+        ),
+        'memory' => array(
             'driver' => 'memory'
-         )
+        )
     );
 
     protected static $instances = array();
