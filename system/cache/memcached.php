@@ -6,8 +6,12 @@ class memcached implements iCache
     protected $memcache;
     protected $connected = false;
 
-    public function __construct($host, $port, $timeout = 1)
+    public function __construct(Array $params)
     {
+        $host = isset($params['host']) ? $params['host'] : 'localhost';
+        $port = isset($params['port']) ? $params['port'] : 11211;
+        $timeout = isset($params['timeout']) ? $params['timeout'] : 1;
+
         $this->memcache = new Memcache();
         try {
             $this->memcache->connect($host, $port, $timeout);

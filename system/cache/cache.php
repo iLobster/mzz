@@ -19,56 +19,38 @@
  *
  * @package system
  * @subpackage cache
- * @version 0.3.1
+ * @version 0.0.1
  */
 
 class cache
 {
-    /**
-     * Контейнер для данных
-     *
-     * @var arrayDataspace
-     */
-    private $data;
+    //@todo подумать над видом мапы и вынести в конфиг
+    protected static $map = array(
+        'default' => array(
+            'driver' => 'memory'
+         )
+    );
 
-    /**
-     * Конструктор
-     *
-     */
-    public function __construct()
-    {
-        $this->drop();
-    }
+    protected static $instances = array();
 
-    /**
-     * Метод помещения данных в кэш
-     *
-     * @param string $identifier идентификатор кэша
-     * @param mixed $value значение, помещаемое в кэш
-     */
-    public function save($identifier, $value)
+    public static function factory($driver = 'default')
     {
-        $this->data->set($identifier, $value);
-    }
+        if (array_key_exists($driver, self::$instances) === false) {
+            if (array_key_exists($driver, self::$map) === false) {
+                $driver = 'default';
+            }
 
-    /**
-     * Метод извлечения данных из кэша
-     *
-     * @param string $identifier идентификатор кэша
-     * @return mixed
-     */
-    public function load($identifier)
-    {
-        return $this->data->get($identifier);
-    }
+            if (!isset(self::$map[$driver])) {
+                throw new mzzRuntimeException('no default cache driver');
+            }
 
-    /**
-     * Метод для удаления содержимого кэша
-     *
-     */
-    public function drop()
-    {
-        $this->data = new arrayDataspace();
+            $className = self::$map[$driver]['driver'];
+            $params = isset(self::$map[$driver]['params']) ? self::$map[$driver]['params'] : array();
+            fileLoader::load('cache/' . $className);
+            self::$instances[$driver] = new $className($params);
+        }
+
+        return self::$instances[$driver];
     }
 }
 

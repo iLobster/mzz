@@ -143,7 +143,7 @@ class acl
     public function get($param = null, $clean = false, $full = false)
     {
         $identifier = $this->obj_id;
-        $result = $this->cache->load($identifier);
+        $result = $this->cache->get($identifier);
 
         if (!isset($result[$clean][$full])) {
 
@@ -219,7 +219,7 @@ class acl
                 }
             }
 
-            $this->cache->save($identifier, $result);
+            $this->cache->add($identifier, $result);
         }
 
         if (empty($param)) {
@@ -293,7 +293,7 @@ class acl
     public function getForGroup($gid, $full = false)
     {
         $identifier = $this->obj_id . '_groups';
-        $result = $this->cache->load($identifier);
+        $result = $this->cache->get($identifier);
 
         if (!isset($result[$gid][$full])) {
 
@@ -316,7 +316,7 @@ class acl
                 $result[$gid][$full][$row['name']] = $value;
             }
 
-            $this->cache->save($identifier, $result);
+            $this->cache->add($identifier, $result);
         }
 
         return $result[$gid][$full];
@@ -571,7 +571,7 @@ class acl
         }
 
         // удаляем кэш
-        $this->cache->save($this->obj_id, null);
+        $this->cache->add($this->obj_id, null);
         //unset($this->result[$this->obj_id]);
     }
 

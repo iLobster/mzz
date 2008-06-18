@@ -297,7 +297,7 @@ class stdToolkit extends toolkit
     {
         if (empty($this->cache)) {
             fileLoader::load('cache');
-            $this->cache = new cache();
+            $this->cache = cache::factory('memory');
         }
 
         return $this->cache;

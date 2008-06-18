@@ -60,7 +60,7 @@ class objectIdGenerator
         $cache = $toolkit->getCache();
 
         if (!is_null($name)) {
-            if (is_null($id = $cache->load($identifier = 'obj_id_' . $name))) {
+            if (is_null($id = $cache->get($identifier = 'obj_id_' . $name))) {
                 $id = $this->db->getOne('SELECT `obj_id` FROM `sys_obj_id_named` WHERE `name` = ' . $this->db->quote($name));
 
                 if (is_null($id) && $generateNew) {
@@ -70,7 +70,7 @@ class objectIdGenerator
                     $id = $this->generate('access_admin_admin', false);
                 }
 
-                $cache->save($identifier, $id);
+                $cache->set($identifier, $id);
             }
 
             return (int)$id;

@@ -68,9 +68,9 @@ class user extends simple
         $toolkit = systemToolkit::getInstance();
         $cache = $toolkit->getCache();
 
-        if (is_null($groups = $cache->load($identifier = 'groups_' . $this->getId()))) {
+        if (is_null($groups = $cache->get($identifier = 'groups_' . $this->getId()))) {
             $groups = $this->mapper->getGroupsList($this->getId());
-            $cache->save($identifier, $groups);
+            $cache->set($identifier, $groups);
         }
 
         return $groups;
