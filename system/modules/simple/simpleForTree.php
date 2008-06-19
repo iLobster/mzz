@@ -155,6 +155,11 @@ class simpleForTree extends simple
         }
         return $this->fields->get('folders');
     }
+
+    protected function serializableProperties()
+    {
+        return array_merge(parent::serializableProperties(), array('treeFields'));
+    }
 }
 
 ?>

@@ -45,7 +45,7 @@ class simpleMapperTest extends unitTestCase
 
     public function setUp()
     {
-        $this->mapper = new stubMapper('simple');
+        $this->mapper = new stubSimpleMapper('simple');
         $this->mapper->setMap($this->map);
         $this->db->query("INSERT INTO `user_user` (`login`) VALUES ('GUEST')");
         $this->db->query("INSERT INTO `sys_classes` (`name`, `module_id`) VALUES ('stubsimple', 1)");

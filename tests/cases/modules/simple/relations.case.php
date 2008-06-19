@@ -25,7 +25,7 @@ class testRelations extends unitTestCase
 
 
         $this->db = DB::factory();
-        $this->mapper = new stubMapper('simple');
+        $this->mapper = new stubSimpleMapper('simple');
         $this->mapper->setMap($this->map1);
 
         $this->cleardb();

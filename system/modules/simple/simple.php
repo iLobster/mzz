@@ -22,7 +22,7 @@ fileLoader::load('jip/jip');
  * @version 0.1.8
  */
 
-abstract class simple
+abstract class simple implements Serializable
 {
     /**
      * Свойство для хранения скаляров
@@ -86,6 +86,9 @@ abstract class simple
      * @var integer
      */
     protected $langId;
+
+    protected $objects = array();
+
 
     /**
      * Конструктор.
@@ -441,6 +444,43 @@ abstract class simple
         }
 
         return isset($this->scalars[$name]) ? $this->scalars[$name] : null;
+    }
+
+    protected function serializableProperties()
+    {
+        return array('name', 'fields', 'fakeFields', 'changedFields', 'section', 'langId', 'objects');
+    }
+
+    public function serialize()
+    {
+        $serializable = $this->serializableProperties();
+        $vars = array_intersect_key(get_object_vars($this), array_flip($serializable));
+
+        foreach ($this->fields as $k => $v) {
+            if ($v instanceof simple) {
+                $vars['fields'][$k] = $this->getScalar($k);
+            } elseif (is_object($v)) {
+                $vars['fields'][$k] = serialize($vars['fields'][$k]);
+                $this->objects[] = $k;
+            }
+        }
+        return serialize($vars);
+    }
+
+    public function unserialize($serialized)
+    {
+        $array = unserialize($serialized);
+        foreach($array as $k => $v) {
+            $this->$k = $v;
+        }
+
+        $this->mapper = systemToolkit::getInstance()->getMapper($this->name, get_class($this), $this->section);
+        $this->map = $this->mapper->getMap();
+
+        foreach ($this->objects as $v) {
+            $this->fields[$v] = unserialize($this->fields[$v]);
+        }
+        $this->objects = array();
     }
 }
 

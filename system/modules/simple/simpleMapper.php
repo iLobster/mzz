@@ -175,6 +175,7 @@ abstract class simpleMapper
      */
     protected $dbAlias = 'default';
 
+    protected $cache = null;
     /**
      * Конструктор
      *
@@ -190,6 +191,8 @@ abstract class simpleMapper
         if (!class_exists($this->simpleSelectName)) {
             fileLoader::load('db/' . $this->simpleSelectName);
         }
+
+        $this->cache = systemToolkit::getInstance()->getCache();
 
         $this->simpleSelect = new $this->simpleSelectName(new criteria());
     }
@@ -887,9 +890,17 @@ abstract class simpleMapper
      */
     public function searchOneByField($name, $value)
     {
+        /*$key = md5(get_class($this) . $name . $value);
+        if ($result = $this->cache->get($key)) {
+            return $result;
+        }*/
+
         $criteria = new criteria();
         $criteria->add($name, $value);
-        return $this->searchOneByCriteria($criteria);
+        $result = $this->searchOneByCriteria($criteria);
+        //$this->cache->set($key, $result);
+
+        return $result;
     }
 
     /**

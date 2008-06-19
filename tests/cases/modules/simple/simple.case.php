@@ -21,7 +21,7 @@ class testSimple extends unitTestCase
         );
 
         $this->db = DB::factory();
-        $this->mapper = new stubMapper('simple');
+        $this->mapper = new stubSimpleMapper('simple');
         $this->mapper->setMap($this->map);
         $this->cleardb();
     }
@@ -176,6 +176,16 @@ class testSimple extends unitTestCase
         $this->simple->import(array('id' => $id = 666, 'fake' => $fake = 'fake_value'));
         $this->assertEqual($this->simple->getId(), $id);
         $this->assertEqual($this->simple->fakeField('fake'), $fake);
+    }
+
+    public function testSerialize()
+    {
+        $str = serialize($this->simple);
+        $simple2 = unserialize($str);
+        $class = get_class($this->simple);
+
+        $this->assertTrue($simple2 instanceof $class);
+        $this->assertEqual($simple2->getId(), $this->simple->getId());
     }
 }
 
