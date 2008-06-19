@@ -131,7 +131,7 @@ class tagsMapper extends simpleMapper
         sort($obj_ids);
         $identifier = 'tagMaxCount_' . md5(implode('', $obj_ids));
         $cache = systemToolkit::getInstance()->getCache();
-        if(is_null($maxCount = $cache->load($identifier))) {
+        if(is_null($maxCount = $cache->get($identifier))) {
 
             $criteria = new criteria($this->table, 'tags');
 
@@ -147,7 +147,7 @@ class tagsMapper extends simpleMapper
             $s = new simpleSelect($criteria);
 
             $maxCount = (int)$this->db->getOne($s->toString());
-            $cache->save($identifier, $maxCount);
+            $cache->set($identifier, $maxCount);
         }
 
         return $maxCount;
@@ -164,7 +164,7 @@ class tagsMapper extends simpleMapper
         sort($obj_ids);
         $identifier = 'tagWeights' . md5(implode('', $obj_ids));
         $cache = systemToolkit::getInstance()->getCache();
-        if(is_null($weights = $cache->load($identifier))) {
+        if(is_null($weights = $cache->get($identifier))) {
 
             $criteria = new criteria($this->table, 'tags');
 
@@ -185,7 +185,7 @@ class tagsMapper extends simpleMapper
             foreach ($weights_raw as $weight) {
                 $weights[$weight['id']] = $weight['count'];
             }
-            $cache->save($identifier, serialize($weights));
+            $cache->set($identifier, serialize($weights));
         } else {
             $weights = unserialize($weights);
         }

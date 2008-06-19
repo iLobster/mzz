@@ -24,34 +24,23 @@
 
 class cache
 {
-    //@todo подумать над видом мапы и вынести в конфиг
-    protected static $map = array(
-        'default' => array(
-            'driver' => 'memcached',
-            'params' => array(
-                'host' => 'localhost'
-            )
-        ),
-        'memory' => array(
-            'driver' => 'memory'
-        )
-    );
-
     protected static $instances = array();
 
     public static function factory($driver = 'default')
     {
+        $map = systemConfig::$cache;
+        if (!isset($map['default'])) {
+            throw new mzzRuntimeException('no default cache driver');
+        }
+
+        if (array_key_exists($driver, $map) === false) {
+            $driver = 'default';
+        }
+
         if (array_key_exists($driver, self::$instances) === false) {
-            if (array_key_exists($driver, self::$map) === false) {
-                $driver = 'default';
-            }
 
-            if (!isset(self::$map[$driver])) {
-                throw new mzzRuntimeException('no default cache driver');
-            }
-
-            $className = self::$map[$driver]['driver'];
-            $params = isset(self::$map[$driver]['params']) ? self::$map[$driver]['params'] : array();
+            $className = 'cache' . ucfirst($map[$driver]['driver']);
+            $params = isset($map[$driver]['params']) ? $map[$driver]['params'] : null;
             fileLoader::load('cache/' . $className);
             self::$instances[$driver] = new $className($params);
         }

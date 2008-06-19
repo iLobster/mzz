@@ -1,12 +1,34 @@
 <?php
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage cache
+ * @version $Id$
+*/
+
 require_once systemConfig::$pathToSystem . '/cache/iCache.php';
 
-class memcached implements iCache
+/**
+ * cacheMemcached: драйвер кэширования memcached
+ *
+ * @package system
+ * @subpackage cache
+ * @version 0.0.1
+ */
+class cacheMemcached implements iCache
 {
     protected $memcache;
     protected $connected = false;
 
-    public function __construct(Array $params)
+    public function __construct(Array $params = array())
     {
         $host = isset($params['host']) ? $params['host'] : 'localhost';
         $port = isset($params['port']) ? $params['port'] : 11211;
@@ -47,7 +69,7 @@ class memcached implements iCache
             return $this->memcache->get($key);
         }
 
-        return false;
+        return null;
     }
 
     public function delete($key, $params = array())

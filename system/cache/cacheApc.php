@@ -17,57 +17,38 @@
 require_once systemConfig::$pathToSystem . '/cache/iCache.php';
 
 /**
- * memory: класс для работы с кэшем
+ * cacheApc: драйвер кэширования APC
  *
  * @package system
  * @subpackage cache
- * @version 0.3.1
+ * @version 0.0.1
  */
-
-class memory implements iCache
+class cacheApc implements iCache
 {
-    /**
-     * Контейнер для данных
-     *
-     * @var arrayDataspace
-     */
-    private $data;
-
-    /**
-     * Конструктор
-     *
-     */
-    public function __construct()
-    {
-        $this->flush();
-    }
-
     public function add($key, $value, $expire = null, $params = array())
     {
-        $this->set($key, $value);
+        return apc_add($key, $value, $expire);
     }
 
     public function set($key, $value, $expire = null, $params = array())
     {
-        $this->data->set($key, $value);
+        return apc_store($key, $value, $expire);
     }
 
     public function get($key)
     {
-        return $this->data->get($key);
+        return apc_fetch($key);
     }
 
     public function delete($key, $params = array())
     {
-        if ($this->data->has($key)) {
-            $this->data->delete($key);
-        }
+        return apc_delete($key);
     }
 
     public function flush($params = array())
     {
-        $this->data = new arrayDataspace();
+        $cache_type = (isset($params['cache_type'])) ? $cache_type : null;
+        return apc_clear_cache($cache_type);
     }
 }
-
 ?>

@@ -57,6 +57,10 @@ systemConfig::$pathToApplication = dirname(__FILE__) . '';
 systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../tmp');
 systemConfig::$pathToConf = dirname(__FILE__) . '/configs';
 
+systemConfig::$cache['default']['driver'] = 'memory';
+systemConfig::$cache['file']['driver'] = 'file';
+systemConfig::$cache['file']['params'] = array('path' => systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . 'cache', 'prefix' => 'cf2_');
+
 systemConfig::init();
 
 ?>
