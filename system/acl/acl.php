@@ -219,7 +219,7 @@ class acl
                 }
             }
 
-            $this->cache->add($identifier, $result);
+            $this->cache->set($identifier, $result);
         }
 
         if (empty($param)) {
@@ -316,7 +316,7 @@ class acl
                 $result[$gid][$full][$row['name']] = $value;
             }
 
-            $this->cache->add($identifier, $result);
+            $this->cache->set($identifier, $result);
         }
 
         return $result[$gid][$full];
@@ -571,7 +571,7 @@ class acl
         }
 
         // удаляем кэш
-        $this->cache->add($this->obj_id, null);
+        $this->cache->set($this->obj_id, null);
         //unset($this->result[$this->obj_id]);
     }
 
