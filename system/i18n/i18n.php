@@ -369,7 +369,7 @@ class i18n
         $formatted_time = strftime($locale->getDateTimeFormatDirectly($format), $date);
 
         // если убогая винда, которая не умеет utf8 в strftime - то конвертим принудительно
-        if (isset($_SERVER['WINDIR'])) {
+        if (PHP_OS == 'WINNT') {
             $formatted_time = iconv('cp1251', 'utf-8', $formatted_time);
         }
 

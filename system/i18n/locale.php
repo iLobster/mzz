@@ -181,6 +181,17 @@ class locale
     }
 
     /**
+     * Получение доступных языков
+     *
+     * @return array
+     */
+    public function getAvailableLangs()
+    {
+        $db = db::factory();
+        return $db->getAll('SELECT `id`, `name` FROM `sys_lang`', PDO::FETCH_KEY_PAIR);
+    }
+
+    /**
      * Установка идентификатора языка
      *
      * @param integer $id
