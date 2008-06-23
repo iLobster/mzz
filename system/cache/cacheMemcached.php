@@ -69,7 +69,7 @@ class cacheMemcached implements iCache
             return $this->memcache->get($key);
         }
 
-        return null;
+        return false;
     }
 
     public function delete($key, $params = array())

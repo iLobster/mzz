@@ -58,7 +58,8 @@ class cacheMemory implements iCache
 
     public function get($key)
     {
-        return $this->data->get($key);
+        $value = $this->data->get($key);
+        return is_null($value) ? false : $value;
     }
 
     public function delete($key, $params = array())
