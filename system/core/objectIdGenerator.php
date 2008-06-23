@@ -60,9 +60,9 @@ class objectIdGenerator
         $cache = $toolkit->getCache();
 
         if (!is_null($name)) {
-            if (is_null($id = $cache->get($identifier = 'obj_id_' . $name))) {
-                $id = $this->db->getOne('SELECT `obj_id` FROM `sys_obj_id_named` WHERE `name` = ' . $this->db->quote($name));
 
+            if (($id = $cache->get($identifier = 'obj_id_' . $name)) === false) {
+                $id = $this->db->getOne('SELECT `obj_id` FROM `sys_obj_id_named` WHERE `name` = ' . $this->db->quote($name));
                 if (is_null($id) && $generateNew) {
                     $id = $this->generate();
                     $this->db->query('INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES (' . $id .', ' . $this->db->quote($name) . ')');

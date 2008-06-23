@@ -21,11 +21,21 @@
  * @subpackage cache
  * @version 0.0.1
  */
-
 class cache
 {
+    /**
+     * Массив фронтендов кэширования
+     *
+     * @var array
+     */
     protected static $instances = array();
 
+    /**
+     * Фабрика для получения объекта кэширования
+     *
+     * @param string $driver алиас драйвера для кэширования
+     * @return object
+     */
     public static function factory($driver = 'default')
     {
         $map = systemConfig::$cache;
@@ -38,7 +48,6 @@ class cache
         }
 
         if (array_key_exists($driver, self::$instances) === false) {
-
             $className = 'cache' . ucfirst($map[$driver]['driver']);
             $params = isset($map[$driver]['params']) ? $map[$driver]['params'] : null;
             fileLoader::load('cache/' . $className);

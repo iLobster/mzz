@@ -17,7 +17,7 @@ class memoryTest extends unitTestCase
     public function testGetNonExistIdentifier()
     {
         $cache = cache::factory('memory');
-        $this->assertNull($cache->get('foobar'));
+        $this->assertFalse($cache->get('foobar'));
     }
 
     public function testDrop()
@@ -27,7 +27,7 @@ class memoryTest extends unitTestCase
         $this->assertEqual($cache->get($identifier), $data);
 
         $cache->flush();
-        $this->assertNull($cache->get($identifier));
+        $this->assertFalse($cache->get($identifier));
     }
 }
 
