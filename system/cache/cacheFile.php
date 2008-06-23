@@ -47,7 +47,7 @@ class cacheFile implements iCache
     public function __construct(Array $params)
     {
         if (!isset($params['path']) || !is_dir($params['path'])) {
-            throw new mzzRuntimeException('Valid cache directory required for cacheFile');
+            throw new mzzRuntimeException('A valid cache directory must be specified for cacheFile');
         }
 
         $this->path = $params['path'];
