@@ -168,7 +168,7 @@ class tagsMapper extends simpleMapper
 
         $weights = $cache->get($identifier);
 
-        if ($weight === false) {
+        if ($weights === false) {
             $criteria = new criteria($this->table, 'tags');
 
             $this->joinTagsItem($criteria);
