@@ -58,20 +58,22 @@ class cacheMemory implements iCache
 
     public function get($key)
     {
-        $value = $this->data->get($key);
-        return is_null($value) ? false : $value;
+        return $this->data->get($key);
     }
 
     public function delete($key, $params = array())
     {
         if ($this->data->has($key)) {
-            $this->data->delete($key);
+            return $this->data->delete($key);
         }
+
+        return false;
     }
 
     public function flush($params = array())
     {
         $this->data = new arrayDataspace();
+        return true;
     }
 }
 

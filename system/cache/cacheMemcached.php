@@ -66,7 +66,8 @@ class cacheMemcached implements iCache
     public function get($key)
     {
         if ($this->isConnected()) {
-            return $this->memcache->get($key);
+            $value = $this->memcache->get($key);
+            return ($value === false) ? null : $value;
         }
 
         return false;

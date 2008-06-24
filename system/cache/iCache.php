@@ -49,7 +49,7 @@ interface iCache
      * Получает данные из кэша. Если такого значения нет в кэшэ, то возвращает false
      *
      * @param $key идентификатор значения в кэшэ
-     * @return string|false
+     * @return string|null
      */
     public function get($key);
 

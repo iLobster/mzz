@@ -132,8 +132,7 @@ class tagsMapper extends simpleMapper
         $identifier = 'tagMaxCount_' . md5(implode('', $obj_ids));
         $cache = systemToolkit::getInstance()->getCache();
 
-        $maxCount = $cache->get($identifier);
-        if ($maxCount === false) {
+        if (is_null($maxCount = $cache->get($identifier))) {
             $criteria = new criteria($this->table, 'tags');
 
             $this->joinTagsItem($criteria);
@@ -166,9 +165,7 @@ class tagsMapper extends simpleMapper
         $identifier = 'tagWeights' . md5(implode('', $obj_ids));
         $cache = systemToolkit::getInstance()->getCache();
 
-        $weights = $cache->get($identifier);
-
-        if ($weights === false) {
+        if (is_null($weights = $cache->get($identifier))) {
             $criteria = new criteria($this->table, 'tags');
 
             $this->joinTagsItem($criteria);

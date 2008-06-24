@@ -37,7 +37,8 @@ class cacheApc implements iCache
 
     public function get($key)
     {
-        return apc_fetch($key);
+        $value = apc_fetch($key);
+        return ($value === false) ? null : $value;
     }
 
     public function delete($key, $params = array())
