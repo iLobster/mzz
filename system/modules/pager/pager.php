@@ -210,10 +210,13 @@ class pager
      */
     public function getOffset()
     {
-        $offset = $this->getRealPage() * $this->getPerPage();
-        if ((!$this->reverse && $this->page == $this->getPagesTotal()) || ($this->reverse && $this->page == 1)) {
-            $offset -= (($this->getPagesTotal()) * $this->getPerPage()) - $this->itemsCount;
+        if ($this->page > 0) {
+            $firstPage = $this->reverse ? $this->getPagesTotal() : 1;
+            $offset = abs($this->page - $firstPage) * $this->perPage;
+        } else {
+            $offset = 0;
         }
+
         return $offset;
     }
 
@@ -255,12 +258,7 @@ class pager
     {
         $criteria = new criteria();
 
-        if ($this->page > 0) {
-            $firstPage = $this->reverse ? $this->getPagesTotal() : 1;
-            $offset = abs($this->page - $firstPage) * $this->perPage;
-        } else {
-            $offset = 0;
-        }
+        $offset = $this->getOffset();
 
         return $criteria->setLimit($this->perPage)->setOffset($offset);
     }

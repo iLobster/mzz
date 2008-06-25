@@ -76,7 +76,7 @@ class locale
             $this->locale_file = $this->resolve($this->name = $lang);
         } catch (mzzIoException $e) {
             // @todo: сделать получение дефолтного языка
-            $this->locale_file = $this->resolve($this->name = 'en');
+            $this->locale_file = $this->resolve($this->name = systemConfig::$i18n);
         }
 
         $file = new iniFile($this->locale_file);
@@ -288,6 +288,16 @@ class locale
             }
 
             self::$langs = $result;
+        }
+
+        if (is_string($id)) {
+            foreach (self::$langs as &$lang) {
+                if ($lang->getName() == $id) {
+                    return $lang;
+                }
+            }
+
+            return null;
         }
 
         if (is_array($id)) {
