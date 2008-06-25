@@ -27,6 +27,8 @@ class i18nFilter implements iFilter
 
     static public $timezoneVarName = 'mzz_i18n_timezone';
 
+    static public $timezoneDefaultVarName = 'mzz_i18n_timezone_default';
+
     static public $skinVarName = 'mzz_skin';
 
     /**
@@ -41,14 +43,15 @@ class i18nFilter implements iFilter
         $lastUserIdVarName = self::$sessionVarName . '_last_user_id';
 
         $session = systemToolkit::getInstance()->getSession();
+        $smarty = systemToolkit::getInstance()->getSmarty();
         $me = systemToolkit::getInstance()->getUser();
 
         if ($me->getId() != $session->get($lastUserIdVarName)) {
             // если поменялся id пользователя - стираем значение в сессии
             $session->destroy(self::$sessionVarName);
             $session->destroy(self::$timezoneVarName);
+            $session->destroy(self::$skinVarName);
             $session->set($lastUserIdVarName, $me->getId());
-            $session->set(self::$skinVarName, $me->getSkin()->getName());
         }
 
         // если приложение мультиязычное
@@ -60,44 +63,60 @@ class i18nFilter implements iFilter
                     // смотрим, есть ли в профиле пользователя
                     if ($language_id = $me->getLanguageId()) {
                         $locale = locale::searchAll($language_id);
-                        $language = $locale->getName();
+                        $language = $locale ? $locale->getName() : null;
                     } else {
-                        // смотрим в куках
-                        if (!($language = $request->getString(self::$sessionVarName, SC_COOKIE))) {
-                            // смотрим в заголовках
-                            // @todo: реализовать
-                            $language = systemConfig::$i18n;
+                        // смотрим в заголовках
+                        $locales_names = array();
+                        foreach (locale::searchAll() as $locale) {
+                            $locales_names[] = $locale->getName();
+                        }
+                        preg_match_all('/[a-z]{2}/', $request->getServer('HTTP_ACCEPT_LANGUAGE'), $accept_langs);
+                        $accept_langs = array_unique($accept_langs[0]);
+
+                        foreach ($accept_langs as $accept_lang) {
+                            if (in_array($accept_lang, $locales_names)) {
+                                $language = $accept_lang;
+                                break;
+                            }
                         }
                     }
                 }
             }
-        } else {
+        }
+
+        if (empty($language)) {
             $language = systemConfig::$i18n;
         }
 
-        if ($session->get(self::$sessionVarName) != $language) {
-            // устанавливаем язык в куку
-            $response->setCookie(self::$sessionVarName, $language, strtotime('+1 year'));
+        if (!$session->exists(self::$skinVarName)) {
+            // если в сессии не установлен скин
+            $session->set(self::$skinVarName, $me->getSkin()->getName());
+        }
 
-            // если текущее значение языка не совпадает с тем, которое в профиле - заменяем его
-            $me = systemToolkit::getInstance()->getUser();
-            if ($me->isLoggedIn()) {
-                $locale = new locale($language);
-                if ($me->getLanguageId() != $locale->getId()) {
-                    $me->setLanguageId($locale->getId());
-                    $me->getMapper()->save($me);
-                }
-            }
-
+        if (!$session->exists(self::$sessionVarName)) {
+            // если в сессии не установлен язык
             $session->set(self::$sessionVarName, $language);
 
             $tz = $me->getTimezone();
 
             $session->set(self::$timezoneVarName, $tz);
+
+            if (!$me->isLoggedIn()) {
+                $session->set(self::$timezoneDefaultVarName, true);
+            }
         }
+
+        if ($session->exists(self::$timezoneDefaultVarName)) {
+            $smarty->assign('detect_users_timezone', true);
+        }
+
+        $locale = systemToolkit::getInstance()->getLocale();
+        $smarty->assign('locale_rtl', $locale->isRtl());
 
         //systemConfig::$i18n = $language;
         systemToolkit::getInstance()->setLocale($language);
+
+        $smarty->assign('CURRENT_LANG', $language);
 
         $filter_chain->next();
     }
