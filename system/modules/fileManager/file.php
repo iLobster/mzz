@@ -52,6 +52,7 @@ class file extends simple
         }
 
         $url = new url('withAnyParam');
+        $url->setSection($this->section);
         $url->add('name', $this->getFullPath());
         return $url->get();
     }
