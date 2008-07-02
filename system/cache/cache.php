@@ -49,7 +49,7 @@ class cache
 
         if (array_key_exists($driver, self::$instances) === false) {
             $className = 'cache' . ucfirst($map[$driver]['driver']);
-            $params = isset($map[$driver]['params']) ? $map[$driver]['params'] : null;
+            $params = isset($map[$driver]['params']) ? $map[$driver]['params'] : array();
             fileLoader::load('cache/' . $className);
             self::$instances[$driver] = new $className($params);
         }
