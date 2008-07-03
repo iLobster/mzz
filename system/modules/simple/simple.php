@@ -106,6 +106,7 @@ abstract class simple implements Serializable
         $this->fields = new arrayDataspace();
         $this->changedFields = new arrayDataspace();
         $this->fakeFields = new arrayDataspace();
+        $this->section();
     }
 
     /**

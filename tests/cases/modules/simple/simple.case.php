@@ -186,6 +186,7 @@ class testSimple extends unitTestCase
 
         $this->assertTrue($simple2 instanceof $class);
         $this->assertEqual($simple2->getId(), $this->simple->getId());
+        $this->assertEqual($simple2->section(), $this->simple->section());
     }
 }
 
