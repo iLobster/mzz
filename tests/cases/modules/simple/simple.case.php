@@ -180,6 +180,8 @@ class testSimple extends unitTestCase
 
     public function testSerialize()
     {
+        $this->simple->setId(2);
+        $this->mapper->save($this->simple);
         $str = serialize($this->simple);
         $simple2 = unserialize($str);
         $class = get_class($this->simple);
