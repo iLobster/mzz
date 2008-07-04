@@ -23,7 +23,7 @@ fileLoader::load('dataspace/iDataspace');
  * @subpackage dataspace
  * @version 0.2
  */
-class arrayDataspace implements iDataspace, ArrayAccess
+class arrayDataspace implements iDataspace, ArrayAccess, Iterator
 {
     /**
      * Массив для хранения данных
@@ -31,6 +31,7 @@ class arrayDataspace implements iDataspace, ArrayAccess
      * @var array
      */
     protected $data;
+    protected $current = 0;
 
     /**
      * Принимает обычный массив $data с данными по умолчанию и
@@ -204,6 +205,33 @@ class arrayDataspace implements iDataspace, ArrayAccess
     public function isEmpty()
     {
         return empty($this->data);
+    }
+
+    public function current()
+    {
+        return current($this->data);
+    }
+
+    public function key()
+    {
+        return key($this->data);
+    }
+
+    public function next()
+    {
+        $this->current++;
+        return next($this->data);
+    }
+
+    public function rewind()
+    {
+        $this->current = 0;
+        reset($this->data);
+    }
+
+    public function valid()
+    {
+        return $this->current < sizeof($this->data);
     }
 }
 ?>

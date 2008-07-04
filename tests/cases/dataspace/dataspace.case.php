@@ -22,6 +22,24 @@ class arrayDataspaceTest extends unitTestCase
         $this->assertEqual($this->dataspace->get('bar'), $item_two);
     }
 
+    public function testArrayDataspaceIterator()
+    {
+        $item_one = "fooval";
+        $item_two = "barval";
+        $item_three = false;
+
+        $this->dataspace->set($key_one = 'foo', $item_one);
+        $this->dataspace->set($key_two = 'bar', $item_two);
+        $this->dataspace->set($key_three = 'bool', $item_three);
+
+        $result = '';
+        foreach ($this->dataspace as $key => $value) {
+            $result .= $key . $value;
+        }
+
+        $this->assertEqual($result, $key_one . $item_one . $key_two . $item_two . $key_three);
+    }
+
     public function testArrayDataspaceExists()
     {
         $this->assertFalse($this->dataspace->exists('_not_exists_'));
@@ -68,15 +86,15 @@ class arrayDataspaceTest extends unitTestCase
             }
         }
     }
-    
+
     public function testClear()
     {
         $item_one = "foo";
         $this->dataspace->set('foo', $item_one);
         $this->assertEqual($this->dataspace->get('foo'), $item_one);
-        
+
         $this->dataspace->clear();
-        
+
         $this->assertFalse($this->dataspace->exists('foo'));
         $this->assertNull($this->dataspace->get('foo'));
     }
