@@ -27,7 +27,7 @@ class forumSaveCategoryController extends simpleController
     public function getView()
     {
         $action = $this->request->getAction();
-        $isEdit = $action == 'editcategory';
+        $isEdit = $action == 'editCategory';
 
         $id = $this->request->getInteger('id');
 

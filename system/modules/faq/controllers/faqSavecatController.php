@@ -36,9 +36,10 @@ class faqSavecatController extends simpleController
         $category = ($isEdit) ? $categoryMapper->searchByName($name) : $categoryMapper->create();
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Введите все данные');
-        $validator->add('required', 'title', 'Введите все данные');
-
+        $validator->add('required', 'name', 'Введите идентификатор категории');
+        $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-z0-9_\.\-!]+$/i');
+        $validator->add('callback', 'name', 'Идентификатор должен быть уникален', array('checkCatName', $category, $categoryMapper));
+        $validator->add('required', 'title', 'Введите заголовок категории');
 
         if (!$validator->validate()) {
             $url = new url('withAnyParam');
@@ -62,6 +63,15 @@ class faqSavecatController extends simpleController
             return jipTools::redirect();
         }
     }
+}
+
+function checkCatName($name, $category, $categoryMapper)
+{
+    if ($name == $category->getName()) {
+        return true;
+    }
+
+    return is_null($categoryMapper->searchOneByField('name', $name));
 }
 
 ?>

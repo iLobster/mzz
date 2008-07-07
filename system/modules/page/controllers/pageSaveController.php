@@ -41,8 +41,6 @@ class pageSaveController extends simpleController
             $pageFolder = $pageFolderMapper->searchByPath($name);
         }
 
-
-
         if (!empty($page) || (!$isEdit && isset($pageFolder) && !is_null($pageFolder))) {
             $validator = new formValidator();
             $validator->add('required', 'name', 'Обязательное для заполнения поле');

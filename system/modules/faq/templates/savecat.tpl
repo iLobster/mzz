@@ -2,7 +2,7 @@
 <form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
     <table border="0" cellpadding="0" cellspacing="1" width="99%">
         <tr>
-            <td>{form->caption name="name" value="Имя:"}</td>
+            <td>{form->caption name="name" value="Идентификатор:"}</td>
             <td>{form->text name="name" size="60" value=$category->getName()}{$errors->get('name')}</td>
         <tr>
         <tr>
