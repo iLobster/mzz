@@ -53,14 +53,15 @@ class menuItem extends simpleCatalogue
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
+        $lang = systemToolkit::getInstance()->getLocale()->getName();
 
         switch ($this->getTypeName()) {
             case 'simple':
-                return (($full ? $request->getUrl() : '') . $this->getPropertyValue('url'));
+                return (($full ? $request->getUrl() : '') . ($lang ? '/' . $lang : '') . $this->getPropertyValue('url'));
                 break;
 
             case 'advanced':
-                return (($full ? $request->getUrl() : '') . $this->getPropertyValue('url'));
+                return (($full ? $request->getUrl() : '') . ($lang ? '/' . $lang : '') . $this->getPropertyValue('url'));
                 break;
         }
     }
