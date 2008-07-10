@@ -23,5 +23,7 @@ fileLoader::load('exceptions/mzzIoException');
 fileLoader::load('exceptions/mzzCallbackException');
 fileLoader::load('exceptions/mzzInvalidParameterException');
 fileLoader::load('exceptions/mzzDONotFoundException');
+fileLoader::load('exceptions/mzzUnknownCacheBackendException');
+fileLoader::load('exceptions/mzzUnknownCacheConfigException');
 
 ?>

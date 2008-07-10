@@ -23,8 +23,9 @@
  */
 class cache
 {
+    const DEFAULT_CONFIG_NAME = 'default';
     /**
-     * Массив фронтендов кэширования
+     * Cache backends instances
      *
      * @var array
      */
@@ -33,28 +34,39 @@ class cache
     /**
      * Фабрика для получения объекта кэширования
      *
-     * @param string $driver алиас драйвера для кэширования
+     * @param string $configName the name of the cache backend configuration (it is also the instance name)
+     * @param array $configs configurations (if passed as null, the system configurations will be used)
      * @return object
      */
-    public static function factory($driver = 'default')
+    public static function factory($configName = self::DEFAULT_CONFIG_NAME, $configs = null)
     {
-        $map = systemConfig::$cache;
-        if (!isset($map['default'])) {
-            throw new mzzRuntimeException('no default cache driver');
+        $configs = empty($configs) ? systemConfig::$cache : $configs;
+
+        if ($configName == self::DEFAULT_CONFIG_NAME && !isset($configs[self::DEFAULT_CONFIG_NAME])) {
+            throw new mzzRuntimeException('no default cache configuration name');
         }
 
-        if (array_key_exists($driver, $map) === false) {
-            $driver = 'default';
+        if (!isset($configs[$configName])) {
+            throw new mzzUnknownCacheConfigException($configName);
         }
 
-        if (array_key_exists($driver, self::$instances) === false) {
-            $className = 'cache' . ucfirst($map[$driver]['driver']);
-            $params = isset($map[$driver]['params']) ? $map[$driver]['params'] : array();
-            fileLoader::load('cache/' . $className);
-            self::$instances[$driver] = new $className($params);
+        $config = $configs[$configName];
+        if (!isset(self::$instances[$configName])) {
+            $className = 'cache' . ucfirst($config['backend']);
+            $params = isset($config['params']) ? $config['params'] : array();
+            try {
+                fileLoader::load('cache/' . $className);
+                $notFound = !class_exists($className);
+            } catch (mzzIoException $e) {
+                $notFound = true;
+            }
+            if ($notFound || empty($config['backend'])) {
+                throw new mzzUnknownCacheBackendException($className);
+            }
+            self::$instances[$configName] = new $className($params);
         }
 
-        return self::$instances[$driver];
+        return self::$instances[$configName];
     }
 }
 

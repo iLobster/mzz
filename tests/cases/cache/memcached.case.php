@@ -4,9 +4,15 @@ fileLoader::load('cache');
 
 class memcachedTest extends unitTestCase
 {
+    public function skip()
+    {
+        $this->skipIf(!extension_loaded('memcache'), 'Memcache extension not found. Test skipped.');
+        $this->skipIf(!class_exists('Memcache'), 'Memcache class not found. Test skipped.');
+    }
+
     public function testGetSet()
     {
-        $cache = cache::factory('memcached');
+        $cache = $this->_createCache();
         $cache->set($identifier = 'baz', $data = 'foobar');
         $this->assertEqual($cache->get($identifier), $data);
 
@@ -16,18 +22,23 @@ class memcachedTest extends unitTestCase
 
     public function testGetNonExistIdentifier()
     {
-        $cache = cache::factory('memory');
+        $cache = $this->_createCache();
         $this->assertFalse($cache->get('foobar'));
     }
 
     public function testDrop()
     {
-        $cache = cache::factory('memory');
+        $cache = $this->_createCache();
         $cache->set($identifier = 'foobar', $data = 'baz');
         $this->assertEqual($cache->get($identifier), $data);
 
         $cache->flush();
         $this->assertFalse($cache->get($identifier));
+    }
+
+    public function _createCache()
+    {
+        return cache::factory('memcached', array('memcached' => array('backend' => 'memcached')));
     }
 }
 

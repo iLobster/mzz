@@ -6,7 +6,7 @@ class memoryTest extends unitTestCase
 {
     public function testGetSet()
     {
-        $cache = cache::factory('memory');
+        $cache = $this->_createCache();
         $cache->set($identifier = 'baz', $data = 'foobar');
         $this->assertEqual($cache->get($identifier), $data);
 
@@ -16,18 +16,23 @@ class memoryTest extends unitTestCase
 
     public function testGetNonExistIdentifier()
     {
-        $cache = cache::factory('memory');
+        $cache = $this->_createCache();
         $this->assertFalse($cache->get('foobar'));
     }
 
     public function testDrop()
     {
-        $cache = cache::factory('memory');
+        $cache = $this->_createCache();
         $cache->set($identifier = 'foobar', $data = 'baz');
         $this->assertEqual($cache->get($identifier), $data);
 
         $cache->flush();
         $this->assertFalse($cache->get($identifier));
+    }
+
+    public function _createCache()
+    {
+        return cache::factory('memory', array('memory' => array('backend' => 'memory')));
     }
 }
 
