@@ -43,7 +43,7 @@ class photo extends simple
             $image->save($file);
         }
 
-        return SITE_PATH . '/files/gallery/' . basename($file);
+        return '/files/gallery/' . basename($file);
     }
 
     public function getFile()

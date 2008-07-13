@@ -64,7 +64,7 @@ class fmImageFile extends fmSimpleFile
             }
         }
 
-        return SITE_PATH . $this->publicPath . '/thumbnails/' . $thumbNameFile;
+        return $this->publicPath . '/thumbnails/' . $thumbNameFile;
     }
 
     protected function getThumbName()
