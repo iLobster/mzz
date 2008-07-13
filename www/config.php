@@ -58,8 +58,8 @@ systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../tmp');
 systemConfig::$pathToConf = dirname(__FILE__) . '/configs';
 
 systemConfig::$cache['default']['backend'] = 'memory';
-systemConfig::$cache['default']['backend'] = 'file';
-systemConfig::$cache['default']['params'] = array('path' => systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . 'cache', 'prefix' => 'cf2_');
+systemConfig::$cache['memory']['backend'] = 'memory';
+//systemConfig::$cache['default']['params'] = array('path' => systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . 'cache', 'prefix' => 'cf2_');
 
 systemConfig::init();
 
