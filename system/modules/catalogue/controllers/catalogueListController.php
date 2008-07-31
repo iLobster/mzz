@@ -39,7 +39,6 @@ class catalogueListController extends simpleController
         $this->smarty->assign('folderPath', $catalogueFolder->getPath());
         $this->smarty->assign('items', $catalogueFolder->getItems());
         $this->smarty->assign('catalogueFolder', $catalogueFolder);
-        $this->smarty->assign('folders', $catalogueFolderMapper->getTreeForMenu($catalogueFolder));
         $catalogueFolder->removePager();
 
         $chain = $catalogueFolderMapper->getParentBranch($catalogueFolder);
