@@ -29,38 +29,6 @@ class fmImageFile extends fmSimpleFile
                 $image = new image($filename);
                 $image->resize($width, $height);
                 $image->save($file);
-
-                /*
-                list($width_orig, $height_orig) = getimagesize($filename);
-
-                $aspect_w = $width_orig / $width;
-                $aspect_h = $height_orig / $height;
-
-                $aspect = ($aspect_h > $aspect_w) ? $aspect_h : $aspect_w;
-
-                if ($aspect <= 1) {
-                    $width = $width_orig;
-                    $height = $height_orig;
-                } else {
-                    $width = round($width_orig / $aspect);
-                    $height = round($height_orig / $aspect);
-                }
-
-                $thumbnail = imagecreatetruecolor($width, $height);
-                $image = call_user_func('imagecreatefrom' . $ext, $filename);
-
-                if ($ext == 'png') {
-                    imagealphablending($thumbnail, false);
-                    imagesavealpha($thumbnail, true);
-                } elseif ($ext == 'gif') {
-                    $trans_color = imagecolorallocate($image, 255, 255, 255);
-                    imagecolortransparent($image, $trans_color);
-                }
-
-                imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-
-                call_user_func('image' . $ext, $thumbnail, $file);
-                */
             }
         }
 
@@ -90,11 +58,6 @@ class fmImageFile extends fmSimpleFile
                 unlink($thumbnail);
             }
         }
-    }
-
-    public function __clone()
-    {
-        $this->path = null;
     }
 }
 ?>
