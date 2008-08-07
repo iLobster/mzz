@@ -53,13 +53,10 @@ class menuItem extends simpleCatalogue
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
-        $lang = systemToolkit::getInstance()->getLocale()->getName();
+        $lang = systemConfig::$i18nEnable ? $request->getString('lang') : null;
 
         switch ($this->getTypeName()) {
             case 'simple':
-                return (($full ? $request->getUrl() : '') . ($lang ? '/' . $lang : '') . $this->getPropertyValue('url'));
-                break;
-
             case 'advanced':
                 return (($full ? $request->getUrl() : '') . ($lang ? '/' . $lang : '') . $this->getPropertyValue('url'));
                 break;
@@ -72,9 +69,11 @@ class menuItem extends simpleCatalogue
             $toolkit = systemToolkit::getInstance();
             $request = $toolkit->getRequest();
 
+            $lang = systemConfig::$i18nEnable ? $request->getString('lang') : null;
+
             switch ($this->getTypeName()) {
                 case 'simple':
-                    $isActive = ($request->getUrl() . $this->getPropertyValue('url') == $request->getRequestUrl());
+                    $isActive = ($request->getUrl() . ($lang ? '/' . $lang : '') . $this->getPropertyValue('url') == $request->getRequestUrl());
                     break;
 
                 case 'advanced':

@@ -28,7 +28,7 @@ class faqSavecatController extends simpleController
     {
         $categoryMapper = $this->toolkit->getMapper('faq', 'faqCategory');
 
-        $name = $this->request->getInteger('name');
+        $name = $this->request->getString('name');
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'editcat');
