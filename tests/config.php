@@ -36,7 +36,8 @@ systemConfig::$db['default']['pdoOptions'] = array();
 
 systemConfig::$db['another']['dsn']  = "mysql:host=localhost;dbname=mzz_test";
 
-systemConfig::$cache['default']['driver'] = 'memory';
+systemConfig::$cache['default']['backend'] = 'memory';
+systemConfig::$cache['memory']['backend'] = 'memory';
 
 systemConfig::$i18n = 'en';
 systemConfig::$i18nEnable = true;
