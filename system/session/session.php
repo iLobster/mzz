@@ -193,7 +193,7 @@ class session
     public function destroy($name)
     {
         if ($exists = $this->exists($name)) {
-            unset($_SESSION[$name]);
+            $this->set($name, null);
         }
         return $exists;
     }
