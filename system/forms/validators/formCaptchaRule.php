@@ -13,7 +13,7 @@
  */
 
 /**
- * formCaptiondRule: правило каптчи
+ * formCaptionRule: правило каптчи
  *
  * @package system
  * @subpackage forms
@@ -28,12 +28,11 @@ class formCaptchaRule extends formAbstractRule
 
         $captcha_id = $request->getString($this->name . '_id', SC_POST | SC_GET);
 
-        $captcha_sessionkey = 'captcha_' . $captcha_id;
-
-        $captchaValue = $session->get($captcha_sessionkey, false);
-        $session->destroy($captcha_sessionkey);
+        $captcha_key = 'mzz_captcha[' . $captcha_id . ']';
+        $captchaValue = $session->get($captcha_key, false);
 
         if ($captchaValue) {
+            $session->destroy($captcha_key);
             return (md5($this->value) == $captchaValue);
         }
     }

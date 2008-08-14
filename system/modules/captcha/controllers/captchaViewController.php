@@ -31,7 +31,7 @@ class captchaViewController extends simpleController
             $width = 120;
             $height = 40;
             $length = 5;
-            $font = dirname(__FILE__) . '/font.ttf';
+            $font = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'font.ttf';
             $symbols = '1234567890';
 
             $string = null;
@@ -158,7 +158,18 @@ class captchaViewController extends simpleController
 
             imagedestroy($im);
 
-            $session->set('captcha_' . $captcha_id, md5($string));
+            $captcha_key = 'mzz_captcha';
+            $captchas = $session->get($captcha_key, array());
+            if (!is_array($captchas)) {
+                $captchas = array();
+            }
+
+            $captchas[$captcha_id] = md5($string);
+            if (sizeof($captchas) > 5) {
+                array_shift($captchas);
+            }
+
+            $session->set($captcha_key, $captchas);
 
             $this->response->setHeader('Content-type', 'image/png');
             return $image;
