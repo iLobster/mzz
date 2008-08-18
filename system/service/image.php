@@ -97,10 +97,9 @@ class image
                 throw new mzzRuntimeException('imagesavealpha failed');
             }
         } elseif ($this->ext == 'gif') {
-            if (!($trans_color = imagecolorallocate($this->image, 255, 255, 255))) {
-                throw new mzzRuntimeException('imagecolorallocate failed');
+            if ($trans_color = imagecolorallocate($this->image, 255, 255, 255)) {
+                imagecolortransparent($this->image, $trans_color);
             }
-            imagecolortransparent($this->image, $trans_color);
         }
 
         if (!imagecopyresampled($image_resized, $this->image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig)) {
