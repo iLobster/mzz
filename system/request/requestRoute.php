@@ -43,7 +43,7 @@ class requestRoute implements iRoute
      * Часть регулярного выражения, используемая по умолчанию
      *
      */
-    const DEFAULT_REGEX = '[^/]+';
+    const DEFAULT_REGEX = '[^/]';
 
     /**
      * Разделить в регулярном выражении
@@ -223,7 +223,14 @@ class requestRoute implements iRoute
         foreach ($this->parts as $i => $part) {
             if($part[0] === self::VARIABLE_PREFIX) {
                 $part = substr($part, 1);
-                $regex = isset($this->requirements[$part]) ? $this->requirements[$part] : self::DEFAULT_REGEX;
+                if (isset($this->requirements[$part])) {
+                    $regex = $this->requirements[$part];
+                } else {
+                    // чтобы идентификатор языка дефолтная регулярка не приняла за свое устанавливаем
+                    // условие "более 3 символов" если она идет сразу же за регуляркой для языка
+                    $regex = self::DEFAULT_REGEX . ($i == 2 ? '{3,}' : '+');
+                }
+
                 $this->parts[$i] = array('name'=> $part, 'isVar' => true, 'regex' => $regex);
 
                 $prevPartName = ($i > 0) ? $this->parts[$i-1]['name'] : false;
