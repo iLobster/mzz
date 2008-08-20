@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.24
+ * @version 0.3.25
  */
 
 abstract class simpleMapper
@@ -351,10 +351,10 @@ abstract class simpleMapper
 
             // перемещаем языкозависимые поля из общего массива
             $fields_lang_dependent = array();
-            foreach ($lang_fields as $item) {
-                if (array_key_exists($item, $fields_lang_independent)) {
-                    $fields_lang_dependent[$item] = $fields_lang_independent[$item];
-                    unset($fields_lang_independent[$item]);
+            foreach ($fields_lang_independent as $key => $val) {
+                if (in_array($key, $lang_fields)) {
+                    $fields_lang_dependent[$key] = $val;
+                    unset($fields_lang_independent[$key]);
                 }
             }
 
@@ -466,11 +466,10 @@ abstract class simpleMapper
 
             // перемещаем языкозависимые поля из общего массива
             $fields_lang_dependent = array();
-
-            foreach ($lang_fields as $key => $item) {
-                if (isset($fields[$item])) {
-                    $fields_lang_dependent[$item] = $fields[$item];
-                    unset($fields[$item]);
+            foreach ($fields as $key => $val) {
+                if (in_array($key, $lang_fields)) {
+                    $fields_lang_dependent[$key] = $val;
+                    unset($fields[$key]);
                 }
             }
 
@@ -892,7 +891,7 @@ abstract class simpleMapper
     {
         /*$key = md5(get_class($this) . $name . $value);
         if ($result = $this->cache->get($key)) {
-            return $result;
+        return $result;
         }*/
 
         $criteria = new criteria();
@@ -1018,7 +1017,7 @@ abstract class simpleMapper
     public function getLangId()
     {
         /*if (!systemConfig::$i18n) {
-            return 0;
+        return 0;
         }*/
 
         if (empty($this->langId)) {
