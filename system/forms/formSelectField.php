@@ -39,10 +39,10 @@ class formSelectField extends formElement
             $options['styles'] = array();
         }*/
 
-        $first = isset($options['emptyFirst']) && $options['emptyFirst'];
+        $first = isset($options['emptyFirst']) && $options['emptyFirst'] !== 0 && $options['emptyFirst'] !== false;
 
         if ($first) {
-            $firstText = is_bool($options['emptyFirst']) ? '&nbsp;' : htmlspecialchars($options['emptyFirst']);
+            $firstText = (is_bool($options['emptyFirst']) || $options['emptyFirst'] === 1) ? '&nbsp;' : htmlspecialchars($options['emptyFirst']);
             $options['options'] = array('' => $firstText) + $options['options'];
         }
 
