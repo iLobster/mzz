@@ -4,10 +4,16 @@ Options +FollowSymlinks -Indexes -Includes -MultiViews
 # +MultiViews
 RewriteBase /
 RewriteCond %{SCRIPT_FILENAME} !-f
-#Uncomment next line if you want no rewrite exists folders
+#Uncomment the next line if you don't want to rewrite exists folders
 #RewriteCond %{SCRIPT_FILENAME} !-d
 
 RewriteRule (.*) index.php?path=/$1&%{QUERY_STRING} [L]
+
+# If magic_quotes enabled in your php.ini and you can't disable it then uncomment the next lines:
+#<IfModule mod_php5.c>
+#    php_flag magic_quotes_gpc 0
+#    php_flag magic_quotes_runtime 0
+#</IfModule>
 
 <IfModule mod_expires.c>
     ExpiresActive on
