@@ -43,10 +43,6 @@
             <td>{form->select name="action[alias]" emptyFirst=true options=$aliases value=$defaults->get('alias')}</td>
         </tr>
         <tr>
-            <td>{form->caption name="action[inACL]" value="Не регистрировать в ACL"}</td>
-            <td>{form->checkbox name="action[inACL]" value=$defaults->get('inACL') values="0|1"}</td>
-        </tr>
-        <tr>
             <td>{form->caption name="action[jip]" value="Добавить в JIP"}</td>
             <td>{form->checkbox name="action[jip]" value=$defaults->get('jip')}</td>
         </tr>

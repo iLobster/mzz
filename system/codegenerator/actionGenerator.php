@@ -280,10 +280,6 @@ class actionGenerator
                     $section_val['403handle'] = $params['403handle'];
                 }
 
-                if (isset($params['inACL']) && $params['inACL'] == '0') {
-                    $section_val['inACL'] = 0;
-                }
-
                 if (!empty($params['alias'])) {
                     $section_val['alias'] = $params['alias'];
                 }

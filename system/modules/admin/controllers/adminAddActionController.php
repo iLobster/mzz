@@ -83,7 +83,6 @@ class adminAddActionController extends simpleController
                 $defaults->set('alias', $info['alias']);
             }
             $defaults->set('jip', !empty($info['jip']));
-            $defaults->set('inACL', !isset($info['inACL']) || $info['inACL'] == 1);
         } else {
             $defaults->set('icon', '/templates/images/');
         }
