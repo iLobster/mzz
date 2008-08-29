@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <td style="width: 30%;">{form->caption name="order" value="Порядок сортировки:"}</td>
-            <td>{form->text name="order" size="30" value=$data.order}{$errors->get('order')}</td>
+            <td>{form->text name="order" size="30" value=$data.order|default:"0"}{$errors->get('order')}</td>
         </tr>
         {if $isEdit}
             <tr>

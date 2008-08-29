@@ -88,7 +88,7 @@ class adminAddModuleController extends simpleController
             $name = $this->request->getString('name', SC_POST);
             $icon = $this->request->getString('icon', SC_POST);
             $title = $this->request->getString('title', SC_POST);
-            $order = $this->request->getString('order', SC_POST);
+            $order = $this->request->getInteger('order', SC_POST);
             $newDest = $this->request->getString('dest', SC_POST);
             $main_class = $this->request->getInteger('main_class', SC_POST);
 
