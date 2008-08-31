@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.25
+ * @version 0.3.26
  */
 
 abstract class simpleMapper
@@ -605,12 +605,18 @@ abstract class simpleMapper
         $toolkit = systemToolkit::getInstance();
 
         foreach ($this->getOwns() as $key => $val) {
-            $tmp[$this->className][$this->SCALAR][$key] = $tmp[$this->className][$key];
-            $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
+            $scalar = $tmp[$this->className][$key];
+            $tmp[$this->className][$this->SCALAR][$key] = $scalar;
             if ($val['join_type'] == 'LEFT' && is_null($tmp[$key][$val['key']])) {
                 $row = null;
             } else {
-                $row = $mapper->createItemFromRow($tmp[$key]);
+                // если поле подгружается лениво - передаём туда скаляр напрямую
+                if ($val['lazy']) {
+                    $row = $scalar;
+                } else {
+                    $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
+                    $row = $mapper->createItemFromRow($tmp[$key]);
+                }
             }
             $tmp[$this->className][$key] = $row;
         }
@@ -631,6 +637,11 @@ abstract class simpleMapper
         $this->addSelectFields($criteria, $this, $this->table, $this->className);
 
         foreach ($this->getOwns() as $key => $val) {
+            // если объект должен загружаться лениво - пропускаем поле
+            if (isset($val['lazy']) && $val['lazy']) {
+                continue;
+            }
+
             $mapper = $toolkit->getMapper($val['module'], $val['class'], $val['section']);
 
             $this->addSelectFields($criteria, $mapper, $val['class'], $key);
@@ -1207,9 +1218,12 @@ abstract class simpleMapper
             foreach ($this->getMap() as $key => $val) {
                 if (isset($val['owns'])) {
                     $val['relate'] = $val['owns'];
+
+                    $lazy = isset($val['lazy']) && (bool)$val['lazy'];
+
                     list($tableName, $fieldName, $className, $sectionName, $moduleName, $joinType) = $this->explodeRelateData($val);
 
-                    $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'join_type' => $joinType);
+                    $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'join_type' => $joinType, 'lazy' => $lazy);
                 }
             }
         }
