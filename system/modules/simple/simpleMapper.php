@@ -607,7 +607,7 @@ abstract class simpleMapper
         foreach ($this->getOwns() as $key => $val) {
             $scalar = $tmp[$this->className][$key];
             $tmp[$this->className][$this->SCALAR][$key] = $scalar;
-            if ($val['join_type'] == 'LEFT' && is_null($tmp[$key][$val['key']])) {
+            if ($val['join_type'] == 'LEFT' && !$val['lazy'] && is_null($tmp[$key][$val['key']])) {
                 $row = null;
             } else {
                 // если поле подгружается лениво - передаём туда скаляр напрямую
