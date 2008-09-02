@@ -22,7 +22,7 @@ class requestRouteTest extends unitTestCase
         systemConfig::$i18nEnable = $this->i18n_default;
     }
 
-    public function testSampleRoute()
+    public function testSimpleRoute()
     {
         $route = new requestRoute(':controller/:id/:action');
         $this->assertEqual(
@@ -153,8 +153,8 @@ class requestRouteTest extends unitTestCase
             array('action' => 'view', 'controller' => 'news', 'lang' => '')
         );
         $this->assertEqual(
-            $route->match('ru/ru/ru'),
-            array('action' => 'ru', 'controller' => 'ru', 'lang' => 'ru')
+            $route->match('ru/rus/ru'),
+            array('action' => 'ru', 'controller' => 'rus', 'lang' => 'ru')
         );
         $this->assertEqual(
             $route->match('ru'),

@@ -29,7 +29,7 @@ fileLoader::load('request/iRoute');
  *
  * @package system
  * @subpackage request
- * @version 0.1.4
+ * @version 0.1.5
  */
 class requestRoute implements iRoute
 {
@@ -172,10 +172,7 @@ class requestRoute implements iRoute
         $this->values = $this->defaults;
 
         if ($debug) {
-            echo '<span style="background-color: #FCF4DA; padding: 0 3px;">' . $this->getName() . '</span>, ';
-            echo '<span style="background-color: #D9F2FC; padding: 0 3px;">' . $this->pattern . '</span>, ';
-            echo '<span style="background-color: #FBDFDA; padding: 0 3px;">' . $this->regex . '</span>, ';
-            echo '<span style="background-color: #E5FBE2; padding: 0 3px;">' . $path . "</span><br />\r\n";
+            $this->dumpParameters($this->getName(), $this->pattern, $this->regex, $path);
         }
 
         if (preg_match_all($this->regex, $path, $matches, PREG_SET_ORDER)) {
@@ -186,22 +183,29 @@ class requestRoute implements iRoute
                 }
             }
 
-            // Если в конце шаблона содержится "*", то неизвестные параметры разбиваем
-            // по принципу нечетные - ключи, четные - значения
             if (isset($this->values['*'])) {
-                $params = explode('/', trim($this->values['*'], '/'));
-                while ($key = current($params)) {
-                    next($params);
-                    if (!isset($this->values[$key])) {
-                        $this->values[$key] = current($params);
-                    }
-                    next($params);
-                }
+                $this->replaceStar();
             }
             return $this->values;
         }
 
         return false;
+    }
+
+    /**
+     * Разбивает соответствующие шаблону "всё" параметры по принципу нечетные - ключи, четные - значения
+     *
+     */
+    protected function replaceStar()
+    {
+        $params = explode('/', trim($this->values['*'], '/'));
+        while ($key = current($params)) {
+            next($params);
+            if (!isset($this->values[$key])) {
+                $this->values[$key] = current($params);
+            }
+            next($params);
+        }
     }
 
     /**
@@ -228,7 +232,7 @@ class requestRoute implements iRoute
                 } else {
                     // чтобы идентификатор языка дефолтная регулярка не приняла за свое устанавливаем
                     // условие "более 3 символов" если она идет сразу же за регуляркой для языка
-                    $regex = self::DEFAULT_REGEX . ($i == 2 ? '{3,}' : '+');
+                    $regex = self::DEFAULT_REGEX . ($this->withLang && $i == 2 ? '{3,}' : '+');
                 }
 
                 $this->parts[$i] = array('name'=> $part, 'isVar' => true, 'regex' => $regex);
@@ -327,6 +331,14 @@ class requestRoute implements iRoute
         return $url;
     }
 
+    protected function dumpParameters($name, $pattern, $regex, $path)
+    {
+        $span = '<span style="background-color: #%s; padding: 0 3px;">%s</span>';
+        printf($span . ', ', 'FCF4DA', $name);
+        printf($span . ', ', 'D9F2FC', $pattern);
+        printf($span . ', ', 'FBDFDA', $regex);
+        printf($span . "<br />\r\n", 'E5FBE2', $path);
+    }
 }
 
 ?>
