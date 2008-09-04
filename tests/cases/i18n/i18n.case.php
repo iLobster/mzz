@@ -1,5 +1,6 @@
 <?php
 
+fileLoader::load('service/userPreferences');
 fileLoader::load('i18n');
 
 class i18nTest extends UnitTestCase
@@ -12,14 +13,14 @@ class i18nTest extends UnitTestCase
     {
         $this->i18n = new i18n();
 
-        $this->tz = systemToolkit::getInstance()->getSession()->get(i18nFilter::$timezoneVarName);
+        $this->tz = systemToolkit::getInstance()->getUserPreferences()->getTimezone();
 
-        systemToolkit::getInstance()->getSession()->set(i18nFilter::$timezoneVarName, 0);
+        systemToolkit::getInstance()->getSession()->set(userPreferences::$tzVarName, 0);
     }
 
     public function tearDown()
     {
-        systemToolkit::getInstance()->getSession()->set(i18nFilter::$timezoneVarName, $this->tz);
+        systemToolkit::getInstance()->getSession()->set(userPreferences::$tzVarName, $this->tz);
     }
 
     private function injectPhrases($phrases)

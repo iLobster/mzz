@@ -5,7 +5,7 @@ fileLoader::load('filters/filterChain');
 fileLoader::load('filters/timingFilter');
 fileLoader::load('filters/contentFilter');
 fileLoader::load('filters/sessionFilter');
-fileLoader::load('filters/i18nFilter');
+fileLoader::load('filters/userPreferencesFilter');
 fileLoader::load('filters/userFilter');
 fileLoader::load('filters/userOnlineFilter');
 fileLoader::load('filters/routingFilter');

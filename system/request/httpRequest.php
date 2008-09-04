@@ -342,6 +342,12 @@ class httpRequest implements iRequest
         return $this->getServer('REQUEST_METHOD');
     }
 
+    public function getAcceptLanguages()
+    {
+        preg_match_all('/[a-z]{2}/', $this->getServer('HTTP_ACCEPT_LANGUAGE'), $accept_langs);
+        return array_unique($accept_langs[0]);
+    }
+
     /**
      * Проверяет что метода запроса такой же как переданный
      *

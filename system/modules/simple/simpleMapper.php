@@ -1031,9 +1031,9 @@ abstract class simpleMapper
         return 0;
         }*/
 
-        if (empty($this->langId)) {
+        //if (empty($this->langId)) {
             $this->langId = systemToolkit::getInstance()->getLang();
-        }
+        //}
 
         return $this->langId;
     }

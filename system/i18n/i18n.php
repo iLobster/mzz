@@ -363,7 +363,7 @@ class i18n
             $format = 'date';
         }
 
-        $tz = systemToolkit::getInstance()->getSession()->get(i18nFilter::$timezoneVarName);
+        $tz = systemToolkit::getInstance()->getUserPreferences()->getTimezone();
         $date += $tz * 3600 - date('Z');
 
         $formatted_time = strftime($locale->getDateTimeFormatDirectly($format), $date);

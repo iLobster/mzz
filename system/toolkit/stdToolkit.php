@@ -40,6 +40,7 @@ class stdToolkit extends toolkit
     private $cache;
     private $toolkit;
     private $validator;
+    private $userPreferences;
     /**#@-*/
 
     /**#@+
@@ -351,9 +352,9 @@ class stdToolkit extends toolkit
 
     public function getLang()
     {
-        if (!$this->langId) {
+        //if (!$this->langId) {
             $this->langId = $this->getLocale()->getId();
-        }
+        //}
         return $this->langId;
     }
 
@@ -365,6 +366,7 @@ class stdToolkit extends toolkit
         }
 
         $this->locale = new locale($name);
+        setlocale(LC_ALL, $this->locale->getForSetlocale(), $this->locale->getLanguageName());
     }
 
     public function getLocale()
@@ -374,8 +376,6 @@ class stdToolkit extends toolkit
                 $lang = systemConfig::$i18n;
             }
             $this->setLocale($lang);
-
-            setlocale(LC_ALL, $this->locale->getForSetlocale(), $this->locale->getLanguageName());
         }
 
         return $this->locale;
@@ -388,6 +388,17 @@ class stdToolkit extends toolkit
         $this->langId = $langId;
         return $prev;
     }
+
+    public function getUserPreferences()
+    {
+        if (!$this->userPreferences) {
+            fileLoader::load('service/userPreferences');
+            $this->userPreferences = new userPreferences();
+        }
+
+        return $this->userPreferences;
+    }
+
 }
 
 ?>

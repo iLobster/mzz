@@ -255,7 +255,7 @@ class mzzSmarty extends Smarty
     function _parse_resource_name(&$params)
     {
         if (empty($this->skin)) {
-            $this->skin = systemToolkit::getInstance()->getSession()->get(i18nFilter::$skinVarName);
+            $this->skin = systemToolkit::getInstance()->getUserPreferences()->getSkin();
         }
 
         $params_skinned = $params;
