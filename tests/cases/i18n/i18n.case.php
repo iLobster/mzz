@@ -15,12 +15,12 @@ class i18nTest extends UnitTestCase
 
         $this->tz = systemToolkit::getInstance()->getUserPreferences()->getTimezone();
 
-        systemToolkit::getInstance()->getSession()->set(userPreferences::$tzVarName, 0);
+        systemToolkit::getInstance()->getUserPreferences()->setTimezone(0);
     }
 
     public function tearDown()
     {
-        systemToolkit::getInstance()->getSession()->set(userPreferences::$tzVarName, $this->tz);
+        systemToolkit::getInstance()->getUserPreferences()->setTimezone($this->tz);
     }
 
     private function injectPhrases($phrases)

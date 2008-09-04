@@ -50,6 +50,42 @@ class userPreferences
     {
         return $this->session->get(self::$tzDefaultVarName);
     }
+
+    public function setSkin($skin)
+    {
+        $this->setSessionVar(self::$skinVarName, $skin);
+    }
+
+    public function setTimezone($tz)
+    {
+        $this->setSessionVar(self::$tzVarName, $tz);
+    }
+
+    public function setLang($lang)
+    {
+        $this->setSessionVar(self::$langVarName, $lang);
+    }
+
+    public function setDefaultTimezone($tz)
+    {
+        $this->setSessionVar(self::$tzDefaultVarName, $tz);
+    }
+
+    protected function setSessionVar($name, $value)
+    {
+        if ($value === null) {
+            $this->session->destroy($name);
+        }
+        $this->session->set($name, $value);
+    }
+
+    public function clear()
+    {
+        $this->session->destroy(self::$langVarName);
+        $this->session->destroy(self::$tzVarName);
+        $this->session->destroy(self::$tzDefaultVarName);
+        $this->session->destroy(self::$skinVarName);
+    }
 }
 
 

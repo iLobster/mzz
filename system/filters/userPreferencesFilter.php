@@ -38,12 +38,10 @@ class userPreferencesFilter implements iFilter
         $me = $toolkit->getUser();
         $preferences = $toolkit->getUserPreferences();
 
-        $lastUserIdVarName = userPreferences::$langVarName . '_last_user_id';
+        $lastUserIdVarName = 'mzz_preferences_last_user_id';
         if ($me->getId() != $session->get($lastUserIdVarName)) {
             // если поменялся id пользователя - стираем значение в сессии
-            $session->destroy(userPreferences::$langVarName);
-            $session->destroy(userPreferences::$tzVarName);
-            $session->destroy(userPreferences::$skinVarName);
+            $preferences->clear();
             $session->set($lastUserIdVarName, $me->getId());
         }
 
@@ -68,17 +66,18 @@ class userPreferencesFilter implements iFilter
             $language = systemConfig::$i18n;
         }
 
-        if (!$session->exists(userPreferences::$skinVarName)) {
+        if (!$preferences->getSkin()) {
             // если в сессии не установлен скин
-            $session->set(userPreferences::$skinVarName, $me->getSkin()->getName());
+            $preferences->setSkin($me->getSkin()->getName());
         }
 
         systemToolkit::getInstance()->setLocale($language);
         $locale = systemToolkit::getInstance()->getLocale();
 
-        if (!$session->exists(userPreferences::$langVarName) || $preferences->getLang() != $language) {
+        $langPreference = $preferences->getLang();
+        if (!$langPreference || $langPreference != $language) {
             // если в сессии не установлен язык
-            $session->set(userPreferences::$langVarName, $language);
+            $preferences->setLang($language);
 
             if ($me->isLoggedIn()) {
                 if ($me->getLanguageId() != $locale->getId()) {
@@ -89,14 +88,14 @@ class userPreferencesFilter implements iFilter
 
             $tz = $me->getTimezone();
 
-            $session->set(userPreferences::$tzVarName, $tz);
+            $preferences->setTimezone($tz);
 
             if (!$me->isLoggedIn()) {
-                $session->set(userPreferences::$tzDefaultVarName, true);
+                $preferences->setDefaultTimezone(true);
             }
         }
 
-        if ($session->exists(userPreferences::$tzDefaultVarName)) {
+        if ($preferences->getDefaultTimezone()) {
             $smarty->assign('detect_users_timezone', true);
         }
 

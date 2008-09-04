@@ -10,39 +10,46 @@ class userPreferencesTest extends unitTestCase
     function setUp()
     {
         $this->service = new userPreferences();
+        $this->service->clear();
         $this->session = systemToolkit::getInstance()->getSession();
     }
 
     public function tearDown()
     {
-        $this->session->destroy(userPreferences::$langVarName);
-        $this->session->destroy(userPreferences::$tzVarName);
-        $this->session->destroy(userPreferences::$tzDefaultVarName);
-        $this->session->destroy(userPreferences::$skinVarName);
+        $this->service->clear();
+    }
+
+    public function testEmpty()
+    {
+        $this->assertNull($this->service->getSkin());
+        $this->assertNull($this->service->getLang());
+        $this->assertNull($this->service->getTimezone());
+        $this->assertNull($this->service->getDefaultTimezone());
     }
 
     public function testSetGetSkin()
     {
-        $this->session->set(userPreferences::$skinVarName, $value = 'simple');
-        $this->assertEqual($this->service->getSkin(), 'simple');
+        $this->service->setSkin($value = 'simple');
+        $this->assertEqual($this->service->getSkin(), $value);
     }
+
 
     public function testSetGetLang()
     {
-        $this->session->set(userPreferences::$langVarName, $value = 'ru');
-        $this->assertEqual($this->service->getLang(), 'ru');
+        $this->service->setLang($value = 'ru');
+        $this->assertEqual($this->service->getLang(), $value);
     }
 
     public function testSetGetTimezone()
     {
-        $this->session->set(userPreferences::$tzVarName, $value = 'Europe');
-        $this->assertEqual($this->service->getTimezone(), 'Europe');
+        $this->service->setTimezone($value = 'Europe');
+        $this->assertEqual($this->service->getTimezone(), $value);
     }
 
     public function testSetGetDefaultTimezone()
     {
-        $this->session->set(userPreferences::$tzDefaultVarName, $value = 'UTC');
-        $this->assertEqual($this->service->getDefaultTimezone(), 'UTC');
+        $this->service->setDefaultTimezone($value = 'UTC');
+        $this->assertEqual($this->service->getDefaultTimezone(), $value);
     }
 }
 
