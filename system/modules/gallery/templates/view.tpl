@@ -77,7 +77,6 @@ function gallerySaveTag(form)
         <td class="photoMainView">
             <span style="position: absolute; display: none; background-color: #fff; border: 1px solid black; padding: 3px;" ></span>
             <img id="galleryPhoto" src="{if !$photo->getFile()}{$SITE_PATH}/files/gallery/notfound.jpg{else}{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo->getId() action="viewPhoto"}{/if}" alt="" /><br />
-
             {load module="comments" section="comments" action="list" id=$photo->getObjId() owner=$album->getGallery()->getOwner()->getId()}
         </td>
         <td>
@@ -90,10 +89,18 @@ function gallerySaveTag(form)
 
         <table border="0" cellpadding="1" cellspacing="0" id="albumPhotoPreviews">
         <tr>
-         {foreach from=$photos item="photo_thmb"}
-            <td><a href="{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo_thmb->getId() action="view"}">
+         {foreach from=$photos item="photo_thmb" name="photo_thumbs"}
+            <td><div class="albumPreviewThumbContainer">
+            <a href="{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo_thmb->getId() action="view"}">
+
             <img {if $photo->getId() == $photo_thmb->getId()}class="currentPhoto"{/if}src="{$SITE_PATH}{$photo_thmb->getThumbnail()}" alt="{$photo_thmb->getName()} {if $photo_thmb->getFile()}({$photo_thmb->getFile()->getSize()|filesize}){/if}" /></a>
+            </div>
             </td>
+            {if $photo->getId() == $photo_thmb->getId()}
+            <script type="text/javascript">
+                document.observe("dom:loaded", function() {ldelim} albumPhotoPreviewsScroller.scrollTo({$smarty.foreach.photo_thumbs.index}) {rdelim});
+            </script>
+            {/if}
         {/foreach}
         </tr>
         </table>

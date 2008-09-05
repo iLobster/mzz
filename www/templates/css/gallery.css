@@ -81,6 +81,18 @@ div.albumPhotoThumbs {
   margin-left: 0;
 }
 
+.albumPreviewThumbContainer {
+    width: 84px;
+    background-color: white;
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid #E6E8EA;
+}
+
+.albumPreviewThumbContainer img {
+    vertical-align: middle;
+}
+
 #albumPhotoPreviews img {
   /*border: 3px solid transparent;*/
   padding: 3px;

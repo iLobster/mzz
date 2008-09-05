@@ -18,6 +18,68 @@ var photoPreviewsScroller = Class.create({
         this.elm.observe("DOMMouseScroll", this.startScrollEvent);
     },
 
+    scrollTo: function(step)
+    {
+        step = step || 1;
+
+        var currentMargin = parseInt(this.elm.getStyle('margin-left'));
+        var elmWidth = this._getElementWidth();
+        if (Prototype.Browser.Opera || Prototype.Browser.IE) {
+            elmWidth += currentMargin;
+        }
+
+        var viewed = parseInt(this.options.get('minWidth') / this.options.get('scrollStep'));
+        var total = parseInt(this._getElementWidth() / this.options.get('scrollStep'));
+        var rightSkip = parseInt((viewed - 1) / 2);
+        //var leftSkip = viewed - rightSkip;
+        step -= rightSkip;
+        //  var difference =
+        if (step <= 0) return;
+
+
+        $$('img.previewScroll').each(function(elm) {
+            elm = elm.up();
+            if (elm.getStyle('display') == 'none') {
+                elm.setStyle({display: 'block'});
+            }
+        });
+        currentMargin -= this.options.get('scrollStep') * step;
+
+        this.elm.setStyle({marginLeft: currentMargin + 'px'});
+
+        // прячем кнопки, если ими нельзя скроллить
+        this._hideButtons();
+
+    },
+
+    _hideButtons: function()
+    {
+        var currentMargin = parseInt(this.elm.getStyle('margin-left'));
+        elm = $$('img.previewScroll').first().up();
+        elm.setStyle({display: (currentMargin >= 0) ? 'none' : 'block'});
+        if (elm.style.display == 'none') {
+            elm.onmouseup();
+        }
+
+        var elmWidth = this._getElementWidth();
+
+        elm = $$('img.previewScroll').last().up();
+        elm.setStyle({display: (elmWidth < this.options.get('minWidth')) ? 'none' : 'block'});
+        if (elm.style.display == 'none') {
+            elm.onmouseup();
+        }
+    },
+
+    _getElementWidth: function()
+    {
+        var elmWidth = this.elm.getWidth();
+        if (Prototype.Browser.Opera || Prototype.Browser.IE || navigator.userAgent.indexOf('Firefox') > -1) {
+            var currentMargin = parseInt(this.elm.getStyle('margin-left'));
+            elmWidth += currentMargin;
+        }
+        return elmWidth;
+    },
+
     startScroll: function(direction)
     {
         // direction: 0 - left, 1 - right
@@ -25,7 +87,6 @@ var photoPreviewsScroller = Class.create({
         if (this.scrollInterval) {
             return;
         }
-
         var  isWheel = false;
         if(typeof(direction) == 'object') {
             isWheel = true;
@@ -46,7 +107,7 @@ var photoPreviewsScroller = Class.create({
         var _this = this;
         var scrollFunc = function() {//alert((!direction && _this.elm.getWidth() > _this.options.get('minWidth')) || (direction && currentMargin < 0));
             var currentMargin = parseInt(_this.elm.getStyle('margin-left'));
-            var elmWidth = _this.elm.getWidth();
+            var elmWidth = _this._getElementWidth();
             if (Prototype.Browser.Opera || Prototype.Browser.IE) {
                 elmWidth += currentMargin;
             }
@@ -71,16 +132,7 @@ var photoPreviewsScroller = Class.create({
                 _this.elm.setStyle({marginLeft: currentMargin + 'px'});
 
                 // прячем кнопки, если ими нельзя скроллить
-                var currentMargin = parseInt(_this.elm.getStyle('margin-left'));
-                elm = $$('img.previewScroll').first().up();
-                elm.setStyle({display: (currentMargin >= 0) ? 'none' : 'block'});
-
-                var elmWidth = _this.elm.getWidth();
-                if (Prototype.Browser.Opera || Prototype.Browser.IE) {
-                    elmWidth += currentMargin;
-                }
-                elm = $$('img.previewScroll').last().up();
-                elm.setStyle({display: (elmWidth < _this.options.get('minWidth')) ? 'none' : 'block'});
+                _this._hideButtons();
             }
         };
 
