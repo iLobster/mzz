@@ -28,6 +28,8 @@ class formTextField extends formElement
             $options['type'] = 'text';
         }
 
+        $smarty = systemToolkit::getInstance()->getSmarty();
+
         if (!isset($options['value']) || $options['type'] == 'password') {
             $options['value'] = '';
         }
@@ -40,19 +42,10 @@ class formTextField extends formElement
         if (isset($options['autocomplete']) && $options['autocomplete']) {
             $type = substr($options['autocomplete'], 0, 1) == '[' ? 'local' : 'ajax';
             $id = isset($options['id']) ? $options['id'] : '__autocompleter_' . $i++;
-            $div = array('id' => $id . '_autocompleter', 'class' => 'autocomplete');
-            $autocomplete .= self::buildTag($div, 'div', '');
-            $content = 'var ' . $id . "_autocompleter = new ";
-            $content .= $type == 'local' ? 'Autocompleter.Local' : 'Ajax.Autocompleter';
-            $content .= "('" . $id . "', '" . $id . "_autocompleter', ";
-            if ($type == 'local') {
-                $content .= $options['autocomplete'];
-            } else {
-                $content .= "'" . SITE_PATH . $options['autocomplete'] . "'";
-            }
-            $content .= ", (autocompleterOptions && autocompleterOptions." . $id . ") ? autocompleterOptions." . $id . ' : {});';
-            $js = array('type' => 'text/javascript');
-            $autocomplete .= self::buildTag($js, 'script', $content);
+            $smarty->assign('id', $id);
+            $smarty->assign('type', $type);
+            $smarty->assign('data', $options['autocomplete']);
+            $autocomplete = $smarty->fetch('forms/autocomplete.tpl');
             unset($options['autocomplete']);
             $options['id'] = $id;
         }

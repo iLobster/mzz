@@ -30,6 +30,8 @@ class formTag extends formElement
 {
     static public function toString($options = array())
     {
+        $smarty = systemToolkit::getInstance()->getSmarty();
+
         $html = '';
         if (isset($options['jip'])) {
             $onsubmit = "return jipWindow.sendForm(this);";
@@ -41,8 +43,9 @@ class formTag extends formElement
         } elseif (array_key_exists('ajaxUpload', $options)) {
             if (empty($options['ajaxUpload'])) {
                 $options['ajaxUpload'] = 'mzz';
+            } else {
+                $options['ajaxUpload'] = preg_replace('/[^a-z0-9_-]/i', '_', trim($options['ajaxUpload']));
             }
-            $options['ajaxUpload'] = preg_replace('/[^a-z0-9_-]/i', '_', trim($options['ajaxUpload']));
             $onsubmit = "mzzReadUploadStatus('" . $options['ajaxUpload'] . "');";
             if (isset($options['onsubmit'])) {
                 $options['onsubmit'] .= '; ' . $onsubmit;
@@ -51,10 +54,8 @@ class formTag extends formElement
             }
             $options['enctype'] = "multipart/form-data";
             $options['target'] = $options['ajaxUpload'] . "UploadFile";
-            $html = '<iframe name="' . $options['ajaxUpload'] . 'UploadFile" id="' . $options['ajaxUpload'] . 'UploadFile" style="border: 0; width: 0; height: 0;" src="about:blank"></iframe>';
-            $html .= '<div id="' . $options['ajaxUpload'] . 'UploadStatus" class="uploadSuccess"></div><div id="' . $options['ajaxUpload'] . 'UploadStatusError" class="uploadError"></div>';
-            $html .= '<script type="text/javascript"> fileLoader.loadJS(SITE_PATH + "/templates/js/upload.js");';
-            $html .= 'fileLoader.onJsLoad(function () { mzzResetUploadForm(\'' . $options['ajaxUpload'] . '\'); });</script>';
+            $smarty->assign('name', $options['ajaxUpload']);
+            $html = $smarty->fetch('forms/upload.tpl');
         }
 
         return $html . self::createTag($options, 'form');
