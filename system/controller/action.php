@@ -209,7 +209,7 @@ class action
             $tmp = array();
             foreach ($this->actions as $key => $val) {
                 foreach ($val as $subkey => $subval) {
-                    if (!isset($subval['alias']) && (!isset($subval['403handle']) || $subval['403handle'] != 'none')) {
+                    if ($this->isAclAction($subkey, $subval)) {
                         $tmp[$key][$subkey] = $subval;
                     }
                 }
@@ -218,6 +218,15 @@ class action
         }
 
         return $this->actions;
+    }
+
+    protected function isAclAction($name, $params)
+    {
+        if (!isset($params['403handle']) && $name == 'admin') {
+            return false;
+        }
+
+        return !isset($params['alias']) &&  (!isset($params['403handle']) || $params['403handle'] != 'none');
     }
 
     /**
