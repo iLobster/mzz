@@ -116,5 +116,28 @@ class cacheMemcached implements iCache
             return false;
         }
     }
+
+    public function increment($key, $value = 1)
+    {
+        try {
+            return $this->memcache->increment($key, $value);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function decrement($key, $value = 1)
+    {
+        try {
+            return $this->memcache->decrement($key, $value);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function getStats()
+    {
+        return $this->memcache->getExtendedStats();
+    }
 }
 ?>
