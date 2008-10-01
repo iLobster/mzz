@@ -21,7 +21,7 @@ require_once systemConfig::$pathToSystem . '/cache/iCache.php';
  *
  * @package system
  * @subpackage cache
- * @version 0.0.2
+ * @version 0.0.3
  */
 class cacheMemcached implements iCache
 {
@@ -73,7 +73,7 @@ class cacheMemcached implements iCache
         try {
             $flag = isset($params['flag']) ? $params['flag'] : null;
             return $this->memcache->add($key, $value, $flag, $expire);
-        } catch (Exception $e) {
+        } catch (phpErrorException $e) {
             return false;
         }
     }
@@ -83,7 +83,7 @@ class cacheMemcached implements iCache
         try {
             $flag = isset($params['flag']) ? $params['flag'] : null;
             return $this->memcache->set($key, $value, $flag, $expire);
-        } catch (Exception $e) {
+        } catch (phpErrorException $e) {
             return false;
         }
     }
@@ -93,7 +93,7 @@ class cacheMemcached implements iCache
         try {
             $value = $this->memcache->get($key);
             return ($value === false) ? null : $value;
-        } catch (Exception $e) {
+        } catch (phpErrorException $e) {
             return null;
         }
     }
@@ -103,7 +103,7 @@ class cacheMemcached implements iCache
         try {
             $timeout = isset($params['timeout']) ? $params['timeout'] : null;
             return $this->memcache->delete($key, $timeout);
-        } catch (Exception $e) {
+        } catch (phpErrorException $e) {
             return false;
         }
     }
@@ -112,7 +112,7 @@ class cacheMemcached implements iCache
     {
         try {
             return $this->memcache->flush();
-        } catch (Exception $e) {
+        } catch (phpErrorException $e) {
             return false;
         }
     }
@@ -121,7 +121,7 @@ class cacheMemcached implements iCache
     {
         try {
             return $this->memcache->increment($key, $value);
-        } catch (Exception $e) {
+        } catch (phpErrorException $e) {
             return false;
         }
     }
@@ -130,7 +130,7 @@ class cacheMemcached implements iCache
     {
         try {
             return $this->memcache->decrement($key, $value);
-        } catch (Exception $e) {
+        } catch (phpErrorException $e) {
             return false;
         }
     }
