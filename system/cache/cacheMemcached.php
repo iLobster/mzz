@@ -21,14 +21,14 @@ require_once systemConfig::$pathToSystem . '/cache/iCache.php';
  *
  * @package system
  * @subpackage cache
- * @version 0.0.3
+ * @version 0.0.4
  */
 class cacheMemcached implements iCache
 {
     const DEFAULT_HOST = '127.0.0.1';
     const DEFAULT_PORT = 11211;
     const DEFAULT_PERSISTENT = true;
-    const DEFAULT_WEIGHT = null;
+    const DEFAULT_WEIGHT = 1;
     const DEFAULT_TIMEOUT = 1;
     const DEFAULT_RETRYINTERVAL = 15;
     const DEFAULT_STATUS = true;
@@ -50,15 +50,13 @@ class cacheMemcached implements iCache
             $port = isset($server['port']) ? $server['port'] : self::DEFAULT_PORT;
             $isPersistent = isset($server['persistent']) ? (bool)$server['persistent'] : self::DEFAULT_PERSISTENT;
 
-            /*
-            @todo: нужны ли нам эти параметры?
             $weight = isset($server['weight']) ? (bool)$server['weight'] : self::DEFAULT_WEIGHT;
-            $retry_interval = isset($server['retry_interval']) ? (bool)$server['retry_interval'] : self::DEFAULT_RETRYINTERVAL;
             $timeout = isset($server['timeout']) ? $server['timeout'] : self::DEFAULT_TIMEOUT;
+            $retry_interval = isset($server['retry_interval']) ? (bool)$server['retry_interval'] : self::DEFAULT_RETRYINTERVAL;
             $status = isset($server['status']) ? $server['status'] : self::DEFAULT_STATUS;
-            */
+            $failure_callback = (isset($server['failure_callback']) && is_callable($server['failure_callback'])) ? $server['failure_callback'] : null;
 
-            $this->memcache->addServer($host, $port, $isPersistent);
+            $this->memcache->addServer($host, $port, $isPersistent, $weight, $timeout, $retry_interval, $status, $failure_callback);
         }
 
         if (isset($params['compress']) && $params['compress'] == true) {
