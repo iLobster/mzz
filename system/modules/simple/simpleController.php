@@ -77,11 +77,6 @@ abstract class simpleController
         $this->response = $this->toolkit->getResponse();
 
         $this->lang_id = $this->request->getInteger('lang_id', SC_GET);
-
-        if ($this->toolkit->getRegistry()->get('isJip') && $this->request->isAjax()) {
-            $this->smarty->setXmlTemplate('main.xml.tpl');
-            $this->response->setHeader('Content-Type', 'text/xml');
-        }
     }
 
     /**
@@ -155,7 +150,13 @@ abstract class simpleController
         if (!empty($confirmMsg)) {
             $session->destroy('confirm_code');
         }
-        return $this->getView();
+
+        $view = $this->getView();
+        if ($this->toolkit->getRegistry()->get('isJip') && $this->request->isAjax()) {
+            $this->smarty->setXmlTemplate('main.xml.tpl');
+            $this->response->setHeader('Content-Type', 'text/xml');
+        }
+        return $view;
     }
 
     /**
