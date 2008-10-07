@@ -46,17 +46,31 @@ class cacheMemcached implements iCache
             $params['servers'] = array(self::DEFAULT_HOST => array());
         }
 
-        foreach ($params['servers'] as $host => $server) {
-            $port = isset($server['port']) ? $server['port'] : self::DEFAULT_PORT;
-            $isPersistent = isset($server['persistent']) ? (bool)$server['persistent'] : self::DEFAULT_PERSISTENT;
+        $defaultsParams = array(
+        'port' => self::DEFAULT_PORT,
+        'persistent' => self::DEFAULT_PERSISTENT,
+        'weight' => self::DEFAULT_WEIGHT,
+        'timeout' => self::DEFAULT_TIMEOUT,
+        'retry_interval' => self::DEFAULT_RETRYINTERVAL,
+        'status' => self::DEFAULT_STATUS,
+        'failure_callback' => null,
+        );
+        foreach ($params['servers'] as $host => $serverParams) {
+            $serverParams = array_merge($defaultsParams, $serverParams);
+            if (!empty($serverParams['failure_callback']) && !is_callable($serverParams['failure_callback'])) {
+                throw new mzzCallbackException($serverParams['failure_callback']);
+            }
 
-            $weight = isset($server['weight']) ? (bool)$server['weight'] : self::DEFAULT_WEIGHT;
-            $timeout = isset($server['timeout']) ? $server['timeout'] : self::DEFAULT_TIMEOUT;
-            $retry_interval = isset($server['retry_interval']) ? (bool)$server['retry_interval'] : self::DEFAULT_RETRYINTERVAL;
-            $status = isset($server['status']) ? $server['status'] : self::DEFAULT_STATUS;
-            $failure_callback = (isset($server['failure_callback']) && is_callable($server['failure_callback'])) ? $server['failure_callback'] : null;
-
-            $this->memcache->addServer($host, $port, $isPersistent, $weight, $timeout, $retry_interval, $status, $failure_callback);
+            $this->memcache->addServer(
+            $host,
+            $serverParams['port'],
+            (bool)$serverParams['persistent'],
+            (int)$serverParams['weight'],
+            (int)$serverParams['timeout'],
+            (int)$serverParams['retry_interval'],
+            (bool)$serverParams['status'],
+            $serverParams['failure_callback']
+            );
         }
 
         if (isset($params['compress']) && $params['compress'] == true) {
