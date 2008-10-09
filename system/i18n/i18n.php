@@ -19,7 +19,7 @@ fileLoader::load('i18n/i18nStorageIni');
  *
  * @package system
  * @subpackage i18n
- * @version 0.1.1
+ * @version 0.1.2
  */
 class i18n
 {
@@ -271,7 +271,7 @@ class i18n
      * @param callback $generatorCalback
      * @return unknown
      */
-    public static function getMessage($name, $module = null, $lang = null, $args = array(), $generatorCalback = null)
+    public static function getMessage($name, $module, $lang = null, $args = array(), $generatorCalback = null)
     {
         static $i18n;
         if (empty($i18n)) {
