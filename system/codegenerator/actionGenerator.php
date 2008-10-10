@@ -281,10 +281,14 @@ class actionGenerator
                 if (!empty($params['alias'])) {
                     $section_val['alias'] = $params['alias'];
                 }
+
+                if (!empty($params['lang'])) {
+                    $section_val['lang'] = 1;
+                }
             }
             $actions_output .= "\r\n[" . $section . "]\r\n";
             foreach ($section_val as $key => $val) {
-                $actions_output .= $key . " = \"" . $val . "\"\r\n";
+                $actions_output .= $key . " = " . ((is_numeric($val)) ? $val : '"' . $val . '"') . "\r\n";
             }
         }
 

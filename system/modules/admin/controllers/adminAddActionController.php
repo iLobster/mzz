@@ -66,7 +66,7 @@ class adminAddActionController extends simpleController
         if ($isEdit) {
             $defaults->set('name', $action_name);
 
-            $default = array('title' => '', 'info' => '', 'icon' => '', '403handle' => '');
+            $default = array('title' => '', 'info' => '', 'icon' => '', '403handle' => '', 'lang' => 0);
 
             $info = $actionsInfo[$action_name];
             $info = array_merge($default, $info);
@@ -75,6 +75,7 @@ class adminAddActionController extends simpleController
             $defaults->set('title', $info['title']);
             $defaults->set('icon', $info['icon']);
             $defaults->set('403handle', $info['403handle']);
+            $defaults->set('lang', $info['lang']);
 
             if (isset($info['confirm'])) {
                 $defaults->set('confirm', $info['confirm']);
