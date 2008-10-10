@@ -29,7 +29,7 @@ fileLoader::load('request/iRequest');
  *
  * @package system
  * @subpackage request
- * @version 0.9.1
+ * @version 0.9.2
  */
 
 define('SC_GET', 1);
@@ -38,6 +38,7 @@ define('SC_REQUEST', SC_GET | SC_POST);
 define('SC_COOKIE', 4);
 define('SC_PATH', 8);
 define('SC_SERVER', 16);
+define('SC_FILES', 32);
 
 class httpRequest implements iRequest
 {
@@ -53,6 +54,11 @@ class httpRequest implements iRequest
      * GET-данные
      */
     protected $get;
+
+    /**
+     * Данные суперглобала $_FILES
+     */
+    protected $files;
 
     /**
      * Cookie
@@ -233,7 +239,7 @@ class httpRequest implements iRequest
             $name = substr($name, 0, $bracket);
         }
 
-        $scopes = array(SC_PATH => 'path', SC_COOKIE => 'cookie', SC_POST => 'post', SC_GET => 'get');
+        $scopes = array(SC_PATH => 'path', SC_COOKIE => 'cookie', SC_POST => 'post', SC_GET => 'get', SC_FILES => 'files');
         foreach ($scopes as $key => $scope_name) {
             if ($scope & $key) {
                 $result = $this->$scope_name->get($name);
@@ -706,6 +712,7 @@ class httpRequest implements iRequest
         $this->get = new arrayDataspace($_GET);
         $this->cookie = new arrayDataspace($_COOKIE);
         $this->path = new arrayDataspace();
+        $this->files = new arrayDataspace($_FILES);
         $this->initialize();
     }
 }
