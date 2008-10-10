@@ -8,6 +8,11 @@ class memcachedTest extends unitTestCase
     {
         $this->skipIf(!extension_loaded('memcache'), 'Memcache extension not found. Test skipped.');
         $this->skipIf(!class_exists('Memcache'), 'Memcache class not found. Test skipped.');
+        try {
+            $this->_createCache();
+        } catch (mzzRuntimeException $e) {
+            $this->skipIf(true, $e->getMessage());
+        }
     }
 
     public function testGetSet()
