@@ -17,9 +17,8 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.6
+ * @version 0.1.7
  */
-
 class actionGenerator
 {
     /**
@@ -267,10 +266,9 @@ class actionGenerator
                     $section_val['icon'] = $params['icon'];
                 }
 
-                if (empty($params['title'])) {
-                    $params['title'] = $newName;
+                if (!empty($params['title'])) {
+                    $section_val['title'] = $params['title'];
                 }
-                $section_val['title'] = $params['title'];
 
                 if (!empty($params['confirm'])) {
                     $section_val['confirm'] = $params['confirm'];
