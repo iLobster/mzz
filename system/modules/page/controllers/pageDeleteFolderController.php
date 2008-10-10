@@ -30,6 +30,10 @@ class pageDeleteFolderController extends simpleController
 
         $folder = $pageFolderMapper->searchByPath($name);
 
+        if (!$folder) {
+            return $pageFolderMapper->get404()->run();
+        }
+
         $pageFolderMapper->delete($folder);
 
         return jipTools::redirect();

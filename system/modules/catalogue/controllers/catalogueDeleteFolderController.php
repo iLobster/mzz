@@ -25,13 +25,21 @@ class catalogueDeleteFolderController extends simpleController
     protected function getView()
     {
         $catalogueFolderMapper = $this->toolkit->getMapper('catalogue', 'catalogueFolder');
-
         $name = $this->request->getString('name');
 
         $folder = $catalogueFolderMapper->searchByPath($name);
 
-        $catalogueFolderMapper->delete($folder);
+        if (!$folder) {
+            return $catalogueFolderMapper->get404()->run();
+        }
 
+        $treeFields = $folder->exportTreeFields();
+        if ($treeFields['lkey'] == 1) {
+            $controller = new messageController('root каталог не может быть удален', messageController::INFO);
+            return $controller->run();
+        }
+
+        $catalogueFolderMapper->delete($folder);
         return jipTools::redirect();
     }
 }

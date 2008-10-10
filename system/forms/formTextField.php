@@ -30,11 +30,12 @@ class formTextField extends formElement
 
         $smarty = systemToolkit::getInstance()->getSmarty();
 
-        if (!isset($options['value']) || $options['type'] == 'password') {
+        $clearValue = (isset($options['restore']) && $options['restore'] == true);
+        if (!isset($options['value'])) {
             $options['value'] = '';
         }
 
-        if (isset($options['name'])) {
+        if (isset($options['name']) && !$clearValue) {
             $options['value'] = self::getValue($options['name'], $options['value']);
         }
 
