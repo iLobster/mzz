@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1.1
+ * @version 0.1.2
  */
 class formSelectField extends formElement
 {
@@ -36,10 +36,21 @@ class formSelectField extends formElement
             $options['options'] = array();
         }
         /*if (!isset($options['styles']) || !is_array($options['styles'])) {
-            $options['styles'] = array();
+        $options['styles'] = array();
         }*/
 
         $first = isset($options['emptyFirst']) && $options['emptyFirst'] !== 0 && $options['emptyFirst'] !== false;
+
+        if (is_string($options['options']) && substr($options['options'], 0, 8) == 'options ') {
+            $options_string = substr($options['options'], 8);
+
+            $options['options'] = array();
+
+            foreach (explode('|', $options_string) as $val) {
+                list($key, $value) = explode(':', $val);
+                $options['options'][$key] = $value;
+            }
+        }
 
         if ($first) {
             $firstText = (is_bool($options['emptyFirst']) || $options['emptyFirst'] === 1) ? '&nbsp;' : htmlspecialchars($options['emptyFirst']);

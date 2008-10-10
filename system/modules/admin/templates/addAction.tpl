@@ -46,7 +46,7 @@
             <td>{form->caption name="action[jip]" value="Добавить в JIP"}</td>
             <td>{form->checkbox name="action[jip]" value=$defaults->get('jip')}</td>
         </tr>
-		<tr>
+        <tr>
             <td>{form->caption name="action[lang]" value="Мультиязычный экшн"}</td>
             <td>{form->checkbox name="action[lang]" value=$defaults->get('lang')}</td>
         </tr>
