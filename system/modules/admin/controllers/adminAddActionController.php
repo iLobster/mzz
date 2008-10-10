@@ -20,7 +20,7 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.2
+ * @version 0.2.1
  */
 
 class adminAddActionController extends simpleController
@@ -101,7 +101,8 @@ class adminAddActionController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'action[name]', 'Поле обязательно к заполнению');
-        $validator->add('callback', 'action[name]', 'Такое действие у класса уже есть или введённое вами имя содержит запрещённые символы', array('addClassValidate', $db, $action_name, $data));
+        $validator->add('callback', 'action[name]', 'Такое действие у класса уже есть или введённое вами имя содержит запрещённые символы', array(array($this, 'addClassValidate'), $db, $action_name, $data));
+        $validator->add('callback', 'action[name]', 'Такое действие уже создано в приложении, но с другим регистром символов. Назовите текущий в таком же регистре, или выбериту другое имя', array(array($this, 'checkActionNameRegister'), $db, $action_name));
 
         // КОНЕЦ ВАЛИДАТОРА
 
@@ -152,23 +153,27 @@ class adminAddActionController extends simpleController
 
         return $this->smarty->fetch('admin/addAction.tpl');
     }
-}
 
-function addClassValidate($name, $db, $action_name, $data)
-{
-    if (strlen($name) === 0 || preg_match('/[^a-z0-9_\-]/i', $name)) {
-        return false;
+    public function addClassValidate($name, $db, $action_name, $data)
+    {
+        if (strlen($name) === 0 || preg_match('/[^a-z0-9_\-]/i', $name)) {
+            return false;
+        }
+
+        if ($name == $action_name) {
+            return true;
+        }
+
+        return !$db->getOne('SELECT COUNT(*) AS `cnt` FROM `sys_classes_actions` `ca`
+                               INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
+                                WHERE `ca`.`class_id` = ' . $data['c_id'] . ' AND `a`.`name` = ' . $db->quote($name));
     }
 
-    if ($name == $action_name) {
-        return true;
+    public function checkActionNameRegister($name, $db, $action_name)
+    {
+        return !$db->getOne('SELECT COUNT(*) FROM `sys_actions`
+                                WHERE `name` = ' . $db->quote($name));
     }
-
-    $res = $db->getRow('SELECT COUNT(*) AS `cnt` FROM `sys_classes_actions` `ca`
-                   INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
-                    WHERE `ca`.`class_id` = ' . $data['c_id'] . ' AND `a`.`name` = ' . $db->quote($name));
-
-    return $res['cnt'] == 0;
 }
 
 ?>
