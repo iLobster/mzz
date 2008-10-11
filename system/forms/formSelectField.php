@@ -35,22 +35,9 @@ class formSelectField extends formElement
         if (!isset($options['options'])) {
             $options['options'] = array();
         }
-        /*if (!isset($options['styles']) || !is_array($options['styles'])) {
-        $options['styles'] = array();
-        }*/
 
         $first = isset($options['emptyFirst']) && $options['emptyFirst'] !== 0 && $options['emptyFirst'] !== false;
-
-        if (is_string($options['options']) && substr($options['options'], 0, 8) == 'options ') {
-            $options_string = substr($options['options'], 8);
-
-            $options['options'] = array();
-
-            foreach (explode('|', $options_string) as $val) {
-                list($key, $value) = explode(':', $val);
-                $options['options'][$key] = $value;
-            }
-        }
+        $options['options'] = self::parseOptions($options['options']);
 
         if ($first) {
             $firstText = (is_bool($options['emptyFirst']) || $options['emptyFirst'] === 1) ? '&nbsp;' : htmlspecialchars($options['emptyFirst']);
@@ -74,15 +61,16 @@ class formSelectField extends formElement
                     unset($text_array['content']);
                 }
 
+                $selected = (($first && $key !== '') || !$first);
                 if (!empty($options['multiple'])) {
                     if ($value == null) {
                         $value = array();
                     } else {
                         $value = (array)$value;
                     }
-                    $selected = (($first && $key !== '') || !$first) && in_array($key, $value);
+                    $selected = $selected && in_array($key, $value);
                 } else {
-                    $selected = (($first && $key !== '') || !$first) && ((string)$key == (string)$value);
+                    $selected = $selected && ((string)$key == (string)$value);
                 }
 
                 if ($selected) {
@@ -148,6 +136,27 @@ class formSelectField extends formElement
             $select = self::createTag($options, 'select');
         }
         return $select;
+    }
+
+    static public function parseOptions($options)
+    {
+        if (is_string($options) && substr($options, 0, 8) == 'options ') {
+            $options_string = substr($options, 8);
+
+            $options = array();
+
+            foreach (explode('|', $options_string) as $val) {
+                list($key, $value) = explode(':', $val, 2);
+                $value = trim($value);
+                if (i18n::isName($value)) {
+                    // all translates must be saved in simple/i18n
+                    $value = i18n::getMessage(substr($value, 2), 'simple');
+                }
+                $options[$key] = $value;
+            }
+        }
+
+        return $options;
     }
 }
 
