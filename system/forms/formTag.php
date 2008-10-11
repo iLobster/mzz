@@ -24,7 +24,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1
+ * @version 0.2
  */
 class formTag extends formElement
 {
@@ -60,9 +60,13 @@ class formTag extends formElement
         }
 
         $csrf = null;
-        /* данная опция отключает только добавление hidden-поля. Сама проверка удаляется только через валидатор */
+        /* данная опция отключает только добавление hidden-поля. Сама проверка отключается только через валидатор */
         if (!(array_key_exists('csrf', $options) && $options['csrf'] == false)) {
             $csrf = self::addCSRFProtection();
+        }
+
+        if (array_key_exists('csrf', $options))
+            unset($options['csrf']);
         }
 
         return $html . self::createTag($options, 'form') . $csrf;
