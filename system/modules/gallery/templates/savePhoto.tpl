@@ -13,9 +13,9 @@
 {else}
 <div class="jipTitle">{if $isEdit}Редактирование "{$photo->getName()}" из альбома {$albumTitle}{else}Загрузка фото в альбом {$albumTitle}{/if}</div>
 {if !$isEdit}
-    {form->open action=$form_action method="post" ajaxUpload="gallery"}
+    {form action=$form_action method="post" ajaxUpload="gallery"}
 {else}
-    <form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+    {form action=$form_action method="post" jip=true}
 {/if}
 <table width="99%" border="0" cellpadding="5" cellspacing="0" class="systemTable" align="center">
             {if !$isEdit}<tr>

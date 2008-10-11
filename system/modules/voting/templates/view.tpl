@@ -1,5 +1,5 @@
 {$question->getQuestion()}{$question->getJip()}<br />
-<form action="{$action}" method="post">
+{form action=$action method="post"}
     {form->hidden name="url" id="backUrlField" value=$backURL}
 {foreach name="answersIterator" from=$question->getAnswers() item="answer"}
 {assign var="id" value=$answer->getId()}

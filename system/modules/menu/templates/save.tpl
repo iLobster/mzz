@@ -21,7 +21,7 @@ function loadForm(id)
 </script>{/literal}
 {/if}
 
-<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$action method="post" jip=true}
     <table border="0" cellpadding="0" cellspacing="1" width="99%">
         {if !$isEdit}<tr>
             <td>Тип:</td>

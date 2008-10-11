@@ -3,7 +3,8 @@
 {title append=$profile->getUser()->getLogin()}
 <a href="{url route="default2" action="forum"}">Форум</a> / Редактирование профиля пользователя <strong>{$profile->getUser()->getLogin()}</strong>
 <br /><br />
-<form action="{url route="withId" action="editProfile" id=$profile->getId()}" method="post">
+{set name="form_action"}{url route="withId" action="editProfile" id=$profile->getId()}{/set}
+{form action=$form_action method="post"}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td style="width: 20%; vertical-align: top;">{form->caption name="signature" value="Подпись:"}</td>

@@ -1,6 +1,7 @@
 {assign var=name value=$group->getName()}
 {include file='jipTitle.tpl' title="Список пользователей, состоящих в группе $name"}
-<form method="post" action="{url}" onsubmit="return jipWindow.sendForm(this);">
+{set name="form_action"}{url}{/set}
+{form action=$form_action method="post" jip=true}
     <table border="0" width="50%" cellpadding="4" cellspacing="1" class="systemTable">
 
         {foreach from=$users item=user}

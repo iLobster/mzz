@@ -4,8 +4,8 @@
 {else}
 {include file='jipTitle.tpl' title='Изменение прав на объект'}
 {/if}
-
-<form action="{url}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{set name="form_action"}{url}{/set}
+{form action=$form_action method="post" jip=true}
     <table border="0" width="99%" cellpadding="4" cellspacing="1" class="systemTable">
             <tr>
                 <td colspan="3">

@@ -38,7 +38,7 @@ function addObjChangeClass(select) {
 }
 {/literal}
 </script>
-<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$form_action method="post" jip=true}
     <table border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td>{form->caption name="section" value="Секция" onError="style=color: red;"}</td>

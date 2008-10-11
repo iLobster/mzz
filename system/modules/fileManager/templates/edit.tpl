@@ -1,7 +1,7 @@
 {assign var="path" value=$file->getFolder()->getPath()}
 {assign var="name" value=$file->getName()}
 {include file='jipTitle.tpl' title="Редактирование файла `$path`/`$name`"}
-<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$form_action method="post" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td>{form->caption name="name" value="Новое имя"}</td>

@@ -1,4 +1,4 @@
-<form action="{$form_action}" method="post">
+{form action=$form_action method="post"}
     <table border="1">
         {foreach from=$variables item=variable key=name}
             <tr>

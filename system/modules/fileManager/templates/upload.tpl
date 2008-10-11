@@ -11,7 +11,7 @@
 {assign var="folderTitle" value=$folder->getTitle()}
 {include file='jipTitle.tpl' title="Загрузка файла в каталог $folderTitle"}
 
-{form->open action=$form_action method="post" ajaxUpload="fm"}
+{form action=$form_action method="post" ajaxUpload="fm"}
     <table width="99%" border="0" cellpadding="5" cellspacing="0" class="systemTable" align="center">
         <tr>
             <td width="25%">Системный путь</td>

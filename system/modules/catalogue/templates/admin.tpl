@@ -15,7 +15,7 @@ var massActionMove = "{url route="withAnyParam" name=$catalogueFolder->getPath()
 <p class="pageTitle">Список элементов</p>
 <div class="pageContent">
 {include file="breadcrumbs.tpl" breadCrumbs=$chains section=$current_section module="catalogue"}
-{if $massActionAccess}<form action="" onsubmit="jipWindow.open((($('massAction').value == 'delete') ? massActionDelete : massActionMove), false, 'POST', $(this).serialize(true)); return false;">{/if}
+{if $massActionAccess}{form action="" onsubmit="jipWindow.open((($('massAction').value == 'delete') ? massActionDelete : massActionMove), false, 'POST', $(this).serialize(true)); return false;"}{/if}
     <table cellspacing="0" cellpadding="3" class="tableList">
         <thead class="tableListHead">
             <tr>

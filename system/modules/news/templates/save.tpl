@@ -7,7 +7,7 @@
     </script>{/literal}
 {/if}
 
-{form->open action=$action method="post" jip=true}
+{form action=$action method="post" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td style='width: 20%;'>{form->caption name="title" value="_ title" onError="style=color: red;"}</td>

@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/template/plugins/function.url.php $
+ * $URL$
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage template
- * @version $Id: function.url.php 2402 2008-02-24 01:30:34Z mz $
+ * @version $Id$
 */
 
 /**

@@ -1,5 +1,6 @@
 <div class="jipTitle">Конфигурация для модуля {$module} в секции {$section}</div>
-<form method="post" action="{url section="config" action="editCfg" params="$section/$module"}" onsubmit="return jipWindow.sendForm(this);">
+{set name="form_action"}{url section="config" action="editCfg" params="$section/$module"}{/set}
+{form action=$form_action method="post" jip=true}
 <table border="0" width="99%" cellpadding="4" cellspacing="0" class="systemTable">
         {foreach from=$configs item=value key=key}
             <tr>

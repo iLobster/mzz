@@ -27,7 +27,7 @@ mzzCatalogue.autoloadSelects();
 <div class="jipTitle">{if $isEdit}Редактирование свойства{else}Создание свойства{/if}</div>
 
 <div style="padding: 10px;">
-<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$action method="post" jip=true}
     <table border="0" cellpadding="0" cellspacing="3" width="100%">
         <tr>
             <td><strong>{form->caption name="title" value="Название:" onRequired=false}</strong></td>

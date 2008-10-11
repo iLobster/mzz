@@ -3,7 +3,7 @@
 {else}
     <h2 class="addCommentTitle">{_ post_comment}</h2>
 {/if}
-<form action="{$action}" method="post" {if $isEdit}onsubmit="return jipWindow.sendForm(this);"{/if}>
+{form action=$action method="post" jip=$isEdit}
 <div class="addCommentForm">
     {form->hidden name="url" value=$url}
     <span>{_ name}: <b>{$userLogin}</b></span>

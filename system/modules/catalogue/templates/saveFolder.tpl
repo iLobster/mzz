@@ -1,5 +1,5 @@
 <div class="jipTitle">{if $isEdit}Редактирование папки{else}Создание папки{/if}</div>
-<form action="{$action}" method="POST" onsubmit="return jipWindow.sendForm(this);">
+{form action=$action method="POST" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td style='width: 15%;'>{form->caption name="title" value="Заголовок:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</td>

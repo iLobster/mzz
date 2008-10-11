@@ -1,5 +1,5 @@
 {include file='jipTitle.tpl' title="_ move_folder"}
-<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$form_action method="post" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td style='width: 20%; vertical-align: top;'>{_ from_to $folder->getTitle() $folder->getPath()}:</td>

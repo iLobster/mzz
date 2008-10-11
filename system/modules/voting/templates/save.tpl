@@ -32,7 +32,7 @@ function voteDeleteVariant(elem)
 Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":1,"showsTime":true,"showOthers":true,"timeFormat":24, "align":"BR", "inputField":"calendar-field-created","button":"calendar-trigger-created"});
 Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":1,"showsTime":true,"showOthers":true,"timeFormat":24, "align":"BR", "inputField":"calendar-field-expired","button":"calendar-trigger-expired"});
 </script>{/literal}
-<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$action method="post" jip=true}
     <table border="0" cellpadding="0" cellspacing="1" width="99%">
         <tr>
             <td>{form->caption name="question" value="Вопрос:"}{if $errors->has('question')}<br />{$errors->get('question')}{/if}</td>

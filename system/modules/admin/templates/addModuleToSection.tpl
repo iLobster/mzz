@@ -1,5 +1,6 @@
 {include file='jipTitle.tpl' title="Модули, входящие в раздел '`$data.name`'"}
-<form action="{url route="withId" section="admin" id=$data.id action="addModuleToSection"}" method="POST" onsubmit="return jipWindow.sendForm(this);">
+{set name="form_action"}{url route="withId" section="admin" id=$data.id action="addModuleToSection"}{/set}
+{form action=$form_action method="post" jip=true}
     <table width="99%" cellpadding="4" cellspacing="0" class="systemTable">
         <tr>
             <td>&nbsp;</td>

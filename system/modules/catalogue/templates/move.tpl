@@ -1,5 +1,5 @@
 <div class="jipTitle">Перемещение {if $isMass}элементов{else}элемента <em>{$item->getName()}</em>{/if} из каталога {$folder->getTitle()} ({$folder->getPath()})</div>
-<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$form_action method="post" jip=true}
 {if $isMass}
 {foreach from=$items item="item"}
     {assign var="item_id" value=$item->getId()}

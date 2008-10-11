@@ -1,4 +1,4 @@
-<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$action method="post" jip=true}
     <table>
         <tr>
             <td><strong>{form->caption name="login" value="Логин:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>

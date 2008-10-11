@@ -1,5 +1,5 @@
 <div class="jipTitle">Перемещение элемента <em>'{$news->getTitle()}'</em></div>
-<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$action method="post" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td style='width: 20%; vertical-align: top;'>{_ moving $news->getTitle() $news->getFolder()->getTitle() $news->getFolder()->getPath()}</td>

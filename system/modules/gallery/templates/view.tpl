@@ -132,7 +132,7 @@ var albumPhotoPreviewsScroller = new photoPreviewsScroller('albumPhotoPreviews')
         <div style="padding: 5px; background-color: #FCF8C9; border-bottom: 1px solid #F4E846;">Введите метку</div>
             <div style="padding: 10px;">
             <div id="tagSaveError" style="color: red; font-weight: bold;"></div>
-            {form->open action=$tagLink method="post" onsubmit="return gallerySaveTag(this)"}
+            {form action=$tagLink method="post" onsubmit="return gallerySaveTag(this)"}
             {form->hidden name="ajaxAction" value="tag"}
             {form->hidden name="coords" id="tagCoords" value="0,0,0,0"}
             {form->text name="tag" value=""}

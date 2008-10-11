@@ -13,7 +13,8 @@
     {else}
         <span style="font-size: 110%;">Результат поиска (найдено: {$users|@count})</span>
         <div style="border-top: 2px solid #BABABA; padding: 10px;">
-            <form method="post" action="{url}" onsubmit="return jipWindow.sendForm(this);">
+            {set name="form_action"}{url}{/set}
+            {form action=$form_action method="post" jip=true}
                 <table border="0" width="100%" cellpadding="2" cellspacing="0" class="systemTable">
                     {foreach from=$users item=user}
                         <tr>

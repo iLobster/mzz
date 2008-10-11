@@ -4,7 +4,7 @@
     {include file='jipTitle.tpl' title='Редактирование действия'}
 {/if}
 
-<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$form_action method="post" jip=true}
     <table width="99%" border="0" cellpadding="4" cellspacing="0" align="center">
         <tr>
             <td width="40%">{form->caption name="action[name]" value="Название"}</td>

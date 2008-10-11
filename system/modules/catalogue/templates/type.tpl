@@ -14,7 +14,7 @@ function switchChckbox(id, self) {
     element.disabled = !self.checked;
 }
 </script>{/literal}
-<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$action method="post" jip=true}
     <table border="0" cellpadding="0" cellspacing="1" width="100%">
         <tr>
             <td><strong>{form->caption name="title" value="Заголовок:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
