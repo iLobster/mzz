@@ -15,7 +15,7 @@
 */
 
 /**
- * core: ядро mzz
+ * core: mzz front controller
  *
  * @package system
  * @subpackage core
@@ -129,7 +129,6 @@ class core
         fileLoader::load('i18n/locale');
 
         fileLoader::load('config');
-        fileLoader::load('controller/frontController');
 
         fileLoader::load('db/DB');
 
@@ -139,7 +138,7 @@ class core
         fileLoader::load('toolkit/stdToolkit');
         fileLoader::load('toolkit/systemToolkit');
 
-        fileLoader::load('controller/action');
+        fileLoader::load('core/action');
         fileLoader::load('forms/validators/formValidator');
     }
 

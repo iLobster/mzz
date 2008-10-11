@@ -1,5 +1,5 @@
 <?php
-fileLoader::load('controller/action');
+fileLoader::load('core/action');
 
 class actionTest extends unitTestCase
 {
@@ -12,7 +12,7 @@ class actionTest extends unitTestCase
     public function setUp()
     {
         $this->action = new action("firstActions");
-        $this->action->addPath(dirname(__FILE__) . '/fixtures');
+        $this->action->addPath(dirname(__FILE__) . '/fixture');
     }
 
     public function tearDown()

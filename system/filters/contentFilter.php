@@ -17,10 +17,22 @@
  *
  * @package system
  * @subpackage filters
- * @version 0.2.7
+ * @version 0.2.8
  */
 class contentFilter implements iFilter
 {
+    /**
+     * Префикс имени активного шаблона
+     *
+     */
+    const TPL_PRE = "act/";
+
+    /**
+     * Расширение активного шаблона
+     *
+     */
+    const TPL_EXT = ".tpl";
+
     /**
      * запуск фильтра на исполнение
      *
@@ -33,10 +45,9 @@ class contentFilter implements iFilter
         $toolkit = systemToolkit::getInstance();
 
         $tplPath = systemConfig::$pathToApplication . '/templates';
-        $frontcontroller = new frontController($request, $tplPath);
 
         try {
-            $template = $frontcontroller->getTemplateName();
+            $template = $this->getTemplateName($request, $tplPath);
         } catch (mzzRuntimeException $e) {
             if (DEBUG_MODE) {
                 throw $e;
@@ -44,7 +55,7 @@ class contentFilter implements iFilter
 
             $output = $this->get404();
             if ($output === false) {
-                $template = $frontcontroller->getTemplateName();
+                $template = $this->getTemplateName($request, $tplPath);
             }
         }
 
@@ -74,6 +85,25 @@ class contentFilter implements iFilter
         fileLoader::load('simple/simple404Controller');
         $controller = new simple404Controller(true);
         return $controller->run();
+    }
+
+    /**
+     * получение имени шаблона
+     *
+     * @param iRequest $request
+     * @param string $path путь до папки с шаблонами
+     * @return string имя шаблона в соответствии с запрошенной секцией и экшном
+     */
+    public function getTemplateName($request, $path)
+    {
+        $section = $request->getSection();
+        $action = $request->getAction();
+
+        $tpl_name = self::TPL_PRE . $section . '/' . $action . self::TPL_EXT;
+        if (file_exists($path . '/' . $tpl_name)) {
+            return $tpl_name;
+        }
+        throw new mzzRuntimeException('Не найден активный шаблон: <i>' . $path . '/' . $tpl_name . '</i>');
     }
 }
 

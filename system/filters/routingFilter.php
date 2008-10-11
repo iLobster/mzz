@@ -32,9 +32,6 @@ class routingFilter implements iFilter
     {
         $toolkit = systemToolkit::getInstance();
 
-        //$tplPath = systemConfig::$pathToApplication . '/templates';
-        //$frontcontroller = new frontController($request, $tplPath);
-
         $router = $toolkit->getRouter($request);
 
         require_once fileLoader::resolve('configs/routes');

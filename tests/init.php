@@ -60,7 +60,7 @@ fileLoader::load('dataspace/arrayDataspace');
 
 fileLoader::load('iterators/mzzIniFilterIterator');
 
-fileLoader::load('controller/action');
+fileLoader::load('core/action');
 fileLoader::load('timer');
 fileLoader::load('i18n/locale');
 
