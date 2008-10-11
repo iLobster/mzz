@@ -53,6 +53,15 @@ class pageSaveController extends simpleController
                 $contentArea = $this->request->getString('contentArea', SC_POST);
                 $compiled = $this->request->getBoolean('compiled', SC_POST);
                 $allow_comment = $this->request->getBoolean('allow_comment', SC_POST);
+                $keywords = $this->request->getString('keywords', SC_POST);
+                $description = $this->request->getString('description', SC_POST);
+                $descriptionReset = $this->request->getBoolean('descriptionReset', SC_POST);
+                $keywordsReset = $this->request->getBoolean('keywordsReset', SC_POST);
+
+                $page->setKeywords($keywords);
+                $page->setKeywordsReset($keywordsReset);
+                $page->setDescription($description);
+                $page->setDescriptionReset($descriptionReset);
 
                 $page->setName($name);
                 $page->setTitle($title);

@@ -35,10 +35,9 @@ class formTextField extends formElement
             $options['value'] = '';
         }
 
-        if (isset($options['name']) && !$clearValue) {
+        if (isset($options['name']) && !$clearValue && !self::isFreeze($options)) {
             $options['value'] = self::getValue($options['name'], $options['value']);
         }
-
         $autocomplete = '';
         if (isset($options['autocomplete']) && $options['autocomplete']) {
             $type = substr($options['autocomplete'], 0, 1) == '[' ? 'local' : 'ajax';

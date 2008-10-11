@@ -1,5 +1,3 @@
-{* main="main.tpl" placeholder="content" *}
-
 {if $isEdit}
     <div class="jipTitle">Редактирование страницы "{$page->getName()|htmlspecialchars}"</div>
 {else}
@@ -59,7 +57,7 @@ function toggleEditor(id) {
     }
 }
 </script>{/literal}
-<form action="{$form_action}" method="post" onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);">
+{form action=$form_action method="post" onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);"}
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>
         <td style='width: 15%;'>{form->caption name="name" value="Идентификатор" onError="style=color: red;"}</td>
@@ -73,9 +71,19 @@ function toggleEditor(id) {
         <td style='width: 15%;'>{form->caption name="title" value="Компилируемая" onError="style=color: red;"}</td>
         <td style='width: 85%;'>{form->checkbox name="compiled" value=$page->getCompiled()}</td>
     </tr>
+
+    <tr>
+        <td style='width: 15%;'>{form->caption name="keywords" value="Ключевые слова" onError="style=color: red;"}</td>
+        <td style='width: 85%;'>{form->text name="keywords" value=$page->getKeywords() size="60"}&nbsp;{form->select name="keywordsReset" options="options добавить|заменить" value=$page->isKeywordsReset()}</td>
+    </tr>
+    <tr>
+        <td style='width: 15%;'>{form->caption name="description" value="Описание" onError="style=color: red;"}</td>
+        <td style='width: 85%;'>{form->text name="description" value=$page->getDescription() size="60"}&nbsp;{form->select name="descriptionReset" options="options добавить|заменить" value=$page->isDescriptionReset()}</td>
+    </tr>
+
     </tr>
         <tr>
-        <td style='width: 15%;'>{form->caption name="title" value="Разрешить комментарии?" onError="style=color: red;"}</td>
+        <td style='width: 15%;'>{form->caption name="allow_comment" value="Разрешить комментарии?" onError="style=color: red;"}</td>
         <td style='width: 85%;'>{form->checkbox name="allow_comment" value=$page->getAllowComment()}</td>
     </tr>
     <tr>

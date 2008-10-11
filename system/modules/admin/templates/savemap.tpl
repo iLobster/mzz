@@ -27,8 +27,7 @@ function mapAutoCompleteMethods(input)
 }
 </script>
 {/literal}
-
-<form action="{$form_action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action=$form_action method="post" jip=true}
     <table width="99%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td width="30%">{form->caption name="field[name]" value="Имя"}</td>

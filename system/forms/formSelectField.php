@@ -146,13 +146,20 @@ class formSelectField extends formElement
             $options = array();
 
             foreach (explode('|', $options_string) as $val) {
+                if (!strpos($val, ':')) {
+                    $val = ':' . $val;
+                }
                 list($key, $value) = explode(':', $val, 2);
                 $value = trim($value);
                 if (i18n::isName($value)) {
                     // all translates must be saved in simple/i18n
                     $value = i18n::getMessage(substr($value, 2), 'simple');
                 }
-                $options[$key] = $value;
+                if ($key === '') {
+                    $options[] = $value;
+                } else {
+                    $options[$key] = $value;
+                }
             }
         }
 
