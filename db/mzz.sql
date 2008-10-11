@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.3.2.1
+# SQL Manager 2007 for MySQL 4.4.0.5
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -20,10 +20,8 @@ CREATE DATABASE `mzz`
 
 USE `mzz`;
 
-SET sql_mode = '';
-
 #
-# Structure for the `catalogue_catalogue` table : 
+# Structure for the `catalogue_catalogue` table :
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue`;
@@ -38,7 +36,6 @@ CREATE TABLE `catalogue_catalogue` (
   `folder_id` INTEGER(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `folder_id` (`folder_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=18 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -61,7 +58,7 @@ INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`,
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogueFolder` table : 
+# Structure for the `catalogue_catalogueFolder` table :
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogueFolder`;
@@ -75,7 +72,6 @@ CREATE TABLE `catalogue_catalogueFolder` (
   `parent` INTEGER(11) DEFAULT '0',
   `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=13 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -92,7 +88,7 @@ INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `defau
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogueFolder_tree` table : 
+# Structure for the `catalogue_catalogueFolder_tree` table :
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogueFolder_tree`;
@@ -106,7 +102,6 @@ CREATE TABLE `catalogue_catalogueFolder_tree` (
   KEY `left_key` (`lkey`, `rkey`, `level`),
   KEY `level` (`level`, `lkey`),
   KEY `rkey` (`rkey`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=13 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -123,7 +118,7 @@ INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VAL
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_data` table : 
+# Structure for the `catalogue_catalogue_data` table :
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_data`;
@@ -136,7 +131,6 @@ CREATE TABLE `catalogue_catalogue_data` (
   `int` INTEGER(11) DEFAULT NULL,
   `float` FLOAT(9,3) DEFAULT NULL,
   PRIMARY KEY (`id`, `property_type`)
-
 )ENGINE=MyISAM
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -185,7 +179,7 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_properties` table : 
+# Structure for the `catalogue_catalogue_properties` table :
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_properties`;
@@ -198,7 +192,6 @@ CREATE TABLE `catalogue_catalogue_properties` (
   `args` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=34 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -223,7 +216,7 @@ INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, 
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_properties_types` table : 
+# Structure for the `catalogue_catalogue_properties_types` table :
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_properties_types`;
@@ -233,7 +226,6 @@ CREATE TABLE `catalogue_catalogue_properties_types` (
   `name` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `title` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=10 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -254,7 +246,7 @@ INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUE
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_types` table : 
+# Structure for the `catalogue_catalogue_types` table :
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_types`;
@@ -264,7 +256,6 @@ CREATE TABLE `catalogue_catalogue_types` (
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=12 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -280,7 +271,7 @@ INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_types_props` table : 
+# Structure for the `catalogue_catalogue_types_props` table :
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_types_props`;
@@ -295,7 +286,6 @@ CREATE TABLE `catalogue_catalogue_types_props` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `type_id` (`type_id`, `property_id`),
   KEY `property_id` (`property_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=60 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -320,7 +310,7 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `
 COMMIT;
 
 #
-# Structure for the `comments_comments` table : 
+# Structure for the `comments_comments` table :
 #
 
 DROP TABLE IF EXISTS `comments_comments`;
@@ -333,7 +323,6 @@ CREATE TABLE `comments_comments` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   `folder_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=26 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -346,7 +335,7 @@ INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `fold
 COMMIT;
 
 #
-# Structure for the `comments_commentsFolder` table : 
+# Structure for the `comments_commentsFolder` table :
 #
 
 DROP TABLE IF EXISTS `comments_commentsFolder`;
@@ -357,7 +346,6 @@ CREATE TABLE `comments_commentsFolder` (
   `parent_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=58 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -401,7 +389,7 @@ INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `faq_faq` table : 
+# Structure for the `faq_faq` table :
 #
 
 DROP TABLE IF EXISTS `faq_faq`;
@@ -413,7 +401,6 @@ CREATE TABLE `faq_faq` (
   `category_id` INTEGER(10) UNSIGNED DEFAULT NULL,
   `obj_id` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -427,7 +414,7 @@ INSERT INTO `faq_faq` (`id`, `question`, `answer`, `category_id`, `obj_id`) VALU
 COMMIT;
 
 #
-# Structure for the `faq_faqCategory` table : 
+# Structure for the `faq_faqCategory` table :
 #
 
 DROP TABLE IF EXISTS `faq_faqCategory`;
@@ -438,7 +425,6 @@ CREATE TABLE `faq_faqCategory` (
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `obj_id` INTEGER(10) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -451,7 +437,7 @@ INSERT INTO `faq_faqCategory` (`id`, `name`, `title`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `fileManager_file` table : 
+# Structure for the `fileManager_file` table :
 #
 
 DROP TABLE IF EXISTS `fileManager_file`;
@@ -473,7 +459,6 @@ CREATE TABLE `fileManager_file` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`, `name`, `ext`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=26 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -493,7 +478,7 @@ INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modifi
 COMMIT;
 
 #
-# Structure for the `fileManager_folder` table : 
+# Structure for the `fileManager_folder` table :
 #
 
 DROP TABLE IF EXISTS `fileManager_folder`;
@@ -508,7 +493,6 @@ CREATE TABLE `fileManager_folder` (
   `filesize` INTEGER(11) UNSIGNED DEFAULT NULL,
   `exts` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=9 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -523,7 +507,7 @@ INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_
 COMMIT;
 
 #
-# Structure for the `fileManager_folder_tree` table : 
+# Structure for the `fileManager_folder_tree` table :
 #
 
 DROP TABLE IF EXISTS `fileManager_folder_tree`;
@@ -537,7 +521,6 @@ CREATE TABLE `fileManager_folder_tree` (
   KEY `left_key` (`lkey`, `rkey`, `level`),
   KEY `level` (`level`, `lkey`),
   KEY `rkey` (`rkey`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=9 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -552,7 +535,7 @@ INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
 COMMIT;
 
 #
-# Structure for the `fileManager_storage` table : 
+# Structure for the `fileManager_storage` table :
 #
 
 DROP TABLE IF EXISTS `fileManager_storage`;
@@ -563,7 +546,6 @@ CREATE TABLE `fileManager_storage` (
   `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `web_path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -576,7 +558,7 @@ INSERT INTO `fileManager_storage` (`id`, `name`, `path`, `web_path`) VALUES
 COMMIT;
 
 #
-# Structure for the `forum_category` table : 
+# Structure for the `forum_category` table :
 #
 
 DROP TABLE IF EXISTS `forum_category`;
@@ -587,7 +569,6 @@ CREATE TABLE `forum_category` (
   `order` INTEGER(11) DEFAULT NULL,
   `obj_id` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=5 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -601,7 +582,7 @@ INSERT INTO `forum_category` (`id`, `title`, `order`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `forum_forum` table : 
+# Structure for the `forum_forum` table :
 #
 
 DROP TABLE IF EXISTS `forum_forum`;
@@ -617,7 +598,6 @@ CREATE TABLE `forum_forum` (
   `last_post` INTEGER(11) DEFAULT NULL,
   `description` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=7 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -632,7 +612,7 @@ INSERT INTO `forum_forum` (`id`, `title`, `category_id`, `order`, `obj_id`, `thr
 COMMIT;
 
 #
-# Structure for the `forum_post` table : 
+# Structure for the `forum_post` table :
 #
 
 DROP TABLE IF EXISTS `forum_post`;
@@ -648,7 +628,6 @@ CREATE TABLE `forum_post` (
   PRIMARY KEY (`id`),
   KEY `thread_id` (`thread_id`, `id`),
   KEY `post_date` (`post_date`, `thread_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=95 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -673,7 +652,7 @@ INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thr
 COMMIT;
 
 #
-# Structure for the `forum_profile` table : 
+# Structure for the `forum_profile` table :
 #
 
 DROP TABLE IF EXISTS `forum_profile`;
@@ -685,7 +664,6 @@ CREATE TABLE `forum_profile` (
   `avatar_id` INTEGER(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
-
 )ENGINE=MyISAM
 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -699,7 +677,7 @@ INSERT INTO `forum_profile` (`user_id`, `messages`, `signature`, `avatar_id`) VA
 COMMIT;
 
 #
-# Structure for the `forum_thread` table : 
+# Structure for the `forum_thread` table :
 #
 
 DROP TABLE IF EXISTS `forum_thread`;
@@ -720,7 +698,6 @@ CREATE TABLE `forum_thread` (
   `view_count` INTEGER(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `post_date` (`post_date`, `id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=27 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -734,7 +711,7 @@ INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`,
 COMMIT;
 
 #
-# Structure for the `gallery_album` table : 
+# Structure for the `gallery_album` table :
 #
 
 DROP TABLE IF EXISTS `gallery_album`;
@@ -748,7 +725,6 @@ CREATE TABLE `gallery_album` (
   `main_photo` INTEGER(11) NOT NULL DEFAULT '0',
   `obj_id` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -763,7 +739,7 @@ INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created
 COMMIT;
 
 #
-# Structure for the `gallery_gallery` table : 
+# Structure for the `gallery_gallery` table :
 #
 
 DROP TABLE IF EXISTS `gallery_gallery`;
@@ -775,7 +751,6 @@ CREATE TABLE `gallery_gallery` (
   `updated` INTEGER(11) DEFAULT NULL,
   `obj_id` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -788,7 +763,7 @@ INSERT INTO `gallery_gallery` (`id`, `owner`, `created`, `updated`, `obj_id`) VA
 COMMIT;
 
 #
-# Structure for the `gallery_photo` table : 
+# Structure for the `gallery_photo` table :
 #
 
 DROP TABLE IF EXISTS `gallery_photo`;
@@ -802,7 +777,6 @@ CREATE TABLE `gallery_photo` (
   `obj_id` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `album_id` (`album_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=8 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -821,7 +795,7 @@ INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_
 COMMIT;
 
 #
-# Structure for the `menu_menu` table : 
+# Structure for the `menu_menu` table :
 #
 
 DROP TABLE IF EXISTS `menu_menu`;
@@ -832,7 +806,6 @@ CREATE TABLE `menu_menu` (
   `title` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `obj_id` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=8 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -847,7 +820,7 @@ INSERT INTO `menu_menu` (`id`, `name`, `title`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `menu_menuItem` table : 
+# Structure for the `menu_menuItem` table :
 #
 
 DROP TABLE IF EXISTS `menu_menuItem`;
@@ -861,7 +834,6 @@ CREATE TABLE `menu_menuItem` (
   `order` INTEGER(10) UNSIGNED DEFAULT '0',
   `obj_id` INTEGER(10) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=24 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -893,7 +865,7 @@ INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `title`, `
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_data` table : 
+# Structure for the `menu_menuItem_data` table :
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_data`;
@@ -906,7 +878,6 @@ CREATE TABLE `menu_menuItem_data` (
   `int` INTEGER(11) DEFAULT NULL,
   `float` FLOAT(9,3) DEFAULT NULL,
   PRIMARY KEY (`id`, `property_type`)
-
 )ENGINE=MyISAM
 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -966,7 +937,7 @@ INSERT INTO `menu_menuItem_data` (`id`, `property_type`, `text`, `char`, `int`, 
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_properties` table : 
+# Structure for the `menu_menuItem_properties` table :
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_properties`;
@@ -979,7 +950,6 @@ CREATE TABLE `menu_menuItem_properties` (
   `args` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -995,7 +965,7 @@ INSERT INTO `menu_menuItem_properties` (`id`, `name`, `title`, `type_id`, `args`
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_properties_types` table : 
+# Structure for the `menu_menuItem_properties_types` table :
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_properties_types`;
@@ -1005,7 +975,6 @@ CREATE TABLE `menu_menuItem_properties_types` (
   `name` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `title` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1018,7 +987,7 @@ INSERT INTO `menu_menuItem_properties_types` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_types` table : 
+# Structure for the `menu_menuItem_types` table :
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_types`;
@@ -1028,7 +997,6 @@ CREATE TABLE `menu_menuItem_types` (
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1042,7 +1010,7 @@ INSERT INTO `menu_menuItem_types` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_types_props` table : 
+# Structure for the `menu_menuItem_types_props` table :
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_types_props`;
@@ -1057,7 +1025,6 @@ CREATE TABLE `menu_menuItem_types_props` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `type_id` (`type_id`, `property_id`),
   KEY `property_id` (`property_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=5 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1073,7 +1040,7 @@ INSERT INTO `menu_menuItem_types_props` (`id`, `type_id`, `property_id`, `sort`,
 COMMIT;
 
 #
-# Structure for the `message_message` table : 
+# Structure for the `message_message` table :
 #
 
 DROP TABLE IF EXISTS `message_message`;
@@ -1089,7 +1056,6 @@ CREATE TABLE `message_message` (
   `category_id` INTEGER(11) DEFAULT NULL,
   `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1103,7 +1069,7 @@ INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `ti
 COMMIT;
 
 #
-# Structure for the `message_messageCategory` table : 
+# Structure for the `message_messageCategory` table :
 #
 
 DROP TABLE IF EXISTS `message_messageCategory`;
@@ -1114,7 +1080,6 @@ CREATE TABLE `message_messageCategory` (
   `name` CHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
   `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1129,7 +1094,7 @@ INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `news_news` table : 
+# Structure for the `news_news` table :
 #
 
 DROP TABLE IF EXISTS `news_news`;
@@ -1145,7 +1110,6 @@ CREATE TABLE `news_news` (
   UNIQUE KEY `id_2` (`id`),
   KEY `id` (`id`),
   KEY `folder_id` (`folder_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=169 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1316,7 +1280,7 @@ INSERT INTO `news_news` (`id`, `obj_id`, `editor`, `folder_id`, `created`, `upda
 COMMIT;
 
 #
-# Structure for the `news_newsFolder` table : 
+# Structure for the `news_newsFolder` table :
 #
 
 DROP TABLE IF EXISTS `news_newsFolder`;
@@ -1330,7 +1294,6 @@ CREATE TABLE `news_newsFolder` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `parent` (`parent`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=32 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1357,7 +1320,7 @@ INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES
 COMMIT;
 
 #
-# Structure for the `news_newsFolder_lang` table : 
+# Structure for the `news_newsFolder_lang` table :
 #
 
 DROP TABLE IF EXISTS `news_newsFolder_lang`;
@@ -1367,7 +1330,6 @@ CREATE TABLE `news_newsFolder_lang` (
   `lang_id` INTEGER(11) NOT NULL DEFAULT '0',
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`, `lang_id`)
-
 )ENGINE=MyISAM
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1409,7 +1371,7 @@ INSERT INTO `news_newsFolder_lang` (`id`, `lang_id`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `news_newsFolder_tree` table : 
+# Structure for the `news_newsFolder_tree` table :
 #
 
 DROP TABLE IF EXISTS `news_newsFolder_tree`;
@@ -1423,7 +1385,6 @@ CREATE TABLE `news_newsFolder_tree` (
   KEY `left_key` (`lkey`, `rkey`, `level`),
   KEY `level` (`level`, `lkey`),
   KEY `rkey` (`rkey`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=31 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1450,7 +1411,7 @@ INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
 COMMIT;
 
 #
-# Structure for the `news_news_lang` table : 
+# Structure for the `news_news_lang` table :
 #
 
 DROP TABLE IF EXISTS `news_news_lang`;
@@ -1462,7 +1423,6 @@ CREATE TABLE `news_news_lang` (
   `annotation` TEXT COLLATE utf8_general_ci,
   `text` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`, `lang_id`)
-
 )ENGINE=MyISAM
 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1634,7 +1594,7 @@ INSERT INTO `news_news_lang` (`id`, `lang_id`, `title`, `annotation`, `text`) VA
 COMMIT;
 
 #
-# Structure for the `page_page` table : 
+# Structure for the `page_page` table :
 #
 
 DROP TABLE IF EXISTS `page_page`;
@@ -1649,7 +1609,6 @@ CREATE TABLE `page_page` (
   `allow_comment` TINYINT(4) DEFAULT '1',
   `compiled` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=12 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1672,7 +1631,7 @@ INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`
 COMMIT;
 
 #
-# Structure for the `page_pageFolder` table : 
+# Structure for the `page_pageFolder` table :
 #
 
 DROP TABLE IF EXISTS `page_pageFolder`;
@@ -1686,7 +1645,6 @@ CREATE TABLE `page_pageFolder` (
   `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1701,7 +1659,7 @@ INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`
 COMMIT;
 
 #
-# Structure for the `page_pageFolder_tree` table : 
+# Structure for the `page_pageFolder_tree` table :
 #
 
 DROP TABLE IF EXISTS `page_pageFolder_tree`;
@@ -1715,7 +1673,6 @@ CREATE TABLE `page_pageFolder_tree` (
   KEY `left_key` (`lkey`, `rkey`, `level`),
   KEY `level` (`level`, `lkey`),
   KEY `rkey` (`rkey`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1730,7 +1687,7 @@ INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
 COMMIT;
 
 #
-# Structure for the `ratings_ratings` table : 
+# Structure for the `ratings_ratings` table :
 #
 
 DROP TABLE IF EXISTS `ratings_ratings`;
@@ -1741,12 +1698,11 @@ CREATE TABLE `ratings_ratings` (
   `user_id` INTEGER(11) NOT NULL,
   `rate` INTEGER(11) NOT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `ratings_ratingsFolder` table : 
+# Structure for the `ratings_ratingsFolder` table :
 #
 
 DROP TABLE IF EXISTS `ratings_ratingsFolder`;
@@ -1759,7 +1715,6 @@ CREATE TABLE `ratings_ratingsFolder` (
   `ratecount` INTEGER(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1772,7 +1727,7 @@ INSERT INTO `ratings_ratingsFolder` (`id`, `obj_id`, `parent_id`, `ratesum`, `ra
 COMMIT;
 
 #
-# Structure for the `sys_access` table : 
+# Structure for the `sys_access` table :
 #
 
 DROP TABLE IF EXISTS `sys_access`;
@@ -1790,7 +1745,6 @@ CREATE TABLE `sys_access` (
   KEY `class_action_id` (`class_section_id`, `obj_id`, `uid`, `gid`),
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=5016 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -5208,7 +5162,7 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`
 COMMIT;
 
 #
-# Structure for the `sys_access_registry` table : 
+# Structure for the `sys_access_registry` table :
 #
 
 DROP TABLE IF EXISTS `sys_access_registry`;
@@ -5217,7 +5171,6 @@ CREATE TABLE `sys_access_registry` (
   `obj_id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `class_section_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=1301 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -5745,7 +5698,7 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_actions` table : 
+# Structure for the `sys_actions` table :
 #
 
 DROP TABLE IF EXISTS `sys_actions`;
@@ -5755,7 +5708,6 @@ CREATE TABLE `sys_actions` (
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=103 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -5843,7 +5795,7 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg` table : 
+# Structure for the `sys_cfg` table :
 #
 
 DROP TABLE IF EXISTS `sys_cfg`;
@@ -5854,7 +5806,6 @@ CREATE TABLE `sys_cfg` (
   `module` INTEGER(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `section_module` (`section`, `module`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=27 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -5883,7 +5834,7 @@ INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg_titles` table : 
+# Structure for the `sys_cfg_titles` table :
 #
 
 DROP TABLE IF EXISTS `sys_cfg_titles`;
@@ -5893,7 +5844,6 @@ CREATE TABLE `sys_cfg_titles` (
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=14 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -5918,7 +5868,7 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg_types` table : 
+# Structure for the `sys_cfg_types` table :
 #
 
 DROP TABLE IF EXISTS `sys_cfg_types`;
@@ -5928,7 +5878,6 @@ CREATE TABLE `sys_cfg_types` (
   `name` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `title` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -5942,7 +5891,7 @@ INSERT INTO `sys_cfg_types` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg_values` table : 
+# Structure for the `sys_cfg_values` table :
 #
 
 DROP TABLE IF EXISTS `sys_cfg_values`;
@@ -5956,7 +5905,6 @@ CREATE TABLE `sys_cfg_values` (
   `value` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`, `name`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=56 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -5987,7 +5935,7 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `type_id`, `value
 COMMIT;
 
 #
-# Structure for the `sys_cfg_vars` table : 
+# Structure for the `sys_cfg_vars` table :
 #
 
 DROP TABLE IF EXISTS `sys_cfg_vars`;
@@ -5997,7 +5945,6 @@ CREATE TABLE `sys_cfg_vars` (
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=13 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -6021,7 +5968,7 @@ INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_classes` table : 
+# Structure for the `sys_classes` table :
 #
 
 DROP TABLE IF EXISTS `sys_classes`;
@@ -6032,7 +5979,6 @@ CREATE TABLE `sys_classes` (
   `module_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=55 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -6091,7 +6037,7 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_classes_actions` table : 
+# Structure for the `sys_classes_actions` table :
 #
 
 DROP TABLE IF EXISTS `sys_classes_actions`;
@@ -6102,7 +6048,6 @@ CREATE TABLE `sys_classes_actions` (
   `action_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=287 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -6304,7 +6249,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_classes_sections` table : 
+# Structure for the `sys_classes_sections` table :
 #
 
 DROP TABLE IF EXISTS `sys_classes_sections`;
@@ -6316,7 +6261,6 @@ CREATE TABLE `sys_classes_sections` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `module_section` (`section_id`, `class_id`),
   KEY `class_id` (`class_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=54 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -6377,7 +6321,7 @@ INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_lang` table : 
+# Structure for the `sys_lang` table :
 #
 
 DROP TABLE IF EXISTS `sys_lang`;
@@ -6387,7 +6331,6 @@ CREATE TABLE `sys_lang` (
   `name` CHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
   `title` CHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -6401,7 +6344,7 @@ INSERT INTO `sys_lang` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_lang_lang` table : 
+# Structure for the `sys_lang_lang` table :
 #
 
 DROP TABLE IF EXISTS `sys_lang_lang`;
@@ -6411,7 +6354,6 @@ CREATE TABLE `sys_lang_lang` (
   `lang_id` INTEGER(11) UNSIGNED NOT NULL,
   `name` CHAR(32) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`, `lang_id`)
-
 )ENGINE=MyISAM
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -6427,7 +6369,7 @@ INSERT INTO `sys_lang_lang` (`id`, `lang_id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_modules` table : 
+# Structure for the `sys_modules` table :
 #
 
 DROP TABLE IF EXISTS `sys_modules`;
@@ -6440,7 +6382,6 @@ CREATE TABLE `sys_modules` (
   `icon` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `order` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=22 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -6461,8 +6402,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
   (12,'menu',26,'Меню','pages.gif',90),
   (13,'voting',30,'Голосование','voting.gif',0),
   (14,'message',32,'Сообщения пользователей','page.gif',0),
-  (15,'forum',35,'Форум','',0),
-  (16,'faq',42,'FAQ','',0),
+  (15,'forum',35,'Форум','forum.gif',0),
+  (16,'faq',42,'FAQ','faq.gif',0),
   (17,'tags',45,'','',0),
   (18,'captcha',47,'Captcha','',0),
   (19,'pager',NULL,'Пейджер',NULL,NULL),
@@ -6471,7 +6412,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `main_class`, `title`, `icon`, `order`)
 COMMIT;
 
 #
-# Structure for the `sys_obj_id` table : 
+# Structure for the `sys_obj_id` table :
 #
 
 DROP TABLE IF EXISTS `sys_obj_id`;
@@ -6479,7 +6420,6 @@ DROP TABLE IF EXISTS `sys_obj_id`;
 CREATE TABLE `sys_obj_id` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=1301 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -7791,7 +7731,7 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_obj_id_named` table : 
+# Structure for the `sys_obj_id_named` table :
 #
 
 DROP TABLE IF EXISTS `sys_obj_id_named`;
@@ -7801,7 +7741,6 @@ CREATE TABLE `sys_obj_id_named` (
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`obj_id`),
   UNIQUE KEY `name` (`name`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=1289 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -7875,7 +7814,7 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_sections` table : 
+# Structure for the `sys_sections` table :
 #
 
 DROP TABLE IF EXISTS `sys_sections`;
@@ -7887,7 +7826,6 @@ CREATE TABLE `sys_sections` (
   `order` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`, `id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=20 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -7916,7 +7854,7 @@ INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_skins` table : 
+# Structure for the `sys_skins` table :
 #
 
 DROP TABLE IF EXISTS `sys_skins`;
@@ -7926,7 +7864,6 @@ CREATE TABLE `sys_skins` (
   `name` CHAR(32) COLLATE utf8_general_ci DEFAULT NULL,
   `title` CHAR(32) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -7940,7 +7877,7 @@ INSERT INTO `sys_skins` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `tags_item_rel` table : 
+# Structure for the `tags_item_rel` table :
 #
 
 DROP TABLE IF EXISTS `tags_item_rel`;
@@ -7952,7 +7889,6 @@ CREATE TABLE `tags_item_rel` (
   `obj_id` INTEGER(10) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `item_id` (`item_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=9 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -7970,7 +7906,7 @@ INSERT INTO `tags_item_rel` (`id`, `tag_id`, `item_id`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `tags_tagCoords` table : 
+# Structure for the `tags_tagCoords` table :
 #
 
 DROP TABLE IF EXISTS `tags_tagCoords`;
@@ -7982,12 +7918,11 @@ CREATE TABLE `tags_tagCoords` (
   `w` INTEGER(11) NOT NULL,
   `h` INTEGER(11) NOT NULL,
   PRIMARY KEY (`rel_id`)
-
 )ENGINE=MyISAM
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `tags_tags` table : 
+# Structure for the `tags_tags` table :
 #
 
 DROP TABLE IF EXISTS `tags_tags`;
@@ -7997,7 +7932,6 @@ CREATE TABLE `tags_tags` (
   `tag` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `obj_id` INTEGER(10) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=7 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -8015,7 +7949,7 @@ INSERT INTO `tags_tags` (`id`, `tag`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `tags_tagsItem` table : 
+# Structure for the `tags_tagsItem` table :
 #
 
 DROP TABLE IF EXISTS `tags_tagsItem`;
@@ -8026,7 +7960,6 @@ CREATE TABLE `tags_tagsItem` (
   `obj_id` INTEGER(10) UNSIGNED DEFAULT NULL,
   `owner` INTEGER(10) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=17 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -8044,7 +7977,7 @@ INSERT INTO `tags_tagsItem` (`id`, `item_obj_id`, `obj_id`, `owner`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_group` table : 
+# Structure for the `user_group` table :
 #
 
 DROP TABLE IF EXISTS `user_group`;
@@ -8055,7 +7988,6 @@ CREATE TABLE `user_group` (
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `is_default` TINYINT(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -8070,7 +8002,7 @@ INSERT INTO `user_group` (`id`, `obj_id`, `name`, `is_default`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_user` table : 
+# Structure for the `user_user` table :
 #
 
 DROP TABLE IF EXISTS `user_user`;
@@ -8088,7 +8020,6 @@ CREATE TABLE `user_user` (
   `skin` INTEGER(11) UNSIGNED DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `login` (`login`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -8098,12 +8029,12 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
   (1,12,'guest','',NULL,NULL,1203767612,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1208486177,2,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1209859110,2,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
 #
-# Structure for the `user_userAuth` table : 
+# Structure for the `user_userAuth` table :
 #
 
 DROP TABLE IF EXISTS `user_userAuth`;
@@ -8116,7 +8047,6 @@ CREATE TABLE `user_userAuth` (
   `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=111 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -8135,7 +8065,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
 COMMIT;
 
 #
-# Structure for the `user_userGroup_rel` table : 
+# Structure for the `user_userGroup_rel` table :
 #
 
 DROP TABLE IF EXISTS `user_userGroup_rel`;
@@ -8148,7 +8078,6 @@ CREATE TABLE `user_userGroup_rel` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_id` (`group_id`, `user_id`),
   KEY `user_id` (`user_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=31 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -8164,7 +8093,7 @@ INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`, `obj_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_userOnline` table : 
+# Structure for the `user_userOnline` table :
 #
 
 DROP TABLE IF EXISTS `user_userOnline`;
@@ -8179,20 +8108,19 @@ CREATE TABLE `user_userOnline` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`, `session`),
   KEY `last_activity` (`last_activity`)
-
 )ENGINE=MyISAM
-AUTO_INCREMENT=300 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=301 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (299,2,'559864ca0d9346396194a2d3c3d67b36',1209859110,'http://mzz/page','127.0.0.1');
+  (300,2,'u7f34ng4vp584j4929ltqbup74',1223739832,'http://mzz-dev.ru/admin/admin','127.0.0.1');
 COMMIT;
 
 #
-# Structure for the `voting_answer` table : 
+# Structure for the `voting_answer` table :
 #
 
 DROP TABLE IF EXISTS `voting_answer`;
@@ -8204,7 +8132,6 @@ CREATE TABLE `voting_answer` (
   `question_id` INTEGER(11) NOT NULL DEFAULT '0',
   `obj_id` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=11 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -8219,7 +8146,7 @@ INSERT INTO `voting_answer` (`id`, `title`, `type`, `question_id`, `obj_id`) VAL
 COMMIT;
 
 #
-# Structure for the `voting_question` table : 
+# Structure for the `voting_question` table :
 #
 
 DROP TABLE IF EXISTS `voting_question`;
@@ -8233,7 +8160,6 @@ CREATE TABLE `voting_question` (
   `obj_id` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -8246,7 +8172,7 @@ INSERT INTO `voting_question` (`id`, `question`, `category_id`, `created`, `expi
 COMMIT;
 
 #
-# Structure for the `voting_vote` table : 
+# Structure for the `voting_vote` table :
 #
 
 DROP TABLE IF EXISTS `voting_vote`;
@@ -8259,12 +8185,11 @@ CREATE TABLE `voting_vote` (
   `text` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `question` (`question_id`, `user_id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `voting_voteCategory` table : 
+# Structure for the `voting_voteCategory` table :
 #
 
 DROP TABLE IF EXISTS `voting_voteCategory`;
@@ -8275,7 +8200,6 @@ CREATE TABLE `voting_voteCategory` (
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `obj_id` INTEGER(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-
 )ENGINE=MyISAM
 AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
