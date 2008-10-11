@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: http://svn.sandbox/repository/mzz/system/service/sha1PasswordHash.php $
+ * $URL$
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: sha1PasswordHash.php 1121 2007-11-30 04:31:39Z zerkms $
+ * @version $Id$
  */
 
 fileLoader::load('service/passwordHash');

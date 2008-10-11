@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/system/filters/i18nFilter.php $
+ * $URL$
  *
  * MZZ Content Management System (c) 2008
  * Website : http://www.mzz.ru
@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage filters
- * @version $Id: i18nFilter.php 2547 2008-06-25 10:00:29Z mz $
+ * @version $Id$
 */
 /**
  * userPreferences: пользовательские runtime-настройки приложения
