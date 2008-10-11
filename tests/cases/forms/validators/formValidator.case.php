@@ -69,6 +69,22 @@ class formValidatorTest extends UnitTestCase
         $this->validator->add('numeric', 'bar');
         $this->assertTrue($this->validator->validate($data));
     }
+
+    /**
+     * @todo move to formCsrfRuleTest?
+     *
+     */
+    public function testValidateCSRF()
+    {
+        $this->validator->enableCSRF();
+        $_POST['submit'] = 'submit';
+        $_POST['data'] = 'value';
+        systemToolkit::getInstance()->getSession()->set('CSRFToken', $key = 'secret_token');
+        $this->assertFalse($this->validator->validate());
+        $_POST[form::$CSRFField] = $key;
+        $this->assertTrue($this->validator->validate());
+        systemToolkit::getInstance()->getSession()->destroy('CSRFToken');
+    }
 }
 
 ?>

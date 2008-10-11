@@ -135,6 +135,14 @@ class formValidator
     }
 
     /**
+     * Включает проверку от CSRF-аттак
+     */
+    public function enableCSRF()
+    {
+        $this->csrf = true;
+    }
+
+    /**
      * Определение, является ли поле обязательным к заполнению
      *
      * @param string $name имя поля
