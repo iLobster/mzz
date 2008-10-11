@@ -23,7 +23,13 @@
  * {title append="2007"}
  * {title append="Список"}
  * {title separator=" | "} // Новости - 2007 | Список
+ * {title separator=" | " end=" - "}
+ * {title separator=" | " start=" - "}
  * </code>
+ *
+ * Значения аргументов end или start присоединяются к результату только
+ * при выводе заголовка и если он не пустой (одно из применений: разделитель
+ * для названия сайта и цепочки заголовков)
  *
  * @param array $params входные аргументы функции
  * @param object $smarty объект смарти
@@ -50,7 +56,14 @@ function smarty_function_title($params, $smarty)
                 $title .= $t[0] . $separator;
             }
         }
+        $title = substr($title, 0, -(strlen($separator)));
 
+        if (isset($params['end']) && !empty($title)) {
+            $title .= $params['end'];
+        }
+        if (isset($params['start']) && !empty($title)) {
+            $title = $params['start'] . $title;
+        }
         return $title;
     }
 }
