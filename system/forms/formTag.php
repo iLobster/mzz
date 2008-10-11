@@ -65,7 +65,7 @@ class formTag extends formElement
             $csrf = self::addCSRFProtection();
         }
 
-        if (array_key_exists('csrf', $options))
+        if (array_key_exists('csrf', $options)) {
             unset($options['csrf']);
         }
 
