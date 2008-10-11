@@ -25,30 +25,6 @@ class tagsItemRel extends simple
     protected $name = 'tags';
 
     protected $tags = array();
-
-    public function setCoords($coords)
-    {
-        if (is_string($coords)) {
-             $coords = explode(',', $coords, 4);
-             if (count($coords) === 4) {
-                 $coords = array_combine(array('x', 'y', 'w', 'h'), $coords);
-             } else {
-                 $coords = array();
-             }
-        }
-        $this->coords = array();
-        foreach (array('x', 'y', 'w', 'h') as $coord) {
-            $this->coords[$coord] = isset($coords[$coord]) ? (int)$coords[$coord] : 0;
-        }
-    }
-
-    public function getCoords($changed)
-    {
-        if ($changed) {
-            return $this->coords;
-        }
-        return $this->mapper->getTagCoords($this->getId());
-    }
 }
 
 ?>

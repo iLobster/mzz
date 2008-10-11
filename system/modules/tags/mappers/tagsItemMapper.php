@@ -38,61 +38,8 @@ class tagsItemMapper extends simpleMapper
      */
     protected $className = 'tagsItem';
 
+
     public function save($tagsItem, $user = null)
-    {
-        $tag = $tagsItem->getTag();
-        if (!empty($tag)) {
-            $toolkit = systemToolkit::getInstance();
-            $tagsMapper = $toolkit->getMapper('tags', 'tags', 'tags');
-            $tagsItemRelMapper = $toolkit->getMapper('tags', 'tagsItemRel', 'tags');
-
-            // учитывается что если в базе iPod, ввели ipod, IPOD, сохраняется как iPod
-            $existed = $tagsMapper->searchTags($tag);
-
-            if(!empty($existed)) {
-                $tags = $existed;
-            } else {
-                // создаем новые для базы теги
-                $tags = $tagsMapper->createTags($tag);
-            }
-
-            $tag = array_pop($tags);
-
-            // готовим массив с текущими тегами
-            $currentTags = $tagsItem->getTags();
-            $currentTagsPlain = array();
-            foreach ($currentTags as $t) {
-                $currentTagsPlain[$t->getId()] = strtolower($t->getTag());
-            }
-
-            $coords = $tagsItem->getCoords();
-            if (($tagId = array_search(strtolower($tag->getTag()), $currentTagsPlain)) === false) {
-                $tagItemRel = $tagsItemRelMapper->create();
-                $tagItemRel->setTag($tag);
-                $tagItemRel->setItem($tagsItem->getId());
-                $tagsItemRelMapper->save($tagItemRel);
-            }
-
-            if (!empty($coords)) {
-                if (empty($tagItemRel) || !($tagItemRel instanceof simple)) {
-                    $tagItemRel = $tagsItemRelMapper->searchByTagAndItem($tagId, $tagsItem->getId());
-                }
-                $qry = 'REPLACE INTO `' . $this->section() . '_tagCoords` (`rel_id`, `x`, `y`, `w`, `h`) VALUES ';
-                $qry .= '(' . $tagItemRel->getId() . ', ' . $coords['x'] . ', ' . $coords['y'] . ', ' . $coords['w'] . ', ' . $coords['h'] . ')';
-                if (!$this->db->query($qry)) {
-                    throw new mzzRuntimeException("Can't save the tag's coords");
-                }
-            }
-
-        } else {
-            parent::save($tagsItem, $user);
-        }
-    }
-
-
-
-
-    public function save_($tagsItem, $user = null)
     {
         $tags = $tagsItem->getNewTags();
         if (!is_null($tags)) {
@@ -175,20 +122,11 @@ class tagsItemMapper extends simpleMapper
             // новые теги = $newInBaseTags + $newTags
             // связываем теги с сущностью
             $allNewTags = array_merge($newInBaseTags, $newTags);
-            $coords = $tagsItem->getCoords();
             foreach ($allNewTags as $tag) {
                 $tagItemRel = $tagsItemRelMapper->create();
                 $tagItemRel->setTag($tag);
                 $tagItemRel->setItem($tagsItem);
                 $tagsItemRelMapper->save($tagItemRel);
-
-                if (!empty($coords)) {
-                    $qry = 'INSERT INTO `' . $this->section() . '_tagCoords` (`rel_id`, `x`, `y`, `w`, `h`) VALUES ';
-                    $qry .= '(' . $tagItemRel->getId() . ', ' . $coords['x'] . ', ' . $coords['y'] . ', ' . $coords['w'] . ', ' . $coords['h'] . ')';
-                    if (!$this->db->query($qry)) {
-                        throw new mzzRuntimeException("Can't save the tag's coords");
-                    }
-                }
             }
 
             if (!$tagsItem->isSingle()) {

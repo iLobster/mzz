@@ -1,6 +1,6 @@
 <div class="jipTitle">Редактирование тэгов</div>
 
-<form action="{$action}" method="post" onsubmit="return jipWindow.sendForm(this);">
+{form action="$action" method="post" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td style='vertical-align: top;'>Теги</td>
