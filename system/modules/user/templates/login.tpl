@@ -1,4 +1,4 @@
-<form action="{$form_action}" method="post" name="userLogin" id="userLogin">
+{form action=$form_action method="post" name="userLogin" id="userLogin"}
 {form->hidden name="url" id="backUrlField" value=$backURL}
 <table border="0" cellpadding="1" cellspacing="0" width="230">
     <tr>

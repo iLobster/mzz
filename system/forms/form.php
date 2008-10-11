@@ -23,6 +23,8 @@ fileLoader::load("forms/formElement");
  */
 class form
 {
+    static public $CSRFField = '_csrf_token';
+
     public function open($params, $smarty)
     {
         fileLoader::load('forms/formTag');

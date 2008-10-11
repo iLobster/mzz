@@ -1,7 +1,7 @@
 <p class="sideBlockTitle">Вход</p>
 <div class="sideBlockContent">
 <div id="loginForm">
-    <form action="{$form_action}" method="post" id="userLogin">
+    {form action=$form_action method="post" id="userLogin"}
         {form->hidden name="url" id="backUrlField" value=$backURL}
         <table border="0" cellpadding="1" cellspacing="0" width="140">
             <tr>

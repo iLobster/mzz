@@ -44,6 +44,13 @@ class formValidator
     private $submit;
 
     /**
+     * Устанавлиает проверку от CSRF-аттак
+     *
+     * @var boolean
+     */
+    private $csrf = true;
+
+    /**
      * Конструктор
      *
      * @param string $submit
@@ -86,6 +93,10 @@ class formValidator
      */
     public function validate($data = array())
     {
+        if ($this->csrf) {
+            $this->add('required', form::$CSRFField, 'CSRF Attack detected');
+            $this->add('csrf', form::$CSRFField, 'CSRF Attack detected');
+        }
         if (systemToolkit::getInstance()->getRequest()->getString($this->submit, SC_REQUEST)) {
             $valid = true;
 
@@ -113,6 +124,14 @@ class formValidator
         }
 
         return false;
+    }
+
+    /**
+     * Отключает проверку от CSRF-аттак
+     */
+    public function disableCSRF()
+    {
+        $this->csrf = false;
     }
 
     /**

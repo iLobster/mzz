@@ -40,6 +40,7 @@ class formTag extends formElement
             } else {
                 $options['onsubmit'] = $onsubmit;
             }
+            unset($options['jip']);
         } elseif (array_key_exists('ajaxUpload', $options)) {
             if (empty($options['ajaxUpload'])) {
                 $options['ajaxUpload'] = 'mzz';
@@ -58,8 +59,40 @@ class formTag extends formElement
             $html = $smarty->fetch('forms/upload.tpl');
         }
 
-        return $html . self::createTag($options, 'form');
+        $csrf = null;
+        /* данная опция отключает только добавление hidden-поля. Сама проверка удаляется только через валидатор */
+        if (!(array_key_exists('csrf', $options) && $options['csrf'] == false)) {
+            $csrf = self::addCSRFProtection();
+        }
+
+        return $html . self::createTag($options, 'form') . $csrf;
     }
+
+    /**
+     * Генерирует случайный идентификатор для CSRF-проверки формы и устанавливает
+     * валидатор на проверку того, что от пользователя пришел правильный идентификатор
+     *
+     */
+    public function addCSRFProtection()
+    {
+        $session = systemToolkit::getInstance()->getSession();
+        if (!($token = $session->get('CSRFToken'))) {
+            $token = self::getCSRFToken();
+            $session->set('CSRFToken', $token);
+        }
+        return self::createTag(array('type' => 'hidden', 'name' => form::$CSRFField, 'value' => $token), 'input');
+    }
+
+    /**
+     * Генерирует случайный идентификатор для CSRF-проверки формы
+     *
+     * @return string
+     */
+    static public function getCSRFToken()
+    {
+        return md5(microtime(true) . rand());
+    }
+
 }
 
 ?>

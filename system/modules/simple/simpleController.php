@@ -129,13 +129,13 @@ abstract class simpleController
             $this->smarty->assign('url', $url);
 
             if (i18n::isName($confirm)) {
-                $confirm = i18n::getMessage($confirm);
+                $confirm = i18n::getMessage($confirm/*, а модуль какой ?*/);
             }
 
             $confirm = empty($this->confirm) ? $confirm : $this->confirm;
             $this->smarty->assign('message', $confirm);
             $this->smarty->assign('method', $this->request->getMethod());
-            if ($this->request->getMethod() == 'POST') {
+            if ($this->request->isMethod('POST')) {
                 $postData = http_build_query($this->request->exportPost());
                 $postData = explode('&', $postData);
                 $formValues = array();
@@ -145,13 +145,16 @@ abstract class simpleController
                 }
                 $this->smarty->assign('formValues', $formValues);
             }
-            return $this->smarty->fetch('simple/confirm.tpl');
+            $view = $this->smarty->fetch('simple/confirm.tpl');
         }
-        if (!empty($confirmMsg)) {
+        if (!empty($confirmMsg) && empty($view)) {
             $session->destroy('confirm_code');
         }
 
-        $view = $this->getView();
+        if (empty($view)) {
+            $view = $this->getView();
+        }
+
         if ($this->toolkit->getRegistry()->get('isJip') && $this->request->isAjax()) {
             $this->smarty->setXmlTemplate('main.xml.tpl');
             $this->response->setHeader('Content-Type', 'text/xml');

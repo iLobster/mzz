@@ -3,7 +3,7 @@
 <img src="{$SITE_PATH}/templates/images/confirm.gif" hspace="20" vspace="5" /></div>
 <div class="confirmMsg">{$message}<br />
 
-<form action="{$url}" method="{$method}" onsubmit="return jipWindow.sendForm(this);">
+{form action=$url method=$method jip=true}
 {if isset($formValues)}
 {foreach from=$formValues item=hidden}
 
