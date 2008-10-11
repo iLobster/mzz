@@ -10,6 +10,7 @@ class formValidatorTest extends UnitTestCase
     public function setup()
     {
         $this->validator = new formValidator();
+        $this->validator->disableCSRF();
 
         $this->request = systemToolkit::getInstance()->getRequest();
         $this->request->save();
