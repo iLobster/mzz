@@ -15,7 +15,7 @@
 */
 
 /**
- * smarty_block_form: алиас-блок для вызова form::open
+ * smarty_block_formtag: алиас-блок для вызова form::open
  *
  * @param array $params входные аргументы функции
  * @param object $smarty объект смарти
@@ -24,7 +24,7 @@
  * @subpackage template
  * @version 0.1
  */
-function smarty_block_form($params, $content, $smarty)
+function smarty_block_formtag($params, $content, $smarty)
 {
     return $smarty->get_registered_object('form')->open($params, $smarty) . $content . '</form>';
 }
