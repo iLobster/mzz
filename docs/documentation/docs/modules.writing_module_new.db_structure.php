@@ -26,7 +26,7 @@ CREATE TABLE `message_message` (
 <</code>>
 <p>Для сущности <code>messageCategory</code> таблица будет несколько проще:</p>
 <ul>
-    <li><code>id</code> - первичный ключ таблицы, идентификатор сообщения</li>
+    <li><code>id</code> - первичный ключ таблицы, идентификатор категории</li>
     <li><code>title</code> - название категории, будет отображаться для пользователей</li>
     <li><code>name</code> - имя категории, будет составлять часть урла и использоваться для служебных целей</li>
     <li><code>obj_id</code> - уникальный идентификатор объекта, служебное поле для <a href="structure.acl.html#structure.acl">ACL</a></li>
