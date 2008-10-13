@@ -76,7 +76,7 @@ class cacheMemcached implements iCache
             $serverParams['failure_callback']
             );
 
-            if ($this->memcache->getServerStatus($host, $serverParams['port']) === 0) {
+            if (!$this->memcache->getStats()) {
                 throw new mzzRuntimeException('Memcache server "' . $host . ':' . $serverParams['port'] . '" is down');
             }
         }
