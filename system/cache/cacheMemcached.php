@@ -40,6 +40,10 @@ class cacheMemcached implements iCache
 
     public function __construct(Array $params = array())
     {
+        if (!class_exists('Memcache')) {
+            throw new mzzRuntimeException('Memcache extension doesn\'t installed');
+        }
+
         $this->memcache = new Memcache();
 
         if (!isset($params['servers']) || !is_array($params['servers'])) {
