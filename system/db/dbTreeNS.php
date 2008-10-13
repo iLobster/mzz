@@ -117,7 +117,6 @@ class dbTreeNS
         }
 
         $criteria = new criteria($this->params['tableName'], 'tree');
-
         $criteria->add('tree.id', $id);
 
         $this->addSelect($criteria);
@@ -212,6 +211,21 @@ class dbTreeNS
         }
         $this->db->query($qry);
 
+        return $this->db->lastInsertId();
+    }
+
+    /**
+     * Вставка корневого узла
+     *
+     * @return integer id добавленной записи
+     */
+    public function insertRoot()
+    {
+        $qry = 'INSERT INTO `' . $this->params['tableName'] . '` SET lkey = 1, rkey = 2 , level = 1' ;
+        if ($this->tree_id) {
+            $qry .= ', ' . $this->params['treeIdField'] . ' = ' . $this->tree_id;
+        }
+        $this->db->query($qry);
         return $this->db->lastInsertId();
     }
 
