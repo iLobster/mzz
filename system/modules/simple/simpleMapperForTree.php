@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleForTree');
  * simpleMapperForTree: маппер для работы с древовидными структурами
  *
  * @package system
- * @version 0.2.2
+ * @version 0.2.3
  */
 
 abstract class simpleMapperForTree extends simpleMapper
@@ -262,7 +262,6 @@ abstract class simpleMapperForTree extends simpleMapper
 				$val->$nameMutator($val->$nameAccessor());
 				$this->save($val);
 			}
-
 		}
 	}
 
@@ -323,7 +322,6 @@ abstract class simpleMapperForTree extends simpleMapper
 				$val->$nameMutator($val->$nameAccessor());
 				$this->save($val);
 			}
-
 		}
 	}
 
@@ -455,9 +453,7 @@ abstract class simpleMapperForTree extends simpleMapper
 		$accessor = $this->map[$this->treeParams['joinField']]['accessor'];
 		$id = $object->$accessor();
 
-		//echo"<pre>";var_dump($id);echo"</pre>";
 		$node = $this->tree->getNodeInfo($id);
-		//echo"<pre>node ";var_dump($node);echo"</pre>";
 		$object->importTreeFields($node);
 	}
 
@@ -485,8 +481,6 @@ abstract class simpleMapperForTree extends simpleMapper
      */
 	public function fillArray(&$array, $name = null)
 	{
-		//echo"<pre>fillArray ";var_dump($array);echo"</pre>";
-		//echo"<pre>name ";var_dump($name);echo"</pre>";
 		$this->setTreeTmp($array);
 		return parent::fillArray($array, $name);
 	}
@@ -499,7 +493,6 @@ abstract class simpleMapperForTree extends simpleMapper
      */
 	protected function setTreeTmp(&$array, $name = 'tree')
 	{
-		//echo"<pre>";var_dump($array);echo"</pre>";
 		$this->treeTmp = parent::fillArray($array, $name);
 	}
 }
