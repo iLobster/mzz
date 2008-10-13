@@ -129,7 +129,7 @@ abstract class simpleController
             $this->smarty->assign('url', $url);
 
             if (i18n::isName($confirm)) {
-                $confirm = i18n::getMessage($confirm/*, а модуль какой ?*/);
+                $confirm = i18n::getMessage($confirm);
             }
 
             $confirm = empty($this->confirm) ? $confirm : $this->confirm;

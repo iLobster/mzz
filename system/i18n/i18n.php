@@ -271,7 +271,7 @@ class i18n
      * @param callback $generatorCalback
      * @return unknown
      */
-    public static function getMessage($name, $module, $lang = null, $args = array(), $generatorCalback = null)
+    public static function getMessage($name, $module = null, $lang = null, $args = array(), $generatorCalback = null)
     {
         static $i18n;
         if (empty($i18n)) {
