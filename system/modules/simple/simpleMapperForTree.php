@@ -226,7 +226,6 @@ abstract class simpleMapperForTree extends simpleMapper
 		$mutator = $this->map[$this->treeParams['joinField']]['mutator'];
 		$accessor = $this->map[$this->treeParams['joinField']]['accessor'];
 
-
 		$id = $this->tree->insertRoot();
 		$object->$mutator($id);
 
@@ -240,28 +239,17 @@ abstract class simpleMapperForTree extends simpleMapper
 
 		// если поле, являющееся именем узла, было изменено - модифицируем пути этого узла и всех вложенных в него
 		if (isset($data[$this->treeParams['nameField']])) {
-			// получаем всех предков данного узла, вложенность 1 уровень
-			$branch = $this->getBranch($object, 1);
 
 			$pathAccessor = $this->map[$this->treeParams['pathField']]['accessor'];
 			$pathMutator = $this->map[$this->treeParams['pathField']]['mutator'];
 			$nameAccessor = $this->map[$this->treeParams['nameField']]['accessor'];
 			$nameMutator = $this->map[$this->treeParams['nameField']]['mutator'];
-
+			
 			// модифицируем путь текущего узла
 			$baseName = $object->$nameAccessor();
 			$object->$pathMutator($baseName);
 			// сохраняем текущий объект
 			$this->save($object);
-
-			// удаляем текущий объект из массива
-			array_shift($branch);
-			// обходим всех предков
-			foreach ($branch as $key => $val) {
-				// рекурсивно вызываем функцию модификации путей и для всех предков
-				$val->$nameMutator($val->$nameAccessor());
-				$this->save($val);
-			}
 		}
 	}
 
