@@ -57,7 +57,7 @@
     <div class="footer_guarantor">&nbsp;</div>
 </div>
 
-<div class="footer">{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION}) 2005-2007.
+<div class="footer">{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION}) 2005-{"Y"|date}.
 {$timer->toString('admin/time.tpl')}
 </div>
 

@@ -51,7 +51,7 @@
     </div>
 </div>
 <div id="footer">
-    <span>{$smarty.const.MZZ_NAME} v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION} &copy; 2007.<br />
+    <span>{$smarty.const.MZZ_NAME} v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION} &copy; {"Y"|date}.<br />
     {$timer->toString()}</span>
 </div>
 </body>
