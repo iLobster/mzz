@@ -118,7 +118,7 @@ function smarty_function_load($params, $smarty)
             $view = $smarty->fetch($params['403tpl']);
             $request->restore();
 
-            $with403Header = (isset($params['403handle']) && $params['403handle'] == false) ? false : true;
+            $with403Header = !(isset($params['403header']) && $params['403header'] == false);
             if ($with403Header) {
                 $toolkit->getResponse()->setHeader('', 'HTTP/1.x 403 Forbidden');
             }
