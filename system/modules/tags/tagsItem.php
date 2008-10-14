@@ -23,7 +23,7 @@ class tagsItem extends simple
 {
     protected $name = 'tags';
 
-    protected $tag = null;
+    protected $tags = null;
 
     protected $single = false;
 
