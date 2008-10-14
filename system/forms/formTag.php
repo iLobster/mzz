@@ -33,7 +33,7 @@ class formTag extends formElement
         $smarty = systemToolkit::getInstance()->getSmarty();
 
         $html = '';
-        if (isset($options['jip'])) {
+        if (isset($options['jip']) && $options['jip']) {
             $onsubmit = "return jipWindow.sendForm(this);";
             if (isset($options['onsubmit'])) {
                 $options['onsubmit'] .= '; ' . $onsubmit;
