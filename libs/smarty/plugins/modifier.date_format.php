@@ -50,7 +50,14 @@ function smarty_modifier_date_format($string, $format = '%b %e, %Y', $default_da
         }
         $format = str_replace($_win_from, $_win_to, $format);
     }
-    return strftime($format, $timestamp);
+
+    $formatted_time = strftime($format, $timestamp);
+    // если убогая винда, которая не умеет utf8 в strftime - то конвертим принудительно
+    if (PHP_OS == 'WINNT') {
+        $formatted_time = iconv('cp1251', 'utf-8', $formatted_time);
+    }
+    return $formatted_time;
+
 }
 
 /* vim: set expandtab: */

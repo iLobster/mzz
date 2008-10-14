@@ -244,7 +244,7 @@ abstract class simpleMapperForTree extends simpleMapper
 			$pathMutator = $this->map[$this->treeParams['pathField']]['mutator'];
 			$nameAccessor = $this->map[$this->treeParams['nameField']]['accessor'];
 			$nameMutator = $this->map[$this->treeParams['nameField']]['mutator'];
-			
+
 			// модифицируем путь текущего узла
 			$baseName = $object->$nameAccessor();
 			$object->$pathMutator($baseName);
@@ -358,6 +358,26 @@ abstract class simpleMapperForTree extends simpleMapper
 		}
 		$this->tree->delete($id);
 	}
+
+    /**
+     * Возвращает объекты, находящиеся в данной папке
+     *
+     * @return array
+     */
+    public function getItems($id)
+    {
+        $mapper = systemToolkit::getInstance()->getMapper($this->name, $this->itemName, $this->section);
+
+        if (!empty($this->pager)) {
+            $mapper->setPager($this->pager);
+        }
+
+        $result = $mapper->searchByFolder($id);
+
+        $this->pager = null;
+
+        return $result;
+    }
 
 	/**
      * Получение дерева, исключая искомый узел и всех его наследников

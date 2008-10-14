@@ -1426,26 +1426,6 @@ abstract class simpleMapper
     }
 
     /**
-     * Возвращает объекты, находящиеся в данной папке
-     *
-     * @return array
-     */
-    public function getItems($id)
-    {
-        $mapper = systemToolkit::getInstance()->getMapper($this->name, $this->itemName, $this->section);
-
-        if (!empty($this->pager)) {
-            $mapper->setPager($this->pager);
-        }
-
-        $result = $mapper->searchByFolder($id);
-
-        $this->pager = null;
-
-        return $result;
-    }
-
-    /**
      * Абстрактный метод для получения Obj_id конкретного элемента по аргументам
      *
      * @param array $args
