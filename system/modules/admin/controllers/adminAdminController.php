@@ -17,9 +17,8 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.4
+ * @version 0.1.5
  */
-
 class adminAdminController extends simpleController
 {
     protected function getView()
@@ -60,11 +59,13 @@ class adminAdminController extends simpleController
             $obj_id = $this->toolkit->getObjectId('access_' . $section . '_' . $class);
 
             $mapper = $this->toolkit->getMapper($module, $class, $section);
-
             $mapper->register($obj_id, 'sys', 'access');
-            $acl = new acl($user, $obj_id);
+            //$acl = new acl($user, $obj_id);
 
-            $access = $acl->get('admin');
+            $object = $mapper->create();
+            $object->import(array('obj_id' => $obj_id));
+
+            $access = $object->getAcl('admin');
 
             if ($access) {
                 return $this->smarty->fetch('admin/admin.tpl');
