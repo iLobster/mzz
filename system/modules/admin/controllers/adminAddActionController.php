@@ -171,8 +171,10 @@ class adminAddActionController extends simpleController
 
     public function checkActionNameRegister($name, $db, $action_name)
     {
-        return !$db->getOne('SELECT COUNT(*) FROM `sys_actions`
+        $name_in_db = $db->getOne('SELECT `name` FROM `sys_actions`
                                 WHERE `name` = ' . $db->quote($name));
+
+        return !$name_in_db || $name_in_db == $name;
     }
 }
 
