@@ -2,104 +2,134 @@
 {title append=$thread->getForum()->getTitle()}
 {title append=$thread->getTitle()}
 
-<a href="{url route="default2" action="forum"}">Форум</a> / <a href="{url route="withId" action="list" id=$thread->getForum()->getId()}">{$thread->getForum()->getTitle()}</a> / {$thread->getTitle()}
-{if $thread->getACL('post')} (<a href="{url route="withId" action="post" id=$thread->getId()}">Ответить</a>){/if}<br /><br />
+{add file="forum.css"}
+<div class="forumTopPanel">
+    <div class="left"><a href="{url route="default2" action="forum"}">MZZ Forums</a> / <a href="{url route="withId" action="list" id=$thread->getForum()->getId()}">{$thread->getForum()->getTitle()}</a> / {$thread->getTitle()}</div>
+    <div class="right"><a href="{url route="default2" action="new"}">новые сообщения</a></div>
+    <div class="clearRight"></div>
+</div>
+{set name="threadHeaderTpl"}
+  <tr>
+        <td colspan="2" class="threadHeader">
+        <span>
+        {if $thread->getAcl('editThread')}
+            <a href="{url route="withId" action="editThread" id=$thread->getId()}">Редактировать</a>
+        {/if}
+        {if $thread->getAcl('moveThread')}
+            - <a href="{url route="withId" action="moveThread" id=$thread->getId()}">Перенести</a>
+        {/if}
+        {if $thread->getACL('post')}
+            - <a href="{url route="withId" action="post" id=$thread->getId()}">Ответить</a>
+        {/if}
+        </span>
+        {$thread->getTitle()}
+        </td>
+    </tr>
+{/set}
 
 {if $thread->getIsStickyFirst() && $pager->getRealPage() != 1}
 {assign var="post" value=$thread->getFirstPost()}
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <tr style="background-color: #EFF2F5;">
-            <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;">
-                <a name="post_{$post->getId()}"></a>{$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
-                {if $thread->getFirstPost()->getId() eq $post->getId()}
-                    {if $thread->getAcl('editThread')}
-                        <a href="{url route="withId" action="editThread" id=$thread->getId()}">Редактировать</a>
-                    {/if}
-                    {if $thread->getAcl('moveThread')}
-                        <a href="{url route="withId" action="moveThread" id=$thread->getId()}">Перенести</a>
-                    {/if}
-                {else}
-                    {if $post->getAcl('edit')} <a href="{url route="withId" action="edit" id=$post->getId()}">Редактировать</a>{/if}
-                {/if}
-            </td>
-            <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;" align="right">
-                <a href="{url route="withId" id=$post->getId() action="goto"}">#1</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <table style="width: 100%;">
-                    <tr>
-                        <td style="border: 1px solid #DEE4EB; width: 15%; padding: 10px 10px 10px 10px; vertical-align: top;">
-                            <strong><a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}">{$post->getAuthor()->getUser()->getLogin()}</a></strong><br />
-                            {if $post->getAuthor()->getAvatar()}<img src="{url route="fmFolder" name=$post->getAuthor()->getAvatar()->getFullPath()}" /><br />{/if}
-                            Сообщений: {$post->getAuthor()->getMessages()}
-                        </td>
-                        <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px; vertical-align: top;">
-                            {$post->getText()|bbcode|htmlspecialchars|nl2br}
-                            {if $post->getAuthor()->getSignature()}
-                                <br /><br /><hr />
-                                {$post->getAuthor()->getSignature()|htmlspecialchars|nl2br}
-                            {/if}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+<table border="0" cellpadding="6" cellspacing="0" class="thread">
+    {$threadHeaderTpl}
+    <tr class="forumFields">
+        <td colspan="2">
+        <div class="postLink">
+        <a href="{url route="withId" id=$post->getId() action="goto"}">#1</div>
+        <div class="postIcon">
+        <a name="post_{$post->getId()}"></a><img src="/templates/images/forum/posticon.gif" alt="" width="9" height="10" /> </div>
+        {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}
+        </td>
+    </tr>
+
+    <tr class="forumDetails">
+        <td class="postInfo forumOddColumn" valign="top">
+            <strong><a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}">{$post->getAuthor()->getUser()->getLogin()}</a></strong>
+            {if $post->getAuthor()->getAvatar()}<br /><br /><img src="{url route="fmFolder" name=$post->getAuthor()->getAvatar()->getFullPath()}" /><br />{/if}
+            <p class="forumDescription">Сообщений: {$post->getAuthor()->getMessages()}</p>
+        </td>
+        <td class="postContent" valign="top">
+            {$post->getText()|htmlspecialchars|nl2br|bbcode}
+
+            {if $post->getEditDate()}
+                <div class="postEditDate">отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}</div>
+            {/if}
+            {if $post->getAuthor()->getSignature()}
+            <div class="forumPostSign">_____________________</div>
+            {$post->getAuthor()->getSignature()|htmlspecialchars|nl2br}
+            {/if}
+        </td>
+    </tr>
+
+    <tr class="forumDetails">
+        <td class="postActionsLeft forumOddColumn" valign="top"><img src="/templates/images/forum/report.gif" alt="" /></td>
+        <td valign="top">
+        <div class="postActions">
+        {if $thread->getFirstPost()->getId() ne $post->getId() && $post->getAcl('edit')}
+        <img src="/templates/images/forum/delete.gif" alt="" />
+        <a href="{url route="withId" action="edit" id=$post->getId()}"><img src="/templates/images/forum/edit.gif" alt="" /></a>
+        {/if}
+        {if $thread->getACL('post')}
+            <a href="{url route="withId" action="post" id=$thread->getId()}"><img src="/templates/images/forum/reply.gif" alt="" /></a>
+        {/if}
+        </div>
+        </td>
+    </tr>
     </table>
-    <br />
-    <hr />
-    <br />
 {/if}
+
 
 {foreach from=$posts item="post" name="post_cycle"}
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <tr style="background-color: #EFF2F5;">
-            <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;">
-                <a name="post_{$post->getId()}"></a>{$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}{if $post->getEditDate()}, отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}{/if}
-                {if $thread->getFirstPost()->getId() eq $post->getId()}
-                    {if $thread->getAcl('editThread')}
-                        <a href="{url route="withId" action="editThread" id=$thread->getId()}">Редактировать</a>
-                    {/if}
-                    {if $thread->getAcl('moveThread')}
-                        <a href="{url route="withId" action="moveThread" id=$thread->getId()}">Перенести</a>
-                    {/if}
-                {else}
-                    {if $post->getAcl('edit')} <a href="{url route="withId" action="edit" id=$post->getId()}">Редактировать</a>{/if}
-                {/if}
-            </td>
-            <td style="width: 7%; padding: 5px; border-bottom: 1px solid #DEE4EB;" align="right">
-                {math equation="(page - 1)* per_page + number" page=$pager->getRealPage() per_page=$pager->getPerPage() number=$smarty.foreach.post_cycle.iteration assign=post_number}
-                <a href="{url route="withId" id=$post->getId() action="goto"}">#{$post_number}</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <table style="width: 100%;">
-                    <tr>
-                        <td style="border: 1px solid #DEE4EB; width: 15%; padding: 10px 10px 10px 10px; vertical-align: top;">
-                            <strong><a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}">{$post->getAuthor()->getUser()->getLogin()}</a></strong><br />
-                            {if $post->getAuthor()->getAvatar()}<img src="{url route="fmFolder" name=$post->getAuthor()->getAvatar()->getFullPath()}" /><br />{/if}
-                            Сообщений: {$post->getAuthor()->getMessages()}
-                        </td>
-                        <td style="border: 1px solid #DEE4EB; padding: 10px 10px 10px 10px; vertical-align: top;">
-                            {$post->getText()|htmlspecialchars|nl2br|bbcode}
-                            {if $post->getAuthor()->getSignature()}
-                                <br /><br /><hr />
-                                {$post->getAuthor()->getSignature()|htmlspecialchars|nl2br}
-                            {/if}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-    <br />
+<table border="0" cellpadding="6" cellspacing="0" class="thread">
+    {if $thread->getFirstPost()->getId() eq $post->getId() && (!$thread->getIsStickyFirst() || $pager->getRealPage() == 1)}
+        {$threadHeaderTpl}
+    {/if}
+    <tr class="forumFields">
+        <td colspan="2">
+        <div class="postLink">{math equation="(page - 1)* per_page + number" page=$pager->getRealPage() per_page=$pager->getPerPage() number=$smarty.foreach.post_cycle.iteration assign=post_number}
+        <a href="{url route="withId" id=$post->getId() action="goto"}">#{$post_number}</a></div>
+        <div class="postIcon">
+        <a name="post_{$post->getId()}"></a><img src="/templates/images/forum/posticon.gif" alt="" width="9" height="10" /> </div>
+        {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}
+        </td>
+    </tr>
+
+    <tr class="forumDetails">
+        <td class="postInfo forumOddColumn" valign="top">
+            <strong><a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}">{$post->getAuthor()->getUser()->getLogin()}</a></strong>
+            {if $post->getAuthor()->getAvatar()}<br /><br /><img src="{url route="fmFolder" name=$post->getAuthor()->getAvatar()->getFullPath()}" /><br />{/if}
+            <p class="forumDescription">Сообщений: {$post->getAuthor()->getMessages()}</p>
+        </td>
+        <td class="postContent" valign="top">
+            {$post->getText()|htmlspecialchars|nl2br|bbcode}
+            {if $post->getEditDate()}
+                <div class="postEditDate">отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}</div>
+            {/if}
+            {if $post->getAuthor()->getSignature()}
+            <div class="forumPostSign">_____________________</div>
+            {$post->getAuthor()->getSignature()|htmlspecialchars|nl2br}
+            {/if}
+        </td>
+    </tr>
+
+    <tr class="forumDetails">
+        <td class="postActionsLeft forumOddColumn" valign="top"><img src="/templates/images/forum/report.gif" alt="" /></td>
+        <td valign="top">
+        <div class="postActions">
+        {if $thread->getFirstPost()->getId() ne $post->getId() && $post->getAcl('edit')}
+        <img src="/templates/images/forum/delete.gif" alt="" />
+        <a href="{url route="withId" action="edit" id=$post->getId()}"><img src="/templates/images/forum/edit.gif" alt="" /></a>
+        {/if}
+        {if $thread->getACL('post')}
+            <a href="{url route="withId" action="post" id=$thread->getId()}"><img src="/templates/images/forum/reply.gif" alt="" /></a>
+        {/if}
+        </div>
+        </td>
+    </tr>
+</table>
+
 {/foreach}
-
-
+<br />
 {if $pager->getPagesTotal() > 1}
-    <div class="pages">{$pager->toString()}</div>
+    <div class="pages">{$pager->toString()}</div><br />
 {/if}
-<br /><br />
 {load module="forum" action="post" id=$thread->getId() quickpost="true"}

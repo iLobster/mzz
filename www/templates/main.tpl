@@ -16,7 +16,7 @@
         <div class="headerBorderLine"><img src="{$SITE_PATH}/templates/images/spacer.gif" width="1" height="2" alt="" /></div>
         <div id="content">
 
-            <div{if $current_section != 'gallery'} id="leftMainCol"{/if}>
+            <div{if $current_section != 'gallery' && $current_section != 'forum'} id="leftMainCol"{/if}>
                 <div id="container">
                     <!--  left column  -->
                     <div id="col1">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            {if $current_section != 'gallery'}
+            {if $current_section != 'gallery' && $current_section != 'forum'}
             <!-- right column -->
             <div id="col3">
                 <div class="sideBlock">

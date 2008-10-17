@@ -52,6 +52,18 @@ class forumListController extends simpleController
         }
 
         $pagers = array();
+        $this->addPagers($pagers, $threads, $threads_per_page, $posts_per_page);
+        $this->addPagers($pagers, $stickys, $threads_per_page, $posts_per_page);
+
+        $this->smarty->assign('pagers', $pagers);
+        $this->smarty->assign('threads', $threads);
+        $this->smarty->assign('stickys', $stickys);
+        $this->smarty->assign('forum', $forum);
+        return $this->smarty->fetch('forum/list.tpl');
+    }
+
+    protected function addPagers(&$pagers, $threads, $threads_per_page, $posts_per_page)
+    {
         $url = new url('withId');
         $url->setAction('thread');
         foreach ($threads as $thread) {
@@ -61,12 +73,6 @@ class forumListController extends simpleController
                 $pagers[$thread->getId()]->setCount($thread->getPostsCount() + 1);
             }
         }
-
-        $this->smarty->assign('pagers', $pagers);
-        $this->smarty->assign('threads', $threads);
-        $this->smarty->assign('stickys', $stickys);
-        $this->smarty->assign('forum', $forum);
-        return $this->smarty->fetch('forum/list.tpl');
     }
 }
 

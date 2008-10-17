@@ -1,0 +1,196 @@
+div.forumTopPanel {
+  border: 1px solid #D2DBE5;
+  font-size: 85%;
+  margin-bottom: 10px;
+}
+
+div.forumTopPanel div.left {
+  float: left;
+  padding: 6px;
+}
+div.forumTopPanel div.right {
+  float: right;
+  padding: 6px;
+}
+
+table.forums {
+  border: 0;
+  width: 100%;
+  background-color: #D2DBE5;
+}
+
+table.forums td, table.thread td {
+  background-color: #fff;
+}
+
+table.thread {
+  border: 1px solid #D2DBE5;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+td.forumCategory, td.threadHeader {
+  padding: 5px;
+  background: #8298B1 url('../images/forum/header_bg.png');
+  font-size: 105%;
+  color: #fff;
+  padding-left: 10px;
+}
+
+td.forumCategory {
+  width: 54%;
+}
+
+td.forumCategory span, td.threadHeader span {
+  float: right;
+}
+
+td.forumCategory a, td.threadHeader a {
+  color: #fff;
+}
+
+td.threadHeader span {
+  font-size: 80%;
+}
+
+tr.forumFields td {
+  font-size: 85%;
+  padding: 4px 10px;
+  background: #D5DDE3 url('../images/forum/subheader_bg.png');
+}
+
+td.forumName {
+  width: 56%;
+  text-align: left;
+  padding-left: 15px;
+}
+td.threadName {
+  width: 61%;
+  text-align: left;
+  padding-left: 15px;
+}
+
+td.forumCounter {
+  width: 7%;
+  text-align: center;
+}
+
+td.forumLastPost, td.forumLastPostTitle {
+  width: 30%;
+  text-align: center;
+}
+
+td.threadLastPost, td.threadLastPostTitle {
+  width: 25%;
+  text-align: center;
+}
+
+
+td.forumLastPost, td.threadLastPost {
+  font-size: 85%;
+  text-align: left;
+}
+
+td.newThreads {
+  background-image: url('../images/forum/newthreads.gif');
+}
+
+td.noNewThreads {
+  background-image: url('../images/forum/nonewthreads.gif');
+}
+td.newPosts {
+  background-image: url('../images/forum/new.gif');
+}
+
+td.noNewPosts {
+  background-image: url('../images/forum/nonew.gif');
+}
+
+td.stickThread {
+  background-image: url('../images/forum/stick.gif');
+}
+
+td.hotStatus {
+  padding-left: 40px;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+p.forumDescription {
+  font-size: 85%;
+  padding: 0;
+  margin: 0;
+  margin-top: 5px;
+}
+
+td.forumOddColumn {
+  background-color: #F8FAFB !important;
+}
+
+td.forumEvenColumn {
+  background-color: #EEF2F5 !important;
+}
+
+div.postDate {
+  float: right;
+  padding-right: 10px;
+  text-align: right;
+}
+
+td.forumLastPost img, td.threadLastPost img {
+  float: right;
+}
+
+
+div.postDate span {
+  color: #7A7A7A;
+}
+
+span.threadPager {
+  font-size: 85%;
+}
+
+div.postIcon {
+  margin-top: 1px;
+  margin-right: 5px;
+  float: left;
+}
+div.postLink {
+  margin-top: 1px;
+  margin-right: 5px;
+  float: right;
+}
+
+td.postInfo {
+  width: 200px;
+  border-right: 1px solid #D2DBE5;
+  border-top: 1px solid #D2DBE5;
+}
+
+td.postContent {
+  border-top: 1px solid #D2DBE5;
+}
+
+td.postActionsLeft {
+  border-right: 1px solid #D2DBE5;
+}
+
+div.postActions {
+  text-align: right;
+}
+
+div.forumPostSign {
+  color: #CFCFCF;
+  margin: 0;
+  padding: 0;
+  margin-top: 30px;
+  padding-top: 5px;
+}
+
+div.postEditDate {
+  font-size: 85%;
+  color: #555;
+  font-style: italic;
+  margin-top: 10px;
+}
