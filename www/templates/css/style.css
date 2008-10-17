@@ -322,5 +322,12 @@ div.newsItem p.newsItemTitle span {
 
 .clear {
     clear: both;
-    height: 1%;
+    height: 0;
+    overflow: hidden;
+}
+
+.clearRight {
+    clear: right;
+    height: 0;
+    overflow: hidden;
 }

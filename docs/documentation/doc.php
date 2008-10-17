@@ -439,10 +439,12 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 }
                 $title = implode(' | ', array_reverse($title));
             } else {
+                $title = '404';
                 include('header.php');
                 exit('Этот раздел больше не существует в <a href="index.html">документации</a>.');
             }
         } else {
+            $title = '404';
             include('header.php');
             exit('Этот раздел больше не существует в <a href="index.html">документации</a>.');
         }
