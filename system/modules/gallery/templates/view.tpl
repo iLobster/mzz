@@ -5,7 +5,6 @@
 {add file="marker.css"}
 {add file="rectmarquee.js"}
 
-
 {literal}
 <script type="text/javascript">
 var imageId = 'galleryPhoto';
@@ -93,7 +92,7 @@ function gallerySaveTag(form)
             <td><div class="albumPreviewThumbContainer">
             <a href="{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo_thmb->getId() action="view"}">
 
-            <img {if $photo->getId() == $photo_thmb->getId()}class="currentPhoto"{/if}src="{$SITE_PATH}/{$photo_thmb->getThumbnail()}" alt="{$photo_thmb->getName()} {if $photo_thmb->getFile()}({$photo_thmb->getFile()->getSize()|filesize}){/if}" /></a>
+            <img {if $photo->getId() == $photo_thmb->getId()}class="currentPhoto"{/if}src="{$SITE_PATH}{$photo_thmb->getThumbnail()}" alt="{$photo_thmb->getName()} {if $photo_thmb->getFile()}({$photo_thmb->getFile()->getSize()|filesize}){/if}" /></a>
             </div>
             </td>
             {if $photo->getId() == $photo_thmb->getId()}

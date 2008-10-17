@@ -16,7 +16,7 @@
             <div>
                 <a href="{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo->getId() action="view"}">
                 {*<img src="{url route="galleryPicAction" album=$album->getId() name=$user->getLogin() id=$photo->getId() action="viewThumbnail"}" alt="{$photo->getName()}, {$photo->getFile()->getSize()|filesize}" title="{$photo->getName()}, {$photo->getFile()->getSize()|filesize}" /></a>*}
-                <img src="{$SITE_PATH}/{$photo->getThumbnail()}" alt="{$photo->getName()}{if $photo->getFile()}, {$photo->getFile()->getSize()|filesize}{/if}" title="{$photo->getName()}{if $photo->getFile()}, {$photo->getFile()->getSize()|filesize}{/if}" /></a>
+                <img src="{$SITE_PATH}{$photo->getThumbnail()}" alt="{$photo->getName()}{if $photo->getFile()}, {$photo->getFile()->getSize()|filesize}{/if}" title="{$photo->getName()}{if $photo->getFile()}, {$photo->getFile()->getSize()|filesize}{/if}" /></a>
             </div>
         </div>
     {if false}
