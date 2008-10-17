@@ -43,7 +43,7 @@ class fmImageFile extends fmSimpleFile
     protected function getThumbPath()
     {
 
-        return systemConfig::$pathToApplication . $this->publicPath . DIRECTORY_SEPARATOR . 'thumbnails';
+        return systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . $this->publicPath . DIRECTORY_SEPARATOR . 'thumbnails';
     }
 
     public function delete()
