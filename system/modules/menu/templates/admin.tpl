@@ -4,7 +4,7 @@
 {foreach from=$menus item="menu"}
 <ul class="menuTree">
     <li class="treeItem treeItemRoot"><div class="menuItem menuItemRoot"><span class="textHolder"><strong>{$menu->getTitle()} ({$menu->getName()})</strong>{$menu->getJip()}</span></div>
-        <ul id="menuTree_{$menu->getId()}">{include file="menu/adminview2.tpl" items=$menu->getItems()}</ul>
+        <ul id="menuTree_{$menu->getId()}">{include file="menu/adminview.tpl" items=$menu->getItems()}</ul>
     </li>
 </ul>
 <input id="menuTree_{$menu->getId()}_apply" type="button" disabled="disabled" value="Применить" onclick="new Ajax.Request('{url route="withAnyParam" action="move" name=$menu->getName()}', {literal}{{/literal}
