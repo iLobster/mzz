@@ -36,7 +36,7 @@
         <div class="postLink">
         <a href="{url route="withId" id=$post->getId() action="goto"}">#1</div>
         <div class="postIcon">
-        <a name="post_{$post->getId()}"></a><img src="/templates/images/forum/posticon.gif" alt="" width="9" height="10" /> </div>
+        <a name="post_{$post->getId()}"></a><img src="{$SITE_PATH}/templates/images/forum/posticon.gif" alt="" width="9" height="10" /> </div>
         {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}
         </td>
     </tr>
@@ -61,15 +61,15 @@
     </tr>
 
     <tr class="forumDetails">
-        <td class="postActionsLeft forumOddColumn" valign="top"><img src="/templates/images/forum/report.gif" alt="" /></td>
+        <td class="postActionsLeft forumOddColumn" valign="top"><img src="{$SITE_PATH}/templates/images/forum/report.gif" alt="" /></td>
         <td valign="top">
         <div class="postActions">
         {if $thread->getFirstPost()->getId() ne $post->getId() && $post->getAcl('edit')}
-        <img src="/templates/images/forum/delete.gif" alt="" />
-        <a href="{url route="withId" action="edit" id=$post->getId()}"><img src="/templates/images/forum/edit.gif" alt="" /></a>
+        <img src="{$SITE_PATH}/templates/images/forum/delete.gif" alt="" />
+        <a href="{url route="withId" action="edit" id=$post->getId()}"><img src="{$SITE_PATH}/templates/images/forum/edit.gif" alt="" /></a>
         {/if}
         {if $thread->getACL('post')}
-            <a href="{url route="withId" action="post" id=$thread->getId()}"><img src="/templates/images/forum/reply.gif" alt="" /></a>
+            <a href="{url route="withId" action="post" id=$thread->getId()}"><img src="{$SITE_PATH}/templates/images/forum/reply.gif" alt="" /></a>
         {/if}
         </div>
         </td>
@@ -88,7 +88,7 @@
         <div class="postLink">{math equation="(page - 1)* per_page + number" page=$pager->getRealPage() per_page=$pager->getPerPage() number=$smarty.foreach.post_cycle.iteration assign=post_number}
         <a href="{url route="withId" id=$post->getId() action="goto"}">#{$post_number}</a></div>
         <div class="postIcon">
-        <a name="post_{$post->getId()}"></a><img src="/templates/images/forum/posticon.gif" alt="" width="9" height="10" /> </div>
+        <a name="post_{$post->getId()}"></a><img src="{$SITE_PATH}/templates/images/forum/posticon.gif" alt="" width="9" height="10" /> </div>
         {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}
         </td>
     </tr>
@@ -112,15 +112,15 @@
     </tr>
 
     <tr class="forumDetails">
-        <td class="postActionsLeft forumOddColumn" valign="top"><img src="/templates/images/forum/report.gif" alt="" /></td>
+        <td class="postActionsLeft forumOddColumn" valign="top"><img src="{$SITE_PATH}/templates/images/forum/report.gif" alt="" /></td>
         <td valign="top">
         <div class="postActions">
         {if $thread->getFirstPost()->getId() ne $post->getId() && $post->getAcl('edit')}
-        <img src="/templates/images/forum/delete.gif" alt="" />
-        <a href="{url route="withId" action="edit" id=$post->getId()}"><img src="/templates/images/forum/edit.gif" alt="" /></a>
+        <img src="{$SITE_PATH}/templates/images/forum/delete.gif" alt="" />
+        <a href="{url route="withId" action="edit" id=$post->getId()}"><img src="{$SITE_PATH}/templates/images/forum/edit.gif" alt="" /></a>
         {/if}
         {if $thread->getACL('post')}
-            <a href="{url route="withId" action="post" id=$thread->getId()}"><img src="/templates/images/forum/reply.gif" alt="" /></a>
+            <a href="{url route="withId" action="post" id=$thread->getId()}"><img src="{$SITE_PATH}/templates/images/forum/reply.gif" alt="" /></a>
         {/if}
         </div>
         </td>

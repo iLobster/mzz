@@ -60,7 +60,7 @@
     <tr class="forumFields">
         <td colspan="2">
         <div class="postIcon">
-        <img src="/templates/images/forum/posticon.gif" alt="" width="9" height="10" /> </div>
+        <img src="{$SITE_PATH}/templates/images/forum/posticon.gif" alt="" width="9" height="10" /> </div>
         {$ppost->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}
         </td>
     </tr>

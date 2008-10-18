@@ -32,7 +32,7 @@
 
         </td>
         <td class="threadLastPost forumEvenColumn">
-        <a href="{url route="withId" action="last" id=$thread->getId()}"><img src="/templates/images/forum/goto.gif" width="14" height="14" alt="перейти в тему" /></a>
+        <a href="{url route="withId" action="last" id=$thread->getId()}"><img src="{$SITE_PATH}/templates/images/forum/goto.gif" width="14" height="14" alt="перейти в тему" /></a>
         <div class="postDate">
         {$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y <span>%H:%M</span>"}<br />
 
@@ -54,7 +54,7 @@
         <p class="forumDescription">by <a href="{url route="withId" action="profile" id=$thread->getAuthor()->getId()}">{$thread->getAuthor()->getUser()->getLogin()}</a></p>
         </td>
         <td class="threadLastPost forumEvenColumn">
-        <a href="{url route="withId" action="last" id=$thread->getId()}"><img src="/templates/images/forum/goto.gif" width="14" height="14" alt="перейти в тему" /></a>
+        <a href="{url route="withId" action="last" id=$thread->getId()}"><img src="{$SITE_PATH}/templates/images/forum/goto.gif" width="14" height="14" alt="перейти в тему" /></a>
         <div class="postDate">
         {$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y <span>%H:%M</span>"}<br />
 
@@ -67,38 +67,7 @@
 {/foreach}
 </table>
 
-
-
 <br />
 {if $pager->getPagesTotal() > 1}
     <div class="pages">{$pager->toString()}</div>
 {/if}
-
-
-
-
-
-    {*foreach from=$stickys item="thread"}
-        <tr bgcolor="#FFF000">
-            <td>
-                Важно!!!
-                {if $thread->isNew()}
-                    <span style="color: red;">new!!!</span>
-                {/if}
-                {if $thread->isPopular()}
-                    <span style="color: blue;">popular!!!</span>
-                {/if}
-            </td>
-            <td style="padding: 5px;">
-                <a href="{url route="withId" action="thread" id=$thread->getId()}">{$thread->getTitle()}</a>
-                {assign var="id" value=$thread->getId()}
-                {if not empty($pagers.$id)}
-                    {$pagers.$id->toString('forum/pager.tpl')}
-                {/if}
-            </td>
-            <td style="padding: 5px; text-align: center;"><a href="{url route="withId" action="profile" id=$thread->getAuthor()->getId()}">{$thread->getAuthor()->getUser()->getLogin()}</a></td>
-            <td style="padding: 5px; text-align: center;">{$thread->getPostsCount()}</td>
-            <td style="padding: 5px; text-align: center;">{if $thread->getViewCount()}{$thread->getViewCount()}{else}0{/if}</td>
-            <td><a href="{url route="withId" action="profile" id=$thread->getLastPost()->getAuthor()->getId()}">{$thread->getLastPost()->getAuthor()->getUser()->getLogin()}</a>, <a href="{url route="withId" action="last" id=$thread->getId()}">{$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}</a></td>
-        </tr>
-    {/foreach*}
