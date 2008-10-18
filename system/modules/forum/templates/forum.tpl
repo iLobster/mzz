@@ -29,7 +29,7 @@
                 {if $forum->getLastPost()}
                     <a href="{url route="withId" action="last" id=$forum->getLastPost()->getThread()->getId()}"><strong>{$forum->getLastPost()->getThread()->getTitle()|truncate:30|htmlspecialchars}</strong></a>
 
-                    <a href="{url route="withId" action="last" id=$forum->getLastPost()->getThread()->getId()}"><img src="/templates/images/forum/goto.gif" width="14" height="14" /></a>
+                    <a href="{url route="withId" action="last" id=$forum->getLastPost()->getThread()->getId()}"><img src="/templates/images/forum/goto.gif" width="14" height="14" alt="перейти в тему" /></a>
                     <div class="postDate">
                         {$forum->getLastPost()->getAuthor()->getUser()->getLogin()}, {$forum->getLastPost()->getPostDate()|date_format:"%e %B %Y <span>%H:%M</span>"}
                     </div>

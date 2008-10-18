@@ -163,7 +163,7 @@ div.postLink {
 }
 
 td.postInfo {
-  width: 200px;
+  width: 160px;
   border-right: 1px solid #D2DBE5;
   border-top: 1px solid #D2DBE5;
 }
@@ -193,4 +193,18 @@ div.postEditDate {
   color: #555;
   font-style: italic;
   margin-top: 10px;
+}
+
+table.quickPost {
+  background-color: #fff;
+  border: 1px solid #D2DCE6;
+  width: 100%;
+}
+
+table.quickPost td {
+  vertical-align: top;
+}
+
+table.quickPost td.quickReplyForm {
+  width: 160px;
 }

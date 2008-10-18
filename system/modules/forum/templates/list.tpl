@@ -32,7 +32,7 @@
 
         </td>
         <td class="threadLastPost forumEvenColumn">
-        <a href="{url route="withId" action="last" id=$thread->getId()}"><img src="/templates/images/forum/goto.gif" width="14" height="14" /></a>
+        <a href="{url route="withId" action="last" id=$thread->getId()}"><img src="/templates/images/forum/goto.gif" width="14" height="14" alt="перейти в тему" /></a>
         <div class="postDate">
         {$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y <span>%H:%M</span>"}<br />
 
@@ -54,7 +54,7 @@
         <p class="forumDescription">by <a href="{url route="withId" action="profile" id=$thread->getAuthor()->getId()}">{$thread->getAuthor()->getUser()->getLogin()}</a></p>
         </td>
         <td class="threadLastPost forumEvenColumn">
-        <a href="{url route="withId" action="last" id=$thread->getId()}"><img src="/templates/images/forum/goto.gif" width="14" height="14" /></a>
+        <a href="{url route="withId" action="last" id=$thread->getId()}"><img src="/templates/images/forum/goto.gif" width="14" height="14" alt="перейти в тему" /></a>
         <div class="postDate">
         {$thread->getLastPost()->getPostDate()|date_format:"%e %B %Y <span>%H:%M</span>"}<br />
 

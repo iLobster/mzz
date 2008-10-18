@@ -68,7 +68,7 @@
     <tr class="forumDetails">
         <td class="postInfo forumOddColumn" valign="top">
             <strong>{$ppost->getAuthor()->getUser()->getLogin()}</strong>
-            {if $ppost->getAuthor()->getAvatar()}<br /><br /><img src="{url route="fmFolder" name=$ppost->getAuthor()->getAvatar()->getFullPath()}" /><br />{/if}
+            {if $ppost->getAuthor()->getAvatar()}<br /><br /><img src="{url route="fmFolder" name=$ppost->getAuthor()->getAvatar()->getFullPath()}" alt="{$ppost->getAuthor()->getUser()->getLogin()} avatar" /><br />{/if}
             <p class="forumDescription">Сообщений: {$ppost->getAuthor()->getMessages()}</p>
         </td>
         <td class="postContent" valign="top">
