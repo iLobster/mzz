@@ -70,7 +70,7 @@ class adminSaveCfgController extends simpleController
             $title = $this->request->getString('title', SC_POST);
 
             if ($isEdit) {
-                $config->update($name, $param, $value, null, $type);
+                $config->update($name, $param, $value, $title, $type);
             } else {
                 $config->create($param, $value, $title, $type);
             }

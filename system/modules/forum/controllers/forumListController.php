@@ -24,8 +24,9 @@ class forumListController extends simpleController
 {
     public function getView()
     {
-        $threads_per_page = 5;
-        $posts_per_page = 5;
+        $config = $this->toolkit->getConfig('forum');
+        $threads_per_page = $config->get('threads_per_page');
+        $posts_per_page = $config->get('posts_per_page');
 
         $forumMapper = $this->toolkit->getMapper('forum', 'forum');
         $id = $this->request->getInteger('id');
@@ -52,8 +53,8 @@ class forumListController extends simpleController
         }
 
         $pagers = array();
-        $this->addPagers($pagers, $threads, $threads_per_page, $posts_per_page);
-        $this->addPagers($pagers, $stickys, $threads_per_page, $posts_per_page);
+        $this->addPagers($pagers, $threads, $posts_per_page);
+        $this->addPagers($pagers, $stickys, $posts_per_page);
 
         $this->smarty->assign('pagers', $pagers);
         $this->smarty->assign('threads', $threads);
@@ -62,7 +63,7 @@ class forumListController extends simpleController
         return $this->smarty->fetch('forum/list.tpl');
     }
 
-    protected function addPagers(&$pagers, $threads, $threads_per_page, $posts_per_page)
+    protected function addPagers(&$pagers, $threads, $posts_per_page)
     {
         $url = new url('withId');
         $url->setAction('thread');

@@ -5849,7 +5849,7 @@ CREATE TABLE `sys_cfg_titles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=14 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=16 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_cfg_titles` table  (LIMIT 0,500)
@@ -5868,7 +5868,9 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
   (10,'public_path'),
   (11,'Длина строки'),
   (12,'Количество постов на странице'),
-  (13,'Путь до каталога хранения файлов в модуле fileManager');
+  (13,'Путь до каталога хранения файлов в модуле fileManager'),
+  (14,'Тем на страницу'),
+  (15,'Количество тем на страницу');
 COMMIT;
 
 #
@@ -5910,7 +5912,7 @@ CREATE TABLE `sys_cfg_values` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`, `name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=56 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=57 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
@@ -5934,8 +5936,9 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `type_id`, `value
   (48,18,1,1,1,'10'),
   (50,7,8,10,1,'files'),
   (53,15,1,1,1,'60'),
-  (54,26,11,12,2,'30'),
-  (55,21,12,13,1,'root/gallery');
+  (54,26,11,12,2,'10'),
+  (55,21,12,13,1,'root/gallery'),
+  (56,26,13,15,2,'10');
 COMMIT;
 
 #
@@ -5950,7 +5953,7 @@ CREATE TABLE `sys_cfg_vars` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=13 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=14 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_cfg_vars` table  (LIMIT 0,500)
@@ -5968,7 +5971,8 @@ INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
   (9,'strlen'),
   (10,'length'),
   (11,'posts_per_page'),
-  (12,'fileManager_path');
+  (12,'fileManager_path'),
+  (13,'threads_per_page');
 COMMIT;
 
 #
@@ -8033,7 +8037,7 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
   (1,12,'guest','',NULL,NULL,1203767612,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1209859110,2,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1223739832,2,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
@@ -8113,14 +8117,14 @@ CREATE TABLE `user_userOnline` (
   UNIQUE KEY `user_id` (`user_id`, `session`),
   KEY `last_activity` (`last_activity`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=301 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=302 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (300,2,'u7f34ng4vp584j4929ltqbup74',1223739832,'http://mzz-dev.ru/admin/admin','127.0.0.1');
+  (301,2,'birql4hfmiimnnijklqcbcgdd7',1224332344,'http://mzz-dev.ru/ru/admin/15/listCfg?ajax=1','127.0.0.1');
 COMMIT;
 
 #
