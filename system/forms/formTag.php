@@ -62,7 +62,8 @@ class formTag extends formElement
         $csrf = null;
         /* данная опция отключает только добавление hidden-поля. Сама проверка отключается только через валидатор */
         if (!(array_key_exists('csrf', $options) && $options['csrf'] == false)) {
-            $csrf = self::addCSRFProtection();
+            /* In XHTML Strict forms may not contain inline elements as direct children */
+            $csrf = '<div>' . self::getCSRFProtection() . '</div>';
         }
 
         if (array_key_exists('csrf', $options)) {
@@ -77,7 +78,7 @@ class formTag extends formElement
      * валидатор на проверку того, что от пользователя пришел правильный идентификатор
      *
      */
-    public function addCSRFProtection()
+    protected function getCSRFProtection()
     {
         $session = systemToolkit::getInstance()->getSession();
         if (!($token = $session->get('CSRFToken'))) {
@@ -92,7 +93,7 @@ class formTag extends formElement
      *
      * @return string
      */
-    static public function getCSRFToken()
+    static protected function getCSRFToken()
     {
         return md5(microtime(true) . rand());
     }
