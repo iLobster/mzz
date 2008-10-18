@@ -24,19 +24,49 @@ class menuMoveController extends simpleController
 {
     public function getView()
     {
-        $id = $this->request->getInteger('id');
-        $target = $this->request->getString('target');
+        $name = $this->request->getString('name');
+        $menuMapper = $this->toolkit->getMapper('menu', 'menu');
 
-        $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');
+        $menu = $menuMapper->searchByName($name);
 
-        $item = $menuItemMapper->searchById($id);
-
-        if (!$item) {
+        $data = $this->request->getString('data', SC_POST);
+        parse_str($data, $tree);
+        if (!$menu || !isset($tree['menuTree_' . $menu->getId()])) {
             return $menuItemMapper->get404()->run();
         }
 
-        $item->move($target);
-        return jipTools::redirect();
+        $tree = $tree['menuTree_' . $menu->getId()];
+        $nodes = array();
+        parseTree($nodes, $tree);
+
+        $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');
+        foreach ($nodes as $node_id => $node) {
+            $criteria = new criteria;
+            $criteria->add('menu_id', $menu->getId())->add('id', $node_id);
+            $item = $menuItemMapper->searchOneByCriteria($criteria);
+            if ($item) {
+                $item->setParent($node['parent_id']);
+                $item->setOrder($node['order']);
+                $menuItemMapper->save($item);
+            }
+        }
+
+        return null;
+    }
+}
+
+function parseTree(&$nodes, $branch, $parent_id = 0) {
+    $order = 0;
+    foreach ($branch as $node) {
+        if (is_array($node) && isset($node['id'])) {
+            $order++;
+            $nodes[$node['id']] = array('parent_id' => $parent_id, 'order' => $order);
+            $nodeId = $node['id'];
+            unset($node['id']);
+            if (!empty($node)) {
+                parseTree($nodes, $node, $nodeId);
+            }
+        }
     }
 }
 

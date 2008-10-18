@@ -91,10 +91,12 @@ class menuMapper extends simpleMapper
 
     public function convertArgsToObj($args)
     {
-        $menu = $this->searchByName($args['name']);
+        if (isset($args['name'])) {
+            $menu = $this->searchByName($args['name']);
 
-        if ($menu) {
-            return $menu;
+            if ($menu) {
+                return $menu;
+            }
         }
 
         throw new mzzDONotFoundException();

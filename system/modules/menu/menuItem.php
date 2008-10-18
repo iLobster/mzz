@@ -96,31 +96,6 @@ class menuItem extends simpleCatalogue
 
         return $this->isActive;
     }
-
-    protected function getJipView($module, $id, $type, $tpl = jip::DEFAULT_TEMPLATE)
-    {
-        $toolkit = systemToolkit::getInstance();
-        $action = $toolkit->getAction($module);
-        $request = $toolkit->getRequest();
-
-        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this, $tpl);
-
-        $url = new url('menuMoveAction');
-        $url->add('id', $id);
-
-        if ($jip->hasItem('up')) {
-            $act = &$jip->getItem('up');
-            $url->add('target', 'up');
-            $act['url'] = $url->get();
-        }
-
-        if ($jip->hasItem('down')) {
-            $act = &$jip->getItem('down');
-            $url->add('target', 'down');
-            $act['url'] = $url->get();
-        }
-        return $jip->draw();
-    }
 }
 
 ?>
