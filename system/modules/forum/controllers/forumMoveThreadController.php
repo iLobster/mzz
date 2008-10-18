@@ -19,7 +19,7 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage forum
- * @version 0.1
+ * @version 0.1.1
  */
 
 class forumMoveThreadController extends simpleController
@@ -35,7 +35,8 @@ class forumMoveThreadController extends simpleController
         $categories = $categoryMapper->searchAll();
 
         $validator = new formValidator();
-        $validator->add('callback', 'forum', 'Выбранного раздела форума не существует, либо перенос в тот же раздел', array('checkForumExists', $thread));
+        $validator->add('required', 'forum', 'Обязательное поле');
+        $validator->add('callback', 'forum', 'Выбранного раздела форума не существует, либо перенос в тот же раздел', array(array($this, 'checkForumExists'), $thread));
 
         if ($validator->validate()) {
             $oldForum = $thread->getForum();
@@ -49,9 +50,11 @@ class forumMoveThreadController extends simpleController
             $oldForum->setPostsCount($oldForum->getPostsCount() - $thread->getPostsCount());
             // если в переносимом треде был последний пост
             if ($oldForum->getLastPost()->getThread()->getId() == $thread->getId()) {
+                // ищем другой последний тред и устанавливаем его последним
                 $criteria = new criteria();
                 $criteria->addJoin($forum->section() . '_post', new criterion('p.thread_id', 'thread.id', criteria::EQUAL, true), 'p', criteria::JOIN_INNER);
                 $criteria->add('forum_id', $oldForum->getId());
+                $criteria->add('id', $thread->getId(), criteria::NOT_EQUAL);
                 $criteria->setOrderByFieldDesc('p.post_date');
                 $criteria->setLimit(1);
                 $last_thread = $threadMapper->searchOneByCriteria($criteria);
@@ -60,10 +63,10 @@ class forumMoveThreadController extends simpleController
             }
             $forumMapper->save($oldForum);
 
-
             $forum->setThreadsCount($forum->getThreadsCount() + 1);
             $forum->setPostsCount($forum->getPostsCount() + $thread->getPostsCount());
-            if ($forum->getLastPost()->getPostDate() < $thread->getLastPost()->getPostDate()) {
+            // если в новом разделе последний пост был раньше - меняем на текущий (из переносимой темы)
+            if (!$forum->getLastPost() || $forum->getLastPost()->getPostDate() < $thread->getLastPost()->getPostDate()) {
                 $forum->setLastPost($thread->getLastPost());
             }
             $forumMapper->save($forum);
@@ -88,7 +91,7 @@ class forumMoveThreadController extends simpleController
             $options['category_' . $category->getId()]['items'] = $tmp;
         }
 
-        $options['category_' . $thread->getForum()->getCategory()->getId()]['items'][$thread->getForum()->getId()]['disabled'] = 'disabled';
+        //$options['category_' . $thread->getForum()->getCategory()->getId()]['items'][$thread->getForum()->getId()]['disabled'] = 'disabled';
 
         $url = new url('withId');
         $url->add('id', $id);
@@ -100,13 +103,13 @@ class forumMoveThreadController extends simpleController
         $this->smarty->assign('thread', $thread);
         return $this->smarty->fetch('forum/moveThread.tpl');
     }
-}
 
-function checkForumExists($id, $thread)
-{
-    $forumMapper = $thread->getForum()->getMapper();
-    $forum = $forumMapper->searchByKey($id);
-    return $forum && $forum->getId() != $thread->getForum()->getId();
+    public function checkForumExists($id, $thread)
+    {
+        $forumMapper = $thread->getForum()->getMapper();
+        $forum = $forumMapper->searchByKey($id);
+        return $forum && $forum->getId() != $thread->getForum()->getId();
+    }
 }
 
 ?>
