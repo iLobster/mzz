@@ -76,7 +76,6 @@ class newsMapper extends simpleMapper
      */
     protected function insertDataModify(&$fields)
     {
-        $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
         $fields['updated'] = $fields['created'];
     }
 
