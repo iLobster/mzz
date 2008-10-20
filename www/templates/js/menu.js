@@ -1,9 +1,9 @@
 var menu = ({
     openedMenuTree: null,
 
-    up: function(elm)
+    up: function(id, menu_id)
     {
-
+        var elm = 'item_' + id;
         var prev = $(elm).previousSiblings().first();
         if (prev) {
             prev.insert({before: $(elm)});
@@ -12,6 +12,7 @@ var menu = ({
         }
 
         menu.markChanged(elm);
+        menu._activateSave(menu_id);
 
         return false;
 
@@ -20,8 +21,9 @@ var menu = ({
         return false;*/
     },
 
-    down: function(elm)
+    down: function(id, menu_id)
     {
+        var elm = 'item_' + id;
         var next = $(elm).next();
         if (next) {
             next.insert({after: $(elm)});
@@ -29,6 +31,7 @@ var menu = ({
             $(elm).up('ul').firstDescendant().insert({before: $(elm)});
         }
         menu.markChanged(elm);
+        menu._activateSave(menu_id);
 
         return false;
     },
@@ -51,7 +54,7 @@ var menu = ({
             tree: true,
             scroll: window,
             onUpdate: function(e) {
-                $('menuTree_' + id + '_apply').enable().setValue('Применить');
+                menu._activateSave(id);
             }
         });
         Draggables.addObserver(new menuObserver('menuTree_' + id));
@@ -75,6 +78,11 @@ var menu = ({
         });
     },
 
+
+    _activateSave: function(id)
+    {
+        $('menuTree_' + id + '_apply').enable().setValue('Применить');
+    },
 
     markChanged: function(elm)
     {
