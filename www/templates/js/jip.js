@@ -794,6 +794,7 @@ jipMenu = Class.create({
                     }
                     if (elm[3] == true) {
                         jipMenu.setLangTimer('open', (function () { jipMenu.drawLang(jipMenuTableTR, elm[1]); }).delay(0.5));
+                        jipMenuTableTR.observe('click', Event.stop);
                     } else {
                         jipMenu.closeLang();
                     }
