@@ -297,3 +297,9 @@ div.helpMessage {
     padding: 5px;
     margin: 5px;
 }
+
+.clear {
+    clear: both;
+    height: 0;
+    overflow: hidden;
+}
