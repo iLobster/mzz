@@ -240,8 +240,8 @@ class tagsMapper extends simpleMapper
         $min_weight = min($weights);
         $max_weight = max($weights);
 
-        //@todo $max(максимальный вес тега) вынести в конфиг
-        $max = 5;
+        $config = systemToolkit::getInstance()->getConfig('tags');
+        $max = $config->get('maxWeight');
         $thresholds = array();
         foreach (range(0, $max) as $i) {
             $thresholds[] = pow($max_weight - $min_weight + 1, $i / $max);

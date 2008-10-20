@@ -5850,7 +5850,7 @@ CREATE TABLE `sys_cfg_titles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=16 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=18 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_cfg_titles` table  (LIMIT 0,500)
@@ -5871,7 +5871,9 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
   (12,'Количество постов на странице'),
   (13,'Путь до каталога хранения файлов в модуле fileManager'),
   (14,'Тем на страницу'),
-  (15,'Количество тем на страницу');
+  (15,'Количество тем на страницу'),
+  (16,'Минимальная длина тега (символов)'),
+  (17,'Максимальный вес тега');
 COMMIT;
 
 #
@@ -5913,7 +5915,7 @@ CREATE TABLE `sys_cfg_values` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `cfg_id_name` (`cfg_id`, `name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=57 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=59 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
@@ -5939,7 +5941,9 @@ INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `type_id`, `value
   (53,15,1,1,1,'60'),
   (54,26,11,12,2,'10'),
   (55,21,12,13,1,'root/gallery'),
-  (56,26,13,15,2,'10');
+  (56,26,13,15,2,'10'),
+  (57,23,14,16,2,'2'),
+  (58,23,15,17,2,'5');
 COMMIT;
 
 #
@@ -5954,7 +5958,7 @@ CREATE TABLE `sys_cfg_vars` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=14 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=16 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_cfg_vars` table  (LIMIT 0,500)
@@ -5973,7 +5977,9 @@ INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
   (10,'length'),
   (11,'posts_per_page'),
   (12,'fileManager_path'),
-  (13,'threads_per_page');
+  (13,'threads_per_page'),
+  (14,'minLength'),
+  (15,'maxWeight');
 COMMIT;
 
 #
@@ -8036,7 +8042,7 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
   (1,12,'guest','',NULL,NULL,1203767612,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1224332344,2,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1224532019,1,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
@@ -8055,7 +8061,7 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=111 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=112 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -8068,7 +8074,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (107,2,'127.0.0.1','35ceae055495b7779742cae2e4538fa7',NULL,1203767634),
   (108,2,'127.0.0.1','3975d51e7376dcd60beb9579cc486629',NULL,1203767672),
   (109,2,'127.0.0.1','af345a7c47151521536239c1a9f7f673',NULL,1207535424),
-  (110,2,'127.0.0.1','a9d2342a0b234d6bcbc174a9f1b08964',NULL,1209854243);
+  (110,2,'127.0.0.1','a9d2342a0b234d6bcbc174a9f1b08964',NULL,1209854243),
+  (111,2,'127.0.0.1','55da3321d2b291e27df62e33928b6cf2',NULL,1224535110);
 COMMIT;
 
 #
@@ -8116,14 +8123,14 @@ CREATE TABLE `user_userOnline` (
   UNIQUE KEY `user_id` (`user_id`, `session`),
   KEY `last_activity` (`last_activity`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=303 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=305 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (302,2,'an3apepfv53i7331e193o8q526',1224532019,'http://mzz-dev.ru/ru/admin/menu/menu/editConfig?ajax=1','127.0.0.1');
+  (304,2,'an3apepfv53i7331e193o8q526',1224535346,'http://mzz-dev.ru/','127.0.0.1');
 COMMIT;
 
 #

@@ -60,8 +60,8 @@ class forumLastController extends simpleController
             $cnt['cnt']++;
         }
 
-        // в конфиг закинуть число постов и тредов на странице
-        $per_page = 5;
+        $config = $this->toolkit->getConfig('forum');
+        $per_page = $config->get('posts_per_page');
 
         $page = ceil($cnt['cnt'] / $per_page);
 

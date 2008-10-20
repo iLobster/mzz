@@ -34,10 +34,12 @@ class tagsItem extends simple
             if ($this->single) {
                 $tags = (array)trim($tags);
             } else {
+                $config = systemToolkit::getInstance()->getConfig('tags');
+                $minLength = $config->get('minLength');
                 $tags = explode(',', $tags);
                 $tags = array_map('trim', $tags);
                 foreach ($tags as $i => $t) {
-                    if(strlen($t) < 2) { // @todo minLength?
+                    if(strlen($t) < $minLength) {
                         unset($tags[$i]);
                     }
                 }
