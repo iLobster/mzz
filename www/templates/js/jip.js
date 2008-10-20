@@ -660,6 +660,7 @@ jipMenu = Class.create({
         this.layertimer = false;
         this.current = $H({"menu": false, "button": false});
         this.eventKeypress  = this.keyPress.bindAsEventListener(this);
+        this.eventDocumentClick  = this.documentClick.bindAsEventListener(this);
         this.eventResize  = this.setPosition.bindAsEventListener(this);
         this.jipMenu = false;
         this.langs = {};
@@ -671,6 +672,12 @@ jipMenu = Class.create({
 
     keyPress: function(event) {
         if (event.keyCode == Event.KEY_ESC && this.current.get('menu') != false && this.current.get('button') != false) {
+            this.close();
+        }
+    },
+
+    documentClick: function() {
+        if (this.current.get('menu') != false && this.current.get('button') != false) {
             this.close();
         }
     },
@@ -716,6 +723,7 @@ jipMenu = Class.create({
         this.jipMenu.stopObserving("mouseout", this.eventMouseOut);
         this.jipMenu.stopObserving("mouseover", this.eventMouseIn);
         document.stopObserving("keypress", this.eventKeypress);
+        document.stopObserving("click", this.eventDocumentClick);
         Event.stopObserving(window, "resize", this.eventResize);
         this.current.get('button').writeAttribute('src',  SITE_PATH + '/templates/images/jip.gif');
         this.mouseIn();
@@ -819,6 +827,7 @@ jipMenu = Class.create({
         jipMenuDiv.observe("mouseout", this.eventMouseOut);
         jipMenuDiv.observe("mouseover", this.eventMouseIn);
         document.observe("keypress", this.eventKeypress);
+        (function () { document.observe("click", jipMenu.eventDocumentClick); }).defer();
         //window.observe("resize", this.eventResize());
         Event.observe(window, "resize", this.eventResize);
 
