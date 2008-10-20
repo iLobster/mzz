@@ -44,6 +44,15 @@
                     {/foreach}
                 {/if}
             {/foreach}
+                  <tr>
+                      <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/config.gif" alt="" /></td>
+                      {assign var='section_name' value=$module.sections|@key}
+                      <td class="menuSection"><a href="{url route="default2" section="admin" action="configuration"}">
+                          {if $current_action eq 'configuration'}<strong>{/if}
+                          Конфигурация
+                          {if $current_action eq 'configuration'}</strong>{/if}
+                      </a></td>
+                  </tr>
             </table>
             <div class="patch_minheight"></div>
         </div>

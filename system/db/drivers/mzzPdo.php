@@ -101,7 +101,7 @@ class mzzPdo extends PDO
             self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             try {
-                self::$instances[$alias]->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+                self::$instances[$alias]->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                 self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
             } catch (PDOException $e) {
                 if ($e->getCode() != 'IM001') {

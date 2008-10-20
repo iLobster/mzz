@@ -5713,7 +5713,7 @@ CREATE TABLE `sys_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=103 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=104 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_actions` table  (LIMIT 0,500)
@@ -5795,7 +5795,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (99,'groupAdmin'),
   (100,'editProfile'),
   (101,'massAction'),
-  (102,'translate');
+  (102,'translate'),
+  (103,'configuration');
 COMMIT;
 
 #
@@ -6057,7 +6058,7 @@ CREATE TABLE `sys_classes_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=287 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=288 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -6100,7 +6101,6 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (39,11,5),
   (40,11,19),
   (41,11,9),
-  (42,9,20),
   (46,13,9),
   (47,13,7),
   (48,13,6),
@@ -6250,7 +6250,6 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (280,52,14),
   (281,48,100),
   (282,20,101),
-  (283,9,102),
   (284,53,9),
   (285,54,9),
   (286,53,3);
@@ -8037,7 +8036,7 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
   (1,12,'guest','',NULL,NULL,1203767612,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1223739832,2,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1224332344,2,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
@@ -8117,14 +8116,14 @@ CREATE TABLE `user_userOnline` (
   UNIQUE KEY `user_id` (`user_id`, `session`),
   KEY `last_activity` (`last_activity`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=302 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=303 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (301,2,'birql4hfmiimnnijklqcbcgdd7',1224332344,'http://mzz-dev.ru/ru/admin/15/listCfg?ajax=1','127.0.0.1');
+  (302,2,'an3apepfv53i7331e193o8q526',1224532019,'http://mzz-dev.ru/ru/admin/menu/menu/editConfig?ajax=1','127.0.0.1');
 COMMIT;
 
 #

@@ -303,3 +303,15 @@ div.helpMessage {
     height: 0;
     overflow: hidden;
 }
+
+.configurationItem {
+  width: 50%;
+  padding: 5px;
+  border-bottom: 1px solid #EBEBEB;
+  font-size: 90%;
+}
+
+.configurationItem img {
+  float: left;
+  margin-right: 6px;
+}
