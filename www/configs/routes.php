@@ -2,6 +2,7 @@
 //$router->enableDebug();
 $router->addRoute('withAnyParam', new requestRoute(':section/:name/:action', array('name' => 'root', 'action' => 'view'), array('name' => '.+?')));
 $router->addRoute('default2', new requestRoute(':section/:action'));
+$router->addRoute('adminDefault', new requestRoute('admin', array('section' => 'admin', 'action' => 'admin')));
 
 //$router->addRoute('cfgEdit', new requestRoute('config/:section_name/:module_name/:action', array('section' => 'config'), array('action' => 'editCfg')));
 
