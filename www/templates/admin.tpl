@@ -2,7 +2,7 @@
 <div id="page">
     <div id="header">
         <div class="loginInfo">{load module="user" action="login" section="user" id=0 tplPrefix="admin"}</div>
-        <div class="siteName"><div>www.mzz.ru</div></div>
+        <div class="siteName"><div><a href="{$SITE_PATH}/">www.mzz.ru</a></div></div>
         <div class="favorite">
             <div>
                 <a href="{$SITE_PATH}/"><img src="{$SITE_PATH}/templates/images/admin/favorite.gif" class="favoriteIcon" width="18" height="16" alt="Site" title="Перейти на сайт" /></a>

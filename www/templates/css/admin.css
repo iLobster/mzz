@@ -128,6 +128,11 @@ div#mainbarWithoutSidebar {
   font-weight: bold;
 }
 
+#header .siteName a {
+  color:#fff;
+  text-decoration: none;
+}
+
 #header .favorite {
   width: 100%;
   height: 30px;
