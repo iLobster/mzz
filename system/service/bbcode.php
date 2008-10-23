@@ -1,15 +1,50 @@
 <?php
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2006
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage toolkit
+ * @version $Id$
+ */
 
+/**
+ * bbcode: Парсер BB-кодов и смайлов
+ *
+ * @package system
+ * @subpackage service
+ * @version 0.1
+ */
 class bbcode
 {
+    /**#@+
+    * Состояния парсера
+    */
     const PARSER_START = 1;
-
     const PARSER_TEXT = 2;
-
     const PARSER_TAG_OPENED = 3;
+    /**#@-*/
 
-    protected $smileys = array();
+    /**
+     * Набор смайлов
+     *
+     * @var array
+     */
+    protected $smileys = array(
+    ':)' => 'smile'
+    );
 
+    /**
+     * BB-коды
+     *
+     * @var array
+     */
     protected $tags = array(
     'b' => array(
     'html' => '<strong>%1$s</strong>',
@@ -34,16 +69,33 @@ class bbcode
     'attributes' => array('1', '2', '3')
     ),
     'quote' => array(
-    'html' => '<span>quote:"%2$s" - %1$s</span>',
+    'callback' => 'handleQuote'
     ),
     'img' => array(
-    'html' => '<img src="%1$s" title="%2$s" alt="%2$s" />',
+    'callback' => 'handleImg'
     ),
     'url' => array(
     'callback' => 'handleUrl'
     ),
+    'code' => array(
+    'callback' => 'handleCode',
+    'no_wordwrap' => true,
+    'no_smileys' => true
+    ),
     );
 
+    /**
+     * Кэш смайлов где они хранятся с HTML кодом
+     *
+     * @var array
+     */
+    protected $smileys_cache;
+
+    /**
+     * Конструктор
+     *
+     * @param string $content текст, в котором будут заменены bb-коды
+     */
     public function __construct($content = null)
     {
         if ($content) {
@@ -51,6 +103,12 @@ class bbcode
         }
     }
 
+    /**
+     * Обрабатывает bb-коды в тексте и возвращает результат
+     *
+     * @param string $content текст, в котором будут заменены bb-коды
+     * @return string текст с замененными bb-кодами
+     */
     public function parse($content = null)
     {
         if ($content) {
@@ -59,6 +117,7 @@ class bbcode
 
         $result = $this->parseArray($this->prepareTags($this->buildBBData($this->content)));
 
+        // исключаем xss
         $find = array('/(javascript|about|vbscript):/si', '/&(?![a-z0-9#]+;)/si');
         $replace = array('$1<b></b>:', '&amp;');
         $result = preg_replace($find, $replace, $result);
@@ -66,6 +125,12 @@ class bbcode
         return $result;
     }
 
+    /**
+     * Собирает массив из текста, который необходим для дальнейшей обработки
+     *
+     * @param string $text
+     * @return array
+     */
     protected function buildBBData($text)
     {
         $startPos = 0;
@@ -217,6 +282,12 @@ class bbcode
         return $output;
     }
 
+    /**
+     * Исправляет вложенные и незакрытые bb-коды
+     *
+     * @param array $preparsed
+     * @return array
+     */
     protected function prepareTags($preparsed)
     {
         $output = array();
@@ -320,7 +391,13 @@ class bbcode
         return $output;
     }
 
-    protected function parseArray($preparsed, $do_smilies = false, $do_html = false)
+    /**
+     * Собирает из массива HTML-код
+     *
+     * @param array $preparsed
+     * @return string конечный результат
+     */
+    protected function parseArray($preparsed)
     {
         $output = '';
 
@@ -330,6 +407,8 @@ class bbcode
         $node_max = count($preparsed);
         $current = null;
         $node_num = 0;
+        $no_wordwrap = 0;
+        $no_smileys = 0;
 
         foreach ($preparsed as $node) {
             $pending = null;
@@ -337,13 +416,23 @@ class bbcode
 
             if ($node['type'] == 'text') {
                 $pending =& $node['data'];
-                $pending = $this->wordwrap($pending);
+                $pending = $no_wordwrap == 0 ? $this->wordwrap($pending) : $pending;
+
+                if ($no_smileys == 0) {
+                    $pending = $this->parseSmileys($pending);
+                }
+
             } elseif ($node['closing'] == false) {
                 $node['data'] = '';
                 array_unshift($stack, $node);
                 ++$stack_size;
-
                 $tag = &$this->tags[$node['name']];
+                if (!empty($tag['no_wordwrap'])) {
+                    $no_wordwrap++;
+                }
+                if (!empty($tag['no_smileys'])) {
+                    $no_smileys++;
+                }
             } else {
                 if (($key = $this->findFirstTag($node['name'], $stack)) !== false) {
                     $open = &$stack[$key];
@@ -360,10 +449,12 @@ class bbcode
                             }
                         }
 
-                        /*
-                        if (trim($open['data'])) {
-                        $pending = sprintf($tag['html'], $open['data'], $open['option']);
-                        }*/
+                        if (!empty($tag['no_wordwrap'])) {
+                            $no_wordwrap--;
+                        }
+                        if (!empty($tag['no_smileys'])) {
+                            $no_smileys--;
+                        }
                     } else {
                         $pending = '&#91;' . $open['name'] . (($open['option'] && $open['option'] != '') ? '=' . $open['delimiter'] . $open['option'] . $open['delimiter'] : '') . '&#93;';
                     }
@@ -385,6 +476,13 @@ class bbcode
         return $output;
     }
 
+    /**
+     * Поиск первого тега bb-кода
+     *
+     * @param string $tag имя bb-кода
+     * @param array $stack
+     * @return string|false
+     */
     protected function findFirstTag($tag, &$stack)
     {
         foreach ($stack as $key => $node) {
@@ -396,6 +494,14 @@ class bbcode
         return false;
     }
 
+    /**
+     * Проверяет существует ли такой bb-код
+     *
+     * @param string $tag
+     * @param boolean $isClosed
+     * @param boolean $option
+     * @return boolean
+     */
     protected function isValidTag($tag, $isClosed = false, $option = false)
     {
         if ($tag) {
@@ -420,22 +526,45 @@ class bbcode
         return false;
     }
 
-    protected function parseSmiles($content = null)
+    /**
+     * Заменяет текстовые смайлы на HTML-картинки
+     *
+     * @param string $content
+     * @return string
+     */
+    protected function parseSmileys($content)
     {
-        if (!$content) {
-            $content = $this->content;
+        if (!$this->smileys_cache) {
+            $this->buildSmileys();
         }
-
-        $smileys = array_keys($this->smileys);
-        $pics = array_values($this->smileys);
-
-        return str_replace($smileys, $pics, $content);
+        return str_replace(array_keys($this->smileys), $this->smileys_cache, $content);
     }
 
+    /**
+     * Заменяет HTML-картинки смайлов на их текстовый эквивалент
+     *
+     * @param string $content
+     * @return string
+     */
+    protected function removeSmileys($content)
+    {
+        if (!$this->smileys_cache) {
+            $this->buildSmileys();
+        }
+        return str_replace($this->smileys_cache, array_keys($this->smileys), $content);
+    }
+
+    /**
+     * Обработчик для [url=$link]$text[/url]
+     *
+     * @param string $text
+     * @param string $link
+     * @return string
+     */
     protected function handleUrl($text, $link)
     {
-        $link = trim($link);
-        $text = trim($text);
+        $link = trim($this->removeSmileys($link));
+        $text = trim($this->removeSmileys($text));
 
         if (empty($link)) {
             $link = $text;
@@ -462,20 +591,67 @@ class bbcode
         return sprintf('<a href="%1$s" target="_blank">%2$s</a>', $link, $text);
     }
 
-    protected function handleQuote($message, $user = '')
+    /**
+     * Обработчик для [img=$link]$alt[/img]
+     *
+     * @param string $link
+     * @param string $alt
+     * @return string
+     */
+    protected function handleImg($link, $alt = '')
     {
-        $post = 0;
-
-        if (preg_match('/^(.+)(?<!&#\d{3}|&#\d{4}|&#\d{5});\s*(\d+)\s*$/U', $user, $match)) {
-            $user = $match[1];
-            $post = $match[2];
+        $link = $this->removeSmileys($link);
+        if (preg_match('#^(https?://([^*\r\n]+|[a-z\d/\\._\- !]+))$#i', $link)) {
+            $link = str_replace(array('  ', '"'), '', $link);
+            $alt = str_replace('"', '', $alt);
+            if (empty($alt)) {
+                $alt = $link;
+            }
+            return sprintf('<img src="%1$s" alt="%2$s" title="%2$s" />', $link, $alt);
         }
-
-        return $html;
     }
 
+    /**
+     * Обработчик для [quote=$user]$message[/quote]
+     *
+     * @param string $message
+     * @param string $user
+     * @return string
+     */
+    protected function handleQuote($message, $author = '')
+    {
+        $wrote = i18n::getMessage('quote_wrote', 'simple');
 
-    protected function wordwrap($text, $wraptext = '  ', $limit = 40)
+        $html = '<div class="quote">';
+        if (!empty($author)) {
+            $html .= '<div class="quoteAuthor">' . $author . ' ' . $wrote . ':</div>';
+        }
+
+        return $html . trim($message) . '</div>';
+    }
+
+    /**
+     * Обработчик для [code]$code[/code]
+     *
+     * @param string $code
+     * @return string
+     */
+    protected function handleCode($code)
+    {
+        $code = str_replace(array('<br>', '<br />'), '', $code);
+
+        return '<pre class="code">' . $code . '</pre>';
+    }
+
+    /**
+     * Разделяет текст на необходимое количество строк с использованием разделителя
+     *
+     * @param string $text
+     * @param integer $limit максимальная длина строки
+     * @param string $wraptext разделитель строк
+     * @return string
+     */
+    protected function wordwrap($text,$limit = 40, $wraptext = '  ')
     {
         $regex = '#((?>[^\s&/<>"\\-\[\]]|&[\#a-z0-9]{1,7};){' . $limit . '})(?=[^\s&/<>"\\-\[\]]|&[\#a-z0-9]{1,7};)#i';
         $limit = (int)$limit;
@@ -487,5 +663,17 @@ class bbcode
         }
     }
 
+    /**
+     * Конвертирует смайлы в HTML-тег <img>, готовые для замены текстовых смайлов
+     *
+     */
+    protected function buildSmileys()
+    {
+        $this->smileys_cache = array();
+        $html = '<img src="' . SITE_PATH . '/templates/images/smileys/%1$s.gif" alt="%2$s" />';
+        foreach ($this->smileys as $smiley => $image) {
+            $this->smileys_cache[] =  sprintf($html, $image, $smiley);
+        }
+    }
 }
 ?>

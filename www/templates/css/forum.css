@@ -208,3 +208,25 @@ table.quickPost td {
 table.quickPost td.quickReplyForm {
   width: 160px;
 }
+
+.quote, .code {
+  border: 1px solid #DCE5EF;
+  background-color: #F5F7F8;
+  padding: 8px;
+  margin: 8px;
+  margin-bottom: -5px;
+  line-height: 130%;
+  overflow: auto;
+  color: #000;
+}
+
+.code {
+  padding: 5px;
+  margin: 5px;
+  font-size: 120%;
+}
+
+.quoteAuthor {
+  font-size: 85%;
+  font-weight: bold;
+}
