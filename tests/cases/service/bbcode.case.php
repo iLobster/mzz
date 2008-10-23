@@ -18,6 +18,9 @@ class bbcodeTest extends unitTestCase
     {
         $bbcode_parser = new bbcode('[i]test[/i]');
         $this->assertEqual('<em>test</em>', $bbcode_parser->parse());
+        
+        $bbcode_parser = new bbcode('[code]testtest[/code]');
+        $this->assertEqual('<pre class="code">testtest</pre>', $bbcode_parser->parse());
 
         $bbcode_parser = new bbcode('[s]test[/s]');
         $this->assertEqual('<strike>test</strike>', $bbcode_parser->parse());
@@ -29,16 +32,22 @@ class bbcodeTest extends unitTestCase
     public function testParseBBCodeWithAttributes()
     {
         $bbcode_parser = new bbcode('[quote=zerkms]test[/quote]');
-        $this->assertEqual('<span>quote:"zerkms" - test</span>', $bbcode_parser->parse());
+        $this->assertTrue(preg_match('#<div class="quote"><div class="quoteAuthor">zerkms .*?:</div>test</div>#', $bbcode_parser->parse()));
 
         $bbcode_parser = new bbcode('[color=red]test[/color]');
-        $this->assertEqual('<font color="red">test</font>', $bbcode_parser->parse());
+        $this->assertEqual('<span style="color: red;">test</span>', $bbcode_parser->parse());
 
         $bbcode_parser = new bbcode('[size=1]test[/size]');
         $this->assertEqual('<font size="+1">test</font>', $bbcode_parser->parse());
 
         $bbcode_parser = new bbcode('[img="Mzz Framework"]http://mzz.ru/templates/images/logo.gif[/img]');
-        $this->assertEqual('<img src="http://mzz.ru/templates/images/logo.gif" title="Mzz Framework" alt="Mzz Framework" />', $bbcode_parser->parse());
+        $this->assertEqual('<img src="http://mzz.ru/templates/images/logo.gif" alt="Mzz Framework" title="Mzz Framework" />', $bbcode_parser->parse());
+        
+        $bbcode_parser = new bbcode('[url="http://mzz.ru"]mzz[/url]');
+        $this->assertEqual('<a href="http://mzz.ru" target="_blank">mzz</a>', $bbcode_parser->parse());
+        
+        $bbcode_parser = new bbcode('[url="mail@example.com"]write me[/url]');
+        $this->assertEqual('<a href="mailto:mail@example.com" target="_blank">write me</a>', $bbcode_parser->parse());
     }
 
     public function testParseBBCodeWithWrongAttributes()
@@ -69,6 +78,19 @@ class bbcodeTest extends unitTestCase
 
         $bbcode_parser = new bbcode('test[/b]');
         $this->assertEqual('test[/b]', $bbcode_parser->parse());
+    }
+    
+    public function testWordWrap()
+    {
+        $bbcode_parser = new bbcode(str_repeat('s', 70));
+        $this->assertTrue(strpos($bbcode_parser->parse(), ' '));
+    }
+    
+    public function testNoWordWrap()
+    {
+    	$str = str_repeat('s', 70);
+        $bbcode_parser = new bbcode('[code]' . $str . '[/code]');
+        $this->assertEqual('<pre class="code">' . $str . '</pre>', $bbcode_parser->parse());
     }
 }
 ?>

@@ -13,6 +13,8 @@
  * @subpackage toolkit
  * @version $Id$
  */
+ 
+fileLoader::load('i18n');
 
 /**
  * bbcode: Парсер BB-кодов и смайлов
