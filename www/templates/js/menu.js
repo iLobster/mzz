@@ -15,10 +15,6 @@ var menu = ({
         menu._activateSave(menu_id);
 
         return false;
-
-      /* $(elm).parentNode.insertBefore($(elm), $(elm).previousSiblings().first());
-        alert($(elm).previousSiblings().first());
-        return false;*/
     },
 
     down: function(id, menu_id)
@@ -30,6 +26,38 @@ var menu = ({
         } else {
             $(elm).up('ul').firstDescendant().insert({before: $(elm)});
         }
+        menu.markChanged(elm);
+        menu._activateSave(menu_id);
+
+        return false;
+    },
+
+    right: function(id, menu_id)
+    {
+        var elm = 'item_' + id;
+
+        var prev = $(elm).previousSiblings().first();
+        if (!prev) {
+            return false;
+        }
+        prev.select('ul').first().insert($(elm));
+
+        menu.markChanged(elm);
+        menu._activateSave(menu_id);
+
+        return false;
+    },
+
+    left: function(id, menu_id)
+    {
+        var elm = 'item_' + id;
+
+        var prev = $(elm).up('li');
+        if (!prev) {
+            return false;
+        }
+        prev.insert({after: $(elm)});
+
         menu.markChanged(elm);
         menu._activateSave(menu_id);
 
