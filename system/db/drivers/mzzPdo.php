@@ -77,7 +77,10 @@ class mzzPdo extends PDO
     {
         $this->alias = $alias;
         parent::__construct($dsn, $username, $password, $pdoOptions);
-        $this->query("SET NAMES '" . $charset . "'");
+
+        if (substr($dsn, 0, 5) == 'mysql') {
+            $this->query("SET NAMES '" . $charset . "'");
+        }
     }
 
     /**
@@ -101,7 +104,9 @@ class mzzPdo extends PDO
             self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             try {
-                self::$instances[$alias]->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+                // из-за проблем вынимания lastInsertId с prepared-запросов в mysql 4.x
+                // пользуемся парсером pdo
+                self::$instances[$alias]->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
                 self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
             } catch (PDOException $e) {
                 if ($e->getCode() != 'IM001') {
