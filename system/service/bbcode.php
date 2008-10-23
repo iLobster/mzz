@@ -8,37 +8,40 @@ class bbcode
 
     const PARSER_TAG_OPENED = 3;
 
-    protected $smiles = array();
+    protected $smileys = array();
 
     protected $tags = array(
-        'b' => array(
-                'html' => '<strong>%1$s</strong>',
-            ),
-        'i' => array(
-                'html' => '<em>%1$s</em>',
-            ),
-        'u' => array(
-                'html' => '<span style="text-decoration: underline;">%1$s</span>',
-            ),
-        's' => array(
-                'html' => '<strike>%1$s</strike>',
-            ),
-        'color' => array(
-                'html' => '<font color="%2$s">%1$s</font>',
-                'permanentWithAttributes' => true,
-                'attributes' => array('red', 'blue', 'green')
-            ),
-        'size' => array(
-                'html' => '<font size="+%2$s">%1$s</font>',
-                'permanentWithAttributes' => true,
-                'attributes' => array('1', '2', '3')
-            ),
-        'quote' => array(
-                'html' => '<span>quote:"%2$s" - %1$s</span>',
-            ),
-        'img' => array(
-                'html' => '<img src="%1$s" title="%2$s" alt="%2$s" />',
-            ),
+    'b' => array(
+    'html' => '<strong>%1$s</strong>',
+    ),
+    'i' => array(
+    'html' => '<em>%1$s</em>',
+    ),
+    'u' => array(
+    'html' => '<span style="text-decoration: underline;">%1$s</span>',
+    ),
+    's' => array(
+    'html' => '<strike>%1$s</strike>',
+    ),
+    'color' => array(
+    'html' => '<span style="color: %2$s;">%1$s</span>',
+    'permanentWithAttributes' => true,
+    'attributes' => array('red', 'blue', 'green')
+    ),
+    'size' => array(
+    'html' => '<font size="+%2$s">%1$s</font>',
+    'permanentWithAttributes' => true,
+    'attributes' => array('1', '2', '3')
+    ),
+    'quote' => array(
+    'html' => '<span>quote:"%2$s" - %1$s</span>',
+    ),
+    'img' => array(
+    'html' => '<img src="%1$s" title="%2$s" alt="%2$s" />',
+    ),
+    'url' => array(
+    'callback' => 'handleUrl'
+    ),
     );
 
     public function __construct($content = null)
@@ -54,7 +57,13 @@ class bbcode
             $this->content = $content;
         }
 
-        return $this->parse_array($this->prepareTags($this->buildBBData($this->content)));
+        $result = $this->parseArray($this->prepareTags($this->buildBBData($this->content)));
+
+        $find = array('/(javascript|about|vbscript):/si', '/&(?![a-z0-9#]+;)/si');
+        $replace = array('$1<b></b>:', '&amp;');
+        $result = preg_replace($find, $replace, $result);
+
+        return $result;
     }
 
     protected function buildBBData($text)
@@ -72,22 +81,22 @@ class bbcode
                 case self::PARSER_START:
                     if (($tagOpenPos = strpos($text, '[', $startPos)) === false) {
                         $tmpData = array(
-                            'start' => $startPos,
-                            'end' => $strlen
+                        'start' => $startPos,
+                        'end' => $strlen
                         );
                         $state = self::PARSER_TEXT;
                     } elseif ($tagOpenPos != $startPos) {
                         $tmpData = array(
-                            'start' => $startPos,
-                            'end' => $tagOpenPos
+                        'start' => $startPos,
+                        'end' => $tagOpenPos
                         );
                         $state = self::PARSER_TEXT;
                     } else {
                         $startPos = $tagOpenPos + 1;
                         if ($startPos >= $strlen) {
                             $tmpData = array(
-                                'start' => $tagOpenPos,
-                                'end' => $strlen
+                            'start' => $tagOpenPos,
+                            'end' => $strlen
                             );
                             $startPos = $tagOpenPos;
                             $state = self::PARSER_TEXT;
@@ -103,8 +112,8 @@ class bbcode
                         $output[key($output)]['data'] .= substr($text, $tmpData['start'], $tmpData['end'] - $tmpData['start']);
                     } else {
                         $output[] = array(
-                            'type' => 'text',
-                            'data' => substr($text, $tmpData['start'], $tmpData['end'] - $tmpData['start'])
+                        'type' => 'text',
+                        'data' => substr($text, $tmpData['start'], $tmpData['end'] - $tmpData['start'])
                         );
                     }
 
@@ -115,8 +124,8 @@ class bbcode
                 case self::PARSER_TAG_OPENED:
                     if (($tagClosePos = strpos($text, ']', $startPos)) === false) {
                         $tmpData = array(
-                            'start' => $startPos - 1,
-                            'end' => $startPos
+                        'start' => $startPos - 1,
+                        'end' => $startPos
                         );
                         $state = self::PARSER_TEXT;
                         break;
@@ -133,18 +142,18 @@ class bbcode
 
                         if ($this->isValidTag($tagName, $closing_tag)) {
                             $output[] = array(
-                                'type' => 'tag',
-                                'name' => $tagName,
-                                'option' => false,
-                                'closing' => $closing_tag
+                            'type' => 'tag',
+                            'name' => $tagName,
+                            'option' => false,
+                            'closing' => $closing_tag
                             );
 
                             $startPos = $tagClosePos + 1;
                             $state = self::PARSER_START;
                         } else {
                             $tmpData = array(
-                                'start' => $startPos - 1 - ($closing_tag ? 1 : 0),
-                                'end' => $startPos
+                            'start' => $startPos - 1 - ($closing_tag ? 1 : 0),
+                            'end' => $startPos
                             );
                             $state = self::PARSER_TEXT;
                         }
@@ -153,8 +162,8 @@ class bbcode
 
                         if (!$this->isValidTag($tagName, true)) {
                             $tmpData = array(
-                                'start' => $startPos - 1,
-                                'end' => $startPos
+                            'start' => $startPos - 1,
+                            'end' => $startPos
                             );
                             $state = self::PARSER_TEXT;
                             break;
@@ -184,19 +193,19 @@ class bbcode
                         $tagOption = substr($text, $tagOptStartPos + $delim_len, $tagClosePos - ($tagOptStartPos + $delim_len));
                         if ($this->isValidTag($tagName, false, $tagOption)) {
                             $output[] = array(
-                                'type' => 'tag',
-                                'name' => $tagName,
-                                'option' => $tagOption,
-                                'delimiter' => $delimiter,
-                                'closing' => false
+                            'type' => 'tag',
+                            'name' => $tagName,
+                            'option' => $tagOption,
+                            'delimiter' => $delimiter,
+                            'closing' => false
                             );
 
                             $startPos = $tagClosePos + $delim_len;
                             $state = self::PARSER_START;
                         } else {
                             $tmpData = array(
-                                'start' => $startPos - 1,
-                                'end' => $startPos
+                            'start' => $startPos - 1,
+                            'end' => $startPos
                             );
                             $state = self::PARSER_TEXT;
                         }
@@ -208,7 +217,7 @@ class bbcode
         return $output;
     }
 
-    function prepareTags($preparsed)
+    protected function prepareTags($preparsed)
     {
         $output = array();
         $stack = array();
@@ -220,8 +229,8 @@ class bbcode
             } elseif ($node['closing'] == false) {
                 if ($noparse !== null) {
                     $output[] = array(
-                        'type' => 'text',
-                        'data' => '[' . $node['name'] . (($node['option']) ? '=' . $node['delimiter'] . $node['option'] . $node['delimiter'] : '') . ']'
+                    'type' => 'text',
+                    'data' => '[' . $node['name'] . (($node['option']) ? '=' . $node['delimiter'] . $node['option'] . $node['delimiter'] : '') . ']'
                     );
                     continue;
                 }
@@ -239,8 +248,8 @@ class bbcode
             } else {
                 if ($noparse !== null && $node['name'] != 'noparse') {
                     $output[] = array(
-                        'type' => 'text',
-                        'data' => '[/' . $node['name'] . ']'
+                    'type' => 'text',
+                    'data' => '[/' . $node['name'] . ']'
                     );
                 } else if (($key = $this->findFirstTag($node['name'], $stack)) !== false) {
                     if ($node['name'] == 'noparse') {
@@ -266,9 +275,9 @@ class bbcode
 
                         for ($i = 0; $i < $key; $i++) {
                             $output[] = array(
-                                'type' => 'tag',
-                                'name' => $stack[$i]['name'],
-                                'closing' => true
+                            'type' => 'tag',
+                            'name' => $stack[$i]['name'],
+                            'closing' => true
                             );
                             $max_key++;
                             $stack[$i]['added_list'][] = $max_key;
@@ -290,44 +299,45 @@ class bbcode
                     $stack = array_values($stack);
                 } else {
                     $output[] = array(
-                        'type' => 'text',
-                        'data' => '[/' . $node['name'] . ']'
+                    'type' => 'text',
+                    'data' => '[/' . $node['name'] . ']'
                     );
                 }
             }
         }
 
-        foreach ($stack AS $open)
+        foreach ($stack as $open)
         {
             foreach ($open['added_list'] AS $node_key) {
                 unset($output[$node_key]);
             }
             $output[$open['my_key']] = array(
-                'type' => 'text',
-                'data' => '[' . $open['name'] . (!empty($open['option']) ? '=' . $open['delimiter'] . $open['option'] . $open['delimiter'] : '') . ']'
+            'type' => 'text',
+            'data' => '[' . $open['name'] . (!empty($open['option']) ? '=' . $open['delimiter'] . $open['option'] . $open['delimiter'] : '') . ']'
             );
         }
 
         return $output;
     }
 
-    function parse_array($preparsed, $do_smilies = false, $do_html = false)
+    protected function parseArray($preparsed, $do_smilies = false, $do_html = false)
     {
         $output = '';
 
         $stack = array();
         $stack_size = 0;
 
+        $node_max = count($preparsed);
         $current = null;
         $node_num = 0;
-        $node_max = count($preparsed);
 
-        foreach ($preparsed AS $node) {
-            $node_num++;
+        foreach ($preparsed as $node) {
             $pending = null;
+            $node_num++;
 
             if ($node['type'] == 'text') {
                 $pending =& $node['data'];
+                $pending = $this->wordwrap($pending);
             } elseif ($node['closing'] == false) {
                 $node['data'] = '';
                 array_unshift($stack, $node);
@@ -342,9 +352,18 @@ class bbcode
                     if (isset($this->tags[$open['name']])) {
                         $tag = &$this->tags[$open['name']];
 
-                        if (trim($open['data'])) {
-                            $pending = sprintf($tag['html'], $open['data'], $open['option']);
+                        if (isset($tag['callback'])) {
+                            $pending = $this->$tag['callback']($open['data'], $open['option']);
+                        } else {
+                            if (trim($open['data'])) {
+                                $pending = sprintf($tag['html'], $open['data'], $open['option']);
+                            }
                         }
+
+                        /*
+                        if (trim($open['data'])) {
+                        $pending = sprintf($tag['html'], $open['data'], $open['option']);
+                        }*/
                     } else {
                         $pending = '&#91;' . $open['name'] . (($open['option'] && $open['option'] != '') ? '=' . $open['delimiter'] . $open['option'] . $open['delimiter'] : '') . '&#93;';
                     }
@@ -412,5 +431,61 @@ class bbcode
 
         return str_replace($smileys, $pics, $content);
     }
+
+    protected function handleUrl($text, $link)
+    {
+        $link = trim($link);
+        $text = trim($text);
+
+        if (empty($link)) {
+            $link = $text;
+        }
+
+        $link = str_replace(array('`', '"', "'", '['), array('&#96;', '&quot;', '&#39;', '&#91;'), $link);
+
+        $link = str_replace('  ', '', $link);
+        $text = str_replace('  ', '', $text);
+
+        if (!strpos($link, ':') && strpos($link, '@')) {
+            $link = 'mailto:' . $link;
+        } elseif (!preg_match('#^[\d\w]+(?<!about|javascript|vbscript|data):#si', $link)) {
+            $link = "http://" . $link;
+        }
+
+        if (!$link || $text == $link) {
+            $tmp = htmlspecialchars_decode($link);
+            if (strlen($tmp) > 60) {
+                $text = htmlspecialchars(substr($tmp, 0, 30) . '...' . substr($tmp, -15));
+            }
+        }
+
+        return sprintf('<a href="%1$s" target="_blank">%2$s</a>', $link, $text);
+    }
+
+    protected function handleQuote($message, $user = '')
+    {
+        $post = 0;
+
+        if (preg_match('/^(.+)(?<!&#\d{3}|&#\d{4}|&#\d{5});\s*(\d+)\s*$/U', $user, $match)) {
+            $user = $match[1];
+            $post = $match[2];
+        }
+
+        return $html;
+    }
+
+
+    protected function wordwrap($text, $wraptext = '  ', $limit = 40)
+    {
+        $regex = '#((?>[^\s&/<>"\\-\[\]]|&[\#a-z0-9]{1,7};){' . $limit . '})(?=[^\s&/<>"\\-\[\]]|&[\#a-z0-9]{1,7};)#i';
+        $limit = (int)$limit;
+
+        if ($limit > 0 && !empty($text)) {
+            return preg_replace($regex, '$0' . $wraptext, $text);
+        } else {
+            return $text;
+        }
+    }
+
 }
 ?>
