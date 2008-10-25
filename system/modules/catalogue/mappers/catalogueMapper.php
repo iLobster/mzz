@@ -60,7 +60,7 @@ class catalogueMapper extends simpleCatalogueMapper
 
         $action = $request->getAction();
 
-        if ($action == 'addType' || $action == 'addProperty') {
+        if ($action == 'addType' || $action == 'addProperty' || $action == 'adminTypes' || $action == 'adminProperties') {
             return $this->getAccess();
         } elseif ($action == 'editType' || $action == 'deleteType') {
             $type = $this->getType($args['id']);

@@ -12,7 +12,11 @@ var massActionMove = "{url route="withAnyParam" name=$catalogueFolder->getPath()
 }
 </script>{/literal}
 {/if}
-<p class="pageTitle">Список элементов</p>
+<p class="pageTitle">
+    <strong>Список элементов</strong> /
+    <a href="{url route="default2" action="adminTypes"}">Типы</a> /
+    <a href="{url route="default2" action="adminProperties"}">Свойства</a>
+</p>
 <div class="pageContent">
 {include file="breadcrumbs.tpl" breadCrumbs=$chains section=$current_section module="catalogue"}
 {if $massActionAccess}{form action="" onsubmit="jipWindow.open((($('massAction').value == 'delete') ? massActionDelete : massActionMove), false, 'POST', $(this).serialize(true)); return false;"}{/if}
@@ -76,56 +80,4 @@ var massActionMove = "{url route="withAnyParam" name=$catalogueFolder->getPath()
     </select>
     <input type="submit" value="OK" /></div>
 </form>{/if}
-</div>
-<br /><br /><br />
-<p class="pageTitle">Список типов <a href="{url route="default2" section=$current_section action="addType"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить тип" title="Добавить тип" /></a></p>
-<div class="pageContent">
-    <table cellspacing="0" cellpadding="3" class="tableList">
-        <thead class="tableListHead">
-            <tr>
-                <td style="width: 30px;">&nbsp;</td>
-                <td style="text-align: left;">Название</td>
-                <td style="text-align: left;">Тип</td>
-                <td style="width: 30px;">JIP</td>
-            </tr>
-        </thead>
-    {foreach from=$types item="type"}
-        <tr>
-            <td>&nbsp;</td>
-            <td>{$type.title}</td>
-            <td>{$type.name}</td>
-            <td align="center">
-                {assign var="typeId" value=$type.id}
-                {include file="jip.tpl" jipMenuId="jip_types_$typeId" jip=$jipTypes[$type.id]}
-            </td>
-        </tr>
-    {/foreach}
-    </table>
-</div>
-<br /><br />
-<p class="pageTitle">Список параметров <a href="{url route="default2" section=$current_section action="addProperty"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить свойство" title="Добавить свойство" /></a></p>
-<div class="pageContent">
-    <table cellspacing="0" cellpadding="3" class="tableList">
-        <thead class="tableListHead">
-            <tr>
-                <td style="width: 30px;">&nbsp;</td>
-                <td style="text-align: left;">Название</td>
-                <td style="text-align: left;">Свойство</td>
-                <td style="text-align: left;">Тип</td>
-                <td style="width: 30px;">JIP</td>
-            </tr>
-        </thead>
-    {foreach from=$properties item="property"}
-        <tr>
-            <td>&nbsp;</td>
-            <td>{$property.title}</td>
-            <td>{$property.name}</td>
-            <td>{$property.type}</td>
-            <td align="center">
-                {assign var="propId" value=$property.id}
-                {include file="jip.tpl" jipMenuId="jip_properties_$propId" jip=$jipProperties[$property.id]}
-            </td>
-        </tr>
-    {/foreach}
-    </table>
 </div>

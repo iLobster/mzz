@@ -35,64 +35,18 @@ class catalogueAdminController extends simpleController
 
         $catalogueFolder = $catalogueFolderMapper->searchByPath($path);
 
+        if (!$catalogueFolder) {
+            return $catalogueFolderMapper->get404()->run();
+        }
+
         $chain = $catalogueFolderMapper->getParentBranch($catalogueFolder);
         $this->smarty->assign('chains', $chain);
 
-        $types = $catalogueMapper->getAllTypes();
-        $properties = $catalogueMapper->getAllProperties();
-
-        $langs = locale::searchAll();
-        $this->smarty->assign('langs', $langs);
-
-        $jipTypes = array();
-        $url = new url('withId');
-        foreach($types as $type){
-            $url->add('id', $type['id']);
-
-            $url->setAction('editType');
-            $jipTypes[$type['id']][] = array(
-                            'title' => 'Редактировать',
-                            'url' => $url->get(),
-                            'icon' => SITE_PATH . '/templates/images/edit.gif',
-                            'lang' => false,
-                        );
-
-            $url->setAction('deleteType');
-            $jipTypes[$type['id']][] = array(
-                            'title' => 'Удалить',
-                            'url' => $url->get(),
-                            'icon' => SITE_PATH . '/templates/images/delete.gif',
-                            'lang' => false,
-                        );
-        }
-
-        $jipProperties = array();
-        $url = new url('withId');
-        foreach($properties as $property){
-            $url->add('id', $property['id']);
-            $url->setAction('editProperty');
-            $jipProperties[$property['id']][] = array(
-                            'title' => 'Редактировать',
-                            'url' => $url->get(),
-                            'icon' => SITE_PATH . '/templates/images/edit.gif',
-                            'lang' => false,
-                        );
-
-            $url->setAction('deleteProperty');
-            $jipProperties[$property['id']][] = array(
-                            'title' => 'Удалить',
-                            'url' => $url->get(),
-                            'icon' => SITE_PATH . '/templates/images/delete.gif',
-                            'lang' => false,
-                        );
-        }
-
         $pager = $this->setPager($catalogueFolder);
 
-        $this->smarty->assign('jipTypes', $jipTypes);
-        $this->smarty->assign('jipProperties', $jipProperties);
+        $types = $catalogueMapper->getAllTypes();
         $this->smarty->assign('types', $types);
-        $this->smarty->assign('properties', $properties);
+
         $this->smarty->assign('items', $catalogueFolder->getItems());
         $this->smarty->assign('catalogueFolder', $catalogueFolder);
         return $this->smarty->fetch('catalogue/admin.tpl');
