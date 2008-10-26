@@ -24,7 +24,7 @@ class votingViewActualController extends simpleController
 {
     public function getView()
     {
-        $name = $this->request->getInteger('name');
+        $name = $this->request->getString('name');
         $categoryMapper = $this->toolkit->getMapper('voting', 'voteCategory');
         $category = $categoryMapper->searchByName($name);
 

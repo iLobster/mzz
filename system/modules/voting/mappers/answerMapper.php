@@ -70,7 +70,7 @@ class answerMapper extends simpleMapper
             $answer = $this->searchById($args['id']);
 
             if ($answer) {
-                return $answer
+                return $answer;
             }
         }
 
