@@ -171,13 +171,16 @@ class locale
      */
     public function getId()
     {
-        if (empty($this->langId)) {
+        static $ids;
+
+        if (empty($this->langId) && !isset($ids[$this->name])) {
             $db = db::factory();
             $stmt = $db->query('SELECT `id` FROM `sys_lang` WHERE `name` = ' . $db->quote($this->name));
             $this->langId = (int)$stmt->fetchColumn();
+            $ids[$this->name] = $this->langId;
         }
 
-        return $this->langId;
+        return $ids[$this->name];
     }
 
     /**
