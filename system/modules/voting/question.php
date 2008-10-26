@@ -90,7 +90,7 @@ class question extends simple
     public function getAcl($name = null)
     {
         if ($name == 'post') {
-            if (!$this->isStarted() || $this->isExpired() || !$this->getVotes()) {
+            if (!$this->isStarted() || $this->isExpired() || (sizeof($this->getVotes()) != 0)) {
                 return false;
             }
         }

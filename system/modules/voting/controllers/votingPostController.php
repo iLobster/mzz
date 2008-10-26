@@ -53,7 +53,9 @@ class votingPostController extends simpleController
         }
         $backurl = $this->request->getString('url', SC_POST);
         if (!$backurl) {
-            $url = new url('default');
+            $url = new url('withId');
+            $url->setAction('results');
+            $url->add('id', $question->getId());
             $backurl = $url->get();
         }
 
