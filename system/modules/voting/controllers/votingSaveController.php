@@ -34,8 +34,18 @@ class votingSaveController extends simpleController
 
         if ($isEdit) {
             $question = $questionMapper->searchById($id);
+
+            if (!$question) {
+                return $questionMapper->get404()->run();
+            }
+
         } else {
             $category = $categoryMapper->searchById($id);
+
+            if (!$category) {
+                return $categoryMapper->get404();
+            }
+
             $question = $questionMapper->create();
         }
 

@@ -28,6 +28,10 @@ class votingViewActualController extends simpleController
         $categoryMapper = $this->toolkit->getMapper('voting', 'voteCategory');
         $category = $categoryMapper->searchByName($name);
 
+        if (!$category) {
+            return $categoryMapper->get404()->run();
+        }
+
         $question = $category->getActual();
 
         if (is_null($question) || !$question->getAcl('view')) {

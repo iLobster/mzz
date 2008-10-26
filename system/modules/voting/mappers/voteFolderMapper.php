@@ -47,7 +47,7 @@ class voteFolderMapper extends simpleMapper
 
     private function getObjId()
     {
-        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_voteFolder');
+        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_' . $this->className);
         $this->register($obj_id);
         return $obj_id;
     }
@@ -59,9 +59,7 @@ class voteFolderMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
-        $obj = $this->create();
-        $obj->import(array('obj_id' => $this->getObjId()));
-        return $obj;
+        return $this->getFolder();
     }
 }
 

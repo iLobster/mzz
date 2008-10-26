@@ -29,21 +29,22 @@ class votingViewController extends simpleController
 
         $question = $questionMapper->searchById($id);
 
+        if (!$question) {
+            return $questionMapper->get404()->run();
+        }
+
+        $this->smarty->assign('question', $question);
+
         if ($question->isExpired()) {
-            fileLoader::load('voting/controllers/votingResultsController');
-            $controller = new votingResultsController();
-            return $controller->run();
+            return $this->smarty->fetch('voting/results.tpl');
         }
 
         $votes = $question->getVotes();
         if (!empty($votes)) {
-            $this->smarty->assign('question', $question);
             $this->smarty->assign('answers', $question->getAnswers());
             $this->smarty->assign('votes', $votes);
             return $this->smarty->fetch('voting/alreadyVote.tpl');
         }
-
-        $this->smarty->assign('question', $question);
 
         $url = new url('withId');
         $url->setAction('post');

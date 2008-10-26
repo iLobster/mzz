@@ -45,7 +45,7 @@ class questionMapper extends simpleMapper
 
     public function getAllAnswers($id)
     {
-        $answerMapper = systemToolkit::getInstance()->getMapper('voting', 'answer');
+        $answerMapper = systemToolkit::getInstance()->getMapper('voting', 'answer', $this->section);
         return $answerMapper->searchAllByField('question_id', $id);
     }
 
@@ -74,10 +74,12 @@ class questionMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
-        $question = $this->searchById($args['id']);
+        if (isset($args['id'])) {
+            $question = $this->searchById($args['id']);
 
-        if ($question) {
-            return $question;
+            if ($question) {
+                return $question;
+            }
         }
 
         throw new mzzDONotFoundException();

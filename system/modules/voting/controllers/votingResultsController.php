@@ -29,6 +29,10 @@ class votingResultsController extends simpleController
 
         $question = $questionMapper->searchById($id);
 
+        if (!$question) {
+            $questionMapper->get404()->run();
+        }
+
         $this->smarty->assign('question', $question);
         return $this->smarty->fetch('voting/results.tpl');
     }

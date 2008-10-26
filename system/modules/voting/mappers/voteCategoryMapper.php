@@ -113,9 +113,13 @@ class voteCategoryMapper extends simpleMapper
         $action = systemToolkit::getInstance()->getRequest()->getAction();
 
         if ($action == 'viewActual') {
-            $category = $this->searchByName($args['name']);
+            if (isset($args['name'])) {
+                $category = $this->searchByName($args['name']);
+            }
         } else {
-            $category = $this->searchById($args['id']);
+            if (isset($args['id'])) {
+                $category = $this->searchById($args['id']);
+            }
         }
 
         if ($category) {

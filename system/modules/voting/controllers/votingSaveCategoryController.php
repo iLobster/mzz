@@ -30,7 +30,16 @@ class votingSaveCategoryController extends simpleController
         $action = $this->request->getAction();
         $isEdit = ($action == 'editCategory');
         $id = $this->request->getInteger('id');
-        $category = ($isEdit) ? $categoryMapper->searchById($id) : $categoryMapper->create();
+
+        if ($isEdit) {
+            $category = $categoryMapper->searchById($id);
+
+            if (!$category) {
+                return $categoryMapper->get404()->run();
+            }
+        } else {
+            $category = $categoryMapper->create();
+        }
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо задать имя категории');

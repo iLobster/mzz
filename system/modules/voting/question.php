@@ -24,6 +24,8 @@ class question extends simple
 {
     protected $name = 'voting';
 
+    protected $votes = null;
+
     public function getAnswers()
     {
         return $this->mapper->getAllAnswers($this->getId());
@@ -60,14 +62,18 @@ class question extends simple
 
     public function getVotes()
     {
-        $toolkit = systemToolkit::getInstance();
-        $user = $toolkit->getUser();
-        return $this->mapper->getVotes($this->getId(), $user);
+        if (is_null($this->votes)) {
+            $toolkit = systemToolkit::getInstance();
+            $user = $toolkit->getUser();
+            $this->votes = $this->mapper->getVotes($this->getId(), $user);
+        }
+
+        return $this->votes;
     }
 
     public function getResultsCount()
     {
-        $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
+        $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote', $this->section);
         return $voteMapper->getResultsCount($this->getId());
     }
 
@@ -79,6 +85,17 @@ class question extends simple
     public function isExpired()
     {
         return (time() >= $this->getExpired());
+    }
+
+    public function getAcl($name = null)
+    {
+        if ($name == 'post') {
+            if (!empty($this->getVotes()) || !$this->isStarted() || $this->isExpired()) {
+                return false;
+            }
+        }
+
+        return parent::getAcl($name);
     }
 }
 

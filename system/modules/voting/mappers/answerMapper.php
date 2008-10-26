@@ -66,9 +66,15 @@ class answerMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
-        $obj = $this->create();
-        $obj->import(array('obj_id' => 1));
-        return $obj;
+        if (isset($args['id'])) {
+            $answer = $this->searchById($args['id']);
+
+            if ($answer) {
+                return $answer
+            }
+        }
+
+        throw new mzzDONotFoundException();
     }
 }
 
