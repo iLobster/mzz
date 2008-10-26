@@ -15,7 +15,7 @@ class i18nTest extends UnitTestCase
 
         $this->tz = systemToolkit::getInstance()->getUserPreferences()->getTimezone();
 
-        systemToolkit::getInstance()->getUserPreferences()->setTimezone(0);
+        systemToolkit::getInstance()->getUserPreferences()->setTimezone(0 + (int) systemToolkit::getInstance()->getLocale()->isSummerTime());
     }
 
     public function tearDown()
@@ -105,9 +105,9 @@ class i18nTest extends UnitTestCase
     public function testDate()
     {
         $time = 1207110245;
-        $this->assertEqual(i18n::date($time), '04/02/2008 04:24:05 AM');
-        $this->assertEqual(i18n::date($time, 'short_time'), '04:24 AM');
-        $this->assertEqual(i18n::date($time, 'short_time', 'ru'), '04:24');
+        $this->assertEqual(i18n::date($time), '04/02/2008 05:24:05 AM');
+        $this->assertEqual(i18n::date($time, 'short_time'), '05:24 AM');
+        $this->assertEqual(i18n::date($time, 'short_time', 'ru'), '05:24');
     }
 }
 
