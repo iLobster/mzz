@@ -304,6 +304,8 @@ class actionGenerator
      */
     public function generate($action, $params)
     {
+        throw new Exception('Action generator currently unavailable, it will be fixed as soon as possible ;-)');
+
         $current_dir = getcwd();
         chdir(CUR_DEST_FOLDER);
 
@@ -351,25 +353,6 @@ class actionGenerator
 
         $controller_filename = $controllers_dir . DIRECTORY_SEPARATOR . $prefix . 'Controller.php';
 
-        /*$views_dir = 'views';
-
-        if (!is_dir($views_dir)) {
-        throw new Exception("Error: Views directory '" . $views_dir . "' not found");
-        }
-
-        $view_data = array(
-        'action' => $action,
-        'viewname' => $prefix . 'View',
-        'module' => $this->module,
-        'tplname' => $this->module . DIRECTORY_SEPARATOR . $action . '.tpl',
-        );
-
-        $view_filename = $views_dir . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'View.php';
-
-        if (is_file($view_filename)) {
-        throw new Exception('Error: view file already exists');
-        }*/
-
         $act_tpl_filename = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl';
 
         if (is_file($act_tpl_filename)) {
@@ -391,30 +374,16 @@ class actionGenerator
             }
         }
 
-        // записываем данные в actions файл
-        file_put_contents($actionsfile, $actions_output);
-        $this->log[] = $actionsfile;
-
         // записываем данные в файл контроллера, предварительно проверив, не был ли создан этот контроллер ранее
         if (!is_file($controller_filename)) {
             $smarty->assign('controller_data', $controller_data);
             $controller = $smarty->fetch('controller.tpl');
-            file_put_contents($controller_filename, $controller);
-            $this->log[] = $controller_filename;
         }
-
-        // записываем данные в файл вида
-        /*$smarty->assign('view_data', $view_data);
-        $view = $smarty->fetch('view.tpl');
-        file_put_contents($view_filename, $view);
-        $this->log[] = $view_filename;*/
 
         // записываем данные в активный шаблон
         $smarty->assign('action', $action);
         $smarty->assign('module', $this->module);
         $act_tpl = $smarty->fetch('act.tpl');
-        file_put_contents($act_tpl_filename, $act_tpl);
-        $this->log[] = $act_tpl_filename;
 
         if (!$skip_tpl) {
             // записываем данные в пассивный шаблон
@@ -422,15 +391,52 @@ class actionGenerator
             $smarty->assign('module', $this->module);
             $smarty->assign('path', $tpl_filename);
             $tpl = $smarty->fetch('template.tpl');
-            file_put_contents($tpl_filename, $tpl);
+        }
+
+        // запись в файлы
+
+        $data = array();
+
+        // actions
+        //file_put_contents($actionsfile, $actions_output);
+        $data[] = array($actionsfile, $actions_output);
+        $this->log[] = $actionsfile;
+        // controller
+        if (isset($controller)) {
+            //file_put_contents($controller_filename, $controller);
+            $data[] = array($controller_filename, $controller);
+            $this->log[] = $controller_filename;
+        }
+        // act_tpl
+        //file_put_contents($act_tpl_filename, $act_tpl);
+        $data[] = array($act_tpl_filename, $act_tpl);
+        $this->log[] = $act_tpl_filename;
+        // tpl
+        if (isset($tpl)) {
+            //file_put_contents($tpl_filename, $tpl);
+            $data[] = array($tpl_filename, $tpl);
             $this->log[] = $tpl_filename;
         } else {
             $this->log[] = $tpl_filename . ' <strong>[skipped]</strong>';
         }
 
+        $this->safeWrite($data);
+
         chdir($current_dir);
 
         return $this->log;
+    }
+
+    private function safeWrite($data)
+    {
+        foreach ($data as $val) {
+            $file = $val[0];
+            if (is_file($file)) {
+                if (!is_writable($file)) {
+                    throw new Exception('Файл недоступен для записи: ' . $file);
+                }
+            }
+        }
     }
 }
 
