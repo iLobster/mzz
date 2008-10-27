@@ -196,6 +196,21 @@ img {
     float: left;
 }
 
+#hcontainer div.langs {
+  font-size: 85%;
+  color: #E0E0E0;
+  float: right;
+  clear: both;
+  margin-right: 20px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#hcontainer div.langs a {
+  color: #E0E0E0;
+  font-weight: normal;
+}
+
 #content {
     min-height: 100%;
     line-height: 140%;

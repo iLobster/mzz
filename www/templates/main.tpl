@@ -4,6 +4,10 @@
     <div id="nonFooter">
         <div id="hbackground">
             <div id="hcontainer">
+                <div class="langs">
+                {if $current_lang neq 'ru'}<a href="{url lang="ru"}">RU</a>{else}RU{/if} |
+                {if $current_lang neq 'en'}<a href="{url lang="en"}">EN</a>{else}EN{/if}
+                </div>
                 <div><a href="{$SITE_PATH}/"><img src="{$SITE_PATH}/templates/images/mzz_logo.gif" width="146" height="42" alt="" /></a></div>
             </div>
         </div>

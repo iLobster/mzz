@@ -65,6 +65,7 @@ class contentFilter implements iFilter
         $smarty->assign('current_section', $request->getRequestedSection());
         $smarty->assign('current_action', $request->getRequestedAction());
         $smarty->assign('current_path', $request->getPath());
+        $smarty->assign('current_lang', $toolkit->getLocale()->getName());
 
         // если вывода ещё не было (не 404 страница), или был (404, но вернувшая false - что значит что должен быть запущен стандартный запуск через активный шаблон)
         if (!isset($output) || $output === false) {

@@ -62,6 +62,14 @@ function smarty_function_url($params, $smarty)
         $params['route'] = null;
     }
 
+    if(isset($params['lang'])){
+        $getUrl = false;
+        $params['route'] = $toolkit->getRouter()->getCurrentRoute()->getName();
+        $params = $params + $request->getParams();
+        $params['action'] = $request->getAction();
+        $params['section'] = $request->getSection();
+    }
+
     $onlyPath = false;
     if(isset($params['onlyPath'])){
         $onlyPath = true;

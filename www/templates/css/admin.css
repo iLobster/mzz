@@ -163,6 +163,13 @@ div#mainbarWithoutSidebar {
   padding-top: 8px;
 }
 
+#header .favorite .langs {
+  margin-right: 15px;
+  float: right;
+  padding: 0px;
+  color: #777;
+}
+
 #header img.favoriteIcon {
   margin-top: -1px;
   float: left;

@@ -8,6 +8,10 @@
                 <a href="{$SITE_PATH}/"><img src="{$SITE_PATH}/templates/images/admin/favorite.gif" class="favoriteIcon" width="18" height="16" alt="Site" title="Перейти на сайт" /></a>
                 <!--span class="doubleSeparator">&nbsp;</span> <a href="#">Добавить новость</a>
                 <span>&nbsp;</span> <a href="#">Добавить страницу</a-->
+                <div class="langs">
+                {if $current_lang neq 'ru'}<a href="{url lang="ru"}">RU</a>{else}<strong>RU</strong>{/if} |
+                {if $current_lang neq 'en'}<a href="{url lang="en"}">EN</a>{else}<strong>EN</strong>{/if}
+                </div>
             </div>
         </div>
     </div>
