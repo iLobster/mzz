@@ -12,6 +12,16 @@ form, table, tbody, tfoot, thead, tr, th, td {
     margin: 0;
 }
 
+fieldset, form, label, legend {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
 form {
     margin: 0;
     padding: 0;
