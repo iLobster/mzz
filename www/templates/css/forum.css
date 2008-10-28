@@ -2,20 +2,37 @@ div.forumTopPanel {
   border: 1px solid #D2DBE5;
   font-size: 85%;
   margin-bottom: 10px;
+  width: 100%;
 }
 
-div.forumTopPanel div.left {
+div.forumThreadPanel {
+  border: 1px solid #DDD;
+  border-bottom: 0;
+  font-size: 100%;
+  width: 100%;
+}
+
+div.forumContent {
+  width: 99%;
+}
+
+div.forumThreadPanel a, td.authorInfo a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+div.forumTopPanel div.left, div.forumThreadPanel div.left {
   float: left;
   padding: 6px;
 }
-div.forumTopPanel div.right {
+
+div.forumTopPanel div.right, div.forumThreadPanel div.right {
   float: right;
   padding: 6px;
 }
 
 table.forums {
   border: 0;
-  width: 100%;
   background-color: #D2DBE5;
 }
 
@@ -24,6 +41,12 @@ table.forums td, table.thread td {
 }
 
 table.thread {
+  border: 0;
+  width: 100%;
+}
+
+
+table.post {
   border: 1px solid #D2DBE5;
   width: 100%;
   margin-bottom: 5px;
@@ -51,6 +74,7 @@ td.forumCategory a, td.threadHeader a {
 
 td.threadHeader span {
   font-size: 80%;
+  font-weight: bold;
 }
 
 tr.forumFields td {
@@ -162,21 +186,38 @@ div.postLink {
   float: right;
 }
 
-td.postInfo {
+td.authorInfo {
   width: 160px;
-  border-right: 1px solid #D2DBE5;
-  border-top: 1px solid #D2DBE5;
+  border: 1px solid #E6E6E6;
+  border-top: 0;
+  border-bottom: 0;
+  padding: 10px;
+}
+
+td.postInfo {
+  padding: 2px 5px 0;
+  font-size: 85%;
+  border-right: 1px solid #E6E6E6;
+  height: 26px;
 }
 
 td.postContent {
-  border-top: 1px solid #D2DBE5;
+  border-top: 1px solid #EEE;
+  border-right: 1px solid #E6E6E6;
+  padding: 10px;
 }
 
 td.postActionsLeft {
-  border-right: 1px solid #D2DBE5;
+  border: 1px solid #E6E6E6;
+  border-top: 0;
 }
 
-div.postActions {
+td.postActions {
+  border-bottom: 1px solid #E6E6E6;
+  border-right: 1px solid #E6E6E6;
+}
+
+td.postActions div {
   text-align: right;
 }
 
@@ -229,4 +270,14 @@ table.quickPost td.quickReplyForm {
 .quoteAuthor {
   font-size: 85%;
   font-weight: bold;
+}
+
+table.post td.leftSide {
+  width: 160px;
+  border-right: 1px solid #D2DBE5;
+  border-top: 1px solid #D2DBE5;
+}
+
+table.post td.rightSide {
+  border-top: 1px solid #D2DBE5;
 }

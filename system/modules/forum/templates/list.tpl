@@ -1,16 +1,26 @@
 {title append="Форум"}
 {title append=$forum->getTitle()}
 {add file="forum.css"}
+<div class="forumContent">
 <div class="forumTopPanel">
-    <div class="left"><a href="{url route="default2" action="forum"}">MZZ Forums</a> / {$forum->getTitle()}</div>
+    <div class="left"><a href="{url route="default2" action="forum"}">MZZ Forums</a>
+    <img src="{$SITE_PATH}/templates/images/forum/arrow.gif" width="16" height="8" alt="" />
+    {$forum->getTitle()}</div>
     <div class="right"><a href="{url route="default2" action="new"}">новые сообщения</a></div>
     <div class="clearRight"></div>
 </div>
 
+<div class="forumThreadPanel">
+    <div class="right">
+       {if $forum->getAcl('newThread')}
+       <a href="{url route="withId" action="newThread" id=$forum->getId()}">Начать новую тему</a>
+       {/if}
+    </div>
+    <div class="clearRight"></div>
+</div>
 <table border="0" cellpadding="6" cellspacing="1" class="forums">
     <tr>
         <td colspan="4" class="forumCategory">
-        {if $forum->getAcl('newThread')}<span><a href="{url route="withId" action="newThread" id=$forum->getId()}">Начать новую тему</a></span>{/if}
         {$forum->getTitle()}
         </td>
     </tr>
@@ -21,7 +31,7 @@
         <td class="forumCounter">Просмотров</td>
     </tr>
 {foreach from=$stickys item="thread"}
-    <tr class="forumDetails">
+    <tr>
         <td class="threadName hotStatus stickThread forumOddColumn">
         <a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a>
         {assign var=id value=$thread->getId()}
@@ -44,7 +54,7 @@
     </tr>
 {/foreach}
 {foreach from=$threads item="thread"}
-    <tr class="forumDetails">
+    <tr>
         <td class="threadName hotStatus {if $thread->isNew() || $thread->isPopular()}new{else}noNew{/if}Posts forumOddColumn">
         <a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a>
         {assign var=id value=$thread->getId()}
@@ -71,3 +81,4 @@
 {if $pager->getPagesTotal() > 1}
     <div class="pages">{$pager->toString()}</div>
 {/if}
+</div>

@@ -1,5 +1,6 @@
 {title append="Форум"}
 {add file="forum.css"}
+<div class="forumContent">
 <div class="forumTopPanel">
     <div class="left"><a href="{url route="default2" action="forum"}">MZZ Forums</a></div>
     <div class="right"><a href="{url route="default2" action="new"}">новые сообщения</a></div>
@@ -18,7 +19,7 @@
         </tr>
         {foreach from=$category->getForums() item="forum"}
             {assign var="id" value=$forum->getId()}
-            <tr class="forumDetails">
+            <tr>
                 <td class="forumName hotStatus {if not empty($new_forums.$id)}new{else}noNew{/if}Threads forumOddColumn">
                 <a href="{url route="withId" action="list" id=$forum->getId()}">{$forum->getTitle()}</a>
                 {if $forum->getDescription()}<p class="forumDescription">{$forum->getDescription()}</p>{/if}
@@ -44,3 +45,4 @@
             <br />
         {/if}
 {/foreach}
+</div>

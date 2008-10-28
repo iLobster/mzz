@@ -1,8 +1,11 @@
 {title append="Форум"}
 {title append="Новые сообщения"}
 {add file="forum.css"}
+<div class="forumContent">
 <div class="forumTopPanel">
-    <div class="left"><a href="{url route="default2" action="forum"}">MZZ Forums</a> / Новые сообщения</div>
+    <div class="left"><a href="{url route="default2" action="forum"}">MZZ Forums</a>
+    <img src="{$SITE_PATH}/templates/images/forum/arrow.gif" width="16" height="8" alt="" />
+    Новые сообщения</div>
     <div class="right"><br /></div>
     <div class="clearRight"></div>
 </div>
@@ -20,7 +23,7 @@
         {/if}
     </tr>
 {foreach from=$threads item="thread"}
-    <tr class="forumDetails">
+    <tr>
         <td class="forumName hotStatus newPosts forumOddColumn">
         <a href="{url route=withId action=thread id=$thread->getId()}">{$thread->getTitle()}</a>
         {assign var=id value=$thread->getId()}
@@ -50,3 +53,4 @@
 {if $pager->getPagesTotal() > 1}
     <div class="pages">{$pager->toString()}</div>
 {/if}
+</div>
