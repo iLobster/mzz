@@ -113,12 +113,9 @@ div#mainbarWithoutSidebar {
   color: #B8D8EB;
 }
 
-#header .loginInfo div {
+#header .loginInfo div.loginForm {
   padding-right: 20px;
   padding-top: 18px;
-}
-
-#header .loginInfo .loginForm {
   font-size: 95%;
   float: right;
   margin-top: -15px;
