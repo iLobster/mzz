@@ -27,13 +27,18 @@
         <div class="headerBorderLine"><img src="{$SITE_PATH}/templates/images/spacer.gif" width="1" height="2" alt="" /></div>
         <div id="content">
 
-            <div{if $current_section != 'gallery' && $current_section != 'forum'} id="leftMainCol"{/if}>
+            <div{if false && $current_section != 'gallery' && $current_section != 'forum'} id="leftMainCol"{/if}>
                 <div id="container">
                     <!--  left column  -->
                     <div id="col1">
-                        {load module="menu" section="menu" action="view" name="smenu" tplPrefix="side"}
                         <div class="sideBlock">
                             {load module="user" action="loginForm" section="user" id=0}
+                        </div>
+                        <div class="sideBlock">
+                            <p class="sideBlockTitle">Опрос</p>
+                            <div class="sideBlockContent">
+                                {load module="voting" section="voting" action="viewActual" name="simple" 403handle="none"}
+                            </div>
                         </div>
                     </div>
 
@@ -44,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            {if $current_section != 'gallery' && $current_section != 'forum'}
+            {if false && $current_section != 'gallery' && $current_section != 'forum'}
             <!-- right column -->
             <div id="col3">
                 <div class="sideBlock">
