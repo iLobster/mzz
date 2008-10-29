@@ -423,7 +423,7 @@ class actionGenerator
         $this->safeWrite($data);
 
         chdir($current_dir);
-        throw new Exception('Nothing was thrown');
+
         return $this->log;
     }
 
