@@ -629,6 +629,7 @@ jipWindow = Class.create({
         if(event.keyCode == Event.KEY_ESC) {
             jipWindow.close();
             Event.stop(event);
+            return false;
         }
     },
 
@@ -676,8 +677,8 @@ jipMenu = Class.create({
         }
     },
 
-    documentClick: function() {
-        if (this.current.get('menu') != false && this.current.get('button') != false) {
+    documentClick: function(event) {
+        if (event.isLeftClick() && this.current.get('menu') != false && this.current.get('button') != false) {
             this.close();
         }
     },
