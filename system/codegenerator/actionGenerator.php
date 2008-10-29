@@ -10,14 +10,14 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * actionGenerator: класс для генерации экшнов
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.7
+ * @version 0.1.8
  */
 class actionGenerator
 {
@@ -115,7 +115,7 @@ class actionGenerator
 
         $res = $this->getClass($this->class);
 
-        $this->db->query($qry = 'INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . $res['id'] .', ' . $id . ')');
+        $this->db->query($qry = 'INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . $res['id'] . ', ' . $id . ')');
     }
 
     /**
@@ -160,10 +160,8 @@ class actionGenerator
             $this->safeUnlink('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'Controller.php');
             // удаляем шаблон
             $this->safeUnlink('templates' . DIRECTORY_SEPARATOR . $action . '.tpl');
-            //$this->safeUnlink('views' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'View.php');
 
             $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
-            //$this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
 
             chdir($current_dir);
         }
@@ -304,8 +302,6 @@ class actionGenerator
      */
     public function generate($action, $params)
     {
-        throw new Exception('Action generator currently unavailable, it will be fixed as soon as possible ;-)');
-
         $current_dir = getcwd();
         chdir(CUR_DEST_FOLDER);
 
@@ -342,14 +338,13 @@ class actionGenerator
             throw new Exception("Error: Controllers directory '" . $controllers_dir . "' not found");
         }
 
-        $controller_name = (isset($params['controller']) && !empty($params['controller']) ? $params['controller']  : $action);
+        $controller_name = (isset($params['controller']) && !empty($params['controller']) ? $params['controller'] : $action);
         $prefix = $this->module . ucfirst($controller_name);
         $controller_data = array(
-        'action' => $action,
-        'controllername' => $prefix . 'Controller',
-        'module' => $this->module,
-        'viewname' => $prefix . 'View',
-        );
+            'action' => $action,
+            'controllername' => $prefix . 'Controller',
+            'module' => $this->module,
+            'viewname' => $prefix . 'View');
 
         $controller_filename = $controllers_dir . DIRECTORY_SEPARATOR . $prefix . 'Controller.php';
 
@@ -395,26 +390,31 @@ class actionGenerator
 
         // запись в файлы
 
+
         $data = array();
 
         // actions
-        //file_put_contents($actionsfile, $actions_output);
-        $data[] = array($actionsfile, $actions_output);
+        $data[] = array(
+            $actionsfile,
+            $actions_output);
         $this->log[] = $actionsfile;
         // controller
         if (isset($controller)) {
-            //file_put_contents($controller_filename, $controller);
-            $data[] = array($controller_filename, $controller);
+            $data[] = array(
+                $controller_filename,
+                $controller);
             $this->log[] = $controller_filename;
         }
         // act_tpl
-        //file_put_contents($act_tpl_filename, $act_tpl);
-        $data[] = array($act_tpl_filename, $act_tpl);
+        $data[] = array(
+            $act_tpl_filename,
+            $act_tpl);
         $this->log[] = $act_tpl_filename;
         // tpl
         if (isset($tpl)) {
-            //file_put_contents($tpl_filename, $tpl);
-            $data[] = array($tpl_filename, $tpl);
+            $data[] = array(
+                $tpl_filename,
+                $tpl);
             $this->log[] = $tpl_filename;
         } else {
             $this->log[] = $tpl_filename . ' <strong>[skipped]</strong>';
@@ -423,7 +423,7 @@ class actionGenerator
         $this->safeWrite($data);
 
         chdir($current_dir);
-
+        throw new Exception('Nothing was thrown');
         return $this->log;
     }
 
@@ -435,7 +435,18 @@ class actionGenerator
                 if (!is_writable($file)) {
                     throw new Exception('Файл недоступен для записи: ' . $file);
                 }
+            } else {
+                $info = pathinfo($file);
+                $dir = $info['dirname'];
+
+                if (!is_writable($dir)) {
+                    throw new Exception('Директория недоступна для записи: ' . $dir);
+                }
             }
+        }
+
+        foreach ($data as $val) {
+            file_put_contents($val[0], $val[1]);
         }
     }
 }
