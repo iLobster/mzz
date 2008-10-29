@@ -1,3 +1,4 @@
+{block align="left:120" name="news_tree_view"}
 <div>
     <div id="newsFolders">
         <span class="title">{_ categories}</span><br />
@@ -15,3 +16,4 @@
 
     </div>
 </div>
+{/block}

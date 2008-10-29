@@ -15,6 +15,7 @@
 */
 
 fileLoader::load('acl');
+fileLoader::load('service/sideHelper');
 
 /**
  * smarty_function_load: функция для смарти, загрузчик модулей
@@ -37,6 +38,11 @@ function smarty_function_load($params, $smarty)
     if (!isset($params['module'])) {
         $error = "Template error. Module is not specified.";
         throw new mzzRuntimeException($error);
+    }
+
+    $side = sideHelper::getInstance();
+    if (isset($params['_side']) && $side->isHidden($params['module'] . '_' . $params['action'])) {
+        return null;
     }
 
     // получаем необходимые для запуска модуля и аутентификации данные
@@ -108,6 +114,7 @@ function smarty_function_load($params, $smarty)
     if ($access) {
         // если права на запуск модуля есть - запускаем
         $factory = new $modulename($action);
+        $controller = $factory->getController();
     } else {
         // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
         if (!isset($params['403tpl'])) {
@@ -122,19 +129,26 @@ function smarty_function_load($params, $smarty)
             if ($with403Header) {
                 $toolkit->getResponse()->setHeader('', 'HTTP/1.x 403 Forbidden');
             }
-
-            return $view;
         }
     }
 
-    if (!isset($controller)) {
-        $controller = $factory->getController();
+    if ($controller) {
+        // отдаём контент в вызывающий шаблон
+        $view = $controller->run();
+        $request->restore();
     }
 
-    // отдаём контент в вызывающий шаблон
-    $view = $controller->run();
-    $request->restore();
-    return $view;
+    if (isset($params['_side'])) {
+        $weigth = null;
+        if (strpos($params['_side'], ':')) {
+            $position = explode(':', $params['_side']);
+            $weigth = $position[1];
+            $params['_side'] = $position[0];
+        }
+        $side->set($params['_side'], $module . '_' . $action->getActionName(), $view, $weigth);
+    } else {
+        return $view;
+    }
 }
 
 ?>

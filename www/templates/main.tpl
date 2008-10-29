@@ -1,5 +1,6 @@
 {* main="header.tpl" placeholder="content" *}
-
+{load module="user" action="loginForm" section="user" id=0 _side="left"}
+{load module="voting" section="voting" action="viewActual" name="simple" 403handle="none" _side="left"}
 <div id="wrapper">
     <div id="nonFooter">
         <div id="hbackground">
@@ -31,7 +32,7 @@
                 <div id="container">
                     <!--  left column  -->
                     <div id="col1">
-                        <div class="sideBlock">
+                        {*<div class="sideBlock">
                             {load module="user" action="loginForm" section="user" id=0}
                         </div>
                         <div class="sideBlock">
@@ -39,7 +40,13 @@
                             <div class="sideBlockContent">
                                 {load module="voting" section="voting" action="viewActual" name="simple" 403handle="none"}
                             </div>
+                        </div>*}
+                        {side->get side="left" assign="leftSide"}
+                        {foreach from=$leftSide item="block"}
+                        <div class="sideBlock">
+                        {$block}
                         </div>
+                        {/foreach}
                     </div>
 
                     <!-- center column -->
