@@ -397,6 +397,8 @@ jipWindow = Class.create({
             yScroll = window.innerHeight + window.scrollMaxY;
         } else if (document.body.scrollHeight > document.body.offsetHeight){
             yScroll = document.body.scrollHeight;
+        } else if (document.documentElement && document.documentElement.scrollHeight > document.documentElement.offsetHeight){
+            yScroll = document.documentElement.scrollHeight;
         } else {
             yScroll = document.body.offsetHeight;
         }
