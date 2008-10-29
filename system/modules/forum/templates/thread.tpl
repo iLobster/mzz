@@ -93,7 +93,7 @@
     <tr>
         <td class="authorInfo forumOddColumn" valign="top" rowspan="2">
             <strong><a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}">{$post->getAuthor()->getUser()->getLogin()}</a></strong>
-            {if $post->getAuthor()->getAvatar()}<br /><br /><img src="{$post->getAuthor()->getAvatar()->getDownloadLink()}" alt="{$post->getAuthor()->getUser()->getLogin()} avatar" /><br />{/if}
+            {if $post->getAuthor()->getAvatar()}<br /><br /><img src="{$SITE_PATH}{$post->getAuthor()->getAvatar()->getDownloadLink()}" alt="{$post->getAuthor()->getUser()->getLogin()} avatar" /><br />{/if}
             <p class="forumDescription">Сообщений: {$post->getAuthor()->getMessages()}</p>
         </td>
         <td class="postInfo forumOddColumn">
