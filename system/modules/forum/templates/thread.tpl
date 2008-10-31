@@ -34,6 +34,7 @@
         {$thread->getTitle()}
         </td>
     </tr>
+{assign post_number=1}
 {foreach from=$posts item="post" name="post_cycle"}
     <tr>
         <td class="authorInfo" valign="top" rowspan="2">
@@ -42,8 +43,16 @@
             <p class="forumDescription">Сообщений: {$post->getAuthor()->getMessages()}</p>
         </td>
         <td class="postInfo forumOddColumn">
-        <div class="postLink">{math equation="(page - 1)* per_page + number" page=$pager->getRealPage() per_page=$pager->getPerPage() number=$smarty.foreach.post_cycle.iteration assign=post_number}
+        <div class="postLink">
+        {if !$thread->getIsStickyFirst() || $pager->getRealPage() == 1 || !$smarty.foreach.post_cycle.first}
+            {math equation="(page - 1)* per_page + number" page=$pager->getRealPage() per_page=$pager->getPerPage() number=$post_number assign=post_number}
+        {/if}
         <a href="{url route="withId" id=$post->getId() action="goto"}">#{$post_number}</a></div>
+        {if $thread->getIsStickyFirst() && $pager->getRealPage() != 1}
+            {assign post_number=$smarty.foreach.post_cycle.iteration}
+        {else}
+            {assign post_number=$post_number+1}
+        {/if}
         <div class="postIcon">
         <a name="post_{$post->getId()}"></a><img src="{$SITE_PATH}/templates/images/forum/posticon.gif" alt="" width="9" height="10" /> </div>
         {$post->getPostDate()|date_format:"%e %B %Y / %H:%M:%S"}
