@@ -6,17 +6,17 @@ div.forumTopPanel {
 }
 
 div.forumThreadPanel {
-  border: 1px solid #DDD;
   border-bottom: 0;
   font-size: 100%;
   width: 100%;
+  color: #999;
 }
 
 div.forumContent {
   width: 99%;
 }
 
-div.forumThreadPanel a, td.authorInfo a {
+td.authorInfo a.authorName {
   text-decoration: none;
   font-weight: bold;
 }
@@ -33,7 +33,7 @@ div.forumTopPanel div.right, div.forumThreadPanel div.right {
 
 table.forums {
   border: 0;
-  background-color: #D2DBE5;
+  background-color: #D2DCE6;
 }
 
 table.forums td, table.thread td {
@@ -47,7 +47,7 @@ table.thread {
 
 
 table.post {
-  border: 1px solid #D2DBE5;
+  border: 1px solid #D2DCE6;
   width: 100%;
   margin-bottom: 5px;
 }
@@ -56,8 +56,9 @@ td.forumCategory, td.threadHeader {
   padding: 5px;
   background: #8298B1 url('../images/forum/header_bg.png');
   font-size: 105%;
-  color: #fff;
+  color: #44545B;
   padding-left: 10px;
+  font-weight: bold;
 }
 
 td.forumCategory {
@@ -69,7 +70,8 @@ td.forumCategory span, td.threadHeader span {
 }
 
 td.forumCategory a, td.threadHeader a {
-  color: #fff;
+  color: #44545B;
+  font-weight: bold;
 }
 
 td.threadHeader span {
@@ -149,11 +151,11 @@ p.forumDescription {
 }
 
 td.forumOddColumn {
-  background-color: #F8FAFB !important;
+  background-color: #FAFBFB !important;
 }
 
 td.forumEvenColumn {
-  background-color: #EEF2F5 !important;
+  background-color: #F2F4F4 !important;
 }
 
 div.postDate {
@@ -192,6 +194,7 @@ td.authorInfo {
   border-top: 0;
   border-bottom: 0;
   padding: 10px;
+  background-color: #F9FAFB !important;
 }
 
 td.postInfo {
@@ -280,4 +283,21 @@ table.post td.leftSide {
 
 table.post td.rightSide {
   border-top: 1px solid #D2DBE5;
+}
+
+img.forumAvatar {
+  border: 1px solid #E3E7EA;
+}
+
+span.forumButton {
+  margin-right: 10px;
+}
+
+span.forumButton a {
+  font-size: 90%;
+  color: #475C74;
+}
+
+span.forumButton a:hover {
+  color: #030303;
 }

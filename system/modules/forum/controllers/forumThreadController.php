@@ -32,12 +32,16 @@ class forumThreadController extends simpleController
         $thread = $threadMapper->searchByKey($id);
 
         $config = $this->toolkit->getConfig('forum');
-        $this->setPager($postsMapper, $config->get('posts_per_page'));
+        $pager = $this->setPager($postsMapper, $config->get('posts_per_page'));
 
         $posts = $postsMapper->searchAllByField('thread_id', $id);
 
         $forumMapper = $thread->getForum()->getMapper();
         $forumMapper->storeView($thread);
+
+        if ($thread->getIsStickyFirst() && $pager->getRealPage() != 1) {
+            array_unshift($posts, $thread->getFirstPost());
+        }
 
         $this->smarty->assign('posts', $posts);
         $this->smarty->assign('thread', $thread);
