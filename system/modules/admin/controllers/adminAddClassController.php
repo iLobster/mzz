@@ -59,11 +59,14 @@ class adminAddClassController extends simpleController
             $module_name = $data['name'];
         }
 
+        $data['dest'] = $adminMapper->getDests(true, $module_name);
+
         $validator = new formValidator();
         $validator->add('required', 'name', 'Обязательное для заполнения поле');
         $validator->add('callback', 'name', 'Название должно быть уникально', array('checkUniqueClass', $db, $data['name'], $isEdit));
         $validator->add('regex', 'name', 'Разрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
-
+        $validator->add('required', 'dest', 'Нет прав на запись в директорию');
+        $validator->add('callback', 'dest', 'Нет прав на запись в директорию', array(array($this, 'checkdest'), $data['dest']));
 
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);
@@ -90,7 +93,7 @@ class adminAddClassController extends simpleController
                 }
 
                 $editAclId = $db->getOne("SELECT `id` FROM `sys_actions` WHERE `name` = 'editACL'");
-                $db->query('INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . $class_id .', ' . $editAclId . ')');
+                $db->query('INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . $class_id . ', ' . $editAclId . ')');
 
                 $adminMapper->registerClassInSections($class_id);
 
@@ -117,8 +120,6 @@ class adminAddClassController extends simpleController
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('isEdit', $isEdit);
 
-        $data['dest'] = $adminMapper->getDests(true, $module_name);
-
         if (!$isEdit) {
             $data['name'] = '';
         }
@@ -126,6 +127,12 @@ class adminAddClassController extends simpleController
         $this->smarty->assign('data', $data);
         return $this->smarty->fetch('admin/addClass.tpl');
     }
+
+    public function checkdest($val, $dest)
+    {
+        return count($dest) > 0;
+    }
+
 }
 
 function checkUniqueClass($name, $db, $currentName, $isEdit)

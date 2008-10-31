@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('codegenerator/safeGenerate');
+
 /**
  * actionGenerator: класс для генерации экшнов
  *
@@ -157,25 +159,13 @@ class actionGenerator
             file_put_contents($actionsfile, $actions_output);
 
             // удаляем контроллер
-            $this->safeUnlink('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'Controller.php');
+            safeGenerate::delete('controllers' . DIRECTORY_SEPARATOR . $this->module . ucfirst($action) . 'Controller.php');
             // удаляем шаблон
-            $this->safeUnlink('templates' . DIRECTORY_SEPARATOR . $action . '.tpl');
+            safeGenerate::delete('templates' . DIRECTORY_SEPARATOR . $action . '.tpl');
 
-            $this->safeUnlink(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
+            safeGenerate::delete(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $action . '.tpl');
 
             chdir($current_dir);
-        }
-    }
-
-    /**
-     * Метод для удаления файлов, с проверкой их существования
-     *
-     * @param string $filename
-     */
-    public function safeUnlink($filename)
-    {
-        if (file_exists($filename)) {
-            unlink($filename);
         }
     }
 
@@ -201,25 +191,16 @@ class actionGenerator
             $controllerCode = str_replace($oldName, $newName, $controllerCode);
             $controllerCode = str_replace(ucfirst($oldName), ucfirst($newName), $controllerCode);
 
-            $data[] = array(
-                $oldPath,
-                $newPath,
-                $controllerCode);
-
+            $data[] = array($oldPath, $newPath, $controllerCode);
 
             if (is_file($tmp = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $oldName . '.tpl')) {
                 $code = file_get_contents($tmp);
                 $code = str_replace($oldName, $newName, $code);
 
-                $data[] = array(
-                    $tmp,
-                    systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl',
-                    $code);
+                $data[] = array($tmp, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR . $newName . '.tpl', $code);
             }
             if (is_file($tmp = 'templates' . DIRECTORY_SEPARATOR . $oldName . '.tpl')) {
-                $data[] = array(
-                    $tmp,
-                    'templates' . DIRECTORY_SEPARATOR . $newName . '.tpl');
+                $data[] = array($tmp, 'templates' . DIRECTORY_SEPARATOR . $newName . '.tpl');
             }
         }
 
@@ -228,12 +209,9 @@ class actionGenerator
 
         $actions_output = $this->composeIniData($actions, $params, $newName, $oldName);
 
-        $data[] = array(
-            $actionsfile,
-            $actionsfile,
-            $actions_output);
+        $data[] = array($actionsfile, $actionsfile, $actions_output);
 
-        $this->safeRename($data);
+        safeGenerate::rename($data);
 
         $res = $this->getAction($oldName);
         if ($res) {
@@ -245,44 +223,6 @@ class actionGenerator
         $this->addToDB($newName);
 
         chdir($current_dir);
-    }
-
-    /**
-     * Метод переименования файлов с проверкой на права
-     *
-     * @param array $data
-     */
-    private function safeRename($data)
-    {
-        foreach ($data as $val) {
-            if (!is_file($val[0])) {
-                throw new Exception('Файла не существует: ' . $val[0]);
-            }
-
-            if (is_file($val[1]) && $val[1] != $val[0]) {
-                throw new Exception('Такой файл уже есть: ' . $val[1]);
-            }
-
-            if (!is_writable($val[0])) {
-                throw new Exception('Нет прав на переименование файла: ' . $val[0]);
-            }
-
-            $info = pathinfo($val[1]);
-            $dir = $info['dirname'];
-
-            if (!is_writable($dir)) {
-                throw new Exception('Нет прав на переименование файла: ' . $val[0] . ' в директории: ' . $dir);
-            }
-        }
-
-        foreach ($data as $val) {
-            if ($val[0] != $val[1]) {
-                rename($val[0], $val[1]);
-            }
-            if (isset($val[2])) {
-                file_put_contents($val[1], $val[2]);
-            }
-        }
     }
 
     /**
@@ -394,11 +334,7 @@ class actionGenerator
 
         $controller_name = (isset($params['controller']) && !empty($params['controller']) ? $params['controller'] : $action);
         $prefix = $this->module . ucfirst($controller_name);
-        $controller_data = array(
-            'action' => $action,
-            'controllername' => $prefix . 'Controller',
-            'module' => $this->module,
-            'viewname' => $prefix . 'View');
+        $controller_data = array('action' => $action, 'controllername' => $prefix . 'Controller', 'module' => $this->module, 'viewname' => $prefix . 'View');
 
         $controller_filename = $controllers_dir . DIRECTORY_SEPARATOR . $prefix . 'Controller.php';
 
@@ -448,65 +384,29 @@ class actionGenerator
         $data = array();
 
         // actions
-        $data[] = array(
-            $actionsfile,
-            $actions_output);
+        $data[] = array($actionsfile, $actions_output);
         $this->log[] = $actionsfile;
         // controller
         if (isset($controller)) {
-            $data[] = array(
-                $controller_filename,
-                $controller);
+            $data[] = array($controller_filename, $controller);
             $this->log[] = $controller_filename;
         }
         // act_tpl
-        $data[] = array(
-            $act_tpl_filename,
-            $act_tpl);
+        $data[] = array($act_tpl_filename, $act_tpl);
         $this->log[] = $act_tpl_filename;
         // tpl
         if (isset($tpl)) {
-            $data[] = array(
-                $tpl_filename,
-                $tpl);
+            $data[] = array($tpl_filename, $tpl);
             $this->log[] = $tpl_filename;
         } else {
             $this->log[] = $tpl_filename . ' <strong>[skipped]</strong>';
         }
 
-        $this->safeWrite($data);
+        safeGenerate::write($data);
 
         chdir($current_dir);
 
         return $this->log;
-    }
-
-    /**
-     * Метод записи данных в файлы с проверкой на права создания и модификации файлов
-     *
-     * @param array $data
-     */
-    private function safeWrite($data)
-    {
-        foreach ($data as $val) {
-            $file = $val[0];
-            if (is_file($file)) {
-                if (!is_writable($file)) {
-                    throw new Exception('Файл недоступен для записи: ' . $file);
-                }
-            } else {
-                $info = pathinfo($file);
-                $dir = $info['dirname'];
-
-                if (!is_writable($dir)) {
-                    throw new Exception('Директория недоступна для записи: ' . $dir);
-                }
-            }
-        }
-
-        foreach ($data as $val) {
-            file_put_contents($val[0], $val[1]);
-        }
     }
 }
 

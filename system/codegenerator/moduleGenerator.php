@@ -10,16 +10,17 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
+
+fileLoader::load('codegenerator/safeGenerate');
 
 /**
  * moduleGenerator: класс для генерации модуля
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.1.3
  */
-
 class moduleGenerator
 {
     /**
@@ -95,10 +96,15 @@ class moduleGenerator
     {
         $current_dir = getcwd();
         chdir(CUR);
-        rename($oldName, $newName);
-        rename($newName . DIRECTORY_SEPARATOR . $oldName . 'Factory.php', $newName . DIRECTORY_SEPARATOR . $newName . 'Factory.php');
-        rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $oldName, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $newName);
-        //rename(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $oldName, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $newName);
+
+        $data = array();
+
+        $data[] = array($oldName, $newName);
+        $data[] = array($newName . DIRECTORY_SEPARATOR . $oldName . 'Factory.php', $newName . DIRECTORY_SEPARATOR . $newName . 'Factory.php');
+        $data[] = array(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $oldName, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $newName);
+
+        safeGenerate::renameDir($data);
+
         chdir($current_dir);
     }
 
@@ -160,33 +166,25 @@ class moduleGenerator
             $this->log[] = "Каталог maps создан успешно";
         }
 
-        // создаём папку с активными шаблонами
-        if (!is_dir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module)) {
-            mkdir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module);
-            $this->log[] = "Каталог для активных шаблонов создан";
-        }
-
         // создаём папку с шаблонами
-        /*if (!is_dir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $module)) {
-            mkdir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $module);
-            $this->log[] = "Каталог для шаблонов создан";
-        } */
-        // создаем папку controllers
         if (!is_dir('templates')) {
             mkdir('templates');
             $this->log[] = "Каталог templates создан успешно";
         }
 
-        $factoryData = array(
-        'factory_name' => $factoryName,
-        'module' => $module,
-        );
+        $factoryData = array('factory_name' => $factoryName, 'module' => $module);
 
         // записываем данные в файл фабрики
         $smarty->assign('factory_data', $factoryData);
         $factory = $smarty->fetch('factory.tpl');
         file_put_contents($factoryFilename, $factory);
         $this->log[] = 'Файл ' . $module . DIRECTORY_SEPARATOR . $factoryFilename . ' создан успешно';
+
+        // создаём папку с активными шаблонами
+        if (!is_dir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module)) {
+            mkdir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module);
+            $this->log[] = "Каталог для активных шаблонов создан";
+        }
 
         chdir($current_dir);
 

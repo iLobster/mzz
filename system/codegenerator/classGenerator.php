@@ -12,14 +12,15 @@
  * @version $Id$
 */
 
+fileLoader::load('codegenerator/safeGenerate');
+
 /**
  * classGenerator: класс для генерации ДО
  *
  * @package modules
  * @subpackage admin
- * @version 0.1
+ * @version 0.1.1
  */
-
 class classGenerator
 {
     /**
@@ -69,10 +70,16 @@ class classGenerator
     {
         $current_dir = getcwd();
         chdir(CUR);
-        rename($oldName . '.php', $newName . '.php');
-        rename('mappers' . DIRECTORY_SEPARATOR . $oldName . 'Mapper.php', 'mappers' . DIRECTORY_SEPARATOR . $newName . 'Mapper.php');
-        rename('actions' . DIRECTORY_SEPARATOR . $oldName . '.ini', 'actions' . DIRECTORY_SEPARATOR . $newName . '.ini');
-        rename('maps' . DIRECTORY_SEPARATOR . $oldName . '.map.ini', 'maps' . DIRECTORY_SEPARATOR . $newName . '.map.ini');
+
+        $data = array();
+
+        $data[] = array($oldName . '.php', $newName . '.php');
+        $data[] = array('mappers' . DIRECTORY_SEPARATOR . $oldName . 'Mapper.php', 'mappers' . DIRECTORY_SEPARATOR . $newName . 'Mapper.php');
+        $data[] = array('actions' . DIRECTORY_SEPARATOR . $oldName . '.ini', 'actions' . DIRECTORY_SEPARATOR . $newName . '.ini');
+        $data[] = array('maps' . DIRECTORY_SEPARATOR . $oldName . '.map.ini', 'maps' . DIRECTORY_SEPARATOR . $newName . '.map.ini');
+
+        safeGenerate::rename($data);
+
         chdir($current_dir);
     }
 
@@ -85,23 +92,11 @@ class classGenerator
     {
         $current_dir = getcwd();
         chdir(CUR);
-        $this->safeUnlink($class . '.php');
-        $this->safeUnlink('mappers' . DIRECTORY_SEPARATOR . $class . 'Mapper.php');
-        $this->safeUnlink('actions' . DIRECTORY_SEPARATOR . $class . '.ini');
-        $this->safeUnlink('maps' . DIRECTORY_SEPARATOR . $class . '.map.ini');
+        safeGenerate::delete($class . '.php');
+        safeGenerate::delete('mappers' . DIRECTORY_SEPARATOR . $class . 'Mapper.php');
+        safeGenerate::delete('actions' . DIRECTORY_SEPARATOR . $class . '.ini');
+        safeGenerate::delete('maps' . DIRECTORY_SEPARATOR . $class . '.map.ini');
         chdir($current_dir);
-    }
-
-    /**
-     * Метод для удаления файлов, с проверкой их существования
-     *
-     * @param string $filename
-     */
-    private function safeUnlink($filename)
-    {
-        if (file_exists($filename)) {
-            unlink($filename);
-        }
     }
 
     /**
@@ -114,6 +109,8 @@ class classGenerator
     {
         $current_dir = getcwd();
         chdir(CUR);
+
+        $data = array();
 
         $smarty = new mzzSmarty();
         $smarty->template_dir = CODEGEN . DIRECTORY_SEPARATOR . 'templates';
@@ -154,7 +151,7 @@ class classGenerator
 
         $smarty->assign('do_data', $doData);
         $factory = $smarty->fetch('do.tpl');
-        file_put_contents($doNameFile, $factory);
+        $data[] = array($doNameFile, $factory);
 
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . $doNameFile;
 
@@ -167,19 +164,18 @@ class classGenerator
 
         $smarty->assign('mapper_data', $mapperData);
         $mapper = $smarty->fetch('mapper.tpl');
-        file_put_contents('mappers' . DIRECTORY_SEPARATOR . $mapperNameFile, $mapper);
+        $data[] = array('mappers' . DIRECTORY_SEPARATOR . $mapperNameFile, $mapper);
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'mappers' . DIRECTORY_SEPARATOR . $mapperNameFile;
 
         // создаем ini файл для экшнов
-        $f = fopen('actions' . DIRECTORY_SEPARATOR . $iniFileName, 'w');
-        fwrite($f, "; " . $doName . " actions config\r\n");
-        fclose($f);
+        $data[] = array('actions' . DIRECTORY_SEPARATOR . $iniFileName, "; " . $doName . " actions config\r\n");
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'actions' . DIRECTORY_SEPARATOR . $iniFileName;
 
         // создаем map файл
-        $f = fopen('maps' . DIRECTORY_SEPARATOR . $mapFileName, 'w');
-        fclose($f);
+        $data[] = array('maps' . DIRECTORY_SEPARATOR . $mapFileName, '');
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'maps' . DIRECTORY_SEPARATOR . $mapFileName . "\n";
+
+        safeGenerate::write($data);
 
         chdir($current_dir);
 
