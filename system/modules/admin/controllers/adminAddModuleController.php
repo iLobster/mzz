@@ -106,7 +106,7 @@ class adminAddModuleController extends simpleController
                 $id = $stmt->execute();
 
                 $this->smarty->assign('log', $log);
-                //return $this->smarty->fetch('admin/addModuleResult.tpl');
+                return $this->smarty->fetch('admin/addModuleResult.tpl');
             }
 
             if (!$nameRO && $isEdit) {

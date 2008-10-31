@@ -211,7 +211,7 @@ class actionGenerator
 
         $data[] = array($actionsfile, $actionsfile, $actions_output);
 
-        safeGenerate::rename($data);
+        $log = safeGenerate::rename($data);
 
         $res = $this->getAction($oldName);
         if ($res) {
@@ -223,6 +223,8 @@ class actionGenerator
         $this->addToDB($newName);
 
         chdir($current_dir);
+
+        return $log;
     }
 
     /**

@@ -182,8 +182,12 @@ class moduleGenerator
 
         // создаём папку с активными шаблонами
         if (!is_dir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module)) {
-            mkdir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module);
-            $this->log[] = "Каталог для активных шаблонов создан";
+            if (is_writable(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act')) {
+                mkdir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module);
+                $this->log[] = "Каталог для активных шаблонов создан";
+            } else {
+                $this->log[] = "Каталог для активных шаблонов не создан (нет доступа)";
+            }
         }
 
         chdir($current_dir);

@@ -134,10 +134,13 @@ class adminAddActionController extends simpleController
 
                 $actionGenerator->addToDB($values['name']);
             } else {
-                $actionGenerator->rename($action_name, $values['name'], $values);
+                $log = $actionGenerator->rename($action_name, $values['name'], $values);
             }
 
-            return jipTools::closeWindow();
+            $this->smarty->assign('isEdit', $isEdit);
+            $this->smarty->assign('log', $log);
+
+            return $this->smarty->fetch('admin/addActionResult.tpl');
         }
 
         $this->smarty->assign('errors', $validator->getErrors());

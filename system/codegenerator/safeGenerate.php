@@ -90,14 +90,19 @@ class safeGenerate
             }
         }
 
+        $log = array();
+
         foreach ($data as $val) {
             if ($val[0] != $val[1]) {
                 rename($val[0], $val[1]);
+                $log[] = $val[0] . ' -> ' . $val[1];
             }
             if (isset($val[2])) {
                 file_put_contents($val[1], $val[2]);
             }
         }
+
+        return $log;
     }
 
     /**
