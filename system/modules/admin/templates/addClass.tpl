@@ -10,11 +10,14 @@
             <td style='width: 20%;'>{form->caption name="name" value="Название" onError="style=color: red;"}</td>
             <td style='width: 80%;'>{form->text name="name" value=$data.name size="60"}{$errors->get('name')}</td>
         </tr>
-        <tr>
+        <tr id="gen_row">
         {*if !$isEdit*}
             <td style='width: 20%;'>{form->caption name="dest" value="Каталог генерации" onError="style=color: red;"}</td>
             <td style='width: 80%;'>{form->select name="dest" options=$data.dest one_item_freeze=1}{$errors->get('dest')}</td>
         {*/if*}
+        </tr>
+        <tr>
+            <td colspan="2">{form->checkbox id="bd_only" name="bd_only" text="Вносить изменения только в базу"  values="no|yes" value="no" size="60"}{$errors->get('bd_only')}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
@@ -22,3 +25,11 @@
         </tr>
     </table>
 </form>
+<script type="text/javascript">
+{literal}
+$('bd_only').observe('change', function(){
+    $('gen_row').toggle();
+
+})
+{/literal}
+</script>

@@ -49,8 +49,8 @@ class adminAddClassController extends simpleController
 
             /*
             if (isset($modules[$data['module_id']]['classes'][$data['id']]) && $modules[$data['module_id']]['classes'][$data['id']]['exists']) {
-                $controller = new messageController('Нельзя изменить имя класса', messageController::WARNING);
-                return $controller->run();
+            $controller = new messageController('Нельзя изменить имя класса', messageController::WARNING);
+            return $controller->run();
             }*/
 
             $module_name = $modules[$data['module_id']]['name'];
@@ -71,13 +71,19 @@ class adminAddClassController extends simpleController
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);
             $newDest = $this->request->getString('dest', SC_POST);
+            $bd_only = $this->request->getString('bd_only', SC_POST);
 
             if (!$isEdit) {
                 $classGenerator = new classGenerator($data['name'], $dest[$newDest]);
-                try {
-                    $log = $classGenerator->generate($name);
-                } catch (Exception $e) {
-                    return $e->getMessage() . $e->getLine() . $e->getFile();
+
+                if ($bd_only == 'no') {
+                    try {
+                        $log = $classGenerator->generate($name);
+                    } catch (Exception $e) {
+                        return $e->getMessage() . $e->getLine() . $e->getFile();
+                    }
+                } else {
+                    $log = "generate files skipped ";
                 }
 
                 $stmt = $db->prepare('INSERT INTO `sys_classes` (`name`, `module_id`) VALUES (:name, :module_id)');
