@@ -19,7 +19,7 @@
 </div>
 
 
-<div align="center">
+<div style="text-align: center;">
 Облако тегов всех объектов <br />
 {load module=tags action=tagsCloud tmodule=news tclass=news section=tags}
 </div>

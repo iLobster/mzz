@@ -7,33 +7,36 @@ if (isset($_GET['type']) && isset($_GET['files'])) {
         switch ($_GET['type']) {
             case 'js':
                 header('Content-type: application/x-javascript');
-                $path = $pathToTemplates . DIRECTORY_SEPARATOR . 'js';
+                $source = generateSource($files, $pathToTemplates . DIRECTORY_SEPARATOR . 'js', 'js');
                 break;
 
             case 'css':
                 header('Content-type: text/css');
-                $path = $pathToTemplates . DIRECTORY_SEPARATOR . 'css';
+                $source = generateSource($files, $pathToTemplates . DIRECTORY_SEPARATOR . 'css', 'css');
                 break;
 
             default:
-                exit;
+                $source = null;
                 break;
         }
 
-        $source = generateSource($files, $path);
         echo $source;
     }
 }
 
-function generateSource(Array $files, $path) {
-    $replacePatterns = array(
+function generateSource(Array $files, $path, $validExt) {
+    $fileNameReplacePatterns = array(
         '..' => ''
     );
     $source = null;
     foreach ($files as $file) {
-        $filePath = $path . DIRECTORY_SEPARATOR . str_replace(array_keys($replacePatterns), $replacePatterns, $file);
-        if (is_file($filePath)) {
-            $source .= file_get_contents($filePath);
+        $file = str_replace(array_keys($fileNameReplacePatterns), $fileNameReplacePatterns, $file);
+        $ext = substr(strrchr($file, '.'), 1);
+        if ($ext == $validExt) {
+            $filePath = $path . DIRECTORY_SEPARATOR . $file;
+            if (is_file($filePath) && is_readable($filePath)) {
+                $source .= file_get_contents($filePath);
+            }
         }
     }
 
