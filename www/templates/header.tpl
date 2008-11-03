@@ -12,8 +12,8 @@
     var SITE_PATH = '{$SITE_PATH}';
     //-->
     </script>
-    {include file='include.css.tpl'}
-    {include file='include.js.tpl'}
+    {include file='include.external.css.tpl'}
+    {include file='include.external.js.tpl'}
 </head>
 <body>
 {$content}
