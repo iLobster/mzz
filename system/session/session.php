@@ -58,10 +58,14 @@ class session
         }
 
         session_start();
+        $request = systemToolkit::getInstance()->getRequest();
 
         // исправление уязвимости 'session fixation'
-        $ip = substr($_SERVER['REMOTE_ADDR'], 0, strrpos($_SERVER['REMOTE_ADDR'], '.') - 1);
-        $hash = md5((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'UA doesnt exists') . $ip . (isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : 'ie bug'));
+        $ip = $request->getServer('REMOTE_ADDR', '127.0.0.1');
+        $useragent = $request->getServer('HTTP_USER_AGENT', 'no user agent');
+        $charset = $request->getServer('HTTP_ACCEPT_CHARSET', 'hello from IE');
+        $ip = substr($ip, 0, strrpos($ip, '.') - 1);
+        $hash = md5($useragent . $ip . $charset . rand());
         if (!$this->exists('mzz_session_fixation')) {
             $this->set('mzz_session_fixation', $hash);
         } elseif ($this->get('mzz_session_fixation') != $hash) {
