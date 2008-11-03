@@ -67,7 +67,7 @@ abstract class formElement
             $content = is_scalar($content) ? $content : '';
             $html .= '>' . $content . '</' . $name . '>';
         } else {
-            $html .= ($name == 'input' || $name == 'img') ? ' />' : '>';
+            $html .= (form::isXhtml() && ($name == 'input' || $name == 'img')) ? ' />' : '>';
         }
         return $html;
     }

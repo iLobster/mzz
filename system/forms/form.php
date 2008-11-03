@@ -24,6 +24,7 @@ fileLoader::load("forms/formElement");
 class form
 {
     static public $CSRFField = '_csrf_token';
+    static protected $xhtml = true;
 
     public function open($params, $smarty)
     {
@@ -122,6 +123,26 @@ class form
     {
         fileLoader::load('forms/formCaptchaField');
         return formCaptchaField::toString($params);
+    }
+
+    /**
+     * Устанавливает флаг генерации XHTML-тегов
+     *
+     * @param boolean $boolean
+     */
+    static public function setXhtml($flag)
+    {
+        self::$xhtml = (bool)$flag;
+    }
+
+    /**
+     * Возвращает надо ли генерировать XHTML-теги
+     *
+     * @return boolean
+     */
+    static public function isXhtml()
+    {
+        return self::$xhtml;
     }
 }
 

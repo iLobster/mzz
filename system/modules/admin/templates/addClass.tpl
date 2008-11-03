@@ -26,10 +26,5 @@
     </table>
 </form>
 <script type="text/javascript">
-{literal}
-$('bd_only').observe('change', function(){
-    $('gen_row').toggle();
-
-})
-{/literal}
+$('bd_only').observe('change', $('gen_row').toggle.bind($('gen_row')))
 </script>
