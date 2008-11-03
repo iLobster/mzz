@@ -1,32 +1,43 @@
 <?php
+$pathToTemplates = dirname(__FILE__);
+
 if (isset($_GET['type']) && isset($_GET['files'])) {
     $files = explode(',', $_GET['files']);
     if ($files) {
         switch ($_GET['type']) {
             case 'js':
-                $jsSource = null;
-                foreach ($files as $file) {
-                    $filePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
-                    if (is_file($filePath)) {
-                        $jsSource .= file_get_contents($filePath);
-                    }
-                }
-
-                echo $jsSource;
+                header('Content-type: application/x-javascript');
+                $path = $pathToTemplates . DIRECTORY_SEPARATOR . 'js';
                 break;
 
             case 'css':
-                $cssSource = null;
-                foreach ($files as $file) {
-                    $filePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
-                    if (is_file($filePath)) {
-                        $cssSource .= file_get_contents($filePath);
-                    }
-                }
+                header('Content-type: text/css');
+                $path = $pathToTemplates . DIRECTORY_SEPARATOR . 'css';
+                break;
 
-                echo $cssSource;
+            default:
+                exit;
                 break;
         }
+
+        $source = generateSource($files, $path);
+        echo $source;
     }
 }
+
+function generateSource(Array $files, $path) {
+    $replacePatterns = array(
+        '..' => ''
+    );
+    $source = null;
+    foreach ($files as $file) {
+        $filePath = $path . DIRECTORY_SEPARATOR . str_replace(array_keys($replacePatterns), $replacePatterns, $file);
+        if (is_file($filePath)) {
+            $source .= file_get_contents($filePath);
+        }
+    }
+
+    return $source;
+}
+
 ?>
