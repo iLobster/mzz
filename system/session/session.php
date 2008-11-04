@@ -65,7 +65,7 @@ class session
         $useragent = $request->getServer('HTTP_USER_AGENT', 'no user agent');
         $charset = $request->getServer('HTTP_ACCEPT_CHARSET', 'hello from IE');
         $ip = substr($ip, 0, strrpos($ip, '.') - 1);
-        $hash = md5($useragent . $ip . $charset . rand());
+        $hash = md5($useragent . $ip . $charset);
         if (!$this->exists('mzz_session_fixation')) {
             $this->set('mzz_session_fixation', $hash);
         } elseif ($this->get('mzz_session_fixation') != $hash) {
