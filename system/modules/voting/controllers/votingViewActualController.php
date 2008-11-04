@@ -24,6 +24,11 @@ class votingViewActualController extends simpleController
 {
     public function getView()
     {
+        $prefix = $this->request->getString('tplPrefix');
+        $tpl = 'voting';
+        if (!empty($prefix)) {
+            $tpl .= '/' . $prefix;
+        }
         $name = $this->request->getString('name');
         $categoryMapper = $this->toolkit->getMapper('voting', 'voteCategory');
         $category = $categoryMapper->searchByName($name);
@@ -31,18 +36,13 @@ class votingViewActualController extends simpleController
         if (!$category) {
             return $categoryMapper->get404()->run();
         }
-
-        $question = $category->getActual();
-
-        if (is_null($question) || !$question->getAcl('view')) {
-            $question = $category->getLast();
-
-            if (is_null($question)) {
-                return null;
-            }
-
+        $question = $category->getLast();
+        if (is_null($question)) {
+            return null;
+        }
+        if (!$question->getAcl('view', true)) {
             $this->smarty->assign('question', $question);
-            return $this->smarty->fetch('voting/results.tpl');
+            return $this->smarty->fetch($tpl . '/results.tpl');
         }
 
         $votes = $question->getVotes();
@@ -50,7 +50,7 @@ class votingViewActualController extends simpleController
             $this->smarty->assign('question', $question);
             $this->smarty->assign('answers', $question->getAnswers());
             $this->smarty->assign('votes', $votes);
-            return $this->smarty->fetch('voting/alreadyVote.tpl');
+            return $this->smarty->fetch($tpl . '/alreadyVote.tpl');
         }
 
         $this->smarty->assign('question', $question);
@@ -61,7 +61,7 @@ class votingViewActualController extends simpleController
 
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('backURL', $this->request->getRequestUrl());
-        return $this->smarty->fetch('voting/view.tpl');
+        return $this->smarty->fetch($tpl . '/view.tpl');
     }
 }
 

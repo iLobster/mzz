@@ -26,10 +26,7 @@ class question extends simple
 
     protected $votes = null;
 
-    public function getAnswers()
-    {
-        return $this->mapper->getAllAnswers($this->getId());
-    }
+    protected $results = false;
 
     public function setAnswers(Array $answers, Array $types)
     {
@@ -87,7 +84,7 @@ class question extends simple
         return (time() >= $this->getExpired());
     }
 
-    public function getAcl($name = null)
+    public function getAcl($name = null, $real = false)
     {
         if ($name == 'post') {
             if (!$this->isStarted() || $this->isExpired() || (sizeof($this->getVotes()) != 0)) {
@@ -95,7 +92,26 @@ class question extends simple
             }
         }
 
-        return parent::getAcl($name);
+        if ($real) {
+            return parent::getAcl($name);
+        }
+        return true;
+    }
+
+    public function getResult($answer)
+    {
+        if ($this->results === false) {
+            $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
+            $this->results = $voteMapper->getResults($this->getId());
+            if (!empty($this->results)) {
+                $tmp = $this->results;
+                foreach ($tmp as $result) {
+                    $this->results[$result['answer_id']] = $result['count'];
+                }
+            }
+        }
+
+        return isset($this->results[$answer->getId()]) ? $this->results[$answer->getId()] : 0;
     }
 }
 

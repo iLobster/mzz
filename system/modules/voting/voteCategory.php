@@ -24,19 +24,14 @@ class voteCategory extends simple
 {
     protected $name = 'voting';
 
-    public function getQuestions()
-    {
-        return $this->mapper->getQuestions($this->getId());
-    }
-
     public function getActual()
     {
-        return $this->mapper->getActual($this->getId());
+        return $this->mapper->getActual($this);
     }
 
     public function getLast()
     {
-        return $this->mapper->getLast($this->getId());
+        return $this->mapper->getLast($this);
     }
 }
 

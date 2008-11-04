@@ -47,17 +47,6 @@ class tags extends simple
         $weight = $this->fakeFields->get('weight');
         return $weight;
     }
-
-    public function setCoords(array $coords)
-    {
-        $this->coords = $coords;
-    }
-
-    public function getCoords()
-    {
-        return $this->coords;
-    }
-
 }
 
 ?>

@@ -60,12 +60,14 @@ class voteMapper
         return $stmt->execute();
     }
 
-    public function getResults($question_id, $answer_id)
+    public function getResults($question_id)
     {
         $criteria = new criteria($this->table);
-        $criteria->addSelectField(new sqlFunction('count', '*', true), 'count')->add('question_id', $question_id)->add('answer_id', $answer_id);
+        $criteria->addSelectField('answer_id');
+        $criteria->addSelectField(new sqlFunction('count', '*', true), 'count')->add('question_id', $question_id);
+        $criteria->addGroupBy('answer_id');
         $select = new simpleSelect($criteria);
-        return $this->db->getOne($select->toString());
+        return $this->db->getAll($select->toString(), PDO::FETCH_ASSOC);
     }
 
     public function getResultsCount($question_id)

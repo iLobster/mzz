@@ -1,6 +1,6 @@
 {* main="header.tpl" placeholder="content" *}
 {load module="user" action="loginForm" section="user" id=0 _side="left"}
-{load module="voting" section="voting" action="viewActual" name="simple" 403handle="none" _side="left"}
+{load module="voting" section="voting" action="viewActual" name="simple" 403handle="none" _side="left" tplPrefix="blocks"}
 <div id="wrapper">
     <div id="nonFooter">
         <div id="hbackground">

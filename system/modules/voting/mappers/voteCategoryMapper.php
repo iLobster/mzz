@@ -48,20 +48,8 @@ class voteCategoryMapper extends simpleMapper
         return $this->searchOneByField('name', $name);
     }
 
-    public function getQuestions($id)
+    public function getActual($category)
     {
-        $questionMapper = systemToolkit::getInstance()->getMapper('voting', 'question');
-        return $questionMapper->searchAllByField('category_id', $id);
-    }
-
-    public function getActual($id)
-    {
-        $questions = $this->getQuestions($id);
-
-        if (empty($questions)) {
-            return null;
-        }
-
         $questionMapper = systemToolkit::getInstance()->getMapper('voting', 'question');
         $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
 
@@ -69,28 +57,29 @@ class voteCategoryMapper extends simpleMapper
         $criterion = new criterion('vote.question_id', 'question.id', criteria::EQUAL, true);
         $criterion->addAnd(new criterion('user_id', systemToolkit::getInstance()->getUser()->getId()));
         $criteria->addJoin($voteMapper->getTable(), $criterion, 'vote', criteria::JOIN_LEFT);
-        $criteria->add('category_id', $id)->add('vote.id', '', criteria::IS_NULL)->add('created', time(), criteria::LESS_EQUAL)->add('expired', time(), criteria::GREATER_EQUAL);
+        $criteria->add('category_id', $category->getId())->add('vote.id', '', criteria::IS_NULL)->add('created', time(), criteria::LESS_EQUAL)->add('expired', time(), criteria::GREATER_EQUAL);
         $criteria->setOrderByFieldAsc(new sqlFunction('RAND'), false)->setLimit(1);
 
         return $questionMapper->searchOneByCriteria($criteria);
     }
 
-    public function getLast($id)
+    public function getLast($category)
     {
-        $questions = $this->getQuestions($id);
+        $questions = $category->getQuestions();
 
         if (empty($questions)) {
             return null;
         }
 
-        $questionMapper = systemToolkit::getInstance()->getMapper('voting', 'question');
-        $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote');
+        $tmp = array();
+        foreach ($questions as $id => $question) {
+            $tmp[$id] = $question->getExpired();
+        }
 
-        $criteria = new criteria;
-        $criteria->add('category_id', $id);
-        $criteria->setOrderByFieldDesc('expired')->setLimit(1);
+        asort($tmp);
+        end($tmp);
 
-        return $questionMapper->searchOneByCriteria($criteria);
+        return $questions[key($tmp)];
     }
 
     public function delete(voteCategory $do)
