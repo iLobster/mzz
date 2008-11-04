@@ -1563,13 +1563,9 @@ CREATE TABLE `page_page` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
   `obj_id` INTEGER(10) UNSIGNED NOT NULL DEFAULT '0',
   `name` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `title` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `content` TEXT COLLATE utf8_general_ci NOT NULL,
   `folder_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   `allow_comment` TINYINT(4) DEFAULT '1',
   `compiled` INTEGER(11) DEFAULT NULL,
-  `keywords` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `description` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `keywords_reset` TINYINT(1) DEFAULT '0',
   `description_reset` TINYINT(1) DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -1580,18 +1576,18 @@ AUTO_INCREMENT=12 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `page_page` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_page` (`id`, `obj_id`, `name`, `title`, `content`, `folder_id`, `allow_comment`, `compiled`, `keywords`, `description`, `keywords_reset`, `description_reset`) VALUES
-  (1,9,'main','Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n',1,1,0,NULL,NULL,0,0),
-  (2,10,'404','404 Not Found','Запрашиваемая страница не найдена!',1,1,NULL,NULL,NULL,0,0),
-  (3,11,'test','test','test',1,1,NULL,NULL,NULL,0,0),
-  (4,57,'403','Доступ запрещён','Доступ запрещён',1,1,NULL,NULL,NULL,0,0),
-  (5,164,'pagename','123','234',2,1,NULL,NULL,NULL,0,0),
-  (6,165,'asd','qwe','asd',2,1,NULL,NULL,NULL,0,0),
-  (7,166,'12345','1','qwe',2,1,NULL,NULL,NULL,0,0),
-  (8,167,'1236','2','asd',2,1,NULL,NULL,NULL,0,0),
-  (9,168,'1237','3','qwe',2,1,NULL,NULL,NULL,0,0),
-  (10,169,'1234','ffffff','f',2,1,NULL,NULL,NULL,0,0),
-  (11,170,'ss','ква','sdaf',2,1,NULL,NULL,NULL,0,0);
+INSERT INTO `page_page` (`id`, `obj_id`, `name`, `folder_id`, `allow_comment`, `compiled`, `keywords_reset`, `description_reset`) VALUES
+  (1,9,'main',1,1,0,0,0),
+  (2,10,'404',1,1,NULL,0,0),
+  (3,11,'test',1,1,NULL,0,0),
+  (4,57,'403',1,1,NULL,0,0),
+  (5,164,'pagename',2,1,NULL,0,0),
+  (6,165,'asd',2,1,NULL,0,0),
+  (7,166,'12345',2,1,NULL,0,0),
+  (8,167,'1236',2,1,NULL,0,0),
+  (9,168,'1237',2,1,NULL,0,0),
+  (10,169,'1234',2,1,NULL,0,0),
+  (11,170,'ss',2,1,NULL,0,0);
 COMMIT;
 
 #
@@ -1648,6 +1644,44 @@ INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
   (1,1,6,1),
   (2,2,5,2),
   (3,3,4,3);
+COMMIT;
+
+#
+# Structure for the `page_page_lang` table :
+#
+
+DROP TABLE IF EXISTS `page_page_lang`;
+
+CREATE TABLE `page_page_lang` (
+  `id` INTEGER(11) NOT NULL DEFAULT '0',
+  `lang_id` INTEGER(11) NOT NULL DEFAULT '0',
+  `title` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `content` TEXT COLLATE utf8_general_ci NOT NULL,
+  `keywords` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `description` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`, `lang_id`)
+)ENGINE=MyISAM
+CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `page_page_lang` table  (LIMIT 0,500)
+#
+
+INSERT INTO `page_page_lang` (`id`, `lang_id`, `title`, `content`, `keywords`, `description`) VALUES
+  (1,1,'Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n',NULL,NULL),
+  (1,2,'About us','<strong>mzz</strong> - is a php5 framework for web-applications.',NULL,NULL),
+  (2,1,'404 Not Found','Запрашиваемая страница не найдена!',NULL,NULL),
+  (2,2,'404 Not Found','Page doesn''t exist',NULL,NULL),
+  (3,1,'test','test',NULL,NULL),
+  (4,1,'Доступ запрещён','Доступ запрещён',NULL,NULL),
+  (4,2,'Access not allowed.','Access not allowed. Try to login or register.',NULL,NULL),
+  (5,1,'123','234',NULL,NULL),
+  (6,1,'qwe','asd',NULL,NULL),
+  (7,1,'1','qwe',NULL,NULL),
+  (8,1,'2','asd',NULL,NULL),
+  (9,1,'3','qwe',NULL,NULL),
+  (10,1,'ffffff','f',NULL,NULL),
+  (11,1,'ква','sdaf',NULL,NULL);
 COMMIT;
 
 #
@@ -7982,7 +8016,7 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
   (1,12,'guest','',NULL,NULL,1225005849,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1225006732,1,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1225152538,1,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
@@ -8057,14 +8091,14 @@ CREATE TABLE `user_userOnline` (
   UNIQUE KEY `user_id` (`user_id`, `session`),
   KEY `last_activity` (`last_activity`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=316 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=317 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (315,2,'jmg0d3h6leiq7l0ifgac8aurb5',1225152538,'http://mzz-dev.ru/page','127.0.0.1');
+  (316,2,'olnaanjmt4fpti1apb9o80jtl6',1225817937,'http://mzz-dev.ru/en/page','127.0.0.1');
 COMMIT;
 
 #
