@@ -1,6 +1,6 @@
 <?php
 $pathToTemplates = dirname(__FILE__);
-
+header("HTTP/1.1 304 Not Modified");
 if (isset($_GET['type']) && isset($_GET['files'])) {
     $files = explode(',', $_GET['files']);
     if ($files) {
