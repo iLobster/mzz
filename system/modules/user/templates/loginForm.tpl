@@ -1,7 +1,7 @@
 <p class="sideBlockTitle">{_ login}</p>
 <div class="sideBlockContent">
-<div id="loginForm">
-    {form action=$form_action method="post" id="userLogin"}
+{form action=$form_action method="post" id="userLogin"}
+    <div id="loginForm">
         {form->hidden name="url" id="backUrlField" value=$backURL}
         <table border="0" cellpadding="1" cellspacing="0" width="140">
             <tr>
@@ -19,7 +19,7 @@
 
             <tr>
                 <td>{form->checkbox name="save" id="saveLogin" value="1"}</td>
-                <td width="100%"><label for="saveLogin">{_ remember_login}</label></td>
+                <td style="width: 100%"><label for="saveLogin">{_ remember_login}</label></td>
             </tr>
 
             <tr>
@@ -27,8 +27,6 @@
             </tr>
 
         </table>
-    </form>
+    </div>
+</form>
 </div>
-</div>
-
-

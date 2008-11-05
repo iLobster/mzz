@@ -1,7 +1,8 @@
 <?php
 $pathToTemplates = dirname(__FILE__);
-header("HTTP/1.1 304 Not Modified");
 if (isset($_GET['type']) && isset($_GET['files'])) {
+    //header("HTTP/1.1 304 Not Modified");
+    header('ETag: ' . md5($_GET['files']));
     $files = explode(',', $_GET['files']);
     if ($files) {
         switch ($_GET['type']) {
@@ -21,6 +22,7 @@ if (isset($_GET['type']) && isset($_GET['files'])) {
         }
 
         echo $source;
+        exit;
     }
 }
 

@@ -15,8 +15,6 @@ RewriteRule (.*) index.php?path=/$1&%{QUERY_STRING} [L]
 #    php_flag magic_quotes_runtime 0
 #</IfModule>
 
-FileETag none
-
 <IfModule mod_expires.c>
     ExpiresActive on
     ExpiresByType application/x-javascript "access plus 3 day"
