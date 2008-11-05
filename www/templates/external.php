@@ -2,7 +2,6 @@
 $pathToTemplates = dirname(__FILE__);
 if (isset($_GET['type']) && isset($_GET['files'])) {
     //header("HTTP/1.1 304 Not Modified");
-    header('ETag: ' . md5($_GET['files']));
     $files = explode(',', $_GET['files']);
     if ($files) {
         switch ($_GET['type']) {
@@ -31,18 +30,39 @@ function generateSource(Array $files, $path, $validExt) {
         '..' => ''
     );
     $source = null;
+    $filemtime = null;
     foreach ($files as $file) {
         $file = str_replace(array_keys($fileNameReplacePatterns), $fileNameReplacePatterns, $file);
         $ext = substr(strrchr($file, '.'), 1);
         if ($ext == $validExt) {
             $filePath = $path . DIRECTORY_SEPARATOR . $file;
             if (is_file($filePath) && is_readable($filePath)) {
+                $currentFileTime = filemtime($filePath);
+                if ($currentFileTime > $filemtime) {
+                    $filemtime = $currentFileTime;
+                }
                 $source .= file_get_contents($filePath);
             }
         }
     }
 
+    if ($files && $filemtime) {
+        $etag = generateEtag($files, $filemtime);
+        header('ETag: ' . $etag);
+    }
+
     return $source;
+}
+
+function generateEtag(Array $files, $filemtime)
+{
+    $etag = md5(implode(',', $files) . $filemtime);
+    $etag[8] = '-';
+    $etag[13] = '-';
+    $etag[17] = '-';
+    $etag[21] = '-';
+
+    return $etag;
 }
 
 ?>
