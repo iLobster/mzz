@@ -40,7 +40,8 @@ class votingViewActualController extends simpleController
         if (is_null($question)) {
             return null;
         }
-        if (!$question->getAcl('view', true)) {
+
+        if (!$question->getAcl('view')) {
             $this->smarty->assign('question', $question);
             return $this->smarty->fetch($tpl . '/results.tpl');
         }

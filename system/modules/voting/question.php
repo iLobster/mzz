@@ -84,18 +84,16 @@ class question extends simple
         return (time() >= $this->getExpired());
     }
 
-    public function getAcl($name = null, $real = false)
+    public function getAcl($name = null)
     {
+        $allow = true;
         if ($name == 'post') {
             if (!$this->isStarted() || $this->isExpired() || (sizeof($this->getVotes()) != 0)) {
-                return false;
+                $allow = false;
             }
         }
 
-        if ($real) {
-            return parent::getAcl($name);
-        }
-        return true;
+        return $allow && parent::getAcl($name);
     }
 
     public function getResult($answer)
