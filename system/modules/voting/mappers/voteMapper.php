@@ -50,14 +50,21 @@ class voteMapper
         return $this->db->getAll('SELECT * FROM `' . $this->table . '` WHERE `question_id` = ' . (int) $question . ' AND `user_id` = ' . (int) $user->getId());
     }
 
-    public function create(question $question, answer $answer, user $user, $text = null)
+    public function vote(question $question, answer $answer, user $user, $text = null)
     {
+        $toolkit = systemToolkit::getInstance();
+        $questionMapper = $toolkit->getMapper('voting', 'question', $this->section);
         $stmt = $this->db->prepare('INSERT INTO `' . $this->table . '` (`question_id`, `answer_id`, `user_id`, `text`) VALUES (:question, :answer, :user, :text)');
         $stmt->bindParam('question', $question->getId());
         $stmt->bindParam('answer', $answer->getId());
         $stmt->bindParam('user', $user->getId());
         $stmt->bindParam('text', $text);
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            $question->setVotesCount($question->getVotesCount() + 1);
+            $questionMapper->save($question);
+            return true;
+        }
+        return false;
     }
 
     public function getResults($question_id)
@@ -68,14 +75,6 @@ class voteMapper
         $criteria->addGroupBy('answer_id');
         $select = new simpleSelect($criteria);
         return $this->db->getAll($select->toString(), PDO::FETCH_ASSOC);
-    }
-
-    public function getResultsCount($question_id)
-    {
-        $criteria = new criteria($this->table);
-        $criteria->addSelectField(new sqlFunction('count', new sqlOperator('DISTINCT', 'user_id')), 'count')->add('question_id', $question_id);
-        $select = new simpleSelect($criteria);
-        return $this->db->getOne($select->toString());
     }
 }
 

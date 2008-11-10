@@ -1,6 +1,6 @@
 <p class="sideBlockTitle">Опрос</p>
 <div class="sideBlockContent">
-    {$question->getQuestion()}{$question->getJip()}<br /> (Всего проголосовало: {$question->getResultsCount()})<br />
+    {$question->getQuestion()}{$question->getJip()}<br /> (Всего проголосовало: {$question->getVotesCount()})<br />
     {foreach name="answersIterator" from=$answers item="answer"}
     {$answer->getTitle()} : {$question->getResult($answer)}<br />
     {/foreach}

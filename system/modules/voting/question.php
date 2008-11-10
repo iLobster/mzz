@@ -68,12 +68,6 @@ class question extends simple
         return $this->votes;
     }
 
-    public function getResultsCount()
-    {
-        $voteMapper = systemToolkit::getInstance()->getMapper('voting', 'vote', $this->section);
-        return $voteMapper->getResultsCount($this->getId());
-    }
-
     public function isStarted()
     {
         return (time() >= $this->getCreated());

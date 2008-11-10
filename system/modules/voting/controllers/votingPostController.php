@@ -48,7 +48,7 @@ class votingPostController extends simpleController
                 $answer = $answerMapper->searchById($answer_id);
 
                 $text = (($answer->getTypeTitle() == 'text')) ? $this->request->getString('answer_' . $answer_id, SC_POST) : null;
-                $voteMapper->create($question, $answer, $user, $text);
+                $voteMapper->vote($question, $answer, $user, $text);
             }
         }
         $backurl = $this->request->getString('url', SC_POST);
