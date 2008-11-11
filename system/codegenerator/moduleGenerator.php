@@ -19,7 +19,7 @@ fileLoader::load('codegenerator/safeGenerate');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.3
+ * @version 0.1.4
  */
 class moduleGenerator
 {
@@ -100,7 +100,6 @@ class moduleGenerator
         $data = array();
 
         $data[] = array($oldName, $newName);
-        $data[] = array($newName . DIRECTORY_SEPARATOR . $oldName . 'Factory.php', $newName . DIRECTORY_SEPARATOR . $newName . 'Factory.php');
         $data[] = array(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $oldName, systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $newName);
 
         safeGenerate::renameDir($data);
@@ -137,13 +136,6 @@ class moduleGenerator
         }
         chdir($module);
 
-        $factoryName = $module . 'Factory';
-        $factoryFilename = $factoryName . '.php';
-
-        if (is_file($factoryFilename)) {
-            throw new Exception('Error: factory file already exists');
-        }
-
         // создаем папку actions
         if (!is_dir('actions')) {
             mkdir('actions');
@@ -171,14 +163,6 @@ class moduleGenerator
             mkdir('templates');
             $this->log[] = "Каталог templates создан успешно";
         }
-
-        $factoryData = array('factory_name' => $factoryName, 'module' => $module);
-
-        // записываем данные в файл фабрики
-        $smarty->assign('factory_data', $factoryData);
-        $factory = $smarty->fetch('factory.tpl');
-        file_put_contents($factoryFilename, $factory);
-        $this->log[] = 'Файл ' . $module . DIRECTORY_SEPARATOR . $factoryFilename . ' создан успешно';
 
         // создаём папку с активными шаблонами
         if (!is_dir(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'act' . DIRECTORY_SEPARATOR . $module)) {

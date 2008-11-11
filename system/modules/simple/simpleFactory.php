@@ -17,9 +17,9 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.1.1
  */
-abstract class simpleFactory
+class simpleFactory
 {
     /**
      * Module action
@@ -33,16 +33,17 @@ abstract class simpleFactory
      *
      * @var string
      */
-    protected $name = "simple";
+    protected $name;
 
     /**
      * Constructor
      *
      * @param string $action
      */
-    public function __construct($action)
+    public function __construct($action, $name)
     {
         $this->action = $action;
+        $this->name = $name;
     }
 
     /**

@@ -49,9 +49,6 @@ function smarty_function_load($params, $smarty)
     $module = $params['module'];
     unset($params['module']);
 
-    $modulename = $module . 'Factory';
-
-    fileLoader::load($module . 'Factory');
     $toolkit = systemToolkit::getInstance();
 
     $action = $toolkit->getAction($module);
@@ -113,7 +110,7 @@ function smarty_function_load($params, $smarty)
 
     if ($access) {
         // если права на запуск модуля есть - запускаем
-        $factory = new $modulename($action);
+        $factory = new simpleFactory($action, $module);
         $controller = $factory->getController();
     } else {
         // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
