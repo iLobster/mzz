@@ -48,7 +48,7 @@ class formValidator
      *
      * @var boolean
      */
-    private $csrf = true;
+    private $csrf = false;
 
     /**
      * Конструктор
