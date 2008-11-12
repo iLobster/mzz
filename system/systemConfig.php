@@ -105,6 +105,7 @@ class systemConfig
     public static function init()
     {
         self::$pathToSystem = dirname(__FILE__);
+        self::$pathToApplication = realpath(self::$pathToApplication);
     }
 }
 
