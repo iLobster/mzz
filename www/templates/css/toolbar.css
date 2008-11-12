@@ -70,3 +70,7 @@ tr.toolbarObjectsTitle {
   font-weight: bold;
   color: #555;
 }
+
+div.generatorSuccessResult {
+   color: #007900;
+}

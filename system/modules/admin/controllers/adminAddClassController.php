@@ -80,7 +80,7 @@ class adminAddClassController extends simpleController
                     try {
                         $log = $classGenerator->generate($name);
                     } catch (Exception $e) {
-                        return $e->getMessage() . $e->getLine() . $e->getFile();
+                        return $e->getMessage();
                     }
                 } else {
                     $log = "generate files skipped ";
@@ -104,6 +104,8 @@ class adminAddClassController extends simpleController
                 $adminMapper->registerClassInSections($class_id);
 
                 $this->smarty->assign('log', $log);
+                $this->smarty->assign('module', $module_name);
+                $this->smarty->assign('name', $name);
                 return $this->smarty->fetch('admin/addClassResult.tpl');
             }
 

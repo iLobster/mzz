@@ -129,7 +129,7 @@ class adminAddActionController extends simpleController
                 try {
                     $log = $actionGenerator->generate($values['name'], $values);
                 } catch (Exception $e) {
-                    return $e->getMessage() . $e->getLine() . $e->getFile();
+                    return $e->getMessage();
                 }
 
                 $actionGenerator->addToDB($values['name']);
@@ -139,6 +139,7 @@ class adminAddActionController extends simpleController
 
             $this->smarty->assign('isEdit', $isEdit);
             $this->smarty->assign('log', $log);
+            $this->smarty->assign('name', $values['name']);
 
             return $this->smarty->fetch('admin/addActionResult.tpl');
         }

@@ -4,5 +4,9 @@
     {include file='jipTitle.tpl' title='Создание экшна'}
 {/if}
 {foreach from=$log item=item key=id}
-    {$item}<br />
+    Создание <strong>{$item}</strong><br />
 {/foreach}
+<br />
+<div class="generatorSuccessResult">
+{if not empty($isEdit)}Изменения для действия "{$name}" сохранены{else}Действие "{$name}" успешно создано{/if}.
+</div>

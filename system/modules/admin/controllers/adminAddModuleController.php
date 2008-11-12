@@ -98,7 +98,7 @@ class adminAddModuleController extends simpleController
                 try {
                     $log = $moduleGenerator->generate($name);
                 } catch (Exception $e) {
-                    return $e->getMessage() . $e->getLine() . $e->getFile();
+                    return $e->getMessage();
                 }
 
                 $stmt = $db->prepare('INSERT INTO `sys_modules` (`name`) VALUES (:name)');
@@ -106,6 +106,8 @@ class adminAddModuleController extends simpleController
                 $id = $stmt->execute();
 
                 $this->smarty->assign('log', $log);
+                $this->smarty->assign('dest', $dest[$newDest]);
+                $this->smarty->assign('name', $name);
                 return $this->smarty->fetch('admin/addModuleResult.tpl');
             }
 

@@ -139,29 +139,29 @@ class moduleGenerator
         // создаем папку actions
         if (!is_dir('actions')) {
             mkdir('actions');
-            $this->log[] = "Каталог actions создан успешно";
+            $this->log[] = "Каталог <strong>actions</strong> создан успешно";
         }
 
         // создаем папку controllers
         if (!is_dir('controllers')) {
             mkdir('controllers');
-            $this->log[] = "Каталог controllers создан успешно";
+            $this->log[] = "Каталог <strong>controllers</strong> создан успешно";
         }
         // создаем папку mappers
         if (!is_dir('mappers')) {
             mkdir('mappers');
-            $this->log[] = "Каталог mappers создан успешно";
+            $this->log[] = "Каталог <strong>mappers</strong> создан успешно";
         }
         // создаем папку maps
         if (!is_dir('maps')) {
             mkdir('maps');
-            $this->log[] = "Каталог maps создан успешно";
+            $this->log[] = "Каталог <strong>maps</strong> создан успешно";
         }
 
         // создаём папку с шаблонами
         if (!is_dir('templates')) {
             mkdir('templates');
-            $this->log[] = "Каталог templates создан успешно";
+            $this->log[] = "Каталог <strong>templates</strong> создан успешно";
         }
 
         // создаём папку с активными шаблонами
