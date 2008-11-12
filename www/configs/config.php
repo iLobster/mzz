@@ -53,9 +53,9 @@ systemConfig::$db['default']['password'] = '';
 systemConfig::$db['default']['charset'] = 'utf8';
 systemConfig::$db['default']['pdoOptions'] = array();
 
-systemConfig::$pathToApplication = dirname(__FILE__) . '';
-systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../tmp');
-systemConfig::$pathToConf = dirname(__FILE__) . '/configs';
+systemConfig::$pathToApplication = dirname(__FILE__) . '/..';
+systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../../tmp');
+systemConfig::$pathToConf = dirname(__FILE__);
 
 systemConfig::$cache['default']['backend'] = 'memory';
 systemConfig::$cache['memory']['backend'] = 'memory';
