@@ -54,7 +54,7 @@ class phpErrorException extends mzzException
 
         $etype = (isset($errortype[$errno])) ? $errortype[$errno] : 'Unknown';
         $message = $etype. ' in file <b>' . $errfile . ':' . $errline . '</b>: ' . $errstr;
-        parent::__construct($message);
+        parent::__construct($message, $errno, $errline, $errfile);
         $this->setName('PHP Error Exception');
     }
 }
