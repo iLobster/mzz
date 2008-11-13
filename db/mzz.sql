@@ -663,6 +663,10 @@ CREATE TABLE `forum_profile` (
   `messages` INTEGER(11) NOT NULL DEFAULT '0',
   `signature` TEXT COLLATE utf8_general_ci NOT NULL,
   `avatar_id` INTEGER(11) NOT NULL DEFAULT '0',
+  `location` VARCHAR(100) COLLATE utf8_general_ci DEFAULT NULL,
+  `icq` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
+  `url` VARCHAR(100) COLLATE utf8_general_ci DEFAULT NULL,
+  `birthday` DATE DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
 )ENGINE=MyISAM
@@ -672,10 +676,10 @@ CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `forum_profile` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_profile` (`user_id`, `messages`, `signature`, `avatar_id`) VALUES
-  (1,0,'',0),
-  (2,8,'MZZ: opensource php5 framework',25),
-  (3,2,'Я педро!',0);
+INSERT INTO `forum_profile` (`user_id`, `messages`, `signature`, `avatar_id`, `location`, `icq`, `url`, `birthday`) VALUES
+  (1,0,'',0,NULL,NULL,NULL,NULL),
+  (2,8,'MZZ: opensource php5 framework',25,NULL,NULL,NULL,NULL),
+  (3,2,'Я педро!',0,NULL,NULL,NULL,NULL);
 COMMIT;
 
 #
@@ -8016,7 +8020,7 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
   (1,12,'guest','',NULL,NULL,1225005849,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1225817937,1,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1226345032,1,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
@@ -8035,7 +8039,7 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=115 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=116 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -8044,7 +8048,8 @@ AUTO_INCREMENT=115 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_c
 INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES
   (111,2,'127.0.0.1','55da3321d2b291e27df62e33928b6cf2',NULL,1224535110),
   (113,2,'127.0.0.1','d6992e365419583273ab9e7b60256334',NULL,1225005952),
-  (114,2,'127.0.0.1','0e7d7e53f2157adffd9df131296de3a8',NULL,1226344219);
+  (114,2,'127.0.0.1','0e7d7e53f2157adffd9df131296de3a8',NULL,1226344219),
+  (115,2,'127.0.0.1','e2a04cf4534638ef3306996246adc8ff',NULL,1226572448);
 COMMIT;
 
 #
@@ -8092,14 +8097,14 @@ CREATE TABLE `user_userOnline` (
   UNIQUE KEY `user_id` (`user_id`, `session`),
   KEY `last_activity` (`last_activity`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=319 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=321 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
-  (318,2,'6jts561obb80eo4eligt2ueif1',1226345032,'http://mzz-dev.ru/','127.0.0.1');
+  (320,2,'sit59gikibgfubo76e1s0tm9c1',1226572736,'http://mzz-dev.ru/ru/news/comments/create?ajax=1','127.0.0.1');
 COMMIT;
 
 #

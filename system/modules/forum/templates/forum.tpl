@@ -3,7 +3,7 @@
 <div class="forumContent">
 <div class="forumTopPanel">
     <div class="left"><a href="{url route="default2" action="forum"}">MZZ Forums</a></div>
-    <div class="right"><a href="{url route="default2" action="new"}">новые сообщения</a></div>
+    <div class="right">{include file="forum/forumMenu.tpl"}</div>
     <div class="clearRight"></div>
 </div>
 {foreach from=$categories item="category" name="cat"}

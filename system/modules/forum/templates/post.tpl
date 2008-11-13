@@ -19,7 +19,7 @@
             Создание нового поста
         {/if}
     </div>
-    <div class="right"><a href="{url route="default2" action="new"}">новые сообщения</a></div>
+    <div class="right">{include file="forum/forumMenu.tpl"}</div>
     <div class="clearRight"></div>
 </div>
 

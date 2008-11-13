@@ -6,7 +6,7 @@
     <div class="left"><a href="{url route="default2" action="forum"}">MZZ Forums</a>
     <img src="{$SITE_PATH}/templates/images/forum/arrow.gif" width="16" height="8" alt="" />
     Новые сообщения</div>
-    <div class="right"><br /></div>
+    <div class="right">{include file="forum/forumMenu.tpl"}</div>
     <div class="clearRight"></div>
 </div>
 

@@ -7,7 +7,7 @@
         <img src="{$SITE_PATH}/templates/images/forum/arrow.gif" width="16" height="8" alt="" />
         Перемещение
     </div>
-    <div class="right"><a href="{url route="default2" action="new"}">новые сообщения</a></div>
+    <div class="right">{include file="forum/forumMenu.tpl"}</div>
     <div class="clearRight"></div>
 </div>
 

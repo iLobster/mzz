@@ -26,6 +26,7 @@ class folder extends simpleForTree
 {
     protected $name = 'fileManager';
     protected $mapper;
+    protected $storage;
 
     /**
      * Конструктор
@@ -137,8 +138,7 @@ class folder extends simpleForTree
             }
         }
 
-        $storageMapper = systemToolkit::getInstance()->getMapper('fileManager', 'storage', $this->section);
-        $storage = $storageMapper->getStorage();
+        $storage = $this->getStorage();
 
         while (true) {
             try {
@@ -161,6 +161,20 @@ class folder extends simpleForTree
         }
 
         return $file;
+    }
+
+    public function setStorage(storage $storage)
+    {
+        $this->storage = $storage;
+    }
+
+    public function getStorage()
+    {
+        if (empty($this->storage)) {
+            $storageMapper = systemToolkit::getInstance()->getMapper('fileManager', 'storage', $this->section);
+            $this->storage = $storageMapper->getStorage();
+        }
+        return $this->storage;
     }
 }
 

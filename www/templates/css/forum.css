@@ -56,7 +56,7 @@ td.forumCategory, td.threadHeader {
   padding: 5px;
   background: #8298B1 url('../images/forum/header_bg.png');
   font-size: 105%;
-  color: #44545B;
+  color: #FFFFFF;
   padding-left: 10px;
   font-weight: bold;
 }
@@ -70,7 +70,7 @@ td.forumCategory span, td.threadHeader span {
 }
 
 td.forumCategory a, td.threadHeader a {
-  color: #44545B;
+  color: #FFFFFF;
   font-weight: bold;
 }
 
@@ -195,6 +195,7 @@ td.authorInfo {
   border-bottom: 0;
   padding: 10px;
   background-color: #F9FAFB !important;
+  color: #666;
 }
 
 td.postInfo {
@@ -202,6 +203,7 @@ td.postInfo {
   font-size: 85%;
   border-right: 1px solid #E6E6E6;
   height: 26px;
+  color: #666;
 }
 
 td.postContent {
@@ -300,4 +302,64 @@ span.forumButton a {
 
 span.forumButton a:hover {
   color: #030303;
+}
+
+span.userProfileUserName {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+div.userProfileAvatar {
+  float: left;
+  padding: 10px;
+}
+
+div.userProfileAvatar img {
+  margin-right: 15px;
+}
+
+div.userProfileInfo, div.userProfileFullInfo {
+  padding: 10px;
+}
+
+div.userProfileFullInfo {
+  border-top: 1px solid #E3EAEA;
+}
+
+span.userProfileText, span.userProfileFormLabel {
+  color: #666;
+}
+
+span.userProfileFormLabel {
+  width: 160px;
+  float: left;
+  text-align: right;
+  font-weight: bold;
+  padding-top: 5px;
+}
+
+span.userProfileFormInput {
+  padding-top: 5px;
+  float: left;
+  padding-left: 10px;
+}
+
+div.userProfileFormButtons {
+  border-top: 2px solid #E3EAEA;
+  padding-left: 170px;
+  padding-top: 10px;
+  margin: 10px 0;
+}
+
+div.userProfileFormField {
+  clear: both;
+  position: relative;
+}
+
+div.userProfileNotice {
+  border: 1px solid #DDDDDD;
+  background-color: #FFFFDC;
+  padding: 8px;
+  color: #555;
+  margin: 5px 0;
 }

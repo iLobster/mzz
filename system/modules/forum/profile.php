@@ -65,6 +65,33 @@ class profile extends simple
         $access = parent::getAcl($name);
         return $access;
     }
+
+    public function getBirthdayDay()
+    {
+        $birthday = $this->getBirthday();
+        if (empty($birthday)) {
+            return null;
+        }
+        return date("d", strtotime($birthday));
+    }
+
+    public function getBirthdayMonth()
+    {
+        $birthday = $this->getBirthday();
+        if (empty($birthday)) {
+            return null;
+        }
+        return date("m", strtotime($birthday));
+    }
+
+    public function getBirthdayYear()
+    {
+        $birthday = $this->getBirthday();
+        if (empty($birthday)) {
+            return null;
+        }
+        return date("Y", strtotime($birthday));
+    }
 }
 
 ?>

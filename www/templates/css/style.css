@@ -357,3 +357,24 @@ div.newsItem p.newsItemTitle span {
     height: 0;
     overflow: hidden;
 }
+
+div.formError {
+ margin: 5px;
+ padding: 5px;
+ background-color: #FDEEEE;
+ border: 3px solid #FF0000;
+}
+
+div.formError strong {
+ color: #800000;
+}
+
+div.formError ul{
+ margin: 3px 30px;
+ padding: 0;
+}
+
+div.formError li {
+ list-style-type: square;
+}
+
