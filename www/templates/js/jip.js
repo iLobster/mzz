@@ -181,8 +181,14 @@ jipWindow = Class.create({
             this.clean();
             this.jip.setStyle({display: 'block'});
 
-            var jipWindowOffsetTop = Cookie.get('jip_window_top');
-            var jipWindowOffsetLeft = Cookie.get('jip_window_left');
+            var jipWindowOffsetTop = null;
+            var jipWindowOffsetLeft = null;
+            var jipWindowOffsets = Cookie.get('jip_pos');
+            if (jipWindowOffsets != null) {
+                jipWindowOffsets = jipWindowOffsets.match(/(\d+),(\d+)/);
+                jipWindowOffsetTop = jipWindowOffsets[1];
+                jipWindowOffsetLeft = jipWindowOffsets[2];
+            }
 
             if (jipWindowOffsetTop == null || jipWindowOffsetLeft == null) {
                 jipWindowOffsetTop = this.jip.offsetHeight;
@@ -591,14 +597,16 @@ jipWindow = Class.create({
 
     savePosition: function(jip)
     {
+        // убрать после 1 декабря 08 :)
+        Cookie.remove('jip_window_top');
+        Cookie.remove('jip_window_left');
         var cookiePath = (SITE_PATH == '') ? '/' : SITE_PATH;
         var cookieLifeTime = new Date(new Date().getTime() + 50000000000);
         var offsets = Position.cumulativeOffset(jip);
         var topOffset = parseInt(offsets[1]) - new Number(document.documentElement.scrollTop);
         var leftOffset = (offsets[0] >= 0) ? offsets[0] : 0;
         topOffset = (topOffset >= 0) ? topOffset : 0;
-        Cookie.set('jip_window_top', topOffset, cookieLifeTime, cookiePath);
-        Cookie.set('jip_window_left', leftOffset, cookieLifeTime, cookiePath);
+        Cookie.set('jip_pos', topOffset + ',' + leftOffset, cookieLifeTime, cookiePath);
     },
 
     clean: function()
