@@ -41,6 +41,7 @@ class pageMapperTest extends unitTestCase
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `page_page`');
+        $this->db->query('TRUNCATE TABLE `page_page_lang`');
         $this->db->query('TRUNCATE TABLE `page_pageFolder`');
         $this->db->query('TRUNCATE TABLE `page_pageFolder_tree`');
         $this->db->query('TRUNCATE TABLE `user_user`');
@@ -134,9 +135,6 @@ class pageMapperTest extends unitTestCase
         return $total;
     }
 
-    /**
-     * @todo заменить на обычные запросы
-     */
     private function fixture($mapper, $map)
     {
         $folderMapper = new pageFolderMapper('page');
@@ -148,7 +146,7 @@ class pageMapperTest extends unitTestCase
             $page->setTitle('title' . ($i + 1));
             $page->setContent('content' . ($i + 1));
             $page->setFolder(1);
-            $mapper->save($page);
+            $mapper->save($page); exit;
         }
     }
 }
