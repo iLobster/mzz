@@ -109,9 +109,8 @@ abstract class simpleController
 
     /**
      * Запуск контроллера. Если в конфигурации действий указано свойство confirm, требует
-     * подтверждения от пользователя выполнения данного сообщения. Текст сообщения может находится
+     * подтверждения от пользователя выполнения данного сообщения. Текст сообщения может находиться
      * в значении свойства confirm или в свойстве объекта контроллера $confirm
-     * свойство $confirm
      *
      * @return mixed
      */
@@ -128,11 +127,12 @@ abstract class simpleController
 
             $this->smarty->assign('url', $url);
 
+            $confirm = empty($this->confirm) ? $confirm : $this->confirm;
+
             if (i18n::isName($confirm)) {
                 $confirm = i18n::getMessage($confirm);
             }
 
-            $confirm = empty($this->confirm) ? $confirm : $this->confirm;
             $this->smarty->assign('message', $confirm);
             $this->smarty->assign('method', $this->request->getMethod());
             if ($this->request->isMethod('POST')) {
