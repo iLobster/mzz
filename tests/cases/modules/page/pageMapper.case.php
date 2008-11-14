@@ -146,7 +146,7 @@ class pageMapperTest extends unitTestCase
             $page->setTitle('title' . ($i + 1));
             $page->setContent('content' . ($i + 1));
             $page->setFolder(1);
-            $mapper->save($page); exit;
+            $mapper->save($page);
         }
     }
 }
