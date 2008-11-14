@@ -1,6 +1,7 @@
 <?php
 
 fileLoader::load('page/mappers/pageMapper');
+fileLoader::load('page/mappers/pageFolderMapper');
 fileLoader::load('page');
 
 class pageMapperTest extends unitTestCase
