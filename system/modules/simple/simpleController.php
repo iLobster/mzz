@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2.5
+ * @version 0.2.6
  */
 
 abstract class simpleController
@@ -135,19 +135,23 @@ abstract class simpleController
 
             $this->smarty->assign('message', $confirm);
             $this->smarty->assign('method', $this->request->getMethod());
+            // если подтверждается POST-действие, помещаем данные в форму
             if ($this->request->isMethod('POST')) {
+                // переменные могут содержать не только строковое значение, но и массив,
+                // поэтому используем http_build_query для составления правильных имен переменных
                 $postData = http_build_query($this->request->exportPost());
                 $postData = explode('&', $postData);
                 $formValues = array();
                 foreach($postData as $key => $value) {
                     $formValues[$key] = explode('=', $value);
                     $formValues[$key][0] = urldecode($formValues[$key][0]);
+                    $formValues[$key][1] = urldecode($formValues[$key][1]);
                 }
                 $this->smarty->assign('formValues', $formValues);
             }
             $view = $this->smarty->fetch('simple/confirm.tpl');
         }
-        if (!empty($confirmMsg) && empty($view)) {
+        if (!empty($confirm) && empty($view)) {
             $session->destroy('confirm_code');
         }
 
