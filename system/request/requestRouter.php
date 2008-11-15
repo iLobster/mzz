@@ -109,6 +109,16 @@ class requestRouter
     }
 
     /**
+     * Возвращает список всех правил
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
+    }
+
+    /**
      * Возвращает последнее правило, с которым совпал PATH
      *
      * @return iRoute
