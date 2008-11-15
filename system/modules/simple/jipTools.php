@@ -19,13 +19,13 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.2
  */
 class jipTools
 {
     /**
      * Закрытия одного или нескольких JIP окон.
-     * Если $url == true, то после закрытия всех JIP-окон будет выполнено обновление окна браузера.
+     * Если $url === true, то после закрытия всех JIP-окон будет выполнено обновление окна браузера.
      * При значении, отличном от false и true, будет выполнено перенаправление браузера на указанный URL.
      *
      * @param integer $howMany сколько необходимо закрыть JIP окон. По умолчанию закрывается только одно - текущее
@@ -35,22 +35,20 @@ class jipTools
      */
     static public function closeWindow($howMany = 1, $url = false, $timeout = 1500)
     {
-        $html = '<script type="text/javascript"> window.setTimeout(function() {';
-        if ($url) {
-            $url = ($url === true) ? 'true' : '"' . $url . '"';
-            $html .= 'jipWindow.refreshAfterClose(' . $url .'); ';
-        }
-        $html .= 'jipWindow.close(' . (int)$howMany . '); }, ' . (int)$timeout . '); </script>';
-        $html .= '<p style="text-align: center; font-weight: bold; color: green; font-size: 120%;">Сохранение изменений...</p>';
-        return $html;
+        $smarty = systemToolkit::getInstance()->getSmarty();
+        $smarty->assign('url', $url);
+        $smarty->assign('howMany', (int)$howMany);
+        $smarty->assign('timeout', (int)$timeout);
+        $smarty->assign('do', 'close');
+        return $smarty->fetch('simple/jipTools.tpl');
     }
 
     static public function setRefreshAfterClose($url = true)
     {
-        $html = '<script type="text/javascript"> jipWindow.refreshAfterClose(';
-        $html .= ($url === true) ? 'true' : '"' . $url . '"';
-        $html .= '); </script>';
-        return $html;
+        $smarty = systemToolkit::getInstance()->getSmarty();
+        $smarty->assign('url', $url);
+        $smarty->assign('do', 'refresh');
+        return $smarty->fetch('simple/jipTools.tpl');
     }
 
     /**
@@ -61,16 +59,10 @@ class jipTools
      */
     static public function redirect($url = null)
     {
-        $html = '<script type="text/javascript">';
-        if (!empty($url)) {
-            $html .= "if (window.location == '" . $url . "') { var targetURL = new String(window.location).replace('#' + window.location.hash, ''); }";
-            $html .= "else { var targetURL = '" . $url . "'; }";
-            $html .= "window.location = targetURL;";
-        } else {
-            $html .= "window.location.reload(true);";
-        }
-        $html .= '</script><p align="center"><span id="jipLoad">Обновление окна браузера...</span></p>';
-        return $html;
+        $smarty = systemToolkit::getInstance()->getSmarty();
+        $smarty->assign('url', $url);
+        $smarty->assign('do', 'redirect');
+        return $smarty->fetch('simple/jipTools.tpl');
     }
 }
 
