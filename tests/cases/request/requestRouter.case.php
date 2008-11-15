@@ -140,6 +140,23 @@ class requestRouterTest extends unitTestCase
         }
     }
 
+    public function testGetAllRoutes()
+    {
+        $routeFirst = new mockstubRoute;
+        $routeSecond = new mockstubRoute;
+
+        $routes = array(
+            'first' => $routeFirst,
+            'second' => $routeSecond,
+        );
+
+        foreach ($routes as $name => $route) {
+            $this->router->addRoute($name, $route);
+        }
+
+        $this->assertEqual($routes, $this->router->getRoutes());
+    }
+
 }
 
 ?>
