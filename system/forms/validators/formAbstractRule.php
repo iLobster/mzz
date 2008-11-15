@@ -102,6 +102,7 @@ abstract class formAbstractRule
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
     }
 
     /**

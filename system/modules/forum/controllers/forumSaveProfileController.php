@@ -41,6 +41,7 @@ class forumSaveProfileController extends simpleController
         $validator = new formValidator();
         $validator->add('url', 'url', 'Укажите правильный адрес сайта');
         $validator->add('numeric', 'icq', 'Укажите правильный номер ICQ');
+        $validator->add('date', 'array:birthday', 'Укажите правильную дату рождения');
 
         $avatarUploaded = false;
         if ($this->request->getString('avatar[name]', SC_FILES)) {
@@ -56,12 +57,13 @@ class forumSaveProfileController extends simpleController
 
 
             $signature = $this->request->getString('signature', SC_POST);
+            $birthday = $this->request->getArray('birthday', SC_POST);
 
             $profile->setSignature($signature);
             $profile->setUrl($this->request->getString('url', SC_POST));
             $profile->setIcq($this->request->getString('icq', SC_POST));
             $profile->setLocation($this->request->getString('location', SC_POST));
-            $profile->setSignature($signature);
+            $profile->setBirthday($birthday);
 
             if ($this->request->getBoolean('delete_avatar', SC_POST)) {
                 if ($avatar = $profile->getAvatar()) {

@@ -5,53 +5,33 @@ fileLoader::load('forms/validators/formEmailRule');
 
 class formEmailRuleTest extends UnitTestCase
 {
-    private $request;
-
     public function setup()
     {
-        $this->request = systemToolkit::getInstance()->getRequest();
-        $this->request->save();
+        $this->rule = new formEmailRule('email', '');
     }
 
     function teardown()
     {
-        $this->request->restore();
     }
 
     public function testSimple()
     {
-        $_POST['host'] = 'name@domain.ru';
-        $this->request->refresh();
-
-        $rule = new formEmailRule('host', '');
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($this->rule->setValue('name@domain.ru')->validate());
     }
 
     public function testNoAtChar()
     {
-        $_POST['host'] = 'namedomain.ru';
-        $this->request->refresh();
-
-        $rule = new formEmailRule('host', '');
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($this->rule->setValue('namedomain.ru')->validate());
     }
 
     public function testInvalidDomain()
     {
-        $_POST['host'] = 'name@-domain.ru';
-        $this->request->refresh();
-
-        $rule = new formEmailRule('host', '');
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($this->rule->setValue('name@-domain.ru')->validate());
     }
 
     public function testInvalidName()
     {
-        $_POST['host'] = 'мззname@domain.ru';
-        $this->request->refresh();
-
-        $rule = new formEmailRule('host', '');
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($this->rule->setValue('мззname@domain.ru')->validate());
     }
 }
 

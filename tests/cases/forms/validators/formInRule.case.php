@@ -5,71 +5,48 @@ fileLoader::load('forms/validators/formInRule');
 
 class formInRuleTest extends UnitTestCase
 {
-    private $request;
-
     public function setup()
     {
-        $this->request = systemToolkit::getInstance()->getRequest();
-        $this->request->save();
     }
 
     function teardown()
     {
-        $this->request->restore();
     }
 
     public function testIn()
     {
-        $_POST['foo'] = 'bar';
-        $this->request->refresh();
-
         $rule = new formInRule('foo', '', array('bar', 'baz'));
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($rule->setValue('bar')->validate());
     }
 
     public function testInWithKeys()
     {
-        $_POST['foo'] = 'bar';
-        $this->request->refresh();
-
         $rule = new formInRule('foo', '', array('somekey' => 'bar', 'baz'));
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($rule->setValue('bar')->validate());
     }
 
     public function testInWithArray()
     {
-        $_POST['foo'] = array('bar', 'baz');
-        $this->request->refresh();
-
         $rule = new formInRule('array:foo', '', array('bar', 'baz'));
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($rule->setValue(array('bar', 'baz'))->validate());
     }
 
     public function testNotInWithArray()
     {
-        $_POST['foo'] = array('bar', 'baz');
-        $this->request->refresh();
-
         $rule = new formInRule('array:foo', '', array('baz'));
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($rule->setValue(array('bar', 'baz'))->validate());
     }
 
     public function testNotIn()
     {
-        $_POST['foo'] = 'foobar';
-        $this->request->refresh();
-
         $rule = new formInRule('foo', '', array('bar', 'baz'));
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($rule->setValue('foobar')->validate());
     }
 
     public function testNotArray()
     {
-        $_POST['foo'] = 'foobar';
-        $this->request->refresh();
-
         $rule = new formInRule('foo', '', 'string');
-
+        $rule->setValue('foobar');
         try {
             $rule->validate();
             $this->fail('Должно быть брошено исключение');

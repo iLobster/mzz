@@ -5,57 +5,45 @@ fileLoader::load('forms/validators/formRangeRule');
 
 class formRangeRuleTest extends UnitTestCase
 {
-    private $request;
-
     public function setup()
     {
-        $this->request = systemToolkit::getInstance()->getRequest();
-        $this->request->save();
     }
 
     function teardown()
     {
-        $this->request->restore();
     }
 
     public function testMatch()
     {
-        $_POST['number'] = 10;
-        $this->request->refresh();
-
         $rule = new formRangeRule('number', '', array(1, 20));
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($rule->setValue(10)->validate());
     }
 
     public function testNotMatch()
     {
-        $_POST['number'] = 0;
-        $this->request->refresh();
-
         $rule = new formRangeRule('number', '', array(1, 20));
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($rule->setValue(0)->validate());
     }
 
     public function testOneSideRanges()
     {
-        $_POST['number'] = 666;
-        $this->request->refresh();
+        $num = 666;
 
         $rule = new formRangeRule('number', '', array(1, null));
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($rule->setValue($num)->validate());
 
         $rule = new formRangeRule('number', '', array(1000, null));
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($rule->setValue($num)->validate());
 
         $rule = new formRangeRule('number', '', array(null, 1000));
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($rule->setValue($num)->validate());
 
         $rule = new formRangeRule('number', '', array(null, 100));
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($rule->setValue($num)->validate());
 
         try {
             $rule = new formRangeRule('number', '', array(null, null));
-            $rule->validate();
+            $rule->setValue($num)->validate();
             $this->fail();
         } catch (mzzRuntimeException $e) {
             $this->assertPattern("/2 параметра/i", $e->getMessage());
@@ -64,13 +52,10 @@ class formRangeRuleTest extends UnitTestCase
 
     public function testException()
     {
-        $_POST['number'] = 0;
-        $this->request->refresh();
-
         $rule = new formRangeRule('number', '', array(20));
 
         try {
-            $rule->validate();
+            $rule->setValue(0)->validate();
             $this->fail();
         } catch (mzzRuntimeException $e) {
             $this->assertPattern("/2 параметра/i", $e->getMessage());

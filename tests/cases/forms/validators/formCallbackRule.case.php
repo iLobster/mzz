@@ -8,17 +8,12 @@ function simpleCallbackRuleFunction($value, $a, $b, $c) {
 
 class formCallbackRuleTest extends UnitTestCase
 {
-    //private $request;
-
     public function setup()
     {
-        //$this->request = systemToolkit::getInstance()->getRequest();
-        //$this->request->save();
     }
 
     function teardown()
     {
-        //$this->request->restore();
     }
 
     public function testIsCorrect()

@@ -20,32 +20,29 @@ class formEqualRuleTest extends UnitTestCase
 
     public function testEqual()
     {
-        $_POST['first'] = '10';
         $_POST['second'] = '10';
         $this->request->refresh();
 
         $rule = new formEqualRule('first', '', array('second'));
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($rule->setValue('10')->validate());
     }
 
     public function testNotEqual()
     {
-        $_POST['first'] = '10';
         $_POST['second'] = '1';
         $this->request->refresh();
 
         $rule = new formEqualRule('first', '', array('second'));
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($rule->setValue('10')->validate());
     }
 
     public function testNoSecond()
     {
-        $_POST['first'] = '10';
         unset($_POST['second']);
         $this->request->refresh();
 
         $rule = new formEqualRule('first', '');
-
+        $rule->setValue('10');
         try {
             $rule->validate();
             $this->fail('Должно быть брошено исключение');
@@ -56,12 +53,11 @@ class formEqualRuleTest extends UnitTestCase
 
     public function testTrueNotEqual()
     {
-        $_POST['first'] = '10';
         $_POST['second'] = '1';
         $this->request->refresh();
 
         $rule = new formEqualRule('first', '', array('second', false));
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($rule->setValue(10)->validate());
     }
 }
 

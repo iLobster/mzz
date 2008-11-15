@@ -18,6 +18,7 @@
  * @package system
  * @subpackage forms
  * @version 0.1
+ * @deprecated думаю что на совпадение типов переменных нет повода проверять, предлагаю оставить только formEqualRule
  */
 class formIdenticalRule extends formAbstractRule
 {

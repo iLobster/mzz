@@ -92,6 +92,17 @@ class profile extends simple
         }
         return date("Y", strtotime($birthday));
     }
+
+    public function setBirthday($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+        if (is_array($value)) {
+            $value = $value['year'] . '-' . $value['month'] . '-' . $value['day'];
+        }
+        parent::setBirthday($value);
+    }
 }
 
 ?>

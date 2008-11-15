@@ -30,24 +30,20 @@ class formValidatorTest extends UnitTestCase
     public function testValidate()
     {
         $_POST['submit'] = 'submit';
-        $_POST['data'] = 'value';
-        $_POST['data2'] = 'value';
-        $_POST['data3'] = 'value';
         $this->request->refresh();
 
-        $this->validator->add('required', 'data');
-        $this->validator->add('required', 'data2');
-        $this->validator->add('required', 'data3');
+        $this->validator->add('required', 'data')->setValue('value');
+        $this->validator->add('required', 'data2')->setValue('value');
+        $this->validator->add('required', 'data3')->setValue('value');
         $this->assertTrue($this->validator->validate());
     }
 
     public function testValidateError()
     {
         $_POST['submit'] = 'submit';
-        $_POST['data'] = 'value';
         $this->request->refresh();
 
-        $this->validator->add('required', 'data');
+        $this->validator->add('required', 'data')->setValue('value');;
         $this->validator->add('required', $field = 'data5', $errorMsg = 'Some error message');
         $this->assertFalse($this->validator->validate());
         $errors = $this->validator->getErrors();

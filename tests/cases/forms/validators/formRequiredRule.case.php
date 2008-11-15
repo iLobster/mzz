@@ -5,25 +5,18 @@ fileLoader::load('forms/validators/formRequiredRule');
 
 class formRequiredRuleTest extends UnitTestCase
 {
-    private $request;
-
     public function setup()
     {
-        $this->request = systemToolkit::getInstance()->getRequest();
-        $this->request->save();
     }
 
     function teardown()
     {
-        $this->request->restore();
     }
 
     public function testExists()
     {
-        $_POST['name'] = '0';
-        $this->request->refresh();
-
         $rule = new formRequiredRule('name');
+        $rule->setValue('0');
         $this->assertTrue($rule->validate());
     }
 

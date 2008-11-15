@@ -3,91 +3,60 @@
 fileLoader::load('forms/validators/formAbstractRule');
 fileLoader::load('forms/validators/formHostnameRule');
 
-class formHostnamelRuleTest extends UnitTestCase
+class formHostnameRuleTest extends UnitTestCase
 {
-    private $request;
-
     public function setup()
     {
-        $this->request = systemToolkit::getInstance()->getRequest();
-        $this->request->save();
+        $this->rule = new formHostnameRule('host', '');
     }
 
     function teardown()
     {
-        $this->request->restore();
     }
 
     public function testSimple()
     {
-        $_POST['host'] = 'foo.ru';
-        $this->request->refresh();
-
-        $rule = new formHostnameRule('host', '');
-        $this->assertTrue($rule->validate());
+        $this->assertTrue($this->rule->setValue('foo.ru')->validate());
     }
 
     public function testTooLong()
     {
-        $_POST['host'] = str_repeat('a', 300) . '.ru';
-        $this->request->refresh();
-
-        $rule = new formHostnameRule('host', '');
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($this->rule->setValue(str_repeat('a', 300) . '.ru')->validate());
     }
 
     public function testTooShort()
     {
-        $_POST['host'] = 'ru';
-        $this->request->refresh();
-
-        $rule = new formHostnameRule('host', '');
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($this->rule->setValue('ru')->validate());
     }
 
     public function testInvalidChars()
     {
-        $_POST['host'] = 'домен.ru';
-        $this->request->refresh();
-
-        $rule = new formHostnameRule('host', '');
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($this->rule->setValue('домен.ru')->validate());
     }
-    
+
     public function testDashFirst()
     {
-        $_POST['host'] = '-domain.ru';
-        $this->request->refresh();
-
-        $rule = new formHostnameRule('host', '');
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($this->rule->setValue('-domain.ru')->validate());
     }
 
     public function testDashLast()
     {
-        $_POST['host'] = 'domain-.ru';
-        $this->request->refresh();
-
-        $rule = new formHostnameRule('host', '');
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($this->rule->setValue('domain-.ru')->validate());
     }
 
     public function testDash3And4()
     {
-        $_POST['host'] = 'do--main.ru';
-        $this->request->refresh();
-
-        $rule = new formHostnameRule('host', '');
-        $this->assertFalse($rule->validate());
+        $this->assertFalse($this->rule->setValue('do--main.ru')->validate());
     }
 
     public function testInvalidTLD()
     {
-        $_POST['host'] = 'domain.foo';
-        $this->request->refresh();
+        $this->assertFalse($this->rule->setValue('domain.foo')->validate());
+    }
 
-        $rule = new formHostnameRule('host', '');
-        $this->assertFalse($rule->validate());
+    public function testIp()
+    {
+        $this->assertTrue($this->rule->setValue('127.0.0.1')->validate());
     }
 }
 
