@@ -90,9 +90,18 @@ class httpResponseTest extends unitTestCase
         $this->assertEqual($this->response->getHeaders(), array('Location' => array('value' => $url, 'replaced' => 1, 'code' => 302)));
         $this->response->redirect($url, 304);
         $this->assertEqual($this->response->getHeaders(), array('Location' => array('value' => $url, 'replaced' => 1, 'code' => 304)));
+    }
 
+    public function testStausCode()
+    {
+        $this->response->setStatus($code = 404);
+        $this->assertEqual($this->response->getStatus(), 404);
+    }
+
+    public function testInvalidRedirectCode()
+    {
         try {
-            $this->response->redirect($url, 404);
+            $this->response->redirect('/', 404);
             $this->fail();
         } catch (mzzRuntimeException $e) {
             $this->pass();

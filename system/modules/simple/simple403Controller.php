@@ -24,6 +24,7 @@ class simple403Controller extends simpleController
 {
     public function getView()
     {
+        $header = $this->request->getBoolean('403header');
         $this->request->setSection('page');
         $this->request->setParams(array('name' => '403'));
         $this->request->setAction('view');
@@ -34,7 +35,9 @@ class simple403Controller extends simpleController
         $factory = new simpleFactory($action, 'page');
         $controller = $factory->getController();
 
-        $this->toolkit->getResponse()->setHeader('', 'HTTP/1.1 403 Forbidden');
+        if ($header) {
+            $this->response->setStatus(403);
+        }
 
         return $controller->run();
     }

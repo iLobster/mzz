@@ -52,7 +52,7 @@ class simple404Controller extends simpleController
         $factory = new simpleFactory($action, 'page');
         $controller = $factory->getController();
 
-        $this->toolkit->getResponse()->setHeader('', 'HTTP/1.x 404 Not Found');
+        $this->response->setStatus(404);
 
         return $this->onlyHeaders ? false : $controller->run();
     }

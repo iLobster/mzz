@@ -60,11 +60,16 @@ class httpResponse
     protected $isRedirected = false;
 
     /**
+     * Response status code
+     */
+    protected $status;
+
+    /**
      * List of HTTP response codes
      *
      * @var array
      */
-    protected static $messages = array(
+    protected $statusTexts = array(
     // Informational 1xx
     100 => 'Continue',
     101 => 'Switching Protocols',
@@ -127,10 +132,9 @@ class httpResponse
     }
 
     /**
-     * Уставливает заголовки для клиента.
-     * Удаление заголовка, заголовков с одинаковыми именами не реализовано.
+     * Уставливает header для клиента. Если значение указано null, header удаляется.
      *
-     * @param string $name имя заголовка. Может быть пустым (например, для установки заголовка "HTTP/1.1 404 Not Found")
+     * @param string $name имя header
      * @param string $value значение для заголовка
      * @param boolean $replaced указывает что заголовок должен замещать предыдущий с таким же именем
      *                          (например, для отправки "WWW-Authenticate" заголовков необходимо указать false)
@@ -138,6 +142,9 @@ class httpResponse
      */
     public function setHeader($name, $value, $replaced = true, $code = null)
     {
+        if (is_null($value)) {
+            unset($this->headers[$name]);
+        }
         if ($replaced == false) {
             $name .= str_repeat('#', ++$this->notReplacedCount);
         }
@@ -250,6 +257,12 @@ class httpResponse
      */
     private function sendHeaders()
     {
+        // При редиректе заголовок устанавливается автоматически
+        $status = $this->getStatus();
+        if (!empty($status) && !$this->isRedirected) {
+            header(php_sapi_name() == 'cgi' ? 'Status: ' : 'HTTP/1.0 ' . $status . ' ' . $this->statusTexts[$status]);
+        }
+
         $headers = $this->getHeaders();
         if (empty($headers) || $this->isHeadersSent()) {
             return;
@@ -257,9 +270,7 @@ class httpResponse
 
         foreach ($headers as $name => $params) {
             $name = rtrim($name, '#');
-            if (!$name && !$this->isRedirected) { // при редиректе устанавливается свой статус код автоматически
-                header($params['value']);
-            } elseif (is_null($params['code'])) {
+            if (is_null($params['code'])) {
                 header($name . ": " . $params['value'], $params['replaced']);
             } else {
                 header($name . ": " . $params['value'], $params['replaced'], $params['code']);
@@ -286,6 +297,29 @@ class httpResponse
                 setcookie($name, $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure']);
             }
         }
+    }
+
+    /**
+     * Устанавливает response status code
+     *
+     * @param integer $code
+     */
+    public function setStatus($code)
+    {
+        if (!isset($this->statusTexts[$code])) {
+            throw new mzzRuntimeException('Unknown response status code ' . $code);
+        }
+        $this->status = (int)$code;
+    }
+
+    /**
+     * Возвращает response status code
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**

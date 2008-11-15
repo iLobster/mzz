@@ -137,7 +137,7 @@ class file extends simple
                     if (php_sapi_name() == "cgi") {
                         header("Status: 206 Partial Content");
                     } else {
-                        header("HTTP/1.1 206 Partial Content");
+                        header("HTTP/1.0 206 Partial Content");
                     }
                 }
             }

@@ -25,6 +25,9 @@ class formUrlRule extends formHostnameRule
 {
     public function validate()
     {
+        if (empty($this->value)) {
+            return true;
+        }
         $pattern = '#^((https?|ftps?)://)?(?<domain>[-A-Z0-9.]+)(/[-A-Z0-9+&@\#/%=~_|!:,.;]*)?(\?[-A-Z0-9+&@\#/%=~_|!:,.;]*)?$#i';
 
         if(!preg_match($pattern, $this->value, $matches)) {
