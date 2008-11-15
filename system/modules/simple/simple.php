@@ -270,10 +270,11 @@ abstract class simple implements Serializable
      */
     protected function validateAttribute($name)
     {
+        $name = strtolower($name);
         foreach ($this->map as $key => $val) {
-            if (isset($val['accessor']) && $val['accessor'] == $name) {
+            if (isset($val['accessor']) && strtolower($val['accessor']) == $name) {
                 return array('accessor', $key);
-            } elseif (isset($val['mutator']) && $val['mutator'] == $name) {
+            } elseif (isset($val['mutator']) && strtolower($val['mutator']) == $name) {
                 return array('mutator', $key);
             }
         }
