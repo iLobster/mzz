@@ -24,8 +24,3 @@
     </script>
     <p align="center"><span id="jipLoad">Обновление окна браузера...</span></p>
 {/if}
-
-
-
-
-
