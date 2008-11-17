@@ -1,0 +1,5 @@
+RewriteEngine on
+
+RewriteBase /templates/css/
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule (.*\.css) ../external.php?type=css&files=$1 [L]

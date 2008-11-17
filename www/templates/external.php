@@ -28,6 +28,7 @@ require_once systemConfig::$pathToSystem . '/resolver/compositeResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/sysFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/appFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/moduleMediaResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/templateMediaResolver.php';
 
 $baseresolver = new compositeResolver();
 $baseresolver->addResolver(new appFileResolver());
@@ -35,6 +36,7 @@ $baseresolver->addResolver(new sysFileResolver());
 
 $resolver = new compositeResolver();
 $resolver->addResolver(new moduleMediaResolver($baseresolver));
+$resolver->addResolver(new templateMediaResolver($baseresolver));
 
 $pathToTemplates = dirname(__FILE__);
 if (isset($_GET['type']) && isset($_GET['files'])) {
@@ -57,7 +59,7 @@ if (isset($_GET['type']) && isset($_GET['files'])) {
         }
 
         echo $source;
-        exit();
+        exit;
     }
 }
 
