@@ -46,24 +46,16 @@ $pathToTemplates = dirname(__FILE__);
 if (isset($_GET['type']) && isset($_GET['files'])) {
     $files = explode(',', $_GET['files']);
     if ($files) {
-        switch ($_GET['type']) {
-            case 'js':
-                header('Content-type: application/x-javascript');
-                $source = generateSource($files, $resolver);
-                break;
+        $mimes = array('js' => 'application/x-javascript', 'css' => 'text/css', 'png' => 'image/png', 'gif' => 'image/gif');
 
-            case 'css':
-                header('Content-type: text/css');
-                $source = generateSource($files, $resolver);
-                break;
-
-            default:
-                $source = null;
-                break;
+        $source = null;
+        if (isset($mimes[$_GET['type']])) {
+            header('Content-type: ' . $mimes[$_GET['type']]);
+            $source = generateSource($files, $resolver);
         }
 
         echo $source;
-        exit;
+        exit();
     }
 }
 
@@ -93,7 +85,7 @@ function generateSource(Array $files, iResolver $resolver)
 
     if (is_null($filemtime)) {
         header("HTTP/1.1 404 Not Found");
-        exit;
+        exit();
     }
 
     if ($files && $filemtime) {
