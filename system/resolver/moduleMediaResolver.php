@@ -33,6 +33,9 @@ class moduleMediaResolver extends partialFileResolver
     protected function partialResolve($request)
     {
         $fileinfo = pathinfo($request);
+        if (empty($fileinfo['extension'])) {
+            return false;
+        }
 
         $images_extensions = array('jpg', 'png', 'gif');
         $valid_extensions = array('css', 'js');
@@ -48,10 +51,10 @@ class moduleMediaResolver extends partialFileResolver
             if (!$slash_count) {
                 return 'modules/' . $fileinfo['filename'] . '/templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
             } elseif ($slash_count == 1) {
-                list($module, $file) = explode('/', $request);
+                list($module, $file) = explode('/', $request, 2);
                 return 'modules/' . $module . '/templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
             } else {
-                list($module, $last) = explode('/', $request);
+                list($module, $last) = explode('/', $request, 2);
                 return 'modules/' . $module . '/templates/' . $last;
             }
 

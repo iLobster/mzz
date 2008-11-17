@@ -21,6 +21,7 @@
  */
 
 require_once '../configs/config.php';
+require_once systemConfig::$pathToSystem . '/core/fileLoader.php';
 
 require_once systemConfig::$pathToSystem . '/resolver/iResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/fileResolver.php';
@@ -31,6 +32,7 @@ require_once systemConfig::$pathToSystem . '/resolver/moduleMediaResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/templateMediaResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/decoratingResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/cachingResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/classFileResolver.php';
 
 $baseresolver = new compositeResolver();
 $baseresolver->addResolver(new appFileResolver());
@@ -39,19 +41,27 @@ $baseresolver->addResolver(new sysFileResolver());
 $resolver = new compositeResolver();
 $resolver->addResolver(new moduleMediaResolver($baseresolver));
 $resolver->addResolver(new templateMediaResolver($baseresolver));
+$resolver->addResolver(new classFileResolver($baseresolver));
 
 $resolver = new cachingResolver($resolver, 'resolver.media.cache');
+fileLoader::setResolver($resolver);
+fileLoader::load('exceptions/init');
+
+fileLoader::load('request/httpRequest');
+$request = new httpRequest();
 
 $pathToTemplates = dirname(__FILE__);
-if (isset($_GET['type']) && isset($_GET['files'])) {
-    $files = explode(',', $_GET['files']);
+$type = $request->getString('type', SC_GET);
+$files = $request->getString('files', SC_GET);
+if ($type !== null && $files !== null) {
+    $files = explode(',', $files);
     if ($files) {
         $mimes = array('js' => 'application/x-javascript', 'css' => 'text/css', 'png' => 'image/png', 'gif' => 'image/gif');
 
         $source = null;
-        if (isset($mimes[$_GET['type']])) {
-            header('Content-type: ' . $mimes[$_GET['type']]);
-            $source = generateSource($files, $resolver);
+        if (isset($mimes[$type])) {
+            header('Content-type: ' . $mimes[$type]);
+            $source = generateSource($files, $resolver, $request->getHeaders());
         }
 
         echo $source;
@@ -59,10 +69,8 @@ if (isset($_GET['type']) && isset($_GET['files'])) {
     }
 }
 
-function generateSource(Array $files, iResolver $resolver)
+function generateSource(Array $files, iResolver $resolver, $headers)
 {
-    $headers = apache_request_headers();
-
     $fileNameReplacePatterns = array('..' => '');
     $source = null;
     $filemtime = null;

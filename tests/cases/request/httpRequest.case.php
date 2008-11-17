@@ -174,6 +174,20 @@ class httpRequestTest extends unitTestCase
         $this->assertEqual($this->httprequest->getRaw('someKey'), $params['someKey']);
     }
 
+    public function testGetHeaders()
+    {
+        $_SERVER = array();
+        $_SERVER['HTTP_CONNECTION'] = 'GET';
+        $_SERVER['HTTP_USER_AGENT'] = 'Browser';
+        $_SERVER['CONTENT_TYPE'] = 'text/html';
+        // проверяется только получение заголовков без встроенных функций
+        $this->assertEqual($this->httprequest->getHeaders(true), array(
+            'Connection' => 'GET',
+            'User-Agent' => 'Browser',
+            'Content-Type' => 'text/html'
+        ));
+    }
+
     public function testSaveRestore()
     {
         $this->httprequest->setParams($paramsFirst = array('key' => 'hello'));
