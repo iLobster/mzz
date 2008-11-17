@@ -46,6 +46,7 @@ class forumSaveProfileController extends simpleController
         $avatarUploaded = false;
         if ($this->request->getString('avatar[name]', SC_FILES)) {
             $validator->add('uploaded', 'avatar', 'Укажите файл для загрузки');
+            $validator->add('imagesize', 'avatar', 'Большая ширина или высота у изображения', array('maxHeight' => 100, 'maxWidth' => 100));
             $avatarUploaded = true;
         }
 

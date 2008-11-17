@@ -79,7 +79,7 @@ class stdToolkit extends toolkit
     {
         if (empty($this->request)) {
             fileLoader::load('request/httpRequest');
-            $this->request = new HttpRequest();
+            $this->request = new httpRequest();
         }
 
         return $this->request;
