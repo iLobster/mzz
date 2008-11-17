@@ -182,7 +182,13 @@ class i18n
 
         $locale = new locale($lang);
         $plural = $this->calculatePlural($number, $locale);
-        return $morphs[$plural];
+        // нужно чтобы можно было добавлять числовые переменные для строк,
+        // которым морфология не нужна
+        if (isset($morphs[$plural])) {
+            return $morphs[$plural];
+        } else {
+            return $morphs[0];
+        }
     }
 
     /**

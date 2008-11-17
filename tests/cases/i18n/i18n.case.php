@@ -88,6 +88,14 @@ class i18nTest extends UnitTestCase
         $this->assertEqual($this->i18n->translate('foo', 'module6', 'en', '$a b $c', array($this, 'stub_callback')), 'b foo :1 bar :3-a, c');
     }
 
+    public function testNoMorphForms()
+    {
+        $morph = 'word';
+        $this->assertEqual($this->i18n->morph(1, $morph, 'ru'), $morph);
+        $this->assertEqual($this->i18n->morph(2, $morph, 'ru'), $morph);
+        $this->assertEqual($this->i18n->morph(5, $morph, 'ru'), $morph);
+    }
+
     public function testMorph()
     {
         $morphs = array('слово', 'слова', 'слов');
