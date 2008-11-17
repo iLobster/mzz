@@ -66,6 +66,7 @@ function generateSource(Array $files, iResolver $resolver)
     $fileNameReplacePatterns = array('..' => '');
     $source = null;
     $filemtime = null;
+
     foreach ($files as $file) {
         $file = str_replace(array_keys($fileNameReplacePatterns), $fileNameReplacePatterns, $file);
         $ext = substr(strrchr($file, '.'), 1);
@@ -74,6 +75,7 @@ function generateSource(Array $files, iResolver $resolver)
         if (is_null($filePath)) {
             $filePath = $resolver->resolve('simple/' . $file);
         }
+
         if (is_file($filePath) && is_readable($filePath)) {
             $currentFileTime = filemtime($filePath);
             if ($currentFileTime > $filemtime) {

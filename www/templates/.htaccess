@@ -10,3 +10,6 @@ RewriteRule images/(.*\.(gif|png|jpg)) external.php?type=$2&files=$1 [L]
 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule js/(.*\.js) external.php?type=js&files=$1 [L]
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule js/(.*\.([^.]*)) external.php?type=$2&files=$1 [L]

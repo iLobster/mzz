@@ -50,6 +50,9 @@ class templateMediaResolver extends partialFileResolver
             } elseif ($slash_count == 1) {
                 list($module, $file) = explode('/', $request);
                 return 'templates/' . $fileinfo['extension'] . '/' . $module . '/' . $fileinfo['basename'];
+            } else {
+                list($module, $last) = explode('/', $request, 2);
+                return 'modules/' . $module . '/templates/' . $last;
             }
 
             throw new mzzRuntimeException('Невозможно обработать ' . htmlspecialchars($request));

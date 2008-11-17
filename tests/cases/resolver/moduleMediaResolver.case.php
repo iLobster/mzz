@@ -37,17 +37,6 @@ class moduleMediaResolverTest extends UnitTestCase
 
         $this->assertEqual(systemConfig::$pathToSystem . 'modules/news/templates/js/some.js', $this->resolver->resolve('news/some.js'));
     }
-
-    public function testUnexpectedFormat()
-    {
-        try {
-            $this->resolver->resolve('more/than/one/slash.css');
-            $this->fail('Ожидается исключительная ситуация');
-        } catch (mzzRuntimeException $e) {
-            $this->assertPattern('#more/than/one#', $e->getMessage());
-            $this->pass();
-        }
-    }
 }
 
 ?>
