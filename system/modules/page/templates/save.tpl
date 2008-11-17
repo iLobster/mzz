@@ -4,7 +4,10 @@
     <div class="jipTitle">Создание страницы</div>
 {/if}
 
-{literal}<script type="text/javascript">
+<script type="text/javascript">
+tinyMCEPreInit = {ldelim}base: {$SITE_PATH}'/templates/js/tiny_mce', suffix: ''{rdelim}
+{literal}
+tinymce._init();
 tinyMCE.init({
         theme : "advanced",
         skin : 'o2k7',
