@@ -13,11 +13,11 @@
  */
 
 /**
- * Генератор объединённых js-файлов
+ * Код для получения и/или объединения (только js) файлов из директорий модулей и шаблонов
  *
  * @package system
  * @subpackage template
- * @version 0.1
+ * @version 0.1.1
  */
 
 require_once '../configs/config.php';
@@ -29,6 +29,8 @@ require_once systemConfig::$pathToSystem . '/resolver/sysFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/appFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/moduleMediaResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/templateMediaResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/decoratingResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/cachingResolver.php';
 
 $baseresolver = new compositeResolver();
 $baseresolver->addResolver(new appFileResolver());
@@ -37,6 +39,8 @@ $baseresolver->addResolver(new sysFileResolver());
 $resolver = new compositeResolver();
 $resolver->addResolver(new moduleMediaResolver($baseresolver));
 $resolver->addResolver(new templateMediaResolver($baseresolver));
+
+$resolver = new cachingResolver($resolver, 'resolver.media.cache');
 
 $pathToTemplates = dirname(__FILE__);
 if (isset($_GET['type']) && isset($_GET['files'])) {
@@ -63,7 +67,7 @@ if (isset($_GET['type']) && isset($_GET['files'])) {
     }
 }
 
-function generateSource(Array $files, $resolver)
+function generateSource(Array $files, iResolver $resolver)
 {
     $headers = apache_request_headers();
 
@@ -74,6 +78,10 @@ function generateSource(Array $files, $resolver)
         $file = str_replace(array_keys($fileNameReplacePatterns), $fileNameReplacePatterns, $file);
         $ext = substr(strrchr($file, '.'), 1);
         $filePath = $resolver->resolve($file);
+        // если в обычных директориях не найден - ищем в simple
+        if (is_null($filePath)) {
+            $filePath = $resolver->resolve('simple/' . $file);
+        }
         if (is_file($filePath) && is_readable($filePath)) {
             $currentFileTime = filemtime($filePath);
             if ($currentFileTime > $filemtime) {

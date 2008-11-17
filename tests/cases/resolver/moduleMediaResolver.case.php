@@ -19,15 +19,15 @@ class moduleMediaResolverTest extends UnitTestCase
         $this->mock->expectOnce('resolve', array('modules/news/templates/css/news.css'));
         $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . 'modules/news/templates/css/news.css');
 
-        $this->assertEqual(realpath(systemConfig::$pathToSystem . 'modules/news/templates/css/news.css'), realpath($this->resolver->resolve('news.css')));
+        $this->assertEqual(systemConfig::$pathToSystem . 'modules/news/templates/css/news.css', $this->resolver->resolve('news.css'));
     }
 
     public function testSimpleImageResolve()
     {
-        $this->mock->expectOnce('resolve', array('modules/news/templates/img/news.jpg'));
-        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . 'modules/news/templates/img/news.jpg');
+        $this->mock->expectOnce('resolve', array('modules/news/templates/images/news.jpg'));
+        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . 'modules/news/templates/images/news.jpg');
 
-        $this->assertEqual(realpath(systemConfig::$pathToSystem . 'modules/news/templates/img/news.jpg'), realpath($this->resolver->resolve('news.jpg')));
+        $this->assertEqual(systemConfig::$pathToSystem . 'modules/news/templates/images/news.jpg', $this->resolver->resolve('news.jpg'));
     }
 
     public function testNestedJSResolve()
@@ -35,7 +35,7 @@ class moduleMediaResolverTest extends UnitTestCase
         $this->mock->expectOnce('resolve', array('modules/news/templates/js/some.js'));
         $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . 'modules/news/templates/js/some.js');
 
-        $this->assertEqual(realpath(systemConfig::$pathToSystem . 'modules/news/templates/js/some.js'), realpath($this->resolver->resolve('news/some.js')));
+        $this->assertEqual(systemConfig::$pathToSystem . 'modules/news/templates/js/some.js', $this->resolver->resolve('news/some.js'));
     }
 
     public function testUnexpectedFormat()
@@ -48,7 +48,6 @@ class moduleMediaResolverTest extends UnitTestCase
             $this->pass();
         }
     }
-
 }
 
 ?>

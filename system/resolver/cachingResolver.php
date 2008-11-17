@@ -49,10 +49,10 @@ final class cachingResolver extends decoratingResolver
      *
      * @param object $resolver резолвер, который декорируется кэширующим резолвером
      */
-    public function __construct(iResolver $resolver)
+    public function __construct(iResolver $resolver, $cacheFile = 'resolver.cache')
     {
         // задаём имя файла, в котором будет хранится кэш
-        $filename = systemConfig::$pathToTemp . '/resolver.cache';
+        $filename = systemConfig::$pathToTemp . '/' . $cacheFile;
         $mode = file_exists($filename) ? "r+" : "w";
         $this->cache_file = new SplFileObject($filename, $mode);
         // если файл существует - читаем его содержимое и десериализуем его в массив

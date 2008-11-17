@@ -40,7 +40,7 @@ class templateMediaResolver extends partialFileResolver
 
         if (in_array($fileinfo['extension'], $valid_extensions)) {
             if (in_array($fileinfo['extension'], $images_extensions)) {
-                $fileinfo['extension'] = 'img';
+                $fileinfo['extension'] = 'images';
             }
 
             $slash_count = substr_count($request, '/');
