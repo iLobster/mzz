@@ -16,26 +16,26 @@ class moduleMediaResolverTest extends UnitTestCase
 
     public function testSimpleCSSResolve()
     {
-        $this->mock->expectOnce('resolve', array('/modules/news/templates/css/news.css'));
-        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . '/modules/news/templates/css/news.css');
+        $this->mock->expectOnce('resolve', array('modules/news/templates/css/news.css'));
+        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . 'modules/news/templates/css/news.css');
 
-        $this->assertEqual(realpath(systemConfig::$pathToSystem . '/modules/news/templates/css/news.css'), realpath($this->resolver->resolve('news.css')));
+        $this->assertEqual(realpath(systemConfig::$pathToSystem . 'modules/news/templates/css/news.css'), realpath($this->resolver->resolve('news.css')));
     }
 
     public function testSimpleImageResolve()
     {
-        $this->mock->expectOnce('resolve', array('/modules/news/templates/img/news.jpg'));
-        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . '/modules/news/templates/img/news.jpg');
+        $this->mock->expectOnce('resolve', array('modules/news/templates/img/news.jpg'));
+        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . 'modules/news/templates/img/news.jpg');
 
-        $this->assertEqual(realpath(systemConfig::$pathToSystem . '/modules/news/templates/img/news.jpg'), realpath($this->resolver->resolve('news.jpg')));
+        $this->assertEqual(realpath(systemConfig::$pathToSystem . 'modules/news/templates/img/news.jpg'), realpath($this->resolver->resolve('news.jpg')));
     }
 
     public function testNestedJSResolve()
     {
-        $this->mock->expectOnce('resolve', array('/modules/news/templates/js/some.js'));
-        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . '/modules/news/templates/js/some.js');
+        $this->mock->expectOnce('resolve', array('modules/news/templates/js/some.js'));
+        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . 'modules/news/templates/js/some.js');
 
-        $this->assertEqual(realpath(systemConfig::$pathToSystem . '/modules/news/templates/js/some.js'), realpath($this->resolver->resolve('news/some.js')));
+        $this->assertEqual(realpath(systemConfig::$pathToSystem . 'modules/news/templates/js/some.js'), realpath($this->resolver->resolve('news/some.js')));
     }
 
     public function testUnexpectedFormat()

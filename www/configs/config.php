@@ -23,7 +23,7 @@ define('SITE_PATH', '');
 define('COOKIE_DOMAIN', '');
 
 define('DEBUG_MODE', 1);
-define('SYSTEM_PATH', '../system/');
+define('SYSTEM_PATH', realpath(dirname(__FILE__) . '/../../system/'));
 
 /**
  * Идентификатор записи в БД для неавторизированных пользователей
@@ -35,7 +35,7 @@ define('MZZ_USER_GUEST_ID', 1);
  */
 define('MZZ_ROOT_GID', 3);
 
-require_once SYSTEM_PATH . 'systemConfig.php';
+require_once SYSTEM_PATH . '/systemConfig.php';
 
 // дефолтный язык приложения
 systemConfig::$i18n = 'ru';

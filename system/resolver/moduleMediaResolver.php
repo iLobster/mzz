@@ -46,10 +46,10 @@ class moduleMediaResolver extends partialFileResolver
             $slash_count = substr_count($request, '/');
 
             if (!$slash_count) {
-                return '/modules/' . $fileinfo['filename'] . '/templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
+                return 'modules/' . $fileinfo['filename'] . '/templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
             } elseif ($slash_count == 1) {
                 list($module, $file) = explode('/', $request);
-                return '/modules/' . $module . '/templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
+                return 'modules/' . $module . '/templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
             }
 
             throw new mzzRuntimeException('Невозможно обработать ' . htmlspecialchars($request));
