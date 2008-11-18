@@ -118,7 +118,7 @@ function generateSource(Array $files, iResolver $resolver, $headers)
 
         $time_match = false;
         if ($modified_since <= time() && is_int($modified_since) && $modified_since >= $filemtime) {
-            $changed = $time_match = true;
+            $time_match = true;
         }
     }
 

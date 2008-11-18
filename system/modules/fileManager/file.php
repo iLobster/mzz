@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * file: класс для работы c данными
@@ -112,8 +112,7 @@ class file extends simple
 
         set_time_limit(0);
         $fileName = $this->getRealFullPath();
-        if (!empty($fileName) && file_exists($fileName))
-        {
+        if (!empty($fileName) && file_exists($fileName)) {
             $fileSize = filesize($fileName);
 
             $offset = 0;
@@ -144,12 +143,12 @@ class file extends simple
 
             // @todo: а тут не надо response ?
             header("Pragma: public");
-            header("Expires: 0");
+            //header("Expires: 0");
             header("Cache-Control: public, must-revalidate, max-age=0");
             header("Content-Length: " . ($size - $offset + 1));
             header("Content-Range: bytes " . $offset . "-" . $size . "/" . $fileSize);
 
-            if(empty($name)) {
+            if (empty($name)) {
                 $name = $this->getName();
             }
 
@@ -162,6 +161,23 @@ class file extends simple
             }
 
             header("Last-Modified: " . date('r', filemtime($fileName)));
+            header('Expires: ' . gmdate("D, d M Y H:i:s", time() + 86400 * 30 * 6) . ' GMT');
+
+            $headers = $request->getHeaders();
+            $changed = true;
+            if (isset($headers['If-Modified-Since'])) {
+                $modified_since = strtotime($headers['If-Modified-Since']);
+
+                $time_match = false;
+                if ($modified_since <= time() && is_int($modified_since) && $modified_since >= filemtime($fileName)) {
+                    $changed = false;
+                }
+            }
+
+            if (!$changed) {
+                header("HTTP/1.1 304 Not Modified");
+                exit;
+            }
 
             header("Content-Transfer-Encoding: binary");
             header("Accept-Ranges: bytes");
