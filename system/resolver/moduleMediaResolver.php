@@ -19,7 +19,7 @@ require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
  *
  * @package system
  * @subpackage resolver
- * @version 0.1
+ * @version 0.1.1
  */
 class moduleMediaResolver extends partialFileResolver
 {
@@ -35,6 +35,11 @@ class moduleMediaResolver extends partialFileResolver
         $fileinfo = pathinfo($request);
         if (empty($fileinfo['extension'])) {
             return false;
+        }
+
+        // pathinfo() fix for php < 5.2.0
+        if (!isset($fileinfo['filename'])) {
+            $fileinfo['filename'] = substr($fileinfo['basename'], 0, -(1 + strlen($fileinfo['extension'])));
         }
 
         $images_extensions = array('jpg', 'png', 'gif');
