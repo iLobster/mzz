@@ -57,7 +57,6 @@ $menu = array("intro.Предисловие" =>
                                          "getacl.Метод getAcl()"
                                          ),
                         "folders.Структура каталогов mzz",
-                        "files.Назначение различных файлов (вроде реврайт-мапа итд)",
                         "jip.JIP и AJAX",
                         "forms.Хелперы и формы"
                                 => array("elements.Основные хелперы",
@@ -71,8 +70,6 @@ $menu = array("intro.Предисловие" =>
                         array(
                         "project.Структура проекта",
                         "config.Создание конфигурации для проекта",
-                        "modules.Использование стандартных модулей",
-                        "news_extend.Расширение модуля News для конкретного проекта",
                         "code_generation.Автоматическая генерация кода",
                         ),
            "modules.Модули системы" =>
@@ -95,8 +92,6 @@ $menu = array("intro.Предисловие" =>
                                          "404controller.simple404Controller",
                                          "messageController.messageController"
                                          ),
-                        "news.Описание модуля News",
-                        "page.Описание модуля Page",
                         'writing_module.Написание модуля "Комментарии"'
                                 => array("intro.Введение",
                                          "planning.Планирование",
@@ -117,12 +112,6 @@ $menu = array("intro.Предисловие" =>
                                          ),
                         "404handling.Обработка ошибки 404 в модулях",
                         "pager.Постраничный вывод списков",
-                        ),
-           "acl.Пользователи и Права" =>
-                        array(
-                        "users.Управление пользователями",
-                        "groups.Управление группами",
-                        "permissions.Управление правами",
                         ),
            "db.Работа с БД" =>
                         array(
