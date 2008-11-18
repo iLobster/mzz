@@ -587,16 +587,19 @@ class httpRequest implements iRequest
      */
     public function initialize()
     {
-        $this->urlPort = (int)$this->getServer('SERVER_PORT');
-        $port = $this->getUrlPort();
-
         $host = 'localhost';
         if ($http_host = $this->getServer('HTTP_HOST')) {
-            list($host) = explode(':', $http_host);
+            $host = $http_host;
         } elseif ($server_name = $this->getServer('SERVER_NAME')) {
-            list($host) = explode(':', $server_name);
+            $host = $server_name;
         }
 
+        if (strpos($host, ':')) {
+            list($host, $port) = explode(':', $host);
+        }
+
+        $this->urlPort = !empty($port) ? $port : (int)$this->getServer('SERVER_PORT');
+        $port = $this->getUrlPort();
         $this->urlHost = $host;
 
         // @todo проверить на IIS
