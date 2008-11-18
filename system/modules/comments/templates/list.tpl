@@ -1,4 +1,4 @@
-{add file='comment.css'}
+{add file='comments.css'}
 {if !empty($comments)}
     {assign var="count" value=$comments|@count}
     <div class="commentsTitle">{_ comments_count $count} {$folder->getJip()}</div>
