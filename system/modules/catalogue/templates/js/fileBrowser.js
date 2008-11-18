@@ -1,4 +1,4 @@
-fileLoader.loadCSS(SITE_PATH + '/templates/css/fileBrowse.css');
+fileLoader.loadCSS(SITE_PATH + '/templates/css/catalogue/fileBrowse.css');
 var mzzFileBrowse = {
     lastFile: false,
     options: null,
