@@ -1,8 +1,16 @@
 {if isset($media.js) }
 {strip}
-{foreach from=$media.js item="jsfile" name="jsFiles"}
-{if $smarty.foreach.jsFiles.first}<script type="text/javascript" src="{$SITE_PATH}/templates/external.php?type=js&amp;files={/if}
-{$jsfile.file}{if !$smarty.foreach.jsFiles.last},{else}"></script>{/if}
-{/foreach}
+    {assign var="external" value=""}
+    {foreach from=$media.js item="jsfile" name="jsFiles"}
+    {if $jsfile.join}
+        {assign var="currentFile" value=$jsfile.file}
+        {assign var="external" value=$external$currentFile,}
+    {else}
+        {include file=$jsfile.tpl filename=$jsfile.file}
+    {/if}
+    {/foreach}
+    {if $external}
+        <script type="text/javascript" src="{$SITE_PATH}/templates/external.php?type=js&amp;files={$external|substr:0:-1}"></script>
+    {/if}
 {/strip}
 {/if}

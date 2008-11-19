@@ -82,7 +82,13 @@ function smarty_function_add($params, $smarty)
             }
         }
     }
-    $medias[1][$res][] = array('file' => $filename, 'tpl' => $tpl);
+
+    $join = true;
+    if (isset($params['join']) && $params['join'] == false) {
+        $join = false;
+    }
+
+    $medias[1][$res][] = array('file' => $filename, 'tpl' => $tpl, 'join' => $join);
 }
 
 ?>

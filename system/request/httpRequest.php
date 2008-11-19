@@ -15,6 +15,7 @@
 */
 
 fileLoader::load('request/iRequest');
+fileLoader::load('dataspace/arrayDataspace');
 
 /**
  * httpRequest: класс для работы с суперглобальными массивами.
@@ -555,21 +556,50 @@ class httpRequest implements iRequest
     }
 
     /**
+     * Возвращает заголовки HTTP-запроса. Может использоваться не только
+     * когда php установлен как apache-модуль
+     *
+     * @param boolean $manual флаг использования строенной функции apache_request_headers
+     * @return array
+     */
+    public function getHeaders($manual = false)
+    {
+        if (!$manual && function_exists('apache_request_headers')) {
+            if ($headers = apache_request_headers()) {
+                return $headers;
+            }
+        }
+
+        $headers = array();
+        foreach (array_keys($_SERVER) as $key) {
+            if (($val = substr($key, 0, 5)) == 'HTTP_' || (substr($key, 0, 8) == 'CONTENT_' && !$val = null)) {
+                $name = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, strlen($val))))));
+                $headers[$name] = $_SERVER[$key];
+            }
+        }
+
+        return $headers;
+    }
+
+    /**
      * Инициализация
      *
      */
     public function initialize()
     {
-        $this->urlPort = (int)$this->getServer('SERVER_PORT');
-        $port = $this->getUrlPort();
-
         $host = 'localhost';
         if ($http_host = $this->getServer('HTTP_HOST')) {
-            list($host) = explode(':', $http_host);
+            $host = $http_host;
         } elseif ($server_name = $this->getServer('SERVER_NAME')) {
-            list($host) = explode(':', $server_name);
+            $host = $server_name;
         }
 
+        if (strpos($host, ':')) {
+            list($host, $port) = explode(':', $host);
+        }
+
+        $this->urlPort = !empty($port) ? $port : (int)$this->getServer('SERVER_PORT');
+        $port = $this->getUrlPort();
         $this->urlHost = $host;
 
         // @todo проверить на IIS
