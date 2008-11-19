@@ -13,55 +13,28 @@
  */
 
 require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/baseMediaResolver.php';
 
 /**
  * templateMediaResolver: резолвит медиафайлы (css, js, images) модулей из директории с шаблонами
  *
  * @package system
  * @subpackage resolver
- * @version 0.1
+ * @version 0.1.1
  */
-class templateMediaResolver extends partialFileResolver
+class templateMediaResolver extends baseMediaResolver
 {
-    /**
-     * проверка на соответствие запроса некоторому шаблону
-     * определяем что файл действительно тот, который требуется
-     *
-     * @param string $request строка запроса
-     * @return string|null переписанный запрос, если запрос совпадает с шаблоном, либо null
-     */
-    protected function partialResolve($request)
+    protected function process(Array $fileinfo, $slash_count, $request)
     {
-        $fileinfo = pathinfo($request);
-        if (empty($fileinfo['extension'])) {
-            return false;
+        if (!$slash_count) {
+            return 'templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
+        } elseif ($slash_count == 1) {
+            list ($module, $file) = explode('/', $request, 2);
+            return 'templates/' . $fileinfo['extension'] . '/' . $module . '/' . $fileinfo['basename'];
+        } else {
+            list ($module, $last) = explode('/', $request, 2);
+            return 'modules/' . $module . '/templates/' . $last;
         }
-
-        $images_extensions = array('jpg', 'png', 'gif');
-        $valid_extensions = array('css', 'js');
-        $valid_extensions = array_merge($valid_extensions, $images_extensions);
-
-        if (in_array($fileinfo['extension'], $valid_extensions)) {
-            if (in_array($fileinfo['extension'], $images_extensions)) {
-                $fileinfo['extension'] = 'images';
-            }
-
-            $slash_count = substr_count($request, '/');
-
-            if (!$slash_count) {
-                return 'templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
-            } elseif ($slash_count == 1) {
-                list($module, $file) = explode('/', $request, 2);
-                return 'templates/' . $fileinfo['extension'] . '/' . $module . '/' . $fileinfo['basename'];
-            } else {
-                list ($module, $last) = explode('/', $request, 2);
-                return 'modules/' . $module . '/templates/' . $last;
-            }
-
-            throw new mzzRuntimeException('Невозможно обработать ' . htmlspecialchars($request));
-        }
-
-        return;
     }
 }
 

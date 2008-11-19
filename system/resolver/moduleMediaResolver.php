@@ -13,55 +13,25 @@
  */
 
 require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/baseMediaResolver.php';
 
 /**
  * moduleMediaResolver: резолвит медиафайлы (css, js, images) модулей
  *
  * @package system
  * @subpackage resolver
- * @version 0.1.1
+ * @version 0.1.2
  */
-class moduleMediaResolver extends partialFileResolver
+class moduleMediaResolver extends baseMediaResolver
 {
-    /**
-     * проверка на соответствие запроса некоторому шаблону
-     * определяем что файл действительно тот, который требуется
-     *
-     * @param string $request строка запроса
-     * @return string|null переписанный запрос, если запрос совпадает с шаблоном, либо null
-     */
-    protected function partialResolve($request)
+    protected function process(Array $fileinfo, $slash_count, $request)
     {
-        $fileinfo = pathinfo($request);
-        if (empty($fileinfo['extension'])) {
-            return false;
+        if (!$slash_count) {
+            return 'modules/' . $fileinfo['filename'] . '/templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
+        } else {
+            list ($module, $last) = explode('/', $request, 2);
+            return 'modules/' . $module . '/templates/' . $fileinfo['extension'] . '/' . $last;
         }
-
-        // pathinfo() fix for php < 5.2.0
-        if (!isset($fileinfo['filename'])) {
-            $fileinfo['filename'] = substr($fileinfo['basename'], 0, -(1 + strlen($fileinfo['extension'])));
-        }
-
-        $images_extensions = array('jpg', 'png', 'gif');
-        $valid_extensions = array('css', 'js');
-        $valid_extensions = array_merge($valid_extensions, $images_extensions);
-
-        if (in_array($fileinfo['extension'], $valid_extensions)) {
-            if (in_array($fileinfo['extension'], $images_extensions)) {
-                $fileinfo['extension'] = 'images';
-            }
-
-            $slash_count = substr_count($request, '/');
-
-            if (!$slash_count) {
-                return 'modules/' . $fileinfo['filename'] . '/templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
-            } else {
-                list($module, $last) = explode('/', $request, 2);
-                return 'modules/' . $module . '/templates/' . $fileinfo['extension'] . '/' . $last;
-            }
-        }
-
-        return;
     }
 }
 
