@@ -34,9 +34,10 @@ class pageSaveController extends simpleController
         $isEdit = ($action == 'edit');
 
         if ($isEdit) {
-            $page = $pageFolderMapper->searchChild($name);
+            $page = $pageFolderMapper->searchChild($name, $this);
             $pageFolder = $page->getFolder();
         } else {
+            $this->acceptLang($pageMapper);
             $page = $pageMapper->create();
             $pageFolder = $pageFolderMapper->searchByPath($name);
         }

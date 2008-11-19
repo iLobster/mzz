@@ -67,7 +67,7 @@ class pageFolderMapper extends simpleMapperForTree
      * @param string $name
      * @return page|null
      */
-    public function searchChild($name)
+    public function searchChild($name, $controller = null)
     {
         $toolkit = systemToolkit::getInstance();
         $pageMapper = $toolkit->getMapper('page', 'page');
@@ -83,6 +83,10 @@ class pageFolderMapper extends simpleMapperForTree
 
         if (!$pageFolder) {
             return null;
+        }
+
+        if ($controller instanceof simpleController) {
+            $controller->acceptLang($pageMapper);
         }
 
         $criteria = new criteria();

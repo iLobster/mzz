@@ -84,7 +84,7 @@ abstract class simpleController
      *
      * @param simpleMapper $mapper
      */
-    final protected function acceptLang(simpleMapper $mapper)
+    final public function acceptLang(simpleMapper $mapper)
     {
         $mapper->setLangId($this->lang_id);
     }
