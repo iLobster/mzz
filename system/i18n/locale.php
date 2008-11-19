@@ -75,7 +75,6 @@ class locale
         try {
             $this->locale_file = $this->resolve($this->name = $lang);
         } catch (mzzIoException $e) {
-            // @todo: сделать получение дефолтного языка
             $this->locale_file = $this->resolve($this->name = systemConfig::$i18n);
         }
 

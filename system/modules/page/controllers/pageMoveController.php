@@ -19,16 +19,15 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage page
- * @version 0.2
+ * @version 0.2.1
  */
 
 class pageMoveController extends simpleController
 {
     protected function getView()
     {
-        // @todo ???
-        if (($name = $this->request->getString('name')) == false) {
-            if (($name = $this->request->getString('id')) == false) {
+        if (is_null($name = $this->request->getString('name'))) {
+            if (is_null($name = $this->request->getString('id'))) {
                 $name = 'main';
             }
         }
@@ -46,7 +45,7 @@ class pageMoveController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestPageFolderExists', $pageFolderMapper));
+        $validator->add('callback', 'dest', 'Каталог назначения не существует', array(array($this, 'checkDestPageFolderExists'), $pageFolderMapper));
         if ($validator->validate()) {
             $destFolder = $pageFolderMapper->searchById($dest);
 
@@ -73,13 +72,13 @@ class pageMoveController extends simpleController
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('page', $page);
         return $this->smarty->fetch('page/move.tpl');
+    }
 
+    public function checkDestPageFolderExists($dest, $folderMapper)
+    {
+        $destFolder = $folderMapper->searchById($dest);
+        return (bool)$destFolder;
     }
 }
 
-function checkDestPageFolderExists($dest, $folderMapper)
-{
-    $destFolder = $folderMapper->searchById($dest);
-    return (bool)$destFolder;
-}
 ?>

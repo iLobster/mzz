@@ -51,7 +51,7 @@ class adminAddActionController extends simpleController
         $isEdit = $action == 'editAction';
 
         $actionsInfo = $info[$data['c_name']];
-        //@todo предлагаю этот код также вынести в отдельный класс как это раньше было с QF
+
         // НАЧАЛО ВАЛИДАТОРА
         $url = new url('withId');
         $url->setAction($action);

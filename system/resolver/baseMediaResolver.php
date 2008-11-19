@@ -57,6 +57,13 @@ abstract class baseMediaResolver extends partialFileResolver
         return;
     }
 
+    /**
+     * Метод для непосредственно вычисления пути
+     *
+     * @param array $fileinfo
+     * @param integer $slash_count
+     * @param string $request
+     */
     abstract protected function process(Array $fileinfo, $slash_count, $request);
 }
 
