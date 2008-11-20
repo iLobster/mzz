@@ -1,5 +1,0 @@
-* prototype.js
-> find line 295:
-		+ (path ? '; path=' + path : '')
-> replace to:
-		+ '; path=' + (path ? path : (SITE_PATH == '' ? '/' : SITE_PATH))

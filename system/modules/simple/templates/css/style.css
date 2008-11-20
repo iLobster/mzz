@@ -338,14 +338,6 @@ div.newsItem p.newsItemTitle span {
     font-size: 80%;
 }
 
-.contentBlockTitle {
-    font-size: 140%;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    padding: 0 0 5px 0;
-    background: #fff url("../images/separator_bg.gif") left bottom repeat-x;
-}
-
 .clear {
     clear: both;
     height: 0;
