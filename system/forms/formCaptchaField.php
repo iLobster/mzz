@@ -21,19 +21,34 @@
  */
 class formCaptchaField extends formElement
 {
-    static public function toString($options = array())
+    public function __construct()
     {
-        $options['type'] = 'text';
+        $this->setAttribute('type', 'text');
+        $this->setAttribute('value', '');
+    }
 
+    public function render($attributes = array(), $value = null)
+    {
         $captcha_id = md5(microtime(true));
 
         $url = new url('captcha');
-        $captcha_src = $url->get() . '?rand=' . $captcha_id;
+        $url->add('rand', $captcha_id, true);
 
-        $image = self::createTag(array('src' => $captcha_src, 'width' => 120, 'height' => 40, 'alt' => 'Нажмите на изображение для обновления', 'onclick' => 'javascript: this.src = "' . $captcha_src . '&refresh=" + Math.random();'), 'img');
-        $hidden = self::createTag(array('type' => 'hidden', 'name' => $options['name'] . '_id', 'value' => $captcha_id), 'input');
+        $image = $this->renderTag('img', array(
+            'src' => $url->get(),
+            'width' => 120,
+            'height' => 40,
+            'alt' => 'Click to refresh',
+            'onclick' => 'javascript: this.src = "' . $url->get() . '&r=" + Math.random();')
+        );
 
-        return $hidden . $image . '<br />' . self::createTag($options);
+        $hidden = $this->renderTag('input', array(
+            'type' => 'hidden',
+            'name' => $attributes['name'] . '_id',
+            'value' => $captcha_id)
+        );
+
+        return $hidden . $image . '<br />' . $this->renderTag('input', $attributes);
     }
 }
 

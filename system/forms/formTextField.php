@@ -21,36 +21,45 @@
  */
 class formTextField extends formElement
 {
-    static public function toString($options = array())
+    public function __construct()
     {
-        static $i = 0;
-        if (!isset($options['type'])) {
-            $options['type'] = 'text';
-        }
+        $this->setAttribute('type', 'text');
+        $this->setAttribute('value', '');
+        $this->addOptions(array('restore', 'autocomplete'));
+    }
 
-        $smarty = systemToolkit::getInstance()->getSmarty();
+    public function render($attributes = array(), $value = null)
+    {
+        $clearValue = (isset($attributes['restore']) && $attributes['restore'] == false);
 
-        $clearValue = (isset($options['restore']) && $options['restore'] == true);
-        if (!isset($options['value'])) {
-            $options['value'] = '';
-        }
-
-        if (isset($options['name']) && !$clearValue && !self::isFreeze($options)) {
-            $options['value'] = self::getValue($options['name'], $options['value']);
+        if (isset($attributes['name']) && !$clearValue && !self::isFreeze($attributes)) {
+            $attributes['value'] = $value;
         }
         $autocomplete = '';
-        if (isset($options['autocomplete']) && $options['autocomplete']) {
-            $type = substr($options['autocomplete'], 0, 1) == '[' ? 'local' : 'ajax';
-            $id = isset($options['id']) ? $options['id'] : '__autocompleter_' . $i++;
-            $smarty->assign('id', $id);
-            $smarty->assign('type', $type);
-            $smarty->assign('data', $options['autocomplete']);
-            $autocomplete = $smarty->fetch('forms/autocomplete.tpl');
-            unset($options['autocomplete']);
-            $options['id'] = $id;
+        if (isset($attributes['autocomplete']) && $attributes['autocomplete']) {
+            $autocomplete = $this->addAutocomplete($attributes);
         }
 
-        return self::createTag($options) . $autocomplete;
+        return $this->renderTag('input', $attributes) . $autocomplete;
+    }
+
+    /**
+     * @todo пока не работает
+     *
+     * @param unknown_type $attributes
+     * @return unknown
+     */
+    protected function addAutocomplete(&$attributes)
+    {
+        static $i = 0;
+        $smarty = systemToolkit::getInstance()->getSmarty();
+        $type = substr($attributes['autocomplete'], 0, 1) == '[' ? 'local' : 'ajax';
+        $id = isset($attributes['id']) ? $attributes['id'] : '__autocompleter_' . $i++;
+        $smarty->assign('id', $id);
+        $smarty->assign('type', $type);
+        $smarty->assign('data', $attributes['autocomplete']);
+        $attributes['id'] = $id;
+        return $smarty->fetch('forms/autocomplete.tpl');
     }
 }
 

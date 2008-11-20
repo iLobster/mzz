@@ -21,60 +21,176 @@
  */
 class formCheckboxField extends formElement
 {
-    static public function toString($options = array())
+    /**
+     * Конструктор
+     *
+     */
+    public function __construct()
     {
-        static $i = 0;
+        $this->setAttribute('label_style', 'cursor: pointer; cursor: hand;');
+        $this->setAttribute('label_separator', '&nbsp;');
+        $this->setAttribute('separator', "\n");
+        $this->setAttribute('type', 'checkbox');
+        $this->setAttribute('value', '');
+        $this->addOptions(array(
+        'values', 'text', 'nodefault', 'label_style', 'options', 'label_separator', 'separator', 'keyMethod', 'valueMethod'
+        ));
+    }
 
-        $options['type'] = 'checkbox';
+    /**
+     * Преобразовывает массив опций в HTML-теги
+     *
+     * @param array $attributes
+     * @param string $value
+     * @return string
+     */
+    public function render($attributes = array(), $value = null)
+    {
+        return isset($attributes['options']) ? $this->renderMany($attributes, $value) : $this->renderOne($attributes, $value);
+    }
 
-        if (isset($options['values'])) {
-            $values = explode('|', $options['values']);
-            unset($options['values']);
-            if (!isset($options['value'])) {
-                $options['value'] = $values[0];
-            }
-        } else {
-            $values = array(0, !empty($options['value']) ? $options['value'] : 1);
-        }
-
-        $value = self::getValue($options['name'], $options['value']);
-
-        if (isset($options['text'])) {
-            $text = $options['text'];
-            unset($options['text']);
-            if (isset($options['id'])) {
-                $id = $options['id'];
-            } else {
-                $id = 'mzzFormsCheckbox_' . $i;
-                $i++;
-            }
-
-            $label = self::createTag(array('for' => $id, 'style' => 'cursor: pointer; cursor: hand;', 'content' => $text), 'label');
-            $options['id'] = $id;
-        }
+    /**
+     * Преобразовывает массив опций в HTML-теги
+     *
+     * @param array $attributes
+     * @param string $value
+     * @return string
+     */
+    public function renderOne($attributes = array(), $value = null)
+    {
+        $values = $this->extractValues($attributes);
 
         if (!in_array($value, $values)) {
             $value = $values[0];
         }
 
-        if ($value == $values[1] && (!isset($options['checked']) || $options['checked'] != false)) {
-            $options['checked'] = true;
+        if ($value == $values[1] && (!isset($attributes['checked']) || $attributes['checked'] != false)) {
+            $attributes['checked'] = true;
         }
 
-        $options['value'] = $values[1];
-
-        $hidden = '';
-        if (!isset($options['nodefault']) || !$options['nodefault']) {
-            $optionsHidden = array('type' => 'hidden', 'name' => $options['name'], 'value' => $values[0]);
-            $hidden = self::createTag($optionsHidden);
-        }
-        if (isset($options['nodefault'])) {
-            unset($options['nodefault']);
+        $attributes['value'] = $values[1];
+        $attributes['idFormat'] = $this->getIdFormat() . '_' . $attributes['value'];
+        if (isset($attributes['text'])) {
+            $label = $this->createLabel($attributes);
         }
 
-        $checkbox = self::createTag($options);
+        $attributes = $this->setElementId($attributes, $attributes['value']);
 
-        return $hidden . $checkbox . (isset($label) ? ' ' . $label : '');
+        $hidden = null;
+        if (!isset($attributes['nodefault']) || !$attributes['nodefault']) {
+            $hidden = $this->createHidden($attributes['name'], $values[0]);
+        }
+
+        $checkbox = $this->renderTag('input', $attributes);
+        return $hidden . $checkbox . (isset($label) ? $attributes['label_separator'] . $label : '');
+    }
+
+    /**
+     * Преобразовывает массив опций в HTML-теги
+     *
+     * @param array $attributes
+     * @param string $value
+     * @return string
+     */
+    public function renderMany($attributes = array(), $value = null)
+    {
+        $inputs = array();
+        $attributes['name'] = $this->setMultipleName($attributes['name']);
+        $originalAttributes = $attributes;
+        $value = $this->escapeOnce($this->getElementValue($attributes, false, true));
+        foreach ($attributes['options'] as $key => $option) {
+            $attributes = $originalAttributes;
+            if (is_object($option)) {
+                list($key, $option) = $this->getValuesFromObject($key, $option, $attributes);
+            }
+
+            if ($this->checkSelected($key, $value) && (!isset($attributes['checked']) || $attributes['checked'] != false)) {
+                $attributes['checked'] = true;
+            }
+
+            if ($attributes['type'] == 'radio') {
+                $attributes['idFormat'] = $this->getIdFormat() . '_' . $key;
+            }
+            $attributes['value'] = $key;
+            $attributes['text'] = $option;
+            $attributes = $this->setElementId($attributes, $key);
+
+
+            if (!empty($option)) {
+                $label = $this->createLabel($attributes);
+            }
+
+            $inputs[] = $this->renderTag('input', $attributes) . (isset($label) ? $attributes['label_separator'] . $label : '');
+        }
+
+        return implode($attributes['separator'], $inputs);
+    }
+
+    /**
+     * Получает два значения из опции values (первое если невыбранно, второе если выбрано).
+     * Устанавливает первое значение в атрибуты
+     *
+     * @param array $attributes
+     * @return array
+     */
+    protected function extractValues(&$attributes)
+    {
+        if (isset($attributes['values'])) {
+            if (!strpos($attributes['values'], '|')) {
+                $attributes['values'] = '0|' . $attributes['values'];
+            }
+            $values = explode('|', $attributes['values'], 2);
+            if (!isset($attributes['value'])) {
+                $attributes['value'] = $values[0];
+            }
+        } else {
+            $values = array(0, !empty($attributes['value']) ? $attributes['value'] : 1);
+        }
+
+        return $values;
+    }
+
+    /**
+     * Создает label для элемента
+     *
+     * @param array $attributes
+     * @return string
+     */
+    protected function createLabel($attributes)
+    {
+        $inputAttributes = $this->attributes;
+        $this->attributes = array('label_style' => $this->attributes['label_style']);
+        $text = $attributes['text'];
+        $attributes = $this->setElementId($attributes, $attributes['value']);
+
+        $label = $this->renderTag('label', array('for' => $attributes['id'], 'style' => $this->getAttribute('label_style'), 'content' => $text));
+
+        $this->attributes = $inputAttributes;
+        return $label;
+    }
+
+    /**
+     * Создает hidden-поля для элемента, значение которого будет использовано, если
+     * элемент не выбран
+     *
+     * @param array $attributes
+     * @return string
+     */
+    protected function createHidden($name, $value)
+    {
+        $hiddenAttributes = array('type' => 'hidden', 'name' => $name, 'value' => $value);
+        $hiddenAttributes['idFormat'] = $this->getIdFormat() . '_default';
+        return $this->renderTag('input', $hiddenAttributes);
+    }
+
+    protected function setMultipleName($name)
+    {
+        return substr($name, -2) == '[]' ? $name : $name . '[]';
+    }
+
+    protected function checkSelected($key, $value)
+    {
+        return in_array((string)$key, (array)$value, true);
     }
 }
 

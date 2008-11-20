@@ -21,17 +21,18 @@
  */
 class formTextareaField extends formElement
 {
-    static public function toString($options = array())
+    public function __construct()
     {
-        $value = isset($options['value']) ? $options['value'] : '';
-        if (isset($options['name'])) {
-            $options['content'] = self::escapeOnce((self::getValue($options['name'], $value)));
-        }
-        unset($options['value']);
-        if (empty($options['content'])) {
-            $options['content'] = '';
-        }
-        return self::createTag($options, 'textarea');
+        $this->setAttribute('rows', 5);
+        $this->setAttribute('cols', 20);
+        $this->setAttribute('content', '');
+        $this->addOptions(array('content'));
+    }
+
+    public function render($attributes = array(), $value = null)
+    {
+        $attributes['content'] = $this->escapeOnce($value);
+        return $this->renderTag('textarea', $attributes);
     }
 }
 

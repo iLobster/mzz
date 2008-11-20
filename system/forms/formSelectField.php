@@ -17,128 +17,139 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1.2
+ * @version 0.2
  */
 class formSelectField extends formElement
 {
-    static public function toString($options = array())
+    /**
+     * Текущий выбранный элемент
+     *
+     * @var array
+     */
+    protected $selected;
+
+    /**
+     * Конструктор
+     *
+     */
+    public function __construct()
     {
-        $html = '';
-        $value = isset($options['value']) ? $options['value'] : '';
-
-        if (!empty($options['multiple']) && substr($options['name'], -2) !== '[]') {
-            $options['name'] .= '[]';
-        }
-
-        $name = $options['name'];
-
-        if (!isset($options['options'])) {
-            $options['options'] = array();
-        }
-
-        $first = isset($options['emptyFirst']) && $options['emptyFirst'] !== 0 && $options['emptyFirst'] !== false;
-        $options['options'] = self::parseOptions($options['options']);
-
-        if ($first) {
-            $firstText = (is_bool($options['emptyFirst']) || $options['emptyFirst'] === 1) ? '&nbsp;' : htmlspecialchars($options['emptyFirst']);
-            $options['options'] = array('' => $firstText) + $options['options'];
-        }
-
-        if (sizeof($options['options']) < 2 && isset($options['one_item_freeze']) && $options['one_item_freeze']) {
-            $options['freeze'] = true;
-        }
-        if (is_array($options['options'])) {
-            $value = self::getValue($name, $value, true);
-            foreach ($options['options'] as $key => $text) {
-                if (is_object($text) && isset($options['keyMethod']) && isset($options['valueMethod'])) {
-                    $key = $text->$options['keyMethod']();
-                    $text = $text->$options['valueMethod']();
-                }
-                $text_array = array();
-                if (is_array($text)) {
-                    $text_array = $text;
-                    $text = $text['content'];
-                    unset($text_array['content']);
-                }
-
-                $selected = (($first && $key !== '') || !$first);
-                if (!empty($options['multiple'])) {
-                    if ($value == null) {
-                        $value = array();
-                    } else {
-                        $value = (array)$value;
-                    }
-                    $selected = $selected && in_array($key, $value);
-                } else {
-                    $selected = $selected && ((string)$key == (string)$value);
-                }
-
-                if ($selected) {
-                    $value_selected = array($key, $text);
-                }
-
-                $options_for_tag = array('content' => $text, 'value' => $key, 'selected' => $selected);
-
-                if ($selected) {
-                    $options_for_tag['style'] = 'font-weight: bold;';
-                }
-
-                foreach ($text_array as $key => $value2) {
-                    if ($key == 'items') {
-                        continue;
-                    }
-                    $options_for_tag[$key] = $value2;
-                }
-
-                if (isset($text_array['items'])) {
-                    $options_for_tag['label'] = $options_for_tag['content'];
-                    unset($options_for_tag['value']);
-
-                    $tmp = '';
-                    foreach ($text_array['items'] as $key => $item) {
-                        $item['value'] = $key;
-
-                        if ((string)$key == (string)$value || (!empty($options['multiple']) && $selected = in_array($key, $value))) {
-                            $item['selected'] = 'selected';
-                        }
-
-                        $tmp .= self::createTag($item, 'option');
-                    }
-
-                    $options_for_tag['content'] = $tmp;
-
-                    $html .= self::createTag($options_for_tag, 'optgroup');
-                } else {
-                    $html .= self::createTag($options_for_tag, 'option');
-                }
-            }
-            unset($options['keyMethod']);
-            unset($options['valueMethod']);
-        } elseif (!empty($options['options']) && is_scalar($options['options'])) {
-            $html .= self::createTag(array('content' => $options['options'], 'value' => null), 'option');
-        }
-
-        if (self::isFreeze($options)) {
-            reset($options['options']);
-            // hide current value
-            $value = isset($value_selected) ? $value_selected[0] : key($options['options']);
-            $params = array('name' => $name, 'value' => $value, 'type' => 'hidden');
-            $select = form::text($params);
-
-            $select .= isset($value_selected) ? $value_selected[1] : current($options['options']);
-        } else {
-            unset($options['options']);
-            unset($options['value']);
-            unset($options['emptyFirst']);
-            //unset($options['styles']);
-
-            $options = array_merge($options, array('content' => $html));
-            $select = self::createTag($options, 'select');
-        }
-        return $select;
+        $this->setAttribute('multiple', false);
+        $this->setAttribute('selected_style', 'font-weight: bold;');
+        $this->setAttribute('options', array());
+        $this->addOptions(array('options', 'emptyFirst', 'freeze', 'one_item_freeze', 'keyMethod', 'valueMethod', 'selected_style'));
     }
 
-    static public function parseOptions($options)
+    /**
+     * Преобразовывает массив опций в HTML-теги
+     *
+     * @param array $attributes
+     * @param string $value
+     * @return string
+     */
+    public function render($attributes = array(), $value = null)
+    {
+        $attributes['options'] = $this->parseI18nOptions($attributes['options']);
+        $this->addFirstEmptyOption($attributes);
+
+        if (sizeof($attributes['options']) < 2 && isset($attributes['one_item_freeze']) && $attributes['one_item_freeze']) {
+            $attributes['freeze'] = true;
+        }
+
+        if (!empty($attributes['multiple']) && substr($attributes['name'], -2) !== '[]') {
+            $attributes['name'] .= '[]';
+        }
+        $value = $this->escapeOnce($this->getElementValue($attributes, false, !empty($attributes['multiple'])));
+
+        $this->setAttribute('keyMethod', isset($attributes['keyMethod']) ? $attributes['keyMethod'] : null);
+        $this->setAttribute('valueMethod', isset($attributes['valueMethod']) ? $attributes['valueMethod'] : null);
+
+        // собираем опции
+        $options = "\n" . implode("\n", $this->getOptionsForSelect($value, $attributes['options'])) . "\n";
+
+        if ($this->isFreeze($attributes)) {
+            reset($attributes['options']);
+            // hide current value
+            $key = key($attributes['options']);
+            $option = current($attributes['options']);
+            if (is_object($option)) {
+                list($key, $option) = $this->getValuesFromObject(array_shift($attributes['options']), $attributes);
+            }
+            $value = is_array($this->selected) ? $this->selected[0] : $key;
+            $params = array('name' => $attributes['name'], 'value' => $value, 'type' => 'hidden');
+            $select = $this->renderTag('input', $params);
+            return $select . (is_array($this->selected) ? $this->selected[1] : $option);
+        } else {
+            $attributes['content'] = $options;
+            return $this->renderTag('select', $attributes);
+        }
+
+    }
+
+    /**
+     * Добавляет первую пустую опцию с произвольным текстом (по умолчанию &nbsp;)
+     *
+     * @param array $attributes
+     */
+    protected function addFirstEmptyOption(&$attributes)
+    {
+        $first = isset($attributes['emptyFirst']) && $attributes['emptyFirst'] !== 0 && $attributes['emptyFirst'] !== false;
+        if ($first) {
+            $firstText = '&nbsp;';
+            if (!is_bool($attributes['emptyFirst']) && $attributes['emptyFirst'] !== 1) {
+                $firstText = $this->escapeOnce($attributes['emptyFirst']);
+            }
+            $attributes['options'] = array('' => $firstText) + $attributes['options'];
+        }
+    }
+
+    /**
+     * Возвращает массив option-тегов на основе массива переданных значений
+     *
+     * @param string $value значение
+     * @param array $optionsValues опции
+     * @return array
+     */
+    protected function getOptionsForSelect($value, $optionsValues)
+    {
+        $selectAttributes = $this->attributes;
+        $this->attributes = array();
+        $options = array();
+        foreach ($optionsValues as $key => $option) {
+            if (is_object($option)) {
+                list($key, $option) = $this->getValuesFromObject($option, $selectAttributes);
+            }
+
+            if (is_array($option)) {
+                $options[] = $this->renderTag('optgroup', array('content' => implode("\n", $this->getOptionsForSelect($value, $option)), 'label' => $this->escapeOnce($key)));
+            } else {
+                $attributes = array('value' => $this->escapeOnce($key));
+                if ((is_array($value) && in_array((string)$key, $value)) || (string)$key == (string)$value) {
+                    $attributes['selected'] = 'selected';
+                    $this->selected = array($key, $option);
+                    if ($style = $selectAttributes['selected_style']) {
+                        $attributes['style'] = $style;
+                    }
+                }
+
+                $attributes['content'] = $this->escapeOnce($option);
+                $options[] = $this->renderTag('option', $attributes);
+            }
+        }
+
+        $this->attributes = $selectAttributes;
+        return $options;
+    }
+
+
+
+    /**
+     * Ищет перевод для i18n-строк в опциях
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function parseI18nOptions($options)
     {
         if (is_string($options) && substr($options, 0, 8) == 'options ') {
             $options_string = substr($options, 8);

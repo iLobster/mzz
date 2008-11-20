@@ -21,29 +21,38 @@
  */
 class formCaptionField extends formElement
 {
-    static public function toString($options = array())
+    public function __construct()
     {
-        $result = $options['value'];
-        $required = '';
+        $this->setAttribute('onRequired', '%s <span style="color: red;">*</span>');
+        $this->setAttribute('onError', '<span style="color: red;">%s</span>');
+        $this->setAttribute('value', '');
+        $this->addOptions(array('onRequired', 'value', 'label'));
+    }
 
-        if (self::isRequired($options)) {
-            $required = (isset($options['onRequired']) ? $options['onRequired'] : '<span style="color: red;">*</span> ');
-            unset($options['onRequired']);
+    public function render($attributes = array(), $value = null)
+    {
+        $result = $attributes['value'];
+
+        if ($this->parseError($attributes)) {
+            $error = array_key_exists('onError', $attributes) ? $attributes['onError'] : $this->getAttribute('onError');
+            $result = $error ? sprintf($error, $result) : $result;
         }
 
-        if (!array_key_exists('onError', $options)) {
-            $options['onError'] = 'style=color: red;';
+        if ($this->isRequired($attributes)) {
+            $required = array_key_exists('onRequired', $attributes) ? $attributes['onRequired'] : $this->getAttribute('onRequired');
+            $result = $required ? sprintf($required, $result) : $result;
         }
 
-        if (self::parseError($options)) {
-            $options['content'] = $result;
-            unset($options['value']);
-            unset($options['name']);
-
-            $result = self::createTag($options, 'span');
+        if (!isset($attributes['label']) || $attributes['label'] != 0) {
+            if (!array_key_exists('for', $attributes)) {
+                $for = $this->generateId($attributes['name'], $this->getIdFormat());
+            } else {
+                $for = $attributes['for'];
+            }
+            $attributes = array('for' => $for, 'content' => $result);
+            return $this->renderTag('label', $attributes);
         }
-
-        return $required . $result;
+        return $result;
     }
 }
 

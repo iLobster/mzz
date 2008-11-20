@@ -19,44 +19,36 @@
  * @subpackage forms
  * @version 0.1
  */
-class formRadioField extends formElement
+class formRadioField extends formCheckboxField
 {
-    static public function toString($options = array())
+
+   public function __construct()
+   {
+       parent::__construct();
+       $this->setAttribute('type', 'radio');
+   }
+
+    /**
+     * Преобразовывает массив опций в HTML-теги
+     *
+     * @param array $attributes
+     * @param string $value
+     * @return string
+     */
+    public function render($attributes = array(), $value = null)
     {
-        static $i = 0;
+        $attributes['nodefault'] = true;
+        return parent::render($attributes, $value);
+    }
 
-        if (isset($options['text'])) {
-            $text = $options['text'];
-            unset($options['text']);
+    protected function setMultipleName($name)
+    {
+        return substr($name, -2) == '[]' ? substr($name, 0, -2) : $name;
+    }
 
-            $id = 'mzzFormsRadio_' . $i;
-            $i++;
-            $label = self::createTag(array('for' => $id, 'style' => 'cursor: pointer; cursor: hand;', 'content' => $text), 'label');
-
-            $options['id'] = $id;
-        }
-        $options['type'] = 'radio';
-        $value = $options['value'];
-
-        $requestValue = self::getValue($options['name']);
-
-        if ((string)$value === $requestValue) {
-            $options['checked'] = true;
-        } elseif ($requestValue !== false) {
-            unset($options['checked']);
-        } else {
-            if (isset($options['checked']) && !is_bool($options['checked'])) {
-                $options['checked'] = $options['checked'] == $value;
-            }
-        }
-
-        if (isset($options['values'])) {
-            unset($options['values']);
-        }
-
-        $checkbox = self::createTag($options);
-
-        return $checkbox . (isset($label) ? $label : '');
+    protected function checkSelected($key, $value)
+    {
+        return (string)$key == ((string)$value === false ? 0 : $value);
     }
 }
 

@@ -17,152 +17,210 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1.2
+ * @version 0.3
  */
 abstract class formElement
 {
     /**
-     * Массив, используемый для индексирования элементов форм, в именах которых используется []
+     * Атрибуты
      *
      * @var array
      */
-    static protected $counts = array();
+    protected $attributes = array('idFormat' => 'form_%s');
 
     /**
-     * Создание тегов
+     * Опции
      *
-     * @param array $options массив опций
-     * @param string $name имя тега
-     * @return string|null
+     * @var array
      */
-    static public function createTag(Array $options = array(), $name = 'input')
+    protected $options = array('onError', 'idFormat');
+
+    /**
+     * Конструктор
+     *
+     * @param array $attributes
+     */
+    public function __construct($attributes = array())
     {
-        /*
-        @todo а нужно ли изменять стили стандартных элементов форм?
-        if (!isset($options['onError'])) {
-            $options['onError'] = $name == 'span' ? 'style=color: red;' : '';
-        }*/
-
-        self::parseError($options);
-
-        if (!$name) {
-            return null;
-        }
-        $content = isset($options['content']) ? $options['content'] : false;
-        unset($options['content']);
-
-        if (self::isFreeze($options)) {
-            $html = $options['value'];
-        } else {
-            $html = self::buildTag($options, $name, $content);
-        }
-
-        return $html;
+        $this->attributes = array_merge($this->attributes, $attributes);
     }
 
-    static public function buildTag($options, $name = 'input', $content = false)
+    /**
+     * Устанавливает атрибут элемента "по умолчанию"
+     *
+     * @param string $name
+     * @param string $value
+     */
+    public function setAttribute($name, $value)
     {
-        $html = '<' . $name . self::optionsToString($options);
-        if ($content !== false) {
-            $content = is_scalar($content) ? $content : '';
-            $html .= '>' . $content . '</' . $name . '>';
-        } else {
-            $html .= (form::isXhtml() && ($name == 'input' || $name == 'img')) ? ' />' : '>';
+        $this->attributes[$name] = $value;
+    }
+
+    /**
+     * Возвращает атрибут элемента "по умолчанию"
+     *
+     * @param string $name
+     * @return string
+     */
+    public function getAttribute($name)
+    {
+        return isset($this->attributes[$name]) ? $this->attributes[$name] : null;
+    }
+
+    /**
+     * Возвращает формат id для элемента по умолчанию
+     *
+     * @return unknown
+     */
+    public function getIdFormat()
+    {
+        return $this->getAttribute('idFormat');
+    }
+
+    /**
+     * Добавляет опции. Массив содержит только названия атрибутов, которые являются
+     * опциями и не должны быть включены в HTML-код
+     *
+     * @param array $options
+     */
+    public function addOptions(array $options)
+    {
+        $this->options = array_merge($this->options, $options);
+    }
+
+    /**
+     * Заключительное формирование тега
+     *
+     * @param string $tag
+     * @param array $attributes
+     * @return string
+     */
+    public function renderTag($tag, $attributes = array())
+    {
+        self::parseError($attributes);
+        if (empty($tag)) {
+            return null;
         }
-        return $html;
+
+        $attributes = array_merge($this->attributes, $attributes);
+        if (isset($attributes['content'])) {
+            $content = $attributes['content'];
+            unset($attributes['content']);
+        }
+
+        if ($this->isFreeze($attributes)) {
+            return isset($content) ? $content : $attributes['value'];
+        }
+
+
+        $attributes = $this->setElementId($attributes);
+        ksort($attributes);
+        $attributes = $this->attributesToHtml($attributes);
+        $tag = strtolower($tag);
+
+        if ($tag == 'form') {
+            return sprintf('<%s%s>', $tag, $attributes);
+        } elseif (!isset($content)) {
+            return sprintf('<%s%s%s', $tag, $attributes, form::isXhtml() ? ' />' : ($tag == 'input' ? '>' : sprintf('></%s>', $tag)));
+        } else {
+            return sprintf('<%s%s>%s</%s>', $tag, $attributes, $content, $tag);
+        }
+    }
+
+    /**
+     * Устанавливает id в атрибуты элемента
+     *
+     * @param array $attributes
+     * @param string $value
+     * @return array
+     */
+    protected function setElementId($attributes, $value = null)
+    {
+        if (!isset($attributes['id']) && isset($attributes['name'])) {
+            $attributes['id'] = $this->generateId($attributes['name'], $attributes['idFormat'], $value);
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * Генерирует ид соответствующего формата.
+     *
+     * @param string $name
+     * @param string $format
+     * @param string $value
+     * @return string
+     */
+    public function generateId($name, $format, $value = null)
+    {
+        if (!$format) {
+            return null;
+        }
+
+        if (strpos($name, '[')) {
+            $name = str_replace(array('[]', '][', '[', ']'), array((!is_null($value) ? '_' . $value : ''), '_', '_', ''), $name);
+        }
+
+        return sprintf($format, $name);
     }
 
     /**
      * Проверка, является элемент "замороженным" или нет
      *
-     * @param array $options массив опций
+     * @param array $attributes массив опций
      * @return boolean true, в случае если элемент "заморожен" и false в противном случае
      */
-    static public function isFreeze(Array $options)
+    public function isFreeze(Array $attributes)
     {
-        return isset($options['freeze']) && $options['freeze'];
+        return isset($attributes['freeze']) && $attributes['freeze'];
     }
 
     /**
      * Возвращает информацию о том, обязательно поле для заполнения или нет
      *
-     * @param array $options массив опций
+     * @param array $attributes массив опций
      * @return boolean true, в случае, если поле обязательно к заполнению и false - в противном случае
      */
-    static protected function isRequired(Array $options)
+    protected function isRequired(Array $attributes)
     {
         $validator = systemToolkit::getInstance()->getValidator();
-        return ($validator instanceof formValidator) ? $validator->isFieldRequired($options['name']) : null;
+        return ($validator instanceof formValidator) ? $validator->isFieldRequired($attributes['name']) : null;
     }
 
     /**
-     * Проверяет, заполнено ли поле с ошибкой, и если да - тогда обрабатывает опцию onError, в которой содержатся изменённые стили и другие опции html для ошибочного поля
+     * Проверяет, заполнено ли поле с ошибкой
      *
-     * @param array $options массив опций
+     * @param array $attributes массив опций
      * @return boolean true в случае, если поле введено с ошибками и false в противном случае
      */
-    static protected function parseError(& $options)
+    protected function parseError(& $attributes)
     {
         $hasErrors = false;
 
         $validator = systemToolkit::getInstance()->getValidator();
         if ($validator) {
             $errors = $validator->getErrors();
-            if (isset($options['name']) && !is_null($errors->get($options['name']))) {
+            if (isset($attributes['name']) && !is_null($errors->get($attributes['name']))) {
                 $hasErrors = true;
 
-                if (isset($options['onError']) && $options['onError'] != false) {
-                    $onError = explode('=', $options['onError']);
-                    $cnt = sizeof($onError);
-                    for ($i=1; $i < $cnt; $i = $i + 2) {
-                        $options[$onError[$i-1]] = trim($onError[$i], '"\'');
-                    }
-
-                }
             }
         }
-        $options['onError'] = false;
 
         return $hasErrors;
-    }
-
-    /**
-     * Конвертирование массива опций в строку параметров html тега
-     *
-     * @param array $options массив опций
-     * @return string
-     */
-    static public function optionsToString(Array $options = array())
-    {
-        $html = '';
-
-        foreach (array('disabled', 'readonly', 'multiple', 'checked', 'selected') as $attribute) {
-            if (isset($options[$attribute])) {
-                if ($options[$attribute]) {
-                    $options[$attribute] = $attribute;
-                } else {
-                    unset($options[$attribute]);
-                }
-            }
-        }
-        ksort($options);
-        foreach ($options as $key => $value) {
-            if (!empty($key) && $value !== false) {
-                $value = is_scalar($value) ? $value : '';
-                $html .= ' ' . $key . '="' . self::escapeOnce($value, substr($key, 0, 2) == 'on') . '"';
-            }
-        }
-        return $html;
     }
 
     /**
      * Экранирование опций
      *
      * @param string $value
+     * @param boolean $js экранирование значений с javascript (необходимо для on* атрибутов)
      * @return string
      */
-    static protected function escapeOnce($value, $js = false)
+    protected function escapeOnce($value, $js = false)
     {
+        if (is_array($value)) {
+            return array_map(array($this, 'escapeOnce'), $value);
+        }
         if ($js) {
             return str_replace('"', '&quot;', $value);
         } else {
@@ -171,38 +229,127 @@ abstract class formElement
     }
 
     /**
-     * Получение значение, введённого в поле формы
+     * Конвертирование массива опций в строку параметров html тега
+     *
+     * @param array $attributes массив атрибутов
+     * @return string
+     */
+    public function attributesToHtml($attributes)
+    {
+        return implode(array_map(array($this, 'attributesToHtmlCallback'), array_keys($attributes), array_values($attributes)));
+    }
+
+    /**
+     * Callback, конвертирующий пару ключ, значение в HTML-атрибут
+     *
+     * @param string $key
+     * @param string $val
+     * @return string
+     */
+    protected function attributesToHtmlCallback($key, $val)
+    {
+        if ($val === false || is_null($val) || in_array($key, $this->options) || ($val === '' && $key != 'value')) {
+            return null;
+        }
+
+        if (in_array($key, array('disabled', 'readonly', 'multiple', 'checked', 'selected'))) {
+            if ($val) {
+                $val = $key;
+            } else {
+                return null;
+            }
+        }
+
+        $val = is_scalar($val) ? $val : '';
+        return sprintf(' %s="%s"', $key, $this->escapeOnce($val, substr($key, 0, 2) == 'on'));
+    }
+
+    /**
+     * Получение значения, введённого в поле формы
      *
      * @param string $name имя поля
      * @param string $default значение по умолчанию, используется в случае, когда значение поля не найдено в суперглобальных массивах $_POST или $_GET
      * @return string
      */
-    static public function getValue($name, $default = false, $array = false)
+    public function getElementValue($attributes, $default = false, $array = false)
     {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
+        $attributes = array_merge($this->attributes, $attributes);
+        $name = isset($attributes['name']) ? $attributes['name'] : '';
+        $default = $default !== false ? $default : (isset($attributes['value']) ? $attributes['value'] : false);
+
+        if (empty($name)) {
+            return $default;
+        }
+
+        $request = systemToolkit::getInstance()->getRequest();
 
         if(!$array && $pos = strpos($name, '[]')) {
-            if (!isset(self::$counts[$name])) {
-                self::$counts[$name] = 0;
-            } else {
-                self::$counts[$name]++;
-            }
-            $pos += 2;
-            $name = str_replace('[]', '[' . self::$counts[$name] . ']', substr($name, 0, $pos)) . str_replace('[]', '[0]', substr($name, $pos));
+            $name = $this->replaceArraysFromName($name);
         } elseif ($array && substr($name, -2) == '[]') {
             $name = substr($name, 0, strlen($name) - 2);
         }
+
         $value = $request->getRaw($name, SC_REQUEST);
         return !is_null($value) ? $value : $default;
     }
 
     /**
+     * Добавляет индексы в пустые "указатели массива" ([])
+     *
+     * @param unknown_type $name
+     * @return unknown
+     */
+    protected function replaceArraysFromName($name)
+    {
+        $pos = strpos($name, '[]');
+        if (!isset(form::$counts[$name])) {
+            form::$counts[$name] = 0;
+        } else {
+            form::$counts[$name]++;
+        }
+        $pos += 2;
+        return str_replace('[]', '[' . form::$counts[$name] . ']', substr($name, 0, $pos)) . str_replace('[]', '[0]', substr($name, $pos));
+    }
+
+    /**
+     * Возвращает значения, полученные из объекта вызовом методов, указанных
+     * в опциях keyMethod для ключа значения и valueMethod для значения
+     *
+     * @param simple|object $object
+     * @param array $attributes
+     * @return array массив из двух элементов: ключ и значение
+     */
+    protected function getValuesFromObject($key, $object, $attributes)
+    {
+        $value = isset($attributes['valueMethod']) ? $object->$attributes['valueMethod']() : null;
+        $key = isset($attributes['keyMethod']) ? $object->$attributes['keyMethod']() : $key;
+
+        return array($key, $value);
+    }
+
+    /**
+     * Возвращает html-код элемента
+     *
+     * @param array $attributes
+     * @return string
+     */
+    public function toString($attributes = array())
+    {
+        $value = $this->escapeOnce($this->getElementValue($attributes));
+        $attributes = array_merge($this->attributes, $attributes);
+        if (!array_key_exists('name', $attributes)) {
+            throw new mzzRuntimeException('Элементу формы обязательно нужно указывать имя');
+        }
+        return $this->render($attributes, $value);
+    }
+
+    /**
      * Абстрактный метод, используется в наследниках для определения алгоритма генерации тегов
      *
-     * @param array $options
+     * @param array $attributes
      */
-    abstract static public function toString($options = array());
+    abstract public function render($attributes = array(), $value = null);
+
 }
 
 ?>

@@ -28,52 +28,36 @@
  */
 class formTag extends formElement
 {
-    static public function toString($options = array())
+    public function __construct()
     {
-        $smarty = systemToolkit::getInstance()->getSmarty();
+        $this->setAttribute('name', null);
+        $this->addOptions(array('jip', 'ajaxUpload', 'csrf', 'multipart'));
+    }
 
+    public function render($attributes = array(), $value = null)
+    {
         $html = '';
-        if (isset($options['jip']) && $options['jip']) {
-            $onsubmit = "return jipWindow.sendForm(this);";
-            if (isset($options['onsubmit'])) {
-                $options['onsubmit'] .= '; ' . $onsubmit;
-            } else {
-                $options['onsubmit'] = $onsubmit;
-            }
-            unset($options['jip']);
-        } elseif (array_key_exists('ajaxUpload', $options)) {
-            if (empty($options['ajaxUpload'])) {
-                $options['ajaxUpload'] = 'mzz';
-            } else {
-                $options['ajaxUpload'] = preg_replace('/[^a-z0-9_-]/i', '_', trim($options['ajaxUpload']));
-            }
-            $onsubmit = "mzzReadUploadStatus('" . $options['ajaxUpload'] . "');";
-            if (isset($options['onsubmit'])) {
-                $options['onsubmit'] .= '; ' . $onsubmit;
-            } else {
-                $options['onsubmit'] = $onsubmit;
-            }
-            $options['enctype'] = "multipart/form-data";
-            $options['target'] = $options['ajaxUpload'] . "UploadFile";
-            $smarty->assign('name', $options['ajaxUpload']);
-            $html = $smarty->fetch('forms/upload.tpl');
+        if (isset($attributes['jip']) && $attributes['jip']) {
+            $attributes = $this->addJipSend($attributes);
+        } elseif (array_key_exists('ajaxUpload', $attributes)) {
+            $html = $this->addAjaxUpload($attributes);
         }
 
         $csrf = null;
         /* данная опция отключает только добавление hidden-поля. Сама проверка отключается только через валидатор */
-        if (isset($options['csrf']) && $options['csrf'] == true) {
+        if (isset($attributes['csrf']) && $attributes['csrf'] == true) {
             /* In XHTML Strict forms may not contain inline elements as direct children */
-            $csrf = self::getCSRFProtection();
+            $csrf = $this->getCSRFProtection();
             if (form::isXhtml()) {
                 $csrf = '<div>' . $csrf . '</div>';
             }
         }
 
-        if (array_key_exists('csrf', $options)) {
-            unset($options['csrf']);
+        if (isset($attributes['multipart'])) {
+            $attributes['enctype'] = 'multipart/form-data';
         }
 
-        return $html . self::createTag($options, 'form') . $csrf;
+        return $html . $this->renderTag('form', $attributes) . $csrf;
     }
 
     /**
@@ -85,10 +69,10 @@ class formTag extends formElement
     {
         $session = systemToolkit::getInstance()->getSession();
         if (!($token = $session->get('CSRFToken'))) {
-            $token = self::getCSRFToken();
+            $token = $this->getCSRFToken();
             $session->set('CSRFToken', $token);
         }
-        return self::createTag(array('type' => 'hidden', 'name' => form::$CSRFField, 'value' => $token), 'input');
+        return $this->createTag(array('type' => 'hidden', 'name' => form::$CSRFField, 'value' => $token), 'input');
     }
 
     /**
@@ -99,6 +83,38 @@ class formTag extends formElement
     static protected function getCSRFToken()
     {
         return md5(microtime(true) . rand());
+    }
+
+    protected function addAjaxUpload(&$attributes)
+    {
+        $smarty = systemToolkit::getInstance()->getSmarty();
+
+        if (empty($attributes['ajaxUpload'])) {
+            $attributes['ajaxUpload'] = 'mzz';
+        } else {
+            $attributes['ajaxUpload'] = preg_replace('/[^a-z0-9_-]/i', '_', trim($attributes['ajaxUpload']));
+        }
+        $onsubmit = "mzzReadUploadStatus('" . $attributes['ajaxUpload'] . "');";
+        if (isset($attributes['onsubmit'])) {
+            $attributes['onsubmit'] .= '; ' . $onsubmit;
+        } else {
+            $attributes['onsubmit'] = $onsubmit;
+        }
+        $attributes['multipart'] = true;
+        $attributes['target'] = $attributes['ajaxUpload'] . "UploadFile";
+        $smarty->assign('name', $attributes['ajaxUpload']);
+        return $smarty->fetch('forms/upload.tpl');
+    }
+
+    protected function addJipSend($attributes)
+    {
+        $onsubmit = "return jipWindow.sendForm(this);";
+        if (isset($attributes['onsubmit'])) {
+            $attributes['onsubmit'] .= '; ' . $onsubmit;
+        } else {
+            $attributes['onsubmit'] = $onsubmit;
+        }
+        return $attributes;
     }
 
 }

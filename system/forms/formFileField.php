@@ -18,6 +18,7 @@
  * @package system
  * @subpackage forms
  * @version 0.1
+ * @deprecated больше не нужен
  */
 class formFileField extends formElement
 {

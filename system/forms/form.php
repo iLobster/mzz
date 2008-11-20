@@ -26,40 +26,74 @@ class form
     static public $CSRFField = '_csrf_token';
     static protected $xhtml = true;
 
+    /**
+     * Массив, используемый для индексирования элементов форм, в именах которых используется []
+     *
+     * @var array
+     */
+    static public $counts = array();
+
     public function open($params, $smarty)
     {
         fileLoader::load('forms/formTag');
-        return formTag::toString($params);
+        $element = new formTag();
+        return $element->toString($params);
     }
 
     public function text($params, $smarty = null)
     {
-        fileLoader::load('forms/formTextField');
-        return formTextField::toString($params);
+        return $this->createField('text', $params);
     }
 
     public function password($params, $smarty)
     {
         $params['type'] = 'password';
-        return $this->text($params, $smarty);
+        return $this->createField('text', $params);
     }
 
     public function hidden($params, $smarty)
     {
-        fileLoader::load('forms/formHiddenField');
-        return formHiddenField::toString($params);
+        return $this->createField('hidden', $params);
+    }
+
+    public function submit($params, $smarty)
+    {
+        return $this->createField('submit', $params);
+    }
+
+    public function reset($params, $smarty)
+    {
+        return $this->createField('reset', $params);
+    }
+
+    public function textarea($params, $smarty)
+    {
+        return $this->createField('textarea', $params);
+    }
+
+    public function select($params, $smarty)
+    {
+        return $this->createField('select', $params);
+    }
+
+    public function caption($params, $smarty)
+    {
+        return $this->createField('caption', $params);
+    }
+
+    protected function createField($name, $params) {
+        $name = 'form' . ucfirst($name) . 'Field';
+        fileLoader::load('forms/' . $name);
+        $element = new $name();
+        return $element->toString($params);
     }
 
     public function image($params, $smarty)
     {
-        $params['type'] = 'image';
-        if (!isset($params['name'])) {
-            throw new mzzRuntimeException('Элементу типа image обязательно нужно указывать имя');
-        }
         $name = $params['name'];
-        unset($params['name']);
-
-        $image = $this->text($params, $smarty);
+        $params['type'] = 'image';
+        $params['name'] = $name . '_img';
+        $image = $this->createField('text', $params);
 
         $hiddenParams = array();
         $hiddenParams['value'] = array_key_exists('value', $params) ? $params['value'] : 1;
@@ -67,62 +101,25 @@ class form
         return $this->hidden($hiddenParams, $smarty) . $image;
     }
 
-    public function submit($params, $smarty)
-    {
-        fileLoader::load('forms/formSubmitField');
-        return formSubmitField::toString($params);
-    }
-
-    public function reset($params, $smarty)
-    {
-        $params['type'] = 'reset';
-        if (isset($params['jip']) && $params['jip']) {
-            $params['onclick'] = (empty($params['onclick']) ? 'javascript:' : '') . ' jipWindow.close();';
-            unset($params['jip']);
-        }
-        return $this->text($params, $smarty);
-    }
-
     public function checkbox($params, $smarty)
     {
-        fileLoader::load('forms/formCheckboxField');
-        return formCheckboxField::toString($params);
+        return $this->createField('checkbox', $params);
     }
 
     public function radio($params, $smarty)
     {
-        fileLoader::load('forms/formRadioField');
-        return formRadioField::toString($params);
-    }
-
-    public function select($params, $smarty)
-    {
-        fileLoader::load('forms/formSelectField');
-        return formSelectField::toString($params);
-    }
-
-    public function textarea($params, $smarty)
-    {
-        fileLoader::load('forms/formTextareaField');
-        return formTextareaField::toString($params);
-    }
-
-    public function caption($params, $smarty)
-    {
-        fileLoader::load('forms/formCaptionField');
-        return formCaptionField::toString($params);
+        return $this->createField('radio', $params);
     }
 
     public function file($params, $smarty)
     {
-        fileLoader::load('forms/formFileField');
-        return formFileField::toString($params);
+        $params['type'] = 'file';
+        return $this->createField('text', $params);
     }
 
     public function captcha($params, $smarty)
     {
-        fileLoader::load('forms/formCaptchaField');
-        return formCaptchaField::toString($params);
+        return $this->createField('captcha', $params);
     }
 
     /**

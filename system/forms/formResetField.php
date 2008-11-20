@@ -13,22 +13,27 @@
  */
 
 /**
- * formHiddenField: hidden
+ * formResetField: reset
  *
  * @package system
  * @subpackage forms
  * @version 0.1
  */
-class formHiddenField extends formElement
+class formResetField extends formElement
 {
     public function __construct()
     {
-        $this->setAttribute('type', 'hidden');
+        $this->setAttribute('type', 'reset');
         $this->setAttribute('value', '');
+        $this->addOptions(array('jip'));
     }
 
     public function render($attributes = array(), $value = null)
     {
+        if (isset($attributes['jip']) && $attributes['jip']) {
+            $attributes['onclick'] = (empty($attributes['onclick']) ? 'javascript:' : '') . ' jipWindow.close();';
+        }
+
         return $this->renderTag('input', $attributes);
     }
 }

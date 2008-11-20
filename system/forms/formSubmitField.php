@@ -21,31 +21,25 @@
  */
 class formSubmitField extends formElement
 {
-    static public function toString($options = array())
+    public function __construct()
     {
-        $options['type'] = 'submit';
-        if (!isset($options['name'])) {
-            throw new mzzRuntimeException('Элементу типа submit обязательно нужно указывать имя');
-        }
+        $this->setAttribute('type', 'submit');
+        $this->setAttribute('value', '');
+        $this->addOptions(array('nodefault'));
+    }
 
-        $name = $options['name'];
-
+    public function render($attributes = array(), $value = null)
+    {
         $hidden = '';
-        if (empty($options['nodefault'])) {
+        if (empty($attributes['nodefault'])) {
             $hiddenParams = array();
             $hiddenParams['type'] = 'hidden';
-            $hiddenParams['value'] = $options['value'];
-            $hiddenParams['name'] = $name;
-            $hidden = self::createTag($hiddenParams);
-        } else {
-            unset($options['nodefault']);
+            $hiddenParams['value'] = $attributes['value'];
+            $hiddenParams['name'] = $attributes['name'];
+            $hidden = $this->renderTag('input', $hiddenParams);
         }
 
-        if (!isset($options['value']) || $options['type'] == 'password') {
-            $options['value'] = '';
-        }
-
-        return $hidden . self::createTag($options);
+        return $hidden . $this->renderTag('input', $attributes);
     }
 }
 
