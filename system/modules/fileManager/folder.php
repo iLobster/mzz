@@ -47,9 +47,6 @@ class folder extends simpleForTree
 
     public function upload($upload_name, $name = null)
     {
-        /*$config = systemToolkit::getInstance()->getConfig('fileManager', $this->section);
-        $path = $config->get('upload_path');*/
-
         if (!isset($_FILES[$upload_name])) {
             if (is_file($upload_name)) {
                 $info = array('name' => basename($upload_name), 'size' => filesize($upload_name), 'tmp_name' => $upload_name);
@@ -161,20 +158,6 @@ class folder extends simpleForTree
         }
 
         return $file;
-    }
-
-    public function setStorage(storage $storage)
-    {
-        $this->storage = $storage;
-    }
-
-    public function getStorage()
-    {
-        if (empty($this->storage)) {
-            $storageMapper = systemToolkit::getInstance()->getMapper('fileManager', 'storage', $this->section);
-            $this->storage = $storageMapper->getStorage();
-        }
-        return $this->storage;
     }
 }
 

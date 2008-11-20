@@ -176,7 +176,6 @@ class file extends simple
 
             if (!$changed) {
                 header("HTTP/1.1 304 Not Modified");
-                exit;
             }
 
             header("Content-Transfer-Encoding: binary");

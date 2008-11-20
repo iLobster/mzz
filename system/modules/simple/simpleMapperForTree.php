@@ -19,7 +19,7 @@ fileLoader::load('simple/simpleForTree');
  * simpleMapperForTree: маппер для работы с древовидными структурами
  *
  * @package system
- * @version 0.2.4
+ * @version 0.2.5
  */
 
 abstract class simpleMapperForTree extends simpleMapper
@@ -358,7 +358,7 @@ abstract class simpleMapperForTree extends simpleMapper
                 systemToolkit::getInstance()->setLocale($lang);
 
                 // получаем всех элементы, содержащиеся в узле дерева
-                $items = (array) $do->getItems();
+                $items = (array)$do->getItems();
                 foreach ($items as $item) {
                     // удаляем их
                     $mapper->delete($item);
@@ -426,7 +426,8 @@ abstract class simpleMapperForTree extends simpleMapper
         $criterion->addAnd(new criterion('tree2.level', new sqlOperator('+', array('tree.level', 1)), criteria::LESS_EQUAL));
 
         $criteria = new criteria();
-        $criteria->clearSelectFields();//->addSelectField('data2.*');
+        $criteria->clearSelectFields(); //->addSelectField('data2.*');
+
 
         foreach (array_keys($this->getMap()) as $field) {
             if (in_array($field, $this->getLangFields())) {
@@ -503,7 +504,7 @@ abstract class simpleMapperForTree extends simpleMapper
     public function fillArray(&$array, $name = null)
     {
         $this->setTreeTmp($array);
-        return parent::fillArray($array, $name);
+        return $this->parseArray($array, empty($name) ? $this->className : $name);
     }
 
     /**
@@ -514,7 +515,7 @@ abstract class simpleMapperForTree extends simpleMapper
      */
     protected function setTreeTmp(&$array, $name = 'tree')
     {
-        $this->treeTmp = parent::fillArray($array, $name);
+        $this->treeTmp = $this->parseArray($array, $name);
     }
 }
 

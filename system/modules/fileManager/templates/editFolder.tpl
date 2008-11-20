@@ -23,6 +23,10 @@
             <td style='width: 70%;'>{form->text name="exts" value=$folder->getExts() size="40"}{$errors->get('exts')}</td>
         </tr>
         <tr>
+            <td style='width: 30%;'>{form->caption name="storage" value='Сторадж:' onError="style=color: red;"}</td>
+            <td style='width: 70%;'>{form->select name="storage" options=$storages value=$folder->getStorage()->getId()}{$errors->get('storage')}</td>
+        </tr>
+        <tr>
             <td>&nbsp;</td>
             <td>{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
         </tr>

@@ -22,7 +22,7 @@ fileLoader::load('acl');
  *
  * @package modules
  * @subpackage simple
- * @version 0.3.26
+ * @version 0.3.27
  */
 
 abstract class simpleMapper
@@ -306,7 +306,7 @@ abstract class simpleMapper
      */
     protected function insert(simple $object, $user = null)
     {
-        $fields_lang_independent =& $object->export();
+        $fields_lang_independent = & $object->export();
 
         if (sizeof($fields_lang_independent) >= 1) {
             $toolkit = systemToolkit::getInstance();
@@ -326,17 +326,17 @@ abstract class simpleMapper
             // перебираем все поля
             foreach (array_keys($fields_lang_independent) as $val) {
                 if (in_array($val, $lang_fields)) {
-                    $markers_string =& $markers_lang;
-                    $field_names_link =& $field_names_lang;
+                    $markers_string = & $markers_lang;
+                    $field_names_link = & $field_names_lang;
                 } else {
-                    $markers_string =& $markers;
-                    $field_names_link =& $field_names;
+                    $markers_string = & $markers;
+                    $field_names_link = & $field_names;
                 }
                 // ... и строим из них список полей для вставки
                 $field_names_link .= $this->simpleSelect->quoteField($val) . ', ';
 
                 // если значение является функцией или оператором - приводим к строке
-                if($fields_lang_independent[$val] instanceof sqlFunction || $fields_lang_independent[$val] instanceof sqlOperator) {
+                if ($fields_lang_independent[$val] instanceof sqlFunction || $fields_lang_independent[$val] instanceof sqlOperator) {
                     $fields_lang_independent[$val] = $fields_lang_independent[$val]->toString($this->simpleSelect);
                     $markers_string .= $fields_lang_independent[$val] . ', ';
                     unset($fields_lang_independent[$val]);
@@ -436,7 +436,7 @@ abstract class simpleMapper
      */
     protected function update(simple $object)
     {
-        $fields =& $object->export();
+        $fields = & $object->export();
 
         $this->replaceRelated($fields, $object);
 
@@ -449,12 +449,12 @@ abstract class simpleMapper
             $query_lang = '';
             foreach (array_keys($fields) as $val) {
                 if (in_array($val, $lang_fields)) {
-                    $query_string =& $query_lang;
+                    $query_string = & $query_lang;
                 } else {
-                    $query_string =& $query;
+                    $query_string = & $query;
                 }
 
-                if($fields[$val] instanceof sqlFunction || $fields[$val] instanceof sqlOperator) {
+                if ($fields[$val] instanceof sqlFunction || $fields[$val] instanceof sqlOperator) {
                     $fields[$val] = $fields[$val]->toString($this->simpleSelect);
                     $query_string .= $this->simpleSelect->quoteField($val) . ' = ' . $fields[$val] . ', ';
                     unset($fields[$val]);
@@ -583,7 +583,6 @@ abstract class simpleMapper
         return $stmt->execute();
     }
 
-
     /**
      * Метод для изменения формата массива в удобную для работы форму
      *
@@ -593,14 +592,7 @@ abstract class simpleMapper
      */
     public function fillArray(&$array, $name = null)
     {
-        $tmp = array();
-        foreach ($array as $key => $val) {
-            $exploded = explode(self::TABLE_KEY_DELIMITER, $key, 2);
-            if (isset($exploded[1])) {
-                list($class, $field) = $exploded;
-                $tmp[$class][$field] = $val;
-            }
-        }
+        $tmp = $this->parseArray($array);
 
         $toolkit = systemToolkit::getInstance();
 
@@ -624,6 +616,34 @@ abstract class simpleMapper
         return is_null($name) ? $tmp[$this->className] : $tmp[$name];
     }
 
+    /**
+     * Парсинг массива, создание из плоского массива вида type___name многуровневого
+     *
+     * @param array $array
+     * @param string $name
+     * @return array
+     */
+    protected function parseArray($array, $name = null)
+    {
+        $tmp = array();
+        foreach ($array as $key => $val) {
+            $exploded = explode(self::TABLE_KEY_DELIMITER, $key, 2);
+            if (isset($exploded[1])) {
+                list ($class, $field) = $exploded;
+                $tmp[$class][$field] = $val;
+            }
+        }
+
+        if (!is_null($name)) {
+            if (isset($tmp[$name])) {
+                return $tmp[$name];
+            }
+
+            throw new mzzRuntimeException($name . ' не найдено в массиве');
+        }
+
+        return $tmp;
+    }
 
     /**
      * Метод для добавления в запрос присоединений
@@ -900,15 +920,9 @@ abstract class simpleMapper
      */
     public function searchOneByField($name, $value)
     {
-        /*$key = md5(get_class($this) . $name . $value);
-        if ($result = $this->cache->get($key)) {
-        return $result;
-        }*/
-
         $criteria = new criteria();
         $criteria->add($name, $value);
         $result = $this->searchOneByCriteria($criteria);
-        //$this->cache->set($key, $result);
 
         return $result;
     }
@@ -1181,7 +1195,7 @@ abstract class simpleMapper
      */
     private function explodeRelateData($val)
     {
-        list($tableName, $fieldName) = explode('.', $val['relate'], 2);
+        list ($tableName, $fieldName) = explode('.', $val['relate'], 2);
 
         if (!$fieldName) {
             throw new mzzRuntimeException('Вы должны указать поле, по которому происходит связывание объектов. Указано: "' . $val['relate'] . '"');
@@ -1190,7 +1204,7 @@ abstract class simpleMapper
         $className = $tableName;
 
         if (isset($val['do'])) {
-            $className =  $val['do'];
+            $className = $val['do'];
         }
 
         $sectionName = isset($val['section']) ? $val['section'] : $this->section();
@@ -1222,7 +1236,7 @@ abstract class simpleMapper
 
                     $lazy = isset($val['lazy']) && (bool)$val['lazy'];
 
-                    list($tableName, $fieldName, $className, $sectionName, $moduleName, $joinType) = $this->explodeRelateData($val);
+                    list ($tableName, $fieldName, $className, $sectionName, $moduleName, $joinType) = $this->explodeRelateData($val);
 
                     $this->relations['owns'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'join_type' => $joinType, 'lazy' => $lazy);
                 }
@@ -1243,9 +1257,9 @@ abstract class simpleMapper
             $this->relations['hasMany'] = array();
             foreach ($this->getMap() as $key => $val) {
                 if (isset($val['hasMany'])) {
-                    list($field, $tmp) = explode('->', $val['hasMany'], 2);
+                    list ($field, $tmp) = explode('->', $val['hasMany'], 2);
                     $val['relate'] = $tmp;
-                    list($tableName, $fieldName, $className, $sectionName, $moduleName) = $this->explodeRelateData($val);
+                    list ($tableName, $fieldName, $className, $sectionName, $moduleName) = $this->explodeRelateData($val);
 
                     $this->relations['hasMany'][$key] = array('section' => $sectionName, 'table' => $sectionName . '_' . $tableName, 'key' => $fieldName, 'module' => $moduleName, 'class' => $className, 'field' => $field);
                 }
@@ -1384,7 +1398,7 @@ abstract class simpleMapper
             }
         }
 
-        $old =& $object->exportOld();
+        $old = & $object->exportOld();
 
         $toolkit = systemToolkit::getInstance();
 
