@@ -6,8 +6,6 @@
 
 {add file="popup.js"}
 {add file="jip.css"}
-{add file="dtree.css"}
-{add file="dtree.js"}
 {add file="jip.js"}
 {add file="calendar-blue.css"}
 {add file="jscalendar/calendar.js"}
