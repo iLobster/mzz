@@ -141,12 +141,14 @@ class file extends simple
                 }
             }
 
-            // @todo: а тут не надо response ?
+            $age = 86400 * 30 * 6;
+
             header("Pragma: public");
-            //header("Expires: 0");
-            header("Cache-Control: public, must-revalidate, max-age=0");
+            header("Cache-Control: public, must-revalidate, max-age=" . $age);
             header("Content-Length: " . ($size - $offset + 1));
             header("Content-Range: bytes " . $offset . "-" . $size . "/" . $fileSize);
+            header("Last-Modified: " . date('r', filemtime($fileName)));
+            header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $age) . ' GMT');
 
             if (empty($name)) {
                 $name = $this->getName();
@@ -159,9 +161,6 @@ class file extends simple
             } else {
                 header("Content-Type: " . $mimetypes[$this->getExt()]);
             }
-
-            header("Last-Modified: " . date('r', filemtime($fileName)));
-            header('Expires: ' . gmdate("D, d M Y H:i:s", time() + 86400 * 30 * 6) . ' GMT');
 
             $headers = $request->getHeaders();
             $changed = true;
