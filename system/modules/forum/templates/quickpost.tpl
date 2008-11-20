@@ -7,7 +7,7 @@
     <tr>
         <td class="quickReplyForm"></td>
         <td>
-            {form->caption name="text" value="Текст сообщения" onError="style=color: red;" onRequired=""}<br />
+            {form->caption name="text" value="Текст сообщения"}<br />
             {form->textarea name="text" rows="7" cols="60"  value=$post->getText()}{$errors->get('text')}<br />
             {form->submit name="submit" value="Отправить"} {form->reset jip="true" name="reset" value="Сбросить"}
         </td>

@@ -26,14 +26,14 @@
         <td colspan="2" class="threadHeader">Новая тема</td>
     </tr>
     <tr>
-        <td class="leftSide forumOddColumn" valign="top">{form->caption name="title" value="Название" onError="style=color: red;"}</td>
+        <td class="leftSide forumOddColumn" valign="top">{form->caption name="title" value="Название"}</td>
         <td class="rightSide" valign="top">
             {form->text name="title" size="60" value=$thread->getTitle()}<br />{$errors->get('title')}
         </td>
     </tr>
 
     <tr>
-        <td class="leftSide forumOddColumn" valign="top">{form->caption name="title" value="Текст сообщения" onError="style=color: red;"}</td>
+        <td class="leftSide forumOddColumn" valign="top">{form->caption name="title" value="Текст сообщения"}</td>
         <td class="rightSide" valign="top">
             {if $isEdit}{assign var="textValue" value=$thread->getFirstPost()->getText()}{else}{assign var="textValue" value=""}{/if}
             {form->textarea name="text" rows="7" cols="50" value=$textValue}
@@ -42,14 +42,14 @@
     </tr>
 
     <tr>
-        <td class="leftSide forumOddColumn" valign="top">{form->caption name="sticky" value="Важная тема" onError="style=color: red;"}</td>
+        <td class="leftSide forumOddColumn" valign="top">{form->caption name="sticky" value="Важная тема"}</td>
         <td class="rightSide" valign="top">
             {form->checkbox name="sticky" value=$thread->getIsSticky()} {$errors->get('sticky')}
         </td>
     </tr>
 
     <tr>
-        <td class="leftSide forumOddColumn" valign="top">{form->caption name="stickyfirst" value="Закрепить первый пост" onError="style=color: red;"}</td>
+        <td class="leftSide forumOddColumn" valign="top">{form->caption name="stickyfirst" value="Закрепить первый пост"}</td>
         <td class="rightSide" valign="top">
             {form->checkbox name="stickyfirst" value=$thread->getIsStickyFirst()} {$errors->get('stickyfirst')}
         </td>
@@ -57,7 +57,7 @@
 
     {if $isEdit}
     <tr>
-        <td class="leftSide forumOddColumn" valign="top">{form->caption name="closed" value="Тема закрыта" onError="style=color: red;"}</td>
+        <td class="leftSide forumOddColumn" valign="top">{form->caption name="closed" value="Тема закрыта"}</td>
         <td class="rightSide" valign="top">
             {form->checkbox name="closed" value=$thread->getIsClosed()} {$errors->get('closed')}
         </td>

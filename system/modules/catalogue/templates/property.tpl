@@ -74,7 +74,7 @@ mzzCatalogue.autoloadSelects();
             <td width="40%" valign="top">
                 <table border="0" cellpadding="0" cellspacing="3" width="100%">
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[section]" value="Секция:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[section]" value="Секция:" onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[section]')}</div>
@@ -83,7 +83,7 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[module]" value="Модуль:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[module]" value="Модуль:" onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[module]')}</div>
@@ -92,7 +92,7 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[class]" value="Класс:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[class]" value="Класс:" onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[class]')}</div>
@@ -101,7 +101,7 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[searchMethod]" value="Метод поиска:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[searchMethod]" value="Метод поиска:" onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[searchMethod]')}</div>
@@ -110,7 +110,7 @@ mzzCatalogue.autoloadSelects();
                     </tr>
 
                     <tr>
-                        <td><strong>{form->caption name="typeConfig[extractMethod]" value="Метод извлечения данных:" onError='style="color: red;"' onRequired=''}</strong><br /></td>
+                        <td><strong>{form->caption name="typeConfig[extractMethod]" value="Метод извлечения данных:" onRequired=''}</strong><br /></td>
                     </tr>
                     <tr>
                         <td><div class="errorText">{$errors->get('typeConfig[extractMethod]')}</div>
@@ -134,14 +134,14 @@ mzzCatalogue.autoloadSelects();
 {elseif $loadType == 'img'}
     <table border="0" cellpadding="0" cellspacing="6" width="100%">
         <tr>
-            <td><strong>{form->caption name="typeConfig[section]" value="Секция:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
+            <td><strong>{form->caption name="typeConfig[section]" value="Секция:"}</strong></td>
             <td>
             {form->select name="typeConfig[section]" options=$sections value=$propertyForm.typeConfig.section emptyFirst=true style="width: 270px;" id="catalogue_sections_list" onchange="mzzCatalogue.getList(this, 'folders');" onkeypress="this.onchange();"}
             </td>
         </tr>
         <tr>
             <td colspan="2">
-            <strong>{form->caption name="typeConfig[folder]" value="Папка:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong><br />
+            <strong>{form->caption name="typeConfig[folder]" value="Папка:"}</strong><br />
             {form->select name="typeConfig[folder]" style="width: 450px;" size="8" id="catalogue_folders_list" options="Выберите секцию" disabled=1}
             </td>
         </tr>

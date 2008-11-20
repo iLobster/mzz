@@ -41,9 +41,9 @@ function addObjChangeClass(select) {
 {form action=$form_action method="post" jip=true}
     <table border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td>{form->caption name="section" value="Секция" onError="style=color: red;"}</td>
+            <td>{form->caption name="section" value="Секция"}</td>
             <td>{form->select name="section" options=$sections emptyFirst=true id="addobj_section" onchange="addObjChangeClass(this)" onkeypress="this.onchange()"}</td>
-            <td>{form->caption name="class" value="Класс" onError="style=color: red;"}</td>
+            <td>{form->caption name="class" value="Класс"}</td>
             <td>{form->select name="class" emptyFirst=true id="addobj_class" style="width: 150px;" disabled="disabled"}</td>
         </tr>
         <tr>

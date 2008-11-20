@@ -18,7 +18,7 @@
     </tr>
     <tr>
         <td class="leftSide forumOddColumn" valign="top">
-        {form->caption name="forum" value="В раздел" onError="style=color: red;"}
+        {form->caption name="forum" value="В раздел"}
         </td>
         <td class="rightSide" valign="top">
             {form->select name="forum" value=$thread->getForum()->getId() options=$categories}<br />{$errors->get('forum')}

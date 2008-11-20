@@ -31,7 +31,7 @@
     </tr>
     <tr>
         <td class="leftSide forumOddColumn" valign="top">
-        {form->caption name="text" value="Текст сообщения" onError="style=color: red;"}
+        {form->caption name="text" value="Текст сообщения"}
         </td>
         <td class="rightSide" valign="top">
           {form->textarea name="text" rows="20" cols="55" style="width: 98%;" value=$post->getText()}<br />

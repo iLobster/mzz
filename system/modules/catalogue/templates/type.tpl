@@ -17,13 +17,13 @@ function switchChckbox(id, self) {
 {form action=$action method="post" jip=true}
     <table border="0" cellpadding="0" cellspacing="1" width="100%">
         <tr>
-            <td><strong>{form->caption name="title" value="Заголовок:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
-            <td>{form->text name="title" size="60" value=$type.title onError="style=border: red 1px solid;"}{$errors->get('title')}</td>
+            <td><strong>{form->caption name="title" value="Заголовок:"}</strong></td>
+            <td>{form->text name="title" size="60" value=$type.title}{$errors->get('title')}</td>
         </tr>
 
         <tr>
-            <td><strong>{form->caption name="name" value="Название:" onError='style="color: red;"' onRequired='<span style="color: red; font-size: 150%;">*</span> '}</strong></td>
-            <td>{form->text name="name" size="60" value=$type.name onError="style=border: red 1px solid;"}{$errors->get('name')}</td>
+            <td><strong>{form->caption name="name" value="Название:"}</strong></td>
+            <td>{form->text name="name" size="60" value=$type.name}{$errors->get('name')}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>

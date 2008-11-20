@@ -26,7 +26,7 @@ abstract class formElement
      *
      * @var array
      */
-    protected $attributes = array('idFormat' => 'form_%s');
+    protected $attributes = array('idFormat' => 'form_%s', 'onError' => '');
 
     /**
      * Опции
@@ -97,7 +97,15 @@ abstract class formElement
      */
     public function renderTag($tag, $attributes = array())
     {
-        self::parseError($attributes);
+        if (self::parseError($attributes)) {
+            $style = explode('=', $attributes['onError'], 2);
+            if (!empty($style) && sizeof($style) == 2) {
+                $style[1] = $style[1][0] == '"' ? trim($style[1], '"') : $style[1];
+                $attributes['style'] = isset($attributes['style']) ? $attributes['style'] . '; ' . $style[1] : $style[1];
+            } elseif (!empty($style)) {
+                $attributes['class'] = isset($attributes['class']) ? $attributes['class'] . ' ' . $style[0] : $style[0];
+            }
+        }
         if (empty($tag)) {
             return null;
         }
@@ -336,6 +344,7 @@ abstract class formElement
     public function toString($attributes = array())
     {
         $value = $this->escapeOnce($this->getElementValue($attributes));
+        // сливаем атрибуты с атрибутами по умолчанию
         $attributes = array_merge($this->attributes, $attributes);
         if (!array_key_exists('name', $attributes)) {
             throw new mzzRuntimeException('Элементу формы обязательно нужно указывать имя');
