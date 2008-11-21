@@ -331,6 +331,15 @@ class requestRoute implements iRoute
         return $url;
     }
 
+    public function getParts()
+    {
+        if (empty($this->parts)) {
+            $this->prepare();
+        }
+
+        return $this->parts;
+    }
+
     protected function dumpParameters($name, $pattern, $regex, $path)
     {
         $span = '<span style="background-color: #%s; padding: 0 3px;">%s</span>';

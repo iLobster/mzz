@@ -128,7 +128,7 @@ function smarty_function_load($params, $smarty)
         }
     }
 
-    if ($controller) {
+    if (isset($controller)) {
         // отдаём контент в вызывающий шаблон
         $view = $controller->run();
         $request->restore();
