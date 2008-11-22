@@ -32,7 +32,7 @@
 
                     <a href="{url route="withId" action="last" id=$forum->getLastPost()->getThread()->getId()}"><img src="{$SITE_PATH}/templates/images/forum/goto.gif" width="14" height="14" alt="перейти в тему" /></a>
                     <div class="postDate">
-                        {$forum->getLastPost()->getAuthor()->getUser()->getLogin()}, {$forum->getLastPost()->getPostDate()|date_format:"%e %B %Y <span>%H:%M</span>"}
+                        <a href="{url route="withId" action="profile" id=$forum->getLastPost()->getAuthor()->getId()}">{$forum->getLastPost()->getAuthor()->getUser()->getLogin()}</a>, {$forum->getLastPost()->getPostDate()|date_format:"%e %B %Y <span>%H:%M</span>"}
                     </div>
                 {else}
                     Нет сообщений

@@ -40,7 +40,8 @@
         <td class="authorInfo" valign="top" rowspan="2">
             <a href="{url route="withId" action="profile" id=$post->getAuthor()->getId()}" class="authorName">{$post->getAuthor()->getUser()->getLogin()}</a>
             {if $post->getAuthor()->getAvatar()}<br /><br /><img class="forumAvatar" src="{$SITE_PATH}{$post->getAuthor()->getAvatar()->getDownloadLink()}" alt="{$post->getAuthor()->getUser()->getLogin()} avatar" /><br />{/if}
-            <p class="forumDescription">Сообщений: {$post->getAuthor()->getMessages()}</p>
+            <p class="forumDescription">Сообщений: {$post->getAuthor()->getMessages()}
+            {if $post->getAuthor()->getLocation()}<br />Откуда: {$post->getAuthor()->getLocation()}{/if}</p>
         </td>
         <td class="postInfo forumOddColumn">
         <div class="postLink">
