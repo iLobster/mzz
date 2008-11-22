@@ -51,7 +51,7 @@
 
               <div class="userProfileFormField">
                   <span class="userProfileFormLabel">{form->caption name="birthday" value="Дата рождения (д/м/г):"}</span>
-                  <span class="userProfileFormInput">{form->text name="birthday[day]" size="2" value=$profile->getBirthdayDay()} / {form->text name="birthday[month]" value=$profile->getBirthdayMonth() size="2"} / {form->text name="birthday[year]" value=$profile->getBirthdayYear() size="4"}
+                  <span class="userProfileFormInput">{form->text name="birthday[day]" size="2" value=$profile->getBirthday("d")} / {form->text name="birthday[month]" value=$profile->getBirthday("m") size="2"} / {form->text name="birthday[year]" value=$profile->getBirthday("Y") size="4"}
                   <br />{$errors->get('birthday')}</span>
               </div>
 

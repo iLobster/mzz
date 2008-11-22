@@ -66,41 +66,26 @@ class profile extends simple
         return $access;
     }
 
-    public function getBirthdayDay()
+    public function getBirthday($format = null)
     {
-        $birthday = $this->getBirthday();
+        $birthday = parent::getBirthday();
         if (empty($birthday)) {
             return null;
         }
-        return date("d", strtotime($birthday));
-    }
-
-    public function getBirthdayMonth()
-    {
-        $birthday = $this->getBirthday();
-        if (empty($birthday)) {
-            return null;
+        if (empty($format)) {
+            return $birthday;
         }
-        return date("m", strtotime($birthday));
-    }
-
-    public function getBirthdayYear()
-    {
-        $birthday = $this->getBirthday();
-        if (empty($birthday)) {
-            return null;
-        }
-        return date("Y", strtotime($birthday));
+        return date($format, strtotime($birthday));
     }
 
     public function setBirthday($value)
     {
-        if (empty($value)) {
-            return null;
-        }
-        if (is_array($value)) {
+        if (is_array($value) && !empty($value['year'])) {
             $value = $value['year'] . '-' . $value['month'] . '-' . $value['day'];
+        } elseif (is_array($value)) {
+            $value = null;
         }
+
         parent::setBirthday($value);
     }
 }
