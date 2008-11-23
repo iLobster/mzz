@@ -5,7 +5,7 @@
         jipWindow.refreshAfterClose({if $url === true}true{else}"{$url}"{/if});
     {rdelim}, {$timeout});
     </script>
-    <p style="text-align: center; font-weight: bold; color: green; font-size: 120%;">Сохранение изменений...</p>
+    <p style="text-align: center; font-weight: bold; color: green; font-size: 120%;">{_ saving_changes}</p>
 {elseif $do eq 'refresh'}
     <script type="text/javascript">
         jipWindow.refreshAfterClose({if $url === true}true{else}"{$url}"{/if});
@@ -22,5 +22,5 @@
         window.location.reload(true);
     {/if}
     </script>
-    <p align="center"><span id="jipLoad">Обновление окна браузера...</span></p>
+    <p align="center"><span id="jipLoad">{_ refreshing_window}</span></p>
 {/if}

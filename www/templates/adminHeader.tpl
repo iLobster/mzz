@@ -7,6 +7,7 @@
 <script type="text/javascript">
 <!--
 var SITE_PATH = '{$SITE_PATH}';
+var SITE_LANG = '{$lang->getName()}';
 //-->
 </script>
 {include file='include.css.tpl'}

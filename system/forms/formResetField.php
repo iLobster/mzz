@@ -24,6 +24,7 @@ class formResetField extends formElement
     public function __construct()
     {
         $this->setAttribute('type', 'reset');
+        $this->setAttribute('name', '');
         $this->setAttribute('value', '');
         $this->addOptions(array('jip'));
     }

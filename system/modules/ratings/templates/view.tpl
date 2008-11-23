@@ -15,12 +15,12 @@
         <li class="current-rating" style="width: {$folder->getPercentRate()|round:2}%;">&nbsp;</li>
         {foreach from=$stars item="star" name="starsIterator"}
             <li>
-                <a onclick="{if !$myrate}javascript: rate(this.href, $('rate_{$folder->getId()}')); {/if}return false;" href=" {if !$myrate}{url route="withId" action="post" id=$folder->getId() _rate=$star}{else}#{/if}" title="{if !$myrate}{$star}/{$starsCount}{else}{$folder->getRate()|round:1}/{$starsCount}, {$folder->getPercentRate()|round:2}%, Ваша оценка: {$myrate->getRate()}{/if}" style="z-index: {$starsCount-$smarty.foreach.starsIterator.iteration+1}; width: {math equation="(100 / x) * z" x=$starsCount z=$smarty.foreach.starsIterator.iteration}%;">{$star}</a>
+                <a onclick="{if !$myrate}javascript: rate(this.href, $('rate_{$folder->getId()}')); {/if}return false;" href=" {if !$myrate}{url route="withId" action="post" id=$folder->getId() _rate=$star}{else}#{/if}" title="{if !$myrate}{$star}/{$starsCount}{else}{$folder->getRate()|round:1}/{$starsCount}, {$folder->getPercentRate()|round:2}%, {_ your_vote}: {$myrate->getRate()}{/if}" style="z-index: {$starsCount-$smarty.foreach.starsIterator.iteration+1}; width: {math equation="(100 / x) * z" x=$starsCount z=$smarty.foreach.starsIterator.iteration}%;">{$star}</a>
             </li>
         {/foreach}
     </ul>
     {if $isPost}
-        {if $isSaved}<div class="voted"> Ваша оценка принята</div>{/if}
+        {if $isSaved}<div class="voted"> {_ vote_saved}</div>{/if}
         {if $errors->get('rate')}<div class="voted_error">{$errors->get('rate')}</div>{/if}
     {/if}
 {if !$isPost}</div>{/if}

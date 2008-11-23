@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2.6
+ * @version 0.2.7
  */
 
 abstract class simpleController
@@ -121,38 +121,7 @@ abstract class simpleController
         $session = $this->toolkit->getSession();
 
         if (!empty($confirm) && (empty($confirmCode) || $confirmCode != $session->get('confirm_code'))) {
-            $session->set('confirm_code', $code = md5(microtime()));
-            $url = $this->request->getRequestUrl();
-            $url = $url . (strpos($url, '?') ? '&' : '?') . '_confirm=' . $code;
-
-            $this->smarty->assign('url', $url);
-
-            $confirm = empty($this->confirm) ? $confirm : $this->confirm;
-
-            if (i18n::isName($confirm)) {
-                $confirm = i18n::getMessage($confirm);
-            }
-
-            $this->smarty->assign('message', $confirm);
-            $this->smarty->assign('method', $this->request->getMethod());
-            // если подтверждается POST-действие, помещаем данные в форму
-            if ($this->request->isMethod('POST')) {
-                // переменные могут содержать не только строковое значение, но и массив,
-                // поэтому используем http_build_query для составления правильных имен переменных
-                $postData = http_build_query($this->request->exportPost());
-                $postData = explode('&', $postData);
-                $formValues = array();
-                foreach($postData as $key => $value) {
-                    $formValues[$key] = explode('=', $value);
-                    $formValues[$key][0] = urldecode($formValues[$key][0]);
-                    $formValues[$key][1] = urldecode($formValues[$key][1]);
-                }
-                $this->smarty->assign('formValues', $formValues);
-            }
-            $view = $this->smarty->fetch('simple/confirm.tpl');
-        }
-        if (!empty($confirm) && empty($view)) {
-            $session->destroy('confirm_code');
+            $view = $this->getConfirmView($confirm);
         }
 
         if (empty($view)) {
@@ -184,6 +153,46 @@ abstract class simpleController
         $this->smarty->assign('pager', $pager);
 
         return $pager;
+    }
+
+    /**
+     * Возвращает HTML-форму для подтверждения выполнения действия
+     *
+     * @param string $confirm
+     * @return string
+     */
+    protected function getConfirmView($confirm)
+    {
+        $session = $this->toolkit->getSession();
+        $session->set('confirm_code', $code = md5(microtime()));
+
+        $url = $this->request->getRequestUrl();
+        $url = $url . (strpos($url, '?') ? '&' : '?') . '_confirm=' . $code;
+        $this->smarty->assign('url', $url);
+
+        $confirm = empty($this->confirm) ? $confirm : $this->confirm;
+
+        if (i18n::isName($confirm)) {
+            $confirm = i18n::getMessage($confirm);
+        }
+
+        $this->smarty->assign('message', $confirm);
+        $this->smarty->assign('method', $this->request->getMethod());
+        // если подтверждается POST-действие, помещаем данные в форму
+        if ($this->request->isMethod('POST')) {
+            // переменные могут содержать не только строковое значение, но и массив,
+            // поэтому используем http_build_query для составления правильных имен переменных
+            $postData = http_build_query($this->request->exportPost());
+            $postData = explode('&', $postData);
+            $formValues = array();
+            foreach($postData as $key => $value) {
+                $formValues[$key] = explode('=', $value);
+                $formValues[$key][0] = urldecode($formValues[$key][0]);
+                $formValues[$key][1] = urldecode($formValues[$key][1]);
+            }
+            $this->smarty->assign('formValues', $formValues);
+        }
+        return $this->smarty->fetch('simple/confirm.tpl');
     }
 }
 

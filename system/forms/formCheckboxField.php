@@ -33,7 +33,7 @@ class formCheckboxField extends formElement
         $this->setAttribute('type', 'checkbox');
         $this->setAttribute('value', '');
         $this->addOptions(array(
-        'values', 'text', 'nodefault', 'label_style', 'options', 'label_separator', 'separator', 'keyMethod', 'valueMethod'
+        'values', 'text', 'label', 'nodefault', 'label_style', 'options', 'label_separator', 'separator', 'keyMethod', 'valueMethod'
         ));
     }
 
@@ -66,6 +66,10 @@ class formCheckboxField extends formElement
 
         if ($value == $values[1] && (!isset($attributes['checked']) || $attributes['checked'] != false)) {
             $attributes['checked'] = true;
+        }
+
+        if (isset($attributes['label'])) {
+            $attributes['text'] = $attributes['label'];
         }
 
         $attributes['value'] = $values[1];

@@ -69,6 +69,27 @@ fileLoader = Class.create({
 });
 
 var fileLoader = new fileLoader;
+var jipI18n = {
+    en: {
+        loading: 'The page is loading...',
+        refresh: 'The window is refreshing...',
+        cancel: 'cancel',
+        close: 'Close',
+        move: 'Move',
+        error: 'Unable to complete request. Please try again.',
+        noWindow: 'No window to open the page.'
+
+    },
+    ru: {
+        loading: 'Страница открывается...',
+        refresh: 'Перезагрузка окна...',
+        cancel: 'отменить',
+        close: 'Закрыть',
+        move: 'Переместить',
+        error: 'Невозможно выполнить запрос. Попробуйте еще раз.',
+        noWindow: 'Нет ни одно окна для открытия страницы.'
+    }
+};
 
 function buildJipLinks(elm) {
     var jipLinkFunc = function(link) {
@@ -311,7 +332,7 @@ jipWindow = Class.create({
     {
         this.element = this.jip;
         if (Object.isUndefined(this.jip)) {
-            alert('Нет ни одно окна для открытия страницы.');
+            alert(jipI18n[SITE_LANG].noWindow);
             return false;
         }
         if (Object.isUndefined(transport.responseXML) && Object.isUndefined(transport.responseText)) {
@@ -319,7 +340,7 @@ jipWindow = Class.create({
             return false;
         }
 
-        this.jip.update('<div class="jipClose"><img class="jip" width="12" height="12" src="' + SITE_PATH + '/templates/images/jip/close.gif" onclick="javascript: jipWindow.close();" alt="Закрыть" title="Закрыть" /></div>');
+        this.jip.update('<div class="jipClose"><img class="jip" width="12" height="12" src="' + SITE_PATH + '/templates/images/jip/close.gif" onclick="javascript: jipWindow.close();" alt="' + jipI18n[SITE_LANG].close + '" title="' + jipI18n[SITE_LANG].close + '" /></div>');
 
         var tmp = '';
         var ctype = transport.getResponseHeader("content-type");
@@ -367,7 +388,7 @@ jipWindow = Class.create({
             this.jip.insert({top: jipTitle});
             this.jip.insert({top: jipClose});
 
-            var jipMoveDiv = new Element('div', {id: 'jip-' + jipTitle.parentNode.id, title: 'Переместить', 'class': 'jipMove'});
+            var jipMoveDiv = new Element('div', {id: 'jip-' + jipTitle.parentNode.id, title: jipI18n[SITE_LANG].move, 'class': 'jipMove'});
             jipTitle.insert({top: jipMoveDiv});
             this.drag = new Draggable('jip' + jipWindow.currentWindow, {
             'handle': 'jip-' + jipTitle.parentNode.id,
@@ -616,21 +637,21 @@ jipWindow = Class.create({
             this.drag = false;
         }
         if (this.jip) {
-            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" width="32" height="32" /><br />Страница открывается...<br /><a href="javascript: void(jipWindow.close());">отменить</a></div>');
+            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" width="32" height="32" /><br />' + jipI18n[SITE_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + jipI18n[SITE_LANG].cancel + '</a></div>');
         }
     },
 
     setRefreshMsg: function()
     {
         if (this.jip) {
-            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar3.gif" width="32" height="32" /><br />Перезагрузка страницы...</div>');
+            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar3.gif" width="32" height="32" /><br />' + jipI18n[SITE_LANG].refresh + '</div>');
         }
     },
 
     setErrorMsg: function()
     {
         if (this.jip) {
-            this.jip.update('<p align=center>Невозможно выполнить запрос. Попробуйте еще раз.</p>');
+            this.jip.update('<p align=center>' + jipI18n[SITE_LANG].error + '</p>');
         }
     },
 
