@@ -26,7 +26,7 @@ class formTextareaField extends formElement
         $this->setAttribute('rows', 5);
         $this->setAttribute('cols', 20);
         $this->setAttribute('content', '');
-        $this->addOptions(array('content'));
+        $this->addOptions(array('content', 'value'));
     }
 
     public function render($attributes = array(), $value = null)

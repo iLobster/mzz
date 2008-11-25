@@ -50,7 +50,7 @@ class formCaptionField extends formElement
             } else {
                 $for = $attributes['for'];
             }
-            $attributes = array('for' => $for, 'content' => $result);
+            $attributes = array('for' => $for, 'id' => $for . '_label', 'content' => $result);
             return $this->renderTag('label', $attributes);
         }
         return $result;

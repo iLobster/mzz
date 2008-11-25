@@ -144,7 +144,7 @@ abstract class formElement
      */
     protected function setElementId($attributes, $value = null)
     {
-        if (!isset($attributes['id']) && isset($attributes['name'])) {
+        if (!isset($attributes['id']) && !empty($attributes['name'])) {
             $attributes['id'] = $this->generateId($attributes['name'], $attributes['idFormat'], $value);
         }
 
