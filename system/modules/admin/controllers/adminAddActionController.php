@@ -108,6 +108,7 @@ class adminAddActionController extends simpleController
 
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
+            $values['name'] = trim($values['name']);
 
             $modules = $adminMapper->getModulesList();
 

@@ -69,7 +69,7 @@ class adminAddClassController extends simpleController
         $validator->add('callback', 'dest', 'Нет прав на запись в директорию', array(array($this, 'checkdest'), $data['dest']));
 
         if ($validator->validate()) {
-            $name = $this->request->getString('name', SC_POST);
+            $name = trim($this->request->getString('name', SC_POST));
             $newDest = $this->request->getString('dest', SC_POST);
             $bd_only = $this->request->getString('bd_only', SC_POST);
 

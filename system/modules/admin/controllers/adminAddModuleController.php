@@ -85,7 +85,7 @@ class adminAddModuleController extends simpleController
         }
 
         if ($validator->validate()) {
-            $name = $this->request->getString('name', SC_POST);
+            $name = trim($this->request->getString('name', SC_POST));
             $icon = $this->request->getString('icon', SC_POST);
             $title = $this->request->getString('title', SC_POST);
             $order = $this->request->getInteger('order', SC_POST);
