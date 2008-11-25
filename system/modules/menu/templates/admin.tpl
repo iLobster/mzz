@@ -1,4 +1,4 @@
-{add file="menuTree.css"}
+{add file="menu/menuTree.css"}
 {add file="prototype.js"}
 {add file="menu.js"}
 <div class="pageTitle">Список меню {$folder->getJip()}</div>

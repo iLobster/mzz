@@ -1,4 +1,4 @@
-{add file="toolbar.css"}
+{add file="admin/toolbar.css"}
 <!-- модули и классы -->
 <div class="pageContent">
 <div class="toolbarLayerTopLeft">

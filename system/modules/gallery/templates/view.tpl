@@ -1,9 +1,9 @@
 {add file="gallery.css"}
 {add file="prototype.js"}
 {add file="prototype_improvements.js"}
-{add file="scroller.js"}
-{add file="marker.css"}
-{add file="rectmarquee.js"}
+{add file="gallery/scroller.js"}
+{add file="gallery/marker.css"}
+{add file="gallery/rectmarquee.js"}
 
 {literal}
 <script type="text/javascript">

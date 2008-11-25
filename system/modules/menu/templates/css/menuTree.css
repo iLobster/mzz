@@ -59,19 +59,19 @@ ul.menuMargin {
 }
 
 .menuItemTitleGray {
-    background-image: url('../images/menu/left_side.gif');
+    background-image: url('../../images/menu/left_side.gif');
 }
 
 .treeItemGray {
-    background-image: url('../images/menu/bg.gif');
+    background-image: url('../../images/menu/bg.gif');
 }
 
 .menuItemTitleYellow {
-    background-image: url('../images/menu/left_side_yellow.gif');
+    background-image: url('../../images/menu/left_side_yellow.gif');
 }
 
 .treeItemYellow {
-    background-image: url('../images/menu/bg_yellow.gif');
+    background-image: url('../../images/menu/bg_yellow.gif');
 }
 
 .menuItemActions {
