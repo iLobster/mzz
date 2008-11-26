@@ -24,32 +24,26 @@ class tagsListController extends simpleController
 {
     public function getView()
     {
-        $obj_id = $this->request->getInteger('parent_id');
-        $coords = $this->request->getBoolean('coords');
+        $obj_id = $this->request->getInteger('item_id');
         $search = $this->request->getString('tags', SC_POST);
         $section = $this->request->getRequestedSection();
 
-        if ($obj_id == null) {
+        /*if ($obj_id == null) {
             $tagsMapper = $this->toolkit->getMapper('tags', 'tags', 'tags');
             $search = str_replace(array('%', '_'), array('\%', '\_'), $search);
             $tags = $tagsMapper->searchByNameLike($search . '%');
-        } else {
+        } else {*/
             $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
-            $tagsItem = $tagsItemMapper->searchOneByField('item_obj_id', $obj_id);
-            $tags = $tagsItem->getTags($coords);
-        }
+            $tagsItem = $tagsItemMapper->searchByItem($obj_id);
+            $tags = $tagsItem->getTags();
+        //}
 
 
         $this->smarty->assign('section', $section);
         $this->smarty->assign('item_obj_id', $obj_id);
+        $this->smarty->assign('tags', $tags);
 
-        //if(empty($tags)) {
-            //return $this->smarty->fetch('tags/notags.tpl');
-        //} else {
-            $this->smarty->assign('tags', $tags);
-            return $this->smarty->fetch('tags/list' . ($obj_id ? '' : 'All') . '.tpl');
-        //}
-
+        return $this->smarty->fetch('tags/list' . ($obj_id ? '' : 'All') . '.tpl');
     }
 }
 

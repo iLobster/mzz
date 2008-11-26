@@ -27,53 +27,32 @@ class tagsEditTagsController extends simpleController
     public function getView()
     {
         $obj_id = $this->request->getInteger('id');
+        $action = $this->request->getAction();
 
         $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
         $tagsItem = $tagsItemMapper->searchOneByField('item_obj_id', $obj_id);
 
-        $action = $this->request->getAction();
-        $isEdit = ($action == 'edit');
-        //$news = ($isEdit) ? $newsMapper->searchById($id) : $newsMapper->create();
-
-        if(!empty($tagsItem)) {
-
+        if (!empty($tagsItem)) {
             $validator = new formValidator();
 
             if ($validator->validate()) {
                 $tags = $this->request->getString('tags', SC_POST);
                 $tagsItem->setTags($tags);
                 $tagsItemMapper->save($tagsItem);
-
-                // @toDo не обновлять всю страницу, обновлять только теги
-                //exit;
-                return jipTools::redirect();
+                return jipTools::refresh();
             }
 
             $url = new url('withId');
             $url->setAction($action);
             $url->add('id', $obj_id);
 
-            //echo"<pre>";var_dump($url->get());echo"</pre>";
-
-            $tags = $tagsItem->getTags();
-            if(!empty($tags)) {
-                foreach($tags as $tag) {
-                    $tmp[] = $tag->getTag();
-                }
-
-                $tags_string = implode(', ', $tmp);
-            } else {
-                $tags_string = '';
-            }
-            $this->smarty->assign('tags', $tags_string);
+            $this->smarty->assign('tags', $tagsItem->getTagsAsString());
             $this->smarty->assign('action', $url->get());
 
             return $this->smarty->fetch('tags/editTags.tpl');
         }
 
         return $tagsItemMapper->get404()->run();
-
-
     }
 }
 

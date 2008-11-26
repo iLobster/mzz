@@ -23,7 +23,7 @@
 class tags extends simple
 {
     protected $name = 'tags';
-    protected $coords = array();
+    protected $obj_id_field = null;
 
     /**
      * Количество вхождений тега

@@ -27,7 +27,7 @@ class jip
      *
      * @var string
      */
-    const DEFAULT_TEMPLATE = 'jip.tpl';
+    const DEFAULT_TEMPLATE = 'jip/jip.tpl';
 
     /**
      * Section

@@ -19,7 +19,7 @@ fileLoader::load('tags');
  *
  * @package modules
  * @subpackage tags
- * @version 0.1.1
+ * @version 0.2
  */
 
 class tagsMapper extends simpleMapper
@@ -37,24 +37,88 @@ class tagsMapper extends simpleMapper
      * @var string
      */
     protected $className = 'tags';
+    protected $obj_id_field = null;
+
 
     /**
-     * Создание тегов
+     * Сохраняет сами теги в БД (создаются те, которых в базе еще нет) и
+     * возвращает массив из готовых доменных объектов для всех тегов
      *
-     * @param array $tags теги, массив
-     * @return array of tags
+     * @param array|string $tags
+     * @return array
      */
-    public function createTags($tags)
+    public function saveTags($tags)
     {
-        foreach((array)$tags as $tagName) {
-            $t = $this->create();
-            $t->setTag(trim($tagName));
-            $this->save($t);
-            $newTags[] = $t;
+        $tags = $this->prepareTags($tags);
+        $existed = $this->searchTags($tags);
+        $new = array();
+        $existedPlain = array();
+
+        if (!empty($existed)) {
+            // готовим массив с тегами в виде строк
+            foreach ($existed as $t) {
+                // для поиска новых тегов переводим существующие в нижний регистр
+                $existedPlain[] = strtolower($t->getTag());
+            }
+
+            // вычисляем новые теги
+            foreach ($tags as $i => $t) {
+                if (!in_array(strtolower($t), $existedPlain)) {
+                    $new[] = $tags[$i];
+                }
+            }
+        } else {
+            // все теги новые
+            $new = $tags;
         }
 
-        return $newTags;
+        if(!empty($new)) {
+            $new = $this->createTags($new);
+        }
+
+        return $existed + $new;
     }
+
+
+    /**
+     * Создает теги (пустые теги игнорируется и не создаются)
+     *
+     * @param array $tags
+     * @return array
+     */
+    protected function createTags($tags)
+    {
+        $new = array();
+        foreach ((array) $tags as $tagText) {
+            $tagText = trim($tagText);
+            if (empty($tagText)) {
+                continue;
+            }
+            $tag = $this->create();
+            $tag->setTag($tagText);
+            $this->save($tag);
+            $new[$tag->getId()] = $tag;
+        }
+
+        return $new;
+    }
+
+
+    /**
+     * Разбивает строку тегов и удаляет пробелы из начала и конца элементов массива
+     *
+     * @param array|string $tags
+     * @return array
+     */
+    public function prepareTags($tags)
+    {
+        if (!is_array($tags)) {
+            $tags = explode(',', $tags);
+        }
+        return array_map('trim', $tags);
+    }
+
+    // дальше переписать
 
     public function searchByNameLike($name)
     {
@@ -83,7 +147,7 @@ class tagsMapper extends simpleMapper
      * @param array $tag теги
      * @return array of obj_id values
      */
-    public function searchObjIdByTag($tag)
+    public function searchObjIdsByTag($tag)
     {
         // ищем obj_id сущностей у которых есть этот тег
         $criteria = new criteria('tags_tagsItem', 'ti');

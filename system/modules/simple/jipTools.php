@@ -19,7 +19,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2
+ * @version 0.3
  */
 class jipTools
 {
@@ -52,7 +52,7 @@ class jipTools
     }
 
     /**
-     * Обновление окна браузера или перенаправление на другой URL
+     * Обновление окна браузера (deprecated: use self::refresh()) или перенаправление на другой URL
      *
      * @param string $url URL, на который будет отправлен пользователь. По умолчанию используется текущий URL браузера
      * @return string HTML код
@@ -64,6 +64,20 @@ class jipTools
         $smarty->assign('do', 'redirect');
         return $smarty->fetch('simple/jipTools.tpl');
     }
+
+    /**
+     * Обновление окна браузера
+     *
+     * @return string HTML код
+     */
+    static public function refresh()
+    {
+        $smarty = systemToolkit::getInstance()->getSmarty();
+        $smarty->assign('url', null);
+        $smarty->assign('do', 'redirect');
+        return $smarty->fetch('simple/jipTools.tpl');
+    }
+
 }
 
 ?>

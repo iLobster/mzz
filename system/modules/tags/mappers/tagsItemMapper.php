@@ -19,7 +19,7 @@ fileLoader::load('tags/tagsItem');
  *
  * @package modules
  * @subpackage tags
- * @version 0.1
+ * @version 0.2
  */
 
 class tagsItemMapper extends simpleMapper
@@ -37,116 +37,51 @@ class tagsItemMapper extends simpleMapper
      * @var string
      */
     protected $className = 'tagsItem';
+    protected $obj_id_field = null;
 
-
+    /**
+     * Сохранение тегов для объекта. При этом создаются теги, которых еще не было, удаляются
+     * теги, которых нет в новом наборе.
+     *
+     * @param tagsItem $tagsItem
+     * @param object $user
+     * @return boolean
+     */
     public function save($tagsItem, $user = null)
     {
         $tags = $tagsItem->getNewTags();
-        if (!is_null($tags)) {
-            if (!$tagsItem->isSingle()) {
-                $tagsItem->setTags(null);
-            }
-            $toolkit = systemToolkit::getInstance();
-            $tagsPlainLowString = array_map('strtolower', $tags);
-            $tagsMapper = $toolkit->getMapper('tags', 'tags', 'tags');
-            $tagsItemRelMapper = $toolkit->getMapper('tags', 'tagsItemRel', 'tags');
+        if (is_null($tags)) {
+            return false;
+        }
+        $toolkit = systemToolkit::getInstance();
+        $tagsMapper = $toolkit->getMapper('tags', 'tags', 'tags');
+        $tagsItemRelMapper = $toolkit->getMapper('tags', 'tagsItemRel', 'tags');
 
-            // учитывается что если в базе iPod, ввели ipod, IPOD, сохраняется как iPod
+        // новый набор тегов
+        $tags = $tagsMapper->saveTags($tags);
+        $newTagsKeys = array_keys($tags);
 
-            $existedTags = $tagsMapper->searchTags($tags);
+        // текущий набор тегов
+        $itemTagsPlain = array();
+        $itemTags = $tagsItem->getTags();
+        $oldTagsKeys = array_keys($itemTags);
+        foreach ($itemTags as $t) {
+            $itemTagsPlain[] = $t->getTag();
+        }
 
-            $existedTagsPlain = $currentTagsPlain = $deletedTagsPlain = array();
-            $newInBaseTags = $newInBaseTagsPlain = $newTagsPlain = $newTags = array();
+        // удаляем теги для объекта
+        $deletedKeys = array_diff($oldTagsKeys, $newTagsKeys);
+        foreach ($deletedKeys as $key) {
+            $tagsItemRelMapper->deleteByTagAndItem($key, $tagsItem);
+        }
 
-            // вычисляем новые теги, которых нет в базе
-            if(!empty($existedTags)) {
-
-                // готовим массив с тегами строками
-                foreach ($existedTags as $t) {
-                    $existedTagsPlain[] = $t->getTag();
-                }
-
-                // для поиска новых тегов переводим их нижний регистр
-                $existedTagsPlainLowString = array_map('strtolower', $existedTagsPlain);
-
-                // вычисляем новые теги
-                foreach ($tagsPlainLowString as $i => $t) {
-                    if(!in_array($t, $existedTagsPlainLowString)) {
-                        $newInBaseTagsPlain[] = $tags[$i];
-                    }
-                }
-            } else {
-                // все теги новые
-                $newInBaseTagsPlain = $tags;
-            }
-
-            // готовим массив с текущими тегами
-            $currentTags = $tagsItem->getTags();
-            foreach ($currentTags as $t) {
-                $currentTagsPlain[] = $t->getTag();
-            }
-
-            // вычисляем удаленные теги
-            // @todo а где результаты используется?
-            // можно для отмены удаления использовать
-            $currentTagsPlainLowString = array_map('strtolower', $currentTagsPlain);
-            foreach ($currentTagsPlainLowString as $i => $t) {
-                if(!in_array($t, $tagsPlainLowString)) {
-                    $deletedTagsPlain[] = $currentTagsPlain[$i];
-                }
-            }
-
-            // новые для объекта теги
-            $newTagsPlainLowString = array_diff($tagsPlainLowString, $currentTagsPlainLowString);
-            foreach(array_keys($newTagsPlainLowString) as $key) {
-                $newTagsPlain[$key] = $tags[$key];
-            }
-
-            // создаем новые для базы теги
-            if(!empty($newInBaseTagsPlain)) {
-                $newInBaseTags = $tagsMapper->createTags($newInBaseTagsPlain);
-            }
-
-            // ищем новые для объекта теги и переводим их в объекты
-            $newTags = array();
-            if(!empty($newTagsPlain)) {
-                foreach ($existedTags as $key => $t) {
-                    if(in_array(strtolower($t->getTag()), $newTagsPlainLowString)) {
-                        $newTags[$key] = $t;
-                    }
-                }
-            }
-
-            $currentUser = $toolkit->getUser();
-
-            // новые теги = $newInBaseTags + $newTags
-            // связываем теги с сущностью
-            $allNewTags = array_merge($newInBaseTags, $newTags);
-            foreach ($allNewTags as $tag) {
-                $tagItemRel = $tagsItemRelMapper->create();
-                $tagItemRel->setTag($tag);
-                $tagItemRel->setItem($tagsItem);
-                $tagsItemRelMapper->save($tagItemRel);
-            }
-
-            if (!$tagsItem->isSingle()) {
-                // вычисляем удаленные теги
-                // удаляем связи
-                $currentTagsKeys = array_keys($currentTags);
-                $existedTagsKeys = array_keys($existedTags);
-                $deletedTagsKeys = array_diff($currentTagsKeys, $existedTagsKeys);
-
-                // @todo подумать о личных, общих тэгах. Что удалять, как удалять?
-
-                if(!empty($deletedTagsKeys)) {
-                    foreach($deletedTagsKeys as $key) {
-                        $tagsItemRelMapper->deleteByTagAndItem($key, $tagsItem);
-                    }
-                }
-            }
-
-        } else {
-            parent::save($tagsItem, $user);
+        // создаем связь между и объектом и новыми для него тегов
+        $addedKeys = array_diff($newTagsKeys, $oldTagsKeys);
+        foreach ($addedKeys as $key) {
+            $tagItemRel = $tagsItemRelMapper->create();
+            $tagItemRel->setTag($tags[$key]);
+            $tagItemRel->setItem($tagsItem->getId());
+            $tagsItemRelMapper->save($tagItemRel);
         }
     }
 
@@ -173,46 +108,38 @@ class tagsItemMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getRequest()->getAction();
 
-        if (isset($args['parent_id']) || isset($args['id'])) {
-            $parent_obj_id = isset($args['parent_id']) ? $args['parent_id'] : $args['id'];
+        $item_id = isset($args['item_id']) ? $args['item_id'] : $args['id'];
+        return $this->getTagsItem($item_id);
+    }
 
-        } elseif((isset($args['items']) && $action == 'itemsTagsCloud') || ($action == 'tagsCloud')) {
-            // если передается список объектов для облака
+    /**
+     * Возвращает tagsItem. Если его нет, то создает
+     *
+     * @param integer $item_obj_id
+     * @return tagsItem
+     */
+    public function getTagsItem($item_obj_id)
+    {
+        $tagsItem = $this->searchByItem($item_obj_id);
 
-            $toolkit = systemToolkit::getInstance();
-            $obj_id = $toolkit->getObjectId($this->section . '_' . $action);
-            $this->register($obj_id, 'tags', 'tagsItem');
-
-            $obj = $this->create();
-            $obj->import(array('obj_id' => $obj_id));
-            return $obj;
-
-        } else {
-            $toolkit = systemToolkit::getInstance();
-            $obj_id = $toolkit->getObjectId($this->section . '_' . $this->className);
-            $this->register($obj_id, 'tags');
-
-            $obj = $this->create();
-            $obj->import(array('obj_id' => $obj_id));
-            return $obj;
-        }
-
-        $tagsItem = $this->searchOneByField('item_obj_id', $parent_obj_id);
         if(is_null($tagsItem)) {
-
-            // toDo owner добавить?
-
             $tagsItem = $this->create();
-            $tagsItem->setItemObjId($parent_obj_id);
+            $tagsItem->setItemObjId($item_obj_id);
             $this->save($tagsItem);
         }
 
-        if ($tagsItem) {
-            return $tagsItem;
-        }
+        return $tagsItem;
+    }
 
-
-        throw new mzzDONotFoundException();
+    /**
+     * Ищет tagsItem по obj_id
+     *
+     * @param integer $obj_id
+     * @return tagsItem
+     */
+    public function searchByItem($obj_id)
+    {
+        return $this->searchOneByField('item_obj_id', (int) $obj_id);
     }
 }
 

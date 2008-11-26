@@ -25,32 +25,9 @@ class tagsItem extends simple
 
     protected $tags = null;
 
-    protected $single = false;
-
     public function setTags($tags)
     {
-        if (!is_null($tags)) {
-            // парсим тэги
-            if ($this->single) {
-                $tags = (array)trim($tags);
-            } else {
-                $config = systemToolkit::getInstance()->getConfig('tags');
-                $minLength = $config->get('minLength');
-                $tags = explode(',', $tags);
-                $tags = array_map('trim', $tags);
-                foreach ($tags as $i => $t) {
-                    if(strlen($t) < $minLength) {
-                        unset($tags[$i]);
-                    }
-                }
-            }
-        }
         $this->tags = $tags;
-    }
-
-    public function isSingle()
-    {
-        return $this->single;
     }
 
     public function getNewTags()
@@ -58,28 +35,33 @@ class tagsItem extends simple
         return $this->tags;
     }
 
-
-    public function setTag($tag)
+    public function getTags()
     {
-        $this->tag = trim($tag);
+       $rels = $this->getRelations();
+       $tags = array();
+
+       foreach ($rels as $rel) {
+           $tags[$rel->getTag()->getId()] = $rel->getTag();
+       }
+
+       return $tags;
     }
 
-    public function getTag()
+    public function getTagsAsString($glue = ', ')
     {
-        return $this->tag;
+        $tags = (array) $this->getTags();
+        $tmp = array();
+
+        foreach ($tags as $tag) {
+            $tmp[] = $tag->getTag();
+        }
+
+        return implode($glue, $tmp);
     }
 
-    public function getTags($withCoords = false)
+    public function getAcl($action)
     {
-        $tagsMapper = systemToolkit::getInstance()->getMapper('tags', 'tags', 'tags');
-        $criteria = new criteria('tags_tags', 'tags');
-        $joinRelationCriterion = new criterion('tags.id', 'tags_rel.tag_id', criteria::EQUAL, true);
-        $criteria->addJoin('tags_item_rel', $joinRelationCriterion, 'tags_rel', criteria::JOIN_INNER);
-        $criteria->add('tags_rel.item_id', $this->getId());
-        $tags = $tagsMapper->searchAllByCriteria($criteria);
-
-        //$criteria->debug();
-        return $tags;
+        return true;
     }
 }
 

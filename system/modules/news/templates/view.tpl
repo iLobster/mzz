@@ -10,7 +10,7 @@
     {_ edited}: {$news->getUpdated()|date_format:"%e %B %Y / %H:%M"}</div>
 
     <div class="news_text">{$news->getText()|htmlspecialchars}</div>
-    {load module="tags" section="tags" action="list" parent_id=$news->getObjId()}
+    {load module="tags" section="tags" action="list" item_id=$news->getObjId()}
     {load module="comments" section="comments" action="list" id=$news->getObjId() owner=$news->getEditor()->getId()}
 
 </div>

@@ -19,7 +19,7 @@ fileLoader::load('tags/tagsItemRel');
  *
  * @package modules
  * @subpackage tags
- * @version 0.1
+ * @version 0.2
  */
 
 class tagsItemRelMapper extends simpleMapper
@@ -37,6 +37,7 @@ class tagsItemRelMapper extends simpleMapper
      * @var string
      */
     protected $className = 'tagsItemRel';
+    protected $obj_id_field = null;
 
     /**
      * Конструктор
@@ -51,31 +52,7 @@ class tagsItemRelMapper extends simpleMapper
 
     public function deleteByTagAndItem($tag_id, $item_id)
     {
-        if ($tag_id instanceof simple) {
-            $tag_id = $tag_id->getId();
-        }
-
-        if ($item_id instanceof simple) {
-            $item_id = $item_id->getId();
-        }
-
-        $criteria = new criteria();
-        $criteria->add('tag_id', $tag_id);
-        $criteria->add('item_id', $item_id);
-        $object = $this->searchOneByCriteria($criteria);
-
-        $toolkit = systemToolkit::getInstance();
-        if ($object && $this->isObjIdEnabled()) {
-            $acl = new acl($toolkit->getUser());
-            $acl->delete($object->getObjId());
-        }
-
-        $stmt = $this->db->prepare('DELETE FROM `' . $this->table . '` WHERE `tag_id` = :tag_id AND `item_id` = :item_id');
-        $stmt->bindParam(':tag_id', $tag_id, PDO::PARAM_INT);
-        $stmt->bindParam(':item_id', $item_id, PDO::PARAM_INT);
-
-        return $stmt->execute();
-
+        return $this->delete($this->searchByTagAndItem($tag_id, $item_id));
     }
 
     public function searchByTagAndItem($tag_id, $item_id)
@@ -92,20 +69,6 @@ class tagsItemRelMapper extends simpleMapper
         $criteria->add('tag_id', $tag_id);
         $criteria->add('item_id', $item_id);
         return $this->searchOneByCriteria($criteria);
-    }
-
-    public function getTagCoords($rel_id)
-    {
-        $criteria = new criteria($this->section . '_' . $this->className);
-        $criteria->add('rel_id', (int)$rel_id);
-
-        $select = new $this->simpleSelectName($criteria);
-        $stmt = $this->db->query($select->toString());
-        $row = $stmt->fetch();
-
-        $criteria->debug();
-        //echo '<br><pre>'; var_dump($select->toString()); echo '<br></pre>';
-        return $row;
     }
 
     /**

@@ -111,6 +111,15 @@ class newsMapper extends simpleMapper
         fileLoader::load('news/controllers/news404Controller');
         return new news404Controller();
     }
+
+    public function searchByObjIds($obj_ids)
+    {
+        $criteria = new criteria();
+        $criterion = new criterion('obj_id', $obj_ids, criteria::IN);
+        $criteria->add($criterion);
+
+        return $this->searchAllByCriteria($criteria);
+    }
 }
 
 ?>
