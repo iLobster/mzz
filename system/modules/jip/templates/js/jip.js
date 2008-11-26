@@ -286,7 +286,7 @@ jipWindow = Class.create({
             //this.clean();
             if (this.redirectAfterClose) {
                 if (this.redirectAfterClose === true) {
-                    window.location.reload(true);
+                    window.location.reload();
                 } else {
                     window.location = this.redirectAfterClose;
                 }

@@ -64,9 +64,7 @@ class formCheckboxField extends formElement
             $value = $values[0];
         }
 
-        if ($value == $values[1] && (!isset($attributes['checked']) || $attributes['checked'] != false)) {
-            $attributes['checked'] = true;
-        }
+        $attributes['checked'] = ($value == $values[1] && (!isset($attributes['checked']) || $attributes['checked'] != false));
 
         if (isset($attributes['label'])) {
             $attributes['text'] = $attributes['label'];
@@ -108,9 +106,7 @@ class formCheckboxField extends formElement
                 list($key, $option) = $this->getValuesFromObject($option, $attributes, $key);
             }
 
-            if ($this->checkSelected($key, $value) && (!isset($attributes['checked']) || $attributes['checked'] != false)) {
-                $attributes['checked'] = true;
-            }
+            $attributes['checked'] = ($this->checkSelected($key, $value) && (!isset($attributes['checked']) || $attributes['checked'] != false));
 
             if ($attributes['type'] == 'radio') {
                 $attributes['idFormat'] = $this->getIdFormat() . '_' . $key;

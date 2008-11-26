@@ -19,7 +19,7 @@
             var targetURL = '{$url}';
         window.location = targetURL;
     {else}
-        window.location.reload(true);
+        window.location.reload();
     {/if}
     </script>
     <p align="center"><span id="jipLoad">{_ refreshing_window}</span></p>
