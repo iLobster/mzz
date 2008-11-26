@@ -36,6 +36,7 @@ class formSubmitField extends formElement
             $hiddenParams['type'] = 'hidden';
             $hiddenParams['value'] = $attributes['value'];
             $hiddenParams['name'] = $attributes['name'];
+            $hiddenParams['id'] = $this->generateId($attributes['name'] . '_default', $attributes['idFormat'], $value);
             $hidden = $this->renderTag('input', $hiddenParams);
         }
 

@@ -81,6 +81,7 @@ class formSelectField extends formElement
             return $select . (is_array($this->selected) ? $this->selected[1] : $option);
         } else {
             $attributes['content'] = $options;
+            unset($attributes['value']);
             return $this->renderTag('select', $attributes);
         }
 
