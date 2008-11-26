@@ -71,6 +71,17 @@ class tagsItemRelMapper extends simpleMapper
         return $this->searchOneByCriteria($criteria);
     }
 
+    public function searchByTag($tag_id)
+    {
+        if ($tag_id instanceof simple) {
+            $tag_id = $tag_id->getId();
+        }
+
+        $criteria = new criteria();
+        $criteria->add('tag_id', $tag_id);
+        return $this->searchAllByCriteria($criteria);
+    }
+
     /**
      * Возвращает доменный объект по аргументам
      *

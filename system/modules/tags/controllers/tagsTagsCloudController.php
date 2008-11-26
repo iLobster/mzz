@@ -33,17 +33,10 @@ class tagsTagsCloudController extends simpleController
         $action = $this->request->getString('tagAction');
 
         $itemsMapper = $this->toolkit->getMapper($module, $class, $section);
-        if ($itemsMapper instanceof iTaggable) {
-            $obj_ids = $itemsMapper->getTaggedObjIds();
-        } else {
-            $criteria = new criteria($itemsMapper->getTable(), 't');
-            $criteria->addSelectField('obj_id');
-            $db = DB::factory();
-            $s = new simpleSelect($criteria);
-            $obj_ids = $db->getAll($s->toString(), PDO::FETCH_COLUMN);
-        }
-
+        $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
         $tagsMapper = $this->toolkit->getMapper('tags', 'tags', 'tags');
+
+        $obj_ids = $tagsItemMapper->getObjIdsFromItemsMapper($itemsMapper);
         $tags = $tagsMapper->searchAllTagsByItems($obj_ids);
 
         $this->smarty->assign('tags', $tags);

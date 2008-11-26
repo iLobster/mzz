@@ -19,7 +19,7 @@ fileLoader::load('tags');
  *
  * @package modules
  * @subpackage tags
- * @version 0.2
+ * @version 0.2.1
  */
 
 class tagsMapper extends simpleMapper
@@ -38,7 +38,6 @@ class tagsMapper extends simpleMapper
      */
     protected $className = 'tags';
     protected $obj_id_field = null;
-
 
     /**
      * Сохраняет сами теги в БД (создаются те, которых в базе еще нет) и
@@ -79,7 +78,6 @@ class tagsMapper extends simpleMapper
         return $existed + $new;
     }
 
-
     /**
      * Создает теги (пустые теги игнорируется и не создаются)
      *
@@ -103,7 +101,6 @@ class tagsMapper extends simpleMapper
         return $new;
     }
 
-
     /**
      * Разбивает строку тегов и удаляет пробелы из начала и конца элементов массива
      *
@@ -118,13 +115,31 @@ class tagsMapper extends simpleMapper
         return array_map('trim', $tags);
     }
 
-    // дальше переписать
 
+    /**
+     * Ищет теги, текстовое представление которых соответствует LIKE-паттерну
+     *
+     * @param string $name
+     * @return array
+     */
     public function searchByNameLike($name)
     {
         $criteria = new criteria();
         $criteria->add('tag', $name, criteria::LIKE);
         return $this->searchAllByCriteria($criteria);
+    }
+
+    /**
+     * Ищет тег по его текстовому представлению
+     *
+     * @param string $name
+     * @return tag
+     */
+    public function searchByName($name)
+    {
+        $criteria = new criteria();
+        $criteria->add('tag', $name);
+        return $this->searchOneByCriteria($criteria);
     }
 
     /**
@@ -149,22 +164,17 @@ class tagsMapper extends simpleMapper
      */
     public function searchObjIdsByTag($tag)
     {
-        // ищем obj_id сущностей у которых есть этот тег
-        $criteria = new criteria('tags_tagsItem', 'ti');
+        $obj_ids = array();
+        $tag = $this->searchByName($tag);
 
-        $joinTagItemRel= new criterion('ti.id','tir.item_id', criteria::EQUAL, true);
-        $criteria->addJoin('tags_item_rel', $joinTagItemRel, 'tir', criteria::JOIN_INNER);
-
-        $joinTags= new criterion('tir.tag_id','t.id', criteria::EQUAL, true);
-        $criteria->addJoin('tags_tags', $joinTags, 't', criteria::JOIN_INNER);
-
-        $criteria->add('t.tag', $tag);
-        $criteria->addSelectField('ti.item_obj_id');
-
-        $s = new simpleSelect($criteria);
-        //echo "<pre>";var_dump($s->toString());echo "</pre>";
-
-        $obj_ids = $this->db->getAll($s->toString(), PDO::FETCH_COLUMN);
+        if ($tag) {
+            $toolkit = systemToolkit::getInstance();
+            $tagsItemRelMapper = $toolkit->getMapper('tags', 'tagsItemRel', 'tags');
+            $itemRels = $tagsItemRelMapper->searchByTag($tag);
+            foreach ($itemRels as $rel) {
+                $obj_ids[] = $rel->getItem()->getItemObjId();
+            }
+        }
 
         return $obj_ids;
     }
@@ -182,39 +192,6 @@ class tagsMapper extends simpleMapper
 
         $joinTagsItem= new criterion('tir.item_id','ti.id', criteria::EQUAL, true);
         $criteria->addJoin('tags_tagsItem', $joinTagsItem, 'ti', criteria::JOIN_INNER);
-    }
-
-    /**
-     * Поиск значения повторов самого распространенного тега
-     *
-     * @param mixed $items Массив объектов или список obj_id
-     * @return array of tags
-     */
-    public function getMaxCount($obj_ids)
-    {
-        sort($obj_ids);
-        $identifier = 'tagMaxCount_' . md5(implode('', $obj_ids));
-        $cache = systemToolkit::getInstance()->getCache();
-
-        if (is_null($maxCount = $cache->get($identifier))) {
-            $criteria = new criteria($this->table, 'tags');
-
-            $this->joinTagsItem($criteria);
-
-            $objCriterion = new criterion('ti.item_obj_id', $obj_ids, criteria::IN);
-            $criteria->add($objCriterion);
-
-            $criteria->addSelectField(new sqlFunction('count', 'tags.id', true), 'count');
-            $criteria->addGroupBy('tags.id');
-            $criteria->setOrderByFieldDesc('count', false);
-
-            $s = new simpleSelect($criteria);
-
-            $maxCount = (int)$this->db->getOne($s->toString());
-            $cache->set($identifier, $maxCount);
-        }
-
-        return $maxCount;
     }
 
     /**
@@ -265,21 +242,9 @@ class tagsMapper extends simpleMapper
      */
     public function searchAllTagsByItems($items, $limit = null)
     {
-        $obj_ids = array();
-        foreach ($items as $item) {
-            if($item instanceof simple) {
-                $obj_ids[] = $item->getObjId();
-            } elseif(is_numeric($item)) {
-                $obj_ids[] =  $item;
-            } else {
-                throw new Exception();
-                return 1;
-            }
-        }
-
+        $obj_ids = $this->convertItemsToObjIds($items);
 
         $criteria = new criteria();
-
         $this->joinTagsItem($criteria);
 
         $objCriterion = new criterion('ti.item_obj_id', $obj_ids, criteria::IN);
@@ -288,16 +253,12 @@ class tagsMapper extends simpleMapper
         $criteria->addSelectField('tags.*');
         $criteria->addSelectField(new sqlFunction('count', 'tags.id', true), 'count');
         $criteria->addGroupBy('tags.tag');
-        //$criteria->setOrderByFieldAsc('count', false);
         $criteria->setOrderByFieldAsc('tags.tag');
 
         $s = new simpleSelect($criteria);
-
-        //$maxCount = $this->getMaxCount($obj_ids); //linear
         $weights = $this->getWeights($obj_ids); // logarithmic
 
-        // нет тегов, возвращаем сразу пустой массив
-        if(empty($weights)) {
+        if (empty($weights)) {
             return array();
         }
 
@@ -317,15 +278,10 @@ class tagsMapper extends simpleMapper
         //@fix так как fillArray режет все лишние поля
         while ($row = $stmt->fetch()) {
             foreach ($row as $key => $field) {
-                if(strstr($key, self::TABLE_KEY_DELIMITER)) {
+                if (strstr($key, self::TABLE_KEY_DELIMITER)) {
                     unset($row[$key]);
                 }
             }
-
-            // удельный вес тэга величина линейная, а правильно ли это?
-            // если тэг креведко упомянут 1000 раз, а ближайший тэг всего 100, то всё в единицу веса попадет
-            // облако потеряет воздушность и адекватность
-            //$row['weight'] = round($max * $row['count'] / $maxCount);
 
             // логарифмический вариант
             $row['weight'] = $this->convertWeight($row['count'], $thresholds);
@@ -335,6 +291,35 @@ class tagsMapper extends simpleMapper
         return $result;
     }
 
+    /**
+     * Конвертирует массив объектов и чисел в массив только чисел (извлекая
+     * идентификатор из объекта вызовом метода $obj->getObjId())
+     *
+     * @param array $items
+     * @return array
+     */
+    protected function convertItemsToObjIds($items)
+    {
+        $obj_ids = array();
+        foreach ($items as $item) {
+            if ($item instanceof simple || is_callable(array($item, 'getObjId'))) {
+                $obj_ids[] = $item->getObjId();
+            } elseif (is_numeric($item)) {
+                $obj_ids[] =  $item;
+            } else {
+                throw new mzzRuntimeException('Item не является объектом класса simple или числом, или объектом с методом getObjId');
+            }
+        }
+        return $obj_ids;
+    }
+
+    /**
+     * Конвертирует вес тега в соответствующий номер
+     *
+     * @param integer $weight
+     * @param array $thresholds
+     * @return integer
+     */
     protected function convertWeight($weight, $thresholds)
     {
         $i = 0;
@@ -354,7 +339,6 @@ class tagsMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
-
         throw new mzzDONotFoundException();
     }
 }

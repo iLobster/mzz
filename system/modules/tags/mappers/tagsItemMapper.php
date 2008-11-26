@@ -49,6 +49,7 @@ class tagsItemMapper extends simpleMapper
      */
     public function save($tagsItem, $user = null)
     {
+        parent::save($tagsItem, $user);
         $tags = $tagsItem->getNewTags();
         if (is_null($tags)) {
             return false;
@@ -108,7 +109,22 @@ class tagsItemMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
         $action = $toolkit->getRequest()->getAction();
 
-        $item_id = isset($args['item_id']) ? $args['item_id'] : $args['id'];
+        if (isset($args['item_id']) || isset($args['id'])) {
+            $item_id = isset($args['item_id']) ? $args['item_id'] : $args['id'];
+        } else {
+            if ($action == 'tagsCloud') {
+                $obj_id = $toolkit->getObjectId($this->section . '_' . $action);
+                $this->register($obj_id, 'tags', 'tagsItem');
+            } else {
+                $obj_id = $toolkit->getObjectId($this->section . '_' . $this->className);
+                $this->register($obj_id, 'tags');
+            }
+
+            $obj = $this->create();
+            $obj->import(array('obj_id' => $obj_id));
+            return $obj;
+        }
+
         return $this->getTagsItem($item_id);
     }
 
@@ -129,6 +145,24 @@ class tagsItemMapper extends simpleMapper
         }
 
         return $tagsItem;
+    }
+
+    /**
+     * Извлекает с помощью маппера объектов идентфикаторы этих объектов
+     *
+     * @param simpleMapper $mapper
+     * @return array
+     */
+    public function getObjIdsFromItemsMapper($mapper)
+    {
+        if ($mapper instanceof iTaggable) {
+            return $mapper->getTaggedObjIds();
+        }
+
+        $criteria = new criteria($mapper->getTable(), 't');
+        $criteria->addSelectField('obj_id');
+        $s = new simpleSelect($criteria);
+        return $this->db->getAll($s->toString(), PDO::FETCH_COLUMN);
     }
 
     /**

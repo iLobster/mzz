@@ -25,19 +25,18 @@ class tagsListController extends simpleController
     public function getView()
     {
         $obj_id = $this->request->getInteger('item_id');
-        $search = $this->request->getString('tags', SC_POST);
+        $tag_start = $this->request->getString('tag_start', SC_REQUEST);
         $section = $this->request->getRequestedSection();
 
-        /*if ($obj_id == null) {
+        if ($obj_id == null) {
             $tagsMapper = $this->toolkit->getMapper('tags', 'tags', 'tags');
-            $search = str_replace(array('%', '_'), array('\%', '\_'), $search);
-            $tags = $tagsMapper->searchByNameLike($search . '%');
-        } else {*/
+            $tag_start = str_replace(array('%', '_'), array('\%', '\_'), $tag_start);
+            $tags = strlen($tag_start) > 1 ? $tagsMapper->searchByNameLike($tag_start . '%') : array();
+        } else {
             $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
             $tagsItem = $tagsItemMapper->searchByItem($obj_id);
-            $tags = $tagsItem->getTags();
-        //}
-
+            $tags = $tagsItem ? $tagsItem->getTags() : array();
+        }
 
         $this->smarty->assign('section', $section);
         $this->smarty->assign('item_obj_id', $obj_id);

@@ -61,7 +61,8 @@ class tagsItem extends simple
 
     public function getAcl($action)
     {
-        return true;
+        // запрещаем редактировать напрямую
+        return $action != 'editTags';
     }
 }
 

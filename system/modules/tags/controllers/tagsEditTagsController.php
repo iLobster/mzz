@@ -30,7 +30,7 @@ class tagsEditTagsController extends simpleController
         $action = $this->request->getAction();
 
         $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
-        $tagsItem = $tagsItemMapper->searchOneByField('item_obj_id', $obj_id);
+        $tagsItem = $tagsItemMapper->getTagsItem($obj_id);
 
         if (!empty($tagsItem)) {
             $validator = new formValidator();
