@@ -1,4 +1,4 @@
-{* main="admin.tpl" placeholder="content" *}
+{* main="admin/main/admin.tpl" placeholder="content" *}
 {add file="prototype.js"}
 {add file="effects.js"}
 {add file="dragdrop.js"}

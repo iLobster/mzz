@@ -1,4 +1,4 @@
-{* main="adminHeader.tpl" placeholder="content" *}
+{* main="admin/main/adminHeader.tpl" placeholder="content" *}
 <div id="page">
     <div id="header">
         <div class="loginInfo">{load module="user" action="login" section="user" id=0 tplPrefix="admin"}</div>
@@ -78,7 +78,7 @@
 </div>
 
 <div class="footer">{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION}) 2005-{"Y"|date}.
-{$timer->toString('admin/time.tpl')}
+{$timer->toString('timer/admin/timer.tpl')}
 </div>
 
 </body>

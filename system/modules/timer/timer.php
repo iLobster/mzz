@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL$
+ * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/trunk/system/timer/timer.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id$
+ * @version $Id: timer.php 2375 2008-02-05 00:45:41Z mz $
  */
 
 /**
@@ -18,7 +18,7 @@
  * время их выполнения
  *
  * @package timer
- * @version 0.1
+ * @version 0.1.1
  */
 class timer
 {
@@ -132,10 +132,10 @@ class timer
      * @param string $tpl шаблон вывода данных
      * @return string
      */
-    public function toString($tpl = 'time.tpl')
+    public function toString($tpl = 'timer/timer.tpl')
     {
         $this->finish();
-        return $this->smarty->fetch('filter/' . $tpl);
+        return $this->smarty->fetch($tpl);
     }
 
 }

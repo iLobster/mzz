@@ -25,7 +25,7 @@
         </tr>
     {/foreach}
     <tr class="tableListFoot">
-        <td colspan="3">{$pager->toString('adminPager.tpl')}</td>
+        <td colspan="3">{$pager->toString('admin/main/adminPager.tpl')}</td>
         <td colspan="3" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
     </tr>
 </table>
