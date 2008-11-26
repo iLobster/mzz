@@ -19,7 +19,7 @@ require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
  *
  * @package system
  * @subpackage resolver
- * @version 0.1
+ * @version 0.1.1
  */
 class templateResolver extends partialFileResolver
 {
@@ -32,23 +32,17 @@ class templateResolver extends partialFileResolver
      */
     protected function partialResolve($request)
     {
-        if (strpos($request, '/')) {
-            $parts = explode('/', $request, 2);
-
-            if (sizeof($parts) < 2) {
-                return;
-            }
-
-            list($module, $template) = $parts;
-
-            if (substr($template, -4) !== '.tpl') {
-                return;
-            }
-
-            return '/modules/' . $module . '/templates/' . $template;
+        if (substr($request, -4) != '.tpl') {
+            return;
         }
 
-        return;
+        if (strpos($request, '/') === false) {
+            $request = 'simple/' . $request;
+        }
+
+        list ($module, $template) = explode('/', $request, 2);
+
+        return '/modules/' . $module . '/templates/' . $template;
     }
 }
 
