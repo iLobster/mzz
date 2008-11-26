@@ -179,6 +179,17 @@ class requestRouteTest extends unitTestCase
             array('action' => 'list', 'lang' => 'ru')
         );
     }
+
+    public function testGetDefaults()
+    {
+        $defaults = array(
+            'action' => 'list',
+            'name' => 'root',
+        );
+
+        $route = new requestRoute('somepath/:name/:action', $defaults);
+        $this->assertEqual($route->getDefaults(), $defaults);
+    }
 }
 
 ?>
