@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('forms/formCheckboxField');
+
 /**
  * formRadioField: радио-кнопка
  *

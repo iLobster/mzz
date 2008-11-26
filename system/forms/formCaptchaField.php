@@ -21,12 +21,6 @@
  */
 class formCaptchaField extends formElement
 {
-    public function __construct()
-    {
-        $this->setAttribute('type', 'text');
-        $this->setAttribute('value', '');
-    }
-
     public function render($attributes = array(), $value = null)
     {
         $captcha_id = md5(microtime(true));
@@ -48,6 +42,8 @@ class formCaptchaField extends formElement
             'value' => $captcha_id)
         );
 
+        $attributes['type'] = 'text';
+        $attributes['value'] = '';
         return $hidden . $image . '<br />' . $this->renderTag('input', $attributes);
     }
 }
