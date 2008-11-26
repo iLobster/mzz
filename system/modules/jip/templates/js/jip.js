@@ -868,7 +868,7 @@ jipMenu = Class.create({
 
         this.jipButton = $(button);
         this.jipMenu = jipMenuDiv;
-        this.jipButton.writeAttribute('src', SITE_PATH + '/templates/images/jip_active.gif');
+        this.jipButton.writeAttribute('src', SITE_PATH + '/templates/images/jip/jip_active.gif');
         this.prepareDiv(jipMenuDiv);
         this.setPosition();
     },

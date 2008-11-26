@@ -60,7 +60,7 @@ if ($type !== null && $files !== null) {
 
         $source = null;
         if (isset($mimes[$type])) {
-            header('Content-type: ' . $mimes[$type]);
+            header('Content-Type: ' . $mimes[$type]);
             $source = generateSource($files, $resolver, $request->getHeaders());
         }
 
@@ -95,6 +95,7 @@ function generateSource(Array $files, iResolver $resolver, $headers)
 
     if (is_null($filemtime)) {
         header("HTTP/1.1 404 Not Found");
+        header('Content-Type: text/html');
         exit();
     }
 
