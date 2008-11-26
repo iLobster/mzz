@@ -32,7 +32,7 @@ class newsSearchByTagController extends simpleController
         $tag = urldecode($this->request->getString('tag'));
 
         $obj_ids =  $tagsMapper->searchObjIdsByTag($tag);
-        $items = $newsMapper->searchByObjIds($criteria);
+        $items = $newsMapper->searchByObjIds($obj_ids);
 
         $this->smarty->assign('news', $items);
         return $this->smarty->fetch('news/tagged.tpl');
