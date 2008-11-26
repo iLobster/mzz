@@ -327,7 +327,7 @@ abstract class formElement
      * @param array $attributes
      * @return array массив из двух элементов: ключ и значение
      */
-    protected function getValuesFromObject($object, $attributes)
+    protected function getValuesFromObject($object, $attributes, $key = null)
     {
         $value = isset($attributes['valueMethod']) ? $object->$attributes['valueMethod']() : null;
         $key = isset($attributes['keyMethod']) ? $object->$attributes['keyMethod']() : $key;

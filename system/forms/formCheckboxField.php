@@ -105,7 +105,7 @@ class formCheckboxField extends formElement
         foreach ($attributes['options'] as $key => $option) {
             $attributes = $originalAttributes;
             if (is_object($option)) {
-                list($key, $option) = $this->getValuesFromObject($key, $option, $attributes);
+                list($key, $option) = $this->getValuesFromObject($option, $attributes, $key);
             }
 
             if ($this->checkSelected($key, $value) && (!isset($attributes['checked']) || $attributes['checked'] != false)) {

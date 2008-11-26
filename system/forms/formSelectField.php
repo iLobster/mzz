@@ -73,7 +73,7 @@ class formSelectField extends formElement
             $key = key($attributes['options']);
             $option = current($attributes['options']);
             if (is_object($option)) {
-                list($key, $option) = $this->getValuesFromObject(array_shift($attributes['options']), $attributes);
+                list($key, $option) = $this->getValuesFromObject(array_shift($attributes['options']), $attributes, $key);
             }
             $value = is_array($this->selected) ? $this->selected[0] : $key;
             $params = array('name' => $attributes['name'], 'value' => $value, 'type' => 'hidden');
@@ -118,7 +118,7 @@ class formSelectField extends formElement
         $options = array();
         foreach ($optionsValues as $key => $option) {
             if (is_object($option)) {
-                list($key, $option) = $this->getValuesFromObject($option, $selectAttributes);
+                list($key, $option) = $this->getValuesFromObject($option, $selectAttributes, $key);
             }
 
             if (is_array($option)) {
