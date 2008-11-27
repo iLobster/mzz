@@ -34,7 +34,7 @@ class tagsListController extends simpleController
             $tags = strlen($tag_start) > 1 ? $tagsMapper->searchByNameLike($tag_start . '%') : array();
         } else {
             $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
-            $tagsItem = $tagsItemMapper->searchByItem($obj_id);
+            $tagsItem = $tagsItemMapper->getTagsItem($obj_id, false);
             $tags = $tagsItem ? $tagsItem->getTags() : array();
         }
 

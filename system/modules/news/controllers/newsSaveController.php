@@ -85,7 +85,9 @@ class newsSaveController extends simpleController
                 $newsMapper->save($news);
 
                 $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
-                $tagsItem = $tagsItemMapper->getTagsItem($news->getObjId());
+                if (empty($tagsItem)) {
+                    $tagsItem = $tagsItemMapper->getTagsItem($news->getObjId());
+                }
                 $tagsItem->setTags($this->request->getString('tags', SC_POST));
                 $tagsItemMapper->save($tagsItem);
 

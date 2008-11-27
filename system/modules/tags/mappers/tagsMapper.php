@@ -195,46 +195,6 @@ class tagsMapper extends simpleMapper
     }
 
     /**
-     * Количество повторов каждого тега для коллекции объектов
-     *
-     * @param mixed $items Массив объектов или список obj_id
-     * @return array of counts
-     */
-    public function getWeights($obj_ids)
-    {
-        sort($obj_ids);
-        $identifier = 'tagWeights' . md5(implode('', $obj_ids));
-        $cache = systemToolkit::getInstance()->getCache();
-
-        if (is_null($weights = $cache->get($identifier))) {
-            $criteria = new criteria($this->table, 'tags');
-
-            $this->joinTagsItem($criteria);
-
-            $objCriterion = new criterion('ti.item_obj_id', $obj_ids, criteria::IN);
-            $criteria->add($objCriterion);
-
-            $criteria->addSelectField('tags.id');
-            $criteria->addSelectField(new sqlFunction('count', 'tags.id', true), 'count');
-            $criteria->addGroupBy('tags.id');
-            $criteria->setOrderByFieldDesc('count', false);
-
-            $s = new simpleSelect($criteria);
-
-            $weights_raw = $this->db->getAll($s->toString());
-            $weights = array();
-            foreach ($weights_raw as $weight) {
-                $weights[$weight['id']] = $weight['count'];
-            }
-            $cache->set($identifier, serialize($weights));
-        } else {
-            $weights = unserialize($weights);
-        }
-
-        return $weights;
-    }
-
-    /**
      * Поиск тегов по объектам
      *
      * @param mixed $items Массив объектов или список obj_id
@@ -255,28 +215,23 @@ class tagsMapper extends simpleMapper
         $criteria->addGroupBy('tags.tag');
         $criteria->setOrderByFieldAsc('tags.tag');
 
-        $s = new simpleSelect($criteria);
-        $weights = $this->getWeights($obj_ids); // logarithmic
+        $stmt = $this->searchByCriteria($criteria);
+        $result = array();
+        $weights = array();
+
+        while ($row = $stmt->fetch()) {
+            $weights[] = $row['count'];
+            $result[$row[$this->tableKey]] = $row;
+        }
 
         if (empty($weights)) {
             return array();
         }
 
-        $min_weight = min($weights);
-        $max_weight = max($weights);
-
-        $config = systemToolkit::getInstance()->getConfig('tags');
-        $max = $config->get('maxWeight');
-        $thresholds = array();
-        foreach (range(0, $max) as $i) {
-            $thresholds[] = pow($max_weight - $min_weight + 1, $i / $max);
-        }
-
-        $stmt = $this->searchByCriteria($criteria);
-        $result = array();
+        $thresholds = $this->getThresholds($weights);
 
         //@fix так как fillArray режет все лишние поля
-        while ($row = $stmt->fetch()) {
+        foreach ($result as $row) {
             foreach ($row as $key => $field) {
                 if (strstr($key, self::TABLE_KEY_DELIMITER)) {
                     unset($row[$key]);
@@ -310,6 +265,7 @@ class tagsMapper extends simpleMapper
                 throw new mzzRuntimeException('Item не является объектом класса simple или числом, или объектом с методом getObjId');
             }
         }
+        sort($obj_ids);
         return $obj_ids;
     }
 
@@ -330,6 +286,26 @@ class tagsMapper extends simpleMapper
             $i++;
         }
         return $i;
+    }
+
+    /**
+     * Определение пороговых значений веса тега
+     *
+     * @param array $weights
+     * @return array
+     */
+    protected function getThresholds($weights)
+    {
+        $min_weight = min($weights);
+        $max_weight = max($weights);
+
+        $config = systemToolkit::getInstance()->getConfig('tags');
+        $max = $config->get('maxWeight');
+        $thresholds = array();
+        foreach (range(0, $max) as $i) {
+            $thresholds[] = pow($max_weight - $min_weight + 1, $i / $max);
+        }
+        return $thresholds;
     }
 
     /**

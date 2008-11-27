@@ -132,16 +132,25 @@ class tagsItemMapper extends simpleMapper
      * Возвращает tagsItem. Если его нет, то создает
      *
      * @param integer $item_obj_id
+     * @param boolean $autoCreate указывает создавать ли объект, если такого не существует
      * @return tagsItem
      */
-    public function getTagsItem($item_obj_id)
+    public function getTagsItem($item_obj_id, $autoCreate = true)
     {
-        $tagsItem = $this->searchByItem($item_obj_id);
+        $identifier = 'tagsItem' . $item_obj_id;
+        $cache = systemToolkit::getInstance()->getCache();
 
-        if(is_null($tagsItem)) {
-            $tagsItem = $this->create();
-            $tagsItem->setItemObjId($item_obj_id);
-            $this->save($tagsItem);
+        if (is_null($tagsItem = $cache->get($identifier))) {
+            $tagsItem = $this->searchByItem($item_obj_id);
+            if($autoCreate && is_null($tagsItem)) {
+                $tagsItem = $this->create();
+                $tagsItem->setItemObjId($item_obj_id);
+                $this->save($tagsItem);
+            }
+
+            $cache->set($identifier, serialize($tagsItem));
+        } else {
+            $tagsItem = unserialize($tagsItem);
         }
 
         return $tagsItem;
