@@ -23,7 +23,7 @@ class formCallbackRule extends formAbstractRule
 {
     public function validate()
     {
-        if (empty($this->value)) {
+        if ($this->isEmpty()) {
             return true;
         }
         $funcName = array_shift($this->params);

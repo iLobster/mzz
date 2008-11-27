@@ -23,7 +23,7 @@ class formInRule extends formAbstractRule
 {
     public function validate()
     {
-        if (empty($this->value)) {
+        if ($this->isEmpty()) {
             return true;
         }
 

@@ -37,6 +37,14 @@ class formInRuleTest extends UnitTestCase
         $this->assertFalse($rule->setValue(array('bar', 'baz'))->validate());
     }
 
+    public function testNullInAndZeroNotIn()
+    {
+        $rule = new formInRule('foo', '', array(1, 2));
+        $this->assertFalse($rule->setValue('0')->validate());
+        $this->assertTrue($rule->setValue(0)->validate());
+        $this->assertTrue($rule->setValue(null)->validate());
+    }
+
     public function testNotIn()
     {
         $rule = new formInRule('foo', '', array('bar', 'baz'));

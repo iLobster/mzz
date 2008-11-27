@@ -31,7 +31,7 @@ class formIdenticalRule extends formAbstractRule
         $request = systemToolkit::getInstance()->getRequest();
         $value_second = $request->getString($this->params, SC_REQUEST);
 
-        if (empty($this->value) && empty($value_second)) {
+        if ($this->isEmpty() && empty($value_second)) {
             return true;
         }
 

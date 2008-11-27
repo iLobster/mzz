@@ -51,7 +51,7 @@ class formHostnameRule extends formAbstractRule
 
     public function validate()
     {
-        if (empty($this->value) || preg_match('#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $this->value)) {
+        if ($this->isEmpty() || preg_match('#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $this->value)) {
             return true;
         }
 

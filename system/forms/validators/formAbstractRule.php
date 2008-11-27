@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage forms
- * @version 0.1.2
+ * @version 0.1.3
  */
 abstract class formAbstractRule
 {
@@ -113,6 +113,19 @@ abstract class formAbstractRule
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Проверяет значение на пустоту
+     *
+     * @return boolean
+     */
+    public function isEmpty()
+    {
+        if (!is_scalar($this->value)) {
+            return empty($this->value);
+        }
+        return $this->value == '';
     }
 }
 

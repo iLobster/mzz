@@ -23,7 +23,7 @@ class formRegexRule extends formAbstractRule
 {
     public function validate()
     {
-        return empty($this->value) || preg_match($this->params, $this->value);
+        return $this->isEmpty() || preg_match($this->params, $this->value);
     }
 }
 
