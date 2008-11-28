@@ -42,7 +42,7 @@ class adminAddModuleController extends simpleController
 
         $nameRO = false;
 
-        $classes_select = null;
+        $classes_select = array();
 
         if ($isEdit) {
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
