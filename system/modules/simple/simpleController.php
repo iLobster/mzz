@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2.7
+ * @version 0.2.8
  */
 
 abstract class simpleController
@@ -99,6 +99,19 @@ abstract class simpleController
     {
         $this->smarty->disableMain();
         $this->response->redirect($url, $code);
+    }
+
+    /**
+     * Передача управления другому контроллеру
+     *
+     * @param string $module имя модуля
+     * @param string $action имя экшна
+     * @return mixed результат работы контроллера
+     */
+    protected function forward($module, $action)
+    {
+        $controller = systemToolkit::getInstance()->getController($module, $action);
+        return $controller->run();
     }
 
     /**

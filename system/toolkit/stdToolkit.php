@@ -19,14 +19,13 @@
  *
  * @package system
  * @subpackage toolkit
- * @version 0.2.4
+ * @version 0.2.5
  */
-
 class stdToolkit extends toolkit
 {
     /**#@+
-    * @var object
-    */
+     * @var object
+     */
     private $request;
     private $registry;
     private $response;
@@ -44,8 +43,8 @@ class stdToolkit extends toolkit
     /**#@-*/
 
     /**#@+
-    * @var array
-    */
+     * @var array
+     */
     private $actionNames = array();
     private $mappers = array();
     /**#@-*/
@@ -139,8 +138,8 @@ class stdToolkit extends toolkit
         if (empty($this->smarty)) {
             fileLoader::load('template/mzzSmarty');
             $this->smarty = new mzzSmarty();
-            $this->smarty->template_dir  = systemConfig::$pathToApplication . '/templates';
-            $this->smarty->compile_dir   = systemConfig::$pathToTemp . '/templates_c';
+            $this->smarty->template_dir = systemConfig::$pathToApplication . '/templates';
+            $this->smarty->compile_dir = systemConfig::$pathToTemp . '/templates_c';
             if (is_dir($appdir = systemConfig::$pathToApplication . '/template/plugins')) {
                 $this->smarty->plugins_dir[] = $appdir;
             }
@@ -261,7 +260,7 @@ class stdToolkit extends toolkit
     {
         if (empty($this->objectIdGenerator)) {
             fileLoader::load('core/objectIdGenerator');
-            $this->objectIdGenerator = new objectIdGenerator;
+            $this->objectIdGenerator = new objectIdGenerator();
         }
         return $this->objectIdGenerator->generate($name, $generateNew);
     }
@@ -290,6 +289,22 @@ class stdToolkit extends toolkit
         }
 
         return $this->mappers[$do][$section];
+    }
+
+    /**
+     * Получение контроллера
+     *
+     * @param string $moduleName имя модуля
+     * @param string $actionName имя экшна
+     * @return simpleController контроллер
+     */
+    public function getController($moduleName, $actionName)
+    {
+        $action = $this->getAction($moduleName);
+        $action->setAction($actionName);
+
+        $factory = new simpleFactory($action, 'page');
+        return $factory->getController();
     }
 
     /**

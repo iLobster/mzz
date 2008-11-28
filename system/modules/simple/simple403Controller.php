@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
+ * @version 0.1.1
  */
 
 class simple403Controller extends simpleController
@@ -29,17 +29,11 @@ class simple403Controller extends simpleController
         $this->request->setParams(array('name' => '403'));
         $this->request->setAction('view');
 
-        $action = $this->toolkit->getAction('page');
-        $action->setAction('view');
-
-        $factory = new simpleFactory($action, 'page');
-        $controller = $factory->getController();
-
         if ($header) {
             $this->response->setStatus(403);
         }
 
-        return $controller->run();
+        return $this->forward('page', 'view');
     }
 }
 
