@@ -1,5 +1,5 @@
 <p class="pageTitle">
-    <a href="{url route="admin" section_name=$current_section module_name="catalogue" params="" action="admin"}">Список элементов</a> /
+    <a href="{url route="withAnyParam" section="admin" name="catalogue" action="admin"}">Список элементов</a> /
     <a href="{url route="default2" action="adminTypes"}">Типы</a> /
     <strong>Свойства</strong>
 </p>
