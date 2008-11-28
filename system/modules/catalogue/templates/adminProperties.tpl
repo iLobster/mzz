@@ -22,7 +22,7 @@
             <td>{$property.type}</td>
             <td align="center">
                 {assign var="propId" value=$property.id}
-                {include file="jip.tpl" jipMenuId="jip_properties_$propId" jip=$jipProperties[$property.id]}
+                {include file="jip/jip.tpl" jipMenuId="jip_properties_$propId" jip=$jipProperties[$property.id]}
             </td>
         </tr>
     {/foreach}

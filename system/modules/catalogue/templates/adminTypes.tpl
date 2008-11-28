@@ -21,7 +21,7 @@
             <td>{$type.name}</td>
             <td align="center">
                 {assign var="typeId" value=$type.id}
-                {include file="jip.tpl" jipMenuId="jip_types_$typeId" jip=$jipTypes[$type.id]}
+                {include file="jip/jip.tpl" jipMenuId="jip_types_$typeId" jip=$jipTypes[$type.id]}
             </td>
         </tr>
     {/foreach}
