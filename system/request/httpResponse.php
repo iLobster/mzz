@@ -260,7 +260,7 @@ class httpResponse
         // При редиректе заголовок устанавливается автоматически
         $status = $this->getStatus();
         if (!empty($status) && !$this->isRedirected) {
-            header(php_sapi_name() == 'cgi' ? 'Status: ' : 'HTTP/1.0 ' . $status . ' ' . $this->statusTexts[$status]);
+            header((php_sapi_name() == 'cgi' ? 'Status:' : 'HTTP/1.0') . ' ' . $status . ' ' . $this->statusTexts[$status]);
         }
 
         $headers = $this->getHeaders();
