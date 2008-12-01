@@ -107,15 +107,15 @@ div#mainbarWithoutSidebar {
 #header .loginInfo {
   font-size: 100%;
   width: 100%;
-  height: 54px;
+  height: 36px;
   background: url('../images/admin/headerBackground.png');
   text-align: right;
+  padding-top: 18px;
   color: #B8D8EB;
 }
 
 #header .loginInfo div.loginForm {
   padding-right: 20px;
-  padding-top: 18px;
   font-size: 95%;
   float: right;
   margin-top: -15px;

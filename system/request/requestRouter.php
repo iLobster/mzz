@@ -128,7 +128,7 @@ class requestRouter
         if (!empty($this->current)) {
             return $this->current;
         } else {
-            throw new mzzRuntimeException("Cannot find current route");
+            throw new mzzNoRouteException("Cannot find current route");
         }
     }
 

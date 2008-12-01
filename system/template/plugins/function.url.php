@@ -64,7 +64,12 @@ function smarty_function_url($params, $smarty)
 
     if(isset($params['lang'])){
         $getUrl = false;
-        $params['route'] = $toolkit->getRouter()->getCurrentRoute()->getName();
+        try {
+            $route = $toolkit->getRouter()->getCurrentRoute();
+        } catch (mzzNoRouteException $e) {
+            $route = $toolkit->getRouter()->getRoute('default'); // @todo вынести имя дефолтного роута в конфиг?
+        }
+        $params['route'] = $route->getName();
         $params = $params + $request->getParams();
         $params['action'] = $request->getAction();
         $params['section'] = $request->getSection();
