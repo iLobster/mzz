@@ -1578,7 +1578,7 @@ class Smarty_Compiler extends Smarty {
                         }
 
                         if (i18n::isName($trimmed = trim($token, '"'))) {
-                            $token = '"' . smarty_prefilter_i18n('{' . $trimmed . '}', $smarty) . '"';
+                            $token = '"' . smarty_prefilter_i18n('{' . $trimmed . '}', $this) . '"';
                         }
 
                         $attrs[$attr_name] = $token;

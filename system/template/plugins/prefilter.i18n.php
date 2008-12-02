@@ -1,6 +1,6 @@
 <?php
 
-function smarty_prefilter_i18n($tpl_source, &$smartyCompiler = null)
+function smarty_prefilter_i18n($tpl_source, $smartyCompiler = null)
 {
     static $callback = 'i18n::getMessage';
     static $generatorCallback = 'mzz_smarty_i18n_morph';
