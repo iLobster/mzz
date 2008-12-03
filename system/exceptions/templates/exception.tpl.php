@@ -103,7 +103,7 @@ function _showAllTrace() {
                 <?php
             }
         ?>
-        <ol id="exceptionTrace">
+        <ol id="exceptionTrace" start="0">
         <?php
             foreach ($traces as $trace) {
                 if (!isset($trace['file'])) {
@@ -121,14 +121,14 @@ function _showAllTrace() {
                     $args .= $exception->convertArgToString($arg) . ', ';
                 }
                 $args = htmlspecialchars(substr($args, 0, strlen($args) - 2));
-                echo '<li' . ($total - $count > 3 ? ' style="display: none;"' : '') . '>At <strong>';
+                echo '<li' . ($total - $count > 3 ? ' style="display: none;"' : '') . '><strong>';
                 if (isset($trace['class']) && isset($trace['type'])) {
                     echo $trace['class'] . $trace['type'] . $trace['function'] .  '</strong>(' . $args . ')<br />';
                 } else {
                     echo $trace['function'] . '</strong>(' . $args . ')<br />';
                 }
 
-                echo 'In ' . $trace['file'] . ' line ' . $trace['line'] . "</li>\r\n";
+                echo $trace['file'] . ' (' . $trace['line'] . ")</li>\r\n";
             }
         ?>
         </ol>
