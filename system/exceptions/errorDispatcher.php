@@ -19,7 +19,7 @@
  *
  * @package system
  * @subpackage exceptions
- * @version 0.1.1
+ * @version 0.1.2
  */
 class errorDispatcher
 {
@@ -57,7 +57,7 @@ class errorDispatcher
     public function exceptionHandler($exception)
     {
         $this->exception = $exception;
-        $this->printHtml();
+        $this->outputException();
     }
 
     /**
@@ -82,96 +82,21 @@ class errorDispatcher
     }
 
     /**
-     * Вывод исключения в виде HTML
+     * Вывод исключения
      *
      */
-    public function printHtml()
+    public function outputException()
     {
+        $debug_mode = DEBUG_MODE;
+        $exception = $this->exception;
+        $system_info = array(
+            'sapi' => php_sapi_name(),
+            'software' => (!empty($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown'),
+            'php' => PHP_VERSION . ' on ' . PHP_OS,
+            'mzz' => MZZ_VERSION . ' (Rev. ' . MZZ_REVISION . ')'
+        );
 
-        $html = $this->getHtmlHeader();
-
-        if (DEBUG_MODE) {
-            $msg = "<p style='background-color: white; border: 1px solid #E1E1E1; padding: 5px;'>";
-            $msg .= $this->exception->getName() . ". Thrown in file " . $this->exception->getFile() . ' (Line: ' . $this->exception->getLine() . ') ';
-            $msg .= "with message: <br /><strong>";
-            if ($this->exception->getCode() != 0) {
-                $msg .= "[Code: " . $this->exception->getCode() . "] ";
-            }
-            $msg .= $this->exception->getMessage() . "</strong></p>\r\n";
-
-            if(($traces = $this->exception->getPrevTrace()) === null) {
-                $traces = $this->exception->getTrace();
-            }
-
-            $trace_msg = '';
-            $count = $total = count($traces);
-            if ($total > 3) {
-                $trace_msg = "<p><a style='cursor: pointer; padding: 1px; border-bottom: 1px dashed #555;' onclick=\"javascript: if (document.getElementById('debugTrace').style.display != 'block') document.getElementById('debugTrace').style.display ='block'; else document.getElementById('debugTrace').style.display='none';\"><strong>Показать/скрыть весь trace</strong></a></p>\r\n";
-            }
-            foreach ($traces as $trace) {
-                if (!isset($trace['file'])) {
-                    $trace['file'] = 'unknown';
-                }
-                if (!isset($trace['line'])) {
-                    $trace['line'] = 'unknown';
-                }
-                if ($total - $count == 3) {
-                   $trace_msg .= "\r\n<div style='color: #424242; display: none;' id='debugTrace'>";
-                }
-                $count--;
-                $trace_msg .= $count . '. ' . $trace['file'] . ':' . $trace['line'] . ', ';
-                $args = '';
-                if (!isset($trace['args'])) {
-                    $trace['args'] = $trace;
-                }
-                foreach ($trace['args'] as $arg) {
-                    $args .= $this->exception->convertToString($arg) . ', ';
-                }
-                $args = htmlspecialchars(substr($args, 0, strlen($args) - 2));
-
-                if (isset($trace['class']) && isset($trace['type'])) {
-                    $trace_msg .= 'In: ' . $trace['class'] . $trace['type'] . $trace['function'] . '(' . $args . ')<br />';
-                } else {
-                    $trace_msg .= 'In: ' . $trace['function'] . '(' . $args . ')<br />';
-                }
-                $trace_msg .= "\r\n";
-            }
-            if ($total > 3) {
-                $trace_msg .= '</div>';
-            }
-
-            $html .= $msg . $trace_msg . "\r\n";
-
-            $html .= '<p>SAPI: <strong>' . php_sapi_name() . '</strong>, ';
-            $html .= 'Software: <strong>' . (!empty($_SERVER["SERVER_SOFTWARE"]) ? $_SERVER["SERVER_SOFTWARE"] : "unknown") . '</strong>, ';
-            $html .= 'PHP: <strong>' . PHP_VERSION . ' on ' . PHP_OS . '</strong>, ';
-            $html .= 'Версия mzz: <strong>' . MZZ_VERSION . ' (Rev. ' . MZZ_REVISION . ')</strong>.</p>';
-        } else {
-            $html .= '<p><strong>Debug-mode выключен.</strong></p>';
-        }
-        $html .= $this->getHtmlFooter();
-        echo $html;
-    }
-
-    /**
-     * Верх HTML кода
-     *
-     * @return string
-     */
-    protected function getHtmlHeader()
-    {
-        return "\r\n<div style='width: 700px; border: 1px solid #D6D6D6; background-color: #FAFAFA; font-family: tahoma, arial, verdana; font-size: 70%; padding: 10px; line-height: 120%;'>
-        <span style='font-weight: bold; color: #AA0000; font-size: 130%;'>Выполнение прервано из-за непредвиденной ситуации.</span>\r\n";
-    }
-
-    /**
-     * Низ HTML кода
-     *
-     * @return string
-     */
-    protected function getHtmlFooter()
-    {
-        return "\r\n</div>\r\n";
+        include(dirname(__FILE__) . '/templates/exception.tpl.php');
     }
 
 }

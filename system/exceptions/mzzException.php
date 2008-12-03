@@ -111,7 +111,7 @@ class mzzException extends Exception
      *
      * @param mixed $arg
      */
-    public function convertToString($arg)
+    public function convertArgToString($arg)
     {
         switch (true) {
             case is_object($arg):
