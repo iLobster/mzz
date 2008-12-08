@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 fileLoader::load('user/userAuth');
 
@@ -77,6 +77,10 @@ class userAuthMapper extends simpleMapper
 
         $userAuth = $this->get();
 
+        if (!is_null($userAuth) && $user_id != $userAuth->getUserId()) {
+            $userAuth = null;
+        }
+
         if (is_null($userAuth)) {
             $userAuth = $this->create();
             $userAuth->setIp($ip);
@@ -84,10 +88,10 @@ class userAuthMapper extends simpleMapper
 
             $response = $this->toolkit->getResponse();
             $response->setCookie('auth', $hash, time() + 10 * 365 * 86400, '/');
-        }
 
-        $userAuth->setUserId($user_id);
-        $this->save($userAuth);
+            $userAuth->setUserId($user_id);
+            $this->save($userAuth);
+        }
 
         return $userAuth;
     }
@@ -146,7 +150,6 @@ class userAuthMapper extends simpleMapper
     {
         $this->insertDataModify($fields);
     }
-
 
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса

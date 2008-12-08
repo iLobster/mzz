@@ -20,7 +20,7 @@ require_once systemConfig::$pathToSystem . '/resolver/baseMediaResolver.php';
  *
  * @package system
  * @subpackage resolver
- * @version 0.1.1
+ * @version 0.1.2
  */
 class templateMediaResolver extends baseMediaResolver
 {
@@ -28,13 +28,13 @@ class templateMediaResolver extends baseMediaResolver
     {
         if (!$slash_count) {
             return 'templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
-        } elseif ($slash_count == 1) {
-            list ($module, $file) = explode('/', $request, 2);
-            return 'templates/' . $fileinfo['extension'] . '/' . $module . '/' . $fileinfo['basename'];
-        } else {
-            list ($module, $last) = explode('/', $request, 2);
-            return 'modules/' . $module . '/templates/' . $last;
         }
+            list ($module, $last) = explode('/', $request, 2);
+            return 'templates/' . $fileinfo['extension'] . '/' . $module . '/' . $last;
+
+
+        list ($module, $last) = explode('/', $request, 2);
+        return 'templates/' . $fileinfo['extension'] . '/' . $module . '/' . $last;
     }
 }
 

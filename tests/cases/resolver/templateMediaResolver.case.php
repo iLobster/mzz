@@ -37,6 +37,14 @@ class templateMediaResolverTest extends UnitTestCase
 
         $this->assertEqual(systemConfig::$pathToSystem . '/templates/js/news/some.js', $this->resolver->resolve('news/some.js'));
     }
+
+    public function testDeepNestedMedia()
+    {
+        $this->mock->expectOnce('resolve', array('templates/js/module/one/two/three/file.js'));
+        $this->mock->setReturnValue('resolve', systemConfig::$pathToSystem . '/templates/js/module/one/two/three/file.js');
+
+        $this->assertEqual(systemConfig::$pathToSystem . '/templates/js/module/one/two/three/file.js', $this->resolver->resolve('module/one/two/three/file.js'));
+    }
 }
 
 ?>
