@@ -1,1 +1,1 @@
-Время: {$timer->getPeriod()|round:4} сек. Запросов к БД {$timer->getQueriesNum()}+{$timer->getPreparedNum()}: {$timer->getQueriesTime()|number_format:4} сек.
+{_ time}: {$timer->getPeriod()|round:4} {_ sec}. {_ sql_queries} {$timer->getQueriesNum()}+{$timer->getPreparedNum()}: {$timer->getQueriesTime()|number_format:4} {_ sec}.
