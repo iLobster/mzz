@@ -91,6 +91,11 @@ var jipI18n = {
     }
 };
 
+if (typeof(SITE_LANG) == 'undefined' || typeof(jipI18n[SITE_LANG]) == 'undefined')
+{
+    var SITE_LANG = 'en';
+}
+
 function buildJipLinks(elm) {
     var jipLinkFunc = function(link) {
         $(link).observe('click', function(event) {
