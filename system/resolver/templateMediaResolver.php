@@ -29,9 +29,6 @@ class templateMediaResolver extends baseMediaResolver
         if (!$slash_count) {
             return 'templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
         }
-            list ($module, $last) = explode('/', $request, 2);
-            return 'templates/' . $fileinfo['extension'] . '/' . $module . '/' . $last;
-
 
         return 'templates/' . $fileinfo['extension'] . '/' . $request;
     }
