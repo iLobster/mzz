@@ -384,7 +384,11 @@ class stdToolkit extends toolkit
         }
 
         $this->locale = new locale($name);
+        // из-за проблем с преобразованием float-значений с запятой в sql
+        // оставляем локаль для чисел прежней. 
+        $prev = setlocale(LC_NUMERIC, 0);
         setlocale(LC_ALL, $this->locale->getForSetlocale(), $this->locale->getLanguageName());
+        setlocale(LC_NUMERIC, $prev);
     }
 
     public function getLocale()
