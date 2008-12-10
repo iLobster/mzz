@@ -20,7 +20,7 @@ require_once systemConfig::$pathToSystem . '/resolver/baseMediaResolver.php';
  *
  * @package system
  * @subpackage resolver
- * @version 0.1.2
+ * @version 0.1.3
  */
 class templateMediaResolver extends baseMediaResolver
 {
@@ -33,8 +33,7 @@ class templateMediaResolver extends baseMediaResolver
             return 'templates/' . $fileinfo['extension'] . '/' . $module . '/' . $last;
 
 
-        list ($module, $last) = explode('/', $request, 2);
-        return 'templates/' . $fileinfo['extension'] . '/' . $module . '/' . $last;
+        return 'templates/' . $fileinfo['extension'] . '/' . $request;
     }
 }
 
