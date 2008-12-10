@@ -20,16 +20,12 @@ require_once systemConfig::$pathToSystem . '/resolver/baseMediaResolver.php';
  *
  * @package system
  * @subpackage resolver
- * @version 0.1.3
+ * @version 0.1.4
  */
 class templateMediaResolver extends baseMediaResolver
 {
     protected function process(Array $fileinfo, $slash_count, $request)
     {
-        if (!$slash_count) {
-            return 'templates/' . $fileinfo['extension'] . '/' . $fileinfo['basename'];
-        }
-
         return 'templates/' . $fileinfo['extension'] . '/' . $request;
     }
 }
