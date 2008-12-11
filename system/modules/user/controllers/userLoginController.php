@@ -30,6 +30,8 @@ class userLoginController extends simpleController
             $prefix .= '/';
         }
 
+        $backURL = $this->request->getString('url', SC_POST);
+
         if (!$user->isLoggedIn()) {
             if (strtoupper($this->request->getMethod()) == 'POST') {
                 $login = $this->request->getString('login', SC_POST);
@@ -45,7 +47,7 @@ class userLoginController extends simpleController
                         $userAuthMapper->set($user->getId());
                     }
 
-                    return $this->redirect($this->request->getString('url', SC_POST));
+                    return $this->redirect($backURL);
                 }
             }
 
@@ -54,7 +56,7 @@ class userLoginController extends simpleController
             $url->setSection('user');
             $url->setAction('login');
             $this->smarty->assign('form_action', $url->get());
-            $this->smarty->assign('backURL', $this->request->getRequestUrl());
+            $this->smarty->assign('backURL', $backURL);
             $this->smarty->assign('user', null);
 
             return $this->smarty->fetch('user/' . $prefix . 'login.tpl');
