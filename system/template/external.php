@@ -17,7 +17,7 @@
  *
  * @package system
  * @subpackage template
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 require_once '../configs/config.php';
@@ -118,7 +118,7 @@ function generateSource(Array $files, iResolver $resolver, $headers)
     $time_match = null;
 
     if (isset($headers['If-None-Match'])) {
-        $etag_match = (str_replace('-gzip', '', $headers['If-None-Match'])) == $etag;
+        $etag_match = strpos($headers['If-None-Match'], $etag) !== false;
     }
 
     if (isset($headers['If-Modified-Since'])) {
