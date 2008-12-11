@@ -101,10 +101,15 @@ function generateSource(Array $files, iResolver $resolver, $headers)
         exit();
     }
 
+    $age = 86400 * 30 * 6;
+
+    header("Pragma: public");
+    header("Cache-Control: public, must-revalidate, max-age=" . $age);
+
     if ($files && $filemtime) {
         $last_modified = gmdate("D, d M Y H:i:s", $filemtime);
         header('Last-Modified: ' . $last_modified . ' GMT');
-        header('Expires: ' . gmdate("D, d M Y H:i:s", time() + 86400 * 30 * 6) . ' GMT');
+        header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $age) . ' GMT');
         $etag = generateEtag($files, $filemtime);
         header('ETag: ' . $etag);
     }
