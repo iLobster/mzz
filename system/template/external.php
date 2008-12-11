@@ -118,7 +118,7 @@ function generateSource(Array $files, iResolver $resolver, $headers)
     $time_match = null;
 
     if (isset($headers['If-None-Match'])) {
-        $etag_match = $headers['If-None-Match'] == $etag;
+        $etag_match = (str_replace('-gzip', '', $headers['If-None-Match'])) == $etag;
     }
 
     if (isset($headers['If-Modified-Since'])) {
