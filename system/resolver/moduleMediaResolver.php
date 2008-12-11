@@ -26,8 +26,12 @@ class moduleMediaResolver extends baseMediaResolver
 {
     protected function process(Array $fileinfo, $slash_count, $request)
     {
-        list ($module, $last) = explode('/', $request, 2);
-        return 'modules/' . $module . '/templates/' . $last;
+        if ($slash_count) {
+            list ($module, $last) = explode('/', $request, 2);
+            return 'modules/' . $module . '/templates/' . $last;
+        }
+
+        return;
     }
 }
 
