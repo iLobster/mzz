@@ -29,6 +29,7 @@ require_once systemConfig::$pathToSystem . '/resolver/compositeResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/sysFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/appFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/moduleMediaResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/extensionBasedModuleMediaResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/templateMediaResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/decoratingResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/cachingResolver.php';
@@ -40,6 +41,7 @@ $baseresolver->addResolver(new sysFileResolver());
 
 $resolver = new compositeResolver();
 $resolver->addResolver(new moduleMediaResolver($baseresolver));
+$resolver->addResolver(new extensionBasedModuleMediaResolver($baseresolver));
 $resolver->addResolver(new templateMediaResolver($baseresolver));
 $resolver->addResolver(new classFileResolver($baseresolver));
 
