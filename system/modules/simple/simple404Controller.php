@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.3
+ * @version 0.1.4
  */
 class simple404Controller extends simpleController
 {
@@ -41,6 +41,16 @@ class simple404Controller extends simpleController
 
     protected function getView()
     {
+        $section = 'page';
+        $action = 'view';
+        $name = '404';
+
+        if ($this->request->getSection() == $section
+        && $this->request->getString('name') == $name
+        && $this->request->getAction() == $action) {
+            throw new mzzRuntimeException('Recursion detected: the 404 controller was called twice.');
+        }
+
         $this->request->setSection('page');
         $this->request->setParams(array('name' => '404'));
         $this->request->setAction('view');
