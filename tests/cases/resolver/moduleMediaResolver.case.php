@@ -48,6 +48,14 @@ class moduleMediaResolverTest extends UnitTestCase
 
         $this->assertEqual(systemConfig::$pathToSystem . 'modules/news/templates/some.js', $this->resolver->resolve('news/some.js'));
     }
+
+    public function testSimpleExtIndependentResolver()
+    {
+        $this->mock->expectOnce('resolve', array(null));
+        $this->mock->setReturnValue('resolve', null);
+
+        $this->assertEqual(null, $this->resolver->resolve('file.js'));
+    }
 }
 
 ?>
