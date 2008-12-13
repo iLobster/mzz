@@ -3,6 +3,12 @@
 <div style="background-color: #FBC4C4; color: #800909; padding: 4px;">
 <strong>Can't load the lang fields</strong>: {$langTableError}
 </div>{/if}
+<a href="#" onclick="$(this).next().toggle().select();return false;">Код для тестов</a>
+{set name=num_fields}{$fields|@count}{/set}
+{assign var=height value=$num_fields*17}
+<textarea style="width:99%;display:none;height:{$height}px;">{foreach from=$fields item=field key=key}
+'{$key}' => array ('name' => '{$key}', 'accessor' => '{$field.accessor}', 'mutator' => '{$field.mutator}'),
+{/foreach}</textarea>
 <table width="99%" cellpadding="4" cellspacing="0" class="systemTable">
     <tr>
         <td colspan="4"><a href="{url route="withAnyParam" section="admin" name=$class action="addmap"}" class="jipLink">Создать поле</a></td>
