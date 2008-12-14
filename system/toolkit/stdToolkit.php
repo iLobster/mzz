@@ -383,7 +383,14 @@ class stdToolkit extends toolkit
             return;
         }
 
-        $this->locale = new locale($name);
+        try {
+            $this->locale = new locale($name);
+        } catch (mzzLocaleNotFoundException $e) {
+            if (locale::isExists($name)) {
+                throw $e;
+            }
+            $this->locale = new locale(systemConfig::$i18n);
+        }
         // из-за проблем с преобразованием float-значений с запятой в sql
         // оставляем локаль для чисел прежней. 
         $prev = setlocale(LC_NUMERIC, 0);

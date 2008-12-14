@@ -75,7 +75,7 @@ class locale
         try {
             $this->locale_file = $this->resolve($this->name = $lang);
         } catch (mzzIoException $e) {
-            $this->locale_file = $this->resolve($this->name = systemConfig::$i18n);
+            throw new mzzLocaleNotFoundException($lang);
         }
 
         $file = new iniFile($this->locale_file);
@@ -318,6 +318,20 @@ class locale
         }
 
         return self::$langs;
+    }
+
+    /**
+     * Проверка существования языка в таблице sys_lang
+     *
+     * @param string $name имя языка
+     * @return array
+     */
+    public static function isExists($name)
+    {
+        $db = db::factory();
+        $stmt = $db->query('SELECT `l`.`id` FROM `sys_lang` `l` WHERE `l`.`name` = ' . $db->quote($name));
+        $result = $stmt->fetch();
+        return !empty($result);
     }
 
     /**

@@ -26,5 +26,6 @@ fileLoader::load('exceptions/mzzDONotFoundException');
 fileLoader::load('exceptions/mzzUnknownCacheBackendException');
 fileLoader::load('exceptions/mzzUnknownCacheConfigException');
 fileLoader::load('exceptions/mzzNoRouteException');
+fileLoader::load('exceptions/mzzLocaleNotFoundException');
 
 ?>
