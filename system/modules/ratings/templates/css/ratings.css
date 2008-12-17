@@ -88,7 +88,7 @@
 	vertical-align: middle;
 }
 .voted_error {
-	background: #FFDDDD url(../images/ratings/rating_warning.gif) no-repeat 5px 50%;
+	background: #FFDDDD url(../images/ratings/rating_warning.gif) no-repeat 3% 3%;
 	padding:5px 5px 5px 16px;
 	text-align:center;
 	font-family:Verdana, Arial, Helvetica, sans-serif;

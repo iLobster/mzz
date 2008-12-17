@@ -70,7 +70,7 @@ class ratingsViewController extends simpleController
 
         $access = $this->request->getBoolean('access');
         if ($isPost && !is_null($access) && !$access) {
-            $errors->set('rate', ($user->getId() == MZZ_USER_GUEST_ID) ? 'Оценивать разрешено только зарегестрированным и авторизованным пользователям' : 'Запрещено');
+            $errors->set('rate', ($user->getId() == MZZ_USER_GUEST_ID) ? 'Оценивать разрешено только зарегистрированным и авторизованным пользователям' : 'Запрещено');
         }
 
         if ($isPost && $myrate) {
