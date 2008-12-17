@@ -13,7 +13,7 @@
  */
 
 /**
- * Код для получения и/или объединения (только js) файлов из директорий модулей и шаблонов
+ * Код для получения и/или объединения (только js и css) файлов из директорий модулей и шаблонов
  *
  * @package system
  * @subpackage template
@@ -58,7 +58,7 @@ $files = $request->getString('files', SC_GET);
 if ($type !== null && $files !== null) {
     $files = explode(',', $files);
     if ($files) {
-        $mimes = array('js' => 'application/x-javascript', 'css' => 'text/css', 'png' => 'image/png', 'gif' => 'image/gif');
+        $mimes = array('js' => 'application/x-javascript', 'css' => 'text/css', 'png' => 'image/png', 'gif' => 'image/gif', 'jpg' => 'image/jpeg');
 
         $source = null;
         if (isset($mimes[$type])) {
