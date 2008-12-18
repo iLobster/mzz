@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2.8
+ * @version 0.2.9
  */
 
 abstract class simpleController
@@ -66,6 +66,13 @@ abstract class simpleController
     protected $lang_id = null;
 
     /**
+     * A prefix for the templates
+     *
+     * @var string
+     */
+    protected $tpl_prefix = null;
+
+    /**
      * Конструктор
      *
      */
@@ -77,6 +84,8 @@ abstract class simpleController
         $this->response = $this->toolkit->getResponse();
 
         $this->lang_id = $this->request->getInteger('lang_id', SC_GET);
+
+        $this->setTemplatePrefix($this->request->getString('tplPrefix'));
     }
 
     /**
@@ -154,18 +163,54 @@ abstract class simpleController
      * @param simpleMapper $item маппер, который возвращает требуемую коллекцию объектов
      * @param integer $per_page число объектов на странице
      * @param boolean $reverse флаг, изменяющий порядок страниц на противоположный (от больших к меньшим)
-     * @param integer $roundItems число выводимых номеров страниц рядом с текущим (Например: ... 4 5 6 _7_ 8 9 10 ... -> $roundItems = 3)
+     * @param integer $round_items число выводимых номеров страниц рядом с текущим (Например: ... 4 5 6 _7_ 8 9 10 ... -> $roundItems = 3)
      * @return pager
      */
-    public function setPager($item, $per_page = 20, $reverse = false, $roundItems = 2)
+    public function setPager($item, $per_page = 20, $reverse = false, $round_items = 2)
     {
         fileLoader::load('pager');
-        $pager = new pager($this->request->getRequestUrl(), $this->request->getInteger('page', SC_REQUEST), $per_page, $roundItems, $reverse);
+        $pager = new pager($this->request->getRequestUrl(), $this->request->getInteger('page', SC_REQUEST), $per_page, $round_items, $reverse);
         $item->setPager($pager);
 
         $this->smarty->assign('pager', $pager);
 
         return $pager;
+    }
+
+    /**
+     * Sets a template path
+     *
+     * @param string $tpl_path the path to a template
+     */
+    public function setTemplatePrefix($prefix)
+    {
+        $this->tpl_prefix = $prefix;
+    }
+
+    /**
+     * Adds a prefix to the templates
+     *
+     * @param string $path
+     * @return string
+     */
+    public function addTemplatePrefix($path)
+    {
+        if (empty($this->tpl_prefix)) {
+            return $path;
+        }
+
+        return substr_replace($path, '/' . $this->tpl_prefix, strpos($path, '/'), 0);
+    }
+
+    /**
+     * Executes and returns the template results
+     *
+     * @param string $path the path to a template
+     * @return string
+     */
+    public function fetch($path)
+    {
+        return $this->smarty->fetch($this->addTemplatePrefix($path));
     }
 
     /**
@@ -193,19 +238,30 @@ abstract class simpleController
         $this->smarty->assign('method', $this->request->getMethod());
         // если подтверждается POST-действие, помещаем данные в форму
         if ($this->request->isMethod('POST')) {
-            // переменные могут содержать не только строковое значение, но и массив,
-            // поэтому используем http_build_query для составления правильных имен переменных
-            $postData = http_build_query($this->request->exportPost());
-            $postData = explode('&', $postData);
-            $formValues = array();
-            foreach($postData as $key => $value) {
-                $formValues[$key] = explode('=', $value);
-                $formValues[$key][0] = urldecode($formValues[$key][0]);
-                $formValues[$key][1] = urldecode($formValues[$key][1]);
-            }
-            $this->smarty->assign('formValues', $formValues);
+            $postData = $this->getPostData();
+            $this->smarty->assign('postData', $postData);
         }
         return $this->smarty->fetch('simple/confirm.tpl');
+    }
+
+    /**
+     * Возвращает массив переданных POST-переменных с правильными
+     * именами для значений-массивов
+     *
+     * @return array
+     */
+    protected function getPostData()
+    {
+        // переменные могут содержать не только строковое значение, но и массив,
+        // поэтому используем http_build_query для составления правильных имен переменных
+        $values = http_build_query($this->request->exportPost());
+        $values = explode('&', $values);
+        $postData = array();
+        foreach($values as $key => $value) {
+            $postData[$key] = array_map('urldecode', explode('=', $value));
+        }
+
+        return $postData;
     }
 }
 

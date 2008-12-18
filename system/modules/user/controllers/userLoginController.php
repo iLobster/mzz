@@ -25,15 +25,10 @@ class userLoginController extends simpleController
     {
         $user = $this->toolkit->getUser();
 
-        $prefix = $this->request->getString('tplPrefix');
-        if (!empty($prefix)) {
-            $prefix .= '/';
-        }
-
         $backURL = $this->request->getString('url', SC_POST);
 
         if (!$user->isLoggedIn()) {
-            if (strtoupper($this->request->getMethod()) == 'POST') {
+            if ($this->request->isMethod('POST')) {
                 $login = $this->request->getString('login', SC_POST);
                 $password = $this->request->getString('password', SC_POST);
 
@@ -59,7 +54,7 @@ class userLoginController extends simpleController
             $this->smarty->assign('backURL', $backURL);
             $this->smarty->assign('user', null);
 
-            return $this->smarty->fetch('user/' . $prefix . 'login.tpl');
+            return $this->fetch('user/login.tpl');
         }
 
         /*if (strtoupper($this->request->getMethod()) == 'POST') {
@@ -68,7 +63,7 @@ class userLoginController extends simpleController
         }*/
 
         $this->smarty->assign('user', $user);
-        return $this->smarty->fetch('user/' . $prefix . 'alreadyLogin.tpl');
+        return $this->fetch('user/alreadyLogin.tpl');
     }
 }
 

@@ -349,6 +349,11 @@ class httpRequest implements iRequest
         return $this->getServer('REQUEST_METHOD');
     }
 
+    /**
+     * Возвращает массив уникальных языков, которые поддерживает браузер клиента
+     *
+     * @return array
+     */
     public function getAcceptLanguages()
     {
         preg_match_all('/[a-z]{2}/', $this->getServer('HTTP_ACCEPT_LANGUAGE'), $accept_langs);
@@ -356,7 +361,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Проверяет что метода запроса такой же как переданный
+     * Проверяет что метод запроса такой же, какой и переданный в аргументе
      *
      * @param string $method имя метода
      * @return boolean true если методы одинаковые, иначе false
