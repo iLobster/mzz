@@ -1,6 +1,6 @@
 span.toolbarSectionName {
   font-size: 115%;
-  color: #E6851A;
+  color: #BA1B1B;
 }
 
 table.toolbarActions {
@@ -9,32 +9,45 @@ table.toolbarActions {
   margin-top: 15px;
 }
 
+table.toolbarActions td {
+  padding: 2px 4px;
+}
+
+table.toolbarActions td img {
+  float: left;
+  margin-left: 3px;
+}
+
 table.toolbarObjects {
   width: 100%;
   border: 0;
   margin-top: 15px;
-  font-size: 85%;
+  font-size: 95%;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 tr.toolbarTitle {
   background-color: #FAFAFA;
-  font-size: 90%;
+  font-size: 100%;
 }
 
 td.toolbarElementName {
-  padding-left: 20px;
-  font-size: 90%;
+  border-top: 1px solid #EBEBEB;
+  font-size: 95%;
+  padding: 3px !important;
+  padding-left: 20px !important;
+}
+
+td.toolbarActions img {
+  /*width: 60px;*/
+  float: right !important;
 }
 
 td.toolbarActions {
-  /*width: 60px;*/
-  border-bottom: 1px solid #EBEBEB;
-  border-top: 1px solid #EBEBEB;
+  width: 80px;
 }
 
 td.toolbarBorder {
-  border-bottom: 1px solid #EBEBEB;
-  border-top: 1px solid #EBEBEB;
+  padding-left: 5px;
 }
 
 td.toolbarEndList {
@@ -66,11 +79,16 @@ td.toolbarEmpty {
 }
 
 tr.toolbarObjectsTitle {
-  background-color: #FAFAFA;
+  background-color: #F8F8F8;
   font-weight: bold;
   color: #555;
 }
 
 div.generatorSuccessResult {
    color: #007900;
+}
+
+span.mainClass {
+  background-color: #EFF8EF;
+  padding: 2px 4px;
 }

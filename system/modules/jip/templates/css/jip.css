@@ -36,6 +36,7 @@ div.jipSuccess {
     /*min-width: 500px;*/
     left: 15%;
     top: 100px;
+    line-height:1.2;
 }
 
 .jipWindow a {
