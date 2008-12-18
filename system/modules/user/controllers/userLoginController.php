@@ -28,7 +28,7 @@ class userLoginController extends simpleController
         $backURL = $this->request->getString('url', SC_POST);
 
         if (!$user->isLoggedIn()) {
-            if ($this->request->isMethod('POST')) {
+            if (!$this->request->getBoolean('onlyForm') && $this->request->isMethod('POST')) {
                 $login = $this->request->getString('login', SC_POST);
                 $password = $this->request->getString('password', SC_POST);
 
@@ -51,9 +51,13 @@ class userLoginController extends simpleController
             $url->setSection('user');
             $url->setAction('login');
             $this->smarty->assign('form_action', $url->get());
-            $this->smarty->assign('backURL', $backURL);
             $this->smarty->assign('user', null);
 
+            if ($this->request->getBoolean('onlyForm')) {
+                $this->smarty->assign('backURL', $this->request->getRequestUrl());
+                return $this->fetch('user/loginForm.tpl');
+            }
+            $this->smarty->assign('backURL', $backURL);
             return $this->fetch('user/login.tpl');
         }
 

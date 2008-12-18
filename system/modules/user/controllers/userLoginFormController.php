@@ -18,6 +18,7 @@
  * @package modules
  * @subpackage user
  * @version 0.1
+ * @deprecated not in use
  */
 class userLoginFormController extends simpleController
 {

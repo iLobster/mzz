@@ -1,7 +1,7 @@
 {* main="admin/main/adminHeader.tpl" placeholder="content" *}
 <div id="page">
     <div id="header">
-        <div class="loginInfo">{load module="user" action="login" section="user" id=0 tplPrefix="admin"}</div>
+        <div class="loginInfo">{load module="user" action="login" section="user" onlyForm=true tplPrefix="admin"}</div>
         <div class="siteName"><div><a href="{$SITE_PATH}/">www.mzz.ru</a></div></div>
         <div class="favorite">
             <div>
