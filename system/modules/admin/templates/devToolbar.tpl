@@ -13,7 +13,7 @@ var SECOND_BG_COLOR = '#FFFFFF';
         {foreach from=$modules item=module key=id }
             <tbody>
             {assign var="count" value=$module.classes|@sizeof}
-            <tr class="toolbarTitle"  onmouseover="this.style.backgroundColor = HOVER_BG_COLOR" onmouseout="this.style.backgroundColor = TITLE_BG_COLOR">
+            <tr class="toolbarTitle" onmouseover="this.style.backgroundColor = HOVER_BG_COLOR" onmouseout="this.style.backgroundColor = TITLE_BG_COLOR">
                 <td class="toolbarBorder"><strong>{$module.name}</strong></td>
                 <td class="toolbarActions">
                     {if $count eq 0}
@@ -35,7 +35,7 @@ var SECOND_BG_COLOR = '#FFFFFF';
                         <a href="{url route="withId" section="admin" id=$id action="editClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" title="Редактировать класс" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить класс" title="Удалить класс" /></a>
 
-                        <span class="className" {if $class.name eq $module.main_class_name}class="mainClass" {/if}style="margin-left: 10px;">{$class.name}</span>
+                        <span class="className{if $class.name eq $module.main_class_name} mainClass{/if}" style="margin-left: 10px;">{$class.name}</span>
                     </td>
                 </tr>
             {/foreach}
