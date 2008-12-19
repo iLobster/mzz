@@ -48,7 +48,7 @@ class adminAddModuleController extends simpleController
             $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
 
             if ($data === false) {
-                $controller = new messageController('Модуля не существует', messageController::WARNING);
+                $controller = new messageController('Модуль не существует', messageController::WARNING);
                 return $controller->run();
             }
 
@@ -106,6 +106,7 @@ class adminAddModuleController extends simpleController
                 $id = $stmt->execute();
 
                 $this->smarty->assign('log', $log);
+                $this->smarty->assign('id', $id);
                 $this->smarty->assign('dest', $dest[$newDest]);
                 $this->smarty->assign('name', $name);
                 return $this->smarty->fetch('admin/addModuleResult.tpl');
@@ -131,7 +132,7 @@ class adminAddModuleController extends simpleController
             $stmt->bindValue(':main_class', $main_class, PDO::PARAM_INT);
             $stmt->execute();
 
-            return jipTools::redirect();
+            return jipTools::closeWindow();
         }
 
         if ($isEdit) {

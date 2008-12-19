@@ -92,3 +92,15 @@ span.mainClass {
   background-color: #EFF8EF;
   padding: 2px 4px;
 }
+
+span.newlySubjectNotice {
+  font-size: 80%;
+  color: #666;
+  padding: 2px 4px;
+  margin: 0 2px;
+  background-color: #FFFFC8;
+}
+
+span.className {
+  margin-left: 10px;
+}

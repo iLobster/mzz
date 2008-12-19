@@ -98,11 +98,14 @@ if (typeof(SITE_LANG) == 'undefined' || typeof(jipI18n[SITE_LANG]) == 'undefined
 
 function buildJipLinks(elm) {
     var jipLinkFunc = function(link) {
-        $(link).observe('click', function(event) {
-            jipWindow.open(link.href);
-            Event.stop(event);
-            return false;
-        });
+        if (!link.jipped) {
+            $(link).observe('click', function(event) {
+                jipWindow.open(link.href);
+                Event.stop(event);
+                return false;
+            });
+            link.jipped = true;
+        }
     }
     // @todo сделать опции
     if (elm) {

@@ -90,7 +90,13 @@ class adminAddSectionController extends simpleController
             $stmt->bindValue(':order', $order, PDO::PARAM_INT);
             $stmt->execute();
 
-            return jipTools::redirect();
+            if ($isEdit) {
+                return jipTools::closeWindow();
+            } else {
+                $this->smarty->assign('id', $id);
+                $this->smarty->assign('name', $name);
+                return $this->smarty->fetch('admin/addSectionResult.tpl');
+            }
         }
 
 

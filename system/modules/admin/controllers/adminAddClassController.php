@@ -104,6 +104,7 @@ class adminAddClassController extends simpleController
                 $adminMapper->registerClassInSections($class_id);
 
                 $this->smarty->assign('log', $log);
+                $this->smarty->assign('id', $class_id);
                 $this->smarty->assign('module', $module_name);
                 $this->smarty->assign('name', $name);
                 return $this->smarty->fetch('admin/addClassResult.tpl');
