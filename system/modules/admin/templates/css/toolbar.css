@@ -14,15 +14,16 @@ table.toolbarActions td {
 }
 
 table.toolbarActions td img {
-  float: left;
-  margin-left: 3px;
+  margin-right: 3px;
+  float: right;
 }
 
 table.toolbarObjects {
   width: 100%;
   border: 0;
   margin-top: 15px;
-  font-size: 95%;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 95%;
+  font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 tr.toolbarTitle {
@@ -34,7 +35,6 @@ td.toolbarElementName {
   border-top: 1px solid #EBEBEB;
   font-size: 95%;
   padding: 3px !important;
-  padding-left: 20px !important;
 }
 
 td.toolbarActions img {
@@ -102,5 +102,6 @@ span.newlySubjectNotice {
 }
 
 span.className {
-  margin-left: 10px;
+  margin-left: 8px;
+  padding: 2px 4px;
 }

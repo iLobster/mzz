@@ -1,6 +1,6 @@
 function addElementToList(name, links, id, elm_id)
 {
-    var elms = $(id).select('td.toolbarBorder strong');
+    var elms = $(id).select('tr > td.toolbarBorder > strong');
     var addBefore = findBottomElement(elms, name);
 
     var trTitle = new Element('tr', {className: 'toolbarTitle', onmouseover: 'this.style.backgroundColor = HOVER_BG_COLOR', onmouseout: 'this.style.backgroundColor = TITLE_BG_COLOR'});
@@ -40,7 +40,7 @@ function addElementToList(name, links, id, elm_id)
 
 function addClassToModule(name, module, links)
 {
-    var elms = $('module-' + module + '-classes').select('tr td span.className');
+    var elms = $('module-' + module + '-classes').select('tr > td > span.className');
     var addBefore = findBottomElement(elms, name);
 
     var tr = new Element('tr', {onmouseover: 'this.style.backgroundColor = HOVER_BG_COLOR', onmouseout: 'this.style.backgroundColor = SECOND_BG_COLOR'});
@@ -66,8 +66,9 @@ function addClassToModule(name, module, links)
 
 function findBottomElement(elms, name)
 {
+    var l = $A(elms).size();
     var addBefore = elms.first();
-    for (var i=0, l = elms.length; i < l; i++) {
+    for (var i=0; i < l; i++) {
         var neighbours = [elms[i], elms[i+1]];
         if (neighbours[0].innerHTML < name && neighbours[1] && neighbours[1].innerHTML > name) {
             addBefore = neighbours[1];
