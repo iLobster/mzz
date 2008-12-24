@@ -300,7 +300,6 @@ class requestRoute implements iRoute
         foreach ($this->parts as $part) {
             if ($part['isVar']) {
                 if (array_key_exists($part['name'], $values)) {
-                    // @todo осталось лишь придумать что-то с роутом withId в JIP
                     $regex = isset($this->requirements[$part['name']]) ? self::REGEX_DELIMITER . $this->requirements[$part['name']] . self::REGEX_DELIMITER : false;
                     $regex = false;
                     if ($regex && !preg_match($regex, $values[$part['name']])) {
