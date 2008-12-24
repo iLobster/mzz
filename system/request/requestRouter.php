@@ -67,6 +67,13 @@ class requestRouter
     protected $withLang = false;
 
     /**
+     * Имя дефолтного роута
+     *
+     * @var string
+     */
+    protected $defaultName = 'default';
+
+    /**
      * Конструктор
      *
      * @param iRequest $request
@@ -85,7 +92,7 @@ class requestRouter
     public function addRoute($name, iRoute $route)
     {
         if (isset($this->routes[$name])) {
-            throw new mzzRuntimeException('Route с именем ' . $name . ' уже добавлен');
+            throw new mzzRuntimeException('The route ' . $name . ' already added');
         }
         $route->setName($name);
         $this->routes[$name] = $route;
@@ -104,7 +111,31 @@ class requestRouter
         if (isset($this->routes[$name])) {
             return $this->routes[$name];
         } else {
-            throw new mzzRuntimeException("Cannot find route with name '" . $name . "'");
+            throw new mzzRuntimeException("Cannot find the route with the name '" . $name . "'");
+        }
+    }
+
+    /**
+     * Возвращает дефолтный роут
+     *
+     * @return requestRoute
+     */
+    public function getDefaultRoute()
+    {
+        return $this->getRoute($this->defaultName);
+    }
+
+    /**
+     * Устанавливает имя дефолтного роута
+     *
+     * @param string $name имя
+     */
+    public function setDefaultRoute($name)
+    {
+        if (isset($this->routes[$name])) {
+            $this->defaultName = $name;
+        } else {
+            throw new mzzRuntimeException("Cannot find the route with the name '" . $name . "'");
         }
     }
 

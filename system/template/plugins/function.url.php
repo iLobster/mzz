@@ -67,7 +67,7 @@ function smarty_function_url($params, $smarty)
         try {
             $route = $toolkit->getRouter()->getCurrentRoute();
         } catch (mzzNoRouteException $e) {
-            $route = $toolkit->getRouter()->getRoute('default'); // @todo вынести имя дефолтного роута в конфиг?
+            $route = $toolkit->getRouter()->getDefaultRoute();
         }
         $params['route'] = $route->getName();
         $params = $params + $request->getParams();

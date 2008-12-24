@@ -41,7 +41,7 @@ class requestRouterTest extends unitTestCase
             $this->router->getRoute($name);
             $this->fail('Не было брошено исключение');
         } catch (Exception $e) {
-            $this->assertPattern('/route with name \'' . $name . '\'/i', $e->getMessage());
+            $this->assertPattern('/route with the name \'' . $name . '\'/i', $e->getMessage());
         }
     }
 
@@ -134,7 +134,7 @@ class requestRouterTest extends unitTestCase
         try {
             $this->router->addRoute('somename', $route);
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern("/somename.*уже добавлен/", $e->getMessage());
+            $this->assertPattern("/somename.*already added/", $e->getMessage());
         } catch (Exception $e) {
             $this->fail('Не ожидаемый тип исключения');
         }
@@ -155,6 +155,19 @@ class requestRouterTest extends unitTestCase
         }
 
         $this->assertEqual($routes, $this->router->getRoutes());
+    }
+
+    public function testDefaultRoute()
+    {
+        $routeFirst = new mockstubRoute;
+        $routeDefault = new mockstubRoute;
+        $this->router->addRoute($name = 'first', $routeFirst);
+        $this->router->addRoute('default', $routeDefault);
+
+        $this->assertEqual($routeDefault, $this->router->getDefaultRoute());
+
+        $this->router->setDefaultRoute($name);
+        $this->assertEqual($routeFirst, $this->router->getDefaultRoute());
     }
 
 }
