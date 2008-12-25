@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2.9
+ * @version 0.2.10
  */
 
 abstract class simpleController
@@ -121,6 +121,20 @@ abstract class simpleController
     {
         $controller = systemToolkit::getInstance()->getController($module, $action);
         return $controller->run();
+    }
+
+    protected function forward404(simpleMapper $mapper)
+    {
+        $class = $mapper->getClassName() . '404Controller';
+        $module = $mapper->name();
+
+        try {
+            fileLoader::load($module . '/controllers/' . $class);
+        } catch (mzzIoException $e) {
+            $class = 'simple404Controller';
+        }
+
+        return new $class;
     }
 
     /**
@@ -257,7 +271,7 @@ abstract class simpleController
         $values = http_build_query($this->request->exportPost());
         $values = explode('&', $values);
         $postData = array();
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             $postData[$key] = array_map('urldecode', explode('=', $value));
         }
 

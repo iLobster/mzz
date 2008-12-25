@@ -106,12 +106,6 @@ class newsMapper extends simpleMapper
         throw new mzzDONotFoundException();
     }
 
-    public function get404()
-    {
-        fileLoader::load('news/controllers/news404Controller');
-        return new news404Controller();
-    }
-
     public function searchByObjIds($obj_ids)
     {
         $criteria = new criteria();

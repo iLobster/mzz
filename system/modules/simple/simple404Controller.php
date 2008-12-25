@@ -29,6 +29,13 @@ class simple404Controller extends simpleController
     protected $onlyHeaders;
 
     /**
+     * Контроллер, обрабатывающий 404 ошибку конкретных ДО
+     *
+     * @var simpleController
+     */
+    private $controller;
+
+    /**
      * Конструктор
      *
      * @param boolean $onlyHeaders
@@ -39,15 +46,33 @@ class simple404Controller extends simpleController
         $this->onlyHeaders = (bool)$onlyHeaders;
     }
 
+    /**
+     * Установка маппера, для которого будет отображена 404 ошибка
+     *
+     * @param simpleMapper $mapper
+     */
+    public function setMapper(simpleMapper $mapper)
+    {
+        $this->controller = $this->forward404($mapper);
+    }
+
     protected function getView()
     {
+        $this->response->setStatus(404);
+
+        if ($this->onlyHeaders) {
+            return false;
+        }
+
+        if ($this->controller) {
+            return $this->controller->run();
+        }
+
         $section = 'page';
         $action = 'view';
         $name = '404';
 
-        if ($this->request->getSection() == $section
-        && $this->request->getString('name') == $name
-        && $this->request->getAction() == $action) {
+        if ($this->request->getSection() == $section && $this->request->getString('name') == $name && $this->request->getAction() == $action) {
             throw new mzzRuntimeException('Recursion detected: the 404 controller was called twice.');
         }
 
@@ -55,8 +80,7 @@ class simple404Controller extends simpleController
         $this->request->setParams(array('name' => '404'));
         $this->request->setAction('view');
 
-        $this->response->setStatus(404);
-        return $this->onlyHeaders ? false : $this->forward('page', 'view');
+        return $this->forward('page', 'view');
     }
 }
 

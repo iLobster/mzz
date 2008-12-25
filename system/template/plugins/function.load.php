@@ -31,7 +31,7 @@ fileLoader::load('service/sideHelper');
  *
  * @package system
  * @subpackage template
- * @version 0.4.7
+ * @version 0.4.8
  */
 function smarty_function_load($params, $smarty)
 {
@@ -98,7 +98,9 @@ function smarty_function_load($params, $smarty)
             $access = $obj->getAcl($actionName);
 
         } catch (mzzDONotFoundException $e) {
-            $controller = $mapper->get404();
+            fileLoader::load('simple/simple404Controller');
+            $controller = new simple404Controller();
+            $controller->setMapper($mapper);
         }
     }
 
