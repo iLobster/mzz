@@ -303,7 +303,7 @@ class stdToolkit extends toolkit
         $action = $this->getAction($moduleName);
         $action->setAction($actionName);
 
-        $factory = new simpleFactory($action, 'page');
+        $factory = new simpleFactory($action, $moduleName);
         return $factory->getController();
     }
 
@@ -392,7 +392,7 @@ class stdToolkit extends toolkit
             $this->locale = new locale(systemConfig::$i18n);
         }
         // из-за проблем с преобразованием float-значений с запятой в sql
-        // оставляем локаль для чисел прежней. 
+        // оставляем локаль для чисел прежней.
         $prev = setlocale(LC_NUMERIC, 0);
         setlocale(LC_ALL, $this->locale->getForSetlocale(), $this->locale->getLanguageName());
         setlocale(LC_NUMERIC, $prev);

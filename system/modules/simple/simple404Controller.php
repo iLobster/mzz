@@ -29,11 +29,11 @@ class simple404Controller extends simpleController
     protected $onlyHeaders;
 
     /**
-     * Контроллер, обрабатывающий 404 ошибку конкретных ДО
+     * Результат работы контроллера, обрабатывающего 404 ошибку конкретных ДО
      *
-     * @var simpleController
+     * @var string
      */
-    private $controller;
+    private $result;
 
     /**
      * Конструктор
@@ -47,13 +47,13 @@ class simple404Controller extends simpleController
     }
 
     /**
-     * Установка маппера, для которого будет отображена 404 ошибка
+     * Установка результата работы 404 контроллера для определенного маппера
      *
      * @param simpleMapper $mapper
      */
-    public function setMapper(simpleMapper $mapper)
+    public function applyMapper(simpleMapper $mapper)
     {
-        $this->controller = $this->forward404($mapper);
+        $this->result = $this->forward404($mapper);
     }
 
     protected function getView()
@@ -64,8 +64,8 @@ class simple404Controller extends simpleController
             return false;
         }
 
-        if ($this->controller) {
-            return $this->controller->run();
+        if ($this->result) {
+            return $this->result;
         }
 
         $section = 'page';

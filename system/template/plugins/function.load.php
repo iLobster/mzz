@@ -100,7 +100,7 @@ function smarty_function_load($params, $smarty)
         } catch (mzzDONotFoundException $e) {
             fileLoader::load('simple/simple404Controller');
             $controller = new simple404Controller();
-            $controller->setMapper($mapper);
+            $controller->applyMapper($mapper);
         }
     }
 
@@ -111,9 +111,11 @@ function smarty_function_load($params, $smarty)
     }
 
     if ($access) {
-        // если права на запуск модуля есть - запускаем
-        $factory = new simpleFactory($action, $module);
-        $controller = $factory->getController();
+        if (empty($controller)) {
+            // если права на запуск модуля есть - запускаем
+            $factory = new simpleFactory($action, $module);
+            $controller = $factory->getController();
+        }
     } else {
         // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
         if (!isset($params['403tpl'])) {
