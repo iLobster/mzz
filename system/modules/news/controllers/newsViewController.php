@@ -30,9 +30,7 @@ class newsViewController extends simpleController
         $news = $newsMapper->searchById($id);
 
         if (empty($news)) {
-            $controller = new simple404Controller();
-            $controller->setMapper($newsMapper);
-            return $controller->run();
+            return $this->forward404($newsMapper);
         }
 
         $this->smarty->assign('news', $news);

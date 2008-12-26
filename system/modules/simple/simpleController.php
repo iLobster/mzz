@@ -134,7 +134,8 @@ abstract class simpleController
             $class = 'simple404Controller';
         }
 
-        return new $class;
+        $controller = new $class;
+        return $controller->run();
     }
 
     /**
