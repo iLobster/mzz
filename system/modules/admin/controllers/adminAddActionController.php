@@ -123,8 +123,15 @@ class adminAddActionController extends simpleController
                 }
             }
 
+            $templates = $values['controller_template'];
+
+            if (!empty($templates)) {
+                $templates = unserialize(base64_decode($templates));
+            }
+
             $dest = $adminMapper->getDests();
-            $actionGenerator = new actionGenerator($modules[$data['m_id']]['name'], $dest[$values['dest']], $data['c_name']);
+            $actionGenerator = new actionGenerator($modules[$data['m_id']]['name'], $dest[$values['dest']], $data['c_name'], $templates);
+
 
             if (!$isEdit) {
                 try {
@@ -145,6 +152,20 @@ class adminAddActionController extends simpleController
             return $this->smarty->fetch('admin/addActionResult.tpl');
         }
 
+
+        // templates
+        $templates = $this->searchTemplates();
+        $tpl_options = array();
+        foreach ($templates as $name => $tpl) {
+            $value = base64_encode(serialize($tpl));
+            $about = $name . ' (контроллер';
+            if (isset($tpl['template'])) {
+                $about .= '+ шаблон';
+            }
+            $tpl_options[$value] = $about . ')';
+            $this->smarty->assign('templates', $tpl_options);
+        }
+
         $this->smarty->assign('errors', $validator->getErrors());
 
         $this->smarty->assign('data', $data);
@@ -158,6 +179,25 @@ class adminAddActionController extends simpleController
 
         return $this->smarty->fetch('admin/addAction.tpl');
     }
+
+    public function searchTemplates()
+    {
+        $code_gen = systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'codegenerator';
+        $path = $code_gen . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR ;
+        $tpl_dir = 'controller_templates' . DIRECTORY_SEPARATOR;
+
+        $action_tpls = array();
+        foreach (glob($path . $tpl_dir . '*.tpl') as $tpl) {
+            $tpl_info = pathinfo($tpl);
+            $file_name = $tpl_info['filename'];
+            if (!is_int(strpos($file_name, '.'))) continue;
+            list($action, $type) = explode('.', $file_name);
+            $action_tpls[$action][$type] = $tpl_dir . $tpl_info['basename'];
+        }
+
+        return $action_tpls;
+    }
+
 
     public function addClassValidate($name, $db, $action_name, $data)
     {
@@ -181,6 +221,7 @@ class adminAddActionController extends simpleController
 
         return !$name_in_db || $name_in_db == $name;
     }
+
 }
 
 ?>

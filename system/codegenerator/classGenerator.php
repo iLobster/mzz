@@ -49,11 +49,13 @@ class classGenerator
      *
      * @param string $module
      * @param string $dest
+     * @param array $templates
      */
-    public function __construct($module, $dest)
+    public function __construct($module, $dest, $templates = null)
     {
         $this->module = $module;
         $this->dest = $dest;
+        $this->templates = $templates;
 
         define('CODEGEN', systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'codegenerator');
         define('MZZ', systemConfig::$pathToApplication);
@@ -150,7 +152,13 @@ class classGenerator
         );
 
         $smarty->assign('do_data', $doData);
-        $factory = $smarty->fetch('do.tpl');
+
+        $template_name = 'do.tpl';
+        if (!empty($this->templates['do'])) {
+            $template_name = $this->templates['do'];
+        }
+
+        $factory = $smarty->fetch($template_name);
         $data[] = array($doNameFile, $factory);
 
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . $doNameFile;
@@ -163,7 +171,13 @@ class classGenerator
         );
 
         $smarty->assign('mapper_data', $mapperData);
-        $mapper = $smarty->fetch('mapper.tpl');
+
+        $template_name = 'mapper.tpl';
+        if (!empty($this->templates['mapper'])) {
+            $template_name = $this->templates['mapper'];
+        }
+        $mapper = $smarty->fetch($template_name);
+
         $data[] = array('mappers' . DIRECTORY_SEPARATOR . $mapperNameFile, $mapper);
         $this->log[] = $this->module . DIRECTORY_SEPARATOR . 'mappers' . DIRECTORY_SEPARATOR . $mapperNameFile;
 

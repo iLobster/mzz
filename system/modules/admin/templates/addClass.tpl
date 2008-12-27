@@ -17,6 +17,10 @@
         {*/if*}
         </tr>
         <tr>
+            <td>{form->caption name="template" value="Шаблон"}</td>
+            <td>{form->select name="template" emptyFirst="default (обычный)" options=$templates}</td>
+        </tr>
+        <tr>
             <td colspan="2">{form->checkbox id="bd_only" name="bd_only" text="Вносить изменения только в базу"  values="no|yes" value="no" size="60"}{$errors->get('bd_only')}</td>
         </tr>
         <tr>

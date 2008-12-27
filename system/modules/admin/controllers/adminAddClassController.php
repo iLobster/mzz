@@ -73,8 +73,15 @@ class adminAddClassController extends simpleController
             $newDest = $this->request->getString('dest', SC_POST);
             $bd_only = $this->request->getString('bd_only', SC_POST);
 
+
             if (!$isEdit) {
-                $classGenerator = new classGenerator($data['name'], $dest[$newDest]);
+                $templates = $this->request->getString('template', SC_POST);
+
+                if (!empty($templates)) {
+                    $templates = unserialize(base64_decode($templates));
+                }
+
+                $classGenerator = new classGenerator($data['name'], $dest[$newDest], $templates);
 
                 if ($bd_only == 'no') {
                     try {
@@ -133,6 +140,24 @@ class adminAddClassController extends simpleController
             $data['name'] = '';
         }
 
+        // templates
+        $templates = $this->searchTemplates();
+        $tpl_options = array();
+        foreach ($templates as $name => $tpl) {
+            $value = base64_encode(serialize($tpl));
+            $about = $name . ' (';
+            if (isset($tpl['do'])) {
+                $about .= 'класс, ';
+            }
+
+            if (isset($tpl['mapper'])) {
+                $about .= 'маппер, ';
+            }
+            $tpl_options[$value] = substr($about, 0, -2) . ')';
+            $this->smarty->assign('templates', $tpl_options);
+        }
+
+
         $this->smarty->assign('data', $data);
         return $this->smarty->fetch('admin/addClass.tpl');
     }
@@ -140,6 +165,25 @@ class adminAddClassController extends simpleController
     public function checkdest($val, $dest)
     {
         return count($dest) > 0;
+    }
+
+
+    public function searchTemplates()
+    {
+        $code_gen = systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'codegenerator';
+        $path = $code_gen . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR ;
+        $tpl_dir = 'class_templates' . DIRECTORY_SEPARATOR;
+
+        $action_tpls = array();
+        foreach (glob($path . $tpl_dir . '*.tpl') as $tpl) {
+            $tpl_info = pathinfo($tpl);
+            $file_name = $tpl_info['filename'];
+            if (!is_int(strpos($file_name, '.'))) continue;
+            list($action, $type) = explode('.', $file_name);
+            $action_tpls[$action][$type] = $tpl_dir . $tpl_info['basename'];
+        }
+
+        return $action_tpls;
     }
 
 }

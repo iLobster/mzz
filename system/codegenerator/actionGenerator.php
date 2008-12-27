@@ -65,8 +65,10 @@ class actionGenerator
      * @param string $dest
      * @param string $class
      */
-    public function __construct($module, $dest, $class)
+    public function __construct($module, $dest, $class, $templates = null)
     {
+
+        $this->templates = $templates;
         $this->module = $module;
         $this->dest = $dest;
         $this->class = $class;
@@ -336,7 +338,13 @@ class actionGenerator
 
         $controller_name = (isset($params['controller']) && !empty($params['controller']) ? $params['controller'] : $action);
         $prefix = $this->module . ucfirst($controller_name);
-        $controller_data = array('action' => $action, 'controllername' => $prefix . 'Controller', 'module' => $this->module, 'viewname' => $prefix . 'View');
+        $controller_data = array('action' => $action,
+        'controllername' => $prefix . 'Controller',
+        'module' => $this->module,
+        'viewname' => $prefix . 'View',
+        'class' => $this->class,
+        'Class' => ucfirst($this->class),
+        );
 
         $controller_filename = $controllers_dir . DIRECTORY_SEPARATOR . $prefix . 'Controller.php';
 
@@ -364,20 +372,37 @@ class actionGenerator
         // записываем данные в файл контроллера, предварительно проверив, не был ли создан этот контроллер ранее
         if (!is_file($controller_filename)) {
             $smarty->assign('controller_data', $controller_data);
-            $controller = $smarty->fetch('controller.tpl');
+            $controller_template = 'controller.tpl';
+            if (!empty($this->templates['controller'])) {
+                $controller_template = $this->templates['controller'];
+            }
+
+            $controller = $smarty->fetch($controller_template);
         }
 
         // записываем данные в активный шаблон
         $smarty->assign('action', $action);
         $smarty->assign('module', $this->module);
-        $act_tpl = $smarty->fetch('act.tpl');
+        $template_name = 'act.tpl';
+        if (!empty($this->templates['act'])) {
+            $template_name = $this->templates['act'];
+        }
+
+        $act_tpl = $smarty->fetch($template_name);
 
         if (!$skip_tpl) {
             // записываем данные в пассивный шаблон
+
             $smarty->assign('action', $action);
             $smarty->assign('module', $this->module);
             $smarty->assign('path', $tpl_filename);
-            $tpl = $smarty->fetch('template.tpl');
+
+            $template_name = 'template.tpl';
+            if (!empty($this->templates['template'])) {
+                $template_name = $this->templates['template'];
+            }
+
+            $tpl = $smarty->fetch($template_name);
         }
 
         // запись в файлы

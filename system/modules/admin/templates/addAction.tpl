@@ -23,6 +23,10 @@
             <td>{form->text name="action[controller]" size="30" value=$defaults->get('controller')}</td>
         </tr>
         <tr>
+            <td>{form->caption name="action[controller_template]" value="Шаблон контроллера"}</td>
+            <td>{form->select name="action[controller_template]" emptyFirst="default (обычный)" options=$templates value=$defaults->get('controller_template')}</td>
+        </tr>
+        <tr>
             <td>{form->caption name="action[title]" value="Заголовок для меню JIP"}</td>
             <td>{form->text name="action[title]" size="30" value=$defaults->get('title')}</td>
         </tr>
