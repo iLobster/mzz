@@ -343,3 +343,15 @@ div.helpMessage {
   float: left;
   margin-right: 6px;
 }
+
+.helpText {
+  font-size: 90%;
+  color: #6C6C6C;
+}
+
+hr.grayPaddingBorder {
+  border: 0;
+  height: 1px;
+  border-top: 1px solid #F0F0F0;
+  margin: 6px 0;
+}
