@@ -16,7 +16,7 @@
             <td style='width: 80%;'>{form->select name="dest" options=$data.dest one_item_freeze=1}{$errors->get('dest')}</td>
         {*/if*}
         </tr>
-        <tr>
+        <tr id="tpl_row">
             <td>{form->caption name="template" value="Шаблон"}</td>
             <td>{form->select name="template" emptyFirst="default (обычный)" options=$templates}</td>
         </tr>
@@ -30,5 +30,10 @@
     </table>
 </form>
 <script type="text/javascript">
-$('bd_only').observe('change', $('gen_row').toggle.bind($('gen_row')))
+{literal}
+$('bd_only').observe('change', function(){
+    $('gen_row').toggle();
+    $('tpl_row').toggle();
+})
+{/literal}
 </script>
