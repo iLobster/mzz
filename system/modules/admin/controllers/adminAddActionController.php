@@ -189,6 +189,10 @@ class adminAddActionController extends simpleController
         $action_tpls = array();
         foreach (glob($path . $tpl_dir . '*.tpl') as $tpl) {
             $tpl_info = pathinfo($tpl);
+            // pathinfo() fix for php < 5.2.0
+            if (!isset($tpl_info['filename'])) {
+                $tpl_info['filename'] = substr($tpl_info['basename'], 0, -(1 + strlen($tpl_info['extension'])));
+            }
             $file_name = $tpl_info['filename'];
             if (!is_int(strpos($file_name, '.'))) continue;
             list($action, $type) = explode('.', $file_name);
