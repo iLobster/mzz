@@ -1,3 +1,2 @@
-{* main="main.tpl" placeholder="content" *}
-{include file='jipTitle.tpl' title='_ attention'}
-{$message}
+{include file='jipTitle.tpl' title="_ simple/attention"}
+<div>{$message}</div>
