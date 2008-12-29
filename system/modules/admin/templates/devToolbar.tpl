@@ -2,7 +2,7 @@
 {add file="admin/devToolbar.js"}
 <script type="text/javascript">
 var HOVER_BG_COLOR = '#FFFDE1';
-var TITLE_BG_COLOR = '#FAFAFA';
+var TITLE_BG_COLOR = '#F2F2F2';
 var SECOND_BG_COLOR = '#FFFFFF';
 </script>
 <!-- модули и классы -->
@@ -55,7 +55,7 @@ var SECOND_BG_COLOR = '#FFFFFF';
     <table class="toolbarActions" cellspacing="0" id="sectionsAndClasses">
         {foreach from=$sections item=section key=id}
             {assign var="count" value=$section.classes|@sizeof}
-            <tr class="toolbarTitle" onmouseover="this.style.backgroundColor = '#FFFDE1'" onmouseout="this.style.backgroundColor = '#FAFAFA'">
+            <tr class="toolbarTitle" onmouseover="this.style.backgroundColor = HOVER_BG_COLOR" onmouseout="this.style.backgroundColor = TITLE_BG_COLOR">
                 <td class="toolbarBorder"><strong>{$section.name}</strong></td>
                 <td class="toolbarActions">
                     {if $count eq 0}
@@ -66,7 +66,7 @@ var SECOND_BG_COLOR = '#FFFFFF';
                     </td>
             </tr>
             {foreach from=$section.classes item=class key=id}
-                <tr onmouseover="this.style.backgroundColor = '#FFFDE1'" onmouseout="this.style.backgroundColor = '#FFFFFF'">
+                <tr onmouseover="this.style.backgroundColor = HOVER_BG_COLOR" onmouseout="this.style.backgroundColor = SECOND_BG_COLOR">
                     <td class="toolbarElementName" colspan="2">
                         {assign var="name" value="`$section.name`_`$class`"}
                         {if not empty($access.$name.editDefault)}<a href="{url route=withAnyParam section="access" name="`$section.name`/`$class`" action="editDefault"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/aclDefault.gif" alt="Default ACL" /></a>{/if}
@@ -79,7 +79,7 @@ var SECOND_BG_COLOR = '#FFFFFF';
                 </tr>
             {/foreach}
             {if $count eq 0}
-                <tr onmouseover="this.style.backgroundColor = '#FFFDE1'" onmouseout="this.style.backgroundColor = '#FFFFFF'">
+                <tr onmouseover="this.style.backgroundColor = HOVER_BG_COLOR" onmouseout="this.style.backgroundColor = SECOND_BG_COLOR">
                     <td colspan="2" class="toolbarElementName toolbarEmpty">--- классов нет ---</td>
                 </tr>
             {/if}
@@ -96,7 +96,7 @@ var SECOND_BG_COLOR = '#FFFFFF';
             <td class="toolbarBorder">класс</td>
         </tr>
             {foreach from=$latestObjects item=latestObject}
-                <tr onmouseover="this.style.backgroundColor = '#FFFDE1'" onmouseout="this.style.backgroundColor = '#FFFFFF'">
+                <tr onmouseover="this.style.backgroundColor = HOVER_BG_COLOR" onmouseout="this.style.backgroundColor = SECOND_BG_COLOR">
                     <td><a href="{url route="withId" section="access" id=$latestObject.obj_id action="editACL"}" class="jipLink">{$latestObject.obj_id}</a></td>
                     <td>{$latestObject.section_name}</td>
                     <td>{$latestObject.class_name}</td>

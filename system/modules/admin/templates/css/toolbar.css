@@ -27,12 +27,12 @@ table.toolbarObjects {
 }
 
 tr.toolbarTitle {
-  background-color: #FAFAFA;
+  background-color: #f2F2F2;
   font-size: 100%;
 }
 
 td.toolbarElementName {
-  border-top: 1px solid #EBEBEB;
+  border-top: 1px solid #E4E4E4;
   font-size: 95%;
   padding: 3px !important;
 }
@@ -51,7 +51,7 @@ td.toolbarBorder {
 }
 
 td.toolbarEndList {
-  border-top: 2px solid #EBEBEB;
+  border-top: 2px solid #E4E4E4;
   height: 2px;
 }
 
@@ -79,7 +79,7 @@ td.toolbarEmpty {
 }
 
 tr.toolbarObjectsTitle {
-  background-color: #F8F8F8;
+  background-color: #F2F2F2;
   font-weight: bold;
   color: #555;
 }
@@ -89,7 +89,7 @@ div.generatorSuccessResult {
 }
 
 span.mainClass {
-  background-color: #EFF8EF;
+  background-color: #E3EDF4;
   padding: 2px 4px;
 }
 
