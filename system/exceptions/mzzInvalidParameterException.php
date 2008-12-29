@@ -33,7 +33,6 @@ class mzzInvalidParameterException extends mzzException
      */
     public function __construct($message, $param, $code = 0)
     {
-        $message = $message . ' ' .parent::convertArgToString($param);
         parent::__construct($message, $code);
         $this->setName('Invalid Parameter');
     }

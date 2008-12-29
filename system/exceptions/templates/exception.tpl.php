@@ -22,14 +22,14 @@
   .exceptionTitle {
     padding-top: 2px;
     color: #AA0000;
-    font-size: 125%;
+    font-size: 120%;
     font-weight: bold;
   }
   .exceptionMessage {
     background-color: white;
     border: 1px solid #E1E1E1;
     padding: 5px;
-    font-size: 115%;
+    font-size: 110%;
     margin: 10px 0;
   }
   .exception a {
@@ -64,13 +64,8 @@ img { display: none; }
 <![endif]-->
 <script type="text/javascript">
 function _showAllTrace() {
-    var traces = document.getElementById('exceptionTrace').childNodes;
-    var count = 0;
-    for (i = 0; i < traces.length; i++) {
-        if (traces[i].tagName && traces[i].tagName.toUpperCase() === 'LI' && ++count > 3) {
-            traces[i].style.display = (traces[i].style.display == 'none') ? '' : 'none';
-        }
-    }
+    var trace = document.getElementById('exceptionTrace');
+    trace.style.display = (trace.style.display == 'none') ? '' : 'none';
 }
 </script>
 <div class="exception">
@@ -92,46 +87,52 @@ function _showAllTrace() {
         </p>
         <div class="exceptionTraceContainer">
         <?php
-            if (($traces = $exception->getPrevTrace()) === null) {
-                $traces = $exception->getTrace();
-            }
+        if (($traces = $exception->getPrevTrace()) === null) {
+            $traces = $exception->getTrace();
+        }
 
-            $count = $total = count($traces);
-            if ($total > 3) {
+        $count = $total = count($traces);
+        if ($total > 3) {
                 ?>
                 <p><a onclick="javascript: _showAllTrace();"><strong>Toggle all trace</strong></a></p>
                 <?php
-            }
+        }
         ?>
-        <ol id="exceptionTrace" start="0">
-        <?php
-            foreach ($traces as $trace) {
-                if (!isset($trace['file'])) {
-                    $trace['file'] = 'unknown';
-                }
-                if (!isset($trace['line'])) {
-                    $trace['line'] = 'unknown';
-                }
-                $count--;
-                $args = '';
-                if (!isset($trace['args'])) {
-                    $trace['args'] = $trace;
-                }
-                foreach ($trace['args'] as $arg) {
-                    $args .= $exception->convertArgToString($arg) . ', ';
-                }
-                $args = htmlspecialchars(substr($args, 0, strlen($args) - 2));
-                echo '<li' . ($total - $count > 3 ? ' style="display: none;"' : '') . '><strong>';
-                if (isset($trace['class']) && isset($trace['type'])) {
-                    echo $trace['class'] . $trace['type'] . $trace['function'] .  '</strong>(' . $args . ')<br />';
-                } else {
-                    echo $trace['function'] . '</strong>(' . $args . ')<br />';
-                }
 
-                echo $trace['file'] . ' (' . $trace['line'] . ")</li>\r\n";
+        <?php
+        foreach ($traces as $trace) {
+            if (!isset($trace['file'])) {
+                $trace['file'] = 'unknown';
             }
+            if (!isset($trace['line'])) {
+                $trace['line'] = 'unknown';
+            }
+            if ($total - $count == 3) {
+                echo "\r\n<div style='color: #424242; display: none;' id='exceptionTrace'>";
+            }
+
+            $count--;
+            echo $count . '. ' . $trace['file'] . ':' . $trace['line'] . ', ';
+            $args = '';
+            if (!isset($trace['args'])) {
+                $trace['args'] = $trace;
+            }
+            foreach ($trace['args'] as $arg) {
+                $args .= $exception->convertArgToString($arg) . ', ';
+            }
+            $args = htmlspecialchars(substr($args, 0, strlen($args) - 2));
+
+            if (isset($trace['class']) && isset($trace['type'])) {
+                echo 'At: ' . $trace['class'] . $trace['type'] . $trace['function'] . '(' . $args . ')<br />';
+            } else {
+                echo 'At: ' . $trace['function'] . '(' . $args . ')<br />';
+            }
+            echo "\r\n";
+        }
+        if ($total > 3) {
+            echo '</div>';
+        }
         ?>
-        </ol>
         </div>
         <p class="exceptionSystemInfo">
             SAPI: <strong><?php echo $system_info['sapi']; ?></strong>,
@@ -140,8 +141,8 @@ function _showAllTrace() {
             mzz: <strong><?php echo $system_info['mzz']; ?></strong>
         </p>
     <?php
-        } else {
-            echo '<p>Debug-mode is off.</p>';
-        }
+    } else {
+        echo '<p>Debug-mode is off.</p>';
+    }
     ?>
 </div>

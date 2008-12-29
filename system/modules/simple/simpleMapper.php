@@ -1306,7 +1306,7 @@ abstract class simpleMapper
                 // проверяем что передан объект нужного типа
                 if (!($val instanceof $className)) {
                     $mutator = $map[$key]['mutator'];
-                    throw new mzzInvalidParameterException('Мутатор ' . get_class($object) . '::' . $mutator . '() может принимать в качестве аргумента только объект типа ' . $className . ', а передано:', $val);
+                    throw new mzzInvalidParameterException('Мутатор ' . get_class($object) . '::' . $mutator . '() может принимать в качестве аргумента только объект типа ' . $className, $val);
                 }
 
                 // получаем нужный маппер
@@ -1336,7 +1336,7 @@ abstract class simpleMapper
                 // проверяем что передан массив
                 if (!is_array($val)) {
                     $mutator = $map[$key]['mutator'];
-                    throw new mzzInvalidParameterException('С помощью мутатора ' . $mutator . ' должен быть передан массив, однако передано ', $val);
+                    throw new mzzInvalidParameterException('С помощью мутатора ' . $mutator . ' должен быть передан массив', $val);
                 }
 
                 $accessor = $map[$key]['accessor'];
@@ -1357,7 +1357,7 @@ abstract class simpleMapper
                 foreach ($val as $subkey => $subval) {
                     // проверяем что каждый из элементов массива нужного типа
                     if (!($subval instanceof $className)) {
-                        throw new mzzInvalidParameterException('Ожидается элемент массива типа ' . $className . ', однако передан объект', $subval);
+                        throw new mzzInvalidParameterException('Элемент массива ' . $subkey . ' должен быть типа ' . $className, $subval);
                     }
 
                     if (isset($oldObjIds[$subval->getId()])) {
