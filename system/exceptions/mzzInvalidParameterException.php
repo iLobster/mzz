@@ -31,7 +31,7 @@ class mzzInvalidParameterException extends mzzException
      * @param mixed $param
      * @param integer $code
      */
-    public function __construct($message, $param, $code = 0)
+    public function __construct($message, $param = null, $code = 0)
     {
         parent::__construct($message, $code);
         $this->setName('Invalid Parameter');

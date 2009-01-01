@@ -43,7 +43,7 @@ function smarty_function_add($params, $smarty)
     }
 
     if (empty($params['file'])) {
-        throw new mzzInvalidParameterException('Пустой атрибут', 'file');
+        throw new mzzInvalidParameterException('Пустой атрибут file');
     }
 
     // определяем тип ресурса
@@ -67,11 +67,11 @@ function smarty_function_add($params, $smarty)
     $medias[0][$filename . $tpl] = true;
 
     if (!isset($medias[1][$res])) {
-        throw new mzzInvalidParameterException('Неверный тип ресурса', $res);
+        throw new mzzInvalidParameterException('Неверный тип ресурса: ' . $res);
     }
 
     if (!preg_match('/^[a-z0-9_\.?&=\/\-]+$/i', $filename)) {
-        throw new mzzInvalidParameterException('Неверное имя файла', $filename);
+        throw new mzzInvalidParameterException('Неверное имя файла: ' . $filename);
     }
 
     // ищем - подключали ли мы уже данный файл
