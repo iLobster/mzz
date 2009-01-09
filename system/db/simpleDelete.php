@@ -51,10 +51,7 @@ class simpleDelete extends simpleSQLGenerator
             $whereClause[]  = $criterion->generate($this, $this->criteria->getTable());
         }
 
-        $qry = 'DELETE FROM ' . $table .
-        ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '');
-
-        return $qry;
+        return 'DELETE FROM ' . $table . ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '');
     }
 }
 

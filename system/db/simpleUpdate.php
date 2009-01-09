@@ -61,11 +61,7 @@ class simpleUpdate extends simpleSQLGenerator
             $whereClause[]  = $criterion->generate($this, $this->criteria->getTable());
         }
 
-        $qry = 'UPDATE ' . $table .
-        ' SET ' . $dataString .
-        ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '');
-
-        return $qry;
+        return 'UPDATE ' . $table . ' SET ' . $dataString . ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '');
     }
 }
 
