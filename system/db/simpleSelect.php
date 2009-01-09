@@ -13,16 +13,16 @@
  */
 
 fileLoader::load('db/criteria');
+fileLoader::load('db/simpleSQLGenerator');
 
 /**
  * Класс для генерации простых SELECT SQL-запросов
  *
  * @package system
  * @subpackage db
- * @version 0.2.3
+ * @version 0.2.4
  */
-
-class simpleSelect
+class simpleSelect extends simpleSqlGenerator
 {
     /**
      * Критерии выборки
@@ -30,13 +30,6 @@ class simpleSelect
      * @var criteria
      */
     private $criteria;
-
-    /**
-     * Объект базы данных
-     *
-     * @var mzzPdo
-     */
-    private $db;
 
     /**
      * Конструктор
@@ -164,69 +157,6 @@ class simpleSelect
         (($limit = $this->criteria->getLimit()) ? ' LIMIT ' . (($offset = $this->criteria->getOffset()) ? $offset . ', ' : '') . $limit : '');
 
         return $qry;
-    }
-
-    /**
-     * Получение объекта для работы с БД
-     *
-     * @return mzzPdo
-     */
-    public function getDb()
-    {
-        if (!$this->db) {
-            $this->db = db::factory();
-        }
-        return $this->db;
-    }
-
-    /**
-     * Экранирование значений
-     *
-     * @param mixed $value
-     * @return mixed
-     */
-    public function quote($value)
-    {
-        if (is_null($value)) {
-            return 'NULL';
-        } elseif (is_numeric($value)) {
-            return $value;
-        }
-
-        return $this->getDb()->quote($value);
-    }
-
-    /**
-     * Экранирование алиасов
-     *
-     * @param string $alias
-     * @return string
-     */
-    public function quoteAlias($alias)
-    {
-        return '`' . $alias . '`';
-    }
-
-    /**
-     * Экранирование имён полей
-     *
-     * @param string $field
-     * @return string
-     */
-    public function quoteField($field)
-    {
-        return '`' . str_replace('.', '`.`', $field) . '`';
-    }
-
-    /**
-     * Экранирование имён таблиц
-     *
-     * @param string $table
-     * @return string
-     */
-    public function quoteTable($table)
-    {
-        return '`' . $table . '`';
     }
 }
 
