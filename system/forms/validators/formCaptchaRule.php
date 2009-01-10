@@ -33,7 +33,7 @@ class formCaptchaRule extends formAbstractRule
         if (isset($captchas[$captcha_id])) {
             $captchaValue = $captchas[$captcha_id];
             unset($captchas[$captcha_id]);
-            $session->get('mzz_captcha', $captchas);
+            $session->set('mzz_captcha', $captchas);
             return (md5($this->value) == $captchaValue);
         }
     }
