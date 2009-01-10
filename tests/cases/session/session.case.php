@@ -98,6 +98,18 @@ class sessionTest extends unitTestCase
         $this->assertTrue($this->session->exists('var[2][1][3]'));
         $this->assertFalse($this->session->exists('var[2][1][4]'));
     }
+
+    public function testArrayWithUnset()
+    {
+        $this->session->set('var[2][1][3][4]', 'foo');
+        $this->session->set('var[2][lol]', 'bar');
+
+        $data = $this->session->get('var[2]');
+        unset($data['lol']);
+        $data = $this->session->set('var[2]', $data);
+        $this->assertTrue($this->session->exists('var[2][1]'));
+        $this->assertFalse($this->session->exists('var[2][lol]'));
+    }
 }
 
 ?>

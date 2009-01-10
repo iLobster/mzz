@@ -28,11 +28,12 @@ class formCaptchaRule extends formAbstractRule
 
         $captcha_id = $request->getString($this->name . '_id', SC_POST | SC_GET);
 
-        $captcha_key = 'mzz_captcha[' . $captcha_id . ']';
-        $captchaValue = $session->get($captcha_key, false);
+        $captchas = $session->get('mzz_captcha', array());
 
-        if ($captchaValue) {
-            $session->destroy($captcha_key);
+        if (isset($captchas[$captcha_id])) {
+            $captchaValue = $captchas[$captcha_id];
+            unset($captchas[$captcha_id]);
+            $session->get('mzz_captcha', $captchas);
             return (md5($this->value) == $captchaValue);
         }
     }
