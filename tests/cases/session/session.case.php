@@ -109,6 +109,9 @@ class sessionTest extends unitTestCase
         $data = $this->session->set('var[2]', $data);
         $this->assertTrue($this->session->exists('var[2][1]'));
         $this->assertFalse($this->session->exists('var[2][lol]'));
+
+        $this->session->destroy('var[2]');
+        $this->assertFalse($this->session->exists('var[2][1]'));
     }
 }
 
