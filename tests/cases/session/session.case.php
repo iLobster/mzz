@@ -103,15 +103,17 @@ class sessionTest extends unitTestCase
     {
         $this->session->set('var[2][1][3][4]', 'foo');
         $this->session->set('var[2][lol]', 'bar');
+        $this->session->set('var[2][3]', 'test');
+        $this->session->set('var[3][1]', 'foo');
 
-        $data = $this->session->get('var[2]');
-        unset($data['lol']);
-        $data = $this->session->set('var[2]', $data);
-        $this->assertTrue($this->session->exists('var[2][1]'));
-        $this->assertFalse($this->session->exists('var[2][lol]'));
-
-        $this->session->destroy('var[2]');
+        $this->session->destroy('var[2][1]');
         $this->assertFalse($this->session->exists('var[2][1]'));
+        $this->assertTrue($this->session->exists('var[2]'));
+        $this->assertTrue($this->session->exists('var[2][3]'));
+
+        $this->session->destroy('var[3]');
+        $this->assertFalse($this->session->exists('var[3]'));
+        $this->assertFalse($this->session->exists('var[3][1]'));
     }
 }
 

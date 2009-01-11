@@ -207,17 +207,17 @@ class session
         }
         return $exists;
     }
-    
+
     protected function removeFromArray($arr, $keys, $current = null)
     {
         $new = array();
         if ($current === null) {
             $current = array_shift($keys);
         }
-        foreach ($arr as $k => $val) { 
-            if ($current !== false && $k == $current) {
+        foreach ($arr as $k => $val) {
+            if ($current !== false && (string)$k == (string)$current) {
                 if (($current = array_shift($keys)) && is_array($val)) {
-                    $new[$k] = $this->removeFromArray($keys, $val, $current);
+                    $new[$k] = $this->removeFromArray($val, $keys, $current);
                 }
             } else {
                 $new[$k] = $val;
