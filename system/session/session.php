@@ -197,10 +197,33 @@ class session
     public function destroy($name)
     {
         if ($exists = $this->exists($name)) {
-            //$this->set($name, null);
-            unset($_SESSION[$name]);
+            $matches = $this->explodeName($name);
+            if (sizeof($matches['keys'])) {
+                $data = $this->removeFromArray($this->get($matches['name']), $matches['keys']);
+                $this->set($matches['name'], $data);
+            } else {
+                unset($_SESSION[$name]);
+            }
         }
         return $exists;
+    }
+    
+    protected function removeFromArray($arr, $keys, $current = null)
+    {
+        $new = array();
+        if ($current === null) {
+            $current = array_shift($keys);
+        }
+        foreach ($arr as $k => $val) { 
+            if ($current !== false && $k == $current) {
+                if (($current = array_shift($keys)) && is_array($val)) {
+                    $new[$k] = $this->removeFromArray($keys, $val, $current);
+                }
+            } else {
+                $new[$k] = $val;
+            }
+        }
+        return $new;
     }
 
     /**
