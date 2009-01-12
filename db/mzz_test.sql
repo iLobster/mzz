@@ -74,6 +74,19 @@ CREATE TABLE `news_newsFolder_tree` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
+# Structure for the `ormRelated` table : 
+#
+
+DROP TABLE IF EXISTS `ormRelated`;
+
+CREATE TABLE `ormRelated` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `baz` CHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
 # Structure for the `ormSimple` table : 
 #
 
@@ -83,6 +96,7 @@ CREATE TABLE `ormSimple` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `foo` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
   `bar` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
+  `related` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
@@ -698,7 +712,7 @@ CREATE TABLE `sys_sessions` (
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=91 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=256 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `treeNS` table : 
