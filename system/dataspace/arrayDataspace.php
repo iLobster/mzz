@@ -23,7 +23,7 @@ fileLoader::load('dataspace/iDataspace');
  * @subpackage dataspace
  * @version 0.2
  */
-class arrayDataspace implements iDataspace, ArrayAccess, Iterator
+class arrayDataspace implements iDataspace, ArrayAccess, Iterator, Countable
 {
     /**
      * Массив для хранения данных
@@ -154,6 +154,16 @@ class arrayDataspace implements iDataspace, ArrayAccess, Iterator
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
         return isset($this->data[$key]);
+    }
+
+    /**
+     * Возвращает количество элементов в dataspace
+     *
+     * @return integer
+     */
+    public function count()
+    {
+        return count($this->data);
     }
 
     /**

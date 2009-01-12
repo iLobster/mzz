@@ -234,6 +234,14 @@ class simpleMapperTest extends unitTestCase
         $this->assertEqual('3oof', $simple->getFoo());
     }
 
+    public function testSetObjId()
+    {
+        $simple = new stubSimple($this->mapper, $this->map);
+        $this->assertEqual(0, $simple->getObjId());
+        $this->mapper->setObjId($simple, $obj_id = 10);
+        $this->assertEqual($obj_id, $simple->getObjId());
+    }
+
     private function countRecord()
     {
         $stmt = $this->db->query("SELECT count(*) FROM `simple_stubSimple`");

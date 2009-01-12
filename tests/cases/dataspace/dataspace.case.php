@@ -22,6 +22,17 @@ class arrayDataspaceTest extends unitTestCase
         $this->assertEqual($this->dataspace->get('bar'), $item_two);
     }
 
+    public function testCount()
+    {
+        $item_one = "foo";
+        $item_two = "bar";
+
+        $this->assertEqual(count($this->dataspace), 0);
+        $this->dataspace->set('foo', $item_one);
+        $this->dataspace->set('bar', $item_two);
+        $this->assertEqual(count($this->dataspace), 2);
+    }
+
     public function testArrayDataspaceIterator()
     {
         $item_one = "fooval";

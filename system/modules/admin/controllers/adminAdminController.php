@@ -63,7 +63,7 @@ class adminAdminController extends simpleController
             //$acl = new acl($user, $obj_id);
 
             $object = $mapper->create();
-            $object->import(array('obj_id' => $obj_id));
+            $mapper->setObjId($object, $obj_id);
 
             $access = $object->getAcl('admin');
 

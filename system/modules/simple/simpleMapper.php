@@ -1067,6 +1067,12 @@ abstract class simpleMapper
         return $tmp;
     }
 
+    public function setObjId($object, $id)
+    {
+        $object->import(array($this->obj_id_field => $id));
+        return $object;
+    }
+
     /**
      * Сброс идентификатора языка
      *
