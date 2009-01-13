@@ -72,7 +72,7 @@ class formTag extends formElement
             $token = $this->getCSRFToken();
             $session->set('CSRFToken', $token);
         }
-        return $this->createTag(array('type' => 'hidden', 'name' => form::$CSRFField, 'value' => $token), 'input');
+        return $this->renderTag('input', array('type' => 'hidden', 'name' => form::$CSRFField, 'value' => $token));
     }
 
     /**
