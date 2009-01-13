@@ -71,6 +71,16 @@ abstract class simpleSQLGenerator
     {
         return '`' . $table . '`';
     }
-}
 
+    public function __sleep()
+    {
+        return array();
+    }
+
+    public function __wakeup()
+    {
+        $this->getDb();
+    }
+
+}
 ?>
