@@ -47,6 +47,9 @@ class profileMapper extends simpleMapper
         $userMapper = systemToolkit::getInstance()->getMapper('user', 'user', 'user');
         $user = $userMapper->searchByKey($id);
 
+        if (!$user) {
+            throw new mzzDONotFoundException();
+        }
         return $this->searchByUser($user);
     }
 
@@ -87,14 +90,15 @@ class profileMapper extends simpleMapper
      */
     public function convertArgsToObj($args)
     {
-        if (isset($args['id'])) {
-            $do = $this->searchById($args['id']);
-
-            if ($do) {
-                return $do;
-            }
+        if (!isset($args['id'])) {
+            $toolkit = systemToolkit::getInstance();
+            $args['id'] = $toolkit->getUser()->getId();
         }
+        $do = $this->searchById($args['id']);
 
+        if ($do) {
+            return $do;
+        }
         throw new mzzDONotFoundException();
     }
 }

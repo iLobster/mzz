@@ -23,8 +23,13 @@
             <td style='width: 70%;'>{form->text name="exts" value=$folder->getExts() size="40"}{$errors->get('exts')}</td>
         </tr>
         <tr>
+        {if $folder->getStorage()}
+        {assign storage_id=$folder->getStorage()->getId()}
+        {else}
+        {assign storage_id=0}
+        {/if}
             <td style='width: 30%;'>{form->caption name="storage" value='Сторадж:'}</td>
-            <td style='width: 70%;'>{form->select name="storage" options=$storages value=$folder->getStorage()->getId()}{$errors->get('storage')}</td>
+            <td style='width: 70%;'>{form->select name="storage" options=$storages value=$storage_id}{$errors->get('storage')}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
