@@ -98,7 +98,7 @@ abstract class formElement
     public function renderTag($tag, $attributes = array())
     {
         if (self::parseError($attributes)) {
-            $style = explode('=', $attributes['onError'], 2);
+            $style = explode('=', array_key_exists('onError', $attributes) ? $attributes['onError'] : '', 2);
             if (!empty($style) && sizeof($style) == 2) {
                 $style[1] = $style[1][0] == '"' ? trim($style[1], '"') : $style[1];
                 $attributes['style'] = isset($attributes['style']) ? $attributes['style'] . '; ' . $style[1] : $style[1];

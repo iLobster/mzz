@@ -45,8 +45,8 @@ class formTag extends formElement
 
         $csrf = null;
         /* данная опция отключает только добавление hidden-поля. Сама проверка отключается только через валидатор */
-        if (isset($attributes['csrf']) && $attributes['csrf'] == true) {
-            /* In XHTML Strict forms may not contain inline elements as direct children */
+        if (!isset($attributes['csrf']) || $attributes['csrf'] != false) {
+            /* In the XHTML Strict mode forms may not contain inline elements as direct children */
             $csrf = $this->getCSRFProtection();
             if (form::isXhtml()) {
                 $csrf = '<div>' . $csrf . '</div>';

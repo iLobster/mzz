@@ -28,7 +28,8 @@ class userLoginController extends simpleController
         $backURL = $this->request->getString('url', SC_POST);
 
         if (!$user->isLoggedIn()) {
-            if (!$this->request->getBoolean('onlyForm') && $this->request->isMethod('POST')) {
+            $validator = new formValidator();
+            if (!$this->request->getBoolean('onlyForm') && $validator->validate()) {
                 $login = $this->request->getString('login', SC_POST);
                 $password = $this->request->getString('password', SC_POST);
 
