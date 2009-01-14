@@ -68,7 +68,7 @@ class profile extends simple
 
     public function getBirthday($format = null)
     {
-        $birthday = parent::getBirthday();
+        $birthday = parent::__call('getBirthday', array());
         if (empty($birthday)) {
             return null;
         }
