@@ -39,9 +39,8 @@ class captchaViewController extends simpleController
 
             $background = imagecolorallocate($im, 238, 236, 219);
             $border = imagecolorallocate($im, 0, 0, 0);
-            imagefilledrectangle($im, 0, 0, $width - 1, $height - 1, $background);
+            imagefilledrectangle($im, 1, 1, $width - 1, $height - 1, $background);
 
-            $pos_x = rand(7, 15);
             $colors = array(imagecolorallocate($im, mt_rand(50, 120), mt_rand(50, 120), mt_rand(50, 120)));
 
             $thick = 2;
@@ -70,24 +69,22 @@ class captchaViewController extends simpleController
                 }
             }
 
+            $size = ($width / $length);
+
+            $pos_x = $size / 3;
             for ($i = 0; $i < $length; $i++) {
                 $char = $symbols[mt_rand(0, strlen($symbols) - 1)];
                 $string .= $char;
 
-                $size = mt_rand(18, 25);
-                $angle = mt_rand(-15, 15);
-
-                $bbox = imagettfbbox($size, $angle, $font, $char);
+                $char_size = $size;
+                $angle = mt_rand(-30, 15);
+                $bbox = imagettfbbox($char_size, $angle, $font, $char);
 
                 $char_width = max($bbox[2], $bbox[4]) - min($bbox[0], $bbox[6]);
                 $char_height = max($bbox[1], $bbox[3]) - min($bbox[7], $bbox[5]);
 
                 $pos_y = (($height + $char_height) / 2);
-                //$color_text = imagecolorallocate($im, mt_rand(50, 120), mt_rand(50, 120), mt_rand(50, 120));
-                if ($i > 0) {
-                    $pos_x -= rand(1, 3);
-                }
-                imagettftext($im, $size, $angle, $pos_x, $pos_y, $colors[$i], $font, $char);
+                imagettftext($im, $char_size, $angle, $pos_x, $pos_y, $colors[$i], $font, $char);
                 $pos_x += $char_width;
             }
 
