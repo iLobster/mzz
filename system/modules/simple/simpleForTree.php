@@ -45,7 +45,7 @@ class simpleForTree extends simple
      */
     public function getTreeLevel()
     {
-        if (!$this->treeFields->exists('id')) {
+        if (!$this->treeFields->exists('level')) {
             $this->mapper->loadTreeData($this);
         }
         return $this->treeFields->get('level');
