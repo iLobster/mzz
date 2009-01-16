@@ -21,7 +21,7 @@ fileLoader::load('dataspace/iDataspace');
  *
  * @package system
  * @subpackage dataspace
- * @version 0.2
+ * @version 0.2.1
  */
 class arrayDataspace implements iDataspace, ArrayAccess, Iterator, Countable
 {
@@ -237,6 +237,18 @@ class arrayDataspace implements iDataspace, ArrayAccess, Iterator, Countable
     {
         $this->current = 0;
         reset($this->data);
+    }
+
+    public function first()
+    {
+        $this->rewind();
+        return $this->current();
+    }
+
+    public function last()
+    {
+        end($this->data);
+        return $this->current();
     }
 
     public function valid()

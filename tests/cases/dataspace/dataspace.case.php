@@ -9,7 +9,6 @@ class arrayDataspaceTest extends unitTestCase
         $this->dataspace = new arrayDataspace(array());
     }
 
-
     public function testArrayDataspace()
     {
         $item_one = "foo";
@@ -58,7 +57,10 @@ class arrayDataspaceTest extends unitTestCase
 
     public function testArrayDataspaceImport()
     {
-        $items = array('foo' => 'foo', 'bar' => 'bar', 'test' => 'test');
+        $items = array(
+            'foo' => 'foo',
+            'bar' => 'bar',
+            'test' => 'test');
         $this->dataspace->import($items);
         $this->assertEqual($this->dataspace->get('foo'), 'foo');
         $this->assertEqual($this->dataspace->get('bar'), 'bar');
@@ -67,7 +69,10 @@ class arrayDataspaceTest extends unitTestCase
 
     public function testArrayDataspaceExport()
     {
-        $items = array('foo' => 'foo', 'bar' => 'bar', 'test' => 'test');
+        $items = array(
+            'foo' => 'foo',
+            'bar' => 'bar',
+            'test' => 'test');
         $this->dataspace->import($items);
         $this->assertEqual($this->dataspace->export(), $items);
     }
@@ -87,7 +92,10 @@ class arrayDataspaceTest extends unitTestCase
 
     public function testArrayDataspaceExceptions()
     {
-        $methods = array("set", "get", "exists");
+        $methods = array(
+            "set",
+            "get",
+            "exists");
         foreach ($methods as $method) {
             try {
                 $this->dataspace->$method(array(), false);
@@ -110,6 +118,21 @@ class arrayDataspaceTest extends unitTestCase
         $this->assertNull($this->dataspace->get('foo'));
     }
 
+    public function testIteration()
+    {
+        $items = array(
+            'foo' => 'foo',
+            'bar' => 'bar',
+            'test' => 'test');
+        $this->dataspace->import($items);
+
+        foreach ($this->dataspace as $key => $val) {
+            $this->assertEqual($val, $items[$key]);
+        }
+
+        $this->assertEqual($this->dataspace->first(), 'foo');
+        $this->assertEqual($this->dataspace->last(), 'test');
+    }
 }
 
 ?>
