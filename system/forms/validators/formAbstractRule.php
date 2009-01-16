@@ -49,6 +49,9 @@ abstract class formAbstractRule
      */
     protected $params;
 
+    protected $multiple = false;
+    protected $isMultiple = false;
+
     /**
      * Конструктор
      *
@@ -58,24 +61,11 @@ abstract class formAbstractRule
      */
     public function __construct($name = '', $errorMsg = '', $params = '')
     {
-        $name = explode(':', $name, 2);
-        $type = 'string';
-        if (sizeof($name) > 1) {
-            if (in_array($name[0], array('array', 'integer', 'numeric', 'string', 'boolean'))) {
-                $type = $name[0];
-            }
-            $name = $name[1];
-        } else {
-            $name = $name[0];
-        }
-
-        $this->name = $name;
+        $this->isMultiple = $this->multiple && is_array($name);
+        $this->name = $this->generateName($name);
+        $this->initRequestValue($name);
         $this->errorMsg = $errorMsg;
         $this->params = $params;
-
-        $request = systemToolkit::getInstance()->getRequest();
-        $funcName = 'get' . ucfirst(strtolower($type));
-        $this->value = $request->$funcName($name, SC_REQUEST);
     }
 
     /**
@@ -99,10 +89,29 @@ abstract class formAbstractRule
      *
      * @param mixed $value
      */
-    public function setValue($value)
+    public function setValue($value, $name = null)
     {
-        $this->value = $value;
+        if ($this->isMultiple && is_null($name)) {
+            throw new mzzRuntimeException('The validator is multiple and setValue requires the name as the second argument.');
+        } elseif ($this->isMultiple) {
+            $this->value[$name] = $value;
+        } else {
+            $this->value = $value;
+        }
         return $this;
+    }
+
+    /**
+     * Получение валидируемого значения
+     *
+     * @param mixed $value
+     */
+    public function getValue($name = null)
+    {
+        if ($this->isMultiple && !is_null($name)) {
+            return array_key_exists($name, $this->value) ? $this->value[$name] : null;
+        }
+        return $this->value;
     }
 
     /**
@@ -126,6 +135,56 @@ abstract class formAbstractRule
             return empty($this->value);
         }
         return $this->value == '';
+    }
+
+    protected function generateName($name)
+    {
+        if (is_array($name) && $this->multiple) {
+            return implode(' ', array_map(array($this, 'deleteTypeFromName'), $name));
+        } elseif (is_array($name)) {
+            $name = array_shift($name);
+        }
+        return $this->deleteTypeFromName($name);
+    }
+
+    protected function getFromRequest($name, $type)
+    {
+        $funcName = 'get' . ucfirst(strtolower($type));
+        $request = systemToolkit::getInstance()->getRequest();
+        return $request->$funcName($name, SC_REQUEST);
+    }
+
+    protected function initRequestValue($names)
+    {
+        foreach ((array)$names as $key => $name) {
+            $name = explode(':', $name, 2);
+            $type = 'string';
+            if (sizeof($name) > 1) {
+                if (in_array($name[0], array('array', 'integer', 'numeric', 'string', 'boolean'))) {
+                    $type = $name[0];
+                }
+                $name = $name[1];
+            } else {
+                $name = $name[0];
+            }
+
+            // just for handy :)
+            $handynames = array('first', 'second', 'third');
+            if (is_integer($key) && $key < 3) {
+                $key = $handynames[$key];
+            }
+
+            $this->value[$key] = $this->getFromRequest($name, $type);
+        }
+
+        if (!$this->isMultiple && is_array($this->value)) {
+            $this->value = array_shift($this->value);
+        }
+    }
+
+    private function deleteTypeFromName($name)
+    {
+        return ($pos = strpos($name, ':')) ? substr($name, $pos + 1) : $name;
     }
 }
 
