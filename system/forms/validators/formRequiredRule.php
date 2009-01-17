@@ -21,12 +21,28 @@
  */
 class formRequiredRule extends formAbstractRule
 {
+    protected $multiple = true;
+
     public function validate()
     {
-        if (is_array($this->value)) {
-            return count($this->value) > 0;
+        if ($this->isMultiple) {
+            foreach ($this->value as $value) {
+                if ($this->testValue($value) == false) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return trim($this->value) != '';
+
+        return $this->testValue($this->value);
+    }
+
+    protected function testValue($value)
+    {
+        if (is_array($value)) {
+            return count($value) > 0;
+        }
+        return trim($value) != '';
     }
 }
 
