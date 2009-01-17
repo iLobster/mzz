@@ -236,13 +236,12 @@ class arrayDataspace implements iDataspace, ArrayAccess, Iterator, Countable
     public function rewind()
     {
         $this->current = 0;
-        reset($this->data);
+        return reset($this->data);
     }
 
     public function first()
     {
-        $this->rewind();
-        return $this->current();
+        return $this->rewind();
     }
 
     public function last()
