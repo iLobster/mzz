@@ -123,10 +123,14 @@ abstract class simpleController
         return $controller->run();
     }
 
-    protected function forward404(simpleMapper $mapper)
+    protected function forward404($mapper = null)
     {
-        $class = $mapper->getClassName() . '404Controller';
-        $module = $mapper->name();
+        if ($mapper instanceof simpleMapper) {
+            $class = $mapper->getClassName() . '404Controller';
+            $module = $mapper->name();
+        } else {
+            $module = $class = '';
+        }
 
         try {
             fileLoader::load($module . '/controllers/' . $class);
