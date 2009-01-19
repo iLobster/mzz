@@ -97,9 +97,24 @@ CREATE TABLE `ormSimple` (
   `foo` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
   `bar` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
   `related` INTEGER(11) DEFAULT NULL,
+  `deleted` TINYINT(1) DEFAULT '0',
+  `version` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Structure for the `ormSimple_version` table : 
+#
+
+DROP TABLE IF EXISTS `ormSimple_version`;
+
+CREATE TABLE `ormSimple_version` (
+  `id` INTEGER(11) DEFAULT NULL,
+  `foo` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
+  `version` INTEGER(11) DEFAULT NULL
+)ENGINE=MyISAM
+CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `page_page` table : 
@@ -712,7 +727,7 @@ CREATE TABLE `sys_sessions` (
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=256 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=291 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `treeNS` table : 

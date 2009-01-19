@@ -18,13 +18,22 @@ class simpleUpdateTest extends unitTestCase
 
     public function testUpdateAll()
     {
-        $this->assertEqual($this->update->toString(array('field1' => 'value1', 'field2' => 'value2')), "UPDATE `table` SET `field1` = 'value1', `field2` = 'value2'");
+        $this->assertEqual($this->update->toString(array(
+            'field1' => 'value1',
+            'field2' => 'value2')), "UPDATE `table` SET `field1` = 'value1', `field2` = 'value2'");
     }
 
     public function testUpdateWithConditions()
     {
         $this->criteria->add('id', 100);
-        $this->assertEqual($this->update->toString(array('field' => 'value')), "UPDATE `table` SET `field` = 'value' WHERE `table`.`id` = 100");
+        $this->assertEqual($this->update->toString(array(
+            'field' => 'value')), "UPDATE `table` SET `field` = 'value' WHERE `table`.`id` = 100");
+    }
+
+    public function testUpdateWithFunctions()
+    {
+        $this->assertEqual($this->update->toString(array(
+            'field' => new sqlFunction('upper', 'value'))), "UPDATE `table` SET `field` = UPPER('value')");
     }
 
     public function testNoDataPassed()

@@ -82,5 +82,15 @@ abstract class simpleSQLGenerator
         $this->getDb();
     }
 
+    public function valueToString($value)
+    {
+        if ($value instanceof sqlFunction || $value instanceof sqlOperator) {
+            $value = $value->toString($this);
+        } else {
+            $value = $this->quote($value);
+        }
+
+        return $value;
+    }
 }
 ?>

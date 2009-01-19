@@ -52,7 +52,7 @@ class simpleUpdate extends simpleSQLGenerator
 
         $dataString = '';
         foreach ($data as $field => $value) {
-            $dataString .= $this->quoteField($field) . ' = ' . $this->quote($value) . ', ';
+            $dataString .= $this->quoteField($field) . ' = ' . $this->valueToString($value) . ', ';
         }
         $dataString = substr($dataString, 0, -2);
 
