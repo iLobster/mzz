@@ -23,10 +23,14 @@
 class menu extends simple
 {
     protected $name = 'menu';
+    protected $items;
 
     public function getItems()
     {
-        return $this->mapper->searchItemsById($this->getId());
+        if (!is_array($this->items)) {
+            $this->items = $this->mapper->searchItemsById($this->getId());
+        }
+        return $this->items;
     }
 
     public function getJip()

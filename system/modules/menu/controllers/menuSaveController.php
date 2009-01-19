@@ -19,7 +19,7 @@ fileLoader::load('forms/validators/formValidator');
  *
  * @package modules
  * @subpackage menu
- * @version 0.1
+ * @version 0.2
  */
 
 class menuSaveController extends simpleController
@@ -32,84 +32,113 @@ class menuSaveController extends simpleController
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
         $isRoot = ($action == 'createRoot');
-
         $id = $this->request->getInteger('id');
+
         if ($isRoot) {
             $menuName = $this->request->getString('name');
+            $menu = $menuMapper->searchByName($menuName);
+            if (!$menu) {
+                return $this->forward404($menuMapper);
+            }
+        } else {
+            $parentItem = $itemMapper->searchById($id);
+            if (!$parentItem) {
+                return $this->forward404($itemMapper);
+            }
+            $menu = $parentItem->getMenu();
         }
 
-        $item = $isEdit ? $itemMapper->searchById($id) : $itemMapper->create();
-        $menu = $isRoot ? $menuMapper->searchByName($menuName) : $itemMapper->searchById($id)->getMenu();
+        $types = $itemMapper->getMenuItemsTypes();
+        $this->smarty->assign('types', $types);
 
-        if (is_null($item) || ($isRoot && is_null($menu))) {
-            return $menuMapper->get404()->run();
+        if ($isEdit) {
+            $item = $itemMapper->searchById($id);
+            if (!$item) {
+                return $this->forward404($itemMapper);
+            }
+            $menu = $item->getMenu();
+
+            $typeId = $this->request->getInteger('type', SC_POST);
+            if ($typeId) {
+                $objectArray = $item->exportOld();
+                $objectArray['type_id'] = $typeId;
+                $item = $itemMapper->createItemFromRow($objectArray);
+            }
+
+            $typeId = $item->getTypeId();
+            $this->smarty->assign('typeId', $typeId);
+        } else {
+            $types = $itemMapper->getMenuItemsTypes();
+
+            $typeId = $this->request->getInteger('type', SC_POST);
+            $this->smarty->assign('typeId', $typeId);
+
+            $item = (isset($types[$typeId])) ? $itemMapper->create($typeId) : null;
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'title', 'Необходим заголовок');
+        if ($item) {
+            $validator->add('required', 'title', 'Укажите заголовок');
 
-        if (!$isEdit) {
-            $validator->add('required', 'type', 'Необходимо указать тип');
-            $types = $itemMapper->getAllTypes();
-            if (empty($types)) {
-                $controller = new messageController('Отсутствуют типы', messageController::WARNING);
-                return $controller->run();
-            }
-            $type = $this->request->getInteger('type', SC_GET | SC_POST);
-            $properties = $itemMapper->getProperties($type);
-        } else {
-            $properties = $item->exportOldProperties();
-        }
+            $args = array(
+            'routeName' => $this->request->getString('route', SC_POST),
+            'parts' => $this->request->getArray('parts', SC_POST),
+            'regexp' => $this->request->getString('activeRegExp', SC_POST),
+            'url' => $this->request->getString('url', SC_POST)
+            );
 
-        if (!$validator->validate()) {
-            $url = new url($isRoot ? 'withAnyParam' : 'withId');
-            if (!$isRoot) {
-                $url->setAction($action);
-                $url->add('id', $isEdit ? $item->getId() : $id);
-            } else {
-                $url->add('action', 'createRoot');
-                $url->add('name', $menu->getName());
-                $this->smarty->assign('menu', $menu);
-            }
+            $helper = $this->createMenuItemHelper($item);
+            $helper->injectItem($validator, $item, $this->smarty, $args);
 
-            if (!$isEdit) {
-                $select = array('' => '');
-                foreach($types as $type_tmp){
-                    $select[$type_tmp['id']] = $type_tmp['title'];
-                }
-                $this->smarty->assign('select', $select);
-            }
+            if ($validator->validate()) {
+                $helper->setArguments($item, $args);
 
-            $this->smarty->assign('item', $item);
-            $this->smarty->assign('type', ($isEdit) ? $item->getTypeId() : $type);
-            $this->smarty->assign('id', $id);
-            $this->smarty->assign('properties', $properties);
-            $this->smarty->assign('request', $this->toolkit->getRequest());
-            $this->smarty->assign('action', $url->get());
-            $this->smarty->assign('errors', $validator->getErrors());
-            $this->smarty->assign('isEdit', $isEdit);
-            $this->smarty->assign('isRoot', $isRoot);
-            return $this->smarty->fetch('menu/save.tpl');
-        } else {
-            $title = $this->request->getString('title', SC_POST);
-
-            $item->setTitle($title);
-
-            if (!$isEdit) {
+                $title = $this->request->getString('title', SC_POST);
+                $item->setTitle($title);
                 $item->setMenu($menu);
-                $item->setType($type);
-                $item->setParent((int)$id);
-                $item->setOrder($itemMapper->getMaxOrder($id, $menu->getId()) + 1);
-            }
 
-            foreach ($properties as $prop) {
-                $propValue = $this->request->getRaw($prop['name'], SC_POST);
-                $item->setProperty($prop['name'], $propValue);
-            }
+                $item->setType($item->getTypeId());
+                if (!$isEdit) {
+                    $parent = ($isRoot) ? 0 : $parentItem->getId();
+                    $item->setParent($parent);
+                    $item->setOrder($itemMapper->getMaxOrder($parent, $menu->getId()) + 1);
+                }
 
-            $itemMapper->save($item);
-            return jipTools::redirect();
+                $itemMapper->save($item);
+                return jipTools::redirect();
+            }
         }
+
+        $url = new url($isRoot ? 'withAnyParam' : 'withId');
+        if (!$isRoot) {
+            $url->setAction($action);
+            $url->add('id', $isEdit ? $item->getId() : $id);
+        } else {
+            $url->add('action', 'createRoot');
+            $url->add('name', $menu->getName());
+        }
+
+        $this->smarty->assign('item', $item);
+        $this->smarty->assign('request', $this->request);
+        $this->smarty->assign('i18nEnabled', systemConfig::$i18nEnable);
+        $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('isEdit', $isEdit);
+        $this->smarty->assign('isRoot', $isRoot);
+        $this->smarty->assign('errors', $validator->getErrors());
+
+        if ($item && $this->request->getBoolean('onlyProperties', SC_POST)) {
+            $this->smarty->disableMain();
+            return $this->smarty->fetch('menu/properties.tpl');
+        }
+
+        return $this->smarty->fetch('menu/save.tpl');
+    }
+
+    protected function createMenuItemHelper($item)
+    {
+        $class = get_class($item) . 'Helper';
+        fileLoader::load('menu/helpers/' . $class);
+        return new $class;
     }
 }
 

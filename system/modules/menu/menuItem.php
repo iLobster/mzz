@@ -17,16 +17,69 @@
  *
  * @package modules
  * @subpackage menu
- * @version 0.1.1
+ * @version 0.2
  */
-
-class menuItem extends simpleCatalogue
+abstract class menuItem extends simple
 {
     protected $name = 'menu';
 
     protected $childrens = array();
+    protected $arguments = null;
+    protected $isActive;
+    protected $typeId;
+    protected $urlLang;
+    protected $urlLangSpecified;
 
-    protected $isActive = null;
+    public function setTypeId($typeId)
+    {
+        $this->typeId = $typeId;
+    }
+
+    public function getTypeId()
+    {
+        return $this->typeId;
+    }
+
+    public function getArgument($argument, $default = null)
+    {
+        $arguments = $this->getArguments();
+        $value = $arguments->get($argument);
+
+        return is_null($value) ? $default : $value;
+    }
+
+    protected function getArguments()
+    {
+        if (is_null($this->arguments)) {
+            $arguments = $this->getArgs();
+            try {
+                $arguments = unserialize($arguments);
+                if (!is_array($arguments)) {
+                    $arguments = array();
+                }
+            } catch (mzzException $e) {
+                $arguments = array();
+            }
+
+            $this->arguments = new arrayDataspace($arguments);
+        }
+
+        return $this->arguments;
+    }
+
+    public function setArgument($name, $value)
+    {
+        $arguments = $this->getArguments();
+        $arguments->set($name, $value);
+        $this->setArguments($arguments->export());
+    }
+
+    public function setArguments(Array $args)
+    {
+        $this->arguments = new arrayDataspace($args);
+        $this->setArgs(serialize($args));
+    }
+
 
     public function getChildrens()
     {
@@ -49,53 +102,26 @@ class menuItem extends simpleCatalogue
         $this->mapper->move($this, $target);
     }
 
-    public function getUrl($full = true)
+    /**
+     * Возвращает JIP-меню
+     * Переопределяется если требуется использовать другие данные для построения JIP-меню
+     *
+     * @param string $tpl шаблон JIP-меню
+     * @return string
+     */
+    public function getJip($tpl = jip::DEFAULT_TEMPLATE)
     {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-        $lang = systemConfig::$i18nEnable ? $request->getString('lang') : null;
-
-        switch ($this->getTypeName()) {
-            case 'simple':
-            case 'advanced':
-                return (($full ? $request->getUrl() : '') . ($lang ? '/' . $lang : '') . $this->getPropertyValue('url'));
-                break;
-        }
+        return $this->getJipView($this->name, $this->getId(), __CLASS__, $tpl);
     }
 
-    public function isActive()
+    public function setUrlLang($lang, $specified)
     {
-        if (!is_bool($this->isActive)) {
-            $toolkit = systemToolkit::getInstance();
-            $request = $toolkit->getRequest();
-
-            $lang = systemConfig::$i18nEnable ? $request->getString('lang') : null;
-
-            switch ($this->getTypeName()) {
-                case 'simple':
-                    $isActive = ($request->getUrl() . ($lang ? '/' . $lang : '') . $this->getPropertyValue('url') == $request->getRequestUrl());
-                    break;
-
-                case 'advanced':
-                    $section = $this->getPropertyValue('section');
-                    $action = $this->getPropertyValue('action');
-
-                    $isActive = false;
-                    if (!empty($section)) {
-                        $isActive = ($request->getRequestedSection() == $section);
-                    }
-
-                    if ($isActive && !empty($action)) {
-                        $isActive = ($request->getRequestedAction() == $action);
-                    }
-                    break;
-            }
-
-            $this->isActive = $isActive;
-        }
-
-        return $this->isActive;
+        $this->urlLang = $lang;
+        $this->urlLangSpecified = (bool)$specified;
     }
+
+    abstract function getUrl();
+    abstract function isActive();
 }
 
 ?>

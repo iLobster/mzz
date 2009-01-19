@@ -36,9 +36,27 @@ class menuViewController extends simpleController
         if (empty($menu)) {
             return $menuMapper->get404()->run();
         }
+
+        foreach ($menu->getItems() as $item) {
+            $item->setUrlLang($this->getCurrentLang(), $this->request->getString('lang'));
+        }
+
         $this->smarty->assign('menu', $menu);
         $this->smarty->assign('prefix', $prefix);
         return $this->smarty->fetch('menu/' . $prefix . 'view.tpl');
+    }
+
+    protected function getCurrentLang()
+    {
+        if (!systemConfig::$i18nEnable) {
+            return null;
+        }
+
+        $lang = $this->request->getString('lang');
+        if (empty($lang)) {
+            $lang = $this->toolkit->getLocale()->getName();
+        }
+        return $lang;
     }
 }
 

@@ -1,6 +1,6 @@
 {add file="menu/menuTree.css"}
 {add file="prototype.js"}
-{add file="menu.js"}
+{add file="menu/menu.js"}
 <div class="pageTitle">Список меню {$folder->getJip()}</div>
 <div class="pageContent">
 
@@ -11,26 +11,27 @@
 </div>
 
 <div class="menuList">
-    {foreach from=$menus item="menu"}
+    {foreach from=$menus item="menu" name="menu_items"}
         <div>
-        <a href="#" onclick="menu.toggleTree({$menu->getId()}, this); return false;">{$menu->getTitle()}</a><br />
+        <a href="#" id="menuToggleLink-{$menu->getId()}" onclick="menu.toggleTree({$menu->getId()}, this); return false;">{$menu->getTitle()}</a><br />
         {$menu->getJip()}  <span class="menuName">{$menu->getName()}</span>
         </div>
     {/foreach}
 </div>
 
-{foreach from=$menus item="menu"}
+{foreach from=$menus item="menu" name="menu_items"}
 <div id="menuTree_content_{$menu->getId()}" style="display: none;">
 <div class="menuHelp">
 После изменений необходимо сохранить их, нажав на <input id="menuTree_{$menu->getId()}_apply" value="Применить" onclick="menu.save('{url route="withAnyParam" action="move" name=$menu->getName()}', {$menu->getId()});" type="button" disabled="disabled" />
 </div>
-<ul class="menuTree menuMargin">
+<div class="menuTree menuMargin">
    <ul class="menuMargin" id="menuTree_{$menu->getId()}">{include file="menu/adminview.tpl" items=$menu->getItems()}</ul>
-</ul>
+</div>
 
 <script type="text/javascript">
     //<![CDATA[
     menu.create({$menu->getId()});
+    {if $smarty.foreach.menu_items.first}menu.toggleTree({$menu->getId()}, $('menuToggleLink-{$menu->getId()}'));{/if}
     //]]>
 </script>
 </div>

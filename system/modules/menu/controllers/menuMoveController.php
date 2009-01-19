@@ -29,6 +29,8 @@ class menuMoveController extends simpleController
 
         $menu = $menuMapper->searchByName($name);
 
+        $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');
+
         $data = $this->request->getString('data', SC_POST);
         parse_str($data, $tree);
         if (!$menu || !isset($tree['menuTree_' . $menu->getId()])) {
@@ -38,8 +40,6 @@ class menuMoveController extends simpleController
         $tree = $tree['menuTree_' . $menu->getId()];
         $nodes = array();
         parseTree($nodes, $tree);
-
-        $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');
         foreach ($nodes as $node_id => $node) {
             $criteria = new criteria;
             $criteria->add('menu_id', $menu->getId())->add('id', $node_id);

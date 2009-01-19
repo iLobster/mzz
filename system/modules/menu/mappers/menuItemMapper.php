@@ -22,8 +22,12 @@ fileLoader::load('menu/menuItem');
  * @version 0.1
  */
 
-class menuItemMapper extends simpleCatalogueMapper
+class menuItemMapper extends simpleMapper
 {
+    const ITEMTYPE_SIMPLE = 1;
+    const ITEMTYPE_ADVANCED = 2;
+    const ITEMTYPE_EXTERNAL = 3;
+
     /**
      * Имя модуля
      *
@@ -41,6 +45,15 @@ class menuItemMapper extends simpleCatalogueMapper
     public function searchById($id)
     {
         return $this->searchOneByField('id', $id);
+    }
+
+    public function getMenuItemsTypes()
+    {
+        return array(
+            self::ITEMTYPE_SIMPLE => 'Простой',
+            self::ITEMTYPE_ADVANCED => 'Advanced',
+            self::ITEMTYPE_EXTERNAL  => 'External',
+        );
     }
 
     public function getMenuChildrens($parent_id, menu $menu)
@@ -125,6 +138,42 @@ class menuItemMapper extends simpleCatalogueMapper
         $stmt->bindParam('parent_id', $parent_id, PDO::PARAM_INT);
         $stmt->bindParam('order', $order, PDO::PARAM_INT);
         $stmt->execute();
+    }
+
+    public function create($type_id)
+    {
+        if (!$this->map) {
+            $this->map = $this->getMap();
+        }
+
+        switch ($type_id) {
+            case self::ITEMTYPE_ADVANCED:
+                $className = 'advancedMenuItem';
+                break;
+
+            case self::ITEMTYPE_EXTERNAL :
+                $className = 'externalMenuItem';
+                break;
+
+            default:
+                $type_id = self::ITEMTYPE_SIMPLE;
+                $className = 'simpleMenuItem';
+                break;
+        }
+
+        fileLoader::load('menu/items/' . $className);
+        $object = new $className($this, $this->map);
+        $object->section($this->section());
+        $object->setTypeId($type_id);
+        return $object;
+    }
+
+    public function createItemFromRow($row)
+    {
+        $object = $this->create($row['type_id']);
+        $object->import($row);
+        $object->setLangId($this->getLangId());
+        return $object;
     }
 
     private function getObjId()

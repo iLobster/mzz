@@ -12,7 +12,7 @@ div.menuList {
   font-size: 95%;
   color: #000;
   margin: 4px 0 5px;
-  border-bottom: 3px solid #D5D5D5;
+  border-bottom: 3px solid #E4E4E4;
   padding-left: 5px;
   padding-bottom: 2px;
 }
@@ -32,14 +32,14 @@ div.menuList a.active {
   text-decoration: none;
 }
 
-ul.menuTree {
+.menuTree {
     font-size: 90%;
     padding: 0;
     margin: 0;
     margin-bottom: 15px;
 }
 
-ul.menuMargin {
+.menuMargin {
     padding: 0;
     margin-left: 5px !important;
 }
