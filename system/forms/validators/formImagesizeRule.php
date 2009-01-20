@@ -13,14 +13,14 @@
  */
 
 /**
- * formImageSizeRule: валидатор размеров (ширина/высота) загружаемых изображений
+ * formImagesizeRule: валидатор размеров (ширина/высота) загружаемых изображений
  * Имеет два параметра, maxWidth и maxHeight, которые могут быть заданы как вместе, так и один из них.
  *
  * @package system
  * @subpackage forms
  * @version 0.1
  */
-class formImageSizeRule extends formAbstractRule
+class formImagesizeRule extends formAbstractRule
 {
     public function validate()
     {
