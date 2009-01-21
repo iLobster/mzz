@@ -36,6 +36,7 @@ class menuSavemenuController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо имя');
+        $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-z0-9_]+$/i');
         $validator->add('callback', 'name', 'Имя меню должно быть уникальным', array(array($this, 'checkName'), $menu));
 
         if (!$validator->validate()) {
