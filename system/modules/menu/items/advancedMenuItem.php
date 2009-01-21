@@ -3,7 +3,7 @@ class advancedMenuItem extends menuItem
 {
     protected $url = null;
 
-    public function getUrl($lang = true)
+    public function getUrl()
     {
         if (is_null($this->url)) {
             $route = $this->getRouteName();
@@ -30,9 +30,19 @@ class advancedMenuItem extends menuItem
             $request = $toolkit->getRequest();
 
             if ($this->getActiveRegExp()) {
+                $requestPath = $request->getPath();
+
+                //отрезаем из урла lang
+                if ($this->urlLangSpecified) {
+                    $requestPath = preg_replace('!^' . $this->urlLang . '/!siU', '/', $requestPath);
+                    //$parts = explode('/', $requestPath);
+                    //$lang = array_shift($parts);
+                    //$requestPath = implode('/', $parts);
+                }
+
                 $this->isActive = preg_match($this->getActiveRegExp(), $request->getPath());
             } else {
-                $url = $request->getUrl() . ($this->urlLangSpecified ? '/' . $this->urlLang : '') . '/' . $this->getUrl(false);
+                $url = $request->getUrl() . $this->getUrl();
                 $this->isActive = ($url == $request->getRequestUrl());
             }
         }
@@ -52,7 +62,7 @@ class advancedMenuItem extends menuItem
 
     protected function getUrlArguments()
     {
-        $arguments = $this->getArguments();
+        $arguments = clone $this->getArguments();
         $arguments->delete('route');
         $arguments->delete('regexp');
         return $arguments->export();
