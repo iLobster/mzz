@@ -13,8 +13,8 @@
 <div class="menuList">
     {foreach from=$menus item="menu" name="menu_items"}
         <div>
-        <a href="#" id="menuToggleLink-{$menu->getId()}" onclick="menu.toggleTree({$menu->getId()}, this); return false;">{$menu->getTitle()}</a><br />
-        {$menu->getJip()}  <span class="menuName">{$menu->getName()}</span>
+        <a href="#" id="menuToggleLink-{$menu->getId()}" onclick="menu.toggleTree({$menu->getId()}, this); return false;">{$menu->getName()|htmlspecialchars}</a>
+        {$menu->getJip()}
         </div>
     {/foreach}
 </div>

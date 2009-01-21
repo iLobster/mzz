@@ -36,7 +36,6 @@ class menuSavemenuController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо имя');
-        $validator->add('required', 'title', 'Необходим заголовок');
         $validator->add('callback', 'name', 'Имя меню должно быть уникальным', array(array($this, 'checkName'), $menu));
 
         if (!$validator->validate()) {
@@ -52,10 +51,8 @@ class menuSavemenuController extends simpleController
             $this->smarty->assign('isEdit', $isEdit);
             return $this->smarty->fetch('menu/savemenu.tpl');
         } else {
-            $title = $this->request->getString('title', SC_POST);
             $name = $this->request->getString('name', SC_POST);
 
-            $menu->setTitle($title);
             $menu->setName($name);
 
             $menuMapper->save($menu);

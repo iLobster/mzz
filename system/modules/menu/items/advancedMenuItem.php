@@ -20,9 +20,7 @@ class advancedMenuItem extends menuItem
             }
         }
 
-        $lang = $lang ? $this->urlLang : null;
-
-        return ($lang ? '/' . $lang : '') . $this->url;
+        return $this->url;
     }
 
     public function isActive()
