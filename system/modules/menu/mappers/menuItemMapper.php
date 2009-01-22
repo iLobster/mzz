@@ -56,6 +56,17 @@ class menuItemMapper extends simpleMapper
         );
     }
 
+    public function getTitleByType($type)
+    {
+        $types = $this->getMenuItemsTypes();
+
+        if (!array_key_exists($type, $types)) {
+            $type = self::ITEMTYPE_SIMPLE;
+        }
+
+        return $types[$type];
+    }
+
     public function getMenuChildrens($parent_id, menu $menu)
     {
         $criteria = new criteria;

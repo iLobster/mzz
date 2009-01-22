@@ -15,12 +15,12 @@ new Hash({ldelim}name: '{$partName}', isVar: '{$part.isVar}', regex: '{$part.reg
 function getRoute(routeName)
 {
     route = routeMap.get(routeName);
-    $('routeParams').update('');
+    $('routeParams').update();
     if (route) {
         for (var i = 0; i < route.length; i++) {
             var input = new Element('input', {type: 'text', name: 'parts[' + route[i].get('name') + ']', value: route[i].get('value')});
 
-            var newTitleTd = new Element('td').update(route[i].get('name') + ':');
+            var newTitleTd = new Element('td').insert(route[i].get('name') + ':');
             var newInputTd = new Element('td').insert(input);
 
             var newInputTr = new Element('tr').insert(newTitleTd).insert(newInputTd);
@@ -55,7 +55,7 @@ function getRoute(routeName)
     </tr>
     <tr>
         <td>{form->caption name="route" value="Роут:"}</td>
-        <td>{form->select name="route" options=$routesSelect emptyFirst=true onchange="javascript: getRoute(this.value);" value=$current|default:null} и его параметры:</td>
+        <td>{form->select name="route" options=$routesSelect emptyFirst=true onchange="javascript: getRoute(this.value);" onkeyup="this.onchange();" value=$current|default:null} и его параметры:</td>
     </tr>
     <tr>
         <td style="vertical-align: top;">&nbsp;</td>
@@ -79,6 +79,7 @@ function getRoute(routeName)
     </tr>
     {/if}
     <tr>
+        <td></td>
         <td style="text-align:left;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}{form->hidden name="type" value=$typeId}</td>
     </tr>
 </table>

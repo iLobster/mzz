@@ -15,12 +15,14 @@ function voteAddVariant()
     {/literal}{foreach from=$answers_types item="type" key="id"}
     newType.options[{$id}] = new Option("{$type}", "{$id}");
     {/foreach}{literal}
+
+    var aElem = new Element('a', {href: '#', title: 'Удалить вариант'});
     var newImg = new Element('img', {src: SITE_PATH + '/templates/images/delete.gif'});
-    newImg.observe('click', function() {
+    aElem.appendChild(newImg);
+    aElem.observe('click', function() {
         voteDeleteVariant(this);
     });
-    td.appendChild(newType);
-    td.appendChild(newImg);
+    td.insert(newType).insert(' ').insert(aElem);
 
     jipWindow.lockContent();
 }
@@ -61,7 +63,7 @@ Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":
                 {assign var="answerId" value=$answer->getId()}
                 <tr>
                     <td width="20%">{form->text name="answers[$answerId]" value=$answer->getTitle() style="width:95%;"}</td>
-                    <td width="80%">{form->select name="answers_type[$answerId]" value=$answer->getType() options=$answers_types}<img src="{$SITE_PATH}/templates/images/delete.gif" onclick="javascript: voteDeleteVariant(this);" /></td>
+                    <td width="80%">{form->select name="answers_type[$answerId]" value=$answer->getType() options=$answers_types} <a href="#" onclick="javascript: voteDeleteVariant(this);" title="Удалить вариант"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="Удалить вариант" /></a></td>
                 </tr>
             {/foreach}
         </tbody>

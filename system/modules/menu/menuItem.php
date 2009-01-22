@@ -80,7 +80,6 @@ abstract class menuItem extends simple
         $this->setArgs(serialize($args));
     }
 
-
     public function getChildrens()
     {
         return $this->childrens;
@@ -118,6 +117,11 @@ abstract class menuItem extends simple
     {
         $this->urlLang = $lang;
         $this->urlLangSpecified = (bool)$specified;
+    }
+
+    public function getTypeTitle()
+    {
+        return $this->mapper->getTitleByType($this->getTypeId());
     }
 
     abstract function getUrl();

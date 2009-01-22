@@ -6,7 +6,7 @@
             <td>{form->text name="name" size="60" value=$menu->getName()} {$errors->get('name')}</td>
         <tr>
         <tr>
-            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset jip="true" name="reset" value="Отмена"}</td>
+            <td></td><td>{form->submit name="submit" value="Сохранить"} {form->reset jip="true" name="reset" value="Отмена"}</td>
         </tr>
     </table>
 </form>
