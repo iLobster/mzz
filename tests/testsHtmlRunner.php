@@ -26,13 +26,25 @@ class testsHtmlRunner implements iFilter
             }
         }
 
-        $test = new GroupTest($casesName . ' tests');
-
-        foreach (testsFinder::find($casesDirGroup) as $case) {
-            if (isset($_GET['without']) && strpos($case, '/' . $_GET['without'] . '/')) {
-                continue;
+        if (isset($_GET['file'])) {
+            $file = $_GET['file'];
+            if (strpos($file, '/') !== 0 && strpos($file, ':') !== 1) {
+                $file = systemConfig::$pathToTests . DIRECTORY_SEPARATOR . $file;
             }
-            $test->addTestFile($case);
+            $test = new GroupTest('One file tests <h4>' . $file . '</h4>');
+            if (!is_file($file)) {
+                exit('The file with tests did not found in ' . $file);
+            }
+            $test->addTestFile($file);
+        } else {
+            $test = new GroupTest($casesName . ' tests');
+
+            foreach (testsFinder::find($casesDirGroup) as $case) {
+                if (isset($_GET['without']) && strpos($case, '/' . $_GET['without'] . '/')) {
+                    continue;
+                }
+                $test->addTestFile($case);
+            }
         }
 
         $_GET = array();
@@ -47,7 +59,7 @@ class testsHtmlRunner implements iFilter
         $smarty->template_dir = systemConfig::$pathToTests . '/templates';
 
         echo '<br /><a href="run.php" style="color: black; font: 11px arial, tahoma, verdana;">';
-        if(isset($group)) {
+        if(isset($group) || isset($file)) {
             echo 'All tests';
         } else {
             echo '<b>All tests</b>';

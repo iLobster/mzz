@@ -10,7 +10,7 @@
     width: 700px;
     border: 1px solid #D6D6D6;
     background-color: #FAFAFA;
-    font-family: arial, verdana, tahoma;
+    font-family: arial, tahoma, verdana;
     font-size: 75%;
     padding: 10px;
     line-height: 140%;
@@ -112,7 +112,7 @@ function _showAllTrace() {
             }
 
             $count--;
-            echo $count . '. ' . $trace['file'] . ':' . $trace['line'] . ', ';
+            echo $count . '. ';
             $args = '';
             if (!isset($trace['args'])) {
                 $trace['args'] = $trace;
@@ -122,11 +122,13 @@ function _showAllTrace() {
             }
             $args = htmlspecialchars(substr($args, 0, strlen($args) - 2));
 
+            echo 'At <strong>';
             if (isset($trace['class']) && isset($trace['type'])) {
-                echo 'At: ' . $trace['class'] . $trace['type'] . $trace['function'] . '(' . $args . ')<br />';
+                echo $trace['class'] . $trace['type'] . $trace['function'] . '(' . $args . ')';
             } else {
-                echo 'At: ' . $trace['function'] . '(' . $args . ')<br />';
+                echo $trace['function'] . '(' . $args . ')';
             }
+            echo '</strong>; In: ' . $trace['file'] . ':' . $trace['line'] . '<br />';
             echo "\r\n";
         }
         if ($total > 3) {
