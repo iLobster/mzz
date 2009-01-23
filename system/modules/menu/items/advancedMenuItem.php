@@ -67,5 +67,10 @@ class advancedMenuItem extends menuItem
         $arguments->delete('regexp');
         return $arguments->export();
     }
+
+    public function getActiveRoutes()
+    {
+        return array();
+    }
 }
 ?>

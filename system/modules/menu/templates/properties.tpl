@@ -12,22 +12,47 @@ new Hash({ldelim}name: '{$partName}', isVar: '{$part.isVar}', regex: '{$part.reg
 {/foreach}
 
 {literal}
-function getRoute(routeName)
+function getRoute(routeName, fieldName, to)
 {
+    fieldName = fieldName || 'parts';
+    to = to || 'routeParams';
     route = routeMap.get(routeName);
-    $('routeParams').update();
+    $(to).update();
     if (route) {
         for (var i = 0; i < route.length; i++) {
-            var input = new Element('input', {type: 'text', name: 'parts[' + route[i].get('name') + ']', value: route[i].get('value')});
+            var input = new Element('input', {type: 'text', name: fieldName + '[' + route[i].get('name') + ']', value: route[i].get('value')});
 
             var newTitleTd = new Element('td').insert(route[i].get('name') + ':');
             var newInputTd = new Element('td').insert(input);
 
             var newInputTr = new Element('tr').insert(newTitleTd).insert(newInputTd);
 
-            $('routeParams').insert(newInputTr);
+            $(to).insert(newInputTr);
         }
     }
+}
+
+function addActiveRoute()
+{
+    var tr = new Element('tr', {className: 'activeRoute'});
+    tr.insert(new Element('td'));
+     var select  = $('activeRouteSelect').cloneNode(true);
+    select.setStyle({display: 'inline'});
+    select.id = null;
+    var _lastActiveRouteNumber = lastActiveRouteNumber;
+    select.onchange = function() { getRoute(this.value, 'activeParts', 'routeActiveParams-' + _lastActiveRouteNumber); };
+    var td = new Element('td');
+    td.insert(select);
+
+    td.insert(new Element('span').update(' (<a href="#" onclick="return $(this).up(\'tr.activeRoute\').remove() && false;">удалить</a>) и его параметры:'));
+
+    var table = new Element('table', {id: 'routeActiveParams-' + lastActiveRouteNumber, cellpadding: 2, cellspacing: 0});
+    table.insert(new Element('tr').insert(new Element('td')));
+    td.insert(table);
+    tr.insert(td);
+
+    $$('.activeRoute').last().insert({after: tr});
+    lastActiveRouteNumber++;
 }
 {/literal}
 </script>
@@ -77,6 +102,40 @@ function getRoute(routeName)
             </table>
         </td>
     </tr>
+    <tr class="activeRoute">
+        <td>Активность для роутов:</td>
+        <td><a href="javascript: addActiveRoute(); ">Добавить</a>
+        {form->select name="routeActive[]" options=$routesSelect emptyFirst=true onkeyup="this.onchange();" value=null id="activeRouteSelect" style="display: none"}</td>
+    </tr>
+
+    {assign lastActiveRouteNumber=0}
+    {assign activeRoutes=$item->getActiveRoutes()}
+    {foreach from=$activeRoutes item="activeRoute" key="key"}
+    {assign current=$activeRoutes.route}
+    <tr class="activeRoute">
+        <td></td>
+        <td>{form->select name="routeActive" options=$routesSelect emptyFirst=true onchange="javascript: getRoute(this.value, 'activeParts', 'routeActiveParams');" onkeyup="this.onchange();" value=$current|default:null}
+        (<a href="#" onclick="return $(this).up('tr.activeRoute').remove() && false;">удалить</a>) и его параметры:
+            <table id="routeActiveParams" cellpadding="2" cellspacing="0">
+            {if $current|default:false}
+                {foreach from=$routesParts[$current] item="part"}
+                    {assign var="partName" value=$part.name}
+                    <tr>
+                        <td>{$partName}:</td>
+                        <td>
+                            {form->text name="activeParts[$partName]" value=$part.value}
+                        </td>
+                    </tr>
+                {/foreach}
+            {else}
+            <tr><td></td></tr>
+            {/if}
+            </table>
+        </td>
+    </tr>
+    {assign lastActiveRouteNumber=$key}
+    {/foreach}
+    <script type="text/javascript"> var lastActiveRouteNumber = {$lastActiveRouteNumber}; </script>
     {/if}
     <tr>
         <td></td>
