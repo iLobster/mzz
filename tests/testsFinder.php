@@ -9,7 +9,7 @@ class testsFinder
 
         foreach ($dirs as $val) {
             $subDirs = self::getDirsList($val);
-            
+
             if(count($subDirs)) {
                 foreach($subDirs as $dir) {
                     $cases = array_merge($cases, self::getCasesList($dir));
@@ -30,7 +30,7 @@ class testsFinder
     {
         $caseslist = array();
         if (is_dir($dir)) {
-            $caseslist = glob($dir . '/*.case.php');
+            $caseslist = glob($dir . DIRECTORY_SEPARATOR . '*.case.php');
             //$caseslist = array_merge($caseslist, glob($dir . '/*/*.case.php'));
         }
         return $caseslist;
@@ -39,13 +39,13 @@ class testsFinder
 
     static public function getDirsList($dir)
     {
-        $dirs = glob($dir . "{/*, /*/*}", GLOB_ONLYDIR | GLOB_BRACE);
+        $dirs = glob($dir . "{" . DIRECTORY_SEPARATOR . "*, " . DIRECTORY_SEPARATOR . "*" . DIRECTORY_SEPARATOR . "*}", GLOB_ONLYDIR | GLOB_BRACE);
         return $dirs;
     }
 
     static public function getCategoriesList($dir)
     {
-        $dirs = glob($dir . "/*", GLOB_ONLYDIR);
+        $dirs = glob($dir . DIRECTORY_SEPARATOR . "*", GLOB_ONLYDIR);
         return $dirs;
     }
 }

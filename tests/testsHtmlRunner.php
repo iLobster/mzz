@@ -6,7 +6,7 @@ class testsHtmlRunner implements iFilter
     {
         ob_start();
         $casesBasedir = 'cases';
-        $casesDir = systemConfig::$pathToTests . '/' . $casesBasedir;
+        $casesDir = systemConfig::$pathToTests . DIRECTORY_SEPARATOR . $casesBasedir;
 
         $casesName = 'all';
         $casesDirGroup = $casesDir;
@@ -14,21 +14,21 @@ class testsHtmlRunner implements iFilter
         if (isset($_GET['group'])) {
             $group = $_GET['group'];
 
-            $path = explode('/', $_GET['group']);
+            $path = explode(DIRECTORY_SEPARATOR, $_GET['group']);
             $testGroup = $path[0];
             if(count($path) > 1) {
                 $testSubGroup = $path[1];
             }
-            if (is_dir($casesDir . '/' . $group)) {
-                $casesDirGroup = $casesDirGroup . '/' . $group;
+            if (is_dir($casesDir . DIRECTORY_SEPARATOR . $group)) {
+                $casesDirGroup = $casesDirGroup . DIRECTORY_SEPARATOR . $group;
                 $casesName = $group;
 
             }
         }
-
+        $files = array();
         if (isset($_GET['file'])) {
             $file = $_GET['file'];
-            if (strpos($file, '/') !== 0 && strpos($file, ':') !== 1) {
+            if (strpos($file, DIRECTORY_SEPARATOR) !== 0 && strpos($file, ':') !== 1) {
                 $file = systemConfig::$pathToTests . DIRECTORY_SEPARATOR . $file;
             }
             $test = new GroupTest('One file tests <h4>' . $file . '</h4>');
@@ -36,14 +36,16 @@ class testsHtmlRunner implements iFilter
                 exit('The file with tests did not found in ' . $file);
             }
             $test->addTestFile($file);
+            $files[] = $file;
         } else {
             $test = new GroupTest($casesName . ' tests');
 
             foreach (testsFinder::find($casesDirGroup) as $case) {
-                if (isset($_GET['without']) && strpos($case, '/' . $_GET['without'] . '/')) {
+                if (isset($_GET['without']) && strpos($case, DIRECTORY_SEPARATOR . $_GET['without'] . DIRECTORY_SEPARATOR)) {
                     continue;
                 }
                 $test->addTestFile($case);
+                $files[] = $case;
             }
         }
 
@@ -58,7 +60,13 @@ class testsHtmlRunner implements iFilter
         $application_template_dir = $smarty->template_dir;
         $smarty->template_dir = systemConfig::$pathToTests . '/templates';
 
-        echo '<br /><a href="run.php" style="color: black; font: 11px arial, tahoma, verdana;">';
+
+        echo '<br /><a href="#" onclick="l = document.getElementById(\'file_list\').style; l.display = (l.display == \'none\') ? \'block\' : \'none\';" ';
+        echo 'style="font: 11px arial, tahoma,verdana; color: black;">List of the files</a><div style="display: none" id="file_list">';
+        foreach ($files as $caseFile) {
+            echo '<a href="run.php?file=' . $caseFile . '" style="font: 11px arial, tahoma,verdana; color: black;">' . $caseFile . '</a><br />';
+        }
+        echo '</div><br /><a href="run.php" style="color: black; font: 11px arial, tahoma, verdana;">';
         if(isset($group) || isset($file)) {
             echo 'All tests';
         } else {
@@ -66,8 +74,9 @@ class testsHtmlRunner implements iFilter
         }
         echo '</a>';
 
+
         foreach (testsFinder::getCategoriesList($casesDir) as $dirlist) {
-            $name = substr(strrchr($dirlist, '/'), 1);
+            $name = substr(strrchr($dirlist, DIRECTORY_SEPARATOR), 1);
             echo ', <a href="run.php?group=' . $name . '" style="font: 11px arial, tahoma,verdana; ';
 
             if(isset($group) && $name == $testGroup) {
@@ -83,7 +92,7 @@ class testsHtmlRunner implements iFilter
             foreach(testsFinder::getDirsList($curDir) as $subDir) {
                 $subTest = explode('cases', $subDir);
                 $subTestDir = substr($subTest[1],1);
-                $subTestName = substr(strrchr($subTestDir, '/'), 1);
+                $subTestName = substr(strrchr($subTestDir, DIRECTORY_SEPARATOR), 1);
 
                 if($group == $subTestDir) {
                     $subDirList .= '<a href="run.php?group=' . $subTestDir . '" style="color: black; font: 11px tahoma,verdana,arial;"><b>' . ucfirst($subTestName) . '</b></a> - ';
