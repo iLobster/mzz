@@ -104,6 +104,18 @@ CREATE TABLE `ormSimple` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
+# Structure for the `ormSimpleRelated` table : 
+#
+
+DROP TABLE IF EXISTS `ormSimpleRelated`;
+
+CREATE TABLE `ormSimpleRelated` (
+  `simple_id` INTEGER(11) DEFAULT NULL,
+  `related_id` INTEGER(11) DEFAULT NULL
+)ENGINE=MyISAM
+ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
 # Structure for the `ormSimple_tree` table : 
 #
 
@@ -745,7 +757,7 @@ CREATE TABLE `sys_sessions` (
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=306 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=311 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `treeNS` table : 
