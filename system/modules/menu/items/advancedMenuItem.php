@@ -29,22 +29,41 @@ class advancedMenuItem extends menuItem
             $toolkit = systemToolkit::getInstance();
             $request = $toolkit->getRequest();
 
+            $currentRoute = $toolkit->getRouter()->getCurrentRoute();
+
+            $match = false;
+            foreach ($this->getActiveRoutes() as $route) {
+                if ($route['route'] == $currentRoute->getName()) {
+                    $values = $currentRoute->getValues();
+                    unset($values['lang']);
+                    $match = true;
+                    foreach ($route['params'] as $key => $value) {
+                        $currentValue = (isset($values[$key])) ? $values[$key] : null;
+                        if ($value != '*' && $value != $currentValue) {
+                            $match = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            $this->isActive = $match;
+
+            /*
             if ($this->getActiveRegExp()) {
                 $requestPath = $request->getPath();
 
                 //отрезаем из урла lang
                 if ($this->urlLangSpecified) {
-                    $requestPath = preg_replace('!^' . $this->urlLang . '/!siU', '/', $requestPath);
-                    //$parts = explode('/', $requestPath);
-                    //$lang = array_shift($parts);
-                    //$requestPath = implode('/', $parts);
+                    $requestPath = $this->stripLangFromUrl($requestPath);
                 }
 
-                $this->isActive = preg_match($this->getActiveRegExp(), $request->getPath());
+                $this->isActive = preg_match($this->getActiveRegExp(), $requestPath);
             } else {
                 $url = $request->getUrl() . $this->getUrl();
                 $this->isActive = ($url == $request->getRequestUrl());
             }
+            */
         }
 
         return $this->isActive;
@@ -53,6 +72,11 @@ class advancedMenuItem extends menuItem
     public function getRouteName()
     {
         return $this->getArgument('route');
+    }
+
+    public function getActiveRoutes()
+    {
+        return $this->getArgument('activeRoutes', array());
     }
 
     public function getActiveRegExp()
@@ -64,13 +88,13 @@ class advancedMenuItem extends menuItem
     {
         $arguments = clone $this->getArguments();
         $arguments->delete('route');
-        $arguments->delete('regexp');
+        $arguments->delete('activeRoutes');
         return $arguments->export();
     }
 
-    public function getActiveRoutes()
+    protected function stripLangFromUrl($url)
     {
-        return array();
+        return preg_replace('!^' . $this->urlLang . '/!siU', '/', $url);
     }
 }
 ?>

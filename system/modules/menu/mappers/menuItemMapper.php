@@ -176,7 +176,27 @@ class menuItemMapper extends simpleMapper
         $object = new $className($this, $this->map);
         $object->section($this->section());
         $object->setTypeId($type_id);
+
+        $request = systemToolkit::getInstance()->getRequest();
+        $object->setUrlLang($this->getCurrentLang(), $request->getString('lang'));
+
         return $object;
+    }
+
+    protected function getCurrentLang()
+    {
+        if (!systemConfig::$i18nEnable) {
+            return null;
+        }
+
+        $toolkit = systemToolkit::getInstance();
+        $request = $toolkit->getRequest();
+
+        $lang = $request->getString('lang');
+        if (empty($lang)) {
+            $lang = $toolkit->getLocale()->getName();
+        }
+        return $lang;
     }
 
     public function createItemFromRow($row)

@@ -37,15 +37,19 @@ class menuViewController extends simpleController
             return $menuMapper->get404()->run();
         }
 
+        //перенесли это в menuItemMapper::create();
+        /*
         foreach ($menu->getItems() as $item) {
             $item->setUrlLang($this->getCurrentLang(), $this->request->getString('lang'));
         }
+        */
 
         $this->smarty->assign('menu', $menu);
         $this->smarty->assign('prefix', $prefix);
         return $this->smarty->fetch('menu/' . $prefix . 'view.tpl');
     }
 
+    /*
     protected function getCurrentLang()
     {
         if (!systemConfig::$i18nEnable) {
@@ -58,6 +62,7 @@ class menuViewController extends simpleController
         }
         return $lang;
     }
+    */
 }
 
 ?>

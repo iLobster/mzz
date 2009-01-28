@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.4.0.5
+# SQL Manager 2007 for MySQL 4.4.0.3
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -850,7 +850,7 @@ AUTO_INCREMENT=28 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `order`, `args`, `obj_id`) VALUES 
-  (9,0,2,6,1,'a:4:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:6:\"!news!\";s:7:\"section\";s:4:\"news\";s:6:\"action\";s:0:\"\";}',1186),
+  (9,0,2,6,1,'a:4:{s:5:\"route\";s:8:\"default2\";s:7:\"section\";s:4:\"news\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:2:{i:0;a:2:{s:5:\"route\";s:10:\"newsFolder\";s:6:\"params\";a:2:{s:4:\"name\";s:1:\"*\";s:6:\"action\";s:4:\"list\";}}i:1;a:2:{s:5:\"route\";s:6:\"withId\";s:6:\"params\";a:3:{s:7:\"section\";s:4:\"news\";s:2:\"id\";s:1:\"*\";s:6:\"action\";s:4:\"view\";}}}}',1186),
   (10,0,1,6,3,'a:1:{s:3:\"url\";s:10:\"/catalogue\";}',1187),
   (11,0,1,6,2,'a:1:{s:3:\"url\";s:26:\"/gallery/admin/viewGallery\";}',1188),
   (12,0,1,6,5,'a:1:{s:3:\"url\";s:4:\"/faq\";}',1189),
@@ -7908,7 +7908,7 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES 
   (1,12,'guest','',NULL,NULL,1225005849,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1227660778,1,3,1),
+  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1232503174,1,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
@@ -7927,7 +7927,7 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=117 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=118 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -7938,7 +7938,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (113,2,'127.0.0.1','d6992e365419583273ab9e7b60256334',NULL,1225005952),
   (114,2,'127.0.0.1','0e7d7e53f2157adffd9df131296de3a8',NULL,1226344219),
   (115,2,'127.0.0.1','e2a04cf4534638ef3306996246adc8ff',NULL,1226572448),
-  (116,2,'127.0.0.1','214861332e033072a617d95603a8c82f',NULL,1227648306);
+  (116,2,'127.0.0.1','214861332e033072a617d95603a8c82f',NULL,1227648306),
+  (117,2,'127.0.0.1','c4dfc0a8d22facdafc5d1d3239dff3ec',NULL,1233137054);
 COMMIT;
 
 #
@@ -7986,14 +7987,14 @@ CREATE TABLE `user_userOnline` (
   UNIQUE KEY `user_id` (`user_id`, `session`),
   KEY `last_activity` (`last_activity`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=325 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=327 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
 INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
-  (324,2,'3ef200da3c842df61c1802e165b04266',1232503174,'http://mzz/ru/admin/menu/admin','127.0.0.1');
+  (326,2,'1213436bd73ac5f2ca2a125796260f17',1233141723,'http://mzz/ru/admin/menu/admin','127.0.0.1');
 COMMIT;
 
 #

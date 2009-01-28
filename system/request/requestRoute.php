@@ -330,6 +330,11 @@ class requestRoute implements iRoute
         return $url;
     }
 
+    public function getValues()
+    {
+        return $this->values;
+    }
+
     public function getParts()
     {
         if (empty($this->parts)) {

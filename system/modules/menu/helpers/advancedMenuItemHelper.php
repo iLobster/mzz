@@ -23,6 +23,7 @@ fileLoader::load('menu/helpers/iMenuItemHelper');
  */
 class advancedMenuItemHelper implements iMenuItemHelper
 {
+    protected $routes;
     protected $routesSelect;
     protected $routesParts;
     protected $routesPartsData;
@@ -31,20 +32,32 @@ class advancedMenuItemHelper implements iMenuItemHelper
     {
         //Обнуляем старые аргументы
         $item->setArguments(array());
+
         $item->setArgument('route', $routeName = $this->getRouteName($item, $args));
-        $item->setArgument('regexp', array_key_exists('regexp', $args) ? $args['regexp'] : '');
+        //$item->setArgument('regexp', array_key_exists('regexp', $args) ? $args['regexp'] : '');
 
         $this->prepareRoutes($item, $args);
         foreach ($this->routesPartsData as $key => $value) {
             $item->setArgument($key, $value);
         }
 
+        $activeRoutes = array();
+        $routeActive = $args['routeActive'];
+        $routeActiveData = $args['routeActiveParts'];
+        foreach ($routeActive as $key => $routeActiveName) {
+            $activeRoutes[] = array(
+                'route' => $routeActiveName,
+                'params' => array_key_exists($key, $routeActiveData) ? $routeActiveData[$key] : array()
+            );
+        }
+        $item->setArgument('activeRoutes', $activeRoutes);
+
         return $item;
     }
 
     public function injectItem($validator, $item = null, $smarty = null, array $args = null)
     {
-        $validator->add('callback', 'activeRegExp', 'Введенная строка является ошибочным рег.выражением', array(array($this, 'checkStringRegex')));
+        //6$validator->add('callback', 'activeRegExp', 'Введенная строка является ошибочным рег.выражением', array(array($this, 'checkStringRegex')));
         $validator->add('required', 'route', 'Укажите роут');
         $routeName = $this->getRouteName($item, $args);
         $this->prepareRoutes($item, $args);
@@ -59,11 +72,11 @@ class advancedMenuItemHelper implements iMenuItemHelper
     {
         if (empty($this->routesSelect)) {
             $router = systemToolkit::getInstance()->getRouter();
-            $routes = $router->getRoutes();
+            $this->routes = $router->getRoutes();
             $routesSelect = array();
             $routesParts = array();
 
-            foreach ($routes as $route) {
+            foreach ($this->routes as $route) {
                 $routesSelect[$route->getName()] = $route->getName();
                 $routesParts[$route->getName()] = array();
 
