@@ -42,8 +42,17 @@ class advancedMenuItemHelper implements iMenuItemHelper
         }
 
         $activeRoutes = array();
+
         $routeActive = $args['routeActive'];
+        if (!is_array($routeActive)) {
+            $routeActive = array();
+        }
+
         $routeActiveData = $args['routeActiveParts'];
+        if (!is_array($routeActiveData)) {
+            $routeActiveData = array();
+        }
+
         foreach ($routeActive as $key => $routeActiveName) {
             $activeRoutes[] = array(
                 'route' => $routeActiveName,

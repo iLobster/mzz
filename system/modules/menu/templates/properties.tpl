@@ -37,7 +37,7 @@ function addActiveRoute()
     var tr = new Element('tr', {className: 'activeRoute'});
     tr.insert(new Element('td'));
     var select  = $('activeRouteSelect').cloneNode(true);
-    select.enable();
+    select.disabled = "";
     select.setStyle({display: 'inline'});
     select.id = null;
     var _lastActiveRouteNumber = lastActiveRouteNumber;
