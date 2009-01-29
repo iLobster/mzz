@@ -52,14 +52,28 @@ DROP TABLE `menu_menuItem_properties_types`;
 DROP TABLE `menu_menuItem_types`;
 DROP TABLE `menu_menuItem_types_props`;
 
+DROP TABLE IF EXISTS `menu_menuItem_lang`;
+
+CREATE TABLE `menu_menuItem_lang` (
+  `id` INTEGER(11) NOT NULL DEFAULT '0',
+  `lang_id` INTEGER(11) NOT NULL DEFAULT '0',
+  `title` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`, `lang_id`)
+)ENGINE=MyISAM
+CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 ALTER TABLE `menu_menuItem` ADD `args` TEXT NOT NULL AFTER `order`;
+ALTER TABLE `menu_menuItem` DROP `title`;
 
 SQL;
 
 foreach ($params as $id => $param) {
     $args = array('url' => $param['url']);
-    echo "UPDATE `mzz`.`menu_menuItem` SET `type_id` = 1, `args` = " . $db->quote(serialize($args)) . " WHERE `menu_menuItem`.`id` = " . $id . ";\r\n";
+    echo "UPDATE `menu_menuItem` SET `type_id` = 1, `args` = " . $db->quote(serialize($args)) . " WHERE `menu_menuItem`.`id` = " . $id . ";\r\n";
 }
 
-echo "\r\n</textarea>";
+foreach ($params as $id => $param) {
+    echo "INSERT INTO `menu_menuItem_lang` (`id`, `lang_id`, `title`) VALUES (" . $id . ", 1, " . $db->quote($param['name']). ");\r\n";
+}
+
+echo "</textarea>";
 ?>
