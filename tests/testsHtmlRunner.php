@@ -28,15 +28,17 @@ class testsHtmlRunner implements iFilter
         $files = array();
         if (isset($_GET['file'])) {
             $file = $_GET['file'];
-            if (strpos($file, DIRECTORY_SEPARATOR) !== 0 && strpos($file, ':') !== 1) {
-                $file = systemConfig::$pathToTests . DIRECTORY_SEPARATOR . $file;
+            $file = realpath(systemConfig::$pathToTests . DIRECTORY_SEPARATOR . $file);
+
+            if (strpos($file, systemConfig::$pathToTests) !== 0) {
+                exit('The specified file located not in cases dir');
             }
+
             $test = new GroupTest('One file tests <h4>' . $file . '</h4>');
             if (!is_file($file)) {
                 exit('The file with tests did not found in ' . $file);
             }
             $test->addTestFile($file);
-            $files[] = $file;
         } else {
             $test = new GroupTest($casesName . ' tests');
 
@@ -45,7 +47,7 @@ class testsHtmlRunner implements iFilter
                     continue;
                 }
                 $test->addTestFile($case);
-                $files[] = $case;
+                $files[] = substr($case, strlen(systemConfig::$pathToTests) + 1);
             }
         }
 
@@ -60,13 +62,16 @@ class testsHtmlRunner implements iFilter
         $application_template_dir = $smarty->template_dir;
         $smarty->template_dir = systemConfig::$pathToTests . '/templates';
 
-
-        echo '<br /><a href="#" onclick="l = document.getElementById(\'file_list\').style; l.display = (l.display == \'none\') ? \'block\' : \'none\';" ';
-        echo 'style="font: 11px arial, tahoma,verdana; color: black;">List of the files</a><div style="display: none" id="file_list">';
-        foreach ($files as $caseFile) {
-            echo '<a href="run.php?file=' . $caseFile . '" style="font: 11px arial, tahoma,verdana; color: black;">' . $caseFile . '</a><br />';
+        echo '<br />';
+        if (count($files)) {
+            echo '<a href="#" onclick="l = document.getElementById(\'file_list\').style; l.display = (l.display == \'none\') ? \'block\' : \'none\';" ';
+            echo 'style="font: 11px arial, tahoma,verdana; color: black;">List of the files</a><div style="display: none" id="file_list">';
+            foreach ($files as $caseFile) {
+                echo '<a href="run.php?file=' . $caseFile . '" style="font: 11px arial, tahoma,verdana; color: black;">' . $caseFile . '</a><br />';
+            }
+            echo '</div><br /><a href="run.php" style="color: black; font: 11px arial, tahoma, verdana;">';
         }
-        echo '</div><br /><a href="run.php" style="color: black; font: 11px arial, tahoma, verdana;">';
+
         if(isset($group) || isset($file)) {
             echo 'All tests';
         } else {
