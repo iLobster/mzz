@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1.4
+ * @version 0.1.5
  */
 class simple404Controller extends simpleController
 {
@@ -60,10 +60,6 @@ class simple404Controller extends simpleController
     {
         $this->response->setStatus(404);
 
-        if ($this->onlyHeaders) {
-            return false;
-        }
-
         if ($this->result) {
             return $this->result;
         }
@@ -80,7 +76,7 @@ class simple404Controller extends simpleController
         $this->request->setParams(array('name' => '404'));
         $this->request->setAction('view');
 
-        return $this->forward('page', 'view');
+        return $this->onlyHeaders ? false : $this->forward('page', 'view');
     }
 }
 
