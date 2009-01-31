@@ -136,6 +136,9 @@ abstract class simpleController
             fileLoader::load($module . '/controllers/' . $class);
         } catch (mzzIoException $e) {
             $class = 'simple404Controller';
+            if (!class_exists($class)) {
+                fileLoader::load('simple/' . $class);
+            }
         }
 
         $controller = new $class;
