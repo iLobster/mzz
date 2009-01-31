@@ -41,7 +41,7 @@ abstract class baseMediaResolver extends partialFileResolver
         }
 
         $images_extensions = array('jpg', 'png', 'gif');
-        $valid_extensions = array('css', 'js');
+        $valid_extensions = array('css', 'js', 'html', 'htm');
         $valid_extensions = array_merge($valid_extensions, $images_extensions);
 
         if (in_array($fileinfo['extension'], $valid_extensions)) {
