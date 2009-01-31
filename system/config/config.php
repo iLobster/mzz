@@ -117,15 +117,17 @@ class config
      * Получает конкретное значение для параметра из конфигурации
      *
      * @param string $name имя параметра
+     * @param mixed  $default_value значение по умолчанию
      * @return string|null
      * @see getValues()
      */
-    public function get($name)
+    public function get($name, $default_value = null)
     {
         if (empty($this->values)) {
             $this->values = $this->getValues();
         }
-        return isset($this->values[$name]['value']) ? $this->values[$name]['value'] : null;
+
+        return isset($this->values[$name]['value']) ? $this->values[$name]['value'] : $default_value;
     }
 
     /**
