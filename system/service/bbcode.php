@@ -13,7 +13,7 @@
  * @subpackage toolkit
  * @version $Id$
  */
- 
+
 fileLoader::load('i18n');
 
 /**
@@ -586,11 +586,18 @@ class bbcode
         if (!$link || $text == $link) {
             $tmp = htmlspecialchars_decode($link);
             if (strlen($tmp) > 60) {
-                $text = htmlspecialchars(substr($tmp, 0, 30) . '...' . substr($tmp, -15));
+                $text = $this->htmlspecialchars(substr($tmp, 0, 30) . '...' . substr($tmp, -15));
             }
         }
 
         return sprintf('<a href="%1$s" target="_blank">%2$s</a>', $link, $text);
+    }
+
+    public function htmlspecialchars($text)
+    {
+        return str_replace(array('<', '>', '"'), array('&lt;', '&gt;', '&quot;'),
+            preg_replace('/&(?!#[0-9]+|shy;)/si', '&amp;', $text)
+        );
     }
 
     /**
@@ -653,9 +660,12 @@ class bbcode
      * @param string $wraptext разделитель строк
      * @return string
      */
-    protected function wordwrap($text,$limit = 40, $wraptext = '  ')
+    protected function wordwrap($text, $limit = 40, $wraptext = '  ')
     {
-        $regex = '#((?>[^\s&/<>"\\-\[\]]|&[\#a-z0-9]{1,7};){' . $limit . '})(?=[^\s&/<>"\\-\[\]]|&[\#a-z0-9]{1,7};)#i';
+        // it's a temporary fix for a case when html is allowed (why it's needed?)
+        $text = str_replace('&amp;nbsp;', ' ', $text);
+
+        $regex = '#((?>[^\s&/<>"\\-\[\]]|&[\#a-z0-9]{1,7};){' . $limit . '})(?=[^\s&/<>"\\-\[\]]|&[\#a-z0-9]{1,7};)#iu';
         $limit = (int)$limit;
 
         if ($limit > 0 && !empty($text)) {

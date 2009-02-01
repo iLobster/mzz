@@ -62,7 +62,7 @@
 
     <tr>
         <td class="postContent" valign="top">
-            {$post->getText()|htmlspecialchars|nl2br|bbcode}
+            {$post->getText()|escape:html_utf|bbcode|nl2br}
             {if $post->getEditDate()}
                 <div class="postEditDate">отредактировано {$post->getEditDate()|date_format:"%e %B %Y / %H:%M:%S"}</div>
             {/if}
