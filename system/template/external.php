@@ -58,9 +58,7 @@ $files = $request->getString('files', SC_GET);
 if ($type !== null && $files !== null) {
     $files = explode(',', $files);
     if ($files) {
-        $mimes = array('js' => 'application/x-javascript', 'css' => 'text/css', 'png' => 'image/png', 'gif' => 'image/gif', 'jpg' => 'image/jpeg');
-        $mimes['html'] = 'text/html';
-        $mimes['htm'] = 'text/html';
+        $mimes = array('js' => 'application/x-javascript', 'css' => 'text/css', 'png' => 'image/png', 'gif' => 'image/gif', 'jpg' => 'image/jpeg', 'html' => 'text/html', 'htm' => 'text/html');
         $source = null;
         if (isset($mimes[$type])) {
             header('Content-Type: ' . $mimes[$type]);
