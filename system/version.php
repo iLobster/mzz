@@ -22,7 +22,7 @@ define('MZZ_VERSION_MAJOR', 0);
 define('MZZ_VERSION_MINOR', 2);
 
 // Micro version
-define('MZZ_VERSION_MICRO', 0);
+define('MZZ_VERSION_MICRO', 1);
 
 // Status
 define('MZZ_VERSION_STATUS', '');
