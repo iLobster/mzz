@@ -135,19 +135,19 @@ class criterionTest extends unitTestCase
         $cr5 = new criterion('field5', 'value5', criteria::LESS_EQUAL);
 
         $cr2->addOr($cr3);
-        $this->assertEqual($cr2->generate($this->simpleSelect), "(`field2` = 'value2') OR (`field2` = 'value3')");
+        $this->assertEqual($cr2->generate($this->simpleSelect), "((`field2` = 'value2') OR (`field2` = 'value3'))");
 
         $cr1->addAnd($cr2);
-        $this->assertEqual($cr1->generate($this->simpleSelect), "(`field1` = 'value1') AND ((`field2` = 'value2') OR (`field2` = 'value3'))");
+        $this->assertEqual($cr1->generate($this->simpleSelect), "(`field1` = 'value1') AND (((`field2` = 'value2') OR (`field2` = 'value3')))");
 
         $cr4->addAnd($cr5);
         $this->assertEqual($cr4->generate($this->simpleSelect), "(`field4` >= 'value4') AND (`field5` <= 'value5')");
 
         $criterion->add($cr1);
-        $this->assertEqual($criterion->generate($this->simpleSelect), "((`field1` = 'value1') AND ((`field2` = 'value2') OR (`field2` = 'value3')))");
+        $this->assertEqual($criterion->generate($this->simpleSelect), "((`field1` = 'value1') AND (((`field2` = 'value2') OR (`field2` = 'value3'))))");
 
         $criterion->addOr($cr4);
-        $this->assertEqual($criterion->generate($this->simpleSelect), "((`field1` = 'value1') AND ((`field2` = 'value2') OR (`field2` = 'value3'))) OR ((`field4` >= 'value4') AND (`field5` <= 'value5'))");
+        $this->assertEqual($criterion->generate($this->simpleSelect), "(((`field1` = 'value1') AND (((`field2` = 'value2') OR (`field2` = 'value3')))) OR ((`field4` >= 'value4') AND (`field5` <= 'value5')))");
     }
 
     public function testDefaultTableName()

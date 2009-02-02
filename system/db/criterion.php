@@ -119,6 +119,13 @@ class criterion
     private $conjunctions = array();
 
     /**
+     * Присутствуют ли в критерионе условия, объёдиненные через OR (требуют дополнительных скобок в результате)
+     *
+     * @var boolean
+     */
+    private $hasOr = false;
+
+    /**
      * Конструктор
      *
      * @see criteria
@@ -243,6 +250,10 @@ class criterion
             }
         }
 
+        if ($this->hasOr) {
+            $result = '(' . $result . ')';
+        }
+
         return $result;
     }
 
@@ -267,6 +278,7 @@ class criterion
      */
     public function addOr(criterion $criterion)
     {
+        $this->hasOr = true;
         $this->clauses[] = $criterion;
         $this->conjunctions[] = self::C_OR;
         return $this;

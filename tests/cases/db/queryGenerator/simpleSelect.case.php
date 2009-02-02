@@ -174,6 +174,17 @@ class simpleSelectTest extends unitTestCase
         $this->criteria->addSelectField('field3');
         $this->assertEqual($this->select->toString(), 'SELECT `field1`, `field2` AS `alias`, `field3` FROM `table`');
     }
+
+    public function testCriterionWithOrAndAdditionalParentheses()
+    {
+        $criterion = new criterion('f1', 'v1');
+        $criterion->addOr(new criterion('f2', 'v2'));
+
+        $this->criteria->setTable('table');
+        $this->criteria->add($criterion);
+        $this->criteria->add('f3', 'v3');
+        $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE ((`table`.`f1` = 'v1') OR (`table`.`f2` = 'v2')) AND `table`.`f3` = 'v3'");
+    }
 }
 
 ?>
