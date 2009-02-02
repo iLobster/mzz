@@ -43,7 +43,7 @@
  * @return string результат работы модуля
  * @package system
  * @subpackage template
- * @version 0.2.1
+ * @version 0.2.2
  */
 function smarty_function_url($params, $smarty)
 {
@@ -102,6 +102,17 @@ function smarty_function_url($params, $smarty)
     } else {
         if ($onlyPath) {
             $url->disableAddress();
+        }
+        // @todo there is a temporary fix for the 404 page while the sections exist
+        if (isset($params['lang'])){
+            try {
+                $finishedUrl = $url->get();
+            } catch (mzzRuntimeException $e) {
+                // it was wrong route, now try the default one
+                $url->setRoute($toolkit->getRouter()->getDefaultRoute()->getName());
+                $finishedUrl = $url->get();
+            }
+            return $finishedUrl;
         }
         return $url->get();
     }
