@@ -13,8 +13,9 @@ class simpleMenuItem extends menuItem
         if (!is_bool($this->isActive)) {
             $toolkit = systemToolkit::getInstance();
             $request = $toolkit->getRequest();
-
-            $this->isActive = ($request->getUrl() . ($this->urlLangSpecified ? '/' . $this->urlLang : '') . $this->getUrl(false) == $request->getRequestUrl());
+            $url = $this->getUrl(false);
+            $url = ($this->urlLangSpecified && $url == '/' ? '' : $url);
+            $this->isActive = ($request->getUrl() . ($this->urlLangSpecified ? '/' . $this->urlLang: '') . $url == $request->getRequestUrl());
         }
 
         return $this->isActive;

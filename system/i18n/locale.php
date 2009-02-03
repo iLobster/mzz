@@ -19,7 +19,7 @@ fileLoader::load('service/iniFile');
  *
  * @package system
  * @subpackage i18n
- * @version 0.1.5
+ * @version 0.1.6
  */
 class locale
 {
@@ -179,7 +179,7 @@ class locale
             $ids[$this->name] = $this->langId;
         }
 
-        return $ids[$this->name];
+        return !empty($this->langId) ? $this->langId : $ids[$this->name];
     }
 
     /**

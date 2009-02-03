@@ -28,6 +28,7 @@ class menuSaveController extends simpleController
     {
         $itemMapper = $this->toolkit->getMapper('menu', 'menuItem');
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
+        $this->acceptLang($itemMapper);
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
