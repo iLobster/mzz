@@ -141,7 +141,29 @@ abstract class simpleController
             }
         }
 
-        $controller = new $class;
+        $controller = new $class();
+        return $controller->run();
+    }
+
+    protected function forward403($mapper = null)
+    {
+        if ($mapper instanceof simpleMapper) {
+            $class = $mapper->getClassName() . '403Controller';
+            $module = $mapper->name();
+        } else {
+            $module = $class = '';
+        }
+
+        try {
+            fileLoader::load($module . '/controllers/' . $class);
+        } catch (mzzIoException $e) {
+            $class = 'simple403Controller';
+            if (!class_exists($class)) {
+                fileLoader::load('simple/' . $class);
+            }
+        }
+
+        $controller = new $class();
         return $controller->run();
     }
 
