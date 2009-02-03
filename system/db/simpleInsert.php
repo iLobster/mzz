@@ -76,7 +76,7 @@ class simpleInsert extends simpleSQLGenerator
         foreach ($values as $data) {
             $valuesString .= '(';
             foreach (array_values($data) as $value) {
-                $valuesString .= $this->quote($value) . ', ';
+                $valuesString .= $this->valueToString($value) . ', ';
             }
             $valuesString = substr($valuesString, 0, -2) . '), ';
         }
