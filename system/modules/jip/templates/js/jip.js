@@ -815,7 +815,12 @@ jipMenu = Class.create({
                         return false;
                     } else {
                         jipMenu.close();
-                        return jipWindow.open(elm[1]);
+                        if (elm[4]) {
+                            window.location = elm[1];
+                            return false;
+                        } else {
+                            return jipWindow.open(elm[1]);
+                        }
                     }
                 });
 
@@ -848,7 +853,12 @@ jipMenu = Class.create({
                 jipMenuItemA.observe('click', function(event) {
                     jipMenu.close();
                     event.stop();
-                    return jipWindow.open(elm[1]);
+                    if (elm[4]) {
+                        window.location = elm[1];
+                        return false;
+                    } else {
+                        return jipWindow.open(elm[1]);
+                    }
                 });
 
                 jipMenuItemA.appendChild(jipMenuItemImg);

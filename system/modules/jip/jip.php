@@ -154,6 +154,7 @@ class jip
                 $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
                 $item['icon'] = isset($item['icon']) ? SITE_PATH . $item['icon'] : '';
                 $item['lang'] = (isset($item['lang']) && systemConfig::$i18nEnable) ? (boolean)$item['lang'] : false;
+                $item['target'] = (isset($item['jip_target']) && $item['jip_target'] == 'new') ? 1 : 0;
 
                 if (!isset($item['title'])) {
                     $item['title'] = '_ ' . $key;
