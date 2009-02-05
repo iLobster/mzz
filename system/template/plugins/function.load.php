@@ -40,8 +40,8 @@ function smarty_function_load($params, $smarty)
         throw new mzzRuntimeException($error);
     }
 
-    $side = sideHelper::getInstance();
-    if (isset($params['_side']) && $side->isHidden($params['module'] . '_' . $params['action'])) {
+    $sideHelper = sideHelper::getInstance();
+    if (isset($params['_side']) && $sideHelper->isHidden($params['module'] . '_' . $params['action'])) {
         return null;
     }
 
@@ -60,9 +60,14 @@ function smarty_function_load($params, $smarty)
 
     $request->setAction($action->getActionName());
 
-    if(!empty($params['section'])) {
+    if (!empty($params['section'])) {
         $request->setSection($params['section']);
         unset($params['section']);
+    }
+
+    if (!empty($params['_side'])) {
+        $side = $params['_side'];
+        unset($params['_side']);
     }
 
     foreach ($params as $name => $value) {
@@ -138,14 +143,12 @@ function smarty_function_load($params, $smarty)
         $request->restore();
     }
 
-    if (isset($params['_side'])) {
+    if (isset($side)) {
         $weigth = null;
-        if (strpos($params['_side'], ':')) {
-            $position = explode(':', $params['_side']);
-            $weigth = $position[1];
-            $params['_side'] = $position[0];
+        if (strpos($side, ':')) {
+            list($side, $weigth) = explode(':', $side);
         }
-        $side->set($params['_side'], $module . '_' . $action->getActionName(), $view, $weigth);
+        $sideHelper->set($side, $module . '_' . $action->getActionName(), $view, $weigth);
     } else {
         return $view;
     }

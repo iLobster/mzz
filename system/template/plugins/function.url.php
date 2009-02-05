@@ -62,7 +62,7 @@ function smarty_function_url($params, $smarty)
         $params['route'] = null;
     }
 
-    if(isset($params['lang'])){
+    if (isset($params['lang']) || !isset($params['route'])){
         $getUrl = false;
         try {
             $route = $toolkit->getRouter()->getCurrentRoute();
@@ -76,7 +76,7 @@ function smarty_function_url($params, $smarty)
     }
 
     $onlyPath = false;
-    if(isset($params['onlyPath'])){
+    if (isset($params['onlyPath'])){
         $onlyPath = true;
         unset($params['onlyPath']);
     }
@@ -97,25 +97,21 @@ function smarty_function_url($params, $smarty)
         $url->add($name, $value, $isGet);
     }
 
-    if ($getUrl == true) {
-        return $onlyPath ? SITE_PATH . '/' . $request->getPath() : $request->getRequestUrl();
-    } else {
-        if ($onlyPath) {
-            $url->disableAddress();
-        }
-        // @todo there is a temporary fix for the 404 page while the sections exist
-        if (isset($params['lang'])){
-            try {
-                $finishedUrl = $url->get();
-            } catch (mzzRuntimeException $e) {
-                // it was wrong route, now try the default one
-                $url->setRoute($toolkit->getRouter()->getDefaultRoute()->getName());
-                $finishedUrl = $url->get();
-            }
-            return $finishedUrl;
-        }
-        return $url->get();
+    if ($onlyPath) {
+        $url->disableAddress();
     }
+    // @todo there is a temporary fix for the 404 page while the sections exist
+    if (isset($params['lang'])){
+        try {
+            $finishedUrl = $url->get();
+        } catch (mzzRuntimeException $e) {
+            // it was wrong route, now try the default one
+            $url->setRoute($toolkit->getRouter()->getDefaultRoute()->getName());
+            $finishedUrl = $url->get();
+        }
+        return $finishedUrl;
+    }
+    return $url->get();
 }
 
 ?>

@@ -125,6 +125,10 @@ class requestRouteTest extends unitTestCase
             $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'lang' => 'ru')),
             'ru/somepath/news/1-view'
         );
+        $this->assertEqual(
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'lang' => '')),
+            'somepath/news/1-view'
+        );
     }
 
     public function testAssembleException()
