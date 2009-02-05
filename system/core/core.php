@@ -46,6 +46,7 @@ class core
 
             $response = $this->toolkit->getResponse();
             $request = $this->toolkit->getRequest();
+            fileLoader::load('i18n/utf8Wrapper');
 
             $filter_chain = new filterChain($response, $request);
 

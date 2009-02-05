@@ -27,7 +27,7 @@ class formLengthRule extends formAbstractRule
             return true;
         }
 
-        $length = strlen($this->value);
+        $length = mzz_strlen($this->value);
 
         if (is_integer($this->params)) {
             return $length == $this->params;

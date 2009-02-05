@@ -40,6 +40,7 @@ class stdToolkit extends toolkit
     private $toolkit;
     private $validator;
     private $userPreferences;
+    private $charsetDriver;
     /**#@-*/
 
     /**#@+
@@ -426,6 +427,23 @@ class stdToolkit extends toolkit
         }
 
         return $this->userPreferences;
+    }
+
+    public function getCharsetDriver()
+    {
+        if (!$this->charsetDriver) {
+            if (extension_loaded('mbstring')) {
+                $class = 'utf8MbstringCharset';
+            } elseif (extension_loaded('iconv')) {
+                $class = 'utf8IconvCharset';
+            } else {
+                $class = 'utf8Charset';
+            }
+            fileLoader::load('i18n/charset/' . $class);
+            $this->charsetDriver = new $class();
+        }
+
+        return $this->charsetDriver;
     }
 
 }

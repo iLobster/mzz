@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-$toolkit = systemToolkit::getInstance();
+$GLOBALS['toolkit'] = systemToolkit::getInstance();
 
 /**
  * UTF-8 aware alternative to substr()
