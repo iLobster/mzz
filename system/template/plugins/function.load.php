@@ -14,7 +14,7 @@
  * @version $Id$
 */
 
-fileLoader::load('acl');
+fileLoader::load('core/loadDispatcher');
 fileLoader::load('service/sideHelper');
 
 /**
@@ -35,123 +35,32 @@ fileLoader::load('service/sideHelper');
  */
 function smarty_function_load($params, $smarty)
 {
-    if (!isset($params['module'])) {
-        $error = "Template error. Module is not specified.";
-        throw new mzzRuntimeException($error);
-    }
-
-    $sideHelper = sideHelper::getInstance();
-    if (isset($params['_side']) && $sideHelper->isHidden($params['module'] . '_' . $params['action'])) {
-        return null;
-    }
-
-    // получаем необходимые для запуска модуля и аутентификации данные
-    $module = $params['module'];
-    unset($params['module']);
-
-    $toolkit = systemToolkit::getInstance();
-
-    $action = $toolkit->getAction($module);
-    $action->setAction($params['action']);
-    unset($params['action']);
-
-    $request = $toolkit->getRequest();
-    $request->save();
-
-    $request->setAction($action->getActionName());
-
-    if (!empty($params['section'])) {
-        $request->setSection($params['section']);
-        unset($params['section']);
-    }
-
-    if (!empty($params['_side'])) {
-        $side = $params['_side'];
-        unset($params['_side']);
-    }
-
-    foreach ($params as $name => $value) {
-        $request->setParam($name, $value);
-    }
-
-    $access = true;
-    $actionConfig = $action->getAction();
-
-    // проверяем - не отключена ли в данном запуске модуля проверка прав
-    if (!isset($actionConfig['403handle']) || $actionConfig['403handle'] != 'none') {
-
-        $mappername = $action->getType() . 'Mapper';
-        $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
-
-        try {
-            $args = $request->getParams();
-
-            $actionName = $action->getActionName(true);
-
-            if (isset($args['section_name']) && isset($args['module_name']) && $actionName == 'admin') {
-                $mapper = $toolkit->getMapper('admin', 'admin', $request->getSection());
-            }
-
-            //$object_id = $mapper->convertArgsToId($args);
-            $obj = $mapper->convertArgsToObj($args);
-            //$object_id = $obj->getObjId();
-            //$acl = new acl($toolkit->getUser(), $object_id);
-
-            //var_dump($actionName, $obj->getObjId());
-
-            //$access = $acl->get($actionName);
-            $access = $obj->getAcl($actionName);
-
-        } catch (mzzDONotFoundException $e) {
-            fileLoader::load('simple/simple404Controller');
-            $controller = new simple404Controller();
-            $controller->applyMapper($mapper);
+        $allParams = $params;
+        $allParams['params'] = $params;
+        foreach (array('module', 'section', 'action', '_side') as $name) {
+            unset($allParams['params'][$name]);
         }
-    }
+        $allParams = new arrayDataspace($allParams);
 
-    // проверяем, включен ли ручной режим проверки прав
-    if (isset($actionConfig['403handle']) && $actionConfig['403handle'] == 'manual') {
-        $request->setParam('access', $access);
-        $access = true;
-    }
+        $section = $allParams['section'];
+        $module = $allParams['module'];
+        $side = $allParams['_side'];
+        $actionName = $allParams['action'];
 
-    if ($access) {
-        if (empty($controller)) {
-            // если права на запуск модуля есть - запускаем
-            $factory = new simpleFactory($action, $module);
-            $controller = $factory->getController();
+        $sideHelper = sideHelper::getInstance();
+        if ($side && $sideHelper->isHidden($module . '_' . $actionName)) {
+            // loading this action of this module has been disabled by sideHelper
+            return null;
         }
-    } else {
-        // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
-        if (!isset($params['403tpl'])) {
-            fileLoader::load('simple/simple403Controller');
-            $controller = new simple403Controller();
+
+        $view = loadDispatcher::dispatch($section, $module, $actionName, $allParams['params']);
+
+        // отдаём контент в вызывающий шаблон, либо сохраняем его в sideHelper
+        if ($side) {
+            $sideHelper->set($side, $module . '_' . $actionName, $view);
         } else {
-            $smarty = $toolkit->getSmarty();
-            $view = $smarty->fetch($params['403tpl']);
-            $request->restore();
-
-            if (!empty($params['403header'])) {
-                $toolkit->getResponse()->setStatus(403);
-            }
+            return $view;
         }
-    }
-
-    if (isset($controller)) {
-        // отдаём контент в вызывающий шаблон
-        $view = $controller->run();
-        $request->restore();
-    }
-
-    if (isset($side)) {
-        $weigth = null;
-        if (strpos($side, ':')) {
-            list($side, $weigth) = explode(':', $side);
-        }
-        $sideHelper->set($side, $module . '_' . $action->getActionName(), $view, $weigth);
-    } else {
-        return $view;
-    }
 }
 
 ?>
