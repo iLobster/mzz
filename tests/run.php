@@ -16,7 +16,7 @@ try {
     $toolkit = systemToolkit::getInstance();
     $request = $toolkit->getRequest();
     $response = $toolkit->getResponse();
-    fileLoader::load('i18n/utf8Wrapper');
+    fileLoader::load('i18n/charset/utf8Wrapper');
 
     $filter_chain = new filterChain($response, $request);
     $filter_chain->registerFilter(new timingFilter());
