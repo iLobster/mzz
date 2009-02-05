@@ -57,22 +57,28 @@ function smarty_function_url($params, $smarty)
         unset($params['appendGet']);
     }
 
-    if(!isset($params['route'])){
+    if (!isset($params['route'])) {
         $getUrl = true;
         $params['route'] = null;
     }
 
-    if (isset($params['lang']) || !isset($params['route'])){
+    if (isset($params['lang']) || !isset($params['route'])) {
         $getUrl = false;
         try {
             $route = $toolkit->getRouter()->getCurrentRoute();
         } catch (mzzNoRouteException $e) {
             $route = $toolkit->getRouter()->getDefaultRoute();
         }
+        if (!isset($params['lang']) && !isset($params['route'])) {
+            $params = $params + $request->getRequestedParams();
+            $params['action'] = $request->getRequestedAction();
+            $params['section'] = $request->getRequestedSection();
+        } else {
+            $params = $params + $request->getParams();
+            $params['action'] = $request->getAction();
+            $params['section'] = $request->getSection();
+        }
         $params['route'] = $route->getName();
-        $params = $params + $request->getParams();
-        $params['action'] = $request->getAction();
-        $params['section'] = $request->getSection();
     }
 
     $onlyPath = false;

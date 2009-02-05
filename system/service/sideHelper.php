@@ -30,6 +30,9 @@ class sideHelper
 
     public function set($align, $name, $content, $weight = null)
     {
+        if (strpos($align, ':')) {
+            list($align, $weigth) = explode(':', $align);
+        }
         if ($weight === null) {
             $weight = 100;
         }
@@ -56,7 +59,7 @@ class sideHelper
 
         $result = array();
         foreach ($this->weights[$align] as $name => $weight) {
-        	$result[$name] = $this->content[$align][$name];
+            $result[$name] = $this->content[$align][$name];
         }
 
         return $result;

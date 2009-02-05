@@ -94,18 +94,25 @@ class httpRequest implements iRequest
     protected $action;
 
     /**
-     * Запрошенная секция
+     * Первоначально запрошенная секция
      *
      * @var string
      */
     protected $requestedSection = false;
 
     /**
-     * Запрошенное действие
+     * Первоначально запрошенное действие
      *
      * @var string
      */
     protected $requestedAction = false;
+
+    /**
+     * Первоначально запрошенные параметры
+     *
+     * @var string
+     */
+    protected $requestedParams = null;
 
     /**
      * Порт
@@ -483,7 +490,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает запрошенную секцию
+     * Возвращает первоначально запрошенную секцию
      *
      * @return string
      */
@@ -493,13 +500,37 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает запрошенное действие
+     * Возвращает первоначально запрошенное действие
      *
      * @return string
      */
     public function getRequestedAction()
     {
         return $this->requestedAction;
+    }
+
+    /**
+     * Возвращает первоначально запрошенные параметры
+     *
+     * @return string
+     */
+    public function getRequestedParams()
+    {
+        return $this->requestedParams;
+    }
+
+    /**
+     * Устанавливает первоначально запрошенные параметры.
+     * Соответственно может быть вызвана только один раз
+     *
+     * @param array $params
+     */
+    public function setRequestedParams($params)
+    {
+        if ($this->requestedParams !== null) {
+            return false;
+        }
+        $this->requestedParams = $params;
     }
 
     /**

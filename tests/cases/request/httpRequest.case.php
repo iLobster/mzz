@@ -178,7 +178,7 @@ class httpRequestTest extends unitTestCase
 
     public function testGetAction()
     {
-        $this->httprequest->setAction($action = 'news');
+        $this->httprequest->setAction($action = 'view');
         $this->assertEqual($this->httprequest->getAction(), $action);
     }
 
@@ -186,6 +186,29 @@ class httpRequestTest extends unitTestCase
     {
         $this->httprequest->setParams($params = array('someKey' => 'someValue'));
         $this->assertEqual($this->httprequest->getRaw('someKey'), $params['someKey']);
+    }
+
+
+    public function testGetRequested()
+    {
+        $this->httprequest->setSection($section = 'news');
+        $this->httprequest->setAction($action = 'view');
+        $this->httprequest->setParam('id', 12);
+        $this->httprequest->setParam('type', 1);
+        $this->httprequest->setRequestedParams($this->httprequest->getParams());
+
+        $this->assertEqual($this->httprequest->getRequestedSection(), $section);
+        $this->assertEqual($this->httprequest->getRequestedAction(), $action);
+        $this->assertEqual($this->httprequest->getRequestedParams(), array('id' => 12, 'type' => 1));
+
+        $this->httprequest->setSection('page');
+        $this->httprequest->setAction('list');
+        $this->httprequest->setParam('cat', 'hello');
+        $this->httprequest->setRequestedParams($this->httprequest->getParams());
+
+        $this->assertEqual($this->httprequest->getRequestedSection(), $section);
+        $this->assertEqual($this->httprequest->getRequestedAction(), $action);
+        $this->assertEqual($this->httprequest->getRequestedParams(), array('id' => 12, 'type' => 1));
     }
 
     public function testGetHeaders()
