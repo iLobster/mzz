@@ -6,11 +6,11 @@ class newsViewController extends simpleController
     {
         $newsMapper = $this->toolkit->getMapper('news', 'news');
 
-        $id = $this->request->get('id', 'integer', SC_PATH);
+        $id = $this->request->getInteger('id');
         $news = $newsMapper->searchByKey($id);
 
         if (empty($news)) {
-            return $newsMapper->get404()->run();
+            return $this->forward($newsMapper);
         }
 
         $this->smarty->assign('news', $news);
