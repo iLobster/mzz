@@ -48,6 +48,7 @@ class catalogueAdminCatalogueController extends simpleController
                 $jipProperties[$property['id']][] = array(
                                 'title' => 'Редактировать',
                                 'url' => $url->get(),
+                                'target' => 0,
                                 'icon' => SITE_PATH . '/templates/images/edit.gif',
                                 'lang' => false,
                             );
@@ -56,6 +57,7 @@ class catalogueAdminCatalogueController extends simpleController
                 $jipProperties[$property['id']][] = array(
                                 'title' => 'Удалить',
                                 'url' => $url->get(),
+                                'target' => 0,
                                 'icon' => SITE_PATH . '/templates/images/delete.gif',
                                 'lang' => false,
                             );
@@ -76,6 +78,7 @@ class catalogueAdminCatalogueController extends simpleController
                 $jipTypes[$type['id']][] = array(
                                 'title' => 'Редактировать',
                                 'url' => $url->get(),
+                                'target' => 0,
                                 'icon' => SITE_PATH . '/templates/images/edit.gif',
                                 'lang' => false,
                             );
@@ -84,6 +87,7 @@ class catalogueAdminCatalogueController extends simpleController
                 $jipTypes[$type['id']][] = array(
                                 'title' => 'Удалить',
                                 'url' => $url->get(),
+                                'target' => 0,
                                 'icon' => SITE_PATH . '/templates/images/delete.gif',
                                 'lang' => false,
                             );
