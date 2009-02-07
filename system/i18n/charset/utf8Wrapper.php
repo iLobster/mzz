@@ -12,14 +12,14 @@
  * @version $Id$
  */
 
-$GLOBALS['toolkit'] = systemToolkit::getInstance();
+$GLOBALS['charsetDriver'] = systemToolkit::getInstance()->getCharsetDriver();
 
 /**
  * UTF-8 aware alternative to substr()
  */
 function mzz_strlen($str)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->strlen($str);
+    return $GLOBALS['charsetDriver']->strlen($str);
 }
 
 /**
@@ -27,7 +27,7 @@ function mzz_strlen($str)
  */
 function mzz_substr($str, $start, $length = null)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->substr($str, $start, $length);
+    return $GLOBALS['charsetDriver']->substr($str, $start, $length);
 }
 
 /**
@@ -35,7 +35,7 @@ function mzz_substr($str, $start, $length = null)
  */
 function mzz_str_replace($str, $repl, $str)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->str_replace($str, $repl, $str);
+    return $GLOBALS['charsetDriver']->str_replace($str, $repl, $str);
 }
 
 /**
@@ -43,7 +43,7 @@ function mzz_str_replace($str, $repl, $str)
  */
 function mzz_ltrim($str, $charlist = '')
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->ltrim($str, $charlist);
+    return $GLOBALS['charsetDriver']->ltrim($str, $charlist);
 }
 
 /**
@@ -51,7 +51,7 @@ function mzz_ltrim($str, $charlist = '')
  */
 function mzz_rtrim($str, $charlist = '')
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->rtrim($str, $charlist);
+    return $GLOBALS['charsetDriver']->rtrim($str, $charlist);
 }
 
 /**
@@ -60,9 +60,9 @@ function mzz_rtrim($str, $charlist = '')
 function mzz_trim($str, $charlist = '')
 {
     if($charlist == '') {
-        return $GLOBALS['toolkit']->getCharsetDriver()->trim($str);
+        return $GLOBALS['charsetDriver']->trim($str);
     } else {
-        return $GLOBALS['toolkit']->getCharsetDriver()->trim($str, $charlist);
+        return $GLOBALS['charsetDriver']->trim($str, $charlist);
     }
 }
 
@@ -71,7 +71,7 @@ function mzz_trim($str, $charlist = '')
  */
 function mzz_strtolower($str)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->strtolower($str);
+    return $GLOBALS['charsetDriver']->strtolower($str);
 }
 
 /**
@@ -79,7 +79,7 @@ function mzz_strtolower($str)
  */
 function mzz_strtoupper($str)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->strtoupper($str);
+    return $GLOBALS['charsetDriver']->strtoupper($str);
 }
 
 /**
@@ -87,7 +87,7 @@ function mzz_strtoupper($str)
  */
 function mzz_strpos($haystack, $needle, $offset = null)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->strpos($haystack, $needle, $offset);
+    return $GLOBALS['charsetDriver']->strpos($haystack, $needle, $offset);
 }
 
 /**
@@ -95,7 +95,7 @@ function mzz_strpos($haystack, $needle, $offset = null)
  */
 function mzz_strrpos($haystack, $needle, $offset = null)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->strrpos($haystack, $needle, $offset);
+    return $GLOBALS['charsetDriver']->strrpos($haystack, $needle, $offset);
 }
 
 /**
@@ -103,7 +103,7 @@ function mzz_strrpos($haystack, $needle, $offset = null)
  */
 function mzz_ucfirst($str)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->ucfirst($str);
+    return $GLOBALS['charsetDriver']->ucfirst($str);
 }
 
 /*
@@ -111,7 +111,7 @@ function mzz_ucfirst($str)
  */
 function mzz_strcasecmp($strX, $strY)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->strcasecmp($strX, $strY);
+    return $GLOBALS['charsetDriver']->strcasecmp($strX, $strY);
 }
 
 /**
@@ -119,7 +119,7 @@ function mzz_strcasecmp($strX, $strY)
  */
 function mzz_substr_count($haystack, $needle)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->substr_count($haystack, $needle);
+    return $GLOBALS['charsetDriver']->substr_count($haystack, $needle);
 }
 
 /**
@@ -127,7 +127,7 @@ function mzz_substr_count($haystack, $needle)
  */
 function mzz_str_split($str, $split_len = 1)
 {
-    return $GLOBALS['toolkit']->getCharsetDriver()->str_split($str, $split_len);
+    return $GLOBALS['charsetDriver']->str_split($str, $split_len);
 }
 
 ?>
