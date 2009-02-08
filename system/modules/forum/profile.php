@@ -86,7 +86,7 @@ class profile extends simple
             $value = null;
         }
 
-        parent::setBirthday($value);
+        parent::__call('setBirthday', array($value));
     }
 }
 
