@@ -59,6 +59,16 @@ class configOptionMapper extends simpleMapper
         return $this->searchAllByField('module_name', $moduleName);
     }
 
+    public function getTypes()
+    {
+        return array(
+            configOption::TYPE_INT => 'число',
+            configOption::TYPE_STRING => 'строка',
+            configOption::TYPE_BOOL => 'bool',
+            configOption::TYPE_LIST => 'варианты',
+        );
+    }
+
     /**
      * Возвращает доменный объект по аргументам
      *

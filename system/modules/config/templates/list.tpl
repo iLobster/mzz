@@ -6,14 +6,14 @@
     <tr>
         <td><strong>Имя</strong></td>
         <td><strong>Заголовок</strong></td>
-        <td><strong>Значение</strong></td>
+        <td><strong>Тип</strong></td>
         <td style="width: 15%;"><strong>Действия</strong></td>
     </tr>
     {foreach from=$options item="option"}
         <tr>
             <td width="20%">{$option->getName()|h}</td>
             <td>{$option->getTitle()|h}</td>
-            <td>{$option->getValue()|h}</td>
+            <td>{$option->getTypeTitle()|h}</td>
             <td>
                 <a href="{url route="withId" id=$option->getId() action="edit"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="Редактировать" title="Редактировать параметр" /></a>
                 <a href="{url route="withId" id=$option->getId() action="delete"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="Удалить" title="Удалить параметр" /></a>

@@ -49,19 +49,24 @@ class configSaveController extends simpleController
             $option = $configOptionMapper->create();
         }
 
+        $types = $configOptionMapper->getTypes();
+
         $validator = new formValidator();
         $validator->add('required', 'name', 'Укажите имя для параметра');
-        $validator->add('required', 'title', 'Укажите заголовк для параметра');
+        $validator->add('required', 'title', 'Укажите заголовок для параметра');
+        $validator->add('required', 'type_id', 'Укажите тип параметра');
+        $validator->add('in', 'type_id', 'Укажите тип параметра', array_keys($types));
         $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-z0-9_\.\-!]+$/i');
         $validator->add('callback', 'name', 'Такое имя уже есть в этом модуле', array('checkOptionName', $option, $folder, $configOptionMapper));
 
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);
             $title = $this->request->getString('title', SC_POST);
+            $type_id = $this->request->getInt('type_id', SC_POST);
 
             $option->setName($name);
             $option->setTitle($title);
-            $option->setType(1);
+            $option->setType($type_id);
 
             if (!$isEdit) {
                 $option->setFolder($folder);
@@ -75,6 +80,7 @@ class configSaveController extends simpleController
         $url->setAction($action);
         $url->add('id', $id);
 
+        $this->smarty->assign('types', $types);
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('isEdit', $isEdit);
         $this->smarty->assign('errors', $validator->getErrors());

@@ -22,7 +22,23 @@
 
 class configOption extends simple
 {
+    const TYPE_INT = 1;
+    const TYPE_STRING = 2;
+    const TYPE_BOOL = 3;
+    const TYPE_LIST = 4;
+
     protected $name = 'configOption';
+
+    public function getTypeTitle()
+    {
+        $types = $this->mapper->getTypes();
+        $type = $this->getType();
+        if (!isset($types[$type])) {
+            return $types[self::TYPE_INT];
+        }
+
+        return $types[$type];
+    }
 }
 
 ?>

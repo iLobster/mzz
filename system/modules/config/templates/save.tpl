@@ -10,6 +10,10 @@
         <td>{form->text name="title" value=$option->getTitle()} {$errors->get('title')}</th>
     </tr>
     <tr>
+        <th>{form->caption name="type_id" value="Тип"}</th>
+        <td>{form->select options=$types name="type_id" value=$option->getType()} {$errors->get('type_id')}</th>
+    </tr>
+    <tr>
         <td colspan="2" style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
     </tr>
 </table>
