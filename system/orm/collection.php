@@ -12,6 +12,8 @@
  * @version $Id: mapper.php 2928 2009-01-14 05:53:47Z zerkms $
  */
 
+fileLoader::load('dataspace/arrayDataspace');
+
 /**
  * collection: collection container for orm
  *

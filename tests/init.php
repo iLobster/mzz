@@ -36,9 +36,8 @@ fileLoader::load('config/config');
 
 set_error_handler('simpletest_error_handler');
 
-
-fileLoader::load('simple');
-fileLoader::load('simple/simpleMapper');
+fileLoader::load('dataspace/arrayDataspace');
+fileLoader::load('orm/mapper');
 fileLoader::load('simple/simpleController');
 fileLoader::load('simple/simpleFactory');
 
@@ -55,8 +54,6 @@ fileLoader::load('template/mzzSmarty');
 fileLoader::load('toolkit');
 fileLoader::load('toolkit/stdToolkit');
 fileLoader::load('toolkit/systemToolkit');
-
-fileLoader::load('dataspace/arrayDataspace');
 
 fileLoader::load('iterators/mzzIniFilterIterator');
 

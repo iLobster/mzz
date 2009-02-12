@@ -114,7 +114,6 @@ class core
         fileLoader::load('request/url');
         fileLoader::load('dataspace/arrayDataspace');
 
-        fileLoader::load('orm/entity');
         fileLoader::load('orm/mapper');
         //fileLoader::load('simple');
         //fileLoader::load('simple/simpleMapper');
