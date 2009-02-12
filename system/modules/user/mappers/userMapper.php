@@ -21,7 +21,7 @@ fileLoader::load('user');
  * @subpackage user
  * @version 0.2.3
  */
-class userMapper extends simpleMapper
+class userMapper extends mapper
 {
     /**
      * Учётная запись не подтверждена

@@ -22,6 +22,8 @@ fileLoader::load('jip/jip');
  * @version 0.1.8
  */
 
+throw new Exception('Deprecated');
+
 abstract class simple implements Serializable
 {
     /**

@@ -21,7 +21,7 @@ fileLoader::load('service/skin');
  * @subpackage user
  * @version 0.1.5
  */
-class user extends simple
+class user extends entity
 {
     protected $name = 'user';
 

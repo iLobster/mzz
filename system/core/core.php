@@ -114,14 +114,16 @@ class core
         fileLoader::load('request/url');
         fileLoader::load('dataspace/arrayDataspace');
 
-        fileLoader::load('simple');
-        fileLoader::load('simple/simpleMapper');
-        fileLoader::load('simple/simpleCatalogueMapper');
+        fileLoader::load('orm/entity');
+        fileLoader::load('orm/mapper');
+        //fileLoader::load('simple');
+        //fileLoader::load('simple/simpleMapper');
+        //fileLoader::load('simple/simpleCatalogueMapper');
         fileLoader::load('simple/simpleController');
         fileLoader::load('simple/simpleFactory');
         fileLoader::load('simple/jipTools');
-        fileLoader::load('simple/simpleCatalogue');
-        fileLoader::load('simple/simpleCatalogueMapper');
+        //fileLoader::load('simple/simpleCatalogue');
+        //fileLoader::load('simple/simpleCatalogueMapper');
         fileLoader::load('simple/messageController');
 
         fileLoader::load('filters/init');

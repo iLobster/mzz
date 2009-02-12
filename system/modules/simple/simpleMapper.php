@@ -25,6 +25,8 @@ fileLoader::load('acl');
  * @version 0.3.27
  */
 
+throw new Exception('Deprecated');
+
 abstract class simpleMapper
 {
     /**
