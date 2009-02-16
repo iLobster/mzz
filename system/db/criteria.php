@@ -13,6 +13,8 @@
  */
 
 fileLoader::load('db/criterion');
+fileLoader::load('db/sqlFunction');
+fileLoader::load('db/sqlOperator');
 
 /**
  * critera: класс, используемый для хранения данных о критериях выборки

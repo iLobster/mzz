@@ -24,17 +24,17 @@ class userExitController extends simpleController
     protected function getView()
     {
         $user = $this->toolkit->getUser();
-        $user->setLastLogin(new sqlFunction('unix_timestamp'));
 
         $userMapper = $this->toolkit->getMapper('user', 'user');
-        $userMapper->logout();
+        $userMapper->updateLastLoginTime($user);
 
-        $userMapper->save($user);
-
-        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
-        $userAuthMapper->clear();
+        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
+        $userAuthMapper->clear($this->request->getString('auth', SC_COOKIE));
         $userAuthMapper->clearExpired(strtotime('-1 month'));
 
+        $this->response->setCookie(userAuthMapper::$auth_cookie_name, '', 0, '/');
+
+        $this->toolkit->setUser($userMapper->getGuest());
         $this->redirect($this->request->getString('url', SC_GET));
     }
 }

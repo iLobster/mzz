@@ -22,7 +22,7 @@ fileLoader::load('menu/menuFolder');
  * @version 0.1
  */
 
-class menuFolderMapper extends simpleMapper
+class menuFolderMapper extends mapper
 {
     /**
      * Имя модуля
@@ -36,7 +36,9 @@ class menuFolderMapper extends simpleMapper
      *
      * @var string
      */
-    protected $className = 'menuFolder';
+    protected $class = 'menuFolder';
+
+    protected $table = 'menu_menuFolder';
 
     public function getFolder()
     {
@@ -46,10 +48,10 @@ class menuFolderMapper extends simpleMapper
     }
 
     private function getObjId()
-    { 
+    {
         $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_menuFolder');
         $this->register($obj_id);
-        return $obj_id; 
+        return $obj_id;
     }
 
     public function convertArgsToObj($args)

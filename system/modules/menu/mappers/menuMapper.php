@@ -22,7 +22,7 @@ fileLoader::load('menu');
  * @version 0.1
  */
 
-class menuMapper extends simpleMapper
+class menuMapper extends mapper
 {
     /**
      * Имя модуля
@@ -36,7 +36,9 @@ class menuMapper extends simpleMapper
      *
      * @var string
      */
-    protected $className = 'menu';
+    protected $class = 'menu';
+
+    protected $table = 'menu_menu';
 
 
     public function searchById($id)
@@ -101,6 +103,14 @@ class menuMapper extends simpleMapper
 
         throw new mzzDONotFoundException();
     }
+
+    protected $map = array(
+        'id' => array(
+        'accessor' => 'getId',
+        'mutator' => 'setId',
+        'options' => array(
+            'pk'))
+        );
 }
 
 ?>

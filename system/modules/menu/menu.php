@@ -20,7 +20,7 @@
  * @version 0.1
  */
 
-class menu extends simple
+class menu extends entity
 {
     protected $name = 'menu';
     protected $items;

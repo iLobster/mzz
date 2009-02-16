@@ -22,7 +22,7 @@ fileLoader::load('user/groupFolder');
  * @version 0.1
  */
 
-class groupFolderMapper extends simpleMapper
+class groupFolderMapper extends mapper
 {
     /**
      * Имя модуля

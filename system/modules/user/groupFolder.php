@@ -20,9 +20,8 @@
  * @version 0.1
  */
 
-class groupFolder extends simple
+class groupFolder extends entity
 {
-    protected $name = 'user';
 }
 
 ?>

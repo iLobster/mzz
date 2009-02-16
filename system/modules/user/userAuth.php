@@ -21,9 +21,8 @@
  */
 
 
-class userAuth extends simple
+class userAuth extends entity
 {
-    protected $name = 'user';
 }
 
 ?>

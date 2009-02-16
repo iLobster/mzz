@@ -21,7 +21,7 @@ fileLoader::load('user/userGroup');
  * @subpackage user
  * @version 0.1
  */
-class userGroupMapper extends simpleMapper
+class userGroupMapper extends mapper
 {
     /**
      * Имя модуля

@@ -22,7 +22,7 @@ fileLoader::load('menu/menuItem');
  * @version 0.1
  */
 
-class menuItemMapper extends simpleMapper
+class menuItemMapper extends mapper
 {
     const ITEMTYPE_SIMPLE = 1;
     const ITEMTYPE_ADVANCED = 2;
@@ -40,7 +40,9 @@ class menuItemMapper extends simpleMapper
      *
      * @var string
      */
-    protected $className = 'menuItem';
+    protected $class = 'menuItem';
+
+    protected $table = 'menu_menuItem';
 
     public function searchById($id)
     {
@@ -173,8 +175,7 @@ class menuItemMapper extends simpleMapper
         }
 
         fileLoader::load('menu/items/' . $className);
-        $object = new $className($this, $this->map);
-        $object->section($this->section());
+        $object = parent::create();
         $object->setTypeId($type_id);
 
         $request = systemToolkit::getInstance()->getRequest();

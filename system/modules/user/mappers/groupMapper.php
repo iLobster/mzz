@@ -21,7 +21,7 @@ fileLoader::load('user/group');
  * @subpackage user
  * @version 0.1
  */
-class groupMapper extends simpleMapper
+class groupMapper extends mapper
 {
     /**
      * Имя модуля
@@ -67,7 +67,7 @@ class groupMapper extends simpleMapper
             $userGroupMapper = systemToolkit::getInstance()->getMapper('user', 'userGroup', $this->section);
 
             $criteria = new criteria();
-            $criteria->addSelectField(new sqlFunction('count', '*', true), $userGroupMapper->getClassName() . simpleMapper::TABLE_KEY_DELIMITER . 'cnt');
+            $criteria->addSelectField(new sqlFunction('count', '*', true), $userGroupMapper->getClassName() . mapper::TABLE_KEY_DELIMITER . 'cnt');
             $criteria->addGroupBy('group_id');
 
             $usersGroups = array();

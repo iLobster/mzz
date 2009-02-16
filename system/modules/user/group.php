@@ -19,10 +19,8 @@
  * @subpackage user
  * @version 0.1
  */
-class group extends simple
+class group extends entity
 {
-    protected $name = 'user';
-
     public function getUsersCount()
     {
         return $this->mapper->getUsersCount($this);

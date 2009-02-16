@@ -51,7 +51,7 @@ class simple404Controller extends simpleController
      *
      * @param simpleMapper $mapper
      */
-    public function applyMapper(simpleMapper $mapper)
+    public function applyMapper(mapper $mapper)
     {
         $this->result = $this->forward404($mapper);
     }

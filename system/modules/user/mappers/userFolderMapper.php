@@ -22,7 +22,7 @@ fileLoader::load('user/userFolder');
  * @version 0.1
  */
 
-class userFolderMapper extends simpleMapper
+class userFolderMapper extends mapper
 {
     /**
      * Имя модуля

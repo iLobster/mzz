@@ -36,18 +36,18 @@ class userMapper extends mapper
     const WRONG_AUTH_DATA = 2;
 
     /**
-     * Имя модуля
+     * Имя таблицы
      *
      * @var string
      */
-    protected $name = 'user';
+    protected $table = 'user_user';
 
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'user';
+    protected $class = 'user';
 
     /**
      * Причина неудачной авторизации
@@ -57,36 +57,6 @@ class userMapper extends mapper
     protected $reason;
 
     /**
-     * Создает пустой объект DO
-     *
-     * @return object
-     */
-    public function create()
-    {
-        return new user($this, $this->getMap());
-    }
-
-    /**
-     * Выполняет поиск объекта по идентификатору
-     *
-     * @param integer $id идентификатор
-     * @return object
-     */
-    public function searchById($id)
-    {
-        $user = $this->searchOneByField('id', $id);
-
-        if ($user) {
-            return $user;
-        } else {
-            if($id === MZZ_USER_GUEST_ID) {
-                throw new mzzSystemException('Отсутствует запись с ID: ' . MZZ_USER_GUEST_ID . ' для гостя в таблице ' . $this->table);
-            }
-            return $this->getGuest();
-        }
-    }
-
-    /**
      * Выполняет поиск объекта по логину
      *
      * @param string $login логин
@@ -94,13 +64,7 @@ class userMapper extends mapper
      */
     public function searchByLogin($login)
     {
-        $user = $this->searchOneByField('login', $login);
-
-        if ($user) {
-            return $user;
-        } else {
-            return $this->getGuest();
-        }
+        return $this->searchOneByField('login', $login);
     }
 
     /**
@@ -111,19 +75,7 @@ class userMapper extends mapper
      */
     public function searchByEmail($email)
     {
-        $user = $this->searchOneByField('email', $email);
-
-        if ($user) {
-            return $user;
-        } else {
-            return $this->getGuest();
-        }
-    }
-
-    public function getOnline($id)
-    {
-        $userOnlineMapper = systemToolkit::getInstance()->getMapper('user', 'userOnline', $this->section);
-        return $userOnlineMapper->searchOneByField('user_id', $id);
+        return $user = $this->searchOneByField('email', $email);
     }
 
     /**
@@ -135,8 +87,7 @@ class userMapper extends mapper
      */
     public function getGroupsList($id)
     {
-        $userRel = systemToolkit::getInstance()->getMapper('user', 'userGroup', $this->section);
-        return $userRel->searchGroupsIdsByUser($id);
+        return systemToolkit::getInstance()->getMapper('user', 'userGroup')->searchGroupsIdsByUser($id);
     }
 
     /**
@@ -149,32 +100,19 @@ class userMapper extends mapper
      * @param string $loginField имя поля, которое используется в качестве логина
      * @return object
      */
-    public function login($login, $password, $loginField = 'login')
+    public function searchByLoginAndPassword($login, $password, $loginField = 'login')
     {
-        $map = $this->getMap();
-
-        if (isset($map['password']['decorateClass'])) {
-            $service = $map['password']['decorateClass'];
-            fileLoader::load('service/' . $service);
-            $service = new $service;
-            $password = $service->apply($password);
-        }
-
         $criteria = new criteria();
-        $criteria->add($loginField, $login)->add('password', $password);
+        $criteria->add($loginField, $login)->add('password', MD5($password));
 
         $user = $this->searchOneByCriteria($criteria);
 
         if ($user && $user->isConfirmed()) {
-            $this->setUserId($user->getId());
+            return $user;
         } else {
             $this->reason = $user ? self::NOT_CONFIRMED : self::WRONG_AUTH_DATA;
-
-            $this->setUserId(MZZ_USER_GUEST_ID);
-            $user = $this->getGuest();
+            return null;
         }
-
-        return $user;
     }
 
     /**
@@ -188,46 +126,13 @@ class userMapper extends mapper
     }
 
     /**
-     * Установка текущего user_id
-     *
-     * @param integer $user_id
-     */
-    public function setUserId($user_id)
-    {
-        $toolkit = systemToolkit::getInstance();
-        $session = $toolkit->getSession();
-        $session->set('user_id', $user_id);
-    }
-
-    /**
-     * Получение текущего user_id
-     *
-     * @return integer
-     */
-    public function getUserId()
-    {
-        $toolkit = systemToolkit::getInstance();
-        $session = $toolkit->getSession();
-        return $session->get('user_id');
-    }
-
-    /**
-     * Логаут пользователя
-     *
-     */
-    public function logout()
-    {
-        $this->setUserId(MZZ_USER_GUEST_ID);
-    }
-
-    /**
      * Возвращает объект для гостя (id = MZZ_USER_GUEST_ID)
      *
      * @return object
      */
-    private function getGuest()
+    public function getGuest()
     {
-        return $this->searchById(MZZ_USER_GUEST_ID);
+        return $this->searchByKey(MZZ_USER_GUEST_ID);
     }
 
     protected function insertDataModify(&$fields)
@@ -254,6 +159,12 @@ class userMapper extends mapper
         parent::delete($id);
     }
 
+    public function updateLastLoginTime($user)
+    {
+        $user->setLastLogin(new sqlFunction('unix_timestamp'));
+        $this->save($user);
+    }
+
     public function convertArgsToObj($args)
     {
         if (isset($args['id'])) {
@@ -268,8 +179,49 @@ class userMapper extends mapper
             }
         }
 
+
         throw new mzzDONotFoundException();
     }
+
+    public $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'login' => array(
+            'accessor' => 'getLogin',
+            'mutator' => 'setLogin',
+            ),
+        'password' => array(
+            'accessor' => 'getPassword',
+            'mutator' => 'setPassword',
+            ),
+        'created' => array(
+            'accessor' => 'getCreated',
+            'mutator' => 'setCreated',
+            ),
+        'confirmed' => array(
+            'accessor' => 'getConfirmed',
+            'mutator' => 'setConfirmed',
+            ),
+        'last_login' => array(
+            'accessor' => 'getLastLogin',
+            'mutator' => 'setLastLogin',
+            ),
+        'language_id' => array(
+            'accessor' => 'getLanguageId',
+            'mutator' => 'setLanguageId',
+            ),
+        'timezone' => array(
+            'accessor' => 'getTimezone',
+            'mutator' => 'setTimezone',
+            ),
+        'skin' => array(
+            'accessor' => 'getSkin',
+            'mutator' => 'setSkin',
+            )
+        );
 }
 
 ?>

@@ -25,8 +25,6 @@ class user extends entity
 {
     protected $name = 'user';
 
-    protected $online = false;
-
     /**
      * Проверяет является ли пользователь авторизированным
      * Пользователь считается таковым, если у него установлен
@@ -44,49 +42,6 @@ class user extends entity
         return is_null($this->getConfirmed());
     }
 
-    public function getOnline()
-    {
-        if ($this->online === false) {
-            $this->online = $this->mapper->getOnline($this->getId());
-        }
-
-        return $this->online;
-    }
-
-    public function isActive()
-    {
-        return !is_null($this->getOnline());
-    }
-
-    /**
-     * Получение списка групп, в которых состоит пользователь
-     *
-     * @return array
-     */
-    public function getGroupsList()
-    {
-        $toolkit = systemToolkit::getInstance();
-        $cache = $toolkit->getCache();
-
-        if (is_null($groups = $cache->get($identifier = 'groups_' . $this->getId()))) {
-            $groups = $this->mapper->getGroupsList($this->getId());
-            $cache->set($identifier, $groups);
-        }
-
-        return $groups;
-    }
-
-    public function __sleep()
-    {
-        $this->section($this->mapper->section());
-        return array('fields', 'map', 'section');
-    }
-
-    public function __wakeup()
-    {
-        $this->mapper = systemToolkit::getInstance()->getmapper('user', 'user', $this->section());
-    }
-
     public function getSkin()
     {
         $id = parent::__call('getSkin', array());
@@ -102,6 +57,7 @@ class user extends entity
 
         return $tz;
     }
+
 }
 
 ?>

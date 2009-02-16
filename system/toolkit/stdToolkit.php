@@ -243,12 +243,38 @@ class stdToolkit extends toolkit
     public function getUser()
     {
         if (empty($this->user)) {
-            $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
-            $this->user = $userMapper->searchById(MZZ_USER_GUEST_ID);
+            $userMapper = $this->getMapper('user', 'user', 'user');
+            $user_id = $this->getSession()->get('user_id');
+
+            if (is_null($user_id)) {
+                $userAuthMapper = $this->getMapper('user', 'userAuth', 'user');
+                $userAuth = $userAuthMapper->getAuth();
+                // если пользователь сохранил авторизацию, тогда восстанавливаем её
+                if (!is_null($userAuth)) {
+                    $user_id = $userAuth->getUserId();
+                }
+            }
+
+            // если авторизация пользователя не найдена - то устанавливаем user_id гостя
+            $this->setUser($user_id);
         }
 
         return $this->user;
     }
+
+    public function setUser($user)
+    {
+        $userMapper = $this->getMapper('user', 'user');
+        if (is_numeric($user)) {
+            $user = $userMapper->searchByKey($user);
+        }
+        if (empty($user)) {
+            $user = $userMapper->getGuest();
+        }
+        $this->getSession()->set('user_id', $user->getId());
+        $this->user = $user;
+    }
+
 
     /**
      * Возвращает уникальный идентификатор необходимый для идентификации объектов
@@ -338,18 +364,6 @@ class stdToolkit extends toolkit
         $this->validator = $value;
     }
 
-    /**
-     * Устанавливает объект пользователя и возвращает установленный ранее
-     *
-     * @param user $user
-     * @return user
-     */
-    public function setUser($user)
-    {
-        $tmp = $this->user;
-        $this->user = $user;
-        return $tmp;
-    }
 
     /**
      * Устанавливает объект Request

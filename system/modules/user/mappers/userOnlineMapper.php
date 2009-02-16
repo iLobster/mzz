@@ -22,7 +22,7 @@ fileLoader::load('user/userOnline');
  * @version 0.1.1
  */
 
-class userOnlineMapper extends simpleMapper
+class userOnlineMapper extends mapper
 {
     /**
      * Имя модуля

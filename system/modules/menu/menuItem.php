@@ -19,7 +19,7 @@
  * @subpackage menu
  * @version 0.2
  */
-abstract class menuItem extends simple
+abstract class menuItem extends entity
 {
     protected $name = 'menu';
 

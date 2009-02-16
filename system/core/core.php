@@ -133,6 +133,7 @@ class core
         fileLoader::load('config');
 
         fileLoader::load('db/DB');
+        fileLoader::load('db/simpleSelect');
 
         fileLoader::load('iterators/mzzIniFilterIterator');
 
@@ -165,9 +166,9 @@ class core
         $filter_chain->registerFilter(new timingFilter());
         $filter_chain->registerFilter(new sessionFilter());
         $filter_chain->registerFilter(new routingFilter());
-        $filter_chain->registerFilter(new userFilter());
+        //$filter_chain->registerFilter(new userFilter());
         $filter_chain->registerFilter(new userPreferencesFilter());
-        $filter_chain->registerFilter(new userOnlineFilter());
+        //$filter_chain->registerFilter(new userOnlineFilter());
         $filter_chain->registerFilter(new contentFilter());
         return $filter_chain;
     }

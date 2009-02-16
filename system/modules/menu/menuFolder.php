@@ -20,7 +20,7 @@
  * @version 0.1
  */
 
-class menuFolder extends simple
+class menuFolder extends entity
 {
     protected $name = 'menu';
 

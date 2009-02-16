@@ -22,60 +22,38 @@ fileLoader::load('user/userAuth');
  * @version 0.1.2
  */
 
-class userAuthMapper extends simpleMapper
+class userAuthMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'user';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'userAuth';
+    protected $class = 'userAuth';
+    protected $table = 'user_userAuth';
 
     protected $obj_id_field = null;
 
-    protected $toolkit;
-    protected $request;
-    protected $session;
+    public static $auth_cookie_name = 'auth';
 
-    public function __construct($section)
+
+    public function getAuth($hash, $ip)
     {
-        parent::__construct($section);
-        $this->toolkit = systemToolkit::getInstance();
-        $this->request = $this->toolkit->getRequest();
-        $this->session = $this->toolkit->getSession();
-    }
-
-    public function get()
-    {
-        $hash = $this->getHash();
-        $ip = $this->getIp();
-
         $criteria = new criteria();
         $criteria->add('hash', $hash)->add('ip', $ip);
 
         $auth = $this->searchOneByCriteria($criteria);
 
         if ($auth) {
-            $auth->setTime('update me please');
             $this->save($auth);
         }
 
         return $auth;
     }
 
-    public function set($user_id)
+    public function saveAuth($user_id, $hash, $ip)
     {
-        $hash = $this->getHash();
-        $ip = $this->getIp();
-
-        $userAuth = $this->get();
+        $userAuth = $this->getAuth($hash, $ip);
 
         if (!is_null($userAuth) && $user_id != $userAuth->getUserId()) {
             $userAuth = null;
@@ -85,10 +63,6 @@ class userAuthMapper extends simpleMapper
             $userAuth = $this->create();
             $userAuth->setIp($ip);
             $userAuth->setHash($hash = md5(microtime(true)));
-
-            $response = $this->toolkit->getResponse();
-            $response->setCookie('auth', $hash, time() + 10 * 365 * 86400, '/');
-
             $userAuth->setUserId($user_id);
             $this->save($userAuth);
         }
@@ -96,17 +70,13 @@ class userAuthMapper extends simpleMapper
         return $userAuth;
     }
 
-    public function clear()
+    public function clear($hash)
     {
-        $hash = $this->getHash();
-        $userAuth = $this->searchAllByField('hash', $hash);
+        $userAuthCollection = $this->searchAllByField('hash', $hash);
 
-        foreach ($userAuth as $each) {
-            $this->delete($each->getId());
+        foreach ($userAuthCollection as $userAuth) {
+            $this->delete($userAuth->getId());
         }
-
-        $response = $this->toolkit->getResponse();
-        $response->setCookie('auth', '', 0, '/');
     }
 
     public function clearExpired($timestamp)
@@ -121,36 +91,6 @@ class userAuthMapper extends simpleMapper
         }
     }
 
-    private function getHash()
-    {
-        return $this->request->getString('auth', SC_COOKIE);
-    }
-
-    private function getIp()
-    {
-        return $this->request->getServer('REMOTE_ADDR');
-    }
-
-    /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
-     *
-     * @param array $fields
-     */
-    protected function insertDataModify(&$fields)
-    {
-        $fields['time'] = time();
-    }
-
-    /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
-     *
-     * @param array $fields
-     */
-    protected function updateDataModify(&$fields)
-    {
-        $this->insertDataModify($fields);
-    }
-
     /**
      * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
      *
@@ -160,6 +100,35 @@ class userAuthMapper extends simpleMapper
     {
 
     }
+
+    public $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'once',
+                'pk')),
+        'hash' => array(
+            'accessor' => 'getHash',
+            'mutator' => 'setHash',
+            'options' => array(
+                'once')),
+        'ip' => array(
+            'accessor' => 'getIp',
+            'mutator' => 'setIp',
+            'options' => array(
+                'once')),
+        'user_id' => array(
+            'accessor' => 'getUserId',
+            'mutator' => 'setUserId',
+            'options' => array(
+                'once')),
+        'time' => array(
+            'accessor' => 'getTime',
+            'mutator' => 'setTime',
+            ),
+        );
+
 }
 
 ?>

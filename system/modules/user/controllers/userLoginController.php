@@ -24,7 +24,6 @@ class userLoginController extends simpleController
     protected function getView()
     {
         $user = $this->toolkit->getUser();
-
         $backURL = $this->request->getString('url', SC_POST);
 
         if (!$user->isLoggedIn()) {
@@ -34,19 +33,17 @@ class userLoginController extends simpleController
                 $password = $this->request->getString('password', SC_POST);
 
                 $userMapper = $this->toolkit->getMapper('user', 'user');
-                $user = $userMapper->login($login, $password);
+                $user = $userMapper->searchByLoginAndPassword($login, $password);
+                $this->toolkit->setUser($user);
 
-                if ($user->isLoggedIn()) {
-                    $save = $this->request->getBoolean('save', SC_POST);
-                    if ($save) {
-                        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth', 'user');
-                        $userAuthMapper->set($user->getId());
+                if ($user) {
+                    if ($this->request->getBoolean('save', SC_POST)) {
+                        $this->rememberUser($user);
                     }
 
                     return $this->redirect($backURL);
                 }
             }
-
 
             $url = new url('default2');
             $url->setSection('user');
@@ -58,17 +55,23 @@ class userLoginController extends simpleController
                 $this->smarty->assign('backURL', $this->request->getRequestUrl());
                 return $this->fetch('user/loginForm.tpl');
             }
+
             $this->smarty->assign('backURL', $backURL);
             return $this->fetch('user/login.tpl');
         }
 
-        /*if (strtoupper($this->request->getMethod()) == 'POST') {
-            // @todo: если нет урла - редиректить на главную
-            return $this->response->redirect($this->request->getString('url', SC_POST));
-        }*/
-
         $this->smarty->assign('user', $user);
         return $this->fetch('user/alreadyLogin.tpl');
+    }
+
+    protected function rememberUser($user)
+    {
+        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
+        $hash = $this->request->getString('auth', SC_COOKIE);
+        $ip = $this->request->getServer('REMOTE_ADDR');
+        $userAuthMapper->saveAuth($user->getId(), $hash, $ip);
+
+        $this->response->setCookie(userAuthMapper::$auth_cookie_name, $hash, time() + 10 * 365 * 86400, '/');
     }
 }
 
