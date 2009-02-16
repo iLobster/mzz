@@ -26,7 +26,7 @@ abstract class formElement
      *
      * @var array
      */
-    protected $attributes = array('idFormat' => 'form_%s', 'onError' => '');
+    protected $attributes = array('idFormat' => 'formElm_%s', 'onError' => '');
 
     /**
      * Опции

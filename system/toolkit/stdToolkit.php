@@ -248,7 +248,9 @@ class stdToolkit extends toolkit
 
             if (is_null($user_id)) {
                 $userAuthMapper = $this->getMapper('user', 'userAuth', 'user');
-                $userAuth = $userAuthMapper->getAuth();
+                $hash = $this->getRequest()->getString(userAuthMapper::$auth_cookie_name, SC_COOKIE);
+                $ip = $this->getRequest()->getServer('REMOTE_ADDR');
+                $userAuth = $userAuthMapper->getAuth($hash, $ip);
                 // если пользователь сохранил авторизацию, тогда восстанавливаем её
                 if (!is_null($userAuth)) {
                     $user_id = $userAuth->getUserId();

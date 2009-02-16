@@ -67,7 +67,7 @@ class userLoginController extends simpleController
     protected function rememberUser($user)
     {
         $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
-        $hash = $this->request->getString('auth', SC_COOKIE);
+        $hash = $this->request->getString(userAuthMapper::$auth_cookie_name, SC_COOKIE);
         $ip = $this->request->getServer('REMOTE_ADDR');
         $userAuthMapper->saveAuth($user->getId(), $hash, $ip);
 
