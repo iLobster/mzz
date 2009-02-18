@@ -59,12 +59,13 @@ class formCheckboxField extends formElement
     public function renderOne($attributes = array(), $value = null)
     {
         $values = $this->extractValues($attributes);
+        $isNoValue = is_null($value) || $value === "";
 
         if (!in_array($value, $values)) {
             $value = $values[0];
         }
 
-        $attributes['checked'] = ($value == $values[1] && (!isset($attributes['checked']) || $attributes['checked'] != false));
+        $attributes['checked'] = ($value == $values[1]) || ($isNoValue && isset($attributes['checked']) && $attributes['checked'] != false);
 
         if (isset($attributes['label'])) {
             $attributes['text'] = $attributes['label'];
