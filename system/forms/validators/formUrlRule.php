@@ -28,7 +28,7 @@ class formUrlRule extends formHostnameRule
         if ($this->isEmpty()) {
             return true;
         }
-        $pattern = '#^((https?|ftps?)://)?(?<domain>[-A-Z0-9.]+)(:[0-9]{2,4})?(/[-A-Z0-9+&@\#/%=~_|!:,.;]*)?(\?[-A-Z0-9+&@\#/%=~_|!:,.;]*)?$#i';
+        $pattern = '#^((https?|ftps?)://)?(?P<domain>[-A-Z0-9.]+)(:[0-9]{2,4})?(/[-A-Z0-9+&@\#/%=~_|!:,.;]*)?(\?[-A-Z0-9+&@\#/%=~_|!:,.;]*)?$#i';
 
         if(!preg_match($pattern, $this->value, $matches)) {
             return false;
