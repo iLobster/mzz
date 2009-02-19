@@ -15,7 +15,10 @@ class ormSimpleMapper extends mapper
             'mutator' => 'setFoo'),
         'bar' => array(
             'accessor' => 'getBar',
-            'mutator' => 'setBar'));
+            'mutator' => 'setBar'),
+        'related' => array(
+            'accessor' => 'getRelated',
+            'mutator' => 'setRelated'));
 }
 
 class ormSimpleOtherMapper extends ormSimpleMapper

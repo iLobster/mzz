@@ -17,6 +17,7 @@ fileLoader::load('orm/relation');
 fileLoader::load('orm/lazy');
 fileLoader::load('orm/collection');
 fileLoader::load('orm/observer');
+fileLoader::load('db/simpleSelect');
 fileLoader::load('db/simpleInsert');
 fileLoader::load('db/simpleUpdate');
 fileLoader::load('db/simpleDelete');
@@ -139,7 +140,6 @@ abstract class mapper
     {
         //@todo: проверка на тип
 
-
         if ($object->state() == entity::STATE_NEW) {
             return $this->insert($object);
         } elseif ($object->state()) {
@@ -158,6 +158,7 @@ abstract class mapper
         $this->notify('preSqlInsert', $criteria);
 
         $insert = new simpleInsert($criteria);
+
         $this->db()->query($insert->toString($data));
         $object->import($this->searchByKey($this->db()->lastInsertId())->export());
 
@@ -355,7 +356,7 @@ abstract class mapper
 
     private function getSelectFields(mapper $mapper)
     {
-        $dont_select = array_merge(array_keys($mapper->relations->oneToMany()), array_keys($mapper->relations->manyToMany()));
+        $dont_select = array_merge(array_keys($mapper->relations->oneToMany()), array_keys($mapper->relations->manyToMany()), array_keys($mapper->relations->oneToOneBack()));
 
         foreach ($mapper->map() as $key => $val) {
             if (isset($val['options']) && in_array('fake', $val['options'])) {

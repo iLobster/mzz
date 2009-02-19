@@ -105,6 +105,22 @@ class entity
                 }
             }
 
+            if ($this->state() != self::STATE_NEW) {
+                foreach ($this->relations->oneToOneBack() as $key => $value) {
+                    if (isset($this->dataChanged[$key])) {
+                        $accessor = $value['methods'][0];
+                        $mutator = $value['methods'][1];
+
+                        if ($this->dataChanged[$key]->$accessor() != $this->data[$value['local_key']]) {
+                            $this->dataChanged[$key]->$mutator($this->data[$value['local_key']]);
+                            $value['mapper']->save($this->dataChanged[$key]);
+                            $this->data[$key] = $this->dataChanged[$key];
+                            unset($this->dataChanged[$key]);
+                        }
+                    }
+                }
+            }
+
             $oneToMany = $this->relations->oneToMany();
             foreach ($oneToMany as $key => $value) {
                 if (isset($this->data[$key]) && $this->data[$key] instanceof collection) {
@@ -145,6 +161,10 @@ class entity
                     throw new mzzRuntimeException(get_class($this) . '::' . $name . '() is declared as setted once');
                 }
 
+                if ($this->state() == self::STATE_NEW && in_array($field, $this->getOneToOneBackKeys())) {
+                    throw new mzzRuntimeException(get_class($this) . '::' . $name . '() cannot be specified during object creation');
+                }
+
                 if (!sizeof($args)) {
                     throw new mzzRuntimeException(get_class($this) . '::' . $name . '() invocation expects one argument');
                 }
@@ -158,6 +178,17 @@ class entity
         } else {
             throw new mzzRuntimeException('Unknown method was invoked: ' . get_class($this) . '::' . $name . '()');
         }
+    }
+
+    private function getOneToOneBackKeys()
+    {
+        static $keys = null;
+
+        if (!$keys) {
+            $keys = $this->relations ? array_keys($this->relations->oneToOneBack()) : array();
+        }
+
+        return $keys;
     }
 
     public function state($state = null)

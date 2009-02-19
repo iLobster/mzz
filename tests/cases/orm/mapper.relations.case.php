@@ -49,6 +49,28 @@ class ormSimpleRelatedMapper extends mapper
             'mapper' => 'ormSimpleMapperWithRelation'));
 }
 
+class ormSimpleRelatedBackMapper extends mapper
+{
+    protected $table = 'ormRelated';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'baz' => array(
+            'accessor' => 'getBaz',
+            'mutator' => 'setBaz'),
+        'foreign' => array(
+            'accessor' => 'getForeign',
+            'mutator' => 'setForeign',
+            'relation' => 'one',
+            'foreign_key' => 'related',
+            'local_key' => 'id',
+            'mapper' => 'ormSimpleMapper'));
+}
+
 class mapperRelationsTest extends unitTestCase
 {
     private $mapper;
@@ -234,6 +256,39 @@ class mapperRelationsTest extends unitTestCase
         $object = $this->mapper->searchByKey(1);
 
         $this->assertNull($object->getRelated());
+    }
+
+    public function testBack()
+    {
+        $this->fixture();
+
+        $mapper = new ormSimpleRelatedBackMapper();
+        $object = $mapper->searchByKey(2);
+
+        $this->assertIsA($object->getForeign(), 'ormSimple');
+        $this->assertEqual($object->getForeign()->getFoo(), 'foo3');
+
+        $mapper2 = new ormSimpleMapper();
+        $related = $mapper2->searchByKey(3);
+        $this->assertEqual($related->getFoo(), 'foo3');
+
+        $object = $mapper->create();
+        $object->setBaz('new');
+
+        try {
+            $object->setForeign($related);
+            $this->fail('Exception expected');
+        } catch (mzzRuntimeException $e) {
+        }
+
+        $mapper->save($object);
+
+        $object->setForeign($related);
+        $mapper->save($object);
+
+        $this->assertIsA($object->getForeign(), 'ormSimple');
+        $this->assertEqual($object->getForeign()->getFoo(), 'foo3');
+        $this->assertEqual($object->getForeign()->getRelated(), 4);
     }
 }
 

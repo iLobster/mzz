@@ -37,6 +37,7 @@ class relation
     {
         if (!isset($this->relations['oneToOne'])) {
             $this->relations['oneToOne'] = array();
+            $this->relations['oneToOneBack'] = array();
             foreach ($this->map as $key => $val) {
                 if (isset($val['relation']) && $val['relation'] == 'one') {
                     $tmp = array(
@@ -49,12 +50,28 @@ class relation
                     $tmp['methods'] = array(
                         $map[$val['foreign_key']]['accessor'],
                         $map[$val['foreign_key']]['mutator']);
-                    $this->relations['oneToOne'][$key] = $tmp;
+
+                    $type = 'oneToOne';
+                    if (isset($val['local_key'])) {
+                        $tmp['local_key'] = $val['local_key'];
+                        $type .= 'Back';
+                    }
+
+                    $this->relations[$type][$key] = $tmp;
                 }
             }
         }
 
         return $this->relations['oneToOne'];
+    }
+
+    public function oneToOneBack()
+    {
+        if (!isset($this->relations['oneToOneBack'])) {
+            $this->oneToOne();
+        }
+
+        return $this->relations['oneToOneBack'];
     }
 
     public function oneToMany()
@@ -154,7 +171,7 @@ class relation
 
     public function retrieve(& $data)
     {
-        foreach ($this->oneToOne() as $key => $val) {
+        foreach ($this->oneToOne() + $this->oneToOneBack() as $key => $val) {
             $object = $val['mapper']->createItemFromRow($data[$key]);
             $data[$this->table][$key] = $object;
         }
@@ -162,13 +179,19 @@ class relation
 
     public function add(criteria $criteria)
     {
-        foreach ($this->oneToOne() as $key => $val) {
+        foreach ($this->oneToOne() + $this->oneToOneBack() as $key => $val) {
+            if (!isset($val['local_key'])) {
+                $val['local_key'] = $key;
+            }
+
             $this->mapper->addSelectFields($criteria, $val['mapper'], $key);
 
-            $criterion = new criterion($this->table . '.' . $key, $key . '.' . $val['foreign_key'], criteria::EQUAL, true);
+            $criterion = new criterion($this->table . '.' . $val['local_key'], $key . '.' . $val['foreign_key'], criteria::EQUAL, true);
             $criteria->addJoin($val['mapper']->table(), $criterion, $key);
 
-            $data = array($criteria, $key);
+            $data = array(
+                $criteria,
+                $key);
             $val['mapper']->notify('preSqlJoin', $data);
         }
     }
