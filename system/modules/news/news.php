@@ -19,9 +19,8 @@
  * @subpackage news
  * @version 0.1.1
  */
-class news extends simple
+class news extends entity
 {
-    protected $name = 'news';
 }
 
 ?>

@@ -33,7 +33,7 @@ class userLoginController extends simpleController
                 $password = $this->request->getString('password', SC_POST);
 
                 $userMapper = $this->toolkit->getMapper('user', 'user');
-                $user = $userMapper->searchByLoginAndPassword($login, $password);
+                $user = $userMapper->login($login, $password);
                 $this->toolkit->setUser($user);
 
                 if ($user) {

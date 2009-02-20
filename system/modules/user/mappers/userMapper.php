@@ -100,10 +100,10 @@ class userMapper extends mapper
      * @param string $loginField имя поля, которое используется в качестве логина
      * @return object
      */
-    public function searchByLoginAndPassword($login, $password, $loginField = 'login')
+    public function login($login, $password, $loginField = 'login')
     {
         $criteria = new criteria();
-        $criteria->add($loginField, $login)->add('password', MD5($password));
+        $criteria->add($loginField, $login)->add('password', $this->cryptPassword($password));
 
         $user = $this->searchOneByCriteria($criteria);
 
@@ -135,9 +135,14 @@ class userMapper extends mapper
         return $this->searchByKey(MZZ_USER_GUEST_ID);
     }
 
-    protected function insertDataModify(&$fields)
+    protected function preInsert(& $data)
     {
-        $fields['created'] = time();
+        if (is_array($data)) {
+            $data['created'] = time();
+            if (isset($data['password'])) {
+                $data['password'] = $this->cryptPassword($data['password']);
+            }
+        }
     }
 
     public function delete($id)
@@ -163,6 +168,11 @@ class userMapper extends mapper
     {
         $user->setLastLogin(new sqlFunction('unix_timestamp'));
         $this->save($user);
+    }
+
+    protected function cryptPassword($password)
+    {
+        return md5($password);
     }
 
     public function convertArgsToObj($args)

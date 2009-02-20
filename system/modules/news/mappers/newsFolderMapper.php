@@ -14,34 +14,32 @@
 
 //fileLoader::load('db/dbTreeNS');
 fileLoader::load('news/newsFolder');
-fileLoader::load('simple/simpleMapperForTree');
 
 /**
  * newsFolderMapper: маппер для папок новостей
  *
  * @package modules
  * @subpackage news
- * @version 0.2.4
+ * @version 0.3
  */
 
-class newsFolderMapper extends simpleMapperForTree
+class newsFolderMapper extends mapper
 {
-
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'news';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'newsFolder';
+    protected $class = 'newsFolder';
+    protected $table = 'news_newsFolder';
 
     protected $itemName = 'news';
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->plugins('tree_mp');
+    }
 
     /**
      * Поиск newsFolder по id
@@ -94,6 +92,32 @@ class newsFolderMapper extends simpleMapperForTree
 
         throw new mzzDONotFoundException();
     }
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk', 'once',
+            ),
+        ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+        ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle',
+        ),
+        'parent' => array(
+            'accessor' => 'getParent',
+            'mutator' => 'setParent',
+        ),
+        'path' => array(
+            'accessor' => 'getPath',
+            'mutator' => 'setPath',
+        ),
+    );
 }
 
 ?>

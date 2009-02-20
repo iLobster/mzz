@@ -19,23 +19,17 @@ fileLoader::load('news');
  *
  * @package modules
  * @subpackage news
- * @version 0.2.2
+ * @version 0.3
  */
-class newsMapper extends simpleMapper
+class newsMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'news';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'news';
+    protected $class = 'news';
+    protected $table = 'news_news';
 
     /**
      * Выполняет поиск объекта по идентификатору

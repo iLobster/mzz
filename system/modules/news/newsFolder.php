@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('simple/simpleForTree');
-
 /**
  * newsFolder: newsFolder
  *
@@ -22,49 +20,8 @@ fileLoader::load('simple/simpleForTree');
  * @version 0.1.2
  */
 
-class newsFolder extends simpleForTree
+class newsFolder extends entity
 {
-    protected $name = 'news';
-
-    /**
-     * Конструктор
-     *
-     * @param object $mapper
-     * @param array $map
-     */
-    public function __construct($mapper, Array $map)
-    {
-        parent::__construct($mapper, $map);
-        $this->treeFields = new arrayDataspace();
-    }
-
-    /**
-     * Возвращает children-папки
-     *
-     * @return array
-     */
-    public function getFolders($level = 1, $withSameNode = false)
-    {
-        if (!$this->fields->exists('folders')) {
-            $folders = $this->mapper->getFolders($this, $level);
-            if (!$withSameNode) {
-                array_shift($folders);
-            }
-            $this->fields->set('folders', $folders);
-        }
-        return $this->fields->get('folders');
-    }
-
-    public function getTreeForMenu()
-    {
-        return $this->mapper->getTreeForMenu($this);
-    }
-
-    public function getTreeParent()
-    {
-        return $this->mapper->getTreeParent($this);
-    }
-
     public function getJip()
     {
         return $this->getJipView($this->name, $this->getPath(), get_class($this));
