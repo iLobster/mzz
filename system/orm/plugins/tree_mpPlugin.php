@@ -171,6 +171,11 @@ class tree_mpPlugin extends observer
         return $this->mapper->searchAllByCriteria($criteria);
     }
 
+    public function searchByPath($path)
+    {
+        return $this->mapper->searchOneByField('tree.path', $path);
+    }
+
     public function preInsert(array & $data)
     {
         // if tree parent was specified - remove it from the data array and store for later using in postInsert event

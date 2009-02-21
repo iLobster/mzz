@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.4.0.5
+﻿# SQL Manager 2007 for MySQL 4.4.0.5
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -8,7 +8,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES cp1251 */;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -19,8 +19,6 @@ CREATE DATABASE `mzz`
     COLLATE 'utf8_general_ci';
 
 USE `mzz`;
-
-SET sql_mode = '';
 
 #
 # Structure for the `catalogue_catalogue` table : 
@@ -1146,6 +1144,7 @@ CREATE TABLE `news_newsFolder` (
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `parent` INTEGER(11) DEFAULT '0',
   `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `parent` (`parent`)
@@ -1156,22 +1155,22 @@ AUTO_INCREMENT=32 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `news_newsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `parent`, `path`) VALUES 
-  (2,6,'root',1,'root'),
-  (18,295,'main',17,'root/main'),
-  (19,296,'comments',18,'root/comments'),
-  (20,297,'story',19,'root/story'),
-  (21,298,'russia',20,'root/russia'),
-  (22,299,'xussr',21,'root/xussr'),
-  (23,300,'world',22,'root/world'),
-  (24,301,'america',23,'root/america'),
-  (25,302,'economy',24,'root/economy'),
-  (26,303,'business',25,'root/business'),
-  (27,304,'finance',26,'root/finance'),
-  (28,305,'realty',27,'root/realty'),
-  (29,306,'politic',28,'root/politic'),
-  (30,307,'internet',29,'root/internet'),
-  (31,308,'tehnology',30,'root/tehnology');
+INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `parent`, `path`, `title`) VALUES 
+  (2,6,'root',1,'root','root'),
+  (18,295,'main',17,'root/main','main'),
+  (19,296,'comments',18,'root/comments','comments'),
+  (20,297,'story',19,'root/story','story'),
+  (21,298,'russia',20,'root/russia','russia'),
+  (22,299,'xussr',21,'root/xussr','xussr'),
+  (23,300,'world',22,'root/world','world'),
+  (24,301,'america',23,'root/america','america'),
+  (25,302,'economy',24,'root/economy','economy'),
+  (26,303,'business',25,'root/business','business'),
+  (27,304,'finance',26,'root/finance','finance'),
+  (28,305,'realty',27,'root/realty','realty'),
+  (29,306,'politic',28,'root/politic','politic'),
+  (30,307,'internet',29,'root/internet','internet'),
+  (31,308,'tehnology',30,'root/tehnology','tehnology');
 COMMIT;
 
 #
@@ -1232,6 +1231,30 @@ COMMIT;
 DROP TABLE IF EXISTS `news_newsFolder_tree`;
 
 CREATE TABLE `news_newsFolder_tree` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `path` TEXT COLLATE utf8_general_ci,
+  `foreign_key` INTEGER(11) DEFAULT NULL,
+  `level` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `spath` TEXT COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `news_newsFolder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
+  (1,'root/',2,1,'1/');
+COMMIT;
+
+#
+# Structure for the `news_newsFolder_tree_bak` table : 
+#
+
+DROP TABLE IF EXISTS `news_newsFolder_tree_bak`;
+
+CREATE TABLE `news_newsFolder_tree_bak` (
   `id` INTEGER(10) NOT NULL AUTO_INCREMENT,
   `lkey` INTEGER(10) NOT NULL DEFAULT '0',
   `rkey` INTEGER(10) NOT NULL DEFAULT '0',
@@ -1244,10 +1267,10 @@ CREATE TABLE `news_newsFolder_tree` (
 AUTO_INCREMENT=31 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
+# Data for the `news_newsFolder_tree_bak` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
+INSERT INTO `news_newsFolder_tree_bak` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,30,1),
   (17,2,3,2),
   (18,4,5,2),

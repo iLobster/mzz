@@ -14,6 +14,7 @@
 
 //fileLoader::load('db/dbTreeNS');
 fileLoader::load('news/newsFolder');
+fileLoader::load('orm/plugins/tree_mpPlugin');
 
 /**
  * newsFolderMapper: маппер для папок новостей
@@ -38,7 +39,7 @@ class newsFolderMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('tree_mp');
+        $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
     }
 
     /**
@@ -86,7 +87,7 @@ class newsFolderMapper extends mapper
 
     public function convertArgsToObj($args)
     {
-        if (isset($args['name']) && $newsFolder = $this->searchByPath($args['name'])) {
+        if (isset($args['name']) && $newsFolder = $this->plugin('tree')->searchByPath($args['name'] . '/')) {
             return $newsFolder;
         }
 
