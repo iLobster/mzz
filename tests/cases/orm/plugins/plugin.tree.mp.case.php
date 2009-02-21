@@ -43,7 +43,7 @@ class ormSimpleChildMapper extends mapper
     {
         parent::__construct();
 
-        $this->plugins('tree_mp');
+        $this->attach(new tree_mpPlugin(array('path_name' => 'foo')));
     }
 }
 
@@ -100,8 +100,8 @@ class pluginTreeMPTest extends unitTestCase
     {
         $this->fixture();
         $this->mapper = new ormSimpleMapper();
-        $observer = new tree_mpPlugin();
-        $this->mapper->attach($observer);
+        $observer = new tree_mpPlugin(array('path_name' => 'foo'));
+        $this->mapper->attach($observer, 'tree_mp');
     }
 
     public function tearDown()
@@ -121,11 +121,11 @@ class pluginTreeMPTest extends unitTestCase
 
         $valString = '';
         foreach ($this->fixture_tree as $id => $data) {
-            $valString .= "(" . $id . ", '" . $data['path'] . "', " . $id . ", " . substr_count($data['path'], '/') . "), ";
+            $valString .= "(" . $id . ", '" . $data['path'] . "', '" . 'foo' . substr(str_replace('/', '/foo', $data['path']), 0, -3) . "', " . $id . ", " . substr_count($data['path'], '/') . "), ";
         }
         $valString = substr($valString, 0, -2);
 
-        $this->db->query('INSERT INTO `ormSimple_tree` (`id`, `path`, `foreign_key`, `level`) VALUES ' . $valString);
+        $this->db->query('INSERT INTO `ormSimple_tree` (`id`, `spath`, `path`, `foreign_key`, `level`) VALUES ' . $valString);
 
         $valString = '';
         for ($id = 1; $id <= 8; $id++) {
@@ -147,13 +147,15 @@ class pluginTreeMPTest extends unitTestCase
     {
         $object = $this->mapper->searchByKey(1);
 
-        $this->assertEqual($object->getTreePath(), '1/');
+        $this->assertEqual($object->getTreeSPath(), '1/');
+        $this->assertEqual($object->getTreePath(), 'foo1/');
         $this->assertEqual($object->getTreeLevel(), 1);
         $this->assertEqual($object->getFoo(), 'foo1');
 
         $object = $this->mapper->searchByKey(6);
 
-        $this->assertEqual($object->getTreePath(), '1/2/6/');
+        $this->assertEqual($object->getTreeSPath(), '1/2/6/');
+        $this->assertEqual($object->getTreePath(), 'foo1/foo2/foo6/');
         $this->assertEqual($object->getTreeLevel(), 3);
         $this->assertEqual($object->getFoo(), 'foo6');
     }
@@ -164,7 +166,8 @@ class pluginTreeMPTest extends unitTestCase
         $parent = $object->getTreeParent();
 
         $this->assertEqual($parent->getId(), 2);
-        $this->assertEqual($parent->getTreePath(), '1/2/');
+        $this->assertEqual($parent->getTreeSPath(), '1/2/');
+        $this->assertEqual($parent->getTreePath(), 'foo1/foo2/');
         $this->assertEqual($parent->getTreeLevel(), '2');
     }
 
@@ -175,7 +178,8 @@ class pluginTreeMPTest extends unitTestCase
         $this->mapper->save($object);
 
         $this->assertEqual($object->getTreeLevel(), 1);
-        $this->assertEqual($object->getTreePath(), sizeof($this->fixture_tree) + 1);
+        $this->assertEqual($object->getTreeSPath(), sizeof($this->fixture_tree) + 1);
+        $this->assertEqual($object->getTreePath(), 'new/');
     }
 
     public function testCreateAsSubnode()
@@ -188,7 +192,8 @@ class pluginTreeMPTest extends unitTestCase
 
         $this->mapper->save($object);
 
-        $this->assertEqual($object->getTreePath(), '1/2/5/9/');
+        $this->assertEqual($object->getTreeSPath(), '1/2/5/9/');
+        $this->assertEqual($object->getTreePath(), 'foo1/foo2/foo5/new/');
         $this->assertEqual($object->getTreeLevel(), 4);
 
         $this->assertEqual($object->getTreeParent()->getId(), 5);
@@ -203,7 +208,8 @@ class pluginTreeMPTest extends unitTestCase
 
         $this->mapper->save($object);
 
-        $this->assertEqual($object->getTreePath(), '1/5/');
+        $this->assertEqual($object->getTreeSPath(), '1/5/');
+        $this->assertEqual($object->getTreePath(), 'foo1/foo5/');
         $this->assertEqual($object->getTreeLevel(), 2);
         $this->assertEqual($object->getTreeParent()->getId(), 1);
     }
@@ -217,12 +223,14 @@ class pluginTreeMPTest extends unitTestCase
 
         $this->mapper->save($object);
 
-        $this->assertEqual($object->getTreePath(), '1/4/2/');
+        $this->assertEqual($object->getTreeSPath(), '1/4/2/');
+        $this->assertEqual($object->getTreePath(), 'foo1/foo4/foo2/');
         $this->assertEqual($object->getTreeLevel(), 3);
         $this->assertEqual($object->getTreeParent()->getId(), 4);
 
         $object = $this->mapper->searchByKey(5);
-        $this->assertEqual($object->getTreePath(), '1/4/2/5/');
+        $this->assertEqual($object->getTreeSPath(), '1/4/2/5/');
+        $this->assertEqual($object->getTreePath(), 'foo1/foo4/foo2/foo5/');
         $this->assertEqual($object->getTreeLevel(), 4);
         $this->assertEqual($object->getTreeParent()->getId(), 2);
     }
@@ -274,6 +282,14 @@ class pluginTreeMPTest extends unitTestCase
         $this->assertEqual($result->next()->getId(), 4);
     }
 
+    public function testGetBranchByPath()
+    {
+        $branch = $this->mapper->plugin('tree_mp')->getBranchByPath('foo1/foo2/');
+
+        $this->assertEqual($branch->count(), 3);
+        $this->assertEqual($branch->keys(), array(2, 5, 6));
+    }
+
     public function testNodeIsRelated()
     {
         $mapper = new parentTreeTestMapper();
@@ -282,7 +298,8 @@ class pluginTreeMPTest extends unitTestCase
         $object = $parentObject->getRelated();
 
         $this->assertIsA($object, 'ormSimple');
-        $this->assertEqual($object->getTreePath(), '1/3/7/');
+        $this->assertEqual($object->getTreeSPath(), '1/3/7/');
+        $this->assertEqual($object->getTreePath(), 'foo1/foo3/foo7/');
         $this->assertEqual($object->getTreeParentBranch()->count(), 3);
     }
 }

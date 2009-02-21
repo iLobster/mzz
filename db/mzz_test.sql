@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.4.0.5
+﻿# SQL Manager 2007 for MySQL 4.4.0.5
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -123,9 +123,10 @@ DROP TABLE IF EXISTS `ormSimple_tree`;
 
 CREATE TABLE `ormSimple_tree` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `path` TEXT COLLATE utf8_general_ci,
+  `spath` TEXT COLLATE utf8_general_ci,
   `foreign_key` INTEGER(11) DEFAULT NULL,
   `level` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `path` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
@@ -629,81 +630,7 @@ CREATE TABLE `sys_obj_id` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=68 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_obj_id` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_obj_id` (`id`) VALUES 
-  (1),
-  (2),
-  (3),
-  (4),
-  (5),
-  (6),
-  (7),
-  (8),
-  (9),
-  (10),
-  (11),
-  (12),
-  (13),
-  (14),
-  (15),
-  (16),
-  (17),
-  (18),
-  (19),
-  (20),
-  (21),
-  (22),
-  (23),
-  (24),
-  (25),
-  (26),
-  (27),
-  (28),
-  (29),
-  (30),
-  (31),
-  (32),
-  (33),
-  (34),
-  (35),
-  (36),
-  (37),
-  (38),
-  (39),
-  (40),
-  (41),
-  (42),
-  (43),
-  (44),
-  (45),
-  (46),
-  (47),
-  (48),
-  (49),
-  (50),
-  (51),
-  (52),
-  (53),
-  (54),
-  (55),
-  (56),
-  (57),
-  (58),
-  (59),
-  (60),
-  (61),
-  (62),
-  (63),
-  (64),
-  (65),
-  (66),
-  (67);
-COMMIT;
+AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `sys_obj_id_named` table : 
@@ -729,17 +656,7 @@ CREATE TABLE `sys_sections` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_sections` (`id`, `name`) VALUES 
-  (1,'page'),
-  (2,'simple'),
-  (3,'user');
-COMMIT;
+AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `sys_sessions` table : 
@@ -757,7 +674,7 @@ CREATE TABLE `sys_sessions` (
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=311 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=326 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `treeNS` table : 

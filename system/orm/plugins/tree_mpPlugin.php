@@ -9,12 +9,17 @@ class tree_mpPlugin extends observer
 
     public function setMapper(mapper $mapper)
     {
+        if (!isset($this->options['path_name'])) {
+            throw new mzzRuntimeException('path_name option should be specified');
+        }
+
         if (!isset($this->options['foreign_key'])) {
             $this->options['foreign_key'] = $mapper->pk();
         }
 
         $map = $mapper->map();
         $this->options['foreign_accessor'] = $map[$this->options['foreign_key']]['accessor'];
+        $this->options['path_name_accessor'] = $map[$this->options['path_name']]['accessor'];
 
         return parent::setMapper($mapper);
     }
@@ -29,6 +34,12 @@ class tree_mpPlugin extends observer
 
         $map['tree_path'] = array(
             'accessor' => 'getTreePath',
+            'options' => array(
+                'fake',
+                'ro'));
+
+        $map['tree_spath'] = array(
+            'accessor' => 'getTreeSPath',
             'options' => array(
                 'fake',
                 'ro'));
@@ -66,7 +77,7 @@ class tree_mpPlugin extends observer
     {
         $criterion = new criterion('tree.foreign_key', $this->mapper->table() . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
         $criteria->addJoin($this->table(), $criterion, 'tree');
-        $criteria->setOrderByFieldAsc('tree.path');
+        $criteria->setOrderByFieldAsc('tree.spath');
         $this->addSelectFields($criteria);
     }
 
@@ -77,7 +88,7 @@ class tree_mpPlugin extends observer
 
         $criterion = new criterion('tree.foreign_key', $alias . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
         $criteria->addJoin($this->table(), $criterion, 'tree');
-        $criteria->setOrderByFieldAsc('tree.path');
+        $criteria->setOrderByFieldAsc('tree.spath');
         $this->addSelectFields($criteria, $alias);
     }
 
@@ -106,18 +117,18 @@ class tree_mpPlugin extends observer
 
     public function getParent(entity $object)
     {
-        $path = $object->getTreePath();
+        $path = $object->getTreeSPath();
         $parent = substr($path, 0, strrpos(substr($path, 0, -1), '/')) . '/';
 
         $criteria = new criteria();
-        $criteria->add('tree.path', $parent);
+        $criteria->add('tree.spath', $parent);
 
         return $this->mapper->searchOneByCriteria($criteria);
     }
 
     public function getParentBranch(entity $object)
     {
-        $path = $object->getTreePath();
+        $path = $object->getTreeSPath();
         $path = explode('/', $path);
         array_pop($path);
 
@@ -129,20 +140,32 @@ class tree_mpPlugin extends observer
         }
 
         $criteria = new criteria();
-        $criteria->add('tree.path', $nodes, criteria::IN);
+        $criteria->add('tree.spath', $nodes, criteria::IN);
 
         return $this->mapper->searchAllByCriteria($criteria);
     }
 
     public function getBranch(entity $object, $depth = 0)
     {
-        $path = $object->getTreePath();
+        $path = $object->getTreeSPath();
 
+        $criteria = new criteria();
+        $criteria->add('tree.spath', $path . '%', criteria::LIKE);
+
+        if ($depth) {
+            $criteria->add('tree.level', $object->getTreeLevel() + $depth, criteria::LESS_EQUAL);
+        }
+
+        return $this->mapper->searchAllByCriteria($criteria);
+    }
+
+    public function getBranchByPath($path, $depth = 0)
+    {
         $criteria = new criteria();
         $criteria->add('tree.path', $path . '%', criteria::LIKE);
 
         if ($depth) {
-            $criteria->add('tree.level', $object->getTreeLevel() + $depth, criteria::LESS_EQUAL);
+            $criteria->add('tree.level', $this->calcLevelByPath($path) + $depth, criteria::LESS_EQUAL);
         }
 
         return $this->mapper->searchAllByCriteria($criteria);
@@ -178,25 +201,30 @@ class tree_mpPlugin extends observer
         // update path
         $update = new simpleUpdate($criteria);
 
-        $path = $this->mapper->db()->lastInsertId();
+        $spath = $this->mapper->db()->lastInsertId();
+        $path = $object->{$this->options['path_name_accessor']}();
 
         // if parent node was specified - append it's path before current node id
         if (!empty($this->parent)) {
+            $spath = $this->parent->getTreeSPath() . $spath;
             $path = $this->parent->getTreePath() . $path;
             unset($this->parent);
         }
 
         $path .= '/';
+        $spath .= '/';
 
-        $level = $this->calcLevelByPath($path);
+        $level = $this->calcLevelByPath($spath);
 
         $this->mapper->db()->query($update->toString(array(
-            'path' => $path,
-            'level' => $level)));
+            'spath' => $spath,
+            'level' => $level,
+            'path' => $path)));
         // merge tree info into object
         $data = array(
-            'tree_path' => $path,
-            'tree_level' => $level);
+            'tree_spath' => $spath,
+            'tree_level' => $level,
+            'tree_path' => $path);
         $object->merge($data);
         $this->postCreate($object);
     }
@@ -205,21 +233,23 @@ class tree_mpPlugin extends observer
     {
         // if parent was changed
         if (!empty($this->parent)) {
-            $path = $this->parent->getTreePath() . $object->getTreeId() . '/';
+            $spath = $this->parent->getTreeSPath() . $object->getTreeId() . '/';
+            $path = $this->parent->getTreePath() . $object->{$this->options['path_name_accessor']}() . '/';
 
-            $newLevel = $this->calcLevelByPath($path);
+            $newLevel = $this->calcLevelByPath($spath);
 
             $levelDelta = $newLevel - $object->getTreeLevel();
 
             $sql = "UPDATE `" . $this->table() . "`
-                     SET `level` = `level` + " . $levelDelta . ", `path` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreePath()) . ", SUBSTRING(`path`, " . (strlen($object->getTreeParent()->getTreePath()) + 1) . "))
-                      WHERE `path` LIKE " . $this->mapper->db()->quote($object->getTreePath() . '%') . "";
+                     SET `level` = `level` + " . $levelDelta . ", `spath` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreeSPath()) . ", SUBSTRING(`spath`, " . (strlen($object->getTreeParent()->getTreeSPath()) + 1) . ")), `path` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreePath()) . ", SUBSTRING(`path`, " . (strlen($object->getTreeParent()->getTreePath()) + 1) . "))
+                      WHERE `spath` LIKE " . $this->mapper->db()->quote($object->getTreeSPath() . '%') . "";
 
             $this->mapper->db()->query($sql);
 
             $object->merge(array(
-                'tree_path' => $path,
-                'tree_level' => $newLevel));
+                'tree_spath' => $spath,
+                'tree_level' => $newLevel,
+                'tree_path' => $path));
             $this->postCreate($object);
 
             unset($this->parent);
@@ -231,7 +261,7 @@ class tree_mpPlugin extends observer
         // retrieve all subnodes
         $criteria = new criteria($this->table());
         $criteria->addSelectField('foreign_key');
-        $criteria->add('path', $object->getTreePath() . '%', criteria::LIKE);
+        $criteria->add('spath', $object->getTreeSPath() . '%', criteria::LIKE);
         $criteria->add('id', $object->getTreeId(), criteria::NOT_EQUAL);
 
         $select = new simpleSelect($criteria);
@@ -261,6 +291,7 @@ class tree_mpPlugin extends observer
 
         foreach (array(
             'id',
+            'spath',
             'path',
             'foreign_key',
             'level') as $field) {

@@ -335,7 +335,6 @@ abstract class mapper
 
         //echo '<pre>'; var_dump($select->toString()); echo '</pre>';
 
-
         return $this->db()->query($select->toString());
     }
 
