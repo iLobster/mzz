@@ -15,6 +15,7 @@
 //fileLoader::load('db/dbTreeNS');
 fileLoader::load('news/newsFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
+fileLoader::load('orm/plugins/acl_extPlugin');
 
 /**
  * newsFolderMapper: маппер для папок новостей
@@ -40,6 +41,7 @@ class newsFolderMapper extends mapper
     {
         parent::__construct();
         $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
+        $this->attach(new acl_extPlugin(), 'acl');
     }
 
     /**
@@ -83,6 +85,11 @@ class newsFolderMapper extends mapper
     {
         // выбирается только нижележащий уровень
         return $this->tree->getBranchByPath($path, $deep);
+    }
+
+    public function searchByPath($path)
+    {
+        return $this->plugin('tree')->searchByPath($path . '/');
     }
 
     public function convertArgsToObj($args)

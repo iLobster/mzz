@@ -13,6 +13,7 @@
  */
 
 fileLoader::load('news');
+fileLoader::load('orm/plugins/acl_extPlugin');
 
 /**
  * newsMapper: маппер для новостей
@@ -30,6 +31,27 @@ class newsMapper extends mapper
      */
     protected $class = 'news';
     protected $table = 'news_news';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk', 'once',
+            ),
+        ),
+        'folder_id' => array(
+            'accessor' => 'getFolder',
+            'mutator' => 'setFolder',
+        ),
+    );
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->attach(new acl_extPlugin(), 'acl');
+    }
+
 
     /**
      * Выполняет поиск объекта по идентификатору

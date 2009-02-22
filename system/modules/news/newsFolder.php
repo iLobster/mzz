@@ -26,6 +26,12 @@ class newsFolder extends entity
     {
         return $this->getJipView($this->name, $this->getPath(), get_class($this));
     }
+
+    public function getItems()
+    {
+        $mapper = systemToolkit::getInstance()->getMapper('news', 'news');
+        return $mapper->searchAllByField('folder_id', $this->getId());
+    }
 }
 
 ?>

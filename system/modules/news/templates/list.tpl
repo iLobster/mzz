@@ -13,13 +13,16 @@
      <div class="news_text">{$current_news->getAnnotation()|htmlspecialchars}</div>
 
     {/foreach}
+    {*
     {if $pager->getPagesTotal() > 0}
         <div class="pages">{$pager->toString()}</div>
     {/if}
+    *}
 </div>
 
-
+{*
 <div style="text-align: center;">
 Облако тегов всех объектов <br />
 {load module=tags action=tagsCloud tmodule=news tclass=news section=tags}
 </div>
+*}
