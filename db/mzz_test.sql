@@ -116,6 +116,20 @@ CREATE TABLE `ormSimpleRelated` (
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
+# Structure for the `ormSimple_lang` table : 
+#
+
+DROP TABLE IF EXISTS `ormSimple_lang`;
+
+CREATE TABLE `ormSimple_lang` (
+  `id` INTEGER(11) UNSIGNED NOT NULL DEFAULT '0',
+  `lang_id` INTEGER(11) DEFAULT NULL,
+  `title` CHAR(32) COLLATE utf8_general_ci DEFAULT NULL,
+  KEY `id` (`id`, `lang_id`)
+)ENGINE=MyISAM
+ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
 # Structure for the `ormSimple_tree` table : 
 #
 
@@ -674,7 +688,7 @@ CREATE TABLE `sys_sessions` (
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=326 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=336 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `treeNS` table : 
