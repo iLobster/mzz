@@ -19,26 +19,18 @@
  * @subpackage page
  * @version 0.1.4
  */
-class page extends simple
+class page extends entity
 {
-    protected $name = 'page';
-
-    public function getFullPath()
-    {
-        return $this->getFolder()->getPath() . '/' . $this->getName();
-    }
-
-
 
     /**
      * Получение объекта JIP
      *
      * @return jip
      */
-    public function getJip()
+   /* public function getJip()
     {
         return $this->getJipView($this->name, $this->getFullPath(), get_class($this));
-    }
+    }*/
 }
 
 ?>

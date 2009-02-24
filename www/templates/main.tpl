@@ -1,6 +1,5 @@
 {* main="header.tpl" placeholder="content" *}
 {load module="user" action="login" section="user" onlyForm=true _side="left"}
-{load module="voting" section="voting" action="viewActual" name="simple" 403handle="none" _side="left" tplPrefix="blocks"}
 <div id="wrapper">
     <div id="nonFooter">
         <div id="hbackground">
@@ -32,15 +31,6 @@
                 <div id="container">
                     <!--  left column  -->
                     <div id="col1">
-                        {*<div class="sideBlock">
-                            {load module="user" action="loginForm" section="user" id=0}
-                        </div>
-                        <div class="sideBlock">
-                            <p class="sideBlockTitle">Опрос</p>
-                            <div class="sideBlockContent">
-                                {load module="voting" section="voting" action="viewActual" name="simple" 403handle="none"}
-                            </div>
-                        </div>*}
                         {side->get side="left" assign="leftSide"}
                         {foreach from=$leftSide item="block"}
                         <div class="sideBlock">
@@ -59,12 +49,6 @@
             {if false && $current_section != 'gallery' && $current_section != 'forum'}
             <!-- right column -->
             <div id="col3">
-                <div class="sideBlock">
-                    <p class="sideBlockTitle">Опрос</p>
-                    <div class="sideBlockContent">
-                        {load module="voting" section="voting" action="viewActual" name="simple" 403handle="none"}
-                    </div>
-                </div>
 
             </div>
             {/if}

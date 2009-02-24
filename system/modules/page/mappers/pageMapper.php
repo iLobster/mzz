@@ -13,6 +13,7 @@
  */
 
 fileLoader::load('page');
+fileLoader::load('orm/plugins/acl_extPlugin');
 
 /**
  * pageMapper: маппер для страниц
@@ -21,21 +22,44 @@ fileLoader::load('page');
  * @subpackage page
  * @version 0.2.1
  */
-class pageMapper extends simpleMapper
+class pageMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'page';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'page';
+    protected $class = 'page';
+    protected $table = 'page_page';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk',
+                'once',
+            ),
+        ),
+        'compiled' => array(
+            'accessor' => 'getCompiled',
+            'mutator' => 'setCompiled',
+        ),
+        'allow_comment' => array(
+            'accessor' => 'getAllowComment',
+            'mutator' => 'setAllowComment',
+        ),
+        'folder_id' => array(
+            'accessor' => 'getFolder',
+            'mutator' => 'setFolder',
+        ),
+    );
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->attach(new acl_extPlugin(), 'acl');
+    }
 
     /**
      * Выполняет поиск объекта по идентификатору

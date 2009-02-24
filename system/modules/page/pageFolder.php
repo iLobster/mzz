@@ -12,8 +12,6 @@
  * @version $Id$
 */
 
-fileLoader::load('simple/simpleForTree');
-
 /**
  * pageFolder: класс для работы c данными
  *
@@ -21,21 +19,8 @@ fileLoader::load('simple/simpleForTree');
  * @subpackage page
  * @version 0.1.1
  */
-class pageFolder extends simpleForTree
+class pageFolder extends entity
 {
-    protected $name = 'page';
-
-    /**
-     * Конструктор
-     *
-     * @param object $mapper
-     * @param array $map
-     */
-    public function __construct($mapper, Array $map)
-    {
-        parent::__construct($mapper, $map);
-        $this->treeFields = new arrayDataspace();
-    }
 
     public function getJip()
     {

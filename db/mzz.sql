@@ -1495,10 +1495,10 @@ AUTO_INCREMENT=12 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `page_page` (`id`, `obj_id`, `name`, `folder_id`, `allow_comment`, `compiled`, `keywords_reset`, `description_reset`) VALUES
-  (1,9,'main',1,1,0,0,0),
-  (2,10,'404',1,1,NULL,0,0),
-  (3,11,'test',1,1,NULL,0,0),
-  (4,57,'403',1,1,NULL,0,0),
+  (1,9,'main',2,1,0,0,0),
+  (2,10,'404',2,1,NULL,0,0),
+  (3,11,'test',2,1,NULL,0,0),
+  (4,57,'403',2,1,NULL,0,0),
   (5,164,'pagename',2,1,NULL,0,0),
   (6,165,'asd',2,1,NULL,0,0),
   (7,166,'12345',2,1,NULL,0,0),
@@ -1524,16 +1524,16 @@ CREATE TABLE `page_pageFolder` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=5 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `page_pageFolder` table  (LIMIT 0,500)
 #
 
 INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES
-  (1,161,'root','/',1,'root'),
-  (2,163,'foo','foo',2,'root/foo'),
-  (3,234,'zz','zz',3,'root/foo/zz');
+  (2,161,'root','/',1,'root'),
+  (3,163,'foo','foo',2,'root/foo'),
+  (4,234,'zz','zz',3,'root/foo/zz');
 COMMIT;
 
 #
@@ -1543,6 +1543,30 @@ COMMIT;
 DROP TABLE IF EXISTS `page_pageFolder_tree`;
 
 CREATE TABLE `page_pageFolder_tree` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `path` TEXT COLLATE utf8_general_ci,
+  `foreign_key` INTEGER(11) DEFAULT NULL,
+  `level` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `spath` TEXT COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `page_pageFolder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES
+  (1,'root/',2,1,'1/');
+COMMIT;
+
+#
+# Structure for the `page_pageFolder_tree_back` table :
+#
+
+DROP TABLE IF EXISTS `page_pageFolder_tree_back`;
+
+CREATE TABLE `page_pageFolder_tree_back` (
   `id` INTEGER(10) NOT NULL AUTO_INCREMENT,
   `lkey` INTEGER(10) NOT NULL DEFAULT '0',
   `rkey` INTEGER(10) NOT NULL DEFAULT '0',
@@ -1555,10 +1579,10 @@ CREATE TABLE `page_pageFolder_tree` (
 AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
+# Data for the `page_pageFolder_tree_back` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pageFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
+INSERT INTO `page_pageFolder_tree_back` (`id`, `lkey`, `rkey`, `level`) VALUES
   (1,1,6,1),
   (2,2,5,2),
   (3,3,4,3);

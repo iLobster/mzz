@@ -13,7 +13,8 @@
  */
 
 fileLoader::load('page/pageFolder');
-fileLoader::load('simple/simpleMapperForTree');
+fileLoader::load('orm/plugins/tree_mpPlugin');
+fileLoader::load('orm/plugins/acl_extPlugin');
 
 /**
  * pageFolderMapper: маппер
@@ -23,34 +24,50 @@ fileLoader::load('simple/simpleMapperForTree');
  * @version 0.1.4
  */
 
-class pageFolderMapper extends simpleMapperForTree
+class pageFolderMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'page';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'pageFolder';
+    protected $class = 'pageFolder';
+    protected $table = 'page_pageFolder';
 
-    protected $itemName = 'page';
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk',
+                'once',
+            ),
+        ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+        ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle',
+        ),
+        'parent' => array(
+            'accessor' => 'getParent',
+            'mutator' => 'setParent',
+        ),
+        'path' => array(
+            'accessor' => 'getPath',
+            'mutator' => 'setPath',
+        ),
+    );
 
-    /**
-     * Возвращает Доменный Объект, который обслуживает запрашиваемый маппер
-     *
-     * @return object
-     */
-    public function create()
+    public function __construct()
     {
-        $map = $this->getMap();
-        return new pageFolder($this, $map);
+        parent::__construct();
+        $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
+        $this->attach(new acl_extPlugin(), 'acl');
     }
+
 
     public function searchByParentId($id)
     {
@@ -61,6 +78,13 @@ class pageFolderMapper extends simpleMapperForTree
     {
         return $this->searchOneByField('id', $id);
     }
+
+    public function searchByPath($path)
+    {
+        return $this->plugin('tree')->searchByPath($path . '/');
+    }
+
+
     /**
      * Метод поиска страницы в каталоге
      *
@@ -92,7 +116,6 @@ class pageFolderMapper extends simpleMapperForTree
         $criteria = new criteria();
         $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
         $page = $pageMapper->searchOneByCriteria($criteria);
-
         return $page;
     }
 
