@@ -8,7 +8,7 @@
         {form->hidden value=$hidden[1] name=$hidden[0]}
     {/foreach}
 {/if}
-{form->submit name="submit" value="_ yes"} <span>{form->reset jip=true value="_ no" name="reset"}</span>
+{form->submit name="submit" value="_ yes" accesskey="y"} <span>{form->reset jip=true value="_ no" name="reset" accesskey="n"}</span>
 </form>
 </div>
 </div>
