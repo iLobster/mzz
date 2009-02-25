@@ -40,9 +40,9 @@ $baseresolver->addResolver(new appFileResolver());
 $baseresolver->addResolver(new sysFileResolver());
 
 $resolver = new compositeResolver();
+$resolver->addResolver(new templateMediaResolver($baseresolver));
 $resolver->addResolver(new moduleMediaResolver($baseresolver));
 $resolver->addResolver(new extensionBasedModuleMediaResolver($baseresolver));
-$resolver->addResolver(new templateMediaResolver($baseresolver));
 $resolver->addResolver(new classFileResolver($baseresolver));
 
 $resolver = new cachingResolver($resolver, 'resolver.media.cache');

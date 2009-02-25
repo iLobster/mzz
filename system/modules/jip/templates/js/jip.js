@@ -626,9 +626,6 @@ jipWindow = Class.create({
 
     savePosition: function(jip)
     {
-        // убрать после 1 декабря 08 :)
-        Cookie.remove('jip_window_top');
-        Cookie.remove('jip_window_left');
         var cookiePath = (SITE_PATH == '') ? '/' : SITE_PATH;
         var cookieLifeTime = new Date(new Date().getTime() + 50000000000);
         var offsets = Position.cumulativeOffset(jip);
@@ -645,14 +642,14 @@ jipWindow = Class.create({
             this.drag = false;
         }
         if (this.jip) {
-            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar2.gif" width="32" height="32" /><br />' + jipI18n[SITE_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + jipI18n[SITE_LANG].cancel + '</a></div>');
+            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/statusbar2.gif" width="32" height="32" /><br />' + jipI18n[SITE_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + jipI18n[SITE_LANG].cancel + '</a></div>');
         }
     },
 
     setRefreshMsg: function()
     {
         if (this.jip) {
-            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/statusbar3.gif" width="32" height="32" /><br />' + jipI18n[SITE_LANG].refresh + '</div>');
+            this.jip.update('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/statusbar3.gif" width="32" height="32" /><br />' + jipI18n[SITE_LANG].refresh + '</div>');
         }
     },
 
@@ -765,7 +762,7 @@ jipMenu = Class.create({
         document.stopObserving("keypress", this.eventKeypress);
         document.stopObserving("click", this.eventDocumentClick);
         Event.stopObserving(window, "resize", this.eventResize);
-        this.current.get('button').writeAttribute('src',  SITE_PATH + '/templates/images/jip.gif');
+        this.current.get('button').writeAttribute('src',  SITE_PATH + '/templates/images/jip/jip.gif');
         this.mouseIn();
         this.current = $H({'menu': false, 'button': false});
         //this.closeTimer = setTimeout(function () { jipMenu.jipMenu.parentNode.removeChild(jipMenu.jipMenu); jipMenu.jipMenu = false; }, 10);
