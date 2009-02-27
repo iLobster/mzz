@@ -31,35 +31,57 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->smarty->setReturnValue('get_template_vars', array());
     }
 
-    private function findMatches($type, $array)
+    private function findMatches($type, $file, $array)
     {
         $statics = $this->function->getStaticVariables();
-        $match = 0;
-        $this->assertTrue(isset($statics['medias'][1]['css']));
-        foreach ($statics['medias'][1][$type] as $css) {
-            if ($css == $array) {
-                $match++;
-            }
-        }
-        return $match;
+        $this->assertTrue(isset($statics['medias'][$type]));
+
+        return (isset($statics['medias'][$type][$file]) && $statics['medias'][$type][$file] === $array);
     }
 
-    public function testWithJoinNotSetted()
+    public function testAddFile()
     {
-        $this->setUpExpectOnce('css');
-        $params = array('file' => 'joinedstyle.css');
+        $params = array(
+            'file' => 'style.css'
+        );
+
         smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('css', array('file' => 'joinedstyle.css', 'tpl' => 'css.tpl', 'join' => true));
-        $this->assertEqual($match, 1);
+        $statics = $this->function->getStaticVariables();
+
+        $this->assertTrue($this->findMatches('css', $params['file'], array('tpl' => 'css.tpl', 'join' => true)));
     }
 
-    public function testWithJoinSettedInFalse()
+    public function testAddFileWithNoJoin()
     {
-        $this->setUpExpectOnce('css');
-        $params = array('file' => 'notjoinedstyle.css', 'join' => false);
+        $params = array(
+            'file' => 'style.css',
+            'join' => false
+        );
+
         smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('css', array('file' => 'notjoinedstyle.css', 'tpl' => 'css.tpl', 'join' => false));
-        $this->assertEqual($match, 1);
+        $statics = $this->function->getStaticVariables();
+
+        $this->assertTrue($this->findMatches('css', $params['file'], array('tpl' => 'css.tpl', 'join' => false)));
+    }
+
+    public function testAddTwice()
+    {
+        $params = array(
+            'file' => 'style.css',
+            'join' => false
+        );
+
+        smarty_function_add($params, $this->smarty);
+        $statics = $this->function->getStaticVariables();
+
+        $this->assertTrue($this->findMatches('css', $params['file'], array('tpl' => 'css.tpl', 'join' => false)));
+
+        $params['join'] = true;
+
+        smarty_function_add($params, $this->smarty);
+        $statics = $this->function->getStaticVariables();
+
+        $this->assertTrue($this->findMatches('css', $params['file'], array('tpl' => 'css.tpl', 'join' => true)));
     }
 
     public function testNoResourceNameNoTemplate()
@@ -67,8 +89,8 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->setUpExpectOnce('css');
         $params = array('file' => 'style.css');
         smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('css', array('file' => 'style.css', 'tpl' => 'css.tpl', 'join' => true));
-        $this->assertEqual($match, 1);
+        $match = $this->findMatches('css', $params['file'], array('tpl' => 'css.tpl', 'join' => true));
+        $this->assertTrue($match);
     }
 
     public function testWithResourceNameNoTemplate()
@@ -76,8 +98,8 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->setUpExpectOnce('css');
         $params = array('file' => 'css:style2.css');
         smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('css', array('file' => 'style2.css', 'tpl' => 'css.tpl', 'join' => true));
-        $this->assertEqual($match, 1);
+        $match = $this->findMatches('css', 'style2.css', array('tpl' => 'css.tpl', 'join' => true));
+        $this->assertTrue($match);
     }
 
     public function testNoResourceNameWithTemplate()
@@ -85,8 +107,8 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->setUpExpectOnce('some');
         $params = array('file' => 'style.css', 'tpl' => 'some.tpl');
         smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('css', array('file' => 'style.css', 'tpl' => 'some.tpl', 'join' => true));
-        $this->assertEqual($match, 1);
+        $match = $this->findMatches('css', $params['file'], array('tpl' => 'some.tpl', 'join' => true));
+        $this->assertTrue($match);
     }
 
     public function testWithResourceNameWithTemplate()
@@ -94,8 +116,8 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->setUpExpectOnce('some');
         $params = array('file' => 'css:style3.css', 'tpl' => 'some.tpl');
         smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('css', array('file' => 'style3.css', 'tpl' => 'some.tpl', 'join' => true));
-        $this->assertEqual($match, 1);
+        $match = $this->findMatches('css', 'style3.css', array('tpl' => 'some.tpl', 'join' => true));
+        $this->assertTrue($match);
     }
 
     public function testURLAsFilenameWithTemplate()
@@ -103,8 +125,8 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->setUpExpectOnce('some');
         $params = array('file' => 'css:style.css?a&b=1', 'tpl' => 'some.tpl');
         smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('css', array('file' => 'style.css?a&b=1', 'tpl' => 'some.tpl', 'join' => true));
-        $this->assertEqual($match, 1);
+        $match = $this->findMatches('css', 'style.css?a&b=1', array('tpl' => 'some.tpl', 'join' => true));
+        $this->assertTrue($match);
     }
 
     public function testNameWithEmptyResource()
@@ -173,8 +195,8 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->setUpExpectOnce('some');
         $params = array('file' => 'script.js');
         smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('js', array('file' => 'script.js', 'tpl' => 'js.tpl', 'join' => true));
-        $this->assertEqual($match, 1);
+        $match = $this->findMatches('js', $params['file'], array('tpl' => 'js.tpl', 'join' => true));
+        $this->assertTrue($match);
     }
 
     public function testJSResourceNameNoTemplate()
@@ -182,25 +204,27 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->setUpExpectOnce('some');
         $params = array('file' => 'js:script2.js');
         smarty_function_add($params, $this->smarty);
-        $match = $this->findMatches('js', array('file' => 'script2.js', 'tpl' => 'js.tpl', 'join' => true));
-        $this->assertEqual($match, 1);
+        $match = $this->findMatches('js', 'script2.js', array('tpl' => 'js.tpl', 'join' => true));
+        $this->assertTrue($match);
     }
 
+
+    /*
     public function testAddOnce()
     {
         $name = 'style_testAddOnce.css';
         $params = array('file' => $name);
-        $before = $this->findMatches('css', array('file' => $name, 'tpl' => 'css.tpl'));
-        $this->assertEqual($before, 0);
+        $before = $this->findMatches('css', $name, array('tpl' => 'css.tpl', 'join' => false));
+        $this->assertFalse($before);
         smarty_function_add($params, $this->smarty);
         smarty_function_add($params, $this->smarty);
         $params = array('file' => 'css:' . $name);
         smarty_function_add($params, $this->smarty);
         $params = array('file' => 'css:' . $name, 'tpl' => 'css.tpl');
         smarty_function_add($params, $this->smarty);
-        $after = $this->findMatches('css', array('file' => $name, 'tpl' => 'css.tpl', 'join' => true));
-        $this->assertEqual($after, 1, 'Сохранено более чем одной записи о ресурсе ' . $name);
-    }
+        $after = $this->findMatches('css', $name, array('tpl' => 'css.tpl', 'join' => true));
+        $this->assertTrue($after);
+    }*/
 }
 
 ?>

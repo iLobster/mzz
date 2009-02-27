@@ -32,7 +32,7 @@
  */
 function smarty_function_add($params, $smarty)
 {
-    static $medias = array(array(), array('js' => array(), 'css' => array()));
+    static $medias = array('js' => array(), 'css' => array());
 
     $vars = $smarty->get_template_vars('media');
 
@@ -61,12 +61,7 @@ function smarty_function_add($params, $smarty)
     // Если шаблон не указан, то используем шаблон соответствующий расширению
     $tpl = (!empty($params['tpl'])) ? $params['tpl'] : $res . '.tpl';
 
-    if (isset($medias[0][$filename . $tpl])) {
-        return;
-    }
-    $medias[0][$filename . $tpl] = true;
-
-    if (!isset($medias[1][$res])) {
+    if (!isset($medias[$res])) {
         throw new mzzInvalidParameterException('Неверный тип ресурса: ' . $res);
     }
 
@@ -75,12 +70,8 @@ function smarty_function_add($params, $smarty)
     }
 
     // ищем - подключали ли мы уже данный файл
-    if (is_array($vars[$res])) {
-        foreach ($vars[$res] as $val) {
-            if ($val['file'] == $filename && $val['tpl'] == $tpl) {
-                return null;
-            }
-        }
+    if (isset($vars[$res][$filename]) && $vars[$res][$filename]['tpl'] == $tpl) {
+        return null;
     }
 
     $join = true;
@@ -88,7 +79,7 @@ function smarty_function_add($params, $smarty)
         $join = false;
     }
 
-    $medias[1][$res][] = array('file' => $filename, 'tpl' => $tpl, 'join' => $join);
+    $medias[$res][$filename] = array('tpl' => $tpl, 'join' => $join);
 }
 
 ?>

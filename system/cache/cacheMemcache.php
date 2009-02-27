@@ -17,13 +17,13 @@
 require_once systemConfig::$pathToSystem . '/cache/iCache.php';
 
 /**
- * cacheMemcached: драйвер кэширования memcached
+ * cacheMemcache: драйвер кэширования memcache
  *
  * @package system
  * @subpackage cache
  * @version 0.0.4
  */
-class cacheMemcached implements iCache
+class cacheMemcache implements iCache
 {
     const DEFAULT_HOST = '127.0.0.1';
     const DEFAULT_PORT = 11211;
@@ -57,7 +57,7 @@ class cacheMemcached implements iCache
         'timeout' => self::DEFAULT_TIMEOUT,
         'retry_interval' => self::DEFAULT_RETRYINTERVAL,
         'status' => self::DEFAULT_STATUS,
-        'failure_callback' => null,
+        'failure_callback' => array($this, 'failureCallback'),
         );
         foreach ($params['servers'] as $host => $serverParams) {
             $serverParams = array_merge($defaultsParams, $serverParams);
@@ -76,8 +76,8 @@ class cacheMemcached implements iCache
             $serverParams['failure_callback']
             );
 
-            if (!$this->memcache->getStats()) {
-                throw new mzzRuntimeException('Memcache server "' . $host . ':' . $serverParams['port'] . '" is down');
+            if (!$this->memcache->getServerStatus($host, $serverParams['port'])) {
+                $this->failureCallback($host, $serverParams['port']);
             }
         }
 
@@ -93,7 +93,7 @@ class cacheMemcached implements iCache
         try {
             $flag = isset($params['flag']) ? $params['flag'] : null;
             return $this->memcache->add($key, $value, $flag, $expire);
-        } catch (phpErrorException $e) {
+        } catch (mzzException $e) {
             return false;
         }
     }
@@ -103,7 +103,7 @@ class cacheMemcached implements iCache
         try {
             $flag = isset($params['flag']) ? $params['flag'] : null;
             return $this->memcache->set($key, $value, $flag, $expire);
-        } catch (phpErrorException $e) {
+        } catch (mzzException $e) {
             return false;
         }
     }
@@ -113,7 +113,7 @@ class cacheMemcached implements iCache
         try {
             $value = $this->memcache->get($key);
             return ($value === false) ? null : $value;
-        } catch (phpErrorException $e) {
+        } catch (mzzException $e) {
             return null;
         }
     }
@@ -123,7 +123,7 @@ class cacheMemcached implements iCache
         try {
             $timeout = isset($params['timeout']) ? $params['timeout'] : null;
             return $this->memcache->delete($key, $timeout);
-        } catch (phpErrorException $e) {
+        } catch (mzzException $e) {
             return false;
         }
     }
@@ -132,7 +132,7 @@ class cacheMemcached implements iCache
     {
         try {
             return $this->memcache->flush();
-        } catch (phpErrorException $e) {
+        } catch (mzzException $e) {
             return false;
         }
     }
@@ -141,7 +141,7 @@ class cacheMemcached implements iCache
     {
         try {
             return $this->memcache->increment($key, $value);
-        } catch (phpErrorException $e) {
+        } catch (mzzException $e) {
             return false;
         }
     }
@@ -150,7 +150,7 @@ class cacheMemcached implements iCache
     {
         try {
             return $this->memcache->decrement($key, $value);
-        } catch (phpErrorException $e) {
+        } catch (mzzException $e) {
             return false;
         }
     }
@@ -158,6 +158,11 @@ class cacheMemcached implements iCache
     public function getStats()
     {
         return $this->memcache->getExtendedStats();
+    }
+
+    public function failureCallback($host, $port)
+    {
+        throw new mzzException('Memcache server "' . $host . ':' . $port . '" error');
     }
 }
 ?>

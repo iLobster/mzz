@@ -10,7 +10,7 @@ class memcachedTest extends unitTestCase
         $this->skipIf(!class_exists('Memcache'), 'Memcache class not found. Test skipped.');
         try {
             $this->_createCache();
-        } catch (mzzRuntimeException $e) {
+        } catch (mzzException $e) {
             $this->skipIf(true, $e->getMessage());
         }
     }
@@ -43,7 +43,7 @@ class memcachedTest extends unitTestCase
 
     public function _createCache()
     {
-        return cache::factory('memcached', array('memcached' => array('backend' => 'memcached')));
+        return cache::factory('memcache', array('memcache' => array('backend' => 'memcache')));
     }
 }
 
