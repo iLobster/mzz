@@ -111,7 +111,8 @@ DROP TABLE IF EXISTS `ormSimpleRelated`;
 
 CREATE TABLE `ormSimpleRelated` (
   `simple_id` INTEGER(11) DEFAULT NULL,
-  `related_id` INTEGER(11) DEFAULT NULL
+  `related_id` INTEGER(11) DEFAULT NULL,
+  `related_id2` INTEGER(11) DEFAULT NULL
 )ENGINE=MyISAM
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -688,7 +689,7 @@ CREATE TABLE `sys_sessions` (
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=336 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=341 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `treeNS` table : 

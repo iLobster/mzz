@@ -86,9 +86,11 @@ class tree_mpPlugin extends observer
         $criteria = $data[0];
         $alias = $data[1];
 
-        $criterion = new criterion('tree.foreign_key', $alias . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
-        $criteria->addJoin($this->table(), $criterion, 'tree');
-        $criteria->setOrderByFieldAsc('tree.spath');
+        $table_name = $alias . '_tree';
+
+        $criterion = new criterion($table_name . '.foreign_key', $alias . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
+        $criteria->addJoin($this->table(), $criterion, $table_name);
+        $criteria->setOrderByFieldAsc($table_name . '.spath');
         $this->addSelectFields($criteria, $alias);
     }
 
@@ -292,6 +294,9 @@ class tree_mpPlugin extends observer
     {
         if (is_null($alias)) {
             $alias = $this->mapper->table();
+            $self = 'tree';
+        } else {
+            $self = $alias . '_tree';
         }
 
         foreach (array(
@@ -300,7 +305,7 @@ class tree_mpPlugin extends observer
             'path',
             'foreign_key',
             'level') as $field) {
-            $criteria->addSelectField('tree.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . 'tree_' . $field);
+            $criteria->addSelectField($self . '.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . 'tree_' . $field);
         }
     }
 

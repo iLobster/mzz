@@ -19,6 +19,12 @@ class parentTreeTestMapper extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
+            'mapper' => 'ormSimpleChildMapper'),
+        'related_id2' => array(
+            'accessor' => 'getRelated2',
+            'mutator' => 'setRelated2',
+            'relation' => 'one',
+            'foreign_key' => 'id',
             'mapper' => 'ormSimpleChildMapper'));
 }
 
@@ -43,7 +49,8 @@ class ormSimpleChildMapper extends mapper
     {
         parent::__construct();
 
-        $this->attach(new tree_mpPlugin(array('path_name' => 'foo')));
+        $this->attach(new tree_mpPlugin(array(
+            'path_name' => 'foo')));
     }
 }
 
@@ -100,7 +107,8 @@ class pluginTreeMPTest extends unitTestCase
     {
         $this->fixture();
         $this->mapper = new ormSimpleMapper();
-        $observer = new tree_mpPlugin(array('path_name' => 'foo'));
+        $observer = new tree_mpPlugin(array(
+            'path_name' => 'foo'));
         $this->mapper->attach($observer, 'tree_mp');
     }
 
@@ -129,11 +137,11 @@ class pluginTreeMPTest extends unitTestCase
 
         $valString = '';
         for ($id = 1; $id <= 8; $id++) {
-            $valString .= "(" . $id . ", " . $id . "), ";
+            $valString .= "(" . $id . ", " . $id . ", " . ($id + 1) . "), ";
         }
         $valString = substr($valString, 0, -2);
 
-        $this->db->query('INSERT INTO `ormSimpleRelated` (`simple_id`, `related_id`) VALUES ' . $valString);
+        $this->db->query('INSERT INTO `ormSimpleRelated` (`simple_id`, `related_id`, `related_id2`) VALUES ' . $valString);
     }
 
     public function cleardb()
@@ -290,17 +298,19 @@ class pluginTreeMPTest extends unitTestCase
         $this->assertEqual($branch->keys(), array(2, 5, 6));
     }
 
-    public function testNodeIsRelated()
+
+    public function testFewRelatedNodes()
     {
         $mapper = new parentTreeTestMapper();
-        $parentObject = $mapper->searchByKey(7);
+        $parentObject = $mapper->searchByKey(6);
 
         $object = $parentObject->getRelated();
+        $object2 = $parentObject->getRelated2();
 
-        $this->assertIsA($object, 'ormSimple');
-        $this->assertEqual($object->getTreeSPath(), '1/3/7/');
-        $this->assertEqual($object->getTreePath(), 'foo1/foo3/foo7/');
-        $this->assertEqual($object->getTreeParentBranch()->count(), 3);
+        $this->assertIsA($object2, 'ormSimple');
+        $this->assertEqual($object2->getTreeSPath(), '1/3/7/');
+        $this->assertEqual($object2->getTreePath(), 'foo1/foo3/foo7/');
+        $this->assertEqual($object2->getTreeParentBranch()->count(), 3);
     }
 }
 
