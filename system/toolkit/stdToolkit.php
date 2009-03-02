@@ -243,22 +243,7 @@ class stdToolkit extends toolkit
     public function getUser()
     {
         if (empty($this->user)) {
-            $userMapper = $this->getMapper('user', 'user', 'user');
-            $user_id = $this->getSession()->get('user_id');
-
-            if (is_null($user_id)) {
-                $userAuthMapper = $this->getMapper('user', 'userAuth', 'user');
-                $hash = $this->getRequest()->getString(userAuthMapper::$auth_cookie_name, SC_COOKIE);
-                $ip = $this->getRequest()->getServer('REMOTE_ADDR');
-                $userAuth = $userAuthMapper->getAuth($hash, $ip);
-                // если пользователь сохранил авторизацию, тогда восстанавливаем её
-                if (!is_null($userAuth)) {
-                    $user_id = $userAuth->getUserId();
-                }
-            }
-
-            // если авторизация пользователя не найдена - то устанавливаем user_id гостя
-            $this->setUser($user_id);
+            $this->setUser(null);
         }
 
         return $this->user;
@@ -277,6 +262,13 @@ class stdToolkit extends toolkit
         $this->user = $user;
     }
 
+    public function getUserAuth()
+    {
+        $userAuthMapper = $this->getMapper('user', 'userAuth', 'user');
+        $hash = $this->getRequest()->getString(userAuthMapper::$auth_cookie_name, SC_COOKIE);
+        $ip = $this->getRequest()->getServer('REMOTE_ADDR');
+        return $userAuthMapper->getAuth($hash, $ip);
+    }
 
     /**
      * Возвращает уникальный идентификатор необходимый для идентификации объектов

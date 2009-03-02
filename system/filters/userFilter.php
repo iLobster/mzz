@@ -35,26 +35,17 @@ class userFilter implements iFilter
         $toolkit = systemToolkit::getInstance();
 
         $userMapper = $toolkit->getMapper('user', 'user', 'user');
-        $user_id = $userMapper->getUserId();
+        $user_id = $toolkit->getSession()->get('user_id');
 
         if (is_null($user_id)) {
-            $userAuthMapper = $toolkit->getMapper('user', 'userAuth', 'user');
-            $userAuth = $userAuthMapper->get();
+            $userAuth = $toolkit->getUserAuth();
             // если пользователь сохранил авторизацию, тогда восстанавливаем её
             if (!is_null($userAuth)) {
                 $user_id = $userAuth->getUserId();
-                $userMapper->setUserId($user_id);
-            }
-
-            // если авторизация пользователя не найдена - то устанавливаем user_id гостя
-            if (is_null($user_id)) {
-                $user_id = MZZ_USER_GUEST_ID;
             }
         }
 
-        $me = $userMapper->searchById($user_id);
-
-        $toolkit->setUser($me);
+        $toolkit->setUser($user_id);
 
         $filter_chain->next();
     }
