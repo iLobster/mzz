@@ -34,7 +34,7 @@ class advancedMenuItemHelper implements iMenuItemHelper
         $item->setArguments(array());
 
         $item->setArgument('route', $routeName = $this->getRouteName($item, $args));
-        //$item->setArgument('regexp', array_key_exists('regexp', $args) ? $args['regexp'] : '');
+        $item->setArgument('regexp', array_key_exists('regexp', $args) ? $args['regexp'] : '');
 
         $this->prepareRoutes($item, $args);
         foreach ($this->routesPartsData as $key => $value) {
@@ -66,7 +66,7 @@ class advancedMenuItemHelper implements iMenuItemHelper
 
     public function injectItem($validator, $item = null, $smarty = null, array $args = null)
     {
-        //6$validator->add('callback', 'activeRegExp', 'Введенная строка является ошибочным рег.выражением', array(array($this, 'checkStringRegex')));
+        $validator->add('callback', 'activeRegExp', 'Введенная строка является ошибочным рег.выражением', array(array($this, 'checkStringRegex')));
         $validator->add('required', 'route', 'Укажите роут');
         $routeName = $this->getRouteName($item, $args);
         $this->prepareRoutes($item, $args);

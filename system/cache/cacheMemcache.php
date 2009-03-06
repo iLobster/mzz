@@ -76,9 +76,11 @@ class cacheMemcache implements iCache
             $serverParams['failure_callback']
             );
 
+            /*
             if (!$this->memcache->getServerStatus($host, $serverParams['port'])) {
                 $this->failureCallback($host, $serverParams['port']);
             }
+            */
         }
 
         if (isset($params['compress']) && $params['compress'] == true) {
@@ -86,6 +88,11 @@ class cacheMemcache implements iCache
             $min_savings = isset($params['min_savings']) ? $params['min_savings'] : self::DEFAULT_COMPRESSTRESHOLD;
             $this->memcache->setCompressThreshold($threshold, $min_savings);
         }
+    }
+
+    public function getStatus($host, $port)
+    {
+        return $this->memcache->getServerStatus($host, $port);
     }
 
     public function add($key, $value, $expire = null, $params = array())

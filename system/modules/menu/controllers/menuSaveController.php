@@ -86,7 +86,7 @@ class menuSaveController extends simpleController
             'parts' => $this->request->getArray('parts', SC_POST),
             'routeActive' => $this->request->getArray('routeActive', SC_POST),
             'routeActiveParts' => $this->request->getArray('activeParts', SC_POST),
-            //'regexp' => $this->request->getString('activeRegExp', SC_POST),
+            'regexp' => $this->request->getString('activeRegExp', SC_POST),
             'url' => $this->request->getString('url', SC_POST)
             );
 

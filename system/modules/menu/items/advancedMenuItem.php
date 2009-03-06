@@ -32,24 +32,7 @@ class advancedMenuItem extends menuItem
             $currentRoute = $toolkit->getRouter()->getCurrentRoute();
 
             $match = false;
-            foreach ($this->getActiveRoutes() as $route) {
-                if ($route['route'] == $currentRoute->getName()) {
-                    $values = $currentRoute->getValues();
-                    unset($values['lang']);
-                    $match = true;
-                    foreach ($route['params'] as $key => $value) {
-                        $currentValue = (isset($values[$key])) ? $values[$key] : null;
-                        if ($value != '*' && $value != $currentValue) {
-                            $match = false;
-                            break;
-                        }
-                    }
-                }
-            }
 
-            $this->isActive = $match;
-
-            /*
             if ($this->getActiveRegExp()) {
                 $requestPath = $request->getPath();
 
@@ -58,12 +41,26 @@ class advancedMenuItem extends menuItem
                     $requestPath = $this->stripLangFromUrl($requestPath);
                 }
 
-                $this->isActive = preg_match($this->getActiveRegExp(), $requestPath);
-            } else {
-                $url = $request->getUrl() . $this->getUrl();
-                $this->isActive = ($url == $request->getRequestUrl());
+                $match = preg_match($this->getActiveRegExp(), $requestPath);
             }
-            */
+            if (!$match) {
+                foreach ($this->getActiveRoutes() as $route) {
+                    if ($route['route'] == $currentRoute->getName()) {
+                        $values = $currentRoute->getValues();
+                        unset($values['lang']);
+                        $match = true;
+                        foreach ($route['params'] as $key => $value) {
+                            $currentValue = (isset($values[$key])) ? $values[$key] : null;
+                            if ($value != '*' && $value != $currentValue) {
+                                $match = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $this->isActive = $match;
         }
 
         return $this->isActive;
