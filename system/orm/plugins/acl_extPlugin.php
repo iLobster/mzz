@@ -9,6 +9,11 @@ class acl_extPlugin extends observer
             'options' => array(
                 'fake',
                 'ro'));
+        $map['obj_id'] = array(
+            'accessor' => 'getObjId',
+            'mutator' => 'setObjId',
+            'options' => array(
+                'ro'));
     }
 
     public function postCreate(entity $object)

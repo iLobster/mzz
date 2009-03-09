@@ -14,6 +14,7 @@
 
 fileLoader::load('page');
 fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('orm/plugins/i18nPlugin');
 
 /**
  * pageMapper: маппер для страниц
@@ -41,6 +42,38 @@ class pageMapper extends mapper
                 'once',
             ),
         ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+        ),
+        'content' => array(
+            'accessor' => 'getContent',
+            'mutator' => 'setContent',
+            'options' => array(
+                'i18n'
+            )
+        ),
+        'keywords' => array(
+            'accessor' => 'getKeywords',
+            'mutator' => 'setKeywords',
+            'options' => array(
+                'i18n'
+            )
+        ),
+        'description' => array(
+            'accessor' => 'getDescription',
+            'mutator' => 'setDescription',
+            'options' => array(
+                'i18n'
+            )
+        ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle',
+            'options' => array(
+                'i18n'
+            )
+        ),
         'compiled' => array(
             'accessor' => 'getCompiled',
             'mutator' => 'setCompiled',
@@ -53,12 +86,21 @@ class pageMapper extends mapper
             'accessor' => 'getFolder',
             'mutator' => 'setFolder',
         ),
+        'keywords_reset' => array(
+            'accessor' => 'isKeywordsReset',
+            'mutator' => 'setKeywordsReset',
+        ),
+        'description_reset' => array(
+            'accessor' => 'isDescriptionReset',
+            'mutator' => 'setDescriptionReset',
+        ),
     );
 
     public function __construct()
     {
         parent::__construct();
         $this->attach(new acl_extPlugin(), 'acl');
+        $this->attach(new i18nPlugin(), 'i18n');
     }
 
     /**
