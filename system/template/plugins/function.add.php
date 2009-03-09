@@ -38,7 +38,7 @@ function smarty_function_add($params, $smarty)
 
     // инициализация массива media, выполняется один раз при инстанциации Smarty
     if (isset($params['init']) && $vars === null) {
-        $smarty->assign_by_ref('media', $medias[1]);
+        $smarty->assign_by_ref('media', $medias);
         return;
     }
 

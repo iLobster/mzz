@@ -82,7 +82,7 @@ class actionTest extends unitTestCase
             $this->action->getJipActions('_unknown_type_');
             $this->fail('no exception thrown?');
         } catch (Exception $e) {
-            $this->assertPattern("/Тип \"_unknown_type_\" у модуля/i", $e->getMessage());
+            $this->assertPattern("/Класс \"_unknown_type_\" у модуля/i", $e->getMessage());
             $this->pass();
         }
     }

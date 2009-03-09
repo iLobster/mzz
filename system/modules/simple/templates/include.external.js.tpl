@@ -1,12 +1,12 @@
 {if isset($media.js) }
 {strip}
     {assign var="external" value=""}
-    {foreach from=$media.js item="jsfile" name="jsFiles"}
-    {if $jsfile.join}
-        {assign var="currentFile" value=$jsfile.file}
+    {foreach from=$media.js item="jsitem" key="file" name="jsFiles"}
+    {if $jsitem.join}
+        {assign var="currentFile" value=$file}
         {assign var="external" value=$external$currentFile,}
     {else}
-        {include file=$jsfile.tpl filename=$jsfile.file}
+        {include file=$jsitem.tpl filename=$file}
     {/if}
     {/foreach}
     {if $external}

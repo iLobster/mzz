@@ -75,8 +75,8 @@ class loadDispatcher
 
         // проверяем - не отключена ли в данном запуске модуля проверка прав
         if ($handle403 !== 'none') {
-            $mappername = $action->getType() . 'Mapper';
-            $mapper = $toolkit->getMapper($module, $action->getType(), $request->getSection());
+            $mappername = $action->getClass() . 'Mapper';
+            $mapper = $toolkit->getMapper($module, $action->getClass(), $request->getSection());
 
             try {
                 $access = self::getAccess($mapper, $action);

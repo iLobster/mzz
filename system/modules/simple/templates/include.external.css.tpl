@@ -1,12 +1,12 @@
 {if isset($media.css) }
 {strip}
     {assign var="external" value=""}
-    {foreach from=$media.css item="cssfile" name="cssFiles"}
-    {if $cssfile.join}
-        {assign var="currentFile" value=$cssfile.file}
+    {foreach from=$media.css item="cssitem" key="file" name="cssFiles"}
+    {if $cssitem.join}
+        {assign var="currentFile" value=$file}
         {assign var="external" value=$external$currentFile,}
     {else}
-        {include file=$cssfile.tpl filename=$cssfile.file}
+        {include file=$cssitem.tpl filename=$file}
     {/if}
     {/foreach}
     {if $external}

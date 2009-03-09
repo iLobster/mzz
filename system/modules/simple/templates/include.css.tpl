@@ -1,5 +1,5 @@
 {if isset($media.css) }
-{foreach from=$media.css item=cssfile}
-{include file=$cssfile.tpl filename=$cssfile.file}
+{foreach from=$media.css item="cssitem" key="file"}
+{include file=$cssitem.tpl filename=$file}
 {/foreach}
 {/if}

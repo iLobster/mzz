@@ -30,13 +30,6 @@ class jip
     const DEFAULT_TEMPLATE = 'jip/jip.tpl';
 
     /**
-     * Section
-     *
-     * @var string
-     */
-    private $section;
-
-    /**
      * Имя модуля
      *
      * @var string
@@ -88,18 +81,15 @@ class jip
     /**
      * Конструктор
      *
-     * @param string $section секция модуля
-     * @param string $module имя модуля
      * @param integer $id идентификатор
      * @param string $type тип доменного объекта
      * @param array $actions действия для JIP
      * @param simple $obj объект
      * @param string $tpl шаблон JIP-меню
      */
-    public function __construct($section, $module, $id, $type, Array $actions, simple $obj, $tpl = self::DEFAULT_TEMPLATE)
+    public function __construct($id, $type, Array $actions, entity $obj, $tpl = self::DEFAULT_TEMPLATE)
     {
-        $this->section = $section;
-        $this->module = $module;
+        $this->module = $obj->module();
         $this->id = $id;
         $this->type = $type;
         $this->actions = $actions;
@@ -117,7 +107,7 @@ class jip
     private function buildUrl($action)
     {
         $url = new url('withId');
-        $url->setSection($this->section);
+        $url->setSection($this->module);
         $url->setAction($action);
         $url->add('id', $this->id);
         return $url->get();
@@ -201,7 +191,7 @@ class jip
      */
     private function getJipMenuId()
     {
-        return $this->section . '_' . $this->type . '_' . $this->id;
+        return $this->module . '_' . $this->type . '_' . $this->id;
     }
 
     /**
