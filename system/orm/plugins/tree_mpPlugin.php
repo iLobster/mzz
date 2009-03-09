@@ -96,6 +96,7 @@ class tree_mpPlugin extends observer
 
     public function postCreate(entity $object)
     {
+        $tmp = array();
         $tmp['tree_parent'] = new lazy(array(
             $this,
             'getParent',

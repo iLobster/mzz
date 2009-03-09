@@ -12,7 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('jip/jip');
 /**
  * entity: implementation of a domain object for the Data Mapper pattern
  *
@@ -40,33 +39,6 @@ class entity
     public function relations($relations)
     {
         $this->relations = $relations;
-    }
-
-    /**
-     * Возвращает JIP-меню
-     *
-     * @param string $id
-     * @param string $type
-     * @param string $tpl шаблон JIP-меню
-     * @return string
-     */
-    protected function getJipView($id, $class, $tpl = jip::DEFAULT_TEMPLATE)
-    {
-        $action = systemToolkit::getInstance()->getAction($this->module());
-        $jip = new jip($id, $class, $action->getJipActions($class), $this, $tpl);
-        return $jip->draw();
-    }
-
-    /**
-     * Возвращает JIP-меню
-     * Переопределяется если требуется использовать другие данные для построения JIP-меню
-     *
-     * @param string $tpl шаблон JIP-меню
-     * @return string
-     */
-    public function getJip($tpl = jip::DEFAULT_TEMPLATE)
-    {
-        return $this->getJipView($this->getId(), get_class($this), $tpl);
     }
 
     public function module()
