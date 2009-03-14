@@ -1238,14 +1238,28 @@ CREATE TABLE `news_newsFolder_tree` (
   `spath` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=16 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
 #
 
 INSERT INTO `news_newsFolder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES
-  (1,'root/',2,1,'1/');
+  (1,'root/',2,1,'1/'),
+  (2,'root/main/',18,2,'1/2/'),
+  (3,'root/comments/',19,2,'1/3/'),
+  (4,'root/story/',20,2,'1/4/'),
+  (5,'root/russia/',21,2,'1/5/'),
+  (6,'root/xussr/',22,2,'1/6/'),
+  (7,'root/world/',23,2,'1/7/'),
+  (8,'root/america/',24,2,'1/8/'),
+  (9,'root/economy/',25,2,'1/9/'),
+  (10,'root/business/',26,2,'1/10/'),
+  (11,'root/finance/',27,2,'1/11/'),
+  (12,'root/realty/',28,2,'1/12'),
+  (13,'root/politic/',29,2,'1/13/'),
+  (14,'root/internet/',30,2,'1/14/'),
+  (15,'root/tehnology/',31,2,'1/15/');
 COMMIT;
 
 #

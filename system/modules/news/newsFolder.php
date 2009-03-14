@@ -22,9 +22,10 @@
 
 class newsFolder extends entity
 {
+    protected $module = 'news';
     public function getJip()
     {
-        return $this->getJipView($this->name, $this->getPath(), get_class($this));
+        return parent::__call('getJip', array($this->getPath()));
     }
 
     public function getItems()

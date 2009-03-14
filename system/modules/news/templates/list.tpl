@@ -1,7 +1,7 @@
 {title append=$newsFolder->getTitle()|htmlspecialchars}
 {title append="_ news_list"}
 {add file="news.css"}
-{include file="news/tree.tpl" source=$newsFolder}
+{include file="news/tree.tpl" newsFolders=$newsFolders}
 
 <div class="newsList">
     {foreach from=$news item=current_news}

@@ -35,6 +35,7 @@ class entity
      * @var relation
      */
     private $relations;
+    protected $module = null;
 
     public function relations($relations)
     {
@@ -43,9 +44,12 @@ class entity
 
     public function module()
     {
-        $class = new ReflectionClass(get_class($this));
-        $path = $class->getFileName();
-        return substr($path, strrpos($path, DIRECTORY_SEPARATOR) + 1, -4);
+        if (empty($this->module)) {
+            $class = new ReflectionClass(get_class($this));
+            $path = $class->getFileName();
+            $this->module = substr($path, strrpos($path, DIRECTORY_SEPARATOR) + 1, -4);
+        }
+        return $this->module;
     }
 
     public function setMap($map)

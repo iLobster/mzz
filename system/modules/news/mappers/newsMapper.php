@@ -14,6 +14,7 @@
 
 fileLoader::load('news');
 fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('orm/plugins/jipPlugin');
 
 /**
  * newsMapper: маппер для новостей
@@ -50,6 +51,7 @@ class newsMapper extends mapper
     {
         parent::__construct();
         $this->attach(new acl_extPlugin(), 'acl');
+        $this->attach(new jipPlugin(), 'jip');
     }
 
 

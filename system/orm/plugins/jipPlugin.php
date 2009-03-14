@@ -16,28 +16,16 @@ class jipPlugin extends observer
     /**
      * Возвращает JIP-меню
      *
-     * @param string $id
-     * @param string $type
      * @param string $tpl шаблон JIP-меню
      * @return string
      */
-    protected function getJipView($object, $id, $class, $tpl = jip::DEFAULT_TEMPLATE)
+    public function getJip($object, $id = null, $class = null, $tpl = jip::DEFAULT_TEMPLATE)
     {
+        $id = is_null($id) ? $object->getId() : $id;
+        $class = is_null($class) ? get_class($object): $class;
         $action = systemToolkit::getInstance()->getAction($object->module());
         $jip = new jip($id, $class, $action->getJipActions($class), $object, $tpl);
         return $jip->draw();
-    }
-
-    /**
-     * Возвращает JIP-меню
-     * Переопределяется если требуется использовать другие данные для построения JIP-меню
-     *
-     * @param string $tpl шаблон JIP-меню
-     * @return string
-     */
-    public function getJip($object, $tpl = jip::DEFAULT_TEMPLATE)
-    {
-        return $this->getJipView($object, $object->getId(), get_class($object), $tpl);
     }
 
     public function postCreate(entity $object)
