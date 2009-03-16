@@ -37,9 +37,8 @@ class newsListController extends simpleController
 
         $this->smarty->assign('news', $newsFolder->getItems());
         $this->smarty->assign('folderPath', $newsFolder->getTreePath());
+        $this->smarty->assign('rootFolder', $newsFolderMapper->searchByPath('root'));
         $this->smarty->assign('newsFolder', $newsFolder);
-        $this->smarty->assign('newsFolders', $newsFolder->getTreeBranch());
-        $this->smarty->assign('newsFolderMapper', $newsFolderMapper);
 
         return $this->smarty->fetch('news/list.tpl');
     }

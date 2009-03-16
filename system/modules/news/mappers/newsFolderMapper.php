@@ -17,6 +17,7 @@ fileLoader::load('news/newsFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
 fileLoader::load('orm/plugins/acl_extPlugin');
 fileLoader::load('orm/plugins/jipPlugin');
+fileLoader::load('orm/plugins/i18nPlugin');
 
 /**
  * newsFolderMapper: маппер для папок новостей
@@ -44,6 +45,7 @@ class newsFolderMapper extends mapper
         $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
         $this->attach(new acl_extPlugin(), 'acl');
         $this->attach(new jipPlugin(), 'jip');
+        $this->attach(new i18nPlugin(), 'i18n');
     }
 
     /**
@@ -118,6 +120,9 @@ class newsFolderMapper extends mapper
         'title' => array(
             'accessor' => 'getTitle',
             'mutator' => 'setTitle',
+            'options' => array(
+                'i18n'
+            )
         ),
         'parent' => array(
             'accessor' => 'getParent',

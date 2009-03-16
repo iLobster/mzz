@@ -15,6 +15,7 @@
 fileLoader::load('news');
 fileLoader::load('orm/plugins/acl_extPlugin');
 fileLoader::load('orm/plugins/jipPlugin');
+fileLoader::load('orm/plugins/i18nPlugin');
 
 /**
  * newsMapper: маппер для новостей
@@ -45,6 +46,45 @@ class newsMapper extends mapper
             'accessor' => 'getFolder',
             'mutator' => 'setFolder',
         ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle',
+            'options' => array(
+                'i18n',
+            ),
+        ),
+        'editor' => array(
+            'accessor' => 'getEditor',
+            'mutator' => 'setEditor',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'userMapper'
+        ),
+        'annotation' => array(
+            'accessor' => 'getAnnotation',
+            'mutator' => 'setAnnotation',
+            'options' => array(
+                'i18n',
+            ),
+        ),
+        'text' => array(
+            'accessor' => 'getText',
+            'mutator' => 'setText',
+            'options' => array(
+                'i18n',
+            ),
+        ),
+        'created' => array(
+            'accessor' => 'getCreated',
+            'mutator' => 'setCreated',
+            'options' => array(
+                'once',
+            ),
+        ),
+        'updated' => array(
+            'accessor' => 'getUpdated',
+            'mutator' => 'setUpdated',
+        ),
     );
 
     public function __construct()
@@ -52,6 +92,7 @@ class newsMapper extends mapper
         parent::__construct();
         $this->attach(new acl_extPlugin(), 'acl');
         $this->attach(new jipPlugin(), 'jip');
+        $this->attach(new i18nPlugin(), 'i18n');
     }
 
 
