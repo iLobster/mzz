@@ -8,6 +8,8 @@ class memcachedTest extends unitTestCase
     {
         $this->skipIf(!extension_loaded('memcache'), 'Memcache extension not found. Test skipped.');
         $this->skipIf(!class_exists('Memcache'), 'Memcache class not found. Test skipped.');
+
+        $this->_createCache()->get('blahblah'); // try to get something from the server
         $this->skipIf(!$this->_createCache()->getStatus(cacheMemcache::DEFAULT_HOST, cacheMemcache::DEFAULT_PORT), 'memcached connect error');
         /*
         try {

@@ -160,7 +160,11 @@ abstract class mapper
         $insert = new simpleInsert($criteria);
 
         $this->db()->query($insert->toString($data));
-        $object->import($this->searchByKey($this->db()->lastInsertId())->export());
+        $last_id = $this->db()->lastInsertId();
+
+        $this->notify('postSqlInsert', $object);
+
+        $object->import($this->searchByKey($last_id)->export());
 
         $object->state(entity::STATE_CLEAN);
 

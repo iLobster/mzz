@@ -69,6 +69,58 @@ class i18nPlugin extends observer
         }
     }
 
+    public function preUpdate(& $data)
+    {
+        if (is_array($data)) {
+            $this->clearData($data);
+            return;
+        }
+
+        $id = $data->{$this->options['foreign_accessor']}();
+        $i18n_data = $data->exportChanged();
+        $this->clearData($i18n_data, false);
+
+        if (!empty($i18n_data)) {
+            $criteria = new criteria($this->table());
+            $criterion = new criterion('id', $id);
+            $criterion->addAnd(new criterion('lang_id', $this->getLangId()));
+            $criteria->add($criterion);
+
+            $update = new simpleUpdate($criteria);
+
+            $this->mapper->db()->query($update->toString($i18n_data));
+        }
+    }
+
+    public function preInsert(& $data)
+    {
+        if (is_array($data)) {
+            $this->clearData($data);
+        }
+    }
+
+    public function postSqlInsert(entity $object)
+    {
+        $i18n_data = $object->exportChanged();
+        $this->clearData($i18n_data, false);
+        $i18n_data['lang_id'] = $this->getLangId();
+        $i18n_data['id'] = $this->mapper->db()->lastInsertId();
+
+        $criteria = new criteria($this->table());
+        $insert = new simpleInsert($criteria);
+
+        $this->mapper->db()->query($insert->toString($i18n_data));
+    }
+
+    private function clearData(& $data, $notI18n = true)
+    {
+        foreach (array_keys($data) as $field) {
+            if (($notI18n && in_array($field, $this->i18nFields)) || (!$notI18n && !in_array($field, $this->i18nFields))) {
+                unset($data[$field]);
+            }
+        }
+    }
+
     private function table()
     {
         return $this->mapper->table() . '_' . $this->options['postfix'];

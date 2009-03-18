@@ -52,9 +52,9 @@ class newsSaveController extends simpleController
                 $validator->add('required', 'created', 'Необходимо указать дату');
                 $validator->add('regex', 'created', 'Неправильный формат даты', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
             } else {
-                $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
+              /*  $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
                 $tagsItem = $tagsItemMapper->getTagsItem($news->getObjId());
-                $tags = $tagsItem->getTagsAsString();
+                $tags = $tagsItem->getTagsAsString();*/$tags= array();
             }
 
 
@@ -84,12 +84,12 @@ class newsSaveController extends simpleController
                 $news->setAnnotation($annotation);
                 $newsMapper->save($news);
 
-                $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
+                /*$tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
                 if (empty($tagsItem)) {
                     $tagsItem = $tagsItemMapper->getTagsItem($news->getObjId());
                 }
                 $tagsItem->setTags($this->request->getString('tags', SC_POST));
-                $tagsItemMapper->save($tagsItem);
+                $tagsItemMapper->save($tagsItem);*/
 
                 return jipTools::redirect();
             }

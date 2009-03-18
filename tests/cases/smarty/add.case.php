@@ -22,7 +22,7 @@ class mzzSmartyAddFunctionTest extends unitTestCase
         $this->assertNotNull($statics = $this->function->getStaticVariables());
         $this->assertTrue(isset($statics['medias']), 'изменено имя static-переменной');
 
-        $this->smarty->expectOnce('assign_by_ref', array('media', $statics['medias'][1]));
+        $this->smarty->expectOnce('assign_by_ref', array('media', $statics['medias']));
     }
 
     private function setUpExpectOnceJS()
