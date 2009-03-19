@@ -141,10 +141,13 @@ class stdToolkit extends toolkit
             $this->smarty = new mzzSmarty();
             $this->smarty->template_dir = systemConfig::$pathToApplication . '/templates';
             $this->smarty->compile_dir = systemConfig::$pathToTemp . '/templates_c';
+            $oldPluginsDirs = $this->smarty->plugins_dir;
+            $this->smarty->plugins_dir = array();
             if (is_dir($appdir = systemConfig::$pathToApplication . '/template/plugins')) {
                 $this->smarty->plugins_dir[] = $appdir;
             }
             $this->smarty->plugins_dir[] = systemConfig::$pathToSystem . '/template/plugins';
+            $this->smarty->plugins_dir = array_merge($this->smarty->plugins_dir, $oldPluginsDirs);
 
             $this->smarty->debugging = DEBUG_MODE;
             $this->smarty->assign('SITE_PATH', rtrim(SITE_PATH, '/'));

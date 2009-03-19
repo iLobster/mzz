@@ -36,6 +36,8 @@ class formCaptchaRule extends formAbstractRule
             $session->set('mzz_captcha', $captchas);
             return (md5($this->value) == $captchaValue);
         }
+
+        return false;
     }
 }
 
