@@ -74,6 +74,11 @@ class observer
     public function preSqlSelect(criteria $criteria)
     {
     }
+
+    public function getName()
+    {
+        return preg_replace('!Plugin$!', '', get_class($this));
+    }
 }
 
 ?>

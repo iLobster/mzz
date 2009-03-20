@@ -29,7 +29,7 @@ class stubObserver extends observer
     }
 }
 
-class inverseObserver extends observer
+class inverseObserverPlugin extends observer
 {
     public function preInsert(& $data)
     {
@@ -102,9 +102,46 @@ class mapperEventsTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `ormSimple_version`');
     }
 
+    public function testPluginAttach()
+    {
+        $observer = new inverseObserverPlugin();
+        $attachName = 'myInvertseObserverName';
+        $this->mapper->attach($observer, $attachName);
+
+        $this->assertEqual($observer, $this->mapper->plugin($attachName));
+    }
+
+    public function testPluginDetach()
+    {
+        $observer = new inverseObserverPlugin();
+        $this->mapper->attach($observer);
+
+        $this->assertEqual($observer, $this->mapper->plugin('inverseObserver'));
+
+        $this->mapper->detach('inverseObserver');
+
+        try {
+            $this->mapper->plugin('inverseObserver');
+        } catch (mzzRuntimeException $e) {
+            $this->assertPattern('/The specified plugin doesn\'t attached to current mapper/', $e->getMessage());
+            $this->pass();
+        } catch (Exception $e) {
+            $this->fail('Брошено не ожидаемое исключение');
+        }
+    }
+
+
+    public function testPluginAttachWithoutName()
+    {
+        $observer = new inverseObserverPlugin();
+        $this->mapper->attach($observer);
+
+        $this->assertEqual($observer, $this->mapper->plugin('inverseObserver'));
+    }
+
     public function testSampleObserver()
     {
-        $observer = new inverseObserver();
+        $observer = new inverseObserverPlugin();
         $this->mapper->attach($observer);
 
         $object = $this->mapper->create();

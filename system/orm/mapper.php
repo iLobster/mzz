@@ -244,9 +244,16 @@ abstract class mapper
     {
         $observer->setMapper($this);
         if (is_null($name)) {
-            $this->observers[] = $observer;
-        } else {
-            $this->observers[$name] = $observer;
+            $name = $observer->getName();
+        }
+
+        $this->observers[$name] = $observer;
+    }
+
+    public function detach($name)
+    {
+        if (isset($this->observers[$name])) {
+            unset($this->observers[$name]);
         }
     }
 
