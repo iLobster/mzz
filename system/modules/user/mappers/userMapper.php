@@ -189,7 +189,6 @@ class userMapper extends mapper
             }
         }
 
-
         throw new mzzDONotFoundException();
     }
 
@@ -201,37 +200,38 @@ class userMapper extends mapper
                 'pk')),
         'login' => array(
             'accessor' => 'getLogin',
-            'mutator' => 'setLogin',
-            ),
+            'mutator' => 'setLogin'),
         'password' => array(
             'accessor' => 'getPassword',
-            'mutator' => 'setPassword',
-            ),
+            'mutator' => 'setPassword'),
         'created' => array(
             'accessor' => 'getCreated',
-            'mutator' => 'setCreated',
-            ),
+            'mutator' => 'setCreated'),
         'confirmed' => array(
             'accessor' => 'getConfirmed',
-            'mutator' => 'setConfirmed',
-            ),
+            'mutator' => 'setConfirmed'),
         'last_login' => array(
             'accessor' => 'getLastLogin',
-            'mutator' => 'setLastLogin',
-            ),
+            'mutator' => 'setLastLogin'),
         'language_id' => array(
             'accessor' => 'getLanguageId',
-            'mutator' => 'setLanguageId',
-            ),
+            'mutator' => 'setLanguageId'),
         'timezone' => array(
             'accessor' => 'getTimezone',
-            'mutator' => 'setTimezone',
-            ),
+            'mutator' => 'setTimezone'),
         'skin' => array(
             'accessor' => 'getSkin',
-            'mutator' => 'setSkin',
-            )
-        );
+            'mutator' => 'setSkin'),
+        'groups' => array(
+            'accessor' => 'getGroups',
+            'mutator' => 'setGroups',
+            'relation' => 'many-to-many',
+            'mapper' => 'user/groupMapper',
+            'reference' => 'user_userGroup_rel',
+            'local_key' => 'id',
+            'foreign_key' => 'id',
+            'ref_local_key' => 'user_id',
+            'ref_foreign_key' => 'group_id'));
 }
 
 ?>

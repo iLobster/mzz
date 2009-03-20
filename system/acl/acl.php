@@ -116,9 +116,9 @@ class acl
         $this->setObjId($object_id);
         $this->uid = $user->getId();
 
-        $this->groups = $user->getGroupsList();
+        $this->groups = $user->getGroups();
 
-        if (defined('MZZ_ROOT_GID') && array_search(MZZ_ROOT_GID, $this->groups) !== false) {
+        if (defined('MZZ_ROOT_GID') && array_search(MZZ_ROOT_GID, $this->groups->keys()) !== false) {
             $this->isRoot = true;
         }
 
@@ -149,7 +149,7 @@ class acl
 
             $grp = '';
 
-            foreach ($this->groups as $val) {
+            foreach ($this->groups->keys() as $val) {
                 $grp .= $this->db->quote($val) . ', ';
             }
             $grp = substr($grp, 0, -2);
@@ -411,8 +411,8 @@ class acl
         $userMapper = $toolkit->getMapper('user', 'user', 'user');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('user.' . $userMapper->getTableKey(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addGroupBy('user.' . $userMapper->getTableKey());
+        $criteria->addJoin('sys_access', new criterion('user_user.' . $userMapper->pk(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy('user_user.' . $userMapper->pk());
         $criteria->add('a.obj_id', $this->obj_id);
 
         return $userMapper->searchAllByCriteria($criteria);
@@ -457,11 +457,11 @@ class acl
     public function getGroupsList()
     {
         $toolkit = systemToolkit::getInstance();
-        $groupMapper = $toolkit->getMapper('user', 'group', 'user');
+        $groupMapper = $toolkit->getMapper('user', 'group');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('group.' . $groupMapper->getTableKey(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addGroupBy('group.' . $groupMapper->getTableKey());
+        $criteria->addJoin('sys_access', new criterion('user_group.' . $groupMapper->pk(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy('user_group.' . $groupMapper->pk());
         $criteria->add('a.obj_id', $this->obj_id);
 
         return $groupMapper->searchAllByCriteria($criteria);

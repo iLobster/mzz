@@ -3,6 +3,17 @@
 fileLoader::load('acl');
 fileLoader::load('user');
 
+class userMapperStub extends mapper
+{
+    protected $table = '';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'options' => array(
+                'pk')));
+}
+
 class userStub extends user
 {
     private $id;
@@ -16,10 +27,14 @@ class userStub extends user
         return $this->id;
     }
 
-
-    function getGroupsList()
+    function getGroups()
     {
-        return array(1, 2);
+        return new collection(array(
+            1 => 'foo',
+            2 => 'bar'), new userMapperStub());
+        return array(
+            1,
+            2);
     }
 }
 
@@ -28,7 +43,6 @@ class aclTest extends unitTestCase
     private $db;
     private $acl;
     private $alias;
-
 
     public function __construct()
     {
@@ -50,7 +64,6 @@ class aclTest extends unitTestCase
         $this->db->query("INSERT INTO `sys_actions` (`id`, `name`) VALUES (1,'edit'), (2,'delete')");
         $this->db->query("INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (1, 1)");
 
-
         $this->acl = new acl($user = new userStub(), $object_id = 1, $class = null, $section = null, $alias = $this->alias);
     }
 
@@ -71,10 +84,12 @@ class aclTest extends unitTestCase
         $this->db->query('TRUNCATE TABLE `user_user`');
         $this->db->query('TRUNCATE TABLE `user_group`');
     }
-/*
+
     public function testGetAccessAll()
     {
-        $this->assertEqual($this->acl->get(), array('edit' => 0, 'delete' => 1));
+        $this->assertEqual($this->acl->get(), array(
+            'edit' => 0,
+            'delete' => 1));
     }
 
     public function testGetAccessPartial()
@@ -91,7 +106,8 @@ class aclTest extends unitTestCase
 
     public function testGetForGroups()
     {
-        $this->assertEqual($this->acl->getForGroup(1), array('edit' => 0));
+        $this->assertEqual($this->acl->getForGroup(1), array(
+            'edit' => 0));
     }
 
     public function testRegister()
@@ -158,19 +174,27 @@ class aclTest extends unitTestCase
         $this->assertEqual($acl->get('delete'), 0);
 
         $this->assertEqual($acl->get('edit'), 1);
-        $acl->set('edit', array('allow' => 1, 'deny' => 0));
+        $acl->set('edit', array(
+            'allow' => 1,
+            'deny' => 0));
         $this->assertEqual($acl->get('edit'), 1);
 
         $this->assertEqual($acl->get('edit'), 1);
-        $acl->set('edit', array('allow' => 0, 'deny' => 0));
+        $acl->set('edit', array(
+            'allow' => 0,
+            'deny' => 0));
         $this->assertEqual($acl->get('edit'), 0);
 
         $this->assertEqual($acl->get('edit'), 0);
-        $acl->set('edit', array('allow' => 0, 'deny' => 1));
+        $acl->set('edit', array(
+            'allow' => 0,
+            'deny' => 1));
         $this->assertEqual($acl->get('edit'), 0);
 
         $this->assertEqual($acl->get('edit'), 0);
-        $acl->set('edit', array('allow' => 1, 'deny' => 1));
+        $acl->set('edit', array(
+            'allow' => 1,
+            'deny' => 1));
         $this->assertEqual($acl->get('edit'), 0);
     }
 
@@ -187,7 +211,9 @@ class aclTest extends unitTestCase
         $this->assertEqual($acl->get('edit'), 0);
         $this->assertEqual($acl->get('delete'), 1);
 
-        $acl->set($access = array('edit' => 0, 'delete' => 0));
+        $acl->set($access = array(
+            'edit' => 0,
+            'delete' => 0));
 
         $this->assertEqual($acl->get(), $access);
     }
@@ -254,7 +280,7 @@ class aclTest extends unitTestCase
         $this->assertEqual(1, $this->db->getOne('SELECT COUNT(*) FROM `sys_access` WHERE `gid` = 1'));
         $this->acl->deleteGroup(1);
         $this->assertEqual(0, $this->db->getOne('SELECT COUNT(*) FROM `sys_access` WHERE `gid` = 1'));
-    } */
+    }
 }
 
 ?>

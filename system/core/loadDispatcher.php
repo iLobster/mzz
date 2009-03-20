@@ -145,6 +145,7 @@ class loadDispatcher
         }
 
         $obj = $mapper->convertArgsToObj($args);
+
         return $obj->getAcl($actionName);
     }
 }

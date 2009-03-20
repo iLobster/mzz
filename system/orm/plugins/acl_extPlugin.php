@@ -27,9 +27,14 @@ class acl_extPlugin extends observer
         $object->merge($tmp);
     }
 
-    public function getAcl()
+    public function getAcl($object, $name = null)
     {
-        return true;
+        if (method_exists($object, 'getAcl')) {
+            return $object->getAcl($name);
+        }
+
+        $acl = new acl(systemToolkit::getInstance()->getUser(), $object->getObjId());
+        return $acl->get($name);
     }
 }
 
