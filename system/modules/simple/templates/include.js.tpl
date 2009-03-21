@@ -1,5 +1,5 @@
 {if isset($media.js) }
-{foreach from=$media.js item=jsfile}
-{include file=$jsfile.tpl filename=$jsfile.file}
+{foreach from=$media.js item="jsitem" key="file"}
+{include file=$jsitem.tpl filename=$file}
 {/foreach}
 {/if}
