@@ -20,7 +20,7 @@
  * @version 0.1
  */
 
-class messageCategory extends simple
+class messageCategory extends entity
 {
     protected $name = 'message';
 

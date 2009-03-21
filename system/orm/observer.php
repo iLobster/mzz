@@ -31,6 +31,10 @@ class observer
     {
     }
 
+    public function postSqlInsert(entity $object)
+    {
+    }
+
     public function preSqlJoin(array & $data)
     {
     }

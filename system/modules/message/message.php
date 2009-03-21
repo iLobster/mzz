@@ -20,7 +20,7 @@
  * @version 0.1
  */
 
-class message extends simple
+class message extends entity
 {
     protected $name = 'message';
 
@@ -31,7 +31,7 @@ class message extends simple
             return $user_id == systemToolkit::getInstance()->getUser()->getId() && systemToolkit::getInstance()->getUser()->isLoggedIn();
         }
 
-        return parent::getAcl($name);
+        return parent::__call('getAcl', array($name));
     }
 }
 

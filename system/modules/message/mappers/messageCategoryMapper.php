@@ -22,21 +22,38 @@ fileLoader::load('message/messageCategory');
  * @version 0.1
  */
 
-class messageCategoryMapper extends simpleMapper
+class messageCategoryMapper extends mapper
 {
     /**
-     * Имя модуля
+     * Имя класса
      *
      * @var string
      */
-    protected $name = 'message';
+    protected $class = 'messageCategory';
 
     /**
-     * Имя класса DataObject
+     * Имя таблицы
      *
      * @var string
      */
-    protected $className = 'messageCategory';
+    protected $table = 'message_messageCategory';
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'once', 'pk'
+            )
+        ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle',
+        ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+        ),
+    );
 
     public function convertArgsToObj($args)
     {

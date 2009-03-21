@@ -95,7 +95,7 @@ class messageSendController extends simpleController
         $url->setSection('message');
         $url->setAction('send');
 
-        $this->smarty->assign('recipient', $recipient_user->getId());
+        $this->smarty->assign('recipient', $recipient_user ? $recipient_user->getId() : 0);
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('users', $usersArray);

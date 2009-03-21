@@ -40,6 +40,17 @@ class menuFolderMapper extends mapper
 
     protected $table = 'menu_menuFolder';
 
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk',
+                'once',
+            ),
+        ),
+    );
+
     public function getFolder()
     {
         $folder = $this->create();

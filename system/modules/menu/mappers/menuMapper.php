@@ -106,11 +106,13 @@ class menuMapper extends mapper
 
     protected $map = array(
         'id' => array(
-        'accessor' => 'getId',
-        'mutator' => 'setId',
-        'options' => array(
-            'pk'))
-        );
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'once', 'pk'
+            )
+        ),
+    );
 }
 
 ?>

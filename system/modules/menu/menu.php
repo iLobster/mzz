@@ -28,7 +28,8 @@ class menu extends entity
     public function getItems()
     {
         if (!is_array($this->items)) {
-            $this->items = $this->mapper->searchItemsById($this->getId());
+            $mapper = systemToolkit::getInstance()->getMapper('menu', 'menu');
+            $this->items = $mapper->searchItemsById($this->getId());
         }
         return $this->items;
     }

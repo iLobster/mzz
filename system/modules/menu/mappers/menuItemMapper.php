@@ -13,6 +13,7 @@
  */
 
 fileLoader::load('menu/menuItem');
+fileLoader::load('orm/plugins/i18nPlugin');
 
 /**
  * itemMapper: маппер
@@ -43,6 +44,50 @@ class menuItemMapper extends mapper
     protected $class = 'menuItem';
 
     protected $table = 'menu_menuItem';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk',
+                'once',
+            ),
+        ),
+        'parent_id' => array(
+            'accessor' => 'getParent',
+            'mutator' => 'setParent',
+        ),
+        'type_id' => array(
+            'accessor' => 'getType',
+            'mutator' => 'setType',
+        ),
+        'args' => array(
+            'accessor' => 'getArgs',
+            'mutator' => 'setArgs',
+        ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle',
+            'options' => array(
+                'i18n',
+            ),
+        ),
+        'order' => array(
+            'accessor' => 'getOrder',
+            'mutator' => 'setOrder',
+        ),
+        'menu_id' => array(
+            'accessor' => 'getMenu',
+            'mutator' => 'setMenu',
+        ),
+    );
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->attach(new i18nPlugin(), 'i18n');
+    }
 
     public function searchById($id)
     {
@@ -153,31 +198,8 @@ class menuItemMapper extends mapper
         $stmt->execute();
     }
 
-    public function create($type_id)
+    public function postCreate(entity $object)
     {
-        if (!$this->map) {
-            $this->map = $this->getMap();
-        }
-
-        switch ($type_id) {
-            case self::ITEMTYPE_ADVANCED:
-                $className = 'advancedMenuItem';
-                break;
-
-            case self::ITEMTYPE_EXTERNAL :
-                $className = 'externalMenuItem';
-                break;
-
-            default:
-                $type_id = self::ITEMTYPE_SIMPLE;
-                $className = 'simpleMenuItem';
-                break;
-        }
-
-        fileLoader::load('menu/items/' . $className);
-        $object = parent::create();
-        $object->setTypeId($type_id);
-
         $request = systemToolkit::getInstance()->getRequest();
         $object->setUrlLang($this->getCurrentLang(), $request->getString('lang'));
 
@@ -202,9 +224,27 @@ class menuItemMapper extends mapper
 
     public function createItemFromRow($row)
     {
-        $object = $this->create($row['type_id']);
-        $object->import($row);
-        $object->setLangId($this->getLangId());
+        switch ($row['type_id']) {
+            case self::ITEMTYPE_ADVANCED:
+                $className = 'advancedMenuItem';
+                break;
+
+            case self::ITEMTYPE_EXTERNAL :
+                $className = 'externalMenuItem';
+                break;
+
+            default:
+                $type_id = self::ITEMTYPE_SIMPLE;
+                $className = 'simpleMenuItem';
+                break;
+        }
+        fileLoader::load('menu/items/' . $className);
+
+        $oldClassName = $this->class;
+        $this->class = $className;
+        $object = parent::createItemFromRow($row);
+        //$object->setLangId($this->getLangId());
+        $this->class = $oldClassName;
         return $object;
     }
 
