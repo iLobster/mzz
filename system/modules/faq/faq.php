@@ -20,9 +20,9 @@
  * @version 0.1
  */
 
-class faq extends simple
+class faq extends entity
 {
-    protected $name = 'faq';
+    protected $module = 'faq';
 }
 
 ?>

@@ -13,6 +13,8 @@
  */
 
 fileLoader::load('faq/faqFolder');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('orm/plugins/jipPlugin');
 
 /**
  * faqFolderMapper: маппер
@@ -22,21 +24,31 @@ fileLoader::load('faq/faqFolder');
  * @version 0.1
  */
 
-class faqFolderMapper extends simpleMapper
+class faqFolderMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'faq';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'faqFolder';
+    protected $class = 'faqFolder';
+    protected $table = 'faq_faqFolder';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk',
+                'once')),
+    );
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->attach(new acl_extPlugin(), 'acl');
+        $this->attach(new jipPlugin(), 'jip');
+    }
 
     public function getFolder()
     {
@@ -45,10 +57,17 @@ class faqFolderMapper extends simpleMapper
         return $folder;
     }
 
+    /**
+     * @todo remove this method (acl registeration from mapper)
+     *
+     * @return unknown
+     */
     private function getObjId()
     {
-        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_faqFolder');
-        $this->register($obj_id);
+        $toolkit = systemToolkit::getInstance();
+        $obj_id = $toolkit->getObjectId($this->class . '_faqFolder');
+        $acl = new acl($toolkit->getUser());
+        $acl->register($obj_id, $this->class, 'faq');
         return $obj_id;
     }
 

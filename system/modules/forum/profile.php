@@ -20,9 +20,9 @@
  * @version 0.1
  */
 
-class profile extends simple
+class profile extends entity
 {
-    protected $name = 'forum';
+    protected $module = 'forum';
 
     public function getId()
     {
@@ -62,7 +62,7 @@ class profile extends simple
             }
         }
 
-        $access = parent::getAcl($name);
+        $access = parent::__call('getDefaultAcl', array($name));
         return $access;
     }
 

@@ -38,6 +38,11 @@ class acl_extPlugin extends observer
             return $object->getAcl($name);
         }
 
+        return $this->getDefaultAcl($object, $name);
+    }
+
+    public function getDefaultAcl($object, $name = null)
+    {
         $acl = new acl(systemToolkit::getInstance()->getUser(), $object->getObjId());
         return $acl->get($name);
     }

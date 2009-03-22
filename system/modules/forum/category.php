@@ -20,9 +20,9 @@
  * @version 0.1
  */
 
-class category extends simple
+class category extends entity
 {
-    protected $name = 'forum';
+    protected $module = 'forum';
 }
 
 ?>

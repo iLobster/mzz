@@ -13,6 +13,8 @@
  */
 
 fileLoader::load('faq/faqCategory');
+fileLoader::load('orm/plugins/jipPlugin');
+fileLoader::load('orm/plugins/acl_extPlugin');
 
 /**
  * faqCategoryMapper: маппер
@@ -22,21 +24,44 @@ fileLoader::load('faq/faqCategory');
  * @version 0.1
  */
 
-class faqCategoryMapper extends simpleMapper
+class faqCategoryMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'faq';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'faqCategory';
+    protected $class = 'faqCategory';
+    protected $table = 'faq_faqCategory';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk',
+                'once')),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName'),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle'),
+        'answers' => array(
+            'accessor' => 'getAnswers',
+            'mutator' => 'setAnswers',
+            'relation' => 'many',
+            'foreign_key' => 'category_id',
+            'local_key' => 'id',
+            'mapper' => 'faq/faqMapper'),
+    );
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->attach(new jipPlugin(), 'jip');
+        $this->attach(new acl_extPlugin(), 'acl');
+    }
 
     public function searchById($id)
     {

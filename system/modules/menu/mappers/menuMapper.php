@@ -65,7 +65,7 @@ class menuMapper extends mapper
     private function buildTree($tree, $id = 0)
     {
         $result = array();
-        foreach ($tree as $key => $val) {
+        foreach ($tree->toArray() as $key => $val) {
             if ($id == $val->getParent()) {
                 unset($tree[$key]);
                 $result[$key] = $val;

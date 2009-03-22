@@ -22,7 +22,7 @@ fileLoader::load('forum/thread');
  * @version 0.1
  */
 
-class threadMapper extends simpleMapper
+class threadMapper extends mapper
 {
     /**
      * Имя модуля

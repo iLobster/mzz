@@ -20,13 +20,13 @@
  * @version 0.1
  */
 
-class faqCategory extends simple
+class faqCategory extends entity
 {
-    protected $name = 'faq';
+    protected $module = 'faq';
 
     public function getJip()
     {
-        return $this->getJipView($this->name, $this->getName(), get_class($this));
+        return parent::__call('getJip', array($this->getName()));
     }
 }
 

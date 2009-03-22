@@ -20,9 +20,9 @@
  * @version 0.1
  */
 
-class categoryFolder extends simple
+class categoryFolder extends entity
 {
-    protected $name = 'forum';
+    protected $module = 'forum';
 }
 
 ?>

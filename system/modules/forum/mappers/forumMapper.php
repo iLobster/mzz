@@ -22,7 +22,7 @@ fileLoader::load('forum');
  * @version 0.1
  */
 
-class forumMapper extends simpleMapper
+class forumMapper extends mapper
 {
     /**
      * Имя модуля

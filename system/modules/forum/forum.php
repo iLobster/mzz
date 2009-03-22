@@ -20,13 +20,13 @@
  * @version 0.1
  */
 
-class forum extends simple
+class forum extends entity
 {
-    protected $name = 'forum';
+    protected $module = 'forum';
 
     public function getAcl($name = null)
     {
-        $access = parent::getAcl($name);
+        $access = parent::__call('getDefaultAcl', array($name));
 
         if ($name == 'newThread' && $access) {
             $access = $this->getAcl('list');

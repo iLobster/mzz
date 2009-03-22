@@ -20,9 +20,9 @@
  * @version 0.1
  */
 
-class post extends simple
+class post extends entity
 {
-    protected $name = 'forum';
+    protected $module = 'forum';
 
     public function getAcl($name = null)
     {
@@ -32,7 +32,7 @@ class post extends simple
             }
         }
 
-        return parent::getAcl($name);
+        return parent::__call('getDefaultAcl', array($name));
     }
 }
 

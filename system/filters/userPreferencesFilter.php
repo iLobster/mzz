@@ -71,8 +71,8 @@ class userPreferencesFilter implements iFilter
             $preferences->setSkin($me->getSkin()->getName());
         }
 
-        systemToolkit::getInstance()->setLocale($language);
-        $locale = systemToolkit::getInstance()->getLocale();
+        $toolkit->setLocale($language);
+        $locale = $toolkit->getLocale();
 
         $langPreference = $preferences->getLang();
         if (!$langPreference || $langPreference != $language) {
@@ -82,7 +82,8 @@ class userPreferencesFilter implements iFilter
             if ($me->isLoggedIn()) {
                 if ($me->getLanguageId() != $locale->getId()) {
                     $me->setLanguageId($locale->getId());
-                    $me->getMapper()->save($me);
+                    $userMapper = $toolkit->getMapper('user', 'user');
+                    $userMapper->save($me);
                 }
             }
 

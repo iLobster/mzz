@@ -22,7 +22,7 @@ fileLoader::load('forum/post');
  * @version 0.1
  */
 
-class postMapper extends simpleMapper
+class postMapper extends mapper
 {
     /**
      * Имя модуля

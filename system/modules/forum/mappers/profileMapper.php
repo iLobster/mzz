@@ -22,29 +22,24 @@ fileLoader::load('forum/profile');
  * @version 0.1
  */
 
-class profileMapper extends simpleMapper
+class profileMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'forum';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'profile';
+    protected $class = 'profile';
 
-    protected $tableKey = 'user_id';
+    protected $table = 'forum_profile';
+
+    protected $pk = 'user_id';
 
     protected $obj_id_field = null;
 
     public function searchById($id)
     {
-        $userMapper = systemToolkit::getInstance()->getMapper('user', 'user', 'user');
+        $userMapper = systemToolkit::getInstance()->getMapper('user', 'user');
         $user = $userMapper->searchByKey($id);
 
         if (!$user) {

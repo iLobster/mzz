@@ -22,7 +22,7 @@ fileLoader::load('forum/categoryFolder');
  * @version 0.1
  */
 
-class categoryFolderMapper extends simpleMapper
+class categoryFolderMapper extends mapper
 {
     /**
      * Имя модуля

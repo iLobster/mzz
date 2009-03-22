@@ -20,9 +20,9 @@
  * @version 0.1.1
  */
 
-class thread extends simple
+class thread extends entity
 {
-    protected $name = 'forum';
+    protected $module = 'forum';
 
     public function isPopular()
     {
@@ -45,7 +45,7 @@ class thread extends simple
             }
         }
 
-        $access = parent::getAcl($name);
+        $access = parent::__call('getDefaultAcl', array($name));
 
         if ($access) {
             if ($name == 'thread' || $name == 'last') {

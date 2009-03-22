@@ -20,9 +20,14 @@
  * @version 0.1
  */
 
-class faqFolder extends simple
+class faqFolder extends entity
 {
-    protected $name = 'faq';
+    protected $module = 'faq';
+
+    public function getAcl()
+    {
+        return true; /* @todo */
+    }
 }
 
 ?>
