@@ -27,6 +27,11 @@ class acl_extPlugin extends observer
         $object->merge($tmp);
     }
 
+    public function preInsert(array & $data)
+    {
+        $data['obj_id'] = systemToolkit::getInstance()->getObjectId();
+    }
+
     public function getAcl($object, $name = null)
     {
         if (method_exists($object, 'getAcl')) {
