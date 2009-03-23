@@ -2,23 +2,19 @@
 
 class acl_extPlugin extends observer
 {
-    const OBJ_ID_PLUGIN_NAME = 'obj_id';
-    protected $obj_id_field;
-
-    public function __construct($obj_id_field = 'obj_id')
-    {
-        $this->obj_id_field = $obj_id_field;
-    }
+    protected $options = array(
+        'obj_id_field' => 'obj_id'
+    );
 
     public function setMapper(mapper $mapper)
     {
         parent::setMapper($mapper);
 
         try {
-            $this->mapper->plugin(self::OBJ_ID_PLUGIN_NAME);
+            $this->mapper->plugin('obj_id');
         } catch (mzzRuntimeException $e) {
             fileLoader::load('orm/plugins/obj_idPlugin');
-            $this->mapper->attach(new obj_idPlugin($this->obj_id_field));
+            $this->mapper->attach(new obj_idPlugin(array('obj_id_field' => $this->options['obj_id_field'])));
         }
     }
 
