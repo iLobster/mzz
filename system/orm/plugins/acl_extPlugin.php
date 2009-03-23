@@ -2,17 +2,32 @@
 
 class acl_extPlugin extends observer
 {
+    const OBJ_ID_PLUGIN_NAME = 'obj_id';
+    protected $obj_id_field;
+
+    public function __construct($obj_id_field = 'obj_id')
+    {
+        $this->obj_id_field = $obj_id_field;
+    }
+
+    public function setMapper(mapper $mapper)
+    {
+        parent::setMapper($mapper);
+
+        try {
+            $this->mapper->plugin(self::OBJ_ID_PLUGIN_NAME);
+        } catch (mzzRuntimeException $e) {
+            fileLoader::load('orm/plugins/obj_idPlugin');
+            $this->mapper->attach(new obj_idPlugin($this->obj_id_field));
+        }
+    }
+
     protected function updateMap(& $map)
     {
         $map['acl'] = array(
             'accessor' => 'getAcl',
             'options' => array(
                 'fake',
-                'ro'));
-        $map['obj_id'] = array(
-            'accessor' => 'getObjId',
-            'mutator' => 'setObjId',
-            'options' => array(
                 'ro'));
     }
 
@@ -25,11 +40,6 @@ class acl_extPlugin extends observer
                 $object)));
 
         $object->merge($tmp);
-    }
-
-    public function preInsert(array & $data)
-    {
-        $data['obj_id'] = systemToolkit::getInstance()->getObjectId();
     }
 
     public function getAcl($object, $name = null)
