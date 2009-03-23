@@ -27,13 +27,13 @@ class userMapper extends mapper
      * Учётная запись не подтверждена
      *
      */
-    const NOT_CONFIRMED = 1;
+    const NOT_CONFIRMED = -1;
 
     /**
      * Неверные аутентификационные данные
      *
      */
-    const WRONG_AUTH_DATA = 2;
+    const WRONG_AUTH_DATA = 0;
 
     /**
      * Имя таблицы
@@ -49,12 +49,46 @@ class userMapper extends mapper
      */
     protected $class = 'user';
 
-    /**
-     * Причина неудачной авторизации
-     *
-     * @var unknown_type
-     */
-    protected $reason;
+    public $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'login' => array(
+            'accessor' => 'getLogin',
+            'mutator' => 'setLogin'),
+        'password' => array(
+            'accessor' => 'getPassword',
+            'mutator' => 'setPassword'),
+        'created' => array(
+            'accessor' => 'getCreated',
+            'mutator' => 'setCreated'),
+        'confirmed' => array(
+            'accessor' => 'getConfirmed',
+            'mutator' => 'setConfirmed'),
+        'last_login' => array(
+            'accessor' => 'getLastLogin',
+            'mutator' => 'setLastLogin'),
+        'language_id' => array(
+            'accessor' => 'getLanguageId',
+            'mutator' => 'setLanguageId'),
+        'timezone' => array(
+            'accessor' => 'getTimezone',
+            'mutator' => 'setTimezone'),
+        'skin' => array(
+            'accessor' => 'getSkin',
+            'mutator' => 'setSkin'),
+        'groups' => array(
+            'accessor' => 'getGroups',
+            'mutator' => 'setGroups',
+            'relation' => 'many-to-many',
+            'mapper' => 'user/groupMapper',
+            'reference' => 'user_userGroup_rel',
+            'local_key' => 'id',
+            'foreign_key' => 'id',
+            'ref_local_key' => 'user_id',
+            'ref_foreign_key' => 'group_id'));
 
     /**
      * Выполняет поиск объекта по логину
@@ -110,19 +144,8 @@ class userMapper extends mapper
         if ($user && $user->isConfirmed()) {
             return $user;
         } else {
-            $this->reason = $user ? self::NOT_CONFIRMED : self::WRONG_AUTH_DATA;
-            return null;
+            return $user ? self::NOT_CONFIRMED : self::WRONG_AUTH_DATA;
         }
-    }
-
-    /**
-     * Получение причины неудачной авторизации
-     *
-     * @return integer
-     */
-    public function getReason()
-    {
-        return $this->reason;
     }
 
     /**
@@ -192,46 +215,6 @@ class userMapper extends mapper
         throw new mzzDONotFoundException();
     }
 
-    public $map = array(
-        'id' => array(
-            'accessor' => 'getId',
-            'mutator' => 'setId',
-            'options' => array(
-                'pk')),
-        'login' => array(
-            'accessor' => 'getLogin',
-            'mutator' => 'setLogin'),
-        'password' => array(
-            'accessor' => 'getPassword',
-            'mutator' => 'setPassword'),
-        'created' => array(
-            'accessor' => 'getCreated',
-            'mutator' => 'setCreated'),
-        'confirmed' => array(
-            'accessor' => 'getConfirmed',
-            'mutator' => 'setConfirmed'),
-        'last_login' => array(
-            'accessor' => 'getLastLogin',
-            'mutator' => 'setLastLogin'),
-        'language_id' => array(
-            'accessor' => 'getLanguageId',
-            'mutator' => 'setLanguageId'),
-        'timezone' => array(
-            'accessor' => 'getTimezone',
-            'mutator' => 'setTimezone'),
-        'skin' => array(
-            'accessor' => 'getSkin',
-            'mutator' => 'setSkin'),
-        'groups' => array(
-            'accessor' => 'getGroups',
-            'mutator' => 'setGroups',
-            'relation' => 'many-to-many',
-            'mapper' => 'user/groupMapper',
-            'reference' => 'user_userGroup_rel',
-            'local_key' => 'id',
-            'foreign_key' => 'id',
-            'ref_local_key' => 'user_id',
-            'ref_foreign_key' => 'group_id'));
 }
 
 ?>

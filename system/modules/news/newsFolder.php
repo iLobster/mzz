@@ -23,15 +23,10 @@
 class newsFolder extends entity
 {
     protected $module = 'news';
+
     public function getJip()
     {
         return parent::__call('getJip', array($this->getPath()));
-    }
-
-    public function getItems()
-    {
-        $mapper = systemToolkit::getInstance()->getMapper('news', 'news');
-        return $mapper->searchAllByField('folder_id', $this->getId());
     }
 }
 

@@ -138,6 +138,13 @@ class pageMapper extends mapper
         return $this->searchOneByField('name', $name);
     }
 
+    public function searchByNameInFolder($name, $folder_id)
+    {
+        $criteria = new criteria();
+        $criteria->add('name', $name)->add('folder_id', $folder_id);
+        return $this->searchOneByCriteria($criteria);
+    }
+
     public function convertArgsToObj($args)
     {
         if (isset($args['id']) && !isset($args['name'])) {
@@ -148,22 +155,20 @@ class pageMapper extends mapper
             $toolkit = systemToolkit::getInstance();
             $pageFolderMapper = $toolkit->getMapper('page', 'pageFolder');
 
-            $folder = substr($args['name'], 0, strrpos($args['name'], '/'));
-            $pagename = substr(strrchr($args['name'], '/'), 1);
+            $path = substr($args['name'], strrpos($args['name'], '/') + 1);
+            $page_name = substr($args['name'], 0, strrpos($args['name'], '/'));
 
-            $pageFolder = $pageFolderMapper->searchByPath($folder);
+            $pageFolder = $pageFolderMapper->searchByPath($path);
 
             if (empty($pageFolder)) {
                 throw new mzzDONotFoundException();
             }
 
-            $criteria = new criteria();
-            $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
-            $page = $this->searchOneByCriteria($criteria);
+            $page = $this->searchByNameInFolder($page_name, $pageFolder->getId());
         }
 
         if (!isset($page)) {
-            $page = $this->searchOneByField('name', $args['name']);
+            $page = $this->searchByName($args['name']);
         }
 
         if ($page) {
