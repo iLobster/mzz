@@ -2,8 +2,6 @@
 fileLoader::load('pager/pager');
 class pagerPlugin extends observer
 {
-    const OBSERVER_NAME = 'pager';
-
     protected $pager;
 
     public function __construct(pager $pager)
@@ -22,7 +20,12 @@ class pagerPlugin extends observer
 
         $criteria->append($this->pager->getLimitQuery());
 
-        $this->mapper->detach(self::OBSERVER_NAME);
+        $this->mapper->detach($this->getName());
+    }
+
+    public function getPager()
+    {
+        return $this->pager;
     }
 }
 

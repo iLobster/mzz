@@ -13,11 +13,10 @@
      <div class="news_text">{$current_news->getAnnotation()|htmlspecialchars}</div>
 
     {/foreach}
-    {*
+
     {if $pager->getPagesTotal() > 0}
         <div class="pages">{$pager->toString()}</div>
     {/if}
-    *}
 </div>
 
 {*

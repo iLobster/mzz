@@ -42,7 +42,8 @@ class newsFolderMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
+        $this->attach(new tree_mpPlugin(array(
+            'path_name' => 'name')), 'tree');
         $this->attach(new acl_extPlugin(), 'acl');
         $this->attach(new jipPlugin(), 'jip');
         $this->attach(new i18nPlugin(), 'i18n');
@@ -85,15 +86,27 @@ class newsFolderMapper extends mapper
      * @param  string     $deep          Глубина выборки
      * @return array with nodes
      */
-    public function getFoldersByPath($path, $deep = 1)
+    /*  public function getFoldersByPath($path, $deep = 1)
     {
         // выбирается только нижележащий уровень
         return $this->tree->getBranchByPath($path, $deep);
-    }
+    }*/
 
     public function searchByPath($path)
     {
         return $this->plugin('tree')->searchByPath($path . '/');
+    }
+
+    public function getItems(newsFolder $folder)
+    {
+        $mapper = systemToolkit::getInstance()->getMapper('news', 'news');
+
+        if ($this->plugin('pager')) {
+            $mapper->attach(new pagerPlugin($this->plugin('pager')->getPager()));
+            $this->detach('pager');
+        }
+
+        return $mapper->searchAllByField('folder_id', $folder->getId());
     }
 
     public function convertArgsToObj($args)
@@ -110,29 +123,22 @@ class newsFolderMapper extends mapper
             'accessor' => 'getId',
             'mutator' => 'setId',
             'options' => array(
-                'pk', 'once',
-            ),
-        ),
+                'pk',
+                'once')),
         'name' => array(
             'accessor' => 'getName',
-            'mutator' => 'setName',
-        ),
+            'mutator' => 'setName'),
         'title' => array(
             'accessor' => 'getTitle',
             'mutator' => 'setTitle',
             'options' => array(
-                'i18n'
-            )
-        ),
+                'i18n')),
         'parent' => array(
             'accessor' => 'getParent',
-            'mutator' => 'setParent',
-        ),
+            'mutator' => 'setParent'),
         'path' => array(
             'accessor' => 'getPath',
-            'mutator' => 'setPath',
-        ),
-    );
+            'mutator' => 'setPath'));
 }
 
 ?>

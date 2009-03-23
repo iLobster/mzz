@@ -214,7 +214,7 @@ abstract class simpleController
     {
         fileLoader::load('orm/plugins/pagerPlugin');
         $pager = new pager($this->request->getRequestUrl(), $this->request->getInteger('page', SC_REQUEST), $per_page, $round_items, $reverse);
-        $mapper->attach(new pagerPlugin($pager), pagerPlugin::OBSERVER_NAME);
+        $mapper->attach(new pagerPlugin($pager));
 
         $this->smarty->assign('pager', $pager);
 
