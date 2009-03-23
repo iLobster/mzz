@@ -435,14 +435,14 @@ DROP TABLE IF EXISTS `sys_access`;
 CREATE TABLE `sys_access` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
   `action_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  `class_section_id` INTEGER(11) DEFAULT NULL,
+  `class_id` INTEGER(11) DEFAULT NULL,
   `obj_id` INTEGER(11) DEFAULT NULL,
   `uid` INTEGER(11) DEFAULT NULL,
   `gid` INTEGER(11) DEFAULT NULL,
   `allow` TINYINT(1) UNSIGNED DEFAULT '0',
   `deny` TINYINT(1) UNSIGNED DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `class_action_id` (`class_section_id`, `obj_id`, `uid`, `gid`),
+  KEY `class_action_id` (`class_id`, `obj_id`, `uid`, `gid`),
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
@@ -456,7 +456,7 @@ DROP TABLE IF EXISTS `sys_access_registry`;
 
 CREATE TABLE `sys_access_registry` (
   `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  `class_section_id` INTEGER(11) UNSIGNED DEFAULT NULL
+  `class_id` INTEGER(11) UNSIGNED DEFAULT NULL
 )ENGINE=MyISAM
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -471,21 +471,6 @@ CREATE TABLE `sys_actions` (
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Structure for the `sys_cfg` table : 
-#
-
-DROP TABLE IF EXISTS `sys_cfg`;
-
-CREATE TABLE `sys_cfg` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `section` INTEGER(11) NOT NULL DEFAULT '0',
-  `module` INTEGER(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `section_module` (`section`, `module`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -525,13 +510,13 @@ DROP TABLE IF EXISTS `sys_cfg_values`;
 
 CREATE TABLE `sys_cfg_values` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `cfg_id` INTEGER(11) NOT NULL DEFAULT '0',
+  `module_id` INTEGER(11) NOT NULL DEFAULT '0',
   `name` INTEGER(11) NOT NULL DEFAULT '0',
   `title` INTEGER(11) UNSIGNED DEFAULT NULL,
   `type_id` INTEGER(11) NOT NULL DEFAULT '0',
   `value` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `cfg_id_name` (`cfg_id`, `name`)
+  UNIQUE KEY `cfg_id_name` (`module_id`, `name`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -576,21 +561,6 @@ CREATE TABLE `sys_classes_actions` (
   `action_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `class_id` (`class_id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Structure for the `sys_classes_sections` table : 
-#
-
-DROP TABLE IF EXISTS `sys_classes_sections`;
-
-CREATE TABLE `sys_classes_sections` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `class_id` INTEGER(11) DEFAULT NULL,
-  `section_id` INTEGER(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `module_section` (`section_id`, `class_id`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -660,20 +630,6 @@ CREATE TABLE `sys_obj_id_named` (
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_sections` table : 
-#
-
-DROP TABLE IF EXISTS `sys_sections`;
-
-CREATE TABLE `sys_sections` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
 # Structure for the `sys_sessions` table : 
 #
 
@@ -689,7 +645,7 @@ CREATE TABLE `sys_sessions` (
   KEY `valid` (`valid`),
   KEY `sid` (`sid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=341 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=356 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `treeNS` table : 

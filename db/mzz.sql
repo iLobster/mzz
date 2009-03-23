@@ -1689,14 +1689,14 @@ DROP TABLE IF EXISTS `sys_access`;
 CREATE TABLE `sys_access` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
   `action_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  `class_section_id` INTEGER(11) DEFAULT NULL,
+  `class_id` INTEGER(11) DEFAULT NULL,
   `obj_id` INTEGER(11) DEFAULT NULL,
   `uid` INTEGER(11) DEFAULT NULL,
   `gid` INTEGER(11) DEFAULT NULL,
   `allow` TINYINT(1) UNSIGNED DEFAULT '0',
   `deny` TINYINT(1) UNSIGNED DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `class_action_id` (`class_section_id`, `obj_id`, `uid`, `gid`),
+  KEY `class_action_id` (`class_id`, `obj_id`, `uid`, `gid`),
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
@@ -1706,7 +1706,7 @@ AUTO_INCREMENT=5019 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_
 # Data for the `sys_access` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (428,3,5,19,NULL,1,1,0),
   (429,3,5,19,NULL,2,1,0),
   (436,4,2,6,2,NULL,1,0),
@@ -2213,7 +2213,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (2057,4,2,297,NULL,3,1,0),
   (2058,8,2,297,2,NULL,1,0),
   (2059,30,2,297,2,NULL,1,0),
@@ -2720,7 +2720,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 1000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (2557,29,1,322,NULL,1,0,0),
   (2558,1,1,322,NULL,1,0,0),
   (2559,3,1,322,NULL,1,1,0),
@@ -3227,7 +3227,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 1500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (3072,9,1,356,NULL,2,1,0),
   (3073,2,1,356,NULL,2,1,0),
   (3074,29,1,356,NULL,2,1,0),
@@ -3734,7 +3734,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 2000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (3577,29,1,390,NULL,1,0,0),
   (3578,1,1,390,NULL,1,0,0),
   (3579,3,1,390,NULL,1,1,0),
@@ -4241,7 +4241,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 2500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (4077,9,1,423,NULL,2,1,0),
   (4078,2,1,423,NULL,2,1,0),
   (4079,29,1,423,NULL,2,1,0),
@@ -4748,7 +4748,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 3000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (4577,2,1,456,2,NULL,1,0),
   (4578,29,1,456,2,NULL,1,0),
   (4579,1,1,456,2,NULL,1,0),
@@ -5126,7 +5126,7 @@ DROP TABLE IF EXISTS `sys_access_registry`;
 
 CREATE TABLE `sys_access_registry` (
   `obj_id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `class_section_id` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=1307 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
@@ -5135,7 +5135,7 @@ AUTO_INCREMENT=1307 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_
 # Data for the `sys_access_registry` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES 
+INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES 
   (6,2),
   (9,6),
   (10,6),
@@ -5739,46 +5739,6 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg` table : 
-#
-
-DROP TABLE IF EXISTS `sys_cfg`;
-
-CREATE TABLE `sys_cfg` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `section` INTEGER(11) NOT NULL DEFAULT '0',
-  `module` INTEGER(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `section_module` (`section`, `module`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=28 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_cfg` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_cfg` (`id`, `section`, `module`) VALUES 
-  (1,0,0),
-  (2,0,1),
-  (3,0,2),
-  (7,0,9),
-  (9,0,10),
-  (15,10,10),
-  (16,0,8),
-  (17,1,1),
-  (18,9,9),
-  (19,0,5),
-  (20,0,6),
-  (21,0,11),
-  (22,0,12),
-  (23,0,17),
-  (24,0,18),
-  (25,0,16),
-  (26,0,15),
-  (27,0,22);
-COMMIT;
-
-#
 # Structure for the `sys_cfg_titles` table : 
 #
 
@@ -5847,13 +5807,13 @@ DROP TABLE IF EXISTS `sys_cfg_values`;
 
 CREATE TABLE `sys_cfg_values` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `cfg_id` INTEGER(11) NOT NULL DEFAULT '0',
+  `module_id` INTEGER(11) NOT NULL DEFAULT '0',
   `name` INTEGER(11) NOT NULL DEFAULT '0',
   `title` INTEGER(11) DEFAULT NULL,
   `type_id` INTEGER(11) NOT NULL DEFAULT '1',
   `value` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `cfg_id_name` (`cfg_id`, `name`)
+  UNIQUE KEY `cfg_id_name` (`module_id`, `name`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=59 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -5861,29 +5821,10 @@ AUTO_INCREMENT=59 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_values` (`id`, `cfg_id`, `name`, `title`, `type_id`, `value`) VALUES 
-  (1,1,3,3,1,'true'),
-  (2,2,1,1,1,'10'),
-  (3,3,1,1,1,'20'),
-  (14,6,1,1,1,'20'),
-  (23,9,1,1,2,'10'),
-  (28,4,1,1,1,'10'),
-  (29,10,1,1,1,'10'),
-  (31,11,1,1,1,'60'),
-  (34,7,1,1,1,'10'),
-  (41,17,1,1,1,'10'),
-  (44,21,4,6,1,'80'),
-  (45,21,5,5,1,'60'),
-  (46,21,6,7,1,'fileManager'),
-  (47,21,7,8,1,'5'),
-  (48,18,1,1,1,'10'),
-  (50,7,8,10,1,'files'),
-  (53,15,1,1,1,'60'),
-  (54,26,11,12,2,'10'),
-  (55,21,12,13,1,'root/gallery'),
-  (56,26,13,15,2,'10'),
-  (57,23,14,16,2,'2'),
-  (58,23,15,17,2,'5');
+INSERT INTO `sys_cfg_values` (`id`, `module_id`, `name`, `title`, `type_id`, `value`) VALUES 
+  (41,1,1,1,1,'10'),
+  (48,9,1,1,1,'10'),
+  (53,10,1,1,1,'60');
 COMMIT;
 
 #
@@ -6204,80 +6145,6 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (292,56,5),
   (293,55,1),
   (294,56,106);
-COMMIT;
-
-#
-# Structure for the `sys_classes_sections` table : 
-#
-
-DROP TABLE IF EXISTS `sys_classes_sections`;
-
-CREATE TABLE `sys_classes_sections` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `class_id` INTEGER(11) DEFAULT NULL,
-  `section_id` INTEGER(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `module_section` (`section_id`, `class_id`),
-  KEY `class_id` (`class_id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=56 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_classes_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES 
-  (1,1,1),
-  (2,2,1),
-  (3,3,2),
-  (4,4,2),
-  (6,6,4),
-  (7,7,6),
-  (8,8,2),
-  (9,9,7),
-  (10,10,8),
-  (11,11,8),
-  (12,12,2),
-  (13,13,4),
-  (14,17,9),
-  (15,18,9),
-  (16,19,10),
-  (17,20,10),
-  (18,22,11),
-  (19,21,11),
-  (20,23,11),
-  (21,24,12),
-  (22,25,12),
-  (23,26,12),
-  (24,27,2),
-  (25,28,13),
-  (26,29,13),
-  (27,30,13),
-  (28,31,13),
-  (29,32,14),
-  (30,33,14),
-  (31,34,13),
-  (32,35,15),
-  (33,36,15),
-  (34,37,15),
-  (35,38,15),
-  (36,39,16),
-  (37,41,16),
-  (38,42,16),
-  (39,43,15),
-  (40,45,17),
-  (41,44,17),
-  (42,46,17),
-  (43,47,18),
-  (47,48,15),
-  (48,49,9),
-  (49,50,2),
-  (50,51,2),
-  (51,52,2),
-  (52,53,19),
-  (53,54,19),
-  (54,55,20),
-  (55,56,20);
 COMMIT;
 
 #
@@ -7808,47 +7675,6 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (1303,'access_config_configFolder'),
   (1304,'config_configFolder'),
   (1305,'access_config_config');
-COMMIT;
-
-#
-# Structure for the `sys_sections` table : 
-#
-
-DROP TABLE IF EXISTS `sys_sections`;
-
-CREATE TABLE `sys_sections` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `order` INTEGER(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`, `id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=21 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_sections` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_sections` (`id`, `name`, `title`, `order`) VALUES 
-  (1,'news','Новости',50),
-  (2,'user','Пользователи',80),
-  (4,'page','Страницы',60),
-  (6,'sys','Системное',0),
-  (7,'admin','Администрирование',10),
-  (8,'comments','Комментарии',30),
-  (9,'fileManager','Менеджер файлов',40),
-  (10,'catalogue','Каталог',20),
-  (11,'gallery','Галерея',80),
-  (12,'menu','Меню',50),
-  (13,'voting','Голосование',0),
-  (14,'message','Сообщения пользователей',0),
-  (15,'forum','Форум',0),
-  (16,'faq','FAQ',0),
-  (17,'tags',NULL,NULL),
-  (18,'captcha',NULL,NULL),
-  (19,'ratings','',0),
-  (20,'config','Конфигурация',0);
 COMMIT;
 
 #

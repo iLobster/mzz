@@ -52,19 +52,17 @@ class aclTest extends unitTestCase
     public function setUp()
     {
         $this->clearDb();
-        $this->db->query("INSERT INTO `sys_access` (`id`, `action_id`, `class_section_id`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES
+        $this->db->query("INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `uid`, `gid`, `allow`, `deny`, `obj_id`) VALUES
         (1,1,1,1,NULL,1,0,1), (2,2,1,1,NULL,1,0,1), (3,1,1,NULL,1,0,1,1),
         (4,1,1,3,NULL,1,0,0), (5,2,1,3,NULL,1,0,0), (6,2,1,NULL,4,1,0,0),
         (7,1,1,0,NULL,1,0,0), (8,2,1,0,NULL,1,0,0)");
 
         $this->db->query("INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES (1, 'news', 1)");
-        $this->db->query("INSERT INTO `sys_sections` (`id`, `name`) VALUES (1, 'news')");
-        $this->db->query("INSERT INTO `sys_classes_sections` (`id`, `class_id`, `section_id`) VALUES (1,1,1)");
         $this->db->query("INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES (1,1,1), (2,1,2)");
         $this->db->query("INSERT INTO `sys_actions` (`id`, `name`) VALUES (1,'edit'), (2,'delete')");
-        $this->db->query("INSERT INTO `sys_access_registry` (`obj_id`, `class_section_id`) VALUES (1, 1)");
+        $this->db->query("INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES (1, 1)");
 
-        $this->acl = new acl($user = new userStub(), $object_id = 1, $class = null, $section = null, $alias = $this->alias);
+        $this->acl = new acl($user = new userStub(), $object_id = 1, $class = null);
     }
 
     public function tearDown()
@@ -76,8 +74,6 @@ class aclTest extends unitTestCase
     {
         $this->db->query('TRUNCATE TABLE `sys_access`');
         $this->db->query('TRUNCATE TABLE `sys_classes`');
-        $this->db->query('TRUNCATE TABLE `sys_classes_sections`');
-        $this->db->query('TRUNCATE TABLE `sys_sections`');
         $this->db->query('TRUNCATE TABLE `sys_classes_actions`');
         $this->db->query('TRUNCATE TABLE `sys_actions`');
         $this->db->query('TRUNCATE TABLE `sys_access_registry`');
@@ -94,7 +90,7 @@ class aclTest extends unitTestCase
 
     public function testGetAccessPartial()
     {
-        $acl = new acl($user = new userStub(), $object_id = 1, $class = null, $section = null, $alias = $this->alias);
+        $acl = new acl($user = new userStub(), $object_id = 1, $class = null);
         $this->assertEqual($acl->get('edit'), 0);
         $this->assertEqual($acl->get('delete'), 1);
     }
@@ -112,17 +108,17 @@ class aclTest extends unitTestCase
 
     public function testRegister()
     {
-        $acl = new acl(new userStub(2), 0, null, null, $this->alias);
+        $acl = new acl(new userStub(2));
         $acl->register($obj_id = 10, $class = 'news', $section = 'news');
 
         $this->assertEqual(1, $acl->get('delete'));
         $this->assertEqual(1, $acl->get('edit'));
 
-        $acl2 = new acl(new userStub(3), 10, null, null, $this->alias);
+        $acl2 = new acl(new userStub(3), 10, null);
         $this->assertEqual(1, $acl2->get('delete'));
         $this->assertEqual(1, $acl2->get('edit'));
 
-        $this->assertEqual(1, $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = 10 AND `class_section_id` = 1'));
+        $this->assertEqual(1, $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = 10 AND `class_id` = 1'));
 
         $this->assertTrue($acl->isRegistered($obj_id));
         $this->assertFalse($acl->isRegistered(666));
@@ -145,17 +141,17 @@ class aclTest extends unitTestCase
     public function testDeleteNoArg()
     {
         $this->acl->delete();
-        $stmt = $this->db->query('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `class_section_id` IN (1, 2) AND `obj_id` = 1');
+        $stmt = $this->db->query('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `class_id` IN (1, 2) AND `obj_id` = 1');
         $row = $stmt->fetch();
         $this->assertEqual($row['cnt'], 0);
     }
 
     public function testDeleteArg()
     {
-        $acl = new acl(new userStub(2), 0, null, null, $this->alias);
+        $acl = new acl(new userStub(2), 0, null);
         $acl->delete(1);
-        $this->assertEqual($this->db->getOne('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `class_section_id` IN (1, 2) AND `obj_id` = 1'), 0);
-        $this->assertEqual(0, $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = 10 AND `class_section_id` = 1'));
+        $this->assertEqual($this->db->getOne('SELECT COUNT(*) AS `cnt` FROM `sys_access` WHERE `class_id` IN (1, 2) AND `obj_id` = 1'), 0);
+        $this->assertEqual(0, $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = 10 AND `class_id` = 1'));
     }
 
     public function testSet()
@@ -163,7 +159,7 @@ class aclTest extends unitTestCase
         $this->db->query('DELETE FROM `sys_access` WHERE `id` = 3');
         $this->db->query('UPDATE `sys_access` SET `allow` = 0 WHERE `id` = 1');
 
-        $acl = new acl(new userStub(), 1, 'news', 'news', $this->alias);
+        $acl = new acl(new userStub(), 1, 'news');
 
         $this->assertEqual($acl->get('edit'), 0);
         $acl->set('edit', 1);
@@ -203,7 +199,7 @@ class aclTest extends unitTestCase
         $this->db->query('DELETE FROM `sys_access` WHERE `id` = 3');
         $this->db->query('UPDATE `sys_access` SET `allow` = 0 WHERE `id` = 1');
 
-        $acl = new acl(new userStub(), 1, 'news', 'news', $this->alias);
+        $acl = new acl(new userStub(), 1, 'news');
 
         $cache = systemToolkit::getInstance()->getCache();
         $cache->flush();
@@ -234,7 +230,7 @@ class aclTest extends unitTestCase
     public function testSetUnregistered()
     {
         try {
-            $acl = new acl(new userStub(), 666, 'news', 'news', $this->alias);
+            $acl = new acl(new userStub(), 666, 'news');
             $acl->set('foo', 1);
             $this->fail('Должно быть брошено исключение');
         } catch (mzzRuntimeException $e) {
