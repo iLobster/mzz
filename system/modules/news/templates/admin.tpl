@@ -26,13 +26,15 @@
             </tr>
         {/if}
 
-        {foreach from=$newsFolder->getFolders(1) item=current_folder name=folders}
-            <tr align="center">
-                <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=$current_section module_name=news}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
-                <td>-</td>
-                <td>{$current_folder->getJip()}</td>
-            </tr>
+        {foreach from=$newsFolder->getTreeBranch(1) item=current_folder name=folders}
+            {if $current_folder->getId() != $newsFolder->getId()}
+                <tr align="center">
+                    <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
+                    <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=$current_section module_name=news}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
+                    <td>-</td>
+                    <td>{$current_folder->getJip()}</td>
+                </tr>
+            {/if}
         {/foreach}
 
         {foreach from=$news item=current_news}

@@ -28,6 +28,12 @@ class obj_idPlugin extends observer
     {
         $data[$this->options['obj_id_field']] = systemToolkit::getInstance()->getObjectId();
     }
+
+    public function setObjId(entity $object, $id)
+    {
+        $object->merge(array($this->options['obj_id_field'] => $id));
+        return $object;
+    }
 }
 
 ?>

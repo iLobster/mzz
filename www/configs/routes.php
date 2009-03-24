@@ -32,7 +32,7 @@ $router->addRoute('aclDefaultsEdit', new requestRoute('access/:section_name/:cla
 $router->addRoute('aclDefaultsAdd', new requestRoute('access/:section_name/:class_name/:action', array('section' => 'access'), array('action' => '(?:addGroupDefault|addUserDefault|editOwner)')));
 $router->addRoute('aclDefaultAction', new requestRoute('access/:id', array('section' => 'access', 'action' => 'edit'), array('id' => '\d+')));
 
-$router->addRoute('admin', new requestRoute('admin/:section_name/:module_name/:params/:action', array('section' => 'admin', 'action' => 'admin'), array('params' => '.*?', 'action' => '(?:admin|editConfig)')));
+$router->addRoute('admin', new requestRoute('admin/:module_name/:params/:action', array('section' => 'admin', 'action' => 'admin', 'params' => 'root'), array('params' => '.*?', 'action' => '(?:admin|editConfig)')));
 $router->addRoute('adminTranslate', new requestRoute('admin/:module_name/:language/translate', array('section' => 'admin', 'action' => 'translate')));
 $router->addRoute('adminMap', new requestRoute('admin/:class/:field/:action', array('section' => 'admin'), array('action' => '(?:editmap|deletemap)')));
 $router->addRoute('adminCfgEdit', new requestRoute('admin/:id/:name/:action', array('section' => 'admin', 'action' => 'editCfg'), array('id' => '\d+')));

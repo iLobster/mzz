@@ -96,40 +96,36 @@ class adminMapper extends mapper
         $toolkit = systemToolkit::getInstance();
         $user = $toolkit->getUser();
 
-        $info = $this->db->getAll("SELECT `m`.`name` AS `module`, `ss`.`name` AS `section`, `ss`.`title` AS `section_title`,
-                                   `c`.`name` AS `main_class`, `m`.`title` as `module_title`, `m`.`icon` as `module_icon`,
-                                    `m`.`order` as `module_order` FROM `sys_modules` `m`
-                                     LEFT JOIN `sys_classes` `c` ON `c`.`id` = `m`.`main_class`
-                                      LEFT JOIN `sys_classes_sections` `s` ON `s`.`class_id` = `c`.`id`
-                                       LEFT JOIN `sys_sections` `ss` ON `ss`.`id` = `s`.`section_id`
-                                        ORDER BY `m`.`order`, `ss`.`order`, `m`.`name`, `ss`.`name`");
+        $info = $this->db()->getAll("SELECT `m`.`name` AS `module`, `c`.`name` AS `main_class`, `m`.`title` as `module_title`,
+                                      `m`.`icon` as `module_icon`, `m`.`order` as `module_order` FROM `sys_modules` `m`
+                                        LEFT JOIN `sys_classes` `c` ON `c`.`id` = `m`.`main_class`
+                                         ORDER BY `m`.`order`, `m`.`name`");
         $result = array();
 
         $toolkit = systemToolkit::getInstance();
 
         foreach ($info as $val) {
-            if (!empty($val['section'])) {
-                $class = $val['main_class'];
+            if (!isset($val['main_class'])) {
+                continue;
+            }
 
-                $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $class);
+            $class = $val['main_class'];
 
-                $this->register($obj_id, 'sys', 'access');
-                $acl = new acl($user, $obj_id);
+            $obj_id = $toolkit->getObjectId('access_' . $class);
 
-                $action = $toolkit->getAction($val['module']);
-                $actions = $action->getActions();
-                $actions = $actions[$class];
+            $this->register($obj_id, 'access');
+            $acl = new acl($user, $obj_id);
 
-                if (isset($actions['admin']) && $acl->get('admin')) {
-                    if (!isset($result[$val['module']])) {
-                        $result[$val['module']] = array(
-                            'title' => $val['module_title'],
-                            'icon' => $val['module_icon'],
-                            'order' => $val['module_order'],
-                            'sections' => array());
-                    }
-                    $result[$val['module']]['sections'][$val['section']] = array(
-                        'title' => $val['section_title']);
+            $action = $toolkit->getAction($val['module']);
+            $actions = $action->getActions();
+            $actions = $actions[$class];
+
+            if (isset($actions['admin']) && $acl->get('admin')) {
+                if (!isset($result[$val['module']])) {
+                    $result[$val['module']] = array(
+                        'title' => $val['module_title'],
+                        'icon' => $val['module_icon'],
+                        'order' => $val['module_order']);
                 }
             }
         }
@@ -224,10 +220,9 @@ class adminMapper extends mapper
      */
     public function getMainClass($module)
     {
-        $class = $this->db->getOne("SELECT `c`.`name` AS `main_class` FROM `sys_modules` `m`
+        return $this->db()->getOne('SELECT `c`.`name` AS `main_class` FROM `sys_modules` `m`
                                      LEFT JOIN `sys_classes` `c` ON `c`.`id` = `m`.`main_class`
-                                      WHERE `m`.`name` = " . $this->db->quote($module));
-        return $class;
+                                      WHERE `m`.`name` = ' . $this->db()->quote($module));
     }
 
     /**
@@ -556,10 +551,9 @@ class adminMapper extends mapper
     {
         $toolkit = systemToolkit::getInstance();
 
-        if (isset($args['section_name']) && isset($args['module_name'])) {
-            throw new mzzRuntimeException('refactor me!');
+        if (isset($args['module_name'])) {
             $main_class = $this->getMainClass($args['module_name']);
-            $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $main_class, false);
+            $obj_id = $toolkit->getObjectId('access_' . $main_class, false);
 
             $obj = $this->create();
         } else {

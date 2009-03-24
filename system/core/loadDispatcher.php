@@ -139,10 +139,9 @@ class loadDispatcher
 
         $actionName = $action->getActionName(true);
 
-        if (isset($args['section_name']) && isset($args['module_name']) && $actionName == 'admin') {
-            throw new mzzRuntimeException('refactor me!');
+        if (isset($args['module_name']) && $actionName == 'admin') {
             $toolkit = systemToolkit::getInstance();
-            $mapper = $toolkit->getMapper('admin', 'admin', self::$request->getSection());
+            $mapper = $toolkit->getMapper('admin', 'admin');
         }
 
         $obj = $mapper->convertArgsToObj($args);

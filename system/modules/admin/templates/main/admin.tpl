@@ -25,39 +25,19 @@
     {if not empty($admin_menu)}
         <div id="sidebar">
             <p class="sideMenuTitle">Разделы сайта</p>
-            {*<a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}"> *}
             <table cellspacing="0" cellpadding="0">
             {foreach from=$admin_menu item=module key=module_name}
-                {if sizeof($module.sections) == 1}
-                    <tr>
-                        <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" alt="" /></td>
-                        {assign var='section_name' value=$module.sections|@key}
-                        <td class="menuSection"><a href="{url route=withAnyParam section="admin" name=$module_name action="admin"}">
-                            {if $module_name eq $current_module}<strong>{/if}
-                            {$module.title}
-                            {if $module_name eq $current_module}</strong>{/if}
-                        </a></td>
-                    </tr>
-                {else}
-                    <tr>
-                        <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" alt="" /></td>
-                        <td class="menuSection">{$module.title}</td>
-                    </tr>
-                    {foreach from=$module.sections item=section key=section_name}
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td class="menuLink"><a href="{url route=withAnyParam section="admin" name="`$section_name`/`$module_name`" action="admin"}">
-                                {if $module_name eq $current_module}{if $section_name eq $current_section}<strong>{/if}{/if}
-                                {$section.title}
-                                {if $module_name eq $current_module}{if $section_name eq $current_section}<strong>{/if}{/if}
-                            </a></td>
-                    </tr>
-                    {/foreach}
-                {/if}
+                <tr>
+                    <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" alt="" /></td>
+                    <td class="menuSection"><a href="{url route=withAnyParam section="admin" name=$module_name action="admin"}">
+                        {if $module_name eq $current_module}<strong>{/if}
+                        {$module.title}
+                        {if $module_name eq $current_module}</strong>{/if}
+                    </a></td>
+                </tr>
             {/foreach}
                   <tr>
                       <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/config.gif" alt="" /></td>
-                      {assign var='section_name' value=$module.sections|@key}
                       <td class="menuSection"><a href="{url route="default2" section="admin" action="configuration"}">
                           {if $current_action eq 'configuration'}<strong>{/if}
                           Конфигурация

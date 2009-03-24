@@ -23,7 +23,6 @@ class adminAdminController extends simpleController
 {
     protected function getView()
     {
-        $section = $this->request->getString('section_name');
         $module = $this->request->getString('module_name');
 
         $user = $this->toolkit->getUser();
@@ -33,54 +32,52 @@ class adminAdminController extends simpleController
         $menu = $adminMapper->getMenu();
         $this->smarty->assign('admin_menu', $menu);
 
-        $this->smarty->assign('current_section', $section);
         $this->smarty->assign('current_module', $module);
 
-        if (is_null($module) && is_null($section)) {
+        if (is_null($module)) {
             $module = $this->request->getString('name');
             if (empty($module)) {
                 return $this->smarty->fetch('admin/main.tpl');
             }
 
-            // если указан лишь модуль, и этот модуль находится лишь в одной секции - отображаем её
-            if (isset($menu[$module]['sections']) && sizeof($menu[$module]['sections']) == 1) {
+        // если указан лишь модуль, и этот модуль находится лишь в одной секции - отображаем её
+        /*if (isset($menu[$module]['sections']) && sizeof($menu[$module]['sections']) == 1) {
                 $section = key($menu[$module]['sections']);
                 $this->request->setParam('section_name', $section);
                 $this->request->setParam('module_name', $module);
 
                 $this->smarty->assign('current_section', $section);
                 $this->smarty->assign('current_module', $module);
-            }
+            }*/
         }
 
-        if (isset($menu[$module]['sections'][$section])) {
+        if (isset($menu[$module])) {
             $class = $adminMapper->getMainClass($module);
 
-            $obj_id = $this->toolkit->getObjectId('access_' . $section . '_' . $class);
+            $obj_id = $this->toolkit->getObjectId('access_' . $class);
+            $adminMapper->register($obj_id, 'access');
 
-            $mapper = $this->toolkit->getMapper($module, $class, $section);
-            $mapper->register($obj_id, 'sys', 'access');
-            //$acl = new acl($user, $obj_id);
+            $mapper = $this->toolkit->getMapper($module, $class);
 
-            $object = $mapper->create();
-            $mapper->setObjId($object, $obj_id);
+            if ($mapper->plugin('obj_id')) {
+                $object = $mapper->create();
+                $mapper->plugin('obj_id')->setObjId($object, $obj_id);
 
-            $access = $object->getAcl('admin');
-
-            if ($access) {
-                return $this->smarty->fetch('admin/admin.tpl');
+                if ($object->getAcl('admin')) {
+                    return $this->smarty->fetch('admin/admin.tpl');
+                }
             }
 
             fileLoader::load('simple/simple403Controller');
             $controller = new simple403Controller();
             return $controller->run();
         }
-
+        /*
         if (isset($menu[$module])) {
             return $this->smarty->fetch('admin/noSection.tpl');
-        } else {
-            return $this->smarty->fetch('admin/noModule.tpl');
-        }
+        } else { */
+        return $this->smarty->fetch('admin/noModule.tpl');
+        /*      }*/
     }
 }
 
