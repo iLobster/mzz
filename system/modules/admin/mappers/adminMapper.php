@@ -288,6 +288,7 @@ class adminMapper extends mapper
 
     public static function getInfoByObjId($obj_id)
     {
+        throw new mzzRuntimeException('deprecated');
         $db = DB::factory();
 
         $sql = 'SELECT `c`.`name` AS `class`, `m`.`name` AS `module`, `s`.`name` AS `section` FROM `sys_access_registry` `r`
@@ -376,32 +377,6 @@ class adminMapper extends mapper
         }
         return $accessors;
     }
-
-    /*
-    public function getExtractMethods($module)
-    {
-    if (empty($module['id']) || empty($module['name'])) {
-    return null;
-    }
-
-    $classes = $this->searchClassesByModuleId($module['id']);
-    if (empty($classes)) {
-    return null;
-    }
-
-    $toolkit = systemToolkit::getInstance();
-
-    $accessors = array();
-    foreach ($classes as $class) {
-    $mapper = $toolkit->getMapper($module['name'], $class[0]['name']);
-    $map = $mapper->getMap();
-    foreach ($map as $key => $val) {
-    $accessors[$class[0]['name']][] = $val['accessor'];
-    }
-    }
-
-    return $accessors;
-    }*/
 
     public function getMethodInfo($class_id, $method)
     {

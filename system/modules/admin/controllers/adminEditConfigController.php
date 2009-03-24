@@ -27,11 +27,10 @@ class adminEditConfigController extends simpleController
     public function getView()
     {
         $module_name = $this->request->getString('module_name');
-        $section_name = $this->request->getString('section_name');
 
         $validator = new formValidator();
 
-        $config = $this->toolkit->getConfig($module_name, $section_name);
+        $config = $this->toolkit->getConfig($module_name);
         $values = $config->getValues();
 
         foreach ($values as $name => $value) {
@@ -42,16 +41,15 @@ class adminEditConfigController extends simpleController
             }
         }
 
-        if ($validator->validate() /*$this->request->getMethod() == 'POST'*/) {
+        if ($validator->validate()) {
             $cfg = $this->request->getArray('config', SC_POST);
-            $config = $this->toolkit->getConfig($module_name, $section_name);
+            //$config = $this->toolkit->getConfig($module_name, $section_name);
             $config->set($cfg);
 
             return jipTools::closeWindow();
         }
 
         $this->smarty->assign('configs', $values);
-        $this->smarty->assign('section', $section_name);
         $this->smarty->assign('module', $module_name);
         $this->smarty->assign('errors', $validator->getErrors());
 

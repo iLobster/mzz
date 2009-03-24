@@ -193,18 +193,13 @@ class stdToolkit extends toolkit
      *
      * @return object
      */
-    public function getConfig($module, $section = null)
+    public function getConfig($module)
     {
-        if (is_null($section)) {
-            $request = $this->toolkit->getRequest();
-            $section = $request->getSection();
+        if (empty($this->config[$module])) {
+            $this->config[$module] = new config($module);
         }
 
-        if (empty($this->config[$module][$section])) {
-            $this->config[$module][$section] = new config($section, $module);
-        }
-
-        return $this->config[$module][$section];
+        return $this->config[$module];
     }
 
     /**
