@@ -145,7 +145,7 @@ class adminMapper extends mapper
      */
     public function searchClassById($id)
     {
-        return $this->db->getRow("SELECT * FROM `sys_classes` WHERE `id` = " . (int)$id);
+        return $this->db()->getRow("SELECT * FROM `sys_classes` WHERE `id` = " . (int)$id);
     }
 
     /**
@@ -171,6 +171,7 @@ class adminMapper extends mapper
      */
     public function getNamesOfSectionModuleClass($section, $module, $class)
     {
+        throw new mzzRuntimeException('deprecated');
         return $this->db->getAll('SELECT `s`.`name` AS `section_name` , `m`.`name` AS `module_name` , `c`.`name` AS `class_name`
                                    FROM `sys_sections` `s`
                                     INNER JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
@@ -199,7 +200,7 @@ class adminMapper extends mapper
      */
     public function searchClassByName($name)
     {
-        return $this->db->getRow("SELECT * FROM `sys_classes` WHERE `name` = " . $this->db->quote($name));
+        return $this->db()->getRow("SELECT * FROM `sys_classes` WHERE `name` = " . $this->db()->quote($name));
     }
 
     /**
@@ -210,106 +211,9 @@ class adminMapper extends mapper
      */
     public function searchModuleByClassId($id)
     {
-        return $this->db->getRow('SELECT `m`.* FROM `sys_classes` `c`
+        return $this->db()->getRow('SELECT `m`.* FROM `sys_classes` `c`
                                    INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
                                     WHERE `c`.`id` = ' . (int)$id);
-    }
-
-    /**
-     * Поиск модулей, которые зарегистрированы в секции
-     *
-     * @param integer $id id секции
-     * @return array|boolean
-     */
-    public function searchModulesBySection($id)
-    {
-        return $this->db->getAll('SELECT DISTINCT `m`.`id`, `m`.`name` FROM `sys_classes_sections` `cs`
-                                   LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                    INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
-                                     WHERE `cs`.`section_id` = ' . (int)$id, PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
-    }
-
-    /**
-     * Регистрация класса в секциях, в которых зарегистрирован модуль, в который входит класс. Происходит при создании нового класса
-     *
-     * @param integer $class_id
-     */
-    public function registerClassInSections($class_id)
-    {
-        $module = $this->searchModuleByClassId($class_id);
-        $sections = $this->getSectionsModuleRegistered($module['id']);
-
-        $insert = '';
-        foreach ($sections as $val) {
-            $insert .= '(' . $val['id'] . ', ' . $class_id . '), ';
-        }
-
-        $insert = substr($insert, 0, -2);
-
-        if ($insert) {
-            $this->db->query('INSERT INTO `sys_classes_sections` (`section_id`, `class_id`) VALUES ' . $insert);
-        }
-    }
-
-    /**
-     * Удаление класса из всех секций, в которых он был зарегистрирован
-     *
-     * @param integer $class_id
-     */
-    public function deleteClassFromSections($class_id)
-    {
-        $module = $this->searchModuleByClassId($class_id);
-        $sections = $this->getSectionsModuleRegistered($module['id']);
-
-        $delete = array();
-        foreach ($sections as $val) {
-            $delete[] = $val['id'];
-        }
-
-        if ($delete) {
-            $this->db->query('DELETE FROM `sys_classes_sections` WHERE `class_id` = ' . (int)$class_id . ' AND `section_id` IN (' . implode(', ', $delete) . ')');
-        }
-    }
-
-    /**
-     * Список секций, в которых зарегистрирован модуль
-     *
-     * @param integer|string $module если значение не число, то поиск производится по имени модуля
-     * @return array
-     */
-    public function getSectionsModuleRegistered($module)
-    {
-        throw new mzzRuntimeException('deprecated');
-        $where = '`m`.' . (is_numeric($module) ? '`id` = ' . (int)$module : '`name` = ' . $this->db->quote($module));
-        return $this->db->getAll('SELECT `s`.* FROM `sys_modules` `m`
-                                    INNER JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
-                                     INNER JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id`
-                                      INNER JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
-                                       WHERE ' . $where . '
-                                        GROUP BY `s`.`id`');
-    }
-
-    /**
-     * Список модулей, которые зарегистрированы в секции
-     *
-     * @param integer $section_id
-     * @return array
-     */
-    public function getModulesAtSection($section_id)
-    {
-        throw new mzzRuntimeException('deprecated');
-        $stmt = $this->db->query('SELECT `m`.`id` AS `m_id`, `m`.`name` AS `m_name`, `cs`.`section_id` IS NOT NULL AS `checked` FROM `sys_classes` `c`
-                                     INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
-                                      LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id` AND `cs`.`section_id` = ' . (int)$section_id . '
-                                       GROUP BY `m`.`id`
-                                        ORDER BY `m`.`name`');
-
-        $result = array();
-        while ($tmp = $stmt->fetch()) {
-            $result[$tmp['m_id']] = $tmp;
-        }
-
-        return $result;
     }
 
     /**
@@ -370,100 +274,6 @@ class adminMapper extends mapper
 
         return $result;
     }
-
-    /**
-     * Метод получения списка модулей, секций и классов, которые им принадлежат
-     *
-     * @return array
-     */
-    public function getSectionsAndModulesWithClasses()
-    {
-        $modules = $this->db->getAll('SELECT `s`.`id` AS `section_id`, `s`.`name` AS `section_name`, `m`.`name` AS `module_name`,
-                                       `c`.`name` AS `class_name` FROM `sys_sections` `s`
-                                        LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
-                                         LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                          LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`');
-
-        $result = array();
-
-        foreach ($modules as $val) {
-            if (!empty($val['module_name'])) {
-                $result[$val['section_name']]['modules'][$val['module_name']][] = $val['class_name'];
-            } else {
-                $result[$val['section_name']]['modules'] = array();
-            }
-            if (!isset($result[$val['section_name']]['id'])) {
-                $result[$val['section_name']]['id'] = $val['section_id'];
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Получение списка секций и классов для конкретного модуля
-     *
-     * @return array
-     */
-    public function getModuleSectionsAndClasses($module)
-    {
-        $modules = $this->db->getAll('SELECT `s`.`id` AS `section_id`, `s`.`name` AS `section_name` FROM `sys_sections` `s`
-                                        LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
-                                         LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                          LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
-                                           WHERE `m`.`name` = ' . $this->db->quote($module));
-
-        $result = array();
-
-        foreach ($modules as $val) {
-            if (!isset($result[$val['section_name']]['id'])) {
-                $result[$val['section_name']]['id'] = $val['section_id'];
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Метод получения списка разделов и классов, принадлежащих им
-     *
-     * @return array
-     */
-    public function getSectionsList()
-    {
-        throw new mzzRuntimeException('deprecated');
-        $sections = $this->db->getAll('SELECT DISTINCT `s`.`name` AS `section`, `s`.`id` AS `s_id`, `c`.`name` AS `class`, `c`.`id` AS `c_id` FROM `sys_sections` `s`
-                                         LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
-                                          LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                           ORDER BY `s`.`name`, `c`.`name`');
-
-        $result = array();
-
-        foreach ($sections as $val) {
-            if (!isset($result[$val['s_id']])) {
-                $result[$val['s_id']] = array(
-                    'name' => $val['section'],
-                    'classes' => array());
-            }
-
-            if (!is_null($val['class'])) {
-                $result[$val['s_id']]['classes'][$val['c_id']] = $val['class'];
-            }
-        }
-
-        return $result;
-    }
-    /*
-    public function getAccessRegistry()
-    {
-    $result = $this->db->getAll('SELECT `r`.`obj_id`, `r`.`class_section_id`, `c`.`name` as `class`, `s`.`name` as `section`, `m`.`name` as `module` FROM `sys_access_registry` `r`
-    LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
-    LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-    LEFT JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
-    LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
-    ORDER BY `c`.`name`, `s`.`name`, `r`.`obj_id`');
-    return $result;
-    }*/
 
     /**
      * Получение списка классов

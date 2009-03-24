@@ -63,25 +63,26 @@ class adminAddClassController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'name', 'Название должно быть уникально', array('checkUniqueClass', $db, $data['name'], $isEdit));
+        $validator->add('callback', 'name', 'Название должно быть уникально', array(
+            'checkUniqueClass',
+            $db,
+            $data['name'],
+            $isEdit));
         $validator->add('regex', 'name', 'Разрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
         $validator->add('required', 'dest', 'Нет прав на запись в директорию');
-        $validator->add('callback', 'dest', 'Нет прав на запись в директорию', array(array($this, 'checkdest'), $data['dest']));
+        $validator->add('callback', 'dest', 'Нет прав на запись в директорию', array(
+            array(
+                $this,
+                'checkdest'),
+            $data['dest']));
 
         if ($validator->validate()) {
             $name = trim($this->request->getString('name', SC_POST));
             $newDest = $this->request->getString('dest', SC_POST);
             $bd_only = $this->request->getString('bd_only', SC_POST);
 
-
             if (!$isEdit) {
-                $templates = $this->request->getString('template', SC_POST);
-
-                if (!empty($templates)) {
-                    $templates = unserialize(base64_decode($templates));
-                }
-
-                $classGenerator = new classGenerator($data['name'], $dest[$newDest], $templates);
+                $classGenerator = new classGenerator($data['name'], $dest[$newDest]);
 
                 if ($bd_only == 'no') {
                     try {
@@ -107,8 +108,6 @@ class adminAddClassController extends simpleController
 
                 $editAclId = $db->getOne("SELECT `id` FROM `sys_actions` WHERE `name` = 'editACL'");
                 $db->query('INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . $class_id . ', ' . $editAclId . ')');
-
-                $adminMapper->registerClassInSections($class_id);
 
                 $this->smarty->assign('log', $log);
                 $this->smarty->assign('id', $class_id);
@@ -140,24 +139,6 @@ class adminAddClassController extends simpleController
             $data['name'] = '';
         }
 
-        // templates
-        $templates = $this->searchTemplates();
-        $tpl_options = array();
-        foreach ($templates as $name => $tpl) {
-            $value = base64_encode(serialize($tpl));
-            $about = $name . ' (';
-            if (isset($tpl['do'])) {
-                $about .= 'класс, ';
-            }
-
-            if (isset($tpl['mapper'])) {
-                $about .= 'маппер, ';
-            }
-            $tpl_options[$value] = substr($about, 0, -2) . ')';
-            $this->smarty->assign('templates', $tpl_options);
-        }
-
-
         $this->smarty->assign('data', $data);
         return $this->smarty->fetch('admin/addClass.tpl');
     }
@@ -166,30 +147,6 @@ class adminAddClassController extends simpleController
     {
         return count($dest) > 0;
     }
-
-
-    public function searchTemplates()
-    {
-        $code_gen = systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'codegenerator';
-        $path = $code_gen . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR ;
-        $tpl_dir = 'class_templates' . DIRECTORY_SEPARATOR;
-
-        $action_tpls = array();
-        foreach (glob($path . $tpl_dir . '*.tpl') as $tpl) {
-            $tpl_info = pathinfo($tpl);
-            // pathinfo() fix for php < 5.2.0
-            if (!isset($tpl_info['filename'])) {
-                $tpl_info['filename'] = substr($tpl_info['basename'], 0, -(1 + strlen($tpl_info['extension'])));
-            }
-            $file_name = $tpl_info['filename'];
-            if (!is_int(strpos($file_name, '.'))) continue;
-            list($action, $type) = explode('.', $file_name);
-            $action_tpls[$action][$type] = $tpl_dir . $tpl_info['basename'];
-        }
-
-        return $action_tpls;
-    }
-
 }
 
 function checkUniqueClass($name, $db, $currentName, $isEdit)

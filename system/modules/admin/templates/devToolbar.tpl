@@ -33,7 +33,6 @@ var SECOND_BG_COLOR = '#FFFFFF';
                         <a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить класс" title="Удалить класс" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="editClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" title="Редактировать класс" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="listActions"}" class="jipLink"><img src='{$SITE_PATH}/templates/images/actions.gif' title="Действия класса" alt="Действия класса" /></a>
-                        <a href="{url route="withAnyParam" section="admin" name=$class.name action="readmap"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/admin/model.gif" alt="Схема объекта" title="Схема объекта" /></a>
                         <span class="className{if $class.name eq $module.main_class_name} mainClass{/if}">{$class.name}</span>
                     </td>
                 </tr>
