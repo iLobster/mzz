@@ -27,7 +27,7 @@ class accessEditUserController extends simpleController
         $user_id = $this->request->getInteger('user_id', SC_PATH | SC_POST);
 
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
-        $user = $userMapper->searchById($user_id);
+        $user = $userMapper->searchByKey($user_id);
 
         $acl = new acl($user, $obj_id);
 
@@ -61,7 +61,7 @@ class accessEditUserController extends simpleController
         $users = false;
 
         if ($action == 'addUser') {
-            $criterion = new criterion('a.uid', 'user.' . $userMapper->getTableKey(), criteria::EQUAL, true);
+            $criterion = new criterion('a.uid', $userMapper->table() . '.' . $userMapper->pk(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', $obj_id));
 
             $criteria = new criteria();

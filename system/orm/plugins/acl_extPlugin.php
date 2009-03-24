@@ -2,10 +2,6 @@
 
 class acl_extPlugin extends observer
 {
-    protected $options = array(
-        'obj_id_field' => 'obj_id'
-    );
-
     public function setMapper(mapper $mapper)
     {
         parent::setMapper($mapper);
@@ -14,7 +10,7 @@ class acl_extPlugin extends observer
             $this->mapper->plugin('obj_id');
         } catch (mzzRuntimeException $e) {
             fileLoader::load('orm/plugins/obj_idPlugin');
-            $this->mapper->attach(new obj_idPlugin(array('obj_id_field' => $this->options['obj_id_field'])));
+            $this->mapper->attach(new obj_idPlugin());
         }
     }
 
@@ -27,7 +23,7 @@ class acl_extPlugin extends observer
                 'ro'));
     }
 
-    public function postCreate(entity $object)
+    public function preCreate(entity $object)
     {
         $tmp['acl'] = new lazy(array(
             $this,

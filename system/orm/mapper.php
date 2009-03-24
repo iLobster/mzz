@@ -234,10 +234,9 @@ abstract class mapper
 
     public function plugins($name)
     {
-        $tmp = $name;
         $name .= 'Plugin';
         fileLoader::load('orm/plugins/' . $name);
-        $this->attach(new $name(), $tmp);
+        $this->attach(new $name());
     }
 
     public function attach(observer $observer, $name = null)
@@ -287,6 +286,7 @@ abstract class mapper
         $object = new $this->class();
         $object->setMap($this->map);
         $object->relations($this->relations);
+        $this->notify('preCreate', $object);
         return $object;
     }
 
@@ -398,7 +398,7 @@ abstract class mapper
         }
 
         $object = $this->create();
-        $object->import($row);
+        $object->merge($row);
         $object->state(entity::STATE_CLEAN);
 
         $this->relations->addLazy($object);

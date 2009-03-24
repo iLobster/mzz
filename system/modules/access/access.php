@@ -21,9 +21,8 @@
  */
 
 
-class access extends simple
+class access extends entity
 {
-        protected $name = 'access';
 }
 
 ?>

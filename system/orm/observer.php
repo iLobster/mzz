@@ -71,6 +71,10 @@ class observer
     {
     }
 
+    public function preCreate(entity $object)
+    {
+    }
+
     public function postCreate(entity $object)
     {
     }

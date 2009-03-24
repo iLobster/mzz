@@ -27,7 +27,7 @@ class accessEditGroupController extends simpleController
         $group_id = $this->request->getInteger('user_id', SC_PATH | SC_POST);
 
         $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
-        $group = $groupMapper->searchById($group_id);
+        $group = $groupMapper->searchByKey($group_id);
 
         $acl = new acl($this->toolkit->getUser(), $obj_id);
 
@@ -60,7 +60,7 @@ class accessEditGroupController extends simpleController
         $groups = false;
 
         if ($action == 'addGroup') {
-            $criterion = new criterion('a.gid', 'group.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
+            $criterion = new criterion('a.gid', $groupMapper->table() . '.' . $groupMapper->pk(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', $obj_id));
 
             $criteria = new criteria();

@@ -41,10 +41,10 @@ class accessEditACLController extends simpleController
         $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
 
         // получаем число пользователей, которые ещё не добавлены в ACL для этого объекта
-        $criterion = new criterion('a.uid', $userMapper->getTable() . '.' . $userMapper->getTableKey(), criteria::EQUAL, true);
+        $criterion = new criterion('a.uid', $userMapper->table() . '.' . $userMapper->pk(), criteria::EQUAL, true);
         $criterion->addAnd(new criterion('a.obj_id', $id));
 
-        $criteria = new criteria($userMapper->getTable());
+        $criteria = new criteria($userMapper->table());
         $criteria->addSelectField(new sqlFunction('count', '*', 'true'), 'cnt');
         $criteria->addJoin('sys_access', $criterion, 'a');
         $criteria->add('a.uid', null, criteria::IS_NULL);
@@ -56,10 +56,10 @@ class accessEditACLController extends simpleController
         $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
 
         // получаем число групп, которые ещё не добавлены в ACL для этого объекта
-        $criterion = new criterion('a.gid', $groupMapper->getTable() . '.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
+        $criterion = new criterion('a.gid', $groupMapper->table() . '.' . $groupMapper->pk(), criteria::EQUAL, true);
         $criterion->addAnd(new criterion('a.obj_id', $id));
 
-        $criteria = new criteria($groupMapper->getTable());
+        $criteria = new criteria($groupMapper->table());
         $criteria->addSelectField(new sqlFunction('count', '*', 'true'), 'cnt');
         $criteria->addJoin('sys_access', $criterion, 'a');
         $criteria->add('a.gid', null, criteria::IS_NULL);
