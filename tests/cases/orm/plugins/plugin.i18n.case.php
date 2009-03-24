@@ -63,7 +63,8 @@ class pluginI18nTest extends unitTestCase
     public function setUp()
     {
         $this->mapper = new ormSimpleI18nMapper();
-        $this->mapper->attach(new i18nPlugin(array('title')), 'i18n');
+        $this->mapper->attach(new i18nPlugin(array(
+            'title')));
 
         systemConfig::$i18n = 'ru';
 
@@ -91,6 +92,43 @@ class pluginI18nTest extends unitTestCase
 
         $object = $this->mapper->searchByKey(2);
         $this->assertNull($object);
+    }
+
+    public function testSaveWithSameLanguage()
+    {
+        $this->fixture();
+
+        $object = $this->mapper->searchByKey(1);
+        $object->setTitle($value = 'new title');
+        $this->mapper->save($object);
+
+        $object = $this->mapper->searchByKey(1);
+        $this->assertEqual($object->getTitle(), $value);
+    }
+
+    public function testSaveWithNotExistsLanguage()
+    {
+        $object = $this->mapper->create();
+        $object->setFoo('foo');
+        $object->setTitle($value = 'title');
+        $this->mapper->save($object);
+
+        $this->assertEqual($object->getLangId(), 1);
+        $this->assertEqual($object->getId(), 1);
+
+        $this->mapper->plugin('i18n')->setLangId(2);
+
+        $object = $this->mapper->searchByKey(1);
+
+        $this->assertEqual($object->getId(), 1);
+        $this->assertNull($object->getLangId());
+        $this->assertNull($object->getTitle());
+
+        $object->setTitle($newValue = 'new title');
+        $this->mapper->save($object);
+
+        $this->assertEqual($object->getLangId(), 2);
+        $this->assertEqual($object->getTitle(), $newValue);
     }
 
     private function setLang($id)

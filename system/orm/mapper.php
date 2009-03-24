@@ -140,6 +140,7 @@ abstract class mapper
     {
         //@todo: проверка на тип
 
+
         if ($object->state() == entity::STATE_NEW) {
             return $this->insert($object);
         } elseif ($object->state()) {
@@ -188,11 +189,10 @@ abstract class mapper
             $update = new simpleUpdate($criteria);
 
             $this->db()->query($update->toString($data));
-
-            $object->import($this->searchByKey($object->$accessor())->export());
-
-            $object->state(entity::STATE_CLEAN);
         }
+
+        $object->import($this->searchByKey($object->$accessor())->export());
+        $object->state(entity::STATE_CLEAN);
 
         $this->notify('postUpdate', $object);
     }
@@ -345,6 +345,7 @@ abstract class mapper
         $select = new simpleSelect($criteria);
 
         //echo '<pre>'; var_dump($select->toString()); echo '</pre>';
+
 
         return $this->db()->query($select->toString());
     }

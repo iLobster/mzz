@@ -6,6 +6,8 @@ class i18nPlugin extends observer
 
     private $langId;
 
+    private $forceLangId = false;
+
     protected $options = array(
         'postfix' => 'lang');
 
@@ -51,11 +53,19 @@ class i18nPlugin extends observer
         $this->langId = null;
     }
 
+    public function setLangId($id)
+    {
+        $tmp = $this->langId;
+        $this->langId = $id;
+        $this->forceLangId = true;
+        return $tmp;
+    }
+
     public function preSqlSelect(criteria $criteria)
     {
         $criterion = new criterion('i18n.id', $this->mapper->table() . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
         $criterion->addAnd(new criterion('i18n.lang_id', $this->getLangId()));
-        $criteria->addJoin($this->table(), $criterion, 'i18n', criteria::JOIN_INNER);
+        $criteria->addJoin($this->table(), $criterion, 'i18n', $this->forceLangId ? criteria::JOIN_LEFT : criteria::JOIN_INNER);
         $this->addSelectFields($criteria);
     }
 
@@ -88,7 +98,13 @@ class i18nPlugin extends observer
 
             $update = new simpleUpdate($criteria);
 
-            $this->mapper->db()->query($update->toString($i18n_data));
+            if (!$this->mapper->db()->exec($update->toString($i18n_data))) {
+                $i18n_data['lang_id'] = $this->getLangId();
+                $i18n_data['id'] = $id;
+
+                $insert = new simpleInsert($criteria);
+                $this->mapper->db()->query($insert->toString($i18n_data));
+            }
         }
     }
 
@@ -115,7 +131,7 @@ class i18nPlugin extends observer
     private function clearData(& $data, $notI18n = true)
     {
         foreach (array_keys($data) as $field) {
-            if (($notI18n && in_array($field, $this->i18nFields)) || (!$notI18n && !in_array($field, $this->i18nFields))) {
+            if ($notI18n == in_array($field, $this->i18nFields)) {
                 unset($data[$field]);
             }
         }
