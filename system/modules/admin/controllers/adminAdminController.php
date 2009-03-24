@@ -34,7 +34,7 @@ class adminAdminController extends simpleController
 
         $this->smarty->assign('current_module', $module);
 
-        if ($module == 'admin') {
+        if (is_null($module) || $module == 'admin') {
             return $this->smarty->fetch('admin/main.tpl');
 
         // если указан лишь модуль, и этот модуль находится лишь в одной секции - отображаем её

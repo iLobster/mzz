@@ -34,9 +34,9 @@ $router->addRoute('aclDefaultAction', new requestRoute('access/:id', array('sect
 
 $router->addRoute('admin', new requestRoute('admin/:module_name/:params/:action', array('section' => 'admin', 'action' => 'admin', 'params' => 'root'), array('params' => '.*?', 'action' => '(?:admin|editConfig)')));
 $router->addRoute('adminTranslate', new requestRoute('admin/:module_name/:language/translate', array('section' => 'admin', 'action' => 'translate')));
-$router->addRoute('adminMap', new requestRoute('admin/:class/:field/:action', array('section' => 'admin'), array('action' => '(?:editmap|deletemap)')));
 $router->addRoute('adminCfgEdit', new requestRoute('admin/:id/:name/:action', array('section' => 'admin', 'action' => 'editCfg'), array('id' => '\d+')));
 $router->addRoute('adminAction', new requestRoute('admin/:id/:action_name/:action', array('section' => 'admin'), array('id' => '\d+', 'action' => '(?:editAction|deleteAction)')));
+$router->addRoute('adminDevToolbar', new requestRoute('admin/devToolbar', array('section' => 'admin', 'action' => 'devToolbar')));
 
 $router->addRoute('menuMoveAction', new requestRoute('menu/:id/:target/move', array('section' => 'menu', 'action' => 'move'), array('id' => '\d+', 'target' => '(?:up|down|\d+)')));
 
