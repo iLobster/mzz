@@ -36,9 +36,40 @@ class userOnlineMapper extends mapper
      *
      * @var string
      */
-    protected $className = 'userOnline';
+    protected $class = 'userOnline';
+    protected $table = 'user_userOnline';
 
     protected $obj_id_field = null;
+
+        protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk',
+                'once')),
+        'user_id' => array(
+            'accessor' => 'getUser',
+            'mutator' => 'setUser',
+            'options' => array(
+                'pk',
+                'once')),
+        'last_activity' => array(
+            'accessor' => 'getLastActivity',
+            'mutator' => 'setLastActivity'),
+        'session' => array(
+            'accessor' => 'getSession',
+            'mutator' => 'setSession',
+            'options' => array(
+                'pk',
+                'once')),
+        'url' => array(
+            'accessor' => 'getUrl',
+            'mutator' => 'setUrl'),
+        'ip' => array(
+            'accessor' => 'getIp',
+            'mutator' => 'setIp'),
+    );
 
     /**
      * Выполнение операций с массивом $fields перед обновлением в БД

@@ -20,9 +20,9 @@
  * @version 0.1
  */
 
-class userOnline extends simple
+class userOnline extends entity
 {
-    protected $name = 'user';
+    protected $module = 'user';
 }
 
 ?>

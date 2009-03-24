@@ -42,6 +42,11 @@ class user extends entity
         return is_null($this->getConfirmed());
     }
 
+    public function isActive()
+    {
+        return !is_null($this->getOnline());
+    }
+
     public function getSkin()
     {
         $id = parent::__call('getSkin', array());

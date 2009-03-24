@@ -13,6 +13,8 @@
  */
 
 fileLoader::load('user');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('orm/plugins/jipPlugin');
 
 /**
  * userMapper: маппер для пользователей
@@ -88,7 +90,23 @@ class userMapper extends mapper
             'local_key' => 'id',
             'foreign_key' => 'id',
             'ref_local_key' => 'user_id',
-            'ref_foreign_key' => 'group_id'));
+            'ref_foreign_key' => 'group_id'),
+        'online' => array(
+            'accessor' => 'getOnline',
+            'relation' => 'one',
+            'mapper' => 'user/userOnlineMapper',
+            'local_key' => 'id',
+            'foreign_key' => 'user_id',
+            'options' => array(
+                'ro'))
+    );
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->attach(new acl_extPlugin());
+        $this->attach(new jipPlugin());
+    }
 
     /**
      * Выполняет поиск объекта по логину
@@ -205,7 +223,7 @@ class userMapper extends mapper
                 $toolkit = systemToolkit::getInstance();
                 $user = $toolkit->getUser();
             } else {
-                $user = $this->searchById($args['id']);
+                $user = $this->searchByKey($args['id']);
             }
             if ($user) {
                 return $user;
