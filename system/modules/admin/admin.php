@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * admin: класс для работы c данными
@@ -20,10 +20,8 @@
  * @version 0.1
  */
 
-
-class admin extends simple
+class admin extends entity
 {
-    protected $name = 'admin';
 }
 
 ?>

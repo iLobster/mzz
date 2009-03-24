@@ -627,9 +627,8 @@ class acl
      *
      * @param integer $obj_id уникальный id регистрируемого объекта
      * @param string $class имя ДО
-     * @param string $module имя модуля
      */
-    public function register($obj_id, $class = null, $module = null)
+    public function register($obj_id, $class = null)
     {
         $this->setObjId($obj_id);
 

@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * adminMapper: маппер
@@ -22,21 +22,15 @@
 
 fileLoader::load('admin');
 
-class adminMapper extends simpleMapper
+class adminMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'admin';
+    protected $table = 'admin';
 
-    /**
-     * Имя класса DataObject
-     *
-     * @var string
-     */
-    protected $className = 'admin';
+    public function __construct()
+    {
+        parent::__construct();
+        $this->plugins('acl_ext');
+    }
 
     /**
      * Метод получения общей инормации об установленных модулях, разделах и их отношений
@@ -48,12 +42,10 @@ class adminMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
         $user = $toolkit->getUser();
 
-        $info = $this->db->getAll("SELECT `m`.`name` AS `module`, `ss`.`name` AS `section`, `c`.`name` AS `class`, `c2`.`name` AS `main_class` FROM `sys_modules` `m`
-                                    LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
-                                     LEFT JOIN `sys_classes_sections` `s` ON `s`.`class_id` = `c`.`id`
-                                      LEFT JOIN `sys_sections` `ss` ON `ss`.`id` = `s`.`section_id`
+        $info = $this->db()->getAll('SELECT `m`.`name` AS `module`, `c`.`name` AS `class`, `c2`.`name` AS `main_class` FROM `sys_modules` `m`
+                                      LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
                                        LEFT JOIN `sys_classes` `c2` ON `c2`.`id` = `m`.`main_class`
-                                        ORDER BY `m`.`name`, `ss`.`name`, `c`.`name`");
+                                        ORDER BY `m`.`name`, `c`.`name`');
         $result = array();
         $access = array();
         $admin = array();
@@ -62,34 +54,36 @@ class adminMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
 
         foreach ($info as $val) {
-            /*if (!$val['section']) {
-            $class_info = $this->searchClassByName($val['class']);
-            $this->registerClassInSections($class_info['id']);
-            }*/
-
             $class = (!empty($val['main_class'])) ? $val['main_class'] : $val['class'];
 
             $main[$val['module']] = $class;
 
-            if (isset($val['section']) && isset($val['class'])) {
-                $obj_id = $toolkit->getObjectId('access_' . $val['section'] . '_' . $class);
-                $this->register($obj_id, 'sys', 'access');
+            if (isset($val['class'])) {
+                $obj_id = $toolkit->getObjectId('access_' . $class);
+                $this->register($obj_id, 'access');
                 $acl = new acl($user, $obj_id);
 
-
-                $access[$val['section'] . '_' . $val['module']] = $acl->get('editACL');
+                $access[$val['module']] = $acl->get('editACL');
 
                 $action = $toolkit->getAction($val['module']);
                 $actions = $action->getActions();
                 $actions = $actions[$val['class']];
 
-                $admin[$val['section'] . '_' . $val['class']] = isset($actions['admin']) && $acl->get('admin');
+                $admin[$val['class']] = isset($actions['admin']) && $acl->get('admin');
 
-                $result[$val['module']][$val['section']][] = array('class' => $val['class'], 'obj_id' => $obj_id, 'editACL' => $acl->get('editACL'), 'editDefault' => $acl->get('editDefault'));
+                $result[$val['module']][] = array(
+                    'class' => $val['class'],
+                    'obj_id' => $obj_id,
+                    'editACL' => $acl->get('editACL'),
+                    'editDefault' => $acl->get('editDefault'));
             }
         }
 
-        return array('data' => $result, 'cfgAccess' => $access, 'admin' => $admin, 'main_class' => $main);
+        return array(
+            'data' => $result,
+            'cfgAccess' => $access,
+            'admin' => $admin,
+            'main_class' => $main);
     }
 
     /**
@@ -128,9 +122,14 @@ class adminMapper extends simpleMapper
 
                 if (isset($actions['admin']) && $acl->get('admin')) {
                     if (!isset($result[$val['module']])) {
-                        $result[$val['module']] = array('title' => $val['module_title'], 'icon' => $val['module_icon'], 'order' => $val['module_order'], 'sections' => array());
+                        $result[$val['module']] = array(
+                            'title' => $val['module_title'],
+                            'icon' => $val['module_icon'],
+                            'order' => $val['module_order'],
+                            'sections' => array());
                     }
-                    $result[$val['module']]['sections'][$val['section']] = array('title' => $val['section_title']);
+                    $result[$val['module']]['sections'][$val['section']] = array(
+                        'title' => $val['section_title']);
                 }
             }
         }
@@ -280,6 +279,7 @@ class adminMapper extends simpleMapper
      */
     public function getSectionsModuleRegistered($module)
     {
+        throw new mzzRuntimeException('deprecated');
         $where = '`m`.' . (is_numeric($module) ? '`id` = ' . (int)$module : '`name` = ' . $this->db->quote($module));
         return $this->db->getAll('SELECT `s`.* FROM `sys_modules` `m`
                                     INNER JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
@@ -297,6 +297,7 @@ class adminMapper extends simpleMapper
      */
     public function getModulesAtSection($section_id)
     {
+        throw new mzzRuntimeException('deprecated');
         $stmt = $this->db->query('SELECT `m`.`id` AS `m_id`, `m`.`name` AS `m_name`, `cs`.`section_id` IS NOT NULL AS `checked` FROM `sys_classes` `c`
                                      INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
                                       LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id` AND `cs`.`section_id` = ' . (int)$section_id . '
@@ -332,12 +333,11 @@ class adminMapper extends simpleMapper
      */
     public function getModulesList()
     {
-        $modules = $this->db->getAll('SELECT (COUNT(`ca`.`id`) + COUNT(`cs`.`id`) > 0) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `c2`.`name` AS `main_class_name`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id`, `m`.`main_class` FROM `sys_modules` `m`
+        $modules = $this->db()->getAll('SELECT COUNT(`ca`.`id`) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `c2`.`name` AS `main_class_name`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id`, `m`.`main_class` FROM `sys_modules` `m`
                                          LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
                                           LEFT JOIN `sys_classes` `c2` ON `c2`.`id` = `m`.`main_class`
                                            LEFT JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id` AND `ca`.`action_id` != 9
-                                            LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`class_id` = `c`.`id`
-                                             GROUP BY `m`.`name`, `c`.`name`');
+                                            GROUP BY `m`.`name`, `c`.`name`');
 
         $result = array();
 
@@ -346,7 +346,11 @@ class adminMapper extends simpleMapper
                 if (empty($val['main_class_name'])) {
                     $val['main_class_name'] = $val['module'];
                 }
-                $result[$val['m_id']] = array('name' => $val['module'], 'main_class' => $val['main_class'], 'classes' => array(), 'main_class_name' => $val['main_class_name']);
+                $result[$val['m_id']] = array(
+                    'name' => $val['module'],
+                    'main_class' => $val['main_class'],
+                    'classes' => array(),
+                    'main_class_name' => $val['main_class_name']);
             }
 
             if (!is_null($val['class'])) {
@@ -358,7 +362,9 @@ class adminMapper extends simpleMapper
                     }
                 }
 
-                $result[$val['m_id']]['classes'][$val['c_id']] = array('name' => $val['class'], 'exists' => $val['exists']);
+                $result[$val['m_id']]['classes'][$val['c_id']] = array(
+                    'name' => $val['class'],
+                    'exists' => $val['exists']);
             }
         }
 
@@ -425,6 +431,7 @@ class adminMapper extends simpleMapper
      */
     public function getSectionsList()
     {
+        throw new mzzRuntimeException('deprecated');
         $sections = $this->db->getAll('SELECT DISTINCT `s`.`name` AS `section`, `s`.`id` AS `s_id`, `c`.`name` AS `class`, `c`.`id` AS `c_id` FROM `sys_sections` `s`
                                          LEFT JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
                                           LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
@@ -434,7 +441,9 @@ class adminMapper extends simpleMapper
 
         foreach ($sections as $val) {
             if (!isset($result[$val['s_id']])) {
-                $result[$val['s_id']] = array('name' => $val['section'], 'classes' => array());
+                $result[$val['s_id']] = array(
+                    'name' => $val['section'],
+                    'classes' => array());
             }
 
             if (!is_null($val['class'])) {
@@ -469,7 +478,9 @@ class adminMapper extends simpleMapper
                                                  ORDER BY `s`.`name`, `c`.`name`", PDO::FETCH_ASSOC);
         $result = array();
         foreach ($classes as $class) {
-            $result[$class['section_name']][] = array('id' => $class['id'], 'class' => $class['class_name']);
+            $result[$class['section_name']][] = array(
+                'id' => $class['id'],
+                'class' => $class['class_name']);
         }
         return $result;
     }
@@ -625,7 +636,9 @@ class adminMapper extends simpleMapper
                         $param = preg_split('/\s+/', $docblock, 4);
                         if (count($param) >= 3) {
                             $param[2] = substr(trim($param[2]), 1);
-                            $docParams[$param[2]] = array(trim($param[1]), isset($param[3]) ? trim($param[3]) : '');
+                            $docParams[$param[2]] = array(
+                                trim($param[1]),
+                                isset($param[3]) ? trim($param[3]) : '');
                         }
                     }
                 } else {
@@ -633,15 +646,22 @@ class adminMapper extends simpleMapper
                 }
             }
 
-            $params = array('description' => $description);
+            $params = array(
+                'description' => $description);
             foreach ($reflect->getParameters() as $param) {
                 if (isset($docParams[$param->getName()])) {
                     $docParam = $docParams[$param->getName()];
                 } else {
-                    $docParam = array('unknown', 'описание не указано');
+                    $docParam = array(
+                        'unknown',
+                        'описание не указано');
                 }
                 $isScalar = !($param->isArray() || $param->getClass() != null || $param->isPassedByReference());
-                $isScalarType = in_array($docParam[0], array('string', 'integer', 'boolean', 'float'));
+                $isScalarType = in_array($docParam[0], array(
+                    'string',
+                    'integer',
+                    'boolean',
+                    'float'));
 
                 // один из параметров не скалярный и обязательный, вызов невозможен
                 if (!$param->isOptional() && (!$isScalar || !$isScalarType)) {
@@ -657,9 +677,15 @@ class adminMapper extends simpleMapper
                     } else {
                         $type = $docParam[0];
                     }
-                    $params[$param->getName()] = array($type, $docParam[1], false);
+                    $params[$param->getName()] = array(
+                        $type,
+                        $docParam[1],
+                        false);
                 } elseif ($isScalar && $isScalarType) {
-                    $params[$param->getName()] = array($docParam[0], $docParam[1], true);
+                    $params[$param->getName()] = array(
+                        $docParam[0],
+                        $docParam[1],
+                        true);
                 }
 
                 if ($param->isOptional()) {
@@ -681,10 +707,8 @@ class adminMapper extends simpleMapper
      */
     public function getLatestRegisteredObj($items = 5)
     {
-        $objects = $this->db->getAll("SELECT `ar`.`obj_id`, `c`.`name` as `class_name`, `s`.`name` as `section_name` FROM `sys_access_registry` `ar`
-                                       LEFT JOIN `sys_classes_sections` `cs` ON `ar`.`class_section_id` = `cs`.`id`
-                                        LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                         LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+        $objects = $this->db()->getAll("SELECT `ar`.`obj_id`, `c`.`name` as `class_name` FROM `sys_access_registry` `ar`
+                                         LEFT JOIN `sys_classes` `c` ON `c`.`id` = `ar`.`class_id`
                                           ORDER BY `ar`.`obj_id` DESC LIMIT 0, " . (int)$items, PDO::FETCH_ASSOC);
         return $objects;
     }
@@ -711,9 +735,8 @@ class adminMapper extends simpleMapper
         }
 
         return array(
-        'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder,
-        'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder
-        );
+            'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder,
+            'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder);
     }
 
     public function getMenu()
@@ -728,20 +751,33 @@ class adminMapper extends simpleMapper
         $toolkit = systemToolkit::getInstance();
 
         if (isset($args['section_name']) && isset($args['module_name'])) {
+            throw new mzzRuntimeException('refactor me!');
             $main_class = $this->getMainClass($args['module_name']);
             $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $main_class, false);
 
             $obj = $this->create();
         } else {
-            $obj_id = $toolkit->getObjectId('access_admin_admin');
+            $obj_id = $toolkit->getObjectId('access_admin');
             $this->register($obj_id);
 
             $obj = $this->create();
         }
 
-        $obj->import(array('obj_id' => $obj_id));
+        $obj->merge(array(
+            'obj_id' => $obj_id));
 
         return $obj;
+    }
+
+    public function register($obj_id, $className = null)
+    {
+        if (is_null($className)) {
+            $className = $this->class;
+        }
+
+        $toolkit = systemToolkit::getInstance();
+        $acl = new acl($toolkit->getUser());
+        $acl->register($obj_id, $className);
     }
 }
 

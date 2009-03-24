@@ -10,7 +10,7 @@
  *
  * @link http://www.mzz.ru
  * @version $Id$
-*/
+ */
 
 /**
  * adminDevToolbarController: контроллер для метода devToolbar модуля admin
@@ -26,26 +26,20 @@ class adminDevToolbarController extends simpleController
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
         $info = $adminMapper->getInfo();
-        $modules = $adminMapper->getModulesList();
-        $sections = $adminMapper->getSectionsList();
-        $latestObjects = $adminMapper->getLatestRegisteredObj();
 
         $access = array();
 
-        foreach ($info['data'] as $key => $module) {
-            foreach ($module as $section => $classes) {
-                foreach ($classes as $class) {
-                    $name = $section . '_' . $class['class'];
-                    $access[$name] = $class;
-                    $access[$name]['admin'] = $info['admin'][$name];
-                }
+        foreach ($info['data'] as $module) {
+            foreach ($module as $class) {
+                $name = $class['class'];
+                $access[$name] = $class;
+                $access[$name]['admin'] = $info['admin'][$name];
             }
         }
 
         $this->smarty->assign('access', $access);
-        $this->smarty->assign('modules', $modules);
-        $this->smarty->assign('sections', $sections);
-        $this->smarty->assign('latestObjects', $latestObjects);
+        $this->smarty->assign('modules', $adminMapper->getModulesList());
+        $this->smarty->assign('latestObjects', $adminMapper->getLatestRegisteredObj());
         return $this->smarty->fetch('admin/devToolbar.tpl');
     }
 }
