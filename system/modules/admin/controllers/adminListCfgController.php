@@ -32,12 +32,7 @@ class adminListCfgController extends simpleController
             return 'Запрашиваемый Вами модуль не найден';
         }
 
-        $cfg_id = $db->getOne('SELECT `id` FROM `sys_cfg` WHERE `module` = ' . $id . ' AND `section` = 0');
-        if (is_null($cfg_id)) {
-            $db->query('INSERT INTO `sys_cfg` (`section`, `module`) VALUES (0, ' . $id . ')');
-        }
-
-        $config = new config('', $data['name']);
+        $config = new config($data['name']);
         $params = $config->getDefaultValues();
 
         $this->smarty->assign('data', $data);

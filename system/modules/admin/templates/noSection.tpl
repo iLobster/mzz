@@ -1,1 +1,0 @@
-Выбранный модуль <b>{$current_module}</b> не зарегистрирован в секции <b>{$current_section}</b>

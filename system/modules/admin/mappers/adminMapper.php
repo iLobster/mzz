@@ -466,21 +466,17 @@ class adminMapper extends mapper
     }*/
 
     /**
-     * Получение списка классов в секциях
+     * Получение списка классов
      *
      * @return array
      */
-    public function getClassesInSections()
+    public function getClasses()
     {
-        $classes = $this->db->getAll("SELECT `cs`.`id`, `c`.`name` as `class_name`, `s`.`name` as `section_name` FROM `sys_classes_sections` `cs`
-                                               LEFT JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                                                LEFT JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
-                                                 ORDER BY `s`.`name`, `c`.`name`", PDO::FETCH_ASSOC);
+        $classes = $this->db()->getAll("SELECT `c`.`id`, `c`.`name` FROM `sys_classes` `c`
+                                       ORDER BY `c`.`name`", PDO::FETCH_ASSOC);
         $result = array();
         foreach ($classes as $class) {
-            $result[$class['section_name']][] = array(
-                'id' => $class['id'],
-                'class' => $class['class_name']);
+            $result[$class['id']] = $class['name'];
         }
         return $result;
     }
