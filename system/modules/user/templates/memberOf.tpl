@@ -6,7 +6,7 @@
             <tr>
                 <td align="center" width="10%">{$group->getId()}</td>
                 {assign var="group_id" value=$group->getId()}
-                <td width="10%" align="center">{form->checkbox name="groups[$group_id]" value=$user->getGroups()->exists($group_id)}</td>
+                <td width="10%" align="center">{form->checkbox name="groups[$group_id]" value=$user->getGroups()->exists($group_id) nodefault=1}</td>
                 <td width="80%">{$group->getName()}</td>
             </tr>
         {/foreach}
