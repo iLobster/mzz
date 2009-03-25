@@ -142,7 +142,7 @@ mzzCatalogue.autoloadSelects();
         <tr>
             <td colspan="2">
             <strong>{form->caption name="typeConfig[folder]" value="Папка:"}</strong><br />
-            {form->select name="typeConfig[folder]" style="width: 450px;" size="8" id="catalogue_folders_list" options="Выберите секцию" disabled=1}
+            {form->select name="typeConfig[folder]" style="width: 450px;" size="8" id="catalogue_folders_list" disabled=1}
             </td>
         </tr>
     </table>

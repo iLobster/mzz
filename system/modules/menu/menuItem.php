@@ -23,9 +23,9 @@ abstract class menuItem extends entity
 {
     protected $name = 'menu';
 
+    protected $isActive = null;
     protected $childrens = array();
     protected $arguments = null;
-    protected $isActive;
     protected $typeId;
     protected $urlLang;
     protected $urlLangSpecified;
@@ -99,6 +99,15 @@ abstract class menuItem extends entity
     public function move($target)
     {
         $this->mapper->move($this, $target);
+    }
+
+    protected function stripLangFromUrl($url)
+    {
+        if ($this->urlLangSpecified) {
+            $url = preg_replace('!^' . $this->urlLang . '/!siU', '', $url);
+        }
+
+        return $url;
     }
 
     /**

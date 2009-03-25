@@ -3,8 +3,7 @@ class externalMenuItem extends menuItem
 {
     public function getUrl()
     {
-        $url = $this->getArgument('url');
-        return $url;
+        return $this->getArgument('url', '/');
     }
 
     public function isActive()

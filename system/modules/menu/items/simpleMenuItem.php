@@ -1,11 +1,16 @@
 <?php
 class simpleMenuItem extends menuItem
 {
-    public function getUrl($lang = true)
+    protected $isActive = null;
+
+    public function getUrl($withLang = true, $startSlash = true)
     {
-        $lang = $lang ? $this->urlLang : null;
         $url = $this->getArgument('url', '');
-        return ($lang ? '/' . $lang : '') . $url;
+        if ($withLang && $this->urlLangSpecified) {
+            $url = $this->urlLang . '/' . $url;
+        }
+
+        return ($startSlash ? '/' : '') . $url;
     }
 
     public function isActive()
@@ -13,9 +18,9 @@ class simpleMenuItem extends menuItem
         if (!is_bool($this->isActive)) {
             $toolkit = systemToolkit::getInstance();
             $request = $toolkit->getRequest();
-            $url = $this->getUrl(false);
-            $url = ($this->urlLangSpecified && $url == '/' ? '' : $url);
-            $this->isActive = ($request->getUrl() . ($this->urlLangSpecified ? '/' . $this->urlLang: '') . $url == $request->getRequestUrl());
+
+            $url = $this->getUrl(false, false);
+            $this->isActive = ($url == $this->stripLangFromUrl($request->getPath()));
         }
 
         return $this->isActive;

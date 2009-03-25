@@ -34,13 +34,7 @@ class advancedMenuItem extends menuItem
             $match = false;
 
             if ($this->getActiveRegExp()) {
-                $requestPath = $request->getPath();
-
-                //отрезаем из урла lang
-                if ($this->urlLangSpecified) {
-                    $requestPath = $this->stripLangFromUrl($requestPath);
-                }
-
+                $requestPath = $this->stripLangFromUrl($request->getPath());
                 $match = preg_match($this->getActiveRegExp(), $requestPath);
             }
             if (!$match) {
@@ -87,11 +81,6 @@ class advancedMenuItem extends menuItem
         $arguments->delete('route');
         $arguments->delete('activeRoutes');
         return $arguments->export();
-    }
-
-    protected function stripLangFromUrl($url)
-    {
-        return preg_replace('!^' . $this->urlLang . '/!siU', '/', $url);
     }
 }
 ?>
