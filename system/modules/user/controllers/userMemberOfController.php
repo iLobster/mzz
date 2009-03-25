@@ -23,68 +23,60 @@ class userMemberOfController extends simpleController
 {
     protected function getView()
     {
-        if (($id = $this->request->getInteger('id')) == null) {
-            $id = $this->request->getInteger('id', SC_POST);
-        }
+        $id = $this->request->getInteger('id', SC_PATH | SC_POST);
 
         $userMapper = $this->toolkit->getMapper('user', 'user');
-        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
 
-        $user = $userMapper->searchById($id);
+        $user = $userMapper->searchByKey($id);
 
         // проверяем что найден нужный пользователь
         if ($user && $id != $user->getId()) {
             return $userMapper->get404()->run();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            // если была отправлена форма
-            $groups = $this->request->getArray('groups', SC_POST);
+        $validator = new formValidator();
 
-            if (is_null($groups)) {
-                $groups = array();
+        if ($validator->validate()) {
+            $groupMapper = $this->toolkit->getMapper('user', 'group');
+
+            $groups = (array)$this->request->getArray('groups', SC_POST);
+
+            $groups = array_keys($groups);
+
+            $userGroups = $user->getGroups();
+
+            foreach (array_diff($userGroups->keys(), $groups) as $id) {
+                $userGroups->delete($id);
             }
 
-            $groupsArray = array();
-
-            // формируем массив с выбранными группами
-            foreach (array_keys($groups) as $val) {
-                $criteria = new criteria();
-                $criteria->add('user_id', $id)->add('group_id', $val);
-                $userGroup = $userGroupMapper->searchOneByCriteria($criteria);
-
-                if (is_null($userGroup)) {
-                    $userGroup = $userGroupMapper->create();
-                    $userGroup->setUser($id);
-                    $userGroup->setGroup($val);
+            foreach (array_diff($groups, $userGroups->keys()) as $id) {
+                if ($group = $groupMapper->searchByKey($id)) {
+                    $userGroups->add($group);
                 }
-
-                $groupsArray[] = $userGroup;
             }
 
-            $user->setGroups($groupsArray);
             $userMapper->save($user);
 
             return jipTools::closeWindow();
-        } else {
-            // если просто показать список групп и пользователей
-            $groupMapper = $this->toolkit->getMapper('user', 'group');
-
-            $criteria = new criteria();
-            $criteria->setOrderByFieldAsc('name');
-            $groups = $groupMapper->searchAll($criteria);
-
-            $selected = array();
-            foreach ($user->getGroups() as $val) {
-                $selected[$val->getGroup()->getId()] = 1;
-            }
-
-            $this->smarty->assign('groups', $groups);
-            $this->smarty->assign('selected', $selected);
-            $this->smarty->assign('user', $user);
-
-            return $this->smarty->fetch('user/memberOf.tpl');
         }
+
+        // если просто показать список групп и пользователей
+        $groupMapper = $this->toolkit->getMapper('user', 'group');
+
+        $criteria = new criteria();
+        $criteria->setOrderByFieldAsc('name');
+        $groups = $groupMapper->searchAll($criteria);
+
+        $url = new url('withId');
+        $url->setSection('user');
+        $url->setAction('memberOf');
+        $url->add('id', $id);
+
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('groups', $groups);
+        $this->smarty->assign('user', $user);
+
+        return $this->smarty->fetch('user/memberOf.tpl');
     }
 }
 

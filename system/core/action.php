@@ -204,7 +204,7 @@ class action
      */
     public function isJip(Array $action)
     {
-        return isset($action['jip']) && $action['jip'] == true;
+        return isset($action['jip']) && $action['jip'] == 1;
     }
 
     protected function isAclAction($name, $params)

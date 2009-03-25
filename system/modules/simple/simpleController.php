@@ -125,9 +125,9 @@ abstract class simpleController
 
     protected function forward404($mapper = null)
     {
-        if ($mapper instanceof simpleMapper) {
-            $class = $mapper->getClassName() . '404Controller';
-            $module = $mapper->name();
+        if ($mapper instanceof mapper) {
+            $class = $mapper->getClass() . '404Controller';
+            $module = $mapper->module();
         } else {
             $module = $class = '';
         }

@@ -24,17 +24,9 @@ class userAdminController extends simpleController
 {
     protected function getView()
     {
-        $userFolderMapper = $this->toolkit->getMapper('user', 'userFolder');
-        $groupFolderMapper = $this->toolkit->getMapper('user', 'groupFolder');
-
-        $userFolder = $userFolderMapper->getFolder();
-        $groupFolder = $groupFolderMapper->getFolder();
-
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $this->setPager($userMapper);
 
-        $this->smarty->assign('userFolder', $userFolder);
-        $this->smarty->assign('groupFolder', $groupFolder);
         $this->smarty->assign('section_name', $this->request->getString('section_name'));
         $this->smarty->assign('users', $userMapper->searchAll());
         return $this->smarty->fetch('user/admin.tpl');

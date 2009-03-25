@@ -63,6 +63,11 @@ class user extends entity
         return $tz;
     }
 
+    public function getAcl($name)
+    {
+        // @todo: исправить! в acl решить что делать с obj_id = 0 (вероятно брать дефолты)
+        return true;
+    }
 }
 
 ?>

@@ -1,20 +1,18 @@
 {assign var=name value=$user->getLogin()}
 {include file='jipTitle.tpl' title="Список групп, в которые входит пользователь $name"}
-{set name="form_action"}{url}{/set}
 {form action=$form_action method="post" jip=true}
     <table border="0" width="50%" cellpadding="4" cellspacing="1" class="systemTable">
         {foreach from=$groups item=group}
             <tr>
                 <td align="center" width="10%">{$group->getId()}</td>
                 {assign var="group_id" value=$group->getId()}
-                <td width="10%" align="center"><input type="checkbox" name="groups[{$group->getId()}]" value="1" {if isset($selected.$group_id)}checked="checked"{/if}></td>
+                <td width="10%" align="center">{form->checkbox name="groups[$group_id]" value=$user->getGroups()->exists($group_id)}</td>
                 <td width="80%">{$group->getName()}</td>
-                {*<td>{$group->getJip()}</td> *}
             </tr>
         {/foreach}
             <tr>
-                <td><input type="submit" value="Сохранить"></td>
-                <td colspan="2"><input type="reset" value="Отмена" onclick="javascript: jipWindow.close();"></td>
+                <td>{form->submit name="submit" value="_ simple/save"}</td>
+                <td colspan="2">{form->reset jip=true name="reset" value="_ simple/cancel"}</td>
             </tr>
     </table>
 </form>

@@ -1,4 +1,6 @@
-<div class="pageTitle"><strong>Пользователи</strong>{$userFolder->getJip()}{if $groupFolder->getAcl('groupsList')} / <a href="{url route="default2" section=$section_name action="groupsList"}">Группы</a>{/if}</div>
+<div class="pageTitle"><strong>Пользователи</strong>
+
+ {*{$userFolder->getJip()}{if $groupFolder->getAcl('groupsList')} / <a href="{url route="default2" section=$section_name action="groupsList"}">Группы</a>{/if}</div> *}
 
 <div class="pageContent">
 <table cellspacing="0" cellpadding="3" class="tableList">

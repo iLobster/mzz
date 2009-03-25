@@ -98,8 +98,7 @@ class userMapper extends mapper
             'local_key' => 'id',
             'foreign_key' => 'user_id',
             'options' => array(
-                'ro'))
-    );
+                'ro')));
 
     public function __construct()
     {
@@ -131,18 +130,6 @@ class userMapper extends mapper
     }
 
     /**
-     * Возвращает список групп, в которых существует
-     * пользователь с идентификатором $id
-     *
-     * @param string $id идентификатором
-     * @return array
-     */
-    public function getGroupsList($id)
-    {
-        return systemToolkit::getInstance()->getMapper('user', 'userGroup')->searchGroupsIdsByUser($id);
-    }
-
-    /**
      * Идентифицирует пользователя по логину и паролю и
      * в случае успеха устанавливает сессию
      * идентифицированного пользователя
@@ -159,11 +146,11 @@ class userMapper extends mapper
 
         $user = $this->searchOneByCriteria($criteria);
 
-        if ($user && $user->isConfirmed()) {
-            return $user;
-        } else {
-            return $user ? self::NOT_CONFIRMED : self::WRONG_AUTH_DATA;
+        if ($user) {
+            return $user->isConfirmed() ? $user : self::NOT_CONFIRMED;
         }
+
+        return self::WRONG_AUTH_DATA;
     }
 
     /**
@@ -186,6 +173,15 @@ class userMapper extends mapper
         }
     }
 
+    protected function preUpdate(& $data)
+    {
+        if (is_array($data)) {
+            if (isset($data['password'])) {
+                $data['password'] = $this->cryptPassword($data['password']);
+            }
+        }
+    }
+/*
     public function delete($id)
     {
         if ($id instanceof user) {
@@ -203,7 +199,7 @@ class userMapper extends mapper
         }
 
         parent::delete($id);
-    }
+    }*/
 
     public function updateLastLoginTime($user)
     {
@@ -228,6 +224,8 @@ class userMapper extends mapper
             if ($user) {
                 return $user;
             }
+        } else {
+            return $this->create();
         }
 
         throw new mzzDONotFoundException();

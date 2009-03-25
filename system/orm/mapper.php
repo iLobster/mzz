@@ -55,6 +55,8 @@ abstract class mapper
 
     protected $class;
 
+    protected $module = null;
+
     public function __construct()
     {
         foreach ($this->map as $key => $value) {
@@ -309,6 +311,11 @@ abstract class mapper
         return $this->table;
     }
 
+    public function getClass()
+    {
+        return $this->class;
+    }
+
     public function map($map = null)
     {
         if (!is_null($map)) {
@@ -407,6 +414,19 @@ abstract class mapper
         $this->notify('postCreate', $object);
 
         return $object;
+    }
+
+    public function module()
+    {
+        if (empty($this->module)) {
+            $class = new ReflectionClass(get_class($this));
+            $path = $class->getFileName();
+
+            preg_match('!' . DIRECTORY_SEPARATOR . '([^' . DIRECTORY_SEPARATOR . ']*)' . DIRECTORY_SEPARATOR . 'mappers!', $path, $matches);
+
+            $this->module = $matches[1];
+        }
+        return $this->module;
     }
 }
 
