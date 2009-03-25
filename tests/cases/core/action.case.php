@@ -21,77 +21,99 @@ class actionTest extends unitTestCase
 
     public function testActionSetAndGet()
     {
-        $this->action->setAction('firstAction');
-        $this->assertEqual($this->action->getAction(), array("controller" => "firstController", "alias" => "jipAction"));
+        $this->assertEqual($this->action->getOptions('firstAction'), array("controller" => "firstController", 'jip' => '1', "alias" => "jipAction"));
 
-        $this->action->setAction('secondAction');
-        $this->assertEqual($this->action->getAction(), array("controller" => "secondController"));
+        $this->assertEqual($this->action->getOptions('secondAction'), array("controller" => "secondController", "403handle" => 'none'));
     }
 
-    public function testActionSetUnknownAction()
+    public function testGetClass()
     {
-        try {
-            $this->action->setAction('_unknown_action_');
-            $this->fail('no exception thrown?');
-        } catch (Exception $e) {
-            $this->assertPattern("/Действие \"_unknown_action_\" не найдено/i", $e->getMessage());
-            $this->pass();
-        }
-
+        $this->assertEqual($this->action->getClass('firstAction'), 'firstActions');
+        $this->assertEqual($this->action->getClass('secondAction'), 'secondActions');
     }
 
-    public function testActionGetWithoutSet()
+    public function testGetAlias()
     {
-        try {
-            $this->action->getAction();
-            $this->fail('no exception thrown?');
-        } catch (Exception $e) {
-            $this->assertPattern("/Action не установлен/i", $e->getMessage());
-            $this->pass();
-        }
+        $this->assertEqual($this->action->getAlias('firstAction'), 'jipAction');
+        $this->assertEqual($this->action->getAlias('secondAction'), 'secondAction');
     }
 
-    public function testGetJipActions()
+    public function testGetActions()
     {
-        $jipActions = array(
-        'jipAction' => array ('controller' => 'foo'),
-        'editACL' => array('controller' => 'editACL', 'title' => '_ editACL', 'icon' => '/templates/images/acl.gif'),
+        $this->assertEqual($this->action->getActions(), array (
+            'firstActions' => array (
+                'firstAction' => array ('controller' => 'firstController', 'jip' => '1', 'alias' => 'jipAction'),
+                'jipAction' => array ('controller' => 'foo', 'jip' => '1'),
+                'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')),
+            'secondActions' => array (
+                'secondAction' => array ('controller' => 'secondController', '403handle' => 'none'),
+                'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
+                'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')))
         );
-        $this->assertEqual($this->action->getJipActions('firstActions'), $jipActions);
+    }
 
-        $jipActions = array(
-        'jipActionFull' => array ('controller' => 'bar', 'title' => 'someTitle', 'confirm' => 'confirm message'),
-        'editACL' => array('controller' => 'editACL', 'title' => '_ editACL',  'icon' => '/templates/images/acl.gif'),
+    public function testGetActionsClassFilter()
+    {
+        $this->assertEqual($this->action->getActions(array('class' => 'firstActions')), array (
+            'firstAction' => array ('controller' => 'firstController', 'jip' => '1', 'alias' => 'jipAction'),
+            'jipAction' => array ('controller' => 'foo', 'jip' => '1'),
+            'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL'))
+        );
+    }
+
+    public function testGetActionsClassAndJipOrAclFilter()
+    {
+        $this->assertEqual($this->action->getActions(array('class' => 'secondActions', 'jip' => 1)), array (
+            'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL'))
         );
 
-        $this->assertEqual($this->action->getJipActions('secondActions'), $jipActions);
+        $this->assertEqual($this->action->getActions(array('class' => 'secondActions', 'acl' => true)), array (
+            'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
+            'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL'))
+        );
+    }
+
+    public function testGetActionsAclFilter()
+    {
+        $this->assertEqual($this->action->getActions(array('acl' => true)), array (
+            'firstActions' => array (
+                'jipAction' => array ('controller' => 'foo', 'jip' => '1'),
+                'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')),
+            'secondActions' => array (
+                'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
+                'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')))
+        );
+    }
+
+    public function testGetActionsJipFilter()
+    {
+        $this->assertEqual($this->action->getActions(array('jip' => 1)), array (
+            'firstActions' => array (
+                'firstAction' => array ('controller' => 'firstController', 'jip' => '1', 'alias' => 'jipAction'),
+                'jipAction' => array ('controller' => 'foo', 'jip' => '1'),
+                'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')),
+            'secondActions' => array (
+                'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')))
+        );
+
+        $this->assertEqual($this->action->getActions(array('jip' => 2)), array (
+            'secondActions' => array (
+                'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message')
+                ))
+        );
+    }
+
+    public function testGetActionsNone()
+    {
+        $this->assertEqual($this->action->getActions(array('class' => 'unknownClass')), array());
+        $this->assertEqual($this->action->getActions(array('class' => 'secondActions', 'jip' => 3)), array());
     }
 
     public function testIsJip()
     {
-        $this->action->setAction('firstAction');
-        $this->assertFalse($this->action->isJip($this->action->getAction()));
-
-        $this->action->setAction('jipAction');
-        $this->assertTrue($this->action->isJip($this->action->getAction()));
+        $this->assertTrue($this->action->isJip('firstAction'));
+        $this->assertFalse($this->action->isJip('secondAction'));
     }
 
-    public function testActionGetJipActionsException()
-    {
-        try {
-            $this->action->getJipActions('_unknown_type_');
-            $this->fail('no exception thrown?');
-        } catch (Exception $e) {
-            $this->assertPattern("/Класс \"_unknown_type_\" у модуля/i", $e->getMessage());
-            $this->pass();
-        }
-    }
-
-    public function testGetActionName()
-    {
-        $this->action->setAction('firstAction');
-        $this->assertEqual($this->action->getActionName(), 'firstAction');
-        $this->assertEqual($this->action->getActionName(true), 'jipAction');
-    }
 }
 ?>

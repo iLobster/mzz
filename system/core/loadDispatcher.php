@@ -51,14 +51,13 @@ class loadDispatcher
 
         // prepare action
         $action = $toolkit->getAction($module);
-        $action->setAction($actionName);
-        $actionConfig = $action->getAction();
-        $handle403 = isset($actionConfig['403handle']) ? $actionConfig['403handle'] : false;
+        $actionOptions = $action->getOptions($actionName);
+        $handle403 = isset($actionOptions['403handle']) ? $actionOptions['403handle'] : false;
 
         // prepare request
         $request = $toolkit->getRequest();
         $request->save();
-        $request->setAction($action->getActionName());
+        $request->setAction($actionName);
         if (!empty($section)) {
             $request->setSection($section);
         }
@@ -75,8 +74,9 @@ class loadDispatcher
 
         // проверяем - не отключена ли в данном запуске модуля проверка прав
         if ($handle403 !== 'none') {
-            $mappername = $action->getClass() . 'Mapper';
-            $mapper = $toolkit->getMapper($module, $action->getClass(), $request->getSection());
+            $class = $action->getClass($actionName);
+            $mappername = $class . 'Mapper';
+            $mapper = $toolkit->getMapper($module, $class);
 
             try {
                 $access = self::getAccess($mapper, $action);
@@ -98,7 +98,7 @@ class loadDispatcher
             if (empty($controller)) {
                 // если права на запуск модуля есть - запускаем
                 $factory = new simpleFactory($action, $module);
-                $controller = $factory->getController();
+                $controller = $factory->getController($actionName);
             }
         } else {
             // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
@@ -137,7 +137,7 @@ class loadDispatcher
     {
         $args = self::$request->getParams();
 
-        $actionName = $action->getActionName(true);
+        $actionName = $action->getAlias(systemToolkit::getInstance()->getRequest()->getAction());
 
         if (isset($args['module_name']) && $actionName == 'admin') {
             $toolkit = systemToolkit::getInstance();

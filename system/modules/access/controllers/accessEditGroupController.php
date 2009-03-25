@@ -38,7 +38,7 @@ class accessEditGroupController extends simpleController
             return $controller->run();
         }
 
-        $actions = $action->getActions(true);
+        $actions = $action->getActions(array('acl' => true));
 
         $actions = $actions[$acl->getClass()];
 

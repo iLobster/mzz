@@ -314,11 +314,8 @@ class stdToolkit extends toolkit
      */
     public function getController($moduleName, $actionName)
     {
-        $action = $this->getAction($moduleName);
-        $action->setAction($actionName);
-
-        $factory = new simpleFactory($action, $moduleName);
-        return $factory->getController();
+        $factory = new simpleFactory($this->getAction($moduleName), $moduleName);
+        return $factory->getController($actionName);
     }
 
     /**

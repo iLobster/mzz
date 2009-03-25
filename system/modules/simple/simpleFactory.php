@@ -51,12 +51,12 @@ class simpleFactory
      *
      * @return object
      */
-    public function getController()
+    public function getController($actionName)
     {
-        $action = $this->action->getAction();
+        $action = $this->action->getOptions($actionName);
 
         $toolkit = systemToolkit::getInstance();
-        $toolkit->getRegistry()->set('isJip', $this->action->isJip($action));
+        $toolkit->getRegistry()->set('isJip', $this->action->isJip($actionName));
         $toolkit->getRegistry()->set('confirm', isset($action['confirm']) ? $action['confirm'] : null);
 
         $classname = $this->name . ucfirst($action['controller']) . 'Controller';

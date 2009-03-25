@@ -39,7 +39,7 @@ class accessEditUserController extends simpleController
         }
 
 
-        $actions = $action->getActions(true);
+        $actions = $action->getActions(array('acl' => true));
 
         $actions = $actions[$acl->getClass()];
 

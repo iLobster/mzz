@@ -21,28 +21,14 @@
 class action
 {
     /**
-     * Module action
-     *
-     * @var string
-     */
-    protected $action;
-
-    /**
-     * Класс, в котором есть установленный Action
-     *
-     * @var string
-     */
-    protected $class = null;
-
-    /**
-     * Module actions
+     * Module's actions
      *
      * @var array
      */
     protected $actions = array();
 
     /**
-     * Имя модуля
+     * Module name
      *
      * @var string
      */
@@ -82,72 +68,38 @@ class action
             throw new mzzRuntimeException('Path "' . $path . '" already added.');
         }
         $this->paths[] = $path;
+
+        $this->buildActionsConfigs();
     }
 
-    /**
-     * Установка действия
-     *
-     * @param string $action
-     */
-    public function setAction($action)
+    public function getOptions($action)
     {
-        if ($this->class = $this->findAction($action)) {
-            $this->action = $action;
-        }
+        $options = $this->findOptions($action);
+        return $options['options'];
     }
 
     /**
-     * Возвращает действие
+     * возвращает имя класса доменного объекта
      *
      * @return string
      */
-    public function getAction()
+    public function getClass($action)
     {
-        if (empty($this->actions) && empty($this->class)) {
-            throw new mzzSystemException('Action не установлен или у модуля "' . $this->module . '" нет такого действия.');
-        }
-        return $this->actions[$this->class][$this->action];
+        $options = $this->findOptions($action);
+        return $options['class'];
     }
 
     /**
-     * Возвращает имя текущего экшна
+     * Возвращает имя экшена или его алиас
      *
      * @return string
      */
-    public function getActionName($getAlias = false)
+    public function getAlias($action)
     {
-        if ($getAlias && isset($this->actions[$this->class][$this->action]['alias'])) {
-            return $this->actions[$this->class][$this->action]['alias'];
+        if (isset($this->actions[$this->getClass($action)][$action]['alias'])) {
+            return $this->actions[$this->getClass($action)][$action]['alias'];
         }
-        return $this->action;
-    }
-
-    /**
-     * Получение всех actions для JIP
-     * Actions для JIP отличаются от других наличием
-     * атрибута jip = true
-     *
-     * @param string $class
-     * @return array
-     */
-    public function getJipActions($class)
-    {
-        $actions = $this->getActions();
-
-        if (!isset($actions[$class])) {
-            throw new mzzSystemException('Класс "' . $class . '" у модуля "' . $this->module . '" не существует.');
-        }
-
-        $jip_actions = $actions[$class];
-        foreach ($jip_actions as $key => $action) {
-            if ($this->isJip($action)) {
-                unset($jip_actions[$key]['jip']);
-            } else {
-                unset($jip_actions[$key]);
-            }
-        }
-
-        return $jip_actions;
+        return $action;
     }
 
     /**
@@ -156,28 +108,21 @@ class action
      * @param boolean $onlyACL выбрать только ACL действия
      * @return array
      */
-    public function getActions($onlyACL = false)
+    public function getActions($filter = array())
     {
-        if (empty($this->actions)) {
-            foreach ($this->paths as $path) {
-                if (!is_dir($path)) {
-                    continue;
-                }
-                foreach (new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
-                    $fileName = $iterator->getFilename();
-                    $class = substr($fileName, 0, strlen($fileName) - 4);
-                    $this->addActions($class, $this->prepareActionsConfig($iterator->getPath() . '/' . $fileName));
-                }
-            }
-        }
 
-        if ($onlyACL) {
+        if (!empty($filter)) {
             $tmp = array();
-            foreach ($this->actions as $key => $val) {
-                foreach ($val as $subkey => $subval) {
-                    if ($this->isAclAction($subkey, $subval)) {
-                        $tmp[$key][$subkey] = $subval;
+            foreach ($this->actions as $class => $params) {
+                foreach ($params as $action => $options) {
+                    if ((isset($filter['acl']) && $this->isAclAction($action, $options))
+                    || (isset($filter['jip']) && $this->isJip($options, $filter['jip']))
+                    || (isset($filter['class']) && $class == $filter['class'] && count($filter) == 1)) {
+                        $tmp[$class][$action] = $options;
                     }
+                }
+                if (isset($filter['class']) && $class == $filter['class']) {
+                    return isset($tmp[$class]) ? $tmp[$class] : array();
                 }
             }
             return $tmp;
@@ -187,24 +132,17 @@ class action
     }
 
     /**
-     * возвращает имя класса доменного объекта, который обрабатывает текущий action
+     * возвращает true если у действия $action имеется атрибут jip со значением $id
      *
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * возвращает true если у действия $action имеется атрибут jip = true
-     *
-     * @param array $action массив с данными о действии
+     * @param string|array $action имя действия или массив с данными о действии
      * @return boolean
      */
-    public function isJip(Array $action)
+    public function isJip($options, $id = 1)
     {
-        return isset($action['jip']) && $action['jip'] == 1;
+        if (!is_array($options)) {
+            $options = $this->getOptions($options);
+        }
+        return isset($options['jip']) && (int)$options['jip'] === $id;
     }
 
     protected function isAclAction($name, $params)
@@ -213,7 +151,50 @@ class action
             return false;
         }
 
-        return !isset($params['alias']) &&  (!isset($params['403handle']) || $params['403handle'] != 'none');
+        return !isset($params['alias']) && (!isset($params['403handle']) || $params['403handle'] != 'none');
+    }
+
+    /**
+     * Ищет действие у модуля.
+     *
+     * @param string $action действие
+     * @return boolean
+     */
+    protected function findOptions($action)
+    {
+        foreach ($this->actions as $class => $actions) {
+            if (isset($actions[$action])) {
+                return array('class' => $class, 'options' => $actions[$action]);
+            }
+        }
+
+        throw new mzzSystemException('The "' . $this->module . '" module has not the "' . $action . '" action');
+    }
+
+    protected function buildActionsConfigs()
+    {
+        foreach ($this->paths as $key => $path) {
+            if (!is_dir($path)) {
+                continue;
+            }
+            foreach (new mzzIniFilterIterator(new DirectoryIterator($path)) as $iterator) {
+                $fileName = $iterator->getFilename();
+                $class = substr($fileName, 0, strlen($fileName) - 4);
+                $action = parse_ini_file($iterator->getPath() . '/' . $fileName, true);
+                $this->addEditAclAction($action);
+                $this->addActionsToClass($class, $action);
+                unset($this->paths[$key]);
+            }
+        }
+    }
+
+    protected function addEditAclAction(array & $action)
+    {
+        $action['editACL'] = array(
+            'controller' => 'editACL',
+            'jip' => 1,
+            'icon' => '/templates/images/acl.gif',
+            'title' => '_ editACL');
     }
 
     /**
@@ -223,47 +204,13 @@ class action
      * @param string $class
      * @param array $actions
      */
-    protected function addActions($class, array $actions)
+    protected function addActionsToClass($class, array $actions)
     {
         if (isset($this->actions[$class])) {
             $this->actions[$class] = array_merge($this->actions[$class], $actions);
         } else {
             $this->actions[$class] = $actions;
         }
-    }
-
-    /**
-     * Ищет действие у модуля. Бросает исключение если поиск не дал
-     * результатов
-     *
-     * @param string $action действие
-     * @return boolean
-     */
-    protected function findAction($action)
-    {
-        foreach ($this->getActions() as $class => $actions) {
-            if (isset($actions[$action])) {
-                return $class;
-            }
-        }
-        throw new mzzSystemException('Действие "' . $action . '" не найдено для модуля "' . $this->module. '"');
-        return false;
-    }
-
-    /**
-     * Чтение INI-конфига c Actions
-     *
-     * @param string $filename путь до INI-файла
-     * @return array
-     */
-    private function prepareActionsConfig($filename)
-    {
-        if (!file_exists($filename)) {
-            throw new mzzIoException($filename);
-        }
-        $action = parse_ini_file($filename, true);
-        $action['editACL'] = array('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL');
-        return $action;
     }
 }
 

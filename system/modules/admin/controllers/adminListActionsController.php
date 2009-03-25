@@ -41,7 +41,7 @@ class adminListActionsController extends simpleController
 
         // выбираем все экшны для данного ДО из INI-файла
         $action = new action($data['m_name']);
-        $tmp = $action->getActions(true);
+        $tmp = $action->getActions(array('acl' => true));
 
         if (isset($tmp[$data['c_name']])) {
             $actions_ini = array_keys($tmp[$data['c_name']]);

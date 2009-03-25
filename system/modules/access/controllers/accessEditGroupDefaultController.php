@@ -33,7 +33,7 @@ class accessEditGroupDefaultController extends simpleController
         $acl = new acl($this->toolkit->getUser(), 0, $class);
 
         $action = $this->toolkit->getAction($acl->getModule($class));
-        $actions = $action->getActions(true);
+        $actions = $action->getActions(array('acl' => true));
 
         $actions = $actions[$class];
 
