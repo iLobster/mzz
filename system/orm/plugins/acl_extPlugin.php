@@ -23,6 +23,12 @@ class acl_extPlugin extends observer
                 'ro'));
     }
 
+    public function postInsert(entity $object)
+    {
+        $acl = new acl(systemToolkit::getInstance()->getUser());
+        $acl->register($object->getObjId(), get_class($object));
+    }
+
     public function preCreate(entity $object)
     {
         $tmp['acl'] = new lazy(array(

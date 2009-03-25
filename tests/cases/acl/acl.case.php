@@ -109,7 +109,7 @@ class aclTest extends unitTestCase
     public function testRegister()
     {
         $acl = new acl(new userStub(2));
-        $acl->register($obj_id = 10, $class = 'news', $section = 'news');
+        $acl->register($obj_id = 10, $class = 'news');
 
         $this->assertEqual(1, $acl->get('delete'));
         $this->assertEqual(1, $acl->get('edit'));
