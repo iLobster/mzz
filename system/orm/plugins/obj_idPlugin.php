@@ -11,7 +11,7 @@ class obj_idPlugin extends observer
         $map[$this->options['obj_id_field']] = array(
             'accessor' => 'getObjId',
             'mutator' => 'setObjId',
-            'options' => array('ro')
+            'options' => array('once')
         );
     }
 
@@ -19,7 +19,8 @@ class obj_idPlugin extends observer
     {
         if (!$object->getObjId()) {
             $obj_id = systemToolkit::getInstance()->getObjectId();
-            $object->merge(array($this->options['obj_id_field'] => $obj_id));
+            $map = $this->mapper->map();
+            $object->{$map[$this->options['obj_id_field']]['mutator']}($obj_id);
             $this->mapper->save($object);
         }
     }

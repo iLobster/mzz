@@ -27,7 +27,6 @@ table.toolbarObjects {
 }
 
 tr.toolbarTitle {
-  background-color: #f2F2F2;
   font-size: 100%;
 }
 
@@ -43,7 +42,7 @@ td.toolbarActions img {
 }
 
 td.toolbarActions {
-  width: 80px;
+  width: 100px;
 }
 
 td.toolbarBorder {
@@ -54,6 +53,16 @@ td.toolbarEndList {
   border-top: 2px solid #E4E4E4;
   height: 2px;
 }
+
+
+tr.toolbarTitleBg {
+  background-color: #F2F2F2;
+}
+
+tr.toolbarHighlightBg {
+  background-color: #FFFDE1 !important;
+}
+
 
 div.toolbarLayerTopLeft {
   float: left;
@@ -79,7 +88,6 @@ td.toolbarEmpty {
 }
 
 tr.toolbarObjectsTitle {
-  background-color: #F2F2F2;
   font-weight: bold;
   color: #555;
 }

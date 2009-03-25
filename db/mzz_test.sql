@@ -21,7 +21,7 @@ CREATE DATABASE `mzz_test`
 USE `mzz_test`;
 
 #
-# Structure for the `news_news` table : 
+# Structure for the `news_news` table :
 #
 
 DROP TABLE IF EXISTS `news_news`;
@@ -41,7 +41,7 @@ CREATE TABLE `news_news` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `news_newsFolder` table : 
+# Structure for the `news_newsFolder` table :
 #
 
 DROP TABLE IF EXISTS `news_newsFolder`;
@@ -58,7 +58,7 @@ CREATE TABLE `news_newsFolder` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `news_newsFolder_tree` table : 
+# Structure for the `news_newsFolder_tree` table :
 #
 
 DROP TABLE IF EXISTS `news_newsFolder_tree`;
@@ -74,7 +74,7 @@ CREATE TABLE `news_newsFolder_tree` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `ormRelated` table : 
+# Structure for the `ormRelated` table :
 #
 
 DROP TABLE IF EXISTS `ormRelated`;
@@ -87,7 +87,7 @@ CREATE TABLE `ormRelated` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `ormSimple` table : 
+# Structure for the `ormSimple` table :
 #
 
 DROP TABLE IF EXISTS `ormSimple`;
@@ -104,7 +104,7 @@ CREATE TABLE `ormSimple` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `ormSimpleRelated` table : 
+# Structure for the `ormSimpleRelated` table :
 #
 
 DROP TABLE IF EXISTS `ormSimpleRelated`;
@@ -117,7 +117,7 @@ CREATE TABLE `ormSimpleRelated` (
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `ormSimple_lang` table : 
+# Structure for the `ormSimple_lang` table :
 #
 
 DROP TABLE IF EXISTS `ormSimple_lang`;
@@ -131,7 +131,7 @@ CREATE TABLE `ormSimple_lang` (
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `ormSimple_tree` table : 
+# Structure for the `ormSimple_tree` table :
 #
 
 DROP TABLE IF EXISTS `ormSimple_tree`;
@@ -147,7 +147,7 @@ CREATE TABLE `ormSimple_tree` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `ormSimple_version` table : 
+# Structure for the `ormSimple_version` table :
 #
 
 DROP TABLE IF EXISTS `ormSimple_version`;
@@ -163,7 +163,7 @@ CREATE TABLE `ormSimple_version` (
 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `page_page` table : 
+# Structure for the `page_page` table :
 #
 
 DROP TABLE IF EXISTS `page_page`;
@@ -182,7 +182,7 @@ CREATE TABLE `page_page` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `page_pageFolder` table : 
+# Structure for the `page_pageFolder` table :
 #
 
 DROP TABLE IF EXISTS `page_pageFolder`;
@@ -200,7 +200,7 @@ CREATE TABLE `page_pageFolder` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `page_pageFolder_tree` table : 
+# Structure for the `page_pageFolder_tree` table :
 #
 
 DROP TABLE IF EXISTS `page_pageFolder_tree`;
@@ -218,7 +218,7 @@ CREATE TABLE `page_pageFolder_tree` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `page_page_lang` table : 
+# Structure for the `page_page_lang` table :
 #
 
 DROP TABLE IF EXISTS `page_page_lang`;
@@ -235,7 +235,7 @@ CREATE TABLE `page_page_lang` (
 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_catalogue` table : 
+# Structure for the `simple_catalogue` table :
 #
 
 DROP TABLE IF EXISTS `simple_catalogue`;
@@ -252,7 +252,7 @@ CREATE TABLE `simple_catalogue` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_catalogue_data` table : 
+# Structure for the `simple_catalogue_data` table :
 #
 
 DROP TABLE IF EXISTS `simple_catalogue_data`;
@@ -269,7 +269,7 @@ CREATE TABLE `simple_catalogue_data` (
 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_catalogue_properties` table : 
+# Structure for the `simple_catalogue_properties` table :
 #
 
 DROP TABLE IF EXISTS `simple_catalogue_properties`;
@@ -285,7 +285,7 @@ CREATE TABLE `simple_catalogue_properties` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_catalogue_properties_types` table : 
+# Structure for the `simple_catalogue_properties_types` table :
 #
 
 DROP TABLE IF EXISTS `simple_catalogue_properties_types`;
@@ -298,7 +298,7 @@ CREATE TABLE `simple_catalogue_properties_types` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_catalogue_types` table : 
+# Structure for the `simple_catalogue_types` table :
 #
 
 DROP TABLE IF EXISTS `simple_catalogue_types`;
@@ -312,7 +312,7 @@ CREATE TABLE `simple_catalogue_types` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_catalogue_types_props` table : 
+# Structure for the `simple_catalogue_types_props` table :
 #
 
 DROP TABLE IF EXISTS `simple_catalogue_types_props`;
@@ -330,7 +330,7 @@ CREATE TABLE `simple_catalogue_types_props` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_stubSimple` table : 
+# Structure for the `simple_stubSimple` table :
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple`;
@@ -347,7 +347,7 @@ CREATE TABLE `simple_stubSimple` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_stubSimple2` table : 
+# Structure for the `simple_stubSimple2` table :
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple2`;
@@ -364,7 +364,7 @@ CREATE TABLE `simple_stubSimple2` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_stubSimple2_tree` table : 
+# Structure for the `simple_stubSimple2_tree` table :
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple2_tree`;
@@ -381,7 +381,7 @@ CREATE TABLE `simple_stubSimple2_tree` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_stubSimple3` table : 
+# Structure for the `simple_stubSimple3` table :
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple3`;
@@ -398,7 +398,7 @@ CREATE TABLE `simple_stubSimple3` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_stubSimple_lang` table : 
+# Structure for the `simple_stubSimple_lang` table :
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple_lang`;
@@ -411,7 +411,7 @@ CREATE TABLE `simple_stubSimple_lang` (
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `simple_stubSimple_tree` table : 
+# Structure for the `simple_stubSimple_tree` table :
 #
 
 DROP TABLE IF EXISTS `simple_stubSimple_tree`;
@@ -427,7 +427,7 @@ CREATE TABLE `simple_stubSimple_tree` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_access` table : 
+# Structure for the `sys_access` table :
 #
 
 DROP TABLE IF EXISTS `sys_access`;
@@ -449,7 +449,7 @@ CREATE TABLE `sys_access` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_access_registry` table : 
+# Structure for the `sys_access_registry` table :
 #
 
 DROP TABLE IF EXISTS `sys_access_registry`;
@@ -461,7 +461,7 @@ CREATE TABLE `sys_access_registry` (
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_actions` table : 
+# Structure for the `sys_actions` table :
 #
 
 DROP TABLE IF EXISTS `sys_actions`;
@@ -475,7 +475,7 @@ CREATE TABLE `sys_actions` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_cfg_titles` table : 
+# Structure for the `sys_cfg_titles` table :
 #
 
 DROP TABLE IF EXISTS `sys_cfg_titles`;
@@ -489,7 +489,7 @@ CREATE TABLE `sys_cfg_titles` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_cfg_types` table : 
+# Structure for the `sys_cfg_types` table :
 #
 
 DROP TABLE IF EXISTS `sys_cfg_types`;
@@ -503,7 +503,7 @@ CREATE TABLE `sys_cfg_types` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_cfg_values` table : 
+# Structure for the `sys_cfg_values` table :
 #
 
 DROP TABLE IF EXISTS `sys_cfg_values`;
@@ -521,7 +521,7 @@ CREATE TABLE `sys_cfg_values` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_cfg_vars` table : 
+# Structure for the `sys_cfg_vars` table :
 #
 
 DROP TABLE IF EXISTS `sys_cfg_vars`;
@@ -535,7 +535,7 @@ CREATE TABLE `sys_cfg_vars` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_classes` table : 
+# Structure for the `sys_classes` table :
 #
 
 DROP TABLE IF EXISTS `sys_classes`;
@@ -550,7 +550,7 @@ CREATE TABLE `sys_classes` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_classes_actions` table : 
+# Structure for the `sys_classes_actions` table :
 #
 
 DROP TABLE IF EXISTS `sys_classes_actions`;
@@ -565,7 +565,7 @@ CREATE TABLE `sys_classes_actions` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_lang` table : 
+# Structure for the `sys_lang` table :
 #
 
 DROP TABLE IF EXISTS `sys_lang`;
@@ -579,7 +579,7 @@ CREATE TABLE `sys_lang` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_lang_lang` table : 
+# Structure for the `sys_lang_lang` table :
 #
 
 DROP TABLE IF EXISTS `sys_lang_lang`;
@@ -593,7 +593,7 @@ CREATE TABLE `sys_lang_lang` (
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_modules` table : 
+# Structure for the `sys_modules` table :
 #
 
 DROP TABLE IF EXISTS `sys_modules`;
@@ -606,7 +606,7 @@ CREATE TABLE `sys_modules` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_obj_id` table : 
+# Structure for the `sys_obj_id` table :
 #
 
 DROP TABLE IF EXISTS `sys_obj_id`;
@@ -618,7 +618,7 @@ CREATE TABLE `sys_obj_id` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_obj_id_named` table : 
+# Structure for the `sys_obj_id_named` table :
 #
 
 DROP TABLE IF EXISTS `sys_obj_id_named`;
@@ -630,7 +630,7 @@ CREATE TABLE `sys_obj_id_named` (
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `sys_sessions` table : 
+# Structure for the `sys_sessions` table :
 #
 
 DROP TABLE IF EXISTS `sys_sessions`;
@@ -648,7 +648,7 @@ CREATE TABLE `sys_sessions` (
 AUTO_INCREMENT=356 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `treeNS` table : 
+# Structure for the `treeNS` table :
 #
 
 DROP TABLE IF EXISTS `treeNS`;
@@ -663,7 +663,7 @@ CREATE TABLE `treeNS` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `user_group` table : 
+# Structure for the `user_group` table :
 #
 
 DROP TABLE IF EXISTS `user_group`;
@@ -678,7 +678,7 @@ CREATE TABLE `user_group` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `user_user` table : 
+# Structure for the `user_user` table :
 #
 
 DROP TABLE IF EXISTS `user_user`;
@@ -699,7 +699,7 @@ CREATE TABLE `user_user` (
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `user_userGroup_rel` table : 
+# Structure for the `user_userGroup_rel` table :
 #
 
 DROP TABLE IF EXISTS `user_userGroup_rel`;
@@ -715,7 +715,7 @@ CREATE TABLE `user_userGroup_rel` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `user_userOnline` table : 
+# Structure for the `user_userOnline` table :
 #
 
 DROP TABLE IF EXISTS `user_userOnline`;
@@ -724,14 +724,14 @@ CREATE TABLE `user_userOnline` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INTEGER(11) DEFAULT NULL,
   `session` CHAR(32) COLLATE utf8_general_ci DEFAULT NULL,
-  `last_activity` DATETIME DEFAULT NULL,
-  `obj_id` INTEGER(11) DEFAULT NULL,
+  `last_activity` INTEGER(11) DEFAULT NULL,
+  `url` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `ip` CHAR(15) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`, `session`),
   KEY `last_activity` (`last_activity`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

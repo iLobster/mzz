@@ -1,3 +1,18 @@
+document.observe('dom:loaded', function(){
+    $$('.highlightCols').each(function (elm) {
+        $(elm).observe('mouseover', function (e) {
+            var target = e.target;
+            target = target.up('tr');
+            target.addClassName('toolbarHighlightBg');
+            target.observe('mouseout', function (e) {
+                var elm = e.target;
+                target.removeClassName('toolbarHighlightBg');
+                target.stopObserving('mouseout');
+            });
+        });
+    });
+});
+
 function addElementToList(name, links, id, elm_id)
 {
     var elms = $(id).select('tr > td.toolbarBorder > strong');
