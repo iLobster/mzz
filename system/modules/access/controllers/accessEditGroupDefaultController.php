@@ -26,12 +26,11 @@ class accessEditGroupDefaultController extends simpleController
         $group_id = $this->request->getInteger('id', SC_PATH | SC_POST);
 
         $class = $this->request->getString('class_name');
-        $section = $this->request->getString('section_name');
 
         $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
-        $group = $groupMapper->searchById($group_id);
+        $group = $groupMapper->searchByKey($group_id);
 
-        $acl = new acl($this->toolkit->getUser(), 0, $class, $section);
+        $acl = new acl($this->toolkit->getUser(), 0, $class);
 
         $action = $this->toolkit->getAction($acl->getModule($class));
         $actions = $action->getActions(true);
@@ -56,11 +55,11 @@ class accessEditGroupDefaultController extends simpleController
         $groups = false;
 
         if ($action == 'addGroupDefault') {
-            $class_section_id = $acl->getClassSection();
+            $class_id = $acl->getConcreteClass();
 
-            $criterion = new criterion('a.gid', 'group.' . $groupMapper->getTableKey(), criteria::EQUAL, true);
+            $criterion = new criterion('a.gid', $groupMapper->table() . '.' . $groupMapper->pk(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', 0));
-            $criterion->addAnd(new criterion('a.class_section_id', $class_section_id));
+            $criterion->addAnd(new criterion('a.class_id', $class_id));
 
             $criteria = new criteria();
             $criteria->addJoin('sys_access', $criterion, 'a');
@@ -77,7 +76,6 @@ class accessEditGroupDefaultController extends simpleController
         $this->smarty->assign('groups', $groups);
         $this->smarty->assign('actions', $actions);
         $this->smarty->assign('class', $class);
-        $this->smarty->assign('section', $section);
 
         return $this->smarty->fetch('access/editGroupDefault.tpl');
     }

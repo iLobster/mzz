@@ -74,11 +74,10 @@ class accessMapper extends mapper
     {
         $access = $this->create();
 
-        if (isset($args['section_name']) && isset($args['class_name'])) {
-            throw new mzzRuntimeException('refactor me!');
+        if (isset($args['class_name'])) {
             $toolkit = systemToolkit::getInstance();
-            $obj_id = $toolkit->getObjectId('access_' . $args['section_name'] . '_' . $args['class_name']);
-            $this->register($obj_id, 'sys', 'access');
+            $obj_id = $toolkit->getObjectId('access_' . $args['class_name']);
+            $toolkit->getMapper('admin', 'admin')->register($obj_id, 'access');
 
             $access->merge(array(
                 'obj_id' => $obj_id));

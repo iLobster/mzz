@@ -27,9 +27,9 @@ $router->addRoute('galleryPicAction', new requestRoute('gallery/:name/:album/:id
 
 
 $router->addRoute('aclActions', new requestRoute('access/:id/:user_id/:action', array('section' => 'access'), array('id' => '\d+', 'user_id' => '\d+', 'action' => '(?:editUser|editGroup|deleteGroup|deleteUser)')));
-$router->addRoute('aclDefaults', new requestRoute('access/:section_name/:class_name/:action', array('section' => 'access'), array('action' => 'editDefault')));
-$router->addRoute('aclDefaultsEdit', new requestRoute('access/:section_name/:class_name/:id/:action', array('section' => 'access'), array('action' => '(?:editGroupDefault|deleteGroupDefault|editUserDefault|deleteUserDefault)', 'id' => '\d+')));
-$router->addRoute('aclDefaultsAdd', new requestRoute('access/:section_name/:class_name/:action', array('section' => 'access'), array('action' => '(?:addGroupDefault|addUserDefault|editOwner)')));
+//$router->addRoute('aclDefaults', new requestRoute('access/:class_name/:action', array('section' => 'access'), array('action' => '')));
+$router->addRoute('aclDefaultsEdit', new requestRoute('access/:class_name/:id/:action', array('section' => 'access'), array('action' => '(?:editGroupDefault|deleteGroupDefault|editUserDefault|deleteUserDefault)', 'id' => '\d+')));
+$router->addRoute('aclDefaultsAdd', new requestRoute('access/:class_name/:action', array('section' => 'access'), array('action' => '(?:editDefault|addGroupDefault|addUserDefault|editOwner)')));
 $router->addRoute('aclDefaultAction', new requestRoute('access/:id', array('section' => 'access', 'action' => 'edit'), array('id' => '\d+')));
 
 $router->addRoute('admin', new requestRoute('admin/:module_name/:params/:action', array('section' => 'admin', 'action' => 'admin', 'params' => 'root'), array('params' => '.*?', 'action' => '(?:admin|editConfig)')));

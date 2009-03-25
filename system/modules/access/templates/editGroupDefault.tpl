@@ -1,8 +1,8 @@
 {if $groups === false}
 {assign var="groupName" value=$group->getName()}
-{include file='jipTitle.tpl' title="Изменение прав по умолчанию на объект типа <b>$class</b> раздела <b>$section</b> для группы <b>$groupName</b>"}
+{include file='jipTitle.tpl' title="Изменение прав по умолчанию на объект типа <b>$class</b> для группы <b>$groupName</b>"}
 {else}
-{include file='jipTitle.tpl' title="Изменение прав по умолчанию на объект типа <b>$class</b> раздела <b>$section</b>"}
+{include file='jipTitle.tpl' title="Изменение прав по умолчанию на объект типа <b>$class</b>"}
 {/if}
 
 {set name="form_action"}{url}{/set}

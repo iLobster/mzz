@@ -1,8 +1,8 @@
 {if $users === false}
 {assign var="userLogin" value=$user->getLogin()}
-{include file='jipTitle.tpl' title="Изменение прав на объект типа <b>$class</b> раздела <b>$section</b> для пользователя <b>$userLogin</b>"}
+{include file='jipTitle.tpl' title="Изменение прав на объект типа <b>$class</b> для пользователя <b>$userLogin</b>"}
 {else}
-{include file='jipTitle.tpl' title="Изменение прав на объект типа <b>$class</b> раздела <b>$section</b>"}
+{include file='jipTitle.tpl' title="Изменение прав на объект типа <b>$class</b>"}
 {/if}
 {set name="form_action"}{url}{/set}
 {form action=$form_action method="post" jip=true}

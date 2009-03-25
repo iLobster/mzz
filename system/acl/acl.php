@@ -410,10 +410,10 @@ class acl
     public function getUsersListDefault($class)
     {
         $toolkit = systemToolkit::getInstance();
-        $userMapper = $toolkit->getMapper('user', 'user', 'user');
+        $userMapper = $toolkit->getMapper('user', 'user');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('a.uid', 'user.' . $userMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access', new criterion('a.uid', $userMapper->table() . '.' . $userMapper->pk(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'a.class_id', criteria::EQUAL, true);
         $criterion_class->addAnd(new criterion('c.name', $class));
@@ -421,7 +421,7 @@ class acl
 
         $criteria->add('a.obj_id', 0);
 
-        $criteria->addGroupBy('user.' . $userMapper->getTableKey());
+        $criteria->addGroupBy($userMapper->table() . '.' . $userMapper->pk());
 
         return $userMapper->searchAllByCriteria($criteria);
     }
@@ -453,10 +453,10 @@ class acl
     public function getGroupsListDefault($class)
     {
         $toolkit = systemToolkit::getInstance();
-        $groupMapper = $toolkit->getMapper('user', 'group', 'user');
+        $groupMapper = $toolkit->getMapper('user', 'group');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('a.gid', 'group.' . $groupMapper->getTableKey(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin('sys_access', new criterion('a.gid', $groupMapper->table() . '.' . $groupMapper->pk(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'a.class_id', criteria::EQUAL, true);
         $criterion_class->addAnd(new criterion('c.name', $class));
@@ -464,11 +464,10 @@ class acl
 
         $criteria->add('a.obj_id', 0);
 
-        $criteria->addGroupBy('group.' . $groupMapper->getTableKey());
+        $criteria->addGroupBy($groupMapper->table() . '.' . $groupMapper->pk());
 
         return $groupMapper->searchAllByCriteria($criteria);
     }
-
 
     /**
      * Метод для установки прав<br>

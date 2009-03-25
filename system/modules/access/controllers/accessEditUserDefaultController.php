@@ -26,12 +26,11 @@ class accessEditUserDefaultController extends simpleController
         $user_id = $this->request->getInteger('id', SC_PATH | SC_POST);
 
         $class = $this->request->getString('class_name');
-        $section = $this->request->getString('section_name');
 
-        $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
-        $user = $userMapper->searchById($user_id);
+        $userMapper = $this->toolkit->getMapper('user', 'user');
+        $user = $userMapper->searchByKey($user_id);
 
-        $acl = new acl($user, 0, $class, $section);
+        $acl = new acl($user, 0, $class);
 
         $action = $this->toolkit->getAction($acl->getModule($class));
         $actions = $action->getActions(true);
@@ -57,11 +56,11 @@ class accessEditUserDefaultController extends simpleController
         $users = false;
 
         if ($action == 'addUserDefault') {
-            $class_section_id = $acl->getClassSection();
+            $class_id = $acl->getConcreteClass();
 
-            $criterion = new criterion('a.uid', 'user.' . $userMapper->getTableKey(), criteria::EQUAL, true);
+            $criterion = new criterion('a.uid', $userMapper->table() .  '.' . $userMapper->pk(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', 0));
-            $criterion->addAnd(new criterion('a.class_section_id', $class_section_id));
+            $criterion->addAnd(new criterion('a.class_id', $class_id));
 
             $criteria = new criteria();
             $criteria->addJoin('sys_access', $criterion, 'a');
@@ -77,7 +76,6 @@ class accessEditUserDefaultController extends simpleController
         $this->smarty->assign('users', $users);
         $this->smarty->assign('actions', $actions);
         $this->smarty->assign('class', $class);
-        $this->smarty->assign('section', $section);
 
         return $this->smarty->fetch('access/editUserDefault.tpl');
     }

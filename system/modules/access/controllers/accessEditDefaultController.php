@@ -26,26 +26,24 @@ class accessEditDefaultController extends simpleController
         $db = db::factory();
 
         $class = $this->request->getString('class_name');
-        $section = $this->request->getString('section_name');
 
         $acl = new acl($this->toolkit->getUser());
         // получаем пользователей и группы, на которые уже установлены права
-        $users = $acl->getUsersListDefault($section, $class);
-        $groups = $acl->getGroupsListDefault($section, $class);
+        $users = $acl->getUsersListDefault($class);
+        $groups = $acl->getGroupsListDefault($class);
 
-        $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
+        $userMapper = $this->toolkit->getMapper('user', 'user');
 
         // получаем число пользователей, которые ещё не добавлены в ACL для этого объекта
-        $criteria = new criteria($userMapper->getTable());
+        $criteria = new criteria($userMapper->table());
         $criteria->addSelectField(new sqlFunction('count', '*', true), 'cnt');
         $select = new simpleSelect($criteria);
         $usersNotAdded = $db->getOne($select->toString()) - sizeof($users);
 
-
-        $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
+        $groupMapper = $this->toolkit->getMapper('user', 'group');
 
         // получаем число групп, которые ещё не добавлены в ACL для этого объекта
-        $criteria = new criteria($groupMapper->getTable());
+        $criteria = new criteria($groupMapper->table());
         $criteria->addSelectField(new sqlFunction('count', '*', true), 'cnt');
         $select = new simpleSelect($criteria);
         $groupsNotAdded = $db->getOne($select->toString()) - sizeof($groups);
@@ -55,7 +53,6 @@ class accessEditDefaultController extends simpleController
         $this->smarty->assign('groupsExists', $groupsNotAdded);
         $this->smarty->assign('groups', $groups);
         $this->smarty->assign('class', $class);
-        $this->smarty->assign('section', $section);
         return $this->smarty->fetch('access/editDefault.tpl');
     }
 }

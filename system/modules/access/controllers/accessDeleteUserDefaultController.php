@@ -26,12 +26,11 @@ class accessDeleteUserDefaultController extends simpleController
     {
         if (($user_id = $this->request->getInteger('id')) != null) {
             $class = $this->request->getString('class_name');
-            $section = $this->request->getString('section_name');
 
-            $userMapper = $this->toolkit->getMapper('user', 'user', 'user');
-            $user = $userMapper->searchById($user_id);
+            $userMapper = $this->toolkit->getMapper('user', 'user');
+            $user = $userMapper->searchByKey($user_id);
 
-            $acl = new acl($user, 0, $class, $section);
+            $acl = new acl($user, 0, $class);
             $acl->deleteDefault();
         }
 

@@ -529,14 +529,12 @@ class adminMapper extends mapper
         if (isset($args['module_name'])) {
             $main_class = $this->getMainClass($args['module_name']);
             $obj_id = $toolkit->getObjectId('access_' . $main_class, false);
-
-            $obj = $this->create();
         } else {
             $obj_id = $toolkit->getObjectId('access_admin');
             $this->register($obj_id);
-
-            $obj = $this->create();
         }
+
+        $obj = $this->create();
 
         $obj->merge(array(
             'obj_id' => $obj_id));

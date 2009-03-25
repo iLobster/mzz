@@ -22,7 +22,11 @@ var SECOND_BG_COLOR = '#FFFFFF';
                     <a href="{url route="withId" section="admin" id=$id action="addClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить класс" title="Добавить класс" /></a>
                     <a href="{url route="withId" section="admin" id=$id action="listCfg"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif" alt="Параметры конфигурации" title="Параметры конфигурации" /></a>
                     <a href="{url route="withId" section="admin" id=$id action="editModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать модуль" title="Редактировать модуль" /></a>
-
+                    
+                    {assign var="name" value=$module.name}
+                    {if not empty($access.$name.editACL)}
+                        <a href="{url route=withId section="access" id="`$access.$name.obj_id`" action="editACL"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/acl.gif" alt="ACL" /></a>
+                    {/if}
                 </td>
             </tr>
             </tbody>
@@ -33,7 +37,10 @@ var SECOND_BG_COLOR = '#FFFFFF';
                         <a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить класс" title="Удалить класс" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="editClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" title="Редактировать класс" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="listActions"}" class="jipLink"><img src='{$SITE_PATH}/templates/images/actions.gif' title="Действия класса" alt="Действия класса" /></a>
-                        <span class="className{if $class.name eq $module.main_class_name} mainClass{/if}">{$class.name}</span>
+                        {if not empty($access.$name.editDefault)}
+                            <a href="{url route=withAnyParam section="access" name=$class.name action="editDefault"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/aclDefault.gif" alt="Default ACL" /></a>
+                        {/if}
+                        <span class="className">{$class.name}</span>
                     </td>
                 </tr>
             {/foreach}
