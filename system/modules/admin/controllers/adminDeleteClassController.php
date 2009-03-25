@@ -54,17 +54,6 @@ class adminDeleteClassController extends simpleController
 
         $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
 
-        if ($modules[$data['module_id']]['main_class'] == $data['id']) {
-            if (sizeof($modules[$data['module_id']]['classes']) > 1) {
-                $controller = new messageController('Нельзя удалить класс, он является главным для этого модуля', messageController::WARNING);
-                return $controller->run();
-            } else {
-                $stmt = $db->prepare('UPDATE `sys_modules` SET `main_class` = NULL WHERE `id` = :id');
-                $stmt->bindValue(':id', $data['module_id'], PDO::PARAM_INT);
-                $stmt->execute();
-            }
-        }
-
         $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
         $moduleName = $modules[$data['module_id']]['name'];
 

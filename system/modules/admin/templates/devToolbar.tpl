@@ -10,37 +10,36 @@ var SECOND_BG_COLOR = '#FFFFFF';
 <div class="toolbarLayerTopLeft">
     <span class="toolbarSectionName"><strong>Модули</strong> и классы</span>  <a href="{url route="default2" section="admin" action="addModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить модуль" title="Добавить модуль" style="position: absolute; margin: 4px;" /></a>
     <table class="toolbarActions" cellspacing="0" id="modulesAndClasses">
-        {foreach from=$modules item=module key=id }
+        {foreach from=$modules item=module key=name}
             <tbody>
             {assign var="count" value=$module.classes|@sizeof}
             <tr class="toolbarTitle" onmouseover="this.style.backgroundColor = HOVER_BG_COLOR" onmouseout="this.style.backgroundColor = TITLE_BG_COLOR">
-                <td class="toolbarBorder"><strong>{$module.name}</strong></td>
+                <td class="toolbarBorder"><strong>{$name}</strong></td>
                 <td class="toolbarActions">
                     {if $count eq 0}
-                        <a href="{url route="withId" section="admin" id=$id action="deleteModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить модуль" title="Удалить модуль" /></a>
+                        <a href="{url route="withId" section="admin" id=$module.id action="deleteModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить модуль" title="Удалить модуль" /></a>
                     {/if}
-                    <a href="{url route="withId" section="admin" id=$id action="addClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить класс" title="Добавить класс" /></a>
-                    <a href="{url route="withId" section="admin" id=$id action="listCfg"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif" alt="Параметры конфигурации" title="Параметры конфигурации" /></a>
-                    <a href="{url route="withId" section="admin" id=$id action="editModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать модуль" title="Редактировать модуль" /></a>
+                    <a href="{url route="withId" section="admin" id=$module.id action="addClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить класс" title="Добавить класс" /></a>
+                    <a href="{url route="withId" section="admin" id=$module.id action="listCfg"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif" alt="Параметры конфигурации" title="Параметры конфигурации" /></a>
+                    <a href="{url route="withId" section="admin" id=$module.id action="editModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать модуль" title="Редактировать модуль" /></a>
                     
-                    {assign var="name" value=$module.name}
-                    {if not empty($access.$name.editACL)}
-                        <a href="{url route=withId section="access" id="`$access.$name.obj_id`" action="editACL"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/acl.gif" alt="ACL" /></a>
+                    {if not empty($module.editACL)}
+                        <a href="{url route=withId section="access" id="`$module.obj_id`" action="editACL"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/acl.gif" alt="ACL" /></a>
                     {/if}
                 </td>
             </tr>
             </tbody>
-            <tbody id="module-{$module.name}-classes">
+            <tbody id="module-{$name}-classes">
             {foreach from=$module.classes item=class key=id}
                 <tr onmouseover="this.style.backgroundColor = HOVER_BG_COLOR" onmouseout="this.style.backgroundColor = SECOND_BG_COLOR">
                     <td class="toolbarElementName" colspan="2">
                         <a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить класс" title="Удалить класс" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="editClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" title="Редактировать класс" /></a>
                         <a href="{url route="withId" section="admin" id=$id action="listActions"}" class="jipLink"><img src='{$SITE_PATH}/templates/images/actions.gif' title="Действия класса" alt="Действия класса" /></a>
-                        {if not empty($access.$name.editDefault)}
-                            <a href="{url route=withAnyParam section="access" name=$class.name action="editDefault"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/aclDefault.gif" alt="Default ACL" /></a>
+                        {if not empty($module.editDefault)}
+                            <a href="{url route=withAnyParam section="access" name=$class action="editDefault"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/aclDefault.gif" alt="Default ACL" /></a>
                         {/if}
-                        <span class="className">{$class.name}</span>
+                        <span class="className">{$class}</span>
                     </td>
                 </tr>
             {/foreach}

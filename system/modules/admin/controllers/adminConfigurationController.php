@@ -32,18 +32,13 @@ class adminConfigurationController extends simpleController
         $menu = $adminMapper->getMenu();
         $this->smarty->assign('admin_menu', $menu);
 
-
-
         $this->smarty->assign('current_section', $section);
         $this->smarty->assign('current_module', $module);
-
-
 
         $info = $adminMapper->getInfo();
 
         $this->smarty->assign('info', $info['data']);
         $this->smarty->assign('cfgAccess', $info['cfgAccess']);
-        $this->smarty->assign('main_class', $info['main_class']);
         $this->smarty->assign('admin', $info['admin']);
         $this->smarty->assign('title', 'Панель управления');
         return $this->smarty->fetch('admin/configuration.tpl');

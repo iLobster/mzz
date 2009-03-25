@@ -76,8 +76,12 @@ class accessMapper extends mapper
 
         if (isset($args['class_name'])) {
             $toolkit = systemToolkit::getInstance();
-            $obj_id = $toolkit->getObjectId('access_' . $args['class_name']);
-            $toolkit->getMapper('admin', 'admin')->register($obj_id, 'access');
+
+            $adminMapper = $toolkit->getMapper('admin', 'admin');
+            $module = $adminMapper->searchModuleByClass($args['class_name']);
+
+            $obj_id = $toolkit->getObjectId('access_' . $module['name']);
+            $adminMapper->register($obj_id, 'access');
 
             $access->merge(array(
                 'obj_id' => $obj_id));

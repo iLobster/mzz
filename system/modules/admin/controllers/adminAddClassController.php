@@ -99,13 +99,6 @@ class adminAddClassController extends simpleController
                 $stmt->bindValue(':name', $name, PDO::PARAM_STR);
                 $class_id = $stmt->execute();
 
-                if (!sizeof($modules[$id]['classes'])) {
-                    $stmt = $db->prepare('UPDATE `sys_modules` SET `main_class` = :class_id WHERE `id` = :id');
-                    $stmt->bindValue(':class_id', $class_id, PDO::PARAM_INT);
-                    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-                    $stmt->execute();
-                }
-
                 $editAclId = $db->getOne("SELECT `id` FROM `sys_actions` WHERE `name` = 'editACL'");
                 $db->query('INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . $class_id . ', ' . $editAclId . ')');
 

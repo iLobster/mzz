@@ -24,7 +24,7 @@
     </div>
     {if not empty($admin_menu)}
         <div id="sidebar">
-            <p class="sideMenuTitle">Разделы сайта</p>
+            <p class="sideMenuTitle">Модули</p>
             <table cellspacing="0" cellpadding="0">
             {foreach from=$admin_menu item=module key=module_name}
                 <tr>

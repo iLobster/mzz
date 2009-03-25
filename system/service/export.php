@@ -17,13 +17,6 @@ $stmt = $db->query($qry);
 
 $classes = $stmt->fetchAll();
 
-foreach ($classes as $class) {
-    if ($class['id'] == $module['main_class']) {
-        $module['main_class'] = $class['name'];
-        break;
-    }
-}
-
 $qry = 'SELECT `a`.`name`, `c`.`name` AS `class_name` FROM `sys_classes` `c` INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id` INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id` WHERE `c`.`module_id` = ' . $module['id'];
 $stmt = $db->query($qry);
 
@@ -39,9 +32,6 @@ echo 'SET @MODULE_ID = LAST_INSERT_ID();<br />';
 foreach ($classes as $class) {
     echo 'INSERT INTO `sys_classes` (`name`, `module_id`) VALUES (' . $db->quote($class['name']) . ', @MODULE_ID);<br />';
     echo 'SET @LAST_CLASS_ID = (SELECT `id` FROM `sys_classes` WHERE `name` = ' . $db->quote($class['name']) . ');<br />';
-    if ($class['name'] == $module['main_class']) {
-        echo 'UPDATE `sys_modules` SET `main_class` = @LAST_CLASS_ID WHERE `id` = @MODULE_ID;<br />';
-    }
     foreach ($actions[$class['name']] as $action) {
         echo 'INSERT IGNORE INTO `sys_actions` (`name`) VALUES (' . $db->quote($action) . ');<br />';
         echo 'SET @LAST_ACTION_ID = (SELECT `id` FROM `sys_actions` WHERE `name` = ' . $db->quote($action) . ');<br />';

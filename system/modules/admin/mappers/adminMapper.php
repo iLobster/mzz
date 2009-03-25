@@ -37,100 +37,49 @@ class adminMapper extends mapper
      *
      * @return array
      */
-    public function getInfo()
+    public function getInfo($order = false)
     {
         $toolkit = systemToolkit::getInstance();
         $user = $toolkit->getUser();
 
-        $info = $this->db()->getAll('SELECT `m`.`name` AS `module`, `c`.`name` AS `class`, `c2`.`name` AS `main_class` FROM `sys_modules` `m`
-                                      LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
-                                       LEFT JOIN `sys_classes` `c2` ON `c2`.`id` = `m`.`main_class`
-                                        ORDER BY `m`.`name`, `c`.`name`');
+        $info = $this->db()->getAll('SELECT `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `module_id`, `c`.`id` AS `class_id`, `m`.`title`, `m`.`icon`
+                                      FROM `sys_modules` `m`
+                                       LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
+                                        ORDER BY ' . ($order ? '`m`.`order`, ' : '') . '`m`.`name`, `c`.`name`');
         $result = array();
-        $access = array();
-        $admin = array();
-        $main = array();
 
         $toolkit = systemToolkit::getInstance();
 
         foreach ($info as $val) {
-            $class = (!empty($val['main_class'])) ? $val['main_class'] : $val['class'];
-
-            $main[$val['module']] = $class;
-
-            if (isset($val['class'])) {
-                $obj_id = $toolkit->getObjectId('access_' . $class);
+            if (!isset($result[$val['module']])) {
+                $obj_id = $toolkit->getObjectId('access_' . $val['module']);
                 $this->register($obj_id, 'access');
                 $acl = new acl($user, $obj_id);
 
-                $access[$val['module']] = $acl->get('editACL');
-
-                $action = $toolkit->getAction($val['module']);
-                $actions = $action->getActions();
-                $actions = $actions[$val['class']];
-
-                $admin[$val['class']] = isset($actions['admin']) && $acl->get('admin');
-
-                $result[$val['module']][] = array(
-                    'class' => $val['class'],
+                $result[$val['module']] = array(
+                    'id' => $val['module_id'],
+                    'title' => $val['title'],
+                    'icon' => $val['icon'],
                     'obj_id' => $obj_id,
                     'editACL' => $acl->get('editACL'),
-                    'editDefault' => $acl->get('editDefault'));
-            }
-        }
-
-        return array(
-            'data' => $result,
-            'cfgAccess' => $access,
-            'admin' => $admin,
-            'main_class' => $main);
-    }
-
-    /**
-     * Метод получения общей инормации об установленных модулях, разделах имеющих свои админки
-     *
-     * @return array
-     */
-    public function getAdminInfo()
-    {
-        $toolkit = systemToolkit::getInstance();
-        $user = $toolkit->getUser();
-
-        $info = $this->db()->getAll("SELECT `m`.`name` AS `module`, `c`.`name` AS `main_class`, `m`.`title` as `module_title`,
-                                      `m`.`icon` as `module_icon`, `m`.`order` as `module_order` FROM `sys_modules` `m`
-                                        LEFT JOIN `sys_classes` `c` ON `c`.`id` = `m`.`main_class`
-                                         ORDER BY `m`.`order`, `m`.`name`");
-        $result = array();
-
-        $toolkit = systemToolkit::getInstance();
-
-        foreach ($info as $val) {
-            if (!isset($val['main_class'])) {
-                continue;
+                    'editDefault' => $acl->get('editDefault'),
+                    'admin' => $acl->get('admin'),
+                    'classes' => array());
             }
 
-            $class = $val['main_class'];
-
-            $obj_id = $toolkit->getObjectId('access_' . $class);
-
-            $this->register($obj_id, 'access');
-            $acl = new acl($user, $obj_id);
-
-            $action = $toolkit->getAction($val['module']);
-            $actions = $action->getActions();
-            $actions = $actions[$class];
-
-            if (isset($actions['admin']) && $acl->get('admin')) {
-                if (!isset($result[$val['module']])) {
-                    $result[$val['module']] = array(
-                        'title' => $val['module_title'],
-                        'icon' => $val['module_icon'],
-                        'order' => $val['module_order']);
-                }
+            if (isset($val['class'])) {
+                $result[$val['module']]['classes'][$val['class_id']] = $val['class'];
             }
         }
 
         return $result;
+    }
+
+    public function getMenu()
+    {
+        $menu = $this->getInfo(true);
+        unset($menu['admin'], $menu['access'], $menu['simple'], $menu['config']);
+        return $menu;
     }
 
     /**
@@ -155,26 +104,6 @@ class adminMapper extends mapper
         return $this->db->getRow("SELECT `c`.`name` AS `class_name`, `m`.`name` AS `module_name` FROM `sys_classes` `c`
                                    INNER JOIN `sys_modules` `m` ON `c`.`module_id` = `m`.`id`
                                     WHERE `c`.`id` = " . (int)$id);
-    }
-
-    /**
-     * Возвращает имя класса, модуля, секции в которых он находится по идентификаторам
-     *
-     * @param integer $section
-     * @param integer $module
-     * @param integer $class
-     * @return array|boolean
-     */
-    public function getNamesOfSectionModuleClass($section, $module, $class)
-    {
-        throw new mzzRuntimeException('deprecated');
-        return $this->db->getAll('SELECT `s`.`name` AS `section_name` , `m`.`name` AS `module_name` , `c`.`name` AS `class_name`
-                                   FROM `sys_sections` `s`
-                                    INNER JOIN `sys_classes_sections` `cs` ON `cs`.`section_id` = `s`.`id`
-                                     INNER JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id` AND `c`.`id` =  ' . (int)$class . '
-                                      INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` AND `m`.`id` = ' . (int)$module . '
-                                       WHERE `s`.`id` = ' . (int)$section);
-
     }
 
     /**
@@ -208,21 +137,15 @@ class adminMapper extends mapper
     public function searchModuleByClassId($id)
     {
         return $this->db()->getRow('SELECT `m`.* FROM `sys_classes` `c`
-                                   INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
-                                    WHERE `c`.`id` = ' . (int)$id);
+                                     INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                                      WHERE `c`.`id` = ' . (int)$id);
     }
 
-    /**
-     * Метод возвращает главный класс модуля
-     *
-     * @param string $module имя модуля
-     * @return string
-     */
-    public function getMainClass($module)
+    public function searchModuleByClass($name)
     {
-        return $this->db()->getOne('SELECT `c`.`name` AS `main_class` FROM `sys_modules` `m`
-                                     LEFT JOIN `sys_classes` `c` ON `c`.`id` = `m`.`main_class`
-                                      WHERE `m`.`name` = ' . $this->db()->quote($module));
+        return $this->db()->getRow('SELECT `m`.* FROM `sys_classes` `c`
+                                     INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                                      WHERE `c`.`name` = ' . $this->db()->quote($name));
     }
 
     /**
@@ -232,9 +155,8 @@ class adminMapper extends mapper
      */
     public function getModulesList()
     {
-        $modules = $this->db()->getAll('SELECT COUNT(`ca`.`id`) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `c2`.`name` AS `main_class_name`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id`, `m`.`main_class` FROM `sys_modules` `m`
+        $modules = $this->db()->getAll('SELECT COUNT(`ca`.`id`) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id` FROM `sys_modules` `m`
                                          LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
-                                          LEFT JOIN `sys_classes` `c2` ON `c2`.`id` = `m`.`main_class`
                                            LEFT JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id` AND `ca`.`action_id` != 9
                                             GROUP BY `m`.`name`, `c`.`name`');
 
@@ -242,14 +164,9 @@ class adminMapper extends mapper
 
         foreach ($modules as $val) {
             if (!isset($result[$val['m_id']])) {
-                if (empty($val['main_class_name'])) {
-                    $val['main_class_name'] = $val['module'];
-                }
                 $result[$val['m_id']] = array(
                     'name' => $val['module'],
-                    'main_class' => $val['main_class'],
-                    'classes' => array(),
-                    'main_class_name' => $val['main_class_name']);
+                    'classes' => array());
             }
 
             if (!is_null($val['class'])) {
@@ -515,20 +432,12 @@ class adminMapper extends mapper
             'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder);
     }
 
-    public function getMenu()
-    {
-        $menu = $this->getAdminInfo();
-        unset($menu['admin'], $menu['access']);
-        return $menu;
-    }
-
     public function convertArgsToObj($args)
     {
         $toolkit = systemToolkit::getInstance();
 
         if (isset($args['module_name'])) {
-            $main_class = $this->getMainClass($args['module_name']);
-            $obj_id = $toolkit->getObjectId('access_' . $main_class, false);
+            $obj_id = $toolkit->getObjectId('access_' . $args['module_name'], false);
         } else {
             $obj_id = $toolkit->getObjectId('access_admin');
             $this->register($obj_id);

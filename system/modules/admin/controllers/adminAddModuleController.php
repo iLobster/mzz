@@ -80,17 +80,12 @@ class adminAddModuleController extends simpleController
             $validator->add('callback', 'name', 'Имя модуля должно быть уникально', array('checkUniqueModuleName', $db, $data['name']));
         }
 
-        if ($isEdit) {
-            $validator->add('callback', 'main_class', 'выбранный класс не существует или принадлежит другому модулю', array('checkValidMainClass', $db, $data));
-        }
-
         if ($validator->validate()) {
             $name = trim($this->request->getString('name', SC_POST));
             $icon = $this->request->getString('icon', SC_POST);
             $title = $this->request->getString('title', SC_POST);
             $order = $this->request->getInteger('order', SC_POST);
             $newDest = $this->request->getString('dest', SC_POST);
-            $main_class = $this->request->getInteger('main_class', SC_POST);
 
             $moduleGenerator = new moduleGenerator($dest[$newDest]);
 
@@ -121,15 +116,11 @@ class adminAddModuleController extends simpleController
                 $stmt->execute();
             }
 
-            $stmt = $db->prepare('UPDATE `sys_modules` SET `icon` = :icon, `title` = :title, `order` = :order, `main_class` = :main_class WHERE `id` = :id');
+            $stmt = $db->prepare('UPDATE `sys_modules` SET `icon` = :icon, `title` = :title, `order` = :order WHERE `id` = :id');
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->bindValue(':icon', $icon, PDO::PARAM_STR);
             $stmt->bindValue(':title', $title, PDO::PARAM_STR);
             $stmt->bindValue(':order', $order, PDO::PARAM_INT);
-            if (empty($main_class)) {
-                $main_class = 0;
-            }
-            $stmt->bindValue(':main_class', $main_class, PDO::PARAM_INT);
             $stmt->execute();
 
             return jipTools::closeWindow();
