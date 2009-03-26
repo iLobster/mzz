@@ -17,15 +17,22 @@
 /**
  * smarty_modifier_date_i18n: модификатор для форматирования даты в соответствии с настройками часового пояса клиента
 
- * @param integer $date дата в unix timestamp
+ * @param integer $date дата в unix timestamp или строковом представление
  * @param string $format формат даты
  * @return string отформатированная дата
  * @package system
  * @subpackage template
- * @version 0.1
+ * @version 0.2
  */
 function smarty_modifier_date_i18n($date, $format = 'short_date_time')
 {
+    if (!is_numeric($date)) {
+        $timestamp = strtotime($date);
+        if ($timestamp != 1) {
+            $date = $timestamp;
+        }
+    }
+
     return i18n::date($date, $format);
 }
 

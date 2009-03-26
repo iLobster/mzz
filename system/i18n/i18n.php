@@ -339,7 +339,7 @@ class i18n
         if ($format == 'relative_hour') {
             $hours = ceil((time() - $date) / 3600);
 
-            if ($hours == 1) {
+            if ($hours <= 1) {
                 $minutes = ceil((time() - $date) / 60);
 
                 if ($minutes <= 5) {

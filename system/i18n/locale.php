@@ -387,7 +387,7 @@ class locale
      */
     public static function isSummerTime()
     {
-        return strtotime('last sunday april 2008') < strtotime('today') && strtotime('last sunday november 2008') > strtotime('today');
+        return (date('I') === 1);
     }
 }
 
