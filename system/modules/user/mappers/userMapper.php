@@ -224,8 +224,6 @@ class userMapper extends mapper
             if ($user) {
                 return $user;
             }
-        } else {
-            return $this->create();
         }
 
         throw new mzzDONotFoundException();
