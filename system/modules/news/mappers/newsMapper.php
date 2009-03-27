@@ -13,9 +13,6 @@
  */
 
 fileLoader::load('news');
-fileLoader::load('orm/plugins/acl_extPlugin');
-fileLoader::load('orm/plugins/jipPlugin');
-fileLoader::load('orm/plugins/i18nPlugin');
 
 /**
  * newsMapper: маппер для новостей
@@ -90,25 +87,27 @@ class newsMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->attach(new acl_extPlugin(), 'acl');
-        $this->attach(new jipPlugin(), 'jip');
-        $this->attach(new i18nPlugin(), 'i18n');
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
+        $this->plugins('i18n');
     }
 
-
-    /**
-     * Выполняет поиск объекта по идентификатору
-     *
-     * @param integer $id идентификатор
-     * @return object|null
-     */
-    public function searchById($id)
+    protected function preInsert(& $data)
     {
-        return $this->searchOneByField('id', $id);
+        if (is_array($data)) {
+            $data['updated'] = $data['created'];
+        }
+    }
+
+    protected function preUpdate(& $data)
+    {
+        if (is_array($data)) {
+            $data['updated'] = new sqlFunction('UNIX_TIMESTAMP');
+        }
     }
 
     /**
-     * Выполняет поиск объектов по идентификатору папки
+     * Выполняет поиск объектов по идентификатору каталога
      *
      * @param integer $id идентификатор папки
      * @return array
@@ -118,60 +117,16 @@ class newsMapper extends mapper
         return $this->searchAllByField('folder_id', $folder_id);
     }
 
-    /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
-     *
-     * @param array $fields
-     */
-    protected function updateDataModify(&$fields)
-    {
-        $fields['updated'] = new sqlFunction('UNIX_TIMESTAMP');
-    }
-
-    /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
-     *
-     * @param array $fields
-     */
-    protected function insertDataModify(&$fields)
-    {
-        $fields['updated'] = $fields['created'];
-    }
-
-    private function getObjId()
-    {
-        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_searchByTag');
-        $this->register($obj_id);
-        return $obj_id;
-    }
-
     public function convertArgsToObj($args)
     {
-        if(isset($args['id'])) {
+        if (isset($args['id'])) {
             $news = $this->searchByKey($args['id']);
             if ($news) {
                 return $news;
             }
         }
 
-        $action = systemToolkit::getInstance()->getRequest()->getRequestedAction();
-
-        if($action == 'searchByTag') {
-            $obj = $this->create();
-            $obj->import(array('obj_id' => $this->getObjId()));
-            return $obj;
-        }
-
         throw new mzzDONotFoundException();
-    }
-
-    public function searchByObjIds($obj_ids)
-    {
-        $criteria = new criteria();
-        $criterion = new criterion('obj_id', $obj_ids, criteria::IN);
-        $criteria->add($criterion);
-
-        return $this->searchAllByCriteria($criteria);
     }
 }
 

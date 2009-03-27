@@ -52,7 +52,7 @@ class newsMoveFolderController extends simpleController
         $errors = $validator->getErrors();
 
         if ($validator->validate()) {
-            $destFolder = $folderMapper->searchById($dest);
+            $destFolder = $folderMapper->searchByKey($dest);
             $result = $folderMapper->move($folder, $destFolder);
             if ($result) {
                 return jipTools::redirect();
@@ -84,14 +84,14 @@ function checkUniqueNewsFolderName($id, $folderMapper, $folder)
     if ($folder->getTreeParent()->getId() == $id) {
         return true;
     }
-    $destFolder = $folderMapper->searchById($id);
+    $destFolder = $folderMapper->searchByKey($id);
     $someFolder = $folderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
     return empty($someFolder);
 }
 
 function checkDestNewsFolderExists($id, $folderMapper)
 {
-    $destFolder = $folderMapper->searchById($id);
+    $destFolder = $folderMapper->searchByKey($id);
     return !empty($destFolder);
 }
 

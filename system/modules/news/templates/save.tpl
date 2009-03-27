@@ -20,10 +20,6 @@
             </tr>
         {/if}
         <tr>
-            <td style='vertical-align: top;'>{_ tags/tags}</td>
-            <td>{form->textarea name="tags" value=$tags|h rows="4" cols="50"}</td>
-        </tr>
-        <tr>
             <td style='vertical-align: top;'>{_ annotation}</td>
             <td>{form->textarea name="annotation" value=$news->getAnnotation() rows="4" cols="50"}</td>
         </tr>

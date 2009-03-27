@@ -29,7 +29,7 @@ class newsListController extends simpleController
         $newsFolder = $newsFolderMapper->searchByPath($path);
 
         if (empty($newsFolder)) {
-            return $newsFolderMapper->get404()->run();
+            return $this->forward404($newsFolderMapper);
         }
 
         $config = $this->toolkit->getConfig('news');

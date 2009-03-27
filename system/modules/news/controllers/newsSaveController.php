@@ -26,89 +26,67 @@ class newsSaveController extends simpleController
 {
     protected function getView()
     {
+        $id = $this->request->getInteger('id');
+        $path = $this->request->getString('name');
+
         $user = $this->toolkit->getUser();
         $newsMapper = $this->toolkit->getMapper('news', 'news');
-        $id = $this->request->getInteger('id');
-        $newsFolder = null;
-
-        if (empty($id)) {
-            $path = $this->request->getString('name');
-            $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
-            $newsFolder = $newsFolderMapper->searchByPath($path);
-        }
+        $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
+        $folder = $newsFolderMapper->searchByPath($path);
 
         $this->acceptLang($newsMapper);
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'edit');
-        $news = ($isEdit) ? $newsMapper->searchById($id) : $newsMapper->create();
+        $news = ($isEdit) ? $newsMapper->searchByKey($id) : $newsMapper->create();
 
-        if (!empty($news) || (!$isEdit && isset($newsFolder) && !is_null($newsFolder))) {
-            $validator = new formValidator();
-            $validator->add('required', 'title', 'Необходимо назвать новость');
-
-            if (!$isEdit) {
-                $tags = null;
-                $validator->add('required', 'created', 'Необходимо указать дату');
-                $validator->add('regex', 'created', 'Неправильный формат даты', '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
-            } else {
-              /*  $tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
-                $tagsItem = $tagsItemMapper->getTagsItem($news->getObjId());
-                $tags = $tagsItem->getTagsAsString();*/$tags= array();
-            }
-
-
-            if ($validator->validate()) {
-                $title = $this->request->getString('title', SC_POST);
-                $annotation = $this->request->getString('annotation', SC_POST);
-                $text = $this->request->getString('text', SC_POST);
-
-                $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
-                $folder = $newsFolderMapper->searchByPath($this->request->getString('name'));
-
-                if (!$isEdit) {
-                    $created = $this->request->getString('created', SC_POST);
-                    $news = $newsMapper->create();
-                    $news->setFolder($folder->getId());
-
-                    $date = explode(' ', $created);
-                    $time = explode(':', $date[0]);
-                    $date = explode('/', $date[1]);
-                    $created = mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
-                    $news->setCreated($created);
-                }
-
-                $news->setTitle($title);
-                $news->setEditor($user);
-                $news->setText($text);
-                $news->setAnnotation($annotation);
-                $newsMapper->save($news);
-
-                /*$tagsItemMapper = $this->toolkit->getMapper('tags', 'tagsItem', 'tags');
-                if (empty($tagsItem)) {
-                    $tagsItem = $tagsItemMapper->getTagsItem($news->getObjId());
-                }
-                $tagsItem->setTags($this->request->getString('tags', SC_POST));
-                $tagsItemMapper->save($tagsItem);*/
-
-                return jipTools::redirect();
-            }
-
-            $url = new url('withAnyParam');
-            $url->setAction($action);
-            $url->add('name', $isEdit ? $news->getId() : $newsFolder->getPath());
-            $this->smarty->assign('action', $url->get());
-            $this->smarty->assign('errors', $validator->getErrors());
-
-            $this->smarty->assign('news', $news);
-            $this->smarty->assign('isEdit', $isEdit);
-
-            $this->smarty->assign('tags', $tags);
-
-            return $this->smarty->fetch('news/save.tpl');
+        if (empty($news) || (!$isEdit && empty($folder))) {
+            return $this->forward404($newsMapper);
         }
 
-        return $newsMapper->get404()->run();
+        $validator = new formValidator();
+        $validator->add('required', 'title', i18n::getMessage('error_title_required', 'news'));
+
+        if (!$isEdit) {
+            $validator->add('required', 'created', i18n::getMessage('error_created_required', 'news'));
+            $validator->add('regex', 'created', i18n::getMessage('error_created_format', 'news'), '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
+        }
+
+        if ($validator->validate()) {
+            $title = $this->request->getString('title', SC_POST);
+            $annotation = $this->request->getString('annotation', SC_POST);
+            $text = $this->request->getString('text', SC_POST);
+
+            if (!$isEdit) {
+                $created = $this->request->getString('created', SC_POST);
+                $news->setFolder($folder->getId());
+                $news->setCreated($created);
+            }
+
+            $news->setTitle($title);
+            $news->setEditor($user);
+            $news->setText($text);
+            $news->setAnnotation($annotation);
+            $newsMapper->save($news);
+
+            return jipTools::redirect();
+        }
+
+        if ($isEdit) {
+            $url = new url('withId');
+            $url->add('id', $news->getId());
+        } else {
+            $url = new url('withAnyParam');
+            $url->add('name', $folder->getPath());
+        }
+        $url->setAction($action);
+
+        $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('news', $news);
+        $this->smarty->assign('isEdit', $isEdit);
+
+        return $this->smarty->fetch('news/save.tpl');
     }
 }
 

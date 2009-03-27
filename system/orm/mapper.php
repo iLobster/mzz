@@ -228,7 +228,7 @@ abstract class mapper
     public function plugin($name)
     {
         if (!isset($this->observers[$name])) {
-            throw new mzzRuntimeException('The specified plugin doesn\'t attached to current mapper');
+            throw new mzzRuntimeException('The specified "' . $name . '" plugin doesn\'t attached to current mapper');
         }
 
         return $this->observers[$name];

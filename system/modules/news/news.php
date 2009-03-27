@@ -21,6 +21,18 @@
  */
 class news extends entity
 {
+    public function setCreated($value)
+    {
+        $datetime = strtotime($value);
+        if ($datetime === false) {
+            $datetime = explode(' ', $value);
+            $time = explode(':', $datetime[0]);
+            $date = explode('/', $datetime[1]);
+            $datetime = mktime($time[0], $time[1], $time[2], $date[1], $date[0], $date[2]);
+        }
+
+        parent::__call('setCreated', array($datetime));
+    }
 }
 
 ?>

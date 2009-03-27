@@ -26,8 +26,8 @@ class newsViewController extends simpleController
     {
         $newsMapper = $this->toolkit->getMapper('news', 'news');
 
-        $id = $this->request->getInteger('id', SC_PATH);
-        $news = $newsMapper->searchById($id);
+        $id = $this->request->getInteger('id');
+        $news = $newsMapper->searchByKey($id);
 
         if (empty($news)) {
             return $this->forward404($newsMapper);

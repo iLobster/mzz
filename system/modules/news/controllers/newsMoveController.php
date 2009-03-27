@@ -31,7 +31,7 @@ class newsMoveController extends simpleController
 
         $id = $this->request->getInteger('id');
 
-        $news = $newsMapper->searchById($id);
+        $news = $newsMapper->searchByKey($id);
 
         if (!$news) {
             return $newsMapper->get404()->run();
@@ -42,7 +42,7 @@ class newsMoveController extends simpleController
 
         if ($validator->validate()) {
             $dest = $this->request->getInteger('dest', SC_POST);
-            $destFolder = $newsFolderMapper->searchById($dest);
+            $destFolder = $newsFolderMapper->searchByKey($dest);
 
             if (!$destFolder) {
                 $controller = new messageController('Каталог назначения не найден', messageController::WARNING);
