@@ -103,7 +103,10 @@ class i18nPlugin extends observer
                 $i18n_data['id'] = $id;
 
                 $insert = new simpleInsert($criteria);
-                $this->mapper->db()->query($insert->toString($i18n_data));
+                try {
+                    $this->mapper->db()->query($insert->toString($i18n_data));
+                } catch (PDOException $e) {
+                }
             }
         }
     }
