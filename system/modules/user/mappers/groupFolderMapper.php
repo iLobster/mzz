@@ -52,8 +52,8 @@ class groupFolderMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->attach(new acl_extPlugin(), 'acl');
-        $this->attach(new jipPlugin(), 'jip');
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
     }
 
     public function getFolder()
@@ -78,7 +78,7 @@ class groupFolderMapper extends mapper
     public function convertArgsToObj($args)
     {
         $obj = $this->create();
-        $obj->import(array('obj_id' => $this->getObjId()));
+        $obj->merge(array('obj_id' => $this->getObjId()));
         return $obj;
     }
 }

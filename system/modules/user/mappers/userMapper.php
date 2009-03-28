@@ -228,7 +228,6 @@ class userMapper extends mapper
 
         throw new mzzDONotFoundException();
     }
-
 }
 
 ?>

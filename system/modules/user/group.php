@@ -21,10 +21,6 @@
  */
 class group extends entity
 {
-    public function getUsersCount()
-    {
-        return $this->mapper->getUsersCount($this);
-    }
 }
 
 ?>

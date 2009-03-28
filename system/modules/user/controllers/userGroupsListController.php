@@ -30,7 +30,6 @@ class userGroupsListController extends simpleController
         $userFolder = $userFolderMapper->getFolder();
 
         $groupMapper = $this->toolkit->getMapper('user', 'group');
-        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
 
         $config = $this->toolkit->getConfig('user', $this->request->getSection());
         $this->setPager($groupMapper, $config->get('items_per_page'), true);

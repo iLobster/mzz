@@ -26,6 +26,13 @@ class groupMapper extends mapper
     protected $table = 'user_group';
     protected $class = 'group';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->attach(new acl_extPlugin());
+        $this->attach(new jipPlugin());
+    }
+
     public $map = array(
         'id' => array(
             'accessor' => 'getId',
@@ -34,7 +41,29 @@ class groupMapper extends mapper
                 'pk')),
         'name' => array(
             'accessor' => 'getName',
-            'mutator' => 'setName'));
+            'mutator' => 'setName'),
+        'users' => array(
+            'accessor' => 'getUsers',
+            'mutator' => 'setUsers',
+            'relation' => 'many-to-many',
+            'mapper' => 'user/userMapper',
+            'reference' => 'user_userGroup_rel',
+            'local_key' => 'id',
+            'foreign_key' => 'id',
+            'ref_local_key' => 'group_id',
+            'ref_foreign_key' => 'user_id'),
+        'is_default' => array(
+            'accessor' => 'getIsDefault',
+            'mutator' => 'setIsDefault'));
+
+    public function convertArgsToObj($args)
+    {
+        if (isset($args['id'])) {
+            return $this->searchByKey($args['id']);
+        }
+
+        throw new mzzDONotFoundException();
+    }
 }
 
 ?>

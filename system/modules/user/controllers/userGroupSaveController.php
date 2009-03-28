@@ -21,14 +21,14 @@ fileLoader::load('forms/validators/formValidator');
  * @subpackage user
  * @version 0.2
  */
-class userGroupEditController extends simpleController
+class userGroupSaveController extends simpleController
 {
     protected function getView()
     {
         $groupMapper = $this->toolkit->getMapper('user', 'group');
         $id = $this->request->getInteger('id', SC_PATH | SC_POST);
 
-        $group = $groupMapper->searchById($id);
+        $group = $groupMapper->searchByKey($id);
 
         $action = $this->request->getAction();
         $isEdit = ($action == 'groupEdit');

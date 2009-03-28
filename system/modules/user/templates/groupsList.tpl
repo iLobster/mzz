@@ -15,7 +15,7 @@
         <tr>
             <td style="text-align: center;">{$group->getId()}</td>
             <td>{$group->getName()}</td>
-            <td style="text-align: center;">{$group->getUsersCount()}</td>
+            <td style="text-align: center;">{$group->getUsers()->count()}</td>
             <td style="text-align: center;">{if $group->getIsDefault()}Да{else}Нет{/if}</td>
             <td style="text-align: center;">{$group->getJip()}</td>
         </tr>
