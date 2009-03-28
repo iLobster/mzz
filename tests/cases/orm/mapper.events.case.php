@@ -123,7 +123,7 @@ class mapperEventsTest extends unitTestCase
         try {
             $this->mapper->plugin('inverseObserver');
         } catch (mzzRuntimeException $e) {
-            $this->assertPattern('/The specified plugin doesn\'t attached to current mapper/', $e->getMessage());
+            $this->assertPattern('/The specified.*inverseObserver.*plugin doesn\'t attached to current mapper/', $e->getMessage());
             $this->pass();
         } catch (Exception $e) {
             $this->fail('Брошено не ожидаемое исключение');

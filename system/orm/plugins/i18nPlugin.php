@@ -98,7 +98,7 @@ class i18nPlugin extends observer
 
             $update = new simpleUpdate($criteria);
 
-            if (!$this->mapper->db()->query($update->toString($i18n_data))) {
+            if (!$this->mapper->db()->exec($update->toString($i18n_data))) {
                 $i18n_data['lang_id'] = $this->getLangId();
                 $i18n_data['id'] = $id;
 
