@@ -421,6 +421,7 @@ abstract class mapper
         if (empty($this->module)) {
             $class = new ReflectionClass(get_class($this));
             $path = $class->getFileName();
+
             $ds = preg_quote(DIRECTORY_SEPARATOR);
 
             preg_match('!' . $ds . '([^' . $ds . ']*)' . $ds . 'mappers!', $path, $matches);

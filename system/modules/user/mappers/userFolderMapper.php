@@ -52,8 +52,8 @@ class userFolderMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->attach(new acl_extPlugin(), 'acl');
-        $this->attach(new jipPlugin(), 'jip');
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
     }
 
     public function getFolder()
@@ -66,7 +66,7 @@ class userFolderMapper extends mapper
         $toolkit = systemToolkit::getInstance();
         $obj_id = $toolkit->getObjectId($this->class);
         $acl = new acl($toolkit->getUser());
-        $acl->register($obj_id, $this->class, 'user');
+        $acl->register($obj_id, $this->class);
         return $obj_id;
     }
 
@@ -78,7 +78,7 @@ class userFolderMapper extends mapper
     public function convertArgsToObj($args)
     {
         $obj = $this->create();
-        $obj->import(array('obj_id' => $this->getObjId()));
+        $obj->merge(array('obj_id' => $this->getObjId()));
         return $obj;
     }
 }

@@ -47,7 +47,9 @@ class entity
         if (empty($this->module)) {
             $class = new ReflectionClass(get_class($this));
             $path = $class->getFileName();
-            $this->module = substr($path, strrpos($path, DIRECTORY_SEPARATOR) + 1, -4);
+
+            $path = pathinfo($path, PATHINFO_DIRNAME);
+            $this->module = substr($path, strrpos($path, DIRECTORY_SEPARATOR) + 1);
         }
         return $this->module;
     }

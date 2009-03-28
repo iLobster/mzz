@@ -38,7 +38,7 @@ class jipPlugin extends observer
         return $jip->draw();
     }
 
-    public function postCreate(entity $object)
+    public function preCreate(entity $object)
     {
         $tmp = array();
         $tmp['jip'] = new lazy(array(
