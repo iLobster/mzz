@@ -195,6 +195,19 @@ class relation
             $val['mapper']->notify('preSqlJoin', $data);
         }
     }
+
+    public function delete($object)
+    {
+        foreach ($this->manyToMany() as $val) {
+            $map = $val['mapper']->map();
+            $accessor = $map[$val['local_key']]['accessor'];
+
+            $criteria = new criteria($val['reference']);
+            $criteria->add($val['ref_local_key'], $object->$accessor());
+            $delete = new simpleDelete($criteria);
+            $val['mapper']->db()->query($delete->toString());
+        }
+    }
 }
 
 ?>

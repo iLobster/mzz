@@ -142,7 +142,6 @@ abstract class mapper
     {
         //@todo: проверка на тип
 
-
         if ($object->state() == entity::STATE_NEW) {
             return $this->insert($object);
         } elseif ($object->state()) {
@@ -212,6 +211,8 @@ abstract class mapper
         $criteria->add($this->pk, $object->$accessor());
 
         if (!$this->notify('preSqlDelete', $criteria)) {
+            $this->relations->delete($object);
+
             $delete = new simpleDelete($criteria);
             $this->db()->query($delete->toString());
 

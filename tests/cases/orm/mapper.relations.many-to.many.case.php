@@ -148,6 +148,18 @@ class mapperManyToManyRelationsTest extends unitTestCase
         $this->assertEqual($collection->count(), 3);
         $this->assertEqual($collection->get(4)->getBaz(), 'baz4');
     }
+
+    public function testDeleteRecordsFromRelationsTable()
+    {
+        $this->fixture();
+
+        $this->assertEqual($this->db->getOne('SELECT COUNT(*) FROM `ormSimpleRelated`'), 4);
+
+        $object = $this->mapper->searchByKey(1);
+        $this->mapper->delete($object);
+
+        $this->assertEqual($this->db->getOne('SELECT COUNT(*) FROM `ormSimpleRelated`'), 1);
+    }
 }
 
 ?>
