@@ -23,51 +23,43 @@ class userMembersListController extends simpleController
 {
     protected function getView()
     {
-        if (($id = $this->request->getInteger('id')) == null) {
-            $id = $this->request->getInteger('id', SC_POST);
-        }
+        $id = $this->request->getInteger('id', SC_PATH | SC_POST);
 
-        $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
         $groupMapper = $this->toolkit->getMapper('user', 'group');
 
-        $group = $groupMapper->searchById($id);
+        $group = $groupMapper->searchByKey($id);
 
         // проверяем что найдена нужная группа
         if (is_null($group)) {
             return $groupMapper->get404()->run();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            // если была отправлена форма
+        $validator = new formValidator();
+
+        if ($validator->validate()) {
             $users = $this->request->getArray('users', SC_POST);
 
             if (is_null($users)) {
                 $users = array();
             }
 
-            $usersArray = array();
+            $users_exists = $group->getUsers();
 
             // формируем массив с выбранными пользователями
-            foreach (array_keys($users) as $val) {
-                $criteria = new criteria();
-                $criteria->add('group_id', $id)->add('user_id', $val);
-                $userGroup = $userGroupMapper->searchOneByCriteria($criteria);
-
-                if (!is_null($userGroup)) {
-                    $userGroupMapper->delete($userGroup->getId());
-                }
+            foreach (array_keys($users) as $user_id) {
+                $users_exists->delete($user_id);
             }
 
-            return jipTools::closeWindow(0, true);
-        } else {
-            $criteria = new criteria();
-            $criteria->add('group_id', $id)->setOrderByFieldAsc('user_id.login');
-            $users = $userGroupMapper->searchAllByCriteria($criteria);
+            $groupMapper->save($group);
 
-            $this->smarty->assign('users', $users);
-            $this->smarty->assign('group', $group);
-            return $this->smarty->fetch('user/membersList.tpl');
+            return jipTools::closeWindow(0, true);
         }
+
+        $users = $group->getUsers();
+
+        $this->smarty->assign('users', $users);
+        $this->smarty->assign('group', $group);
+        return $this->smarty->fetch('user/membersList.tpl');
     }
 }
 

@@ -28,75 +28,73 @@ class userAddToGroupController extends simpleController
         $id = $this->request->getInteger('id');
 
         $groupMapper = $this->toolkit->getMapper('user', 'group');
-        $group = $groupMapper->searchById($id);
+        $userMapper = $this->toolkit->getMapper('user', 'user');
+
+        $group = $groupMapper->searchByKey($id);
 
         // проверяем что найдена нужная группа
         if (is_null($group)) {
             return $groupMapper->get404()->run();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
+        $validator = new formValidator();
 
+        if ($validator->validate()) {
             $users = $this->request->getArray('users', SC_POST);
 
             if (is_null($users)) {
                 $users = array();
             }
 
-            foreach (array_keys($users) as $val) {
-                $criteria = new criteria();
-                $criteria->add('user_id', $val)->add('group_id', $id);
-                $userGroup = $userGroupMapper->searchOneByCriteria($criteria);
+            $added_users = $group->getUsers();
 
-                if (is_null($userGroup)) {
-                    $userGroup = $userGroupMapper->create();
-                    $userGroup->setUser($val);
-                    $userGroup->setGroup($id);
-                    $userGroupMapper->save($userGroup);
+            foreach (array_keys($users) as $user_id) {
+                $user = $userMapper->searchByKey($user_id);
+
+                if (!is_null($user)) {
+                    $added_users->add($user);
                 }
             }
+
+            $groupMapper->save($group);
 
             return jipTools::closeWindow();
-        } else {
+        }
 
-            $users = array();
+        $users = array();
 
-            if (!is_null($filter)) {
-                $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
-                $userMapper = $this->toolkit->getMapper('user', 'user');
+        if (!is_null($filter)) {
+            $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
 
-                $criterion = new criterion('r.user_id', 'user.' . $userMapper->getTableKey(), criteria::EQUAL, true);
-                $criterion->addAnd(new criterion('r.group_id', $id));
+            $criterion = new criterion('r.user_id', $userMapper->table() . '.' . $userMapper->pk(), criteria::EQUAL, true);
+            $criterion->addAnd(new criterion('r.group_id', $id));
 
-                $criteria = new criteria();
-                $criteria->addJoin($userGroupMapper->getTable(), $criterion, 'r');
-                $criteria->add('login', '%' . $filter . '%', criteria::LIKE)->add('r.id', null, criteria::IS_NULL);
+            $criteria = new criteria();
+            $criteria->addJoin($userGroupMapper->table(), $criterion, 'r');
+            $criteria->add('login', '%' . $filter . '%', criteria::LIKE)->add('r.id', null, criteria::IS_NULL);
 
-                // @todo: вероятно этот лимит нужно перенести в конфиг?
-                $limit = 25;
-                $criteria->setLimit($limit + 1);
+            // @todo: вероятно этот лимит нужно перенести в конфиг?
+            $limit = 25;
+            $criteria->setLimit($limit + 1);
 
-                // выбираем всех пользователей, которые ещё не добавлены в эту группу и удовлетворяют маске
-                $users = $userMapper->searchAllByCriteria($criteria);
+            // выбираем всех пользователей, которые ещё не добавлены в эту группу и удовлетворяют маске
+            $users = $userMapper->searchAllByCriteria($criteria);
 
-                if (sizeof($users) > $limit) {
-                    $this->smarty->assign('too_much', true);
-                }
-
-                $this->smarty->assign('filter', $filter);
+            if (sizeof($users) > $limit) {
+                $this->smarty->assign('too_much', true);
             }
 
-            $url = new url('withId');
-            $url->add('id', $this->request->getInteger('id'));
-            $url->setAction('addToGroupList');
-
-
-            $this->smarty->assign('users', $users);
-            $this->smarty->assign('group', $group);
-
-            return $this->smarty->fetch('user/addToGroup.tpl');
+            $this->smarty->assign('filter', $filter);
         }
+
+        $url = new url('withId');
+        $url->add('id', $this->request->getInteger('id'));
+        $url->setAction('addToGroupList');
+
+        $this->smarty->assign('users', $users);
+        $this->smarty->assign('group', $group);
+
+        return $this->smarty->fetch('user/addToGroup.tpl');
     }
 }
 

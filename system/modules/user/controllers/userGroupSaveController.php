@@ -39,7 +39,7 @@ class userGroupSaveController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'name', 'Группа с таким именем уже существует', array('checkUniqueGroupName', $group, $groupMapper));
+        $validator->add('callback', 'name', 'Группа с таким именем уже существует', array(array($this, 'checkUniqueGroupName'), $group, $groupMapper));
 
         if ($validator->validate()) {
             if (!$isEdit) {
@@ -54,7 +54,6 @@ class userGroupSaveController extends simpleController
 
             return jipTools::redirect();
         }
-
 
         $url = new url('default2');
         $url->setAction($action);
@@ -71,16 +70,15 @@ class userGroupSaveController extends simpleController
         $this->smarty->assign('errors', $validator->getErrors());
         return $this->smarty->fetch('user/groupEdit.tpl');
     }
-}
 
-function checkUniqueGroupName($name, $group, $groupMapper)
-{
-    if (is_object($group) && $name === $group->getName()) {
-        return true;
+    function checkUniqueGroupName($name, $group, $groupMapper)
+    {
+        if (is_object($group) && $name === $group->getName()) {
+            return true;
+        }
+
+        return is_null($groupMapper->searchOneByField('name', $name));
     }
-
-    $group = $groupMapper->searchByName($name);
-    return empty($group);
 }
 
 ?>

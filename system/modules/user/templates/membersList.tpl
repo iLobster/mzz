@@ -7,12 +7,10 @@
             <td align="center"><strong>ID</strong></td>
             <td width="100%"><strong>{_ username}</strong></td>
         </tr>
-        {foreach from=$users item="user"}
-        {assign user_id=$user->getUser()->getId()}
-        {assign user_login=$user->getUser()->getLogin()}
+        {foreach from=$users item="user" key=user_id}
             <tr>
-                <td align="center">{$user_id}</td>
-                <td width="100%">{form->checkbox name="users[$user_id]" label=$user_login}</td>
+                <td align="center">{$user->getId()}</td>
+                <td width="100%">{form->checkbox name="users[$user_id]" label=$user->getLogin() nodefault=1}</td>
             </tr>
         {/foreach}
         {if sizeof($users)}
