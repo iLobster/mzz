@@ -379,16 +379,6 @@ class locale
         $array = range(-12, 12);
         return array_combine($array, $array);
     }
-
-    /**
-     * Является ли текущее время "летним"
-     *
-     * @return boolean
-     */
-    public static function isSummerTime()
-    {
-        return (date('I') === 1);
-    }
 }
 
 ?>
