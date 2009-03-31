@@ -23,8 +23,9 @@ class formCaptchaRule extends formAbstractRule
 {
     public function validate()
     {
-        $session = systemToolkit::getInstance()->getSession();
-        $request = systemToolkit::getInstance()->getRequest();
+        $toolkit = systemToolkit::getInstance();
+        $session = $toolkit->getSession();
+        $request = $toolkit->getRequest();
 
         $captcha_id = $request->getString($this->name . '_id', SC_POST | SC_GET);
 
@@ -40,5 +41,4 @@ class formCaptchaRule extends formAbstractRule
         return false;
     }
 }
-
 ?>

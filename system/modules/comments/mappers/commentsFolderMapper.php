@@ -12,6 +12,8 @@
  * @version $Id$
 */
 
+fileLoader::load('comments/commentsFolder');
+
 /**
  * commentsFolderMapper: маппер
  *
@@ -19,72 +21,64 @@
  * @subpackage comments
  * @version 0.1
  */
-
-fileLoader::load('comments/commentsFolder');
-
-class commentsFolderMapper extends simpleMapper
+class commentsFolderMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'comments';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'commentsFolder';
+    protected $class = 'commentsFolder';
+    protected $table = 'comments_commentsFolder';
 
-    /**
-     * Удаление папки вместе с содержимым на основе id
-     *
-     * @param string $id
-     * @return void
-     */
-    public function remove($id)
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array('pk','once')
+         ),
+        'parent_id' => array(
+            'accessor' => 'getParentId',
+            'mutator' => 'setParentId',
+            'options' => array('once'),
+        ),
+        'type' => array(
+            'accessor' => 'getType',
+            'mutator' => 'setType',
+            'options' => array('once'),
+        ),
+        'comments' => array(
+            'accessor' => 'getComments',
+            'mutator' => 'setComments',
+            'relation' => 'many',
+            'mapper' => 'comments/commentsMapper',
+            'foreign_key' => 'folder_id',
+            'local_key' => 'id'
+        )
+    );
+
+    public function __construct()
     {
-        $toolkit = systemToolkit::getInstance();
+        parent::__construct();
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
+    }
 
-        $commentsMapper = $toolkit->getMapper('comments', 'comments', 'comments');
+    public function searchById($id)
+    {
+        return $this->searchByKey($id);
+    }
 
-        foreach ($commentsMapper->searchAllByField('folder_id', $id) as $comment) {
-            $commentsMapper->delete($comment->getId());
-        }
-
-        $this->delete($id);
+    public function searchFolder($parentType, $parentId)
+    {
+        $criteria = new criteria;
+        $criteria->add('type', $parentType)->add('parent_id', $parentId);
+        return $this->searchOneByCriteria($criteria);
     }
 
     public function convertArgsToObj($args)
     {
-        if (isset($args['parent_id']) || isset($args['id'])) {
-            $parent_id = isset($args['parent_id']) ? $args['parent_id'] : $args['id'];
-        } else {
-            throw new Exception();
-            return 1;
-        }
-
-        $comment = $this->searchOneByField('parent_id', $parent_id);
-
-        if (is_null($comment)) {
-            $toolkit = systemToolkit::getInstance();
-            $request = $toolkit->getRequest();
-            $ownerId = $request->get('owner', 'string', SC_PATH);
-            $userMapper = $toolkit->getMapper('user', 'user', 'user');
-            $owner = $userMapper->searchById($ownerId);
-
-            $comment = $this->create();
-            $comment->setParentId($parent_id);
-            $this->save($comment, $owner);
-        }
-
-        if ($comment) {
-            return $comment;
-        }
-
-        throw new mzzDONotFoundException();
+        //throw new mzzDONotFoundException();
     }
 }
 

@@ -24,15 +24,47 @@ class commentsFolderListController extends simpleController
 {
     protected function getView()
     {
-        $commentsFolderMapper = $this->toolkit->getMapper('comments', 'commentsFolder', 'comments');
+        $commentsFolderMapper = $this->toolkit->getMapper('comments', 'commentsFolder');
 
-        $parent_id = $this->request->getInteger('id');
+        $object = $this->request->getRaw('object');
+        if (!$object instanceof entity) {
+            throw new mzzInvalidParameterException('Invalid object for comments');
+        }
 
-        $commentsFolder = $commentsFolderMapper->searchOneByField('parent_id', $parent_id);
+        $byField = $this->request->getString('byField');
+        if (!$byField) {
+            $byField = 'obj_id';
+        }
 
-        $this->smarty->assign('parent_id', $commentsFolder->getParentId());
-        $this->smarty->assign('comments', $commentsFolder->getComments());
-        $this->smarty->assign('folder', $commentsFolder);
+        $objectModule = $object->module();
+        $objectType = get_class($object);
+
+        $objectMapper = $this->toolkit->getMapper($objectModule, $objectType);
+        $map = $objectMapper->map();
+
+        if (!isset($map[$byField])) {
+            throw new mzzInvalidParameterException('No such field for comments');
+        }
+
+        $objectId = $object->$map[$byField]['accessor']();
+
+        if (!is_numeric($objectId)) {
+            throw new mzzInvalidParameterException('Invalid object for comments');
+        }
+
+        $commentsFolder = $commentsFolderMapper->searchFolder($objectType, $objectId);
+
+        if (!$commentsFolder) {
+            $commentsFolder = $commentsFolderMapper->create();
+            $commentsFolder->setType($objectType);
+            $commentsFolder->setParentId($objectId);
+            $commentsFolderMapper->save($commentsFolder);
+        }
+
+        $comments = $commentsFolder->getComments();
+
+        $this->smarty->assign('commentFolder', $commentsFolder);
+        $this->smarty->assign('comments', $comments);
         return $this->smarty->fetch('comments/list.tpl');
     }
 }

@@ -319,20 +319,28 @@ CREATE TABLE `comments_comments` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   `text` TEXT COLLATE utf8_general_ci,
-  `author` INTEGER(11) UNSIGNED DEFAULT NULL,
-  `time` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `user_id` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `created` INTEGER(11) UNSIGNED DEFAULT NULL,
   `folder_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=26 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Data for the `comments_comments` table  (LIMIT 0,500)
+# Structure for the `comments_comments_tree` table : 
 #
 
-INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `author`, `time`, `folder_id`) VALUES 
-  (25,135,'asdfsdfg',2,1164000450,14);
-COMMIT;
+DROP TABLE IF EXISTS `comments_comments_tree`;
+
+CREATE TABLE `comments_comments_tree` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `path` TEXT COLLATE utf8_general_ci,
+  `foreign_key` INTEGER(11) DEFAULT NULL,
+  `level` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `spath` TEXT COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM
+CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `comments_commentsFolder` table : 
@@ -344,50 +352,11 @@ CREATE TABLE `comments_commentsFolder` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   `parent_id` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `type` VARCHAR(50) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `parent_id_2` (`parent_id`, `type`),
   KEY `parent_id` (`parent_id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=59 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `comments_commentsFolder` table  (LIMIT 0,500)
-#
-
-INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`) VALUES 
-  (14,134,9),
-  (16,145,10),
-  (18,171,164),
-  (19,172,165),
-  (20,173,166),
-  (21,174,170),
-  (22,175,11),
-  (23,177,6),
-  (34,469,458),
-  (35,470,355),
-  (36,471,400),
-  (37,477,330),
-  (38,504,468),
-  (39,535,452),
-  (40,570,537),
-  (41,591,573),
-  (42,596,594),
-  (43,607,604),
-  (44,614,612),
-  (45,631,626),
-  (46,668,463),
-  (47,669,456),
-  (48,783,780),
-  (49,836,777),
-  (50,1160,331),
-  (51,1167,459),
-  (52,1171,445),
-  (53,1223,1208),
-  (54,1226,1220),
-  (55,1227,1204),
-  (56,1229,1200),
-  (57,1248,460),
-  (58,1302,464);
-COMMIT;
+)ENGINE=MyISAM ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `faq_faq` table : 

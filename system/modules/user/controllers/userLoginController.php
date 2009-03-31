@@ -17,7 +17,7 @@
  *
  * @package modules
  * @subpackage user
- * @version 0.2.3
+ * @version 0.2.4
  */
 class userLoginController extends simpleController
 {
@@ -39,6 +39,11 @@ class userLoginController extends simpleController
                 if ($user) {
                     if ($this->request->getBoolean('save', SC_POST)) {
                         $this->rememberUser($user);
+                    }
+
+                    if (!$backURL) {
+                        $backURL = new url('default');
+                        $backURL = $url->get();
                     }
 
                     return $this->redirect($backURL);

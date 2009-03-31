@@ -1,10 +1,17 @@
-{add file='comments.css'}
-{if !empty($comments)}
+{add file="comments.css"}
+{if !$comments->isEmpty()}
     {assign var="count" value=$comments|@count}
-    <div class="commentsTitle">{_ comments_count $count} {$folder->getJip()}</div>
+    <div class="commentsTitle">{_ comments_count $count} {$commentFolder->getJip()}</div>
     {foreach from=$comments item=comment}
-        <div class="commentAuthor">{$comment->getAuthor()->getLogin()} <span class="commentDate">({$comment->getTime()|date_format:"%e %b %Y, %H:%M"})</span> {$comment->getJip()}</div>
-        <div class="commentText">{$comment->getText()|htmlspecialchars|nl2br}</div>
+        <div style="padding-left: {math equation="level * offset - offset" level=$comment->getTreeLevel() offset=30}px;">
+            <div class="commentAuthor">{$comment->getUser()->getLogin()} <span class="commentDate">({$comment->getCreated()|date_format:"%e %b %Y, %H:%M"})</span> {$comment->getJip()}</div>
+            <div class="commentText">
+                {$comment->getText()|htmlspecialchars|nl2br}
+                {load module="comments" action="post" id=$commentFolder replyTo=$comment->getId()}
+                {*<br />
+                <a href="{url route="withId" action="post" id=$commentFolder->getId()}?replyTo={$comment->getId()}">ответить</a>*}
+            </div>
+        </div>
     {/foreach}
 {else}
     <div class="emptyComments">
@@ -12,4 +19,4 @@
     </div>
 {/if}
 <br />
-{load module="comments" section="comments" action="post" parent_id=$parent_id}
+{load module="comments" action="post" id=$commentFolder}

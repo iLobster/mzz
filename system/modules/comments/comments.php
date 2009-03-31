@@ -21,9 +21,9 @@
  */
 
 
-class comments extends simple
+class comments extends entity
 {
-        protected $name = 'comments';
+    protected $name = 'comments';
 }
 
 ?>

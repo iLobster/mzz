@@ -12,6 +12,9 @@
  * @version $Id$
 */
 
+fileLoader::load('comments');
+fileLoader::load('orm/plugins/tree_mpPlugin');
+
 /**
  * commentsMapper: маппер
  *
@@ -19,38 +22,65 @@
  * @subpackage comments
  * @version 0.1
  */
-
-fileLoader::load('comments');
-
-class commentsMapper extends simpleMapper
+class commentsMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'comments';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'comments';
+    protected $class = 'comments';
+    protected $table = 'comments_comments';
 
-    /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
-     *
-     * @param array $fields
-     */
-    protected function insertDataModify(&$fields)
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array('pk', 'once'),
+        ),
+        'folder_id' => array(
+            'accessor' => 'getFolder',
+            'mutator' => 'setFolder',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'comments/commentsFolderMapper',
+            'options' => array('once')
+        ),
+        'user_id' => array(
+            'accessor' => 'getUser',
+            'mutator' => 'setUser',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'userMapper',
+            'options' => array('once')
+        ),
+        'text' => array(
+            'accessor' => 'getText',
+            'mutator' => 'setText'
+        ),
+        'created' => array(
+            'accessor' => 'getCreated',
+            'mutator' => 'setCreated',
+            'options' => array('once')
+        )
+    );
+
+    public function __construct()
     {
-        $fields['time'] = time();
+        parent::__construct();
+        $this->attach(new tree_mpPlugin(array('path_name' => 'id')), 'tree');
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
     }
 
     public function searchById($id)
     {
-        return $this->searchOneByField('id', $id);
+        return $this->searchByKey($id);
+    }
+
+    public function preInsert(array &$data)
+    {
+        $data['created'] = time();
     }
 
     public function convertArgsToObj($args)

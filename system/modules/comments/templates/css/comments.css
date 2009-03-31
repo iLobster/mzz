@@ -12,6 +12,12 @@ div.commentAuthor {
     font-weight: bold;
 }
 
+div.commentAnswer {
+    font-size: 75%;
+    margin: 8px 10px 0;
+    font-weight: bold;
+}
+
 span.commentDate {
     color: #515151;
     font-weight: normal;

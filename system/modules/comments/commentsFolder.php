@@ -13,17 +13,17 @@
 */
 
 /**
- * commentsFolder: класс для работы с ...
+ * commentsFolder: класс для работы с данными
  *
  * @package modules
  * @subpackage comments
- * @version 0.1
+ * @version 0.3
  */
 
 
-class commentsFolder extends simple
+class commentsFolder extends entity
 {
-        protected $name = 'comments';
+
 }
 
 ?>
