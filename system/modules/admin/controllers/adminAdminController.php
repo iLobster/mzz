@@ -29,8 +29,7 @@ class adminAdminController extends simpleController
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
-        $menu = $adminMapper->getMenu();
-        $this->smarty->assign('admin_menu', $menu);
+        $modules = $adminMapper->getModules();
 
         $this->smarty->assign('current_module', $module);
 
@@ -38,7 +37,7 @@ class adminAdminController extends simpleController
             return $this->smarty->fetch('admin/main.tpl');
         }
 
-        if (isset($menu[$module])) {
+        if (isset($modules[$module])) {
             $obj_id = $this->toolkit->getObjectId('access_' . $module);
             $adminMapper->register($obj_id, 'access');
 

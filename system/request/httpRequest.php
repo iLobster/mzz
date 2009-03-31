@@ -94,6 +94,13 @@ class httpRequest implements iRequest
     protected $action;
 
     /**
+     * Первоначально запрошенный модуль
+     *
+     * @var string
+     */
+    protected $requestedModule = false;
+
+    /**
      * Первоначально запрошенная секция
      *
      * @var string
@@ -497,6 +504,27 @@ class httpRequest implements iRequest
     public function getRequestedSection()
     {
         return $this->requestedSection;
+    }
+
+    /**
+     * Возвращает первоначально запрошенный модуль
+     *
+     * @return string
+     */
+    public function getRequestedModule()
+    {
+        return $this->requestedModule;
+    }
+
+    /**
+     * Устанавливает первоначально запрошенный модуль (once)
+     *
+     */
+    public function setRequestedModule($module)
+    {
+        if ($this->requestedModule === false) {
+            $this->requestedModule = $module;
+        }
     }
 
     /**

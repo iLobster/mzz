@@ -57,6 +57,7 @@ class loadDispatcher
         // prepare request
         $request = $toolkit->getRequest();
         $request->save();
+        $request->setRequestedModule($module);
         $request->setAction($actionName);
         if (!empty($section)) {
             $request->setSection($section);

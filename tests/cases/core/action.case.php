@@ -23,7 +23,7 @@ class actionTest extends unitTestCase
     {
         $this->assertEqual($this->action->getOptions('firstAction'), array("controller" => "firstController", 'jip' => '1', "alias" => "jipAction"));
 
-        $this->assertEqual($this->action->getOptions('secondAction'), array("controller" => "secondController", "403handle" => 'none'));
+        $this->assertEqual($this->action->getOptions('secondAction'), array("controller" => "secondController", "403handle" => 'none', 'admin' => '1'));
     }
 
     public function testGetClass()
@@ -46,7 +46,7 @@ class actionTest extends unitTestCase
                 'jipAction' => array ('controller' => 'foo', 'jip' => '1'),
                 'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')),
             'secondActions' => array (
-                'secondAction' => array ('controller' => 'secondController', '403handle' => 'none'),
+                'secondAction' => array ('controller' => 'secondController', '403handle' => 'none', 'admin' => '1'),
                 'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
                 'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')))
         );
@@ -100,6 +100,14 @@ class actionTest extends unitTestCase
             'secondActions' => array (
                 'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message')
                 ))
+        );
+    }
+
+    public function testGetActionsAdminFilter()
+    {
+        $this->assertEqual($this->action->getActions(array('admin' => true)), array (
+            'secondActions' => array (
+                'secondAction' => array ('controller' => 'secondController', '403handle' => 'none', 'admin' => '1')))
         );
     }
 

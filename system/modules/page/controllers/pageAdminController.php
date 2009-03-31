@@ -25,6 +25,7 @@ class pageAdminController extends simpleController
     protected function getView()
     {
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+        $pageMapper = $this->toolkit->getMapper('page', 'page');
 
         $path = $this->request->getString('params');
 
@@ -34,11 +35,11 @@ class pageAdminController extends simpleController
 
         $pageFolder = $pageFolderMapper->searchByPath($path);
         if ($pageFolder) {
-            $breadCrumbs = $pageFolderMapper->getParentBranch($pageFolder);
+            $breadCrumbs = $pageFolder->getTreeParentBranch();
 
-            $pager = $this->setPager($pageFolder);
+            $pager = $this->setPager($pageMapper);
             $this->smarty->assign('section_name', $this->request->getString('section_name'));
-            $this->smarty->assign('pages', $pageFolder->getItems());
+            $this->smarty->assign('pages', $pageMapper->searchByFolder($pageFolder->getId()));
             $this->smarty->assign('breadCrumbs', $breadCrumbs);
             $this->smarty->assign('pageFolder', $pageFolder);
             return $this->smarty->fetch('page/admin.tpl');

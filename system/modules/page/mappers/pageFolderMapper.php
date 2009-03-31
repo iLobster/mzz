@@ -14,7 +14,6 @@
 
 fileLoader::load('page/pageFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
-fileLoader::load('orm/plugins/acl_extPlugin');
 
 /**
  * pageFolderMapper: маппер
@@ -65,7 +64,8 @@ class pageFolderMapper extends mapper
     {
         parent::__construct();
         $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
-        $this->attach(new acl_extPlugin(), 'acl');
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
     }
 
 

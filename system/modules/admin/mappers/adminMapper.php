@@ -25,6 +25,7 @@ fileLoader::load('admin');
 class adminMapper extends mapper
 {
     protected $table = 'admin';
+    protected $modules = array();
 
     public function __construct()
     {
@@ -73,13 +74,6 @@ class adminMapper extends mapper
         }
 
         return $result;
-    }
-
-    public function getMenu()
-    {
-        $menu = $this->getInfo(true);
-        unset($menu['admin'], $menu['access'], $menu['simple'], $menu['config']);
-        return $menu;
     }
 
     /**
@@ -185,6 +179,22 @@ class adminMapper extends mapper
         }
 
         return $result;
+    }
+
+    /**
+     * Метод получения списка модулей и классов, которые им принадлежат
+     *
+     * @return array
+     */
+    public function getModules()
+    {
+        if (empty($this->modules)) {
+            $modules = $this->db()->getAll('SELECT `name`, `title` FROM `sys_modules` `m` ORDER BY `order`, `name`', PDO::FETCH_ASSOC);
+            foreach ($modules as $key => $values) {
+                $this->modules[$values['name']] = $values['title'];
+            }
+        }
+        return $this->modules;
     }
 
     /**

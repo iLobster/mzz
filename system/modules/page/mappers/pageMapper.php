@@ -86,6 +86,9 @@ class pageMapper extends mapper
         'folder_id' => array(
             'accessor' => 'getFolder',
             'mutator' => 'setFolder',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'page/pageFolderMapper'
         ),
         'keywords_reset' => array(
             'accessor' => 'isKeywordsReset',
@@ -150,8 +153,9 @@ class pageMapper extends mapper
         if (isset($args['id']) && !isset($args['name'])) {
             $args['name'] = $args['id'];
         }
-
-        if (strpos($args['name'], '/') !== false) {
+        if (isset($args['id'])) {
+            $page = $this->searchByKey($args['id']);
+        } elseif (isset($args['name']) && strpos($args['name'], '/') !== false) {
             $toolkit = systemToolkit::getInstance();
             $pageFolderMapper = $toolkit->getMapper('page', 'pageFolder');
 

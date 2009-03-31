@@ -22,34 +22,13 @@
             </div>
         </div>
     </div>
-    {if not empty($admin_menu)}
-        <div id="sidebar">
-            <p class="sideMenuTitle">Модули</p>
-            <table cellspacing="0" cellpadding="0">
-            {foreach from=$admin_menu item=module key=module_name}
-                <tr>
-                    <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/{$module.icon}" alt="" /></td>
-                    <td class="menuSection"><a href="{url route=withAnyParam section="admin" name=$module_name action="admin"}">
-                        {if $module_name eq $current_module}<strong>{/if}
-                        {$module.title}
-                        {if $module_name eq $current_module}</strong>{/if}
-                    </a></td>
-                </tr>
-            {/foreach}
-                  <tr>
-                      <td class="menuSectionImg"><img src="{$SITE_PATH}/templates/images/admin/config.gif" alt="" /></td>
-                      <td class="menuSection"><a href="{url route="default2" section="admin" action="configuration"}">
-                          {if $current_action eq 'configuration'}<strong>{/if}
-                          Конфигурация
-                          {if $current_action eq 'configuration'}</strong>{/if}
-                      </a></td>
-                  </tr>
-            </table>
-            <div class="patch_minheight"></div>
-        </div>
-    {/if}
+    <div id="sidebar">
+        <p class="sideMenuTitle">Модули</p>
+        {load module="admin" action="menu"}
+        <div class="patch_minheight"></div>
+   </div>
 
-    <div id="mainbar{if empty($admin_menu)}WithoutSidebar{/if}">
+    <div id="mainbar">
     {$content}
     <div class="patch_minheight"></div>
     </div>

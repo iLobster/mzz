@@ -31,6 +31,11 @@ class page extends entity
     {
         return $this->getJipView($this->name, $this->getFullPath(), get_class($this));
     }*/
+   public function getFullPath()
+   {
+       $path = $this->getFolder()->getPath() . '/' . $this->getName();
+       return substr($path, strpos($path, '/') + 1);
+   }
 }
 
 ?>

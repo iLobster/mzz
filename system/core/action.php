@@ -117,6 +117,7 @@ class action
                 foreach ($params as $action => $options) {
                     if ((isset($filter['acl']) && $this->isAclAction($action, $options))
                     || (isset($filter['jip']) && $this->isJip($options, $filter['jip']))
+                    || (isset($filter['admin']) && isset($options['admin']))
                     || (isset($filter['class']) && $class == $filter['class'] && count($filter) == 1)) {
                         $tmp[$class][$action] = $options;
                     }
