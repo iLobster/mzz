@@ -56,8 +56,8 @@ class commentsSaveController extends simpleController
 
         } else {
             if (!isset($commentsFolder)) {
-                $commentsFolder = $commentsFolderMapper->searchById($id);
 
+                $commentsFolder = $commentsFolderMapper->searchById($id);
                 if (!$commentsFolder) {
                     return $this->forward404($commentsFolderMapper);
                 }
@@ -111,7 +111,9 @@ class commentsSaveController extends simpleController
         $this->smarty->assign('commentsFolder', $commentsFolder);
         $this->smarty->assign('isEdit', $isEdit);
         $this->smarty->assign('isReply', $isReply);
-        $this->smarty->assign('replyTo', $replyTo);
+        if ($isReply) {
+            $this->smarty->assign('replyTo', $replyTo);
+        }
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('user', $user);

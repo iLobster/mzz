@@ -1,4 +1,4 @@
-{assign var="commentFolderId" value=$commentFolder->getId()}
+{assign var="commentFolderId" value=$commentsFolder->getId()}
 {if !$isReply}
 {if $isEdit}<div class="jipTitle">{_ edit_comment}</div>{else}
     <h2 class="addCommentTitle">{_ post_comment}</h2>
@@ -16,6 +16,6 @@
 </form>
 {else}
 <br />
-<a href="#" onclick="var tmp = $('commentForm_{$commentFolderId}'); tmp.remove(); $('replyHolder_{$replyTo}').insert(tmp); $('replyToField_{$commentFolderId}').setValue({$replyTo});">ответить</a>
+<a href="#" onclick="var tmp = $('commentForm_{$commentFolderId}'); tmp.remove(); $('replyHolder_{$replyTo}').insert(tmp); $('replyToField_{$commentFolderId}').setValue({$replyTo}); return false;">ответить</a>
 <div id="replyHolder_{$replyTo}"></div>
 {/if}
