@@ -34,7 +34,7 @@ class newsMoveController extends simpleController
         $news = $newsMapper->searchByKey($id);
 
         if (!$news) {
-            return $newsMapper->get404()->run();
+            return $this->forward404($newsMapper);
         }
 
         $validator = new formValidator();
@@ -57,7 +57,6 @@ class newsMoveController extends simpleController
 
         $folders = $newsFolderMapper->searchAll();
         $dests = array();
-        $styles = array();
         foreach ($folders as $val) {
             $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
         }
@@ -70,7 +69,6 @@ class newsMoveController extends simpleController
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('styles', $styles);
         return $this->smarty->fetch('news/move.tpl');
     }
 }

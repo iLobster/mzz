@@ -1,4 +1,4 @@
-<div class="jipTitle">Перемещение элемента <em>'{$news->getTitle()}'</em></div>
+<div class="jipTitle">{_ move_news} <em>{$news->getTitle()}</em></div>
 {form action=$action method="post" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>

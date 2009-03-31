@@ -124,9 +124,9 @@ DROP TABLE IF EXISTS `ormSimple_lang`;
 
 CREATE TABLE `ormSimple_lang` (
   `id` INTEGER(11) UNSIGNED NOT NULL DEFAULT '0',
-  `lang_id` INTEGER(11) DEFAULT NULL,
+  `lang_id` INTEGER(11) NOT NULL DEFAULT '0',
   `title` CHAR(32) COLLATE utf8_general_ci DEFAULT NULL,
-  KEY `id` (`id`, `lang_id`)
+  PRIMARY KEY (`id`, `lang_id`)
 )ENGINE=MyISAM
 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -732,6 +732,7 @@ CREATE TABLE `user_userOnline` (
   KEY `last_activity` (`last_activity`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
