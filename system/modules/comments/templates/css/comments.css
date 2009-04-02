@@ -12,10 +12,16 @@ div.commentAuthor {
     font-weight: bold;
 }
 
-div.commentAnswer {
+.commentAnswer a {
+    text-decoration: none;
+    border-bottom: 1px dashed;
     font-size: 75%;
-    margin: 8px 10px 0;
     font-weight: bold;
+}
+
+.selected a {
+    color: #000;
+    border: 0;
 }
 
 span.commentDate {

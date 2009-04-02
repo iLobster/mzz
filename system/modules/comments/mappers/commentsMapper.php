@@ -78,6 +78,13 @@ class commentsMapper extends mapper
         return $this->searchByKey($id);
     }
 
+    public function searchByFolderAndId(commentsFolder $folder, $id)
+    {
+        $criteria = new criteria;
+        $criteria->add('folder_id', $folder->getId())->add('id', $id);
+        return $this->searchOneByCriteria($criteria);
+    }
+
     public function preInsert(array &$data)
     {
         $data['created'] = time();
