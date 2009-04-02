@@ -148,18 +148,57 @@ class tree_mpPlugin extends observer
         return $this->mapper->searchAllByCriteria($criteria);
     }
 
-    public function getBranch(entity $object, $depth = 0)
+    public function getBranch(entity $object, $depth = 0, criteria $sortCriteria = null)
     {
         $path = $object->getTreeSPath();
 
         $criteria = new criteria();
+        $criteria->setOrderByFieldAsc('tree.level');
+
+        if ($sortCriteria) {
+            $criteria->append($sortCriteria);
+        }
+
         $criteria->add('tree.spath', $path . '%', criteria::LIKE);
 
         if ($depth) {
             $criteria->add('tree.level', $object->getTreeLevel() + $depth, criteria::LESS_EQUAL);
         }
 
-        return $this->mapper->searchAllByCriteria($criteria);
+        $collection = $this->mapper->searchAllByCriteria($criteria);
+
+        $this->reorganize($collection);
+
+        return $collection;
+    }
+
+    private function reorganize(collection $collection)
+    {
+        $data = array();
+        $this->parseTree($data, $collection->export());
+        $collection->import($data);
+    }
+
+    private function parseTree(& $tree, $array, $current_key = null)
+    {
+        if (is_null($current_key)) {
+            $current_key = key($array);
+        }
+
+        $tree[$current_key] = $array[$current_key];
+        unset($array[$current_key]);
+
+        foreach ($array as $key => $item) {
+            preg_match('!(\d+)/\d+/$!', $item->getTreeSPath(), $matches);
+
+            if (!isset($matches[1])) {
+                $matches[1] = null;
+            }
+
+            if ($matches[1] == $current_key) {
+                $this->parseTree($tree, $array, $key);
+            }
+        }
     }
 
     public function getBranchByPath($path, $depth = 0)

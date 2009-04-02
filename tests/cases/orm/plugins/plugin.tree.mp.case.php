@@ -290,14 +290,36 @@ class pluginTreeMPTest extends unitTestCase
         $this->assertEqual($result->next()->getId(), 4);
     }
 
+    public function testGetBranchWithSort()
+    {
+        $object = $this->mapper->searchByKey(1);
+
+        $criteria = new criteria();
+        $criteria->setOrderByFieldDesc('foo');
+
+        $result = $object->getTreeBranch(0, $criteria);
+
+        $this->assertEqual($result->count(), 8);
+        $this->assertEqual($result->first()->getId(), 1);
+        $this->assertEqual($result->next()->getId(), 4);
+        $this->assertEqual($result->next()->getId(), 3);
+        $this->assertEqual($result->next()->getId(), 8);
+        $this->assertEqual($result->next()->getId(), 7);
+        $this->assertEqual($result->next()->getId(), 2);
+        $this->assertEqual($result->next()->getId(), 6);
+        $this->assertEqual($result->next()->getId(), 5);
+    }
+
     public function testGetBranchByPath()
     {
         $branch = $this->mapper->plugin('tree_mp')->getBranchByPath('foo1/foo2/');
 
         $this->assertEqual($branch->count(), 3);
-        $this->assertEqual($branch->keys(), array(2, 5, 6));
+        $this->assertEqual($branch->keys(), array(
+            2,
+            5,
+            6));
     }
-
 
     public function testFewRelatedNodes()
     {
