@@ -195,7 +195,7 @@ class tree_mpPlugin extends observer
                 $matches[1] = null;
             }
 
-            if ($matches[1] == $current_key) {
+            if ($matches[1] == $tree[$current_key]->getTreeId()) {
                 $this->parseTree($tree, $array, $key);
             }
         }
