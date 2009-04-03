@@ -87,6 +87,11 @@ class adminMapper extends mapper
         return $this->db()->getRow("SELECT * FROM `sys_classes` WHERE `id` = " . (int)$id);
     }
 
+    public function searchModuleById($id)
+    {
+        return $this->db()->getRow("SELECT * FROM `sys_modules` WHERE `id` = " . (int)$id);
+    }
+
     /**
      * Поиск класса и модуля, которому принадлежит он, по идентификатору класса
      *

@@ -26,14 +26,15 @@ class adminListCfgController extends simpleController
     {
         $id = $this->request->getInteger('id');
 
-        $db = DB::factory();
-        $data = $db->getRow($qry = 'SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $data = $adminMapper->searchModuleById($id);
+
         if (!$data) {
             return 'Запрашиваемый Вами модуль не найден';
         }
 
         $config = new config($data['name']);
-        $params = $config->getDefaultValues();
+        $params = $config->getValues();
 
         $this->smarty->assign('data', $data);
         $this->smarty->assign('params', $params);

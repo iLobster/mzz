@@ -31,11 +31,11 @@ class adminSaveCfgController extends simpleController
         $action = $this->request->getAction();
         $isEdit = ($action == 'editCfg');
 
-        $db = DB::factory();
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
-        $module = $db->getRow($qry = 'SELECT * FROM `sys_modules` WHERE `id` = ' . (int)$id);
-        $config = new config('', $module['name']);
-        $params = $config->getDefaultValues();
+        $module = $adminMapper->searchModuleById($id);
+        $config = new config($module['name']);
+        $params = $config->getValues();
 
         if (empty($module) || ($isEdit && (!isset($params[$name])))) {
             $controller = new messageController('Выбранного параметра в конфигурации нет или модуля не существует', messageController::WARNING);
@@ -46,7 +46,8 @@ class adminSaveCfgController extends simpleController
         $configInfo['param'] = $isEdit ? $name : '';
         $configInfo['value'] = $isEdit ? $params[$name]['value'] : '';
         $configInfo['title'] = $isEdit ? $config->getTitle($name) : '';
-        $configInfo['type'] = $isEdit ? $params[$name]['type'] : array('id' => 0);
+        $configInfo['type'] = $isEdit ? $params[$name]['type'] : array(
+            'id' => 0);
 
         $types_tmp = $config->getTypes();
         $types = array();
@@ -61,8 +62,17 @@ class adminSaveCfgController extends simpleController
         $validator->add('required', 'param', 'Необходимо указать имя параметра');
         $validator->add('required', 'type', 'Необходимо указать тип параметра');
         $validator->add('regex', 'param', 'Недопустимые символы в имени параметра', '/^[a-z0-9_\-]+$/i');
-        $validator->add('callback', 'param', 'Такой параметр уже есть у этого модуля', array('checkParamNotExists', $name, $params));
-        $validator->add('callback', 'type', 'Неверный тип', array('checkIsset', $types));
+        $validator->add('callback', 'param', 'Такой параметр уже есть у этого модуля', array(
+            array(
+                $this,
+                'checkParamNotExists'),
+            $name,
+            $params));
+        $validator->add('callback', 'type', 'Неверный тип', array(
+            array(
+                $this,
+                'checkIsset'),
+            $types));
 
         if ($validator->validate()) {
             $param = $this->request->getString('param', SC_POST);
@@ -97,20 +107,20 @@ class adminSaveCfgController extends simpleController
 
         return $this->smarty->fetch('admin/saveCfg.tpl');
     }
-}
 
-function checkParamNotExists($param, $name, $params)
-{
-    if ($param == $name) {
-        return true;
+    public function checkParamNotExists($param, $name, $params)
+    {
+        if ($param == $name) {
+            return true;
+        }
+
+        return !isset($params[$param]);
     }
 
-    return !isset($params[$param]);
+    public function checkIsset($param, $params)
+    {
+        return isset($params[$param]);
+    }
 }
 
-
-function checkIsset($param, $params)
-{
-    return isset($params[$param]);
-}
 ?>

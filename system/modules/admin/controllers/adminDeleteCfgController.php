@@ -27,11 +27,11 @@ class adminDeleteCfgController extends simpleController
         $id = $this->request->getInteger('id');
         $name = $this->request->getString('name');
 
-        $db = DB::factory();
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $module = $adminMapper->searchModuleById($id);
 
-        $module = $db->getRow($qry = 'SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
-        $config = new config('', $module['name']);
-        $params = $config->getDefaultValues();
+        $config = new config($module['name']);
+        $params = $config->getValues();
 
         if (!isset($params[$name])) {
             return 'Выбранного параметра в конфигурации не существует';
@@ -39,7 +39,7 @@ class adminDeleteCfgController extends simpleController
 
         $config->delete($name);
 
-        return jipTools::closeWindow(2);
+        return jipTools::closeWindow();
     }
 }
 
