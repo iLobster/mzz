@@ -229,6 +229,7 @@ class mzzSmarty extends Smarty
     {
         if (!$this->xmlTemplate) {
             $this->xmlTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
+            $this->enableMain();
         }
     }
 
@@ -250,6 +251,15 @@ class mzzSmarty extends Smarty
     public function disableMain()
     {
         $this->withMain = false;
+    }
+
+    /**
+     * Включает вставку шаблона в main шаблон
+     *
+     */
+    public function enableMain()
+    {
+        $this->withMain = true;
     }
 
     function _parse_resource_name(&$params)
