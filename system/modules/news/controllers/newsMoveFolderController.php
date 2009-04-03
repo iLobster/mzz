@@ -36,7 +36,7 @@ class newsMoveFolderController extends simpleController
             return $controller->run();
         }
 
-        $folders = $folderMapper->getTreeExceptNode($folder);
+        $folders = $folderMapper->plugin('tree')->getTreeExceptNode($folder);
         if (sizeof($folders) <= 1) {
             $controller = new messageController('Невозможно перемещать данный каталог');
             return $controller->run();
@@ -45,19 +45,30 @@ class newsMoveFolderController extends simpleController
         $validator = new formValidator();
 
         $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestNewsFolderExists', $folderMapper));
-        $validator->add('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array('checkUniqueNewsFolderName', $folderMapper, $folder));
-        $validator->add('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array('checkDestNewsFolderIsNotChildren', $folders));
+        $validator->add('callback', 'dest', 'Каталог назначения не существует', array(
+            array(
+                $this,
+                'checkDestNewsFolderExists'),
+            $folderMapper));
+        $validator->add('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array(
+            array(
+                $this,
+                'checkUniqueNewsFolderName'),
+            $folderMapper,
+            $folder));
+        $validator->add('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array(
+            array(
+                $this,
+                'checkDestNewsFolderIsNotChildren'),
+            $folders));
 
         $errors = $validator->getErrors();
 
         if ($validator->validate()) {
             $destFolder = $folderMapper->searchByKey($dest);
-            $result = $folderMapper->move($folder, $destFolder);
-            if ($result) {
-                return jipTools::redirect();
-            }
-            $errors->set('dest', 'Невозможно осуществить требуемое перемещение');
+            $folder->setTreeParent($destFolder);
+            $folderMapper->save($folder);
+            return jipTools::redirect();
         }
 
         $url = new url('withAnyParam');
@@ -77,26 +88,26 @@ class newsMoveFolderController extends simpleController
         $this->smarty->assign('errors', $errors);
         return $this->smarty->fetch('news/moveFolder.tpl');
     }
-}
 
-function checkUniqueNewsFolderName($id, $folderMapper, $folder)
-{
-    if ($folder->getTreeParent()->getId() == $id) {
-        return true;
+    public function checkUniqueNewsFolderName($id, $folderMapper, $folder)
+    {
+        if ($folder->getTreeParent()->getId() == $id) {
+            return true;
+        }
+        $destFolder = $folderMapper->searchByKey($id);
+        $someFolder = $folderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
+        return empty($someFolder);
     }
-    $destFolder = $folderMapper->searchByKey($id);
-    $someFolder = $folderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
-    return empty($someFolder);
+
+    public function checkDestNewsFolderExists($id, $folderMapper)
+    {
+        return !is_null($folderMapper->searchByKey($id));
+    }
+
+    public function checkDestNewsFolderIsNotChildren($id, $folders)
+    {
+        return isset($folders[$id]);
+    }
 }
 
-function checkDestNewsFolderExists($id, $folderMapper)
-{
-    $destFolder = $folderMapper->searchByKey($id);
-    return !empty($destFolder);
-}
-
-function checkDestNewsFolderIsNotChildren($id, $folders)
-{
-    return isset($folders[$id]);
-}
 ?>

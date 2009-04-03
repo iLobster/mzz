@@ -83,6 +83,10 @@ class observer
     {
     }
 
+    public function processRow(& $row)
+    {
+    }
+
     public function getName()
     {
         return preg_replace('!Plugin$!', '', get_class($this));

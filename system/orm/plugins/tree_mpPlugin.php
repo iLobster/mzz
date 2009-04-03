@@ -172,6 +172,14 @@ class tree_mpPlugin extends observer
         return $collection;
     }
 
+    public function getTreeExceptNode(entity $object)
+    {
+        $path = $object->getTreeSPath();
+        $criteria = new criteria();
+        $criteria->add('tree.spath', $path . '%', criteria::NOT_LIKE);
+        return $this->mapper->searchAllByCriteria($criteria);;
+    }
+
     private function reorganize(collection $collection)
     {
         $data = array();
@@ -254,11 +262,10 @@ class tree_mpPlugin extends observer
         // if parent node was specified - append it's path before current node id
         if (!empty($this->parent)) {
             $spath = $this->parent->getTreeSPath() . $spath;
-            $path = $this->parent->getTreePath() . $path;
+            $path = $this->parent->getTreePath() . '/' . $path;
             unset($this->parent);
         }
 
-        $path .= '/';
         $spath .= '/';
 
         $level = $this->calcLevelByPath($spath);
@@ -266,7 +273,7 @@ class tree_mpPlugin extends observer
         $this->mapper->db()->query($update->toString(array(
             'spath' => $spath,
             'level' => $level,
-            'path' => $path)));
+            'path' => $path . '/')));
         // merge tree info into object
         $data = array(
             'tree_spath' => $spath,
@@ -281,7 +288,7 @@ class tree_mpPlugin extends observer
         // if parent was changed
         if (!empty($this->parent)) {
             $spath = $this->parent->getTreeSPath() . $object->getTreeId() . '/';
-            $path = $this->parent->getTreePath() . $object->{$this->options['path_name_accessor']}() . '/';
+            $path = $this->parent->getTreePath() . '/' . $object->{$this->options['path_name_accessor']}();
 
             $newLevel = $this->calcLevelByPath($spath);
 
@@ -323,6 +330,11 @@ class tree_mpPlugin extends observer
         $criteria->add('foreign_key', $object->{$this->options['foreign_accessor']}());
         $delete = new simpleDelete($criteria);
         $this->mapper->db()->query($delete->toString());
+    }
+
+    public function processRow(& $row)
+    {
+        $row['tree_path'] = trim($row['tree_path'], '/');
     }
 
     private function table()

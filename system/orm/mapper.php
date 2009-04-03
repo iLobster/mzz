@@ -401,6 +401,8 @@ abstract class mapper
 
     public function createItemFromRow($row)
     {
+        $this->notify('processRow', $row);
+
         if (is_null($row[$this->pk])) {
             return null;
         }
