@@ -81,6 +81,11 @@ class tree_mpPlugin extends observer
         $this->addSelectFields($criteria);
     }
 
+    public function preSelect(criteria $criteria)
+    {
+        $criteria->setOrderByFieldAsc('tree.level');
+    }
+
     public function preSqlJoin(array & $data)
     {
         $criteria = $data[0];
@@ -153,7 +158,6 @@ class tree_mpPlugin extends observer
         $path = $object->getTreeSPath();
 
         $criteria = new criteria();
-        $criteria->setOrderByFieldAsc('tree.level');
 
         if ($sortCriteria) {
             $criteria->append($sortCriteria);
@@ -190,7 +194,27 @@ class tree_mpPlugin extends observer
         $collection->import($data);
     }
 
-    private function parseTree(& $tree, $array, $current_key = null)
+    private function parseTree(& $tree, $array)
+    {
+        if (!$array) {
+            return;
+        }
+
+        $level = reset($array)->getTreeLevel();
+        foreach ($array as $item) {
+            if ($level > $item->getTreeLevel()) {
+                $level = $item->getTreeLevel();
+            }
+        }
+
+        foreach ($array as $key => $item) {
+            if ($item->getTreeLevel() == $level) {
+                $this->traverseTree($tree, $array, $key);
+            }
+        }
+    }
+
+    private function traverseTree(& $tree, $array, $current_key = null)
     {
         if (is_null($current_key)) {
             $current_key = key($array);
@@ -207,7 +231,7 @@ class tree_mpPlugin extends observer
             }
 
             if ($matches[1] == $tree[$current_key]->getTreeId()) {
-                $this->parseTree($tree, $array, $key);
+                $this->traverseTree($tree, $array, $key);
             }
         }
     }

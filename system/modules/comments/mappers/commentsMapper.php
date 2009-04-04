@@ -36,6 +36,7 @@ class commentsMapper extends mapper
         'id' => array(
             'accessor' => 'getId',
             'mutator' => 'setId',
+            'orderBy' => 1,
             'options' => array('pk', 'once'),
         ),
         'folder_id' => array(

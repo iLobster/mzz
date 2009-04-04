@@ -310,6 +310,20 @@ class pluginTreeMPTest extends unitTestCase
         $this->assertEqual($result->next()->getId(), 5);
     }
 
+    public function testGetTreeWithoutRoot()
+    {
+        $criteria = new criteria();
+        $criteria->add('id', 1, criteria::NOT_EQUAL);
+        $criteria->add('tree.level', 2);
+
+        $collection = $this->mapper->searchAllByCriteria($criteria);
+
+        $this->assertEqual($collection->count(), 3);
+        $this->assertEqual($collection->first()->getId(), 2);
+        $this->assertEqual($collection->next()->getId(), 3);
+        $this->assertEqual($collection->next()->getId(), 4);
+    }
+
     public function testGetBranchByPath()
     {
         $branch = $this->mapper->plugin('tree_mp')->getBranchByPath('foo1/foo2/');

@@ -343,9 +343,13 @@ abstract class mapper
      * @param criteria $criteria
      * @return mzzPdoStatement
      */
-    private function searchByCriteria(criteria $criteria)
+    private function searchByCriteria(criteria $searchCriteria)
     {
+        $criteria = new criteria();
+
         $this->notify('preSelect', $criteria);
+
+        $criteria->append($searchCriteria);
 
         $criteria->setTable($this->table);
         $this->addSelectFields($criteria);
