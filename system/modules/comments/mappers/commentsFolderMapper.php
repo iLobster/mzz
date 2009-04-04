@@ -42,9 +42,19 @@ class commentsFolderMapper extends mapper
             'mutator' => 'setParentId',
             'options' => array('once'),
         ),
+        'module' => array(
+            'accessor' => 'getModule',
+            'mutator' => 'setModule',
+            'options' => array('once'),
+        ),
         'type' => array(
             'accessor' => 'getType',
             'mutator' => 'setType',
+            'options' => array('once'),
+        ),
+        'by_field' => array(
+            'accessor' => 'getByField',
+            'mutator' => 'setByField',
             'options' => array('once'),
         ),
         'comments' => array(

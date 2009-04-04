@@ -49,14 +49,16 @@ class commentsFolderListController extends simpleController
         $objectId = $object->$map[$byField]['accessor']();
 
         if (!is_numeric($objectId)) {
-            throw new mzzInvalidParameterException('Invalid object for comments');
+            throw new mzzInvalidParameterException('Invalid objectId for comments');
         }
 
         $commentsFolder = $commentsFolderMapper->searchFolder($objectType, $objectId);
 
         if (!$commentsFolder) {
             $commentsFolder = $commentsFolderMapper->create();
+            $commentsFolder->setModule($objectModule);
             $commentsFolder->setType($objectType);
+            $commentsFolder->setByField($byField);
             $commentsFolder->setParentId($objectId);
             $commentsFolderMapper->save($commentsFolder);
         }

@@ -21,7 +21,6 @@ fileLoader::load('forms/validators/formValidator');
  * @subpackage comments
  * @version 0.1.2
  */
-
 class commentsPostController extends simpleController
 {
     protected function getView()

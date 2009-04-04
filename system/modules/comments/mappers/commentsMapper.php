@@ -90,9 +90,22 @@ class commentsMapper extends mapper
         $data['created'] = time();
     }
 
+    public function postInsert(entity $object)
+    {
+        $folder = $object->getFolder();
+        $objectMapper = $folder->getObjectMapper();
+        try {
+            $objectMapper->plugin('comments');
+            $object = $folder->getObject();
+            $object->setCommentsCount($object->getCommentsCount() + 1);
+            $objectMapper->save($object);
+        } catch (mzzRuntimeException $e) {
+        }
+    }
+
     public function convertArgsToObj($args)
     {
-        if (isset($args['id']) && $comment = $this->searchOneByField('id', $args['id'])) {
+        if (isset($args['id']) && $comment = $this->searchById($args['id'])) {
             return $comment;
         }
 

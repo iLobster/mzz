@@ -84,7 +84,6 @@ class pageFolderMapper extends mapper
         return $this->plugin('tree')->searchByPath($path . '/');
     }
 
-
     /**
      * Метод поиска страницы в каталоге
      *

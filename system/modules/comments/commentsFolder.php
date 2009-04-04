@@ -19,11 +19,29 @@
  * @subpackage comments
  * @version 0.3
  */
-
-
 class commentsFolder extends entity
 {
+    protected $object = null;
+    protected $objectMapper = null;
 
+    public function getObjectMapper()
+    {
+        if (is_null($this->objectMapper)) {
+            $toolkit = systemToolkit::getInstance();
+            $this->objectMapper = $toolkit->getMapper($this->getModule(), $this->getType());
+        }
+
+        return $this->objectMapper;
+    }
+
+    public function getObject()
+    {
+        if (is_null($this->object)) {
+            $objectMapper = $this->getObjectMapper();
+            $this->object = $objectMapper->searchOneByField($this->getByField(), $this->getParentId());
+        }
+
+        return $this->object;
+    }
 }
-
 ?>

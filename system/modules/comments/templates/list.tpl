@@ -5,7 +5,7 @@
     {assign var="count" value=$comments|@count}
     <div class="commentsTitle">{_ comments_count $count} {$commentFolder->getJip()}</div>
     {foreach from=$comments item=comment}
-        <div style="padding-left: {math equation="level * offset - offset" level=$comment->getTreeLevel() offset=45}px;">
+        <div style="padding-left: {math equation="(level - 1) * offset" level=$comment->getTreeLevel() offset=45}px;">
             <div class="commentAuthor">{$comment->getUser()->getLogin()} <span class="commentDate">({$comment->getCreated()|date_format:"%e %b %Y, %H:%M"})</span> <a name="comment{$comment->getId()}" href="{url}#comment{$comment->getId()}">#</a> {$comment->getJip()}</div>
             <div class="commentText">
                 {$comment->getText()|htmlspecialchars|nl2br}
