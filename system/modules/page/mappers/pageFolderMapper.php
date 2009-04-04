@@ -90,10 +90,12 @@ class pageFolderMapper extends mapper
      * @param string $name
      * @return page|null
      */
-    public function searchChild($name, $controller = null)
+    public function searchChild($name, $pageMapepr = null)
     {
-        $toolkit = systemToolkit::getInstance();
-        $pageMapper = $toolkit->getMapper('page', 'page');
+        if ($pageMapepr == null) {
+            $toolkit = systemToolkit::getInstance();
+            $pageMapper = $toolkit->getMapper('page', 'page');
+        }
 
         if (strpos($name, '/') === false) {
             $name = 'root/' . $name;
@@ -108,13 +110,7 @@ class pageFolderMapper extends mapper
             return null;
         }
 
-        if ($controller instanceof simpleController) {
-            $controller->acceptLang($pageMapper);
-        }
-
-        $criteria = new criteria();
-        $criteria->add('name', $pagename)->add('folder_id', $pageFolder->getId());
-        $page = $pageMapper->searchOneByCriteria($criteria);
+        $page = $pageMapper->searchByNameInFolder($pagename, $pageFolder->getId());
         return $page;
     }
 

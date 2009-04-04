@@ -411,6 +411,7 @@ jipWindow = Class.create({
                 document.body.onselectstart = this.defaultsHandlers[1];
                 jipWindow.lockContent();
                 jipWindow.showSelects('jips');
+                jipWindow.savePosition(jipWindow.jip);
             }
             });
         }

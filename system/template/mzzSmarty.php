@@ -188,7 +188,7 @@ class mzzSmarty extends Smarty
      */
     public function parse($str)
     {
-        if ($this->xmlTemplate !== false) {
+        if ($this->withMain && $this->xmlTemplate !== false) {
             $xmlTemplate = $this->xmlTemplate;
             // для предотвращения рекурсии
             $this->xmlTemplate = true;

@@ -1,8 +1,6 @@
-{if $isEdit}
-    <div class="jipTitle">Редактирование страницы "{$page->getName()|htmlspecialchars}"</div>
-{else}
-    <div class="jipTitle">Создание страницы</div>
-{/if}
+<div class="jipTitle">
+{if $isEdit}Редактирование страницы "{$page->getName()|htmlspecialchars}"{else}Создание страницы{/if}
+</div>
 
 {literal}<script type="text/javascript">
 tinyMCE.init({
@@ -58,41 +56,40 @@ function toggleEditor(id) {
 }
 </script>{/literal}
 {form action=$form_action method="post" onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);"}
-<table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
+<table width="100%" border="0" cellpadding="5" cellspacing="0">
     <tr>
-        <td style='width: 15%;'>{form->caption name="name" value="Идентификатор"}</td>
-        <td style='width: 85%;'>{form->text name="name" value=$page->getName() size="60"}{$errors->get('name')}</td>
+        <td style='width: 15%;'>{form->caption name="page[name]" value="Идентификатор"}</td>
+        <td style='width: 85%;'>{form->text name="page[name]" value=$page->getName() size="60"}{$errors->get('page[name]')}</td>
     </tr>
     <tr>
-        <td style='width: 15%;'>{form->caption name="title" value="Название"}</td>
-        <td style='width: 85%;'>{form->text name="title" value=$page->getTitle() size="60"}</td>
+        <td style='width: 15%;'>{form->caption name="page[title]" value="Название"}</td>
+        <td style='width: 85%;'>{form->text name="page[title]" value=$page->getTitle() size="60"}</td>
     </tr>
-        <tr>
-        <td style='width: 15%;'>{form->caption name="compiled" value="Компилируемая"}</td>
-        <td style='width: 85%;'>{form->checkbox name="compiled" value=$page->getCompiled()}</td>
+    <tr>
+        <td style='width: 15%;'>{form->caption name="page[compiled]" value="Компилируемая"}</td>
+        <td style='width: 85%;'>{form->checkbox name="page[compiled]" value=$page->getCompiled()}</td>
+    </tr>
+    <tr>
+        <td style='width: 15%;'>{form->caption name="page[keywords]" value="Ключевые слова"}</td>
+        <td style='width: 85%;'>{form->text name="page[keywords]" value=$page->getKeywords() size="60"}&nbsp;{form->select name="page[keywordsReset]" options="options добавить|заменить" value=$page->isKeywordsReset()}</td>
+    </tr>
+    <tr>
+        <td style='width: 15%;'>{form->caption name="page[description]" value="Описание"}</td>
+        <td style='width: 85%;'>{form->text name="page[description]" value=$page->getDescription() size="60"}&nbsp;{form->select name="page[descriptionReset]" options="options добавить|заменить" value=$page->isDescriptionReset()}</td>
     </tr>
 
-    <tr>
-        <td style='width: 15%;'>{form->caption name="keywords" value="Ключевые слова"}</td>
-        <td style='width: 85%;'>{form->text name="keywords" value=$page->getKeywords() size="60"}&nbsp;{form->select name="keywordsReset" options="options добавить|заменить" value=$page->isKeywordsReset()}</td>
     </tr>
     <tr>
-        <td style='width: 15%;'>{form->caption name="description" value="Описание"}</td>
-        <td style='width: 85%;'>{form->text name="description" value=$page->getDescription() size="60"}&nbsp;{form->select name="descriptionReset" options="options добавить|заменить" value=$page->isDescriptionReset()}</td>
-    </tr>
-
-    </tr>
-        <tr>
-        <td style='width: 15%;'>{form->caption name="allow_comment" value="Разрешить комментарии?"}</td>
-        <td style='width: 85%;'>{form->checkbox name="allow_comment" value=$page->getAllowComment()}</td>
+        <td style='width: 15%;'>{form->caption name="page[allow_comment]" value="Разрешить комментарии?"}</td>
+        <td style='width: 85%;'>{form->checkbox name="page[allow_comment]" value=$page->getAllowComment()}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td style="font-size: 80%;"><a href="javascript: toggleEditor('contentArea');" id="contentArea_editorStatus" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></td>
     </tr>
     <tr>
-        <td style='vertical-align: top;'>{form->caption name="contentArea" value="Содержимое"}</td>
-        <td>{form->textarea name="contentArea" value=$page->getContent() rows="20" style="width: 100%;" id="contentArea" cols="50"}{$errors->get('contentArea')}</td>
+        <td style='vertical-align: top;'>{form->caption name="page[content]" value="Содержимое"}</td>
+        <td>{form->textarea name="page[content]" value=$page->getContent() rows="20" style="width: 100%;" id="contentArea" cols="50"}{$errors->get('page[content]')}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>

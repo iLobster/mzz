@@ -26,19 +26,15 @@ class pageMoveController extends simpleController
 {
     protected function getView()
     {
-        if (is_null($name = $this->request->getString('name'))) {
-            if (is_null($name = $this->request->getString('id'))) {
-                $name = 'main';
-            }
-        }
-        $dest = $this->request->getInteger('dest', SC_POST);
-
         $pageMapper = $this->toolkit->getMapper('page', 'page');
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+
+        $name = $this->request->getString('name');
         $page = $pageFolderMapper->searchChild($name);
+        $dest = $this->request->getInteger('dest', SC_POST);
 
         if (!$page) {
-            return $pageMapper->get404()->run();
+            return $this->forward404($pageMapper);
         }
 
         $folders = $pageFolderMapper->searchAll();

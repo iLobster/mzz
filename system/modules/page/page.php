@@ -21,21 +21,21 @@
  */
 class page extends entity
 {
-
     /**
      * Получение объекта JIP
      *
      * @return jip
      */
-   /* public function getJip()
+    public function getJip()
     {
-        return $this->getJipView($this->name, $this->getFullPath(), get_class($this));
-    }*/
-   public function getFullPath()
-   {
-       $path = $this->getFolder()->getPath() . '/' . $this->getName();
-       return substr($path, strpos($path, '/') + 1);
-   }
+        return parent::__call('getJip', array(1, $this->getFullPath()));
+    }
+
+    public function getFullPath()
+    {
+        $path = $this->getFolder()->getPath() . '/' . $this->getName();
+        return substr($path, strpos($path, '/') + 1);
+    }
 }
 
 ?>

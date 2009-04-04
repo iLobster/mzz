@@ -150,17 +150,14 @@ class pageMapper extends mapper
 
     public function convertArgsToObj($args)
     {
-        if (isset($args['id']) && !isset($args['name'])) {
-            $args['name'] = $args['id'];
-        }
         if (isset($args['id'])) {
             $page = $this->searchByKey($args['id']);
         } elseif (isset($args['name']) && strpos($args['name'], '/') !== false) {
             $toolkit = systemToolkit::getInstance();
             $pageFolderMapper = $toolkit->getMapper('page', 'pageFolder');
 
-            $path = substr($args['name'], strrpos($args['name'], '/') + 1);
-            $page_name = substr($args['name'], 0, strrpos($args['name'], '/'));
+            $page_name = substr($args['name'], strrpos($args['name'], '/') + 1);
+            $path = substr($args['name'], 0, strrpos($args['name'], '/'));
 
             $pageFolder = $pageFolderMapper->searchByPath($path);
 

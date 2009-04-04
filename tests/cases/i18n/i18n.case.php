@@ -9,6 +9,8 @@ class i18nTest extends UnitTestCase
 
     private $tz;
 
+    private $old_tz = '';
+
     public function setUp()
     {
         $this->i18n = new i18n();
@@ -16,11 +18,27 @@ class i18nTest extends UnitTestCase
         $this->tz = systemToolkit::getInstance()->getUserPreferences()->getTimezone();
 
         systemToolkit::getInstance()->getUserPreferences()->setTimezone(0);
+
+        $default_tz = "Europe/Moscow";
+        if (version_compare(PHP_VERSION, '5.2.0', '>')) {
+            $this->old_tz = date_default_timezone_get();
+            date_default_timezone_set($default_tz);
+        } else {
+            if (getenv('TZ')) {
+                $this->old_tz = getenv('TZ');
+            }
+            putenv('TZ=' . $default_tz);
+        }
     }
 
     public function tearDown()
     {
         systemToolkit::getInstance()->getUserPreferences()->setTimezone($this->tz);
+        if ($this->old_tz && version_compare(PHP_VERSION, '5.2.0', '>')) {
+            date_default_timezone_set($this->old_tz);
+        } elseif ($this->old_tz) {
+            putenv('TZ=' . $this->old_tz);
+        }
     }
 
     private function injectPhrases($phrases)
@@ -111,7 +129,7 @@ class i18nTest extends UnitTestCase
 
     public function testDate()
     {
-        $time = strtotime('2008-03-12 13:24:05');
+        $time = strtotime('2008-03-12 06:24:05');
         $this->assertEqual(i18n::date($time), '03/12/2008 03:24:05 AM');
         $this->assertEqual(i18n::date($time, 'short_time'), '03:24 AM');
         $this->assertEqual(i18n::date($time, 'short_time', 'ru'), '03:24');

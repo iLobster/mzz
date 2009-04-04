@@ -27,6 +27,8 @@ class pageSaveController extends simpleController
     protected function getView()
     {
         $pageMapper = $this->toolkit->getMapper('page', 'page');
+        $this->acceptLang($pageMapper);
+
         $name = $this->request->getString('name');
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
 
@@ -34,72 +36,65 @@ class pageSaveController extends simpleController
         $isEdit = ($action == 'edit');
 
         if ($isEdit) {
-            $page = $pageFolderMapper->searchChild($name, $this);
+            $page = $pageFolderMapper->searchChild($name);
+            if (empty($page)) {
+                return $this->forward404($pageFolderMapper);
+            }
             $pageFolder = $page->getFolder();
         } else {
-            $this->acceptLang($pageMapper);
             $page = $pageMapper->create();
             $pageFolder = $pageFolderMapper->searchByPath($name);
         }
 
-        if (!empty($page) || (!$isEdit && isset($pageFolder) && !is_null($pageFolder))) {
-            $validator = new formValidator();
-            $validator->add('required', 'name', 'Обязательное для заполнения поле');
-            $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-z0-9_\.\-! ]+$/i');
-            $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkPageName', $page, $pageFolder));
-
-            if ($validator->validate()) {
-                $name = $this->request->getString('name', SC_POST);
-                $title = $this->request->getString('title', SC_POST);
-                $contentArea = $this->request->getString('contentArea', SC_POST);
-                $compiled = $this->request->getBoolean('compiled', SC_POST);
-                $allow_comment = $this->request->getBoolean('allow_comment', SC_POST);
-                $keywords = $this->request->getString('keywords', SC_POST);
-                $description = $this->request->getString('description', SC_POST);
-                $descriptionReset = $this->request->getBoolean('descriptionReset', SC_POST);
-                $keywordsReset = $this->request->getBoolean('keywordsReset', SC_POST);
-
-                $page->setKeywords($keywords);
-                $page->setKeywordsReset($keywordsReset);
-                $page->setDescription($description);
-                $page->setDescriptionReset($descriptionReset);
-
-                $page->setName($name);
-                $page->setTitle($title);
-                $page->setContent($contentArea);
-                $page->setCompiled($compiled);
-                $page->setAllowComment($allow_comment);
-
-                $page->setFolder($pageFolder);
-                $pageMapper->save($page);
-                return jipTools::redirect();
-            }
-
-            $url = new url('withAnyParam');
-            $url->add('name', $pageFolder->getPath() . ($isEdit ? '/' . $page->getName() : ''));
-            $url->setAction($action);
-
-            $this->smarty->assign('form_action', $url->get());
-            $this->smarty->assign('errors', $validator->getErrors());
-            $this->smarty->assign('page', $page);
-            $this->smarty->assign('isEdit', $isEdit);
-
-            return $this->smarty->fetch('page/save.tpl');
+        if (empty($page) || ($isEdit && empty($pageFolder))) {
+            return $this->forward404($pageMapper);
         }
 
-        return $pageMapper->get404()->run();
-    }
-}
 
-function checkPageName($name, $page, $pageFolder)
-{
-    if ($name == $page->getName()) {
-        return true;
-    }
-    $pageMapper = systemToolkit::getInstance()->getMapper('page', 'page');
+        $validator = new formValidator();
+        $validator->add('required', 'page[name]', 'Обязательное для заполнения поле');
+        $validator->add('regex', 'page[name]', 'Недопустимые символы в идентификаторе', '/^[a-z0-9_\.\-! ]+$/i');
+        $validator->add('callback', 'page[name]', 'Идентификатор должен быть уникален в пределах каталога', array(array($this, 'checkUniquePageName'), $page, $pageFolder));
 
-    $criteria = new criteria();
-    $criteria->add('folder_id', $pageFolder->getId())->add('name', $name);
-    return is_null($pageMapper->searchOneByCriteria($criteria));
+        if ($validator->validate()) {
+            $data = new arrayDataspace($this->request->getArray('page', SC_POST));
+
+            $page->setKeywords($data['keywords']);
+            $page->setDescription($data['description']);
+            $page->setName($data['name']);
+            $page->setTitle($data['title']);
+            $page->setContent($data['content']);
+
+            $page->setCompiled((int) $data['compiled']);
+            $page->setAllowComment((int) $data['allow_comment']);
+            $page->setDescriptionReset((int) $data['descriptionReset']);
+            $page->setKeywordsReset((int) $data['keywordsReset']);
+
+            $page->setFolder($pageFolder);
+            $pageMapper->save($page);
+            return jipTools::redirect();
+        }
+
+        $url = new url('withAnyParam');
+        $url->add('name', $pageFolder->getPath() . ($isEdit ? '/' . $page->getName() : ''));
+        $url->setAction($action);
+
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('page', $page);
+        $this->smarty->assign('isEdit', $isEdit);
+
+        return $this->smarty->fetch('page/save.tpl');
+    }
+
+    public function checkUniquePageName($name, $page, $pageFolder)
+    {
+        if ($name == $page->getName()) {
+            return true;
+        }
+        $pageMapper = $this->toolkit->getMapper('page', 'page');
+
+        return is_null($pageMapper->searchByNameInFolder($name, $pageFolder->getId()));
+    }
 }
 ?>
