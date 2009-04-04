@@ -348,6 +348,8 @@ abstract class mapper
 
         $this->relations->add($criteria);
 
+        $this->addOrderBy($criteria);
+
         $this->notify('preSqlSelect', $criteria);
 
         $select = new simpleSelect($criteria);
@@ -369,6 +371,27 @@ abstract class mapper
 
         foreach ($this->getSelectFields($mapper) as $field) {
             $criteria->addSelectField($alias . '.' . $field, $alias . self::TABLE_KEY_DELIMITER . $field);
+        }
+    }
+
+    public function addOrderBy(criteria $criteria)
+    {
+        $orderBy = array();
+        foreach ($this->map() as $key => $val) {
+            if (isset($val['orderBy'])) {
+                $direction = 'asc';
+                if (isset($val['orderByDirection']) && in_array(strtolower($val['orderByDirection']), array('asc', 'desc'))) {
+                    $direction = strtolower($val['orderByDirection']);
+                }
+
+                $orderBy[$key] = array('key' => $key, 'direction' => $direction);
+            }
+        }
+
+        ksort($orderBy);
+
+        foreach ($orderBy as $val) {
+            $val['direction'] == 'asc' ? $criteria->setOrderByFieldAsc($val['key']) : $criteria->setOrderByFieldDesc($val['key']);;
         }
     }
 

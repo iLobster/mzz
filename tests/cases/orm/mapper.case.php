@@ -140,6 +140,18 @@ class mapperTest extends unitTestCase
 
         $this->assertIsA($object, 'ormSimpleOther');
     }
+
+    public function testRetrieveWithSorting()
+    {
+        $this->fixture();
+
+        $mapper = new ormSimpleSortingMapper();
+
+        $collection = $mapper->searchAll();
+
+        $this->assertEqual($collection->first()->getFoo(), 'foo3');
+        $this->assertEqual($collection->last()->getFoo(), 'foo1');
+    }
 }
 
 ?>
