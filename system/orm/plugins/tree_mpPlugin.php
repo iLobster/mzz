@@ -167,8 +167,6 @@ class tree_mpPlugin extends observer
 
         $collection = $this->mapper->searchAllByCriteria($criteria);
 
-        $this->reorganize($collection);
-
         return $collection;
     }
 
@@ -178,6 +176,11 @@ class tree_mpPlugin extends observer
         $criteria = new criteria();
         $criteria->add('tree.spath', $path . '%', criteria::NOT_LIKE);
         return $this->mapper->searchAllByCriteria($criteria);;
+    }
+
+    public function postCollectionSelect(collection $collection)
+    {
+        $this->reorganize($collection);
     }
 
     private function reorganize(collection $collection)

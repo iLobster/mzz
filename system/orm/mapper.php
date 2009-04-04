@@ -103,7 +103,11 @@ abstract class mapper
             $rows[$item->$accessor()] = $item;
         }
 
-        return new collection($rows, $this);
+        $collection = new collection($rows, $this);
+
+        $this->notify('postCollectionSelect', $collection);
+
+        return $collection;
     }
 
     /**

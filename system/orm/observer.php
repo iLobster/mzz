@@ -87,6 +87,10 @@ class observer
     {
     }
 
+    public function postCollectionSelect(collection $collection)
+    {
+    }
+
     public function getName()
     {
         return preg_replace('!Plugin$!', '', get_class($this));
