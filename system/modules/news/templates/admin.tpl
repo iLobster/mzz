@@ -20,7 +20,7 @@
         {if $newsFolder->getTreeLevel() ne 1}
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$newsFolder->getTreeParent()->getPath() section_name=$current_section module_name=news}">..</a></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$newsFolder->getTreeParent()->getTreePath() section_name=$current_section module_name=news}">..</a></td>
                 <td>-</td>
                 <td>{$newsFolder->getJip()}</td>
             </tr>
@@ -30,7 +30,7 @@
             {if $current_folder->getId() != $newsFolder->getId()}
                 <tr align="center">
                     <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
-                    <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=$current_section module_name=news}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
+                    <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getTreePath() section_name=$current_section module_name=news}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
                     <td>-</td>
                     <td>{$current_folder->getJip()}</td>
                 </tr>

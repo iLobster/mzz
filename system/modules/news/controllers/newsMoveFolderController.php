@@ -73,7 +73,7 @@ class newsMoveFolderController extends simpleController
 
         $url = new url('withAnyParam');
         $url->setAction('moveFolder');
-        $url->add('name', $folder->getPath());
+        $url->add('name', $folder->getTreePath());
 
         $dests = array();
         $styles = array();
@@ -95,7 +95,7 @@ class newsMoveFolderController extends simpleController
             return true;
         }
         $destFolder = $folderMapper->searchByKey($id);
-        $someFolder = $folderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
+        $someFolder = $folderMapper->searchByPath($destFolder->getTreePath() . '/' . $folder->getName());
         return empty($someFolder);
     }
 

@@ -51,13 +51,7 @@ class newsFolderMapper extends mapper
             'accessor' => 'getTitle',
             'mutator' => 'setTitle',
             'options' => array(
-                'i18n')),
-        'parent' => array(
-            'accessor' => 'getParent',
-            'mutator' => 'setParent'),
-        'path' => array(
-            'accessor' => 'getPath',
-            'mutator' => 'setPath'));
+                'i18n')));
 
     public function __construct()
     {

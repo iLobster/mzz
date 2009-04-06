@@ -50,14 +50,6 @@ class pageFolderMapper extends mapper
             'accessor' => 'getTitle',
             'mutator' => 'setTitle',
         ),
-        'parent' => array(
-            'accessor' => 'getParent',
-            'mutator' => 'setParent',
-        ),
-        'path' => array(
-            'accessor' => 'getPath',
-            'mutator' => 'setPath',
-        ),
     );
 
     public function __construct()

@@ -33,7 +33,7 @@ class page extends entity
 
     public function getFullPath()
     {
-        $path = $this->getFolder()->getPath() . '/' . $this->getName();
+        $path = $this->getFolder()->getTreePath() . '/' . $this->getName();
         return substr($path, strpos($path, '/') + 1);
     }
 }

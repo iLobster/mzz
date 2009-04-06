@@ -27,7 +27,7 @@ class pageListController extends simpleController
 
         $pages = $pageMapper->searchAll();
         if (empty($pages)) {
-            return $pageMapper->get404()->run();
+            return $this->forward404($pageMapper);
         }
 
         $this->smarty->assign('pages', $pages);

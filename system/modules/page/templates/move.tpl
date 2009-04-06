@@ -2,7 +2,7 @@
 {form action=$form_action method="post" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td style='width: 20%; vertical-align: top;'>Перемещение элемента <em>'{$page->getTitle()}'</em> из каталога {$page->getFolder()->getTitle()} ({$page->getFolder()->getPath()})</td>
+            <td style='width: 20%; vertical-align: top;'>Перемещение элемента <em>'{$page->getTitle()}'</em> из каталога {$page->getFolder()->getTitle()} ({$page->getFolder()->getTreePath()})</td>
         </tr>
         <tr>
             <td style='width: 20%; vertical-align: top;'>{form->caption name="dest" value="В каталог:"}</td>

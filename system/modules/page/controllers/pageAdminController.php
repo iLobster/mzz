@@ -45,7 +45,7 @@ class pageAdminController extends simpleController
             return $this->smarty->fetch('page/admin.tpl');
         }
 
-        return $pageFolderMapper->get404()->run();
+        return $this->forward404($pageFolderMapper);
     }
 }
 

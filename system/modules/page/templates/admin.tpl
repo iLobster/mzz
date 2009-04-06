@@ -16,19 +16,21 @@
         {if $pageFolder->getTreeLevel() ne 1}
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/page/folder.gif" alt="" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$pageFolder->getTreeParent()->getPath() section_name=$current_section module_name=page}">..</a></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$pageFolder->getTreeParent()->getTreePath() section_name=$current_section module_name=page}">..</a></td>
                 <td style="text-align: left;"></td>
                 <td>{$pageFolder->getJip()}</td>
             </tr>
         {/if}
 
         {foreach from=$pageFolder->getTreeBranch(1) item=current_folder name=folders}
+            {if $current_folder->getId() != $pageFolder->getId()}
             <tr>
                 <td align="center"><img src="{$SITE_PATH}/templates/images/page/folder.gif" alt="" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=$current_section module_name=page}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getPath() section_name=$current_section module_name=page}">{$current_folder->getName()|htmlspecialchars}</a></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getTreePath() section_name=$current_section module_name=page}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getTreePath() section_name=$current_section module_name=page}">{$current_folder->getName()|htmlspecialchars}</a></td>
                 <td style="text-align: center;">{$current_folder->getJip()}</td>
             </tr>
+            {/if}
         {/foreach}
 
         {foreach from=$pages item=current_page}

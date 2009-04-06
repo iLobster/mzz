@@ -2,7 +2,7 @@
 {form action=$action method="post" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td style='width: 20%; vertical-align: top;'>{_ moving $news->getTitle() $news->getFolder()->getTitle() $news->getFolder()->getPath()}</td>
+            <td style='width: 20%; vertical-align: top;'>{_ moving $news->getTitle() $news->getFolder()->getTitle() $news->getFolder()->getTreePath()}</td>
         </tr>
         <tr>
             <td style='width: 20%; vertical-align: top;'>{form->caption name="dest" value="_ to_folder"}</td>

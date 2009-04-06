@@ -53,7 +53,7 @@ class pageMoveController extends simpleController
 
         $url = new url('withAnyParam');
         $url->setAction('move');
-        $url->add('name', $page->getFolder()->getPath() . '/' . $page->getName());
+        $url->add('name', $page->getFolder()->getTreePath() . '/' . $page->getName());
 
         $dests = array();
         $styles = array();

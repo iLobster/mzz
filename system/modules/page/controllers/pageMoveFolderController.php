@@ -60,12 +60,12 @@ class pageMoveFolderController extends simpleController
 
         $url = new url('pageActions');
         $url->setAction('moveFolder');
-        $url->add('name', $folder->getPath());
+        $url->add('name', $folder->getTreePath());
 
         $dests = array();
         $styles = array();
         foreach ($folders as $val) {
-            $dests[$val->getId()] = $val->getPath();
+            $dests[$val->getId()] = $val->getTreePath();
             $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
         }
 
@@ -84,7 +84,7 @@ function checkUniqueFolderName($id, $folderMapper, $folder)
         return true;
     }
     $destFolder = $folderMapper->searchById($id);
-    $someFolder = $folderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
+    $someFolder = $folderMapper->searchByPath($destFolder->getTreePath() . '/' . $folder->getName());
     return empty($someFolder);
 }
 

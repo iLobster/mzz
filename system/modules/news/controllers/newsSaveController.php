@@ -77,7 +77,7 @@ class newsSaveController extends simpleController
             $url->add('id', $news->getId());
         } else {
             $url = new url('withAnyParam');
-            $url->add('name', $folder->getPath());
+            $url->add('name', $folder->getTreePath());
         }
         $url->setAction($action);
 

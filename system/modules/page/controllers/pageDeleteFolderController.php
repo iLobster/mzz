@@ -31,7 +31,7 @@ class pageDeleteFolderController extends simpleController
         $folder = $pageFolderMapper->searchByPath($name);
 
         if (!$folder) {
-            return $pageFolderMapper->get404()->run();
+            return $this->forward404($pageFolderMapper);
         }
 
         $pageFolderMapper->delete($folder);

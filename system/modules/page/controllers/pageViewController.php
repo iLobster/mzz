@@ -24,17 +24,12 @@ class pageViewController extends simpleController
 {
     protected function getView()
     {
-        if (($name = $this->request->getString('name')) == false) {
-            if (($name = $this->request->getString('id')) == false) {
-                $name = 'main';
-            }
-        }
-
+        $name = $this->request->getString('name');
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
         $page = $pageFolderMapper->searchChild($name);
 
         if (empty($page)) {
-            return $pageFolderMapper->get404()->run();
+            return $this->forward404($pageFolderMapper);
         }
 
         $this->smarty->assign('page', $page);
