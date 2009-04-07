@@ -52,7 +52,7 @@ class commentsMapper extends mapper
             'mutator' => 'setUser',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'userMapper',
+            'mapper' => 'user/userMapper',
             'options' => array('once')
         ),
         'text' => array(
@@ -95,12 +95,13 @@ class commentsMapper extends mapper
     {
         $folder = $object->getFolder();
         $objectMapper = $folder->getObjectMapper();
-        try {
-            $objectMapper->plugin('comments');
-            $object = $folder->getObject();
-            $object->setCommentsCount($object->getCommentsCount() + 1);
-            $objectMapper->save($object);
-        } catch (mzzRuntimeException $e) {
+        if ($objectMapper->isAttached('comments')) {
+            $commentsPlugin = $objectMapper->plugin('comments');
+            if ($commentsPlugin->isExtendMap()) {
+                $object = $folder->getObject();
+                $object->setCommentsCount($object->getCommentsCount() + 1);
+                $objectMapper->save($object);
+            }
         }
     }
 

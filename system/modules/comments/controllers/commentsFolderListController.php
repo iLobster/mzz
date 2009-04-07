@@ -31,19 +31,26 @@ class commentsFolderListController extends simpleController
             throw new mzzInvalidParameterException('Invalid object for comments');
         }
 
-        $byField = $this->request->getString('byField');
-        if (!$byField) {
-            $byField = 'obj_id';
-        }
-
         $objectModule = $object->module();
         $objectType = get_class($object);
 
         $objectMapper = $this->toolkit->getMapper($objectModule, $objectType);
-        $map = $objectMapper->map();
 
+        //@todo: куда это можно вынести?
+        if ($objectMapper->isAttached('comments')) {
+            //Если у комментируемого маппера приаттачен плагин comments, то берем поле из плагина
+            $byField = $objectMapper->plugin('comments')->getByField();
+        } elseif ($objectMapper->isAttached('obj_id')) {
+            //Если нет плагина comments, но есть плагин obj_id, то связь будет по полю obj_id
+            $byField = $objectMapper->plugin('obj_id')->getObjIdField();
+        } else {
+            //иначе пробуем связаться по первичному ключу
+            $byField = $objectMapper->pk();
+        }
+
+        $map = $objectMapper->map();
         if (!isset($map[$byField])) {
-            throw new mzzInvalidParameterException('No such field for comments');
+            throw new mzzInvalidParameterException('Invalid byField value for comments');
         }
 
         $objectId = $object->$map[$byField]['accessor']();
@@ -65,7 +72,7 @@ class commentsFolderListController extends simpleController
 
         $comments = $commentsFolder->getComments();
 
-        $this->smarty->assign('commentFolder', $commentsFolder);
+        $this->smarty->assign('commentsFolder', $commentsFolder);
         $this->smarty->assign('comments', $comments);
         return $this->smarty->fetch('comments/list.tpl');
     }

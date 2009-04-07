@@ -86,6 +86,19 @@ class commentsFolderMapper extends mapper
         return $this->searchOneByCriteria($criteria);
     }
 
+    /*
+    public function delete(commentsFolder $object)
+    {
+        $commentsMapper = systemToolkit::getInstance()->getMapper('comments', 'comments');
+
+        foreach ($object->getComments() as $comment) {
+            $commentsMapper->delete($comment);
+        }
+
+        parent::delete($object);
+    }
+    */
+
     public function convertArgsToObj($args)
     {
         //throw new mzzDONotFoundException();

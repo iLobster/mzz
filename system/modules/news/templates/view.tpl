@@ -10,3 +10,5 @@
 
     <div class="news_text">{$news->getText()|htmlspecialchars}</div>
 </div>
+
+{load module="comments" section="comments" action="list" object=$news}

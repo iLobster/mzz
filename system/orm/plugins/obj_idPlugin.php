@@ -35,6 +35,11 @@ class obj_idPlugin extends observer
         $object->merge(array($this->options['obj_id_field'] => $id));
         return $object;
     }
+
+    public function getObjIdField()
+    {
+        return $this->options['obj_id_field'];
+    }
 }
 
 ?>

@@ -246,6 +246,11 @@ abstract class mapper
         $this->attach(new $name());
     }
 
+    public function isAttached($name)
+    {
+        return isset($this->observers[$name]);
+    }
+
     public function attach(observer $observer, $name = null)
     {
         $observer->setMapper($this);

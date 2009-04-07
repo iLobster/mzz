@@ -93,6 +93,7 @@ class newsMapper extends mapper
         $this->plugins('acl_ext');
         $this->plugins('jip');
         $this->plugins('i18n');
+        $this->plugins('comments');
     }
 
     protected function preInsert(& $data)
