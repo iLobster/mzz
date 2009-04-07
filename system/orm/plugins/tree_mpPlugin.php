@@ -343,6 +343,7 @@ class tree_mpPlugin extends observer
         $criteria = new criteria($this->table());
         $criteria->addSelectField('foreign_key');
         $criteria->add('spath', $object->getTreeSPath() . '%', criteria::LIKE);
+        $criteria->add('level', $object->getTreeLevel() + 1);
         $criteria->add('id', $object->getTreeId(), criteria::NOT_EQUAL);
 
         $select = new simpleSelect($criteria);
