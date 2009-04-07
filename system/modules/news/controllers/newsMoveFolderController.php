@@ -32,31 +32,30 @@ class newsMoveFolderController extends simpleController
 
         $folder = $folderMapper->searchByPath($path);
         if (!$folder) {
-            $controller = new messageController('каталог не найден');
-            return $controller->run();
+            return $this->forward404($folderMapper);
         }
 
         $folders = $folderMapper->plugin('tree')->getTreeExceptNode($folder);
         if (sizeof($folders) <= 1) {
-            $controller = new messageController('Невозможно перемещать данный каталог');
+            $controller = new messageController(i18n::getMessage('error_no_folder_to_move', 'news'));
             return $controller->run();
         }
 
         $validator = new formValidator();
 
-        $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array(
+        $validator->add('required', 'dest', i18n::getMessage('error_dest_required', 'news'));
+        $validator->add('callback', 'dest', i18n::getMessage('error_dest_not_exists', 'news'), array(
             array(
                 $this,
                 'checkDestNewsFolderExists'),
             $folderMapper));
-        $validator->add('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array(
+        $validator->add('callback', 'dest', i18n::getMessage('error_already_has_this_folder', 'news'), array(
             array(
                 $this,
                 'checkUniqueNewsFolderName'),
             $folderMapper,
             $folder));
-        $validator->add('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array(
+        $validator->add('callback', 'dest', i18n::getMessage('error_could_not_move_to_children', 'news'), array(
             array(
                 $this,
                 'checkDestNewsFolderIsNotChildren'),
@@ -76,14 +75,12 @@ class newsMoveFolderController extends simpleController
         $url->add('name', $folder->getTreePath());
 
         $dests = array();
-        $styles = array();
         foreach ($folders as $val) {
             $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
         }
 
         $this->smarty->assign('folder', $folder);
         $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('styles', $styles);
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $errors);
         return $this->smarty->fetch('news/moveFolder.tpl');

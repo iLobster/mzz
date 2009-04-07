@@ -30,20 +30,19 @@ class newsSaveFolderController extends simpleController
         $isEdit = ($action == 'editFolder');
 
         $folderMapper = $this->toolkit->getMapper('news', 'newsFolder');
-
         $this->acceptLang($folderMapper);
 
         $targetFolder = $folderMapper->searchByPath($path);
 
         if (empty($targetFolder)) {
-            return $folderMapper->get404()->run();
+            return $this->forward404($folderMapper);
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Необходимо дать идентификатор папке');
-        $validator->add('required', 'title', 'Необходимо назвать папку');
-        $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-zа-я0-9_\.\-! ]+$/i');
-        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkNewsFolderName', $path, $folderMapper, $isEdit));
+        $validator->add('required', 'name', i18n::getMessage('error_name_required', 'news'));
+        $validator->add('required', 'title', i18n::getMessage('error_folder_title_required', 'news'));
+        $validator->add('regex', 'name', i18n::getMessage('error_name_invalid_name', 'news'), '/^[-_a-z0-9]+$/i');
+        $validator->add('callback', 'name', i18n::getMessage('error_name_unique', 'news'), array(array($this, 'checkUniqueFolderName'), $path, $isEdit));
 
 
         if ($validator->validate()) {
@@ -52,15 +51,15 @@ class newsSaveFolderController extends simpleController
 
             if ($isEdit) {
                 $folder = $targetFolder;
-                $targetFolder = null;
             } else {
                 $folder = $folderMapper->create();
+                $folder->setTreeParent($targetFolder);
             }
 
             $folder->setName($name);
             $folder->setTitle($title);
+            $folderMapper->save($folder);
 
-            $folderMapper->save($folder, $targetFolder);
             return jipTools::redirect();
         }
 
@@ -76,17 +75,20 @@ class newsSaveFolderController extends simpleController
         $this->smarty->assign('folder', $targetFolder);
         return $this->smarty->fetch('news/saveFolder.tpl');
     }
-}
 
-function checkNewsFolderName($name, $path, $mapper, $isEdit)
-{
-    if ($isEdit) {
-        $path = explode('/', $path);
-        $current = array_pop($path);
+    public function checkUniqueFolderName($name, $path, $isEdit)
+    {
+        $mapper = $this->toolkit->getMapper('news', 'newsFolder');
+        $this->acceptLang($folderMapper);
+        if ($isEdit) {
+            $path = explode('/', $path);
+            $current = array_pop($path);
 
-        return $current == $name || is_null($mapper->searchByPath(implode('/', $path) . '/' . $name));
-    } else {
-        return is_null($mapper->searchByPath($path . '/' . $name));
+            return $current == $name || is_null($mapper->searchByPath(implode('/', $path) . '/' . $name));
+        } else {
+            return is_null($mapper->searchByPath($path . '/' . $name));
+        }
     }
 }
+
 ?>

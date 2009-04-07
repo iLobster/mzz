@@ -32,30 +32,41 @@ class pageMoveFolderController extends simpleController
 
         $folder = $folderMapper->searchByPath($path);
         if (!$folder) {
-            $controller = new messageController('каталог не найден');
-            return $controller->run();
+            return $this->forward404($folderMapper);
         }
 
-        $folders = $folderMapper->getTreeExceptNode($folder);
+        $folders = $folderMapper->plugin('tree')->getTreeExceptNode($folder);
         if (sizeof($folders) <= 1) {
-            $controller = new messageController('Невозможно перемещать данный каталог');
+            $controller = new messageController(i18n::getMessage('error_no_folder_to_move', 'page'));
             return $controller->run();
         }
 
         $validator = new formValidator();
 
-        $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestFolderExists', $folderMapper));
-        $validator->add('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array('checkUniqueFolderName', $folderMapper, $folder));
-        $validator->add('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array('checkDestFolderIsNotChildren', $folders));
+        $validator->add('required', 'dest', i18n::getMessage('error_dest_required', 'page'));
+        $validator->add('callback', 'dest', i18n::getMessage('error_dest_not_exists', 'page'), array(
+            array(
+                $this,
+                'checkDestPageFolderExists'),
+            $folderMapper));
+        $validator->add('callback', 'dest', i18n::getMessage('error_already_has_this_folder', 'page'), array(
+            array(
+                $this,
+                'checkUniquePageFolderName'),
+            $folderMapper,
+            $folder));
+        $validator->add('callback', 'dest', i18n::getMessage('error_could_not_move_to_children', 'page'), array(
+            array(
+                $this,
+                'checkDestPageFolderIsNotChildren'),
+            $folders));
+
 
         if ($validator->validate()) {
-            $destFolder = $folderMapper->searchById($dest);
-            $result = $folderMapper->move($folder, $destFolder);
-            if ($result) {
-                return jipTools::redirect();
-            }
-            $errors->set('dest', 'Невозможно осуществить требуемое перемещение');
+            $destFolder = $folderMapper->searchByKey($dest);
+            $folder->setTreeParent($destFolder);
+            $folderMapper->save($folder);
+            return jipTools::redirect();
         }
 
         $url = new url('pageActions');
@@ -63,39 +74,36 @@ class pageMoveFolderController extends simpleController
         $url->add('name', $folder->getTreePath());
 
         $dests = array();
-        $styles = array();
         foreach ($folders as $val) {
-            $dests[$val->getId()] = $val->getTreePath();
-            $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
+            $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
         }
 
         $this->smarty->assign('folder', $folder);
         $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('styles', $styles);
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         return $this->smarty->fetch('page/moveFolder.tpl');
     }
-}
 
-function checkUniqueFolderName($id, $folderMapper, $folder)
-{
-    if ($folder->getTreeParent()->getId() == $id) {
-        return true;
+    public function checkUniquPageFolderName($id, $folderMapper, $folder)
+    {
+        if ($folder->getTreeParent()->getId() == $id) {
+            return true;
+        }
+        $destFolder = $folderMapper->searchByKey($id);
+        $someFolder = $folderMapper->searchByPath($destFolder->getTreePath() . '/' . $folder->getName());
+        return empty($someFolder);
     }
-    $destFolder = $folderMapper->searchById($id);
-    $someFolder = $folderMapper->searchByPath($destFolder->getTreePath() . '/' . $folder->getName());
-    return empty($someFolder);
+
+    public function checkDestPageFolderExists($id, $folderMapper)
+    {
+        return !is_null($folderMapper->searchByKey($id));
+    }
+
+    public function checkDestPageFolderIsNotChildren($id, $folders)
+    {
+        return isset($folders[$id]);
+    }
 }
 
-function checkDestFolderExists($id, $folderMapper)
-{
-    $destFolder = $folderMapper->searchById($id);
-    return !empty($destFolder);
-}
-
-function checkDestFolderIsNotChildren($id, $folders)
-{
-    return isset($folders[$id]);
-}
 ?>

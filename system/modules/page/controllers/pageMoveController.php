@@ -39,11 +39,17 @@ class pageMoveController extends simpleController
 
         $folders = $pageFolderMapper->searchAll();
 
+        if (sizeof($folders) <= 1) {
+            $controller = new messageController(i18n::getMessage('error_no_folder_to_move', 'page'));
+            return $controller->run();
+        }
+
         $validator = new formValidator();
-        $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array(array($this, 'checkDestPageFolderExists'), $pageFolderMapper));
+        $validator->add('required', 'dest', i18n::getMessage('error_dest_required', 'page'));
+        $validator->add('callback', 'dest', i18n::getMessage('error_dest_not_exists', 'page'), array(array($this, 'checkDestPageFolderExists'), $pageFolderMapper));
+
         if ($validator->validate()) {
-            $destFolder = $pageFolderMapper->searchById($dest);
+            $destFolder = $pageFolderMapper->searchByKey($dest);
 
             $page->setFolder($destFolder);
             $pageMapper->save($page);
@@ -56,15 +62,12 @@ class pageMoveController extends simpleController
         $url->add('name', $page->getFolder()->getTreePath() . '/' . $page->getName());
 
         $dests = array();
-        $styles = array();
         foreach ($folders as $val) {
-            $dests[$val->getId()] = $val->getTitle();
-            $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
+            $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
         }
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('styles', $styles);
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('page', $page);
         return $this->smarty->fetch('page/move.tpl');
