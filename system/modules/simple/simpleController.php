@@ -243,7 +243,7 @@ abstract class simpleController
             return $path;
         }
 
-        return substr_replace($path, '/' . $this->tpl_prefix, strpos($path, '/'), 0);
+        return substr_replace($path, '/' . $this->tpl_prefix, strpos($path, '/'), 1);
     }
 
     /**
