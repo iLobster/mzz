@@ -17,9 +17,9 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.3
+ * @version 0.2
  */
-class file extends simple
+class file extends entity
 {
     protected $name = 'fileManager';
 
@@ -32,12 +32,12 @@ class file extends simple
      */
     public function getJip()
     {
-        return $this->getJipView($this->name, $this->getFullPath(), get_class($this));
+        return parent::__call('getJip', array(1, $this->getFullPath()));
     }
 
     public function getFullPath()
     {
-        return $this->getFolder()->getPath() . '/' . rawurlencode($this->getName());
+        return $this->getFolder()->getTreePath() . '/' . rawurlencode($this->getName());
     }
 
     public function getRealFullPath()
@@ -52,7 +52,7 @@ class file extends simple
         }
 
         $url = new url('withAnyParam');
-        $url->setSection($this->section);
+        $url->setSection('fileManager');
         $url->add('name', $this->getFullPath());
         return $url->get();
     }

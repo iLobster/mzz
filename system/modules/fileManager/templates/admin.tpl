@@ -1,5 +1,5 @@
 <div class="pageTitle">Менеджер файлов</div>
-<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="jipLink">Загрузить файл</a></div>
+<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getTreePath() section="fileManager"}" class="jipLink">Загрузить файл</a></div>
 <div style="height: 45px;"></div>
 
 {include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="fileManager"}
@@ -18,10 +18,10 @@
             </tr>
         </thead>
 
-        {if $current_folder->getTreeLevel() ne 1}
+        {if $current_folder->getTreeLevel() != 1}
             <tr align="center">
-                <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/pages/folder.gif" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getTreeParent()->getPath() section_name=$current_section module_name=fileManager}">..</a></td>
+                <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/pages/folder.gif" alt="" /></td>
+                <td style="text-align: left;"><a href="{url route="admin" params=$current_folder->getTreeParent()->getPath() module_name=fileManager}">..</a></td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
@@ -30,21 +30,23 @@
             </tr>
         {/if}
 
-        {foreach from=$current_folder->getFolders() item=folder}
+        {foreach from=$current_folder->getTreeBranch(1) item=folder}
+            {if $current_folder->getId() != $folder->getId()}
             <tr align="center">
-              <td><img src="{$SITE_PATH}/templates/images/fileManager/folder.gif" /></td>
-              <td align="left"><a href="{url route='admin' params=$folder->getPath() section_name=$current_section module_name=fileManager}">{$folder->getTitle()}</a></td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>{$folder->getJip()}</td>
+                <td><img src="{$SITE_PATH}/templates/images/fileManager/folder.gif" alt=""  /></td>
+                <td align="left"><a href="{url route='admin' params=$folder->getTreePath() module_name=fileManager}">{$folder->getTitle()}</a></td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{$folder->getJip()}</td>
             </tr>
+            {/if}
         {/foreach}
 
-        {foreach from=$files item=file}
+        {foreach from=$current_folder->getFiles() item=file}
             <tr align="center">
-                <td style="width: 30px;"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" /></td>
+                <td style="width: 30px;"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" alt=""  /></td>
                 <td style="text-align: left;"><a href="{$file->getDownloadLink()}">{$file->getName()}</a></td>
                 <td style="text-align: right;">{$file->getSize()|filesize}</td>
                 <td>{$file->getExt()}</td>

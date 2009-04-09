@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.4.0.5
+# SQL Manager 2007 for MySQL 4.4.0.3
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -20,8 +20,10 @@ CREATE DATABASE `mzz`
 
 USE `mzz`;
 
+SET sql_mode = '';
+
 #
-# Structure for the `catalogue_catalogue` table :
+# Structure for the `catalogue_catalogue` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue`;
@@ -43,7 +45,7 @@ AUTO_INCREMENT=18 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `catalogue_catalogue` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`, `obj_id`, `folder_id`) VALUES
+INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`, `obj_id`, `folder_id`) VALUES 
   (6,8,'Delphi: программирование на языке высокого уровня',2,1175235587,489,12),
   (7,8,'Учебник английского языка для технических университетов и вузов',2,1175237052,490,12),
   (8,7,'Nokia 6300',2,1175871646,501,5),
@@ -58,7 +60,7 @@ INSERT INTO `catalogue_catalogue` (`id`, `type_id`, `name`, `editor`, `created`,
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogueFolder` table :
+# Structure for the `catalogue_catalogueFolder` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogueFolder`;
@@ -79,7 +81,7 @@ AUTO_INCREMENT=13 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `catalogue_catalogueFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `default_type`, `parent`, `path`) VALUES
+INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `default_type`, `parent`, `path`) VALUES 
   (1,241,'root','Основной',0,1,'root'),
   (5,481,'mobile','Телефоны',7,5,'root/mobile'),
   (10,486,'books','Книги',0,10,'root/books'),
@@ -88,7 +90,7 @@ INSERT INTO `catalogue_catalogueFolder` (`id`, `obj_id`, `name`, `title`, `defau
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogueFolder_tree` table :
+# Structure for the `catalogue_catalogueFolder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogueFolder_tree`;
@@ -109,7 +111,7 @@ AUTO_INCREMENT=13 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `catalogue_catalogueFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
+INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,10,1),
   (5,2,3,2),
   (10,4,9,2),
@@ -118,7 +120,7 @@ INSERT INTO `catalogue_catalogueFolder_tree` (`id`, `lkey`, `rkey`, `level`) VAL
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_data` table :
+# Structure for the `catalogue_catalogue_data` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_data`;
@@ -138,7 +140,7 @@ ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `catalogue_catalogue_data` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES
+INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `int`, `float`) VALUES 
   (6,24,NULL,'В.В. Фаронов',NULL,NULL),
   (6,25,NULL,NULL,640,NULL),
   (6,26,NULL,'Издетельский дом \"Питер\"',NULL,NULL),
@@ -179,7 +181,7 @@ INSERT INTO `catalogue_catalogue_data` (`id`, `property_type`, `text`, `char`, `
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_properties` table :
+# Structure for the `catalogue_catalogue_properties` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_properties`;
@@ -199,7 +201,7 @@ AUTO_INCREMENT=34 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `catalogue_catalogue_properties` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES
+INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, `args`) VALUES 
   (10,'author','Автор',1,''),
   (11,'pagescount','Количество страниц',3,NULL),
   (12,'izdat','Издатель',1,''),
@@ -216,7 +218,7 @@ INSERT INTO `catalogue_catalogue_properties` (`id`, `name`, `title`, `type_id`, 
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_properties_types` table :
+# Structure for the `catalogue_catalogue_properties_types` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_properties_types`;
@@ -233,7 +235,7 @@ AUTO_INCREMENT=10 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `catalogue_catalogue_properties_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUES
+INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUES 
   (1,'char','строка'),
   (2,'float','число с плавающей точкой'),
   (3,'int','целое число'),
@@ -246,7 +248,7 @@ INSERT INTO `catalogue_catalogue_properties_types` (`id`, `name`, `title`) VALUE
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_types` table :
+# Structure for the `catalogue_catalogue_types` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_types`;
@@ -263,7 +265,7 @@ AUTO_INCREMENT=12 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `catalogue_catalogue_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES
+INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES 
   (7,'mobile','Мобильный телефон'),
   (8,'books','Книги'),
   (9,'childrens','Детский мир'),
@@ -271,7 +273,7 @@ INSERT INTO `catalogue_catalogue_types` (`id`, `name`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `catalogue_catalogue_types_props` table :
+# Structure for the `catalogue_catalogue_types_props` table : 
 #
 
 DROP TABLE IF EXISTS `catalogue_catalogue_types_props`;
@@ -293,7 +295,7 @@ AUTO_INCREMENT=60 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `catalogue_catalogue_types_props` table  (LIMIT 0,500)
 #
 
-INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES
+INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `sort`, `isFull`, `isShort`) VALUES 
   (24,8,10,2,0,1),
   (25,8,11,5,0,0),
   (26,8,12,1,0,1),
@@ -310,7 +312,7 @@ INSERT INTO `catalogue_catalogue_types_props` (`id`, `type_id`, `property_id`, `
 COMMIT;
 
 #
-# Structure for the `comments_comments` table :
+# Structure for the `comments_comments` table : 
 #
 
 DROP TABLE IF EXISTS `comments_comments`;
@@ -324,20 +326,27 @@ CREATE TABLE `comments_comments` (
   `folder_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=11 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `comments_comments` table  (LIMIT 0,500)
 #
 
-INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `user_id`, `created`, `folder_id`) VALUES
+INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `user_id`, `created`, `folder_id`) VALUES 
   (1,1421,'test',2,1238811066,1),
   (2,1422,'sdfasdf',2,1238811078,1),
-  (3,1423,'test',2,1238811106,1);
+  (3,1423,'test',2,1238811106,1),
+  (4,1424,'2',1,1238932761,1),
+  (5,1425,'3',1,1238932768,1),
+  (6,1426,'4',1,1238932774,1),
+  (7,1427,'5',1,1238932780,1),
+  (8,1428,'6',1,1238932788,1),
+  (9,1429,'7',1,1238932794,1),
+  (10,1430,'8',1,1238932802,1);
 COMMIT;
 
 #
-# Structure for the `comments_commentsFolder` table :
+# Structure for the `comments_commentsFolder` table : 
 #
 
 DROP TABLE IF EXISTS `comments_commentsFolder`;
@@ -359,12 +368,12 @@ AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `comments_commentsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`, `module`, `type`, `by_field`) VALUES
+INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`, `module`, `type`, `by_field`) VALUES 
   (1,1401,9,'page','page','obj_id');
 COMMIT;
 
 #
-# Structure for the `comments_comments_tree` table :
+# Structure for the `comments_comments_tree` table : 
 #
 
 DROP TABLE IF EXISTS `comments_comments_tree`;
@@ -377,22 +386,29 @@ CREATE TABLE `comments_comments_tree` (
   `spath` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=6 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=13 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `comments_comments_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `comments_comments_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES
+INSERT INTO `comments_comments_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
   (1,'1/',1,1,'3/'),
   (2,'3/',3,1,'5/'),
   (3,'1/',1,1,'3/'),
   (4,'2/',2,1,'4/'),
-  (5,'3/',3,1,'5/');
+  (5,'3/',3,1,'5/'),
+  (6,'1/4/',4,2,'3/6/'),
+  (7,'1/4/5/',5,3,'3/6/7/'),
+  (8,'1/4/5/6/',6,4,'3/6/7/8/'),
+  (9,'1/4/5/6/7/',7,5,'3/6/7/8/9/'),
+  (10,'1/4/5/6/7/8/',8,6,'3/6/7/8/9/10/'),
+  (11,'1/4/5/6/7/8/9/',9,7,'3/6/7/8/9/10/11/'),
+  (12,'1/4/5/6/7/8/9/10/',10,8,'3/6/7/8/9/10/11/12/');
 COMMIT;
 
 #
-# Structure for the `faq_faq` table :
+# Structure for the `faq_faq` table : 
 #
 
 DROP TABLE IF EXISTS `faq_faq`;
@@ -411,13 +427,13 @@ AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `faq_faq` table  (LIMIT 0,500)
 #
 
-INSERT INTO `faq_faq` (`id`, `question`, `answer`, `category_id`, `obj_id`) VALUES
+INSERT INTO `faq_faq` (`id`, `question`, `answer`, `category_id`, `obj_id`) VALUES 
   (1,'Надо ли мне верить в розового жирафика, чтобы пользоваться mzz?','Желательно, но вовсе необязательно',1,872),
   (2,'Вопрос','ответ',1,878);
 COMMIT;
 
 #
-# Structure for the `faq_faqCategory` table :
+# Structure for the `faq_faqCategory` table : 
 #
 
 DROP TABLE IF EXISTS `faq_faqCategory`;
@@ -435,12 +451,12 @@ AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `faq_faqCategory` table  (LIMIT 0,500)
 #
 
-INSERT INTO `faq_faqCategory` (`id`, `name`, `title`, `obj_id`) VALUES
+INSERT INTO `faq_faqCategory` (`id`, `name`, `title`, `obj_id`) VALUES 
   (1,'demo','Демо',870);
 COMMIT;
 
 #
-# Structure for the `fileManager_file` table :
+# Structure for the `fileManager_file` table : 
 #
 
 DROP TABLE IF EXISTS `fileManager_file`;
@@ -463,25 +479,26 @@ CREATE TABLE `fileManager_file` (
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`, `name`, `ext`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=26 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=27 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `fileManager_file` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `direct_link`, `about`, `folder_id`, `obj_id`, `storage_id`) VALUES
-  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1201062605,46,1,0,'По фамилии Fernandes',5,611,1),
-  (15,'a0494eeadea195b23bc2947780346d47','2.jpg','jpg',28565,1193874091,NULL,1,0,'',5,1195,1),
-  (16,'10fb1fa8b1d8cc73842511e6d77fb441','3.jpg','jpg',36957,1200917090,4,1,0,'',5,1199,1),
-  (17,'f7566302d872ec98768bfa775b5c7dce','4.jpg','jpg',32557,1200916924,4,1,0,'',5,1203,1),
-  (18,'eca188a35070342d2daa3d11b904d32f','5.jpg','jpg',31552,1197726704,7,1,0,'',5,1207,1),
-  (23,'fc6bfaf392fd56f0c1353a304ee609f0','6.jpg','jpg',33454,1193874183,NULL,1,0,'',5,1215,1),
-  (24,'c77d18916bbfc6c1b7e25fd66d1055ae','7.jpg','jpg',28233,1193988674,2,1,0,'',5,1219,1),
-  (25,'b09b5fb89d1399ba4f66c1f5b5940981.jpg','avatar_1.jpg','jpg',4545,1225006148,11,1,1,'',8,1275,2);
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `direct_link`, `about`, `folder_id`, `obj_id`, `storage_id`) VALUES 
+  (1,'161577520fa51c296ac29682a28ab915','1.jpg','jpg',41037,1201062605,46,1,0,'По фамилии Fernandes',3,611,1),
+  (15,'a0494eeadea195b23bc2947780346d47','2.jpg','jpg',28565,1193874091,NULL,1,0,'',3,1195,1),
+  (16,'10fb1fa8b1d8cc73842511e6d77fb441','3.jpg','jpg',36957,1200917090,4,1,0,'',3,1199,1),
+  (17,'f7566302d872ec98768bfa775b5c7dce','4.jpg','jpg',32557,1200916924,4,1,0,'',3,1203,1),
+  (18,'eca188a35070342d2daa3d11b904d32f','5.jpg','jpg',31552,1197726704,7,1,0,'',3,1207,1),
+  (23,'fc6bfaf392fd56f0c1353a304ee609f0','6.jpg','jpg',33454,1193874183,NULL,1,0,'',3,1215,1),
+  (24,'c77d18916bbfc6c1b7e25fd66d1055ae','7.jpg','jpg',28233,1193988674,2,1,0,'',3,1219,1),
+  (25,'b09b5fb89d1399ba4f66c1f5b5940981.jpg','avatar_1.jpg','jpg',4545,1225006148,11,1,1,'test',1,1275,2),
+  (26,'0c0ab86dcc8875d1bd12f57b4f93c198.png','user.png','png',333,NULL,NULL,0,0,'',1,1434,1);
 COMMIT;
 
 #
-# Structure for the `fileManager_folder` table :
+# Structure for the `fileManager_folder` table : 
 #
 
 DROP TABLE IF EXISTS `fileManager_folder`;
@@ -498,48 +515,44 @@ CREATE TABLE `fileManager_folder` (
   `storage_id` INTEGER(11) NOT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=9 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `fileManager_folder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`, `storage_id`) VALUES
-  (1,'root','/',1,'root',195,NULL,NULL,1),
-  (5,'gallery','Галерея',5,'root/gallery',533,0,'jpg',1),
-  (8,'avatars','Аватары',8,'root/avatars',1274,0,'jpg;gif',2);
+INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `parent`, `path`, `obj_id`, `filesize`, `exts`, `storage_id`) VALUES 
+  (1,'root','root',NULL,NULL,1431,0,NULL,1),
+  (3,'test','test2',NULL,NULL,1433,0,'',1);
 COMMIT;
 
 #
-# Structure for the `fileManager_folder_tree` table :
+# Structure for the `fileManager_folder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `fileManager_folder_tree`;
 
 CREATE TABLE `fileManager_folder_tree` (
-  `id` INTEGER(10) NOT NULL AUTO_INCREMENT,
-  `lkey` INTEGER(10) NOT NULL DEFAULT '0',
-  `rkey` INTEGER(10) NOT NULL DEFAULT '0',
-  `level` INTEGER(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `left_key` (`lkey`, `rkey`, `level`),
-  KEY `level` (`level`, `lkey`),
-  KEY `rkey` (`rkey`)
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `path` TEXT COLLATE utf8_general_ci,
+  `foreign_key` INTEGER(11) DEFAULT NULL,
+  `level` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `spath` TEXT COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=9 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_folder_tree` (`id`, `lkey`, `rkey`, `level`) VALUES
-  (1,1,6,1),
-  (5,2,3,2),
-  (8,4,5,2);
+INSERT INTO `fileManager_folder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
+  (1,'root/',1,1,'1/'),
+  (3,'root/test/',3,2,'1/3/');
 COMMIT;
 
 #
-# Structure for the `fileManager_storage` table :
+# Structure for the `fileManager_storage` table : 
 #
 
 DROP TABLE IF EXISTS `fileManager_storage`;
@@ -557,13 +570,13 @@ AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `fileManager_storage` table  (LIMIT 0,500)
 #
 
-INSERT INTO `fileManager_storage` (`id`, `name`, `path`, `web_path`) VALUES
+INSERT INTO `fileManager_storage` (`id`, `name`, `path`, `web_path`) VALUES 
   (1,'local','../files/','/'),
   (2,'avatars','files/avatars/','/files/avatars/');
 COMMIT;
 
 #
-# Structure for the `forum_category` table :
+# Structure for the `forum_category` table : 
 #
 
 DROP TABLE IF EXISTS `forum_category`;
@@ -581,13 +594,13 @@ AUTO_INCREMENT=5 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `forum_category` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_category` (`id`, `title`, `order`, `obj_id`) VALUES
+INSERT INTO `forum_category` (`id`, `title`, `order`, `obj_id`) VALUES 
   (3,'Компьютеры',1,1249),
   (4,'Интернет',2,1250);
 COMMIT;
 
 #
-# Structure for the `forum_forum` table :
+# Structure for the `forum_forum` table : 
 #
 
 DROP TABLE IF EXISTS `forum_forum`;
@@ -610,14 +623,14 @@ AUTO_INCREMENT=7 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `forum_forum` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_forum` (`id`, `title`, `category_id`, `order`, `obj_id`, `threads_count`, `posts_count`, `last_post`, `description`) VALUES
+INSERT INTO `forum_forum` (`id`, `title`, `category_id`, `order`, `obj_id`, `threads_count`, `posts_count`, `last_post`, `description`) VALUES 
   (4,'Операционные системы',3,1,1251,2,11,94,'Выбор, установка, настройка, решение проблем с операционными системами.'),
   (5,'Игры',3,2,1252,0,0,NULL,''),
   (6,'Web-программирование',4,1,1254,0,0,NULL,'Perl, PHP, JavaScript, HTML и другие языки под веб.');
 COMMIT;
 
 #
-# Structure for the `forum_post` table :
+# Structure for the `forum_post` table : 
 #
 
 DROP TABLE IF EXISTS `forum_post`;
@@ -640,7 +653,7 @@ AUTO_INCREMENT=95 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `forum_post` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thread_id`, `obj_id`) VALUES
+INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thread_id`, `obj_id`) VALUES 
   (42,'фывафывф',2,1188271348,NULL,19,989),
   (43,'фывафывф',2,1188271367,NULL,20,993),
   (84,'Не придумали',2,1198826477,1199548387,25,1255),
@@ -657,7 +670,7 @@ INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thr
 COMMIT;
 
 #
-# Structure for the `forum_profile` table :
+# Structure for the `forum_profile` table : 
 #
 
 DROP TABLE IF EXISTS `forum_profile`;
@@ -680,14 +693,14 @@ CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `forum_profile` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_profile` (`user_id`, `messages`, `signature`, `avatar_id`, `location`, `icq`, `url`, `birthday`) VALUES
+INSERT INTO `forum_profile` (`user_id`, `messages`, `signature`, `avatar_id`, `location`, `icq`, `url`, `birthday`) VALUES 
   (1,0,'',0,NULL,NULL,NULL,NULL),
   (2,8,'MZZ: opensource php5 framework',25,NULL,NULL,NULL,NULL),
   (3,2,'Я педро!',0,NULL,NULL,NULL,NULL);
 COMMIT;
 
 #
-# Structure for the `forum_thread` table :
+# Structure for the `forum_thread` table : 
 #
 
 DROP TABLE IF EXISTS `forum_thread`;
@@ -715,13 +728,13 @@ AUTO_INCREMENT=27 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `forum_thread` table  (LIMIT 0,500)
 #
 
-INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `sticky`, `stickyfirst`, `first_post`, `view_count`) VALUES
+INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `sticky`, `stickyfirst`, `first_post`, `view_count`) VALUES 
   (25,'Правила раздела',8,1198826221,2,4,1256,93,0,1,1,84,11),
   (26,'я педро!',1,1199840852,3,4,1268,94,0,0,0,92,4);
 COMMIT;
 
 #
-# Structure for the `gallery_album` table :
+# Structure for the `gallery_album` table : 
 #
 
 DROP TABLE IF EXISTS `gallery_album`;
@@ -742,14 +755,14 @@ AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `gallery_album` table  (LIMIT 0,500)
 #
 
-INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `main_photo`, `obj_id`) VALUES
+INSERT INTO `gallery_album` (`id`, `gallery_id`, `name`, `pics_number`, `created`, `main_photo`, `obj_id`) VALUES 
   (1,1,'Женщина',1,NULL,0,537),
   (2,1,'Автомобили',4,1193874063,0,1193),
   (3,1,'Автомобили Audi',2,1193874075,0,1194);
 COMMIT;
 
 #
-# Structure for the `gallery_gallery` table :
+# Structure for the `gallery_gallery` table : 
 #
 
 DROP TABLE IF EXISTS `gallery_gallery`;
@@ -768,12 +781,12 @@ AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `gallery_gallery` table  (LIMIT 0,500)
 #
 
-INSERT INTO `gallery_gallery` (`id`, `owner`, `created`, `updated`, `obj_id`) VALUES
+INSERT INTO `gallery_gallery` (`id`, `owner`, `created`, `updated`, `obj_id`) VALUES 
   (1,2,1179050922,1179050922,536);
 COMMIT;
 
 #
-# Structure for the `gallery_photo` table :
+# Structure for the `gallery_photo` table : 
 #
 
 DROP TABLE IF EXISTS `gallery_photo`;
@@ -794,7 +807,7 @@ AUTO_INCREMENT=8 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `gallery_photo` table  (LIMIT 0,500)
 #
 
-INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES
+INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_id`) VALUES 
   (1,1,'Collien',NULL,NULL,612),
   (2,2,'BMW 7',NULL,NULL,1196),
   (3,2,'BMW X5',NULL,NULL,1200),
@@ -805,7 +818,7 @@ INSERT INTO `gallery_photo` (`id`, `album_id`, `name`, `size_x`, `size_y`, `obj_
 COMMIT;
 
 #
-# Structure for the `menu_menu` table :
+# Structure for the `menu_menu` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menu`;
@@ -822,12 +835,12 @@ AUTO_INCREMENT=8 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `menu_menu` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menu` (`id`, `name`, `obj_id`) VALUES
+INSERT INTO `menu_menu` (`id`, `name`, `obj_id`) VALUES 
   (6,'hmenu',1185);
 COMMIT;
 
 #
-# Structure for the `menu_menuItem` table :
+# Structure for the `menu_menuItem` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menuItem`;
@@ -849,7 +862,7 @@ AUTO_INCREMENT=28 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `menu_menuItem` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `order`, `args`, `obj_id`) VALUES
+INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `order`, `args`, `obj_id`) VALUES 
   (9,0,2,6,1,'a:4:{s:5:\"route\";s:8:\"default2\";s:7:\"section\";s:4:\"news\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:2:{i:0;a:2:{s:5:\"route\";s:10:\"newsFolder\";s:6:\"params\";a:2:{s:4:\"name\";s:1:\"*\";s:6:\"action\";s:4:\"list\";}}i:1;a:2:{s:5:\"route\";s:6:\"withId\";s:6:\"params\";a:3:{s:7:\"section\";s:4:\"news\";s:2:\"id\";s:1:\"*\";s:6:\"action\";s:4:\"view\";}}}}',1186),
   (10,0,1,6,3,'a:1:{s:3:\"url\";s:9:\"catalogue\";}',1187),
   (11,0,1,6,2,'a:1:{s:3:\"url\";s:25:\"gallery/admin/viewGallery\";}',1188),
@@ -860,7 +873,7 @@ INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `order`, `
 COMMIT;
 
 #
-# Structure for the `menu_menuItem_lang` table :
+# Structure for the `menu_menuItem_lang` table : 
 #
 
 DROP TABLE IF EXISTS `menu_menuItem_lang`;
@@ -877,7 +890,7 @@ CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `menu_menuItem_lang` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem_lang` (`id`, `lang_id`, `title`) VALUES
+INSERT INTO `menu_menuItem_lang` (`id`, `lang_id`, `title`) VALUES 
   (9,1,'Новости'),
   (9,2,'News'),
   (10,1,'Каталог'),
@@ -895,7 +908,7 @@ INSERT INTO `menu_menuItem_lang` (`id`, `lang_id`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `message_message` table :
+# Structure for the `message_message` table : 
 #
 
 DROP TABLE IF EXISTS `message_message`;
@@ -918,13 +931,13 @@ AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `message_message` table  (LIMIT 0,500)
 #
 
-INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `time`, `watched`, `category_id`, `obj_id`) VALUES
+INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `time`, `watched`, `category_id`, `obj_id`) VALUES 
   (1,'Превед','Превед медвед',1,2,1184625784,1,1,812),
   (2,'test','test',2,3,1194418216,0,1,1232);
 COMMIT;
 
 #
-# Structure for the `message_messageCategory` table :
+# Structure for the `message_messageCategory` table : 
 #
 
 DROP TABLE IF EXISTS `message_messageCategory`;
@@ -942,14 +955,14 @@ AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `message_messageCategory` table  (LIMIT 0,500)
 #
 
-INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES
+INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES 
   (1,'Входящие','incoming',809),
   (2,'Исходящие','sent',810),
   (3,'Корзина','recycle',811);
 COMMIT;
 
 #
-# Structure for the `news_news` table :
+# Structure for the `news_news` table : 
 #
 
 DROP TABLE IF EXISTS `news_news`;
@@ -972,7 +985,7 @@ AUTO_INCREMENT=169 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_c
 # Data for the `news_news` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_news` (`id`, `obj_id`, `editor`, `folder_id`, `created`, `updated`) VALUES
+INSERT INTO `news_news` (`id`, `obj_id`, `editor`, `folder_id`, `created`, `updated`) VALUES 
   (9,309,2,29,1174588081,1174588081),
   (10,310,2,18,1174588081,1174588081),
   (11,311,2,18,1174588081,1174588081),
@@ -1135,7 +1148,7 @@ INSERT INTO `news_news` (`id`, `obj_id`, `editor`, `folder_id`, `created`, `upda
 COMMIT;
 
 #
-# Structure for the `news_newsFolder` table :
+# Structure for the `news_newsFolder` table : 
 #
 
 DROP TABLE IF EXISTS `news_newsFolder`;
@@ -1144,9 +1157,12 @@ CREATE TABLE `news_newsFolder` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
   `obj_id` INTEGER(11) UNSIGNED NOT NULL DEFAULT '0',
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `parent` INTEGER(11) DEFAULT '0',
+  `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `name` (`name`)
+  KEY `name` (`name`),
+  KEY `parent` (`parent`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=32 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -1154,26 +1170,26 @@ AUTO_INCREMENT=32 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `news_newsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `title`) VALUES
-  (2,6,'root','root'),
-  (18,295,'main','main'),
-  (19,296,'comments','comments'),
-  (20,297,'story','story'),
-  (21,298,'russia','russia'),
-  (22,299,'xussr','xussr'),
-  (23,300,'world','world'),
-  (24,301,'america','america'),
-  (25,302,'economy','economy'),
-  (26,303,'business','business'),
-  (27,304,'finance','finance'),
-  (28,305,'realty','realty'),
-  (29,306,'politic','politic'),
-  (30,307,'internet','internet'),
-  (31,308,'tehnology','tehnology');
+INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `parent`, `path`, `title`) VALUES 
+  (2,6,'root',1,'root','root'),
+  (18,295,'main',17,'root/main','main'),
+  (19,296,'comments',18,'root/comments','comments'),
+  (20,297,'story',19,'root/story','story'),
+  (21,298,'russia',20,'root/russia','russia'),
+  (22,299,'xussr',21,'root/xussr','xussr'),
+  (23,300,'world',22,'root/world','world'),
+  (24,301,'america',23,'root/america','america'),
+  (25,302,'economy',24,'root/economy','economy'),
+  (26,303,'business',25,'root/business','business'),
+  (27,304,'finance',26,'root/finance','finance'),
+  (28,305,'realty',27,'root/realty','realty'),
+  (29,306,'politic',28,'root/politic','politic'),
+  (30,307,'internet',29,'root/internet','internet'),
+  (31,308,'tehnology',30,'root/tehnology','tehnology');
 COMMIT;
 
 #
-# Structure for the `news_newsFolder_lang` table :
+# Structure for the `news_newsFolder_lang` table : 
 #
 
 DROP TABLE IF EXISTS `news_newsFolder_lang`;
@@ -1190,7 +1206,7 @@ ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `news_newsFolder_lang` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsFolder_lang` (`id`, `lang_id`, `title`) VALUES
+INSERT INTO `news_newsFolder_lang` (`id`, `lang_id`, `title`) VALUES 
   (2,1,'Новости'),
   (2,2,'News'),
   (18,1,'Главное'),
@@ -1224,7 +1240,7 @@ INSERT INTO `news_newsFolder_lang` (`id`, `lang_id`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `news_newsFolder_tree` table :
+# Structure for the `news_newsFolder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `news_newsFolder_tree`;
@@ -1243,7 +1259,7 @@ AUTO_INCREMENT=16 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `news_newsFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsFolder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES
+INSERT INTO `news_newsFolder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
   (1,'root/',2,1,'1/'),
   (2,'root/main/',18,2,'1/2/'),
   (3,'root/comments/',19,2,'1/3/'),
@@ -1262,7 +1278,7 @@ INSERT INTO `news_newsFolder_tree` (`id`, `path`, `foreign_key`, `level`, `spath
 COMMIT;
 
 #
-# Structure for the `news_newsFolder_tree_bak` table :
+# Structure for the `news_newsFolder_tree_bak` table : 
 #
 
 DROP TABLE IF EXISTS `news_newsFolder_tree_bak`;
@@ -1283,7 +1299,7 @@ AUTO_INCREMENT=31 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `news_newsFolder_tree_bak` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsFolder_tree_bak` (`id`, `lkey`, `rkey`, `level`) VALUES
+INSERT INTO `news_newsFolder_tree_bak` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,30,1),
   (17,2,3,2),
   (18,4,5,2),
@@ -1302,7 +1318,7 @@ INSERT INTO `news_newsFolder_tree_bak` (`id`, `lkey`, `rkey`, `level`) VALUES
 COMMIT;
 
 #
-# Structure for the `news_news_lang` table :
+# Structure for the `news_news_lang` table : 
 #
 
 DROP TABLE IF EXISTS `news_news_lang`;
@@ -1321,7 +1337,7 @@ CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `news_news_lang` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_news_lang` (`id`, `lang_id`, `title`, `annotation`, `text`) VALUES
+INSERT INTO `news_news_lang` (`id`, `lang_id`, `title`, `annotation`, `text`) VALUES 
   (9,1,'Приостановлена деятельность НБП','Прокуратура Москвы приостановила деятельность НБП вплоть до решения суда, который должен вынести окончательное решение по этому вопросу и признать или не признать НБП экстремистской организацией. НБП запрещается организовывать и проводить собрания, митинги, демонстрации и иные массовые акции или публичные мероприятия.','Прокуратура Москвы в четверг, 22 марта, приостановила деятельность НБП вплоть до решения суда, который должен вынести окончательное решение по этому вопросу и признать или не признать НБП экстремистской организацией, сообщается на сайте Генпрокуратуры. Как отмечается в постановлении прокуратуры, в соответствии с требованиями ч. 3 ст. 10 Федерального закона \"О противодействии экстремистской деятельности\" приостанавливаются все права НБП, а также региональных и других структурных подразделений этой организации. НБП, в частности, запрещается организовывать и проводить собрания, митинги, демонстрации, шествия, пикетирование и иные массовые акции или публичные мероприятия, а также использовать банковские вклады, за исключением проведения расчетов, связанных с их хозяйственной деятельностью. Несмотря на то, что НБП 29 июня 2005 года была ликвидирована и исключена из Единого государственного реестра юридических лиц, организация продолжила свою деятельность. В марте 2007 года прокуратуры Санкт-Петербурга, Челябинской области и Одинцовского района Московской области вынесли НБП предупреждения о недопустимости экстремистских действий. Неоднократные предупреждения, как отмечается в постановлении прокуратуры, являются достаточным основанием для признания НБП экстремистской организацией и запрета её деятельности. Лидер нацболов Эдуард Лимонов сообщил корреспонденту \"Ленты.ру\", что представление прокуратуры о запрете НБП будет рассмотрено в Мосгорсуде 29 марта 2007 года. Самому Лимонову представителем прокуратуры была вручена повестка в суд. Он оказался единственным фигурантом этого дела, так как прокуратура заявляет, что \"личности других лидеров установить не удалось\". Лидер НБП отметил, что действия прокуратуры являются первой попыткой применить новый закон об экстремизме, что, по его мнению, является сигналом о скором начале \"массовых репрессий в отношении оппозиции\".'),
   (10,1,'Задержаны трое подозреваемых в причастности к терактам в лондонском метро','В ходе полицейской спецоперации 22 марта в Великобритании арестованы три человека, подозреваемых в причастности к планированию и осуществлению терактов в лондонском метро. Двое были схвачены перед посадкой в направляющийся в Пакистан самолет, за третьим полицейские пришли в его дом в городе Лидс.','В ходе полицейской спецоперации 22 марта в Великобритании арестованы три человека, подозреваемых в причастности к планированию и осуществлению терактов в лондонском метро 7 июля 2005 года, сообщает Sky News. Двое (23 и 30 лет) были схвачены перед посадкой в направляющийся в Пакистан самолет, за третьим (26 лет) полицейские пришли в его дом в городе Лидс. В рамках этой же операции были проведены обыски в пяти домах в Лидсе. Все подозреваемые доставлены в центральное полицейское управление Лондона, их уже допрашивают следователи. По словам стражей порядка, целью их работы является выявление лиц, не только причастных к совершению этих терактов, но и тех людей, кто знал об их подготовке, сочувствовал исполнителям и призывал террористов к совершению преступлений. Расследование, отмечают в полиции, отнюдь не закончилось и будет продолжаться и далее. Напомним, что 7 июля 2005 года террористы-смертники пытались привести в действие спрятанные в рюкзаках бомбы, однако из-за недостатков конструкции взрывные устройства не сработали, что сохранило жизни многим людям.'),
   (11,1,'Иран отрабатывает блокаду Персидского залива','Военно-морские силы Ирана проводят маневры в Персидском заливе. В маневрах, начавшихся 21 марта, участвуют корветы, ракетные катера и подводные лодки. Целью учений является отработка действий по блокированию Ормузского пролива - \"торговых ворот\" ближневосточного региона.','Военно-морские силы Ирана проводят крупномасштабные учения в Персидском заливе, сообщает MIGnews. В маневрах принимают участие ракетные корветы, катера и подводные лодки. По сообщениям СМИ, иранский флот отрабатывает на учениях блокаду Ормузского пролива - \"торговых ворот\" ближневосточного региона. Ормузский пролив соединяет Персидский залив с Индийским океаном. Через него обеспечивается до 25 процентов мировых поставок нефти. Учения, начавшиеся в среду, 21 марта, продлятся до 30 марта 2007 года. По мнению экспертов, цель учений - демонстрация силы в условиях предполагаемой военной операции США. Следует отметить, что США официально опровергают все сообщения о подготовке военной операции против Ирана. Военно-морские силы Ирана насчитывают пять патрульных корветов водоизмещением менее 1500 тонн и 23 ракетных катера. Наиболее боеспособной частью ВМС являются подводные силы, располагающие тремя подлодками проекта 877ЭКМ российской постройки, по своим ТТХ сравнимыми с израильскими подводными лодками типа Dolphin.'),
@@ -1485,7 +1501,7 @@ INSERT INTO `news_news_lang` (`id`, `lang_id`, `title`, `annotation`, `text`) VA
 COMMIT;
 
 #
-# Structure for the `page_page` table :
+# Structure for the `page_page` table : 
 #
 
 DROP TABLE IF EXISTS `page_page`;
@@ -1507,7 +1523,7 @@ AUTO_INCREMENT=12 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `page_page` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_page` (`id`, `obj_id`, `name`, `folder_id`, `allow_comment`, `compiled`, `keywords_reset`, `description_reset`) VALUES
+INSERT INTO `page_page` (`id`, `obj_id`, `name`, `folder_id`, `allow_comment`, `compiled`, `keywords_reset`, `description_reset`) VALUES 
   (1,9,'main',2,1,0,0,0),
   (2,10,'404',2,1,NULL,0,0),
   (3,11,'test',2,1,NULL,0,0),
@@ -1522,7 +1538,7 @@ INSERT INTO `page_page` (`id`, `obj_id`, `name`, `folder_id`, `allow_comment`, `
 COMMIT;
 
 #
-# Structure for the `page_pageFolder` table :
+# Structure for the `page_pageFolder` table : 
 #
 
 DROP TABLE IF EXISTS `page_pageFolder`;
@@ -1532,21 +1548,25 @@ CREATE TABLE `page_pageFolder` (
   `obj_id` INTEGER(11) UNSIGNED NOT NULL DEFAULT '0',
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `parent` INTEGER(11) DEFAULT '0',
+  `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=5 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `page_pageFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`) VALUES
-  (2,161,'root','/');
+INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
+  (2,161,'root','/',1,'root'),
+  (3,163,'foo','foo',2,'root/foo'),
+  (4,234,'zz','zz',3,'root/foo/zz');
 COMMIT;
 
 #
-# Structure for the `page_pageFolder_tree` table :
+# Structure for the `page_pageFolder_tree` table : 
 #
 
 DROP TABLE IF EXISTS `page_pageFolder_tree`;
@@ -1565,17 +1585,17 @@ AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `page_pageFolder_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pageFolder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES
+INSERT INTO `page_pageFolder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
   (1,'root/',2,1,'1/');
 COMMIT;
 
 #
-# Structure for the `page_pageFolder_tree_bak` table :
+# Structure for the `page_pageFolder_tree_back` table : 
 #
 
-DROP TABLE IF EXISTS `page_pageFolder_tree_bak`;
+DROP TABLE IF EXISTS `page_pageFolder_tree_back`;
 
-CREATE TABLE `page_pageFolder_tree_bak` (
+CREATE TABLE `page_pageFolder_tree_back` (
   `id` INTEGER(10) NOT NULL AUTO_INCREMENT,
   `lkey` INTEGER(10) NOT NULL DEFAULT '0',
   `rkey` INTEGER(10) NOT NULL DEFAULT '0',
@@ -1588,17 +1608,17 @@ CREATE TABLE `page_pageFolder_tree_bak` (
 AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Data for the `page_pageFolder_tree_bak` table  (LIMIT 0,500)
+# Data for the `page_pageFolder_tree_back` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pageFolder_tree_bak` (`id`, `lkey`, `rkey`, `level`) VALUES
+INSERT INTO `page_pageFolder_tree_back` (`id`, `lkey`, `rkey`, `level`) VALUES 
   (1,1,6,1),
   (2,2,5,2),
   (3,3,4,3);
 COMMIT;
 
 #
-# Structure for the `page_page_lang` table :
+# Structure for the `page_page_lang` table : 
 #
 
 DROP TABLE IF EXISTS `page_page_lang`;
@@ -1618,7 +1638,7 @@ CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `page_page_lang` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_page_lang` (`id`, `lang_id`, `title`, `content`, `keywords`, `description`) VALUES
+INSERT INTO `page_page_lang` (`id`, `lang_id`, `title`, `content`, `keywords`, `description`) VALUES 
   (1,1,'Первая страница','Это <b>первая</b>, главная <strike>страница</strike>\n',NULL,NULL),
   (1,2,'About us','<strong>mzz</strong> - is a php5 framework for web-applications.',NULL,NULL),
   (2,1,'404 Not Found','Запрашиваемая страница не найдена!',NULL,NULL),
@@ -1636,7 +1656,7 @@ INSERT INTO `page_page_lang` (`id`, `lang_id`, `title`, `content`, `keywords`, `
 COMMIT;
 
 #
-# Structure for the `ratings_ratings` table :
+# Structure for the `ratings_ratings` table : 
 #
 
 DROP TABLE IF EXISTS `ratings_ratings`;
@@ -1651,7 +1671,7 @@ CREATE TABLE `ratings_ratings` (
 AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
-# Structure for the `ratings_ratingsFolder` table :
+# Structure for the `ratings_ratingsFolder` table : 
 #
 
 DROP TABLE IF EXISTS `ratings_ratingsFolder`;
@@ -1671,12 +1691,12 @@ AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `ratings_ratingsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `ratings_ratingsFolder` (`id`, `obj_id`, `parent_id`, `ratesum`, `ratecount`) VALUES
+INSERT INTO `ratings_ratingsFolder` (`id`, `obj_id`, `parent_id`, `ratesum`, `ratecount`) VALUES 
   (1,1300,9,0,0);
 COMMIT;
 
 #
-# Structure for the `sys_access` table :
+# Structure for the `sys_access` table : 
 #
 
 DROP TABLE IF EXISTS `sys_access`;
@@ -1695,13 +1715,13 @@ CREATE TABLE `sys_access` (
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=8766 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=8862 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (428,3,5,19,NULL,1,1,0),
   (429,3,5,19,NULL,2,1,0),
   (436,4,2,6,2,NULL,1,0),
@@ -2208,7 +2228,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (2057,4,2,297,NULL,3,1,0),
   (2058,8,2,297,2,NULL,1,0),
   (2059,30,2,297,2,NULL,1,0),
@@ -2715,7 +2735,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 1000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (2557,29,1,322,NULL,1,0,0),
   (2558,1,1,322,NULL,1,0,0),
   (2559,3,1,322,NULL,1,1,0),
@@ -3222,7 +3242,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 1500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (3072,9,1,356,NULL,2,1,0),
   (3073,2,1,356,NULL,2,1,0),
   (3074,29,1,356,NULL,2,1,0),
@@ -3729,7 +3749,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 2000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (3577,29,1,390,NULL,1,0,0),
   (3578,1,1,390,NULL,1,0,0),
   (3579,3,1,390,NULL,1,1,0),
@@ -4236,7 +4256,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 2500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (4077,9,1,423,NULL,2,1,0),
   (4078,2,1,423,NULL,2,1,0),
   (4079,29,1,423,NULL,2,1,0),
@@ -4743,7 +4763,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 3000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (4577,2,1,456,2,NULL,1,0),
   (4578,29,1,456,2,NULL,1,0),
   (4579,1,1,456,2,NULL,1,0),
@@ -5250,7 +5270,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 3500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (5152,6,13,1311,2,NULL,1,0),
   (5153,7,13,1311,2,NULL,1,0),
   (5154,9,13,1311,2,NULL,1,0),
@@ -5757,7 +5777,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 4000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (5655,3,6,1326,2,NULL,1,0),
   (5656,9,6,1326,2,NULL,0,0),
   (5657,1,10,1326,2,NULL,1,0),
@@ -6264,7 +6284,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 4500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (6155,30,2,1341,2,NULL,1,0),
   (6156,1,3,1341,2,NULL,1,0),
   (6157,2,3,1341,2,NULL,1,0),
@@ -6771,7 +6791,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 5000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (6655,2,1,1356,2,NULL,1,0),
   (6656,3,1,1356,2,NULL,1,0),
   (6657,9,1,1356,2,NULL,0,0),
@@ -7278,7 +7298,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 5500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (7155,9,10,1370,2,NULL,1,0),
   (7156,5,11,1370,2,NULL,0,0),
   (7157,9,11,1370,2,NULL,1,0),
@@ -7785,7 +7805,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 6000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (7655,9,3,1385,2,NULL,1,0),
   (7656,10,3,1385,2,NULL,1,0),
   (7657,11,3,1385,2,NULL,1,0),
@@ -8292,7 +8312,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 6500,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (8155,4,2,1400,2,NULL,1,0),
   (8156,5,2,1400,2,NULL,1,0),
   (8157,6,2,1400,2,NULL,1,0),
@@ -8799,7 +8819,7 @@ COMMIT;
 # Data for the `sys_access` table  (LIMIT 7000,500)
 #
 
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
   (8655,2,3,1420,2,NULL,1,0),
   (8656,9,3,1420,2,NULL,1,0),
   (8657,3,6,1420,2,NULL,1,0),
@@ -8910,11 +8930,107 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`,
   (8762,5,13,1423,2,NULL,1,0),
   (8763,6,13,1423,2,NULL,1,0),
   (8764,7,13,1423,2,NULL,1,0),
-  (8765,9,13,1423,2,NULL,1,0);
+  (8765,9,13,1423,2,NULL,1,0),
+  (8766,3,1,1432,2,NULL,1,0),
+  (8767,1,1,1432,2,NULL,1,0),
+  (8768,29,1,1432,2,NULL,1,0),
+  (8769,2,1,1432,2,NULL,1,0),
+  (8770,9,1,1432,2,NULL,0,0),
+  (8771,4,2,1432,2,NULL,1,0),
+  (8772,5,2,1432,2,NULL,1,0),
+  (8773,6,2,1432,2,NULL,1,0),
+  (8774,7,2,1432,2,NULL,1,0),
+  (8775,30,2,1432,2,NULL,1,0),
+  (8776,8,2,1432,2,NULL,1,0),
+  (8777,9,2,1432,2,NULL,0,0),
+  (8778,10,3,1432,2,NULL,1,0),
+  (8779,11,3,1432,2,NULL,1,0),
+  (8780,5,3,1432,2,NULL,1,0),
+  (8781,1,3,1432,2,NULL,1,0),
+  (8782,12,3,1432,2,NULL,1,0),
+  (8783,2,3,1432,2,NULL,1,0),
+  (8784,9,3,1432,2,NULL,1,0),
+  (8785,3,6,1432,2,NULL,1,0),
+  (8786,1,6,1432,2,NULL,1,0),
+  (8787,2,6,1432,2,NULL,1,0),
+  (8788,9,6,1432,2,NULL,0,0),
+  (8789,1,10,1432,2,NULL,1,0),
+  (8790,2,10,1432,2,NULL,1,0),
+  (8791,9,10,1432,2,NULL,1,0),
+  (8792,9,11,1432,2,NULL,1,0),
+  (8793,4,13,1432,2,NULL,1,0),
+  (8794,5,13,1432,2,NULL,1,0),
+  (8795,6,13,1432,2,NULL,1,0),
+  (8796,7,13,1432,2,NULL,1,0),
+  (8797,9,13,1432,2,NULL,1,0),
+  (8798,3,1,1433,2,NULL,1,0),
+  (8799,1,1,1433,2,NULL,1,0),
+  (8800,29,1,1433,2,NULL,1,0),
+  (8801,2,1,1433,2,NULL,1,0),
+  (8802,9,1,1433,2,NULL,0,0),
+  (8803,4,2,1433,2,NULL,1,0),
+  (8804,5,2,1433,2,NULL,1,0),
+  (8805,6,2,1433,2,NULL,1,0),
+  (8806,7,2,1433,2,NULL,1,0),
+  (8807,30,2,1433,2,NULL,1,0),
+  (8808,8,2,1433,2,NULL,1,0),
+  (8809,9,2,1433,2,NULL,0,0),
+  (8810,10,3,1433,2,NULL,1,0),
+  (8811,11,3,1433,2,NULL,1,0),
+  (8812,5,3,1433,2,NULL,1,0),
+  (8813,1,3,1433,2,NULL,1,0),
+  (8814,12,3,1433,2,NULL,1,0),
+  (8815,2,3,1433,2,NULL,1,0),
+  (8816,9,3,1433,2,NULL,1,0),
+  (8817,3,6,1433,2,NULL,1,0),
+  (8818,1,6,1433,2,NULL,1,0),
+  (8819,2,6,1433,2,NULL,1,0),
+  (8820,9,6,1433,2,NULL,0,0),
+  (8821,1,10,1433,2,NULL,1,0),
+  (8822,2,10,1433,2,NULL,1,0),
+  (8823,9,10,1433,2,NULL,1,0),
+  (8824,9,11,1433,2,NULL,1,0),
+  (8825,4,13,1433,2,NULL,1,0),
+  (8826,5,13,1433,2,NULL,1,0),
+  (8827,6,13,1433,2,NULL,1,0),
+  (8828,7,13,1433,2,NULL,1,0),
+  (8829,9,13,1433,2,NULL,1,0),
+  (8830,1,1,1434,2,NULL,1,0),
+  (8831,2,1,1434,2,NULL,1,0),
+  (8832,3,1,1434,2,NULL,1,0),
+  (8833,9,1,1434,2,NULL,0,0),
+  (8834,29,1,1434,2,NULL,1,0),
+  (8835,4,2,1434,2,NULL,1,0),
+  (8836,5,2,1434,2,NULL,1,0),
+  (8837,6,2,1434,2,NULL,1,0),
+  (8838,7,2,1434,2,NULL,1,0),
+  (8839,8,2,1434,2,NULL,1,0),
+  (8840,9,2,1434,2,NULL,0,0),
+  (8841,30,2,1434,2,NULL,1,0),
+  (8842,1,3,1434,2,NULL,1,0),
+  (8843,2,3,1434,2,NULL,1,0),
+  (8844,5,3,1434,2,NULL,1,0),
+  (8845,9,3,1434,2,NULL,1,0),
+  (8846,10,3,1434,2,NULL,1,0),
+  (8847,11,3,1434,2,NULL,1,0),
+  (8848,12,3,1434,2,NULL,1,0),
+  (8849,1,6,1434,2,NULL,1,0),
+  (8850,2,6,1434,2,NULL,1,0),
+  (8851,3,6,1434,2,NULL,1,0),
+  (8852,9,6,1434,2,NULL,0,0),
+  (8853,1,10,1434,2,NULL,1,0),
+  (8854,2,10,1434,2,NULL,1,0),
+  (8855,9,10,1434,2,NULL,1,0),
+  (8856,9,11,1434,2,NULL,1,0),
+  (8857,4,13,1434,2,NULL,1,0),
+  (8858,5,13,1434,2,NULL,1,0),
+  (8859,6,13,1434,2,NULL,1,0),
+  (8860,7,13,1434,2,NULL,1,0),
+  (8861,9,13,1434,2,NULL,1,0);
 COMMIT;
 
 #
-# Structure for the `sys_access_registry` table :
+# Structure for the `sys_access_registry` table : 
 #
 
 DROP TABLE IF EXISTS `sys_access_registry`;
@@ -8924,13 +9040,13 @@ CREATE TABLE `sys_access_registry` (
   `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1424 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1435 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access_registry` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES
+INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES 
   (6,2),
   (9,6),
   (10,6),
@@ -9437,7 +9553,7 @@ COMMIT;
 # Data for the `sys_access_registry` table  (LIMIT 500,500)
 #
 
-INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES
+INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES 
   (1308,7),
   (1309,7),
   (1310,7),
@@ -9548,11 +9664,21 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES
   (1420,10),
   (1421,10),
   (1422,10),
-  (1423,10);
+  (1423,10),
+  (1424,10),
+  (1425,10),
+  (1426,10),
+  (1427,10),
+  (1428,10),
+  (1429,10),
+  (1430,10),
+  (1432,18),
+  (1433,18),
+  (1434,17);
 COMMIT;
 
 #
-# Structure for the `sys_actions` table :
+# Structure for the `sys_actions` table : 
 #
 
 DROP TABLE IF EXISTS `sys_actions`;
@@ -9569,7 +9695,7 @@ AUTO_INCREMENT=108 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_c
 # Data for the `sys_actions` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_actions` (`id`, `name`) VALUES
+INSERT INTO `sys_actions` (`id`, `name`) VALUES 
   (1,'edit'),
   (2,'delete'),
   (3,'view'),
@@ -9654,7 +9780,7 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg_titles` table :
+# Structure for the `sys_cfg_titles` table : 
 #
 
 DROP TABLE IF EXISTS `sys_cfg_titles`;
@@ -9671,7 +9797,7 @@ AUTO_INCREMENT=18 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `sys_cfg_titles` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
+INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES 
   (1,'Элементов на странице'),
   (2,'Каталог загрузки'),
   (3,'Кэ'),
@@ -9692,7 +9818,7 @@ INSERT INTO `sys_cfg_titles` (`id`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_cfg_types` table :
+# Structure for the `sys_cfg_types` table : 
 #
 
 DROP TABLE IF EXISTS `sys_cfg_types`;
@@ -9709,13 +9835,13 @@ AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `sys_cfg_types` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_types` (`id`, `name`, `title`) VALUES
+INSERT INTO `sys_cfg_types` (`id`, `name`, `title`) VALUES 
   (1,'char','Строка'),
   (2,'int','Целое');
 COMMIT;
 
 #
-# Structure for the `sys_cfg_values` table :
+# Structure for the `sys_cfg_values` table : 
 #
 
 DROP TABLE IF EXISTS `sys_cfg_values`;
@@ -9736,14 +9862,14 @@ AUTO_INCREMENT=59 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `sys_cfg_values` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_values` (`id`, `module_id`, `name`, `title`, `type_id`, `value`) VALUES
+INSERT INTO `sys_cfg_values` (`id`, `module_id`, `name`, `title`, `type_id`, `value`) VALUES 
   (41,1,1,1,1,'10'),
   (48,9,1,1,1,'10'),
   (53,10,1,1,1,'60');
 COMMIT;
 
 #
-# Structure for the `sys_cfg_vars` table :
+# Structure for the `sys_cfg_vars` table : 
 #
 
 DROP TABLE IF EXISTS `sys_cfg_vars`;
@@ -9760,7 +9886,7 @@ AUTO_INCREMENT=16 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `sys_cfg_vars` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
+INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES 
   (1,'items_per_page'),
   (2,'upload_path'),
   (3,'cache'),
@@ -9779,7 +9905,7 @@ INSERT INTO `sys_cfg_vars` (`id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_classes` table :
+# Structure for the `sys_classes` table : 
 #
 
 DROP TABLE IF EXISTS `sys_classes`;
@@ -9797,7 +9923,7 @@ AUTO_INCREMENT=57 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `sys_classes` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
+INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES 
   (1,'news',1),
   (2,'newsFolder',1),
   (3,'user',2),
@@ -9850,7 +9976,7 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_classes_actions` table :
+# Structure for the `sys_classes_actions` table : 
 #
 
 DROP TABLE IF EXISTS `sys_classes_actions`;
@@ -9868,7 +9994,7 @@ AUTO_INCREMENT=296 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_c
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
+INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES 
   (1,1,1),
   (2,1,2),
   (3,1,3),
@@ -10061,7 +10187,7 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_config` table :
+# Structure for the `sys_config` table : 
 #
 
 DROP TABLE IF EXISTS `sys_config`;
@@ -10083,12 +10209,12 @@ AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `sys_config` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_config` (`id`, `obj_id`, `module_name`, `name`, `title`, `type_id`, `value`, `args`) VALUES
+INSERT INTO `sys_config` (`id`, `obj_id`, `module_name`, `name`, `title`, `type_id`, `value`, `args`) VALUES 
   (1,1306,'config','test2123','test1',1,'test2','');
 COMMIT;
 
 #
-# Structure for the `sys_lang` table :
+# Structure for the `sys_lang` table : 
 #
 
 DROP TABLE IF EXISTS `sys_lang`;
@@ -10105,13 +10231,13 @@ AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `sys_lang` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_lang` (`id`, `name`, `title`) VALUES
+INSERT INTO `sys_lang` (`id`, `name`, `title`) VALUES 
   (1,'ru','ру'),
   (2,'en','en');
 COMMIT;
 
 #
-# Structure for the `sys_lang_lang` table :
+# Structure for the `sys_lang_lang` table : 
 #
 
 DROP TABLE IF EXISTS `sys_lang_lang`;
@@ -10128,7 +10254,7 @@ ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `sys_lang_lang` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_lang_lang` (`id`, `lang_id`, `name`) VALUES
+INSERT INTO `sys_lang_lang` (`id`, `lang_id`, `name`) VALUES 
   (1,1,'русский'),
   (1,2,'russian'),
   (2,1,'английский'),
@@ -10136,7 +10262,7 @@ INSERT INTO `sys_lang_lang` (`id`, `lang_id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_modules` table :
+# Structure for the `sys_modules` table : 
 #
 
 DROP TABLE IF EXISTS `sys_modules`;
@@ -10149,19 +10275,20 @@ CREATE TABLE `sys_modules` (
   `order` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=23 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=24 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_modules` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_modules` (`id`, `name`, `title`, `icon`, `order`) VALUES
+INSERT INTO `sys_modules` (`id`, `name`, `title`, `icon`, `order`) VALUES 
   (1,'news','Новости','news.gif',10),
   (2,'user','Пользователи','users.gif',90),
   (4,'page','Страницы','pages.gif',20),
   (5,'access','Права доступа','access.gif',10),
   (6,'admin','Администрирование','admin.gif',120),
   (8,'comments','Комментарии','comments.gif',40),
+  (9,'fileManager','Файлменеджер','fm.gif',NULL),
   (12,'menu','Меню','pages.gif',90),
   (18,'captcha','Captcha','',0),
   (19,'pager','Пейджер',NULL,NULL),
@@ -10170,7 +10297,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `title`, `icon`, `order`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_obj_id` table :
+# Structure for the `sys_obj_id` table : 
 #
 
 DROP TABLE IF EXISTS `sys_obj_id`;
@@ -10179,13 +10306,13 @@ CREATE TABLE `sys_obj_id` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1424 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1435 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_obj_id` (`id`) VALUES
+INSERT INTO `sys_obj_id` (`id`) VALUES 
   (15),
   (16),
   (17),
@@ -10692,7 +10819,7 @@ COMMIT;
 # Data for the `sys_obj_id` table  (LIMIT 500,500)
 #
 
-INSERT INTO `sys_obj_id` (`id`) VALUES
+INSERT INTO `sys_obj_id` (`id`) VALUES 
   (515),
   (516),
   (517),
@@ -11199,7 +11326,7 @@ COMMIT;
 # Data for the `sys_obj_id` table  (LIMIT 1000,500)
 #
 
-INSERT INTO `sys_obj_id` (`id`) VALUES
+INSERT INTO `sys_obj_id` (`id`) VALUES 
   (1015),
   (1016),
   (1017),
@@ -11608,11 +11735,22 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1420),
   (1421),
   (1422),
-  (1423);
+  (1423),
+  (1424),
+  (1425),
+  (1426),
+  (1427),
+  (1428),
+  (1429),
+  (1430),
+  (1431),
+  (1432),
+  (1433),
+  (1434);
 COMMIT;
 
 #
-# Structure for the `sys_obj_id_named` table :
+# Structure for the `sys_obj_id_named` table : 
 #
 
 DROP TABLE IF EXISTS `sys_obj_id_named`;
@@ -11629,7 +11767,7 @@ AUTO_INCREMENT=1401 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_
 # Data for the `sys_obj_id_named` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
+INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES 
   (1378,'access_admin'),
   (1379,'access_access'),
   (1380,'access_captcha'),
@@ -11656,7 +11794,7 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
 COMMIT;
 
 #
-# Structure for the `sys_skins` table :
+# Structure for the `sys_skins` table : 
 #
 
 DROP TABLE IF EXISTS `sys_skins`;
@@ -11673,13 +11811,13 @@ AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `sys_skins` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_skins` (`id`, `name`, `title`) VALUES
+INSERT INTO `sys_skins` (`id`, `name`, `title`) VALUES 
   (1,'default','default'),
   (2,'light','light');
 COMMIT;
 
 #
-# Structure for the `tags_item_rel` table :
+# Structure for the `tags_item_rel` table : 
 #
 
 DROP TABLE IF EXISTS `tags_item_rel`;
@@ -11697,7 +11835,7 @@ AUTO_INCREMENT=20 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `tags_item_rel` table  (LIMIT 0,500)
 #
 
-INSERT INTO `tags_item_rel` (`id`, `tag_id`, `item_id`) VALUES
+INSERT INTO `tags_item_rel` (`id`, `tag_id`, `item_id`) VALUES 
   (1,1,11),
   (2,1,12),
   (6,5,14),
@@ -11709,7 +11847,7 @@ INSERT INTO `tags_item_rel` (`id`, `tag_id`, `item_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `tags_tags` table :
+# Structure for the `tags_tags` table : 
 #
 
 DROP TABLE IF EXISTS `tags_tags`;
@@ -11725,7 +11863,7 @@ AUTO_INCREMENT=30 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `tags_tags` table  (LIMIT 0,500)
 #
 
-INSERT INTO `tags_tags` (`id`, `tag`) VALUES
+INSERT INTO `tags_tags` (`id`, `tag`) VALUES 
   (1,'Путин'),
   (2,'Google'),
   (3,'google mzz zerkms'),
@@ -11743,7 +11881,7 @@ INSERT INTO `tags_tags` (`id`, `tag`) VALUES
 COMMIT;
 
 #
-# Structure for the `tags_tagsItem` table :
+# Structure for the `tags_tagsItem` table : 
 #
 
 DROP TABLE IF EXISTS `tags_tagsItem`;
@@ -11760,7 +11898,7 @@ AUTO_INCREMENT=18 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `tags_tagsItem` table  (LIMIT 0,500)
 #
 
-INSERT INTO `tags_tagsItem` (`id`, `item_obj_id`, `owner`) VALUES
+INSERT INTO `tags_tagsItem` (`id`, `item_obj_id`, `owner`) VALUES 
   (11,331,NULL),
   (12,459,NULL),
   (13,445,NULL),
@@ -11771,7 +11909,7 @@ INSERT INTO `tags_tagsItem` (`id`, `item_obj_id`, `owner`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_group` table :
+# Structure for the `user_group` table : 
 #
 
 DROP TABLE IF EXISTS `user_group`;
@@ -11789,14 +11927,14 @@ AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `user_group` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_group` (`id`, `obj_id`, `name`, `is_default`) VALUES
+INSERT INTO `user_group` (`id`, `obj_id`, `name`, `is_default`) VALUES 
   (1,14,'unauth',NULL),
   (2,15,'auth',1),
   (3,225,'root',0);
 COMMIT;
 
 #
-# Structure for the `user_user` table :
+# Structure for the `user_user` table : 
 #
 
 DROP TABLE IF EXISTS `user_user`;
@@ -11821,14 +11959,14 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `user_user` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES
+INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES 
   (1,12,'guest2','',NULL,NULL,1225005849,NULL,3,1),
   (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1237956788,1,3,1),
   (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
 COMMIT;
 
 #
-# Structure for the `user_userAuth` table :
+# Structure for the `user_userAuth` table : 
 #
 
 DROP TABLE IF EXISTS `user_userAuth`;
@@ -11842,19 +11980,20 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=122 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=123 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES
+INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VALUES 
   (120,2,'10.30.35.150','0e92bb89eee69e7b2d0fabf722f6dd6b',NULL,NULL),
-  (121,2,'127.0.0.1','e6554e265eb42296f32e6ebb6ae555af',NULL,NULL);
+  (121,2,'127.0.0.1','e6554e265eb42296f32e6ebb6ae555af',NULL,NULL),
+  (122,2,'127.0.0.1','41c1f3d65189710fd9a0326716b7d643',NULL,NULL);
 COMMIT;
 
 #
-# Structure for the `user_userGroup_rel` table :
+# Structure for the `user_userGroup_rel` table : 
 #
 
 DROP TABLE IF EXISTS `user_userGroup_rel`;
@@ -11873,7 +12012,7 @@ AUTO_INCREMENT=31 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `user_userGroup_rel` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`) VALUES
+INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`) VALUES 
   (1,1,1),
   (23,2,2),
   (24,3,2),
@@ -11881,7 +12020,7 @@ INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`) VALUES
 COMMIT;
 
 #
-# Structure for the `user_userOnline` table :
+# Structure for the `user_userOnline` table : 
 #
 
 DROP TABLE IF EXISTS `user_userOnline`;
@@ -11903,12 +12042,12 @@ AUTO_INCREMENT=330 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_c
 # Data for the `user_userOnline` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES
+INSERT INTO `user_userOnline` (`id`, `user_id`, `session`, `last_activity`, `url`, `ip`) VALUES 
   (329,2,'e068f18f7ca743008ebe3fea63ced400',1233982270,'http://mzz/ru/admin/devToolbar','127.0.0.1');
 COMMIT;
 
 #
-# Structure for the `voting_answer` table :
+# Structure for the `voting_answer` table : 
 #
 
 DROP TABLE IF EXISTS `voting_answer`;
@@ -11927,14 +12066,14 @@ AUTO_INCREMENT=11 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `voting_answer` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_answer` (`id`, `title`, `type`, `question_id`, `obj_id`) VALUES
+INSERT INTO `voting_answer` (`id`, `title`, `type`, `question_id`, `obj_id`) VALUES 
   (2,'Да',0,1,799),
   (5,'Нет',0,1,823),
   (10,'Свой вариант',2,1,854);
 COMMIT;
 
 #
-# Structure for the `voting_question` table :
+# Structure for the `voting_question` table : 
 #
 
 DROP TABLE IF EXISTS `voting_question`;
@@ -11956,12 +12095,12 @@ AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `voting_question` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_question` (`id`, `question`, `category_id`, `created`, `expired`, `votes`, `obj_id`) VALUES
+INSERT INTO `voting_question` (`id`, `question`, `category_id`, `created`, `expired`, `votes`, `obj_id`) VALUES 
   (1,'Вы верите в розового жирафика?',1,1186015080,1227810460,1,796);
 COMMIT;
 
 #
-# Structure for the `voting_vote` table :
+# Structure for the `voting_vote` table : 
 #
 
 DROP TABLE IF EXISTS `voting_vote`;
@@ -11981,12 +12120,12 @@ AUTO_INCREMENT=5 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `voting_vote` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_vote` (`id`, `answer_id`, `user_id`, `question_id`, `text`) VALUES
+INSERT INTO `voting_vote` (`id`, `answer_id`, `user_id`, `question_id`, `text`) VALUES 
   (4,2,2,1,NULL);
 COMMIT;
 
 #
-# Structure for the `voting_voteCategory` table :
+# Structure for the `voting_voteCategory` table : 
 #
 
 DROP TABLE IF EXISTS `voting_voteCategory`;
@@ -12004,7 +12143,7 @@ AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `voting_voteCategory` table  (LIMIT 0,500)
 #
 
-INSERT INTO `voting_voteCategory` (`id`, `name`, `title`, `obj_id`) VALUES
+INSERT INTO `voting_voteCategory` (`id`, `name`, `title`, `obj_id`) VALUES 
   (1,'simple','Простая',837);
 COMMIT;
 

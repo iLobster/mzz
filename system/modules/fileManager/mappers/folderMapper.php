@@ -13,50 +13,90 @@
  */
 
 fileLoader::load('fileManager/folder');
-fileLoader::load('db/dbTreeNS');
-fileLoader::load('simple/simpleMapperForTree');
+fileLoader::load('orm/plugins/tree_mpPlugin');
 
 /**
  * folderMapper: маппер
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.4
+ * @version 0.2
  */
 
-class folderMapper extends simpleMapperForTree
+class folderMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'fileManager';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'folder';
+    protected $class = 'folder';
+    protected $table = 'fileManager_folder';
 
-    protected $itemName = 'file';
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array('pk', 'once'),
+        ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+            'orderBy' => 1
+        ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle'
+        ),
+        'parent' => array(
+            'accessor' => 'getParent',
+            'mutator' => 'setParent'
+        ),
+        'path' => array(
+            'accessor' => 'getPath',
+            'mutator' => 'setPath'
+        ),
+        'filesize' => array(
+            'accessor' => 'getFilesize',
+            'mutator' => 'setFilesize'
+        ),
+        'exts' => array(
+            'accessor' => 'getExts',
+            'mutator' => 'setExts'
+        ),
+        'storage_id' => array(
+            'accessor' => 'getStorage',
+            'mutator' => 'setStorage',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'fileManager/storageMapper'
+        ),
+        'files' => array(
+            'accessor' => 'getFiles',
+            'mutator' => 'setFiles',
+            'relation' => 'many',
+            'mapper' => 'fileManager/fileMapper',
+            'foreign_key' => 'folder_id',
+            'local_key' => 'id'
+        )
+    );
 
-    /**
-     * Возвращает Доменный Объект, который обслуживает запрашиваемый маппер
-     *
-     * @return object
-     */
-    public function create()
+    public function __construct()
     {
-        $folder = new folder($this, $this->getMap());
-        $folder->section($this->section);
-        return $folder;
+        parent::__construct();
+        $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
     }
 
     public function searchById($id)
     {
-        return $this->searchOneByField('id', $id);
+        return $this->searchByKey($id);
+    }
+
+    public function searchByPath($path)
+    {
+        return $this->plugin('tree')->searchByPath($path . '/');
     }
 
     public function convertArgsToObj($args)

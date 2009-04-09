@@ -63,6 +63,7 @@ class fileManagerEditFolderController extends simpleController
                 $targetFolder = null;
             } else {
                 $folder = $folderMapper->create();
+                $folder->setTreeParent($targetFolder);
             }
 
             $folder->setName($name);
@@ -71,13 +72,13 @@ class fileManagerEditFolderController extends simpleController
             $folder->setFilesize($filesize);
             $folder->setStorage($storage_id);
 
-            $folderMapper->save($folder, $targetFolder);
+            $folderMapper->save($folder);
             return jipTools::redirect();
         }
 
         $url = new url('withAnyParam');
         $url->setAction($action);
-        $url->add('name', $targetFolder->getPath());
+        $url->add('name', $targetFolder->getTreePath());
 
         $this->smarty->assign('storages', $storages);
         $this->smarty->assign('action', $url->get());

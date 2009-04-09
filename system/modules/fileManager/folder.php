@@ -12,37 +12,23 @@
  * @version $Id$
 */
 
-fileLoader::load('simple/simpleForTree');
-
 /**
  * folder: класс для работы c данными
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.3
+ * @version 0.2
  */
 
-class folder extends simpleForTree
+class folder extends entity
 {
     protected $name = 'fileManager';
     protected $mapper;
     protected $storage;
 
-    /**
-     * Конструктор
-     *
-     * @param object $mapper
-     * @param array $map
-     */
-    public function __construct($mapper, Array $map)
-    {
-        parent::__construct($mapper, $map);
-        $this->treeFields = new arrayDataspace();
-    }
-
     public function getJip()
     {
-        return $this->getJipView($this->name, $this->getPath(), get_class($this));
+        return parent::__call('getJip', array(1, $this->getTreePath()));
     }
 
     public function upload($upload_name, $name = null)
@@ -66,7 +52,7 @@ class folder extends simpleForTree
         $criteria = new criteria();
         $criteria->add('folder_id', $this->getId())->add('name', $name);
 
-        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file', $this->section);
+        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file');
         $file = $fileMapper->searchOneByCriteria($criteria);
 
         $exts = $this->getExts();

@@ -25,18 +25,21 @@ class fileManagerAdminController extends simpleController
     protected function getView()
     {
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
+        $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
         $path = $this->request->getString('params');
+
+        if (is_null($path)) {
+            $path = 'root';
+        }
 
         $folder = $folderMapper->searchByPath($path);
 
         if ($folder) {
-            $breadCrumbs = $folderMapper->getParentBranch($folder);
+            $breadCrumbs = $folder->getTreeParentBranch();
             $this->smarty->assign('breadCrumbs', $breadCrumbs);
 
-            $config = $this->toolkit->getConfig('fileManager');
-            $pager = $this->setPager($folder, $config->get('items_per_page'));
+            $pager = $this->setPager($fileMapper);
             $this->smarty->assign('current_folder', $folder);
-            $this->smarty->assign('files', $folder->getItems());
             return $this->smarty->fetch('fileManager/admin.tpl');
         }
 

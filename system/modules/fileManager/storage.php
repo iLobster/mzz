@@ -17,10 +17,9 @@
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.1
+ * @version 0.2
  */
-
-class storage extends simple
+class storage extends entity
 {
     protected $name = 'fileManager';
 

@@ -19,24 +19,83 @@ fileLoader::load('fileManager/file');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1.4
+ * @version 0.2
  */
 
-class fileMapper extends simpleMapper
+class fileMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'fileManager';
 
-    /**
-     * Имя класса DataObject
-     *
-     * @var string
-     */
-    protected $className = 'file';
+    protected $class = 'file';
+    protected $table = 'fileManager_file';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array('pk', 'once'),
+        ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+            'orderBy' => 1
+        ),
+        'realname' => array(
+            'accessor' => 'getRealname',
+            'mutator' => 'setRealname',
+            'options' => array('once')
+        ),
+        'ext' => array(
+            'accessor' => 'getExt',
+            'mutator' => 'setExt',
+            'options' => array('once')
+        ),
+        'size' => array(
+            'accessor' => 'getSize',
+            'mutator' => 'setSize',
+            'options' => array('once')
+        ),
+        'modified' => array(
+            'accessor' => 'getModified',
+            'mutator' => 'setModified'
+        ),
+        'right_header' => array(
+            'accessor' => 'getRightHeader',
+            'mutator' => 'setRightHeader'
+        ),
+        'direct_link' => array(
+            'accessor' => 'getDirectLink',
+            'mutator' => 'setDirectLink'
+        ),
+        'about' => array(
+            'accessor' => 'getAbout',
+            'mutator' => 'setAbout'
+        ),
+        'downloads' => array(
+            'accessor' => 'getDownloads',
+            'mutator' => 'setDownloads'
+        ),
+        'folder_id' => array(
+            'accessor' => 'getFolder',
+            'mutator' => 'setFolder',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'fileManager/folderMapper'
+        ),
+        'storage_id' => array(
+            'accessor' => 'getStorage',
+            'mutator' => 'setStorage',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'fileManager/storageMapper'
+        )
+    );
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
+    }
 
     /**
      * Выполняет поиск объектов по идентификатору папки
@@ -68,7 +127,7 @@ class fileMapper extends simpleMapper
             $pagename = substr(strrchr($path, '/'), 1);
 
             $toolkit = systemToolkit::getInstance();
-            $folderMapper = $toolkit->getMapper('fileManager', 'folder', $this->section);
+            $folderMapper = $toolkit->getMapper('fileManager', 'folder');
 
             $folder = $folderMapper->searchByPath($folderName);
 

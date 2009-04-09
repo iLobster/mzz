@@ -19,24 +19,38 @@ fileLoader::load('fileManager/storage');
  *
  * @package modules
  * @subpackage fileManager
- * @version 0.1
+ * @version 0.2
  */
 
-class storageMapper extends simpleMapper
+class storageMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'fileManager';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'storage';
+    protected $class = 'storage';
+    protected $table = 'fileManager_storage';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array('pk', 'once'),
+        ),
+        'path' => array(
+            'accessor' => 'getPath',
+            'mutator' => 'setPath',
+        ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+        ),
+        'web_path' => array(
+            'accessor' => 'getWebPath',
+            'mutator' => 'setWebPath',
+        )
+    );
 
     protected $obj_id_field = null;
 
