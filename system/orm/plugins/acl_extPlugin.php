@@ -31,9 +31,11 @@ class acl_extPlugin extends observer
 
     public function preCreate(entity $object)
     {
+        $name = method_exists($object, 'getAcl') ? 'getDefaultAcl' : 'getAcl';
+
         $tmp['acl'] = new lazy(array(
             $this,
-            'getAcl',
+            $name,
             array(
                 $object)));
 
