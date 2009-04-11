@@ -15,7 +15,7 @@
     <table width="99%" border="0" cellpadding="5" cellspacing="0" class="systemTable" align="center">
         <tr>
             <td width="25%">Системный путь</td>
-            <td width="75%">{$folder->getPath()}</td>
+            <td width="75%">{$folder->getTreePath()}</td>
         </tr>
         <tr>
             <td style="vertical-align: top;">{form->caption name="file" value="Файл"}</td>

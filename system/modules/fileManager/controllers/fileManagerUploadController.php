@@ -67,7 +67,7 @@ class fileManagerUploadController extends simpleController
 
         $url = new url('withAnyParam');
         $url->setAction('upload');
-        $url->add('name', $folder->getPath());
+        $url->add('name', $folder->getTreePath());
         $this->smarty->assign('form_action', $url->get());
 
         $this->smarty->assign('errors', $errors);

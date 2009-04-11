@@ -48,14 +48,6 @@ class folderMapper extends mapper
             'accessor' => 'getTitle',
             'mutator' => 'setTitle'
         ),
-        'parent' => array(
-            'accessor' => 'getParent',
-            'mutator' => 'setParent'
-        ),
-        'path' => array(
-            'accessor' => 'getPath',
-            'mutator' => 'setPath'
-        ),
         'filesize' => array(
             'accessor' => 'getFilesize',
             'mutator' => 'setFilesize'

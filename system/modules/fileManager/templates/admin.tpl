@@ -21,7 +21,7 @@
         {if $current_folder->getTreeLevel() != 1}
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/pages/folder.gif" alt="" /></td>
-                <td style="text-align: left;"><a href="{url route="admin" params=$current_folder->getTreeParent()->getPath() module_name=fileManager}">..</a></td>
+                <td style="text-align: left;"><a href="{url route="admin" params=$current_folder->getTreeParent()->getTreePath() module_name=fileManager}">..</a></td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
