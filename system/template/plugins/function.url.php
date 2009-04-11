@@ -49,6 +49,11 @@ function smarty_function_url($params, $smarty)
 {
     $toolkit = systemToolkit::getInstance();
     $request = $toolkit->getRequest();
+
+    if (!empty($params['current'])) {
+        return $request->getRequestUrl();
+    }
+
     $getUrl = false;
     $appendGet = false;
 
