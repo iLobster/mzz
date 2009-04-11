@@ -25,6 +25,9 @@ class pageViewController extends simpleController
     protected function getView()
     {
         $name = $this->request->getString('name');
+        if (!$name) {
+            $name = $this->request->getString('id');
+        }
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
         $page = $pageFolderMapper->searchChild($name);
 

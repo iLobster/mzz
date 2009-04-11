@@ -169,7 +169,8 @@ class pageMapper extends mapper
         }
 
         if (!isset($page)) {
-            $page = $this->searchByName($args['name']);
+            $name = isset($args['name']) ? $args['name'] : $args['id'];
+            $page = $this->searchByName($name);
         }
 
         if ($page) {
