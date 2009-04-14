@@ -43,6 +43,10 @@ class folder extends entity
             $info = array('name' => $_FILES[$upload_name]['name'], 'size' => $_FILES[$upload_name]['size'], 'tmp_name' => $_FILES[$upload_name]['tmp_name']);
         }
 
+        if (!is_uploaded_file($_FILES[$upload_name]['tmp_name'])) {
+            throw new mzzIoException($_FILES[$upload_name]['tmp_name']);
+        }
+
         if (empty($name)) {
             $name = $info['name'];
         }

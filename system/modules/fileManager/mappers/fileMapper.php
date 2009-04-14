@@ -176,9 +176,9 @@ class fileMapper extends mapper
     {
         $id = $file->getId();
 
-        if ($file->extra() instanceof fmSimpleFile) {
+        /*if ($file->extra() instanceof fmSimpleFile) {
             $file->extra()->delete();
-        }
+        }*/
 
         $file->delete();
 
