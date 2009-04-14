@@ -20,7 +20,8 @@ class acl_extPlugin extends observer
             'accessor' => 'getAcl',
             'options' => array(
                 'fake',
-                'ro'));
+                'ro',
+                'nocache'));
     }
 
     public function postInsert(entity $object)

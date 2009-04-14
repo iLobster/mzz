@@ -161,7 +161,11 @@ class entity
                 }
 
                 if ($this->data[$field] instanceof lazy) {
-                    $this->data[$field] = $this->data[$field]->load($args);
+                    $result = $this->data[$field]->load($args);
+                    if ($this->hasOption($field, 'nocache')) {
+                        return $result;
+                    }
+                    $this->data[$field] = $result;
                 }
 
                 return $this->data[$field];
