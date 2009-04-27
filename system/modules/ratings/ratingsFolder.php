@@ -20,10 +20,11 @@
  * @version 0.1
  */
 
-class ratingsFolder extends simple
+class ratingsFolder extends entity
 {
     protected $name = 'ratings';
 
+    /*
     public function getRate()
     {
         if ($this->getRateCount() == 0) {
@@ -37,6 +38,7 @@ class ratingsFolder extends simple
     {
         return ($this->getRate() * 100) / ratingsFolderMapper::STARS_COUNT;
     }
+    */
 }
 
 ?>

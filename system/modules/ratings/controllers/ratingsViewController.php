@@ -26,89 +26,51 @@ class ratingsViewController extends simpleController
 {
     protected function getView()
     {
-        $ratingsMapper = $this->toolkit->getMapper('ratings', 'ratings');
         $ratingsFolderMapper = $this->toolkit->getMapper('ratings', 'ratingsFolder');
 
-        $user = $this->toolkit->getUser();
-
-        $access = $this->request->getBoolean('access');
-
-        $action = $this->request->getAction();
-        $isPost = ($action == 'post');
-        $isSaved = false;
-
-        $isStatic = $this->request->getBoolean('static');
-
-        $prefix = $this->request->getString('tplPrefix');
-        if (!empty($prefix)) {
-            $prefix .= '/';
+        $object = $this->request->getRaw('object');
+        if (!$object instanceof entity) {
+            throw new mzzInvalidParameterException('Invalid object for comments');
         }
 
-        $id = $this->request->getInteger('id');
+        $objectModule = $object->module();
+        $objectType = get_class($object);
 
-        if (!$isPost) {
-            $ratingsFolder = $ratingsFolderMapper->searchOneByField('parent_id', $id);
+        $objectMapper = $this->toolkit->getMapper($objectModule, $objectType);
+
+        //@todo: куда это можно вынести?
+        if ($objectMapper->isAttached('obj_id')) {
+            //Если есть плагин obj_id, то связь будет по полю obj_id
+            $byField = $objectMapper->plugin('obj_id')->getObjIdField();
         } else {
-            $ratingsFolder = $ratingsFolderMapper->searchByKey($id);
-            if (!$ratingsFolder) {
-                return $ratingsFolderMapper->get404()->run();
-            }
+            //иначе пробуем связаться по первичному ключу
+            $byField = $objectMapper->pk();
         }
 
-        $criteria = new criteria;
-        $criteria->add('folder_id', $ratingsFolder->getId())->add('user_id', $user->getId());
-        $myrate = $ratingsMapper->searchOneByCriteria($criteria);
-
-        $starsCount = ratingsFolderMapper::STARS_COUNT;
-        $stars = range(1, $starsCount);
-
-        $validator = new formValidator('rate');
-        $validator->add('required', 'rate', 'Вы должны указать оценку');
-        $validator->add('in', 'rate', 'Неверная оценка', $stars);
-
-        $errors = $validator->getErrors();
-
-        $access = $this->request->getBoolean('access');
-        if ($isPost && !is_null($access) && !$access) {
-            $errors->set('rate', ($user->getId() == MZZ_USER_GUEST_ID) ? 'Оценивать разрешено только зарегистрированным и авторизованным пользователям' : 'Запрещено');
+        $map = $objectMapper->map();
+        if (!isset($map[$byField])) {
+            throw new mzzInvalidParameterException('Invalid byField value for comments');
         }
 
-        if ($isPost && $myrate) {
-            $errors->set('rate', 'Уже голосовали');
+        $objectId = $object->$map[$byField]['accessor']();
+
+        if (!is_numeric($objectId)) {
+            throw new mzzInvalidParameterException('Invalid objectId for comments');
         }
 
-        if (!$myrate && $validator->validate() && $errors->isEmpty()) {
-            $rate = $this->request->getInteger('rate', SC_REQUEST);
-            $myrate = $ratingsMapper->create();
-            $myrate->setFolder($ratingsFolder);
-            $myrate->setUser($user);
-            $myrate->setRate($rate);
+        $ratingsFolder = $ratingsFolderMapper->searchFolder($objectType, $objectId);
 
-            $ratingsMapper->save($myrate);
-
-            $rateCount = $ratingsFolder->getRateCount() + 1;
-            $rateSum = $ratingsFolder->getRateSum() + $rate;
-
-            $ratingsFolder->setRateCount($rateCount);
-            $ratingsFolder->setRateSum($rateSum);
+        if (!$ratingsFolder) {
+            $ratingsFolder = $ratingsFolderMapper->create();
+            $ratingsFolder->setModule($objectModule);
+            $ratingsFolder->setType($objectType);
+            $ratingsFolder->setByField($byField);
+            $ratingsFolder->setParentId($objectId);
             $ratingsFolderMapper->save($ratingsFolder);
-            $isSaved = true;
         }
 
-        $this->smarty->assign('stars', $stars);
-        $this->smarty->assign('starsCount', $starsCount);
-        $this->smarty->assign('myrate', $myrate);
-        $this->smarty->assign('folder', $ratingsFolder);
-        $this->smarty->assign('isPost', $isPost);
-        $this->smarty->assign('isSaved', $isSaved);
-        $this->smarty->assign('isStatic', $isStatic);
-        $this->smarty->assign('errors', $errors);
-
-        if (!$isStatic) {
-            return $this->smarty->fetch('ratings/' . $prefix . 'view.tpl');
-        } else {
-            return $this->smarty->fetch('ratings/' . $prefix . 'view_static.tpl');
-        }
+        $this->smarty->assign('ratingsFolder', $ratingsFolder);
+        return $this->fetch('ratings/view.tpl');
     }
 }
 

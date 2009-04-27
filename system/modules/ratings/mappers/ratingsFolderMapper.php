@@ -19,74 +19,67 @@ fileLoader::load('ratings/ratingsFolder');
  *
  * @package modules
  * @subpackage ratings
- * @version 0.1
+ * @version 0.3
  */
-
-class ratingsFolderMapper extends simpleMapper
+class ratingsFolderMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'ratings';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'ratingsFolder';
+    protected $class = 'ratingsFolder';
+    protected $table = 'ratings_ratingsFolder';
 
-    /**
-     * Количество звезд голосования
-     *
-     * @var integer
-     */
-    const STARS_COUNT = 5;
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array('pk','once')
+         ),
+        'parent_id' => array(
+            'accessor' => 'getParentId',
+            'mutator' => 'setParentId',
+            'options' => array('once'),
+        ),
+        'module' => array(
+            'accessor' => 'getModule',
+            'mutator' => 'setModule',
+            'options' => array('once'),
+        ),
+        'type' => array(
+            'accessor' => 'getType',
+            'mutator' => 'setType',
+            'options' => array('once'),
+        ),
+        'by_field' => array(
+            'accessor' => 'getByField',
+            'mutator' => 'setByField',
+            'options' => array('once'),
+        )
+    );
 
-    /**
-     * Возвращает доменный объект по аргументам
-     *
-     * @return simple
-     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
+    }
+
+    public function searchById($id)
+    {
+        return $this->searchByKey($id);
+    }
+
+    public function searchFolder($parentType, $parentId)
+    {
+        $criteria = new criteria;
+        $criteria->add('type', $parentType)->add('parent_id', $parentId);
+        return $this->searchOneByCriteria($criteria);
+    }
+
     public function convertArgsToObj($args)
     {
-        $toolkit = systemToolkit::getInstance();
-        $request = $toolkit->getRequest();
-        $action = $request->getAction();
-
-        if (isset($args['id'])) {
-            if ($action == 'view') {
-                $folder = $this->searchOneByField('parent_id', $args['id']);
-
-                if (is_null($folder)) {
-                    $ownerId = $request->getRaw('owner');
-
-                    $owner = null;
-                    if (is_a($ownerId, 'user')) {
-                        $owner = $ownerId;
-                    } else {
-                        $userMapper = $toolkit->getMapper('user', 'user', 'user');
-                        $owner = $userMapper->searchById((int)$ownerId);
-                    }
-
-                    if ($owner) {
-                        $folder = $this->create();
-                        $folder->setParentId($args['id']);
-                        $this->save($folder, $owner);
-                    }
-                }
-            } else {
-                $folder = $this->searchByKey($args['id']);
-            }
-
-            if ($folder) {
-                return $folder;
-            }
-        }
-
-        throw new mzzDONotFoundException();
     }
 }
 
