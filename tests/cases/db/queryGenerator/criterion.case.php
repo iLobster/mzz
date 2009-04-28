@@ -50,10 +50,10 @@ class criterionTest extends unitTestCase
     public function testSimpleBetweenCondition()
     {
         $criterion = new criterion('field', array(1, 10), criteria::BETWEEN);
-        $this->assertEqual($criterion->generate($this->simpleSelect), "`field` BETWEEN 1 AND 10");
+        $this->assertEqual($criterion->generate($this->simpleSelect), "`field` BETWEEN '1' AND '10'");
 
         $criterion = new criterion('field', array(1, 10), criteria::NOT_BETWEEN);
-        $this->assertEqual($criterion->generate($this->simpleSelect), "`field` NOT BETWEEN 1 AND 10");
+        $this->assertEqual($criterion->generate($this->simpleSelect), "`field` NOT BETWEEN '1' AND '10'");
     }
 
     public function testSimpleFulltextCondition()
@@ -178,13 +178,13 @@ class criterionTest extends unitTestCase
         $greatest = new sqlFunction('greatest', array('controldate' => true, 'last_prolongation' => true));
         $criterion = new criterion($greatest, array(123, 456), criteria::BETWEEN);
 
-        $this->assertEqual($criterion->generate($this->simpleSelect), "GREATEST(`controldate`, `last_prolongation`) BETWEEN 123 AND 456");
+        $this->assertEqual($criterion->generate($this->simpleSelect), "GREATEST(`controldate`, `last_prolongation`) BETWEEN '123' AND '456'");
     }
 
     public function testCaseWhereCondition()
     {
         $criterion = new criterion('field', array(1 => 'one', 2 => 'two'), criteria::CASEWHERE);
-        $this->assertEqual($criterion->generate($this->simpleSelect), "CASE `field` WHEN 1 THEN 'one' WHEN 2 THEN 'two' END");
+        $this->assertEqual($criterion->generate($this->simpleSelect), "CASE `field` WHEN '1' THEN 'one' WHEN '2' THEN 'two' END");
     }
 }
 

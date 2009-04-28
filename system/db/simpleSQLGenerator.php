@@ -32,9 +32,9 @@ abstract class simpleSQLGenerator
     {
         if (is_null($value)) {
             return 'NULL';
-        } elseif (is_numeric($value)) {
+        }/* elseif (is_numeric($value)) {
             return $value;
-        }
+        }*/
 
         return $this->getDb()->quote($value);
     }
